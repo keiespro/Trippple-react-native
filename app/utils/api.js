@@ -48,10 +48,13 @@ var api = {
     return authenticatedRequest('potentials')
   },
 
-  getMessages(){
-    return authenticatedRequest('messages')
+  getMessages(matchId){
+    return authenticatedRequest('messages',matchId)
+  },
+  
+  getUserInfo(){
+    return authenticatedRequest('info')
   }
-
 
 
 }
