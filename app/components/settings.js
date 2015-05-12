@@ -11,7 +11,8 @@ var {
  TextInput
 } = React;
 
-
+var DistanceSlider = require('../controls/distanceSlider');
+var ToggleSwitch = require('../controls/switches');
 
 
 
@@ -20,7 +21,7 @@ var styles = StyleSheet.create({
    flex: 1,
    justifyContent: 'center',
    alignItems: 'center',
-   backgroundColor: '#ff0000',
+   backgroundColor: '#ffffff',
    padding: 10
  }
 });
@@ -38,6 +39,13 @@ class Settings extends React.Component{
    return (
      <View style={styles.container}>
        <Text>Settings</Text>
+
+       <DistanceSlider/>
+
+         <ToggleSwitch/>
+
+
+
      </View>
    );
  }

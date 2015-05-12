@@ -48,10 +48,11 @@ var api = {
     return authenticatedRequest('potentials')
   },
 
-  getMessages(matchId){
-    console.log('get msgs match id',matchId);
-    if(!matchId) return false;
-    return authenticatedRequest('messages', matchId)
+  getMessages(params){
+    console.log('get msgs match id',params.match_id);
+    if(!params.match_id) return false;
+    params.message_type = 'retrieve';
+    return authenticatedRequest('messages', params)
   },
 
   getUserInfo(){

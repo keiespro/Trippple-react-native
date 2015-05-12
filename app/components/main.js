@@ -101,14 +101,14 @@ var ROUTE_STACK = [
       console.log(route,navigator);
         switch(route.id){
           case 'chat':
-            return (<Chat route={route} matchId={route.passProps.matchId} navigator={navigator} />)
+            return (<Chat style={styles.scene} route={route} matchId={route.passProps.matchId} navigator={navigator} />)
           case 'settings':
-            return (<Settings route={route} navigator={navigator} />)
+            return (<Settings style={styles.scene} route={route} navigator={navigator} />)
           case 'matches':
-            return (<Matches route={route} navigator={navigator} />)
+            return (<Matches style={styles.scene} route={route} navigator={navigator} />)
           case 'potentials':
           default:
-            return (<Potentials route={route} navigator={navigator} />)
+            return (<Potentials style={styles.scene} route={route} navigator={navigator} />)
         }
 
     }
@@ -126,6 +126,7 @@ var ROUTE_STACK = [
             }
             return Navigator.SceneConfigs.HorizontalSwipeJump
           }}
+          style={styles.appContainer}
           renderScene={this.selectScene.bind(this)}
           navigationBar={
             <Navigator.NavigationBar
@@ -144,8 +145,12 @@ var ROUTE_STACK = [
       fontSize: 17,
       fontWeight: '500',
       padding: 15,
-      marginTop: 50,
       marginLeft: 15,
+    },
+    appContainer: {
+      overflow: 'hidden',
+      backgroundColor: '#dddddd',
+      flex: 1,
     },
     button: {
       backgroundColor: 'white',
@@ -158,14 +163,15 @@ var ROUTE_STACK = [
       fontWeight: '500',
     },
     navBar: {
-      backgroundColor: 'white',
+      backgroundColor: 'black',
+      height: 60
     },
     navBarText: {
       fontSize: 16,
       marginVertical: 10,
     },
     navBarTitleText: {
-      color: cssVar('fbui-bluegray-60'),
+      color: '#ffffff',
       fontWeight: '500',
       marginVertical: 9,
     },
@@ -176,12 +182,13 @@ var ROUTE_STACK = [
       paddingRight: 10,
     },
     navBarButtonText: {
-      color: cssVar('fbui-accent-blue'),
+      color: '#dddddd'
     },
     scene: {
       flex: 1,
-      paddingTop: 20,
-      backgroundColor: '#EAEAEA',
+      paddingTop: 60,
+      backgroundColor: '#ffffff',
+      justifyContent: 'center'
     },
   });
 

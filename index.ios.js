@@ -1,4 +1,7 @@
-/* @flow */
+/*
+* @providesModule Trippple
+* @flow
+*/
 
 'use strict';
 
@@ -70,22 +73,8 @@ class Trippple extends React.Component{
         default:
           return (<Login route={route} navigator={navigator} key={'loginscene'} performLogin={this._performLogin.bind(this)}/>)
       }
-        // return (<Login route={route} navigator={navigator} key={'loginscene'} performLogin={this._performLogin.bind(this)}/>)
 
-      // return (
-      //   <View route={route} navigator={navigator}>
-      //       {route.component()}
-      //
-      //   </View>
-      // )
   }
-  /*     switch(this.state.userStatus){
-        case "onboarded":
-          return (<Main key={'mainscene'} userId={this.state.userId} />)
-        case null:
-        default:
-          return (<Login route={route} navigator={navigator} key={'loginscene'} performLogin={this._performLogin.bind(this)}/>)
-      }*/
 
   render(){
     return (
@@ -103,5 +92,6 @@ class Trippple extends React.Component{
 
 }
 
+module.exports = Trippple;
 
 AppRegistry.registerComponent('Trippple', () => Trippple);
