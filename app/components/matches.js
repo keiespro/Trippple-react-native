@@ -19,16 +19,21 @@ var Api = require("../utils/api");
 var Chat = require("./chat");
 
 
+
 class NavButton extends React.Component {
   constructor(props){
     super(props);
+   }
+   onPress(){
+     this.props.onPress(this.props.matchId)
+
    }
   render() {
     return (
       <TouchableHighlight
         style={styles.button}
         underlayColor="#B5B5B5"
-        onPress={this.props.onPress}>
+        onPress={this.onPress.bind(this)}>
         <Text style={styles.navText}>{this.props.text}</Text>
       </TouchableHighlight>
     );
@@ -54,19 +59,22 @@ class MatchList extends React.Component {
      }
 
 
-   _handlePress(matchId){
+   handlePress(matchId){
      console.log(matchId);
      this.props.navigator.push({
-       index: 1,
        component: Chat,
-       title:'chat',
-       passProps: {
-         matchId: matchId,
-         shouldUpdate:true
-       },
-     })
+       id:'chat',
+       index: 3,
+       title: 'CHAT',
+       passProps:{
+         index: 3,
+         matchId: matchId
+       }
+     });
+
    }
   render() {
+    console.log('renda')
     if(!this.state.matches){
       return (
         <View style={styles.container}>
@@ -74,8 +82,10 @@ class MatchList extends React.Component {
       )
     }
     var matchesList = this.state.matches.map((el,i) =>{
+      console.log(el);
+      if(!el.match_id) return;
       return (
-        <NavButton key={el.match_id+'nav'} text={el.match_id} onPress={(evt) => this._handlePress(el.match_id)}></NavButton>
+        <NavButton key={el.match_id+'nav'} matchId={el.match_id} text={el.match_id} onPress={this.handlePress.bind(this)}></NavButton>
      )
     });
     return (
@@ -92,32 +102,23 @@ class Matches extends React.Component{
 
  constructor(props){
    super(props);
-
+   this.state = {
+     matches: []
+   }
 
 
   }
 
 
-  renderScene(route,navigator){
-    switch (route.id) {
-      case 'chat':
-        return <Chat navigator={navigator} shouldUpdate={true} />;
-      case 'matcheslist':
-      default:
-        return <MatchList matches={this.state.matches} navigator={navigator} />;
-    }
-  }
+
 
   render(){
 
     return (
-      <NavigatorIOS
-        style={styles.container}
-        initialRoute={{index:0, id: 'matcheslist', component: MatchList, title:'matchlist'}}
+      <MatchList
+        style={styles.container} id={"matcheslist"} navigator={this.props.navigator} title={"matchlist"}>
 
-        renderScene={this.renderScene.bind(this)}>
-
-      </NavigatorIOS>
+      </MatchList>
    );
  }
 }

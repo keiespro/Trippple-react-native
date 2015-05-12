@@ -19,12 +19,13 @@ var {
 } = React;
 
 var cssVar = require('cssVar');
+var Chat = require("./chat");
 
 
 var ROUTE_STACK = [
-  {component: Settings, index: 0, title: 'Settings'},
-  {component: Potentials, index: 1, title: 'Potentials'},
-  {component: Matches, index: 2, title: 'Matches'}
+  {component: Settings, index: 0, title: 'Settings', id: 'settings'},
+  {component: Potentials, index: 1, title: 'Potentials', id: 'potentials'},
+  {component: Matches, index: 2, title: 'Matches', id: 'matches'},
 ];
 
 
@@ -33,13 +34,25 @@ var ROUTE_STACK = [
 
     LeftButton: function(route, navigator, index, navState) {
 
+      if(index == 3 || route.id == 'chat'){
+        return (
+          <TouchableOpacity
+            onPress={() => navigator.pop()}>
+            <View style={styles.navBarLeftButton}>
+              <Text style={[styles.navBarText, styles.navBarButtonText]}>
+                back
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )
+      }
 
       return (
         <TouchableOpacity
           onPress={() => navigator.jumpTo(ROUTE_STACK[0])}>
           <View style={styles.navBarLeftButton}>
             <Text style={[styles.navBarText, styles.navBarButtonText]}>
-              s
+              settings
             </Text>
           </View>
         </TouchableOpacity>
@@ -47,12 +60,13 @@ var ROUTE_STACK = [
     },
 
     RightButton: function(route, navigator, index, navState) {
+      if(index == 3 || route.id == 'chat') return null;
       return (
         <TouchableOpacity
           onPress={() => navigator.jumpTo(ROUTE_STACK[2])}>
           <View style={styles.navBarRightButton}>
             <Text style={[styles.navBarText, styles.navBarButtonText]}>
-              m
+              matches
             </Text>
           </View>
         </TouchableOpacity>
@@ -60,12 +74,14 @@ var ROUTE_STACK = [
     },
 
     Title: function(route, navigator, index, navState) {
+      if(index == 3 || route.id == 'chat') return null;
+
       return (
         <TouchableOpacity
           onPress={() => navigator.jumpTo(ROUTE_STACK[1])}>
           <View >
             <Text style={[styles.navBarText, styles.navBarTitleText]}>
-              p
+              potentials
             </Text>
           </View>
         </TouchableOpacity>
@@ -82,13 +98,15 @@ var ROUTE_STACK = [
 
     }
     selectScene(route, navigator){
-
-        switch(route.index){
-          case 0:
+      console.log(route,navigator);
+        switch(route.id){
+          case 'chat':
+            return (<Chat route={route} matchId={route.passProps.matchId} navigator={navigator} />)
+          case 'settings':
             return (<Settings route={route} navigator={navigator} />)
-          case 2:
+          case 'matches':
             return (<Matches route={route} navigator={navigator} />)
-          case 1:
+          case 'potentials':
           default:
             return (<Potentials route={route} navigator={navigator} />)
         }
@@ -102,9 +120,12 @@ var ROUTE_STACK = [
           key={'naaaaav'}
           initialRoute={ROUTE_STACK[1]}
           initialRouteStack={ROUTE_STACK}
-          configureScene={() => ({
-            ...Navigator.SceneConfigs.HorizontalSwipeJump,
-          })}
+          configureScene={(route) => {
+            if (route.sceneConfig) {
+              return route.sceneConfig;
+            }
+            return Navigator.SceneConfigs.HorizontalSwipeJump
+          }}
           renderScene={this.selectScene.bind(this)}
           navigationBar={
             <Navigator.NavigationBar

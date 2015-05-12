@@ -49,9 +49,11 @@ var api = {
   },
 
   getMessages(matchId){
-    return authenticatedRequest('messages',matchId)
+    console.log('get msgs match id',matchId);
+    if(!matchId) return false;
+    return authenticatedRequest('messages', matchId)
   },
-  
+
   getUserInfo(){
     return authenticatedRequest('info')
   }

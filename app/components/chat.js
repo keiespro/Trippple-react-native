@@ -59,6 +59,7 @@ class ChatMessage extends React.Component {
 class Chat extends React.Component{
 
  constructor(props){
+   console.log(props);
    super(props);
    this.state = {
      messages: []
@@ -66,7 +67,7 @@ class Chat extends React.Component{
  }
 
   componentDidMount(){
-    console.log('didmount',this.props.matchId);
+    console.log('didmount',this.props);
     Api.getMessages({match_id: this.props.matchId})
       .then((res) => {
          console.log(res);
@@ -82,6 +83,7 @@ shouldComponentUpdate(){
  render(){
       console.log('messagesrender',this.props.matchId,this.state.messages)
      if(!this.state.messages.length){
+       console.log('none')
        return (
          <View style={styles.container}>
          </View>
@@ -94,7 +96,7 @@ shouldComponentUpdate(){
          )
      });
      return (
-       <ScrollView>
+       <ScrollView id="chatview" ref="chat" matchid={this.props.matchId}>
          {messagesList}
        </ScrollView>
      );
