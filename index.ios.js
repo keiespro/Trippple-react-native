@@ -10,13 +10,14 @@ var {
   AppRegistry,
   StyleSheet,
   Text,
+  AsyncStorage,
   View,
   TouchableHighlight,
   TextInput,
   Navigator
 } = React;
 
-
+var alt = require('./app/flux/alt');
 var Login = require('./app/components/login');
 var Main = require('./app/components/main');
 var UserStore = require('./app/flux/stores/UserStore');
@@ -61,6 +62,7 @@ class TopLevel extends React.Component{
     //   userId: null
     // }
   }
+
 
   renderScene(route, navigator){
     console.log('renderscene',this.state,this.props)

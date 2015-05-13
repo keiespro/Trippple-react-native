@@ -14,13 +14,15 @@ var {
   StyleSheet,
   Text,
   TouchableHighlight,
+  AsyncStorage,
   TouchableOpacity,
   View,
 } = React;
 
 var cssVar = require('cssVar');
 var Chat = require("./chat");
-
+var ChatActions = require("../flux/actions/ChatActions");
+var alt = require('../flux/alt')
 
 var ROUTE_STACK = [
   {component: Settings, index: 0, title: 'Settings', id: 'settings'},
@@ -97,10 +99,13 @@ var ROUTE_STACK = [
       super(props);
 
     }
+
+
+
     selectScene(route, navigator){
         switch(route.id){
           case 'chat':
-            return (<Chat style={styles.scene} route={route} matchId={route.passProps.matchId} navigator={navigator} />)
+            return (<Chat style={styles.scene} route={route} matchID={route.passProps.matchID} navigator={navigator} />)
           case 'settings':
             return (<Settings style={styles.scene} route={route} navigator={navigator} />)
           case 'matches':
@@ -111,6 +116,7 @@ var ROUTE_STACK = [
         }
 
     }
+
     render() {
       console.log('ren',ROUTE_STACK)
       return (

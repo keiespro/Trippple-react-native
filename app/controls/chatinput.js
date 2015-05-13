@@ -8,6 +8,7 @@ var {
   Text,
   TextInput,
   View,
+  TouchableHighlight,
   StyleSheet,
 } = React;
 
@@ -16,16 +17,27 @@ var {
 var styles = StyleSheet.create({
   well: {
     height: 60,
-    bottom:0
+    bottom:0,
+    padding:10,
+    backgroundColor:'#ddd',
+    flexDirection: 'row',
+    alignItems:'stretch'
+
   },
   default: {
-    height: 50,
+    height: 40,
     borderWidth: 0.5,
     borderColor: '#0f0f0f',
     fontSize: 13,
     padding: 4,
     bottom:0,
+    backgroundColor:'#fff'
+
   },
+  sendButton: {
+    borderRadius: 3,
+    backgroundColor: '#aaa'
+  }
 });
 
 class ChatInput extends React.Component{
@@ -37,6 +49,9 @@ class ChatInput extends React.Component{
       prevText: null
     }
 
+  }
+  _pressSend(){
+    console.log('SEND: ',this.state.curText)
   }
 
   render(){
@@ -62,6 +77,12 @@ class ChatInput extends React.Component{
           // onBlur={() => this.updateText('onBlur')}
           style={styles.default}
           />
+          <TouchableHighlight onPress={() => this._pressSend()}>
+            <View style={styles.sendButton}>
+              <Text>Send</Text>
+            </View>
+            </TouchableHighlight>
+
       </View>
     )
   }

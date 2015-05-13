@@ -12,34 +12,14 @@ var {
  TextInput,
  PixelRatio,
  ListView,
- NavigatorIOS,
- Navigator
+ Navigator,
+ AsyncStorage
 } = React;
 
+var alt = require('../flux/alt')
 var Chat = require("./chat");
 var ChatActions = require('../flux/actions/ChatActions');
-var ChatStore = require("../flux/stores/ChatStore");
-
-
-class NavButton extends React.Component {
-  constructor(props){
-    super(props);
-  }
-  onPress(){
-    this.props.onPress(this.props.matchId)
-
-  }
-  render() {
-    return (
-      <TouchableHighlight
-        style={styles.button}
-        underlayColor="#B5B5B5"
-        onPress={this.onPress.bind(this)}>
-        <Text style={styles.navText}>{this.props.text}</Text>
-      </TouchableHighlight>
-    );
-  }
-}
+var MatchesStore = require("../flux/stores/MatchesStore");
 
 class MatchList extends React.Component{
 
@@ -60,12 +40,12 @@ class MatchList extends React.Component{
   //     dataSource: ds.cloneWithRows(this.props.matches)
   //   })
   // }
-  // shouldComponentUpdate(nextProps,nextState){
-  //   console.log(nextProps,nextState)
-  //   if(this.props.matches.length === nextProps.matches.length) return false;
-  //   return true;
-  // }
-  _renderRow(rowData: object, sectionID: number, rowID: number) {
+  shouldComponentUpdate(nextProps,nextState){
+    console.log(nextProps,nextState)
+    if(this.props.matches.length === nextProps.matches.length) return false;
+    return true;
+  }
+  _renderRow(rowData, sectionID: number, rowID: number) {
     console.log('renderrow1',rowData);
     var myId = this.props.user.id;
     var myPartnerId = this.props.user.relationship_status == 'couple' ? this.props.user.partner_id : null;
@@ -75,7 +55,7 @@ class MatchList extends React.Component{
         arr.push(rowData.users[e]);
       }
       return arr;
-    }, new Array());
+    }, []);
 
     var threadName = them.map( (user,i) => {
       return user.name.trim();
@@ -131,7 +111,8 @@ class MatchList extends React.Component{
       </TouchableHighlight>
     );
   }
-  _pressRow(matchId: number) {
+  _pressRow(matchID: number) {
+    ChatActions.getMessages(matchID);
     this.props.navigator.push({
       component: Chat,
       id:'chat',
@@ -139,7 +120,7 @@ class MatchList extends React.Component{
       title: 'CHAT',
       passProps:{
         index: 3,
-        matchId: matchId
+        matchID: matchID
       },
       sceneConfig: Navigator.SceneConfigs.PushFromRight,
     });
@@ -170,9 +151,24 @@ class Matches extends React.Component{
       dataSource: ds.cloneWithRows([])
     }
   }
+
   componentDidMount(){
-    ChatStore.listen(this.onChange.bind(this));
-    ChatActions.getMatches();
+
+    MatchesStore.listen(this.onChange.bind(this));
+    // ChatActions.getMatches();
+
+        AsyncStorage.getItem('MatchesStore')
+          .then((value) => {
+            console.log('got matches from storage,', JSON.parse(value))
+            if (value !== null){
+              // var data = alt.prepare(JSON.parse(value));
+              console.log(value)
+              alt.bootstrap(value);
+              ChatActions.initializeMatches(value);
+
+            }
+          })
+
   }
 
   onChange(state) {
@@ -182,9 +178,13 @@ class Matches extends React.Component{
       matches: state.matches,
       dataSource: ds.cloneWithRows(state.matches)
     })
+    AsyncStorage.setItem('MatchesStore', alt.takeSnapshot(MatchesStore))
+      .then(() => {console.log('saved matches store')})
+      .catch((error) => {console.log('AsyncStorage error: ' + error.message)})
+      .done();
   }
   componentWillUnmount() {
-    ChatStore.unlisten(this.onChange.bind(this));
+    MatchesStore.unlisten(this.onChange.bind(this));
   }
   render(){
     return (

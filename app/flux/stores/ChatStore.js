@@ -2,35 +2,41 @@ var alt = require('../alt');
 var ChatActions = require('../actions/ChatActions');
 
 class ChatStore {
+
   constructor() {
 
     this.state = {
-      matches: []
     }
 
     this.exportPublicMethods({
-      getAllMatches: this.getAllMatches
+      getMessagesForMatch: this.getMessagesForMatch
 
     });
 
     this.bindListeners({
-      handleGetMatches: ChatActions.GET_MATCHES,
+      handleGetMessages: ChatActions.GET_MESSAGES
 
     });
   }
 
-  handleGetMatches(matches) {
-    console.log(matches,'handlegetmatches');
-    this.setState({
-      matches: matches
+  handleGetMessages(matchMessages) {
+    console.log(matchMessages,'handlegetmessages');
+    this.setState(() => {
+      var newState = {};
+      newState[matchMessages.match_id] = matchMessages.message_thread;
+      return newState;
     })
   }
 
-  getAllMatches(){
-    console.log('getmatches');
-    return this.getState().matches;
 
+  // public methods
+
+  getMessagesForMatch(matchID){
+    console.log('getMessagesForMatch',matchID,this.getState());
+    return this.getState()[matchID] || [];
   }
+
+
 }
 
 module.exports = alt.createStore(ChatStore, 'ChatStore');
