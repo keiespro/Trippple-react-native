@@ -6,6 +6,7 @@ var React = require('react-native');
 var {
  StyleSheet,
  Text,
+ Image,
  View,
  TouchableHighlight,
  TextInput,
@@ -15,10 +16,9 @@ var {
  Navigator
 } = React;
 
-var Api = require("../utils/api");
 var Chat = require("./chat");
-
-
+var ChatActions = require('../flux/actions/ChatActions');
+var ChatStore = require("../flux/stores/ChatStore");
 
 class NavButton extends React.Component {
   constructor(props){
@@ -40,74 +40,94 @@ class NavButton extends React.Component {
   }
 }
 
-var MatchList = React.createClass({
+class MatchList extends React.Component{
 
-  getInitialState: function() {
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
-    return {
-      matches: [],
-      dataSource: ds.cloneWithRows([])
-    }
-
-  },
-
-  componentDidMount: function(){
-    Api.getMatches()
-      .then((res) => {
-        console.log(res);
-        var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
-        this.setState({matches:  res.response, dataSource: ds.cloneWithRows(res.response) })
-
-      })
+  constructor(props) {
+    super(props);
+    console.log(this.props,'props');
 
 
 
-  },
+  }
 
-  _renderRow: function(rowData: object, sectionID: number, rowID: number) {
-    console.log(rowData,sectionID,rowID);
-      // var imgSource = {
-      //   uri:
-      // };
 
-    var myId = 450;
-
-    var them = Object.keys(rowData.users).reduce( (arr, e, i, originalArray) =>{
-      if(rowData.users[e].id !== myId ){
-
-      // if(rowData.users[e].id !== myId && rowData.users[e].id !== myPartnerId){
+  // componentDidUpdate(){
+  //   console.log('matches list update',this.props.matches.length)
+  //   var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+  //
+  //   this.setState({
+  //     dataSource: ds.cloneWithRows(this.props.matches)
+  //   })
+  // }
+  // shouldComponentUpdate(nextProps,nextState){
+  //   console.log(nextProps,nextState)
+  //   if(this.props.matches.length === nextProps.matches.length) return false;
+  //   return true;
+  // }
+  _renderRow(rowData: object, sectionID: number, rowID: number) {
+    console.log('renderrow1',rowData);
+    var myId = this.props.user.id;
+    var myPartnerId = this.props.user.relationship_status == 'couple' ? this.props.user.partner_id : null;
+    console.log(myId,myPartnerId)
+    var them = Object.keys(rowData.users).reduce( (arr, e, i, originalArray) => {
+      if(rowData.users[e].id !== myId && rowData.users[e].id !== myPartnerId){
         arr.push(rowData.users[e]);
       }
       return arr;
     }, new Array());
 
-    console.log(them);
+    var threadName = them.map( (user,i) => {
+      return user.name.trim();
+    }).join(' & ');
 
-    // rowData.users.map((el,i) =>{
-    // })
-    // for (var user in rowData.users) {
-    //   console.log(user);
-    // }
-    var threadName = '';
+    var images = them.map( (user,i) => {
+      //
+      // var imgwrapClass = cx({
+      //   'smallbig': relStatus == 'couple',
+      //   'bigbig': relStatus == 'single'
+      // });
+      // var classes = cx({
+      //   "media-object":true,
+      //   "most-recent": (lastMessage.from_user_id == user.id),
+      //   "not-most-recent": (lastMessage.from_user_id != user.id && lastMessage.from_user_id != myUserId),
+      //   "small-image": (relStatus == 'single' ? false : (user.id == partnerId)),
+      //   "big-image": (relStatus == 'single' ? true : (user.id != partnerId)),
+      //   "left-big-image": relStatus == 'couple' ? false : i == 0,
+      //   "right-big-image": relStatus == 'couple' ? false : i == 1,
+      //   "isfemaleshowontop": user.gender == 'f'
+      // });
+
+      return (
+        <Image
+          style={!i ? styles.thumb : [styles.thumb, styles.rightthumb]}
+          source={{uri: user.thumb_url}}
+        />
+      )
+
+    });
 
     return (
-      <TouchableHighlight onPress={() => this._pressRow(rowData.match_id)}>
+      <TouchableHighlight onPress={() => this._pressRow(rowData.match_id)} key={rowData.match_id}>
         <View>
           <View style={styles.row}>
-            <Text style={styles.text}>
-              {`${them[0].name} & ${them[1].name}`}
-              {/*`${them[0].name}```*/}
-
-            </Text>
+            <View style={styles.thumbswrap}>
+              {images}
+            </View>
+            <View style={styles.textwrap}>
+              <Text style={styles.text}>
+                {threadName}
+              </Text>
+              <Text style={styles.text}>
+                {rowData.recent_message.message_body || 'New Match'}
+              </Text>
+            </View>
           </View>
           <View style={styles.separator} />
         </View>
       </TouchableHighlight>
     );
-  },
-  _pressRow: function(matchId: number) {
+  }
+  _pressRow(matchId: number) {
     this.props.navigator.push({
       component: Chat,
       id:'chat',
@@ -119,19 +139,19 @@ var MatchList = React.createClass({
       },
       sceneConfig: Navigator.SceneConfigs.PushFromRight,
     });
-  },
-  render: function() {
+  }
+  render(){
     console.log('rennn');
     return (
       <View style={styles.container}>
-      <ListView
-        dataSource={this.state.dataSource}
-        renderRow={this._renderRow}
-      />
+        <ListView
+          dataSource={this.props.dataSource}
+          renderRow={this._renderRow.bind(this)}
+        />
       </View>
     );
   }
-})
+}
 
 
 
@@ -139,17 +159,40 @@ class Matches extends React.Component{
 
   constructor(props){
     super(props);
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
     this.state = {
-      matches: []
+       matches: [],
+      dataSource: ds.cloneWithRows([])
+
     }
   }
-  render(){
-    console.log('outmatchesrender')
-    return (
-      <MatchList
-       id={"matcheslist"} navigator={this.props.navigator} title={"matchlist"}>
+  componentDidMount(){
+    ChatStore.listen(this.onChange.bind(this));
+    ChatActions.getMatches();
 
-      </MatchList>
+  }
+
+  onChange(state) {
+    console.log(state.matches,'onc');
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
+
+    this.setState({matches: state.matches, dataSource: ds.cloneWithRows(state.matches)})
+  }
+  componentWillUnmount() {
+    ChatStore.unlisten(this.onChange.bind(this));
+  }
+  render(){
+    return (
+          <MatchList
+            user={this.props.user}
+            dataSource={this.state.dataSource}
+            matches={this.state.matches}
+            id={"matcheslist"}
+            navigator={this.props.navigator}
+            title={"matchlist"}
+          />
     );
   }
 }
@@ -157,7 +200,7 @@ class Matches extends React.Component{
 
 var styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: '#39365c',
     paddingTop:60,
     flex: 1
   },
@@ -173,21 +216,41 @@ var styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     padding: 10,
-    backgroundColor: '#F6F6F6',
+    backgroundColor: '#39365c',
   },
   separator: {
     height: 1,
     backgroundColor: '#CCCCCC',
   },
+  thumbswrap: {
+    width: 128,
+    height: 64,
+    flexDirection: 'row',
+    justifyContent: 'center',
+
+  },
   thumb: {
+    borderRadius: 32,
     width: 64,
     height: 64,
+    borderColor: '#ffffff',
+    borderWidth: 1*PixelRatio.get()
+  },
+  rightthumb: {
+    left: -16
   },
   text: {
     flex: 1,
+    color:'#ffffff'
   },
+  textwrap:{
+    height: 64,
+    flexDirection: 'column',
+    justifyContent: 'center',
+
+  }
 });
 
 module.exports = Matches;

@@ -41,7 +41,8 @@ var api = {
   },
 
   getMatches(){
-    return authenticatedRequest('matches',{})
+    console.log('getmatches req')
+    return authenticatedRequest('matches')
   },
 
   getPotentials(){

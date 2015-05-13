@@ -19,6 +19,9 @@ var {
 
 var Login = require('./app/components/login');
 var Main = require('./app/components/main');
+var UserStore = require('./app/flux/stores/UserStore');
+
+var AltContainer = require('alt/AltNativeContainer');
 
 var styles = StyleSheet.create({
   container: {
@@ -48,36 +51,31 @@ var styles = StyleSheet.create({
 });
 
 
-class Trippple extends React.Component{
+class TopLevel extends React.Component{
 
   constructor(props){
     super(props);
-    this.state = {
-      userStatus: null,
-      apikey: null,
-      userId: null
-    }
+    // this.state = {
+    //   userStatus: null,
+    //   apikey: null,
+    //   userId: null
+    // }
   }
-  _performLogin(userInfo){
-    console.log('userInfo',userInfo);
-    this.setState({ userStatus: "onboarded", userId: userInfo.user_id, apikey: userInfo.api_key})
-    this.push({component:Main,index:1})
 
-  }
   renderScene(route, navigator){
-    console.log('renderscene',route)
-    switch(this.state.userStatus){
+    console.log('renderscene',this.state,this.props)
+    var userStatus = this.props.User ? this.props.User.status : null;
+    switch(userStatus){
         case "onboarded":
-          return (<Main  route={route} navigator={navigator}  key={'mainscene'} userId={this.state.userId} />)
+          return (<Main route={route} navigator={navigator}  key={'mainscene'} user={this.props.User} />)
         case null:
         default:
-          return (<Login route={route} navigator={navigator} key={'loginscene'} performLogin={this._performLogin.bind(this)}/>)
+          return (<Login route={route} navigator={navigator} key={'loginscene'} />)
       }
 
   }
-
   render(){
-    return (
+    return(
       <Navigator
         initialRoute={{
           component: Login,
@@ -87,6 +85,25 @@ class Trippple extends React.Component{
         key={'topnav'}
         renderScene={this.renderScene.bind(this)}
       />
+    )
+  }
+}
+
+class Trippple extends React.Component{
+
+  render(){
+    return (
+      <AltContainer
+          stores={{
+            User: function (props) {
+              return {
+                store: UserStore,
+                value: UserStore.getUser()
+              }
+            }
+          }}>
+          <TopLevel/>
+      </AltContainer>
     );
   }
 

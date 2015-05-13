@@ -13,6 +13,7 @@ var {
 
 
 var Api = require("../utils/api");
+var UserActions = require('../flux/actions/UserActions');
 
 
 var styles = StyleSheet.create({
@@ -74,11 +75,7 @@ class Login extends React.Component{
  }
 
  handleLogin(){
-   Api.login(this.state.phone,this.state.password)
-     .then((res) => {
-         console.log(res, this.props.navigator);
-         this.props.performLogin(res.response);
-       })
+   UserActions.login(this.state.phone,this.state.password)
  }
 
  render(){

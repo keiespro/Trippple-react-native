@@ -98,14 +98,13 @@ var ROUTE_STACK = [
 
     }
     selectScene(route, navigator){
-      console.log(route,navigator);
         switch(route.id){
           case 'chat':
             return (<Chat style={styles.scene} route={route} matchId={route.passProps.matchId} navigator={navigator} />)
           case 'settings':
             return (<Settings style={styles.scene} route={route} navigator={navigator} />)
           case 'matches':
-            return (<Matches style={styles.scene} route={route} navigator={navigator} />)
+            return (<Matches user={this.props.user} style={styles.scene} route={route} navigator={navigator} />)
           case 'potentials':
           default:
             return (<Potentials style={styles.scene} route={route} navigator={navigator} />)
