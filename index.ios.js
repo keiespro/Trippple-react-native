@@ -17,7 +17,6 @@ var {
   Navigator
 } = React;
 
-var alt = require('./app/flux/alt');
 var Login = require('./app/components/login');
 var Main = require('./app/components/main');
 var UserStore = require('./app/flux/stores/UserStore');
@@ -56,16 +55,12 @@ class TopLevel extends React.Component{
 
   constructor(props){
     super(props);
-    // this.state = {
-    //   userStatus: null,
-    //   apikey: null,
-    //   userId: null
-    // }
+
   }
 
 
   renderScene(route, navigator){
-    console.log('renderscene',this.state,this.props)
+
     var userStatus = this.props.User ? this.props.User.status : null;
     switch(userStatus){
         case "onboarded":

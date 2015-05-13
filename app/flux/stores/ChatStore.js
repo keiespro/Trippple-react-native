@@ -5,8 +5,7 @@ class ChatStore {
 
   constructor() {
 
-    this.state = {
-    }
+    this.state = { }
 
     this.exportPublicMethods({
       getMessagesForMatch: this.getMessagesForMatch
@@ -20,7 +19,7 @@ class ChatStore {
   }
 
   handleGetMessages(matchMessages) {
-    console.log(matchMessages,'handlegetmessages');
+
     this.setState(() => {
       var newState = {};
       newState[matchMessages.match_id] = matchMessages.message_thread;
@@ -32,7 +31,7 @@ class ChatStore {
   // public methods
 
   getMessagesForMatch(matchID){
-    console.log('getMessagesForMatch',matchID,this.getState());
+
     return this.getState()[matchID] || [];
   }
 

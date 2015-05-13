@@ -50,7 +50,6 @@ var api = {
   },
 
   getMessages(params){
-    console.log('get msgs match id',params.match_id);
     if(!params.match_id) return false;
     params.message_type = 'retrieve';
     return authenticatedRequest('messages', params)

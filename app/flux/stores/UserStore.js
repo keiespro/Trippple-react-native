@@ -39,7 +39,7 @@ class UserStore {
   }
 
   getUser(){
-    console.log('getuser',this.state)
+
     return this.getState().user;
 
   }

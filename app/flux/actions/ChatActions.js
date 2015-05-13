@@ -5,12 +5,9 @@ class ChatActions {
 
   initializeMatches(savedMatches) {
     this.dispatch(savedMatches);
-
-
   }
 
   getMatches() {
-    // this.dispatch();
 
     Api.getMatches()
       .then((res) => {
@@ -19,7 +16,6 @@ class ChatActions {
       })
   }
   getMessages(matchID) {
-    // this.dispatch();
 
     Api.getMessages({match_id: matchID})
       .then((res) => {

@@ -118,10 +118,9 @@ var ROUTE_STACK = [
     }
 
     render() {
-      console.log('ren',ROUTE_STACK)
+
       return (
         <Navigator
-          debugOverlay={true}
           key={'naaaaav'}
           initialRoute={ROUTE_STACK[1]}
           initialRouteStack={ROUTE_STACK}

@@ -14,8 +14,6 @@ var {
 } = React;
 
 
-var Api = require("../utils/api");
-
 var ChatInput = require("../controls/chatinput");
 var ChatStore = require("../flux/stores/ChatStore");
 
@@ -102,7 +100,6 @@ class ChatInside extends React.Component{
       )
     }
     var messagesList = this.props.messages.map((el,i) =>{
-      console.log(el.message_body)
       return (
         <ChatMessage key={el.id+'msg'} text={el.message_body} pic={el.from_user_info.image_url}></ChatMessage>
       )
@@ -118,6 +115,8 @@ class ChatInside extends React.Component{
             keyboardDismissMode={'onDrag'}>
             {messagesList}
           </ScrollView>
+
+          /// TODO: use ios inputaccessorybar for input
           <ChatInput/>
         </View>
       </View>

@@ -21,17 +21,14 @@ class MatchesStore {
 
     });
     this.on('init',()=>{
-      console.log('init')
-      // alt.bootstrap(savedMatches);
+      console.log('store init')
     })
     this.on('bootstrap', () => {
-      // do something here
-      console.log('BOOTSRAP')
+      console.log('store bootstrap')
     });
   }
 
   handleInitializeMatches(savedMatches){
-    // alt.bootstrap(savedMatches);
 
     console.log('handleInitializeMatches')
   }
@@ -59,7 +56,7 @@ class MatchesStore {
       var thread = _threads[id];
       orderedThreads.push(thread);
     }
-
+    // wrong formatting, rensmr lastMessage
     orderedThreads.sort(function(a, b) {
       if (a.lastMessage.date < b.lastMessage.date) {
         return 1;

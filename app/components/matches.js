@@ -25,13 +25,10 @@ class MatchList extends React.Component{
 
   constructor(props) {
     super(props);
-    console.log(this.props,'props');
-
-
 
   }
 
-
+  // TODO: figure out how dataSource actually works
   // componentDidUpdate(){
   //   console.log('matches list update',this.props.matches.length)
   //   var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -41,17 +38,18 @@ class MatchList extends React.Component{
   //   })
   // }
   shouldComponentUpdate(nextProps,nextState){
-    console.log(nextProps,nextState)
+
     if(this.props.matches.length === nextProps.matches.length) return false;
     return true;
   }
   _renderRow(rowData, sectionID: number, rowID: number) {
-    console.log('renderrow1',rowData);
-    var myId = this.props.user.id;
-    var myPartnerId = this.props.user.relationship_status == 'couple' ? this.props.user.partner_id : null;
-    console.log(myId,myPartnerId)
-    var them = Object.keys(rowData.users).reduce( (arr, e, i, originalArray) => {
+
+    var myId = this.props.user.id,
+        myPartnerId = this.props.user.relationship_status == 'couple' ? this.props.user.partner_id : null;
+
+    var them = Object.keys(rowData.users).reduce( (arr, e, i) => {
       if(rowData.users[e].id !== myId && rowData.users[e].id !== myPartnerId){
+        // this might need to be cloned or a const
         arr.push(rowData.users[e]);
       }
       return arr;
@@ -62,7 +60,8 @@ class MatchList extends React.Component{
     }).join(' & ');
 
     var images = them.map( (user,i) => {
-      //
+
+      // TODO: convert these classes to stylesheet
       // var imgwrapClass = cx({
       //   'smallbig': relStatus == 'couple',
       //   'bigbig': relStatus == 'single'
@@ -112,6 +111,7 @@ class MatchList extends React.Component{
     );
   }
   _pressRow(matchID: number) {
+    // get messages from server and open chat view
     ChatActions.getMessages(matchID);
     this.props.navigator.push({
       component: Chat,
@@ -126,7 +126,7 @@ class MatchList extends React.Component{
     });
   }
   render(){
-    console.log('rennn');
+
     return (
       <View style={styles.container}>
         <ListView
@@ -155,29 +155,30 @@ class Matches extends React.Component{
   componentDidMount(){
 
     MatchesStore.listen(this.onChange.bind(this));
-    // ChatActions.getMatches();
+    AsyncStorage.getItem('MatchesStore')
+      .then((value) => {
+        console.log('got matches from storage,', JSON.parse(value))
+        if (value !== null){
+          // get data from local storage
+          alt.bootstrap(value);
+        }
+        // get data from server
+        ChatActions.getMatches();
 
-        AsyncStorage.getItem('MatchesStore')
-          .then((value) => {
-            console.log('got matches from storage,', JSON.parse(value))
-            if (value !== null){
-              // var data = alt.prepare(JSON.parse(value));
-              console.log(value)
-              alt.bootstrap(value);
-              ChatActions.initializeMatches(value);
+      })
 
-            }
-          })
 
   }
 
   onChange(state) {
-    console.log(state.matches,'onc');
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
     this.setState({
       matches: state.matches,
-      dataSource: ds.cloneWithRows(state.matches)
+      dataSource: this.state.dataSource.cloneWithRows(state.matches)
     })
+    this.saveToStorage()
+  }
+  saveToStorage(){
     AsyncStorage.setItem('MatchesStore', alt.takeSnapshot(MatchesStore))
       .then(() => {console.log('saved matches store')})
       .catch((error) => {console.log('AsyncStorage error: ' + error.message)})
