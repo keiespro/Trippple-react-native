@@ -1,6 +1,6 @@
 'use strict';
 
-var serverUrl = 'http://192.168.1.146:9920/user';
+var serverUrl = 'http://192.168.2.3:9920/user';
 
 function publicRequest(endpoint, payload){
 
@@ -17,8 +17,8 @@ function publicRequest(endpoint, payload){
 
 function authenticatedRequest(endpoint, payload){
   var payload = payload || {};
-  payload.user_id = 2;
-  payload.api_key = 'ab772c58847beb54e205478029b9f58a5c2d6032';
+  payload.user_id = 450;
+  payload.api_key = 'beb9bac01c65e5aac1ddb0aafede274e32ada79b';
 
   return fetch( `${serverUrl}/${endpoint}`, {
     method: 'post',
