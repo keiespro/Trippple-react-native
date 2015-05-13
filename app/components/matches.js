@@ -20,6 +20,7 @@ var Chat = require("./chat");
 var ChatActions = require('../flux/actions/ChatActions');
 var ChatStore = require("../flux/stores/ChatStore");
 
+
 class NavButton extends React.Component {
   constructor(props){
     super(props);
@@ -101,6 +102,9 @@ class MatchList extends React.Component{
         <Image
           style={!i ? styles.thumb : [styles.thumb, styles.rightthumb]}
           source={{uri: user.thumb_url}}
+          defaultSource={require('image!defaultuser')}
+          resizeMode={Image.resizeMode.cover}
+
         />
       )
 
@@ -162,23 +166,22 @@ class Matches extends React.Component{
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     this.state = {
-       matches: [],
+      matches: [],
       dataSource: ds.cloneWithRows([])
-
     }
   }
   componentDidMount(){
     ChatStore.listen(this.onChange.bind(this));
     ChatActions.getMatches();
-
   }
 
   onChange(state) {
     console.log(state.matches,'onc');
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
-
-    this.setState({matches: state.matches, dataSource: ds.cloneWithRows(state.matches)})
+    this.setState({
+      matches: state.matches,
+      dataSource: ds.cloneWithRows(state.matches)
+    })
   }
   componentWillUnmount() {
     ChatStore.unlisten(this.onChange.bind(this));
@@ -236,7 +239,7 @@ var styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderColor: '#ffffff',
-    borderWidth: 1*PixelRatio.get()
+    borderWidth: 3/PixelRatio.get()
   },
   rightthumb: {
     left: -16
