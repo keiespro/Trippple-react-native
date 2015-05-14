@@ -116,7 +116,7 @@ class ChatInside extends React.Component{
             {messagesList}
           </ScrollView>
 
-          /// TODO: use ios inputaccessorybar for input
+          {/* TODO: use ios inputaccessorybar for input*/}
           <ChatInput/>
         </View>
       </View>
