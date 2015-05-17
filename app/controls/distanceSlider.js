@@ -39,6 +39,8 @@ var DistanceSlider = React.createClass({
         <SliderIOS
           style={styles.slider}
           pointerEvents={'box-none'}
+          minimumValue={10}
+          maximumValue={500}
           onValueChange={(value) => this.setState({value: value})} />
       </View>
     );

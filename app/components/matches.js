@@ -122,7 +122,7 @@ class MatchList extends React.Component{
         index: 3,
         matchID: matchID
       },
-      // sceneConfig: Navigator.SceneConfigs.PushFromRight,
+      sceneConfig: Navigator.SceneConfigs.FloatFromRight,
     });
   }
   render(){
@@ -169,9 +169,11 @@ class Matches extends React.Component{
   onChange(state) {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-    this.setState({
-      matches: state.matches,
-      dataSource: ds.cloneWithRows(state.matches)
+    InteractionManager.runAfterInteractions(() => {
+      this.setState({
+        matches: state.matches,
+        dataSource: ds.cloneWithRows(state.matches)
+      })
     })
     // if(state.matches.length){
     //   InteractionManager.runAfterInteractions(() => {
@@ -208,7 +210,7 @@ class Matches extends React.Component{
 var styles = StyleSheet.create({
   container: {
     backgroundColor: '#39365c',
-    paddingTop:60,
+    paddingTop:50,
     flex: 1,
     overflow:'hidden'
   },

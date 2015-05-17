@@ -11,6 +11,7 @@ var {
   AsyncStorage,
   View,
   TouchableHighlight,
+  NavigatorIOS,
   TextInput,
   Navigator
 } = React;
@@ -26,9 +27,15 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#000000',
-    padding: 10
+    alignItems: 'stretch',
+    backgroundColor: 'red',
+    alignSelf:'stretch',
+    flexDirection:'row'
+  },
+  wrapper: {
+    backgroundColor: 'pink',
+    alignSelf:'stretch'
+
   },
   buttonText: {
     fontSize: 18,
@@ -56,14 +63,40 @@ class TopLevel extends React.Component{
     super(props);
 
   }
+    _renderScene (route, navigator){
+      return (<route.component {...route.passProps}  user={this.props.user} navigator={navigator}/>);
 
+  }
+
+  _noop(){
+    console.log('noop')
+  }
   render(){
 
     var userStatus = this.props.user ? this.props.user.status : null;
     console.log(userStatus)
     switch(userStatus){
         case "onboarded":
-          return (<Main  pointerEvents={'box-none'}  key={'mainscene'} user={this.props.user} />)
+          return (
+            <Navigator
+              style={styles.container}
+              pointerEvents={'box-none'}
+              renderScene={this._renderScene.bind(this)}
+              itemWrapperStyle={styles.wrapper}
+              initialRoute={{
+                component: Main,
+                title: 'Main',
+                passProps: {
+                  user: this.props.user,
+                },
+              }}
+              configureScene={(route) => {
+                if (route.sceneConfig) {
+                  return route.sceneConfig;
+                }
+                return Navigator.SceneConfigs.FloatFromBottom
+              }}
+           />)
         case null:
         default:
           return (<Login  pointerEvents={'box-none'} key={'loginscene'} />)

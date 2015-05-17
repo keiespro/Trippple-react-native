@@ -21,15 +21,14 @@ var ChatStore = require("../flux/stores/ChatStore");
 var ChatActions = require("../flux/actions/ChatActions");
 var alt = require('../flux/alt');
 var AltContainer = require('alt/AltNativeContainer');
+var InvertibleScrollView = require('react-native-invertible-scroll-view');
 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 0,
-    overflow:'hidden',
-    alignSelf: 'stretch',
-
+    paddingTop:50,
+    paddingBottom:50
   },
   chatContainer: {
     flex: 1,
@@ -44,8 +43,8 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignSelf: 'stretch',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
+    // justifyContent: 'flex-end',
+    // alignItems: 'center',
     // transformMatrix: [
     //    1,  0,  0,  0,
     //    0, -1,  0,  0,
@@ -116,7 +115,7 @@ class ChatInside extends React.Component{
   constructor(props){
     super(props);
 
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
 
 
     this.state = {
@@ -125,11 +124,12 @@ class ChatInside extends React.Component{
 
   }
   componentDidMount(){
-    console.log('mount chat')
+    console.log('mount chat',this.refs.lister)
     InteractionManager.runAfterInteractions(() => {
       ChatActions.getMessages(this.props.matchID);
       this.saveToStorage();
     })
+    this.refs.lister.refs.listviewscroll.scrollTo.call(this,0,0)
   }
 
   saveToStorage(){
@@ -148,15 +148,16 @@ class ChatInside extends React.Component{
   render(){
     return (
       <View style={styles.container}>
-        <View style={styles.chatContainer}>
-          <ListView
-             dataSource={this.state.dataSource.cloneWithRows(this.props.messages)}
-             renderRow={this._renderRow.bind(this)}
-             contentContainerStyle={styles.messageList}
+          <ListView ref={'lister'}
+            style={styles.messageList}
+              renderScrollView={
+                (props) => <InvertibleScrollView  {...props} inverted />
+              }
+              dataSource={this.state.dataSource.cloneWithRows(this.props.messages)}
+              renderRow={this._renderRow.bind(this)}
            />
 
           {/* TODO: use ios inputaccessorybar for input*/}
-        </View>
       </View>
     )
   }

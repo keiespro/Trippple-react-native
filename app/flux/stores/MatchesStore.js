@@ -52,12 +52,12 @@ class MatchesStore {
 
 
   handleGetMatches(matches) {
-    var m = matches || this.state.matches;
-    console.log(m,'handlegetmatches');
-    this.setState({
-      matches:m
-    });
-
+    console.log(matches,'handlegetmatches');
+    if(matches.length){
+      this.setState({
+        matches:matches
+      });
+    }
 
   }
 

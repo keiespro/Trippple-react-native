@@ -3,8 +3,8 @@ var Api = require("../../utils/api");
 
 class ChatActions {
 
-  initializeMatches(savedMatches) {
-    this.dispatch(savedMatches);
+  initializeMatches() {
+    this.dispatch();
   }
 
   getMatches() {

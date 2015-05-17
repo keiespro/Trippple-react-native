@@ -112,8 +112,11 @@ class Settings extends React.Component{
     this.state = {
     }
   }
-
+  _noop(){
+    console.log('noop')
+  }
 _pressNewImage(){
+  console.log(this.props.navigator)
   this.props.navigator.push({
       component: ImageUpload,
       id:'photo',

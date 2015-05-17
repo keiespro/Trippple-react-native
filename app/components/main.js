@@ -12,6 +12,7 @@ var {
   Navigator,
   ScrollView,
   StyleSheet,
+  InteractionManager,
   Text,
   TouchableHighlight,
   AsyncStorage,
@@ -36,13 +37,23 @@ var ROUTE_STACK = [
   var NavigationBarRouteMapper = {
 
     LeftButton: function(route, navigator, index, navState) {
-      if(route.id == 'settings') return null;
-
-      if(route.id == 'photo'){
+      if(reoute.id == 'settings') return false;
+      if(route.id == 'photo' || route.id == 'photo2'){
         return (
           <TouchableOpacity
             onPress={() => {
-              navigator.pop();
+              // navigator.jumpTo(ROUTE_STACK[0]);
+              navigator.popToTop();
+              // navigator.immediatelyResetRouteStack(ROUTE_STACK);
+
+              // navigator.jumpBack();
+
+              InteractionManager.runAfterInteractions(() => {
+                navigator.replaceAtIndex(ROUTE_STACK[1],1);
+                navigator.replaceAtIndex(ROUTE_STACK[2],2);
+                console.log(navigator.getCurrentRoutes())
+              });
+
               }}>
             <View style={styles.navBarLeftButton}>
               <Text style={[styles.navBarText, styles.navBarButtonText]}>
@@ -71,7 +82,7 @@ var ROUTE_STACK = [
       if(route.id == 'matches'){
         return (
           <TouchableOpacity
-            onPress={() => navigator.pop()}>
+            onPress={() => navigator.jumpTo(ROUTE_STACK[1])}>
             <View style={styles.navBarLeftButton}>
               <Text style={[styles.navBarText, styles.navBarButtonText]}>
                 Trippple
@@ -83,7 +94,7 @@ var ROUTE_STACK = [
 
       return (
         <TouchableOpacity
-          onPress={() => navigator.pop()}>
+          onPress={() => navigator.jumpTo(ROUTE_STACK[0])}>
           <View style={styles.navBarLeftButton}>
             <Text style={[styles.navBarText, styles.navBarButtonText]}>
               settings
@@ -99,7 +110,7 @@ var ROUTE_STACK = [
       if(route.id == 'settings'){
         return (
           <TouchableOpacity
-            onPress={() => navigator.push(ROUTE_STACK[1])}>
+            onPress={() => navigator.jumpTo(ROUTE_STACK[1])}>
             <View style={styles.navBarLeftButton}>
               <Text style={[styles.navBarText, styles.navBarButtonText]}>
                 Trippple
@@ -110,7 +121,7 @@ var ROUTE_STACK = [
       }
       return (
         <TouchableOpacity
-          onPress={() => navigator.push(ROUTE_STACK[2])}>
+          onPress={() => navigator.jumpTo(ROUTE_STACK[2])}>
           <View style={styles.navBarRightButton}>
             <Text style={[styles.navBarText, styles.navBarButtonText]}>
               matches
@@ -147,41 +158,23 @@ var ROUTE_STACK = [
     }
 
     selectScene(route, navigator){
-      // if(route.id === 'photo' || route.id === 'photo2'){
-      return (<route.component {...route.passProps}  user={this.props.user}  navigator={navigator}/>);
-      // }else{
-
-      //   switch(route.id){
-      //
-      //     case 'chat':
-      //       return (<Chat style={styles.scene} matchID={route.passProps.matchID} navigator={navigator} />)
-      //     case 'settings':
-      //       return (<Settings user={this.props.user} style={styles.scene} navigator={navigator} />)
-      //     case 'matches':
-      //       return (<Matches user={this.props.user} style={styles.scene} navigator={navigator} />)
-      //     case 'potentials':
-      //     default:
-      //       return (<Potentials style={styles.scene} navigator={navigator} />)
-      //
-      //   }
-      // }
+      return (<route.component {...route.passProps} navigator={this.props.navigator} user={this.props.user} />);
     }
 
     render() {
-
+      console.log(this.props.nav)
       return (
+        <View style={styles.appContainer}>
         <Navigator
-          debugOverlay={true}
-          key={'naaaaav'}
           initialRoute={ROUTE_STACK[1]}
           initialRouteStack={ROUTE_STACK}
+          onItemRef={ (ref) => { console.log('onItemRef',ref) }}
+          onDidFocus={(x,y)=>{console.log('onDIDfocus',x,y)}}
+          onWillFocus={(x,y)=>{console.log('onwillfocus',x,y)}}
           configureScene={(route) => {
-            if (route.sceneConfig) {
-              return route.sceneConfig;
-            }
-            return Navigator.SceneConfigs.HorizontalSwipeJump
+            return route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.HorizontalSwipeJump
           }}
-          style={styles.appContainer}
+          navigator={this.props.navigator}
           renderScene={this.selectScene.bind(this)}
           navigationBar={
             <Navigator.NavigationBar
@@ -190,6 +183,7 @@ var ROUTE_STACK = [
             />
           }
         />
+      </View>
       );
     }
 
@@ -207,9 +201,10 @@ var ROUTE_STACK = [
       marginLeft: 15,
     },
     appContainer: {
-      overflow: 'hidden',
-      backgroundColor: '#dddddd',
+      backgroundColor: '#39365c',
       flex: 1,
+
+      alignSelf:'stretch'
     },
     button: {
       backgroundColor: 'white',
@@ -226,23 +221,31 @@ var ROUTE_STACK = [
     },
     navBar: {
       backgroundColor: '#39365c',
-      height: 50
+      height: 50,
+      justifyContent:'space-around',
+      alignSelf: 'stretch',
+      alignItems:'flex-start',
+      flexDirection:'column'
     },
     navBarText: {
       fontSize: 16,
-      marginVertical: 5,
     },
     navBarTitleText: {
       color: '#ffffff',
       fontWeight: '500',
-      marginVertical: 5,
-      fontFamily:'omnes'
+      fontFamily:'omnes',
+      height: 50,
+
     },
     navBarLeftButton: {
       paddingLeft: 10,
+      height: 50,
+
     },
     navBarRightButton: {
       paddingRight: 10,
+      height: 50,
+
     },
     navBarButtonText: {
       color: '#dddddd',
@@ -251,7 +254,7 @@ var ROUTE_STACK = [
     scene: {
       flex: 1,
       paddingTop: 50,
-      backgroundColor: '#ffffff',
+      backgroundColor: '#39365c',
       justifyContent: 'center'
     },
   });

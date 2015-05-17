@@ -19,8 +19,12 @@ var styles = StyleSheet.create({
    flex: 1,
    justifyContent: 'center',
    alignItems: 'center',
-   backgroundColor: '#39365c',
-   padding: 10
+   backgroundColor: '#fff',
+   padding: 10,
+   overflow:'hidden',
+   borderColor:'#fff',
+   borderWidth:1,
+   borderRadius:5
  }
 });
 class Potentials extends React.Component{
