@@ -73,7 +73,7 @@ var styles = StyleSheet.create({
  formRow: {
    alignItems: 'center',
    flexDirection: 'row',
-   justifyContent: 'space-around',
+   justifyContent: 'center',
    paddingLeft: 15,
    paddingRight:15,
    backgroundColor:'#fff',
@@ -153,7 +153,12 @@ class Settings extends React.Component{
     super(props);
     console.log(props)
     this.state = {
-      firstname: props.user.firstname
+      firstname: props.user.firstname,
+      bio: props.user.bio,
+      email: props.user.email,
+      bday_year: props.user.bday_year,
+      bday_month: props.user.bday_month,
+
     }
   }
 
@@ -186,7 +191,7 @@ _renderPrivacy(){
 }
 
 render(){
-  console.log(this.state);
+
   return (
     <View style={styles.container}>
       <ScrollView
@@ -198,10 +203,7 @@ render(){
         alwaysBounceVertical={true}
         decelerationRate={.9}
         showsVerticalScrollIndicator={false}
-        contentInset={{top: 80}}
-        >
-      <Text>Settings</Text>
-
+        contentInset={{top: 80}}>
       <View style={styles.card}>
         <View style={styles.userimageContainer}>
           <Image
@@ -219,6 +221,20 @@ render(){
             style={styles.textfield}
             value={this.state.firstname}
             onChangeText={(text) => this.setState({firstname: text})}
+          />
+        </View>
+        <View style={styles.formRow}>
+          <TextInput
+            style={styles.textfield}
+            value={this.state.email}
+            onChangeText={(text) => this.setState({email: text})}
+          />
+        </View>
+        <View style={styles.formRow}>
+          <TextInput
+            style={[styles.textfield]}
+            value={this.state.bio}
+            onChangeText={(text) => this.setState({bio: text})}
           />
         </View>
       </View>
