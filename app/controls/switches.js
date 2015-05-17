@@ -34,25 +34,9 @@ var ToggleSwitch = React.createClass({
       <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
         <View>
           <SwitchIOS
-            onValueChange={(value) => this.setState({eventSwitchIsOn: value})}
-            style={{marginBottom: 10}}
-            value={this.state.eventSwitchIsOn} />
-          <SwitchIOS
-            onValueChange={(value) => this.setState({eventSwitchIsOn: value})}
-            style={{marginBottom: 10}}
-            value={this.state.eventSwitchIsOn} />
-            <Text>{this.state.eventSwitchIsOn ? "On" : "Off"}</Text>
-        </View>
-        <View>
-          <SwitchIOS
             onValueChange={(value) => this.setState({eventSwitchRegressionIsOn: value})}
             style={{marginBottom: 10}}
             value={this.state.eventSwitchRegressionIsOn} />
-          <SwitchIOS
-            onValueChange={(value) => this.setState({eventSwitchRegressionIsOn: value})}
-            style={{marginBottom: 10}}
-            value={this.state.eventSwitchRegressionIsOn} />
-          <Text>{this.state.eventSwitchRegressionIsOn ? "On" : "Off"}</Text>
         </View>
       </View>
     );

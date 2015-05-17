@@ -19,7 +19,6 @@ class ChatActions {
 
     Api.getMessages({match_id: matchID})
       .then((res) => {
-        console.log(res)
         this.dispatch(res.response);
       })
   }

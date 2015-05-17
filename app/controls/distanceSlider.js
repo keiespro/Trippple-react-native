@@ -32,12 +32,13 @@ var DistanceSlider = React.createClass({
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <Text style={styles.text} >
           {this.state.value}
         </Text>
         <SliderIOS
           style={styles.slider}
+          pointerEvents={'box-none'}
           onValueChange={(value) => this.setState({value: value})} />
       </View>
     );
@@ -45,8 +46,11 @@ var DistanceSlider = React.createClass({
 });
 
 var styles = StyleSheet.create({
+  container:{
+    height:150,
+  },
   slider: {
-    height: 10,
+    height: 50,
     margin: 10,
   },
   text: {

@@ -11,6 +11,7 @@ var {
  TouchableHighlight,
  TextInput,
  PixelRatio,
+ InteractionManager,
  ListView,
  Navigator,
  AsyncStorage
@@ -39,7 +40,7 @@ class MatchList extends React.Component{
   // }
   shouldComponentUpdate(nextProps,nextState){
 
-    if(this.props.matches.length === nextProps.matches.length) return false;
+  //   if(this.props.matches.length === nextProps.matches.length) return false;
     return true;
   }
   _renderRow(rowData, sectionID: number, rowID: number) {
@@ -112,7 +113,6 @@ class MatchList extends React.Component{
   }
   _pressRow(matchID: number) {
     // get messages from server and open chat view
-    ChatActions.getMessages(matchID);
     this.props.navigator.push({
       component: Chat,
       id:'chat',
@@ -122,7 +122,7 @@ class MatchList extends React.Component{
         index: 3,
         matchID: matchID
       },
-      sceneConfig: Navigator.SceneConfigs.PushFromRight,
+      // sceneConfig: Navigator.SceneConfigs.PushFromRight,
     });
   }
   render(){
@@ -153,30 +153,31 @@ class Matches extends React.Component{
   }
 
   componentDidMount(){
+    console.log('mount matches',this.props.user_id,this.props.user.id)
 
     MatchesStore.listen(this.onChange.bind(this));
-    AsyncStorage.getItem('MatchesStore')
-      .then((value) => {
-        console.log('got matches from storage,', JSON.parse(value))
-        if (value !== null){
-          // get data from local storage
-          alt.bootstrap(value);
-        }
+
         // get data from server
+    if(this.props.user.id){
+      InteractionManager.runAfterInteractions(() => {
         ChatActions.getMatches();
-
       })
-
+    }
 
   }
 
   onChange(state) {
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     this.setState({
       matches: state.matches,
-      dataSource: this.state.dataSource.cloneWithRows(state.matches)
+      dataSource: ds.cloneWithRows(state.matches)
     })
-    this.saveToStorage()
+    // if(state.matches.length){
+    //   InteractionManager.runAfterInteractions(() => {
+    //     this.saveToStorage()
+    //   })
+    // }
   }
   saveToStorage(){
     AsyncStorage.setItem('MatchesStore', alt.takeSnapshot(MatchesStore))
@@ -185,6 +186,8 @@ class Matches extends React.Component{
       .done();
   }
   componentWillUnmount() {
+    console.log('UNmount matches')
+
     MatchesStore.unlisten(this.onChange.bind(this));
   }
   render(){
@@ -206,10 +209,13 @@ var styles = StyleSheet.create({
   container: {
     backgroundColor: '#39365c',
     paddingTop:60,
-    flex: 1
+    flex: 1,
+    overflow:'hidden'
   },
   navText: {
-    color:"#000000"
+    color:"#000000",
+    fontFamily:'omnes'
+
   },
   button: {
     backgroundColor: 'white',
@@ -247,13 +253,16 @@ var styles = StyleSheet.create({
   },
   text: {
     flex: 1,
-    color:'#ffffff'
+    color:'#ffffff',
+    fontFamily:'omnes'
+
   },
   textwrap:{
     height: 64,
     flexDirection: 'column',
     justifyContent: 'center',
-
+    width: 200,
+    overflow: 'hidden'
   }
 });
 

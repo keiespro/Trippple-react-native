@@ -7,39 +7,51 @@ var {
   StyleSheet,
   Text,
   View,
+  AsyncStorage,
+  InteractionManager,
   Image,
   TextInput,
-  ScrollView,
+  ListView,
   PixelRatio
 } = React;
 
 
-var ChatInput = require("../controls/chatinput");
-var ChatStore = require("../flux/stores/ChatStore");
 
+var ChatStore = require("../flux/stores/ChatStore");
+var ChatActions = require("../flux/actions/ChatActions");
+var alt = require('../flux/alt');
 var AltContainer = require('alt/AltNativeContainer');
 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 0
+    padding: 0,
+    overflow:'hidden',
+    alignSelf: 'stretch',
+
   },
   chatContainer: {
     flex: 1,
-    bottom: 0,
     margin: 0,
     flexDirection: 'column',
     // alignItems: 'stretch',
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
+    // bottom: 50,
+    // top:60
   },
   messageList: {
-    bottom: 50,
-    top:60,
-    // flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'flex-end',
-    alignSelf: 'stretch'
+    flex: 1,
+    flexDirection: 'column',
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    // transformMatrix: [
+    //    1,  0,  0,  0,
+    //    0, -1,  0,  0,
+    //    0,  0,  1,  0,
+    //    0,  0,  0,  1,
+    // ],
   },
 
   inputField: {
@@ -54,7 +66,18 @@ var styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical:5,
     marginHorizontal: 10,
-    marginVertical:5
+    marginVertical:5,
+    // flex: 1,
+    alignSelf: 'stretch',
+
+    flexDirection: 'row'
+    // transformMatrix: [
+    //    1,  0,  0,  0,
+    //    0, -1,  0,  0,
+    //    0,  0,  1,  0,
+    //    0,  0,  0,  1,
+    // ],
+
   },
   messageText: {
     fontSize: 15,
@@ -90,34 +113,49 @@ class ChatMessage extends React.Component {
   }
 }
 class ChatInside extends React.Component{
-  render(){
-    console.log('messagesrender',this.props.matchID,this.props.messages)
-    if(!this.props.messages.length){
-      console.log('none')
-      return (
-        <View style={styles.container}>
-        </View>
-      )
+  constructor(props){
+    super(props);
+
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
+
+    this.state = {
+      dataSource: ds.cloneWithRows(this.props.messages)
     }
-    var messagesList = this.props.messages.map((el,i) =>{
-      return (
-        <ChatMessage key={el.id+'msg'} text={el.message_body} pic={el.from_user_info.image_url}></ChatMessage>
-      )
-    });
+
+  }
+  componentDidMount(){
+    console.log('mount chat')
+    InteractionManager.runAfterInteractions(() => {
+      ChatActions.getMessages(this.props.matchID);
+      this.saveToStorage();
+    })
+  }
+
+  saveToStorage(){
+    console.log('save??')
+    AsyncStorage.setItem('ChatStore', alt.takeSnapshot(ChatStore))
+      .then(() => {console.log('saved chat store')})
+      .catch((error) => {console.log('AsyncStorage error: ' + error.message)})
+      .done();
+  }
+  _renderRow(rowData, sectionID: number, rowID: number) {
+    return (
+      <ChatMessage key={rowData.id+'msg'} text={rowData.message_body} pic={rowData.from_user_info.image_url}/>
+    )
+  }
+
+  render(){
     return (
       <View style={styles.container}>
         <View style={styles.chatContainer}>
-          <ScrollView
-            id="chatview"
-            ref="chat"
-            style={styles.messageList}
-            matchID={this.props.matchID}
-            keyboardDismissMode={'onDrag'}>
-            {messagesList}
-          </ScrollView>
+          <ListView
+             dataSource={this.state.dataSource.cloneWithRows(this.props.messages)}
+             renderRow={this._renderRow.bind(this)}
+             contentContainerStyle={styles.messageList}
+           />
 
           {/* TODO: use ios inputaccessorybar for input*/}
-          <ChatInput/>
         </View>
       </View>
     )
@@ -131,6 +169,8 @@ class Chat extends React.Component{
     super(props);
 
   }
+
+
 
 
   render(){

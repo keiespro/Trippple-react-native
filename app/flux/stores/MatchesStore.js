@@ -1,6 +1,6 @@
 var alt = require('../alt');
 var ChatActions = require('../actions/ChatActions');
-
+var AsyncStorage = require('react-native').AsyncStorage;
 
 
 class MatchesStore {
@@ -22,21 +22,40 @@ class MatchesStore {
     });
     this.on('init',()=>{
       console.log('store init')
+
+      AsyncStorage.getItem('MatchesStore')
+        .then((value) => {
+          console.log('got matches from storage,', JSON.parse(value))
+          if (value !== null){
+            // get data from local storage
+            alt.bootstrap(value);
+          }
+        })
     })
     this.on('bootstrap', () => {
-      console.log('store bootstrap')
+      console.log('store bootstrap');
+
     });
   }
 
-  handleInitializeMatches(savedMatches){
+  handleInitializeMatches(){
 
-    console.log('handleInitializeMatches')
+    // console.log(savedMatches,'handlegetmatches');
+    this.setState({
+      matches: this.state.matches
+    });
+        // get data from server
+
   }
 
+
+
+
   handleGetMatches(matches) {
-    console.log(matches,'handlegetmatches');
+    var m = matches || this.state.matches;
+    console.log(m,'handlegetmatches');
     this.setState({
-      matches: matches
+      matches:m
     });
 
 

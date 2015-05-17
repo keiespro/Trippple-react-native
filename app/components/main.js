@@ -16,17 +16,18 @@ var {
   TouchableHighlight,
   AsyncStorage,
   TouchableOpacity,
-  View,
+  View
 } = React;
 
+
+var alt = require('alt');
 var cssVar = require('cssVar');
 var Chat = require("./chat");
 var ChatActions = require("../flux/actions/ChatActions");
-var alt = require('../flux/alt')
 
 var ROUTE_STACK = [
   {component: Settings, index: 0, title: 'Settings', id: 'settings'},
-  {component: Potentials, index: 1, title: 'Potentials', id: 'potentials'},
+  {component: Potentials, index: 1, title: 'Trippple', id: 'potentials'},
   {component: Matches, index: 2, title: 'Matches', id: 'matches'},
 ];
 
@@ -35,11 +36,29 @@ var ROUTE_STACK = [
   var NavigationBarRouteMapper = {
 
     LeftButton: function(route, navigator, index, navState) {
+      if(route.id == 'settings') return null;
 
-      if(index == 3 || route.id == 'chat'){
+      if(route.id == 'photo'){
         return (
           <TouchableOpacity
-            onPress={() => navigator.pop()}>
+            onPress={() => {
+              navigator.pop();
+              }}>
+            <View style={styles.navBarLeftButton}>
+              <Text style={[styles.navBarText, styles.navBarButtonText]}>
+                V
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )
+      }
+
+      if(route.id == 'chat'){
+        return (
+          <TouchableOpacity
+            onPress={() => {
+              navigator.pop();
+              }}>
             <View style={styles.navBarLeftButton}>
               <Text style={[styles.navBarText, styles.navBarButtonText]}>
                 back
@@ -49,9 +68,22 @@ var ROUTE_STACK = [
         )
       }
 
+      if(route.id == 'matches'){
+        return (
+          <TouchableOpacity
+            onPress={() => navigator.pop()}>
+            <View style={styles.navBarLeftButton}>
+              <Text style={[styles.navBarText, styles.navBarButtonText]}>
+                Trippple
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )
+      }
+
       return (
         <TouchableOpacity
-          onPress={() => navigator.jumpTo(ROUTE_STACK[0])}>
+          onPress={() => navigator.pop()}>
           <View style={styles.navBarLeftButton}>
             <Text style={[styles.navBarText, styles.navBarButtonText]}>
               settings
@@ -62,10 +94,23 @@ var ROUTE_STACK = [
     },
 
     RightButton: function(route, navigator, index, navState) {
-      if(index == 3 || route.id == 'chat') return null;
+      if(route.id == 'photo' || route.id == 'chat' || route.id == 'matches') return null;
+
+      if(route.id == 'settings'){
+        return (
+          <TouchableOpacity
+            onPress={() => navigator.push(ROUTE_STACK[1])}>
+            <View style={styles.navBarLeftButton}>
+              <Text style={[styles.navBarText, styles.navBarButtonText]}>
+                Trippple
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )
+      }
       return (
         <TouchableOpacity
-          onPress={() => navigator.jumpTo(ROUTE_STACK[2])}>
+          onPress={() => navigator.push(ROUTE_STACK[2])}>
           <View style={styles.navBarRightButton}>
             <Text style={[styles.navBarText, styles.navBarButtonText]}>
               matches
@@ -76,17 +121,14 @@ var ROUTE_STACK = [
     },
 
     Title: function(route, navigator, index, navState) {
-      if(index == 3 || route.id == 'chat') return null;
 
       return (
-        <TouchableOpacity
-          onPress={() => navigator.jumpTo(ROUTE_STACK[1])}>
+
           <View >
             <Text style={[styles.navBarText, styles.navBarTitleText]}>
-              potentials
+              {route.title}
             </Text>
           </View>
-        </TouchableOpacity>
       );
     },
 
@@ -100,27 +142,36 @@ var ROUTE_STACK = [
 
     }
 
-
+    componentDidMount(){
+      ChatActions.InitializeMatches();
+    }
 
     selectScene(route, navigator){
-        switch(route.id){
-          case 'chat':
-            return (<Chat style={styles.scene} route={route} matchID={route.passProps.matchID} navigator={navigator} />)
-          case 'settings':
-            return (<Settings style={styles.scene} route={route} navigator={navigator} />)
-          case 'matches':
-            return (<Matches user={this.props.user} style={styles.scene} route={route} navigator={navigator} />)
-          case 'potentials':
-          default:
-            return (<Potentials style={styles.scene} route={route} navigator={navigator} />)
-        }
+      // if(route.id === 'photo' || route.id === 'photo2'){
+      return (<route.component {...route.passProps}  user={this.props.user}  navigator={navigator}/>);
+      // }else{
 
+      //   switch(route.id){
+      //
+      //     case 'chat':
+      //       return (<Chat style={styles.scene} matchID={route.passProps.matchID} navigator={navigator} />)
+      //     case 'settings':
+      //       return (<Settings user={this.props.user} style={styles.scene} navigator={navigator} />)
+      //     case 'matches':
+      //       return (<Matches user={this.props.user} style={styles.scene} navigator={navigator} />)
+      //     case 'potentials':
+      //     default:
+      //       return (<Potentials style={styles.scene} navigator={navigator} />)
+      //
+      //   }
+      // }
     }
 
     render() {
 
       return (
         <Navigator
+          debugOverlay={true}
           key={'naaaaav'}
           initialRoute={ROUTE_STACK[1]}
           initialRouteStack={ROUTE_STACK}
@@ -144,10 +195,14 @@ var ROUTE_STACK = [
 
   }
 
+
+
+
   var styles = StyleSheet.create({
     messageText: {
       fontSize: 17,
       fontWeight: '500',
+      fontFamily:'omnes',
       padding: 15,
       marginLeft: 15,
     },
@@ -161,23 +216,27 @@ var ROUTE_STACK = [
       padding: 15,
       borderBottomWidth: 1 / PixelRatio.get(),
       borderBottomColor: '#CDCDCD',
+      fontFamily:'omnes'
+
     },
     buttonText: {
       fontSize: 17,
       fontWeight: '500',
+      fontFamily:'omnes'
     },
     navBar: {
-      backgroundColor: 'black',
-      height: 60
+      backgroundColor: '#39365c',
+      height: 50
     },
     navBarText: {
       fontSize: 16,
-      marginVertical: 10,
+      marginVertical: 5,
     },
     navBarTitleText: {
       color: '#ffffff',
       fontWeight: '500',
-      marginVertical: 9,
+      marginVertical: 5,
+      fontFamily:'omnes'
     },
     navBarLeftButton: {
       paddingLeft: 10,
@@ -186,11 +245,12 @@ var ROUTE_STACK = [
       paddingRight: 10,
     },
     navBarButtonText: {
-      color: '#dddddd'
+      color: '#dddddd',
+      fontFamily:'omnes'
     },
     scene: {
       flex: 1,
-      paddingTop: 60,
+      paddingTop: 50,
       backgroundColor: '#ffffff',
       justifyContent: 'center'
     },

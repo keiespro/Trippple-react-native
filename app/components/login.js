@@ -31,12 +31,15 @@ var styles = StyleSheet.create({
    borderWidth: 1,
    borderColor: 'white',
    borderRadius: 8,
+   fontFamily:'omnes',
    color: 'white'
  },
  buttonText: {
    fontSize: 18,
    color: '#111',
-   alignSelf: 'center'
+   alignSelf: 'center',
+   fontFamily:'omnes'
+
  },
  button: {
    height: 45,

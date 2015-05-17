@@ -34,7 +34,7 @@ class UserStore {
       user_id: response.user_id,
       apikey: response.api_key,
       user: response.user_info
-    })
+    });
 
   }
 

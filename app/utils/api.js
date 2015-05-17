@@ -15,19 +15,13 @@ function publicRequest(endpoint, payload){
 
 };
 
-function authenticatedRequest(endpoint, payload){
+function authenticatedRequest(endpoint: '', payload: {}){
   var payload = payload || {};
+  console.log(payload,'payload')
   payload.user_id = 450;
   payload.api_key = 'beb9bac01c65e5aac1ddb0aafede274e32ada79b';
 
-  return fetch( `${serverUrl}/${endpoint}`, {
-    method: 'post',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(payload)
-  }).then((res) => res.json())
+  return publicRequest(endpoint, payload);
 
 };
 

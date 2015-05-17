@@ -1,5 +1,7 @@
 var alt = require('../alt');
 var ChatActions = require('../actions/ChatActions');
+var AsyncStorage = require('react-native').AsyncStorage;
+
 
 class ChatStore {
 
@@ -16,16 +18,30 @@ class ChatStore {
       handleGetMessages: ChatActions.GET_MESSAGES
 
     });
-  }
+    this.on('init',()=>{
+      console.log('store init')
 
-  handleGetMessages(matchMessages) {
+      AsyncStorage.getItem('ChatStore')
+        .then((value) => {
+          console.log('got ChatStore from storage,', JSON.parse(value))
+          if (value !== null){
+            // get data from local storage
+            alt.bootstrap(value);
+          }
 
-    this.setState(() => {
-      var newState = {};
-      newState[matchMessages.match_id] = matchMessages.message_thread;
-      return newState;
+        })
     })
   }
+
+
+  handleGetMessages(matchMessages) {
+    this.setState(() => {
+      var newState = {};
+      newState[matchMessages.match_id] = matchMessages.message_thread.reverse();
+      return newState;
+    });
+  }
+
 
 
   // public methods

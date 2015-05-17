@@ -5,6 +5,8 @@ class UserActions {
   getUserInfo() {
     Api.getUserInfo
       .then((res) => {
+        console.log(res);
+
         this.dispatch(res.response);
       })
   }
@@ -13,6 +15,9 @@ class UserActions {
     console.log('loginaction');
     Api.login(phone,password)
       .then((res) => {
+        console.log(res);
+
+
         this.dispatch(res.response);
       })
   }

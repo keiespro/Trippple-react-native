@@ -19,7 +19,7 @@ var styles = StyleSheet.create({
    flex: 1,
    justifyContent: 'center',
    alignItems: 'center',
-   backgroundColor: '#ffffff',
+   backgroundColor: '#39365c',
    padding: 10
  }
 });
