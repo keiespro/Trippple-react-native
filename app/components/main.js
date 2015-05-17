@@ -37,7 +37,7 @@ var ROUTE_STACK = [
   var NavigationBarRouteMapper = {
 
     LeftButton: function(route, navigator, index, navState) {
-      if(reoute.id == 'settings') return false;
+      if(route.id == 'settings') return false;
       if(route.id == 'photo' || route.id == 'photo2'){
         return (
           <TouchableOpacity
@@ -166,6 +166,7 @@ var ROUTE_STACK = [
       return (
         <View style={styles.appContainer}>
         <Navigator
+          pointerEvents={'box-none'}
           initialRoute={ROUTE_STACK[1]}
           initialRouteStack={ROUTE_STACK}
           onItemRef={ (ref) => { console.log('onItemRef',ref) }}
@@ -174,6 +175,7 @@ var ROUTE_STACK = [
           configureScene={(route) => {
             return route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.HorizontalSwipeJump
           }}
+
           navigator={this.props.navigator}
           renderScene={this.selectScene.bind(this)}
           navigationBar={

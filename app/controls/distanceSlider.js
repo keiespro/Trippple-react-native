@@ -32,7 +32,15 @@ var DistanceSlider = React.createClass({
 
   render() {
     return (
-      <View style={styles.container}>
+      <View
+        style={styles.container}
+        pointerEvents={'box-none'}
+        onMoveShouldSetResponder={()=>{return true}}
+        onResponderGrant={()=>{console.log('RESPONDER GRANT')}}
+        onStartShouldSetResponderCapture={(e)=>{console.log(e); return true}}
+        onMoveShouldSetResponderCapture={(e)=>{console.log(e); return true}}
+        onResponderTerminate={()=>{console.log('RESPONDER TERMINATED')}}
+        >
         <Text style={styles.text} >
           {this.state.value}
         </Text>
@@ -41,7 +49,7 @@ var DistanceSlider = React.createClass({
           pointerEvents={'box-none'}
           minimumValue={10}
           maximumValue={500}
-          onValueChange={(value) => this.setState({value: value})} />
+          onValueChange={(value) => this.setState({value: parseInt(value)})} />
       </View>
     );
   }
@@ -52,8 +60,8 @@ var styles = StyleSheet.create({
     height:150,
   },
   slider: {
-    height: 50,
-    margin: 10,
+    height: 100,
+    margin: 0,
   },
   text: {
     fontSize: 14,

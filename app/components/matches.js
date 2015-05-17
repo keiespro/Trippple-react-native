@@ -113,7 +113,12 @@ class MatchList extends React.Component{
   }
   _pressRow(matchID: number) {
     // get messages from server and open chat view
-    this.props.navigator.push({
+
+    // use OUTER navigator
+    // this.props.navigator.push({
+
+    // use INNER (main) navigator.
+    Navigator.getContext(this).push({
       component: Chat,
       id:'chat',
       index: 3,
