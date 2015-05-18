@@ -33,6 +33,7 @@ var ROUTE_STACK = [
 ];
 
 
+  //this thing is ugly
 
   var NavigationBarRouteMapper = {
 
@@ -44,15 +45,17 @@ var ROUTE_STACK = [
             onPress={() => {
               // navigator.jumpTo(ROUTE_STACK[0]);
               navigator.popToTop();
+
+//////// the worst way do do it
               // navigator.immediatelyResetRouteStack(ROUTE_STACK);
 
+////////// for resetting the routestack if opening up tangential pages in the same Navigator
               // navigator.jumpBack();
-
-              InteractionManager.runAfterInteractions(() => {
-                navigator.replaceAtIndex(ROUTE_STACK[1],1);
-                navigator.replaceAtIndex(ROUTE_STACK[2],2);
-                console.log(navigator.getCurrentRoutes())
-              });
+              // InteractionManager.runAfterInteractions(() => {
+                // navigator.replaceAtIndex(ROUTE_STACK[1],1);
+                // navigator.replaceAtIndex(ROUTE_STACK[2],2);
+                // console.log(navigator.getCurrentRoutes())
+              // });
 
               }}>
             <View style={styles.navBarLeftButton}>
@@ -157,7 +160,7 @@ var ROUTE_STACK = [
       ChatActions.InitializeMatches();
     }
 
-    selectScene(route, navigator){
+    selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
       return (<route.component {...route.passProps} navigator={this.props.navigator} user={this.props.user} />);
     }
 
@@ -165,26 +168,18 @@ var ROUTE_STACK = [
       console.log(this.props.nav)
       return (
         <View style={styles.appContainer}>
-        <Navigator
-          pointerEvents={'box-none'}
-          initialRoute={ROUTE_STACK[1]}
-          initialRouteStack={ROUTE_STACK}
-          onItemRef={ (ref) => { console.log('onItemRef',ref) }}
-          onDidFocus={(x,y)=>{console.log('onDIDfocus',x,y)}}
-          onWillFocus={(x,y)=>{console.log('onwillfocus',x,y)}}
-          configureScene={(route) => {
-            return route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.HorizontalSwipeJump
-          }}
+          <Navigator
+              initialRoute={ROUTE_STACK[1]}
+              initialRouteStack={ROUTE_STACK}
+              configureScene={(route) => { return route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.HorizontalSwipeJump }}
+              navigator={this.props.navigator}
+              renderScene={this.selectScene.bind(this)}
+              navigationBar={ <Navigator.NavigationBar routeMapper={NavigationBarRouteMapper} style={styles.navBar} /> }
 
-          navigator={this.props.navigator}
-          renderScene={this.selectScene.bind(this)}
-          navigationBar={
-            <Navigator.NavigationBar
-              routeMapper={NavigationBarRouteMapper}
-              style={styles.navBar}
-            />
-          }
-        />
+              onItemRef={ (ref) => { console.log('onItemRef',ref) }}
+              onDidFocus={(x,y)=>{console.log('onDIDfocus',x,y)}}
+              onWillFocus={(x,y)=>{console.log('onwillfocus',x,y)}}
+          />
       </View>
       );
     }

@@ -34,24 +34,61 @@ var api = {
     })
   },
 
+  register(phone,password){
+    return publicRequest('register', {
+      phone: phone,
+      password1: password,
+    })
+  },
+
+  requestPin(){
+    return authenticatedRequest('request_security_pin')
+  },
+
+  verifyPin(pin,phone){
+    return authenticatedRequest('verify_security_pin', { pin, phone } )
+  },
+
+  updateUser(payload){
+    return authenticatedRequest('update', payload)
+  },
+
+  getUserInfo(){
+    return authenticatedRequest('info')
+  },
+
   getMatches(){
     console.log('getmatches req')
     return authenticatedRequest('matches')
+  },
+
+  getMessages(payload){
+    if(!payload.match_id) return false;
+    payload.message_type = 'retrieve';
+    return authenticatedRequest('messages', payload)
+  },
+
+  createMessage(message, matchID){
+    var payload = {
+      'message_type':'create',
+      'match_id': matchID,
+      'message': message,
+    };
+    return authenticatedRequest('messages', payload)
   },
 
   getPotentials(){
     return authenticatedRequest('potentials')
   },
 
-  getMessages(params){
-    if(!params.match_id) return false;
-    params.message_type = 'retrieve';
-    return authenticatedRequest('messages', params)
+  sendLike(like_user_id,like_status){
+    var like_user_type = 'couple';// fix
+    return authenticatedRequest('likes', { like_status, like_user_id, like_user_type })
   },
 
-  getUserInfo(){
-    return authenticatedRequest('info')
-  }
+
+
+
 
 
 }

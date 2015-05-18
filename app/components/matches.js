@@ -135,6 +135,8 @@ class MatchList extends React.Component{
     return (
       <View style={styles.container}>
         <ListView
+          initialListSize={12}
+          removeClippedSubviews={true}
           dataSource={this.props.dataSource}
           renderRow={this._renderRow.bind(this)}
         />
