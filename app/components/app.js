@@ -76,24 +76,9 @@ class TopLevel extends React.Component{
     switch(userStatus){
         case "onboarded":
           return (
-            <Navigator
-              style={styles.container}
-              renderScene={this._renderScene.bind(this)}
-              itemWrapperStyle={styles.wrapper}
-              initialRoute={{
-                component: Main,
-                title: 'Main',
-                passProps: {
-                  user: this.props.user,
-                },
-              }}
-              configureScene={(route) => {
-                if (route.sceneConfig) {
-                  return route.sceneConfig;
-                }
-                return Navigator.SceneConfigs.FloatFromBottom
-              }}
-           />)
+            <Main user={this.props.user}/>
+            )
+            
         case null:
         default:
           return (<Login pointerEvents={'box-none'} key={'loginscene'} />)

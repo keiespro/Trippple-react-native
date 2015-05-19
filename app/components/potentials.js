@@ -108,6 +108,7 @@ var Potentials = React.createClass({
             ref={(card) => {
               this.card = card;
             }}
+
             style={styles.card}
             {...this._panResponder.panHandlers}
           />
@@ -163,9 +164,9 @@ var Potentials = React.createClass({
   },
   _handlePanResponderEnd: function(e: Object, gestureState: Object) {
     this._unHighlight();
-console.log('Pan Responder End')
+    console.log('Pan Responder End')
+
     this.setState({
-      // position: this._cardStyles,
       isAnimating: true
     })
 

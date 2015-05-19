@@ -7,6 +7,7 @@ var Settings = require('./settings');
 var Matches = require('./matches');
 var Potentials = require('./potentials');
 
+
 var {
   PixelRatio,
   Navigator,
@@ -19,7 +20,7 @@ var {
   TouchableOpacity,
   View
 } = React;
-
+var CustomSceneConfigs = require('../utils/sceneConfigs')
 
 var alt = require('alt');
 var cssVar = require('cssVar');
@@ -165,17 +166,16 @@ var ROUTE_STACK = [
     }
 
     render() {
-      console.log(this.props.nav)
+      console.log(Navigator.SceneConfigs)
       return (
         <View style={styles.appContainer}>
           <Navigator
               initialRoute={ROUTE_STACK[1]}
               initialRouteStack={ROUTE_STACK}
-              configureScene={(route) => { return route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.HorizontalSwipeJump }}
+              configureScene={(route) => { return  route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.HorizontalSlide}}
               navigator={this.props.navigator}
               renderScene={this.selectScene.bind(this)}
               navigationBar={ <Navigator.NavigationBar routeMapper={NavigationBarRouteMapper} style={styles.navBar} /> }
-
               onItemRef={ (ref) => { console.log('onItemRef',ref) }}
               onDidFocus={(x,y)=>{console.log('onDIDfocus',x,y)}}
               onWillFocus={(x,y)=>{console.log('onwillfocus',x,y)}}
@@ -185,6 +185,9 @@ var ROUTE_STACK = [
     }
 
   }
+
+  Main.propTypes = { user: React.PropTypes.any };
+  Main.defaultProps = { user: null };
 
 
 

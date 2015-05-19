@@ -9,6 +9,7 @@
     "alt": "^0.16.4",
     "react-native": "^0.4.4",
     "react-native-camera": "^0.2.4",
-    "react-native-invertible-scroll-view": "0.0.2"
+    "react-native-invertible-scroll-view": "0.0.2",
+    "react-tween-state": "0.0.5"
   }
 }
