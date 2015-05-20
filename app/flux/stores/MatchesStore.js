@@ -16,9 +16,7 @@ class MatchesStore {
     });
 
     this.bindListeners({
-      handleGetMatches: ChatActions.GET_MATCHES,
-      handleInitializeMatches: ChatActions.INITIALIZE_MATCHES
-
+      handleGetMatches: ChatActions.GET_MATCHES
     });
     this.on('init',()=>{
       console.log('store init')
@@ -30,6 +28,9 @@ class MatchesStore {
             // get data from local storage
             alt.bootstrap(value);
           }
+        })
+        .catch((err) => {
+          console.log(err);
         })
     })
     this.on('bootstrap', () => {

@@ -4,15 +4,18 @@
 
 var React = require('react-native');
 var {
- StyleSheet,
- Text,
- View,
- TouchableHighlight,
- TextInput,
- ScrollView,
- Image,
- Navigator
+  StyleSheet,
+  Text,
+  View,
+  TouchableHighlight,
+  TextInput,
+  ScrollView,
+  Image,
+  Navigator,
+  PickerIOS
 } = React;
+
+var PickerItemIOS = PickerIOS.Item;
 
 var DistanceSlider = require('../controls/distanceSlider');
 var ToggleSwitch = require('../controls/switches');
@@ -20,7 +23,31 @@ var ToggleSwitch = require('../controls/switches');
 var ImageUpload = require('./imageUpload');
 var Privacy = require('./privacy');
 
+var monthList = [
+'January',
+'February',
+'March',
+'April',
+'May',
+'June',
+'July',
+'August',
+'September',
+'October',
+'November',
+'December'
+];
 
+
+var bodyTypes = [
+  'Athletic',
+  'Average',
+  'Curvy',
+  'Heavy set',
+  'Slender',
+  'Stocky',
+  'Rather not say'
+];
 
 var styles = StyleSheet.create({
  container: {
@@ -78,6 +105,22 @@ var styles = StyleSheet.create({
    paddingRight:15,
    backgroundColor:'#fff',
    height:60
+ },
+ tallFormRow: {
+   width: 250,
+   left:0,
+   height:220,
+   alignSelf:'stretch',
+
+ },
+ picker:{
+   height:200,
+   alignItems: 'stretch',
+   flexDirection: 'column',
+   alignSelf:'stretch',
+   justifyContent:'center'
+
+
  },
  privacy:{
    height:100,
@@ -158,111 +201,153 @@ class Settings extends React.Component{
       email: props.user.email,
       bday_year: props.user.bday_year,
       bday_month: props.user.bday_month,
-
+      body_type: null
     }
   }
 
+  _pressNewImage(){
 
-_pressNewImage(){
-
-  this.props.navigator.push({
-      component: ImageUpload,
-      id:'photo',
-      index: 4,
-      title: 'photo',
-      passProps:{
+    this.props.navigator.push({
+        component: ImageUpload,
+        id:'photo',
         index: 4,
-      },
-      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
-    })
-}
+        title: 'photo',
+        passProps:{
+          index: 4,
+        },
+        sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+      })
+  }
 
-_renderPrivacy(){
-  console.log(this.props.navigator)
-  this.props.navigator.push({
-      component: Privacy,
-      id:'privacy',
-      title: 'privacy',
-      passProps:{
-        privacy: this.props.user.privacy,
-      },
-      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
-    })
-}
+  _renderPrivacy(){
+    console.log(this.props.navigator)
+    this.props.navigator.push({
+        component: Privacy,
+        id:'privacy',
+        title: 'privacy',
+        passProps:{
+          privacy: this.props.user.privacy,
+        },
+        sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+      })
+  }
 
-render(){
+  render(){
 
-  return (
-    <View style={styles.container}>
-      <ScrollView
-        style={styles.inner}
-        automaticallyAdjustContentInsets={true}
-        canCancelContentTouches={true}
-        directionalLockEnabled={true}
-        pointerEvents={'box-none'}
-        alwaysBounceVertical={true}
-        decelerationRate={.9}
-        showsVerticalScrollIndicator={false}
-        contentInset={{top: 80}}>
-      <View style={styles.card}>
-        <View style={styles.userimageContainer}>
-          <Image
-            style={styles.userimage}
-            source={{uri: this.props.user.image_url}}
-            defaultSource={require('image!defaultuser')}
-            resizeMode={Image.resizeMode.cover}>
-            <TouchableHighlight onPress={this._pressNewImage.bind(this)}>
-              <Text style={styles.changeImage}>Change Image</Text>
+    return (
+      <View style={styles.container}>
+        <ScrollView
+          style={styles.inner}
+          automaticallyAdjustContentInsets={true}
+          canCancelContentTouches={true}
+          directionalLockEnabled={true}
+          pointerEvents={'box-none'}
+          alwaysBounceVertical={true}
+          decelerationRate={.9}
+          showsVerticalScrollIndicator={false}
+          contentInset={{top: 80}}>
+          <View style={styles.card}>
+            <View style={styles.userimageContainer}>
+              <Image
+                style={styles.userimage}
+                source={{uri: this.props.user.image_url}}
+                defaultSource={require('image!defaultuser')}
+                resizeMode={Image.resizeMode.cover}>
+                <TouchableHighlight onPress={this._pressNewImage.bind(this)}>
+                  <Text style={styles.changeImage}>Change Image</Text>
+                </TouchableHighlight>
+              </Image>
+            </View>
+            <View style={styles.formRow}>
+              <TextInput
+                style={styles.textfield}
+                value={this.state.firstname}
+                onChangeText={(text) => this.setState({firstname: text})}
+              />
+            </View>
+            <View style={styles.formRow}>
+              <TextInput
+                style={styles.textfield}
+                value={this.state.email}
+                onChangeText={(text) => this.setState({email: text})}
+              />
+            </View>
+            <View style={styles.formRow}>
+              <TextInput
+                style={[styles.textfield]}
+                value={this.state.bio}
+                onChangeText={(text) => this.setState({bio: text})}
+              />
+            </View>
+            <View style={[styles.tallFormRow]}>
+              <Text style={styles.formLabel}>Birthday Month</Text>
+              <PickerIOS
+                style={styles.picker}
+                selectedValue={this.state.bday_month}
+                key={'monthpick'}
+                onValueChange={(bday_month) => this.setState({bday_month})}>
+                {monthList.map( (month, index) => (
+                    <PickerItemIOS
+                      key={'month_' + index}
+                      value={index}
+                      label={month}
+                    />
+                  ))
+                }
+              </PickerIOS>
+            </View>
+            <View style={[styles.tallFormRow]}>
+              <Text style={styles.formLabel}>Body Type</Text>
+              <PickerIOS
+                style={styles.picker}
+                selectedValue={this.state.body_type}
+                key={'bodytypepick'}
+                onValueChange={(body_type) => this.setState({body_type})}>
+                {bodyTypes.map( (bodyType, index) => (
+                    <PickerItemIOS
+                      key={'bodyType-' + index}
+                      value={index}
+                      label={bodyType}
+                    />
+                  ))
+                }
+              </PickerIOS>
+            </View>
+          </View>
+
+          <Text style={styles.header}>Privacy</Text>
+          <View style={[styles.card]}>
+            <TouchableHighlight onPress={this._renderPrivacy.bind(this)}>
+              <Text style={[styles.header,styles.privacy]}>{this.props.user.privacy}</Text>
             </TouchableHighlight>
-          </Image>
-        </View>
-        <View style={styles.formRow}>
-          <TextInput
-            style={styles.textfield}
-            value={this.state.firstname}
-            onChangeText={(text) => this.setState({firstname: text})}
-          />
-        </View>
-        <View style={styles.formRow}>
-          <TextInput
-            style={styles.textfield}
-            value={this.state.email}
-            onChangeText={(text) => this.setState({email: text})}
-          />
-        </View>
-        <View style={styles.formRow}>
-          <TextInput
-            style={[styles.textfield]}
-            value={this.state.bio}
-            onChangeText={(text) => this.setState({bio: text})}
-          />
-        </View>
-      </View>
 
-      <Text style={styles.header}>Privacy</Text>
-      <View style={[styles.card]}>
-        <TouchableHighlight onPress={this._renderPrivacy.bind(this)}>
-          <Text style={[styles.header,styles.privacy]}>{this.props.user.privacy}</Text>
-        </TouchableHighlight>
+          </View>
 
-      </View>
+          <Text style={styles.header}>Looking For</Text>
+          {this.props.user.relationship_status == 'couple' ?
+            <CoupleLookingFor/> :
+            <SingleLookingFor/>
+          }
 
-      <Text style={styles.header}>Looking For</Text>
-      {this.props.user.relationship_status == 'couple' ?
-        <CoupleLookingFor/> :
-        <SingleLookingFor/>
-      }
+          <Text style={styles.header}>Looking For</Text>
 
-      <Text style={styles.header}>Looking For</Text>
-       <View style={styles.card} pointerEvents={'box-none'}>
-         <DistanceSlider/>
+
+          <View style={styles.card} pointerEvents={'box-none'}>
+
+            <Text style={styles.formLabel}>Age</Text>
+            <View style={styles.formRow}><DistanceSlider/></View>
+            <View style={styles.formRow}><DistanceSlider/></View>
+
+            <Text style={styles.formLabel}>Distance</Text>
+            <View style={styles.formRow}><DistanceSlider/></View>
+
+          </View>
+
+         </ScrollView>
+
        </View>
-
-     </ScrollView>
-
-     </View>
-   );
- }
+     );
+  }
 }
 
 module.exports = Settings;

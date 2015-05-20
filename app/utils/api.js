@@ -1,6 +1,6 @@
 'use strict';
 
-var serverUrl = 'http://192.168.1.146:9920/user';
+var serverUrl = 'http://192.168.2.4:9920/user';
 
 function publicRequest(endpoint, payload){
 

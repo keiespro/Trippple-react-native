@@ -14,7 +14,6 @@ var Privacy = React.createClass({
 
     return (
       <View style={styles.container}>
-
         <TouchableHighlight onPress={this._getCameraRoll}>
           <Text style={styles.textS}>Public</Text>
         </TouchableHighlight>

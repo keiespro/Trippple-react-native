@@ -27,14 +27,18 @@ var styles = StyleSheet.create({
   },
   innerContainer:{
     backgroundColor: '#fff',
-    paddingBottom:20,
+    paddingBottom:50,
     paddingTop:0,
     alignSelf: 'stretch',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     width: undefined,
-    height: undefined
+    height: undefined,
+    bottom:0,
+    top:0,
+    left:0,
+    right:0
 
   },
 
@@ -49,6 +53,15 @@ var styles = StyleSheet.create({
     width: undefined,
     height: undefined
 
+  },
+  absoluteCard:{
+    position:'absolute',
+    backgroundColor: 'purple',
+
+    left:0,
+    right:0,
+    bottom:0,
+    top:0
   }
 });
 
@@ -103,8 +116,10 @@ var Potentials = React.createClass({
       <View style={styles.container} pointerEvents="box-none">
 
         <View style={styles.innerContainer} pointerEvents="box-none">
+          <View  key="useless" style={[styles.card,styles.absoluteCard]}/>
 
           <View
+            key="activecard"
             ref={(card) => {
               this.card = card;
             }}

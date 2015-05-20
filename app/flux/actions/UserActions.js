@@ -8,6 +8,10 @@ class UserActions {
         console.log(res);
         this.dispatch(res.response);
       })
+      .catch((err) => {
+        console.log(err);
+        this.dispatch();
+      })
   }
 
   login(phone,password){
@@ -16,6 +20,10 @@ class UserActions {
       .then((res) => {
         console.log(res);
         this.dispatch(res.response);
+      })
+      .catch((err) => {
+        console.log(err);
+        this.dispatch();
       })
   }
 
@@ -27,6 +35,10 @@ class UserActions {
         console.log(res);
         this.dispatch(res.response);
       })
+      .catch((err) => {
+        console.log(err);
+        this.dispatch();
+      })
   }
 
 
@@ -36,6 +48,10 @@ class UserActions {
       .then((res) => {
         console.log(res);
         this.dispatch(res.response);
+      })
+      .catch((err) => {
+        console.log(err);
+        this.dispatch();
       })
   }
 }

@@ -65,13 +65,13 @@ class Login extends React.Component{
    }
  }
 
- handlePhoneChange(event){
+ handlePhoneChange(event: any){
    this.setState({
      phone: event.nativeEvent.text
    })
  }
 
- handlePasswordChange(event){
+ handlePasswordChange(event: any){
    this.setState({
      password: event.nativeEvent.text
    })
