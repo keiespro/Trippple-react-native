@@ -17,15 +17,39 @@ class UserStore {
 
     this.bindListeners({
       handleGetUserInfo: UserActions.GET_USER_INFO,
-      handleLogin: UserActions.LOGIN
+      handleLogin: UserActions.LOGIN,
+      handleRegister: UserActions.REGISTER,
+      handleVerifyPin: UserActions.VERIFY_SECURITY_PIN
+
+
 
     });
+  }
+
+  handleVerifyPin(response){
+    var u = this.user;
+    console.log(u);
+    u.status = response.status;
+    this.setState({
+      user: u
+    })
+
   }
 
   handleGetUserInfo(user) {
     this.setState({
       user: user
     })
+  }
+
+  handleRegister(response) {
+    console.log(response);
+    this.setState({
+      user_id: response.user_id,
+      apikey: response.api_key,
+      user: response.user_info
+    });
+
   }
 
   handleLogin(response) {

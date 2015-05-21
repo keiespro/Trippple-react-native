@@ -18,10 +18,11 @@
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
-		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		AC03D1581B0C0F7B00D777BA /* libRNModal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC03D1571B0C0F6300D777BA /* libRNModal.a */; };
+		AC03D1DB1B0D559900D777BA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC03D1DA1B0D559900D777BA /* Images.xcassets */; };
 		AC84FD741B0857CE000B4D46 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC84FD731B0857C9000B4D46 /* libRCTWebSocket.a */; };
 		AC84FD881B086096000B4D46 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC84FD871B086096000B4D46 /* libRCTCamera.a */; };
 		AC84FE061B088B59000B4D46 /* omnes-bold-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC84FE021B088B59000B4D46 /* omnes-bold-webfont.ttf */; };
@@ -101,6 +102,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		AC03D1561B0C0F6300D777BA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC03D1471B0C0F6200D777BA /* RNModal.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNModal;
+		};
 		AC84FD721B0857C9000B4D46 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AC84FD6E1B0857C9000B4D46 /* RCTWebSocket.xcodeproj */;
@@ -132,12 +140,13 @@
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = iOS/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = iOS/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = iOS/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = iOS/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = iOS/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		AC03D1471B0C0F6200D777BA /* RNModal.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNModal.xcodeproj; path = "node_modules/react-native-modal/RNModal.xcodeproj"; sourceTree = "<group>"; };
+		AC03D1DA1B0D559900D777BA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		AC84FD641B0850EE000B4D46 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "node_modules/react-native-camera/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
 		AC84FD6E1B0857C9000B4D46 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		AC84FD871B086096000B4D46 /* libRCTCamera.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRCTCamera.a; path = "node_modules/react-native-camera/build/Debug-iphoneos/libRCTCamera.a"; sourceTree = "<group>"; };
@@ -159,6 +168,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC03D1581B0C0F7B00D777BA /* libRNModal.a in Frameworks */,
 				AC84FD741B0857CE000B4D46 /* libRCTWebSocket.a in Frameworks */,
 				AC84FD881B086096000B4D46 /* libRCTCamera.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -244,6 +254,7 @@
 		13B07FAE1A68108700A75B9A /* Trippple */ = {
 			isa = PBXGroup;
 			children = (
+				AC03D1DA1B0D559900D777BA /* Images.xcassets */,
 				AC84FE021B088B59000B4D46 /* omnes-bold-webfont.ttf */,
 				AC84FE031B088B59000B4D46 /* omnes-light-webfont.ttf */,
 				AC84FE041B088B59000B4D46 /* omnes-medium-webfont.ttf */,
@@ -251,7 +262,6 @@
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
-				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -278,6 +288,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				AC03D1471B0C0F6200D777BA /* RNModal.xcodeproj */,
 				AC84FD6E1B0857C9000B4D46 /* RCTWebSocket.xcodeproj */,
 				AC84FD641B0850EE000B4D46 /* RCTCamera.xcodeproj */,
 				78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */,
@@ -319,6 +330,14 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* Trippple.app */,
 				00E356EE1AD99517003FC87E /* TripppleTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AC03D1481B0C0F6200D777BA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC03D1571B0C0F6300D777BA /* libRNModal.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -448,6 +467,10 @@
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
+				{
+					ProductGroup = AC03D1481B0C0F6200D777BA /* Products */;
+					ProjectRef = AC03D1471B0C0F6200D777BA /* RNModal.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -521,6 +544,13 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		AC03D1571B0C0F6300D777BA /* libRNModal.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNModal.a;
+			remoteRef = AC03D1561B0C0F6300D777BA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		AC84FD731B0857C9000B4D46 /* libRCTWebSocket.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -552,9 +582,9 @@
 				AC84FE061B088B59000B4D46 /* omnes-bold-webfont.ttf in Resources */,
 				008F07F31AC5B25A0029DE68 /* main.jsbundle in Resources */,
 				AC84FE081B088B59000B4D46 /* omnes-medium-webfont.ttf in Resources */,
+				AC03D1DB1B0D559900D777BA /* Images.xcassets in Resources */,
 				AC84FE071B088B59000B4D46 /* omnes-light-webfont.ttf in Resources */,
 				AC84FE091B088B59000B4D46 /* omnes-regular-webfont.ttf in Resources */,
-				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -643,6 +673,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -664,6 +695,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,

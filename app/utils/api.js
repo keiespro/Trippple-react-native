@@ -1,6 +1,6 @@
 'use strict';
 
-var serverUrl = 'http://192.168.2.4:9920/user';
+var serverUrl = 'http://192.168.1.146:9920/user';
 
 function publicRequest(endpoint, payload){
 
@@ -11,7 +11,12 @@ function publicRequest(endpoint, payload){
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(payload)
-  }).then((res) => res.json())
+  })
+  .then((res) => res.json())
+  .catch((err) => {
+    console.log('error',err);
+    // this.dispatch();
+  })
 
 };
 
@@ -34,10 +39,9 @@ var api = {
     })
   },
 
-  register(phone,password){
+  register(phone,password1,password2){
     return publicRequest('register', {
-      phone: phone,
-      password1: password,
+      phone, password1, password2,
     })
   },
 

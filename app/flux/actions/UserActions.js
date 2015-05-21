@@ -14,6 +14,16 @@ class UserActions {
       })
   }
 
+  verifySecurityPin(pin, phone){
+    console.log('verify action');
+    Api.verifyPin(pin, phone)
+      .then((res) => {
+        console.log(res);
+        this.dispatch(res.response);
+      })
+
+  }
+
   login(phone,password){
     console.log('login action');
     Api.login(phone,password)
@@ -22,23 +32,20 @@ class UserActions {
         this.dispatch(res.response);
       })
       .catch((err) => {
-        console.log(err);
+        console.log('error');
         this.dispatch();
       })
   }
 
 
-  register(phone,password){
+  register(phone,password,password2){
     console.log('register action');
-    Api.register(phone,password)
+    Api.register(phone,password,password2)
       .then((res) => {
         console.log(res);
         this.dispatch(res.response);
       })
-      .catch((err) => {
-        console.log(err);
-        this.dispatch();
-      })
+
   }
 
 

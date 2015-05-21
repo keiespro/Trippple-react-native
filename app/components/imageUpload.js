@@ -9,11 +9,27 @@ var {
 
 var CameraControl = require('../controls/cameraControl');
 
-var ImageUpload = React.createClass({
-  render() {
+var Img = React.createClass({
+  _getCameraRoll() {
 
+
+  },
+  _getCamera() {
+
+
+    this.props.nav.push({
+      component: CameraControl,
+      id:'photo2',
+      title: 'photo2',
+      passProps:{
+        x:2
+      }
+    })
+
+  },
+  render(){
     return (
-      <View style={styles.container}>
+    <View style={styles.container}>
 
         <TouchableHighlight onPress={this._getCameraRoll}>
           <Text style={styles.textS}>Camera Roll</Text>
@@ -21,28 +37,29 @@ var ImageUpload = React.createClass({
         <TouchableHighlight onPress={this._getCamera}>
           <Text style={[styles.textS,styles.textbottom]}>Take Picture</Text>
         </TouchableHighlight>
-      </View>
+
+
+    </View>)
+  }
+})
+var ImageUpload = React.createClass({
+  render() {
+
+    return (
+      <View>
+      <Navigator
+        ref="nav"
+        initialRoute={{
+           component: Img,
+           title: 'Image Upload',
+           passProps: {},
+           sceneConfig: Navigator.SceneConfigs.FloatFromBottom
+         }}
+          />
+        </View>
     );
   },
-  _getCameraRoll() {
 
-
-  },
-  _getCamera() {
-
-    var nav = Navigator.getContext(this);
-    console.log(nav,nav.parentNavigator);
-    nav.push({
-      component: CameraControl,
-      id:'photo2',
-      title: 'photo2',
-      passProps:{
-        x:2
-      },
-      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
-    })
-
-  }
 });
 
 
@@ -51,7 +68,9 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: 'red',
+    alignSelf: 'stretch',
+    height:400
   },
   textS:{
     color:'#111'

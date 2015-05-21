@@ -12,7 +12,6 @@ var {
 } = React;
 
 
-var Api = require("../utils/api");
 var UserActions = require('../flux/actions/UserActions');
 
 
@@ -36,7 +35,7 @@ var styles = StyleSheet.create({
  },
  buttonText: {
    fontSize: 18,
-   color: '#111',
+   color: '#fff',
    alignSelf: 'center',
    fontFamily:'omnes'
 
@@ -44,7 +43,7 @@ var styles = StyleSheet.create({
  button: {
    height: 45,
    flexDirection: 'row',
-   backgroundColor: 'white',
+   backgroundColor: 'transparent',
    borderColor: 'white',
    borderWidth: 1,
    borderRadius: 8,
@@ -54,13 +53,14 @@ var styles = StyleSheet.create({
    justifyContent: 'center'
  },
 });
-class Login extends React.Component{
+class Register extends React.Component{
 
  constructor(props){
    super(props);
    this.state = {
-     phone: '3055282534',
-     password: 'lopeh',
+     phone: '',
+     password: '',
+     password2: '',
      isLoading: false
    }
  }
@@ -77,12 +77,20 @@ class Login extends React.Component{
    })
  }
 
- handleLogin(){
-   UserActions.login(this.state.phone,this.state.password)
+ handlePassword2Change(event: any){
+   this.setState({
+     password2: event.nativeEvent.text
+   })
  }
- handleBack(){
-   this.props.navigator.pop();
+
+ handleSubmit(){
+   UserActions.register(this.state.phone,this.state.password,this.state.password2)
  }
+
+handleBack(){
+  this.props.navigator.pop();
+}
+
  render(){
    return (
      <View style={styles.container}>
@@ -100,11 +108,19 @@ class Login extends React.Component{
          autoCapitalize={'none'}
          onChange={this.handlePasswordChange.bind(this)}
        />
+       <TextInput
+         style={styles.phoneInput}
+         value={this.state.password2 || ''}
+         password={true}
+         keyboardType={'default'}
+         autoCapitalize={'none'}
+         onChange={this.handlePassword2Change.bind(this)}
+       />
        <TouchableHighlight
           style={styles.button}
-          onPress={this.handleLogin.bind(this)}
+          onPress={this.handleSubmit.bind(this)}
           underlayColor="black">
-          <Text style={styles.buttonText}> go </Text>
+          <Text style={styles.buttonText}>Register</Text>
        </TouchableHighlight>
 
        <TouchableHighlight
@@ -117,4 +133,4 @@ class Login extends React.Component{
  }
 }
 
-module.exports = Login;
+module.exports = Register;

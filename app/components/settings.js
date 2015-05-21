@@ -11,7 +11,7 @@ var {
   TextInput,
   ScrollView,
   Image,
-  Navigator,
+  NavigatorIOS,
   PickerIOS
 } = React;
 
@@ -22,6 +22,7 @@ var ToggleSwitch = require('../controls/switches');
 
 var ImageUpload = require('./imageUpload');
 var Privacy = require('./privacy');
+var Modal = require('react-native-modal');
 
 var monthList = [
 'January',
@@ -74,6 +75,11 @@ var styles = StyleSheet.create({
    flexDirection:'column',
    alignItems: 'stretch',
    justifyContent:'center'
+ },
+ red: {
+   backgroundColor: 'red',
+   height:300,
+   width:300
  },
 
  userimageContainer: {
@@ -147,6 +153,11 @@ var styles = StyleSheet.create({
    flex:1,
    fontFamily:'omnes',
    height:60
+ },
+ modal:{
+   height:500,
+   width:300,
+   backgroundColor: 'green'
  }
 });
 
@@ -201,38 +212,52 @@ class Settings extends React.Component{
       email: props.user.email,
       bday_year: props.user.bday_year,
       bday_month: props.user.bday_month,
-      body_type: null
+      body_type: null,
+      isModalOpen: false
     }
   }
 
-  _pressNewImage(){
+  openModal(page: string) {
+    this.setState({isModalOpen: page});
+  }
 
-    this.props.navigator.push({
-        component: ImageUpload,
-        id:'photo',
-        index: 4,
-        title: 'photo',
-        passProps:{
-          index: 4,
-        },
-        sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
-      })
+  closeModal() {
+    this.setState({isModalOpen: false});
+  }
+
+  _pressNewImage(){
+    console.log('change image')
+    this.openModal('imageupload')
+
   }
 
   _renderPrivacy(){
-    console.log(this.props.navigator)
-    this.props.navigator.push({
-        component: Privacy,
-        id:'privacy',
-        title: 'privacy',
-        passProps:{
-          privacy: this.props.user.privacy,
-        },
-        sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
-      })
+    this.openModal('privacy')
+    // console.log(this.props.navigator)
+    // this.props.navigator.push({
+    //     component: Privacy,
+    //     id:'privacy',
+    //     title: 'privacy',
+    //     passProps:{
+    //       privacy: this.props.user.privacy,
+    //     },
+    //     sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+    //   })
   }
 
   render(){
+    var modalWindow = ()=>{
+      if(!this.state.isModalOpen) return false;
+      switch (this.state.isModalOpen){
+        case 'privacy':
+        return (<Privacy />);
+
+        case 'imageupload':
+          return (<ImageUpload/>);
+        case 'default':
+          return null;
+      }
+    }
 
     return (
       <View style={styles.container}>
@@ -344,6 +369,20 @@ class Settings extends React.Component{
           </View>
 
          </ScrollView>
+
+         <Modal
+           containerPointerEvents={'box-none'}
+           isVisible={this.state.isModalOpen != false}
+           onPressBackdrop={this.closeModal.bind(this)}
+           backdropType={'blur'}
+           backdropBlur={'dark'}
+           forceToFront={true}
+           onClose={() => this.closeModal.bind(this)}
+           >
+            <View style={styles.modal}>
+              {modalWindow()}
+           </View>
+         </Modal>
 
        </View>
      );
