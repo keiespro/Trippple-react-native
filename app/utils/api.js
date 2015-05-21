@@ -1,17 +1,17 @@
 'use strict';
 var Keychain = require('Keychain');
 
-var server = 'http://api2.trippple.co';
+const server = 'http://api2.trippple.co';
 
 
 
 
 
-var serverUrl = 'http://192.168.1.146:9920/user';
+const SERVER_URL = 'http://192.168.1.146:9920/user';
 
 function publicRequest(endpoint, payload){
 
-  return fetch( `${serverUrl}/${endpoint}`, {
+  return fetch( `${SERVER_URL}/${endpoint}`, {
     method: 'post',
     headers: {
       'Accept': 'application/json',
@@ -31,7 +31,6 @@ function authenticatedRequest(endpoint: '', payload: {}){
   var payload = payload || {};
   console.log(payload,'payload')
 
-  var server = 'http://api2.trippple.co';
 
 
   return Keychain.getInternetCredentials(server)

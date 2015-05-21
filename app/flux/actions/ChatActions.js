@@ -23,7 +23,19 @@ class ChatActions {
       })
   }
 
+  getPotentials() {
 
+    Api.getPotentials({})
+      .then((res) => {
+        this.dispatch(res.response);
+      })
+  }
+
+  sendLike(likedUserID){
+
+    this.dispatch(likedUserID);
+
+  }
 }
 
 module.exports = alt.createActions(ChatActions);

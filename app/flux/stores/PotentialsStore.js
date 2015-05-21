@@ -1,5 +1,5 @@
 var alt = require('../alt');
-var UserActions = require('../actions/UserActions');
+var ChatActions = require('../actions/ChatActions');
 var AsyncStorage = require('react-native').AsyncStorage;
 
 
@@ -12,30 +12,52 @@ class PotentialsStore {
     }
 
     this.bindListeners({
-      handleGetPotentials: UserActions.GET_POTENTIALS
+      handleGetPotentials: ChatActions.GET_POTENTIALS,
+      handleSentLike: ChatActions.SEND_LIKE
     });
 
     this.on('init',()=>{
       console.log('store init')
+      ChatActions.getPotentials();
 
     })
     this.on('bootstrap', () => {
       console.log('store bootstrap');
 
     });
+
+    this.exportPublicMethods({
+      getAll: this.getAll
+
+    });
   }
 
 
   handleGetPotentials(potentials) {
-    console.log(potentials,'handlegetmatches');
-    if(potentials.length){
+    console.log(potentials,'POTENTIALS');
+    if(potentials.matches.length){
       this.setState({
-        potentials: potentials
+        potentials: potentials.matches
       });
     }
+  }
+
+  handleSentLike(likedUserID){
+
+    var shifted = this.potentials.shift();
+    console.log(shifted[0].id == likedUserID)
+    this.setState({
+      potentials: this.potentials
+    })
 
   }
 
+
+  getAll(){
+    console.log('POTSTORE',this.getState().potentials)
+    return this.getState().potentials || [];
+
+  }
 
 
 
