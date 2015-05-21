@@ -76,7 +76,7 @@ var styles = StyleSheet.create({
    padding: 0,
    borderRadius: 5,
    borderColor:'#ccc',
-   borderWidth:1,
+   borderWidth:0,
    marginBottom:15,
    overflow: 'hidden',
    margin: 0,

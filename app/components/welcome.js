@@ -13,6 +13,9 @@ var {
   TouchableHighlight
 } = React;
 
+var DeviceHeight = require('Dimensions').get('window').height;
+var DeviceWidth = require('Dimensions').get('window').width;
+
 var Register = require('./register');
 var Login = require('./login');
 var Facebook = require('./facebook');
@@ -135,9 +138,9 @@ class Carousel extends React.Component{
     var welcomeSlides = slides.map( (slide,i) => {
       return (
         <View key={i} style={styles.slide}>
-          <Image style={styles.slideImage} source={slide.img}/>
-          <Text style={[styles.textwrap,styles.textplain]}>{slide.title}</Text>
-          <Text style={[styles.textwrap,styles.textplain]}>{slide.content}</Text>
+          <Image style={styles.slideImage} source={slide.img} resizeMode={Image.resizeMode.contain}/>
+          <View style={styles.textwrap}><Text style={[styles.textplain]}>{slide.title}</Text></View>
+        <View style={styles.textwrap}><Text style={[styles.textplain]}>{slide.content}</Text></View>
         </View>
       )
     })
@@ -145,12 +148,7 @@ class Carousel extends React.Component{
       <ScrollView
         contentContainerStyle={styles.carousel}
         horizontal={true}
-        decelerationRate={0.99}
         showsHorizontalScrollIndicator={true}
-        pagingEnabled={true}
-        scrollEnabled={true}
-        onScrollAnimationEnd={() => { console.log('onScrollAnimationEnd!'); }}
-        onScroll={() => { console.log('onScroll!'); }}
         >
           {welcomeSlides}
       </ScrollView>
@@ -221,18 +219,20 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#6A85B1',
     padding:20,
     alignSelf:'stretch'
   },
   textplain:{
-    color:'#111',
-    fontSize:30,
-    fontFamily:'omnes'
+    color:'#fff',
+    alignSelf:'center',
+    fontSize:26,
+    fontFamily:'omnes',
+    textAlign:'center'
   },
   buttonText: {
-    fontSize: 18,
-    color: '#111',
+    fontSize: 24,
+    color: '#fff',
     alignSelf: 'center',
     fontFamily:'omnes'
 
@@ -241,8 +241,8 @@ var styles = StyleSheet.create({
     // overflow:'hidden'
     alignSelf: 'stretch',
     height: undefined,
-
-    width:1280
+width: DeviceWidth,
+flex:1,
 
 
   },
@@ -250,18 +250,20 @@ var styles = StyleSheet.create({
     // overflow:'hidden',
     alignSelf:'stretch',
     height:undefined,
-    width: undefined,
+    width: DeviceWidth,
+    flex:1,
+    top:0
   },
   slide:{
-    alignSelf: 'stretch',
-    width: 320,
+    width: DeviceWidth,
     flexDirection:'column',
-    flexWrap:'wrap',
-    backgroundColor: 'red',
+    alignItems:'center',
+    justifyContent:'flex-start',
+    flexWrap:'nowrap',
   },
   slideImage:{
-    width: 200,
-    height: 200,
+    width: 150,
+    height:400
   },
   bottomarea:{
     height:100,
@@ -269,14 +271,16 @@ var styles = StyleSheet.create({
     alignSelf:'stretch'
   },
   textwrap:{
+    alignItems:'center',
+    justifyContent:'center',
 
   },
   button: {
     height: 45,
     flexDirection: 'row',
-    backgroundColor: 'white',
-    borderColor: 'red',
-    borderWidth: 1,
+    backgroundColor: 'transparent',
+    borderColor: '#fff',
+    borderWidth: 2,
     borderRadius: 8,
     marginBottom: 10,
     marginTop: 10,

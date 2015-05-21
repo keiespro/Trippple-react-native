@@ -30,6 +30,7 @@
 		AC03D1EA1B0DA48600D777BA /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC03D1E61B0DA48600D777BA /* Bolts.framework */; };
 		AC03D1EC1B0DA4D000D777BA /* qq.aiff in Resources */ = {isa = PBXBuildFile; fileRef = AC03D1EB1B0DA4D000D777BA /* qq.aiff */; };
 		AC03D1F31B0DB8B300D777BA /* libRNMessageComposer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC03D1F21B0DB8AB00D777BA /* libRNMessageComposer.a */; };
+		AC03D1FA1B0DBBE600D777BA /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC03D1F91B0DBBDF00D777BA /* libRNKeychain.a */; };
 		AC84FD741B0857CE000B4D46 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC84FD731B0857C9000B4D46 /* libRCTWebSocket.a */; };
 		AC84FD881B086096000B4D46 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC84FD871B086096000B4D46 /* libRCTCamera.a */; };
 		AC84FE061B088B59000B4D46 /* omnes-bold-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC84FE021B088B59000B4D46 /* omnes-bold-webfont.ttf */; };
@@ -130,6 +131,13 @@
 			remoteGlobalIDString = C23F08041AFAB5C100312C72;
 			remoteInfo = RNMessageComposer;
 		};
+		AC03D1F81B0DBBDF00D777BA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC03D1F41B0DBBDF00D777BA /* RNKeychain.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5D82366F1B0CE05B005A9EF3;
+			remoteInfo = RNKeychain;
+		};
 		AC84FD721B0857C9000B4D46 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AC84FD6E1B0857C9000B4D46 /* RCTWebSocket.xcodeproj */;
@@ -175,6 +183,7 @@
 		AC03D1E61B0DA48600D777BA /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "node_modules/react-native-facebook-login/FacebookSDK/Bolts.framework"; sourceTree = "<group>"; };
 		AC03D1EB1B0DA4D000D777BA /* qq.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = qq.aiff; sourceTree = "<group>"; };
 		AC03D1ED1B0DB8AB00D777BA /* RNMessageComposer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMessageComposer.xcodeproj; path = "node_modules/react-native-message-composer/RNMessageComposer.xcodeproj"; sourceTree = "<group>"; };
+		AC03D1F41B0DBBDF00D777BA /* RNKeychain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNKeychain.xcodeproj; path = "node_modules/react-native-keychain/RNKeychain.xcodeproj"; sourceTree = "<group>"; };
 		AC84FD641B0850EE000B4D46 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "node_modules/react-native-camera/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
 		AC84FD6E1B0857C9000B4D46 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		AC84FD871B086096000B4D46 /* libRCTCamera.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRCTCamera.a; path = "node_modules/react-native-camera/build/Debug-iphoneos/libRCTCamera.a"; sourceTree = "<group>"; };
@@ -196,6 +205,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC03D1FA1B0DBBE600D777BA /* libRNKeychain.a in Frameworks */,
 				AC03D1F31B0DB8B300D777BA /* libRNMessageComposer.a in Frameworks */,
 				AC03D1E21B0DA47500D777BA /* libRCTFBLogin.a in Frameworks */,
 				AC03D1581B0C0F7B00D777BA /* libRNModal.a in Frameworks */,
@@ -323,6 +333,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				AC03D1F41B0DBBDF00D777BA /* RNKeychain.xcodeproj */,
 				AC03D1ED1B0DB8AB00D777BA /* RNMessageComposer.xcodeproj */,
 				AC03D1E31B0DA48600D777BA /* FBSDKShareKit.framework */,
 				AC03D1E41B0DA48600D777BA /* FBSDKLoginKit.framework */,
@@ -395,6 +406,14 @@
 			isa = PBXGroup;
 			children = (
 				AC03D1F21B0DB8AB00D777BA /* libRNMessageComposer.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AC03D1F51B0DBBDF00D777BA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC03D1F91B0DBBDF00D777BA /* libRNKeychain.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -529,6 +548,10 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
+					ProductGroup = AC03D1F51B0DBBDF00D777BA /* Products */;
+					ProjectRef = AC03D1F41B0DBBDF00D777BA /* RNKeychain.xcodeproj */;
+				},
+				{
 					ProductGroup = AC03D1EE1B0DB8AB00D777BA /* Products */;
 					ProjectRef = AC03D1ED1B0DB8AB00D777BA /* RNMessageComposer.xcodeproj */;
 				},
@@ -628,6 +651,13 @@
 			fileType = archive.ar;
 			path = libRNMessageComposer.a;
 			remoteRef = AC03D1F11B0DB8AB00D777BA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AC03D1F91B0DBBDF00D777BA /* libRNKeychain.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNKeychain.a;
+			remoteRef = AC03D1F81B0DBBDF00D777BA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		AC84FD731B0857C9000B4D46 /* libRCTWebSocket.a */ = {

@@ -1,4 +1,11 @@
 'use strict';
+var Keychain = require('Keychain');
+
+var server = 'http://api2.trippple.co';
+
+
+
+
 
 var serverUrl = 'http://192.168.1.146:9920/user';
 
@@ -23,10 +30,20 @@ function publicRequest(endpoint, payload){
 function authenticatedRequest(endpoint: '', payload: {}){
   var payload = payload || {};
   console.log(payload,'payload')
-  payload.user_id = 450;
-  payload.api_key = 'beb9bac01c65e5aac1ddb0aafede274e32ada79b';
 
-  return publicRequest(endpoint, payload);
+  var server = 'http://api2.trippple.co';
+
+
+  return Keychain.getInternetCredentials(server)
+    .then(function(credentials) {
+      console.log('Credentials successfully loaded', credentials);
+      payload.user_id = credentials['username'];
+      payload.api_key = credentials['password'];
+
+      return publicRequest(endpoint, payload);
+
+    });
+
 
 };
 

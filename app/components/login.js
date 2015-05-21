@@ -21,7 +21,7 @@ var styles = StyleSheet.create({
    flex: 1,
    justifyContent: 'center',
    alignItems: 'center',
-   backgroundColor: '#000000',
+   backgroundColor: '#6A85B1',
    padding: 10
  },
  phoneInput: {
@@ -36,7 +36,7 @@ var styles = StyleSheet.create({
  },
  buttonText: {
    fontSize: 18,
-   color: '#111',
+   color: '#fff',
    alignSelf: 'center',
    fontFamily:'omnes'
 
@@ -44,9 +44,9 @@ var styles = StyleSheet.create({
  button: {
    height: 45,
    flexDirection: 'row',
-   backgroundColor: 'white',
+   backgroundColor: 'transparent',
    borderColor: 'white',
-   borderWidth: 1,
+   borderWidth: 2,
    borderRadius: 8,
    marginBottom: 10,
    marginTop: 10,

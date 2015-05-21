@@ -1,5 +1,6 @@
 var alt = require('../alt');
 var UserActions = require('../actions/UserActions');
+var Keychain = require('Keychain');
 
 class UserStore {
   constructor() {
@@ -44,22 +45,39 @@ class UserStore {
 
   handleRegister(response) {
     console.log(response);
-    this.setState({
-      user_id: response.user_id,
-      apikey: response.api_key,
-      user: response.user_info
-    });
+
+    var server = 'http://api2.trippple.co';
+
+    Keychain
+      .setInternetCredentials(server, response.user_id, response.api_key)
+      .then(()=> {
+        console.log('Credentials saved successfully!')
+        this.setState({
+          user_id: response.user_id,
+          apikey: response.api_key,
+          user: response.user_info
+        });
+
+      });
 
   }
 
   handleLogin(response) {
     console.log(response);
-    this.setState({
-      user_id: response.user_id,
-      apikey: response.api_key,
-      user: response.user_info
-    });
 
+        var server = 'http://api2.trippple.co';
+
+        Keychain
+          .setInternetCredentials(server, response.user_id, response.api_key)
+          .then(()=> {
+            console.log('Credentials saved successfully!')
+            this.setState({
+              user_id: response.user_id,
+              apikey: response.api_key,
+              user: response.user_info
+            });
+
+        });
   }
 
   getUser(){
