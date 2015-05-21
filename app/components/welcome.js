@@ -80,13 +80,13 @@ var IntroScreen = React.createClass({
       <Text style={[styles.textplain]}>Welcome Screen</Text>
         <TouchableHighlight
            style={styles.button}
-           onPress={this.handleLoginButton.bind(this)}
+           onPress={this.handleLoginButton}
            underlayColor="black">
            <Text style={styles.buttonText}>Login</Text>
         </TouchableHighlight>
         <TouchableHighlight
            style={styles.button}
-           onPress={this.handleRegisterButton.bind(this)}
+           onPress={this.handleRegisterButton}
            underlayColor="black">
            <Text style={styles.buttonText}>Register</Text>
         </TouchableHighlight>

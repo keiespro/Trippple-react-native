@@ -41,6 +41,12 @@ var monthList = [
 'November',
 'December'
 ];
+var yearsList = [],
+    currentyear = new Date().getFullYear();
+;
+for(var i = currentyear - 18; i >= currentyear - 65; i--){
+  yearsList.push(i);
+}
 
 
 var bodyTypes = [
@@ -119,18 +125,27 @@ var styles = StyleSheet.create({
    left:0,
    height:220,
    alignSelf:'stretch',
-
+   alignItems: 'center',
+   flexDirection: 'row',
+   justifyContent: 'center'
  },
  sliderFormRow:{
    height:160,
-
+   paddingLeft: 30,
+   paddingRight:30
  },
  picker:{
    height:200,
    alignItems: 'stretch',
    flexDirection: 'column',
-   alignSelf:'stretch',
-   justifyContent:'center'
+   alignSelf:'flex-end',
+   justifyContent:'center',
+ },
+ halfcell:{
+   width:DeviceWidth/2,
+   alignItems: 'center',
+   alignSelf:'center',
+   justifyContent:'space-around'
 
 
  },
@@ -263,6 +278,24 @@ class Settings extends React.Component{
     //     sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
     //   })
   }
+  //
+  // <View>
+  //   <PickerIOS
+  //     key={'yearpicker'}
+  //     style={styles.picker}
+  //     selectedValue={this.state.bday_year}
+  //     onValueChange={(bday_year) => this.setState({bday_year})}>
+  //     {yearsList.map( (year, index) => (
+  //         <PickerItemIOS
+  //           key={'y_' + index}
+  //           value={year}
+  //           label={year}
+  //         />
+  //       ))
+  //     }
+  //   </PickerIOS>
+  //
+  // </View>
 
   render(){
     var modalWindow = ()=>{
@@ -323,22 +356,26 @@ class Settings extends React.Component{
                 onChangeText={(text) => this.setState({bio: text})}
               />
             </View>
+            <Text style={styles.formLabel}>Birthday </Text>
+
             <View style={[styles.tallFormRow]}>
-              <Text style={styles.formLabel}>Birthday Month</Text>
-              <PickerIOS
-                style={styles.picker}
-                selectedValue={this.state.bday_month}
-                key={'monthpick'}
-                onValueChange={(bday_month) => this.setState({bday_month})}>
-                {monthList.map( (month, index) => (
-                    <PickerItemIOS
-                      key={'month_' + index}
-                      value={index}
-                      label={month}
-                    />
-                  ))
-                }
-              </PickerIOS>
+              <View style={styles.halfcell}>
+                <PickerIOS
+                  style={styles.picker}
+                  selectedValue={this.state.bday_month}
+                  onValueChange={(bday_month) => this.setState({bday_month})}>
+                  {monthList.map( (month, index) => (
+                      <PickerItemIOS
+                        key={'month_' + index}
+                        value={index}
+                        label={month}
+                      />
+                    ))
+                  }
+                </PickerIOS>
+              </View>
+
+
             </View>
             <View style={[styles.tallFormRow]}>
               <Text style={styles.formLabel}>Body Type</Text>

@@ -80,6 +80,7 @@ class MatchList extends React.Component{
 
       return (
         <Image
+          key={i+'userimage'}
           style={!i ? styles.thumb : [styles.thumb, styles.rightthumb]}
           source={{uri: user.thumb_url}}
           defaultSource={require('image!defaultuser')}
@@ -91,7 +92,7 @@ class MatchList extends React.Component{
     });
 
     return (
-      <TouchableHighlight onPress={() => this._pressRow(rowData.match_id)} key={rowData.match_id}>
+      <TouchableHighlight onPress={() => this._pressRow(rowData.match_id)} key={rowData.match_id+'match'}>
         <View>
           <View style={styles.row}>
             <View style={styles.thumbswrap}>
