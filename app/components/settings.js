@@ -62,7 +62,7 @@ var styles = StyleSheet.create({
    overflow:'hidden'
  },
  inner:{
-   padding: 20,
+   padding: 0,
 
  },
  card: {
@@ -77,7 +77,6 @@ var styles = StyleSheet.create({
    flex:1,
    flexDirection:'column',
    alignItems: 'stretch',
-   justifyContent:'center'
  },
  red: {
    backgroundColor: 'red',
@@ -113,13 +112,17 @@ var styles = StyleSheet.create({
    paddingLeft: 15,
    paddingRight:15,
    backgroundColor:'#fff',
-   height:60
+   height:60,
  },
  tallFormRow: {
    width: 250,
    left:0,
    height:220,
    alignSelf:'stretch',
+
+ },
+ sliderFormRow:{
+   height:160,
 
  },
  picker:{
@@ -376,11 +379,11 @@ class Settings extends React.Component{
           <View style={styles.card} pointerEvents={'box-none'}>
 
             <Text style={styles.formLabel}>Age</Text>
-            <View style={styles.formRow}><DistanceSlider/></View>
-            <View style={styles.formRow}><DistanceSlider/></View>
+            <View style={[styles.formRow, styles.sliderFormRow]}><DistanceSlider/></View>
+            <View style={[styles.formRow, styles.sliderFormRow]}><DistanceSlider/></View>
 
             <Text style={styles.formLabel}>Distance</Text>
-            <View style={styles.formRow}><DistanceSlider/></View>
+            <View style={[styles.formRow, styles.sliderFormRow]}><DistanceSlider/></View>
 
           </View>
 

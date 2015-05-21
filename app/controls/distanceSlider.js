@@ -58,10 +58,18 @@ var DistanceSlider = React.createClass({
 var styles = StyleSheet.create({
   container:{
     height:150,
+    flex:1,
+    alignSelf:'stretch',
+    alignItems:'stretch',
+    left:0,
+    right:0
   },
   slider: {
     height: 100,
-    margin: 0,
+    alignSelf:'stretch',
+    flex:1,
+    left:0,
+    right:0
   },
   text: {
     fontSize: 14,
