@@ -16,6 +16,7 @@ var {
 var Register = require('./register');
 var Login = require('./login');
 var Facebook = require('./facebook');
+var Composer = require('NativeModules').RNMessageComposer;
 
 var slides = [
   {
@@ -72,7 +73,34 @@ var IntroScreen = React.createClass({
     })
   },
 
-
+  handleSendMessage(){
+    Composer.composeMessageWithArgs(
+    {
+        'messageText':'My sample message body text',
+        'subject':'My Sample Subject',
+        'recipients':['3055282534']
+    },
+    (result) => {
+        switch(result) {
+            case Composer.Sent:
+                console.log('the message has been sent');
+                break;
+            case Composer.Cancelled:
+                console.log('user cancelled sending the message');
+                break;
+            case Composer.Failed:
+                console.log('failed to send the message');
+                break;
+            case Composer.NotSupported:
+                console.log('this device does not support sending texts');
+                break;
+            default:
+                console.log('something unexpected happened');
+                break;
+        }
+    }
+    );
+  },
   render(){
     console.log('render intro',this.props.route)
     return(
@@ -91,6 +119,12 @@ var IntroScreen = React.createClass({
            <Text style={styles.buttonText}>Register</Text>
         </TouchableHighlight>
         <Facebook/>
+          <TouchableHighlight
+             style={styles.button}
+             onPress={this.handleSendMessage}
+             underlayColor="black">
+             <Text style={styles.buttonText}>send text</Text>
+          </TouchableHighlight>
       </View>
     )
   }
@@ -188,6 +222,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
+    padding:20,
     alignSelf:'stretch'
   },
   textplain:{
