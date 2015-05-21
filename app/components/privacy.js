@@ -10,14 +10,22 @@ var {
 
 
 var Privacy = React.createClass({
+  goPrivate(){
+
+    console.log(this.props.navigator);
+
+  },
+  goPublic(){
+
+  },
   render() {
 
     return (
       <View style={styles.container}>
-        <TouchableHighlight onPress={this._getCameraRoll}>
+        <TouchableHighlight onPress={this.goPublic}>
           <Text style={styles.textS}>Public</Text>
         </TouchableHighlight>
-        <TouchableHighlight onPress={this._getCamera}>
+        <TouchableHighlight onPress={this.goPrivate}>
           <Text style={[styles.textS,styles.textbottom]}>Private</Text>
         </TouchableHighlight>
       </View>

@@ -3,33 +3,35 @@ var {
   StyleSheet,
   Text,
   View,
+  NavigatorIOS,
   Navigator,
   TouchableHighlight
 } = React;
 
-var CameraControl = require('../controls/cameraControl');
+
+
+// var CameraControl = require('../controls/cameraControl');
 
 var Img = React.createClass({
   _getCameraRoll() {
 
-
+    console.log('getcameraroll')
   },
   _getCamera() {
+    console.log('get camera')
 
 
-    this.props.nav.push({
-      component: CameraControl,
-      id:'photo2',
-      title: 'photo2',
-      passProps:{
-        x:2
-      }
-    })
+    // this.props.nav.push({
+    //   component: CameraControl,
+    //   id:'camera',
+    //   title: 'camera'
+    //
+    // })
 
   },
   render(){
     return (
-    <View style={styles.container}>
+    <View style={styles.incontainer}>
 
         <TouchableHighlight onPress={this._getCameraRoll}>
           <Text style={styles.textS}>Camera Roll</Text>
@@ -43,20 +45,28 @@ var Img = React.createClass({
   }
 })
 var ImageUpload = React.createClass({
+  _renderScene(route: Navigator.route, navigator: Navigator) {
+    return (<route.component {...route.passProps} navigator={this.props.navigator} user={this.props.user} />);
+  },
+
   render() {
 
     return (
-      <View>
       <Navigator
         ref="nav"
+
         initialRoute={{
+          title: 'Image',
            component: Img,
-           title: 'Image Upload',
-           passProps: {},
-           sceneConfig: Navigator.SceneConfigs.FloatFromBottom
+           passProps: {
+             stuff: 'yes'
+           },
+           wrapperStyle: styles.container,
          }}
+         renderScene={this._renderScene}
+         tintColor='yellow'
+
           />
-        </View>
     );
   },
 
@@ -66,11 +76,11 @@ var ImageUpload = React.createClass({
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'red',
-    alignSelf: 'stretch',
-    height:400
+
+  },
+  incontainer:{
+    flex: 1,
+
   },
   textS:{
     color:'#111'

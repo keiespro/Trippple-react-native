@@ -11,11 +11,14 @@ var {
   TextInput,
   ScrollView,
   Image,
+  Navigator,
   NavigatorIOS,
   PickerIOS
 } = React;
 
 var PickerItemIOS = PickerIOS.Item;
+var DeviceHeight = require('Dimensions').get('window').height;
+var DeviceWidth = require('Dimensions').get('window').width;
 
 var DistanceSlider = require('../controls/distanceSlider');
 var ToggleSwitch = require('../controls/switches');
@@ -155,9 +158,12 @@ var styles = StyleSheet.create({
    height:60
  },
  modal:{
-   height:500,
-   width:300,
-   backgroundColor: 'green'
+   padding:20,
+   height:DeviceHeight-100,
+   width:undefined,
+   alignItems: 'stretch',
+   alignSelf: 'stretch',
+
  }
 });
 
@@ -223,6 +229,16 @@ class Settings extends React.Component{
 
   closeModal() {
     this.setState({isModalOpen: false});
+  }
+
+  showModalTransition(transition) {
+    transition('opacity', {duration: 200, begin: 0, end: 1});
+    transition('height', {duration: 200, begin: DeviceHeight * 2, end: DeviceHeight});
+  }
+
+  hideModalTransition(transition) {
+    transition('height', {duration: 200, begin: DeviceHeight, end: DeviceHeight * 2, reset: true});
+    transition('opacity', {duration: 200, begin: 1, end: 0});
   }
 
   _pressNewImage(){
@@ -377,6 +393,9 @@ class Settings extends React.Component{
            backdropType={'blur'}
            backdropBlur={'dark'}
            forceToFront={true}
+           customShowHandler={this.showModalTransition}
+           customHideHandler={this.hideModalTransition}
+
            onClose={() => this.closeModal.bind(this)}
            >
             <View style={styles.modal}>

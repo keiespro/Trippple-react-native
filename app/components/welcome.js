@@ -15,6 +15,7 @@ var {
 
 var Register = require('./register');
 var Login = require('./login');
+var Facebook = require('./facebook');
 
 var slides = [
   {
@@ -61,6 +62,16 @@ var IntroScreen = React.createClass({
       id:'login',
     })
   },
+  handleFacebookButton(){
+    console.log('handle FB login',this.props.navigator,this.props.route)
+
+    this.props.navigator.push({
+      component: Facebook,
+      title: 'FB Login',
+      id:'fblogin',
+    })
+  },
+
 
   render(){
     console.log('render intro',this.props.route)
@@ -79,6 +90,7 @@ var IntroScreen = React.createClass({
            underlayColor="black">
            <Text style={styles.buttonText}>Register</Text>
         </TouchableHighlight>
+        <Facebook/>
       </View>
     )
   }
@@ -236,6 +248,7 @@ var styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center'
   },
+
 });
 
 
