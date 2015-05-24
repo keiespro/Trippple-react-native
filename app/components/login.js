@@ -90,6 +90,8 @@ class Login extends React.Component{
          style={styles.phoneInput}
          value={this.state.phone || ''}
          keyboardType={'number-pad'}
+         placeholder={'Phone'}
+         placeholderTextColor='#fff'
          onChange={this.handlePhoneChange.bind(this)}
        />
        <TextInput
@@ -98,6 +100,8 @@ class Login extends React.Component{
          password={true}
          keyboardType={'default'}
          autoCapitalize={'none'}
+         placeholder={'Password'}
+         placeholderTextColor='#fff'
          onChange={this.handlePasswordChange.bind(this)}
        />
        <TouchableHighlight

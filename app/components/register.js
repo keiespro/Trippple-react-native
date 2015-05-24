@@ -98,6 +98,8 @@ handleBack(){
          style={styles.phoneInput}
          value={this.state.phone || ''}
          keyboardType={'number-pad'}
+         placeholder={'Phone'}
+         placeholderTextColor='#fff'
          onChange={this.handlePhoneChange.bind(this)}
        />
        <TextInput
@@ -106,6 +108,8 @@ handleBack(){
          password={true}
          keyboardType={'default'}
          autoCapitalize={'none'}
+         placeholder={'Password'}
+         placeholderTextColor='#fff'
          onChange={this.handlePasswordChange.bind(this)}
        />
        <TextInput
@@ -114,6 +118,8 @@ handleBack(){
          password={true}
          keyboardType={'default'}
          autoCapitalize={'none'}
+         placeholder={'Confirm Password'}
+         placeholderTextColor='#fff'
          onChange={this.handlePassword2Change.bind(this)}
        />
        <TouchableHighlight
