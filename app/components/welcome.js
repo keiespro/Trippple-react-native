@@ -13,6 +13,7 @@ var {
   TouchableHighlight
 } = React;
 
+var Swiper = require('react-native-swiper');
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 
@@ -145,13 +146,14 @@ class Carousel extends React.Component{
       )
     })
     return (
-      <ScrollView
-        contentContainerStyle={styles.carousel}
+      <Swiper
+        loop={true}
+        style={styles.wrapper}
         horizontal={true}
-        showsHorizontalScrollIndicator={true}
-        >
-          {welcomeSlides}
-      </ScrollView>
+        showsPagination={true}
+        showsButtons={false}>
+        {welcomeSlides}
+      </Swiper>
     )
   }
 }
