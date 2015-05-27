@@ -59,16 +59,22 @@ class SelectRelationshipStatus extends React.Component{
       <View style={styles.container}>
           <Text style={[styles.textplain]}>ONBOARDING</Text>
 
-          <TouchableHighlight onPress={this._selectCouple.bind(this)}>
+          <TouchableHighlight
+            style={[styles.fatbutton,(this.state.selection == 'couple' && styles.fatbuttonSelected)]}
+            onPress={this._selectCouple.bind(this)}>
             <Text style={[styles.textplain]}>Couple</Text>
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={this._selectSingle.bind(this)}>
+          <TouchableHighlight
+            style={[styles.fatbutton,(this.state.selection == 'single' && styles.fatbuttonSelected)]}
+            onPress={this._selectSingle.bind(this)}>
             <Text style={[styles.textplain]}>Single</Text>
           </TouchableHighlight>
 
           {this.state.selection ?
-            <TouchableHighlight style={styles.button} onPress={this._continue.bind(this)}>
+            <TouchableHighlight
+              style={styles.button}
+              onPress={this._continue.bind(this)}>
               <Text style={styles.buttonText}>Continue</Text>
             </TouchableHighlight> :
             <View style={[styles.button,styles.disabledButton]}>
@@ -89,6 +95,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
+    padding:20
   },
   textplain:{
     color:'#111',
@@ -124,6 +131,17 @@ var styles = StyleSheet.create({
     fontFamily:'omnes'
 
   },
+  fatbutton:{
+    padding:10,
+    height:100,
+    alignItems:'center',
+    justifyContent:'center',
+    alignSelf:'stretch',
+    marginVertical:10
+  },
+  fatbuttonSelected:{
+    backgroundColor:'green',
+  }
 });
 
 
