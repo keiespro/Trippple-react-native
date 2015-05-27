@@ -62,17 +62,17 @@ class LookingFor extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      'bday_year': this.props.user.bday_year || null,
-      'bday_month': this.props.user.bday_month || null,
-      firstname: this.props.user.firstname || null
+      'match_age_min': this.props.user.match_age_min || null,
+      'match_age_max': this.props.user.match_age_max || null,
+      'match_distance': this.props.user.match_distance || null
     }
   }
   _continue(){
     console.log('continue')
     UserActions.updateUser({
-      bday_year: this.state.bday_year,
-      bday_month: this.state.bday_month,
-      firstname: this.state.firstname,
+      match_age_min: this.state.match_age_min,
+      match_age_max: this.state.match_age_max,
+      match_distance: this.state.match_distance,
     })
 
 
@@ -82,7 +82,24 @@ class LookingFor extends React.Component{
       title:'image'
     })
   }
+  _setAgeMin(value){
 
+    this.setState({
+      match_age_min: value
+    })
+  }
+  _setAgeMax(value){
+
+    this.setState({
+      match_age_max: value
+    })
+  }
+  _setDistance(value){
+
+    this.setState({
+      match_distance: value
+    })
+  }
   render(){
     return(
       <View style={[styles.container,styles.padTop]}>
@@ -96,11 +113,11 @@ class LookingFor extends React.Component{
         <View pointerEvents={'box-none'}>
 
           <Text style={styles.formLabel}>Age</Text>
-          <View style={[styles.formRow, styles.sliderFormRow]}><DistanceSlider/></View>
-          <View style={[styles.formRow, styles.sliderFormRow]}><DistanceSlider/></View>
+          <View style={[styles.formRow, styles.sliderFormRow]}><DistanceSlider handler={this._setAgeMin.bind(this)} /></View>
+          <View style={[styles.formRow, styles.sliderFormRow]}><DistanceSlider handler={this._setAgeMax.bind(this)} /></View>
 
           <Text style={styles.formLabel}>Distance</Text>
-          <View style={[styles.formRow, styles.sliderFormRow]}><DistanceSlider/></View>
+          <View style={[styles.formRow, styles.sliderFormRow]}><DistanceSlider handler={this._setDistance.bind(this)} /></View>
 
         </View>
         <TouchableHighlight style={styles.continue} onPress={this._continue.bind(this)}>

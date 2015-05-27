@@ -148,14 +148,14 @@ class ChatInside extends React.Component{
   render(){
     return (
       <View style={styles.container}>
-          <ListView ref={'lister'}
+          {this.props.messages.length >= 0 ? <ListView ref={'lister'}
             style={styles.messageList}
               renderScrollView={
                 (props) => <InvertibleScrollView  {...props} inverted />
               }
               dataSource={this.state.dataSource.cloneWithRows(this.props.messages)}
               renderRow={this._renderRow.bind(this)}
-           />
+           /> : <Text>No chats</Text>}
 
           {/* TODO: use ios inputaccessorybar for input*/}
       </View>

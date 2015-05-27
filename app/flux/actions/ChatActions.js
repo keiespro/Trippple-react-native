@@ -28,8 +28,8 @@ class ChatActions {
       (geo) => {
         console.log(geo);
         var coordinates = {
-          lat: geo.coords.latitude,
-          lon: geo.coords.longitude
+          latitude: geo.coords.latitude,
+          longitude: geo.coords.longitude
         };
         Api.getPotentials(coordinates)
           .then((res) => {

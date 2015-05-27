@@ -174,8 +174,6 @@ class Settings extends React.Component{
       firstname: props.user.firstname,
       bio: props.user.bio,
       email: props.user.email,
-      bday_year: props.user.bday_year,
-      bday_month: props.user.bday_month,
       body_type: null,
       isModalOpen: false
     }
@@ -245,7 +243,7 @@ class Settings extends React.Component{
         return (<Privacy />);
 
         case 'imageupload':
-          return (<ImageUpload/>);
+          return (<Privacy/>);
         case 'default':
           return null;
       }

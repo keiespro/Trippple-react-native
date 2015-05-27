@@ -175,6 +175,7 @@ class Matches extends React.Component{
   }
 
   onChange(state) {
+    if(state.matches.length < 0) return false
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     InteractionManager.runAfterInteractions(() => {
