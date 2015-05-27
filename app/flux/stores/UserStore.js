@@ -80,9 +80,9 @@ class UserStore {
   }
 
   handleUpdateUser(wrap){
-    console.log('Handle Update User',wrap);
-
-    this.setState(wrap.updates);
+    var updatedUser = this.user;
+    Object.assign(updatedUser,wrap.updates);
+    this.setState({user:updatedUser});
   }
 
   getUser(){

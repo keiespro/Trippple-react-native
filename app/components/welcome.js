@@ -148,7 +148,7 @@ class Carousel extends React.Component{
     return (
       <Swiper
         loop={true}
-        style={styles.wrapper}
+        style={styles.carousel}
         horizontal={true}
         showsPagination={true}
         showsButtons={false}>
@@ -237,19 +237,11 @@ var styles = StyleSheet.create({
     fontFamily:'omnes'
 
   },
-  scrollview:{
-    // overflow:'hidden'
-    alignSelf: 'stretch',
-    height: undefined,
-width: DeviceWidth,
-flex:1,
 
-
-  },
   carousel:{
     // overflow:'hidden',
     flex:1,
-    top:0
+    marginTop:50
   },
   slide:{
     width: DeviceWidth,
@@ -257,16 +249,17 @@ flex:1,
     alignItems:'center',
     justifyContent:'flex-start',
     flexWrap:'nowrap',
+    padding:20
   },
   slideImage:{
     width: 150,
     height:380
   },
   bottomarea:{
-    height:100,
+    height:140,
     width: undefined,
     alignSelf:'stretch',
-    bottom:0
+    bottom:20
   },
   textwrap:{
     alignItems:'center',

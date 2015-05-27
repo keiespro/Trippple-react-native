@@ -24,11 +24,22 @@ class ChatActions {
   }
 
   getPotentials() {
+    navigator.geolocation.getCurrentPosition(
+      (geo) => {
+        console.log(geo);
+        var coordinates = {
+          lat: geo.coords.latitude,
+          lon: geo.coords.longitude
+        };
+        Api.getPotentials(coordinates)
+          .then((res) => {
+            this.dispatch(res.response);
+          })
+      },
+      (error) => console.error(error),
+      {enableHighAccuracy: false, maximumAge: 1000}
+    )
 
-    Api.getPotentials({})
-      .then((res) => {
-        this.dispatch(res.response);
-      })
   }
 
   sendLike(likedUserID){

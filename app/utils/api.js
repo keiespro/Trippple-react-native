@@ -7,7 +7,7 @@ const server = 'http://api2.trippple.co';
 
 
 
-const SERVER_URL = 'http://192.168.2.2:9920/user';
+const SERVER_URL = 'http://192.168.1.146:9920/user';
 
 function publicRequest(endpoint, payload){
 
@@ -97,8 +97,8 @@ var api = {
     return authenticatedRequest('messages', payload)
   },
 
-  getPotentials(){
-    return authenticatedRequest('potentials')
+  getPotentials(coordinates){
+    return authenticatedRequest('potentials',coordinates)
   },
 
   sendLike(like_user_id,like_status){
