@@ -27,26 +27,6 @@ var ImageUpload = require('./imageUpload');
 var Privacy = require('./privacy');
 var Modal = require('react-native-modal');
 
-var monthList = [
-'January',
-'February',
-'March',
-'April',
-'May',
-'June',
-'July',
-'August',
-'September',
-'October',
-'November',
-'December'
-];
-var yearsList = [],
-    currentyear = new Date().getFullYear();
-;
-for(var i = currentyear - 18; i >= currentyear - 65; i--){
-  yearsList.push(i);
-}
 
 
 var bodyTypes = [
@@ -355,27 +335,6 @@ class Settings extends React.Component{
                 value={this.state.bio}
                 onChangeText={(text) => this.setState({bio: text})}
               />
-            </View>
-            <Text style={styles.formLabel}>Birthday </Text>
-
-            <View style={[styles.tallFormRow]}>
-              <View style={styles.halfcell}>
-                <PickerIOS
-                  style={styles.picker}
-                  selectedValue={this.state.bday_month}
-                  onValueChange={(bday_month) => this.setState({bday_month})}>
-                  {monthList.map( (month, index) => (
-                      <PickerItemIOS
-                        key={'month_' + index}
-                        value={index}
-                        label={month}
-                      />
-                    ))
-                  }
-                </PickerIOS>
-              </View>
-
-
             </View>
             <View style={[styles.tallFormRow]}>
               <Text style={styles.formLabel}>Body Type</Text>

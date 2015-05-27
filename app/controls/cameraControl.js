@@ -20,18 +20,23 @@ var CameraControl = React.createClass({
     return (
       <View style={styles.container}>
         <Camera
-        style={styles.cameraBox}
+          style={styles.cameraBox}
           ref="cam"
           type={this.state.cameraType}
           captureTarget={Camera.constants.CaptureTarget.disk}
         />
+      <View style={styles.bottom}>
+        <TouchableHighlight onPress={this._switchCamera} style={styles.leftbutton}>
+          <View/>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={this._takePicture} style={styles.bigbutton}>
+          <View/>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={this._switchCamera} style={styles.leftbutton}>
+          <View/>
+        </TouchableHighlight>
+      </View>
 
-        <TouchableHighlight onPress={this._switchCamera}>
-          <Text style={styles.textS}>The old switcheroo</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={this._takePicture}>
-          <Text style={styles.textS}>Take Picture</Text>
-        </TouchableHighlight>
       </View>
     );
   },
@@ -55,13 +60,22 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf:'stretch',
-    backgroundColor: 'transparent',
+    backgroundColor: '#000',
+    paddingTop:60,
+
+
+  },
+  bottom:{
+    flexDirection:'row',
+    alignItems:'center',
+    alignSelf:'stretch',
+    justifyContent:'space-around',
+    height:100,
+    padding:10
   },
   cameraBox:{
-    paddingTop:60,
     flex:1,
-    paddingBottom:100,
-    backgroundColor: 'transparent',
+    backgroundColor: 'red',
     alignSelf:'stretch'
   },
   textS:{
@@ -76,6 +90,18 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
   },
+  leftbutton:{
+    width:50,
+    backgroundColor:'#fff',
+    height:50,
+    borderRadius:25
+  },
+  bigbutton:{
+    width:80,
+    height:80,
+    backgroundColor:'red',
+    borderRadius:40
+  }
 });
 
 

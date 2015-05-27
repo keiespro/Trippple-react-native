@@ -2,13 +2,254 @@ var React = require('react-native');
 var {
   StyleSheet,
   Text,
+  TextInput,
   View,
   Navigator,
-  TouchableHighlight
+  ScrollView,
+  TouchableOpacity,
+  TouchableHighlight,
+
 } = React;
 
 var UserActions = require('../flux/actions/UserActions');
+var Birthday = require('../controls/birthday');
+var ImageUpload = require('./imageUpload');
+var DistanceSlider = require('../controls/distanceSlider');
+var ToggleSwitch = require('../controls/switches');
 
+class SingleLookingFor extends React.Component{
+  render(){
+    return (
+      <View>
+
+        <View style={styles.formRow}>
+          <Text style={styles.formLabel}>Looking For Male + Male</Text>
+          <ToggleSwitch/>
+        </View>
+
+        <View style={styles.formRow}>
+          <Text style={styles.formLabel}>Looking For Male + Female</Text>
+          <ToggleSwitch/>
+        </View>
+
+        <View style={styles.formRow}>
+          <Text style={styles.formLabel}>Looking For Female + Female</Text>
+          <ToggleSwitch/>
+        </View>
+      </View>
+    )
+  }
+}
+
+class CoupleLookingFor extends React.Component{
+  render(){
+    return (
+      <View>
+        <View style={styles.formRow}>
+          <Text style={styles.formLabel}>Looking For Male</Text>
+          <ToggleSwitch/>
+        </View>
+        <View style={styles.formRow}>
+          <Text style={styles.formLabel}>Looking For Female</Text>
+          <ToggleSwitch/>
+        </View>
+      </View>
+    )
+  }
+}
+
+class LookingFor extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      'bday_year': this.props.user.bday_year || null,
+      'bday_month': this.props.user.bday_month || null,
+      firstname: this.props.user.firstname || null
+    }
+  }
+  _continue(){
+    console.log('continue')
+    UserActions.updateUser({
+      bday_year: this.state.bday_year,
+      bday_month: this.state.bday_month,
+      firstname: this.state.firstname,
+    })
+
+
+    this.props.navigator.push({
+      component: ImageUpload,
+      id:'imgupload',
+      title:'image'
+    })
+  }
+
+  render(){
+    return(
+      <View style={[styles.container,styles.padTop]}>
+
+        {this.props.user.relationship_status == 'couple' ?
+          <CoupleLookingFor/> :
+          <SingleLookingFor/>
+        }
+
+        <Text style={styles.header}>Looking For</Text>
+
+
+        <View pointerEvents={'box-none'}>
+
+          <Text style={styles.formLabel}>Age</Text>
+          <View style={[styles.formRow, styles.sliderFormRow]}><DistanceSlider/></View>
+          <View style={[styles.formRow, styles.sliderFormRow]}><DistanceSlider/></View>
+
+          <Text style={styles.formLabel}>Distance</Text>
+          <View style={[styles.formRow, styles.sliderFormRow]}><DistanceSlider/></View>
+
+        </View>
+        <TouchableHighlight style={styles.continue} onPress={this._continue.bind(this)}>
+          <Text style={[styles.textplain]}>Continue</Text>
+        </TouchableHighlight>
+      </View>
+
+    )
+  }
+}
+
+
+class AboutYou extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      'bday_year': this.props.user.bday_year || null,
+      'bday_month': this.props.user.bday_month || null,
+      firstname: this.props.user.firstname || null
+    }
+  }
+  _setMonth(m){
+    console.log(m)
+
+    this.setState({
+      'bday_month': m
+    })
+  }
+  _setYear(y){
+    console.log(y)
+    this.setState({
+      'bday_year': y
+    })
+  }
+  _continue(){
+    console.log('continue')
+    UserActions.updateUser({
+      bday_year: this.state.bday_year,
+      bday_month: this.state.bday_month,
+      firstname: this.state.firstname,
+    })
+
+
+    this.props.navigator.push({
+      component: LookingFor,
+      id:'lookingfor',
+      title:'Looking For'
+    })
+  }
+  render(){
+    return(
+        <View style={[styles.container,styles.padTop]}>
+          <TextInput
+            style={styles.textfield}
+            placeholder={'First name'}
+            value={this.state.firstname}
+            onChangeText={(text) => this.setState({firstname: text})}
+          />
+          <Birthday
+            bdayYear={this.state.bday_year}
+            bdayMonth={this.state.bday_month}
+            updateYear={this._setYear.bind(this)}
+            updateMonth={this._setMonth.bind(this)}
+            />
+          <TouchableHighlight style={styles.continue} onPress={this._continue.bind(this)}>
+            <Text style={[styles.textplain]}>Continue</Text>
+          </TouchableHighlight>
+
+        </View>
+     )
+  }
+}
+
+  var NavigationBarRouteMapper = {
+
+    LeftButton: function(route, navigator, index, navState) {
+      if(route.id == 'aboutyou') return false;
+      return (
+        <TouchableOpacity
+          onPress={() => {
+            navigator.pop();
+          }}>
+          <View style={styles.navBarLeftButton}>
+            <Text style={[styles.navBarText, styles.navBarButtonText]}>
+              Back
+            </Text>
+          </View>
+        </TouchableOpacity>
+
+      );
+
+    },
+    Title: function(route, navigator, index, navState) {
+      return (
+        <View >
+          <Text style={[styles.navBarText, styles.navBarTitleText]}>
+            {route.title}
+          </Text>
+        </View>
+      );
+    },
+    RightButton:  function(route, navigator, index, navState) {
+      return false;
+    }
+  };
+
+class OnboardSingle extends React.Component{
+
+    selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
+      return (<route.component {...route.passProps} navigator={navigator} user={this.props.user} />);
+    }
+
+    render(){
+
+
+      return(
+
+        <Navigator
+                ref="nav"
+                itemWrapperStyle={[styles.container,styles.padTop]}
+                renderScene={this.selectScene.bind(this)}
+
+                navigationBar={ <Navigator.NavigationBar routeMapper={NavigationBarRouteMapper} style={styles.navbar} /> }
+
+                initialRoute={{
+                   component: AboutYou,
+                   title: 'About You',
+                   id:'aboutyou'
+                 }}
+                  />
+
+
+      )
+    }
+}
+class OnboardCouple extends React.Component{
+    render(){
+
+
+      return(
+        <View style={styles.container}>
+          <Text style={styles.textplain}>COUPLE</Text>
+          <AboutYou user={this.props.user}/>
+        </View>
+      )
+    }
+}
 
 class Onboard extends React.Component{
   render() {
@@ -17,9 +258,9 @@ class Onboard extends React.Component{
     switch (this.props.user.relationship_status){
 
       case "single":
-        return (<View><Text style={styles.textplain}>SINGLE</Text></View>)
+        return (<OnboardSingle user={this.props.user}/>)
       case "couple":
-        return (<View><Text style={styles.textplain}>COUPLE</Text></View>)
+        return (<OnboardCouple user={this.props.user}/>)
       case null:
       default:
         return (<SelectRelationshipStatus user={this.props.user}/>)
@@ -92,10 +333,13 @@ class SelectRelationshipStatus extends React.Component{
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    padding:20
+    height:undefined,
+    width:undefined,
+    padding:10
+  },
+  padTop:{
+
+    paddingTop:60
   },
   textplain:{
     color:'#111',
@@ -141,7 +385,95 @@ var styles = StyleSheet.create({
   },
   fatbuttonSelected:{
     backgroundColor:'green',
-  }
+  },
+  textfieldWrap:{
+    height:undefined,
+    flex:1,
+    alignSelf:'stretch',
+    width:undefined
+  },
+  textfield:{
+    color:'#111',
+    backgroundColor:'#fff',
+    fontSize:18,
+    borderWidth:2,
+    borderColor:'#111',
+    paddingHorizontal:20,
+    fontFamily:'omnes',
+    height:60
+  },
+  header:{
+    fontSize:24,
+    fontFamily:'omnes'
+
+  },
+  panel:{
+    width:undefined,
+    height:undefined,
+
+    borderColor:'#000',
+    borderWidth:2
+  },
+  navBar: {
+    backgroundColor: '#39365c',
+    height: 50,
+    justifyContent:'space-between',
+    alignSelf: 'stretch',
+    alignItems:'center',
+  },
+  navBarText: {
+    fontSize: 16,
+  },
+  navBarTitleText: {
+    color: '#222',
+    fontWeight: '500',
+    fontFamily:'omnes',
+    height: 50,
+
+  },
+  navBarLeftButton: {
+    paddingLeft: 10,
+    height: 50,
+
+  },
+  navBarRightButton: {
+    paddingRight: 10,
+    height: 50,
+
+  },
+  navBarButtonText: {
+    color: '#dddddd',
+    fontFamily:'omnes'
+  },
+  continue:{
+    backgroundColor:'green',
+    alignItems:'center',
+    justifyContent:'center',
+  },
+  formRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingLeft: 15,
+    paddingRight:15,
+    backgroundColor:'#fff',
+    height:60,
+  },
+  tallFormRow: {
+    width: 250,
+    left:0,
+    height:120,
+    alignSelf:'stretch',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  sliderFormRow:{
+    height:120,
+    paddingLeft: 30,
+    paddingRight:30
+  },
+
 });
 
 

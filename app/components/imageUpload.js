@@ -10,7 +10,7 @@ var {
 
 
 
-// var CameraControl = require('../controls/cameraControl');
+var CameraControl = require('../controls/cameraControl');
 
 var Img = React.createClass({
   _getCameraRoll() {
@@ -21,12 +21,12 @@ var Img = React.createClass({
     console.log('get camera')
 
 
-    // this.props.nav.push({
-    //   component: CameraControl,
-    //   id:'camera',
-    //   title: 'camera'
-    //
-    // })
+    this.props.navigator.push({
+      component: CameraControl,
+      id:'camera',
+      title: 'camera'
+
+    })
 
   },
   render(){
@@ -46,7 +46,7 @@ var Img = React.createClass({
 })
 var ImageUpload = React.createClass({
   _renderScene(route: Navigator.route, navigator: Navigator) {
-    return (<route.component {...route.passProps} navigator={this.props.navigator} user={this.props.user} />);
+    return (<route.component {...route.passProps} navigator={navigator} user={this.props.user} />);
   },
 
   render() {
@@ -80,7 +80,9 @@ var styles = StyleSheet.create({
   },
   incontainer:{
     flex: 1,
-
+    paddingTop:50,
+    alignItems:'center',
+    justifyContent:'space-around'
   },
   textS:{
     color:'#111'
