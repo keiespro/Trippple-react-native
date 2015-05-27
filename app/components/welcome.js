@@ -106,10 +106,10 @@ var IntroScreen = React.createClass({
     );
   },
   render(){
-    console.log('render intro',this.props.route)
+    console.log('render intro',this.props.user)
     return(
       <View style={styles.container}>
-      <Text style={[styles.textplain]}>Welcome Screen</Text>
+        <Text style={[styles.textplain]}>Welcome Screen</Text>
         <TouchableHighlight
            style={styles.button}
            onPress={this.handleLoginButton}
@@ -138,10 +138,10 @@ class Carousel extends React.Component{
   render(){
     var welcomeSlides = slides.map( (slide,i) => {
       return (
-        <View key={i} style={styles.slide}>
+        <View key={i+'slide'} style={styles.slide}>
           <Image style={styles.slideImage} source={slide.img} resizeMode={Image.resizeMode.contain}/>
           <View style={styles.textwrap}><Text style={[styles.textplain]}>{slide.title}</Text></View>
-        <View style={styles.textwrap}><Text style={[styles.textplain]}>{slide.content}</Text></View>
+          <View style={styles.textwrap}><Text style={[styles.textplain]}>{slide.content}</Text></View>
         </View>
       )
     })
@@ -159,7 +159,7 @@ class Carousel extends React.Component{
 }
 
 class WelcomeCarousel extends React.Component{
-  handleGetStartedButton(){
+  _handleGetStartedButton(){
     this.props.navigator.push({
       component: IntroScreen,
       title: 'Intro',
@@ -177,7 +177,7 @@ class WelcomeCarousel extends React.Component{
         <View style={[styles.bottomarea]}>
           <TouchableHighlight
              style={styles.button}
-             onPress={this.handleGetStartedButton.bind(this)}
+             onPress={this._handleGetStartedButton.bind(this)}
              underlayColor="black">
              <Text style={styles.buttonText}>Get Started</Text>
           </TouchableHighlight>
@@ -201,9 +201,7 @@ var Welcome = React.createClass({
               component: WelcomeCarousel,
               title: 'intro',
               id:'intro',
-              index:0,
-              passProps: {
-              }
+              index:0
             }}
             renderScene={this.renderScene}
         />
@@ -250,9 +248,6 @@ flex:1,
   },
   carousel:{
     // overflow:'hidden',
-    alignSelf:'stretch',
-    height:undefined,
-    width: DeviceWidth,
     flex:1,
     top:0
   },
@@ -265,12 +260,13 @@ flex:1,
   },
   slideImage:{
     width: 150,
-    height:400
+    height:380
   },
   bottomarea:{
     height:100,
     width: undefined,
-    alignSelf:'stretch'
+    alignSelf:'stretch',
+    bottom:0
   },
   textwrap:{
     alignItems:'center',

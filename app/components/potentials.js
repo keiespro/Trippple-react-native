@@ -249,7 +249,16 @@ var ActiveCard = React.createClass({
           stackBehavior: tweenState.stackBehavior.ADDITIVE,
           beginValue: this._cardStyles.left,
           endValue:  0,
-          onEnd: () => {console.log('ONEND2');this.replaceState({isAnimating:false,position: {left:0,top:0}})}
+          onEnd: () => {
+            console.log('ONEND2');
+            this.replaceState({
+              isAnimating:false,
+              position: {
+                left:0,
+                top:0
+              }
+            })
+          }
         });
 
       })

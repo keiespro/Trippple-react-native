@@ -7,7 +7,7 @@ const server = 'http://api2.trippple.co';
 
 
 
-const SERVER_URL = 'http://192.168.1.146:9920/user';
+const SERVER_URL = 'http://192.168.2.2:9920/user';
 
 function publicRequest(endpoint, payload){
 

@@ -49,16 +49,23 @@ class UserActions {
   }
 
 
-  update(payload){
+  updateUser(payload){
+    const updates = payload;
     console.log('update action',payload);
     Api.updateUser(payload)
       .then((res) => {
         console.log(res);
-        this.dispatch(res.response);
+        this.dispatch({
+          response: res.response,
+          updates: updates
+        });
       })
       .catch((err) => {
         console.log(err);
-        this.dispatch();
+        this.dispatch({
+          response: err,
+          updates: payload
+        });
       })
   }
 }
