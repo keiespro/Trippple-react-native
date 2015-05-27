@@ -9,7 +9,6 @@ var {
 } = React;
 
 
-
 var CameraControl = require('../controls/cameraControl');
 
 var Img = React.createClass({

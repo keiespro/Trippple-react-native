@@ -4,6 +4,7 @@ var Keychain = require('Keychain');
 const server = 'http://api2.trippple.co';
 
 
+var { NativeModules } = require('react-native');
 
 
 
@@ -30,9 +31,6 @@ function publicRequest(endpoint, payload){
 function authenticatedRequest(endpoint: '', payload: {}){
   var payload = payload || {};
   console.log(payload,'payload')
-
-
-
   return Keychain.getInternetCredentials(server)
     .then(function(credentials) {
       console.log('Credentials successfully loaded', credentials);
@@ -44,6 +42,30 @@ function authenticatedRequest(endpoint: '', payload: {}){
     });
 
 
+};
+
+function authenticatedFileUpload(endpoint, image){
+  return Keychain.getInternetCredentials(server)
+    .then(function(credentials) {
+      console.log('Credentials successfully loaded', credentials);
+      var url = `${SERVER_URL}/${endpoint}`;
+      var payload = {
+          uri: image,
+          uploadUrl: url,
+          fileName: 'file.jpg',
+          mimeType:'jpeg',
+          data: {
+            user_id: credentials['username'],
+            api_key: credentials['password'],
+            image_type:'profile'
+          }
+      };
+      console.log(payload);
+      NativeModules.FileTransfer.upload(payload, (err, res) => {
+        console.log(err,res);
+        this.dispatch(res.response)
+      })
+    })
 };
 
 var api = {
@@ -106,9 +128,9 @@ var api = {
     return authenticatedRequest('likes', { like_status, like_user_id, like_user_type })
   },
 
-
-
-
+  uploadImage(image){
+    return authenticatedFileUpload('upload', image)
+  }
 
 
 }

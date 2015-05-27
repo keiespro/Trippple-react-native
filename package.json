@@ -10,6 +10,8 @@
     "react-native": "https://github.com/facebook/react-native/archive/v0.5.0-rc.tar.gz",
     "react-native-camera": "^0.2.5",
     "react-native-facebook-login": "^0.4.6",
+    "react-native-file-transfer": "0.0.3",
+    "react-native-fs": "^0.3.2",
     "react-native-invertible-scroll-view": "0.0.2",
     "react-native-keychain": "^0.1.0",
     "react-native-message-composer": "0.0.2",

@@ -8,7 +8,7 @@ var {
   ScrollView,
   TouchableOpacity,
   TouchableHighlight,
-
+  SegmentedControlIOS
 } = React;
 
 var UserActions = require('../flux/actions/UserActions');
@@ -92,8 +92,6 @@ class LookingFor extends React.Component{
           <SingleLookingFor/>
         }
 
-        <Text style={styles.header}>Looking For</Text>
-
 
         <View pointerEvents={'box-none'}>
 
@@ -121,7 +119,8 @@ class AboutYou extends React.Component{
     this.state = {
       'bday_year': this.props.user.bday_year || null,
       'bday_month': this.props.user.bday_month || null,
-      firstname: this.props.user.firstname || null
+      firstname: this.props.user.firstname || null,
+      gender: this.props.user.gender || null
     }
   }
   _setMonth(m){
@@ -141,6 +140,7 @@ class AboutYou extends React.Component{
     console.log('continue')
     UserActions.updateUser({
       bday_year: this.state.bday_year,
+      gender: this.state.gender,
       bday_month: this.state.bday_month,
       firstname: this.state.firstname,
     })
@@ -161,6 +161,11 @@ class AboutYou extends React.Component{
             value={this.state.firstname}
             onChangeText={(text) => this.setState({firstname: text})}
           />
+          <SegmentedControlIOS
+            values={['m','f']}
+            tintColor={'#000'}
+            selectedIndex={this.state.gender == 'm' ? 0 : 1}
+            onValueChange={(value) => this.setState({gender:value})} />
           <Birthday
             bdayYear={this.state.bday_year}
             bdayMonth={this.state.bday_month}

@@ -48,6 +48,14 @@ class UserActions {
 
   }
 
+  uploadImage(image){
+    Api.uploadImage(image)
+      .then((res) => {
+        console.log(res);
+        this.dispatch(res.response);
+      })
+
+  }
 
   updateUser(payload){
     const updates = payload;

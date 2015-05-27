@@ -7,6 +7,7 @@ var {
 } = React;
 
 var Camera = require('react-native-camera');
+var UserActions = require('../flux/actions/UserActions');
 
 var CameraControl = React.createClass({
   getInitialState() {
@@ -49,6 +50,7 @@ var CameraControl = React.createClass({
   _takePicture() {
     this.refs.cam.capture(function(err, data) {
       console.log(err, data);
+      UserActions.uploadImage(data);
     });
   }
 });

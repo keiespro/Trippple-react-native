@@ -1,6 +1,5 @@
 /* @flow */
 
-'use strict';
 
 var React = require('react-native');
 var {
@@ -165,46 +164,7 @@ var styles = StyleSheet.create({
  }
 });
 
-class SingleLookingFor extends React.Component{
-  render(){
-    return (
-      <View style={styles.card}>
 
-        <View style={styles.formRow}>
-          <Text style={styles.formLabel}>Looking For Male + Male</Text>
-          <ToggleSwitch/>
-        </View>
-
-        <View style={styles.formRow}>
-          <Text style={styles.formLabel}>Looking For Male + Female</Text>
-          <ToggleSwitch/>
-        </View>
-
-        <View style={styles.formRow}>
-          <Text style={styles.formLabel}>Looking For Female + Female</Text>
-          <ToggleSwitch/>
-        </View>
-      </View>
-    )
-  }
-}
-
-class CoupleLookingFor extends React.Component{
-  render(){
-    return (
-      <View style={styles.card}>
-        <View style={styles.formRow}>
-          <Text style={styles.formLabel}>Looking For Male</Text>
-          <ToggleSwitch/>
-        </View>
-        <View style={styles.formRow}>
-          <Text style={styles.formLabel}>Looking For Female</Text>
-          <ToggleSwitch/>
-        </View>
-      </View>
-    )
-  }
-}
 class Settings extends React.Component{
 
   constructor(props){
@@ -363,25 +323,6 @@ class Settings extends React.Component{
 
           </View>
 
-          <Text style={styles.header}>Looking For</Text>
-          {this.props.user.relationship_status == 'couple' ?
-            <CoupleLookingFor/> :
-            <SingleLookingFor/>
-          }
-
-          <Text style={styles.header}>Looking For</Text>
-
-
-          <View style={styles.card} pointerEvents={'box-none'}>
-
-            <Text style={styles.formLabel}>Age</Text>
-            <View style={[styles.formRow, styles.sliderFormRow]}><DistanceSlider/></View>
-            <View style={[styles.formRow, styles.sliderFormRow]}><DistanceSlider/></View>
-
-            <Text style={styles.formLabel}>Distance</Text>
-            <View style={[styles.formRow, styles.sliderFormRow]}><DistanceSlider/></View>
-
-          </View>
 
          </ScrollView>
 
