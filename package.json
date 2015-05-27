@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "alt": "^0.16.4",
-    "react-native": "^0.4.4",
+    "react-native": "https://github.com/facebook/react-native/archive/v0.5.0-rc.tar.gz",
     "react-native-camera": "^0.2.5",
     "react-native-facebook-login": "^0.4.6",
     "react-native-invertible-scroll-view": "0.0.2",
