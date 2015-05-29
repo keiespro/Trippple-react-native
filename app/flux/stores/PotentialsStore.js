@@ -1,5 +1,5 @@
 var alt = require('../alt');
-var ChatActions = require('../actions/ChatActions');
+var MatchActions = require('../actions/MatchActions');
 var AsyncStorage = require('react-native').AsyncStorage;
 
 
@@ -12,13 +12,13 @@ class PotentialsStore {
     }
 
     this.bindListeners({
-      handleGetPotentials: ChatActions.GET_POTENTIALS,
-      handleSentLike: ChatActions.SEND_LIKE
+      handleGetPotentials: MatchActions.GET_POTENTIALS,
+      handleSentLike: MatchActions.SEND_LIKE
     });
 
     this.on('init',()=>{
       console.log('store init')
-      ChatActions.getPotentials();
+      MatchActions.getPotentials();
 
     })
     this.on('bootstrap', () => {

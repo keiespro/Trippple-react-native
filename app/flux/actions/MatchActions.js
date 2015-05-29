@@ -1,7 +1,7 @@
 var alt = require('../alt');
 var Api = require("../../utils/api");
 
-class ChatActions {
+class MatchActions {
 
   initializeMatches() {
     this.dispatch();
@@ -49,4 +49,4 @@ class ChatActions {
   }
 }
 
-module.exports = alt.createActions(ChatActions);
+module.exports = alt.createActions(MatchActions);

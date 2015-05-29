@@ -25,7 +25,7 @@ var CustomSceneConfigs = require('../utils/sceneConfigs')
 var alt = require('alt');
 var cssVar = require('cssVar');
 var Chat = require("./chat");
-var ChatActions = require("../flux/actions/ChatActions");
+var MatchActions = require("../flux/actions/MatchActions");
 
 var ROUTE_STACK = [
   {component: Settings, index: 0, title: 'Settings', id: 'settings'},
@@ -158,7 +158,7 @@ var ROUTE_STACK = [
     }
 
     componentDidMount(){
-      ChatActions.InitializeMatches();
+      MatchActions.InitializeMatches();
     }
 
     selectScene(route: Navigator.route, navigator: Navigator) : React.Component {

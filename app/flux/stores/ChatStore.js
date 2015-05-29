@@ -1,5 +1,5 @@
 var alt = require('../alt');
-var ChatActions = require('../actions/ChatActions');
+var MatchActions = require('../actions/MatchActions');
 var AsyncStorage = require('react-native').AsyncStorage;
 
 
@@ -15,7 +15,7 @@ class ChatStore {
     });
 
     this.bindListeners({
-      handleGetMessages: ChatActions.GET_MESSAGES
+      handleGetMessages: MatchActions.GET_MESSAGES
 
     });
     this.on('init',()=>{

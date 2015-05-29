@@ -18,7 +18,7 @@ var {
 
 
 var ChatStore = require("../flux/stores/ChatStore");
-var ChatActions = require("../flux/actions/ChatActions");
+var MatchActions = require("../flux/actions/MatchActions");
 var alt = require('../flux/alt');
 var AltContainer = require('alt/AltNativeContainer');
 var InvertibleScrollView = require('react-native-invertible-scroll-view');
@@ -126,7 +126,7 @@ class ChatInside extends React.Component{
   componentDidMount(){
     console.log('mount chat',this.refs.lister)
     InteractionManager.runAfterInteractions(() => {
-      ChatActions.getMessages(this.props.matchID);
+      MatchActions.getMessages(this.props.matchID);
       this.saveToStorage();
     })
     this.refs.lister.refs.listviewscroll.scrollTo.call(this,0,0)

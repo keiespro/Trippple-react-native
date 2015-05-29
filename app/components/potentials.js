@@ -16,7 +16,7 @@ var {
 
 
 var tweenState = require('react-tween-state');
-var ChatActions = require('../flux/actions/ChatActions');
+var MatchActions = require('../flux/actions/MatchActions');
 var PotentialsStore = require("../flux/stores/PotentialsStore");
 var alt = require('../flux/alt')
 var AltContainer = require('alt/AltNativeContainer');
@@ -222,7 +222,7 @@ var ActiveCard = React.createClass({
           onEnd: () => {
             console.log('ONEND2');
             this.replaceState({isAnimating:false,position: {left:0,top:0}})
-            ChatActions.sendLike(this.props.potential[0].id);
+            MatchActions.sendLike(this.props.potential[0].id);
           }
         });
       });

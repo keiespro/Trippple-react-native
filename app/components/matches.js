@@ -19,7 +19,7 @@ var {
 
 var alt = require('../flux/alt')
 var Chat = require("./chat");
-var ChatActions = require('../flux/actions/ChatActions');
+var MatchActions = require('../flux/actions/MatchActions');
 var MatchesStore = require("../flux/stores/MatchesStore");
 
 class MatchList extends React.Component{
@@ -168,7 +168,7 @@ class Matches extends React.Component{
         // get data from server
     if(this.props.user.id){
       InteractionManager.runAfterInteractions(() => {
-        ChatActions.getMatches();
+        MatchActions.getMatches();
       })
     }
 
