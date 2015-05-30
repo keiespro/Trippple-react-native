@@ -26,6 +26,7 @@ var ImageUpload = require('./imageUpload');
 var Privacy = require('./privacy');
 var Modal = require('react-native-modal');
 
+var FeedbackButton = require('./sections/feedbackButton');
 
 
 var bodyTypes = [
@@ -321,6 +322,9 @@ class Settings extends React.Component{
 
           </View>
 
+          <View style={[styles.card]}>
+            <FeedbackButton/>
+          </View>
 
          </ScrollView>
 

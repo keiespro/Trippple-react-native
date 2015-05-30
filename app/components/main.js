@@ -7,6 +7,7 @@ var Settings = require('./settings');
 var Matches = require('./matches');
 var Potentials = require('./potentials');
 
+// var GearIcon = require('./svg/icon-gear');
 
 var {
   PixelRatio,
@@ -101,7 +102,8 @@ var ROUTE_STACK = [
           onPress={() => navigator.jumpTo(ROUTE_STACK[0])}>
           <View style={styles.navBarLeftButton}>
             <Text style={[styles.navBarText, styles.navBarButtonText]}>
-              settings
+              {/*<GearIcon/>*/}
+              gear
             </Text>
           </View>
         </TouchableOpacity>
