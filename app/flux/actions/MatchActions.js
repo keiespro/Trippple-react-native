@@ -1,5 +1,6 @@
 var alt = require('../alt');
 var Api = require("../../utils/api");
+var Logger = require("../../utils/logger");
 
 class MatchActions {
 
@@ -11,7 +12,7 @@ class MatchActions {
 
     Api.getMatches()
       .then((res) => {
-        console.log(res)
+        Logger.log(res)
         this.dispatch(res.response);
       })
   }
@@ -26,7 +27,7 @@ class MatchActions {
   getPotentials() {
     navigator.geolocation.getCurrentPosition(
       (geo) => {
-        console.log(geo);
+        Logger.log('Got coordinates:', geo.coords);
         var coordinates = {
           latitude: geo.coords.latitude,
           longitude: geo.coords.longitude
@@ -36,7 +37,7 @@ class MatchActions {
             this.dispatch(res.response);
           })
       },
-      (error) => console.error(error),
+      (error) => Logger.error(error),
       {enableHighAccuracy: false, maximumAge: 1000}
     )
 
@@ -44,7 +45,11 @@ class MatchActions {
 
   sendLike(likedUserID){
 
-    this.dispatch(likedUserID);
+    Api.getMatches()
+      .then((res) => {
+        Logger.log(res)
+        this.dispatch(likedUserID);
+      })
 
   }
 }

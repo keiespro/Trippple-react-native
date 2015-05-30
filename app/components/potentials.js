@@ -20,6 +20,7 @@ var MatchActions = require('../flux/actions/MatchActions');
 var PotentialsStore = require("../flux/stores/PotentialsStore");
 var alt = require('../flux/alt')
 var AltContainer = require('alt/AltNativeContainer');
+var Logger = require('../utils/logger');
 
 const THROW_OUT_THRESHOLD = 250;
 
@@ -152,7 +153,7 @@ var ActiveCard = React.createClass({
     });
   },
   componentDidUpdate: function(prevProps,prevState){
-    console.log('componentDidUpdate',this.state.isAnimating,'left: ' +this.getTweeningValue((state) => {return state.position},'left'));
+    Logger.log('componentDidUpdate',this.state.isAnimating,'left: ' +this.getTweeningValue((state) => {return state.position},'left'));
     if(this.state.isAnimating){
       this._updatePosition({
         left: this.getTweeningValue((state) => {return state.position},'left'),
@@ -179,11 +180,11 @@ var ActiveCard = React.createClass({
   _handlePanResponderGrant: function(e: Object, gestureState: Object) {
     this._handle = InteractionManager.createInteractionHandle(gestureState.stateID);
     this._highlight();
-    console.log('Pan Responder Grant',gestureState.dx)
+    Logger.log('Pan Responder Grant',gestureState.dx)
 
   },
   _handlePanResponderMove: function(e: Object, gestureState: Object) {
-    // console.log('Pan Responder MOVE',gestureState.dx)
+    // Logger.log('Pan Responder MOVE',gestureState.dx)
 
     this._cardStyles.left = this._previousLeft + gestureState.dx;
     this._cardStyles.top = this._previousTop + gestureState.dy;
@@ -192,11 +193,11 @@ var ActiveCard = React.createClass({
   },
   _handlePanResponderEnd: function(e: Object, gestureState: Object) {
     this._unHighlight();
-    console.log('Pan Responder End',Math.abs(gestureState.moveX))
+    Logger.log('Pan Responder End',Math.abs(gestureState.moveX))
 
     if(Math.abs(gestureState.dx) > THROW_OUT_THRESHOLD ){
 
-        console.log('throwout',gestureState.dx)
+      Logger.debug('throwout',gestureState.dx)
       InteractionManager.runAfterInteractions(() => {
 
         this.setState({
@@ -209,7 +210,7 @@ var ActiveCard = React.createClass({
           stackBehavior: tweenState.stackBehavior.ADDITIVE,
           beginValue: this._cardStyles.top,
           endValue:  300,
-          onEnd: () => {console.log('ONEND');
+          onEnd: () => {
             // this.replaceState({isAnimating:false,position: {left:0,top:0}})
           }
         });
@@ -220,9 +221,9 @@ var ActiveCard = React.createClass({
           beginValue: this._cardStyles.left,
           endValue:  gestureState.dx > 0 ? 500 : -500,
           onEnd: () => {
-            console.log('ONEND2');
+            let likeStatus = gestureState.dx > 0 ? 'approve' : 'deny';
             this.replaceState({isAnimating:false,position: {left:0,top:0}})
-            MatchActions.sendLike(this.props.potential[0].id);
+            MatchActions.sendLike(this.props.potential[0].id,likeStatus);
           }
         });
       });
@@ -239,7 +240,7 @@ var ActiveCard = React.createClass({
           stackBehavior: tweenState.stackBehavior.ADDITIVE,
           beginValue: this._cardStyles.top,
           endValue:  0,
-          onEnd: () => {console.log('ONEND');
+          onEnd: () => {Logger.log('ONEND');
             this.replaceState({isAnimating:false,position: {left:0,top:0}})
           }
         });
@@ -250,7 +251,7 @@ var ActiveCard = React.createClass({
           beginValue: this._cardStyles.left,
           endValue:  0,
           onEnd: () => {
-            console.log('ONEND2');
+            Logger.log('ONEND2');
             this.replaceState({
               isAnimating:false,
               position: {
@@ -298,7 +299,7 @@ class CardStack extends React.Component{
           );
         });
 
-    console.log(this.props,'ACTIVE');
+    Logger.log(this.props,'ACTIVE');
     return(
       <View style={styles.container} pointerEvents="box-none">
         <ActiveCard potential={this.props.potentials.length ? this.props.potentials[0] : []}/>

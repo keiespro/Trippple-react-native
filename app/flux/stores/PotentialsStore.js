@@ -1,6 +1,7 @@
 var alt = require('../alt');
 var MatchActions = require('../actions/MatchActions');
 var AsyncStorage = require('react-native').AsyncStorage;
+var Logger = require("../../utils/logger");
 
 
 class PotentialsStore {
@@ -17,12 +18,12 @@ class PotentialsStore {
     });
 
     this.on('init',()=>{
-      console.log('store init')
+      Logger.log('store init')
       MatchActions.getPotentials();
 
     })
     this.on('bootstrap', () => {
-      console.log('store bootstrap');
+      Logger.log('store bootstrap');
 
     });
 
@@ -34,7 +35,7 @@ class PotentialsStore {
 
 
   handleGetPotentials(potentials) {
-    console.log(potentials,'POTENTIALS');
+    Logger.log(potentials,'POTENTIALS');
     if(potentials.matches.length){
       this.setState({
         potentials: potentials.matches
@@ -45,7 +46,7 @@ class PotentialsStore {
   handleSentLike(likedUserID){
 
     var shifted = this.potentials.shift();
-    console.log(shifted[0].id == likedUserID)
+    Logger.log(shifted[0].id == likedUserID)
     this.setState({
       potentials: this.potentials
     })
@@ -54,7 +55,7 @@ class PotentialsStore {
 
 
   getAll(){
-    console.log('POTSTORE',this.getState().potentials)
+    Logger.log('POTSTORE',this.getState().potentials)
     return this.getState().potentials || [];
 
   }
