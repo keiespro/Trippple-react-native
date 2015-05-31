@@ -38,7 +38,9 @@ var FeedbackButton = React.createClass({
     );
   }
 });
+
 module.exports = FeedbackButton;
+
 var styles = StyleSheet.create({
   buttonText: {
     fontSize: 18,
@@ -52,7 +54,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#FE6650',
     borderColor: '#111',
-    borderWidth: 2,
+    borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,
     marginTop: 10,

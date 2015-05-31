@@ -1,14 +1,14 @@
 'use strict';
 var Keychain = require('Keychain');
 
-const server = 'http://api2.trippple.co';
+const KEYCHAIN_NAMESPACE = 'http://api2.trippple.co';
 
 
 var { NativeModules } = require('react-native');
 
+var Logger = require('./logger.js');
 
-
-const SERVER_URL = 'http://192.168.1.146:9920/user';
+const SERVER_URL = 'http://192.168.2.2:9920/user';
 
 function publicRequest(endpoint, payload){
 
@@ -22,7 +22,7 @@ function publicRequest(endpoint, payload){
   })
   .then((res) => res.json())
   .catch((err) => {
-    console.log('error',err);
+    Logger.log('error',err);
     // this.dispatch();
   })
 
@@ -30,10 +30,10 @@ function publicRequest(endpoint, payload){
 
 function authenticatedRequest(endpoint: '', payload: {}){
   var payload = payload || {};
-  console.log(payload,'payload')
-  return Keychain.getInternetCredentials(server)
+  Logger.log(payload,'payload')
+  return Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
     .then(function(credentials) {
-      console.log('Credentials successfully loaded', credentials);
+      Logger.log('Credentials successfully loaded', credentials);
       payload.user_id = credentials['username'];
       payload.api_key = credentials['password'];
 
@@ -45,9 +45,9 @@ function authenticatedRequest(endpoint: '', payload: {}){
 };
 
 function authenticatedFileUpload(endpoint, image){
-  return Keychain.getInternetCredentials(server)
+  return Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
     .then(function(credentials) {
-      console.log('Credentials successfully loaded', credentials);
+      Logger.log('Credentials successfully loaded', credentials);
       var url = `${SERVER_URL}/${endpoint}`;
       var payload = {
           uri: image,
@@ -60,10 +60,10 @@ function authenticatedFileUpload(endpoint, image){
             image_type:'profile'
           }
       };
-      console.log(payload);
+      Logger.log(payload);
       NativeModules.FileTransfer.upload(payload, (err, res) => {
-        console.log(err,res);
-        this.dispatch(res.response)
+        Logger.log(err,res);
+        return res.response;
       })
     })
 };
@@ -100,7 +100,7 @@ var api = {
   },
 
   getMatches(){
-    console.log('getmatches req')
+    Logger.log('getmatches req')
     return authenticatedRequest('matches')
   },
 

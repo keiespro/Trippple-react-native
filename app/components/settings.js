@@ -10,8 +10,6 @@ var {
   TextInput,
   ScrollView,
   Image,
-  Navigator,
-  NavigatorIOS,
   PickerIOS
 } = React;
 
@@ -27,6 +25,7 @@ var Privacy = require('./privacy');
 var Modal = require('react-native-modal');
 
 var FeedbackButton = require('./sections/feedbackButton');
+var Contacts = require('./sections/contacts');
 
 
 var bodyTypes = [
@@ -38,6 +37,260 @@ var bodyTypes = [
   'Stocky',
   'Rather not say'
 ];
+
+var  EditSettings = React.createClass({
+  getInitialState(){
+    return{
+      firstname: this.props.user.firstname  || '',
+      bio: this.props.user.bio || '',
+      email: this.props.user.email  || '',
+      body_type: null,
+    }
+  },
+
+  _pressNewImage(){
+    console.log('change image');
+    this.props.openModal('imageupload');
+
+  },
+  _updateAttr(updatedAttribute){
+    this.setState(()=>{return updatedAttribute});
+  },
+  render(){
+    return(
+    <View style={styles.card}>
+      <View style={styles.userimageContainer}>
+        <Image
+          style={styles.userimage}
+          source={{uri: this.props.user.image_url}}
+          defaultSource={require('image!defaultuser')}
+          resizeMode={Image.resizeMode.cover}>
+          <TouchableHighlight onPress={this._pressNewImage.bind(this)}>
+            <Text style={styles.changeImage}>Change Image</Text>
+          </TouchableHighlight>
+        </Image>
+      </View>
+      <View style={styles.formRow}>
+        <TextInput
+          style={styles.textfield}
+          value={this.state.firstname}
+          onChangeText={(text) => this._updateAttr({firstname: text})}
+        />
+      </View>
+      <View style={styles.formRow}>
+        <TextInput
+          style={styles.textfield}
+          value={this.state.email}
+          onChangeText={(text) => this._updateAttr({email: text})}
+        />
+      </View>
+      <View style={styles.formRow}>
+        <TextInput
+          style={[styles.textfield]}
+          value={this.state.bio}
+          onChangeText={(text) => this._updateAttr({bio: text})}
+        />
+      </View>
+      <View style={[styles.tallFormRow]}>
+        <Text style={styles.formLabel}>Body Type</Text>
+        <PickerIOS
+          style={styles.picker}
+          selectedValue={this.state.body_type}
+          key={'bodytypepick'}
+          onValueChange={(body_type) => this._updateAttr({body_type: body_type})}>
+
+          {bodyTypes.map( (bodyType, index) => (
+              <PickerItemIOS
+                key={'bodyType-' + index}
+                value={index}
+                label={bodyType}
+              />
+          ))}
+        </PickerIOS>
+      </View>
+    </View>)
+  }
+})
+
+var ViewSettings = React.createClass({
+
+
+  render(){
+    return(
+    <View style={styles.card}>
+      <View style={styles.userimageContainer}>
+        <Image
+          style={styles.userimage}
+          source={{uri: this.props.user.image_url}}
+          defaultSource={require('image!defaultuser')}
+          resizeMode={Image.resizeMode.cover}/>
+      </View>
+      <View style={styles.formRow}>
+        <Text style={styles.textfield} >{this.props.user.firstname}</Text>
+      </View>
+      <View style={styles.formRow}>
+        <Text style={styles.textfield} >{this.props.user.email || ''}</Text>
+      </View>
+      <View style={styles.formRow}>
+        <Text style={[styles.textfield]} >{this.props.user.bio || ''}</Text>
+      </View>
+      <View style={[styles.tallFormRow]}>
+        <Text style={styles.formLabel}>Body Type</Text>
+        <Text style={styles.textfield}>{this.props.user.body_type || ''}</Text>
+      </View>
+    </View>
+    )
+  }
+})
+
+class Settings extends React.Component{
+
+  constructor(props){
+    super(props);
+    this.state = {
+      isModalOpen: false,
+      editMode: false
+    }
+  }
+
+  openModal(page: string) {
+    this.setState({isModalOpen: page});
+  }
+
+  closeModal() {
+    this.setState({isModalOpen: false});
+  }
+
+  showModalTransition(transition) {
+    transition('opacity', {duration: 200, begin: 0, end: 1});
+    transition('height', {duration: 200, begin: DeviceHeight * 2, end: DeviceHeight});
+  }
+
+  hideModalTransition(transition) {
+    transition('height', {duration: 200, begin: DeviceHeight, end: DeviceHeight * 2, reset: true});
+    transition('opacity', {duration: 200, begin: 1, end: 0});
+  }
+
+
+  _openEditMode(){
+    this.setState({
+      editMode: true
+    })
+  }
+
+  _closeEditMode(){
+    this.setState({
+      editMode: false
+    })
+  }
+
+  _saveSettings(){
+
+    //SAVE
+    this._closeEditMode();
+  }
+
+  _renderPrivacy(){
+    this.openModal('privacy')
+  }
+
+
+  _renderInviteFriends(){
+    this.openModal('invite')
+  }
+  _handleBackdropPress(){
+
+  }
+
+  render(){
+    var modalWindow = ()=>{
+      if(!this.state.isModalOpen) return false;
+      switch (this.state.isModalOpen){
+        case 'privacy':
+        return (<Privacy  user={this.props.user}/>);
+        case 'imageupload':
+          return (<ImageUpload user={this.props.user}/>);
+        case 'invite':
+          return (<Contacts user={this.props.user}/>);
+        case 'default':
+          return null;
+      }
+    }
+    var ContentWrapper;
+    var wrapperProps = {};
+    if(this.state.isModalOpen){
+      ContentWrapper = View;
+
+    }else{
+      ContentWrapper = ScrollView;
+      wrapperProps = {
+        automaticallyAdjustContentInsets:true,
+        canCancelContentTouches:true,
+        directionalLockEnabled:true,
+        pointerEvents:'box-none',
+        alwaysBounceVertical:true,
+        decelerationRate:.9,
+        showsVerticalScrollIndicator:false,
+        contentInset:{top: 80},
+      }
+    }
+
+    return (
+      <View style={styles.container}>
+        <ContentWrapper
+          style={styles.inner}
+          {...wrapperProps} >
+
+
+            <TouchableHighlight onPress={this._openEditMode.bind(this)}>
+              <Text style={styles.header}>Edit</Text>
+            </TouchableHighlight>
+
+            {this.state.editMode === true ?
+              <EditSettings openModal={this.openModal} user={this.props.user}/> :
+              <ViewSettings user={this.props.user}/>
+            }
+
+            <Text style={styles.header}>Privacy</Text>
+            <View style={[styles.card]}>
+              <TouchableHighlight onPress={this._renderPrivacy.bind(this)}>
+                <Text style={[styles.header,styles.privacy]}>{this.props.user.privacy}</Text>
+              </TouchableHighlight>
+            </View>
+
+            <TouchableHighlight onPress={this._renderInviteFriends.bind(this)}>
+              <Text style={[styles.header,styles.privacy]}>Invite Friends</Text>
+            </TouchableHighlight>
+
+            <FeedbackButton />
+
+         </ContentWrapper>
+
+         <Modal
+           isVisible={this.state.isModalOpen != false}
+           onPressBackdrop={this._handleBackdropPress.bind(this)}
+           backdropType={'blur'}
+           hideCloseButton={false}
+           backdropBlur={'light'}
+           forceToFront={true}
+           customShowHandler={this.showModalTransition}
+           customHideHandler={this.hideModalTransition}
+           style={styles.modalwrap}
+           onClose={() => this.closeModal.bind(this)}
+           customCloseButton={<TouchableHighlight onPress={() => this.closeModal.bind(this)} style={styles.closebox}><Text>X</Text></TouchableHighlight>}
+           >
+            <View
+              style={styles.modal}>
+              {modalWindow()}
+           </View>
+         </Modal>
+
+       </View>
+     );
+  }
+}
+
+module.exports = Settings;
 
 var styles = StyleSheet.create({
  container: {
@@ -75,6 +328,11 @@ var styles = StyleSheet.create({
    margin: 0,
    alignItems: 'stretch'
 
+ },
+ closebox:{
+   height:40,
+   width:40,
+   backgroundColor:'blue'
  },
  userimage: {
    padding:0,
@@ -156,198 +414,20 @@ var styles = StyleSheet.create({
    height:60
  },
  modal:{
-   padding:20,
+   padding:0,
    height:DeviceHeight-100,
-   width:undefined,
+   flex:1,
    alignItems: 'stretch',
    alignSelf: 'stretch',
 
+ },
+ modalwrap:{
+   padding:0,
+   paddingLeft:0,
+   paddingRight:0,
+   paddingTop:0,
+   margin:0,
+   paddingBottom:0,
+   backgroundColor:'red'
  }
 });
-
-
-class Settings extends React.Component{
-
-  constructor(props){
-    super(props);
-    console.log(props)
-    this.state = {
-      firstname: props.user.firstname,
-      bio: props.user.bio,
-      email: props.user.email,
-      body_type: null,
-      isModalOpen: false
-    }
-  }
-
-  openModal(page: string) {
-    this.setState({isModalOpen: page});
-  }
-
-  closeModal() {
-    this.setState({isModalOpen: false});
-  }
-
-  showModalTransition(transition) {
-    transition('opacity', {duration: 200, begin: 0, end: 1});
-    transition('height', {duration: 200, begin: DeviceHeight * 2, end: DeviceHeight});
-  }
-
-  hideModalTransition(transition) {
-    transition('height', {duration: 200, begin: DeviceHeight, end: DeviceHeight * 2, reset: true});
-    transition('opacity', {duration: 200, begin: 1, end: 0});
-  }
-
-  _pressNewImage(){
-    console.log('change image')
-    this.openModal('imageupload')
-
-  }
-
-  _renderPrivacy(){
-    this.openModal('privacy')
-    // console.log(this.props.navigator)
-    // this.props.navigator.push({
-    //     component: Privacy,
-    //     id:'privacy',
-    //     title: 'privacy',
-    //     passProps:{
-    //       privacy: this.props.user.privacy,
-    //     },
-    //     sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
-    //   })
-  }
-  //
-  // <View>
-  //   <PickerIOS
-  //     key={'yearpicker'}
-  //     style={styles.picker}
-  //     selectedValue={this.state.bday_year}
-  //     onValueChange={(bday_year) => this.setState({bday_year})}>
-  //     {yearsList.map( (year, index) => (
-  //         <PickerItemIOS
-  //           key={'y_' + index}
-  //           value={year}
-  //           label={year}
-  //         />
-  //       ))
-  //     }
-  //   </PickerIOS>
-  //
-  // </View>
-
-  render(){
-    var modalWindow = ()=>{
-      if(!this.state.isModalOpen) return false;
-      switch (this.state.isModalOpen){
-        case 'privacy':
-        return (<Privacy />);
-
-        case 'imageupload':
-          return (<Privacy/>);
-        case 'default':
-          return null;
-      }
-    }
-
-    return (
-      <View style={styles.container}>
-        <ScrollView
-          style={styles.inner}
-          automaticallyAdjustContentInsets={true}
-          canCancelContentTouches={true}
-          directionalLockEnabled={true}
-          pointerEvents={'box-none'}
-          alwaysBounceVertical={true}
-          decelerationRate={.9}
-          showsVerticalScrollIndicator={false}
-          contentInset={{top: 80}}>
-          <View style={styles.card}>
-            <View style={styles.userimageContainer}>
-              <Image
-                style={styles.userimage}
-                source={{uri: this.props.user.image_url}}
-                defaultSource={require('image!defaultuser')}
-                resizeMode={Image.resizeMode.cover}>
-                <TouchableHighlight onPress={this._pressNewImage.bind(this)}>
-                  <Text style={styles.changeImage}>Change Image</Text>
-                </TouchableHighlight>
-              </Image>
-            </View>
-            <View style={styles.formRow}>
-              <TextInput
-                style={styles.textfield}
-                value={this.state.firstname}
-                onChangeText={(text) => this.setState({firstname: text})}
-              />
-            </View>
-            <View style={styles.formRow}>
-              <TextInput
-                style={styles.textfield}
-                value={this.state.email}
-                onChangeText={(text) => this.setState({email: text})}
-              />
-            </View>
-            <View style={styles.formRow}>
-              <TextInput
-                style={[styles.textfield]}
-                value={this.state.bio}
-                onChangeText={(text) => this.setState({bio: text})}
-              />
-            </View>
-            <View style={[styles.tallFormRow]}>
-              <Text style={styles.formLabel}>Body Type</Text>
-              <PickerIOS
-                style={styles.picker}
-                selectedValue={this.state.body_type}
-                key={'bodytypepick'}
-                onValueChange={(body_type) => this.setState({body_type})}>
-                {bodyTypes.map( (bodyType, index) => (
-                    <PickerItemIOS
-                      key={'bodyType-' + index}
-                      value={index}
-                      label={bodyType}
-                    />
-                  ))
-                }
-              </PickerIOS>
-            </View>
-          </View>
-
-          <Text style={styles.header}>Privacy</Text>
-          <View style={[styles.card]}>
-            <TouchableHighlight onPress={this._renderPrivacy.bind(this)}>
-              <Text style={[styles.header,styles.privacy]}>{this.props.user.privacy}</Text>
-            </TouchableHighlight>
-
-          </View>
-
-          <View style={[styles.card]}>
-            <FeedbackButton/>
-          </View>
-
-         </ScrollView>
-
-         <Modal
-           containerPointerEvents={'box-none'}
-           isVisible={this.state.isModalOpen != false}
-           onPressBackdrop={this.closeModal.bind(this)}
-           backdropType={'blur'}
-           backdropBlur={'dark'}
-           forceToFront={true}
-           customShowHandler={this.showModalTransition}
-           customHideHandler={this.hideModalTransition}
-
-           onClose={() => this.closeModal.bind(this)}
-           >
-            <View style={styles.modal}>
-              {modalWindow()}
-           </View>
-         </Modal>
-
-       </View>
-     );
-  }
-}
-
-module.exports = Settings;
