@@ -23,25 +23,21 @@ function publicRequest(endpoint, payload){
   .then((res) => res.json())
   .catch((err) => {
     Logger.log('error',err);
-    // this.dispatch();
+
   })
 
 };
 
 function authenticatedRequest(endpoint: '', payload: {}){
   var payload = payload || {};
-  Logger.log(payload,'payload')
+  Logger.debug(payload,'payload');
   return Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
     .then(function(credentials) {
       Logger.log('Credentials successfully loaded', credentials);
       payload.user_id = credentials['username'];
       payload.api_key = credentials['password'];
-
       return publicRequest(endpoint, payload);
-
     });
-
-
 };
 
 function authenticatedFileUpload(endpoint, image){
