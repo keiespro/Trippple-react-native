@@ -2,7 +2,10 @@ var alt = require('../alt');
 
 class RegisterActions {
   onFieldChange (fName, newValue) {
-    this.dispatch({[fName]: newValue});
+    this.dispatch({
+      [fName]: newValue
+    , error: false
+    });
   }
 }
 
