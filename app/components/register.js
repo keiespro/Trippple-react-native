@@ -12,6 +12,7 @@ var {
 } = React;
 
 var UserActions  = require('../flux/actions/UserActions');
+var RegisterActions = require('../flux/actions/RegisterActions');
 var RegisterStore= require('../flux/stores/RegisterStore');
 
 var styles = StyleSheet.create({
@@ -71,30 +72,11 @@ class Register extends React.Component{
   RegisterStore.unlisten(this.onChange.bind(this));
  }
 
- handlePhoneChange(event: any){
-   this.setState({
-     phone: event.nativeEvent.text
-   })
- }
-
- handlePasswordChange(event: any){
-   this.setState({
-     password: event.nativeEvent.text
-   })
- }
-
- handlePassword2Change(event: any){
-   this.setState({
-     password2: event.nativeEvent.text
-   })
- }
-
  handleSubmit(){
    UserActions.register(this.state.phone,this.state.password,this.state.password2)
  }
 
  onChange(newState) {
-   console.warn('new state', newState);
    this.setState(newState);
  }
 
@@ -153,5 +135,27 @@ class Register extends React.Component{
    );
  }
 }
+
++function setUpFieldHandlers () {
+
+ [
+   "Phone"
+ , "Password"
+ , "Password2"
+ ].forEach( name =>
+     Object.defineProperty(Register.prototype
+                         , `handle${name}Change`
+                         , mkDescriptor(name))
+    );
+
+ function mkDescriptor (name) {
+    return {
+      value: function (event) {
+        RegisterActions.onFieldChange(name.toLowerCase(), event.nativeEvent.text);
+      }
+    };
+  }
+}();
+
 
 module.exports = Register;
