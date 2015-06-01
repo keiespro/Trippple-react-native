@@ -3,7 +3,6 @@ var Keychain = require('Keychain');
 
 const KEYCHAIN_NAMESPACE = 'http://api2.trippple.co';
 
-
 var { NativeModules } = require('react-native');
 
 var Logger = require('./logger.js');
@@ -12,26 +11,38 @@ const SERVER_URL = 'http://192.168.2.2:9920/user';
 
 function publicRequest(endpoint, payload){
 
-  return fetch( `${SERVER_URL}/${endpoint}`, {
-    method: 'post',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(payload)
-  })
-  .then((res) => res.json())
-  .catch((err) => {
-    Logger.log('error',err);
+  var data = {
+     method: 'post'
+   , headers: {
+       'Accept': 'application/json'
+      ,'Content-Type': 'application/json'
+     }
+   , body: JSON.stringify(payload)
+  };
 
-  })
+  return fetch(`${SERVER_URL}/${endpoint}`, data)
+        .then(parseJson)
+        .then(handleError);
 
-};
+  function handleError (rAttempt) {
+      if (rAttempt.status === true ) return rAttempt;
+      var err  = new Error(`TripppleApiErr/${endpoint}`);
+      err.message = Object.assign({error: {message: "Unknown Error"}}, rAttempt).error.message;
+      throw err;
+  }
+
+  function parseJson (container) {
+      return container.json();
+  }
+}
 
 function authenticatedRequest(endpoint: '', payload: {}){
   var payload = payload || {};
+
   Logger.debug(payload,'payload');
+
   return Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
+
     .then(function(credentials) {
       Logger.log('Credentials successfully loaded', credentials);
       payload.user_id = credentials['username'];

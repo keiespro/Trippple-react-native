@@ -1,3 +1,4 @@
+'use strict';
 const ENV = 'dev';
 
 class Logger {
@@ -17,7 +18,6 @@ class Logger {
   track(){
     // track stuff
   }
-
 
 }
 
