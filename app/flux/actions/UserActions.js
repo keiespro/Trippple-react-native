@@ -2,8 +2,8 @@ var alt = require('../alt');
 var Api = require("../../utils/api");
 var Logger = require("../../utils/logger");
 
-
 class UserActions {
+
   getUserInfo() {
     Api.getUserInfo
       .then((res) => {
@@ -11,7 +11,6 @@ class UserActions {
         this.dispatch(res.response);
       })
       .catch((err) => {
-        Logger.log(err);
         this.dispatch();
       })
   }
@@ -42,12 +41,16 @@ class UserActions {
 
   register(phone,password,password2){
     Logger.log('register action');
+
     Api.register(phone,password,password2)
-      .then((res) => {
-        Logger.log(res);
+
+      .then( (res) => {
         this.dispatch(res.response);
       })
 
+      .catch( (err) => {
+        this.dispatch({error: err});
+      });
   }
 
   uploadImage(image){

@@ -11,11 +11,13 @@ var {
  TextInput
 } = React;
 
-
-var UserActions = require('../flux/actions/UserActions');
-
+var UserActions  = require('../flux/actions/UserActions');
+var RegisterStore= require('../flux/stores/RegisterStore');
 
 var styles = StyleSheet.create({
+ error: {
+   color: 'red'
+ },
  container: {
    flex: 1,
    justifyContent: 'center',
@@ -53,16 +55,20 @@ var styles = StyleSheet.create({
    justifyContent: 'center'
  },
 });
+
 class Register extends React.Component{
 
  constructor(props){
    super(props);
-   this.state = {
-     phone: '',
-     password: '',
-     password2: '',
-     isLoading: false
-   }
+   this.state = RegisterStore.getState();
+ }
+
+ componentDidMount () {
+  RegisterStore.listen(this.onChange.bind(this));
+ }
+
+ componentWillUnmount () {
+  RegisterStore.unlisten(this.onChange.bind(this));
  }
 
  handlePhoneChange(event: any){
@@ -87,54 +93,63 @@ class Register extends React.Component{
    UserActions.register(this.state.phone,this.state.password,this.state.password2)
  }
 
-handleBack(){
-  this.props.navigator.pop();
-}
+ onChange(newState) {
+   console.warn('new state', newState);
+   this.setState(newState);
+ }
+
+ handleBack(){
+   this.props.navigator.pop();
+ }
 
  render(){
    return (
-     <View style={styles.container}>
-       <TextInput
-         style={styles.phoneInput}
-         value={this.state.phone || ''}
-         keyboardType={'number-pad'}
-         placeholder={'Phone'}
-         placeholderTextColor='#fff'
-         onChange={this.handlePhoneChange.bind(this)}
-       />
-       <TextInput
-         style={styles.phoneInput}
-         value={this.state.password || ''}
-         password={true}
-         keyboardType={'default'}
-         autoCapitalize={'none'}
-         placeholder={'Password'}
-         placeholderTextColor='#fff'
-         onChange={this.handlePasswordChange.bind(this)}
-       />
-       <TextInput
-         style={styles.phoneInput}
-         value={this.state.password2 || ''}
-         password={true}
-         keyboardType={'default'}
-         autoCapitalize={'none'}
-         placeholder={'Confirm Password'}
-         placeholderTextColor='#fff'
-         onChange={this.handlePassword2Change.bind(this)}
-       />
-       <TouchableHighlight
-          style={styles.button}
-          onPress={this.handleSubmit.bind(this)}
-          underlayColor="black">
-          <Text style={styles.buttonText}>Register</Text>
-       </TouchableHighlight>
+       <View style={styles.container}>
+         { this.state.error && <Text style={styles.error}>{this.state.error.message}</Text> }
+         <TextInput
+           style={[styles.phoneInput, (this.state.error && {color: "red"})]}
+           value={this.state.phone || ''}
+           keyboardType={'number-pad'}
+           placeholder={'Phone'}
+           placeholderTextColor='#fff'
+           onChange={this.handlePhoneChange.bind(this)}
+         />
 
-       <TouchableHighlight
-          onPress={this.handleBack.bind(this)}
-          underlayColor="black">
-          <Text style={styles.buttonText}>Back</Text>
-       </TouchableHighlight>
-     </View>
+         <TextInput
+           style={styles.phoneInput}
+           value={this.state.password || ''}
+           password={true}
+           keyboardType={'default'}
+           autoCapitalize={'none'}
+           placeholder={'Password'}
+           placeholderTextColor='#fff'
+           onChange={this.handlePasswordChange.bind(this)}
+         />
+
+         <TextInput
+           style={styles.phoneInput}
+           value={this.state.password2 || ''}
+           password={true}
+           keyboardType={'default'}
+           autoCapitalize={'none'}
+           placeholder={'Confirm Password'}
+           placeholderTextColor='#fff'
+           onChange={this.handlePassword2Change.bind(this)}
+         />
+
+         <TouchableHighlight
+            style={styles.button}
+            onPress={this.handleSubmit.bind(this)}
+            underlayColor="black">
+            <Text style={styles.buttonText}>Register</Text>
+         </TouchableHighlight>
+
+         <TouchableHighlight
+            onPress={this.handleBack.bind(this)}
+            underlayColor="black">
+            <Text style={styles.buttonText}>Back</Text>
+         </TouchableHighlight>
+       </View>
    );
  }
 }
