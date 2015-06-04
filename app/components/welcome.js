@@ -104,7 +104,7 @@ class Carousel extends React.Component{
   render(){
     var welcomeSlides = slides.map( (slide,i) => {
       return (
-        <View key={i+'slide'} style={styles.slide}>
+        <View key={i+'slide'+slide.title.trim()} style={styles.slide}>
           <Image style={styles.slideImage} source={slide.img} resizeMode={Image.resizeMode.contain}/>
           <View style={styles.textwrap}><Text style={[styles.textplain]}>{slide.title}</Text></View>
           <View style={styles.textwrap}><Text style={[styles.textplain]}>{slide.content}</Text></View>
@@ -158,21 +158,21 @@ class WelcomeCarousel extends React.Component{
 var Welcome = React.createClass({
 
   renderScene(route: Navigator.route, navigator: Navigator) : React.Component {
-    return (<route.component {...route.passProps} navigator={navigator} />);
+    return (<route.component {...route.passProps} key={route.id} navigator={navigator} />);
   },
 
   render() {
 
     return (
-      <Image resizeMode={Image.resizeMode.cover} source={require('image!GradientBackground')} style={styles.imagebg}>
+      <Image resizeMode={Image.resizeMode.cover} source={require('image!gradientbgs')} style={styles.imagebg}>
 
         <Navigator
             initialRoute={{
               component: WelcomeCarousel,
               title: 'intro',
               id:'intro',
-              index:0
             }}
+            key={'innerNav'}
             configureScene={(route) => { return  route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.VerticalSlide}}
 
             renderScene={this.renderScene}
@@ -248,6 +248,7 @@ var styles = StyleSheet.create({
     alignSelf:'stretch',
     width: DeviceWidth,
     height: DeviceHeight,
+    backgroundColor:'purple'
 
   },
   button: {

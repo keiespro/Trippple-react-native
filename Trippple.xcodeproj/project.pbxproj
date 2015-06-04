@@ -36,6 +36,7 @@
 		AC2C8F9A1B19589400A2A016 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2C8F991B19589400A2A016 /* libxml2.2.dylib */; };
 		AC2C8FA41B19641F00A2A016 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2C8FA11B19641800A2A016 /* libRNMail.a */; };
 		AC2C8FAE1B1966FD00A2A016 /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2C8FAB1B1966F900A2A016 /* libRCTAddressBook.a */; };
+		AC310CA81B1FFF6C00E7205A /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = AC310CA71B1FFF6C00E7205A /* RCTFileTransfer.m */; };
 		AC84FD741B0857CE000B4D46 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC84FD731B0857C9000B4D46 /* libRCTWebSocket.a */; };
 		AC84FE061B088B59000B4D46 /* omnes-bold-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC84FE021B088B59000B4D46 /* omnes-bold-webfont.ttf */; };
 		AC84FE071B088B59000B4D46 /* omnes-light-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC84FE031B088B59000B4D46 /* omnes-light-webfont.ttf */; };
@@ -236,6 +237,7 @@
 		AC2C8F991B19589400A2A016 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		AC2C8F9B1B19641800A2A016 /* RNMail.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMail.xcodeproj; path = "node_modules/react-native-mail/RNMail.xcodeproj"; sourceTree = "<group>"; };
 		AC2C8FA51B1966F900A2A016 /* RCTAddressBook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAddressBook.xcodeproj; path = "node_modules/react-native-addressbook/RCTAddressBook.xcodeproj"; sourceTree = "<group>"; };
+		AC310CA71B1FFF6C00E7205A /* RCTFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTFileTransfer.m; path = "node_modules/react-native-file-transfer/RCTFileTransfer.m"; sourceTree = "<group>"; };
 		AC84FD6E1B0857C9000B4D46 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		AC84FE021B088B59000B4D46 /* omnes-bold-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "omnes-bold-webfont.ttf"; path = "assets/omnes-bold-webfont.ttf"; sourceTree = "<group>"; };
 		AC84FE031B088B59000B4D46 /* omnes-light-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "omnes-light-webfont.ttf"; path = "assets/omnes-light-webfont.ttf"; sourceTree = "<group>"; };
@@ -389,6 +391,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				AC310CA71B1FFF6C00E7205A /* RCTFileTransfer.m */,
 				AC2C8FA51B1966F900A2A016 /* RCTAddressBook.xcodeproj */,
 				AC2C8F991B19589400A2A016 /* libxml2.2.dylib */,
 				AC2C8F9B1B19641800A2A016 /* RNMail.xcodeproj */,
@@ -866,6 +869,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC310CA81B1FFF6C00E7205A /* RCTFileTransfer.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);

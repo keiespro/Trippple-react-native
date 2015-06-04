@@ -69,7 +69,7 @@ class TopLevel extends React.Component{
 
   }
   _renderScene (route, navigator){
-    return (<route.component {...route.passProps}  user={this.props.user} navigator={navigator}/>);
+    return (<route.component {...route.passProps} key={route.id} user={this.props.user} navigator={navigator}/>);
 
   }
 
@@ -81,22 +81,22 @@ class TopLevel extends React.Component{
 
       case "registered":
         return (
-          <VerifyPin user={this.props.user}/>
+          <VerifyPin key="VerifyPinScreen" user={this.props.user}/>
         )
 
       case "verified":
         return (
-          <Onboard user={this.props.user}/>
+          <Onboard key="OnboardingScreen" user={this.props.user}/>
         )
 
       case "pendingpartner":
         return (
-          <PendingPartner user={this.props.user}/>
+          <PendingPartner key="PendingPartnerScreen" user={this.props.user}/>
         )
 
       case "onboarded":
         return (
-          <Main user={this.props.user}/>
+          <Main key="MainScreen" user={this.props.user}/>
         )
 
       case null:
@@ -121,7 +121,7 @@ class App extends React.Component{
               }
             }
           }}>
-          <TopLevel/>
+          <TopLevel key={'lvlvl'}/>
       </AltContainer>
     );
   }

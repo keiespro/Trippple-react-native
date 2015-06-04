@@ -125,27 +125,29 @@ class ChatInside extends React.Component{
   }
   componentDidMount(){
     console.log('mount chat',this.refs.lister)
-    InteractionManager.runAfterInteractions(() => {
+    // InteractionManager.runAfterInteractions(() => {
       MatchActions.getMessages(this.props.matchID);
-      this.saveToStorage();
-    })
+    //   this.saveToStorage();
+    // })
     this.refs.lister.refs.listviewscroll.scrollTo.call(this,0,0)
   }
 
   saveToStorage(){
     console.log('save??')
-    AsyncStorage.setItem('ChatStore', alt.takeSnapshot(ChatStore))
-      .then(() => {console.log('saved chat store')})
-      .catch((error) => {console.log('AsyncStorage error: ' + error.message)})
-      .done();
+    // AsyncStorage.setItem('ChatStore', alt.takeSnapshot(ChatStore))
+    //   .then(() => {console.log('saved chat store')})
+    //   .catch((error) => {console.log('AsyncStorage error: ' + error.message)})
+    //   .done();
   }
   _renderRow(rowData, sectionID: number, rowID: number) {
     return (
-      <ChatMessage key={rowData.id+'msg'} text={rowData.message_body} pic={rowData.from_user_info.image_url}/>
+      <ChatMessage key={rowID+'msg'} text={rowData.message_body} pic={rowData.from_user_info.image_url}/>
     )
   }
 
   render(){
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
     return (
       <View style={styles.container}>
           {this.props.messages.length >= 0 ? <ListView ref={'lister'}
@@ -153,7 +155,7 @@ class ChatInside extends React.Component{
               renderScrollView={
                 (props) => <InvertibleScrollView  {...props} inverted />
               }
-              dataSource={this.state.dataSource.cloneWithRows(this.props.messages)}
+              dataSource={ds.cloneWithRows(this.props.messages)}
               renderRow={this._renderRow.bind(this)}
            /> : <Text>No chats</Text>}
 
@@ -186,6 +188,7 @@ class Chat extends React.Component{
             }
           }}>
           <ChatInside
+            key="afvehbdjkn"
             matchID={this.props.matchID}
           />
     </AltContainer>

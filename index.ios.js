@@ -17,7 +17,7 @@ class Trippple extends React.Component{
 
   render(){
     return (
-      <App/>
+      <App key="app"/>
     );
   }
 

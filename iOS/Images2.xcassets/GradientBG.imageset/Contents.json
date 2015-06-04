@@ -3,23 +3,17 @@
     {
       "idiom" : "iphone",
       "scale" : "1x",
-      "filename" : "Default.png"
+      "filename" : "GradientBG.png"
     },
     {
       "idiom" : "iphone",
       "scale" : "2x",
-      "filename" : "Default@2x~iphone.png"
-    },
-    {
-      "idiom" : "iphone",
-      "filename" : "Default-667h@2x~iphone.png",
-      "subtype" : "retina4",
-      "scale" : "2x"
+      "filename" : "GradientBG@2x~iphone.png"
     },
     {
       "idiom" : "iphone",
       "scale" : "3x",
-      "filename" : "Default-736h@3x~iphone.png"
+      "filename" : "GradientBG@3x~iphone.png"
     }
   ],
   "info" : {

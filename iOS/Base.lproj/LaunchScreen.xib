@@ -10,14 +10,14 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="565"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="trippple-logo-small" translatesAutoresizingMaskIntoConstraints="NO" id="dSr-zV-lgj">
-                    <rect key="frame" x="137" y="129" width="43" height="81"/>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="GradientBG-6" translatesAutoresizingMaskIntoConstraints="NO" id="53w-cP-UzA">
+                    <rect key="frame" x="-27" y="0.0" width="375" height="667"/>
                 </imageView>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="trippple-logo-with-text" translatesAutoresizingMaskIntoConstraints="NO" id="haX-Y3-C4E">
-                    <rect key="frame" x="65" y="228" width="190" height="53"/>
+                    <rect key="frame" x="65" y="256" width="190" height="53"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="system-maintenance" translatesAutoresizingMaskIntoConstraints="NO" id="y1I-n6-aN5">
-                    <rect key="frame" x="0.0" y="-6" width="320" height="571"/>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="trippple-logo-small" translatesAutoresizingMaskIntoConstraints="NO" id="dSr-zV-lgj">
+                    <rect key="frame" x="139" y="167" width="43" height="81"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -27,7 +27,7 @@
         </view>
     </objects>
     <resources>
-        <image name="system-maintenance" width="960" height="1704"/>
+        <image name="GradientBG-6" width="375" height="667"/>
         <image name="trippple-logo-small" width="43" height="81"/>
         <image name="trippple-logo-with-text" width="190" height="53"/>
     </resources>

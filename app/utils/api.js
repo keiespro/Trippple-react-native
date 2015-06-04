@@ -4,14 +4,14 @@ var Promise = require("bluebird");
 const KEYCHAIN_NAMESPACE = 'http://api2.trippple.co';
 
 
-var { NativeModules } = require('react-native');
-
+var NativeModules = require('NativeModules');
+console.log(NativeModules);
 var UploadFile = Promise.promisify(NativeModules.FileTransfer.upload);
 
 
 var Logger = require('./logger.js');
 
-const SERVER_URL = 'http://192.168.2.3:9920/user';
+const SERVER_URL = 'http://192.168.1.146:9920/user';
 
 function publicRequest(endpoint, payload){
 

@@ -167,9 +167,7 @@ class Matches extends React.Component{
 
         // get data from server
     if(this.props.user.id){
-      InteractionManager.runAfterInteractions(() => {
         MatchActions.getMatches();
-      })
     }
 
   }
@@ -178,12 +176,10 @@ class Matches extends React.Component{
     if(state.matches.length < 0) return false
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-    InteractionManager.runAfterInteractions(() => {
       this.setState({
         matches: state.matches,
         dataSource: ds.cloneWithRows(state.matches)
       })
-    })
     // if(state.matches.length){
     //   InteractionManager.runAfterInteractions(() => {
     //     this.saveToStorage()

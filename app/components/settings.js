@@ -207,11 +207,11 @@ class Settings extends React.Component{
       if(!this.state.isModalOpen) return false;
       switch (this.state.isModalOpen){
         case 'privacy':
-        return (<Privacy  user={this.props.user}/>);
+        return (<Privacy key={"modalw"}  user={this.props.user}/>);
         case 'imageupload':
-          return (<ImageUpload user={this.props.user}/>);
+          return (<ImageUpload key={"modalw"} user={this.props.user}/>);
         case 'invite':
-          return (<Contacts user={this.props.user}/>);
+          return (<Contacts key={"modalw"} user={this.props.user}/>);
         case 'default':
           return null;
       }

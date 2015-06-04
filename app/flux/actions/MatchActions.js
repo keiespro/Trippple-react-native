@@ -4,9 +4,8 @@ var Logger = require("../../utils/logger");
 
 class MatchActions {
 
-  initializeMatches() {
-    this.dispatch();
-  }
+
+
 
   getMatches() {
 
