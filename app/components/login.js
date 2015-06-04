@@ -7,10 +7,13 @@ var {
  StyleSheet,
  Text,
  View,
+ Image,
  TouchableHighlight,
  TextInput
 } = React;
 
+var DeviceHeight = require('Dimensions').get('window').height;
+var DeviceWidth = require('Dimensions').get('window').width;
 
 var Api = require("../utils/api");
 var UserActions = require('../flux/actions/UserActions');
@@ -19,10 +22,15 @@ var UserActions = require('../flux/actions/UserActions');
 var styles = StyleSheet.create({
  container: {
    flex: 1,
-   justifyContent: 'center',
-   alignItems: 'center',
-   backgroundColor: '#6A85B1',
-   padding: 10
+   alignItems:'center',
+   justifyContent:'center',
+   alignSelf:'stretch',
+   width: DeviceWidth,
+   margin:0,
+   height: DeviceHeight,
+   backgroundColor: 'transparent',
+   padding:20
+
  },
  phoneInput: {
    height: 50,
@@ -41,7 +49,15 @@ var styles = StyleSheet.create({
    fontFamily:'omnes'
 
  },
- button: {
+
+ imagebg:{
+   flex: 1,
+   alignSelf:'stretch',
+   width: DeviceWidth,
+   height: DeviceHeight,
+
+ },
+  button: {
    height: 45,
    flexDirection: 'row',
    backgroundColor: 'transparent',
@@ -116,7 +132,7 @@ class Login extends React.Component{
           underlayColor="black">
           <Text style={styles.buttonText}>Back</Text>
        </TouchableHighlight>
-     </View>
+   </View>
    );
  }
 }

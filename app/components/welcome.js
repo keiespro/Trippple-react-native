@@ -16,11 +16,10 @@ var {
 var Swiper = require('react-native-swiper');
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
-
+var CustomSceneConfigs = require('../utils/sceneConfigs');
 var Register = require('./register');
 var Login = require('./login');
 var Facebook = require('./facebook');
-var Composer = require('NativeModules').RNMessageComposer;
 
 var slides = [
   {
@@ -77,34 +76,6 @@ var IntroScreen = React.createClass({
     })
   },
 
-  handleSendMessage(){
-    Composer.composeMessageWithArgs(
-    {
-        'messageText':'My sample message body text',
-        'subject':'My Sample Subject',
-        'recipients':['3055282534']
-    },
-    (result) => {
-        switch(result) {
-            case Composer.Sent:
-                console.log('the message has been sent');
-                break;
-            case Composer.Cancelled:
-                console.log('user cancelled sending the message');
-                break;
-            case Composer.Failed:
-                console.log('failed to send the message');
-                break;
-            case Composer.NotSupported:
-                console.log('this device does not support sending texts');
-                break;
-            default:
-                console.log('something unexpected happened');
-                break;
-        }
-    }
-    );
-  },
   render(){
     console.log('render intro',this.props.user)
     return(
@@ -123,13 +94,8 @@ var IntroScreen = React.createClass({
            <Text style={styles.buttonText}>Register</Text>
         </TouchableHighlight>
         <Facebook/>
-          <TouchableHighlight
-             style={styles.button}
-             onPress={this.handleSendMessage}
-             underlayColor="black">
-             <Text style={styles.buttonText}>send text</Text>
-          </TouchableHighlight>
-      </View>
+
+    </View>
     )
   }
 })
@@ -163,7 +129,8 @@ class WelcomeCarousel extends React.Component{
     this.props.navigator.push({
       component: IntroScreen,
       title: 'Intro',
-      id:'intro'
+      id:'intro',
+      sceneConfigs: ()=>{ return CustomSceneConfigs.VerticalSlide}
     })
 
   }
@@ -172,7 +139,8 @@ class WelcomeCarousel extends React.Component{
 
 
     return (
-      <View  style={[styles.container]}>
+      <View style={styles.container}>
+
         <Carousel/>
         <View style={[styles.bottomarea]}>
           <TouchableHighlight
@@ -182,7 +150,7 @@ class WelcomeCarousel extends React.Component{
              <Text style={styles.buttonText}>Get Started</Text>
           </TouchableHighlight>
         </View>
-      </View>
+    </View>
     )
   }
 }
@@ -196,6 +164,8 @@ var Welcome = React.createClass({
   render() {
 
     return (
+      <Image resizeMode={Image.resizeMode.cover} source={require('image!GradientBackground')} style={styles.imagebg}>
+
         <Navigator
             initialRoute={{
               component: WelcomeCarousel,
@@ -203,9 +173,12 @@ var Welcome = React.createClass({
               id:'intro',
               index:0
             }}
+            configureScene={(route) => { return  route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.VerticalSlide}}
+
             renderScene={this.renderScene}
         />
 
+      </Image>
 
     );
   },
@@ -217,11 +190,14 @@ var Welcome = React.createClass({
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#6A85B1',
-    padding:20,
-    alignSelf:'stretch'
+    alignItems:'center',
+    justifyContent:'center',
+    alignSelf:'stretch',
+    width: DeviceWidth,
+    margin:0,
+    padding:0,
+    height: DeviceHeight,
+    backgroundColor: 'transparent',
   },
   textplain:{
     color:'#fff',
@@ -241,7 +217,8 @@ var styles = StyleSheet.create({
   carousel:{
     // overflow:'hidden',
     flex:1,
-    marginTop:50
+    marginTop:0,
+
   },
   slide:{
     width: DeviceWidth,
@@ -253,17 +230,24 @@ var styles = StyleSheet.create({
   },
   slideImage:{
     width: 150,
-    height:380
+    height:350
   },
   bottomarea:{
     height:140,
     width: undefined,
     alignSelf:'stretch',
-    bottom:20
+    bottom:100
   },
   textwrap:{
     alignItems:'center',
     justifyContent:'center',
+
+  },
+  imagebg:{
+    flex: 1,
+    alignSelf:'stretch',
+    width: DeviceWidth,
+    height: DeviceHeight,
 
   },
   button: {

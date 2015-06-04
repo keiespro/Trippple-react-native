@@ -38,7 +38,7 @@ var bodyTypes = [
   'Rather not say'
 ];
 
-var  EditSettings = React.createClass({
+var EditSettings = React.createClass({
   getInitialState(){
     return{
       firstname: this.props.user.firstname  || '',

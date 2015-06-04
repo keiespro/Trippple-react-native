@@ -1,14 +1,17 @@
 'use strict';
 var Keychain = require('Keychain');
-
+var Promise = require("bluebird");
 const KEYCHAIN_NAMESPACE = 'http://api2.trippple.co';
 
 
 var { NativeModules } = require('react-native');
 
+var UploadFile = Promise.promisify(NativeModules.FileTransfer.upload);
+
+
 var Logger = require('./logger.js');
 
-const SERVER_URL = 'http://192.168.2.2:9920/user';
+const SERVER_URL = 'http://192.168.2.3:9920/user';
 
 function publicRequest(endpoint, payload){
 
@@ -56,11 +59,11 @@ function authenticatedFileUpload(endpoint, image){
             image_type:'profile'
           }
       };
-      Logger.log(payload);
-      NativeModules.FileTransfer.upload(payload, (err, res) => {
-        Logger.log(err,res);
-        return res.response;
-      })
+      return UploadFile(payload)
+              .then( (res, err) => {
+                Logger.log('res:',res,'err:',err);
+                return res.response;
+              })
     })
 };
 

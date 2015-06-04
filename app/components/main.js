@@ -203,7 +203,7 @@ var ROUTE_STACK = [
       marginLeft: 15,
     },
     appContainer: {
-      backgroundColor: '#39365c',
+      backgroundColor: '#292834',
       flex: 1,
 
       alignSelf:'stretch'
@@ -222,7 +222,7 @@ var ROUTE_STACK = [
       fontFamily:'omnes'
     },
     navBar: {
-      backgroundColor: '#39365c',
+      backgroundColor: '#292834',
       height: 50,
       justifyContent:'space-around',
       alignSelf: 'stretch',
@@ -256,7 +256,7 @@ var ROUTE_STACK = [
     scene: {
       flex: 1,
       paddingTop: 50,
-      backgroundColor: '#39365c',
+      backgroundColor: '#292834',
       justifyContent: 'center'
     },
   });

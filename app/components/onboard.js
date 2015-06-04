@@ -14,6 +14,8 @@ var {
 var UserActions = require('../flux/actions/UserActions');
 var Birthday = require('../controls/birthday');
 var ImageUpload = require('./imageUpload');
+var Privacy = require('./privacy');
+
 var DistanceSlider = require('../controls/distanceSlider');
 var ToggleSwitch = require('../controls/switches');
 
@@ -58,6 +60,27 @@ class CoupleLookingFor extends React.Component{
   }
 }
 
+class PrivacyWrap extends React.Component{
+  constructor(props){
+    super(props);
+  }
+  _continue(value){
+
+    this.props.navigator.push({
+      component: ImageUpload,
+      id:'imgupload',
+      title:'image'
+    })
+
+  }
+
+  render(){
+    return(
+      <Privacy user={this.props.user} handlePrivacyChange={this._continue.bind(this)}/>
+    )
+  }
+}
+
 class LookingFor extends React.Component{
   constructor(props){
     super(props);
@@ -75,12 +98,11 @@ class LookingFor extends React.Component{
       match_distance: this.state.match_distance,
     })
 
-
     this.props.navigator.push({
-      component: ImageUpload,
-      id:'imgupload',
-      title:'image'
-    })
+      component: PrivacyWrap,
+      id:'privacy',
+      title:'privacy'
+    });
   }
   _setAgeMin(value){
 

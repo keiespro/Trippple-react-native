@@ -6,15 +6,51 @@ var {
   Navigator,
   TouchableHighlight
 } = React;
+var Composer = require('NativeModules').RNMessageComposer;
 
 
 
 var PendingPartner = React.createClass({
+
+  handleSendMessage(){
+    Composer.composeMessageWithArgs(
+    {
+        'messageText':'http://appstore.com/trippple',
+        'subject':'Come join me on Trippple!',
+        'recipients':[this.props.user.partner.phone]
+    },
+    (result) => {
+        switch(result) {
+            case Composer.Sent:
+                console.log('the message has been sent');
+                break;
+            case Composer.Cancelled:
+                console.log('user cancelled sending the message');
+                break;
+            case Composer.Failed:
+                console.log('failed to send the message');
+                break;
+            case Composer.NotSupported:
+                console.log('this device does not support sending texts');
+                break;
+            default:
+                console.log('something unexpected happened');
+                break;
+        }
+    }
+    );
+  },
   render() {
 
     return (
       <View style={styles.container}>
           <Text style={[styles.textplain]}>PENDING PARTNER</Text>
+            <TouchableHighlight
+               style={styles.button}
+               onPress={this.handleSendMessage}
+               underlayColor="black">
+               <Text style={styles.buttonText}>send text</Text>
+            </TouchableHighlight>
       </View>
     );
   },
@@ -34,7 +70,26 @@ var styles = StyleSheet.create({
     color:'#111',
     fontSize:30,
     fontFamily:'omnes'
-  }
+  },
+  buttonText: {
+    fontSize: 24,
+    color: '#fff',
+    alignSelf: 'center',
+    fontFamily:'omnes'
+
+  },
+  button: {
+    height: 45,
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
+    borderColor: '#fff',
+    borderWidth: 2,
+    borderRadius: 8,
+    marginBottom: 10,
+    marginTop: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
 });
 
 

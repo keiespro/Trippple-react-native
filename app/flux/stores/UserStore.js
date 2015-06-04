@@ -23,7 +23,8 @@ class UserStore {
       handleLogin: UserActions.LOGIN,
       handleRegister: UserActions.REGISTER,
       handleVerifyPin: UserActions.VERIFY_SECURITY_PIN,
-      handleUpdateUser: UserActions.UPDATE_USER
+      handleUpdateUser: UserActions.UPDATE_USER,
+      handleUpload: UserActions.UPLOAD_IMAGE
 
 
 
@@ -79,12 +80,20 @@ class UserStore {
     });
   }
 
-  handleUpdateUser(wrap){
+  updateUserInfo(attributes){
     var updatedUser = this.user;
-    Object.assign(updatedUser,wrap.updates);
+    Object.assign(updatedUser,attributes);
     this.setState({user:updatedUser});
   }
 
+  handleUpdateUser(wrap){
+    this.updateUserInfo(wrap.updates);
+  }
+
+  handleUpload(response){
+    console.log('handleupload');
+    UserActions.getUserInfo();
+  }
   getUser(){
 
     return this.getState().user;

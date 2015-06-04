@@ -47,23 +47,50 @@ var styles = StyleSheet.create({
     bottom:0,
     top:0,
     left:0,
-    right:0
+    right:0,
 
   },
-
+  absoluteText:{
+    position:'absolute',
+    color:'#ffffff',
+    backgroundColor:'transparent',
+    fontSize:20
+  },
+  absoluteTextTop:{
+    top:0
+  },
+  absoluteTextBottom:{
+    bottom:0
+  },
   card: {
-    margin:30,
+    marginHorizontal:20,
     borderRadius:10,
     backgroundColor: 'white',
     alignSelf: 'stretch',
     flex: 1,
+    marginBottom:70,
+    marginTop:20,
     borderWidth: 1,
     borderColor:'#ddd',
     justifyContent: 'center',
     alignItems: 'center',
-    width: undefined,
-    height: undefined
+    width: undefined
 
+  },
+  singleCard:{
+    backgroundColor:'#fff',
+    flexDirection:'column',
+    alignItems:'stretch',
+    flex:1,
+
+  },
+  coupleCard:{
+    backgroundColor:'#fff',
+    flexDirection:'column',
+    alignItems:'stretch',
+    alignSelf:'stretch',
+    flex:1,
+    width:undefined
   },
   imagebg:{
     flex: 1,
@@ -125,15 +152,28 @@ var ActiveCard = React.createClass({
   },
 
   render: function() {
-
+    console.log('render pots',this.props.user,this.props.potential)
     return (
 
 
         <View key="activecard" ref={(card) => { this.card = card }} style={styles.card} {...this._panResponder.panHandlers} >
-          <Image source={{uri: this.props.potential[0].image_url}} style={styles.imagebg} >
-            <Text>{this.props.potential[0].firstname}</Text>
 
-          </Image>
+          {this.props.user.relationship_status == 'single' ?
+            <View style={styles.coupleCard} >
+              <Image source={{uri: this.props.potential[0].image_url}} style={styles.imagebg} >
+                <Text style={[styles.absoluteText,styles.absoluteTextTop]}>{this.props.potential[0].firstname}</Text>
+              </Image>
+              <Image source={{uri: this.props.potential[1].image_url}} style={styles.imagebg} >
+                <Text style={[styles.absoluteText,styles.absoluteTextBottom]}>{this.props.potential[1].firstname}</Text>
+              </Image>
+            </View>
+          :
+            <View style={styles.singleCard} >
+              <Image source={{uri: this.props.potential.image_url}} style={styles.imagebg} >
+                <Text style={[styles.absoluteText,styles.absoluteTextBottom]}>{this.props.potential.firstname}</Text>
+              </Image>
+            </View>
+          }
         </View>
     );
   },
@@ -235,17 +275,17 @@ var ActiveCard = React.createClass({
         })
 
         this.tweenState((state)=>{return state.position}, 'top',{
-          easing: tweenState.easingTypes.easeOutElastic,
+          easing: tweenState.easingTypes.easeInOut,
           duration: 550,
           stackBehavior: tweenState.stackBehavior.ADDITIVE,
           beginValue: this._cardStyles.top,
           endValue:  0,
           onEnd: () => {Logger.log('ONEND');
-            this.replaceState({isAnimating:false,position: {left:0,top:0}})
+            // this.replaceState({isAnimating:false,position: {left:0,top:0}})
           }
         });
         this.tweenState((state)=>{return state.position}, 'left',{
-          easing: tweenState.easingTypes.easeOutElastic,
+          easing: tweenState.easingTypes.easeInOut,
           duration: 555,
           stackBehavior: tweenState.stackBehavior.ADDITIVE,
           beginValue: this._cardStyles.left,
@@ -278,10 +318,22 @@ class InactiveCard extends React.Component{
 
     return (
       <View style={[styles.card,styles.absoluteCard]}>
-        <Image source={{uri: this.props.potential[0].image_url}} style={styles.imagebg} >
-          <Text>{this.props.potential[0].firstname}</Text>
-
-        </Image>
+        {this.props.user.relationship_status == 'single' ?
+          <View style={styles.coupleCard} >
+            <Image source={{uri: this.props.potential[0].image_url}} style={styles.imagebg} >
+              <Text style={[styles.absoluteText,styles.absoluteTextTop]}>{this.props.potential[0].firstname}</Text>
+            </Image>
+            <Image source={{uri: this.props.potential[1].image_url}} style={styles.imagebg} >
+              <Text style={[styles.absoluteText,styles.absoluteTextBottom]}>{this.props.potential[1].firstname}</Text>
+            </Image>
+          </View>
+        :
+          <View style={styles.singleCard} >
+            <Image source={{uri: this.props.potential.image_url}} style={styles.imagebg} >
+              <Text style={[styles.absoluteText,styles.absoluteTextBottom]}>{this.props.potential.firstname}</Text>
+            </Image>
+          </View>
+        }
       </View>
 
     )
@@ -292,23 +344,29 @@ class InactiveCard extends React.Component{
 
 
 class CardStack extends React.Component{
+  constructor(props){
+    super(props)
+  }
   render(){
     var inactiveCards = this.props.potentials.map((potential,index) =>{
           return(
-            <InactiveCard potential={potential}  key={'potential'+index}/>
+            <InactiveCard potential={potential} user={this.props.user} key={'potential'+index}/>
           );
         });
 
     Logger.log(this.props,'ACTIVE');
     return(
       <View style={styles.container} pointerEvents="box-none">
-        <ActiveCard potential={this.props.potentials.length ? this.props.potentials[0] : []}/>
+        <ActiveCard potential={this.props.potentials.length ? this.props.potentials[0] : []} user={this.props.user}/>
       </View>
       )
   }
 }
 
 class Potentials extends React.Component{
+  constructor(props){
+    super(props)
+  }
   render(){
 
     return(
@@ -321,7 +379,7 @@ class Potentials extends React.Component{
             }
           }
         }}>
-        <CardStack />
+        <CardStack user={this.props.user}/>
       </AltContainer>
 
     )

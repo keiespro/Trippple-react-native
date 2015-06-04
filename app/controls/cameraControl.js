@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react-native');
 var {
   StyleSheet,
@@ -7,7 +9,7 @@ var {
 } = React;
 
 var Camera = require('react-native-camera');
-var UserActions = require('../flux/actions/UserActions');
+var ImageEditor = require('./ImageEditor');
 
 var CameraControl = React.createClass({
   getInitialState() {
@@ -26,17 +28,17 @@ var CameraControl = React.createClass({
           type={this.state.cameraType}
           captureTarget={Camera.constants.CaptureTarget.disk}
         />
-      <View style={styles.bottom}>
-        <TouchableHighlight onPress={this._switchCamera} style={styles.leftbutton}>
-          <View/>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={this._takePicture} style={styles.bigbutton}>
-          <View/>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={this._switchCamera} style={styles.leftbutton}>
-          <View/>
-        </TouchableHighlight>
-      </View>
+        <View style={styles.bottom}>
+          <TouchableHighlight onPress={this._switchCamera} style={styles.leftbutton}>
+            <View/>
+          </TouchableHighlight>
+          <TouchableHighlight onPress={this._takePicture} style={styles.bigbutton}>
+            <View/>
+          </TouchableHighlight>
+          <TouchableHighlight onPress={this._switchCamera} style={styles.leftbutton}>
+            <View/>
+          </TouchableHighlight>
+        </View>
 
       </View>
     );
@@ -48,9 +50,19 @@ var CameraControl = React.createClass({
     this.setState(state);
   },
   _takePicture() {
-    this.refs.cam.capture(function(err, data) {
+    this.refs.cam.capture((err, data)=> {
       console.log(err, data);
-      UserActions.uploadImage(data);
+
+      this.props.navigator.push({
+        component: ImageEditor,
+        id:'imageeditor',
+        title: 'Edit Image',
+        passProps: {
+          image: data
+        }
+
+      })
+
     });
   }
 });

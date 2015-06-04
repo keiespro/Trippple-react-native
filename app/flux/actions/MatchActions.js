@@ -37,7 +37,11 @@ class MatchActions {
             this.dispatch(res.response);
           })
       },
-      (error) => Logger.error(error),
+      (error) => {
+        // Open native settings
+
+        Logger.error(error)
+      },
       {enableHighAccuracy: false, maximumAge: 1000}
     )
 

@@ -5,7 +5,7 @@ var Logger = require("../../utils/logger");
 
 class UserActions {
   getUserInfo() {
-    Api.getUserInfo
+    Api.getUserInfo()
       .then((res) => {
         Logger.log(res);
         this.dispatch(res.response);
@@ -53,8 +53,22 @@ class UserActions {
   uploadImage(image){
     Api.uploadImage(image)
       .then((res) => {
-        Logger.log(res);
-        this.dispatch(res.response);
+         Api.getUserInfo()
+          .then((res) => {
+            Logger.log(res);
+            this.dispatch(res.response);
+          })
+          .catch((err) => {
+            Logger.log(err);
+            this.dispatch();
+          })
+
+      })
+      .catch((err) => {
+        Logger.log(err);
+        this.dispatch({
+          err: err
+        });
       })
 
   }
@@ -73,8 +87,7 @@ class UserActions {
       .catch((err) => {
         Logger.log(err);
         this.dispatch({
-          response: err,
-          updates: payload
+          err: err
         });
       })
   }

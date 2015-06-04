@@ -120,6 +120,86 @@ var FromTheLeft = {
 
 
 
+var FromTheFront = {
+  opacity: {
+    value: 1.0,
+    type: 'constant',
+  },
+
+  transformTranslate: {
+    from: {x: 0, y: Dimensions.get('window').height, z: 0},
+    to: {x: 0, y: 0, z: 0},
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true,
+    round: PixelRatio.get(),
+  },
+  translateY: {
+    from: Dimensions.get('window').height,
+    to: 0,
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true,
+    round: PixelRatio.get(),
+  },
+  scaleX: {
+    value: 1,
+    type: 'constant',
+  },
+  scaleY: {
+    value: 1,
+    type: 'constant',
+  },
+};
+
+var ToTheBack = {
+  // Rotate *requires* you to break out each individual component of
+  // rotation (x, y, z, w)
+  transformTranslate: {
+    from: {x: 0, y: 0, z: 0},
+    to: {x: 0, y: (-1*Dimensions.get('window').height), z: 0},
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true,
+    round: PixelRatio.get(),
+  },
+  transformScale: {
+    from: {x: 1, y: 1, z: 1},
+    to: {x: 0.95, y: 0.95, z: 1},
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true
+  },
+  opacity: {
+    from: 1,
+    to: 0.3,
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: false,
+    round: 100,
+  },
+  scaleX: {
+    from: 1,
+    to: 0.95,
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true
+  },
+  scaleY: {
+    from: 1,
+    to: 0.95,
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true
+  },
+};
 
 var SPRING_FRICTION = 26,
     SPRING_TENSION = 200,
@@ -200,6 +280,37 @@ var CustomSceneConfigs = {
       into: buildStyleInterpolator(FromTheRight),
       out: buildStyleInterpolator(ToTheLeft),
     },
+  },
+  VerticalSlide: {
+    // Rebound spring parameters when transitioning FROM this scene
+    springFriction: SPRING_FRICTION,
+    springTension: SPRING_TENSION,
+
+    // Velocity to start at when transitioning without gesture
+    defaultTransitionVelocity: 1.5,
+
+    gestures: {
+
+
+      pop: {
+        ...BaseLeftToRightGesture,
+        edgeHitWidth: 150,
+        direction: 'top-to-bottom',
+        fullDistance: SCREEN_HEIGHT,
+      },
+      push: {
+        ...BaseRightToLeftGesture,
+        edgeHitWidth: 150,
+        direction: 'top-to-bottom',
+        fullDistance: SCREEN_HEIGHT,
+
+      },
+    },
+    animationInterpolators: {
+      into: buildStyleInterpolator(FromTheFront),
+      out: buildStyleInterpolator(ToTheBack),
+    },
+
   }
 };
 
