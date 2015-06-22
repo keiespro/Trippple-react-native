@@ -22,6 +22,7 @@ var Chat = require("./chat");
 var MatchActions = require('../flux/actions/MatchActions');
 var MatchesStore = require("../flux/stores/MatchesStore");
 var Swipeout = require('react-native-swipeout');
+var Logger = require('../utils/logger');
 
 // Buttons
 var swipeoutBtns = [
@@ -102,7 +103,9 @@ class MatchList extends React.Component{
     });
 
     return (
-      <Swipeout right={swipeoutBtns}  onPress={() => this._pressRow(rowData.match_id)} key={rowData.match_id+'match'}>
+      <Swipeout right={swipeoutBtns}  key={rowData.match_id+'match'}>
+        <TouchableHighlight onPress={() => {Logger.log('onpress Swipeout');  this._pressRow(rowData.match_id); }} key={rowData.match_id+'match'}>
+
         <View>
           <View style={styles.row}>
             <View style={styles.thumbswrap}>
@@ -119,6 +122,7 @@ class MatchList extends React.Component{
           </View>
           <View style={styles.separator} />
         </View>
+      </TouchableHighlight>
       </Swipeout>
     );
   }
