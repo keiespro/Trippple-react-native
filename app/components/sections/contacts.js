@@ -117,7 +117,7 @@ class Contacts extends React.Component{
 
     this.setState({
       dataSource: ds.cloneWithRows(_.filter(this.state.contacts, (contact)=>{
-        let name = `${contact.firstName || ''} ${contact.lastName || ''}`;
+        var name = `${contact.firstName || ''} ${contact.lastName || ''}`;
         return name.toLowerCase().indexOf(text.toLowerCase()) >= 0
       }))
     });

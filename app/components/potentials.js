@@ -22,7 +22,7 @@ var alt = require('../flux/alt')
 var AltContainer = require('alt/AltNativeContainer');
 var Logger = require('../utils/logger');
 
-const THROW_OUT_THRESHOLD = 250;
+var THROW_OUT_THRESHOLD = 250;
 
 
 var styles = StyleSheet.create({
@@ -261,7 +261,7 @@ var ActiveCard = React.createClass({
           beginValue: this._cardStyles.left,
           endValue:  gestureState.dx > 0 ? 500 : -500,
           onEnd: () => {
-            let likeStatus = gestureState.dx > 0 ? 'approve' : 'deny';
+            var likeStatus = gestureState.dx > 0 ? 'approve' : 'deny';
             this.replaceState({isAnimating:false,position: {left:0,top:0}})
             MatchActions.sendLike(this.props.potential[0].id,likeStatus);
           }

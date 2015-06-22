@@ -1,4 +1,4 @@
-const ENV = 'dev';
+var ENV = 'dev';
 
 class Logger {
 

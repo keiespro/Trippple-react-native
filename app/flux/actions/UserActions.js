@@ -74,7 +74,7 @@ class UserActions {
   }
 
   updateUser(payload){
-    const updates = payload;
+    var updates = payload;
     Logger.log('update action',payload);
     Api.updateUser(payload)
       .then((res) => {

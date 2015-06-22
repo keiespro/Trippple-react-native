@@ -1,7 +1,7 @@
 'use strict';
 var Keychain = require('Keychain');
 var Promise = require("bluebird");
-const KEYCHAIN_NAMESPACE = 'http://api2.trippple.co';
+var KEYCHAIN_NAMESPACE = 'http://api2.trippple.co';
 
 
 var NativeModules = require('NativeModules');
@@ -11,7 +11,7 @@ var UploadFile = Promise.promisify(NativeModules.FileTransfer.upload);
 
 var Logger = require('./logger.js');
 
-const SERVER_URL = 'http://192.168.1.146:9920/user';
+var SERVER_URL = 'http://192.168.1.146:9920/user';
 
 function publicRequest(endpoint, payload){
 

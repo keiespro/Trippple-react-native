@@ -2,7 +2,7 @@ var alt = require('../alt');
 var UserActions = require('../actions/UserActions');
 var Keychain = require('Keychain');
 
-const server = 'http://api2.trippple.co';
+var server = 'http://api2.trippple.co';
 
 class UserStore {
   constructor() {
