@@ -10,10 +10,10 @@ var {
   TextInput,
   ScrollView,
   Image,
-  PickerIOS
+  // PickerIOS
 } = React;
 
-var PickerItemIOS = PickerIOS.Item;
+// var PickerItemIOS = PickerIOS.Item;
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 
@@ -22,7 +22,7 @@ var ToggleSwitch = require('../controls/switches');
 
 var ImageUpload = require('./imageUpload');
 var Privacy = require('./privacy');
-var Modal = require('react-native-modal');
+var Modal = require('react-native-swipeable-modal');
 
 var FeedbackButton = require('./sections/feedbackButton');
 var Contacts = require('./sections/contacts');
@@ -91,7 +91,7 @@ var EditSettings = React.createClass({
           onChangeText={(text) => this._updateAttr({bio: text})}
         />
       </View>
-      <View style={[styles.tallFormRow]}>
+  {/*    <View style={[styles.tallFormRow]}>
         <Text style={styles.formLabel}>Body Type</Text>
         <PickerIOS
           style={styles.picker}
@@ -107,7 +107,7 @@ var EditSettings = React.createClass({
               />
           ))}
         </PickerIOS>
-      </View>
+      </View>*/}
     </View>)
   }
 })
@@ -266,19 +266,12 @@ class Settings extends React.Component{
 
          </ContentWrapper>
 
-         <Modal
-           isVisible={this.state.isModalOpen != false}
-           onPressBackdrop={this._handleBackdropPress.bind(this)}
-           backdropType={'blur'}
-           hideCloseButton={false}
-           backdropBlur={'light'}
-           forceToFront={true}
-           customShowHandler={this.showModalTransition}
-           customHideHandler={this.hideModalTransition}
-           style={styles.modalwrap}
-           onClose={() => this.closeModal.bind(this)}
-           customCloseButton={<TouchableHighlight onPress={() => this.closeModal.bind(this)} style={styles.closebox}><Text>X</Text></TouchableHighlight>}
-           >
+        <Modal
+          height={500}
+          style={{opacity: 0.9}}
+          isVisible={this.state.isModalOpen}         
+    
+          >
             <View
               style={styles.modal}>
               {modalWindow()}
