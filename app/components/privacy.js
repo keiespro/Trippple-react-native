@@ -34,7 +34,11 @@ var Privacy = React.createClass({
       privacy: this.state.privacy
     });
     this.props.handlePrivacyChange && this.props.handlePrivacyChange(this.state.privacy);
+  
+    this.props.saveAndClose && this.props.saveAndClose();
+
   },
+  
   render() {
 
     return (

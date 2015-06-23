@@ -157,6 +157,7 @@ class ChatInside extends React.Component{
     //   )
     // })
     return (
+      <View style={{backgroundColor:'#fff',flex:1,alignSelf:'stretch'}}>
         <TripppleChat>
           <ListView
             initialListSize={12}
@@ -165,6 +166,7 @@ class ChatInside extends React.Component{
             renderRow={this._renderRow.bind(this)}
           />
         </TripppleChat>
+      </View>
     )
   }
 };
