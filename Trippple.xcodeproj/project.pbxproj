@@ -33,9 +33,9 @@
 		AC03D1FA1B0DBBE600D777BA /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC03D1F91B0DBBDF00D777BA /* libRNKeychain.a */; };
 		AC2C8F7E1B15D90A00A2A016 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2C8F7A1B15D90400A2A016 /* libRNFS.a */; };
 		AC2C8F9A1B19589400A2A016 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2C8F991B19589400A2A016 /* libxml2.2.dylib */; };
-		AC2E92E11B38DD3700885CB8 /* libCocoaLumberjack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA9AB281B38DA3D00C76149 /* libCocoaLumberjack.a */; };
+		AC2E92FE1B392EB700885CB8 /* libPods-LoremIpsum.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACFCECB01B392B8000FE7CE4 /* libPods-LoremIpsum.a */; };
+		AC2E93161B3931E400885CB8 /* libPods-SlackTextViewController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC83E7181B3848FA00CF5B10 /* libPods-SlackTextViewController.a */; };
 		AC310CA81B1FFF6C00E7205A /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = AC310CA71B1FFF6C00E7205A /* RCTFileTransfer.m */; };
-		AC83E7351B384A8A00CF5B10 /* libPods-SlackTextViewController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC83E7181B3848FA00CF5B10 /* libPods-SlackTextViewController.a */; };
 		AC84FD741B0857CE000B4D46 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC84FD731B0857C9000B4D46 /* libRCTWebSocket.a */; };
 		AC84FE061B088B59000B4D46 /* omnes-bold-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC84FE021B088B59000B4D46 /* omnes-bold-webfont.ttf */; };
 		AC84FE071B088B59000B4D46 /* omnes-light-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC84FE031B088B59000B4D46 /* omnes-light-webfont.ttf */; };
@@ -46,6 +46,7 @@
 		ACA9AB261B38DA2D00C76149 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2C8FA11B19641800A2A016 /* libRNMail.a */; };
 		ACA9AB271B38DA3200C76149 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC83E7141B3848FA00CF5B10 /* libPods.a */; };
 		ACD0A70B1B1552E100C3A3B7 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD0A70A1B1552D800C3A3B7 /* libRCTCamera.a */; };
+		EFABA0C76EEEA83E1D3FF16E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27FB73913755F531FEAC19C6 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -217,6 +218,13 @@
 			remoteGlobalIDString = 4107012F1ACB723B00C6AA39;
 			remoteInfo = RCTCamera;
 		};
+		ACFCECAF1B392B8000FE7CE4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC83E70D1B3848FA00CF5B10 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A82EAA51FC79BC13DE2CA38A;
+			remoteInfo = "Pods-LoremIpsum";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -281,6 +289,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC2E93161B3931E400885CB8 /* libPods-SlackTextViewController.a in Frameworks */,
+				AC2E92FE1B392EB700885CB8 /* libPods-LoremIpsum.a in Frameworks */,
 				ACA9AB271B38DA3200C76149 /* libPods.a in Frameworks */,
 				ACA9AB261B38DA2D00C76149 /* libRNMail.a in Frameworks */,
 				ACA9AB251B38DA2700C76149 /* libRCTAddressBook.a in Frameworks */,
@@ -290,7 +300,6 @@
 				ACD0A70B1B1552E100C3A3B7 /* libRCTCamera.a in Frameworks */,
 				AC03D1FA1B0DBBE600D777BA /* libRNKeychain.a in Frameworks */,
 				AC03D1F31B0DB8B300D777BA /* libRNMessageComposer.a in Frameworks */,
-				AC2E92E11B38DD3700885CB8 /* libCocoaLumberjack.a in Frameworks */,
 				AC03D1E21B0DA47500D777BA /* libRCTFBLogin.a in Frameworks */,
 				AC03D1581B0C0F7B00D777BA /* libRNModal.a in Frameworks */,
 				AC03D1E81B0DA48600D777BA /* FBSDKLoginKit.framework in Frameworks */,
@@ -307,7 +316,7 @@
 				AC03D1E91B0DA48600D777BA /* FBSDKCoreKit.framework in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
-				AC83E7351B384A8A00CF5B10 /* libPods-SlackTextViewController.a in Frameworks */,
+				EFABA0C76EEEA83E1D3FF16E /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -550,6 +559,7 @@
 			isa = PBXGroup;
 			children = (
 				AC83E7141B3848FA00CF5B10 /* libPods.a */,
+				ACFCECB01B392B8000FE7CE4 /* libPods-LoremIpsum.a */,
 				AC83E7181B3848FA00CF5B10 /* libPods-SlackTextViewController.a */,
 			);
 			name = Products;
@@ -909,6 +919,13 @@
 			remoteRef = ACD0A7091B1552D800C3A3B7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		ACFCECB01B392B8000FE7CE4 /* libPods-LoremIpsum.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libPods-LoremIpsum.a";
+			remoteRef = ACFCECAF1B392B8000FE7CE4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1013,6 +1030,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 13A9B31F785F57687470E953 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1033,6 +1051,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 901B79FA468BF336E58433A3 /* Pods.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -1052,13 +1071,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 13A9B31F785F57687470E953 /* Pods.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/node_modules/react-native-facebook-login/FacebookSDK",
+					"$(PROJECT_DIR)/node_modules/react-native-facebook-login/FacebookSDK/**",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1066,19 +1086,14 @@
 					"$(SRCROOT)/node_modules/react-native/React/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/node_modules/react-native-camera/build/Debug-iphoneos",
-					"$(PROJECT_DIR)/node_modules/react-native-svg/Libraries/SVGKit/Source/Vendor/CocoaLumberjack/Framework/Mobile/build/Debug-iphoneos",
-					"$(PROJECT_DIR)/node_modules/react-native-svg/Libraries/SVGKit/build/Debug-iphoneos",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Trippple-fvjzevfvfszkvchackplxqdobjli/Build/Products/Debug-iphoneos",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = Trippple;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Debug;
 		};
@@ -1086,13 +1101,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 901B79FA468BF336E58433A3 /* Pods.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/node_modules/react-native-facebook-login/FacebookSDK",
+					"$(PROJECT_DIR)/node_modules/react-native-facebook-login/FacebookSDK/**",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1100,19 +1116,14 @@
 					"$(SRCROOT)/node_modules/react-native/React/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/node_modules/react-native-camera/build/Debug-iphoneos",
-					"$(PROJECT_DIR)/node_modules/react-native-svg/Libraries/SVGKit/Source/Vendor/CocoaLumberjack/Framework/Mobile/build/Debug-iphoneos",
-					"$(PROJECT_DIR)/node_modules/react-native-svg/Libraries/SVGKit/build/Debug-iphoneos",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Trippple-fvjzevfvfszkvchackplxqdobjli/Build/Products/Debug-iphoneos",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = Trippple;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Release;
 		};
@@ -1136,6 +1147,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Trippple LLC";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1184,6 +1196,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -1214,7 +1227,7 @@
 				00E356F71AD99517003FC87E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Trippple" */ = {
 			isa = XCConfigurationList;
@@ -1223,7 +1236,7 @@
 				13B07F951A680F5B00A75B9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Trippple" */ = {
 			isa = XCConfigurationList;
@@ -1232,7 +1245,7 @@
 				83CBBA211A601CBA00E9B192 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

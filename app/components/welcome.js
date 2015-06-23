@@ -222,7 +222,7 @@ var styles = StyleSheet.create({
   carousel:{
     // overflow:'hidden',
     flex:1,
-    marginTop:0,
+    marginTop:70,
 
   },
   slide:{

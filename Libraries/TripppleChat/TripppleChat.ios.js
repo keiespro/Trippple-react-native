@@ -4,18 +4,35 @@
  */
 'use strict';
 
-var NativeTripppleChat = require('NativeModules').TripppleChat;
 var invariant = require('invariant');
+
+var React = require('react-native');
+var {
+  View,
+  PropTypes,
+  StyleSheet,
+  requireNativeComponent,
+} = React;
+
+
+type Props = {
+  matchID: int;
+}
+
+var NativeTripppleChat = requireNativeComponent('TripppleChat',TripppleChat);
 
 /**
  * High-level docs for the TripppleChat iOS API can be written here.
  */
 
-var TripppleChat = {
+class TripppleChat extends React.Component{
+  propTypes: {
+    matchID: React.PropTypes.number,
 
-  render: function(){
+  }
+  render(){
     
-    return (<NativeTripppleChat/>)
+    return (<NativeTripppleChat matchID="30"/>)
   }
 };
 

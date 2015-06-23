@@ -131,7 +131,7 @@ class ChatInside extends React.Component{
       MatchActions.getMessages(this.props.matchID);
     //   this.saveToStorage();
     // })
-    this.refs.lister.refs.listviewscroll.scrollTo.call(this,0,0)
+    // this.refs.lister.refs.listviewscroll.scrollTo.call(this,0,0)
   }
 
   saveToStorage(){
@@ -150,18 +150,28 @@ class ChatInside extends React.Component{
   render(){
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     console.log(TripppleChat);
+    
+    // var children = this.state.messages.map((el,i) => {
+    //   return (
+    //     
+    //   )
+    // })
     return (
-      <TripppleChat />
-      
+        <TripppleChat>
+          <ListView
+            initialListSize={12}
+            removeClippedSubviews={true}
+            dataSource={ ds.cloneWithRows([this.state.messages]) }
+            renderRow={this._renderRow.bind(this)}
+          />
+        </TripppleChat>
     )
   }
-}
+};
 
-class Chat extends React.Component{
-  constructor(props){
-    super(props);
-  }
+var Chat = React.createClass({
 
+  
   render(){
     return(
       <AltContainer
@@ -181,6 +191,6 @@ class Chat extends React.Component{
     );
   }
 
-}
+});
 
 module.exports = Chat;

@@ -4,3 +4,4 @@
 #</React-Native>
 
 pod 'SlackTextViewController'
+pod 'LoremIpsum'
