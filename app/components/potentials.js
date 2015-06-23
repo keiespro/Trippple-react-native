@@ -193,7 +193,7 @@ var ActiveCard = React.createClass({
     });
   },
   componentDidUpdate: function(prevProps,prevState){
-    Logger.log('componentDidUpdate',this.state.isAnimating,'left: ' +this.getTweeningValue((state) => {return state.position},'left'));
+    // Logger.log('componentDidUpdate',this.state.isAnimating,'left: ' +this.getTweeningValue((state) => {return state.position},'left'));
     if(this.state.isAnimating){
       this._updatePosition({
         left: this.getTweeningValue((state) => {return state.position},'left'),
@@ -251,7 +251,7 @@ var ActiveCard = React.createClass({
           beginValue: this._cardStyles.top,
           endValue:  300,
           onEnd: () => {
-            // this.replaceState({isAnimating:false,position: {left:0,top:0}})
+            this.replaceState({isAnimating:false,position: {left:0,top:0}})
           }
         });
         this.tweenState((state)=>{return state.position}, 'left',{

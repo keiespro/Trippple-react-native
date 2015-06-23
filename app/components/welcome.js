@@ -79,21 +79,26 @@ var IntroScreen = React.createClass({
   render(){
     console.log('render intro',this.props.user)
     return(
-      <View style={styles.container}>
-        <Text style={[styles.textplain]}>Welcome Screen</Text>
-        <TouchableHighlight
-           style={styles.button}
-           onPress={this.handleLoginButton}
-           underlayColor="black">
-           <Text style={styles.buttonText}>Login</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-           style={styles.button}
-           onPress={this.handleRegisterButton}
-           underlayColor="black">
-           <Text style={styles.buttonText}>Register</Text>
-        </TouchableHighlight>
-        <Facebook/>
+      <View style={[styles.container]}>
+        <View style={styles.wrap}>
+          <Text style={[styles.textplain]}>Welcome Screen</Text>
+          <Facebook/>
+        </View>
+
+          <View style={styles.bottomButtons}>
+            <TouchableHighlight
+               style={[styles.bottomButton,styles.blackButton]}
+               onPress={this.handleLoginButton}
+               underlayColor="black">
+               <Text style={styles.buttonText}>Login</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+               style={[styles.bottomButton,styles.darkPurpleButton]}
+               onPress={this.handleRegisterButton}
+               underlayColor="black">
+               <Text style={styles.buttonText}>Register</Text>
+            </TouchableHighlight>
+          </View>
 
     </View>
     )
@@ -263,6 +268,44 @@ var styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center'
   },
+  bottomButton: {
+    height: 80,
+    flex:1,
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
+    borderColor: '#fff',
+    borderWidth: 0,
+    borderRadius: 0,
+    marginBottom: 0,
+    marginTop: 0,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
+  blackButton:{
+    backgroundColor:'#111',
+    
+  },
+  darkPurpleButton:{
+    backgroundColor:'#292834',
+  },
+  wrap:{
+    alignItems: 'center',
+    flex:9,
+    justifyContent:'center',
+    alignSelf: 'stretch',
+    height:undefined
+  },
+  bottomButtons: {
+    height: 80,
+    // position:'absolute',
+    // bottom:0,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent:'space-around',
+    alignSelf:'stretch',
+    flex: 1,
+    width: undefined
+  }
 
 });
 

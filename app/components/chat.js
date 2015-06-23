@@ -12,6 +12,7 @@ var {
   Image,
   TextInput,
   ListView,
+  ScrollView,
   PixelRatio
 } = React;
 
@@ -21,7 +22,8 @@ var ChatStore = require("../flux/stores/ChatStore");
 var MatchActions = require("../flux/actions/MatchActions");
 var alt = require('../flux/alt');
 var AltContainer = require('alt/AltNativeContainer');
-var InvertibleScrollView = require('react-native-invertible-scroll-view');
+// var InvertibleScrollView = require('react-native-invertible-scroll-view');
+var TripppleChat = require('TripppleChat');
 
 var styles = StyleSheet.create({
   container: {
@@ -147,34 +149,18 @@ class ChatInside extends React.Component{
 
   render(){
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
+    console.log(TripppleChat);
     return (
-      <View style={styles.container}>
-          {this.props.messages.length >= 0 ? <ListView ref={'lister'}
-            style={styles.messageList}
-              renderScrollView={
-                (props) => <InvertibleScrollView  {...props} inverted />
-              }
-              dataSource={ds.cloneWithRows(this.props.messages)}
-              renderRow={this._renderRow.bind(this)}
-           /> : <Text>No chats</Text>}
-
-          {/* TODO: use ios inputaccessorybar for input*/}
-      </View>
+      <TripppleChat />
+      
     )
   }
 }
 
 class Chat extends React.Component{
-
   constructor(props){
-    console.log(props);
     super(props);
-
   }
-
-
-
 
   render(){
     return(

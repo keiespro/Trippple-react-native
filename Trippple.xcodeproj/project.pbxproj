@@ -32,16 +32,19 @@
 		AC03D1F31B0DB8B300D777BA /* libRNMessageComposer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC03D1F21B0DB8AB00D777BA /* libRNMessageComposer.a */; };
 		AC03D1FA1B0DBBE600D777BA /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC03D1F91B0DBBDF00D777BA /* libRNKeychain.a */; };
 		AC2C8F7E1B15D90A00A2A016 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2C8F7A1B15D90400A2A016 /* libRNFS.a */; };
-		AC2C8F941B19587D00A2A016 /* libRNSvg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2C8F931B19586900A2A016 /* libRNSvg.a */; };
 		AC2C8F9A1B19589400A2A016 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2C8F991B19589400A2A016 /* libxml2.2.dylib */; };
-		AC2C8FA41B19641F00A2A016 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2C8FA11B19641800A2A016 /* libRNMail.a */; };
-		AC2C8FAE1B1966FD00A2A016 /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2C8FAB1B1966F900A2A016 /* libRCTAddressBook.a */; };
+		AC2E92E11B38DD3700885CB8 /* libCocoaLumberjack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA9AB281B38DA3D00C76149 /* libCocoaLumberjack.a */; };
 		AC310CA81B1FFF6C00E7205A /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = AC310CA71B1FFF6C00E7205A /* RCTFileTransfer.m */; };
+		AC83E7351B384A8A00CF5B10 /* libPods-SlackTextViewController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC83E7181B3848FA00CF5B10 /* libPods-SlackTextViewController.a */; };
 		AC84FD741B0857CE000B4D46 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC84FD731B0857C9000B4D46 /* libRCTWebSocket.a */; };
 		AC84FE061B088B59000B4D46 /* omnes-bold-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC84FE021B088B59000B4D46 /* omnes-bold-webfont.ttf */; };
 		AC84FE071B088B59000B4D46 /* omnes-light-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC84FE031B088B59000B4D46 /* omnes-light-webfont.ttf */; };
 		AC84FE081B088B59000B4D46 /* omnes-medium-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC84FE041B088B59000B4D46 /* omnes-medium-webfont.ttf */; };
 		AC84FE091B088B59000B4D46 /* omnes-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC84FE051B088B59000B4D46 /* omnes-regular-webfont.ttf */; };
+		ACA9AAF51B38531C00C76149 /* libTripppleChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC83E7341B3849D800CF5B10 /* libTripppleChat.a */; };
+		ACA9AB251B38DA2700C76149 /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2C8FAB1B1966F900A2A016 /* libRCTAddressBook.a */; };
+		ACA9AB261B38DA2D00C76149 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2C8FA11B19641800A2A016 /* libRNMail.a */; };
+		ACA9AB271B38DA3200C76149 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC83E7141B3848FA00CF5B10 /* libPods.a */; };
 		ACD0A70B1B1552E100C3A3B7 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD0A70A1B1552D800C3A3B7 /* libRCTCamera.a */; };
 /* End PBXBuildFile section */
 
@@ -151,13 +154,6 @@
 			remoteGlobalIDString = F12AFB9B1ADAF8F800E0535D;
 			remoteInfo = RNFS;
 		};
-		AC2C8F921B19586900A2A016 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AC2C8F8C1B19586900A2A016 /* RNSvg.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNSvg;
-		};
 		AC2C8FA01B19641800A2A016 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AC2C8F9B1B19641800A2A016 /* RNMail.xcodeproj */;
@@ -186,6 +182,27 @@
 			remoteGlobalIDString = 145CC57B1AED80100006342E;
 			remoteInfo = RCTAddressBookTests;
 		};
+		AC83E7131B3848FA00CF5B10 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC83E70D1B3848FA00CF5B10 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FCAC8E813CCAA2EA57E0447D;
+			remoteInfo = Pods;
+		};
+		AC83E7171B3848FA00CF5B10 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC83E70D1B3848FA00CF5B10 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 80095BF06EB92B5E7C40E7BB;
+			remoteInfo = "Pods-SlackTextViewController";
+		};
+		AC83E7331B3849D800CF5B10 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC83E72F1B3849D800CF5B10 /* TripppleChat.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = TripppleChat;
+		};
 		AC84FD721B0857C9000B4D46 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AC84FD6E1B0857C9000B4D46 /* RCTWebSocket.xcodeproj */;
@@ -213,6 +230,7 @@
 		00E356EE1AD99517003FC87E /* TripppleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripppleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* TripppleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TripppleTests.m; sourceTree = "<group>"; };
+		13A9B31F785F57687470E953 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Trippple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Trippple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = iOS/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = iOS/AppDelegate.m; sourceTree = "<group>"; };
@@ -220,8 +238,10 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = iOS/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = iOS/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		27FB73913755F531FEAC19C6 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		901B79FA468BF336E58433A3 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		AC03D1471B0C0F6200D777BA /* RNModal.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNModal.xcodeproj; path = "node_modules/react-native-modal/RNModal.xcodeproj"; sourceTree = "<group>"; };
 		AC03D1DA1B0D559900D777BA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		AC03D1DC1B0DA46D00D777BA /* RCTFBLogin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBLogin.xcodeproj; path = "node_modules/react-native-facebook-login/RCTFBLogin.xcodeproj"; sourceTree = "<group>"; };
@@ -233,16 +253,19 @@
 		AC03D1ED1B0DB8AB00D777BA /* RNMessageComposer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMessageComposer.xcodeproj; path = "node_modules/react-native-message-composer/RNMessageComposer.xcodeproj"; sourceTree = "<group>"; };
 		AC03D1F41B0DBBDF00D777BA /* RNKeychain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNKeychain.xcodeproj; path = "node_modules/react-native-keychain/RNKeychain.xcodeproj"; sourceTree = "<group>"; };
 		AC2C8F691B15D90400A2A016 /* RNFS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
-		AC2C8F8C1B19586900A2A016 /* RNSvg.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSvg.xcodeproj; path = "node_modules/react-native-svg/Libraries/RNSvg.xcodeproj"; sourceTree = "<group>"; };
 		AC2C8F991B19589400A2A016 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		AC2C8F9B1B19641800A2A016 /* RNMail.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMail.xcodeproj; path = "node_modules/react-native-mail/RNMail.xcodeproj"; sourceTree = "<group>"; };
 		AC2C8FA51B1966F900A2A016 /* RCTAddressBook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAddressBook.xcodeproj; path = "node_modules/react-native-addressbook/RCTAddressBook.xcodeproj"; sourceTree = "<group>"; };
 		AC310CA71B1FFF6C00E7205A /* RCTFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTFileTransfer.m; path = "node_modules/react-native-file-transfer/RCTFileTransfer.m"; sourceTree = "<group>"; };
+		AC83E70D1B3848FA00CF5B10 /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
+		AC83E72F1B3849D800CF5B10 /* TripppleChat.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TripppleChat.xcodeproj; path = Libraries/TripppleChat/TripppleChat.xcodeproj; sourceTree = "<group>"; };
+		AC83E74E1B384D6500CF5B10 /* libSVGKit-iOS.1.2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libSVGKit-iOS.1.2.0.a"; path = "../../../../Library/Developer/Xcode/DerivedData/Trippple-fvjzevfvfszkvchackplxqdobjli/Build/Products/Debug-iphoneos/libSVGKit-iOS.1.2.0.a"; sourceTree = "<group>"; };
 		AC84FD6E1B0857C9000B4D46 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		AC84FE021B088B59000B4D46 /* omnes-bold-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "omnes-bold-webfont.ttf"; path = "assets/omnes-bold-webfont.ttf"; sourceTree = "<group>"; };
 		AC84FE031B088B59000B4D46 /* omnes-light-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "omnes-light-webfont.ttf"; path = "assets/omnes-light-webfont.ttf"; sourceTree = "<group>"; };
 		AC84FE041B088B59000B4D46 /* omnes-medium-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "omnes-medium-webfont.ttf"; path = "assets/omnes-medium-webfont.ttf"; sourceTree = "<group>"; };
 		AC84FE051B088B59000B4D46 /* omnes-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "omnes-regular-webfont.ttf"; path = "assets/omnes-regular-webfont.ttf"; sourceTree = "<group>"; };
+		ACA9AB281B38DA3D00C76149 /* libCocoaLumberjack.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCocoaLumberjack.a; path = "../../../../Library/Developer/Xcode/DerivedData/Trippple-fvjzevfvfszkvchackplxqdobjli/Build/Products/Debug-iphoneos/libCocoaLumberjack.a"; sourceTree = "<group>"; };
 		ACD0A7051B1552D800C3A3B7 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "node_modules/react-native-camera/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -258,14 +281,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC2C8FAE1B1966FD00A2A016 /* libRCTAddressBook.a in Frameworks */,
-				AC2C8FA41B19641F00A2A016 /* libRNMail.a in Frameworks */,
+				ACA9AB271B38DA3200C76149 /* libPods.a in Frameworks */,
+				ACA9AB261B38DA2D00C76149 /* libRNMail.a in Frameworks */,
+				ACA9AB251B38DA2700C76149 /* libRCTAddressBook.a in Frameworks */,
+				ACA9AAF51B38531C00C76149 /* libTripppleChat.a in Frameworks */,
 				AC2C8F9A1B19589400A2A016 /* libxml2.2.dylib in Frameworks */,
-				AC2C8F941B19587D00A2A016 /* libRNSvg.a in Frameworks */,
 				AC2C8F7E1B15D90A00A2A016 /* libRNFS.a in Frameworks */,
 				ACD0A70B1B1552E100C3A3B7 /* libRCTCamera.a in Frameworks */,
 				AC03D1FA1B0DBBE600D777BA /* libRNKeychain.a in Frameworks */,
 				AC03D1F31B0DB8B300D777BA /* libRNMessageComposer.a in Frameworks */,
+				AC2E92E11B38DD3700885CB8 /* libCocoaLumberjack.a in Frameworks */,
 				AC03D1E21B0DA47500D777BA /* libRCTFBLogin.a in Frameworks */,
 				AC03D1581B0C0F7B00D777BA /* libRNModal.a in Frameworks */,
 				AC03D1E81B0DA48600D777BA /* FBSDKLoginKit.framework in Frameworks */,
@@ -282,6 +307,7 @@
 				AC03D1E91B0DA48600D777BA /* FBSDKCoreKit.framework in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
+				AC83E7351B384A8A00CF5B10 /* libPods-SlackTextViewController.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,6 +379,16 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		100333922276E66362D06A35 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ACA9AB281B38DA3D00C76149 /* libCocoaLumberjack.a */,
+				AC83E74E1B384D6500CF5B10 /* libSVGKit-iOS.1.2.0.a */,
+				27FB73913755F531FEAC19C6 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		13B07FAE1A68108700A75B9A /* Trippple */ = {
 			isa = PBXGroup;
 			children = (
@@ -391,11 +427,12 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				AC83E72F1B3849D800CF5B10 /* TripppleChat.xcodeproj */,
+				AC83E70D1B3848FA00CF5B10 /* Pods.xcodeproj */,
 				AC310CA71B1FFF6C00E7205A /* RCTFileTransfer.m */,
 				AC2C8FA51B1966F900A2A016 /* RCTAddressBook.xcodeproj */,
 				AC2C8F991B19589400A2A016 /* libxml2.2.dylib */,
 				AC2C8F9B1B19641800A2A016 /* RNMail.xcodeproj */,
-				AC2C8F8C1B19586900A2A016 /* RNSvg.xcodeproj */,
 				AC2C8F691B15D90400A2A016 /* RNFS.xcodeproj */,
 				ACD0A7051B1552D800C3A3B7 /* RCTCamera.xcodeproj */,
 				AC03D1F41B0DBBDF00D777BA /* RNKeychain.xcodeproj */,
@@ -435,6 +472,8 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* TripppleTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
+				EF02CB9AEAAE093FF605D5E6 /* Pods */,
+				100333922276E66362D06A35 /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -489,14 +528,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AC2C8F8D1B19586900A2A016 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AC2C8F931B19586900A2A016 /* libRNSvg.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		AC2C8F9C1B19641800A2A016 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -515,6 +546,23 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		AC83E70E1B3848FA00CF5B10 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC83E7141B3848FA00CF5B10 /* libPods.a */,
+				AC83E7181B3848FA00CF5B10 /* libPods-SlackTextViewController.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AC83E7301B3849D800CF5B10 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC83E7341B3849D800CF5B10 /* libTripppleChat.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		AC84FD6F1B0857C9000B4D46 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -529,6 +577,15 @@
 				ACD0A70A1B1552D800C3A3B7 /* libRCTCamera.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		EF02CB9AEAAE093FF605D5E6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				13A9B31F785F57687470E953 /* Pods.debug.xcconfig */,
+				901B79FA468BF336E58433A3 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -556,9 +613,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Trippple" */;
 			buildPhases = (
+				DC686ADB45370A045434A3E3 /* Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
+				A1361E4090FD4256DC65D3B0 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -582,6 +641,9 @@
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = 3D5DY3UN4M;
+					};
 				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Trippple" */;
@@ -596,6 +658,10 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = AC83E70E1B3848FA00CF5B10 /* Products */;
+					ProjectRef = AC83E70D1B3848FA00CF5B10 /* Pods.xcodeproj */;
+				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
@@ -669,8 +735,8 @@
 					ProjectRef = AC03D1471B0C0F6200D777BA /* RNModal.xcodeproj */;
 				},
 				{
-					ProductGroup = AC2C8F8D1B19586900A2A016 /* Products */;
-					ProjectRef = AC2C8F8C1B19586900A2A016 /* RNSvg.xcodeproj */;
+					ProductGroup = AC83E7301B3849D800CF5B10 /* Products */;
+					ProjectRef = AC83E72F1B3849D800CF5B10 /* TripppleChat.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -780,13 +846,6 @@
 			remoteRef = AC2C8F791B15D90400A2A016 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AC2C8F931B19586900A2A016 /* libRNSvg.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNSvg.a;
-			remoteRef = AC2C8F921B19586900A2A016 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		AC2C8FA11B19641800A2A016 /* libRNMail.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -813,6 +872,27 @@
 			fileType = wrapper.cfbundle;
 			path = RCTAddressBookTests.xctest;
 			remoteRef = AC2C8FAC1B1966F900A2A016 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AC83E7141B3848FA00CF5B10 /* libPods.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libPods.a;
+			remoteRef = AC83E7131B3848FA00CF5B10 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AC83E7181B3848FA00CF5B10 /* libPods-SlackTextViewController.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libPods-SlackTextViewController.a";
+			remoteRef = AC83E7171B3848FA00CF5B10 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AC83E7341B3849D800CF5B10 /* libTripppleChat.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libTripppleChat.a;
+			remoteRef = AC83E7331B3849D800CF5B10 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		AC84FD731B0857C9000B4D46 /* libRCTWebSocket.a */ = {
@@ -855,6 +935,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A1361E4090FD4256DC65D3B0 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DC686ADB45370A045434A3E3 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		00E356EA1AD99517003FC87E /* Sources */ = {
@@ -937,9 +1050,12 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 13A9B31F785F57687470E953 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/node_modules/react-native-facebook-login/FacebookSDK",
@@ -957,17 +1073,23 @@
 					"$(PROJECT_DIR)/node_modules/react-native-camera/build/Debug-iphoneos",
 					"$(PROJECT_DIR)/node_modules/react-native-svg/Libraries/SVGKit/Source/Vendor/CocoaLumberjack/Framework/Mobile/build/Debug-iphoneos",
 					"$(PROJECT_DIR)/node_modules/react-native-svg/Libraries/SVGKit/build/Debug-iphoneos",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Trippple-fvjzevfvfszkvchackplxqdobjli/Build/Products/Debug-iphoneos",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = Trippple;
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 901B79FA468BF336E58433A3 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/node_modules/react-native-facebook-login/FacebookSDK",
@@ -985,16 +1107,19 @@
 					"$(PROJECT_DIR)/node_modules/react-native-camera/build/Debug-iphoneos",
 					"$(PROJECT_DIR)/node_modules/react-native-svg/Libraries/SVGKit/Source/Vendor/CocoaLumberjack/Framework/Mobile/build/Debug-iphoneos",
 					"$(PROJECT_DIR)/node_modules/react-native-svg/Libraries/SVGKit/build/Debug-iphoneos",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Trippple-fvjzevfvfszkvchackplxqdobjli/Build/Products/Debug-iphoneos",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = Trippple;
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1008,7 +1133,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Trippple LLC";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1041,7 +1166,7 @@
 		83CBBA211A601CBA00E9B192 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1055,7 +1180,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Trippple LLC";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1089,7 +1214,7 @@
 				00E356F71AD99517003FC87E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Trippple" */ = {
 			isa = XCConfigurationList;
@@ -1098,7 +1223,7 @@
 				13B07F951A680F5B00A75B9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Trippple" */ = {
 			isa = XCConfigurationList;
@@ -1107,7 +1232,7 @@
 				83CBBA211A601CBA00E9B192 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
