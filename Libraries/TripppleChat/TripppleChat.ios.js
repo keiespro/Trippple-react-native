@@ -5,6 +5,7 @@
 'use strict';
 
 var invariant = require('invariant');
+// var NativeTripppleChat = require('NativeModules').TripppleChat;
 
 var React = require('react-native');
 var {
@@ -18,7 +19,7 @@ var {
 type Props = {
   matchID: int;
 }
-
+// 
 var NativeTripppleChat = requireNativeComponent('TripppleChat',TripppleChat);
 
 /**
@@ -26,13 +27,16 @@ var NativeTripppleChat = requireNativeComponent('TripppleChat',TripppleChat);
  */
 
 class TripppleChat extends React.Component{
+  constructor(props){
+    super(props);
+  }
+  
   propTypes: {
     matchID: React.PropTypes.number,
-
   }
+
   render(){
-    
-    return (<NativeTripppleChat matchID="30"/>)
+    return (<NativeTripppleChat messages={this.props.messages} matchID={this.props.matchID}/>)
   }
 };
 

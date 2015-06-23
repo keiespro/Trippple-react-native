@@ -15,7 +15,7 @@ var {
 } = React;
 
 
-var tweenState = require('react-tween-state');
+var RNTAnimation = require('react-native-tween-animation');
 var MatchActions = require('../flux/actions/MatchActions');
 var PotentialsStore = require("../flux/stores/PotentialsStore");
 var alt = require('../flux/alt')
@@ -108,9 +108,6 @@ var styles = StyleSheet.create({
 
 
 var ActiveCard = React.createClass({
-
-  mixins: [tweenState.Mixin],
-
   _panResponder: {},
   _previousLeft: 0,
   _previousTop: 0,
@@ -194,17 +191,17 @@ var ActiveCard = React.createClass({
   },
   componentDidUpdate: function(prevProps,prevState){
     // Logger.log('componentDidUpdate',this.state.isAnimating,'left: ' +this.getTweeningValue((state) => {return state.position},'left'));
-    if(this.state.isAnimating){
-      this._updatePosition({
-        left: this.getTweeningValue((state) => {return state.position},'left'),
-        top: this.getTweeningValue((state) => {return state.position},'top')
-      });
-    }
+    // if(this.state.isAnimating){
+    //   this._updatePosition({
+    //     left: this.getTweeningValue((state) => {return state.position},'left'),
+    //     top: this.getTweeningValue((state) => {return state.position},'top')
+    //   });
+    // }
   },
 
-  _updatePosition: function(position) {
+  _updatePosition: function(tweenFrame) {
 
-    this.card && this.card.setNativeProps(position ? position : this._cardStyles);
+    this.card && this.card.setNativeProps(tweenFrame ? tweenFrame : this._cardStyles);
   },
 
   _handleStartShouldSetPanResponder: function(e: Object, gestureState: Object): boolean {
@@ -243,29 +240,76 @@ var ActiveCard = React.createClass({
         this.setState({
           isAnimating: true
         })
+        // 
+        // this.tweenState(['position','top'],{
+        //   easing: tweenState.easingTypes.easeOutElastic,
+        //   duration: 700,
+        //   stackBehavior: tweenState.stackBehavior.ADDITIVE,
+        //   beginValue: this._cardStyles.top,
+        //   endValue:  300,
+        //   onEnd: () => {
+        //     this.replaceState({isAnimating:false,position: {left:0,top:0}})
+        //   }
+        // });
+        // this.tweenState(['position', 'left'],{
+        //   easing: tweenState.easingTypes.easeOutElastic,
+        //   duration: 705,
+        //   stackBehavior: tweenState.stackBehavior.ADDITIVE,
+        //   beginValue: this._cardStyles.left,
+        //   endValue:  gestureState.dx > 0 ? 500 : -500,
+        //   onEnd: () => {
+        //     var likeStatus = gestureState.dx > 0 ? 'approve' : 'deny';
+        //     this.replaceState({isAnimating:false,position: {left:0,top:0}})
+        //     MatchActions.sendLike(this.props.potential[0].id,likeStatus);
+        //   }
+        // });
+        var self = this;
+        
+        var animation = new RNTAnimation({
+ 
+          // Start state 
+          start: {
+            top: this._cardStyles.top,
+            left: this._cardStyles.left
+          },
+         
+          // End state 
+          end: {
+            top: 0,
+            left: 0
+          },
+         
+          // Animation duration 
+          duration: 500,
+         
+          // Tween function 
+          tween: 'easeOutBack',
+         
+          // Update the component's state each frame 
+          frame: (tweenFrame) => {
+            console.log(tweenFrame);
+            
+            self._updatePosition( tweenFrame );
+          
+          
+          },
+         
+          // Optional callback 
+          done: () => {
+         
+            console.log('All done!');
+            self.replaceState({
+              isAnimating:false,
+              position: {
+                left:0,
+                top:0
+              }
+            })
+            // Optionally reverse the animation 
+            // animation.reverse(() => {});
+          }
+        });
 
-        this.tweenState((state)=>{return state.position}, 'top',{
-          easing: tweenState.easingTypes.easeOutElastic,
-          duration: 700,
-          stackBehavior: tweenState.stackBehavior.ADDITIVE,
-          beginValue: this._cardStyles.top,
-          endValue:  300,
-          onEnd: () => {
-            this.replaceState({isAnimating:false,position: {left:0,top:0}})
-          }
-        });
-        this.tweenState((state)=>{return state.position}, 'left',{
-          easing: tweenState.easingTypes.easeOutElastic,
-          duration: 705,
-          stackBehavior: tweenState.stackBehavior.ADDITIVE,
-          beginValue: this._cardStyles.left,
-          endValue:  gestureState.dx > 0 ? 500 : -500,
-          onEnd: () => {
-            var likeStatus = gestureState.dx > 0 ? 'approve' : 'deny';
-            this.replaceState({isAnimating:false,position: {left:0,top:0}})
-            MatchActions.sendLike(this.props.potential[0].id,likeStatus);
-          }
-        });
       });
     }else{
       InteractionManager.runAfterInteractions(() => {
@@ -274,33 +318,80 @@ var ActiveCard = React.createClass({
           isAnimating: true
         })
 
-        this.tweenState((state)=>{return state.position}, 'top',{
-          easing: tweenState.easingTypes.easeInOut,
-          duration: 550,
-          stackBehavior: tweenState.stackBehavior.ADDITIVE,
-          beginValue: this._cardStyles.top,
-          endValue:  0,
-          onEnd: () => {Logger.log('ONEND');
-            // this.replaceState({isAnimating:false,position: {left:0,top:0}})
-          }
-        });
-        this.tweenState((state)=>{return state.position}, 'left',{
-          easing: tweenState.easingTypes.easeInOut,
-          duration: 555,
-          stackBehavior: tweenState.stackBehavior.ADDITIVE,
-          beginValue: this._cardStyles.left,
-          endValue:  0,
-          onEnd: () => {
-            Logger.log('ONEND2');
-            this.replaceState({
+        var self = this;
+
+        
+        var animation = new RNTAnimation({
+ 
+          // Start state 
+          start: {
+            top: this._cardStyles.top,
+            left: this._cardStyles.left
+          },
+         
+          // End state 
+          end: {
+            top: 0,
+            left: 0
+          },
+         
+          // Animation duration 
+          duration: 500,
+         
+          // Tween function 
+          tween: 'easeOutBack',
+         
+          // Update the component's state each frame 
+          frame: (tweenFrame) => {
+            
+            console.log(tweenFrame);
+
+            self._updatePosition( tweenFrame );
+          },
+         
+          // Optional callback 
+          done: () => {
+         
+            console.log('All done!');
+            self.replaceState({
               isAnimating:false,
               position: {
                 left:0,
                 top:0
               }
             })
+            // Optionally reverse the animation 
+            // animation.reverse(() => {});
           }
         });
+        
+        // this.tweenState(['position','top'],{
+        //   easing: tweenState.easingTypes.easeInOut,
+        //   duration: 550,
+        //   stackBehavior: tweenState.stackBehavior.ADDITIVE,
+        //   beginValue: this._cardStyles.top,
+        //   endValue:  0,
+        //   onEnd: () => {Logger.log('ONEND');
+        //     // this.replaceState({isAnimating:false,position: {left:0,top:0}})
+        //   }
+        // });
+        // this.tweenState(['position','left'],{
+        //   easing: tweenState.easingTypes.easeInOut,
+        //   duration: 555,
+        //   stackBehavior: tweenState.stackBehavior.ADDITIVE,
+        //   beginValue: this._cardStyles.left,
+        //   endValue:  0,
+        //   onEnd: () => {
+        //     Logger.log('ONEND2');
+        //     this.replaceState({
+        //       isAnimating:false,
+        //       position: {
+        //         left:0,
+        //         top:0
+        //       }
+        //     })
+        //   }
+        // });
 
       })
 

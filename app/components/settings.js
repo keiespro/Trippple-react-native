@@ -65,7 +65,7 @@ var EditSettings = React.createClass({
           source={{uri: this.props.user.image_url}}
           defaultSource={require('image!defaultuser')}
           resizeMode={Image.resizeMode.cover}>
-          <TouchableHighlight onPress={this._pressNewImage.bind(this)}>
+          <TouchableHighlight onPress={this._pressNewImage}>
             <Text style={styles.changeImage}>Change Image</Text>
           </TouchableHighlight>
         </Image>
@@ -244,7 +244,7 @@ class Settings extends React.Component{
             </TouchableHighlight>
 
             {this.state.editMode === true ?
-              <EditSettings openModal={this.openModal} user={this.props.user}/> :
+              <EditSettings openModal={this.openModal.bind(this)} user={this.props.user}/> :
               <ViewSettings user={this.props.user}/>
             }
 
@@ -264,8 +264,8 @@ class Settings extends React.Component{
          </ContentWrapper>
 
         <Modal
-          height={500}
-          style={{opacity: 0.9}}
+          height={this.state.isModalOpen == 'imageupload' ? 800 : 500}
+          style={{opacity: 0.9,backgroundColor:"#fff"}}
           isVisible={this.state.isModalOpen}
           >
             <View
