@@ -42,6 +42,7 @@
 		ACA1297C1B40EF0D00CC1499 /* qq.aiff in Resources */ = {isa = PBXBuildFile; fileRef = ACA129761B40EF0D00CC1499 /* qq.aiff */; };
 		ACA1297D1B40F35400CC1499 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACA1296E1B40EC3B00CC1499 /* Images.xcassets */; };
 		ACA1297F1B41161500CC1499 /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = ACA1297E1B41161100CC1499 /* Montserrat-Regular.otf */; };
+		ACA129861B416C3000CC1499 /* libRNKeyboardEvents.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129851B416C2700CC1499 /* libRNKeyboardEvents.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -185,6 +186,13 @@
 			remoteGlobalIDString = 46FEDE8A1AFF192F00D3261C;
 			remoteInfo = RNMailTests;
 		};
+		ACA129841B416C2700CC1499 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ACA129801B416C2700CC1499 /* RNKeyboardEvents.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F12AFB9B1ADAF8F800E0535D;
+			remoteInfo = RNKeyboardEvents;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -228,6 +236,7 @@
 		ACA129751B40EF0D00CC1499 /* omnes-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "omnes-regular-webfont.ttf"; sourceTree = "<group>"; };
 		ACA129761B40EF0D00CC1499 /* qq.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = qq.aiff; sourceTree = "<group>"; };
 		ACA1297E1B41161100CC1499 /* Montserrat-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.otf"; sourceTree = "<group>"; };
+		ACA129801B416C2700CC1499 /* RNKeyboardEvents.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNKeyboardEvents.xcodeproj; path = "node_modules/react-native-keyboardevents/RNKeyboardEvents.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,6 +251,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACA129861B416C3000CC1499 /* libRNKeyboardEvents.a in Frameworks */,
 				ACA129681B40EB9F00CC1499 /* Bolts.framework in Frameworks */,
 				ACA129691B40EB9F00CC1499 /* FBSDKCoreKit.framework in Frameworks */,
 				ACA1296A1B40EB9F00CC1499 /* FBSDKLoginKit.framework in Frameworks */,
@@ -376,6 +386,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				ACA129801B416C2700CC1499 /* RNKeyboardEvents.xcodeproj */,
 				ACA1296C1B40EC0500CC1499 /* RCTFileTransfer.m */,
 				ACA1292D1B40EA1600CC1499 /* RCTFBLogin.xcodeproj */,
 				ACA129301B40EA1600CC1499 /* RCTPushNotification.xcodeproj */,
@@ -503,6 +514,14 @@
 			path = assets;
 			sourceTree = "<group>";
 		};
+		ACA129811B416C2700CC1499 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ACA129851B416C2700CC1499 /* libRNKeyboardEvents.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -627,6 +646,10 @@
 				{
 					ProductGroup = ACA129341B40EA1600CC1499 /* Products */;
 					ProjectRef = ACA129331B40EA1600CC1499 /* RNFS.xcodeproj */;
+				},
+				{
+					ProductGroup = ACA129811B416C2700CC1499 /* Products */;
+					ProjectRef = ACA129801B416C2700CC1499 /* RNKeyboardEvents.xcodeproj */;
 				},
 				{
 					ProductGroup = ACA129371B40EA1600CC1499 /* Products */;
@@ -777,6 +800,13 @@
 			fileType = wrapper.cfbundle;
 			path = RNMailTests.xctest;
 			remoteRef = ACA1295B1B40EA1600CC1499 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ACA129851B416C2700CC1499 /* libRNKeyboardEvents.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNKeyboardEvents.a;
+			remoteRef = ACA129841B416C2700CC1499 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

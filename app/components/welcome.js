@@ -20,7 +20,7 @@ var Swiper = require('react-native-swiper');
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 var CustomSceneConfigs = require('../utils/sceneConfigs');
-var Auth = require('./login');
+var Auth = require('./auth');
 var Facebook = require('./facebook');
 
 var slides = [

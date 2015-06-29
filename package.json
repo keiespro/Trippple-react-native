@@ -6,14 +6,15 @@
     "start": "node_modules/react-native/packager/packager.sh"
   },
   "dependencies": {
-    "react-native": "^0.6.0",
     "alt": "^0.16.4",
     "bluebird": "^2.9.27",
+    "react-native": "^0.6.0",
     "react-native-addressbook": "^0.1.1",
     "react-native-camera": "latest",
     "react-native-facebook-login": "latest",
     "react-native-file-transfer": "latest",
     "react-native-fs": "^0.3.2",
+    "react-native-keyboardevents": "^0.4.4",
     "react-native-keychain": "latest",
     "react-native-mail": "latest",
     "react-native-swipeable-modal": "^1.0.5",

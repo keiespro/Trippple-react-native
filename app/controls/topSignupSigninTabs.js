@@ -85,6 +85,7 @@ var styles = StyleSheet.create({
   buttonText: {
     fontSize: 24,
     color: colors.white,
+    opacity:0.5,
     alignSelf: 'center',
     fontFamily:'Montserrat'
   },

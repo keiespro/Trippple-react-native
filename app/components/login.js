@@ -7,10 +7,14 @@ var {
   StyleSheet,
   Text,
   View,
+  ScrollView,
   Image,
   TouchableHighlight,
+  LayoutAnimation,
   TextInput
 } = React;
+
+var TrackKeyboard = require('../mixins/keyboardMixin');
 
 var colors = require('../utils/colors')
 
@@ -54,10 +58,14 @@ var styles = StyleSheet.create({
     height: 50,
     alignSelf: 'stretch'
   },
+  phoneInputWrapSelected:{
+    // marginBottom:60,
+    borderBottomColor: colors.mediumPurple,
+  },
   phoneInput: {
     height: 50,
     padding: 4,
-    fontSize: 21,
+    fontSize: 30,
     fontFamily:'Montserrat',
     color: colors.white
   },
@@ -99,40 +107,94 @@ var styles = StyleSheet.create({
   },
 });
 
-
-class Login extends React.Component{
-
-  constructor(props){
-    super(props);
-    this.state = {
-      phone: '3055282534',
-      password: 'lopeh',
-      isLoading: false
+var animations = {
+  layout: {
+    spring: {
+      duration: 500,
+      create: {
+        duration: 300,
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.opacity
+      },
+      update: {
+        type: LayoutAnimation.Types.spring,
+        springDamping: 200
+      }
+    },
+    easeInEaseOut: {
+      duration: 300,
+      create: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.scaleXY
+      },
+      update: {
+        delay: 100,
+        type: LayoutAnimation.Types.easeInEaseOut
+      }
     }
   }
+};
 
+var Login = React.createClass({
+  mixins: [TrackKeyboard],
+
+  getInitialState(){
+    return({
+      phone: '3055282534',
+      password: 'lopeh',
+      isLoading: false,
+      phoneFocused: false
+    })
+  },
+  componentWillUpdate(props, state) {
+    if (state.isKeyboardOpened !== this.state.isKeyboardOpened) {
+      console.log('shoud aniamte',animations)
+      LayoutAnimation.configureNext(animations.layout.spring);
+
+    }
+  },
   handlePhoneChange(event: any){
     this.setState({
       phone: event.nativeEvent.text
     })
-  }
+  },
 
   handlePasswordChange(event: any){
     this.setState({
       password: event.nativeEvent.text
     })
-  }
+  },
+  handlePhoneInputFocused(){
+    this.setState({
+      phoneFocused: true
+    })
+  },
+  handlePhoneInputBlurred(){
+    this.setState({
+      phoneFocused: false
+    })
+  },
 
   handleLogin(){
     UserActions.login(this.state.phone,this.state.password)
-  }
+  },
 
   render(){
+    var paddingBottom =  this.state.keyboardSpace;
+    console.log(~~!this.state.isKeyboardOpened);
+
     return (
+      <View style={[{flex: 1, height:DeviceHeight, paddingBottom: paddingBottom}]}>
 
-      <View style={styles.wrap}>
+      <ScrollView
+        keyboardDismissMode={'on-drag'}
+        contentContainerStyle={styles.wrap}
+        bounces={false}
+        >
 
-        <View style={styles.phoneInputWrap}>
+        <View
+          style={[styles.phoneInputWrap,(this.state.phoneFocused ? styles.phoneInputWrapSelected : null)]}>
+
           <TextInput
             style={styles.phoneInput}
             value={this.state.phone || ''}
@@ -140,149 +202,27 @@ class Login extends React.Component{
             placeholder={'Phone'}
             keyboardAppearance={'dark'}
             placeholderTextColor='#fff'
-            onChange={this.handlePhoneChange.bind(this)}
+            onChange={this.handlePhoneChange}
+            onFocus={this.handlePhoneInputFocused}
+            onBlur={this.handlePhoneInputBlurred}
             />
         </View>
 
-        <View style={styles.middleTextWrap}>
-          <Text style={styles.middleText}>OR</Text>
+        <View style={[styles.middleTextWrap,{opacity: ~~!this.state.isKeyboardOpened}]}>
+          <Text style={[styles.middleText]}>OR</Text>
         </View>
+        <View style={[styles.middleTextWrap, {opacity: ~~!this.state.isKeyboardOpened}]}>
+          <Facebook/>
+         </View>
 
-        <Facebook/>
-
-      </View>
-
-    );
-  }
-}
-
-class Register extends React.Component{
-
-  constructor(props){
-    super(props);
-    this.state = {
-      phone: '',
-      password: '',
-      password2: '',
-      isLoading: false
-    }
-  }
-
-  handlePhoneChange(event: any){
-    this.setState({
-      phone: event.nativeEvent.text
-    })
-  }
-
-  handlePasswordChange(event: any){
-    this.setState({
-      password: event.nativeEvent.text
-    })
-  }
-
-  handlePassword2Change(event: any){
-    this.setState({
-      password2: event.nativeEvent.text
-    })
-  }
-
-  handleSubmit(){
-    UserActions.register(this.state.phone,this.state.password,this.state.password2)
-  }
-
-  handleBack(){
-    this.props.handleBack();
-  }
-  render(){
-    return (
-      <View style={styles.wrap}>
-        <TextInput
-          style={styles.phoneInput}
-          value={this.state.phone || ''}
-          keyboardType={'number-pad'}
-          placeholder={'Phone'}
-          placeholderTextColor='#fff'
-          onChange={this.handlePhoneChange.bind(this)}
-          />
-        <TextInput
-          style={styles.phoneInput}
-          value={this.state.password || ''}
-          password={true}
-          keyboardType={'default'}
-          autoCapitalize={'none'}
-          placeholder={'Password'}
-          placeholderTextColor='#fff'
-          onChange={this.handlePasswordChange.bind(this)}
-          />
-        <TextInput
-          style={styles.phoneInput}
-          value={this.state.password2 || ''}
-          password={true}
-          keyboardType={'default'}
-          autoCapitalize={'none'}
-          placeholder={'Confirm Password'}
-          placeholderTextColor='#fff'
-          onChange={this.handlePassword2Change.bind(this)}
-          />
-        <TouchableHighlight
-          style={styles.button}
-          onPress={this.handleSubmit.bind(this)}
-          underlayColor="black">
-          <Text style={styles.buttonText}>Register</Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight
-          onPress={this.handleBack.bind(this)}
-          underlayColor="black">
-          <Text style={styles.buttonText}>Back</Text>
-        </TouchableHighlight>
-      </View>
+      </ScrollView>
+    </View>
 
     );
   }
-}
+})
 
 
 
 
-class Auth extends React.Component{
-
-  constructor(props){
-    super(props);
-    this.state = {
-      activeTab: props.initialTab
-    }
-  }
-
-  handleBack(){
-    this.props.navigator.pop();
-  }
-  toggleTab(newTab){
-    console.log(newTab)
-    if(newTab == this.state.activeTab) return;
-    this.setState({
-      activeTab:newTab
-    })
-  }
-  render(){
-    var activeTab = () => {
-      switch(this.state.activeTab){
-        case 'login':
-          return ( <Login handleBack={this.handleBack.bind(this)} /> );
-        case 'register':
-          return ( <Register handleBack={this.handleBack.bind(this)} /> );
-      }
-
-    }
-    return (
-      <View style={styles.container}>
-        <TopTabs toggleTab={this.toggleTab.bind(this)} active={this.state.activeTab}/>
-        { activeTab() }
-      </View>
-    );
-  }
-}
-
-
-
-module.exports = Auth;
+module.exports = Login;

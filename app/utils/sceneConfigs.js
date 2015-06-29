@@ -181,10 +181,10 @@ var ToTheBack = {
     max: 1,
     type: 'constant',
   },
-  opacity: {
-    value: 1,
-    type: 'constant',
-  },
+  // opacity: {
+  //   value: 1,
+  //   type: 'constant',
+  // },
   opacity: {
     from: 1,
     to: 0,
