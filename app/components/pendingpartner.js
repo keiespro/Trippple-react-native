@@ -1,3 +1,7 @@
+/* @flow */
+
+
+
 var React = require('react-native');
 var {
   StyleSheet,
@@ -6,39 +10,39 @@ var {
   Navigator,
   TouchableHighlight
 } = React;
-var Composer = require('NativeModules').RNMessageComposer;
+// var Composer = require('NativeModules').RNMessageComposer;
 
 
 
 var PendingPartner = React.createClass({
 
   handleSendMessage(){
-    Composer.composeMessageWithArgs(
-    {
-        'messageText':'http://appstore.com/trippple',
-        'subject':'Come join me on Trippple!',
-        'recipients':[this.props.user.partner.phone]
-    },
-    (result) => {
-        switch(result) {
-            case Composer.Sent:
-                console.log('the message has been sent');
-                break;
-            case Composer.Cancelled:
-                console.log('user cancelled sending the message');
-                break;
-            case Composer.Failed:
-                console.log('failed to send the message');
-                break;
-            case Composer.NotSupported:
-                console.log('this device does not support sending texts');
-                break;
-            default:
-                console.log('something unexpected happened');
-                break;
-        }
-    }
-    );
+    // Composer.composeMessageWithArgs(
+    // {
+    //     'messageText':'http://appstore.com/trippple',
+    //     'subject':'Come join me on Trippple!',
+    //     'recipients':[this.props.user.partner.phone]
+    // },
+    // (result) => {
+    //     switch(result) {
+    //         case Composer.Sent:
+    //             console.log('the message has been sent');
+    //             break;
+    //         case Composer.Cancelled:
+    //             console.log('user cancelled sending the message');
+    //             break;
+    //         case Composer.Failed:
+    //             console.log('failed to send the message');
+    //             break;
+    //         case Composer.NotSupported:
+    //             console.log('this device does not support sending texts');
+    //             break;
+    //         default:
+    //             console.log('something unexpected happened');
+    //             break;
+    //     }
+    // }
+    // );
   },
   render() {
 

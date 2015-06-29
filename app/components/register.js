@@ -11,6 +11,7 @@ var {
  TextInput
 } = React;
 
+var colors = require('../utils/colors')
 
 var UserActions = require('../flux/actions/UserActions');
 
@@ -20,7 +21,7 @@ var styles = StyleSheet.create({
    flex: 1,
    justifyContent: 'center',
    alignItems: 'center',
-   backgroundColor: '#000000',
+   backgroundColor: colors.outerSpace,
    padding: 10
  },
  phoneInput: {
@@ -28,14 +29,14 @@ var styles = StyleSheet.create({
    padding: 4,
    fontSize: 23,
    borderWidth: 1,
-   borderColor: 'white',
+   borderColor: colors.white,
    borderRadius: 8,
    fontFamily:'omnes',
-   color: 'white'
+   color: colors.white
  },
  buttonText: {
    fontSize: 18,
-   color: '#fff',
+   color: colors.white,
    alignSelf: 'center',
    fontFamily:'omnes'
 
@@ -44,7 +45,7 @@ var styles = StyleSheet.create({
    height: 45,
    flexDirection: 'row',
    backgroundColor: 'transparent',
-   borderColor: 'white',
+   borderColor: colors.white,
    borderWidth: 1,
    borderRadius: 8,
    marginBottom: 10,

@@ -1,5 +1,5 @@
 /*
-* @providesModule Trippple
+* @providesModule trippple
 * @flow
 */
 
@@ -13,7 +13,7 @@ var {
 var App = require('./app/components/app.js');
 
 
-class Trippple extends React.Component{
+class trippple extends React.Component{
 
   render(){
     return (
@@ -23,6 +23,6 @@ class Trippple extends React.Component{
 
 }
 
-module.exports = Trippple;
+module.exports = trippple;
 
-AppRegistry.registerComponent('Trippple', () => Trippple);
+AppRegistry.registerComponent('trippple', () => trippple);

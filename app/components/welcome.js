@@ -13,6 +13,7 @@ var {
   TouchableHighlight
 } = React;
 
+var colors = require('../utils/colors')
 var Swiper = require('react-native-swiper');
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
@@ -22,6 +23,11 @@ var Login = require('./login');
 var Facebook = require('./facebook');
 
 var slides = [
+  {
+    title: '',
+    img: require('image!trippple-logo-small'),
+    content: ''
+  },
   {
   	title: 'Browse',
   	img: require('image!tour-browse'),
@@ -79,21 +85,29 @@ var IntroScreen = React.createClass({
   render(){
     console.log('render intro',this.props.user)
     return(
-      <View style={styles.container}>
-        <Text style={[styles.textplain]}>Welcome Screen</Text>
-        <TouchableHighlight
-           style={styles.button}
-           onPress={this.handleLoginButton}
-           underlayColor="black">
-           <Text style={styles.buttonText}>Login</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-           style={styles.button}
-           onPress={this.handleRegisterButton}
-           underlayColor="black">
-           <Text style={styles.buttonText}>Register</Text>
-        </TouchableHighlight>
-        <Facebook/>
+      <View style={[styles.container]}>
+        <View style={styles.wrap}>
+          <Carousel/>
+
+        </View>
+
+{/*       <Text style={[styles.textplain]}>Welcome Screen</Text>
+          <Facebook/>
+*/}
+          <View style={styles.bottomButtons}>
+            <TouchableHighlight
+               style={[styles.bottomButton,styles.loginButton]}
+               onPress={this.handleLoginButton}
+               underlayColor={colors.outerSpace}>
+               <Text style={styles.buttonText}>LOGIN</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+               style={[styles.bottomButton,styles.registerButton]}
+               onPress={this.handleRegisterButton}
+               underlayColor={colors.outerSpace}>
+               <Text style={styles.buttonText}>SIGN UP</Text>
+            </TouchableHighlight>
+          </View>
 
     </View>
     )
@@ -112,48 +126,52 @@ class Carousel extends React.Component{
       )
     })
     return (
-      <Swiper
-        loop={true}
-        style={styles.carousel}
-        horizontal={true}
-        showsPagination={true}
-        showsButtons={false}>
-        {welcomeSlides}
-      </Swiper>
+        <Swiper
+          loop={true}
+          style={styles.carousel}
+          horizontal={true}
+          showsPagination={true}
+          showsButtons={false}
+          dot={ <View style={styles.dot} /> }
+          activeDot={ <View style={styles.activeDot} /> }>
+          {welcomeSlides}
+
+        </Swiper>
+
     )
   }
 }
 
-class WelcomeCarousel extends React.Component{
-  _handleGetStartedButton(){
-    this.props.navigator.push({
-      component: IntroScreen,
-      title: 'Intro',
-      id:'intro',
-      sceneConfigs: ()=>{ return CustomSceneConfigs.VerticalSlide}
-    })
-
-  }
-
-  render(){
-
-
-    return (
-      <View style={styles.container}>
-
-        <Carousel/>
-        <View style={[styles.bottomarea]}>
-          <TouchableHighlight
-             style={styles.button}
-             onPress={this._handleGetStartedButton.bind(this)}
-             underlayColor="black">
-             <Text style={styles.buttonText}>Get Started</Text>
-          </TouchableHighlight>
-        </View>
-    </View>
-    )
-  }
-}
+// class WelcomeCarousel extends React.Component{
+//   _handleGetStartedButton(){
+//     this.props.navigator.push({
+//       component: IntroScreen,
+//       title: 'Intro',
+//       id:'intro',
+//       sceneConfigs: ()=>{ return CustomSceneConfigs.VerticalSlide}
+//     })
+//
+//   }
+//
+//   render(){
+//
+//
+//     return (
+//       <View style={styles.container}>
+//
+//         <Carousel/>
+//         <View style={[styles.bottomarea]}>
+//           <TouchableHighlight
+//              style={styles.button}
+//              onPress={this._handleGetStartedButton.bind(this)}
+//              underlayColor="black">
+//              <Text style={styles.buttonText}>Get Started</Text>
+//           </TouchableHighlight>
+//         </View>
+//     </View>
+//     )
+//   }
+// }
 
 var Welcome = React.createClass({
 
@@ -168,7 +186,7 @@ var Welcome = React.createClass({
 
         <Navigator
             initialRoute={{
-              component: WelcomeCarousel,
+              component: IntroScreen,
               title: 'intro',
               id:'intro',
             }}
@@ -210,14 +228,14 @@ var styles = StyleSheet.create({
     fontSize: 24,
     color: '#fff',
     alignSelf: 'center',
-    fontFamily:'omnes'
+    fontFamily:'Montserrat'
 
   },
 
   carousel:{
     // overflow:'hidden',
     flex:1,
-    marginTop:0,
+    marginTop:50,
 
   },
   slide:{
@@ -248,7 +266,7 @@ var styles = StyleSheet.create({
     alignSelf:'stretch',
     width: DeviceWidth,
     height: DeviceHeight,
-    backgroundColor:'purple'
+    backgroundColor: colors.outerSpace
 
   },
   button: {
@@ -263,7 +281,66 @@ var styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center'
   },
+  bottomButton: {
+    height: 80,
+    flex:1,
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
+    borderColor: '#fff',
+    borderWidth: 0,
+    borderRadius: 0,
+    marginBottom: 0,
+    marginTop: 0,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
+  loginButton:{
+    backgroundColor: colors.shuttleGray,
 
+  },
+  registerButton:{
+    backgroundColor: colors.mediumPurple,
+  },
+  wrap:{
+    alignItems: 'center',
+    flex:1,
+    justifyContent:'center',
+    alignSelf: 'stretch',
+    height:undefined,
+    paddingBottom: 100
+  },
+  bottomButtons: {
+    height: 80,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent:'space-around',
+    alignSelf:'stretch',
+    width: undefined
+  },
+  dot: {
+    backgroundColor: colors.shuttleGray,
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    marginLeft: 6,
+    marginRight: 6,
+    marginTop: 3,
+    marginBottom: 3,
+    borderColor: colors.shuttleGray
+
+  },
+  activeDot: {
+    backgroundColor: colors.outerSpace,
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    marginLeft: 6,
+    marginRight: 6,
+    marginTop: 3,
+    marginBottom: 3,
+    borderWidth: 2,
+    borderColor: colors.mediumPurple2
+  }
 });
 
 

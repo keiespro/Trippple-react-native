@@ -1,3 +1,6 @@
+/* @flow */
+
+
 // 'use strict';
 
 var React = require('react-native');
@@ -22,7 +25,8 @@ var Facebook = React.createClass({
   render: function() {
     var _this = this;
     return (
-      <FBLogin style={{ marginBottom: 10, }}
+      <FBLogin
+        style={{ marginBottom: 10, }}
         permissions={["email","user_friends"]}
         onLogin={function(data){
           console.log("Logged in!");

@@ -12,6 +12,7 @@ var {
   Image,
   TextInput,
   ListView,
+  ScrollView,
   PixelRatio
 } = React;
 
@@ -21,7 +22,7 @@ var ChatStore = require("../flux/stores/ChatStore");
 var MatchActions = require("../flux/actions/MatchActions");
 var alt = require('../flux/alt');
 var AltContainer = require('alt/AltNativeContainer');
-var InvertibleScrollView = require('react-native-invertible-scroll-view');
+// var InvertibleScrollView = require('react-native-invertible-scroll-view');
 
 var styles = StyleSheet.create({
   container: {
@@ -129,7 +130,7 @@ class ChatInside extends React.Component{
       MatchActions.getMessages(this.props.matchID);
     //   this.saveToStorage();
     // })
-    this.refs.lister.refs.listviewscroll.scrollTo.call(this,0,0)
+    // this.refs.lister.refs.listviewscroll.scrollTo.call(this,0,0)
   }
 
   saveToStorage(){
@@ -146,38 +147,27 @@ class ChatInside extends React.Component{
   }
 
   render(){
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
+    // var children = this.state.messages.map((el,i) => {
+    //   return (
+    //
+    //   )
+    // })
     return (
-      <View style={styles.container}>
-          {this.props.messages.length >= 0 ? <ListView ref={'lister'}
-            style={styles.messageList}
-              renderScrollView={
-                (props) => <InvertibleScrollView  {...props} inverted />
-              }
-              dataSource={ds.cloneWithRows(this.props.messages)}
-              renderRow={this._renderRow.bind(this)}
-           /> : <Text>No chats</Text>}
+      <View style={{backgroundColor:'red',flex:1,alignSelf:'stretch'}}>
+      {  /*<TripppleChat matchID={this.props.matchID}  messages={this.props.messages} style={{backgroundColor:'green',flex:1,alignSelf:'stretch'}}>
 
-          {/* TODO: use ios inputaccessorybar for input*/}
+    </TripppleChat>*/}
       </View>
     )
   }
 }
 
-class Chat extends React.Component{
-
-  constructor(props){
-    console.log(props);
-    super(props);
-
-  }
-
-
+var Chat = React.createClass({
 
 
   render(){
-    return(
+    return (
       <AltContainer
           stores={{
             messages: (props) => {
@@ -191,10 +181,10 @@ class Chat extends React.Component{
             key="afvehbdjkn"
             matchID={this.props.matchID}
           />
-    </AltContainer>
+      </AltContainer>
     );
   }
 
-}
+});
 
 module.exports = Chat;

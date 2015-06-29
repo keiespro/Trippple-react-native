@@ -72,9 +72,7 @@ var ROUTE_STACK = [
       if(route.id == 'chat'){
         return (
           <TouchableOpacity
-            onPress={() => {
-              navigator.pop();
-              }}>
+            onPress={() => navigator.pop(ROUTE_STACK[0]) }>
             <View style={styles.navBarLeftButton}>
               <Text style={[styles.navBarText, styles.navBarButtonText]}>
                 back

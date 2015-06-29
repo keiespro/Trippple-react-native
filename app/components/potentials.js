@@ -10,15 +10,14 @@ var {
  TouchableHighlight,
  Image,
  TextInput,
- InteractionManager,
  PanResponder
 } = React;
 
 
-var tweenState = require('react-tween-state');
+var RNTAnimation = require('react-native-tween-animation');
 var MatchActions = require('../flux/actions/MatchActions');
 var PotentialsStore = require("../flux/stores/PotentialsStore");
-var alt = require('../flux/alt')
+// var alt = require('../flux/alt');
 var AltContainer = require('alt/AltNativeContainer');
 var Logger = require('../utils/logger');
 
@@ -108,13 +107,11 @@ var styles = StyleSheet.create({
 
 
 var ActiveCard = React.createClass({
-
-  mixins: [tweenState.Mixin],
-
   _panResponder: {},
   _previousLeft: 0,
   _previousTop: 0,
   _circleStyles: {},
+  _cardStyles: {},
   _handle: '',
   card: (null : ?{ setNativeProps(props: Object): void }),
 
@@ -134,7 +131,7 @@ var ActiveCard = React.createClass({
     this._cardStyles = {
       left: this._previousLeft,
       top: this._previousTop,
-    }
+   }
   },
 
   getInitialState: function(){
@@ -147,7 +144,8 @@ var ActiveCard = React.createClass({
     })
   },
   componentDidMount: function() {
-    this._updatePosition();
+    // this._updatePosition();
+
 
   },
 
@@ -193,18 +191,11 @@ var ActiveCard = React.createClass({
     });
   },
   componentDidUpdate: function(prevProps,prevState){
-    Logger.log('componentDidUpdate',this.state.isAnimating,'left: ' +this.getTweeningValue((state) => {return state.position},'left'));
-    if(this.state.isAnimating){
-      this._updatePosition({
-        left: this.getTweeningValue((state) => {return state.position},'left'),
-        top: this.getTweeningValue((state) => {return state.position},'top')
-      });
-    }
+
   },
+  _updatePosition: function(tweenFrame) {
 
-  _updatePosition: function(position) {
-
-    this.card && this.card.setNativeProps(position ? position : this._cardStyles);
+    this.card && this.card.setNativeProps(tweenFrame ? tweenFrame : this._cardStyles);
   },
 
   _handleStartShouldSetPanResponder: function(e: Object, gestureState: Object): boolean {
@@ -218,7 +209,6 @@ var ActiveCard = React.createClass({
   },
 
   _handlePanResponderGrant: function(e: Object, gestureState: Object) {
-    this._handle = InteractionManager.createInteractionHandle(gestureState.stateID);
     this._highlight();
     Logger.log('Pan Responder Grant',gestureState.dx)
 
@@ -238,76 +228,117 @@ var ActiveCard = React.createClass({
     if(Math.abs(gestureState.dx) > THROW_OUT_THRESHOLD ){
 
       Logger.debug('throwout',gestureState.dx)
-      InteractionManager.runAfterInteractions(() => {
 
         this.setState({
           isAnimating: true
         })
 
-        this.tweenState((state)=>{return state.position}, 'top',{
-          easing: tweenState.easingTypes.easeOutElastic,
-          duration: 700,
-          stackBehavior: tweenState.stackBehavior.ADDITIVE,
-          beginValue: this._cardStyles.top,
-          endValue:  300,
-          onEnd: () => {
-            // this.replaceState({isAnimating:false,position: {left:0,top:0}})
-          }
-        });
-        this.tweenState((state)=>{return state.position}, 'left',{
-          easing: tweenState.easingTypes.easeOutElastic,
-          duration: 705,
-          stackBehavior: tweenState.stackBehavior.ADDITIVE,
-          beginValue: this._cardStyles.left,
-          endValue:  gestureState.dx > 0 ? 500 : -500,
-          onEnd: () => {
-            var likeStatus = gestureState.dx > 0 ? 'approve' : 'deny';
-            this.replaceState({isAnimating:false,position: {left:0,top:0}})
-            MatchActions.sendLike(this.props.potential[0].id,likeStatus);
-          }
-        });
-      });
-    }else{
-      InteractionManager.runAfterInteractions(() => {
+        var self = this;
 
-        this.setState({
-          isAnimating: true
-        })
+        var animation = new RNTAnimation({
 
-        this.tweenState((state)=>{return state.position}, 'top',{
-          easing: tweenState.easingTypes.easeInOut,
-          duration: 550,
-          stackBehavior: tweenState.stackBehavior.ADDITIVE,
-          beginValue: this._cardStyles.top,
-          endValue:  0,
-          onEnd: () => {Logger.log('ONEND');
-            // this.replaceState({isAnimating:false,position: {left:0,top:0}})
-          }
-        });
-        this.tweenState((state)=>{return state.position}, 'left',{
-          easing: tweenState.easingTypes.easeInOut,
-          duration: 555,
-          stackBehavior: tweenState.stackBehavior.ADDITIVE,
-          beginValue: this._cardStyles.left,
-          endValue:  0,
-          onEnd: () => {
-            Logger.log('ONEND2');
-            this.replaceState({
+          // Start state
+          start: {
+            top: this._cardStyles.top,
+            left: this._cardStyles.left
+          },
+
+          // End state
+          end: {
+            top: 0,
+            left: 0
+          },
+
+          // Animation duration
+          duration: 500,
+
+          // Tween function
+          tween: 'easeOutBack',
+
+          // Update the component's state each frame
+          frame: (tweenFrame) => {
+            console.log(tweenFrame);
+
+            self._updatePosition( tweenFrame );
+
+
+          },
+
+          // Optional callback
+          done: () => {
+
+            console.log('All done!');
+            self.replaceState({
               isAnimating:false,
               position: {
                 left:0,
                 top:0
               }
             })
+            // Optionally reverse the animation
+            // animation.reverse(() => {});
           }
         });
 
-      })
+    }else{
+
+        this.setState({
+          isAnimating: true
+        })
+
+        var self = this;
+
+
+        var animation = new RNTAnimation({
+
+          // Start state
+          start: {
+            top: this._cardStyles.top,
+            left: this._cardStyles.left
+          },
+
+          // End state
+          end: {
+            top: 0,
+            left: 0
+          },
+
+          // Animation duration
+          duration: 500,
+
+          // Tween function
+          tween: 'easeOutBack',
+
+          // Update the component's state each frame
+          frame: (tweenFrame) => {
+
+            console.log(tweenFrame);
+
+            self._updatePosition( tweenFrame );
+          },
+
+          // Optional callback
+          done: () => {
+
+            console.log('All done!');
+            self.replaceState({
+              isAnimating:false,
+              position: {
+                left:0,
+                top:0
+              }
+            })
+            // Optionally reverse the animation
+            // animation.reverse(() => {});
+          }
+        });
+
+
+
 
 
     }
 
-    InteractionManager.clearInteractionHandle(this._handle);
 
   },
 });
