@@ -17,14 +17,26 @@ var colors = require('../utils/colors')
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 
-var Api = require("../utils/api");
 var UserActions = require('../flux/actions/UserActions');
 
 var Facebook = require('./facebook');
+var TopTabs = require('../controls/topSignupSigninTabs');
 
 
 var styles = StyleSheet.create({
+
   container: {
+    flex: 1,
+    alignItems:'center',
+    justifyContent:'center',
+    alignSelf:'stretch',
+    width: DeviceWidth,
+    margin:0,
+    padding:0,
+    height: DeviceHeight,
+    backgroundColor: 'transparent',
+  },
+  wrap: {
     flex: 1,
     alignItems:'center',
     justifyContent:'center',
@@ -114,12 +126,11 @@ class Login extends React.Component{
   handleLogin(){
     UserActions.login(this.state.phone,this.state.password)
   }
-  handleBack(){
-    this.props.navigator.pop();
-  }
+
   render(){
     return (
-      <View style={styles.container}>
+
+      <View style={styles.wrap}>
 
         <View style={styles.phoneInputWrap}>
           <TextInput
@@ -140,8 +151,138 @@ class Login extends React.Component{
         <Facebook/>
 
       </View>
+
     );
   }
 }
 
-module.exports = Login;
+class Register extends React.Component{
+
+  constructor(props){
+    super(props);
+    this.state = {
+      phone: '',
+      password: '',
+      password2: '',
+      isLoading: false
+    }
+  }
+
+  handlePhoneChange(event: any){
+    this.setState({
+      phone: event.nativeEvent.text
+    })
+  }
+
+  handlePasswordChange(event: any){
+    this.setState({
+      password: event.nativeEvent.text
+    })
+  }
+
+  handlePassword2Change(event: any){
+    this.setState({
+      password2: event.nativeEvent.text
+    })
+  }
+
+  handleSubmit(){
+    UserActions.register(this.state.phone,this.state.password,this.state.password2)
+  }
+
+  handleBack(){
+    this.props.handleBack();
+  }
+  render(){
+    return (
+      <View style={styles.wrap}>
+        <TextInput
+          style={styles.phoneInput}
+          value={this.state.phone || ''}
+          keyboardType={'number-pad'}
+          placeholder={'Phone'}
+          placeholderTextColor='#fff'
+          onChange={this.handlePhoneChange.bind(this)}
+          />
+        <TextInput
+          style={styles.phoneInput}
+          value={this.state.password || ''}
+          password={true}
+          keyboardType={'default'}
+          autoCapitalize={'none'}
+          placeholder={'Password'}
+          placeholderTextColor='#fff'
+          onChange={this.handlePasswordChange.bind(this)}
+          />
+        <TextInput
+          style={styles.phoneInput}
+          value={this.state.password2 || ''}
+          password={true}
+          keyboardType={'default'}
+          autoCapitalize={'none'}
+          placeholder={'Confirm Password'}
+          placeholderTextColor='#fff'
+          onChange={this.handlePassword2Change.bind(this)}
+          />
+        <TouchableHighlight
+          style={styles.button}
+          onPress={this.handleSubmit.bind(this)}
+          underlayColor="black">
+          <Text style={styles.buttonText}>Register</Text>
+        </TouchableHighlight>
+
+        <TouchableHighlight
+          onPress={this.handleBack.bind(this)}
+          underlayColor="black">
+          <Text style={styles.buttonText}>Back</Text>
+        </TouchableHighlight>
+      </View>
+
+    );
+  }
+}
+
+
+
+
+class Auth extends React.Component{
+
+  constructor(props){
+    super(props);
+    this.state = {
+      activeTab: props.initialTab
+    }
+  }
+
+  handleBack(){
+    this.props.navigator.pop();
+  }
+  toggleTab(newTab){
+    console.log(newTab)
+    if(newTab == this.state.activeTab) return;
+    this.setState({
+      activeTab:newTab
+    })
+  }
+  render(){
+    var activeTab = () => {
+      switch(this.state.activeTab){
+        case 'login':
+          return ( <Login handleBack={this.handleBack.bind(this)} /> );
+        case 'register':
+          return ( <Register handleBack={this.handleBack.bind(this)} /> );
+      }
+
+    }
+    return (
+      <View style={styles.container}>
+        <TopTabs toggleTab={this.toggleTab.bind(this)} active={this.state.activeTab}/>
+        { activeTab() }
+      </View>
+    );
+  }
+}
+
+
+
+module.exports = Auth;

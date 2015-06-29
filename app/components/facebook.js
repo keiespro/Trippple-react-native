@@ -1,66 +1,151 @@
-/* @flow */
-
-
-// 'use strict';
-
+'use strict';
 var React = require('react-native');
+
 var {
   StyleSheet,
   Text,
+  Image,
   View,
   TouchableHighlight,
-  TextInput,
-  ScrollView,
-  Image,
-  Navigator,
-  NavigatorIOS,
-  PickerIOS
 } = React;
 
-
-var FBLogin = require('react-native-facebook-login');
 var FBLoginManager = require('NativeModules').FBLoginManager;
+var colors = require('../utils/colors')
 
-var Facebook = React.createClass({
-  render: function() {
+var FBLoginMock = React.createClass({
+  propTypes: {
+    style: View.propTypes.style,
+    onPress: React.PropTypes.func,
+    onLogin: React.PropTypes.func,
+    onLogout: React.PropTypes.func,
+  },
+
+  getInitialState: function(){
+    return {
+      user: null,
+    };
+  },
+
+  handleLogin: function(){
     var _this = this;
+    FBLoginManager.login(function(error, data){
+      if (!error) {
+        _this.setState({ user : data});
+        _this.props.onLogin && _this.props.onLogin();
+      } else {
+        console.log(error, data);
+      }
+    });
+  },
+
+  handleLogout: function(){
+    var _this = this;
+    FBLoginManager.logout(function(error, data){
+      if (!error) {
+        _this.setState({ user : null});
+        _this.props.onLogout && _this.props.onLogout();
+      } else {
+        console.log(error, data);
+      }
+    });
+  },
+
+  onPress: function(){
+    this.state.user
+      ? this.handleLogout()
+      : this.handleLogin();
+
+    this.props.onPress && this.props.onPress();
+  },
+
+  componentWillMount: function(){
+    var _this = this;
+    FBLoginManager.getCredentials(function(error, data){
+      if (!error) {
+        _this.setState({ user : data})
+      }
+    });
+  },
+
+  render: function() {
+    var text = this.state.user ? "LOG OUT" : "LOG IN WITH FACEBOOK";
     return (
-      <FBLogin
-        style={{ marginBottom: 10, }}
-        permissions={["email","user_friends"]}
-        onLogin={function(data){
-          console.log("Logged in!");
-          console.log(data);
-          _this.setState({ user : data.credentials });
-        }}
-        onLogout={function(){
-          console.log("Logged out.");
-          _this.setState({ user : null });
-        }}
-        onLoginFound={function(data){
-          console.log("Existing login found.");
-          console.log(data);
-          _this.setState({ user : data.credentials });
-        }}
-        onLoginNotFound={function(){
-          console.log("No user logged in.");
-          _this.setState({ user : null });
-        }}
-        onError={function(data){
-          console.log("ERROR");
-          console.log(data);
-        }}
-        onCancel={function(){
-          console.log("User cancelled.");
-        }}
-        onPermissionsMissing={function(data){
-          console.log("Check permissions!");
-          console.log(data);
-        }}
-      />
+      <View style={this.props.style}>
+        <TouchableHighlight
+          style={styles.container}
+          onPress={this.onPress}
+        >
+          <View style={styles.FBLoginButton}>
+            <View style={styles.LogoBox}>
+              <Text style={[styles.FBLoginButtonText, this.state.user ? styles.FBLoginButtonTextLoggedIn : styles.FBLoginButtonTextLoggedOut]}>F</Text>
+            </View>
+              {/* <Image style={styles.FBLogo} source={require('image!FB-f-Logo__white_144')} />*/}
+              <View style={styles.TextBox}>
+                <Text style={[styles.FBLoginButtonText, this.state.user ? styles.FBLoginButtonTextLoggedIn : styles.FBLoginButtonTextLoggedOut]}
+              numberOfLines={1}>{text}</Text>
+              </View>
+
+          </View>
+        </TouchableHighlight>
+      </View>
     );
   }
 });
 
+var styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  LogoBox: {
+    width: 40
+  },
+  FBLoginButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'stretch',
+    height: 60,
+    paddingLeft: 2,
 
-module.exports = Facebook;
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: colors.mediumPurple,
+
+  },
+  TextBox: {
+    alignSelf: 'stretch',
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingRight: 20,
+
+
+  },
+  FBLoginButtonText: {
+    color: 'white',
+    fontWeight: '600',
+    fontFamily: 'Montserrat',
+    fontSize: 14.2,
+  },
+  FBLoginButtonTextLoggedIn: {
+    marginLeft: 5,
+  },
+  FBLoginButtonTextLoggedOut: {
+    marginLeft: 18,
+  },
+  FBLogo: {
+    position: 'absolute',
+    height: 14,
+    width: 14,
+    opacity: 0.7,
+    left: 7,
+    top: 7,
+  },
+});
+
+module.exports = FBLoginMock;

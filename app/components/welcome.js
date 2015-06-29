@@ -13,13 +13,14 @@ var {
   TouchableHighlight
 } = React;
 
+var TimerMixin = require('react-timer-mixin');
+
 var colors = require('../utils/colors')
 var Swiper = require('react-native-swiper');
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 var CustomSceneConfigs = require('../utils/sceneConfigs');
-var Register = require('./register');
-var Login = require('./login');
+var Auth = require('./login');
 var Facebook = require('./facebook');
 
 var slides = [
@@ -51,27 +52,37 @@ var slides = [
 ];
 
 var IntroScreen = React.createClass({
+  getInitialState(){
+    return {
+      isAnimating: false
+    }
+  },
 
-  handleRegisterButton(){
-    console.log('handle register',this.props.navigator,this.props.route)
+  mixins: [TimerMixin],
 
+  activateAnimatingState(){
+    this.setState({isAnimating:true})
+
+    this.setTimeout(
+     () => { this.setState({isAnimating:false}) },
+     500
+   );
+  },
+
+  handleNext(selectedTab){
+    console.log('handle register',selectedTab)
+
+    this.activateAnimatingState();
     this.props.navigator.push({
-      component: Register,
-      title: 'Register',
-      id:'register',
+      component: Auth,
+      title: 'Log in or Sign up',
+      id:'auth',
+      passProps: {
+        initialTab: selectedTab
+      }
     })
   },
 
-
-  handleLoginButton(){
-    console.log('handle login',this.props.navigator,this.props.route)
-
-    this.props.navigator.push({
-      component: Login,
-      title: 'Login',
-      id:'login',
-    })
-  },
   handleFacebookButton(){
     console.log('handle FB login',this.props.navigator,this.props.route)
 
@@ -83,33 +94,26 @@ var IntroScreen = React.createClass({
   },
 
   render(){
-    console.log('render intro',this.props.user)
     return(
       <View style={[styles.container]}>
         <View style={styles.wrap}>
           <Carousel/>
-
         </View>
-
-{/*       <Text style={[styles.textplain]}>Welcome Screen</Text>
-          <Facebook/>
-*/}
-          <View style={styles.bottomButtons}>
-            <TouchableHighlight
-               style={[styles.bottomButton,styles.loginButton]}
-               onPress={this.handleLoginButton}
-               underlayColor={colors.outerSpace}>
-               <Text style={styles.buttonText}>LOGIN</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-               style={[styles.bottomButton,styles.registerButton]}
-               onPress={this.handleRegisterButton}
-               underlayColor={colors.outerSpace}>
-               <Text style={styles.buttonText}>SIGN UP</Text>
-            </TouchableHighlight>
-          </View>
-
-    </View>
+        <View style={styles.bottomButtons}>
+          <TouchableHighlight
+            style={[styles.bottomButton,(this.state.isAnimating ? styles.activeButton : styles.loginButton )]}
+            onPress={ () => this.handleNext('login')}
+             underlayColor={colors.outerSpace}>
+             <Text style={styles.buttonText}>LOG IN</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+             style={[styles.bottomButton,(this.state.isAnimating ? styles.activeButton : styles.registerButton )]}
+             onPress={ () => this.handleNext('register')}
+             underlayColor={colors.outerSpace}>
+             <Text style={styles.buttonText}>SIGN UP</Text>
+          </TouchableHighlight>
+        </View>
+      </View>
     )
   }
 })
@@ -133,45 +137,14 @@ class Carousel extends React.Component{
           showsPagination={true}
           showsButtons={false}
           dot={ <View style={styles.dot} /> }
-          activeDot={ <View style={styles.activeDot} /> }>
+          activeDot={ <View style={styles.activeDot} /> }
+        >
           {welcomeSlides}
-
         </Swiper>
-
     )
   }
 }
 
-// class WelcomeCarousel extends React.Component{
-//   _handleGetStartedButton(){
-//     this.props.navigator.push({
-//       component: IntroScreen,
-//       title: 'Intro',
-//       id:'intro',
-//       sceneConfigs: ()=>{ return CustomSceneConfigs.VerticalSlide}
-//     })
-//
-//   }
-//
-//   render(){
-//
-//
-//     return (
-//       <View style={styles.container}>
-//
-//         <Carousel/>
-//         <View style={[styles.bottomarea]}>
-//           <TouchableHighlight
-//              style={styles.button}
-//              onPress={this._handleGetStartedButton.bind(this)}
-//              underlayColor="black">
-//              <Text style={styles.buttonText}>Get Started</Text>
-//           </TouchableHighlight>
-//         </View>
-//     </View>
-//     )
-//   }
-// }
 
 var Welcome = React.createClass({
 
@@ -183,19 +156,18 @@ var Welcome = React.createClass({
 
     return (
       <Image resizeMode={Image.resizeMode.cover} source={require('image!gradientbgs')} style={styles.imagebg}>
-
         <Navigator
-            initialRoute={{
-              component: IntroScreen,
-              title: 'intro',
-              id:'intro',
-            }}
-            key={'innerNav'}
-            configureScene={(route) => { return  route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.VerticalSlide}}
-
-            renderScene={this.renderScene}
+          initialRoute={{
+            component: IntroScreen,
+            title: 'intro',
+            id:'intro',
+          }}
+          key={'innerNav'}
+          configureScene={ (route) => {
+            return route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.VerticalSlide
+          }}
+          renderScene={this.renderScene}
         />
-
       </Image>
 
     );
@@ -229,14 +201,10 @@ var styles = StyleSheet.create({
     color: '#fff',
     alignSelf: 'center',
     fontFamily:'Montserrat'
-
   },
-
   carousel:{
-    // overflow:'hidden',
     flex:1,
     marginTop:50,
-
   },
   slide:{
     width: DeviceWidth,
@@ -259,7 +227,6 @@ var styles = StyleSheet.create({
   textwrap:{
     alignItems:'center',
     justifyContent:'center',
-
   },
   imagebg:{
     flex: 1,
@@ -267,7 +234,6 @@ var styles = StyleSheet.create({
     width: DeviceWidth,
     height: DeviceHeight,
     backgroundColor: colors.outerSpace
-
   },
   button: {
     height: 45,
@@ -296,7 +262,9 @@ var styles = StyleSheet.create({
   },
   loginButton:{
     backgroundColor: colors.shuttleGray,
-
+  },
+  activeButton:{
+    backgroundColor: colors.outerSpace,
   },
   registerButton:{
     backgroundColor: colors.mediumPurple,
@@ -327,7 +295,6 @@ var styles = StyleSheet.create({
     marginTop: 3,
     marginBottom: 3,
     borderColor: colors.shuttleGray
-
   },
   activeDot: {
     backgroundColor: colors.outerSpace,

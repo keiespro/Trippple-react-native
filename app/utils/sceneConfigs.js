@@ -121,13 +121,21 @@ var FromTheLeft = {
 
 
 var FromTheFront = {
+  // opacity: {
+  //   value: 1.0,
+  //   type: 'constant',
+  // },
   opacity: {
-    value: 1.0,
-    type: 'constant',
+    from: 0.5,
+    to: 1,
+    min: 0.5,
+    max: 1,
+    type: 'linear',
+    extrapolate: true,
+    round: 100,
   },
-
   transformTranslate: {
-    from: {x: 0, y: Dimensions.get('window').height, z: 0},
+    from: {x: 0, y: Dimensions.get('window').height -60, z: 0},
     to: {x: 0, y: 0, z: 0},
     min: 0,
     max: 1,
@@ -135,15 +143,15 @@ var FromTheFront = {
     extrapolate: true,
     round: PixelRatio.get(),
   },
-  translateY: {
-    from: Dimensions.get('window').height,
-    to: 0,
-    min: 0,
-    max: 1,
-    type: 'linear',
-    extrapolate: true,
-    round: PixelRatio.get(),
-  },
+  // translateY: {
+  //   from: Dimensions.get('window').height,
+  //   to: 0,
+  //   min: 0,
+  //   max: 1,
+  //   type: 'linear',
+  //   extrapolate: true,
+  //   round: PixelRatio.get(),
+  // },
   scaleX: {
     value: 1,
     type: 'constant',
@@ -159,7 +167,7 @@ var ToTheBack = {
   // rotation (x, y, z, w)
   transformTranslate: {
     from: {x: 0, y: 0, z: 0},
-    to: {x: 0, y: (-1*Dimensions.get('window').height), z: 0},
+    to: {x: 0, y: (-1*Dimensions.get('window').height + 60 ), z: 0}, //modiified for login
     min: 0,
     max: 1,
     type: 'linear',
@@ -168,36 +176,31 @@ var ToTheBack = {
   },
   transformScale: {
     from: {x: 1, y: 1, z: 1},
-    to: {x: 0.95, y: 0.95, z: 1},
-    min: 0,
+    to: {x: 1, y: 1, z: 1},
+    min: 1,
     max: 1,
-    type: 'linear',
-    extrapolate: true
+    type: 'constant',
+  },
+  opacity: {
+    value: 1,
+    type: 'constant',
   },
   opacity: {
     from: 1,
-    to: 0.3,
+    to: 0,
     min: 0,
-    max: 1,
+    max: 0.5,
     type: 'linear',
     extrapolate: false,
     round: 100,
   },
   scaleX: {
-    from: 1,
-    to: 0.95,
-    min: 0,
-    max: 1,
-    type: 'linear',
-    extrapolate: true
+    value: 1,
+    type: 'constant',
   },
   scaleY: {
-    from: 1,
-    to: 0.95,
-    min: 0,
-    max: 1,
-    type: 'linear',
-    extrapolate: true
+    value: 1,
+    type: 'constant',
   },
 };
 

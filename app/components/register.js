@@ -14,26 +14,49 @@ var {
 var colors = require('../utils/colors')
 
 var UserActions = require('../flux/actions/UserActions');
+var TopTabs = require('../controls/topSignupSigninTabs');
+var DeviceHeight = require('Dimensions').get('window').height;
+var DeviceWidth = require('Dimensions').get('window').width;
 
 
 var styles = StyleSheet.create({
- container: {
-   flex: 1,
-   justifyContent: 'center',
-   alignItems: 'center',
-   backgroundColor: colors.outerSpace,
-   padding: 10
- },
- phoneInput: {
-   height: 50,
-   padding: 4,
-   fontSize: 23,
-   borderWidth: 1,
-   borderColor: colors.white,
-   borderRadius: 8,
-   fontFamily:'omnes',
-   color: colors.white
- },
+
+container: {
+  flex: 1,
+  alignItems:'center',
+  justifyContent:'center',
+  alignSelf:'stretch',
+  width: DeviceWidth,
+  margin:0,
+  padding:0,
+  height: DeviceHeight,
+  backgroundColor: 'transparent',
+},
+wrap: {
+  flex: 1,
+  alignItems:'center',
+  justifyContent:'center',
+  alignSelf:'stretch',
+  width: DeviceWidth,
+  margin:0,
+  height: DeviceHeight,
+  backgroundColor: 'transparent',
+  padding:20
+
+},
+phoneInputWrap: {
+  borderBottomWidth: 2,
+  borderBottomColor: colors.rollingStone,
+  height: 50,
+  alignSelf: 'stretch'
+},
+phoneInput: {
+  height: 50,
+  padding: 4,
+  fontSize: 21,
+  fontFamily:'Montserrat',
+  color: colors.white
+},
  buttonText: {
    fontSize: 18,
    color: colors.white,
@@ -95,46 +118,49 @@ handleBack(){
  render(){
    return (
      <View style={styles.container}>
-       <TextInput
-         style={styles.phoneInput}
-         value={this.state.phone || ''}
-         keyboardType={'number-pad'}
-         placeholder={'Phone'}
-         placeholderTextColor='#fff'
-         onChange={this.handlePhoneChange.bind(this)}
-       />
-       <TextInput
-         style={styles.phoneInput}
-         value={this.state.password || ''}
-         password={true}
-         keyboardType={'default'}
-         autoCapitalize={'none'}
-         placeholder={'Password'}
-         placeholderTextColor='#fff'
-         onChange={this.handlePasswordChange.bind(this)}
-       />
-       <TextInput
-         style={styles.phoneInput}
-         value={this.state.password2 || ''}
-         password={true}
-         keyboardType={'default'}
-         autoCapitalize={'none'}
-         placeholder={'Confirm Password'}
-         placeholderTextColor='#fff'
-         onChange={this.handlePassword2Change.bind(this)}
-       />
-       <TouchableHighlight
-          style={styles.button}
-          onPress={this.handleSubmit.bind(this)}
-          underlayColor="black">
-          <Text style={styles.buttonText}>Register</Text>
-       </TouchableHighlight>
+       <TopTabs active="register"/>
+       <View style={styles.wrap}>
+         <TextInput
+           style={styles.phoneInput}
+           value={this.state.phone || ''}
+           keyboardType={'number-pad'}
+           placeholder={'Phone'}
+           placeholderTextColor='#fff'
+           onChange={this.handlePhoneChange.bind(this)}
+         />
+         <TextInput
+           style={styles.phoneInput}
+           value={this.state.password || ''}
+           password={true}
+           keyboardType={'default'}
+           autoCapitalize={'none'}
+           placeholder={'Password'}
+           placeholderTextColor='#fff'
+           onChange={this.handlePasswordChange.bind(this)}
+         />
+         <TextInput
+           style={styles.phoneInput}
+           value={this.state.password2 || ''}
+           password={true}
+           keyboardType={'default'}
+           autoCapitalize={'none'}
+           placeholder={'Confirm Password'}
+           placeholderTextColor='#fff'
+           onChange={this.handlePassword2Change.bind(this)}
+         />
+         <TouchableHighlight
+            style={styles.button}
+            onPress={this.handleSubmit.bind(this)}
+            underlayColor="black">
+            <Text style={styles.buttonText}>Register</Text>
+         </TouchableHighlight>
 
-       <TouchableHighlight
-          onPress={this.handleBack.bind(this)}
-          underlayColor="black">
-          <Text style={styles.buttonText}>Back</Text>
-       </TouchableHighlight>
+         <TouchableHighlight
+            onPress={this.handleBack.bind(this)}
+            underlayColor="black">
+            <Text style={styles.buttonText}>Back</Text>
+         </TouchableHighlight>
+       </View>
      </View>
    );
  }
