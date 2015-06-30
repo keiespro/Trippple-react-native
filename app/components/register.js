@@ -22,6 +22,7 @@ var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 
 var UserActions = require('../flux/actions/UserActions');
+var PhoneNumberInput = require('../controls/phoneNumberInput.js');
 
 // var Facebook = require('./facebook');
 var TopTabs = require('../controls/topSignupSigninTabs');
@@ -204,13 +205,12 @@ var Register = React.createClass({
 
         <View
           style={[styles.phoneInputWrap,(this.state.phoneFocused ? styles.phoneInputWrapSelected : null)]}>
-
-          <TextInput
+          <PhoneNumberInput
+            mask="+1 999 999-9999"
             style={styles.phoneInput}
-            value={this.state.phone || ''}
+            value={this.state.phone}
             keyboardType={'phone-pad'}
             placeholder={'Phone'}
-            autoFocus={true}
             keyboardAppearance={'dark'}
             placeholderTextColor='#fff'
             onChange={this.handlePhoneChange}

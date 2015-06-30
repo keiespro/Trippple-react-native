@@ -26,6 +26,7 @@ var UserActions = require('../flux/actions/UserActions');
 var Facebook = require('./facebook');
 var TopTabs = require('../controls/topSignupSigninTabs');
 
+var PhoneNumberInput = require('../controls/phoneNumberInput.js');
 
 var styles = StyleSheet.create({
 
@@ -140,17 +141,15 @@ var Login = React.createClass({
 
   getInitialState(){
     return({
-      phone: '3055282534',
-      password: 'lopeh',
+      phone: '',
+      password: '',
       isLoading: false,
       phoneFocused: false
     })
   },
   componentWillUpdate(props, state) {
     if (state.isKeyboardOpened !== this.state.isKeyboardOpened) {
-      console.log('shoud aniamte',animations)
       LayoutAnimation.configureNext(animations.layout.spring);
-
     }
   },
   handlePhoneChange(event: any){
@@ -180,8 +179,8 @@ var Login = React.createClass({
   },
 
   render(){
-    var paddingBottom =  this.state.keyboardSpace;
-    console.log(~~!this.state.isKeyboardOpened);
+    var paddingBottom = this.state.keyboardSpace;
+    var phoneValue = this.state.phone //.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
 
     return (
       <View style={[{flex: 1, height:DeviceHeight, paddingBottom: paddingBottom}]}>
@@ -195,9 +194,10 @@ var Login = React.createClass({
         <View
           style={[styles.phoneInputWrap,(this.state.phoneFocused ? styles.phoneInputWrapSelected : null)]}>
 
-          <TextInput
+          <PhoneNumberInput
+            mask="+1 999 999-9999"
             style={styles.phoneInput}
-            value={this.state.phone || ''}
+            value={phoneValue}
             keyboardType={'phone-pad'}
             placeholder={'Phone'}
             keyboardAppearance={'dark'}
