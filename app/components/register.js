@@ -213,6 +213,7 @@ var Register = React.createClass({
             placeholder={'Phone'}
             keyboardAppearance={'dark'}
             placeholderTextColor='#fff'
+            autoFocus={true}
             onChange={this.handlePhoneChange}
             onFocus={this.handlePhoneInputFocused}
             onBlur={this.handlePhoneInputBlurred}

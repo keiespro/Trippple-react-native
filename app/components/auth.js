@@ -133,9 +133,9 @@ class Auth extends React.Component{
     var activeTab = () => {
       switch(this.state.activeTab){
         case 'login':
-          return ( <Login handleBack={this.handleBack.bind(this)} /> );
+          return ( <Login navigator={this.props.navigator} handleBack={this.handleBack.bind(this)} /> );
         case 'register':
-          return ( <Register handleBack={this.handleBack.bind(this)} /> );
+          return ( <Register navigator={this.props.navigator} handleBack={this.handleBack.bind(this)} /> );
       }
 
     }

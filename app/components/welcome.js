@@ -78,7 +78,8 @@ var IntroScreen = React.createClass({
       title: 'Log in or Sign up',
       id:'auth',
       passProps: {
-        initialTab: selectedTab
+        initialTab: selectedTab,
+        navigator: this.props.navigator
       }
     })
   },
@@ -90,6 +91,8 @@ var IntroScreen = React.createClass({
       component: Facebook,
       title: 'FB Login',
       id:'fblogin',
+      sceneConfig:CustomSceneConfigs.HorizontalSlide,
+
     })
   },
 

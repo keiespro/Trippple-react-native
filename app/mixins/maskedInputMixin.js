@@ -1,8 +1,9 @@
-// react-mask-mixin
+// react-native-mask-mixin
+// alex lopez
+// forked from:
 // http://github.com/borbit/react-mask-mixin
-// Copyright (c) 2015 Serge Borbit
 // Licensed under the MIT license (http://www.opensource.org/licenses/mit-license.php)
-// Version: 0.0.3
+// Version: 0.0.3X
 
 var MASK_REGEX = {
   '9': /\d/,
@@ -18,7 +19,6 @@ var ReactMaskMixin = {
     this.mask = {
       props: {
         value: this.props.value,
-        // onClick: this._onClick,
         onChange: this._onChange,
         onKeyDown: this._onKeyDown,
         onFocus: this._onFocus,
@@ -28,7 +28,6 @@ var ReactMaskMixin = {
       cursorPrev: 0,
       cursor: 0
     }
-    console.log(this.props.value);
     if (this.props.value && this.props.mask) {
       this.processValue(this.props.value)
     }
@@ -45,6 +44,9 @@ var ReactMaskMixin = {
 
 
   processValue: function(value) {
+    if(value.length > this.props.mask.length){
+      return false;
+    }
     var mask = this.props.mask
     var pattern = mask.replace(PTRN_REGEX, `_`)
     var rexps = {}
@@ -89,7 +91,7 @@ var ReactMaskMixin = {
       }
     }
 
-console.log(this.mask,newValue);
+
     var cursorPrev = this.mask.cursor
     var cursorCurr = cursorMax /// EDITED from setSelectionRange : 0
     newValue = newValue.substr(0, cursorCurr)
@@ -184,12 +186,6 @@ console.log(this.mask,newValue);
     }
   },
 
-  // _onClick: function(e) {
-  //   this._onChange(e)
-  //   if (this.props.onClick) {
-  //     this.props.onClick(e)
-  //   }
-  // }
 }
 
 module.exports = ReactMaskMixin;

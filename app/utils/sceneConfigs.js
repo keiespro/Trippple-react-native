@@ -1,3 +1,6 @@
+// forked from deep inside react native 
+
+
 'use strict';
 
 var Dimensions = require('Dimensions');
