@@ -17,7 +17,7 @@ class AuthErrorStore {
     console.log(err.error)
 
     this.setState({
-      pinError: err,
+      phoneError: err.error,
     });
   }
 

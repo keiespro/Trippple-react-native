@@ -28,6 +28,7 @@ class UserStore {
   }
 
   handleRequestPin(res){
+    
   }
 
   handleVerifyPin(res){

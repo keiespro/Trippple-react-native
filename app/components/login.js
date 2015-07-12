@@ -132,7 +132,17 @@ var styles = StyleSheet.create({
     fontFamily:'Montserrat',
     color: colors.white,
     textAlign:'center'
-  }
+  },
+  bottomErrorText:{
+    marginTop: 0,
+    color: colors.mandy,
+    fontSize: 16,
+    fontFamily:'Omnes-Regular',
+
+  },
+  phoneInputWrapError:{
+    borderBottomColor: colors.mandy,
+  },
 });
 
 var animations = {
@@ -180,10 +190,26 @@ var Login = React.createClass({
   },
 
   onError(err){
-    if(!err.phoneError) return false;
+    console.log(err)
+    if(!err.phoneError){
+
+        this.props.navigator.push({
+          component: PinScreen,
+          title: '',
+          id:'pw',
+          sceneConfig: CustomSceneConfigs.HorizontalSlide,
+          passProps: {
+            phone: this.formattedPhone(),
+            error: this.state.phoneError,
+            initialKeyboardSpace: this.state.keyboardSpace
+          }
+        })
+        return;
+    };
 
     this.setState({
-      phoneError: err.pinError
+      phoneError: err.phoneError,
+      canContinue: false
     })
   },
   componentDidMount(){
@@ -194,12 +220,27 @@ var Login = React.createClass({
   },
 
   shouldHide(val) { return (val.length < PHONE_MASK_USA.length) ? true : false  },
-  shouldShow(val) { return (val.length == PHONE_MASK_USA.length)  ? true : false  },
+  shouldShow(val) { return (val.length == PHONE_MASK_USA.length) ? true : false  },
+
+
+    componentDidUpate(prevProps,prevState){
+
+      // Reset error state
+
+    },
+
 
   handleInputChange(event: any){
-    this.setState({
+    var update = {
       inputFieldValue: event.nativeEvent.text
-    })
+    };
+    if(event.nativeEvent.text.length < this.state.inputFieldValue.length){
+
+      update['phoneError'] = null
+
+    }
+
+    this.setState(update)
   },
 
   _submit(){
@@ -209,17 +250,6 @@ var Login = React.createClass({
 
     UserActions.requestPinLogin(this.formattedPhone());
 
-    this.props.navigator.push({
-      component: PinScreen,
-      title: '',
-      id:'pw',
-      sceneConfig: CustomSceneConfigs.HorizontalSlide,
-      passProps: {
-        phone: this.formattedPhone(),
-        error: this.state.phoneError,
-        initialKeyboardSpace: this.state.keyboardSpace
-      }
-    })
   },
 
   render(){
@@ -231,7 +261,9 @@ var Login = React.createClass({
           contentContainerStyle={[styles.wrap, {left: 0}]}
           bounces={false}
           >
-          <View style={[styles.phoneInputWrap,(this.state.phoneFocused ? styles.phoneInputWrapSelected : null)]}>
+          <View style={[styles.phoneInputWrap,
+              (this.state.phoneFocused ? styles.phoneInputWrapSelected : null),
+              (this.state.phoneError ? styles.phoneInputWrapError : null)]}>
 
             <PhoneNumberInput
               mask={PHONE_MASK_USA}
@@ -248,7 +280,11 @@ var Login = React.createClass({
               onBlur={this.handleInputFieldBlurred}
             />
           </View>
-
+          {this.state.phoneError &&
+              <View >
+                <Text textAlign={'right'} style={[styles.bottomErrorText]}>Did you mean to register?</Text>
+              </View>
+          }
         </ScrollView>
 
         {this.renderContinueButton()}

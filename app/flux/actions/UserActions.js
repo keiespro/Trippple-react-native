@@ -42,6 +42,10 @@ class UserActions {
         Logger.log(res);
         this.dispatch(res);
       })
+      .catch((err) => {
+        Logger.log('error');
+        this.dispatch(err);
+      })
 
   }
 
