@@ -43,6 +43,12 @@
 		ACA1297F1B41161500CC1499 /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = ACA1297E1B41161100CC1499 /* Montserrat-Regular.otf */; };
 		ACA129861B416C3000CC1499 /* libRNKeyboardEvents.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129851B416C2700CC1499 /* libRNKeyboardEvents.a */; };
 		ACFC0A6A1B51E5AE00D9D40F /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129561B40EA1600CC1499 /* libRNKeychain.a */; };
+		ACFC0A6E1B52402900D9D40F /* oval2@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = ACFC0A6B1B52402900D9D40F /* oval2@1x.png */; };
+		ACFC0A6F1B52402900D9D40F /* oval2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ACFC0A6C1B52402900D9D40F /* oval2@2x.png */; };
+		ACFC0A701B52402900D9D40F /* oval2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ACFC0A6D1B52402900D9D40F /* oval2@3x.png */; };
+		ACFC0A741B524BA900D9D40F /* fBLogo@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = ACFC0A711B524BA900D9D40F /* fBLogo@1x.png */; };
+		ACFC0A751B524BA900D9D40F /* fBLogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ACFC0A721B524BA900D9D40F /* fBLogo@2x.png */; };
+		ACFC0A761B524BA900D9D40F /* fBLogo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ACFC0A731B524BA900D9D40F /* fBLogo@3x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -237,6 +243,12 @@
 		ACA129761B40EF0D00CC1499 /* qq.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = qq.aiff; sourceTree = "<group>"; };
 		ACA1297E1B41161100CC1499 /* Montserrat-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.otf"; sourceTree = "<group>"; };
 		ACA129801B416C2700CC1499 /* RNKeyboardEvents.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNKeyboardEvents.xcodeproj; path = "node_modules/react-native-keyboardevents/RNKeyboardEvents.xcodeproj"; sourceTree = "<group>"; };
+		ACFC0A6B1B52402900D9D40F /* oval2@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "oval2@1x.png"; sourceTree = "<group>"; };
+		ACFC0A6C1B52402900D9D40F /* oval2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "oval2@2x.png"; sourceTree = "<group>"; };
+		ACFC0A6D1B52402900D9D40F /* oval2@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "oval2@3x.png"; sourceTree = "<group>"; };
+		ACFC0A711B524BA900D9D40F /* fBLogo@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fBLogo@1x.png"; sourceTree = "<group>"; };
+		ACFC0A721B524BA900D9D40F /* fBLogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fBLogo@2x.png"; sourceTree = "<group>"; };
+		ACFC0A731B524BA900D9D40F /* fBLogo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fBLogo@3x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -503,8 +515,14 @@
 		ACA129701B40EF0D00CC1499 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				ACFC0A711B524BA900D9D40F /* fBLogo@1x.png */,
+				ACFC0A721B524BA900D9D40F /* fBLogo@2x.png */,
+				ACFC0A731B524BA900D9D40F /* fBLogo@3x.png */,
 				ACA1297E1B41161100CC1499 /* Montserrat-Regular.otf */,
 				ACA129711B40EF0D00CC1499 /* defaultuser.png */,
+				ACFC0A6B1B52402900D9D40F /* oval2@1x.png */,
+				ACFC0A6C1B52402900D9D40F /* oval2@2x.png */,
+				ACFC0A6D1B52402900D9D40F /* oval2@3x.png */,
 				ACA129721B40EF0D00CC1499 /* omnes-bold-webfont.ttf */,
 				ACA129731B40EF0D00CC1499 /* omnes-light-webfont.ttf */,
 				ACA129741B40EF0D00CC1499 /* omnes-medium-webfont.ttf */,
@@ -827,11 +845,17 @@
 				ACA1297C1B40EF0D00CC1499 /* qq.aiff in Resources */,
 				ACA1297B1B40EF0D00CC1499 /* omnes-regular-webfont.ttf in Resources */,
 				ACA1297F1B41161500CC1499 /* Montserrat-Regular.otf in Resources */,
+				ACFC0A761B524BA900D9D40F /* fBLogo@3x.png in Resources */,
 				008F07F31AC5B25A0029DE68 /* main.jsbundle in Resources */,
 				ACA1297A1B40EF0D00CC1499 /* omnes-medium-webfont.ttf in Resources */,
 				ACA129771B40EF0D00CC1499 /* defaultuser.png in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				ACA129791B40EF0D00CC1499 /* omnes-light-webfont.ttf in Resources */,
+				ACFC0A701B52402900D9D40F /* oval2@3x.png in Resources */,
+				ACFC0A741B524BA900D9D40F /* fBLogo@1x.png in Resources */,
+				ACFC0A6F1B52402900D9D40F /* oval2@2x.png in Resources */,
+				ACFC0A6E1B52402900D9D40F /* oval2@1x.png in Resources */,
+				ACFC0A751B524BA900D9D40F /* fBLogo@2x.png in Resources */,
 				ACA129781B40EF0D00CC1499 /* omnes-bold-webfont.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

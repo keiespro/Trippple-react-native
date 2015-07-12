@@ -22,9 +22,10 @@ var Welcome = require('./welcome');
 var Main = require('./main');
 var PendingPartner = require('./pendingpartner');
 var VerifyPin = require('./verifyPin');
-var Onboard = require('./onboard');
+var Onboard = require('../screens/registration/onboard');
 
 var UserStore = require('../flux/stores/UserStore');
+var UserActions = require('../flux/actions/UserActions');
 
 var styles = StyleSheet.create({
   container: {
@@ -67,6 +68,11 @@ class TopLevel extends React.Component{
     super(props);
 
   }
+
+  componentDidMount(){
+    UserActions.initialize();
+  }
+
   _renderScene (route, navigator){
     return (<route.component {...route.passProps} key={route.id} user={this.props.user} navigator={navigator}/>);
 
@@ -77,11 +83,11 @@ class TopLevel extends React.Component{
     var userStatus = this.props.user ? this.props.user.status : null;
 
     switch(userStatus){
-
-      case "registered":
-        return (
-          <VerifyPin key="VerifyPinScreen" user={this.props.user}/>
-        )
+      //
+      // case "registered":
+      //   return (
+      //     <VerifyPin key="VerifyPinScreen" user={this.props.user}/>
+      //   )
 
       case "verified":
         return (

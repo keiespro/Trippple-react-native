@@ -28,6 +28,7 @@ var DeviceWidth = require('Dimensions').get('window').width;
 var UserActions = require('../flux/actions/UserActions');
 
 var AuthErrorStore = require('../flux/stores/AuthErrorStore');
+var SingleInputScreenMixin = require('../mixins/SingleInputScreenMixin');
 
 var styles = StyleSheet.create({
 
@@ -57,7 +58,7 @@ var styles = StyleSheet.create({
   pinInputWrap: {
     borderBottomWidth: 2,
     borderBottomColor: colors.rollingStone,
-    height: 50,
+    height: 60,
     alignSelf: 'stretch'
   },
   pinInputWrapSelected:{
@@ -67,8 +68,8 @@ var styles = StyleSheet.create({
     borderBottomColor: colors.mandy,
   },
   pinInput: {
-    height: 50,
-    padding: 4,
+    height: 60,
+    padding: 8,
     fontSize: 30,
     fontFamily:'Montserrat',
     color: colors.white
@@ -175,7 +176,7 @@ var animations = {
 
 
 var PinScreen = React.createClass({
-  mixins: [TrackKeyboard],
+  mixins: [TrackKeyboard, SingleInputScreenMixin],
 
   getInitialState(){
     return ({
@@ -183,17 +184,6 @@ var PinScreen = React.createClass({
     })
   },
 
-  handlePinInputFocused(){
-    // this.setState({
-    //   pinFocused: true
-    // })
-  },
-
-  handlePinInputBlurred(){
-    this.setState({
-      pinFocused: false
-    })
-  },
 
   onError(err){
     if(!err.verifyError) return false;
@@ -209,18 +199,40 @@ var PinScreen = React.createClass({
   componentWillUnmount(){
     AuthErrorStore.unlisten(this.onError);
   },
+
+
+
+  shouldHide(val) { return false},
+  shouldShow(val) { return false},
+
+
+  handleInputChange(event: any){
+
+    var pin = event.nativeEvent.text;
+
+    if(pin.length > 4){
+      event.preventDefault();
+      return false;
+    }
+
+    this.setState({
+      inputFieldValue: pin
+    })
+
+  },
+
   componentDidUpdate(prevProps, prevState){
 
     // Reset error state
-    if(this.state.pin.length == 3 && prevState.pin.length == 4) {
+    if(this.state.inputFieldValue.length == 3 && prevState.inputFieldValue.length == 4) {
       this.setState({
         verifyError: false
       })
     }
 
     // Submit pin automatically when 4 digits have been entered
-    if(this.state.pin.length == 4 && prevState.pin.length < 4 && !this.state.submitting) {
-      UserActions.verifySecurityPin(this.state.pin,this.props.phone);
+    if(this.state.inputFieldValue.length == 4 && prevState.inputFieldValue.length < 4 && !this.state.submitting) {
+      UserActions.verifySecurityPin(this.state.inputFieldValue,this.props.phone);
 
       this.setState({
         submitting: true
@@ -241,19 +253,7 @@ var PinScreen = React.createClass({
     }
 
   },
-  handlePinChange(event){
-    var pin = event.nativeEvent.text;
 
-    if(pin.length > 4){
-      event.preventDefault();
-      return false;
-    }
-
-    this.setState({
-      pin: pin
-    })
-
-  },
   goBack(){
     this.props.navigator.pop();
   },
@@ -281,7 +281,7 @@ var PinScreen = React.createClass({
             >
             <TextInput
               style={styles.pinInput}
-              value={this.state.pin || ''}
+              value={this.state.inputFieldValue || ''}
               keyboardAppearance={'dark'/*doesnt work*/}
               keyboardType={'phone-pad'}
               autoCapitalize={'none'}
@@ -291,9 +291,9 @@ var PinScreen = React.createClass({
               autoCorrect={false}
               clearButtonMode={'always'}
               textAlign={'center'}
-              onChange={this.handlePinChange}
-              onFocus={this.handlePinInputFocused}
-              onBlur={this.handlePinInputBlurred}
+              onChange={this.handleInputChange}
+              onFocus={this.handleInputFieldFocused}
+              onBlur={this.handleInputFieldBlurred}
             />
           </View>
 

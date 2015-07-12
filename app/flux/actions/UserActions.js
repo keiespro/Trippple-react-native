@@ -1,9 +1,12 @@
 var alt = require('../alt');
 var Api = require("../../utils/api");
 var Logger = require("../../utils/logger");
+var Keychain = require('Keychain');
+var server = 'http://api2.trippple.co';
 
 
 class UserActions {
+
   getUserInfo() {
     Api.getUserInfo()
       .then((res) => {
@@ -56,15 +59,15 @@ class UserActions {
   // }
 
 
-  register(phone,password,password2){
-    Logger.log('register action');
-    Api.register(phone,password,password2)
-      .then((res) => {
-        Logger.log(res);
-        this.dispatch(res);
-      })
-
-  }
+  // register(phone,password,password2){
+  //   Logger.log('register action');
+  //   Api.register(phone,password,password2)
+  //     .then((res) => {
+  //       Logger.log(res);
+  //       this.dispatch(res);
+  //     })
+  //
+  // }
 
   uploadImage(image){
     Api.uploadImage(image)
@@ -72,7 +75,7 @@ class UserActions {
          Api.getUserInfo()
           .then((res) => {
             Logger.log(res);
-            this.dispatch(res.response);
+            this.dispatch(res);
           })
           .catch((err) => {
             Logger.log(err);
@@ -96,7 +99,7 @@ class UserActions {
       .then((res) => {
         Logger.log(res);
         this.dispatch({
-          response: res.response,
+          response: res,
           updates: updates
         });
       })
@@ -106,6 +109,27 @@ class UserActions {
           err: err
         });
       })
+  }
+
+  initialize(){
+    console.log("INITIALIZE")
+    // Keychain.getInternetCredentials(server)
+    //   .then((credentials) => {
+        // this.dispatch(credentials);
+        //
+        Api.getUserInfo()
+         .then((res) => {
+           Logger.log(res);
+           this.dispatch(res);
+         })
+         .catch((err) => {
+           Logger.log(err);
+           this.dispatch(res);
+         })
+      //  })
+
+
+
   }
 }
 

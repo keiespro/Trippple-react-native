@@ -31,9 +31,7 @@ var AuthErrorStore = require('../flux/stores/AuthErrorStore');
 var Facebook = require('./facebook');
 var TopTabs = require('../controls/topSignupSigninTabs');
 
-var PhoneNumberInput = require('../controls/phoneNumberInput.js');
-
-var SingleInputScreenMixin = require('../mixins/SingleInputScreenMixin');
+var PhoneNumberInput = require('../controls/inputFieldNumberInput.js');
 
 var PinScreen = require('./pin')
 var styles = StyleSheet.create({
@@ -61,16 +59,16 @@ var styles = StyleSheet.create({
     padding:20
 
   },
-  phoneInputWrap: {
+  inputWrap: {
     borderBottomWidth: 2,
     borderBottomColor: colors.rollingStone,
     height: 60,
     alignSelf: 'stretch'
   },
-  phoneInputWrapSelected:{
+  inputWrapSelected:{
     borderBottomColor: colors.mediumPurple,
   },
-  phoneInput: {
+  input: {
     height: 60,
     padding: 8,
     fontSize: 30,
@@ -164,26 +162,25 @@ var animations = {
 };
 
 
-var Login = React.createClass({
-  mixins: [TrackKeyboard, SingleInputScreenMixin],
+var SingleInputPage = React.createClass({
+  mixins: [TrackKeyboard],
 
   getInitialState(){
     return({
-      phone: '',
+      inputField: '',
+      pin: '',
       isLoading: false,
-      phoneFocused: true
+      inputFieldFocused: true
     })
   },
-
-  formattedPhone(){
-    return this.state.inputFieldValue.replace(/[\. ,:-]+/g, "")
+  formattedValue(){
+    return this.props.format(this.state.inputFieldValue)
   },
-
   onError(err){
-    if(!err.phoneError) return false;
+    if(!err.inputFieldError) return false;
 
     this.setState({
-      phoneError: err.pinError
+      inputFieldError: err.pinError
     })
   },
   componentDidMount(){
@@ -192,66 +189,72 @@ var Login = React.createClass({
   componentWillUnmount(){
     AuthErrorStore.unlisten(this.onError);
   },
-
-  shouldHide(val) { return (val.length < PHONE_MASK_USA.length) ? true : false  },
-  shouldShow(val) { return (val.length == PHONE_MASK_USA.length)  ? true : false  },
-
-  handleInputChange(event: any){
-    this.setState({
-      inputFieldValue: event.nativeEvent.text
-    })
-  },
-
-  _submit(){
-    if(!this.state.canContinue){
-      return false;
+  componentWillUpdate(props, state) {
+    if (state.isKeyboardOpened !== this.state.isKeyboardOpened) {
+      LayoutAnimation.configureNext(animations.layout.spring);
     }
 
-    UserActions.requestPinLogin(this.formattedPhone());
+    if(state.canContinue !== this.state.canContinue) {
+      LayoutAnimation.configureNext(animations.layout.spring);
+    }
 
-    this.props.navigator.push({
-      component: PinScreen,
-      title: '',
-      id:'pw',
-      sceneConfig: CustomSceneConfigs.HorizontalSlide,
-      passProps: {
-        phone: this.formattedPhone(),
-        error: this.state.phoneError,
-        initialKeyboardSpace: this.state.keyboardSpace
-      }
-    })
+
+    if(state.scene !== this.state.scene) {
+      // LayoutAnimation.configureNext(animations.layout.spring);
+    }
+  },
+
+  componentDidUpdate(){
+    if(!this.state.canContinue && this.state.inputFieldValue.length == PHONE_MASK_USA.length){
+      this.showContinueButton();
+    }else if(this.state.canContinue && this.state.inputFieldValue.length < PHONE_MASK_USA.length){
+      this.hideContinueButton();
+    }
   },
 
   render(){
+    var paddingBottom = this.state.keyboardSpace;
+    var inputFieldValue = this.state.inputFieldValue //.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
 
     return (
-      <View style={[{flex: 1, height:DeviceHeight, paddingBottom: this.state.keyboardSpace}]}>
+      <View style={[{flex: 1, height:DeviceHeight, paddingBottom: paddingBottom}]}>
         <ScrollView
           keyboardDismissMode={'on-drag'}
           contentContainerStyle={[styles.wrap, {left: 0}]}
           bounces={false}
           >
-          <View style={[styles.phoneInputWrap,(this.state.phoneFocused ? styles.phoneInputWrapSelected : null)]}>
+          <View style={[styles.inputWrap,(this.state.inputFieldValueFocused ? styles.inputWrapSelected : null)]}>
 
             <PhoneNumberInput
-              mask={PHONE_MASK_USA}
-              style={styles.phoneInput}
-              value={this.state.inputFieldValue}
-              keyboardType={'phone-pad'}
-              placeholder={'Phone'}
+              style={styles.input}
+              value={inputFieldValue}
+              keyboardType={this.props.keyboardType}
+              placeholder={this.props.placeholder}
               keyboardAppearance={'dark'/*doesnt work*/}
-              placeholderTextColor='#fff'
-              autoFocus={false}
-              autoCorrect={false}
-              onChange={this.handleInputChange}
-              onFocus={this.handleInputFieldFocused}
-              onBlur={this.handleInputFieldBlurred}
+              placeholderTextColor={this.props.placeholderTextColor}
+              autoFocus={this.props.autoFocus}
+              autoCorrect={this.props.autoCorrect}
+              onChange={this.handleChange}
+              onFocus={this.handleInputFocused}
+              onBlur={this.handleInputBlurred}
             />
           </View>
 
         </ScrollView>
 
-        {this.renderContinueButton()}
+        <View style={[styles.continueButtonWrap,
+            {bottom: this.state.canContinue ? 0 : -80,
+              backgroundColor: this.state.canContinue ? colors.mediumPurple : 'black'
+            }]}>
+          <TouchableHighlight
+             style={[styles.continueButton]}
+             onPress={this.handleContinue}
+             underlayColor="black">
+
+             <Text style={styles.continueButtonText}>CONTINUE</Text>
+           </TouchableHighlight>
+        </View>
+
 
     </View>
 
@@ -262,4 +265,4 @@ var Login = React.createClass({
 
 
 
-module.exports = Login;
+module.exports = SingleInputPage;

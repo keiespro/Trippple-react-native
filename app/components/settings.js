@@ -24,8 +24,8 @@ var ImageUpload = require('./imageUpload');
 var Privacy = require('./privacy');
 var Modal = require('react-native-swipeable-modal');
 
-var FeedbackButton = require('./sections/feedbackButton');
-var Contacts = require('./sections/contacts');
+var FeedbackButton = require('../screens/feedbackButton');
+var Contacts = require('../screens/contacts');
 
 
 var bodyTypes = [
@@ -230,7 +230,7 @@ class Settings extends React.Component{
         showsVerticalScrollIndicator:false,
         contentInset:{top: 80},
       }
-  
+
 
     return (
       <View style={styles.container}>

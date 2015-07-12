@@ -13,7 +13,6 @@ class UserStore {
 
     this.exportPublicMethods({
       getUser: this.getUser
-
     });
 
     this.bindListeners({
@@ -21,9 +20,13 @@ class UserStore {
       handleVerifyPin: UserActions.VERIFY_SECURITY_PIN,
       handleRequestPin: UserActions.REQUEST_PIN_LOGIN,
       handleUpdateUser: UserActions.UPDATE_USER,
-      handleUpload: UserActions.UPLOAD_IMAGE
+      handleUpload: UserActions.UPLOAD_IMAGE,
+      initialize: UserActions.INITIALIZE
     });
+
+
   }
+
   handleRequestPin(res){
   }
 
@@ -53,7 +56,23 @@ class UserStore {
 
   }
 
-  handleGetUserInfo(user) {
+  initialize(res){
+    if(res.error) return false;
+
+    var user = res.response.user_info;
+
+    this.setState({
+      user: user,
+      status: user.status,
+      user_id: user.id,
+      apikey: user.api_key
+    })
+  }
+
+  handleGetUserInfo(res){
+    if(res.error) return false;
+    var user = res.response.user_info;
+
     this.setState({
       user: user
     })

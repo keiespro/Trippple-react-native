@@ -13,7 +13,7 @@ var {
  InteractionManager,
  TouchableHighlight
 } = React;
-var Logger = require("../../utils/logger");
+var Logger = require("../utils/logger");
 
 var AddressBook = require('NativeModules').AddressBook;
 

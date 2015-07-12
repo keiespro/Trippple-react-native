@@ -5,19 +5,23 @@ var {
   TextInput,
   View,
   Navigator,
+  Image,
   ScrollView,
   TouchableOpacity,
   TouchableHighlight,
+  LayoutAnimation,
   SegmentedControlIOS
 } = React;
 
-var UserActions = require('../flux/actions/UserActions');
-var Birthday = require('../controls/birthday');
-var ImageUpload = require('./imageUpload');
-var Privacy = require('./privacy');
+var UserActions = require('../../flux/actions/UserActions');
+var Birthday = require('../../controls/birthday');
+var ImageUpload = require('../../components/imageUpload');
+var Privacy = require('../../components/privacy');
+var colors = require('../../utils/colors')
 
-var DistanceSlider = require('../controls/distanceSlider');
-var ToggleSwitch = require('../controls/switches');
+var DistanceSlider = require('../../controls/distanceSlider');
+var ToggleSwitch = require('../../controls/switches');
+var NameScreen = require('./name');
 
 class SingleLookingFor extends React.Component{
   render(){
@@ -316,6 +320,7 @@ class Onboard extends React.Component{
 
 
 class SelectRelationshipStatus extends React.Component{
+
   constructor(props){
 
     super(props);
@@ -329,34 +334,71 @@ class SelectRelationshipStatus extends React.Component{
     this.setState({
       selection: 'single'
     })
+    this._continue();
   }
   _selectCouple(){
     this.setState({
       selection: 'couple'
     })
+    this._continue();
   }
   _continue(){
-    UserActions.updateUser({relationship_status:this.state.selection})
+
+
+
+    this.props.navigator.push({
+      component: NameScreen,
+      title: 'Name',
+      id:'Name',
+      passProps: {
+        relationship_status: this.state.selection
+      }
+    })
+    // UserActions.updateUser({relationship_status:this.state.selection})
   }
   render() {
 
     return (
       <View style={styles.container}>
-          <Text style={[styles.textplain]}>ONBOARDING</Text>
 
           <TouchableHighlight
-            style={[styles.fatbutton,(this.state.selection == 'couple' && styles.fatbuttonSelected)]}
             onPress={this._selectCouple.bind(this)}>
-            <Text style={[styles.textplain]}>Couple</Text>
+            <View
+              style={[styles.iconButton,styles.iconButtonCouples]}>
+              <View
+                style={[styles.iconButtonLeftBox,styles.iconButtonLeftBoxCouples]}>
+                <Image source={require('image!oval2')} resizeMode={Image.resizeMode.cover} style={{height:30,width:30,right:-5}}/>
+                <Image source={require('image!oval2')} resizeMode={Image.resizeMode.cover} style={{height:30,width:30,left:-5,top:0}}/>
+              </View>
+              <View
+                style={styles.iconButtonRightBox}>
+                <Text style={[styles.textplain,styles.iconButtonText]}>TRIPPPLE FOR COUPLES</Text>
+              </View>
+            </View>
           </TouchableHighlight>
 
           <TouchableHighlight
-            style={[styles.fatbutton,(this.state.selection == 'single' && styles.fatbuttonSelected)]}
             onPress={this._selectSingle.bind(this)}>
-            <Text style={[styles.textplain]}>Single</Text>
+            <View
+              style={[styles.iconButton,styles.iconButtonSingles]}>
+              <View
+                style={[styles.iconButtonLeftBox,styles.iconButtonLeftBoxSingles]}>
+                <Image source={require('image!oval2')} resizeMode={Image.resizeMode.cover} style={{height:30,width:30}}/>
+              </View>
+              <View
+                style={styles.iconButtonRightBox}>
+                <Text style={[styles.textplain,styles.iconButtonText]}>TRIPPPLE FOR SINGLES</Text>
+              </View>
+            </View>
           </TouchableHighlight>
 
-          {this.state.selection ?
+      {/*    <TouchableHighlight
+            style={[styles.iconButton,styles.iconButtonSingles,(this.state.selection == 'single' && styles.iconButtonSelected)]}
+            onPress={this._selectSingle.bind(this)}>
+            <Text style={[styles.textplain,styles.iconButtonText]}>TRIPPPLE FOR SINGLES</Text>
+          </TouchableHighlight>
+
+           this.state.selection ?
             <TouchableHighlight
               style={styles.button}
               onPress={this._continue.bind(this)}>
@@ -364,7 +406,7 @@ class SelectRelationshipStatus extends React.Component{
             </TouchableHighlight> :
             <View style={[styles.button,styles.disabledButton]}>
               <Text style={[styles.buttonText, styles.disabledbuttonText]}>Continue</Text>
-            </View>}
+            </View> */}
 
       </View>
     );
@@ -379,15 +421,19 @@ var styles = StyleSheet.create({
     flex: 1,
     height:undefined,
     width:undefined,
-    padding:10
+    padding:0,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    alignSelf:'stretch',
+    backgroundColor: colors.outerSpace
   },
   padTop:{
 
     paddingTop:60
   },
   textplain:{
-    color:'#111',
-    fontSize:30,
+    // color:'#111',
+    // fontSize:30,
     fontFamily:'omnes'
   },
   buttonText: {
@@ -419,16 +465,64 @@ var styles = StyleSheet.create({
     fontFamily:'omnes'
 
   },
-  fatbutton:{
-    padding:10,
-    height:100,
+  iconButton:{
+    height:70,
     alignItems:'center',
+    flexDirection: 'row',
     justifyContent:'center',
     alignSelf:'stretch',
-    marginVertical:10
+    flex: 1,
+    width: undefined
+    // marginVertical:10
   },
-  fatbuttonSelected:{
-    backgroundColor:'green',
+  iconButtonLeftBox: {
+    width: 80,
+    height: undefined,
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    padding:10,
+  },
+  iconButtonLeftBoxCouples: {
+    backgroundColor: colors.mediumPurple20,
+    borderRightColor: colors.mediumPurple,
+    borderRightWidth: 1
+  },
+  iconButtonLeftBoxSingles: {
+    backgroundColor: colors.darkSkyBlue20,
+    borderRightColor: colors.darkSkyBlue,
+    borderRightWidth: 1
+
+  },
+  iconButtonRightBox: {
+    width: undefined,
+    height: undefined,
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    padding:20,
+    flex: 1
+  },
+  iconButtonCouples:{
+    borderColor: colors.mediumPurple,
+    borderWidth: 1
+  },
+  iconButtonSingles:{
+    borderColor: colors.darkSkyBlue,
+    borderWidth: 1
+  },
+  iconButtonSelected:{
+    // backgroundColor:,
+  },
+
+
+  iconButtonText:{
+    color: colors.white,
+    fontFamily: 'Montserrat',
+    fontSize: 16,
+    textAlign: 'center'
   },
   textfieldWrap:{
     height:undefined,

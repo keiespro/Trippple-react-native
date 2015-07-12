@@ -1,5 +1,5 @@
 const colors = {
-  
+
   rollingStone:       'rgb(120,129,135)',
 
   mediumPurple:       'rgb(132,89,218)',
@@ -18,7 +18,15 @@ const colors = {
 
   atlantis:           'rgb(129, 209, 53)',
 
-  mandy:              'rgb(232, 74, 107)'
+  mandy:              'rgb(232, 74, 107)',
+
+  darkSkyBlue:        'rgb(65, 182, 225)',
+
+  darkSkyBlue20:      'rgba(65, 182, 225, 0.20)',
+
+  dusk:               'rgb(61, 63, 96)',
+
+  warmGrey:           'rgb(151, 151, 151)'
 
 }
 
