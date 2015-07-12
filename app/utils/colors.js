@@ -12,6 +12,8 @@ const colors = {
 
   shuttleGray:        'rgb(86,96,103)',
 
+  steelGrey20:        'rgba(120, 129, 135, 0.20)',
+
   outerSpace:         'rgb(44,57,65)',
 
   sushi:              'rgb(66, 181, 125)',
@@ -19,6 +21,8 @@ const colors = {
   atlantis:           'rgb(129, 209, 53)',
 
   mandy:              'rgb(232, 74, 107)',
+
+  darkishPink20:      'rgba(232, 73, 107, 0.20)',
 
   darkSkyBlue:        'rgb(65, 182, 225)',
 

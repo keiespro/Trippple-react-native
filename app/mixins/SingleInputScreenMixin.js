@@ -89,7 +89,7 @@ module.exports =  {
       <View style={[styles.continueButtonWrap,
           {
             bottom: this.state.canContinue ? 0 : -80,
-            backgroundColor: this.state.canContinue ? colors.mediumPurple : 'black'
+            backgroundColor: this.state.canContinue ? colors.mediumPurple : 'transparent'
           }]}>
         <TouchableHighlight
            style={[styles.continueButton]}

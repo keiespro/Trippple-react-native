@@ -193,12 +193,8 @@ var PinScreen = React.createClass({
       verifyError: err.verifyError
     })
   },
-  componentDidMount(){
-    AuthErrorStore.listen(this.onError);
-  },
-  componentWillUnmount(){
-    AuthErrorStore.unlisten(this.onError);
-  },
+  componentDidMount(){ AuthErrorStore.listen(this.onError) },
+  componentWillUnmount(){ AuthErrorStore.unlisten(this.onError) },
 
 
 
@@ -275,7 +271,7 @@ var PinScreen = React.createClass({
           <View
             style={[
               styles.pinInputWrap,
-              (this.state.pinFocused ? styles.pinInputWrapSelected : null),
+              (this.state.inputFieldFocused ? styles.pinInputWrapSelected : null),
               (this.state.verifyError ? styles.pinInputWrapError : null),
               ]}
             >

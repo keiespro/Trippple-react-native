@@ -4,13 +4,10 @@ var {
   Text,
   TextInput,
   View,
-  Navigator,
   Image,
-  LayoutAnimation,
   ScrollView,
-  TouchableOpacity,
   TouchableHighlight,
-  SegmentedControlIOS
+  DatePickerIOS
 } = React;
 
 var UserActions = require('../../flux/actions/UserActions');
@@ -21,51 +18,69 @@ var colors = require('../../utils/colors')
 var TrackKeyboard = require('../../mixins/keyboardMixin');
 var SingleInputScreenMixin = require('../../mixins/SingleInputScreenMixin');
 
-var BdayScreen = require('./bday')
+
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 
 var DistanceSlider = require('../../controls/distanceSlider');
 var ToggleSwitch = require('../../controls/switches');
+var GenderScreen = require('./gender');
 
 
 
 
-
-var NameScreen = React.createClass({
+var BdayScreen = React.createClass({
 
   mixins: [TrackKeyboard, SingleInputScreenMixin],
+  getDefaultProps() {
+      return {
+        date: new Date(),
+        timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
+      };
+    },
 
   getInitialState(){
     return({
-      name: this.props.user.firstname || ''
+      timeZoneOffsetInHours: this.props.timeZoneOffsetInHours,
+      date: this.props.date
     })
   },
 
-  shouldHide(val) { return (val.length <= 2) ? true : false  },
-  shouldShow(val) { return (val.length > 2)  ? true : false  },
+  shouldHide(val) { return false },
+  shouldShow(val) { return true },
 
-  handleInputChange(event){
-    this.setState({
-      inputFieldValue: event.nativeEvent.text
-    })
-  },
+  // handleInputChange(event){
+  //   this.setState({
+  //     bday_year: null,
+  //     bday_month: null,
+  //     inputFieldValue: event.nativeEvent.text
+  //   })
+  // },
 
   _submit(){
     this.props.navigator.push({
-            component: BdayScreen,
-            id: 'aboutyoubday',
+            component: GenderScreen,
+            id: 'yourgender',
             passProps: {
-              firstname: this.state.inputFieldValue,
-              keyboardSpace: this.state.keyboardSpace
+              bday: this.state.date
             }
           })
 
   },
+  onDateChange(date){
+    console.log(date,this.state.date);
+    this.setState({
+      inputFieldValue: date,
+      data: date
+    })
+    console.log(date,this.state.date);
 
+  },
+  _setMonth(){},
+  _setYear(){},
   render(){
     return(
-      <View style={[{flex: 1, height:DeviceHeight, paddingBottom: this.state.keyboardSpace}]}>
+      <View style={[styles.container,{flex: 1, height:DeviceHeight, paddingBottom: 230}]}>
         <ScrollView
           keyboardDismissMode={'on-drag'}
           contentContainerStyle={[styles.wrap]}
@@ -73,27 +88,23 @@ var NameScreen = React.createClass({
           >
           <View style={[styles.pinInputWrap,(this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null)]}>
 
-            <TextInput
-              style={styles.pinInput}
-              value={this.state.name || this.state.inputFieldValue || ''}
-              keyboardAppearance={'dark'/*doesnt work*/}
-              autoCapitalize={'words'}
-              placeholder={'FIRST NAME'}
-              placeholderTextColor='#fff'
-              autoFocus={true}
-              autoCorrect={false}
-              clearButtonMode={'never'}
-              textAlign={'center'}
-              onChange={this.handleInputChange}
-              onFocus={this.handleInputFieldFocused}
-              onBlur={this.handleInputFieldBlurred}
-            />
+            <Text
+              style={styles.fakeInput}>{this.state.date.toLocaleDateString() || this.state.inputFieldValue || 'DATE OF BIRTH'}
+            </Text>
           </View>
 
         </ScrollView>
-
         {this.renderContinueButton()}
 
+        <View style={[{flex: 1, height: this.state.keyboardSpace},styles.bdayKeyboard]}>
+
+          <DatePickerIOS
+                    date={this.state.date}
+                    mode="date"
+                    timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
+                    onDateChange={this.onDateChange}
+                  />
+        </View>
 
       </View>
 
@@ -104,11 +115,17 @@ var NameScreen = React.createClass({
 
 
 var styles = StyleSheet.create({
-
+    bdayKeyboard:{
+      height: 230,
+      backgroundColor: colors.dusk,
+      flex:1,
+      position:'absolute',
+      bottom:0
+    },
     container: {
       flex: 1,
+      justifyContent:'space-between',
       alignItems:'center',
-      justifyContent:'center',
       alignSelf:'stretch',
       width: DeviceWidth,
       margin:0,
@@ -117,15 +134,15 @@ var styles = StyleSheet.create({
       backgroundColor: 'transparent',
     },
     wrap: {
-      flex: 1,
+      flex: 2,
       alignItems:'center',
       justifyContent:'center',
       alignSelf:'stretch',
       width: DeviceWidth,
       margin:0,
-      height: DeviceHeight,
       backgroundColor: 'transparent',
-      padding:20
+      padding:20,
+      height: DeviceHeight
 
     },
     pinInputWrap: {
@@ -140,12 +157,13 @@ var styles = StyleSheet.create({
     pinInputWrapError:{
       borderBottomColor: colors.mandy,
     },
-    pinInput: {
+    fakeInput: {
       height: 60,
       padding: 8,
       fontSize: 30,
       fontFamily:'Montserrat',
-      color: colors.white
+      color: colors.white,
+      textAlign:'center'
     },
     middleTextWrap: {
       alignItems:'center',
@@ -244,4 +262,4 @@ var styles = StyleSheet.create({
     }
   });
 
-module.exports = NameScreen;
+module.exports = BdayScreen;

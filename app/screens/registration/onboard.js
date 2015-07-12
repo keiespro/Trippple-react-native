@@ -19,14 +19,18 @@ var ImageUpload = require('../../components/imageUpload');
 var Privacy = require('../../components/privacy');
 var colors = require('../../utils/colors')
 var SelectRelationshipStatus = require('./selectRelationshipStatus')
-var NameScreen = require('./name');
+var Facebook = require('./facebook');
+var CustomSceneConfigs = require('../../utils/sceneConfigs');
 
 class OnboardSingle extends React.Component{
 
     selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
       return (<route.component {...route.passProps} navigator={navigator} user={this.props.user} />);
     }
+    handleFBLogin(data){
+      console.log(data,'FB LOGIN')
 
+    }
     render(){
 
 
@@ -36,11 +40,15 @@ class OnboardSingle extends React.Component{
           ref="nav"
           renderScene={this.selectScene.bind(this)}
           sceneStyle={styles.sceneWrap}
-
+          configureScene={ (route) => {
+            return route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.VerticalSlide
+          }}
           initialRoute={{
-             component: NameScreen,
-             title: 'About You',
-             id:'aboutyou'
+             component: Facebook,
+             id:'fb',
+             passProps: {
+               onLogin: this.handleFBLogin,
+             }
            }}
             />
 
@@ -77,7 +85,6 @@ class Onboard extends React.Component{
   }
 
   render() {
-    console.log(this.props.user);
 
     switch (this.state.relationshipStatus){
 
@@ -99,8 +106,6 @@ var styles = StyleSheet.create({
 
   sceneWrap:{
     backgroundColor: colors.outerSpace
-
-
   },
   container: {
     flex: 1,
@@ -121,35 +126,7 @@ var styles = StyleSheet.create({
     // fontSize:30,
     fontFamily:'omnes'
   },
-  buttonText: {
-    fontSize: 18,
-    color: '#111',
-    alignSelf: 'center',
-    fontFamily:'omnes'
 
-  },
-  button: {
-    height: 45,
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
-    borderColor: '#111',
-    borderWidth: 2,
-    borderRadius: 8,
-    marginBottom: 10,
-    marginTop: 10,
-    alignSelf: 'stretch',
-    justifyContent: 'center'
-  },
-  disabledButton: {
-    borderColor: '#aaa',
-  },
-  disabledButtonText: {
-    fontSize: 18,
-    color: '#aaa',
-    alignSelf: 'center',
-    fontFamily:'omnes'
-
-  },
   iconButton:{
     height:70,
     alignItems:'center',
@@ -201,14 +178,14 @@ var styles = StyleSheet.create({
   iconButtonSelected:{
     // backgroundColor:,
   },
-
-
   iconButtonText:{
     color: colors.white,
     fontFamily: 'Montserrat',
     fontSize: 16,
     textAlign: 'center'
   },
+
+
   textfieldWrap:{
     height:undefined,
     flex:1,
