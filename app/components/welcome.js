@@ -309,7 +309,7 @@ var styles = StyleSheet.create({
     marginTop: 3,
     marginBottom: 3,
     borderWidth: 2,
-    borderColor: colors.mediumPurple2
+    borderColor: colors.mediumPurple20
   }
 });
 

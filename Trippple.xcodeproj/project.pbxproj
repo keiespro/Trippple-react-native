@@ -27,7 +27,6 @@
 		ACA1295F1B40EA2E00CC1499 /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1294D1B40EA1600CC1499 /* libRCTFBLogin.a */; };
 		ACA129601B40EA2E00CC1499 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129501B40EA1600CC1499 /* libRCTPushNotification.a */; };
 		ACA129611B40EA2E00CC1499 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129531B40EA1600CC1499 /* libRNFS.a */; };
-		ACA129621B40EA2E00CC1499 /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129561B40EA1600CC1499 /* libRNKeychain.a */; };
 		ACA129631B40EA2E00CC1499 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1295A1B40EA1600CC1499 /* libRNMail.a */; };
 		ACA129681B40EB9F00CC1499 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129641B40EB9F00CC1499 /* Bolts.framework */; };
 		ACA129691B40EB9F00CC1499 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129651B40EB9F00CC1499 /* FBSDKCoreKit.framework */; };
@@ -43,6 +42,7 @@
 		ACA1297D1B40F35400CC1499 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACA1296E1B40EC3B00CC1499 /* Images.xcassets */; };
 		ACA1297F1B41161500CC1499 /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = ACA1297E1B41161100CC1499 /* Montserrat-Regular.otf */; };
 		ACA129861B416C3000CC1499 /* libRNKeyboardEvents.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129851B416C2700CC1499 /* libRNKeyboardEvents.a */; };
+		ACFC0A6A1B51E5AE00D9D40F /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129561B40EA1600CC1499 /* libRNKeychain.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -251,6 +251,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACFC0A6A1B51E5AE00D9D40F /* libRNKeychain.a in Frameworks */,
 				ACA129861B416C3000CC1499 /* libRNKeyboardEvents.a in Frameworks */,
 				ACA129681B40EB9F00CC1499 /* Bolts.framework in Frameworks */,
 				ACA129691B40EB9F00CC1499 /* FBSDKCoreKit.framework in Frameworks */,
@@ -261,7 +262,6 @@
 				ACA1295F1B40EA2E00CC1499 /* libRCTFBLogin.a in Frameworks */,
 				ACA129601B40EA2E00CC1499 /* libRCTPushNotification.a in Frameworks */,
 				ACA129611B40EA2E00CC1499 /* libRNFS.a in Frameworks */,
-				ACA129621B40EA2E00CC1499 /* libRNKeychain.a in Frameworks */,
 				ACA129631B40EA2E00CC1499 /* libRNMail.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,

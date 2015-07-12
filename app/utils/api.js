@@ -5,13 +5,12 @@ var KEYCHAIN_NAMESPACE = 'http://api2.trippple.co';
 
 
 var NativeModules = require('NativeModules');
-console.log(NativeModules);
 var UploadFile = Promise.promisify(NativeModules.FileTransfer.upload);
 
 
-var Logger = require('./logger.js');
+var Logger = require('./logger');
 
-var SERVER_URL = 'http://192.168.1.146:9920/user';
+var SERVER_URL = 'http://192.168.1.147:9920/user';
 
 function publicRequest(endpoint, payload){
 
@@ -24,10 +23,7 @@ function publicRequest(endpoint, payload){
     body: JSON.stringify(payload)
   })
   .then((res) => res.json())
-  .catch((err) => {
-    Logger.log('error',err);
 
-  })
 
 };
 
@@ -82,12 +78,28 @@ var api = {
     })
   },
 
-  requestPin(){
-    return authenticatedRequest('request_security_pin')
+  requestPin(phone){
+    return publicRequest('request_security_pin', { phone })
   },
 
   verifyPin(pin,phone){
-    return authenticatedRequest('verify_security_pin', { pin, phone } )
+
+    // TEMPORARY
+    var uuid = 'xxxxxxxxx',
+        model = 'test',
+        platform = 'iOS',
+        version = '8',
+        push_token = null;
+
+    return publicRequest('verify_security_pin', {
+      pin,
+      phone,
+      uuid,
+      model,
+      platform,
+      version,
+      push_token
+    });
   },
 
   updateUser(payload){

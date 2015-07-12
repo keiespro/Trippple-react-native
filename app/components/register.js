@@ -189,7 +189,6 @@ var Register = React.createClass({
 
   render(){
     var paddingBottom =  this.state.keyboardSpace;
-    console.log(~~!this.state.isKeyboardOpened);
 
     return (
       <View style={[{flex: 1, height:DeviceHeight, paddingBottom: paddingBottom}]}>

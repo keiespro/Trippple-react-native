@@ -1,5 +1,7 @@
 var ENV = 'dev';
 
+// var Bunyan = require('bunyan');
+
 class Logger {
 
   log(){
@@ -13,7 +15,7 @@ class Logger {
   debug(){
     if(ENV == 'dev') console.log(...arguments);
   }
-  
+
   error(){
     console.log(...arguments);
   }

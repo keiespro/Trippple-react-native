@@ -8,8 +8,6 @@ class UserStore {
   constructor() {
 
     this.state = {
-      user_id: null,
-      apikey: null,
       user: {}
     }
 
@@ -20,24 +18,38 @@ class UserStore {
 
     this.bindListeners({
       handleGetUserInfo: UserActions.GET_USER_INFO,
-      handleLogin: UserActions.LOGIN,
-      handleRegister: UserActions.REGISTER,
       handleVerifyPin: UserActions.VERIFY_SECURITY_PIN,
+      handleRequestPin: UserActions.REQUEST_PIN_LOGIN,
       handleUpdateUser: UserActions.UPDATE_USER,
       handleUpload: UserActions.UPLOAD_IMAGE
-
-
-
     });
   }
+  handleRequestPin(res){
+  }
 
-  handleVerifyPin(response){
-    var u = this.user;
-    console.log(u);
+  handleVerifyPin(res){
+    if(res.error) return false;
+
+    var {response} = res;
+
+    Keychain.setInternetCredentials(server, response.user_id, response.api_key)
+      .then((result)=> {
+        console.log('Credentials saved successfully!',result)
+      });
+
+    var u = this.state.user || {};
+
+    u.id = response.user_id;
     u.status = response.status;
+    u.api_key = response.api_key;
+
     this.setState({
-      user: u
+      user: u,
+      status: u.status,
+      user_id: u.id,
+      apikey: u.api_key
     })
+
 
   }
 
@@ -47,38 +59,38 @@ class UserStore {
     })
   }
 
-  handleRegister(response) {
-    console.log(response);
+  // handleRegister(response) {
+  //   console.log(response);
+  //
+  //   Keychain
+  //     .setInternetCredentials(server, response.user_id, response.api_key)
+  //     .then(()=> {
+  //       console.log('Credentials saved successfully!')
+  //       this.setState({
+  //         user_id: response.user_id,
+  //         apikey: response.api_key,
+  //         user: response.user_info
+  //       });
+  //
+  //     });
+  //
+  // }
 
-    Keychain
-      .setInternetCredentials(server, response.user_id, response.api_key)
-      .then(()=> {
-        console.log('Credentials saved successfully!')
-        this.setState({
-          user_id: response.user_id,
-          apikey: response.api_key,
-          user: response.user_info
-        });
-
-      });
-
-  }
-
-  handleLogin(response) {
-    console.log('Handle login', response);
-
-    Keychain
-      .setInternetCredentials(server, response.user_id, response.api_key)
-      .then(()=> {
-        console.log('Credentials saved successfully!')
-        this.setState({
-          user_id: response.user_id,
-          apikey: response.api_key,
-          user: response.user_info
-        });
-
-    });
-  }
+  // handleLogin(response) {
+  //   console.log('Handle login', response);
+  //
+  //   Keychain
+  //     .setInternetCredentials(server, response.user_id, response.api_key)
+  //     .then(()=> {
+  //       console.log('Credentials saved successfully!')
+  //       this.setState({
+  //         user_id: response.user_id,
+  //         apikey: response.api_key,
+  //         user: response.user_info
+  //       });
+  //
+  //   });
+  // }
 
   updateUserInfo(attributes){
     var updatedUser = this.user;

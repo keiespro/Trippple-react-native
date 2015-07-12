@@ -2,7 +2,7 @@
 
 'use strict';
 
-var PHONE_MASK_USA = "+1 999 999-9999";
+var PHONE_MASK_USA = "999 999-9999";
 
 var React = require('react-native');
 var {
@@ -26,11 +26,14 @@ var DeviceWidth = require('Dimensions').get('window').width;
 
 var UserActions = require('../flux/actions/UserActions');
 
+var AuthErrorStore = require('../flux/stores/AuthErrorStore');
+
 var Facebook = require('./facebook');
 var TopTabs = require('../controls/topSignupSigninTabs');
 
 var PhoneNumberInput = require('../controls/phoneNumberInput.js');
 
+var PinScreen = require('./pin')
 var styles = StyleSheet.create({
 
   container: {
@@ -63,7 +66,6 @@ var styles = StyleSheet.create({
     alignSelf: 'stretch'
   },
   phoneInputWrapSelected:{
-    // marginBottom:60,
     borderBottomColor: colors.mediumPurple,
   },
   phoneInput: {
@@ -120,7 +122,7 @@ var styles = StyleSheet.create({
     height: 80,
     alignSelf: 'stretch',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   continueButtonText: {
     padding: 4,
@@ -158,37 +160,6 @@ var animations = {
     }
   }
 };
-var Password = React.createClass({
-  getInitialState: function(){
-    return ({
-      pin: ''
-    })
-  },
-  handlePasswordChange: function(){
-
-  },
-  render: function(){
-
-    return (
-      <View>
-        <TextInput
-                   style={styles.phoneInput}
-                   value={this.state.pin || ''}
-                   password={true}
-                   keyboardType={'default'}
-                   autoCapitalize={'none'}
-                   placeholder={'PIN'}
-                   placeholderTextColor='#fff'
-                   onChange={this.handlePasswordChange.bind(this)}
-                 />
-            </View>
-    )
-
-  }
-
-
-})
-
 
 
 var Login = React.createClass({
@@ -197,11 +168,26 @@ var Login = React.createClass({
   getInitialState(){
     return({
       phone: '',
-      password: '',
+      pin: '',
       isLoading: false,
-      phoneFocused: false,
-      scene: false
+      phoneFocused: true
     })
+  },
+  formattedPhone(){
+    return this.state.phone.replace(/[\. ,:-]+/g, "")
+  },
+  onError(err){
+    if(!err.phoneError) return false;
+
+    this.setState({
+      phoneError: err.pinError
+    })
+  },
+  componentDidMount(){
+    AuthErrorStore.listen(this.onError);
+  },
+  componentWillUnmount(){
+    AuthErrorStore.unlisten(this.onError);
   },
   componentWillUpdate(props, state) {
     if (state.isKeyboardOpened !== this.state.isKeyboardOpened) {
@@ -214,7 +200,7 @@ var Login = React.createClass({
 
 
     if(state.scene !== this.state.scene) {
-      LayoutAnimation.configureNext(animations.layout.spring);
+      // LayoutAnimation.configureNext(animations.layout.spring);
     }
   },
 
@@ -232,48 +218,48 @@ var Login = React.createClass({
     })
   },
 
-  handlePasswordChange(event: any){
+  handlePhoneInputFocused(){
     this.setState({
-      password: event.nativeEvent.text
+      phoneFocused: true
     })
   },
-  handlePhoneInputFocused(){
 
-  },
   handlePhoneInputBlurred(){
     this.setState({
       phoneFocused: false
     })
   },
 
-  handleLogin(){
-    UserActions.login(this.state.phone,this.state.password)
-  },
   handleContinue(){
     if(!this.state.canContinue){
       return false;
     }
 
+    UserActions.requestPinLogin(this.formattedPhone());
+
     this.setState({
-      scene: 'password'
+      phoneError: null
     })
 
-
-    // this.props.navigator.push({
-    //   component: Password,
-    //   title: '',
-    //   id:'pw',
-    //   sceneConfig:CustomSceneConfigs.HorizontalSlide,
-    //   passProps: {
-    //     phone: this.state.phone
-    //   }
-    // })
+    this.props.navigator.push({
+      component: PinScreen,
+      title: '',
+      id:'pw',
+      sceneConfig: CustomSceneConfigs.HorizontalSlide,
+      passProps: {
+        phone: this.formattedPhone(),
+        error: this.state.verifyError,
+        initialKeyboardSpace: this.state.keyboardSpace
+      }
+    })
   },
+
   showContinueButton(){
     this.setState({
       canContinue: true
     })
   },
+
   hideContinueButton(){
     this.setState({
       canContinue: false
@@ -286,16 +272,11 @@ var Login = React.createClass({
 
     return (
       <View style={[{flex: 1, height:DeviceHeight, paddingBottom: paddingBottom}]}>
-
-
-      <ScrollView
-        keyboardDismissMode={'on-drag'}
-        contentContainerStyle={[styles.wrap,{
-          left:( this.state.scene == 'password' ? -DeviceWidth : 0)
-        }]}
-        bounces={false}
-        >
-
+        <ScrollView
+          keyboardDismissMode={'on-drag'}
+          contentContainerStyle={[styles.wrap, {left: 0}]}
+          bounces={false}
+          >
           <View style={[styles.phoneInputWrap,(this.state.phoneFocused ? styles.phoneInputWrapSelected : null)]}>
 
             <PhoneNumberInput
@@ -306,37 +287,31 @@ var Login = React.createClass({
               placeholder={'Phone'}
               keyboardAppearance={'dark'/*doesnt work*/}
               placeholderTextColor='#fff'
+              autoFocus={false}
+              autoCorrect={false}
               onChange={this.handlePhoneChange}
               onFocus={this.handlePhoneInputFocused}
               onBlur={this.handlePhoneInputBlurred}
-              />
+            />
           </View>
 
+        {/*
         <View style={[styles.middleTextWrap,{opacity: ~~!this.state.isKeyboardOpened}]}>
           <Text style={[styles.middleText]}>OR</Text>
         </View>
         <View style={[styles.middleTextWrap, {opacity: ~~!this.state.isKeyboardOpened}]}>
           <Facebook/>
          </View>
+       */}
 
-
-      </ScrollView>
-      {this.state.scene == 'password' &&
-        <View>
-
-            <Password />
-          </View>
-
-        }
+        </ScrollView>
 
         <View style={[styles.continueButtonWrap,
             {bottom: this.state.canContinue ? 0 : -80,
               backgroundColor: this.state.canContinue ? colors.mediumPurple : 'black'
             }]}>
           <TouchableHighlight
-             style={[styles.continueButton,{
-                color: this.state.canContinue ? 'white' : 'black'
-             }]}
+             style={[styles.continueButton]}
              onPress={this.handleContinue}
              underlayColor="black">
 

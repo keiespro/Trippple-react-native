@@ -1,11 +1,11 @@
-// forked from deep inside react native 
+// forked from deep inside react native
 
 
 'use strict';
 
 var Dimensions = require('Dimensions');
 var PixelRatio = require('PixelRatio');
-
+console.log(PixelRatio.get())
 var buildStyleInterpolator = require('buildStyleInterpolator');
 
 var SCREEN_WIDTH = Dimensions.get('window').width;
@@ -138,7 +138,7 @@ var FromTheFront = {
     round: 100,
   },
   transformTranslate: {
-    from: {x: 0, y: Dimensions.get('window').height - 90, z: 0},
+    from: {x: 0, y: (Dimensions.get('window').height - 85), z: 0},
     to: {x: 0, y: 0, z: 0},
     min: 0,
     max: 1,
@@ -170,7 +170,7 @@ var ToTheBack = {
   // rotation (x, y, z, w)
   transformTranslate: {
     from: {x: 0, y: 0, z: 0},
-    to: {x: 0, y: (-1*Dimensions.get('window').height + 60 ), z: 0}, //modiified for login
+    to: {x: 0, y: (-1*(Dimensions.get('window').height) + 75 ), z: 0}, //modiified for login
     min: 0,
     max: 1,
     type: 'linear',
@@ -192,7 +192,7 @@ var ToTheBack = {
     from: 1,
     to: 0,
     min: 0,
-    max: 0.5,
+    max: 1,
     type: 'linear',
     extrapolate: false,
     round: 100,
@@ -287,6 +287,7 @@ var CustomSceneConfigs = {
       out: buildStyleInterpolator(ToTheLeft),
     },
   },
+  // For the welcome - auth screen transition
   VerticalSlide: {
     // Rebound spring parameters when transitioning FROM this scene
     springFriction: SPRING_FRICTION,

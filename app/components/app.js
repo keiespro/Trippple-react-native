@@ -10,7 +10,6 @@ var {
   Text,
   AsyncStorage,
   View,
-  TouchableHighlight,
   NavigatorIOS,
   TextInput,
   Navigator

@@ -8,12 +8,13 @@ class UserActions {
     Api.getUserInfo()
       .then((res) => {
         Logger.log(res);
-        this.dispatch(res.response);
+        this.dispatch(res);
       })
       .catch((err) => {
-        Logger.log(err);
-        this.dispatch();
+        Logger.log('error');
+        this.dispatch(err);
       })
+
   }
 
   verifySecurityPin(pin, phone){
@@ -21,23 +22,38 @@ class UserActions {
     Api.verifyPin(pin, phone)
       .then((res) => {
         Logger.log(res);
-        this.dispatch(res.response);
-      })
-
-  }
-
-  login(phone,password){
-    Logger.log('login action');
-    Api.login(phone,password)
-      .then((res) => {
-        Logger.log(res);
-        this.dispatch(res.response);
+        console.log('dispatching')
+        this.dispatch(res);
       })
       .catch((err) => {
         Logger.log('error');
-        this.dispatch();
+        this.dispatch(err);
       })
   }
+
+  requestPinLogin(phone){
+    Logger.log('Request Pin Login Action');
+
+    Api.requestPin(phone)
+      .then((res) => {
+        Logger.log(res);
+        this.dispatch(res);
+      })
+
+  }
+
+  // login(phone,password){
+  //   Logger.log('login action');
+  //   Api.login(phone,password)
+  //     .then((res) => {
+  //       Logger.log(res);
+  //       this.dispatch(res);
+  //     })
+  //     .catch((err) => {
+  //       Logger.log('error');
+  //       this.dispatch();
+  //     })
+  // }
 
 
   register(phone,password,password2){
@@ -45,7 +61,7 @@ class UserActions {
     Api.register(phone,password,password2)
       .then((res) => {
         Logger.log(res);
-        this.dispatch(res.response);
+        this.dispatch(res);
       })
 
   }

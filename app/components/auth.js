@@ -9,7 +9,6 @@ var {
   View,
   ScrollView,
   Image,
-  TouchableHighlight,
   LayoutAnimation,
   TextInput
 } = React;
