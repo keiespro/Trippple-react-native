@@ -32,6 +32,8 @@ var FBLoginMock = React.createClass({
 
   handleLogin(){
     FBLoginManager.login( (error, data) => {
+      console.log(error, data);
+
       if (!error) {
         this.setState({ user : data});
         this.props.onLogin && this.props.onLogin(data);
@@ -43,11 +45,11 @@ var FBLoginMock = React.createClass({
   },
 
   handleLogout(){
-    var _this = this;
-    FBLoginManager.logout(function(error, data){
+
+    FBLoginManager.logout((error, data)=>{
       if (!error) {
-        _this.setState({ user : null});
-        _this.props.onLogout && _this.props.onLogout();
+        this.setState({ user : null});
+        this.props.onLogout && this.props.onLogout();
       } else {
         console.log(error, data);
       }
@@ -63,10 +65,12 @@ var FBLoginMock = React.createClass({
   },
 
   componentWillMount(){
-    var _this = this;
-    FBLoginManager.getCredentials(function(error, data){
+
+    FBLoginManager.getCredentials((error, data) =>{
+      console.log(error, data);
+
       if (!error) {
-        _this.setState({ user : data})
+        this.setState({ user : data})
       }
     });
   },
@@ -109,14 +113,14 @@ var FBLoginMock = React.createClass({
             text={"VERIFY WITH FACEBOOK"}
             leftBoxStyles={styles.iconButtonLeftBoxCouples}
             innerWrapStyles={styles.iconButtonCouples}
-            onPress={this.handleLogin}>
+            onPress={this.onPress}>
 
           <Image source={require('image!fBLogo')}
                     resizeMode={Image.resizeMode.cover}
                         style={{height:40,width:20}} />
         </BoxyButton>
         <View style={styles.middleTextWrap}>
-          <Text style={styles.middleText}>Don’t worry, we wont tell your friends or post on your wall </Text>
+          <Text style={[styles.middleText,{fontSize:14}]}>Don’t worry, we wont tell your friends or post on your wall </Text>
         </View>
 
         <TouchableHighlight

@@ -94,7 +94,7 @@ module.exports =  {
         <TouchableHighlight
            style={[styles.continueButton]}
            onPress={this.handleContinue}
-           underlayColor="black">
+           underlayColor={colors.outerSpace}>
 
            <Text style={styles.continueButtonText}>CONTINUE</Text>
          </TouchableHighlight>

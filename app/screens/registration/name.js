@@ -71,7 +71,13 @@ var NameScreen = React.createClass({
           contentContainerStyle={[styles.wrap]}
           bounces={false}
           >
-          <View style={[styles.pinInputWrap,(this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null)]}>
+          <View style={styles.middleTextWrap}>
+            <Text style={styles.middleText}>What should we call you?</Text>
+          </View>
+
+          <View style={
+              [styles.pinInputWrap,
+              (this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null)]}>
 
             <TextInput
               style={styles.pinInput}
@@ -88,6 +94,10 @@ var NameScreen = React.createClass({
               onFocus={this.handleInputFieldFocused}
               onBlur={this.handleInputFieldBlurred}
             />
+          </View>
+
+          <View style={styles.middleTextWrap}>
+            <Text style={[styles.middleText,{fontSize:14}]}>Fake names get 93.6% less matches. </Text>
           </View>
 
         </ScrollView>

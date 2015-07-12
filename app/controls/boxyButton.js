@@ -30,7 +30,7 @@ class BoxyButton extends React.Component{
 
     return (
 
-      <TouchableHighlight onPress={this._onPress.bind(this)}>
+      <TouchableHighlight onPress={this._onPress.bind(this)} style={this.props.outerButtonStyle}>
         <View style={[styles.iconButton, this.props.innerWrapStyles]}>
           <View style={[styles.iconButtonLeftBox,this.props.leftBoxStyles]}>
             {this.props.children}

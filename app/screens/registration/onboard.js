@@ -41,7 +41,7 @@ class OnboardSingle extends React.Component{
           renderScene={this.selectScene.bind(this)}
           sceneStyle={styles.sceneWrap}
           configureScene={ (route) => {
-            return route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.VerticalSlide
+            return route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.HorizontalSlide
           }}
           initialRoute={{
              component: Facebook,

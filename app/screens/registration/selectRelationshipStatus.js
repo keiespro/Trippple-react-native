@@ -61,6 +61,7 @@ class SelectRelationshipStatus extends React.Component{
 
           <BoxyButton
               text={"TRIPPPLE FOR COUPLES"}
+              outerButtonStyle={styles.iconButtonOuter}
               leftBoxStyles={styles.iconButtonLeftBoxCouples}
               innerWrapStyles={styles.iconButtonCouples}
               _onPress={this._selectCouple.bind(this)}>
@@ -74,13 +75,16 @@ class SelectRelationshipStatus extends React.Component{
                           style={{height:30,width:30,left:-5,top:0}}/>
           </BoxyButton>
 
-          <View style={styles.dividerLine}/>
-          <Text style={styles.dividerText}>OR</Text>
+          <View style={styles.dividerWrap}>
+            <View style={styles.dividerLine}/>
+            <Text style={styles.dividerText}>OR</Text>
+          </View>
 
           <Text  style={styles.labelText}>{"I’m a Single\nLooking to meet couples"}</Text>
 
           <BoxyButton
               text={"TRIPPPLE FOR SINGLES"}
+              outerButtonStyle={styles.iconButtonOuter}
               leftBoxStyles={styles.iconButtonLeftBoxSingles}
               innerWrapStyles={styles.iconButtonSingles}
               _onPress={this._selectSingle.bind(this)}>
@@ -111,10 +115,20 @@ var styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor:colors.rollingStone,
   },
+  dividerWrap:{
+    marginVertical:20,
+    // width:DeviceWidth-50,
+    flexDirection:'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf:'stretch',
+    height:30
+  },
   dividerText:{
     color:colors.rollingStone,
     fontSize:25,
     padding:10,
+    textAlign:'center',
     backgroundColor: colors.outerSpace,
     fontFamily:'Montserrat'
   },
@@ -124,7 +138,7 @@ var styles = StyleSheet.create({
     width:undefined,
     padding:0,
     flexDirection:'column',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     alignItems: 'center',
     alignSelf:'stretch',
     backgroundColor: colors.outerSpace
@@ -136,7 +150,7 @@ var styles = StyleSheet.create({
     fontSize:18,
     fontFamily:'omnes',
     textAlign:'center',
-
+    marginVertical:20
   },
 
   iconButtonLeftBoxCouples: {
@@ -152,11 +166,15 @@ var styles = StyleSheet.create({
   },
   iconButtonCouples:{
     borderColor: colors.mediumPurple,
-    borderWidth: 1
+    borderWidth: 1,
   },
   iconButtonSingles:{
     borderColor: colors.darkSkyBlue,
-    borderWidth: 1
+    borderWidth: 1,
+
+  },
+  iconButtonOuter:{
+    marginVertical:40
   },
   iconButtonSelected:{
     // backgroundColor:,
