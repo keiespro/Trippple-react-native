@@ -18,11 +18,8 @@ var Birthday = require('../../controls/birthday');
 var ImageUpload = require('../../components/imageUpload');
 var Privacy = require('../../components/privacy');
 var colors = require('../../utils/colors')
-
-var DistanceSlider = require('../../controls/distanceSlider');
-var ToggleSwitch = require('../../controls/switches');
 var NameScreen = require('./name');
-
+var SelfImage = require('./SelfImage');
 var BoxyButton = require('../../controls/boxyButton')
 
 var DeviceHeight = require('Dimensions').get('window').height;
@@ -53,6 +50,16 @@ class GenderScreen extends React.Component{
 
   }
   _continue(){
+    console.log(this.state.selection)
+    UserActions.updateUserStub({gender: this.state.selection});
+
+    this.props.navigator.push({
+            component: SelfImage,
+            id: 'selfimage',
+            passProps: {
+              gender: this.state.selection,
+            }
+          })
 
   }
   render() {
@@ -68,7 +75,7 @@ class GenderScreen extends React.Component{
               innerWrapStyles={this.state.selection == 'm' ? styles.iconButtonMale : styles.grayIconbutton}
               _onPress={this._selectMale.bind(this)}>
 
-            <Image source={require('image!boxers')}
+              <Image source={this.state.selection == 'm' ? require('image!boxersBlue') : require('image!boxers') }
                       resizeMode={Image.resizeMode.cover}
                           style={{height:21,width:30}} />
           </BoxyButton>
@@ -79,7 +86,7 @@ class GenderScreen extends React.Component{
               innerWrapStyles={this.state.selection == 'f' ? styles.iconButtonFemale : styles.grayIconbutton}
               _onPress={this._selectFemale.bind(this)}>
 
-              <Image source={require('image!bra')}
+              <Image source={this.state.selection == 'f' ? require('image!braPink') : require('image!bra')}
                         resizeMode={Image.resizeMode.cover}
                             style={{height:24,width:30}}/>
 
@@ -94,7 +101,7 @@ class GenderScreen extends React.Component{
             }]}>
           <TouchableHighlight
              style={[styles.continueButton]}
-             onPress={this.handleContinue}
+             onPress={this._continue.bind(this)}
              underlayColor="black">
 
              <Text style={styles.continueButtonText}>CONTINUE</Text>

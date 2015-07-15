@@ -6,7 +6,7 @@
     "start": "node_modules/react-native/packager/packager.sh"
   },
   "dependencies": {
-    "alt": "^0.16.4",
+    "alt": "^0.16.10",
     "bluebird": "^2.9.27",
     "bunyan": "^1.4.0",
     "moment": "^2.10.3",
@@ -19,8 +19,8 @@
     "react-native-keyboardevents": "^0.4.4",
     "react-native-keychain": "https://github.com/oblador/react-native-keychain.git",
     "react-native-mail": "https://github.com/chirag04/react-native-mail.git",
-    "react-native-swipeable-modal": "^1.0.5",
-    "react-native-swipeout": "^2.0.1",
+    "react-native-swipeable-modal": "^1.3.0",
+    "react-native-swipeout": "^2.0.5",
     "react-native-swiper": "^1.3.0",
     "react-native-tween-animation": "^1.0.1",
     "react-timer-mixin": "^0.13.2",

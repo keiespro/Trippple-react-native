@@ -25,18 +25,38 @@ class ContactList extends React.Component{
 
   constructor(props) {
     super(props);
+    this.state = {
+      highlightedRow: {}
+    }
 
+  }
+  onPress(sectionID,rowID){
+    console.log(sectionID,rowID);
+    // this.setState({
+    //     selection: ID
+    //   })
+    // this.refs[`${ID}contact`].setNativeProps({
+    //   backgroundColor: colors.mediumPurple20,
+    //   borderColor: colors.mediumPurple,
+    //   borderWidth: 1
+    // })
+    this.props.onPress(sectionID,rowID);
+    console.log(this.props.selection);
 
   }
 
 
-  _renderRow(rowData, sectionID: number, rowID: number) {
+  _renderRow(rowData, sectionID: number, rowID: number, highlightRow) {
     var phoneNumber = rowData.phoneNumbers && rowData.phoneNumbers[0] ? rowData.phoneNumbers[0].number : "";
-
+    if( this.state.highlightedRow['rowID'] == rowID){
+      highlightRow(rowID);
+    }
+    console.log(this.props.selection);
     return (
-      <View style={[styles.fullwidth,( this.props.selected == rowID ? 'rowSelected' : null)]} >
-        <TouchableHighlight underlayColor={colors.mediumPurple20} onPress={() => this.props.onPress(rowID)} key={rowID+'contact'}>
-          <View style={[styles.fullwidth,styles.row,( this.props.selected == rowID ? 'rowSelected' : null)]}>
+        <TouchableHighlight underlayColor={colors.mediumPurple20} onPress={()=>{this.onPress(sectionID,rowID); highlightRow(sectionID,rowID)}} ref={rowID+'contact'} key={rowID+'contact'}>
+          <View style={[styles.fullwidth,styles.row,
+            (this.state.highlightedRow.sectionID == sectionID && this.state.highlightedRow.rowID == rowID ? 'rowSelected' : null)]}>
+
             <Image style={styles.contactthumb} source={rowData.thumbnailPath != "" ? {uri: rowData.thumbnailPath} : require('image!placeholderUser')} />
 
             <View style={styles.rowtextwrapper}>
@@ -51,7 +71,7 @@ class ContactList extends React.Component{
             </View>
           </View>
         </TouchableHighlight>
-      </View>
+
 
     );
   }
@@ -60,12 +80,14 @@ class ContactList extends React.Component{
 
     return (
         <ListView
+          removeClippedSubviews={true}
+          initialListSize={100}
         contentContainerStyle={styles.fullwidth}
           dataSource={this.props.dataSource}
           renderRow={this._renderRow.bind(this)}
           renderSeparator={(sectionID, rowID, adjacentRowHighlighted)=>{
-            return(<View style={styles.separator} />)
-          }}
+                    return(<View style={styles.separator} />)
+                  }}
         />
     );
   }
@@ -81,16 +103,16 @@ class Contacts extends React.Component{
 
     this.state = {
       contacts: [],
-      selected:null,
+      selection:null,
       dataSource: ds.cloneWithRows([])
     }
   }
-  _pressRow(rowID) {
+  _pressRow(highlightedRow) {
 
-    Logger.debug(rowID);
+    Logger.debug(highlightedRow);
 
     this.setState({
-      selected: rowID
+      selection: highlightedRow
     })
   }
   componentDidMount(){
@@ -161,7 +183,7 @@ class Contacts extends React.Component{
             user={this.props.user}
             dataSource={this.state.dataSource}
             contacts={this.state.contacts}
-            selected={this.state.selected}
+            selection={this.state.selection}
             onPress={this._pressRow.bind(this)}
             id={"contactslist"}
             title={"contactlist"}

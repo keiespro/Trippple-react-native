@@ -8,22 +8,25 @@ var {
   TouchableHighlight
 } = React;
 
-var colors = require('../utils/colors');
-var SelfImage = require('../screens/registration/SelfImage')
-var UserActions = require('../flux/actions/UserActions');
+var colors = require('../../utils/colors');
+var SelfImage = require('./SelfImage');
+var PrivacyScreen = require('./privacy');
+var UserActions = require('../../flux/actions/UserActions');
 
 var ImageEditor = React.createClass({
 
-  acceptImage(){
-    UserActions.uploadImage(this.props.image);
+  popBack(){
+    console.log(this.props.route.index);
+    console.log();
+    this.props.navigator.popToRoute(this.props.route.index-2);
 
-    // this.props.navigator.popToRoute({
-    //         component: SelfImage,
-    //         id: 'selfimage',
-    //         passProps: {
-    //           hasImage: true
-    //         }
-    //       });
+  },
+  other(){
+    this.props.navigator.push({
+      component: PrivacyScreen,
+      id:'priv'
+
+    })
 
   },
   render() {
@@ -35,7 +38,7 @@ var ImageEditor = React.createClass({
           source={{uri: this.props.image}}
         />
       <View style={styles.bottom}>
-        <TouchableHighlight onPress={this._switchCamera} style={styles.leftbutton}>
+        <TouchableHighlight onPress={this.other} style={[styles.leftbutton,{backgroundColor:colors.sushi}]}>
           <View/>
         </TouchableHighlight>
         <TouchableHighlight onPress={this._takePicture} style={styles.bigbutton}>
@@ -46,12 +49,9 @@ var ImageEditor = React.createClass({
       </View>
     );
   },
-  _switchCamera() {
-
-
-  },
   _takePicture() {
     UserActions.uploadImage(this.props.image);
+    this.popBack();
   }
 });
 

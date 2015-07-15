@@ -52,6 +52,7 @@ var BdayScreen = React.createClass({
 
 
   _submit(){
+
     this.props.navigator.push({
             component: GenderScreen,
             id: 'yourgender',
@@ -63,18 +64,18 @@ var BdayScreen = React.createClass({
   },
   onDateChange(date){
 
-    UserActions.updateUserStub({bdate: date});
-    //
-    // this.setState({
-    //   inputFieldValue: date,
-    //   date: date
-    // })
+
+    this.setState({
+      inputFieldValue: date,
+      date: date
+    })
     console.log(date,this.state.date);
+    UserActions.updateUserStub({bdate: date});
 
   },
   _setMonth(){},
   _setYear(){},
-  
+
   render(){
     window.moment = moment;
     return(

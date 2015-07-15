@@ -12,7 +12,11 @@ var {
 
 var App = require('./app/components/app.js');
 
-
+var AppRoot = '/Users/alexlopez/code/Trippple/Native/app/components/';
+(function(global){
+  global.AppRoot = AppRoot;
+}(window ? window : global));
+console.log(this);
 class trippple extends React.Component{
 
   render(){

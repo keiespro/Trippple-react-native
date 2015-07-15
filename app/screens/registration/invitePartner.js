@@ -56,13 +56,10 @@ var InvitePartner = React.createClass({
             innerWrapStyles={styles.iconButtonCouples}
             _onPress={this.onPress}>
 
-            <Image source={require('image!oval2')}
-                      resizeMode={Image.resizeMode.cover}
-                          style={{height:30,width:30,right:-5}} />
+            <Image source={require('image!ovalInvite')}
+                      resizeMode={Image.resizeMode.contain}
+                          style={{height:30,width:101}} />
 
-            <Image source={require('image!oval2')}
-                      resizeMode={Image.resizeMode.cover}
-                          style={{height:30,width:30,left:-5,top:0}}/>
         </BoxyButton>
 
         <View style={[styles.middleTextWrap,styles.underPinInput]}>

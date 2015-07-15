@@ -87,13 +87,18 @@ class SelectRelationshipStatus extends React.Component{
               innerWrapStyles={styles.iconButtonCouples}
               _onPress={this._selectCouple.bind(this)}>
 
-            <Image source={require('image!oval2')}
+              <Image source={require('image!ovalCouple')}
+                        resizeMode={Image.resizeMode.contain}
+                            style={{height:30,width:70}} />
+
+            {/*<Image source={require('image!oval2')}
                       resizeMode={Image.resizeMode.cover}
                           style={{height:30,width:30,right:-5}} />
 
             <Image source={require('image!oval2')}
                       resizeMode={Image.resizeMode.cover}
                           style={{height:30,width:30,left:-5,top:0}}/>
+                          */}
           </BoxyButton>
 
           <View style={styles.dividerWrap}>
@@ -101,7 +106,7 @@ class SelectRelationshipStatus extends React.Component{
             <Text style={styles.dividerText}>OR</Text>
           </View>
 
-          <Text  style={styles.labelText}>{"I’m a Single\nLooking to meet couples"}</Text>
+          <Text style={styles.labelText}>{"I’m a Single\nLooking to meet couples"}</Text>
 
           <BoxyButton
               text={"TRIPPPLE FOR SINGLES"}
@@ -110,8 +115,8 @@ class SelectRelationshipStatus extends React.Component{
               innerWrapStyles={styles.iconButtonSingles}
               _onPress={this._selectSingle.bind(this)}>
 
-              <Image source={require('image!oval2')}
-                        resizeMode={Image.resizeMode.cover}
+              <Image source={require('image!ovalSingle')}
+                        resizeMode={Image.resizeMode.contain}
                             style={{height:30,width:30}}/>
 
           </BoxyButton>

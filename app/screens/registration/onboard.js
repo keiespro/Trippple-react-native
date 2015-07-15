@@ -6,11 +6,11 @@ var {
   View,
   Navigator,
   Image,
+  InteractionManager,
   ScrollView,
   TouchableOpacity,
   TouchableHighlight,
   LayoutAnimation,
-  SegmentedControlIOS
 } = React;
 
 var UserActions = require('../../flux/actions/UserActions');
@@ -82,6 +82,13 @@ class Onboard extends React.Component{
         sceneStyle={styles.sceneWrap}
         configureScene={ (route) => {
           return route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.HorizontalSlide
+        }}
+        onItemRef={(ref, indexInStack, route)=>{
+          // console.log(ref, indexInStack, route);
+          // console.log(this.props.user);
+          // if(indexInStack == 7){
+          //   InteractionManager.runAfterInteractions(()=>{this.refs.nav.pop()})
+          // }
         }}
         initialRoute={{
            component: SelectRelationshipStatus,
