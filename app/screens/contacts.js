@@ -16,7 +16,7 @@ var {
 var Logger = require("../utils/logger");
 
 var AddressBook = require('NativeModules').AddressBook;
-
+var colors = require('../utils/colors');
 var _ = require('underscore');
 
 class ContactList extends React.Component{
@@ -52,6 +52,7 @@ class ContactList extends React.Component{
 
     return (
         <ListView
+        contentContainerStyle={styles.fullwidth}
           dataSource={this.props.dataSource}
           renderRow={this._renderRow.bind(this)}
         />
@@ -125,14 +126,14 @@ class Contacts extends React.Component{
   render(){
 
     return (
-      <View style={styles.wrapper} pointerEvents={'box-none'}>
+      <View style={styles.container} noScroll={true}>
         <View style={styles.textwrap}>
           <TextInput
             style={styles.textfield}
             onChangeText={this._searchChange.bind(this)}
           />
         </View>
-        <View>
+
           <ContactList
             user={this.props.user}
             dataSource={this.state.dataSource}
@@ -141,7 +142,7 @@ class Contacts extends React.Component{
             title={"contactlist"}
           />
         </View>
-      </View>
+
     );
   }
 }
@@ -150,36 +151,45 @@ module.exports = Contacts;
 var styles = StyleSheet.create({
   container: {
     flex:1,
-    justifyContent: 'center',
-    alignItems: 'stretch',
-    overflow:'hidden',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    backgroundColor: colors.outerSpace,
+    alignSelf:'stretch',
     flexDirection: 'column',
-
     backgroundColor: 'transparent',
+
+  },
+  fullWidth:{
+    flex: 1
   },
   row: {
     flexDirection: 'row',
     padding: 10,
     alignSelf:'stretch',
     height:64,
+    width:undefined,
+    flex: 1,
     backgroundColor: 'transparent',
   },
   text:{
-    color:'#111'
+    color: colors.shuttleGray,
+
   },
   separator: {
     height: 1,
-    backgroundColor: '#39365c',
+    backgroundColor: colors.mediumPurple,
   },
   textwrap:{
     flexDirection: 'column',
     justifyContent: 'center',
     height:70,
-    alignSelf:'stretch'
+    alignSelf:'stretch',
+    flex: 1,
+    width:undefined,
   },
   textfield:{
-    color:'#111',
-    backgroundColor:'#fff',
+    color:colors.white,
+    backgroundColor:colors.outerSpace,
     fontSize:18,
     alignItems: 'stretch',
     flex:1,
@@ -188,9 +198,7 @@ var styles = StyleSheet.create({
     height:60
   },
   wrapper:{
-    backgroundColor: 'red',
-
-    overflow:'hidden',
+    backgroundColor: colors.outerSpace,
 
   }
 })

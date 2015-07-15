@@ -50,13 +50,6 @@ var BdayScreen = React.createClass({
   shouldHide(val) { return false },
   shouldShow(val) { return true },
 
-  // handleInputChange(event){
-  //   this.setState({
-  //     bday_year: null,
-  //     bday_month: null,
-  //     inputFieldValue: event.nativeEvent.text
-  //   })
-  // },
 
   _submit(){
     this.props.navigator.push({
@@ -69,11 +62,9 @@ var BdayScreen = React.createClass({
 
   },
   onDateChange(date){
-    console.log(this.props.user)
 
-    console.log(date,this.state.date);
+    UserActions.updateUserStub({bdate: date});
 
-    UserActions.updateUserStub({bdate: new Date(date)+''});
     this.setState({
       inputFieldValue: date,
       date: date
