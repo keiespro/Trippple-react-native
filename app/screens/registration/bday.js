@@ -64,16 +64,17 @@ var BdayScreen = React.createClass({
   onDateChange(date){
 
     UserActions.updateUserStub({bdate: date});
-
-    this.setState({
-      inputFieldValue: date,
-      date: date
-    })
+    //
+    // this.setState({
+    //   inputFieldValue: date,
+    //   date: date
+    // })
     console.log(date,this.state.date);
 
   },
   _setMonth(){},
   _setYear(){},
+  
   render(){
     window.moment = moment;
     return(

@@ -6,14 +6,16 @@ var React = require('react-native');
 var {
  StyleSheet,
  Text,
+ Image,
  View,
  TextInput,
  ListView,
- AlertIOS,
- InteractionManager,
  TouchableHighlight
 } = React;
 var Logger = require("../utils/logger");
+
+var DeviceHeight = require('Dimensions').get('window').height;
+var DeviceWidth = require('Dimensions').get('window').width;
 
 var AddressBook = require('NativeModules').AddressBook;
 var colors = require('../utils/colors');
@@ -24,30 +26,36 @@ class ContactList extends React.Component{
   constructor(props) {
     super(props);
 
+
   }
 
 
   _renderRow(rowData, sectionID: number, rowID: number) {
-
+    var phoneNumber = rowData.phoneNumbers && rowData.phoneNumbers[0] ? rowData.phoneNumbers[0].number : "";
 
     return (
-      <TouchableHighlight style={styles.row} onPress={() => this._pressRow(rowID)} key={rowID+'contact'}>
-        <View>
+      <View style={[styles.fullwidth,( this.props.selected == rowID ? 'rowSelected' : null)]} >
+        <TouchableHighlight underlayColor={colors.mediumPurple20} onPress={() => this.props.onPress(rowID)} key={rowID+'contact'}>
+          <View style={[styles.fullwidth,styles.row,( this.props.selected == rowID ? 'rowSelected' : null)]}>
+            <Image style={styles.contactthumb} source={rowData.thumbnailPath != "" ? {uri: rowData.thumbnailPath} : require('image!placeholderUser')} />
 
-          <Text style={styles.text}>
-            {`${rowData.firstName || ''} ${rowData.lastName || ''}`}
-          </Text>
+            <View style={styles.rowtextwrapper}>
 
+              <Text style={styles.rowtext}>
+                {`${rowData.firstName || ''} ${rowData.lastName || ''}`}
+              </Text>
+              <Text style={styles.text}>
+                {`${phoneNumber || ''}`}
+              </Text>
 
-          <View style={styles.separator} />
-        </View>
-      </TouchableHighlight>
+            </View>
+          </View>
+        </TouchableHighlight>
+      </View>
+
     );
   }
-  _pressRow(e) {
 
-    Logger.debug(e);
-  }
   render(){
 
     return (
@@ -55,6 +63,9 @@ class ContactList extends React.Component{
         contentContainerStyle={styles.fullwidth}
           dataSource={this.props.dataSource}
           renderRow={this._renderRow.bind(this)}
+          renderSeparator={(sectionID, rowID, adjacentRowHighlighted)=>{
+            return(<View style={styles.separator} />)
+          }}
         />
     );
   }
@@ -70,10 +81,18 @@ class Contacts extends React.Component{
 
     this.state = {
       contacts: [],
+      selected:null,
       dataSource: ds.cloneWithRows([])
     }
   }
+  _pressRow(rowID) {
 
+    Logger.debug(rowID);
+
+    this.setState({
+      selected: rowID
+    })
+  }
   componentDidMount(){
 
 
@@ -127,9 +146,13 @@ class Contacts extends React.Component{
 
     return (
       <View style={styles.container} noScroll={true}>
-        <View style={styles.textwrap}>
+        <View style={styles.searchwrap}>
+          <Image source={require('image!search')} style={styles.searchicon}/>
           <TextInput
-            style={styles.textfield}
+            style={styles.searchfield}
+            textAlign="center"
+            placeholder="SEARCH"
+            placeholderTextColor={colors.white}
             onChangeText={this._searchChange.bind(this)}
           />
         </View>
@@ -138,6 +161,8 @@ class Contacts extends React.Component{
             user={this.props.user}
             dataSource={this.state.dataSource}
             contacts={this.state.contacts}
+            selected={this.state.selected}
+            onPress={this._pressRow.bind(this)}
             id={"contactslist"}
             title={"contactlist"}
           />
@@ -156,49 +181,79 @@ var styles = StyleSheet.create({
     backgroundColor: colors.outerSpace,
     alignSelf:'stretch',
     flexDirection: 'column',
-    backgroundColor: 'transparent',
 
   },
-  fullWidth:{
-    flex: 1
+  fullwidth:{
+    width: DeviceWidth
   },
   row: {
     flexDirection: 'row',
-    padding: 10,
+    padding: 0,
     alignSelf:'stretch',
-    height:64,
-    width:undefined,
+    height:70,
     flex: 1,
     backgroundColor: 'transparent',
+    alignItems:'center',
+    justifyContent:'flex-start'
   },
   text:{
     color: colors.shuttleGray,
-
+    fontFamily:'omnes'
+  },
+  rowtext:{
+    color: colors.white,
+    fontSize:18,
+    fontFamily:'omnes'
   },
   separator: {
     height: 1,
-    backgroundColor: colors.mediumPurple,
+    backgroundColor: colors.outerSpace,
   },
-  textwrap:{
-    flexDirection: 'column',
+  rowtextwrapper:{
+    flexDirection:'column',
+    justifyContent:'space-around'
+  },
+  rowSelected:{
+    backgroundColor: colors.mediumPurple20,
+    borderColor: colors.mediumPurple,
+    borderWidth: 1
+  },
+  searchwrap:{
+    flexDirection: 'row',
     justifyContent: 'center',
     height:70,
     alignSelf:'stretch',
-    flex: 1,
-    width:undefined,
+    alignItems:'center',
+    borderBottomWidth: 2,
+    marginHorizontal:10,
+    borderBottomColor: colors.mediumPurple
   },
-  textfield:{
+  searchfield:{
     color:colors.white,
-    backgroundColor:colors.outerSpace,
-    fontSize:18,
+    fontSize:20,
     alignItems: 'stretch',
     flex:1,
     paddingHorizontal:10,
     fontFamily:'omnes',
-    height:60
+    height:60,
+    backgroundColor: 'transparent',
+
   },
   wrapper:{
     backgroundColor: colors.outerSpace,
 
+  },
+  contactthumb:{
+    borderRadius: 25,
+    width:50,
+    height:50,
+    marginHorizontal:10
+  },
+  searchicon:{
+    top:20,
+    left:10,
+    position:'absolute',
+    width:30,
+    height:30
   }
 })

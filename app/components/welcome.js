@@ -26,7 +26,7 @@ var Facebook = require('./facebook');
 var slides = [
   {
     title: '',
-    img: require('image!trippple-logo-small'),
+    img: require('image!tripppleLogo'),
     content: ''
   },
   {

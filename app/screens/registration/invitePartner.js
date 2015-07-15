@@ -15,6 +15,7 @@ var UserActions = require('../../flux/actions/UserActions')
 var BoxyButton = require('../../controls/boxyButton')
 var NameScreen = require('./name');
 var Contacts = require('../contacts');
+var NavigatorSceneConfigs = require('NavigatorSceneConfigs');
 
 var InvitePartner = React.createClass({
 
@@ -28,7 +29,8 @@ var InvitePartner = React.createClass({
     this.props.navigator.push({
              component: Contacts,
              title: 'Contacts',
-             id:'contacts'
+             id:'contacts',
+             sceneConfig: NavigatorSceneConfigs.FloatFromBottom
            })
   },
 
@@ -74,15 +76,6 @@ var InvitePartner = React.createClass({
 
 
         </View>
-
-
-
-
-
-
-
-
-
       </View>
     );
   }

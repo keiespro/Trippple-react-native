@@ -84,8 +84,8 @@ class GenderScreen extends React.Component{
                             style={{height:24,width:30}}/>
 
           </BoxyButton>
-        </View>
 
+        </View>
 
         <View style={[styles.continueButtonWrap,
             {

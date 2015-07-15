@@ -22,6 +22,9 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		AC504B751B56607400D5D069 /* tripppleLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = AC504B721B56607400D5D069 /* tripppleLogo.png */; };
+		AC504B761B56607400D5D069 /* tripppleLogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AC504B731B56607400D5D069 /* tripppleLogo@2x.png */; };
+		AC504B771B56607400D5D069 /* tripppleLogo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = AC504B741B56607400D5D069 /* tripppleLogo@3x.png */; };
 		ACA1295D1B40EA2E00CC1499 /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129451B40EA1600CC1499 /* libRCTAddressBook.a */; };
 		ACA1295E1B40EA2E00CC1499 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1294A1B40EA1600CC1499 /* libRCTCamera.a */; };
 		ACA1295F1B40EA2E00CC1499 /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1294D1B40EA1600CC1499 /* libRCTFBLogin.a */; };
@@ -228,6 +231,9 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		AC504B721B56607400D5D069 /* tripppleLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tripppleLogo.png; sourceTree = "<group>"; };
+		AC504B731B56607400D5D069 /* tripppleLogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tripppleLogo@2x.png"; sourceTree = "<group>"; };
+		AC504B741B56607400D5D069 /* tripppleLogo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tripppleLogo@3x.png"; sourceTree = "<group>"; };
 		ACA1292D1B40EA1600CC1499 /* RCTFBLogin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBLogin.xcodeproj; path = "node_modules/react-native-facebook-login/RCTFBLogin.xcodeproj"; sourceTree = "<group>"; };
 		ACA129301B40EA1600CC1499 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		ACA129331B40EA1600CC1499 /* RNFS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
@@ -466,6 +472,16 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		AC504B711B56607400D5D069 /* tripppleLogo */ = {
+			isa = PBXGroup;
+			children = (
+				AC504B721B56607400D5D069 /* tripppleLogo.png */,
+				AC504B731B56607400D5D069 /* tripppleLogo@2x.png */,
+				AC504B741B56607400D5D069 /* tripppleLogo@3x.png */,
+			);
+			path = tripppleLogo;
+			sourceTree = "<group>";
+		};
 		ACA1292E1B40EA1600CC1499 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -545,6 +561,7 @@
 				ACA129731B40EF0D00CC1499 /* omnes-light-webfont.ttf */,
 				ACA129741B40EF0D00CC1499 /* omnes-medium-webfont.ttf */,
 				ACA129751B40EF0D00CC1499 /* omnes-regular-webfont.ttf */,
+				AC504B711B56607400D5D069 /* tripppleLogo */,
 				ACA129761B40EF0D00CC1499 /* qq.aiff */,
 			);
 			path = assets;
@@ -860,6 +877,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACA1297D1B40F35400CC1499 /* Images.xcassets in Resources */,
+				AC504B761B56607400D5D069 /* tripppleLogo@2x.png in Resources */,
+				AC504B751B56607400D5D069 /* tripppleLogo.png in Resources */,
 				ACFC0A7D1B52C49300D9D40F /* boxers@1x.png in Resources */,
 				ACA1297C1B40EF0D00CC1499 /* qq.aiff in Resources */,
 				ACFC0A821B52C49300D9D40F /* bra@3x.png in Resources */,
@@ -881,6 +900,7 @@
 				ACFC0A6E1B52402900D9D40F /* oval2@1x.png in Resources */,
 				ACFC0A751B524BA900D9D40F /* fBlogo@2x.png in Resources */,
 				ACA129781B40EF0D00CC1499 /* omnes-bold-webfont.ttf in Resources */,
+				AC504B771B56607400D5D069 /* tripppleLogo@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
