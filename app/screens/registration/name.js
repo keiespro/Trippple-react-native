@@ -8,9 +8,7 @@ var {
   Image,
   LayoutAnimation,
   ScrollView,
-  TouchableOpacity,
   TouchableHighlight,
-  SegmentedControlIOS
 } = React;
 
 var UserActions = require('../../flux/actions/UserActions');
@@ -42,8 +40,8 @@ var NameScreen = React.createClass({
     })
   },
 
-  shouldHide(val) { return (val.length <= 2) ? true : false  },
-  shouldShow(val) { return (val.length > 2)  ? true : false  },
+  shouldHide(val) { return (val.length <= 0) ? true : false  },
+  shouldShow(val) { return (val.length > 0)  ? true : false  },
 
   handleInputChange(event){
     this.setState({

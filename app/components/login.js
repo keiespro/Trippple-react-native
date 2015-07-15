@@ -18,7 +18,7 @@ var {
 
 var TrackKeyboard = require('../mixins/keyboardMixin');
 var CustomSceneConfigs = require('../utils/sceneConfigs');
-
+var TimerMixin = require('react-timer-mixin');
 var colors = require('../utils/colors')
 
 var DeviceHeight = require('Dimensions').get('window').height;
@@ -175,13 +175,12 @@ var animations = {
 
 
 var Login = React.createClass({
-  mixins: [TrackKeyboard, SingleInputScreenMixin],
+  mixins: [TrackKeyboard, SingleInputScreenMixin, TimerMixin],
 
   getInitialState(){
     return({
       phone: '',
       isLoading: false,
-      phoneFocused: true
     })
   },
 
@@ -190,20 +189,9 @@ var Login = React.createClass({
   },
 
   onError(err){
-    console.log(err)
-    if(!err.phoneError){
+    console.log(err);
+    if(!err || !err.phoneError){
 
-        this.props.navigator.push({
-          component: PinScreen,
-          title: '',
-          id:'pw',
-          sceneConfig: CustomSceneConfigs.HorizontalSlide,
-          passProps: {
-            phone: this.formattedPhone(),
-            error: this.state.phoneError,
-            initialKeyboardSpace: this.state.keyboardSpace
-          }
-        })
         return;
     };
 
@@ -222,14 +210,6 @@ var Login = React.createClass({
   shouldHide(val) { return (val.length < PHONE_MASK_USA.length) ? true : false  },
   shouldShow(val) { return (val.length == PHONE_MASK_USA.length) ? true : false  },
 
-
-    componentDidUpate(prevProps,prevState){
-
-      // Reset error state
-
-    },
-
-
   handleInputChange(event: any){
     var update = {
       inputFieldValue: event.nativeEvent.text
@@ -247,7 +227,20 @@ var Login = React.createClass({
     if(!this.state.canContinue){
       return false;
     }
+    this.setTimeout( () => {
+      if(this.state.phoneError) return false;
 
+      this.props.navigator.push({
+        component: PinScreen,
+        title: '',
+        id:'pw',
+        sceneConfig: CustomSceneConfigs.HorizontalSlide,
+        passProps: {
+          phone: this.formattedPhone(),
+          initialKeyboardSpace: this.state.keyboardSpace
+        }
+      })
+    },500);
     UserActions.requestPinLogin(this.formattedPhone());
 
   },
@@ -262,7 +255,7 @@ var Login = React.createClass({
           bounces={false}
           >
           <View style={[styles.phoneInputWrap,
-              (this.state.phoneFocused ? styles.phoneInputWrapSelected : null),
+              (this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null),
               (this.state.phoneError ? styles.phoneInputWrapError : null)]}>
 
             <PhoneNumberInput
@@ -273,11 +266,11 @@ var Login = React.createClass({
               placeholder={'Phone'}
               keyboardAppearance={'dark'/*doesnt work*/}
               placeholderTextColor='#fff'
-              autoFocus={false}
+              autoFocus={true}
               autoCorrect={false}
               onChange={this.handleInputChange}
-              onFocus={this.handleInputFieldFocused}
-              onBlur={this.handleInputFieldBlurred}
+              onFocus={this.handleInputFocused}
+              onBlur={this.handleInputBlurred}
             />
           </View>
           {this.state.phoneError &&

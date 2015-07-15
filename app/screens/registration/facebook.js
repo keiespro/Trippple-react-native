@@ -113,9 +113,9 @@ var FBLoginMock = React.createClass({
             text={"VERIFY WITH FACEBOOK"}
             leftBoxStyles={styles.iconButtonLeftBoxCouples}
             innerWrapStyles={styles.iconButtonCouples}
-            onPress={this.onPress}>
+            _onPress={this.onPress}>
 
-          <Image source={require('image!fBLogo')}
+          <Image source={require('image!fBlogo')}
                     resizeMode={Image.resizeMode.cover}
                         style={{height:40,width:20}} />
         </BoxyButton>

@@ -49,6 +49,13 @@ class UserActions {
 
   }
 
+  updateUserStub(info){
+
+    this.dispatch(info);
+
+
+  }
+
   // login(phone,password){
   //   Logger.log('login action');
   //   Api.login(phone,password)

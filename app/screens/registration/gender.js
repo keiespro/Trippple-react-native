@@ -44,8 +44,8 @@ class GenderScreen extends React.Component{
     this.setState({
       selection: this.state.selection == 'f' ? null : 'f'
     })
-    this._continue();
   }
+
   _selectMale(){
     this.setState({
       selection: this.state.selection == 'm' ? null : 'm'

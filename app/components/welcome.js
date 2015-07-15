@@ -139,7 +139,7 @@ class Carousel extends React.Component{
           horizontal={true}
           showsPagination={true}
           showsButtons={false}
-          dot={ <View style={styles.dot} /> }
+          dot={ <View style={styles.dot} />}
           activeDot={ <View style={styles.activeDot} /> }
         >
           {welcomeSlides}
