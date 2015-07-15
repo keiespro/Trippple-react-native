@@ -109,7 +109,6 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: 'transparent',
     justifyContent: 'space-between',
-    // alignItems: '',
     alignSelf: 'stretch'
   },
   goBackButton:{

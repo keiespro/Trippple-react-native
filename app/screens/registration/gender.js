@@ -58,7 +58,8 @@ class GenderScreen extends React.Component{
   render() {
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container]}>
+        <View style={styles.genderWrap}>
           <Text style={styles.labelText}>{"What's your gender?"} </Text>
 
           <BoxyButton
@@ -83,22 +84,22 @@ class GenderScreen extends React.Component{
                             style={{height:24,width:30}}/>
 
           </BoxyButton>
+        </View>
 
 
-          <View style={[styles.continueButtonWrap,
-              {
-                bottom: this.state.selection ? 0 : -80,
-                backgroundColor: this.state.selection ? colors.mediumPurple : 'transparent'
-              }]}>
-            <TouchableHighlight
-               style={[styles.continueButton]}
-               onPress={this.handleContinue}
-               underlayColor="black">
+        <View style={[styles.continueButtonWrap,
+            {
+              bottom: this.state.selection ? 0 : -80,
+              backgroundColor: this.state.selection ? colors.mediumPurple : 'transparent'
+            }]}>
+          <TouchableHighlight
+             style={[styles.continueButton]}
+             onPress={this.handleContinue}
+             underlayColor="black">
 
-               <Text style={styles.continueButtonText}>CONTINUE</Text>
-             </TouchableHighlight>
-          </View>
-
+             <Text style={styles.continueButtonText}>CONTINUE</Text>
+           </TouchableHighlight>
+        </View>
       </View>
     );
   }
@@ -120,7 +121,14 @@ var styles = StyleSheet.create({
     alignSelf:'stretch',
     backgroundColor: colors.outerSpace
   },
+  genderWrap:{
+    justifyContent: 'center',
+    flex: 1,
+    flexDirection:'column',
+    alignItems: 'center',
+    alignSelf:'stretch',
 
+  },
 
   labelText:{
     color:colors.rollingStone,

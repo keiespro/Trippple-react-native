@@ -50,6 +50,8 @@ var NameScreen = React.createClass({
   },
 
   _submit(){
+    UserActions.updateUserStub({firstname: this.state.inputFieldValue});
+    
     this.props.navigator.push({
             component: BdayScreen,
             id: 'aboutyoubday',

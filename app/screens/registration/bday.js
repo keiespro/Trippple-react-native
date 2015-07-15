@@ -18,7 +18,7 @@ var colors = require('../../utils/colors')
 var TrackKeyboard = require('../../mixins/keyboardMixin');
 var SingleInputScreenMixin = require('../../mixins/SingleInputScreenMixin');
 
-
+var moment = require('moment');
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 
@@ -40,9 +40,10 @@ var BdayScreen = React.createClass({
     },
 
   getInitialState(){
+    console.log(this.props.user)
     return({
       timeZoneOffsetInHours: this.props.timeZoneOffsetInHours,
-      date: this.props.date
+      date: this.props.user.bdate ? new Date(this.props.user.bdate) : moment().subtract(18,'years').toDate()
     })
   },
 
@@ -68,10 +69,14 @@ var BdayScreen = React.createClass({
 
   },
   onDateChange(date){
+    console.log(this.props.user)
+
     console.log(date,this.state.date);
+
+    UserActions.updateUserStub({bdate: new Date(date)+''});
     this.setState({
       inputFieldValue: date,
-      data: date
+      date: date
     })
     console.log(date,this.state.date);
 
@@ -79,6 +84,7 @@ var BdayScreen = React.createClass({
   _setMonth(){},
   _setYear(){},
   render(){
+    window.moment = moment;
     return(
       <View style={[styles.container,{flex: 1, height:DeviceHeight, paddingBottom: 230}]}>
         <ScrollView
@@ -89,7 +95,7 @@ var BdayScreen = React.createClass({
           <View style={[styles.pinInputWrap,(this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null)]}>
 
             <Text
-              style={styles.fakeInput}>{this.state.date.toLocaleDateString() || this.state.inputFieldValue || 'DATE OF BIRTH'}
+              style={styles.fakeInput}>{moment(this.state.date).format('MMMM D, YYYY') || this.state.inputFieldValue || 'DATE OF BIRTH'}
             </Text>
           </View>
 
@@ -99,6 +105,8 @@ var BdayScreen = React.createClass({
         <View style={[{flex: 1, height: this.state.keyboardSpace},styles.bdayKeyboard]}>
 
           <DatePickerIOS
+                    minimumDate={moment().subtract(68,'years').toDate()}
+                    maximumDate={moment().subtract(18,'years').toDate()}
                     date={this.state.date}
                     mode="date"
                     timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
@@ -117,7 +125,7 @@ var BdayScreen = React.createClass({
 var styles = StyleSheet.create({
     bdayKeyboard:{
       height: 230,
-      backgroundColor: colors.dusk,
+      backgroundColor: colors.white,
       flex:1,
       position:'absolute',
       bottom:0
@@ -238,28 +246,7 @@ var styles = StyleSheet.create({
     phoneInputWrapSelected:{
       borderBottomColor: colors.mediumPurple,
     },
-    continueButtonWrap:{
-      alignSelf: 'stretch',
-      alignItems: 'stretch',
-      justifyContent: 'center',
-      height: 80,
-      backgroundColor: colors.mediumPurple,
 
-      width:DeviceWidth
-    },
-    continueButton: {
-      height: 80,
-      alignSelf: 'stretch',
-      alignItems: 'center',
-      justifyContent: 'center'
-    },
-    continueButtonText: {
-      padding: 4,
-      fontSize: 30,
-      fontFamily:'Montserrat',
-      color: colors.white,
-      textAlign:'center'
-    }
   });
 
 module.exports = BdayScreen;

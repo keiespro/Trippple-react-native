@@ -21,14 +21,15 @@ class UserStore {
       handleRequestPin: UserActions.REQUEST_PIN_LOGIN,
       handleUpdateUser: UserActions.UPDATE_USER,
       handleUpload: UserActions.UPLOAD_IMAGE,
-      initialize: UserActions.INITIALIZE
+      initialize: UserActions.INITIALIZE,
+      handleUpdateUserStub: UserActions.updateUserStub
     });
 
 
   }
 
   handleRequestPin(res){
-    
+
   }
 
   handleVerifyPin(res){
@@ -79,6 +80,14 @@ class UserStore {
     })
   }
 
+  handleUpdateUserStub(attributes){
+    var updatedUser = this.user;
+
+    Object.assign(updatedUser,attributes);
+    this.setState({user:updatedUser});
+
+
+  }
   // handleRegister(response) {
   //   console.log(response);
   //

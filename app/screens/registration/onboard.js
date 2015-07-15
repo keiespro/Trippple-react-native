@@ -56,18 +56,7 @@ class OnboardSingle extends React.Component{
       )
     }
 }
-class OnboardCouple extends React.Component{
-    render(){
 
-
-      return(
-        <View style={styles.container}>
-          <Text style={styles.textplain}>COUPLE</Text>
-          <AboutYou user={this.props.user}/>
-        </View>
-      )
-    }
-}
 
 class Onboard extends React.Component{
   constructor(props){
@@ -77,26 +66,35 @@ class Onboard extends React.Component{
     }
   }
 
-  choose(choice){
-    this.setState({
-      relationshipStatus: choice,
-    });
 
+
+  selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
+    return (<route.component {...route.passProps} navigator={navigator} user={this.props.user} />);
   }
 
   render() {
 
-    switch (this.state.relationshipStatus){
+    return (
 
-      case "single":
-        return (<OnboardSingle user={this.props.user}/>)
-      case "couple":
-        return (<OnboardCouple user={this.props.user}/>)
-      case null:
-      default:
-        return (<SelectRelationshipStatus user={this.props.user} choose={this.choose.bind(this)}/>)
+      <Navigator
+        ref="nav"
+        renderScene={this.selectScene.bind(this)}
+        sceneStyle={styles.sceneWrap}
+        configureScene={ (route) => {
+          return route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.HorizontalSlide
+        }}
+        initialRoute={{
+           component: SelectRelationshipStatus,
+           id:'relStatus',
+           passProps: {
+             user: this.props.user
+           }
 
-    }
+         }}
+          />
+    )
+
+
   }
 
 }

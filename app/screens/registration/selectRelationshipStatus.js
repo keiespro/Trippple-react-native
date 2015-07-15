@@ -25,7 +25,8 @@ var BoxyButton = require('../../controls/boxyButton')
 
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
-
+var Facebook = require('./facebook');
+var InvitePartner = require('./invitePartner');
 
 class SelectRelationshipStatus extends React.Component{
 
@@ -42,16 +43,36 @@ class SelectRelationshipStatus extends React.Component{
     this.setState({
       selection: 'single'
     })
-    this._continue();
+    this._continue('single');
   }
   _selectCouple(){
     this.setState({
       selection: 'couple'
     })
-    this._continue();
+    this._continue('couple');
   }
-  _continue(){
-    this.props.choose(this.state.selection);
+  _continue(selection){
+    UserActions.updateUserStub({relationship_status: this.state.selection});
+
+    if(selection == 'single'){
+
+      this.props.navigator.push({
+        component: Facebook,
+        id: 'fb',
+        passProps: {
+          relationship_status: this.state.selection
+        }
+      })
+
+    }else if(selection == 'couple'){
+      this.props.navigator.push({
+        component: InvitePartner,
+        id: 'invite',
+        passProps: {
+          relationship_status: this.state.selection
+        }
+      })
+    }
   }
   render() {
 

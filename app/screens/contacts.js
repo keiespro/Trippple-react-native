@@ -98,13 +98,13 @@ class Contacts extends React.Component{
       Logger.log(err);
 
       var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-      InteractionManager.runAfterInteractions(() => {
+      // InteractionManager.runAfterInteractions(() => {
 
         this.setState({
           contacts: contacts,
           dataSource: ds.cloneWithRows(contacts)
         });
-      });
+      // });
     })
   }
   componentWillUnmount() {
@@ -132,6 +132,7 @@ class Contacts extends React.Component{
             onChangeText={this._searchChange.bind(this)}
           />
         </View>
+        <View>
           <ContactList
             user={this.props.user}
             dataSource={this.state.dataSource}
@@ -139,6 +140,7 @@ class Contacts extends React.Component{
             id={"contactslist"}
             title={"contactlist"}
           />
+        </View>
       </View>
     );
   }
