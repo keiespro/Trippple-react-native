@@ -16,6 +16,7 @@ var Logger = require("../utils/logger");
 
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
+var Facebook = require('./registration/facebook');
 
 var AddressBook = require('NativeModules').AddressBook;
 var colors = require('../utils/colors');
@@ -167,6 +168,23 @@ class Contacts extends React.Component{
       }))
     });
   }
+  continue(){
+
+      this.props.navigator.push({
+        component: Facebook,
+        id: 'fb',
+        passProps: {
+          partner: this.state.partnerSelection
+        }
+    })
+
+  }
+  cancel(){
+    this.setState({
+      partnerSelection: {}
+    });
+
+  }
   render(){
 
       if(this.state.partnerSelection && !this.state.partnerSelection.phoneNumbers){
@@ -199,13 +217,13 @@ class Contacts extends React.Component{
   }else{
          return (
         <View style={styles.container}>
-        <View style={[styles.fullwidth,styles.row]}>
+        <View style={[styles.fullwidth,styles.col]}>
 
-          <Image style={styles.contactthumb} source={this.state.partnerSelection.thumbnailPath != "" ? {uri: this.state.partnerSelection.thumbnailPath} : require('image!placeholderUser')} />
+          <Image style={[styles.contactthumb,{width:100,height:100,borderRadius:50}]} source={this.state.partnerSelection.thumbnailPath != "" ? {uri: this.state.partnerSelection.thumbnailPath} : require('image!placeholderUser')} />
 
           <View style={styles.rowtextwrapper}>
 
-            <Text style={styles.rowtext}>
+            <Text style={[styles.rowtext,styles.bigtext]}>
               {`${this.state.partnerSelection.firstName || ''} ${this.state.partnerSelection.lastName || ''}`}
             </Text>
             <Text style={styles.text}>
@@ -214,6 +232,13 @@ class Contacts extends React.Component{
             </Text>
 
           </View>
+
+          <TouchableHighlight style={styles.plainButton} onPress={this.continue.bind(this)}>
+            <Text style={styles.plainButtonText}>INVITE</Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.plainButton} onPress={this.cancel.bind(this)}>
+            <Text style={styles.plainButtonText}>CANCEL</Text>
+          </TouchableHighlight>
         </View>
         </View>
 
@@ -247,6 +272,15 @@ var styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'flex-start'
   },
+  col: {
+    flexDirection: 'column',
+    padding: 0,
+    alignSelf:'stretch',
+    flex: 1,
+    backgroundColor: 'transparent',
+    alignItems:'center',
+    justifyContent:'center'
+  },
   text:{
     color: colors.shuttleGray,
     fontFamily:'omnes'
@@ -255,6 +289,10 @@ var styles = StyleSheet.create({
     color: colors.white,
     fontSize:18,
     fontFamily:'omnes'
+  },
+  bigtext:{
+    fontSize:30,
+    textAlign:'center'
   },
   separator: {
     height: 1,
@@ -306,5 +344,19 @@ var styles = StyleSheet.create({
     position:'absolute',
     width:20,
     height:20
-  }
+  },
+  plainButton:{
+    borderColor: colors.rollingStone,
+    borderWidth: 1,
+    height:70,
+    alignSelf:'stretch',
+    alignItems:'center',
+    justifyContent:'center',
+  },
+  plainButtonText:{
+    color: colors.rollingStone,
+    fontSize: 16,
+    fontFamily:'Montserrat',
+    textAlign:'center',
+  },
 })
