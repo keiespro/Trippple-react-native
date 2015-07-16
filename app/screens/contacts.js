@@ -30,18 +30,20 @@ class ContactList extends React.Component{
     }
 
   }
-  onPress(sectionID,rowID){
-    console.log(sectionID,rowID);
+  onPress(sectionID,rowID,rowData){
+    console.log(sectionID,rowID,rowData);
     // this.setState({
-    //     selection: ID
-    //   })
+    //   partner: rowData
+    // })
     // this.refs[`${ID}contact`].setNativeProps({
     //   backgroundColor: colors.mediumPurple20,
     //   borderColor: colors.mediumPurple,
     //   borderWidth: 1
     // })
-    this.props.onPress(sectionID,rowID);
-    console.log(this.props.selection);
+
+    // UserActions.updateUserStub({gender: this.state.selection});
+
+    this.props.onPress(rowData);
 
   }
 
@@ -53,7 +55,7 @@ class ContactList extends React.Component{
     }
     console.log(this.props.selection);
     return (
-        <TouchableHighlight underlayColor={colors.mediumPurple20} onPress={()=>{this.onPress(sectionID,rowID); highlightRow(sectionID,rowID)}} ref={rowID+'contact'} key={rowID+'contact'}>
+        <TouchableHighlight underlayColor={colors.mediumPurple20} onPress={()=>{this.onPress(sectionID,rowID,rowData); highlightRow(sectionID,rowID)}} ref={rowID+'contact'} key={rowID+'contact'}>
           <View style={[styles.fullwidth,styles.row,
             (this.state.highlightedRow.sectionID == sectionID && this.state.highlightedRow.rowID == rowID ? 'rowSelected' : null)]}>
 
@@ -82,6 +84,7 @@ class ContactList extends React.Component{
         <ListView
           removeClippedSubviews={true}
           initialListSize={100}
+          scrollRenderAheadDistance={1000}
         contentContainerStyle={styles.fullwidth}
           dataSource={this.props.dataSource}
           renderRow={this._renderRow.bind(this)}
@@ -103,16 +106,16 @@ class Contacts extends React.Component{
 
     this.state = {
       contacts: [],
-      selection:null,
+      partnerSelection:{},
       dataSource: ds.cloneWithRows([])
     }
   }
-  _pressRow(highlightedRow) {
+  _pressRow(contact) {
 
-    Logger.debug(highlightedRow);
+    Logger.debug(contact);
 
     this.setState({
-      selection: highlightedRow
+      partnerSelection: contact
     })
   }
   componentDidMount(){
@@ -166,7 +169,9 @@ class Contacts extends React.Component{
   }
   render(){
 
-    return (
+      if(this.state.partnerSelection && !this.state.partnerSelection.phoneNumbers){
+        return (
+
       <View style={styles.container} noScroll={true}>
         <View style={styles.searchwrap}>
           <Image source={require('image!search')} style={styles.searchicon}/>
@@ -174,23 +179,47 @@ class Contacts extends React.Component{
             style={styles.searchfield}
             textAlign="center"
             placeholder="SEARCH"
+            clearButtonMode="always"
             placeholderTextColor={colors.white}
             onChangeText={this._searchChange.bind(this)}
           />
         </View>
 
-          <ContactList
-            user={this.props.user}
-            dataSource={this.state.dataSource}
-            contacts={this.state.contacts}
-            selection={this.state.selection}
-            onPress={this._pressRow.bind(this)}
-            id={"contactslist"}
-            title={"contactlist"}
-          />
+        <ContactList
+          user={this.props.user}
+          dataSource={this.state.dataSource}
+          contacts={this.state.contacts}
+          selection={this.state.selection}
+          onPress={this._pressRow.bind(this)}
+          id={"contactslist"}
+          title={"contactlist"}
+        />
+      </View>
+    )
+  }else{
+         return (
+        <View style={styles.container}>
+        <View style={[styles.fullwidth,styles.row]}>
+
+          <Image style={styles.contactthumb} source={this.state.partnerSelection.thumbnailPath != "" ? {uri: this.state.partnerSelection.thumbnailPath} : require('image!placeholderUser')} />
+
+          <View style={styles.rowtextwrapper}>
+
+            <Text style={styles.rowtext}>
+              {`${this.state.partnerSelection.firstName || ''} ${this.state.partnerSelection.lastName || ''}`}
+            </Text>
+            <Text style={styles.text}>
+                {`${ 'xx' }`/* this.state.partnerSelection.phoneNumbers[0].number  || '' */}
+
+            </Text>
+
+          </View>
+        </View>
         </View>
 
+
     );
+  }
   }
 }
 module.exports = Contacts;
@@ -243,7 +272,7 @@ var styles = StyleSheet.create({
   searchwrap:{
     flexDirection: 'row',
     justifyContent: 'center',
-    height:70,
+    height:60,
     alignSelf:'stretch',
     alignItems:'center',
     borderBottomWidth: 2,
@@ -275,7 +304,7 @@ var styles = StyleSheet.create({
     top:20,
     left:10,
     position:'absolute',
-    width:30,
-    height:30
+    width:20,
+    height:20
   }
 })

@@ -12,16 +12,13 @@ var colors = require('../../utils/colors');
 var SelfImage = require('./SelfImage');
 var PrivacyScreen = require('./privacy');
 var UserActions = require('../../flux/actions/UserActions');
+var DeviceHeight = require('Dimensions').get('window').height;
+var DeviceWidth = require('Dimensions').get('window').width;
 
 var ImageEditor = React.createClass({
 
-  popBack(){
-    console.log(this.props.route.index);
-    console.log();
-    this.props.navigator.popToRoute(this.props.route.index-2);
 
-  },
-  other(){
+  accept(){
     this.props.navigator.push({
       component: PrivacyScreen,
       id:'priv'
@@ -38,20 +35,20 @@ var ImageEditor = React.createClass({
           source={{uri: this.props.image}}
         />
       <View style={styles.bottom}>
-        <TouchableHighlight onPress={this.other} style={[styles.leftbutton,{backgroundColor:colors.sushi}]}>
+        <TouchableHighlight onPress={this.retake} style={styles.bigbutton}>
           <View/>
         </TouchableHighlight>
-        <TouchableHighlight onPress={this._takePicture} style={styles.bigbutton}>
-          <View/>
-        </TouchableHighlight>
+          <TouchableHighlight onPress={this.accept} style={[styles.bigbutton,{backgroundColor:colors.sushi}]}>
+            <View/>
+          </TouchableHighlight>
       </View>
 
       </View>
     );
   },
-  _takePicture() {
-    UserActions.uploadImage(this.props.image);
-    this.popBack();
+  retake() {
+    this.props.navigator.pop();
+
   }
 });
 
@@ -63,8 +60,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf:'stretch',
     backgroundColor: '#000',
-    paddingTop:60,
-
+    width: DeviceWidth,
 
   },
   bottom:{
@@ -78,7 +74,7 @@ var styles = StyleSheet.create({
   cameraBox:{
     flex:1,
     alignSelf:'stretch',
-    width:300,
+    width:DeviceWidth,
     height:300
   },
   textS:{

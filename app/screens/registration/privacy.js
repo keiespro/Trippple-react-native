@@ -67,13 +67,12 @@ class PrivacyScreen extends React.Component{
 
     return (
       <View style={[styles.container]}>
-        <View style={styles.privacyWrap}>
-          <Text style={styles.labelText}>{"What's your privacy?"} </Text>
+        <View style={styles.topWrap}>
+          <Text style={styles.labelText}>{"Your Privacy"} </Text>
 
+          <Text style={styles.labelText}>{"Select your perfered privacy setting"}</Text>
           <TouchableHighlight
-
-
-
+            style={{marginTop:50}}
               onPress={this._selectPublic.bind(this)}>
               <View style={[styles.privacyWrap,
                   (this.state.selection == 'public' ? styles.selectedbutton : null)]}>
@@ -90,16 +89,17 @@ class PrivacyScreen extends React.Component{
           </TouchableHighlight>
 
           <TouchableHighlight
+            style={{marginTop:50}}
             onPress={this._selectPrivate.bind(this)}>
             <View style={[styles.privacyWrap,
-                (this.state.selection == 'public' ? styles.selectedbutton : null)]}>
+                (this.state.selection == 'private' ? styles.selectedbutton : null)]}>
 
               <Text style={styles.boxTitle}>Private</Text>
               <Text style={styles.boxP}>Your profile is hidden from your facebook friends and phone contacts.</Text>
 
               <Image source={this.state.selection == 'private' ? require('image!ovalSelected') : require('image!ovalSelected')}
                         resizeMode={Image.resizeMode.contain}
-                            style={{height:10,width:10}}/>
+                            style={{height:50,width:50,position:'absolute',top:0,right:0}}/>
             </View>
 
           </TouchableHighlight>
@@ -140,6 +140,14 @@ var styles = StyleSheet.create({
     alignSelf:'stretch',
     backgroundColor: colors.outerSpace
   },
+  topWrap:{
+    justifyContent: 'center',
+    flex: 1,
+    flexDirection:'column',
+    alignItems: 'center',
+    alignSelf:'stretch',
+
+  },
   privacyWrap:{
     justifyContent: 'center',
     flex: 1,
@@ -147,7 +155,10 @@ var styles = StyleSheet.create({
     alignItems: 'flex-start',
     alignSelf:'stretch',
     width: DeviceWidth-40,
-    margin:10
+    padding:10,
+    borderWidth:2,
+    borderColor:colors.shuttleGray,
+    height:90
   },
 
   labelText:{
