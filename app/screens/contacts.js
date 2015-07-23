@@ -17,6 +17,7 @@ var Logger = require("../utils/logger");
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 var Facebook = require('./registration/facebook');
+var UserActions = require('../flux/actions/UserActions');
 
 var AddressBook = require('NativeModules').AddressBook;
 var colors = require('../utils/colors');
@@ -33,16 +34,16 @@ class ContactList extends React.Component{
   }
   onPress(sectionID,rowID,rowData){
     console.log(sectionID,rowID,rowData);
-    // this.setState({
-    //   partner: rowData
-    // })
+    this.setState({
+      highlightedRow: {sectionID,rowID}
+    })
     // this.refs[`${ID}contact`].setNativeProps({
     //   backgroundColor: colors.mediumPurple20,
     //   borderColor: colors.mediumPurple,
     //   borderWidth: 1
     // })
 
-    // UserActions.updateUserStub({gender: this.state.selection});
+    UserActions.updateUserStub({gender: this.state.selection});
 
     this.props.onPress(rowData);
 
@@ -51,12 +52,18 @@ class ContactList extends React.Component{
 
   _renderRow(rowData, sectionID: number, rowID: number, highlightRow) {
     var phoneNumber = rowData.phoneNumbers && rowData.phoneNumbers[0] ? rowData.phoneNumbers[0].number : "";
+    console.log(sectionID, rowID)
+
     if( this.state.highlightedRow['rowID'] == rowID){
-      highlightRow(rowID);
+      console.log('HIGHLIGHT')
     }
     console.log(this.props.selection);
     return (
-        <TouchableHighlight underlayColor={colors.mediumPurple20} onPress={()=>{this.onPress(sectionID,rowID,rowData); highlightRow(sectionID,rowID)}} ref={rowID+'contact'} key={rowID+'contact'}>
+        <TouchableHighlight underlayColor={colors.mediumPurple20} onPress={()=>{
+
+          highlightRow(rowID);
+          this.onPress(sectionID,rowID,rowData); highlightRow(sectionID,rowID)
+        }} ref={rowID+'contact'} key={rowID+'contact'}>
           <View style={[styles.fullwidth,styles.row,
             (this.state.highlightedRow.sectionID == sectionID && this.state.highlightedRow.rowID == rowID ? 'rowSelected' : null)]}>
 
