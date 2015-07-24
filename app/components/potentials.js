@@ -21,90 +21,14 @@ var p = require("../flux/stores/PotentialsStore");
 var PotentialsStore = alt.createStore(p, 'PotentialsStore');
 var AltContainer = require('alt/AltNativeContainer');
 var Logger = require('../utils/logger');
+var DeviceHeight = require('Dimensions').get('window').height;
+var DeviceWidth = require('Dimensions').get('window').width;
 
 var THROW_OUT_THRESHOLD = 250;
+var colors = require('../utils/colors');
+var Swiper = require('react-native-swiper');
 
 
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    overflow:'hidden',
-    top:50
-  },
-  innerContainer:{
-    backgroundColor: '#fff',
-    paddingBottom:50,
-    paddingTop:0,
-    alignSelf: 'stretch',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: undefined,
-    height: undefined,
-    bottom:0,
-    top:0,
-    left:0,
-    right:0,
-
-  },
-  absoluteText:{
-    position:'absolute',
-    color:'#ffffff',
-    backgroundColor:'transparent',
-    fontSize:20
-  },
-  absoluteTextTop:{
-    top:0
-  },
-  absoluteTextBottom:{
-    bottom:0
-  },
-  card: {
-    marginHorizontal:20,
-    borderRadius:10,
-    backgroundColor: 'white',
-    alignSelf: 'stretch',
-    flex: 1,
-    marginBottom:70,
-    marginTop:20,
-    borderWidth: 1,
-    borderColor:'#ddd',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: undefined
-
-  },
-  singleCard:{
-    backgroundColor:'#fff',
-    flexDirection:'column',
-    alignItems:'stretch',
-    flex:1,
-
-  },
-  coupleCard:{
-    backgroundColor:'#fff',
-    flexDirection:'column',
-    alignItems:'stretch',
-    alignSelf:'stretch',
-    flex:1,
-    width:undefined
-  },
-  imagebg:{
-    flex: 1,
-    alignSelf:'stretch'
-  },
-  absoluteCard:{
-    position:'absolute',
-
-    left:0,
-    right:0,
-    bottom:0,
-    top:0
-  }
-});
 
 
 var ActiveCard = React.createClass({
@@ -145,7 +69,7 @@ var ActiveCard = React.createClass({
     })
   },
   componentDidMount: function() {
-    // this._updatePosition();
+    this._updatePosition();
 
 
   },
@@ -155,28 +79,38 @@ var ActiveCard = React.createClass({
     return (
 
 
-        <View key="activecard" ref={(card) => { this.card = card }} style={styles.card} {...this._panResponder.panHandlers} >
 
-          {this.props.user.relationship_status == 'single' ?
-            <View style={styles.coupleCard} >
-              <Image source={{uri: this.props.potential[0].image_url}} style={styles.imagebg} >
-                <Text style={[styles.absoluteText,styles.absoluteTextTop]}>{this.props.potential[0].firstname}</Text>
-              </Image>
-              <Image source={{uri: this.props.potential[1].image_url}} style={styles.imagebg} >
-                <Text style={[styles.absoluteText,styles.absoluteTextBottom]}>{this.props.potential[1].firstname}</Text>
-              </Image>
-            </View>
-          :
-            <View style={styles.singleCard} >
-              <Image source={{uri: this.props.potential.image_url}} style={styles.imagebg} >
-                <Text style={[styles.absoluteText,styles.absoluteTextBottom]}>{this.props.potential.firstname}</Text>
-              </Image>
-            </View>
-          }
-        </View>
+
+      <Swiper
+        loop={true}
+        horizontal={false}
+        vertical={true}
+
+        showsPagination={true}
+        showsButtons={false}
+        dot={ <View style={styles.dot} />}
+        activeDot={ <View style={styles.activeDot} /> }
+      >
+        <Image source={{uri: this.props.potential[0].image_url}} style={styles.imagebg} />
+        <Image source={{uri: this.props.potential[1].image_url}} style={styles.imagebg} />
+      </Swiper>
+
+
+
     );
   },
+/*
 
+{this.props.user.relationship_status == 'single' ?
+
+:
+        <View style={styles.singleCard} >
+          <Image source={{uri: this.props.potential.image_url}} style={styles.imagebg} >
+            <Text style={[styles.absoluteText,styles.absoluteTextBottom]}>{this.props.potential.firstname}</Text>
+          </Image>
+        </View>
+      }
+      */
   _highlight: function() {
     this.card && this.card.setNativeProps({
       shadowColor: 'rgba(0,0,0,.5)',
@@ -344,35 +278,6 @@ var ActiveCard = React.createClass({
   },
 });
 
-class InactiveCard extends React.Component{
-  render(){
-
-
-    return (
-      <View style={[styles.card,styles.absoluteCard]}>
-        {this.props.user.relationship_status == 'single' ?
-          <View style={styles.coupleCard} >
-            <Image source={{uri: this.props.potential[0].image_url}} style={styles.imagebg} >
-              <Text style={[styles.absoluteText,styles.absoluteTextTop]}>{this.props.potential[0].firstname}</Text>
-            </Image>
-            <Image source={{uri: this.props.potential[1].image_url}} style={styles.imagebg} >
-              <Text style={[styles.absoluteText,styles.absoluteTextBottom]}>{this.props.potential[1].firstname}</Text>
-            </Image>
-          </View>
-        :
-          <View style={styles.singleCard} >
-            <Image source={{uri: this.props.potential.image_url}} style={styles.imagebg} >
-              <Text style={[styles.absoluteText,styles.absoluteTextBottom]}>{this.props.potential.firstname}</Text>
-            </Image>
-          </View>
-        }
-      </View>
-
-    )
-
-
-  }
-}
 class CouplesCardStack extends React.Component{
   constructor(props){
     super(props)
@@ -380,13 +285,23 @@ class CouplesCardStack extends React.Component{
   }
   render(){
     if(this.props.potentials.length){
+      var potential = this.props.potentials[0];
 
       return(
-        <ActiveCard user={this.props.user} potential={this.props.potentials[0]}/>
+        <View style={{margin:20,left:0,width:DeviceWidth-40,height:DeviceHeight - 80,top:45,overflow:'hidden'}}>
+          <ActiveCard user={this.props.user} potential={potential}/>
+          <View style={{height:80,bottom:0,position:'absolute',backgroundColor:colors.white,width: DeviceWidth-40, flex:5, alignSelf:'stretch'}}>
+            <Text style={styles.cardBottomText}>{`${potential[0].firstname} and ${potential[1].firstname}`}</Text>
+
+            <View style={{height:60,top:-30,position:'absolute',width:135,right:0,backgroundColor:'transparent',flexDirection:'row'}}>
+              <Image source={{uri: potential[0].image_url}} style={[styles.circleimage,{marginRight:5}]}/>
+              <Image source={{uri: potential[1].image_url}} style={styles.circleimage}/>
+            </View>
+
+          </View>
+        </View>
       )
     }else{
-
-
       return(
         <View user={this.props.user} potential={this.props.potentials}>
           <TouchableHighlight onPress={() => MatchActions.getPotentials()}>
@@ -451,3 +366,132 @@ class Potentials extends React.Component{
 
 
 module.exports = Potentials;
+var styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    overflow:'hidden',
+    top:50
+  },
+  innerContainer:{
+    backgroundColor: '#fff',
+    paddingBottom:50,
+    paddingTop:0,
+    alignSelf: 'stretch',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: undefined,
+    height: undefined,
+    bottom:0,
+    top:0,
+    left:0,
+    right:0,
+
+  },
+  absoluteText:{
+    position:'absolute',
+    color:'#ffffff',
+    backgroundColor:'transparent',
+    fontSize:20
+  },
+  absoluteTextTop:{
+    top:0
+  },
+  absoluteTextBottom:{
+    bottom:0
+  },
+  card: {
+    borderRadius:10,
+    backgroundColor: 'white',
+    alignSelf: 'stretch',
+    flex: 1,
+
+    borderWidth: 1,
+    borderColor:'#ddd',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+  },
+  singleCard:{
+    backgroundColor:'#fff',
+    flexDirection:'column',
+    alignItems:'stretch',
+    flex:1,
+
+  },
+  coupleCard:{
+    backgroundColor:'#fff',
+    flexDirection:'column',
+    alignSelf:'stretch',
+    flex:1,
+  },
+  imagebg:{
+    flex: 1,
+    alignSelf:'stretch',
+    margin:0,
+    padding:0,
+    alignItems:'stretch',
+    flexDirection:'column',
+    width: undefined
+  },
+  absoluteCard:{
+    // position:'absolute',
+
+    left:0,
+    right:0,
+    bottom:0,
+    top:0
+  },
+  dot: {
+    backgroundColor: colors.shuttleGray,
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    marginLeft: 6,
+    marginRight: 6,
+    marginTop: 3,
+    marginBottom: 3,
+    borderColor: colors.shuttleGray
+  },
+  activeDot: {
+    backgroundColor: colors.outerSpace,
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    marginLeft: 6,
+    marginRight: 6,
+    marginTop: 3,
+    marginBottom: 3,
+    borderWidth: 2,
+    borderColor: colors.mediumPurple20
+  },
+  circleimage:{
+    backgroundColor: colors.shuttleGray,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    borderColor: colors.shuttleGray,
+    borderColor:colors.white,
+    borderWidth: 3
+  },
+  carousel:{
+    backgroundColor:'#fff',
+    alignSelf:'stretch',
+    flex:1,
+    width: DeviceWidth-40,
+    margin:20,
+    height:DeviceHeight - 80,
+    top:40
+
+  },
+  cardBottomText:{
+    marginLeft:15,
+    fontFamily:'Montserrat',
+    color: colors.shuttleGray,
+    fontSize:22,
+    marginTop:10
+  }
+});

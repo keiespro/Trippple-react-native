@@ -16,6 +16,7 @@ var {
   StyleSheet,
   InteractionManager,
   Text,
+  Image,
   TouchableHighlight,
   AsyncStorage,
   TouchableOpacity,
@@ -23,6 +24,7 @@ var {
 } = React;
 var CustomSceneConfigs = require('../utils/sceneConfigs')
 
+var colors = require('../utils/colors');
 var alt = require('alt');
 var cssVar = require('cssVar');
 var Chat = require("./chat");
@@ -140,9 +142,8 @@ var ROUTE_STACK = [
       return (
 
           <View >
-            <Text style={[styles.navBarText, styles.navBarTitleText]}>
-              {route.title}
-            </Text>
+            <Image resizeMode={Image.resizeMode.contain} style={{width:80,top:-10}} source={require('image!tripppleLogoText')} />
+
           </View>
       );
     },
@@ -201,7 +202,7 @@ var ROUTE_STACK = [
       marginLeft: 15,
     },
     appContainer: {
-      backgroundColor: '#292834',
+      backgroundColor: colors.outerSpace,
       flex: 1,
 
       alignSelf:'stretch'
@@ -220,7 +221,7 @@ var ROUTE_STACK = [
       fontFamily:'omnes'
     },
     navBar: {
-      backgroundColor: '#292834',
+      backgroundColor: colors.outerSpace,
       height: 50,
       justifyContent:'space-around',
       alignSelf: 'stretch',
@@ -231,7 +232,7 @@ var ROUTE_STACK = [
       fontSize: 16,
     },
     navBarTitleText: {
-      color: '#ffffff',
+      color: colors.white,
       fontWeight: '500',
       fontFamily:'omnes',
       height: 50,
@@ -248,13 +249,13 @@ var ROUTE_STACK = [
 
     },
     navBarButtonText: {
-      color: '#dddddd',
+      color: colors.white,
       fontFamily:'omnes'
     },
     scene: {
       flex: 1,
       paddingTop: 50,
-      backgroundColor: '#292834',
+      backgroundColor: colors.outerSpace,
       justifyContent: 'center'
     },
   });

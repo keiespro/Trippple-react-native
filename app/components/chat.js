@@ -17,6 +17,7 @@ var {
 } = React;
 
 
+var colors = require('../utils/colors');
 
 var ChatStore = require("../flux/stores/ChatStore");
 var MatchActions = require("../flux/actions/MatchActions");

@@ -4,10 +4,7 @@ var Logger = require("../../utils/logger");
 
 class MatchActions {
 
-
-
-
-  getMatches() {
+  getMatches(){
 
     Api.getMatches()
       .then((res) => {
@@ -15,7 +12,8 @@ class MatchActions {
         this.dispatch(res.response);
       })
   }
-  getMessages(matchID) {
+
+  getMessages(matchID){
 
     Api.getMessages({match_id: matchID})
       .then((res) => {
@@ -23,7 +21,8 @@ class MatchActions {
       })
   }
 
-  getPotentials() {
+  getPotentials(){
+
     navigator.geolocation.getCurrentPosition(
       (geo) => {
         Logger.log('Got coordinates:', geo.coords);
@@ -43,7 +42,6 @@ class MatchActions {
       },
       {enableHighAccuracy: false, maximumAge: 1000}
     )
-
   }
 
   sendLike(likedUserID){
@@ -53,7 +51,6 @@ class MatchActions {
         Logger.log(res)
         this.dispatch(likedUserID);
       })
-
   }
 }
 

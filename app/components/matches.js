@@ -17,6 +17,8 @@ var {
  AsyncStorage
 } = React;
 
+var colors = require('../utils/colors');
+
 var alt = require('../flux/alt')
 var Chat = require("./chat");
 var MatchActions = require('../flux/actions/MatchActions');
@@ -228,7 +230,7 @@ class Matches extends React.Component{
 
 var styles = StyleSheet.create({
   container: {
-    backgroundColor: '#39365c',
+    backgroundColor: colors.outerSpace,
     paddingTop:50,
     flex: 1,
     overflow:'hidden'
