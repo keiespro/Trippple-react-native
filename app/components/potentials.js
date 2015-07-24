@@ -315,20 +315,13 @@ class CouplesCardStack extends React.Component{
   }
 }
 
-
+// stub
 class SinglesCardStack extends React.Component{
   constructor(props){
     console.log('SinglesCardStack')
     super(props)
   }
   render(){
-    // var inactiveCards = this.props.potentials.map((potential,index) =>{
-    //       return(
-    //         <InactiveCard potential={potential} user={this.props.user} key={'potential'+index}/>
-    //       );
-    //     });
-    //
-    // // Logger.log(this.props,'ACTIVE');
     return(
       <View/>
 
