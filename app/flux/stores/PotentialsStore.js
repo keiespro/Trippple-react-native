@@ -64,5 +64,5 @@ class PotentialsStore {
 
 
 }
-
-module.exports = alt.createStore(PotentialsStore, 'PotentialsStore');
+module.exports = PotentialsStore;
+// module.exports = alt.createStore(PotentialsStore, 'PotentialsStore');

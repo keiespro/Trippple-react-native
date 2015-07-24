@@ -13,11 +13,12 @@ var {
  PanResponder
 } = React;
 
+var alt = require('../flux/alt');
 
 var RNTAnimation = require('react-native-tween-animation');
 var MatchActions = require('../flux/actions/MatchActions');
-var PotentialsStore = require("../flux/stores/PotentialsStore");
-// var alt = require('../flux/alt');
+var p = require("../flux/stores/PotentialsStore");
+var PotentialsStore = alt.createStore(p, 'PotentialsStore');
 var AltContainer = require('alt/AltNativeContainer');
 var Logger = require('../utils/logger');
 
@@ -372,25 +373,51 @@ class InactiveCard extends React.Component{
 
   }
 }
-
-
-class CardStack extends React.Component{
+class CouplesCardStack extends React.Component{
   constructor(props){
+    super(props)
+    console.log(props)
+  }
+  render(){
+    if(this.props.potentials.length){
+
+      return(
+        <ActiveCard user={this.props.user} potential={this.props.potentials[0]}/>
+      )
+    }else{
+
+
+      return(
+        <View user={this.props.user} potential={this.props.potentials}>
+          <TouchableHighlight onPress={() => MatchActions.getPotentials()}>
+            <View>
+              <Text> get </Text>
+            </View>
+          </TouchableHighlight>
+        </View>
+      )
+    }
+  }
+}
+
+
+class SinglesCardStack extends React.Component{
+  constructor(props){
+    console.log('SinglesCardStack')
     super(props)
   }
   render(){
-    var inactiveCards = this.props.potentials.map((potential,index) =>{
-          return(
-            <InactiveCard potential={potential} user={this.props.user} key={'potential'+index}/>
-          );
-        });
-
-    Logger.log(this.props,'ACTIVE');
+    // var inactiveCards = this.props.potentials.map((potential,index) =>{
+    //       return(
+    //         <InactiveCard potential={potential} user={this.props.user} key={'potential'+index}/>
+    //       );
+    //     });
+    //
+    // // Logger.log(this.props,'ACTIVE');
     return(
-      <View style={styles.container} pointerEvents="box-none">
-        <ActiveCard potential={this.props.potentials.length ? this.props.potentials[0] : []} user={this.props.user}/>
-      </View>
-      )
+      <View/>
+
+    )
   }
 }
 
@@ -399,6 +426,7 @@ class Potentials extends React.Component{
     super(props)
   }
   render(){
+    console.log(this.props.user.relationship_status)
 
     return(
       <AltContainer
@@ -410,7 +438,11 @@ class Potentials extends React.Component{
             }
           }
         }}>
-        <CardStack user={this.props.user}/>
+
+      { this.props.user.relationship_status == 'single' ?
+        <CouplesCardStack user={this.props.user} /> :
+        <SinglesCardStack user={this.props.user}/>
+      }
       </AltContainer>
 
     )

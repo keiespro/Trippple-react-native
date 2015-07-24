@@ -158,7 +158,7 @@ var ROUTE_STACK = [
     }
 
     componentDidMount(){
-      MatchActions.InitializeMatches();
+      // MatchActions.InitializeMatches();
     }
 
     selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
