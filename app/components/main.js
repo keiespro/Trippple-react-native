@@ -89,9 +89,8 @@ var ROUTE_STACK = [
           <TouchableOpacity
             onPress={() => navigator.jumpTo(ROUTE_STACK[1])}>
             <View style={styles.navBarLeftButton}>
-              <Text style={[styles.navBarText, styles.navBarButtonText]}>
-                Trippple
-              </Text>
+              <Image resizeMode={Image.resizeMode.contain} style={{width:20,top:0,height:20}} source={require('image!tripppleLogo')} />
+
             </View>
           </TouchableOpacity>
         )
@@ -103,7 +102,7 @@ var ROUTE_STACK = [
           <View style={styles.navBarLeftButton}>
             <Text style={[styles.navBarText, styles.navBarButtonText]}>
               {/*<GearIcon/>*/}
-              gear
+              G
             </Text>
           </View>
         </TouchableOpacity>
@@ -118,9 +117,7 @@ var ROUTE_STACK = [
           <TouchableOpacity
             onPress={() => navigator.jumpTo(ROUTE_STACK[1])}>
             <View style={styles.navBarLeftButton}>
-              <Text style={[styles.navBarText, styles.navBarButtonText]}>
-                Trippple
-              </Text>
+              <Image resizeMode={Image.resizeMode.contain} style={{width:20,top:0,height:20}} source={require('image!tripppleLogo')} />
             </View>
           </TouchableOpacity>
         )
@@ -130,7 +127,7 @@ var ROUTE_STACK = [
           onPress={() => navigator.jumpTo(ROUTE_STACK[2])}>
           <View style={styles.navBarRightButton}>
             <Text style={[styles.navBarText, styles.navBarButtonText]}>
-              matches
+              M
             </Text>
           </View>
         </TouchableOpacity>
@@ -138,14 +135,20 @@ var ROUTE_STACK = [
     },
 
     Title: function(route, navigator, index, navState) {
+      if(route.id == 'potentials'){
 
-      return (
-
-          <View >
-            <Image resizeMode={Image.resizeMode.contain} style={{width:80,top:-10}} source={require('image!tripppleLogoText')} />
-
-          </View>
-      );
+        return (
+            <View>
+              <Image resizeMode={Image.resizeMode.contain} style={{width:80,top:-10}} source={require('image!tripppleLogoText')} />
+            </View>
+        );
+      }else{
+          return (
+            <View>
+              <Text>{route.id}</Text>
+            </View>
+          )
+      }
     },
 
   };
@@ -222,7 +225,7 @@ var ROUTE_STACK = [
     },
     navBar: {
       backgroundColor: colors.outerSpace,
-      height: 50,
+      height: 40,
       justifyContent:'space-around',
       alignSelf: 'stretch',
       alignItems:'flex-start',
@@ -235,17 +238,17 @@ var ROUTE_STACK = [
       color: colors.white,
       fontWeight: '500',
       fontFamily:'omnes',
-      height: 50,
+      height: 40,
 
     },
     navBarLeftButton: {
       paddingLeft: 10,
-      height: 50,
+      height: 40,
 
     },
     navBarRightButton: {
       paddingRight: 10,
-      height: 50,
+      height: 40,
 
     },
     navBarButtonText: {
@@ -254,7 +257,7 @@ var ROUTE_STACK = [
     },
     scene: {
       flex: 1,
-      paddingTop: 50,
+      paddingTop: 40,
       backgroundColor: colors.outerSpace,
       justifyContent: 'center'
     },
