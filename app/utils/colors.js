@@ -30,7 +30,9 @@ const colors = {
 
   dusk:               'rgb(61, 63, 96)',
 
-  warmGrey:           'rgb(151, 151, 151)'
+  warmGrey:           'rgb(151, 151, 151)',
+
+  darkShadow:         'rgba(0,0,0,.45)'
 
 }
 

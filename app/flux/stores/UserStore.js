@@ -22,7 +22,8 @@ class UserStore {
       handleUpdateUser: UserActions.UPDATE_USER,
       handleUpload: UserActions.UPLOAD_IMAGE,
       initialize: UserActions.INITIALIZE,
-      handleUpdateUserStub: UserActions.updateUserStub
+      handleUpdateUserStub: UserActions.updateUserStub,
+      handleLogOut: UserActions.logOut
     });
 
 
@@ -121,6 +122,10 @@ class UserStore {
   //   });
   // }
 
+  handleLogOut(){
+    this.setState({user:{}});
+
+  }
   updateUserInfo(attributes){
     var updatedUser = this.user;
     Object.assign(updatedUser,attributes);
@@ -132,9 +137,9 @@ class UserStore {
   }
 
   handleUpload(response){
-    console.log('handleupload');
     UserActions.getUserInfo();
   }
+
   getUser(){
 
     return this.getState().user;

@@ -10,7 +10,7 @@ var UploadFile = Promise.promisify(NativeModules.FileTransfer.upload);
 
 var Logger = require('./logger');
 
-var SERVER_URL = 'http://localhost:9920/user';
+var SERVER_URL = 'http://192.168.1.146:9920/user';
 
 function publicRequest(endpoint, payload){
 

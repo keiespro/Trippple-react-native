@@ -29,8 +29,19 @@ var colors = require('../utils/colors');
 var Swiper = require('react-native-swiper');
 
 
-
-
+// class InactiveCard extends React.Component{
+//   constructor(props){
+//     super(props);
+//   }
+//   render(){
+//
+//     return (
+//
+//
+//
+//     )
+//   }
+// }
 var ActiveCard = React.createClass({
   _panResponder: {},
   _previousLeft: 0,
@@ -65,7 +76,8 @@ var ActiveCard = React.createClass({
        left: this._previousLeft,
        top: this._previousTop,
      },
-     isAnimating:false
+     isAnimating:false,
+     isDragging: false
     })
   },
   componentDidMount() {
@@ -82,7 +94,7 @@ var ActiveCard = React.createClass({
         <View key="activecard"
           ref={(card) => { this.card = card }}
           {...this._panResponder.panHandlers}
-          style={{margin:20,left:0,width:DeviceWidth - 40, height:DeviceHeight - 80,marginTop:60,overflow:'hidden'}}>
+          style={{padding:20,left:0,width:DeviceWidth - 40, height:DeviceHeight - 85,marginBottom:15,marginTop:55,flex:1,shadowColor:colors.darkShadow,shadowRadius:5,shadowOpacity:50, shadowOffset: {width:0, height: 10}}}>
 
           <CoupleActiveCard potential={this.props.potential} />
 
@@ -105,16 +117,16 @@ var ActiveCard = React.createClass({
       */
   _highlight() {
     this.card && this.card.setNativeProps({
-      shadowColor: 'rgba(0,0,0,.5)',
-      shadowOffset: {width:0, height: 0},
-      shadowOpacity: 0.5,
-      shadowRadius: 10
+      shadowOpacity: 100,
+      shadowRadius: 20,
+      shadowOffset: {width:0, height: 0}
+
     });
   },
 
   _unHighlight() {
     this.card && this.card.setNativeProps({
-      shadowOpacity: 0,
+      shadowOpacity: 50,
     });
   },
   componentDidUpdate(prevProps,prevState){
@@ -134,17 +146,22 @@ var ActiveCard = React.createClass({
   },
   _handleStartShouldSetPanResponder(e: Object, gestureState: Object): boolean {
     // Should we become active when the user presses down on the card?
-    return (DeviceWidth/2 - gestureState.locationX > DeviceHeight/2 - gestureState.locationY)
+    if(this.state.isDragging == true) return true;
+    return (DeviceWidth/2 - gestureState.pageX > DeviceHeight/2 - gestureState.pageY  + 30)
   },
 
   _handleMoveShouldSetPanResponder(e: Object): boolean {
     // Should we become active when the user moves a touch over the card?
-    return (DeviceWidth/2 - e.nativeEvent.changedTouches[0].locationX > DeviceHeight/2 - e.nativeEvent.changedTouches[0].locationY)
+    if(this.state.isDragging == true) return true;
+    return (DeviceWidth/2 - e.nativeEvent.changedTouches[0].pageX > DeviceHeight/2 - e.nativeEvent.changedTouches[0].pageY + 30)
   },
 
   _handlePanResponderGrant(e: Object, gestureState: Object) {
     this._highlight();
     Logger.log('Pan Responder Grant',gestureState.dx)
+    this.replaceState({
+      isDragging: true
+    })
 
   },
   _handlePanResponderMove(e: Object, gestureState: Object) {
@@ -156,6 +173,10 @@ var ActiveCard = React.createClass({
 
   },
   _handlePanResponderEnd(e: Object, gestureState: Object) {
+    this.replaceState({
+      isDragging: false
+    })
+
     this._unHighlight();
     Logger.log('Pan Responder End',Math.abs(gestureState.moveX))
 
@@ -306,13 +327,11 @@ class SwipableCard extends React.Component{
 class CoupleActiveCard extends React.Component{
   constructor(props){
     super(props)
-    console.log(props)
   }
   render(){
-      // var potential = this.props.potentials[0];
 
       return(
-        <View style={[styles.card]}>
+        <View style={[styles.card,{width: DeviceWidth-40}]}>
         <Swiper
           loop={true}
           horizontal={false}
@@ -341,16 +360,61 @@ class CoupleActiveCard extends React.Component{
   }
 }
 
+class CoupleInactiveCard extends React.Component{
+  constructor(props){
+    super(props)
+  }
+  render(){
+      return(
+        <View style={[styles.basicCard,{margin:30,marginTop:75,position:'absolute',width: DeviceWidth-60,height:DeviceHeight-100}]}>
+          <Image source={{uri: this.props.potential[0].image_url}} style={[styles.imagebg,{width: DeviceWidth-60}]} />
+          <View style={{height:70,bottom:0,position:'absolute',width: DeviceWidth-60,backgroundColor:colors.white, flex:5, alignSelf:'stretch'}}>
+            <Text style={styles.cardBottomText}>{`${this.props.potential[0].firstname} and ${this.props.potential[1].firstname}`}</Text>
+
+            <View style={{height:60,top:-30,position:'absolute',width:135,right:0,backgroundColor:'transparent',flexDirection:'row'}}>
+              <Image source={{uri: this.props.potential[0].image_url}} style={[styles.circleimage,{marginRight:5}]}/>
+              <Image source={{uri: this.props.potential[1].image_url}} style={styles.circleimage}/>
+            </View>
+
+          </View>
+        </View>
+      )
+  }
+}
+
+class DummyCard extends React.Component{
+  constructor(props){
+    super(props)
+  }
+  render(){
+      return(
+        <View style={[styles.basicCard,{margin:40,marginTop:85,position:'absolute',width: DeviceWidth-80,height:DeviceHeight-100}]}>
+          <View style={{height:70,bottom:0,position:'absolute',width: DeviceWidth-80,backgroundColor:colors.white, flex:5, alignSelf:'stretch'}}/>
+        </View>
+      )
+  }
+}
+
 // stub
 class CardStack extends React.Component{
   constructor(props){
-    console.log('SinglesCardStack')
+    console.log('SinglesCardStack',props.potentials)
     super(props)
   }
   render(){
       if(this.props.potentials.length){
         return (
-          <ActiveCard user={this.props.user} potential={this.props.potentials[0]}/>
+            <View style={{width:DeviceWidth,height:DeviceHeight,flex:1,alignSelf:'stretch'}}>
+              <View style={{shadowColor:colors.darkShadow,shadowRadius:20,shadowOffset:{width:0,height:10},shadowOpacity:80}}>
+                <DummyCard />
+              </View>
+              <View style={{shadowColor:colors.darkShadow,shadowRadius:15,shadowOffset:{width:0,height:10},shadowOpacity:100}}>
+                <CoupleInactiveCard  user={this.props.user} potential={this.props.potentials[1]} />
+              </View>
+
+              <ActiveCard user={this.props.user} potential={this.props.potentials[0]}/>
+
+            </View>
         )
       }else{
          return(
@@ -430,14 +494,22 @@ var styles = StyleSheet.create({
   absoluteTextBottom:{
     bottom:0
   },
+  basicCard:{
+    borderRadius:3,
+      backgroundColor: 'white',
+      borderWidth: 1,
+      borderColor:'rgba(0,0,0,.2)',
+      overflow:'hidden',
+
+    },
   card: {
-    borderRadius:10,
+    borderRadius:3,
     backgroundColor: 'white',
     alignSelf: 'stretch',
     flex: 1,
-
+    overflow:'hidden',
     borderWidth: 1,
-    borderColor:'#ddd',
+    borderColor:'rgba(0,0,0,.2)',
     justifyContent: 'center',
     alignItems: 'center',
 
@@ -462,7 +534,6 @@ var styles = StyleSheet.create({
     padding:0,
     alignItems:'stretch',
     flexDirection:'column',
-    width: undefined
   },
   absoluteCard:{
     // position:'absolute',

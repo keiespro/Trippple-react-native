@@ -10,6 +10,7 @@ var {
   TextInput,
   ScrollView,
   Image,
+  AsyncStorage
   // PickerIOS
 } = React;
 
@@ -19,7 +20,7 @@ var DeviceWidth = require('Dimensions').get('window').width;
 
 var DistanceSlider = require('../controls/distanceSlider');
 var ToggleSwitch = require('../controls/switches');
-
+var UserActions = require('../flux/actions/UserActions')
 var ImageUpload = require('./imageUpload');
 var Privacy = require('./privacy');
 var Modal = require('react-native-swipeable-modal');
@@ -111,6 +112,24 @@ var EditSettings = React.createClass({
     </View>)
   }
 })
+
+class LogOutButton extends React.Component{
+  _doLogOut(){
+    AsyncStorage.multiRemove(['ChatStore','MatchesStore'])
+    .then(() => UserActions.logOut())
+
+  }
+  render(){
+
+    return (
+      <TouchableHighlight onPress={this._doLogOut}>
+        <View style={styles.button}>
+          <Text style={styles.buttonText}>Log Out</Text>
+        </View>
+      </TouchableHighlight>
+    )
+  }
+}
 
 var ViewSettings = React.createClass({
 
@@ -261,6 +280,8 @@ class Settings extends React.Component{
 
             <FeedbackButton />
 
+            <LogOutButton />
+
          </ContentWrapper>
 
         <Modal
@@ -401,6 +422,25 @@ var styles = StyleSheet.create({
    flex:1,
    fontFamily:'omnes',
    height:60
+ },
+ buttonText: {
+   fontSize: 18,
+   color: '#111',
+   alignSelf: 'center',
+   fontFamily:'omnes'
+
+ },
+ button: {
+   height: 45,
+   flexDirection: 'row',
+   backgroundColor: '#FE6650',
+   borderColor: '#111',
+   borderWidth: 1,
+   borderRadius: 8,
+   marginBottom: 10,
+   marginTop: 10,
+   alignSelf: 'stretch',
+   justifyContent: 'center'
  },
  modal:{
    padding:0,

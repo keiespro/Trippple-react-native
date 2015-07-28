@@ -150,8 +150,14 @@ var ROUTE_STACK = [
               <Image resizeMode={Image.resizeMode.contain} style={{width:80,top:-2}} source={require('image!tripppleLogoText')} />
             </View>
         );
-      }else{
-          return (
+      }else if(route.id == 'matches'){
+           return (
+            <View>
+              <Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30}} source={require('image!chat')} />
+            </View>
+          )
+      }else if(route.id == 'settings'){
+           return (
             <View>
               <Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30}} source={require('image!gear')} />
             </View>
@@ -174,7 +180,7 @@ var ROUTE_STACK = [
     }
 
     selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
-      return (<route.component {...route.passProps} navigator={this.props.navigator} user={this.props.user} />);
+      return (<route.component {...route.passProps} navigator={this.refs.nav} user={this.props.user} />);
     }
 
     render() {
@@ -182,6 +188,7 @@ var ROUTE_STACK = [
       return (
         <View style={styles.appContainer}>
           <Navigator
+            ref={'nav'}
               initialRoute={ROUTE_STACK[1]}
               initialRouteStack={ROUTE_STACK}
               configureScene={(route) => { return  route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.HorizontalSlide}}
@@ -231,7 +238,9 @@ var ROUTE_STACK = [
       top:-10,
       padding:0,
       overflow:'hidden',
-      margin:0
+      margin:0,
+      borderColor:colors.shuttleGray,
+      borderBottomWidth:1
     },
     navBarText: {
       fontSize: 16,

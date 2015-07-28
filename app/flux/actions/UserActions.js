@@ -49,6 +49,15 @@ class UserActions {
 
   }
 
+  logOut(){
+    Keychain.resetInternetCredentials(server)
+      .then((credentials) => {
+        this.dispatch();
+      })
+
+
+  }
+
   updateUserStub(info){
 
     this.dispatch(info);

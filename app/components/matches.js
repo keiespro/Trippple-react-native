@@ -133,9 +133,9 @@ class MatchList extends React.Component{
 
     // use OUTER navigator
     // this.props.navigator.push({
-
+// console.log()
     // use INNER (main) navigator.
-    Navigator.getContext(this).push({
+    this.props.navigator.push({
       component: Chat,
       id:'chat',
       index: 3,
@@ -169,7 +169,7 @@ class Matches extends React.Component{
   constructor(props){
     super(props);
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
+    console.log(props)
     this.state = {
       matches: [],
       dataSource: ds.cloneWithRows([])
