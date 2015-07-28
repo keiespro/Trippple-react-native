@@ -8,6 +8,8 @@ var Matches = require('./matches');
 var Potentials = require('./potentials');
 
 // var GearIcon = require('./svg/icon-gear');
+var DeviceHeight = require('Dimensions').get('window').height;
+var DeviceWidth = require('Dimensions').get('window').width;
 
 var {
   PixelRatio,
@@ -46,6 +48,7 @@ var ROUTE_STACK = [
       if(route.id == 'photo' || route.id == 'photo2'){
         return (
           <TouchableOpacity
+            style={[styles.touchables,styles.navBarLeftButton]}
             onPress={() => {
               // navigator.jumpTo(ROUTE_STACK[0]);
               navigator.popToTop();
@@ -73,39 +76,45 @@ var ROUTE_STACK = [
 
       if(route.id == 'chat'){
         return (
-          <TouchableOpacity
-            onPress={() => navigator.pop(ROUTE_STACK[0]) }>
-            <View style={styles.navBarLeftButton}>
-              <Text style={[styles.navBarText, styles.navBarButtonText]}>
-                back
-              </Text>
+          <View style={[styles.touchables,styles.navBarLeftButton]}>
+
+            <TouchableOpacity
+
+              onPress={() => navigator.pop(ROUTE_STACK[0]) }>
+              <View style={styles.navBarLeftButton}>
+                <Text style={[styles.navBarText, styles.navBarButtonText]}>
+                  back
+                </Text>
+              </View>
+            </TouchableOpacity>
             </View>
-          </TouchableOpacity>
+
         )
       }
 
       if(route.id == 'matches'){
         return (
-          <TouchableOpacity
-            onPress={() => navigator.jumpTo(ROUTE_STACK[1])}>
-            <View style={styles.navBarLeftButton}>
-              <Image resizeMode={Image.resizeMode.contain} style={{width:20,top:0,height:20}} source={require('image!tripppleLogo')} />
+          <View style={[styles.touchables,styles.navBarLeftButton]}>
+            <TouchableOpacity
+              onPress={() => navigator.jumpTo(ROUTE_STACK[1])}>
+                <Image resizeMode={Image.resizeMode.contain} style={{width:25,marginTop:2,height:25}} source={require('image!tripppleLogo')} />
 
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          </View>
         )
       }
 
       return (
-        <TouchableOpacity
-          onPress={() => navigator.jumpTo(ROUTE_STACK[0])}>
-          <View style={styles.navBarLeftButton}>
-            <Text style={[styles.navBarText, styles.navBarButtonText]}>
-              {/*<GearIcon/>*/}
-              G
-            </Text>
-          </View>
-        </TouchableOpacity>
+        <View style={[styles.touchables,styles.navBarLeftButton]}>
+
+          <TouchableOpacity
+
+            onPress={() => navigator.jumpTo(ROUTE_STACK[0])}>
+              <Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30}} source={require('image!gear')} />
+
+          </TouchableOpacity>
+        </View>
+
       );
     },
 
@@ -114,23 +123,22 @@ var ROUTE_STACK = [
 
       if(route.id == 'settings'){
         return (
-          <TouchableOpacity
-            onPress={() => navigator.jumpTo(ROUTE_STACK[1])}>
-            <View style={styles.navBarLeftButton}>
-              <Image resizeMode={Image.resizeMode.contain} style={{width:20,top:0,height:20}} source={require('image!tripppleLogo')} />
-            </View>
-          </TouchableOpacity>
+          <View style={[styles.touchables,styles.navBarRightButton]}>
+            <TouchableOpacity
+              onPress={() => navigator.jumpTo(ROUTE_STACK[1])}>
+                <Image resizeMode={Image.resizeMode.contain} style={{width:25,marginTop:2,height:25}} source={require('image!tripppleLogo')} />
+            </TouchableOpacity>
+          </View>
         )
       }
       return (
-        <TouchableOpacity
-          onPress={() => navigator.jumpTo(ROUTE_STACK[2])}>
-          <View style={styles.navBarRightButton}>
-            <Text style={[styles.navBarText, styles.navBarButtonText]}>
-              M
-            </Text>
-          </View>
-        </TouchableOpacity>
+        <View style={[styles.touchables,styles.navBarRightButton]}>
+
+          <TouchableOpacity
+            onPress={() => navigator.jumpTo(ROUTE_STACK[2])}>
+                <Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30}} source={require('image!chat')} />
+          </TouchableOpacity>
+        </View>
       );
     },
 
@@ -139,13 +147,13 @@ var ROUTE_STACK = [
 
         return (
             <View>
-              <Image resizeMode={Image.resizeMode.contain} style={{width:80,top:-10}} source={require('image!tripppleLogoText')} />
+              <Image resizeMode={Image.resizeMode.contain} style={{width:80,top:-2}} source={require('image!tripppleLogoText')} />
             </View>
         );
       }else{
           return (
             <View>
-              <Text>{route.id}</Text>
+              <Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30}} source={require('image!gear')} />
             </View>
           )
       }
@@ -197,58 +205,48 @@ var ROUTE_STACK = [
 
 
   var styles = StyleSheet.create({
-    messageText: {
-      fontSize: 17,
-      fontWeight: '500',
-      fontFamily:'omnes',
-      padding: 15,
-      marginLeft: 15,
-    },
+
+
     appContainer: {
       backgroundColor: colors.outerSpace,
       flex: 1,
+      flexDirection:'column',
+      justifyContent:'space-between',
+      height:DeviceHeight,
+      width:DeviceWidth,
+    },
+    touchables:{
+      margin:0,
+      top:0,
+    },
 
-      alignSelf:'stretch'
-    },
-    button: {
-      backgroundColor: 'white',
-      padding: 15,
-      borderBottomWidth: 1 / PixelRatio.get(),
-      borderBottomColor: '#CDCDCD',
-      fontFamily:'omnes'
-
-    },
-    buttonText: {
-      fontSize: 17,
-      fontWeight: '500',
-      fontFamily:'omnes'
-    },
     navBar: {
       backgroundColor: colors.outerSpace,
-      height: 40,
-      justifyContent:'space-around',
-      alignSelf: 'stretch',
+      height: 60,
+      justifyContent:'space-between',
+      alignSelf: 'flex-start',
       alignItems:'flex-start',
-      flexDirection:'column'
+      flexDirection:'row',
+      flex:1,
+      top:-10,
+      padding:0,
+      overflow:'hidden',
+      margin:0
     },
     navBarText: {
       fontSize: 16,
     },
-    navBarTitleText: {
-      color: colors.white,
-      fontWeight: '500',
-      fontFamily:'omnes',
-      height: 40,
 
-    },
+
     navBarLeftButton: {
-      paddingLeft: 10,
-      height: 40,
+
+      paddingLeft:10
 
     },
     navBarRightButton: {
-      paddingRight: 10,
-      height: 40,
+
+      paddingRight:10,
+
 
     },
     navBarButtonText: {

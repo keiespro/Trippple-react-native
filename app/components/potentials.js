@@ -40,12 +40,12 @@ var ActiveCard = React.createClass({
   _handle: '',
   card: (null : ?{ setNativeProps(props: Object): void }),
 
-  componentWillMount: function() {
+  componentWillMount() {
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: this._handleStartShouldSetPanResponder,
       onMoveShouldSetPanResponder: this._handleMoveShouldSetPanResponder,
-      onStartShouldSetResponderCapture: () => true,
-      onMoveShouldSetResponderCapture: () => true,
+      onStartShouldSetPanResponderCapture: this._handleOnStartShouldSetResponderCapture,
+      onMoveShouldSetPanResponderCapture: this._handleOnMoveShouldSetResponderCapture,
       onPanResponderGrant: this._handlePanResponderGrant,
       onPanResponderMove: this._handlePanResponderMove,
       onPanResponderRelease: this._handlePanResponderEnd,
@@ -59,7 +59,7 @@ var ActiveCard = React.createClass({
    }
   },
 
-  getInitialState: function(){
+  getInitialState(){
     return ({
       position: {
        left: this._previousLeft,
@@ -68,33 +68,25 @@ var ActiveCard = React.createClass({
      isAnimating:false
     })
   },
-  componentDidMount: function() {
+  componentDidMount() {
     this._updatePosition();
 
 
   },
 
-  render: function() {
+  render() {
     console.log('render pots',this.props.user,this.props.potential)
     return (
 
 
+        <View key="activecard"
+          ref={(card) => { this.card = card }}
+          {...this._panResponder.panHandlers}
+          style={{margin:20,left:0,width:DeviceWidth - 40, height:DeviceHeight - 80,marginTop:60,overflow:'hidden'}}>
 
+          <CoupleActiveCard potential={this.props.potential} />
 
-      <Swiper
-        loop={true}
-        horizontal={false}
-        vertical={true}
-
-        showsPagination={true}
-        showsButtons={false}
-        dot={ <View style={styles.dot} />}
-        activeDot={ <View style={styles.activeDot} /> }
-      >
-        <Image source={{uri: this.props.potential[0].image_url}} style={styles.imagebg} />
-        <Image source={{uri: this.props.potential[1].image_url}} style={styles.imagebg} />
-      </Swiper>
-
+        </View>
 
 
     );
@@ -111,7 +103,7 @@ var ActiveCard = React.createClass({
         </View>
       }
       */
-  _highlight: function() {
+  _highlight() {
     this.card && this.card.setNativeProps({
       shadowColor: 'rgba(0,0,0,.5)',
       shadowOffset: {width:0, height: 0},
@@ -120,35 +112,42 @@ var ActiveCard = React.createClass({
     });
   },
 
-  _unHighlight: function() {
+  _unHighlight() {
     this.card && this.card.setNativeProps({
       shadowOpacity: 0,
     });
   },
-  componentDidUpdate: function(prevProps,prevState){
+  componentDidUpdate(prevProps,prevState){
 
   },
-  _updatePosition: function(tweenFrame) {
-
+  _updatePosition(tweenFrame) {
+    console.log('update position',this._cardStyles)
     this.card && this.card.setNativeProps(tweenFrame ? tweenFrame : this._cardStyles);
   },
-
-  _handleStartShouldSetPanResponder: function(e: Object, gestureState: Object): boolean {
-    // Should we become active when the user presses down on the circle?
-    return true;
+  _handleOnStartShouldSetPanResponderCapture(e, gestureState){
+    console.log(e,'_handleOnStartShouldSetResponderCapture');
+    // return false;
+  },
+  _handleOnMoveShouldSetPanResponderCapture(e, gestureState){
+    console.log(e,'_handleOnMoveShouldSetResponderCapture');
+    // return false;
+  },
+  _handleStartShouldSetPanResponder(e: Object, gestureState: Object): boolean {
+    // Should we become active when the user presses down on the card?
+    return (DeviceWidth/2 - gestureState.locationX > DeviceHeight/2 - gestureState.locationY)
   },
 
-  _handleMoveShouldSetPanResponder: function(e: Object, gestureState: Object): boolean {
-    // Should we become active when the user moves a touch over the circle?
-    return true;
+  _handleMoveShouldSetPanResponder(e: Object): boolean {
+    // Should we become active when the user moves a touch over the card?
+    return (DeviceWidth/2 - e.nativeEvent.changedTouches[0].locationX > DeviceHeight/2 - e.nativeEvent.changedTouches[0].locationY)
   },
 
-  _handlePanResponderGrant: function(e: Object, gestureState: Object) {
+  _handlePanResponderGrant(e: Object, gestureState: Object) {
     this._highlight();
     Logger.log('Pan Responder Grant',gestureState.dx)
 
   },
-  _handlePanResponderMove: function(e: Object, gestureState: Object) {
+  _handlePanResponderMove(e: Object, gestureState: Object) {
     // Logger.log('Pan Responder MOVE',gestureState.dx)
 
     this._cardStyles.left = this._previousLeft + gestureState.dx;
@@ -156,7 +155,7 @@ var ActiveCard = React.createClass({
     this._updatePosition();
 
   },
-  _handlePanResponderEnd: function(e: Object, gestureState: Object) {
+  _handlePanResponderEnd(e: Object, gestureState: Object) {
     this._unHighlight();
     Logger.log('Pan Responder End',Math.abs(gestureState.moveX))
 
@@ -278,55 +277,93 @@ var ActiveCard = React.createClass({
   },
 });
 
-class CouplesCardStack extends React.Component{
+
+class SwipableCard extends React.Component{
+  constructor(props){
+    super(props);
+  }
+
+  render(){
+    return (
+
+      <View style={{margin:20,left:0,width:DeviceWidth-40,height:DeviceHeight - 80,overflow:'hidden'}}>
+        <ActiveCard user={this.props.user} potential={this.props.potential}/>
+        <View style={{height:80,bottom:0,position:'absolute',backgroundColor:colors.white,width: DeviceWidth-40, flex:5, alignSelf:'stretch'}}>
+          <Text style={styles.cardBottomText}>{`${this.props.potential[0].firstname} and ${this.props.potential[1].firstname}`}</Text>
+
+          <View style={{height:60,top:-30,position:'absolute',width:135,right:0,backgroundColor:'transparent',flexDirection:'row'}}>
+            <Image source={{uri: this.props.potential[0].image_url}} style={[styles.circleimage,{marginRight:5}]}/>
+            <Image source={{uri: this.props.potential[1].image_url}} style={styles.circleimage}/>
+          </View>
+
+        </View>
+      </View>
+
+    )
+  }
+}
+
+class CoupleActiveCard extends React.Component{
   constructor(props){
     super(props)
     console.log(props)
   }
   render(){
-    if(this.props.potentials.length){
-      var potential = this.props.potentials[0];
+      // var potential = this.props.potentials[0];
 
       return(
-        <View style={{margin:20,left:0,width:DeviceWidth-40,height:DeviceHeight - 80,top:45,overflow:'hidden'}}>
-          <ActiveCard user={this.props.user} potential={potential}/>
-          <View style={{height:80,bottom:0,position:'absolute',backgroundColor:colors.white,width: DeviceWidth-40, flex:5, alignSelf:'stretch'}}>
-            <Text style={styles.cardBottomText}>{`${potential[0].firstname} and ${potential[1].firstname}`}</Text>
+        <View style={[styles.card]}>
+        <Swiper
+          loop={true}
+          horizontal={false}
+          vertical={true}
+          showsPagination={true}
+          showsButtons={false}
+          dot={ <View style={styles.dot} />}
+          activeDot={ <View style={styles.activeDot} /> }>
+          <Image source={{uri: this.props.potential[0].image_url}} style={styles.imagebg} />
+          <Image source={{uri: this.props.potential[1].image_url}} style={styles.imagebg} />
+        </Swiper>
 
-            <View style={{height:60,top:-30,position:'absolute',width:135,right:0,backgroundColor:'transparent',flexDirection:'row'}}>
-              <Image source={{uri: potential[0].image_url}} style={[styles.circleimage,{marginRight:5}]}/>
-              <Image source={{uri: potential[1].image_url}} style={styles.circleimage}/>
-            </View>
+        <View style={{height:80,bottom:0,position:'absolute',backgroundColor:colors.white,width: DeviceWidth-40, flex:5, alignSelf:'stretch'}}>
+          <Text style={styles.cardBottomText}>{`${this.props.potential[0].firstname} and ${this.props.potential[1].firstname}`}</Text>
 
+          <View style={{height:60,top:-30,position:'absolute',width:135,right:0,backgroundColor:'transparent',flexDirection:'row'}}>
+            <Image source={{uri: this.props.potential[0].image_url}} style={[styles.circleimage,{marginRight:5}]}/>
+            <Image source={{uri: this.props.potential[1].image_url}} style={styles.circleimage}/>
           </View>
+
         </View>
+      </View>
+
       )
-    }else{
-      return(
-        <View user={this.props.user} potential={this.props.potentials}>
-          <TouchableHighlight onPress={() => MatchActions.getPotentials()}>
-            <View>
-              <Text> get </Text>
-            </View>
-          </TouchableHighlight>
-        </View>
-      )
-    }
+
   }
 }
 
 // stub
-class SinglesCardStack extends React.Component{
+class CardStack extends React.Component{
   constructor(props){
     console.log('SinglesCardStack')
     super(props)
   }
   render(){
-    return(
-      <View/>
-
-    )
-  }
+      if(this.props.potentials.length){
+        return (
+          <ActiveCard user={this.props.user} potential={this.props.potentials[0]}/>
+        )
+      }else{
+         return(
+          <View user={this.props.user} potential={this.props.potentials}>
+            <TouchableHighlight onPress={() => MatchActions.getPotentials()}>
+              <View>
+                <Text> get </Text>
+              </View>
+            </TouchableHighlight>
+          </View>
+        )
+       }
+   }
 }
 
 class Potentials extends React.Component{
@@ -334,23 +371,20 @@ class Potentials extends React.Component{
     super(props)
   }
   render(){
-    console.log(this.props.user.relationship_status)
+
 
     return(
       <AltContainer
         stores={{
-          potentials: function (props) {
+          potentials (props) {
             return {
               store: PotentialsStore,
               value: PotentialsStore.getAll()
             }
           }
         }}>
+        <CardStack user={this.props.user} />
 
-      { this.props.user.relationship_status == 'single' ?
-        <CouplesCardStack user={this.props.user} /> :
-        <SinglesCardStack user={this.props.user}/>
-      }
       </AltContainer>
 
     )

@@ -24,6 +24,12 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		AC504B761B56607400D5D069 /* tripppleLogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AC504B731B56607400D5D069 /* tripppleLogo@2x.png */; };
 		AC504B771B56607400D5D069 /* tripppleLogo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = AC504B741B56607400D5D069 /* tripppleLogo@3x.png */; };
+		AC879AA21B679A6B00B59AF1 /* chat.png in Resources */ = {isa = PBXBuildFile; fileRef = AC879A9C1B679A6B00B59AF1 /* chat.png */; };
+		AC879AA31B679A6B00B59AF1 /* chat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AC879A9D1B679A6B00B59AF1 /* chat@2x.png */; };
+		AC879AA41B679A6B00B59AF1 /* chat@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = AC879A9E1B679A6B00B59AF1 /* chat@3x.png */; };
+		AC879AA51B679A6B00B59AF1 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = AC879A9F1B679A6B00B59AF1 /* gear.png */; };
+		AC879AA61B679A6B00B59AF1 /* gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AC879AA01B679A6B00B59AF1 /* gear@2x.png */; };
+		AC879AA71B679A6B00B59AF1 /* gear@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = AC879AA11B679A6B00B59AF1 /* gear@3x.png */; };
 		AC9743101B566F15005FECFB /* ovalCouple@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = AC97430D1B566F15005FECFB /* ovalCouple@1x.png */; };
 		AC9743111B566F15005FECFB /* ovalCouple@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AC97430E1B566F15005FECFB /* ovalCouple@2x.png */; };
 		AC9743121B566F15005FECFB /* ovalCouple@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = AC97430F1B566F15005FECFB /* ovalCouple@3x.png */; };
@@ -57,10 +63,6 @@
 		ACA129601B40EA2E00CC1499 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129501B40EA1600CC1499 /* libRCTPushNotification.a */; };
 		ACA129611B40EA2E00CC1499 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129531B40EA1600CC1499 /* libRNFS.a */; };
 		ACA129631B40EA2E00CC1499 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1295A1B40EA1600CC1499 /* libRNMail.a */; };
-		ACA129681B40EB9F00CC1499 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129641B40EB9F00CC1499 /* Bolts.framework */; };
-		ACA129691B40EB9F00CC1499 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129651B40EB9F00CC1499 /* FBSDKCoreKit.framework */; };
-		ACA1296A1B40EB9F00CC1499 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129661B40EB9F00CC1499 /* FBSDKLoginKit.framework */; };
-		ACA1296B1B40EB9F00CC1499 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129671B40EB9F00CC1499 /* FBSDKShareKit.framework */; };
 		ACA1296D1B40EC0500CC1499 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA1296C1B40EC0500CC1499 /* RCTFileTransfer.m */; };
 		ACA129771B40EF0D00CC1499 /* defaultuser.png in Resources */ = {isa = PBXBuildFile; fileRef = ACA129711B40EF0D00CC1499 /* defaultuser.png */; };
 		ACA129781B40EF0D00CC1499 /* omnes-bold-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129721B40EF0D00CC1499 /* omnes-bold-webfont.ttf */; };
@@ -81,6 +83,10 @@
 		ACAC9AC21B566A6800508042 /* ovalCouple in Resources */ = {isa = PBXBuildFile; fileRef = ACAC9AB51B566A6800508042 /* ovalCouple */; };
 		ACAC9AC31B566A6800508042 /* ovalInvite in Resources */ = {isa = PBXBuildFile; fileRef = ACAC9AB61B566A6800508042 /* ovalInvite */; };
 		ACAC9AC91B566E5700508042 /* tripppleLogo@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = ACAC9AC81B566E5700508042 /* tripppleLogo@1x.png */; };
+		ACE1CD0A1B5772DF0043177A /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACE1CD061B5772DF0043177A /* Bolts.framework */; };
+		ACE1CD0B1B5772DF0043177A /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACE1CD071B5772DF0043177A /* FBSDKCoreKit.framework */; };
+		ACE1CD0C1B5772DF0043177A /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACE1CD081B5772DF0043177A /* FBSDKLoginKit.framework */; };
+		ACE1CD0D1B5772DF0043177A /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACE1CD091B5772DF0043177A /* FBSDKShareKit.framework */; };
 		ACFC0A6A1B51E5AE00D9D40F /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129561B40EA1600CC1499 /* libRNKeychain.a */; };
 /* End PBXBuildFile section */
 
@@ -257,6 +263,12 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		AC504B731B56607400D5D069 /* tripppleLogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tripppleLogo@2x.png"; sourceTree = "<group>"; };
 		AC504B741B56607400D5D069 /* tripppleLogo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tripppleLogo@3x.png"; sourceTree = "<group>"; };
+		AC879A9C1B679A6B00B59AF1 /* chat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chat.png; sourceTree = "<group>"; };
+		AC879A9D1B679A6B00B59AF1 /* chat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat@2x.png"; sourceTree = "<group>"; };
+		AC879A9E1B679A6B00B59AF1 /* chat@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat@3x.png"; sourceTree = "<group>"; };
+		AC879A9F1B679A6B00B59AF1 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
+		AC879AA01B679A6B00B59AF1 /* gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gear@2x.png"; sourceTree = "<group>"; };
+		AC879AA11B679A6B00B59AF1 /* gear@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gear@3x.png"; sourceTree = "<group>"; };
 		AC97430D1B566F15005FECFB /* ovalCouple@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ovalCouple@1x.png"; sourceTree = "<group>"; };
 		AC97430E1B566F15005FECFB /* ovalCouple@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ovalCouple@2x.png"; sourceTree = "<group>"; };
 		AC97430F1B566F15005FECFB /* ovalCouple@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ovalCouple@3x.png"; sourceTree = "<group>"; };
@@ -291,10 +303,6 @@
 		ACA129391B40EA1600CC1499 /* RNMail.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMail.xcodeproj; path = "node_modules/react-native-mail/RNMail.xcodeproj"; sourceTree = "<group>"; };
 		ACA1293C1B40EA1600CC1499 /* RCTAddressBook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAddressBook.xcodeproj; path = "node_modules/react-native-addressbook/RCTAddressBook.xcodeproj"; sourceTree = "<group>"; };
 		ACA1293F1B40EA1600CC1499 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "node_modules/react-native-camera/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
-		ACA129641B40EB9F00CC1499 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "node_modules/react-native-facebook-login/FacebookSDK/Bolts.framework"; sourceTree = "<group>"; };
-		ACA129651B40EB9F00CC1499 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "node_modules/react-native-facebook-login/FacebookSDK/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
-		ACA129661B40EB9F00CC1499 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = "node_modules/react-native-facebook-login/FacebookSDK/FBSDKLoginKit.framework"; sourceTree = "<group>"; };
-		ACA129671B40EB9F00CC1499 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = "node_modules/react-native-facebook-login/FacebookSDK/FBSDKShareKit.framework"; sourceTree = "<group>"; };
 		ACA1296C1B40EC0500CC1499 /* RCTFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTFileTransfer.m; path = "node_modules/react-native-file-transfer/RCTFileTransfer.m"; sourceTree = "<group>"; };
 		ACA1296E1B40EC3B00CC1499 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		ACA129711B40EF0D00CC1499 /* defaultuser.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultuser.png; sourceTree = "<group>"; };
@@ -315,6 +323,10 @@
 		ACAC9AB51B566A6800508042 /* ovalCouple */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ovalCouple; sourceTree = "<group>"; };
 		ACAC9AB61B566A6800508042 /* ovalInvite */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ovalInvite; sourceTree = "<group>"; };
 		ACAC9AC81B566E5700508042 /* tripppleLogo@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tripppleLogo@1x.png"; sourceTree = "<group>"; };
+		ACE1CD061B5772DF0043177A /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "node_modules/react-native-facebook-login/FacebookSDK/Bolts.framework"; sourceTree = "<group>"; };
+		ACE1CD071B5772DF0043177A /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "node_modules/react-native-facebook-login/FacebookSDK/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
+		ACE1CD081B5772DF0043177A /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = "node_modules/react-native-facebook-login/FacebookSDK/FBSDKLoginKit.framework"; sourceTree = "<group>"; };
+		ACE1CD091B5772DF0043177A /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = "node_modules/react-native-facebook-login/FacebookSDK/FBSDKShareKit.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -330,18 +342,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACFC0A6A1B51E5AE00D9D40F /* libRNKeychain.a in Frameworks */,
+				ACE1CD0A1B5772DF0043177A /* Bolts.framework in Frameworks */,
 				ACA129861B416C3000CC1499 /* libRNKeyboardEvents.a in Frameworks */,
-				ACA129681B40EB9F00CC1499 /* Bolts.framework in Frameworks */,
-				ACA129691B40EB9F00CC1499 /* FBSDKCoreKit.framework in Frameworks */,
-				ACA1296A1B40EB9F00CC1499 /* FBSDKLoginKit.framework in Frameworks */,
-				ACA1296B1B40EB9F00CC1499 /* FBSDKShareKit.framework in Frameworks */,
 				ACA1295D1B40EA2E00CC1499 /* libRCTAddressBook.a in Frameworks */,
 				ACA1295E1B40EA2E00CC1499 /* libRCTCamera.a in Frameworks */,
+				ACE1CD0B1B5772DF0043177A /* FBSDKCoreKit.framework in Frameworks */,
+				ACE1CD0D1B5772DF0043177A /* FBSDKShareKit.framework in Frameworks */,
 				ACA1295F1B40EA2E00CC1499 /* libRCTFBLogin.a in Frameworks */,
 				ACA129601B40EA2E00CC1499 /* libRCTPushNotification.a in Frameworks */,
 				ACA129611B40EA2E00CC1499 /* libRNFS.a in Frameworks */,
 				ACA129631B40EA2E00CC1499 /* libRNMail.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
+				ACE1CD0C1B5772DF0043177A /* FBSDKLoginKit.framework in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
@@ -498,10 +510,10 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				ACA129641B40EB9F00CC1499 /* Bolts.framework */,
-				ACA129651B40EB9F00CC1499 /* FBSDKCoreKit.framework */,
-				ACA129661B40EB9F00CC1499 /* FBSDKLoginKit.framework */,
-				ACA129671B40EB9F00CC1499 /* FBSDKShareKit.framework */,
+				ACE1CD061B5772DF0043177A /* Bolts.framework */,
+				ACE1CD071B5772DF0043177A /* FBSDKCoreKit.framework */,
+				ACE1CD081B5772DF0043177A /* FBSDKLoginKit.framework */,
+				ACE1CD091B5772DF0043177A /* FBSDKShareKit.framework */,
 				13B07FAE1A68108700A75B9A /* trippple */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* tripppleTests */,
@@ -523,6 +535,12 @@
 		AC504B711B56607400D5D069 /* tripppleLogo */ = {
 			isa = PBXGroup;
 			children = (
+				AC879A9C1B679A6B00B59AF1 /* chat.png */,
+				AC879A9D1B679A6B00B59AF1 /* chat@2x.png */,
+				AC879A9E1B679A6B00B59AF1 /* chat@3x.png */,
+				AC879A9F1B679A6B00B59AF1 /* gear.png */,
+				AC879AA01B679A6B00B59AF1 /* gear@2x.png */,
+				AC879AA11B679A6B00B59AF1 /* gear@3x.png */,
 				AC9743511B56A4A5005FECFB /* ovalSelected@1x.png */,
 				AC9743521B56A4A5005FECFB /* ovalSelected@2x.png */,
 				AC9743531B56A4A5005FECFB /* ovalSelected@3x.png */,
@@ -697,6 +715,9 @@
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = 3D5DY3UN4M;
 					};
 				};
 			};
@@ -957,10 +978,14 @@
 				AC9743541B56A4A5005FECFB /* ovalSelected@1x.png in Resources */,
 				AC97434F1B567B24005FECFB /* boxersBlue@2x.png in Resources */,
 				ACA1297C1B40EF0D00CC1499 /* qq.aiff in Resources */,
+				AC879AA41B679A6B00B59AF1 /* chat@3x.png in Resources */,
 				AC97432C1B566F52005FECFB /* usersSingle@3x.png in Resources */,
 				AC97433A1B567AF9005FECFB /* tripppleLogoText@2x.png in Resources */,
 				ACAC9AC91B566E5700508042 /* tripppleLogo@1x.png in Resources */,
+				AC879AA61B679A6B00B59AF1 /* gear@2x.png in Resources */,
 				AC9743441B567B06005FECFB /* ovalInvite@3x.png in Resources */,
+				AC879AA31B679A6B00B59AF1 /* chat@2x.png in Resources */,
+				AC879AA51B679A6B00B59AF1 /* gear.png in Resources */,
 				AC97433C1B567AF9005FECFB /* usersCouple@1x.png in Resources */,
 				ACAC9ABE1B566A6800508042 /* braPink in Resources */,
 				ACAC9ABC1B566A6800508042 /* boxersBlue in Resources */,
@@ -969,6 +994,7 @@
 				ACAC9AC01B566A6800508042 /* fBlogo in Resources */,
 				AC9743121B566F15005FECFB /* ovalCouple@3x.png in Resources */,
 				AC9743431B567B06005FECFB /* ovalInvite@2x.png in Resources */,
+				AC879AA21B679A6B00B59AF1 /* chat.png in Resources */,
 				ACA1297B1B40EF0D00CC1499 /* omnes-regular-webfont.ttf in Resources */,
 				ACA1297F1B41161500CC1499 /* Montserrat-Regular.otf in Resources */,
 				AC97433B1B567AF9005FECFB /* tripppleLogoText@3x.png in Resources */,
@@ -994,6 +1020,7 @@
 				ACAC9AC11B566A6800508042 /* oval2 in Resources */,
 				AC9743481B567B1E005FECFB /* braPink@1x.png in Resources */,
 				AC9743421B567B06005FECFB /* ovalInvite@1x.png in Resources */,
+				AC879AA71B679A6B00B59AF1 /* gear@3x.png in Resources */,
 				ACA129781B40EF0D00CC1499 /* omnes-bold-webfont.ttf in Resources */,
 				AC504B771B56607400D5D069 /* tripppleLogo@3x.png in Resources */,
 				AC97433D1B567AF9005FECFB /* usersCouple@2x.png in Resources */,
@@ -1085,6 +1112,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/node_modules/react-native-facebook-login/FacebookSDK",
@@ -1105,6 +1134,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/node_modules/react-native-facebook-login/FacebookSDK",
@@ -1160,7 +1191,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/node_modules/react-native/React/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1200,7 +1231,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/node_modules/react-native/React/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -1217,7 +1248,7 @@
 				00E356F71AD99517003FC87E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "trippple" */ = {
 			isa = XCConfigurationList;
@@ -1226,7 +1257,7 @@
 				13B07F951A680F5B00A75B9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "trippple" */ = {
 			isa = XCConfigurationList;
@@ -1235,7 +1266,7 @@
 				83CBBA211A601CBA00E9B192 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
