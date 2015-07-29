@@ -61,6 +61,9 @@ var ActiveCard = React.createClass({
       onPanResponderMove: this._handlePanResponderMove,
       onPanResponderRelease: this._handlePanResponderEnd,
       onPanResponderTerminate: this._handlePanResponderEnd,
+      onPanResponderTerminationRequest: (evt, gestureState) => true,
+
+
     });
     this._previousLeft = 0;
     this._previousTop = 0;
@@ -133,7 +136,7 @@ var ActiveCard = React.createClass({
 
   },
   _updatePosition(tweenFrame) {
-    console.log('update position',this._cardStyles)
+    // console.log('update position',this._cardStyles)
     this.card && this.card.setNativeProps(tweenFrame ? tweenFrame : this._cardStyles);
   },
   _handleOnStartShouldSetPanResponderCapture(e, gestureState){
@@ -147,13 +150,13 @@ var ActiveCard = React.createClass({
   _handleStartShouldSetPanResponder(e: Object, gestureState: Object): boolean {
     // Should we become active when the user presses down on the card?
     if(this.state.isDragging == true) return true;
-    return (DeviceWidth/2 - gestureState.pageX > DeviceHeight/2 - gestureState.pageY  + 30)
+    return Math.abs(gestureState.dx) > 15 && Math.abs(gestureState.dy) < 5 || Math.abs(gestureState.dy) < Math.abs(gestureState.dx)
   },
 
-  _handleMoveShouldSetPanResponder(e: Object): boolean {
+  _handleMoveShouldSetPanResponder(e: Object, gestureState): boolean {
     // Should we become active when the user moves a touch over the card?
     if(this.state.isDragging == true) return true;
-    return (DeviceWidth/2 - e.nativeEvent.changedTouches[0].pageX > DeviceHeight/2 - e.nativeEvent.changedTouches[0].pageY + 30)
+    return Math.abs(gestureState.dx) > 15 && Math.abs(gestureState.dy) < 5 || Math.abs(gestureState.dy) < Math.abs(gestureState.dx)
   },
 
   _handlePanResponderGrant(e: Object, gestureState: Object) {
@@ -212,7 +215,7 @@ var ActiveCard = React.createClass({
 
           // Update the component's state each frame
           frame: (tweenFrame) => {
-            console.log(tweenFrame);
+            // console.log(tweenFrame);
 
             self._updatePosition( tweenFrame );
 
@@ -267,7 +270,7 @@ var ActiveCard = React.createClass({
           // Update the component's state each frame
           frame: (tweenFrame) => {
 
-            console.log(tweenFrame);
+            // console.log(tweenFrame);
 
             self._updatePosition( tweenFrame );
           },

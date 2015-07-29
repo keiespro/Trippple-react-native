@@ -11,10 +11,16 @@ var {
   InteractionManager,
   Image,
   TextInput,
+  TouchableHighlight,
   ListView,
+  LayoutAnimation,
   ScrollView,
   PixelRatio
 } = React;
+var DeviceHeight = require('Dimensions').get('window').height;
+var DeviceWidth = require('Dimensions').get('window').width;
+var KeyboardEvents = require('react-native-keyboardevents');
+var KeyboardEventEmitter = KeyboardEvents.Emitter;
 
 
 var colors = require('../utils/colors');
@@ -23,7 +29,7 @@ var ChatStore = require("../flux/stores/ChatStore");
 var MatchActions = require("../flux/actions/MatchActions");
 var alt = require('../flux/alt');
 var AltContainer = require('alt/AltNativeContainer');
-// var InvertibleScrollView = require('react-native-invertible-scroll-view');
+var InvertibleScrollView = require('react-native-invertible-scroll-view');
 
 var styles = StyleSheet.create({
   container: {
@@ -63,26 +69,47 @@ var styles = StyleSheet.create({
   },
   bubble: {
     borderRadius:4,
+    paddingHorizontal: 20,
+    paddingVertical:10,
+    marginHorizontal: 30,
+    marginVertical:15,
+    flex: 1,
+    justifyContent:'space-between',
+    flexDirection: 'row',
+    flexWrap:'wrap',
+  },
+  theirMessage:{
+    alignSelf:'flex-end',
+    position:'absolute',
+    left:-20
+  },
+  ourMessage:{
+    alignSelf:'flex-start',
+    position:'absolute',
+    right:-20
+  },
+  sendButtonText:{
+    textAlign:'center',
+    fontFamily:'omnes',
+    fontSize:18,
+    color:colors.white
+  },
+  chatmessage:{
+    flexDirection: 'column',
+    flex:1,
     backgroundColor: '#ccc',
-    paddingHorizontal: 10,
-    paddingVertical:5,
-    marginHorizontal: 10,
-    marginVertical:5,
-    // flex: 1,
-    alignSelf: 'stretch',
 
-    flexDirection: 'row'
-    // transformMatrix: [
-    //    1,  0,  0,  0,
-    //    0, -1,  0,  0,
-    //    0,  0,  1,  0,
-    //    0,  0,  0,  1,
-    // ],
-
+    width:undefined,
+    flexWrap:'wrap',
+    justifyContent:'flex-start',
+    // height:50,
+    overflow:'hidden'
   },
   messageText: {
-    fontSize: 15,
+    fontSize: 18,
     fontWeight: '200',
+    flexWrap: 'wrap',
+
   },
   thumb: {
     borderRadius: 16,
@@ -96,19 +123,26 @@ var styles = StyleSheet.create({
 class ChatMessage extends React.Component {
   constructor(props){
     super(props);
+    console.log(props.messageData);
   }
   render() {
+    var isMessageOurs = (this.props.messageData.from_user_info.id == this.props.user.id || this.props.messageData.from_user_info.id == this.props.user.partner_id);
+
+    console.log(this.props.messageData.from_user_info.id, this.props.user.id ,this.props.user.partner_id, isMessageOurs);
+
     return (
-      <View
-        style={styles.bubble}>
-        <Text style={styles.messageText}>{this.props.text}</Text>
+      <View style={[styles.bubble]}>
+        <View style={[styles.chatmessage]}>
+          <Text style={styles.messageText} numberOfLines={2}>{this.props.text}</Text>
+        </View>
+        <View style={[(isMessageOurs ? styles.ourMessage : styles.theirMessage)]}>
           <Image
-            style={styles.thumb}
+            style={[styles.thumb]}
             source={{uri: this.props.pic}}
             defaultSource={require('image!defaultuser')}
             resizeMode={Image.resizeMode.cover}
-
           />
+        </View>
       </View>
     );
   }
@@ -121,19 +155,58 @@ class ChatInside extends React.Component{
 
 
     this.state = {
-      dataSource: ds.cloneWithRows(this.props.messages)
+      dataSource: ds.cloneWithRows(this.props.messages),
+      keyboardSpace: 0,
+      isKeyboardOpened: false
+
     }
 
   }
+
+
+
+  updateKeyboardSpace(frames) {
+    console.log(frames)
+    this.setState({
+      keyboardSpace: frames.end.height,
+      isKeyboardOpened: true
+    });
+  }
+
+  resetKeyboardSpace() {
+    this.setState({
+      keyboardSpace: 0,
+      isKeyboardOpened: false
+    });
+  }
+
+
+  componentWillUnmount() {
+    KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace.bind(this));
+    KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace.bind(this));
+  }
   componentDidMount(){
-    console.log('mount chat',this.refs.lister)
+    console.log('mount chat')
+    KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace.bind(this));
+    KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace.bind(this));
+
+    console.log(this.refs.scroller)
+    this.refs.scroller.refs.listviewscroll.scrollTo(0)
     // InteractionManager.runAfterInteractions(() => {
       MatchActions.getMessages(this.props.matchID);
     //   this.saveToStorage();
     // })
     // this.refs.lister.refs.listviewscroll.scrollTo.call(this,0,0)
   }
+  componentDidUpdate(prevProps){
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
+    this.refs.scroller.refs.listviewscroll.scrollTo(0)
 
+    if(prevProps.matches.length < this.props.matches.length )
+    this.setState({
+      dataSource: ds.cloneWithRows(this.props.messages)
+    })
+  }
   saveToStorage(){
     console.log('save??')
     // AsyncStorage.setItem('ChatStore', alt.takeSnapshot(ChatStore))
@@ -142,27 +215,111 @@ class ChatInside extends React.Component{
     //   .done();
   }
   _renderRow(rowData, sectionID: number, rowID: number) {
+    console.log(rowData)
     return (
-      <ChatMessage key={rowID+'msg'} text={rowData.message_body} pic={rowData.from_user_info.image_url}/>
+      <ChatMessage user={this.props.user} messageData={rowData} key={rowID+'msg'} text={rowData.message_body} pic={rowData.from_user_info.image_url}/>
     )
   }
 
+  componentWillUpdate(props, state) {
+    console.log(props,state)
+    if (state.isKeyboardOpened !== this.state.isKeyboardOpened) {
+      LayoutAnimation.configureNext(animations.layout.spring);
+    }
+
+    if(state.canContinue !== this.state.canContinue) {
+      LayoutAnimation.configureNext(animations.layout.spring);
+    }
+
+  }
+  sendMessage(){
+
+    console.log('send')
+  }
   render(){
 
-    // var children = this.state.messages.map((el,i) => {
-    //   return (
-    //
-    //   )
-    // })
+    console.log(this.state.keyboardSpace)
     return (
-      <View style={{backgroundColor:'red',flex:1,alignSelf:'stretch'}}>
-      {  /*<TripppleChat matchID={this.props.matchID}  messages={this.props.messages} style={{backgroundColor:'green',flex:1,alignSelf:'stretch'}}>
+      <View style={{flexDirection:'column',
+        alignItems:'flex-end',
+        alignSelf:'stretch',
+        flex:1,
+        paddingBottom:this.state.keyboardSpace,
+        height:DeviceHeight,
+        width:DeviceWidth,
+        backgroundColor:colors.outerSpace}}>
+        <ListView
+          ref={'scroller'}
+          renderScrollComponent={props => <InvertibleScrollView {...props} inverted />}
+          matchID={this.props.matchID}
+          dataSource={this.state.dataSource}
+          renderRow={this._renderRow.bind(this)}
+          messages={this.props.messages || []}
+          contentContainerStyle={{justifyContent:'flex-end',}}
+          style={{backgroundColor:'transparent',flex:15,alignSelf:'stretch',width:DeviceWidth,height:DeviceHeight-20,paddingTop:40}}/>
+        <View style={{
+            height:50,
 
-    </TripppleChat>*/}
+            flexDirection:'row',
+            alignItems:'center',
+            justifyContent:'center',
+            alignSelf:'stretch',
+            width:DeviceWidth,
+            backgroundColor:colors.white,
+            padding:5}}>
+
+          <TextInput multiline={true}
+            textAlignVertical={'center'} style={{
+              flex:1,
+              padding:3,
+              flexWrap:'wrap',
+              fontSize:18,
+              backgroundColor:colors.mediumPurple,
+              borderRadius:4}}/>
+          <TouchableHighlight style={{
+              margin:5,
+              padding:8,
+              borderRadius:4,
+              backgroundColor:colors.mediumPurple,
+              flexDirection:'column',
+              alignItems:'center',
+              justifyContent:'center'}} onPress={this.sendMessage.bind(this)}>
+            <Text style={styles.sendButtonText}>Send</Text>
+          </TouchableHighlight>
+        </View>
       </View>
     )
   }
 }
+
+var animations = {
+  layout: {
+    spring: {
+      duration: 50,
+
+      create: {
+        duration: 50,
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.opacity
+      },
+      update: {
+        type: LayoutAnimation.Types.spring,
+        springDamping: 0
+      }
+    },
+    easeInEaseOut: {
+      duration: 50,
+      create: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.scaleXY
+      },
+      update: {
+        delay: 0,
+        type: LayoutAnimation.Types.easeInEaseOut
+      }
+    }
+  }
+};
 
 var Chat = React.createClass({
 
@@ -180,6 +337,7 @@ var Chat = React.createClass({
           }}>
           <ChatInside
             key="afvehbdjkn"
+            user={this.props.user}
             matchID={this.props.matchID}
           />
       </AltContainer>

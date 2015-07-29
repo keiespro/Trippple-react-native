@@ -180,11 +180,11 @@ var ROUTE_STACK = [
     }
 
     selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
-      return (<route.component {...route.passProps} navigator={this.refs.nav} user={this.props.user} />);
+      return (<route.component {...route.passProps} navigator={navigator || this.refs.nav} user={this.props.user} />);
     }
 
     render() {
-      console.log(Navigator.SceneConfigs)
+
       return (
         <View style={styles.appContainer}>
           <Navigator
