@@ -20,6 +20,8 @@ var {
 
 var alt = require('../flux/alt');
 
+var precomputeStyle = require('precomputeStyle');
+
 var RNTAnimation = require('react-native-tween-animation');
 var MatchActions = require('../flux/actions/MatchActions');
 var p = require("../flux/stores/PotentialsStore");
@@ -104,6 +106,7 @@ mixins: [TimerMixin],
   _showProfile(){
     console.log("_showProfile")
     if(this.state.isDragging || this.state.isAnimating) return false;
+
     this.setState({
       showProfile: true
     })
@@ -117,40 +120,34 @@ mixins: [TimerMixin],
   render() {
     console.log('render pots',this.props.user,this.props.potential)
 
-
-      if(this.state.showProfile){
-        return (
-          <View
-            key="activecardprofile"
-            style={{
-              padding:0,
-              width:DeviceWidth,
-              height:DeviceHeight,
-              marginBottom:0,
-              backgroundColor:colors.mediumPurple,
-              marginTop:0,
-              flex:1
-            }}>
-            <CoupleProfile
-              hideProfile={this._hideProfile}
-              potential={this.props.potential}
-              />
-
-          </View>
-        )
-      }else{
+      //
+      // if(this.state.showProfile){
+      //   return (
+      //     <View
+      //       key="activecardprofile"
+      //       ref={(card) => { this.card = card }}
+      //
+      //       >
+      //
+      //       <CoupleProfile
+      //         potential={this.props.potential}
+      //         />
+      //
+      //     </View>
+      //   )
+      // }else{
         return (
           <View key="activecardprofile"
             ref={(card) => { this.card = card }}
             {...this._panResponder.panHandlers}
             style={{
-              padding:20,
-              left:0,
-              width:DeviceWidth - 40,
-              height:DeviceHeight - 85,
-              marginBottom:15,
-              marginTop:55,
+              marginHorizontal:(this.state.showProfile ? 0 : 20),
+              // width:(DeviceWidth - (this.state.showProfile ? 0 : 40)),
+              // height:(DeviceHeight - (this.state.showProfile ? 0 : 75)),
+              marginBottom:(this.state.showProfile ? 0 : 15),
+              marginTop:(this.state.showProfile ? 0 : 55),
               flex:1,
+              // position:'absolute',
               shadowColor:colors.darkShadow,
               shadowRadius:5,
               shadowOpacity:50,
@@ -159,11 +156,15 @@ mixins: [TimerMixin],
                   height: 10
               }}}>
 
-            <CoupleActiveCard potential={this.props.potential} />
+
+            <CoupleActiveCard
+              showProfile={this.state.showProfile}
+              hideProfile={this._hideProfile}
+              potential={this.props.potential} />
 
           </View>
         );
-      }
+      // }
   },
 /*
 
@@ -178,25 +179,40 @@ mixins: [TimerMixin],
       }
       */
   _highlight() {
-    this.card && this.card.setNativeProps({
+    var nativeProps = precomputeStyle({
       shadowOpacity: 100,
-      shadowRadius: 20,
+      shadowRadius:   0,
       shadowOffset: {width:0, height: 0},
-      transform: [{scale:1.1}]
-
-
+      transform: [{scale: 1.05}]
     });
-  },
 
-  _onPress(){
-    console.log('ONPRESS CARD')
+    this.card && this.card.setNativeProps(nativeProps)
 
+    //   scale:2,
+    //   // marginTop:40,
+    //   // marginBottom:5,
+    //   // padding:10,
+    //   // width:DeviceWidth - 20,
+    //
+    //
+    //
+    // });
   },
 
   _unHighlight() {
-    this.card && this.card.setNativeProps({
+    var nativeProps = precomputeStyle({
       shadowOpacity: 50,
+      shadowRadius: 5,
+      shadowOffset: {width:0, height: 0},
+      transform: [{scale: 1}]
+      // marginTop:55,
+      // marginBottom:15,
+      // padding:20,
+      // width:DeviceWidth - 40,
+
+
     });
+    this.card && this.card.setNativeProps(nativeProps);
   },
   componentWillUpdate(nextProps,nextState){
     if(nextProps.potential[0].id != this.props.potential[0].id){
@@ -308,10 +324,7 @@ mixins: [TimerMixin],
           // Update the component's state each frame
           frame: (tweenFrame) => {
             // console.log(tweenFrame);
-
             self._updatePosition( tweenFrame );
-
-
           },
 
           // Optional callback
@@ -397,41 +410,77 @@ mixins: [TimerMixin],
 
 
 var CoupleActiveCard = React.createClass({
-  mixins: [TimerMixin],
 
-  _onPress(e){
-    console.log(e,"PRESSSSSSSS");
 
-    this.props.showProfile();
-  },
   render(){
 
       return(
 
 
-        <View style={[styles.card,{width: DeviceWidth-40}]} key={this.props.potential[0]['id']+'view'}>
-        <Swiper
-          key={this.props.potential[0]['id']+'swiper'}
-          loop={true}
-          horizontal={false}
-          vertical={true}
-          showsPagination={true}
-          showsButtons={false}
-          dot={ <View style={styles.dot} />}
-          activeDot={ <View style={styles.activeDot} /> }>
-          <Image source={{uri: this.props.potential[0].image_url}} style={styles.imagebg} />
-          <Image source={{uri: this.props.potential[1].image_url}} style={styles.imagebg} />
-        </Swiper>
+        <View
+          style={[styles.card,{
+            width: DeviceWidth-(this.props.showProfile ? 0 : 40),
+            height: this.props.showProfile ? undefined : (DeviceHeight - 75),
+            overflow: this.props.showProfile ? 'visible' : 'hidden'
+          }]}
+          key={this.props.potential[0]['id']+'view'}>
+          <ScrollView
+              scrollEnabled={this.props.showProfile ? true : false}
+              contentContainerStyle={[styles.scrollSection,{
+                height:undefined,
+                flex:3
+              }]}>
 
-        <View style={{height:80,bottom:0,position:'absolute',backgroundColor:colors.white,width: DeviceWidth-40, flex:5, alignSelf:'stretch'}}>
+            <Swiper
+              _key={this.props.potential[0]['id']+'swiper'}
+              loop={true}
+              horizontal={false}
+              vertical={true}
+              height={ this.props.showProfile ? 200 : undefined}
+              showsPagination={true}
+              showsButtons={false}
+              dot={ <View style={styles.dot} />}
+              activeDot={ <View style={styles.activeDot} /> }>
+              <Image source={{uri: this.props.potential[0].image_url}}
+                key={this.props.potential[0]['id']+'cimg'}
+                style={styles.imagebg} />
+              <Image source={{uri: this.props.potential[1].image_url}}
+                key={this.props.potential[1]['id']+'cimg'}
+                style={styles.imagebg} />
+            </Swiper>
+
+        <View
+          key={this.props.potential[0]['id']+'bottomview'}
+          style={{
+            height:(this.props.showProfile ? undefined : 80),
+            bottom:0,
+            position: this.props.showProfile ? 'relative' : 'absolute',
+            backgroundColor: colors.white,
+            width: DeviceWidth-(this.props.showProfile ? 0 : 40),
+            flex:1,
+            alignSelf:'stretch'}}
+          >
           <Text style={styles.cardBottomText}>{`${this.props.potential[0].firstname} and ${this.props.potential[1].firstname}`}</Text>
 
           <View style={{height:60,top:-30,position:'absolute',width:135,right:0,backgroundColor:'transparent',flexDirection:'row'}}>
-            <Image source={{uri: this.props.potential[0].image_url}} style={[styles.circleimage,{marginRight:5}]}/>
-            <Image source={{uri: this.props.potential[1].image_url}} style={styles.circleimage}/>
+            <Image source={{uri: this.props.potential[0].image_url}} key={this.props.potential[0]['id']+'img'} style={[styles.circleimage,{marginRight:5}]}/>
+            <Image source={{uri: this.props.potential[1].image_url}} key={this.props.potential[1]['id']+'img'} style={styles.circleimage}/>
           </View>
+          { this.props.showProfile && <View style={{height:undefined,padding:0}}>
+          <TouchableHighlight  onPress={this.props.hideProfile}>
+            <Text>Close</Text>
+          </TouchableHighlight>
+            <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
+            <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
+            <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
+            <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
+            <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
+            <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
+          </View>}
 
         </View>
+        </ScrollView>
+
       </View>
 
       )
@@ -445,12 +494,11 @@ var CoupleProfile =React.createClass({
   render(){
 
       return(
-        <View style={[styles.card,{width: DeviceWidth,height: DeviceHeight}]} key={this.props.potential[0]['id']+'view'}>
-          <ScrollView>
+        <View style={[styles.card,{width: DeviceWidth}]} key={this.props.potential[0]['id']+'view'}>
           {/**/}
           <Swiper
-            key={this.props.potential[0]['id']+'swiper'}
-            style={[styles.wrapper,{height:300}]}
+            _key={this.props.potential[0]['id']+'swiper'}
+            style={[styles.wrapper]}
             loop={true}
             horizontal={false}
             vertical={true}
@@ -458,11 +506,11 @@ var CoupleProfile =React.createClass({
             showsButtons={false}
             dot={ <View style={styles.dot} />}
             activeDot={ <View style={styles.activeDot} /> }>
-            <Image source={{uri: this.props.potential[0].image_url}} style={styles.imagebg} />
-            <Image source={{uri: this.props.potential[1].image_url}} style={styles.imagebg} />
+            <Image source={{uri: this.props.potential[0].image_url}} key={this.props.potential[0]['id']+'cimg'} style={[styles.imagebg,{width: DeviceWidth}]} />
+            <Image source={{uri: this.props.potential[1].image_url}} key={this.props.potential[1]['id']+'cimg'} style={[styles.imagebg,{width: DeviceWidth}]} />
           </Swiper>
 
-          <View style={{backgroundColor:colors.white,width: DeviceWidth, alignSelf:'stretch'}}>
+          <View key={this.props.potential[0]['id']+'bottomview'}  style={{backgroundColor:colors.white,width: DeviceWidth, alignSelf:'stretch'}}>
             <Text style={styles.cardBottomText}>{`${this.props.potential[0].firstname} and ${this.props.potential[1].firstname}`}</Text>
 
             <View style={{height:60,top:-30,position:'absolute',width:135,right:0,backgroundColor:'transparent',flexDirection:'row'}}>
@@ -472,12 +520,16 @@ var CoupleProfile =React.createClass({
             <TouchableHighlight  onPress={this.props.hideProfile}>
               <Text>Close</Text>
             </TouchableHighlight>
-            <View style={{height:360}}>
-                <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
+            <View style={{height:360,padding:20}}>
+              <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
+              <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
+              <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
+              <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
+              <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
+              <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
             </View>
 
           </View>
-        </ScrollView>
 
       </View>
 
@@ -634,35 +686,15 @@ var styles = StyleSheet.create({
     backgroundColor: 'white',
     alignSelf: 'stretch',
     flex: 1,
-    overflow:'hidden',
-    borderWidth: 1,
+    borderWidth: 0,
     borderColor:'rgba(0,0,0,.2)',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch',
 
   },
-  singleCard:{
-    backgroundColor:'#fff',
-    flexDirection:'column',
-    alignItems:'stretch',
-    flex:1,
 
-  },
-  coupleCard:{
-    backgroundColor:'#fff',
-    flexDirection:'column',
-    alignSelf:'stretch',
-    flex:1,
-  },
-  profileSwiper:{
-    flex: 1,
-    alignSelf:'stretch',
-    margin:0,
-    padding:0,
-    alignItems:'stretch',
-    flexDirection:'column',
 
-  },
+
   imagebg:{
     flex: 1,
     alignSelf:'stretch',
@@ -671,14 +703,7 @@ var styles = StyleSheet.create({
     alignItems:'stretch',
     flexDirection:'column',
   },
-  absoluteCard:{
-    // position:'absolute',
 
-    left:0,
-    right:0,
-    bottom:0,
-    top:0
-  },
   dot: {
     backgroundColor: colors.shuttleGray,
     width: 12,
@@ -705,6 +730,13 @@ var styles = StyleSheet.create({
   wrapper:{
 
   },
+  scrollSection:{
+    alignSelf: 'stretch',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+
+  },
   circleimage:{
     backgroundColor: colors.shuttleGray,
     width: 60,
@@ -714,16 +746,8 @@ var styles = StyleSheet.create({
     borderColor:colors.white,
     borderWidth: 3
   },
-  carousel:{
-    backgroundColor:'#fff',
-    alignSelf:'stretch',
-    flex:1,
-    width: DeviceWidth-40,
-    margin:20,
-    height:DeviceHeight - 80,
-    top:40
 
-  },
+
   cardBottomText:{
     marginLeft:15,
     fontFamily:'Montserrat',
@@ -751,11 +775,12 @@ var animations = {
       duration: 300,
       create: {
         type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.opacity
+        property: LayoutAnimation.Properties.scaleXY
 
       },
       update: {
-        delay: 100,
+        delay: 500,
+        property: LayoutAnimation.Properties.scaleXY,
         type: LayoutAnimation.Types.easeInEaseOut
       }
     }
