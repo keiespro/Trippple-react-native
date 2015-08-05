@@ -44,12 +44,30 @@ class MatchActions {
     )
   }
 
-  sendLike(likedUserID){
+  sendLike(likedUserID,likeStatus){
 
-    Api.getMatches()
+    Api.sendLike(likedUserID, likeStatus)
       .then((res) => {
         Logger.log(res)
-        this.dispatch(likedUserID);
+        navigator.geolocation.getCurrentPosition(
+          (geo) => {
+            Logger.log('Got coordinates:', geo.coords);
+            var coordinates = {
+              latitude: geo.coords.latitude,
+              longitude: geo.coords.longitude
+            };
+            Api.getPotentials(coordinates)
+              .then((res) => {
+                this.dispatch(res.response);
+              })
+          },
+          (error) => {
+            // Open native settings
+
+            Logger.error(error)
+          },
+          {enableHighAccuracy: false, maximumAge: 1000}
+        )
       })
   }
 }

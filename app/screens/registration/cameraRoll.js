@@ -37,6 +37,7 @@ var CameraRoll = React.createClass({
 
   _selectImage(e){
     console.log(e);
+    
     var img = e.nativeEvent.value;
     this.setState({
       selectedImage: img
@@ -54,7 +55,6 @@ var CameraRoll = React.createClass({
 
       })
 
-  
   }
 });
 

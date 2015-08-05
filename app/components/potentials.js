@@ -7,9 +7,14 @@ var {
  StyleSheet,
  Text,
  View,
+ TouchableOpacity,
+ LayoutAnimation,
+ Touchable,
+ TouchableWithoutFeedback,
  TouchableHighlight,
  Image,
  TextInput,
+ ScrollView,
  PanResponder
 } = React;
 
@@ -23,6 +28,7 @@ var AltContainer = require('alt/AltNativeContainer');
 var Logger = require('../utils/logger');
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
+var TimerMixin = require('react-timer-mixin');
 
 var THROW_OUT_THRESHOLD = 250;
 var colors = require('../utils/colors');
@@ -50,7 +56,7 @@ var ActiveCard = React.createClass({
   _cardStyles: {},
   _handle: '',
   card: (null : ?{ setNativeProps(props: Object): void }),
-
+mixins: [TimerMixin],
   componentWillMount() {
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: this._handleStartShouldSetPanResponder,
@@ -61,7 +67,7 @@ var ActiveCard = React.createClass({
       onPanResponderMove: this._handlePanResponderMove,
       onPanResponderRelease: this._handlePanResponderEnd,
       onPanResponderTerminate: this._handlePanResponderEnd,
-      onPanResponderTerminationRequest: (evt, gestureState) => true,
+      onPanResponderTerminationRequest: this._hanlePanResponderTerminationRequest,
 
 
     });
@@ -79,6 +85,7 @@ var ActiveCard = React.createClass({
        left: this._previousLeft,
        top: 0,
      },
+     showProfile: false,
      isAnimating:false,
      isDragging: false
     })
@@ -89,22 +96,74 @@ var ActiveCard = React.createClass({
 
   },
 
+  componentDidUpdate(prevProps,prevState) {
+    if(prevState.showProfile != this.state.showProfile)
+    LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
+
+  },
+  _showProfile(){
+    console.log("_showProfile")
+    if(this.state.isDragging || this.state.isAnimating) return false;
+    this.setState({
+      showProfile: true
+    })
+  },
+  _hideProfile(){
+    console.log("_hideProfile")
+    this.setState({
+      showProfile: false
+    })
+  },
   render() {
     console.log('render pots',this.props.user,this.props.potential)
-    return (
 
 
-        <View key="activecard"
-          ref={(card) => { this.card = card }}
-          {...this._panResponder.panHandlers}
-          style={{padding:20,left:0,width:DeviceWidth - 40, height:DeviceHeight - 85,marginBottom:15,marginTop:55,flex:1,shadowColor:colors.darkShadow,shadowRadius:5,shadowOpacity:50, shadowOffset: {width:0, height: 10}}}>
+      if(this.state.showProfile){
+        return (
+          <View
+            key="activecardprofile"
+            style={{
+              padding:0,
+              width:DeviceWidth,
+              height:DeviceHeight,
+              marginBottom:0,
+              backgroundColor:colors.mediumPurple,
+              marginTop:0,
+              flex:1
+            }}>
+            <CoupleProfile
+              hideProfile={this._hideProfile}
+              potential={this.props.potential}
+              />
 
-          <CoupleActiveCard potential={this.props.potential} />
+          </View>
+        )
+      }else{
+        return (
+          <View key="activecardprofile"
+            ref={(card) => { this.card = card }}
+            {...this._panResponder.panHandlers}
+            style={{
+              padding:20,
+              left:0,
+              width:DeviceWidth - 40,
+              height:DeviceHeight - 85,
+              marginBottom:15,
+              marginTop:55,
+              flex:1,
+              shadowColor:colors.darkShadow,
+              shadowRadius:5,
+              shadowOpacity:50,
+              shadowOffset: {
+                  width:0,
+                  height: 10
+              }}}>
 
-        </View>
+            <CoupleActiveCard potential={this.props.potential} />
 
-
-    );
+          </View>
+        );
+      }
   },
 /*
 
@@ -122,9 +181,16 @@ var ActiveCard = React.createClass({
     this.card && this.card.setNativeProps({
       shadowOpacity: 100,
       shadowRadius: 20,
-      shadowOffset: {width:0, height: 0}
+      shadowOffset: {width:0, height: 0},
+      transform: [{scale:1.1}]
+
 
     });
+  },
+
+  _onPress(){
+    console.log('ONPRESS CARD')
+
   },
 
   _unHighlight() {
@@ -132,8 +198,16 @@ var ActiveCard = React.createClass({
       shadowOpacity: 50,
     });
   },
-  componentDidUpdate(prevProps,prevState){
-
+  componentWillUpdate(nextProps,nextState){
+    if(nextProps.potential[0].id != this.props.potential[0].id){
+      this._updatePosition({top:0,left:0})
+    }
+  },
+  onPanResponderRelease(e: Object, gestureState: Object){
+    console.log('onPanResponderRelease')
+  },
+  _hanlePanResponderTerminationRequest(e: Object, gestureState: Object){
+    console.log('_hanlePanResponderTerminationRequest',e.nativeEvent,gestureState)
   },
   _updatePosition(tweenFrame) {
     // console.log('update position',this._cardStyles)
@@ -148,42 +222,56 @@ var ActiveCard = React.createClass({
     // return false;
   },
   _handleStartShouldSetPanResponder(e: Object, gestureState: Object): boolean {
+    Logger.log('_handleStartShouldSetPanResponder',gestureState.dx)
+
     // Should we become active when the user presses down on the card?
-    if(this.state.isDragging == true) return true;
-    return Math.abs(gestureState.dx) > 15 && Math.abs(gestureState.dy) < 5 || Math.abs(gestureState.dy) < Math.abs(gestureState.dx)
+    this.x = this.setTimeout(()=>{
+      this._showProfile();
+    },1000)
+
+    return false
   },
 
   _handleMoveShouldSetPanResponder(e: Object, gestureState): boolean {
+    Logger.log('_handleMoveShouldSetPanResponder',gestureState.dy)
+
+      this.clearTimeout(this.x);
+
     // Should we become active when the user moves a touch over the card?
     if(this.state.isDragging == true) return true;
-    return Math.abs(gestureState.dx) > 15 && Math.abs(gestureState.dy) < 5 || Math.abs(gestureState.dy) < Math.abs(gestureState.dx)
+    return Math.abs(gestureState.dy) < 1
   },
 
   _handlePanResponderGrant(e: Object, gestureState: Object) {
     this._highlight();
     Logger.log('Pan Responder Grant',gestureState.dx)
-    this.replaceState({
-      isDragging: true
-    })
+
+    console.log({gestureState},e)
+
+      this.replaceState({
+        isDragging: true
+      })
+
 
   },
   _handlePanResponderMove(e: Object, gestureState: Object) {
-    // Logger.log('Pan Responder MOVE',gestureState.dx)
+    Logger.log('Pan Responder MOVE',gestureState.dx)
+    if(this.x) this.clearTimeout(this.x);
 
     this._cardStyles.left = this._previousLeft + gestureState.dx;
     this._cardStyles.top = 0;
-    // this._cardStyles.top = this._previousTop + gestureState.dy;
     this._updatePosition();
 
   },
   _handlePanResponderEnd(e: Object, gestureState: Object) {
+
     this.replaceState({
       isDragging: false
     })
 
     this._unHighlight();
     Logger.log('Pan Responder End',Math.abs(gestureState.moveX))
-
+    console.log(e,gestureState,'end touch')
     if(Math.abs(gestureState.dx) > THROW_OUT_THRESHOLD ){
 
       Logger.debug('throwout',gestureState.dx)
@@ -193,6 +281,9 @@ var ActiveCard = React.createClass({
         })
 
         var self = this;
+        var likeStatus = gestureState.dx > 0 ? 'approve' : 'deny';
+
+        MatchActions.sendLike(this.props.potential[0]['id'],likeStatus);
 
         var animation = new RNTAnimation({
 
@@ -205,7 +296,7 @@ var ActiveCard = React.createClass({
           // End state
           end: {
             top: 0,
-            left: 0
+            left: likeStatus == 'approve' ? 1000 : -1000
           },
 
           // Animation duration
@@ -303,40 +394,24 @@ var ActiveCard = React.createClass({
 });
 
 
-class SwipableCard extends React.Component{
-  constructor(props){
-    super(props);
-  }
 
-  render(){
-    return (
 
-      <View style={{margin:20,left:0,width:DeviceWidth-40,height:DeviceHeight - 80,overflow:'hidden'}}>
-        <ActiveCard user={this.props.user} potential={this.props.potential}/>
-        <View style={{height:80,bottom:0,position:'absolute',backgroundColor:colors.white,width: DeviceWidth-40, flex:5, alignSelf:'stretch'}}>
-          <Text style={styles.cardBottomText}>{`${this.props.potential[0].firstname} and ${this.props.potential[1].firstname}`}</Text>
+var CoupleActiveCard = React.createClass({
+  mixins: [TimerMixin],
 
-          <View style={{height:60,top:-30,position:'absolute',width:135,right:0,backgroundColor:'transparent',flexDirection:'row'}}>
-            <Image source={{uri: this.props.potential[0].image_url}} style={[styles.circleimage,{marginRight:5}]}/>
-            <Image source={{uri: this.props.potential[1].image_url}} style={styles.circleimage}/>
-          </View>
+  _onPress(e){
+    console.log(e,"PRESSSSSSSS");
 
-        </View>
-      </View>
-
-    )
-  }
-}
-
-class CoupleActiveCard extends React.Component{
-  constructor(props){
-    super(props)
-  }
+    this.props.showProfile();
+  },
   render(){
 
       return(
-        <View style={[styles.card,{width: DeviceWidth-40}]}>
+
+
+        <View style={[styles.card,{width: DeviceWidth-40}]} key={this.props.potential[0]['id']+'view'}>
         <Swiper
+          key={this.props.potential[0]['id']+'swiper'}
           loop={true}
           horizontal={false}
           vertical={true}
@@ -362,7 +437,55 @@ class CoupleActiveCard extends React.Component{
       )
 
   }
-}
+})
+
+
+var CoupleProfile =React.createClass({
+
+  render(){
+
+      return(
+        <View style={[styles.card,{width: DeviceWidth,height: DeviceHeight}]} key={this.props.potential[0]['id']+'view'}>
+          <ScrollView>
+          {/**/}
+          <Swiper
+            key={this.props.potential[0]['id']+'swiper'}
+            style={[styles.wrapper,{height:300}]}
+            loop={true}
+            horizontal={false}
+            vertical={true}
+            showsPagination={true}
+            showsButtons={false}
+            dot={ <View style={styles.dot} />}
+            activeDot={ <View style={styles.activeDot} /> }>
+            <Image source={{uri: this.props.potential[0].image_url}} style={styles.imagebg} />
+            <Image source={{uri: this.props.potential[1].image_url}} style={styles.imagebg} />
+          </Swiper>
+
+          <View style={{backgroundColor:colors.white,width: DeviceWidth, alignSelf:'stretch'}}>
+            <Text style={styles.cardBottomText}>{`${this.props.potential[0].firstname} and ${this.props.potential[1].firstname}`}</Text>
+
+            <View style={{height:60,top:-30,position:'absolute',width:135,right:0,backgroundColor:'transparent',flexDirection:'row'}}>
+              <Image source={{uri: this.props.potential[0].image_url}} style={[styles.circleimage,{marginRight:5}]}/>
+              <Image source={{uri: this.props.potential[1].image_url}} style={styles.circleimage}/>
+            </View>
+            <TouchableHighlight  onPress={this.props.hideProfile}>
+              <Text>Close</Text>
+            </TouchableHighlight>
+            <View style={{height:360}}>
+                <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
+            </View>
+
+          </View>
+        </ScrollView>
+
+      </View>
+
+      )
+
+  }
+})
+
 
 class CoupleInactiveCard extends React.Component{
   constructor(props){
@@ -531,6 +654,15 @@ var styles = StyleSheet.create({
     alignSelf:'stretch',
     flex:1,
   },
+  profileSwiper:{
+    flex: 1,
+    alignSelf:'stretch',
+    margin:0,
+    padding:0,
+    alignItems:'stretch',
+    flexDirection:'column',
+
+  },
   imagebg:{
     flex: 1,
     alignSelf:'stretch',
@@ -570,6 +702,9 @@ var styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.mediumPurple20
   },
+  wrapper:{
+
+  },
   circleimage:{
     backgroundColor: colors.shuttleGray,
     width: 60,
@@ -597,3 +732,32 @@ var styles = StyleSheet.create({
     marginTop:10
   }
 });
+
+var animations = {
+  layout: {
+    spring: {
+      duration: 500,
+      create: {
+        duration: 300,
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.opacity
+      },
+      update: {
+        type: LayoutAnimation.Types.spring,
+        springDamping: 200
+      }
+    },
+    easeInEaseOut: {
+      duration: 300,
+      create: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.opacity
+
+      },
+      update: {
+        delay: 100,
+        type: LayoutAnimation.Types.easeInEaseOut
+      }
+    }
+  }
+};

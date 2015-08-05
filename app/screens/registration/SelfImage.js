@@ -72,6 +72,8 @@ var SelfImage = React.createClass({
           <TouchableHighlight style={[styles.plainButton,{marginRight:10}]} onPress={this._getCameraRoll}>
             <Text style={styles.plainButtonText}>FROM ALBUM</Text>
           </TouchableHighlight>
+
+          
           <TouchableHighlight style={[styles.plainButton,{marginLeft:10}]} onPress={this._getCamera}>
             <Text style={[styles.plainButtonText]}>TAKE A SELFIE</Text>
           </TouchableHighlight>
