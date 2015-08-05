@@ -30,3 +30,5 @@ class trippple extends React.Component{
 module.exports = trippple;
 
 AppRegistry.registerComponent('trippple', () => trippple);
+
+window.react = React;
