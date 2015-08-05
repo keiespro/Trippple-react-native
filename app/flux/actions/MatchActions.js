@@ -45,6 +45,7 @@ class MatchActions {
   }
 
   sendLike(likedUserID,likeStatus){
+    this.dispatch(likedUserID);
 
     Api.sendLike(likedUserID, likeStatus)
       .then((res) => {

@@ -44,12 +44,12 @@ class PotentialsStore {
   }
 
   handleSentLike(likedUserID){
-
-    var shifted = this.potentials.shift();
-    Logger.log(shifted[0].id == likedUserID)
-    this.setState({
-      potentials: this.potentials
-    })
+    
+      this.setState({
+        potentials: this.potentials.filter((el,i)=>{
+          return el.id != likedUserID && el[0].id != likedUserID && el[1].id != likedUserID
+        })
+      });
 
   }
 
