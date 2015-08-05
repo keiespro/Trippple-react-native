@@ -150,12 +150,13 @@ class ChatMessage extends React.Component {
 class ChatInside extends React.Component{
   constructor(props){
     super(props);
+    MatchActions.getMessages(props.matchID);
 
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
 
 
     this.state = {
-      dataSource: ds.cloneWithRows(this.props.messages),
+      dataSource: ds.cloneWithRows(props.messages),
       keyboardSpace: 0,
       isKeyboardOpened: false
 
@@ -190,10 +191,10 @@ class ChatInside extends React.Component{
     KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace.bind(this));
     KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace.bind(this));
     KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillChangeFrameEvent, (frames) => {
-      console.log('will change', frames);
-      this.refs.chatscroll.setNativeProps({
-        paddingBottom: DeviceHeight - frames.end.height
-      })
+      // console.log('will change', frames);
+      // this.refs.chatscroll.setNativeProps({
+      //   paddingBottom: DeviceHeight - frames.end.height
+      // })
     });
     console.log(this.refs.scroller)
     // this.refs.scroller.refs.listviewscroll.scrollTo(0)
@@ -205,9 +206,9 @@ class ChatInside extends React.Component{
   }
   componentDidUpdate(prevProps){
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
-    this.refs.scroller.refs.listviewscroll.scrollTo(0)
+    this.refs.scroller.refs.listviewscroll.scrollTo(0,0)
 
-    if(prevProps.matches && prevProps.matches.length < this.props.matches.length )
+    if(prevProps.messages && prevProps.messages.length < this.props.messages.length )
     this.setState({
       dataSource: ds.cloneWithRows(this.props.messages)
     })
@@ -331,21 +332,26 @@ var animations = {
 };
 
 var Chat = React.createClass({
+  componentWillMount(){
+    console.log(this.props)
+    MatchActions.getMessages(this.props.matchID || this.props.match_id);
 
+  },
 
   render(){
     return (
       <AltContainer
+
           stores={{
             messages: (props) => {
+              console.log(props.match_id)
               return {
                 store: ChatStore,
-                value: ChatStore.getMessagesForMatch(this.props.matchID)
+                value: ChatStore.getMessagesForMatch(props.match_id || this.props.matchID)
               }
             }
           }}>
           <ChatInside
-            key="afvehbdjkn"
             user={this.props.user}
             matchID={this.props.matchID}
           />

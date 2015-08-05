@@ -25,6 +25,7 @@ var MatchActions = require('../flux/actions/MatchActions');
 var MatchesStore = require("../flux/stores/MatchesStore");
 var Swipeout = require('react-native-swipeout');
 var Logger = require('../utils/logger');
+var customSceneConfigs = require('../utils/sceneConfigs')
 
 // Buttons
 var swipeoutBtns = [
@@ -144,7 +145,7 @@ console.log(this.props.navigator)
         index: 3,
         matchID: matchID
       },
-      sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+      sceneConfig: customSceneConfigs.SlideInFromRight,
     });
   }
   render(){
@@ -153,7 +154,7 @@ console.log(this.props.navigator)
       <View style={styles.container}>
         <ListView
           initialListSize={12}
-          removeClippedSubviews={true}
+          removeClippedSubviews={false}
           dataSource={this.props.dataSource}
           renderRow={this._renderRow.bind(this)}
         />
