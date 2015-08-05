@@ -69,7 +69,7 @@ mixins: [TimerMixin],
       onPanResponderMove: this._handlePanResponderMove,
       onPanResponderRelease: this._handlePanResponderEnd,
       onPanResponderTerminate: this._handlePanResponderEnd,
-      onPanResponderTerminationRequest: this._handlePanResponderTerminationRequest,
+      // onPanResponderTerminationRequest: this._hanlePanResponderTerminationRequest,
 
 
     });
@@ -99,7 +99,7 @@ mixins: [TimerMixin],
   },
 
   componentDidUpdate(prevProps,prevState) {
-    if(prevState.showProfile != this.state.showProfile || prevProps.potential[0].id != this.props.potential[0].id)
+    if(prevState.showProfile != this.state.showProfile)
     LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
 
   },
@@ -165,9 +165,9 @@ mixins: [TimerMixin],
   _highlight() {
     var nativeProps = precomputeStyle({
       shadowOpacity: 100,
-      shadowRadius:   10,
-      shadowOffset: {width:0, height: 10},
-      transform: [{scale: 1.03}]
+      shadowRadius:   0,
+      shadowOffset: {width:0, height: 0},
+      transform: [{scale: 1.05}]
     });
 
     this.card && this.card.setNativeProps(nativeProps)
@@ -179,7 +179,7 @@ mixins: [TimerMixin],
     var nativeProps = precomputeStyle({
       shadowOpacity: 50,
       shadowRadius: 5,
-      shadowOffset: {width:0, height: 10},
+      shadowOffset: {width:0, height: 0},
       transform: [{scale: 1}]
     });
     this.card && this.card.setNativeProps(nativeProps);
@@ -189,18 +189,19 @@ mixins: [TimerMixin],
       this._updatePosition()
     }
   },
-  shouldComponentUpdate(nextProps,nextState){
-    return nextProps.potential[0].id != this.props.potential[0].id
-
+  componentShouldUpdate(nextProps,nextState){
+    if(nextProps.potential[0].id != this.props.potential[0].id){
+      this._updatePosition()
+    }
   },
-  onPanResponderRelease(e: Object, gestureState: Object){
-    console.log('onPanResponderRelease');
-    this._unHighlight();
-
-  },
-  _handlePanResponderTerminationRequest(e: Object, gestureState: Object){
-    console.log('_handlePanResponderTerminationRequest',e.nativeEvent,gestureState)
-  },
+  // onPanResponderRelease(e: Object, gestureState: Object){
+  //   console.log('onPanResponderRelease');
+  //   this._unHighlight();
+  //
+  // },
+  // _hanlePanResponderTerminationRequest(e: Object, gestureState: Object){
+  //   console.log('_hanlePanResponderTerminationRequest',e.nativeEvent,gestureState)
+  // },
   _updatePosition(tweenFrame) {
     var positionData = tweenFrame ? tweenFrame : this._cardStyles;
     var newPos = {
@@ -209,8 +210,14 @@ mixins: [TimerMixin],
 
     this.card && this.card.setNativeProps(precomputeStyle(newPos))
   },
-
-
+  // _handleOnStartShouldSetPanResponderCapture(e, gestureState){
+  //   console.log(e,'_handleOnStartShouldSetResponderCapture');
+  //   // return false;
+  // },
+  // _handleOnMoveShouldSetPanResponderCapture(e, gestureState){
+  //   console.log(e,'_handleOnMoveShouldSetResponderCapture');
+  //   // return false;
+  // },
   _handleStartShouldSetPanResponder(e: Object, gestureState: Object): boolean {
     Logger.log('_handleStartShouldSetPanResponder',gestureState.dx)
 
@@ -250,6 +257,7 @@ mixins: [TimerMixin],
   _handlePanResponderMove(e: Object, gestureState: Object) {
     // Logger.log('Pan Responder MOVE',gestureState.dx)
     if(this.x) this.clearTimeout(this.x);
+    this._highlight();
 
     this._cardStyles ={
       translateX: this._previousLeft + gestureState.dx,
@@ -263,7 +271,7 @@ mixins: [TimerMixin],
     this.replaceState({
       isDragging: false
     })
-    // this._unHighlight();
+    this._unHighlight();
     // Logger.log('Pan Responder End',Math.abs(gestureState.moveX))
 
     if(Math.abs(gestureState.dx) > THROW_OUT_THRESHOLD ){
