@@ -240,7 +240,7 @@ var ROUTE_STACK = [
       overflow:'hidden',
       margin:0,
       borderColor:colors.shuttleGray,
-      borderBottomWidth:1
+      borderBottomWidth:0
     },
     navBarText: {
       fontSize: 16,

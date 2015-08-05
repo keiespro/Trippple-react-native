@@ -77,7 +77,7 @@ var ActiveCard = React.createClass({
     return ({
       position: {
        left: this._previousLeft,
-       top: this._previousTop,
+       top: 0,
      },
      isAnimating:false,
      isDragging: false
@@ -171,7 +171,8 @@ var ActiveCard = React.createClass({
     // Logger.log('Pan Responder MOVE',gestureState.dx)
 
     this._cardStyles.left = this._previousLeft + gestureState.dx;
-    this._cardStyles.top = this._previousTop + gestureState.dy;
+    this._cardStyles.top = 0;
+    // this._cardStyles.top = this._previousTop + gestureState.dy;
     this._updatePosition();
 
   },

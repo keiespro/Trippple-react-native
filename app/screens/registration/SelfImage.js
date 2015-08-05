@@ -48,8 +48,6 @@ var SelfImage = React.createClass({
     return (
       <View style={styles.container}>
 
-
-
         <Text style={styles.textTop}>Now upload or snap a pic of just you. This is the picture your matches will see during your chats</Text>
 
         <View style={styles.imageHolder}>

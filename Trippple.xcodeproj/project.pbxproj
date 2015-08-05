@@ -18,7 +18,6 @@
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -83,6 +82,12 @@
 		ACAC9AC21B566A6800508042 /* ovalCouple in Resources */ = {isa = PBXBuildFile; fileRef = ACAC9AB51B566A6800508042 /* ovalCouple */; };
 		ACAC9AC31B566A6800508042 /* ovalInvite in Resources */ = {isa = PBXBuildFile; fileRef = ACAC9AB61B566A6800508042 /* ovalInvite */; };
 		ACAC9AC91B566E5700508042 /* tripppleLogo@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = ACAC9AC81B566E5700508042 /* tripppleLogo@1x.png */; };
+		ACBA4BF21B68155B00112FAB /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = ACBA4BEF1B68155B00112FAB /* search.png */; };
+		ACBA4BF31B68155B00112FAB /* search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ACBA4BF01B68155B00112FAB /* search@2x.png */; };
+		ACBA4BF41B68155B00112FAB /* search@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ACBA4BF11B68155B00112FAB /* search@3x.png */; };
+		ACBA4C0C1B68157700112FAB /* placeholderUser.png in Resources */ = {isa = PBXBuildFile; fileRef = ACBA4C091B68157700112FAB /* placeholderUser.png */; };
+		ACBA4C0D1B68157700112FAB /* placeholderUser@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ACBA4C0A1B68157700112FAB /* placeholderUser@2x.png */; };
+		ACBA4C0E1B68157700112FAB /* placeholderUser@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ACBA4C0B1B68157700112FAB /* placeholderUser@3x.png */; };
 		ACE1CD0A1B5772DF0043177A /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACE1CD061B5772DF0043177A /* Bolts.framework */; };
 		ACE1CD0B1B5772DF0043177A /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACE1CD071B5772DF0043177A /* FBSDKCoreKit.framework */; };
 		ACE1CD0C1B5772DF0043177A /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACE1CD081B5772DF0043177A /* FBSDKLoginKit.framework */; };
@@ -255,7 +260,6 @@
 		13B07F961A680F5B00A75B9A /* trippple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = trippple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = iOS/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = iOS/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = iOS/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = iOS/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
@@ -323,6 +327,12 @@
 		ACAC9AB51B566A6800508042 /* ovalCouple */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ovalCouple; sourceTree = "<group>"; };
 		ACAC9AB61B566A6800508042 /* ovalInvite */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ovalInvite; sourceTree = "<group>"; };
 		ACAC9AC81B566E5700508042 /* tripppleLogo@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tripppleLogo@1x.png"; sourceTree = "<group>"; };
+		ACBA4BEF1B68155B00112FAB /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
+		ACBA4BF01B68155B00112FAB /* search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search@2x.png"; sourceTree = "<group>"; };
+		ACBA4BF11B68155B00112FAB /* search@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search@3x.png"; sourceTree = "<group>"; };
+		ACBA4C091B68157700112FAB /* placeholderUser.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholderUser.png; sourceTree = "<group>"; };
+		ACBA4C0A1B68157700112FAB /* placeholderUser@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholderUser@2x.png"; sourceTree = "<group>"; };
+		ACBA4C0B1B68157700112FAB /* placeholderUser@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholderUser@3x.png"; sourceTree = "<group>"; };
 		ACE1CD061B5772DF0043177A /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "node_modules/react-native-facebook-login/FacebookSDK/Bolts.framework"; sourceTree = "<group>"; };
 		ACE1CD071B5772DF0043177A /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "node_modules/react-native-facebook-login/FacebookSDK/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
 		ACE1CD081B5772DF0043177A /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = "node_modules/react-native-facebook-login/FacebookSDK/FBSDKLoginKit.framework"; sourceTree = "<group>"; };
@@ -451,7 +461,6 @@
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = trippple;
@@ -535,6 +544,12 @@
 		AC504B711B56607400D5D069 /* tripppleLogo */ = {
 			isa = PBXGroup;
 			children = (
+				ACBA4C091B68157700112FAB /* placeholderUser.png */,
+				ACBA4C0A1B68157700112FAB /* placeholderUser@2x.png */,
+				ACBA4C0B1B68157700112FAB /* placeholderUser@3x.png */,
+				ACBA4BEF1B68155B00112FAB /* search.png */,
+				ACBA4BF01B68155B00112FAB /* search@2x.png */,
+				ACBA4BF11B68155B00112FAB /* search@3x.png */,
 				AC879A9C1B679A6B00B59AF1 /* chat.png */,
 				AC879A9D1B679A6B00B59AF1 /* chat@2x.png */,
 				AC879A9E1B679A6B00B59AF1 /* chat@3x.png */,
@@ -709,7 +724,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -993,6 +1008,7 @@
 				ACAC9AC31B566A6800508042 /* ovalInvite in Resources */,
 				ACAC9AC01B566A6800508042 /* fBlogo in Resources */,
 				AC9743121B566F15005FECFB /* ovalCouple@3x.png in Resources */,
+				ACBA4BF31B68155B00112FAB /* search@2x.png in Resources */,
 				AC9743431B567B06005FECFB /* ovalInvite@2x.png in Resources */,
 				AC879AA21B679A6B00B59AF1 /* chat.png in Resources */,
 				ACA1297B1B40EF0D00CC1499 /* omnes-regular-webfont.ttf in Resources */,
@@ -1009,13 +1025,16 @@
 				AC97434E1B567B24005FECFB /* boxersBlue@1x.png in Resources */,
 				ACA1297A1B40EF0D00CC1499 /* omnes-medium-webfont.ttf in Resources */,
 				AC9743391B567AF9005FECFB /* tripppleLogoText@1x.png in Resources */,
+				ACBA4BF21B68155B00112FAB /* search.png in Resources */,
 				ACA129771B40EF0D00CC1499 /* defaultuser.png in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				AC97432A1B566F52005FECFB /* usersSingle@1x.png in Resources */,
 				ACA129791B40EF0D00CC1499 /* omnes-light-webfont.ttf in Resources */,
 				ACAC9ABB1B566A6800508042 /* boxers in Resources */,
+				ACBA4C0C1B68157700112FAB /* placeholderUser.png in Resources */,
 				AC9743561B56A4A5005FECFB /* ovalSelected@3x.png in Resources */,
 				AC9743321B567AD9005FECFB /* ovalSingle@3x.png in Resources */,
+				ACBA4BF41B68155B00112FAB /* search@3x.png in Resources */,
+				ACBA4C0D1B68157700112FAB /* placeholderUser@2x.png in Resources */,
 				AC97432B1B566F52005FECFB /* usersSingle@2x.png in Resources */,
 				ACAC9AC11B566A6800508042 /* oval2 in Resources */,
 				AC9743481B567B1E005FECFB /* braPink@1x.png in Resources */,
@@ -1023,6 +1042,7 @@
 				AC879AA71B679A6B00B59AF1 /* gear@3x.png in Resources */,
 				ACA129781B40EF0D00CC1499 /* omnes-bold-webfont.ttf in Resources */,
 				AC504B771B56607400D5D069 /* tripppleLogo@3x.png in Resources */,
+				ACBA4C0E1B68157700112FAB /* placeholderUser@3x.png in Resources */,
 				AC97433D1B567AF9005FECFB /* usersCouple@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1058,18 +1078,6 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13B07FB21A68108700A75B9A /* Base */,
-			);
-			name = LaunchScreen.xib;
-			path = iOS;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1086,6 +1094,7 @@
 				INFOPLIST_FILE = tripppleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/trippple.app/trippple";
 			};
@@ -1103,6 +1112,7 @@
 				INFOPLIST_FILE = tripppleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/trippple.app/trippple";
 			};
@@ -1112,6 +1122,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1124,8 +1135,10 @@
 					"$(SRCROOT)/node_modules/react-native/React/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = co.tripppletest;
 				PRODUCT_NAME = trippple;
 			};
 			name = Debug;
@@ -1134,6 +1147,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1146,8 +1160,10 @@
 					"$(SRCROOT)/node_modules/react-native/React/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = co.tripppletest;
 				PRODUCT_NAME = trippple;
 			};
 			name = Release;
@@ -1172,6 +1188,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;

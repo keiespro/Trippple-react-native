@@ -236,12 +236,12 @@ var styles = StyleSheet.create({
     overflow:'hidden'
   },
   navText: {
-    color:"#000000",
+    color:colors.black,
     fontFamily:'omnes'
 
   },
   button: {
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
     padding: 15,
     height:70,
     borderBottomWidth: 1 / PixelRatio.get(),
@@ -251,7 +251,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     padding: 10,
-    backgroundColor: '#39365c',
+    backgroundColor: colors.outerSpace,
   },
   separator: {
     height: 1,

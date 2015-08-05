@@ -34,7 +34,7 @@ var InvertibleScrollView = require('react-native-invertible-scroll-view');
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
     paddingTop:50,
     paddingBottom:50
   },
@@ -63,7 +63,7 @@ var styles = StyleSheet.create({
 
   inputField: {
     height: 50,
-    backgroundColor:'#aaaaaa',
+    backgroundColor:colors.shuttleGray,
     margin:0,
     bottom:0
   },
@@ -97,7 +97,7 @@ var styles = StyleSheet.create({
   chatmessage:{
     flexDirection: 'column',
     flex:1,
-    backgroundColor: '#ccc',
+    backgroundColor: colors.shuttleGray,
 
     width:undefined,
     flexWrap:'wrap',
@@ -115,7 +115,7 @@ var styles = StyleSheet.create({
     borderRadius: 16,
     width: 32,
     height: 32,
-    borderColor: '#ffffff',
+    borderColor: colors.white,
     borderWidth: 3/PixelRatio.get()
   },
 });
@@ -189,9 +189,14 @@ class ChatInside extends React.Component{
     console.log('mount chat')
     KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace.bind(this));
     KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace.bind(this));
-
+    KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillChangeFrameEvent, (frames) => {
+      console.log('will change', frames);
+      this.refs.chatscroll.setNativeProps({
+        paddingBottom: DeviceHeight - frames.end.height
+      })
+    });
     console.log(this.refs.scroller)
-    this.refs.scroller.refs.listviewscroll.scrollTo(0)
+    // this.refs.scroller.refs.listviewscroll.scrollTo(0)
     // InteractionManager.runAfterInteractions(() => {
       MatchActions.getMessages(this.props.matchID);
     //   this.saveToStorage();
@@ -202,7 +207,7 @@ class ChatInside extends React.Component{
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
     this.refs.scroller.refs.listviewscroll.scrollTo(0)
 
-    if(prevProps.matches.length < this.props.matches.length )
+    if(prevProps.matches && prevProps.matches.length < this.props.matches.length )
     this.setState({
       dataSource: ds.cloneWithRows(this.props.messages)
     })
@@ -240,7 +245,7 @@ class ChatInside extends React.Component{
 
     console.log(this.state.keyboardSpace)
     return (
-      <View style={{flexDirection:'column',
+      <View ref={'chatscroll'} style={{flexDirection:'column',
         alignItems:'flex-end',
         alignSelf:'stretch',
         flex:1,
@@ -295,27 +300,31 @@ class ChatInside extends React.Component{
 var animations = {
   layout: {
     spring: {
-      duration: 50,
+      duration: 250,
 
       create: {
-        duration: 50,
+        duration: 250,
+        delay: 0,
         type: LayoutAnimation.Types.easeInEaseOut,
         property: LayoutAnimation.Properties.opacity
       },
       update: {
-        type: LayoutAnimation.Types.spring,
-        springDamping: 0
+        delay: 0,
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.paddingBottom
       }
     },
     easeInEaseOut: {
-      duration: 50,
+      duration: 250,
       create: {
+        delay: 0,
         type: LayoutAnimation.Types.easeInEaseOut,
         property: LayoutAnimation.Properties.scaleXY
       },
       update: {
         delay: 0,
-        type: LayoutAnimation.Types.easeInEaseOut
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.paddingBottom
       }
     }
   }
