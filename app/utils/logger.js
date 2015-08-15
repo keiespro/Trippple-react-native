@@ -1,7 +1,5 @@
 var ENV = 'dev';
 
-// var Bunyan = require('bunyan');
-
 class Logger {
 
   log(){

@@ -58,7 +58,9 @@ var ActiveCard = React.createClass({
   _cardStyles: {},
   _handle: '',
   card: (null : ?{ setNativeProps(props: Object): void }),
-mixins: [TimerMixin],
+
+  mixins: [TimerMixin],
+
   componentWillMount() {
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: this._handleStartShouldSetPanResponder,
@@ -189,19 +191,12 @@ mixins: [TimerMixin],
       this._updatePosition()
     }
   },
-  componentShouldUpdate(nextProps,nextState){
+  shouldComponentUpdate(nextProps,nextState){
     if(nextProps.potential[0].id != this.props.potential[0].id){
       this._updatePosition()
     }
   },
-  // onPanResponderRelease(e: Object, gestureState: Object){
-  //   console.log('onPanResponderRelease');
-  //   this._unHighlight();
-  //
-  // },
-  // _hanlePanResponderTerminationRequest(e: Object, gestureState: Object){
-  //   console.log('_hanlePanResponderTerminationRequest',e.nativeEvent,gestureState)
-  // },
+
   _updatePosition(tweenFrame) {
     var positionData = tweenFrame ? tweenFrame : this._cardStyles;
     var newPos = {
@@ -210,14 +205,7 @@ mixins: [TimerMixin],
 
     this.card && this.card.setNativeProps(precomputeStyle(newPos))
   },
-  // _handleOnStartShouldSetPanResponderCapture(e, gestureState){
-  //   console.log(e,'_handleOnStartShouldSetResponderCapture');
-  //   // return false;
-  // },
-  // _handleOnMoveShouldSetPanResponderCapture(e, gestureState){
-  //   console.log(e,'_handleOnMoveShouldSetResponderCapture');
-  //   // return false;
-  // },
+
   _handleStartShouldSetPanResponder(e: Object, gestureState: Object): boolean {
     Logger.log('_handleStartShouldSetPanResponder',gestureState.dx)
 
@@ -232,7 +220,7 @@ mixins: [TimerMixin],
   },
 
   _handleMoveShouldSetPanResponder(e: Object, gestureState): boolean {
-    // Logger.log('_handleMoveShouldSetPanResponder',gestureState.dy)
+    Logger.log('_handleMoveShouldSetPanResponder',gestureState.dy)
 
     this.clearTimeout(this.x);
 
@@ -242,7 +230,7 @@ mixins: [TimerMixin],
   },
 
   _handlePanResponderGrant(e: Object, gestureState: Object) {
-    // Logger.log('Pan Responder Grant',gestureState.dx)
+    Logger.log('Pan Responder Grant',gestureState.dx)
     this.clearTimeout(this.x);
 
     console.log({gestureState},e)

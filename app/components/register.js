@@ -2,6 +2,9 @@
 
 'use strict';
 
+const PHONE_MASK_USA = "999 999-9999";
+
+
 var React = require('react-native');
 var {
   StyleSheet,
@@ -17,16 +20,20 @@ var {
 var TrackKeyboard = require('../mixins/keyboardMixin');
 
 var colors = require('../utils/colors')
+var CustomSceneConfigs = require('../utils/sceneConfigs');
 
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
+var AuthErrorStore = require('../flux/stores/AuthErrorStore');
 
 var UserActions = require('../flux/actions/UserActions');
 var PhoneNumberInput = require('../controls/phoneNumberInput.js');
+var SingleInputScreenMixin = require('../mixins/SingleInputScreenMixin');
+var TimerMixin = require('react-timer-mixin');
 
-// var Facebook = require('./facebook');
 var TopTabs = require('../controls/topSignupSigninTabs');
 
+var PinScreen = require('./pin')
 
 var styles = StyleSheet.create({
 
@@ -143,93 +150,118 @@ var animations = {
 };
 
 var Register = React.createClass({
-  mixins: [TrackKeyboard],
+  mixins: [TrackKeyboard, SingleInputScreenMixin, TimerMixin],
 
   getInitialState(){
     return({
       phone: '',
-      password: '',
-     password2: '',
       isLoading: false,
-      phoneFocused: false
     })
   },
-  componentWillUpdate(props, state) {
-    if (state.isKeyboardOpened !== this.state.isKeyboardOpened) {
-      console.log('shoud aniamte',animations)
-      LayoutAnimation.configureNext(animations.layout.spring);
+
+  formattedPhone(){
+    return this.state.inputFieldValue.replace(/[\. ,:-]+/g, "")
+  },
+
+  onError(err){
+    console.log(err);
+    if(!err || !err.phoneError){
+
+        return;
+    };
+
+    this.setState({
+      phoneError: err.phoneError,
+      canContinue: false
+    })
+  },
+  componentDidMount(){
+    AuthErrorStore.listen(this.onError);
+  },
+  componentWillUnmount(){
+    AuthErrorStore.unlisten(this.onError);
+  },
+
+  shouldHide(val) { return (val.length < PHONE_MASK_USA.length) ? true : false  },
+  shouldShow(val) { return (val.length == PHONE_MASK_USA.length) ? true : false  },
+
+  handleInputChange(event: any){
+    var update = {
+      inputFieldValue: event.nativeEvent.text
+    };
+    if(event.nativeEvent.text.length < this.state.inputFieldValue.length){
+
+      update['phoneError'] = null
 
     }
-  },
-  handlePhoneChange(event: any){
-    this.setState({
-      phone: event.nativeEvent.text
-    })
+
+    this.setState(update)
   },
 
-  handlePasswordChange(event: any){
-    this.setState({
-      password: event.nativeEvent.text
-    })
-  },
-  handlePhoneInputFocused(){
-    this.setState({
-      phoneFocused: true
-    })
-  },
-  handlePhoneInputBlurred(){
-    this.setState({
-      phoneFocused: false
-    })
-  },
+  _submit(){
+    if(!this.state.canContinue){
+      return false;
+    }
+    this.setTimeout( () => {
+      if(this.state.phoneError) return false;
 
-  handleLogin(){
-    UserActions.login(this.state.phone,this.state.password)
+      this.props.navigator.push({
+        component: PinScreen,
+        title: '',
+        id:'pw',
+        sceneConfig: CustomSceneConfigs.HorizontalSlide,
+        passProps: {
+          phone: this.formattedPhone(),
+          initialKeyboardSpace: this.state.keyboardSpace
+        }
+      })
+    },500);
+    UserActions.requestPinLogin(this.formattedPhone());
+
   },
 
   render(){
-    var paddingBottom =  this.state.keyboardSpace;
 
     return (
-      <View style={[{flex: 1, height:DeviceHeight, paddingBottom: paddingBottom}]}>
+      <View style={[{flex: 1, height:DeviceHeight, paddingBottom: this.state.keyboardSpace}]}>
+        <ScrollView
+          keyboardDismissMode={'on-drag'}
+          contentContainerStyle={[styles.wrap, {left: 0}]}
+          bounces={false}
+          >
+          <View style={[styles.phoneInputWrap,
+              (this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null),
+              (this.state.phoneError ? styles.phoneInputWrapError : null)]}>
 
-      <ScrollView
-        keyboardDismissMode={'on-drag'}
-        contentContainerStyle={styles.wrap}
-        bounces={false}
-        >
-        <View style={[styles.middleTextWrap]}>
-          <Text style={[styles.middleText]}>Welcome</Text>
-        </View>
-
-        <View
-          style={[styles.phoneInputWrap,(this.state.phoneFocused ? styles.phoneInputWrapSelected : null)]}>
-          <PhoneNumberInput
-            mask="+1 999 999-9999"
-            style={styles.phoneInput}
-            value={this.state.phone}
-            keyboardType={'phone-pad'}
-            placeholder={'Phone'}
-            keyboardAppearance={'dark'}
-            placeholderTextColor='#fff'
-            autoFocus={true}
-            onChange={this.handlePhoneChange}
-            onFocus={this.handlePhoneInputFocused}
-            onBlur={this.handlePhoneInputBlurred}
+            <PhoneNumberInput
+              mask={PHONE_MASK_USA}
+              style={styles.phoneInput}
+              value={this.state.inputFieldValue}
+              keyboardType={'phone-pad'}
+              placeholder={'Phone'}
+              keyboardAppearance={'dark'/*doesnt work*/}
+              placeholderTextColor='#fff'
+              autoFocus={true}
+              autoCorrect={false}
+              onChange={this.handleInputChange}
+              onFocus={this.handleInputFocused}
+              onBlur={this.handleInputBlurred}
             />
-        </View>
+          </View>
+          {this.state.phoneError &&
+              <View >
+                <Text textAlign={'right'} style={[styles.bottomErrorText]}>Did you mean to register?</Text>
+              </View>
+          }
+        </ScrollView>
 
-        <View style={[styles.middleTextWrap]}>
-          <Text style={[styles.bottomText]}>We need to text you a confirmation code to get started.</Text>
-        </View>
+        {this.renderContinueButton()}
 
-
-      </ScrollView>
     </View>
 
     );
   }
-})
+  })
 
 
 

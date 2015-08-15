@@ -5,6 +5,7 @@
 var PHONE_MASK_USA = "999 999-9999";
 
 var React = require('react-native');
+
 var {
   StyleSheet,
   Text,

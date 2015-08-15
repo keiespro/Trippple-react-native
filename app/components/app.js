@@ -75,7 +75,6 @@ class TopLevel extends React.Component{
 
   _renderScene (route, navigator){
     return (<route.component {...route.passProps} key={route.id} user={this.props.user} navigator={navigator}/>);
-
   }
 
   render(){
