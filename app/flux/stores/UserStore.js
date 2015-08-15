@@ -82,7 +82,8 @@ class UserStore {
   }
 
   handleUpdateUserStub(attributes){
-    var updatedUser = this.user;
+    console.log(attributes)
+    var updatedUser = this.state.user;
 
     Object.assign(updatedUser,attributes);
     this.setState({user:updatedUser});
@@ -127,7 +128,7 @@ class UserStore {
 
   }
   updateUserInfo(attributes){
-    var updatedUser = this.user;
+    var updatedUser = this.state.user;
     Object.assign(updatedUser,attributes);
     this.setState({user:updatedUser});
   }

@@ -121,7 +121,11 @@ var styles = StyleSheet.create({
       backgroundColor: colors.white,
       flex:1,
       position:'absolute',
-      bottom:0
+      bottom:0,
+      alignSelf: 'center',
+      width: DeviceWidth,
+      alignItems:'center',
+      justifyContent:'center'
     },
     container: {
       flex: 1,

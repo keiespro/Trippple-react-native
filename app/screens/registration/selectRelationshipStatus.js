@@ -52,7 +52,7 @@ class SelectRelationshipStatus extends React.Component{
     this._continue('couple');
   }
   _continue(selection){
-    UserActions.updateUserStub({relationship_status: this.state.selection});
+    UserActions.updateUserStub({relationship_status: selection});
 
     if(selection == 'single'){
 
@@ -60,7 +60,7 @@ class SelectRelationshipStatus extends React.Component{
         component: Facebook,
         id: 'fb',
         passProps: {
-          relationship_status: this.state.selection
+          relationship_status: selection
         }
       })
 
@@ -69,7 +69,7 @@ class SelectRelationshipStatus extends React.Component{
         component: InvitePartner,
         id: 'invite',
         passProps: {
-          relationship_status: this.state.selection
+          relationship_status: selection
         }
       })
     }

@@ -11,6 +11,7 @@ var {
   PickerIOS
 } = React;
 var PickerItemIOS = PickerIOS.Item;
+var colors = require('../utils/colors')
 
 var monthList = [
 'January',
@@ -117,6 +118,7 @@ var styles = StyleSheet.create({
  picker:{
    height:150,
    width:undefined,
+   backgroundColor: colors.white,
    alignItems: 'stretch',
    flexDirection: 'column',
    alignSelf:'stretch',
