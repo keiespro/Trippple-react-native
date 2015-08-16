@@ -45,6 +45,7 @@ class MatchActions {
   }
 
   sendLike(likedUserID,likeStatus){
+    console.log(likedUserID)
     this.dispatch(likedUserID);
 
     Api.sendLike(likedUserID, likeStatus)

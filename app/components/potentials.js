@@ -192,11 +192,11 @@ var ActiveCard = React.createClass({
       this._updatePosition()
     }
   },
-  shouldComponentUpdate(nextProps,nextState){
-    if(nextProps.potential[0].id != this.props.potential[0].id){
-      this._updatePosition()
-    }
-  },
+  // shouldComponentUpdate(nextProps,nextState){
+  //   if(nextProps.potential[0].id != this.props.potential[0].id){
+  //     this._updatePosition()
+  //   }
+  // },
 
   _updatePosition(tweenFrame) {
     var positionData = tweenFrame ? tweenFrame : this._cardStyles;
@@ -597,6 +597,7 @@ class CardStack extends React.Component{
     super(props)
   }
   render(){
+
       if(this.props.potentials.length){
         return (
             <View style={{width:DeviceWidth,height:DeviceHeight,flex:1,alignSelf:'stretch'}}>
@@ -618,7 +619,7 @@ class CardStack extends React.Component{
         )
       }else{
          return(
-          <View user={this.props.user} potential={this.props.potentials}>
+          <View user={this.props.user}>
             <TouchableHighlight onPress={() => MatchActions.getPotentials()}>
               <View>
                 <Text> get </Text>

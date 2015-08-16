@@ -5,7 +5,6 @@
 
 var Dimensions = require('Dimensions');
 var PixelRatio = require('PixelRatio');
-console.log(PixelRatio.get())
 var buildStyleInterpolator = require('buildStyleInterpolator');
 
 var SCREEN_WIDTH = Dimensions.get('window').width;
