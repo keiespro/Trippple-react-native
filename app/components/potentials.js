@@ -131,13 +131,14 @@ var ActiveCard = React.createClass({
   _updatePosition(tweenFrame) {
     const positionData = tweenFrame ? tweenFrame : this._cardStyles
 
-    // start scaling immediately, keep scaling until half of throw threshold is reach
-    var newScale = Math.abs(positionData.translateX) > THROW_OUT_THRESHOLD/2 ? 1.05 : 1 + (Math.abs(positionData.translateX) * 0.00025)
+    // start scaling immediately, keep scaling until 3/4 throw threshold is reach
+    var newScale = Math.abs(positionData.translateX) > THROW_OUT_THRESHOLD*.75 ? 1.05 : 1 + (Math.abs(positionData.translateX) * 0.00025) // this is a magic number i pulled out of my ass
 
-    // start rotating after translateX hits half of throw threshold.
-    var newRotate = Math.abs(positionData.translateX) < THROW_OUT_THRESHOLD/2 ? 0 : Math.abs(positionData.translateX)-THROW_OUT_THRESHOLD/2
+    // start rotating after translateX hits three quarter of throw threshold.
+    var newRotate = Math.abs(positionData.translateX) < THROW_OUT_THRESHOLD*.75 ? 0 : Math.abs(positionData.translateX)-THROW_OUT_THRESHOLD*.75
     newRotate = (positionData.translateX > 0 ? newRotate : newRotate*-1)/10+'deg'
 
+    // start increasing shadow radius
     var newShadow = Math.abs(positionData.translateX) < THROW_OUT_THRESHOLD/2 ? 5 : parseInt(Math.abs(positionData.translateX)-THROW_OUT_THRESHOLD/2)
     newShadow = newShadow > 30 ? 30 : newShadow
     // console.log(newShadow,'shadow')
@@ -145,7 +146,7 @@ var ActiveCard = React.createClass({
     var newPos = {
       transform: [
         {translateX:  parseFloat(positionData.translateX.toFixed(2))},
-        // {translateY:  parseFloat(positionData.translateY.toFixed(2))},
+        // {translateY:  parseFloat(positionData.translateY.toFixed(2))}, // TODO: slight curve along y axis
         {scale: parseFloat(newScale.toFixed(2))},
         {rotate: newRotate}
       ],
