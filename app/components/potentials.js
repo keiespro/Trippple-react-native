@@ -63,10 +63,32 @@ var ActiveCard = React.createClass({
 
   mixins: [TimerMixin],
 
+  getInitialState(){
+    return ({
+      position: {
+       translateX: 0,
+       translateY: 0,
+     },
+     showProfile: false,
+     isAnimating:false,
+     isDragging: false
+    })
+  },
   componentWillMount(){
     if(this.props.isTopCard) this.initializePanResponder()
   },
+  componentDidMount(){
+    this._updatePosition();
+  },
+  componentWillUpdate(nextProps,nextState){
+    if(nextProps.isTopCard && !this.props.isTopCard){
+
+      // console.log('ANIMATE NEW CARD');
+      // LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
+    }
+  },
   componentDidUpdate(prevProps,prevState){
+    //   if(prevState.showProfile != this.state.showProfile) LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
     if(this.props.isTopCard && !prevProps.isTopCard) this.initializePanResponder()
   },
   initializePanResponder(){
@@ -80,61 +102,32 @@ var ActiveCard = React.createClass({
       onPanResponderRelease: this._handlePanResponderEnd,
       onPanResponderTerminate: this._handlePanResponderEnd,
       // onPanResponderTerminationRequest: this._hanlePanResponderTerminationRequest,
-
-
     });
     this._previousLeft = 0;
     this._previousTop = 0;
     this._cardStyles = {
       translateY: this._previousTop,
       translateX: this._previousLeft
-   }
- },
-  getInitialState(){
-    return ({
-      position: {
-       translateX: 0,
-       translateY: 0,
-     },
-     showProfile: false,
-     isAnimating:false,
-     isDragging: false
-    })
+    }
   },
-  componentDidMount(){
-    this._updatePosition();
-  },
-  // componentWillUpdate(nextProps,nextState){
-  //   if(nextProps.potential[0].id != this.props.potential[0].id ) this._updatePosition({translateY: 0,translateX: 0})
-  //
-  // },
-  // componentDidUpdate(prevProps,prevState){
-  //   if(prevState.showProfile != this.state.showProfile) LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
-  // },
+
+
   _showProfile(){
-
     if(this.state.isDragging || this.state.isAnimating) return false;
-
-    this.setState({
-      showProfile: true
-    })
+    this.setState({ showProfile: true })
   },
-  _hideProfile(){
 
-    this.setState({
-      showProfile: false
-    })
-  },
+  _hideProfile(){ this.setState({ showProfile: false }) },
+
   _highlight() {
     var nativeProps = precomputeStyle({
       shadowOpacity: 100,
       shadowRadius:   15,
       shadowOffset: {width:0, height: 0},
-      transform: [{scale: 1.05}, ...this._cardStyles]
+      // transform: [{scale: 1.05}, ...this._cardStyles]
     });
 
     this.card && this.card.setNativeProps(nativeProps)
-
 
   },
 
@@ -147,16 +140,6 @@ var ActiveCard = React.createClass({
     });
     this.card && this.card.setNativeProps(nativeProps);
   },
-  componentWillUpdate(nextProps,nextState){
-    if(nextProps.potential[0].id != this.props.potential[0].id){
-      this._updatePosition()
-    }
-  },
-  // shouldComponentUpdate(nextProps,nextState){
-  //   if(nextProps.potential[0].id != this.props.potential[0].id){
-  //     this._updatePosition()
-  //   }
-  // },
 
   _updatePosition(tweenFrame) {
     var positionData = tweenFrame ? tweenFrame : this._cardStyles;
@@ -242,41 +225,18 @@ var ActiveCard = React.createClass({
     var likeStatus = gestureState.dx > 0 ? 'approve' : 'deny';
 
     var animation = new RNTAnimation({
-
-      // Start state
       start: {
         translateY: 0,
         translateX: self._cardStyles.translateX
       },
-
-      // End state
       end: {
         translateY: 0,
         translateX: (likeStatus == 'approve' ? 1000 : -1000)
       },
-
-      // Animation duration
       duration: 300,
-
-      // Tween function
       tween: 'easeOutBack',
-
-      frame: (tweenFrame) => {
-        self._updatePosition( tweenFrame );
-      },
-
-      done: () => {
-
-        MatchActions.sendLike(this.props.potential[0]['id'],likeStatus);
-        //
-        // self.replaceState({
-        //   isAnimating:false,
-        //   // position: {
-        //   //   translateY:0,
-        //   //   translateX:0
-        //   // }
-        // })
-      }
+      frame: (tweenFrame) => self._updatePosition( tweenFrame ),
+      done: () => MatchActions.sendLike(this.props.potential[0]['id'],likeStatus)
     });
 
   },
@@ -329,14 +289,15 @@ var ActiveCard = React.createClass({
     return (
 
       <View style={
-        this.props.isTopCard ? {
+
+          {
           alignSelf:'center',
           width:(DeviceWidth - 40),
           height:(DeviceHeight -  85),
           bottom:(35),
           left:20,
           right:20,
-          top:(55),
+          top:this.props.isTopCard ? (55) : 55,
           flex:1,
           shadowColor:colors.darkShadow,
           shadowRadius:5,
@@ -346,21 +307,16 @@ var ActiveCard = React.createClass({
               width:0,
               height: 5
           }
-        } :  {
-                shadowColor:colors.darkShadow,
-                shadowRadius:5,
-                // bottom:(35),
-                left:20,
-                right:20,
-                top:(75),
-                flex:1,
-                alignSelf:'center',
-                position:'absolute',
-                shadowOffset:{width:0, height:5},
-                shadowOpacity:50,
-                width:(DeviceWidth - 40),
-                height:(DeviceHeight - 85),
-              }
+        }
+        //     shadowColor:colors.darkShadow,
+            // shadowRadius:15,
+            // shadowOpacity:50,
+            // shadowOffset: {
+            //     width:0,
+            //     height: 10
+            // },
+
+
       }
       key={this.props.potential[0]['id']+'wrapper'}
         ref={(card) => { this.card = card }}
@@ -399,42 +355,36 @@ var CoupleActiveCard = React.createClass({
   displayName: "CoupleInsideActiveCard",
 
   componentDidUpdate(prevProps,prevState) {
-    if(prevProps.showProfile != this.props.showProfile)
-    LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
+    // if(prevProps.showProfile != this.props.showProfile)
+    // LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
 
   },
-
+  componentWillUpdate(nextProps){
+    console.log(nextProps)
+    if(nextProps.isTopCard && !this.props.isTopCard){
+      console.log('ANIMATE NEW CARD');
+      // LayoutAnimation.configureNext(
+      //   animations.layout.easeInEaseOut,
+      //   (x)=>{console.log('animation end',x)},
+      //   (err)=>{console.log('animation ERROR',err)}
+      // )
+      LayoutAnimation.spring();
+    }
+  },
   render(){
 
       return(
-        <View key={this.props.potential[0].id+'inside'} style={
-          // this.props.isTopCard ? [styles.card,{
-          //   overflow: this.props.showProfile ? 'visible' : 'hidden',
-          //   shadowColor:colors.darkShadow,
-          //   shadowRadius:15,
-          //   shadowOpacity:50,
-          //   shadowOffset: {
-          //       width:0,
-          //       height: 10
-          //   }
-          // }] : [
-          //   styles.basicCard,
-          //   {margin:30,marginTop:75,position:'absolute'}
-          // ]
+        <View ref={'cardinside'} key={this.props.potential[0].id+'inside'} style={
+
           [styles.card,{
             overflow: this.props.showProfile ? 'visible' : 'hidden',
-            shadowColor:colors.darkShadow,
-            shadowRadius:15,
-            shadowOpacity:50,
-            shadowOffset: {
-                width:0,
-                height: 10
-            }
-          },
-          {transform:[{scale:this.props.isTopCard ? 1 : 0.955}]}
+            marginBottom:this.props.isTopCard ? 0 : -25,
 
-          ]
-          }>
+            transform:[
+              {scale:this.props.isTopCard ? 1 : 0.95},
+
+            ]
+          }] }>
 
           <ScrollView
               scrollEnabled={this.props.showProfile ? true : false}
@@ -827,7 +777,7 @@ var animations = {
       }
     },
     easeInEaseOut: {
-      duration: 200,
+      duration: 500,
       create: {
         type: LayoutAnimation.Types.easeInEaseOut,
         property: LayoutAnimation.Properties.scaleXY
@@ -835,10 +785,9 @@ var animations = {
       },
       update: {
 
-        duration: 200,
-        property: LayoutAnimation.Properties.scaleXY,
+        duration: 500,
+        // property: LayoutAnimation.Properties.scaleXY,
         type: LayoutAnimation.Types.spring,
-        springDamping: 1000
 
       }
     }
