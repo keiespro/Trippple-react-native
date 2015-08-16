@@ -1,6 +1,6 @@
 /* @flow */
 
-'use strict';
+ ;
 
 const React = require('react-native');
 const {

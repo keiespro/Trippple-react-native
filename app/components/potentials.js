@@ -1,6 +1,6 @@
 /* @flow */
 
-'use strict';
+ ;
 
 const React = require('react-native');
 const {
@@ -38,19 +38,7 @@ const colors = require('../utils/colors');
 const Swiper = require('react-native-swiper');
 
 
-// class InactiveCard extends React.Component{
-//   constructor(props){
-//     super(props);
-//   }
-//   render(){
-//
-//     return (
-//
-//
-//
-//     )
-//   }
-// }
+
 var ActiveCard = React.createClass({
   displayName: "ActiveCard",
   _panResponder: {},
@@ -123,8 +111,7 @@ var ActiveCard = React.createClass({
     var nativeProps = precomputeStyle({
       shadowOpacity: 100,
       shadowRadius:   15,
-      shadowOffset: {width:0, height: 0},
-      // transform: [{scale: 1.05}, ...this._cardStyles]
+      shadowOffset: {width:0, height: 10},
     });
 
     this.card && this.card.setNativeProps(nativeProps)
@@ -142,13 +129,28 @@ var ActiveCard = React.createClass({
   },
 
   _updatePosition(tweenFrame) {
-    var positionData = tweenFrame ? tweenFrame : this._cardStyles;
+    const positionData = tweenFrame ? tweenFrame : this._cardStyles
+
+    // start scaling immediately, keep scaling until half of throw threshold is reach
+    var newScale = Math.abs(positionData.translateX) > THROW_OUT_THRESHOLD/2 ? 1.05 : 1 + (Math.abs(positionData.translateX) * 0.00025)
+
+    // start rotating after translateX hits half of throw threshold.
+    var newRotate = Math.abs(positionData.translateX) < THROW_OUT_THRESHOLD/2 ? 0 : Math.abs(positionData.translateX)-THROW_OUT_THRESHOLD/2
+    newRotate = (positionData.translateX > 0 ? newRotate : newRotate*-1)/10+'deg'
+
+    var newShadow = Math.abs(positionData.translateX) < THROW_OUT_THRESHOLD/2 ? 5 : parseInt(Math.abs(positionData.translateX)-THROW_OUT_THRESHOLD/2)
+    newShadow = newShadow > 30 ? 30 : newShadow
+    // console.log(newShadow,'shadow')
+
     var newPos = {
       transform: [
         {translateX:  parseFloat(positionData.translateX.toFixed(2))},
-        {translateY:  parseFloat(positionData.translateY.toFixed(2))},
-        // {scale: this.state.isDragging ? 1.05 : 1}
-      ]
+        // {translateY:  parseFloat(positionData.translateY.toFixed(2))},
+        {scale: parseFloat(newScale.toFixed(2))},
+        {rotate: newRotate}
+      ],
+      shadowRadius: newShadow,
+
     }
 
     this.card && this.card.setNativeProps(precomputeStyle(newPos))
@@ -308,13 +310,7 @@ var ActiveCard = React.createClass({
               height: 5
           }
         }
-        //     shadowColor:colors.darkShadow,
-            // shadowRadius:15,
-            // shadowOpacity:50,
-            // shadowOffset: {
-            //     width:0,
-            //     height: 10
-            // },
+
 
 
       }

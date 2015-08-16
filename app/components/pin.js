@@ -1,6 +1,6 @@
 /* @flow */
 
-'use strict';
+ ;
 
 var Pin_MASK_USA = "999 999-9999";
 

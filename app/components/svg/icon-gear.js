@@ -1,4 +1,4 @@
-'use strict';
+ ;
 var React = require('react-native');
 var Svg = require('react-native-svg');
 var Path = Svg.Path;

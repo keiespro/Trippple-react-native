@@ -1,4 +1,4 @@
-'use strict';
+ ;
 var Keychain = require('Keychain');
 var Promise = require("bluebird");
 var KEYCHAIN_NAMESPACE = 'http://api2.trippple.co';

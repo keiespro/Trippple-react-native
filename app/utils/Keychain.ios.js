@@ -1,7 +1,7 @@
 /**
  * @providesModule Keychain
  */
-'use strict';
+ ;
 
 var NativeModules = require('NativeModules');
 var RNKeychainManager = NativeModules.RNKeychainManager;

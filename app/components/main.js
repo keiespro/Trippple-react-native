@@ -1,6 +1,6 @@
 /* @flow */
 
-'use strict';
+ ;
 
 var React = require('react-native');
 var Settings = require('./settings');

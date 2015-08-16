@@ -1,6 +1,6 @@
 /* @flow */
 
-'use strict';
+ ;
 
 const PHONE_MASK_USA = "999 999-9999";
 
