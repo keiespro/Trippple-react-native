@@ -1,4 +1,10 @@
+/**
+ * @flow
+ */
+'use strict';
+
 var React = require('react-native');
+
 var {
   StyleSheet,
   Text,
@@ -26,18 +32,16 @@ var DistanceSlider = require('../../controls/distanceSlider');
 var ToggleSwitch = require('../../controls/switches');
 var GenderScreen = require('./gender');
 
-
-
-
 var BdayScreen = React.createClass({
 
   mixins: [TrackKeyboard, SingleInputScreenMixin],
+
   getDefaultProps() {
-      return {
-        date: new Date(),
-        timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
-      };
-    },
+    return {
+      date: new Date(),
+      timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
+    };
+  },
 
   getInitialState(){
     console.log(this.props.user)
@@ -50,20 +54,19 @@ var BdayScreen = React.createClass({
   shouldHide(val) { return false },
   shouldShow(val) { return true },
 
-
   _submit(){
 
     this.props.navigator.push({
-            component: GenderScreen,
-            id: 'yourgender',
-            passProps: {
-              bday: this.state.date
-            }
-          })
+      component: GenderScreen,
+      id: 'yourgender',
+      passProps: {
+        bday: this.state.date
+      }
+    })
 
   },
-  onDateChange(date){
 
+  onDateChange(date){
 
     this.setState({
       inputFieldValue: date,
@@ -73,42 +76,51 @@ var BdayScreen = React.createClass({
     UserActions.updateUserStub({bdate: date});
 
   },
+
   _setMonth(){},
+
   _setYear(){},
 
   render(){
     window.moment = moment;
     return(
-      <View style={[styles.container,{flex: 1, height:DeviceHeight, paddingBottom: 230}]}>
+      <View style={[
+          styles.container,
+          {
+            flex: 1,
+            height:DeviceHeight,
+            paddingBottom: 230
+          }
+        ]}>
+
         <ScrollView
           keyboardDismissMode={'on-drag'}
           contentContainerStyle={[styles.wrap]}
-          bounces={false}
-          >
-          <View style={[styles.pinInputWrap,(this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null)]}>
+          bounces={false}>
 
-            <Text
-              style={styles.fakeInput}>{moment(this.state.date).format('MMMM D, YYYY') || this.state.inputFieldValue || 'DATE OF BIRTH'}
+          <View style={[styles.pinInputWrap,(this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null)]}>
+            <Text style={styles.fakeInput}>
+              {moment(this.state.date).format('MMMM D, YYYY') || this.state.inputFieldValue || 'DATE OF BIRTH'}
             </Text>
           </View>
 
         </ScrollView>
+
         {this.renderContinueButton()}
 
         <View style={[{flex: 1, height: this.state.keyboardSpace},styles.bdayKeyboard]}>
 
           <DatePickerIOS
-                    minimumDate={moment().subtract(68,'years').toDate()}
-                    maximumDate={moment().subtract(18,'years').toDate()}
-                    date={this.state.date}
-                    mode="date"
-                    timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
-                    onDateChange={this.onDateChange}
-                  />
+            minimumDate={moment().subtract(68,'years').toDate()}
+            maximumDate={moment().subtract(18,'years').toDate()}
+            date={this.state.date}
+            mode="date"
+            timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
+            onDateChange={this.onDateChange}
+          />
+
         </View>
-
       </View>
-
      )
   }
 })

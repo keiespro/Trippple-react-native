@@ -7,7 +7,7 @@ var server = 'http://api2.trippple.co';
 
 class UserActions {
 
-  getUserInfo() {
+  getUserInfo(){
     Api.getUserInfo()
       .then((res) => {
         Logger.log(res);

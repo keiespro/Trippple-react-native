@@ -18,28 +18,19 @@ var Contacts = require('../contacts');
 var NavigatorSceneConfigs = require('NavigatorSceneConfigs');
 
 var InvitePartner = React.createClass({
-
-
-
-
-
+  
   onPress(){
-
-
     this.props.navigator.push({
-             component: Contacts,
-             title: 'Contacts',
-             id:'contacts',
-             sceneConfig: NavigatorSceneConfigs.FloatFromBottom
-           })
+       component: Contacts,
+       title: 'Contacts',
+       id:'contacts',
+       sceneConfig: NavigatorSceneConfigs.FloatFromBottom
+     })
   },
-
 
   goBack(){
     this.props.navigator.pop()
   },
-
-
 
   render() {
     return (
@@ -63,14 +54,15 @@ var InvitePartner = React.createClass({
         </BoxyButton>
 
         <View style={[styles.middleTextWrap,styles.underPinInput]}>
-          <TouchableHighlight
-            onPress={this.goBack}>
+
+          <TouchableHighlight onPress={this.goBack}>
+
             <View style={styles.goBackButton}>
               <Text textAlign={'left'} style={[styles.bottomTextIcon]}>◀︎ </Text>
               <Text textAlign={'left'} style={[styles.bottomText]}>Go back</Text>
             </View>
-          </TouchableHighlight>
 
+          </TouchableHighlight>
 
         </View>
       </View>
