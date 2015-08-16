@@ -238,14 +238,18 @@ var ActiveCard = React.createClass({
 
   },
   _throwOutCard(gestureState){
-    Logger.debug('throwout',gestureState.dx,this.state.isDragging)
-
-    this.setState({
-      isAnimating: true
-    })
-
     var self = this;
+
+    Logger.debug('throwout',self.props.potential,self.props.potential.user.id)
+
+
     var likeStatus = gestureState.dx > 0 ? 'approve' : 'deny';
+    var likeUserId = this.props.potential.user.id;
+
+
+        this.setState({
+          isAnimating: true
+        })
 
     var animation = new RNTAnimation({
       start: {
@@ -254,12 +258,13 @@ var ActiveCard = React.createClass({
       },
       end: {
         translateY: 0,
-        translateX: (likeStatus == 'approve' ? 1000 : -1000)
+        translateX: (likeStatus == 'approve' ? DeviceWidth * 2 : -DeviceWidth * 2)
       },
-      duration: 300,
+      duration: 500,
       tween: 'easeOutBack',
       frame: (tweenFrame) => self._updatePosition( tweenFrame ),
-      done: () => MatchActions.sendLike(this.props.potential[0]['id'],likeStatus)
+      // TODO: like goes to couple id instead of user (initiator of couple) id?
+      done: () => MatchActions.sendLike(likeUserId,likeStatus)
     });
 
   },
@@ -335,7 +340,7 @@ var ActiveCard = React.createClass({
 
 
       }
-      key={this.props.potential[0]['id']+'wrapper'}
+      key={this.props.potential.id+'wrapper'}
         ref={(card) => { this.card = card }}
         {...this._panResponder.panHandlers}>
 
@@ -389,7 +394,7 @@ var CoupleActiveCard = React.createClass({
   render(){
 
     return(
-      <View ref={'cardinside'} key={this.props.potential[0].id+'inside'} style={
+      <View ref={'cardinside'} key={this.props.potential.id+'inside'} style={
 
         [styles.card,{
           overflow: this.props.profileVisible ? 'visible' : 'hidden',
@@ -420,7 +425,7 @@ var CoupleActiveCard = React.createClass({
               height:undefined,
 
             }]}
-            key={this.props.potential[0]['id']+'view'}>
+            key={this.props.potential.id+'view'}>
 
             {this.props.profileVisible ?
                <View
@@ -430,7 +435,7 @@ var CoupleActiveCard = React.createClass({
               }}>
 
               <Swiper
-                _key={this.props.potential[0]['id']+'swiper'}
+                _key={this.props.potential.id+'swiper'}
                 loop={true}
                 horizontal={false}
                 vertical={true}
@@ -438,40 +443,40 @@ var CoupleActiveCard = React.createClass({
                 showsButtons={false}
                 dot={ <View style={styles.dot} />}
                 activeDot={ <View style={styles.activeDot} /> }>
-                <Image source={{uri: this.props.potential[0].image_url}}
-                  key={this.props.potential[0]['id']+'cimg'}
+                <Image source={{uri: this.props.potential.user.image_url}}
+                  key={this.props.potential.user.id+'cimg'}
                   style={styles.imagebg}
                   resizeMode={Image.resizeMode.contain} />
-                <Image source={{uri: this.props.potential[1].image_url}}
-                  key={this.props.potential[1]['id']+'cimg'}
+                <Image source={{uri: this.props.potential.partner.id.image_url}}
+                  key={this.props.potential.partner.id+'cimg'}
                   style={styles.imagebg}
                   resizeMode={Image.resizeMode.contain} />
               </Swiper>
              </View>
               :
 
-                            <Swiper
-                              _key={this.props.potential[0]['id']+'swiper'}
-                              loop={true}
-                              horizontal={false}
-                              vertical={true}
-                              showsPagination={true}
-                              showsButtons={false}
-                              dot={ <View style={styles.dot} />}
-                              activeDot={ <View style={styles.activeDot} /> }>
-                              <Image source={{uri: this.props.potential[0].image_url}}
-                                key={this.props.potential[0]['id']+'cimg'}
-                                style={styles.imagebg}
-                                resizeMode={Image.resizeMode.cover} />
-                              <Image source={{uri: this.props.potential[1].image_url}}
-                                key={this.props.potential[1]['id']+'cimg'}
-                                style={styles.imagebg}
-                                resizeMode={Image.resizeMode.cover} />
-                            </Swiper>
+                <Swiper
+                  _key={this.props.potential.id+'swiper'}
+                  loop={true}
+                  horizontal={false}
+                  vertical={true}
+                  showsPagination={true}
+                  showsButtons={false}
+                  dot={ <View style={styles.dot} />}
+                  activeDot={ <View style={styles.activeDot} /> }>
+                  <Image source={{uri: this.props.potential.user.image_url}}
+                    key={this.props.potential.user.id+'cimg'}
+                    style={styles.imagebg}
+                    resizeMode={Image.resizeMode.cover} />
+                  <Image source={{uri: this.props.potential.partner.image_url}}
+                    key={this.props.potential.partner.id+'cimg'}
+                    style={styles.imagebg}
+                    resizeMode={Image.resizeMode.cover} />
+                </Swiper>
             }
 
             <View
-              key={this.props.potential[0]['id']+'bottomview'}
+              key={this.props.potential.id+'bottomview'}
               style={{
                 height:(this.props.profileVisible ? DeviceHeight/3 : 80),
                 bottom:0,
@@ -491,11 +496,11 @@ var CoupleActiveCard = React.createClass({
                   width: DeviceWidth-(this.props.profileVisible ? 0 : 40),
                   paddingVertical:20
                   }}>
-                    <Text style={styles.cardBottomText}>{`${this.props.potential[0].firstname.trim()} and ${this.props.potential[1].firstname.trim()}`}</Text>
+                    <Text style={styles.cardBottomText}>{`${this.props.potential.user.firstname.trim()} and ${this.props.potential.partner.firstname.trim()}`}</Text>
                 </View>
 
               : <TouchableHighlight underlayColor={colors.warmGrey} onPress={()=>{ this.props.showProfile()}} style={{ paddingTop:20 }}>
-                  <Text style={styles.cardBottomText}>{`${this.props.potential[0].firstname.trim()} and ${this.props.potential[1].firstname.trim()}`}</Text>
+                  <Text style={styles.cardBottomText}>{`${this.props.potential.user.firstname.trim()} and ${this.props.potential.partner.firstname.trim()}`}</Text>
                 </TouchableHighlight>
               }
 
@@ -507,8 +512,8 @@ var CoupleActiveCard = React.createClass({
                   right:0,
                   backgroundColor:'transparent',
                   flexDirection:'row'}}>
-                <Image source={{uri: this.props.potential[0].image_url}} key={this.props.potential[0]['id']+'img'} style={[styles.circleimage,{marginRight:5}]}/>
-                <Image source={{uri: this.props.potential[1].image_url}} key={this.props.potential[1]['id']+'img'} style={styles.circleimage}/>
+                <Image source={{uri: this.props.potential.user.image_url}} key={this.props.potential.user.id+'img'} style={[styles.circleimage,{marginRight:5}]}/>
+                <Image source={{uri: this.props.potential.partner.image_url}} key={this.props.potential.partner.id+'img'} style={styles.circleimage}/>
               </View>
               { this.props.profileVisible &&
                 <View style={{height:undefined,width: DeviceWidth, padding:20}}>
@@ -541,10 +546,10 @@ var CoupleActiveCard = React.createClass({
 //   render(){
 //
 //       return(
-//         <View style={[styles.card,{width: DeviceWidth}]} key={this.props.potential[0]['id']+'view'}>
+//         <View style={[styles.card,{width: DeviceWidth}]} key={this.props.potential.id+'view'}>
 //           {/**/}
 //           <Swiper
-//             _key={this.props.potential[0]['id']+'swiper'}
+//             _key={this.props.potential.id+'swiper'}
 //             style={[styles.wrapper]}
 //             loop={true}
 //             horizontal={false}
@@ -553,15 +558,15 @@ var CoupleActiveCard = React.createClass({
 //             showsButtons={false}
 //             dot={ <View style={styles.dot} />}
 //             activeDot={ <View style={styles.activeDot} /> }>
-//             <Image source={{uri: this.props.potential[0].image_url}} key={this.props.potential[0]['id']+'cimg'} style={[styles.imagebg,{width: DeviceWidth}]} />
-//             <Image source={{uri: this.props.potential[1].image_url}} key={this.props.potential[1]['id']+'cimg'} style={[styles.imagebg,{width: DeviceWidth}]} />
+//             <Image source={{uri: this.props.potential.image_url}} key={this.props.potential.id+'cimg'} style={[styles.imagebg,{width: DeviceWidth}]} />
+//             <Image source={{uri: this.props.potential[1].image_url}} key={this.props.potential[1].id+'cimg'} style={[styles.imagebg,{width: DeviceWidth}]} />
 //           </Swiper>
 //
-//           <View key={this.props.potential[0]['id']+'bottomview'}  style={{backgroundColor:colors.white,width: DeviceWidth, alignSelf:'stretch'}}>
-//             <Text style={styles.cardBottomText}>{`${this.props.potential[0].firstname} and ${this.props.potential[1].firstname}`}</Text>
+//           <View key={this.props.potential.id+'bottomview'}  style={{backgroundColor:colors.white,width: DeviceWidth, alignSelf:'stretch'}}>
+//             <Text style={styles.cardBottomText}>{`${this.props.potential.firstname} and ${this.props.potential[1].firstname}`}</Text>
 //
 //             <View style={{height:60,top:-30,position:'absolute',width:135,right:0,backgroundColor:'transparent',flexDirection:'row'}}>
-//               <Image source={{uri: this.props.potential[0].image_url}} style={[styles.circleimage,{marginRight:5}]}/>
+//               <Image source={{uri: this.props.potential.image_url}} style={[styles.circleimage,{marginRight:5}]}/>
 //               <Image source={{uri: this.props.potential[1].image_url}} style={styles.circleimage}/>
 //             </View>
 //             <TouchableHighlight  onPress={this.props.hideProfile}>
@@ -587,13 +592,13 @@ var CoupleActiveCard = React.createClass({
 //   }
 //   render(){
 //       return(
-//         <View key={this.props.potential[0]['id']+'wrapper'} style={[styles.basicCard,{margin:30,marginTop:75,position:'absolute',width: DeviceWidth-60,height:DeviceHeight-100}]}>
-//           <Image source={{uri: this.props.potential[0].image_url}} key={this.props.potential[0]['id']+'cimg'} style={[styles.imagebg,{width: DeviceWidth-60}]} />
+//         <View key={this.props.potential.id+'wrapper'} style={[styles.basicCard,{margin:30,marginTop:75,position:'absolute',width: DeviceWidth-60,height:DeviceHeight-100}]}>
+//           <Image source={{uri: this.props.potential.image_url}} key={this.props.potential.id+'cimg'} style={[styles.imagebg,{width: DeviceWidth-60}]} />
 //           <View style={{height:70,bottom:0,position:'absolute',width: DeviceWidth-60,backgroundColor:colors.white, flex:5, alignSelf:'stretch'}}>
-//             <Text style={styles.cardBottomText}>{`${this.props.potential[0].firstname} and ${this.props.potential[1].firstname}`}</Text>
+//             <Text style={styles.cardBottomText}>{`${this.props.potential.firstname} and ${this.props.potential[1].firstname}`}</Text>
 //
 //             <View style={{height:60,top:-30,position:'absolute',width:135,right:0,backgroundColor:'transparent',flexDirection:'row'}}>
-//               <Image source={{uri: this.props.potential[0].image_url}} style={[styles.circleimage,{marginRight:5}]}/>
+//               <Image source={{uri: this.props.potential.image_url}} style={[styles.circleimage,{marginRight:5}]}/>
 //               <Image source={{uri: this.props.potential[1].image_url}} style={styles.circleimage}/>
 //             </View>
 //
@@ -619,7 +624,7 @@ class DummyCard extends React.Component{
 // stub
 class CardStack extends React.Component{
   constructor(props){
-    console.log('SinglesCardStack',props.potentials)
+
     super(props)
   }
   render(){
@@ -634,7 +639,7 @@ class CardStack extends React.Component{
                 </View>
               }
               {this.props.potentials[1] &&
-                <ActiveCard key={this.props.potentials[1][0]['id']+'activecard'} user={this.props.user} potential={this.props.potentials[1]} isTopCard={false}/>
+                <ActiveCard key={this.props.potentials[1].id+'activecard'} user={this.props.user} potential={this.props.potentials[1]} isTopCard={false}/>
 
               /*
                 <View style={{shadowColor:colors.darkShadow,shadowRadius:5,shadowOffset:{width:0,height:5},shadowOpacity:50}}>
@@ -643,7 +648,7 @@ class CardStack extends React.Component{
               */
               }
               {this.props.potentials[0] &&
-                <ActiveCard key={this.props.potentials[0][0]['id']+'activecard'} user={this.props.user} potential={this.props.potentials[0]} isTopCard={true}/>
+                <ActiveCard key={this.props.potentials[0].id+'activecard'} user={this.props.user} potential={this.props.potentials[0]} isTopCard={true}/>
               }
             </View>
         )
