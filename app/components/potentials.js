@@ -102,8 +102,8 @@ var ActiveCard = React.createClass({
   },
 
   componentDidUpdate(prevProps,prevState) {
-    if(prevState.showProfile != this.state.showProfile)
-    LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
+    if(prevState.showProfile != this.state.showProfile) LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
+    if(prevProps.potential[0].id != this.props.potential[0].id ) this._updatePosition({translateY: 0,translateX: 0})
 
   },
   _showProfile(){
@@ -208,38 +208,41 @@ var ActiveCard = React.createClass({
   },
 
   _handleStartShouldSetPanResponder(e: Object, gestureState: Object): boolean {
-    Logger.log('_handleStartShouldSetPanResponder',gestureState.dx)
+    Logger.log('_handleStartShouldSetPanResponder',gestureState)
 
     // Should we become active when the user presses down on the card?
-    this.x = this.setTimeout(()=>{
-      // if(this.state.isDragging == true) return false;
+    // this.x = this.setTimeout(()=>{
+      if(this.state.isDragging == true || this.state.isAnimating == true) return false;
+    //
+    //   this._showProfile();
+    // },1000)
 
-      this._showProfile();
-    },1000)
 
-    return Math.abs(gestureState.dx) > 1
+      return Math.abs(gestureState.dx) > 1
+
   },
 
   _handleMoveShouldSetPanResponder(e: Object, gestureState): boolean {
     Logger.log('_handleMoveShouldSetPanResponder',gestureState.dy)
+    if(this.state.isDragging || this.state.isAnimating) return false;
 
-    this.clearTimeout(this.x);
-
-    // Should we become active when the user moves a touch over the card?
-    if(this.state.isDragging == true) return true;
-    return Math.abs(gestureState.dy) < 5
+    //TODO: correctly determine velocity to determine if gesture was a throw
+    if(Math.abs(gestureState.vx*10000000) > 5){
+      return true;
+    }else{
+      return Math.abs(gestureState.dy) < 5
+    }
   },
 
   _handlePanResponderGrant(e: Object, gestureState: Object) {
     Logger.log('Pan Responder Grant',gestureState.dx)
     this.clearTimeout(this.x);
 
-    console.log({gestureState},e)
-
       this.replaceState({
         isDragging: true
       })
       this._highlight();
+
 
 
   },
@@ -265,58 +268,7 @@ var ActiveCard = React.createClass({
 
     if(Math.abs(gestureState.dx) > THROW_OUT_THRESHOLD ){
 
-      Logger.debug('throwout',gestureState.dx)
-
-        this.setState({
-          isAnimating: true
-        })
-
-        var self = this;
-        var likeStatus = gestureState.dx > 0 ? 'approve' : 'deny';
-
-
-        var animation = new RNTAnimation({
-
-          // Start state
-          start: {
-            translateY: 0,
-            translateX: self._cardStyles.translateX
-          },
-
-          // End state
-          end: {
-            translateY: 0,
-            translateX: (likeStatus == 'approve' ? 1000 : -1000)
-
-          },
-
-          // Animation duration
-          duration: 200,
-
-          // Tween function
-          tween: 'easeOutBack',
-
-          // Update the component's state each frame
-          frame: (tweenFrame) => {
-
-            self._updatePosition( tweenFrame );
-          },
-
-          // Optional callback
-          done: () => {
-
-            MatchActions.sendLike(this.props.potential[0]['id'],likeStatus);
-
-            self.replaceState({
-              isAnimating:false,
-              position: {
-                translateY:0,
-                translateX:0
-              }
-            })
-            self._updatePosition({translateY: 0,translateX: 0})
-          }
-        });
+      this._throwOutCard(gestureState)
 
     }else{
 
@@ -376,6 +328,60 @@ var ActiveCard = React.createClass({
 
 
   },
+  _throwOutCard(gestureState){
+    Logger.debug('throwout',gestureState.dx)
+
+      this.setState({
+        isAnimating: true
+      })
+
+      var self = this;
+      var likeStatus = gestureState.dx > 0 ? 'approve' : 'deny';
+
+
+      var animation = new RNTAnimation({
+
+        // Start state
+        start: {
+          translateY: 0,
+          translateX: self._cardStyles.translateX
+        },
+
+        // End state
+        end: {
+          translateY: 0,
+          translateX: (likeStatus == 'approve' ? 1000 : -1000)
+
+        },
+
+        // Animation duration
+        duration: 200,
+
+        // Tween function
+        tween: 'easeOutBack',
+
+        // Update the component's state each frame
+        frame: (tweenFrame) => {
+
+          self._updatePosition( tweenFrame );
+        },
+
+        // Optional callback
+        done: () => {
+
+          MatchActions.sendLike(this.props.potential[0]['id'],likeStatus);
+
+          self.replaceState({
+            isAnimating:false,
+            position: {
+              translateY:0,
+              translateX:0
+            }
+          })
+        }
+      });
+
+  }
 });
 
 
