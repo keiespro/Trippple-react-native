@@ -163,7 +163,7 @@ var ActiveCard = React.createClass({
   },
 
   _handleStartShouldSetPanResponder(e: Object, gestureState: Object): boolean {
-    Logger.log('_handleStartShouldSetPanResponder',gestureState.dx,gestureState.moveX)
+    console.log('_handleStartShouldSetPanResponder',gestureState.dx,gestureState.moveX)
 
     // Should we become active when the user presses down on the card?
     // this.x = this.setTimeout(()=>{
@@ -192,7 +192,7 @@ var ActiveCard = React.createClass({
   },
 
   _handleMoveShouldSetPanResponder(e: Object, gestureState): boolean {
-    Logger.log('_handleMoveShouldSetPanResponder',gestureState.dx,gestureState,e)
+    console.log('_handleMoveShouldSetPanResponder',gestureState.dx,gestureState,e)
     // if(this.state.isDragging == true) return false;
 
 
@@ -205,7 +205,7 @@ var ActiveCard = React.createClass({
   },
 
   _handlePanResponderGrant(e: Object, gestureState: Object) {
-    Logger.log('Pan Responder Grant',gestureState.dx,gestureState.moveX)
+    console.log('Pan Responder Grant',gestureState.dx,gestureState.moveX)
     // this.clearTimeout(this.x);
     // if(gestureState.dx > 0){
       this.replaceState({
@@ -215,7 +215,7 @@ var ActiveCard = React.createClass({
     // }
   },
   _handlePanResponderMove(e: Object, gestureState: Object) {
-    Logger.log('Pan Responder MOVE',gestureState.dx,gestureState)
+    console.log('Pan Responder MOVE',gestureState.dx,gestureState)
     // if(this.x) this.clearTimeout(this.x);
     // this._highlight();
 
@@ -232,7 +232,7 @@ var ActiveCard = React.createClass({
       isDragging: false
     })
     this._unHighlight();
-    Logger.log('Pan Responder End',Math.abs(gestureState.dx))
+    console.log('Pan Responder End',Math.abs(gestureState.dx))
 
     Math.abs(gestureState.dx) > THROW_OUT_THRESHOLD ? this._throwOutCard(gestureState) : this._resetCard(gestureState)
 
@@ -447,7 +447,7 @@ var CoupleActiveCard = React.createClass({
                   key={this.props.potential.user.id+'cimg'}
                   style={styles.imagebg}
                   resizeMode={Image.resizeMode.contain} />
-                <Image source={{uri: this.props.potential.partner.id.image_url}}
+                <Image source={{uri: this.props.potential.partner.image_url}}
                   key={this.props.potential.partner.id+'cimg'}
                   style={styles.imagebg}
                   resizeMode={Image.resizeMode.contain} />

@@ -173,7 +173,7 @@ class Contacts extends React.Component{
 
   storeContacts(){
     AddressBook.getContacts((err, contacts) => {
-      Logger.log(err);
+      console.log(err);
 
       var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
       // InteractionManager.runAfterInteractions(() => {

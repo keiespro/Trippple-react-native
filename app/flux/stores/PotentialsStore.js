@@ -18,12 +18,12 @@ class PotentialsStore {
     });
 
     this.on('init',()=>{
-      Logger.log('store init')
+      console.log('store init')
       MatchActions.getPotentials();
 
     })
     this.on('bootstrap', () => {
-      Logger.log('store bootstrap');
+      console.log('store bootstrap');
 
     });
 
@@ -35,7 +35,7 @@ class PotentialsStore {
 
 
   handleGetPotentials(potentials) {
-    Logger.log(potentials,'POTENTIALS');
+    console.log(potentials,'POTENTIALS');
     if(potentials.matches.length){
       this.setState({
         potentials: potentials.matches
@@ -56,7 +56,7 @@ class PotentialsStore {
 
 
   getAll(){
-    Logger.log('POTSTORE',this.getState().potentials)
+    console.log('POTSTORE',this.getState().potentials)
     return this.getState().potentials || [];
 
   }

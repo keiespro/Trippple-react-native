@@ -107,7 +107,7 @@ class MatchList extends React.Component{
 
     return (
       <Swipeout right={swipeoutBtns}  key={rowData.match_id+'match'}>
-        <TouchableHighlight onPress={() => {Logger.log('onpress Swipeout');  this._pressRow(rowData.match_id); }} key={rowData.match_id+'match'}>
+        <TouchableHighlight onPress={() => {console.log('onpress Swipeout');  this._pressRow(rowData.match_id); }} key={rowData.match_id+'match'}>
 
         <View>
           <View style={styles.row}>

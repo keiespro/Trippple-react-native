@@ -8,7 +8,7 @@ class MatchActions {
 
     Api.getMatches()
       .then((res) => {
-        Logger.log(res)
+        console.log(res)
         this.dispatch(res.response);
       })
   }
@@ -25,7 +25,7 @@ class MatchActions {
 
     navigator.geolocation.getCurrentPosition(
       (geo) => {
-        Logger.log('Got coordinates:', geo.coords);
+        console.log('Got coordinates:', geo.coords);
         var coordinates = {
           latitude: geo.coords.latitude,
           longitude: geo.coords.longitude
@@ -50,10 +50,10 @@ class MatchActions {
 
     Api.sendLike(likedUserID, likeStatus)
       .then((res) => {
-        Logger.log(res)
+        console.log(res)
         navigator.geolocation.getCurrentPosition(
           (geo) => {
-            Logger.log('Got coordinates:', geo.coords);
+            console.log('Got coordinates:', geo.coords);
             var coordinates = {
               latitude: geo.coords.latitude,
               longitude: geo.coords.longitude

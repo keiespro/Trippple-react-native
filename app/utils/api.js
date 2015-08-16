@@ -32,7 +32,7 @@ function authenticatedRequest(endpoint: '', payload: {}){
   Logger.debug(payload,'payload');
   return Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
     .then(function(credentials) {
-      Logger.log('Credentials successfully loaded', credentials);
+      console.log('Credentials successfully loaded', credentials);
       payload.user_id = credentials['username'];
       payload.api_key = credentials['password'];
       return publicRequest(endpoint, payload);
@@ -42,7 +42,7 @@ function authenticatedRequest(endpoint: '', payload: {}){
 function authenticatedFileUpload(endpoint, image){
   return Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
     .then(function(credentials) {
-      Logger.log('Credentials successfully loaded', credentials);
+      console.log('Credentials successfully loaded', credentials);
       var url = `${SERVER_URL}/${endpoint}`;
       var payload = {
           uri: image,
@@ -57,7 +57,7 @@ function authenticatedFileUpload(endpoint, image){
       };
       return UploadFile(payload)
               .then( (res, err) => {
-                Logger.log('res:',res,'err:',err);
+                console.log('res:',res,'err:',err);
                 return res.response;
               })
     })
@@ -111,7 +111,7 @@ var api = {
   },
 
   getMatches(){
-    Logger.log('getmatches req')
+    console.log('getmatches req')
     return authenticatedRequest('matches')
   },
 
