@@ -2,26 +2,30 @@
 
 'use strict';
 
-var React = require('react-native');
-var {
+const React = require('react-native');
+const {
  StyleSheet,
  Text,
  Image,
  View,
+ AlertIOS,
  TextInput,
  ListView,
  TouchableHighlight
 } = React;
-var Logger = require("../utils/logger");
 
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
-var Facebook = require('./registration/facebook');
-var UserActions = require('../flux/actions/UserActions');
+const Modal = require('react-native-modal');
 
-var AddressBook = require('NativeModules').AddressBook;
-var colors = require('../utils/colors');
-var _ = require('underscore');
+const Logger = require("../utils/logger");
+
+const DeviceHeight = require('Dimensions').get('window').height;
+const DeviceWidth = require('Dimensions').get('window').width;
+const Facebook = require('./registration/facebook');
+const UserActions = require('../flux/actions/UserActions');
+
+const AddressBook = require('NativeModules').AddressBook;
+const colors = require('../utils/colors');
+const _ = require('underscore');
 
 class ContactList extends React.Component{
 
@@ -33,7 +37,7 @@ class ContactList extends React.Component{
 
   }
   onPress(sectionID,rowID,rowData){
-    console.log(sectionID,rowID,rowData);
+    console.log('contact list onPress',sectionID,rowID,rowData);
     this.setState({
       highlightedRow: {sectionID,rowID}
     })
@@ -43,7 +47,7 @@ class ContactList extends React.Component{
     //   borderWidth: 1
     // })
 
-    UserActions.updateUserStub({gender: this.state.selection});
+    // UserActions.updateUserStub({gender: this.state.selection});
 
     this.props.onPress(rowData);
 
@@ -52,17 +56,18 @@ class ContactList extends React.Component{
 
   _renderRow(rowData, sectionID: number, rowID: number, highlightRow) {
     var phoneNumber = rowData.phoneNumbers && rowData.phoneNumbers[0] ? rowData.phoneNumbers[0].number : "";
-    console.log(sectionID, rowID)
+    // console.log(sectionID, rowID)
 
     if( this.state.highlightedRow['rowID'] == rowID){
       console.log('HIGHLIGHT')
     }
-    console.log(this.props.selection);
+
     return (
         <TouchableHighlight underlayColor={colors.mediumPurple20} onPress={()=>{
 
-          highlightRow(rowID);
-          this.onPress(sectionID,rowID,rowData); highlightRow(sectionID,rowID)
+
+            this.onPress(sectionID,rowID,rowData);
+             highlightRow(sectionID,rowID)
         }} ref={rowID+'contact'} key={rowID+'contact'}>
           <View style={[styles.fullwidth,styles.row,
             (this.state.highlightedRow.sectionID == sectionID && this.state.highlightedRow.rowID == rowID ? 'rowSelected' : null)]}>
@@ -92,8 +97,9 @@ class ContactList extends React.Component{
         <ListView
           removeClippedSubviews={true}
           initialListSize={100}
+          ref={'thelist'}
           scrollRenderAheadDistance={1000}
-        contentContainerStyle={styles.fullwidth}
+          contentContainerStyle={styles.fullwidth}
           dataSource={this.props.dataSource}
           renderRow={this._renderRow.bind(this)}
           renderSeparator={(sectionID, rowID, adjacentRowHighlighted)=>{
@@ -115,17 +121,25 @@ class Contacts extends React.Component{
     this.state = {
       contacts: [],
       partnerSelection:{},
-      dataSource: ds.cloneWithRows([])
+      dataSource: ds.cloneWithRows([]),
+      searchText: '',
+      isModalOpen: false
     }
   }
-  _pressRow(contact) {
+  _pressRow(contact){
 
     Logger.debug(contact);
 
     this.setState({
-      partnerSelection: contact
+      partnerSelection: contact,
+      isModalOpen: true
     })
   }
+
+  closeModal(){
+    this.setState({isModalOpen: false});
+  }
+
   componentDidMount(){
 
 
@@ -141,6 +155,16 @@ class Contacts extends React.Component{
       }
       if(permission === AddressBook.PERMISSION_DENIED){
         //handle permission denied
+
+        //TODO: test this!
+        AlertIOS.alert(
+          '',
+          'We need access to your contacts so you can select your partner.',
+          [
+            {text: 'Try Again', onPress: () => console.log('GO TO SETTINGS TO ALLOW CONTACTS?!')},
+            {text: 'Nevermind I\'m single.', onPress: () => this.props.navigator.popToTop()},
+          ]
+        )
       }
     })
 
@@ -160,22 +184,29 @@ class Contacts extends React.Component{
       // });
     })
   }
-  componentWillUnmount() {
+  componentWillUnmount(){
     Logger.debug('UNmount contacts')
-
-
   }
   _searchChange(text){
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
+
+    const shouldScrollToTop = text.length == 1 && this.state.searchText.length == 0
+
+    const listref = this.refs.contactlist.refs.thelist
+    console.log(text,shouldScrollToTop)
+
+    shouldScrollToTop ? listref.setNativeProps({ contentOffset: { y: 0 }}) : null
 
     this.setState({
+      searchText: text,
       dataSource: ds.cloneWithRows(_.filter(this.state.contacts, (contact)=>{
         var name = `${contact.firstName || ''} ${contact.lastName || ''}`;
         return name.toLowerCase().indexOf(text.toLowerCase()) >= 0
       }))
     });
+
   }
-  continue(){
+  _continue(){
 
       this.props.navigator.push({
         component: Facebook,
@@ -186,21 +217,23 @@ class Contacts extends React.Component{
     })
 
   }
-  cancel(){
+  _cancel(){
     this.setState({
+      isModalOpen: false,
       partnerSelection: {}
     });
 
   }
   render(){
 
-      if(this.state.partnerSelection && !this.state.partnerSelection.phoneNumbers){
+
         return (
 
       <View style={styles.container} noScroll={true}>
         <View style={styles.searchwrap}>
           <Image source={require('image!search')} style={styles.searchicon}/>
           <TextInput
+            ref="searchinput"
             style={styles.searchfield}
             textAlign="center"
             placeholder="SEARCH"
@@ -211,6 +244,7 @@ class Contacts extends React.Component{
         </View>
 
         <ContactList
+          ref={'contactlist'}
           user={this.props.user}
           dataSource={this.state.dataSource}
           contacts={this.state.contacts}
@@ -219,40 +253,45 @@ class Contacts extends React.Component{
           id={"contactslist"}
           title={"contactlist"}
         />
-      </View>
-    )
-  }else{
-         return (
+
+
+      <Modal
+        isVisible={this.state.isModalOpen}
+        forceToFront={true}
+        backdropType="blur"
+        onClose={() => this.closeModal.bind(this)}>
         <View style={styles.container}>
-        <View style={[styles.fullwidth,styles.col]}>
+          <View style={[styles.fullwidth,styles.col]}>
 
-          <Image style={[styles.contactthumb,{width:100,height:100,borderRadius:50}]} source={this.state.partnerSelection.thumbnailPath != "" ? {uri: this.state.partnerSelection.thumbnailPath} : require('image!placeholderUser')} />
+            <Image style={[styles.contactthumb,{width:100,height:100,borderRadius:50}]} source={this.state.partnerSelection.thumbnailPath != "" ? {uri: this.state.partnerSelection.thumbnailPath} : require('image!placeholderUser')} />
 
-          <View style={styles.rowtextwrapper}>
+            <View style={styles.rowtextwrapper}>
 
-            <Text style={[styles.rowtext,styles.bigtext]}>
-              {`${this.state.partnerSelection.firstName || ''} ${this.state.partnerSelection.lastName || ''}`}
-            </Text>
-            <Text style={styles.text}>
-                {`${ 'xx' }`/* this.state.partnerSelection.phoneNumbers[0].number  || '' */}
+              <Text style={[styles.rowtext,styles.bigtext]}>
+                {`${this.state.partnerSelection.firstName || ''} ${this.state.partnerSelection.lastName || ''}`}
+              </Text>
+              <Text style={styles.text}>
+                  {`${ 'xx' }`/* this.state.partnerSelection.phoneNumbers[0].number  || '' */}
 
-            </Text>
+              </Text>
+
+            </View>
+
+            <TouchableHighlight style={styles.plainButton} onPress={this._continue.bind(this)}>
+              <Text style={styles.plainButtonText}>INVITE</Text>
+            </TouchableHighlight>
+            <TouchableHighlight style={styles.plainButton} onPress={this._cancel.bind(this)}>
+              <Text style={styles.plainButtonText}>CANCEL</Text>
+            </TouchableHighlight>
 
           </View>
-
-          <TouchableHighlight style={styles.plainButton} onPress={this.continue.bind(this)}>
-            <Text style={styles.plainButtonText}>INVITE</Text>
-          </TouchableHighlight>
-          <TouchableHighlight style={styles.plainButton} onPress={this.cancel.bind(this)}>
-            <Text style={styles.plainButtonText}>CANCEL</Text>
-          </TouchableHighlight>
         </View>
-        </View>
-
+      </Modal>
+    </View>
 
     );
   }
-  }
+
 }
 module.exports = Contacts;
 
