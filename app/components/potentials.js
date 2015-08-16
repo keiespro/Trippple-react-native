@@ -360,43 +360,38 @@ var CoupleActiveCard = React.createClass({
 
   },
   componentWillUpdate(nextProps){
-    console.log(nextProps)
     if(nextProps.isTopCard && !this.props.isTopCard){
       console.log('ANIMATE NEW CARD');
-      // LayoutAnimation.configureNext(
-      //   animations.layout.easeInEaseOut,
-      //   (x)=>{console.log('animation end',x)},
-      //   (err)=>{console.log('animation ERROR',err)}
-      // )
+
       LayoutAnimation.spring();
     }
   },
   render(){
 
-      return(
-        <View ref={'cardinside'} key={this.props.potential[0].id+'inside'} style={
+    return(
+      <View ref={'cardinside'} key={this.props.potential[0].id+'inside'} style={
 
-          [styles.card,{
-            overflow: this.props.showProfile ? 'visible' : 'hidden',
-            marginBottom:this.props.isTopCard ? 0 : -25,
+        [styles.card,{
+          overflow: this.props.showProfile ? 'visible' : 'hidden',
+          marginBottom:this.props.isTopCard ? 0 : -25,
 
-            transform:[
-              {scale:this.props.isTopCard ? 1 : 0.95},
+          transform:[
+            {scale:this.props.isTopCard ? 1 : 0.95},
 
-            ]
-          }] }>
+          ]
+        }] }>
 
-          <ScrollView
-              scrollEnabled={this.props.showProfile ? true : false}
-              horizontal={false}
-              centerContent={true}
-              bouncesZoom={true}
-              contentContainerStyle={[styles.scrollSection,{
-                alignItems:'stretch',
-                overflow: 'visible',
-                paddingBottom:this.props.showProfile ? 3000 : 0
+        <ScrollView
+            scrollEnabled={this.props.showProfile ? true : false}
+            horizontal={false}
+            centerContent={true}
+            bouncesZoom={true}
+            contentContainerStyle={[styles.scrollSection,{
+              alignItems:'stretch',
+              overflow: 'visible',
+              paddingBottom:this.props.showProfile ? 3000 : 0
 
-              }]}>
+            }]}>
 
           <View
             style={[styles.scrollSection,{
@@ -424,61 +419,57 @@ var CoupleActiveCard = React.createClass({
                 resizeMode={Image.resizeMode.cover} />
             </Swiper>
 
-        <View
-          key={this.props.potential[0]['id']+'bottomview'}
-          style={{
-            height:(this.props.showProfile ? undefined : 80),
-            bottom:0,
-            position: this.props.showProfile ? 'relative' : 'absolute',
-            left: 0,
-            marginTop: this.props.showProfile ? -80 : 0,
-            backgroundColor: colors.white,
-            width: DeviceWidth-(this.props.showProfile ? 0 : 40),
-            flex:1,
-            alignSelf:'stretch',
-            alignItems:'stretch',
-          }}
-          >
-          <View style={{
-            width: DeviceWidth-(this.props.showProfile ? 0 : 40),
-            paddingVertical:20
+            <View
+              key={this.props.potential[0]['id']+'bottomview'}
+              style={{
+                height:(this.props.showProfile ? undefined : 80),
+                bottom:0,
+                position: this.props.showProfile ? 'relative' : 'absolute',
+                left: 0,
+                marginTop: this.props.showProfile ? -80 : 0,
+                backgroundColor: colors.white,
+                width: DeviceWidth-(this.props.showProfile ? 0 : 40),
+                flex:1,
+                alignSelf:'stretch',
+                alignItems:'stretch',
+              }}
+              >
+              <View style={{
+                width: DeviceWidth-(this.props.showProfile ? 0 : 40),
+                paddingVertical:20
 
-            }}>
+                }}>
 
-              <Text style={styles.cardBottomText}>{`${this.props.potential[0].firstname} and ${this.props.potential[1].firstname}`}</Text>
+                  <Text style={styles.cardBottomText}>{`${this.props.potential[0].firstname.trim()} and ${this.props.potential[1].firstname.trim()}`}</Text>
+              </View>
+              <View style={{
+                  height:60,
+                  top:-30,
+                  position:'absolute',
+                  width:135,
+                  right:0,
+                  backgroundColor:'transparent',
+                  flexDirection:'row'}}>
+                <Image source={{uri: this.props.potential[0].image_url}} key={this.props.potential[0]['id']+'img'} style={[styles.circleimage,{marginRight:5}]}/>
+                <Image source={{uri: this.props.potential[1].image_url}} key={this.props.potential[1]['id']+'img'} style={styles.circleimage}/>
+              </View>
+              { this.props.showProfile &&
+                <View style={{height:undefined,width: DeviceWidth, padding:20}}>
+                  <TouchableHighlight  onPress={this.props.hideProfile}>
+                    <Text>Close</Text>
+                  </TouchableHighlight>
+                  <Text>TEXT</Text>
+                </View>
+              }
+
+            </View>
           </View>
-          <View style={{
-              height:60,
-              top:-30,
-              position:'absolute',
-              width:135,
-              right:0,
-              backgroundColor:'transparent',
-              flexDirection:'row'}}>
-            <Image source={{uri: this.props.potential[0].image_url}} key={this.props.potential[0]['id']+'img'} style={[styles.circleimage,{marginRight:5}]}/>
-            <Image source={{uri: this.props.potential[1].image_url}} key={this.props.potential[1]['id']+'img'} style={styles.circleimage}/>
-          </View>
-          { this.props.showProfile &&
-            <View style={{height:undefined,width: DeviceWidth, padding:20}}>
-              <TouchableHighlight  onPress={this.props.hideProfile}>
-                <Text>Close</Text>
-              </TouchableHighlight>
-                <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
-                <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
-                <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
-                <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
-                <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
-                <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
-              </View>}
-
-        </View>
-        </View>
 
         </ScrollView>
 
       </View>
 
-      )
+    )
 
   }
 })
@@ -516,12 +507,7 @@ var CoupleProfile =React.createClass({
               <Text>Close</Text>
             </TouchableHighlight>
             <View style={{height:360,padding:20}}>
-              <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
-              <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
-              <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
-              <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
-              <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
-              <Text>{"transform [{perspective: number}, {rotate: string}, {rotateX: string}, {rotateY: string}, {rotateZ: string}, {scale: number}, {scaleX: number}, {scaleY: number}, {translateX: number}, {translateY: number}] "}</Text>
+              <Text>TEXT</Text>
             </View>
 
           </View>
@@ -777,7 +763,7 @@ var animations = {
       }
     },
     easeInEaseOut: {
-      duration: 500,
+      duration: 300,
       create: {
         type: LayoutAnimation.Types.easeInEaseOut,
         property: LayoutAnimation.Properties.scaleXY
@@ -785,9 +771,9 @@ var animations = {
       },
       update: {
 
-        duration: 500,
+        duration: 2000,
         // property: LayoutAnimation.Properties.scaleXY,
-        type: LayoutAnimation.Types.spring,
+        type: LayoutAnimation.Types.easeInEaseOut,
 
       }
     }
