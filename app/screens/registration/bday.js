@@ -55,13 +55,16 @@ var BdayScreen = React.createClass({
   shouldShow(val) { return true },
 
   _submit(){
-
+    UserActions.updateUserStub({
+      bday_month: this.state.date.getMonth(),
+      bday_year: this.state.date.getYear()
+    })
     this.props.navigator.push({
       component: GenderScreen,
       id: 'yourgender',
-      passProps: {
-        bday: this.state.date
-      }
+      // passProps: {
+      //   bday: this.state.date
+      // }
     })
 
   },

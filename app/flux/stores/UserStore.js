@@ -8,7 +8,8 @@ class UserStore {
   constructor() {
 
     this.state = {
-      user: {}
+      user: {},
+      userStub: {}
     }
 
     this.exportPublicMethods({
@@ -82,13 +83,17 @@ class UserStore {
   }
 
   handleUpdateUserStub(attributes){
-    console.log(attributes)
-    var updatedUser = this.state.user;
 
-    Object.assign(updatedUser,attributes);
-    this.setState({user:updatedUser});
+    var userStub = this.state.user;
+
+    Object.assign(userStub, attributes);
 
 
+    if(userStub.gender && userStub.privacy){
+      UserActions.updateUser(userStub)
+    }else{
+      this.setState({userStub: userStub});
+    }
   }
   // handleRegister(response) {
   //   console.log(response);

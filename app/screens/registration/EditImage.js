@@ -19,6 +19,7 @@ var ImageEditor = React.createClass({
 
 
   accept(){
+    UserActions.uploadImage(this.props.image)
     this.props.navigator.push({
       component: PrivacyScreen,
       id:'priv'

@@ -51,6 +51,7 @@ var Swiper = require('react-native-swiper');
 //   }
 // }
 var ActiveCard = React.createClass({
+  displayName: "ActiveCard",
   _panResponder: {},
   _previousLeft: 0,
   _previousTop: 0,
@@ -381,6 +382,8 @@ var ActiveCard = React.createClass({
 
 
 var CoupleActiveCard = React.createClass({
+  displayName: "CoupleInsideActiveCard",
+
   componentDidUpdate(prevProps,prevState) {
     if(prevProps.showProfile != this.props.showProfile)
     LayoutAnimation.configureNext(animations.layout.easeInEaseOut);

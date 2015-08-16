@@ -58,11 +58,8 @@ class UserActions {
 
   }
 
-  updateUserStub(info){
-
-    this.dispatch(info);
-
-
+  updateUserStub(updateAttributes){
+    this.dispatch(updateAttributes);
   }
 
   // login(phone,password){
@@ -99,7 +96,9 @@ class UserActions {
           })
           .catch((err) => {
             Logger.log(err);
-            this.dispatch();
+            this.dispatch({
+              err: err
+            });
           })
 
       })

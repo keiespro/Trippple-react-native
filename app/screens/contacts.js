@@ -63,12 +63,13 @@ class ContactList extends React.Component{
     }
 
     return (
-        <TouchableHighlight underlayColor={colors.mediumPurple20} onPress={()=>{
-
-
+        <TouchableHighlight
+          underlayColor={colors.mediumPurple20}
+          onPress={()=>{
             this.onPress(sectionID,rowID,rowData);
-             highlightRow(sectionID,rowID)
-        }} ref={rowID+'contact'} key={rowID+'contact'}>
+            highlightRow(sectionID,rowID)
+          }}
+          key={`rowID${rowData.id}`}>
           <View style={[styles.fullwidth,styles.row,
             (this.state.highlightedRow.sectionID == sectionID && this.state.highlightedRow.rowID == rowID ? 'rowSelected' : null)]}>
 
@@ -207,13 +208,13 @@ class Contacts extends React.Component{
 
   }
   _continue(){
-
-      this.props.navigator.push({
-        component: Facebook,
-        id: 'fb',
-        passProps: {
-          partner: this.state.partnerSelection
-        }
+    this.closeModal();
+    this.props.navigator.push({
+      component: Facebook,
+      id: 'fb',
+      passProps: {
+        partner: this.state.partnerSelection
+      }
     })
 
   }
@@ -259,6 +260,7 @@ class Contacts extends React.Component{
         isVisible={this.state.isModalOpen}
         forceToFront={true}
         backdropType="blur"
+        onPressBackdrop={this._cancel.bind(this)}
         onClose={() => this.closeModal.bind(this)}>
         <View style={styles.container}>
           <View style={[styles.fullwidth,styles.col]}>

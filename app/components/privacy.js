@@ -32,9 +32,10 @@ var Privacy = React.createClass({
     })
   },
   _submit(){
-    UserActions.updateUser({
+    UserActions.updateUserStub({
       privacy: this.state.privacy
     });
+    
     this.props.handlePrivacyChange && this.props.handlePrivacyChange(this.state.privacy);
 
     this.props.saveAndClose && this.props.saveAndClose();
