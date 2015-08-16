@@ -228,7 +228,7 @@ var ROUTE_STACK = [
     },
 
     navBar: {
-      backgroundColor: colors.outerSpace,
+      backgroundColor: 'transparent',
       height: 60,
       justifyContent:'space-between',
       alignSelf: 'flex-start',

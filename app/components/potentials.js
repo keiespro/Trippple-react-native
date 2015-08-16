@@ -2,8 +2,8 @@
 
 'use strict';
 
-var React = require('react-native');
-var {
+const React = require('react-native');
+const {
  StyleSheet,
  Text,
  View,
@@ -18,23 +18,24 @@ var {
  PanResponder
 } = React;
 
-var alt = require('../flux/alt');
+const alt = require('../flux/alt');
 
-var precomputeStyle = require('precomputeStyle');
+const precomputeStyle = require('precomputeStyle');
 
-var RNTAnimation = require('react-native-tween-animation');
-var MatchActions = require('../flux/actions/MatchActions');
-var p = require("../flux/stores/PotentialsStore");
-var PotentialsStore = alt.createStore(p, 'PotentialsStore');
-var AltContainer = require('alt/AltNativeContainer');
-var Logger = require('../utils/logger');
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
-var TimerMixin = require('react-timer-mixin');
+const RNTAnimation = require('react-native-tween-animation');
+const MatchActions = require('../flux/actions/MatchActions');
+const p = require("../flux/stores/PotentialsStore");
+const PotentialsStore = alt.createStore(p, 'PotentialsStore');
+const AltContainer = require('alt/AltNativeContainer');
+const Logger = require('../utils/logger');
+const DeviceHeight = require('Dimensions').get('window').height;
+const DeviceWidth = require('Dimensions').get('window').width;
+const TimerMixin = require('react-timer-mixin');
 
-var THROW_OUT_THRESHOLD = 250;
-var colors = require('../utils/colors');
-var Swiper = require('react-native-swiper');
+const THROW_OUT_THRESHOLD = 225;
+
+const colors = require('../utils/colors');
+const Swiper = require('react-native-swiper');
 
 
 // class InactiveCard extends React.Component{
@@ -56,13 +57,19 @@ var ActiveCard = React.createClass({
   _previousLeft: 0,
   _previousTop: 0,
   _circleStyles: {},
-  _cardStyles: {},
+  _cardStyles: {translateX:0, translateY:0},
   _handle: '',
   card: (null : ?{ setNativeProps(props: Object): void }),
 
   mixins: [TimerMixin],
 
-  componentWillMount() {
+  componentWillMount(){
+    if(this.props.isTopCard) this.initializePanResponder()
+  },
+  componentDidUpdate(prevProps,prevState){
+    if(this.props.isTopCard && !prevProps.isTopCard) this.initializePanResponder()
+  },
+  initializePanResponder(){
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: this._handleStartShouldSetPanResponder,
       onMoveShouldSetPanResponder: this._handleMoveShouldSetPanResponder,
@@ -82,12 +89,11 @@ var ActiveCard = React.createClass({
       translateY: this._previousTop,
       translateX: this._previousLeft
    }
-  },
-
+ },
   getInitialState(){
     return ({
       position: {
-       translateX: this._previousLeft,
+       translateX: 0,
        translateY: 0,
      },
      showProfile: false,
@@ -95,17 +101,16 @@ var ActiveCard = React.createClass({
      isDragging: false
     })
   },
-  componentDidMount() {
+  componentDidMount(){
     this._updatePosition();
-
-
   },
-
-  componentDidUpdate(prevProps,prevState) {
-    if(prevState.showProfile != this.state.showProfile) LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
-    if(prevProps.potential[0].id != this.props.potential[0].id ) this._updatePosition({translateY: 0,translateX: 0})
-
-  },
+  // componentWillUpdate(nextProps,nextState){
+  //   if(nextProps.potential[0].id != this.props.potential[0].id ) this._updatePosition({translateY: 0,translateX: 0})
+  //
+  // },
+  // componentDidUpdate(prevProps,prevState){
+  //   if(prevState.showProfile != this.state.showProfile) LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
+  // },
   _showProfile(){
 
     if(this.state.isDragging || this.state.isAnimating) return false;
@@ -120,57 +125,12 @@ var ActiveCard = React.createClass({
       showProfile: false
     })
   },
-  render() {
-
-    return (
-
-      <View style={{
-        alignSelf:'center',
-        width:(DeviceWidth - (this.state.showProfile ? 0 : 40)),
-        height:(DeviceHeight - (this.state.showProfile ? 0 : 85)),
-        marginBottom:(this.state.showProfile ? 0 : 35),
-        marginTop:(this.state.showProfile ? 0 : 55),
-        flex:1,
-        shadowColor:colors.darkShadow,
-        shadowRadius:5,
-        shadowOpacity:50,
-        shadowOffset: {
-            width:0,
-            height: 5
-        }
-      }}
-      key={this.props.potential[0]['id']+'wrapper'}
-        ref={(card) => { this.card = card }}
-        {...this._panResponder.panHandlers}>
-
-
-        <CoupleActiveCard
-          showProfile={this.state.showProfile}
-          hideProfile={this._hideProfile}
-          potential={this.props.potential} />
-
-        </View>
-    );
-
-  },
-/*
-
-{this.props.user.relationship_status == 'single' ?
-
-:
-        <View style={styles.singleCard} >
-          <Image source={{uri: this.props.potential.image_url}} style={styles.imagebg} >
-            <Text style={[styles.absoluteText,styles.absoluteTextBottom]}>{this.props.potential.firstname}</Text>
-          </Image>
-        </View>
-      }
-      */
   _highlight() {
     var nativeProps = precomputeStyle({
       shadowOpacity: 100,
-      shadowRadius:   0,
+      shadowRadius:   15,
       shadowOffset: {width:0, height: 0},
-      transform: [{scale: 1.05}]
+      transform: [{scale: 1.05}, ...this._cardStyles]
     });
 
     this.card && this.card.setNativeProps(nativeProps)
@@ -201,58 +161,60 @@ var ActiveCard = React.createClass({
   _updatePosition(tweenFrame) {
     var positionData = tweenFrame ? tweenFrame : this._cardStyles;
     var newPos = {
-      transform: [{translateX: +positionData.translateX.toFixed(2)},{translateY: +positionData.translateY.toFixed(2)}]
+      transform: [
+        {translateX:  parseFloat(positionData.translateX.toFixed(2))},
+        {translateY:  parseFloat(positionData.translateY.toFixed(2))},
+        // {scale: this.state.isDragging ? 1.05 : 1}
+      ]
     }
 
     this.card && this.card.setNativeProps(precomputeStyle(newPos))
   },
 
   _handleStartShouldSetPanResponder(e: Object, gestureState: Object): boolean {
-    Logger.log('_handleStartShouldSetPanResponder',gestureState)
+    Logger.log('_handleStartShouldSetPanResponder',gestureState.dx,gestureState.moveX)
 
     // Should we become active when the user presses down on the card?
     // this.x = this.setTimeout(()=>{
-      if(this.state.isDragging == true || this.state.isAnimating == true) return false;
+      // if(this.state.isDragging == true || this.state.isAnimating == true) return false;
     //
     //   this._showProfile();
     // },1000)
 
 
-      return Math.abs(gestureState.dx) > 1
+    return Math.abs(gestureState.dy) < Math.abs(gestureState.dx) && Math.abs(gestureState.dx) > 1 && Math.abs(gestureState.dy) < 15
 
   },
 
   _handleMoveShouldSetPanResponder(e: Object, gestureState): boolean {
-    Logger.log('_handleMoveShouldSetPanResponder',gestureState.dy)
-    if(this.state.isDragging || this.state.isAnimating) return false;
+    Logger.log('_handleMoveShouldSetPanResponder',gestureState.dx,gestureState,e)
+    // if(this.state.isDragging == true) return false;
 
     //TODO: correctly determine velocity to determine if gesture was a throw
-    if(Math.abs(gestureState.vx*10000000) > 5){
-      return true;
-    }else{
-      return Math.abs(gestureState.dy) < 5
-    }
+    // if(Math.abs(gestureState.vx*10000000) > 5){
+    //   return true;
+    // }else{
+      return Math.abs(gestureState.dy) < Math.abs(gestureState.dx)
+    // }
   },
 
   _handlePanResponderGrant(e: Object, gestureState: Object) {
-    Logger.log('Pan Responder Grant',gestureState.dx)
-    this.clearTimeout(this.x);
-
+    Logger.log('Pan Responder Grant',gestureState.dx,gestureState.moveX)
+    // this.clearTimeout(this.x);
+    // if(gestureState.dx > 0){
       this.replaceState({
         isDragging: true
       })
-      this._highlight();
-
-
-
+      if(!this.state.isDragging) this._highlight();
+    // }
   },
   _handlePanResponderMove(e: Object, gestureState: Object) {
-    // Logger.log('Pan Responder MOVE',gestureState.dx)
-    if(this.x) this.clearTimeout(this.x);
-    this._highlight();
+    Logger.log('Pan Responder MOVE',gestureState.dx,gestureState)
+    // if(this.x) this.clearTimeout(this.x);
+    // this._highlight();
 
-    this._cardStyles ={
-      translateX: this._previousLeft + gestureState.dx,
+    this._cardStyles = {
+      translateX: gestureState.dx,
       translateY: 0
     };
     this._updatePosition();
@@ -264,124 +226,170 @@ var ActiveCard = React.createClass({
       isDragging: false
     })
     this._unHighlight();
-    // Logger.log('Pan Responder End',Math.abs(gestureState.moveX))
+    Logger.log('Pan Responder End',Math.abs(gestureState.dx))
 
-    if(Math.abs(gestureState.dx) > THROW_OUT_THRESHOLD ){
-
-      this._throwOutCard(gestureState)
-
-    }else{
-
-        this.setState({
-          isAnimating: true
-        })
-
-        var self = this;
-
-
-        var animation = new RNTAnimation({
-
-          // Start state
-          start: {
-            translateY: self._cardStyles.translateY,
-            translateX: self._cardStyles.translateX
-          },
-
-          // End state
-          end: {
-            translateY: 0,
-            translateX: 0
-          },
-
-          // Animation duration
-          duration: Math.abs(self._cardStyles.translateX),
-
-          // Tween function
-          tween: 'easeOutBack',
-
-          // Update the component's state each frame
-          frame: (tweenFrame) => {
-
-            // console.log(tweenFrame);
-
-            self._updatePosition( tweenFrame );
-          },
-
-          // Optional callback
-          done: () => {
-
-            self.replaceState({
-              isAnimating:false,
-              position: {
-                translateX:0,
-                translateY:0
-              }
-            })
-          }
-        });
-
-
-
-
-
-    }
-
+    Math.abs(gestureState.dx) > THROW_OUT_THRESHOLD ? this._throwOutCard(gestureState) : this._resetCard(gestureState)
 
   },
   _throwOutCard(gestureState){
-    Logger.debug('throwout',gestureState.dx)
+    Logger.debug('throwout',gestureState.dx,this.state.isDragging)
 
-      this.setState({
-        isAnimating: true
-      })
+    this.setState({
+      isAnimating: true
+    })
 
-      var self = this;
-      var likeStatus = gestureState.dx > 0 ? 'approve' : 'deny';
+    var self = this;
+    var likeStatus = gestureState.dx > 0 ? 'approve' : 'deny';
+
+    var animation = new RNTAnimation({
+
+      // Start state
+      start: {
+        translateY: 0,
+        translateX: self._cardStyles.translateX
+      },
+
+      // End state
+      end: {
+        translateY: 0,
+        translateX: (likeStatus == 'approve' ? 1000 : -1000)
+      },
+
+      // Animation duration
+      duration: 300,
+
+      // Tween function
+      tween: 'easeOutBack',
+
+      frame: (tweenFrame) => {
+        self._updatePosition( tweenFrame );
+      },
+
+      done: () => {
+
+        MatchActions.sendLike(this.props.potential[0]['id'],likeStatus);
+        //
+        // self.replaceState({
+        //   isAnimating:false,
+        //   // position: {
+        //   //   translateY:0,
+        //   //   translateX:0
+        //   // }
+        // })
+      }
+    });
+
+  },
+  _resetCard(gestureState){
+    this.setState({
+      isAnimating: true
+    })
+
+    var self = this;
 
 
-      var animation = new RNTAnimation({
+    var animation = new RNTAnimation({
 
-        // Start state
-        start: {
-          translateY: 0,
-          translateX: self._cardStyles.translateX
-        },
+      // Start state
+      start: {
+        translateY: self._cardStyles.translateY,
+        translateX: self._cardStyles.translateX
+      },
 
-        // End state
-        end: {
-          translateY: 0,
-          translateX: (likeStatus == 'approve' ? 1000 : -1000)
+      // End state
+      end: {
+        translateY: 0,
+        translateX: 0
+      },
 
-        },
+      // Animation duration
+      duration: Math.abs(self._cardStyles.translateX)*1.5,
 
-        // Animation duration
-        duration: 200,
+      // Tween function
+      tween: 'easeOutBack',
 
-        // Tween function
-        tween: 'easeOutBack',
+      // Update the component's state each frame
+      frame: (tweenFrame) => {
+        self._updatePosition( tweenFrame );
+      },
 
-        // Update the component's state each frame
-        frame: (tweenFrame) => {
+      done: () => {
+        self.replaceState({
+          isAnimating:false,
+          // position: {
+          //   translateX:0,
+          //   translateY:0
+          // }
+        })
+      }
+    });
+  },
+  render() {
 
-          self._updatePosition( tweenFrame );
-        },
+    return (
 
-        // Optional callback
-        done: () => {
+      <View style={
+        this.props.isTopCard ? {
+          alignSelf:'center',
+          width:(DeviceWidth - 40),
+          height:(DeviceHeight -  85),
+          bottom:(35),
+          left:20,
+          right:20,
+          top:(55),
+          flex:1,
+          shadowColor:colors.darkShadow,
+          shadowRadius:5,
+          position:'absolute',
+          shadowOpacity:50,
+          shadowOffset: {
+              width:0,
+              height: 5
+          }
+        } :  {
+                shadowColor:colors.darkShadow,
+                shadowRadius:5,
+                // bottom:(35),
+                left:20,
+                right:20,
+                top:(75),
+                flex:1,
+                alignSelf:'center',
+                position:'absolute',
+                shadowOffset:{width:0, height:5},
+                shadowOpacity:50,
+                width:(DeviceWidth - 40),
+                height:(DeviceHeight - 85),
+              }
+      }
+      key={this.props.potential[0]['id']+'wrapper'}
+        ref={(card) => { this.card = card }}
+        {...this._panResponder.panHandlers}>
 
-          MatchActions.sendLike(this.props.potential[0]['id'],likeStatus);
 
-          self.replaceState({
-            isAnimating:false,
-            position: {
-              translateY:0,
-              translateX:0
-            }
-          })
-        }
-      });
+        <CoupleActiveCard
+          isTopCard={this.props.isTopCard}
+          showProfile={this.state.showProfile}
+          hideProfile={this._hideProfile}
+          potential={this.props.potential} />
 
-  }
+        </View>
+    );
+
+  },
+/*
+
+{this.props.user.relationship_status == 'single' ?
+
+:
+        <View style={styles.singleCard} >
+          <Image source={{uri: this.props.potential.image_url}} style={styles.imagebg} >
+            <Text style={[styles.absoluteText,styles.absoluteTextBottom]}>{this.props.potential.firstname}</Text>
+          </Image>
+        </View>
+      }
+      */
+
 });
 
 
@@ -399,19 +407,34 @@ var CoupleActiveCard = React.createClass({
   render(){
 
       return(
-        <View style={[styles.card,{
-          overflow: this.props.showProfile ? 'visible' : 'hidden',
-          shadowColor:colors.darkShadow,
-          shadowRadius:15,
-          shadowOpacity:50,
-          shadowOffset: {
-              width:0,
-              height: 10
-          }
-          // width: DeviceWidth-(this.props.showProfile ? 0 : 40),
-          // height: this.props.showProfile ? undefined : (DeviceHeight - 75),
+        <View key={this.props.potential[0].id+'inside'} style={
+          // this.props.isTopCard ? [styles.card,{
+          //   overflow: this.props.showProfile ? 'visible' : 'hidden',
+          //   shadowColor:colors.darkShadow,
+          //   shadowRadius:15,
+          //   shadowOpacity:50,
+          //   shadowOffset: {
+          //       width:0,
+          //       height: 10
+          //   }
+          // }] : [
+          //   styles.basicCard,
+          //   {margin:30,marginTop:75,position:'absolute'}
+          // ]
+          [styles.card,{
+            overflow: this.props.showProfile ? 'visible' : 'hidden',
+            shadowColor:colors.darkShadow,
+            shadowRadius:15,
+            shadowOpacity:50,
+            shadowOffset: {
+                width:0,
+                height: 10
+            }
+          },
+          {transform:[{scale:this.props.isTopCard ? 1 : 0.955}]}
 
-          }]}>
+          ]
+          }>
 
           <ScrollView
               scrollEnabled={this.props.showProfile ? true : false}
@@ -614,12 +637,16 @@ class CardStack extends React.Component{
                 </View>
               }
               {this.props.potentials[1] &&
+                <ActiveCard key={this.props.potentials[1][0]['id']+'activecard'} user={this.props.user} potential={this.props.potentials[1]} isTopCard={false}/>
+
+              /*
                 <View style={{shadowColor:colors.darkShadow,shadowRadius:5,shadowOffset:{width:0,height:5},shadowOpacity:50}}>
                   <CoupleInactiveCard  user={this.props.user} potential={this.props.potentials[1]} />
                 </View>
+              */
               }
               {this.props.potentials[0] &&
-                <ActiveCard user={this.props.user} potential={this.props.potentials[0]}/>
+                <ActiveCard key={this.props.potentials[0][0]['id']+'activecard'} user={this.props.user} potential={this.props.potentials[0]} isTopCard={true}/>
               }
             </View>
         )
