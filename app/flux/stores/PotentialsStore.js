@@ -2,7 +2,6 @@ import alt from '../alt';
 import MatchActions from '../actions/MatchActions';
 import { AsyncStorage } from 'react-native';
 
-
 class PotentialsStore {
 
   constructor() {
@@ -17,7 +16,7 @@ class PotentialsStore {
     });
 
     this.on('init',()=>{
-      console.log('store init')
+      console.log('potentials store init')
       MatchActions.getPotentials();
 
     })
@@ -28,10 +27,8 @@ class PotentialsStore {
 
     this.exportPublicMethods({
       getAll: this.getAll
-
     });
   }
-
 
   handleGetPotentials(potentials) {
     console.log(potentials,'POTENTIALS');
@@ -44,24 +41,15 @@ class PotentialsStore {
 
   handleSentLike(likedUserID){
     const newPotentials = this.state.potentials.filter((el,i)=>{
-      return el.id != likedUserID && el.user.id != likedUserID && el.partner.id != likedUserID
+      return (el.id !== likedUserID) && (el.user.id !== likedUserID) && (el.partner.id !== likedUserID)
     })
 
-    this.state.potentials ? this.setState({
-        potentials: newPotentials
-      }) : null;
-
+    this.state.potentials.length ? this.setState({ potentials: newPotentials }) : null
   }
-
 
   getAll(){
-    console.log('POTSTORE',this.getState().potentials)
     return this.getState().potentials || [];
-
   }
-
-
-
 
 }
 export default PotentialsStore

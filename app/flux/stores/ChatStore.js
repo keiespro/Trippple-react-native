@@ -1,6 +1,6 @@
-var alt = require('../alt');
-var MatchActions = require('../actions/MatchActions');
-var AsyncStorage = require('react-native').AsyncStorage;
+import alt from '../alt';
+import MatchActions from '../actions/MatchActions';
+import { AsyncStorage } from 'react-native';
 
 
 class ChatStore {
@@ -15,7 +15,7 @@ class ChatStore {
     });
 
     this.bindListeners({
-      handleGetMessages: MatchActions.GET_MESSAGES
+      handleReceiveMessages: MatchActions.GET_MESSAGES
 
     });
     this.on('init',()=>{
@@ -34,12 +34,13 @@ class ChatStore {
   }
 
 
-  handleGetMessages(matchMessages) {
+  handleReceiveMessages(matchMessages) {
     this.setState(() => {
-      var newState = {};
-      newState[matchMessages.match_id] = matchMessages.message_thread.reverse();
-      return newState;
-    });
+      return {
+        [matchMessages.match_id]: matchMessages.message_thread,
+        ...this.state[matchMessages.match_id]
+      }
+    }) //love that
   }
 
 
@@ -47,11 +48,9 @@ class ChatStore {
   // public methods
 
   getMessagesForMatch(matchID){
-
     return this.getState()[matchID] || [];
   }
 
-
 }
 
-module.exports = alt.createStore(ChatStore, 'ChatStore');
+export default alt.createStore(ChatStore, 'ChatStore')
