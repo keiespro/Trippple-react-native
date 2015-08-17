@@ -21,7 +21,6 @@ var SelfImage = React.createClass({
 
   _getCameraRoll() {
 
-
     this.props.navigator.push({
       component: CameraRollView,
       id:'camerarollpage',
@@ -31,14 +30,13 @@ var SelfImage = React.createClass({
       },
       sceneConfig: NavigatorSceneConfigs.FloatFromBottom
     });
-    console.log('getcameraroll')
+
   },
   componentDidUpdate(prevProps,prevState){
     console.log(prevProps,prevState);
   },
 
   _getCamera() {
-    console.log('get camera')
 
     this.props.navigator.push({
       component: CameraControl,
@@ -49,7 +47,6 @@ var SelfImage = React.createClass({
       },
       sceneConfig: NavigatorSceneConfigs.FloatFromBottom
     });
-
 
   },
   onPressFacebook(){

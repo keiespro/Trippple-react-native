@@ -13,7 +13,9 @@ class AuthErrorStore {
   }
 
   handleRequestPinErrors(err) {
-    if(!err.error) return false;
+    if(!err.error){
+      return false;
+    }
     console.log(err.error)
 
     this.setState({
@@ -22,7 +24,9 @@ class AuthErrorStore {
   }
 
   handleVerifyPinErrors(err) {
-    if(!err.error) return false;
+    if(!err.error){
+      return false;
+    }
     console.log(err.error)
 
     this.setState({

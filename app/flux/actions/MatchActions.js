@@ -1,5 +1,5 @@
 import alt from '../alt';
-import Api from "../../utils/api";
+import Api from '../../utils/api';
 
 
 class MatchActions {
@@ -8,7 +8,6 @@ class MatchActions {
 
     Api.getMatches()
       .then((res) => {
-        console.log(res)
         this.dispatch(res.response);
       })
   }
@@ -26,11 +25,9 @@ class MatchActions {
     navigator.geolocation.getCurrentPosition(
       (geo) => {
         console.log('Got coordinates:', geo.coords);
-        var coordinates = {
-          latitude: geo.coords.latitude,
-          longitude: geo.coords.longitude
-        };
-        Api.getPotentials(coordinates)
+        var {latitude,longitude} = geo.coords;
+
+        Api.getPotentials( {latitude,longitude} )
           .then((res) => {
             this.dispatch(res.response);
           })
@@ -44,21 +41,28 @@ class MatchActions {
     )
   }
 
+  sendMessage(message, matchID){
+
+    Api.createMessage(message, matchID)
+      .then((res) => {
+        this.dispatch(res.response);
+      })
+  }
+
+
   sendLike(likedUserID,likeStatus){
     console.log(likedUserID)
+
     this.dispatch(likedUserID);
 
     Api.sendLike(likedUserID, likeStatus)
-      .then((res) => {
-        console.log(res)
+      .then((likeRes) => {
+
         navigator.geolocation.getCurrentPosition(
           (geo) => {
-            console.log('Got coordinates:', geo.coords);
-            var coordinates = {
-              latitude: geo.coords.latitude,
-              longitude: geo.coords.longitude
-            };
-            Api.getPotentials(coordinates)
+            var {latitude,longitude} = geo.coords;
+
+            Api.getPotentials( {latitude,longitude} )
               .then((res) => {
                 this.dispatch(res.response);
               })

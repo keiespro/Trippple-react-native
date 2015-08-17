@@ -23,8 +23,8 @@ class UserStore {
       handleUpdateUser: UserActions.UPDATE_USER,
       handleUpload: UserActions.UPLOAD_IMAGE,
       initialize: UserActions.INITIALIZE,
-      handleUpdateUserStub: UserActions.updateUserStub,
-      handleLogOut: UserActions.logOut
+      handleUpdateUserStub: UserActions.UPDATE_USER_STUB,
+      handleLogOut: UserActions.LOG_OUT
     });
 
 
@@ -35,7 +35,9 @@ class UserStore {
   }
 
   handleVerifyPin(res){
-    if(res.error) return false;
+    if(res.error){
+      return false;
+    }
 
     var {response} = res;
 
@@ -61,7 +63,9 @@ class UserStore {
   }
 
   initialize(res){
-    if(res.error) return false;
+    if(res.error){
+      return false;
+    }
 
     var user = res.response.user_info;
 
@@ -74,7 +78,9 @@ class UserStore {
   }
 
   handleGetUserInfo(res){
-    if(res.error) return false;
+    if(res.error){
+      return false;
+    }
     var user = res.response.user_info;
 
     this.setState({
@@ -84,15 +90,12 @@ class UserStore {
 
   handleUpdateUserStub(attributes){
 
-    var userStub = this.state.userStub || {};
+    const updatedUserStub = {...this.state.userStub, ...attributes};
 
-    Object.assign(userStub, attributes);
-
-
-    if(userStub.gender && userStub.privacy){
-      UserActions.updateUser(userStub)
+    if(updatedUserStub.gender && updatedUserStub.privacy){
+      UserActions.updateUser(updatedUserStub)
     }else{
-      this.setState({userStub: userStub});
+      this.setState({userStub: updatedUserStub});
     }
   }
   // handleRegister(response) {
@@ -133,8 +136,7 @@ class UserStore {
 
   }
   updateUserInfo(attributes){
-    var updatedUser = this.state.user;
-    Object.assign(updatedUser,attributes);
+    const updatedUser = {...this.state.user, ...attributes};
     this.setState({user:updatedUser});
   }
 

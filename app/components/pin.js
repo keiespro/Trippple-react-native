@@ -1,8 +1,8 @@
 /* @flow */
 
- ;
 
-var Pin_MASK_USA = "999 999-9999";
+
+const Pin_MASK_USA = '999 999-9999';
 
 var React = require('react-native');
 var {
@@ -185,7 +185,9 @@ var PinScreen = React.createClass({
 
 
   onError(err){
-    if(!err.verifyError) return false;
+    if(!err.verifyError){
+      return false;
+    }
 
     this.setState({
       submitting: false,
@@ -216,17 +218,17 @@ var PinScreen = React.createClass({
 
   },
 
-  componentDidUpdate(prevProps, prevState){
+  componentWillUpdate(nextProps, nextState){
 
     // Reset error state
-    if(this.state.inputFieldValue.length == 3 && prevState.inputFieldValue.length == 4) {
+    if(this.state.inputFieldValue.length === 4 && nextState.inputFieldValue.length === 3) {
       this.setState({
         verifyError: false
       })
     }
 
     // Submit pin automatically when 4 digits have been entered
-    if(this.state.inputFieldValue.length == 4 && prevState.inputFieldValue.length < 4 && !this.state.submitting) {
+    if(this.state.inputFieldValue.length < 4 && nextState.inputFieldValue.length === 4 && !this.state.submitting) {
       UserActions.verifySecurityPin(this.state.inputFieldValue,this.props.phone);
 
       this.setState({
@@ -235,7 +237,7 @@ var PinScreen = React.createClass({
     }
 
     // Handle "Account Disabled" response
-    if(this.state.verifyError && this.state.verifyError.message == "Account disabled" && !prevState.verifyError){
+    if(this.state.verifyError && this.state.verifyError.message === 'Account disabled' && !nextState.verifyError){
 
       AlertIOS.alert(
         'Account disabled',
@@ -275,13 +277,14 @@ var PinScreen = React.createClass({
               ]}
             >
             <TextInput
+              maxLength={4}
               style={styles.pinInput}
               value={this.state.inputFieldValue || ''}
               keyboardAppearance={'dark'/*doesnt work*/}
               keyboardType={'phone-pad'}
               autoCapitalize={'none'}
               placeholder={'ENTER PIN'}
-              placeholderTextColor='#fff'
+              placeholderTextColor={'#fff'}
               autoFocus={true}
               autoCorrect={false}
               clearButtonMode={'always'}

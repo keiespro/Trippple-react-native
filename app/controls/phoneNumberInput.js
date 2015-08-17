@@ -1,14 +1,8 @@
 /* @flow */
 
- ;
 
 var React = require('react-native');
-var {
-  StyleSheet,
-  Text,
-  View,
-  TextInput
-} = React;
+var { TextInput } = React;
 
 var ReactMaskMixin = require('../mixins/maskedInputMixin.js');
 
@@ -18,6 +12,7 @@ var PhoneNumberInput = React.createClass({
   render: function(){
     return (
       <TextInput
+        maxLength={this.props.mask.length}
         ref={component => this._textInput = component}
         {...this.props}
         {...this.mask.props}

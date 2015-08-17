@@ -1,6 +1,6 @@
- ;
+
 var Keychain = require('Keychain');
-var Promise = require("bluebird");
+var Promise = require('bluebird');
 var KEYCHAIN_NAMESPACE = 'http://api2.trippple.co';
 
 
@@ -25,7 +25,7 @@ function publicRequest(endpoint, payload){
   .then((res) => res.json())
 
 
-};
+}
 
 function authenticatedRequest(endpoint: '', payload: {}){
   var payload = payload || {};
@@ -33,11 +33,11 @@ function authenticatedRequest(endpoint: '', payload: {}){
   return Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
     .then(function(credentials) {
       console.log('Credentials successfully loaded', credentials);
-      payload.user_id = credentials['username'];
-      payload.api_key = credentials['password'];
+      payload.user_id = credentials.username;
+      payload.api_key = credentials.password;
       return publicRequest(endpoint, payload);
     });
-};
+}
 
 function authenticatedFileUpload(endpoint, image){
   return Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
@@ -50,8 +50,8 @@ function authenticatedFileUpload(endpoint, image){
           fileName: 'file.jpg',
           mimeType:'jpeg',
           data: {
-            user_id: credentials['username'],
-            api_key: credentials['password'],
+            user_id: credentials.username,
+            api_key: credentials.password,
             image_type:'profile'
           }
       };
@@ -61,7 +61,7 @@ function authenticatedFileUpload(endpoint, image){
                 return res.response;
               })
     })
-};
+}
 
 var api = {
 
@@ -116,7 +116,9 @@ var api = {
   },
 
   getMessages(payload){
-    if(!payload.match_id) return false;
+    if(!payload.match_id){
+      return false;
+    }
     payload.message_type = 'retrieve';
     return authenticatedRequest('messages', payload)
   },
@@ -125,7 +127,7 @@ var api = {
     var payload = {
       'message_type':'create',
       'match_id': matchID,
-      'message': message,
+      'message_body': message,
     };
     return authenticatedRequest('messages', payload)
   },

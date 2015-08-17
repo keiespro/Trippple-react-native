@@ -1,7 +1,6 @@
 /* @flow */
 
-import React from 'react-native'
-
+import React from 'react-native';
 import {
  StyleSheet,
  Text,
@@ -11,13 +10,13 @@ import {
  Image,
  ScrollView,
  PanResponder
-} from 'react-native'
+} from 'react-native';
 
 import alt from '../flux/alt';
 import precomputeStyle from 'precomputeStyle';
 import RNTAnimation from 'react-native-tween-animation';
 import MatchActions from '../flux/actions/MatchActions';
-import p from "../flux/stores/PotentialsStore";
+import p from '../flux/stores/PotentialsStore';
 import AltContainer from 'alt/AltNativeContainer';
 import TimerMixin from 'react-timer-mixin';
 import colors from '../utils/colors';
@@ -36,34 +35,32 @@ const THROW_OUT_THRESHOLD = 225;
 
 @reactMixin.decorate(TimerMixin)
 class ActiveCard extends React.Component{
-
-  // mixins: [TimerMixin]
+  static displayName = 'ActiveCard'
 
   constructor(props){
     super()
 
     this.state = {
       position: {
-       translateX: 0,
-       translateY: 0,
-     },
-     profileVisible: false,
-     isAnimating:false,
-     isDragging: false,
-     waitingForDoubleTap: false
+        translateX: 0,
+        translateY: 0,
+      },
+      profileVisible: false,
+      isAnimating:false,
+      isDragging: false,
+      waitingForDoubleTap: false
     }
   }
   componentWillMount(){
-    this.displayName = "ActiveCard"
     this._panResponder = {}
     this._previousLeft = 0
     this._previousTop = 0
     this._circleStyles = {}
     this._cardStyles = {translateX:0, translateY:0}
     this._handle = ''
-    this.card = (null : ?{ setNativeProps(props: Object): void })
+    this.card = null // : ? { setNativeProps(props: Object): void } )
 
-    if(this.props.isTopCard) this.initializePanResponder()
+    this.props.isTopCard && this.initializePanResponder()
   }
   componentDidMount(){
     this._updatePosition();
@@ -76,8 +73,9 @@ class ActiveCard extends React.Component{
     }
   }
   componentDidUpdate(prevProps,prevState){
-    //   if(prevState.profileVisible != this.state.profileVisible) LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
-    if(this.props.isTopCard && !prevProps.isTopCard) this.initializePanResponder()
+    if(this.props.isTopCard && !prevProps.isTopCard){
+      this.initializePanResponder()
+    }
   }
   initializePanResponder(){
     this._panResponder = PanResponder.create({
@@ -105,52 +103,54 @@ class ActiveCard extends React.Component{
 
 
   _showProfile(){
-    if(this.state.isDragging || this.state.isAnimating) return false;
+    if(this.state.isDragging || this.state.isAnimating){
+      return false;
+    }
     this.setState({ profileVisible: true })
   }
 
   _hideProfile(){ this.setState({ profileVisible: false }) }
-
-  _highlight() {
-    var nativeProps = precomputeStyle({
-      shadowOpacity: 100,
-      shadowRadius:   15,
-      shadowOffset: {width:0, height: 10},
-    });
-
-    this.card && this.card.setNativeProps(nativeProps)
-
-  }
-
-  _unHighlight() {
-    var nativeProps = precomputeStyle({
-      shadowOpacity: 50,
-      shadowRadius: 5,
-      shadowOffset: {width:0, height: 0},
-      transform: [{scale: 1}]
-    });
-    this.card && this.card.setNativeProps(nativeProps);
-  }
+  //
+  // _highlight() {
+  //   var nativeProps = precomputeStyle({
+  //     shadowOpacity: 100,
+  //     shadowRadius:   15,
+  //     shadowOffset: {width:0, height: 10},
+  //   });
+  //
+  //   this.card && this.card.setNativeProps(nativeProps)
+  //
+  // }
+  //
+  // _unHighlight() {
+  //   var nativeProps = precomputeStyle({
+  //     shadowOpacity: 50,
+  //     shadowRadius: 5,
+  //     shadowOffset: {width:0, height: 0},
+  //     transform: [{scale: 1}]
+  //   });
+  //   this.card && this.card.setNativeProps(nativeProps);
+  // }
 
   _updatePosition(tweenFrame) {
     const positionData = tweenFrame ? tweenFrame : this._cardStyles
 
     // start scaling immediately, keep scaling until 3/4 throw threshold is reach
-    var newScale = Math.abs(positionData.translateX) > THROW_OUT_THRESHOLD*.75 ? 1.05 : 1 + (Math.abs(positionData.translateX) * 0.00025) // this is a magic number i pulled out of my ass
+    var newScale = Math.abs(positionData.translateX) > THROW_OUT_THRESHOLD * 0.75 ? 1.05 : 1 + (Math.abs(positionData.translateX) * 0.00025) // this is a magic number i pulled out of my ass
 
     // start rotating after translateX hits three quarter of throw threshold.
-    var newRotate = Math.abs(positionData.translateX) < THROW_OUT_THRESHOLD*.75 ? 0 : Math.abs(positionData.translateX)-THROW_OUT_THRESHOLD*.75
-    newRotate = (positionData.translateX > 0 ? newRotate : newRotate*-1)/10+'deg'
+    var newRotate = Math.abs(positionData.translateX) < THROW_OUT_THRESHOLD * 0.75 ? 0 : Math.abs(positionData.translateX) - THROW_OUT_THRESHOLD * 0.75
+    newRotate = (positionData.translateX > 0 ? newRotate : newRotate * -1) / 10 + 'deg'
 
     // start increasing shadow radius
-    var newShadow = Math.abs(positionData.translateX) < THROW_OUT_THRESHOLD/2 ? 5 : parseInt(Math.abs(positionData.translateX)-THROW_OUT_THRESHOLD/2)
+    var newShadow = Math.abs(positionData.translateX) < THROW_OUT_THRESHOLD / 2 ? 5 : parseInt(Math.abs(positionData.translateX) - THROW_OUT_THRESHOLD / 2, 0)
     newShadow = newShadow > 30 ? 30 : newShadow
     // console.log(newShadow,'shadow')
 
     var newPos = {
       transform: [
         {translateX:  parseFloat(positionData.translateX.toFixed(2))},
-        // {translateY:  parseFloat(positionData.translateY.toFixed(2))}, // TODO: slight curve along y axis
+        // {translateY:  parseFloat(positionData.translateY.toFixed(2))},
         {scale: parseFloat(newScale.toFixed(2))},
         {rotate: newRotate}
       ],
@@ -159,17 +159,13 @@ class ActiveCard extends React.Component{
     }
 
     this.card && this.card.setNativeProps(precomputeStyle(newPos))
+    // https://facebook.github.io/react-native/docs/direct-manipulation.html#precomputing-style
   }
 
   _handleStartShouldSetPanResponder = (e: Object, gestureState: Object) => {
     console.log('_handleStartShouldSetPanResponder',gestureState.dx,gestureState.moveX)
 
     // Should we become active when the user presses down on the card?
-    // this.x = this.setTimeout(()=>{
-      // if(this.state.isDragging == true || this.state.isAnimating == true) return false;
-    //
-    //   this._profileVisible();
-    // },1000)
     if(Math.abs(gestureState.dx) < 1){
       if(this.state.waitingForDoubleTap){
         console.log('double tap');
@@ -188,7 +184,7 @@ class ActiveCard extends React.Component{
     }
     // return Math.abs(gestureState.dy) < Math.abs(gestureState.dx) || Math.abs(gestureState.dx) > 1 && Math.abs(gestureState.dy) < 15
     // return Math.abs(gestureState.dx) > 0
-    return Math.abs(gestureState.dy)*2 < Math.abs(gestureState.dx)
+    return Math.abs(gestureState.dy) * 2 < Math.abs(gestureState.dx)
 
   }
 
@@ -203,7 +199,7 @@ class ActiveCard extends React.Component{
     // }else{
     // return Math.abs(gestureState.dy) < Math.abs(gestureState.dx) || Math.abs(gestureState.dx) > 1 && Math.abs(gestureState.dy) < 15
     // return Math.abs(gestureState.dx) > 0
-      return Math.abs(gestureState.dy)*2 < Math.abs(gestureState.dx)
+      return Math.abs(gestureState.dy) * 2 < Math.abs(gestureState.dx)
     // }
   }
 
@@ -214,13 +210,11 @@ class ActiveCard extends React.Component{
       this.setState({
         isDragging: true
       })
-      // if(!this.state.isDragging) this._highlight();
+
     // }
   }
   _handlePanResponderMove = (e: Object, gestureState: Object) => {
     console.log('Pan Responder MOVE',gestureState.dx,gestureState)
-    // if(this.x) this.clearTimeout(this.x);
-    // this._highlight();
 
     this._cardStyles = {
       translateX: gestureState.dx,
@@ -261,7 +255,7 @@ class ActiveCard extends React.Component{
       },
       end: {
         translateY: 0,
-        translateX: (likeStatus == 'approve' ? DeviceWidth * 2 : -DeviceWidth * 2)
+        translateX: (likeStatus === 'approve' ? DeviceWidth * 2 : -DeviceWidth * 2)
       },
       duration: 500,
       tween: 'easeOutBack',
@@ -294,7 +288,7 @@ class ActiveCard extends React.Component{
       },
 
       // Animation duration
-      duration: Math.abs(self._cardStyles.translateX)*1.5,
+      duration: Math.abs(self._cardStyles.translateX) * 1.5,
 
       // Tween function
       tween: 'easeOutBack',
@@ -305,13 +299,7 @@ class ActiveCard extends React.Component{
       },
 
       done: () => {
-        self.setState({
-          isAnimating:false,
-          // position: {
-          //   translateX:0,
-          //   translateY:0
-          // }
-        })
+        self.setState({ isAnimating:false })
       }
     });
   }
@@ -344,7 +332,7 @@ class ActiveCard extends React.Component{
 
 
       }
-      key={this.props.potential.id+'wrapper'}
+      key={`${this.props.potential.id}-wrapper`}
         ref={(card) => { this.card = card }}
         {...this._panResponder.panHandlers}>
 
@@ -373,7 +361,7 @@ class ActiveCard extends React.Component{
       }
       */
 
-};
+}
 
 
 
@@ -382,7 +370,7 @@ class CoupleActiveCard extends React.Component{
   constructor(props){
     super()
 
-    this.displayName = "CoupleInsideActiveCard"
+    this.displayName = 'CoupleInsideActiveCard'
 
   }
   componentDidUpdate(prevProps,prevState) {
@@ -396,13 +384,15 @@ class CoupleActiveCard extends React.Component{
 
       LayoutAnimation.spring();
     }
-    if(nextProps.profileVisible != this.props.profileVisible) LayoutAnimation.spring()
+    if(nextProps.profileVisible !== this.props.profileVisible){
+      LayoutAnimation.spring()
+    }
 
   }
   render(){
 
-    return(
-      <View ref={'cardinside'} key={this.props.potential.id+'inside'} style={
+    return (
+      <View ref={'cardinside'} key={`${this.props.potential.id}-inside`} style={
 
         [styles.card,{
           overflow: this.props.profileVisible ? 'visible' : 'hidden',
@@ -423,8 +413,6 @@ class CoupleActiveCard extends React.Component{
             contentContainerStyle={[styles.scrollSection,{
               alignItems:'stretch',
               overflow: 'visible',
-              // paddingBottom:this.props.profileVisible ? 3000 : 0
-
             }]}>
 
           <View
@@ -433,7 +421,7 @@ class CoupleActiveCard extends React.Component{
               height:undefined,
 
             }]}
-            key={this.props.potential.id+'view'}>
+            key={`${this.props.potential.id}-view`}>
 
             {this.props.profileVisible ?
                <View
@@ -444,7 +432,7 @@ class CoupleActiveCard extends React.Component{
               }}>
 
               <Swiper
-                _key={this.props.potential.id+'swiper'}
+                _key={`${this.props.potential.id}-swiper`}
                 loop={true}
                 horizontal={false}
                 vertical={true}
@@ -456,20 +444,22 @@ class CoupleActiveCard extends React.Component{
                 showsButtons={false}
                 dot={ <View style={styles.dot} />}
                 activeDot={ <View style={styles.activeDot} /> }>
+
                 <Image source={{uri: this.props.potential.user.image_url}}
-                  key={this.props.potential.user.id+'cimg'}
+                  key={`${this.props.potential.user.id}-cimg`}
                   style={styles.imagebg}
                   resizeMode={Image.resizeMode.cover} />
                 <Image source={{uri: this.props.potential.partner.image_url}}
-                  key={this.props.potential.partner.id+'cimg'}
+                  key={`${this.props.potential.partner.id}-cimg`}
                   style={styles.imagebg}
                   resizeMode={Image.resizeMode.cover} />
+
               </Swiper>
              </View>
               :
 
                 <Swiper
-                  _key={this.props.potential.id+'swiper'}
+                  _key={`${this.props.potential.id}-swiper`}
                   loop={true}
                   horizontal={false}
                   vertical={true}
@@ -478,26 +468,26 @@ class CoupleActiveCard extends React.Component{
                   dot={ <View style={styles.dot} />}
                   activeDot={ <View style={styles.activeDot} /> }>
                   <Image source={{uri: this.props.potential.user.image_url}}
-                    key={this.props.potential.user.id+'cimg'}
+                    key={`${this.props.potential.user.id}-cimg`}
                     style={styles.imagebg}
                     resizeMode={Image.resizeMode.cover} />
                   <Image source={{uri: this.props.potential.partner.image_url}}
-                    key={this.props.potential.partner.id+'cimg'}
+                    key={`${this.props.potential.partner.id}-cimg`}
                     style={styles.imagebg}
                     resizeMode={Image.resizeMode.cover} />
                 </Swiper>
             }
 
             <View
-              key={this.props.potential.id+'bottomview'}
+              key={`${this.props.potential.id}-bottomview`}
               style={{
-                height:(this.props.profileVisible ? DeviceHeight/3 : 80),
+                height:(this.props.profileVisible ? DeviceHeight / 3 : 80),
                 bottom: this.props.profileVisible ? undefined : 0,
                 // overflow:'visible',
                 // left: 0,
                 // marginTop: this.props.profileVisible ? -80 : 0,
                 backgroundColor: colors.white,
-                width: DeviceWidth-(this.props.profileVisible ? 0 : 40),
+                width: DeviceWidth - (this.props.profileVisible ? 0 : 40),
                 flex:1,
                 alignSelf:'stretch',
                 alignItems:'stretch',
@@ -506,7 +496,7 @@ class CoupleActiveCard extends React.Component{
               >
               {this.props.profileVisible ?
                 <View style={{
-                  width: DeviceWidth-(this.props.profileVisible ? 0 : 40),
+                  width: DeviceWidth - (this.props.profileVisible ? 0 : 40),
                   paddingVertical:20
                   }}>
                     <Text style={styles.cardBottomText}>{`${this.props.potential.user.firstname.trim()} and ${this.props.potential.partner.firstname.trim()}`}</Text>
@@ -525,8 +515,8 @@ class CoupleActiveCard extends React.Component{
                   right:0,
                   backgroundColor:'transparent',
                   flexDirection:'row'}}>
-                <Image source={{uri: this.props.potential.user.image_url}} key={this.props.potential.user.id+'img'} style={[styles.circleimage,{marginRight:5}]}/>
-                <Image source={{uri: this.props.potential.partner.image_url}} key={this.props.potential.partner.id+'img'} style={styles.circleimage}/>
+                <Image source={{uri: this.props.potential.user.image_url}} key={this.props.potential.user.id + 'img'} style={[styles.circleimage, {marginRight:5}]} />
+                <Image source={{uri: this.props.potential.partner.image_url}} key={this.props.potential.partner.id + 'img'} style={styles.circleimage}/>
               </View>
               { this.props.profileVisible &&
                 <View style={{height:undefined,width: DeviceWidth, padding:20}}>
@@ -626,11 +616,31 @@ class DummyCard extends React.Component{
     super(props)
   }
   render(){
-      return(
-        <View style={[styles.basicCard,{margin:40,marginTop:85,position:'absolute',width: DeviceWidth-80,height:DeviceHeight-100}]}>
-          <View style={{height:70,bottom:0,position:'absolute',width: DeviceWidth-80,backgroundColor:colors.white, flex:5, alignSelf:'stretch'}}/>
-        </View>
-      )
+
+    return (
+      <View
+        style={[
+          styles.basicCard,
+          {
+            margin:40,
+            marginTop:85,
+            position:'absolute',
+            width: DeviceWidth - 80,
+            height:DeviceHeight - 100
+          }]
+        }>
+        <View style={{
+            height:70,
+            bottom:0,
+            position:'absolute',
+            width: DeviceWidth - 80,
+            backgroundColor:colors.white,
+            flex:5,
+            alignSelf:'stretch'
+          } }/>
+      </View>
+    )
+
   }
 }
 
@@ -652,7 +662,7 @@ class CardStack extends React.Component{
                 </View>
               }
               {this.props.potentials[1] &&
-                <ActiveCard key={this.props.potentials[1].id+'activecard'} user={this.props.user} potential={this.props.potentials[1]} isTopCard={false}/>
+                <ActiveCard key={`${this.props.potentials[1].id}-activecard`} user={this.props.user} potential={this.props.potentials[1]} isTopCard={false}/>
 
               /*
                 <View style={{shadowColor:colors.darkShadow,shadowRadius:5,shadowOffset:{width:0,height:5},shadowOpacity:50}}>
@@ -661,12 +671,12 @@ class CardStack extends React.Component{
               */
               }
               {this.props.potentials[0] &&
-                <ActiveCard key={this.props.potentials[0].id+'activecard'} user={this.props.user} potential={this.props.potentials[0]} isTopCard={true}/>
+                <ActiveCard key={`${this.props.potentials[0].id}-activecard`} user={this.props.user} potential={this.props.potentials[0]} isTopCard={true}/>
               }
             </View>
         )
       }else{
-         return(
+         return (
           <View user={this.props.user} >
             <TouchableHighlight onPress={() => MatchActions.getPotentials()}>
               <View style={{padding:50}}>
@@ -684,7 +694,7 @@ class Potentials extends React.Component{
     super()
   }
   render(){
-    return(
+    return (
       <AltContainer stores={{
           potentials(props) { return { store: PotentialsStore, value: PotentialsStore.getAll() }}
       }}>
@@ -803,7 +813,6 @@ var styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    borderColor: colors.shuttleGray,
     borderColor:colors.white,
     borderWidth: 3
   },

@@ -1,6 +1,6 @@
 /* @flow */
 
- ;
+
 
 var React = require('react-native');
 var {
@@ -25,8 +25,8 @@ var KeyboardEventEmitter = KeyboardEvents.Emitter;
 
 var colors = require('../utils/colors');
 
-var ChatStore = require("../flux/stores/ChatStore");
-var MatchActions = require("../flux/actions/MatchActions");
+var ChatStore = require('../flux/stores/ChatStore');
+var MatchActions = require('../flux/actions/MatchActions');
 var alt = require('../flux/alt');
 var AltContainer = require('alt/AltNativeContainer');
 var InvertibleScrollView = require('react-native-invertible-scroll-view');
@@ -116,7 +116,7 @@ var styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderColor: colors.white,
-    borderWidth: 3/PixelRatio.get()
+    borderWidth: 3 / PixelRatio.get()
   },
 });
 
@@ -126,7 +126,7 @@ class ChatMessage extends React.Component {
     console.log(props.messageData);
   }
   render() {
-    var isMessageOurs = (this.props.messageData.from_user_info.id == this.props.user.id || this.props.messageData.from_user_info.id == this.props.user.partner_id);
+    var isMessageOurs = (this.props.messageData.from_user_info.id === this.props.user.id || this.props.messageData.from_user_info.id === this.props.user.partner_id);
 
     console.log(this.props.messageData.from_user_info.id, this.props.user.id ,this.props.user.partner_id, isMessageOurs);
 
@@ -158,7 +158,8 @@ class ChatInside extends React.Component{
     this.state = {
       dataSource: ds.cloneWithRows(props.messages),
       keyboardSpace: 0,
-      isKeyboardOpened: false
+      isKeyboardOpened: false,
+      textInputValue: ''
 
     }
 
@@ -208,10 +209,11 @@ class ChatInside extends React.Component{
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
     this.refs.scroller.refs.listviewscroll.scrollTo(0,0)
 
-    if(prevProps.messages && prevProps.messages.length < this.props.messages.length )
-    this.setState({
-      dataSource: ds.cloneWithRows(this.props.messages)
-    })
+    if(prevProps.messages && prevProps.messages.length < this.props.messages.length ){
+      this.setState({
+        dataSource: ds.cloneWithRows(this.props.messages)
+      })
+    }
   }
   saveToStorage(){
     console.log('save??')
@@ -223,7 +225,7 @@ class ChatInside extends React.Component{
   _renderRow(rowData, sectionID: number, rowID: number) {
     console.log(rowData)
     return (
-      <ChatMessage user={this.props.user} messageData={rowData} key={rowID+'msg'} text={rowData.message_body} pic={rowData.from_user_info.image_url}/>
+      <ChatMessage user={this.props.user} messageData={rowData} key={`${rowID}-msg`} text={rowData.message_body} pic={rowData.from_user_info.image_url}/>
     )
   }
 
@@ -239,14 +241,24 @@ class ChatInside extends React.Component{
 
   }
   sendMessage(){
-
-    console.log('send')
+    MatchActions.sendMessage(this.state.textInputValue, this.props.matchID)
+    this.setState({
+      textInputValue: ''
+    })
+    this._textInput.setNativeProps({text: ''});
+  }
+  onTextInputChange(text){
+    console.log(text);
+    window.x = text
+    this.setState({
+      textInputValue: text
+    })
   }
   render(){
 
-    console.log(this.state.keyboardSpace)
     return (
-      <View ref={'chatscroll'} style={{flexDirection:'column',
+      <View ref={'chatscroll'} style={{
+        flexDirection:'column',
         alignItems:'flex-end',
         alignSelf:'stretch',
         flex:1,
@@ -254,18 +266,24 @@ class ChatInside extends React.Component{
         height:DeviceHeight,
         width:DeviceWidth,
         backgroundColor:colors.outerSpace}}>
+
         <ListView
           ref={'scroller'}
-          renderScrollComponent={props => <InvertibleScrollView {...props} inverted />}
+          renderScrollComponent={props => <InvertibleScrollView contentContainerStyle={{justifyContent:'flex-end',width:DeviceWidth,overflow:'hidden'}} {...this.props} inverted={true} />}
           matchID={this.props.matchID}
           dataSource={this.state.dataSource}
           renderRow={this._renderRow.bind(this)}
           messages={this.props.messages || []}
-          contentContainerStyle={{justifyContent:'flex-end',}}
-          style={{backgroundColor:'transparent',flex:15,alignSelf:'stretch',width:DeviceWidth,height:DeviceHeight-20,paddingTop:40}}/>
+          style={{
+            backgroundColor:'transparent',
+            flex:1,
+            alignSelf:'stretch',
+            width:DeviceWidth,
+            height:DeviceHeight - 20,
+            paddingTop:40}}/>
+
         <View style={{
             height:50,
-
             flexDirection:'row',
             alignItems:'center',
             justifyContent:'center',
@@ -275,13 +293,17 @@ class ChatInside extends React.Component{
             padding:5}}>
 
           <TextInput multiline={true}
-            textAlignVertical={'center'} style={{
+            ref={component => this._textInput = component}
+            style={{
               flex:1,
               padding:3,
               flexWrap:'wrap',
               fontSize:18,
               backgroundColor:colors.mediumPurple,
-              borderRadius:4}}/>
+              borderRadius:4}}
+              onChangeText={this.onTextInputChange.bind(this)}
+              value={this.state.textInputValue}/>
+
           <TouchableHighlight style={{
               margin:5,
               padding:8,
@@ -292,6 +314,7 @@ class ChatInside extends React.Component{
               justifyContent:'center'}} onPress={this.sendMessage.bind(this)}>
             <Text style={styles.sendButtonText}>Send</Text>
           </TouchableHighlight>
+
         </View>
       </View>
     )

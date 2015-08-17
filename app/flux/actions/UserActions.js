@@ -1,5 +1,5 @@
 import alt from '../alt';
-import Api from "../../utils/api";
+import Api from '../../utils/api';
 import Keychain from 'Keychain';
 const server = 'http://api2.trippple.co';
 
@@ -87,7 +87,7 @@ class UserActions {
 
   uploadImage(image){
     Api.uploadImage(image)
-      .then((res) => {
+      .then((uploadRes) => {
          Api.getUserInfo()
           .then((res) => {
             console.log(res);
@@ -130,7 +130,7 @@ class UserActions {
   }
 
   initialize(){
-    console.log("INITIALIZE");
+    console.log('INITIALIZE');
     // Keychain.getInternetCredentials(server)
     //   .then((credentials) => {
         // this.dispatch(credentials);
@@ -142,7 +142,7 @@ class UserActions {
          })
          .catch((err) => {
            console.log(err);
-           this.dispatch(res);
+           this.dispatch(err);
          })
       //  })
 
@@ -151,4 +151,4 @@ class UserActions {
   }
 }
 
-export default alt.createActions(UserActions);
+export default alt.createActions(UserActions)

@@ -16,7 +16,7 @@
  */
 
 
-import React from 'react-native';
+import React from 'react-native'
 import {
   ActivityIndicatorIOS,
   CameraRoll,
@@ -28,8 +28,8 @@ import {
   TouchableOpacity
 } from 'react-native'
 
-import ImageEditor from './ImageEditor';
-import Dimensions from 'Dimensions';
+import EditImage from '../screens/registration/EditImage'
+import Dimensions from 'Dimensions'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -81,10 +81,11 @@ class CameraRollView extends React.Component{
 
   static defaultProps = {
     groupTypes: 'All',
-    batchSize: 50,
+    batchSize: 30,
     imagesPerRow: 3,
     assetType: 'Photos'
   }
+
   constructor(props){
     super()
 
@@ -98,24 +99,24 @@ class CameraRollView extends React.Component{
       dataSource: new ListView.DataSource({rowHasChanged: this._rowHasChanged.bind(this)}),
     }
   }
+
   loadAsset = (asset) => {
-    console.log(asset.node.image.uri)
+
     this.props.navigator.push({
-      component:ImageEditor,
+      component:EditImage,
       id:'imageeditor',
       title: 'Edit Image',
-
       passProps: {
         image: asset.node.image.uri
       }
     })
   }
-  renderImage = (asset) => {
-    var imageSize = DeviceWidth/3 - 20;
 
+  renderImage = (asset) => {
+    var imageSize = DeviceWidth / 3 - 20;
     var imageStyle = [styles.image, {width: imageSize, height: imageSize}];
     return (
-      <TouchableOpacity onPress={ this.loadAsset.bind( this, asset ) } key={asset.node.image.uri+'tap'}>
+      <TouchableOpacity onPress={ this.loadAsset.bind( this, asset ) } key={`${asset.node.image.uri}-tap`}>
         <View key={asset} style={styles.row}>
           <Image
             source={asset.node.image}
@@ -132,9 +133,6 @@ class CameraRollView extends React.Component{
   rendererChanged = () => {
     var ds = new ListView.DataSource({rowHasChanged: this._rowHasChanged});
     this.state.dataSource = ds.cloneWithRows(this.state.assets);
-    //  ds.cloneWithRows(
-    //   groupByEveryN(this.state.assets, this.props.imagesPerRow)
-    // );
   }
 
   componentDidMount() {
@@ -152,10 +150,10 @@ class CameraRollView extends React.Component{
       const ds = new ListView.DataSource({rowHasChanged: this._rowHasChanged.bind(this)});
 
       const newState = {
-            assets: ([]: Array<Image>),
-            groupTypes: props.groupTypes,
-            lastCursor: (null : ?string),
-            assetType: props.assetType,
+            assets: [],
+            groupTypes: this.props.groupTypes,
+            lastCursor: null,
+            assetType: this.props.assetType,
             noMore: false,
             loadingMore: false,
             dataSource: ds,
@@ -232,7 +230,7 @@ class CameraRollView extends React.Component{
       return this.renderImage(image)
     }) : [ this.renderImage(rowData) ];
     return (
-      <View style={styles.row} key={rowID+'row'}>
+      <View style={styles.row} key={`${rowID}-row`}>
         {images}
       </View>
     );
@@ -262,12 +260,12 @@ class CameraRollView extends React.Component{
   }
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   row: {
     justifyContent: 'center',
     padding: 5,
     margin: 0,
-    width: DeviceWidth/3 - 20,
+    width: DeviceWidth / 3 - 20,
     alignItems: 'center',
   },
 

@@ -1,23 +1,34 @@
-var React = require('react-native');
-var {
+//TODO: try out facebook's ssquare image cropper component
+//      https://github.com/facebook/react-native/blob/master/Examples/UIExplorer/ImageEditingExample.js
+
+
+import React from 'react-native';
+import {
   StyleSheet,
   Text,
   Image,
   View,
   TouchableHighlight
-} = React;
+} from 'react-native';
 
-var colors = require('../../utils/colors');
-var SelfImage = require('./SelfImage');
-var PrivacyScreen = require('./privacy');
-var UserActions = require('../../flux/actions/UserActions');
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
+import colors from '../../utils/colors';
+import SelfImage from './SelfImage';
+import PrivacyScreen from './privacy';
+import UserActions from '../../flux/actions/UserActions';
 
-var ImageEditor = React.createClass({
+import Dimensions from 'Dimensions';
+
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
+
+
+class ImageEditor extends React.Component{
+  constructor(props){
+    super()
+  }
   componentWillMount(){
     console.log('will mount editor')
-  },
+  }
 
   accept(){
     UserActions.uploadImage(this.props.image)
@@ -27,7 +38,7 @@ var ImageEditor = React.createClass({
 
     })
 
-  },
+  }
   render() {
 
     return (
@@ -47,15 +58,14 @@ var ImageEditor = React.createClass({
 
       </View>
     );
-  },
+  }
   retake() {
     this.props.navigator.pop();
-
   }
-});
+}
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -106,4 +116,4 @@ var styles = StyleSheet.create({
 });
 
 
-module.exports = ImageEditor;
+export default ImageEditor;
