@@ -1,22 +1,22 @@
- ;
 
-var React = require('react-native');
-var {
+import React from 'react-native';
+import {
   StyleSheet,
   Text,
   View,
   TouchableHighlight
-} = React;
+} from 'react-native'
 
-var Camera = require('react-native-camera');
-var ImageEditor = require('./ImageEditor');
+import Camera from 'react-native-camera';
+import ImageEditor from './ImageEditor';
 
-var CameraControl = React.createClass({
-  getInitialState() {
-    return {
+class CameraControl extends React.Component{
+  constructor(props) {
+    super()
+    this.state = {
       cameraType: Camera.constants.Type.back
     }
-  },
+  }
 
   render() {
 
@@ -42,13 +42,13 @@ var CameraControl = React.createClass({
 
       </View>
     );
-  },
+  }
   _switchCamera() {
     var state = this.state;
     state.cameraType = state.cameraType === Camera.constants.Type.back
       ? Camera.constants.Type.front : Camera.constants.Type.back;
     this.setState(state);
-  },
+  }
   _takePicture() {
     this.refs.cam.capture((err, data)=> {
       console.log(err, data);
@@ -65,7 +65,7 @@ var CameraControl = React.createClass({
 
     });
   }
-});
+}
 
 
 var styles = StyleSheet.create({
@@ -119,4 +119,4 @@ var styles = StyleSheet.create({
 });
 
 
-module.exports = CameraControl;
+export default CameraControl

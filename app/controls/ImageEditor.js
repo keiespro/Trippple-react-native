@@ -1,4 +1,6 @@
- ;
+//TODO: try out facebook's ssquare image cropper component
+//      https://github.com/facebook/react-native/blob/master/Examples/UIExplorer/ImageEditingExample.js
+//
 var React = require('react-native');
 var {
   StyleSheet,
@@ -12,9 +14,11 @@ var colors = require('../utils/colors');
 var SelfImage = require('../screens/registration/SelfImage')
 var UserActions = require('../flux/actions/UserActions');
 
-var ImageEditor = React.createClass({
-
-  acceptImage(){
+class ImageEditor extends React.Component{
+  constructor(props){
+    super()
+  }
+  acceptImage = () => {
     UserActions.uploadImage(this.props.image);
 
     // this.props.navigator.popToRoute({
@@ -25,7 +29,7 @@ var ImageEditor = React.createClass({
     //         }
     //       });
 
-  },
+  }
   render() {
 
     return (
@@ -45,15 +49,15 @@ var ImageEditor = React.createClass({
 
       </View>
     );
-  },
-  _switchCamera() {
+  }
+  _switchCamera = () => {
 
 
-  },
-  _takePicture() {
+  }
+  _takePicture = () => {
     UserActions.uploadImage(this.props.image);
   }
-});
+}
 
 
 var styles = StyleSheet.create({
@@ -108,4 +112,4 @@ var styles = StyleSheet.create({
 });
 
 
-module.exports = ImageEditor;
+export default ImageEditor

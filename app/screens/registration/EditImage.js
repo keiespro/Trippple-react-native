@@ -1,4 +1,3 @@
- ;
 var React = require('react-native');
 var {
   StyleSheet,
@@ -16,7 +15,9 @@ var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 
 var ImageEditor = React.createClass({
-
+  componentWillMount(){
+    console.log('will mount editor')
+  },
 
   accept(){
     UserActions.uploadImage(this.props.image)

@@ -24,10 +24,17 @@ import {
   ListView,
   StyleSheet,
   View,
-} from 'react-native';
+  Text,
+  TouchableOpacity
+} from 'react-native'
 
+import ImageEditor from './ImageEditor';
+import Dimensions from 'Dimensions';
 
-var propTypes = {
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
+
+const propTypes = {
   /**
    * The group where the photos will be fetched from. Possible
    * values are 'Album', 'All', 'Event', 'Faces', 'Library', 'PhotoStream'
@@ -51,7 +58,7 @@ var propTypes = {
   /**
    * A function that takes a single image as a parameter and renders it.
    */
-  renderImage: React.PropTypes.func,
+  // renderImage: React.PropTypes.func,
 
   /**
    * imagesPerRow: Number of images to be shown in each row.
@@ -76,22 +83,10 @@ class CameraRollView extends React.Component{
     groupTypes: 'All',
     batchSize: 50,
     imagesPerRow: 3,
-    assetType: 'Photos',
-    renderImage: (asset) => {
-      var imageSize = 150;
-      var imageStyle = [styles.image, {width: imageSize, height: imageSize}];
-      return (
-        <Image
-          source={asset.node.image}
-          style={imageStyle}
-        />
-      );
-    },
-
+    assetType: 'Photos'
   }
   constructor(props){
-    super(props)
-
+    super()
 
     this.state = {
       assets: ([]),
@@ -103,7 +98,33 @@ class CameraRollView extends React.Component{
       dataSource: new ListView.DataSource({rowHasChanged: this._rowHasChanged.bind(this)}),
     }
   }
+  loadAsset = (asset) => {
+    console.log(asset.node.image.uri)
+    this.props.navigator.push({
+      component:ImageEditor,
+      id:'imageeditor',
+      title: 'Edit Image',
 
+      passProps: {
+        image: asset.node.image.uri
+      }
+    })
+  }
+  renderImage = (asset) => {
+    var imageSize = DeviceWidth/3 - 20;
+
+    var imageStyle = [styles.image, {width: imageSize, height: imageSize}];
+    return (
+      <TouchableOpacity onPress={ this.loadAsset.bind( this, asset ) } key={asset.node.image.uri+'tap'}>
+        <View key={asset} style={styles.row}>
+          <Image
+            source={asset.node.image}
+            style={imageStyle}
+          />
+        </View>
+      </TouchableOpacity>
+    );
+  }
   /**
    * This should be called when the image renderer is changed to tell the
    * component to re-render its assets.
@@ -171,8 +192,9 @@ class CameraRollView extends React.Component{
       <ListView
         renderRow={this._renderRow.bind(this)}
         renderFooter={this._renderFooterSpinner}
-        onEndReached={this._onEndReached.bind(this)}
+        onEndReached={this._onEndReached}
         style={styles.container}
+        contentContainerStyle={styles.scrollContent}
         dataSource={this.state.dataSource}
       />
     );
@@ -200,16 +222,17 @@ class CameraRollView extends React.Component{
   }
 
   // rowData is an array of images
+  //
+  // ^LIES
   _renderRow = (rowData, sectionID, rowID) =>  {
-    console.log(rowData, sectionID, rowID);
-    var images = [ this.props.renderImage(rowData) ];
-
-
-
-
-
+    var images = rowData.length ? rowData.map((image) => {
+      if (image === null) {
+        return null;
+      }
+      return this.renderImage(image)
+    }) : [ this.renderImage(rowData) ];
     return (
-      <View style={styles.row}>
+      <View style={styles.row} key={rowID+'row'}>
         {images}
       </View>
     );
@@ -232,7 +255,7 @@ class CameraRollView extends React.Component{
     this.setState(newState);
   }
 
-  _onEndReached() {
+  _onEndReached = () => {
     if (!this.state.noMore) {
       this.fetch();
     }
@@ -241,21 +264,24 @@ class CameraRollView extends React.Component{
 
 var styles = StyleSheet.create({
   row: {
-    flexDirection: 'row',
-    flex: 1,
+    justifyContent: 'center',
+    padding: 5,
+    margin: 0,
+    width: DeviceWidth/3 - 20,
+    alignItems: 'center',
   },
-  url: {
-    fontSize: 9,
-    marginBottom: 14,
-  },
+
   image: {
-    margin: 4,
   },
-  info: {
-    flex: 1,
+
+  scrollContent:{
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   },
   container: {
     flex: 1,
+
   },
 });
 
