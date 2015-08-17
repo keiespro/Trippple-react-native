@@ -1,58 +1,48 @@
 /* @flow */
 
- ;
+import React from 'react-native'
 
-const React = require('react-native');
-const {
+import {
  StyleSheet,
  Text,
  View,
- TouchableOpacity,
  LayoutAnimation,
- Touchable,
- TouchableWithoutFeedback,
  TouchableHighlight,
  Image,
- TextInput,
  ScrollView,
  PanResponder
-} = React;
+} from 'react-native'
 
-const alt = require('../flux/alt');
+import alt from '../flux/alt';
+import precomputeStyle from 'precomputeStyle';
+import RNTAnimation from 'react-native-tween-animation';
+import MatchActions from '../flux/actions/MatchActions';
+import p from "../flux/stores/PotentialsStore";
+import AltContainer from 'alt/AltNativeContainer';
+import TimerMixin from 'react-timer-mixin';
+import colors from '../utils/colors';
+import Swiper from 'react-native-swiper';
 
-const precomputeStyle = require('precomputeStyle');
+import reactMixin from 'react-mixin';
+import Dimensions from 'Dimensions';
 
-const RNTAnimation = require('react-native-tween-animation');
-const MatchActions = require('../flux/actions/MatchActions');
-const p = require("../flux/stores/PotentialsStore");
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
+
 const PotentialsStore = alt.createStore(p, 'PotentialsStore');
-const AltContainer = require('alt/AltNativeContainer');
-const Logger = require('../utils/logger');
-const DeviceHeight = require('Dimensions').get('window').height;
-const DeviceWidth = require('Dimensions').get('window').width;
-const TimerMixin = require('react-timer-mixin');
 
 const THROW_OUT_THRESHOLD = 225;
 
-const colors = require('../utils/colors');
-const Swiper = require('react-native-swiper');
 
+@reactMixin.decorate(TimerMixin)
+class ActiveCard extends React.Component{
 
+  // mixins: [TimerMixin]
 
-var ActiveCard = React.createClass({
-  displayName: "ActiveCard",
-  _panResponder: {},
-  _previousLeft: 0,
-  _previousTop: 0,
-  _circleStyles: {},
-  _cardStyles: {translateX:0, translateY:0},
-  _handle: '',
-  card: (null : ?{ setNativeProps(props: Object): void }),
+  constructor(props){
+    super()
 
-  mixins: [TimerMixin],
-
-  getInitialState(){
-    return ({
+    this.state = {
       position: {
        translateX: 0,
        translateY: 0,
@@ -61,25 +51,34 @@ var ActiveCard = React.createClass({
      isAnimating:false,
      isDragging: false,
      waitingForDoubleTap: false
-    })
-  },
+    }
+  }
   componentWillMount(){
+    this.displayName = "ActiveCard"
+    this._panResponder = {}
+    this._previousLeft = 0
+    this._previousTop = 0
+    this._circleStyles = {}
+    this._cardStyles = {translateX:0, translateY:0}
+    this._handle = ''
+    this.card = (null : ?{ setNativeProps(props: Object): void })
+
     if(this.props.isTopCard) this.initializePanResponder()
-  },
+  }
   componentDidMount(){
     this._updatePosition();
-  },
+  }
   componentWillUpdate(nextProps,nextState){
     if(nextProps.isTopCard && !this.props.isTopCard){
 
       // console.log('ANIMATE NEW CARD');
       // LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
     }
-  },
+  }
   componentDidUpdate(prevProps,prevState){
     //   if(prevState.profileVisible != this.state.profileVisible) LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
     if(this.props.isTopCard && !prevProps.isTopCard) this.initializePanResponder()
-  },
+  }
   initializePanResponder(){
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: this._handleStartShouldSetPanResponder,
@@ -98,19 +97,19 @@ var ActiveCard = React.createClass({
       translateY: this._previousTop,
       translateX: this._previousLeft
     }
-  },
+  }
 
   _handleDoubleTap(){
     this.setState({ profileVisible: true, waitingForDoubleTap: false })
-  },
+  }
 
 
   _showProfile(){
     if(this.state.isDragging || this.state.isAnimating) return false;
     this.setState({ profileVisible: true })
-  },
+  }
 
-  _hideProfile(){ this.setState({ profileVisible: false }) },
+  _hideProfile(){ this.setState({ profileVisible: false }) }
 
   _highlight() {
     var nativeProps = precomputeStyle({
@@ -121,7 +120,7 @@ var ActiveCard = React.createClass({
 
     this.card && this.card.setNativeProps(nativeProps)
 
-  },
+  }
 
   _unHighlight() {
     var nativeProps = precomputeStyle({
@@ -131,7 +130,7 @@ var ActiveCard = React.createClass({
       transform: [{scale: 1}]
     });
     this.card && this.card.setNativeProps(nativeProps);
-  },
+  }
 
   _updatePosition(tweenFrame) {
     const positionData = tweenFrame ? tweenFrame : this._cardStyles
@@ -160,9 +159,9 @@ var ActiveCard = React.createClass({
     }
 
     this.card && this.card.setNativeProps(precomputeStyle(newPos))
-  },
+  }
 
-  _handleStartShouldSetPanResponder(e: Object, gestureState: Object): boolean {
+  _handleStartShouldSetPanResponder = (e: Object, gestureState: Object) => {
     console.log('_handleStartShouldSetPanResponder',gestureState.dx,gestureState.moveX)
 
     // Should we become active when the user presses down on the card?
@@ -187,11 +186,13 @@ var ActiveCard = React.createClass({
 
       }
     }
-    return Math.abs(gestureState.dy) < Math.abs(gestureState.dx) && Math.abs(gestureState.dx) > 1 && Math.abs(gestureState.dy) < 15
+    // return Math.abs(gestureState.dy) < Math.abs(gestureState.dx) || Math.abs(gestureState.dx) > 1 && Math.abs(gestureState.dy) < 15
+    // return Math.abs(gestureState.dx) > 0
+    return Math.abs(gestureState.dy)*2 < Math.abs(gestureState.dx)
 
-  },
+  }
 
-  _handleMoveShouldSetPanResponder(e: Object, gestureState): boolean {
+  _handleMoveShouldSetPanResponder = (e: Object, gestureState) => {
     console.log('_handleMoveShouldSetPanResponder',gestureState.dx,gestureState,e)
     // if(this.state.isDragging == true) return false;
 
@@ -200,21 +201,23 @@ var ActiveCard = React.createClass({
     // if(Math.abs(gestureState.vx*10000000) > 5){
     //   return true;
     // }else{
-      return Math.abs(gestureState.dy) < Math.abs(gestureState.dx)
+    // return Math.abs(gestureState.dy) < Math.abs(gestureState.dx) || Math.abs(gestureState.dx) > 1 && Math.abs(gestureState.dy) < 15
+    // return Math.abs(gestureState.dx) > 0
+      return Math.abs(gestureState.dy)*2 < Math.abs(gestureState.dx)
     // }
-  },
+  }
 
-  _handlePanResponderGrant(e: Object, gestureState: Object) {
+  _handlePanResponderGrant = (e: Object, gestureState: Object) => {
     console.log('Pan Responder Grant',gestureState.dx,gestureState.moveX)
     // this.clearTimeout(this.x);
     // if(gestureState.dx > 0){
-      this.replaceState({
+      this.setState({
         isDragging: true
       })
-      if(!this.state.isDragging) this._highlight();
+      // if(!this.state.isDragging) this._highlight();
     // }
-  },
-  _handlePanResponderMove(e: Object, gestureState: Object) {
+  }
+  _handlePanResponderMove = (e: Object, gestureState: Object) => {
     console.log('Pan Responder MOVE',gestureState.dx,gestureState)
     // if(this.x) this.clearTimeout(this.x);
     // this._highlight();
@@ -225,26 +228,26 @@ var ActiveCard = React.createClass({
     };
     this._updatePosition();
 
-  },
-  _handlePanResponderEnd(e: Object, gestureState: Object) {
+  }
+  _handlePanResponderEnd = (e: Object, gestureState: Object) => {
 
-    this.replaceState({
+    this.setState({
       isDragging: false
     })
-    this._unHighlight();
+    // this._unHighlight();
     console.log('Pan Responder End',Math.abs(gestureState.dx))
 
     Math.abs(gestureState.dx) > THROW_OUT_THRESHOLD ? this._throwOutCard(gestureState) : this._resetCard(gestureState)
 
-  },
+  }
   _throwOutCard(gestureState){
     var self = this;
 
-    Logger.debug('throwout',self.props.potential,self.props.potential.user.id)
+    console.debug('throwout',self.props.potential,self.props.potential.user.id)
 
 
-    var likeStatus = gestureState.dx > 0 ? 'approve' : 'deny';
-    var likeUserId = this.props.potential.user.id;
+    const likeStatus = gestureState.dx > 0 ? 'approve' : 'deny';
+    const likeUserId = this.props.potential.user.id;
 
 
         this.setState({
@@ -267,7 +270,7 @@ var ActiveCard = React.createClass({
       done: () => MatchActions.sendLike(likeUserId,likeStatus)
     });
 
-  },
+  }
   _resetCard(gestureState){
     this.setState({
       isAnimating: true
@@ -302,7 +305,7 @@ var ActiveCard = React.createClass({
       },
 
       done: () => {
-        self.replaceState({
+        self.setState({
           isAnimating:false,
           // position: {
           //   translateX:0,
@@ -311,7 +314,8 @@ var ActiveCard = React.createClass({
         })
       }
     });
-  },
+  }
+
   render() {
 
     return (
@@ -355,7 +359,7 @@ var ActiveCard = React.createClass({
         </View>
     );
 
-  },
+  }
 /*
 
 {this.props.user.relationship_status == 'single' ?
@@ -369,19 +373,23 @@ var ActiveCard = React.createClass({
       }
       */
 
-});
+};
 
 
 
 
-var CoupleActiveCard = React.createClass({
-  displayName: "CoupleInsideActiveCard",
+class CoupleActiveCard extends React.Component{
+  constructor(props){
+    super()
 
+    this.displayName = "CoupleInsideActiveCard"
+
+  }
   componentDidUpdate(prevProps,prevState) {
     // if(prevProps.profileVisible != this.props.profileVisible) LayoutAnimation.spring()
     //  LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
 
-  },
+  }
   componentWillUpdate(nextProps){
     if(nextProps.isTopCard && !this.props.isTopCard){
       console.log('ANIMATE NEW CARD');
@@ -390,7 +398,7 @@ var CoupleActiveCard = React.createClass({
     }
     if(nextProps.profileVisible != this.props.profileVisible) LayoutAnimation.spring()
 
-  },
+  }
   render(){
 
     return(
@@ -430,8 +438,9 @@ var CoupleActiveCard = React.createClass({
             {this.props.profileVisible ?
                <View
               style={{
-                height: this.props.profileVisible ? DeviceHeight : undefined,
-                position:'relative'
+                height: this.props.profileVisible ? 300 : undefined,
+                position:'relative',
+                top:0
               }}>
 
               <Swiper
@@ -440,17 +449,21 @@ var CoupleActiveCard = React.createClass({
                 horizontal={false}
                 vertical={true}
                 showsPagination={true}
+                contentContainerStyle={{
+                  position:'absolute',
+                  top:0
+                }}
                 showsButtons={false}
                 dot={ <View style={styles.dot} />}
                 activeDot={ <View style={styles.activeDot} /> }>
                 <Image source={{uri: this.props.potential.user.image_url}}
                   key={this.props.potential.user.id+'cimg'}
                   style={styles.imagebg}
-                  resizeMode={Image.resizeMode.contain} />
+                  resizeMode={Image.resizeMode.cover} />
                 <Image source={{uri: this.props.potential.partner.image_url}}
                   key={this.props.potential.partner.id+'cimg'}
                   style={styles.imagebg}
-                  resizeMode={Image.resizeMode.contain} />
+                  resizeMode={Image.resizeMode.cover} />
               </Swiper>
              </View>
               :
@@ -479,16 +492,16 @@ var CoupleActiveCard = React.createClass({
               key={this.props.potential.id+'bottomview'}
               style={{
                 height:(this.props.profileVisible ? DeviceHeight/3 : 80),
-                bottom:0,
-                overflow:'visible',
-                left: 0,
+                bottom: this.props.profileVisible ? undefined : 0,
+                // overflow:'visible',
+                // left: 0,
                 // marginTop: this.props.profileVisible ? -80 : 0,
                 backgroundColor: colors.white,
                 width: DeviceWidth-(this.props.profileVisible ? 0 : 40),
                 flex:1,
                 alignSelf:'stretch',
                 alignItems:'stretch',
-                position:'absolute'
+                position: this.props.profileVisible ? undefined : 'absolute'
               }}
               >
               {this.props.profileVisible ?
@@ -538,7 +551,7 @@ var CoupleActiveCard = React.createClass({
     )
 
   }
-})
+}
 
 //
 // var CoupleProfile =React.createClass({
@@ -654,9 +667,9 @@ class CardStack extends React.Component{
         )
       }else{
          return(
-          <View user={this.props.user}>
+          <View user={this.props.user} >
             <TouchableHighlight onPress={() => MatchActions.getPotentials()}>
-              <View>
+              <View style={{padding:50}}>
                 <Text> get </Text>
               </View>
             </TouchableHighlight>
@@ -668,31 +681,22 @@ class CardStack extends React.Component{
 
 class Potentials extends React.Component{
   constructor(props){
-    super(props)
+    super()
   }
   render(){
-
-
     return(
-      <AltContainer
-        stores={{
-          potentials (props) {
-            return {
-              store: PotentialsStore,
-              value: PotentialsStore.getAll()
-            }
-          }
-        }}>
+      <AltContainer stores={{
+          potentials(props) { return { store: PotentialsStore, value: PotentialsStore.getAll() }}
+      }}>
         <CardStack user={this.props.user} />
-
       </AltContainer>
-
     )
   }
 }
 
 
-module.exports = Potentials;
+export default Potentials;
+
 var styles = StyleSheet.create({
   container: {
     flex: 1,

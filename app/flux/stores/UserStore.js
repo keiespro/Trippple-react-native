@@ -1,8 +1,8 @@
-var alt = require('../alt');
-var UserActions = require('../actions/UserActions');
-var Keychain = require('Keychain');
+import alt from '../alt';
+import UserActions from '../actions/UserActions';
+import Keychain from 'Keychain';
 
-var server = 'http://api2.trippple.co';
+const server = 'http://api2.trippple.co';
 
 class UserStore {
   constructor() {
@@ -84,7 +84,7 @@ class UserStore {
 
   handleUpdateUserStub(attributes){
 
-    var userStub = this.state.user;
+    var userStub = this.state.userStub || {};
 
     Object.assign(userStub, attributes);
 
@@ -152,5 +152,4 @@ class UserStore {
 
   }
 }
-
-module.exports = alt.createStore(UserStore, 'UserStore');
+export default alt.createStore(UserStore, 'UserStore');

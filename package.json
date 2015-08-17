@@ -7,8 +7,10 @@
   },
   "dependencies": {
     "alt": "^0.17.1",
+    "babel-core": "latest",
     "bluebird": "^2.9.34",
     "moment": "^2.10.6",
+    "react-mixin": "^1.7.0",
     "react-native": "git://github.com/facebook/react-native.git#v0.9.0",
     "react-native-addressbook": "^1.2.0",
     "react-native-camera": "https://github.com/lwansbrough/react-native-camera.git",

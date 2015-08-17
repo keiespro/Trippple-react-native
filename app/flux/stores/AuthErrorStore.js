@@ -1,5 +1,5 @@
-var alt = require('../alt');
-var UserActions = require('../actions/UserActions');
+import alt from '../alt';
+import UserActions from '../actions/UserActions';
 
 class AuthErrorStore {
 
@@ -35,4 +35,4 @@ class AuthErrorStore {
 
 }
 
-module.exports = alt.createStore(AuthErrorStore, 'AuthErrorStore');
+export default alt.createStore(AuthErrorStore, 'AuthErrorStore');

@@ -1,8 +1,7 @@
-var alt = require('../alt');
-var Api = require("../../utils/api");
-var Logger = require("../../utils/logger");
-var Keychain = require('Keychain');
-var server = 'http://api2.trippple.co';
+import alt from '../alt';
+import Api from "../../utils/api";
+import Keychain from 'Keychain';
+const server = 'http://api2.trippple.co';
 
 
 class UserActions {
@@ -152,4 +151,4 @@ class UserActions {
   }
 }
 
-module.exports = alt.createActions(UserActions);
+export default alt.createActions(UserActions);

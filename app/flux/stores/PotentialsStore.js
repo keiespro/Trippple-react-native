@@ -1,7 +1,6 @@
-var alt = require('../alt');
-var MatchActions = require('../actions/MatchActions');
-var AsyncStorage = require('react-native').AsyncStorage;
-var Logger = require("../../utils/logger");
+import alt from '../alt';
+import MatchActions from '../actions/MatchActions';
+import { AsyncStorage } from 'react-native';
 
 
 class PotentialsStore {
@@ -65,5 +64,5 @@ class PotentialsStore {
 
 
 }
-module.exports = PotentialsStore;
-// module.exports = alt.createStore(PotentialsStore, 'PotentialsStore');
+export default PotentialsStore
+// export default alt.createStore(PotentialsStore, 'PotentialsStore');

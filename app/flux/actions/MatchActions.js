@@ -1,6 +1,6 @@
-var alt = require('../alt');
-var Api = require("../../utils/api");
-var Logger = require("../../utils/logger");
+import alt from '../alt';
+import Api from "../../utils/api";
+
 
 class MatchActions {
 
@@ -38,7 +38,7 @@ class MatchActions {
       (error) => {
         // Open native settings
 
-        Logger.error(error)
+        console.error(error)
       },
       {enableHighAccuracy: false, maximumAge: 1000}
     )
@@ -66,7 +66,7 @@ class MatchActions {
           (error) => {
             // Open native settings
 
-            Logger.error(error)
+            console.error(error)
           },
           {enableHighAccuracy: false, maximumAge: 1000}
         )
@@ -74,4 +74,4 @@ class MatchActions {
   }
 }
 
-module.exports = alt.createActions(MatchActions);
+export default alt.createActions(MatchActions);
