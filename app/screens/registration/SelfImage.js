@@ -15,10 +15,22 @@ var colors = require('../../utils/colors');
 var CameraControl = require('./cameraControl.js');
 var NavigatorSceneConfigs = require('NavigatorSceneConfigs');
 
+import CameraRollView from '../../controls/CameraRollView';
+
 var SelfImage = React.createClass({
 
   _getCameraRoll() {
 
+
+    this.props.navigator.push({
+      component: CameraRollView,
+      id:'camerarollpage',
+      title: 'camerarollpage',
+      passProps: {
+        image: false
+      },
+      sceneConfig: NavigatorSceneConfigs.FloatFromBottom
+    });
     console.log('getcameraroll')
   },
   componentDidUpdate(prevProps,prevState){
@@ -73,7 +85,7 @@ var SelfImage = React.createClass({
             <Text style={styles.plainButtonText}>FROM ALBUM</Text>
           </TouchableHighlight>
 
-          
+
           <TouchableHighlight style={[styles.plainButton,{marginLeft:10}]} onPress={this._getCamera}>
             <Text style={[styles.plainButtonText]}>TAKE A SELFIE</Text>
           </TouchableHighlight>
