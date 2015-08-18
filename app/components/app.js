@@ -5,9 +5,7 @@
 
 
 import React from 'react-native';
-import {
-  View, Navigator
-} from 'react-native';
+import { View, Navigator } from 'react-native';
 
 import alt from '../flux/alt';
 import AltContainer from 'alt/AltNativeContainer';
@@ -63,34 +61,30 @@ class Routes extends React.Component{
 
 class TopLevel extends React.Component{
   constructor(props){
-    super()
+    super(props)
 
   }
   componentDidMount(){
     UserActions.initialize()
   }
   render(){
+    console.log(this.props)
     return (
       <View>
-        { <NotificationCommander {...this.props}/> || <Routes {...this.props} />}
-
+        <NotificationCommander {...this.props} user={this.props.user}/>
+        <Routes {...this.props} />
       </View>
     )
   }
 }
 
+
+
 class App extends React.Component{
 
   render(){
     return (
-      <AltContainer stores={{
-          user: function (props) {
-            return {
-              store: UserStore,
-              value: UserStore.getUser()
-            }
-          }
-        }}>
+      <AltContainer store={UserStore}>
         <TopLevel />
       </AltContainer>
     );
