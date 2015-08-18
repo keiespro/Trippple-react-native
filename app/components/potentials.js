@@ -28,7 +28,7 @@ import Dimensions from 'Dimensions';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
-const PotentialsStore = '../flux/stores/PotentialsStore'
+import PotentialsStore from '../flux/stores/PotentialsStore'
 
 const THROW_OUT_THRESHOLD = 225;
 
@@ -338,7 +338,7 @@ class ActiveCard extends React.Component{
         <CoupleActiveCard
           isTopCard={this.props.isTopCard}
           profileVisible={this.state.profileVisible}
-          hideProfile={this._hideProfile}
+          hideProfile={this._hideProfile.bind(this)}
           showProfile={this._showProfile.bind(this)}
           potential={this.props.potential} />
 
@@ -381,8 +381,7 @@ class CoupleActiveCard extends React.Component{
       console.log('ANIMATE NEW CARD');
 
       LayoutAnimation.spring();
-    }
-    if(nextProps.profileVisible !== this.props.profileVisible){
+    }else if(nextProps.profileVisible !== this.props.profileVisible){
       LayoutAnimation.spring()
     }
   }
@@ -690,9 +689,7 @@ class Potentials extends React.Component{
   }
   render(){
     return (
-      <AltContainer stores={{
-          potentials(props) { return { store: PotentialsStore, value: PotentialsStore.getAll() }}
-      }}>
+      <AltContainer store={PotentialsStore}>
         <CardStack user={this.props.user} />
       </AltContainer>
     )
