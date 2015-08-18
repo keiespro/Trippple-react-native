@@ -33,10 +33,11 @@ class SelectRelationshipStatus extends React.Component{
   constructor(props){
 
     super(props);
-
     this.state = {
       selection: null
     }
+    console.log('SelectRelationshipStatus')
+
   }
 
   _selectSingle(){
@@ -54,7 +55,7 @@ class SelectRelationshipStatus extends React.Component{
   _continue(selection){
     UserActions.updateUserStub({relationship_status: selection});
 
-    if(selection == 'single'){
+    if(selection === 'single'){
 
       this.props.navigator.push({
         component: Facebook,
@@ -64,7 +65,7 @@ class SelectRelationshipStatus extends React.Component{
         }
       })
 
-    }else if(selection == 'couple'){
+    }else if(selection === 'couple'){
       this.props.navigator.push({
         component: InvitePartner,
         id: 'invite',
@@ -135,7 +136,7 @@ var styles = StyleSheet.create({
   dividerLine:{
     height:27,
     position:'absolute',
-    width:DeviceWidth-50,
+    width:DeviceWidth - 50,
     alignSelf:'stretch',
     marginHorizontal: 25,
     borderBottomWidth: 1,
@@ -160,8 +161,8 @@ var styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    height:undefined,
-    width:undefined,
+    height:DeviceHeight,
+    width:DeviceWidth,
     padding:0,
     flexDirection:'column',
     justifyContent: 'center',

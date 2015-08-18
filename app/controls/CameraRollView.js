@@ -28,7 +28,6 @@ import {
   TouchableOpacity
 } from 'react-native'
 
-import EditImage from '../screens/registration/EditImage'
 import Dimensions from 'Dimensions'
 
 const DeviceHeight = Dimensions.get('window').height;
@@ -103,7 +102,7 @@ class CameraRollView extends React.Component{
   loadAsset = (asset) => {
 
     this.props.navigator.push({
-      component:EditImage,
+      component:this.props.imageEditorComponent,
       id:'imageeditor',
       title: 'Edit Image',
       passProps: {

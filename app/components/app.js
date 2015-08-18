@@ -4,48 +4,35 @@
 
 
 
-var React = require('react-native');
-var {
-  StyleSheet,
-  Text,
-  AsyncStorage,
-  View,
-  NavigatorIOS,
-  TextInput,
-  Navigator
-} = React;
+import React from 'react-native';
+import {
+  View, Navigator
+} from 'react-native';
 
-var alt = require('../flux/alt');
-var AltContainer = require('alt/AltNativeContainer');
+import alt from '../flux/alt';
+import AltContainer from 'alt/AltNativeContainer';
 
-var Welcome = require('./welcome');
-var Main = require('./main');
-var PendingPartner = require('./pendingpartner');
+import Welcome from './welcome';
+import Main from './main';
+import PendingPartner from './pendingpartner';
 
-var Onboard = require('../screens/registration/onboard');
+import Onboard from '../screens/registration/onboard';
 
-var UserStore = require('../flux/stores/UserStore');
-var UserActions = require('../flux/actions/UserActions');
+import UserStore from '../flux/stores/UserStore';
+import UserActions from '../flux/actions/UserActions';
 
-import NotificationsStore from '../flux/stores/NotificationsStore'
+import NotificationsStore from '../flux/stores/NotificationsStore';
+import NotificationCommander from '../utils/NotificationCommander';
 
-class TopLevel extends React.Component{
+class Routes extends React.Component{
 
   constructor(props){
-    super()
+    super(props)
 
-  }
-
-  componentDidMount(){
-    UserActions.initialize();
-  }
-
-  _renderScene (route, navigator){
-    return (<route.component {...route.passProps} key={route.id} user={this.props.user} navigator={navigator}/>);
   }
 
   render(){
-
+    console.log(this.props.user)
     var userStatus = this.props.user ? this.props.user.status : null;
 
     switch(userStatus){
@@ -74,24 +61,41 @@ class TopLevel extends React.Component{
   }
 }
 
+class TopLevel extends React.Component{
+  constructor(props){
+    super()
+
+  }
+  componentDidMount(){
+    UserActions.initialize()
+  }
+  render(){
+    return (
+      <View>
+        { <NotificationCommander {...this.props}/> || <Routes {...this.props} />}
+
+      </View>
+    )
+  }
+}
+
 class App extends React.Component{
 
   render(){
     return (
-      <AltContainer
-          stores={{
-            user: function (props) {
-              return {
-                store: UserStore,
-                value: UserStore.getUser()
-              }
+      <AltContainer stores={{
+          user: function (props) {
+            return {
+              store: UserStore,
+              value: UserStore.getUser()
             }
-          }}>
-          <TopLevel key={'lvlvl'}/>
+          }
+        }}>
+        <TopLevel />
       </AltContainer>
     );
   }
 
 }
 
-module.exports = App;
+export default App

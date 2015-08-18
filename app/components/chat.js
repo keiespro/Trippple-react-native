@@ -249,7 +249,7 @@ class ChatInside extends React.Component{
   }
   onTextInputChange(text){
     console.log(text);
-    window.x = text
+
     this.setState({
       textInputValue: text
     })

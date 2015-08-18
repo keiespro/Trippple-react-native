@@ -1,6 +1,5 @@
 /* @flow */
 
- ;
 
 var React = require('react-native');
 var Settings = require('./settings');
@@ -51,7 +50,7 @@ var ROUTE_STACK = [
             style={[styles.touchables,styles.navBarLeftButton]}
             onPress={() => {
               // navigator.jumpTo(ROUTE_STACK[0]);
-              navigator.popToTop();
+              // navigator.popToTop();
 
 //////// the worst way do do it
               // navigator.immediatelyResetRouteStack(ROUTE_STACK);

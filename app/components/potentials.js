@@ -16,7 +16,7 @@ import alt from '../flux/alt';
 import precomputeStyle from 'precomputeStyle';
 import RNTAnimation from 'react-native-tween-animation';
 import MatchActions from '../flux/actions/MatchActions';
-import p from '../flux/stores/PotentialsStore';
+
 import AltContainer from 'alt/AltNativeContainer';
 import TimerMixin from 'react-timer-mixin';
 import colors from '../utils/colors';
@@ -28,7 +28,7 @@ import Dimensions from 'Dimensions';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
-const PotentialsStore = alt.createStore(p, 'PotentialsStore');
+const PotentialsStore = '../flux/stores/PotentialsStore'
 
 const THROW_OUT_THRESHOLD = 225;
 
@@ -329,8 +329,6 @@ class ActiveCard extends React.Component{
           }
         }
 
-
-
       }
       key={`${this.props.potential.id}-wrapper`}
         ref={(card) => { this.card = card }}
@@ -341,7 +339,7 @@ class ActiveCard extends React.Component{
           isTopCard={this.props.isTopCard}
           profileVisible={this.state.profileVisible}
           hideProfile={this._hideProfile}
-          showProfile={this._showProfile}
+          showProfile={this._showProfile.bind(this)}
           potential={this.props.potential} />
 
         </View>
@@ -387,7 +385,6 @@ class CoupleActiveCard extends React.Component{
     if(nextProps.profileVisible !== this.props.profileVisible){
       LayoutAnimation.spring()
     }
-
   }
   render(){
 
@@ -415,8 +412,7 @@ class CoupleActiveCard extends React.Component{
               overflow: 'visible',
             }]}>
 
-          <View
-            style={[styles.scrollSection,{
+          <View style={[styles.scrollSection,{
               overflow: 'visible',
               height:undefined,
 
@@ -424,8 +420,7 @@ class CoupleActiveCard extends React.Component{
             key={`${this.props.potential.id}-view`}>
 
             {this.props.profileVisible ?
-               <View
-              style={{
+               <View style={{
                 height: this.props.profileVisible ? 300 : undefined,
                 position:'relative',
                 top:0

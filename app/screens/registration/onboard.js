@@ -14,65 +14,64 @@ var {
 } = React;
 
 var UserActions = require('../../flux/actions/UserActions');
-var Birthday = require('../../controls/birthday');
-var ImageUpload = require('../../components/imageUpload');
+var Birthday = require('./bday');
 var Privacy = require('../../components/privacy');
 var colors = require('../../utils/colors')
 var SelectRelationshipStatus = require('./selectRelationshipStatus')
 var Facebook = require('./facebook');
 var CustomSceneConfigs = require('../../utils/sceneConfigs');
 
-class OnboardSingle extends React.Component{
-
-    selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
-      return (<route.component {...route.passProps} navigator={navigator} user={this.props.user} />);
-    }
-    handleFBLogin(data){
-      console.log(data,'FB LOGIN')
-
-    }
-    render(){
-
-
-      return(
-
-        <Navigator
-          ref="nav"
-          renderScene={this.selectScene.bind(this)}
-          sceneStyle={styles.sceneWrap}
-          configureScene={ (route) => {
-            return route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.HorizontalSlide
-          }}
-          initialRoute={{
-             component: Facebook,
-             id:'fb',
-             passProps: {
-               onLogin: this.handleFBLogin,
-             }
-           }}
-            />
-
-
-      )
-    }
-}
+// class OnboardSingle extends React.Component{
+//
+//     selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
+//       return (<route.component {...route.passProps} navigator={navigator} user={this.props.user} />);
+//     }
+//     handleFBLogin(data){
+//       console.log(data,'FB LOGIN')
+//
+//     }
+//     render(){
+//
+//
+//       return (
+//
+//         <Navigator
+//           ref="nav"
+//           renderScene={this.selectScene.bind(this)}
+//           sceneStyle={styles.sceneWrap}
+//           configureScene={ (route) => {
+//             return route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.HorizontalSlide
+//           }}
+//           initialRoute={{
+//              component: Facebook,
+//              id:'fb',
+//              passProps: {
+//                onLogin: this.handleFBLogin,
+//              }
+//            }}
+//           />
+//
+//
+//       )
+//     }
+// }
 
 
 class Onboard extends React.Component{
   constructor(props){
     super(props);
+
     this.state = {
       relationshipStatus: null
     }
   }
-
-
 
   selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
     return (<route.component {...route.passProps} navigator={navigator} user={this.props.user} />);
   }
 
   render() {
+    console.log('onboard nav')
 
     return (
 
@@ -84,21 +83,20 @@ class Onboard extends React.Component{
           return route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.HorizontalSlide
         }}
         onItemRef={(ref, indexInStack, route)=>{
-          // console.log(ref, indexInStack, route);
+          console.log(ref, indexInStack, route);
           // console.log(this.props.user);
           // if(indexInStack == 7){
           //   InteractionManager.runAfterInteractions(()=>{this.refs.nav.pop()})
           // }
         }}
+        willfocus={ () => { console.log('xxxx') }}
         initialRoute={{
            component: SelectRelationshipStatus,
            id:'relStatus',
            passProps: {
-             user: this.props.user
            }
-
          }}
-          />
+        />
     )
 
 
@@ -282,4 +280,4 @@ var styles = StyleSheet.create({
 });
 
 
-module.exports = Onboard;
+export default Onboard

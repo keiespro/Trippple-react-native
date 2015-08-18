@@ -3,7 +3,6 @@ var {
   StyleSheet,
   Text,
   View,
-  NavigatorIOS,
   Navigator,
   TouchableHighlight
 } = React;
@@ -43,6 +42,7 @@ var Img = React.createClass({
     </View>)
   }
 })
+
 var ImageUpload = React.createClass({
   _renderScene(route: Navigator.route, navigator: Navigator) {
     return (<route.component {...route.passProps} navigator={navigator} user={this.props.user} />);
@@ -62,8 +62,8 @@ var ImageUpload = React.createClass({
            },
            wrapperStyle: styles.container,
          }}
-         renderScene={this._renderScene}
-         tintColor='yellow'
+         renderScene={this._renderScene.bind(this)}
+         tintColor={'yellow'}
 
           />
     );

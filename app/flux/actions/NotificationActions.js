@@ -5,11 +5,8 @@ import moment from 'moment'
 import Promise from 'bluebird'
 import MatchActions from '../actions/MatchActions'
 import { AsyncStorage, PushNotificationIOS } from 'react-native'
-console.log(window.navigator.userAgent)
-window.navigator.userAgent = 'react-native'
-import io from 'socket.io-client/socket.io'
 
-const checkPermissions = Promise.promisify(PushNotificationIOS.checkPermissions)
+
 
 class NotificationActions {
 
@@ -24,15 +21,18 @@ class NotificationActions {
 
   initialize(){
 
-
-    checkPermissions()
-    .then( () => this.scheduleNewPotentialsAlert())
-    .catch( (err) => {
-      console.log(err)
-    })
+    //
+    // checkPermissions()
+    // .then( () => this.scheduleNewPotentialsAlert())
+    // .catch( (err) => {
+    //   console.log(err)
+    // })
 
   }
+  receiveNotification(payload){
+    console.log('receiveNotification',(payload))
 
+  }
 
   scheduleNewPotentialsAlert(){
     const fireDate = moment({ hour: 23 }).toDate(), //tonight at 11

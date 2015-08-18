@@ -52,5 +52,5 @@ class PotentialsStore {
   }
 
 }
-export default PotentialsStore
-// export default alt.createStore(PotentialsStore, 'PotentialsStore');
+// export default PotentialsStore
+export default alt.createStore(PotentialsStore, 'PotentialsStore');

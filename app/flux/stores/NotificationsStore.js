@@ -13,7 +13,7 @@ class NotificationsStore {
     this.state = {    }
 
     this.bindListeners({
-      // handleSentLike: MatchActions.SEND_LIKE
+      handleReceiveNotification: NotificationActions.RECEIVE_NOTIFICATION
     })
 
     this.on('init', () => {
@@ -22,6 +22,9 @@ class NotificationsStore {
 
     })
 
+  }
+  handleReceiveNotification(){
+    console.log('handleReceiveNotification')
   }
 
 }

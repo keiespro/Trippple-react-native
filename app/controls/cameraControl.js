@@ -5,13 +5,13 @@ import {
   Text,
   View,
   TouchableHighlight
-} from 'react-native'
+} from 'react-native';
 
 import Camera from 'react-native-camera';
-import ImageEditor from './ImageEditor';
+// import EditImage from './EditImage';
 
 class CameraControl extends React.Component{
-  constructor(props) {
+  constructor(props){
     super()
     this.state = {
       cameraType: Camera.constants.Type.back
@@ -43,18 +43,18 @@ class CameraControl extends React.Component{
       </View>
     );
   }
-  _switchCamera() {
+  _switchCamera = () => {
     var state = this.state;
     state.cameraType = state.cameraType === Camera.constants.Type.back
       ? Camera.constants.Type.front : Camera.constants.Type.back;
     this.setState(state);
   }
-  _takePicture() {
+  _takePicture =()=> {
     this.refs.cam.capture((err, data)=> {
       console.log(err, data);
 
       this.props.navigator.push({
-        component: ImageEditor,
+        component: this.props.imageEditorComponent,
         id:'imageeditor',
         title: 'Edit Image',
         passProps: {
@@ -68,7 +68,7 @@ class CameraControl extends React.Component{
 }
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -119,4 +119,4 @@ var styles = StyleSheet.create({
 });
 
 
-export default CameraControl
+module.exports = CameraControl;

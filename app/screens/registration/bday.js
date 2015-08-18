@@ -1,7 +1,7 @@
 /**
  * @flow
  */
- ;
+
 
 var React = require('react-native');
 
@@ -18,7 +18,7 @@ var {
 
 var UserActions = require('../../flux/actions/UserActions');
 var Birthday = require('../../controls/birthday');
-var ImageUpload = require('../../components/imageUpload');
+// var ImageUpload = require('../../components/imageUpload');
 var Privacy = require('../../components/privacy');
 var colors = require('../../utils/colors')
 var TrackKeyboard = require('../../mixins/keyboardMixin');
@@ -45,7 +45,7 @@ var BdayScreen = React.createClass({
 
   getInitialState(){
     console.log(this.props.user)
-    return({
+    return ({
       timeZoneOffsetInHours: this.props.timeZoneOffsetInHours,
       date: this.props.user.bdate ? new Date(this.props.user.bdate) : moment().subtract(18,'years').toDate()
     })
@@ -62,9 +62,9 @@ var BdayScreen = React.createClass({
     this.props.navigator.push({
       component: GenderScreen,
       id: 'yourgender',
-      // passProps: {
-      //   bday: this.state.date
-      // }
+      passProps: {
+        bday: this.state.date
+      }
     })
 
   },
@@ -86,7 +86,7 @@ var BdayScreen = React.createClass({
 
   render(){
     window.moment = moment;
-    return(
+    return (
       <View style={[
           styles.container,
           {

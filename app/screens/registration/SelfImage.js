@@ -12,10 +12,13 @@ var DeviceWidth = require('Dimensions').get('window').width;
 
 var BoxyButton = require('../../controls/boxyButton')
 var colors = require('../../utils/colors');
-var CameraControl = require('./cameraControl.js');
 var NavigatorSceneConfigs = require('NavigatorSceneConfigs');
 
-import CameraRollView from '../../controls/CameraRollView';
+import CameraControl from '../../controls/cameraControl'
+
+import CameraRollView from '../../controls/CameraRollView'
+
+import EditImage from './EditImage'
 
 var SelfImage = React.createClass({
 
@@ -26,7 +29,8 @@ var SelfImage = React.createClass({
       id:'camerarollpage',
       title: 'camerarollpage',
       passProps: {
-        image: false
+        image: false,
+        imageEditorComponent: EditImage
       },
       sceneConfig: NavigatorSceneConfigs.FloatFromBottom
     });
@@ -43,7 +47,8 @@ var SelfImage = React.createClass({
       id:'camerapage',
       title: 'camerapage',
       passProps: {
-        image: false
+        image: false,
+        imageEditorComponent: EditImage
       },
       sceneConfig: NavigatorSceneConfigs.FloatFromBottom
     });

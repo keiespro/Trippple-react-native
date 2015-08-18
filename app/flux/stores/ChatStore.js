@@ -19,7 +19,7 @@ class ChatStore {
 
     });
     this.on('init',()=>{
-      console.log('store init')
+      console.log('ChatStore store init')
 
       AsyncStorage.getItem('ChatStore')
         .then((value) => {
@@ -47,7 +47,7 @@ class ChatStore {
 
   // public methods
 
-  getMessagesForMatch(matchID){
+  getMessagesForMatch(matchID) {
     return this.getState()[matchID] || [];
   }
 

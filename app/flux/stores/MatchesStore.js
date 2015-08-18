@@ -94,4 +94,4 @@ class MatchesStore {
 
 }
 
-module.exports = alt.createStore(MatchesStore, 'MatchesStore');
+export default alt.createStore(MatchesStore, 'MatchesStore')

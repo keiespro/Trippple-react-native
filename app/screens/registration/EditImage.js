@@ -51,7 +51,7 @@ class ImageEditor extends React.Component{
         <TouchableHighlight onPress={this.retake} style={styles.bigbutton}>
           <View/>
         </TouchableHighlight>
-          <TouchableHighlight onPress={this.accept} style={[styles.bigbutton,{backgroundColor:colors.sushi}]}>
+          <TouchableHighlight onPress={this.accept.bind(this)} style={[styles.bigbutton,{backgroundColor:colors.sushi}]}>
             <View/>
           </TouchableHighlight>
       </View>
