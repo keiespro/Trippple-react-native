@@ -10,7 +10,8 @@ var {
   TextInput,
   ScrollView,
   Image,
-  AsyncStorage
+  AsyncStorage,
+  Navigator
   // PickerIOS
 } = React;
 
@@ -21,13 +22,14 @@ var DeviceWidth = require('Dimensions').get('window').width;
 var DistanceSlider = require('../controls/distanceSlider');
 var ToggleSwitch = require('../controls/switches');
 var UserActions = require('../flux/actions/UserActions')
-var ImageUpload = require('./imageUpload');
+var CameraControl = require('../controls/cameraControl');
 var Privacy = require('./privacy');
 var Modal = require('react-native-swipeable-modal');
 
 var FeedbackButton = require('../screens/feedbackButton');
 var Contacts = require('../screens/contacts');
 
+var NavigatorSceneConfigs = require('NavigatorSceneConfigs');
 
 var bodyTypes = [
   'Athletic',
@@ -41,7 +43,7 @@ var bodyTypes = [
 
 var EditSettings = React.createClass({
   getInitialState(){
-    return{
+    return {
       firstname: this.props.user.firstname  || '',
       bio: this.props.user.bio || '',
       email: this.props.user.email  || '',
@@ -51,14 +53,17 @@ var EditSettings = React.createClass({
 
   _pressNewImage(){
     console.log('change image');
-    this.props.openModal('imageupload');
+    this.props.navigator.push({
+      component: CameraControl,
+      passProps:{}
+    });
 
   },
   _updateAttr(updatedAttribute){
     this.setState(()=>{return updatedAttribute});
   },
   render(){
-    return(
+    return (
     <View style={styles.card}>
       <View style={styles.userimageContainer}>
         <Image
@@ -135,7 +140,7 @@ var ViewSettings = React.createClass({
 
 
   render(){
-    return(
+    return (
     <View style={styles.card}>
       <View style={styles.userimageContainer}>
         <Image
@@ -161,7 +166,51 @@ var ViewSettings = React.createClass({
     )
   }
 })
-
+// <View style={styles.container}>
+//   <ContentWrapper
+//     style={styles.inner}
+//     {...wrapperProps} >
+//
+//
+//       <TouchableHighlight onPress={this._openEditMode.bind(this)}>
+//         <Text style={styles.header}>Edit</Text>
+//       </TouchableHighlight>
+//
+//       <EditSettings openCamera={this.openCamera} user={this.props.user}/>
+//
+//       {/*this.state.editMode === true ?
+//         <ViewSettings user={this.props.user}/>
+//       */}
+//
+//       <Text style={styles.header}>Privacy</Text>
+//       <View style={[styles.card]}>
+//         <TouchableHighlight onPress={this._renderPrivacy.bind(this)}>
+//           <Text style={[styles.header,styles.privacy]}>{this.props.user.privacy}</Text>
+//         </TouchableHighlight>
+//       </View>
+//
+//       <TouchableHighlight onPress={this._renderInviteFriends.bind(this)}>
+//         <Text style={[styles.header,styles.privacy]}>Invite Friends</Text>
+//       </TouchableHighlight>
+//
+//       <FeedbackButton />
+//
+//       <LogOutButton />
+//
+//    </ContentWrapper>
+//
+//   <Modal
+//     height={this.state.isModalOpen  === 'imageupload' ? 800 : 500}
+//     style={{opacity: 0.9,backgroundColor:'#fff'}}
+//     isVisible={this.state.isModalOpen}
+//     >
+//       <View
+//         style={styles.modal}>
+//         {modalWindow()}
+//      </View>
+//    </Modal>
+//
+//  </View>
 class Settings extends React.Component{
 
   constructor(props){
@@ -221,81 +270,57 @@ class Settings extends React.Component{
 
   }
 
-  render(){
-    var modalWindow = ()=>{
-      if(!this.state.isModalOpen) return false;
-      switch (this.state.isModalOpen){
-        case 'privacy':
-        return (<Privacy key={"modalw"} saveAndClose={this.closeModal.bind(this)} user={this.props.user}/>);
-        case 'imageupload':
-          return (<ImageUpload key={"modalw"} user={this.props.user}/>);
-        case 'invite':
-          return (<Contacts key={"modalw"} user={this.props.user}/>);
-        case 'default':
-          return null;
+      selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
+        return (<route.component {...route.passProps} navigator={navigator || this.refs.nav} user={this.props.user} />);
       }
-    }
-    var ContentWrapper;
-    var wrapperProps = {};
 
-      ContentWrapper = ScrollView;
-      wrapperProps = {
-        automaticallyAdjustContentInsets:true,
-        canCancelContentTouches:true,
-        directionalLockEnabled:true,
-        pointerEvents:'box-none',
-        alwaysBounceVertical:true,
-        decelerationRate:.9,
-        showsVerticalScrollIndicator:false,
-        contentInset:{top: 80},
-      }
+  render(){
+    // var modalWindow = ()=>{
+    //   if(!this.state.isModalOpen){ return false; }
+    //   switch (this.state.isModalOpen){
+    //     case 'privacy':
+    //     return (<Privacy key={"modalw"} saveAndClose={this.closeModal.bind(this)} user={this.props.user}/>);
+    //     case 'imageupload':
+    //       return (<CameraControl key={"modalw"} user={this.props.user}/>);
+    //     case 'invite':
+    //       return (<Contacts key={"modalw"} user={this.props.user}/>);
+    //     case 'default':
+    //       return null;
+    //   }
+    // }
+    // var ContentWrapper;
+    // var wrapperProps = {};
+    //
+    //   ContentWrapper = ScrollView;
+    //   wrapperProps = {
+    //     automaticallyAdjustContentInsets:true,
+    //     canCancelContentTouches:true,
+    //     directionalLockEnabled:true,
+    //     pointerEvents:'box-none',
+    //     alwaysBounceVertical:true,
+    //     decelerationRate:0.9,
+    //     showsVerticalScrollIndicator:false,
+    //     contentInset:{top: 80},
+    //   }
 
 
     return (
-      <View style={styles.container}>
-        <ContentWrapper
-          style={styles.inner}
-          {...wrapperProps} >
 
 
-            <TouchableHighlight onPress={this._openEditMode.bind(this)}>
-              <Text style={styles.header}>Edit</Text>
-            </TouchableHighlight>
-
-            {this.state.editMode === true ?
-              <EditSettings openModal={this.openModal.bind(this)} user={this.props.user}/> :
-              <ViewSettings user={this.props.user}/>
-            }
-
-            <Text style={styles.header}>Privacy</Text>
-            <View style={[styles.card]}>
-              <TouchableHighlight onPress={this._renderPrivacy.bind(this)}>
-                <Text style={[styles.header,styles.privacy]}>{this.props.user.privacy}</Text>
-              </TouchableHighlight>
-            </View>
-
-            <TouchableHighlight onPress={this._renderInviteFriends.bind(this)}>
-              <Text style={[styles.header,styles.privacy]}>Invite Friends</Text>
-            </TouchableHighlight>
-
-            <FeedbackButton />
-
-            <LogOutButton />
-
-         </ContentWrapper>
-
-        <Modal
-          height={this.state.isModalOpen == 'imageupload' ? 800 : 500}
-          style={{opacity: 0.9,backgroundColor:"#fff"}}
-          isVisible={this.state.isModalOpen}
-          >
-            <View
-              style={styles.modal}>
-              {modalWindow()}
-           </View>
-         </Modal>
-
-       </View>
+       <View style={styles.container}>
+         <Navigator
+           ref={'nav'}
+             initialRoute={{
+               component: EditSettings,
+               id:0,
+               passProps:{}
+             }}
+             configureScene={(route) => { return route.sceneConfig ? route.sceneConfig : NavigatorSceneConfigs.FloatFromBottom
+}}
+             navigator={this.props.navigator}
+             renderScene={this.selectScene.bind(this)}
+         />
+     </View>
      );
   }
 }
@@ -390,7 +415,7 @@ var styles = StyleSheet.create({
    justifyContent:'center',
  },
  halfcell:{
-   width:DeviceWidth/2,
+   width:DeviceWidth / 2,
    alignItems: 'center',
    alignSelf:'center',
    justifyContent:'space-around'
@@ -444,7 +469,7 @@ var styles = StyleSheet.create({
  },
  modal:{
    padding:0,
-   height:DeviceHeight-100,
+   height:DeviceHeight - 100,
    flex:1,
    alignItems: 'stretch',
    alignSelf: 'stretch',

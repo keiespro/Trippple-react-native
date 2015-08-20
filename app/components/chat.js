@@ -4,6 +4,7 @@
 
 var React = require('react-native');
 var {
+  Component,
   StyleSheet,
   Text,
   View,
@@ -147,7 +148,7 @@ class ChatMessage extends React.Component {
     );
   }
 }
-class ChatInside extends React.Component{
+class ChatInside extends Component{
   constructor(props){
     super(props);
     MatchActions.getMessages(props.matchID);

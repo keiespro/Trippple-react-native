@@ -17,8 +17,7 @@ var {
 } = React;
 
 var UserActions = require('../../flux/actions/UserActions');
-var Birthday = require('../../controls/birthday');
-// var ImageUpload = require('../../components/imageUpload');
+var ImageUpload = require('./SelfImage');
 var Privacy = require('../../components/privacy');
 var colors = require('../../utils/colors')
 var TrackKeyboard = require('../../mixins/keyboardMixin');

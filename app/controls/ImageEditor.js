@@ -14,7 +14,7 @@ var colors = require('../utils/colors');
 var SelfImage = require('../screens/registration/SelfImage')
 var UserActions = require('../flux/actions/UserActions');
 
-class ImageEditor extends React.Component{
+class ImageEditor extends Component{
   constructor(props){
     super()
   }

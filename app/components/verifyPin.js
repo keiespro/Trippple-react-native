@@ -10,7 +10,7 @@ var {
 var UserActions = require('../flux/actions/UserActions');
 
 
-class VerifyPin extends React.Component{
+class VerifyPin extends Component{
 
   constructor(props){
     super(props);

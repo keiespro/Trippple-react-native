@@ -6,9 +6,7 @@
 
 
 var React = require('react-native');
-var {
-  AppRegistry
-} = React;
+var { Component, AppRegistry } = React;
 
 var App = require('./app/components/app');
 
@@ -18,7 +16,7 @@ var AppRoot = '/Users/alexlopez/code/Trippple/Native/app/components/';
 }(window ? window : global));
 console.log(this);
 
-class trippple extends React.Component{
+class trippple extends Component{
 
   render(){
     return (

@@ -1,5 +1,6 @@
 var React = require('react-native');
 var {
+  Component,
   StyleSheet,
   Text,
   TextInput,
@@ -26,7 +27,7 @@ var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 
 
-class GenderScreen extends React.Component{
+class GenderScreen extends Component{
 
   constructor(props){
 

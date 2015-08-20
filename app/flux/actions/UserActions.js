@@ -1,7 +1,7 @@
 import alt from '../alt';
 import Api from '../../utils/api';
 import Keychain from 'Keychain';
-const server = 'http://api2.trippple.co';
+const server = 'http://api.trippple.co';
 
 
 class UserActions {
@@ -13,7 +13,7 @@ class UserActions {
         this.dispatch(res);
       })
       .catch((err) => {
-        console.log('error');
+        console.log('error',err);
         this.dispatch(err);
       })
 
@@ -58,6 +58,7 @@ class UserActions {
   }
 
   updateUserStub(updateAttributes){
+    console.log(updateAttributes)
     this.dispatch(updateAttributes);
   }
 
@@ -131,20 +132,8 @@ class UserActions {
 
   initialize(){
     console.log('INITIALIZE');
-    // Keychain.getInternetCredentials(server)
-    //   .then((credentials) => {
-        // this.dispatch(credentials);
-        //
-        Api.getUserInfo()
-         .then((res) => {
-           console.log(res);
-           this.dispatch(res);
-         })
-         .catch((err) => {
-           console.log(err);
-           this.dispatch(err);
-         })
-      //  })
+
+
 
 
 

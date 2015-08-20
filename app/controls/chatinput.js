@@ -40,7 +40,7 @@ var styles = StyleSheet.create({
   }
 });
 
-class ChatInput extends React.Component{
+class ChatInput extends Component{
 
   constructor(props){
     super(props);

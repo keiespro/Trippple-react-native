@@ -1,5 +1,6 @@
 var React = require('react-native');
 var {
+  Component,
   StyleSheet,
   Text,
   TextInput,
@@ -18,14 +19,14 @@ var DeviceWidth = require('Dimensions').get('window').width;
 
 
 
-class Limbo extends React.Component{
+class Limbo extends Component{
 
   render(){
     return <Text>LIMBO</Text>
   }
 }
 
-class PrivacyScreen extends React.Component{
+class PrivacyScreen extends Component{
 
   constructor(props){
 

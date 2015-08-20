@@ -4,6 +4,7 @@
 var React = require('react-native');
 
 var {
+  Component,
   StyleSheet,
   Text,
   View,
@@ -121,7 +122,7 @@ var IntroScreen = React.createClass({
   }
 })
 
-class Carousel extends React.Component{
+class Carousel extends Component{
   render(){
     var welcomeSlides = slides.map( (slide,i) => {
       return (

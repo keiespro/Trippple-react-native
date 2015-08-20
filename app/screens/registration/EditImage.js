@@ -1,9 +1,10 @@
 //TODO: try out facebook's ssquare image cropper component
 //      https://github.com/facebook/react-native/blob/master/Examples/UIExplorer/ImageEditingExample.js
 
+import React from 'react-native'
 
-import React from 'react-native';
 import {
+  Component,
   StyleSheet,
   Text,
   Image,
@@ -22,7 +23,7 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
 
-class ImageEditor extends React.Component{
+class ImageEditor extends Component{
   constructor(props){
     super()
   }

@@ -4,6 +4,7 @@
 
 var React = require('react-native');
 var {
+Component,
  StyleSheet,
  Text,
  Image,
@@ -36,7 +37,7 @@ var swipeoutBtns = [
 
 
 
-class MatchList extends React.Component{
+class MatchList extends Component{
 
   constructor(props) {
     super(props);
@@ -165,7 +166,7 @@ console.log(this.props.navigator)
 
 
 
-class Matches extends React.Component{
+class Matches extends Component{
 
   constructor(props){
     super(props);

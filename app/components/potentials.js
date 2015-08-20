@@ -2,14 +2,15 @@
 
 import React from 'react-native';
 import {
- StyleSheet,
- Text,
- View,
- LayoutAnimation,
- TouchableHighlight,
- Image,
- ScrollView,
- PanResponder
+  Component,
+  StyleSheet,
+  Text,
+  View,
+  LayoutAnimation,
+  TouchableHighlight,
+  Image,
+  ScrollView,
+  PanResponder
 } from 'react-native';
 
 import alt from '../flux/alt';
@@ -34,7 +35,7 @@ const THROW_OUT_THRESHOLD = 225;
 
 
 @reactMixin.decorate(TimerMixin)
-class ActiveCard extends React.Component{
+class ActiveCard extends Component{
   static displayName = 'ActiveCard'
 
   constructor(props){
@@ -110,27 +111,7 @@ class ActiveCard extends React.Component{
   }
 
   _hideProfile(){ this.setState({ profileVisible: false }) }
-  //
-  // _highlight() {
-  //   var nativeProps = precomputeStyle({
-  //     shadowOpacity: 100,
-  //     shadowRadius:   15,
-  //     shadowOffset: {width:0, height: 10},
-  //   });
-  //
-  //   this.card && this.card.setNativeProps(nativeProps)
-  //
-  // }
-  //
-  // _unHighlight() {
-  //   var nativeProps = precomputeStyle({
-  //     shadowOpacity: 50,
-  //     shadowRadius: 5,
-  //     shadowOffset: {width:0, height: 0},
-  //     transform: [{scale: 1}]
-  //   });
-  //   this.card && this.card.setNativeProps(nativeProps);
-  // }
+
 
   _updatePosition(tweenFrame) {
     const positionData = tweenFrame ? tweenFrame : this._cardStyles
@@ -145,12 +126,10 @@ class ActiveCard extends React.Component{
     // start increasing shadow radius
     var newShadow = Math.abs(positionData.translateX) < THROW_OUT_THRESHOLD / 2 ? 5 : parseInt(Math.abs(positionData.translateX) - THROW_OUT_THRESHOLD / 2, 0)
     newShadow = newShadow > 30 ? 30 : newShadow
-    // console.log(newShadow,'shadow')
 
     var newPos = {
       transform: [
         {translateX:  parseFloat(positionData.translateX.toFixed(2))},
-        // {translateY:  parseFloat(positionData.translateY.toFixed(2))},
         {scale: parseFloat(newScale.toFixed(2))},
         {rotate: newRotate}
       ],
@@ -182,39 +161,31 @@ class ActiveCard extends React.Component{
 
       }
     }
-    // return Math.abs(gestureState.dy) < Math.abs(gestureState.dx) || Math.abs(gestureState.dx) > 1 && Math.abs(gestureState.dy) < 15
-    // return Math.abs(gestureState.dx) > 0
+
     return Math.abs(gestureState.dy) * 2 < Math.abs(gestureState.dx)
 
   }
 
   _handleMoveShouldSetPanResponder = (e: Object, gestureState) => {
-    console.log('_handleMoveShouldSetPanResponder',gestureState.dx,gestureState,e)
-    // if(this.state.isDragging == true) return false;
+    // console.log('_handleMoveShouldSetPanResponder',gestureState.dx,gestureState,e)
 
 
     //TODO: correctly determine velocity to determine if gesture was a throw
     // if(Math.abs(gestureState.vx*10000000) > 5){
-    //   return true;
-    // }else{
-    // return Math.abs(gestureState.dy) < Math.abs(gestureState.dx) || Math.abs(gestureState.dx) > 1 && Math.abs(gestureState.dy) < 15
-    // return Math.abs(gestureState.dx) > 0
+    //
       return Math.abs(gestureState.dy) * 2 < Math.abs(gestureState.dx)
     // }
   }
 
   _handlePanResponderGrant = (e: Object, gestureState: Object) => {
-    console.log('Pan Responder Grant',gestureState.dx,gestureState.moveX)
-    // this.clearTimeout(this.x);
-    // if(gestureState.dx > 0){
+    // console.log('Pan Responder Grant',gestureState.dx,gestureState.moveX)
       this.setState({
         isDragging: true
       })
 
-    // }
   }
   _handlePanResponderMove = (e: Object, gestureState: Object) => {
-    console.log('Pan Responder MOVE',gestureState.dx,gestureState)
+    // console.log('Pan Responder MOVE',gestureState.dx,gestureState)
 
     this._cardStyles = {
       translateX: gestureState.dx,
@@ -228,8 +199,7 @@ class ActiveCard extends React.Component{
     this.setState({
       isDragging: false
     })
-    // this._unHighlight();
-    console.log('Pan Responder End',Math.abs(gestureState.dx))
+    // console.log('Pan Responder End',Math.abs(gestureState.dx))
 
     Math.abs(gestureState.dx) > THROW_OUT_THRESHOLD ? this._throwOutCard(gestureState) : this._resetCard(gestureState)
 
@@ -237,7 +207,7 @@ class ActiveCard extends React.Component{
   _throwOutCard(gestureState){
     var self = this;
 
-    console.debug('throwout',self.props.potential,self.props.potential.user.id)
+    // console.debug('throwout',self.props.potential,self.props.potential.user.id)
 
 
     const likeStatus = gestureState.dx > 0 ? 'approve' : 'deny';
@@ -314,7 +284,6 @@ class ActiveCard extends React.Component{
           alignSelf:'center',
           width:(DeviceWidth - (this.state.profileVisible ? 0 : 40)),
           height:(DeviceHeight - (this.state.profileVisible ? 0 : 85)),
-          // bottom:(35),
           left:this.state.profileVisible ? 0 : 20,
           right:this.state.profileVisible ? 0 : 20,
           top: (this.state.profileVisible ? 0 : 55),
@@ -364,7 +333,7 @@ class ActiveCard extends React.Component{
 
 
 
-class CoupleActiveCard extends React.Component{
+class CoupleActiveCard extends Component{
   constructor(props){
     super()
 
@@ -372,13 +341,11 @@ class CoupleActiveCard extends React.Component{
 
   }
   componentDidUpdate(prevProps,prevState) {
-    // if(prevProps.profileVisible != this.props.profileVisible) LayoutAnimation.spring()
-    //  LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
-
+    //
   }
   componentWillUpdate(nextProps){
     if(nextProps.isTopCard && !this.props.isTopCard){
-      console.log('ANIMATE NEW CARD');
+      // console.log('ANIMATE NEW CARD');
 
       LayoutAnimation.spring();
     }else if(nextProps.profileVisible !== this.props.profileVisible){
@@ -537,75 +504,7 @@ class CoupleActiveCard extends React.Component{
   }
 }
 
-//
-// var CoupleProfile =React.createClass({
-//
-//   render(){
-//
-//       return(
-//         <View style={[styles.card,{width: DeviceWidth}]} key={this.props.potential.id+'view'}>
-//           {/**/}
-//           <Swiper
-//             _key={this.props.potential.id+'swiper'}
-//             style={[styles.wrapper]}
-//             loop={true}
-//             horizontal={false}
-//             vertical={true}
-//             showsPagination={true}
-//             showsButtons={false}
-//             dot={ <View style={styles.dot} />}
-//             activeDot={ <View style={styles.activeDot} /> }>
-//             <Image source={{uri: this.props.potential.image_url}} key={this.props.potential.id+'cimg'} style={[styles.imagebg,{width: DeviceWidth}]} />
-//             <Image source={{uri: this.props.potential[1].image_url}} key={this.props.potential[1].id+'cimg'} style={[styles.imagebg,{width: DeviceWidth}]} />
-//           </Swiper>
-//
-//           <View key={this.props.potential.id+'bottomview'}  style={{backgroundColor:colors.white,width: DeviceWidth, alignSelf:'stretch'}}>
-//             <Text style={styles.cardBottomText}>{`${this.props.potential.firstname} and ${this.props.potential[1].firstname}`}</Text>
-//
-//             <View style={{height:60,top:-30,position:'absolute',width:135,right:0,backgroundColor:'transparent',flexDirection:'row'}}>
-//               <Image source={{uri: this.props.potential.image_url}} style={[styles.circleimage,{marginRight:5}]}/>
-//               <Image source={{uri: this.props.potential[1].image_url}} style={styles.circleimage}/>
-//             </View>
-//             <TouchableHighlight  onPress={this.props.hideProfile}>
-//               <Text>Close</Text>
-//             </TouchableHighlight>
-//             <View style={{height:360,padding:20}}>
-//               <Text>TEXT</Text>
-//             </View>
-//
-//           </View>
-//
-//       </View>
-//
-//       )
-//
-//   }
-// })
-//
-//
-// class CoupleInactiveCard extends React.Component{
-//   constructor(props){
-//     super(props)
-//   }
-//   render(){
-//       return(
-//         <View key={this.props.potential.id+'wrapper'} style={[styles.basicCard,{margin:30,marginTop:75,position:'absolute',width: DeviceWidth-60,height:DeviceHeight-100}]}>
-//           <Image source={{uri: this.props.potential.image_url}} key={this.props.potential.id+'cimg'} style={[styles.imagebg,{width: DeviceWidth-60}]} />
-//           <View style={{height:70,bottom:0,position:'absolute',width: DeviceWidth-60,backgroundColor:colors.white, flex:5, alignSelf:'stretch'}}>
-//             <Text style={styles.cardBottomText}>{`${this.props.potential.firstname} and ${this.props.potential[1].firstname}`}</Text>
-//
-//             <View style={{height:60,top:-30,position:'absolute',width:135,right:0,backgroundColor:'transparent',flexDirection:'row'}}>
-//               <Image source={{uri: this.props.potential.image_url}} style={[styles.circleimage,{marginRight:5}]}/>
-//               <Image source={{uri: this.props.potential[1].image_url}} style={styles.circleimage}/>
-//             </View>
-//
-//           </View>
-//         </View>
-//       )
-//   }
-// }
-
-class DummyCard extends React.Component{
+class DummyCard extends Component{
   constructor(props){
     super(props)
   }
@@ -639,7 +538,7 @@ class DummyCard extends React.Component{
 }
 
 // stub
-class CardStack extends React.Component{
+class CardStack extends Component{
   constructor(props){
 
     super(props)
@@ -683,7 +582,7 @@ class CardStack extends React.Component{
    }
 }
 
-class Potentials extends React.Component{
+class Potentials extends Component{
   constructor(props){
     super()
   }

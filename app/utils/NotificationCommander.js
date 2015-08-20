@@ -1,7 +1,6 @@
-const TRIPPPLE_WEBSOCKET_URL = 'http://x.local:3000'
-
-import React from 'react-native'
-import { View, AsyncStorage, AppStateIOS, PushNotificationIOS } from 'react-native'
+const TRIPPPLE_WEBSOCKET_URL = 'http://x.local:9919'
+import React from 'react-native';
+import { Component, View, AsyncStorage, AppStateIOS, PushNotificationIOS } from 'react-native'
 
 import Promise from 'bluebird'
 import NotificationActions from '../flux/actions/NotificationActions'
@@ -12,7 +11,7 @@ import io from 'socket.io-client/socket.io'
 
 const checkPermissions = Promise.promisify(PushNotificationIOS.checkPermissions)
 
-class NotificationCommander extends React.Component{
+class NotificationCommander extends Component{
 
 
   constructor(props){
@@ -104,7 +103,7 @@ class NotificationCommander extends React.Component{
 
   }
 
-  render(){ return null }
+  render(){ return <View style={{opacity:0,height:0,width:0}}/> }
 }
 
 

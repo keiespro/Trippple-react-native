@@ -1,9 +1,8 @@
 /* @flow */
 
- ;
 
-var React = require('react-native');
 var {
+  Component,
   StyleSheet,
   Text,
   View,
@@ -11,7 +10,7 @@ var {
   Image,
   LayoutAnimation,
   TextInput
-} = React;
+} = require('react-native')
 
 var TrackKeyboard = require('../mixins/keyboardMixin');
 
@@ -109,7 +108,7 @@ var styles = StyleSheet.create({
 });
 
 
-class Auth extends React.Component{
+class Auth extends Component{
 
   constructor(props){
     super(props);

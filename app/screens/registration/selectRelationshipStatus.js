@@ -1,5 +1,6 @@
 var React = require('react-native');
 var {
+  Component,
   StyleSheet,
   Text,
   TextInput,
@@ -28,14 +29,16 @@ var DeviceWidth = require('Dimensions').get('window').width;
 var Facebook = require('./facebook');
 var InvitePartner = require('./invitePartner');
 
-class SelectRelationshipStatus extends React.Component{
+class SelectRelationshipStatus extends Component{
 
   constructor(props){
 
-    super(props);
+    super()
+
     this.state = {
       selection: null
     }
+
     console.log('SelectRelationshipStatus')
 
   }
@@ -75,11 +78,11 @@ class SelectRelationshipStatus extends React.Component{
       })
     }
   }
-  render() {
+  render(){
 
     return (
       <View style={styles.container}>
-          <Text style={styles.labelText}>{"We’re a Couple\nLooking to meet singles"} </Text>
+          <Text style={styles.labelText}>{"We’re a Couple\nLooking to meet singles"}</Text>
 
           <BoxyButton
               text={"TRIPPPLE FOR COUPLES"}
@@ -92,14 +95,6 @@ class SelectRelationshipStatus extends React.Component{
                         resizeMode={Image.resizeMode.contain}
                             style={{height:30,width:70}} />
 
-            {/*<Image source={require('image!oval2')}
-                      resizeMode={Image.resizeMode.cover}
-                          style={{height:30,width:30,right:-5}} />
-
-            <Image source={require('image!oval2')}
-                      resizeMode={Image.resizeMode.cover}
-                          style={{height:30,width:30,left:-5,top:0}}/>
-                          */}
           </BoxyButton>
 
           <View style={styles.dividerWrap}>
@@ -121,14 +116,9 @@ class SelectRelationshipStatus extends React.Component{
                             style={{height:30,width:30}}/>
 
           </BoxyButton>
-
-
-
       </View>
-    );
+    )
   }
-
-
 }
 
 
@@ -144,7 +134,7 @@ var styles = StyleSheet.create({
   },
   dividerWrap:{
     marginVertical:20,
-    // width:DeviceWidth-50,
+    width:DeviceWidth - 50,
     flexDirection:'column',
     justifyContent: 'center',
     alignItems: 'center',
@@ -164,11 +154,15 @@ var styles = StyleSheet.create({
     height:DeviceHeight,
     width:DeviceWidth,
     padding:0,
+    left:0,
+    right:0,
+    top:0,
+    bottom:0,
     flexDirection:'column',
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf:'stretch',
-    backgroundColor: colors.outerSpace
+    backgroundColor: colors.mandy
   },
 
 
@@ -215,4 +209,4 @@ var styles = StyleSheet.create({
 });
 
 
-module.exports = SelectRelationshipStatus;
+export default SelectRelationshipStatus;

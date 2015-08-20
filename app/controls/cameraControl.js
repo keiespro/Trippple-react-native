@@ -1,49 +1,67 @@
-
-import React from 'react-native';
+import React from 'react-native'
 import {
+  Component,
   StyleSheet,
   Text,
+  Image,
   View,
   TouchableHighlight
 } from 'react-native';
 
 import Camera from 'react-native-camera';
-// import EditImage from './EditImage';
+import colors from '../utils/colors'
+import Dimensions from 'Dimensions';
 
-class CameraControl extends React.Component{
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
+
+
+class CameraControl extends Component{
   constructor(props){
     super()
     this.state = {
       cameraType: Camera.constants.Type.back
     }
   }
-
+  _goBack =()=> {
+    this.props.navigator.pop()
+  }
   render() {
 
     return (
-      <View style={styles.container}>
+      <View style={styles.container} pointerEvents={'box-none'}>
+
+        <View style={styles.paddedTop} pointerEvents={'box-none'}>
+          <TouchableHighlight onPress={this._goBack} style={styles.leftbutton}>
+            <Text style={{color:colors.shuttleGray}}>Go Back</Text>
+          </TouchableHighlight>
+
+          <TouchableHighlight underlayColor={colors.sushi} onPress={this._switchCamera} style={[{height:60,width:60},styles.rightbutton]}>
+
+              <Image source={require('image!flipCamera')} style={{height:30,width:20}}/>
+
+          </TouchableHighlight>
+        </View>
+
         <Camera
           style={styles.cameraBox}
           ref="cam"
           type={this.state.cameraType}
           captureTarget={Camera.constants.CaptureTarget.disk}
-        />
-        <View style={styles.bottom}>
-          <TouchableHighlight onPress={this._switchCamera} style={styles.leftbutton}>
-            <View/>
+        >
+          <TouchableHighlight style={styles.bigbutton} onPress={this._takePicture} >
+            <View style={[{height:90,width:90}]}>
+              <Image source={require('image!snap')} style={{height:90,width:90}}/>
+            </View>
           </TouchableHighlight>
-          <TouchableHighlight onPress={this._takePicture} style={styles.bigbutton}>
-            <View/>
-          </TouchableHighlight>
-          <TouchableHighlight onPress={this._switchCamera} style={styles.leftbutton}>
-            <View/>
-          </TouchableHighlight>
-        </View>
+        </Camera>
+
+
 
       </View>
     );
   }
-  _switchCamera = () => {
+  _switchCamera =()=> {
     var state = this.state;
     state.cameraType = state.cameraType === Camera.constants.Type.back
       ? Camera.constants.Type.front : Camera.constants.Type.back;
@@ -74,23 +92,43 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf:'stretch',
-    backgroundColor: '#000',
-    paddingTop:60,
+    backgroundColor: colors.outerSpace,
+    paddingHorizontal:20,
+    width:(DeviceWidth),
+    height:(DeviceHeight),
+
 
 
   },
-  bottom:{
+  paddedTop:{
     flexDirection:'row',
     alignItems:'center',
     alignSelf:'stretch',
-    justifyContent:'space-around',
-    height:100,
-    padding:10
+    justifyContent:'space-between',
+    height:60,
+    padding:0,
+    width:DeviceWidth - 40,
+
   },
   cameraBox:{
-    flex:1,
-    backgroundColor: 'red',
-    alignSelf:'stretch'
+    flex: 1,
+    flexDirection: 'column',
+    alignItems:'flex-end',
+    justifyContent:'flex-end',
+    alignSelf:'stretch',
+    borderRadius: 5,
+    top:0,
+    overflow:'hidden',
+    marginBottom:40,
+    position:'relative',
+    shadowColor:colors.darkShadow,
+    shadowRadius:15,
+    shadowOpacity:80,
+    shadowOffset: {
+        width:0,
+        height: 5
+    }
+
   },
   textS:{
     color:'#ffffff'
@@ -105,16 +143,25 @@ const styles = StyleSheet.create({
     color: '#333333',
   },
   leftbutton:{
-    width:50,
-    backgroundColor:'#fff',
+    width:80,
     height:50,
-    borderRadius:25
+  },
+  rightbutton:{
+    width:60,
+    height:60,
+    borderRadius:30,
+    backgroundColor:'red',
+    // marginRight:30
   },
   bigbutton:{
-    width:80,
-    height:80,
-    backgroundColor:'red',
-    borderRadius:40
+    width:100,
+    height:100,
+    overflow:'hidden',
+    borderRadius:50,
+    alignSelf:'center',
+    backgroundColor:colors.sushi,
+    bottom:40,
+    position:'relative'
   }
 });
 

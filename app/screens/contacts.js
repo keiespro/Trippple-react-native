@@ -4,6 +4,7 @@
 
 const React = require('react-native');
 const {
+  Component,
  StyleSheet,
  Text,
  Image,
@@ -27,7 +28,7 @@ const AddressBook = require('NativeModules').AddressBook;
 const colors = require('../utils/colors');
 const _ = require('underscore');
 
-class ContactList extends React.Component{
+class ContactList extends Component{
 
   constructor(props) {
     super(props);
@@ -113,7 +114,7 @@ class ContactList extends React.Component{
 
 
 
-class Contacts extends React.Component{
+class Contacts extends Component{
 
   constructor(props){
     super(props);

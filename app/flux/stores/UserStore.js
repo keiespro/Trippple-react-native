@@ -2,7 +2,7 @@ import alt from '../alt';
 import UserActions from '../actions/UserActions';
 import Keychain from 'Keychain';
 
-const server = 'http://api2.trippple.co';
+const server = 'http://api.trippple.co';
 
 class UserStore {
   constructor() {
@@ -17,13 +17,13 @@ class UserStore {
     });
 
     this.bindListeners({
-      handleGetUserInfo: UserActions.GET_USER_INFO,
+      handleGetUserInfo: UserActions.getUserInfo,
       handleVerifyPin: UserActions.VERIFY_SECURITY_PIN,
       handleRequestPin: UserActions.REQUEST_PIN_LOGIN,
       handleUpdateUser: UserActions.UPDATE_USER,
       handleUpload: UserActions.UPLOAD_IMAGE,
-      initialize: UserActions.INITIALIZE,
-      handleUpdateUserStub: UserActions.UPDATE_USER_STUB,
+      handleInitialize: UserActions.INITIALIZE,
+      handleUpdateUserStub: UserActions.updateUserStub,
       handleLogOut: UserActions.LOG_OUT
     });
 
@@ -62,7 +62,7 @@ class UserStore {
 
   }
 
-  initialize(res){
+  handleInitialize(res){
     if(res.error){
       return false;
     }
@@ -78,9 +78,11 @@ class UserStore {
   }
 
   handleGetUserInfo(res){
+    console.log(res)
     if(res.error){
       return false;
     }
+
     var user = res.response.user_info;
 
     this.setState({
@@ -88,15 +90,17 @@ class UserStore {
     })
   }
 
-  handleUpdateUserStub(attributes){
+  handleUpdateUserStub(attributes = []){
 
-    const updatedUserStub = {...this.state.userStub, ...attributes};
+    var updatedUserStub = {...this.state.userStub, ...attributes};
 
     if(updatedUserStub.gender && updatedUserStub.privacy){
-      UserActions.updateUser(updatedUserStub)
+      this.setState({user: {...this.state.user, ...this.state.updatedUserStub}});
     }else{
       this.setState({userStub: updatedUserStub});
+
     }
+
   }
   // handleRegister(response) {
   //   console.log(response);

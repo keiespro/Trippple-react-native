@@ -14,10 +14,11 @@
  * @providesModule CameraRollView
  * @flow
  */
-
-
 import React from 'react-native'
+
 import {
+  PropTypes,
+  Component,
   ActivityIndicatorIOS,
   CameraRoll,
   Image,
@@ -26,7 +27,7 @@ import {
   View,
   Text,
   TouchableOpacity
-} from 'react-native'
+} from 'react-native';
 
 import Dimensions from 'Dimensions'
 
@@ -39,7 +40,7 @@ const propTypes = {
    * values are 'Album', 'All', 'Event', 'Faces', 'Library', 'PhotoStream'
    * and SavedPhotos.
    */
-  groupTypes: React.PropTypes.oneOf([
+  groupTypes: PropTypes.oneOf([
     'Album',
     'All',
     'Event',
@@ -52,22 +53,22 @@ const propTypes = {
   /**
    * Number of images that will be fetched in one page.
    */
-  batchSize: React.PropTypes.number,
+  batchSize: PropTypes.number,
 
   /**
    * A function that takes a single image as a parameter and renders it.
    */
-  // renderImage: React.PropTypes.func,
+  // renderImage: PropTypes.func,
 
   /**
    * imagesPerRow: Number of images to be shown in each row.
    */
-  imagesPerRow: React.PropTypes.number,
+  imagesPerRow: PropTypes.number,
 
    /**
    * The asset type, one of 'Photos', 'Videos' or 'All'
    */
-  assetType: React.PropTypes.oneOf([
+  assetType: PropTypes.oneOf([
     'Photos',
     'Videos',
     'All',
@@ -75,7 +76,7 @@ const propTypes = {
 
 };
 
-class CameraRollView extends React.Component{
+class CameraRollView extends Component{
   static propTypes = propTypes
 
   static defaultProps = {

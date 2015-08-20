@@ -11,6 +11,7 @@ var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 
 var {
+  Component,
   PixelRatio,
   Navigator,
   ScrollView,
@@ -167,7 +168,7 @@ var ROUTE_STACK = [
   };
 
 
-  class Main extends React.Component{
+  class Main extends Component{
 
     constructor(props){
       super(props);

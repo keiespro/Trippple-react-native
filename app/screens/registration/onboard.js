@@ -1,102 +1,61 @@
-var React = require('react-native');
-var {
+import React from 'react-native';
+import {
+  Component,
   StyleSheet,
   Text,
-  TextInput,
   View,
   Navigator,
-  Image,
   InteractionManager,
-  ScrollView,
-  TouchableOpacity,
-  TouchableHighlight,
-  LayoutAnimation,
-} = React;
+} from 'react-native'
 
-var UserActions = require('../../flux/actions/UserActions');
-var Birthday = require('./bday');
-var Privacy = require('../../components/privacy');
-var colors = require('../../utils/colors')
-var SelectRelationshipStatus = require('./selectRelationshipStatus')
-var Facebook = require('./facebook');
-var CustomSceneConfigs = require('../../utils/sceneConfigs');
+import UserActions from '../../flux/actions/UserActions'
+import Birthday from './bday'
+import Privacy from '../../components/privacy'
+import colors from '../../utils/colors'
+import SelectRelationshipStatus from './selectRelationshipStatus'
+import Facebook from './facebook'
+import CustomSceneConfigs from '../../utils/sceneConfigs'
+import Dimensions from 'Dimensions'
 
-// class OnboardSingle extends React.Component{
-//
-//     selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
-//       return (<route.component {...route.passProps} navigator={navigator} user={this.props.user} />);
-//     }
-//     handleFBLogin(data){
-//       console.log(data,'FB LOGIN')
-//
-//     }
-//     render(){
-//
-//
-//       return (
-//
-//         <Navigator
-//           ref="nav"
-//           renderScene={this.selectScene.bind(this)}
-//           sceneStyle={styles.sceneWrap}
-//           configureScene={ (route) => {
-//             return route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.HorizontalSlide
-//           }}
-//           initialRoute={{
-//              component: Facebook,
-//              id:'fb',
-//              passProps: {
-//                onLogin: this.handleFBLogin,
-//              }
-//            }}
-//           />
-//
-//
-//       )
-//     }
-// }
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
 
-
-class Onboard extends React.Component{
+class Onboard extends Component{
   constructor(props){
-    super(props);
+    super(props)
 
     this.state = {
-      relationshipStatus: null
+
     }
   }
 
-  selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
-    return (<route.component {...route.passProps} navigator={navigator} user={this.props.user} />);
+  selectScene(route: Navigator.route, navigator: Navigator) : Component {
+    return (<route.component {...route.passProps} navigator={Navigator} user={this.props.user} />);
   }
 
   render() {
     console.log('onboard nav')
 
     return (
+      <View style={styles.container}>
+        <Navigator
+          configureScene={ (route) => {
+            return route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.HorizontalSlide
+          }}
 
-      <Navigator
-        ref="nav"
-        renderScene={this.selectScene.bind(this)}
-        sceneStyle={styles.sceneWrap}
-        configureScene={ (route) => {
-          return route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.HorizontalSlide
-        }}
-        onItemRef={(ref, indexInStack, route)=>{
-          console.log(ref, indexInStack, route);
-          // console.log(this.props.user);
-          // if(indexInStack == 7){
-          //   InteractionManager.runAfterInteractions(()=>{this.refs.nav.pop()})
-          // }
-        }}
-        willfocus={ () => { console.log('xxxx') }}
-        initialRoute={{
-           component: SelectRelationshipStatus,
-           id:'relStatus',
-           passProps: {
-           }
-         }}
-        />
+          onDidFocus={(x,y)=>{console.log('onDIDfocus',x,y)}}
+          onWillFocus={(x,y)=>{console.log('onwillfocus',x,y)}}
+          renderScene={this.selectScene.bind(this)}
+          initialRoute={{
+            index: 0,
+             component: SelectRelationshipStatus,
+             id:'relStatus',
+             title:'rel status',
+             sceneConfig: CustomSceneConfigs.SlideInFromRight,
+             passProps: { }
+           }}
+          />
+      </View>
     )
 
 
@@ -105,20 +64,20 @@ class Onboard extends React.Component{
 }
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
   sceneWrap:{
     backgroundColor: colors.outerSpace
   },
   container: {
     flex: 1,
-    height:undefined,
-    width:undefined,
+    height:DeviceHeight,
+    width:DeviceWidth,
     padding:0,
     justifyContent: 'space-around',
     alignItems: 'center',
     alignSelf:'stretch',
-    backgroundColor: colors.outerSpace
+    backgroundColor: colors.sushi
   },
   padTop:{
 
@@ -217,37 +176,37 @@ var styles = StyleSheet.create({
     borderColor:'#000',
     borderWidth:2
   },
-  navBar: {
-    backgroundColor: '#39365c',
-    height: 50,
-    justifyContent:'space-between',
-    alignSelf: 'stretch',
-    alignItems:'center',
-  },
-  navBarText: {
-    fontSize: 16,
-  },
-  navBarTitleText: {
-    color: '#222',
-    fontWeight: '500',
-    fontFamily:'omnes',
-    height: 50,
-
-  },
-  navBarLeftButton: {
-    paddingLeft: 10,
-    height: 50,
-
-  },
-  navBarRightButton: {
-    paddingRight: 10,
-    height: 50,
-
-  },
-  navBarButtonText: {
-    color: '#dddddd',
-    fontFamily:'omnes'
-  },
+  // navBar: {
+  //   backgroundColor: '#39365c',
+  //   height: 50,
+  //   justifyContent:'space-between',
+  //   alignSelf: 'stretch',
+  //   alignItems:'center',
+  // },
+  // navBarText: {
+  //   fontSize: 16,
+  // },
+  // navBarTitleText: {
+  //   color: '#222',
+  //   fontWeight: '500',
+  //   fontFamily:'omnes',
+  //   height: 50,
+  //
+  // },
+  // navBarLeftButton: {
+  //   paddingLeft: 10,
+  //   height: 50,
+  //
+  // },
+  // navBarRightButton: {
+  //   paddingRight: 10,
+  //   height: 50,
+  //
+  // },
+  // navBarButtonText: {
+  //   color: '#dddddd',
+  //   fontFamily:'omnes'
+  // },
   continue:{
     backgroundColor:'green',
     alignItems:'center',

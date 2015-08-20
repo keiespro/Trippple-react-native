@@ -19,14 +19,14 @@ var colors = require('../utils/colors');
 
 
 
-class ContinueButton extends React.Component{
+class ContinueButton extends Component{
 
   constructor(props){
     super(props);
 
 
   }
-  
+
 
   handleContinue(){
 

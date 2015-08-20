@@ -3,9 +3,9 @@
 */
 
 
-
 import React from 'react-native';
-import { View, Navigator } from 'react-native';
+
+import { Component, View, Navigator } from 'react-native';
 
 import alt from '../flux/alt';
 import AltContainer from 'alt/AltNativeContainer';
@@ -14,7 +14,7 @@ import Welcome from './welcome';
 import Main from './main';
 import PendingPartner from './pendingpartner';
 
-import Onboard from '../screens/registration/onboard';
+import Onboard from '../screens/registration/onboard'
 
 import UserStore from '../flux/stores/UserStore';
 import UserActions from '../flux/actions/UserActions';
@@ -22,15 +22,14 @@ import UserActions from '../flux/actions/UserActions';
 import NotificationsStore from '../flux/stores/NotificationsStore';
 import NotificationCommander from '../utils/NotificationCommander';
 
-class Routes extends React.Component{
+class AppRoutes extends Component{
 
   constructor(props){
-    super(props)
+    super()
 
   }
 
   render(){
-    console.log(this.props.user)
     var userStatus = this.props.user ? this.props.user.status : null;
 
     switch(userStatus){
@@ -59,20 +58,23 @@ class Routes extends React.Component{
   }
 }
 
-class TopLevel extends React.Component{
+class TopLevel extends Component{
   constructor(props){
     super(props)
 
   }
   componentDidMount(){
-    UserActions.initialize()
+    UserActions.getUserInfo()
   }
   render(){
     console.log(this.props)
     return (
       <View>
-        <NotificationCommander {...this.props} user={this.props.user}/>
-        <Routes {...this.props} />
+          <View>
+            <NotificationCommander user={this.props.user}/>
+            <AppRoutes user={this.props.user}/>
+          </View>
+
       </View>
     )
   }
@@ -80,7 +82,7 @@ class TopLevel extends React.Component{
 
 
 
-class App extends React.Component{
+class App extends Component{
 
   render(){
     return (

@@ -1,5 +1,6 @@
 var React = require('react-native');
 var {
+  Component,
   StyleSheet,
   Text,
   View,
@@ -16,7 +17,7 @@ var colors = require('../utils/colors')
 
 
 
-class BoxyButton extends React.Component{
+class BoxyButton extends Component{
 
   constructor(props){
     super(props);
