@@ -8,7 +8,7 @@ import {
     Animated,
     } from 'react-native'
 
-import {BlurView} from 'react-native-blur';
+import {VibrancyView} from 'react-native-blur';
 const screen = require('Dimensions').get('window');
 const ScrollViewPropTypes = ScrollView.propTypes;
 import scrollable from 'react-native-scrollable-decorator';
@@ -76,7 +76,7 @@ class ParallaxView extends React.Component{
                 }]}
                 source={backgroundSource}>
                 {
-                    <BlurView blurType={'dark'} style={styles.blur} />
+                    <VibrancyView blurType={'light'} style={styles.blur} />
                 }
             </Animated.Image>
         );

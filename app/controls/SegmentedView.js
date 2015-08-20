@@ -1,17 +1,18 @@
-var React = require('react-native');
-var {
+import React from 'react-native';
+import {
     StyleSheet,
     Text,
     Image,
     View,
     TouchableHighlight,
     PropTypes,
-} = React;
+    Easing,
+    Animated
+} from 'react-native';
 
-var screen = require('Dimensions').get('window');
-var tweenState = require('react-tween-state');
+const DeviceWidth = require('Dimensions').get('window').width;
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
@@ -38,11 +39,9 @@ var styles = StyleSheet.create({
 });
 
 
-var SegmentedView = React.createClass({
+class SegmentedView extends React.Component{
 
-    mixins: [tweenState.Mixin],
-
-    propTypes: {
+    static propTypes = {
         duration: PropTypes.number,
         onTransitionStart: PropTypes.func,
         onTransitionEnd: PropTypes.func,
@@ -57,61 +56,49 @@ var SegmentedView = React.createClass({
         selectedTitleStyle: PropTypes.object,
         titleStyle: PropTypes.object,
 
-    },
+    }
 
-    getDefaultProps() {
-        return {
-            duration: 200,
-            onTransitionStart: ()=>{},
-            onTransitionEnd: ()=>{},
-            onPress: ()=>{},
-            renderTitle: null,
-            index: 0,
-            barColor: '#44B7E1',
-            barPosition:'top',
-            underlayColor: '#CCCCCC',
-            stretch: false,
-            selectedTextStyle: null,
-            textStyle: null,
-        };
-    },
+    static defaultProps = {
+      duration: 200,
+      onTransitionStart: ()=>{},
+      onTransitionEnd: ()=>{},
+      onPress: ()=>{},
+      renderTitle: null,
+      index: 0,
+      barColor: '#44B7E1',
+      barPosition:'top',
+      underlayColor: '#CCCCCC',
+      stretch: false,
+      selectedTextStyle: null,
+      textStyle: null,
+    }
 
-    getInitialState() {
-        return {
-            barLeft: 0,
-            barRight: screen.width,
-        };
-    },
+    constructor(props) {
+      super()
+
+      this.state = {
+        barPosition: new Animated.Value(0),
+        titleWidth: DeviceWidth / props.titles.length
+      }
+    }
 
     componentDidMount() {
-        setTimeout(() => this.moveTo(this.props.index), 0);
-    },
+      this.state.barPosition.setValue(0);
+    }
 
     componentWillReceiveProps(nextProps) {
         this.moveTo(nextProps.index);
-    },
-
-    measureHandler(ox, oy, width) {
-
-        this.tweenState('barLeft', {
-            easing: tweenState.easingTypes.easeInOutQuad,
-            duration: 200,
-            endValue: ox
-        });
-
-        this.tweenState('barRight', {
-            easing: tweenState.easingTypes.easeInOutQuad,
-            duration: 200,
-            endValue: screen.width - ox - width,
-            onEnd: this.props.onTransitionEnd
-        });
-
-        setTimeout(this.props.onTransitionStart, 0);
-    },
+    }
 
     moveTo(index) {
-        this.refs[index].measure(this.measureHandler);
-    },
+      Animated.timing( this.state.barPosition,
+        {
+          duration: 300,
+          toValue: this.state.titleWidth * index,
+          easing: Easing.inOut(Easing.ease)
+        }
+      ).start();
+    }
 
     _renderTitle(title, i) {
         return (
@@ -119,37 +106,37 @@ var SegmentedView = React.createClass({
                 <Text style={[this.props.titleStyle, i === this.props.index && this.props.selectedTitleStyle]}>{title}</Text>
             </View>
         );
-    },
+    }
 
     renderTitle(title, i) {
         return (
-            <View key={i} ref={i} style={{ flex: this.props.stretch ? 1 : 0 }}>
+            <View key={`title-${i}`} ref={`title${i}`} style={{ flex: this.props.stretch ? 1 : 0 }}>
                 <TouchableHighlight underlayColor={this.props.underlayColor} onPress={() => this.props.onPress(i)}>
                     {this.props.renderTitle ? this.props.renderTitle(title, i) : this._renderTitle(title, i)}
                 </TouchableHighlight>
             </View>
         );
-    },
+    }
 
     render() {
-        var items = [];
-        var titles = this.props.titles;
+        let items = [];
+        let titles = this.props.titles;
 
         if (!this.props.stretch) {
             items.push(<View key={`s`} style={styles.spacer} />);
         }
 
-        for (var i = 0; i < titles.length; i++) {
+        for (let i = 0; i < titles.length; i++) {
             items.push(this.renderTitle(titles[i], i));
             if (!this.props.stretch) {
                 items.push(<View key={`s${i}`} style={styles.spacer} />);
             }
         }
-        var barContainer = (
+        let barContainer = (
           <View style={styles.barContainer}>
-              <View ref="bar" style={[styles.bar, {
-                  left: this.getTweeningValue('barLeft'),
-                  right: this.getTweeningValue('barRight'),
+              <Animated.View ref="bar" style={[styles.bar, {
+                  left: this.state.barPosition,
+                  width: this.state.titleWidth,
                   backgroundColor: this.props.barColor
               }]} />
           </View>
@@ -164,6 +151,6 @@ var SegmentedView = React.createClass({
             </View>
         );
     }
-});
+}
 
-module.exports = SegmentedView;
+export default SegmentedView
