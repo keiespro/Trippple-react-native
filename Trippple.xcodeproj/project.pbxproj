@@ -30,6 +30,8 @@
 		AC6BC1AF1B832657005F7DFA /* omnes-light-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129731B40EF0D00CC1499 /* omnes-light-webfont.ttf */; };
 		AC6BC1B01B832657005F7DFA /* omnes-medium-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129741B40EF0D00CC1499 /* omnes-medium-webfont.ttf */; };
 		AC6BC1B11B832657005F7DFA /* omnes-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129751B40EF0D00CC1499 /* omnes-regular-webfont.ttf */; };
+		AC7285D41B85B41200D74E00 /* libRNModal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC7285CD1B85B3FD00D74E00 /* libRNModal.a */; };
+		AC7285D51B85B41200D74E00 /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC7285D31B85B40B00D74E00 /* libRNOverlay.a */; };
 		ACA1295D1B40EA2E00CC1499 /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129451B40EA1600CC1499 /* libRCTAddressBook.a */; };
 		ACA1295E1B40EA2E00CC1499 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1294A1B40EA1600CC1499 /* libRCTCamera.a */; };
 		ACA1295F1B40EA2E00CC1499 /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1294D1B40EA1600CC1499 /* libRCTFBLogin.a */; };
@@ -116,6 +118,20 @@
 			proxyType = 2;
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
+		};
+		AC7285CC1B85B3FD00D74E00 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC7285B41B85B3FD00D74E00 /* RNModal.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNModal;
+		};
+		AC7285D21B85B40B00D74E00 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC7285CE1B85B40B00D74E00 /* RNOverlay.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNOverlay;
 		};
 		ACA129441B40EA1600CC1499 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -212,6 +228,8 @@
 		AC5B03A41B85A9FB003E0302 /* Default-736h@3x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x~iphone.png"; sourceTree = "<group>"; };
 		AC5B03A51B85A9FB003E0302 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		AC5B03A61B85A9FB003E0302 /* Default@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x~iphone.png"; sourceTree = "<group>"; };
+		AC7285B41B85B3FD00D74E00 /* RNModal.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNModal.xcodeproj; path = "node_modules/react-native-modal/RNModal.xcodeproj"; sourceTree = "<group>"; };
+		AC7285CE1B85B40B00D74E00 /* RNOverlay.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNOverlay.xcodeproj; path = "node_modules/react-native-overlay/RNOverlay.xcodeproj"; sourceTree = "<group>"; };
 		ACA1292D1B40EA1600CC1499 /* RCTFBLogin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBLogin.xcodeproj; path = "node_modules/react-native-facebook-login/RCTFBLogin.xcodeproj"; sourceTree = "<group>"; };
 		ACA129301B40EA1600CC1499 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		ACA129331B40EA1600CC1499 /* RNFS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
@@ -239,6 +257,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC7285D41B85B41200D74E00 /* libRNModal.a in Frameworks */,
+				AC7285D51B85B41200D74E00 /* libRNOverlay.a in Frameworks */,
 				ACFC0A6A1B51E5AE00D9D40F /* libRNKeychain.a in Frameworks */,
 				ACE1CD0A1B5772DF0043177A /* Bolts.framework in Frameworks */,
 				ACA129861B416C3000CC1499 /* libRNKeyboardEvents.a in Frameworks */,
@@ -373,6 +393,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				AC7285CE1B85B40B00D74E00 /* RNOverlay.xcodeproj */,
+				AC7285B41B85B3FD00D74E00 /* RNModal.xcodeproj */,
 				ACA129801B416C2700CC1499 /* RNKeyboardEvents.xcodeproj */,
 				ACA1296C1B40EC0500CC1499 /* RCTFileTransfer.m */,
 				ACA1292D1B40EA1600CC1499 /* RCTFBLogin.xcodeproj */,
@@ -424,6 +446,22 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* trippple.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AC7285B51B85B3FD00D74E00 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC7285CD1B85B3FD00D74E00 /* libRNModal.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AC7285CF1B85B40B00D74E00 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC7285D31B85B40B00D74E00 /* libRNOverlay.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -632,6 +670,14 @@
 					ProductGroup = ACA1293A1B40EA1600CC1499 /* Products */;
 					ProjectRef = ACA129391B40EA1600CC1499 /* RNMail.xcodeproj */;
 				},
+				{
+					ProductGroup = AC7285B51B85B3FD00D74E00 /* Products */;
+					ProjectRef = AC7285B41B85B3FD00D74E00 /* RNModal.xcodeproj */;
+				},
+				{
+					ProductGroup = AC7285CF1B85B40B00D74E00 /* Products */;
+					ProjectRef = AC7285CE1B85B40B00D74E00 /* RNOverlay.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -709,6 +755,20 @@
 			fileType = archive.ar;
 			path = libRCTText.a;
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AC7285CD1B85B3FD00D74E00 /* libRNModal.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNModal.a;
+			remoteRef = AC7285CC1B85B3FD00D74E00 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AC7285D31B85B40B00D74E00 /* libRNOverlay.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNOverlay.a;
+			remoteRef = AC7285D21B85B40B00D74E00 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		ACA129451B40EA1600CC1499 /* libRCTAddressBook.a */ = {
@@ -910,7 +970,7 @@
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
 				ENABLE_BITCODE = NO;
 				ENABLE_INCREMENTAL_DISTILL = YES;
-				ENABLE_ON_DEMAND_RESOURCES = YES;
+				ENABLE_ON_DEMAND_RESOURCES = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -964,7 +1024,7 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_INCREMENTAL_DISTILL = YES;
 				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_ON_DEMAND_RESOURCES = YES;
+				ENABLE_ON_DEMAND_RESOURCES = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

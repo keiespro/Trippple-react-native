@@ -14,7 +14,6 @@ var {
 
 var UserActions = require('../../flux/actions/UserActions');
 var Birthday = require('../../controls/birthday');
-var ImageUpload = require('../../components/imageUpload');
 var Privacy = require('../../components/privacy');
 var colors = require('../../utils/colors')
 
@@ -162,6 +161,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf:'stretch',
+    position:'absolute',
     backgroundColor: colors.mandy
   },
 
@@ -209,4 +209,4 @@ var styles = StyleSheet.create({
 });
 
 
-export default SelectRelationshipStatus;
+export default SelectRelationshipStatus

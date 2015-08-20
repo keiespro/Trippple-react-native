@@ -32,8 +32,10 @@ const colors = {
 
   warmGrey:           'rgb(151, 151, 151)',
 
-  darkShadow:         'rgba(0,0,0,.45)'
+  darkShadow:         'rgba(0,0,0,.45)',
+
+  dark:               'rgb(36, 49, 56)'
 
 }
 
-module.exports = colors;
+export default colors

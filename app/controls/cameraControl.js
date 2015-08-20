@@ -5,6 +5,7 @@ import {
   Text,
   Image,
   View,
+  TouchableOpacity,
   TouchableHighlight
 } from 'react-native';
 
@@ -32,15 +33,18 @@ class CameraControl extends Component{
       <View style={styles.container} pointerEvents={'box-none'}>
 
         <View style={styles.paddedTop} pointerEvents={'box-none'}>
-          <TouchableHighlight onPress={this._goBack} style={styles.leftbutton}>
+          <TouchableOpacity onPress={this._goBack} style={styles.leftbutton}>
             <Text style={{color:colors.shuttleGray}}>Go Back</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
 
-          <TouchableHighlight underlayColor={colors.sushi} onPress={this._switchCamera} style={[{height:60,width:60},styles.rightbutton]}>
+          <TouchableOpacity  onPress={this._switchCamera} style={[{height:60,width:60},styles.rightbutton]}>
 
-              <Image source={require('image!flipCamera')} style={{height:30,width:20}}/>
+              <Image
+              resizeMode={Image.resizeMode.cover}
+              source={require('image!flipCamera')}
+              style={{height:30,width:50}}/>
 
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
 
         <Camera
@@ -49,11 +53,12 @@ class CameraControl extends Component{
           type={this.state.cameraType}
           captureTarget={Camera.constants.CaptureTarget.disk}
         >
-          <TouchableHighlight style={styles.bigbutton} onPress={this._takePicture} >
-            <View style={[{height:90,width:90}]}>
-              <Image source={require('image!snap')} style={{height:90,width:90}}/>
+          <TouchableOpacity style={styles.bigbutton} onPress={this._takePicture} >
+            <View style={[{height:80,width:80}]}>
+              <Image
+              resizeMode={Image.resizeMode.cover} source={require('image!snap')} style={{height:80,width:80}}/>
             </View>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </Camera>
 
 
@@ -102,10 +107,11 @@ const styles = StyleSheet.create({
   },
   paddedTop:{
     flexDirection:'row',
-    alignItems:'center',
+    alignItems:'flex-end',
     alignSelf:'stretch',
     justifyContent:'space-between',
     height:60,
+    top:20,
     padding:0,
     width:DeviceWidth - 40,
 
@@ -149,17 +155,15 @@ const styles = StyleSheet.create({
   rightbutton:{
     width:60,
     height:60,
-    borderRadius:30,
-    backgroundColor:'red',
+    borderRadius:20,
     // marginRight:30
   },
   bigbutton:{
-    width:100,
-    height:100,
+    width:80,
+    height:80,
     overflow:'hidden',
-    borderRadius:50,
+    borderRadius:40,
     alignSelf:'center',
-    backgroundColor:colors.sushi,
     bottom:40,
     position:'relative'
   }

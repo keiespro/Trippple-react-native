@@ -1,35 +1,41 @@
 /* @flow */
 
 
-var React = require('react-native');
-var {
+import React from 'react-native';
+import {
   StyleSheet,
   Text,
   View,
   TouchableHighlight,
+  TouchableOpacity,
   TextInput,
   ScrollView,
   Image,
   AsyncStorage,
   Navigator
-  // PickerIOS
-} = React;
+} from  'react-native';
 
-// var PickerItemIOS = PickerIOS.Item;
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
+import SegmentedView from '../controls/SegmentedView';
+import scrollable from 'react-native-scrollable-decorator';
+import Dimensions from 'Dimensions';
+// import ParallaxView from 'react-native-parallax-view'
+import ParallaxView from  '../controls/ParallaxScrollView'
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
-var DistanceSlider = require('../controls/distanceSlider');
-var ToggleSwitch = require('../controls/switches');
-var UserActions = require('../flux/actions/UserActions')
-var CameraControl = require('../controls/cameraControl');
-var Privacy = require('./privacy');
-var Modal = require('react-native-swipeable-modal');
+import DistanceSlider from '../controls/distanceSlider';
+import ToggleSwitch from '../controls/switches';
+import UserActions from '../flux/actions/UserActions'
+import CameraControl from '../controls/cameraControl';
+import EditImage from '../controls/EditImage';
+import Privacy from './privacy';
+import Modal from 'react-native-swipeable-modal';
 
-var FeedbackButton = require('../screens/feedbackButton');
-var Contacts = require('../screens/contacts');
-
-var NavigatorSceneConfigs = require('NavigatorSceneConfigs');
+import FeedbackButton from '../screens/feedbackButton';
+import Contacts from '../screens/contacts';
+import colors from '../utils/colors'
+import NavigatorSceneConfigs from 'NavigatorSceneConfigs';
+// import {BlurView} from 'react-native-blur';
 
 var bodyTypes = [
   'Athletic',
@@ -41,82 +47,161 @@ var bodyTypes = [
   'Rather not say'
 ];
 
-var EditSettings = React.createClass({
-  getInitialState(){
-    return {
-      firstname: this.props.user.firstname  || '',
-      bio: this.props.user.bio || '',
-      email: this.props.user.email  || '',
-      body_type: null,
-    }
-  },
 
-  _pressNewImage(){
-    console.log('change image');
-    this.props.navigator.push({
-      component: CameraControl,
-      passProps:{}
-    });
-
-  },
-  _updateAttr(updatedAttribute){
-    this.setState(()=>{return updatedAttribute});
-  },
+class BasicSettings extends React.Component{
+  constructor(props){
+    super(props)
+  }
+  _editField=()=>{ }
   render(){
     return (
-    <View style={styles.card}>
-      <View style={styles.userimageContainer}>
-        <Image
-          style={styles.userimage}
-          source={{uri: this.props.user.image_url}}
-          defaultSource={require('image!defaultuser')}
-          resizeMode={Image.resizeMode.cover}>
-          <TouchableHighlight onPress={this._pressNewImage}>
-            <Text style={styles.changeImage}>Change Image</Text>
+      <View style={styles.inner}>
+        <View style={styles.formRow}>
+          <TouchableHighlight onPress={this._editField}>
+            <Text style={styles.textfield}>{this.props.user.firstname}</Text>
           </TouchableHighlight>
-        </Image>
+        </View>
       </View>
-      <View style={styles.formRow}>
-        <TextInput
-          style={styles.textfield}
-          value={this.state.firstname}
-          onChangeText={(text) => this._updateAttr({firstname: text})}
-        />
-      </View>
-      <View style={styles.formRow}>
-        <TextInput
-          style={styles.textfield}
-          value={this.state.email}
-          onChangeText={(text) => this._updateAttr({email: text})}
-        />
-      </View>
-      <View style={styles.formRow}>
-        <TextInput
-          style={[styles.textfield]}
-          value={this.state.bio}
-          onChangeText={(text) => this._updateAttr({bio: text})}
-        />
-      </View>
-  {/*    <View style={[styles.tallFormRow]}>
-        <Text style={styles.formLabel}>Body Type</Text>
-        <PickerIOS
-          style={styles.picker}
-          selectedValue={this.state.body_type}
-          key={'bodytypepick'}
-          onValueChange={(body_type) => this._updateAttr({body_type: body_type})}>
-
-          {bodyTypes.map( (bodyType, index) => (
-              <PickerItemIOS
-                key={'bodyType-' + index}
-                value={index}
-                label={bodyType}
-              />
-          ))}
-        </PickerIOS>
-      </View>*/}
-    </View>)
+    )
   }
-})
+}
+
+class PreferencesSettings extends React.Component{
+  constructor(props){
+    super(props)
+  }
+  _editField=()=>{ }
+  render(){
+    return (
+      <View style={styles.inner}>
+        <View style={styles.formRow}>
+          <TouchableHighlight onPress={this._editField}>
+            <Text style={styles.textfield}>{this.props.user.relationship_status}</Text>
+          </TouchableHighlight>
+        </View>
+      </View>
+    )
+  }
+}
+
+class SettingsSettings extends React.Component{
+  constructor(props){
+    super(props)
+  }
+  _editField=()=>{ }
+  render(){
+    return (
+      <View style={styles.inner}>
+        <View style={styles.formRow}>
+          <TouchableHighlight onPress={this._editField}>
+            <Text style={styles.textfield}>{this.props.user.gender}</Text>
+          </TouchableHighlight>
+        </View>
+      </View>
+    )
+  }
+}
+
+const SettingsPageAtIndex = [ BasicSettings, PreferencesSettings, SettingsSettings ]
+
+@scrollable
+class SettingsInside extends React.Component{
+  constructor(props){
+    super(props)
+    this.state = {
+      index: 0,
+      isModalOpen: true
+    }
+  }
+  getScrollResponder() {
+    return this._scrollView.getScrollResponder();
+  }
+
+  setNativeProps(props) {
+    this._scrollView.setNativeProps(props);
+  }
+
+  _pressNewImage=()=>{
+    console.log('change image');
+    // this.props.navigator.push({
+    //   component: CameraControl,
+    //   passProps:{
+    //     imageEditorComponent: EditImage
+    //   }
+    // });
+    this.props.openModal('EditImage')
+  }
+  _editField=()=>{
+
+  }
+
+
+  _updateAttr(updatedAttribute){
+    this.setState(()=>{return updatedAttribute});
+  }
+  renderInnerView(){
+    let CurrentPage = SettingsPageAtIndex[this.state.index];
+
+    return (
+      <View style={{height:800,backgroundColor:colors.outerSpace}}>
+        <CurrentPage user={this.props.user}/>
+      </View>
+    )
+  }
+
+  render(){
+
+    let innerView = this.renderInnerView()
+    return (
+      <ParallaxView
+          backgroundSource={{uri: this.props.user.image_url}}
+          windowHeight={300}
+          style={{backgroundColor:colors.outerSpace}}
+          header={(
+
+          <View  style={[styles.userimageContainer,styles.blur]}>
+            <TouchableOpacity onPress={this._pressNewImage}>
+              <Image
+                style={styles.userimage}
+                source={{uri: this.props.user.image_url}}
+                defaultSource={require('image!defaultuser')}
+                resizeMode={Image.resizeMode.cover}/>
+
+            </TouchableOpacity>
+          </View>
+          )}
+      >
+
+
+      {/*
+        <TouchableHighlight onPress={this._pressNewImage}>
+        <Text style={styles.changeImage}>Change Image</Text>
+      </TouchableHighlight>
+      */}
+
+
+
+      <SegmentedView
+        barPosition={'bottom'}
+        style={{backgroundColor:colors.dark}}
+        barColor={colors.mediumPurple}
+        titleStyle={{color:colors.white}}
+        titles={['BASIC', 'PREFERENCES', 'SETTINGS']}
+         index={this.state.index}
+         stretch
+         onPress={index => this.setState({ index })}
+         />
+
+      {innerView}
+
+      <FeedbackButton />
+      <LogOutButton/>
+
+    </ParallaxView>
+
+)
+  }
+}
 
 class LogOutButton extends React.Component{
   _doLogOut(){
@@ -136,36 +221,51 @@ class LogOutButton extends React.Component{
   }
 }
 
-var ViewSettings = React.createClass({
-
-
-  render(){
-    return (
-    <View style={styles.card}>
-      <View style={styles.userimageContainer}>
-        <Image
-          style={styles.userimage}
-          source={{uri: this.props.user.image_url}}
-          defaultSource={require('image!defaultuser')}
-          resizeMode={Image.resizeMode.cover}/>
-      </View>
-      <View style={styles.formRow}>
-        <Text style={styles.textfield} >{this.props.user.firstname}</Text>
-      </View>
-      <View style={styles.formRow}>
-        <Text style={styles.textfield} >{this.props.user.email || ''}</Text>
-      </View>
-      <View style={styles.formRow}>
-        <Text style={[styles.textfield]} >{this.props.user.bio || ''}</Text>
-      </View>
-      <View style={[styles.tallFormRow]}>
-        <Text style={styles.formLabel}>Body Type</Text>
-        <Text style={styles.textfield}>{this.props.user.body_type || ''}</Text>
-      </View>
-    </View>
-    )
-  }
-})
+// @scrollable
+// class ViewSettings extends React.Component{
+//
+//   constructor(props){
+//     super(props);
+//     this.state = {
+//       isModalOpen: false,
+//       index: 1,
+//       editMode: false
+//     }
+//   }
+//   getScrollResponder() {
+//     console.log(this._scrollView)
+//     return this._scrollView.getScrollResponder();
+//   }
+//
+//     setNativeProps(nativeProps) {
+//       this._scrollView.setNativeProps(nativeProps);
+//     }
+//
+//   render(){
+//     return (
+//     <ParallaxView
+//       backgroundSource={{uri: this.props.user.image_url}}
+//       windowHeight={300}
+//       header={(
+//         <Image
+//           style={styles.userimage}
+//           source={{uri: this.props.user.image_url}}
+//           defaultSource={require('image!defaultuser')}
+//           resizeMode={Image.resizeMode.cover}/>
+//       )}>
+//
+//       <View>
+//         <SegmentedView
+//           titles={['BASIC', 'PREFERENCES', 'SETTINGS']}
+//            index={this.state.index}
+//            stretch
+//            onPress={index => this.setState({ index })}
+//            />
+//       </View>
+//     </ParallaxView>
+//     )
+//   }
+// }
 // <View style={styles.container}>
 //   <ContentWrapper
 //     style={styles.inner}
@@ -176,7 +276,7 @@ var ViewSettings = React.createClass({
 //         <Text style={styles.header}>Edit</Text>
 //       </TouchableHighlight>
 //
-//       <EditSettings openCamera={this.openCamera} user={this.props.user}/>
+//       <InnerSettings openCamera={this.openCamera} user={this.props.user}/>
 //
 //       {/*this.state.editMode === true ?
 //         <ViewSettings user={this.props.user}/>
@@ -216,152 +316,92 @@ class Settings extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      isModalOpen: false,
-      editMode: false
+      isModalOpen: false
     }
   }
 
-  openModal(page: string) {
-    this.setState({isModalOpen: page});
-  }
+  openModal = (page: string) => { this.setState({isModalOpen: page}) }
 
-  closeModal() {
-    this.setState({isModalOpen: false});
-  }
+  closeModal = () => { this.setState({isModalOpen: false}) }
 
   showModalTransition(transition) {
     transition('opacity', {duration: 200, begin: 0, end: 1});
     transition('height', {duration: 200, begin: DeviceHeight * 2, end: DeviceHeight});
   }
-
   hideModalTransition(transition) {
     transition('height', {duration: 200, begin: DeviceHeight, end: DeviceHeight * 2, reset: true});
     transition('opacity', {duration: 200, begin: 1, end: 0});
   }
 
-
-  _openEditMode(){
-    this.setState({
-      editMode: true
-    })
+  modalWindow(){
+    if(!this.state.isModalOpen) return false;
+    switch (this.state.isModalOpen){
+      case 'privacy':
+      return (<Privacy key={"modalw"} saveAndClose={this.closeModal.bind(this)} user={this.props.user}/>);
+      case 'EditImage':
+        return (<CameraControl key={"modalw"} user={this.props.user}/>);
+      case 'invite':
+        return (<Contacts key={"modalw"} user={this.props.user}/>);
+      case 'default':
+        return null;
+    }
   }
-
-  _closeEditMode(){
-    this.setState({
-      editMode: false
-    })
-  }
-
-  _saveSettings(){
-
-    //SAVE
-    this._closeEditMode();
-  }
-
-  _renderPrivacy(){
-    this.openModal('privacy')
-  }
-
-
-  _renderInviteFriends(){
-    this.openModal('invite')
-  }
-  _handleBackdropPress(){
-
-  }
-
-      selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
-        return (<route.component {...route.passProps} navigator={navigator || this.refs.nav} user={this.props.user} />);
-      }
-
   render(){
-    // var modalWindow = ()=>{
-    //   if(!this.state.isModalOpen){ return false; }
-    //   switch (this.state.isModalOpen){
-    //     case 'privacy':
-    //     return (<Privacy key={"modalw"} saveAndClose={this.closeModal.bind(this)} user={this.props.user}/>);
-    //     case 'imageupload':
-    //       return (<CameraControl key={"modalw"} user={this.props.user}/>);
-    //     case 'invite':
-    //       return (<Contacts key={"modalw"} user={this.props.user}/>);
-    //     case 'default':
-    //       return null;
-    //   }
-    // }
-    // var ContentWrapper;
-    // var wrapperProps = {};
-    //
-    //   ContentWrapper = ScrollView;
-    //   wrapperProps = {
-    //     automaticallyAdjustContentInsets:true,
-    //     canCancelContentTouches:true,
-    //     directionalLockEnabled:true,
-    //     pointerEvents:'box-none',
-    //     alwaysBounceVertical:true,
-    //     decelerationRate:0.9,
-    //     showsVerticalScrollIndicator:false,
-    //     contentInset:{top: 80},
-    //   }
-
-
     return (
-
-
-       <View style={styles.container}>
-         <Navigator
-           ref={'nav'}
-             initialRoute={{
-               component: EditSettings,
-               id:0,
-               passProps:{}
-             }}
-             configureScene={(route) => { return route.sceneConfig ? route.sceneConfig : NavigatorSceneConfigs.FloatFromBottom
-}}
-             navigator={this.props.navigator}
-             renderScene={this.selectScene.bind(this)}
-         />
-     </View>
-     );
+      <View style={styles.container}>
+          <SettingsInside user={this.props.user} openModal={this.openModal}/>
+          <Modal
+            height={DeviceHeight - 60}
+            style={styles.modal}
+            swipeableAreaStyle={styles.swipeableAreaStyle}
+            modalStyle={styles.modalStyle}
+            contentStyle={styles.contentStyle}
+            isVisible={this.state.isModalOpen && this.state.isModalOpen !== ''}
+           >
+            {this.modalWindow()}
+          </Modal>
+        </View>
+    )
   }
 }
-
 module.exports = Settings;
 
 var styles = StyleSheet.create({
+
+  modalStyle: {
+
+    },
+    contentStyle: {
+        justifyContent:'center',
+    },
+    swipeableAreaStyle: {
+        position: 'absolute',
+        top:0, left:0, right:0, height:20
+    },
  container: {
    flex: 1,
    justifyContent: 'center',
-   backgroundColor: '#ffffff',
    alignItems: 'stretch',
-   overflow:'hidden'
+   alignSelf: 'stretch',
+   backgroundColor:colors.outerSpace
+  //  overflow:'hidden'
  },
  inner:{
    padding: 0,
 
  },
- card: {
-   backgroundColor: '#eee',
-   padding: 0,
-   borderRadius: 5,
-   borderColor:'#ccc',
-   borderWidth:0,
-   marginBottom:15,
-   overflow: 'hidden',
-   margin: 0,
-   flex:1,
-   flexDirection:'column',
-   alignItems: 'stretch',
- },
- red: {
-   backgroundColor: 'red',
-   height:300,
-   width:300
- },
 
  userimageContainer: {
    padding: 0,
-   margin: 0,
-   alignItems: 'stretch'
+   alignItems: 'center'
+
+ },
+ blur:{
+   flex:1,
+   alignSelf:'stretch',
+   alignItems:'center',
+   paddingTop: 60,
+   paddingBottom: 40,
 
  },
  closebox:{
@@ -371,16 +411,18 @@ var styles = StyleSheet.create({
  },
  userimage: {
    padding:0,
-   height: 400,
+   height: 200,
+   width:200,
    alignItems: 'stretch',
-   position:'relative'
+   position:'relative',
+   borderRadius:100,
+   overflow:'hidden'
  },
  changeImage: {
-   position:'absolute',
-   color:'#fff',
+  //  position:'absolute',
+   color:colors.white,
    fontSize:22,
-   top:370,
-   right:0,
+  //  right:0,
    fontFamily:'omnes',
    alignItems:'flex-end'
  },
@@ -388,9 +430,7 @@ var styles = StyleSheet.create({
    alignItems: 'center',
    flexDirection: 'row',
    justifyContent: 'center',
-   paddingLeft: 15,
-   paddingRight:15,
-   backgroundColor:'#fff',
+   padding:15,
    height:60,
  },
  tallFormRow: {
@@ -440,9 +480,8 @@ var styles = StyleSheet.create({
 
  },
  textfield:{
-   color:'#111',
-   backgroundColor:'#fff',
-   fontSize:18,
+   color: colors.white,
+   fontSize:20,
    alignItems: 'stretch',
    flex:1,
    fontFamily:'omnes',
@@ -473,6 +512,8 @@ var styles = StyleSheet.create({
    flex:1,
    alignItems: 'stretch',
    alignSelf: 'stretch',
+  //  position:'absolute',
+  //  top:0
 
  },
  modalwrap:{

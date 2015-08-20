@@ -5,11 +5,12 @@ import {
   Text,
   View,
   Navigator,
-  InteractionManager,
+  // InteractionManager,
 } from 'react-native'
 
 import UserActions from '../../flux/actions/UserActions'
 import Birthday from './bday'
+
 import Privacy from '../../components/privacy'
 import colors from '../../utils/colors'
 import SelectRelationshipStatus from './selectRelationshipStatus'
@@ -22,40 +23,36 @@ const DeviceWidth = Dimensions.get('window').width
 
 class Onboard extends Component{
   constructor(props){
-    super(props)
+    super();
 
-    this.state = {
 
-    }
   }
 
   selectScene(route: Navigator.route, navigator: Navigator) : Component {
-    return (<route.component {...route.passProps} navigator={Navigator} user={this.props.user} />);
+    return (<route.component {...route.passProps} navigator={navigator} user={this.props.user} />);
   }
 
   render() {
     console.log('onboard nav')
 
     return (
-      <View style={styles.container}>
         <Navigator
           configureScene={ (route) => {
             return route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.HorizontalSlide
           }}
-
           onDidFocus={(x,y)=>{console.log('onDIDfocus',x,y)}}
           onWillFocus={(x,y)=>{console.log('onwillfocus',x,y)}}
           renderScene={this.selectScene.bind(this)}
+          sceneStyle={styles.container}
+          navigationBar={false}
           initialRoute={{
-            index: 0,
              component: SelectRelationshipStatus,
              id:'relStatus',
              title:'rel status',
-             sceneConfig: CustomSceneConfigs.SlideInFromRight,
              passProps: { }
            }}
           />
-      </View>
+
     )
 
 
@@ -74,6 +71,8 @@ const styles = StyleSheet.create({
     height:DeviceHeight,
     width:DeviceWidth,
     padding:0,
+    top:0,
+    left:0,
     justifyContent: 'space-around',
     alignItems: 'center',
     alignSelf:'stretch',
