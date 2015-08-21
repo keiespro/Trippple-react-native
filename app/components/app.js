@@ -21,6 +21,7 @@ import UserActions from '../flux/actions/UserActions';
 
 import NotificationsStore from '../flux/stores/NotificationsStore';
 import NotificationCommander from '../utils/NotificationCommander';
+import LoadingOverlay from '../components/LoadingOverlay'
 
 class AppRoutes extends Component{
 
@@ -35,25 +36,17 @@ class AppRoutes extends Component{
     switch(userStatus){
 
       case 'verified':
-        return (
-          <Onboard key="OnboardingScreen" user={this.props.user}/>
-        )
+        return <Onboard key="OnboardingScreen" user={this.props.user}/>
 
       case 'pendingpartner':
-        return (
-          <PendingPartner key="PendingPartnerScreen" user={this.props.user}/>
-        )
+        return <PendingPartner key="PendingPartnerScreen" user={this.props.user}/>
 
       case 'onboarded':
-        return (
-          <Main key="MainScreen" user={this.props.user}/>
-        )
+        return <Main key="MainScreen" user={this.props.user}/>
 
       case null:
       default:
-        return (
-          <Welcome  key={'welcomescene'} />
-        )
+        return <Welcome  key={'welcomescene'} />
       }
   }
 }
@@ -61,19 +54,21 @@ class AppRoutes extends Component{
 class TopLevel extends Component{
   constructor(props){
     super(props)
-
+    this.state = {
+      showOverlay: this.props.user ? false : true
+    }
   }
   componentDidMount(){
     UserActions.getUserInfo()
   }
   render(){
-    console.log(this.props)
     return (
-      <View>
-          <View>
-            <NotificationCommander user={this.props.user}/>
-            <AppRoutes user={this.props.user}/>
-          </View>
+      <View style={{flex:1}}>
+
+          <AppRoutes user={this.props.user}/>
+          <NotificationCommander user={this.props.user}/>
+
+          <LoadingOverlay key="LoadingOverlay" isVisible={this.state.showOverlay} />
 
       </View>
     )

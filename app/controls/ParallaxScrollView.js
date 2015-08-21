@@ -26,11 +26,10 @@ class ParallaxView extends React.Component{
     }
 
     static getDefaultProps = {
-            windowHeight: 300,
-            contentInset: {
-                top: -20 * screen.scale
-            }
-
+      windowHeight: 300,
+      contentInset: {
+          top: -20 * screen.scale
+      }
     }
 
     constructor(props){
@@ -64,8 +63,8 @@ class ParallaxView extends React.Component{
                     height: windowHeight,
                     transform: [{
                         translateY: scrollY.interpolate({
-                            inputRange: [ -windowHeight, 0, windowHeight],
-                            outputRange: [windowHeight/2, 0, -windowHeight/3]
+                            inputRange: [ -windowHeight, 0, windowHeight ],
+                            outputRange: [ windowHeight / 2, 0, -windowHeight / 3 ]
                         })
                     },{
                         scale: scrollY.interpolate({
@@ -83,8 +82,8 @@ class ParallaxView extends React.Component{
     }
 
     renderHeader() {
-        var { windowHeight, backgroundSource } = this.props;
-        var { scrollY } = this.state;
+        let { windowHeight, backgroundSource } = this.props;
+        let { scrollY } = this.state;
         if (!windowHeight || !backgroundSource) {
             return null;
         }
@@ -93,7 +92,7 @@ class ParallaxView extends React.Component{
                 position: 'relative',
                 height: windowHeight,
                 opacity: scrollY.interpolate({
-                    inputRange: [-windowHeight, 0, windowHeight / 1.2],
+                    inputRange: [ -windowHeight, 0, windowHeight / 1.2],
                     outputRange: [1, 1, 0]
                 }),
             }}>
@@ -103,7 +102,7 @@ class ParallaxView extends React.Component{
     }
 
     render() {
-        var { style, ...props } = this.props;
+        let { style, ...props } = this.props;
         return (
             <View style={[styles.container, style]}>
                 {this.renderBackground()}

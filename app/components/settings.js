@@ -18,8 +18,8 @@ import {
 import SegmentedView from '../controls/SegmentedView';
 import scrollable from 'react-native-scrollable-decorator';
 import Dimensions from 'Dimensions';
-// import ParallaxView from 'react-native-parallax-view'
 import ParallaxView from  '../controls/ParallaxScrollView'
+
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
@@ -30,7 +30,7 @@ import CameraControl from '../controls/cameraControl';
 import EditImage from '../controls/EditImage';
 import Privacy from './privacy';
 import Modal from 'react-native-swipeable-modal';
-
+import Facebook from '../screens/registration/facebook'
 import FeedbackButton from '../screens/feedbackButton';
 import Contacts from '../screens/contacts';
 import colors from '../utils/colors'
@@ -47,20 +47,51 @@ var bodyTypes = [
   'Rather not say'
 ];
 
+class ProfileField extends React.Component{
 
+  _editField=()=>{ }
+
+  render(){
+    return (
+      <TouchableHighlight onPress={this._editField}>
+        <View style={styles.formRow}>
+          <Text style={styles.textfield}>{this.props.val}</Text>
+        </View>
+      </TouchableHighlight>
+    )
+  }
+}
 class BasicSettings extends React.Component{
   constructor(props){
     super(props)
   }
-  _editField=()=>{ }
   render(){
     return (
       <View style={styles.inner}>
-        <View style={styles.formRow}>
-          <TouchableHighlight onPress={this._editField}>
-            <Text style={styles.textfield}>{this.props.user.firstname}</Text>
-          </TouchableHighlight>
+
+        <View style={styles.formHeader}>
+          <Text style={styles.formHeaderText}>Personal Info</Text>
         </View>
+        <ProfileField field={'firstname'} val={this.props.user.firstname} />
+        <ProfileField field={'birthday'} val={this.props.user.bday_month} />
+        <ProfileField field={'gender'} val={this.props.user.gender} />
+
+        <View style={styles.formHeader}>
+          <Text style={styles.formHeaderText}>Contact Info</Text>
+        </View>
+        <ProfileField field={'phone'} val={this.props.user.phone} />
+        <ProfileField field={'email'} val={this.props.user.email || 'ADD EMAIL'} />
+
+        <View style={styles.formHeader}>
+          <Text style={styles.formHeaderText}>Details</Text>
+        </View>
+        <ProfileField field={'height'} val={this.props.user.height} />
+        <ProfileField field={'body_type'} val={this.props.user.body_type} />
+
+        <View style={styles.formHeader}>
+          <Text style={styles.formHeaderText}>Get more matches</Text>
+        </View>
+        <Facebook justTheButton={true} wrapperStyle={{height:100,padding:0}}/>
       </View>
     )
   }
@@ -74,11 +105,11 @@ class PreferencesSettings extends React.Component{
   render(){
     return (
       <View style={styles.inner}>
-        <View style={styles.formRow}>
-          <TouchableHighlight onPress={this._editField}>
+        <TouchableHighlight onPress={this._editField}>
+          <View style={styles.formRow}>
             <Text style={styles.textfield}>{this.props.user.relationship_status}</Text>
-          </TouchableHighlight>
-        </View>
+          </View>
+        </TouchableHighlight>
       </View>
     )
   }
@@ -92,11 +123,11 @@ class SettingsSettings extends React.Component{
   render(){
     return (
       <View style={styles.inner}>
-        <View style={styles.formRow}>
-          <TouchableHighlight onPress={this._editField}>
+        <TouchableHighlight onPress={this._editField}>
+          <View style={styles.formRow}>
             <Text style={styles.textfield}>{this.props.user.gender}</Text>
-          </TouchableHighlight>
-        </View>
+          </View>
+        </TouchableHighlight>
       </View>
     )
   }
@@ -212,7 +243,7 @@ class LogOutButton extends React.Component{
   render(){
 
     return (
-      <TouchableHighlight onPress={this._doLogOut}>
+      <TouchableHighlight underlayColor={colors.dark} onPress={this._doLogOut}>
         <View style={styles.button}>
           <Text style={styles.buttonText}>Log Out</Text>
         </View>
@@ -221,96 +252,6 @@ class LogOutButton extends React.Component{
   }
 }
 
-// @scrollable
-// class ViewSettings extends React.Component{
-//
-//   constructor(props){
-//     super(props);
-//     this.state = {
-//       isModalOpen: false,
-//       index: 1,
-//       editMode: false
-//     }
-//   }
-//   getScrollResponder() {
-//     console.log(this._scrollView)
-//     return this._scrollView.getScrollResponder();
-//   }
-//
-//     setNativeProps(nativeProps) {
-//       this._scrollView.setNativeProps(nativeProps);
-//     }
-//
-//   render(){
-//     return (
-//     <ParallaxView
-//       backgroundSource={{uri: this.props.user.image_url}}
-//       windowHeight={300}
-//       header={(
-//         <Image
-//           style={styles.userimage}
-//           source={{uri: this.props.user.image_url}}
-//           defaultSource={require('image!defaultuser')}
-//           resizeMode={Image.resizeMode.cover}/>
-//       )}>
-//
-//       <View>
-//         <SegmentedView
-//           titles={['BASIC', 'PREFERENCES', 'SETTINGS']}
-//            index={this.state.index}
-//            stretch
-//            onPress={index => this.setState({ index })}
-//            />
-//       </View>
-//     </ParallaxView>
-//     )
-//   }
-// }
-// <View style={styles.container}>
-//   <ContentWrapper
-//     style={styles.inner}
-//     {...wrapperProps} >
-//
-//
-//       <TouchableHighlight onPress={this._openEditMode.bind(this)}>
-//         <Text style={styles.header}>Edit</Text>
-//       </TouchableHighlight>
-//
-//       <InnerSettings openCamera={this.openCamera} user={this.props.user}/>
-//
-//       {/*this.state.editMode === true ?
-//         <ViewSettings user={this.props.user}/>
-//       */}
-//
-//       <Text style={styles.header}>Privacy</Text>
-//       <View style={[styles.card]}>
-//         <TouchableHighlight onPress={this._renderPrivacy.bind(this)}>
-//           <Text style={[styles.header,styles.privacy]}>{this.props.user.privacy}</Text>
-//         </TouchableHighlight>
-//       </View>
-//
-//       <TouchableHighlight onPress={this._renderInviteFriends.bind(this)}>
-//         <Text style={[styles.header,styles.privacy]}>Invite Friends</Text>
-//       </TouchableHighlight>
-//
-//       <FeedbackButton />
-//
-//       <LogOutButton />
-//
-//    </ContentWrapper>
-//
-//   <Modal
-//     height={this.state.isModalOpen  === 'imageupload' ? 800 : 500}
-//     style={{opacity: 0.9,backgroundColor:'#fff'}}
-//     isVisible={this.state.isModalOpen}
-//     >
-//       <View
-//         style={styles.modal}>
-//         {modalWindow()}
-//      </View>
-//    </Modal>
-//
-//  </View>
 class Settings extends React.Component{
 
   constructor(props){
@@ -334,7 +275,7 @@ class Settings extends React.Component{
   }
 
   modalWindow(){
-    if(!this.state.isModalOpen) return false;
+    if(!this.state.isModalOpen){ return false; }
     switch (this.state.isModalOpen){
       case 'privacy':
       return (<Privacy key={"modalw"} saveAndClose={this.closeModal.bind(this)} user={this.props.user}/>);
@@ -364,7 +305,7 @@ class Settings extends React.Component{
     )
   }
 }
-module.exports = Settings;
+export default Settings
 
 var styles = StyleSheet.create({
 
@@ -387,7 +328,7 @@ var styles = StyleSheet.create({
   //  overflow:'hidden'
  },
  inner:{
-   padding: 0,
+   paddingHorizontal: 25,
 
  },
 
@@ -426,12 +367,24 @@ var styles = StyleSheet.create({
    fontFamily:'omnes',
    alignItems:'flex-end'
  },
+ formHeader:{
+   marginTop:40
+ },
+ formHeaderText:{
+   color: colors.rollingStone,
+   fontFamily: 'omnes'
+ },
  formRow: {
    alignItems: 'center',
    flexDirection: 'row',
-   justifyContent: 'center',
-   padding:15,
+   justifyContent: 'flex-end',
+   alignSelf: 'stretch',
+   paddingTop:10,
    height:60,
+   flex:1,
+   borderBottomWidth: 2,
+   borderBottomColor: colors.rollingStone
+
  },
  tallFormRow: {
    width: 250,
@@ -484,8 +437,8 @@ var styles = StyleSheet.create({
    fontSize:20,
    alignItems: 'stretch',
    flex:1,
-   fontFamily:'omnes',
-   height:60
+   textAlign: 'left',
+   fontFamily:'Montserrat',
  },
  buttonText: {
    fontSize: 18,
