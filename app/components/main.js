@@ -44,31 +44,26 @@ var ROUTE_STACK = [
   var NavigationBarRouteMapper = {
 
     LeftButton: function(route, navigator, index, navState) {
-      if(route.id == 'settings' || route.id == 'matches'){
-        return (
-          <View style={[styles.touchables,styles.navBarLeftButton]}>
-
-            <TouchableOpacity onPress={() => navigator.pop() }>
-              <View style={styles.navBarLeftButton}>
-                <Text style={[styles.navBarText, styles.navBarButtonText]}>
-                  back
-                </Text>
-              </View>
-            </TouchableOpacity>
-            </View>
-
-        )
-      }
+    //   if(route.id == 'settings' || route.id == 'matches' || route.id == 'settingsedit'){
+    //     return (
+    //       <View style={[styles.touchables,styles.navBarLeftButton]}>
+    //
+    //         <TouchableOpacity onPress={() => navigator.pop() }>
+    //           <View style={styles.navBarLeftButton}>
+    //             <Image resizeMode={Image.resizeMode.contain} style={{width:20,height:20,marginTop:15,alignItems:'flex-start'}} source={require('image!close')} />
+    //           </View>
+    //         </TouchableOpacity>
+    //         </View>
+    //
+    //     )
+    //   }
 
       if(route.id == 'potentials'){
         return (
           <View style={[styles.touchables,styles.navBarLeftButton]}>
 
-            <TouchableOpacity
-
-              onPress={() => navigator.push(ROUTE_STACK[0])}>
+            <TouchableOpacity onPress={() => navigator.push(ROUTE_STACK[0])}>
                 <Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30}} source={require('image!gear')} />
-
             </TouchableOpacity>
           </View>
         )

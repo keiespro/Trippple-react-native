@@ -133,9 +133,6 @@ class MatchList extends Component{
   _pressRow(matchID: number) {
     // get messages from server and open chat view
 
-    // use OUTER navigator
-    // this.props.navigator.push({
-    // use INNER (main) navigator.
     this.props.navigator.push({
       component: Chat,
       id:'chat',

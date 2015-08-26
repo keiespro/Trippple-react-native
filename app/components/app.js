@@ -67,7 +67,7 @@ class TopLevel extends Component{
 
           <AppRoutes user={this.props.user}/>
 
-	  <NotificationCommander user={this.props.user}/>
+          <NotificationCommander user={this.props.user}/>
 
           <LoadingOverlay key="LoadingOverlay" isVisible={this.state.showOverlay} />
 

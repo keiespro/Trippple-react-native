@@ -35,6 +35,8 @@ import FeedbackButton from '../screens/feedbackButton';
 import Contacts from '../screens/contacts';
 import colors from '../utils/colors'
 import NavigatorSceneConfigs from 'NavigatorSceneConfigs';
+import EditPage from './EditPage'
+import CloseButton from './CloseButton'
 // import {BlurView} from 'react-native-blur';
 
 var bodyTypes = [
@@ -49,7 +51,16 @@ var bodyTypes = [
 
 class ProfileField extends React.Component{
 
-  _editField=()=>{ }
+  _editField=()=>{
+    this.props.navigator.push({
+      component: EditPage,
+      id: 'settingsedit',
+      passProps: {
+        val: this.props.val,
+        navigator: this.props.navigator
+      }
+    })
+  }
 
   render(){
     return (
@@ -67,33 +78,34 @@ class BasicSettings extends React.Component{
     super(props)
   }
   render(){
-    let u = this.props.user; 
+    let u = this.props.user;
     return (
       <View style={styles.inner}>
+
 
         <View style={styles.formHeader}>
           <Text style={styles.formHeaderText}>Personal Info</Text>
         </View>
-        <ProfileField field={'firstname'} val={u.firstname} />
-        <ProfileField field={'birthday'} val={u.bday_month} />
-        <ProfileField field={'gender'} val={u.gender} />
+        <ProfileField navigator={this.props.navigator} field={'firstname'} val={u.firstname} />
+        <ProfileField navigator={this.props.navigator} field={'birthday'} val={u.bday_month} />
+        <ProfileField navigator={this.props.navigator} field={'gender'} val={u.gender} />
 
         <View style={styles.formHeader}>
           <Text style={styles.formHeaderText}>Contact Info</Text>
         </View>
-        <ProfileField field={'phone'} val={u.phone} />
-        <ProfileField field={'email'} val={u.email || 'ADD EMAIL'} />
+        <ProfileField navigator={this.props.navigator} field={'phone'} val={u.phone} />
+        <ProfileField navigator={this.props.navigator} field={'email'} val={u.email || 'ADD EMAIL'} />
 
         <View style={styles.formHeader}>
           <Text style={styles.formHeaderText}>Details</Text>
         </View>
-        <ProfileField field={'height'} val={u.height} />
-        <ProfileField field={'body_type'} val={u.body_type} />
+        <ProfileField navigator={this.props.navigator} field={'height'} val={u.height} />
+        <ProfileField navigator={this.props.navigator} field={'body_type'} val={u.body_type} />
 
         <View style={styles.formHeader}>
           <Text style={styles.formHeaderText}>Get more matches</Text>
         </View>
-	<FacebookButton justTheButton={true} wrapperStyle={{height:100,padding:0}}/>
+	      <FacebookButton justTheButton={true} wrapperStyle={{height:100,padding:0}}/>
 
       </View>
     )
@@ -180,7 +192,7 @@ class SettingsInside extends React.Component{
 
     return (
       <View style={{height:800,backgroundColor:colors.outerSpace}}>
-        <CurrentPage user={this.props.user}/>
+        <CurrentPage user={this.props.user} navigator={this.props.navigator}/>
       </View>
     )
   }
@@ -192,10 +204,11 @@ class SettingsInside extends React.Component{
       <ParallaxView
           backgroundSource={{uri: this.props.user.image_url}}
           windowHeight={300}
+          navigator={this.props.navigator}
           style={{backgroundColor:colors.outerSpace}}
           header={(
-
           <View  style={[styles.userimageContainer,styles.blur]}>
+
             <TouchableOpacity onPress={this._pressNewImage}>
               <Image
                 style={styles.userimage}
@@ -207,6 +220,8 @@ class SettingsInside extends React.Component{
 
             <Text>{this.props.user.firstname}</Text>
             <Text>View Profile</Text>
+            <CloseButton navigator={this.props.navigator}/>
+
           </View>
       )}>
 
@@ -290,8 +305,8 @@ class Settings extends React.Component{
   render(){
     return (
       <View style={styles.container}>
-          <SettingsInside user={this.props.user} openModal={this.openModal}/>
-          <Modal
+          <SettingsInside user={this.props.user} openModal={this.openModal} navigator={this.props.navigator}/>
+           <Modal
             height={DeviceHeight - 60}
             style={styles.modal}
             swipeableAreaStyle={styles.swipeableAreaStyle}
@@ -301,6 +316,7 @@ class Settings extends React.Component{
            >
             {this.modalWindow()}
           </Modal>
+
         </View>
     )
   }
@@ -477,5 +493,6 @@ var styles = StyleSheet.create({
    margin:0,
    paddingBottom:0,
    backgroundColor:'red'
- }
+ },
+
 });
