@@ -27,7 +27,7 @@ import DistanceSlider from '../controls/distanceSlider';
 import ToggleSwitch from '../controls/switches';
 import UserActions from '../flux/actions/UserActions'
 import CameraControl from '../controls/cameraControl';
-import EditImage from '../controls/EditImage';
+import SelfImage from '../screens/registration/SelfImage';
 import Privacy from './privacy';
 import Modal from 'react-native-swipeable-modal';
 import { FacebookButton } from '../screens/registration/facebook'
@@ -171,13 +171,10 @@ class SettingsInside extends React.Component{
 
   _pressNewImage=()=>{
     console.log('change image');
-    // this.props.navigator.push({
-    //   component: CameraControl,
-    //   passProps:{
-    //     imageEditorComponent: EditImage
-    //   }
-    // });
-    this.props.openModal('EditImage')
+    this.props.navigator.push({
+      component: SelfImage,
+      id: 'settingsimage'
+    });
   }
   _editField=()=>{
 
@@ -224,8 +221,6 @@ class SettingsInside extends React.Component{
 
           </View>
       )}>
-
-
 
       <SegmentedView
         barPosition={'bottom'}

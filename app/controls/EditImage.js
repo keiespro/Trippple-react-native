@@ -26,6 +26,8 @@ const DeviceWidth = Dimensions.get('window').width;
 class ImageEditor extends Component{
   constructor(props){
     super()
+    console.log(props.navigator.getCurrentRoutes())
+
   }
   componentWillMount(){
     console.log('will mount editor')

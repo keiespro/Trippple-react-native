@@ -26,6 +26,7 @@ const DeviceWidth = Dimensions.get('window').width;
 class ImageEditor extends Component{
   constructor(props){
     super()
+    console.log(props.navigator.getCurrentRoutes())
   }
   componentWillMount(){
     console.log('will mount editor')
@@ -33,11 +34,16 @@ class ImageEditor extends Component{
 
   accept(){
     UserActions.uploadImage(this.props.image)
-    this.props.navigator.push({
-      component: PrivacyScreen,
-      id:'priv'
+    if(this.props.navigator.getCurrentRoutes()[0].id === 'potentials'){
+      this.props.navigator.popToRoute(this.props.navigator.getCurrentRoutes()[1])
+    }else{
+      this.props.navigator.push({
+        component: PrivacyScreen,
+        id:'priv'
 
-    })
+      })
+    }
+
 
   }
   render() {

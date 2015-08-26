@@ -66,14 +66,14 @@ class CameraControl extends Component{
       </View>
     );
   }
-  
+
   _switchCamera =()=> {
     var state = this.state;
     state.cameraType = state.cameraType === Camera.constants.Type.back
       ? Camera.constants.Type.front : Camera.constants.Type.back;
     this.setState(state);
   }
-  
+
   _takePicture =()=> {
     this.refs.cam.capture((err, data)=> {
       console.log(err, data);
