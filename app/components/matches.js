@@ -135,7 +135,6 @@ class MatchList extends Component{
 
     // use OUTER navigator
     // this.props.navigator.push({
-console.log(this.props.navigator)
     // use INNER (main) navigator.
     this.props.navigator.push({
       component: Chat,

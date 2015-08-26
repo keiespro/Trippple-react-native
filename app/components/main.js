@@ -44,43 +44,11 @@ var ROUTE_STACK = [
   var NavigationBarRouteMapper = {
 
     LeftButton: function(route, navigator, index, navState) {
-      if(route.id == 'settings') return false;
-      if(route.id == 'photo' || route.id == 'photo2'){
-        return (
-          <TouchableOpacity
-            style={[styles.touchables,styles.navBarLeftButton]}
-            onPress={() => {
-              // navigator.jumpTo(ROUTE_STACK[0]);
-              // navigator.popToTop();
-
-//////// the worst way do do it
-              // navigator.immediatelyResetRouteStack(ROUTE_STACK);
-
-////////// for resetting the routestack if opening up tangential pages in the same Navigator
-              // navigator.jumpBack();
-              // InteractionManager.runAfterInteractions(() => {
-                // navigator.replaceAtIndex(ROUTE_STACK[1],1);
-                // navigator.replaceAtIndex(ROUTE_STACK[2],2);
-                // console.log(navigator.getCurrentRoutes())
-              // });
-
-              }}>
-            <View style={styles.navBarLeftButton}>
-              <Text style={[styles.navBarText, styles.navBarButtonText]}>
-                V
-              </Text>
-            </View>
-          </TouchableOpacity>
-        )
-      }
-
-      if(route.id == 'chat'){
+      if(route.id == 'settings' || route.id == 'matches'){
         return (
           <View style={[styles.touchables,styles.navBarLeftButton]}>
 
-            <TouchableOpacity
-
-              onPress={() => navigator.pop(ROUTE_STACK[0]) }>
+            <TouchableOpacity onPress={() => navigator.pop() }>
               <View style={styles.navBarLeftButton}>
                 <Text style={[styles.navBarText, styles.navBarButtonText]}>
                   back
@@ -92,54 +60,38 @@ var ROUTE_STACK = [
         )
       }
 
-      if(route.id == 'matches'){
+      if(route.id == 'potentials'){
         return (
           <View style={[styles.touchables,styles.navBarLeftButton]}>
+
             <TouchableOpacity
-              onPress={() => navigator.jumpTo(ROUTE_STACK[1])}>
-                <Image resizeMode={Image.resizeMode.contain} style={{width:25,marginTop:2,height:25}} source={require('image!tripppleLogo')} />
+
+              onPress={() => navigator.push(ROUTE_STACK[0])}>
+                <Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30}} source={require('image!gear')} />
 
             </TouchableOpacity>
           </View>
         )
       }
 
-      return (
-        <View style={[styles.touchables,styles.navBarLeftButton]}>
 
-          <TouchableOpacity
-
-            onPress={() => navigator.jumpTo(ROUTE_STACK[0])}>
-              <Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30}} source={require('image!gear')} />
-
-          </TouchableOpacity>
-        </View>
-
-      );
     },
 
     RightButton: function(route, navigator, index, navState) {
       if(route.id == 'photo' || route.id == 'chat' || route.id == 'matches') return null;
 
-      if(route.id == 'settings'){
-        return (
-          <View style={[styles.touchables,styles.navBarRightButton]}>
-            <TouchableOpacity
-              onPress={() => navigator.jumpTo(ROUTE_STACK[1])}>
-                <Image resizeMode={Image.resizeMode.contain} style={{width:25,marginTop:2,height:25}} source={require('image!tripppleLogo')} />
-            </TouchableOpacity>
-          </View>
-        )
-      }
+      if(route.id == 'potentials'){
+
       return (
         <View style={[styles.touchables,styles.navBarRightButton]}>
 
           <TouchableOpacity
-            onPress={() => navigator.jumpTo(ROUTE_STACK[2])}>
+            onPress={() => navigator.push(ROUTE_STACK[2])}>
                 <Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30}} source={require('image!chat')} />
           </TouchableOpacity>
         </View>
-      );
+        );
+      }
     },
 
     Title: function(route, navigator, index, navState) {
@@ -150,18 +102,6 @@ var ROUTE_STACK = [
               <Image resizeMode={Image.resizeMode.contain} style={{width:80,top:-2}} source={require('image!tripppleLogoText')} />
             </View>
         );
-      }else if(route.id == 'matches'){
-           return (
-            <View>
-              <Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30}} source={require('image!chat')} />
-            </View>
-          )
-      }else if(route.id == 'settings'){
-           return (
-            <View>
-              <Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30}} source={require('image!gear')} />
-            </View>
-          )
       }
     },
 
@@ -190,8 +130,7 @@ var ROUTE_STACK = [
           <Navigator
             ref={'nav'}
               initialRoute={ROUTE_STACK[1]}
-              initialRouteStack={ROUTE_STACK}
-              configureScene={(route) => { return  route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.HorizontalSlide}}
+              configureScene={(route) => { return  route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromBottom}}
               navigator={this.props.navigator}
               renderScene={this.selectScene.bind(this)}
               navigationBar={ <Navigator.NavigationBar routeMapper={NavigationBarRouteMapper} style={styles.navBar} /> }
