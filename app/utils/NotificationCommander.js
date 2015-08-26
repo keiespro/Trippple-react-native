@@ -9,6 +9,7 @@ import Promise from 'bluebird'
 import NotificationActions from '../flux/actions/NotificationActions'
 import MatchActions from '../flux/actions/MatchActions'
 import UserActions from '../flux/actions/UserActions'
+import Notification from './NotificationTop'
 
 const checkPermissions = Promise.promisify(PushNotificationIOS.checkPermissions)
 
@@ -18,7 +19,8 @@ class NotificationCommander extends Component{
     super(props)
 
     this.state = {
-      appState: AppStateIOS.currentState
+      appState: AppStateIOS.currentState,
+      notifications: []
     }
 
     this.socket = require('socket.io-client/socket.io')(TRIPPPLE_WEBSOCKET_URL, {jsonp:false})
@@ -97,7 +99,16 @@ class NotificationCommander extends Component{
 
   }
 
-  render =()=> null
+  render(){
+
+      if(this.state.notifications.length){
+        return (
+          <Notification />
+        )
+      }else{
+        return null
+      }
+  }
 
 }
 
