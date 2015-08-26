@@ -3,31 +3,20 @@
 * @flow
 */
 
+import React from 'react-native'
+import { Component, AppRegistry } from 'react-native'
+import App from './app/components/app'
 
+((global) => { global.AppRoot = './app/' }(window ? window : global))
 
-var React = require('react-native');
-var { Component, AppRegistry } = React;
-
-var App = require('./app/components/app');
-
-var AppRoot = '/Users/alexlopez/code/Trippple/Native/app/components/';
-(function(global){
-  global.AppRoot = AppRoot;
-}(window ? window : global));
-console.log(this);
+window.React = React // for devtools
 
 class trippple extends Component{
 
-  render(){
-    return (
-      <App key="app"/>
-    );
-  }
+  render = () => <App key="app"/>
 
 }
 
-module.exports = trippple;
+export default trippple;
 
 AppRegistry.registerComponent('trippple', () => trippple);
-
-window.react = React;

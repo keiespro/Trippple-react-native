@@ -15,6 +15,25 @@ var UserActions = require('../../flux/actions/UserActions')
 var BoxyButton = require('../../controls/boxyButton')
 var NameScreen = require('./name');
 
+class FacebookButton extends React.Component{
+  render(){
+    return(
+    
+      <BoxyButton
+            text={"VERIFY WITH FACEBOOK"}
+            leftBoxStyles={styles.iconButtonLeftBoxCouples}
+            innerWrapStyles={styles.iconButtonCouples}
+            _onPress={this.props.onPress}>
+
+          <Image source={require('image!fBlogo')}
+                    resizeMode={Image.resizeMode.cover}
+                        style={{height:40,width:20}} />
+        </BoxyButton>
+    
+    )
+
+  }
+}
 
 var FBLoginMock = React.createClass({
   propTypes: {
@@ -89,35 +108,21 @@ var FBLoginMock = React.createClass({
     return (
       <View style={[styles.container,this.props.wrapperStyle]}>
 
-        { this.props.justTheButton ? null : // this sure is hacky
           <View style={styles.middleTextWrap}>
             <Text style={styles.middleText}>Save time. Get more matches </Text>
           </View>
-        }
-        <BoxyButton
-            text={"VERIFY WITH FACEBOOK"}
-            leftBoxStyles={styles.iconButtonLeftBoxCouples}
-            innerWrapStyles={styles.iconButtonCouples}
-            _onPress={this.onPress}>
 
-          <Image source={require('image!fBlogo')}
-                    resizeMode={Image.resizeMode.cover}
-                        style={{height:40,width:20}} />
-        </BoxyButton>
-        { this.props.justTheButton ? null : // this sure is super hacky
+	  <FacebookButton onPress={this.onPress} />
 
           <View style={styles.middleTextWrap}>
             <Text style={[styles.middleText,{fontSize:14}]}>Don’t worry, we wont tell your friends or post on your wall </Text>
           </View>
-        }
-        { this.props.justTheButton ? null : // this the hackiest shit ever
 
           <TouchableHighlight style={styles.middleTextWrap}
               onPress={this.skipFacebook}
             >
              <Text style={styles.middleText}>No thanks</Text>
           </TouchableHighlight>
-        }
       </View>
     );
   }
@@ -158,4 +163,5 @@ var styles = StyleSheet.create({
     },
 });
 
-module.exports = FBLoginMock;
+export { FacebookButton };
+export default FBLoginMock;

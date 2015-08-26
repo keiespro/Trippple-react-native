@@ -1,18 +1,18 @@
+window.navigator.userAgent = '' // socketio-client
+
 const TRIPPPLE_WEBSOCKET_URL = 'http://x.local:9919'
-import React from 'react-native';
-import { Component, View, AsyncStorage, AppStateIOS, PushNotificationIOS } from 'react-native'
+
+import React from 'react-native'
+import { Component, View, AlertIOS, AsyncStorage, AppStateIOS, PushNotificationIOS } from 'react-native'
 
 import Promise from 'bluebird'
 import NotificationActions from '../flux/actions/NotificationActions'
 import MatchActions from '../flux/actions/MatchActions'
 import UserActions from '../flux/actions/UserActions'
-import io from 'socket.io-client/socket.io'
-
 
 const checkPermissions = Promise.promisify(PushNotificationIOS.checkPermissions)
 
 class NotificationCommander extends Component{
-
 
   constructor(props){
     super(props)
@@ -21,40 +21,32 @@ class NotificationCommander extends Component{
       appState: AppStateIOS.currentState
     }
 
-    this.socket = io(TRIPPPLE_WEBSOCKET_URL, {jsonp:false})
-
+    this.socket = require('socket.io-client/socket.io')(TRIPPPLE_WEBSOCKET_URL, {jsonp:false})
 
   }
 
   componentDidMount(){
     AppStateIOS.addEventListener('change', this._handleAppStateChange);
-    AppStateIOS.addEventListener('memoryWarning', this._handleMemoryWarning);
-
     this.connectSocket()
   }
+
   componentWillUnmount(){
     AppStateIOS.removeEventListener('change', this._handleAppStateChange);
-    AppStateIOS.removeEventListener('memoryWarning', this._handleMemoryWarning);
-
   }
 
-  shouldComponentUpdate =()=> false
+  shouldComponentUpdate = (/**/) => false
 
   _handleAppStateChange =(appState)=> {
-    console.log(appState)
     appState === 'background' ? this.disconnectSocket() : this.connectSocket()
     this.setState({ appState });
 
   }
-  _handleMemoryWarning =()=> {
-      // does this even work?
-  }
 
-  connectSocket =()=> {
+  connectSocket =(/**/)=> {
     this.socket.on('user.connect', (data) => {
       this.online_id = data.online_id;
-      const myApikey = this.props.apikey
-      const myID = this.props.user_id
+      let myApikey = this.props.apikey
+      let myID = this.props.user_id
 
       this.socket.emit('user.connect', {
         online_id: data.online_id,
@@ -65,7 +57,7 @@ class NotificationCommander extends Component{
 
     this.socket.on('system', (payload) => {
 
-      const { data } = payload;
+      let { data } = payload
 
       if(data.action && data.action === 'retrieve' && data.match_id) {
         console.log('NOTIFICATION');
@@ -77,17 +69,19 @@ class NotificationCommander extends Component{
     })
 
     this.socket.on('chat', (payload) => {
-      console.log('NOTIFICATION',payload);
-      var data = payload.data;
-      if(data.action && data.action === 'retrieve' && data.match_id) {
-        console.log('NOTIFICATION',data);
+
+      // let { action, match_id } = { data } = payload // I really wanted this to work
+      // let { { action, match_id } } = payload
+      let { data } = payload
+
+      if(data.action === 'retrieve') {
         MatchActions.getMessages(data.match_id)
       }
     })
 
   }
 
-  disconnectSocket =()=> {
+  disconnectSocket =( )=> {
     const {apikey,user_id} = this.props
 
     this.socket.emit('user.disconnect',{
@@ -99,11 +93,12 @@ class NotificationCommander extends Component{
 
   onNotification(){
 
-
+    //TODO: write code here
 
   }
 
-  render(){ return <View style={{opacity:0,height:0,width:0}}/> }
+  render =()=> null
+
 }
 
 

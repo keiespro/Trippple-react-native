@@ -14,9 +14,7 @@ type Props = {
 
 class LoadingOverlay extends Component{
 
-  static defaultProps = {
-      isVisible: false
-  }
+  
 
 
   render() {

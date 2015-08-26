@@ -30,7 +30,7 @@ import CameraControl from '../controls/cameraControl';
 import EditImage from '../controls/EditImage';
 import Privacy from './privacy';
 import Modal from 'react-native-swipeable-modal';
-import Facebook from '../screens/registration/facebook'
+import { FacebookButton } from '../screens/registration/facebook'
 import FeedbackButton from '../screens/feedbackButton';
 import Contacts from '../screens/contacts';
 import colors from '../utils/colors'
@@ -53,7 +53,7 @@ class ProfileField extends React.Component{
 
   render(){
     return (
-      <TouchableHighlight onPress={this._editField}>
+      <TouchableHighlight style={{marginTop:10}} onPress={this._editField}>
         <View style={styles.formRow}>
           <Text style={styles.textfield}>{this.props.val}</Text>
         </View>
@@ -61,37 +61,40 @@ class ProfileField extends React.Component{
     )
   }
 }
+
 class BasicSettings extends React.Component{
   constructor(props){
     super(props)
   }
   render(){
+    let u = this.props.user; 
     return (
       <View style={styles.inner}>
 
         <View style={styles.formHeader}>
           <Text style={styles.formHeaderText}>Personal Info</Text>
         </View>
-        <ProfileField field={'firstname'} val={this.props.user.firstname} />
-        <ProfileField field={'birthday'} val={this.props.user.bday_month} />
-        <ProfileField field={'gender'} val={this.props.user.gender} />
+        <ProfileField field={'firstname'} val={u.firstname} />
+        <ProfileField field={'birthday'} val={u.bday_month} />
+        <ProfileField field={'gender'} val={u.gender} />
 
         <View style={styles.formHeader}>
           <Text style={styles.formHeaderText}>Contact Info</Text>
         </View>
-        <ProfileField field={'phone'} val={this.props.user.phone} />
-        <ProfileField field={'email'} val={this.props.user.email || 'ADD EMAIL'} />
+        <ProfileField field={'phone'} val={u.phone} />
+        <ProfileField field={'email'} val={u.email || 'ADD EMAIL'} />
 
         <View style={styles.formHeader}>
           <Text style={styles.formHeaderText}>Details</Text>
         </View>
-        <ProfileField field={'height'} val={this.props.user.height} />
-        <ProfileField field={'body_type'} val={this.props.user.body_type} />
+        <ProfileField field={'height'} val={u.height} />
+        <ProfileField field={'body_type'} val={u.body_type} />
 
         <View style={styles.formHeader}>
           <Text style={styles.formHeaderText}>Get more matches</Text>
         </View>
-        <Facebook justTheButton={true} wrapperStyle={{height:100,padding:0}}/>
+	<FacebookButton justTheButton={true} wrapperStyle={{height:100,padding:0}}/>
+
       </View>
     )
   }
@@ -101,7 +104,9 @@ class PreferencesSettings extends React.Component{
   constructor(props){
     super(props)
   }
+
   _editField=()=>{ }
+
   render(){
     return (
       <View style={styles.inner}>
@@ -199,16 +204,11 @@ class SettingsInside extends React.Component{
                 resizeMode={Image.resizeMode.cover}/>
 
             </TouchableOpacity>
+
+            <Text>{this.props.user.firstname}</Text>
+            <Text>View Profile</Text>
           </View>
-          )}
-      >
-
-
-      {/*
-        <TouchableHighlight onPress={this._pressNewImage}>
-        <Text style={styles.changeImage}>Change Image</Text>
-      </TouchableHighlight>
-      */}
+      )}>
 
 
 
@@ -379,8 +379,8 @@ var styles = StyleSheet.create({
    flexDirection: 'row',
    justifyContent: 'flex-end',
    alignSelf: 'stretch',
-   paddingTop:10,
-   height:60,
+   paddingTop:0,
+   height:50,
    flex:1,
    borderBottomWidth: 2,
    borderBottomColor: colors.rollingStone

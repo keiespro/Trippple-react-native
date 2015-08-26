@@ -6,7 +6,7 @@ import {
     View,
     ScrollView,
     Animated,
-    } from 'react-native'
+} from 'react-native'
 
 import {VibrancyView} from 'react-native-blur';
 const screen = require('Dimensions').get('window');
@@ -115,9 +115,8 @@ class ParallaxView extends React.Component{
                     )}
                     scrollEventThrottle={16}>
                     {this.renderHeader()}
-                    <View style={styles.content}>
                         {this.props.children}
-                    </View>
+                   
                 </ScrollView>
             </View>
         );
