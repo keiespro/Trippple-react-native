@@ -17,7 +17,6 @@ var {
   ScrollView
 } = React;
 
-var TrackKeyboard = require('../mixins/keyboardMixin');
 var CustomSceneConfigs = require('../utils/sceneConfigs');
 
 var colors = require('../utils/colors')
@@ -28,154 +27,13 @@ var DeviceWidth = require('Dimensions').get('window').width;
 var UserActions = require('../flux/actions/UserActions');
 
 var AuthErrorStore = require('../flux/stores/AuthErrorStore');
-var SingleInputScreenMixin = require('../mixins/SingleInputScreenMixin');
+import SingleInputScreenMixin from '../mixins/SingleInputScreenMixin'
 
-var styles = StyleSheet.create({
 
-  container: {
-    flex: 1,
-    alignItems:'center',
-    justifyContent:'center',
-    alignSelf:'stretch',
-    width: DeviceWidth,
-    margin:0,
-    padding:0,
-    height: DeviceHeight,
-    backgroundColor: 'transparent',
-  },
-  wrap: {
-    flex: 1,
-    alignItems:'center',
-    justifyContent:'center',
-    alignSelf:'stretch',
-    width: DeviceWidth,
-    margin:0,
-    height: DeviceHeight,
-    backgroundColor: 'transparent',
-    padding:20
-
-  },
-  pinInputWrap: {
-    borderBottomWidth: 2,
-    borderBottomColor: colors.rollingStone,
-    height: 60,
-    alignSelf: 'stretch'
-  },
-  pinInputWrapSelected:{
-    borderBottomColor: colors.mediumPurple,
-  },
-  pinInputWrapError:{
-    borderBottomColor: colors.mandy,
-  },
-  pinInput: {
-    height: 60,
-    padding: 8,
-    fontSize: 30,
-    fontFamily:'Montserrat',
-    color: colors.white
-  },
-  middleTextWrap: {
-    alignItems:'center',
-    justifyContent:'center',
-    height: 60
-  },
-  middleText: {
-    color: colors.rollingStone,
-    fontSize: 21,
-    fontFamily:'Montserrat',
-  },
-
-  imagebg:{
-    flex: 1,
-    alignSelf:'stretch',
-    width: DeviceWidth,
-    height: DeviceHeight,
-  },
-  button: {
-    height: 45,
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
-    borderColor: colors.white,
-    borderWidth: 2,
-    borderRadius: 8,
-    marginBottom: 10,
-    marginTop: 10,
-    alignSelf: 'stretch',
-    justifyContent: 'center'
-  },
-  underPinInput: {
-    marginTop: 10,
-    height: 30,
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
-    justifyContent: 'space-between',
-    alignSelf: 'stretch'
-  },
-  goBackButton:{
-    padding:10,
-    paddingLeft:0,
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
-    alignItems: 'flex-start',
-    justifyContent:'center'
-  },
-  bottomTextIcon:{
-    fontSize: 14,
-    flexDirection: 'column',
-    alignSelf: 'flex-end',
-    color: colors.rollingStone,
-    marginTop:0
-  },
-
-  bottomText: {
-    marginTop: 0,
-    color: colors.rollingStone,
-    fontSize: 16,
-    fontFamily:'Omnes-Regular',
-  },
-  bottomErrorTextWrap:{
-
-  },
-  bottomErrorText:{
-    marginTop: 0,
-    color: colors.mandy,
-    fontSize: 16,
-    fontFamily:'Omnes-Regular',
-
-  }
-});
-
-var animations = {
-  layout: {
-    spring: {
-      duration: 500,
-      create: {
-        duration: 300,
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.opacity
-      },
-      update: {
-        type: LayoutAnimation.Types.spring,
-        springDamping: 200
-      }
-    },
-    easeInEaseOut: {
-      duration: 300,
-      create: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.scaleXY
-      },
-      update: {
-        delay: 100,
-        type: LayoutAnimation.Types.easeInEaseOut
-      }
-    }
-  }
-};
 
 
 var PinScreen = React.createClass({
-  mixins: [TrackKeyboard, SingleInputScreenMixin],
+  mixins: [SingleInputScreenMixin],
 
   getInitialState(){
     return ({
@@ -324,4 +182,149 @@ var PinScreen = React.createClass({
 
 
 
-module.exports = PinScreen;
+export default PinScreen;
+
+
+var styles = StyleSheet.create({
+
+  container: {
+    flex: 1,
+    alignItems:'center',
+    justifyContent:'center',
+    alignSelf:'stretch',
+    width: DeviceWidth,
+    margin:0,
+    padding:0,
+    height: DeviceHeight,
+    backgroundColor: 'transparent',
+  },
+  wrap: {
+    flex: 1,
+    alignItems:'center',
+    justifyContent:'center',
+    alignSelf:'stretch',
+    width: DeviceWidth,
+    margin:0,
+    height: DeviceHeight,
+    backgroundColor: 'transparent',
+    padding:20
+
+  },
+  pinInputWrap: {
+    borderBottomWidth: 2,
+    borderBottomColor: colors.rollingStone,
+    height: 60,
+    alignSelf: 'stretch'
+  },
+  pinInputWrapSelected:{
+    borderBottomColor: colors.mediumPurple,
+  },
+  pinInputWrapError:{
+    borderBottomColor: colors.mandy,
+  },
+  pinInput: {
+    height: 60,
+    padding: 8,
+    fontSize: 30,
+    fontFamily:'Montserrat',
+    color: colors.white
+  },
+  middleTextWrap: {
+    alignItems:'center',
+    justifyContent:'center',
+    height: 60
+  },
+  middleText: {
+    color: colors.rollingStone,
+    fontSize: 21,
+    fontFamily:'Montserrat',
+  },
+
+  imagebg:{
+    flex: 1,
+    alignSelf:'stretch',
+    width: DeviceWidth,
+    height: DeviceHeight,
+  },
+  button: {
+    height: 45,
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
+    borderColor: colors.white,
+    borderWidth: 2,
+    borderRadius: 8,
+    marginBottom: 10,
+    marginTop: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
+  underPinInput: {
+    marginTop: 10,
+    height: 30,
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
+    justifyContent: 'space-between',
+    alignSelf: 'stretch'
+  },
+  goBackButton:{
+    padding:10,
+    paddingLeft:0,
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
+    alignItems: 'flex-start',
+    justifyContent:'center'
+  },
+  bottomTextIcon:{
+    fontSize: 14,
+    flexDirection: 'column',
+    alignSelf: 'flex-end',
+    color: colors.rollingStone,
+    marginTop:0
+  },
+
+  bottomText: {
+    marginTop: 0,
+    color: colors.rollingStone,
+    fontSize: 16,
+    fontFamily:'Omnes-Regular',
+  },
+  bottomErrorTextWrap:{
+
+  },
+  bottomErrorText:{
+    marginTop: 0,
+    color: colors.mandy,
+    fontSize: 16,
+    fontFamily:'Omnes-Regular',
+
+  }
+});
+
+var animations = {
+  layout: {
+    spring: {
+      duration: 500,
+      create: {
+        duration: 300,
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.opacity
+      },
+      update: {
+        type: LayoutAnimation.Types.spring,
+        springDamping: 200
+      }
+    },
+    easeInEaseOut: {
+      duration: 300,
+      create: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.scaleXY
+      },
+      update: {
+        delay: 100,
+        type: LayoutAnimation.Types.easeInEaseOut
+      }
+    }
+  }
+};
+

@@ -1,15 +1,11 @@
-var KeyboardEvents = require('react-native-keyboardevents');
-var KeyboardEventEmitter = KeyboardEvents.Emitter;
+import KeyboardEvents from 'react-native-keyboardevents'
+const { Emitter } = KeyboardEvents
 
-module.exports =  {
+const keyboardMixin = {
+  // getDefaultProps(){
 
-  getInitialState() {
-    return {
-      keyboardSpace: 0,
-      isKeyboardOpened: false
-    };
-  },
-
+  //   return { keyboardSpace: 0, isKeyboardOpened: false };
+  // },
   updateKeyboardSpace(frames) {
     this.setState({
       keyboardSpace: frames.end.height,
@@ -17,7 +13,7 @@ module.exports =  {
     });
   },
 
-  resetKeyboardSpace() {
+  resetKeyboardSpace(){
     this.setState({
       keyboardSpace: 0,
       isKeyboardOpened: false
@@ -25,13 +21,14 @@ module.exports =  {
   },
 
   componentDidMount() {
-    KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace);
-    KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace);
+    Emitter.on(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace);
+    Emitter.on(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace);
   },
 
   componentWillUnmount() {
-    KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace);
-    KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace);
+    Emitter.off(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace);
+    Emitter.off(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace);
   }
 
-};
+}
+export default keyboardMixin

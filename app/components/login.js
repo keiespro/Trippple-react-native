@@ -13,43 +13,41 @@ import {
   Image,
   TouchableHighlight,
   LayoutAnimation,
-  TextInput
+  Dimensions,
+  TextInput,
+  Component
 } from 'react-native'
 
-var TrackKeyboard = require('../mixins/keyboardMixin');
-var CustomSceneConfigs = require('../utils/sceneConfigs');
-var TimerMixin = require('react-timer-mixin');
-var colors = require('../utils/colors')
+import CustomSceneConfigs from '../utils/sceneConfigs'
+import TimerMixin from 'react-timer-mixin'
+import colors from '../utils/colors'
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
 
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
+import UserActions from '../flux/actions/UserActions'
+import AuthErrorStore from '../flux/stores/AuthErrorStore'
 
-var UserActions = require('../flux/actions/UserActions');
-var AuthErrorStore = require('../flux/stores/AuthErrorStore');
-var Facebook = require('../screens/registration/facebook');
+import TopTabs from '../controls/topSignupSigninTabs'
+import PhoneNumberInput from '../controls/phoneNumberInput.js'
+import PinScreen from './pin'
 
-var TopTabs = require('../controls/topSignupSigninTabs');
-var PhoneNumberInput = require('../controls/phoneNumberInput.js');
-var SingleInputScreenMixin = require('../mixins/SingleInputScreenMixin');
-var PinScreen = require('./pin')
+import reactMixin from 'react-mixin'
+import SingleInputScreenMixin from '../mixins/SingleInputScreenMixin'
 
-
-
-var Login = React.createClass({
-  mixins: [TrackKeyboard, SingleInputScreenMixin, TimerMixin],
-
-  getInitialState(){
-    return ({
+@reactMixin.decorate(SingleInputScreenMixin)
+class Login extends Component{
+  constructor(props){
+    super();
+    this.state = {
       phone: '',
       isLoading: false,
-    })
-  },
-
+    }
+  }
   formattedPhone(){
     return this.state.inputFieldValue.replace(/[\. ,:-]+/g, '')
-  },
+  }
 
-  onError(err){
+  onError =(err)=>{
     console.log(err);
     if(!err || !err.phoneError){
         return;
@@ -59,18 +57,18 @@ var Login = React.createClass({
       phoneError: err.phoneError,
       canContinue: false
     })
-  },
+  }
   componentDidMount(){
     AuthErrorStore.listen(this.onError);
-  },
+  }
   componentWillUnmount(){
     AuthErrorStore.unlisten(this.onError);
-  },
+  }
 
-  shouldHide(val) { return (val.length < PHONE_MASK_USA.length) ? true : false  },
-  shouldShow(val) { return (val.length === PHONE_MASK_USA.length) ? true : false  },
+  shouldHide(val) { return (val.length < PHONE_MASK_USA.length) ? true : false  }
+  shouldShow(val) { return (val.length === PHONE_MASK_USA.length) ? true : false  }
 
-  handleInputChange(event: any){
+  handleInputChange =(event: any)=> {
     var update = {
       inputFieldValue: event.nativeEvent.text
     };
@@ -80,9 +78,9 @@ var Login = React.createClass({
     }
 
     this.setState(update)
-  },
+  }
 
-  _submit(){
+  _submit =()=> {
     if(!this.state.canContinue){
       return false;
     }
@@ -102,7 +100,7 @@ var Login = React.createClass({
     },500);
     UserActions.requestPinLogin(this.formattedPhone());
 
-  },
+  }
 
   render(){
 
@@ -145,16 +143,16 @@ var Login = React.createClass({
 
     );
   }
-})
+}
 
 
 
 
-module.exports = Login;
+export default Login;
 
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
   container: {
     flex: 1,

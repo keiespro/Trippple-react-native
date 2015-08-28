@@ -56,16 +56,16 @@ class EditImageThumb extends Component{
   }
 
   accept(){
-    UserActions.uploadImage(this.props.image,this.props.imagetype)
-    if(this.props.navigator.getCurrentRoutes()[0].id === 'potentials'){
-      this.props.navigator.popToRoute(this.props.navigator.getCurrentRoutes()[1])
-    }else{
-      this.props.navigator.push({
-        component: PrivacyScreen,
-        id:'priv'
 
-      })
-    }
+    // UserActions.uploadImage(this.props.image.uri,this.props.imagetype)
+
+    this.props.navigator.push({
+      component: this.props.nextRoute,
+      passProps:{
+        image:this.props.image,
+        croppedImage: this.state.croppedImageURI
+      }
+    })
   }
 
 
@@ -144,6 +144,7 @@ class EditImageThumb extends Component{
       (croppedImageURI) => this.setState({croppedImageURI}),
       (cropError) => this.setState({cropError})
     );
+    this.accept()
   }
 
   _reset() {

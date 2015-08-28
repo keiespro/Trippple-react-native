@@ -4,6 +4,7 @@ import {
   Text,
   TextInput,
   View,
+  Navigator,
   Image,
   LayoutAnimation,
   ScrollView,
@@ -12,7 +13,9 @@ import {
   TouchableHighlight,
 } from 'react-native'
 
+import UserActions from '../flux/actions/UserActions'
 import colors from '../utils/colors'
+import ContinueButton from '../controls/ContinueButton'
 
 import KeyboardEvents from 'react-native-keyboardevents'
 const { Emitter } = KeyboardEvents
@@ -21,11 +24,12 @@ const { Emitter } = KeyboardEvents
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
+class SingleInputScreen extends Component{
 
-var inputPage = {
 
-  getDefaultProps(){
-    return {
+  constructor(props){
+    super(props);
+    this.state = {
       inputFieldFocused: true,
       inputFieldValue: '',
       inputFieldError: null,
@@ -33,18 +37,18 @@ var inputPage = {
       keyboardSpace: 0,
       isKeyboardOpened: false
     }
+  }
 
-  },
-  comonentDidMount(){
+  componentDidMount(){
     console.log('CALLLLLLLLLLLLLLLLLLLLLLLL');
-    Emitter.on(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace);
-    Emitter.on(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace);
-  },
+    Emitter.on(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace.bind(this));
+    Emitter.on(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace.bind(this));
+  }
 
   componentWillUnmount() {
-    Emitter.off(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace);
-    Emitter.off(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace);
-  },
+    Emitter.off(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace.bind(this));
+    Emitter.off(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace.bind(this));
+  }
   componentWillUpdate(props, state) {
     if (state.isKeyboardOpened !== this.state.isKeyboardOpened) {
       LayoutAnimation.configureNext(animations.layout.spring);
@@ -54,41 +58,41 @@ var inputPage = {
       LayoutAnimation.configureNext(animations.layout.spring);
     }
 
-  },
+  }
 
   componentDidUpdate(){
 
-    if( !this.state.canContinue && this.shouldShow(this.state.inputFieldValue)){
+    if( !this.state.canContinue && this.props.shouldShow(this.state.inputFieldValue)){
       this.showContinueButton();
-    }else if( this.state.canContinue && this.shouldHide(this.state.inputFieldValue)){
+    }else if( this.state.canContinue && this.props.shouldHide(this.state.inputFieldValue)){
       this.hideContinueButton();
     }
-  },
+  }
  updateKeyboardSpace(frames) {
     this.setState({
       keyboardSpace: frames.end.height,
       isKeyboardOpened: true
     });
-  },
+  }
 
   resetKeyboardSpace(){
     this.setState({
       keyboardSpace: 0,
       isKeyboardOpened: false
     });
-  },
+  }
 
   handleInputFocused(){
     this.setState({
       inputFieldFocused: true
     })
-  },
+  }
 
   handleInputBlurred(){
     this.setState({
       inputFieldFocused: false
     })
-  },
+  }
 
   handleContinue(){
     if(!this.state.canContinue){
@@ -99,43 +103,67 @@ var inputPage = {
       inputFieldError: null
     })
     this._submit && this._submit(this.state.inputFieldValue)
-  },
+  }
 
   showContinueButton(){
     this.setState({
       canContinue: true
     })
-  },
+  }
 
   hideContinueButton(){
     this.setState({
       canContinue: false
     })
-  },
-
-  renderContinueButton(){
-
-    return(
-      <View style={[styles.continueButtonWrap,
-          {
-            bottom: this.state.canContinue ? 0 : -80,
-            backgroundColor: this.state.canContinue ? colors.mediumPurple : 'transparent'
-          }]}>
-        <TouchableHighlight
-           style={[styles.continueButton]}
-           onPress={this.handleContinue}
-           underlayColor={colors.outerSpace}>
-
-           <Text style={styles.continueButtonText}>CONTINUE</Text>
-         </TouchableHighlight>
-      </View>
-    )
   }
 
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      inputFieldValue: nextProps.inputFieldValue
+    })
+  }
 
+  _submit =()=>{
+    this.props.handleNext()
+  }
+ render(){
+    return(
+      <View style={[{flex: 1, height:DeviceHeight, paddingBottom: this.state.keyboardSpace, backgroundColor: colors.outerSpace}]}>
+        <ScrollView
+          keyboardDismissMode={'on-drag'}
+          contentContainerStyle={[styles.wrap]}
+          bounces={false}
+          >
+          <View style={styles.middleTextWrap}>
+            <Text style={styles.middleText}>What should we call you?</Text>
+          </View>
+
+          <View style={
+              [styles.pinInputWrap,
+              (this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null)]}>
+          {this.props.children}
+          </View>
+
+
+          <View style={styles.middleTextWrap}>
+            <Text style={[styles.middleText,{fontSize:14}]}>Fake names get 93.6% less matches. </Text>
+          </View>
+
+
+        </ScrollView>
+
+        <ContinueButton
+        canContinue={this.state.canContinue}
+        handlePress={this._submit} />
+
+      </View>
+
+     )
+  }
 }
 
-export default inputPage
+export default SingleInputScreen
+
 
 var animations = {
   layout: {
@@ -166,8 +194,7 @@ var animations = {
 };
 
 
-
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
     container: {
       flex: 1,
@@ -178,7 +205,8 @@ var styles = StyleSheet.create({
       margin:0,
       padding:0,
       height: DeviceHeight,
-      backgroundColor: 'transparent',
+    backgroundColor: colors.outerSpace
+
     },
     wrap: {
       flex: 1,
@@ -281,7 +309,9 @@ var styles = StyleSheet.create({
       fontFamily:'Omnes-Regular',
 
     },
-
+    phoneInputWrapSelected:{
+      borderBottomColor: colors.mediumPurple,
+    },
     continueButtonWrap:{
       alignSelf: 'stretch',
       alignItems: 'stretch',
@@ -305,3 +335,5 @@ var styles = StyleSheet.create({
       textAlign:'center'
     }
   });
+
+

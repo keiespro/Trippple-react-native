@@ -13,24 +13,11 @@ var {
 } = React;
 
 var UserActions = require('../../flux/actions/UserActions');
-var Birthday = require('../../controls/birthday');
-var Privacy = require('../../components/privacy');
 var colors = require('../../utils/colors')
-
-var DistanceSlider = require('../../controls/distanceSlider');
-var ToggleSwitch = require('../../controls/switches');
-var NameScreen = require('./name');
-
 var BoxyButton = require('../../controls/boxyButton')
 
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
-
-import Facebook from './facebook'
-import EditImage from './EditImage'
-import CameraRollView from '../../controls/CameraRollView'
-
-var InvitePartner = require('./invitePartner');
 
 class SelectRelationshipStatus extends Component{
 
@@ -57,26 +44,14 @@ class SelectRelationshipStatus extends Component{
   }
   _continue(selection){
     UserActions.updateUserStub({relationship_status: selection});
-
-    if(selection === 'single'){
-
+      this.props.chooseStack(selection)
       this.props.navigator.push({
-        component: Facebook,
-        id: 'fb',
+        component: selection == 'couple' ? this.props.coupleStack : this.props.singleStack,
         passProps: {
-          relationship_status: selection
+          relationship_status: selection,
+          whichStack: selection
         }
       })
-
-    }else if(selection === 'couple'){
-      this.props.navigator.push({
-        component: InvitePartner,
-        id: 'invite',
-        passProps: {
-          relationship_status: selection
-        }
-      })
-    }
   }
   render(){
 

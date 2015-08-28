@@ -1,68 +1,71 @@
-var React = require('react-native');
-var {
+import React from 'react-native'
+import {
   StyleSheet,
   Text,
+  Component,
   Image,
   View,
-  TouchableHighlight
-} = React;
+  TouchableHighlight,
+  Modal
+} from 'react-native'
 
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
 
-var BoxyButton = require('../../controls/boxyButton')
-var colors = require('../../utils/colors');
-var NavigatorSceneConfigs = require('NavigatorSceneConfigs');
+const DeviceHeight = require('Dimensions').get('window').height;
+const DeviceWidth = require('Dimensions').get('window').width;
+
+import BoxyButton from '../../controls/boxyButton'
+import colors from '../../utils/colors'
+import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
 
 import CameraControl from '../../controls/cameraControl'
 
 import CameraRollView from '../../controls/CameraRollView'
 
-import EditImage from './EditImage'
-import EditImageThumb from './EditImageThumb'
+class SelfImage extends Component{
+  constructor(props){
+    super();
+    this.state = {
+      modalOpen:false,
+      modalView: ''
+    }
+  }
 
-var SelfImage = React.createClass({
-
-  _getCameraRoll() {
-
+  _getCameraRoll =()=> {
+    this.setState({
+      modalOpen:true,
+      modalView: 'CameraRoll'
+    })
+  }
+  _getCamera =()=> {
+    this.setState({
+      modalOpen:true,
+      modalView: 'CameraControl'
+    })
+  }
+  closeModal(){
+   this.setState({
+      modalOpen:false,
+      modalView: ''
+    })
+  }
+  gotImage =(imageFile)=>{
+    this.closeModal()
     this.props.navigator.push({
-      component: CameraRollView,
-      id:'camerarollpage',
-      title: 'camerarollpage',
+      component: this.props.nextRoute,
       passProps: {
-        image: false,
-        imageEditorComponent: EditImage,
-        imagetype: 'profile'
-
+        image: imageFile,
+        imagetype:'profile',
       },
       sceneConfig: NavigatorSceneConfigs.FloatFromBottom
     });
-
-  },
-  componentDidUpdate(prevProps,prevState){
-    console.log(prevProps,prevState);
-  },
-
-  _getCamera() {
-
-    this.props.navigator.push({
-      component: CameraControl,
-      id:'camerapage',
-      title: 'camerapage',
-      passProps: {
-        image: false,
-        imageEditorComponent: EditImage,
-        imagetype:'profile'
-
-      },
-      sceneConfig: NavigatorSceneConfigs.FloatFromBottom
-    });
-
-  },
+  }
   onPressFacebook(){
     console.log('fb')
+  }
+ componentDidUpdate(prevProps,prevState){
+    console.log(prevProps,prevState);
+  }
 
-  },
   render(){
     return (
       <View style={styles.container}>
@@ -97,11 +100,24 @@ var SelfImage = React.createClass({
             <Text style={[styles.plainButtonText]}>TAKE A SELFIE</Text>
           </TouchableHighlight>
 
-        </View>
+          </View>
+
+          <Modal
+            animated={true}
+            transparent={true}
+            visible={this.state.modalOpen}
+          >
+            {this.state.modalOpen && this.state.modalView === 'CameraControl' &&
+              <CameraControl getImage={this.gotImage} imagetype={'profile'} />
+            }
+            {this.state.modalOpen && this.state.modalView === 'CameraRoll' &&
+              <CameraRollView getImage={this.gotImage} imagetype={'profile'} />
+            }
+          </Modal>
       </View>
     )
   }
-})
+}
 
 
 
@@ -181,4 +197,4 @@ var styles = StyleSheet.create({
 });
 
 
-module.exports = SelfImage;
+export default SelfImage

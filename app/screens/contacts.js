@@ -224,8 +224,7 @@ partnerSelection: contact.rowData,
   _continue(){
     this.closeModal();
     this.props.navigator.push({
-      component: CoupleImage,
-      id: 'coupleimage',
+      component: this.props.nextRoute,
       passProps: {
         partner: this.state.partnerSelection
       }
@@ -235,16 +234,15 @@ partnerSelection: contact.rowData,
   _cancel(){
     this.setState({
       modalVisible: false,
-partnerSelection: {},
-  highlightedRow: null
+      partnerSelection: {},
+      highlightedRow: null
 
     });
 
   }
   render(){
 
-
-        return (
+    return (
 
       <View style={styles.container} noScroll={true}>
         <View style={styles.searchwrap}>
@@ -265,8 +263,8 @@ partnerSelection: {},
           user={this.props.user}
           dataSource={this.state.dataSource}
           contacts={this.state.contacts}
-selection={this.state.selection}
-highlightedRow={this.state.highlightedRow}
+          selection={this.state.selection}
+          highlightedRow={this.state.highlightedRow}
           onPress={this._pressRow.bind(this)}
           id={"contactslist"}
           title={"contactlist"}
@@ -274,12 +272,13 @@ highlightedRow={this.state.highlightedRow}
 
 
       <Modal
-        animated={true}
+      animated={true}
+      transparent={true}
         visible={this.state.modalVisible}
         onPressBackdrop={this._cancel.bind(this)}
         onClose={() => this.closeModal.bind(this)}
       >
-        <View style={styles.modalcontainer}>
+        <Image style={styles.modalcontainer} source={require('image!GradientBG')}>
           <View style={[styles.col]}>
 
             <Image style={[styles.contactthumb,{width:100,height:100,borderRadius:50}]} source={this.state.partnerSelection.thumbnailPath != "" ? {uri: this.state.partnerSelection.thumbnailPath} : require('image!placeholderUser')} />
@@ -307,7 +306,7 @@ highlightedRow={this.state.highlightedRow}
             </TouchableHighlight>
 
           </View>
-        </View>
+        </Image>
       </Modal>
     </View>
 

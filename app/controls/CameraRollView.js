@@ -88,16 +88,19 @@ class CameraRollView extends Component{
   }
 
   loadAsset = (asset) => {
+    const imageFile = asset.node.image;
 
-    this.props.navigator.push({
-      component:this.props.imageEditorComponent,
-      id:'imageeditor',
-      title: 'Edit Image',
-      passProps: {
-        imagetype: this.props.imagetype,
-        image: asset.node.image,
-      }
-    })
+    if(this.props.getImage){
+      this.props.getImage(imageFile)
+    }else{
+      this.props.navigator.push({
+        component:this.props.nextRoute,
+        passProps: {
+          imagetype: this.props.imagetype || '',
+          image: imageFile,
+        }
+      })
+    }
   }
 
   renderImage = (asset) => {

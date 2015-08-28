@@ -2,73 +2,60 @@
  * @flow
  */
 
-
-var React = require('react-native');
-
-var {
+import React from 'react-native'
+import {
   StyleSheet,
   Text,
   TextInput,
   View,
+  Navigator,
   Image,
+  LayoutAnimation,
   ScrollView,
+  Dimensions,
+  Component,
+  DatePickerIOS,
   TouchableHighlight,
-  DatePickerIOS
-} = React;
+} from 'react-native'
 
-var UserActions = require('../../flux/actions/UserActions');
-var ImageUpload = require('./SelfImage');
-var Privacy = require('../../components/privacy');
-var colors = require('../../utils/colors')
-var TrackKeyboard = require('../../mixins/keyboardMixin');
-var SingleInputScreenMixin = require('../../mixins/SingleInputScreenMixin');
+import UserActions from '../../flux/actions/UserActions'
+import colors from '../../utils/colors'
+import moment from 'moment'
 
-var moment = require('moment');
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
-var DistanceSlider = require('../../controls/distanceSlider');
-var ToggleSwitch = require('../../controls/switches');
-var GenderScreen = require('./gender');
+import SingleInputScreen from '../SingleInputScreen'
 
-var BdayScreen = React.createClass({
+class BdayScreen extends Component{
+  static defaultProps  = {
+    date: new Date(),
+    timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
+  }
 
-  mixins: [TrackKeyboard, SingleInputScreenMixin],
 
-  getDefaultProps() {
-    return {
-      date: new Date(),
-      timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
-    };
-  },
-
-  getInitialState(){
-    console.log(this.props.user)
-    return ({
-      timeZoneOffsetInHours: this.props.timeZoneOffsetInHours,
-      date: this.props.user.bdate ? new Date(this.props.user.bdate) : moment().subtract(18,'years').toDate()
-    })
-  },
-
-  shouldHide(val) { return false },
-  shouldShow(val) { return true },
-
-  _submit(){
+  constructor(props){
+    super(props);
+    this.state = {
+      timeZoneOffsetInHours:props.timeZoneOffsetInHours,
+      date: props.user.bdate ? new Date(props.user.bdate) : moment().subtract(18,'years').toDate()
+    }
+  }
+  _submit =()=>{
     UserActions.updateUserStub({
       bday_month: this.state.date.getMonth(),
       bday_year: this.state.date.getYear()
     })
     this.props.navigator.push({
-      component: GenderScreen,
-      id: 'yourgender',
+      component: this.props.nextRoute,
       passProps: {
         bday: this.state.date
       }
     })
 
-  },
+  }
 
-  onDateChange(date){
+  onDateChange = (date) => {
 
     this.setState({
       inputFieldValue: date,
@@ -77,14 +64,13 @@ var BdayScreen = React.createClass({
     console.log(date,this.state.date);
     UserActions.updateUserStub({bdate: date});
 
-  },
+  }
 
-  _setMonth(){},
+  _setMonth(){}
 
-  _setYear(){},
+  _setYear(){}
 
   render(){
-    window.moment = moment;
     return (
       <View style={[
           styles.container,
@@ -95,10 +81,12 @@ var BdayScreen = React.createClass({
           }
         ]}>
 
-        <ScrollView
-          keyboardDismissMode={'on-drag'}
-          contentContainerStyle={[styles.wrap]}
-          bounces={false}>
+        <SingleInputScreen
+          shouldHide={(val) => false }
+          shouldShow={(val) => true }
+          inputFieldValue={this.state.inputFieldValue}
+          handleNext={this._submit.bind(this)}
+          >
 
           <View style={[styles.pinInputWrap,(this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null)]}>
             <Text style={styles.fakeInput}>
@@ -106,10 +94,7 @@ var BdayScreen = React.createClass({
             </Text>
           </View>
 
-        </ScrollView>
-
-        {this.renderContinueButton()}
-
+        </SingleInputScreen>
         <View style={[{flex: 1, height: this.state.keyboardSpace},styles.bdayKeyboard]}>
 
           <DatePickerIOS
@@ -125,11 +110,12 @@ var BdayScreen = React.createClass({
       </View>
      )
   }
-})
+}
+
+export default BdayScreen
 
 
-
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
     bdayKeyboard:{
       height: 230,
       backgroundColor: colors.white,
@@ -261,4 +247,3 @@ var styles = StyleSheet.create({
 
   });
 
-module.exports = BdayScreen;

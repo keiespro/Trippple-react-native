@@ -17,7 +17,6 @@ import Gobackbutton from '../controls/Gobackbutton'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-import RNFS from 'react-native-fs'
 
 class CameraControl extends Component{
   constructor(props){
@@ -85,17 +84,18 @@ class CameraControl extends Component{
           CameraRoll.getPhotos({first:1},
             (data)=> {
               const imageFile = data.edges[0].node.image
-
-              this.props.navigator.push({
-                component: this.props.imageEditorComponent,
-                id:'imageeditor',
-                title: 'Edit Image',
-                passProps: {
-                  image: imageFile,
-                  imagetype: this.props.imagetype
-                }
-
-              })
+              const nextRoute = this.props.nextRoute
+              if(this.props.getImage){
+                this.props.getImage(imageFile)
+              }else{
+                this.props.navigator.push({
+                  component: nextRoute,
+                  passProps: {
+                    image: imageFile,
+                    imagetype: this.props.imagetype || ''
+                  }
+                })
+              }
             },
             (err)=> {
               console.log(err,'errrrrrrrrrrrrrr');

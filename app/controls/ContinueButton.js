@@ -10,6 +10,7 @@ var {
   View,
   TouchableHighlight,
   StyleSheet,
+  Component
 } = React;
 
 var DeviceHeight = require('Dimensions').get('window').height;
@@ -29,7 +30,7 @@ class ContinueButton extends Component{
 
 
   handleContinue(){
-
+    this.props.handlePress()
   }
   render(){
     return (
@@ -40,7 +41,7 @@ class ContinueButton extends Component{
           }]}>
         <TouchableHighlight
            style={[styles.continueButton]}
-           onPress={this.handleContinue}
+           onPress={this.handleContinue.bind(this)}
            underlayColor={colors.outerSpace}>
 
            <Text style={styles.continueButtonText}>CONTINUE</Text>

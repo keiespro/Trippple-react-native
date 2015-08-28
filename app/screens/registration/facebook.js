@@ -1,19 +1,19 @@
-var React = require('react-native');
+import React from 'react-native'
 
-var {
+import {
   StyleSheet,
   Text,
   Image,
   Dimensions,
   View,
+  Component,
   TouchableHighlight,
-} = React;
+} from 'react-native'
 
-var FBLoginManager = require('NativeModules').FBLoginManager;
-var colors = require('../../utils/colors')
-var UserActions = require('../../flux/actions/UserActions')
-var BoxyButton = require('../../controls/boxyButton')
-var NameScreen = require('./name');
+import { FBLoginManager } from 'NativeModules'
+import colors from '../../utils/colors'
+import UserActions from '../../flux/actions/UserActions'
+import BoxyButton from '../../controls/boxyButton'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -41,20 +41,30 @@ class FacebookButton extends React.Component{
   }
 }
 
-var Facebook = React.createClass({
-  propTypes: {
+class Facebook extends Component{
+  static propTypes = {
     style: View.propTypes.style,
     onPress: React.PropTypes.func,
     onLogin: React.PropTypes.func,
     onLogout: React.PropTypes.func,
-  },
+  }
 
-  getInitialState(){
-    return {
+  constructor(props){
+    super()
+    this.state ={
       user: null,
-    };
-  },
+    }
+  }
+  componentDidMount(){
+     FBLoginManager.getCredentials((error, data) =>{
+      console.log(error, data);
 
+      if (!error) {
+        this.setState({ user : data})
+      }
+    });
+
+  }
   handleLogin(){
     FBLoginManager.login( (error, data) => {
       console.log(error, data);
@@ -67,7 +77,7 @@ var Facebook = React.createClass({
         console.log(error, data);
       }
     });
-  },
+  }
 
   handleLogout(){
 
@@ -79,35 +89,23 @@ var Facebook = React.createClass({
         console.log(error, data);
       }
     });
-  },
+  }
 
-  onPress(){
+  onPress(event){
+
     this.state.user
       ? this.handleLogout()
       : this.handleLogin();
 
     this.props.onPress && this.props.onPress();
-  },
-
-  componentWillMount(){
-
-    FBLoginManager.getCredentials((error, data) =>{
-      console.log(error, data);
-
-      if (!error) {
-        this.setState({ user : data})
-      }
-    });
-  },
+  }
 
 
-  skipFacebook(){
+  skipFacebook =()=>{
     this.props.navigator.push({
-             component: NameScreen,
-             title: 'About You',
-             id:'aboutyou'
-           })
-  },
+      component: this.props.nextRoute,
+    })
+  }
 
   render() {
     // var text = this.state.user ? "LOG OUT" : "LOG IN WITH FACEBOOK";
@@ -134,9 +132,9 @@ var Facebook = React.createClass({
       </View>
     );
   }
-});
+}
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
@@ -180,5 +178,5 @@ var styles = StyleSheet.create({
   }
 });
 
-export { FacebookButton };
-export default Facebook;
+export { FacebookButton }
+export default Facebook

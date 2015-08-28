@@ -1,36 +1,35 @@
- ;
-var React = require('react-native');
+import React from 'react-native'
 
-var {
+import {
   StyleSheet,
   Text,
   Image,
   View,
   TouchableHighlight,
-} = React;
+  Component
+}  from 'react-native'
 
 
-var colors = require('../../utils/colors')
-var UserActions = require('../../flux/actions/UserActions')
-var BoxyButton = require('../../controls/boxyButton')
-var NameScreen = require('./name');
-var Contacts = require('../contacts');
-var NavigatorSceneConfigs = require('NavigatorSceneConfigs');
+import colors from '../../utils/colors'
+import UserActions from '../../flux/actions/UserActions'
+import BoxyButton from '../../controls/boxyButton'
+import Contacts from '../contacts'
+import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
 
-var InvitePartner = React.createClass({
-
+class InvitePartner extends Component{
+  constructor(props){
+    super(props);
+  }
   onPress(){
     this.props.navigator.push({
-       component: Contacts,
-       title: 'Contacts',
-       id:'contacts',
+       component: this.props.nextRoute,
        sceneConfig: NavigatorSceneConfigs.FloatFromBottom
      })
-  },
+  }
 
   goBack(){
     this.props.navigator.pop()
-  },
+  }
 
   render() {
     return (
@@ -45,7 +44,7 @@ var InvitePartner = React.createClass({
             text={"INVITE YOUR PARTNER"}
             leftBoxStyles={styles.iconButtonLeftBoxCouples}
             innerWrapStyles={styles.iconButtonCouples}
-            _onPress={this.onPress}>
+            _onPress={this.onPress.bind(this)}>
 
             <Image source={require('image!ovalInvite')}
                       resizeMode={Image.resizeMode.contain}
@@ -55,7 +54,7 @@ var InvitePartner = React.createClass({
 
         <View style={[styles.middleTextWrap,styles.underPinInput]}>
 
-          <TouchableHighlight onPress={this.goBack}>
+          <TouchableHighlight onPress={this.goBack.bind(this)}>
 
             <View style={styles.goBackButton}>
               <Text textAlign={'left'} style={[styles.bottomTextIcon]}>◀︎ </Text>
@@ -68,7 +67,7 @@ var InvitePartner = React.createClass({
       </View>
     );
   }
-});
+}
 
 var styles = StyleSheet.create({
   container: {
@@ -124,4 +123,4 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = InvitePartner;
+export default InvitePartner;

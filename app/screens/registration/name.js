@@ -1,5 +1,5 @@
-var React = require('react-native');
-var {
+import React from 'react-native'
+import {
   StyleSheet,
   Text,
   TextInput,
@@ -8,76 +8,59 @@ var {
   Image,
   LayoutAnimation,
   ScrollView,
+  Dimensions,
+  Component,
   TouchableHighlight,
-} = React;
+} from 'react-native'
 
-var UserActions = require('../../flux/actions/UserActions');
-var Birthday = require('../../controls/birthday');
-var ImageUpload = require('../../components/imageUpload');
-var Privacy = require('../../components/privacy');
-var colors = require('../../utils/colors')
-var TrackKeyboard = require('../../mixins/keyboardMixin');
-var SingleInputScreenMixin = require('../../mixins/SingleInputScreenMixin');
-
-var BdayScreen = require('./bday')
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
-
-var DistanceSlider = require('../../controls/distanceSlider');
-var ToggleSwitch = require('../../controls/switches');
+import UserActions from '../../flux/actions/UserActions'
+import colors from '../../utils/colors'
 
 
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
+
+import SingleInputScreen from '../SingleInputScreen'
+
+class NameScreen extends Component{
 
 
+  constructor(props){
+    super(props);
+    console.log(props.user)
+    this.state = {
+      name: props.user.firstname || ''
+    }
+  }
 
-var NameScreen = React.createClass({
 
-  mixins: [TrackKeyboard, SingleInputScreenMixin],
-
-  getInitialState(){
-    return({
-      name: this.props.user.firstname || ''
-    })
-  },
-
-  shouldHide(val) { return (val.length <= 0) ? true : false  },
-  shouldShow(val) { return (val.length > 0)  ? true : false  },
-
-  handleInputChange(event){
+  handleInputChange =(event)=> {
     this.setState({
       inputFieldValue: event.nativeEvent.text
     })
-  },
+  }
 
-  _submit(){
+  _submit =()=>{
     UserActions.updateUserStub({firstname: this.state.inputFieldValue});
-
+    console.log(this.props)
     this.props.navigator.push({
-            component: BdayScreen,
-            id: 'aboutyoubday',
+            component: this.props.nextRoute,
             passProps: {
               firstname: this.state.inputFieldValue,
               keyboardSpace: this.state.keyboardSpace
             }
           })
 
-  },
-
-  render(){
+  }
+ render(){
     return(
-      <View style={[{flex: 1, height:DeviceHeight, paddingBottom: this.state.keyboardSpace, backgroundColor: colors.outerSpace}]}>
-        <ScrollView
-          keyboardDismissMode={'on-drag'}
-          contentContainerStyle={[styles.wrap]}
-          bounces={false}
-          >
-          <View style={styles.middleTextWrap}>
-            <Text style={styles.middleText}>What should we call you?</Text>
-          </View>
+      <SingleInputScreen
+        shouldHide={(val) => { return (val.length <= 0) ? true : false }}
+        shouldShow={(val) => { return (val.length > 0)  ? true : false }}
+        inputFieldValue={this.state.inputFieldValue}
+        handleNext={this._submit.bind(this)}
+        >
 
-          <View style={
-              [styles.pinInputWrap,
-              (this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null)]}>
 
             <TextInput
               style={styles.pinInput}
@@ -90,29 +73,16 @@ var NameScreen = React.createClass({
               clearButtonMode={'never'}
               textAlign={'center'}
               onChange={this.handleInputChange}
-              onFocus={this.handleInputFieldFocused}
-              onBlur={this.handleInputFieldBlurred}
             />
-          </View>
-
-          <View style={styles.middleTextWrap}>
-            <Text style={[styles.middleText,{fontSize:14}]}>Fake names get 93.6% less matches. </Text>
-          </View>
-
-        </ScrollView>
-
-        {this.renderContinueButton()}
-
-
-      </View>
-
-     )
+             </SingleInputScreen>
+        )
   }
-})
+}
+
+export default NameScreen
 
 
-
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
     container: {
       flex: 1,
@@ -254,4 +224,3 @@ var styles = StyleSheet.create({
     }
   });
 
-module.exports = NameScreen;

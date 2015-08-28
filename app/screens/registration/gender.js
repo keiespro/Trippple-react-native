@@ -15,12 +15,7 @@ var {
 } = React;
 
 var UserActions = require('../../flux/actions/UserActions');
-var Birthday = require('../../controls/birthday');
-var ImageUpload = require('../../components/imageUpload');
-var Privacy = require('../../components/privacy');
 var colors = require('../../utils/colors')
-var NameScreen = require('./name');
-var SelfImage = require('./SelfImage');
 var BoxyButton = require('../../controls/boxyButton')
 
 var DeviceHeight = require('Dimensions').get('window').height;
@@ -52,12 +47,10 @@ class GenderScreen extends Component{
 
   }
   _continue(){
-    console.log(this.state.selection)
     UserActions.updateUserStub({gender: this.state.selection});
 
     this.props.navigator.push({
-            component: SelfImage,
-            id: 'selfimage',
+            component: this.props.nextRoute,
             passProps: {
               gender: this.state.selection,
             }

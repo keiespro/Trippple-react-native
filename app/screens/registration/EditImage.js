@@ -16,8 +16,6 @@ import {
 } from 'react-native';
 
 import colors from '../../utils/colors';
-import SelfImage from './SelfImage';
-import PrivacyScreen from './privacy';
 import UserActions from '../../flux/actions/UserActions';
 import SharedStyles from '../../SharedStyles'
 
@@ -61,16 +59,16 @@ class EditImage extends Component{
   }
 
   accept(){
-    UserActions.uploadImage(this.props.image,this.props.imagetype)
-    if(this.props.navigator.getCurrentRoutes()[0].id === 'potentials'){
-      this.props.navigator.popToRoute(this.props.navigator.getCurrentRoutes()[1])
-    }else{
+    UserActions.uploadImage(this.props.image.uri,this.props.imagetype)
       this.props.navigator.push({
-        component: PrivacyScreen,
-        id:'priv'
-
+        component: this.props.nextRoute,
+        passProps: {
+          image:this.props.image,
+          croppedImage: this.state.croppedImageURI,
+          imagetype: this.props.imagetype
+        }
       })
-    }
+
 
 
   }
@@ -141,7 +139,7 @@ class EditImage extends Component{
           <TouchableHighlight
              style={[SharedStyles.continueButton]}
              onPress={this._crop.bind(this)}
-             underlayColor="black">
+             underlayColor={colors.mediumPurple20}>
              <View>
                <Text style={SharedStyles.continueButtonText}>CONTINUE</Text>
              </View>
@@ -175,6 +173,7 @@ class EditImage extends Component{
       (croppedImageURI) => this.setState({croppedImageURI}),
       (cropError) => this.setState({cropError})
     );
+    this.accept()
   }
 
   _reset() {

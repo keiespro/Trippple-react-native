@@ -1,18 +1,21 @@
-var React = require('react-native');
-var {
+import React from 'react-native'
+import {
   StyleSheet,
   Text,
   Image,
   View,
-  TouchableHighlight
-} = React;
+  Component,
+  Modal,
+  TouchableHighlight,
+  Dimensions
+} from 'react-native'
 
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
-var BoxyButton = require('../../controls/boxyButton')
-var colors = require('../../utils/colors');
-var NavigatorSceneConfigs = require('NavigatorSceneConfigs');
+import BoxyButton from '../../controls/boxyButton'
+import colors from '../../utils/colors'
+import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
 
 import CameraControl from '../../controls/cameraControl'
 
@@ -20,46 +23,51 @@ import CameraRollView from '../../controls/CameraRollView'
 
 import EditImage from './EditImage'
 
-var CoupleImage = React.createClass({
+class CoupleImage extends Component{
 
-  _getCameraRoll() {
-
+  constructor(props){
+    super();
+    this.state = {
+      modalOpen:false,
+      modalView: ''
+    }
+  }
+  _getCameraRoll =()=> {
+    this.setState({
+      modalOpen:true,
+      modalView: 'CameraRoll'
+    })
+  }
+  _getCamera =()=> {
+    this.setState({
+      modalOpen:true,
+      modalView: 'CameraControl'
+    })
+  }
+  closeModal(){
+   this.setState({
+      modalOpen:false,
+      modalView: ''
+    })
+  }
+  gotImage =(imageFile)=>{
+    this.closeModal()
     this.props.navigator.push({
-      component: CameraRollView,
-      id:'camerarollpage',
-      title: 'camerarollpage',
+      component: this.props.nextRoute,
       passProps: {
-        image: false,
-        imageEditorComponent: EditImage,
-        imagetype: 'couple_profile'
+        image: imageFile,
+        imagetype:'couple_profile',
       },
       sceneConfig: NavigatorSceneConfigs.FloatFromBottom
     });
-
-  },
+  }
   componentDidUpdate(prevProps,prevState){
     console.log(prevProps,prevState);
-  },
-
-  _getCamera() {
-
-    this.props.navigator.push({
-      component: CameraControl,
-      id:'camerapage',
-      title: 'camerapage',
-      passProps: {
-        image: false,
-        imageEditorComponent: EditImage,
-        imagetype: 'couple_profile'
-      },
-      sceneConfig: NavigatorSceneConfigs.FloatFromBottom
-    });
-
-  },
+  }
   onPressFacebook(){
     console.log('fb')
 
-  },
+  }
   render(){
     return (
       <View style={styles.container}>
@@ -94,11 +102,24 @@ var CoupleImage = React.createClass({
             <Text style={[styles.plainButtonText]}>TAKE A SELFIE</Text>
           </TouchableHighlight>
 
-        </View>
+          </View>
+           <Modal
+            animated={true}
+            transparent={true}
+            visible={this.state.modalOpen}
+          >
+            {this.state.modalOpen && this.state.modalView === 'CameraControl' &&
+              <CameraControl getImage={this.gotImage} imagetype={'profile'} />
+            }
+            {this.state.modalOpen && this.state.modalView === 'CameraRoll' &&
+              <CameraRollView getImage={this.gotImage} imagetype={'profile'} />
+            }
+          </Modal>
+
       </View>
     )
   }
-})
+}
 
 
 
@@ -177,5 +198,5 @@ var styles = StyleSheet.create({
 });
 
 
-module.exports = CoupleImage;
+export default CoupleImage;
 
