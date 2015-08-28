@@ -31,11 +31,12 @@ var alt = require('alt');
 var cssVar = require('cssVar');
 var Chat = require("./chat");
 var MatchActions = require("../flux/actions/MatchActions");
+import FakeNavBar from '../controls/FakeNavBar'
 
 var ROUTE_STACK = [
-  {component: Settings, index: 0, title: 'Settings', id: 'settings'},
+  {component: Settings, index: 0, title: 'Settings', id: 'settings',navigationBar:false},
   {component: Potentials, index: 1, title: 'Trippple', id: 'potentials'},
-  {component: Matches, index: 2, title: 'Matches', id: 'matches'},
+  {component: Matches, index: 2, title: 'Matches', id: 'matches',navigationBar:false},
 ];
 
 
@@ -115,7 +116,17 @@ var ROUTE_STACK = [
     }
 
     selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
-      return (<route.component {...route.passProps} navigator={navigator || this.refs.nav} user={this.props.user} />);
+        const RouteComponent = route.component;
+        let navBar = route.navigationBar
+        if (route.id == 'matches' || route.id == 'chat') {
+          navBar = <FakeNavBar  navigator={navigator} route={route} {...route.passProps} />
+        }
+        return (
+          <View style={{ flex: 1, }}>
+            {navBar}
+            <RouteComponent navigator={navigator} route={route} user={this.props.user}  {...route.passProps} />
+          </View>
+        );
     }
 
     render() {

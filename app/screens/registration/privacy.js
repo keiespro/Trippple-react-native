@@ -7,6 +7,7 @@ var {
   View,
   Image,
   TouchableHighlight,
+  TouchableOpacity,
   LayoutAnimation,
 } = React;
 
@@ -17,14 +18,6 @@ var BoxyButton = require('../../controls/boxyButton')
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 
-
-
-class Limbo extends Component{
-
-  render(){
-    return <Text>LIMBO</Text>
-  }
-}
 
 class PrivacyScreen extends Component{
 
@@ -58,9 +51,7 @@ class PrivacyScreen extends Component{
     UserActions.updateUserStub({privacy: this.state.selection,status:'onboarded'});
 
     this.props.navigator.push({
-            component: Limbo,
-            id: 'limbo'
-
+            component: this.props.nextRoute,
           })
 
   }
@@ -72,7 +63,7 @@ class PrivacyScreen extends Component{
           <Text style={styles.labelText}>{"Your Privacy"} </Text>
 
           <Text style={styles.labelText}>{"Select your perfered privacy setting"}</Text>
-          <TouchableHighlight
+          <TouchableOpacity
             style={{marginTop:50}}
               onPress={this._selectPublic.bind(this)}>
               <View style={[styles.privacyWrap,
@@ -81,15 +72,16 @@ class PrivacyScreen extends Component{
                 <Text style={styles.boxTitle}>Public</Text>
                 <Text style={styles.boxP}>Your profile is visible to all Trippple members</Text>
 
-                <Image source={this.state.selection == 'private' ? require('image!ovalSelected') : require('image!ovalSelected')}
+                <Image source={this.state.selection == 'public' ? require('image!ovalSelected') : require('image!ovalDashed')}
                           resizeMode={Image.resizeMode.contain}
-                              style={{height:10,width:10}}/>
+                            style={styles.cornerDot}/>
+
               </View>
 
 
-          </TouchableHighlight>
+          </TouchableOpacity>
 
-          <TouchableHighlight
+          <TouchableOpacity
             style={{marginTop:50}}
             onPress={this._selectPrivate.bind(this)}>
             <View style={[styles.privacyWrap,
@@ -98,12 +90,12 @@ class PrivacyScreen extends Component{
               <Text style={styles.boxTitle}>Private</Text>
               <Text style={styles.boxP}>Your profile is hidden from your facebook friends and phone contacts.</Text>
 
-              <Image source={this.state.selection == 'private' ? require('image!ovalSelected') : require('image!ovalSelected')}
+              <Image source={this.state.selection == 'private' ? require('image!ovalSelected') : require('image!ovalDashed')}
                         resizeMode={Image.resizeMode.contain}
-                            style={{height:50,width:50,position:'absolute',top:0,right:0}}/>
+                            style={styles.cornerDot}/>
             </View>
 
-          </TouchableHighlight>
+          </TouchableOpacity>
 
         </View>
 
@@ -129,7 +121,13 @@ class PrivacyScreen extends Component{
 
 
 var styles = StyleSheet.create({
-
+  cornerDot: {
+    height:30,
+    width:30,
+    position:'absolute',
+    top:-15,
+    right:-15
+  },
   container: {
     flex: 1,
     height: DeviceHeight,

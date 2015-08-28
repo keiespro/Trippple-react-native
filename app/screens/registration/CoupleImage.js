@@ -112,7 +112,8 @@ class CoupleImage extends Component{
               <CameraControl getImage={this.gotImage} imagetype={'profile'} />
             }
             {this.state.modalOpen && this.state.modalView === 'CameraRoll' &&
-              <CameraRollView getImage={this.gotImage} imagetype={'profile'} />
+              <CameraRollView getImage={this.gotImage} imagetype={'profile'} goBack={this.closeModal.bind(this)} navigator={this.props.navigator}/>
+
             }
           </Modal>
 

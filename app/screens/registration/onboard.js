@@ -30,14 +30,15 @@ import CoupleImage from './CoupleImage'
 import EditImage from './EditImage'
 import EditImageThumb from './EditImageThumb'
 import SelfImage from './SelfImage'
+import Limbo from './Limbo'
 
 const RouteStacks = {
   root: [ SelectRelationshipStatus ],
   single: [
-    Facebook, name, bday, gender, SelfImage, EditImage, EditImageThumb, PrivacyScreen
+    Facebook, name, bday, gender, SelfImage, EditImage, EditImageThumb, PrivacyScreen, Limbo
   ],
   couple: [
-    InvitePartner, contacts, Facebook, name, bday, gender, CoupleImage, EditImage, SelfImage, EditImage, EditImageThumb, PrivacyScreen
+    InvitePartner, contacts, Facebook, name, bday, gender, CoupleImage, EditImage, SelfImage, EditImage, EditImageThumb, PrivacyScreen, Limbo
   ]
 }
 

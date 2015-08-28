@@ -30,7 +30,7 @@ class SingleInputScreen extends Component{
   constructor(props){
     super(props);
     this.state = {
-      inputFieldFocused: true,
+      inputFieldFocused: false,
       inputFieldValue: '',
       inputFieldError: null,
       canContinue: false,
@@ -81,19 +81,6 @@ class SingleInputScreen extends Component{
       isKeyboardOpened: false
     });
   }
-
-  handleInputFocused(){
-    this.setState({
-      inputFieldFocused: true
-    })
-  }
-
-  handleInputBlurred(){
-    this.setState({
-      inputFieldFocused: false
-    })
-  }
-
   handleContinue(){
     if(!this.state.canContinue){
       return false;
@@ -119,7 +106,8 @@ class SingleInputScreen extends Component{
 
   componentWillReceiveProps(nextProps){
     this.setState({
-      inputFieldValue: nextProps.inputFieldValue
+      inputFieldValue: nextProps.inputFieldValue,
+      inputFieldFocused: nextProps.inputFieldFocused
     })
   }
 
@@ -140,7 +128,7 @@ class SingleInputScreen extends Component{
 
           <View style={
               [styles.pinInputWrap,
-              (this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null)]}>
+              (this.props.inputFieldFocused ? styles.phoneInputWrapSelected : null)]}>
           {this.props.children}
           </View>
 

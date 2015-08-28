@@ -33,7 +33,10 @@ import PinScreen from './pin'
 
 import reactMixin from 'react-mixin'
 import SingleInputScreenMixin from '../mixins/SingleInputScreenMixin'
+import TrackKeyboardMixin from '../mixins/keyboardMixin'
 
+@reactMixin.decorate(TimerMixin)
+@reactMixin.decorate(TrackKeyboardMixin)
 @reactMixin.decorate(SingleInputScreenMixin)
 class Login extends Component{
   constructor(props){
@@ -81,9 +84,9 @@ class Login extends Component{
   }
 
   _submit =()=> {
-    if(!this.state.canContinue){
-      return false;
-    }
+    // if(!this.state.canContinue){
+    //   return false;
+    // }
     this.setTimeout( () => {
       if(this.state.phoneError){ return false; }
 
@@ -123,9 +126,9 @@ class Login extends Component{
               placeholderTextColor="#fff"
               autoFocus={true}
               autoCorrect={false}
-              onChange={this.handleInputChange}
-              onFocus={this.handleInputFocused}
-              onBlur={this.handleInputBlurred}
+              onChange={this.handleInputChange.bind(this)}
+              onFocus={this.handleInputFocused.bind(this)}
+              onBlur={this.handleInputBlurred.bind(this)}
               keyboardAppearance={'dark'/*doesnt work*/}
 
             />

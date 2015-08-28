@@ -29,10 +29,16 @@ import AuthErrorStore from '../flux/stores/AuthErrorStore'
 
 import TopTabs from '../controls/topSignupSigninTabs'
 import PhoneNumberInput from '../controls/phoneNumberInput.js'
+import PinScreen from './pin'
+
 import reactMixin from 'react-mixin'
 import SingleInputScreenMixin from '../mixins/SingleInputScreenMixin'
+import TrackKeyboardMixin from '../mixins/keyboardMixin'
 
+@reactMixin.decorate(TimerMixin)
+@reactMixin.decorate(TrackKeyboardMixin)
 @reactMixin.decorate(SingleInputScreenMixin)
+
 class Register extends Component{
   constructor(props){
     super();
@@ -120,8 +126,8 @@ class Register extends Component{
               autoFocus={true}
               autoCorrect={false}
               onChange={this.handleInputChange}
-              onFocus={this.handleInputFocused}
-              onBlur={this.handleInputBlurred}
+              onFocus={this.handleInputFocused.bind(this)}
+              onBlur={this.handleInputBlurred.bind(this)}
               keyboardAppearance={'dark'/*doesnt work*/}
 
             />

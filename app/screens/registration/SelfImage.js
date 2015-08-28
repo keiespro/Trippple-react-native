@@ -108,10 +108,10 @@ class SelfImage extends Component{
             visible={this.state.modalOpen}
           >
             {this.state.modalOpen && this.state.modalView === 'CameraControl' &&
-              <CameraControl getImage={this.gotImage} imagetype={'profile'} />
+              <CameraControl getImage={this.gotImage} imagetype={'profile'} navigator={this.props.navigator}/>
             }
             {this.state.modalOpen && this.state.modalView === 'CameraRoll' &&
-              <CameraRollView getImage={this.gotImage} imagetype={'profile'} />
+              <CameraRollView getImage={this.gotImage} imagetype={'profile'} goBack={this.closeModal.bind(this)} navigator={this.props.navigator}/>
             }
           </Modal>
       </View>

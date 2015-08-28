@@ -1,49 +1,32 @@
-import React from 'react-native'
-import {
+var React = require('react-native');
+var {
   StyleSheet,
   Text,
   TextInput,
   View,
+  Navigator,
   Image,
   LayoutAnimation,
   ScrollView,
-  Dimensions,
-  Component,
+  TouchableOpacity,
   TouchableHighlight,
-} from 'react-native'
+  SegmentedControlIOS
+} = React;
 
-import colors from '../utils/colors'
-
-import KeyboardEvents from 'react-native-keyboardevents'
-const { Emitter } = KeyboardEvents
-
-
-const DeviceHeight = Dimensions.get('window').height;
-const DeviceWidth = Dimensions.get('window').width;
+var DeviceHeight = require('Dimensions').get('window').height;
+var DeviceWidth = require('Dimensions').get('window').width;
+var colors = require('../utils/colors')
 
 
-var inputPage = {
+module.exports =  {
 
-  getDefaultProps(){
+  getInitialState() {
     return {
       inputFieldFocused: true,
       inputFieldValue: '',
       inputFieldError: null,
-      canContinue: false,
-      keyboardSpace: 0,
-      isKeyboardOpened: false
-    }
-
-  },
-  comonentDidMount(){
-    console.log('CALLLLLLLLLLLLLLLLLLLLLLLL');
-    Emitter.on(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace);
-    Emitter.on(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace);
-  },
-
-  componentWillUnmount() {
-    Emitter.off(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace);
-    Emitter.off(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace);
+      canContinue: false
+    };
   },
   componentWillUpdate(props, state) {
     if (state.isKeyboardOpened !== this.state.isKeyboardOpened) {
@@ -63,19 +46,6 @@ var inputPage = {
     }else if( this.state.canContinue && this.shouldHide(this.state.inputFieldValue)){
       this.hideContinueButton();
     }
-  },
- updateKeyboardSpace(frames) {
-    this.setState({
-      keyboardSpace: frames.end.height,
-      isKeyboardOpened: true
-    });
-  },
-
-  resetKeyboardSpace(){
-    this.setState({
-      keyboardSpace: 0,
-      isKeyboardOpened: false
-    });
   },
 
   handleInputFocused(){
@@ -123,7 +93,7 @@ var inputPage = {
           }]}>
         <TouchableHighlight
            style={[styles.continueButton]}
-           onPress={this.handleContinue}
+           onPress={this.handleContinue.bind(this)}
            underlayColor={colors.outerSpace}>
 
            <Text style={styles.continueButtonText}>CONTINUE</Text>
@@ -133,9 +103,8 @@ var inputPage = {
   }
 
 
-}
+};
 
-export default inputPage
 
 var animations = {
   layout: {

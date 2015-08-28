@@ -286,7 +286,7 @@ partnerSelection: contact.rowData,
             <View style={styles.rowtextwrapper}>
 
               <Text style={[styles.rowtext,styles.bigtext]}>
-                {`${this.state.partnerSelection.firstName || ''} ${this.state.partnerSelection.lastName || ''}`}
+                {`Invite ${this.state.partnerSelection.firstName || ''} ${this.state.partnerSelection.lastName || ''}`}
               </Text>
               <Text style={styles.text}>
                 { this.state.partnerSelection
@@ -297,13 +297,19 @@ partnerSelection: contact.rowData,
               </Text>
 
             </View>
+            <View style={styles.rowtextwrapper}>
 
-            <TouchableHighlight style={styles.plainButton} onPress={this._continue.bind(this)}>
-              <Text style={styles.plainButtonText}>INVITE</Text>
-            </TouchableHighlight>
-            <TouchableHighlight style={styles.plainButton} onPress={this._cancel.bind(this)}>
-              <Text style={styles.plainButtonText}>CANCEL</Text>
-            </TouchableHighlight>
+              <TouchableHighlight style={styles.plainButton} onPress={this._continue.bind(this)}>
+                <View >
+                 <Text style={styles.plainButtonText}>INVITE</Text>
+                </View>
+              </TouchableHighlight>
+              <TouchableHighlight style={styles.plainButton} onPress={this._cancel.bind(this)}>
+                <View >
+                <Text style={styles.plainButtonText}>CANCEL</Text>
+                </View>
+              </TouchableHighlight>
+            </View>
 
           </View>
         </Image>
@@ -327,16 +333,14 @@ var styles = StyleSheet.create({
 
   },
   modalcontainer:{
-
     backgroundColor: colors.mediumPurple20,
-
     flex:1,
-    width: DeviceWidth-80,
-    height: DeviceHeight-80,
-    top:40,
-    left:40,
-right:40,
-bottom:40
+    width: DeviceWidth-50,
+    height: DeviceHeight-100,
+    top:50,
+    left:25,
+    right:25,
+    bottom:50
   },
   fullwidth:{
     width: DeviceWidth
@@ -371,7 +375,10 @@ bottom:40
   },
   bigtext:{
     fontSize:30,
-    textAlign:'center'
+    textAlign:'center',
+    color: colors.white,
+    fontSize:18,
+    fontFamily:'Montserrat'
   },
   separator: {
     height: 1,

@@ -35,7 +35,7 @@ var Privacy = React.createClass({
     UserActions.updateUserStub({
       privacy: this.state.privacy
     });
-    
+
     this.props.handlePrivacyChange && this.props.handlePrivacyChange(this.state.privacy);
 
     this.props.saveAndClose && this.props.saveAndClose();
@@ -48,10 +48,15 @@ var Privacy = React.createClass({
       <View style={styles.container}>
         <View style={styles.cardcontainer}>
           <TouchableHighlight style={[styles.button,(this.state.privacy == 'public' && styles.selected)]} onPress={this._goPublic}>
-            <Text style={styles.textS}>Public</Text>
+            <View>
+              <Text style={styles.textS}>Public</Text>
+            </View>
           </TouchableHighlight>
+
           <TouchableHighlight style={[styles.button,(this.state.privacy == 'hidden' && styles.selected)]} onPress={this._goPrivate}>
-            <Text style={[styles.textS,styles.textbottom]}>Private</Text>
+            <View>
+              <Text style={[styles.textS,styles.textbottom]}>Private</Text>
+            </View>
           </TouchableHighlight>
 
           <TouchableHighlight style={[styles.button,styles.submitbutton]} onPress={this._submit}>

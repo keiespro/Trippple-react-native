@@ -10,18 +10,24 @@ import {
   CameraRoll,
   Image,
   ListView,
+  ScrollView,
   StyleSheet,
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions
 } from 'react-native'
+import scrollable from 'react-native-scrollable-decorator';
 
-import Dimensions from 'Dimensions'
-
+import colors from '../utils/colors'
+import FakeNavBar from './FakeNavBar'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
+const ScrollViewPropTypes = ScrollView.propTypes;
 
 const propTypes = {
+
+  ...ScrollViewPropTypes,
   /**
    * The group where the photos will be fetched from. Possible
    * values are 'Album', 'All', 'Event', 'Faces', 'Library', 'PhotoStream'
@@ -63,6 +69,7 @@ const propTypes = {
 
 }
 
+@scrollable
 class CameraRollView extends Component{
   static propTypes = propTypes
 
@@ -178,14 +185,23 @@ class CameraRollView extends Component{
 
   render() {
     return (
-      <ListView
-        renderRow={this._renderRow.bind(this)}
-        renderFooter={this._renderFooterSpinner}
-        onEndReached={this._onEndReached}
-        style={styles.container}
-        contentContainerStyle={styles.scrollContent}
-        dataSource={this.state.dataSource}
-      />
+      <View>
+        <FakeNavBar
+          navigator={this.props.navigator}
+          onPrev={() => { this.props.goBack ? this.props.goBack() : this.props.navigator.pop()}}
+          prevTitle={'Back'}
+          backgroundStyle={{}}
+          style={{borderBottomWidth:1,borderBottomColor:colors.dusk}}
+        />
+        <ListView
+          renderRow={this._renderRow.bind(this)}
+          renderFooter={this._renderFooterSpinner}
+          onEndReached={this._onEndReached}
+          style={styles.container}
+          contentContainerStyle={styles.scrollContent}
+          dataSource={this.state.dataSource}
+          />
+        </View>
     )
   }
 
@@ -266,10 +282,11 @@ var styles = StyleSheet.create({
     justifyContent: 'space-around',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    width: DeviceWidth
+    width: DeviceWidth,
   },
   container: {
     flex: 1,
+    height:DeviceHeight,
     width: DeviceWidth
   },
 })

@@ -53,11 +53,11 @@ class MatchList extends Component{
   //     dataSource: ds.cloneWithRows(this.props.matches)
   //   })
   // }
-  shouldComponentUpdate(nextProps,nextState){
+  // shouldComponentUpdate(nextProps,nextState){
 
-  //   if(this.props.matches.length === nextProps.matches.length) return false;
-    return true;
-  }
+  // //   if(this.props.matches.length === nextProps.matches.length) return false;
+  //   return true;
+  // }
   _renderRow(rowData, sectionID: number, rowID: number) {
 
     var myId = this.props.user.id,

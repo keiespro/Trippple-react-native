@@ -29,7 +29,8 @@ class NameScreen extends Component{
     super(props);
     console.log(props.user)
     this.state = {
-      name: props.user.firstname || ''
+      name: props.user.firstname || '',
+      inputFieldValue: ''
     }
   }
 
@@ -39,7 +40,16 @@ class NameScreen extends Component{
       inputFieldValue: event.nativeEvent.text
     })
   }
-
+  handleInputFieldFocused(){
+     this.setState({
+      inputFieldFocused: true
+    })
+  }
+  handleInputFieldBlurred(){
+    this.setState({
+      inputFieldFocused: false
+    })
+  }
   _submit =()=>{
     UserActions.updateUserStub({firstname: this.state.inputFieldValue});
     console.log(this.props)
@@ -58,6 +68,7 @@ class NameScreen extends Component{
         shouldHide={(val) => { return (val.length <= 0) ? true : false }}
         shouldShow={(val) => { return (val.length > 0)  ? true : false }}
         inputFieldValue={this.state.inputFieldValue}
+        inputFieldFocused={this.state.inputFieldFocused}
         handleNext={this._submit.bind(this)}
         >
 
@@ -71,6 +82,8 @@ class NameScreen extends Component{
               placeholderTextColor={colors.offwhite}
               autoCorrect={false}
               clearButtonMode={'never'}
+              onFocus={this.handleInputFieldFocused.bind(this)}
+              onBlur={this.handleInputFieldBlurred.bind(this)}
               textAlign={'center'}
               onChange={this.handleInputChange}
             />
