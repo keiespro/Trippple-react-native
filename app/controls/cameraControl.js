@@ -19,7 +19,7 @@ const DeviceWidth = Dimensions.get('window').width;
 
 class CameraControl extends Component{
   constructor(props){
-    super()
+    super(props)
     this.state = {
       cameraType: Camera.constants.Type.back
     }
@@ -51,7 +51,11 @@ class CameraControl extends Component{
           style={styles.cameraBox}
           ref="cam"
           type={this.state.cameraType}
+          aspect={Camera.constants.Aspect.fill}
+          flashMode={Camera.constants.FlashMode.auto}
           captureTarget={Camera.constants.CaptureTarget.disk}
+          orientation={Camera.constants.Orientation.portrait}
+
         >
           <TouchableOpacity style={styles.bigbutton} onPress={this._takePicture} >
             <View style={[{height:80,width:80}]}>
@@ -83,7 +87,8 @@ class CameraControl extends Component{
         id:'imageeditor',
         title: 'Edit Image',
         passProps: {
-          image: data
+          image: data,
+          imagetype: this.props.imagetype
         }
 
       })

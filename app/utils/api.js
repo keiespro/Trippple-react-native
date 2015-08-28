@@ -1,8 +1,7 @@
 
-var Keychain = require('Keychain');
+var Keychain = require('react-native-keychain');
 var Promise = require('bluebird');
-var KEYCHAIN_NAMESPACE = 'http://api2.trippple.co';
-
+var KEYCHAIN_NAMESPACE = window.keychainUrl || global.keychainUrl || 'trippple.co'
 
 var NativeModules = require('NativeModules');
 var UploadFile = Promise.promisify(NativeModules.FileTransfer.upload);
@@ -39,7 +38,7 @@ function authenticatedRequest(endpoint: '', payload: {}){
     });
 }
 
-function authenticatedFileUpload(endpoint, image){
+function authenticatedFileUpload(endpoint, image, imagetype){
   return Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
     .then(function(credentials) {
       console.log('Credentials successfully loaded', credentials);
@@ -52,7 +51,7 @@ function authenticatedFileUpload(endpoint, image){
           data: {
             user_id: credentials.username,
             api_key: credentials.password,
-            image_type:'profile'
+            image_type: imagetype
           }
       };
       return UploadFile(payload)
@@ -63,24 +62,24 @@ function authenticatedFileUpload(endpoint, image){
     })
 }
 
-var api = {
+class api {
 
   login(phone,password){
     return publicRequest('login', {
       phone: phone,
       password1: password,
     })
-  },
+  }
 
   register(phone,password1,password2){
     return publicRequest('register', {
       phone, password1, password2,
     })
-  },
+  }
 
   requestPin(phone){
     return publicRequest('request_security_pin', { phone })
-  },
+  }
 
   verifyPin(pin,phone){
 
@@ -91,7 +90,7 @@ var api = {
         version = '8',
         push_token = null;
 
-    return publicRequest('verify_security_pin', {
+    var payload = {
       pin,
       phone,
       uuid,
@@ -99,21 +98,22 @@ var api = {
       platform,
       version,
       push_token
-    });
-  },
+    };
+
+    return publicRequest('verify_security_pin', payload);
+  }
 
   updateUser(payload){
     return authenticatedRequest('update', payload)
-  },
+  }
 
   getUserInfo(){
     return authenticatedRequest('info')
-  },
+  }
 
   getMatches(){
-    console.log('getmatches req')
     return authenticatedRequest('matches')
-  },
+  }
 
   getMessages(payload){
     if(!payload.match_id){
@@ -121,7 +121,7 @@ var api = {
     }
     payload.message_type = 'retrieve';
     return authenticatedRequest('messages', payload)
-  },
+  }
 
   createMessage(message, matchID){
     var payload = {
@@ -130,21 +130,21 @@ var api = {
       'message_body': message,
     };
     return authenticatedRequest('messages', payload)
-  },
+  }
 
   getPotentials(coordinates){
     return authenticatedRequest('potentials',coordinates)
-  },
+  }
 
   sendLike(like_user_id,like_status){
     var like_user_type = 'couple';// fix
     return authenticatedRequest('likes', { like_status, like_user_id, like_user_type })
-  },
+  }
 
-  uploadImage(image){
-    return authenticatedFileUpload('upload', image)
+  uploadImage(image, imagetype){
+    return authenticatedFileUpload('upload', image, imagetype)
   }
 
 
 }
-module.exports = api;
+module.exports = new api()

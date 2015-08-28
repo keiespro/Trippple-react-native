@@ -18,7 +18,7 @@ var Contacts = require('../contacts');
 var NavigatorSceneConfigs = require('NavigatorSceneConfigs');
 
 var InvitePartner = React.createClass({
-  
+
   onPress(){
     this.props.navigator.push({
        component: Contacts,
@@ -77,7 +77,8 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf:'stretch',
-    padding:20
+    padding:20,
+    backgroundColor: colors.outerSpace
   },
   middleTextWrap: {
     alignItems:'center',

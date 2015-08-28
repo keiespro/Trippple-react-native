@@ -22,7 +22,7 @@ var DeviceWidth = require('Dimensions').get('window').width;
 
 var UserActions = require('../flux/actions/UserActions');
 
-var Facebook = require('./facebook');
+var Facebook = require('../screens/registration/facebook');
 var TopTabs = require('../controls/topSignupSigninTabs');
 var Login = require('./login');
 var Register = require('./register');

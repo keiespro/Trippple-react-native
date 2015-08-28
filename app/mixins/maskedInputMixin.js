@@ -33,7 +33,9 @@ var ReactMaskMixin = {
     }
   },
   setSelectionRange: function(){
-
+    // var cursorIndex = this.props.selectionState.getFocusOffset();
+    // this.setState({focus: 0})
+    // console.log(cursorIndex);
   },
   componentDidUpdate: function() {
     this.setSelectionRange(
@@ -93,7 +95,8 @@ var ReactMaskMixin = {
 
 
     var cursorPrev = this.mask.cursor
-    var cursorCurr = cursorMax /// EDITED from setSelectionRange : 0
+    var cursorCurr = cursorMax
+    // EDITED from setSelectionRange : 0
     newValue = newValue.substr(0, cursorCurr)
 
 
@@ -172,7 +175,7 @@ var ReactMaskMixin = {
   _onKeyDown: function(e) {
     console.log(e);
     if (this.props.mask) {
-      this.mask.cursor = this.getDOMNode().getSelectionRange()
+      // this.mask.cursor = this.getDOMNode().getSelectionRange()
     }
     if (this.props.onKeyDown) {
       this.props.onKeyDown(e)

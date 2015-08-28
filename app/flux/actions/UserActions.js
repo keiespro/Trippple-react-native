@@ -1,7 +1,9 @@
 import alt from '../alt';
 import Api from '../../utils/api';
-import Keychain from 'Keychain';
-const server = 'http://api.trippple.co';
+import Keychain from 'react-native-keychain';
+
+const KEYCHAIN_NAMESPACE = window.keychainUrl || global.keychainUrl
+
 
 
 class UserActions {
@@ -24,7 +26,6 @@ class UserActions {
     Api.verifyPin(pin, phone)
       .then((res) => {
         console.log(res);
-        console.log('dispatching')
         this.dispatch(res);
       })
       .catch((err) => {
@@ -49,10 +50,15 @@ class UserActions {
   }
 
   logOut(){
-    Keychain.resetInternetCredentials(server)
-      .then((credentials) => {
+    Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE)
+      .then(() => {
         this.dispatch();
       })
+      .catch((err) => {
+        console.log('error',err);
+        this.dispatch(err);
+      })
+
 
 
   }
@@ -62,32 +68,9 @@ class UserActions {
     this.dispatch(updateAttributes);
   }
 
-  // login(phone,password){
-  //   console.log('login action');
-  //   Api.login(phone,password)
-  //     .then((res) => {
-  //       console.log(res);
-  //       this.dispatch(res);
-  //     })
-  //     .catch((err) => {
-  //       console.log('error');
-  //       this.dispatch();
-  //     })
-  // }
 
-
-  // register(phone,password,password2){
-  //   console.log('register action');
-  //   Api.register(phone,password,password2)
-  //     .then((res) => {
-  //       console.log(res);
-  //       this.dispatch(res);
-  //     })
-  //
-  // }
-
-  uploadImage(image){
-    Api.uploadImage(image)
+  uploadImage(image, imagetype){
+    Api.uploadImage(image,imagetype)
       .then((uploadRes) => {
          Api.getUserInfo()
           .then((res) => {

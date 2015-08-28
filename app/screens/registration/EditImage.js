@@ -33,7 +33,7 @@ class ImageEditor extends Component{
   }
 
   accept(){
-    UserActions.uploadImage(this.props.image)
+    UserActions.uploadImage(this.props.image,this.props.imagetype)
     if(this.props.navigator.getCurrentRoutes()[0].id === 'potentials'){
       this.props.navigator.popToRoute(this.props.navigator.getCurrentRoutes()[1])
     }else{
@@ -66,7 +66,7 @@ class ImageEditor extends Component{
       </View>
     );
   }
-  retake() {
+  retake =()=> {
     this.props.navigator.pop();
   }
 }

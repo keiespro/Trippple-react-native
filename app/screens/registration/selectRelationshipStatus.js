@@ -25,7 +25,9 @@ var BoxyButton = require('../../controls/boxyButton')
 
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
-var Facebook = require('./facebook');
+
+import Facebook from './facebook'
+
 var InvitePartner = require('./invitePartner');
 
 class SelectRelationshipStatus extends Component{
@@ -37,9 +39,6 @@ class SelectRelationshipStatus extends Component{
     this.state = {
       selection: null
     }
-
-    console.log('SelectRelationshipStatus')
-
   }
 
   _selectSingle(){
@@ -162,7 +161,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf:'stretch',
     position:'absolute',
-    backgroundColor: colors.mandy
+    backgroundColor: colors.outerSpace
   },
 
 

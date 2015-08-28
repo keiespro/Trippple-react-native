@@ -2,6 +2,7 @@ import React from 'react-native'
 import { Component, View, StyleSheet, Text, TextInput, ScrollView, TouchableHighlight } from 'react-native'
 import colors from '../utils/colors'
 import Dimensions from 'Dimensions';
+import UserActions from '../flux/actions/UserActions'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -10,10 +11,22 @@ class EditPage extends Component{
 
   constructor(props){
     super()
+    this.state = {
+      editedValue: ''
+    }
   }
   handleCancel =()=> {
 
     this.props.navigator.pop();
+  }
+  handleUpdate =()=>{
+    console.log(this.state.editedValue)
+    UserActions.updateUser({firstname: this.state.editedValue});
+    this.props.navigator.pop();
+
+  }
+  _onTextChange = (text) => {
+    this.setState({editedValue: text})
   }
   render(){
 
@@ -25,7 +38,7 @@ class EditPage extends Component{
             bounces={false}
             >
             <View style={[styles.inputWrap]}>
-              <TextInput autofocus={true} value={this.props.val} style={styles.input}/>
+              <TextInput onChangeText={this._onTextChange} autofocus={true} defaultValue={this.props.val} style={styles.input}/>
             </View>
 
           </ScrollView>
@@ -41,7 +54,7 @@ class EditPage extends Component{
              </TouchableHighlight>
              <TouchableHighlight
                 style={[styles.continueButton]}
-                onPress={this.handleContinue}
+                onPress={this.handleUpdate}
                 underlayColor="black">
 
                 <Text style={styles.continueButtonText}>Update</Text>

@@ -198,7 +198,9 @@ class SettingsInside extends React.Component{
 
     let innerView = this.renderInnerView()
     return (
-      <ParallaxView
+<ParallaxView
+        showsVerticalScrollIndicator={false}
+          key={this.props.user.image_url}
           backgroundSource={{uri: this.props.user.image_url}}
           windowHeight={300}
           navigator={this.props.navigator}
@@ -209,6 +211,7 @@ class SettingsInside extends React.Component{
             <TouchableOpacity onPress={this._pressNewImage}>
               <Image
                 style={styles.userimage}
+                key={this.props.user.image_url}
                 source={{uri: this.props.user.image_url}}
                 defaultSource={require('image!defaultuser')}
                 resizeMode={Image.resizeMode.cover}/>
@@ -226,7 +229,7 @@ class SettingsInside extends React.Component{
         barPosition={'bottom'}
         style={{backgroundColor:colors.dark}}
         barColor={colors.mediumPurple}
-        titleStyle={{color:colors.white}}
+        titleStyle={styles.segmentTitles}
         titles={['BASIC', 'PREFERENCES', 'SETTINGS']}
          index={this.state.index}
          stretch
@@ -489,5 +492,8 @@ var styles = StyleSheet.create({
    paddingBottom:0,
    backgroundColor:'red'
  },
-
+segmentTitles:{
+  color:colors.white,
+  fontFamily:'Montserrat'
+}
 });

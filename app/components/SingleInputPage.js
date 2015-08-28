@@ -115,7 +115,6 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     height: 80,
     backgroundColor: colors.mediumPurple,
-
     width:DeviceWidth
   },
   continueButton: {
@@ -250,8 +249,9 @@ var SingleInputPage = React.createClass({
              style={[styles.continueButton]}
              onPress={this.handleContinue}
              underlayColor="black">
-
-             <Text style={styles.continueButtonText}>CONTINUE</Text>
+             <View>
+               <Text style={styles.continueButtonText}>CONTINUE</Text>
+             </View>
            </TouchableHighlight>
         </View>
 

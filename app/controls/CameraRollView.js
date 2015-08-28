@@ -107,7 +107,8 @@ class CameraRollView extends Component{
       id:'imageeditor',
       title: 'Edit Image',
       passProps: {
-        image: asset.node.image.uri
+        imagetype: this.props.imagetype,
+        image: asset.node.image,
       }
     })
   }

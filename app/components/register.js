@@ -1,6 +1,6 @@
 /* @flow */
 
-const PHONE_MASK_USA = "999 999-9999";
+const PHONE_MASK_USA = '999 999-9999';
 
 
 var React = require('react-native');
@@ -151,22 +151,19 @@ var Register = React.createClass({
   mixins: [TrackKeyboard, SingleInputScreenMixin, TimerMixin],
 
   getInitialState(){
-    return({
+    return ({
       phone: '',
       isLoading: false,
     })
   },
 
   formattedPhone(){
-    return this.state.inputFieldValue.replace(/[\. ,:-]+/g, "")
+    return this.state.inputFieldValue.replace(/[\. ,:-]+/g, '')
   },
 
   onError(err){
     console.log(err);
-    if(!err || !err.phoneError){
-
-        return;
-    };
+    if(!err || !err.phoneError){ return }
 
     this.setState({
       phoneError: err.phoneError,
@@ -181,16 +178,14 @@ var Register = React.createClass({
   },
 
   shouldHide(val) { return (val.length < PHONE_MASK_USA.length) ? true : false  },
-  shouldShow(val) { return (val.length == PHONE_MASK_USA.length) ? true : false  },
+  shouldShow(val) { return (val.length === PHONE_MASK_USA.length) ? true : false  },
 
   handleInputChange(event: any){
     var update = {
       inputFieldValue: event.nativeEvent.text
     };
     if(event.nativeEvent.text.length < this.state.inputFieldValue.length){
-
-      update['phoneError'] = null
-
+      update.phoneError = null
     }
 
     this.setState(update)
@@ -201,7 +196,7 @@ var Register = React.createClass({
       return false;
     }
     this.setTimeout( () => {
-      if(this.state.phoneError) return false;
+      if(this.state.phoneError){ return false }
 
       this.props.navigator.push({
         component: PinScreen,
@@ -238,7 +233,7 @@ var Register = React.createClass({
               keyboardType={'phone-pad'}
               placeholder={'Phone'}
               keyboardAppearance={'dark'/*doesnt work*/}
-              placeholderTextColor='#fff'
+              placeholderTextColor="#fff"
               autoFocus={true}
               autoCorrect={false}
               onChange={this.handleInputChange}

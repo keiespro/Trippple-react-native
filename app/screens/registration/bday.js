@@ -150,7 +150,8 @@ var styles = StyleSheet.create({
       margin:0,
       padding:0,
       height: DeviceHeight,
-      backgroundColor: 'transparent',
+    backgroundColor: colors.outerSpace
+
     },
     wrap: {
       flex: 2,

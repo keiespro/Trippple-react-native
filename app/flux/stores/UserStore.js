@@ -1,8 +1,9 @@
 import alt from '../alt';
 import UserActions from '../actions/UserActions';
-import Keychain from 'Keychain';
+import Keychain from 'react-native-keychain';
 
-const server = 'http://api.trippple.co';
+const KEYCHAIN_NAMESPACE = window.keychainUrl || global.keychainUrl || 'trippple.co'
+
 
 class UserStore {
   constructor() {
@@ -41,7 +42,7 @@ class UserStore {
 
     var {response} = res;
 
-    Keychain.setInternetCredentials(server, response.user_id, response.api_key)
+    Keychain.setInternetCredentials(KEYCHAIN_NAMESPACE, response.user_id, response.api_key)
       .then((result)=> {
         console.log('Credentials saved successfully!',result)
       });
@@ -102,41 +103,12 @@ class UserStore {
     }
 
   }
-  // handleRegister(response) {
-  //   console.log(response);
-  //
-  //   Keychain
-  //     .setInternetCredentials(server, response.user_id, response.api_key)
-  //     .then(()=> {
-  //       console.log('Credentials saved successfully!')
-  //       this.setState({
-  //         user_id: response.user_id,
-  //         apikey: response.api_key,
-  //         user: response.user_info
-  //       });
-  //
-  //     });
-  //
-  // }
-
-  // handleLogin(response) {
-  //   console.log('Handle login', response);
-  //
-  //   Keychain
-  //     .setInternetCredentials(server, response.user_id, response.api_key)
-  //     .then(()=> {
-  //       console.log('Credentials saved successfully!')
-  //       this.setState({
-  //         user_id: response.user_id,
-  //         apikey: response.api_key,
-  //         user: response.user_info
-  //       });
-  //
-  //   });
-  // }
-
   handleLogOut(){
-    this.setState({user:{}});
+    Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE)
+    .then(() => {
+      console.log('Credentials successfully deleted');
+    })
+    this.setState({ user:{}, userStub: null, apikey: null, status: null, user_id: null });
 
   }
   updateUserInfo(attributes){
@@ -149,7 +121,9 @@ class UserStore {
   }
 
   handleUpload(response){
-    UserActions.getUserInfo();
+    const updatedUser = {...this.state.user, ...response.user_info};
+    this.setState({user:updatedUser});
+
   }
 
   getUser(){

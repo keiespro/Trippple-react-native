@@ -51,7 +51,7 @@ var NameScreen = React.createClass({
 
   _submit(){
     UserActions.updateUserStub({firstname: this.state.inputFieldValue});
-    
+
     this.props.navigator.push({
             component: BdayScreen,
             id: 'aboutyoubday',
@@ -65,7 +65,7 @@ var NameScreen = React.createClass({
 
   render(){
     return(
-      <View style={[{flex: 1, height:DeviceHeight, paddingBottom: this.state.keyboardSpace}]}>
+      <View style={[{flex: 1, height:DeviceHeight, paddingBottom: this.state.keyboardSpace, backgroundColor: colors.outerSpace}]}>
         <ScrollView
           keyboardDismissMode={'on-drag'}
           contentContainerStyle={[styles.wrap]}
@@ -124,7 +124,8 @@ var styles = StyleSheet.create({
       margin:0,
       padding:0,
       height: DeviceHeight,
-      backgroundColor: 'transparent',
+    backgroundColor: colors.outerSpace
+
     },
     wrap: {
       flex: 1,

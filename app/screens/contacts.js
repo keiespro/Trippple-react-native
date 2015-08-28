@@ -1,7 +1,5 @@
 /* @flow */
 
- ;
-
 const React = require('react-native');
 const {
   Component,
@@ -12,10 +10,10 @@ const {
  AlertIOS,
  TextInput,
  ListView,
- TouchableHighlight
+  TouchableHighlight,
+  Modal
 } = React;
 
-const Modal = require('react-native-modal');
 
 const Logger = require("../utils/logger");
 
@@ -23,7 +21,7 @@ const DeviceHeight = require('Dimensions').get('window').height;
 const DeviceWidth = require('Dimensions').get('window').width;
 const Facebook = require('./registration/facebook');
 const UserActions = require('../flux/actions/UserActions');
-
+import CoupleImage from './registration/CoupleImage'
 const AddressBook = require('NativeModules').AddressBook;
 const colors = require('../utils/colors');
 const _ = require('underscore');
@@ -32,34 +30,30 @@ class ContactList extends Component{
 
   constructor(props) {
     super(props);
-    this.state = {
-      highlightedRow: {}
-    }
 
   }
   onPress(sectionID,rowID,rowData){
     console.log('contact list onPress',sectionID,rowID,rowData);
-    this.setState({
-      highlightedRow: {sectionID,rowID}
-    })
+    // this.setState({
+    //   highlightedRow: {sectionID,rowID}
+    // })
     // this.refs[`${ID}contact`].setNativeProps({
     //   backgroundColor: colors.mediumPurple20,
     //   borderColor: colors.mediumPurple,
     //   borderWidth: 1
     // })
 
-    // UserActions.updateUserStub({gender: this.state.selection});
 
-    this.props.onPress(rowData);
+    this.props.onPress( { sectionID, rowID, rowData } );
 
   }
 
 
   _renderRow(rowData, sectionID: number, rowID: number, highlightRow) {
-    var phoneNumber = rowData.phoneNumbers && rowData.phoneNumbers[0] ? rowData.phoneNumbers[0].number : "";
+    var phoneNumber = rowData.phoneNumbers && rowData.phoneNumbers[0] ? rowData.phoneNumbers[0].number : '';
     // console.log(sectionID, rowID)
 
-    if( this.state.highlightedRow['rowID'] == rowID){
+    if(this.props.highlightedRow && this.props.highlightedRow.rowID === rowID){
       console.log('HIGHLIGHT')
     }
 
@@ -72,9 +66,9 @@ class ContactList extends Component{
           }}
           key={`rowID${rowData.id}`}>
           <View style={[styles.fullwidth,styles.row,
-            (this.state.highlightedRow.sectionID == sectionID && this.state.highlightedRow.rowID == rowID ? 'rowSelected' : null)]}>
+            (this.props.highlightedRow && this.props.highlightedRow.sectionID === sectionID && this.props.highlightedRow.rowID === rowID ? styles.rowSelected : null)]}>
 
-            <Image style={styles.contactthumb} source={rowData.thumbnailPath != "" ? {uri: rowData.thumbnailPath} : require('image!placeholderUser')} />
+            <Image style={styles.contactthumb} source={rowData.thumbnailPath !== '' ? {uri: rowData.thumbnailPath} : require('image!placeholderUser')} />
 
             <View style={styles.rowtextwrapper}>
 
@@ -125,7 +119,8 @@ class Contacts extends Component{
       partnerSelection:{},
       dataSource: ds.cloneWithRows([]),
       searchText: '',
-      isModalOpen: false
+modalVisible: false,
+highlightedRow: null
     }
   }
   _pressRow(contact){
@@ -133,24 +128,53 @@ class Contacts extends Component{
     Logger.debug(contact);
 
     this.setState({
-      partnerSelection: contact,
-      isModalOpen: true
+partnerSelection: contact.rowData,
+  highlightedRow: contact,
+      modalVisible: true
     })
   }
 
   closeModal(){
-    this.setState({isModalOpen: false});
+    this.setState({modalVisible: false});
   }
 
   componentDidMount(){
+    this.getContacts();
+  }
+  _requestPermission(){
+    AddressBook.requestPermission((err, permission) => {
+      if(err){
+          //TODO:  handle err;
+      }
+      this.storeContacts()
+    })
+  }
+  storeContacts(){
+    AddressBook.getContacts((err, contacts) => {
+      console.log(err);
 
+      var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+      // InteractionManager.runAfterInteractions(() => {
 
-    AddressBook.checkPermission((err, permission) => {
+        this.setState({
+          contacts: contacts,
+          dataSource: ds.cloneWithRows(contacts)
+        });
+      // });
+    })
+  }
+  componentWillUnmount(){
+    Logger.debug('UNmount contacts')
+  }
+  getContacts(){
+     AddressBook.checkPermission((err, permission) => {
+      if(err){
+        //TODO:  handle err;
+      }
+
       // AddressBook.PERMISSION_AUTHORIZED || AddressBook.PERMISSION_UNDEFINED || AddressBook.PERMISSION_DENIED
       if(permission === AddressBook.PERMISSION_UNDEFINED){
-        AddressBook.requestPermission((err, permission) => {
-          this.storeContacts()
-        })
+        this.askPermissions();
       }
       if(permission === AddressBook.PERMISSION_AUTHORIZED){
         this.storeContacts()
@@ -169,25 +193,14 @@ class Contacts extends Component{
         )
       }
     })
-
   }
-
-  storeContacts(){
-    AddressBook.getContacts((err, contacts) => {
-      console.log(err);
-
-      var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-      // InteractionManager.runAfterInteractions(() => {
-
-        this.setState({
-          contacts: contacts,
-          dataSource: ds.cloneWithRows(contacts)
-        });
-      // });
+  askPermissions(){
+    AddressBook.requestPermission((err, permission) => {
+      if(err){
+      //TODO:  handle err;
+      }
+      this.getContacts()
     })
-  }
-  componentWillUnmount(){
-    Logger.debug('UNmount contacts')
   }
   _searchChange(text){
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
@@ -211,8 +224,8 @@ class Contacts extends Component{
   _continue(){
     this.closeModal();
     this.props.navigator.push({
-      component: Facebook,
-      id: 'fb',
+      component: CoupleImage,
+      id: 'coupleimage',
       passProps: {
         partner: this.state.partnerSelection
       }
@@ -221,8 +234,10 @@ class Contacts extends Component{
   }
   _cancel(){
     this.setState({
-      isModalOpen: false,
-      partnerSelection: {}
+      modalVisible: false,
+partnerSelection: {},
+  highlightedRow: null
+
     });
 
   }
@@ -250,7 +265,8 @@ class Contacts extends Component{
           user={this.props.user}
           dataSource={this.state.dataSource}
           contacts={this.state.contacts}
-          selection={this.state.selection}
+selection={this.state.selection}
+highlightedRow={this.state.highlightedRow}
           onPress={this._pressRow.bind(this)}
           id={"contactslist"}
           title={"contactlist"}
@@ -258,13 +274,13 @@ class Contacts extends Component{
 
 
       <Modal
-        isVisible={this.state.isModalOpen}
-        forceToFront={true}
-        backdropType="blur"
+        animated={true}
+        visible={this.state.modalVisible}
         onPressBackdrop={this._cancel.bind(this)}
-        onClose={() => this.closeModal.bind(this)}>
-        <View style={styles.container}>
-          <View style={[styles.fullwidth,styles.col]}>
+        onClose={() => this.closeModal.bind(this)}
+      >
+        <View style={styles.modalcontainer}>
+          <View style={[styles.col]}>
 
             <Image style={[styles.contactthumb,{width:100,height:100,borderRadius:50}]} source={this.state.partnerSelection.thumbnailPath != "" ? {uri: this.state.partnerSelection.thumbnailPath} : require('image!placeholderUser')} />
 
@@ -274,7 +290,10 @@ class Contacts extends Component{
                 {`${this.state.partnerSelection.firstName || ''} ${this.state.partnerSelection.lastName || ''}`}
               </Text>
               <Text style={styles.text}>
-                  {`${ 'xx' }`/* this.state.partnerSelection.phoneNumbers[0].number  || '' */}
+                { this.state.partnerSelection
+                    && this.state.partnerSelection.phoneNumbers
+                    && this.state.partnerSelection.phoneNumbers.length
+                    && this.state.partnerSelection.phoneNumbers[0].number  || '' }
 
               </Text>
 
@@ -307,6 +326,18 @@ var styles = StyleSheet.create({
     alignSelf:'stretch',
     flexDirection: 'column',
 
+  },
+  modalcontainer:{
+
+    backgroundColor: colors.mediumPurple20,
+
+    flex:1,
+    width: DeviceWidth-80,
+    height: DeviceHeight-80,
+    top:40,
+    left:40,
+right:40,
+bottom:40
   },
   fullwidth:{
     width: DeviceWidth

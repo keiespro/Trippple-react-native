@@ -63,9 +63,7 @@ class Onboard extends Component{
 
 const styles = StyleSheet.create({
 
-  sceneWrap:{
-    backgroundColor: colors.outerSpace
-  },
+
   container: {
     flex: 1,
     height:DeviceHeight,
@@ -76,7 +74,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     alignSelf:'stretch',
-    backgroundColor: colors.sushi
   },
   padTop:{
 

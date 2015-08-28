@@ -30,8 +30,6 @@
 		AC6BC1AF1B832657005F7DFA /* omnes-light-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129731B40EF0D00CC1499 /* omnes-light-webfont.ttf */; };
 		AC6BC1B01B832657005F7DFA /* omnes-medium-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129741B40EF0D00CC1499 /* omnes-medium-webfont.ttf */; };
 		AC6BC1B11B832657005F7DFA /* omnes-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129751B40EF0D00CC1499 /* omnes-regular-webfont.ttf */; };
-		AC7285D41B85B41200D74E00 /* libRNModal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC7285CD1B85B3FD00D74E00 /* libRNModal.a */; };
-		AC7285D51B85B41200D74E00 /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC7285D31B85B40B00D74E00 /* libRNOverlay.a */; };
 		ACA1295D1B40EA2E00CC1499 /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129451B40EA1600CC1499 /* libRCTAddressBook.a */; };
 		ACA1295E1B40EA2E00CC1499 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1294A1B40EA1600CC1499 /* libRCTCamera.a */; };
 		ACA1295F1B40EA2E00CC1499 /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1294D1B40EA1600CC1499 /* libRCTFBLogin.a */; };
@@ -40,6 +38,11 @@
 		ACA129631B40EA2E00CC1499 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1295A1B40EA1600CC1499 /* libRNMail.a */; };
 		ACA1296D1B40EC0500CC1499 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA1296C1B40EC0500CC1499 /* RCTFileTransfer.m */; };
 		ACA129861B416C3000CC1499 /* libRNKeyboardEvents.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129851B416C2700CC1499 /* libRNKeyboardEvents.a */; };
+		ACABA31F1B8F7D7E0024503C /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACABA31E1B8F7B760024503C /* libRNOverlay.a */; };
+		ACABA32A1B8F7E880024503C /* RNBlur in Resources */ = {isa = PBXBuildFile; fileRef = ACABA3281B8F7E880024503C /* RNBlur */; };
+		ACABA32B1B8F7E880024503C /* RNVibrancy in Resources */ = {isa = PBXBuildFile; fileRef = ACABA3291B8F7E880024503C /* RNVibrancy */; };
+		ACABA32C1B8F7FA40024503C /* RNBlur in Sources */ = {isa = PBXBuildFile; fileRef = ACABA3281B8F7E880024503C /* RNBlur */; };
+		ACABA32D1B8F7FA40024503C /* RNVibrancy in Sources */ = {isa = PBXBuildFile; fileRef = ACABA3291B8F7E880024503C /* RNVibrancy */; };
 		ACBA6C761B8413A6009040D6 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACBA6C751B8413A6009040D6 /* Media.xcassets */; };
 		ACE1CD0A1B5772DF0043177A /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACE1CD061B5772DF0043177A /* Bolts.framework */; };
 		ACE1CD0B1B5772DF0043177A /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACE1CD071B5772DF0043177A /* FBSDKCoreKit.framework */; };
@@ -119,20 +122,6 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
-		AC7285CC1B85B3FD00D74E00 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AC7285B41B85B3FD00D74E00 /* RNModal.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNModal;
-		};
-		AC7285D21B85B40B00D74E00 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AC7285CE1B85B40B00D74E00 /* RNOverlay.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNOverlay;
-		};
 		ACA129441B40EA1600CC1499 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ACA1293C1B40EA1600CC1499 /* RCTAddressBook.xcodeproj */;
@@ -203,6 +192,13 @@
 			remoteGlobalIDString = F12AFB9B1ADAF8F800E0535D;
 			remoteInfo = RNKeyboardEvents;
 		};
+		ACABA31D1B8F7B760024503C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ACABA3191B8F7B760024503C /* RNOverlay.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNOverlay;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -228,8 +224,6 @@
 		AC5B03A41B85A9FB003E0302 /* Default-736h@3x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x~iphone.png"; sourceTree = "<group>"; };
 		AC5B03A51B85A9FB003E0302 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		AC5B03A61B85A9FB003E0302 /* Default@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x~iphone.png"; sourceTree = "<group>"; };
-		AC7285B41B85B3FD00D74E00 /* RNModal.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNModal.xcodeproj; path = "node_modules/react-native-modal/RNModal.xcodeproj"; sourceTree = "<group>"; };
-		AC7285CE1B85B40B00D74E00 /* RNOverlay.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNOverlay.xcodeproj; path = "node_modules/react-native-overlay/RNOverlay.xcodeproj"; sourceTree = "<group>"; };
 		ACA1292D1B40EA1600CC1499 /* RCTFBLogin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBLogin.xcodeproj; path = "node_modules/react-native-facebook-login/RCTFBLogin.xcodeproj"; sourceTree = "<group>"; };
 		ACA129301B40EA1600CC1499 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		ACA129331B40EA1600CC1499 /* RNFS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
@@ -245,6 +239,9 @@
 		ACA129751B40EF0D00CC1499 /* omnes-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "omnes-regular-webfont.ttf"; sourceTree = "<group>"; };
 		ACA1297E1B41161100CC1499 /* Montserrat-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.otf"; sourceTree = "<group>"; };
 		ACA129801B416C2700CC1499 /* RNKeyboardEvents.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNKeyboardEvents.xcodeproj; path = "node_modules/react-native-keyboardevents/RNKeyboardEvents.xcodeproj"; sourceTree = "<group>"; };
+		ACABA3191B8F7B760024503C /* RNOverlay.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNOverlay.xcodeproj; path = "node_modules/react-native-overlay/RNOverlay.xcodeproj"; sourceTree = "<group>"; };
+		ACABA3281B8F7E880024503C /* RNBlur */ = {isa = PBXFileReference; lastKnownFileType = folder; name = RNBlur; path = "node_modules/react-native-blur/RNBlur"; sourceTree = "<group>"; };
+		ACABA3291B8F7E880024503C /* RNVibrancy */ = {isa = PBXFileReference; lastKnownFileType = folder; name = RNVibrancy; path = "node_modules/react-native-blur/RNVibrancy"; sourceTree = "<group>"; };
 		ACBA6C751B8413A6009040D6 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		ACE1CD061B5772DF0043177A /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "node_modules/react-native-facebook-login/FacebookSDK/Bolts.framework"; sourceTree = "<group>"; };
 		ACE1CD071B5772DF0043177A /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "node_modules/react-native-facebook-login/FacebookSDK/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
@@ -257,8 +254,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC7285D41B85B41200D74E00 /* libRNModal.a in Frameworks */,
-				AC7285D51B85B41200D74E00 /* libRNOverlay.a in Frameworks */,
+				ACABA31F1B8F7D7E0024503C /* libRNOverlay.a in Frameworks */,
 				ACFC0A6A1B51E5AE00D9D40F /* libRNKeychain.a in Frameworks */,
 				ACE1CD0A1B5772DF0043177A /* Bolts.framework in Frameworks */,
 				ACA129861B416C3000CC1499 /* libRNKeyboardEvents.a in Frameworks */,
@@ -393,8 +389,9 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				AC7285CE1B85B40B00D74E00 /* RNOverlay.xcodeproj */,
-				AC7285B41B85B3FD00D74E00 /* RNModal.xcodeproj */,
+				ACABA3281B8F7E880024503C /* RNBlur */,
+				ACABA3291B8F7E880024503C /* RNVibrancy */,
+				ACABA3191B8F7B760024503C /* RNOverlay.xcodeproj */,
 				ACA129801B416C2700CC1499 /* RNKeyboardEvents.xcodeproj */,
 				ACA1296C1B40EC0500CC1499 /* RCTFileTransfer.m */,
 				ACA1292D1B40EA1600CC1499 /* RCTFBLogin.xcodeproj */,
@@ -446,22 +443,6 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* trippple.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		AC7285B51B85B3FD00D74E00 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AC7285CD1B85B3FD00D74E00 /* libRNModal.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		AC7285CF1B85B40B00D74E00 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AC7285D31B85B40B00D74E00 /* libRNOverlay.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -545,6 +526,14 @@
 			isa = PBXGroup;
 			children = (
 				ACA129851B416C2700CC1499 /* libRNKeyboardEvents.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		ACABA31A1B8F7B760024503C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ACABA31E1B8F7B760024503C /* libRNOverlay.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -671,12 +660,8 @@
 					ProjectRef = ACA129391B40EA1600CC1499 /* RNMail.xcodeproj */;
 				},
 				{
-					ProductGroup = AC7285B51B85B3FD00D74E00 /* Products */;
-					ProjectRef = AC7285B41B85B3FD00D74E00 /* RNModal.xcodeproj */;
-				},
-				{
-					ProductGroup = AC7285CF1B85B40B00D74E00 /* Products */;
-					ProjectRef = AC7285CE1B85B40B00D74E00 /* RNOverlay.xcodeproj */;
+					ProductGroup = ACABA31A1B8F7B760024503C /* Products */;
+					ProjectRef = ACABA3191B8F7B760024503C /* RNOverlay.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -757,20 +742,6 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AC7285CD1B85B3FD00D74E00 /* libRNModal.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNModal.a;
-			remoteRef = AC7285CC1B85B3FD00D74E00 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AC7285D31B85B40B00D74E00 /* libRNOverlay.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNOverlay.a;
-			remoteRef = AC7285D21B85B40B00D74E00 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		ACA129451B40EA1600CC1499 /* libRCTAddressBook.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -841,6 +812,13 @@
 			remoteRef = ACA129841B416C2700CC1499 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		ACABA31E1B8F7B760024503C /* libRNOverlay.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNOverlay.a;
+			remoteRef = ACABA31D1B8F7B760024503C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -848,6 +826,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACABA32A1B8F7E880024503C /* RNBlur in Resources */,
 				AC5B03AB1B85A9FB003E0302 /* Default@2x~iphone.png in Resources */,
 				AC5B03A11B85A899003E0302 /* Images.xcassets in Resources */,
 				AC6BC1AD1B832657005F7DFA /* Montserrat-Regular.otf in Resources */,
@@ -857,6 +836,7 @@
 				AC5B03A71B85A9FB003E0302 /* Default-568h@2x~iphone.png in Resources */,
 				AC6BC1B01B832657005F7DFA /* omnes-medium-webfont.ttf in Resources */,
 				AC5B03A91B85A9FB003E0302 /* Default-736h@3x~iphone.png in Resources */,
+				ACABA32B1B8F7E880024503C /* RNVibrancy in Resources */,
 				ACBA6C761B8413A6009040D6 /* Media.xcassets in Resources */,
 				AC5B03A81B85A9FB003E0302 /* Default-667h@2x~iphone.png in Resources */,
 				AC5B03AA1B85A9FB003E0302 /* Default.png in Resources */,
@@ -870,6 +850,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACABA32C1B8F7FA40024503C /* RNBlur in Sources */,
+				ACABA32D1B8F7FA40024503C /* RNVibrancy in Sources */,
 				ACA1296D1B40EC0500CC1499 /* RCTFileTransfer.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,

@@ -22,7 +22,8 @@ var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 var CustomSceneConfigs = require('../utils/sceneConfigs');
 var Auth = require('./auth');
-var Facebook = require('./facebook');
+var Facebook = require('../screens/registration/facebook');
+
 
 var slides = [
   {

@@ -19,9 +19,8 @@ import CameraControl from '../../controls/cameraControl'
 import CameraRollView from '../../controls/CameraRollView'
 
 import EditImage from './EditImage'
-import EditImageThumb from './EditImageThumb'
 
-var SelfImage = React.createClass({
+var CoupleImage = React.createClass({
 
   _getCameraRoll() {
 
@@ -31,9 +30,8 @@ var SelfImage = React.createClass({
       title: 'camerarollpage',
       passProps: {
         image: false,
-        imageEditorComponent: EditImageThumb,
-        imagetype: 'profile'
-
+        imageEditorComponent: EditImage,
+        imagetype: 'couple_profile'
       },
       sceneConfig: NavigatorSceneConfigs.FloatFromBottom
     });
@@ -52,8 +50,7 @@ var SelfImage = React.createClass({
       passProps: {
         image: false,
         imageEditorComponent: EditImage,
-        imagetype:'profile'
-
+        imagetype: 'couple_profile'
       },
       sceneConfig: NavigatorSceneConfigs.FloatFromBottom
     });
@@ -66,12 +63,12 @@ var SelfImage = React.createClass({
   render(){
     return (
       <View style={styles.container}>
-
-        <Text style={styles.textTop}>Now upload or snap a pic of just you. This is the picture your matches will see during your chats</Text>
+        <Text style={styles.textTop}>You and your Partner</Text>
+        <Text style={styles.textTop}>Upload or snap a pic of you and your partner together</Text>
 
         <View style={styles.imageHolder}>
 
-          <Image source={require('image!usersSingle')}
+          <Image source={require('image!usersCouple')}
                     resizeMode={Image.resizeMode.contain}
                         style={styles.imageInside} />
         </View>
@@ -114,7 +111,6 @@ var styles = StyleSheet.create({
     alignSelf:'stretch',
     width: DeviceWidth,
     margin:0,
-    backgroundColor: colors.outerSpace,
     padding:0,
     height: DeviceHeight
   },
@@ -181,4 +177,5 @@ var styles = StyleSheet.create({
 });
 
 
-module.exports = SelfImage;
+module.exports = CoupleImage;
+

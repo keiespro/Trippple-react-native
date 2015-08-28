@@ -34,7 +34,7 @@ class ImageEditor extends Component{
   }
 
   accept(){
-    UserActions.uploadImage(this.props.image)
+    UserActions.uploadImage(this.props.image,this.props.imagetype)
     // this.props.navigator.push({
     //   component: PrivacyScreen,
     //   id:'priv'

@@ -1,4 +1,3 @@
- ;
 var React = require('react-native');
 
 var {
@@ -18,7 +17,7 @@ var NameScreen = require('./name');
 class FacebookButton extends React.Component{
   render(){
     return(
-    
+
       <BoxyButton
             text={"VERIFY WITH FACEBOOK"}
             leftBoxStyles={styles.iconButtonLeftBoxCouples}
@@ -29,13 +28,13 @@ class FacebookButton extends React.Component{
                     resizeMode={Image.resizeMode.cover}
                         style={{height:40,width:20}} />
         </BoxyButton>
-    
+
     )
 
   }
 }
 
-var FBLoginMock = React.createClass({
+var Facebook = React.createClass({
   propTypes: {
     style: View.propTypes.style,
     onPress: React.PropTypes.func,
@@ -135,7 +134,9 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf:'stretch',
-    padding:20
+padding:20,
+    backgroundColor: colors.outerSpace
+
   },
   LogoBox: {
     width: 40
@@ -164,4 +165,4 @@ var styles = StyleSheet.create({
 });
 
 export { FacebookButton };
-export default FBLoginMock;
+export default Facebook;
