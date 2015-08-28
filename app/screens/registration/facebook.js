@@ -4,6 +4,7 @@ var {
   StyleSheet,
   Text,
   Image,
+  Dimensions,
   View,
   TouchableHighlight,
 } = React;
@@ -14,15 +15,21 @@ var UserActions = require('../../flux/actions/UserActions')
 var BoxyButton = require('../../controls/boxyButton')
 var NameScreen = require('./name');
 
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
+
+
+
 class FacebookButton extends React.Component{
   render(){
     return(
 
       <BoxyButton
-            text={"VERIFY WITH FACEBOOK"}
-            leftBoxStyles={styles.iconButtonLeftBoxCouples}
-            innerWrapStyles={styles.iconButtonCouples}
-            _onPress={this.props.onPress}>
+        text={"VERIFY WITH FACEBOOK"}
+        outerButtonStyle={styles.iconButtonOuter}
+        leftBoxStyles={styles.iconButtonLeftBoxCouples}
+        innerWrapStyles={styles.iconButtonCouples}
+        _onPress={this.props.onPress}>
 
           <Image source={require('image!fBlogo')}
                     resizeMode={Image.resizeMode.cover}
@@ -111,17 +118,19 @@ var Facebook = React.createClass({
             <Text style={styles.middleText}>Save time. Get more matches </Text>
           </View>
 
-	  <FacebookButton onPress={this.onPress} />
+          <FacebookButton onPress={this.onPress} />
 
           <View style={styles.middleTextWrap}>
-            <Text style={[styles.middleText,{fontSize:14}]}>Don’t worry, we wont tell your friends or post on your wall </Text>
+            <Text style={[styles.middleText,{fontSize:16,marginTop:20}]}>Don’t worry, we wont tell your friends or post on your wall</Text>
           </View>
 
-          <TouchableHighlight style={styles.middleTextWrap}
+          <View style={[styles.middleTextWrap,styles.bottomwrap]}>
+            <TouchableHighlight
               onPress={this.skipFacebook}
             >
-             <Text style={styles.middleText}>No thanks</Text>
-          </TouchableHighlight>
+              <Text style={styles.middleText}>No thanks</Text>
+            </TouchableHighlight>
+          </View>
       </View>
     );
   }
@@ -134,12 +143,15 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf:'stretch',
-padding:20,
+    padding:40,
     backgroundColor: colors.outerSpace
-
   },
   LogoBox: {
     width: 40
+  },
+  iconButtonOuter:{
+    alignSelf:'stretch',
+    marginVertical:15
   },
   middleTextWrap: {
     alignItems:'center',
@@ -151,17 +163,21 @@ padding:20,
     fontSize: 21,
     textAlign:'center',
     fontFamily:'Montserrat',
+    lineHeight:22
   },
-
   iconButtonCouples:{
     borderColor: colors.mediumPurple,
     borderWidth: 1
   },
   iconButtonLeftBoxCouples: {
-      backgroundColor: colors.mediumPurple20,
-      borderRightColor: colors.mediumPurple,
-      borderRightWidth: 1
-    },
+    backgroundColor: colors.mediumPurple20,
+    borderRightColor: colors.mediumPurple,
+    borderRightWidth: 1
+  },
+  bottomwrap:{
+    marginTop:DeviceHeight/4,
+    marginBottom: - DeviceHeight/4,
+  }
 });
 
 export { FacebookButton };

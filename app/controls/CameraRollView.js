@@ -1,17 +1,4 @@
-/**
- * The examples provided by Facebook are for non-commercial testing and
- * evaluation purposes only.
- *
- * Facebook reserves all rights not expressly granted.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
- * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL
- * FACEBOOK BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
- * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
- * @providesModule CameraRollView
+/*
  * @flow
  */
 import React from 'react-native'
@@ -27,12 +14,12 @@ import {
   View,
   Text,
   TouchableOpacity
-} from 'react-native';
+} from 'react-native'
 
 import Dimensions from 'Dimensions'
 
-const DeviceHeight = Dimensions.get('window').height;
-const DeviceWidth = Dimensions.get('window').width;
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
 
 const propTypes = {
   /**
@@ -58,7 +45,7 @@ const propTypes = {
   /**
    * A function that takes a single image as a parameter and renders it.
    */
-  // renderImage: PropTypes.func,
+  renderImage: PropTypes.func,
 
   /**
    * imagesPerRow: Number of images to be shown in each row.
@@ -74,7 +61,7 @@ const propTypes = {
     'All',
   ]),
 
-};
+}
 
 class CameraRollView extends Component{
   static propTypes = propTypes
@@ -140,7 +127,7 @@ class CameraRollView extends Component{
     this.fetch();
   }
 
-  componentWillReceiveProps(nextProps: {groupTypes?: string}) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.groupTypes !== nextProps.groupTypes) {
       this.fetch(true);
     }
@@ -196,10 +183,11 @@ class CameraRollView extends Component{
         contentContainerStyle={styles.scrollContent}
         dataSource={this.state.dataSource}
       />
-    );
+    )
   }
 
-  _rowHasChanged(r1: Array<Image>, r2: Array<Image>): boolean {
+
+  _rowHasChanged(r1, r2){
     if (r1.length !== r2.length) {
       return true;
     }
@@ -220,9 +208,7 @@ class CameraRollView extends Component{
     return null;
   }
 
-  // rowData is an array of images
-  //
-  // ^LIES
+
   _renderRow = (rowData, sectionID, rowID) =>  {
     var images = rowData.length ? rowData.map((image) => {
       if (image === null) {
@@ -237,7 +223,7 @@ class CameraRollView extends Component{
     );
   }
 
-  _appendAssets = (data: Object) => {
+  _appendAssets = (data) => {
     var assets = data.edges;
     var newState: Object = { loadingMore: false };
 
@@ -254,14 +240,14 @@ class CameraRollView extends Component{
     this.setState(newState);
   }
 
-  _onEndReached = () => {
+  _onEndReached =()=> {
     if (!this.state.noMore) {
       this.fetch();
     }
   }
 }
 
-const styles = StyleSheet.create({
+var styles = StyleSheet.create({
   row: {
     justifyContent: 'center',
     padding: 5,
@@ -276,12 +262,13 @@ const styles = StyleSheet.create({
   scrollContent:{
     justifyContent: 'space-around',
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    width: DeviceWidth
   },
   container: {
     flex: 1,
-
+    width: DeviceWidth
   },
-});
+})
 
-export default CameraRollView;
+export default CameraRollView

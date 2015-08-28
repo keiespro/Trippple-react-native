@@ -27,6 +27,8 @@ var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 
 import Facebook from './facebook'
+import EditImage from './EditImage'
+import CameraRollView from '../../controls/CameraRollView'
 
 var InvitePartner = require('./invitePartner');
 
@@ -126,23 +128,26 @@ var styles = StyleSheet.create({
     position:'absolute',
     width:DeviceWidth - 50,
     alignSelf:'stretch',
-    marginHorizontal: 25,
+    flex:1,
     borderBottomWidth: 1,
     borderBottomColor:colors.rollingStone,
   },
   dividerWrap:{
-    marginVertical:20,
+    marginVertical:50,
     width:DeviceWidth - 50,
     flexDirection:'column',
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf:'stretch',
-    height:30
+    height:30,
+    marginHorizontal: 25,
+
   },
   dividerText:{
     color:colors.rollingStone,
     fontSize:25,
     padding:10,
+    alignSelf:'center',
     textAlign:'center',
     backgroundColor: colors.outerSpace,
     fontFamily:'Montserrat'
@@ -167,7 +172,7 @@ var styles = StyleSheet.create({
 
   labelText:{
     color:colors.rollingStone,
-    fontSize:18,
+    fontSize:20,
     fontFamily:'omnes',
     textAlign:'center',
     marginVertical:20
@@ -194,7 +199,8 @@ var styles = StyleSheet.create({
 
   },
   iconButtonOuter:{
-    marginVertical:40
+    marginVertical:40,
+    width:DeviceWidth-50
   },
   iconButtonSelected:{
     // backgroundColor:,

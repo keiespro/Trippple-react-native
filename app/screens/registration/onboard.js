@@ -29,6 +29,7 @@ class Onboard extends Component{
   }
 
   selectScene(route: Navigator.route, navigator: Navigator) : Component {
+
     return (<route.component {...route.passProps} navigator={navigator} user={this.props.user} />);
   }
 
@@ -37,11 +38,9 @@ class Onboard extends Component{
 
     return (
         <Navigator
-          configureScene={ (route) => {
-            return route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.HorizontalSlide
-          }}
-          onDidFocus={(x,y)=>{console.log('onDIDfocus',x,y)}}
-          onWillFocus={(x,y)=>{console.log('onwillfocus',x,y)}}
+          configureScene={ (route) => route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.SlideInFromRight }
+          onDidFocus={(x,y) => {console.log('onDIDfocus',x,y)}}
+          onWillFocus={(x,y) => {console.log('onwillfocus',x,y)}}
           renderScene={this.selectScene.bind(this)}
           sceneStyle={styles.container}
           navigationBar={false}

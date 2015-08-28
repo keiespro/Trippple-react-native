@@ -37,7 +37,7 @@ class BoxyButton extends Component{
             {this.props.children}
           </View>
           <View style={styles.iconButtonRightBox}>
-            <Text style={[styles.textplain,styles.iconButtonText]}>{this.props.text}</Text>
+            <Text style={[styles.textplain,styles.iconButtonText,this.props.buttonText]}>{this.props.text}</Text>
           </View>
         </View>
       </TouchableHighlight>

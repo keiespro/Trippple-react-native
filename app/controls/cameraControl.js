@@ -2,6 +2,7 @@ import React from 'react-native'
 import {
   Component,
   StyleSheet,
+  CameraRoll,
   Text,
   Image,
   View,
@@ -12,10 +13,11 @@ import {
 import Camera from 'react-native-camera';
 import colors from '../utils/colors'
 import Dimensions from 'Dimensions';
+import Gobackbutton from '../controls/Gobackbutton'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-
+import RNFS from 'react-native-fs'
 
 class CameraControl extends Component{
   constructor(props){
@@ -33,17 +35,15 @@ class CameraControl extends Component{
       <View style={styles.container} pointerEvents={'box-none'}>
 
         <View style={styles.paddedTop} pointerEvents={'box-none'}>
-          <TouchableOpacity onPress={this._goBack} style={styles.leftbutton}>
-            <Text style={{color:colors.shuttleGray}}>Go Back</Text>
-          </TouchableOpacity>
+          <Gobackbutton navigator={this.props.navigator}/>
 
           <TouchableOpacity  onPress={this._switchCamera} style={[{height:60,width:60},styles.rightbutton]}>
-
+            <View>
               <Image
               resizeMode={Image.resizeMode.cover}
               source={require('image!flipCamera')}
               style={{height:30,width:50}}/>
-
+            </View>
           </TouchableOpacity>
         </View>
 
@@ -53,8 +53,8 @@ class CameraControl extends Component{
           type={this.state.cameraType}
           aspect={Camera.constants.Aspect.fill}
           flashMode={Camera.constants.FlashMode.auto}
-          captureTarget={Camera.constants.CaptureTarget.disk}
           orientation={Camera.constants.Orientation.portrait}
+          captureTarget={Camera.constants.CaptureTarget.disk}
 
         >
           <TouchableOpacity style={styles.bigbutton} onPress={this._takePicture} >
@@ -64,9 +64,6 @@ class CameraControl extends Component{
             </View>
           </TouchableOpacity>
         </Camera>
-
-
-
       </View>
     );
   }
@@ -80,20 +77,34 @@ class CameraControl extends Component{
 
   _takePicture =()=> {
     this.refs.cam.capture((err, data)=> {
-      console.log(err, data);
+      CameraRoll.saveImageWithTag(data,
+        (imageTag)=> {
+          console.log(imageTag);
+          // console.log(contents);
+          //
+          CameraRoll.getPhotos({first:1},
+            (data)=> {
+              const imageFile = data.edges[0].node.image
 
-      this.props.navigator.push({
-        component: this.props.imageEditorComponent,
-        id:'imageeditor',
-        title: 'Edit Image',
-        passProps: {
-          image: data,
-          imagetype: this.props.imagetype
-        }
+              this.props.navigator.push({
+                component: this.props.imageEditorComponent,
+                id:'imageeditor',
+                title: 'Edit Image',
+                passProps: {
+                  image: imageFile,
+                  imagetype: this.props.imagetype
+                }
 
-      })
-
-    });
+              })
+            },
+            (err)=> {
+              console.log(err,'errrrrrrrrrrrrrr');
+            }
+          )
+        },
+        (errorMessage)=>{ console.log(errorMessage)}
+      )
+    })
   }
 }
 
@@ -172,7 +183,9 @@ const styles = StyleSheet.create({
     borderRadius:40,
     alignSelf:'center',
     bottom:40,
-    position:'relative'
+    position:'relative',
+    backgroundColor: 'transparent',
+
   }
 });
 

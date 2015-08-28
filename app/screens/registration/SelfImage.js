@@ -31,7 +31,7 @@ var SelfImage = React.createClass({
       title: 'camerarollpage',
       passProps: {
         image: false,
-        imageEditorComponent: EditImageThumb,
+        imageEditorComponent: EditImage,
         imagetype: 'profile'
 
       },

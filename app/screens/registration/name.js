@@ -81,12 +81,11 @@ var NameScreen = React.createClass({
 
             <TextInput
               style={styles.pinInput}
-              value={this.state.name || this.state.inputFieldValue || ''}
+              defaultValue={this.state.name || this.state.inputFieldValue || ''}
               keyboardAppearance={'dark'/*doesnt work*/}
               autoCapitalize={'words'}
               placeholder={'FIRST NAME'}
-              placeholderTextColor='#fff'
-              autoFocus={true}
+              placeholderTextColor={colors.offwhite}
               autoCorrect={false}
               clearButtonMode={'never'}
               textAlign={'center'}

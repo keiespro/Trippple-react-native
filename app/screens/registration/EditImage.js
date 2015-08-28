@@ -6,27 +6,55 @@ import React from 'react-native'
 import {
   Component,
   StyleSheet,
+  ScrollView,
   Text,
   Image,
   View,
-  TouchableHighlight
+  NativeModules,
+  TouchableHighlight,
+  TouchableOpacity
 } from 'react-native';
 
 import colors from '../../utils/colors';
 import SelfImage from './SelfImage';
 import PrivacyScreen from './privacy';
 import UserActions from '../../flux/actions/UserActions';
+import SharedStyles from '../../SharedStyles'
 
 import Dimensions from 'Dimensions';
+
+const ImageEditingManager = NativeModules.ImageEditingManager;
+const RCTScrollViewConsts = NativeModules.UIManager.RCTScrollView.Constants;
+
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
+type ImageOffset = {
+  x: number;
+  y: number;
+};
 
-class ImageEditor extends Component{
+type ImageSize = {
+  width: number;
+  height: number;
+};
+
+type TransformData = {
+  offset: ImageOffset;
+  size: ImageSize;
+}
+
+
+class EditImage extends Component{
   constructor(props){
     super()
-    console.log(props.navigator.getCurrentRoutes())
+
+    this.state = {
+      measuredSize: null,
+      croppedImageURI: null,
+      cropError: null,
+    };
   }
   componentWillMount(){
     console.log('will mount editor')
@@ -46,81 +74,270 @@ class ImageEditor extends Component{
 
 
   }
-  render() {
+  retake =()=> {
+    this.props.navigator.pop();
+  }
 
+
+  render() {
+    if (!this.state.measuredSize) {
+      return (
+        <View
+          style={styles.container}
+          onLayout={(event) => {
+            var measuredWidth = event.nativeEvent.layout.width;
+            if (!measuredWidth) {
+              return;
+            }
+            this.setState({
+              measuredSize: {width: measuredWidth, height: measuredWidth},
+            });
+          }}
+        />
+      );
+    }
+
+    if (!this.state.croppedImageURI) {
+      return this._renderImageCropper();
+    }
+    return this._renderCroppedImage();
+  }
+
+  _renderImageCropper() {
+    if (!this.props.image) {
+      return (
+        <View style={styles.container} />
+      );
+    }
+    var error = null;
+    if (this.state.cropError) {
+      error = (
+        <Text>{this.state.cropError.message}</Text>
+      );
+    }
     return (
       <View style={styles.container}>
-        <Image
-          style={styles.cameraBox}
-          source={{uri: this.props.image}}
-        />
-      <View style={styles.bottom}>
-        <TouchableHighlight onPress={this.retake} style={styles.bigbutton}>
-          <View/>
-        </TouchableHighlight>
-          <TouchableHighlight onPress={this.accept.bind(this)} style={[styles.bigbutton,{backgroundColor:colors.sushi}]}>
-            <View/>
-          </TouchableHighlight>
-      </View>
+        <View style={styles.innerWrap}>
+
+          <View style={[styles.cardCropper]}>
+            <ImageCropper
+              image={this.props.image}
+              size={this.state.measuredSize}
+              style={[styles.imageCropper, this.state.measuredSize,{borderRadius:5,overflow:'hidden'}]}
+              onTransformDataChange={(data) => this._transformData = data}
+              />
+            <TouchableOpacity onPress={this.retake} style={styles.bigbutton}>
+               <View style={[{height:80,width:80}]}>
+                <Image resizeMode={Image.resizeMode.cover} source={require('image!redo')} style={{height:80,width:80}}/>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          </View>
+          {error}
+        <View style={[SharedStyles.continueButtonWrap,
+            {bottom: 0, backgroundColor: colors.mediumPurple
+            }]}>
+          <TouchableHighlight
+             style={[SharedStyles.continueButton]}
+             onPress={this._crop.bind(this)}
+             underlayColor="black">
+             <View>
+               <Text style={SharedStyles.continueButtonText}>CONTINUE</Text>
+             </View>
+           </TouchableHighlight>
+        </View>
 
       </View>
     );
   }
-  retake =()=> {
-    this.props.navigator.pop();
+
+  _renderCroppedImage() {
+    return (
+      <View style={styles.container}>
+        <Text>Here is the cropped image:</Text>
+        <Image
+          source={{uri: this.state.croppedImageURI}}
+          style={[styles.imageCropper, this.state.measuredSize]}
+          >
+          <TouchableHighlight onPress={this.retake} style={styles.bigbutton}>
+            <View/>
+          </TouchableHighlight>
+        </Image>
+      </View>
+    );
   }
+
+  _crop() {
+    ImageEditingManager.cropImage(
+      this.props.image.uri,
+      this._transformData,
+      (croppedImageURI) => this.setState({croppedImageURI}),
+      (cropError) => this.setState({cropError})
+    );
+  }
+
+  _reset() {
+    this.setState({
+      randomPhoto: null,
+      croppedImageURI: null,
+      cropError: null,
+    });
+  }
+
 }
 
+class ImageCropper extends React.Component {
+  _scaledImageSize: ImageSize;
+  _contentOffset: ImageOffset;
 
-const styles = StyleSheet.create({
+  componentWillMount() {
+    // Scale an image to the minimum size that is large enough to completely
+    // fill the crop box.
+    var widthRatio = this.props.image.width / this.props.size.width;
+    var heightRatio = this.props.image.height / this.props.size.height;
+    if (widthRatio < heightRatio) {
+      this._scaledImageSize = {
+        width: this.props.size.width,
+        height: this.props.image.height / widthRatio,
+      };
+    } else {
+      this._scaledImageSize = {
+        width: this.props.image.width / heightRatio,
+        height: this.props.size.height,
+      };
+    }
+    this._contentOffset = {
+      x: (this._scaledImageSize.width - this.props.size.width) / 2,
+      y: (this._scaledImageSize.height - this.props.size.height) / 2,
+    };
+    this._updateTransformData(
+      this._contentOffset,
+      this._scaledImageSize,
+      this.props.size
+    );
+  }
+
+  _onScroll(event) {
+    this._updateTransformData(
+      event.nativeEvent.contentOffset,
+      event.nativeEvent.contentSize,
+      event.nativeEvent.layoutMeasurement
+    );
+  }
+
+  _updateTransformData(offset, scaledImageSize, croppedImageSize) {
+    var offsetRatioX = offset.x / scaledImageSize.width;
+    var offsetRatioY = offset.y / scaledImageSize.height;
+    var sizeRatioX = croppedImageSize.width / scaledImageSize.width;
+    var sizeRatioY = croppedImageSize.height / scaledImageSize.height;
+
+    this.props.onTransformDataChange && this.props.onTransformDataChange({
+      offset: {
+        x: this.props.image.width * offsetRatioX,
+        y: this.props.image.height * offsetRatioY,
+      },
+      size: {
+        width: this.props.image.width * sizeRatioX,
+        height: this.props.image.height * sizeRatioY,
+      },
+    });
+  }
+
+  render() {
+    var decelerationRate =
+      RCTScrollViewConsts && RCTScrollViewConsts.DecelerationRate ?
+        RCTScrollViewConsts.DecelerationRate.Fast :
+        0;
+
+    return (
+      <ScrollView
+        alwaysBounceVertical={true}
+        automaticallyAdjustContentInsets={false}
+        contentOffset={this._contentOffset}
+        decelerationRate={decelerationRate}
+        horizontal={true}
+        maximumZoomScale={4.0}
+        onMomentumScrollEnd={this._onScroll.bind(this)}
+        onScrollEndDrag={this._onScroll.bind(this)}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        style={this.props.style}
+        scrollEventThrottle={16}>
+        <Image source={this.props.image} style={this._scaledImageSize} />
+      </ScrollView>
+    );
+  }
+
+}
+
+var styles = StyleSheet.create({
+  imageCropper: {
+    alignSelf: 'center',
+    backgroundColor: 'red'
+  },
+  cropButtonTouchable: {
+    alignSelf: 'center',
+    marginTop: 12,
+  },
+  cropButton: {
+    padding: 12,
+    backgroundColor: 'blue',
+    borderRadius: 4,
+  },
+  innerWrap:{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf:'stretch',
+    padding:20
+  },
+
+  cropButtonLabel: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '500',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf:'stretch',
-    backgroundColor: '#000',
-    width: DeviceWidth,
+    backgroundColor: colors.outerSpace,
 
   },
-  bottom:{
-    flexDirection:'row',
-    alignItems:'center',
+  cardCropper:{
+    flex: 1,
+    // flexDirection: 'column',
+    alignItems:'stretch',
+    // justifyContent:'flex-end',
     alignSelf:'stretch',
-    justifyContent:'space-around',
-    height:100,
-    padding:10
-  },
-  cameraBox:{
-    flex:1,
-    alignSelf:'stretch',
-    width:DeviceWidth,
-    height:300
-  },
-  textS:{
-    color:'#ffffff'
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-  },
-  leftbutton:{
-    width:50,
-    backgroundColor:'#fff',
-    height:50,
-    borderRadius:25
+    width: DeviceWidth - 40,
+    borderRadius: 5,
+    top:0,
+    overflow:'hidden',
+    position:'relative',
+    shadowColor:colors.darkShadow,
+    shadowRadius:15,
+    shadowOpacity:80,
+    shadowOffset: {
+        width:0,
+        height: 5
+    }
+
   },
   bigbutton:{
     width:80,
     height:80,
-    backgroundColor:'red',
-    borderRadius:40
+    overflow:'hidden',
+    borderRadius:40,
+    alignSelf:'center',
+    bottom:40,
+    marginHorizontal:DeviceWidth/2 - 60,
+    position:'absolute',
+    backgroundColor: 'transparent',
   }
 });
 
 
-export default ImageEditor;
+export default EditImage;

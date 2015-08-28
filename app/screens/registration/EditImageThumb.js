@@ -1,5 +1,4 @@
-//TODO: try out facebook's ssquare image cropper component
-//      https://github.com/facebook/react-native/blob/master/Examples/UIExplorer/ImageEditingExample.js
+// mostly taken from  https://github.com/facebook/react-native/blob/master/Examples/UIExplorer/ImageEditingExample.js
 
 import React from 'react-native'
 
@@ -10,14 +9,24 @@ import {
   Image,
   View,
   TouchableHighlight,
-NativeModules,
-ScrollView
+  NativeModules,
+  ScrollView
 } from 'react-native';
 
 const ImageEditingManager = NativeModules.ImageEditingManager;
 const RCTScrollViewConsts = NativeModules.UIManager.RCTScrollView.Constants;
 
 import SharedStyles from '../../SharedStyles'
+import colors from '../../utils/colors';
+import SelfImage from './SelfImage';
+import PrivacyScreen from './privacy';
+import UserActions from '../../flux/actions/UserActions';
+
+import Dimensions from 'Dimensions';
+
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
+const CropBoxSize = DeviceWidth * 0.6;
 
 type ImageOffset = {
   x: number;
@@ -33,19 +42,8 @@ type TransformData = {
   offset: ImageOffset;
   size: ImageSize;
 }
-import colors from '../../utils/colors';
-import SelfImage from './SelfImage';
-import PrivacyScreen from './privacy';
-import UserActions from '../../flux/actions/UserActions';
 
-import Dimensions from 'Dimensions';
-
-const DeviceHeight = Dimensions.get('window').height;
-const DeviceWidth = Dimensions.get('window').width;
-
-const CropBoxSize = DeviceWidth * 0.6;
-
-class ImageEditor extends Component{
+class EditImageThumb extends Component{
   constructor(props){
     super()
     this._isMounted = true;
@@ -55,9 +53,6 @@ class ImageEditor extends Component{
       cropError: null,
     };
 
-  }
-  componentWillMount(){
-    console.log('will mount editor')
   }
 
   accept(){
@@ -72,7 +67,6 @@ class ImageEditor extends Component{
       })
     }
   }
-
 
 
   _renderImageCropper() {
@@ -286,53 +280,11 @@ const styles = StyleSheet.create({
     height: DeviceHeight
   },
   innerWrap:{
-
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf:'stretch'
-
-
-
   },
-  bottom:{
-    flexDirection:'row',
-    alignItems:'center',
-    alignSelf:'stretch',
-    justifyContent:'space-around',
-    height:100,
-    padding:10
-  },
-  cameraBox:{
-    flex:1,
-    alignSelf:'stretch',
-    width:DeviceWidth,
-    height:300
-  },
-  textS:{
-    color:'#ffffff'
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-  },
-  leftbutton:{
-    width:50,
-    backgroundColor:'#fff',
-    height:50,
-    borderRadius:25
-  },
-  bigbutton:{
-    width:80,
-    height:80,
-    backgroundColor:'red',
-    borderRadius:40
-},
   imageCropper: {
     alignSelf: 'center',
   },
@@ -354,4 +306,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default ImageEditor;
+export default EditImageThumb;

@@ -10,6 +10,8 @@ const colors = {
 
   white20:            'rgba(255, 255, 255, 0.20)',
 
+  offwhite:            'rgba(255, 255, 255, 0.70)',
+
   shuttleGray:        'rgb(86,96,103)',
 
   steelGrey20:        'rgba(120, 129, 135, 0.20)',

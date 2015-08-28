@@ -25,7 +25,8 @@ var BoxyButton = require('../../controls/boxyButton')
 
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
-
+import SharedStyles from '../../SharedStyles'
+import Gobackbutton from '../../controls/Gobackbutton'
 
 class GenderScreen extends Component{
 
@@ -71,10 +72,11 @@ class GenderScreen extends Component{
           <Text style={styles.labelText}>{"What's your gender?"} </Text>
 
           <BoxyButton
-              text={"MALE"}
-              leftBoxStyles={this.state.selection == 'm' ? styles.iconButtonLeftBoxMale : styles.grayIconbuttonLeftBox}
-              innerWrapStyles={this.state.selection == 'm' ? styles.iconButtonMale : styles.grayIconbutton}
-              _onPress={this._selectMale.bind(this)}>
+            text={"MALE"}
+            buttonText={styles.buttonText}
+            leftBoxStyles={this.state.selection == 'm' ? styles.iconButtonLeftBoxMale : styles.grayIconbuttonLeftBox}
+            innerWrapStyles={this.state.selection == 'm' ? styles.iconButtonMale : styles.grayIconbutton}
+            _onPress={this._selectMale.bind(this)}>
 
               <Image source={this.state.selection == 'm' ? require('image!boxersBlue') : require('image!boxers') }
                       resizeMode={Image.resizeMode.cover}
@@ -83,6 +85,8 @@ class GenderScreen extends Component{
 
           <BoxyButton
               text={"FEMALE"}
+              outerButtonStyle={styles.iconButtonOuter}
+              buttonText={styles.buttonText}
               leftBoxStyles={this.state.selection == 'f' ? styles.iconButtonLeftBoxFemale : styles.grayIconbuttonLeftBox}
               innerWrapStyles={this.state.selection == 'f' ? styles.iconButtonFemale : styles.grayIconbutton}
               _onPress={this._selectFemale.bind(this)}>
@@ -92,20 +96,21 @@ class GenderScreen extends Component{
                             style={{height:24,width:30}}/>
 
           </BoxyButton>
+          <Gobackbutton navigator={this.props.navigator}/>
 
         </View>
 
-        <View style={[styles.continueButtonWrap,
+        <View style={[SharedStyles.continueButtonWrap,
             {
               bottom: this.state.selection ? 0 : -80,
               backgroundColor: this.state.selection ? colors.mediumPurple : 'transparent'
             }]}>
           <TouchableHighlight
-             style={[styles.continueButton]}
+             style={[SharedStyles.continueButton]}
              onPress={this._continue.bind(this)}
              underlayColor="black">
 
-             <Text style={styles.continueButtonText}>CONTINUE</Text>
+             <Text style={SharedStyles.continueButtonText}>CONTINUE</Text>
            </TouchableHighlight>
         </View>
       </View>
@@ -135,14 +140,15 @@ var styles = StyleSheet.create({
     flexDirection:'column',
     alignItems: 'center',
     alignSelf:'stretch',
-
+    paddingHorizontal:20
   },
 
   labelText:{
     color:colors.rollingStone,
-    fontSize:18,
+    fontSize:20,
     fontFamily:'omnes',
     textAlign:'center',
+    marginBottom:60
 
   },
   grayIconbutton:{
@@ -152,6 +158,9 @@ var styles = StyleSheet.create({
     width: DeviceWidth * .7,
     flex:1
 
+  },
+  iconButtonOuter:{
+    marginTop:40
   },
   grayIconbuttonLeftBox:{
     backgroundColor: colors.steelGrey20,
@@ -190,29 +199,10 @@ var styles = StyleSheet.create({
     textAlign: 'center'
   },
 
-
-      continueButtonWrap:{
-        alignSelf: 'stretch',
-        alignItems: 'stretch',
-        justifyContent: 'center',
-        height: 80,
-        backgroundColor: colors.mediumPurple,
-
-        width:DeviceWidth
-      },
-      continueButton: {
-        height: 80,
-        alignSelf: 'stretch',
-        alignItems: 'center',
-        justifyContent: 'center'
-      },
-      continueButtonText: {
-        padding: 4,
-        fontSize: 30,
-        fontFamily:'Montserrat',
-        color: colors.white,
-        textAlign:'center'
-      }
+  buttonText:{
+    color:colors.white,
+    fontSize:20
+  },
 });
 
 
