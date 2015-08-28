@@ -39,10 +39,6 @@
 		ACA1296D1B40EC0500CC1499 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA1296C1B40EC0500CC1499 /* RCTFileTransfer.m */; };
 		ACA129861B416C3000CC1499 /* libRNKeyboardEvents.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129851B416C2700CC1499 /* libRNKeyboardEvents.a */; };
 		ACABA31F1B8F7D7E0024503C /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACABA31E1B8F7B760024503C /* libRNOverlay.a */; };
-		ACABA32A1B8F7E880024503C /* RNBlur in Resources */ = {isa = PBXBuildFile; fileRef = ACABA3281B8F7E880024503C /* RNBlur */; };
-		ACABA32B1B8F7E880024503C /* RNVibrancy in Resources */ = {isa = PBXBuildFile; fileRef = ACABA3291B8F7E880024503C /* RNVibrancy */; };
-		ACABA32C1B8F7FA40024503C /* RNBlur in Sources */ = {isa = PBXBuildFile; fileRef = ACABA3281B8F7E880024503C /* RNBlur */; };
-		ACABA32D1B8F7FA40024503C /* RNVibrancy in Sources */ = {isa = PBXBuildFile; fileRef = ACABA3291B8F7E880024503C /* RNVibrancy */; };
 		ACBA6C761B8413A6009040D6 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACBA6C751B8413A6009040D6 /* Media.xcassets */; };
 		ACE1CD0A1B5772DF0043177A /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACE1CD061B5772DF0043177A /* Bolts.framework */; };
 		ACE1CD0B1B5772DF0043177A /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACE1CD071B5772DF0043177A /* FBSDKCoreKit.framework */; };
@@ -826,7 +822,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACABA32A1B8F7E880024503C /* RNBlur in Resources */,
 				AC5B03AB1B85A9FB003E0302 /* Default@2x~iphone.png in Resources */,
 				AC5B03A11B85A899003E0302 /* Images.xcassets in Resources */,
 				AC6BC1AD1B832657005F7DFA /* Montserrat-Regular.otf in Resources */,
@@ -836,7 +831,6 @@
 				AC5B03A71B85A9FB003E0302 /* Default-568h@2x~iphone.png in Resources */,
 				AC6BC1B01B832657005F7DFA /* omnes-medium-webfont.ttf in Resources */,
 				AC5B03A91B85A9FB003E0302 /* Default-736h@3x~iphone.png in Resources */,
-				ACABA32B1B8F7E880024503C /* RNVibrancy in Resources */,
 				ACBA6C761B8413A6009040D6 /* Media.xcassets in Resources */,
 				AC5B03A81B85A9FB003E0302 /* Default-667h@2x~iphone.png in Resources */,
 				AC5B03AA1B85A9FB003E0302 /* Default.png in Resources */,
@@ -850,8 +844,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACABA32C1B8F7FA40024503C /* RNBlur in Sources */,
-				ACABA32D1B8F7FA40024503C /* RNVibrancy in Sources */,
 				ACA1296D1B40EC0500CC1499 /* RCTFileTransfer.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
@@ -879,6 +871,8 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/node_modules/react-native/React/**",
+					"$(SRCROOT)/node_modules/react-native-blur/RNVibrancy",
+					"$(SRCROOT)/node_modules/react-native-blur/RNBlur",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
@@ -913,6 +907,8 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/node_modules/react-native/React/**",
+					"$(SRCROOT)/node_modules/react-native-blur/RNVibrancy",
+					"$(SRCROOT)/node_modules/react-native-blur/RNBlur",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;

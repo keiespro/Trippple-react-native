@@ -3,7 +3,7 @@ window.navigator.userAgent = '' // socketio-client
 const TRIPPPLE_WEBSOCKET_URL = 'http://x.local:9919'
 
 import React from 'react-native'
-import { Component, View, AlertIOS, AsyncStorage, AppStateIOS, PushNotificationIOS } from 'react-native'
+import { Component, View, AlertIOS, AsyncStorage, AppStateIOS, PushNotificationIOS, VibrationIOS } from 'react-native'
 
 import Promise from 'bluebird'
 import NotificationActions from '../flux/actions/NotificationActions'
@@ -36,7 +36,7 @@ class NotificationCommander extends Component{
     AppStateIOS.removeEventListener('change', this._handleAppStateChange);
   }
 
-  shouldComponentUpdate = (/**/) => false
+  shouldComponentUpdate = () => false
 
   _handleAppStateChange =(appState)=> {
     appState === 'background' ? this.disconnectSocket() : this.connectSocket()
@@ -44,7 +44,7 @@ class NotificationCommander extends Component{
 
   }
 
-  connectSocket =(/**/)=> {
+  connectSocket =()=> {
     this.socket.on('user.connect', (data) => {
       this.online_id = data.online_id;
       let myApikey = this.props.apikey
@@ -63,8 +63,10 @@ class NotificationCommander extends Component{
 
       if(data.action && data.action === 'retrieve' && data.match_id) {
         console.log('NOTIFICATION');
+
       }else if(data.action === 'match_removed'){
         console.log('MATCH REMOVED');
+
       }else if(data.action && (data.action === 'imageflagged' || 'statuschange')) {
 
       }
@@ -72,8 +74,6 @@ class NotificationCommander extends Component{
 
     this.socket.on('chat', (payload) => {
 
-      // let { action, match_id } = { data } = payload // I really wanted this to work
-      // let { { action, match_id } } = payload
       let { data } = payload
 
       if(data.action === 'retrieve') {
@@ -96,7 +96,7 @@ class NotificationCommander extends Component{
   onNotification(){
 
     //TODO: write code here
-
+    VibrationIOS.vibrate()
   }
 
   render(){

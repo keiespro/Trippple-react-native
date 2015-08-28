@@ -9,13 +9,13 @@ import {
   LayoutAnimation,
   TouchableHighlight,
   Image,
+  Animated,
   ScrollView,
   PanResponder
 } from 'react-native';
 
 import alt from '../flux/alt';
 import precomputeStyle from 'precomputeStyle';
-import RNTAnimation from 'react-native-tween-animation';
 import MatchActions from '../flux/actions/MatchActions';
 
 import AltContainer from 'alt/AltNativeContainer';
@@ -36,16 +36,15 @@ const THROW_OUT_THRESHOLD = 225;
 
 @reactMixin.decorate(TimerMixin)
 class ActiveCard extends Component{
+
   static displayName = 'ActiveCard'
 
   constructor(props){
     super()
 
     this.state = {
-      position: {
-        translateX: 0,
-        translateY: 0,
-      },
+      panX: new Animated.Value(0),
+      panY: new Animated.Value(0),
       profileVisible: false,
       isAnimating:false,
       isDragging: false,
@@ -54,24 +53,12 @@ class ActiveCard extends Component{
   }
   componentWillMount(){
     this._panResponder = {}
-    this._previousLeft = 0
-    this._previousTop = 0
-    this._circleStyles = {}
-    this._cardStyles = {translateX:0, translateY:0}
-    this._handle = ''
-    this.card = null // : ? { setNativeProps(props: Object): void } )
 
     this.props.isTopCard && this.initializePanResponder()
   }
   componentDidMount(){
-    this._updatePosition();
-  }
-  componentWillUpdate(nextProps,nextState){
-    if(nextProps.isTopCard && !this.props.isTopCard){
-
-      // console.log('ANIMATE NEW CARD');
-      // LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
-    }
+    this.state.panX.setValue(0);     // Start 0
+    this.state.panY.setValue(0);     // Start 0
   }
   componentDidUpdate(prevProps,prevState){
     if(this.props.isTopCard && !prevProps.isTopCard){
@@ -80,22 +67,46 @@ class ActiveCard extends Component{
   }
   initializePanResponder(){
     this._panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: this._handleStartShouldSetPanResponder,
-      onMoveShouldSetPanResponder: this._handleMoveShouldSetPanResponder,
-      onStartShouldSetPanResponderCapture: this._handleOnStartShouldSetResponderCapture,
-      onMoveShouldSetPanResponderCapture: this._handleOnMoveShouldSetResponderCapture,
-      onPanResponderGrant: this._handlePanResponderGrant,
-      onPanResponderMove: this._handlePanResponderMove,
-      onPanResponderRelease: this._handlePanResponderEnd,
-      onPanResponderTerminate: this._handlePanResponderEnd,
-      // onPanResponderTerminationRequest: this._hanlePanResponderTerminationRequest,
-    });
-    this._previousLeft = 0;
-    this._previousTop = 0;
-    this._cardStyles = {
-      translateY: this._previousTop,
-      translateX: this._previousLeft
-    }
+      onMoveShouldSetPanResponder: (e,gestureState) => {
+        console.log(gestureState)
+        return Math.abs(gestureState.dy) * 1.25 < Math.abs(gestureState.dx)
+      },
+      onPanResponderGrant: () => {
+        Animated.timing(this.state.panY, {
+          toValue: this.state.panX.interpolate({
+            inputRange: [-300, 0, 300],            // pan is in pixels
+            outputRange: [0, 1, 0],                // goes to zero at both edges
+          }),
+          duration: 0,                             // direct tracking
+        }).start();
+      },
+      onPanResponderMove: Animated.event(
+        [null, {dx: this.state.panX}]              // panX is linked to the gesture
+      ),
+      onPanResponderRelease: (e, gestureState) => {
+        var toValue = 0;
+        if (gestureState.dx > 350) {
+          toValue = 500;
+        } else if (gestureState.dx < -100) {
+          toValue = -500;
+        }
+        Animated.spring(this.state.panX, {
+          toValue,                         // animate back to center or off screen
+          velocity: gestureState.vx,       // maintain gesture velocity
+          tension: 10,
+          friction: 3,
+        }).start();
+        this.state.panX.removeAllListeners();
+        var id = this.state.panX.addListener(({value}) => { // listen until offscreen
+          if (Math.abs(value) > 400) {
+            const likeStatus = gestureState.dx > 0 ? 'approve' : 'deny';
+            const likeUserId = this.props.potential.user.id;
+            MatchActions.sendLike(likeUserId,likeStatus)
+            this.state.panX.removeListener(id);             // offscreen, so stop listening
+          }
+        })
+      }
+    })
   }
 
   _handleDoubleTap(){
@@ -113,175 +124,169 @@ class ActiveCard extends Component{
   _hideProfile(){ this.setState({ profileVisible: false }) }
 
 
-  _updatePosition(tweenFrame) {
-    const positionData = tweenFrame ? tweenFrame : this._cardStyles
+//   _updatePosition(tweenFrame) {
+//     const positionData = tweenFrame ? tweenFrame : this._cardStyles
 
-    // start scaling immediately, keep scaling until 3/4 throw threshold is reach
-    var newScale = Math.abs(positionData.translateX) > THROW_OUT_THRESHOLD * 0.75 ? 1.05 : 1 + (Math.abs(positionData.translateX) * 0.00025) // this is a magic number i pulled out of my ass
+//     // start scaling immediately, keep scaling until 3/4 throw threshold is reach
+//     var newScale = Math.abs(positionData.translateX) > THROW_OUT_THRESHOLD * 0.75 ? 1.05 : 1 + (Math.abs(positionData.translateX) * 0.00025)
+//     // this is a magic number i pulled out of my ass
 
-    // start rotating after translateX hits three quarter of throw threshold.
-    var newRotate = Math.abs(positionData.translateX) < THROW_OUT_THRESHOLD * 0.75 ? 0 : Math.abs(positionData.translateX) - THROW_OUT_THRESHOLD * 0.75
-    newRotate = (positionData.translateX > 0 ? newRotate : newRotate * -1) / 10 + 'deg'
+//     // start rotating after translateX hits three quarter of throw threshold.
+//     var newRotate = Math.abs(positionData.translateX) < THROW_OUT_THRESHOLD * 0.75 ? 0 : Math.abs(positionData.translateX) - THROW_OUT_THRESHOLD * 0.75
+//     newRotate = (positionData.translateX > 0 ? newRotate : newRotate * -1) / 10 + 'deg'
 
-    // start increasing shadow radius
-    var newShadow = Math.abs(positionData.translateX) < THROW_OUT_THRESHOLD / 2 ? 5 : parseInt(Math.abs(positionData.translateX) - THROW_OUT_THRESHOLD / 2, 0)
-    newShadow = newShadow > 30 ? 30 : newShadow
+//     // start increasing shadow radius
+//     var newShadow = Math.abs(positionData.translateX) < THROW_OUT_THRESHOLD / 2 ? 5 : parseInt(Math.abs(positionData.translateX) - THROW_OUT_THRESHOLD / 2, 0)
+//     newShadow = newShadow > 30 ? 30 : newShadow
 
-    var newPos = {
-      transform: [
-        {translateX:  parseFloat(positionData.translateX.toFixed(2))},
-        {scale: parseFloat(newScale.toFixed(2))},
-        {rotate: newRotate}
-      ],
-      shadowRadius: newShadow,
+//     var newPos = {
+//       transform: [
+//         {translateX:  parseFloat(positionData.translateX.toFixed(2))},
+//         {scale: parseFloat(newScale.toFixed(2))},
+//         {rotate: newRotate}
+//       ],
+//       shadowRadius: newShadow,
 
-    }
+//     }
 
-    this.card && this.card.setNativeProps(precomputeStyle(newPos))
-    // https://facebook.github.io/react-native/docs/direct-manipulation.html#precomputing-style
-  }
+//     this.card && this.card.setNativeProps(precomputeStyle(newPos))
+//     // https://facebook.github.io/react-native/docs/direct-manipulation.html#precomputing-style
+//   }
 
-  _handleStartShouldSetPanResponder = (e: Object, gestureState: Object) => {
-    console.log('_handleStartShouldSetPanResponder',gestureState.dx,gestureState.moveX)
+//   _handleStartShouldSetPanResponder = (e: Object, gestureState: Object) => {
+//     console.log('_handleStartShouldSetPanResponder',gestureState.dx,gestureState.moveX)
 
-    // Should we become active when the user presses down on the card?
-    if(Math.abs(gestureState.dx) < 1){
-      if(this.state.waitingForDoubleTap){
-        console.log('double tap');
-        this._handleDoubleTap();
-        return false
+//     // Should we become active when the user presses down on the card?
+//     if(Math.abs(gestureState.dx) < 1){
+//       if(this.state.waitingForDoubleTap){
+//         console.log('double tap');
+//         this._handleDoubleTap();
+//         return false
 
-      }else{
-        this.setState({waitingForDoubleTap:true})
-        this.setTimeout(()=>{
-          if(this.state.waitingForDoubleTap){
-            this.setState({waitingForDoubleTap:false})
-          }
-        },200)
+//       }else{
+//         this.setState({waitingForDoubleTap:true})
+//         this.setTimeout(()=>{
+//           if(this.state.waitingForDoubleTap){
+//             this.setState({waitingForDoubleTap:false})
+//           }
+//         },200)
 
-      }
-    }
+//       }
+//     }
 
-    return Math.abs(gestureState.dy) * 2 < Math.abs(gestureState.dx)
+//     return Math.abs(gestureState.dy) * 2 < Math.abs(gestureState.dx)
 
-  }
+//   }
 
-  _handleMoveShouldSetPanResponder = (e: Object, gestureState) => {
-    // console.log('_handleMoveShouldSetPanResponder',gestureState.dx,gestureState,e)
+//   _handleMoveShouldSetPanResponder = (e: Object, gestureState) => {
+//     // console.log('_handleMoveShouldSetPanResponder',gestureState.dx,gestureState,e)
 
 
-    //TODO: correctly determine velocity to determine if gesture was a throw
-    // if(Math.abs(gestureState.vx*10000000) > 5){
-    //
-      return Math.abs(gestureState.dy) * 2 < Math.abs(gestureState.dx)
-    // }
-  }
+//     //TODO: correctly determine velocity to determine if gesture was a throw
+//     // if(Math.abs(gestureState.vx*10000000) > 5){
+//     //
+//       return Math.abs(gestureState.dy) * 2 < Math.abs(gestureState.dx)
+//     // }
+//   }
 
-  _handlePanResponderGrant = (e: Object, gestureState: Object) => {
-    // console.log('Pan Responder Grant',gestureState.dx,gestureState.moveX)
-      this.setState({
-        isDragging: true
-      })
+//   _handlePanResponderGrant = (e: Object, gestureState: Object) => {
+//     // console.log('Pan Responder Grant',gestureState.dx,gestureState.moveX)
+//       // this.setState({
+//       //   isDragging: true
+//       // })
 
-  }
-  _handlePanResponderMove = (e: Object, gestureState: Object) => {
-    // console.log('Pan Responder MOVE',gestureState.dx,gestureState)
+//   }
+//   _handlePanResponderMove = (e: Object, gestureState: Object) => {
+//     // console.log('Pan Responder MOVE',gestureState.dx,gestureState)
+//     Animated.event([
+//       null,                                          // ignore the native event
+//       {dx: gestureState.dx, dy: gestureState.dy}                         // extract dx and dy from gestureState
+//     ]);
+//   }
+//   _handlePanResponderEnd = (e: Object, gestureState: Object) => {
 
-    this._cardStyles = {
-      translateX: gestureState.dx,
-      translateY: 0
-    };
-    this._updatePosition();
+//     this.setState({
+//       isDragging: false
+//     })
+//     // console.log('Pan Responder End',Math.abs(gestureState.dx))
 
-  }
-  _handlePanResponderEnd = (e: Object, gestureState: Object) => {
+//     Math.abs(gestureState.dx) > THROW_OUT_THRESHOLD ? this._throwOutCard(gestureState) : this._resetCard(gestureState)
 
-    this.setState({
-      isDragging: false
-    })
-    // console.log('Pan Responder End',Math.abs(gestureState.dx))
-
-    Math.abs(gestureState.dx) > THROW_OUT_THRESHOLD ? this._throwOutCard(gestureState) : this._resetCard(gestureState)
-
-  }
-  _throwOutCard(gestureState){
-    var self = this;
+//   }
+  // _throwOutCard(gestureState){
 
     // console.debug('throwout',self.props.potential,self.props.potential.user.id)
 
 
-    const likeStatus = gestureState.dx > 0 ? 'approve' : 'deny';
-    const likeUserId = this.props.potential.user.id;
+//     this.setState({
+//       isAnimating: true
+//     })
+
+//     var animation = new RNTAnimation({
+//       start: {
+//         translateY: 0,
+//         translateX: self._cardStyles.translateX
+//       },
+//       end: {
+//         translateY: 0,
+//         translateX: (likeStatus === 'approve' ? DeviceWidth * 2 : -DeviceWidth * 2)
+//       },
+//       duration: 500,
+//       tween: 'easeOutBack',
+//       frame: (tweenFrame) => self._updatePosition( tweenFrame ),
+//       // TODO: like goes to couple id instead of user (initiator of couple) id?
+//       done: () => MatchActions.sendLike(likeUserId,likeStatus)
+//     });
+
+  // }
+  // _resetCard(gestureState){
+    // this.setState({
+    //   isAnimating: true
+    // })
+
+    // var self = this;
 
 
-        this.setState({
-          isAnimating: true
-        })
+    // var animation = new RNTAnimation({
 
-    var animation = new RNTAnimation({
-      start: {
-        translateY: 0,
-        translateX: self._cardStyles.translateX
-      },
-      end: {
-        translateY: 0,
-        translateX: (likeStatus === 'approve' ? DeviceWidth * 2 : -DeviceWidth * 2)
-      },
-      duration: 500,
-      tween: 'easeOutBack',
-      frame: (tweenFrame) => self._updatePosition( tweenFrame ),
-      // TODO: like goes to couple id instead of user (initiator of couple) id?
-      done: () => MatchActions.sendLike(likeUserId,likeStatus)
-    });
+    //   // Start state
+    //   start: {
+    //     translateY: self._cardStyles.translateY,
+    //     translateX: self._cardStyles.translateX
+    //   },
 
-  }
-  _resetCard(gestureState){
-    this.setState({
-      isAnimating: true
-    })
+    //   // End state
+    //   end: {
+    //     translateY: 0,
+    //     translateX: 0
+    //   },
 
-    var self = this;
+    //   // Animation duration
+    //   duration: Math.abs(self._cardStyles.translateX) * 1.5,
 
+    //   // Tween function
+    //   tween: 'easeOutBack',
 
-    var animation = new RNTAnimation({
+    //   // Update the component's state each frame
+    //   frame: (tweenFrame) => {
+    //     self._updatePosition( tweenFrame );
+    //   },
 
-      // Start state
-      start: {
-        translateY: self._cardStyles.translateY,
-        translateX: self._cardStyles.translateX
-      },
-
-      // End state
-      end: {
-        translateY: 0,
-        translateX: 0
-      },
-
-      // Animation duration
-      duration: Math.abs(self._cardStyles.translateX) * 1.5,
-
-      // Tween function
-      tween: 'easeOutBack',
-
-      // Update the component's state each frame
-      frame: (tweenFrame) => {
-        self._updatePosition( tweenFrame );
-      },
-
-      done: () => {
-        self.setState({ isAnimating:false })
-      }
-    });
-  }
+    //   done: () => {
+    //     self.setState({ isAnimating:false })
+    //   }
+    // });
+  // }
 
   render() {
-
     return (
 
-      <View style={
-
-          {
+      <Animated.View style={{
           alignSelf:'center',
+          transform: [                        // `transform` is an ordered array
+            {translateX: this.state.panX },
+            {translateY: this.state.panY },
+          ],
           width:(DeviceWidth - (this.state.profileVisible ? 0 : 40)),
           height:(DeviceHeight - (this.state.profileVisible ? 0 : 85)),
           left:this.state.profileVisible ? 0 : 20,
@@ -296,12 +301,11 @@ class ActiveCard extends Component{
               width:0,
               height: 5
           }
-        }
-
-      }
-      key={`${this.props.potential.id}-wrapper`}
+        }}
+        key={`${this.props.potential.id}-wrapper`}
+        {...this._panResponder.panHandlers}
         ref={(card) => { this.card = card }}
-        {...this._panResponder.panHandlers}>
+        >
 
 
         <CoupleActiveCard
@@ -311,7 +315,7 @@ class ActiveCard extends Component{
           showProfile={this._showProfile.bind(this)}
           potential={this.props.potential} />
 
-        </View>
+        </Animated.View>
     );
 
   }

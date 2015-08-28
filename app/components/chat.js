@@ -8,7 +8,7 @@ var {
   StyleSheet,
   Text,
   View,
-  AsyncStorage,
+  // AsyncStorage,
   InteractionManager,
   Image,
   TextInput,
@@ -124,12 +124,9 @@ var styles = StyleSheet.create({
 class ChatMessage extends React.Component {
   constructor(props){
     super(props);
-    console.log(props.messageData);
   }
   render() {
     var isMessageOurs = (this.props.messageData.from_user_info.id === this.props.user.id || this.props.messageData.from_user_info.id === this.props.user.partner_id);
-
-    console.log(this.props.messageData.from_user_info.id, this.props.user.id ,this.props.user.partner_id, isMessageOurs);
 
     return (
       <View style={[styles.bubble]}>
@@ -151,7 +148,6 @@ class ChatMessage extends React.Component {
 class ChatInside extends Component{
   constructor(props){
     super(props);
-    MatchActions.getMessages(props.matchID);
 
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
 
@@ -161,11 +157,10 @@ class ChatInside extends Component{
       keyboardSpace: 0,
       isKeyboardOpened: false,
       textInputValue: ''
-
     }
+    MatchActions.getMessages(props.matchID);
 
   }
-
 
 
   updateKeyboardSpace(frames) {
@@ -189,30 +184,20 @@ class ChatInside extends Component{
     KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace.bind(this));
   }
   componentDidMount(){
-    console.log('mount chat')
     KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace.bind(this));
     KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace.bind(this));
-    KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillChangeFrameEvent, (frames) => {
-      // console.log('will change', frames);
-      // this.refs.chatscroll.setNativeProps({
-      //   paddingBottom: DeviceHeight - frames.end.height
-      // })
-    });
-    console.log(this.refs.scroller)
+    // KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillChangeFrameEvent, (frames) => {
+    //   console.log('will change', frames);
+    // });
     // this.refs.scroller.refs.listviewscroll.scrollTo(0)
-    // InteractionManager.runAfterInteractions(() => {
       MatchActions.getMessages(this.props.matchID);
-    //   this.saveToStorage();
-    // })
-    // this.refs.lister.refs.listviewscroll.scrollTo.call(this,0,0)
   }
   componentDidUpdate(prevProps){
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
     this.refs.scroller.refs.listviewscroll.scrollTo(0,0)
 
     if(prevProps.messages && prevProps.messages.length < this.props.messages.length ){
       this.setState({
-        dataSource: ds.cloneWithRows(this.props.messages)
+        dataSource: this.state.dataSource.cloneWithRows(this.props.messages)
       })
     }
   }
@@ -224,9 +209,14 @@ class ChatInside extends Component{
     //   .done();
   }
   _renderRow(rowData, sectionID: number, rowID: number) {
-    console.log(rowData)
     return (
-      <ChatMessage user={this.props.user} messageData={rowData} key={`${rowID}-msg`} text={rowData.message_body} pic={rowData.from_user_info.image_url}/>
+      <ChatMessage
+      user={this.props.user}
+      messageData={rowData}
+      key={`${rowID}-msg`}
+      text={rowData.message_body}
+      pic={rowData.from_user_info.image_url}
+      />
     )
   }
 
@@ -270,7 +260,7 @@ class ChatInside extends Component{
 
         <ListView
           ref={'scroller'}
-          renderScrollComponent={props => <InvertibleScrollView contentContainerStyle={{justifyContent:'flex-end',width:DeviceWidth,overflow:'hidden'}} {...this.props} inverted={true} />}
+          renderScrollComponent={props => <InvertibleScrollView contentContainerStyle={{justifyContent:'flex-end',width:DeviceWidth,overflow:'hidden'}} {...this.props} inverted={true} keyboardDismissMode={'interactive'}  />}
           matchID={this.props.matchID}
           dataSource={this.state.dataSource}
           renderRow={this._renderRow.bind(this)}

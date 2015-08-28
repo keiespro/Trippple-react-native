@@ -31,7 +31,7 @@ var customSceneConfigs = require('../utils/sceneConfigs')
 // Buttons
 var swipeoutBtns = [
   {
-    text: 'Button'
+    text: 'Unmatch'
   }
 ];
 
@@ -61,7 +61,7 @@ class MatchList extends Component{
   _renderRow(rowData, sectionID: number, rowID: number) {
 
     var myId = this.props.user.id,
-        myPartnerId = this.props.user.relationship_status == 'couple' ? this.props.user.partner_id : null;
+        myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
 
     var them = Object.keys(rowData.users).reduce( (arr, e, i) => {
       if(rowData.users[e].id !== myId && rowData.users[e].id !== myPartnerId){
@@ -142,7 +142,7 @@ class MatchList extends Component{
         index: 3,
         matchID: matchID
       },
-      sceneConfig: customSceneConfigs.SlideInFromRight,
+      sceneConfig: Navigator.SceneConfigs.FloatFromRight,
     });
   }
   render(){
@@ -187,7 +187,7 @@ class Matches extends Component{
   }
 
   onChange(state) {
-    if(state.matches.length < 0) return false
+    if(state.matches.length < 0){return false}
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
       this.setState({

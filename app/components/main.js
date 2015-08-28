@@ -36,7 +36,7 @@ import FakeNavBar from '../controls/FakeNavBar'
 var ROUTE_STACK = [
   {component: Settings, index: 0, title: 'Settings', id: 'settings',navigationBar:false},
   {component: Potentials, index: 1, title: 'Trippple', id: 'potentials'},
-  {component: Matches, index: 2, title: 'Matches', id: 'matches',navigationBar:false},
+  {component: Matches, index: 2, title: 'Matches', id: 'matches',navigationBar:false,sceneConfig:Navigator.SceneConfigs.FloatFromRight},
 ];
 
 
@@ -118,7 +118,7 @@ var ROUTE_STACK = [
     selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
         const RouteComponent = route.component;
         let navBar = route.navigationBar
-        if (route.id == 'matches' || route.id == 'chat') {
+        if (route.id == 'disabled' || route.id == 'chat') {
           navBar = <FakeNavBar  navigator={navigator} route={route} {...route.passProps} />
         }
         return (
@@ -136,13 +136,10 @@ var ROUTE_STACK = [
           <Navigator
             ref={'nav'}
               initialRoute={ROUTE_STACK[1]}
-              configureScene={(route) => { return  route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromBottom}}
+              configureScene={(route) => route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromBottom}
               navigator={this.props.navigator}
               renderScene={this.selectScene.bind(this)}
               navigationBar={ <Navigator.NavigationBar routeMapper={NavigationBarRouteMapper} style={styles.navBar} /> }
-              onItemRef={ (ref) => { console.log('onItemRef',ref) }}
-              onDidFocus={(x,y)=>{console.log('onDIDfocus',x,y)}}
-              onWillFocus={(x,y)=>{console.log('onwillfocus',x,y)}}
           />
       </View>
       );
