@@ -1,6 +1,5 @@
 /* @flow */
 
- ;
 
 var React = require('react-native');
 var {
@@ -21,9 +20,9 @@ Component,
 var colors = require('../utils/colors');
 
 var alt = require('../flux/alt')
-var Chat = require("./chat");
+var Chat = require('./chat');
 var MatchActions = require('../flux/actions/MatchActions');
-var MatchesStore = require("../flux/stores/MatchesStore");
+var MatchesStore = require('../flux/stores/MatchesStore');
 var Swipeout = require('react-native-swipeout');
 var Logger = require('../utils/logger');
 var customSceneConfigs = require('../utils/sceneConfigs')
@@ -71,9 +70,7 @@ class MatchList extends Component{
       return arr;
     }, []);
 
-    var threadName = them.map( (user,i) => {
-      return user.name.trim();
-    }).join(' & ');
+    var threadName = them.map( (user,i) => user.name.trim() ).join(' & ');
 
     var images = them.map( (user,i) => {
 
@@ -175,7 +172,6 @@ class Matches extends Component{
   }
 
   componentDidMount(){
-    console.log('mount matches',this.props.user_id,this.props.user.id)
 
     MatchesStore.listen(this.onChange.bind(this));
 

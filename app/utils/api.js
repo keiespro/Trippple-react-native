@@ -1,15 +1,12 @@
 
-var Keychain = require('react-native-keychain');
-var Promise = require('bluebird');
-var KEYCHAIN_NAMESPACE = window.keychainUrl || global.keychainUrl || 'trippple.co'
+import Promise from 'bluebird'
+import { FileTransfer } from 'NativeModules'
+  const CredentialsStore = require('../flux/stores/CredentialsStore')
 
-var NativeModules = require('NativeModules');
-var UploadFile = Promise.promisify(NativeModules.FileTransfer.upload);
+const UploadFile = Promise.promisify(FileTransfer.upload)
 
 
-var Logger = require('./logger');
-
-var SERVER_URL = 'http://x.local:9999/user';
+const SERVER_URL = 'http://x.local:9999/user'
 
 function publicRequest(endpoint, payload){
 
@@ -23,43 +20,35 @@ function publicRequest(endpoint, payload){
   })
   .then((res) => res.json())
 
-
 }
 
 function authenticatedRequest(endpoint: '', payload: {}){
-  var payload = payload || {};
-  Logger.debug(payload,'payload');
-  return Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
-    .then(function(credentials) {
-      console.log('Credentials successfully loaded', credentials);
-      payload.user_id = credentials.username;
-      payload.api_key = credentials.password;
-      return publicRequest(endpoint, payload);
-    });
+
+  const credentials = CredentialsStore.getState();
+  console.log(credentials)
+  console.log(payload)
+  const authPayload = {...payload, ...credentials}
+  console.log(authPayload)
+
+  return publicRequest(endpoint, authPayload);
 }
 
-function authenticatedFileUpload(endpoint, image, imagetype){
-  return Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
-    .then(function(credentials) {
-      console.log('Credentials successfully loaded', credentials);
-      var url = `${SERVER_URL}/${endpoint}`;
-      var payload = {
-          uri: image,
-          uploadUrl: url,
-          fileName: 'file.jpg',
-          mimeType:'jpeg',
-          data: {
-            user_id: credentials.username,
-            api_key: credentials.password,
-            image_type: imagetype
-          }
-      };
-      return UploadFile(payload)
-              .then( (res, err) => {
-                console.log('res:',res,'err:',err);
-                return res.response;
-              })
-    })
+function authenticatedFileUpload(endpoint, image, image_type){
+  const credentials = CredentialsStore.getState();
+
+  const url = `${SERVER_URL}/${endpoint}`
+
+  return UploadFile({
+    uri: image,
+    uploadUrl: url,
+    fileName: 'file.jpg',
+    mimeType:'jpeg',
+    data: { ...credentials, image_type }
+  })
+  .then( (res, err) => {
+    console.log('res:',res,'err:',err);
+    return res.response;
+  })
 }
 
 class api {

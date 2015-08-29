@@ -67,10 +67,7 @@ class ActiveCard extends Component{
   }
   initializePanResponder(){
     this._panResponder = PanResponder.create({
-      onMoveShouldSetPanResponder: (e,gestureState) => {
-        console.log(gestureState)
-        return Math.abs(gestureState.dy) * 1.25 < Math.abs(gestureState.dx)
-      },
+      onMoveShouldSetPanResponder: (e,gestureState) => Math.abs(gestureState.dy) * 1.25 < Math.abs(gestureState.dx),
       onPanResponderGrant: () => {
         Animated.timing(this.state.panY, {
           toValue: this.state.panX.interpolate({
@@ -85,7 +82,7 @@ class ActiveCard extends Component{
       ),
       onPanResponderRelease: (e, gestureState) => {
         var toValue = 0;
-        if (gestureState.dx > 350) {
+        if (gestureState.dx > 200) {
           toValue = 500;
         } else if (gestureState.dx < -100) {
           toValue = -500;
@@ -99,7 +96,7 @@ class ActiveCard extends Component{
         this.state.panX.removeAllListeners();
         var id = this.state.panX.addListener(({value}) => { // listen until offscreen
           if (Math.abs(value) > 400) {
-            const likeStatus = gestureState.dx > 0 ? 'approve' : 'deny';
+            const likeStatus = value > 0 ? 'approve' : 'deny';
             const likeUserId = this.props.potential.user.id;
             MatchActions.sendLike(likeUserId,likeStatus)
             this.state.panX.removeListener(id);             // offscreen, so stop listening

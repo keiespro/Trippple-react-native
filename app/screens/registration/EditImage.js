@@ -9,6 +9,7 @@ import {
   ScrollView,
   Text,
   Image,
+  CameraRoll,
   View,
   NativeModules,
   TouchableHighlight,
@@ -58,9 +59,21 @@ class EditImage extends Component{
     console.log('will mount editor')
   }
 
-  accept(){
+  accept(croppedImageURI){
     UserActions.uploadImage(this.props.image.uri,this.props.imagetype)
-      this.props.navigator.push({
+
+    console.log(croppedImageURI);
+
+    if(this.props.afterSaveCallback){
+      this.props.afterSaveCallback({
+          image:this.props.image,
+          croppedImage: croppedImageURI,
+          imagetype: this.props.imagetype
+      });
+      return;
+    }
+
+    this.props.navigator.push({
         component: this.props.nextRoute,
         passProps: {
           image:this.props.image,
@@ -95,10 +108,7 @@ class EditImage extends Component{
       );
     }
 
-    if (!this.state.croppedImageURI) {
       return this._renderImageCropper();
-    }
-    return this._renderCroppedImage();
   }
 
   _renderImageCropper() {
@@ -150,35 +160,18 @@ class EditImage extends Component{
     );
   }
 
-  _renderCroppedImage() {
-    return (
-      <View style={styles.container}>
-        <Text>Here is the cropped image:</Text>
-        <Image
-          source={{uri: this.state.croppedImageURI}}
-          style={[styles.imageCropper, this.state.measuredSize]}
-          >
-          <TouchableHighlight onPress={this.retake} style={styles.bigbutton}>
-            <View/>
-          </TouchableHighlight>
-        </Image>
-      </View>
-    );
-  }
 
   _crop() {
     ImageEditingManager.cropImage(
       this.props.image.uri,
       this._transformData,
-      (croppedImageURI) => this.setState({croppedImageURI}),
+      (croppedImageURI) => { this.setState({croppedImageURI}); this.accept(croppedImageURI)},
       (cropError) => this.setState({cropError})
     );
-    this.accept()
   }
 
   _reset() {
     this.setState({
-      randomPhoto: null,
       croppedImageURI: null,
       cropError: null,
     });

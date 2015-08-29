@@ -55,6 +55,7 @@ class SelfImage extends Component{
       passProps: {
         image: imageFile,
         imagetype:'profile',
+        ...this.props
       },
       sceneConfig: NavigatorSceneConfigs.FloatFromBottom
     });

@@ -19,7 +19,14 @@ class MatchesStore {
       handleGetMatches: MatchActions.GET_MATCHES
     });
     this.on('init',()=>{
-      console.log('store init')
+      console.log('matches store init')
+    })
+    this.on('bootstrap', () => {
+      console.log('store bootstrap');
+
+    });
+  }
+  loadLocalData(){
 
       AsyncStorage.getItem('MatchesStore')
         .then((value) => {
@@ -32,13 +39,7 @@ class MatchesStore {
         .catch((err) => {
           console.log(err);
         })
-    })
-    this.on('bootstrap', () => {
-      console.log('store bootstrap');
-
-    });
   }
-
   handleInitializeMatches(){
 
     // console.log(savedMatches,'handlegetmatches');

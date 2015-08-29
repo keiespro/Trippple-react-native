@@ -1,12 +1,20 @@
-import alt from '../alt';
-import Api from '../../utils/api';
-import Keychain from 'react-native-keychain';
-
-const KEYCHAIN_NAMESPACE = window.keychainUrl || global.keychainUrl
-
-
+import alt from '../alt'
+import Api from '../../utils/api'
 
 class UserActions {
+  initialize(){
+    this.dispatch()
+  }
+
+  initSuccess(user_info){
+    this.dispatch(user_info);
+  }
+
+  initFail(errorMessage){
+    console.log(errorMessage)
+    this.dispatch(errorMessage);
+  }
+
 
   getUserInfo(){
     Api.getUserInfo()
@@ -50,17 +58,7 @@ class UserActions {
   }
 
   logOut(){
-    Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE)
-      .then(() => {
-        this.dispatch();
-      })
-      .catch((err) => {
-        console.log('error',err);
-        this.dispatch(err);
-      })
-
-
-
+    this.dispatch();
   }
 
   updateUserStub(updateAttributes){
@@ -113,14 +111,7 @@ class UserActions {
       })
   }
 
-  initialize(){
-    console.log('INITIALIZE');
 
-
-
-
-
-  }
 }
 
 export default alt.createActions(UserActions)

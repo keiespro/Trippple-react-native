@@ -1,34 +1,46 @@
-import alt from '../alt';
-import UserActions from '../actions/UserActions';
-import Keychain from 'react-native-keychain';
+import alt from '../alt'
+import UserActions from '../actions/UserActions'
+import UserSource from '../dataSources/UserSource'
+import AppActions from '../actions/AppActions'
+import { datasource } from 'alt/utils/decorators'
 
-const KEYCHAIN_NAMESPACE = window.keychainUrl || global.keychainUrl || 'trippple.co'
-
-
+@datasource(UserSource)
 class UserStore {
   constructor() {
 
-    this.state = {
-      user: {},
-      userStub: {}
-    }
+    this.user = {}
+    this.userStub = {}
+
+    this.registerAsync(UserSource);
 
     this.exportPublicMethods({
       getUser: this.getUser
-    });
-
+    })
     this.bindListeners({
       handleGetUserInfo: UserActions.getUserInfo,
       handleVerifyPin: UserActions.VERIFY_SECURITY_PIN,
       handleRequestPin: UserActions.REQUEST_PIN_LOGIN,
       handleUpdateUser: UserActions.UPDATE_USER,
       handleUpload: UserActions.UPLOAD_IMAGE,
-      handleInitialize: UserActions.INITIALIZE,
+      handleInitialize: AppActions.GOT_CREDENTIALS,
+      handleInitSuccess: UserActions.INIT_SUCCESS,
       handleUpdateUserStub: UserActions.updateUserStub,
       handleLogOut: UserActions.LOG_OUT
     });
 
+  }
 
+  handleInitialize(){
+
+    this.getInstance().initUser()
+
+  }
+
+  handleInitSuccess(user_info){
+    console.log(user_info)
+    this.setState({
+      user: user_info
+    })
   }
 
   handleRequestPin(res){
@@ -42,11 +54,6 @@ class UserStore {
 
     var {response} = res;
 
-    Keychain.setInternetCredentials(KEYCHAIN_NAMESPACE, response.user_id, response.api_key)
-      .then((result)=> {
-        console.log('Credentials saved successfully!',result)
-      });
-
     var u = this.state.user || {};
 
     u.id = response.user_id;
@@ -56,28 +63,10 @@ class UserStore {
     this.setState({
       user: u,
       status: u.status,
-      user_id: u.id,
-      apikey: u.api_key
     })
 
 
   }
-
-  handleInitialize(res){
-    if(res.error){
-      return false;
-    }
-
-    var user = res.response.user_info;
-
-    this.setState({
-      user: user,
-      status: user.status,
-      user_id: user.id,
-      apikey: user.api_key
-    })
-  }
-
   handleGetUserInfo(res){
     console.log(res)
     if(res.error){
@@ -103,14 +92,11 @@ class UserStore {
     }
 
   }
-  handleLogOut(){
-    Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE)
-    .then(() => {
-      console.log('Credentials successfully deleted');
-    })
-    this.setState({ user:{}, userStub: null, apikey: null, status: null, user_id: null });
 
+  handleLogOut(){
+    this.setState({ user:{}, userStub: null});
   }
+
   updateUserInfo(attributes){
     const updatedUser = {...this.state.user, ...attributes};
     this.setState({user:updatedUser});

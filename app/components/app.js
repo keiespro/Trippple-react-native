@@ -18,6 +18,7 @@ import Onboard from '../screens/registration/onboard'
 
 import UserStore from '../flux/stores/UserStore';
 import UserActions from '../flux/actions/UserActions';
+import AppActions from '../flux/actions/AppActions';
 
 import NotificationsStore from '../flux/stores/NotificationsStore';
 import NotificationCommander from '../utils/NotificationCommander';
@@ -29,7 +30,9 @@ class AppRoutes extends Component{
     super()
 
   }
-
+  componentDidMount(){
+    AppActions.initApp()
+  }
   render(){
     var userStatus = this.props.user ? this.props.user.status : null;
 
@@ -59,7 +62,6 @@ class TopLevel extends Component{
     }
   }
   componentDidMount(){
-    UserActions.getUserInfo()
   }
   render(){
     return (

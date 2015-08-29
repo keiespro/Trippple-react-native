@@ -26,7 +26,7 @@ const DeviceWidth = Dimensions.get('window').width;
 import DistanceSlider from '../controls/distanceSlider';
 import ToggleSwitch from '../controls/switches';
 import UserActions from '../flux/actions/UserActions'
-import CameraControl from '../controls/cameraControl';
+import EditImage from '../screens/registration/EditImage';
 import SelfImage from '../screens/registration/SelfImage';
 import Privacy from './privacy';
 import Modal from 'react-native-swipeable-modal';
@@ -168,12 +168,23 @@ class SettingsInside extends React.Component{
   setNativeProps(props) {
     this._scrollView.setNativeProps(props);
   }
+  handleImages(imgs){
+    console.log(imgs);
+    UserActions.uploadImage(imgs.croppedImage,'profile')
 
-  _pressNewImage=()=>{
-    console.log('change image');
+    let navigator = this.props.navigator
+    navigator.popToRoute(navigator.getCurrentRoutes()[1]);
+  }
+
+  _pressNewImage =()=>{
     this.props.navigator.push({
       component: SelfImage,
-      id: 'settingsimage'
+      passProps: {
+        afterSaveCallback: this.handleImages.bind(this),
+        nextRoute: EditImage,
+
+
+      }
     });
   }
   _editField=()=>{
@@ -229,7 +240,6 @@ class SettingsInside extends React.Component{
         barPosition={'bottom'}
         style={{backgroundColor:colors.dark}}
         barColor={colors.mediumPurple}
-        titleStyle={styles.segmentTitles}
         titles={['BASIC', 'PREFERENCES', 'SETTINGS']}
          index={this.state.index}
          stretch

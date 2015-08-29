@@ -36,7 +36,7 @@ import FakeNavBar from '../controls/FakeNavBar'
 var ROUTE_STACK = [
   {component: Settings, index: 0, title: 'Settings', id: 'settings',navigationBar:false},
   {component: Potentials, index: 1, title: 'Trippple', id: 'potentials'},
-  {component: Matches, index: 2, title: 'Matches', id: 'matches',navigationBar:false,sceneConfig:Navigator.SceneConfigs.FloatFromRight},
+  {component: Matches, index: 2, title: 'Matches', id: 'matches',sceneConfig:Navigator.SceneConfigs.FloatFromRight},
 ];
 
 
@@ -45,19 +45,22 @@ var ROUTE_STACK = [
   var NavigationBarRouteMapper = {
 
     LeftButton: function(route, navigator, index, navState) {
-    //   if(route.id == 'settings' || route.id == 'matches' || route.id == 'settingsedit'){
-    //     return (
-    //       <View style={[styles.touchables,styles.navBarLeftButton]}>
-    //
-    //         <TouchableOpacity onPress={() => navigator.pop() }>
-    //           <View style={styles.navBarLeftButton}>
-    //             <Image resizeMode={Image.resizeMode.contain} style={{width:20,height:20,marginTop:15,alignItems:'flex-start'}} source={require('image!close')} />
-    //           </View>
-    //         </TouchableOpacity>
-    //         </View>
-    //
-    //     )
-    //   }
+      if(route.id == 'matches' ){
+         return (
+           <View style={[styles.touchables,styles.navBarLeftButton]}>
+
+             <TouchableOpacity onPress={() => navigator.pop() }>
+               <View style={styles.navBarLeftButton}>
+               <Image
+                 resizeMode={Image.resizeMode.contain}
+                 style={{width:15,height:15,marginTop:10,alignItems:'flex-start'}}
+                 source={require('image!close')} />
+             </View>
+             </TouchableOpacity>
+             </View>
+
+         )
+       }
 
       if(route.id == 'potentials'){
         return (

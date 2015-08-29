@@ -98,7 +98,9 @@ var styles = StyleSheet.create({
   chatmessage:{
     flexDirection: 'column',
     flex:1,
-    backgroundColor: colors.shuttleGray,
+    backgroundColor: colors.mediumPurple,
+    borderRadius:4,
+    padding: 4,
 
     width:undefined,
     flexWrap:'wrap',
@@ -110,7 +112,7 @@ var styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '200',
     flexWrap: 'wrap',
-
+    color: colors.white
   },
   thumb: {
     borderRadius: 16,
@@ -164,7 +166,6 @@ class ChatInside extends Component{
 
 
   updateKeyboardSpace(frames) {
-    console.log(frames)
     this.setState({
       keyboardSpace: frames.end.height,
       isKeyboardOpened: true
@@ -221,7 +222,6 @@ class ChatInside extends Component{
   }
 
   componentWillUpdate(props, state) {
-    console.log(props,state)
     if (state.isKeyboardOpened !== this.state.isKeyboardOpened) {
       LayoutAnimation.configureNext(animations.layout.spring);
     }
@@ -239,7 +239,6 @@ class ChatInside extends Component{
     this._textInput.setNativeProps({text: ''});
   }
   onTextInputChange(text){
-    console.log(text);
 
     this.setState({
       textInputValue: text
@@ -266,7 +265,7 @@ class ChatInside extends Component{
           renderRow={this._renderRow.bind(this)}
           messages={this.props.messages || []}
           style={{
-            backgroundColor:'transparent',
+            backgroundColor:colors.outerSpace,
             flex:1,
             alignSelf:'stretch',
             width:DeviceWidth,
@@ -287,19 +286,22 @@ class ChatInside extends Component{
             ref={component => this._textInput = component}
             style={{
               flex:1,
-              padding:3,
+              padding:5,
               flexWrap:'wrap',
-              fontSize:18,
-              backgroundColor:colors.mediumPurple,
-              borderRadius:4}}
+              fontSize:15,
+              color:colors.white,
+              backgroundColor:colors.shuttleGray,
+              borderRadius:4
+            }}
               onChangeText={this.onTextInputChange.bind(this)}
-              value={this.state.textInputValue}/>
+              onLayout={(x, y, width, height ) => { console.log(x, y, width, height)}}
+              value={this.state.textInputValue} />
 
           <TouchableHighlight style={{
               margin:5,
               padding:8,
               borderRadius:4,
-              backgroundColor:colors.mediumPurple,
+              backgroundColor:colors.shuttleGray,
               flexDirection:'column',
               alignItems:'center',
               justifyContent:'center'}} onPress={this.sendMessage.bind(this)}>
@@ -358,7 +360,6 @@ var Chat = React.createClass({
 
           stores={{
             messages: (props) => {
-              console.log(props.match_id)
               return {
                 store: ChatStore,
                 value: ChatStore.getMessagesForMatch(props.match_id || this.props.matchID)

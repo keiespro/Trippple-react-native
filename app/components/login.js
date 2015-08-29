@@ -19,7 +19,6 @@ import {
 } from 'react-native'
 
 import CustomSceneConfigs from '../utils/sceneConfigs'
-import TimerMixin from 'react-timer-mixin'
 import colors from '../utils/colors'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -32,6 +31,7 @@ import PhoneNumberInput from '../controls/phoneNumberInput.js'
 import PinScreen from './pin'
 
 import reactMixin from 'react-mixin'
+import TimerMixin from 'react-timer-mixin'
 import SingleInputScreenMixin from '../mixins/SingleInputScreenMixin'
 import TrackKeyboardMixin from '../mixins/keyboardMixin'
 
