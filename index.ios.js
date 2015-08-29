@@ -7,10 +7,9 @@ import React from 'react-native'
 import { Component, AppRegistry } from 'react-native'
 import App from './app/components/app'
 
-((global) => { global.AppRoot = './app/'; global.keychainUrl = 'trippple.co' }(window ? window : global))
+((g) =>{ g.AppRoot = './app/' }(window ? window : global))
 
 window.React = React
-
 // for devtools
 
 

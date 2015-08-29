@@ -17,13 +17,13 @@ class UserStore {
       getUser: this.getUser
     })
     this.bindListeners({
+      handleInitialize: AppActions.GOT_CREDENTIALS,
+      handleInitSuccess: UserActions.INIT_SUCCESS,
       handleGetUserInfo: UserActions.getUserInfo,
       handleVerifyPin: UserActions.VERIFY_SECURITY_PIN,
       handleRequestPin: UserActions.REQUEST_PIN_LOGIN,
       handleUpdateUser: UserActions.UPDATE_USER,
       handleUpload: UserActions.UPLOAD_IMAGE,
-      handleInitialize: AppActions.GOT_CREDENTIALS,
-      handleInitSuccess: UserActions.INIT_SUCCESS,
       handleUpdateUserStub: UserActions.updateUserStub,
       handleLogOut: UserActions.LOG_OUT
     });
@@ -48,21 +48,14 @@ class UserStore {
   }
 
   handleVerifyPin(res){
-    if(res.error){
-      return false;
-    }
 
-    var {response} = res;
+    const user_info = {};
 
-    var u = this.state.user || {};
-
-    u.id = response.user_id;
-    u.status = response.status;
-    u.api_key = response.api_key;
+    user_info.id = res.response.user_id;
+    user_info.status = res.response.status;
 
     this.setState({
-      user: u,
-      status: u.status,
+      user: { ...this.state.user, ...user_info }
     })
 
 

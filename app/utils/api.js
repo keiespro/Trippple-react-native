@@ -1,8 +1,9 @@
 
 import Promise from 'bluebird'
 import { FileTransfer } from 'NativeModules'
-  const CredentialsStore = require('../flux/stores/CredentialsStore')
+import DeviceInfo from './DeviceInfo'
 
+const CredentialsStore = require('../flux/stores/CredentialsStore')
 const UploadFile = Promise.promisify(FileTransfer.upload)
 
 
@@ -25,10 +26,7 @@ function publicRequest(endpoint, payload){
 function authenticatedRequest(endpoint: '', payload: {}){
 
   const credentials = CredentialsStore.getState();
-  console.log(credentials)
-  console.log(payload)
   const authPayload = {...payload, ...credentials}
-  console.log(authPayload)
 
   return publicRequest(endpoint, authPayload);
 }
@@ -72,21 +70,29 @@ class api {
 
   verifyPin(pin,phone){
 
-    // TEMPORARY
-    var uuid = 'xxxxxxxxx',
-        model = 'test',
-        platform = 'iOS',
-        version = '8',
-        push_token = null;
+    // // TEMPORARY
+    // var uuid = 'xxxxxxxxx',
+    //     model = 'test',
+    //     platform = 'iOS',
+    //     version = '8',
+    //     push_token = null;
+
+    const platform = require('Platform');
+    console.log(platform);
+
+    const deviceInfo = {
+      uuid: Device.identifierForVendor,
+      version: Device.systemVersion,
+      system: Device.systemName,
+      platform: platform,
+      model: Device.model
+    }
+
 
     var payload = {
       pin,
       phone,
-      uuid,
-      model,
-      platform,
-      version,
-      push_token
+      ...deviceInfo
     };
 
     return publicRequest('verify_security_pin', payload);

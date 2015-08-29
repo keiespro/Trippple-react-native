@@ -59,7 +59,7 @@ class NotificationCommander extends Component{
 
     this.socket.on('system', (payload) => {
 
-      let { data } = payload
+      const { data } = payload
 
       if(data.action && data.action === 'retrieve' && data.match_id) {
         console.log('NOTIFICATION');
@@ -74,7 +74,7 @@ class NotificationCommander extends Component{
 
     this.socket.on('chat', (payload) => {
 
-      let { data } = payload
+      const { data } = payload
 
       if(data.action === 'retrieve') {
         MatchActions.getMessages(data.match_id)

@@ -18,6 +18,7 @@ class MatchesStore {
     this.bindListeners({
       handleGetMatches: MatchActions.GET_MATCHES
     });
+
     this.on('init',()=>{
       console.log('matches store init')
     })

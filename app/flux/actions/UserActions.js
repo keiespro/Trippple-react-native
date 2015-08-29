@@ -30,7 +30,6 @@ class UserActions {
   }
 
   verifySecurityPin(pin, phone){
-    console.log('verify action');
     Api.verifyPin(pin, phone)
       .then((res) => {
         console.log(res);
@@ -62,7 +61,6 @@ class UserActions {
   }
 
   updateUserStub(updateAttributes){
-    console.log(updateAttributes)
     this.dispatch(updateAttributes);
   }
 

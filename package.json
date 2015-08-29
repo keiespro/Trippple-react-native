@@ -15,6 +15,7 @@
     "react-native-addressbook": "^1.2.0",
     "react-native-blur": "^0.6.0",
     "react-native-camera": "https://github.com/lwansbrough/react-native-camera.git",
+    "react-native-device": "GertjanReynaert/react-native-device#gr-improve-device-support",
     "react-native-facebook-login": "^0.5.6",
     "react-native-file-transfer": "latest",
     "react-native-fs": "^0.3.4",

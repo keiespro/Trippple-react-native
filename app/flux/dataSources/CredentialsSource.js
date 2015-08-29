@@ -5,7 +5,7 @@ import Keychain from 'react-native-keychain'
 // import Promise from 'bluebird'
 
 const KEYCHAIN_NAMESPACE =  'trippple.co'
-console.log(AppActions)
+
 const CredentialsSource = {
   init: {
     remote(state) {
@@ -24,10 +24,6 @@ const CredentialsSource = {
       console.log(state)
       return true
     },
-    // interceptResponse(data, action, args){
-    //   console.log(data, action, args)
-    //   AppActions.gotCredentials( data )
-    // }
 
   },
   // isLoading:

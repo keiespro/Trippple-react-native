@@ -6,6 +6,9 @@ import CredentialsSource from '../dataSources/CredentialsSource'
 import Keychain from 'react-native-keychain'
 const KEYCHAIN_NAMESPACE =  'trippple.co'
 
+var Device = require('react-native-device');
+
+
 // @datasource(CredentialsSource)
 class CredentialsStore {
 
@@ -14,9 +17,8 @@ class CredentialsStore {
       this.api_key = null;
       this.registerAsync(CredentialsSource);
 
-      this.on('init',()=>{
-        console.log('Creds store init')
-      })
+      this.on('init', () => console.log('Credentials store init'))
+
       this.bindListeners({
         handleInitApp: AppActions.INIT_APP,
         // handleVerifyPin: UserActions.VERIFY_SECURITY_PIN,
@@ -25,7 +27,6 @@ class CredentialsStore {
       });
   }
   handleInitApp(){
-    console.log('do init app')
     this.getInstance().init()
   }
   handleGotCredentials(creds){

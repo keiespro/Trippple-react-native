@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  SwitchIOS,
   Image,
   AsyncStorage,
   Navigator
@@ -105,7 +106,7 @@ class BasicSettings extends React.Component{
         <View style={styles.formHeader}>
           <Text style={styles.formHeaderText}>Get more matches</Text>
         </View>
-	      <FacebookButton justTheButton={true} wrapperStyle={{height:100,padding:0}}/>
+          <FacebookButton justTheButton={true} wrapperStyle={{height:100,padding:0}}/>
 
       </View>
     )
@@ -115,6 +116,9 @@ class BasicSettings extends React.Component{
 class PreferencesSettings extends React.Component{
   constructor(props){
     super(props)
+    this.state = {
+      colorFalseSwitchIsOn: false
+    }
   }
 
   _editField=()=>{ }
@@ -126,7 +130,18 @@ class PreferencesSettings extends React.Component{
           <View style={styles.formRow}>
             <Text style={styles.textfield}>{this.props.user.relationship_status}</Text>
           </View>
-        </TouchableHighlight>
+          </TouchableHighlight>
+          <View style={styles.formRow}>
+          <SwitchIOS
+            onValueChange={(value) => this.setState({colorFalseSwitchIsOn: value})}
+            onTintColor={colors.dark}
+            style={{marginVertical: 10}}
+            thumbTintColor={colors.mediumPurple}
+            tintColor={colors.dusk}
+            value={this.state.colorFalseSwitchIsOn} />
+          </View>
+
+
       </View>
     )
   }
@@ -297,35 +312,11 @@ class Settings extends React.Component{
     transition('opacity', {duration: 200, begin: 1, end: 0});
   }
 
-  modalWindow(){
-    if(!this.state.isModalOpen){ return false; }
-    switch (this.state.isModalOpen){
-      case 'privacy':
-      return (<Privacy key={"modalw"} saveAndClose={this.closeModal.bind(this)} user={this.props.user}/>);
-      case 'EditImage':
-        return (<CameraControl key={"modalw"} user={this.props.user}/>);
-      case 'invite':
-        return (<Contacts key={"modalw"} user={this.props.user}/>);
-      case 'default':
-        return null;
-    }
-  }
   render(){
     return (
       <View style={styles.container}>
-          <SettingsInside user={this.props.user} openModal={this.openModal} navigator={this.props.navigator}/>
-           <Modal
-            height={DeviceHeight - 60}
-            style={styles.modal}
-            swipeableAreaStyle={styles.swipeableAreaStyle}
-            modalStyle={styles.modalStyle}
-            contentStyle={styles.contentStyle}
-            isVisible={this.state.isModalOpen && this.state.isModalOpen !== ''}
-           >
-            {this.modalWindow()}
-          </Modal>
-
-        </View>
+        <SettingsInside user={this.props.user} openModal={this.openModal} navigator={this.props.navigator}/>
+      </View>
     )
   }
 }
