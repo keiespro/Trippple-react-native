@@ -36,11 +36,11 @@ class UserStore {
 
   }
 
-  handleInitSuccess(user_info){
-    console.log(user_info)
+  handleInitSuccess(res){
     this.setState({
-      user: user_info
+      user: res.response.user_info
     })
+
   }
 
   handleRequestPin(res){

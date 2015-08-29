@@ -7,7 +7,7 @@ class AppActions {
   }
   gotCredentials(creds){
     console.log('gotCredentials',creds)
-    return this.dispatch(creds)
+     this.dispatch(creds)
   }
   noCredentials(err){
     console.log('FAIL',err)

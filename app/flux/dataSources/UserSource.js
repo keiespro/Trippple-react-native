@@ -3,7 +3,7 @@ import alt from '../alt'
 import UserActions from '../actions/UserActions'
 import AppActions from '../actions/AppActions'
 
-
+console.log(UserActions)
 const UserSource = {
   initUser: {
     remote(state) {

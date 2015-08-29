@@ -9,7 +9,6 @@ console.log(AppActions)
 const CredentialsSource = {
   init: {
     remote(state) {
-      console.log(state)
       return Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
 
     },
