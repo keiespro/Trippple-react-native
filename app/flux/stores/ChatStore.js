@@ -7,32 +7,28 @@ class ChatStore {
 
   constructor() {
 
-    this.state = { }
+    this.bindListeners({
+      handleReceiveMessages: MatchActions.GET_MESSAGES
+    });
 
     this.exportPublicMethods({
       getMessagesForMatch: this.getMessagesForMatch
-
     });
 
-    this.bindListeners({
-      handleReceiveMessages: MatchActions.GET_MESSAGES
-
-    });
-    this.on('init',()=>{
-      console.log('ChatStore store init')
-
-      AsyncStorage.getItem('ChatStore')
-        .then((value) => {
-          console.log('got ChatStore from storage,', JSON.parse(value))
-          if (value !== null){
-            // get data from local storage
-            alt.bootstrap(value);
-          }
-
-        })
-    })
+    this.on('init', () => console.log('ChatStore store init'))
   }
 
+  loadLocalData(){
+    AsyncStorage.getItem('ChatStore')
+    .then((value) => {
+      console.log('got ChatStore from storage,', JSON.parse(value))
+      if (value !== null){
+        // get data from local storage
+        alt.bootstrap(value);
+      }
+    })
+
+  }
 
   handleReceiveMessages(matchMessages) {
     this.setState(() => {

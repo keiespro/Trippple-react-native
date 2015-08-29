@@ -2,11 +2,9 @@ import alt from '../alt'
 
 class AppActions {
   initApp(){
-    console.log('INIT APP')
      this.dispatch()
   }
   gotCredentials(creds){
-    console.log('gotCredentials',creds)
      this.dispatch(creds)
   }
   noCredentials(err){

@@ -1,6 +1,6 @@
-var alt = require('../alt');
-var MatchActions = require('../actions/MatchActions');
-var AsyncStorage = require('react-native').AsyncStorage;
+import alt from '../alt'
+import MatchActions from '../actions/MatchActions'
+import { AsyncStorage } from 'react-native'
 
 
 class MatchesStore {

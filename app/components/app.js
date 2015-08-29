@@ -17,6 +17,7 @@ import PendingPartner from './pendingpartner';
 import Onboard from '../screens/registration/onboard'
 
 import UserStore from '../flux/stores/UserStore';
+import CredentialsStore from '../flux/stores/CredentialsStore'
 import UserActions from '../flux/actions/UserActions';
 import AppActions from '../flux/actions/AppActions';
 
@@ -69,7 +70,9 @@ class TopLevel extends Component{
 
           <AppRoutes user={this.props.user}/>
 
-          <NotificationCommander user={this.props.user}/>
+          <AltContainer store={CredentialsStore}>
+            <NotificationCommander user={this.props.user}/>
+          </AltContainer>
 
           <LoadingOverlay key="LoadingOverlay" isVisible={this.state.showOverlay} />
 

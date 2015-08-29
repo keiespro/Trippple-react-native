@@ -142,7 +142,11 @@ var ROUTE_STACK = [
               configureScene={(route) => route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromBottom}
               navigator={this.props.navigator}
               renderScene={this.selectScene.bind(this)}
-              navigationBar={ <Navigator.NavigationBar routeMapper={NavigationBarRouteMapper} style={styles.navBar} /> }
+              navigationBar={
+                <Navigator.NavigationBar
+                  routeMapper={NavigationBarRouteMapper}
+                  style={[styles.navBar ]} />
+              }
           />
       </View>
       );

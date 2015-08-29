@@ -13,15 +13,12 @@ const CredentialsSource = {
 
     },
     local(state){
-
       return Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
-
     },
     success: AppActions.gotCredentials,
     error: AppActions.noCredentials,
 
     shouldFetch(state) {
-      console.log(state)
       return true
     },
 

@@ -14,10 +14,14 @@ Component,
  InteractionManager,
  ListView,
  Navigator,
- AsyncStorage
+ Dimensions,
+ ScrollView
 } = React;
 
 var colors = require('../utils/colors');
+
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
 var alt = require('../flux/alt')
 var Chat = require('./chat');
@@ -147,9 +151,11 @@ class MatchList extends Component{
     return (
       <View style={styles.container}>
         <ListView
-          initialListSize={12}
-          removeClippedSubviews={false}
-          dataSource={this.props.dataSource}
+        initialListSize={12}
+        pageSize={8}
+        removeClippedSubviews={false}
+        renderScrollComponent={ () => <ScrollView style={{height:DeviceHeight,flex:1}} /> }
+        dataSource={this.props.dataSource}
           renderRow={this._renderRow.bind(this)}
         />
       </View>
@@ -172,40 +178,23 @@ class Matches extends Component{
   }
 
   componentDidMount(){
-
     MatchesStore.listen(this.onChange.bind(this));
-
-        // get data from server
     if(this.props.user.id){
         MatchActions.getMatches();
     }
-
+  }
+  componentWillUnmount() {
+    MatchesStore.unlisten(this.onChange.bind(this));
   }
 
   onChange(state) {
     if(state.matches.length < 0){return false}
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-      this.setState({
-        matches: state.matches,
-        dataSource: ds.cloneWithRows(state.matches)
-      })
-    // if(state.matches.length){
-    //   InteractionManager.runAfterInteractions(() => {
-    //     this.saveToStorage()
-    //   })
-    // }
-  }
-  saveToStorage(){
-    AsyncStorage.setItem('MatchesStore', alt.takeSnapshot(MatchesStore))
-      .then(() => {console.log('saved matches store')})
-      .catch((error) => {console.log('AsyncStorage error: ' + error.message)})
-      .done();
-  }
-  componentWillUnmount() {
-    console.log('UNmount matches')
-
-    MatchesStore.unlisten(this.onChange.bind(this));
+    this.setState({
+      matches: state.matches,
+      dataSource: ds.cloneWithRows(state.matches)
+    })
   }
   render(){
     return (
@@ -223,11 +212,16 @@ class Matches extends Component{
 
 
 var styles = StyleSheet.create({
+  noop:{},
   container: {
     backgroundColor: colors.outerSpace,
-    paddingTop:50,
+    marginTop:50,
     flex: 1,
-    overflow:'hidden'
+    overflow:'hidden',
+    height: DeviceHeight-50,
+    borderTopWidth: 1,
+    borderTopColor: colors.shuttleGray,
+
   },
   navText: {
     color:colors.black,
@@ -246,6 +240,10 @@ var styles = StyleSheet.create({
     justifyContent: 'flex-start',
     padding: 10,
     backgroundColor: colors.outerSpace,
+  },
+  topRow: {
+    borderTopWidth: 1,
+    borderTopColor: '#CCCCCC',
   },
   separator: {
     height: 1,

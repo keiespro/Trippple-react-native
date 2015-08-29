@@ -30,7 +30,6 @@ import UserActions from '../flux/actions/UserActions'
 import EditImage from '../screens/registration/EditImage';
 import SelfImage from '../screens/registration/SelfImage';
 import Privacy from './privacy';
-import Modal from 'react-native-swipeable-modal';
 import { FacebookButton } from '../screens/registration/facebook'
 import FeedbackButton from '../screens/feedbackButton';
 import Contacts from '../screens/contacts';
@@ -85,8 +84,11 @@ class BasicSettings extends React.Component{
 
 
         <View style={styles.formHeader}>
-          <Text style={styles.formHeaderText}>Personal Info</Text>
+          <Text style={styles.formHeaderText}>
+            Personal Info
+          </Text>
         </View>
+
         <ProfileField navigator={this.props.navigator} field={'firstname'} val={u.firstname} />
         <ProfileField navigator={this.props.navigator} field={'birthday'} val={u.bday_month} />
         <ProfileField navigator={this.props.navigator} field={'gender'} val={u.gender} />
@@ -106,7 +108,8 @@ class BasicSettings extends React.Component{
         <View style={styles.formHeader}>
           <Text style={styles.formHeaderText}>Get more matches</Text>
         </View>
-          <FacebookButton justTheButton={true} wrapperStyle={{height:100,padding:0}}/>
+
+        <FacebookButton justTheButton={true} wrapperStyle={{height:100,padding:0}}/>
 
       </View>
     )

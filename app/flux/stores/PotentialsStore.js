@@ -1,14 +1,12 @@
-import alt from '../alt';
-import MatchActions from '../actions/MatchActions';
-import { AsyncStorage } from 'react-native';
+import alt from '../alt'
+import MatchActions from '../actions/MatchActions'
+import { AsyncStorage } from 'react-native'
 
 class PotentialsStore {
 
   constructor() {
 
-    this.state = {
-      potentials: []
-    }
+    this.state = { potentials: [] }
 
     this.bindListeners({
       handleGetPotentials: MatchActions.GET_POTENTIALS,
@@ -17,17 +15,15 @@ class PotentialsStore {
 
     this.on('init',()=>{
       console.log('potentials store init')
-      MatchActions.getPotentials();
-
     })
-    this.on('bootstrap', () => {
-      console.log('store bootstrap');
 
-    });
+    this.on('bootstrap', () => {
+      MatchActions.getPotentials()
+    })
 
     this.exportPublicMethods({
       getAll: this.getAll
-    });
+    })
   }
 
   handleGetPotentials(potentials) {
@@ -52,5 +48,5 @@ class PotentialsStore {
   }
 
 }
-// export default PotentialsStore
+
 export default alt.createStore(PotentialsStore, 'PotentialsStore');

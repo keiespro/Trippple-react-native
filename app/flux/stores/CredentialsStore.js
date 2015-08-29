@@ -15,6 +15,7 @@ class CredentialsStore {
   constructor() {
       this.user_id = null;
       this.api_key = null;
+
       this.registerAsync(CredentialsSource);
 
       this.on('init', () => console.log('Credentials store init'))
@@ -30,12 +31,9 @@ class CredentialsStore {
     this.getInstance().init()
   }
   handleGotCredentials(creds){
-    console.log(creds,'GOT CREDS')
-
     this.setState({ user_id: creds.username, api_key: creds.password })
   }
   handleVerifyPin(res){
-    console.log(res)
     const { user_id, api_key } = res.response;
 
     Keychain.setInternetCredentials(KEYCHAIN_NAMESPACE, user_id, api_key)
@@ -47,7 +45,7 @@ class CredentialsStore {
 
   }
   handleInitialize(){
-    console.log('handleInitialize')
+
   }
   handleLogOut(){
     Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE)

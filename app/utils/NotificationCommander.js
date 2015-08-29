@@ -10,16 +10,24 @@ import NotificationActions from '../flux/actions/NotificationActions'
 import MatchActions from '../flux/actions/MatchActions'
 import UserActions from '../flux/actions/UserActions'
 import Notification from './NotificationTop'
-
 const checkPermissions = Promise.promisify(PushNotificationIOS.checkPermissions)
 
 class NotificationCommander extends Component{
+
+  static getStores() {
+    return [CredentialsStore];
+  }
+
+  static getPropsFromStores() {
+    return CredentialsStore.getState();
+  }
 
   constructor(props){
     super(props)
 
     this.state = {
       appState: AppStateIOS.currentState,
+      socketConnected: false,
       notifications: []
     }
 
@@ -29,14 +37,26 @@ class NotificationCommander extends Component{
 
   componentDidMount(){
     AppStateIOS.addEventListener('change', this._handleAppStateChange);
-    this.connectSocket()
+    if(this.props.api_key && this.props.user_id){
+      this.connectSocket()
+    }
   }
 
   componentWillUnmount(){
     AppStateIOS.removeEventListener('change', this._handleAppStateChange);
   }
+  componentDidUpdate(prevProps,prevState){
+    if(!prevProps.api_key && this.props.api_key && !prevState.socketConnected){
+      this.connectSocket()
+    }
+  }
+  // componentWillReceiveProps(nextProps){
+  //   if(!this.props.api_key && nextProps.api_key){
+  //     this.connectSocket()
+  //   }
 
-  shouldComponentUpdate = () => false
+  // }
+  // shouldComponentUpdate = () => false
 
   _handleAppStateChange =(appState)=> {
     appState === 'background' ? this.disconnectSocket() : this.connectSocket()
@@ -45,9 +65,11 @@ class NotificationCommander extends Component{
   }
 
   connectSocket =()=> {
+    this.setState({socketConnected:true})
+
     this.socket.on('user.connect', (data) => {
       this.online_id = data.online_id;
-      let myApikey = this.props.apikey
+      let myApikey = this.props.api_key
       let myID = this.props.user_id
 
       this.socket.emit('user.connect', {
@@ -91,6 +113,8 @@ class NotificationCommander extends Component{
       api_uid: `${apikey || 'xxx'}:${user_id}`
     });
     this.socket.removeAllListeners()
+    this.setState({socketConnected:false})
+
   }
 
   onNotification(){

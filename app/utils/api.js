@@ -1,7 +1,6 @@
 
 import Promise from 'bluebird'
 import { FileTransfer } from 'NativeModules'
-import DeviceInfo from './DeviceInfo'
 
 const CredentialsStore = require('../flux/stores/CredentialsStore')
 const UploadFile = Promise.promisify(FileTransfer.upload)
@@ -80,14 +79,7 @@ class api {
     const platform = require('Platform');
     console.log(platform);
 
-    const deviceInfo = {
-      uuid: Device.identifierForVendor,
-      version: Device.systemVersion,
-      system: Device.systemName,
-      platform: platform,
-      model: Device.model
-    }
-
+    const deviceInfo = require('./DeviceInfo')
 
     var payload = {
       pin,
