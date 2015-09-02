@@ -13,15 +13,6 @@ import Notification from './NotificationTop'
 const checkPermissions = Promise.promisify(PushNotificationIOS.checkPermissions)
 
 class NotificationCommander extends Component{
-
-  static getStores() {
-    return [CredentialsStore];
-  }
-
-  static getPropsFromStores() {
-    return CredentialsStore.getState();
-  }
-
   constructor(props){
     super(props)
 
@@ -66,16 +57,16 @@ class NotificationCommander extends Component{
 
   connectSocket =()=> {
     this.setState({socketConnected:true})
-
     this.socket.on('user.connect', (data) => {
       this.online_id = data.online_id;
-      let myApikey = this.props.api_key
-      let myID = this.props.user_id
+      const myApikey = this.props.api_key
+      const myID = this.props.user_id
 
       this.socket.emit('user.connect', {
         online_id: data.online_id,
-        api_uid: (`${myApikey || 'xxx'}:${myID}`)
+        api_uid: (`${myApikey}:${myID}`)
       })
+
     })
 
 
@@ -84,23 +75,35 @@ class NotificationCommander extends Component{
       const { data } = payload
 
       if(data.action && data.action === 'retrieve' && data.match_id) {
-        console.log('NOTIFICATION');
+
+
+
 
       }else if(data.action === 'match_removed'){
-        console.log('MATCH REMOVED');
+
+
+
 
       }else if(data.action && (data.action === 'imageflagged' || 'statuschange')) {
+
+
+
+
 
       }
     })
 
     this.socket.on('chat', (payload) => {
+      const notifications = this.state.notifications;
+      notifications.push(payload);
+      this.setState({notifications});
 
       const { data } = payload
 
       if(data.action === 'retrieve') {
         MatchActions.getMessages(data.match_id)
       }
+
     })
 
   }
@@ -127,7 +130,7 @@ class NotificationCommander extends Component{
 
       if(this.state.notifications.length){
         return (
-          <Notification />
+          <Notification payload={this.state.notifications[0]} />
         )
       }else{
         return null

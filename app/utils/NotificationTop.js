@@ -13,6 +13,7 @@ class Notification extends Component{
     super(props)
   }
   render(){
+    console.log(this.props)
     return (
       <Overlay isVisible={true}>
         <BlurView style={styles.notificationOverlay} blurType="light">
