@@ -1,8 +1,8 @@
 /* @flow */
 
 
-var React = require('react-native');
-var {
+import React from 'react-native'
+import {
 Component,
  StyleSheet,
  Text,
@@ -16,20 +16,22 @@ Component,
  Navigator,
  Dimensions,
  ScrollView
-} = React;
+} from 'react-native'
 
-var colors = require('../utils/colors');
+import colors from '../utils/colors'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
-var alt = require('../flux/alt')
-var Chat = require('./chat');
-var MatchActions = require('../flux/actions/MatchActions');
-var MatchesStore = require('../flux/stores/MatchesStore');
-var Swipeout = require('react-native-swipeout');
-var Logger = require('../utils/logger');
-var customSceneConfigs = require('../utils/sceneConfigs')
+import _ from 'underscore'
+import alt from '../flux/alt'
+import Chat from './chat'
+import MatchActions from '../flux/actions/MatchActions'
+import MatchesStore from '../flux/stores/MatchesStore'
+import Swipeout from 'react-native-swipeout'
+import Logger from '../utils/logger'
+import customSceneConfigs from '../utils/sceneConfigs'
+import SegmentedView from '../controls/SegmentedView'
 
 // Buttons
 var swipeoutBtns = [
@@ -44,6 +46,10 @@ class MatchList extends Component{
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      index: 0
+    }
 
   }
 
@@ -146,18 +152,36 @@ class MatchList extends Component{
       sceneConfig: Navigator.SceneConfigs.FloatFromRight,
     });
   }
+
+  filterFavorites(){
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    return ds.cloneWithRows(_.filter(this.props.matches, (el) => el.favorited === true ))
+  }
   render(){
 
     return (
       <View style={styles.container}>
+        <View style={{height:40}}>
+
+          <SegmentedView
+            barPosition={'bottom'}
+            style={{backgroundColor:colors.dark}}
+            barColor={colors.mediumPurple}
+            titles={['ALL', 'FAVORITES']}
+            index={this.state.index}
+            stretch
+            onPress={index => this.setState({ index })}
+          />
+        </View>
         <ListView
-        initialListSize={12}
-        pageSize={8}
-        removeClippedSubviews={false}
-        renderScrollComponent={ () => <ScrollView style={{height:DeviceHeight,flex:1}} /> }
-        dataSource={this.props.dataSource}
-          renderRow={this._renderRow.bind(this)}
-        />
+          initialListSize={12}
+          pageSize={8}
+          removeClippedSubviews={false}
+          renderScrollComponent={ () => <ScrollView style={{height:DeviceHeight,flex:1}} /> }
+          dataSource={this.state.index === 0 ? this.props.dataSource : this.filterFavorites()}
+            renderRow={this._renderRow.bind(this)}
+            />
+
       </View>
     );
   }

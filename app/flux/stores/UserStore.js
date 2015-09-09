@@ -101,7 +101,8 @@ class UserStore {
   }
 
   updateUserInfo(attributes){
-    const updatedUser = {...this.state.user, ...attributes};
+    const prevUser = this.state.user;
+    const updatedUser = {...prevUser, ...attributes};
     this.setState({user:updatedUser});
   }
 
