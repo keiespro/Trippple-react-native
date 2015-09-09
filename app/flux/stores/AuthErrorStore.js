@@ -20,7 +20,7 @@ class AuthErrorStore {
 
     this.setState({
       phoneError: err.error,
-    });
+    })
   }
 
   handleVerifyPinErrors(err) {

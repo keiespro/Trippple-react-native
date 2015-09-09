@@ -3,6 +3,9 @@ import UserActions from '../actions/UserActions'
 import UserSource from '../dataSources/UserSource'
 import AppActions from '../actions/AppActions'
 import { datasource } from 'alt/utils/decorators'
+import Keychain from 'react-native-keychain'
+
+const KEYCHAIN_NAMESPACE =  'trippple.co'
 
 @datasource(UserSource)
 class UserStore {
@@ -88,6 +91,13 @@ class UserStore {
 
   handleLogOut(){
     this.setState({ user:{}, userStub: null});
+    Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE)
+    .then(() => {
+      console.log('Credentials successfully deleted');
+      this.setState({  api_key: null, user_id: null });
+    })
+
+
   }
 
   updateUserInfo(attributes){

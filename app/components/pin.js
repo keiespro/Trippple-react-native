@@ -86,7 +86,7 @@ var PinScreen = React.createClass({
     }
 
     // Submit pin automatically when 4 digits have been entered
-    if(!this.state.submitting && (this.state.inputFieldValue.length === 4 || nextState.inputFieldValue.length === 4)) {
+    if(!this.state.verifyError && !this.state.submitting && (this.state.inputFieldValue.length === 4 || nextState.inputFieldValue.length === 4)) {
       UserActions.verifySecurityPin(this.state.inputFieldValue,this.props.phone);
 
       this.setState({

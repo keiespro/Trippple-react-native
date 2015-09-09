@@ -116,6 +116,9 @@ var ROUTE_STACK = [
 
     componentDidMount(){
       // MatchActions.InitializeMatches();
+      this.refs.nav.navigationContext.addListener('didfocus', (e)=>{
+        console.log(e);
+      })
     }
 
     selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
@@ -139,7 +142,7 @@ var ROUTE_STACK = [
           <Navigator
             ref={'nav'}
               initialRoute={ROUTE_STACK[1]}
-              configureScene={(route) => route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromBottom}
+              configureScene={route => route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromBottom}
               navigator={this.props.navigator}
               renderScene={this.selectScene.bind(this)}
               navigationBar={

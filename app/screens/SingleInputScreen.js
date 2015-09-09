@@ -68,14 +68,14 @@ class SingleInputScreen extends Component{
       this.hideContinueButton();
     }
   }
- updateKeyboardSpace(frames) {
+  updateKeyboardSpace =(frames)=> {
     this.setState({
       keyboardSpace: frames.end.height,
       isKeyboardOpened: true
     });
   }
 
-  resetKeyboardSpace(){
+  resetKeyboardSpace =()=> {
     this.setState({
       keyboardSpace: 0,
       isKeyboardOpened: false
