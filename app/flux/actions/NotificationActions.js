@@ -16,22 +16,30 @@ class NotificationActions {
     this.dispatch(payload)
   }
 
+  receiveNewMessageNotification(payload){
+    console.log('receive new message Notification',(payload))
+    this.dispatch(payload)
 
-
-
-  initialize(){
-
-    //
-    // checkPermissions()
-    // .then( () => this.scheduleNewPotentialsAlert())
-    // .catch( (err) => {
-    //   console.log(err)
-    // })
+    const { data } = payload
+    if(data.action === 'retrieve') {
+      MatchActions.getMessages(data.match_id)
+    }
 
   }
-  receiveNotification(payload){
-    console.log('receiveNotification',(payload))
+  receiveNewMatchNotification(payload){
+    console.log('receive New Match Notification',(payload))
+    this.dispatch(payload)
 
+    const { data } = payload
+    if(data.action === 'retrieve') {
+      MatchActions.getMatches()
+    }
+
+
+
+  }
+  receiveMatchRemovedNotification(payload){
+    this.dispatch(payload.data.match_id)
   }
 
   scheduleNewPotentialsAlert(){

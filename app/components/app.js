@@ -21,8 +21,8 @@ import CredentialsStore from '../flux/stores/CredentialsStore'
 import UserActions from '../flux/actions/UserActions';
 import AppActions from '../flux/actions/AppActions';
 
-import NotificationsStore from '../flux/stores/NotificationsStore';
-import NotificationCommander from '../utils/NotificationCommander';
+
+import Notifications from '../utils/Notifications';
 import LoadingOverlay from '../components/LoadingOverlay'
 
 class AppRoutes extends Component{
@@ -68,13 +68,9 @@ class TopLevel extends Component{
     return (
       <View style={{flex:1}}>
 
-          <AppRoutes user={this.props.user}/>
-
-          <AltContainer store={CredentialsStore}>
-            <NotificationCommander user={this.props.user}/>
-          </AltContainer>
-
-          <LoadingOverlay key="LoadingOverlay" isVisible={this.state.showOverlay} />
+        <AppRoutes user={this.props.user}/>
+        <LoadingOverlay key="LoadingOverlay" isVisible={this.state.showOverlay} />
+        <Notifications user={this.props.user} />
 
       </View>
     )

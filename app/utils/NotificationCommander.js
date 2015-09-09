@@ -79,11 +79,13 @@ class NotificationCommander extends Component{
 
       if(data.action && data.action === 'retrieve' && data.match_id) {
 
+          NotificationActions.receiveNewMatchNotification(data)
 
 
 
       }else if(data.action === 'match_removed'){
 
+          NotificationActions.receiveMatchRemovedNotification(data)
 
 
 
@@ -97,15 +99,11 @@ class NotificationCommander extends Component{
     })
 
     this.socket.on('chat', (payload) => {
-      const notifications = this.state.notifications;
-      notifications.push(payload);
-      this.setState({notifications});
-      this.onNotification();
-      const { data } = payload
-
-      if(data.action === 'retrieve') {
-        MatchActions.getMessages(data.match_id)
-      }
+      // const notifications = this.state.notifications;
+      // notifications.push(payload);
+      // this.setState({notifications});
+      // this.onNotification();
+      NotificationActions.receiveNewMessageNotification(payload)
 
     })
 
@@ -129,11 +127,7 @@ class NotificationCommander extends Component{
 
 
   render(){
-      if(this.state.notifications.length){
-         return <Notification key={this.state.notifications[0]} payload={this.state.notifications[0]} />
-               }else{
         return null
-      }
   }
 
 }

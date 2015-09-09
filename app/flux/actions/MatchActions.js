@@ -4,6 +4,11 @@ import Api from '../../utils/api';
 
 class MatchActions {
 
+
+  removeMatch(matchID){
+
+    this.dispatch(matchID)
+  }
   getMatches(page){
 
     Api.getMatches(page)
@@ -17,7 +22,8 @@ class MatchActions {
   getMessages(matchID){
 
     Api.getMessages({match_id: matchID})
-      .then((res) => {
+    .then((res) => {
+      console.log(res)
         this.dispatch(res.response);
       })
       .catch(err => console.log(err))
@@ -50,10 +56,14 @@ class MatchActions {
   sendMessage(message, matchID){
 
     Api.createMessage(message, matchID)
+    .then(()=>{
+      Api.getMessages({match_id: matchID})
       .then((res) => {
         this.dispatch(res.response);
       })
       .catch(err => console.log(err))
+    })
+    .catch(err => console.log(err))
 
   }
 

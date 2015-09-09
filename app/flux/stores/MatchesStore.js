@@ -1,7 +1,7 @@
 import alt from '../alt'
 import MatchActions from '../actions/MatchActions'
 import { AsyncStorage } from 'react-native'
-
+import _ from 'underscore'
 
 class MatchesStore {
 
@@ -16,7 +16,8 @@ class MatchesStore {
     });
 
     this.bindListeners({
-      handleGetMatches: MatchActions.GET_MATCHES
+      handleGetMatches: MatchActions.GET_MATCHES,
+      removeMatch: MatchActions.REMOVE_MATCH
     });
 
     this.on('init',()=>{
@@ -52,12 +53,19 @@ class MatchesStore {
   }
 
 
+  removeMatch(matchID){
+    const cleanMatches = _.reject(this.state.matches, match => match.id === matchID);
 
+      this.setState({
+        matches: cleanMatches
+      });
+
+  }
 
   handleGetMatches(matches) {
     console.log(matches,'handlegetmatches');
     if(matches.length){
-      const combinedMatches = this.state.matches.concat(matches);
+      const combinedMatches = this.state.matches.concat(matches.matches ? matches.matches : matches);
       this.setState({
         matches: combinedMatches
       });

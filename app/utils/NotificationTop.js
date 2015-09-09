@@ -1,70 +1,146 @@
 
 import React from 'react-native'
-import { Image, Component, View, StyleSheet, Text, Animated } from 'react-native'
+import { Image,TouchableOpacity, Component, View, StyleSheet, Text, Animated, Dimensions,LayoutAnimation,VibrationIOS } from 'react-native'
+
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
+
 import colors from '../utils/colors'
 import {BlurView} from 'react-native-blur';
 import Overlay from 'react-native-overlay'
 var AnOverlay = Animated.createAnimatedComponent(Overlay);
+import TimerMixin from 'react-timer-mixin';
+import reactMixin from 'react-mixin'
 
+@reactMixin.decorate(TimerMixin)
 class Notification extends Component{
 
   constructor(props){
     super(props)
 
     this.state = {
-      yValue: new Animated.Value(0)
+      yValue: -100
     }
 
   }
 
- componentDidMount() {
-   this.state.yValue.setValue(-100);
- Animated.spring(
-      this.state.yValue,
-      {
-        toValue: 0,
-        friction: 1,
-      }
-    ).start();
+  componentWillMount() {
+    console.log('notification top')
+  }
+  componentDidMount(){
 
-}
-componentDidUpdate(){
+    this.setState({yValue:0})
+    VibrationIOS.vibrate()
+  }
+  componentWillUpdate(){
+            LayoutAnimation.configureNext(animations.layout.spring);
 
-}
+  }
+  componentWillUnmount(){
+            LayoutAnimation.configureNext(animations.layout.spring);
+
+
+  }
 
   render(){
+    console.log(this.props.payload)
     return (
+      <View style={[styles.notificationWrapper,
+        {
+          transform: [{
+            translateY: this.state.yValue
+          }]
+        }
+        ]}>
+        <BlurView blurType="light" style={[styles.notificationOverlay]}>
 
-      <Animated.View style={{
-        transform: [
-          { translateY: this.state.yValue },
-        ] }}>
-  <Overlay>
-        <BlurView style={styles.notificationOverlay} blurType="dark">
-          <View style={styles.notificationLeft}>
-            <Image resizeMode={Image.resizeMode.contain} style={styles.notiImage} source={require('image!defaultuser')}/>
-          </View>
-          <View style={styles.notificationRight}>
-            <Text style={styles.notiTitle}>Hello</Text>
-            <Text style={styles.notiText}>This is a notification</Text>
-          </View>
+
+        {this.props.payload.type === 'message' &&
+          <TouchableOpacity onPress={(e)=>{console.log(e)}}>
+          <View style={{flex:1,flexDirection:'row'}}>
+            <View style={styles.notificationLeft}>
+            <Image
+              resizeMode={Image.resizeMode.contain}
+              style={styles.notiImage}
+              source={{uri: this.props.payload.from_user_info.image_url}}
+            />
+            </View>
+            <View style={styles.notificationRight}>
+              <Text style={styles.notiTitle}>{this.props.payload.from_user_info.name}</Text>
+              <Text style={styles.notiText}>{this.props.payload.message_body}</Text>
+           </View>
+           </View>
+           </TouchableOpacity>
+        }
+
+       {this.props.payload.type === 'match' &&
+          <TouchableOpacity onPress={(e)=>{console.log(e)}}>
+          <View style={{flex:1,flexDirection:'row'}}>
+            <View style={styles.notificationLeft}>
+            <Image
+              resizeMode={Image.resizeMode.contain}
+              style={styles.notiImage}
+              source={{uri: this.props.payload.from_user_info.image_url}}
+            />
+            </View>
+            <View style={styles.notificationRight}>
+              <Text style={styles.notiTitle}>{this.props.payload.title}</Text>
+              <Text style={styles.notiText}>{this.props.payload.message_body}</Text>
+           </View>
+           </View>
+           </TouchableOpacity>
+        }
+
         </BlurView>
-        </Overlay>
-        </Animated.View>
+      </View>
+
     )
   }
 }
 
 export default Notification
 
+
+var animations = {
+  layout: {
+    spring: {
+      duration: 300,
+      create: {
+        duration: 300,
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.opacity
+      },
+      update: {
+        type: LayoutAnimation.Types.spring,
+        springDamping: 200
+      }
+    },
+    easeInEaseOut: {
+      duration: 300,
+      create: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.scaleXY
+      },
+      update: {
+        delay: 100,
+        type: LayoutAnimation.Types.easeInEaseOut
+      }
+    }
+  }
+};
+
+
 var styles = StyleSheet.create({
-  notificationOverlay: {
+  notificationWrapper:{
     height:100,
-    width:500,
+    width:DeviceWidth,
     flex: 1,
     position:'absolute',
     top:0,
     left:0,
+    right:0,
+  },
+  notificationOverlay: {
     padding: 20,
     flexDirection:'row',
     justifyContent:'space-between'
@@ -77,13 +153,13 @@ var styles = StyleSheet.create({
   },
 
   notiText: {
-    color:colors.white,
+    color:colors.outerSpace,
     fontFamily:'omnes',
     fontSize:22
   },
 
   notiTitle: {
-    color:colors.white,
+    color:colors.outerSpace,
     fontFamily:'omnes',
     fontWeight:'500',
 
