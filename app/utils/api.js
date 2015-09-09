@@ -19,6 +19,7 @@ function publicRequest(endpoint, payload){
     body: JSON.stringify(payload)
   })
   .then((res) => res.json())
+  .catch(err => console.log(err))
 
 }
 
@@ -46,6 +47,8 @@ function authenticatedFileUpload(endpoint, image, image_type){
     console.log('res:',res,'err:',err);
     return res.response;
   })
+  .catch(err => console.log(err))
+
 }
 
 class api {
@@ -69,13 +72,6 @@ class api {
 
   verifyPin(pin,phone){
 
-    // // TEMPORARY
-    // var uuid = 'xxxxxxxxx',
-    //     model = 'test',
-    //     platform = 'iOS',
-    //     version = '8',
-    //     push_token = null;
-
     const platform = require('Platform');
 
     const deviceInfo = require('./DeviceInfo')
@@ -97,8 +93,9 @@ class api {
     return authenticatedRequest('info')
   }
 
-  getMatches(){
-    return authenticatedRequest('matches')
+  getMatches(page){
+    return authenticatedRequest('getMatches', {page})
+    //v2 endpoint
   }
 
   getMessages(payload){

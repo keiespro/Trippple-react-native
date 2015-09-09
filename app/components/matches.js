@@ -32,6 +32,8 @@ import Swipeout from 'react-native-swipeout'
 import Logger from '../utils/logger'
 import customSceneConfigs from '../utils/sceneConfigs'
 import SegmentedView from '../controls/SegmentedView'
+import TimerMixin from 'react-timer-mixin';
+import reactMixin from 'react-mixin';
 
 // Buttons
 var swipeoutBtns = [
@@ -42,6 +44,7 @@ var swipeoutBtns = [
 
 
 
+@reactMixin.decorate(TimerMixin)
 class MatchList extends Component{
 
   constructor(props) {
@@ -72,46 +75,7 @@ class MatchList extends Component{
     var myId = this.props.user.id,
         myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
 
-    var them = Object.keys(rowData.users).reduce( (arr, e, i) => {
-      if(rowData.users[e].id !== myId && rowData.users[e].id !== myPartnerId){
-        // this might need to be cloned or a const
-        arr.push(rowData.users[e]);
-      }
-      return arr;
-    }, []);
-
-    var threadName = them.map( (user,i) => user.name.trim() ).join(' & ');
-
-    var images = them.map( (user,i) => {
-
-      // TODO: convert these classes to stylesheet
-      // var imgwrapClass = cx({
-      //   'smallbig': relStatus == 'couple',
-      //   'bigbig': relStatus == 'single'
-      // });
-      // var classes = cx({
-      //   "media-object":true,
-      //   "most-recent": (lastMessage.from_user_id == user.id),
-      //   "not-most-recent": (lastMessage.from_user_id != user.id && lastMessage.from_user_id != myUserId),
-      //   "small-image": (relStatus == 'single' ? false : (user.id == partnerId)),
-      //   "big-image": (relStatus == 'single' ? true : (user.id != partnerId)),
-      //   "left-big-image": relStatus == 'couple' ? false : i == 0,
-      //   "right-big-image": relStatus == 'couple' ? false : i == 1,
-      //   "isfemaleshowontop": user.gender == 'f'
-      // });
-
-      return (
-        <Image
-          key={i+'userimage'}
-          style={!i ? styles.thumb : [styles.thumb, styles.rightthumb]}
-          source={{uri: user.thumb_url}}
-          defaultSource={require('image!defaultuser')}
-          resizeMode={Image.resizeMode.cover}
-
-        />
-      )
-
-    });
+    var threadName = rowData.users.them.users.map( (user,i) => user.firstname.trim() ).join(' & ');
 
     return (
       <Swipeout right={swipeoutBtns}  key={rowData.match_id+'match'}>
@@ -120,7 +84,14 @@ class MatchList extends Component{
         <View>
           <View style={styles.row}>
             <View style={styles.thumbswrap}>
-              {images}
+               <Image
+                 key={'userimage'}
+                 style={styles.thumb}
+                 source={{uri: rowData.couple ? rowData.couple.thumb_url : rowData.users.them.users[0].thumb_url}}
+                 defaultSource={require('image!defaultuser')}
+                 resizeMode={Image.resizeMode.cover}
+               />
+
             </View>
             <View style={styles.textwrap}>
               <Text style={styles.text}>
@@ -174,15 +145,20 @@ class MatchList extends Component{
           />
         </View>
         <ListView
-          initialListSize={12}
-          pageSize={8}
-          removeClippedSubviews={false}
-          renderScrollComponent={ () => <ScrollView style={{height:DeviceHeight,flex:1}} /> }
-          dataSource={this.state.index === 0 ? this.props.dataSource : this.filterFavorites()}
-            renderRow={this._renderRow.bind(this)}
-            />
+        initialListSize={12}
+          onEndReached={ (e) => {
+            const nextPage = this.props.matches.length/20 + 1;
+            if(this.state.fetching || nextPage === this.state.lastPage){ return false }
+            this.setState({fetching:true,lastPage: nextPage })
+            MatchActions.getMatches(nextPage);
+            this.setState({fetching:false})
 
-      </View>
+          }}
+          dataSource={this.state.index === 0 ? this.props.dataSource : this.filterFavorites()}
+          renderRow={this._renderRow.bind(this)}
+          />
+
+        </View>
     );
   }
 }
@@ -214,7 +190,6 @@ class Matches extends Component{
   onChange(state) {
     if(state.matches.length < 0){return false}
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
     this.setState({
       matches: state.matches,
       dataSource: ds.cloneWithRows(state.matches)
@@ -274,10 +249,11 @@ var styles = StyleSheet.create({
     backgroundColor: '#CCCCCC',
   },
   thumbswrap: {
-    width: 128,
+    width: 64,
+    marginRight:20,
     height: 64,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
 
   },
   thumb: {

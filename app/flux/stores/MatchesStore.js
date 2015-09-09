@@ -57,8 +57,9 @@ class MatchesStore {
   handleGetMatches(matches) {
     console.log(matches,'handlegetmatches');
     if(matches.length){
+      const combinedMatches = this.state.matches.concat(matches);
       this.setState({
-        matches:matches
+        matches: combinedMatches
       });
     }
 

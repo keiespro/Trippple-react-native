@@ -4,12 +4,14 @@ import Api from '../../utils/api';
 
 class MatchActions {
 
-  getMatches(){
+  getMatches(page){
 
-    Api.getMatches()
+    Api.getMatches(page)
       .then((res) => {
         this.dispatch(res.response);
       })
+      .catch(err => console.log(err))
+
   }
 
   getMessages(matchID){
@@ -18,6 +20,8 @@ class MatchActions {
       .then((res) => {
         this.dispatch(res.response);
       })
+      .catch(err => console.log(err))
+
   }
 
   getPotentials(){
@@ -31,6 +35,8 @@ class MatchActions {
           .then((res) => {
             this.dispatch(res.response);
           })
+          .catch(err => console.log(err))
+
       },
       (error) => {
         // Open native settings
@@ -47,6 +53,8 @@ class MatchActions {
       .then((res) => {
         this.dispatch(res.response);
       })
+      .catch(err => console.log(err))
+
   }
 
 
@@ -75,6 +83,8 @@ class MatchActions {
           {enableHighAccuracy: false, maximumAge: 1000}
         )
       })
+      .catch(err => console.log(err))
+
   }
 }
 
