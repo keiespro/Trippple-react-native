@@ -30,6 +30,8 @@ class UserActions {
   }
 
   verifySecurityPin(pin, phone){
+    if( pin.length !== 4 ){ return false }
+
     Api.verifyPin(pin, phone)
       .then((res) => {
         console.log(res);

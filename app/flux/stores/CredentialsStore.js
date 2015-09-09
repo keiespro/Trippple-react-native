@@ -36,7 +36,7 @@ class CredentialsStore {
     console.log(res);
     if(res.status != 200){ return false; }
 
-    const { user_id, api_key } = res.response;
+    const { user_id, api_key } = res;
     console.log('verify pin credentials store')
     Keychain.setInternetCredentials(KEYCHAIN_NAMESPACE, user_id, api_key)
       .then((result)=> {

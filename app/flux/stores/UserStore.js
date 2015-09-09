@@ -58,7 +58,7 @@ class UserStore {
     user_info.status = res.response.status;
 
     this.setState({
-      user: { ...this.state.user, ...user_info }
+      user: {  ...user_info }
     })
 
 
