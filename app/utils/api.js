@@ -6,7 +6,7 @@ const CredentialsStore = require('../flux/stores/CredentialsStore')
 const UploadFile = Promise.promisify(FileTransfer.upload)
 
 
-const SERVER_URL = 'http://x.local:9999/user'
+const SERVER_URL = 'http://localhost:8080/user'
 
 function publicRequest(endpoint, payload){
 
@@ -77,7 +77,6 @@ class api {
     //     push_token = null;
 
     const platform = require('Platform');
-    console.log(platform);
 
     const deviceInfo = require('./DeviceInfo')
 
