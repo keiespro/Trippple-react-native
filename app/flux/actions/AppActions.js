@@ -1,4 +1,5 @@
 import alt from '../alt'
+import Api from '../../utils/api'
 
 class AppActions {
   initApp(){

@@ -1,19 +1,19 @@
 import alt from '../alt'
 import Api from '../../utils/api'
 
-class UserActions {
+var UserActions = {
   initialize(){
     this.dispatch()
-  }
+  },
 
   initSuccess(user_info){
     this.dispatch(user_info);
-  }
+  },
 
   initFail(errorMessage){
     console.log(errorMessage)
     this.dispatch(errorMessage);
-  }
+  },
 
 
   getUserInfo(){
@@ -27,7 +27,7 @@ class UserActions {
         this.dispatch(err);
       })
 
-  }
+  },
 
   verifySecurityPin(pin, phone){
     if( pin.length !== 4 ){ return false }
@@ -38,10 +38,10 @@ class UserActions {
         this.dispatch(res);
       })
       .catch((err) => {
-        console.log('error');
+        console.log('error',err);
         this.dispatch(err);
       })
-  }
+  },
 
   requestPinLogin(phone){
     console.log('Request Pin Login Action');
@@ -56,15 +56,15 @@ class UserActions {
         this.dispatch(err);
       })
 
-  }
+  },
 
   logOut(){
     this.dispatch();
-  }
+  },
 
   updateUserStub(updateAttributes){
     this.dispatch(updateAttributes);
-  }
+  },
 
 
   uploadImage(image, imagetype){
@@ -90,7 +90,7 @@ class UserActions {
         });
       })
 
-  }
+  },
 
   updateUser(payload){
     var updates = payload;
@@ -109,7 +109,7 @@ class UserActions {
           err: err
         });
       })
-  }
+  },
 
 
 }

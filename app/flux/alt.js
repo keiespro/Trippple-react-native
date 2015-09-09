@@ -1,7 +1,7 @@
-var Alt = require('alt');
-var alt = new Alt();
-var chromeDebug = require('alt/utils/chromeDebug')
+import Alt from 'alt'
+const alt = new Alt()
+// var chromeDebug = require('alt/utils/chromeDebug')
 
-chromeDebug(alt);
+// chromeDebug(alt);
 // alt.bootstrap();
-module.exports = alt;
+export default alt

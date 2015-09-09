@@ -38,6 +38,8 @@ var PinScreen = React.createClass({
   getInitialState(){
     return ({
       pin: '',
+      submitting: false,
+      verifyError: null
     })
   },
 
@@ -70,32 +72,37 @@ var PinScreen = React.createClass({
       return false;
     }
 
+
+    // Submit pin automatically when 4 digits have been entered
+    if(!this.state.verifyError && !this.state.submitting && pin.length === 4) {
+      UserActions.verifySecurityPin(pin,this.props.phone);
+
+      this.setState({
+        submitting: true
+      })
+
+
+    }
+
+
     this.setState({
       inputFieldValue: pin
     })
 
   },
 
-  componentWillUpdate(nextProps, nextState){
+  componentDidUpdate(prevProps, prevState){
 
     // Reset error state
-    if(this.state.inputFieldValue.length === 4 && nextState.inputFieldValue.length === 3) {
+    if(prevState.inputFieldValue.length === 4 && this.state.inputFieldValue.length === 3) {
       this.setState({
+        submitting: false,
         verifyError: false
       })
     }
 
-    // Submit pin automatically when 4 digits have been entered
-    if(!nextState.verifyError && !this.state.verifyError && !this.state.submitting && (nextState.inputFieldValue.length === 4)) {
-      UserActions.verifySecurityPin(nextState.inputFieldValue,this.props.phone);
-
-      this.setState({
-        submitting: true
-      })
-    }
-
     // Handle "Account Disabled" response
-    if(this.state.verifyError && this.state.verifyError.message === 'Account disabled' && !nextState.verifyError){
+    if(this.state.verifyError && this.state.verifyError.message === 'Account disabled' && !prevState.verifyError){
 
       AlertIOS.alert(
         'Account disabled',

@@ -4,6 +4,7 @@ import UserSource from '../dataSources/UserSource'
 import AppActions from '../actions/AppActions'
 import { datasource } from 'alt/utils/decorators'
 import Keychain from 'react-native-keychain'
+import CredentialsStore from './CredentialsStore'
 
 const KEYCHAIN_NAMESPACE =  'trippple.co'
 
@@ -60,8 +61,7 @@ class UserStore {
     this.setState({
       user: {  ...user_info }
     })
-
-
+    CredentialsStore.saveCredentials(res.response);
   }
   handleGetUserInfo(res){
     console.log(res)
