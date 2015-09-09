@@ -1,22 +1,46 @@
 
 import React from 'react-native'
-import { Image, Component, View, StyleSheet, Text } from 'react-native'
+import { Image, Component, View, StyleSheet, Text, Animated } from 'react-native'
 import colors from '../utils/colors'
-
 import {BlurView} from 'react-native-blur';
 import Overlay from 'react-native-overlay'
-
+var AnOverlay = Animated.createAnimatedComponent(Overlay);
 
 class Notification extends Component{
 
   constructor(props){
     super(props)
+
+    this.state = {
+      yValue: new Animated.Value(0)
+    }
+
   }
+
+ componentDidMount() {
+   this.state.yValue.setValue(-100);
+ Animated.spring(
+      this.state.yValue,
+      {
+        toValue: 0,
+        friction: 1,
+      }
+    ).start();
+
+}
+componentDidUpdate(){
+
+}
+
   render(){
-    console.log(this.props)
     return (
-      <Overlay isVisible={true}>
-        <BlurView style={styles.notificationOverlay} blurType="light">
+
+      <Animated.View style={{
+        transform: [
+          { translateY: this.state.yValue },
+        ] }}>
+  <Overlay>
+        <BlurView style={styles.notificationOverlay} blurType="dark">
           <View style={styles.notificationLeft}>
             <Image resizeMode={Image.resizeMode.contain} style={styles.notiImage} source={require('image!defaultuser')}/>
           </View>
@@ -25,7 +49,8 @@ class Notification extends Component{
             <Text style={styles.notiText}>This is a notification</Text>
           </View>
         </BlurView>
-      </Overlay>
+        </Overlay>
+        </Animated.View>
     )
   }
 }
@@ -60,7 +85,7 @@ var styles = StyleSheet.create({
   notiTitle: {
     color:colors.white,
     fontFamily:'omnes',
-    fontWeight:"500",
+    fontWeight:'500',
 
   },
   notiImage:{

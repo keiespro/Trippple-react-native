@@ -10,8 +10,12 @@ import NotificationActions from '../flux/actions/NotificationActions'
 import MatchActions from '../flux/actions/MatchActions'
 import UserActions from '../flux/actions/UserActions'
 import Notification from './NotificationTop'
+import TimerMixin from 'react-timer-mixin'
+
+import reactMixin from 'react-mixin'
 const checkPermissions = Promise.promisify(PushNotificationIOS.checkPermissions)
 
+@reactMixin.decorate(TimerMixin)
 class NotificationCommander extends Component{
   constructor(props){
     super(props)
@@ -23,7 +27,6 @@ class NotificationCommander extends Component{
     }
 
     this.socket = require('socket.io-client/socket.io')(TRIPPPLE_WEBSOCKET_URL, {jsonp:false})
-
   }
 
   componentDidMount(){
@@ -50,7 +53,7 @@ class NotificationCommander extends Component{
   // shouldComponentUpdate = () => false
 
   _handleAppStateChange =(appState)=> {
-    appState === 'background' ? this.disconnectSocket() : this.connectSocket()
+    // appState === 'background' ?  this.connectSocket()
     this.setState({ appState });
 
   }
@@ -97,7 +100,7 @@ class NotificationCommander extends Component{
       const notifications = this.state.notifications;
       notifications.push(payload);
       this.setState({notifications});
-
+      this.onNotification();
       const { data } = payload
 
       if(data.action === 'retrieve') {
@@ -113,26 +116,22 @@ class NotificationCommander extends Component{
 
     this.socket.emit('user.disconnect',{
       online_id: this.online_id,
-      api_uid: `${apikey || 'xxx'}:${user_id}`
+      api_uid: `${apikey}:${user_id}`
     });
     this.socket.removeAllListeners()
     this.setState({socketConnected:false})
-
   }
 
   onNotification(){
-
     //TODO: write code here
     VibrationIOS.vibrate()
   }
 
-  render(){
 
+  render(){
       if(this.state.notifications.length){
-        return (
-          <Notification payload={this.state.notifications[0]} />
-        )
-      }else{
+         return <Notification key={this.state.notifications[0]} payload={this.state.notifications[0]} />
+               }else{
         return null
       }
   }
