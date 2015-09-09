@@ -15,9 +15,10 @@ class CloseButton extends Component{
     super(props)
   }
   render(){
+    console.log(this.props.navigator.getCurrentRoutes())
     return (
       <View style={[styles.navBarLeftButton]}>
-        <TouchableOpacity onPress={() => this.props.navigator.pop() }>
+        <TouchableOpacity onPress={() => this.props.navigator.jumpForward() }>
           <Image
             resizeMode={Image.resizeMode.contain}
             style={{width:20,height:20,marginTop:15,alignItems:'flex-start'}}

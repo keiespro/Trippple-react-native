@@ -49,7 +49,7 @@ var ROUTE_STACK = [
          return (
            <View style={[styles.touchables,styles.navBarLeftButton]}>
 
-             <TouchableOpacity onPress={() => navigator.pop() }>
+             <TouchableOpacity onPress={() => navigator.jumpTo(ROUTE_STACK[1]) }>
                <View style={styles.navBarLeftButton}>
                <Image
                  resizeMode={Image.resizeMode.contain}
@@ -66,7 +66,7 @@ var ROUTE_STACK = [
         return (
           <View style={[styles.touchables,styles.navBarLeftButton]}>
 
-            <TouchableOpacity onPress={() => navigator.push(ROUTE_STACK[0])}>
+            <TouchableOpacity onPress={() => navigator.jumpTo(ROUTE_STACK[0])}>
                 <Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30}} source={require('image!gear')} />
             </TouchableOpacity>
           </View>
@@ -85,7 +85,7 @@ var ROUTE_STACK = [
         <View style={[styles.touchables,styles.navBarRightButton]}>
 
           <TouchableOpacity
-            onPress={() => navigator.push(ROUTE_STACK[2])}>
+            onPress={() => navigator.jumpTo(ROUTE_STACK[2])}>
                 <Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30}} source={require('image!chat')} />
           </TouchableOpacity>
         </View>
@@ -141,6 +141,7 @@ var ROUTE_STACK = [
         <View style={styles.appContainer}>
           <Navigator
             ref={'nav'}
+              initialRouteStack={ROUTE_STACK}
               initialRoute={ROUTE_STACK[1]}
               configureScene={route => route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromBottom}
               navigator={this.props.navigator}

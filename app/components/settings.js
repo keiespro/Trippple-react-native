@@ -52,14 +52,14 @@ var bodyTypes = [
 class ProfileField extends React.Component{
 
   _editField=()=>{
-    this.props.navigator.push({
-      component: EditPage,
-      id: 'settingsedit',
-      passProps: {
-        val: this.props.val,
-        navigator: this.props.navigator
-      }
-    })
+    // this.props.navigator.push({
+    //   component: EditPage,
+    //   id: 'settingsedit',
+    //   passProps: {
+    //     val: this.props.val,
+    //     navigator: this.props.navigator
+    //   }
+    // })
   }
 
   render(){
@@ -190,8 +190,7 @@ class SettingsInside extends React.Component{
     console.log(imgs);
     UserActions.uploadImage(imgs.croppedImage,'profile')
 
-    let navigator = this.props.navigator
-    navigator.popToRoute(navigator.getCurrentRoutes()[1]);
+    navigator.jumpForward();
   }
 
   _pressNewImage =()=>{
