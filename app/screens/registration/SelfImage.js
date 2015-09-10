@@ -6,7 +6,6 @@ import {
   Image,
   View,
   TouchableHighlight,
-  Modal
 } from 'react-native'
 
 
@@ -18,7 +17,7 @@ import colors from '../../utils/colors'
 import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
 
 import CameraControl from '../../controls/cameraControl'
-
+import Modal from 'react-native-modal'
 import CameraRollView from '../../controls/CameraRollView'
 
 class SelfImage extends Component{

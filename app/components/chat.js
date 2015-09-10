@@ -31,6 +31,7 @@ var MatchActions = require('../flux/actions/MatchActions');
 var alt = require('../flux/alt');
 var AltContainer = require('alt/AltNativeContainer');
 var InvertibleScrollView = require('react-native-invertible-scroll-view');
+import TimeAgo from './Timeago'
 
 var styles = StyleSheet.create({
   container: {
@@ -131,6 +132,7 @@ class ChatMessage extends React.Component {
     var isMessageOurs = (this.props.messageData.from_user_info.id === this.props.user.id || this.props.messageData.from_user_info.id === this.props.user.partner_id);
 
     return (
+      <View>
       <View style={[styles.bubble]}>
         <View style={[styles.chatmessage]}>
           <Text style={styles.messageText} numberOfLines={2}>{this.props.text}</Text>
@@ -142,7 +144,12 @@ class ChatMessage extends React.Component {
             defaultSource={require('image!defaultuser')}
             resizeMode={Image.resizeMode.cover}
           />
-        </View>
+          </View>
+
+
+          </View>
+
+          <TimeAgo time={new Date(this.props.messageData.created_timestamp * 1000)}/>
       </View>
     );
   }
@@ -259,9 +266,19 @@ class ChatInside extends Component{
 
         <ListView
           ref={'scroller'}
-          renderScrollComponent={props => <InvertibleScrollView contentContainerStyle={{justifyContent:'flex-end',width:DeviceWidth,overflow:'hidden'}} {...this.props} inverted={true} keyboardDismissMode={'interactive'}  />}
+          renderScrollComponent={props =>
+            <InvertibleScrollView
+            onEndReached={()=>{console.log('END')}}
+            onScroll={(e)=>{console.log(e,'scroll')}}
+              contentContainerStyle={{justifyContent:'flex-end',width:DeviceWidth,overflow:'hidden'}}
+              {...this.props}
+              inverted={true}
+              keyboardDismissMode={'interactive'}
+          />}
           matchID={this.props.matchID}
           dataSource={this.state.dataSource}
+              onEndReached={()=>{console.log('END')}}
+
           renderRow={this._renderRow.bind(this)}
           messages={this.props.messages || []}
           style={{

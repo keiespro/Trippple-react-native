@@ -111,7 +111,23 @@ var UserActions = {
       })
   },
 
+  selectPartner(partner){
+    Api.joinCouple(partner)
+      .then((res) => {
+        console.log(res);
+        this.dispatch({
+          response: res
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.dispatch({
+          err: err
+        });
+      })
 
+
+  }
 }
 
 export default alt.createActions(UserActions)

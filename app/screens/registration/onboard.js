@@ -22,7 +22,7 @@ import SelectRelationshipStatus from './selectRelationshipStatus'
 import BdayScreen from './bday'
 import PrivacyScreen from './privacy'
 import InvitePartner from './invitePartner'
-import contacts from '../contacts'
+import Contacts from '../contacts'
 import name from './name'
 import bday  from './bday'
 import gender from './gender'
@@ -38,7 +38,7 @@ const RouteStacks = {
     Facebook, name, bday, gender, SelfImage, EditImage, EditImageThumb, PrivacyScreen, Limbo
   ],
   couple: [
-    InvitePartner, contacts, Facebook, name, bday, gender, CoupleImage, EditImage, SelfImage, EditImage, EditImageThumb, PrivacyScreen, Limbo
+    InvitePartner, Contacts, Facebook, name, bday, gender, CoupleImage, EditImage, SelfImage, EditImage, EditImageThumb, PrivacyScreen, Limbo
   ]
 }
 
@@ -51,10 +51,12 @@ class Onboard extends Component{
   }
 
   selectScene (route: Navigator.route, navigator: Navigator) {
-    let whichStack = route.passProps && route.passProps.whichStack || this.state.selection
-    let nextIndex = route.index || route.__navigatorRouteID - 1
+    var whichStack = route.passProps && route.passProps.whichStack || this.state.selection
+
+    console.log(whichStack)
+    var nextIndex = route.index || route.__navigatorRouteID - 1
     if(nextIndex < 0) { nextIndex = 1 }
-    let nextRoute = RouteStacks[whichStack][ nextIndex  ]
+    var nextRoute = RouteStacks[whichStack][ nextIndex  ]
     console.log('Next route:',nextIndex )
     return (
             <route.component

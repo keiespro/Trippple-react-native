@@ -128,6 +128,8 @@ class api {
     return authenticatedFileUpload('upload', image, imagetype)
   }
 
-
+  joinCouple(partner){
+    return authenticatedRequest('join_couple', { partner_phone: partner.phoneNumbers[0].number.trim() })
+  }
 }
 module.exports = new api()

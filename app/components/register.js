@@ -92,8 +92,11 @@ class Register extends Component{
       if(this.state.phoneError){ return false; }
 
       this.props.navigator.push({
-        component: this.props.nextRoute,
+        component: PinScreen,
+        title: '',
+        id:'pw',
         sceneConfig: CustomSceneConfigs.HorizontalSlide,
+
         passProps: {
           phone: this.formattedPhone(),
           initialKeyboardSpace: this.state.keyboardSpace

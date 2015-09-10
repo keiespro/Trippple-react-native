@@ -1,42 +1,41 @@
 /* @flow */
 
-const React = require('react-native');
-const {
+import React from 'react-native'
+import {
   Component,
- StyleSheet,
- Text,
- Image,
- View,
- AlertIOS,
- TextInput,
- ListView,
+  StyleSheet,
+  Text,
+  Image,
+  View,
+  AlertIOS,
+  TextInput,
+  ListView,
   TouchableHighlight,
-  Modal
-} = React;
+  Dimensions
+} from 'react-native'
 
-
-const Logger = require("../utils/logger");
-
-const DeviceHeight = require('Dimensions').get('window').height;
-const DeviceWidth = require('Dimensions').get('window').width;
-const Facebook = require('./registration/facebook');
-const UserActions = require('../flux/actions/UserActions');
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
+import Modal from 'react-native-modal'
+import UserActions from '../flux/actions/UserActions'
 import CoupleImage from './registration/CoupleImage'
-const AddressBook = require('NativeModules').AddressBook;
-const colors = require('../utils/colors');
-const _ = require('underscore');
+import { AddressBook } from 'NativeModules'
+import colors from '../utils/colors'
+import _ from 'underscore'
+import Facebook from './registration/facebook'
 
 class ContactList extends Component{
 
   constructor(props) {
     super(props);
+    this.state = {}
 
   }
   onPress(sectionID,rowID,rowData){
     console.log('contact list onPress',sectionID,rowID,rowData);
     // this.setState({
     //   highlightedRow: {sectionID,rowID}
-    // })
+    //})
     // this.refs[`${ID}contact`].setNativeProps({
     //   backgroundColor: colors.mediumPurple20,
     //   borderColor: colors.mediumPurple,
@@ -119,17 +118,17 @@ class Contacts extends Component{
       partnerSelection:{},
       dataSource: ds.cloneWithRows([]),
       searchText: '',
-modalVisible: false,
-highlightedRow: null
+      modalVisible: false,
+      highlightedRow: null
     }
   }
   _pressRow(contact){
 
-    Logger.debug(contact);
+    console.debug(contact);
 
     this.setState({
-partnerSelection: contact.rowData,
-  highlightedRow: contact,
+      partnerSelection: contact.rowData,
+      highlightedRow: contact,
       modalVisible: true
     })
   }
@@ -164,11 +163,12 @@ partnerSelection: contact.rowData,
     })
   }
   componentWillUnmount(){
-    Logger.debug('UNmount contacts')
+    console.debug('UNmount contacts')
   }
   getContacts(){
      AddressBook.checkPermission((err, permission) => {
-      if(err){
+       if(err){
+         console.log(err)
         //TODO:  handle err;
       }
 
@@ -205,7 +205,7 @@ partnerSelection: contact.rowData,
   _searchChange(text){
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
 
-    const shouldScrollToTop = text.length == 1 && this.state.searchText.length == 0
+    const shouldScrollToTop = text.length === 1 && this.state.searchText.length === 0
 
     const listref = this.refs.contactlist.refs.thelist
     console.log(text,shouldScrollToTop)
@@ -224,11 +224,12 @@ partnerSelection: contact.rowData,
   _continue(){
     this.closeModal();
     this.props.navigator.push({
-      component: this.props.nextRoute,
+      component: Facebook,
       passProps: {
         partner: this.state.partnerSelection
       }
     })
+    UserActions.selectPartner(this.state.partnerSelection)
 
   }
   _cancel(){
@@ -272,8 +273,6 @@ partnerSelection: contact.rowData,
 
 
       <Modal
-      animated={true}
-      transparent={true}
         visible={this.state.modalVisible}
         onPressBackdrop={this._cancel.bind(this)}
         onClose={() => this.closeModal.bind(this)}
@@ -281,7 +280,8 @@ partnerSelection: contact.rowData,
         <Image style={styles.modalcontainer} source={require('image!GradientBG')}>
           <View style={[styles.col]}>
 
-            <Image style={[styles.contactthumb,{width:100,height:100,borderRadius:50}]} source={this.state.partnerSelection.thumbnailPath != "" ? {uri: this.state.partnerSelection.thumbnailPath} : require('image!placeholderUser')} />
+          <Image style={[styles.contactthumb,{width:100,height:100,borderRadius:50}]}
+                source={this.state.partnerSelection.thumbnailPath !== '' ? {uri: this.state.partnerSelection.thumbnailPath} : require('image!placeholderUser')} />
 
             <View style={styles.rowtextwrapper}>
 
@@ -320,7 +320,8 @@ partnerSelection: contact.rowData,
   }
 
 }
-module.exports = Contacts;
+
+export default Contacts;
 
 var styles = StyleSheet.create({
   container: {
@@ -373,8 +374,7 @@ var styles = StyleSheet.create({
     fontSize:18,
     fontFamily:'omnes'
   },
-  bigtext:{
-    fontSize:30,
+  bigtext: {
     textAlign:'center',
     color: colors.white,
     fontSize:18,

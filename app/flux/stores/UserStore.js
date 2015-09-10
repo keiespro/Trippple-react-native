@@ -14,6 +14,10 @@ class UserStore {
 
     this.user = {}
     this.userStub = {}
+    this.state = {
+      user: {},
+      userStub: {}
+    }
 
     this.registerAsync(UserSource);
 

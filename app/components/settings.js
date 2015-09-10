@@ -14,30 +14,44 @@ import {
   Image,
   AsyncStorage,
   Navigator
-} from  'react-native';
+} from  'react-native'
 
-import SegmentedView from '../controls/SegmentedView';
-import scrollable from 'react-native-scrollable-decorator';
-import Dimensions from 'Dimensions';
+import SegmentedView from '../controls/SegmentedView'
+// import ScrollableTabView from 'react-native-scrollable-tab-view'
+
+      // <ScrollableTabView renderTabBar={() => <CustomTabBar
+      //   goToPage={(page)=>{this.setState({index:page})}}
+      //   activeTab={this.state.index}
+      //   tabs={[ BasicSettings, PreferencesSettings, SettingsSettings ]}
+      //   navigator={this.props.navigator} />}>
+      //   <BasicSettings tabLabel="Basic" />
+      //   <PreferencesSettings tabLabel="Preferences" />
+      //   <SettingsSettings tabLabel="Settings" />
+      // </ScrollableTabView>
+
+
+
+import scrollable from 'react-native-scrollable-decorator'
+import Dimensions from 'Dimensions'
 import ParallaxView from  '../controls/ParallaxScrollView'
 
-const DeviceHeight = Dimensions.get('window').height;
-const DeviceWidth = Dimensions.get('window').width;
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
 
-import DistanceSlider from '../controls/distanceSlider';
-import ToggleSwitch from '../controls/switches';
+import DistanceSlider from '../controls/distanceSlider'
+import ToggleSwitch from '../controls/switches'
 import UserActions from '../flux/actions/UserActions'
-import EditImage from '../screens/registration/EditImage';
-import SelfImage from '../screens/registration/SelfImage';
-import Privacy from './privacy';
+import EditImage from '../screens/registration/EditImage'
+import SelfImage from '../screens/registration/SelfImage'
+import Privacy from './privacy'
 import { FacebookButton } from '../screens/registration/facebook'
-import FeedbackButton from '../screens/feedbackButton';
-import Contacts from '../screens/contacts';
+import FeedbackButton from '../screens/feedbackButton'
+import Contacts from '../screens/contacts'
 import colors from '../utils/colors'
-import NavigatorSceneConfigs from 'NavigatorSceneConfigs';
+import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
 import EditPage from './EditPage'
 import CloseButton from './CloseButton'
-// import {BlurView} from 'react-native-blur';
+import {BlurView} from 'react-native-blur'
 
 var bodyTypes = [
   'Athletic',
@@ -264,6 +278,10 @@ class SettingsInside extends React.Component{
          />
 
       {innerView}
+
+
+
+
 
       <FeedbackButton />
       <LogOutButton/>

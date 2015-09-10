@@ -14,7 +14,7 @@ import colors from '../../utils/colors'
 import UserActions from '../../flux/actions/UserActions'
 import BoxyButton from '../../controls/boxyButton'
 import Contacts from '../contacts'
-import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
+import Facebook from './facebook'
 
 class InvitePartner extends Component{
   constructor(props){
@@ -22,8 +22,10 @@ class InvitePartner extends Component{
   }
   onPress(){
     this.props.navigator.push({
-       component: this.props.nextRoute,
-       sceneConfig: NavigatorSceneConfigs.FloatFromBottom
+        component: Contacts,
+       passProps: {
+         nextRoute: Facebook
+      }
      })
   }
 
