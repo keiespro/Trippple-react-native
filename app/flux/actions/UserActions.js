@@ -1,5 +1,6 @@
 import alt from '../alt'
 import Api from '../../utils/api'
+import phoneParser from 'phone-parser'
 
 var UserActions = {
   initialize(){
@@ -112,6 +113,7 @@ var UserActions = {
   },
 
   selectPartner(partner){
+    const partner_phone = phoneParser(partner.phoneNumbers[0].number,'xxxxxxxxxx');
     Api.joinCouple(partner)
       .then((res) => {
         console.log(res);
