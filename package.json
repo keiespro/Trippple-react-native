@@ -10,6 +10,7 @@
     "babel-core": "latest",
     "bluebird": "^2.9.34",
     "moment": "^2.10.6",
+    "phone-parser": "0.0.2",
     "react-mixin": "^1.7.0",
     "react-native": "facebook/react-native.git#v0.10.0",
     "react-native-addressbook": "^1.2.0",

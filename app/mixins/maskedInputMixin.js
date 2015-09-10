@@ -32,19 +32,23 @@ var ReactMaskMixin = {
       this.processValue(this.props.value)
     }
   },
-  setSelectionRange: function(){
-    // var cursorIndex = this.props.selectionState.getFocusOffset();
-    // this.setState({focus: 0})
-    // console.log(cursorIndex);
-  },
-  componentDidUpdate: function() {
-    this.setSelectionRange(
-      this.mask.cursor,
-      this.mask.cursor
-    )
-  },
+  componentDidUpdate(prevProps,prevState){
+    console.log(prevProps,prevState)
+    var prevState = prevState || {};
+    if(prevState.text && prevState.text.length + 1 < 5 && this.mask.props.value.length == 5){
+        this._textInput2.focus()
+        setTimeout(()=>{this._textInput.focus()},50)
+        console.log('_onChange',this.mask.props)
+      }
+    if(prevState.text && prevState.text.length + 1 < 9 && this.mask.props.value.length == 9){
+        this._textInput2.focus()
+        setTimeout(()=>{this._textInput.focus()},50)
+        console.log('_onChange',this.mask.props)
+      }
 
 
+
+  },
   processValue: function(value) {
     if(value.length > this.props.mask.length){
       return false;
@@ -133,10 +137,10 @@ var ReactMaskMixin = {
     this.mask.cursor = cursorCurr
   },
   _forceUpdate: function(){
-
     this.setNativeProps({
       text: this.mask.props.value
-    })
+  })
+
 
   },
   setNativeProps(np) {
@@ -154,7 +158,6 @@ var ReactMaskMixin = {
         this.mask.props.value = ''
       }
 
-      this._forceUpdate()
     }
     if (this.props.onBlur) {
       this.props.onBlur(e)
@@ -164,8 +167,17 @@ var ReactMaskMixin = {
   _onChange: function(event) {
     if (this.props.mask) {
       this.processValue(event.nativeEvent.text)
+      this.setState({text:event.nativeEvent.text})
+      this.setNativeProps({text:event.nativeEvent.text})
 
-      this._forceUpdate()
+      if(this.mask.props.value && this.mask.props.value.length == 3){
+        this._textInput.focus()
+
+        console.log('_onChange',this.mask.props)
+      }
+
+
+
     }
     if (this.props.onChange) {
       this.props.onChange(event)
@@ -175,7 +187,7 @@ var ReactMaskMixin = {
   _onKeyDown: function(e) {
     console.log(e);
     if (this.props.mask) {
-      // this.mask.cursor = this.getDOMNode().getSelectionRange()
+      this.mask.cursor = this._textInput.getSelectionRange()
     }
     if (this.props.onKeyDown) {
       this.props.onKeyDown(e)
@@ -183,7 +195,7 @@ var ReactMaskMixin = {
   },
 
   _onFocus: function(e) {
-    this._onChange(e)
+    // this._onChange(e)
     if (this.props.onFocus) {
       this.props.onFocus(e)
     }

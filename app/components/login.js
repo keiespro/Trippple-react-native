@@ -119,7 +119,8 @@ class Login extends Component{
               (this.state.phoneError ? styles.phoneInputWrapError : null)]}>
 
             <PhoneNumberInput
-              mask={PHONE_MASK_USA}
+            mask={PHONE_MASK_USA}
+            ref="phoneinputbox"
               style={styles.phoneInput}
               keyboardType={'phone-pad'}
               placeholder={'Phone'}
