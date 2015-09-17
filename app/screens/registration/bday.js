@@ -21,6 +21,7 @@ import {
 import UserActions from '../../flux/actions/UserActions'
 import colors from '../../utils/colors'
 import moment from 'moment'
+import BackButton from '../../components/BackButton'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -80,12 +81,18 @@ class BdayScreen extends Component{
             paddingBottom: 230
           }
         ]}>
+ <View style={{width:100,height:50,left:20,alignSelf:'flex-start'}}>
+        <BackButton navigator={this.props.navigator}/>
+      </View>
 
         <SingleInputScreen
           shouldHide={(val) => false }
           shouldShow={(val) => true }
           inputFieldValue={this.state.inputFieldValue}
           handleNext={this._submit.bind(this)}
+          toptext={`What's your date of birth`}
+          bottomtext={` `}
+
           >
 
           <View style={[styles.pinInputWrap,(this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null)]}>
@@ -166,7 +173,7 @@ const styles = StyleSheet.create({
     fakeInput: {
       height: 60,
       padding: 8,
-      fontSize: 30,
+      fontSize: 28,
       fontFamily:'Montserrat',
       color: colors.white,
       textAlign:'center'

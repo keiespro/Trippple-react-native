@@ -25,7 +25,7 @@ const SharedStyles = StyleSheet.create({
   },
   continueButtonText: {
     padding: 4,
-    fontSize: 30,
+    fontSize: 26,
     fontFamily:'Montserrat',
     color: colors.white,
     textAlign:'center'

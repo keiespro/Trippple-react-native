@@ -8,12 +8,14 @@ import {
   View,
   Component,
   TouchableHighlight,
+  TouchableOpacity
 } from 'react-native'
 
 import { FBLoginManager } from 'NativeModules'
 import colors from '../../utils/colors'
 import UserActions from '../../flux/actions/UserActions'
 import BoxyButton from '../../controls/boxyButton'
+import BackButton from '../../components/BackButton'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -25,10 +27,12 @@ class FacebookButton extends React.Component{
     return(
 
       <BoxyButton
-        text={"VERIFY WITH FACEBOOK"}
+        text={"CONNECT WITH FB"}
         outerButtonStyle={styles.iconButtonOuter}
         leftBoxStyles={styles.iconButtonLeftBoxCouples}
         innerWrapStyles={styles.iconButtonCouples}
+              underlayColor={colors.mediumPurple20}
+
         _onPress={this.props.onPress}>
 
           <Image source={require('image!fBlogo')}
@@ -110,25 +114,32 @@ class Facebook extends Component{
   render() {
     // var text = this.state.user ? "LOG OUT" : "LOG IN WITH FACEBOOK";
     return (
+     <View style={{width:DeviceWidth,height:DeviceHeight,position:'relative',backgroundColor:colors.outerSpace}}>
+
+         <View style={{width:100,height:50,left:20}}>
+          <BackButton navigator={this.props.navigator}/>
+        </View>
+
       <View style={[styles.container,this.props.wrapperStyle]}>
 
           <View style={styles.middleTextWrap}>
-            <Text style={styles.middleText}>Save time. Get more matches </Text>
+            <Text style={styles.middleText}>Save time. Get more matches.</Text>
           </View>
 
           <FacebookButton onPress={this.onPress} />
 
           <View style={styles.middleTextWrap}>
-            <Text style={[styles.middleText,{fontSize:16,marginTop:20}]}>Don’t worry, we wont tell your friends or post on your wall</Text>
+            <Text style={[styles.middleText,{fontSize:16,marginTop:20}]}>Don’t worry, we wont tell ever your friends or post on your wall.</Text>
           </View>
 
           <View style={[styles.middleTextWrap,styles.bottomwrap]}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={this.skipFacebook}
             >
               <Text style={styles.middleText}>No thanks</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
+      </View>
       </View>
     );
   }
@@ -142,6 +153,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf:'stretch',
     padding:40,
+    paddingTop:0,
     backgroundColor: colors.outerSpace
   },
   LogoBox: {
@@ -157,11 +169,11 @@ const styles = StyleSheet.create({
     height: 60
   },
   middleText: {
-    color: colors.rollingStone,
-    fontSize: 21,
+    color:colors.rollingStone,
+    fontSize:20,
+    fontFamily:'omnes',
     textAlign:'center',
-    fontFamily:'Montserrat',
-    lineHeight:22
+    marginVertical:20
   },
   iconButtonCouples:{
     borderColor: colors.mediumPurple,

@@ -11,6 +11,7 @@ var {
   View,
   Image,
   TouchableHighlight,
+  TouchableOpacity,
   LayoutAnimation,
   TextInput,
   AlertIOS,
@@ -128,6 +129,7 @@ var PinScreen = React.createClass({
           contentContainerStyle={styles.wrap}
           keyboardDismissMode={'on-drag'}
           bounces={false}
+          keyboardShouldPersistTaps={true}
           >
 
           <View style={[styles.middleTextWrap]}>
@@ -143,7 +145,9 @@ var PinScreen = React.createClass({
             >
             <TextInput
               maxLength={4}
-              style={styles.pinInput}
+              style={[styles.pinInput,{
+                fontSize: this.state.inputFieldValue == '' ? 22 : 32
+              }]}
               value={this.state.inputFieldValue || ''}
               keyboardAppearance={'dark'/*doesnt work*/}
               keyboardType={'phone-pad'}
@@ -161,13 +165,13 @@ var PinScreen = React.createClass({
           </View>
 
           <View style={[styles.middleTextWrap,styles.underPinInput]}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={this.goBack}>
               <View style={styles.goBackButton}>
                 <Text textAlign={'left'} style={[styles.bottomTextIcon]}>◀︎ </Text>
                 <Text textAlign={'left'} style={[styles.bottomText]}>Go back</Text>
               </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
 
             {this.state.verifyError &&
                 <View style={styles.bottomErrorTextWrap}>
@@ -239,12 +243,13 @@ var styles = StyleSheet.create({
   middleTextWrap: {
     alignItems:'center',
     justifyContent:'center',
+    marginBottom:10,
     height: 60
   },
   middleText: {
     color: colors.rollingStone,
-    fontSize: 21,
-    fontFamily:'Montserrat',
+    fontSize: 20,
+    fontFamily:'omnes',
   },
 
   imagebg:{
@@ -274,7 +279,7 @@ var styles = StyleSheet.create({
     alignSelf: 'stretch'
   },
   goBackButton:{
-    padding:10,
+    padding:20,
     paddingLeft:0,
     flexDirection: 'row',
     backgroundColor: 'transparent',

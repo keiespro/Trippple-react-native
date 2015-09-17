@@ -37,12 +37,12 @@ var ReactMaskMixin = {
     var prevState = prevState || {};
     if(prevState.text && prevState.text.length + 1 < 5 && this.mask.props.value.length == 5){
         this._textInput2.focus()
-        setTimeout(()=>{this._textInput.focus()},50)
+        setTimeout(()=>{this._textInput.focus()},40)
         console.log('_onChange',this.mask.props)
       }
     if(prevState.text && prevState.text.length + 1 < 9 && this.mask.props.value.length == 9){
         this._textInput2.focus()
-        setTimeout(()=>{this._textInput.focus()},50)
+        setTimeout(()=>{this._textInput.focus()},40)
         console.log('_onChange',this.mask.props)
       }
 

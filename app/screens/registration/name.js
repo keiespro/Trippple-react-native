@@ -15,7 +15,7 @@ import {
 
 import UserActions from '../../flux/actions/UserActions'
 import colors from '../../utils/colors'
-
+import BackButton from '../../components/BackButton'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -63,7 +63,11 @@ class NameScreen extends Component{
 
   }
  render(){
-    return(
+   return(
+     <View style={{width:DeviceWidth,height:DeviceHeight,position:'relative',backgroundColor:colors.outerSpace}}>
+     <View style={{width:100,height:50,left:20}}>
+        <BackButton navigator={this.props.navigator}/>
+      </View>
       <SingleInputScreen
         shouldHide={(val) => { return (val.length <= 0) ? true : false }}
         shouldShow={(val) => { return (val.length > 0)  ? true : false }}
@@ -72,22 +76,26 @@ class NameScreen extends Component{
         handleNext={this._submit.bind(this)}
         >
 
-
-            <TextInput
-              style={styles.pinInput}
+                      <TextInput
+            style={[styles.pinInput,{
+              fontSize: this.state.inputFieldValue == '' || !this.state.inputFieldValue ? 22 : 32
+            }]}
               defaultValue={this.state.name || this.state.inputFieldValue || ''}
               keyboardAppearance={'dark'/*doesnt work*/}
               autoCapitalize={'words'}
               placeholder={'FIRST NAME'}
-              placeholderTextColor={colors.offwhite}
+              placeholderTextColor={colors.white}
               autoCorrect={false}
+              autoFocus={true}
+              maxLength={10}
               clearButtonMode={'never'}
               onFocus={this.handleInputFieldFocused.bind(this)}
               onBlur={this.handleInputFieldBlurred.bind(this)}
               textAlign={'center'}
               onChange={this.handleInputChange}
             />
-             </SingleInputScreen>
+            </SingleInputScreen>
+            </View>
         )
   }
 }
@@ -146,10 +154,11 @@ const styles = StyleSheet.create({
       height: 60
     },
     middleText: {
-      color: colors.rollingStone,
-      fontSize: 21,
-      fontFamily:'Montserrat',
-    },
+      color:colors.rollingStone,
+      fontSize:20,
+      fontFamily:'omnes',
+      textAlign:'center',
+     },
 
     imagebg:{
       flex: 1,

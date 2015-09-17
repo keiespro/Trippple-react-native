@@ -88,13 +88,13 @@ class MatchList extends Component{
                  key={'userimage'}
                  style={styles.thumb}
                  source={{uri: rowData.couple ? rowData.couple.thumb_url : rowData.users.them.users[0].thumb_url}}
-                 defaultSource={require('image!defaultuser')}
+                 defaultSource={require('image!placeholderUser')}
                  resizeMode={Image.resizeMode.cover}
                />
 
             </View>
             <View style={styles.textwrap}>
-              <Text style={styles.text}>
+              <Text style={[styles.text,styles.title]}>
                 {threadName}
               </Text>
               <Text style={styles.text}>
@@ -102,7 +102,6 @@ class MatchList extends Component{
               </Text>
             </View>
           </View>
-          <View style={styles.separator} />
         </View>
       </TouchableHighlight>
       </Swipeout>
@@ -132,7 +131,7 @@ class MatchList extends Component{
 
     return (
       <View style={styles.container}>
-        <View style={{height:40}}>
+        <View style={{height:50}}>
 
           <SegmentedView
             barPosition={'bottom'}
@@ -140,6 +139,7 @@ class MatchList extends Component{
             barColor={colors.mediumPurple}
             titles={['ALL', 'FAVORITES']}
             index={this.state.index}
+            titleStyle={{fontFamily:'Montserrat',fontSize:15,padding:5,color:colors.white}}
             stretch
             onPress={index => this.setState({ index })}
           />
@@ -218,8 +218,6 @@ var styles = StyleSheet.create({
     flex: 1,
     overflow:'hidden',
     height: DeviceHeight-50,
-    borderTopWidth: 1,
-    borderTopColor: colors.shuttleGray,
 
   },
   navText: {
@@ -231,8 +229,6 @@ var styles = StyleSheet.create({
     backgroundColor: colors.white,
     padding: 15,
     height:70,
-    borderBottomWidth: 1 / PixelRatio.get(),
-    borderBottomColor: '#CDCDCD',
   },
   row: {
     flexDirection: 'row',
@@ -241,12 +237,14 @@ var styles = StyleSheet.create({
     backgroundColor: colors.outerSpace,
   },
   topRow: {
-    borderTopWidth: 1,
-    borderTopColor: '#CCCCCC',
+    // borderTopWidth: 1,
+    // borderTopColor: '#CCCCCC',
   },
   separator: {
     height: 1,
-    backgroundColor: '#CCCCCC',
+    borderColor: 'transparent',
+
+    backgroundColor: 'transparent',
   },
   thumbswrap: {
     width: 64,
@@ -260,17 +258,20 @@ var styles = StyleSheet.create({
     borderRadius: 32,
     width: 64,
     height: 64,
-    borderColor: '#ffffff',
-    borderWidth: 3/PixelRatio.get()
   },
   rightthumb: {
     left: -16
   },
   text: {
     flex: 1,
-    color:'#ffffff',
+     color:colors.rollingStone,
     fontFamily:'omnes'
 
+  },
+  title:{
+    fontSize:22,
+     color:colors.white,
+    fontWeight:"500"
   },
   textwrap:{
     height: 64,

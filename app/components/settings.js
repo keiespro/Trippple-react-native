@@ -17,18 +17,7 @@ import {
 } from  'react-native'
 
 import SegmentedView from '../controls/SegmentedView'
-// import ScrollableTabView from 'react-native-scrollable-tab-view'
-
-      // <ScrollableTabView renderTabBar={() => <CustomTabBar
-      //   goToPage={(page)=>{this.setState({index:page})}}
-      //   activeTab={this.state.index}
-      //   tabs={[ BasicSettings, PreferencesSettings, SettingsSettings ]}
-      //   navigator={this.props.navigator} />}>
-      //   <BasicSettings tabLabel="Basic" />
-      //   <PreferencesSettings tabLabel="Preferences" />
-      //   <SettingsSettings tabLabel="Settings" />
-      // </ScrollableTabView>
-
+import ScrollableTabView from 'react-native-scrollable-tab-view'
 
 
 import scrollable from 'react-native-scrollable-decorator'
@@ -278,6 +267,7 @@ class SettingsInside extends React.Component{
          />
 
       {innerView}
+
 
 
 

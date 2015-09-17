@@ -122,9 +122,9 @@ class Register extends Component{
 
             <PhoneNumberInput
               mask={PHONE_MASK_USA}
-              style={styles.phoneInput}
+              style={[styles.phoneInput]}
               keyboardType={'phone-pad'}
-              placeholder={'Phone'}
+              placeholder={'PHONE NUMBER'}
               placeholderTextColor="#fff"
               autoFocus={true}
               autoCorrect={false}
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   phoneInput: {
     height: 60,
     padding: 8,
-    fontSize: 30,
+    fontSize: 22,
     fontFamily:'Montserrat',
     color: colors.white
   },

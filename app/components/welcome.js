@@ -28,26 +28,26 @@ var Facebook = require('../screens/registration/facebook');
 var slides = [
   {
     title: '',
-    img: require('image!tripppleLogo'),
+    img: require('image!logo'),
     content: ''
   },
   {
-  	title: 'Browse',
+  	title: 'BROWSE',
   	img: require('image!tour-browse'),
   	content: 'Find adventurous couples and singles near you.'
   },
   {
-  	title: 'Match',
+  	title: 'MATCH',
   	img: require('image!tour-match'),
   	content: 'If they like you too, we\'ll connect you.'
   },
   {
-  	title: 'Connect',
+  	title: 'CONNECT',
   	img: require('image!tour-connect'),
   	content: 'Chat with real Couples or Singles in your area.'
   },
   {
-  	title: 'Private & Discreet',
+  	title: 'PRIVATE & DISCREET',
   	img: require('image!tour-privacy'),
   	content: 'Protect your identity. Hide from friends and family.'
   }
@@ -128,8 +128,19 @@ class Carousel extends Component{
     var welcomeSlides = slides.map( (slide,i) => {
       return (
         <View key={i+'slide'+slide.title.trim()} style={styles.slide}>
-          <Image style={styles.slideImage} source={slide.img} resizeMode={Image.resizeMode.contain}/>
-          <View style={styles.textwrap}><Text style={[styles.textplain]}>{slide.title}</Text></View>
+        <Image style={[styles.slideImage,
+          {
+            paddingTop: i == 0 ? 60 : 20,
+            width: i == 0 ? 150 : 150
+          }
+        ]} source={slide.img} resizeMode={Image.resizeMode.contain}/>
+        <View style={styles.textwrap}><Text style={[styles.textplain,
+          {
+            fontFamily:'Montserrat',
+            fontWeight:"700",
+            marginTop:15
+          }
+          ]}>{slide.title}</Text></View>
           <View style={styles.textwrap}><Text style={[styles.textplain]}>{slide.content}</Text></View>
         </View>
       )
@@ -195,15 +206,15 @@ var styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   textplain:{
-    color:'#fff',
+    color: colors.white,
     alignSelf:'center',
-    fontSize:26,
+    fontSize:22,
     fontFamily:'omnes',
     textAlign:'center'
   },
   buttonText: {
-    fontSize: 24,
-    color: '#fff',
+    fontSize: 22,
+    color: colors.white,
     alignSelf: 'center',
     fontFamily:'Montserrat'
   },
@@ -292,26 +303,26 @@ var styles = StyleSheet.create({
   },
   dot: {
     backgroundColor: colors.shuttleGray,
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    marginLeft: 6,
-    marginRight: 6,
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    marginLeft: 8,
+    marginRight: 8,
     marginTop: 3,
     marginBottom: 3,
     borderColor: colors.shuttleGray
   },
   activeDot: {
-    backgroundColor: colors.outerSpace,
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    marginLeft: 6,
-    marginRight: 6,
+    backgroundColor: colors.mediumPurple20,
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    marginLeft: 8,
+    marginRight: 8,
     marginTop: 3,
     marginBottom: 3,
     borderWidth: 2,
-    borderColor: colors.mediumPurple20
+    borderColor: colors.mediumPurple
   }
 });
 

@@ -46,6 +46,8 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     // alignItems: 'stretch',
     alignSelf: 'stretch',
+    backgroundColor:colors.dark,
+
     // bottom: 50,
     // top:60
   },
@@ -65,7 +67,7 @@ var styles = StyleSheet.create({
 
   inputField: {
     height: 50,
-    backgroundColor:colors.shuttleGray,
+    backgroundColor:colors.dark,
     margin:0,
     bottom:0
   },
@@ -73,23 +75,44 @@ var styles = StyleSheet.create({
     borderRadius:4,
     paddingHorizontal: 20,
     paddingVertical:10,
-    marginHorizontal: 30,
+    marginHorizontal: 10,
     marginVertical:15,
     flex: 1,
-    justifyContent:'space-between',
+              flexWrap:'wrap',
+    alignSelf:'stretch',
     flexDirection: 'row',
-    flexWrap:'wrap',
-  },
+  flexDirection: 'column',
+    flex:1,
+    backgroundColor: colors.mediumPurple,
+    borderRadius:4,
+    padding: 10,
+
+    // height:50,
+    overflow:'hidden'
+
+},
+row:{
+    flexDirection: 'row',
+    flex: 1
+},
   theirMessage:{
-    alignSelf:'flex-end',
-    position:'absolute',
-    left:-20
+    alignSelf:'flex-start',
+    alignItems:'flex-start',
+    justifyContent:'flex-start',
+
   },
   ourMessage:{
-    alignSelf:'flex-start',
-    position:'absolute',
-    right:-20
-  },
+    alignSelf:'flex-end',
+    alignItems:'flex-end',
+    justifyContent:'flex-end',
+
+
+    backgroundColor: colors.dark
+},
+messageTitle:{
+  fontFamily:'Montserrat',
+  color:colors.shuttleGray
+},
   sendButtonText:{
     textAlign:'center',
     fontFamily:'omnes',
@@ -97,18 +120,7 @@ var styles = StyleSheet.create({
     color:colors.white
   },
   chatmessage:{
-    flexDirection: 'column',
-    flex:1,
-    backgroundColor: colors.mediumPurple,
-    borderRadius:4,
-    padding: 4,
-
-    width:undefined,
-    flexWrap:'wrap',
-    justifyContent:'flex-start',
-    // height:50,
-    overflow:'hidden'
-  },
+    },
   messageText: {
     fontSize: 18,
     fontWeight: '200',
@@ -116,11 +128,10 @@ var styles = StyleSheet.create({
     color: colors.white
   },
   thumb: {
-    borderRadius: 16,
-    width: 32,
-    height: 32,
-    borderColor: colors.white,
-    borderWidth: 3 / PixelRatio.get()
+    borderRadius: 24,
+    width: 48,
+    height: 48,
+    position:'relative'
   },
 });
 
@@ -132,25 +143,36 @@ class ChatMessage extends React.Component {
     var isMessageOurs = (this.props.messageData.from_user_info.id === this.props.user.id || this.props.messageData.from_user_info.id === this.props.user.partner_id);
 
     return (
-      <View>
-      <View style={[styles.bubble]}>
-        <View style={[styles.chatmessage]}>
-          <Text style={styles.messageText} numberOfLines={2}>{this.props.text}</Text>
-        </View>
-        <View style={[(isMessageOurs ? styles.ourMessage : styles.theirMessage)]}>
+      <View style={[styles.row,{alignItems:'center'}]}>
+
+
+        {!isMessageOurs && <View style={[]}>
           <Image
             style={[styles.thumb]}
             source={{uri: this.props.pic}}
-            defaultSource={require('image!defaultuser')}
+            defaultSource={require('image!placeholderUser')}
             resizeMode={Image.resizeMode.cover}
           />
           </View>
+        }
 
 
+        <View style={[styles.bubble,(isMessageOurs ? styles.ourMessage : styles.theirMessage)]}>
+          <Text style={[styles.messageText,styles.messageTitle,{color: isMessageOurs ? colors.shuttleGray : colors.lavender}]}
+                numberOfLines={2}>{this.props.messageData.from_user_info.name}</Text>
+          <Text style={styles.messageText} numberOfLines={2}>{this.props.text}</Text>
+        </View>
+
+        {isMessageOurs && <View style={[]}>
+          <Image
+            style={[styles.thumb]}
+            source={{uri: this.props.pic}}
+            defaultSource={require('image!placeholderUser')}
+            resizeMode={Image.resizeMode.cover}
+          />
           </View>
-
-          <TimeAgo time={new Date(this.props.messageData.created_timestamp * 1000)}/>
-      </View>
+        }
+    </View>
     );
   }
 }
@@ -165,7 +187,8 @@ class ChatInside extends Component{
       dataSource: ds.cloneWithRows(props.messages),
       keyboardSpace: 0,
       isKeyboardOpened: false,
-      textInputValue: ''
+      textInputValue: '',
+      lastPage: 0
     }
     MatchActions.getMessages(props.matchID);
 
@@ -199,10 +222,15 @@ class ChatInside extends Component{
     // });
     // this.refs.scroller.refs.listviewscroll.scrollTo(0)
       MatchActions.getMessages(this.props.matchID);
-  }
-  componentDidUpdate(prevProps){
-    this.refs.scroller.refs.listviewscroll.scrollTo(0,0)
+}
 
+// shouldComponentUpdate(nextProps,nextState){
+//   return nextProps.messages.length == this.props.messages.length
+// }
+  componentDidUpdate(prevProps){
+    if(prevProps.messages.length !== this.props.messages.length){
+      this.refs.scroller.refs.listviewscroll.scrollTo(0,0)
+  }
     if(prevProps.messages && prevProps.messages.length < this.props.messages.length ){
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(this.props.messages)
@@ -252,6 +280,12 @@ class ChatInside extends Component{
     })
   }
   render(){
+    this._textInput && this._textInput.measure((x, y, width, height)=>{
+       console.log(x, y, width, height);
+  });
+   this._textInput && this._textInput.measureLayout(4,(x, y, width, height)=>{
+       console.log(x, y, width, height);
+    });
 
     return (
       <View ref={'chatscroll'} style={{
@@ -268,8 +302,18 @@ class ChatInside extends Component{
           ref={'scroller'}
           renderScrollComponent={props =>
             <InvertibleScrollView
-            onEndReached={()=>{console.log('END')}}
-            onScroll={(e)=>{console.log(e,'scroll')}}
+            onScroll={(e)=>{
+              if(e.nativeEvent.contentOffset.y > e.nativeEvent.contentSize.height - 800){
+                var nextPage = this.state.lastPage;
+                if(this.state.fetching || nextPage === this.state.lastPage){ return  }
+                this.setState({fetching:true,lastPage: nextPage+1 })
+                MatchActions.getMessages({match_id: props.matchID,page: nextPage+1});
+                this.setState({fetching:false})
+
+              }
+            }}
+            scrollEventThrottle={128}
+            scrollsToTop={false}
               contentContainerStyle={{justifyContent:'flex-end',width:DeviceWidth,overflow:'hidden'}}
               {...this.props}
               inverted={true}
@@ -278,7 +322,6 @@ class ChatInside extends Component{
           matchID={this.props.matchID}
           dataSource={this.state.dataSource}
               onEndReached={()=>{console.log('END')}}
-
           renderRow={this._renderRow.bind(this)}
           messages={this.props.messages || []}
           style={{
@@ -290,39 +333,60 @@ class ChatInside extends Component{
             paddingTop:40}}/>
 
         <View style={{
-            height:50,
             flexDirection:'row',
+            backgroundColor:colors.dark,
             alignItems:'center',
             justifyContent:'center',
-            alignSelf:'stretch',
             width:DeviceWidth,
-            backgroundColor:colors.white,
-            padding:5}}>
+            margin:0,
+            padding:20,
+            // paddingBottom:10,
+            // paddingTop:15
+        }}>
 
           <TextInput multiline={true}
             ref={component => this._textInput = component}
             style={{
               flex:1,
-              padding:5,
+              paddingHorizontal:2.5,
+               paddingTop:0,
+               paddingBottom:10,
+
               flexWrap:'wrap',
-              fontSize:15,
+              fontSize:16,
               color:colors.white,
-              backgroundColor:colors.shuttleGray,
-              borderRadius:4
+              borderBottomColor:colors.mediumPurple,
+              borderBottomWidth:1,
+              overflow:'hidden',
             }}
+              returnKeyType={'send'}
+
               onChangeText={this.onTextInputChange.bind(this)}
-              onLayout={(x, y, width, height ) => { console.log(x, y, width, height)}}
-              value={this.state.textInputValue} />
+              onLayout={(e) => { console.log(e,e.nativeEvent)}}
+             >
+             <View style={{
+             }}><Text
+             style={{
+               fontSize:16,
+               padding:0,
+               paddingBottom:7.5,
+
+               color:colors.outerSpace,
+              }}
+             >{this.state.textInputValue || ' '}</Text></View>
+          </TextInput>
 
           <TouchableHighlight style={{
-              margin:5,
-              padding:8,
-              borderRadius:4,
-              backgroundColor:colors.shuttleGray,
-              flexDirection:'column',
+              margin:0,
+              padding:5,
+    backgroundColor:colors.dark,
+                            flexDirection:'column',
               alignItems:'center',
               justifyContent:'center'}} onPress={this.sendMessage.bind(this)}>
-            <Text style={styles.sendButtonText}>Send</Text>
+              <Text style={[styles.sendButtonText,{
+                color:colors.shuttleGray,
+                fontFamily:'Montserrat',
+              }]}>SEND</Text>
           </TouchableHighlight>
 
         </View>

@@ -64,6 +64,7 @@ class SelectRelationshipStatus extends Component{
               outerButtonStyle={styles.iconButtonOuter}
               leftBoxStyles={styles.iconButtonLeftBoxCouples}
               innerWrapStyles={styles.iconButtonCouples}
+              underlayColor={colors.mediumPurple20}
               _onPress={this._selectCouple.bind(this)}>
 
               <Image source={require('image!ovalCouple')}
@@ -84,6 +85,7 @@ class SelectRelationshipStatus extends Component{
               outerButtonStyle={styles.iconButtonOuter}
               leftBoxStyles={styles.iconButtonLeftBoxSingles}
               innerWrapStyles={styles.iconButtonSingles}
+              underlayColor={colors.darkSkyBlue20}
               _onPress={this._selectSingle.bind(this)}>
 
               <Image source={require('image!ovalSingle')}
@@ -174,7 +176,8 @@ var styles = StyleSheet.create({
 
   },
   iconButtonOuter:{
-    marginVertical:40,
+    marginBottom:40,
+    marginTop:20,
     width:DeviceWidth-50
   },
   iconButtonSelected:{

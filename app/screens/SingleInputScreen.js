@@ -40,7 +40,6 @@ class SingleInputScreen extends Component{
   }
 
   componentDidMount(){
-    console.log('CALLLLLLLLLLLLLLLLLLLLLLLL');
     Emitter.on(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace.bind(this));
     Emitter.on(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace.bind(this));
   }
@@ -123,7 +122,7 @@ class SingleInputScreen extends Component{
           bounces={false}
           >
           <View style={styles.middleTextWrap}>
-            <Text style={styles.middleText}>What should we call you?</Text>
+            <Text style={styles.middleText}>{this.props.toptext || 'What should we call you?'}</Text>
           </View>
 
           <View style={
@@ -134,7 +133,7 @@ class SingleInputScreen extends Component{
 
 
           <View style={styles.middleTextWrap}>
-            <Text style={[styles.middleText,{fontSize:14}]}>Fake names get 93.6% less matches. </Text>
+            <Text style={[styles.middleText,{fontSize:18}]}>{this.props.bottomtext || 'Fake names get 93.6% less matches.'}</Text>
           </View>
 
 
@@ -230,12 +229,15 @@ const styles = StyleSheet.create({
     middleTextWrap: {
       alignItems:'center',
       justifyContent:'center',
-      height: 60
+      height: 60,
+      marginBottom:10
     },
     middleText: {
-      color: colors.rollingStone,
-      fontSize: 21,
-      fontFamily:'Montserrat',
+      color:colors.rollingStone,
+      fontSize:20,
+      fontFamily:'omnes',
+      textAlign:'center',
+
     },
 
     imagebg:{
@@ -284,7 +286,7 @@ const styles = StyleSheet.create({
     bottomText: {
       marginTop: 0,
       color: colors.rollingStone,
-      fontSize: 16,
+      fontSize: 18,
       fontFamily:'Omnes-Regular',
     },
     bottomErrorTextWrap:{
@@ -317,7 +319,7 @@ const styles = StyleSheet.create({
     },
     continueButtonText: {
       padding: 4,
-      fontSize: 30,
+      fontSize: 26,
       fontFamily:'Montserrat',
       color: colors.white,
       textAlign:'center'

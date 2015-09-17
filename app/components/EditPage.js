@@ -22,7 +22,7 @@ class EditPage extends Component{
   handleUpdate =()=>{
     console.log(this.state.editedValue)
     UserActions.updateUser({firstname: this.state.editedValue});
-    this.props.navigator.pop();
+    // this.props.navigator.pop();
 
   }
   _onTextChange = (text) => {

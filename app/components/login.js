@@ -123,7 +123,7 @@ class Login extends Component{
             ref="phoneinputbox"
               style={styles.phoneInput}
               keyboardType={'phone-pad'}
-              placeholder={'Phone'}
+              placeholder={'PHONE NUMBER'}
               placeholderTextColor="#fff"
               autoFocus={true}
               autoCorrect={false}
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   phoneInput: {
     height: 60,
     padding: 8,
-    fontSize: 30,
+    fontSize: 26,
     fontFamily:'Montserrat',
     color: colors.white
   },

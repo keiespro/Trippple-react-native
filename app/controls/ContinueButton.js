@@ -42,7 +42,7 @@ class ContinueButton extends Component{
         <TouchableHighlight
            style={[styles.continueButton]}
            onPress={this.handleContinue.bind(this)}
-           underlayColor={colors.outerSpace}>
+           underlayColor={colors.darkPurple}>
 
            <Text style={styles.continueButtonText}>CONTINUE</Text>
          </TouchableHighlight>
@@ -70,7 +70,7 @@ var styles = StyleSheet.create({
   },
   continueButtonText: {
     padding: 4,
-    fontSize: 30,
+    fontSize: 26,
     fontFamily:'Montserrat',
     color: colors.white,
     textAlign:'center'

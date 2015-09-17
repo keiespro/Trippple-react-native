@@ -73,8 +73,9 @@ class Onboard extends Component{
   render() {
 
     return (
+      <View style={{backgroundColor:'#000000',height:DeviceHeight,width:DeviceWidth}}>
         <Navigator
-          configureScene={ (route) => route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.SlideInFromRight }
+          configureScene={ (route) => route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromRight }
           renderScene={this.selectScene.bind(this)}
           sceneStyle={styles.container}
           navigationBar={false}
@@ -89,7 +90,8 @@ class Onboard extends Component{
               coupleStack:InvitePartner
             }
           }}
-        />
+          />
+          </View>
     )
 
   }

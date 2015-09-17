@@ -65,7 +65,7 @@ class ActiveCard extends Component{
   }
   initializePanResponder(){
     this._panResponder = PanResponder.create({
-      onMoveShouldSetPanResponder: (e,gestureState) => Math.abs(gestureState.dy) < 5,
+      onMoveShouldSetPanResponder: (e,gestureState) => !this.state.profileVisible && Math.abs(gestureState.dy) < 5,
       onStartShouldSetPanResponder: (e,gestureState) => false,
       // onPanResponderGrant: () => {      },
       onPanResponderMove: Animated.event( [null, {dx: this.state.panX}] ),
@@ -222,7 +222,7 @@ class CoupleActiveCard extends Component{
 
             {this.props.profileVisible ?
                <View style={{
-                height: this.props.profileVisible ? 300 : undefined,
+                 height: DeviceHeight*2/3,
                 position:'relative',
                 top:0
               }}>
@@ -300,13 +300,12 @@ class CoupleActiveCard extends Component{
                   }</Text>
                 </View>
 
-              : <TouchableHighlight underlayColor={colors.warmGrey} onPress={()=>{ this.props.showProfile()}} style={{ paddingTop:20 }}>
+              : <TouchableHighlight underlayColor={colors.warmGrey} onPress={()=>{ this.props.showProfile()}} style={{ paddingVertical:22 }}>
                   <Text style={styles.cardBottomText}>{
                     `${this.props.potential.user.firstname.trim()} and ${this.props.potential.partner.firstname.trim()}`
                   }</Text>
                 </TouchableHighlight>
               }
-
               <View style={{
                   height:60,
                   top:-30,
@@ -324,20 +323,21 @@ class CoupleActiveCard extends Component{
                     source={{uri: this.props.potential.partner.image_url}}
                     key={this.props.potential.partner.id + 'img'}
                     style={styles.circleimage}
-                  />
-              </View>
-              { this.props.profileVisible &&
-                <View style={{height:undefined,width: DeviceWidth, padding:20}}>
+                    />
                   <View  style={{position:'absolute',top:0,left:0,width: 50, height: 50}}>
                     <TouchableHighlight  onPress={this.props.hideProfile}>
                       <Text>Close</Text>
                     </TouchableHighlight>
                   </View>
+
+              </View>
+              { this.props.profileVisible &&
+                <View style={{height:undefined,width: DeviceWidth, padding:20}}>
                   <View>
-                    <Text>TEXT</Text>
+                    <Text>{this.props.potential.bio}</Text>
                   </View>
                 </View>
-            }
+              }
 
             </View>
           </View>
@@ -413,7 +413,7 @@ class CardStack extends Component{
         <View user={this.props.user} >
           <TouchableHighlight onPress={() => MatchActions.getPotentials()}>
             <View style={{padding:50}}>
-              <Text> get </Text>
+            <Text>(DEV MODE) TAP TO GET MORE POTENTIALS</Text>
             </View>
           </TouchableHighlight>
         </View>

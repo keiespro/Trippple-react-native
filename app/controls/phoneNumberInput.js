@@ -9,6 +9,7 @@ var ReactMaskMixin = require('../mixins/maskedInputMixin.js');
 var PhoneNumberInput = React.createClass({
   mixins: [ReactMaskMixin],
   render: function(){
+    console.log(this.props,this.mask.props)
     //selectionState={new DocumentSelectionState(0,5)}
     return (
       <View>
@@ -17,13 +18,16 @@ var PhoneNumberInput = React.createClass({
         ref={component => this._textInput = component}
         {...this.props}
         {...this.mask.props}
-
+        style={[this.props.style,{
+                fontSize: this.mask.props.value == undefined ||  this.mask.props.value == ''  ? 22 : 32
+              }]}
         iosselectionState={e => console.log(e)}
 
         onSubmitEditing={e => console.log(e)}
         />
         <TextInput
         maxLength={12}
+        keyboardType={this.props.keyboardType}
         style={{height:0,overflow:'hidden'}}
         ref={component => this._textInput2 = component}
         />

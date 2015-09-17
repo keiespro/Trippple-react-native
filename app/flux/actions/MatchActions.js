@@ -19,9 +19,9 @@ class MatchActions {
 
   }
 
-  getMessages(matchID){
+  getMessages(matchID,page){
 
-    Api.getMessages({match_id: matchID})
+    Api.getMessages({match_id: matchID, page: page})
     .then((res) => {
       console.log(res)
         this.dispatch(res.response);

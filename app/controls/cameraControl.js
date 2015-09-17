@@ -13,7 +13,7 @@ import {
 import Camera from 'react-native-camera';
 import colors from '../utils/colors'
 import Dimensions from 'Dimensions';
-import Gobackbutton from '../controls/Gobackbutton'
+import BackButton from '../components/BackButton'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -22,7 +22,7 @@ class CameraControl extends Component{
   constructor(props){
     super(props)
     this.state = {
-      cameraType: Camera.constants.Type.back
+      cameraType: Camera.constants.Type.front
     }
   }
   _goBack =()=> {
@@ -34,18 +34,20 @@ class CameraControl extends Component{
       <View style={styles.container} pointerEvents={'box-none'}>
 
         <View style={styles.paddedTop} pointerEvents={'box-none'}>
-          <Gobackbutton navigator={this.props.navigator}/>
 
-          <TouchableOpacity  onPress={this._switchCamera} style={[{height:60,width:60},styles.rightbutton]}>
+        <View style={{marginBottom:10}}>
+          <BackButton navigator={this.props.navigator}/>
+        </View>
+          <TouchableOpacity  onPress={this._switchCamera} style={[{height:50,width:48},styles.rightbutton]}>
             <View>
               <Image
-              resizeMode={Image.resizeMode.cover}
+              resizeMode={Image.resizeMode.contain}
               source={require('image!flipCamera')}
-              style={{height:30,width:50}}/>
+              style={{height:25,width:50}}/>
             </View>
           </TouchableOpacity>
         </View>
-
+        <View style={styles.cameraWrapForShadow}>
         <Camera
           style={styles.cameraBox}
           ref="cam"
@@ -55,14 +57,15 @@ class CameraControl extends Component{
           orientation={Camera.constants.Orientation.portrait}
           captureTarget={Camera.constants.CaptureTarget.disk}
 
-        >
+          >
           <TouchableOpacity style={styles.bigbutton} onPress={this._takePicture} >
             <View style={[{height:80,width:80}]}>
               <Image
               resizeMode={Image.resizeMode.cover} source={require('image!snap')} style={{height:80,width:80}}/>
             </View>
           </TouchableOpacity>
-        </Camera>
+          </Camera>
+          </View>
       </View>
     );
   }
@@ -120,8 +123,6 @@ const styles = StyleSheet.create({
     width:(DeviceWidth),
     height:(DeviceHeight),
 
-
-
   },
   paddedTop:{
     flexDirection:'row',
@@ -129,9 +130,25 @@ const styles = StyleSheet.create({
     alignSelf:'stretch',
     justifyContent:'space-between',
     height:60,
-    top:20,
+    top:10,
     padding:0,
     width:DeviceWidth - 40,
+
+  },
+  cameraWrapForShadow:{
+
+    // shadowColor:colors.darkShadow,
+    // shadowRadius:6,
+    // shadowOpacity:50,
+    // shadowOffset: {
+    //     width:0,
+    //     height: 2
+    // },
+    marginBottom:40,
+    flex: 1,
+    flexDirection: 'column',
+    alignSelf:'stretch',
+
 
   },
   cameraBox:{
@@ -143,15 +160,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     top:0,
     overflow:'hidden',
-    marginBottom:40,
     position:'relative',
-    shadowColor:colors.darkShadow,
-    shadowRadius:15,
-    shadowOpacity:80,
-    shadowOffset: {
-        width:0,
-        height: 5
-    }
 
   },
   textS:{
@@ -171,9 +180,7 @@ const styles = StyleSheet.create({
     height:50,
   },
   rightbutton:{
-    width:60,
-    height:60,
-    borderRadius:20,
+       borderRadius:20,
     // marginRight:30
   },
   bigbutton:{

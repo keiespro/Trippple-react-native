@@ -43,9 +43,10 @@ class ChatStore {
   }
   handleReceiveMessages(matchMessages) {
     console.log(matchMessages)
+    const oldmsg = this.state[matchMessages.match_id] || {};
     this.setState(() => {
       return {
-        [matchMessages.match_id]: matchMessages.message_thread,
+        [matchMessages.match_id]: {...oldmsg, ...matchMessages.message_thread},
         ...this.state[matchMessages.match_id]
       }
     })

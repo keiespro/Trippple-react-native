@@ -6,6 +6,8 @@ const colors = {
 
   mediumPurple20:     'rgba(132,89,218, 0.20)',
 
+  darkPurple:         'rgba(105,57,200)',
+
   white:              'rgb(255,255,255)',
 
   white20:            'rgba(255, 255, 255, 0.20)',
@@ -13,6 +15,8 @@ const colors = {
   offwhite:            'rgba(255, 255, 255, 0.70)',
 
   shuttleGray:        'rgb(86,96,103)',
+
+  shuttleGray20:        'rgba(86,96,103, .20)',
 
   steelGrey20:        'rgba(120, 129, 135, 0.20)',
 
@@ -36,7 +40,9 @@ const colors = {
 
   darkShadow:         'rgba(0,0,0,.45)',
 
-  dark:               'rgb(36, 49, 56)'
+  dark:               'rgb(36, 49, 56)',
+
+  lavender:           '#b398e8'
 
 }
 

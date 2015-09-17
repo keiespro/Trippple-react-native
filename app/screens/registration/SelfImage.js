@@ -15,6 +15,7 @@ const DeviceWidth = require('Dimensions').get('window').width;
 import BoxyButton from '../../controls/boxyButton'
 import colors from '../../utils/colors'
 import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
+import BackButton from '../../components/BackButton'
 
 import CameraControl from '../../controls/cameraControl'
 import Modal from 'react-native-modal'
@@ -69,9 +70,12 @@ class SelfImage extends Component{
   render(){
     return (
       <View style={styles.container}>
+ <View style={{width:100,height:50,left:20,alignSelf:'flex-start',top:-30}}>
+        <BackButton navigator={this.props.navigator}/>
+      </View>
 
-        <Text style={styles.textTop}>Now upload or snap a pic of just you. This is the picture your matches will see during your chats</Text>
-
+        <Text style={styles.textTop}>{this.props.couplePicTitle || 'Your Profile Picture' || 'Now upload or snap a pic of just you. This is the picture your matches will see during your chats.'}</Text>
+        {/*<Text style={[styles.textTop,{marginTop:0}]}>{this.props.couplePicText || ` `}</Text>*/}
         <View style={styles.imageHolder}>
 
           <Image source={require('image!usersSingle')}
@@ -83,7 +87,9 @@ class SelfImage extends Component{
             text={"UPLOAD FROM FACEBOOK"}
             leftBoxStyles={styles.iconButtonLeftBoxCouples}
             innerWrapStyles={styles.iconButtonCouples}
-            _onPress={this.onPressFacebook}>
+            _onPress={this.onPressFacebook}
+            underlayColor={colors.mediumPurple20}
+            >
 
           <Image source={require('image!fBlogo')}
                     resizeMode={Image.resizeMode.cover}
@@ -91,12 +97,12 @@ class SelfImage extends Component{
         </BoxyButton>
 
         <View style={styles.twoButtons}>
-          <TouchableHighlight style={[styles.plainButton,{marginRight:10}]} onPress={this._getCameraRoll}>
+          <TouchableHighlight style={[styles.plainButton,{marginRight:10}]} onPress={this._getCameraRoll} underlayColor={colors.shuttleGray20}>
             <Text style={styles.plainButtonText}>FROM ALBUM</Text>
           </TouchableHighlight>
 
 
-          <TouchableHighlight style={[styles.plainButton,{marginLeft:10}]} onPress={this._getCamera}>
+          <TouchableHighlight style={[styles.plainButton,{marginLeft:10}]} onPress={this._getCamera} underlayColor={colors.shuttleGray20}>
             <Text style={[styles.plainButtonText]}>TAKE A SELFIE</Text>
           </TouchableHighlight>
 
@@ -140,9 +146,9 @@ var styles = StyleSheet.create({
     alignItems:'center',
     alignSelf:'stretch',
     justifyContent:'space-between',
-    padding:20,
+    // padding:20,
     margin:20,
-    marginTop:0
+    width:DeviceWidth-38
 
   },
 
@@ -169,13 +175,14 @@ var styles = StyleSheet.create({
     textAlign:'center'
   },
   imageHolder:{
-    width:250,
-    height:250,
-    borderRadius: 125,
+    width:210,
+    height:210,
+    borderRadius: 105,
     borderColor: colors.mediumPurple,
     borderWidth: 2,
     alignItems:'center',
     justifyContent:'center',
+    backgroundColor:colors.mediumPurple20,
     marginTop:40,
     marginBottom:60
   },
