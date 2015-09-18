@@ -24,6 +24,7 @@ import FakeNavBar from './FakeNavBar'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 const ScrollViewPropTypes = ScrollView.propTypes;
+import EditImageThumb from '../screens/registration/EditImageThumb'
 
 const propTypes = {
 
@@ -97,17 +98,18 @@ class CameraRollView extends Component{
   loadAsset = (asset) => {
     const imageFile = asset.node.image;
 
-    if(this.props.getImage){
-      this.props.getImage(imageFile)
-    }else{
+    // if(this.props.getImage){
+    //   this.props.getImage(imageFile)
+    // }else{
       this.props.navigator.push({
         component:this.props.nextRoute,
         passProps: {
           imagetype: this.props.imagetype || '',
           image: imageFile,
+          nextRoute: EditImageThumb
         }
       })
-    }
+    // }
   }
 
   renderImage = (asset) => {

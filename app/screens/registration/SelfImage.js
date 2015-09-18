@@ -6,6 +6,7 @@ import {
   Image,
   View,
   TouchableHighlight,
+  Modal,
 } from 'react-native'
 
 
@@ -16,9 +17,8 @@ import BoxyButton from '../../controls/boxyButton'
 import colors from '../../utils/colors'
 import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
 import BackButton from '../../components/BackButton'
-
+import EditImage from './EditImage'
 import CameraControl from '../../controls/cameraControl'
-import Modal from 'react-native-modal'
 import CameraRollView from '../../controls/CameraRollView'
 
 class SelfImage extends Component{
@@ -31,16 +31,40 @@ class SelfImage extends Component{
   }
 
   _getCameraRoll =()=> {
-    this.setState({
-      modalOpen:true,
-      modalView: 'CameraRoll'
-    })
+    // this.setState({
+    //   modalOpen:true,
+    //   modalView: 'CameraRoll'
+  // })
+
+    this.props.navigator.push({
+      component: CameraRollView,
+      passProps: {
+        ...this.props,
+        imagetype:'profile',
+        nextRoute: EditImage,
+
+      },
+      sceneConfig: NavigatorSceneConfigs.FloatFromBottom
+    });
+
   }
   _getCamera =()=> {
-    this.setState({
-      modalOpen:true,
-      modalView: 'CameraControl'
-    })
+    // this.setState({
+    //   modalOpen:true,
+    //   modalView: 'CameraControl'
+    // })
+    //
+   this.props.navigator.push({
+      component: CameraControl,
+      passProps: {
+        ...this.props,
+        imagetype:'profile',
+        nextRoute: EditImage,
+
+      },
+      sceneConfig: NavigatorSceneConfigs.FloatFromBottom
+    });
+
   }
   closeModal(){
    this.setState({
@@ -53,9 +77,10 @@ class SelfImage extends Component{
     this.props.navigator.push({
       component: this.props.nextRoute,
       passProps: {
+        ...this.props,
         image: imageFile,
         imagetype:'profile',
-        ...this.props
+
       },
       sceneConfig: NavigatorSceneConfigs.FloatFromBottom
     });

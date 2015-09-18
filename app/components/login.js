@@ -113,6 +113,7 @@ class Login extends Component{
           keyboardDismissMode={'interactive'}
           contentContainerStyle={[styles.wrap, {left: 0}]}
           bounces={false}
+          onKeyboardWillShow={(e)=>{console.log(e)}}
           >
           <View style={[styles.phoneInputWrap,
               (this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null),

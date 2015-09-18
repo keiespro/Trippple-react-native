@@ -19,6 +19,7 @@ import {
 import colors from '../../utils/colors';
 import UserActions from '../../flux/actions/UserActions';
 import SharedStyles from '../../SharedStyles'
+import Privacy from './privacy';
 
 import Dimensions from 'Dimensions';
 
@@ -54,6 +55,7 @@ class EditImage extends Component{
       croppedImageURI: null,
       cropError: null,
     };
+    console.log(props,props.nextRoute);
   }
   componentWillMount(){
     console.log('will mount editor')
@@ -76,6 +78,7 @@ class EditImage extends Component{
     this.props.navigator.push({
         component: this.props.nextRoute,
         passProps: {
+          nextRoute: Privacy,
           image:this.props.image,
           croppedImage: this.state.croppedImageURI,
           imagetype: this.props.imagetype
@@ -201,7 +204,7 @@ class ImageCropper extends React.Component {
     }
     this._contentOffset = {
       x: (this._scaledImageSize.width - this.props.size.width) / 2,
-      y: (this._scaledImageSize.height - this.props.size.height) / 2,
+      y: (this._scaledImageSize.height - this.props.size.height) / 2 - 80,
     };
     this._updateTransformData(
       this._contentOffset,
@@ -237,13 +240,9 @@ class ImageCropper extends React.Component {
   }
 
   render() {
-    var decelerationRate =
-      RCTScrollViewConsts && RCTScrollViewConsts.DecelerationRate ?
-        RCTScrollViewConsts.DecelerationRate.Fast :
-        0;
 
-    return (
-      <ScrollView
+    /*
+    *       <ScrollView
         alwaysBounceVertical={true}
         automaticallyAdjustContentInsets={false}
         contentOffset={this._contentOffset}
@@ -256,8 +255,15 @@ class ImageCropper extends React.Component {
         showsVerticalScrollIndicator={false}
         style={this.props.style}
         scrollEventThrottle={16}>
-        <Image source={this.props.image} style={this._scaledImageSize} />
-      </ScrollView>
+ </ScrollView>
+    */
+    var decelerationRate =
+      RCTScrollViewConsts && RCTScrollViewConsts.DecelerationRate ?
+        RCTScrollViewConsts.DecelerationRate.Fast :
+        0;
+
+    return (
+             <Image source={this.props.image} style={this._scaledImageSize} />
     );
   }
 
@@ -266,7 +272,7 @@ class ImageCropper extends React.Component {
 var styles = StyleSheet.create({
   imageCropper: {
     alignSelf: 'center',
-    backgroundColor: 'red'
+    backgroundColor: colors.dark
   },
   cropButtonTouchable: {
     alignSelf: 'center',

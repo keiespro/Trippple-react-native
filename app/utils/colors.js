@@ -6,7 +6,7 @@ const colors = {
 
   mediumPurple20:     'rgba(132,89,218, 0.20)',
 
-  darkPurple:         'rgba(105,57,200)',
+  darkPurple:         'rgb(105,57,200)',
 
   white:              'rgb(255,255,255)',
 
@@ -21,6 +21,8 @@ const colors = {
   steelGrey20:        'rgba(120, 129, 135, 0.20)',
 
   outerSpace:         'rgb(44,57,65)',
+
+  outerSpace50:         'rgba(44,57,65,0.5)',
 
   sushi:              'rgb(66, 181, 125)',
 
@@ -42,8 +44,9 @@ const colors = {
 
   dark:               'rgb(36, 49, 56)',
 
-  lavender:           '#b398e8'
+  lavender:           '#b398e8',
 
+  sapphire50:         'rgba(71,36,143, 0.50)'
 }
 
 export default colors

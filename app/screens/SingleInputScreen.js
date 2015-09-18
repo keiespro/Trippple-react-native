@@ -17,8 +17,6 @@ import UserActions from '../flux/actions/UserActions'
 import colors from '../utils/colors'
 import ContinueButton from '../controls/ContinueButton'
 
-import KeyboardEvents from 'react-native-keyboardevents'
-const { Emitter } = KeyboardEvents
 
 
 const DeviceHeight = Dimensions.get('window').height;
@@ -40,13 +38,13 @@ class SingleInputScreen extends Component{
   }
 
   componentDidMount(){
-    Emitter.on(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace.bind(this));
-    Emitter.on(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace.bind(this));
+    // Emitter.on(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace.bind(this));
+    // Emitter.on(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace.bind(this));
   }
 
   componentWillUnmount() {
-    Emitter.off(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace.bind(this));
-    Emitter.off(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace.bind(this));
+    // Emitter.off(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace.bind(this));
+    // Emitter.off(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace.bind(this));
   }
   componentWillUpdate(props, state) {
     if (state.isKeyboardOpened !== this.state.isKeyboardOpened) {
@@ -68,8 +66,10 @@ class SingleInputScreen extends Component{
     }
   }
   updateKeyboardSpace =(frames)=> {
+    console.log(frames);
+    if(!frames.endCoordinates){return false}
     this.setState({
-      keyboardSpace: frames.end.height,
+      keyboardSpace: frames.endCoordinates.height,
       isKeyboardOpened: true
     });
   }
@@ -119,6 +119,8 @@ class SingleInputScreen extends Component{
         <ScrollView
           keyboardDismissMode={'on-drag'}
           contentContainerStyle={[styles.wrap]}
+          onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
+          onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
           bounces={false}
           >
           <View style={styles.middleTextWrap}>

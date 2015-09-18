@@ -32,13 +32,15 @@ import EditImageThumb from './EditImageThumb'
 import SelfImage from './SelfImage'
 import Limbo from './Limbo'
 
+const CAMERA = function(){}
+
 const RouteStacks = {
   root: [ SelectRelationshipStatus ],
   single: [
-    Facebook, name, bday, gender, SelfImage, EditImage, EditImageThumb, PrivacyScreen, Limbo
+    Facebook, name, bday, gender, SelfImage, CAMERA, EditImage, EditImageThumb, PrivacyScreen, Limbo
   ],
   couple: [
-    InvitePartner, Contacts, Facebook, name, bday, gender, CoupleImage, EditImage, SelfImage, EditImage, EditImageThumb, PrivacyScreen, Limbo
+    InvitePartner, Contacts, Facebook, name, bday, gender, CoupleImage, CAMERA, EditImage, SelfImage, CAMERA, EditImage, EditImageThumb, PrivacyScreen, Limbo
   ]
 }
 
@@ -53,7 +55,8 @@ class Onboard extends Component{
   selectScene (route: Navigator.route, navigator: Navigator) {
     var whichStack = route.passProps && route.passProps.whichStack || this.state.selection
 
-    console.log(whichStack)
+    // console.log(whichStack,route,RouteStacks[whichStack].indexOf(route))
+
     var nextIndex = route.index || route.__navigatorRouteID - 1
     if(nextIndex < 0) { nextIndex = 1 }
     var nextRoute = RouteStacks[whichStack][ nextIndex  ]
@@ -64,7 +67,7 @@ class Onboard extends Component{
               user={this.props.user}
               index={nextIndex}
               whichStack={whichStack}
-              nextRoute={ nextRoute}
+              nextRoute={ route.passProps && route.passProps.nextRoute || nextRoute}
               {...route.passProps}
             />
     );

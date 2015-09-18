@@ -17,6 +17,9 @@ var BoxyButton = require('../../controls/boxyButton')
 
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
+import BackButton from '../../components/BackButton'
+
+import ContinueButton from '../../controls/ContinueButton'
 
 
 class PrivacyScreen extends Component{
@@ -59,11 +62,18 @@ class PrivacyScreen extends Component{
 
     return (
       <View style={[styles.container]}>
-        <View style={styles.topWrap}>
-          <Text style={styles.labelText}>{"Your Privacy"} </Text>
+ <View style={{width:100,height:50,left:20,alignSelf:'flex-start'}}>
+        <BackButton navigator={this.props.navigator}/>
+      </View>
 
-          <Text style={styles.labelText}>{"Select your perfered privacy setting"}</Text>
-          <TouchableOpacity
+        <View style={styles.topWrap}>
+          <Text style={[styles.labelText,{fontSize:20}]}>{"Your Privacy"} </Text>
+
+          <Text style={[styles.labelText,{fontSize:20,marginBottom:20}]}>{"Select your perfered privacy setting"}</Text>
+
+
+          {/*
+            <TouchableOpacity
             style={{marginTop:50}}
               onPress={this._selectPublic.bind(this)}>
               <View style={[styles.privacyWrap,
@@ -95,23 +105,54 @@ class PrivacyScreen extends Component{
                             style={styles.cornerDot}/>
             </View>
 
+            </TouchableOpacity>
+
+            */}
+
+
+          <TouchableOpacity
+            style={{margin:20}}
+              onPress={this._selectPublic.bind(this)}>
+              <View style={[styles.privacyWrap,
+                  (this.state.selection == 'public' ? styles.selectedbutton : null)]}>
+        <Image source={this.state.selection == 'public' ? require('image!ovalSelected') : require('image!ovalDashed')}
+                          resizeMode={Image.resizeMode.contain}
+                            style={styles.cornerDot}/>
+
+              <View style={{flexDirection:'column',alignItems:'flex-start',justifyContent:'space-around',flex:1,width:100}}>
+                <Text style={styles.boxTitle}>Public</Text>
+                <Text style={styles.boxP}>Your profile is visible to all Trippple members</Text>
+              </View>
+
+            </View>
+
+
           </TouchableOpacity>
 
+          <TouchableOpacity
+            style={{marginTop:20}}
+            onPress={this._selectPrivate.bind(this)}>
+            <View style={[styles.privacyWrap,
+                (this.state.selection == 'private' ? styles.selectedbutton : null)]}>
+
+              <Image source={this.state.selection == 'private' ? require('image!ovalSelected') : require('image!ovalDashed')}
+                        resizeMode={Image.resizeMode.contain}
+                            style={styles.cornerDot}/>
+              <View style={{flexDirection:'column',alignItems:'flex-start',justifyContent:'space-around',flex:1,width:100}}>
+                <Text style={styles.boxTitle}>Private</Text>
+                <Text style={styles.boxP}>Your profile is hidden from your facebook friends and phone contacts.</Text>
+              </View>
+
+
+            </View>
+
+          </TouchableOpacity>
+
+
         </View>
 
-        <View style={[styles.continueButtonWrap,
-            {
-              bottom: this.state.selection ? 0 : -80,
-              backgroundColor: this.state.selection ? colors.mediumPurple : 'transparent'
-            }]}>
-          <TouchableHighlight
-             style={[styles.continueButton]}
-             onPress={this._continue.bind(this)}
-             underlayColor="black">
+        <ContinueButton canContinue={this.state.selection ? true : false} handlePress={this._continue.bind(this)} />
 
-             <Text style={styles.continueButtonText}>CONTINUE</Text>
-           </TouchableHighlight>
-        </View>
       </View>
     );
   }
@@ -121,13 +162,6 @@ class PrivacyScreen extends Component{
 
 
 var styles = StyleSheet.create({
-  cornerDot: {
-    height:30,
-    width:30,
-    position:'absolute',
-    top:-15,
-    right:-15
-  },
   container: {
     flex: 1,
     height: DeviceHeight,
@@ -139,26 +173,26 @@ var styles = StyleSheet.create({
     alignSelf:'stretch',
     backgroundColor: colors.outerSpace
   },
-  topWrap:{
-    justifyContent: 'center',
-    flex: 1,
-    flexDirection:'column',
-    alignItems: 'center',
-    alignSelf:'stretch',
+  // topWrap:{
+  //   justifyContent: 'center',
+  //   flex: 1,
+  //   flexDirection:'column',
+  //   alignItems: 'center',
+  //   alignSelf:'stretch',
 
-  },
-  privacyWrap:{
-    justifyContent: 'center',
-    flex: 1,
-    flexDirection:'column',
-    alignItems: 'flex-start',
-    alignSelf:'stretch',
-    width: DeviceWidth-40,
-    padding:10,
-    borderWidth:2,
-    borderColor:colors.shuttleGray,
-    height:90
-  },
+  // },
+  // privacyWrap:{
+  //   justifyContent: 'center',
+  //   flex: 1,
+  //   flexDirection:'column',
+  //   alignItems: 'flex-start',
+  //   alignSelf:'stretch',
+  //   width: DeviceWidth-40,
+  //   padding:10,
+  //   borderWidth:2,
+  //   borderColor:colors.shuttleGray,
+  //   height:90
+  // },
 
   labelText:{
     color:colors.rollingStone,
@@ -177,6 +211,15 @@ selectedbutton:{
 
 
 
+//   cornerDot: {
+//     height:30,
+//     width:30,
+//     position:'absolute',
+//     top:-15,
+//     right:-15
+//   },
+
+
   boxTitle:{
     color: colors.white,
     fontFamily: 'Montserrat',
@@ -190,31 +233,50 @@ selectedbutton:{
       fontFamily: 'Omnes',
       fontSize: 14,
       textAlign: 'left'
-    },
+},
 
-      continueButtonWrap:{
-        alignSelf: 'stretch',
-        alignItems: 'stretch',
-        justifyContent: 'center',
-        height: 80,
-        backgroundColor: colors.mediumPurple,
 
-        width:DeviceWidth
-      },
-      continueButton: {
-        height: 80,
-        alignSelf: 'stretch',
-        alignItems: 'center',
-        justifyContent: 'center'
-      },
-      continueButtonText: {
-        padding: 4,
-        fontSize: 30,
-        fontFamily:'Montserrat',
-        color: colors.white,
-        textAlign:'center'
-      }
-});
+
+
+
+  cornerDot: {
+    height:30,
+    width:30,
+    marginLeft:10,
+    marginRight:20
+  },
+  topWrap:{
+    justifyContent: 'center',
+    flex: 1,
+    flexDirection:'column',
+    alignItems: 'center',
+    alignSelf:'stretch',
+
+  },
+  privacyWrap:{
+    justifyContent: 'flex-start',
+    flex: 1,
+    flexDirection:'row',
+    alignItems: 'center',
+    alignSelf:'stretch',
+    width: DeviceWidth-80,
+    padding:10,
+    borderWidth:2,
+    borderColor:colors.shuttleGray,
+    height:90,
+    marginHorizontal:40
+  },
+
+  labelText:{
+    color:colors.rollingStone,
+    fontSize:18,
+    fontFamily:'omnes',
+    textAlign:'left',
+
+  },
+
+
+ });
 
 
 module.exports = PrivacyScreen;

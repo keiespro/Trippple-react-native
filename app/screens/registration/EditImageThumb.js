@@ -23,6 +23,9 @@ import PrivacyScreen from './privacy';
 import UserActions from '../../flux/actions/UserActions';
 
 import Dimensions from 'Dimensions';
+import {BlurView,VibrancyView} from 'react-native-blur'
+import ContinueButton from '../../controls/ContinueButton'
+import BackButton from '../../components/BackButton'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -85,6 +88,14 @@ class EditImageThumb extends Component{
 
     return (
       <View style={styles.container}>
+      <Image source={this.props.image}
+      resizeMode={Image.resizeMode.cover} style={{width:DeviceWidth,height:DeviceHeight}}>
+        <BlurView blurType="dark" style={{width:DeviceWidth,height:DeviceHeight,position:'absolute',backgroundColor:colors.outerSpace50}}>
+        </BlurView>
+ <View style={{width:100,height:50,left:20}}>
+        <BackButton navigator={this.props.navigator}/>
+      </View>
+
         <View style={styles.innerWrap}>
           <View style={styles.circleCropbox}>
 
@@ -96,24 +107,24 @@ class EditImageThumb extends Component{
             />
           </View>
           <Text style={styles.cropButtonLabel}>
-            Drag & pinch to zoom
+            DRAG & PINCH
+            </Text>
+          <Text style={[{color:colors.white}]}>
+            TO CENTER YOUR FACE
           </Text>
+
         </View>
 
-        <View style={[SharedStyles.continueButtonWrap,
-            {bottom: 0, backgroundColor: colors.mediumPurple
-            }]}>
-          <TouchableHighlight
-             style={[SharedStyles.continueButton]}
-             onPress={this._crop.bind(this)}
-             underlayColor="black">
-             <View>
-               <Text style={SharedStyles.continueButtonText}>CONTINUE</Text>
-             </View>
-           </TouchableHighlight>
-        </View>
+        <ContinueButton
+        canContinue={true}
+             handlePress={this._crop.bind(this)}
+        />
+
         {error}
-      </View>
+
+        </Image>
+        </View>
+
     );
   }
 
@@ -227,8 +238,8 @@ class ImageCropper extends React.Component {
   _updateTransformData(offset, scaledImageSize, croppedImageSize) {
     var offsetRatioX = offset.x / scaledImageSize.width;
     var offsetRatioY = offset.y / scaledImageSize.height;
-    var sizeRatioX = croppedImageSize.width / scaledImageSize.width;
-    var sizeRatioY = croppedImageSize.height / scaledImageSize.height;
+    var sizeRatioX =  scaledImageSize.width;
+    var sizeRatioY =  scaledImageSize.height;
 
     this.props.onTransformDataChange && this.props.onTransformDataChange({
       offset: {
@@ -276,12 +287,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     alignSelf:'stretch',
-    backgroundColor: colors.outerSpace,
+    backgroundColor:'transparent',
     width: DeviceWidth,
     height: DeviceHeight
   },
   innerWrap:{
     flex: 1,
+    backgroundColor:'transparent',
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf:'stretch'
@@ -294,14 +306,13 @@ const styles = StyleSheet.create({
     height:CropBoxSize,
     overflow:'hidden',
     borderRadius:CropBoxSize/2,
-    borderWidth:2,
-    borderColor:colors.mediumPurple
   },
   cropButtonLabel:{
-    fontFamily:'omnes',
+    fontFamily:'Montserrat',
     fontSize:22,
-    marginTop:20,
-    paddingBottom:30,
+    fontWeight:"700",
+    marginTop:40,
+    paddingBottom:0,
     color:colors.white
   }
 });

@@ -168,7 +168,7 @@ var ROUTE_STACK = [
 
 
     appContainer: {
-      backgroundColor: colors.outerSpace,
+      backgroundColor: '#000',
       flex: 1,
       flexDirection:'column',
       justifyContent:'space-between',

@@ -11,12 +11,12 @@ import {
   TextInput,
   ListView,
   TouchableHighlight,
-  Dimensions
+  Dimensions,
+  Modal
 } from 'react-native'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-import Modal from 'react-native-modal'
 import UserActions from '../flux/actions/UserActions'
 import CoupleImage from './registration/CoupleImage'
 import { AddressBook } from 'NativeModules'
@@ -273,44 +273,42 @@ class Contacts extends Component{
 
 
       <Modal
-        visible={this.state.modalVisible}
+      visible={this.state.modalVisible}
+      transparent={true}
+      animated={true}
         onPressBackdrop={this._cancel.bind(this)}
         onClose={() => this.closeModal.bind(this)}
       >
         <Image style={styles.modalcontainer} source={require('image!GradientBG')}>
           <View style={[styles.col]}>
+            <View style={styles.insidemodalwrapper}>
 
-          <Image style={[styles.contactthumb,{width:100,height:100,borderRadius:50}]}
+          <Image style={[styles.contactthumb,{width:150,height:150,borderRadius:75}]}
                 source={this.state.partnerSelection.thumbnailPath !== '' ? {uri: this.state.partnerSelection.thumbnailPath} : require('image!placeholderUser')} />
 
             <View style={styles.rowtextwrapper}>
 
               <Text style={[styles.rowtext,styles.bigtext]}>
                 {`Invite ${this.state.partnerSelection.firstName || ''} ${this.state.partnerSelection.lastName || ''}`}
-              </Text>
-              <Text style={styles.text}>
-                { this.state.partnerSelection
-                    && this.state.partnerSelection.phoneNumbers
-                    && this.state.partnerSelection.phoneNumbers.length
-                    && this.state.partnerSelection.phoneNumbers[0].number  || '' }
+                </Text>
 
-              </Text>
-
-            </View>
-            <View style={styles.rowtextwrapper}>
-
-              <TouchableHighlight style={styles.plainButton} onPress={this._continue.bind(this)}>
-                <View >
-                 <Text style={styles.plainButtonText}>INVITE</Text>
                 </View>
-              </TouchableHighlight>
-              <TouchableHighlight style={styles.plainButton} onPress={this._cancel.bind(this)}>
-                <View >
-                <Text style={styles.plainButtonText}>CANCEL</Text>
-                </View>
-              </TouchableHighlight>
-            </View>
+                { this.state.partnerSelection && this.state.partnerSelection.phoneNumbers && this.state.partnerSelection.phoneNumbers.length && this.state.partnerSelection.phoneNumbers.map( (number, i) => {
+                    return (
+                     <TouchableHighlight style={styles.modalButton} onPress={this._continue.bind(this)}>
+                      <View style={{height:40}} >
+                        <Text style={styles.modalButtonText}>{number}</Text>
+                      </View>
+                     </TouchableHighlight>
 
+                  )
+                })}
+              <TouchableHighlight style={styles.modalButton} onPress={this._cancel.bind(this)}>
+                <View >
+                <Text style={styles.modalButtonText}>CANCEL</Text>
+                </View>
+                </TouchableHighlight>
+                </View>
           </View>
         </Image>
       </Modal>
@@ -324,6 +322,24 @@ class Contacts extends Component{
 export default Contacts;
 
 var styles = StyleSheet.create({
+  modalButton:{
+    alignSelf:'stretch',
+    backgroundColor:colors.sapphire50,
+    borderColor:colors.purple,
+    alignItems:'center',
+    margin: 20,
+    borderRadius:8,
+    justifyContent:'center',
+    flex:1,
+    borderWidth:1
+},
+modalButtonText:{
+  color:colors.white,
+  fontFamily:'Montserrat',
+  fontSize:20,
+
+textAlign:'center'
+},
   container: {
     flex:1,
     justifyContent: 'flex-start',
@@ -337,11 +353,8 @@ var styles = StyleSheet.create({
     backgroundColor: colors.mediumPurple20,
     flex:1,
     width: DeviceWidth-50,
-    height: DeviceHeight-100,
-    top:50,
-    left:25,
-    right:25,
-    bottom:50
+    borderRadius:10,
+    margin:25
   },
   fullwidth:{
     width: DeviceWidth
@@ -387,7 +400,15 @@ var styles = StyleSheet.create({
   rowtextwrapper:{
     flexDirection:'column',
     justifyContent:'space-around'
-  },
+},
+insidemodalwrapper:{
+    flexDirection:'column',
+    justifyContent:'space-around',
+    alignItems:'center',
+    flex:1,
+    marginTop:50,
+    alignSelf:'stretch',
+},
   rowSelected:{
     backgroundColor: colors.mediumPurple20,
     borderColor: colors.mediumPurple,

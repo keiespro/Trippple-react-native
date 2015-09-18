@@ -14,6 +14,7 @@ import Camera from 'react-native-camera';
 import colors from '../utils/colors'
 import Dimensions from 'Dimensions';
 import BackButton from '../components/BackButton'
+import EditImageThumb from '../screens/registration/EditImageThumb'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -52,7 +53,7 @@ class CameraControl extends Component{
           style={styles.cameraBox}
           ref="cam"
           type={this.state.cameraType}
-          aspect={Camera.constants.Aspect.fill}
+          aspect={Camera.constants.Aspect.stretch}
           flashMode={Camera.constants.FlashMode.auto}
           orientation={Camera.constants.Orientation.portrait}
           captureTarget={Camera.constants.CaptureTarget.disk}
@@ -87,18 +88,19 @@ class CameraControl extends Component{
           CameraRoll.getPhotos({first:1},
             (data)=> {
               const imageFile = data.edges[0].node.image
-              const nextRoute = this.props.nextRoute
-              if(this.props.getImage){
-                this.props.getImage(imageFile)
-              }else{
+              // if(this.props.getImage){
+              //   this.props.getImage(imageFile)
+              // }else{
                 this.props.navigator.push({
-                  component: nextRoute,
+                  component: this.props.nextRoute,
                   passProps: {
+                    ...this.props,
                     image: imageFile,
-                    imagetype: this.props.imagetype || ''
+                    imagetype: this.props.imagetype || '',
+                    nextRoute: EditImageThumb
                   }
                 })
-              }
+              // }
             },
             (err)=> {
               console.log(err,'errrrrrrrrrrrrrr');

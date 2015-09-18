@@ -14,8 +14,8 @@ var Device = require('react-native-device');
 class CredentialsStore {
 
   constructor() {
-      this.user_id = null;
-      this.api_key = null;
+      this.user_id = '';
+      this.api_key = '';
 
       this.on('init', () => console.log('Credentials store init',UserActions))
       this.bindListeners({
@@ -33,7 +33,7 @@ class CredentialsStore {
     this.getInstance().init()
   }
   handleGotCredentials(creds){
-    this.setState({ user_id: creds.username, api_key: creds.password })
+    this.setState({ user_id: creds.username+'' , api_key: creds.password+'' })
   }
 
   saveCredentials(res){
@@ -41,7 +41,7 @@ class CredentialsStore {
 
     const { user_id, api_key } = res;
     console.log('verify pin credentials store')
-    Keychain.setInternetCredentials(KEYCHAIN_NAMESPACE, user_id, api_key)
+    Keychain.setInternetCredentials(KEYCHAIN_NAMESPACE, user_id+'' , api_key)
       .then((result)=> {
         console.log('Credentials saved successfully!',result)
         this.setState({ user_id, api_key })
