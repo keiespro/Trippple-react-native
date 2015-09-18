@@ -17,6 +17,7 @@ var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 var colors = require('../utils/colors')
 
+import ContinueButton from '../controls/ContinueButton'
 
 module.exports =  {
 
@@ -86,20 +87,8 @@ module.exports =  {
   renderContinueButton(){
 
     return(
-      <View style={[styles.continueButtonWrap,
-          {
-            bottom: this.state.canContinue ? 0 : -80,
-            backgroundColor: this.state.canContinue ? colors.mediumPurple : 'transparent'
-          }]}>
-        <TouchableHighlight
-           style={[styles.continueButton]}
-           onPress={this.handleContinue.bind(this)}
-           underlayColor={colors.darkPurple}>
-
-           <Text style={styles.continueButtonText}>CONTINUE</Text>
-         </TouchableHighlight>
-      </View>
-    )
+      <ContinueButton canContinue={this.state.canContinue} handlePress={this.handleContinue.bind(this)}/>
+      )
   }
 
 

@@ -19,6 +19,9 @@ class AppActions {
   loadingUser(){
     this.dispatch()
   }
+  showCheckmark(){
+    this.dispatch()
+  }
 
 }
 

@@ -1,6 +1,3 @@
- import KeyboardEvents from 'react-native-keyboardevents'
- const { Emitter } = KeyboardEvents
-
  const keyboardMixin = {
    // getDefaultProps(){
 
@@ -20,16 +17,6 @@
        isKeyboardOpened: false
      });
    },
-
-   componentDidMount() {
-     Emitter.on(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace.bind(this));
-     Emitter.on(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace.bind(this));
-   },
-
-   componentWillUnmount() {
-     Emitter.off(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace.bind(this));
-     Emitter.off(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace.bind(this));
-   }
 
  }
  export default keyboardMixin

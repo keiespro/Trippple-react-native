@@ -118,7 +118,8 @@ var UserActions = {
       .then((res) => {
         console.log(res);
         this.dispatch({
-          response: res
+          response: res,
+          showCheckmark:true
         });
       })
       .catch((err) => {

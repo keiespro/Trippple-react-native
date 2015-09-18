@@ -21,6 +21,7 @@ import colors from '../../utils/colors';
 import SelfImage from './SelfImage';
 import PrivacyScreen from './privacy';
 import UserActions from '../../flux/actions/UserActions';
+import AppActions from '../../flux/actions/AppActions';
 
 import Dimensions from 'Dimensions';
 import {BlurView,VibrancyView} from 'react-native-blur'
@@ -60,7 +61,7 @@ class EditImageThumb extends Component{
 
   accept(){
 
-    // UserActions.uploadImage(this.props.image.uri,this.props.imagetype)
+    UserActions.uploadImage(this.props.image.uri,this.props.imagetype)
 
     this.props.navigator.push({
       component: this.props.nextRoute,
@@ -69,6 +70,8 @@ class EditImageThumb extends Component{
         croppedImage: this.state.croppedImageURI
       }
     })
+      AppActions.showCheckmark();
+
   }
 
 

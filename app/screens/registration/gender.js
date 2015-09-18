@@ -52,12 +52,14 @@ class GenderScreen extends Component{
   _continue(){
     UserActions.updateUserStub({gender: this.state.selection});
 
-    this.props.navigator.push({
-            component: this.props.nextRoute,
-            passProps: {
+ var lastindex = this.props.navigator.getCurrentRoutes().length;
+  console.log(lastindex);
+  var nextRoute = this.props.stack[lastindex];
+   nextRoute.passProps = {
               gender: this.state.selection,
             }
-          })
+
+    this.props.navigator.push(nextRoute)
 
   }
   render() {
@@ -150,7 +152,7 @@ class GenderScreen extends Component{
 
         </View>
 
-       <ContinueButton
+        <ContinueButton
         canContinue={this.state.canContinue}
         handlePress={this._continue.bind(this)} />
 

@@ -16,10 +16,10 @@ import CustomSceneConfigs from '../../utils/sceneConfigs'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
+import _ from 'underscore'
 
 import Facebook from './facebook'
 import SelectRelationshipStatus from './selectRelationshipStatus'
-import BdayScreen from './bday'
 import PrivacyScreen from './privacy'
 import InvitePartner from './invitePartner'
 import Contacts from '../contacts'
@@ -31,19 +31,47 @@ import EditImage from './EditImage'
 import EditImageThumb from './EditImageThumb'
 import SelfImage from './SelfImage'
 import Limbo from './Limbo'
+import CAMERA from '../../controls/cameraControl'
 
-const CAMERA = function(){}
+var RouteStackCouple = [
+    {component: SelectRelationshipStatus,title:'SelectRelationshipStatus'},
 
-const RouteStacks = {
-  root: [ SelectRelationshipStatus ],
-  single: [
-    Facebook, name, bday, gender, SelfImage, CAMERA, EditImage, EditImageThumb, PrivacyScreen, Limbo
-  ],
-  couple: [
-    InvitePartner, Contacts, Facebook, name, bday, gender, CoupleImage, CAMERA, EditImage, SelfImage, CAMERA, EditImage, EditImageThumb, PrivacyScreen, Limbo
-  ]
-}
+    {component: InvitePartner,  title: 'InvitePartner'},
+    {component: Contacts, title: 'Contacts'},
+    {component: Facebook, title: 'Facebook'},
+    {component: name, title: 'name'},
+    {component: bday,  title: 'bday'},
+    {component: gender, title: 'gender'},
+    {component: CoupleImage,  title: 'CoupleImage'},
+    {component: CAMERA, title: 'CAMERA'},
+    {component: EditImage, title: 'EditImage'},
+    {component: SelfImage,  title: 'SelfImage'},
+    {component: CAMERA, title: 'CAMERA2'},
+    {component: EditImage, title: 'EditImage2'},
+    {component: EditImageThumb, title: 'EditImageThumb'},
+    {component: PrivacyScreen, title: 'PrivacyScreen'},
+    {component: Limbo,  title: 'Limbo'},
 
+  ];
+
+var RouteStackSingle = [
+    {component: SelectRelationshipStatus,title:'SelectRelationshipStatus'},
+
+    {component: Facebook,title:'Facebook'},
+    {component: name,title: 'name'},
+    {component: bday,title: 'bday'},
+    {component: gender,  title: 'gender'},
+    {component: SelfImage, title: 'SelfImage'},
+    {component: CAMERA, title: 'CAMERA'},
+    {component: EditImage,  title: 'EditImage'},
+    {component: EditImageThumb,  title: 'EditImageThumb'},
+    {component: PrivacyScreen, title: 'PrivacyScreen'},
+    {component: Limbo,  title: 'Limbo'},
+  ];
+
+RouteStackSingle = RouteStackSingle.map( (r,i) =>{ r.index = i; return r})
+RouteStackCouple = RouteStackCouple.map( (r,i) =>{ r.index = i; return r})
+console.log(RouteStackSingle,RouteStackCouple);
 class Onboard extends Component{
   constructor(props){
     super(props);
@@ -53,21 +81,32 @@ class Onboard extends Component{
   }
 
   selectScene (route: Navigator.route, navigator: Navigator) {
-    var whichStack = route.passProps && route.passProps.whichStack || this.state.selection
+var stack
+    if(route.passProps){
+      if(route.passProps.stack){
+        stack = route.passProps.stack
+      }else if(route.passProps.relationship_status){
+        stack = route.passProps.relationship_status == 'single' ? RouteStackSingle : RouteStackCouple;
+      }else if(route.index){
+        console.log(route.index)
+      }else{
+        stack = RouteStackSingle
+      }
+    }else{
+        stack = RouteStackSingle
+      }
 
-    // console.log(whichStack,route,RouteStacks[whichStack].indexOf(route))
-
-    var nextIndex = route.index || route.__navigatorRouteID - 1
-    if(nextIndex < 0) { nextIndex = 1 }
-    var nextRoute = RouteStacks[whichStack][ nextIndex  ]
-    console.log('Next route:',nextIndex )
+    var curIndex = _.findIndex(stack,(ro, i)=>{ return ro.index == route.index }) +1
+    console.log('this.props.currentIndex:',curIndex);
     return (
             <route.component
               navigator={navigator}
               user={this.props.user}
-              index={nextIndex}
-              whichStack={whichStack}
-              nextRoute={ route.passProps && route.passProps.nextRoute || nextRoute}
+              currentIndex={curIndex}
+              stack={stack}
+              index={route.index ? route.index : null}
+              singleStack={RouteStackSingle}
+              coupleStack={RouteStackCouple}
               {...route.passProps}
             />
     );
@@ -82,17 +121,7 @@ class Onboard extends Component{
           renderScene={this.selectScene.bind(this)}
           sceneStyle={styles.container}
           navigationBar={false}
-          initialRoute={{
-
-            component: SelectRelationshipStatus,
-            passProps: {
-              chooseStack: (selection)=>{
-                this.setState({selection})
-              },
-              singleStack:Facebook,
-              coupleStack:InvitePartner
-            }
-          }}
+          initialRoute={RouteStackSingle[0]}
           />
           </View>
     )

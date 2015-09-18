@@ -48,8 +48,9 @@ class BdayScreen extends Component{
     //   bday_year: this.state.date.getYear()
     // })
     this.props.navigator.push({
-      component: this.props.nextRoute,
+      component: this.props.stack[this.props.currentIndex+1].component,
       passProps: {
+        ...this.props,
         bday: this.state.date
       }
     })
@@ -84,7 +85,7 @@ class BdayScreen extends Component{
           {
             flex: 1,
             height:DeviceHeight,
-            paddingBottom: 230
+            paddingBottom: 226
           }
         ]}>
  <View style={{width:100,height:50,left:20,alignSelf:'flex-start'}}>
@@ -92,8 +93,8 @@ class BdayScreen extends Component{
       </View>
 
         <SingleInputScreen
-          shouldHide={(val) => false }
-          shouldShow={(val) => true }
+          shouldHide={(val) =>  this.state.date ? 0 : 1  }
+          shouldShow={(val) => this.state.date ? 1 : 0 }
           inputFieldValue={this.state.inputFieldValue}
           handleNext={this._submit.bind(this)}
           toptext={`What's your date of birth`}

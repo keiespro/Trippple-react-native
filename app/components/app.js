@@ -20,11 +20,15 @@ import UserStore from '../flux/stores/UserStore';
 import CredentialsStore from '../flux/stores/CredentialsStore'
 import UserActions from '../flux/actions/UserActions';
 import AppActions from '../flux/actions/AppActions';
-
+import CheckMarkScreen from '../screens/CheckMark'
+import TimerMixin from 'react-timer-mixin';
+import reactMixin from 'react-mixin'
 
 import Notifications from '../utils/Notifications';
 import LoadingOverlay from '../components/LoadingOverlay'
 
+
+@reactMixin.decorate(TimerMixin)
 class AppRoutes extends Component{
 
   constructor(props){
@@ -34,6 +38,7 @@ class AppRoutes extends Component{
   componentDidMount(){
     AppActions.initApp()
   }
+
   render(){
     var userStatus = this.props.user ? this.props.user.status : null;
 
@@ -59,16 +64,30 @@ class TopLevel extends Component{
   constructor(props){
     super(props)
     this.state = {
-      showOverlay: this.props.user ? false : true
+      showOverlay: this.props.user ? false : true,
+      showCheckmark: false
     }
   }
-  componentDidMount(){
-  }
+  // componentDidUpdate(prevProps,prevState){
+  //   console.log(prevProps.user,this.props.user);
+  //   if((this.props.showCheckMark) && this.props.user.status == "verified"){
+
+  //     this.setState({showCheckmark:true})
+
+  //     this.setTimeout(()=>{
+  //       console.log('time')
+  //       this.setState({showCheckmark:false})
+  //     },5000);
+  //   }
+  // }
+
   render(){
     return (
       <View style={{flex:1}}>
 
         <AppRoutes user={this.props.user}/>
+        <CheckMarkScreen key="toplevelcheckmark" isVisible={this.props.showCheckmark} />
+
         <LoadingOverlay key="LoadingOverlay" isVisible={this.state.showOverlay} />
         <Notifications user={this.props.user} />
 

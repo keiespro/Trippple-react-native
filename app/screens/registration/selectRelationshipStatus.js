@@ -44,14 +44,39 @@ class SelectRelationshipStatus extends Component{
   }
   _continue(selection){
     UserActions.updateUserStub({relationship_status: selection});
-      this.props.chooseStack(selection)
-      this.props.navigator.push({
-        component: selection == 'couple' ? this.props.coupleStack : this.props.singleStack,
-        passProps: {
-          relationship_status: selection,
-          whichStack: selection
+         console.log(selection,this.props,this.props.navigator.getCurrentRoutes());
+         if(selection == 'couple'){
+
+
+          this.props.navigator.push({
+            component: this.props.coupleStack[1].component,
+            index: 1,
+            passProps: {
+              stack: this.props.coupleStack,
+              nextRoute: this.props.coupleStack[2].component,
+              lastIndex: 1,
+              partner: this.state.partnerSelection
+            }
+          })
+
+
+        }else if(selection == 'single'){
+
+          this.props.navigator.push({
+            component: this.props.singleStack[1].component,
+            index: 1,
+            passProps: {
+              stack: this.props.singleStack,
+              lastIndex: 1,
+              nextRoute: this.props.singleStack[2].component,
+
+              partner: this.state.partnerSelection
+            }
+          })
+
+
+
         }
-      })
   }
   render(){
 

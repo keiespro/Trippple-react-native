@@ -229,13 +229,13 @@ class Contacts extends Component{
   }
   _continue(){
     this.closeModal();
+    UserActions.selectPartner(this.state.partnerSelection)
     this.props.navigator.push({
       component: Facebook,
       passProps: {
         partner: this.state.partnerSelection
       }
     })
-    UserActions.selectPartner(this.state.partnerSelection)
 
   }
   _cancel(){

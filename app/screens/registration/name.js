@@ -35,9 +35,20 @@ class NameScreen extends Component{
   }
 
 
-  handleInputChange =(event)=> {
+  handleInputChange =(txt)=> {
+  console.log(txt)
+  var fontSize = 32;
+  if(!txt || txt == ''){
+    fontSize = 22
+    if(this.state.inputFieldValue.length){
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+     }
+  }
+  this._textInput.setNativeProps({
+    value: txt
+    })
     this.setState({
-      inputFieldValue: event.nativeEvent.text
+      inputFieldValue: txt
     })
   }
   handleInputFieldFocused(){
@@ -53,13 +64,16 @@ class NameScreen extends Component{
   _submit =()=>{
     UserActions.updateUserStub({firstname: this.state.inputFieldValue});
     console.log(this.props)
-    this.props.navigator.push({
-            component: this.props.nextRoute,
-            passProps: {
+    var nextRoute = this.props.stack[this.props.currentIndex]
+           nextRoute.passProps = {
+            ...this.props,
               firstname: this.state.inputFieldValue,
               keyboardSpace: this.state.keyboardSpace
             }
-          })
+    console.log(nextRoute)
+
+                      this.props.navigator.push(nextRoute)
+
 
   }
  render(){
@@ -78,7 +92,7 @@ class NameScreen extends Component{
 
                       <TextInput
             style={[styles.pinInput,{
-              fontSize: this.state.inputFieldValue == '' || !this.state.inputFieldValue ? 22 : 32
+              fontSize: this.state.inputFieldValue == '' ? 22 : 32
             }]}
               defaultValue={this.state.name || this.state.inputFieldValue || ''}
               keyboardAppearance={'dark'/*doesnt work*/}
@@ -86,13 +100,15 @@ class NameScreen extends Component{
               placeholder={'FIRST NAME'}
               placeholderTextColor={colors.white}
               autoCorrect={false}
+              returnKeyType={'next'}
               autoFocus={true}
               maxLength={10}
+              ref={component => this._textInput = component}
               clearButtonMode={'never'}
               onFocus={this.handleInputFieldFocused.bind(this)}
               onBlur={this.handleInputFieldBlurred.bind(this)}
               textAlign={'center'}
-              onChange={this.handleInputChange}
+              onChangeText={this.handleInputChange}
             />
             </SingleInputScreen>
             </View>

@@ -110,10 +110,11 @@ class Login extends Component{
     return (
       <View style={[{flex: 1, height:DeviceHeight, paddingBottom: this.state.keyboardSpace}]}>
         <ScrollView
-          keyboardDismissMode={'interactive'}
+          keyboardDismissMode={'on-drag'}
           contentContainerStyle={[styles.wrap, {left: 0}]}
           bounces={false}
-          onKeyboardWillShow={(e)=>{console.log(e)}}
+          onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
+          onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
           >
           <View style={[styles.phoneInputWrap,
               (this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null),

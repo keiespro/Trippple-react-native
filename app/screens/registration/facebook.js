@@ -106,9 +106,9 @@ class Facebook extends Component{
 
 
   skipFacebook =()=>{
-    this.props.navigator.push({
-      component: this.props.nextRoute,
-    })
+  var lastindex = this.props.navigator.getCurrentRoutes().length;
+  console.log(lastindex);
+    this.props.navigator.push(this.props.stack[lastindex])
   }
 
   render() {

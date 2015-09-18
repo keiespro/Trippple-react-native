@@ -13,10 +13,12 @@ class UserStore {
   constructor() {
 
     this.user = {}
+    this.showCheckmark = false
     this.userStub = {}
     this.state = {
       user: {},
-      userStub: {}
+      userStub: {},
+      showCheckmark:false
     }
 
     this.registerAsync(UserSource);
@@ -33,7 +35,10 @@ class UserStore {
       handleUpdateUser: UserActions.UPDATE_USER,
       handleUpload: UserActions.UPLOAD_IMAGE,
       handleUpdateUserStub: UserActions.updateUserStub,
-      handleLogOut: UserActions.LOG_OUT
+      handleLogOut: UserActions.LOG_OUT,
+      handleShowCheckmark: AppActions.SHOW_CHECKMARK,
+      handleSelectPartner: UserActions.SELECT_PARTNER
+
     });
 
   }
@@ -63,8 +68,16 @@ class UserStore {
     user_info.status = res.response.status;
 
     this.setState({
-      user: {  ...user_info }
-    })
+      user: {  ...user_info },
+      showCheckmark: true
+   })
+
+
+      setTimeout(()=>{
+        console.log('time')
+        this.setState({showCheckmark:false})
+      },5000);
+
     CredentialsStore.saveCredentials(res.response);
   }
   handleGetUserInfo(res){
@@ -79,7 +92,28 @@ class UserStore {
       user: user
     })
   }
+  handleShowCheckmark(){
 
+    this.setState({
+      showCheckmark: true
+   })
+
+
+      setTimeout(()=>{
+        this.setState({showCheckmark:false})
+      },5000);
+
+
+  }
+  handleSelectPartner(d){
+  console.log(d);
+    if(d.err){
+      return false;
+      }
+      if(d.showCheckmark){
+        this.handleShowCheckmark();
+      }
+  }
   handleUpdateUserStub(attributes = []){
 
     var updatedUserStub = {...this.state.userStub, ...attributes};
