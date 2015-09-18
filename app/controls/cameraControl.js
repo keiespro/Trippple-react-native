@@ -91,16 +91,31 @@ class CameraControl extends Component{
               // if(this.props.getImage){
               //   this.props.getImage(imageFile)
               // }else{
-                this.props.navigator.push({
-                  component: this.props.nextRoute,
-                  passProps: {
-                    ...this.props,
+                // this.props.navigator.push({
+                //   component: this.props.nextRoute,
+                //   passProps: {
+                //     ...this.props,
+                //     image: imageFile,
+                //     imagetype: this.props.imagetype || '',
+                //     nextRoute: EditImageThumb
+                //   }
+                // })
+              // }
+              //
+   var lastindex = this.props.navigator.getCurrentRoutes().length;
+  console.log(lastindex);
+  var nextRoute = this.props.stack[lastindex];
+
+   nextRoute.passProps = {
+        ...this.props,
                     image: imageFile,
                     imagetype: this.props.imagetype || '',
-                    nextRoute: EditImageThumb
-                  }
-                })
-              // }
+
+
+    }
+    this.props.navigator.push(nextRoute)
+
+
             },
             (err)=> {
               console.log(err,'errrrrrrrrrrrrrr');

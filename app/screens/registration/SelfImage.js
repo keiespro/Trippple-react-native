@@ -36,16 +36,29 @@ class SelfImage extends Component{
     //   modalView: 'CameraRoll'
   // })
 
-    this.props.navigator.push({
-      component: CameraRollView,
-      passProps: {
+    // this.props.navigator.push({
+    //   component: CameraRollView,
+    //   passProps: {
+    //     ...this.props,
+    //     imagetype:'profile',
+    //     nextRoute: EditImage,
+
+    //   },
+    //   sceneConfig: NavigatorSceneConfigs.FloatFromBottom
+    // });
+    //
+    var lastindex = this.props.navigator.getCurrentRoutes().length;
+  console.log(lastindex);
+  var nextRoute = this.props.stack[lastindex];
+  nextRoute.component = CameraRollView
+   nextRoute.passProps = {
         ...this.props,
         imagetype:'profile',
-        nextRoute: EditImage,
 
-      },
-      sceneConfig: NavigatorSceneConfigs.FloatFromBottom
-    });
+    }
+      nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
+    this.props.navigator.push(nextRoute)
+
 
   }
   _getCamera =()=> {
@@ -54,16 +67,28 @@ class SelfImage extends Component{
     //   modalView: 'CameraControl'
     // })
     //
-   this.props.navigator.push({
-      component: CameraControl,
-      passProps: {
+   // this.props.navigator.push({
+   //    component: CameraControl,
+   //    passProps: {
+   //      ...this.props,
+   //      imagetype:'profile',
+   //      nextRoute: EditImage,
+
+   //    },
+   //    sceneConfig: NavigatorSceneConfigs.FloatFromBottom
+   //  });
+   var lastindex = this.props.navigator.getCurrentRoutes().length;
+  console.log(lastindex);
+  var nextRoute = this.props.stack[lastindex];
+
+   nextRoute.passProps = {
         ...this.props,
         imagetype:'profile',
-        nextRoute: EditImage,
 
-      },
-      sceneConfig: NavigatorSceneConfigs.FloatFromBottom
-    });
+    }
+      nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
+    this.props.navigator.push(nextRoute)
+
 
   }
   closeModal(){
@@ -74,16 +99,20 @@ class SelfImage extends Component{
   }
   gotImage =(imageFile)=>{
     this.closeModal()
-    this.props.navigator.push({
-      component: this.props.nextRoute,
-      passProps: {
+
+    var lastindex = this.props.navigator.getCurrentRoutes().length;
+  console.log(lastindex);
+  var nextRoute = this.props.stack[lastindex];
+
+   nextRoute.passProps = {
         ...this.props,
         image: imageFile,
         imagetype:'profile',
 
-      },
-      sceneConfig: NavigatorSceneConfigs.FloatFromBottom
-    });
+            }
+
+    this.props.navigator.push(nextRoute)
+
   }
   onPressFacebook(){
     console.log('fb')

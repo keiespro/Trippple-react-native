@@ -62,14 +62,30 @@ class EditImageThumb extends Component{
   accept(){
 
     UserActions.uploadImage(this.props.image.uri,this.props.imagetype)
+   var lastindex = this.props.navigator.getCurrentRoutes().length;
+  console.log(lastindex);
+  var nextRoute = this.props.stack[lastindex];
 
-    this.props.navigator.push({
-      component: this.props.nextRoute,
-      passProps:{
+   nextRoute.passProps = {
+        ...this.props,
         image:this.props.image,
         croppedImage: this.state.croppedImageURI
-      }
-    })
+
+
+    }
+    this.props.navigator.push(nextRoute)
+
+
+//     this.props.navigator.push({
+//       component: this.props.stack[this.props.currentIndex+1].component,
+//       passProps: {
+//         ...this.props,
+//         image:this.props.image,
+//         croppedImage: this.state.croppedImageURI
+
+//       }
+
+//     })
       AppActions.showCheckmark();
 
   }

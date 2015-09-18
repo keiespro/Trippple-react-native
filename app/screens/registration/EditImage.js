@@ -75,15 +75,30 @@ class EditImage extends Component{
       return;
     }
 
-    this.props.navigator.push({
-        component: this.props.nextRoute,
-        passProps: {
-          nextRoute: Privacy,
-          image:this.props.image,
+    // this.props.navigator.push({
+    //     component: this.props.nextRoute,
+    //     passProps: {
+    //       nextRoute: Privacy,
+    //       image:this.props.image,
+    //       croppedImage: this.state.croppedImageURI,
+    //       imagetype: this.props.imagetype
+    //     }
+    //   })
+   var lastindex = this.props.navigator.getCurrentRoutes().length;
+  console.log(lastindex);
+  var nextRoute = this.props.stack[lastindex];
+
+   nextRoute.passProps = {
+        ...this.props,
+ image:this.props.image,
           croppedImage: this.state.croppedImageURI,
           imagetype: this.props.imagetype
-        }
-      })
+
+
+    }
+
+    this.props.navigator.push(nextRoute)
+
 
 
 

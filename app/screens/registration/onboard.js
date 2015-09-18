@@ -81,7 +81,7 @@ class Onboard extends Component{
   }
 
   selectScene (route: Navigator.route, navigator: Navigator) {
-var stack
+    var stack
     if(route.passProps){
       if(route.passProps.stack){
         stack = route.passProps.stack

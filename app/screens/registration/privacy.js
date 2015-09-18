@@ -52,10 +52,18 @@ class PrivacyScreen extends Component{
   _continue(){
     console.log(this.state.selection)
     UserActions.updateUserStub({privacy: this.state.selection,status:'onboarded'});
+   var lastindex = this.props.navigator.getCurrentRoutes().length;
+  console.log(lastindex);
+  var nextRoute = this.props.stack[lastindex];
 
-    this.props.navigator.push({
-            component: this.props.nextRoute,
-          })
+   nextRoute.passProps = {
+        ...this.props,
+        privacy: this.state.selection
+
+
+    }
+    this.props.navigator.push(nextRoute)
+
 
   }
   render() {
@@ -72,42 +80,6 @@ class PrivacyScreen extends Component{
           <Text style={[styles.labelText,{fontSize:20,marginBottom:20}]}>{"Select your perfered privacy setting"}</Text>
 
 
-          {/*
-            <TouchableOpacity
-            style={{marginTop:50}}
-              onPress={this._selectPublic.bind(this)}>
-              <View style={[styles.privacyWrap,
-                  (this.state.selection == 'public' ? styles.selectedbutton : null)]}>
-
-                <Text style={styles.boxTitle}>Public</Text>
-                <Text style={styles.boxP}>Your profile is visible to all Trippple members</Text>
-
-                <Image source={this.state.selection == 'public' ? require('image!ovalSelected') : require('image!ovalDashed')}
-                          resizeMode={Image.resizeMode.contain}
-                            style={styles.cornerDot}/>
-
-              </View>
-
-
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={{marginTop:50}}
-            onPress={this._selectPrivate.bind(this)}>
-            <View style={[styles.privacyWrap,
-                (this.state.selection == 'private' ? styles.selectedbutton : null)]}>
-
-              <Text style={styles.boxTitle}>Private</Text>
-              <Text style={styles.boxP}>Your profile is hidden from your facebook friends and phone contacts.</Text>
-
-              <Image source={this.state.selection == 'private' ? require('image!ovalSelected') : require('image!ovalDashed')}
-                        resizeMode={Image.resizeMode.contain}
-                            style={styles.cornerDot}/>
-            </View>
-
-            </TouchableOpacity>
-
-            */}
 
 
           <TouchableOpacity
@@ -280,3 +252,46 @@ selectedbutton:{
 
 
 module.exports = PrivacyScreen;
+
+
+
+
+
+/*
+ *     {/*
+            <TouchableOpacity
+            style={{marginTop:50}}
+              onPress={this._selectPublic.bind(this)}>
+              <View style={[styles.privacyWrap,
+                  (this.state.selection == 'public' ? styles.selectedbutton : null)]}>
+
+                <Text style={styles.boxTitle}>Public</Text>
+                <Text style={styles.boxP}>Your profile is visible to all Trippple members</Text>
+
+                <Image source={this.state.selection == 'public' ? require('image!ovalSelected') : require('image!ovalDashed')}
+                          resizeMode={Image.resizeMode.contain}
+                            style={styles.cornerDot}/>
+
+              </View>
+
+
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{marginTop:50}}
+            onPress={this._selectPrivate.bind(this)}>
+            <View style={[styles.privacyWrap,
+                (this.state.selection == 'private' ? styles.selectedbutton : null)]}>
+
+              <Text style={styles.boxTitle}>Private</Text>
+              <Text style={styles.boxP}>Your profile is hidden from your facebook friends and phone contacts.</Text>
+
+              <Image source={this.state.selection == 'private' ? require('image!ovalSelected') : require('image!ovalDashed')}
+                        resizeMode={Image.resizeMode.contain}
+                            style={styles.cornerDot}/>
+            </View>
+
+            </TouchableOpacity>
+
+            */
+

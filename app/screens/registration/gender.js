@@ -55,11 +55,14 @@ class GenderScreen extends Component{
  var lastindex = this.props.navigator.getCurrentRoutes().length;
   console.log(lastindex);
   var nextRoute = this.props.stack[lastindex];
+
    nextRoute.passProps = {
+          ...this.props,
               gender: this.state.selection,
             }
 
     this.props.navigator.push(nextRoute)
+    console.log('HEY')
 
   }
   render() {

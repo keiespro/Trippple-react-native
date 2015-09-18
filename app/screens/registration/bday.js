@@ -47,13 +47,23 @@ class BdayScreen extends Component{
     //   bday_month: this.state.date.getMonth(),
     //   bday_year: this.state.date.getYear()
     // })
-    this.props.navigator.push({
-      component: this.props.stack[this.props.currentIndex+1].component,
-      passProps: {
-        ...this.props,
-        bday: this.state.date
-      }
-    })
+    // this.props.navigator.push({
+    //   component: this.props.stack[this.props.currentIndex+1].component,
+    //   passProps: {
+    //     ...this.props,
+    //     bday: this.state.date
+    //   }
+    // })
+var lastindex = this.props.navigator.getCurrentRoutes().length;
+  console.log(lastindex);
+  var nextRoute = this.props.stack[lastindex];
+
+   nextRoute.passProps = {
+    ...this.props,
+              bday: this.state.date,
+            }
+
+    this.props.navigator.push(nextRoute)
 
   }
 
@@ -116,7 +126,9 @@ class BdayScreen extends Component{
             minimumDate={minimumDate}
             maximumDate={maximumDate}
             mode="date"
-
+style={{
+      backgroundColor: 'rgba(0,0,0,.3)',
+}}
             date={(this.state.date || moment().subtract(18,'years').toDate())}
             timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
             onDateChange={this.onDateChange.bind(this)}
@@ -134,7 +146,7 @@ export default BdayScreen
 const styles = StyleSheet.create({
     bdayKeyboard:{
       height: 226,
-      backgroundColor: colors.purple,
+      backgroundColor: colors.outerSpace,
       flex:1,
       position:'absolute',
       bottom:0,

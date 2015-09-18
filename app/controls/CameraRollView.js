@@ -101,14 +101,29 @@ class CameraRollView extends Component{
     // if(this.props.getImage){
     //   this.props.getImage(imageFile)
     // }else{
-      this.props.navigator.push({
-        component:this.props.nextRoute,
-        passProps: {
+      // this.props.navigator.push({
+      //   component:this.props.nextRoute,
+      //   passProps: {
+      //     imagetype: this.props.imagetype || '',
+      //     image: imageFile,
+      //     nextRoute: EditImageThumb
+      //   }
+      // })
+
+   var lastindex = this.props.navigator.getCurrentRoutes().length;
+  console.log(lastindex);
+  var nextRoute = this.props.stack[lastindex];
+
+   nextRoute.passProps = {
+        ...this.props,
           imagetype: this.props.imagetype || '',
           image: imageFile,
-          nextRoute: EditImageThumb
-        }
-      })
+
+
+    }
+    this.props.navigator.push(nextRoute)
+
+
     // }
   }
 
