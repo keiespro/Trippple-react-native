@@ -50,6 +50,7 @@
 		<string>omnes-medium-webfont.ttf</string>
 		<string>omnes-regular-webfont.ttf</string>
 		<string>Montserrat-Regular.otf</string>
+		<string>Montserrat-Bold.ttf</string>
 	</array>
 	<key>UIStatusBarHidden</key>
 	<true/>
