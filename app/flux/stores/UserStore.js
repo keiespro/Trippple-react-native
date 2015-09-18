@@ -106,7 +106,7 @@ class UserStore {
 
   }
   handleSelectPartner(d){
-  console.log(d);
+    console.log(d);
     if(d.err){
       return false;
       }
@@ -119,7 +119,10 @@ class UserStore {
     var updatedUserStub = {...this.state.userStub, ...attributes};
 
     if(updatedUserStub.gender && updatedUserStub.privacy){
-      this.setState({user: {...this.state.user, ...this.state.updatedUserStub}});
+      this.setState({user: {...this.state.user, ...updatedUserStub}});
+      console.log(this.state.user,this.state.userStub);
+
+      UserActions.updateUser(this.state.user)
     }else{
       this.setState({userStub: updatedUserStub});
 

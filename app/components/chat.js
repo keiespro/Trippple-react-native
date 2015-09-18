@@ -55,15 +55,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignSelf: 'stretch',
-    // justifyContent: 'flex-end',
-    // alignItems: 'center',
-    // transformMatrix: [
-    //    1,  0,  0,  0,
-    //    0, -1,  0,  0,
-    //    0,  0,  1,  0,
-    //    0,  0,  0,  1,
-    // ],
-  },
+   },
 
   inputField: {
     height: 50,
@@ -75,43 +67,34 @@ var styles = StyleSheet.create({
     borderRadius:4,
     paddingHorizontal: 20,
     paddingVertical:10,
-    marginHorizontal: 10,
     marginVertical:15,
-    flex: 1,
-              flexWrap:'wrap',
-    alignSelf:'stretch',
-    flexDirection: 'row',
-  flexDirection: 'column',
     flex:1,
     backgroundColor: colors.mediumPurple,
     borderRadius:4,
     padding: 10,
+    marginHorizontal:5
 
-    // height:50,
-    overflow:'hidden'
 
-},
-row:{
+  },
+  row:{
     flexDirection: 'row',
-    flex: 1
-},
+    flex: 1,
+    alignSelf:'stretch',
+    alignItems:'center',
+    justifyContent:'space-between',
+    marginHorizontal: 10,
+
+  },
   theirMessage:{
-    alignSelf:'flex-start',
-    alignItems:'flex-start',
-    justifyContent:'flex-start',
 
   },
   ourMessage:{
-    alignSelf:'flex-end',
-    alignItems:'flex-end',
-    justifyContent:'flex-end',
-
-
-    backgroundColor: colors.dark
+      backgroundColor: colors.dark
 },
 messageTitle:{
   fontFamily:'Montserrat',
-  color:colors.shuttleGray
+  color:colors.shuttleGray,
+  marginBottom:5
 },
   sendButtonText:{
     textAlign:'center',
@@ -122,7 +105,7 @@ messageTitle:{
   chatmessage:{
     },
   messageText: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '200',
     flexWrap: 'wrap',
     color: colors.white
@@ -131,7 +114,8 @@ messageTitle:{
     borderRadius: 24,
     width: 48,
     height: 48,
-    position:'relative'
+    position:'relative',
+    marginHorizontal:5
   },
 });
 
@@ -157,10 +141,13 @@ class ChatMessage extends React.Component {
         }
 
 
-        <View style={[styles.bubble,(isMessageOurs ? styles.ourMessage : styles.theirMessage)]}>
-          <Text style={[styles.messageText,styles.messageTitle,{color: isMessageOurs ? colors.shuttleGray : colors.lavender}]}
-                numberOfLines={2}>{this.props.messageData.from_user_info.name}</Text>
-          <Text style={styles.messageText} numberOfLines={2}>{this.props.text}</Text>
+        <View style={[styles.bubble,,(isMessageOurs ? styles.ourMessage : styles.theirMessage)]}>
+         <View>
+         <Text style={[styles.messageText, styles.messageTitle,
+                    {color: isMessageOurs ? colors.shuttleGray : colors.lavender}
+          ]}>{this.props.messageData.from_user_info.name}</Text>
+          <Text style={styles.messageText} >{this.props.text}</Text>
+          </View>
         </View>
 
         {isMessageOurs && <View style={[]}>
@@ -195,9 +182,11 @@ class ChatInside extends Component{
   }
 
 
-  updateKeyboardSpace(frames) {
+  updateKeyboardSpace(frames){
+    console.log(frames.endCoordinates)
+    var h = frames.endCoordinates && frames.endCoordinates.height || 236
     this.setState({
-      keyboardSpace: frames.end.height,
+      keyboardSpace: h || 236,
       isKeyboardOpened: true
     });
   }
@@ -210,19 +199,9 @@ class ChatInside extends Component{
   }
 
 
-  componentWillUnmount() {
-    KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace.bind(this));
-    KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace.bind(this));
-  }
   componentDidMount(){
-    KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillShowEvent, this.updateKeyboardSpace.bind(this));
-    KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace.bind(this));
-    // KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillChangeFrameEvent, (frames) => {
-    //   console.log('will change', frames);
-    // });
-    // this.refs.scroller.refs.listviewscroll.scrollTo(0)
-      MatchActions.getMessages(this.props.matchID);
-}
+    MatchActions.getMessages(this.props.matchID);
+  }
 
 // shouldComponentUpdate(nextProps,nextState){
 //   return nextProps.messages.length == this.props.messages.length
@@ -280,12 +259,12 @@ class ChatInside extends Component{
     })
   }
   render(){
-    this._textInput && this._textInput.measure((x, y, width, height)=>{
-       console.log(x, y, width, height);
-  });
-   this._textInput && this._textInput.measureLayout(4,(x, y, width, height)=>{
-       console.log(x, y, width, height);
-    });
+    // this._textInput && this._textInput.measure((x, y, width, height)=>{
+    //    console.log(x, y, width, height);
+  // });
+   // this._textInput && this._textInput.measureLayout(4,(x, y, width, height)=>{
+    //    console.log(x, y, width, height);
+    // });
 
     return (
       <View ref={'chatscroll'} style={{
@@ -312,16 +291,18 @@ class ChatInside extends Component{
 
               }
             }}
+            onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
+            onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
+
             scrollEventThrottle={128}
             scrollsToTop={false}
-              contentContainerStyle={{justifyContent:'flex-end',width:DeviceWidth,overflow:'hidden'}}
-              {...this.props}
-              inverted={true}
-              keyboardDismissMode={'interactive'}
+            contentContainerStyle={{justifyContent:'flex-end',width:DeviceWidth,overflow:'hidden'}}
+            {...this.props}
+            inverted={true}
+            keyboardDismissMode={'interactive'}
           />}
           matchID={this.props.matchID}
           dataSource={this.state.dataSource}
-              onEndReached={()=>{console.log('END')}}
           renderRow={this._renderRow.bind(this)}
           messages={this.props.messages || []}
           style={{
@@ -330,7 +311,9 @@ class ChatInside extends Component{
             alignSelf:'stretch',
             width:DeviceWidth,
             height:DeviceHeight - 20,
-            paddingTop:40}}/>
+            paddingTop:40
+          }}
+        />
 
         <View style={{
             flexDirection:'row',
@@ -376,14 +359,19 @@ class ChatInside extends Component{
              >{this.state.textInputValue || ' '}</Text></View>
           </TextInput>
 
-          <TouchableHighlight style={{
+          <TouchableHighlight
+            style={{
               margin:0,
               padding:5,
-    backgroundColor:colors.dark,
-                            flexDirection:'column',
+              backgroundColor:colors.dark,
+              flexDirection:'column',
               alignItems:'center',
-              justifyContent:'center'}} onPress={this.sendMessage.bind(this)}>
-              <Text style={[styles.sendButtonText,{
+              justifyContent:'center'
+            }}
+            onPress={this.sendMessage.bind(this)}>
+
+            <Text
+              style={[styles.sendButtonText,{
                 color:colors.shuttleGray,
                 fontFamily:'Montserrat',
               }]}>SEND</Text>

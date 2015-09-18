@@ -392,7 +392,7 @@ class CardStack extends Component{
 
     if(this.props.potentials.length){
       return (
-        <View style={{width:DeviceWidth,height:DeviceHeight,flex:1,alignSelf:'stretch'}}>
+        <View style={{width:DeviceWidth,height:DeviceHeight,flex:1,alignSelf:'stretch',backgroundColor:colors.outerSpace}}>
 
         {this.props.potentials[2] &&
           <View style={{shadowColor:colors.darkShadow,shadowRadius:5,shadowOffset:{width:0,height:5},shadowOpacity:30}}>
@@ -410,7 +410,7 @@ class CardStack extends Component{
     }else{
       //TODO: show what when no potential matches ?
       return (
-        <View user={this.props.user} >
+        <View user={this.props.user} style={{backgroundColor:colors.outerSpace}} >
           <TouchableHighlight onPress={() => MatchActions.getPotentials()}>
             <View style={{padding:50}}>
             <Text>(DEV MODE) TAP TO GET MORE POTENTIALS</Text>
