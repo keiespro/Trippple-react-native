@@ -31,62 +31,32 @@ class SelfImage extends Component{
   }
 
   _getCameraRoll =()=> {
-    // this.setState({
-    //   modalOpen:true,
-    //   modalView: 'CameraRoll'
-  // })
-
-    // this.props.navigator.push({
-    //   component: CameraRollView,
-    //   passProps: {
-    //     ...this.props,
-    //     imagetype:'profile',
-    //     nextRoute: EditImage,
-
-    //   },
-    //   sceneConfig: NavigatorSceneConfigs.FloatFromBottom
-    // });
-    //
     var lastindex = this.props.navigator.getCurrentRoutes().length;
-  console.log(lastindex);
-  var nextRoute = this.props.stack[lastindex];
-  nextRoute.component = CameraRollView
-   nextRoute.passProps = {
-        ...this.props,
-        imagetype:'profile',
+    console.log(lastindex);
+    var nextRoute = this.props.stack[lastindex];
+    nextRoute.component = CameraRollView
+    nextRoute.passProps = {
+      ...this.props,
+      imagetype:'profile',
+      stack:this.props.stack,
 
     }
-      nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
+    nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
     this.props.navigator.push(nextRoute)
 
 
   }
   _getCamera =()=> {
-    // this.setState({
-    //   modalOpen:true,
-    //   modalView: 'CameraControl'
-    // })
-    //
-   // this.props.navigator.push({
-   //    component: CameraControl,
-   //    passProps: {
-   //      ...this.props,
-   //      imagetype:'profile',
-   //      nextRoute: EditImage,
+    var lastindex = this.props.navigator.getCurrentRoutes().length;
+    console.log(lastindex);
+    var nextRoute = this.props.stack[lastindex];
 
-   //    },
-   //    sceneConfig: NavigatorSceneConfigs.FloatFromBottom
-   //  });
-   var lastindex = this.props.navigator.getCurrentRoutes().length;
-  console.log(lastindex);
-  var nextRoute = this.props.stack[lastindex];
-
-   nextRoute.passProps = {
-        ...this.props,
-        imagetype:'profile',
+    nextRoute.passProps = {
+      ...this.props,
+      imagetype:'profile',
 
     }
-      nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
+    nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
     this.props.navigator.push(nextRoute)
 
 

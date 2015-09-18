@@ -27,12 +27,18 @@ class InvitePartner extends Component{
     super(props);
   }
   onPress(){
-    this.props.navigator.push({
-        component: Contacts,
-       passProps: {
-         nextRoute: Facebook
-      }
-     })
+   var lastindex = this.props.navigator.getCurrentRoutes().length;
+  console.log(lastindex);
+  var nextRoute = this.props.stack[lastindex];
+
+   nextRoute.passProps = {
+        ...this.props,
+
+    }
+    this.props.navigator.push(nextRoute)
+
+
+
   }
 
   goBack(){

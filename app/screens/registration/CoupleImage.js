@@ -31,17 +31,37 @@ class CoupleImage extends Component{
       modalView: ''
     }
   }
+
   _getCameraRoll =()=> {
-    this.setState({
-      modalOpen:true,
-      modalView: 'CameraRoll'
-    })
+    var lastindex = this.props.navigator.getCurrentRoutes().length;
+    console.log(lastindex);
+    var nextRoute = this.props.stack[lastindex];
+    nextRoute.component = CameraRollView
+    nextRoute.passProps = {
+      ...this.props,
+      imagetype:'profile',
+      stack:this.props.stack,
+
+    }
+    nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
+    this.props.navigator.push(nextRoute)
+
+
   }
   _getCamera =()=> {
-    this.setState({
-      modalOpen:true,
-      modalView: 'CameraControl'
-    })
+    var lastindex = this.props.navigator.getCurrentRoutes().length;
+    console.log(lastindex);
+    var nextRoute = this.props.stack[lastindex];
+
+    nextRoute.passProps = {
+      ...this.props,
+      imagetype:'profile',
+
+    }
+    nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
+    this.props.navigator.push(nextRoute)
+
+
   }
   closeModal(){
    this.setState({
@@ -51,14 +71,19 @@ class CoupleImage extends Component{
   }
   gotImage =(imageFile)=>{
     this.closeModal()
-    this.props.navigator.push({
-      component: this.props.nextRoute,
-      passProps: {
+
+   var lastindex = this.props.navigator.getCurrentRoutes().length;
+  console.log(lastindex);
+  var nextRoute = this.props.stack[lastindex];
+
+   nextRoute.passProps = {
+        ...this.props,
         image: imageFile,
         imagetype:'couple_profile',
-      },
-      sceneConfig: NavigatorSceneConfigs.FloatFromBottom
-    });
+
+
+    }
+    this.props.navigator.push(nextRoute)
   }
   componentDidUpdate(prevProps,prevState){
     console.log(prevProps,prevState);
@@ -102,21 +127,7 @@ class CoupleImage extends Component{
           </TouchableHighlight>
 
           </View>
-           <Modal
-            animated={true}
-            transparent={true}
-            visible={this.state.modalOpen}
-          >
-            {this.state.modalOpen && this.state.modalView === 'CameraControl' &&
-              <CameraControl getImage={this.gotImage} imagetype={'profile'} />
-            }
-            {this.state.modalOpen && this.state.modalView === 'CameraRoll' &&
-              <CameraRollView getImage={this.gotImage} imagetype={'profile'} goBack={this.closeModal.bind(this)} navigator={this.props.navigator}/>
-
-            }
-          </Modal>
-
-      </View>
+        </View>
     )
   }
 }

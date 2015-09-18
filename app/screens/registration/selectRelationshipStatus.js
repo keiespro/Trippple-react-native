@@ -47,29 +47,25 @@ class SelectRelationshipStatus extends Component{
          console.log(selection,this.props,this.props.navigator.getCurrentRoutes());
          if(selection == 'couple'){
 
-
+console.log('COUPLE')
           this.props.navigator.push({
             component: this.props.coupleStack[1].component,
-            index: 1,
             passProps: {
+              ...this.props,
               stack: this.props.coupleStack,
-              nextRoute: this.props.coupleStack[2].component,
-              lastIndex: 1,
               partner: this.state.partnerSelection
             }
           })
 
 
         }else if(selection == 'single'){
+console.log('SINGLE')
 
           this.props.navigator.push({
             component: this.props.singleStack[1].component,
-            index: 1,
             passProps: {
+              ...this.props,
               stack: this.props.singleStack,
-              lastIndex: 1,
-              nextRoute: this.props.singleStack[2].component,
-
               partner: this.state.partnerSelection
             }
           })

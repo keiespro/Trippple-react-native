@@ -111,7 +111,7 @@ class CameraRollView extends Component{
       // })
 
    var lastindex = this.props.navigator.getCurrentRoutes().length;
-  console.log(lastindex);
+  console.log(lastindex,this.props.navigator.getCurrentRoutes(),this.props.stack[lastindex]);
   var nextRoute = this.props.stack[lastindex];
 
    nextRoute.passProps = {

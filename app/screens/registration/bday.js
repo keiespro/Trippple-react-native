@@ -77,7 +77,7 @@ var lastindex = this.props.navigator.getCurrentRoutes().length;
   })
 
     console.log(date,this.state.date);
-    UserActions.updateUserStub({bdate: date});
+    // UserActions.updateUserStub({bdate: date});
 
   }
 

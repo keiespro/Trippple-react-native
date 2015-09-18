@@ -96,7 +96,11 @@ class Onboard extends Component{
         stack = RouteStackSingle
       }
 
-    var curIndex = _.findIndex(stack,(ro, i)=>{ return ro.index == route.index }) +1
+    var curIndex = _.findIndex(stack,(ro, i)=>{ return ro.index == route.index })
+    if(!curIndex && (route.title == 'CameraRollView' || route.title == 'CameraControl')){
+
+      curIndex = _.findIndex(stack,(ro, i)=>{ return ro.title == 'CAMERA' })
+    }
     console.log('this.props.currentIndex:',curIndex);
     return (
             <route.component
