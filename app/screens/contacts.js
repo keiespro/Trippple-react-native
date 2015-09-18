@@ -12,7 +12,8 @@ import {
   ListView,
   TouchableHighlight,
   Dimensions,
-  Modal
+  Modal,TouchableWithoutFeedback,
+  ActivityIndicatorIOS
 } from 'react-native'
 
 const DeviceHeight = Dimensions.get('window').height
@@ -23,6 +24,7 @@ import { AddressBook } from 'NativeModules'
 import colors from '../utils/colors'
 import _ from 'underscore'
 import Facebook from './registration/facebook'
+import BackButton from '../components/BackButton'
 
 class ContactList extends Component{
 
@@ -93,10 +95,12 @@ class ContactList extends Component{
           removeClippedSubviews={true}
           initialListSize={100}
           ref={'thelist'}
-          scrollRenderAheadDistance={1000}
+          pageSize={50}
+          scrollRenderAheadDistance={2500}
           contentContainerStyle={styles.fullwidth}
           dataSource={this.props.dataSource}
           renderRow={this._renderRow.bind(this)}
+          keyboardDismissMode={'on-drag'}
           renderSeparator={(sectionID, rowID, adjacentRowHighlighted)=>{
                     return(<View style={styles.separator} />)
                   }}
@@ -124,8 +128,8 @@ class Contacts extends Component{
   }
   _pressRow(contact){
 
-    console.debug(contact);
-
+    console.log(contact);
+    this.refs.searchinput.blur();
     this.setState({
       partnerSelection: contact.rowData,
       highlightedRow: contact,
@@ -163,7 +167,7 @@ class Contacts extends Component{
     })
   }
   componentWillUnmount(){
-    console.debug('UNmount contacts')
+    console.log('UNmount contacts')
   }
   getContacts(){
      AddressBook.checkPermission((err, permission) => {
@@ -215,7 +219,9 @@ class Contacts extends Component{
     this.setState({
       searchText: text,
       dataSource: ds.cloneWithRows(_.filter(this.state.contacts, (contact)=>{
-        var name = `${contact.firstName || ''} ${contact.lastName || ''}`;
+        var name = `${contact.firstName || ''}`;
+        var lastName = `${contact.lastName || ''}`;
+
         return name.toLowerCase().indexOf(text.toLowerCase()) >= 0
       }))
     });
@@ -246,6 +252,10 @@ class Contacts extends Component{
     return (
 
       <View style={styles.container} noScroll={true}>
+ <View style={{width:100,height:50,left:20}}>
+        <BackButton navigator={this.props.navigator}/>
+      </View>
+
         <View style={styles.searchwrap}>
           <Image source={require('image!search')} style={styles.searchicon}/>
           <TextInput
@@ -254,12 +264,16 @@ class Contacts extends Component{
             textAlign="center"
             placeholder="SEARCH"
             clearButtonMode="always"
-            placeholderTextColor={colors.white}
+            placeholderTextColor={colors.shuttleGray}
             onChangeText={this._searchChange.bind(this)}
           />
         </View>
-
-        <ContactList
+        {!this.state.contacts.length ? <View style={{width:DeviceWidth,height:DeviceHeight-60,flex:1,alignItems:'center',justifyContent:'center'}}>
+        <ActivityIndicatorIOS
+            animating={true}
+            color={colors.white}
+            style={{}} /></View> :
+                   <ContactList
           ref={'contactlist'}
           user={this.props.user}
           dataSource={this.state.dataSource}
@@ -269,16 +283,23 @@ class Contacts extends Component{
           onPress={this._pressRow.bind(this)}
           id={"contactslist"}
           title={"contactlist"}
-        />
+          />
+              }
 
 
       <Modal
       visible={this.state.modalVisible}
       transparent={true}
       animated={true}
-        onPressBackdrop={this._cancel.bind(this)}
+      onPressBackdrop={this._cancel.bind(this)}
+
         onClose={() => this.closeModal.bind(this)}
-      >
+        >
+         <TouchableWithoutFeedback onPressIn={this._cancel.bind(this)} style={{position:'absolute',height:DeviceHeight,width:DeviceWidth}}>
+            <View/>
+          </TouchableWithoutFeedback>
+
+
         <Image style={styles.modalcontainer} source={require('image!GradientBG')}>
           <View style={[styles.col]}>
             <View style={styles.insidemodalwrapper}>
@@ -288,8 +309,18 @@ class Contacts extends Component{
 
             <View style={styles.rowtextwrapper}>
 
-              <Text style={[styles.rowtext,styles.bigtext]}>
-                {`Invite ${this.state.partnerSelection.firstName || ''} ${this.state.partnerSelection.lastName || ''}`}
+            <Text style={[styles.rowtext,styles.bigtext,{
+                  fontFamily:'Montserrat',fontSize:22,marginVertical:10
+            }]}>
+                {`INVITE ${this.state.partnerSelection.firstName || ''}`}
+                </Text>
+
+            <Text style={[styles.rowtext,styles.bigtext,{
+                  fontFamily:'Montserrat',fontSize:22,marginVertical:10
+            }]}>{this.state.partnerSelection.phoneNumbers && this.state.partnerSelection.phoneNumbers.length > 1 ?
+              `What number should we use to invite ${this.state.partnerSelection.firstName}` :
+              `Tap the number below to invite ${this.state.partnerSelection.firstName} as your partner.`
+                }
                 </Text>
 
                 </View>
@@ -310,7 +341,7 @@ class Contacts extends Component{
                 </TouchableHighlight>
                 </View>
           </View>
-        </Image>
+          </Image>
       </Modal>
     </View>
 
@@ -426,11 +457,11 @@ insidemodalwrapper:{
   },
   searchfield:{
     color:colors.white,
-    fontSize:20,
+    fontSize:22,
     alignItems: 'stretch',
     flex:1,
     paddingHorizontal:10,
-    fontFamily:'omnes',
+    fontFamily:'Montserrat',
     height:60,
     backgroundColor: 'transparent',
 

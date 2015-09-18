@@ -6,8 +6,13 @@ import {
   Image,
   View,
   TouchableHighlight,
-  Component
+  Component,
+  Dimensions
 }  from 'react-native'
+
+
+var DeviceHeight = require('Dimensions').get('window').height;
+var DeviceWidth = require('Dimensions').get('window').width;
 
 
 import colors from '../../utils/colors'
@@ -15,6 +20,7 @@ import UserActions from '../../flux/actions/UserActions'
 import BoxyButton from '../../controls/boxyButton'
 import Contacts from '../contacts'
 import Facebook from './facebook'
+import BackButton from '../../components/BackButton'
 
 class InvitePartner extends Component{
   constructor(props){
@@ -36,16 +42,20 @@ class InvitePartner extends Component{
   render() {
     return (
       <View style={styles.container}>
+        <View style={{width:100,height:50,left:20,top:0,alignSelf:'flex-start',position:'absolute'}}>
+          <BackButton navigator={this.props.navigator}/>
+         </View>
 
         <View style={[styles.middleTextWrap,styles.pushDown]}>
-          <Text style={styles.middleText}>Invite Your Partner </Text>
-          <Text style={[styles.middleText,styles.middleTextSmall]}>Select your Partner in your address book to invite them to Trippple</Text>
+          <Text style={[styles.middleText,{marginBottom:10}]}>Invite Your Partner </Text>
+          <Text style={[styles.middleText,{marginBottom:50}]}>Select your Partner in your address book to invite them to Trippple</Text>
         </View>
 
         <BoxyButton
             text={"INVITE YOUR PARTNER"}
             leftBoxStyles={styles.iconButtonLeftBoxCouples}
             innerWrapStyles={styles.iconButtonCouples}
+            underlayColor={colors.mediumPurple20}
             _onPress={this.onPress.bind(this)}>
 
             <Image source={require('image!ovalInvite')}
@@ -54,18 +64,6 @@ class InvitePartner extends Component{
 
         </BoxyButton>
 
-        <View style={[styles.middleTextWrap,styles.underPinInput]}>
-
-          <TouchableHighlight onPress={this.goBack.bind(this)}>
-
-            <View style={styles.goBackButton}>
-              <Text textAlign={'left'} style={[styles.bottomTextIcon]}>◀︎ </Text>
-              <Text textAlign={'left'} style={[styles.bottomText]}>Go back</Text>
-            </View>
-
-          </TouchableHighlight>
-
-        </View>
       </View>
     );
   }
@@ -78,19 +76,23 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf:'stretch',
-    padding:20,
+    padding:0,
+    height: DeviceHeight,
+    position:'relative',
+    width: DeviceWidth,
     backgroundColor: colors.outerSpace
   },
   middleTextWrap: {
     alignItems:'center',
     justifyContent:'center',
-    height: 60
+    height: 60,
+    marginHorizontal:20
   },
   middleText: {
     color: colors.rollingStone,
-    fontSize: 21,
+    fontSize: 18,
+
     textAlign:'center',
-    fontFamily:'Montserrat',
   },
   middleTextSmall:{
     fontSize: 17

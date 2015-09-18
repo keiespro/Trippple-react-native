@@ -30,7 +30,7 @@ import SingleInputScreen from '../SingleInputScreen'
 
 class BdayScreen extends Component{
   static defaultProps  = {
-    date: new Date(),
+    date: null,
     timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
   }
 
@@ -39,14 +39,14 @@ class BdayScreen extends Component{
     super(props);
     this.state = {
       timeZoneOffsetInHours:props.timeZoneOffsetInHours,
-      date: props.user.bdate ? new Date(props.user.bdate) : moment().subtract(18,'years').toDate()
+      date: props.user.bdate ? new Date(props.user.bdate) : null
     }
   }
   _submit =()=>{
-    UserActions.updateUserStub({
-      bday_month: this.state.date.getMonth(),
-      bday_year: this.state.date.getYear()
-    })
+    // UserActions.updateUserStub({
+    //   bday_month: this.state.date.getMonth(),
+    //   bday_year: this.state.date.getYear()
+    // })
     this.props.navigator.push({
       component: this.props.nextRoute,
       passProps: {
@@ -56,12 +56,15 @@ class BdayScreen extends Component{
 
   }
 
-  onDateChange = (date) => {
+  onDateChange(date){
+    console.log(date);
+    this._root.setNativeProps({date:date})
 
     this.setState({
       inputFieldValue: date,
       date: date
-    })
+  })
+
     console.log(date,this.state.date);
     UserActions.updateUserStub({bdate: date});
 
@@ -72,6 +75,9 @@ class BdayScreen extends Component{
   _setYear(){}
 
   render(){
+    const minimumDate = moment().subtract(68,'years').toDate();
+    const maximumDate = moment().subtract(18,'years').toDate();
+
     return (
       <View style={[
           styles.container,
@@ -97,20 +103,22 @@ class BdayScreen extends Component{
 
           <View style={[styles.pinInputWrap,(this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null)]}>
             <Text style={styles.fakeInput}>
-              {moment(this.state.date).format('MMMM D, YYYY') || this.state.inputFieldValue || 'DATE OF BIRTH'}
+              {this.state.date ? moment(this.state.date).clone().format('MMMM D, YYYY') : 'DATE OF BIRTH'}
             </Text>
           </View>
 
         </SingleInputScreen>
-        <View style={[{flex: 1, height: this.state.keyboardSpace},styles.bdayKeyboard]}>
+        <View ref={component => this._root = component} style={[{flex: 1, height: this.state.keyboardSpace},styles.bdayKeyboard]}>
 
-          <DatePickerIOS
-            minimumDate={moment().subtract(68,'years').toDate()}
-            maximumDate={moment().subtract(18,'years').toDate()}
-            date={this.state.date}
+        <DatePickerIOS
+        ref={'picker'}
+            minimumDate={minimumDate}
+            maximumDate={maximumDate}
             mode="date"
+
+            date={(this.state.date || moment().subtract(18,'years').toDate())}
             timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
-            onDateChange={this.onDateChange}
+            onDateChange={this.onDateChange.bind(this)}
           />
 
         </View>
@@ -124,8 +132,8 @@ export default BdayScreen
 
 const styles = StyleSheet.create({
     bdayKeyboard:{
-      height: 230,
-      backgroundColor: colors.white,
+      height: 226,
+      backgroundColor: colors.purple,
       flex:1,
       position:'absolute',
       bottom:0,
