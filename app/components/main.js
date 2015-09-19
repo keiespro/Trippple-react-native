@@ -34,9 +34,9 @@ var MatchActions = require("../flux/actions/MatchActions");
 import FakeNavBar from '../controls/FakeNavBar'
 
 var ROUTE_STACK = [
-  {component: Settings, index: 0, title: 'Settings', id: 'settings',navigationBar:false},
+  {component: Settings, index: 0, title: 'Settings', id: 'settings'},
   {component: Potentials, index: 1, title: 'Trippple', id: 'potentials'},
-  {component: Matches, index: 2, title: 'Matches', id: 'matches',navigationBar:false,sceneConfig:Navigator.SceneConfigs.FloatFromRight},
+  {component: Matches, index: 2, title: 'Matches', id: 'matches',sceneConfig:Navigator.SceneConfigs.FloatFromRight},
 ];
 
 
@@ -45,22 +45,25 @@ var ROUTE_STACK = [
   var NavigationBarRouteMapper = {
 
     LeftButton: function(route, navigator, index, navState) {
-      // if(route.id == 'matches' ){
-      //    return (
-      //      <View style={[styles.touchables,styles.navBarLeftButton]}>
+      if(route.id == 'matches' ){
+         return (
+           <View style={[styles.touchables,styles.navBarLeftButton]}>
 
-      //        <TouchableOpacity onPress={() => navigator.jumpTo(ROUTE_STACK[1]) }>
-      //          <View style={styles.navBarLeftButton}>
-      //          <Image
-      //            resizeMode={Image.resizeMode.contain}
-      //            style={{width:15,height:15,marginTop:10,alignItems:'flex-start'}}
-      //            source={require('image!close')} />
-      //        </View>
-      //        </TouchableOpacity>
-      //        </View>
+             <TouchableOpacity onPress={() => {
+              MatchActions.getMatches();
+             navigator.jumpTo(ROUTE_STACK[1]);
+              }}>
+            <View style={styles.navBarLeftButton}>
+               <Image
+                 resizeMode={Image.resizeMode.contain}
+                 style={{width:15,height:15,marginTop:10,alignItems:'flex-start'}}
+                 source={require('image!close')} />
+             </View>
+            </TouchableOpacity>
+         </View>
 
-      //    )
-      //  }
+         )
+       }
 
       if(route.id == 'potentials'){
         return (
@@ -77,7 +80,7 @@ var ROUTE_STACK = [
     },
 
     RightButton: function(route, navigator, index, navState) {
-      if(route.id == 'photo' || route.id == 'chat' || route.id == 'matches') return null;
+      if(route.id == 'photo' || route.id == 'matches') return null;
 
       if(route.id == 'potentials'){
 
@@ -129,7 +132,6 @@ var ROUTE_STACK = [
         }
         return (
           <View style={{ flex: 1, }}>
-            {navBar}
             <RouteComponent navigator={navigator} route={route} user={this.props.user}  {...route.passProps} />
           </View>
         );
@@ -149,7 +151,10 @@ var ROUTE_STACK = [
               navigationBar={
                 <Navigator.NavigationBar
                   routeMapper={NavigationBarRouteMapper}
-                  style={[styles.navBar ]} />
+         style={[styles.navBar,{
+            backgroundColor: 'transparent' || colors.shuttleGray
+          }
+        ]} />
               }
           />
       </View>

@@ -124,14 +124,7 @@ class ActiveCard extends Component{
           right:this.state.profileVisible ? 0 : 20,
           top: (this.state.profileVisible ? 0 : 55),
           flex:1,
-          shadowColor:colors.darkShadow,
-          shadowRadius:5,
           position:'absolute',
-          shadowOpacity:50,
-          shadowOffset: {
-              width:0,
-              height: 5
-          }
         }}
         key={`${this.props.potential.id}-wrapper`}
         ref={(card) => { this.card = card }}
@@ -204,7 +197,18 @@ class CoupleActiveCard extends Component{
             {scale:this.props.isTopCard ? 1 : 0.95},
 
           ]
-        }] }>
+        },{
+            shadowColor:colors.darkShadow,
+          shadowRadius:5,
+          shadowOpacity:50,
+          shadowOffset: {
+              width:0,
+              height: 5
+          }
+          }
+        ] }>
+
+
 
         <ScrollView
             scrollEnabled={this.props.profileVisible ? true : false}

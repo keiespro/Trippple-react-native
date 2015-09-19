@@ -46,7 +46,7 @@ class MatchesStore {
 
     // console.log(savedMatches,'handlegetmatches');
     this.setState({
-      matches: this.state.matches
+      matches: this.orderMatches(this.state.matches)
     });
         // get data from server
 
@@ -69,17 +69,16 @@ class MatchesStore {
       this.setState({
         matches: combinedMatches
       });
+    }else{
+      this.setState({
+        matches: this.orderMatches(this.state.matches)
+      });
     }
 
   }
 
-
-  // public methods
-
-  getAllMatches(){
-    console.log('getmatches');
-
-    var _threads = this.getState().matches;
+  orderMatches(matches){
+   var _threads = matches;
 
     var orderedThreads = [];
 
@@ -99,10 +98,42 @@ class MatchesStore {
 
     return orderedThreads;
 
+
   }
+  // public methods
+
+  getAllMatches(){
+    console.log('getmatches',this.getState().matches);
+    var m = this.getState().matches
+    return orderMatches(m)
+   }
 
 
 
 }
+
+ function orderMatches(matches){
+   var _threads = matches;
+
+    var orderedThreads = [];
+
+    for (var id in _threads) {
+      var thread = _threads[id];
+      orderedThreads.push(thread);
+    }
+    // wrong formatting, rensmr lastMessage
+    orderedThreads.sort(function(a, b) {
+      if (a.recent_message.created_timestamp < b.recent_message.created_timestamp) {
+        return 1;
+      } else if (a.recent_message.created_timestamp > b.recent_message.created_timestamp) {
+        return -1;
+      }
+      return 0;
+    });
+
+    return orderedThreads;
+
+
+  }
 
 export default alt.createStore(MatchesStore, 'MatchesStore')

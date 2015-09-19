@@ -2,7 +2,7 @@
 
 
 
-var React = require('react-native');
+import React from 'react-native'
 var {
   Component,
   StyleSheet,
@@ -16,12 +16,11 @@ var {
   ListView,
   LayoutAnimation,
   ScrollView,
-  PixelRatio
+  PixelRatio,
+  Dimensions
 } = React;
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
-var KeyboardEvents = require('react-native-keyboardevents');
-var KeyboardEventEmitter = KeyboardEvents.Emitter;
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
 
 var colors = require('../utils/colors');
@@ -30,8 +29,10 @@ var ChatStore = require('../flux/stores/ChatStore');
 var MatchActions = require('../flux/actions/MatchActions');
 var alt = require('../flux/alt');
 var AltContainer = require('alt/AltNativeContainer');
-var InvertibleScrollView = require('react-native-invertible-scroll-view');
+
+import InvertibleScrollView from 'react-native-invertible-scroll-view'
 import TimeAgo from './Timeago'
+import FakeNavBar from '../controls/FakeNavBar'
 
 var styles = StyleSheet.create({
   container: {
@@ -182,17 +183,79 @@ class ChatInside extends Component{
 
 
   updateKeyboardSpace(frames){
-    console.log(frames.endCoordinates)
-    var h = frames.endCoordinates && frames.endCoordinates.height || 236
+    console.log('updateKeyboardSpace',frames)
+    // var h = frames.endCoordinates && frames.endCoordinates.height |
+    var h = frames.startCoordinates && frames.startCoordinates.screenY - frames.endCoordinates.screenY || frames.end && frames.end.height
+    if( h == this.state.keyboardSpace){ return false }
     this.setState({
-      keyboardSpace: h || 236,
+      keyboardSpace: h,
       isKeyboardOpened: true
     });
+        if(frames.endCoordinates ){
+      var duration
+      if( frames.duration < 100){
+        return false
+        // duration = frames.duration/1000
+      }else{
+        duration = frames.duration
+      }
+      LayoutAnimation.configureNext({
+        duration: frames.duration,
+
+        create: {
+          delay: 0,
+          type: LayoutAnimation.Types.easeInEaseOut,
+          property: LayoutAnimation.Properties.opacity
+        },
+        update: {
+          delay: 0,
+          type: LayoutAnimation.Types.easeInEaseOut,
+          property: LayoutAnimation.Properties.paddingBottom
+        }
+      });
+    }
+
   }
 
-  resetKeyboardSpace() {
+  resetKeyboardSpace(frames) {
+  console.log('resetKeyboardSpace',frames)
+    var h = frames.startCoordinates && frames.startCoordinates.screenY - frames.endCoordinates.screenY || frames.end && frames.end.height
+    if( h == this.state.keyboardSpace){ return false }
+
     this.setState({
-      keyboardSpace: 0,
+      keyboardSpace: h,
+      isKeyboardOpened: false
+    });
+    if(frames.endCoordinates ){
+      var duration
+      if( frames.duration < 100){
+        return false
+        // duration = frames.duration/1000
+      }else{
+        duration = frames.duration
+      }
+      LayoutAnimation.configureNext({
+        duration: frames.duration,
+
+        create: {
+          delay: 0,
+          type: LayoutAnimation.Types.easeInEaseOut,
+          property: LayoutAnimation.Properties.opacity
+        },
+        update: {
+          delay: 0,
+          type: LayoutAnimation.Types.easeInEaseOut,
+          property: LayoutAnimation.Properties.paddingBottom
+        }
+      });
+    }
+  }
+changeKeyboardSpace(frames) {
+  console.log('changeKeyboardSpace',frames)
+    var h = frames.startCoordinates && frames.startCoordinates.screenY - frames.endCoordinates.screenY || frames.end && frames.end.height
+
+    this.setState({
+      keyboardSpace: h,
       isKeyboardOpened: false
     });
   }
@@ -240,9 +303,26 @@ class ChatInside extends Component{
   }
 
   componentWillUpdate(props, state) {
-    if (state.isKeyboardOpened !== this.state.isKeyboardOpened) {
-      LayoutAnimation.configureNext(animations.layout.spring);
-    }
+    // if (state.isKeyboardOpened !== this.state.isKeyboardOpened) {
+    //   LayoutAnimation.configureNext({
+    //   layout: {
+    //     spring: {
+    //       duration: 250,
+
+    //       create: {
+    //         delay: 0,
+    //         type: LayoutAnimation.Types.easeInEaseOut,
+    //         property: LayoutAnimation.Properties.opacity
+    //       },
+    //       update: {
+    //         delay: 0,
+    //         type: LayoutAnimation.Types.easeInEaseOut,
+    //         property: LayoutAnimation.Properties.paddingBottom
+    //       }
+    //     },
+
+    //   });
+    // }
 
     if(state.canContinue !== this.state.canContinue) {
       LayoutAnimation.configureNext(animations.layout.spring);
@@ -250,6 +330,8 @@ class ChatInside extends Component{
 
   }
   sendMessage(){
+
+    if(this.state.textInputValue == ''){ return false }
     MatchActions.sendMessage(this.state.textInputValue, this.props.matchID)
     this.setState({
       textInputValue: ''
@@ -279,29 +361,39 @@ class ChatInside extends Component{
         paddingBottom:this.state.keyboardSpace,
         height:DeviceHeight,
         width:DeviceWidth,
-        backgroundColor:colors.outerSpace}}>
+        }}>
+
+        <FakeNavBar onPrev={() => this.props.closeChat()} route={this.props.route} navigator={this.props.navigator} />
 
         <ListView
           ref={'scroller'}
           renderScrollComponent={props =>
             <InvertibleScrollView
             onScroll={(e)=>{
-              if(e.nativeEvent.contentOffset.y > e.nativeEvent.contentSize.height - 800){
-                var nextPage = this.state.lastPage;
-                if(this.state.fetching || nextPage === this.state.lastPage){ return  }
-                this.setState({fetching:true,lastPage: nextPage+1 })
-                MatchActions.getMessages({match_id: props.matchID,page: nextPage+1});
-                this.setState({fetching:false})
+              //TODO: use animated api to move input with keyboard
+              // console.log('onscrollchat',e,e.nativeEvent,DeviceHeight - this.state.keyboardSpace,e.nativeEvent.contentOffset.y ,Math.abs(e.nativeEvent.contentOffset.y - ( DeviceHeight - this.state.keyboardSpace)) )
+              // // if( ){
+              //   var h = DeviceHeight - e.nativeEvent.contentOffset.y
+              //   this.setState({
+              //     keyboardSpace: parseInt(h),
+              //   });
 
-              }
+              // }
+              // if(e.nativeEvent.contentOffset.y > e.nativeEvent.contentSize.height - 800){
+                // var nextPage = this.state.lastPage;
+                // if(this.state.fetching || nextPage === this.state.lastPage){ return  }
+                // this.setState({fetching:true,lastPage: nextPage+1 })
+                // MatchActions.getMessages({match_id: props.matchID,page: nextPage+1});
+                // this.setState({fetching:false})
+              // }
             }}
             onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
             onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
-
-            scrollEventThrottle={128}
+            onKeyboardWillChangeFrame={this.changeKeyboardSpace.bind(this)}
             scrollsToTop={false}
-            contentContainerStyle={{justifyContent:'flex-end',width:DeviceWidth,overflow:'hidden'}}
+            contentContainerStyle={{backgroundColor:colors.outerSpace,justifyContent:'flex-end',width:DeviceWidth,overflow:'hidden'}}
             {...this.props}
+            scrollEventThrottle={64}
             inverted={true}
             keyboardDismissMode={'interactive'}
           />}
@@ -315,7 +407,6 @@ class ChatInside extends Component{
             alignSelf:'stretch',
             width:DeviceWidth,
             height:DeviceHeight - 20,
-            paddingTop:40
           }}
         />
 
@@ -349,7 +440,10 @@ class ChatInside extends Component{
               overflow:'hidden',
             }}
               returnKeyType={'send'}
-
+              keyboardAppearance={'dark'/*doesnt work*/}
+ autoCorrect={true}
+              autoFocus={false}
+              clearButtonMode={'never'}
               onChangeText={this.onTextInputChange.bind(this)}
               onLayout={(e) => { console.log(e,e.nativeEvent)}}
              >
@@ -377,7 +471,7 @@ class ChatInside extends Component{
               alignItems:'center',
               justifyContent:'center'
             }}
-            underlayColor={colors.mediumPurple}
+            underlayColor={colors.outerSpace}
             onPress={this.sendMessage.bind(this)}>
 
             <Text
@@ -447,7 +541,9 @@ var Chat = React.createClass({
             }
           }}>
           <ChatInside
+          navigator={this.props.navigator}
             user={this.props.user}
+            closeChat={this.props.closeChat}
             matchID={this.props.matchID}
           />
       </AltContainer>

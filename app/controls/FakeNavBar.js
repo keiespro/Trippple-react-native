@@ -183,13 +183,14 @@ const NavigationBar = React.createClass({
     const { style, backgroundStyle } = this.props;
 
     return (
-      <View style={[styles.navBarContainer, backgroundStyle, ]}>
-        <BlurView blurType={'dark'} style={[styles.navBar, style, ]}>
+      <BlurView blurType={'dark'}  style={[styles.navBarContainer, backgroundStyle, ]}>
+        <View style={[styles.navBar, {alignSelf:'stretch'}, ]}>
           {this.getTitleElement()}
           {this.getLeftButtonElement()}
           {this.getRightButtonElement()}
-        </BlurView>
       </View>
+        </BlurView>
+
     );
   },
 });

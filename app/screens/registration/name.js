@@ -36,7 +36,6 @@ class NameScreen extends Component{
 
 
   handleInputChange =(txt)=> {
-  console.log(txt)
   var fontSize = 32;
   if(!txt || txt == ''){
     fontSize = 22
@@ -83,20 +82,20 @@ class NameScreen extends Component{
  render(){
    return(
      <View style={{width:DeviceWidth,height:DeviceHeight,position:'relative',backgroundColor:colors.outerSpace}}>
-     <View style={{width:100,height:50,left:20}}>
-        <BackButton navigator={this.props.navigator}/>
-      </View>
-      <SingleInputScreen
-        shouldHide={(val) => { return (val.length <= 0) ? true : false }}
-        shouldShow={(val) => { return (val.length > 0)  ? true : false }}
-        inputFieldValue={this.state.inputFieldValue}
-        inputFieldFocused={this.state.inputFieldFocused}
-        handleNext={this._submit.bind(this)}
-        >
+       <View style={{width:100,height:50,left:20}}>
+          <BackButton navigator={this.props.navigator}/>
+        </View>
+        <SingleInputScreen
+          shouldHide={(val) => { return (val.length <= 0) ? true : false }}
+          shouldShow={(val) => { return (val.length > 0)  ? true : false }}
+          inputFieldValue={this.state.inputFieldValue}
+          inputFieldFocused={this.state.inputFieldFocused}
+          handleNext={this._submit.bind(this)}
+          >
 
-                      <TextInput
+          <TextInput
             style={[styles.pinInput,{
-              fontSize: this.state.inputFieldValue == '' ? 22 : 32
+              fontSize: 22
             }]}
               defaultValue={this.state.name || this.state.inputFieldValue || ''}
               keyboardAppearance={'dark'/*doesnt work*/}
