@@ -12,6 +12,7 @@ import AltContainer from 'alt/AltNativeContainer';
 
 import Welcome from './welcome';
 import Main from './main';
+import FBLogin from './fb.login';
 import PendingPartner from './pendingpartner';
 
 import Onboard from '../screens/registration/onboard';
@@ -47,7 +48,10 @@ class Routes extends React.Component{
 
       case 'onboarded':
         return (
-          <Main key="MainScreen" user={this.props.user}/>
+          // <Main key="MainScreen" user={this.props.user}/>
+          // <Josue user={this.props.user} />
+          // <FBLogin user={this.props.user} />
+          <FBLogin user={this.props.user} />
         )
 
       case null:
