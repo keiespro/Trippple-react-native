@@ -44,15 +44,16 @@ class NotificationsStore {
       this.setState({
          oldNotifications: notifications,
          notifications: [],
-         pendingNotifications: []
       })
-    },15500)
+    },3500)
   }
   handleNewMatchData(matches){
-    var pendingNotification = this.state.pendingNotifications[0]
+    var pendingNotification = this.state.pendingNotifications[0] || this.state.notifications[0]
+    console.log(pendingNotification)
     if(!pendingNotification){ return false }
-    var match = _.filter(matches,(m) => m.id === pendingNotification.match_id);
-    var readyNotification = { ...pendingNotification, ...match, type: 'match'}
+    var match = _.filter(matches,(m) => m.match_id == pendingNotification.match_id);
+    console.log(pendingNotification,match,matches)
+    var readyNotification = { ...pendingNotification, ...match[0], type: 'match'}
     this.setState({
       notifications: [readyNotification],
       pendingNotifications: []
@@ -90,8 +91,8 @@ class NotificationsStore {
 
   handleNewMatch(payload){
    var newNotification = {
-      title: payload.data.alert,
-      match_id: payload.data.match_id,
+      title: payload.alert,
+      match_id: payload.match_id,
       ...payload
     }
 

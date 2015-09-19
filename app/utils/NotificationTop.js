@@ -80,12 +80,12 @@ class Notification extends Component{
             <Image
               resizeMode={Image.resizeMode.contain}
               style={styles.notiImage}
-              source={{uri: this.props.payload.from_user_info.image_url}}
+              source={{uri: this.props.user.relationship_status == 'single' ? this.props.payload.users.them.couple.thumb_url : this.props.payload.users.them.thumb_url}}
             />
             </View>
             <View style={styles.notificationRight}>
-              <Text style={styles.notiTitle}>{this.props.payload.title}</Text>
-              <Text style={styles.notiText}>{this.props.payload.message_body}</Text>
+              <Text style={styles.notiTitle}>New Match!</Text>
+              <Text style={styles.notiText}>{this.props.payload.users.them.couple.id}</Text>
            </View>
            </View>
            </TouchableOpacity>

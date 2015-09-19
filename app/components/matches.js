@@ -14,7 +14,6 @@ Component,
  InteractionManager,
  ListView,
  Navigator,
- Modal,
  Dimensions,
  ScrollView
 } from 'react-native'
@@ -53,10 +52,7 @@ class MatchList extends Component{
     super(props);
 
     this.state = {
-      index: 0,
-
-      chatOpen: false,
-      chatMatchID: null
+      index: 0
     }
 
   }
@@ -114,28 +110,25 @@ class MatchList extends Component{
   }
   _pressRow(matchID: number) {
     // get messages from server and open chat view
-    this.setState({
-      chatOpen: true,
-      chatMatchID: matchID
-    })
-//     this.props.navigator.push({
-//       component: Chat,
-//       id:'chat',
-//       index: 3,
-//       title: 'CHAT',
-//       passProps:{
-//         index: 3,
-//         matchID: matchID,
-//         navigator: this.props.navigator,
-//         route: {
-//           component: Chat,
-//           id:'chat',
-//           index: 3,
-//           title: 'CHAT'
-//         }
-//       },
-//       sceneConfig: Navigator.SceneConfigs.FloatFromRight,
-//     });
+
+    this.props.navigator.push({
+      component: Chat,
+      id:'chat',
+      index: 3,
+      title: 'CHAT',
+      passProps:{
+        index: 3,
+        matchID: matchID,
+        navigator: this.props.navigator,
+        route: {
+          component: Chat,
+          id:'chat',
+          index: 3,
+          title: 'CHAT'
+        }
+      },
+      sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+    });
   }
 
   filterFavorites(){
@@ -172,16 +165,7 @@ class MatchList extends Component{
           dataSource={this.state.index === 0 ? this.props.dataSource : this.filterFavorites()}
           renderRow={this._renderRow.bind(this)}
           />
-        <Modal visible={this.state.chatOpen} animated={true} >
-          <Chat closeChat={()=>{this.setState({chatOpen:false,chatMatchID:null})}} matchID={this.state.chatMatchID} user={this.props.user} navigator={this.props.navigator} route={{
-          component: Chat,
-          id:'chat',
-          index: 3,
-          title: 'CHAT'
-        }}
-/>
 
-          </Modal>
         </View>
     );
   }

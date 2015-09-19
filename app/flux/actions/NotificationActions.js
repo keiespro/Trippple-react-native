@@ -30,8 +30,8 @@ class NotificationActions {
     console.log('receive New Match Notification',(payload))
     this.dispatch(payload)
 
-    const { data } = payload
-    if(data.action === 'retrieve') {
+    const { action } = payload
+    if(action === 'retrieve') {
       MatchActions.getMatches()
     }
 

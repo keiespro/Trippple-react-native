@@ -5,10 +5,14 @@ const {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
+  Dimensions
 } = React;
 import colors from '../utils/colors'
 import {BlurView,VibrancyView} from 'react-native-blur'
+
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
 const NavigationBar = React.createClass({
 
@@ -183,13 +187,13 @@ const NavigationBar = React.createClass({
     const { style, backgroundStyle } = this.props;
 
     return (
-      <BlurView blurType={'dark'}  style={[styles.navBarContainer, backgroundStyle, ]}>
+      <VibrancyView blurType={'dark'}  style={[styles.navBarContainer, backgroundStyle, ]}>
         <View style={[styles.navBar, {alignSelf:'stretch'}, ]}>
           {this.getTitleElement()}
           {this.getLeftButtonElement()}
           {this.getRightButtonElement()}
       </View>
-        </BlurView>
+        </VibrancyView>
 
     );
   },
@@ -203,9 +207,13 @@ const NAV_HEIGHT = NAV_BAR_HEIGHT + STATUS_BAR_HEIGHT;
 
 const styles = StyleSheet.create({
   navBarContainer: {
+    width:DeviceWidth,
     height: NAV_HEIGHT,
-    backgroundColor: colors.shuttleGray,
+    backgroundColor: 'transparent',
     paddingBottom: 5,
+    position:'absolute',
+    top:0,
+    left:0,
     borderBottomColor: 'rgba(0, 0, 0, 0.5)',
     borderBottomWidth: 1 / React.PixelRatio.get(),
   },

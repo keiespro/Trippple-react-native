@@ -11,7 +11,7 @@ class MatchActions {
   }
   getMatches(page){
 
-    Api.getMatches(page)
+    Api.getMatches(page || 0)
       .then((res) => {
         this.dispatch(res.response);
       })

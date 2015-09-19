@@ -357,13 +357,13 @@ changeKeyboardSpace(frames) {
         flexDirection:'column',
         alignItems:'flex-end',
         alignSelf:'stretch',
+        backgroundColor: colors.outerSpace,
         flex:1,
         paddingBottom:this.state.keyboardSpace,
         height:DeviceHeight,
         width:DeviceWidth,
         }}>
 
-        <FakeNavBar onPrev={() => this.props.closeChat()} route={this.props.route} navigator={this.props.navigator} />
 
         <ListView
           ref={'scroller'}
@@ -394,8 +394,10 @@ changeKeyboardSpace(frames) {
             contentContainerStyle={{backgroundColor:colors.outerSpace,justifyContent:'flex-end',width:DeviceWidth,overflow:'hidden'}}
             {...this.props}
             scrollEventThrottle={64}
+            contentInset={{top:0,right:0,left:0,bottom:44}}
+            automaticallyAdjustContentInsets={true}
             inverted={true}
-            keyboardDismissMode={'interactive'}
+             keyboardDismissMode={'interactive'}
           />}
           matchID={this.props.matchID}
           dataSource={this.state.dataSource}
@@ -406,7 +408,7 @@ changeKeyboardSpace(frames) {
             flex:1,
             alignSelf:'stretch',
             width:DeviceWidth,
-            height:DeviceHeight - 20,
+            height:DeviceHeight,
           }}
         />
 
@@ -483,6 +485,8 @@ changeKeyboardSpace(frames) {
           </TouchableHighlight>
 
         </View>
+        <FakeNavBar onPrev={() => this.props.closeChat()} route={this.props.route} navigator={this.props.navigator} />
+
       </View>
     )
   }
