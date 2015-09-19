@@ -12,6 +12,7 @@ import AltContainer from 'alt/AltNativeContainer';
 
 import Welcome from './welcome';
 import Main from './main';
+import FBLogin from './fb.login';
 import PendingPartner from './pendingpartner';
 
 import Onboard from '../screens/registration/onboard'
@@ -52,7 +53,6 @@ class AppRoutes extends Component{
 
       case 'onboarded':
         return <Main key="MainScreen" user={this.props.user}/>
-
       case null:
       default:
         return <Welcome  key={'welcomescene'} />

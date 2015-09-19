@@ -1,5 +1,6 @@
 /* @flow */
 
+<<<<<<< HEAD
 import React from 'react-native'
 import {
   Component,

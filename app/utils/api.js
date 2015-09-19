@@ -124,6 +124,15 @@ class api {
     return authenticatedRequest('likes', { like_status, like_user_id, like_user_type })
   }
 
+  uploadImage(image){
+    return authenticatedFileUpload('upload', image)
+  }
+
+  saveFacebookPicture(photo) {
+    console.log('save_facebook_picture', photo);
+    return publicRequest('save_facebook_picture', photo);
+  }
+
   uploadImage(image, imagetype){
     return authenticatedFileUpload('upload', image, imagetype)
   }
