@@ -20,11 +20,11 @@ class NotificationDisplayer extends Component{
     }
 
   }
-  componentWillReceiveProps(){
-    console.log('new props')
+  componentWillReceiveProps(props){
+    console.log('new props',props)
   }
   shouldComponentUpdate(nextProps){
-    return this.props.notifications[0] === nextProps.notifications[0]
+    return this.props.notifications[0] !== nextProps.notifications[0]
   }
 
   render(){

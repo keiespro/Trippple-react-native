@@ -65,7 +65,7 @@ class NotificationsStore {
     var pendingNotification = this.state.pendingNotifications[0]
     var readyNotification = { ...pendingNotification, ...msgs.message_thread[0], type: 'message'}
     this.setState({
-      notifications: [readyNotification],
+      notifications: [readyNotification,...pendingNotifications],
       pendingNotifications: []
     })
     this.expireNotification()

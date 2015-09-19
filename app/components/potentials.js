@@ -172,6 +172,9 @@ class ActiveCard extends Component{
 class CoupleActiveCard extends Component{
 
   static displayName = 'CoupleInsideActiveCard'
+  static defaultProps = {
+    profileVisible: false
+  }
 
   constructor(props){
     super()
@@ -251,6 +254,12 @@ class CoupleActiveCard extends Component{
                   resizeMode={Image.resizeMode.cover} />
 
               </Swiper>
+                  <View  style={{position:'absolute',top:50,left:0,width: 50, backgroundColor:'transparent',height: 50,alignSelf:'center',justifyContent:'center'}}>
+                    <TouchableHighlight  onPress={this.props.hideProfile}>
+                      <Image source={require('image!closeWithShadow')} resizeMode={Image.resizeMode.cover}/>
+                    </TouchableHighlight>
+                  </View>
+
              </View>
               :
 
@@ -287,7 +296,7 @@ class CoupleActiveCard extends Component{
                 flex:1,
                 alignSelf:'stretch',
                 alignItems:'stretch',
-                position: this.props.profileVisible ? undefined : 'absolute'
+                position: this.props.profileVisible ? 'relative' : 'absolute'
               }}
               >
               {this.props.profileVisible ?
@@ -324,11 +333,6 @@ class CoupleActiveCard extends Component{
                     key={this.props.potential.partner.id + 'img'}
                     style={styles.circleimage}
                     />
-                  <View  style={{position:'absolute',top:0,left:0,width: 50, height: 50}}>
-                    <TouchableHighlight  onPress={this.props.hideProfile}>
-                      <Text>Close</Text>
-                    </TouchableHighlight>
-                  </View>
 
               </View>
               { this.props.profileVisible &&
@@ -507,27 +511,29 @@ var styles = StyleSheet.create({
   },
 
   dot: {
-    backgroundColor: colors.shuttleGray,
-    width: 12,
-    height: 12,
-    borderRadius: 6,
+    backgroundColor: 'transparent',
+    width: 20,
+    height: 20,
+    borderRadius: 10,
     marginLeft: 6,
     marginRight: 6,
-    marginTop: 3,
-    marginBottom: 3,
-    borderColor: colors.shuttleGray
+    marginTop: 6,
+    marginBottom: 6,
+    borderWidth: 2,
+
+    borderColor: colors.white
   },
   activeDot: {
-    backgroundColor: colors.outerSpace,
-    width: 12,
-    height: 12,
-    borderRadius: 6,
+    backgroundColor: 'transparent',
+    width: 20,
+    height: 20,
+    borderRadius: 10,
     marginLeft: 6,
     marginRight: 6,
-    marginTop: 3,
-    marginBottom: 3,
+    marginTop: 6,
+    marginBottom: 6,
     borderWidth: 2,
-    borderColor: colors.mediumPurple20
+    borderColor: colors.mediumPurple
   },
   wrapper:{
 

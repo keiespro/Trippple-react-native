@@ -34,6 +34,7 @@ import customSceneConfigs from '../utils/sceneConfigs'
 import SegmentedView from '../controls/SegmentedView'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin';
+import AltContainer from 'alt/AltNativeContainer'
 
 // Buttons
 var swipeoutBtns = [
@@ -165,34 +166,33 @@ class MatchList extends Component{
 
 
 
-class Matches extends Component{
+class MatchesInside extends Component{
 
   constructor(props){
     super(props);
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
+    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+      console.log(props)
     this.state = {
-      matches: [],
-      dataSource: ds.cloneWithRows([])
+      matches: this.props.matches,
+      dataSource: this.ds.cloneWithRows(this.props.matches)
     }
   }
 
   componentDidMount(){
-    MatchesStore.listen(this.onChange.bind(this));
     if(this.props.user.id){
         MatchActions.getMatches();
     }
   }
-  componentWillUnmount() {
-    MatchesStore.unlisten(this.onChange.bind(this));
+  componentDidUpdate(pProps,pState) {
+      console.log(this.props)
+
+
   }
 
-  onChange(state) {
-    if(state.matches.length < 0){return false}
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+  componentWillReceiveProps(newProps) {
     this.setState({
-      matches: state.matches,
-      dataSource: ds.cloneWithRows(state.matches)
+      matches: newProps.matches,
+      dataSource: this.ds.cloneWithRows(newProps.matches)
     })
   }
   render(){
@@ -200,11 +200,40 @@ class Matches extends Component{
           <MatchList
             user={this.props.user}
             dataSource={this.state.dataSource}
-            matches={this.state.matches}
+            matches={this.props.matches}
             id={"matcheslist"}
             navigator={this.props.navigator}
             title={"matchlist"}
           />
+
+    )
+
+  }
+
+}
+
+
+
+class Matches extends Component{
+
+  constructor(props){
+    super();
+  }
+
+  render(){
+    return (
+        <AltContainer
+          stores={{
+            matches: (props) => {
+            console.log(props)
+              return {
+                store: MatchesStore,
+                value: MatchesStore.getAllMatches()
+              }
+            }
+          }}>
+           <MatchesInside {...this.props} />
+        </AltContainer>
     );
   }
 }

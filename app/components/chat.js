@@ -65,12 +65,11 @@ var styles = StyleSheet.create({
   },
   bubble: {
     borderRadius:4,
-    paddingHorizontal: 20,
+    paddingHorizontal: 13,
     paddingVertical:10,
-    marginVertical:15,
+    marginVertical:10,
     flex:1,
     backgroundColor: colors.mediumPurple,
-    borderRadius:4,
     padding: 10,
     marginHorizontal:5
 
@@ -167,17 +166,17 @@ class ChatInside extends Component{
   constructor(props){
     super(props);
 
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
+    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
 
+    console.log(props);
 
     this.state = {
-      dataSource: ds.cloneWithRows(props.messages),
+      dataSource: this.ds.cloneWithRows(props.messages),
       keyboardSpace: 0,
       isKeyboardOpened: false,
       textInputValue: '',
       lastPage: 0
     }
-    MatchActions.getMessages(props.matchID);
 
   }
 
@@ -209,12 +208,17 @@ class ChatInside extends Component{
   componentDidUpdate(prevProps){
     if(prevProps.messages.length !== this.props.messages.length){
       this.refs.scroller.refs.listviewscroll.scrollTo(0,0)
-  }
-    if(prevProps.messages && prevProps.messages.length < this.props.messages.length ){
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(this.props.messages)
-      })
     }
+    // if(prevProps.messages && prevProps.messages.length < this.props.messages.length ){
+    // }
+  }
+
+  componentWillReceiveProps(newProps){
+   console.log(newProps)
+      this.setState({
+        dataSource: this.ds.cloneWithRows(newProps.messages)
+      })
+
   }
   saveToStorage(){
     console.log('save??')
@@ -322,7 +326,9 @@ class ChatInside extends Component{
             justifyContent:'center',
             width:DeviceWidth,
             margin:0,
-            padding:20,
+            paddingLeft:20,
+            paddingVertical:15,
+            paddingRight:10
             // paddingBottom:10,
             // paddingTop:15
         }}>
@@ -363,17 +369,22 @@ class ChatInside extends Component{
             style={{
               margin:0,
               padding:5,
+              marginLeft:5,
+              borderRadius:5,
+
               backgroundColor:colors.dark,
               flexDirection:'column',
               alignItems:'center',
               justifyContent:'center'
             }}
+            underlayColor={colors.mediumPurple}
             onPress={this.sendMessage.bind(this)}>
 
             <Text
               style={[styles.sendButtonText,{
                 color:colors.shuttleGray,
                 fontFamily:'Montserrat',
+                textAlign:'center'
               }]}>SEND</Text>
           </TouchableHighlight>
 

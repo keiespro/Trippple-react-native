@@ -89,9 +89,9 @@ class MatchesStore {
     }
     // wrong formatting, rensmr lastMessage
     orderedThreads.sort(function(a, b) {
-      if (a.lastMessage.date < b.lastMessage.date) {
+      if (a.recent_message.created_timestamp < b.recent_message.created_timestamp) {
         return 1;
-      } else if (a.lastMessage.date > b.lastMessage.date) {
+      } else if (a.recent_message.created_timestamp > b.recent_message.created_timestamp) {
         return -1;
       }
       return 0;

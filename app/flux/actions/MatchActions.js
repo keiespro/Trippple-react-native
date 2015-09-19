@@ -57,13 +57,15 @@ class MatchActions {
 
     Api.createMessage(message, matchID)
     .then(()=>{
-      Api.getMessages({match_id: matchID})
+
+      return Api.getMessages({match_id: matchID})
       .then((res) => {
         this.dispatch(res.response);
       })
-      .catch(err => console.log(err))
+      .catch(err => {console.log('promise err',err)})
     })
-    .catch(err => console.log(err))
+    .catch(err => {console.log('promise err',err)})
+
 
   }
 

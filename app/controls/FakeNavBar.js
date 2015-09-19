@@ -7,6 +7,8 @@ const {
   TouchableOpacity,
   View
 } = React;
+import colors from '../utils/colors'
+import {BlurView,VibrancyView} from 'react-native-blur'
 
 const NavigationBar = React.createClass({
 
@@ -81,7 +83,7 @@ const NavigationBar = React.createClass({
       <TouchableOpacity onPress={onPress}>
         <View style={styles.navBarLeftButton}>
           <Text style={[styles.navBarText, styles.navBarButtonText, customStyle, ]}>
-            {prevTitle || 'Back'}
+          ◀︎ Back
           </Text>
         </View>
       </TouchableOpacity>
@@ -182,11 +184,11 @@ const NavigationBar = React.createClass({
 
     return (
       <View style={[styles.navBarContainer, backgroundStyle, ]}>
-        <View style={[styles.navBar, style, ]}>
+        <BlurView blurType={'dark'} style={[styles.navBar, style, ]}>
           {this.getTitleElement()}
           {this.getLeftButtonElement()}
           {this.getRightButtonElement()}
-        </View>
+        </BlurView>
       </View>
     );
   },
@@ -195,13 +197,13 @@ const NavigationBar = React.createClass({
 module.exports = NavigationBar;
 
 const NAV_BAR_HEIGHT = 44;
-const STATUS_BAR_HEIGHT = 20;
+const STATUS_BAR_HEIGHT = 0;
 const NAV_HEIGHT = NAV_BAR_HEIGHT + STATUS_BAR_HEIGHT;
 
 const styles = StyleSheet.create({
   navBarContainer: {
     height: NAV_HEIGHT,
-    backgroundColor: 'white',
+    backgroundColor: colors.shuttleGray,
     paddingBottom: 5,
     borderBottomColor: 'rgba(0, 0, 0, 0.5)',
     borderBottomWidth: 1 / React.PixelRatio.get(),
@@ -234,13 +236,13 @@ const styles = StyleSheet.create({
   },
   navBarLeftButton: {
     paddingLeft: 10,
-    marginVertical: 20,
+    marginVertical: 10,
   },
   navBarRightButton: {
-    marginVertical: 20,
+    marginVertical: 10,
     paddingRight: 10,
   },
   navBarButtonText: {
-    color: '#5890ff',
+    color: colors.rollingStone,
   },
 });
