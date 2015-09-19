@@ -19,9 +19,9 @@ var PhoneNumberInput = React.createClass({
         {...this.props}
         {...this.mask.props}
         style={[this.props.style,{
-                fontSize: this.mask.props.value == undefined ||  this.mask.props.value == ''  ? 22 : 32
+                fontSize: 26
               }]}
-        iosselectionState={e => console.log(e)}
+        selectionState={e => console.log(e)}
 
         onSubmitEditing={e => console.log(e)}
         />

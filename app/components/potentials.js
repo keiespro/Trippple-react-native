@@ -217,20 +217,23 @@ class CoupleActiveCard extends Component{
             bouncesZoom={true}
             contentContainerStyle={[styles.scrollSection,{
               alignItems:'stretch',
-              overflow: 'visible',
+              alignSelf:'stretch',
+              margin:0,
+              padding:0,
+
             }]}>
 
-          <View style={[styles.scrollSection,{
-              overflow: 'visible',
-              height:undefined,
+          <View style={[{
+              margin:0,
+              padding:0,
+
 
             }]}
             key={`${this.props.potential.id}-view`}>
 
-            {this.props.profileVisible ?
+            {this.props.profileVisible &&
                <View style={{
-                 height: DeviceHeight*2/3,
-                position:'relative',
+               overflow:'hidden',
                 top:0
               }}>
 
@@ -265,8 +268,9 @@ class CoupleActiveCard extends Component{
                   </View>
 
              </View>
-              :
-
+              }
+            {!this.props.profileVisible &&
+              <View style={{overflow:'hidden'}}>
                 <Swiper
                   _key={`${this.props.potential.id}-swiper`}
                   loop={true}
@@ -285,6 +289,7 @@ class CoupleActiveCard extends Component{
                     style={styles.imagebg}
                     resizeMode={Image.resizeMode.cover} />
                 </Swiper>
+              </View>
             }
 
             <View
@@ -303,7 +308,7 @@ class CoupleActiveCard extends Component{
                 position: this.props.profileVisible ? 'relative' : 'absolute'
               }}
               >
-              {this.props.profileVisible ?
+              {this.props.profileVisible &&
                 <View style={{
                   width: DeviceWidth - (this.props.profileVisible ? 0 : 40),
                   paddingVertical:20
@@ -312,8 +317,9 @@ class CoupleActiveCard extends Component{
                     `${this.props.potential.user.firstname.trim()} and ${this.props.potential.partner.firstname.trim()}`
                   }</Text>
                 </View>
-
-              : <TouchableHighlight underlayColor={colors.warmGrey} onPress={()=>{ this.props.showProfile()}} style={{ paddingVertical:22 }}>
+              }
+              {!this.props.profileVisible &&
+                 <TouchableHighlight underlayColor={colors.warmGrey} onPress={()=>{ this.props.showProfile()}} style={{ paddingVertical:22 }}>
                   <Text style={styles.cardBottomText}>{
                     `${this.props.potential.user.firstname.trim()} and ${this.props.potential.partner.firstname.trim()}`
                   }</Text>
@@ -339,13 +345,14 @@ class CoupleActiveCard extends Component{
                     />
 
               </View>
-              { this.props.profileVisible &&
-                <View style={{height:undefined,width: DeviceWidth, padding:20}}>
-                  <View>
-                    <Text>{this.props.potential.bio}</Text>
-                  </View>
+                <View style={{width: DeviceWidth, padding:20}}>
+
+                { this.props.profileVisible &&
+                    <View>
+                      <Text>{this.props.potential.bio}</Text>
+                    </View>
+                }
                 </View>
-              }
 
             </View>
           </View>
@@ -546,6 +553,8 @@ var styles = StyleSheet.create({
     alignSelf: 'stretch',
     flex: 1,
     justifyContent: 'center',
+    padding:0,
+    margin:0,
     alignItems: 'center',
     flexDirection: 'column'
   },

@@ -30,7 +30,7 @@ var UserActions = require('../flux/actions/UserActions');
 var AuthErrorStore = require('../flux/stores/AuthErrorStore');
 import SingleInputScreenMixin from '../mixins/SingleInputScreenMixin'
 
-
+import BackButton from './BackButton'
 
 
 var PinScreen = React.createClass({
@@ -101,7 +101,6 @@ var PinScreen = React.createClass({
         verifyError: false
       })
     }
-
     // Handle "Account Disabled" response
     if(this.state.verifyError && this.state.verifyError.message === 'Account disabled' && !prevState.verifyError){
 
@@ -125,6 +124,10 @@ var PinScreen = React.createClass({
       <View
         style={[{flex: 1, height:DeviceHeight, paddingBottom: this.state.keyboardSpace || 250}]}
         >
+         <View style={{width:100,height:50,left:20,alignSelf:'flex-start'}}>
+          <BackButton navigator={this.props.navigator}/>
+        </View>
+
         <ScrollView
           contentContainerStyle={styles.wrap}
           keyboardDismissMode={'on-drag'}
@@ -140,13 +143,13 @@ var PinScreen = React.createClass({
             style={[
               styles.pinInputWrap,
               (this.state.inputFieldFocused ? styles.pinInputWrapSelected : null),
-              (this.state.verifyError ? styles.pinInputWrapError : null),
+              (this.state.verifyError && this.state.inputFieldValue.length == 4 ? styles.pinInputWrapError : null),
               ]}
             >
             <TextInput
               maxLength={4}
               style={[styles.pinInput,{
-                fontSize: this.state.inputFieldValue == '' ? 22 : 32
+                fontSize: 26
               }]}
               value={this.state.inputFieldValue || ''}
               keyboardAppearance={'dark'/*doesnt work*/}
@@ -165,15 +168,8 @@ var PinScreen = React.createClass({
           </View>
 
           <View style={[styles.middleTextWrap,styles.underPinInput]}>
-            <TouchableOpacity
-              onPress={this.goBack}>
-              <View style={styles.goBackButton}>
-                <Text textAlign={'left'} style={[styles.bottomTextIcon]}>◀︎ </Text>
-                <Text textAlign={'left'} style={[styles.bottomText]}>Go back</Text>
-              </View>
-            </TouchableOpacity>
 
-            {this.state.verifyError &&
+            {this.state.verifyError && this.state.inputFieldValue.length == 4 &&
                 <View style={styles.bottomErrorTextWrap}>
                   <Text textAlign={'right'} style={[styles.bottomErrorText]}>Nope. Try again</Text>
                 </View>

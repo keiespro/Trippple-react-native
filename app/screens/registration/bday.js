@@ -10,6 +10,7 @@ import {
   View,
   Navigator,
   Image,
+  AlertIOS,
   LayoutAnimation,
   ScrollView,
   Dimensions,
@@ -38,11 +39,14 @@ class BdayScreen extends Component{
   constructor(props){
     super(props);
     this.state = {
+       error: false,
       timeZoneOffsetInHours:props.timeZoneOffsetInHours,
       date: props.user.bdate ? new Date(props.user.bdate) : null
     }
   }
   _submit =()=>{
+  var isLegal = moment(date).diff(moment(), 'years') < -18;
+    if(!isLegal){return false}
     // UserActions.updateUserStub({
     //   bday_month: this.state.date.getMonth(),
     //   bday_year: this.state.date.getYear()
@@ -54,6 +58,8 @@ class BdayScreen extends Component{
     //     bday: this.state.date
     //   }
     // })
+    //
+    //
 var lastindex = this.props.navigator.getCurrentRoutes().length;
   console.log(lastindex);
   var nextRoute = this.props.stack[lastindex];
@@ -68,17 +74,28 @@ var lastindex = this.props.navigator.getCurrentRoutes().length;
   }
 
   onDateChange(date){
-    console.log(date);
-    this._root.setNativeProps({date:date})
 
-    this.setState({
-      inputFieldValue: date,
-      date: date
-  })
+  var isLegal = moment(date).diff(moment(), 'years') < -18;
+    if(!isLegal){
+     this.setState({
+        error:true,
+        inputFieldValue: date,
+        date: date
 
-    console.log(date,this.state.date);
-    // UserActions.updateUserStub({bdate: date});
+    })
 
+    }else{
+      this._root.setNativeProps({date:date})
+
+      this.setState({
+        error:false,
+        inputFieldValue: date,
+        date: date
+      })
+
+      console.log(date,this.state.date);
+      // UserActions.updateUserStub({bdate: date});
+    }
   }
 
   _setMonth(){}
@@ -86,10 +103,7 @@ var lastindex = this.props.navigator.getCurrentRoutes().length;
   _setYear(){}
 
   render(){
-    const minimumDate = moment().subtract(68,'years').toDate();
-    const maximumDate = moment().subtract(18,'years').toDate();
-
-    return (
+       return (
       <View style={[
           styles.container,
           {
@@ -103,8 +117,8 @@ var lastindex = this.props.navigator.getCurrentRoutes().length;
       </View>
 
         <SingleInputScreen
-          shouldHide={(val) =>  this.state.date ? 0 : 1  }
-          shouldShow={(val) => this.state.date ? 1 : 0 }
+          shouldHide={(val) =>  !this.state.date || (this.state.date && this.state.error) ? 1 : 0  }
+          shouldShow={(val) => this.state.date && !this.state.error  ? 1 : 0 }
           inputFieldValue={this.state.inputFieldValue}
           handleNext={this._submit.bind(this)}
           toptext={`What's your date of birth`}
@@ -112,24 +126,30 @@ var lastindex = this.props.navigator.getCurrentRoutes().length;
 
           >
 
-          <View style={[styles.pinInputWrap,(this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null)]}>
+          <View style={[styles.pinInputWrap,(this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null),
+              (this.state.error  ? styles.pinInputWrapError : null),
+          ]}>
             <Text style={styles.fakeInput}>
               {this.state.date ? moment(this.state.date).clone().format('MMMM D, YYYY') : 'DATE OF BIRTH'}
             </Text>
+          </View>
+
+          <View style={[styles.middleTextWrap,styles.underPinInput]}>
+
+            {this.state.error &&
+                <View style={styles.bottomErrorTextWrap}>
+                  <Text textAlign={'right'} style={[styles.bottomErrorText]}>Must be 18 or older</Text>
+                </View>
+            }
           </View>
 
         </SingleInputScreen>
         <View ref={component => this._root = component} style={[{flex: 1, height: this.state.keyboardSpace},styles.bdayKeyboard]}>
 
         <DatePickerIOS
-        ref={'picker'}
-            minimumDate={minimumDate}
-            maximumDate={maximumDate}
+            ref={'picker'}
             mode="date"
-style={{
-      backgroundColor: 'rgba(0,0,0,.3)',
-}}
-            date={(this.state.date || moment().subtract(18,'years').toDate())}
+            date={(this.state.date || moment().toDate())}
             timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
             onDateChange={this.onDateChange.bind(this)}
           />
@@ -146,7 +166,7 @@ export default BdayScreen
 const styles = StyleSheet.create({
     bdayKeyboard:{
       height: 226,
-      backgroundColor: colors.outerSpace,
+      backgroundColor: colors.white,
       flex:1,
       position:'absolute',
       bottom:0,
@@ -158,14 +178,13 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       justifyContent:'space-between',
-      alignItems:'center',
-      alignSelf:'stretch',
+      alignItems: 'center',
+      alignSelf: 'stretch',
       width: DeviceWidth,
-      margin:0,
-      padding:0,
+      margin: 0,
+      padding: 0,
       height: DeviceHeight,
-    backgroundColor: colors.outerSpace
-
+      backgroundColor: colors.outerSpace
     },
     wrap: {
       flex: 2,
