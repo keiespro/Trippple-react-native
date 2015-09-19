@@ -118,7 +118,7 @@ class UserStore {
 
     var updatedUserStub = {...this.state.userStub, ...attributes};
 
-    if(updatedUserStub.gender && updatedUserStub.privacy){
+    if(updatedUserStub.gender && updatedUserStub.privacy && updatedUserStub.ready){
       this.setState({user: {...this.state.user, ...updatedUserStub}});
       console.log(this.state.user,this.state.userStub);
 

@@ -65,7 +65,7 @@ class EditImageThumb extends Component{
    var lastindex = this.props.navigator.getCurrentRoutes().length;
   console.log(lastindex);
   var nextRoute = this.props.stack[lastindex];
-
+    UserActions.updateUserStub({ready:true})
    nextRoute.passProps = {
         ...this.props,
         image:this.props.image,

@@ -12,7 +12,7 @@ import {
   ListView,
   TouchableHighlight,
   Dimensions,
-  Modal,TouchableWithoutFeedback,
+ TouchableWithoutFeedback,
   ActivityIndicatorIOS
 } from 'react-native'
 
@@ -25,6 +25,9 @@ import colors from '../utils/colors'
 import _ from 'underscore'
 import Facebook from './registration/facebook'
 import BackButton from '../components/BackButton'
+import Modal from 'react-native-swipeable-modal'
+import TimerMixin from 'react-timer-mixin';
+import reactMixin from 'react-mixin'
 
 class ContactList extends Component{
 
@@ -110,7 +113,7 @@ class ContactList extends Component{
 }
 
 
-
+@reactMixin.decorate(TimerMixin)
 class Contacts extends Component{
 
   constructor(props){
@@ -123,7 +126,8 @@ class Contacts extends Component{
       dataSource: ds.cloneWithRows([]),
       searchText: '',
       modalVisible: false,
-      highlightedRow: null
+      highlightedRow: null,
+      modalBG: 'transparent'
     }
   }
   _pressRow(contact){
@@ -135,6 +139,7 @@ class Contacts extends Component{
       highlightedRow: contact,
       modalVisible: true
     })
+
   }
 
   closeModal(){
@@ -254,7 +259,11 @@ class Contacts extends Component{
 
   }
   render(){
-
+  var invitedName = this.state.partnerSelection && this.state.partnerSelection.firstName && this.state.partnerSelection.firstName.toUpperCase() || ''
+var manyPhones = this.state.partnerSelection &&
+                  this.state.partnerSelection.phoneNumbers &&
+                  this.state.partnerSelection.phoneNumbers.length &&
+                  this.state.partnerSelection.phoneNumbers.length > 1;
     return (
 
       <View style={styles.container} noScroll={true}>
@@ -294,57 +303,101 @@ class Contacts extends Component{
 
 
       <Modal
-      visible={this.state.modalVisible}
-      transparent={true}
-      animated={true}
+          height={DeviceHeight}
+    modalStyle={{ backgroundColor: this.state.modalBG}}
+
+    isVisible={this.state.modalVisible}
+    swipeableAreaStyle={{ position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: DeviceHeight,
+    backgroundColor: 'transparent'
+    }}
       onPressBackdrop={this._cancel.bind(this)}
+onDidShow={()=>{
+  console.log('shown');
+  this.setTimeout(()=>{
+    this.setState({modalBG: 'rgba(0,0,0,0.5)'});
+    console.log('endtimeout')
+  },500);
+}}
+
+
+  onWillHide={()=>{this.setState({modalVisible:false,modalBG: 'rgba(0,0,0,0.5)'})}}
 
         onClose={() => this.closeModal.bind(this)}
         >
-         <TouchableWithoutFeedback onPressIn={this._cancel.bind(this)} style={{position:'absolute',height:DeviceHeight,width:DeviceWidth}}>
-            <View/>
-          </TouchableWithoutFeedback>
 
 
         <Image style={styles.modalcontainer} source={require('image!GradientBG')}>
           <View style={[styles.col]}>
             <View style={styles.insidemodalwrapper}>
 
-          <Image style={[styles.contactthumb,{width:150,height:150,borderRadius:75}]}
-                source={this.state.partnerSelection.thumbnailPath !== '' ? {uri: this.state.partnerSelection.thumbnailPath} : require('image!placeholderUser')} />
+          <Image style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginBottom:20}]}
+                source={this.state.partnerSelection.thumbnailPath !== '' ? {uri: this.state.partnerSelection.thumbnailPath} : require('image!placeholderUserWhite')} />
 
             <View style={styles.rowtextwrapper}>
 
             <Text style={[styles.rowtext,styles.bigtext,{
                   fontFamily:'Montserrat',fontSize:22,marginVertical:10
             }]}>
-                {`INVITE ${this.state.partnerSelection.firstName || ''}`}
-                </Text>
+                {`INVITE ${invitedName}`}
+            </Text>
 
             <Text style={[styles.rowtext,styles.bigtext,{
-                  fontFamily:'Montserrat',fontSize:22,marginVertical:10
+                  fontSize:22,marginVertical:10,color: colors.lavender,marginHorizontal:20
             }]}>{this.state.partnerSelection.phoneNumbers && this.state.partnerSelection.phoneNumbers.length > 1 ?
               `What number should we use to invite ${this.state.partnerSelection.firstName}` :
-              `Tap the number below to invite ${this.state.partnerSelection.firstName} as your partner.`
+              `Invite ${this.state.partnerSelection.firstName} as your partner?`
                 }
                 </Text>
 
                 </View>
-                { this.state.partnerSelection && this.state.partnerSelection.phoneNumbers && this.state.partnerSelection.phoneNumbers.length && this.state.partnerSelection.phoneNumbers.map( (number, i) => {
+                { this.state.partnerSelection &&
+                  this.state.partnerSelection.phoneNumbers &&
+                  this.state.partnerSelection.phoneNumbers.length &&
+                  this.state.partnerSelection.phoneNumbers.length > 1 &&
+                  this.state.partnerSelection.phoneNumbers.map( (number, i) => {
                     return (
-                     <TouchableHighlight style={styles.modalButton} onPress={this._continue.bind(this)}>
-                      <View style={{height:40}} >
-                        <Text style={styles.modalButtonText}>{number}</Text>
+                      <View style={{width:DeviceWidth-80}} >
+
+                     <TouchableHighlight underlayColor={colors.mediumPurple} style={styles.modalButton} onPress={this._continue.bind(this)}>
+                      <View style={{height:60}} >
+                        <Text style={[styles.modalButtonText,{marginTop:15}]}>{number.number}</Text>
                       </View>
                      </TouchableHighlight>
+                     </View>
 
                   )
                 })}
-              <TouchableHighlight style={styles.modalButton} onPress={this._cancel.bind(this)}>
+              { this.state.partnerSelection &&
+                  this.state.partnerSelection.phoneNumbers &&
+                  this.state.partnerSelection.phoneNumbers.length &&
+                  this.state.partnerSelection.phoneNumbers.length == 1 &&
+                      <View style={{height:100,width:DeviceWidth-80}} >
+
+                      <TouchableHighlight underlayColor={colors.mediumPurple} style={styles.modalButton} onPress={this._continue.bind(this)}>
+                      <View >
+                        <Text style={styles.modalButtonText}>YES</Text>
+                      </View>
+                     </TouchableHighlight>
+                      </View>
+
+              }
+
+
+                      <View style={{height: manyPhones ?  80  : 100,width:DeviceWidth-80,marginBottom:50}} >
+
+              <TouchableHighlight style={[styles.modalButton,{backgroundColor:'transparent',borderColor:colors.lavender}]} underlayColor={colors.white}  onPress={this._cancel.bind(this)}>
                 <View >
-                <Text style={styles.modalButtonText}>CANCEL</Text>
+                <Text style={[styles.modalButtonText,{color:colors.lavender}]}>{
+                  manyPhones ? 'CANCEL' : 'NO'}</Text>
                 </View>
                 </TouchableHighlight>
+                </View>
+
+
                 </View>
           </View>
           </Image>
@@ -364,7 +417,7 @@ var styles = StyleSheet.create({
     backgroundColor:colors.sapphire50,
     borderColor:colors.purple,
     alignItems:'center',
-    margin: 20,
+    margin: 10,
     borderRadius:8,
     justifyContent:'center',
     flex:1,
@@ -427,8 +480,7 @@ textAlign:'center'
   bigtext: {
     textAlign:'center',
     color: colors.white,
-    fontSize:18,
-    fontFamily:'Montserrat'
+
   },
   separator: {
     height: 1,

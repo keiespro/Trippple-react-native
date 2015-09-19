@@ -19,6 +19,7 @@ import Modal from 'react-native-modal'
 import CameraControl from '../../controls/cameraControl'
 
 import CameraRollView from '../../controls/CameraRollView'
+import BackButton from '../../components/BackButton'
 
 import EditImage from './EditImage'
 
@@ -27,8 +28,6 @@ class CoupleImage extends Component{
   constructor(props){
     super();
     this.state = {
-      modalOpen:false,
-      modalView: ''
     }
   }
 
@@ -95,7 +94,11 @@ class CoupleImage extends Component{
   render(){
     return (
       <View style={styles.container}>
-        <Text style={styles.textTop}>You and your Partner</Text>
+      <View style={{width:100,height:50,left:20,top:0,alignSelf:'flex-start',position:'absolute'}}>
+        <BackButton navigator={this.props.navigator}/>
+      </View>
+
+        <Text style={[styles.textTop,{marginTop:40}]}>You and your Partner</Text>
         <Text style={styles.textTop}>Upload or snap a pic of you and your partner together</Text>
 
         <View style={styles.imageHolder}>
@@ -109,6 +112,7 @@ class CoupleImage extends Component{
             text={"UPLOAD FROM FACEBOOK"}
             leftBoxStyles={styles.iconButtonLeftBoxCouples}
             innerWrapStyles={styles.iconButtonCouples}
+            underlayColor={colors.mediumPurple20}
             _onPress={this.onPressFacebook}>
 
           <Image source={require('image!fBlogo')}
@@ -117,12 +121,12 @@ class CoupleImage extends Component{
         </BoxyButton>
 
         <View style={styles.twoButtons}>
-          <TouchableHighlight style={[styles.plainButton,{marginRight:10}]} onPress={this._getCameraRoll}>
+          <TouchableHighlight underlayColor={colors.shuttleGray20} style={[styles.plainButton,{marginRight:10}]} onPress={this._getCameraRoll}>
             <Text style={styles.plainButtonText}>FROM ALBUM</Text>
           </TouchableHighlight>
 
 
-          <TouchableHighlight style={[styles.plainButton,{marginLeft:10}]} onPress={this._getCamera}>
+          <TouchableHighlight underlayColor={colors.shuttleGray20} style={[styles.plainButton,{marginLeft:10}]} onPress={this._getCamera}>
             <Text style={[styles.plainButtonText]}>TAKE A SELFIE</Text>
           </TouchableHighlight>
 
@@ -174,15 +178,15 @@ var styles = StyleSheet.create({
     textAlign:'center',
   },
   textTop:{
-    margin: 20,
+    margin: 5,
     fontSize: 20,
     color: colors.rollingStone,
     fontFamily:'omnes',
     textAlign:'center'
   },
   imageHolder:{
-    width:250,
-    height:250,
+    width:200,
+    height:200,
     borderRadius: 125,
     borderColor: colors.mediumPurple,
     borderWidth: 2,
@@ -192,9 +196,9 @@ var styles = StyleSheet.create({
     marginBottom:60
   },
   imageInside:{
-    height:100,
-    width:100,
-    marginVertical:150
+    height:125,
+    width:125,
+    marginVertical:50
   },
   iconButtonCouples:{
     borderColor: colors.mediumPurple,

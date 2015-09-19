@@ -36,12 +36,29 @@ import CAMERA from '../../controls/cameraControl'
 var RouteStackCouple = [
     {component: SelectRelationshipStatus,title:'SelectRelationshipStatus'},
 
+    /*
+     *
+     * DEV MODE: PUT THE SCREEN CURRENTLY BEING WORKED ON HERE.
+     *
+     * MAKE SURE TO REMOVE
+     *
+     */
+
+
+
+    /*
+     *
+     * MAKE SURE TO REMOVE
+     *
+     */
+
     {component: InvitePartner,  title: 'InvitePartner'},
     {component: Contacts, title: 'Contacts'},
     {component: Facebook, title: 'Facebook'},
     {component: name, title: 'name'},
     {component: bday,  title: 'bday'},
     {component: gender, title: 'gender'},
+    {component: PrivacyScreen, title: 'PrivacyScreen'},
     {component: CoupleImage,  title: 'CoupleImage'},
     {component: CAMERA, title: 'CAMERA'},
     {component: EditImage, title: 'EditImage'},
@@ -49,7 +66,6 @@ var RouteStackCouple = [
     {component: CAMERA, title: 'CAMERA2'},
     {component: EditImage, title: 'EditImage2'},
     {component: EditImageThumb, title: 'EditImageThumb'},
-    {component: PrivacyScreen, title: 'PrivacyScreen'},
     {component: Limbo,  title: 'Limbo'},
 
   ];
@@ -61,11 +77,11 @@ var RouteStackSingle = [
     {component: name,title: 'name'},
     {component: bday,title: 'bday'},
     {component: gender,  title: 'gender'},
+    {component: PrivacyScreen, title: 'PrivacyScreen'},
     {component: SelfImage, title: 'SelfImage'},
     {component: CAMERA, title: 'CAMERA'},
     {component: EditImage,  title: 'EditImage'},
     {component: EditImageThumb,  title: 'EditImageThumb'},
-    {component: PrivacyScreen, title: 'PrivacyScreen'},
     {component: Limbo,  title: 'Limbo'},
   ];
 

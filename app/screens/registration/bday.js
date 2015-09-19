@@ -45,7 +45,7 @@ class BdayScreen extends Component{
     }
   }
   _submit =()=>{
-  var isLegal = moment(date).diff(moment(), 'years') < -18;
+  var isLegal = moment(this.state.date).diff(moment(), 'years') < -18;
     if(!isLegal){return false}
     // UserActions.updateUserStub({
     //   bday_month: this.state.date.getMonth(),

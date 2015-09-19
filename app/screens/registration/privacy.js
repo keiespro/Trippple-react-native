@@ -112,7 +112,7 @@ class PrivacyScreen extends Component{
                             style={styles.cornerDot}/>
               <View style={{flexDirection:'column',alignItems:'flex-start',justifyContent:'space-around',flex:1,width:100}}>
                 <Text style={styles.boxTitle}>Private</Text>
-                <Text style={styles.boxP}>Your profile is hidden from your facebook friends and phone contacts.</Text>
+                <Text style={styles.boxP}>Your profile is hidden from your facebook friends and phone contacts. Facebook required.</Text>
               </View>
 
 
@@ -196,14 +196,15 @@ selectedbutton:{
     color: colors.white,
     fontFamily: 'Montserrat',
     fontSize: 18,
-    textAlign: 'left'
+    textAlign: 'left',
+    marginBottom:5
   },
 
 
     boxP:{
       color: colors.white,
       fontFamily: 'Omnes',
-      fontSize: 14,
+      fontSize: 16,
       textAlign: 'left'
 },
 
@@ -235,7 +236,7 @@ selectedbutton:{
     padding:10,
     borderWidth:2,
     borderColor:colors.shuttleGray,
-    height:90,
+    height:120,
     marginHorizontal:40
   },
 
