@@ -10,7 +10,7 @@ var UploadFile = Promise.promisify(NativeModules.FileTransfer.upload);
 
 var Logger = require('./logger');
 
-var SERVER_URL = 'http://x.local:9920/user';
+var SERVER_URL = 'http://dev-api2.trippple.co/user';
 
 function publicRequest(endpoint, payload){
 
@@ -143,7 +143,12 @@ var api = {
 
   uploadImage(image){
     return authenticatedFileUpload('upload', image)
-  }
+  },
+
+  saveFacebookPicture(photo) {
+    console.log('save_facebook_picture', photo);
+    return publicRequest('save_facebook_picture', photo);
+  },
 
 
 }
