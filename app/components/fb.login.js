@@ -13,7 +13,7 @@ var {
 
 var UserActions = require('../flux/actions/UserActions');
 var FBLogin = require('react-native-facebook-login');
-var FBLoginMock = require('./facebook');
+// var FBLoginMock = require('./facebook');
 var FBLoginManager = require('NativeModules').FBLoginManager;
 
 var DeviceHeight = require('Dimensions').get('window').height;
@@ -70,7 +70,7 @@ var Login = React.createClass({
 
     return (
       <View style={styles.loginContainer}>
-        <FBLoginMock />
+      {/*  <FBLoginMock />  */}
       </View>
     );
   },
@@ -316,7 +316,7 @@ var PhotoAlbums = React.createClass({
     console.log('[FB] albums:', albums);
 
     return (
-      <ListView 
+      <ListView
         contentContainerStyle={styles.list_album_container}
         dataSource={this.state.albums}
         renderRow={this.renderAlbumCover}
@@ -352,7 +352,7 @@ var PhotoAlbums = React.createClass({
 
     return (
       <View>
-        <TouchableHighlight onPress={() => { 
+        <TouchableHighlight onPress={() => {
           this.setState({
             view_loaded: 'list_albums',
           });

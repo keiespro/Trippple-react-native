@@ -16,6 +16,7 @@ import colors from '../../utils/colors'
 import UserActions from '../../flux/actions/UserActions'
 import BoxyButton from '../../controls/boxyButton'
 import BackButton from '../../components/BackButton'
+import FBLogin from '../../components/fb.login'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -97,9 +98,16 @@ class Facebook extends Component{
 
   onPress(event){
 
-    this.state.user
-      ? this.handleLogout()
-      : this.handleLogin();
+    this.props.user && this.handleLogin();
+
+    this.props.navigator.push({
+      component: FBLogin,
+      passProps:{
+
+      }
+    })
+
+
 
     this.props.onPress && this.props.onPress();
   }
@@ -135,7 +143,7 @@ class Facebook extends Component{
             <Text style={styles.middleText}>Save time. Get more matches.</Text>
           </View>
 
-          <FacebookButton onPress={this.onPress} />
+          <FacebookButton onPress={this.onPress.bind(this)} />
 
           <View style={styles.middleTextWrap}>
             <Text style={[styles.middleText,{fontSize:16,marginTop:20}]}>Don’t worry, we wont tell ever your friends or post on your wall.</Text>

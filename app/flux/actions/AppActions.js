@@ -19,8 +19,12 @@ class AppActions {
   loadingUser(){
     this.dispatch()
   }
-  showCheckmark(){
+  showCheckmark(copy){
+    this.dispatch(copy)
+  }
+  hideCheckmark(){
     this.dispatch()
+
   }
 
 }

@@ -130,7 +130,7 @@ var UserActions = {
       })
 
 
-  }
+  },
 
   saveFacebookPicture(photo) {
     Api.saveFacebookPicture(photo)

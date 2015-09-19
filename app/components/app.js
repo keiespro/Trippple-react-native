@@ -85,7 +85,7 @@ class TopLevel extends Component{
     return (
       <View style={{flex:1}}>
         <AppRoutes user={this.props.user}/>
-        <CheckMarkScreen key="toplevelcheckmark" isVisible={this.props.showCheckmark} />
+        {this.props.showCheckmark && <CheckMarkScreen key="toplevelcheckmark" isVisible={this.props.showCheckmark} checkMarkCopy={this.props.checkMarkCopy} checkmarkRequireButtonPress={this.props.checkmarkRequireButtonPress} />}
 
         <LoadingOverlay key="LoadingOverlay" isVisible={this.state.showOverlay} />
         <Notifications user={this.props.user} />

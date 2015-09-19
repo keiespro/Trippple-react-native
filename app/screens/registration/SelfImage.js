@@ -12,6 +12,7 @@ import {
 
 const DeviceHeight = require('Dimensions').get('window').height;
 const DeviceWidth = require('Dimensions').get('window').width;
+import FBLogin from '../../components/fb.login'
 
 import BoxyButton from '../../controls/boxyButton'
 import colors from '../../utils/colors'
@@ -86,6 +87,14 @@ class SelfImage extends Component{
   }
   onPressFacebook(){
     console.log('fb')
+this.props.navigator.push({
+      component: FBLogin,
+      passProps:{
+
+      }
+    })
+
+
   }
  componentDidUpdate(prevProps,prevState){
     console.log(prevProps,prevState);
@@ -111,7 +120,7 @@ class SelfImage extends Component{
             text={"UPLOAD FROM FACEBOOK"}
             leftBoxStyles={styles.iconButtonLeftBoxCouples}
             innerWrapStyles={styles.iconButtonCouples}
-            _onPress={this.onPressFacebook}
+            _onPress={this.onPressFacebook.bind(this)}
             underlayColor={colors.mediumPurple20}
             >
 

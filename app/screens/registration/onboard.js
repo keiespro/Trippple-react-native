@@ -18,6 +18,8 @@ const DeviceWidth = Dimensions.get('window').width
 
 import _ from 'underscore'
 
+import CheckMarkScreen from '../CheckMark'
+
 import Facebook from './facebook'
 import SelectRelationshipStatus from './selectRelationshipStatus'
 import PrivacyScreen from './privacy'

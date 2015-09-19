@@ -36,6 +36,7 @@ class UserStore {
       handleUpload: UserActions.UPLOAD_IMAGE,
       handleUpdateUserStub: UserActions.updateUserStub,
       handleLogOut: UserActions.LOG_OUT,
+      handleHideCheckmark: AppActions.HIDE_CHECKMARK,
       handleShowCheckmark: AppActions.SHOW_CHECKMARK,
       handleSelectPartner: UserActions.SELECT_PARTNER
 
@@ -69,14 +70,20 @@ class UserStore {
 
     this.setState({
       user: {  ...user_info },
-      showCheckmark: true
+      showCheckmark: true,
+      checkMarkCopy: {
+        title: '',
+
+      },
+      checkmarkRequireButtonPress: false
+
    })
 
 
       setTimeout(()=>{
         console.log('time')
         this.setState({showCheckmark:false})
-      },5000);
+      },1000);
 
     CredentialsStore.saveCredentials(res.response);
   }
@@ -92,26 +99,46 @@ class UserStore {
       user: user
     })
   }
-  handleShowCheckmark(){
 
+  handleShowCheckmark(cm){
+    var cm = cm || {};
     this.setState({
-      showCheckmark: true
-   })
+      showCheckmark: true,
+      checkMarkCopy: cm ? cm.copy : {} ,
+      checkmarkRequireButtonPress: cm  && cm.button
+    })
 
-
+    if(!cm.button){
       setTimeout(()=>{
-        this.setState({showCheckmark:false})
+        this.setState({showCheckmark:false,checkMarkCopy: {}})
       },5000);
-
+    }
 
   }
+
+  handleHideCheckmark(){
+
+    this.setState({
+      showCheckmark: false,
+      checkMarkCopy: {}
+    })
+
+  }
+
   handleSelectPartner(d){
     console.log(d);
     if(d.err){
       return false;
       }
       if(d.showCheckmark){
-        this.handleShowCheckmark();
+        this.handleShowCheckmark({
+          copy:{
+            title:'INVITATION SENT',
+            partnerName: 'Beth'
+
+          },
+          button: true
+        });
       }
   }
   handleUpdateUserStub(attributes = []){
