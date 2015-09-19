@@ -25,7 +25,6 @@
 		AC6BC1B01B832657005F7DFA /* omnes-medium-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129741B40EF0D00CC1499 /* omnes-medium-webfont.ttf */; };
 		AC6BC1B11B832657005F7DFA /* omnes-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129751B40EF0D00CC1499 /* omnes-regular-webfont.ttf */; };
 		AC6BC1B21B832675005F7DFA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACA1296E1B40EC3B00CC1499 /* Images.xcassets */; };
-		AC81B2E61B803B910098059E /* libRNModal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC81B2E51B803B840098059E /* libRNModal.a */; };
 		ACA1295D1B40EA2E00CC1499 /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129451B40EA1600CC1499 /* libRCTAddressBook.a */; };
 		ACA1295E1B40EA2E00CC1499 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1294A1B40EA1600CC1499 /* libRCTCamera.a */; };
 		ACA1295F1B40EA2E00CC1499 /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1294D1B40EA1600CC1499 /* libRCTFBLogin.a */; };
@@ -111,13 +110,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
-		};
-		AC81B2E41B803B840098059E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AC81B2CC1B803B840098059E /* RNModal.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNModal;
 		};
 		ACA129441B40EA1600CC1499 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -210,7 +202,6 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		AC81B2CC1B803B840098059E /* RNModal.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNModal.xcodeproj; path = "node_modules/react-native-modal/RNModal.xcodeproj"; sourceTree = "<group>"; };
 		ACA1292D1B40EA1600CC1499 /* RCTFBLogin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBLogin.xcodeproj; path = "node_modules/react-native-facebook-login/RCTFBLogin.xcodeproj"; sourceTree = "<group>"; };
 		ACA129301B40EA1600CC1499 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		ACA129331B40EA1600CC1499 /* RNFS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
@@ -238,7 +229,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC81B2E61B803B910098059E /* libRNModal.a in Frameworks */,
 				ACFC0A6A1B51E5AE00D9D40F /* libRNKeychain.a in Frameworks */,
 				ACE1CD0A1B5772DF0043177A /* Bolts.framework in Frameworks */,
 				ACA129861B416C3000CC1499 /* libRNKeyboardEvents.a in Frameworks */,
@@ -373,7 +363,6 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				AC81B2CC1B803B840098059E /* RNModal.xcodeproj */,
 				ACA129801B416C2700CC1499 /* RNKeyboardEvents.xcodeproj */,
 				ACA1296C1B40EC0500CC1499 /* RCTFileTransfer.m */,
 				ACA1292D1B40EA1600CC1499 /* RCTFBLogin.xcodeproj */,
@@ -425,14 +414,6 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* trippple.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		AC81B2CD1B803B840098059E /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AC81B2E51B803B840098059E /* libRNModal.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -553,7 +534,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "trippple" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Trippple" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -637,10 +618,6 @@
 					ProductGroup = ACA1293A1B40EA1600CC1499 /* Products */;
 					ProjectRef = ACA129391B40EA1600CC1499 /* RNMail.xcodeproj */;
 				},
-				{
-					ProductGroup = AC81B2CD1B803B840098059E /* Products */;
-					ProjectRef = AC81B2CC1B803B840098059E /* RNModal.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -718,13 +695,6 @@
 			fileType = archive.ar;
 			path = libRCTText.a;
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AC81B2E51B803B840098059E /* libRNModal.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNModal.a;
-			remoteRef = AC81B2E41B803B840098059E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		ACA129451B40EA1600CC1499 /* libRCTAddressBook.a */ = {
@@ -847,7 +817,7 @@
 					"$(SRCROOT)/node_modules/react-native/React/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = co.tripppletest;
@@ -874,7 +844,7 @@
 					"$(SRCROOT)/node_modules/react-native/React/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = co.tripppletest;
@@ -994,7 +964,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "trippple" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Trippple" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
