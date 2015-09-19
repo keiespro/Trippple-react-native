@@ -14,7 +14,7 @@ const {
  TouchableHighlight
 } = React;
 
-const Modal = require('react-native-modal');
+// const Modal = require('react-native-modal');
 
 const Logger = require("../utils/logger");
 
@@ -256,39 +256,7 @@ class Contacts extends React.Component{
         />
 
 
-      <Modal
-        isVisible={this.state.isModalOpen}
-        forceToFront={true}
-        backdropType="blur"
-        onPressBackdrop={this._cancel.bind(this)}
-        onClose={() => this.closeModal.bind(this)}>
-        <View style={styles.container}>
-          <View style={[styles.fullwidth,styles.col]}>
 
-            <Image style={[styles.contactthumb,{width:100,height:100,borderRadius:50}]} source={this.state.partnerSelection.thumbnailPath != "" ? {uri: this.state.partnerSelection.thumbnailPath} : require('image!placeholderUser')} />
-
-            <View style={styles.rowtextwrapper}>
-
-              <Text style={[styles.rowtext,styles.bigtext]}>
-                {`${this.state.partnerSelection.firstName || ''} ${this.state.partnerSelection.lastName || ''}`}
-              </Text>
-              <Text style={styles.text}>
-                  {`${ 'xx' }`/* this.state.partnerSelection.phoneNumbers[0].number  || '' */}
-
-              </Text>
-
-            </View>
-
-            <TouchableHighlight style={styles.plainButton} onPress={this._continue.bind(this)}>
-              <Text style={styles.plainButtonText}>INVITE</Text>
-            </TouchableHighlight>
-            <TouchableHighlight style={styles.plainButton} onPress={this._cancel.bind(this)}>
-              <Text style={styles.plainButtonText}>CANCEL</Text>
-            </TouchableHighlight>
-
-          </View>
-        </View>
-      </Modal>
     </View>
 
     );
