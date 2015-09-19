@@ -149,6 +149,18 @@ class UserActions {
 
 
   }
+
+  saveFacebookPicture(photo) {
+    Api.saveFacebookPicture(photo)
+    .then((res) => {
+      console.log('FB photo res', res);
+      this.dispatch(res);
+    })
+    .catch((err) => {
+      console.log('FB photo err', err);
+      this.dispatch(err);
+    })
+  }
 }
 
 export default alt.createActions(UserActions)
