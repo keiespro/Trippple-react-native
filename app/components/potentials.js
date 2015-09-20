@@ -209,7 +209,6 @@ class CoupleActiveCard extends Component{
           <View style={[{
               margin:0,
               overflow: 'hidden',
-
               padding:0,
               position:'relative'
              }]} key={`${this.props.potential.id}-view`}>
@@ -408,7 +407,25 @@ height:DeviceHeight,
 
               </View>
 
+              <View style={styles.bottomButtons}>
+                <TouchableHighlight
+                  style={[styles.topButton, {backgroundColor:colors.shuttleGray }]}
+                  onPress={()=>{console.log("REJECT")}}
+                  underlayColor={colors.white}>
+                  <Image
+                    source={require('image!close')}
+                    />
+                </TouchableHighlight>
 
+                <TouchableHighlight
+                style={[styles.topButton, {backgroundColor:colors.sushi }]}
+                onPress={()=>{console.log("APPROVE")}}
+                  underlayColor={colors.white}>
+                  <Image
+                    source={require('image!close')}
+                    />
+                  </TouchableHighlight>
+              </View>
          </ParallaxSwiper>
 
          </View>
@@ -549,15 +566,37 @@ shadowStyles:{
   },
   basicCard:{
     borderRadius:3,
-      backgroundColor: 'white',
+    backgroundColor: colors.dark,
       borderWidth: 1,
       borderColor:'rgba(0,0,0,.2)',
       overflow:'hidden',
 
     },
+    bottomButtons: {
+      height: 80,
+      alignItems: 'center',
+      flexDirection: 'row',
+      justifyContent:'space-around',
+      alignSelf:'stretch',
+      width: undefined
+    },
+    topButton: {
+      height: 80,
+      flex:1,
+      flexDirection: 'row',
+      backgroundColor: 'transparent',
+      borderColor: colors.white,
+      borderWidth: 0,
+      borderRadius: 0,
+      marginBottom: 0,
+      marginTop: 0,
+      alignSelf: 'stretch',
+      alignItems:'center',
+      justifyContent: 'center'
+    },
   card: {
     borderRadius:3,
-    backgroundColor: 'white',
+    backgroundColor: colors.dark,
     alignSelf: 'stretch',
     flex: 1,
     borderWidth: 0,
@@ -571,7 +610,7 @@ shadowStyles:{
 
   dashedBorderImage:{
     marginHorizontal:0,
-    marginTop:80,
+    marginTop:65,
     marginBottom:20,
     padding:0,
     width:DeviceWidth,

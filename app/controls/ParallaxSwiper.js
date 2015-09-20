@@ -23,14 +23,14 @@ class ParallaxSwiper extends React.Component{
         header: React.PropTypes.node,
         blur: React.PropTypes.string,
         contentInset: React.PropTypes.object,
-    }
+    };
 
     static getDefaultProps = {
       windowHeight: 300,
       contentInset: {
           top: -20 * screen.scale
       }
-    }
+    };
 
     constructor(props){
       super();
@@ -92,27 +92,22 @@ class ParallaxSwiper extends React.Component{
     render() {
         let { style,windowHeight,swiper, ...props } = this.props;
         return (
-            <View style={[styles.container, style]}>
+          <View style={[styles.container, style]}>
             {this.renderBackground()}
 
-                <ScrollView
-                    ref={component => { this._scrollView = component; }}
-                    {...props}
-                    contentContainerStyle={{marginTop:windowHeight}}
-                    style={[styles.scrollView,]}
-                    onScroll={Animated.event(
-                      [{ nativeEvent: { contentOffset: { y: this.state.scrollY }}}]
-                    )}
-                     scrollEventThrottle={16}>
-
-                    {this.props.children}
-
-
-                </ScrollView>
-
-                              {this.renderHeader()}
-
-            </View>
+            <ScrollView
+              ref={component => { this._scrollView = component; }}
+              {...props}
+              contentContainerStyle={{marginTop:windowHeight}}
+              style={[styles.scrollView,]}
+              onScroll={Animated.event(
+                [{ nativeEvent: { contentOffset: { y: this.state.scrollY }}}]
+              )}
+              scrollEventThrottle={16}>
+              {this.props.children}
+            </ScrollView>
+            {this.renderHeader()}
+          </View>
         );
     }
 }

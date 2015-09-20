@@ -182,7 +182,7 @@ const NavigationBar = React.createClass({
      * title aligned to the center
      */
     if (!onNext) {
-      el = <Text style={styles.navBarRightButton}></Text>;
+      return null
     }
 
     /*

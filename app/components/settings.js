@@ -229,11 +229,16 @@ class SettingsInside extends React.Component{
 
     let innerView = this.renderInnerView()
     return (
+      <View style={{flex:1}}>
+
+
+
 <ParallaxView
         showsVerticalScrollIndicator={false}
           key={this.props.user.image_url}
+          navBar={this.props.navBar}
           backgroundSource={{uri: this.props.user.image_url}}
-          windowHeight={450}
+          windowHeight={320}
           navigator={this.props.navigator}
           style={{backgroundColor:colors.outerSpace,paddingTop:0}}
           header={(
@@ -250,7 +255,6 @@ class SettingsInside extends React.Component{
 
             <Text>{this.props.user.firstname}</Text>
             <Text>View Profile</Text>
-{this.props.navBar}
 
           </View>
       )}>
@@ -277,7 +281,7 @@ class SettingsInside extends React.Component{
       <LogOutButton/>
 
     </ParallaxView>
-
+</View>
 )
   }
 }
@@ -369,11 +373,11 @@ var styles = StyleSheet.create({
  },
  userimage: {
    padding:0,
-   height: 200,
-   width:200,
+   height: 180,
+   width:180,
    alignItems: 'stretch',
    position:'relative',
-   borderRadius:100,
+   borderRadius:90,
    overflow:'hidden'
  },
  changeImage: {
@@ -571,4 +575,3 @@ var CustomTabBar = React.createClass({
     );
   },
 });
-

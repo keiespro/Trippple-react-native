@@ -116,7 +116,7 @@ class ParallaxView extends React.Component{
                     scrollEventThrottle={16}>
                     {this.renderHeader()}
                         {this.props.children}
-                   
+
                 </ScrollView>
             </View>
         );

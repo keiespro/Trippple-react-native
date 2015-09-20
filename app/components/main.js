@@ -62,6 +62,7 @@ import FakeNavBar from '../controls/FakeNavBar'
       }
       return (
         <View style={{ flex: 1, position:'relative'}}>
+        {route.id == 'settings' && navBar}
         <RouteComponent navigator={navigator} route={route} navBar={navBar} user={this.props.user} {...route.passProps} pRoute={route.id == 'potentials' ? PotentialsRoute : null} />
         {route.id == 'potentials' || route.id == 'settings' ? null : navBar}
         </View>
@@ -200,7 +201,7 @@ const MatchesRoute = {
 
       title={'MATCHES'} titleColor={colors.white}
       onPrev={(nav,route)=> nav.pop()}
-      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{marginTop:10,alignItems:'flex-start'}} source={require('image!close')} />
+      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{marginTop:3,alignItems:'flex-start'}} source={require('image!close')} />
       }
     />
   ),
@@ -223,7 +224,7 @@ const ChatRoute = {
       blur={true}
       title={'Matches'} titleColor={colors.white}
       onPrev={(nav,route)=> nav.pop()}
-      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{marginTop:10,alignItems:'flex-start'}} source={require('image!close')} />
+      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{marginTop:3,alignItems:'flex-start'}} source={require('image!close')} />
       }
     />
   ),
