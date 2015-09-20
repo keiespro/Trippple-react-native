@@ -35,6 +35,7 @@ import SegmentedView from '../controls/SegmentedView'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin';
 import AltContainer from 'alt/AltNativeContainer'
+import FakeNavBar from '../controls/FakeNavBar'
 
 // Buttons
 var swipeoutBtns = [
@@ -210,6 +211,12 @@ class MatchesInside extends Component{
             matches={this.props.matches}
             id={"matcheslist"}
             navigator={this.props.navigator}
+            route={{
+              component: Matches,
+              title:'matches',
+            id:"matcheslist",
+
+            }}
             title={"matchlist"}
           />
 

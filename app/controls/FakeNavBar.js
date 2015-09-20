@@ -76,7 +76,7 @@ const NavigationBar = React.createClass({
     /*
      * holds a ref to onPress which either be navigator.pop or a handler
      */
-    let onPress = navigator.pop;
+    let onPress = navigator.jumpBack;
 
     if (onPrev) {
       //we are passing navigator and route to onPrev handler
@@ -148,18 +148,18 @@ const NavigationBar = React.createClass({
      * If we have a `customNext` component, then return
      * it's clone with additional attributes
      */
-    if (customNext) {
-      return React.cloneElement(customNext, { navigator, route, });
-    }
+    // if (customNext) {
+    //   return React.cloneElement(customNext, { navigator, route, });
+    // }
 
-    /*
-     * If we haven't received `onNext` handler, then just return
-     * a placeholder for button to keep markup consistant and
-     * title aligned to the center
-     */
-    if (!onNext) {
-      return <Text style={styles.navBarRightButton}></Text>;
-    }
+    // /*
+    //  * If we haven't received `onNext` handler, then just return
+    //  * a placeholder for button to keep markup consistant and
+    //  * title aligned to the center
+    //  */
+    // if (!onNext) {
+    //   return <Text style={styles.navBarRightButton}></Text>;
+    // }
 
     /*
      * Apply custom background styles to button
@@ -167,10 +167,10 @@ const NavigationBar = React.createClass({
     const customStyle = buttonsColor ? { color: buttonsColor, } : {};
 
     return (
-      <TouchableOpacity onPress={() => onNext(navigator, route)}>
+      <TouchableOpacity onPress={() => navigator.jumpForward()}>
         <View style={styles.navBarRightButton}>
           <Text style={[styles.navBarText, styles.navBarButtonText, customStyle, ]}>
-            {nextTitle || 'Next'}
+            {'Next'}
           </Text>
         </View>
       </TouchableOpacity>
@@ -185,15 +185,21 @@ const NavigationBar = React.createClass({
     }
 
     const { style, backgroundStyle } = this.props;
-
-    return (
-      <VibrancyView blurType={'dark'}  style={[styles.navBarContainer, backgroundStyle, ]}>
+    /*
+     *   <VibrancyView blurType={'dark'}  style={[styles.navBarContainer, backgroundStyle, ]}>
         <View style={[styles.navBar, {alignSelf:'stretch'}, ]}>
-          {this.getTitleElement()}
           {this.getLeftButtonElement()}
           {this.getRightButtonElement()}
       </View>
         </VibrancyView>
+*/
+    return (
+          <View style={[styles.navBarContainer, backgroundStyle, ]}>
+        <View style={[styles.navBar, {alignSelf:'stretch'}, ]}>
+          {this.getLeftButtonElement()}
+          {this.getRightButtonElement()}
+      </View>
+        </View>
 
     );
   },
@@ -201,7 +207,7 @@ const NavigationBar = React.createClass({
 
 module.exports = NavigationBar;
 
-const NAV_BAR_HEIGHT = 44;
+const NAV_BAR_HEIGHT = 54;
 const STATUS_BAR_HEIGHT = 0;
 const NAV_HEIGHT = NAV_BAR_HEIGHT + STATUS_BAR_HEIGHT;
 

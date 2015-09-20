@@ -425,12 +425,16 @@ class CardStack extends Component{
     }else{
       //TODO: show what when no potential matches ?
       return (
-        <View user={this.props.user} style={{backgroundColor:colors.outerSpace}} >
-          <TouchableHighlight onPress={() => MatchActions.getPotentials()}>
-            <View style={{padding:50}}>
-            <Text>(DEV MODE) TAP TO GET MORE POTENTIALS</Text>
-            </View>
-          </TouchableHighlight>
+        <View user={this.props.user} style={{backgroundColor:colors.outerSpace,flex:1,alignSelf:'stretch'}} >
+            <Image source={require('image!placeholderDashed')}
+      resizeMode={Image.resizeMode.contain}
+            style={{marginHorizontal:0,marginTop:80,marginBottom:20,padding:0,width:DeviceWidth,height:DeviceHeight-100,flex:1,alignSelf:'stretch',alignItems:'center',justifyContent:'center'}}>
+            <Image source={require('image!iconClock')} style={{height:150,width:150,marginBottom:40}}/>
+            <Text style={{color:colors.white,fontFamily:'Montserrat-Bold',fontSize:20,marginBottom:10}}>COME BACK AT MIDNIGHT</Text>
+            <Text style={{color:colors.rollingStone,fontSize:20,marginHorizontal:70,marginBottom:180,textAlign:'center'}}>You’re all out of potential matches for today.</Text>
+
+        </Image>
+
         </View>
       )
     }

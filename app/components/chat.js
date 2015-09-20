@@ -485,7 +485,7 @@ changeKeyboardSpace(frames) {
           </TouchableHighlight>
 
         </View>
-        <FakeNavBar onPrev={() => this.props.closeChat()} route={this.props.route} navigator={this.props.navigator} />
+        <FakeNavBar onPrev={() => this.props.closeChat ? this.props.closeChat() : this.props.navigator.jumpBack()} route={this.props.route} navigator={this.props.navigator} />
 
       </View>
     )

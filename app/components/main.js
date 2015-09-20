@@ -34,9 +34,16 @@ var MatchActions = require("../flux/actions/MatchActions");
 import FakeNavBar from '../controls/FakeNavBar'
 
 var ROUTE_STACK = [
-  {component: Settings, index: 0, title: 'Settings', id: 'settings'},
-  {component: Potentials, index: 1, title: 'Trippple', id: 'potentials'},
-  {component: Matches, index: 2, title: 'Matches', id: 'matches',sceneConfig:Navigator.SceneConfigs.FloatFromRight},
+  {component: Settings, index: 0, title: 'Settings', id: 'settings',navigationBar: <FakeNavBar onPrev={() => this.props.navigator.pop()} />},
+  {
+    component: Potentials,
+    index: 1,
+    title: 'Trippple',
+    id: 'potentials',
+    navigationBar: <FakeNavBar backgroundStyle={{backgroundColor:'transparent'}} onPrev={(navigator,route) => navigator.jumpBack()} onNext={(navigator,route) => {navigator.jumpForward}} customNext={<Image resizeMode={Image.resizeMode.contain} style={{width:50,top:0,height:50}} source={require('image!chat')} />}/>
+  },
+  {component: Matches, index: 2, title: 'Matches', id: 'matches', navigationBar: <FakeNavBar customNext={<View/>} onNext={(navigator,route) => false} />,
+           sceneConfig:Navigator.SceneConfigs.FloatFromRight},
 ];
 
 
@@ -45,25 +52,25 @@ var ROUTE_STACK = [
   var NavigationBarRouteMapper = {
 
     LeftButton: function(route, navigator, index, navState) {
-      if(route.id == 'matches' ){
-         return (
-           <View style={[styles.touchables,styles.navBarLeftButton]}>
+      // if(route.id == 'matches' ){
+      //    return (
+      //      <View style={[styles.touchables,styles.navBarLeftButton]}>
 
-             <TouchableOpacity onPress={() => {
-              MatchActions.getMatches();
-             navigator.jumpTo(ROUTE_STACK[1]);
-              }}>
-            <View style={styles.navBarLeftButton}>
-               <Image
-                 resizeMode={Image.resizeMode.contain}
-                 style={{width:15,height:15,marginTop:10,alignItems:'flex-start'}}
-                 source={require('image!close')} />
-             </View>
-            </TouchableOpacity>
-         </View>
+      //        <TouchableOpacity onPress={() => {
+      //         MatchActions.getMatches();
+      //        navigator.jumpTo(ROUTE_STACK[1]);
+      //         }}>
+      //       <View style={styles.navBarLeftButton}>
+      //          <Image
+      //            resizeMode={Image.resizeMode.contain}
+      //            style={{width:15,height:15,marginTop:10,alignItems:'flex-start'}}
+      //            source={require('image!close')} />
+      //        </View>
+      //       </TouchableOpacity>
+      //    </View>
 
-         )
-       }
+      //    )
+      //  }
 
       if(route.id == 'potentials'){
         return (
@@ -126,13 +133,19 @@ var ROUTE_STACK = [
 
     selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
         const RouteComponent = route.component;
-        let navBar = route.navigationBar
-        if (route.id == 'disabled' || route.id == 'matches' || route.id == 'chat') {
-          navBar = <FakeNavBar  navigator={navigator} route={route} {...route.passProps} />
-        }
+         var navBar = route.navigationBar;
+
+         if (navBar) {
+           navBar = React.addons.cloneWithProps(navBar, {
+             navigator: navigator,
+             route: route,
+             style: styles.navBar
+           });
+         }
         return (
-          <View style={{ flex: 1, }}>
-            <RouteComponent navigator={navigator} route={route} user={this.props.user}  {...route.passProps} />
+          <View style={{ flex: 1, position:'relative'}}>
+            <RouteComponent navigator={navigator} route={route} user={this.props.user} {...route.passProps} />
+          {navBar}
           </View>
         );
     }
@@ -148,15 +161,7 @@ var ROUTE_STACK = [
               configureScene={route => route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromBottom}
               navigator={this.props.navigator}
               renderScene={this.selectScene.bind(this)}
-              navigationBar={
-                <Navigator.NavigationBar
-                  routeMapper={NavigationBarRouteMapper}
-         style={[styles.navBar,{
-            backgroundColor: 'transparent' || colors.shuttleGray
-          }
-        ]} />
-              }
-          />
+                    />
       </View>
       );
     }
