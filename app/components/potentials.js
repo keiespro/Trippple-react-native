@@ -45,7 +45,6 @@ class ActiveCard extends Component{
     this.state = {
       panX: new Animated.Value(0),
       panY: new Animated.Value(0),
-      profileVisible: false,
       waitingForDoubleTap: false
     }
   }
@@ -65,7 +64,7 @@ class ActiveCard extends Component{
   }
   initializePanResponder(){
     this._panResponder = PanResponder.create({
-      onMoveShouldSetPanResponder: (e,gestureState) => !this.state.profileVisible && Math.abs(gestureState.dy) < 5,
+      onMoveShouldSetPanResponder: (e,gestureState) => !this.props.profileVisible && Math.abs(gestureState.dy) < 5,
       onStartShouldSetPanResponder: (e,gestureState) => false,
       // onPanResponderGrant: () => {      },
       onPanResponderMove: Animated.event( [null, {dx: this.state.panX}] ),
@@ -96,7 +95,10 @@ class ActiveCard extends Component{
   }
 
   _handleDoubleTap(){
-    this.setState({ profileVisible: true, waitingForDoubleTap: false })
+    this.setState({ waitingForDoubleTap: false })
+    this.props.toggleProfile();
+
+
   }
 
 
@@ -104,10 +106,16 @@ class ActiveCard extends Component{
     if(this.state.isDragging || this.state.isAnimating){
       return false;
     }
-    this.setState({ profileVisible: true })
+    this.props.toggleProfile();
   }
 
-  _hideProfile(){ this.setState({ profileVisible: false }) }
+  _hideProfile(){
+    // this.setState({ profileVisible: false })
+    //
+    //
+    this.props.toggleProfile();
+
+  }
 
   render() {
     return (
@@ -118,11 +126,11 @@ class ActiveCard extends Component{
             {translateX: this.state.panX },
             {translateY: this.state.panY },
           ],
-          width:(DeviceWidth - (this.state.profileVisible ? 0 : 40)),
-          height:(DeviceHeight - (this.state.profileVisible ? 0 : 85)),
-          left:this.state.profileVisible ? 0 : 20,
-          right:this.state.profileVisible ? 0 : 20,
-          top: (this.state.profileVisible ? 0 : 55),
+          width:(DeviceWidth - (this.props.profileVisible ? 0 : 40)),
+          height:(DeviceHeight - (this.props.profileVisible ? 0 : 85)),
+          left:this.props.profileVisible ? 0 : 20,
+          right:this.props.profileVisible ? 0 : 20,
+          top: (this.props.profileVisible ? 0 : 55),
           flex:1,
           position:'absolute',
         }}
@@ -134,7 +142,7 @@ class ActiveCard extends Component{
 
         <CoupleActiveCard
           isTopCard={this.props.isTopCard}
-          profileVisible={this.state.profileVisible}
+          profileVisible={this.props.profileVisible}
           hideProfile={this._hideProfile.bind(this)}
           showProfile={this._showProfile.bind(this)}
           potential={this.props.potential}
@@ -191,8 +199,6 @@ class CoupleActiveCard extends Component{
         [styles.card,{
           overflow: this.props.profileVisible ? 'visible' : 'hidden',
           marginBottom: this.props.isTopCard ? 0 : -25,
-          height: this.props.profileVisible ? DeviceHeight : undefined,
-          position:'relative',
           transform:[
             {scale:this.props.isTopCard ? 1 : 0.95},
 
@@ -215,10 +221,10 @@ class CoupleActiveCard extends Component{
             horizontal={false}
             centerContent={true}
             bouncesZoom={true}
+            style={{marginHorizontal:40}}
             contentContainerStyle={[styles.scrollSection,{
-              alignItems:'stretch',
-              alignSelf:'stretch',
               margin:0,
+              flex:1,
               padding:0,
 
             }]}>
@@ -226,6 +232,7 @@ class CoupleActiveCard extends Component{
           <View style={[{
               margin:0,
               padding:0,
+               overflow:'hidden',
 
 
             }]}
@@ -234,7 +241,8 @@ class CoupleActiveCard extends Component{
             {this.props.profileVisible &&
                <View style={{
                overflow:'hidden',
-                top:0
+
+                height:DeviceHeight - (DeviceHeight / 3)
               }}>
 
               <Swiper
@@ -243,10 +251,6 @@ class CoupleActiveCard extends Component{
                 horizontal={false}
                 vertical={true}
                 showsPagination={true}
-                contentContainerStyle={{
-                  position:'absolute',
-                  top:0
-                }}
                 showsButtons={false}
                 dot={ <View style={styles.dot} />}
                 activeDot={ <View style={styles.activeDot} /> }>
@@ -263,7 +267,7 @@ class CoupleActiveCard extends Component{
               </Swiper>
                   <View  style={{position:'absolute',top:50,left:0,width: 50, backgroundColor:'transparent',height: 50,alignSelf:'center',justifyContent:'center'}}>
                     <TouchableHighlight  onPress={this.props.hideProfile}>
-                      <Image source={require('image!closeWithShadow')} resizeMode={Image.resizeMode.cover}/>
+                      <Image source={require('image!closeWithShadow')} resizeMode={Image.resizeMode.contain}/>
                     </TouchableHighlight>
                   </View>
 
@@ -296,16 +300,18 @@ class CoupleActiveCard extends Component{
               key={`${this.props.potential.id}-bottomview`}
               style={{
                 height:(this.props.profileVisible ? DeviceHeight / 3 : 80),
-                bottom: this.props.profileVisible ? undefined : 0,
-                // overflow:'visible',
+                // bottom: this.props.profileVisible ? undefined : 0,
+                overflow:'hidden',
                 // left: 0,
                 // marginTop: this.props.profileVisible ? -80 : 0,
                 backgroundColor: colors.white,
-                width: DeviceWidth - (this.props.profileVisible ? 0 : 40),
+                width:this.props.profileVisible ? DeviceWidth : DeviceWidth - 40,
                 flex:1,
                 alignSelf:'stretch',
                 alignItems:'stretch',
-                position: this.props.profileVisible ? 'relative' : 'absolute'
+                position:'absolute',
+                bottom:0,
+                left:0
               }}
               >
               {this.props.profileVisible &&
@@ -313,7 +319,10 @@ class CoupleActiveCard extends Component{
                   width: DeviceWidth - (this.props.profileVisible ? 0 : 40),
                   paddingVertical:20
                   }}>
-                  <Text style={styles.cardBottomText}>{
+                  <Text style={[styles.cardBottomText,{
+                  width: DeviceWidth - (this.props.profileVisible ? 0 : 40),
+
+                  }]}>{
                     `${this.props.potential.user.firstname.trim()} and ${this.props.potential.partner.firstname.trim()}`
                   }</Text>
                 </View>
@@ -345,7 +354,7 @@ class CoupleActiveCard extends Component{
                     />
 
               </View>
-                <View style={{width: DeviceWidth, padding:20}}>
+                <View style={{width: DeviceWidth, padding:0}}>
 
                 { this.props.profileVisible &&
                     <View>
@@ -402,53 +411,57 @@ class DummyCard extends Component{
 class CardStack extends Component{
   constructor(props){
     super()
+    this.state = {profileVisible:false}
+  }
+  toggleProfile(){
+    this.setState({profileVisible:!this.state.profileVisible})
   }
   render(){
+    var NavBar = React.addons.cloneWithProps(this.props.pRoute.navigationBar, { navigator: this.props.navigator, route: this.props.route})
 
-    if(this.props.potentials.length){
       return (
-        <View style={{width:DeviceWidth,height:DeviceHeight,flex:1,alignSelf:'stretch',backgroundColor:colors.outerSpace}}>
+        <View style={{width:DeviceWidth,height:DeviceHeight,flex:1,alignItems:'center',justifyContent:'center',alignSelf:'stretch',backgroundColor:colors.outerSpace}}>
 
-        {this.props.potentials[2] &&
+        {this.props.potentials && this.props.potentials.length >= 1  && this.props.potentials[2] &&
           <View style={{shadowColor:colors.darkShadow,shadowRadius:5,shadowOffset:{width:0,height:5},shadowOpacity:30}}>
             <DummyCard />
           </View>
         }
-        {this.props.potentials[1] &&
+
+        {this.props.potentials && this.props.potentials.length >= 1 && this.props.potentials[1] &&
           <ActiveCard key={`${this.props.potentials[1].id}-activecard`} user={this.props.user} potential={this.props.potentials[1]} isTopCard={false}/>
         }
-        {this.props.potentials[0] &&
-          <ActiveCard key={`${this.props.potentials[0].id}-activecard`} user={this.props.user} potential={this.props.potentials[0]} isTopCard={true}/>
+        {this.props.potentials && this.props.potentials.length >= 1  && this.props.potentials[0] &&
+          <ActiveCard key={`${this.props.potentials[0].id}-activecard`} user={this.props.user} potential={this.props.potentials[0]} profileVisible={this.state.profileVisible} toggleProfile={this.toggleProfile.bind(this)} isTopCard={true}/>
         }
-        </View>
-      )
-    }else{
-      //TODO: show what when no potential matches ?
-      return (
-        <View user={this.props.user} style={{backgroundColor:colors.outerSpace,flex:1,alignSelf:'stretch'}} >
-            <Image source={require('image!placeholderDashed')}
-      resizeMode={Image.resizeMode.contain}
-            style={{marginHorizontal:0,marginTop:80,marginBottom:20,padding:0,width:DeviceWidth,height:DeviceHeight-100,flex:1,alignSelf:'stretch',alignItems:'center',justifyContent:'center'}}>
+
+    {!this.props.potentials || !this.props.potentials.length || this.props.potentials.length < 1 &&
+         <Image source={require('image!placeholderDashed')}
+            resizeMode={Image.resizeMode.contain}
+            style={styles.dashedBorderImage}>
             <Image source={require('image!iconClock')} style={{height:150,width:150,marginBottom:40}}/>
             <Text style={{color:colors.white,fontFamily:'Montserrat-Bold',fontSize:20,marginBottom:10}}>COME BACK AT MIDNIGHT</Text>
             <Text style={{color:colors.rollingStone,fontSize:20,marginHorizontal:70,marginBottom:180,textAlign:'center'}}>You’re all out of potential matches for today.</Text>
 
         </Image>
+      }
+      {!this.state.profileVisible && NavBar}
 
-        </View>
+       </View>
       )
     }
-  }
 }
 
 class Potentials extends Component{
   constructor(props){
     super()
+    MatchActions.getPotentials();
+
   }
   render(){
     return (
       <AltContainer store={PotentialsStore}>
-        <CardStack user={this.props.user} />
+        <CardStack user={this.props.user} navigator={this.props.navigator} pRoute={this.props.pRoute}/>
       </AltContainer>
     )
   }
@@ -465,22 +478,6 @@ var styles = StyleSheet.create({
     backgroundColor: '#fff',
     overflow:'hidden',
     top:50
-  },
-  innerContainer:{
-    backgroundColor: '#fff',
-    paddingBottom:50,
-    paddingTop:0,
-    alignSelf: 'stretch',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: undefined,
-    height: undefined,
-    bottom:0,
-    top:0,
-    left:0,
-    right:0,
-
   },
   absoluteText:{
     position:'absolute',
@@ -510,12 +507,24 @@ var styles = StyleSheet.create({
     borderWidth: 0,
     borderColor:'rgba(0,0,0,.2)',
     justifyContent: 'center',
-    alignItems: 'stretch',
+    alignItems: 'center',
+    overflow:'hidden'
 
   },
 
 
-
+  dashedBorderImage:{
+    marginHorizontal:0,
+    marginTop:80,
+    marginBottom:20,
+    padding:0,
+    width:DeviceWidth,
+    height:DeviceHeight-100,
+    flex:1,
+    alignSelf:'stretch',
+    alignItems:'center',
+    justifyContent:'center'
+  },
   imagebg:{
     flex: 1,
     alignSelf:'stretch',

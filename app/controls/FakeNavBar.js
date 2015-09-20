@@ -46,29 +46,40 @@ const NavigationBar = React.createClass({
   getLeftButtonElement() {
     const {
       onPrev,
-      prevTitle,
       navigator,
       route,
       buttonsColor,
+      prevRoute,
+      hidePrev,
       customPrev,
     } = this.props;
 
+    var el;
     /*
      * If we have a `customPrev` component, then return
      * it's clone with additional attributes
      */
     if (customPrev) {
-      return React.cloneElement(customPrev, { navigator, route, });
+      el = React.cloneElement(customPrev, { navigator, route });
+      return (
+        <TouchableOpacity onPress={() => onPrev( navigator,route )}>
+          <View style={styles.navBarLeftButton}>
+            {el}
+          </View>
+        </TouchableOpacity>
+      )
     }
 
     /*
      * Check if we need to hide `prev` button
      */
-    if (this.prevButtonShouldBeHidden()) {
-      return <View style={styles.navBarLeftButton}></View>;
+    if (hidePrev) {
+      return (
+        <View style={styles.navBarLeftButton}></View>
+      )
     }
 
-    /*
+       /*
      * Apply custom background styles to button
      */
     const customStyle = buttonsColor ? { color: buttonsColor, } : {};
@@ -86,9 +97,7 @@ const NavigationBar = React.createClass({
     return (
       <TouchableOpacity onPress={onPress}>
         <View style={styles.navBarLeftButton}>
-          <Text style={[styles.navBarText, styles.navBarButtonText, customStyle, ]}>
-          ◀︎ Back
-          </Text>
+          <Text style={[styles.navBarText, styles.navBarButtonText, customStyle, ]}> ◀︎ Back </Text>
         </View>
       </TouchableOpacity>
     );
@@ -105,21 +114,20 @@ const NavigationBar = React.createClass({
       navigator,
       route,
     } = this.props;
+    var el;
 
     /*
      * Return `customTitle` component if we have it
      */
     if (customTitle) {
+      el = React.cloneElement(customTitle, { navigator, route, })
       return (
         <View style={styles.customTitle}>
-          {React.cloneElement(customTitle, { navigator, route, })}
+          {el}
         </View>
-      );
+      )
     }
 
-    if (title && !title.length) {
-      return true;
-    }
 
     const titleStyle = [
       styles.navBarText,
@@ -127,11 +135,17 @@ const NavigationBar = React.createClass({
       { color: titleColor, },
     ];
 
-    return (
-      <Text style={titleStyle}>
-        {title}
-      </Text>
-    );
+    if (title && title.length){
+      return (
+        <View style={styles.customTitle}>
+          <Text style={titleStyle}> {this.props.title} </Text>
+        </View>
+      )
+    }
+
+
+
+
   },
 
   getRightButtonElement() {
@@ -140,26 +154,36 @@ const NavigationBar = React.createClass({
       nextTitle,
       navigator,
       route,
+      hideNext,
+      nextRoute,
       buttonsColor,
       customNext
     } = this.props;
+    var el;
+
+    /*
+     * Check if we need to hide `next` button
+     */
+    if (hideNext) {
+      el = <View style={styles.navBarLeftButton}></View>;
+    }
 
     /*
      * If we have a `customNext` component, then return
      * it's clone with additional attributes
      */
-    // if (customNext) {
-    //   return React.cloneElement(customNext, { navigator, route, });
-    // }
+    if (customNext) {
+      el = React.cloneElement(customNext, { navigator, route, onPress: onNext });
+    }
 
-    // /*
-    //  * If we haven't received `onNext` handler, then just return
-    //  * a placeholder for button to keep markup consistant and
-    //  * title aligned to the center
-    //  */
-    // if (!onNext) {
-    //   return <Text style={styles.navBarRightButton}></Text>;
-    // }
+    /*
+     * If we haven't received `onNext` handler, then just return
+     * a placeholder for button to keep markup consistant and
+     * title aligned to the center
+     */
+    if (!onNext) {
+      el = <Text style={styles.navBarRightButton}></Text>;
+    }
 
     /*
      * Apply custom background styles to button
@@ -167,11 +191,9 @@ const NavigationBar = React.createClass({
     const customStyle = buttonsColor ? { color: buttonsColor, } : {};
 
     return (
-      <TouchableOpacity onPress={() => navigator.jumpForward()}>
+      <TouchableOpacity onPress={() => onNext(navigator,route)}>
         <View style={styles.navBarRightButton}>
-          <Text style={[styles.navBarText, styles.navBarButtonText, customStyle, ]}>
-            {'Next'}
-          </Text>
+          {el}
         </View>
       </TouchableOpacity>
     );
@@ -184,24 +206,28 @@ const NavigationBar = React.createClass({
       StatusBarIOS.setStyle('default', false);
     }
 
-    const { style, backgroundStyle } = this.props;
-    /*
-     *   <VibrancyView blurType={'dark'}  style={[styles.navBarContainer, backgroundStyle, ]}>
-        <View style={[styles.navBar, {alignSelf:'stretch'}, ]}>
-          {this.getLeftButtonElement()}
-          {this.getRightButtonElement()}
-      </View>
-        </VibrancyView>
-*/
-    return (
-          <View style={[styles.navBarContainer, backgroundStyle, ]}>
-        <View style={[styles.navBar, {alignSelf:'stretch'}, ]}>
-          {this.getLeftButtonElement()}
-          {this.getRightButtonElement()}
-      </View>
-        </View>
-
-    );
+    const { style, backgroundStyle, blur } = this.props;
+      if(blur){
+          return (
+            <BlurView blurType={'light'}  style={[styles.navBarContainer, backgroundStyle, ]}>
+              <View style={[styles.navBar, {alignSelf:'stretch'}, ]}>
+                  {this.getTitleElement()}
+                {this.getLeftButtonElement()}
+                {this.getRightButtonElement()}
+              </View>
+            </BlurView>
+            );
+          }else{
+            return (
+              <View style={[styles.navBarContainer, backgroundStyle, ]}>
+                <View style={[styles.navBar, {alignSelf:'stretch'}, ]}>
+                  {this.getTitleElement()}
+                  {this.getLeftButtonElement()}
+                  {this.getRightButtonElement()}
+                </View>
+              </View>
+             )
+          }
   },
 });
 
@@ -220,6 +246,8 @@ const styles = StyleSheet.create({
     position:'absolute',
     top:0,
     left:0,
+  },
+  navBarContainerBorder:{
     borderBottomColor: 'rgba(0, 0, 0, 0.5)',
     borderBottomWidth: 1 / React.PixelRatio.get(),
   },
@@ -231,7 +259,7 @@ const styles = StyleSheet.create({
   customTitle: {
     position: 'absolute',
     alignItems: 'center',
-    bottom: 5,
+    bottom: 4,
     left: 0,
     right: 0,
   },
@@ -242,12 +270,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   navBarTitleText: {
-    color: '#373e4d',
-    fontWeight: '500',
+    color: colors.white,
+    fontSize:22,
+    fontFamily:'Montserrat-Bold',
     position: 'absolute',
     left: 0,
     right: 0,
-    bottom: 15,
+    bottom: 10,
   },
   navBarLeftButton: {
     paddingLeft: 10,

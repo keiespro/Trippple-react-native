@@ -33,91 +33,9 @@ var Chat = require("./chat");
 var MatchActions = require("../flux/actions/MatchActions");
 import FakeNavBar from '../controls/FakeNavBar'
 
-var ROUTE_STACK = [
-  {component: Settings, index: 0, title: 'Settings', id: 'settings',navigationBar: <FakeNavBar onPrev={() => this.props.navigator.pop()} />},
-  {
-    component: Potentials,
-    index: 1,
-    title: 'Trippple',
-    id: 'potentials',
-    navigationBar: <FakeNavBar backgroundStyle={{backgroundColor:'transparent'}} onPrev={(navigator,route) => navigator.jumpBack()} onNext={(navigator,route) => {navigator.jumpForward}} customNext={<Image resizeMode={Image.resizeMode.contain} style={{width:50,top:0,height:50}} source={require('image!chat')} />}/>
-  },
-  {component: Matches, index: 2, title: 'Matches', id: 'matches', navigationBar: <FakeNavBar customNext={<View/>} onNext={(navigator,route) => false} />,
-           sceneConfig:Navigator.SceneConfigs.FloatFromRight},
-];
-
-
-  //this thing is ugly
-
-  var NavigationBarRouteMapper = {
-
-    LeftButton: function(route, navigator, index, navState) {
-      // if(route.id == 'matches' ){
-      //    return (
-      //      <View style={[styles.touchables,styles.navBarLeftButton]}>
-
-      //        <TouchableOpacity onPress={() => {
-      //         MatchActions.getMatches();
-      //        navigator.jumpTo(ROUTE_STACK[1]);
-      //         }}>
-      //       <View style={styles.navBarLeftButton}>
-      //          <Image
-      //            resizeMode={Image.resizeMode.contain}
-      //            style={{width:15,height:15,marginTop:10,alignItems:'flex-start'}}
-      //            source={require('image!close')} />
-      //        </View>
-      //       </TouchableOpacity>
-      //    </View>
-
-      //    )
-      //  }
-
-      if(route.id == 'potentials'){
-        return (
-          <View style={[styles.touchables,styles.navBarLeftButton]}>
-
-            <TouchableOpacity onPress={() => navigator.jumpTo(ROUTE_STACK[0])}>
-                <Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30}} source={require('image!gear')} />
-            </TouchableOpacity>
-          </View>
-        )
-      }
-
-
-    },
-
-    RightButton: function(route, navigator, index, navState) {
-      if(route.id == 'photo' || route.id == 'matches') return null;
-
-      if(route.id == 'potentials'){
-
-      return (
-        <View style={[styles.touchables,styles.navBarRightButton]}>
-
-          <TouchableOpacity
-            onPress={() => navigator.jumpTo(ROUTE_STACK[2])}>
-                <Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30}} source={require('image!chat')} />
-          </TouchableOpacity>
-        </View>
-        );
-      }
-    },
-
-    Title: function(route, navigator, index, navState) {
-      if(route.id == 'potentials'){
-
-        return (
-            <View>
-              <Image resizeMode={Image.resizeMode.contain} style={{width:80,top:-2}} source={require('image!tripppleLogoText')} />
-            </View>
-        );
-      }
-    },
-
-  };
-
-
   class Main extends Component{
+    static propTypes = { user: React.PropTypes.any }
+    static defaultProps = { user: null }
 
     constructor(props){
       super(props);
@@ -125,52 +43,47 @@ var ROUTE_STACK = [
     }
 
     componentDidMount(){
-      // MatchActions.InitializeMatches();
+      MatchActions.getPotenials();
       this.refs.nav.navigationContext.addListener('didfocus', (e)=>{
         console.log(e);
       })
     }
 
     selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
-        const RouteComponent = route.component;
-         var navBar = route.navigationBar;
+      const RouteComponent = route.component;
+      var navBar = route.navigationBar;
 
-         if (navBar) {
-           navBar = React.addons.cloneWithProps(navBar, {
-             navigator: navigator,
-             route: route,
-             style: styles.navBar
-           });
-         }
-        return (
-          <View style={{ flex: 1, position:'relative'}}>
-            <RouteComponent navigator={navigator} route={route} user={this.props.user} {...route.passProps} />
-          {navBar}
-          </View>
-        );
+      if (navBar) {
+        navBar = React.addons.cloneWithProps(navBar, {
+          navigator: navigator,
+          route: route,
+          style: styles.navBar
+        });
+      }
+      return (
+        <View style={{ flex: 1, position:'relative'}}>
+        <RouteComponent navigator={navigator} route={route} user={this.props.user} {...route.passProps} pRoute={route.id == 'potentials' ? PotentialsRoute : null} />
+        {route.id == 'potentials' ? null : navBar}
+        </View>
+      );
     }
 
     render() {
 
       return (
         <View style={styles.appContainer}>
-          <Navigator
-            ref={'nav'}
-              initialRouteStack={ROUTE_STACK}
-              initialRoute={ROUTE_STACK[1]}
-              configureScene={route => route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromBottom}
-              navigator={this.props.navigator}
-              renderScene={this.selectScene.bind(this)}
-                    />
-      </View>
+        <Navigator
+        ref={'nav'}
+        initialRoute={ROUTE_STACK[0]}
+        configureScene={route => route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromBottom}
+        navigator={this.props.navigator}
+        renderScene={this.selectScene.bind(this)}
+        />
+        </View>
       );
     }
 
   }
-
-  Main.propTypes = { user: React.PropTypes.any };
-  Main.defaultProps = { user: null };
-
 
 
 
@@ -235,3 +148,85 @@ var ROUTE_STACK = [
 
 
 module.exports = Main;
+
+
+const PotentialsRoute = {
+  component: Potentials,
+  index: 0,
+  title: 'Trippple',
+  id: 'potentials',
+  navigationBar: (
+    <FakeNavBar
+      backgroundStyle={{backgroundColor:'transparent'}}
+      customTitle={<Image resizeMode={Image.resizeMode.contain} style={{width:80}} source={require('image!tripppleLogoText')} />}
+      onPrev={(navigator,route) => navigator.push(SettingsRoute)}
+      customPrev={<Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30}} source={require('image!gear')} />}
+      onNext={(navigator,route) => {navigator.push(MatchesRoute)}}
+      customNext={<Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30}} source={require('image!chat')} />}
+    />)
+};
+
+const SettingsRoute = {
+  component: Settings,
+  index: 1,
+  title: 'Settings',
+  id: 'settings',
+  navigationBar: (
+    <FakeNavBar
+      blur={true}
+      backgroundStyle={{backgroundColor:'transparent'}}
+
+      hidePrev={true}
+      customNext={<Image resizeMode={Image.resizeMode.contain} style={{width:30,top:10,height:20}} source={require('image!close')} />}
+      onNext={(nav,route)=> nav.pop()}
+          title={'SETTINGS'}
+          titleColor={colors.white}
+
+
+    />)
+}
+
+const MatchesRoute = {
+
+  component: Matches,
+  index: 2,
+  title: 'Matches',
+  id: 'matches',
+  navigationBar: (
+    <FakeNavBar
+      hideNext={true}
+      backgroundStyle={{backgroundColor:colors.shuttleGray}}
+          titleColor={colors.white}
+
+      title={'MATCHES'} titleColor={colors.white}
+      onPrev={(nav,route)=> nav.pop()}
+      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{marginTop:8,alignItems:'flex-start'}} source={require('image!close')} />
+      }
+    />
+  ),
+    // sceneConfig: Navigator.SceneConfigs.FloatFromRight
+}
+
+
+const ChatRoute = {
+
+  component: Chat,
+  index: 2,
+  title: 'Matches',
+  id: 'matches',
+  navigationBar: (
+    <FakeNavBar
+      hideNext={true}
+      backgroundStyle={{backgroundColor:'transparent'}}
+          titleColor={colors.white}
+
+      blur={true}
+      title={'Matches'} titleColor={colors.white}
+      onPrev={(nav,route)=> nav.pop()}
+        />
+  ),
+    // sceneConfig: Navigator.SceneConfigs.FloatFromRight
+}
+
+var ROUTE_STACK = [PotentialsRoute,SettingsRoute,MatchesRoute];
+

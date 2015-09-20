@@ -235,7 +235,7 @@ class SettingsInside extends React.Component{
           backgroundSource={{uri: this.props.user.image_url}}
           windowHeight={300}
           navigator={this.props.navigator}
-          style={{backgroundColor:colors.outerSpace}}
+          style={{backgroundColor:colors.outerSpace,paddingTop:30}}
           header={(
           <View  style={[styles.userimageContainer,styles.blur]}>
 
@@ -251,7 +251,6 @@ class SettingsInside extends React.Component{
 
             <Text>{this.props.user.firstname}</Text>
             <Text>View Profile</Text>
-            <CloseButton navigator={this.props.navigator}/>
 
           </View>
       )}>

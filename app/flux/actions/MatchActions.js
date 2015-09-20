@@ -24,9 +24,9 @@ class MatchActions {
     Api.getMessages({match_id: matchID, page: page})
     .then((res) => {
       console.log(res)
-        this.dispatch(res.response);
-      })
-      .catch(err => console.log(err))
+      this.dispatch(res.response);
+    })
+    .catch(err => console.log(err))
 
   }
 
@@ -41,13 +41,17 @@ class MatchActions {
           .then((res) => {
             this.dispatch(res.response);
           })
-          .catch(err => console.log(err))
+          .catch(err => {
+            console.log('GEO ERROR POTENTIALS:',error)
+          })
 
       },
       (error) => {
         // Open native settings
 
-        console.error(error)
+        console.log('GEO ERROR POTENTIALS:',error)
+        this.dispatch(error);
+
       },
       {enableHighAccuracy: false, maximumAge: 1000}
     )
@@ -86,6 +90,8 @@ class MatchActions {
               .then((res) => {
                 this.dispatch(res.response);
               })
+              .catch(err => console.log(err))
+
           },
           (error) => {
             // Open native settings

@@ -22,8 +22,11 @@ var {
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
+import ActionModal from './ActionModal'
 
+import ActionSheet from 'react-native-custom-actsheet'
 var colors = require('../utils/colors');
+var MatchesStore = require('../flux/stores/MatchesStore');
 
 var ChatStore = require('../flux/stores/ChatStore');
 var MatchActions = require('../flux/actions/MatchActions');
@@ -65,7 +68,7 @@ var styles = StyleSheet.create({
     bottom:0
   },
   bubble: {
-    borderRadius:4,
+    borderRadius:10,
     paddingHorizontal: 13,
     paddingVertical:10,
     marginVertical:10,
@@ -176,7 +179,8 @@ class ChatInside extends Component{
       keyboardSpace: 0,
       isKeyboardOpened: false,
       textInputValue: '',
-      lastPage: 0
+      lastPage: 0,
+      isVisible: false
     }
 
   }
@@ -191,7 +195,7 @@ class ChatInside extends Component{
       keyboardSpace: h,
       isKeyboardOpened: true
     });
-        if(frames.endCoordinates ){
+    if(frames.endCoordinates ){
       var duration
       if( frames.duration < 100){
         return false
@@ -250,8 +254,8 @@ class ChatInside extends Component{
       });
     }
   }
-changeKeyboardSpace(frames) {
-  console.log('changeKeyboardSpace',frames)
+  changeKeyboardSpace(frames) {
+    console.log('changeKeyboardSpace',frames)
     var h = frames.startCoordinates && frames.startCoordinates.screenY - frames.endCoordinates.screenY || frames.end && frames.end.height
 
     this.setState({
@@ -293,11 +297,11 @@ changeKeyboardSpace(frames) {
   _renderRow(rowData, sectionID: number, rowID: number) {
     return (
       <ChatMessage
-      user={this.props.user}
-      messageData={rowData}
-      key={`${rowID}-msg`}
-      text={rowData.message_body}
-      pic={rowData.from_user_info.image_url}
+        user={this.props.user}
+        messageData={rowData}
+        key={`${rowID}-msg`}
+        text={rowData.message_body}
+        pic={rowData.from_user_info.thumb_url}
       />
     )
   }
@@ -344,6 +348,14 @@ changeKeyboardSpace(frames) {
       textInputValue: text
     })
   }
+  chatActionSheet(){
+    this.state.isVisible && this._textInput.blur()
+    this.setState({
+      isVisible:!this.state.isVisible
+    })
+
+
+  }
   render(){
     // this._textInput && this._textInput.measure((x, y, width, height)=>{
     //    console.log(x, y, width, height);
@@ -351,6 +363,10 @@ changeKeyboardSpace(frames) {
    // this._textInput && this._textInput.measureLayout(4,(x, y, width, height)=>{
     //    console.log(x, y, width, height);
     // });
+    //
+    chatTitle = this.props.matches.users.them.users.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },"")
+
+    console.log(this.props,'chatTitle',chatTitle);
 
     return (
       <View ref={'chatscroll'} style={{
@@ -421,7 +437,9 @@ changeKeyboardSpace(frames) {
             margin:0,
             paddingLeft:20,
             paddingVertical:15,
-            paddingRight:10
+            paddingRight:10,
+            borderTopWidth: 1 / PixelRatio.get() ,
+            borderTopColor:'#000'
             // paddingBottom:10,
             // paddingTop:15
         }}>
@@ -433,11 +451,10 @@ changeKeyboardSpace(frames) {
               paddingHorizontal:2.5,
                paddingTop:0,
                paddingBottom:10,
-
               flexWrap:'wrap',
               fontSize:16,
               color:colors.white,
-              borderBottomColor:colors.mediumPurple,
+              borderBottomColor:colors.white,
               borderBottomWidth:1,
               overflow:'hidden',
             }}
@@ -485,8 +502,22 @@ changeKeyboardSpace(frames) {
           </TouchableHighlight>
 
         </View>
-        <FakeNavBar onPrev={() => this.props.closeChat ? this.props.closeChat() : this.props.navigator.jumpBack()} route={this.props.route} navigator={this.props.navigator} />
+        <FakeNavBar
+          navigator={this.props.navigator}
+          route={this.props.route}
+          customNext={<Dots/>}
+          onNext={this.chatActionSheet.bind(this)}
+          backgroundStyle={{backgroundColor:'transparent'}}
+          onPrev={(n,p)=>n.pop()}
+          blur={true}
+          title={chatTitle}
+          titleColor={colors.white}
+          customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{marginTop:10,alignItems:'flex-start'}} source={require('image!close')} />
+        }
+        />
 
+        <ActionModal toggleModal={this.chatActionSheet.bind(this)} isVisible={this.state.isVisible} />
+  {/* this.state.isVisible && */}
       </View>
     )
   }
@@ -542,7 +573,15 @@ var Chat = React.createClass({
                 store: ChatStore,
                 value: ChatStore.getMessagesForMatch(props.match_id || this.props.matchID)
               }
+            },
+            matches: (props) => {
+              console.log('ALT',props)
+              return {
+                store: MatchesStore,
+                value: MatchesStore.getMatchInfo(this.props.matchID)
+              }
             }
+
           }}>
           <ChatInside
           navigator={this.props.navigator}
@@ -557,3 +596,22 @@ var Chat = React.createClass({
 });
 
 module.exports = Chat;
+
+
+var Dots = React.createClass({
+  componentWillMount(){
+    console.log(this.props)
+
+  },
+
+  render(){
+    const dotWidth = 10;
+    return (
+        <View style={{flexDirection:'row',flex:1,justifyContent:'space-around',alignItems:'center',width:dotWidth*4,height:34}}>
+          <View style={{width:dotWidth,height:dotWidth,borderRadius:dotWidth/2,backgroundColor:colors.shuttleGray}}/>
+          <View style={{width:dotWidth,height:dotWidth,borderRadius:dotWidth/2,backgroundColor:colors.shuttleGray}}/>
+          <View style={{width:dotWidth,height:dotWidth,borderRadius:dotWidth/2,backgroundColor:colors.shuttleGray}}/>
+        </View>
+    )
+  }
+})

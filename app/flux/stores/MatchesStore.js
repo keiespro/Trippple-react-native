@@ -12,7 +12,8 @@ class MatchesStore {
     }
 
     this.exportPublicMethods({
-      getAllMatches: this.getAllMatches
+      getAllMatches: this.getAllMatches,
+      getMatchInfo: this.getMatchInfo
     });
 
     this.bindListeners({
@@ -46,7 +47,7 @@ class MatchesStore {
 
     // console.log(savedMatches,'handlegetmatches');
     this.setState({
-      matches: this.orderMatches(this.state.matches)
+      matches: orderMatches(this.state.matches)
     });
         // get data from server
 
@@ -65,50 +66,33 @@ class MatchesStore {
   handleGetMatches(matches) {
     console.log(matches,'handlegetmatches');
     if(matches.length){
-      const combinedMatches = this.state.matches.concat(matches.matches ? matches.matches : matches);
       this.setState({
-        matches: combinedMatches
+        matches: orderMatches([...this.state.matches, ...matches])
       });
     }else{
       this.setState({
-        matches: this.orderMatches(this.state.matches)
+        matches: orderMatches(this.state.matches)
       });
     }
 
   }
 
-  orderMatches(matches){
-   var _threads = matches;
-
-    var orderedThreads = [];
-
-    for (var id in _threads) {
-      var thread = _threads[id];
-      orderedThreads.push(thread);
-    }
-    // wrong formatting, rensmr lastMessage
-    orderedThreads.sort(function(a, b) {
-      if (a.recent_message.created_timestamp < b.recent_message.created_timestamp) {
-        return 1;
-      } else if (a.recent_message.created_timestamp > b.recent_message.created_timestamp) {
-        return -1;
-      }
-      return 0;
-    });
-
-    return orderedThreads;
-
-
-  }
   // public methods
 
   getAllMatches(){
     console.log('getmatches',this.getState().matches);
-    var m = this.getState().matches
-    return orderMatches(m)
+    return this.getState().matches
    }
 
+  getMatchInfo(matchID){
+    const matches = this.getState().matches
+    console.log('get match info',matchID);
+    var m = _.filter(matches,(ma,i) => { return ma.match_id == matchID })
+    console.log('get match info',m);
 
+    return m[0]
+
+  }
 
 }
 
