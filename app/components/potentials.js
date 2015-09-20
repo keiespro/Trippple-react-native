@@ -17,6 +17,8 @@ import {
 import alt from '../flux/alt';
 import precomputeStyle from 'precomputeStyle';
 import MatchActions from '../flux/actions/MatchActions';
+import ParallaxView from  '../controls/ParallaxScrollView'
+import ParallaxSwiper from  '../controls/ParallaxSwiper'
 
 import AltContainer from 'alt/AltNativeContainer';
 import TimerMixin from 'react-timer-mixin';
@@ -179,6 +181,10 @@ class CoupleActiveCard extends Component{
 
   constructor(props){
     super()
+    this.state = {
+      slideIndex: 0
+    }
+
   }
 
   componentDidUpdate(prevProps,prevState) {
@@ -192,148 +198,71 @@ class CoupleActiveCard extends Component{
     }
   }
   render(){
-
+    if(!this.props.profileVisible){
     return (
-      <View ref={'cardinside'} key={`${this.props.potential.id}-inside`} style={
-
-        [styles.card,{
-          overflow: this.props.profileVisible ? 'visible' : 'hidden',
+      <View ref={'cardinside'} key={`${this.props.potential.id}-inside`}
+      style={ [styles.card,{
           marginBottom: this.props.isTopCard ? 0 : -25,
-          transform:[
-            {scale:this.props.isTopCard ? 1 : 0.95},
-
-          ]
-        },{
-            shadowColor:colors.darkShadow,
-          shadowRadius:5,
-          shadowOpacity:50,
-          shadowOffset: {
-              width:0,
-              height: 5
-          }
-          }
-        ] }>
-
-
-
-        <ScrollView
-            scrollEnabled={this.props.profileVisible ? true : false}
-            horizontal={false}
-            centerContent={true}
-            bouncesZoom={true}
-            style={{marginHorizontal:40}}
-            contentContainerStyle={[styles.scrollSection,{
-              margin:0,
-              flex:1,
-              padding:0,
-
-            }]}>
+          transform:[ {scale:this.props.isTopCard ? 1 : 0.95}, ]
+        },styles.shadowCard]}>
 
           <View style={[{
               margin:0,
+              overflow: 'hidden',
+
               padding:0,
-               overflow:'hidden',
+              position:'relative'
+             }]} key={`${this.props.potential.id}-view`}>
 
-
-            }]}
-            key={`${this.props.potential.id}-view`}>
-
-            {this.props.profileVisible &&
-               <View style={{
-               overflow:'hidden',
-
-                height:DeviceHeight - (DeviceHeight / 3)
-              }}>
-
-              <Swiper
-                _key={`${this.props.potential.id}-swiper`}
-                loop={true}
-                horizontal={false}
-                vertical={true}
-                showsPagination={true}
-                showsButtons={false}
-                dot={ <View style={styles.dot} />}
-                activeDot={ <View style={styles.activeDot} /> }>
-
-                <Image source={{uri: this.props.potential.user.image_url}}
-                  key={`${this.props.potential.user.id}-cimg`}
-                  style={styles.imagebg}
-                  resizeMode={Image.resizeMode.cover} />
-                <Image source={{uri: this.props.potential.partner.image_url}}
-                  key={`${this.props.potential.partner.id}-cimg`}
-                  style={styles.imagebg}
-                  resizeMode={Image.resizeMode.cover} />
-
-              </Swiper>
-                  <View  style={{position:'absolute',top:50,left:0,width: 50, backgroundColor:'transparent',height: 50,alignSelf:'center',justifyContent:'center'}}>
-                    <TouchableHighlight  onPress={this.props.hideProfile}>
-                      <Image source={require('image!closeWithShadow')} resizeMode={Image.resizeMode.contain}/>
-                    </TouchableHighlight>
-                  </View>
-
-             </View>
-              }
-            {!this.props.profileVisible &&
               <View style={{overflow:'hidden'}}>
                 <Swiper
+                automaticallyAdjustContentInsets={true}
                   _key={`${this.props.potential.id}-swiper`}
                   loop={true}
                   horizontal={false}
                   vertical={true}
                   showsPagination={true}
+                  style={{overflow:'hidden',position:'relative'}}
                   showsButtons={false}
                   dot={ <View style={styles.dot} />}
                   activeDot={ <View style={styles.activeDot} /> }>
                   <Image source={{uri: this.props.potential.user.image_url}}
                     key={`${this.props.potential.user.id}-cimg`}
-                    style={styles.imagebg}
+                    style={[styles.imagebg,{ marginRight:-40,marginTop:-20 }]}
                     resizeMode={Image.resizeMode.cover} />
                   <Image source={{uri: this.props.potential.partner.image_url}}
                     key={`${this.props.potential.partner.id}-cimg`}
-                    style={styles.imagebg}
+                    style={[styles.imagebg,{ marginRight:-40,marginTop:-20 }]}
                     resizeMode={Image.resizeMode.cover} />
                 </Swiper>
-              </View>
-            }
 
+
+              </View>
             <View
               key={`${this.props.potential.id}-bottomview`}
               style={{
-                height:(this.props.profileVisible ? DeviceHeight / 3 : 80),
-                // bottom: this.props.profileVisible ? undefined : 0,
-                overflow:'hidden',
-                // left: 0,
-                // marginTop: this.props.profileVisible ? -80 : 0,
+                height:120,
+                width:DeviceWidth-40,
                 backgroundColor: colors.white,
-                width:this.props.profileVisible ? DeviceWidth : DeviceWidth - 40,
+                flexDirection:'row',
                 flex:1,
                 alignSelf:'stretch',
                 alignItems:'stretch',
                 position:'absolute',
-                bottom:0,
-                left:0
+                top:DeviceHeight-120,
+                left:20,
+
+                right:0,
               }}
               >
-              {this.props.profileVisible &&
-                <View style={{
-                  width: DeviceWidth - (this.props.profileVisible ? 0 : 40),
-                  paddingVertical:20
-                  }}>
-                  <Text style={[styles.cardBottomText,{
-                  width: DeviceWidth - (this.props.profileVisible ? 0 : 40),
-
-                  }]}>{
-                    `${this.props.potential.user.firstname.trim()} and ${this.props.potential.partner.firstname.trim()}`
-                  }</Text>
-                </View>
-              }
-              {!this.props.profileVisible &&
-                 <TouchableHighlight underlayColor={colors.warmGrey} onPress={()=>{ this.props.showProfile()}} style={{ paddingVertical:22 }}>
-                  <Text style={styles.cardBottomText}>{
-                    `${this.props.potential.user.firstname.trim()} and ${this.props.potential.partner.firstname.trim()}`
-                  }</Text>
+               <TouchableHighlight underlayColor={colors.warmGrey} onPress={()=>{ this.props.showProfile()}}>
+                  <View>
+                    <Text style={[styles.cardBottomText,{width:DeviceWidth-40}]}>{
+                      `${this.props.potential.user.firstname.trim()} and ${this.props.potential.partner.firstname.trim()}`
+                    }</Text>
+                  </View>
                 </TouchableHighlight>
-              }
+
               <View style={{
                   height:60,
                   top:-30,
@@ -354,25 +283,140 @@ class CoupleActiveCard extends Component{
                     />
 
               </View>
-                <View style={{width: DeviceWidth, padding:0}}>
 
-                { this.props.profileVisible &&
-                    <View>
-                      <Text>{this.props.potential.bio}</Text>
-                    </View>
-                }
-                </View>
+
 
             </View>
           </View>
 
-        </ScrollView>
+
 
       </View>
 
     )
+  }else{
+// ProfileVisible
+      return (
+        <View ref={'cardinside'} key={`${this.props.potential.id}-inside`} style={
 
+          [styles.card,{
+            transform:[ {scale:this.props.isTopCard ? 1 : 0.95}, ]
+          },styles.shadowCard]}>
+          <View style={[{
+              margin:0,
+              width:DeviceWidth,
+height:DeviceHeight,
+
+              padding:0,
+              position:'relative'
+             }]} key={`${this.props.potential.id}-view`}>
+
+
+          <ParallaxSwiper
+            showsVerticalScrollIndicator={false}
+            windowHeight={500}
+
+
+
+            navigator={this.props.navigator}
+            style={[{backgroundColor:colors.outerSpace,paddingTop:0, },{flex:1,width:DeviceWidth, height:DeviceHeight,top:0,position:'absolute' }]}
+            swiper={<Swiper
+              onMomentumScrollEnd={ (e, state, context) => {
+                this.setState({slideIndex: state.index})
+              }}
+
+                index={this.state.slideIndex || 0}
+                _key={`${this.props.potential.id}-swiper`}
+                loop={true}
+                horizontal={false}
+
+                vertical={true}
+                showsPagination={true}
+                showsButtons={false}
+                dot={ <View style={styles.dot} />}
+                activeDot={ <View style={styles.activeDot} /> }>
+
+                <Image source={{uri: this.props.potential.user.image_url}}
+                  key={`${this.props.potential.user.id}-cimg`}
+                  style={[styles.imagebg,{ margin:0 }]}
+                  resizeMode={Image.resizeMode.cover} />
+                <Image source={{uri: this.props.potential.partner.image_url}}
+                  key={`${this.props.potential.partner.id}-cimg`}
+                  style={[styles.imagebg,{ margin:0 }]}
+                  resizeMode={Image.resizeMode.cover} />
+
+              </Swiper>}
+            header={(
+
+
+
+                <View style={{position:'absolute',top:30,left:20,width: 50, backgroundColor:'transparent',height: 50,alignSelf:'center',justifyContent:'center'}}>
+                  <TouchableHighlight  onPress={this.props.hideProfile}>
+                    <Image source={require('image!closeWithShadow')} resizeMode={Image.resizeMode.contain}/>
+                  </TouchableHighlight>
+                </View>
+
+              )}>
+
+              <View
+                key={`${this.props.potential.id}-bottomview`}
+                style={{
+                  height:( 500),
+                  backgroundColor:colors.outerSpace,
+                  flex:1,
+                  alignSelf:'stretch',
+                  alignItems:'stretch',
+                  left:0,
+                  right:0,
+                }} >
+                  <View style={{
+                    width: DeviceWidth ,
+                    paddingVertical:20
+                    }}>
+                    <Text style={[styles.cardBottomText,{
+                    width: DeviceWidth,
+
+                    }]}>{
+                      `${this.props.potential.user.firstname.trim()} and ${this.props.potential.partner.firstname.trim()}`
+                    }</Text>
+                  </View>
+                <View style={{
+                    height:60,
+                    top:-30,
+                    position:'absolute',
+                    width:135,
+                    right:0,
+                    backgroundColor:'transparent',
+                    flexDirection:'row'}}>
+                    <Image
+                      source={{uri: this.props.potential.user.image_url}}
+                      key={this.props.potential.user.id + 'img'}
+                      style={[styles.circleimage, {marginRight:5}]}
+                    />
+                    <Image
+                      source={{uri: this.props.potential.partner.image_url}}
+                      key={this.props.potential.partner.id + 'img'}
+                      style={styles.circleimage}
+                      />
+                </View>
+                  <View style={{width: DeviceWidth, padding:20}}>
+
+                      <View>
+                        <Text>You are welcome to contribute comments, but they should be relevant to the conversation. We reserve the right to remove off-topic remarks in the interest of keeping the conversation focused and engaging. Shameless self-promotion is well, shameless, and will get canned.</Text>
+                      </View>
+                  </View>
+
+              </View>
+
+
+         </ParallaxSwiper>
+
+         </View>
+        </View>
+
+    )
   }
+}
 }
 
 class DummyCard extends Component{
@@ -387,10 +431,12 @@ class DummyCard extends Component{
           styles.basicCard,
           {
             margin:40,
-            marginTop:85,
+            marginTop:75,
+            marginBottom:50,
             position:'absolute',
             width: DeviceWidth - 80,
-            height:DeviceHeight - 100
+            height:DeviceHeight - 100,
+            bottom:10
           }]
         }>
         <View style={{
@@ -399,7 +445,7 @@ class DummyCard extends Component{
             position:'absolute',
             width: DeviceWidth - 80,
             backgroundColor:colors.white,
-            flex:5,
+            flex:1,
             alignSelf:'stretch'
           } }/>
       </View>
@@ -417,25 +463,24 @@ class CardStack extends Component{
     this.setState({profileVisible:!this.state.profileVisible})
   }
   render(){
+    console.log(this.props.potentials)
     var NavBar = React.addons.cloneWithProps(this.props.pRoute.navigationBar, { navigator: this.props.navigator, route: this.props.route})
 
       return (
         <View style={{width:DeviceWidth,height:DeviceHeight,flex:1,alignItems:'center',justifyContent:'center',alignSelf:'stretch',backgroundColor:colors.outerSpace}}>
 
         {this.props.potentials && this.props.potentials.length >= 1  && this.props.potentials[2] &&
-          <View style={{shadowColor:colors.darkShadow,shadowRadius:5,shadowOffset:{width:0,height:5},shadowOpacity:30}}>
             <DummyCard />
-          </View>
         }
 
-        {this.props.potentials && this.props.potentials.length >= 1 && this.props.potentials[1] &&
+        { this.props.potentials && this.props.potentials.length >= 1 && this.props.potentials[1] &&
           <ActiveCard key={`${this.props.potentials[1].id}-activecard`} user={this.props.user} potential={this.props.potentials[1]} isTopCard={false}/>
         }
         {this.props.potentials && this.props.potentials.length >= 1  && this.props.potentials[0] &&
           <ActiveCard key={`${this.props.potentials[0].id}-activecard`} user={this.props.user} potential={this.props.potentials[0]} profileVisible={this.state.profileVisible} toggleProfile={this.toggleProfile.bind(this)} isTopCard={true}/>
         }
 
-    {!this.props.potentials || !this.props.potentials.length || this.props.potentials.length < 1 &&
+    { this.props.potentials.length < 1 &&
          <Image source={require('image!placeholderDashed')}
             resizeMode={Image.resizeMode.contain}
             style={styles.dashedBorderImage}>
@@ -471,6 +516,17 @@ class Potentials extends Component{
 export default Potentials;
 
 var styles = StyleSheet.create({
+
+shadowStyles:{
+  shadowColor:colors.darkShadow,
+  shadowRadius:5,
+  shadowOpacity:50,
+  shadowOffset: {
+    width:0,
+    height: 5
+  }
+},
+
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -528,10 +584,12 @@ var styles = StyleSheet.create({
   imagebg:{
     flex: 1,
     alignSelf:'stretch',
-    margin:0,
-    padding:0,
+     padding:0,
     alignItems:'stretch',
     flexDirection:'column',
+    width:DeviceWidth,
+    height:DeviceHeight,
+
   },
 
   dot: {

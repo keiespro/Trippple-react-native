@@ -56,9 +56,10 @@ class ActionModal extends Component{
 
 
       <Modal
-        height={DeviceHeight}
+        height={333}
         modalStyle={styles.actionmodal}
         isVisible={isVisible}
+        contentWrapStyle={{height:300}}
         swipeableAreaStyle={{ position: 'absolute',
           top: isVisible ? -60 : 0,
           left: 0,
@@ -72,19 +73,19 @@ class ActionModal extends Component{
       }}
         onWillHide={this.toggleModal.bind(this)}
       >
-      <TouchableHighlight onPress={()=>true}>
-        <View style={styles.clearButton}>
+      <TouchableHighlight  style={styles.clearButton} underlayColor={colors.shuttleGray20} onPress={()=>true}>
+        <View >
           <Text style={[styles.clearButtonText]}>UNMATCH </Text>
         </View>
       </TouchableHighlight>
-    <TouchableHighlight onPress={()=>true}>
-        <View style={styles.clearButton}>
+    <TouchableHighlight style={styles.clearButton} underlayColor={colors.shuttleGray20} onPress={()=>true}>
+        <View >
           <Text style={[styles.clearButtonText]}>REPORT </Text>
         </View>
       </TouchableHighlight>
 
-    <TouchableHighlight onPress={()=>true}>
-        <View style={[styles.clearButton,styles.modalButton]}>
+    <TouchableHighlight style={[styles.clearButton,styles.modalButton]} underlayColor={colors.mediumPurple} onPress={()=>true}>
+        <View >
           <Text style={[styles.clearButtonText,styles.modalButtonText]}>VIEW PROFILE</Text>
         </View>
       </TouchableHighlight>
@@ -103,18 +104,27 @@ var styles = StyleSheet.create({
   actionmodal:{
     width:DeviceWidth,
     backgroundColor: colors.outerSpace,
-    justifyContent:'space-around',
-    bottom:0
+    justifyContent:'flex-start',
+    margin:0,
+    padding:10,
+    height:333,
+    shadowColor:colors.darkShadow,
+          shadowRadius:5,
+          shadowOpacity:50,
+          shadowOffset: {
+              width:0,
+              height: -5
+          }
+
+
   },
   clearButton:{
     backgroundColor:'transparent',
-    alignSelf:'stretch',
     borderColor:colors.rollingStone,
     alignItems:'center',
     margin: 10,
     borderRadius:8,
     justifyContent:'center',
-    flex:1,
     height:50,
     borderWidth:1
 
@@ -127,7 +137,6 @@ var styles = StyleSheet.create({
     margin: 10,
     borderRadius:8,
     justifyContent:'center',
-    flex:1,
     height:50,
     borderWidth:1
 },
@@ -158,17 +167,7 @@ clearButtonText:{
   fullwidth:{
     width: DeviceWidth
   },
-  row: {
-    flexDirection: 'row',
-    padding: 0,
-    alignSelf:'stretch',
-    height:70,
-    flex: 1,
-    backgroundColor: 'transparent',
-    alignItems:'center',
-    justifyContent:'flex-start'
-  },
-  col: {
+   col: {
     flexDirection: 'column',
     padding: 0,
   }})

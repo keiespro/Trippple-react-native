@@ -375,9 +375,11 @@ class ChatInside extends Component{
         alignSelf:'stretch',
         backgroundColor: colors.outerSpace,
         flex:1,
+        position:'relative',
         paddingBottom:this.state.keyboardSpace,
         height:DeviceHeight,
         width:DeviceWidth,
+        overflow:'hidden'
         }}>
 
 
@@ -517,7 +519,6 @@ class ChatInside extends Component{
         />
 
         <ActionModal toggleModal={this.chatActionSheet.bind(this)} isVisible={this.state.isVisible} />
-  {/* this.state.isVisible && */}
       </View>
     )
   }

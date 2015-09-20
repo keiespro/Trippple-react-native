@@ -279,12 +279,12 @@ const styles = StyleSheet.create({
     bottom: 10,
   },
   navBarLeftButton: {
-    paddingLeft: 10,
-    marginVertical: 10,
+    paddingLeft: 20,
+    marginVertical: 15,
   },
   navBarRightButton: {
-    marginVertical: 10,
-    paddingRight: 10,
+    marginVertical: 15,
+    paddingRight: 20,
   },
   navBarButtonText: {
     color: colors.rollingStone,

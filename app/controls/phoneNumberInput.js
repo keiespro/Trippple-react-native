@@ -21,7 +21,6 @@ var PhoneNumberInput = React.createClass({
         style={[this.props.style,{
                 fontSize: 26
               }]}
-        selectionState={e => console.log(e)}
 
         onSubmitEditing={e => console.log(e)}
         />

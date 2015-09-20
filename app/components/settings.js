@@ -233,12 +233,11 @@ class SettingsInside extends React.Component{
         showsVerticalScrollIndicator={false}
           key={this.props.user.image_url}
           backgroundSource={{uri: this.props.user.image_url}}
-          windowHeight={300}
+          windowHeight={450}
           navigator={this.props.navigator}
-          style={{backgroundColor:colors.outerSpace,paddingTop:30}}
+          style={{backgroundColor:colors.outerSpace,paddingTop:0}}
           header={(
           <View  style={[styles.userimageContainer,styles.blur]}>
-
             <TouchableOpacity onPress={this._pressNewImage}>
               <Image
                 style={styles.userimage}
@@ -251,21 +250,23 @@ class SettingsInside extends React.Component{
 
             <Text>{this.props.user.firstname}</Text>
             <Text>View Profile</Text>
+{this.props.navBar}
 
           </View>
       )}>
 
-      <SegmentedView
-        barPosition={'bottom'}
-        style={{backgroundColor:colors.dark}}
-        barColor={colors.mediumPurple}
-        titles={['BASIC', 'PREFERENCES', 'SETTINGS']}
-         index={this.state.index}
-         stretch
-         onPress={index => this.setState({ index })}
-         />
+      <ScrollableTabView renderTabBar={() => <CustomTabBar  />}>
+        <View style={{height:800,backgroundColor:colors.outerSpace,width:DeviceWidth}}  tabLabel={'BASIC'}>
+          <BasicSettings  user={this.props.user} navigator={this.props.navigator}/>
+        </View>
+        <View style={{height:800,backgroundColor:colors.outerSpace,width:DeviceWidth}} tabLabel={'PREFERENCES'}>
+          <PreferencesSettings  user={this.props.user} navigator={this.props.navigator} />
+         </View>
+        <View style={{height:800,backgroundColor:colors.outerSpace,width:DeviceWidth}} tabLabel={'SETTINGS'}>
+          <SettingsSettings  user={this.props.user} navigator={this.props.navigator} />
+         </View>
 
-      {innerView}
+      </ScrollableTabView>
 
 
 
@@ -312,19 +313,10 @@ class Settings extends React.Component{
 
   closeModal = () => { this.setState({isModalOpen: false}) }
 
-  showModalTransition(transition) {
-    transition('opacity', {duration: 200, begin: 0, end: 1});
-    transition('height', {duration: 200, begin: DeviceHeight * 2, end: DeviceHeight});
-  }
-  hideModalTransition(transition) {
-    transition('height', {duration: 200, begin: DeviceHeight, end: DeviceHeight * 2, reset: true});
-    transition('opacity', {duration: 200, begin: 1, end: 0});
-  }
-
   render(){
     return (
       <View style={styles.container}>
-        <SettingsInside user={this.props.user} openModal={this.openModal} navigator={this.props.navigator}/>
+        <SettingsInside user={this.props.user} navBar={this.props.navBar} openModal={this.openModal} navigator={this.props.navigator}/>
       </View>
     )
   }
@@ -347,6 +339,7 @@ var styles = StyleSheet.create({
    flex: 1,
    justifyContent: 'center',
    alignItems: 'stretch',
+   position:'relative',
    alignSelf: 'stretch',
    backgroundColor:colors.outerSpace
   //  overflow:'hidden'
@@ -505,5 +498,77 @@ var styles = StyleSheet.create({
 segmentTitles:{
   color:colors.white,
   fontFamily:'Montserrat'
-}
+},
+  tab: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 10,
+    width:DeviceWidth/3,
+
+  },
+
+  tabs: {
+    height: 50,
+    flexDirection: 'row',
+    marginTop: -10,
+    borderWidth: 1,
+    flex:1,
+    backgroundColor:colors.dark,
+    width:DeviceWidth,
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderBottomColor: colors.dark,
+  },
+
 });
+
+var precomputeStyle = require('precomputeStyle');
+var TAB_UNDERLINE_REF = 'TAB_UNDERLINE';
+
+
+var CustomTabBar = React.createClass({
+  propTypes: {
+    goToPage: React.PropTypes.func,
+    activeTab: React.PropTypes.number,
+    tabs: React.PropTypes.array
+  },
+
+  renderTabOption(name, page) {
+    var isTabActive = this.props.activeTab === page;
+
+    return (
+      <TouchableOpacity key={name} onPress={() => this.props.goToPage(page)}>
+        <View style={[styles.tab]}>
+          <Text style={{color: isTabActive ? colors.mediumPurple : colors.white}}>{name}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  },
+
+  setAnimationValue(value) {
+    this.refs[TAB_UNDERLINE_REF].setNativeProps(precomputeStyle({
+      left: (DeviceWidth * value) / this.props.tabs.length
+    }));
+  },
+
+  render() {
+    var numberOfTabs = this.props.tabs.length;
+    var tabUnderlineStyle = {
+      position: 'absolute',
+      width: DeviceWidth / numberOfTabs,
+      height: 4,
+      backgroundColor: colors.mediumPurple,
+      bottom: 0,
+    };
+
+    return (
+      <View style={styles.tabs}>
+        {this.props.tabs.map((tab, i) => this.renderTabOption(tab, i))}
+        <View style={tabUnderlineStyle} ref={TAB_UNDERLINE_REF} />
+      </View>
+    );
+  },
+});
+

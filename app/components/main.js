@@ -43,7 +43,7 @@ import FakeNavBar from '../controls/FakeNavBar'
     }
 
     componentDidMount(){
-      MatchActions.getPotenials();
+      MatchActions.getPotentials();
       this.refs.nav.navigationContext.addListener('didfocus', (e)=>{
         console.log(e);
       })
@@ -62,8 +62,8 @@ import FakeNavBar from '../controls/FakeNavBar'
       }
       return (
         <View style={{ flex: 1, position:'relative'}}>
-        <RouteComponent navigator={navigator} route={route} user={this.props.user} {...route.passProps} pRoute={route.id == 'potentials' ? PotentialsRoute : null} />
-        {route.id == 'potentials' ? null : navBar}
+        <RouteComponent navigator={navigator} route={route} navBar={navBar} user={this.props.user} {...route.passProps} pRoute={route.id == 'potentials' ? PotentialsRoute : null} />
+        {route.id == 'potentials' || route.id == 'settings' ? null : navBar}
         </View>
       );
     }
@@ -200,7 +200,7 @@ const MatchesRoute = {
 
       title={'MATCHES'} titleColor={colors.white}
       onPrev={(nav,route)=> nav.pop()}
-      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{marginTop:8,alignItems:'flex-start'}} source={require('image!close')} />
+      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{marginTop:10,alignItems:'flex-start'}} source={require('image!close')} />
       }
     />
   ),
@@ -223,10 +223,11 @@ const ChatRoute = {
       blur={true}
       title={'Matches'} titleColor={colors.white}
       onPrev={(nav,route)=> nav.pop()}
-        />
+      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{marginTop:10,alignItems:'flex-start'}} source={require('image!close')} />
+      }
+    />
   ),
     // sceneConfig: Navigator.SceneConfigs.FloatFromRight
 }
 
 var ROUTE_STACK = [PotentialsRoute,SettingsRoute,MatchesRoute];
-

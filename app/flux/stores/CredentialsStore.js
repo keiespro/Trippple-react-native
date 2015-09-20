@@ -71,4 +71,3 @@ class CredentialsStore {
   }
 }
 export default alt.createStore(CredentialsStore, 'CredentialsStore');
-
