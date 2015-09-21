@@ -19,7 +19,7 @@ import precomputeStyle from 'precomputeStyle';
 import MatchActions from '../flux/actions/MatchActions';
 import ParallaxView from  '../controls/ParallaxScrollView'
 import ParallaxSwiper from  '../controls/ParallaxSwiper'
-
+import Mixpanel from '../utils/mixpanel';
 import AltContainer from 'alt/AltNativeContainer';
 import TimerMixin from 'react-timer-mixin';
 import colors from '../utils/colors';
@@ -58,6 +58,8 @@ class ActiveCard extends Component{
   componentDidMount(){
     this.state.panX.setValue(0);     // Start 0
     this.state.panY.setValue(0);     // Start 0
+    Mixpanel.track('On - Potentials Screen');
+
   }
   componentDidUpdate(prevProps,prevState){
     if(this.props.isTopCard && !prevProps.isTopCard){

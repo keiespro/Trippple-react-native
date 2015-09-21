@@ -36,7 +36,7 @@ import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin';
 import AltContainer from 'alt/AltNativeContainer'
 import FakeNavBar from '../controls/FakeNavBar'
-
+import Mixpanel from '../utils/mixpanel';
 // Buttons
 var swipeoutBtns = [
   {
@@ -58,6 +58,9 @@ class MatchList extends Component{
 
   }
 
+    componentDidMount() {
+        Mixpanel.track('On - Matches Screen');
+    }
   // TODO: figure out how dataSource actually works
   // componentDidUpdate(){
   //   console.log('matches list update',this.props.matches.length)

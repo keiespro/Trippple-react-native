@@ -34,6 +34,7 @@ import reactMixin from 'react-mixin'
 import TimerMixin from 'react-timer-mixin'
 import SingleInputScreenMixin from '../mixins/SingleInputScreenMixin'
 import TrackKeyboardMixin from '../mixins/keyboardMixin'
+import Mixpanel from '../utils/mixpanel';
 
 @reactMixin.decorate(TimerMixin)
 @reactMixin.decorate(TrackKeyboardMixin)
@@ -63,6 +64,7 @@ class Login extends Component{
   }
   componentDidMount(){
     AuthErrorStore.listen(this.onError);
+    Mixpanel.track('On - Login Screen');
   }
   componentWillUnmount(){
     AuthErrorStore.unlisten(this.onError);
@@ -294,4 +296,3 @@ var animations = {
     }
   }
 };
-
