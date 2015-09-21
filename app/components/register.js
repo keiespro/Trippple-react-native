@@ -34,6 +34,8 @@ import PinScreen from './pin'
 import reactMixin from 'react-mixin'
 import SingleInputScreenMixin from '../mixins/SingleInputScreenMixin'
 import TrackKeyboardMixin from '../mixins/keyboardMixin'
+import Mixpanel from '../utils/mixpanel';
+
 
 @reactMixin.decorate(TimerMixin)
 @reactMixin.decorate(TrackKeyboardMixin)
@@ -63,8 +65,10 @@ class Register extends Component{
     })
   }
   componentDidMount(){
+    Mixpanel.track('On - Register Screen');
     AuthErrorStore.listen(this.onError);
   }
+
   componentWillUnmount(){
     AuthErrorStore.unlisten(this.onError);
   }
@@ -293,5 +297,3 @@ var animations = {
     }
   }
 };
-
-
