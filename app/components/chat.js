@@ -24,7 +24,6 @@ const DeviceWidth = Dimensions.get('window').width;
 
 import ActionModal from './ActionModal'
 
-import ActionSheet from 'react-native-custom-actsheet'
 var colors = require('../utils/colors');
 var MatchesStore = require('../flux/stores/MatchesStore');
 

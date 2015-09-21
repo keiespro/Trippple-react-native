@@ -19,7 +19,6 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		AC43D51A1BA0D256003506F9 /* libRCTCustomActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC43D5061BA0D24F003506F9 /* libRCTCustomActionSheet.a */; };
 		AC43D52F1BA0F9AB003506F9 /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACABA31E1B8F7B760024503C /* libRNOverlay.a */; };
 		AC5A3AB81BAA4EAE00EFF0B9 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC5A3AB71BAA4EAE00EFF0B9 /* Montserrat-Bold.ttf */; };
 		AC5B03A11B85A899003E0302 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACA1296E1B40EC3B00CC1499 /* Images.xcassets */; };
@@ -33,7 +32,6 @@
 		AC6BC1AF1B832657005F7DFA /* omnes-light-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129731B40EF0D00CC1499 /* omnes-light-webfont.ttf */; };
 		AC6BC1B01B832657005F7DFA /* omnes-medium-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129741B40EF0D00CC1499 /* omnes-medium-webfont.ttf */; };
 		AC6BC1B11B832657005F7DFA /* omnes-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129751B40EF0D00CC1499 /* omnes-regular-webfont.ttf */; };
-		AC6BC1B21B832675005F7DFA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACA1296E1B40EC3B00CC1499 /* Images.xcassets */; };
 		ACA1295D1B40EA2E00CC1499 /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129451B40EA1600CC1499 /* libRCTAddressBook.a */; };
 		ACA1295E1B40EA2E00CC1499 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1294A1B40EA1600CC1499 /* libRCTCamera.a */; };
 		ACA1295F1B40EA2E00CC1499 /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1294D1B40EA1600CC1499 /* libRCTFBLogin.a */; };
@@ -121,20 +119,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
-		};
-		AC43D5051BA0D24F003506F9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AC43D4FC1BA0D24F003506F9 /* RCTCustomActionSheet.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F8D080441B7095AB006F2DE4;
-			remoteInfo = RCTCustomActionSheet;
-		};
-		AC43D5071BA0D24F003506F9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AC43D4FC1BA0D24F003506F9 /* RCTCustomActionSheet.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F8D0804F1B7095AB006F2DE4;
-			remoteInfo = RCTCustomActionSheetTests;
 		};
 		ACA129441B40EA1600CC1499 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -233,7 +217,6 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		AC43D4FC1BA0D24F003506F9 /* RCTCustomActionSheet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCustomActionSheet.xcodeproj; path = "node_modules/react-native-custom-actsheet/RCTCustomActionSheet.xcodeproj"; sourceTree = "<group>"; };
 		AC5A3AB71BAA4EAE00EFF0B9 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		AC5B03A21B85A9FB003E0302 /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
 		AC5B03A31B85A9FB003E0302 /* Default-667h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-667h@2x~iphone.png"; sourceTree = "<group>"; };
@@ -273,7 +256,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC43D52F1BA0F9AB003506F9 /* libRNOverlay.a in Frameworks */,
-				AC43D51A1BA0D256003506F9 /* libRCTCustomActionSheet.a in Frameworks */,
 				ACFC0A6A1B51E5AE00D9D40F /* libRNKeychain.a in Frameworks */,
 				ACE1CD0A1B5772DF0043177A /* Bolts.framework in Frameworks */,
 				ACA129861B416C3000CC1499 /* libRNKeyboardEvents.a in Frameworks */,
@@ -408,7 +390,6 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				AC43D4FC1BA0D24F003506F9 /* RCTCustomActionSheet.xcodeproj */,
 				ACBC57271B92498900615D7A /* DeviceUtil.h */,
 				ACBC57281B92498900615D7A /* DeviceUtil.m */,
 				ACABA3281B8F7E880024503C /* RNBlur */,
@@ -465,15 +446,6 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* trippple.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		AC43D4FD1BA0D24F003506F9 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AC43D5061BA0D24F003506F9 /* libRCTCustomActionSheet.a */,
-				AC43D5081BA0D24F003506F9 /* RCTCustomActionSheetTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -632,10 +604,6 @@
 					ProjectRef = ACA1293F1B40EA1600CC1499 /* RCTCamera.xcodeproj */;
 				},
 				{
-					ProductGroup = AC43D4FD1BA0D24F003506F9 /* Products */;
-					ProjectRef = AC43D4FC1BA0D24F003506F9 /* RCTCustomActionSheet.xcodeproj */;
-				},
-				{
 					ProductGroup = ACA1292E1B40EA1600CC1499 /* Products */;
 					ProjectRef = ACA1292D1B40EA1600CC1499 /* RCTFBLogin.xcodeproj */;
 				},
@@ -776,20 +744,6 @@
 			fileType = archive.ar;
 			path = libRCTText.a;
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AC43D5061BA0D24F003506F9 /* libRCTCustomActionSheet.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTCustomActionSheet.a;
-			remoteRef = AC43D5051BA0D24F003506F9 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AC43D5081BA0D24F003506F9 /* RCTCustomActionSheetTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = RCTCustomActionSheetTests.xctest;
-			remoteRef = AC43D5071BA0D24F003506F9 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		ACA129451B40EA1600CC1499 /* libRCTAddressBook.a */ = {
