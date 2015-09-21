@@ -36,7 +36,6 @@ import SingleInputScreenMixin from '../mixins/SingleInputScreenMixin'
 import TrackKeyboardMixin from '../mixins/keyboardMixin'
 import Mixpanel from '../utils/mixpanel';
 
-
 @reactMixin.decorate(TimerMixin)
 @reactMixin.decorate(TrackKeyboardMixin)
 @reactMixin.decorate(SingleInputScreenMixin)
