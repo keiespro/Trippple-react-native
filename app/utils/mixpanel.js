@@ -1,7 +1,8 @@
 import TrackEvt from "rn-redux-mixpanel/src/api/trackEvent";
 import Arrows from "./Arrows";
+
 const TOKEN = 'f50df064bf21092e7394129ede26935b';
-var {
+const {
     AsyncA,
     CpsA,
     ProgressA,
@@ -9,15 +10,17 @@ var {
     Repeat
 } = Arrows;
 
+var _distinctId;
+
 function now() {
     let now = new Date();
     return now.getTime();
 }
-function TrackA(userId) {
+function TrackA() {
     if(!(this instanceof TrackA))
-        return new TrackA(userId);
-    this.userId = `MXUUID:${userId}`;
-    this.eventHistory = [];
+        return new TrackA();
+    this.distinctId = `MXUUID:`;
+    this.eventQueue = [];
     this.lastFlushAt = null;
     this.lastEventAt = null;
     this.eventCount = 0;
@@ -25,7 +28,7 @@ function TrackA(userId) {
     //- this arrow will flush its contents to mixpanel every three seconds.
     var THREE_SECONDS = 3000;
     (function TrackingA (tracker) {
-        var e,es = tracker.eventHistory;
+        var e,es = tracker.eventQueue;
         for(;e=es.pop();)
             TrackEvt(e.eventName, e);
         tracker.lastFlushAt = now();
@@ -34,24 +37,31 @@ function TrackA(userId) {
 }
 
 TrackA.prototype = new AsyncA(function (Evtparams, p, k ) {
-    var {
-        lastFlushAt
-    } = this,
-        queued = this.eventHistory.length,
-        data = this.eventHistory[this.eventHistory.length - 1],
-        _now = now();
-
-    this.eventHistory.push({ createdAt: _now,
-                            ...Evtparams,
-                            userId: this.userId});
-    this.lastEventAt = _now;
+    let _now = now(),
+        {
+            eventName,
+            eventData,
+            distinctId
+        } = Evtparams;
     ++this.eventCount;
-    k({lastFlushAt, queued, data}, p);
+    this.eventQueue.push({ createdAt: _now,eventName, eventData, distinctId});
+    var {
+        lastFlushAt,
+        eventCount
+    } = this,
+        queued = this.eventQueue.length,
+        data = this.eventQueue[this.eventQueue.length - 1];
+    this.lastEventAt = _now;
+    k({lastFlushAt, eventCount, queued, data}, p);
 });
 
-var MixA = new TrackA('elrikDante');
+var MixA = new TrackA();
 export default {
-    track (eventName) {
-        MixA.run({token: TOKEN, eventName});
+    track (eventName, eventData={}) {
+        MixA.run({token: TOKEN, eventName, eventData, distinctId: _distinctId});
+    },
+    auth (distinctId) {
+        _distinctId = distinctId;
+        return this;
     }
 }

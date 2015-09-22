@@ -54,7 +54,7 @@ import FakeNavBar from '../controls/FakeNavBar';
       const RouteComponent = route.component;
       var navBar = route.navigationBar;
 
-      Mixpanel.track(`HO: On - ${route.id} Screen`);
+      Mixpanel.auth(this.props.user.username).track(`HO: On - ${route.id} Screen`);
 
       if (navBar) {
         navBar = React.addons.cloneWithProps(navBar, {
