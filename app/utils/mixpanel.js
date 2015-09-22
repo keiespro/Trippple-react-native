@@ -2,6 +2,7 @@ import TrackEvt from "rn-redux-mixpanel/src/api/trackEvent";
 import Arrows from "./Arrows";
 
 const TOKEN = 'f50df064bf21092e7394129ede26935b';
+const THREE_SECONDS = 3000;
 const {
     AsyncA,
     CpsA,
@@ -19,43 +20,50 @@ function now() {
 function TrackA() {
     if(!(this instanceof TrackA))
         return new TrackA();
-    this.distinctId = `MXUUID:`;
+    this.distinctId = `MXUUID:unitialised`;
     this.eventQueue = [];
     this.lastFlushAt = null;
     this.lastEventAt = null;
     this.eventCount = 0;
 
     //- this arrow will flush its contents to mixpanel every three seconds.
-    var THREE_SECONDS = 3000;
-    (function TrackingA (tracker) {
+    var TrackingA = function (tracker) {
         var e,es = tracker.eventQueue;
         for(;e=es.pop();)
             TrackEvt(e.eventName, e);
         tracker.lastFlushAt = now();
-        return Repeat(tracker);
-    }).AsyncA().repeat(THREE_SECONDS).run(this);
+        return tracker;
+    }.AsyncA().next(Repeat);
+
+    TrackingA
+        .repeat(THREE_SECONDS)
+        .run(this);
 }
 
-TrackA.prototype = new AsyncA(function (Evtparams, p, k ) {
+TrackA.prototype = new AsyncA(function (Evtparams, p,k ) {
     let _now = now(),
         {
             eventName,
             eventData,
             distinctId
         } = Evtparams;
+
     ++this.eventCount;
+
     this.eventQueue.push({ createdAt: _now,eventName, eventData, distinctId});
+
     var {
         lastFlushAt,
         eventCount
     } = this,
         queued = this.eventQueue.length,
         data = this.eventQueue[this.eventQueue.length - 1];
+
     this.lastEventAt = _now;
     k({lastFlushAt, eventCount, queued, data}, p);
 });
 
-var MixA = new TrackA();
+var MixA = TrackA();
 export default {
     track (eventName, eventData={}) {
         MixA.run({token: TOKEN, eventName, eventData, distinctId: _distinctId});
