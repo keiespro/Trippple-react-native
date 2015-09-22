@@ -178,8 +178,9 @@ class Carousel extends Component{
 var Welcome = React.createClass({
 
   componentDidMount() {
-      console.log('welcome evt');
+      Mixpanel.track('On - Home Screen');
   },
+
   renderScene(route: Navigator.route, navigator: Navigator) : React.Component {
     return (<route.component {...route.passProps} key={route.id} navigator={navigator} />);
   },
