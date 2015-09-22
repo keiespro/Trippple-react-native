@@ -27,13 +27,22 @@
 				<string>trippple</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb520565374758791</string>
+				<string>tripppletest</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>7</string>
 	<key>FacebookAppID</key>
-	<string>367243980090932</string>
+	<string>520565374758791</string>
 	<key>FacebookDisplayName</key>
-	<string>Trippple</string>
+	<string>trippplet</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
