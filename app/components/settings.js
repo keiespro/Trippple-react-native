@@ -15,7 +15,7 @@ import {
   AsyncStorage,
   Navigator
 } from  'react-native'
-
+import Mixpanel from '../utils/mixpanel';
 import SegmentedView from '../controls/SegmentedView'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
 
@@ -153,6 +153,9 @@ class PreferencesSettings extends React.Component{
 }
 
 class SettingsSettings extends React.Component{
+  componentDidMount() {
+    Mixpanel.track('On - Setings Screen');
+  }
   constructor(props){
     super(props)
   }

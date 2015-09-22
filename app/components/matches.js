@@ -36,6 +36,7 @@ import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin';
 import AltContainer from 'alt/AltNativeContainer'
 import FakeNavBar from '../controls/FakeNavBar'
+import Mixpanel from '../utils/mixpanel'
 
 
 
@@ -90,11 +91,10 @@ class MatchList extends Component{
 
   }
 
-  // shouldComponentUpdate(nextProps,nextState){
+  componentDidMount() {
+    Mixpanel.track('On - Matches Screen');
+  }
 
-  // //   if(this.props.matches.length === nextProps.matches.length) return false;
-  //   return true;
-  // }
   // componentWillReceiveProps(newProps){
   //   this._updateDataSource(newProps.matches)
   //
@@ -113,14 +113,12 @@ class MatchList extends Component{
 
   //  set active swipeout item
   _handleSwipeout(sectionID, rowID) {
-console.log('swipeout')
-      const rows = this.props.matches;
-      // this._allowScroll(false)
-      for (var i = 0; i < rows.length; i++) {
-        if (i != rowID) { rows[i].active = false }
-        else {rows[i].active = true}
-      }
-       this._updateDataSource(rows)
+    const rows = this.props.matches;
+    for (var i = 0; i < rows.length; i++) {
+      if (i != rowID) { rows[i].active = false }
+      else {rows[i].active = true}
+    }
+    this._updateDataSource(rows)
   }
 
   // https://github.com/dancormier/react-native-swipeout/wiki/Closing-Swipeouts

@@ -31,7 +31,8 @@ var alt = require('alt');
 var cssVar = require('cssVar');
 var Chat = require("./chat");
 var MatchActions = require("../flux/actions/MatchActions");
-import FakeNavBar from '../controls/FakeNavBar'
+import Mixpanel from '../utils/mixpanel';
+import FakeNavBar from '../controls/FakeNavBar';
 
   class Main extends Component{
     static propTypes = { user: React.PropTypes.any }
@@ -52,6 +53,8 @@ import FakeNavBar from '../controls/FakeNavBar'
     selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
       const RouteComponent = route.component;
       var navBar = route.navigationBar;
+
+      Mixpanel.auth(this.props.user.username).track(`HO: On - ${route.id} Screen`);
 
       if (navBar) {
         navBar = React.addons.cloneWithProps(navBar, {

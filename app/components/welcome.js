@@ -1,6 +1,4 @@
 /* @flow */
-
-
 var React = require('react-native');
 
 var {
@@ -23,7 +21,7 @@ var DeviceWidth = require('Dimensions').get('window').width;
 var CustomSceneConfigs = require('../utils/sceneConfigs');
 var Auth = require('./auth');
 var Facebook = require('../screens/registration/facebook');
-
+import Mixpanel from '../utils/mixpanel';
 
 var slides = [
   {
@@ -98,6 +96,21 @@ var IntroScreen = React.createClass({
     })
   },
 
+  componentDidMount() {
+      Mixpanel.track('On - Splash Screen');
+
+      ['On - Splash Screen',
+       'On - Home',
+       'CTA - Sign Up',
+       'CTA - Login',
+       'On - Phone Number',
+       'Admin - Twillio',
+       'CTA - Continue'].forEach(function (evName){
+ //          Mixpanel.track(evName);
+       });
+
+  },
+
   render(){
     return(
       <View style={[styles.container]}>
@@ -163,6 +176,10 @@ class Carousel extends Component{
 
 
 var Welcome = React.createClass({
+
+  componentDidMount() {
+      Mixpanel.track('On - Home Screen');
+  },
 
   renderScene(route: Navigator.route, navigator: Navigator) : React.Component {
     return (<route.component {...route.passProps} key={route.id} navigator={navigator} />);
