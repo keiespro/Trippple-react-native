@@ -16,35 +16,13 @@ import colors from '../../utils/colors'
 import UserActions from '../../flux/actions/UserActions'
 import BoxyButton from '../../controls/boxyButton'
 import BackButton from '../../components/BackButton'
-import FBLogin from '../../components/fb.login'
+import FBPhotoAlbums from '../../components/fb.login'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
+import FacebookButton from '../../buttons/FacebookButton'
 
-
-class FacebookButton extends React.Component{
-  render(){
-    return(
-
-      <BoxyButton
-        text={"CONNECT WITH FB"}
-        outerButtonStyle={styles.iconButtonOuter}
-        leftBoxStyles={styles.iconButtonLeftBoxCouples}
-        innerWrapStyles={styles.iconButtonCouples}
-              underlayColor={colors.mediumPurple20}
-
-        _onPress={this.props.onPress}>
-
-          <Image source={require('image!fBlogo')}
-                    resizeMode={Image.resizeMode.cover}
-                        style={{height:40,width:20}} />
-        </BoxyButton>
-
-    )
-
-  }
-}
 
 class Facebook extends Component{
   static propTypes = {
@@ -61,55 +39,53 @@ class Facebook extends Component{
     }
   }
   componentDidMount(){
-     FBLoginManager.getCredentials((error, data) =>{
-      console.log(error, data);
-
-      if (!error) {
-        this.setState({ user : data})
-      }
-    });
+    //  FBLoginManager.getCredentials((error, data) =>{
+    //   console.log(error, data);
+    //
+    //   if (!error) {
+    //     this.setState({ user : data})
+    //   }
+    // });
 
   }
-  handleLogin(){
-    FBLoginManager.login( (error, data) => {
-      console.log(error, data);
-
-      if (!error) {
-        this.setState({ user : data});
-        this.props.onLogin && this.props.onLogin(data);
-
-      } else {
-        console.log(error, data);
-      }
-    });
-  }
-
-  handleLogout(){
-
-    FBLoginManager.logout((error, data)=>{
-      if (!error) {
-        this.setState({ user : null});
-        this.props.onLogout && this.props.onLogout();
-      } else {
-        console.log(error, data);
-      }
-    });
-  }
-
-  onPress(event){
-
-    this.props.user && this.handleLogin();
-
-    this.props.navigator.push({
-      component: FBLogin,
-      passProps:{
-
-      }
-    })
 
 
+  handleCredentials(fbUser){
+    console.log(fbUser)
+    this.setState({fbUser})
+    var api = `https://graph.facebook.com/v2.3/${fbUser.userId}?access_token=${fbUser.token}`;
 
-    this.props.onPress && this.props.onPress();
+    console.log('FB api > ProfileInfo',api);
+
+    fetch(api)
+      .then((response) => response.json())
+      .then((responseData) => {
+        console.log(responseData)
+
+        var {
+          email,
+          first_name,
+          gender,
+          facebook_id,
+          last_name,
+          verified,
+          timezone,
+          updated_time
+        } = responseData;
+
+        UserActions.updateUserStub({
+          email,
+          first_name,
+          gender,
+          facebook_id,
+          last_name,
+          fb_verified:verified,
+          timezone,
+          fb_updated_time:updated_time
+        });
+      })
+      .done();
+
   }
 
 
@@ -143,7 +119,7 @@ class Facebook extends Component{
             <Text style={styles.middleText}>Save time. Get more matches.</Text>
           </View>
 
-          <FacebookButton onPress={this.onPress.bind(this)} />
+          <FacebookButton buttonType={'onboard'} buttonText={'VERIFY WITH FB'} _onPress={this.handleCredentials.bind(this)} />
 
           <View style={styles.middleTextWrap}>
             <Text style={[styles.middleText,{fontSize:16,marginTop:20}]}>Don’t worry, we wont tell ever your friends or post on your wall.</Text>
@@ -203,7 +179,7 @@ const styles = StyleSheet.create({
   },
   bottomwrap:{
     marginTop:DeviceHeight/4,
-    marginBottom: - DeviceHeight/4,
+    marginBottom: -DeviceHeight/4,
   }
 });
 

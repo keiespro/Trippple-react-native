@@ -37,10 +37,41 @@ import reactMixin from 'react-mixin';
 import AltContainer from 'alt/AltNativeContainer'
 import FakeNavBar from '../controls/FakeNavBar'
 
+
+
+class StarButton extends Component{
+  constructor(props){
+    super()
+  }
+  render(){
+    return (
+      <View style={{width:60,alignSelf:'flex-start',flexDirection:'row',alignItems:'center',justifyContent:'center',height:100,marginLeft:10}}>
+           <Image
+             key={'star'}
+             style={{alignSelf:'center' }}
+             source={require('image!starOutline')}
+             resizeMode={Image.resizeMode.cover}
+           />
+       </View>
+    )
+  }
+}
 // Buttons
-var swipeoutBtns = [
+var swipeoutBtnsLeft = [
   {
-    text: 'Unmatch'
+    component: (<StarButton/>),
+    backgroundColor: colors.dark,
+    underlayColor: colors.purple,
+  }
+];
+
+var swipeoutBtnsRight = [
+  {
+    text: 'Unmatch',
+    onPress(){
+      console.log('REJECT');
+    },
+    backgroundColor: colors.dark,
   }
 ];
 
@@ -53,26 +84,47 @@ class MatchList extends Component{
     super(props);
 
     this.state = {
-      index: 0
+      index: 0,
+      scrollEnabled: true
     }
 
   }
 
-  // TODO: figure out how dataSource actually works
-  // componentDidUpdate(){
-  //   console.log('matches list update',this.props.matches.length)
-  //   var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-  //
-  //   this.setState({
-  //     dataSource: ds.cloneWithRows(this.props.matches)
-  //   })
-  // }
   // shouldComponentUpdate(nextProps,nextState){
 
   // //   if(this.props.matches.length === nextProps.matches.length) return false;
   //   return true;
   // }
-  _renderRow(rowData, sectionID: number, rowID: number) {
+  // componentWillReceiveProps(newProps){
+  //   this._updateDataSource(newProps.matches)
+  //
+  // }
+
+  _allowScroll(scrollEnabled) {
+    console.log('toggle scroll:',scrollEnabled)
+    // if(scrollEnabled != this.state.scrollEnabled) {
+      this._listView.setNativeProps({ scrollEnabled })
+    // }
+  }
+
+  _updateDataSource(data) {
+    this.props.updateDataSource(data)
+  }
+
+  //  set active swipeout item
+  _handleSwipeout(sectionID, rowID) {
+console.log('swipeout')
+      const rows = this.props.matches;
+      // this._allowScroll(false)
+      for (var i = 0; i < rows.length; i++) {
+        if (i != rowID) { rows[i].active = false }
+        else {rows[i].active = true}
+      }
+       this._updateDataSource(rows)
+  }
+
+  // https://github.com/dancormier/react-native-swipeout/wiki/Closing-Swipeouts
+  _renderRow(rowData, sectionID, rowID){
 
     var myId = this.props.user.id,
         myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
@@ -80,14 +132,23 @@ class MatchList extends Component{
     var threadName = rowData.users.them.users.map( (user,i) => user.firstname.trim() ).join(' & ');
 
     return (
-      <Swipeout right={swipeoutBtns}  key={rowData.match_id+'match'}>
+      <Swipeout
+        left={swipeoutBtnsLeft}
+        right={swipeoutBtnsRight}
+        backgroundColor={colors.dark}
+        rowID={rowID}
+        sectionID={sectionID}
+        autoClose={true}
+        scroll={event => this._allowScroll(event)}
+        onOpen={(sectionID_, rowID_) => this._handleSwipeout(sectionID_, rowID_)}>
+
         <TouchableHighlight onPress={() => {console.log('onpress Swipeout');  this._pressRow(rowData.match_id); }} key={rowData.match_id+'match'}>
 
         <View>
           <View style={styles.row}>
             <View style={styles.thumbswrap}>
                <Image
-                 key={'userimage'}
+                 key={'userimage'+rowID}
                  style={styles.thumb}
                  source={{uri: rowData.couple ? rowData.couple.thumb_url : rowData.users.them.users[0].thumb_url}}
                  defaultSource={require('image!placeholderUser')}
@@ -103,6 +164,9 @@ class MatchList extends Component{
                 {rowData.recent_message.message_body || 'New Match'}
               </Text>
             </View>
+
+
+
           </View>
         </View>
       </TouchableHighlight>
@@ -148,13 +212,15 @@ class MatchList extends Component{
             barColor={colors.mediumPurple}
             titles={['ALL', 'FAVORITES']}
             index={this.state.index}
-            titleStyle={{fontFamily:'Montserrat',fontSize:15,padding:5,color:colors.white}}
+            titleStyle={{fontFamily:'Montserrat',fontSize:15,padding:5,color:colors.shuttleGray}}
+            selectedTitleStyle={{color:colors.white}}
             stretch
             onPress={index => this.setState({ index })}
           />
         </View>
         <ListView
         initialListSize={12}
+        scrollEnabled={this.state.scrollEnabled}
           onEndReached={ (e) => {
             const nextPage = this.props.matches.length/20 + 1;
             if(this.state.fetching || nextPage === this.state.lastPage){ return false }
@@ -163,6 +229,7 @@ class MatchList extends Component{
             this.setState({fetching:false})
 
           }}
+          ref={component => this._listView = component}
           dataSource={this.state.index === 0 ? this.props.dataSource : this.filterFavorites()}
           renderRow={this._renderRow.bind(this)}
           />
@@ -178,11 +245,11 @@ class MatchesInside extends Component{
 
   constructor(props){
     super(props);
-    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
       console.log(props)
     this.state = {
-      matches: this.props.matches,
-      dataSource: this.ds.cloneWithRows(this.props.matches)
+      matches: props.matches,
+      dataSource: ds.cloneWithRows(props.matches)
     }
   }
 
@@ -200,7 +267,12 @@ class MatchesInside extends Component{
   componentWillReceiveProps(newProps) {
     this.setState({
       matches: newProps.matches,
-      dataSource: this.ds.cloneWithRows(newProps.matches)
+      dataSource: this.state.dataSource.cloneWithRows(newProps.matches)
+    })
+  }
+  _updateDataSource(data) {
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(data)
     })
   }
   render(){
@@ -209,13 +281,13 @@ class MatchesInside extends Component{
             user={this.props.user}
             dataSource={this.state.dataSource}
             matches={this.props.matches}
+            updateDataSource={this._updateDataSource.bind(this)}
             id={"matcheslist"}
             navigator={this.props.navigator}
             route={{
               component: Matches,
               title:'matches',
-            id:"matcheslist",
-
+              id:'matcheslist',
             }}
             title={"matchlist"}
           />
@@ -239,12 +311,12 @@ class Matches extends Component{
         <AltContainer
           stores={{
             matches: (props) => {
-            console.log(props)
               return {
                 store: MatchesStore,
                 value: MatchesStore.getAllMatches()
               }
-            }
+            },
+
           }}>
            <MatchesInside {...this.props} />
         </AltContainer>
@@ -275,8 +347,8 @@ var styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    padding: 10,
+    justifyContent: 'space-between',
+    padding: 14,
     backgroundColor: colors.outerSpace,
   },
   topRow: {
@@ -306,22 +378,22 @@ var styles = StyleSheet.create({
     left: -16
   },
   text: {
-    flex: 1,
-     color:colors.rollingStone,
-    fontFamily:'omnes'
-
+    color:colors.rollingStone,
+    fontFamily:'omnes',
+    fontSize:16
   },
   title:{
-    fontSize:22,
-     color:colors.white,
-    fontWeight:"500"
+    fontSize:20,
+    color:colors.white,
+    fontWeight:'500'
   },
   textwrap:{
-    height: 64,
+    height: 66,
     flexDirection: 'column',
-    justifyContent: 'center',
-    width: 200,
-    overflow: 'hidden'
+    justifyContent: 'flex-start',
+    overflow:'hidden',
+    flex:3,
+    alignSelf:'stretch'
   }
 });
 

@@ -24,7 +24,6 @@ const DeviceWidth = Dimensions.get('window').width;
 
 import ActionModal from './ActionModal'
 
-import ActionSheet from 'react-native-custom-actsheet'
 var colors = require('../utils/colors');
 var MatchesStore = require('../flux/stores/MatchesStore');
 
@@ -225,11 +224,6 @@ class ChatInside extends Component{
   console.log('resetKeyboardSpace',frames)
     var h = frames.startCoordinates && frames.startCoordinates.screenY - frames.endCoordinates.screenY || frames.end && frames.end.height
     if( h == this.state.keyboardSpace){ return false }
-
-    this.setState({
-      keyboardSpace: h,
-      isKeyboardOpened: false
-    });
     if(frames.endCoordinates ){
       var duration
       if( frames.duration < 100){
@@ -238,21 +232,26 @@ class ChatInside extends Component{
       }else{
         duration = frames.duration
       }
-      LayoutAnimation.configureNext({
-        duration: frames.duration,
-
-        create: {
-          delay: 0,
-          type: LayoutAnimation.Types.easeInEaseOut,
-          property: LayoutAnimation.Properties.opacity
-        },
-        update: {
-          delay: 0,
-          type: LayoutAnimation.Types.easeInEaseOut,
-          property: LayoutAnimation.Properties.paddingBottom
-        }
-      });
     }
+    LayoutAnimation.configureNext({
+      duration: frames.duration,
+
+      create: {
+        delay: 0,
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.opacity
+      },
+      update: {
+        delay: 0,
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.paddingBottom
+      }
+    });
+    this.setState({
+      keyboardSpace: h,
+      isKeyboardOpened: false
+    });
+
   }
   changeKeyboardSpace(frames) {
     console.log('changeKeyboardSpace',frames)
@@ -514,7 +513,10 @@ class ChatInside extends Component{
           blur={true}
           title={chatTitle}
           titleColor={colors.white}
-          customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{marginTop:10,alignItems:'flex-start'}} source={require('image!close')} />
+          customPrev={
+            <View style={{flexDirection: 'row',opacity:0.5,top:-3}}>
+              <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
+            </View>
         }
         />
 

@@ -62,7 +62,28 @@ class EditImageThumb extends Component{
   accept(){
 
     UserActions.uploadImage(this.props.image.uri,this.props.imagetype)
-   var lastindex = this.props.navigator.getCurrentRoutes().length;
+
+    if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
+
+      console.log('from settings')
+      this.props.navigator.popToRoute(this.props.navigator.getCurrentRoutes()[1])
+      return
+    }
+
+    if(this.props.nextRoute){
+      this.props.navigator.push({
+          component: this.props.nextRoute,
+          passProps: {
+            nextRoute: Privacy,
+            image:this.props.image,
+            croppedImage: this.state.croppedImageURI,
+            imagetype: this.props.imagetype
+          }
+        })
+            return
+    }else{
+
+      var lastindex = this.props.navigator.getCurrentRoutes().length;
   console.log(lastindex);
   var nextRoute = this.props.stack[lastindex];
     UserActions.updateUserStub({ready:true})
@@ -75,7 +96,7 @@ class EditImageThumb extends Component{
     }
     this.props.navigator.push(nextRoute)
 
-
+  }
 //     this.props.navigator.push({
 //       component: this.props.stack[this.props.currentIndex+1].component,
 //       passProps: {
@@ -109,8 +130,8 @@ class EditImageThumb extends Component{
       <View style={styles.container}>
       <Image source={this.props.image}
       resizeMode={Image.resizeMode.cover} style={{width:DeviceWidth,height:DeviceHeight}}>
-        <BlurView blurType="dark" style={{width:DeviceWidth,height:DeviceHeight,position:'absolute',backgroundColor:colors.outerSpace50}}>
-        </BlurView>
+        <BlurView blurType="dark" style={styles.blurbg}/>
+
  <View style={{width:100,height:50,left:20}}>
         <BackButton navigator={this.props.navigator}/>
       </View>
@@ -333,6 +354,9 @@ const styles = StyleSheet.create({
     marginTop:40,
     paddingBottom:0,
     color:colors.white
+  },
+  blurbg:{
+    width:DeviceWidth,height:DeviceHeight,position:'absolute',backgroundColor:colors.outerSpace50
   }
 });
 

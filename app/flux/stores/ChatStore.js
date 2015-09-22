@@ -57,7 +57,10 @@ class ChatStore {
   getMessagesForMatch(matchID) {
     return this.getState()[matchID] || [];
   }
-
+  // getUnreadCounts(){
+  //
+  //   return this.getState()
+  // }
 }
 
 export default alt.createStore(ChatStore, 'ChatStore')

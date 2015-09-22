@@ -15,6 +15,7 @@ import colors from '../utils/colors'
 import Dimensions from 'Dimensions';
 import BackButton from '../components/BackButton'
 import EditImageThumb from '../screens/registration/EditImageThumb'
+import EditImage from '../screens/registration/EditImage'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -80,51 +81,65 @@ class CameraControl extends Component{
 
   _takePicture =()=> {
     this.refs.cam.capture((err, data)=> {
-      CameraRoll.saveImageWithTag(data,
-        (imageTag)=> {
-          console.log(imageTag);
-          // console.log(contents);
-          //
-          CameraRoll.getPhotos({first:1},
-            (data)=> {
-              const imageFile = data.edges[0].node.image
-              // if(this.props.getImage){
-              //   this.props.getImage(imageFile)
-              // }else{
-                // this.props.navigator.push({
-                //   component: this.props.nextRoute,
-                //   passProps: {
-                //     ...this.props,
-                //     image: imageFile,
-                //     imagetype: this.props.imagetype || '',
-                //     nextRoute: EditImageThumb
-                //   }
-                // })
-              // }
-              //
-   var lastindex = this.props.navigator.getCurrentRoutes().length;
-  console.log(lastindex);
-  var nextRoute = this.props.stack[lastindex];
+      console.log('IMAGE -',data)
+      if(err){console.log('camera err')}
+      // CameraRoll.saveImageWithTag(data,
+      //   (imageTag)=> {
+      //     console.log(imageTag);
+      //     // console.log(contents);
+      //     //
+      //     CameraRoll.getPhotos({first:1},
+      //       (imgdata)=> {
+      //         console.log(imgdata,'imgdata')
+      //         const imageFile = imgdata.edges[0].node.image
 
-   nextRoute.passProps = {
-        ...this.props,
-                    image: imageFile,
+      if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
+        this.props.navigator.push({
+          component: EditImage,
+          passProps: {
+            ...this.props,
+            image: data,
+            imagetype: this.props.imagetype || '',
+            nextRoute: EditImageThumb
+          }
+        })
+        return
+
+      }
+
+
+                if(this.props.nextRoute){
+                  this.props.navigator.push({
+                    component: this.props.nextRoute,
+                    passProps: {
+                      ...this.props,
+                      image: data,
+                      imagetype: this.props.imagetype || '',
+                      nextRoute: EditImageThumb
+                    }
+                  })
+                  return
+
+                }else{
+                  var lastindex = this.props.navigator.getCurrentRoutes().length;
+                  console.log( 'debug',lastindex );
+                  var nextRoute = this.props.stack[ lastindex ];
+
+                  nextRoute.passProps = {
+                   ...this.props,
+                    image: data,
                     imagetype: this.props.imagetype || '',
+                  }
 
-
-    }
-    this.props.navigator.push(nextRoute)
-
-
+                  this.props.navigator.push( nextRoute )
+                }
             },
             (err)=> {
               console.log(err,'errrrrrrrrrrrrrr');
             }
           )
-        },
-        (errorMessage)=>{ console.log(errorMessage)}
-      )
-    })
+
+
   }
 }
 

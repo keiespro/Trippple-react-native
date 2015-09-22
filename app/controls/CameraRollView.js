@@ -74,6 +74,16 @@ const propTypes = {
 class CameraRollView extends Component{
   static propTypes = propTypes
 
+  // iOS groupTypes =
+  // 'Album',
+  //  'All',
+  //  'Event',
+  //  'Faces',
+  //  'Library',
+  //  'PhotoStream',
+  //  'SavedPhotos',
+
+
   static defaultProps = {
     groupTypes: 'All',
     batchSize: 30,
@@ -98,17 +108,21 @@ class CameraRollView extends Component{
   loadAsset = (asset) => {
     const imageFile = asset.node.image;
 
-    // if(this.props.getImage){
-    //   this.props.getImage(imageFile)
-    // }else{
-      // this.props.navigator.push({
-      //   component:this.props.nextRoute,
-      //   passProps: {
-      //     imagetype: this.props.imagetype || '',
-      //     image: imageFile,
-      //     nextRoute: EditImageThumb
-      //   }
-      // })
+    if(this.props.getImage){
+      this.props.getImage(imageFile)
+    }
+    if(this.props.nextRoute){
+      this.props.navigator.push({
+        component:this.props.nextRoute,
+        passProps: {
+          imagetype: this.props.imagetype || '',
+          image: imageFile,
+          nextRoute: EditImageThumb
+        }
+      })
+
+      return
+    }
 
    var lastindex = this.props.navigator.getCurrentRoutes().length;
   console.log(lastindex,this.props.navigator.getCurrentRoutes(),this.props.stack[lastindex]);

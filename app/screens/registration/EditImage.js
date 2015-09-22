@@ -74,16 +74,18 @@ class EditImage extends Component{
       });
       return;
     }
+  if(this.props.nextRoute){
+    this.props.navigator.push({
+        component: this.props.nextRoute,
+        passProps: {
+          nextRoute: Privacy,
+          image:this.props.image,
+          croppedImage: this.state.croppedImageURI,
+          imagetype: this.props.imagetype
+        }
+      })
 
-    // this.props.navigator.push({
-    //     component: this.props.nextRoute,
-    //     passProps: {
-    //       nextRoute: Privacy,
-    //       image:this.props.image,
-    //       croppedImage: this.state.croppedImageURI,
-    //       imagetype: this.props.imagetype
-    //     }
-    //   })
+  }else{
    var lastindex = this.props.navigator.getCurrentRoutes().length;
   console.log(lastindex);
   var nextRoute = this.props.stack[lastindex];
@@ -99,11 +101,12 @@ class EditImage extends Component{
 
     this.props.navigator.push(nextRoute)
 
-
+}
 
 
   }
   retake =()=> {
+    console.log('retake')
     this.props.navigator.pop();
   }
 

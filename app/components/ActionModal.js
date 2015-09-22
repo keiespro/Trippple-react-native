@@ -50,7 +50,7 @@ class ActionModal extends Component{
     this.props.toggleModal()
   }
   render(){
-    var isVisible = this.props.isVisible ;
+    var {isVisible} = this.props
     return (
 
 
@@ -59,7 +59,7 @@ class ActionModal extends Component{
         height={333}
         modalStyle={styles.actionmodal}
         isVisible={isVisible}
-        contentWrapStyle={{height:300}}
+        contentWrapStyle={{height: 300,top: 0,position: 'absolute',}}
         swipeableAreaStyle={{ position: 'absolute',
           top: isVisible ? -60 : 0,
           left: 0,

@@ -24,7 +24,7 @@ var FB_PHOTO_WIDTH = 200;
 var Login = React.createClass({
   getInitialState: function(){
     return {
-      user: null,
+      fbUser: null,
     };
   },
 
@@ -34,39 +34,14 @@ var Login = React.createClass({
     return (
       <View style={styles.loginContainer}>
         <FBLogin style={{ marginBottom: 10, }}
-        permissions={["email","user_friends","user_photos"]}
-        onLogin={function(data){
-          console.log('[FB] onLogin:',"Logged in!", data);
-          _this.setState({ user : data.credentials });
-        }}
-        onLogout={function(){
-          console.log('[FB] onLogout:',"Logged out.");
-          _this.setState({ user : null });
-        }}
-        onLoginFound={function(data){
-          console.log('[FB] onLoginFound:',"Existing login found.", data);
-          _this.setState({ user : data.credentials });
-        }}
-        onLoginNotFound={function(){
-          console.log('[FB] onLoginNotFound:',"No user logged in.");
-          _this.setState({ user : null });
-        }}
-        onError={function(data){
-          console.log('[FB] onError',"ERROR", data);
-        }}
-        onCancel={function(){
-          console.log('[FB] onCancel:',"User cancelled.");
-        }}
-        onPermissionsMissing={function(data){
-          console.log('[FB] onPermissionsMissing',"Check permissions!", data);
-        }}
+          {...this.props}
+
         />
       </View>
     );
   },
 
   renderFBLogoutButton: function(){
-    var _this = this;
 
     return (
       <View style={styles.loginContainer}>
@@ -74,25 +49,23 @@ var Login = React.createClass({
       </View>
     );
   },
-  render: function() {
-    var _this = this;
-    var user = this.state.user;
+  render() {
+    console.log(this.props)
+    var fbUser = this.state.fbUser;
 
-    console.log('[FB] render (user):', user);
+    console.log('[FB] render (fbUser):', fbUser);
 
-    var renderButton = (user ? 'renderFBLogoutButton' : 'renderFBLoginButton');
 
-        // { user && <ProfilePhoto user={user} /> }
-        // { user && <ProfileInfo user={user} /> }
+        // { fbUser && <ProfilePhoto fbUser={fbUser} /> }
+        // { fbUser && <ProfileInfo fbUser={fbUser} /> }
 
     return (
       <View>
 
-        <Text>{ !user ? "Welcome to Trippple" : '' }</Text>
-        { _this[renderButton]() }
+        <Text>{ !fbUser ? "Welcome to Trippple" : '' }</Text>
 
 
-        { user && <PhotoAlbums user={user} /> }
+        { fbUser && <PhotoAlbums {...this.props} fbUser={fbUser} /> }
 
       </View>
     );
@@ -101,7 +74,7 @@ var Login = React.createClass({
 
 var ProfilePhoto = React.createClass({
   propTypes: {
-    user: React.PropTypes.object.isRequired,
+    fbUser: React.PropTypes.object.isRequired,
   },
 
   getInitialState: function(){
@@ -110,17 +83,16 @@ var ProfilePhoto = React.createClass({
     };
   },
 
-  componentWillMount: function(){
-    var _this = this;
-    var user = this.props.user;
-    var api = `https://graph.facebook.com/v2.3/${user.userId}/picture?width=${FB_PHOTO_WIDTH}&redirect=false&access_token=${user.token}`;
+  componentDidMount: function(){
+    var {fbUser} = this.props;
+    var api = `https://graph.facebook.com/v2.3/${fbUser.userId}/picture?width=${FB_PHOTO_WIDTH}&redirect=false&access_token=${fbUser.token}`;
 
     console.log('FB api > ProfilePhoto',api);
 
     fetch(api)
       .then((response) => response.json())
       .then((responseData) => {
-        _this.setState({
+        this.setState({
           photo : {
             url : responseData.data.url,
             height: responseData.data.height,
@@ -153,7 +125,7 @@ var ProfilePhoto = React.createClass({
 
 var ProfileInfo = React.createClass({
   propTypes: {
-    user: React.PropTypes.object.isRequired,
+    fbUser: React.PropTypes.object.isRequired,
   },
 
   getInitialState: function(){
@@ -164,8 +136,8 @@ var ProfileInfo = React.createClass({
 
   componentWillMount: function(){
     var _this = this;
-    var user = this.props.user;
-    var api = `https://graph.facebook.com/v2.3/${user.userId}?fields=name,email&access_token=${user.token}`;
+    var fbUser = this.props.fbUser;
+    var api = `https://graph.facebook.com/v2.3/${fbUser.userId}?fields=name,email&access_token=${fbUser.token}`;
 
     console.log('FB api > ProfileInfo',api);
 
@@ -187,7 +159,7 @@ var ProfileInfo = React.createClass({
 
     return (
       <View style={styles.bottomBump}>
-        <Text>{ info && this.props.user.userId }</Text>
+        <Text>{ info && this.props.fbUser.userId }</Text>
         <Text>{ info && info.name }</Text>
         <Text>{ info && info.email }</Text>
       </View>
@@ -197,29 +169,27 @@ var ProfileInfo = React.createClass({
 
 var PhotoAlbums = React.createClass({
   propTypes: {
-    user: React.PropTypes.object.isRequired,
+    fbUser: React.PropTypes.object.isRequired,
   },
 
   getInitialState: function(){
+    var aDS = new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
+    var pDS = new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
     return {
-      albums: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
-      }),
-      album_photos: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
-      }),
+      albums: aDS.cloneWithRows([]) ,
+      album_photos: pDS.cloneWithRows([]),
       view_loaded: null,
     };
   },
 
-  componentWillMount: function(){
+  componentDidMount: function(){
     this.fetchAlbums();
+    console.log(this.props)
   },
 
-  fetchAlbums: function() {
-    var _this = this;
-    var user = this.props.user;
-    var api = `https://graph.facebook.com/v2.3/${user.userId}/albums?redirect=false&access_token=${user.token}`;
+  fetchAlbums() {
+    var fbUser = this.props.fbUser;
+    var api = `https://graph.facebook.com/v2.3/${fbUser.userId}/albums?redirect=false&access_token=${fbUser.token}`;
 
     console.log('FB api > PhotoAlbums',api);
 
@@ -234,7 +204,7 @@ var PhotoAlbums = React.createClass({
         if (albums) {
           for (var i in albums) {
             ((x) => {
-              var url = 'https://graph.facebook.com/v2.3/' + albums[x].id + '/picture?type=album&redirect=false&access_token=' + user.token;
+              var url = 'https://graph.facebook.com/v2.3/' + albums[x].id + '/picture?type=album&redirect=false&access_token=' + fbUser.token;
 
               fetch(url)
               .then((response) => response.json())
@@ -248,7 +218,7 @@ var PhotoAlbums = React.createClass({
                 count++;
 
                 if (total_found == count) {
-                  _this.setState({
+                  this.setState({
                     albums : this.state.albums.cloneWithRows(albums),
                     view_loaded: 'list_albums',
                   });
@@ -261,17 +231,17 @@ var PhotoAlbums = React.createClass({
       .done();
   },
 
-  fetchAlbumPhotos: function(album) {
-    var _this = this;
-    var user = this.props.user;
-    var api = 'https://graph.facebook.com/v2.3/' + album.id + '/photos?redirect=false&access_token=' + user.token;
+  fetchAlbumPhotos(album) {
+    console.log(album,this.props)
+    var fbUser = this.props.fbUser;
+    var api = 'https://graph.facebook.com/v2.3/' + album.id + '/photos?redirect=false&access_token=' + fbUser.token;
 
     console.log('FB api > fetchAlbumPhotos', api);
 
-    if (this.state.album_photos) {
+    if (this.state.album_photos && album.photos) {
       this.setState({
         album_details: album,
-        album_photos : this.state.album_photos.cloneWithRows(photos),
+        album_photos : this.state.album_photos.cloneWithRows(album.photos),
         view_loaded: 'list_album_photos',
       });
     } else {
@@ -279,12 +249,13 @@ var PhotoAlbums = React.createClass({
       fetch(api)
         .then((response) => response.json())
         .then((responseData) => {
+          console.log(responseData)
           var photos = responseData.data;
           var total_found = photos.length;
           var count = 0;
           console.log('[album id: ' + album.id + '] photos ---', photos);
 
-          _this.setState({
+          this.setState({
             album_details: album,
             album_photos : this.state.album_photos.cloneWithRows(photos),
             view_loaded: 'list_album_photos',
@@ -294,9 +265,24 @@ var PhotoAlbums = React.createClass({
     }
   },
 
-  selectPhoto: function(photo) {
+  selectPhoto(photo) {
     console.log('[FB] selectPhoto:', photo);
-    UserActions.saveFacebookPicture(photo);
+    var {navigator,route,imagetype,nextRoute,afterNextRoute} = this.props;
+      console.log(this.props,photo)
+    if(navigator.getCurrentRoutes()[0].id == 'potentials'){
+      navigator.push({
+        component: nextRoute,
+        passProps: {
+          ...this.props,
+          image: {uri:photo.source},
+          imagetype: imagetype || '',
+          nextRoute: afterNextRoute
+        }
+      })
+      return
+
+    }
+
   },
 
   renderLoadingView: function() {
@@ -310,7 +296,7 @@ var PhotoAlbums = React.createClass({
   },
 
   renderListAlbums: function() {
-    var user = this.props.user;
+    var fbUser = this.props.fbUser;
     var albums = this.state.albums;
 
     console.log('[FB] albums:', albums);
@@ -327,7 +313,7 @@ var PhotoAlbums = React.createClass({
   renderAlbumCover: function(album) {
     return (
       <View style={styles.listContainer}>
-        <TouchableHighlight onPress={() => { this.fetchAlbumPhotos(album) }}>
+        <TouchableHighlight onPress={(e) => { this.fetchAlbumPhotos(album) }}>
           <Image style={styles.album_cover_thumbnail} source={{uri: album.cover_photo_image_url}} />
         </TouchableHighlight>
 
@@ -339,7 +325,7 @@ var PhotoAlbums = React.createClass({
   renderSinglePhotos: function(photo) {
     return (
       <View style={styles.album_list_row}>
-        <TouchableHighlight onPress={() => { this.selectPhoto(photo) }}>
+        <TouchableHighlight onPress={(e) => { this.selectPhoto(photo) }}>
           <Image style={styles.single_big_picture} source={{uri: photo.picture}} />
         </TouchableHighlight>
       </View>
@@ -452,4 +438,4 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = Login;
+module.exports = PhotoAlbums;

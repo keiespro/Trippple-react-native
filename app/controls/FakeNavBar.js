@@ -5,6 +5,7 @@ const {
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableHighlight,
   View,
   Dimensions
 } = React;
@@ -62,7 +63,7 @@ const NavigationBar = React.createClass({
     if (customPrev) {
       el = React.cloneElement(customPrev, { navigator, route });
       return (
-        <TouchableOpacity onPress={() => onPrev( navigator,route )}>
+        <TouchableOpacity underlayColor={'white'} onPress={() => onPrev( navigator,route )}>
           <View style={styles.navBarLeftButton}>
             {el}
           </View>
@@ -95,7 +96,7 @@ const NavigationBar = React.createClass({
     }
 
     return (
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity underlayColor={'white'} onPress={onPress}>
         <View style={styles.navBarLeftButton}>
           <Text style={[styles.navBarText, styles.navBarButtonText, customStyle, ]}> ◀︎ Back </Text>
         </View>
@@ -191,7 +192,7 @@ const NavigationBar = React.createClass({
     const customStyle = buttonsColor ? { color: buttonsColor, } : {};
 
     return (
-      <TouchableOpacity onPress={() => onNext(navigator,route)}>
+      <TouchableOpacity underlayCOlor={'black'} onPress={() => onNext(navigator,route)}>
         <View style={styles.navBarRightButton}>
           {el}
         </View>
@@ -242,7 +243,7 @@ const styles = StyleSheet.create({
     width:DeviceWidth,
     height: NAV_HEIGHT,
     backgroundColor: 'transparent',
-    paddingBottom: 5,
+    paddingBottom: 6,
     position:'absolute',
     top:0,
     left:0,
@@ -257,36 +258,44 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   customTitle: {
+    flexDirection: 'column',
+    justifyContent: 'center',
     position: 'absolute',
     alignItems: 'center',
-    bottom: 4,
+    bottom: 0,
+    top:-2,
     left: 0,
+    height:54,
     right: 0,
   },
   navBarText: {
     fontSize: 16,
-    marginVertical: 10,
+    marginVertical: 0,
     flex: 2,
+    paddingTop:15,
     textAlign: 'center',
   },
   navBarTitleText: {
     color: colors.white,
-    fontSize:22,
+    fontSize:18,
     fontFamily:'Montserrat-Bold',
     position: 'absolute',
     left: 0,
     right: 0,
-    bottom: 10,
+    bottom: 15,
   },
   navBarLeftButton: {
-    paddingLeft: 20,
-    marginVertical: 15,
+    paddingHorizontal: 25,
+    paddingVertical: 20,
+    opacity:0.5,
+
   },
   navBarRightButton: {
-    marginVertical: 15,
-    paddingRight: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
   },
   navBarButtonText: {
+
     color: colors.rollingStone,
   },
 });

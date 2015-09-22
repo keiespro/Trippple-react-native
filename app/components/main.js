@@ -161,7 +161,7 @@ const PotentialsRoute = {
       backgroundStyle={{backgroundColor:'transparent'}}
       customTitle={<Image resizeMode={Image.resizeMode.contain} style={{width:80}} source={require('image!tripppleLogoText')} />}
       onPrev={(navigator,route) => navigator.push(SettingsRoute)}
-      customPrev={<Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30}} source={require('image!gear')} />}
+      customPrev={<Image resizeMode={Image.resizeMode.contain} style={{width:30,top:-5,height:30}} source={require('image!gear')} />}
       onNext={(navigator,route) => {navigator.push(MatchesRoute)}}
       customNext={<Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30}} source={require('image!chat')} />}
     />)
@@ -191,17 +191,17 @@ const MatchesRoute = {
 
   component: Matches,
   index: 2,
-  title: 'Matches',
+  title: 'MESSAGES',
   id: 'matches',
   navigationBar: (
     <FakeNavBar
       hideNext={true}
       backgroundStyle={{backgroundColor:colors.shuttleGray}}
-          titleColor={colors.white}
+      titleColor={colors.white}
 
-      title={'MATCHES'} titleColor={colors.white}
+      title={'MESSAGES'} titleColor={colors.white}
       onPrev={(nav,route)=> nav.pop()}
-      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{marginTop:3,alignItems:'flex-start'}} source={require('image!close')} />
+      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12}} source={require('image!close')} />
       }
     />
   ),
@@ -224,7 +224,10 @@ const ChatRoute = {
       blur={true}
       title={'Matches'} titleColor={colors.white}
       onPrev={(nav,route)=> nav.pop()}
-      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{marginTop:3,alignItems:'flex-start'}} source={require('image!close')} />
+      customPrev={   <View style={styles.goBackButton}>
+          <Text textAlign={'left'} style={[styles.bottomTextIcon]}>◀︎ </Text>
+          <Text textAlign={'left'} style={[styles.bottomText]}>Go back</Text>
+        </View>
       }
     />
   ),

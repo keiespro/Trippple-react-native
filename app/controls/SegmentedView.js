@@ -4,6 +4,7 @@ import {
     Text,
     Image,
     View,
+    TouchableOpacity,
     TouchableHighlight,
     PropTypes,
     Easing,
@@ -67,7 +68,7 @@ class SegmentedView extends React.Component{
       index: 0,
       barColor: '#44B7E1',
       barPosition:'top',
-      underlayColor: '#CCCCCC',
+      underlayColor: '#000000',
       stretch: false,
       selectedTextStyle: null,
       textStyle: null,
@@ -111,9 +112,9 @@ class SegmentedView extends React.Component{
     renderTitle(title, i) {
         return (
             <View key={`title-${i}`} ref={`title${i}`} style={{ flex: this.props.stretch ? 1 : 0 }}>
-                <TouchableHighlight underlayColor={this.props.underlayColor} onPress={() => this.props.onPress(i)}>
+                <TouchableOpacity underlayColor={this.props.underlayColor} onPress={() => this.props.onPress(i)}>
                     {this.props.renderTitle ? this.props.renderTitle(title, i) : this._renderTitle(title, i)}
-                </TouchableHighlight>
+                </TouchableOpacity>
             </View>
         );
     }

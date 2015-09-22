@@ -31,9 +31,9 @@ import DistanceSlider from '../controls/distanceSlider'
 import ToggleSwitch from '../controls/switches'
 import UserActions from '../flux/actions/UserActions'
 import EditImage from '../screens/registration/EditImage'
-import SelfImage from '../screens/registration/SelfImage'
+import SelfImage from './loggedin/SelfImage'
 import Privacy from './privacy'
-import { FacebookButton } from '../screens/registration/facebook'
+import FacebookButton from '../buttons/FacebookButton'
 import FeedbackButton from '../screens/feedbackButton'
 import Contacts from '../screens/contacts'
 import colors from '../utils/colors'
@@ -112,7 +112,6 @@ class BasicSettings extends React.Component{
           <Text style={styles.formHeaderText}>Get more matches</Text>
         </View>
 
-        <FacebookButton justTheButton={true} wrapperStyle={{height:100,padding:0}}/>
 
       </View>
     )
@@ -200,8 +199,6 @@ class SettingsInside extends React.Component{
     this.props.navigator.push({
       component: SelfImage,
       passProps: {
-        afterSaveCallback: this.handleImages.bind(this),
-        nextRoute: EditImage,
 
 
       }
@@ -215,19 +212,14 @@ class SettingsInside extends React.Component{
   _updateAttr(updatedAttribute){
     this.setState(()=>{return updatedAttribute});
   }
-  renderInnerView(){
-    let CurrentPage = SettingsPageAtIndex[this.state.index];
 
-    return (
-      <View style={{height:800,backgroundColor:colors.outerSpace}}>
-        <CurrentPage user={this.props.user} navigator={this.props.navigator}/>
-      </View>
-    )
+  onPressFacebook(fbUser){
+    console.log('settings fb button',fbUser,this.state.fbUser)
+    this.setState({fbUser});
+
   }
-
   render(){
 
-    let innerView = this.renderInnerView()
     return (
       <View style={{flex:1}}>
 
@@ -275,6 +267,7 @@ class SettingsInside extends React.Component{
 
 
 
+      <FacebookButton _onPress={this.onPressFacebook.bind(this)} buttonType={'connectionStatus'} wrapperStyle={{height:100,padding:0}}/>
 
 
       <FeedbackButton />
@@ -321,6 +314,7 @@ class Settings extends React.Component{
     return (
       <View style={styles.container}>
         <SettingsInside user={this.props.user} navBar={this.props.navBar} openModal={this.openModal} navigator={this.props.navigator}/>
+        {this.props.navBar}
       </View>
     )
   }
