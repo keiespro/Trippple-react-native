@@ -68,46 +68,22 @@ class EditImageThumb extends Component{
       console.log('from settings')
       this.props.navigator.popToRoute(this.props.navigator.getCurrentRoutes()[1])
       return
-    }
-
-    if(this.props.nextRoute){
-      this.props.navigator.push({
-          component: this.props.nextRoute,
-          passProps: {
-            nextRoute: Privacy,
-            image:this.props.image,
-            croppedImage: this.state.croppedImageURI,
-            imagetype: this.props.imagetype
-          }
-        })
-            return
     }else{
 
       var lastindex = this.props.navigator.getCurrentRoutes().length;
-  console.log(lastindex);
-  var nextRoute = this.props.stack[lastindex];
-    UserActions.updateUserStub({ready:true})
-   nextRoute.passProps = {
+      console.log(lastindex);
+      var nextRoute = this.props.stack[lastindex];
+      UserActions.updateUserStub({ready:true})
+      nextRoute.passProps = {
         ...this.props,
         image:this.props.image,
         croppedImage: this.state.croppedImageURI
+      }
 
 
+      this.props.navigator.push(nextRoute)
     }
-    this.props.navigator.push(nextRoute)
-
-  }
-//     this.props.navigator.push({
-//       component: this.props.stack[this.props.currentIndex+1].component,
-//       passProps: {
-//         ...this.props,
-//         image:this.props.image,
-//         croppedImage: this.state.croppedImageURI
-
-//       }
-
-//     })
-      AppActions.showCheckmark();
+    AppActions.showCheckmark();
 
   }
 

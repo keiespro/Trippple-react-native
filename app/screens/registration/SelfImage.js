@@ -12,13 +12,14 @@ import {
 
 const DeviceHeight = require('Dimensions').get('window').height;
 const DeviceWidth = require('Dimensions').get('window').width;
-import FBLogin from '../../components/fb.login'
-
+import FBPhotoAlbums from '../../components/fb.login'
+import FacebookButton from '../../buttons/FacebookButton'
 import BoxyButton from '../../controls/boxyButton'
 import colors from '../../utils/colors'
 import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
 import BackButton from '../../components/BackButton'
 import EditImage from './EditImage'
+import EditImageThumb from './EditImageThumb'
 import CameraControl from '../../controls/cameraControl'
 import CameraRollView from '../../controls/CameraRollView'
 
@@ -85,15 +86,19 @@ class SelfImage extends Component{
     this.props.navigator.push(nextRoute)
 
   }
-  onPressFacebook(){
-    console.log('fb')
-this.props.navigator.push({
-      component: FBLogin,
-      passProps:{
+  onPressFacebook(fbUser){
 
-      }
-    })
-
+    var nextRoute = {}
+    nextRoute.component = FBPhotoAlbums
+    nextRoute.passProps = {
+      ...this.props,
+      imagetype: 'profile',
+      nextRoute: EditImage,
+      afterNextRoute: EditImageThumb,
+      fbUser
+    }
+    nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
+    this.props.navigator.push(nextRoute)
 
   }
  componentDidUpdate(prevProps,prevState){
@@ -116,18 +121,7 @@ this.props.navigator.push({
                         style={styles.imageInside} />
         </View>
 
-        <BoxyButton
-            text={"UPLOAD FROM FACEBOOK"}
-            leftBoxStyles={styles.iconButtonLeftBoxCouples}
-            innerWrapStyles={styles.iconButtonCouples}
-            _onPress={this.onPressFacebook.bind(this)}
-            underlayColor={colors.mediumPurple20}
-            >
-
-          <Image source={require('image!fBlogo')}
-                    resizeMode={Image.resizeMode.cover}
-                        style={{height:40,width:20}} />
-        </BoxyButton>
+        <FacebookButton buttonType={'imageUpload'} _onPress={this.onPressFacebook.bind(this)} key={'notthesamelement'} buttonText="UPLOAD FROM FB" />
 
         <View style={styles.twoButtons}>
           <TouchableHighlight style={[styles.plainButton,{marginRight:10}]} onPress={this._getCameraRoll} underlayColor={colors.shuttleGray20}>

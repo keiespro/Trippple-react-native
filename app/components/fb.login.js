@@ -269,7 +269,7 @@ var PhotoAlbums = React.createClass({
     console.log('[FB] selectPhoto:', photo);
     var {navigator,route,imagetype,nextRoute,afterNextRoute} = this.props;
       console.log(this.props,photo)
-    if(navigator.getCurrentRoutes()[0].id == 'potentials'){
+    if(nextRoute){
       navigator.push({
         component: nextRoute,
         passProps: {
@@ -280,6 +280,19 @@ var PhotoAlbums = React.createClass({
         }
       })
       return
+
+    }else{
+      var lastindex = this.props.navigator.getCurrentRoutes().length;
+      console.log(lastindex);
+      var nextRoute = this.props.stack[lastindex];
+
+      nextRoute.passProps = {
+        ...this.props,
+        image: {uri:photo.source},
+        imagetype: imagetype || '',
+
+      }
+      navigator.push(nextRoute)
 
     }
 
