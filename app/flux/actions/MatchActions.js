@@ -89,7 +89,7 @@ class MatchActions {
       Api.toggleFavorite(matchID)
       .then(()=>{
 
-        return Api.getFavorites()
+        return Api.getMatches()
         .then((res) => {
           this.dispatch(res.response);
         })

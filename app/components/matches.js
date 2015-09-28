@@ -91,7 +91,7 @@ class MatchList extends Component{
   }
   toggleFavorite(rowData){
     console.log("TOGGLE FAVORITE",rowData);
-    MatchActions.toggleFavorite(rowData.id);
+    MatchActions.toggleFavorite(rowData.match_id.toString());
   }
   actionModal(match){
       this.props.chatActionSheet(match)
@@ -259,13 +259,13 @@ class MatchesInside extends Component{
 
   constructor(props){
     super(props);
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
       console.log(props)
     this.state = {
       matches: props.matches,
       isVisible: false,
-      dataSource: ds.cloneWithRows(props.matches),
-      favDataSource: ds.cloneWithRows(props.favorites)
+      dataSource: this.ds.cloneWithRows(props.matches),
+      favDataSource: this.ds.cloneWithRows(props.favorites)
 
     }
   }
@@ -281,14 +281,16 @@ class MatchesInside extends Component{
 
   }
   componentWillReceiveProps(newProps) {
+    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
     this.setState({
       matches: newProps.matches,
-      dataSource: this.state.dataSource.cloneWithRows(newProps.matches)
+      dataSource: this.ds.cloneWithRows(newProps.matches)
     })
   }
   _updateDataSource(data) {
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(data)
+      dataSource: this.ds.cloneWithRows(data)
     })
   }
 

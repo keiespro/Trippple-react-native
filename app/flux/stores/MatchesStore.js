@@ -19,6 +19,7 @@ class MatchesStore {
     this.bindListeners({
       handleGetMatches: MatchActions.GET_MATCHES,
       removeMatch: MatchActions.REMOVE_MATCH,
+      toggleFavorite: MatchActions.TOGGLE_FAVORITE
     });
 
     this.on('init',()=>{
@@ -62,17 +63,31 @@ class MatchesStore {
       });
 
   }
-
-  handleGetMatches(matches) {
-    console.log(matches,'handlegetmatches');
+  toggleFavorite(matches) {
     if(matches.length){
       var newMatches = _.filter(matches,(m,i)=>{
         return !this.state.matches.includes(m)
       })
-      console.log(matches,'handlegetmatches1');
 
       this.setState({
-        matches: [...this.state.matches, ...newMatches]
+        matches: [ ...newMatches]
+      });
+    }else{
+      this.setState({
+        matches: this.state.matches
+      });
+    }
+
+  }
+
+  handleGetMatches(matches) {
+    if(matches.length){
+      var newMatches = _.filter(matches,(m,i)=>{
+        return !this.state.matches.includes(m)
+      })
+
+      this.setState({
+        matches: [ ...newMatches]
       });
     }else{
       this.setState({
