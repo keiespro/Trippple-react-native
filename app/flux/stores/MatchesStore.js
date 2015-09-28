@@ -19,7 +19,8 @@ class MatchesStore {
     this.bindListeners({
       handleGetMatches: MatchActions.GET_MATCHES,
       removeMatch: MatchActions.REMOVE_MATCH,
-      toggleFavorite: MatchActions.TOGGLE_FAVORITE
+      toggleFavorite: MatchActions.TOGGLE_FAVORITE,
+      sendMessage: MatchActions.SEND_MESSAGE
     });
 
     this.on('init',()=>{
@@ -63,16 +64,43 @@ class MatchesStore {
       });
 
   }
-  toggleFavorite(matches) {
-    if(matches.length){
-      var newMatches = _.filter(matches,(m,i)=>{
-        return !this.state.matches.includes(m)
-      })
 
-      this.setState({
-        matches: [ ...newMatches]
-      });
-    }else{
+  sendMessage(payload){
+    var matchesData = payload.matchesData;
+    this.getNewMatches(matchesData)
+  }
+  toggleFavorite(matchesData) {
+    this.getNewMatches(matchesData)
+  }
+  getNewMatches(matchesData){
+   var matches = matchesData.matches
+    if(matches.length){
+      if(matchesData.page){
+
+        this.setState({
+          matches: [...this.state.matches, ...matches]
+        });
+
+      }else{
+        if(!this.state.matches.length){
+           this.setState({
+              matches: matches
+            });
+        }else{
+
+          var allmatches = this.state.matches;
+          var removed = allmatches.slice(0,19)
+          console.log(removed.length,allmatches.length)
+
+          allmatches.unshift(...matches)
+          console.log(allmatches);
+          this.setState({
+            matches: allmatches
+          });
+        }
+     }
+
+   }else{
       this.setState({
         matches: this.state.matches
       });
@@ -80,16 +108,32 @@ class MatchesStore {
 
   }
 
-  handleGetMatches(matches) {
+  handleGetMatches(matchesData) {
+    var matches = matchesData.matches
     if(matches.length){
-      var newMatches = _.filter(matches,(m,i)=>{
-        return !this.state.matches.includes(m)
-      })
+      if(matchesData.page){
 
-      this.setState({
-        matches: [ ...newMatches]
-      });
-    }else{
+        this.setState({
+          matches: [...this.state.matches, ...matches]
+        });
+
+      }else{
+        if(!this.state.matches.length){
+           this.setState({
+              matches: matches
+            });
+        }else{
+
+          var allmatches = this.state.matches;
+          var removed = allmatches.slice(0,19)
+          allmatches.unshift(matches)
+          this.setState({
+            matches: allmatches
+          });
+        }
+     }
+
+   }else{
       this.setState({
         matches: this.state.matches
       });

@@ -65,17 +65,31 @@ class FavoritesStore {
   }
 
   handleGetFavorites(matches) {
-    console.log(matches,'handlegetmatches');
+   var matches = matchesData.matches
     if(matches.length){
-      var newFavorites = _.filter(matches,(m,i)=>{
-        return !this.state.matches.includes(m)
-      })
-      console.log(matches,'handlegetmatches1');
+      if(matchesData.page){
 
-      this.setState({
-        matches: [...this.state.matches, ...newFavorites]
-      });
-    }else{
+        this.setState({
+          matches: [...this.state.matches, ...matches]
+        });
+
+      }else{
+        if(!this.state.matches.length){
+           this.setState({
+              matches: matches
+            });
+        }else{
+
+          var allmatches = this.state.matches;
+          var removed = allmatches.slice(0,19)
+          allmatches.unshift(matches)
+          this.setState({
+            matches: allmatches
+          });
+        }
+     }
+
+   }else{
       this.setState({
         matches: this.state.matches
       });

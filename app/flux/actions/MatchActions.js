@@ -13,7 +13,7 @@ class MatchActions {
 
     Api.getMatches(page || 0)
       .then((res) => {
-        this.dispatch(res.response);
+        this.dispatch({matches: res.response, page: page || false});
       })
       .catch(err => console.log(err))
 
@@ -23,7 +23,7 @@ class MatchActions {
 
     Api.getFavorites(page || 0)
       .then((res) => {
-        this.dispatch(res.response);
+        this.dispatch({matches: res.response, page: page || false});
       })
       .catch(err => console.log(err))
 
@@ -34,7 +34,7 @@ class MatchActions {
     Api.getMessages({match_id: matchID, page: page})
     .then((res) => {
       console.log(res)
-      this.dispatch(res.response);
+      this.dispatch({messages: res.response});
     })
     .catch(err => console.log(err))
 
@@ -74,7 +74,14 @@ class MatchActions {
 
       return Api.getMessages({match_id: matchID})
       .then((res) => {
-        this.dispatch(res.response);
+        var messages = res.response
+        Api.getMatches(0)
+          .then((res) => {
+            console.log(res)
+            this.dispatch({messages, matchesData: {matches: res.response, page: 0}});
+
+          })
+
       })
       .catch(err => {console.log('promise err',err)})
     })
@@ -89,13 +96,13 @@ class MatchActions {
       Api.toggleFavorite(matchID)
       .then(()=>{
 
-        return Api.getMatches()
+        return Api.getMatches(0)
         .then((res) => {
-          this.dispatch(res.response);
+        console.log(res)
+          this.dispatch({matches: res.response, page: 0});
+
         })
-        .catch(err => {console.log('promise err',err)})
       })
-      .catch(err => {console.log('promise err',err)})
 
 
     }

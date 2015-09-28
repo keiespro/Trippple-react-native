@@ -79,18 +79,17 @@ class ActionModal extends Component{
         }}
         contentWrapStyle={{height: isVisible ? 420 : 0,bottom: 0}}
 
-        swipeablelAreaStyle={{
+        swipeableAreaStyle={{
           position: 'absolute',
           flex: 1,
           left: 0,
           right: 0,
-          top:-600,
-          height:300,
+          top: isVisible ? -300 : 0,
+          height: isVisible ? 300 : 0,
           backgroundColor: colors.mediumPurple20
         }}
         onDidHide={()=>{
-          this.props.modalHide();
-          console.log('HIDE');
+          this.props.toggleModal();
         }}
         onDidShow={()=>{
           console.log('props in AM',this.props.currentMatch.users.them);

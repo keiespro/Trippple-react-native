@@ -32,7 +32,8 @@ class ChatStore {
     })
 
   }
-  handleSentMessage(matchMessages) {
+  handleSentMessage(payload) {
+    var matchMessages = payload.messages
     console.log(matchMessages)
     this.setState(() => {
           var newState = {};
@@ -40,8 +41,8 @@ class ChatStore {
       return {...newState}
     })
   }
-  handleReceiveMessages(matchMessages) {
-    console.log(matchMessages)
+  handleReceiveMessages(payload) {
+    var matchMessages = payload.messages
     this.setState(() => {
       var newState = {};
       newState[`${matchMessages.match_id}`] = matchMessages.message_thread;
