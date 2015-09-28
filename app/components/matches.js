@@ -91,6 +91,7 @@ class MatchList extends Component{
   }
   toggleFavorite(rowData){
     console.log("TOGGLE FAVORITE",rowData);
+    MatchActions.toggleFavorite(rowData.id);
   }
   actionModal(match){
       this.props.chatActionSheet(match)
@@ -122,7 +123,7 @@ class MatchList extends Component{
 
         right={[
           {
-            component: (<ActiveStarButton/>),
+            component: (rowData.isFavourited ? <ActiveStarButton/> : <EmptyStarButton/>),
             onPress: toggleFavorite,
             backgroundColor: colors.dark,
             underlayColor: 'black',
@@ -333,7 +334,6 @@ class Matches extends Component{
 
   }
   chatActionSheet(match){
-    console.log('----------------MATCH----',match);
     this.setState({
       currentMatch: match,
       isVisible:!this.state.isVisible
@@ -489,6 +489,26 @@ class ActiveStarButton extends Component{
     )
   }
 }
+
+
+class EmptyStarButton extends Component{
+  constructor(props){
+    super()
+  }
+  render(){
+    return (
+      <View style={styles.swipeButtons}>
+           <Image
+             style={{alignSelf:'center' }}
+             source={require('image!starOutline')}
+             resizeMode={Image.resizeMode.cover}
+           />
+       </View>
+    )
+  }
+}
+
+
 
 
 

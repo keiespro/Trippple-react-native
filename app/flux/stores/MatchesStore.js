@@ -18,7 +18,7 @@ class MatchesStore {
 
     this.bindListeners({
       handleGetMatches: MatchActions.GET_MATCHES,
-      removeMatch: MatchActions.REMOVE_MATCH
+      removeMatch: MatchActions.REMOVE_MATCH,
     });
 
     this.on('init',()=>{

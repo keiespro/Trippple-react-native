@@ -84,12 +84,12 @@ class MatchActions {
   }
 
 
-  addFavorite(message, matchID){
+  toggleFavorite(matchID){
 
-      Api.createMessage(message, matchID)
+      Api.toggleFavorite(matchID)
       .then(()=>{
 
-        return Api.favoriteMatch({match_id: matchID})
+        return Api.getFavorites()
         .then((res) => {
           this.dispatch(res.response);
         })

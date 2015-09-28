@@ -18,7 +18,8 @@ class FavoritesStore {
 
     this.bindListeners({
       handleGetFavorites: MatchActions.GET_MATCHES,
-      removeMatch: MatchActions.REMOVE_MATCH
+      removeMatch: MatchActions.REMOVE_MATCH,
+      handleGetFavorites: MatchActions.TOGGLE_FAVORITE
     });
 
     this.on('init',()=>{

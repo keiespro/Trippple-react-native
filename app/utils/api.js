@@ -99,7 +99,12 @@ class api {
   }
 
   getFavorites(page){
-    return authenticatedRequest('getFavorites', {page})
+    return authenticatedRequest('getMatches', {favorites: true, page})
+    //v2 endpoint
+  }
+
+  toggleFavorite(match_id){
+    return authenticatedRequest('toggleMatch', {match_id})
     //v2 endpoint
   }
 
