@@ -36,15 +36,16 @@ var PhoneNumberInput = React.createClass({
   },
   onTextChangeThree: function(text){
     this.setState({phone3: text})
+    console.log(text,text.length)
     if(text.length == 4){
-      var phone = this.state.phone1 + this.state.phone2 + this.state.phone3;
+      var phone = this.state.phone1 + this.state.phone2 + text;
       if(phone.length == 10){
         console.log('PHONE',phone)
+        this.setState({textInputValue: phone})
+        this.props.handleInputChanged(phone)
+
       }
     }
-  },
-  onTextChangeThree: function(text){
-    this.setState({phone3: text})
   },
   componentDidUpdate: function(prevProps,prevState){
     if(this.state.currentBox == 3){
@@ -74,7 +75,7 @@ var PhoneNumberInput = React.createClass({
         ref={component => this._textInput1 = component}
         {...this.props}
         value={this.state.phone1}
-              autoFocus={true}
+        autoFocus={true}
         style={[this.props.style,styles.inputPiece]}
         onSubmitEditing={e => console.log(e)}
         />

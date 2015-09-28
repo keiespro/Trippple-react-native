@@ -73,15 +73,15 @@ class Login extends Component{
     AuthErrorStore.unlisten(this.onError);
   }
 
-  shouldHide(val) { return (val.length < PHONE_MASK_USA.length) ? true : false  }
-  shouldShow(val) { return (val.length === PHONE_MASK_USA.length) ? true : false  }
+  shouldHide(val) { return (val.length < 0 )}
+  shouldShow(val) { return (val.length > 0)  }
 
-  handleInputChange =(event: any)=> {
+  handleInputChange =(val: any)=> {
     var update = {
-      inputFieldValue: event.nativeEvent.text
+      inputFieldValue: val
     };
 
-    if(event.nativeEvent.text.length < this.state.inputFieldValue.length){
+    if(val.length < this.state.inputFieldValue.length){
       update.phoneError = null
     }
 
@@ -136,7 +136,7 @@ class Login extends Component{
               onFocus={this.handleInputFocused.bind(this)}
               onBlur={this.handleInputBlurred.bind(this)}
               keyboardAppearance={'dark'/*doesnt work*/}
-
+              handleInputChanged={this.handleInputChange}
             />
           </View>
           {this.state.phoneError &&
