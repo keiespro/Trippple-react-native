@@ -89,6 +89,7 @@ class MatchList extends Component{
     }
     this._updateDataSource(rows)
   }
+
   toggleFavorite(rowData){
     console.log("TOGGLE FAVORITE",rowData);
     MatchActions.toggleFavorite(rowData.match_id.toString());
@@ -103,20 +104,20 @@ class MatchList extends Component{
     var myId = this.props.user.id,
         myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
 
-    var threadName = rowData.users.them.users.map( (user,i) => user.firstname.trim() ).join(' & ');
+    var theirIds = Object.keys(rowData.users).filter( (u)=> u != this.props.user.id)
+    var them = theirIds.map((id)=> rowData.users[id])
+    var threadName = them.map( (user,i) => user.firstname.trim() ).join(' & ');
     var modalVisible = this.state.isVisible
     var self = this
 
-      function toggleFavorite(){
-      self.toggleFavorite(rowData)
 
-    }
     return (
-      <Swipeout
+
+    <Swipeout
         left={[ {
               onPress: self.actionModal.bind(self,rowData),
               underlayColor: 'black',
-              component: ( <View><ThreeDots/></View>),
+              component: ( <View style={styles.swipeButtons}><ThreeDots/></View>),
               backgroundColor: colors.dark,
             }
          ]}
@@ -124,7 +125,7 @@ class MatchList extends Component{
         right={[
           {
             component: (rowData.isFavourited ? <ActiveStarButton/> : <EmptyStarButton/>),
-            onPress: toggleFavorite,
+            onPress: (()=>self.toggleFavorite(rowData)),
             backgroundColor: colors.dark,
             underlayColor: 'black',
           }
@@ -135,7 +136,9 @@ class MatchList extends Component{
         sectionID={sectionID}
         autoClose={true}
         scroll={event => this._allowScroll(event)}
-        onOpen={(sectionID_, rowID_) => this._handleSwipeout(sectionID_, rowID_)}>
+        onClose={(sectionID_, rowID_) => {console.log('CLOOOOOOOOOOOOOOSE')}}
+
+        onOpen={(sectionID_, rowID_) => {console.log('OPEN',this._handleSwipeout(sectionID_, rowID_))}}>
 
         <TouchableHighlight onPress={(e) => {
             console.log('onpress Swipeout',e);
@@ -149,7 +152,7 @@ class MatchList extends Component{
                <Image
                  key={'userimage'+rowID}
                  style={styles.thumb}
-                 source={{uri: rowData.couple ? rowData.couple.thumb_url : rowData.users.them.users[0].thumb_url}}
+                 source={{uri: them.couple ? them.couple.thumb_url : them.thumb_url}}
                  defaultSource={require('image!placeholderUser')}
                  resizeMode={Image.resizeMode.cover}
                />
@@ -342,7 +345,14 @@ class Matches extends Component{
     })
   }
 
-
+  showProfile(match){
+    this.props.navigator.push({
+      component: UserProfile,
+      passProps:{match, hideProfile: ()=> {
+        this.props.navigator.pop()
+      }}
+    })
+  }
   render(){
     return (
         <AltContainer
@@ -363,7 +373,8 @@ class Matches extends Component{
           }}>
            <MatchesInside {...this.props} chatActionSheet={this.chatActionSheet.bind(this)} />
            <ActionModal
-              modalHide={()=>{ this.setState({isVisible:false}) }}
+              user={this.props.user}
+              navigator={this.props.navigator}
               toggleModal={(e)=>{ this.setState({isVisible:false}) }}
               isVisible={this.state.isVisible}
               currentMatch={this.state.currentMatch}

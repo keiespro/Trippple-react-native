@@ -367,7 +367,12 @@ class ChatInside extends Component{
     //    console.log(x, y, width, height);
     // });
     //
-    chatTitle = this.props.matches.users.them.users.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },"")
+    //
+    var match = this.props.matches
+    var theirIds = Object.keys(match.users).filter( (u)=> u != this.props.user.id)
+    var them = theirIds.map((id)=> match.users[id])
+    //
+    chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },"")
 
     console.log(this.props,'chatTitle',chatTitle);
 
@@ -524,7 +529,12 @@ class ChatInside extends Component{
         }
         />
 
-      <ActionModal currentMatch={this.props.matches} toggleModal={this.chatActionSheet.bind(this)} isVisible={this.state.isVisible} />
+      <ActionModal
+        currentMatch={this.props.matches}
+        user={this.props.user}
+        toggleModal={this.chatActionSheet.bind(this)}
+        navigator={this.props.navigator}
+        isVisible={this.state.isVisible} />
       </View>
     )
   }

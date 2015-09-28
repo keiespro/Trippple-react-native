@@ -24,6 +24,7 @@ import BackButton from '../components/BackButton'
 import Modal from 'react-native-swipeable-modal'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
+import UserProfile from '../components/UserProfile'
 
 @reactMixin.decorate(TimerMixin)
 class ActionModal extends Component{
@@ -32,7 +33,8 @@ class ActionModal extends Component{
     super();
 
     this.state = {
-      modalBG: 'transparent'
+      modalBG: 'transparent',
+      favorited: props.currentMatch ? props.currentMatch.isFavourited : false
     }
   }
 
@@ -42,6 +44,9 @@ class ActionModal extends Component{
   componentWillUnmount(){
     console.log('UNmount actionmodal')
   }
+  componentWillReceiveProps(props){
+    this.forceUpdate()
+  }
   _continue(){
     this.toggleModal();
 
@@ -49,18 +54,32 @@ class ActionModal extends Component{
   toggleModal(){
     this.props.toggleModal()
   }
+  showProfile(match){
+    this.props.navigator.push({
+      component: UserProfile,
+      passProps:{match, hideProfile: ()=> {
+        this.props.navigator.pop()
+      }}
+    })
+  }
+
+
+
   render(){
-  if(!this.props.currentMatch) return false;
+    if(!this.props.currentMatch) return false;
     var {isVisible} = this.props
     console.log(this.props)
-    var img_url = this.props.currentMatch.users.them.users[1].image_url
-    var matchName = 'MatchName'
-    console.log( img_url)
+    var theirIds = Object.keys(this.props.currentMatch.users).filter( (u)=> u != this.props.user.id)
+    var them = theirIds.map((id)=> this.props.currentMatch.users[id])
+
+    var img_url = them[0].image_url
+    var matchName = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },"")
+
     return (
 
 
       <Modal
-        height={isVisible ? 520 : 0}
+        height={isVisible ? 450 : 0}
         modalStyle={[styles.actionmodal,{overflow:isVisible ? 'visible':'hidden'}]}
         isVisible={isVisible}
         animation={{
@@ -72,13 +91,16 @@ class ActionModal extends Component{
             }
           },
           hide: {
-            duration: 200,
+            duration: 300,
             update: {
               type: LayoutAnimation.Types.spring
             }
           }
         }}
-        contentWrapStyle={{height: isVisible ? 520 : 0,bottom: 0}}
+        contentWrapStyle={{
+          height: isVisible ? 450 : 0,
+          bottom: 0
+        }}
 
         swipeableAreaStyle={{
           position: 'absolute',
@@ -90,27 +112,29 @@ class ActionModal extends Component{
           backgroundColor: colors.mediumPurple20
         }}
         onDidHide={()=>{
-          if(this.props.isVisible){
+          if(isVisible){
             this.props.toggleModal();
+
           }
+
         }}
+
+
         onDidShow={()=>{
-          console.log('props in AM',this.props.currentMatch.users.them);
+          console.log('props in AM',this.props.currentMatch.users);
         }}>
 
 
-        <View>
+        <View style={[styles.actionmodal]}>
           <View  style={[styles.userimageContainer,styles.blur]}>
-            <TouchableOpacity onPress={()=>false}>
               <Image
                 style={styles.userimage}
-                key={this.props.match_id}
+                key={this.props.currentMatch.match_id}
                 source={{uri: img_url }}
 
-                defaultSource={require('image!defaultuser')}
+                defaultSource={require('image!placeholderUser')}
                 resizeMode={Image.resizeMode.cover}/>
 
-            </TouchableOpacity>
 
             <Text style={{color:colors.white}}>{`${matchName}\'s`} </Text>
 
@@ -150,10 +174,14 @@ class ActionModal extends Component{
             <TouchableHighlight
               style={[styles.clearButton,styles.modalButton]}
               underlayColor={colors.mediumPurple}
-              onPress={()=>true}>
+              onPress={()=>{
+              console.log(this.state.favorited)
+                MatchActions.toggleFavorite(this.props.currentMatch.match_id.toString())
+                  this.toggleModal()
+              }}>
               <View >
                 <Text style={[styles.clearButtonText,styles.modalButtonText]}>
-                  FAVORITE {this.props.matchName}
+                  {this.props.currentMatch.isFavourited ? 'UNFAVORITE' : 'FAVORITE'}
                 </Text>
               </View>
             </TouchableHighlight>
@@ -161,7 +189,10 @@ class ActionModal extends Component{
             <TouchableHighlight
               style={[styles.clearButton,styles.modalButton]}
               underlayColor={colors.mediumPurple}
-              onPress={()=>{}}>
+              onPress={()=>{
+                  this.toggleModal()
+                this.showProfile(this.props.currentMatch)
+              }}>
               <View >
                 <Text style={[styles.clearButtonText,styles.modalButtonText]}>
                   VIEW PROFILE
@@ -194,6 +225,7 @@ var styles = StyleSheet.create({
     backgroundColor: colors.outerSpace,
     justifyContent:'flex-start',
     margin:0,
+    bottom:0,
     padding:10,
     // shadowColor:colors.darkShadow,
     //       shadowRadius:5,
@@ -224,29 +256,29 @@ var styles = StyleSheet.create({
     justifyContent:'center',
     height:50,
     borderWidth:1
-},
-profileButton:{
-  backgroundColor:colors.mediumPurple20,
-  borderColor:colors.mediumPurple,
+  },
+  profileButton:{
+    backgroundColor:colors.mediumPurple20,
+    borderColor:colors.mediumPurple,
 
-},
-inlineButtons:{
-  flex:1
-},
-modalButtonText:{
-  color:colors.white,
-  fontFamily:'Montserrat',
-  fontSize:20,
+  },
+  inlineButtons:{
+    flex:1
+  },
+  modalButtonText:{
+    color:colors.white,
+    fontFamily:'Montserrat',
+    fontSize:20,
 
-  textAlign:'center'
-},
-clearButtonText:{
-  color:colors.rollingStone,
-  fontFamily:'Montserrat',
-  fontSize:20,
+    textAlign:'center'
+  },
+  clearButtonText:{
+    color:colors.rollingStone,
+    fontFamily:'Montserrat',
+    fontSize:20,
 
-  textAlign:'center'
-},
+    textAlign:'center'
+  },
 
   container: {
     flex:1,
@@ -267,26 +299,29 @@ clearButtonText:{
 
 
    userimageContainer: {
-     padding: 0,
-     alignItems: 'center'
 
+    alignItems: 'center',
+    flexDirection:'column',
+    justifyContent:'center',
+    flex:1,
+    alignSelf:'stretch',
+    paddingTop: 0,
+    paddingBottom: 0,
+    width: DeviceWidth - 20,
+    paddingHorizontal: 20,
    },
+
    blur:{
-     flex:1,
-     alignSelf:'stretch',
-     alignItems:'center',
-     paddingTop: 0,
-     paddingBottom: 0,
 
    },
 
    userimage: {
      padding:0,
-     height: 180,
-     width:180,
-     alignItems: 'stretch',
+     marginVertical:10,
+     height: 140,
+     width:140,
      position:'relative',
-     borderRadius:90,
+     borderRadius:70,
      overflow:'hidden'
    },
 })
