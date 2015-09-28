@@ -20,7 +20,8 @@ class MatchesStore {
       handleGetMatches: MatchActions.GET_MATCHES,
       removeMatch: MatchActions.REMOVE_MATCH,
       toggleFavorite: MatchActions.TOGGLE_FAVORITE,
-      sendMessage: MatchActions.SEND_MESSAGE
+      sendMessage: MatchActions.SEND_MESSAGE,
+      unMatch: MatchActions.UN_MATCH
     });
 
     this.on('init',()=>{
@@ -55,9 +56,11 @@ class MatchesStore {
 
   }
 
-
+  unMatch(matchID){
+    this.removeMatch(matchID)
+  }
   removeMatch(matchID){
-    const cleanMatches = _.reject(this.state.matches, match => match.id === matchID);
+    const cleanMatches = _.reject(this.state.matches, match => match.match_id === matchID);
 
       this.setState({
         matches: cleanMatches

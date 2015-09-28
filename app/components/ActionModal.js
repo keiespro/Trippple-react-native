@@ -17,6 +17,7 @@ import {
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import UserActions from '../flux/actions/UserActions'
+import MatchActions from '../flux/actions/MatchActions'
 import colors from '../utils/colors'
 import _ from 'underscore'
 import BackButton from '../components/BackButton'
@@ -59,7 +60,7 @@ class ActionModal extends Component{
 
 
       <Modal
-        height={isVisible ? 420 : 0}
+        height={isVisible ? 520 : 0}
         modalStyle={[styles.actionmodal,{overflow:isVisible ? 'visible':'hidden'}]}
         isVisible={isVisible}
         animation={{
@@ -77,7 +78,7 @@ class ActionModal extends Component{
             }
           }
         }}
-        contentWrapStyle={{height: isVisible ? 420 : 0,bottom: 0}}
+        contentWrapStyle={{height: isVisible ? 520 : 0,bottom: 0}}
 
         swipeableAreaStyle={{
           position: 'absolute',
@@ -89,7 +90,9 @@ class ActionModal extends Component{
           backgroundColor: colors.mediumPurple20
         }}
         onDidHide={()=>{
-          this.props.toggleModal();
+          if(this.props.isVisible){
+            this.props.toggleModal();
+          }
         }}
         onDidShow={()=>{
           console.log('props in AM',this.props.currentMatch.users.them);
@@ -101,7 +104,7 @@ class ActionModal extends Component{
             <TouchableOpacity onPress={()=>false}>
               <Image
                 style={styles.userimage}
-                key={this.props.id}
+                key={this.props.match_id}
                 source={{uri: img_url }}
 
                 defaultSource={require('image!defaultuser')}
@@ -120,7 +123,10 @@ class ActionModal extends Component{
               <TouchableHighlight
                 style={[styles.clearButton,styles.inlineButtons]}
                 underlayColor={colors.shuttleGray20}
-                onPress={()=>UserActions.unMatch()}>
+                onPress={()=>{
+                  MatchActions.unMatch(this.props.currentMatch.match_id)
+                  this.toggleModal()
+                }}>
                 <View >
                   <Text style={[styles.clearButtonText]}>
                     UNMATCH
@@ -165,7 +171,7 @@ class ActionModal extends Component{
 
             <TouchableOpacity onPress={this.toggleModal.bind(this)}>
               <View style={{flex:1,paddingVertical:10}}>
-                <Text style={{textAlign:'center',fontSize:18,color:'white'}}>Close</Text>
+                <Text style={{textAlign:'center',fontSize:18,color:'white'}}>CANCEL</Text>
               </View>
             </TouchableOpacity>
 

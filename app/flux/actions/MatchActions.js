@@ -108,6 +108,18 @@ class MatchActions {
     }
 
 
+  unMatch(matchID){
+
+      Api.unMatch(matchID)
+      .then(()=>{
+         this.dispatch(matchID);
+
+        })
+
+
+
+    }
+
   sendLike(likedUserID,likeStatus){
     console.log(likedUserID)
 

@@ -39,7 +39,8 @@ class NotificationActions {
 
   }
   receiveMatchRemovedNotification(payload){
-    this.dispatch(payload.data.match_id)
+    console.log(payload)
+    this.dispatch(payload.match_id)
   }
 
   scheduleNewPotentialsAlert(){

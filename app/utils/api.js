@@ -108,6 +108,12 @@ class api {
     //v2 endpoint
   }
 
+  unMatch(match_id){
+    return authenticatedRequest('unmatch', {match_id})
+    //v2 endpoint
+  }
+
+
 
   getMessages(payload){
     if(!payload.match_id){
