@@ -129,10 +129,8 @@ class Login extends Component{
             mask={PHONE_MASK_USA}
             ref="phoneinputbox"
               style={styles.phoneInput}
-              keyboardType={'phone-pad'}
-              placeholder={'PHONE NUMBER'}
+              keyboardType={'numeric'}
               placeholderTextColor="#fff"
-              autoFocus={true}
               autoCorrect={false}
               onChange={this.handleInputChange.bind(this)}
               onFocus={this.handleInputFocused.bind(this)}
