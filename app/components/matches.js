@@ -19,15 +19,19 @@ Component,
 } from 'react-native'
 
 import colors from '../utils/colors'
+import ThreeDots from '../buttons/ThreeDots'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
+
+import ActionModal from './ActionModal'
 
 import _ from 'underscore'
 import alt from '../flux/alt'
 import Chat from './chat'
 import MatchActions from '../flux/actions/MatchActions'
 import MatchesStore from '../flux/stores/MatchesStore'
+import FavoritesStore from '../flux/stores/FavoritesStore'
 import Swipeout from 'react-native-swipeout'
 import Logger from '../utils/logger'
 import customSceneConfigs from '../utils/sceneConfigs'
@@ -39,53 +43,17 @@ import FakeNavBar from '../controls/FakeNavBar'
 import Mixpanel from '../utils/mixpanel'
 
 
-
-class StarButton extends Component{
-  constructor(props){
-    super()
-  }
-  render(){
-    return (
-      <View style={{width:60,alignSelf:'flex-start',flexDirection:'row',alignItems:'center',justifyContent:'center',height:100,marginLeft:10}}>
-           <Image
-             key={'star'}
-             style={{alignSelf:'center' }}
-             source={require('image!starOutline')}
-             resizeMode={Image.resizeMode.cover}
-           />
-       </View>
-    )
-  }
-}
-// Buttons
-var swipeoutBtnsLeft = [
-  {
-    component: (<StarButton/>),
-    backgroundColor: colors.dark,
-    underlayColor: colors.purple,
-  }
-];
-
-var swipeoutBtnsRight = [
-  {
-    text: 'Unmatch',
-    onPress(){
-      console.log('REJECT');
-    },
-    backgroundColor: colors.dark,
-  }
-];
-
-
-
 @reactMixin.decorate(TimerMixin)
 class MatchList extends Component{
 
+  static defaultProps = {
+  }
   constructor(props) {
     super(props);
 
     this.state = {
       index: 0,
+      isVisible:false,
       scrollEnabled: true
     }
 
@@ -111,6 +79,7 @@ class MatchList extends Component{
     this.props.updateDataSource(data)
   }
 
+
   //  set active swipeout item
   _handleSwipeout(sectionID, rowID) {
     const rows = this.props.matches;
@@ -120,7 +89,13 @@ class MatchList extends Component{
     }
     this._updateDataSource(rows)
   }
+  toggleFavorite(rowData){
+    console.log("TOGGLE FAVORITE",rowData);
+  }
+  actionModal(match){
+      this.props.chatActionSheet(match)
 
+  }
   // https://github.com/dancormier/react-native-swipeout/wiki/Closing-Swipeouts
   _renderRow(rowData, sectionID, rowID){
 
@@ -128,11 +103,32 @@ class MatchList extends Component{
         myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
 
     var threadName = rowData.users.them.users.map( (user,i) => user.firstname.trim() ).join(' & ');
+    var modalVisible = this.state.isVisible
+    var self = this
 
+      function toggleFavorite(){
+      self.toggleFavorite(rowData)
+
+    }
     return (
       <Swipeout
-        left={swipeoutBtnsLeft}
-        right={swipeoutBtnsRight}
+        left={[ {
+              onPress: self.actionModal.bind(self,rowData),
+              underlayColor: 'black',
+              component: ( <View><ThreeDots/></View>),
+              backgroundColor: colors.dark,
+            }
+         ]}
+
+        right={[
+          {
+            component: (<ActiveStarButton/>),
+            onPress: toggleFavorite,
+            backgroundColor: colors.dark,
+            underlayColor: 'black',
+          }
+        ]}
+
         backgroundColor={colors.dark}
         rowID={rowID}
         sectionID={sectionID}
@@ -140,7 +136,11 @@ class MatchList extends Component{
         scroll={event => this._allowScroll(event)}
         onOpen={(sectionID_, rowID_) => this._handleSwipeout(sectionID_, rowID_)}>
 
-        <TouchableHighlight onPress={() => {console.log('onpress Swipeout');  this._pressRow(rowData.match_id); }} key={rowData.match_id+'match'}>
+        <TouchableHighlight onPress={(e) => {
+            console.log('onpress Swipeout',e);
+            this._pressRow(rowData.match_id);
+          }}
+            key={rowData.match_id+'match'}>
 
         <View>
           <View style={styles.row}>
@@ -194,12 +194,8 @@ class MatchList extends Component{
     });
   }
 
-  filterFavorites(){
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    return ds.cloneWithRows(_.filter(this.props.matches, (el) => el.favorited === true ))
-  }
   render(){
-
+    var self = this, isVisible = modalVisible = this.state.isVisible
     return (
       <View style={styles.container}>
         <View style={{height:50}}>
@@ -216,21 +212,40 @@ class MatchList extends Component{
             onPress={index => this.setState({ index })}
           />
         </View>
-        <ListView
-        initialListSize={12}
-        scrollEnabled={this.state.scrollEnabled}
-          onEndReached={ (e) => {
-            const nextPage = this.props.matches.length/20 + 1;
-            if(this.state.fetching || nextPage === this.state.lastPage){ return false }
-            this.setState({fetching:true,lastPage: nextPage })
-            MatchActions.getMatches(nextPage);
-            this.setState({fetching:false})
+        {this.state.index === 0 ?
+          <ListView
+          initialListSize={12}
+          scrollEnabled={this.state.scrollEnabled}
+          chatActionSheet={this.props.chatActionSheet}
+            onEndReached={ (e) => {
+              const nextPage = this.props.matches.length/20 + 1;
+              if(this.state.fetching || nextPage === this.state.lastPage){ return false }
+              this.setState({lastPage: nextPage })
+              MatchActions.getMatches(nextPage);
 
-          }}
-          ref={component => this._listView = component}
-          dataSource={this.state.index === 0 ? this.props.dataSource : this.filterFavorites()}
-          renderRow={this._renderRow.bind(this)}
-          />
+            }}
+            ref={component => this._listView = component}
+            dataSource={this.props.dataSource}
+            renderRow={this._renderRow.bind(this)}
+            />
+            :
+          <ListView
+          initialListSize={12}
+          scrollEnabled={this.state.scrollEnabled}
+          chatActionSheet={this.props.chatActionSheet}
+            onEndReached={ (e) => {
+              const nextPage = this.props.matches.length/20 + 1;
+              if(this.state.fetching || nextPage === this.state.lastPage){ return false }
+              this.setState({lastPage: nextPage })
+              MatchActions.getMatches(nextPage);
+
+            }}
+            ref={component => this._listView = component}
+            dataSource={this.props.favDataSource}
+            renderRow={this._renderRow.bind(this)}
+            />
+          }
+
 
         </View>
     );
@@ -247,7 +262,10 @@ class MatchesInside extends Component{
       console.log(props)
     this.state = {
       matches: props.matches,
-      dataSource: ds.cloneWithRows(props.matches)
+      isVisible: false,
+      dataSource: ds.cloneWithRows(props.matches),
+      favDataSource: ds.cloneWithRows(props.favorites)
+
     }
   }
 
@@ -261,7 +279,6 @@ class MatchesInside extends Component{
 
 
   }
-
   componentWillReceiveProps(newProps) {
     this.setState({
       matches: newProps.matches,
@@ -273,14 +290,17 @@ class MatchesInside extends Component{
       dataSource: this.state.dataSource.cloneWithRows(data)
     })
   }
+
   render(){
-    return (
-          <MatchList
+     return (
+           <MatchList
             user={this.props.user}
             dataSource={this.state.dataSource}
+            favDataSource={this.state.favDataSource}
             matches={this.props.matches}
             updateDataSource={this._updateDataSource.bind(this)}
             id={"matcheslist"}
+            chatActionSheet={this.props.chatActionSheet}
             navigator={this.props.navigator}
             route={{
               component: Matches,
@@ -290,7 +310,7 @@ class MatchesInside extends Component{
             title={"matchlist"}
           />
 
-    )
+     )
 
   }
 
@@ -300,9 +320,26 @@ class MatchesInside extends Component{
 
 class Matches extends Component{
 
-  constructor(props){
-    super();
+  static defaultProps = {
+
   }
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currentMatch:null,
+      isVisible:false
+    }
+
+  }
+  chatActionSheet(match){
+    console.log('----------------MATCH----',match);
+    this.setState({
+      currentMatch: match,
+      isVisible:!this.state.isVisible
+    })
+  }
+
 
   render(){
     return (
@@ -314,9 +351,21 @@ class Matches extends Component{
                 value: MatchesStore.getAllMatches()
               }
             },
+            favorites: (props) => {
+              return {
+                store: FavoritesStore,
+                value: FavoritesStore.getAllFavorites()
+              }
+            },
 
           }}>
-           <MatchesInside {...this.props} />
+           <MatchesInside {...this.props} chatActionSheet={this.chatActionSheet.bind(this)} />
+           <ActionModal
+              modalHide={()=>{ this.setState({isVisible:false}) }}
+              toggleModal={(e)=>{ this.setState({isVisible:false}) }}
+              isVisible={this.state.isVisible}
+              currentMatch={this.state.currentMatch}
+            />
         </AltContainer>
     );
   }
@@ -392,7 +441,57 @@ var styles = StyleSheet.create({
     overflow:'hidden',
     flex:3,
     alignSelf:'stretch'
+  },
+  swipeButtons:{
+    width:50,
+    alignSelf:'center',
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'center',
+    height:100,
+
+    marginLeft:0
   }
 });
+
+
+class StarButton extends Component{
+  constructor(props){
+    super()
+  }
+  render(){
+    return (
+      <View style={styles.swipeButtons}>
+          <Image
+            style={{alignSelf:'center' }}
+            source={require('image!starOutline')}
+            resizeMode={Image.resizeMode.cover}
+           />
+       </View>
+    )
+  }
+}
+
+
+class ActiveStarButton extends Component{
+  constructor(props){
+    super()
+  }
+  render(){
+    return (
+      <View style={styles.swipeButtons}>
+           <Image
+             style={{alignSelf:'center' }}
+             source={require('image!star')}
+             resizeMode={Image.resizeMode.cover}
+           />
+       </View>
+    )
+  }
+}
+
+
+
+
 
 module.exports = Matches;

@@ -98,6 +98,12 @@ class api {
     //v2 endpoint
   }
 
+  getFavorites(page){
+    return authenticatedRequest('getFavorites', {page})
+    //v2 endpoint
+  }
+
+
   getMessages(payload){
     if(!payload.match_id){
       return false;

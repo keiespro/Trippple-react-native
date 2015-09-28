@@ -23,6 +23,8 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
 import ActionModal from './ActionModal'
+import ThreeDots from '../buttons/ThreeDots'
+
 
 var colors = require('../utils/colors');
 var MatchesStore = require('../flux/stores/MatchesStore');
@@ -66,6 +68,7 @@ var styles = StyleSheet.create({
     margin:0,
     bottom:0
   },
+
   bubble: {
     borderRadius:10,
     paddingHorizontal: 13,
@@ -75,8 +78,6 @@ var styles = StyleSheet.create({
     backgroundColor: colors.mediumPurple,
     padding: 10,
     marginHorizontal:5
-
-
   },
   row:{
     flexDirection: 'row',
@@ -105,6 +106,7 @@ messageTitle:{
     color:colors.white
   },
   chatmessage:{
+
     },
   messageText: {
     fontSize: 16,
@@ -186,7 +188,7 @@ class ChatInside extends Component{
 
 
   updateKeyboardSpace(frames){
-    console.log('updateKeyboardSpace',frames)
+    console.log('updateKeyboardSpace',frames,this.refs)
     // var h = frames.endCoordinates && frames.endCoordinates.height |
     var h = frames.startCoordinates && frames.startCoordinates.screenY - frames.endCoordinates.screenY || frames.end && frames.end.height
     if( h == this.state.keyboardSpace){ return false }
@@ -203,7 +205,7 @@ class ChatInside extends Component{
         duration = frames.duration
       }
       LayoutAnimation.configureNext({
-        duration: frames.duration,
+        duration: frames.duration/2,
 
         create: {
           delay: 0,
@@ -212,7 +214,7 @@ class ChatInside extends Component{
         },
         update: {
           delay: 0,
-          type: LayoutAnimation.Types.easeInEaseOut,
+          type: LayoutAnimation.Types.spring,
           property: LayoutAnimation.Properties.paddingBottom
         }
       });
@@ -348,14 +350,16 @@ class ChatInside extends Component{
     })
   }
   chatActionSheet(){
-    this.state.isVisible && this._textInput.blur()
+    var isOpen = this.state.isVisible
+    this._textInput && this._textInput.blur()
     this.setState({
-      isVisible:!this.state.isVisible
+      isVisible:!isOpen,
     })
 
 
   }
   render(){
+    console.log('props in chat',this.props)
     // this._textInput && this._textInput.measure((x, y, width, height)=>{
     //    console.log(x, y, width, height);
   // });
@@ -404,9 +408,9 @@ class ChatInside extends Component{
                 // this.setState({fetching:false})
               // }
             }}
+            onScroll={(e)=>{console.log(e.nativeEvent)}}
             onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
             onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
-            onKeyboardWillChangeFrame={this.changeKeyboardSpace.bind(this)}
             scrollsToTop={false}
             contentContainerStyle={{backgroundColor:colors.outerSpace,justifyContent:'flex-end',width:DeviceWidth,overflow:'hidden'}}
             {...this.props}
@@ -506,7 +510,7 @@ class ChatInside extends Component{
         <FakeNavBar
           navigator={this.props.navigator}
           route={this.props.route}
-          customNext={<Dots/>}
+          customNext={<ThreeDots/>}
           onNext={this.chatActionSheet.bind(this)}
           backgroundStyle={{backgroundColor:'transparent'}}
           onPrev={(n,p)=>n.pop()}
@@ -520,7 +524,7 @@ class ChatInside extends Component{
         }
         />
 
-        <ActionModal toggleModal={this.chatActionSheet.bind(this)} isVisible={this.state.isVisible} />
+      <ActionModal currentMatch={this.props.matches} toggleModal={this.chatActionSheet.bind(this)} isVisible={this.state.isVisible} />
       </View>
     )
   }
@@ -587,7 +591,7 @@ var Chat = React.createClass({
 
           }}>
           <ChatInside
-          navigator={this.props.navigator}
+            navigator={this.props.navigator}
             user={this.props.user}
             closeChat={this.props.closeChat}
             matchID={this.props.matchID}
@@ -599,22 +603,3 @@ var Chat = React.createClass({
 });
 
 module.exports = Chat;
-
-
-var Dots = React.createClass({
-  componentWillMount(){
-    console.log(this.props)
-
-  },
-
-  render(){
-    const dotWidth = 10;
-    return (
-        <View style={{flexDirection:'row',flex:1,justifyContent:'space-around',alignItems:'center',width:dotWidth*4,height:34}}>
-          <View style={{width:dotWidth,height:dotWidth,borderRadius:dotWidth/2,backgroundColor:colors.shuttleGray}}/>
-          <View style={{width:dotWidth,height:dotWidth,borderRadius:dotWidth/2,backgroundColor:colors.shuttleGray}}/>
-          <View style={{width:dotWidth,height:dotWidth,borderRadius:dotWidth/2,backgroundColor:colors.shuttleGray}}/>
-        </View>
-    )
-  }
-})

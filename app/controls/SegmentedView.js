@@ -68,7 +68,6 @@ class SegmentedView extends React.Component{
       index: 0,
       barColor: '#44B7E1',
       barPosition:'top',
-      underlayColor: '#000000',
       stretch: false,
       selectedTextStyle: null,
       textStyle: null,

@@ -3,7 +3,7 @@ import MatchActions from '../actions/MatchActions'
 import { AsyncStorage } from 'react-native'
 import _ from 'underscore'
 
-class MatchesStore {
+class FavoritesStore {
 
   constructor() {
 
@@ -12,12 +12,12 @@ class MatchesStore {
     }
 
     this.exportPublicMethods({
-      getAllMatches: this.getAllMatches,
+      getAllFavorites: this.getAllFavorites,
       getMatchInfo: this.getMatchInfo
     });
 
     this.bindListeners({
-      handleGetMatches: MatchActions.GET_MATCHES,
+      handleGetFavorites: MatchActions.GET_MATCHES,
       removeMatch: MatchActions.REMOVE_MATCH
     });
 
@@ -31,7 +31,7 @@ class MatchesStore {
   }
   loadLocalData(){
 
-      AsyncStorage.getItem('MatchesStore')
+      AsyncStorage.getItem('FavoritesStore')
         .then((value) => {
           console.log('got matches from storage,', JSON.parse(value))
           if (value !== null){
@@ -43,9 +43,9 @@ class MatchesStore {
           console.log(err);
         })
   }
-  handleInitializeMatches(){
+  handleInitializeFavorites(){
 
-    // console.log(savedMatches,'handlegetmatches');
+    // console.log(savedFavorites,'handlegetmatches');
     this.setState({
       matches: this.state.matches
     });
@@ -55,24 +55,24 @@ class MatchesStore {
 
 
   removeMatch(matchID){
-    const cleanMatches = _.reject(this.state.matches, match => match.id === matchID);
+    const cleanFavorites = _.reject(this.state.matches, match => match.id === matchID);
 
       this.setState({
-        matches: cleanMatches
+        matches: cleanFavorites
       });
 
   }
 
-  handleGetMatches(matches) {
+  handleGetFavorites(matches) {
     console.log(matches,'handlegetmatches');
     if(matches.length){
-      var newMatches = _.filter(matches,(m,i)=>{
+      var newFavorites = _.filter(matches,(m,i)=>{
         return !this.state.matches.includes(m)
       })
       console.log(matches,'handlegetmatches1');
 
       this.setState({
-        matches: [...this.state.matches, ...newMatches]
+        matches: [...this.state.matches, ...newFavorites]
       });
     }else{
       this.setState({
@@ -84,7 +84,7 @@ class MatchesStore {
 
   // public methods
 
-  getAllMatches(){
+  getAllFavorites(){
     console.log('getmatches',this.getState().matches);
     return this.getState().matches
    }
@@ -101,7 +101,7 @@ class MatchesStore {
 
 }
 
- function orderMatches(matches){
+ function orderFavorites(matches){
    var _threads = matches;
 
     var orderedThreads = [];
@@ -125,4 +125,5 @@ class MatchesStore {
 
   }
 
-export default alt.createStore(MatchesStore, 'MatchesStore')
+export default alt.createStore(FavoritesStore, 'FavoritesStore')
+

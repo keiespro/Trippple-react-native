@@ -19,6 +19,16 @@ class MatchActions {
 
   }
 
+  getFavorites(page){
+
+    Api.getFavorites(page || 0)
+      .then((res) => {
+        this.dispatch(res.response);
+      })
+      .catch(err => console.log(err))
+
+  }
+
   getMessages(matchID,page){
 
     Api.getMessages({match_id: matchID, page: page})
@@ -72,6 +82,23 @@ class MatchActions {
 
 
   }
+
+
+  addFavorite(message, matchID){
+
+      Api.createMessage(message, matchID)
+      .then(()=>{
+
+        return Api.favoriteMatch({match_id: matchID})
+        .then((res) => {
+          this.dispatch(res.response);
+        })
+        .catch(err => {console.log('promise err',err)})
+      })
+      .catch(err => {console.log('promise err',err)})
+
+
+    }
 
 
   sendLike(likedUserID,likeStatus){
