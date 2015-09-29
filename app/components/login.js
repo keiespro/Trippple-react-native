@@ -47,9 +47,7 @@ class Login extends Component{
       isLoading: false,
     }
   }
-  componentDidMount() {
-      Mixpanel.track('On - Login Screen');
-  }
+
   formattedPhone(){
     return this.state.inputFieldValue.replace(/[\. ,:-]+/g, '')
   }
