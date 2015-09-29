@@ -26,6 +26,8 @@ import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 import UserProfile from '../components/UserProfile'
 import PurpleModal from './PurpleModal'
+import FadeInContainer from './FadeInContainer'
+
 @reactMixin.decorate(TimerMixin)
 class ActionModal extends Component{
 
@@ -91,12 +93,18 @@ class ActionModal extends Component{
           <Modal
         isVisible={isVisible}
         animated={true}
-        transparent={false}
+        transparent={true}
         onDismiss={()=>{
             this.props.toggleModal();
             this.setState({overlayopacity:0})
         }}>
 
+     <FadeInContainer delay={1000}>
+        <View
+        ref="_overlay"
+        style={[styles.container]}/>
+
+    </FadeInContainer>
 
         <View style={[styles.actionmodal]}>
 

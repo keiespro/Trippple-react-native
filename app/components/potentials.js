@@ -24,7 +24,7 @@ import AltContainer from 'alt/AltNativeContainer';
 import TimerMixin from 'react-timer-mixin';
 import colors from '../utils/colors';
 import Swiper from 'react-native-swiper';
-
+import FadeInContainer from './FadeInContainer'
 import reactMixin from 'react-mixin';
 import Dimensions from 'Dimensions';
 import {BlurView,VibrancyView} from 'react-native-blur'
@@ -145,7 +145,7 @@ class ActiveCard extends Component{
         >
 
 
-      {this.props.user.relationship_status == 'couple' ?
+
         <CoupleActiveCard
           isTopCard={this.props.isTopCard}
           profileVisible={this.props.profileVisible}
@@ -153,15 +153,6 @@ class ActiveCard extends Component{
           showProfile={this._showProfile.bind(this)}
           potential={this.props.potential}
         />
-        :<SingleActiveCard
-          isTopCard={this.props.isTopCard}
-          profileVisible={this.props.profileVisible}
-          hideProfile={this._hideProfile.bind(this)}
-          showProfile={this._showProfile.bind(this)}
-          potential={this.props.potential}
-        />
-      }
-
 
       </Animated.View>
     );
@@ -187,7 +178,6 @@ class ActiveCard extends Component{
 
 class CoupleActiveCard extends Component{
 
-  static displayName = 'CoupleInsideActiveCard'
   static defaultProps = {
     profileVisible: false
   }
@@ -197,6 +187,7 @@ class CoupleActiveCard extends Component{
     this.state = {
       slideIndex: 0
     }
+    console.log('active card!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
 
   }
 
@@ -232,7 +223,7 @@ class CoupleActiveCard extends Component{
                   loop={true}
                   horizontal={false}
                   vertical={true}
-                  autoplay={true}
+                  autoplay={false}
                   showsPagination={true}
                   showsButtons={false}
                   dot={ <View style={styles.dot} />}
@@ -486,12 +477,13 @@ class CardStack extends Component{
   constructor(props){
     super()
     this.state = {profileVisible:false}
+    console.log(props)
   }
   toggleProfile(){
     this.setState({profileVisible:!this.state.profileVisible})
   }
   render(){
-    console.log(this.props.potentials)
+    console.log(this.props.potentials,this.props.potentials.length)
     var NavBar = React.addons.cloneWithProps(this.props.pRoute.navigationBar, { navigator: this.props.navigator, route: this.props.route})
 
       return (
@@ -509,6 +501,7 @@ class CardStack extends Component{
         }
 
     { this.props.potentials.length < 1 &&
+      <FadeInContainer delay={3000} duration={1000}>
          <Image source={require('image!placeholderDashed')}
             resizeMode={Image.resizeMode.contain}
             style={styles.dashedBorderImage}>
@@ -517,8 +510,10 @@ class CardStack extends Component{
             <Text style={{color:colors.rollingStone,fontSize:20,marginHorizontal:70,marginBottom:180,textAlign:'center'}}>You’re all out of potential matches for today.</Text>
 
         </Image>
+      </FadeInContainer>
+
       }
-      {!this.state.profileVisible && NavBar}
+       {!this.state.profileVisible && NavBar}
 
        </View>
       )
@@ -533,7 +528,14 @@ class Potentials extends Component{
   }
   render(){
     return (
-      <AltContainer store={PotentialsStore}>
+      <AltContainer
+       stores={{
+            potentials: (props) => {
+              return {
+                store: PotentialsStore,
+                value: PotentialsStore.getAll()
+              }
+            }}}>
         <CardStack user={this.props.user} navigator={this.props.navigator} pRoute={this.props.pRoute}/>
       </AltContainer>
     )

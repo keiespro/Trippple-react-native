@@ -41,6 +41,7 @@ import reactMixin from 'react-mixin';
 import AltContainer from 'alt/AltNativeContainer'
 import FakeNavBar from '../controls/FakeNavBar'
 import Mixpanel from '../utils/mixpanel'
+import FadeInContainer from './FadeInContainer'
 
 
 @reactMixin.decorate(TimerMixin)
@@ -285,6 +286,8 @@ class MatchList extends Component{
             flex:1,
             alignSelf:'stretch',
             width:DeviceWidth}}>
+      <FadeInContainer>
+
         <View style={{color:colors.white,textAlign:'center',flexDirection:'column',paddingHorizontal:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
 
         <Image  style={{width:175,height:180,marginBottom:40 }} source={require('image!iconPlaceholderFavs')}
@@ -294,6 +297,7 @@ class MatchList extends Component{
         <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes',textAlign:'center'}} >Tap on the star next to  to add matches to your favorites for easy access</Text>
 
         </View>
+      </FadeInContainer>
 
         </ScrollView>)}
 
