@@ -11,6 +11,7 @@ import {
   Image,
   LayoutAnimation,
   Dimensions,
+  Modal,
  TouchableWithoutFeedback,
 } from 'react-native'
 
@@ -21,11 +22,10 @@ import MatchActions from '../flux/actions/MatchActions'
 import colors from '../utils/colors'
 import _ from 'underscore'
 import BackButton from '../components/BackButton'
-import Modal from 'react-native-swipeable-modal'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 import UserProfile from '../components/UserProfile'
-
+import PurpleModal from './PurpleModal'
 @reactMixin.decorate(TimerMixin)
 class ActionModal extends Component{
 
@@ -34,18 +34,29 @@ class ActionModal extends Component{
 
     this.state = {
       modalBG: 'transparent',
+      overlayopacity: 0,
+      purpleModalVisible: false,
       favorited: props.currentMatch ? props.currentMatch.isFavourited : false
     }
   }
 
 
   componentDidMount(){
+
+
   }
   componentWillUnmount(){
     console.log('UNmount actionmodal')
   }
   componentWillReceiveProps(props){
-    this.forceUpdate()
+
+    if(props.currentMatch && !this.props.currentMatch){
+      this.setTimeout(()=>{
+        this.setState({overlayopacity:1})
+        LayoutAnimation.configureNext(animations.layout.spring)
+      },500)
+    }
+
   }
   _continue(){
     this.toggleModal();
@@ -53,6 +64,7 @@ class ActionModal extends Component{
   }
   toggleModal(){
     this.props.toggleModal()
+    this.setState({overlayopacity:0})
   }
   showProfile(match){
     this.props.navigator.push({
@@ -66,7 +78,7 @@ class ActionModal extends Component{
 
 
   render(){
-    if(!this.props.currentMatch) return false;
+    if(!this.props.currentMatch || !this.props.isVisible) return false;
     var {isVisible} = this.props
     console.log(this.props)
     var theirIds = Object.keys(this.props.currentMatch.users).filter( (u)=> u != this.props.user.id)
@@ -74,58 +86,20 @@ class ActionModal extends Component{
 
     var img_url = them[0].image_url
     var matchName = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },"")
-
+    console.log(this.state.overlayopacity)
     return (
-
-
-      <Modal
-        height={isVisible ? 450 : 0}
-        modalStyle={[styles.actionmodal,{overflow:isVisible ? 'visible':'hidden'}]}
+          <Modal
         isVisible={isVisible}
-        animation={{
-          show: {
-            duration: 300,
-            update: {
-              type: LayoutAnimation.Types.spring,
-              springDamping: 0.7
-            }
-          },
-          hide: {
-            duration: 300,
-            update: {
-              type: LayoutAnimation.Types.spring
-            }
-          }
-        }}
-        contentWrapStyle={{
-          height: isVisible ? 450 : 0,
-          bottom: 0
-        }}
-
-        swipeableAreaStyle={{
-          position: 'absolute',
-          flex: 1,
-          left: 0,
-          right: 0,
-          top: isVisible ? -300 : 0,
-          height: isVisible ? 300 : 0,
-          backgroundColor: colors.mediumPurple20
-        }}
-        onDidHide={()=>{
-          if(isVisible){
+        animated={true}
+        transparent={false}
+        onDismiss={()=>{
             this.props.toggleModal();
-
-          }
-
-        }}
-
-
-        onDidShow={()=>{
-          console.log('props in AM',this.props.currentMatch.users);
+            this.setState({overlayopacity:0})
         }}>
 
 
         <View style={[styles.actionmodal]}>
+
           <View  style={[styles.userimageContainer,styles.blur]}>
               <Image
                 style={styles.userimage}
@@ -136,20 +110,28 @@ class ActionModal extends Component{
                 resizeMode={Image.resizeMode.cover}/>
 
 
-            <Text style={{color:colors.white}}>{`${matchName}\'s`} </Text>
+            <Text style={{color:colors.white,fontFamily:'Montserrat-Bold',fontSize:18}}>{`${matchName}`} </Text>
 
           </View>
 
           <View>
 
-            <View style={{flexDirection:'row',justifyContent:'space-around'}}>
+            <View style={{flexDirection:'row',justifyContent:'space-between',
+            marginHorizontal:10,
+            paddingHorizontal:0,
+            paddingBottom:10,
+            marginBottom:10,
+            borderBottomWidth:1,
+            borderBottomColor:colors.shuttleGray}}>
 
               <TouchableHighlight
-                style={[styles.clearButton,styles.inlineButtons]}
+                style={[styles.clearButton,styles.inlineButtons,{marginRight:10}]}
                 underlayColor={colors.shuttleGray20}
                 onPress={()=>{
-                  MatchActions.unMatch(this.props.currentMatch.match_id)
-                  this.toggleModal()
+
+                this.setState({purpleModalVisible:true})
+                  // MatchActions.unMatch(this.props.currentMatch.match_id)
+                  // this.toggleModal()
                 }}>
                 <View >
                   <Text style={[styles.clearButtonText]}>
@@ -159,7 +141,7 @@ class ActionModal extends Component{
               </TouchableHighlight>
 
               <TouchableHighlight
-                style={[styles.clearButton,styles.inlineButtons]}
+                style={[styles.clearButton,styles.inlineButtons,{marginLeft:10}]}
                 underlayColor={colors.shuttleGray20}
                 onPress={()=>true}>
                 <View >
@@ -187,7 +169,7 @@ class ActionModal extends Component{
             </TouchableHighlight>
 
             <TouchableHighlight
-              style={[styles.clearButton,styles.modalButton]}
+              style={[styles.clearButton,styles.modalButton,{borderColor:colors.mediumPurple,backgroundColor:colors.mediumPurple20}]}
               underlayColor={colors.mediumPurple}
               onPress={()=>{
                   this.toggleModal()
@@ -202,14 +184,16 @@ class ActionModal extends Component{
 
             <TouchableOpacity onPress={this.toggleModal.bind(this)}>
               <View style={{flex:1,paddingVertical:10}}>
-                <Text style={{textAlign:'center',fontSize:18,color:'white'}}>CANCEL</Text>
+                <Text style={{textAlign:'center',fontSize:16,color:colors.shuttleGray}}>CANCEL</Text>
               </View>
             </TouchableOpacity>
 
           </View>
 
-        </View>
-
+    </View>
+          <View>
+          </View>
+        {this.state.purpleModalVisible && <PurpleModal  isVisible={this.state.purpleModalVisible} visible={this.state.purpleModalVisible} animated={true}/>}
       </Modal>
 
     );
@@ -225,6 +209,7 @@ var styles = StyleSheet.create({
     backgroundColor: colors.outerSpace,
     justifyContent:'flex-start',
     margin:0,
+    position:'absolute',
     bottom:0,
     padding:10,
     // shadowColor:colors.darkShadow,
@@ -241,10 +226,10 @@ var styles = StyleSheet.create({
     backgroundColor:'transparent',
     borderColor:colors.rollingStone,
     alignItems:'center',
-    margin: 10,
+    marginVertical: 10,
     borderRadius:0,
     justifyContent:'center',
-    height:50,
+    height:60,
     borderWidth:1
 
   },
@@ -254,7 +239,7 @@ var styles = StyleSheet.create({
     margin: 10,
     borderRadius:0,
     justifyContent:'center',
-    height:50,
+    height:60,
     borderWidth:1
   },
   profileButton:{
@@ -263,19 +248,19 @@ var styles = StyleSheet.create({
 
   },
   inlineButtons:{
-    flex:1
+    flex:1,
   },
   modalButtonText:{
     color:colors.white,
     fontFamily:'Montserrat',
-    fontSize:20,
+    fontSize:18,
 
     textAlign:'center'
   },
   clearButtonText:{
     color:colors.rollingStone,
     fontFamily:'Montserrat',
-    fontSize:20,
+    fontSize:18,
 
     textAlign:'center'
   },
@@ -284,9 +269,14 @@ var styles = StyleSheet.create({
     flex:1,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    backgroundColor: colors.outerSpace,
+    backgroundColor: colors.darkShadow,
     alignSelf:'stretch',
     flexDirection: 'column',
+    width: DeviceWidth,
+    height: DeviceHeight,
+    top:0,
+    position:'absolute'
+
 
   },
   fullwidth:{
@@ -306,7 +296,8 @@ var styles = StyleSheet.create({
     flex:1,
     alignSelf:'stretch',
     paddingTop: 0,
-    paddingBottom: 0,
+    marginVertical:10,
+    paddingBottom: 20,
     width: DeviceWidth - 20,
     paddingHorizontal: 20,
    },
@@ -318,10 +309,43 @@ var styles = StyleSheet.create({
    userimage: {
      padding:0,
      marginVertical:10,
-     height: 140,
-     width:140,
+     height: 100,
+     marginBottom:20,
+     width:100,
      position:'relative',
-     borderRadius:70,
+     borderRadius:50,
      overflow:'hidden'
    },
 })
+
+
+
+var animations = {
+  layout: {
+    spring: {
+      duration: 500,
+      create: {
+        duration: 300,
+        delay: 500,
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.opacity
+      },
+      update: {
+        type: LayoutAnimation.Types.spring,
+        springDamping: 200
+      }
+    },
+    easeInEaseOut: {
+      duration: 300,
+      create: {
+        delay: 500,
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.scaleXY
+      },
+      update: {
+        delay: 100,
+        type: LayoutAnimation.Types.easeInEaseOut
+      }
+    }
+  }
+};

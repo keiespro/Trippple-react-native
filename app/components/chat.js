@@ -71,27 +71,37 @@ var styles = StyleSheet.create({
 
   bubble: {
     borderRadius:10,
-    paddingHorizontal: 13,
+    padding: 10,
+
+    paddingHorizontal: 20,
     paddingVertical:10,
     marginVertical:10,
     flex:1,
-    backgroundColor: colors.mediumPurple,
-    padding: 10,
-    marginHorizontal:5
   },
   row:{
     flexDirection: 'row',
     flex: 1,
     alignSelf:'stretch',
-    alignItems:'center',
+    alignItems:'stretch',
     justifyContent:'space-between',
     marginHorizontal: 10,
 
   },
-  theirMessage:{
+  col:{
+    flexDirection: 'column',
+    flex: 1,
+    alignSelf:'stretch',
+    alignItems:'stretch',
+    justifyContent:'space-around',
 
   },
+
+  theirMessage:{
+      backgroundColor: colors.mediumPurple,
+      marginRight:10,
+  },
   ourMessage:{
+  marginLeft:10,
       backgroundColor: colors.dark
 },
 messageTitle:{
@@ -131,39 +141,58 @@ class ChatMessage extends React.Component {
     var isMessageOurs = (this.props.messageData.from_user_info.id === this.props.user.id || this.props.messageData.from_user_info.id === this.props.user.partner_id);
 
     return (
-      <View style={[styles.row,{alignItems:'center'}]}>
+      <View style={[styles.col]}>
+
+      <View style={[styles.row]}>
 
 
-        {!isMessageOurs && <View style={[]}>
-          <Image
-            style={[styles.thumb]}
-            source={{uri: this.props.pic}}
-            defaultSource={require('image!placeholderUser')}
-            resizeMode={Image.resizeMode.cover}
-          />
+         <View style={{flex:1,position:'relative',alignSelf:'stretch',alignItems:'center',flexDirection:'row', justifyContent:'center'}}>
+
+        {!isMessageOurs &&
+          <View style={{backgroundColor:'transparent'}}>
+            <Image style={[styles.thumb]} source={{uri: this.props.pic}} defaultSource={require('image!placeholderUser')}
+                    resizeMode={Image.resizeMode.cover}
+            />
           </View>
         }
 
+        { !isMessageOurs &&
+          <Image resizeMode={Image.resizeMode.contain} source={require('image!TrianglePurple')}
+                  style={{left:0,width:10,height:22}}/>
 
-        <View style={[styles.bubble,,(isMessageOurs ? styles.ourMessage : styles.theirMessage)]}>
-         <View>
-         <Text style={[styles.messageText, styles.messageTitle,
-                    {color: isMessageOurs ? colors.shuttleGray : colors.lavender}
-          ]}>{this.props.messageData.from_user_info.name}</Text>
-          <Text style={styles.messageText} >{this.props.text}</Text>
-          </View>
+          }
+
+
+
+
+          <View style={[styles.bubble,(isMessageOurs ? styles.ourMessage : styles.theirMessage),{alignSelf:'stretch'}]}>
+
+            <Text style={[styles.messageText, styles.messageTitle,
+                  {color: isMessageOurs ? colors.shuttleGray : colors.lavender, fontFamily:'Montserrat'} ]}
+            >{
+                    this.props.messageData.from_user_info.name.toUpperCase()
+            }</Text>
+
+            <Text style={styles.messageText} >{
+              this.props.text
+            }</Text>
+
         </View>
 
-        {isMessageOurs && <View style={[]}>
-          <Image
-            style={[styles.thumb]}
-            source={{uri: this.props.pic}}
-            defaultSource={require('image!placeholderUser')}
-            resizeMode={Image.resizeMode.cover}
-          />
-          </View>
-        }
-    </View>
+          {isMessageOurs &&
+            <Image resizeMode={Image.resizeMode.contain} source={require('image!TriangleDark')}
+                  style={{right:0,width:10,height:22}}/>
+
+          }
+
+        </View>
+      </View>
+
+      <View style={[{paddingHorizontal:20,marginBottom:10},{marginLeft: isMessageOurs ? 10 : 60}]}>
+        <TimeAgo style={{color:colors.shuttleGray,fontFamily:'Montserrat'}} time={this.props.messageData.created_timestamp * 1000} />
+      </View>
+
+      </View>
     );
   }
 }
@@ -358,6 +387,44 @@ class ChatInside extends Component{
 
 
   }
+  renderNoMatches(){
+    var match = this.props.matches
+    var theirIds = Object.keys(match.users).filter( (u)=> u != this.props.user.id)
+    var them = theirIds.map((id)=> match.users[id])
+
+    return (
+     <ScrollView
+        {...this.props}
+
+          contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth}}
+            contentInset={{top:0,right:0,left:0,bottom:44}}
+            automaticallyAdjustContentInsets={true}
+            scrollEnabled={false}
+            centerContent={true}
+            onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
+            onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
+          style={{
+            backgroundColor:colors.outerSpace,
+            flex:1,
+            alignSelf:'stretch',
+            width:DeviceWidth}} >
+        <View style={{color:colors.white,textAlign:'center',flexDirection:'column',justifyContent:'space-between',alignItems:'center',alignSelf:'stretch'}}>
+        <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{`YOU MATCHED WITH`}</Text>
+        <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{`${chatTitle}`}</Text>
+        <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes'}} >
+          <TimeAgo time={match.created} />
+        </Text>
+
+        <Image source={{uri:them[1].image_url}} style={{width:250,height:250,borderRadius:125,marginVertical:40 }} defaultSource={require('image!placeholderUser')} />
+        <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes'}} >Say something. {
+        them[0].couple ? 'They\'re' :
+          them[0].gender == 'm' ? 'He\'s' : 'She\'s'} already into you.</Text>
+
+        </View>
+
+        </ScrollView>
+      )
+  }
   render(){
     console.log('props in chat',this.props)
     // this._textInput && this._textInput.measure((x, y, width, height)=>{
@@ -369,12 +436,14 @@ class ChatInside extends Component{
     //
     //
     var match = this.props.matches
+    if(match){
     var theirIds = Object.keys(match.users).filter( (u)=> u != this.props.user.id)
     var them = theirIds.map((id)=> match.users[id])
     //
+    }
     chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },"")
 
-    console.log(this.props,'chatTitle',chatTitle);
+    console.log(this.props,them,'chatTitle',chatTitle);
 
     return (
       <View ref={'chatscroll'} style={{
@@ -391,7 +460,7 @@ class ChatInside extends Component{
         }}>
 
 
-        <ListView
+       {this.props.messages.length > 0 ? <ListView
           ref={'scroller'}
           renderScrollComponent={props =>
             <InvertibleScrollView
@@ -416,7 +485,7 @@ class ChatInside extends Component{
             onScroll={(e)=>{console.log(e.nativeEvent)}}
             onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
             onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
-            scrollsToTop={false}
+            scrollsToTop={true}
             contentContainerStyle={{backgroundColor:colors.outerSpace,justifyContent:'flex-end',width:DeviceWidth,overflow:'hidden'}}
             {...this.props}
             scrollEventThrottle={64}
@@ -437,6 +506,7 @@ class ChatInside extends Component{
             height:DeviceHeight,
           }}
         />
+        :  this.renderNoMatches()  }
 
         <View style={{
             flexDirection:'row',
@@ -458,11 +528,11 @@ class ChatInside extends Component{
             ref={component => this._textInput = component}
             style={{
               flex:1,
-              paddingHorizontal:2.5,
+              paddingHorizontal:3,
                paddingTop:0,
                paddingBottom:10,
               flexWrap:'wrap',
-              fontSize:16,
+              fontSize:17,
               color:colors.white,
               borderBottomColor:colors.white,
               borderBottomWidth:1,
@@ -470,7 +540,9 @@ class ChatInside extends Component{
             }}
               returnKeyType={'send'}
               keyboardAppearance={'dark'/*doesnt work*/}
- autoCorrect={true}
+              autoCorrect={true}
+              placeholder={'Type Message...'}
+              placeholderTextColor={colors.shuttleGray}
               autoFocus={false}
               clearButtonMode={'never'}
               onChangeText={this.onTextInputChange.bind(this)}
@@ -479,7 +551,7 @@ class ChatInside extends Component{
              <View style={{
              }}><Text
              style={{
-               fontSize:16,
+               fontSize:17,
                padding:0,
                paddingBottom:7.5,
 
@@ -500,6 +572,7 @@ class ChatInside extends Component{
               alignItems:'center',
               justifyContent:'center'
             }}
+
             underlayColor={colors.outerSpace}
             onPress={this.sendMessage.bind(this)}>
 

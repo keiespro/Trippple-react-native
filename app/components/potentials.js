@@ -27,6 +27,7 @@ import Swiper from 'react-native-swiper';
 
 import reactMixin from 'react-mixin';
 import Dimensions from 'Dimensions';
+import {BlurView,VibrancyView} from 'react-native-blur'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -144,6 +145,7 @@ class ActiveCard extends Component{
         >
 
 
+      {this.props.user.relationship_status == 'couple' ?
         <CoupleActiveCard
           isTopCard={this.props.isTopCard}
           profileVisible={this.props.profileVisible}
@@ -151,6 +153,15 @@ class ActiveCard extends Component{
           showProfile={this._showProfile.bind(this)}
           potential={this.props.potential}
         />
+        :<SingleActiveCard
+          isTopCard={this.props.isTopCard}
+          profileVisible={this.props.profileVisible}
+          hideProfile={this._hideProfile.bind(this)}
+          showProfile={this._showProfile.bind(this)}
+          potential={this.props.potential}
+        />
+      }
+
 
       </Animated.View>
     );
@@ -215,15 +226,14 @@ class CoupleActiveCard extends Component{
               position:'relative'
              }]} key={`${this.props.potential.id}-view`}>
 
-              <View style={{overflow:'hidden'}}>
                 <Swiper
                 automaticallyAdjustContentInsets={true}
                   _key={`${this.props.potential.id}-swiper`}
                   loop={true}
                   horizontal={false}
                   vertical={true}
+                  autoplay={true}
                   showsPagination={true}
-                  style={{overflow:'hidden',position:'relative'}}
                   showsButtons={false}
                   dot={ <View style={styles.dot} />}
                   activeDot={ <View style={styles.activeDot} /> }>
@@ -238,13 +248,12 @@ class CoupleActiveCard extends Component{
                 </Swiper>
 
 
-              </View>
-            <View
+            <BlurView blurType={'dark'}
               key={`${this.props.potential.id}-bottomview`}
               style={{
                 height:120,
                 width:DeviceWidth-40,
-                backgroundColor: colors.white,
+                backgroundColor: 'transparent',
                 flexDirection:'row',
                 flex:1,
                 alignSelf:'stretch',
@@ -287,7 +296,7 @@ class CoupleActiveCard extends Component{
 
 
 
-            </View>
+            </BlurView>
           </View>
 
 
@@ -320,7 +329,7 @@ height:DeviceHeight,
 
 
             navigator={this.props.navigator}
-            style={[{backgroundColor:colors.outerSpace,paddingTop:0, },{flex:1,width:DeviceWidth, height:DeviceHeight,top:0,position:'absolute' }]}
+            style={[{backgroundColor:'transparent',paddingTop:0, },{flex:1,width:DeviceWidth, height:DeviceHeight,top:0,position:'absolute' }]}
             swiper={<Swiper
               onMomentumScrollEnd={ (e, state, context) => {
                 this.setState({slideIndex: state.index})
@@ -359,11 +368,11 @@ height:DeviceHeight,
 
               )}>
 
-              <View
+              <BlurView blurType={'light'}
                 key={`${this.props.potential.id}-bottomview`}
                 style={{
                   height:( 500),
-                  backgroundColor:colors.outerSpace,
+                  backgroundColor:'transparent',
                   flex:1,
                   alignSelf:'stretch',
                   alignItems:'stretch',
@@ -407,7 +416,7 @@ height:DeviceHeight,
                       </View>
                   </View>
 
-              </View>
+              </BlurView>
 
               <View style={styles.bottomButtons}>
                 <TouchableHighlight
@@ -463,7 +472,7 @@ class DummyCard extends Component{
             bottom:0,
             position:'absolute',
             width: DeviceWidth - 80,
-            backgroundColor:colors.white,
+            backgroundColor:'transparent',
             flex:1,
             alignSelf:'stretch'
           } }/>

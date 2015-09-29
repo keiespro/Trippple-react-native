@@ -134,7 +134,7 @@ class MatchList extends Component{
         backgroundColor={colors.dark}
         rowID={rowID}
         sectionID={sectionID}
-        autoClose={true}
+        autoClose={false}
         scroll={event => this._allowScroll(event)}
         onClose={(sectionID_, rowID_) => {console.log('CLOOOOOOOOOOOOOOSE')}}
 
@@ -156,6 +156,12 @@ class MatchList extends Component{
                  defaultSource={require('image!placeholderUser')}
                  resizeMode={Image.resizeMode.cover}
                />
+               <View style={{backgroundColor:colors.mandy,position:'absolute',bottom:-5,right:-5,
+               borderRadius:15,overflow:'hidden',
+               borderColor:colors.outerSpace,
+               borderWidth:4,width:30,height:30,overflow:'hidden',padding:0,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
+               <Text style={{fontFamily:'Montserrat-Bold',color:colors.white,textAlign:'center',fontSize:14}}>10</Text>
+               </View>
 
             </View>
             <View style={styles.textwrap}>
@@ -217,6 +223,7 @@ class MatchList extends Component{
           />
         </View>
         {this.state.index === 0 ?
+          (this.props.matches.length > 0 ?
           <ListView
           initialListSize={12}
           scrollEnabled={this.state.scrollEnabled}
@@ -231,9 +238,29 @@ class MatchList extends Component{
             ref={component => this._listView = component}
             dataSource={this.props.dataSource}
             renderRow={this._renderRow.bind(this)}
-            />
+            /> :
+            <ScrollView
+                contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth}}
+                scrollEnabled={false}
+                centerContent={true}
+                style={{
+                  backgroundColor:colors.outerSpace,
+                  flex:1,
+                  alignSelf:'stretch',
+                  width:DeviceWidth}}>
+                  <View style={{color:colors.white,textAlign:'center',flexDirection:'column',paddingHorizontal:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
+                    <Image  style={{width:300,height:100,marginBottom:0 }} source={require('image!listing')}
+                    resizeMode={Image.resizeMode.contain} />
+                    <Image  style={{width:300,height:100,marginBottom:20 }} source={require('image!listing')}
+                    resizeMode={Image.resizeMode.contain} />
+
+                    <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',marginBottom:20}} >{`WAITING FOR MATCHES`}</Text>
+                    <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes',textAlign:'center'}} >Your conversations with your matches will appear in this screen</Text>
+                  </View>
+            </ScrollView>
+            )
             :
-          <ListView
+          (this.props.favorites.length > 0 ? <ListView
           initialListSize={12}
           scrollEnabled={this.state.scrollEnabled}
           chatActionSheet={this.props.chatActionSheet}
@@ -247,8 +274,33 @@ class MatchList extends Component{
             ref={component => this._listView = component}
             dataSource={this.props.favDataSource}
             renderRow={this._renderRow.bind(this)}
-            />
-          }
+            /> :
+            <ScrollView
+
+          contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth}}
+            scrollEnabled={false}
+            centerContent={true}
+          style={{
+            backgroundColor:colors.outerSpace,
+            flex:1,
+            alignSelf:'stretch',
+            width:DeviceWidth}}>
+        <View style={{color:colors.white,textAlign:'center',flexDirection:'column',paddingHorizontal:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
+
+        <Image  style={{width:175,height:180,marginBottom:40 }} source={require('image!iconPlaceholderFavs')}
+               resizeMode={Image.resizeMode.contain}
+        />
+        <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',marginBottom:20}} >{`YOUR FAVORITE PEOPLE`}</Text>
+        <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes',textAlign:'center'}} >Tap on the star next to  to add matches to your favorites for easy access</Text>
+
+        </View>
+
+        </ScrollView>)}
+
+
+
+
+
 
 
         </View>
@@ -304,6 +356,8 @@ class MatchesInside extends Component{
             dataSource={this.state.dataSource}
             favDataSource={this.state.favDataSource}
             matches={this.props.matches}
+            favorites={this.props.favorites}
+
             updateDataSource={this._updateDataSource.bind(this)}
             id={"matcheslist"}
             chatActionSheet={this.props.chatActionSheet}
@@ -372,13 +426,14 @@ class Matches extends Component{
 
           }}>
            <MatchesInside {...this.props} chatActionSheet={this.chatActionSheet.bind(this)} />
-           <ActionModal
+          <View><ActionModal
               user={this.props.user}
               navigator={this.props.navigator}
               toggleModal={(e)=>{ this.setState({isVisible:false}) }}
               isVisible={this.state.isVisible}
               currentMatch={this.state.currentMatch}
-            />
+            /></View>
+
         </AltContainer>
     );
   }

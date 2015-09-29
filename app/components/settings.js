@@ -241,8 +241,8 @@ class SettingsInside extends React.Component{
             <TouchableOpacity onPress={this._pressNewImage}>
               <Image
                 style={styles.userimage}
-                key={this.props.user.image_url}
-                source={{uri: this.props.user.image_url}}
+                key={this.props.user.avatar}
+                source={{uri: this.props.user.avatar}}
                 defaultSource={require('image!defaultuser')}
                 resizeMode={Image.resizeMode.cover}/>
 
