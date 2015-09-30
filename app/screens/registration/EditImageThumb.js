@@ -61,7 +61,7 @@ class EditImageThumb extends Component{
 
   accept(){
 
-    UserActions.uploadImage(this.props.image.uri,this.props.imagetype)
+    UserActions.uploadImage(this.state.croppedImageURI,'avatar')
 
     if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
 

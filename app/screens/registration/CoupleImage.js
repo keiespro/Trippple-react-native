@@ -6,6 +6,7 @@ import {
   View,
   Component,
   TouchableHighlight,
+  Modal,
   Dimensions
 } from 'react-native'
 
@@ -15,7 +16,6 @@ const DeviceWidth = Dimensions.get('window').width;
 import BoxyButton from '../../controls/boxyButton'
 import colors from '../../utils/colors'
 import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
-import Modal from 'react-native-modal'
 import CameraControl from '../../controls/cameraControl'
 
 import CameraRollView from '../../controls/CameraRollView'
@@ -214,4 +214,3 @@ var styles = StyleSheet.create({
 
 
 export default CoupleImage;
-
