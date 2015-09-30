@@ -19,8 +19,8 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import colors from '../utils/colors'
 import _ from 'underscore'
-import TimerMixin from 'react-timer-mixin';
-import reactMixin from 'react-mixin'
+import MatchActions from '../flux/actions/MatchActions'
+
 
 class PurpleModal extends Component{
 
@@ -29,25 +29,38 @@ class PurpleModal extends Component{
     this.state = {}
 
   }
-  _continue(){}
+  unMatch(){
+    MatchActions.unMatch(this.props.match.id)
+    this.props.goBack();
+  }
+  report(){
+    // MatchActions.reportUser(this.props.match.id)
+  }
+
+  cancel(){
+    this.props.goBack();
+  }
+
   render(){
+  var rowData = this.props.match
+    var theirIds = Object.keys(rowData.users).filter( (u)=> u != this.props.user.id)
+    var them = theirIds.map((id)=> rowData.users[id])
+    var matchName = them.map( (user,i) => user.firstname.trim() ).join(' & ');
+    var modalVisible = this.state.isVisible
+    var self = this
+    var matchImage = them.couple && them.couple.thumb_url || them[0].thumb_url || them[1].thumb_url
+
     return (
     <View>
-      <Modal
 
-        isVisible={this.props.visible || this.props.isVisible}
-        animated={true}
-        transparent={false}
-        onDismiss
-        onClose={() => this.closeModal.bind(this)}
-        >
-
+    <View style={{margin:50}}>
 
         <Image style={styles.modalcontainer} source={require('image!GradientBG')}>
           <View style={[styles.col]}>
             <View style={styles.insidemodalwrapper}>
 
           <Image style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginBottom:20}]}
+                source={{uri:matchImage}}
                 defaultSource={require('image!placeholderUserWhite')} />
 
             <View style={styles.rowtextwrapper}>
@@ -55,37 +68,38 @@ class PurpleModal extends Component{
             <Text style={[styles.rowtext,styles.bigtext,{
                   fontFamily:'Montserrat',fontSize:22,marginVertical:10
             }]}>
-                {`INVITE`}
+                {`UNMATCH ${matchName}`}
             </Text>
 
             <Text style={[styles.rowtext,styles.bigtext,{
                   fontSize:22,marginVertical:10,color: colors.lavender,marginHorizontal:20
-            }]}>222
-                </Text>
-                      <View style={{width:DeviceWidth-80}} >
+            }]}>ARE YOU SURE?</Text>
+            </View>
+                      <View style={{marginHorizontal:20}} >
 
-                     <TouchableHighlight underlayColor={colors.mediumPurple} style={styles.modalButton} onPress={this._continue.bind(this)}>
-                      <View style={{height:60}} >
-                        <Text style={[styles.modalButtonText,{marginTop:15}]}>{'22'}</Text>
+                     <TouchableHighlight underlayColor={colors.mediumPurple} style={styles.modalButton} onPress={this.unMatch.bind(this)}>
+                      <View style={{height:60,flex:1,alignSelf:'stretch'}} >
+                        <Text style={[styles.modalButtonText,{marginTop:15}]}>UNMATCH</Text>
                       </View>
                      </TouchableHighlight>
                      </View>
 
-                  <View style={{height:100,width:DeviceWidth-80}} >
+                  <View style={{marginHorizontal:20}} >
 
-                      <TouchableHighlight underlayColor={colors.mediumPurple} style={styles.modalButton} onPress={this._continue.bind(this)}>
-                      <View >
-                        <Text style={styles.modalButtonText}>YES</Text>
+                      <TouchableHighlight underlayColor={colors.mediumPurple} style={styles.modalButton}
+                        onPress={this.props.goBack}>
+                      <View style={{height:60,flex:1,alignSelf:'stretch'}} >
+
+                        <Text style={styles.modalButtonText}>CANCEL</Text>
                       </View>
                      </TouchableHighlight>
                       </View>
 
                       </View>
-                      </View>
 
              </View>
           </Image>
-      </Modal>
+      </View>
              </View>
 
       )
@@ -126,9 +140,8 @@ textAlign:'center'
   modalcontainer:{
     backgroundColor: colors.mediumPurple20,
     flex:1,
-    width: DeviceWidth-50,
     borderRadius:10,
-    margin:25
+    paddingHorizontal:20
   },
   fullwidth:{
     width: DeviceWidth
@@ -177,7 +190,7 @@ textAlign:'center'
 insidemodalwrapper:{
     flexDirection:'column',
     justifyContent:'space-around',
-    alignItems:'center',
+    alignItems:'stretch',
     flex:1,
     marginTop:50,
     alignSelf:'stretch',

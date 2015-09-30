@@ -25,8 +25,9 @@ import BackButton from '../components/BackButton'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 import UserProfile from '../components/UserProfile'
-import PurpleModal from './PurpleModal'
 import FadeInContainer from './FadeInContainer'
+import PurpleModal from './PurpleModal'
+
 
 @reactMixin.decorate(TimerMixin)
 class ActionModal extends Component{
@@ -36,8 +37,6 @@ class ActionModal extends Component{
 
     this.state = {
       modalBG: 'transparent',
-      overlayopacity: 0,
-      purpleModalVisible: false,
       favorited: props.currentMatch ? props.currentMatch.isFavourited : false
     }
   }
@@ -52,12 +51,6 @@ class ActionModal extends Component{
   }
   componentWillReceiveProps(props){
 
-    if(props.currentMatch && !this.props.currentMatch){
-      this.setTimeout(()=>{
-        this.setState({overlayopacity:1})
-        LayoutAnimation.configureNext(animations.layout.spring)
-      },500)
-    }
 
   }
   _continue(){
@@ -66,7 +59,6 @@ class ActionModal extends Component{
   }
   toggleModal(){
     this.props.toggleModal()
-    this.setState({overlayopacity:0})
   }
   showProfile(match){
     this.props.navigator.push({
@@ -74,6 +66,36 @@ class ActionModal extends Component{
       passProps:{match, hideProfile: ()=> {
         this.props.navigator.pop()
       }}
+    })
+  }
+
+  unMatchModal(match){
+    this.toggleModal()
+
+     this.props.navigator.push({
+      component: PurpleModal,
+      passProps:{
+        action: 'unmatch',
+        match,
+        goBack: ()=> {
+          this.props.navigator.pop()
+        }
+      }
+    })
+  }
+
+  reportModal(match){
+    this.toggleModal()
+
+     this.props.navigator.push({
+      component: PurpleModal,
+      passProps: {
+        action: 'report',
+        match,
+        goBack: ()=> {
+          this.props.navigator.pop()
+        }
+      }
     })
   }
 
@@ -88,20 +110,17 @@ class ActionModal extends Component{
 
     var img_url = them[0].image_url
     var matchName = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },"")
-    console.log(this.state.overlayopacity)
     return (
-          <Modal
+      <Modal
         isVisible={isVisible}
         animated={true}
         transparent={true}
         onDismiss={()=>{
             this.props.toggleModal();
-            this.setState({overlayopacity:0})
         }}>
 
-     <FadeInContainer delay={1000}>
+     <FadeInContainer delay={1000} duration={1000}>
         <View
-        ref="_overlay"
         style={[styles.container]}/>
 
     </FadeInContainer>
@@ -136,10 +155,7 @@ class ActionModal extends Component{
                 style={[styles.clearButton,styles.inlineButtons,{marginRight:10}]}
                 underlayColor={colors.shuttleGray20}
                 onPress={()=>{
-
-                this.setState({purpleModalVisible:true})
-                  // MatchActions.unMatch(this.props.currentMatch.match_id)
-                  // this.toggleModal()
+                  this.unMatchModal(this.props.currentMatch)
                 }}>
                 <View >
                   <Text style={[styles.clearButtonText]}>
@@ -151,7 +167,9 @@ class ActionModal extends Component{
               <TouchableHighlight
                 style={[styles.clearButton,styles.inlineButtons,{marginLeft:10}]}
                 underlayColor={colors.shuttleGray20}
-                onPress={()=>true}>
+                onPress={()=>{
+                  this.reportModal(this.props.currentMatch)
+                }}>
                 <View >
                   <Text style={[styles.clearButtonText]}>
                     REPORT
@@ -165,9 +183,7 @@ class ActionModal extends Component{
               style={[styles.clearButton,styles.modalButton]}
               underlayColor={colors.mediumPurple}
               onPress={()=>{
-              console.log(this.state.favorited)
                 MatchActions.toggleFavorite(this.props.currentMatch.match_id.toString())
-                  this.toggleModal()
               }}>
               <View >
                 <Text style={[styles.clearButtonText,styles.modalButtonText]}>
@@ -201,7 +217,6 @@ class ActionModal extends Component{
     </View>
           <View>
           </View>
-        {this.state.purpleModalVisible && <PurpleModal  isVisible={this.state.purpleModalVisible} visible={this.state.purpleModalVisible} animated={true}/>}
       </Modal>
 
     );
