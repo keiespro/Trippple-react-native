@@ -33,7 +33,6 @@
 		AC6BC1B01B832657005F7DFA /* omnes-medium-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129741B40EF0D00CC1499 /* omnes-medium-webfont.ttf */; };
 		AC6BC1B11B832657005F7DFA /* omnes-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129751B40EF0D00CC1499 /* omnes-regular-webfont.ttf */; };
 		ACA1295D1B40EA2E00CC1499 /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129451B40EA1600CC1499 /* libRCTAddressBook.a */; };
-		ACA1295E1B40EA2E00CC1499 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1294A1B40EA1600CC1499 /* libRCTCamera.a */; };
 		ACA1295F1B40EA2E00CC1499 /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1294D1B40EA1600CC1499 /* libRCTFBLogin.a */; };
 		ACA129601B40EA2E00CC1499 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129501B40EA1600CC1499 /* libRCTPushNotification.a */; };
 		ACA129611B40EA2E00CC1499 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129531B40EA1600CC1499 /* libRNFS.a */; };
@@ -41,6 +40,7 @@
 		ACA1296D1B40EC0500CC1499 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA1296C1B40EC0500CC1499 /* RCTFileTransfer.m */; };
 		ACA129861B416C3000CC1499 /* libRNKeyboardEvents.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129851B416C2700CC1499 /* libRNKeyboardEvents.a */; };
 		ACBA6C761B8413A6009040D6 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACBA6C751B8413A6009040D6 /* Media.xcassets */; };
+		ACBB66781BBB297700E60957 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6A6D9D1BBA1E800055446D /* libRCTCamera.a */; };
 		ACBC57291B92498900615D7A /* DeviceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBC57281B92498900615D7A /* DeviceUtil.m */; };
 		ACCC43541BAEB7DF00700C21 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACCC433C1BAEB7D600700C21 /* libBVLinearGradient.a */; };
 		ACE1CD0A1B5772DF0043177A /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACE1CD061B5772DF0043177A /* Bolts.framework */; };
@@ -121,6 +121,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		AC6A6D9C1BBA1E800055446D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC6A6D941BBA1E800055446D /* RCTCamera.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4107012F1ACB723B00C6AA39;
+			remoteInfo = RCTCamera;
+		};
 		ACA129441B40EA1600CC1499 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ACA1293C1B40EA1600CC1499 /* RCTAddressBook.xcodeproj */;
@@ -134,13 +141,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 145CC57B1AED80100006342E;
 			remoteInfo = RCTAddressBookTests;
-		};
-		ACA129491B40EA1600CC1499 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ACA1293F1B40EA1600CC1499 /* RCTCamera.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4107012F1ACB723B00C6AA39;
-			remoteInfo = RCTCamera;
 		};
 		ACA1294C1B40EA1600CC1499 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -231,13 +231,13 @@
 		AC5B03A41B85A9FB003E0302 /* Default-736h@3x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x~iphone.png"; sourceTree = "<group>"; };
 		AC5B03A51B85A9FB003E0302 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		AC5B03A61B85A9FB003E0302 /* Default@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x~iphone.png"; sourceTree = "<group>"; };
+		AC6A6D941BBA1E800055446D /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
 		ACA1292D1B40EA1600CC1499 /* RCTFBLogin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBLogin.xcodeproj; path = "node_modules/react-native-facebook-login/RCTFBLogin.xcodeproj"; sourceTree = "<group>"; };
 		ACA129301B40EA1600CC1499 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		ACA129331B40EA1600CC1499 /* RNFS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
 		ACA129361B40EA1600CC1499 /* RNKeychain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNKeychain.xcodeproj; path = "node_modules/react-native-keychain/RNKeychain.xcodeproj"; sourceTree = "<group>"; };
 		ACA129391B40EA1600CC1499 /* RNMail.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMail.xcodeproj; path = "node_modules/react-native-mail/RNMail.xcodeproj"; sourceTree = "<group>"; };
 		ACA1293C1B40EA1600CC1499 /* RCTAddressBook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAddressBook.xcodeproj; path = "node_modules/react-native-addressbook/RCTAddressBook.xcodeproj"; sourceTree = "<group>"; };
-		ACA1293F1B40EA1600CC1499 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "node_modules/react-native-camera/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
 		ACA1296C1B40EC0500CC1499 /* RCTFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTFileTransfer.m; path = "node_modules/react-native-file-transfer/RCTFileTransfer.m"; sourceTree = "<group>"; };
 		ACA1296E1B40EC3B00CC1499 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		ACA129721B40EF0D00CC1499 /* omnes-bold-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "omnes-bold-webfont.ttf"; sourceTree = "<group>"; };
@@ -264,13 +264,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACBB66781BBB297700E60957 /* libRCTCamera.a in Frameworks */,
 				ACCC43541BAEB7DF00700C21 /* libBVLinearGradient.a in Frameworks */,
 				AC43D52F1BA0F9AB003506F9 /* libRNOverlay.a in Frameworks */,
 				ACFC0A6A1B51E5AE00D9D40F /* libRNKeychain.a in Frameworks */,
 				ACE1CD0A1B5772DF0043177A /* Bolts.framework in Frameworks */,
 				ACA129861B416C3000CC1499 /* libRNKeyboardEvents.a in Frameworks */,
 				ACA1295D1B40EA2E00CC1499 /* libRCTAddressBook.a in Frameworks */,
-				ACA1295E1B40EA2E00CC1499 /* libRCTCamera.a in Frameworks */,
 				ACE1CD0B1B5772DF0043177A /* FBSDKCoreKit.framework in Frameworks */,
 				ACE1CD0D1B5772DF0043177A /* FBSDKShareKit.framework in Frameworks */,
 				ACA1295F1B40EA2E00CC1499 /* libRCTFBLogin.a in Frameworks */,
@@ -400,6 +400,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				AC6A6D941BBA1E800055446D /* RCTCamera.xcodeproj */,
 				ACCC43371BAEB7D600700C21 /* BVLinearGradient.xcodeproj */,
 				ACBC57271B92498900615D7A /* DeviceUtil.h */,
 				ACBC57281B92498900615D7A /* DeviceUtil.m */,
@@ -414,7 +415,6 @@
 				ACA129361B40EA1600CC1499 /* RNKeychain.xcodeproj */,
 				ACA129391B40EA1600CC1499 /* RNMail.xcodeproj */,
 				ACA1293C1B40EA1600CC1499 /* RCTAddressBook.xcodeproj */,
-				ACA1293F1B40EA1600CC1499 /* RCTCamera.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
 				00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */,
@@ -457,6 +457,14 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* trippple.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AC6A6D951BBA1E800055446D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC6A6D9D1BBA1E800055446D /* libRCTCamera.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -507,14 +515,6 @@
 			children = (
 				ACA129451B40EA1600CC1499 /* libRCTAddressBook.a */,
 				ACA129471B40EA1600CC1499 /* RCTAddressBookTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		ACA129401B40EA1600CC1499 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				ACA1294A1B40EA1600CC1499 /* libRCTCamera.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -623,8 +623,8 @@
 					ProjectRef = ACA1293C1B40EA1600CC1499 /* RCTAddressBook.xcodeproj */;
 				},
 				{
-					ProductGroup = ACA129401B40EA1600CC1499 /* Products */;
-					ProjectRef = ACA1293F1B40EA1600CC1499 /* RCTCamera.xcodeproj */;
+					ProductGroup = AC6A6D951BBA1E800055446D /* Products */;
+					ProjectRef = AC6A6D941BBA1E800055446D /* RCTCamera.xcodeproj */;
 				},
 				{
 					ProductGroup = ACA1292E1B40EA1600CC1499 /* Products */;
@@ -769,6 +769,13 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		AC6A6D9D1BBA1E800055446D /* libRCTCamera.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTCamera.a;
+			remoteRef = AC6A6D9C1BBA1E800055446D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		ACA129451B40EA1600CC1499 /* libRCTAddressBook.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -781,13 +788,6 @@
 			fileType = wrapper.cfbundle;
 			path = RCTAddressBookTests.xctest;
 			remoteRef = ACA129461B40EA1600CC1499 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		ACA1294A1B40EA1600CC1499 /* libRCTCamera.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTCamera.a;
-			remoteRef = ACA129491B40EA1600CC1499 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		ACA1294D1B40EA1600CC1499 /* libRCTFBLogin.a */ = {
