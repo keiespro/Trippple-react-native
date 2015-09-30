@@ -17,9 +17,10 @@ class FavoritesStore {
     });
 
     this.bindListeners({
-      handleGetFavorites: MatchActions.GET_MATCHES,
+    handleGetMatches: MatchActions.GET_MATCHES,
+      handleGetFavorites: MatchActions.GET_FAVORITES,
       removeMatch: MatchActions.REMOVE_MATCH,
-      handleGetFavorites: MatchActions.TOGGLE_FAVORITE
+      handleToggleFavorite: MatchActions.TOGGLE_FAVORITE
     });
 
     this.on('init',()=>{
@@ -64,8 +65,17 @@ class FavoritesStore {
 
   }
 
-  handleGetFavorites(matches) {
+  handleToggleFavorite(matchesData){
+  }
+
+
+  handleGetMatches(matchesData) {
+  }
+
+  handleGetFavorites(matchesData) {
+  console.log('GOT FAVS',matchesData)
    var matches = matchesData.matches
+
     if(matches.length){
       if(matchesData.page){
 
@@ -76,22 +86,23 @@ class FavoritesStore {
       }else{
         if(!this.state.matches.length){
            this.setState({
-              matches: matches
+              matches: [ ...matches]
             });
         }else{
 
           var allmatches = this.state.matches;
-          var removed = allmatches.slice(0,19)
-          allmatches.unshift(matches)
+
+          allmatches.slice(0,19)
+
           this.setState({
-            matches: allmatches
+            matches: [...matches, ...allmatches]
           });
         }
      }
 
    }else{
       this.setState({
-        matches: this.state.matches
+        matches: [...this.state.matches]
       });
     }
 
@@ -100,7 +111,7 @@ class FavoritesStore {
   // public methods
 
   getAllFavorites(){
-    console.log('getmatches',this.getState().matches);
+    console.log('getfavsfromstore',this.getState().matches);
     return this.getState().matches
    }
 

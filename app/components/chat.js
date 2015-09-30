@@ -3,42 +3,30 @@
 
 
 import React from 'react-native'
-var {
-  Component,
-  StyleSheet,
-  Text,
-  View,
-  // AsyncStorage,
-  InteractionManager,
-  Image,
-  TextInput,
-  TouchableHighlight,
-  ListView,
-  LayoutAnimation,
-  ScrollView,
-  PixelRatio,
-  Dimensions
-} = React;
+import {
+  Component, StyleSheet, Text, View, InteractionManager, Image, TextInput, TouchableHighlight, ListView,
+  LayoutAnimation, ScrollView, PixelRatio, Dimensions } from 'react-native'
+
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
 import ActionModal from './ActionModal'
 import ThreeDots from '../buttons/ThreeDots'
+import FadeInContainer from './FadeInContainer'
 
+import colors from '../utils/colors'
+import MatchesStore from '../flux/stores/MatchesStore'
 
-var colors = require('../utils/colors');
-var MatchesStore = require('../flux/stores/MatchesStore');
-
-var ChatStore = require('../flux/stores/ChatStore');
-var MatchActions = require('../flux/actions/MatchActions');
-var alt = require('../flux/alt');
-var AltContainer = require('alt/AltNativeContainer');
+import ChatStore from '../flux/stores/ChatStore'
+import MatchActions from '../flux/actions/MatchActions'
+import alt from '../flux/alt'
+import AltContainer from 'alt/AltNativeContainer'
 
 import InvertibleScrollView from 'react-native-invertible-scroll-view'
 import TimeAgo from './Timeago'
 import FakeNavBar from '../controls/FakeNavBar'
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white,
@@ -146,11 +134,11 @@ class ChatMessage extends React.Component {
       <View style={[styles.row]}>
 
 
-         <View style={{flex:1,position:'relative',alignSelf:'stretch',alignItems:'center',flexDirection:'row', justifyContent:'center'}}>
+        <View style={{flex:1,position:'relative',alignSelf:'stretch',alignItems:'center',flexDirection:'row', justifyContent:'center'}}>
 
         {!isMessageOurs &&
           <View style={{backgroundColor:'transparent'}}>
-            <Image style={[styles.thumb]} source={{uri: this.props.pic}} defaultSource={require('image!placeholderUser')}
+            <Image style={[styles.thumb]} source={{uri:this.props.messageData.from_user_info.image_url}} defaultSource={require('image!placeholderUser')}
                     resizeMode={Image.resizeMode.cover}
             />
           </View>
@@ -238,12 +226,12 @@ class ChatInside extends Component{
 
         create: {
           delay: 0,
-          type: LayoutAnimation.Types.easeInEaseOut,
+          type: LayoutAnimation.Types.keyboard,
           property: LayoutAnimation.Properties.opacity
         },
         update: {
           delay: 0,
-          type: LayoutAnimation.Types.spring,
+          type: LayoutAnimation.Types.keyboard,
           property: LayoutAnimation.Properties.paddingBottom
         }
       });
@@ -255,26 +243,17 @@ class ChatInside extends Component{
   console.log('resetKeyboardSpace',frames)
     var h = frames.startCoordinates && frames.startCoordinates.screenY - frames.endCoordinates.screenY || frames.end && frames.end.height
     if( h == this.state.keyboardSpace){ return false }
-    if(frames.endCoordinates ){
-      var duration
-      if( frames.duration < 100){
-        return false
-        // duration = frames.duration/1000
-      }else{
-        duration = frames.duration
-      }
-    }
     LayoutAnimation.configureNext({
-      duration: frames.duration,
+      duration: 250,
 
       create: {
         delay: 0,
-        type: LayoutAnimation.Types.easeInEaseOut,
+        type: LayoutAnimation.Types.keyboard,
         property: LayoutAnimation.Properties.opacity
       },
       update: {
         delay: 0,
-        type: LayoutAnimation.Types.easeInEaseOut,
+        type: LayoutAnimation.Types.keyboard,
         property: LayoutAnimation.Properties.paddingBottom
       }
     });
@@ -306,8 +285,6 @@ class ChatInside extends Component{
     if(prevProps.messages.length !== this.props.messages.length){
       this.refs.scroller.refs.listviewscroll.scrollTo(0,0)
     }
-    // if(prevProps.messages && prevProps.messages.length < this.props.messages.length ){
-    // }
   }
 
   componentWillReceiveProps(newProps){
@@ -337,26 +314,6 @@ class ChatInside extends Component{
   }
 
   componentWillUpdate(props, state) {
-    // if (state.isKeyboardOpened !== this.state.isKeyboardOpened) {
-    //   LayoutAnimation.configureNext({
-    //   layout: {
-    //     spring: {
-    //       duration: 250,
-
-    //       create: {
-    //         delay: 0,
-    //         type: LayoutAnimation.Types.easeInEaseOut,
-    //         property: LayoutAnimation.Properties.opacity
-    //       },
-    //       update: {
-    //         delay: 0,
-    //         type: LayoutAnimation.Types.easeInEaseOut,
-    //         property: LayoutAnimation.Properties.paddingBottom
-    //       }
-    //     },
-
-    //   });
-    // }
 
     if(state.canContinue !== this.state.canContinue) {
       LayoutAnimation.configureNext(animations.layout.spring);
@@ -391,15 +348,17 @@ class ChatInside extends Component{
     var match = this.props.matches
     var theirIds = Object.keys(match.users).filter( (u)=> u != this.props.user.id)
     var them = theirIds.map((id)=> match.users[id])
-
+    console.log(them,them.length)
     return (
      <ScrollView
         {...this.props}
 
           contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth}}
-            contentInset={{top:0,right:0,left:0,bottom:44}}
+            contentInset={{top:0,right:0,left:0,bottom:50}}
             automaticallyAdjustContentInsets={true}
             scrollEnabled={false}
+          removeClippedSubviews={true}
+
             centerContent={true}
             onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
             onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
@@ -408,20 +367,21 @@ class ChatInside extends Component{
             flex:1,
             alignSelf:'stretch',
             width:DeviceWidth}} >
-        <View style={{color:colors.white,textAlign:'center',flexDirection:'column',justifyContent:'space-between',alignItems:'center',alignSelf:'stretch'}}>
+        <FadeInContainer  delayRender={true} delayAmount={1200} >
+        <View style={{flexDirection:'column',justifyContent:'space-between',alignItems:'center',alignSelf:'stretch'}}>
         <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{`YOU MATCHED WITH`}</Text>
         <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{`${chatTitle}`}</Text>
         <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes'}} >
-          <TimeAgo time={match.created} />
+          <TimeAgo time={match.created_timestamp*1000} />
         </Text>
 
         <Image source={{uri:them[1].image_url}} style={{width:250,height:250,borderRadius:125,marginVertical:40 }} defaultSource={require('image!placeholderUser')} />
         <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes'}} >Say something. {
-        them[0].couple ? 'They\'re' :
-          them[0].gender == 'm' ? 'He\'s' : 'She\'s'} already into you.</Text>
+        (them.length == 2 ? 'They\'re' :
+          them[0].gender == 'm' ? 'He\'s' : 'She\'s')} already into you.</Text>
 
         </View>
-
+        </FadeInContainer>
         </ScrollView>
       )
   }
@@ -436,11 +396,9 @@ class ChatInside extends Component{
     //
     //
     var match = this.props.matches
-    if(match){
     var theirIds = Object.keys(match.users).filter( (u)=> u != this.props.user.id)
     var them = theirIds.map((id)=> match.users[id])
     //
-    }
     chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },"")
 
     console.log(this.props,them,'chatTitle',chatTitle);
@@ -465,24 +423,7 @@ class ChatInside extends Component{
           renderScrollComponent={props =>
             <InvertibleScrollView
             onScroll={(e)=>{
-              //TODO: use animated api to move input with keyboard
-              // console.log('onscrollchat',e,e.nativeEvent,DeviceHeight - this.state.keyboardSpace,e.nativeEvent.contentOffset.y ,Math.abs(e.nativeEvent.contentOffset.y - ( DeviceHeight - this.state.keyboardSpace)) )
-              // // if( ){
-              //   var h = DeviceHeight - e.nativeEvent.contentOffset.y
-              //   this.setState({
-              //     keyboardSpace: parseInt(h),
-              //   });
-
-              // }
-              // if(e.nativeEvent.contentOffset.y > e.nativeEvent.contentSize.height - 800){
-                // var nextPage = this.state.lastPage;
-                // if(this.state.fetching || nextPage === this.state.lastPage){ return  }
-                // this.setState({fetching:true,lastPage: nextPage+1 })
-                // MatchActions.getMessages({match_id: props.matchID,page: nextPage+1});
-                // this.setState({fetching:false})
-              // }
-            }}
-            onScroll={(e)=>{console.log(e.nativeEvent)}}
+                  }}
             onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
             onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
             scrollsToTop={true}
@@ -492,7 +433,10 @@ class ChatInside extends Component{
             contentInset={{top:0,right:0,left:0,bottom:44}}
             automaticallyAdjustContentInsets={true}
             inverted={true}
-             keyboardDismissMode={'interactive'}
+            style={{
+            height:DeviceHeight,
+                }}
+             keyboardDismissMode={'on-drag'}
           />}
           matchID={this.props.matchID}
           dataSource={this.state.dataSource}
@@ -552,7 +496,7 @@ class ChatInside extends Component{
              }}><Text
              style={{
                fontSize:17,
-               padding:0,
+               padding:1,
                paddingBottom:7.5,
 
                color:colors.outerSpace,
@@ -566,6 +510,7 @@ class ChatInside extends Component{
               padding:5,
               marginLeft:5,
               borderRadius:5,
+              paddingVertical:10,
 
               backgroundColor:colors.dark,
               flexDirection:'column',
@@ -574,11 +519,11 @@ class ChatInside extends Component{
             }}
 
             underlayColor={colors.outerSpace}
-            onPress={this.sendMessage.bind(this)}>
+            onPress={this.state.textInputValue.length ? this.sendMessage.bind(this) : null}>
 
             <Text
               style={[styles.sendButtonText,{
-                color:colors.shuttleGray,
+                color: this.state.textInputValue.length ? colors.white : colors.shuttleGray,
                 fontFamily:'Montserrat',
                 textAlign:'center'
               }]}>SEND</Text>
@@ -621,12 +566,12 @@ var animations = {
       create: {
         duration: 250,
         delay: 0,
-        type: LayoutAnimation.Types.easeInEaseOut,
+        type: LayoutAnimation.Types.keyboard,
         property: LayoutAnimation.Properties.opacity
       },
       update: {
         delay: 0,
-        type: LayoutAnimation.Types.easeInEaseOut,
+        type: LayoutAnimation.Types.keyboard,
         property: LayoutAnimation.Properties.paddingBottom
       }
     },
@@ -634,12 +579,12 @@ var animations = {
       duration: 250,
       create: {
         delay: 0,
-        type: LayoutAnimation.Types.easeInEaseOut,
+        type: LayoutAnimation.Types.keyboard,
         property: LayoutAnimation.Properties.scaleXY
       },
       update: {
         delay: 0,
-        type: LayoutAnimation.Types.easeInEaseOut,
+        type: LayoutAnimation.Types.keyboard,
         property: LayoutAnimation.Properties.paddingBottom
       }
     }

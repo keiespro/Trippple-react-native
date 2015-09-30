@@ -6,7 +6,7 @@ class PotentialsStore {
 
   constructor() {
 
-    this.state = { potentials: [] }
+    this.potentials = []
 
     this.bindListeners({
       handleGetPotentials: MatchActions.GET_POTENTIALS,
@@ -18,7 +18,6 @@ class PotentialsStore {
     })
 
     this.on('bootstrap', () => {
-      MatchActions.getPotentials()
     })
 
     this.exportPublicMethods({
@@ -26,25 +25,24 @@ class PotentialsStore {
     })
   }
 
-  handleGetPotentials(potentials) {
-    console.log(potentials,'POTENTIALS');
-    if(potentials.matches.length){
-      this.setState({
-        potentials: potentials.matches
-      });
+  handleGetPotentials(data) {
+    console.log(data,'POTENTIALS');
+
+    if(data.matches.length){
+      this.potentials = data.matches
     }
   }
 
   handleSentLike(likedUserID){
-    const newPotentials = this.state.potentials.filter((el,i)=>{
+    const newPotentials = this.potentials.filter((el,i)=>{
       return (el.id !== likedUserID) && (el.user.id !== likedUserID) && (el.partner.id !== likedUserID)
     })
 
-    this.state.potentials.length ? this.setState({ potentials: newPotentials }) : null
+   this.potentials =  this.potentials.length ? newPotentials : []
   }
 
   getAll(){
-    return this.getState().potentials || [];
+    return this.getState().potentials;
   }
 
 }

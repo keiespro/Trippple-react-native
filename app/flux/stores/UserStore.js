@@ -1,6 +1,7 @@
 import alt from '../alt'
 import UserActions from '../actions/UserActions'
 import UserSource from '../dataSources/UserSource'
+import MatchActions from '../actions/MatchActions'
 import AppActions from '../actions/AppActions'
 import { datasource } from 'alt/utils/decorators'
 import Keychain from 'react-native-keychain'
@@ -51,9 +52,15 @@ class UserStore {
   }
 
   handleInitSuccess(res){
+  console.log('init success',res);
     this.setState({
       user: res.response.user_info
     })
+    MatchActions.getPotentials();
+
+     MatchActions.getMatches();
+     MatchActions.getFavorites();
+
 
   }
 

@@ -99,7 +99,7 @@ class api {
   }
 
   getFavorites(page){
-    return authenticatedRequest('getMatches', {favorites: true, page})
+    return authenticatedRequest('getFavourites', {page})
     //v2 endpoint
   }
 

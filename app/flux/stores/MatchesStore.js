@@ -17,6 +17,7 @@ class MatchesStore {
     });
 
     this.bindListeners({
+      handleGetFavorites: MatchActions.GET_FAVORITES,
       handleGetMatches: MatchActions.GET_MATCHES,
       removeMatch: MatchActions.REMOVE_MATCH,
       toggleFavorite: MatchActions.TOGGLE_FAVORITE,
@@ -110,9 +111,25 @@ class MatchesStore {
     }
 
   }
+  handleGetFavorites(matches) {
+    if(matches.length){
+
+      const updatedMatches = this.state.matches.map((m,index)=>{
+        if(favs[index].isFavourited != m.isFavourited){
+          m.isFavourited = favs[index].isFavourited
+        }
+        return m
+      })
+
+        this.setState({
+                matches: updatedMatches
+        })
+    }
+  }
 
   handleGetMatches(matchesData) {
     var matches = matchesData.matches
+
     if(matches.length){
       if(matchesData.page){
 

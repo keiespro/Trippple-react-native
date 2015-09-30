@@ -121,9 +121,7 @@ var styles = StyleSheet.create({
     },
     background: {
         position: 'absolute',
-        backgroundColor: '#2e2f31',
         width: screen.width,
-        resizeMode: 'cover'
     },
     blur: {
         position: 'absolute',

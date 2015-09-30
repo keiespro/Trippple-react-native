@@ -123,14 +123,14 @@ class ActiveCard extends Component{
   }
 
   render() {
-    return (
 
-      <Animated.View style={{
-          alignSelf:'center',
+    const cardStyle = StyleSheet.create({
+        wrap:{
           transform: [
             {translateX: this.state.panX },
             {translateY: this.state.panY },
           ],
+          alignSelf:'center',
           width:(DeviceWidth - (this.props.profileVisible ? 0 : 40)),
           height:(DeviceHeight - (this.props.profileVisible ? 0 : 85)),
           left:this.props.profileVisible ? 0 : 20,
@@ -138,15 +138,19 @@ class ActiveCard extends Component{
           top: (this.props.profileVisible ? 0 : 55),
           flex:1,
           position:'absolute',
-        }}
+      }
+    })
+
+    return (
+
+      <Animated.View style={cardStyle.wrap}
         key={`${this.props.potential.id}-wrapper`}
         ref={(card) => { this.card = card }}
         {...this._panResponder.panHandlers}
         >
 
-
-
-        <CoupleActiveCard
+        <InsideActiveCard
+          rel={this.props.user.couple ? 'couple' : 'single'}
           isTopCard={this.props.isTopCard}
           profileVisible={this.props.profileVisible}
           hideProfile={this._hideProfile.bind(this)}
@@ -158,25 +162,13 @@ class ActiveCard extends Component{
     );
 
   }
-/*
-
-{this.props.user.relationship_status == 'single' ?
-
-:
-        <View style={styles.singleCard} >
-          <Image source={{uri: this.props.potential.image_url}} style={styles.imagebg} >
-            <Text style={[styles.absoluteText,styles.absoluteTextBottom]}>{this.props.potential.firstname}</Text>
-          </Image>
-        </View>
-      }
-      */
 
 }
 
 
 
 
-class CoupleActiveCard extends Component{
+class InsideActiveCard extends Component{
 
   static defaultProps = {
     profileVisible: false
@@ -187,7 +179,6 @@ class CoupleActiveCard extends Component{
     this.state = {
       slideIndex: 0
     }
-    console.log('active card!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
 
   }
 
@@ -202,10 +193,16 @@ class CoupleActiveCard extends Component{
     }
   }
   render(){
-    if(!this.props.profileVisible){
+
+    var { rel, potential, profileVisible, isTopCard } = this.props
+    var matchName = `${this.props.potential.user.firstname.trim()}`;
+    if(rel == 'single') matchName += ` and ${this.props.potential.partner.firstname.trim()}`
+
+    if(!profileVisible){
     return (
-      <View ref={'cardinside'} key={`${this.props.potential.id}-inside`}
-      style={ [styles.card,{
+
+      <View ref={'cardinside'} key={`${potential.id}-inside`}
+        style={ [styles.card,{
           marginBottom: this.props.isTopCard ? 0 : -25,
           transform:[ {scale:this.props.isTopCard ? 1 : 0.95}, ]
         },styles.shadowCard]}>
@@ -215,27 +212,25 @@ class CoupleActiveCard extends Component{
               overflow: 'hidden',
               padding:0,
               position:'relative'
-             }]} key={`${this.props.potential.id}-view`}>
+             }]} key={`${potential.id}-view`}>
 
                 <Swiper
-                automaticallyAdjustContentInsets={true}
-                  _key={`${this.props.potential.id}-swiper`}
-                  loop={true}
-                  horizontal={false}
-                  vertical={true}
-                  autoplay={false}
-                  showsPagination={true}
-                  showsButtons={false}
+                  automaticallyAdjustContentInsets={true}
+                  _key={`${potential.id}-swiper`}
+                  loop={true} horizontal={false} vertical={true} autoplay={false}
+                  showsPagination={true} showsButtons={false}
                   dot={ <View style={styles.dot} />}
                   activeDot={ <View style={styles.activeDot} /> }>
                   <Image source={{uri: this.props.potential.user.image_url}}
                     key={`${this.props.potential.user.id}-cimg`}
                     style={[styles.imagebg,{ marginRight:-40,marginTop:-20 }]}
                     resizeMode={Image.resizeMode.cover} />
+                  {this.props.rel == 'single' &&
                   <Image source={{uri: this.props.potential.partner.image_url}}
                     key={`${this.props.potential.partner.id}-cimg`}
                     style={[styles.imagebg,{ marginRight:-40,marginTop:-20 }]}
                     resizeMode={Image.resizeMode.cover} />
+                  }
                 </Swiper>
 
 
@@ -252,14 +247,13 @@ class CoupleActiveCard extends Component{
                 position:'absolute',
                 top:DeviceHeight-120,
                 left:20,
-
                 right:0,
               }}
               >
                <TouchableHighlight underlayColor={colors.warmGrey} onPress={()=>{ this.props.showProfile()}}>
                   <View>
                     <Text style={[styles.cardBottomText,{width:DeviceWidth-40}]}>{
-                      `${this.props.potential.user.firstname.trim()} and ${this.props.potential.partner.firstname.trim()}`
+                      {matchName}
                     }</Text>
                   </View>
                 </TouchableHighlight>
@@ -277,12 +271,13 @@ class CoupleActiveCard extends Component{
                     key={this.props.potential.user.id + 'img'}
                     style={[styles.circleimage, {marginRight:5}]}
                   />
+                  {this.props.rel == 'single' &&
                   <Image
                     source={{uri: this.props.potential.partner.image_url}}
                     key={this.props.potential.partner.id + 'img'}
                     style={styles.circleimage}
                     />
-
+                  }
               </View>
 
 
@@ -301,13 +296,12 @@ class CoupleActiveCard extends Component{
         <View ref={'cardinside'} key={`${this.props.potential.id}-inside`} style={
 
           [styles.card,{
-            transform:[ {scale:this.props.isTopCard ? 1 : 0.95}, ]
+            transform:[ {scale: isTopCard ? 1 : 0.95}, ]
           },styles.shadowCard]}>
           <View style={[{
               margin:0,
               width:DeviceWidth,
-height:DeviceHeight,
-
+              height:DeviceHeight,
               padding:0,
               position:'relative'
              }]} key={`${this.props.potential.id}-view`}>
@@ -320,8 +314,8 @@ height:DeviceHeight,
 
 
             navigator={this.props.navigator}
-            style={[{backgroundColor:'transparent',paddingTop:0, },{flex:1,width:DeviceWidth, height:DeviceHeight,top:0,position:'absolute' }]}
-            swiper={<Swiper
+            style={[{backgroundColor:'transparent',paddingTop:0, },{flex:1,width:DeviceWidth, height:DeviceHeight,top:0,position:'absolute', }]}
+            swiper={React.addons.createFragment(<Swiper
               onMomentumScrollEnd={ (e, state, context) => {
                 this.setState({slideIndex: state.index})
               }}
@@ -329,9 +323,9 @@ height:DeviceHeight,
                 index={this.state.slideIndex || 0}
                 _key={`${this.props.potential.id}-swiper`}
                 loop={true}
-                horizontal={false}
-
-                vertical={true}
+                horizontal={true}
+                style={{flexDirection:'row'}}
+                vertical={false}
                 showsPagination={true}
                 showsButtons={false}
                 dot={ <View style={styles.dot} />}
@@ -341,21 +335,26 @@ height:DeviceHeight,
                   key={`${this.props.potential.user.id}-cimg`}
                   style={[styles.imagebg,{ margin:0 }]}
                   resizeMode={Image.resizeMode.cover} />
+
+                {this.props.rel == 'single' &&
                 <Image source={{uri: this.props.potential.partner.image_url}}
                   key={`${this.props.potential.partner.id}-cimg`}
                   style={[styles.imagebg,{ margin:0 }]}
                   resizeMode={Image.resizeMode.cover} />
-
-              </Swiper>}
+                }
+              </Swiper>)}
             header={(
 
 
 
-                <View style={{position:'absolute',top:30,left:20,width: 50, backgroundColor:'transparent',height: 50,alignSelf:'center',justifyContent:'center'}}>
-                  <TouchableHighlight  onPress={this.props.hideProfile}>
-                    <Image source={require('image!closeWithShadow')} resizeMode={Image.resizeMode.contain}/>
+                <View style={styles.closeProfile}>
+                  <TouchableHighlight underlayColor={colors.mediumPurple20} onPress={this.props.hideProfile}>
+                    <View style={{padding:20}}>
+                      <Image source={require('image!closeWithShadow')} resizeMode={Image.resizeMode.contain}/>
+                    </View>
                   </TouchableHighlight>
                 </View>
+
 
               )}>
 
@@ -370,17 +369,12 @@ height:DeviceHeight,
                   left:0,
                   right:0,
                 }} >
-                  <View style={{
-                    width: DeviceWidth ,
-                    paddingVertical:20
-                    }}>
-                    <Text style={[styles.cardBottomText,{
-                    width: DeviceWidth,
-
-                    }]}>{
-                      `${this.props.potential.user.firstname.trim()} and ${this.props.potential.partner.firstname.trim()}`
-                    }</Text>
-                  </View>
+                <View style={{ width: DeviceWidth , paddingVertical:20 }}>
+                  <Text style={[styles.cardBottomText,{ width: DeviceWidth, }]}>{
+                    matchName
+                  }</Text>
+                </View>
+              {this.props.rel == 'single' &&
                 <View style={{
                     height:60,
                     top:-30,
@@ -400,10 +394,12 @@ height:DeviceHeight,
                       style={styles.circleimage}
                       />
                 </View>
+                    }
+
                   <View style={{width: DeviceWidth, padding:20}}>
 
                       <View>
-                        <Text>You are welcome to contribute comments, but they should be relevant to the conversation. We reserve the right to remove off-topic remarks in the interest of keeping the conversation focused and engaging. Shameless self-promotion is well, shameless, and will get canned.</Text>
+                        <Text>{this.props.potential.bio}</Text>
                       </View>
                   </View>
 
@@ -414,18 +410,14 @@ height:DeviceHeight,
                   style={[styles.topButton, {backgroundColor:colors.shuttleGray }]}
                   onPress={()=>{console.log("REJECT")}}
                   underlayColor={colors.white}>
-                  <Image
-                    source={require('image!close')}
-                    />
+                  <Image source={require('image!close')} />
                 </TouchableHighlight>
 
                 <TouchableHighlight
                 style={[styles.topButton, {backgroundColor:colors.sushi }]}
                 onPress={()=>{console.log("APPROVE")}}
                   underlayColor={colors.white}>
-                  <Image
-                    source={require('image!close')}
-                    />
+                  <Image source={require('image!close')} />
                   </TouchableHighlight>
               </View>
          </ParallaxSwiper>
@@ -477,31 +469,42 @@ class CardStack extends Component{
   constructor(props){
     super()
     this.state = {profileVisible:false}
-    console.log(props)
+    console.log(props.potentials)
   }
   toggleProfile(){
     this.setState({profileVisible:!this.state.profileVisible})
   }
   render(){
-    console.log(this.props.potentials,this.props.potentials.length)
+    var { potentials, user } = this.props
     var NavBar = React.addons.cloneWithProps(this.props.pRoute.navigationBar, { navigator: this.props.navigator, route: this.props.route})
 
       return (
-        <View style={{width:DeviceWidth,height:DeviceHeight,flex:1,alignItems:'center',justifyContent:'center',alignSelf:'stretch',backgroundColor:colors.outerSpace}}>
+        <View style={styles.cardStackContainer}>
 
-        {this.props.potentials && this.props.potentials.length >= 1  && this.props.potentials[2] &&
-            <DummyCard />
+        { potentials && potentials.length >= 1 && potentials[2] &&
+          <DummyCard />
         }
 
-        { this.props.potentials && this.props.potentials.length >= 1 && this.props.potentials[1] &&
-          <ActiveCard key={`${this.props.potentials[1].id}-activecard`} user={this.props.user} potential={this.props.potentials[1]} isTopCard={false}/>
-        }
-        {this.props.potentials && this.props.potentials.length >= 1  && this.props.potentials[0] &&
-          <ActiveCard key={`${this.props.potentials[0].id}-activecard`} user={this.props.user} potential={this.props.potentials[0]} profileVisible={this.state.profileVisible} toggleProfile={this.toggleProfile.bind(this)} isTopCard={true}/>
+        { potentials && potentials.length >= 1 && potentials[1] &&
+          <ActiveCard
+            key={`${potentials[1].id}-activecard`}
+            user={user}
+            potential={potentials[1]}
+            isTopCard={false}/>
         }
 
-    { this.props.potentials.length < 1 &&
-      <FadeInContainer delay={3000} duration={1000}>
+        { potentials && potentials.length >= 1  && potentials[0] &&
+          <ActiveCard
+          key={`${potentials[0].id}-activecard`}
+          user={user}
+          potential={potentials[0]}
+          profileVisible={this.state.profileVisible}
+          toggleProfile={this.toggleProfile.bind(this)}
+          isTopCard={true}/>
+        }
+
+    { potentials.length < 1 &&
+      <FadeInContainer delayAmount={10000} duration={300}>
          <Image source={require('image!placeholderDashed')}
             resizeMode={Image.resizeMode.contain}
             style={styles.dashedBorderImage}>
@@ -515,15 +518,14 @@ class CardStack extends Component{
       }
        {!this.state.profileVisible && NavBar}
 
-       </View>
-      )
-    }
+     </View>
+    )
+  }
 }
 
 class Potentials extends Component{
   constructor(props){
     super()
-    MatchActions.getPotentials();
 
   }
   render(){
@@ -620,7 +622,14 @@ shadowStyles:{
 
   },
 
-
+  closeProfile:{
+  position:'absolute',
+  top:10,left:5,width: 50,
+  backgroundColor:'transparent',
+  height: 50,alignSelf:'center',
+  overflow:'hidden',
+  justifyContent:'center',alignItems:'center',padding:20,borderRadius:25
+  },
   dashedBorderImage:{
     marginHorizontal:0,
     marginTop:65,
@@ -689,7 +698,10 @@ shadowStyles:{
     borderColor:colors.white,
     borderWidth: 3
   },
+  cardStackContainer:{
 
+  width:DeviceWidth,height:DeviceHeight,flex:1,alignItems:'center',justifyContent:'center',alignSelf:'stretch',backgroundColor:colors.outerSpace
+  },
 
   cardBottomText:{
     marginLeft:15,
@@ -706,12 +718,11 @@ var animations = {
       duration: 500,
       create: {
         duration: 300,
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.opacity
+        type: LayoutAnimation.Types.spring,
       },
       update: {
         type: LayoutAnimation.Types.spring,
-        springDamping: 200
+        springDamping: 300
       }
     },
     easeInEaseOut: {

@@ -15,7 +15,6 @@ class MatchActions {
       .then((res) => {
         this.dispatch({matches: res.response, page: page || false});
       })
-      .catch(err => console.log(err))
 
   }
 
@@ -23,9 +22,11 @@ class MatchActions {
 
     Api.getFavorites(page || 0)
       .then((res) => {
+        console.log('RES FAVS',res)
         this.dispatch({matches: res.response, page: page || false});
       })
       .catch(err => console.log(err))
+
 
   }
 
@@ -36,7 +37,6 @@ class MatchActions {
       console.log(res)
       this.dispatch({messages: res.response});
     })
-    .catch(err => console.log(err))
 
   }
 
@@ -52,7 +52,7 @@ class MatchActions {
             this.dispatch(res.response);
           })
           .catch(err => {
-            console.log('GEO ERROR POTENTIALS:',error)
+            console.log('GEO ERROR POTENTIALS:',err)
           })
 
       },
@@ -83,7 +83,6 @@ class MatchActions {
           })
 
       })
-      .catch(err => {console.log('promise err',err)})
     })
     .catch(err => {console.log('promise err',err)})
 

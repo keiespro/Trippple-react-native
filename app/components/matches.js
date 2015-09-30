@@ -72,7 +72,7 @@ class MatchList extends Component{
   _allowScroll(scrollEnabled) {
     console.log('toggle scroll:',scrollEnabled)
     // if(scrollEnabled != this.state.scrollEnabled) {
-      this._listView.setNativeProps({ scrollEnabled })
+      // this.state.index ? this._listView.setNativeProps({ scrollEnabled }) : this._flistView.setNativeProps({ scrollEnabled })
     // }
   }
 
@@ -99,22 +99,19 @@ class MatchList extends Component{
       this.props.chatActionSheet(match)
 
   }
-  // https://github.com/dancormier/react-native-swipeout/wiki/Closing-Swipeouts
   _renderRow(rowData, sectionID, rowID){
-
     var myId = this.props.user.id,
         myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
-
     var theirIds = Object.keys(rowData.users).filter( (u)=> u != this.props.user.id)
     var them = theirIds.map((id)=> rowData.users[id])
     var threadName = them.map( (user,i) => user.firstname.trim() ).join(' & ');
     var modalVisible = this.state.isVisible
     var self = this
-
+    var matchImage = them.couple && them.couple.thumb_url || them[0].thumb_url || them[1].thumb_url
 
     return (
 
-    <Swipeout
+      <Swipeout
         left={[ {
               onPress: self.actionModal.bind(self,rowData),
               underlayColor: 'black',
@@ -137,9 +134,9 @@ class MatchList extends Component{
         sectionID={sectionID}
         autoClose={false}
         scroll={event => this._allowScroll(event)}
-        onClose={(sectionID_, rowID_) => {console.log('CLOOOOOOOOOOOOOOSE')}}
+        onClose={(sectionID_, rowID_) => {console.log('close')}}
 
-        onOpen={(sectionID_, rowID_) => {console.log('OPEN',this._handleSwipeout(sectionID_, rowID_))}}>
+        onOpen={(sectionID_, rowID_) => {console.log('OPEN');this._handleSwipeout(sectionID_, rowID_)}}>
 
         <TouchableHighlight onPress={(e) => {
             console.log('onpress Swipeout',e);
@@ -153,14 +150,11 @@ class MatchList extends Component{
                <Image
                  key={'userimage'+rowID}
                  style={styles.thumb}
-                 source={{uri: them.couple ? them.couple.thumb_url : them.thumb_url}}
+                 source={{uri: matchImage}}
                  defaultSource={require('image!placeholderUser')}
                  resizeMode={Image.resizeMode.cover}
                />
-               <View style={{backgroundColor:colors.mandy,position:'absolute',bottom:-5,right:-5,
-               borderRadius:15,overflow:'hidden',
-               borderColor:colors.outerSpace,
-               borderWidth:4,width:30,height:30,overflow:'hidden',padding:0,alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
+               <View style={styles.newMessageCount}>
                <Text style={{fontFamily:'Montserrat-Bold',color:colors.white,textAlign:'center',fontSize:14}}>10</Text>
                </View>
 
@@ -184,6 +178,9 @@ class MatchList extends Component{
   }
   _pressRow(matchID: number) {
     // get messages from server and open chat view
+
+
+    MatchActions.getMessages(matchID);
 
     this.props.navigator.push({
       component: Chat,
@@ -228,6 +225,8 @@ class MatchList extends Component{
           <ListView
           initialListSize={12}
           scrollEnabled={this.state.scrollEnabled}
+          removeClippedSubviews={true}
+
           chatActionSheet={this.props.chatActionSheet}
             onEndReached={ (e) => {
               const nextPage = this.props.matches.length/20 + 1;
@@ -249,7 +248,7 @@ class MatchList extends Component{
                   flex:1,
                   alignSelf:'stretch',
                   width:DeviceWidth}}>
-                  <View style={{color:colors.white,textAlign:'center',flexDirection:'column',paddingHorizontal:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
+                  <View style={{flexDirection:'column',paddingHorizontal:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
                     <Image  style={{width:300,height:100,marginBottom:0 }} source={require('image!listing')}
                     resizeMode={Image.resizeMode.contain} />
                     <Image  style={{width:300,height:100,marginBottom:20 }} source={require('image!listing')}
@@ -263,16 +262,19 @@ class MatchList extends Component{
             :
           (this.props.favorites.length > 0 ? <ListView
           initialListSize={12}
+          removeClippedSubviews={true}
+
           scrollEnabled={this.state.scrollEnabled}
           chatActionSheet={this.props.chatActionSheet}
             onEndReached={ (e) => {
-              const nextPage = this.props.matches.length/20 + 1;
-              if(this.state.fetching || nextPage === this.state.lastPage){ return false }
-              this.setState({lastPage: nextPage })
-              MatchActions.getMatches(nextPage);
+              console.log("FAVS ON END REACHED")
+             // const nextPage = this.props.favorites.length/20 + 1;
+              // if(this.state.fetching || nextPage === this.state.lastPage){ return false }
+              // this.setState({lastPage: nextPage })
+              // MatchActions.getFavorites(nextPage);
 
             }}
-            ref={component => this._listView = component}
+            ref={component => this._flistView = component}
             dataSource={this.props.favDataSource}
             renderRow={this._renderRow.bind(this)}
             /> :
@@ -288,7 +290,7 @@ class MatchList extends Component{
             width:DeviceWidth}}>
       <FadeInContainer>
 
-        <View style={{color:colors.white,textAlign:'center',flexDirection:'column',paddingHorizontal:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
+        <View style={{flexDirection:'column',paddingHorizontal:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
 
         <Image  style={{width:175,height:180,marginBottom:40 }} source={require('image!iconPlaceholderFavs')}
                resizeMode={Image.resizeMode.contain}
@@ -331,7 +333,9 @@ class MatchesInside extends Component{
 
   componentDidMount(){
     if(this.props.user.id){
-        MatchActions.getMatches();
+        // MatchActions.getMatches();
+        // MatchActions.getFavorites();
+
     }
   }
   componentDidUpdate(pProps,pState) {
@@ -344,12 +348,15 @@ class MatchesInside extends Component{
 
     this.setState({
       matches: newProps.matches,
-      dataSource: this.ds.cloneWithRows(newProps.matches)
+      dataSource: this.ds.cloneWithRows(newProps.matches),
+      favDataSource: this.ds.cloneWithRows(newProps.favorites),
+      favorites: newProps.favorites
+
     })
   }
   _updateDataSource(data) {
     this.setState({
-      dataSource: this.ds.cloneWithRows(data)
+      dataSource: this.ds.cloneWithRows(data),
     })
   }
 
@@ -523,6 +530,23 @@ var styles = StyleSheet.create({
     height:100,
 
     marginLeft:0
+  },
+  newMessageCount:{
+    backgroundColor:colors.mandy,
+    position:'absolute',
+    bottom:-5,
+    right:-5,
+    borderRadius:15,
+    overflow:'hidden',
+    borderColor:colors.outerSpace,
+     borderWidth:4,
+     width:30,
+     height:30,
+     overflow:'hidden',
+     padding:0,
+     alignItems:'center',
+     justifyContent:'center',
+     flexDirection:'row'
   }
 });
 

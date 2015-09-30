@@ -27,6 +27,7 @@ import reactMixin from 'react-mixin'
 
 import Notifications from '../utils/Notifications';
 import LoadingOverlay from '../components/LoadingOverlay'
+import PurpleModal from './PurpleModal'
 
 
 @reactMixin.decorate(TimerMixin)
@@ -52,7 +53,7 @@ class AppRoutes extends Component{
         return <PendingPartner key="PendingPartnerScreen" user={this.props.user}/>
 
       case 'onboarded':
-        return <Main key="MainScreen" user={this.props.user}/>
+        return <Main key="MainScreen" user={this.props.user} />
       case null:
       default:
         return <Welcome  key={'welcomescene'} />
@@ -65,7 +66,8 @@ class TopLevel extends Component{
     super(props)
     this.state = {
       showOverlay: this.props.user ? false : true,
-      showCheckmark: false
+      showCheckmark: false,
+      showPurpleModal: false
     }
   }
   // componentDidUpdate(prevProps,prevState){
@@ -84,10 +86,20 @@ class TopLevel extends Component{
   render(){
     return (
       <View style={{flex:1}}>
+
         <AppRoutes user={this.props.user}/>
-        {this.props.showCheckmark && <CheckMarkScreen key="toplevelcheckmark" isVisible={this.props.showCheckmark} checkMarkCopy={this.props.checkMarkCopy} checkmarkRequireButtonPress={this.props.checkmarkRequireButtonPress} />}
+
+        {this.props.showCheckmark &&
+          <CheckMarkScreen
+            key="toplevelcheckmark"
+            isVisible={this.props.showCheckmark}
+            checkMarkCopy={this.props.checkMarkCopy}
+            checkmarkRequireButtonPress={this.props.checkmarkRequireButtonPress}
+          />
+        }
 
         <LoadingOverlay key="LoadingOverlay" isVisible={this.state.showOverlay} />
+
         <Notifications user={this.props.user} />
 
       </View>
