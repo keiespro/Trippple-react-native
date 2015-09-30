@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Easing,
   Animated,
 } from 'react-native';
 
@@ -29,13 +30,15 @@ class FadeInContainer extends Component{
 
   }
   componentDidMount(){
+    this.state.fadeAmount.setValue(0)
     Animated.timing( this.state.fadeAmount,
       {
         toValue: 1,
-        duration: this.props.duration,
-        delay: this.props.delayAmount
+        duration: this.props.duration ,
+        delay: this.props.delayAmount,
+        easing: Easing.exp
       }
-    ).start( () => {});
+    ).start( () => {console.log('faded in')});
 
     if(this.props.delayRender){
       this.setTimeout(()=>{

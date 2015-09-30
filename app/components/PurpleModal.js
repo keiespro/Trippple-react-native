@@ -12,6 +12,7 @@ import {
   ListView,
   TouchableHighlight,
   Dimensions,
+  PixelRatio,
   Modal
 } from 'react-native'
 
@@ -20,6 +21,7 @@ const DeviceWidth = Dimensions.get('window').width
 import colors from '../utils/colors'
 import _ from 'underscore'
 import MatchActions from '../flux/actions/MatchActions'
+import { BlurView,VibrancyView} from 'react-native-blur'
 
 
 class PurpleModal extends Component{
@@ -40,69 +42,155 @@ class PurpleModal extends Component{
   cancel(){
     this.props.goBack();
   }
-
-  render(){
-  var rowData = this.props.match
+  renderUnmatch(){
+    var rowData = this.props.match
     var theirIds = Object.keys(rowData.users).filter( (u)=> u != this.props.user.id)
     var them = theirIds.map((id)=> rowData.users[id])
-    var matchName = them.map( (user,i) => user.firstname.trim() ).join(' & ');
+    var matchName = them.map( (user,i) => user.firstname.trim().toUpperCase() ).join(' & ');
     var modalVisible = this.state.isVisible
     var self = this
     var matchImage = them.couple && them.couple.thumb_url || them[0].thumb_url || them[1].thumb_url
-
     return (
-    <View>
+      <View style={[styles.col,{paddingVertical:10}]}>
 
-    <View style={{margin:50}}>
+        <Image
+          style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginVertical:20}]}
+          source={{uri:matchImage}}
+          defaultSource={require('image!placeholderUserWhite')} />
 
-        <Image style={styles.modalcontainer} source={require('image!GradientBG')}>
-          <View style={[styles.col]}>
-            <View style={styles.insidemodalwrapper}>
+        <View style={styles.insidemodalwrapper}>
 
-          <Image style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginBottom:20}]}
-                source={{uri:matchImage}}
-                defaultSource={require('image!placeholderUserWhite')} />
-
-            <View style={styles.rowtextwrapper}>
 
             <Text style={[styles.rowtext,styles.bigtext,{
-                  fontFamily:'Montserrat',fontSize:22,marginVertical:10
-            }]}>
-                {`UNMATCH ${matchName}`}
+                fontFamily:'Montserrat',fontSize:20,marginVertical:10
+              }]}>
+              {`UNMATCH ${matchName}`}
             </Text>
 
             <Text style={[styles.rowtext,styles.bigtext,{
-                  fontSize:22,marginVertical:10,color: colors.lavender,marginHorizontal:20
-            }]}>ARE YOU SURE?</Text>
+                fontSize:20,marginVertical:10,color: colors.lavender,marginHorizontal:20
+              }]}>
+              Are you sure?
+            </Text>
+            <View >
+              <TouchableHighlight
+                underlayColor={colors.mediumPurple}
+                style={styles.modalButtonWrap}
+                onPress={this.unMatch.bind(this)}>
+                <View style={[styles.modalButton]} >
+                  <Text style={styles.modalButtonText}>UNMATCH</Text>
+                </View>
+              </TouchableHighlight>
             </View>
-                      <View style={{marginHorizontal:20}} >
 
-                     <TouchableHighlight underlayColor={colors.mediumPurple} style={styles.modalButton} onPress={this.unMatch.bind(this)}>
-                      <View style={{height:60,flex:1,alignSelf:'stretch'}} >
-                        <Text style={[styles.modalButtonText,{marginTop:15}]}>UNMATCH</Text>
-                      </View>
-                     </TouchableHighlight>
-                     </View>
+          <View >
+            <TouchableHighlight
+              underlayColor={colors.mediumPurple}
+              style={styles.modalButtonWrap}
+              onPress={this.props.goBack}>
+              <View style={[styles.modalButton,styles.cancelButton]} >
+                <Text style={styles.modalButtonText}>CANCEL</Text>
+              </View>
+            </TouchableHighlight>
+          </View>
 
-                  <View style={{marginHorizontal:20}} >
+        </View>
 
-                      <TouchableHighlight underlayColor={colors.mediumPurple} style={styles.modalButton}
-                        onPress={this.props.goBack}>
-                      <View style={{height:60,flex:1,alignSelf:'stretch'}} >
-
-                        <Text style={styles.modalButtonText}>CANCEL</Text>
-                      </View>
-                     </TouchableHighlight>
-                      </View>
-
-                      </View>
-
-             </View>
-          </Image>
       </View>
-             </View>
+    )
 
-      )
+  }
+  renderReport(){
+    var rowData = this.props.match
+    var theirIds = Object.keys(rowData.users).filter( (u)=> u != this.props.user.id)
+    var them = theirIds.map((id)=> rowData.users[id])
+    var matchName = them.map( (user,i) => user.firstname.trim().toUpperCase() ).join(' & ');
+
+    return (
+      <View style={[styles.col,{paddingVertical:10}]}>
+
+        <View style={[styles.insidemodalwrapper,{justifyContent:'space-between'}]}>
+
+
+          <Text style={[styles.rowtext,styles.bigtext,{
+              fontFamily:'Montserrat',fontSize:20,marginVertical:10
+            }]}>
+            {`REPORT ${matchName}`}
+          </Text>
+
+          <Text style={[styles.rowtext,styles.bigtext,{
+              fontSize:20,marginVertical:10,color: colors.lavender,marginHorizontal:10
+            }]}>
+            Is this person bothering you?
+            Tell us what they did.
+          </Text>
+
+            <View style={{marginTop:30}}>
+              <TouchableHighlight
+                style={styles.modalButtonWrap}
+                underlayColor={colors.mediumPurple}
+                onPress={this.unMatch.bind(this)}>
+                <View style={styles.modalButton} >
+                  <Text style={styles.modalButtonText}>OFFENSIVE BEHAVIOR</Text>
+                </View>
+              </TouchableHighlight>
+            </View>
+            <View  >
+              <TouchableHighlight
+                underlayColor={colors.mediumPurple}
+                style={styles.modalButtonWrap}
+                onPress={this.unMatch.bind(this)}>
+                <View style={[styles.modalButton]} >
+                  <Text style={styles.modalButtonText}>FAKE USER</Text>
+                </View>
+              </TouchableHighlight>
+            </View>
+
+            <View >
+              <TouchableHighlight
+                underlayColor={colors.mediumPurple}
+                style={styles.modalButtonWrap}
+                onPress={this.props.goBack}>
+                <View style={[styles.modalButton,styles.cancelButton]} >
+                  <Text style={styles.modalButtonText}>CANCEL</Text>
+                </View>
+              </TouchableHighlight>
+            </View>
+
+        </View>
+
+      </View>
+
+    )
+  }
+  render(){
+
+    var renderInnards = ()=>{
+
+      switch (this.props.action) {
+        case 'unmatch':
+          return this.renderUnmatch()
+        case 'report':
+          return this.renderReport()
+
+        default:
+
+      }
+    }
+    return (
+      <View style={[{height:DeviceHeight,width:DeviceWidth,padding:0,backgroundColor: 'transparent',flex:1}]}>
+
+        <View style={[styles.col,{justifyContent:'center',alignSelf:'center',backgroundColor: 'transparent',margin:50}]}>
+
+          <Image
+            style={[styles.modalcontainer,{flex:0}]}
+            source={require('image!GradientBG')}>
+            {renderInnards()}
+          </Image>
+        </View>
+      </View>
+
+    )
   }
 }
 
@@ -110,21 +198,32 @@ export default PurpleModal
 
 
 var styles = StyleSheet.create({
-  modalButton:{
-    alignSelf:'stretch',
-    backgroundColor:colors.sapphire50,
-    borderColor:colors.purple,
-    alignItems:'center',
-    margin: 10,
+  modalButtonWrap:{
     borderRadius:8,
     justifyContent:'center',
     flex:1,
-    borderWidth:1
+    margin: 5,
+    borderRadius:8,
+    alignSelf:'stretch',
+},
+
+modalButton:{
+  alignSelf:'stretch',
+  height:60,
+  backgroundColor:colors.sapphire50,
+  alignItems:'center',
+  margin: 0,
+  borderRadius:8,
+  borderWidth:2 / PixelRatio.get(),
+  borderColor:colors.purple,
+
+  justifyContent:'center',
+  flex:1,
 },
 modalButtonText:{
   color:colors.white,
   fontFamily:'Montserrat',
-  fontSize:20,
+  fontSize:18,
 
 textAlign:'center'
 },
@@ -132,16 +231,18 @@ textAlign:'center'
     flex:1,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    backgroundColor: colors.outerSpace,
     alignSelf:'stretch',
     flexDirection: 'column',
+    backgroundColor: 'transparent',
 
   },
   modalcontainer:{
-    backgroundColor: colors.mediumPurple20,
     flex:1,
     borderRadius:10,
-    paddingHorizontal:20
+    paddingHorizontal:20,
+    alignSelf:'center',
+    backgroundColor: 'transparent',
+
   },
   fullwidth:{
     width: DeviceWidth
@@ -161,9 +262,10 @@ textAlign:'center'
     padding: 0,
     alignSelf:'stretch',
     flex: 1,
-    backgroundColor: 'transparent',
     alignItems:'center',
-    justifyContent:'center'
+    justifyContent:'space-between',
+    backgroundColor: 'transparent',
+
   },
   text:{
     color: colors.shuttleGray,
@@ -192,7 +294,7 @@ insidemodalwrapper:{
     justifyContent:'space-around',
     alignItems:'stretch',
     flex:1,
-    marginTop:50,
+    marginTop:20,
     alignSelf:'stretch',
 },
   rowSelected:{
@@ -221,10 +323,8 @@ insidemodalwrapper:{
     backgroundColor: 'transparent',
 
   },
-  wrapper:{
-    backgroundColor: colors.outerSpace,
 
-  },
+
   contactthumb:{
     borderRadius: 25,
     width:50,
@@ -237,6 +337,10 @@ insidemodalwrapper:{
     position:'absolute',
     width:20,
     height:20
+  },
+  cancelButton:{
+    backgroundColor: colors.white20,
+
   },
   plainButton:{
     borderColor: colors.rollingStone,
@@ -252,4 +356,10 @@ insidemodalwrapper:{
     fontFamily:'Montserrat',
     textAlign:'center',
   },
+  blurcontainer:{
+    position:'absolute',
+    top:0,
+    width:DeviceWidth,
+    height:DeviceHeight,backgroundColor: 'transparent'
+  }
 })

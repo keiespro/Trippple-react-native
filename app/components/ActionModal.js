@@ -27,7 +27,7 @@ import reactMixin from 'react-mixin'
 import UserProfile from '../components/UserProfile'
 import FadeInContainer from './FadeInContainer'
 import PurpleModal from './PurpleModal'
-
+import { BlurView,VibrancyView} from 'react-native-blur'
 
 @reactMixin.decorate(TimerMixin)
 class ActionModal extends Component{
@@ -59,6 +59,7 @@ class ActionModal extends Component{
   }
   toggleModal(){
     this.props.toggleModal()
+    console.log('press');
   }
   showProfile(match){
     this.props.navigator.push({
@@ -70,7 +71,6 @@ class ActionModal extends Component{
   }
 
   unMatchModal(match){
-    this.toggleModal()
 
      this.props.navigator.push({
       component: PurpleModal,
@@ -82,10 +82,11 @@ class ActionModal extends Component{
         }
       }
     })
+    this.toggleModal()
+
   }
 
   reportModal(match){
-    this.toggleModal()
 
      this.props.navigator.push({
       component: PurpleModal,
@@ -97,6 +98,8 @@ class ActionModal extends Component{
         }
       }
     })
+    this.toggleModal()
+
   }
 
 
@@ -118,26 +121,32 @@ class ActionModal extends Component{
         onDismiss={()=>{
             this.props.toggleModal();
         }}>
-
-     <FadeInContainer delay={1000} duration={1000}>
-        <View
-        style={[styles.container]}/>
-
-    </FadeInContainer>
+        <FadeInContainer
+          delayAmount={800}
+          duration={500}>
+          <TouchableOpacity activeOpacity={0.5} onPress={this.toggleModal.bind(this)}>
+            <BlurView
+              pointerEvents={'box-only'}
+              blurType="light"
+              style={[styles.container,{height:300}]} >
+              <View style={[styles.container,{height:300}]}/>
+            </BlurView>
+          </TouchableOpacity>
+        </FadeInContainer>
 
         <View style={[styles.actionmodal]}>
 
           <View  style={[styles.userimageContainer,styles.blur]}>
-              <Image
-                style={styles.userimage}
-                key={this.props.currentMatch.match_id}
-                source={{uri: img_url }}
-
-                defaultSource={require('image!placeholderUser')}
-                resizeMode={Image.resizeMode.cover}/>
-
-
-            <Text style={{color:colors.white,fontFamily:'Montserrat-Bold',fontSize:18}}>{`${matchName}`} </Text>
+            <Image
+              style={styles.userimage}
+              key={this.props.currentMatch.match_id}
+              source={{uri: img_url }}
+              defaultSource={require('image!placeholderUser')}
+              resizeMode={Image.resizeMode.cover}
+            />
+            <Text style={{color:colors.white,fontFamily:'Montserrat-Bold',fontSize:18}}>
+              {`${matchName}`}
+            </Text>
 
           </View>
 
@@ -236,11 +245,11 @@ var styles = StyleSheet.create({
     bottom:0,
     padding:10,
     // shadowColor:colors.darkShadow,
-    //       shadowRadius:5,
+    //       shadowRadius:2,
     //       shadowOpacity:50,
     //       shadowOffset: {
     //           width:0,
-    //           height: -5
+    //           height: -
     //       }
 
 
@@ -292,7 +301,6 @@ var styles = StyleSheet.create({
     flex:1,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    backgroundColor: colors.darkShadow,
     alignSelf:'stretch',
     flexDirection: 'column',
     width: DeviceWidth,
