@@ -32,29 +32,13 @@ var ReactMaskMixin = {
       this.processValue(this.props.value)
     }
   },
-  componentDidUpdate(prevProps,prevState){
-    console.log(prevProps,prevState)
-    var prevState = prevState || {};
-    if(prevState.text && prevState.text.length + 1 < 5 && this.mask.props.value.length == 5){
-        this._textInput2.focus()
-        setTimeout(()=>{this._textInput.focus()},40)
-        console.log('_onChange',this.mask.props)
-      }
-    if(prevState.text && prevState.text.length + 1 < 9 && this.mask.props.value.length == 9){
-        this._textInput2.focus()
-        setTimeout(()=>{this._textInput.focus()},40)
-        console.log('_onChange',this.mask.props)
-      }
 
-
-
-  },
   processValue: function(value) {
     if(value.length > this.props.mask.length){
       return false;
     }
     var mask = this.props.mask
-    var pattern = mask.replace(PTRN_REGEX, `_`)
+    var pattern = mask.replace(PTRN_REGEX, '\u2007')
     var rexps = {}
 
     mask.split('').forEach(function(c, i) {
@@ -99,10 +83,20 @@ var ReactMaskMixin = {
 
 
     var cursorPrev = this.mask.cursor
-    var cursorCurr = cursorMax
-    // EDITED from setSelectionRange : 0
-    newValue = newValue.substr(0, cursorCurr)
+    var cursorCurr;
+    //UGLY:
+    if(cursorPrev == 3 && cursorMax == 4){
+      cursorCurr = 6
+    }else if(cursorPrev == 8 && cursorMax == 9){
+      cursorCurr = 10
 
+    }else{
+      cursorCurr = cursorMax
+    }
+    // EDITED from setSelectionRange : 0
+    var maskedValue = newValue;
+
+    newValue = newValue.substr(0, cursorCurr)
 
     var removing = this.mask.cursor > cursorCurr
     cursorMax = Math.max(cursorMax, cursorMin)
@@ -134,7 +128,15 @@ var ReactMaskMixin = {
 
     this.mask.empty = cursorMax == cursorMin
     this.mask.props.value = newValue
+    this.mask.props.fullValue = maskedValue
     this.mask.cursor = cursorCurr
+
+    var phone = this.mask.props.value.replace(/[\. ,():-]+/g, '').replace(/[A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/,'')
+    console.log(phone)
+
+    if (this.props.onChange) {
+      this.props.onChange(phone)
+    }
   },
   _forceUpdate: function(){
     this.setNativeProps({
@@ -148,58 +150,46 @@ var ReactMaskMixin = {
   },
 
   _onBlur: function(e) {
-    if (this.props.mask) {
-      var cursor = this.mask.cursor
-      var value = this.mask.props.value
-
-      if (!this.mask.empty) {
-        this.mask.props.value = value.substr(0, cursor)
-      } else {
-        this.mask.props.value = ''
-      }
-
-    }
-    if (this.props.onBlur) {
-      this.props.onBlur(e)
-    }
+    // if (this.props.mask) {
+    //   var cursor = this.mask.cursor
+    //   var value = this.mask.props.value
+    //
+    //   if (!this.mask.empty) {
+    //     this.mask.props.value = value.substr(0, cursor)
+    //   } else {
+    //     this.mask.props.value = ''
+    //   }
+    //
+    // }
+    // if (this.props.onBlur) {
+    //   this.props.onBlur(e)
+    // }
   },
 
   _onChange: function(event) {
     if (this.props.mask) {
       this.processValue(event.nativeEvent.text)
-      this.setState({text:event.nativeEvent.text})
-      this.setNativeProps({text:event.nativeEvent.text})
-
-      if(this.mask.props.value && this.mask.props.value.length == 3){
-        this._textInput.focus()
-
-        console.log('_onChange',this.mask.props)
-      }
-
+      // this.setNativeProps({text:event.nativeEvent.text})
+      //
+      // if(this.mask.props.value && this.mask.props.value.length == 3){
+      //   this._textInput.focus()
+      //
+      //   console.log('_onChange',this.mask.props)
+      // }
+      //
 
 
     }
-    if (this.props.onChange) {
-      this.props.onChange(event)
-    }
+
   },
 
-  _onKeyDown: function(e) {
-    console.log(e);
-    if (this.props.mask) {
-      this.mask.cursor = this._textInput.getSelectionRange()
-    }
-    if (this.props.onKeyDown) {
-      this.props.onKeyDown(e)
-    }
-  },
 
-  _onFocus: function(e) {
-    // this._onChange(e)
-    if (this.props.onFocus) {
-      this.props.onFocus(e)
-    }
-  },
+  // _onFocus: function(e) {
+  //   // this._onChange(e)
+  //   if (this.props.onFocus) {
+  //     this.props.onFocus(e)
+  //   }
+  // },
 
 }
 

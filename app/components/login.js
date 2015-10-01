@@ -1,7 +1,7 @@
 /* @flow */
 
 
-const PHONE_MASK_USA = '999 999-9999'
+const PHONE_MASK_USA = '(999) 999-9999'
 
 import React from 'react-native'
 
@@ -45,11 +45,12 @@ class Login extends Component{
     this.state = {
       phone: '',
       isLoading: false,
+      keyboardSpace: 270
     }
   }
 
   formattedPhone(){
-    return this.state.inputFieldValue.replace(/[\. ,:-]+/g, '')
+    return this.state.inputFieldValue
   }
 
   onError =(err)=>{
@@ -71,12 +72,13 @@ class Login extends Component{
     AuthErrorStore.unlisten(this.onError);
   }
 
-  shouldHide(val) { return (val.length < 0 )}
-  shouldShow(val) { return (val.length > 0)  }
+  shouldHide(val) { return (val.length != 10) }
+  shouldShow(val) { return (val.length == 10) }
 
   handleInputChange =(val: any)=> {
+    console.log(val)
     var update = {
-      inputFieldValue: val
+      inputFieldValue: val+''
     };
 
     if(val.length < this.state.inputFieldValue.length){
@@ -90,6 +92,10 @@ class Login extends Component{
     // if(!this.state.canContinue){
     //   return false;
     // }
+    const phoneNumber = this.state.inputFieldValue;
+
+    UserActions.requestPinLogin(phoneNumber);
+
     this.setTimeout( () => {
       if(this.state.phoneError){ return false; }
 
@@ -99,12 +105,11 @@ class Login extends Component{
         id:'pw',
         sceneConfig: CustomSceneConfigs.HorizontalSlide,
         passProps: {
-          phone: this.formattedPhone(),
+          phone: phoneNumber,
           initialKeyboardSpace: this.state.keyboardSpace
         }
       })
     },500);
-    UserActions.requestPinLogin(this.formattedPhone());
 
   }
 
@@ -113,11 +118,9 @@ class Login extends Component{
     return (
       <View style={[{flex: 1, height:DeviceHeight, paddingBottom: this.state.keyboardSpace}]}>
         <ScrollView
-          keyboardDismissMode={'on-drag'}
+          keyboardDismissMode={'none'}
           contentContainerStyle={[styles.wrap, {left: 0}]}
           bounces={false}
-          onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
-          onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
           >
           <View style={[styles.phoneInputWrap,
               (this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null),
@@ -134,7 +137,7 @@ class Login extends Component{
               onFocus={this.handleInputFocused.bind(this)}
               onBlur={this.handleInputBlurred.bind(this)}
               keyboardAppearance={'dark'/*doesnt work*/}
-              handleInputChanged={this.handleInputChange}
+              handleInputChanged={this.handleInputChange.bind(this)}
             />
           </View>
           {this.state.phoneError &&
