@@ -129,6 +129,7 @@ class Register extends Component{
               (this.state.phoneError ? styles.phoneInputWrapError : null)]}>
 
             <PhoneNumberInput
+              key={'registerphone'}
               style={styles.phoneInput}
               handleInputChange={this.handleInputChange.bind(this)}
             />

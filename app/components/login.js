@@ -129,6 +129,7 @@ class Login extends Component{
               (this.state.phoneError ? styles.phoneInputWrapError : null)]}>
 
             <PhoneNumberInput
+              key={'loginphone'}
               style={styles.phoneInput}
               handleInputChange={this.handleInputChange.bind(this)}
             />

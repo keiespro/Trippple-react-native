@@ -22,6 +22,7 @@ var CustomSceneConfigs = require('../utils/sceneConfigs');
 var Auth = require('./auth');
 var Facebook = require('../screens/registration/facebook');
 import Mixpanel from '../utils/mixpanel';
+import dismissKeyboard from 'dismissKeyboard'
 
 var slides = [
   {
@@ -180,6 +181,10 @@ var Welcome = React.createClass({
 
   componentDidMount() {
       Mixpanel.track('On - Home Screen');
+      this.refs.nav.navigationContext.addListener('willfocus', (e)=>{
+        dismissKeyboard();
+        console.log(e);
+      })
   },
 
   renderScene(route: Navigator.route, navigator: Navigator) : React.Component {
@@ -196,6 +201,7 @@ var Welcome = React.createClass({
             title: 'intro',
             id:'intro',
           }}
+          ref={'nav'}
           key={'innerNav'}
           configureScene={ (route) => {
             return route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.VerticalSlide

@@ -33,7 +33,6 @@ var TopTabs = React.createClass({
   },
   toggleTab(tab) {
     if(this.state.ready && this.props.active != tab){
-      console.log('toggle tab',tab)
       this.props.toggleTab(tab)
     }
   },
