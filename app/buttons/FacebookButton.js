@@ -94,12 +94,14 @@ class FacebookButton extends React.Component{
 
 
         } else {
+          console.log('FB err',error);
+          this.handleLogin();
+
           this.setState({ fbUser : null });
         }
       });
     }else{
       this.props._onPress && this.props._onPress(this.state.fbUser);
-
     }
 
   }
@@ -108,11 +110,13 @@ class FacebookButton extends React.Component{
       console.log(error, data);
 
       if (!error) {
-        this.setState({ fbUser : data});
-        this.props.onLogin && this.props.onLogin(data);
+        this.setState({ fbUser : data.credentials});
 
+        this.props.onLogin && this.props.onLogin(data);
       } else {
-        console.log(error, data);
+        this.setState({ fbUser : null });
+
+        console.log('FB err',error);
       }
     });
   }
