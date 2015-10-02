@@ -30,24 +30,24 @@ var slides = [
     content: ''
   },
   {
-  	title: 'BROWSE',
-  	img: require('image!tour-browse'),
-  	content: 'Find adventurous couples and singles near you.'
+    title: 'BROWSE',
+    img: require('image!tour-browse'),
+    content: 'Find adventurous couples and singles near you.'
   },
   {
-  	title: 'MATCH',
-  	img: require('image!tour-match'),
-  	content: 'If they like you too, we\'ll connect you.'
+    title: 'MATCH',
+    img: require('image!tour-match'),
+    content: 'If they like you too, we\'ll connect you.'
   },
   {
-  	title: 'CONNECT',
-  	img: require('image!tour-connect'),
-  	content: 'Chat with real Couples or Singles in your area.'
+    title: 'CONNECT',
+    img: require('image!tour-connect'),
+    content: 'Chat with real Couples or Singles in your area.'
   },
   {
-  	title: 'PRIVATE & DISCREET',
-  	img: require('image!tour-privacy'),
-  	content: 'Protect your identity. Hide from friends and family.'
+    title: 'PRIVATE & DISCREET',
+    img: require('image!tour-privacy'),
+    content: 'Protect your identity. Hide from friends and family.'
   }
 ];
 
@@ -143,14 +143,15 @@ class Carousel extends Component{
         <View key={i+'slide'+slide.title.trim()} style={styles.slide}>
         <Image style={[styles.slideImage,
           {
-            paddingTop: i == 0 ? 60 : 20,
-            width: i == 0 ? 150 : 150
+            paddingTop: 20,
+            marginTop: i == 0 ? 80 : 0,
+            width: i == 0 ? 200 : 150
           }
         ]} source={slide.img} resizeMode={Image.resizeMode.contain}/>
         <View style={styles.textwrap}><Text style={[styles.textplain,
           {
             fontFamily:'Montserrat',
-            fontWeight:"700",
+            fontWeight:'700',
             marginTop:15
           }
           ]}>{slide.title}</Text></View>
