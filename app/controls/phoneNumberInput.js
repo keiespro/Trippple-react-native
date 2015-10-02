@@ -1,6 +1,7 @@
 /* @flow */
 
 var mask = '(999) 999+9999',
+    emptyMask = `(\u2007\u2007\u2007)\u2007\u2007\u2007\u2007+\u2007\u2007\u2007\u2007`,
     MASK_REGEX = new RegExp('[9]'),
     MASK_CHARS = '9',
     cursor,
@@ -27,7 +28,6 @@ var mask = '(999) 999+9999',
 
 import React from 'react-native'
 import { TextInput,View,StyleSheet  } from 'react-native'
-import ReactMaskMixin from '../mixins/maskedInputMixin'
 import TimerMixin from 'react-timer-mixin';
 import s from 'underscore.string'
 import MaskableTextInput from '../RNMaskableTextInput.js'
@@ -58,7 +58,6 @@ var PhoneNumberInput = React.createClass({
     console.log('sanitized Text',sanitizedText)
 
     var maskedPhone,
-
         paddedValue = s(sanitizedText).pad(10, ` `, 'right').value()
 
     console.log('paddedValue',paddedValue)
@@ -71,10 +70,11 @@ var PhoneNumberInput = React.createClass({
     console.log('maskedPhone',maskedPhone)
 
       this.setNativeProps({
-        text:maskedPhone
+        text:maskedPhone,
+        fullText: maskedPhone + emptyMask.substr(maskedPhone.length,10)
       })
       this.setState({maskedPhone})
-
+      this.props.handleInputChange({phone: sanitizedText,inputFieldValue:sanitizedText})
   },
 
 
@@ -84,7 +84,7 @@ var PhoneNumberInput = React.createClass({
         text: np.text
       });
 
-      // this._textInput2.setNativeProps({text:np.fullText});
+      this._textInput2.setNativeProps({text:np.fullText});
     },
     onChange(e){
       console.log('---------',this._textInput.state.mostRecentEventCount,e.nativeEvent.eventCount)
@@ -126,6 +126,7 @@ var PhoneNumberInput = React.createClass({
         onChangeText={this.onChangeText}
         defaultValue={`(`}
           value={this.state.maskedPhone}
+          placeholder={emptyMask}
 
 
         />
@@ -136,6 +137,7 @@ var PhoneNumberInput = React.createClass({
           onFocus={()=>{this._textInput.focus();}}
           style={[this.props.style,{height:0,overflow:'hidden' }]}
           ref={component => this._textInput3 = component}
+          placeholder={emptyMask}
         />
 
 

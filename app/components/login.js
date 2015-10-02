@@ -45,7 +45,7 @@ class Login extends Component{
     this.state = {
       phone: '',
       isLoading: false,
-      keyboardSpace: 270
+      keyboardSpace: 0
     }
   }
 
@@ -73,15 +73,15 @@ class Login extends Component{
   }
 
   shouldHide(state) { return (state.phone.length != 10) }
-  shouldShow(state) { return (state.phone.length == 10) }
+  shouldShow(state) { console.log(state.phone.length); return (state.phone.length == 10) }
 
   handleInputChange =(newValues: any)=> {
-    var {phone,inputFieldValue} = newValues;
+    var {phone} = newValues;
+    console.log(phone)
 
     if(phone && phone.length < this.state.phone.length){
       newValues.phoneError = null
       console.log('x',phone)
-
     }
     this.setState(newValues)
   }
@@ -112,8 +112,6 @@ class Login extends Component{
   }
 
   render(){
-    // onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
-    // onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
 
     return (
       <View style={[{flex: 1, height:DeviceHeight, paddingBottom: this.state.keyboardSpace}]}>
@@ -122,6 +120,9 @@ class Login extends Component{
           contentContainerStyle={[styles.wrap, {left: 0}]}
           bounces={false}
           keyboardShouldPersistTaps={true}
+          onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
+          onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
+
           >
           <View style={[styles.phoneInputWrap,
               (this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null),
@@ -129,7 +130,6 @@ class Login extends Component{
 
             <PhoneNumberInput
               style={styles.phoneInput}
-
               handleInputChange={this.handleInputChange.bind(this)}
             />
           </View>
