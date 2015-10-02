@@ -89,7 +89,7 @@ var RouteStackSingle = [
 
 RouteStackSingle = RouteStackSingle.map( (r,i) =>{ r.index = i; return r})
 RouteStackCouple = RouteStackCouple.map( (r,i) =>{ r.index = i; return r})
-console.log(RouteStackSingle,RouteStackCouple);
+
 class Onboard extends Component{
   constructor(props){
     super(props);

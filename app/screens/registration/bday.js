@@ -94,7 +94,11 @@ var lastindex = this.props.navigator.getCurrentRoutes().length;
       })
 
       console.log(date,this.state.date);
-      // UserActions.updateUserStub({bdate: date});
+      UserActions.updateUserStub({
+        birthday: date,
+        bday_month: date.getMonth()+1,
+        bday_year: date.getFullYear()
+      });
     }
   }
 
@@ -293,4 +297,3 @@ const styles = StyleSheet.create({
     },
 
   });
-

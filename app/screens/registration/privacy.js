@@ -51,7 +51,9 @@ class PrivacyScreen extends Component{
   }
   _continue(){
     console.log(this.state.selection)
-    UserActions.updateUserStub({privacy: this.state.selection,status:'onboarded'});
+
+    UserActions.updateUserStub({privacy: this.state.selection, ready:true});
+
    var lastindex = this.props.navigator.getCurrentRoutes().length;
   console.log(lastindex);
   var nextRoute = this.props.stack[lastindex];
@@ -295,4 +297,3 @@ module.exports = PrivacyScreen;
             </TouchableOpacity>
 
             */
-

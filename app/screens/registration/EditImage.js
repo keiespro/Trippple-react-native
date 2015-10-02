@@ -62,7 +62,8 @@ class EditImage extends Component{
   }
 
   accept(croppedImageURI){
-    UserActions.uploadImage(this.props.image.uri,this.props.imagetype)
+    console.log(this.props.image.uri,'profile')
+    UserActions.uploadImage(this.props.image.uri,'profile')
 
     console.log(croppedImageURI);
 
@@ -74,7 +75,7 @@ class EditImage extends Component{
       });
       return;
     }
-  if(this.props.nextRoute){
+    if(this.props.nextRoute){
     this.props.navigator.push({
         component: this.props.nextRoute,
         passProps: {
@@ -87,12 +88,12 @@ class EditImage extends Component{
 
   }else{
    var lastindex = this.props.navigator.getCurrentRoutes().length;
-  console.log(lastindex);
-  var nextRoute = this.props.stack[lastindex];
+    console.log(lastindex);
+    var nextRoute = this.props.stack[lastindex];
 
-   nextRoute.passProps = {
-        ...this.props,
- image:this.props.image,
+     nextRoute.passProps = {
+          ...this.props,
+          image:this.props.image,
           croppedImage: this.state.croppedImageURI,
           imagetype: this.props.imagetype
 
@@ -101,7 +102,7 @@ class EditImage extends Component{
 
     this.props.navigator.push(nextRoute)
 
-}
+  }
 
 
   }
