@@ -101,7 +101,7 @@ class UserStore {
     var user = res.response.user_info;
 
     this.setState({
-      user: user
+      user: {...this.state.user, ...user}
     })
   }
 
