@@ -8,6 +8,8 @@ import Promise from 'bluebird'
 import TimerMixin from 'react-timer-mixin'
 import reactMixin from 'react-mixin'
 import _ from 'underscore'
+
+
 @reactMixin.decorate(TimerMixin)
 class NotificationsStore {
 
@@ -63,8 +65,8 @@ class NotificationsStore {
   }
   handleNewMessageData(msgs){
     console.log(msgs)
-    var pendingNotification = this.state.pendingNotifications[0]
-    var readyNotification = { ...pendingNotification, ...msgs.message_thread[0], type: 'message'}
+    var {pendingNotifications} = this.state,
+        readyNotification = { ...pendingNotifications[0], ...msgs.message_thread[0], type: 'message'}
     this.setState({
       notifications: [readyNotification,...pendingNotifications],
       pendingNotifications: []
