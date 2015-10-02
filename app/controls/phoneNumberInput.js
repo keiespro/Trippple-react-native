@@ -125,12 +125,18 @@ var PhoneNumberInput = React.createClass({
         onChange={this.onChange}
         onChangeText={this.onChangeText}
         defaultValue={`(`}
-          value={this.state.maskedPhone}
-          placeholder={emptyMask}
-
-
-        />
-
+        value={this.state.maskedPhone}
+        placeholder={`PHONE NUMBER`}
+      />
+      <TextInput
+        editable={false}
+        maxLength={14}
+        keyboardType={'numeric'}
+        style={[this.props.style,{
+          fontSize: 26,color:'#fff',flex:1,alignSelf:'stretch',position:'absolute',top:0,left:0,right:0,bottom:0
+        }]}
+        ref={component => this._textInput2 = component}
+      />
         <MaskableTextInput
           editable={false}
           keyboardType={'numeric'}

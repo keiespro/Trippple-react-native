@@ -1,7 +1,7 @@
 /* @flow */
 
 
-const PHONE_MASK_USA = '999 999-9999'
+const PHONE_MASK_USA = '(999) 999-9999'
 
 import React from 'react-native'
 
@@ -19,7 +19,6 @@ import {
 } from 'react-native'
 
 import CustomSceneConfigs from '../utils/sceneConfigs'
-import TimerMixin from 'react-timer-mixin'
 import colors from '../utils/colors'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -32,6 +31,7 @@ import PhoneNumberInput from '../controls/phoneNumberInput.js'
 import PinScreen from './pin'
 
 import reactMixin from 'react-mixin'
+import TimerMixin from 'react-timer-mixin'
 import SingleInputScreenMixin from '../mixins/SingleInputScreenMixin'
 import TrackKeyboardMixin from '../mixins/keyboardMixin'
 import Mixpanel from '../utils/mixpanel';
@@ -39,17 +39,18 @@ import Mixpanel from '../utils/mixpanel';
 @reactMixin.decorate(TimerMixin)
 @reactMixin.decorate(TrackKeyboardMixin)
 @reactMixin.decorate(SingleInputScreenMixin)
-
 class Register extends Component{
   constructor(props){
     super();
     this.state = {
       phone: '',
       isLoading: false,
+      keyboardSpace: 0
     }
   }
+
   formattedPhone(){
-    return this.state.inputFieldValue.replace(/[\. ,:-]+/g, '')
+    return this.state.inputFieldValue
   }
 
   onError =(err)=>{
@@ -64,33 +65,35 @@ class Register extends Component{
     })
   }
   componentDidMount(){
-    Mixpanel.track('On - Register Screen');
     AuthErrorStore.listen(this.onError);
+    Mixpanel.track('On - Register Screen');
   }
-
   componentWillUnmount(){
     AuthErrorStore.unlisten(this.onError);
   }
 
-  shouldHide(val) { return (val.length < PHONE_MASK_USA.length) ? true : false  }
-  shouldShow(val) { return (val.length === PHONE_MASK_USA.length) ? true : false  }
+  shouldHide(state) { return (state.phone.length != 10) }
+  shouldShow(state) { console.log(state.phone.length); return (state.phone.length == 10) }
 
-  handleInputChange =(event: any)=> {
-    var update = {
-      inputFieldValue: event.nativeEvent.text
-    };
+  handleInputChange =(newValues: any)=> {
+    var {phone} = newValues;
+    console.log(phone)
 
-    if(event.nativeEvent.text.length < this.state.inputFieldValue.length){
-      update.phoneError = null
+    if(phone && phone.length < this.state.phone.length){
+      newValues.phoneError = null
+      console.log('x',phone)
     }
-
-    this.setState(update)
+    this.setState(newValues)
   }
 
   _submit =()=> {
-    if(!this.state.canContinue){
-      return false;
-    }
+    // if(!this.state.canContinue){
+    //   return false;
+    // }
+    const phoneNumber = this.state.phone;
+
+    UserActions.requestPinLogin(phoneNumber);
+
     this.setTimeout( () => {
       if(this.state.phoneError){ return false; }
 
@@ -99,14 +102,12 @@ class Register extends Component{
         title: '',
         id:'pw',
         sceneConfig: CustomSceneConfigs.HorizontalSlide,
-
         passProps: {
-          phone: this.formattedPhone(),
+          phone: phoneNumber,
           initialKeyboardSpace: this.state.keyboardSpace
         }
       })
     },500);
-    UserActions.requestPinLogin(this.formattedPhone());
 
   }
 
@@ -115,32 +116,26 @@ class Register extends Component{
     return (
       <View style={[{flex: 1, height:DeviceHeight, paddingBottom: this.state.keyboardSpace}]}>
         <ScrollView
-          keyboardDismissMode={'interactive'}
+          keyboardDismissMode={'none'}
           contentContainerStyle={[styles.wrap, {left: 0}]}
           bounces={false}
+          keyboardShouldPersistTaps={true}
+          onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
+          onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
+
           >
           <View style={[styles.phoneInputWrap,
               (this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null),
               (this.state.phoneError ? styles.phoneInputWrapError : null)]}>
 
             <PhoneNumberInput
-              mask={PHONE_MASK_USA}
-              style={[styles.phoneInput]}
-              keyboardType={'phone-pad'}
-              placeholder={'PHONE NUMBER'}
-              placeholderTextColor="#fff"
-              autoFocus={true}
-              autoCorrect={false}
-              onChange={this.handleInputChange}
-              onFocus={this.handleInputFocused.bind(this)}
-              onBlur={this.handleInputBlurred.bind(this)}
-              keyboardAppearance={'dark'/*doesnt work*/}
-
+              style={styles.phoneInput}
+              handleInputChange={this.handleInputChange.bind(this)}
             />
           </View>
           {this.state.phoneError &&
               <View >
-                <Text textAlign={'right'} style={[styles.bottomErrorText]}>Did you mean to login?</Text>
+                <Text textAlign={'right'} style={[styles.bottomErrorText]}>Did you mean to register?</Text>
               </View>
           }
         </ScrollView>
@@ -156,7 +151,7 @@ class Register extends Component{
 
 
 
-export default Register
+export default Register;
 
 
 
@@ -197,7 +192,7 @@ const styles = StyleSheet.create({
   phoneInput: {
     height: 60,
     padding: 8,
-    fontSize: 22,
+    fontSize: 26,
     fontFamily:'Montserrat',
     color: colors.white
   },
