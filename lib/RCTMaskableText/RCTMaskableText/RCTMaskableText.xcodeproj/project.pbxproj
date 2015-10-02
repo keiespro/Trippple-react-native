@@ -1,0 +1,309 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AC161B7A1BBE4EFC00150328 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		AC161B7C1BBE4EFC00150328 /* libRCTMaskableText.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTMaskableText.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC161BBE1BBE56A300150328 /* RCTMaskableTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTMaskableTextField.h; sourceTree = "<group>"; };
+		AC161BBF1BBE56A300150328 /* RCTMaskableTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTMaskableTextField.m; sourceTree = "<group>"; };
+		AC161BC01BBE56A300150328 /* RCTMaskableTextFieldManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTMaskableTextFieldManager.h; sourceTree = "<group>"; };
+		AC161BC11BBE56A300150328 /* RCTMaskableTextFieldManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTMaskableTextFieldManager.m; sourceTree = "<group>"; };
+		AC161BC21BBE56A300150328 /* RCTMaskableTextManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTMaskableTextManager.h; sourceTree = "<group>"; };
+		AC161BC31BBE56A300150328 /* RCTMaskableTextManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTMaskableTextManager.m; sourceTree = "<group>"; };
+		AC161BC41BBE56A300150328 /* RCTMaskableTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTMaskableTextView.h; sourceTree = "<group>"; };
+		AC161BC51BBE56A300150328 /* RCTMaskableTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTMaskableTextView.m; sourceTree = "<group>"; };
+		AC161BC61BBE56A300150328 /* RCTMaskableTextViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTMaskableTextViewManager.h; sourceTree = "<group>"; };
+		AC161BC71BBE56A300150328 /* RCTMaskableTextViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTMaskableTextViewManager.m; sourceTree = "<group>"; };
+		AC161BC81BBE56A300150328 /* RCTRawTextManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTRawTextManager.h; sourceTree = "<group>"; };
+		AC161BC91BBE56A300150328 /* RCTRawTextManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTRawTextManager.m; sourceTree = "<group>"; };
+		AC161BCA1BBE56A300150328 /* RCTShadowRawText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTShadowRawText.h; sourceTree = "<group>"; };
+		AC161BCB1BBE56A300150328 /* RCTShadowRawText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTShadowRawText.m; sourceTree = "<group>"; };
+		AC161BCC1BBE56A300150328 /* RCTShadowText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTShadowText.h; sourceTree = "<group>"; };
+		AC161BCD1BBE56A300150328 /* RCTShadowText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTShadowText.m; sourceTree = "<group>"; };
+		AC161BCE1BBE56A300150328 /* RCTMaskableText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTMaskableText.h; sourceTree = "<group>"; };
+		AC161BCF1BBE56A300150328 /* RCTMaskableText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTMaskableText.m; sourceTree = "<group>"; };
+		AC161BD01BBE56A300150328 /* Text.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Text.js; sourceTree = "<group>"; };
+		AC161BD11BBE56A300150328 /* TextStylePropTypes.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = TextStylePropTypes.js; sourceTree = "<group>"; };
+		AC161BD21BBE56A300150328 /* TextUpdateTest.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = TextUpdateTest.js; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AC161B791BBE4EFC00150328 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AC161B731BBE4EFC00150328 = {
+			isa = PBXGroup;
+			children = (
+				AC161BBE1BBE56A300150328 /* RCTMaskableTextField.h */,
+				AC161BBF1BBE56A300150328 /* RCTMaskableTextField.m */,
+				AC161BC01BBE56A300150328 /* RCTMaskableTextFieldManager.h */,
+				AC161BC11BBE56A300150328 /* RCTMaskableTextFieldManager.m */,
+				AC161BC21BBE56A300150328 /* RCTMaskableTextManager.h */,
+				AC161BC31BBE56A300150328 /* RCTMaskableTextManager.m */,
+				AC161BC41BBE56A300150328 /* RCTMaskableTextView.h */,
+				AC161BC51BBE56A300150328 /* RCTMaskableTextView.m */,
+				AC161BC61BBE56A300150328 /* RCTMaskableTextViewManager.h */,
+				AC161BC71BBE56A300150328 /* RCTMaskableTextViewManager.m */,
+				AC161BC81BBE56A300150328 /* RCTRawTextManager.h */,
+				AC161BC91BBE56A300150328 /* RCTRawTextManager.m */,
+				AC161BCA1BBE56A300150328 /* RCTShadowRawText.h */,
+				AC161BCB1BBE56A300150328 /* RCTShadowRawText.m */,
+				AC161BCC1BBE56A300150328 /* RCTShadowText.h */,
+				AC161BCD1BBE56A300150328 /* RCTShadowText.m */,
+				AC161BCE1BBE56A300150328 /* RCTMaskableText.h */,
+				AC161BCF1BBE56A300150328 /* RCTMaskableText.m */,
+				AC161BD01BBE56A300150328 /* Text.js */,
+				AC161BD11BBE56A300150328 /* TextStylePropTypes.js */,
+				AC161BD21BBE56A300150328 /* TextUpdateTest.js */,
+				AC161B7D1BBE4EFC00150328 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AC161B7D1BBE4EFC00150328 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC161B7C1BBE4EFC00150328 /* libRCTMaskableText.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AC161B7B1BBE4EFC00150328 /* RCTMaskableText */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AC161B851BBE4EFC00150328 /* Build configuration list for PBXNativeTarget "RCTMaskableText" */;
+			buildPhases = (
+				AC161B781BBE4EFC00150328 /* Sources */,
+				AC161B791BBE4EFC00150328 /* Frameworks */,
+				AC161B7A1BBE4EFC00150328 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RCTMaskableText;
+			productName = RCTMaskableText;
+			productReference = AC161B7C1BBE4EFC00150328 /* libRCTMaskableText.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AC161B741BBE4EFC00150328 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "Alex Lopez";
+				TargetAttributes = {
+					AC161B7B1BBE4EFC00150328 = {
+						CreatedOnToolsVersion = 7.0;
+					};
+				};
+			};
+			buildConfigurationList = AC161B771BBE4EFC00150328 /* Build configuration list for PBXProject "RCTMaskableText" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = AC161B731BBE4EFC00150328;
+			productRefGroup = AC161B7D1BBE4EFC00150328 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AC161B7B1BBE4EFC00150328 /* RCTMaskableText */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AC161B781BBE4EFC00150328 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		AC161B831BBE4EFC00150328 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/node_modules/react-native/React/**",
+					"$(SRCROOT)/../../../react-native/React/**",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		AC161B841BBE4EFC00150328 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/node_modules/react-native/React/**",
+					"$(SRCROOT)/../../../react-native/React/**",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AC161B861BBE4EFC00150328 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(root)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../../React/**",
+					"$(SRCROOT)/../react-native/React/**",
+					"$(SRCROOT)/node_modules/react-native/React/**",
+					"$(SRCROOT)/../../../react-native/React/**",
+					"$(SRCROOT)/../../react-native/React/**",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		AC161B871BBE4EFC00150328 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(root)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../../React/**",
+					"$(SRCROOT)/../react-native/React/**",
+					"$(SRCROOT)/node_modules/react-native/React/**",
+					"$(SRCROOT)/../../../react-native/React/**",
+					"$(SRCROOT)/../../react-native/React/**",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AC161B771BBE4EFC00150328 /* Build configuration list for PBXProject "RCTMaskableText" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC161B831BBE4EFC00150328 /* Debug */,
+				AC161B841BBE4EFC00150328 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AC161B851BBE4EFC00150328 /* Build configuration list for PBXNativeTarget "RCTMaskableText" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC161B861BBE4EFC00150328 /* Debug */,
+				AC161B871BBE4EFC00150328 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AC161B741BBE4EFC00150328 /* Project object */;
+}

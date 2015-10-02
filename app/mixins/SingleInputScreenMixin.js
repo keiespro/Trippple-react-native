@@ -42,9 +42,9 @@ module.exports =  {
 
   componentDidUpdate(){
 
-    if( !this.state.canContinue && this.shouldShow(this.state.inputFieldValue)){
+    if( !this.state.canContinue && this.shouldShow(this.state)){
       this.showContinueButton();
-    }else if( this.state.canContinue && this.shouldHide(this.state.inputFieldValue)){
+    }else if( this.state.canContinue && this.shouldHide(this.state)){
       this.hideContinueButton();
     }
   },

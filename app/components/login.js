@@ -72,27 +72,25 @@ class Login extends Component{
     AuthErrorStore.unlisten(this.onError);
   }
 
-  shouldHide(val) { return (val.length != 10) }
-  shouldShow(val) { return (val.length == 10) }
+  shouldHide(state) { return (state.phone.length != 10) }
+  shouldShow(state) { return (state.phone.length == 10) }
 
-  handleInputChange =(val: any)=> {
-    console.log(val)
-    var update = {
-      inputFieldValue: val+''
-    };
+  handleInputChange =(newValues: any)=> {
+    var {phone,inputFieldValue} = newValues;
 
-    if(val.length < this.state.inputFieldValue.length){
-      update.phoneError = null
+    if(phone && phone.length < this.state.phone.length){
+      newValues.phoneError = null
+      console.log('x',phone)
+
     }
-
-    this.setState(update)
+    this.setState(newValues)
   }
 
   _submit =()=> {
     // if(!this.state.canContinue){
     //   return false;
     // }
-    const phoneNumber = this.state.inputFieldValue;
+    const phoneNumber = this.state.phone;
 
     UserActions.requestPinLogin(phoneNumber);
 
@@ -114,6 +112,8 @@ class Login extends Component{
   }
 
   render(){
+    // onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
+    // onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
 
     return (
       <View style={[{flex: 1, height:DeviceHeight, paddingBottom: this.state.keyboardSpace}]}>
@@ -121,23 +121,16 @@ class Login extends Component{
           keyboardDismissMode={'none'}
           contentContainerStyle={[styles.wrap, {left: 0}]}
           bounces={false}
+          keyboardShouldPersistTaps={true}
           >
           <View style={[styles.phoneInputWrap,
               (this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null),
               (this.state.phoneError ? styles.phoneInputWrapError : null)]}>
 
             <PhoneNumberInput
-            mask={PHONE_MASK_USA}
-            ref="phoneinputbox"
               style={styles.phoneInput}
-              keyboardType={'numeric'}
-              placeholderTextColor="#fff"
-              autoCorrect={false}
-              onChange={this.handleInputChange.bind(this)}
-              onFocus={this.handleInputFocused.bind(this)}
-              onBlur={this.handleInputBlurred.bind(this)}
-              keyboardAppearance={'dark'/*doesnt work*/}
-              handleInputChanged={this.handleInputChange.bind(this)}
+
+              handleInputChange={this.handleInputChange.bind(this)}
             />
           </View>
           {this.state.phoneError &&
