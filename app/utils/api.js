@@ -8,27 +8,30 @@ const UploadFile = Promise.promisify(FileTransfer.upload)
 
 const SERVER_URL = 'http://x.local:9999/user'
 
-function publicRequest(endpoint, payload){
-
-  return fetch( `${SERVER_URL}/${endpoint}`, {
-    method: 'post',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(payload)
-  })
-  .then((res) => res.json())
-  .catch(err => console.log(err))
-
+async function publicRequest(endpoint, payload){
+  console.log(payload)
+  try{
+    var res = fetch( `${SERVER_URL}/${endpoint}`, {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+    return await res
+  }
+  catch(err){
+    console.log('ERR',err)
+  }
 }
 
-function authenticatedRequest(endpoint: '', payload: {}){
+async function authenticatedRequest(endpoint: '', payload: {}){
 
   const credentials = CredentialsStore.getState();
   const authPayload = {...payload, ...credentials}
-
-  return publicRequest(endpoint, authPayload);
+  var req = await publicRequest(endpoint, authPayload);
+  return await req.json()
 }
 
 function authenticatedFileUpload(endpoint, image, image_type){
@@ -47,7 +50,6 @@ function authenticatedFileUpload(endpoint, image, image_type){
     console.log('res:',res,'err:',err);
     return res.response;
   })
-  .catch(err => console.log(err))
 
 }
 
@@ -66,23 +68,21 @@ class api {
     })
   }
 
-  requestPin(phone){
-    return publicRequest('request_security_pin', { phone })
+  async requestPin(phone){
+    return await publicRequest('request_security_pin', { phone })
   }
 
-  verifyPin(pin,phone){
+  async verifyPin(pin,phone){
 
     const platform = require('Platform');
 
     const deviceInfo = require('./DeviceInfo')
 
-    var payload = {
-      pin,
-      phone,
-      ...deviceInfo
-    };
-    console.log('request pin with payload',payload);
-    return publicRequest('verify_security_pin', payload);
+    var payload = { pin, phone, ...deviceInfo }
+
+    console.log('verify pin with payload',payload)
+
+    return await publicRequest('verify_security_pin', payload);
   }
 
   updateUser(payload){
@@ -110,10 +110,11 @@ class api {
 
   unMatch(match_id){
     return authenticatedRequest('unmatch', {match_id})
-    //v2 endpoint
   }
 
-
+  reportUser(match){
+    return authenticatedRequest('report_user', {to_user_id: match.id, to_user_type: match.id})
+  }
 
   getMessages(payload){
     if(!payload.match_id){
@@ -141,9 +142,9 @@ class api {
     return authenticatedRequest('likes', { like_status, like_user_id, like_user_type })
   }
 
-  uploadImage(image){
-    return authenticatedFileUpload('upload', image)
-  }
+  // uploadImage(image){
+  //   return authenticatedFileUpload('upload', image)
+  // }
 
   saveFacebookPicture(photo) {
     console.log('save_facebook_picture', photo);

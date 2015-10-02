@@ -30,33 +30,28 @@ var UserActions = {
 
   },
 
-  verifySecurityPin(pin, phone){
+  async verifySecurityPin(pin, phone){
     if( pin.length !== 4 ){ return false }
-
-    Api.verifyPin(pin, phone)
-      .then((res) => {
-        console.log(res);
-        this.dispatch(res);
-      })
-      .catch((err) => {
-        console.log('error',err);
-        this.dispatch(err);
-      })
+    var res = await Api.verifyPin(pin, phone)
+    try{
+      this.dispatch(await res.json())
+    }
+    catch(err){
+      console.log('error catched',err);
+      this.dispatch(err)
+    }
   },
 
-  requestPinLogin(phone){
+  async requestPinLogin(phone){
     console.log('Request Pin Login Action');
-
-    Api.requestPin(phone)
-      .then((res) => {
-        console.log(res);
-        this.dispatch(res);
-      })
-      .catch((err) => {
-        console.log('error');
-        this.dispatch(err);
-      })
-
+    var res = await Api.requestPin(phone)
+    try{
+      this.dispatch(await res.json())
+    }
+    catch(err){
+      console.log('error catched',err);
+      this.dispatch(err)
+    }
   },
 
   logOut(){
@@ -95,7 +90,22 @@ var UserActions = {
 
   updateUser(payload){
     var updates = payload;
-    console.log('update action',payload);
+    //
+    // async () => {
+    //   try{
+    //     var res = await Api.updateUser(payload)
+    //     this.dispatch({
+    //       response: res,
+    //       updates: updates
+    //     })
+    //   }
+    //   catch(err){
+    //     console.log('error catched',err);
+    //     this.dispatch({
+    //       err: err
+    //     })
+    //   }
+    // }
     Api.updateUser(payload)
       .then((res) => {
         console.log(res);
@@ -110,6 +120,8 @@ var UserActions = {
           err: err
         });
       })
+
+    console.log('update action',payload);
   },
 
   selectPartner(partner){

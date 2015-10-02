@@ -69,7 +69,6 @@ class UserStore {
   }
 
   handleVerifyPin(res){
-
     const user_info = {};
 
     user_info.id = res.response.user_id;
@@ -84,13 +83,12 @@ class UserStore {
       },
       checkmarkRequireButtonPress: false
 
-   })
+    })
 
 
-      setTimeout(()=>{
-        console.log('time')
-        this.setState({showCheckmark:false})
-      },1000);
+    setTimeout(()=>{
+      this.setState({showCheckmark:false})
+    },1000);
 
     CredentialsStore.saveCredentials(res.response);
   }
@@ -148,17 +146,19 @@ class UserStore {
         });
       }
   }
-  handleUpdateUserStub(attributes = []){
+  handleUpdateUserStub(attributes = {}){
+    console.log('handleUpdateUserStub',attributes,...this.state.userStub)
 
     var updatedUserStub = {...this.state.userStub, ...attributes};
+    this.setState({userStub: updatedUserStub});
 
-    if(updatedUserStub.gender && updatedUserStub.privacy && updatedUserStub.ready){
-      this.setState({user: {...this.state.user, ...updatedUserStub}});
+    if( attributes.ready){
+
       console.log(this.state.user,this.state.userStub);
 
-      UserActions.updateUser(this.state.user)
+      UserActions.updateUser(updatedUserStub)
+
     }else{
-      this.setState({userStub: updatedUserStub});
 
     }
 
