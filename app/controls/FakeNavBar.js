@@ -60,11 +60,14 @@ const NavigationBar = React.createClass({
      * If we have a `customPrev` component, then return
      * it's clone with additional attributes
      */
+     console.log(route)
     if (customPrev) {
       el = React.cloneElement(customPrev, { navigator, route });
       return (
         <TouchableOpacity underlayColor={'white'} onPress={() => onPrev( navigator,route )}>
-          <View style={styles.navBarLeftButton}>
+          <View style={[
+              (!route || route.title == 'potentials' ? styles.navBarLeftButton : styles.navBarLeftX)
+            ]}>
             {el}
           </View>
         </TouchableOpacity>
@@ -76,7 +79,7 @@ const NavigationBar = React.createClass({
      */
     if (hidePrev) {
       return (
-        <View style={styles.navBarLeftButton}></View>
+        <View style={styles.navBarLeftButton}/>
       )
     }
 
@@ -285,10 +288,13 @@ const styles = StyleSheet.create({
     bottom: 15,
   },
   navBarLeftButton: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  navBarLeftX: {
     paddingHorizontal: 25,
     paddingVertical: 20,
     opacity:0.5,
-
   },
   navBarRightButton: {
     paddingVertical: 10,
