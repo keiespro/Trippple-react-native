@@ -36,22 +36,23 @@ class CredentialsStore {
     this.setState({ user_id: creds.username+'' , api_key: creds.password+'' })
   }
 
-  saveCredentials(res){
-    console.log(res);
-
-    const { user_id, api_key } = res;
-    console.log('verify pin credentials store')
+  saveCredentials(response){
+    const { user_id, api_key } = response;
     Keychain.setInternetCredentials(KEYCHAIN_NAMESPACE, user_id+'' , api_key)
       .then((result)=> {
         console.log('Credentials saved successfully!',result)
-        this.setState({ user_id, api_key })
+      })
+      .catch((err)=> {
+        console.log('Credentials saving failed!',err)
       });
 
+    this.setState({ user_id, api_key })
 
   }
 
   handleVerifyPin(res){
-    console.log(res);
+    // doesnt work. setting is done manually thru public method saveCredentials
+    console.log(res,'handleVerifyPin');
 
     const { user_id, api_key } = res;
     console.log('verify pin credentials store')
