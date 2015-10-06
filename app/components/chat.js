@@ -384,9 +384,9 @@ class ChatInside extends Component{
   }
 
   renderNoMatches(){
-    var { match } = this.props,
-        theirIds = Object.keys(match.users).filter( (u)=> u != this.props.user.id),
-        them = theirIds.map((id)=> match.users[id]),
+    var matchInfo = this.props.matches,
+        theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id),
+        them = theirIds.map((id)=> matchInfo.users[id]),
         chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },'')
 
     return (
@@ -411,7 +411,7 @@ class ChatInside extends Component{
                 `${chatTitle}`
             }</Text>
             <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes'}} >
-              <TimeAgo time={match.created_timestamp*1000} />
+              <TimeAgo time={matchInfo.created_timestamp*1000} />
             </Text>
 
             <Image source={{uri:them[1].image_url}} style={{width:250,height:250,borderRadius:125,marginVertical:40 }}  defaultSource={require('image!placeholderUser')} />
@@ -427,9 +427,9 @@ class ChatInside extends Component{
 
   render(){
 
-    var { match } = this.props,
-        theirIds = Object.keys(match.users).filter( (u)=> u != this.props.user.id),
-        them = theirIds.map((id)=> match.users[id]),
+    var matchInfo = this.props.matches,
+        theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id),
+        them = theirIds.map((id)=> matchInfo.users[id]),
         chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },'')
 
     return (
