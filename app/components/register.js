@@ -45,7 +45,7 @@ class Register extends Component{
     this.state = {
       phone: '',
       isLoading: false,
-      keyboardSpace: 0
+      keyboardSpace: props.keyboardSpace || 240
     }
   }
 
@@ -73,15 +73,12 @@ class Register extends Component{
   }
 
   shouldHide(state) { return (state.phone.length != 10) }
-  shouldShow(state) { console.log(state.phone.length); return (state.phone.length == 10) }
+  shouldShow(state) { return (state.phone.length == 10) }
 
   handleInputChange =(newValues: any)=> {
     var {phone} = newValues;
-    console.log(phone)
-
     if(phone && phone.length < this.state.phone.length){
       newValues.phoneError = null
-      console.log('x',phone)
     }
     this.setState(newValues)
   }
@@ -116,7 +113,8 @@ class Register extends Component{
     return (
       <View style={[{flex: 1, height:DeviceHeight, paddingBottom: this.state.keyboardSpace}]}>
         <ScrollView
-          keyboardDismissMode={'none'}
+          key={'scr'}
+          keyboardDismissMode={'interactive'}
           contentContainerStyle={[styles.wrap, {left: 0}]}
           bounces={false}
           keyboardShouldPersistTaps={true}

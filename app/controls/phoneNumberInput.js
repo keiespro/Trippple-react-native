@@ -88,9 +88,9 @@ class PhoneNumberInput extends React.Component{
             placeholderTextColor="#fff"
             autoCorrect={false}
             autoFocus={true}
-            editable={false}
+            onFocus={()=>{/*this._textInput.setNativeProps({editable:false})*/}}
+            onBlur={()=>{/*this._textInput.setNativeProps({editable:true})*/}}
             onChangeText={this.onChangeText.bind(this)}
-            defaultValue={`(`}
             value={this.state.maskedPhone}
             placeholder={`PHONE NUMBER`}
           />

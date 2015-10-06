@@ -122,7 +122,6 @@ class Auth extends Component{
     this.props.navigator.pop();
   }
   toggleTab(newTab){
-    console.log(newTab)
     if(newTab == this.state.activeTab) return;
     this.setState({
       activeTab:newTab

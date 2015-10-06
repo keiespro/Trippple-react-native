@@ -45,7 +45,7 @@ class Login extends Component{
     this.state = {
       phone: '',
       isLoading: false,
-      keyboardSpace: 0
+      keyboardSpace: props.keyboardSpace || 240
     }
   }
 
@@ -116,10 +116,11 @@ class Login extends Component{
     return (
       <View style={[{flex: 1, height:DeviceHeight, paddingBottom: this.state.keyboardSpace}]}>
         <ScrollView
-          keyboardDismissMode={'none'}
+          keyboardDismissMode={'interactive'}
           contentContainerStyle={[styles.wrap, {left: 0}]}
           bounces={false}
-          keyboardShouldPersistTaps={true}
+          key={'scr'}
+          keyboardShouldPersistTaps={false}
           onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
           onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
 

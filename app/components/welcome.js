@@ -146,7 +146,7 @@ class Carousel extends Component{
           {
             paddingTop: 20,
             marginTop: i == 0 ? 80 : 0,
-            width: i == 0 ? 200 : 150
+            width: i == 0 ? DeviceWidth - 150 : DeviceWidth - 200
           }
         ]} source={slide.img} resizeMode={Image.resizeMode.contain}/>
         <View style={styles.textwrap}><Text style={[styles.textplain,
