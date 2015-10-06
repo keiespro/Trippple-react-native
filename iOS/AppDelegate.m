@@ -67,6 +67,8 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
   [FBSDKAppEvents activateApp];
+  [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
+
 }
 
 
