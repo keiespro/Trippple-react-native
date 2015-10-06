@@ -21,56 +21,6 @@ var DeviceWidth = require('Dimensions').get('window').width;
 
 var FB_PHOTO_WIDTH = 200;
 
-var Login = React.createClass({
-  getInitialState: function(){
-    return {
-      fbUser: null,
-    };
-  },
-
-  renderFBLoginButton: function(){
-    var _this = this;
-
-    return (
-      <View style={styles.loginContainer}>
-        <FBLogin style={{ marginBottom: 10, }}
-          {...this.props}
-
-        />
-      </View>
-    );
-  },
-
-  renderFBLogoutButton: function(){
-
-    return (
-      <View style={styles.loginContainer}>
-      {/*  <FBLoginMock />  */}
-      </View>
-    );
-  },
-  render() {
-    console.log(this.props)
-    var fbUser = this.state.fbUser;
-
-    console.log('[FB] render (fbUser):', fbUser);
-
-
-        // { fbUser && <ProfilePhoto fbUser={fbUser} /> }
-        // { fbUser && <ProfileInfo fbUser={fbUser} /> }
-
-    return (
-      <View>
-
-        <Text>{ !fbUser ? "Welcome to Trippple" : '' }</Text>
-
-
-        { fbUser && <PhotoAlbums {...this.props} fbUser={fbUser} /> }
-
-      </View>
-    );
-  }
-});
 
 var ProfilePhoto = React.createClass({
   propTypes: {
@@ -135,7 +85,6 @@ var ProfileInfo = React.createClass({
   },
 
   componentWillMount: function(){
-    var _this = this;
     var fbUser = this.props.fbUser;
     var api = `https://graph.facebook.com/v2.3/${fbUser.userId}?fields=name,email&access_token=${fbUser.token}`;
 
@@ -144,7 +93,7 @@ var ProfileInfo = React.createClass({
     fetch(api)
       .then((response) => response.json())
       .then((responseData) => {
-        _this.setState({
+        this.setState({
           info : {
             name : responseData.name,
             email: responseData.email,

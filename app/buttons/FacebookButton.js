@@ -11,6 +11,7 @@ import {
   NativeModules,
   requireNativeComponent,
   TouchableHighlight,
+  AlertIOS,
   TouchableOpacity
 } from 'react-native'
 
@@ -27,7 +28,6 @@ import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-
 
 @reactMixin.decorate(NativeMethodsMixin)
 class FacebookButton extends React.Component{
@@ -101,6 +101,14 @@ class FacebookButton extends React.Component{
         }
       });
     }else{
+      AlertIOS.alert(
+        'Log Out of Facebook',
+        'Are you sure you want to log out of Facebook?',
+        [
+          {text: 'Yes', onPress: () => {this.handleLogout()}},
+          {text: 'No', onPress: () => {return false}},
+        ]
+      )
       this.props._onPress && this.props._onPress(this.state.fbUser);
     }
 
@@ -111,7 +119,7 @@ class FacebookButton extends React.Component{
 
       if (!error) {
         this.setState({ fbUser : data.credentials});
-
+        UserActions.updateUserStub({...data.credentials});
         this.props.onLogin && this.props.onLogin(data);
       } else {
         this.setState({ fbUser : null });
