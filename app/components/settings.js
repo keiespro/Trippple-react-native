@@ -77,7 +77,7 @@ class ProfileField extends React.Component{
              <TextInput
             style={{height: 40, width:200, borderColor: 'gray', borderWidth: 1}}
             onChangeText={(text) => this.setState({text})} 
-            placeholder={field.label}
+            placeholder={field.placeholder || field.label}
             />
           );
 
@@ -142,6 +142,7 @@ class BasicSettings extends React.Component{
         </View>
 
         {['phone','email'].map((field) => {
+          //return <TouchableHighlight onPress={()} renderfield={<ProfileField navigator={this.props.navigator} field={settingOptions[field]} />}/>
           return <ProfileField navigator={this.props.navigator} field={settingOptions[field]} />
         })}
 
