@@ -232,12 +232,15 @@ class Contacts extends Component{
     });
 
   }
-  _continue(){
+  _continue(partnerSelection){
     this.closeModal();
-    UserActions.selectPartner(this.state.partnerSelection)
-   var lastindex = this.props.navigator.getCurrentRoutes().length;
-  console.log(lastindex);
-  var nextRoute = this.props.stack[lastindex];
+
+    var partner_phone = partnerSelection.number || this.state.partnerSelection.phoneNumbers[0].number;
+
+    UserActions.selectPartner({phone: partner_phone,name: partnerSelection.name})
+    var lastindex = this.props.navigator.getCurrentRoutes().length;
+
+    var nextRoute = this.props.stack[lastindex];
 
    nextRoute.passProps = {
         ...this.props,
@@ -362,7 +365,7 @@ onDidShow={()=>{
                     return (
                       <View style={{width:DeviceWidth-80}} >
 
-                     <TouchableHighlight underlayColor={colors.mediumPurple} style={styles.modalButton} onPress={this._continue.bind(this)}>
+                     <TouchableHighlight underlayColor={colors.mediumPurple} style={styles.modalButton} onPress={()=>{this._continue({number: number.number, name: this.state.partnerSelection.firstName })}}>
                       <View style={{height:60}} >
                         <Text style={[styles.modalButtonText,{marginTop:15}]}>{number.number}</Text>
                       </View>

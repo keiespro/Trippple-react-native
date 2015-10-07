@@ -62,17 +62,22 @@ class Cards extends Component{
 
   }
   componentDidUpdate(prevProps,prevState){
-    console.log(this.props.potentials[0])
+    console.log(prevProps.potentials[0],this.props.potentials[0])
+    // if(!this._panResponder){
+      this.initializePanResponder()
 
-    if(prevProps.potentials[0] && this.props.potentials[0] && this.props.potentials[0].id != prevProps.potentials[0].id){
-      this.state.panX.setValue(0)
+    // }
+    if(prevProps.potentials[0] && this.props.potentials[0] && this.props.potentials[0].user.id != prevProps.potentials[0].user.id){
+      // this.state.panX.setValue(0)
+      // this.initializePanResponder()
 
     }
+
   }
   componentWillReceiveProps(nProps){
-    if(this.props.potentials[0] || nProps.potentials[0].id && this.props.potentials[0].id != nProps.potentials[0].id){
-      this.initializePanResponder()
-    }
+    this.initializePanResponder()
+    this.state.panX.setValue(0)
+
   }
   getStyle = ()=> {
     console.log(this.props)
@@ -92,23 +97,25 @@ class Cards extends Component{
     return {
       deny:{
         backgroundColor: colors.mandy,
+        opacity: this.state.panX.interpolate({inputRange: [-DeviceWidth/2,-50,50], outputRange: [1,0,0]}),
         transform: [
           {
-            translateX: this.state.panX.interpolate({inputRange: [-250, 0, 250], outputRange: [DeviceWidth/2-80,-50,-50]})
+            translateX: this.state.panX.interpolate({inputRange: [(-DeviceWidth/2 - 50),50,50], outputRange: [DeviceWidth/2,-50,-50]})
           },
           {
-            scale: this.state.panX.interpolate({inputRange: [-250, 0, 250], outputRange: [1.3,0.2,0]})
+            scale: this.state.panX.interpolate({inputRange: [-DeviceWidth/2,-50,50], outputRange: [1.3,0,0]})
           }
         ]
       },
       approve:{
         backgroundColor: colors.sushi,
+        opacity: this.state.panX.interpolate({inputRange: [50,50, DeviceWidth/2], outputRange: [0,0,1.3]}),
         transform: [
           {
-            translateX: this.state.panX.interpolate({inputRange: [-250, 0, 250], outputRange: [DeviceWidth+80,DeviceWidth+80,DeviceWidth/2-80]})
+            translateX: this.state.panX.interpolate({inputRange: [50,50, DeviceWidth/2], outputRange: [DeviceWidth-50,DeviceWidth-50,DeviceWidth/2]})
           },
           {
-            scale: this.state.panX.interpolate({inputRange: [-250, 0, 250], outputRange: [0,0.2,1.3]})
+            scale: this.state.panX.interpolate({inputRange: [50,50, DeviceWidth/2], outputRange: [0,0,1.3]})
           }
         ]
       }
@@ -120,6 +127,7 @@ class Cards extends Component{
 
   }
   initializePanResponder(){
+    console.log('PAN RESPONDER')
     this._panResponder = PanResponder.create({
       onMoveShouldSetPanResponder: (e,gestureState) => !this.props.profileVisible && Math.abs(gestureState.dy) < 5,
       onStartShouldSetPanResponder: (e,gestureState) => false,
@@ -144,7 +152,7 @@ class Cards extends Component{
           if (Math.abs(value) > 400) {
             const likeStatus = value > 0 ? 'approve' : 'deny';
             const likeUserId = this.props.potentials[0].user.id;
-            MatchActions.sendLike(likeUserId,likeStatus)
+            MatchActions.sendLike(likeUserId,likeStatus,(this.props.rel == 'single' ? 'couple' : 'single'),this.props.rel)
             // this.state.panX.setValue(0)
             this.state.panX.removeListener(id);             // offscreen, so stop listening
           }
@@ -196,6 +204,8 @@ class Cards extends Component{
         inactiveCardOpacity = this.getInactiveOpacity();
           console.log(pan)
     var animIconStyle = this.getAnimatedIconStyle();
+
+    console.log('render potentials',potentials)
     return (
       <View style={{
         position:'absolute',
@@ -214,16 +224,16 @@ class Cards extends Component{
       { potentials && potentials.length >= 1 && potentials[1] &&
         <View
           style={[cardStyle.wrap]}
-          key={`${this.props.potentials[1].id}-wrapper`}
+          key={`${potentials[1].id}-wrapper`}
           ref={(card) => { this.nextcard = card }}
         >
         <InsideActiveCard
-          key={`${potentials[1].id}-activecard`}
+          key={`${potentials[1].id || potentials[1].user.id}-activecard`}
           user={user}
           inactiveOpacity={inactiveCardOpacity}
           ref={"_secondCard"}
           potential={potentials[1]}
-          rel={user.couple ? 'couple' : 'single'}
+          rel={user.relationship_status}
           isTopCard={false}
         />
       </View>
@@ -232,21 +242,21 @@ class Cards extends Component{
       { potentials && potentials.length >= 1  && potentials[0] &&
         <Animated.View
           style={[cardStyle.wrap,animStyle]}
-          key={`${this.props.potentials[0].id}-wrapper`}
+          key={`${potentials[0].id || potentials[0].user.id}-wrapper`}
           ref={(card) => { this.card = card }}
           {...this._panResponder.panHandlers}
         >
 
         <InsideActiveCard
           user={user}
-          key={`${potentials[0].id}-activecard`}
-          rel={user.couple ? 'couple' : 'single'}
+          key={`${potentials[0].id || potentials[0].user.id}-activecard`}
+          rel={user.relationship_status}
           isTopCard={true}
           profileVisible={this.props.profileVisible}
           hideProfile={this._hideProfile.bind(this)}
           inactiveOpacity={1}
           showProfile={this._showProfile.bind(this)}
-          potential={this.props.potentials[0]}
+          potential={potentials[0]}
         />
 
         </Animated.View>
@@ -300,20 +310,22 @@ class InsideActiveCard extends Component{
   render(){
 
     var { rel, potential, profileVisible, isTopCard } = this.props
-
+    console.log(rel)
     var matchName = `${potential.user.firstname.trim()} ${potential.user.age}`;
     var distance = potential.user.distance
     if(rel == 'single') {
       matchName += ` & ${potential.partner.firstname.trim()} ${potential.partner.age}`
       distance = Math.min(distance,potential.partner.distance)
     }
+    console.log(matchName)
+
     var city = potential.user.city_state
     if(!profileVisible){
     return (
-      <View ref={'cardinside'} key={`${potential.id}-inside`}
+      <View ref={'cardinside'} key={`${potential.id || potential.user.id}-inside`}
         style={ [styles.shadowCard,{
-          marginBottom: this.props.isTopCard ? 25 : 0,
-          height: this.props.isTopCard ? DeviceHeight-60 : DeviceHeight-83
+          marginBottom: isTopCard ? 25 : 0,
+          height: isTopCard ? DeviceHeight-60 : DeviceHeight-83
         } ]}>
 
           <View style={[styles.card,{
@@ -324,14 +336,14 @@ class InsideActiveCard extends Component{
               backgroundColor:colors.outerSpace,
 
             },{
-              marginBottom: this.props.isTopCard ? 25 : -25,
-              transform:[ {scale:this.props.isTopCard ? 1 : 0.95}]
-            }]} key={`${potential.id}-view`}>
+              marginBottom: isTopCard ? 25 : -25,
+              transform:[ {scale:isTopCard ? 1 : 0.95}]
+            }]} key={`${potential.id || potential.user.id}-view`}>
 
             <Animated.View style={{opacity:this.props.inactiveOpacity || 1}}>
                 <Swiper
                   automaticallyAdjustContentInsets={true}
-                  _key={`${potential.id}-swiper`}
+                  _key={`${potential.id || potential.user.id}-swiper`}
                   loop={true}
                   horizontal={false}
                   vertical={true}
@@ -343,13 +355,13 @@ class InsideActiveCard extends Component{
                   activeDot={ <View style={styles.activeDot} /> }>
                   <Image
                     source={{uri: potential.user.image_url}}
-                    key={`${potential.user.id}-cimg`}
+                    key={`${potential.user.id}-ccimg`}
                     style={[styles.imagebg,{ marginRight:-40,marginTop:-20,backgroundColor:colors.white }]}
                     resizeMode={Image.resizeMode.cover} />
-                  {rel == 'single' &&
+                  {rel == 'single' && potential.partner &&
                   <Image
                     source={{uri: potential.partner.image_url}}
-                    key={`${potential.partner.id}-cimg`}
+                    key={`${potential.partner.id}-ccimg`}
                     style={[styles.imagebg,{ marginRight:-40,marginTop:-20,backgroundColor:colors.white }]}
                     resizeMode={Image.resizeMode.cover} />
                   }
@@ -358,7 +370,7 @@ class InsideActiveCard extends Component{
               </Animated.View>
 
             <View
-              key={`${potential.id}-bottomview`}
+              key={`${potential.id || potential.user.id}-bottomview`}
               style={{
                 height:130,
                 width:DeviceWidth-40,
@@ -389,7 +401,7 @@ class InsideActiveCard extends Component{
                   </View>
                 </TouchableHighlight>
 
-              <View style={{
+            {rel == 'single' &&  <View style={{
                   height:60,
                   top:-30,
                   position:'absolute',
@@ -409,7 +421,7 @@ class InsideActiveCard extends Component{
                     style={styles.circleimage}
                     />
                   }
-              </View>
+              </View>}
 
             </View>
 
@@ -420,7 +432,7 @@ class InsideActiveCard extends Component{
   }else{
 // ProfileVisible
       return (
-        <View ref={'cardinside'} key={`${this.props.potential.id}-inside`} style={
+        <View ref={'cardinside'} key={`${this.props.potential.id || potential.user.id}-inside`} style={
 
           [styles.card,{
             transform:[ {scale: isTopCard ? 1 : 0.95}, ]
@@ -431,7 +443,7 @@ class InsideActiveCard extends Component{
               height:DeviceHeight,
               padding:0,
               position:'relative'
-             }]} key={`${this.props.potential.id}-view`}>
+             }]} key={`${this.props.potential.id || potential.user.id}-view`}>
 
 
           <ParallaxSwiper
@@ -448,7 +460,7 @@ class InsideActiveCard extends Component{
               }}
 
                 index={this.state.slideIndex || 0}
-                _key={`${this.props.potential.id}-swiper`}
+                _key={`${this.props.potential.id || potential.user.id}-swiper`}
                 loop={true}
                 horizontal={true}
                 style={{flexDirection:'row'}}
@@ -486,7 +498,7 @@ class InsideActiveCard extends Component{
               )}>
 
               <BlurView blurType={'light'}
-                key={`${this.props.potential.id}-bottomview`}
+                key={`${this.props.potential.id || potential.user.id}-bottomview`}
                 style={{
                   height:( 500),
                   backgroundColor:'transparent',
@@ -618,6 +630,7 @@ class CardStack extends Component{
 
         { potentials.length ?  <Cards
             user={user}
+            rel={user.relationship_status}
             potentials={potentials}
             profileVisible={this.state.profileVisible}
             toggleProfile={this.toggleProfile.bind(this)}

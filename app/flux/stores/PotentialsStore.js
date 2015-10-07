@@ -29,16 +29,31 @@ class PotentialsStore {
     console.log(data,'POTENTIALS');
 
     if(data.matches.length){
-      this.potentials = data.matches
+      var potentials;
+      if(!data.matches[0].user){
+        potentials = data.matches.map((pot,i)=>{
+          return {user: pot}
+        })
+      }else{
+        potentials = data.matches
+      }
+      this.potentials = potentials
     }
   }
 
-  handleSentLike(likedUserID){
-    const newPotentials = this.potentials.filter((el,i)=>{
-      return (el.id !== likedUserID) && (el.user.id !== likedUserID) && (el.partner.id !== likedUserID)
-    })
+  handleSentLike(payload){
+    console.log(payload)
+    if(payload.matches && payload.matches.length > 0){
+      this.handleGetPotentials(payload)
+    }else{
+      var likedUserID = payload
 
-   this.potentials =  this.potentials.length ? newPotentials : []
+      const newPotentials = this.potentials.filter((el,i)=>{
+        return el.user.id != likedUserID
+      })
+      console.log(newPotentials)
+      this.setState({potentials:newPotentials})
+    }
   }
 
   getAll(){

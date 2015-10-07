@@ -137,9 +137,9 @@ class api {
     return authenticatedRequest('potentials',coordinates)
   }
 
-  sendLike(like_user_id,like_status){
-    var like_user_type = 'couple';// fix
-    return authenticatedRequest('likes', { like_status, like_user_id, like_user_type })
+  sendLike(like_user_id,like_status,like_user_type,from_user_type){
+  // fix
+    return authenticatedRequest('likes', { like_status, like_user_id, like_user_type, from_user_type })
   }
 
   // uploadImage(image){

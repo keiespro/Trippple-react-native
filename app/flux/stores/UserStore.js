@@ -130,16 +130,16 @@ class UserStore {
 
   }
 
-  handleSelectPartner(d){
-    console.log(d);
-    if(d.err){
+  handleSelectPartner(payload){
+    console.log(payload);
+    if(payload.err){
       return false;
       }
-      if(d.showCheckmark){
+      if(payload.showCheckmark){
         this.handleShowCheckmark({
           copy:{
             title:'INVITATION SENT',
-            partnerName: 'Beth'
+            partnerName: payload.partnerName
 
           },
           button: true

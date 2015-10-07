@@ -125,17 +125,18 @@ var UserActions = {
   },
 
   selectPartner(partner){
-    const partner_phone = phoneParser(partner.phoneNumbers[0].number,'xxxxxxxxxx');
-    Api.joinCouple(partner)
+    const partner_phone = phoneParser(partner.phone,'xxxxxxxxxx');
+    Api.joinCouple(partner_phone)
       .then((res) => {
         console.log(res);
         this.dispatch({
           response: res,
-          showCheckmark:true
+          showCheckmark:true,
+          partnerName: partner.name
         });
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err,'selectPartner err');
         this.dispatch({
           err: err
         });

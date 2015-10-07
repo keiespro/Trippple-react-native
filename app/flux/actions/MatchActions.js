@@ -119,24 +119,24 @@ class MatchActions {
 
     }
 
-  sendLike(likedUserID,likeStatus){
+  sendLike(likedUserID,likeStatus,likeUserType,rel_status){
     console.log(likedUserID)
 
     this.dispatch(likedUserID);
 
-    Api.sendLike(likedUserID, likeStatus)
+    Api.sendLike(likedUserID, likeStatus,likeUserType,rel_status)
       .then((likeRes) => {
 
         navigator.geolocation.getCurrentPosition(
           (geo) => {
             var {latitude,longitude} = geo.coords;
 
-            Api.getPotentials( {latitude,longitude} )
-              .then((res) => {
-                this.dispatch(res.response);
-              })
-              .catch(err => console.log(err))
-
+            // Api.getPotentials( {latitude,longitude} )
+            //   .then((res) => {
+            //     this.dispatch(res.response);
+            //   })
+            //   .catch(err => console.log(err))
+            //
           },
           (error) => {
             // Open native settings
@@ -146,7 +146,6 @@ class MatchActions {
           {enableHighAccuracy: false, maximumAge: 1000}
         )
       })
-      .catch(err => console.log(err))
 
   }
 }
