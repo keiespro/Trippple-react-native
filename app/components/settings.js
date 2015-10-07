@@ -134,7 +134,7 @@ class BasicSettings extends React.Component{
         </View>
 
         {['firstname','birthday','gender'].map((field) => {
-          return <ProfileField navigator={this.props.navigator} settfield={settingOptions[field]} />
+          return <ProfileField navigator={this.props.navigator} field={settingOptions[field]} />
         })}
 
         <View style={styles.formHeader}>
@@ -142,7 +142,7 @@ class BasicSettings extends React.Component{
         </View>
 
         {['phone','email'].map((field) => {
-          return <ProfileField navigator={this.props.navigator} field={settingOptions[field]}/>
+          return <ProfileField navigator={this.props.navigator} field={settingOptions[field]} />
         })}
 
         <View style={styles.formHeader}>
