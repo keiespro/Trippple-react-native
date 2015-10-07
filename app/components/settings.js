@@ -11,6 +11,7 @@ import {
   TextInput,
   ScrollView,
   SwitchIOS,
+  PickerIOS,
   Image,
   AsyncStorage,
   Navigator
@@ -67,12 +68,51 @@ class ProfileField extends React.Component{
   }
 
   render(){
+    var field = this.props.field || {};
+    console.log('ProfileField',field);
+
+    // var displayField = (
+    //   <Text>empty</Text>
+    // );
+
+    // if (field.field_type == 'dropdown') {
+    //   displayField = (
+        // <PickerIOS
+        //   selectedValue={this.state.carMake}
+        //   onValueChange={(carMake) => this.setState({carMake, modelIndex: 0})}>
+        //   {Object.keys(CAR_MAKES_AND_MODELS).map((carMake) => (
+        //     <PickerItemIOS
+        //       key={carMake}
+        //       value={carMake}
+        //       label={CAR_MAKES_AND_MODELS[carMake].name}
+        //       />
+        //     )
+        //   )}
+        // </PickerIOS>
+    //   )
+    // }
+
+      var displayField = (field) => {
+        switch (field.field_type) {
+          case "input":
+            return (
+               <TextInput
+              style={{height: 40, width:100, borderColor: 'gray', borderWidth: 1}}
+              onChangeText={(text) => this.setState({text})} 
+              placeholder={field.label}
+              />
+            );
+          default:
+            return (
+               <Text>empty</Text>
+            );
+        }
+      }
+
     return (
-      <TouchableHighlight style={{marginTop:10}} onPress={this._editField}>
         <View style={styles.formRow}>
-          <Text style={styles.textfield}>{this.props.label}</Text>
+          { displayField(field) }
         </View>
-      </TouchableHighlight>
     )
   }
 }
@@ -93,6 +133,7 @@ class BasicSettings extends React.Component{
         </View>
 
         {['firstname','birthday','gender'].map((field) => {
+          console.log('settingOptions -> ',field, settingOptions[field], settingOptions);
           return <ProfileField navigator={this.props.navigator} field={settingOptions[field]} val={u[field]} />
         })}
 
@@ -169,7 +210,7 @@ class SettingsSettings extends React.Component{
       <View style={styles.inner}>
         <TouchableHighlight onPress={this._editField}>
           <View style={styles.formRow}>
-            <Text style={styles.textfield}>{this.props.user.gender}</Text>
+            <Text style={styles.textfield}>{this.props.user.gender}fpfoe</Text>
           </View>
         </TouchableHighlight>
       </View>
@@ -186,7 +227,8 @@ class SettingsInside extends React.Component{
 
     this.state = {
       index: 0,
-      isModalOpen: true
+      isModalOpen: true,
+      settingOptions: {},
     }
   }
   getScrollResponder() {
@@ -195,13 +237,13 @@ class SettingsInside extends React.Component{
 
   componentDidMount() {
     Api.getProfileSettingsOptions().then((options) => {
-      console.log('SettingsInside -> componentDidMount -> options',options);
-
-      this.setState({
-        settingOptions: options && options.settings || {}
-      });
-
-      console.log('SettingsInside -> componentDidMount -> state',this.state);
+      if (options.settings) {
+        this.setState({
+          settingOptions: options.settings
+        });
+      } else {
+        console.warn('SettingsInside -> componentDidMount -> state',this.state.settingOptions);
+      }
     });
   }
 
@@ -238,12 +280,14 @@ class SettingsInside extends React.Component{
     this.setState({fbUser});
     return (
       <View style={{height:800,backgroundColor:colors.outerSpace}}>
-        <CurrentPage user={this.props.user} navigator={this.props.navigator} settingOptions={this.state.settingOptions} />
+        <CurrentPage user={this.props.user} navigator={this.props.navigator} />
       </View>
     )
   }
 
   render(){
+
+    console.log('this.state',this.state);
 
     return (
       <View style={{flex:1}}>
@@ -278,7 +322,7 @@ class SettingsInside extends React.Component{
 
       <ScrollableTabView renderTabBar={() => <CustomTabBar  />}>
         <View style={{height:800,backgroundColor:colors.outerSpace,width:DeviceWidth}}  tabLabel={'BASIC'}>
-          <BasicSettings  user={this.props.user} navigator={this.props.navigator}/>
+          <BasicSettings settingOptions={this.state.settingOptions} user={this.props.user} navigator={this.props.navigator}/>
         </View>
         <View style={{height:800,backgroundColor:colors.outerSpace,width:DeviceWidth}} tabLabel={'PREFERENCES'}>
           <PreferencesSettings  user={this.props.user} navigator={this.props.navigator} />
@@ -417,7 +461,7 @@ var styles = StyleSheet.create({
  formRow: {
    alignItems: 'center',
    flexDirection: 'row',
-   justifyContent: 'flex-end',
+
    alignSelf: 'stretch',
    paddingTop:0,
    height:50,

@@ -159,8 +159,8 @@ class api {
     return authenticatedRequest('join_couple', { partner_phone })
   }
 
-  getProfileSettingsOptions(){
-    return publicRequest('get_client_user_profile_options');
+  async getProfileSettingsOptions(){
+    return await publicRequest('get_client_user_profile_options').then((response) => response.json())
   }
 
 }
