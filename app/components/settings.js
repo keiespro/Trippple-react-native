@@ -40,7 +40,8 @@ import colors from '../utils/colors'
 import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
 import EditPage from './EditPage'
 import CloseButton from './CloseButton'
-import {BlurView} from 'react-native-blur'
+import Api from '../utils/api'
+// import {BlurView} from 'react-native-blur';
 
 var bodyTypes = [
   'Athletic',
@@ -69,7 +70,7 @@ class ProfileField extends React.Component{
     return (
       <TouchableHighlight style={{marginTop:10}} onPress={this._editField}>
         <View style={styles.formRow}>
-          <Text style={styles.textfield}>{this.props.val}</Text>
+          <Text style={styles.textfield}>{this.props.label}</Text>
         </View>
       </TouchableHighlight>
     )
@@ -82,31 +83,34 @@ class BasicSettings extends React.Component{
   }
   render(){
     let u = this.props.user;
+    let settingOptions = this.props.settingOptions || {};
+    console.log('settingOptions',settingOptions);
     return (
       <View style={styles.inner}>
 
-
         <View style={styles.formHeader}>
-          <Text style={styles.formHeaderText}>
-            Personal Info
-          </Text>
+          <Text style={styles.formHeaderText}>Personal Info</Text>
         </View>
 
-        <ProfileField navigator={this.props.navigator} field={'firstname'} val={u.firstname} />
-        <ProfileField navigator={this.props.navigator} field={'birthday'} val={u.bday_month} />
-        <ProfileField navigator={this.props.navigator} field={'gender'} val={u.gender} />
+        {['firstname','birthday','gender'].map((field) => {
+          return <ProfileField navigator={this.props.navigator} field={settingOptions[field]} val={u[field]} />
+        })}
 
         <View style={styles.formHeader}>
           <Text style={styles.formHeaderText}>Contact Info</Text>
         </View>
-        <ProfileField navigator={this.props.navigator} field={'phone'} val={u.phone} />
-        <ProfileField navigator={this.props.navigator} field={'email'} val={u.email || 'ADD EMAIL'} />
+
+        {['phone','email'].map((field) => {
+          return <ProfileField navigator={this.props.navigator} field={settingOptions[field]} val={u[field]} />
+        })}
 
         <View style={styles.formHeader}>
           <Text style={styles.formHeaderText}>Details</Text>
         </View>
-        <ProfileField navigator={this.props.navigator} field={'height'} val={u.height} />
-        <ProfileField navigator={this.props.navigator} field={'body_type'} val={u.body_type} />
+
+        {['height','body_type'].map((field) => {
+          return <ProfileField navigator={this.props.navigator} field={settingOptions[field]} val={u[field]} />
+        })}
 
         <View style={styles.formHeader}>
           <Text style={styles.formHeaderText}>Get more matches</Text>
@@ -179,6 +183,7 @@ const SettingsPageAtIndex = [ BasicSettings, PreferencesSettings, SettingsSettin
 class SettingsInside extends React.Component{
   constructor(props){
     super(props)
+
     this.state = {
       index: 0,
       isModalOpen: true
@@ -186,6 +191,18 @@ class SettingsInside extends React.Component{
   }
   getScrollResponder() {
     return this._scrollView.getScrollResponder();
+  }
+
+  componentDidMount() {
+    Api.getProfileSettingsOptions().then((options) => {
+      console.log('SettingsInside -> componentDidMount -> options',options);
+
+      this.setState({
+        settingOptions: options && options.settings || {}
+      });
+
+      console.log('SettingsInside -> componentDidMount -> state',this.state);
+    });
   }
 
   setNativeProps(props) {
@@ -219,8 +236,13 @@ class SettingsInside extends React.Component{
   onPressFacebook(fbUser){
     console.log('settings fb button',fbUser,this.state.fbUser)
     this.setState({fbUser});
-
+    return (
+      <View style={{height:800,backgroundColor:colors.outerSpace}}>
+        <CurrentPage user={this.props.user} navigator={this.props.navigator} settingOptions={this.state.settingOptions} />
+      </View>
+    )
   }
+
   render(){
 
     return (

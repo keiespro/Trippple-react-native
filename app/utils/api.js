@@ -6,7 +6,7 @@ const CredentialsStore = require('../flux/stores/CredentialsStore')
 const UploadFile = Promise.promisify(FileTransfer.upload)
 
 
-const SERVER_URL = 'http://x.local:9999/user'
+const SERVER_URL = 'http://dev-api2.trippple.co/user'
 
 async function publicRequest(endpoint, payload){
   console.log(payload)
@@ -158,5 +158,10 @@ class api {
   joinCouple(partner_phone){
     return authenticatedRequest('join_couple', { partner_phone })
   }
+
+  getProfileSettingsOptions(){
+    return publicRequest('get_client_user_profile_options');
+  }
+
 }
 module.exports = new api()
