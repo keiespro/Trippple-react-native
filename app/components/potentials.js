@@ -23,7 +23,7 @@ import Mixpanel from '../utils/mixpanel';
 import AltContainer from 'alt/AltNativeContainer';
 import TimerMixin from 'react-timer-mixin';
 import colors from '../utils/colors';
-import Swiper from 'react-native-swiper';
+import Swiper from '../controls/swiper';
 import FadeInContainer from './FadeInContainer'
 import reactMixin from 'react-mixin';
 import Dimensions from 'Dimensions';
@@ -38,7 +38,7 @@ const THROW_OUT_THRESHOLD = 225;
 
 
 @reactMixin.decorate(TimerMixin)
-class ActiveCard extends Component{
+class Cards extends Component{
 
   static displayName = 'ActiveCard'
 
@@ -47,25 +47,77 @@ class ActiveCard extends Component{
 
     this.state = {
       panX: new Animated.Value(0),
-      panY: new Animated.Value(0),
       waitingForDoubleTap: false
     }
   }
   componentWillMount(){
     this._panResponder = {}
 
-    this.props.isTopCard && this.initializePanResponder()
   }
   componentDidMount(){
     this.state.panX.setValue(0);     // Start 0
-    this.state.panY.setValue(0);     // Start 0
+    // this.state.inactiveCardOpacity.setValue(0.5);     // Start 0
+
     Mixpanel.track('On - Potentials Screen');
 
   }
   componentDidUpdate(prevProps,prevState){
-    if(this.props.isTopCard && !prevProps.isTopCard){
+    console.log(this.props.potentials[0])
+
+    if(prevProps.potentials[0] && this.props.potentials[0] && this.props.potentials[0].id != prevProps.potentials[0].id){
+      this.state.panX.setValue(0)
+
+    }
+  }
+  componentWillReceiveProps(nProps){
+    if(this.props.potentials[0] || nProps.potentials[0].id && this.props.potentials[0].id != nProps.potentials[0].id){
       this.initializePanResponder()
     }
+  }
+  getStyle = ()=> {
+    console.log(this.props)
+
+    return {
+      transform: [
+        {
+          translateX: this.state.panX
+        },
+        {
+          rotate: this.state.panX.interpolate({inputRange: [-200, 0, 200], outputRange: ['-15deg', '0deg', '15deg']})
+        }
+      ]
+    }
+  }
+  getAnimatedIconStyle =() =>{
+    return {
+      deny:{
+        backgroundColor: colors.mandy,
+        transform: [
+          {
+            translateX: this.state.panX.interpolate({inputRange: [-250, 0, 250], outputRange: [DeviceWidth/2-80,-50,-50]})
+          },
+          {
+            scale: this.state.panX.interpolate({inputRange: [-250, 0, 250], outputRange: [1.3,0.2,0]})
+          }
+        ]
+      },
+      approve:{
+        backgroundColor: colors.sushi,
+        transform: [
+          {
+            translateX: this.state.panX.interpolate({inputRange: [-250, 0, 250], outputRange: [DeviceWidth+80,DeviceWidth+80,DeviceWidth/2-80]})
+          },
+          {
+            scale: this.state.panX.interpolate({inputRange: [-250, 0, 250], outputRange: [0,0.2,1.3]})
+          }
+        ]
+      }
+    }
+  }
+  getInactiveOpacity = ()=>{
+    console.log(this.state.panX)
+    return this.state.panX ? this.state.panX.interpolate({inputRange: [-300, -150, 0, 150, 300], outputRange: [0.9,0.2,0.2,0.2,0.9]}) : 0.5
+
   }
   initializePanResponder(){
     this._panResponder = PanResponder.create({
@@ -74,6 +126,7 @@ class ActiveCard extends Component{
       // onPanResponderGrant: () => {      },
       onPanResponderMove: Animated.event( [null, {dx: this.state.panX}] ),
       onPanResponderRelease: (e, gestureState) => {
+        console.log(gestureState)
         var toValue = 0;
         if (gestureState.dx > 200 || gestureState.dx > 150 && Math.abs(gestureState.vx) > 3 ) {
           toValue = 500;
@@ -90,8 +143,9 @@ class ActiveCard extends Component{
         var id = this.state.panX.addListener(({value}) => { // listen until offscreen
           if (Math.abs(value) > 400) {
             const likeStatus = value > 0 ? 'approve' : 'deny';
-            const likeUserId = this.props.potential.user.id;
+            const likeUserId = this.props.potentials[0].user.id;
             MatchActions.sendLike(likeUserId,likeStatus)
+            // this.state.panX.setValue(0)
             this.state.panX.removeListener(id);             // offscreen, so stop listening
           }
         })
@@ -123,13 +177,10 @@ class ActiveCard extends Component{
   }
 
   render() {
-
+    var {potentials,user} = this.props
     const cardStyle = StyleSheet.create({
         wrap:{
-          transform: [
-            {translateX: this.state.panX },
-            {translateY: this.state.panY },
-          ],
+
           alignSelf:'center',
           width:(DeviceWidth - (this.props.profileVisible ? 0 : 40)),
           height:(DeviceHeight - (this.props.profileVisible ? 0 : 85)),
@@ -139,26 +190,79 @@ class ActiveCard extends Component{
           flex:1,
           position:'absolute',
       }
-    })
-
+    });
+    var pan = this.state.panX || 0,
+        animStyle = this.getStyle(),
+        inactiveCardOpacity = this.getInactiveOpacity();
+          console.log(pan)
+    var animIconStyle = this.getAnimatedIconStyle();
     return (
+      <View style={{
+        position:'absolute',
+        width:DeviceWidth,
+        height:DeviceHeight,
+        top:0,
+        left:0,
+        right:0,
+        bottom:0
+      }}>
 
-      <Animated.View style={cardStyle.wrap}
-        key={`${this.props.potential.id}-wrapper`}
-        ref={(card) => { this.card = card }}
-        {...this._panResponder.panHandlers}
+      { potentials && potentials.length >= 1 && potentials[2] &&
+        <DummyCard />
+      }
+
+      { potentials && potentials.length >= 1 && potentials[1] &&
+        <View
+          style={[cardStyle.wrap]}
+          key={`${this.props.potentials[1].id}-wrapper`}
+          ref={(card) => { this.nextcard = card }}
+        >
+        <InsideActiveCard
+          key={`${potentials[1].id}-activecard`}
+          user={user}
+          inactiveOpacity={inactiveCardOpacity}
+          ref={"_secondCard"}
+          potential={potentials[1]}
+          rel={user.couple ? 'couple' : 'single'}
+          isTopCard={false}
+        />
+      </View>
+
+      }
+      { potentials && potentials.length >= 1  && potentials[0] &&
+        <Animated.View
+          style={[cardStyle.wrap,animStyle]}
+          key={`${this.props.potentials[0].id}-wrapper`}
+          ref={(card) => { this.card = card }}
+          {...this._panResponder.panHandlers}
         >
 
         <InsideActiveCard
-          rel={this.props.user.couple ? 'couple' : 'single'}
-          isTopCard={this.props.isTopCard}
+          user={user}
+          key={`${potentials[0].id}-activecard`}
+          rel={user.couple ? 'couple' : 'single'}
+          isTopCard={true}
           profileVisible={this.props.profileVisible}
           hideProfile={this._hideProfile.bind(this)}
+          inactiveOpacity={1}
           showProfile={this._showProfile.bind(this)}
-          potential={this.props.potential}
+          potential={this.props.potentials[0]}
         />
 
-      </Animated.View>
+        </Animated.View>
+      }
+      { potentials && potentials.length >= 1  && potentials[0] &&
+          <Animated.View style={[styles.animatedIcon,animIconStyle.deny]}>
+            <Image source={require('image!close')} style={{width:20,height:20}}/>
+          </Animated.View>
+      }
+      { potentials && potentials.length >= 1  && potentials[0] &&
+          <Animated.View style={[styles.animatedIcon,animIconStyle.approve]}>
+            <Image source={require('image!smallCheckMark')} style={{width:25,height:18}}/>
+          </Animated.View>
+      }
+    </View>
+
     );
 
   }
@@ -185,75 +289,102 @@ class InsideActiveCard extends Component{
   componentDidUpdate(prevProps,prevState) {
     //
   }
+
   componentWillUpdate(nextProps){
     if(nextProps.isTopCard && !this.props.isTopCard){
-      LayoutAnimation.spring();
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     }else if(nextProps.profileVisible !== this.props.profileVisible){
-      LayoutAnimation.spring()
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
     }
   }
   render(){
 
     var { rel, potential, profileVisible, isTopCard } = this.props
-    var matchName = `${this.props.potential.user.firstname.trim()}`;
-    if(rel == 'single') matchName += ` and ${this.props.potential.partner.firstname.trim()}`
 
+    var matchName = `${potential.user.firstname.trim()} ${potential.user.age}`;
+    var distance = potential.user.distance
+    if(rel == 'single') {
+      matchName += ` & ${potential.partner.firstname.trim()} ${potential.partner.age}`
+      distance = Math.min(distance,potential.partner.distance)
+    }
+    var city = potential.user.city_state
     if(!profileVisible){
     return (
-
       <View ref={'cardinside'} key={`${potential.id}-inside`}
-        style={ [styles.card,{
-          marginBottom: this.props.isTopCard ? 0 : -25,
-          transform:[ {scale:this.props.isTopCard ? 1 : 0.95}, ]
-        },styles.shadowCard]}>
+        style={ [styles.shadowCard,{
+          marginBottom: this.props.isTopCard ? 25 : 0,
+          height: this.props.isTopCard ? DeviceHeight-60 : DeviceHeight-83
+        } ]}>
 
-          <View style={[{
+          <View style={[styles.card,{
               margin:0,
               overflow: 'hidden',
               padding:0,
-              position:'relative'
-             }]} key={`${potential.id}-view`}>
+              position:'relative',
+              backgroundColor:colors.outerSpace,
 
+            },{
+              marginBottom: this.props.isTopCard ? 25 : -25,
+              transform:[ {scale:this.props.isTopCard ? 1 : 0.95}]
+            }]} key={`${potential.id}-view`}>
+
+            <Animated.View style={{opacity:this.props.inactiveOpacity || 1}}>
                 <Swiper
                   automaticallyAdjustContentInsets={true}
                   _key={`${potential.id}-swiper`}
-                  loop={true} horizontal={false} vertical={true} autoplay={false}
-                  showsPagination={true} showsButtons={false}
+                  loop={true}
+                  horizontal={false}
+                  vertical={true}
+                  autoplay={false}
+                  showsPagination={true}
+                  showsButtons={false}
+                  paginationStyle={{position:'absolute',right:25,top:25,height:100}}
                   dot={ <View style={styles.dot} />}
                   activeDot={ <View style={styles.activeDot} /> }>
-                  <Image source={{uri: this.props.potential.user.image_url}}
-                    key={`${this.props.potential.user.id}-cimg`}
-                    style={[styles.imagebg,{ marginRight:-40,marginTop:-20 }]}
+                  <Image
+                    source={{uri: potential.user.image_url}}
+                    key={`${potential.user.id}-cimg`}
+                    style={[styles.imagebg,{ marginRight:-40,marginTop:-20,backgroundColor:colors.white }]}
                     resizeMode={Image.resizeMode.cover} />
-                  {this.props.rel == 'single' &&
-                  <Image source={{uri: this.props.potential.partner.image_url}}
-                    key={`${this.props.potential.partner.id}-cimg`}
-                    style={[styles.imagebg,{ marginRight:-40,marginTop:-20 }]}
+                  {rel == 'single' &&
+                  <Image
+                    source={{uri: potential.partner.image_url}}
+                    key={`${potential.partner.id}-cimg`}
+                    style={[styles.imagebg,{ marginRight:-40,marginTop:-20,backgroundColor:colors.white }]}
                     resizeMode={Image.resizeMode.cover} />
                   }
                 </Swiper>
 
+              </Animated.View>
 
-            <BlurView blurType={'dark'}
-              key={`${this.props.potential.id}-bottomview`}
+            <View
+              key={`${potential.id}-bottomview`}
               style={{
-                height:120,
+                height:130,
                 width:DeviceWidth-40,
-                backgroundColor: 'transparent',
+                backgroundColor: colors.white,
                 flexDirection:'row',
                 flex:1,
                 alignSelf:'stretch',
                 alignItems:'stretch',
                 position:'absolute',
-                top:DeviceHeight-120,
-                left:20,
+                top:isTopCard ? DeviceHeight-190 : DeviceHeight-180,
+                left:0,
                 right:0,
               }}
               >
-               <TouchableHighlight underlayColor={colors.warmGrey} onPress={()=>{ this.props.showProfile()}}>
+               <TouchableHighlight underlayColor={colors.warmGrey} onPress={()=>{ this.props.showProfile()}}
+                 style={{
+                   paddingTop:30,
+                   paddingBottom:15,
+                   height:130,
+                 }}>
                   <View>
                     <Text style={[styles.cardBottomText,{width:DeviceWidth-40}]}>{
                       {matchName}
+                    }</Text>
+                  <Text style={[styles.cardBottomOtherText,{width:DeviceWidth-40}]}>{
+                      `${city} | ${distance} ${distance == 1 ? 'mile' : 'miles'} away`
                     }</Text>
                   </View>
                 </TouchableHighlight>
@@ -267,27 +398,23 @@ class InsideActiveCard extends Component{
                   backgroundColor:'transparent',
                   flexDirection:'row'}}>
                   <Image
-                    source={{uri: this.props.potential.user.image_url}}
-                    key={this.props.potential.user.id + 'img'}
+                    source={{uri: potential.user.image_url}}
+                    key={potential.user.id + 'img'}
                     style={[styles.circleimage, {marginRight:5}]}
                   />
-                  {this.props.rel == 'single' &&
+                  {rel == 'single' &&
                   <Image
-                    source={{uri: this.props.potential.partner.image_url}}
-                    key={this.props.potential.partner.id + 'img'}
+                    source={{uri: potential.partner.image_url}}
+                    key={potential.partner.id + 'img'}
                     style={styles.circleimage}
                     />
                   }
               </View>
 
+            </View>
 
-
-            </BlurView>
           </View>
-
-
-
-      </View>
+        </View>
 
     )
   }else{
@@ -408,16 +535,16 @@ class InsideActiveCard extends Component{
               <View style={styles.bottomButtons}>
                 <TouchableHighlight
                   style={[styles.topButton, {backgroundColor:colors.shuttleGray }]}
-                  onPress={()=>{console.log("REJECT")}}
+                  onPress={()=>{this.props.hideProfile(); console.log('REJECT')}}
                   underlayColor={colors.white}>
                   <Image source={require('image!close')} />
                 </TouchableHighlight>
 
                 <TouchableHighlight
                 style={[styles.topButton, {backgroundColor:colors.sushi }]}
-                onPress={()=>{console.log("APPROVE")}}
+                onPress={()=>{this.props.hideProfile(); console.log('APPROVE')}}
                   underlayColor={colors.white}>
-                  <Image source={require('image!close')} />
+                  <Image source={require('image!smallCheckMark')} />
                   </TouchableHighlight>
               </View>
          </ParallaxSwiper>
@@ -455,7 +582,7 @@ class DummyCard extends Component{
             bottom:0,
             position:'absolute',
             width: DeviceWidth - 80,
-            backgroundColor:'transparent',
+            backgroundColor:colors.white,
             flex:1,
             alignSelf:'stretch'
           } }/>
@@ -474,34 +601,28 @@ class CardStack extends Component{
   toggleProfile(){
     this.setState({profileVisible:!this.state.profileVisible})
   }
+  updateSecondCard(style){
+    console.log(this.refs,style)
+    console.log(this.refs._secondCard)
+    // this.refs._secondCard && this.refs._secondCard.setNativeProps(style)
+    // this.setState({secondStyles:style})
+  }
   render(){
     var { potentials, user } = this.props
     var NavBar = React.addons.cloneWithProps(this.props.pRoute.navigationBar, { navigator: this.props.navigator, route: this.props.route})
 
       return (
-        <View style={styles.cardStackContainer}>
+        <View style={{backgroundColor:colors.outerSpace}}>
 
-        { potentials && potentials.length >= 1 && potentials[2] &&
-          <DummyCard />
-        }
+        <View style={[styles.cardStackContainer,{backgroundColor:'transparent'}]}>
 
-        { potentials && potentials.length >= 1 && potentials[1] &&
-          <ActiveCard
-            key={`${potentials[1].id}-activecard`}
+        { potentials.length ?  <Cards
             user={user}
-            potential={potentials[1]}
-            isTopCard={false}/>
-        }
+            potentials={potentials}
+            profileVisible={this.state.profileVisible}
+            toggleProfile={this.toggleProfile.bind(this)}
+          /> : null}
 
-        { potentials && potentials.length >= 1  && potentials[0] &&
-          <ActiveCard
-          key={`${potentials[0].id}-activecard`}
-          user={user}
-          potential={potentials[0]}
-          profileVisible={this.state.profileVisible}
-          toggleProfile={this.toggleProfile.bind(this)}
-          isTopCard={true}/>
-        }
 
     { potentials.length < 1 &&
       <FadeInContainer delayAmount={10000} duration={300}>
@@ -519,6 +640,8 @@ class CardStack extends Component{
        {!this.state.profileVisible && NavBar}
 
      </View>
+    </View>
+
     )
   }
 }
@@ -538,7 +661,7 @@ class Potentials extends Component{
                 value: PotentialsStore.getAll()
               }
             }}}>
-        <CardStack user={this.props.user} navigator={this.props.navigator} pRoute={this.props.pRoute}/>
+          <CardStack user={this.props.user} navigator={this.props.navigator} pRoute={this.props.pRoute}/>
       </AltContainer>
     )
   }
@@ -549,7 +672,7 @@ export default Potentials;
 
 var styles = StyleSheet.create({
 
-shadowStyles:{
+shadowCard:{
   shadowColor:colors.darkShadow,
   shadowRadius:5,
   shadowOpacity:50,
@@ -558,7 +681,24 @@ shadowStyles:{
     height: 5
   }
 },
-
+animatedIcon:{
+  height:60,
+  width:60,
+  borderRadius:30,
+  borderColor:colors.white,
+  borderWidth:4,
+  alignItems:'center',
+  justifyContent:'center',
+  top:DeviceHeight/2 - 30,
+  position:'absolute',
+  shadowColor:colors.darkShadow,
+  shadowRadius:5,
+  shadowOpacity:50,
+  shadowOffset: {
+    width:0,
+    height: 5
+  }
+},
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -580,8 +720,8 @@ shadowStyles:{
     bottom:0
   },
   basicCard:{
-    borderRadius:3,
-    backgroundColor: colors.dark,
+    borderRadius:8,
+    backgroundColor: 'transparent',
       borderWidth: 1,
       borderColor:'rgba(0,0,0,.2)',
       overflow:'hidden',
@@ -610,8 +750,8 @@ shadowStyles:{
       justifyContent: 'center'
     },
   card: {
-    borderRadius:3,
-    backgroundColor: colors.dark,
+    borderRadius:8,
+    backgroundColor: 'transparent',
     alignSelf: 'stretch',
     flex: 1,
     borderWidth: 0,
@@ -623,12 +763,22 @@ shadowStyles:{
   },
 
   closeProfile:{
-  position:'absolute',
-  top:10,left:5,width: 50,
-  backgroundColor:'transparent',
-  height: 50,alignSelf:'center',
-  overflow:'hidden',
-  justifyContent:'center',alignItems:'center',padding:20,borderRadius:25
+    position:'absolute',
+    top:10,
+    left:5,
+    width: 50,
+
+    backgroundColor:'transparent',
+
+    height: 50,
+    alignSelf:'center',
+
+    overflow:'hidden',
+
+    justifyContent:'center',
+    alignItems:'center',
+    padding:20,
+    borderRadius:25
   },
   dashedBorderImage:{
     marginHorizontal:0,
@@ -655,9 +805,9 @@ shadowStyles:{
 
   dot: {
     backgroundColor: 'transparent',
-    width: 20,
-    height: 20,
-    borderRadius: 10,
+    width: 15,
+    height: 15,
+    borderRadius: 7.5,
     marginLeft: 6,
     marginRight: 6,
     marginTop: 6,
@@ -667,10 +817,10 @@ shadowStyles:{
     borderColor: colors.white
   },
   activeDot: {
-    backgroundColor: 'transparent',
-    width: 20,
-    height: 20,
-    borderRadius: 10,
+    backgroundColor: colors.mediumPurple20,
+    width: 15,
+    height: 15,
+    borderRadius: 7.5,
     marginLeft: 6,
     marginRight: 6,
     marginTop: 6,
@@ -699,16 +849,29 @@ shadowStyles:{
     borderWidth: 3
   },
   cardStackContainer:{
-
-  width:DeviceWidth,height:DeviceHeight,flex:1,alignItems:'center',justifyContent:'center',alignSelf:'stretch',backgroundColor:colors.outerSpace
+    width:DeviceWidth,
+    height:DeviceHeight,
+    flex:1,
+    alignItems:'center',
+    justifyContent:'center',
+    alignSelf:'stretch',
+    backgroundColor:'transparent'
   },
 
   cardBottomText:{
-    marginLeft:15,
-    fontFamily:'Montserrat',
+    marginLeft:20,
+    fontFamily:'Montserrat-Bold',
     color: colors.shuttleGray,
-    fontSize:22,
-    marginTop:10
+    fontSize:18,
+    marginTop:0
+  },
+  cardBottomOtherText:{
+    marginLeft:20,
+    fontFamily:'omnes',
+    color: colors.rollingStone,
+    fontSize:16,
+    marginTop:0,
+    opacity:0.5
   }
 });
 
