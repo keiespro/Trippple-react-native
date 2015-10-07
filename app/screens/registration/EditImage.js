@@ -63,7 +63,7 @@ class EditImage extends Component{
 
   accept(croppedImageURI){
     console.log(this.props.image.uri,'profile')
-    UserActions.uploadImage(this.props.image.uri,'profile')
+    // UserActions.uploadImage(this.props.image.uri,'profile')
 
     console.log(croppedImageURI);
 

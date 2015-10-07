@@ -34,17 +34,28 @@ async function authenticatedRequest(endpoint: '', payload: {}){
   return await req.json()
 }
 
-function authenticatedFileUpload(endpoint, image, image_type){
+function authenticatedFileUpload(endpoint, image, image_type, cropData){
   const credentials = CredentialsStore.getState();
 
   const url = `${SERVER_URL}/${endpoint}`
+  console.log(cropData)
+  var cleanCropData = {}
+  if(cropData){
+    cleanCropData = {
+      crop_x: cropData.offset.x,
+      crop_y: cropData.offset.y,
+      crop_w: cropData.size.width,
+      crop_h: cropData.size.height
+    }
+  }
+  console.log(cleanCropData)
 
   return UploadFile({
     uri: image,
     uploadUrl: url,
     fileName: 'file.jpg',
     mimeType:'jpeg',
-    data: { ...credentials, image_type }
+    data: { ...credentials, image_type, ...cleanCropData}
   })
   .then( (res, err) => {
     console.log('res:',res,'err:',err);
@@ -151,8 +162,8 @@ class api {
     return publicRequest('save_facebook_picture', photo);
   }
 
-  uploadImage(image, imagetype){
-    return authenticatedFileUpload('upload', image, imagetype)
+  uploadImage(image, imagetype,cropData){
+    return authenticatedFileUpload('upload', image, imagetype,cropData)
   }
 
   joinCouple(partner_phone){

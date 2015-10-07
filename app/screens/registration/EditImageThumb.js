@@ -61,7 +61,7 @@ class EditImageThumb extends Component{
 
   accept(){
 
-    UserActions.uploadImage(this.state.croppedImageURI,'profile')
+    UserActions.uploadImage(this.props.image.uri,'profile',this._transformData)
 
     if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
 
@@ -119,7 +119,10 @@ class EditImageThumb extends Component{
               image={this.props.image}
               size={cropsize}
               style={[styles.imageCropper, cropsize]}
-              onTransformDataChange={(data) => this._transformData = data}
+              onTransformDataChange={(data) => {
+                console.log('crop transform data',data);
+                this._transformData = data
+              }}
             />
           </View>
           <Text style={styles.cropButtonLabel}>
@@ -172,6 +175,10 @@ class EditImageThumb extends Component{
       (cropError) => this.setState({cropError})
     );
     this.accept()
+
+
+
+
   }
 
   _reset() {
@@ -219,17 +226,18 @@ class ImageCropper extends React.Component {
   _contentOffset: ImageOffset;
 
   componentWillMount() {
+    this._events = [];
     var widthRatio = this.props.image.width / this.props.size.width;
     var heightRatio = this.props.image.height / this.props.size.height;
     if (widthRatio < heightRatio) {
       this._scaledImageSize = {
-        width: this.props.image.width / widthRatio,
+        width: this.props.size.width,
         height: this.props.image.height / widthRatio,
       };
     } else {
       this._scaledImageSize = {
         width: this.props.image.width / heightRatio,
-        height: this.props.image.height  / heightRatio,
+        height: this.props.size.height,
       };
     }
     this._contentOffset = {
@@ -242,21 +250,29 @@ class ImageCropper extends React.Component {
       this.props.size
     );
   }
-
+  componentDidMount(){
+      // this.setInterval(()=>{
+      //
+      // },500)
+  }
   _onScroll(event) {
     this._updateTransformData(
       event.nativeEvent.contentOffset,
       event.nativeEvent.contentSize,
-      event.nativeEvent.layoutMeasurement
+      event.nativeEvent.layoutMeasurement,
+      event.nativeEvent.zoomScale
     );
+    this._events.push(event.nativeEvent)
+    console.log(this._events)
   }
 
-  _updateTransformData(offset, scaledImageSize, croppedImageSize) {
+  _updateTransformData(offset, scaledImageSize, croppedImageSize,zoomScale) {
     var offsetRatioX = offset.x / scaledImageSize.width;
     var offsetRatioY = offset.y / scaledImageSize.height;
-    var sizeRatioX =  scaledImageSize.width;
-    var sizeRatioY =  scaledImageSize.height;
+    var sizeRatioX = croppedImageSize.width / scaledImageSize.width;
+    var sizeRatioY = croppedImageSize.height / scaledImageSize.height;
 
+    console.log(zoomScale,offsetRatioX,offsetRatioY,sizeRatioX,sizeRatioY)
     this.props.onTransformDataChange && this.props.onTransformDataChange({
       offset: {
         x: this.props.image.width * offsetRatioX,
@@ -268,6 +284,43 @@ class ImageCropper extends React.Component {
       },
     });
   }
+  // _onScroll(event) {
+  //   console.log(event.nativeEvent)
+  //
+  //   var{ zoomScale, contentSize, contentOffset } = event.nativeEvent
+  //   console.log('offsets:',contentOffset.x*zoomScale,contentOffset.y*zoomScale)
+  //   this._updateTransformData(
+  //     {
+  //       x: contentOffset.x*zoomScale,
+  //       y: contentOffset.y*zoomScale
+  //     },
+  //     {
+  //       height: contentSize.height*zoomScale,
+  //       width: contentSize.width*zoomScale
+  //     },
+  //     event.nativeEvent.layoutMeasurement,
+  //     zoomScale
+  //   );
+  // }
+  //
+  // _updateTransformData(offset, scaledImageSize, croppedImageSize,scale) {
+  //
+  //   var wRatio =  scaledImageSize.width / this.props.image.width;
+  //   var hRatio = scaledImageSize.height / this.props.image.height;
+  //
+  //   var offsetScaledX = offset.x / wRatio;
+  //   var offsetScaledY = offset.y / hRatio;
+  //   this.props.onTransformDataChange && this.props.onTransformDataChange({
+  //     offset: {
+  //       x: offsetScaledX,
+  //       y: offsetScaledY,
+  //     },
+  //     size: {
+  //       width: croppedImageSize.width * scale / wRatio,
+  //       height: croppedImageSize.height * scale / hRatio,
+  //     },
+  //   });
+  // }
 
   render() {
     var decelerationRate =
@@ -289,7 +342,7 @@ class ImageCropper extends React.Component {
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
       >
-        <Image source={this.props.image} style={this._scaledImageSize} />
+        <Image source={this.props.image} ref="scaledImage" style={this._scaledImageSize} />
       </ScrollView>
     );
   }
@@ -326,7 +379,7 @@ const styles = StyleSheet.create({
   cropButtonLabel:{
     fontFamily:'Montserrat',
     fontSize:22,
-    fontWeight:"700",
+    fontWeight:'700',
     marginTop:40,
     paddingBottom:0,
     color:colors.white
