@@ -63,8 +63,8 @@ var UserActions = {
   },
 
 
-  uploadImage(image, imagetype){
-    Api.uploadImage(image,imagetype)
+  uploadImage(image, imagetype,cropData){
+    Api.uploadImage(image,imagetype,cropData)
       .then((uploadRes) => {
          Api.getUserInfo()
           .then((res) => {

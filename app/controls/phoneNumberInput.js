@@ -1,7 +1,7 @@
 /* @flow */
 
-const mask = '(999) 999+9999',
-    emptyMask = `(\u2007\u2007\u2007)\u2007\u2007\u2007\u2007+\u2007\u2007\u2007\u2007`,
+const mask = '(999) 999-9999',
+    emptyMask = `(\u2007\u2007\u2007)\u2007\u2007\u2007\u2007-\u2007\u2007\u2007\u2007`,
     maskMap = [
       {
         position: 0,
@@ -17,10 +17,10 @@ const mask = '(999) 999+9999',
       },
       {
         position: 9,
-        char: '+'
+        char: '-'
       },
     ],
-    maskArr= ['(',')',' ','+'];
+    maskArr= ['(',')',' ','-'];
 
 import React from 'react-native'
 import { TextInput,View,StyleSheet  } from 'react-native'

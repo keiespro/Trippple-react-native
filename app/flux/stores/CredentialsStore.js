@@ -23,7 +23,7 @@ class CredentialsStore {
         handleGotCredentials: AppActions.GOT_CREDENTIALS,
       });
       this.exportPublicMethods({
-        saveCredentials: this.saveCredentials
+        saveCredentials: this.saveCredentials.bind(this)
       })
 
       this.registerAsync(CredentialsSource);
