@@ -4,7 +4,7 @@
 
 import React from 'react-native'
 import  { Component, StyleSheet, Text, View, InteractionManager, Image, TextInput, TouchableHighlight, ListView,
-          LayoutAnimation, ScrollView, PixelRatio, Dimensions } from 'react-native'
+          LayoutAnimation, TouchableOpacity, ScrollView, PixelRatio, Dimensions } from 'react-native'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -24,6 +24,7 @@ import AltContainer from 'alt/AltNativeContainer'
 import InvertibleScrollView from 'react-native-invertible-scroll-view'
 import TimeAgo from './Timeago'
 import FakeNavBar from '../controls/FakeNavBar'
+import { BlurView,VibrancyView} from 'react-native-blur'
 
 const styles = StyleSheet.create({
   container: {
@@ -250,7 +251,6 @@ class ChatInside extends Component{
       isKeyboardOpened: false,
       textInputValue: '',
       lastPage: 0,
-      isVisible: false
     }
 
   }
@@ -378,15 +378,13 @@ class ChatInside extends Component{
   }
 
   chatActionSheet(){
-    var isOpen = this.state.isVisible
+    var isOpen = this.props.isVisible
     this._textInput && this._textInput.blur()
-    this.setState({
-      isVisible:!isOpen,
-    })
+    this.props.toggleModal()
   }
 
   renderNoMatches(){
-    var matchInfo = this.props.matches,
+    var matchInfo = this.props.currentMatch,
         theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id),
         them = theirIds.map((id)=> matchInfo.users[id]),
         chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },'')
@@ -429,7 +427,7 @@ class ChatInside extends Component{
 
   render(){
 
-    var matchInfo = this.props.matches,
+    var matchInfo = this.props.currentMatch,
         theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id),
         them = theirIds.map((id)=> matchInfo.users[id]),
         chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },'')
@@ -517,13 +515,6 @@ class ChatInside extends Component{
           }
         />
 
-        <ActionModal
-          currentMatch={this.props.matches}
-          user={this.props.user}
-          toggleModal={this.chatActionSheet.bind(this)}
-          navigator={this.props.navigator}
-          isVisible={this.state.isVisible}
-        />
       </View>
     )
   }
@@ -563,11 +554,20 @@ var animations = {
 };
 
 var Chat = React.createClass({
-
+  getInitialState(){
+    return ({
+      isVisible: false
+    })
+  },
   componentWillMount(){
     MatchActions.getMessages(this.props.matchID || this.props.match_id)
   },
-
+  toggleModal(){
+    console.log(this.state.isVisible)
+    this.setState({
+      isVisible:!this.state.isVisible,
+    })
+  },
   render(){
     var storesForChat = {
       messages: (props) => {
@@ -576,7 +576,7 @@ var Chat = React.createClass({
           value: ChatStore.getMessagesForMatch(props.match_id || this.props.matchID)
         }
       },
-      matches: (props) => {
+      currentMatch: (props) => {
         console.log('ALT',props)
         return {
           store: MatchesStore,
@@ -587,12 +587,36 @@ var Chat = React.createClass({
 
     return (
       <AltContainer stores={storesForChat}>
+
+
         <ChatInside
           navigator={this.props.navigator}
           user={this.props.user}
           closeChat={this.props.closeChat}
           matchID={this.props.matchID}
+          toggleModal={this.toggleModal}
         />
+        {this.state.isVisible ? <View
+          style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]}>
+
+           <FadeInContainer duration={300} >
+             <TouchableOpacity activeOpacity={0.5} onPress={this.toggleModal}                 style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]} >
+
+               <BlurView
+                 blurType="light"
+                 style={[{width:DeviceWidth,height:DeviceHeight}]} >
+                 <View style={[{ }]}/>
+               </BlurView>
+             </TouchableOpacity>
+           </FadeInContainer>
+         </View> : <View/>}
+
+        <ActionModal
+                  user={this.props.user}
+                  toggleModal={this.toggleModal}
+                  navigator={this.props.navigator}
+                  isVisible={this.state.isVisible}
+                />
       </AltContainer>
     );
   }

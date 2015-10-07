@@ -15,7 +15,7 @@ import reactMixin from 'react-mixin'
 @reactMixin.decorate(TimerMixin)
 class FadeInContainer extends Component{
   static defaultProps = {
-    delayAmount: 700,
+    delayAmount: 0,
     duration: 500,
     delayRender: false
   }
@@ -30,13 +30,13 @@ class FadeInContainer extends Component{
 
   }
   componentDidMount(){
-    this.state.fadeAmount.setValue(0)
+    // this.state.fadeAmount.setValue(0)
     Animated.timing( this.state.fadeAmount,
       {
         toValue: 1,
         duration: this.props.duration ,
-        delay: this.props.delayAmount,
-        easing: Easing.exp
+        delay: this.props.delayAmount || 0,
+        easing: Easing.easeInEaseOut
       }
     ).start( () => {console.log('faded in')});
 
@@ -48,7 +48,7 @@ class FadeInContainer extends Component{
   }
   render(){
       return (
-        <Animated.View style={{flex:1,opacity:this.state.fadeAmount}}>
+        <Animated.View style={{flex:1,opacity:this.state.fadeAmount,...this.props.style}}>
 
           {this.state.shouldRenderChildren ? this.props.children : null}
 

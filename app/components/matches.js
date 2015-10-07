@@ -7,6 +7,7 @@ Component,
  StyleSheet,
  Text,
  Image,
+ TouchableOpacity,
  View,
  TouchableHighlight,
  TextInput,
@@ -42,7 +43,9 @@ import AltContainer from 'alt/AltNativeContainer'
 import FakeNavBar from '../controls/FakeNavBar'
 import Mixpanel from '../utils/mixpanel'
 import FadeInContainer from './FadeInContainer'
+import { BlurView,VibrancyView} from 'react-native-blur'
 
+import UserProfile from './UserProfile'
 
 @reactMixin.decorate(TimerMixin)
 class MatchList extends Component{
@@ -92,7 +95,7 @@ class MatchList extends Component{
   }
 
   toggleFavorite(rowData){
-    console.log("TOGGLE FAVORITE",rowData);
+    console.log('TOGGLE FAVORITE',rowData);
     MatchActions.toggleFavorite(rowData.match_id.toString());
   }
   actionModal(match){
@@ -136,7 +139,7 @@ class MatchList extends Component{
         scroll={event => this._allowScroll(event)}
         onClose={(sectionID_, rowID_) => {console.log('close')}}
 
-        onOpen={(sectionID_, rowID_) => {console.log('OPEN');this._handleSwipeout(sectionID_, rowID_)}}>
+        onOpen={(sectionID_, rowID_) => {console.log('OPEN'); this._handleSwipeout(sectionID_, rowID_)}}>
 
         <TouchableHighlight onPress={(e) => {
             console.log('onpress Swipeout',e);
@@ -203,7 +206,8 @@ class MatchList extends Component{
   }
 
   render(){
-    var self = this, isVisible = modalVisible = this.state.isVisible
+    var self = this,
+        isVisible = this.state.isVisible
     return (
       <View style={styles.container}>
         <View style={{height:50}}>
@@ -267,7 +271,7 @@ class MatchList extends Component{
           scrollEnabled={this.state.scrollEnabled}
           chatActionSheet={this.props.chatActionSheet}
             onEndReached={ (e) => {
-              console.log("FAVS ON END REACHED")
+              console.log('FAVS ON END REACHED')
              // const nextPage = this.props.favorites.length/20 + 1;
               // if(this.state.fetching || nextPage === this.state.lastPage){ return false }
               // this.setState({lastPage: nextPage })
@@ -437,10 +441,24 @@ class Matches extends Component{
 
           }}>
            <MatchesInside {...this.props} chatActionSheet={this.chatActionSheet.bind(this)} />
-          <View><ActionModal
+           {this.props.navBar}
+           {this.state.isVisible ?
+              <FadeInContainer
+                duration={300}
+                style={{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}}>
+                <TouchableOpacity activeOpacity={0.5} onPress={(e)=>{ console.log(e); this.setState({isVisible:false}) }}>
+                  <BlurView
+                    blurType="light"
+                    style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]} >
+                    <View style={[{}]}/>
+                  </BlurView>
+                </TouchableOpacity>
+              </FadeInContainer>
+            : <View/>}
+            <View><ActionModal
               user={this.props.user}
               navigator={this.props.navigator}
-              toggleModal={(e)=>{ this.setState({isVisible:false}) }}
+              toggleModal={(e)=>{ console.log(e); this.setState({isVisible:false}) }}
               isVisible={this.state.isVisible}
               currentMatch={this.state.currentMatch}
             /></View>
@@ -542,7 +560,6 @@ var styles = StyleSheet.create({
      borderWidth:4,
      width:30,
      height:30,
-     overflow:'hidden',
      padding:0,
      alignItems:'center',
      justifyContent:'center',

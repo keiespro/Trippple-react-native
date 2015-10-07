@@ -67,7 +67,7 @@ import FakeNavBar from '../controls/FakeNavBar';
         <View style={{ flex: 1, position:'relative'}}>
         {route.id == 'settings' && navBar}
         <RouteComponent navigator={navigator} route={route} navBar={navBar} user={this.props.user} {...route.passProps} pRoute={route.id == 'potentials' ? PotentialsRoute : null} />
-        {route.id == 'potentials' || route.id == 'settings' ? null : navBar}
+        {route.id == 'potentials' || route.id == 'settings' || route.id == 'matches' ? null : navBar}
         </View>
       );
     }
