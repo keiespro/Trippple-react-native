@@ -227,7 +227,7 @@ const ChatRoute = {
       blur={true}
       title={'Matches'} titleColor={colors.white}
       onPrev={(nav,route)=> nav.pop()}
-      customPrev={   <View style={styles.goBackButton}>
+      customPrev={   <View style={[styles.navBarLeftButton,{marginTop:10}]}>
           <Text textAlign={'left'} style={[styles.bottomTextIcon]}>◀︎ </Text>
           <Text textAlign={'left'} style={[styles.bottomText]}>Go back</Text>
         </View>

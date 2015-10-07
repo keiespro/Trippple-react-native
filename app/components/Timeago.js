@@ -40,7 +40,7 @@ class TimeAgo extends Component{
 
   render() {
     return (
-      <Text {...this.props}>{moment(this.props.time).fromNow()}</Text>
+      <Text {...this.props}>{this.props.showSent && 'SENT '}{moment(this.props.time).fromNow().toUpperCase()}</Text>
     );
   }
 }

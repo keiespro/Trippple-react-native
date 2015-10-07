@@ -61,8 +61,9 @@ const styles = StyleSheet.create({
     padding: 10,
 
     paddingHorizontal: 20,
-    paddingVertical:10,
-    marginVertical:10,
+    paddingVertical:15,
+    marginTop:10,
+    marginBottom:5,
     flex:1,
   },
   row:{
@@ -81,8 +82,8 @@ const styles = StyleSheet.create({
     alignItems:'stretch',
     justifyContent:'space-around',
 
-  },theirMessage:
-  {
+  },
+  theirMessage:{
     backgroundColor: colors.mediumPurple,
     marginRight: 10,
   },
@@ -95,6 +96,7 @@ const styles = StyleSheet.create({
   {
     fontFamily: 'Montserrat',
     color: colors.shuttleGray,
+    fontSize: 12,
     marginBottom: 5
   },
   sendButton:
@@ -226,8 +228,8 @@ class ChatMessage extends React.Component {
         </View>
       </View>
 
-      <View style={[{paddingHorizontal:20,marginBottom:10},{marginLeft: isMessageOurs ? 10 : 60}]}>
-        <TimeAgo style={{color:colors.shuttleGray,fontFamily:'Montserrat'}} time={this.props.messageData.created_timestamp * 1000} />
+      <View style={[{paddingHorizontal:20,marginBottom:10},{marginLeft: isMessageOurs ? 21 : 77}]}>
+        <TimeAgo showSent={true} style={{color:colors.shuttleGray,fontSize:10,fontFamily:'Montserrat'}} time={this.props.messageData.created_timestamp * 1000} />
       </View>
 
       </View>
@@ -453,10 +455,10 @@ class ChatInside extends Component{
               contentContainerStyle={{backgroundColor:colors.outerSpace,justifyContent:'flex-end',width:DeviceWidth,overflow:'hidden'}}
               {...this.props}
               scrollEventThrottle={64}
-              contentInset={{top:0,right:0,left:0,bottom:44}}
+              contentInset={{top:0,right:0,left:0,bottom:88}}
               automaticallyAdjustContentInsets={true}
               inverted={true}
-              style={{ height:DeviceHeight, }}
+              style={{ height:DeviceHeight}}
               keyboardDismissMode={'on-drag'}
             />
           }
@@ -509,7 +511,7 @@ class ChatInside extends Component{
           title={chatTitle}
           titleColor={colors.white}
           customPrev={
-            <View style={{flexDirection: 'row',opacity:0.5,top:-3}}>
+            <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
               <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
             </View>
           }
