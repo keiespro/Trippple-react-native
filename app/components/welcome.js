@@ -23,7 +23,7 @@ var Auth = require('./auth');
 var Facebook = require('../screens/registration/facebook');
 import Mixpanel from '../utils/mixpanel';
 import dismissKeyboard from 'dismissKeyboard'
-
+import FadeInContainer from '../components/FadeInContainer'
 var slides = [
   {
     title: '',
@@ -194,22 +194,26 @@ var Welcome = React.createClass({
   render() {
 
     return (
-      <Image resizeMode={Image.resizeMode.cover} source={require('image!gradientbgs')} style={styles.imagebg}>
-        <Navigator
-          initialRoute={{
-            component: IntroScreen,
-            title: 'intro',
-            id:'intro',
-          }}
-          ref={'nav'}
-          key={'innerNav'}
-          configureScene={ (route) => {
-            return route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.VerticalSlide
-          }}
-          renderScene={this.renderScene}
-        />
-      </Image>
+      <FadeInContainer
+        delayAmount={800}
+        duration={500}>
 
+        <Image resizeMode={Image.resizeMode.cover} source={require('image!gradientbgs')} style={styles.imagebg}>
+          <Navigator
+            initialRoute={{
+              component: IntroScreen,
+              title: 'intro',
+              id:'intro',
+            }}
+            ref={'nav'}
+            key={'innerNav'}
+            configureScene={ (route) => {
+              return route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.VerticalSlide
+            }}
+            renderScene={this.renderScene}
+          />
+        </Image>
+      </FadeInContainer>
     );
   },
 

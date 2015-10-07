@@ -30,21 +30,22 @@ class NameScreen extends Component{
     console.log(props.user)
     this.state = {
       name: props.user.firstname || '',
-      inputFieldValue: ''
+      inputFieldValue: props.user.firstname || '',
     }
+    props.user.firstname && this.handleInputChange(props.user.firstname)
   }
 
 
   handleInputChange =(txt)=> {
-  var fontSize = 32;
-  if(!txt || txt == ''){
-    fontSize = 22
-    if(this.state.inputFieldValue.length){
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-     }
-  }
-  this._textInput.setNativeProps({
-    value: txt
+    var fontSize = 32;
+    if(!txt || txt == ''){
+      fontSize = 22
+      if(this.state.inputFieldValue.length){
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+       }
+    }
+    this._textInput && this._textInput.setNativeProps({
+      value: txt
     })
     this.setState({
       inputFieldValue: txt
@@ -63,11 +64,11 @@ class NameScreen extends Component{
   _submit =()=>{
     UserActions.updateUserStub({firstname: this.state.inputFieldValue});
     console.log(this.props)
-   var lastindex = this.props.navigator.getCurrentRoutes().length;
-  console.log(lastindex);
-  var nextRoute = this.props.stack[lastindex];
+    var lastindex = this.props.navigator.getCurrentRoutes().length;
+    console.log(lastindex);
+    var nextRoute = this.props.stack[lastindex];
 
-   nextRoute.passProps = {
+    nextRoute.passProps = {
         ...this.props,
               firstname: this.state.inputFieldValue,
               keyboardSpace: this.state.keyboardSpace
@@ -264,4 +265,3 @@ const styles = StyleSheet.create({
       textAlign:'center'
     }
   });
-
