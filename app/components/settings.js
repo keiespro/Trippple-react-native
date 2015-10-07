@@ -54,63 +54,64 @@ var bodyTypes = [
   'Rather not say'
 ];
 
-class ProfileField extends React.Component{
+var PickerItemIOS = PickerIOS.Item;
 
-  _editField=()=>{
-    // this.props.navigator.push({
-    //   component: EditPage,
-    //   id: 'settingsedit',
-    //   passProps: {
-    //     val: this.props.val,
-    //     navigator: this.props.navigator
-    //   }
-    // })
+class ProfileField extends React.Component{
+  constructor(props){
+    super(props)
+    this.state = {
+      selectedDropdown: '',
+    }
   }
+
+  _editField=()=>{}
 
   render(){
     var field = this.props.field || {};
     console.log('ProfileField',field);
 
-    // var displayField = (
-    //   <Text>empty</Text>
-    // );
+    var displayField = (field) => {
+      switch (field.field_type) {
+        case "input":
+          return (
+             <TextInput
+            style={{height: 40, width:200, borderColor: 'gray', borderWidth: 1}}
+            onChangeText={(text) => this.setState({text})} 
+            placeholder={field.label}
+            />
+          );
 
-    // if (field.field_type == 'dropdown') {
-    //   displayField = (
-        // <PickerIOS
-        //   selectedValue={this.state.carMake}
-        //   onValueChange={(carMake) => this.setState({carMake, modelIndex: 0})}>
-        //   {Object.keys(CAR_MAKES_AND_MODELS).map((carMake) => (
-        //     <PickerItemIOS
-        //       key={carMake}
-        //       value={carMake}
-        //       label={CAR_MAKES_AND_MODELS[carMake].name}
-        //       />
-        //     )
-        //   )}
-        // </PickerIOS>
-    //   )
-    // }
+        case "dropdown":
+          // always add an empty option at the beginning of the array
+          field.values.unshift('');
 
-      var displayField = (field) => {
-        switch (field.field_type) {
-          case "input":
-            return (
-               <TextInput
-              style={{height: 40, width:100, borderColor: 'gray', borderWidth: 1}}
-              onChangeText={(text) => this.setState({text})} 
-              placeholder={field.label}
-              />
-            );
-          default:
-            return (
-               <Text>empty</Text>
-            );
-        }
+          return (
+            <PickerIOS
+              selectedValue={this.state.selectedDropdown || null}
+              onValueChange={(selectedDropdown) => {
+                this.setState({selectedDropdown});
+                console.info('You picked "'+selectedDropdown+'" for field "'+field.label+'"', this.state);
+              }}>
+              {field.values.map((val) => (
+                <PickerItemIOS
+                  key={val}
+                  value={val}
+                  label={val}
+                  />
+                )
+              )}
+            </PickerIOS>
+          );
+
+        default:
+          return (
+             <Text></Text>
+          );
       }
+    }
 
     return (
-        <View style={styles.formRow}>
+        <View>
           { displayField(field) }
         </View>
     )
@@ -133,8 +134,7 @@ class BasicSettings extends React.Component{
         </View>
 
         {['firstname','birthday','gender'].map((field) => {
-          console.log('settingOptions -> ',field, settingOptions[field], settingOptions);
-          return <ProfileField navigator={this.props.navigator} field={settingOptions[field]} val={u[field]} />
+          return <ProfileField navigator={this.props.navigator} settfield={settingOptions[field]} />
         })}
 
         <View style={styles.formHeader}>
@@ -142,7 +142,7 @@ class BasicSettings extends React.Component{
         </View>
 
         {['phone','email'].map((field) => {
-          return <ProfileField navigator={this.props.navigator} field={settingOptions[field]} val={u[field]} />
+          return <ProfileField navigator={this.props.navigator} field={settingOptions[field]}/>
         })}
 
         <View style={styles.formHeader}>
@@ -150,7 +150,7 @@ class BasicSettings extends React.Component{
         </View>
 
         {['height','body_type'].map((field) => {
-          return <ProfileField navigator={this.props.navigator} field={settingOptions[field]} val={u[field]} />
+          return <ProfileField navigator={this.props.navigator} field={settingOptions[field]} />
         })}
 
         <View style={styles.formHeader}>
