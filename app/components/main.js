@@ -44,7 +44,6 @@ import FakeNavBar from '../controls/FakeNavBar';
     }
 
     componentDidMount(){
-      MatchActions.getPotentials();
       this.refs.nav.navigationContext.addListener('didfocus', (e)=>{
         console.log(e);
       })
