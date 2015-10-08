@@ -33,7 +33,7 @@ import Chat from './chat'
 import MatchActions from '../flux/actions/MatchActions'
 import MatchesStore from '../flux/stores/MatchesStore'
 import FavoritesStore from '../flux/stores/FavoritesStore'
-import Swipeout from 'react-native-swipeout'
+import Swipeout from './Swipeout'
 import Logger from '../utils/logger'
 import customSceneConfigs from '../utils/sceneConfigs'
 import SegmentedView from '../controls/SegmentedView'
@@ -72,10 +72,11 @@ class MatchList extends Component{
   //
   // }
 
-  _allowScroll(scrollEnabled) {
-    console.log('toggle scroll:',scrollEnabled)
-    // if(scrollEnabled != this.state.scrollEnabled) {
-      // this.state.index ? this._listView.setNativeProps({ scrollEnabled }) : this._flistView.setNativeProps({ scrollEnabled })
+  _allowScroll = (scrollEnabled)=> {
+    console.log('toggle scroll:',this._listView.refs.listviewscroll.refs.InnerScrollView)
+    // if(scrollEnabled != this.state.scrollEnabled && this._listView) {
+      // this.state.index ?  : this._flistView.refs.listviewscroll.refs.InnerScrollView.setNativeProps({ scrollEnabled })
+      this._listView.refs.listviewscroll.refs.ScrollView.setNativeProps({ scrollEnabled })
     // }
   }
 
@@ -230,6 +231,8 @@ class MatchList extends Component{
           initialListSize={12}
           scrollEnabled={this.state.scrollEnabled}
           removeClippedSubviews={true}
+          directionalLockEnabled={true}
+          vertical={true}
 
           chatActionSheet={this.props.chatActionSheet}
             onEndReached={ (e) => {
@@ -267,6 +270,8 @@ class MatchList extends Component{
           (this.props.favorites.length > 0 ? <ListView
           initialListSize={12}
           removeClippedSubviews={true}
+          directionalLockEnabled={true}
+          vertical={true}
 
           scrollEnabled={this.state.scrollEnabled}
           chatActionSheet={this.props.chatActionSheet}
