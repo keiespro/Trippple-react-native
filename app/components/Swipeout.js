@@ -26,12 +26,15 @@ var SwipeoutBtn = React.createClass({
 
 
     return  (
-      <TouchableHighlight
-        onPress={this.props.onPress}
-        style={styles.swipeoutBtnTouchable}
-        underlayColor={this.props.underlayColor}
-      >
-        <View  >
+
+        <Animated.View style={{transform:[
+            {scale:this.props.offsetX.interpolate({
+              inputRange:   [-300, -100, -25, 0, 25, 100, 300],
+              outputRange:  [1.9, 1.3, 0, 0.1, 0, 1, 1.2],
+              extrapolate:'clamp'
+            })},
+            {rotate:'0deg'}
+          ]}}>
           {btn.component ?
             <View style={{
               height: btn.height,
@@ -39,8 +42,7 @@ var SwipeoutBtn = React.createClass({
             }}>{btn.component}</View>
           : <Text style={styles.swipeoutBtnText}>{btn.text}</Text>
           }
-        </View>
-      </TouchableHighlight>
+        </Animated.View>
     )
   }
 })
@@ -103,35 +105,19 @@ var Swipeout = React.createClass({
         var offsetX = gestureState.dx
         var posY = gestureState.dy
         //  minimum threshold to open swipeout
-        var openX = 50
+        var openX = 100
 
-        //  should open swipeout
-        var openLeft = offsetX > openX  ? 100 : 0
-        var openRight = offsetX < -openX  ? -100 : 0
+        //  should activate swipeout action
+        var openLeft = offsetX > openX
+        var openRight = offsetX < -openX
 
-        //  account for open swipeouts
-        if (this.state.openedRight){
-          openRight = offsetX-openX < -openX
-        }
-        if (this.state.openedLeft){
-          openLeft = offsetX+openX > openX
-        }
 
-        var toValue = openLeft || openRight || 0
-        if(toValue != 0){
-          this.setState({
-            openedRight: toValue < 0,
-            openedLeft: toValue > 0,
-          })
-        }else{
-          this.setState({
-            openedRight: false,
-            openedLeft: false,
-          })
-        }
-        Animated.timing(this.state.offsetX, {
+
+        var toValue = 0
+
+        Animated.spring(this.state.offsetX, {
           toValue,
-          duration: 300,
+          velocity: gestureState.vx,
         }).start(()=> this.props.scroll(true));
 
       }
@@ -163,7 +149,7 @@ var Swipeout = React.createClass({
 
 
     return (
-      <View style={{position:'relative',width:DeviceWidth,overflow:'hidden',backgroundColor:'black'}}>
+      <View style={{position:'relative',width:DeviceWidth,overflow:'hidden',backgroundColor:colors.dark}}>
 
         <View
           style={{
@@ -189,6 +175,7 @@ var Swipeout = React.createClass({
               this.props.left.map((btn, i) => {
                 return (
                   <SwipeoutBtn
+                  offsetX={this.state.offsetX}
                     backgroundColor={btn.backgroundColor}
                     color={btn.color}
                     component={btn.component}
@@ -215,6 +202,7 @@ var Swipeout = React.createClass({
               this.props.right.map((btn, i) => {
                 return (
                   <SwipeoutBtn
+                  offsetX={this.state.offsetX}
                     backgroundColor={btn.backgroundColor}
                     color={btn.color}
                     component={btn.component}

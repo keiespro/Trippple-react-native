@@ -403,8 +403,9 @@ class InsideActiveCard extends Component{
 
     var v = isMoving ? isMoving.addListener(({value}) => { // listen until offscreen
 
-      this.setNativeProps({style:{backgroundColor: value > 0 ? colors.sushi : colors.mandy}})
-
+      this.setNativeProps({style:{
+        backgroundColor: value > 0 ? colors.sushi : colors.mandy
+      }})
     }) : null;
 
 
@@ -457,17 +458,20 @@ class InsideActiveCard extends Component{
                   activeDot={ <View style={styles.activeDot} /> }>
                   <Animated.Image
                     source={{uri: potential.user.image_url}}
+                   defaultSource={require('image!defaultuser')}
                     key={`${potential.user.id}-cimg`}
                     style={[styles.imagebg,{ marginRight:-40,marginTop:-20,
-                      opacity:this.props.inactiveOpacity.interpolate({inputRange: [0,1], outputRange: [1,0]})
+                      backgroundColor:colors.white,
+                      opacity:isMoving && isMoving.interpolate({inputRange: [-200,0,200], outputRange: [0,1,0]})
                     }]}
                     resizeMode={Image.resizeMode.cover} />
                   {rel == 'single' && potential.partner &&
                   <Animated.Image
                     source={{uri: potential.partner.image_url}}
                     key={`${potential.partner.id}-cimg`}
+                   defaultSource={require('image!defaultuser')}
                     style={[styles.imagebg,{ marginRight:-40,marginTop:-20,
-                      opacity:this.props.inactiveOpacity.interpolate({inputRange: [0,1], outputRange: [1,0]})
+                      opacity:isMoving && isMoving.interpolate({inputRange: [-200,0,200], outputRange: [0,1,0]})
                     }]}
                     resizeMode={Image.resizeMode.cover} />
                   }
@@ -562,7 +566,7 @@ class InsideActiveCard extends Component{
             width:DeviceWidth,
             height:DeviceHeight,
             padding:0,
-            position:'relative'
+            position:'relative',
           }]}
           key={`${this.props.potential.id || potential.user.id}-view`}>
 
@@ -582,18 +586,16 @@ class InsideActiveCard extends Component{
               <Animated.Image
                 source={{uri: potential.user.image_url}}
                 key={`${potential.user.id}-cimg`}
-                style={[styles.imagebg,{ marginRight:-40,marginTop:-20,
-                  opacity:this.props.inactiveOpacity.interpolate({inputRange: [0,1], outputRange: [1,0]})
-                }]}
+                 defaultSource={require('image!defaultuser')}
+                style={[styles.imagebg,{ marginRight:-40,marginTop:-20}]}
                 resizeMode={Image.resizeMode.cover} />
 
             {rel == 'single' && potential.partner &&
               <Animated.Image
                 source={{uri: potential.partner.image_url}}
                 key={`${potential.partner.id}-cimg`}
-                style={[styles.imagebg,{ marginRight:-40,marginTop:-20,
-                  opacity:this.props.inactiveOpacity.interpolate({inputRange: [0,1], outputRange: [1,0]})
-                }]}
+                 defaultSource={require('image!defaultuser')}
+                style={[styles.imagebg,{ marginRight:-40,marginTop:-20}]}
                 resizeMode={Image.resizeMode.cover} />
               }
           </Swiper>
@@ -657,13 +659,16 @@ class InsideActiveCard extends Component{
                 }</Text>
               </View>
 
-              <ScrollableTabView tabs={['1','2']} renderTabBar={() => <CustomTabBar  /> }>
-                <ProfileTable profile={this.props.potential.user}
-                  tabLabel={`${this.props.potential.user.firstname} ${this.props.potential.user.age}`}/>
-                <ProfileTable profile={this.props.potential.partner}
-                  tabLabel={`${this.props.potential.partner.firstname} ${this.props.potential.partner.age}`}/>
-              </ScrollableTabView>
-
+              {this.props.rel == 'single' && potential.partner ?
+                         <ScrollableTabView tabs={['1','2']} renderTabBar={() => <CustomTabBar  /> }>
+                          <ProfileTable profile={this.props.potential.user}
+                            tabLabel={`${potential.user.firstname} ${potential.user.age}`}/>
+                          <ProfileTable profile={potential.partner}
+                            tabLabel={`${potential.partner.firstname} ${potential.partner.age}`}/>
+                          </ScrollableTabView> :
+                          <ProfileTable profile={potential.user}
+                          tabLabel={`${potential.user.firstname} ${potential.user.age}`}/>
+                      }
 
 
             </View>
