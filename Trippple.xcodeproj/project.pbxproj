@@ -19,15 +19,15 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		AC161C071BBE59DA00150328 /* RCTMaskableText.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF01BBE59DA00150328 /* RCTMaskableText.m */; settings = {ASSET_TAGS = (); }; };
-		AC161C081BBE59DA00150328 /* RCTMaskableTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF51BBE59DA00150328 /* RCTMaskableTextField.m */; settings = {ASSET_TAGS = (); }; };
-		AC161C091BBE59DA00150328 /* RCTMaskableTextFieldManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF71BBE59DA00150328 /* RCTMaskableTextFieldManager.m */; settings = {ASSET_TAGS = (); }; };
-		AC161C0A1BBE59DA00150328 /* RCTMaskableTextManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF91BBE59DA00150328 /* RCTMaskableTextManager.m */; settings = {ASSET_TAGS = (); }; };
-		AC161C0B1BBE59DA00150328 /* RCTMaskableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFB1BBE59DA00150328 /* RCTMaskableTextView.m */; settings = {ASSET_TAGS = (); }; };
-		AC161C0C1BBE59DA00150328 /* RCTMaskableTextViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFD1BBE59DA00150328 /* RCTMaskableTextViewManager.m */; settings = {ASSET_TAGS = (); }; };
-		AC161C101BBE59DA00150328 /* Text.js in Resources */ = {isa = PBXBuildFile; fileRef = AC161C041BBE59DA00150328 /* Text.js */; settings = {ASSET_TAGS = (); }; };
-		AC161C111BBE59DA00150328 /* TextStylePropTypes.js in Resources */ = {isa = PBXBuildFile; fileRef = AC161C051BBE59DA00150328 /* TextStylePropTypes.js */; settings = {ASSET_TAGS = (); }; };
-		AC161C121BBE59DA00150328 /* TextUpdateTest.js in Resources */ = {isa = PBXBuildFile; fileRef = AC161C061BBE59DA00150328 /* TextUpdateTest.js */; settings = {ASSET_TAGS = (); }; };
+		AC161C071BBE59DA00150328 /* RCTMaskableText.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF01BBE59DA00150328 /* RCTMaskableText.m */; };
+		AC161C081BBE59DA00150328 /* RCTMaskableTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF51BBE59DA00150328 /* RCTMaskableTextField.m */; };
+		AC161C091BBE59DA00150328 /* RCTMaskableTextFieldManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF71BBE59DA00150328 /* RCTMaskableTextFieldManager.m */; };
+		AC161C0A1BBE59DA00150328 /* RCTMaskableTextManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF91BBE59DA00150328 /* RCTMaskableTextManager.m */; };
+		AC161C0B1BBE59DA00150328 /* RCTMaskableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFB1BBE59DA00150328 /* RCTMaskableTextView.m */; };
+		AC161C0C1BBE59DA00150328 /* RCTMaskableTextViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFD1BBE59DA00150328 /* RCTMaskableTextViewManager.m */; };
+		AC161C101BBE59DA00150328 /* Text.js in Resources */ = {isa = PBXBuildFile; fileRef = AC161C041BBE59DA00150328 /* Text.js */; };
+		AC161C111BBE59DA00150328 /* TextStylePropTypes.js in Resources */ = {isa = PBXBuildFile; fileRef = AC161C051BBE59DA00150328 /* TextStylePropTypes.js */; };
+		AC161C121BBE59DA00150328 /* TextUpdateTest.js in Resources */ = {isa = PBXBuildFile; fileRef = AC161C061BBE59DA00150328 /* TextUpdateTest.js */; };
 		AC43D52F1BA0F9AB003506F9 /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACABA31E1B8F7B760024503C /* libRNOverlay.a */; };
 		AC5A3AB81BAA4EAE00EFF0B9 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC5A3AB71BAA4EAE00EFF0B9 /* Montserrat-Bold.ttf */; };
 		AC5B03A11B85A899003E0302 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACA1296E1B40EC3B00CC1499 /* Images.xcassets */; };
@@ -645,7 +645,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "trippple" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Trippple" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -1132,7 +1132,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "trippple" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Trippple" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

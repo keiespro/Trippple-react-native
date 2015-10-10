@@ -11,6 +11,7 @@ import {
   TextInput,
   ScrollView,
   SwitchIOS,
+  PickerIOS,
   Image,
   AsyncStorage,
   Navigator
@@ -40,7 +41,8 @@ import colors from '../utils/colors'
 import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
 import EditPage from './EditPage'
 import CloseButton from './CloseButton'
-import {BlurView} from 'react-native-blur'
+import Api from '../utils/api'
+// import {BlurView} from 'react-native-blur';
 
 var bodyTypes = [
   'Athletic',
@@ -52,26 +54,66 @@ var bodyTypes = [
   'Rather not say'
 ];
 
-class ProfileField extends React.Component{
+var PickerItemIOS = PickerIOS.Item;
 
-  _editField=()=>{
-    // this.props.navigator.push({
-    //   component: EditPage,
-    //   id: 'settingsedit',
-    //   passProps: {
-    //     val: this.props.val,
-    //     navigator: this.props.navigator
-    //   }
-    // })
+class ProfileField extends React.Component{
+  constructor(props){
+    super(props)
+    this.state = {
+      selectedDropdown: '',
+    }
   }
 
+  _editField=()=>{}
+
   render(){
+    var field = this.props.field || {};
+    console.log('ProfileField',field);
+
+    var displayField = (field) => {
+      switch (field.field_type) {
+        case "input":
+          return (
+             <TextInput
+            style={{height: 40, width:200, borderColor: 'gray', borderWidth: 1}}
+            onChangeText={(text) => this.setState({text})} 
+            placeholder={field.placeholder || field.label}
+            />
+          );
+
+        case "dropdown":
+          // always add an empty option at the beginning of the array
+          field.values.unshift('');
+
+          return (
+            <PickerIOS
+              selectedValue={this.state.selectedDropdown || null}
+              onValueChange={(selectedDropdown) => {
+                this.setState({selectedDropdown});
+                console.info('You picked "'+selectedDropdown+'" for field "'+field.label+'"', this.state);
+              }}>
+              {field.values.map((val) => (
+                <PickerItemIOS
+                  key={val}
+                  value={val}
+                  label={val}
+                  />
+                )
+              )}
+            </PickerIOS>
+          );
+
+        default:
+          return (
+             <Text></Text>
+          );
+      }
+    }
+
     return (
-      <TouchableHighlight style={{marginTop:10}} onPress={this._editField}>
-        <View style={styles.formRow}>
-          <Text style={styles.textfield}>{this.props.val}</Text>
+        <View>
+          { displayField(field) }
         </View>
-      </TouchableHighlight>
     )
   }
 }
@@ -82,31 +124,35 @@ class BasicSettings extends React.Component{
   }
   render(){
     let u = this.props.user;
+    let settingOptions = this.props.settingOptions || {};
+    console.log('settingOptions',settingOptions);
     return (
       <View style={styles.inner}>
 
-
         <View style={styles.formHeader}>
-          <Text style={styles.formHeaderText}>
-            Personal Info
-          </Text>
+          <Text style={styles.formHeaderText}>Personal Info</Text>
         </View>
 
-        <ProfileField navigator={this.props.navigator} field={'firstname'} val={u.firstname} />
-        <ProfileField navigator={this.props.navigator} field={'birthday'} val={u.bday_month} />
-        <ProfileField navigator={this.props.navigator} field={'gender'} val={u.gender} />
+        {['firstname','birthday','gender'].map((field) => {
+          return <ProfileField navigator={this.props.navigator} field={settingOptions[field]} />
+        })}
 
         <View style={styles.formHeader}>
           <Text style={styles.formHeaderText}>Contact Info</Text>
         </View>
-        <ProfileField navigator={this.props.navigator} field={'phone'} val={u.phone} />
-        <ProfileField navigator={this.props.navigator} field={'email'} val={u.email || 'ADD EMAIL'} />
+
+        {['phone','email'].map((field) => {
+          //return <TouchableHighlight onPress={()} renderfield={<ProfileField navigator={this.props.navigator} field={settingOptions[field]} />}/>
+          return <ProfileField navigator={this.props.navigator} field={settingOptions[field]} />
+        })}
 
         <View style={styles.formHeader}>
           <Text style={styles.formHeaderText}>Details</Text>
         </View>
-        <ProfileField navigator={this.props.navigator} field={'height'} val={u.height} />
-        <ProfileField navigator={this.props.navigator} field={'body_type'} val={u.body_type} />
+
+        {['height','body_type'].map((field) => {
+          return <ProfileField navigator={this.props.navigator} field={settingOptions[field]} />
+        })}
 
         <View style={styles.formHeader}>
           <Text style={styles.formHeaderText}>Get more matches</Text>
@@ -165,7 +211,7 @@ class SettingsSettings extends React.Component{
       <View style={styles.inner}>
         <TouchableHighlight onPress={this._editField}>
           <View style={styles.formRow}>
-            <Text style={styles.textfield}>{this.props.user.gender}</Text>
+            <Text style={styles.textfield}>{this.props.user.gender}fpfoe</Text>
           </View>
         </TouchableHighlight>
       </View>
@@ -179,13 +225,27 @@ const SettingsPageAtIndex = [ BasicSettings, PreferencesSettings, SettingsSettin
 class SettingsInside extends React.Component{
   constructor(props){
     super(props)
+
     this.state = {
       index: 0,
-      isModalOpen: true
+      isModalOpen: true,
+      settingOptions: {},
     }
   }
   getScrollResponder() {
     return this._scrollView.getScrollResponder();
+  }
+
+  componentDidMount() {
+    Api.getProfileSettingsOptions().then((options) => {
+      if (options.settings) {
+        this.setState({
+          settingOptions: options.settings
+        });
+      } else {
+        console.warn('SettingsInside -> componentDidMount -> state',this.state.settingOptions);
+      }
+    });
   }
 
   setNativeProps(props) {
@@ -219,9 +279,16 @@ class SettingsInside extends React.Component{
   onPressFacebook(fbUser){
     console.log('settings fb button',fbUser,this.state.fbUser)
     this.setState({fbUser});
-
+    return (
+      <View style={{height:800,backgroundColor:colors.outerSpace}}>
+        <CurrentPage user={this.props.user} navigator={this.props.navigator} />
+      </View>
+    )
   }
+
   render(){
+
+    console.log('this.state',this.state);
 
     return (
       <View style={{flex:1}}>
@@ -256,7 +323,7 @@ class SettingsInside extends React.Component{
 
       <ScrollableTabView renderTabBar={() => <CustomTabBar  />}>
         <View style={{height:800,backgroundColor:colors.outerSpace,width:DeviceWidth}}  tabLabel={'BASIC'}>
-          <BasicSettings  user={this.props.user} navigator={this.props.navigator}/>
+          <BasicSettings settingOptions={this.state.settingOptions} user={this.props.user} navigator={this.props.navigator}/>
         </View>
         <View style={{height:800,backgroundColor:colors.outerSpace,width:DeviceWidth}} tabLabel={'PREFERENCES'}>
           <PreferencesSettings  user={this.props.user} navigator={this.props.navigator} />
@@ -395,7 +462,7 @@ var styles = StyleSheet.create({
  formRow: {
    alignItems: 'center',
    flexDirection: 'row',
-   justifyContent: 'flex-end',
+
    alignSelf: 'stretch',
    paddingTop:0,
    height:50,
