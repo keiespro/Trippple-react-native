@@ -11,6 +11,7 @@ import {
   TextInput,
   ScrollView,
   SwitchIOS,
+  Animated,
   PickerIOS,
   Image,
   AsyncStorage,
@@ -18,7 +19,7 @@ import {
 } from  'react-native'
 import Mixpanel from '../utils/mixpanel';
 import SegmentedView from '../controls/SegmentedView'
-import ScrollableTabView from 'react-native-scrollable-tab-view'
+import ScrollableTabView from '../scrollable-tab-view'
 
 
 import scrollable from 'react-native-scrollable-decorator'
@@ -76,7 +77,7 @@ class ProfileField extends React.Component{
           return (
              <TextInput
             style={{height: 40, width:200, borderColor: 'gray', borderWidth: 1}}
-            onChangeText={(text) => this.setState({text})} 
+            onChangeText={(text) => this.setState({text})}
             placeholder={field.placeholder || field.label}
             />
           );
@@ -321,7 +322,7 @@ class SettingsInside extends React.Component{
           </View>
       )}>
 
-      <ScrollableTabView renderTabBar={() => <CustomTabBar  />}>
+      <ScrollableTabView renderTabBar={(props)=><CustomTabBar {...props}/>}>
         <View style={{height:800,backgroundColor:colors.outerSpace,width:DeviceWidth}}  tabLabel={'BASIC'}>
           <BasicSettings settingOptions={this.state.settingOptions} user={this.props.user} navigator={this.props.navigator}/>
         </View>
@@ -592,22 +593,23 @@ segmentTitles:{
 
 });
 
-var precomputeStyle = require('precomputeStyle');
+
 var TAB_UNDERLINE_REF = 'TAB_UNDERLINE';
 
 
 var CustomTabBar = React.createClass({
   propTypes: {
     goToPage: React.PropTypes.func,
-    activeTab: React.PropTypes.number,
-    tabs: React.PropTypes.array
+    activeTab: React.PropTypes.object,
+    tabs: React.PropTypes.array,
+    pageNumber:React.PropTypes.number
   },
 
   renderTabOption(name, page) {
-    var isTabActive = this.props.activeTab === page;
+    var isTabActive = this.props.pageNumber === page;
 
     return (
-      <TouchableOpacity key={name} onPress={() => this.props.goToPage(page)}>
+      <TouchableOpacity key={name} onPress={() => {console.log(page); this.props.goToPage(page)}}>
         <View style={[styles.tab]}>
           <Text style={{color: isTabActive ? colors.mediumPurple : colors.white}}>{name}</Text>
         </View>
@@ -615,26 +617,31 @@ var CustomTabBar = React.createClass({
     );
   },
 
-  setAnimationValue(value) {
-    this.refs[TAB_UNDERLINE_REF].setNativeProps(precomputeStyle({
-      left: (DeviceWidth * value) / this.props.tabs.length
-    }));
-  },
-
   render() {
     var numberOfTabs = this.props.tabs.length;
+    var w = DeviceWidth / numberOfTabs
+
     var tabUnderlineStyle = {
       position: 'absolute',
       width: DeviceWidth / numberOfTabs,
       height: 4,
       backgroundColor: colors.mediumPurple,
       bottom: 0,
+      left:0,
+      transform: [
+        {
+          translateX: this.props.activeTab ? this.props.activeTab.interpolate({
+              inputRange: this.props.tabs.map((c,i) => (w * i) ),
+              outputRange: [0,w,(w * 2)]
+            }) : 0
+          }]
+
     };
 
     return (
       <View style={styles.tabs}>
         {this.props.tabs.map((tab, i) => this.renderTabOption(tab, i))}
-        <View style={tabUnderlineStyle} ref={TAB_UNDERLINE_REF} />
+        <Animated.View style={tabUnderlineStyle} ref={TAB_UNDERLINE_REF} />
       </View>
     );
   },

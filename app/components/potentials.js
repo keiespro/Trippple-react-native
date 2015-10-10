@@ -17,7 +17,7 @@ import {
   Easing
 } from 'react-native';
 import FakeNavBar from '../controls/FakeNavBar';
-import ScrollableTabView from 'react-native-scrollable-tab-view'
+import ScrollableTabView from '../scrollable-tab-view'
 
 import alt from '../flux/alt';
 import precomputeStyle from 'precomputeStyle';
@@ -66,7 +66,7 @@ class Cards extends Component{
 
   }
   componentDidMount(){
-    this.state.panX.setValue(0);     // Start 0
+    // this.state.panX.setValue(0);     // Start 0
     // this.state.inactiveCardOpacity.setValue(0.5);     // Start 0
 
     Mixpanel.track('On - Potentials Screen');
@@ -90,8 +90,8 @@ class Cards extends Component{
   }
 
   componentDidUpdate(prevProps,prevState){
-    this.initializePanResponder()
-    this.state.panX.setValue(0)
+    // this.initializePanResponder()
+    // this.state.panX.setValue(0)
 
   }
 
@@ -200,6 +200,7 @@ class Cards extends Component{
   }
 
   _toggleProfile(){
+    this.state.panX.removeAllListeners();
 
     this.props.toggleProfile();
     this.state.panX.setValue(0);     // Start 0
@@ -208,24 +209,9 @@ class Cards extends Component{
 
   render() {
     var {potentials,user} = this.props
-    const cardStyle = StyleSheet.create({
-        wrap:{
-          transform:[
-          {
-            translateY: this.state.offsetY.b
-          }],
-          alignSelf:'center',
-          width:(this.props.profileVisible ? DeviceWidth : DeviceWidth - 40),
-          height:(this.props.profileVisible ? DeviceHeight : DeviceHeight - 40),
-          left:this.props.profileVisible ? 0 : 20,
-          right:this.props.profileVisible ? 0 : 20,
-          top: 55,
-          flex:1,
-          position:'absolute',
-      }
-    });
+
     var pan = this.state.panX || 0,
-        animStyle = this.getStyle(),
+
         inactiveCardOpacity = this.getInactiveOpacity();
 
     return (
@@ -275,7 +261,21 @@ class Cards extends Component{
       { potentials && potentials.length >= 1 && potentials[1] &&
 
         <Animated.View
-          style={[cardStyle.wrap]}
+          style={[{
+                transform:[
+                {
+                  translateY: this.state.offsetY.b
+                }],
+                alignSelf:'center',
+                width:(this.props.profileVisible ? DeviceWidth : DeviceWidth - 40),
+                height:(this.props.profileVisible ? DeviceHeight : DeviceHeight - 40),
+                left:this.props.profileVisible ? 0 : 20,
+                right:this.props.profileVisible ? 0 : 20,
+                top: 55,
+                flex:1,
+                position:'absolute',
+
+          }]}
           key={`${potentials[1].id || potentials[1].user.id}-wrapper`}
           ref={(card) => { this.nextcard = card }}
         >
@@ -295,7 +295,34 @@ class Cards extends Component{
       { potentials && potentials.length >= 1  && potentials[0] &&
 
         <Animated.View
-          style={[cardStyle.wrap,animStyle]}
+          style={[{
+                transform:[
+                ],
+                alignSelf:'center',
+                width:(this.props.profileVisible ? DeviceWidth : DeviceWidth - 40),
+                height:(this.props.profileVisible ? DeviceHeight : DeviceHeight - 40),
+                left:this.props.profileVisible ? 0 : 20,
+                right:this.props.profileVisible ? 0 : 20,
+                top: 55,
+                flex:1,
+                position:'absolute',
+
+          },{
+            transform: [
+              {
+                translateX: this.state.panX
+              },
+              {
+                rotate: this.state.panX.interpolate({
+                  inputRange: [-200, 0, 200],
+                  outputRange: ['-15deg', '0deg', '15deg']
+                })
+              },
+              {
+                translateY: this.state.offsetY.a
+              }
+            ],
+          }]}
           key={`${potentials[0].id || potentials[0].user.id}-wrapper`}
           {...this._panResponder.panHandlers}
           ref={(card) => { this.card = card }}
@@ -341,7 +368,7 @@ class InsideActiveCard extends Component{
   }
 
   componentWillUpdate(nextProps){
-      LayoutAnimation.configureNext(animations.layout.spring);
+    LayoutAnimation.configureNext(animations.layout.spring);
   }
 
   setNativeProps(np){
@@ -350,7 +377,7 @@ class InsideActiveCard extends Component{
 
 componentWillReceiveProps(nProps){
   if(this.props.panX && this.props.profileVisible != nProps.profileVisible){
-    // this.props.panX.removeAllListeners();
+    this.props.panX.removeAllListeners();
     this.setState({
       isMoving: false
     });
@@ -358,26 +385,9 @@ componentWillReceiveProps(nProps){
 
 }
 
-  getAnimatedIconStyle =() =>{
-    return {
-      deny:{
-        transform: [
-          {
-            scale: this.props.panX ? this.props.panX.interpolate({
-              inputRange: [-DeviceWidth/2,-50,0], outputRange: [2,0,0]}) : 0
-          }
-        ]
-      },
-      approve:{
-        transform: [
-          {
-            scale: this.props.panX ? this.props.panX.interpolate({
-              inputRange: [0,50, DeviceWidth/2], outputRange: [0,0,2]}) : 0
-          }
-        ]
-      }
-    }
-  }
+
+
+
   render(){
 
     var { rel, potential, profileVisible, isTopCard, isThirdCard, panX } = this.props,
@@ -396,7 +406,7 @@ componentWillReceiveProps(nProps){
           this.setNativeProps({ style:{ backgroundColor: value > 0 ? colors.sushi : colors.mandy } })
         }) : null,
 
-        animIconStyle = this.getAnimatedIconStyle(),
+
         matchName = `${potential.user.firstname.trim()} ${potential.user.age}`,
         distance = potential.user.distance,
         city = potential.user.city_state;
@@ -457,6 +467,7 @@ componentWillReceiveProps(nProps){
                     key={`${potential.partner.id}-cimg`}
                     defaultSource={require('image!defaultuser')}
                     style={[styles.imagebg,{
+                      backgroundColor:colors.white,
                       opacity:panX && panX.interpolate({inputRange: [-200,0,200], outputRange: [0,1,0]})
                     }]}
                     resizeMode={Image.resizeMode.cover} />
@@ -519,12 +530,26 @@ componentWillReceiveProps(nProps){
             </Animated.View>
           }
           {isTopCard && !profileVisible && this.state.isMoving ?
-              <Animated.View key={'denyicon'} style={[styles.animatedIcon,animIconStyle.deny]}>
+              <Animated.View key={'denyicon'} style={[styles.animatedIcon,{
+                transform: [
+                  {
+                    scale: this.props.panX ? this.props.panX.interpolate({
+                      inputRange: [-DeviceWidth/2,-50,0], outputRange: [2,0,0]}) : 0
+                  }
+                ]
+              }]}>
                 <Image source={require('image!iconDeny')} style={{backgroundColor:'transparent',width:60,height:60}}/>
               </Animated.View> : null
           }
           {isTopCard && !profileVisible && this.state.isMoving ?
-              <Animated.View key={'approveicon'} style={[styles.animatedIcon,animIconStyle.approve]}>
+              <Animated.View key={'approveicon'} style={[styles.animatedIcon,{
+                transform: [
+                  {
+                    scale: this.props.panX ? this.props.panX.interpolate({
+                      inputRange: [0,50, DeviceWidth/2], outputRange: [0,0,2]}) : 0
+                  }
+                ]
+              }]}>
                 <Image source={require('image!iconApprove')} style={{backgroundColor:'transparent',width:60,height:60}}/>
               </Animated.View> : null
           }
@@ -657,7 +682,7 @@ componentWillReceiveProps(nProps){
 
               {this.props.rel == 'single' && potential.partner ?
 
-                 <ScrollableTabView tabs={['1','2']} renderTabBar={() => <CustomTabBar  /> }>
+                 <ScrollableTabView tabs={['1','2']} renderTabBar={(props) => <CustomTabBar {...props}  /> }>
                   <ProfileTable profile={this.props.potential.user}
                     tabLabel={`${potential.user.firstname}, ${potential.user.age}`}/>
                   <ProfileTable profile={potential.partner}
@@ -822,12 +847,14 @@ export default Potentials;
 var CustomTabBar = React.createClass({
   propTypes: {
     goToPage: React.PropTypes.func,
-    activeTab: React.PropTypes.number,
-    tabs: React.PropTypes.array
+    activeTab: React.PropTypes.object,
+    tabs: React.PropTypes.array,
+    pageNumber:React.PropTypes.number
+
   },
 
   renderTabOption(name, page) {
-    var isTabActive = this.props.activeTab === page;
+    var isTabActive = this.props.pageNumber === page;
     console.log(name,page)
     return (
       <TouchableOpacity key={name} onPress={() => this.props.goToPage(page)}>
@@ -840,26 +867,31 @@ var CustomTabBar = React.createClass({
     );
   },
 
-  setAnimationValue(value) {
-    this.refs['TAB_UNDERLINE_REF'].setNativeProps(precomputeStyle({
-      left: (DeviceWidth * value) / this.props.tabs.length
-    }));
-  },
+
 
   render() {
     var numberOfTabs = this.props.tabs.length;
+    var w = (DeviceWidth-40) / numberOfTabs;
+
     var tabUnderlineStyle = {
       position: 'absolute',
       width: (DeviceWidth-40) / 2,
       height: 2,
       backgroundColor: colors.mediumPurple,
       bottom: 0,
+      left:0,
+      transform:[
+        {translateX: this.props.activeTab ? this.props.activeTab.interpolate({
+                inputRange: this.props.tabs.map((c,i) => (w * i) ),
+                outputRange: [0,w]
+              }) : 0
+            }]
     };
 
     return (
       <View style={styles.tabs}>
         {this.props.tabs.map((tab, i) => this.renderTabOption(tab, i))}
-        <View style={tabUnderlineStyle} ref={'TAB_UNDERLINE_REF'} />
+        <Animated.View style={tabUnderlineStyle} ref={'TAB_UNDERLINE_REF'} />
       </View>
     );
   },
