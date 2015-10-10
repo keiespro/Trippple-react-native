@@ -2,6 +2,7 @@
 import React from 'react-native'
 var {
   Component,
+
   StyleSheet,
   View,
   InteractionManager,
@@ -21,12 +22,22 @@ var Dots = React.createClass({
   },
 
   render(){
-    const dotWidth = 10;
+    var dotWidth = 10,
+    dots = [1,2,3],
+            dotColor =  colors.shuttleGray;
     return (
-        <View style={{flexDirection:'row',flex:1,justifyContent:'space-around',alignItems:'center',width:dotWidth*4,height:34}}>
-          <View style={{width:dotWidth,height:dotWidth,borderRadius:dotWidth/2,backgroundColor:colors.shuttleGray}}/>
-          <View style={{width:dotWidth,height:dotWidth,borderRadius:dotWidth/2,backgroundColor:colors.shuttleGray}}/>
-          <View style={{width:dotWidth,height:dotWidth,borderRadius:dotWidth/2,backgroundColor:colors.shuttleGray}}/>
+        <View style={{
+            flexDirection:'row',
+            flex:1,
+            justifyContent:'center',
+            alignItems:'center',
+            width:dotWidth*4,
+            height:34}}>
+
+            { dots.map(() =>
+                <View style={{ marginHorizontal:3, width:dotWidth, height:dotWidth, borderRadius:dotWidth/2, backgroundColor:dotColor}}/>
+              )
+            }
         </View>
     )
   }

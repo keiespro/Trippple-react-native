@@ -1,10 +1,14 @@
 var React = require('react-native')
-var {PanResponder, TouchableHighlight, StyleSheet, Text, View, Animated, Dimensions, StyleSheet} = React
+var {PanResponder, TouchableHighlight,Image, InteractionManager, StyleSheet, Text, View, Animated, Dimensions, StyleSheet} = React
 
 var DeviceWidth = Dimensions.get('window').width
 var DeviceHeight = Dimensions.get('window').height
 import colors from '../utils/colors'
+import ThreeDots from '../buttons/ThreeDots'
 // var styles = require('./styles.js')
+const BTN_MAX = DeviceWidth/2
+const BTNWIDTH = 100
+const BTNTHRESHOLD = 150
 
 var SwipeoutBtn = React.createClass({
   getDefaultProps: function() {
@@ -22,27 +26,90 @@ var SwipeoutBtn = React.createClass({
     }
   },
   render: function() {
-    var btn = this.props
-
-
+    var {btn,offsetX,width,height,isFavourited,rowData} = this.props,
+        {isFavourited} = rowData,
+        opacityOutputRange = [
+          [ 0, 1, 1, 1 ],[1, 0, 0, 0]
+        ],
+        scaleOutputRange = [
+           [ 1.5, 1.0, 0.5, 0.1],
+           [ 1.5, 1.2, 1.2, 1.2],
+         ];
     return  (
+      <View style={{ height, width,
+        alignSelf: btn.component ? 'flex-end': 'flex-start', flex:1 }}>
+     {
+                btn.component ?
+              <View style={styles.swipeButtons}>
+                <View style={{height, width,
+                    alignItems:'center',top:0,left:0,bottom:0,position:'absolute',right:0, paddingVertical:40,backgroundColor:'transparent'}}>
+                   <Animated.Image
+                     style={{
+                       alignSelf:'center',
+                      tintColor:colors.dandelion,
+                      width:15,height:20,
+                      transform:[
+                        {
+                          scale: offsetX.interpolate({
+                            inputRange:   [-BTNTHRESHOLD, -BTNWIDTH, -25, 0.0],
+                            outputRange: scaleOutputRange[~~isFavourited],
+                          })
+                        },
+                        {rotate:'0deg'}
+                      ],
+                      opacity: offsetX.interpolate({
+                        inputRange:   [-BTNTHRESHOLD, -BTNWIDTH, 0, BTNWIDTH],
+                        outputRange:  opacityOutputRange[~~!isFavourited],
+                       })
+                     }}
+                     source={require('image!star')}
+                     resizeMode={Image.resizeMode.contain}
+                   />
+                 </View>
+                 <View style={{height, width,
+                     alignItems:'center',top:0,left:0,bottom:0,position:'absolute',right:0, paddingVertical:40,backgroundColor:'transparent'}}>
+                   <Animated.Image
+                     style={{
+                      alignSelf:'center',
+                      width:15,height:20,
+                      transform:[
+                        {
+                          scale: offsetX.interpolate({
+                            inputRange:   [-BTNTHRESHOLD, -BTNWIDTH, -25, 0.0],
+                            outputRange: scaleOutputRange[~~isFavourited],
+                          })
+                        },
+                        {rotate:'0deg'}
+                      ],
 
-        <Animated.View style={{transform:[
-            {scale:this.props.offsetX.interpolate({
-              inputRange:   [-300, -100, -25, 0, 25, 100, 300],
-              outputRange:  [1.9, 1.3, 0, 0.1, 0, 1, 1.2],
-              extrapolate:'clamp'
-            })},
-            {rotate:'0deg'}
-          ]}}>
-          {btn.component ?
-            <View style={{
-              height: btn.height,
-              width: btn.width,
-            }}>{btn.component}</View>
-          : <Text style={styles.swipeoutBtnText}>{btn.text}</Text>
-          }
-        </Animated.View>
+                      opacity: offsetX.interpolate({
+                         inputRange:   [-BTNTHRESHOLD, -BTNWIDTH, 0, BTNWIDTH],
+                         outputRange:  opacityOutputRange[~~isFavourited],
+                       })
+                     }}
+                     source={require('image!starOutline')}
+                     resizeMode={Image.resizeMode.contain}
+                   />
+                 </View>
+               </View>
+               :
+               <View style={[styles.swipeButtons,{
+                 alignItems:'center',justifyContent:'center',width,height
+               }]}>
+               <Animated.View style={[ {
+                  transform:[
+                     {
+                       scale: offsetX.interpolate({
+                         inputRange:   [0.0,  25,  BTNWIDTH, BTNTHRESHOLD, 500],
+                         outputRange:  [0,    0,   0.5,      1,          1.5  ],
+                       })
+                     },
+                     {rotate:'0deg'}
+                   ]
+                 }]}><ThreeDots /></Animated.View></View>
+
+           }
+        </View>
     )
   }
 })
@@ -58,7 +125,7 @@ var Swipeout = React.createClass({
   getInitialState() {
     return {
       autoClose: this.props.autoClose || false,
-      btnWidth: DeviceWidth/5,
+      btnWidth: BTNWIDTH,
       btnsLeftWidth: 0,
       btnsRightWidth: 0,
       contentHeight: 100,
@@ -71,12 +138,12 @@ var Swipeout = React.createClass({
   },
   componentWillMount() {
     var width = DeviceWidth,
-    height = 100;
+        height = 100;
     // this.refs.swipeoutContent.measure((ox, oy, width, height) => {
       this.setState({
-        btnWidth: (width/5),
-        btnsLeftWidth: this.props.left ? (width/5)*this.props.left.length : 0,
-        btnsRightWidth: this.props.right ? (width/5)*this.props.right.length : 0,
+        btnWidth: (BTNWIDTH),
+        btnsLeftWidth: this.props.left ? 75 : 0,
+        btnsRightWidth: this.props.right ? 75 : 0,
         contentHeight: height,
         contentWidth: width,
       })
@@ -84,72 +151,80 @@ var Swipeout = React.createClass({
     this.initializePanResponder()
 
   },
-  componentWillReceiveProps(nextProps) {
-    nextProps.close && this._close()
+  shouldComponentUpdate(nextProps,nextState){
+    return false
   },
-
-
-
   initializePanResponder(){
+
     this._panResponder = PanResponder.create({
       onMoveShouldSetPanResponder: (e,gestureState) => Math.abs(gestureState.dy) < 5,
       onStartShouldSetPanResponder: (e,gestureState) => false,
-      onPanResponderGrant: () => { this.props.scroll(false)},
-      onPanResponderStart: () => { this.props.onOpen(this.props.sectionID, this.props.rowID)},
-      onPanResponderMove: Animated.event( [null, {dx: this.state.offsetX}] ),
+      onPanResponderGrant: () => {
+        this.props.scroll(false);
+
+      },
+      onPanResponderMove: Animated.event( [null, {
+        dx: this.state.offsetX
+      }] ),
       onStartShouldSetPanResponderCapture:(e,gestureState) =>  false,
       onMoveShouldSetPanResponderCapture:(e,gestureState) =>  Math.abs(gestureState.dy) < 5,
-      onPanResponderTerminationRequest:(e,gestureState) => false,
       onPanResponderEnd: (e, gestureState) => {
-        var {contentWidth,btnsLeftWidth,btnsRightWidth} = this.state
-        var offsetX = gestureState.dx
-        var posY = gestureState.dy
-        //  minimum threshold to open swipeout
-        var openX = 100
 
-        //  should activate swipeout action
-        var openLeft = offsetX > openX
-        var openRight = offsetX < -openX
+        var { contentWidth, btnsLeftWidth, btnsRightWidth} = this.state,
+            {action} = gestureState.dx > 0 ? this.props.left[0] : this.props.right[0],
+            toValue = 0;
+
+        if(Math.abs(gestureState.dx) < BTNTHRESHOLD){
 
 
+          Animated.spring(this.state.offsetX, {
+            toValue,
+            velocity: gestureState.vx,
+            tension:50,
+            friction: 8
+          }).start(() => {
 
-        var toValue = 0
+            this.props.scroll(true);
 
-        Animated.spring(this.state.offsetX, {
-          toValue,
-          velocity: gestureState.vx,
-        }).start(()=> this.props.scroll(true));
 
+          }) // enable scrolling in parent scrollview when done
+
+        }else{
+          Animated.sequence([
+            Animated.timing(this.state.offsetX,{
+              toValue: gestureState.dx,
+              duration:0
+            }),
+            Animated.delay( gestureState.dx > 0 ? 0 :  2000 ),
+            Animated.spring(this.state.offsetX, {
+              toValue,
+              friction:8,
+              tension:50,
+              velocity: gestureState.vx,
+            })
+          ]).start(()=>{
+            action()
+
+            // InteractionManager.runAfterInteractions(()=>{
+              this.props.scroll(true);
+            // });
+          })
+        }
       }
     })
+
   },
 
-
-
-  //  close swipeout on button press,
-  _autoClose: function(btn) {
-    var onPress = btn.onPress
-    onPress && onPress()
-    this.state.autoClose && this._close()
-  },
-  _close: function() {
-    Animated.timing(this.state.offsetX, {
-      toValue:0,
-      duration: 150,
-    }).start(()=> this.props.scroll(true));
-
-    this.setState({
-      openedRight: false,
-      openedLeft: false,
-    })
-  },
   render(){
-    var contentWidth = this.state.contentWidth
-    var offsetX = this.state.offsetX
-
-
+    var {offsetX, contentWidth} = this.state
+    var {rowData} = this.props
+    console.log(rowData,rowData.isFavourited)
     return (
-      <View style={{position:'relative',width:DeviceWidth,overflow:'hidden',backgroundColor:colors.dark}}>
+      <Animated.View style={{position:'relative',width:DeviceWidth,overflow:'hidden',
+      backgroundColor:   offsetX.interpolate({
+          inputRange:   [-BTN_MAX,  -BTNWIDTH/2,   0,        BTNWIDTH/2,         BTN_MAX   ],
+          outputRange:  [ colors.dark,colors.dark,colors.outerSpace,colors.dark, colors.dark,],
+        })}}>
 
         <View
           style={{
@@ -168,7 +243,7 @@ var Swipeout = React.createClass({
           <View style={[styles.swipeoutBtns,{
                 left: 0,
                 overflow:'hidden',
-                width: DeviceWidth/5,
+                width: BTNWIDTH,
 
             }]}>
             {
@@ -176,16 +251,14 @@ var Swipeout = React.createClass({
                 return (
                   <SwipeoutBtn
                   offsetX={this.state.offsetX}
-                    backgroundColor={btn.backgroundColor}
-                    color={btn.color}
-                    component={btn.component}
                     height={100}
+                    rowData={rowData}
                     key={i}
-                    onPress={() => this._autoClose(this.props.left[i])}
                     text={btn.text}
                     type={btn.type}
-                    underlayColor={btn.underlayColor}
-                    width={DeviceWidth/5}/>
+                    btn={btn}
+                    width={BTNWIDTH}
+                    />
                 )
               })
             }
@@ -195,24 +268,25 @@ var Swipeout = React.createClass({
         {this.props.right  ?
           <View style={[styles.swipeoutBtns, {
               right: 0,
-              width: DeviceWidth/5,
+              width: BTNWIDTH,
 
             }]}>
             {
               this.props.right.map((btn, i) => {
                 return (
                   <SwipeoutBtn
-                  offsetX={this.state.offsetX}
+                    offsetX={this.state.offsetX}
                     backgroundColor={btn.backgroundColor}
                     color={btn.color}
+                    rowData={rowData}
                     component={btn.component}
                     height={100}
                     key={i}
                     onPress={() => this._autoClose(this.props.right[i])}
                     text={btn.text}
+                    btn={btn}
                     type={btn.type}
-                    underlayColor={btn.underlayColor}
-                    width={DeviceWidth/5}/>
+                    width={BTNWIDTH}/>
                 )
               })
             }
@@ -221,12 +295,15 @@ var Swipeout = React.createClass({
         </View>
 
         <Animated.View
-          style={[styles.swipeoutContent,{width:DeviceWidth,transform:[{translateX:offsetX}]}]}
+          style={[styles.swipeoutContent,{width:DeviceWidth,transform:[{translateX:offsetX.interpolate({
+            inputRange:   [-500,          -BTNWIDTH, 0, BTNWIDTH, 500         ],
+            outputRange:  [-BTN_MAX, -BTNWIDTH, 0, BTNWIDTH, BTN_MAX],
+          })}]}]}
           ref="swipeoutContent"  {...this._panResponder.panHandlers} >
           {this.props.children}
         </Animated.View>
 
-      </View>
+      </Animated.View>
     )
   }
 })
@@ -253,6 +330,11 @@ var styles = StyleSheet.create({
   swipeoutBtnText: {
     color: '#fff',
     textAlign: 'center',
+  },
+  swipeButtons:{
+    width:75,
+    height:100,
+    position:'relative'
   },
   swipeoutBtns: {
     flex: 1,

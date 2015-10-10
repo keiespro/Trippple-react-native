@@ -77,8 +77,10 @@ class MatchList extends Component{
     // if(scrollEnabled != this.state.scrollEnabled && this._listView) {
       // this.state.index ?  : this._flistView.refs.listviewscroll.refs.InnerScrollView.setNativeProps({ scrollEnabled })
       this._listView.refs.listviewscroll.refs.ScrollView.setNativeProps({ scrollEnabled })
-    // }
+
   }
+
+  shouldComponentUpdate =(nProps,nState)=> nProps.matches.length > this.props.matches.length 
 
   _updateDataSource(data) {
     this.props.updateDataSource(data)
@@ -87,12 +89,12 @@ class MatchList extends Component{
 
   //  set active swipeout item
   _handleSwipeout(sectionID, rowID) {
-    const rows = this.props.matches;
-    for (var i = 0; i < rows.length; i++) {
-      if (i != rowID) { rows[i].active = false }
-      else {rows[i].active = true}
-    }
-    this._updateDataSource(rows)
+    // const rows = this.props.matches;
+    // for (var i = 0; i < rows.length; i++) {
+    //   if (i != rowID) { rows[i].active = false }
+    //   else {rows[i].active = true}
+    // }
+    // this._updateDataSource(rows)
   }
 
   toggleFavorite(rowData){
@@ -112,27 +114,30 @@ class MatchList extends Component{
     var modalVisible = this.state.isVisible
     var self = this
     var matchImage = them.couple && them.couple.thumb_url || them[0].thumb_url || them[1].thumb_url
-
+    console.log(rowData)
     return (
 
       <Swipeout
         left={[ {
-              onPress: self.actionModal.bind(self,rowData),
-              underlayColor: 'black',
-              component: ( <View style={styles.swipeButtons}><ThreeDots/></View>),
+              threshold: 200,
+              action: self.actionModal.bind(self,rowData),
               backgroundColor: colors.dark,
+              underlayColor: colors.mediumPurple,
+
             }
          ]}
 
         right={[
           {
-            component: (rowData.isFavourited ? <ActiveStarButton/> : <EmptyStarButton/>),
-            onPress: (()=>self.toggleFavorite(rowData)),
+            threshold: 200,
+            component: true,
+            action: () => self.toggleFavorite(rowData),
             backgroundColor: colors.dark,
-            underlayColor: 'black',
+            underlayColor: colors.dandelion,
+
           }
         ]}
-
+        rowData={rowData}
         backgroundColor={colors.dark}
         rowID={rowID}
         sectionID={sectionID}
@@ -143,6 +148,7 @@ class MatchList extends Component{
         onOpen={(sectionID_, rowID_) => {console.log('OPEN'); this._handleSwipeout(sectionID_, rowID_)}}>
 
         <TouchableHighlight onPress={(e) => {
+            if(this.state.isVisible || !this.state.scrollEnabled){ return false}
             console.log('onpress Swipeout',e);
             this._pressRow(rowData.match_id);
           }}
@@ -225,98 +231,50 @@ class MatchList extends Component{
             onPress={index => this.setState({ index })}
           />
         </View>
+
         {this.state.index === 0 ?
           (this.props.matches.length > 0 ?
           <ListView
-          initialListSize={12}
-          scrollEnabled={this.state.scrollEnabled}
-          removeClippedSubviews={true}
-          directionalLockEnabled={true}
-          vertical={true}
-
-          chatActionSheet={this.props.chatActionSheet}
+            initialListSize={12}
+            scrollEnabled={this.state.scrollEnabled}
+            removeClippedSubviews={true}
+            directionalLockEnabled={true}
+            vertical={true}
+            chatActionSheet={this.props.chatActionSheet}
             onEndReached={ (e) => {
-              const nextPage = this.props.matches.length/20 + 1;
+              const nextPage = this.props.matches.length / 20 + 1;
               if(this.state.fetching || nextPage === this.state.lastPage){ return false }
               this.setState({lastPage: nextPage })
               MatchActions.getMatches(nextPage);
-
             }}
             ref={component => this._listView = component}
             dataSource={this.props.dataSource}
             renderRow={this._renderRow.bind(this)}
             /> :
-            <ScrollView
-                contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth}}
-                scrollEnabled={false}
-                centerContent={true}
-                style={{
-                  backgroundColor:colors.outerSpace,
-                  flex:1,
-                  alignSelf:'stretch',
-                  width:DeviceWidth}}>
-                  <View style={{flexDirection:'column',paddingHorizontal:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
-                    <Image  style={{width:300,height:100,marginBottom:0 }} source={require('image!listing')}
-                    resizeMode={Image.resizeMode.contain} />
-                    <Image  style={{width:300,height:100,marginBottom:20 }} source={require('image!listing')}
-                    resizeMode={Image.resizeMode.contain} />
-
-                    <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',marginBottom:20}} >{`WAITING FOR MATCHES`}</Text>
-                    <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes',textAlign:'center'}} >Your conversations with your matches will appear in this screen</Text>
-                  </View>
-            </ScrollView>
+            <NoMatches/>
             )
             :
-          (this.props.favorites.length > 0 ? <ListView
-          initialListSize={12}
-          removeClippedSubviews={true}
-          directionalLockEnabled={true}
-          vertical={true}
-
-          scrollEnabled={this.state.scrollEnabled}
-          chatActionSheet={this.props.chatActionSheet}
+          (this.props.favorites.length > 0 ?
+          <ListView
+            initialListSize={12}
+            scrollEnabled={this.state.scrollEnabled}
+            removeClippedSubviews={true}
+            directionalLockEnabled={true}
+            vertical={true}
+            chatActionSheet={this.props.chatActionSheet}
             onEndReached={ (e) => {
               console.log('FAVS ON END REACHED')
              // const nextPage = this.props.favorites.length/20 + 1;
               // if(this.state.fetching || nextPage === this.state.lastPage){ return false }
               // this.setState({lastPage: nextPage })
               // MatchActions.getFavorites(nextPage);
-
             }}
             ref={component => this._flistView = component}
             dataSource={this.props.favDataSource}
             renderRow={this._renderRow.bind(this)}
             /> :
-            <ScrollView
-
-          contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth}}
-            scrollEnabled={false}
-            centerContent={true}
-          style={{
-            backgroundColor:colors.outerSpace,
-            flex:1,
-            alignSelf:'stretch',
-            width:DeviceWidth}}>
-      <FadeInContainer>
-
-        <View style={{flexDirection:'column',paddingHorizontal:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
-
-        <Image  style={{width:175,height:180,marginBottom:40 }} source={require('image!iconPlaceholderFavs')}
-               resizeMode={Image.resizeMode.contain}
-        />
-        <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',marginBottom:20}} >{`YOUR FAVORITE PEOPLE`}</Text>
-        <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes',textAlign:'center'}} >Tap on the star next to  to add matches to your favorites for easy access</Text>
-
-        </View>
-      </FadeInContainer>
-
-        </ScrollView>)}
-
-
-
-
-
-
+            <NoFavorites/>
+        )}
 
         </View>
     );
@@ -396,8 +354,66 @@ class MatchesInside extends Component{
 
 }
 
+class NoMatches extends Component{
+
+  render(){
+    return (
+      <ScrollView
+          contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth}}
+          scrollEnabled={false}
+          centerContent={true}
+          style={{
+            backgroundColor:colors.outerSpace,
+            flex:1,
+            alignSelf:'stretch',
+            width:DeviceWidth}}>
+            <View style={{flexDirection:'column',paddingHorizontal:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
+              <Image  style={{width:300,height:100,marginBottom:0 }} source={require('image!listing')}
+              resizeMode={Image.resizeMode.contain} />
+              <Image  style={{width:300,height:100,marginBottom:20 }} source={require('image!listing')}
+              resizeMode={Image.resizeMode.contain} />
+
+              <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',marginBottom:20}} >{`WAITING FOR MATCHES`}</Text>
+              <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes',textAlign:'center'}} >Your conversations with your matches will appear in this screen</Text>
+            </View>
+      </ScrollView>
+    )
+  }
+}
 
 
+class NoFavorites extends Component{
+
+  render(){
+    return (
+
+      <ScrollView
+
+      contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth}}
+      scrollEnabled={false}
+      centerContent={true}
+      style={{
+      backgroundColor:colors.outerSpace,
+      flex:1,
+      alignSelf:'stretch',
+      width:DeviceWidth}}>
+      <FadeInContainer>
+
+      <View style={{flexDirection:'column',paddingHorizontal:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
+
+      <Image  style={{width:175,height:180,marginBottom:40 }} source={require('image!iconPlaceholderFavs')}
+         resizeMode={Image.resizeMode.contain}
+      />
+      <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',marginBottom:20}} >{`YOUR FAVORITE PEOPLE`}</Text>
+      <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes',textAlign:'center'}} >Tap on the star next to  to add matches to your favorites for easy access</Text>
+
+      </View>
+      </FadeInContainer>
+
+      </ScrollView>
+    )
+  }
+}
 class Matches extends Component{
 
   static defaultProps = {
@@ -578,14 +594,10 @@ class StarButton extends Component{
     super()
   }
   render(){
+    console.log(this.props)
     return (
-      <View style={styles.swipeButtons}>
-          <Image
-            style={{alignSelf:'center' }}
-            source={require('image!starOutline')}
-            resizeMode={Image.resizeMode.cover}
-           />
-       </View>
+       this.props.startValue ?  <ActiveStarButton {...this.props}/> : <EmptyStarButton {...this.props}/>
+
     )
   }
 }
@@ -617,7 +629,10 @@ class EmptyStarButton extends Component{
     return (
       <View style={styles.swipeButtons}>
            <Image
-             style={{alignSelf:'center' }}
+             style={{alignSelf:'center',
+             tintColor: this.props.activeLevel
+
+           }}
              source={require('image!starOutline')}
              resizeMode={Image.resizeMode.cover}
            />
