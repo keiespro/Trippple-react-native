@@ -20,6 +20,7 @@ import {
 import Mixpanel from '../utils/mixpanel';
 import SegmentedView from '../controls/SegmentedView'
 import ScrollableTabView from '../scrollable-tab-view'
+import FakeNavBar from '../controls/FakeNavBar';
 
 
 import scrollable from 'react-native-scrollable-decorator'
@@ -299,25 +300,34 @@ class SettingsInside extends React.Component{
 <ParallaxView
         showsVerticalScrollIndicator={false}
           key={this.props.user.image_url}
-          navBar={this.props.navBar}
+
           backgroundSource={{uri: this.props.user.image_url}}
-          windowHeight={320}
+          windowHeight={400}
           navigator={this.props.navigator}
           style={{backgroundColor:colors.outerSpace,paddingTop:0}}
           header={(
-          <View  style={[styles.userimageContainer,styles.blur]}>
-            <TouchableOpacity onPress={this._pressNewImage}>
+          <View  style={[styles.userimageContainer,styles.blur,{justifyContent:'center',flexDirection:'column'}]}>
+            <TouchableOpacity onPress={this._pressNewImage} style={{marginTop:20}}>
               <Image
                 style={styles.userimage}
                 key={this.props.user.image_thumb}
                 source={{uri: this.props.user.image_thumb}}
                 defaultSource={require('image!defaultuser')}
                 resizeMode={Image.resizeMode.cover}/>
+              <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
+                <Image
+                    style={{width:18,height:18}}
+                    source={require('image!cog')}
+                    resizeMode={Image.resizeMode.contain}/>
+                </View>
 
             </TouchableOpacity>
+            <TouchableOpacity onPress={this._pressNewImage}>
 
-            <Text>{this.props.user.firstname}</Text>
-            <Text>View Profile</Text>
+              <Text style={{textAlign:'center',color:colors.white,fontSize:18,marginTop:20,fontFamily:'Montserrat-Bold'}}>{this.props.user.firstname.toUpperCase()}</Text>
+              <Text style={{textAlign:'center',color:colors.white,fontSize:16,marginTop:0,fontFamily:'omnes'}}>View Profile</Text>
+            </TouchableOpacity>
+
 
           </View>
       )}>
@@ -384,8 +394,17 @@ class Settings extends React.Component{
   render(){
     return (
       <View style={styles.container}>
-        <SettingsInside user={this.props.user} navBar={this.props.navBar} openModal={this.openModal} navigator={this.props.navigator}/>
-        {this.props.navBar}
+        <SettingsInside user={this.props.user} openModal={this.openModal} navigator={this.props.navigator}/>
+          <FakeNavBar
+                blur={true}
+                backgroundStyle={{backgroundColor:colors.shuttleGray}}
+                hideNext={true}
+                 navigator={this.props.navigator}
+                customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'center',top:10,justifyContent:'center',height:12,width:12}} source={require('image!close')}/>}
+                onPrev={(nav,route)=> nav.pop()}
+                title={this.props.user.firstname.toUpperCase()}
+                titleColor={colors.white}
+                />
       </View>
     )
   }
@@ -440,8 +459,7 @@ var styles = StyleSheet.create({
    padding:0,
    height: 180,
    width:180,
-   alignItems: 'stretch',
-   position:'relative',
+   alignItems: 'center',
    borderRadius:90,
    overflow:'hidden'
  },
@@ -572,7 +590,7 @@ segmentTitles:{
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 10,
+    paddingBottom: 0,
     width:DeviceWidth/3,
 
   },
@@ -611,7 +629,7 @@ var CustomTabBar = React.createClass({
     return (
       <TouchableOpacity key={name} onPress={() => {console.log(page); this.props.goToPage(page)}}>
         <View style={[styles.tab]}>
-          <Text style={{color: isTabActive ? colors.mediumPurple : colors.white}}>{name}</Text>
+          <Text style={{fontFamily:'Montserrat',fontSize:15,padding:5,color: isTabActive ? colors.white : colors.shuttleGray}}>{name}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -624,7 +642,7 @@ var CustomTabBar = React.createClass({
     var tabUnderlineStyle = {
       position: 'absolute',
       width: DeviceWidth / numberOfTabs,
-      height: 4,
+      height: 2,
       backgroundColor: colors.mediumPurple,
       bottom: 0,
       left:0,
