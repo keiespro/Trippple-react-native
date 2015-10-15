@@ -7,28 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
-		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
-		00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
-		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
-		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
-		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
-		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
-		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		AC161C071BBE59DA00150328 /* RCTMaskableText.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF01BBE59DA00150328 /* RCTMaskableText.m */; };
 		AC161C081BBE59DA00150328 /* RCTMaskableTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF51BBE59DA00150328 /* RCTMaskableTextField.m */; };
 		AC161C091BBE59DA00150328 /* RCTMaskableTextFieldManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF71BBE59DA00150328 /* RCTMaskableTextFieldManager.m */; };
 		AC161C0A1BBE59DA00150328 /* RCTMaskableTextManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF91BBE59DA00150328 /* RCTMaskableTextManager.m */; };
 		AC161C0B1BBE59DA00150328 /* RCTMaskableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFB1BBE59DA00150328 /* RCTMaskableTextView.m */; };
 		AC161C0C1BBE59DA00150328 /* RCTMaskableTextViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFD1BBE59DA00150328 /* RCTMaskableTextViewManager.m */; };
-		AC161C101BBE59DA00150328 /* Text.js in Resources */ = {isa = PBXBuildFile; fileRef = AC161C041BBE59DA00150328 /* Text.js */; };
-		AC161C111BBE59DA00150328 /* TextStylePropTypes.js in Resources */ = {isa = PBXBuildFile; fileRef = AC161C051BBE59DA00150328 /* TextStylePropTypes.js */; };
-		AC161C121BBE59DA00150328 /* TextUpdateTest.js in Resources */ = {isa = PBXBuildFile; fileRef = AC161C061BBE59DA00150328 /* TextUpdateTest.js */; };
-		AC43D52F1BA0F9AB003506F9 /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACABA31E1B8F7B760024503C /* libRNOverlay.a */; };
+		AC2B513D1BCF6C360093820F /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
+		AC2B513E1BCF6C360093820F /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129451B40EA1600CC1499 /* libRCTAddressBook.a */; };
+		AC2B513F1BCF6C360093820F /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6A6D9D1BBA1E800055446D /* libRCTCamera.a */; };
+		AC2B51401BCF6C360093820F /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1294D1B40EA1600CC1499 /* libRCTFBLogin.a */; };
+		AC2B51411BCF6C360093820F /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
+		AC2B51421BCF6C360093820F /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
+		AC2B51431BCF6C360093820F /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
+		AC2B51441BCF6C360093820F /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
+		AC2B51451BCF6C360093820F /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129501B40EA1600CC1499 /* libRCTPushNotification.a */; };
+		AC2B51461BCF6C360093820F /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
+		AC2B51471BCF6C360093820F /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		AC2B51481BCF6C360093820F /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
+		AC2B51491BCF6C360093820F /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
+		AC2B514A1BCF6C360093820F /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		AC2B514B1BCF6C360093820F /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129531B40EA1600CC1499 /* libRNFS.a */; };
+		AC2B514C1BCF6C360093820F /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1295A1B40EA1600CC1499 /* libRNMail.a */; };
+		AC2B514D1BCF6C360093820F /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACABA31E1B8F7B760024503C /* libRNOverlay.a */; };
+		AC2B516C1BCF6D3B0093820F /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2B51561BCF6C680093820F /* Bolts.framework */; };
+		AC2B516D1BCF6D3B0093820F /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2B51571BCF6C680093820F /* FBSDKCoreKit.framework */; };
+		AC2B516E1BCF6D3B0093820F /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2B51581BCF6C680093820F /* FBSDKLoginKit.framework */; };
+		AC2B516F1BCF6D3B0093820F /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2B51591BCF6C680093820F /* FBSDKShareKit.framework */; };
 		AC5A3AB81BAA4EAE00EFF0B9 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC5A3AB71BAA4EAE00EFF0B9 /* Montserrat-Bold.ttf */; };
 		AC5B03A11B85A899003E0302 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACA1296E1B40EC3B00CC1499 /* Images.xcassets */; };
 		AC5B03A71B85A9FB003E0302 /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5B03A21B85A9FB003E0302 /* Default-568h@2x~iphone.png */; };
@@ -41,22 +48,10 @@
 		AC6BC1AF1B832657005F7DFA /* omnes-light-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129731B40EF0D00CC1499 /* omnes-light-webfont.ttf */; };
 		AC6BC1B01B832657005F7DFA /* omnes-medium-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129741B40EF0D00CC1499 /* omnes-medium-webfont.ttf */; };
 		AC6BC1B11B832657005F7DFA /* omnes-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129751B40EF0D00CC1499 /* omnes-regular-webfont.ttf */; };
-		ACA1295D1B40EA2E00CC1499 /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129451B40EA1600CC1499 /* libRCTAddressBook.a */; };
-		ACA1295F1B40EA2E00CC1499 /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1294D1B40EA1600CC1499 /* libRCTFBLogin.a */; };
-		ACA129601B40EA2E00CC1499 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129501B40EA1600CC1499 /* libRCTPushNotification.a */; };
-		ACA129611B40EA2E00CC1499 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129531B40EA1600CC1499 /* libRNFS.a */; };
-		ACA129631B40EA2E00CC1499 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1295A1B40EA1600CC1499 /* libRNMail.a */; };
 		ACA1296D1B40EC0500CC1499 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA1296C1B40EC0500CC1499 /* RCTFileTransfer.m */; };
-		ACA129861B416C3000CC1499 /* libRNKeyboardEvents.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129851B416C2700CC1499 /* libRNKeyboardEvents.a */; };
 		ACBA6C761B8413A6009040D6 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACBA6C751B8413A6009040D6 /* Media.xcassets */; };
-		ACBB66781BBB297700E60957 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6A6D9D1BBA1E800055446D /* libRCTCamera.a */; };
 		ACBC57291B92498900615D7A /* DeviceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBC57281B92498900615D7A /* DeviceUtil.m */; };
-		ACCC43541BAEB7DF00700C21 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACCC433C1BAEB7D600700C21 /* libBVLinearGradient.a */; };
-		ACE1CD0A1B5772DF0043177A /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACE1CD061B5772DF0043177A /* Bolts.framework */; };
-		ACE1CD0B1B5772DF0043177A /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACE1CD071B5772DF0043177A /* FBSDKCoreKit.framework */; };
-		ACE1CD0C1B5772DF0043177A /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACE1CD081B5772DF0043177A /* FBSDKLoginKit.framework */; };
-		ACE1CD0D1B5772DF0043177A /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACE1CD091B5772DF0043177A /* FBSDKShareKit.framework */; };
-		ACFC0A6A1B51E5AE00D9D40F /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129561B40EA1600CC1499 /* libRNKeychain.a */; };
+		ACC298A31BCF776C00F27447 /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129561B40EA1600CC1499 /* libRNKeychain.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -193,26 +188,12 @@
 			remoteGlobalIDString = 46FEDE8A1AFF192F00D3261C;
 			remoteInfo = RNMailTests;
 		};
-		ACA129841B416C2700CC1499 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ACA129801B416C2700CC1499 /* RNKeyboardEvents.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F12AFB9B1ADAF8F800E0535D;
-			remoteInfo = RNKeyboardEvents;
-		};
 		ACABA31D1B8F7B760024503C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ACABA3191B8F7B760024503C /* RNOverlay.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNOverlay;
-		};
-		ACCC433B1BAEB7D600700C21 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ACCC43371BAEB7D600700C21 /* BVLinearGradient.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = BVLinearGradient;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -246,9 +227,10 @@
 		AC161BFB1BBE59DA00150328 /* RCTMaskableTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTMaskableTextView.m; path = lib/RCTMaskableText/RCTMaskableText/RCTMaskableTextView.m; sourceTree = "<group>"; };
 		AC161BFC1BBE59DA00150328 /* RCTMaskableTextViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTMaskableTextViewManager.h; path = lib/RCTMaskableText/RCTMaskableText/RCTMaskableTextViewManager.h; sourceTree = "<group>"; };
 		AC161BFD1BBE59DA00150328 /* RCTMaskableTextViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTMaskableTextViewManager.m; path = lib/RCTMaskableText/RCTMaskableText/RCTMaskableTextViewManager.m; sourceTree = "<group>"; };
-		AC161C041BBE59DA00150328 /* Text.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Text.js; path = lib/RCTMaskableText/RCTMaskableText/Text.js; sourceTree = "<group>"; };
-		AC161C051BBE59DA00150328 /* TextStylePropTypes.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = TextStylePropTypes.js; path = lib/RCTMaskableText/RCTMaskableText/TextStylePropTypes.js; sourceTree = "<group>"; };
-		AC161C061BBE59DA00150328 /* TextUpdateTest.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = TextUpdateTest.js; path = lib/RCTMaskableText/RCTMaskableText/TextUpdateTest.js; sourceTree = "<group>"; };
+		AC2B51561BCF6C680093820F /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = FacebookSDK/Bolts.framework; sourceTree = "<group>"; };
+		AC2B51571BCF6C680093820F /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		AC2B51581BCF6C680093820F /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		AC2B51591BCF6C680093820F /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
 		AC5A3AB71BAA4EAE00EFF0B9 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		AC5B03A21B85A9FB003E0302 /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
 		AC5B03A31B85A9FB003E0302 /* Default-667h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-667h@2x~iphone.png"; sourceTree = "<group>"; };
@@ -269,18 +251,10 @@
 		ACA129741B40EF0D00CC1499 /* omnes-medium-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "omnes-medium-webfont.ttf"; sourceTree = "<group>"; };
 		ACA129751B40EF0D00CC1499 /* omnes-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "omnes-regular-webfont.ttf"; sourceTree = "<group>"; };
 		ACA1297E1B41161100CC1499 /* Montserrat-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.otf"; sourceTree = "<group>"; };
-		ACA129801B416C2700CC1499 /* RNKeyboardEvents.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNKeyboardEvents.xcodeproj; path = "node_modules/react-native-keyboardevents/RNKeyboardEvents.xcodeproj"; sourceTree = "<group>"; };
 		ACABA3191B8F7B760024503C /* RNOverlay.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNOverlay.xcodeproj; path = "node_modules/react-native-overlay/RNOverlay.xcodeproj"; sourceTree = "<group>"; };
-		ACABA3281B8F7E880024503C /* RNBlur */ = {isa = PBXFileReference; lastKnownFileType = folder; name = RNBlur; path = "node_modules/react-native-blur/RNBlur"; sourceTree = "<group>"; };
-		ACABA3291B8F7E880024503C /* RNVibrancy */ = {isa = PBXFileReference; lastKnownFileType = folder; name = RNVibrancy; path = "node_modules/react-native-blur/RNVibrancy"; sourceTree = "<group>"; };
 		ACBA6C751B8413A6009040D6 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		ACBC57271B92498900615D7A /* DeviceUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceUtil.h; path = "node_modules/react-native-device/DeviceUtil.h"; sourceTree = "<group>"; };
 		ACBC57281B92498900615D7A /* DeviceUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceUtil.m; path = "node_modules/react-native-device/DeviceUtil.m"; sourceTree = "<group>"; };
-		ACCC43371BAEB7D600700C21 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
-		ACE1CD061B5772DF0043177A /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "node_modules/react-native-facebook-login/FacebookSDK/Bolts.framework"; sourceTree = "<group>"; };
-		ACE1CD071B5772DF0043177A /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "node_modules/react-native-facebook-login/FacebookSDK/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
-		ACE1CD081B5772DF0043177A /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = "node_modules/react-native-facebook-login/FacebookSDK/FBSDKLoginKit.framework"; sourceTree = "<group>"; };
-		ACE1CD091B5772DF0043177A /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = "node_modules/react-native-facebook-login/FacebookSDK/FBSDKShareKit.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -288,30 +262,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACBB66781BBB297700E60957 /* libRCTCamera.a in Frameworks */,
-				ACCC43541BAEB7DF00700C21 /* libBVLinearGradient.a in Frameworks */,
-				AC43D52F1BA0F9AB003506F9 /* libRNOverlay.a in Frameworks */,
-				ACFC0A6A1B51E5AE00D9D40F /* libRNKeychain.a in Frameworks */,
-				ACE1CD0A1B5772DF0043177A /* Bolts.framework in Frameworks */,
-				ACA129861B416C3000CC1499 /* libRNKeyboardEvents.a in Frameworks */,
-				ACA1295D1B40EA2E00CC1499 /* libRCTAddressBook.a in Frameworks */,
-				ACE1CD0B1B5772DF0043177A /* FBSDKCoreKit.framework in Frameworks */,
-				ACE1CD0D1B5772DF0043177A /* FBSDKShareKit.framework in Frameworks */,
-				ACA1295F1B40EA2E00CC1499 /* libRCTFBLogin.a in Frameworks */,
-				ACA129601B40EA2E00CC1499 /* libRCTPushNotification.a in Frameworks */,
-				ACA129611B40EA2E00CC1499 /* libRNFS.a in Frameworks */,
-				ACA129631B40EA2E00CC1499 /* libRNMail.a in Frameworks */,
-				146834051AC3E58100842450 /* libReact.a in Frameworks */,
-				ACE1CD0C1B5772DF0043177A /* FBSDKLoginKit.framework in Frameworks */,
-				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
-				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
-				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
-				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
-				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
-				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
-				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
-				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
-				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
+				ACC298A31BCF776C00F27447 /* libRNKeychain.a in Frameworks */,
+				AC2B513D1BCF6C360093820F /* libRCTActionSheet.a in Frameworks */,
+				AC2B513E1BCF6C360093820F /* libRCTAddressBook.a in Frameworks */,
+				AC2B513F1BCF6C360093820F /* libRCTCamera.a in Frameworks */,
+				AC2B51401BCF6C360093820F /* libRCTFBLogin.a in Frameworks */,
+				AC2B51411BCF6C360093820F /* libRCTGeolocation.a in Frameworks */,
+				AC2B51421BCF6C360093820F /* libRCTImage.a in Frameworks */,
+				AC2B51431BCF6C360093820F /* libRCTLinking.a in Frameworks */,
+				AC2B51441BCF6C360093820F /* libRCTNetwork.a in Frameworks */,
+				AC2B516C1BCF6D3B0093820F /* Bolts.framework in Frameworks */,
+				AC2B516D1BCF6D3B0093820F /* FBSDKCoreKit.framework in Frameworks */,
+				AC2B516E1BCF6D3B0093820F /* FBSDKLoginKit.framework in Frameworks */,
+				AC2B516F1BCF6D3B0093820F /* FBSDKShareKit.framework in Frameworks */,
+				AC2B51451BCF6C360093820F /* libRCTPushNotification.a in Frameworks */,
+				AC2B51461BCF6C360093820F /* libRCTSettings.a in Frameworks */,
+				AC2B51471BCF6C360093820F /* libRCTText.a in Frameworks */,
+				AC2B51481BCF6C360093820F /* libRCTVibration.a in Frameworks */,
+				AC2B51491BCF6C360093820F /* libRCTWebSocket.a in Frameworks */,
+				AC2B514A1BCF6C360093820F /* libReact.a in Frameworks */,
+				AC2B514B1BCF6C360093820F /* libRNFS.a in Frameworks */,
+				AC2B514C1BCF6C360093820F /* libRNMail.a in Frameworks */,
+				AC2B514D1BCF6C360093820F /* libRNOverlay.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,6 +365,7 @@
 		13B07FAE1A68108700A75B9A /* trippple */ = {
 			isa = PBXGroup;
 			children = (
+				AC2B515A1BCF6C680093820F /* FacebookSDK */,
 				ACA129701B40EF0D00CC1499 /* assets */,
 				ACA1296E1B40EC3B00CC1499 /* Images.xcassets */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -426,13 +399,9 @@
 			children = (
 				AC161BEE1BBE59B600150328 /* mask */,
 				AC6A6D941BBA1E800055446D /* RCTCamera.xcodeproj */,
-				ACCC43371BAEB7D600700C21 /* BVLinearGradient.xcodeproj */,
 				ACBC57271B92498900615D7A /* DeviceUtil.h */,
 				ACBC57281B92498900615D7A /* DeviceUtil.m */,
-				ACABA3281B8F7E880024503C /* RNBlur */,
-				ACABA3291B8F7E880024503C /* RNVibrancy */,
 				ACABA3191B8F7B760024503C /* RNOverlay.xcodeproj */,
-				ACA129801B416C2700CC1499 /* RNKeyboardEvents.xcodeproj */,
 				ACA1296C1B40EC0500CC1499 /* RCTFileTransfer.m */,
 				ACA1292D1B40EA1600CC1499 /* RCTFBLogin.xcodeproj */,
 				ACA129301B40EA1600CC1499 /* RCTPushNotification.xcodeproj */,
@@ -465,10 +434,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				ACE1CD061B5772DF0043177A /* Bolts.framework */,
-				ACE1CD071B5772DF0043177A /* FBSDKCoreKit.framework */,
-				ACE1CD081B5772DF0043177A /* FBSDKLoginKit.framework */,
-				ACE1CD091B5772DF0043177A /* FBSDKShareKit.framework */,
 				13B07FAE1A68108700A75B9A /* trippple */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* tripppleTests */,
@@ -501,11 +466,20 @@
 				AC161BFB1BBE59DA00150328 /* RCTMaskableTextView.m */,
 				AC161BFC1BBE59DA00150328 /* RCTMaskableTextViewManager.h */,
 				AC161BFD1BBE59DA00150328 /* RCTMaskableTextViewManager.m */,
-				AC161C041BBE59DA00150328 /* Text.js */,
-				AC161C051BBE59DA00150328 /* TextStylePropTypes.js */,
-				AC161C061BBE59DA00150328 /* TextUpdateTest.js */,
 			);
 			name = mask;
+			sourceTree = "<group>";
+		};
+		AC2B515A1BCF6C680093820F /* FacebookSDK */ = {
+			isa = PBXGroup;
+			children = (
+				AC2B51561BCF6C680093820F /* Bolts.framework */,
+				AC2B51571BCF6C680093820F /* FBSDKCoreKit.framework */,
+				AC2B51581BCF6C680093820F /* FBSDKLoginKit.framework */,
+				AC2B51591BCF6C680093820F /* FBSDKShareKit.framework */,
+			);
+			name = FacebookSDK;
+			path = "node_modules/react-native-facebook-login";
 			sourceTree = "<group>";
 		};
 		AC6A6D951BBA1E800055446D /* Products */ = {
@@ -584,26 +558,10 @@
 			path = assets;
 			sourceTree = "<group>";
 		};
-		ACA129811B416C2700CC1499 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				ACA129851B416C2700CC1499 /* libRNKeyboardEvents.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		ACABA31A1B8F7B760024503C /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				ACABA31E1B8F7B760024503C /* libRNOverlay.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		ACCC43381BAEB7D600700C21 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				ACCC433C1BAEB7D600700C21 /* libBVLinearGradient.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -645,7 +603,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Trippple" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "trippple" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -657,10 +615,6 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
-				{
-					ProductGroup = ACCC43381BAEB7D600700C21 /* Products */;
-					ProjectRef = ACCC43371BAEB7D600700C21 /* BVLinearGradient.xcodeproj */;
-				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
@@ -720,10 +674,6 @@
 				{
 					ProductGroup = ACA129341B40EA1600CC1499 /* Products */;
 					ProjectRef = ACA129331B40EA1600CC1499 /* RNFS.xcodeproj */;
-				},
-				{
-					ProductGroup = ACA129811B416C2700CC1499 /* Products */;
-					ProjectRef = ACA129801B416C2700CC1499 /* RNKeyboardEvents.xcodeproj */;
 				},
 				{
 					ProductGroup = ACA129371B40EA1600CC1499 /* Products */;
@@ -879,25 +829,11 @@
 			remoteRef = ACA1295B1B40EA1600CC1499 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		ACA129851B416C2700CC1499 /* libRNKeyboardEvents.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNKeyboardEvents.a;
-			remoteRef = ACA129841B416C2700CC1499 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		ACABA31E1B8F7B760024503C /* libRNOverlay.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRNOverlay.a;
 			remoteRef = ACABA31D1B8F7B760024503C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		ACCC433C1BAEB7D600700C21 /* libBVLinearGradient.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libBVLinearGradient.a;
-			remoteRef = ACCC433B1BAEB7D600700C21 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -911,17 +847,14 @@
 				AC5B03A11B85A899003E0302 /* Images.xcassets in Resources */,
 				AC6BC1AD1B832657005F7DFA /* Montserrat-Regular.otf in Resources */,
 				AC6BC1AE1B832657005F7DFA /* omnes-bold-webfont.ttf in Resources */,
-				AC161C121BBE59DA00150328 /* TextUpdateTest.js in Resources */,
 				AC5A3AB81BAA4EAE00EFF0B9 /* Montserrat-Bold.ttf in Resources */,
 				AC6BC1AF1B832657005F7DFA /* omnes-light-webfont.ttf in Resources */,
 				AC6BC1B11B832657005F7DFA /* omnes-regular-webfont.ttf in Resources */,
 				AC5B03A71B85A9FB003E0302 /* Default-568h@2x~iphone.png in Resources */,
 				AC6BC1B01B832657005F7DFA /* omnes-medium-webfont.ttf in Resources */,
-				AC161C101BBE59DA00150328 /* Text.js in Resources */,
 				AC5B03A91B85A9FB003E0302 /* Default-736h@3x~iphone.png in Resources */,
 				ACBA6C761B8413A6009040D6 /* Media.xcassets in Resources */,
 				AC5B03A81B85A9FB003E0302 /* Default-667h@2x~iphone.png in Resources */,
-				AC161C111BBE59DA00150328 /* TextStylePropTypes.js in Resources */,
 				AC5B03AA1B85A9FB003E0302 /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -953,7 +886,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-1";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -989,7 +922,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-1";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -1132,7 +1065,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Trippple" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "trippple" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

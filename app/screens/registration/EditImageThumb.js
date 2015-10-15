@@ -61,7 +61,7 @@ class EditImageThumb extends Component{
 
   accept(){
 
-    UserActions.uploadImage(this.state.croppedImageURI,'profile')
+    UserActions.uploadImage(this.props.image,'profile')
 
     if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
 
@@ -106,7 +106,7 @@ class EditImageThumb extends Component{
       <View style={styles.container}>
       <Image source={this.props.image}
       resizeMode={Image.resizeMode.cover} style={{width:DeviceWidth,height:DeviceHeight}}>
-        <BlurView blurType="dark" style={styles.blurbg}/>
+        <View blurType="dark" style={styles.blurbg}/>
 
  <View style={{width:100,height:50,left:20}}>
         <BackButton navigator={this.props.navigator}/>
@@ -324,15 +324,14 @@ const styles = StyleSheet.create({
     borderRadius:CropBoxSize/2,
   },
   cropButtonLabel:{
-    fontFamily:'Montserrat',
+    fontFamily:'Montserrat-Bold',
     fontSize:22,
-    fontWeight:"700",
     marginTop:40,
     paddingBottom:0,
     color:colors.white
   },
   blurbg:{
-    width:DeviceWidth,height:DeviceHeight,position:'absolute',backgroundColor:colors.outerSpace50
+    width:DeviceWidth,height:DeviceHeight,position:'absolute',backgroundColor:colors.outerSpace,opacity:0.9
   }
 });
 
