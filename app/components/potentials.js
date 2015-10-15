@@ -20,7 +20,6 @@ import FakeNavBar from '../controls/FakeNavBar';
 import ScrollableTabView from '../scrollable-tab-view'
 
 import alt from '../flux/alt';
-import precomputeStyle from 'precomputeStyle';
 import MatchActions from '../flux/actions/MatchActions';
 import ParallaxView from  '../controls/ParallaxScrollView'
 import ParallaxSwiper from  '../controls/ParallaxSwiper'
@@ -53,7 +52,7 @@ class Cards extends Component{
 
     this.state = {
       panX: new Animated.Value(0),
-      waitingForDoubleTap: false,
+      cardWidth: new Animated.Value(DeviceWidth-40),
       offsetY: {
         a:new Animated.Value(DeviceHeight),
         b:new Animated.Value(DeviceHeight),
@@ -202,7 +201,12 @@ class Cards extends Component{
   _toggleProfile(){
     this.state.panX.removeAllListeners();
 
+    Animated.timing(this.state.cardWidth,{
+      toValue: this.props.profileVisible ? DeviceWidth-40 : DeviceWidth,
+      duration:150,
+    }).start()
     this.props.toggleProfile();
+
     this.state.panX.setValue(0);     // Start 0
 
     }
@@ -299,10 +303,12 @@ class Cards extends Component{
                 transform:[
                 ],
                 alignSelf:'center',
-                width:(this.props.profileVisible ? DeviceWidth : DeviceWidth - 40),
-                height:(this.props.profileVisible ? DeviceHeight : DeviceHeight - 40),
-                left:this.props.profileVisible ? 0 : 20,
-                right:this.props.profileVisible ? 0 : 20,
+                overflow:'hidden',
+
+                width:this.state.cardWidth,
+                height:this.state.cardWidth.interpolate({inputRange: [DeviceWidth-40,DeviceWidth], outputRange: [DeviceHeight-40,DeviceHeight]}),
+                left:this.state.cardWidth && this.state.cardWidth.interpolate({inputRange: [DeviceWidth-40,DeviceWidth], outputRange: [20,0]}),
+                right:this.state.cardWidth && this.state.cardWidth.interpolate({inputRange: [DeviceWidth-40,DeviceWidth], outputRange: [20,0]}),
                 top: 55,
                 flex:1,
                 position:'absolute',
@@ -329,6 +335,7 @@ class Cards extends Component{
           >
           <InsideActiveCard
             user={user}
+            cardWidth={this.state.cardWidth}
             key={`${potentials[0].id || potentials[0].user.id}-activecard`}
             rel={user.relationship_status}
             isTopCard={true}
@@ -421,17 +428,21 @@ componentWillReceiveProps(nProps){
     return (
       <View ref={'cardinside'} key={`${potential.id || potential.user.id}-inside`}
         style={ [styles.shadowCard,{
+          overflow:'hidden',
           height: isTopCard ? DeviceHeight-80 : DeviceHeight-68
         } ]}>
 
           <ScrollView
           scrollEnabled={false}
+          centerContent={false}
+          alwaysBounceHorizontal={false}
           canCancelContentTouches={false}
             style={[styles.card,{
               margin:0,
-              overflow: 'hidden',
               padding:0,
               flex:1,
+              marginLeft:0,
+
               position:'relative',
               backgroundColor:  isThirdCard ? colors.white : colors.outerSpace,
             }]} key={`${potential.id || potential.user.id}-view`}>
@@ -439,6 +450,8 @@ componentWillReceiveProps(nProps){
             {this.props.isThirdCard ? null :
               <Animated.View key={`${potential.id || potential.user.id}bgopacity`} style={{
                   position:'relative',flex:1,
+
+                  width: this.props.cardWidth || null,
                   opacity:isTopCard ? 1 : this.props.inactiveOpacity,
                   backgroundColor:  colors.white, marginLeft: 0,
                 }} ref={"incard"}>
@@ -458,6 +471,9 @@ componentWillReceiveProps(nProps){
                     key={`${potential.user.id}-cimg`}
                     style={[styles.imagebg,{
                       backgroundColor:colors.white,
+                      width: this.props.cardWidth,
+                      height:this.props.cardWidth && this.props.cardWidth.interpolate({inputRange: [DeviceWidth-40,DeviceWidth], outputRange: [DeviceHeight-40,DeviceHeight]}),
+
                       opacity:panX && panX.interpolate({inputRange: [-200,0,200], outputRange: [0,1,0]})
                     }]}
                     resizeMode={Image.resizeMode.cover} />
@@ -468,6 +484,9 @@ componentWillReceiveProps(nProps){
                     defaultSource={require('image!defaultuser')}
                     style={[styles.imagebg,{
                       backgroundColor:colors.white,
+                      width: this.props.cardWidth,
+                      height:this.props.cardWidth && this.props.cardWidth.interpolate({inputRange: [DeviceWidth-40,DeviceWidth], outputRange: [DeviceHeight-40,DeviceHeight]}),
+
                       opacity:panX && panX.interpolate({inputRange: [-200,0,200], outputRange: [0,1,0]})
                     }]}
                     resizeMode={Image.resizeMode.cover} />
@@ -566,6 +585,11 @@ componentWillReceiveProps(nProps){
           ref={'cardinside'}
           key={`${potential.id || potential.user.id}-inside`}
           style={[ styles.card,{
+            height:DeviceHeight,
+            overflow:'hidden',
+            left:0,
+            flex:1,
+
             backgroundColor:colors.outerSpace,
             transform:[ {scale: 1}, ]
           },styles.shadowCard]}>
@@ -576,21 +600,28 @@ componentWillReceiveProps(nProps){
             height:DeviceHeight,
             padding:0,
             position:'relative',
+            flex:1,
           }]}
           canCancelContentTouches={true}
-
+          horizontal={false}
+          vertical={true}
+          alwaysBounceHorizontal={false}
           scrollEnabled={true}
 
           key={`${potential.id || potential.user.id}-view`}>
 
           <Animated.View key={`${potential.id || potential.user.id}bgopacity`} style={{
               position:'relative',
+              width:this.props.cardWidth,
             }} ref={"incard"}>
 
           <Swiper
-            automaticallyAdjustContentInsets={true}
             _key={`${potential.id || potential.user.id}-swiper`}
             loop={true}
+            width={DeviceWidth}
+            height={DeviceHeight}
+            style={{width:DeviceWidth,overflow: 'hidden',
+}}
             horizontal={false}
             vertical={true}
             autoplay={false}
@@ -605,8 +636,13 @@ componentWillReceiveProps(nProps){
                 key={`${potential.user.id}-cimg`}
 
                  defaultSource={require('image!defaultuser')}
-                style={[styles.imagebg,{ marginRight:-40,marginTop:-20}]}
-                resizeMode={Image.resizeMode.cover} />
+                style={[styles.imagebg,{
+                  height: DeviceHeight,
+marginTop:-20,
+width:this.props.cardWidth,
+
+}]}
+ />
 
             {rel == 'single' && potential.partner &&
               <Animated.Image
@@ -614,8 +650,12 @@ componentWillReceiveProps(nProps){
                 key={`${potential.partner.id}-cimg`}
 
                  defaultSource={require('image!defaultuser')}
-                style={[styles.imagebg,{ marginRight:-40,marginTop:-20}]}
-                resizeMode={Image.resizeMode.cover} />
+                style={[styles.imagebg,{
+                  height:DeviceHeight,
+                marginTop:-20,
+                width:this.props.cardWidth,
+ }]}
+  />
               }
           </Swiper>
 
@@ -626,6 +666,8 @@ componentWillReceiveProps(nProps){
               backgroundColor:colors.outerSpace,
               flex:1,
               alignSelf:'stretch',
+              width:DeviceWidth,
+
               top:-250,
               alignItems:'stretch',
               left:0,
@@ -1138,17 +1180,17 @@ animatedIcon:{
 var animations = {
   layout: {
     spring: {
-      duration: 400,
+      duration: 250,
       create: {
-        duration: 100,
+        duration: 250,
         property: LayoutAnimation.Properties.scaleXY,
-        type: LayoutAnimation.Types.spring,
-        springDamping: 50,
+        type: LayoutAnimation.Types.easeInEaseOut,
+        springDamping: 0,
       },
       update: {
-        duration: 800,
-        type: LayoutAnimation.Types.spring,
-        springDamping: 500,
+        duration: 250,
+        type: LayoutAnimation.Types.easeInEaseOut,
+        springDamping: 0,
         property: LayoutAnimation.Properties.scaleXY
       }
     },
