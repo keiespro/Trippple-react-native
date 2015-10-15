@@ -115,11 +115,15 @@ class FacebookButton extends React.Component{
   }
   handleLogin(){
     FBLoginManager.login( (error, data) => {
-      console.log(error, data);
+      console.log(error, data,data.credentials);
 
       if (!error) {
         this.setState({ fbUser : data.credentials});
-        UserActions.updateUserStub({...data.credentials});
+        UserActions.updateUser({
+          facebook_user_id: data.credentials.userId,
+          facebook_oauth_access_token: data.credentials.token
+        });
+
         this.props.onLogin && this.props.onLogin(data);
       } else {
         this.setState({ fbUser : null });

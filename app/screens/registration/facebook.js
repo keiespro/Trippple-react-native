@@ -50,12 +50,12 @@ class Facebook extends Component{
   }
 
 
-  handleCredentials(fbUser){
-    console.log(fbUser)
+  handleCredentials(fbUserData){
+    console.log(fbUserData)
+    var fbUser = fbUserData.credentials;
     this.setState({fbUser})
-    var api = `https://graph.facebook.com/v2.3/${fbUser.userId}?access_token=${fbUser.token}`;
+    var api = `https://graph.facebook.com/v2.3/${fbUser.userId}?fields=name,first_name,email,age_range,gender,timezone,locale,verified,updated_time&access_token=${fbUser.token}`;
 
-    console.log('FB api > ProfileInfo',api);
 
     fetch(api)
       .then((response) => response.json())
@@ -67,21 +67,22 @@ class Facebook extends Component{
           first_name,
           gender,
           facebook_id,
-          last_name,
           verified,
+          locale,
+          age_range,
           timezone,
           updated_time
         } = responseData;
 
         UserActions.updateUserStub({
           email,
-          first_name,
-          gender,
+          name: first_name,
+          gender: gender == 'male' ? 'm' : 'f',
           facebook_id,
-          last_name,
           fb_verified:verified,
           timezone,
-          fb_updated_time:updated_time
+          fb_updated_time:updated_time,
+          bday_year: new Date().getFullYear() - age_range.min
         });
       })
       .done();
