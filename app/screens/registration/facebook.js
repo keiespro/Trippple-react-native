@@ -74,7 +74,7 @@ class Facebook extends Component{
           updated_time
         } = responseData;
 
-        var fbData = {
+        const fbData = {
           fb_name: first_name,
           fb_gender: gender == 'male' ? 'm' : 'f',
           facebook_id,
@@ -85,21 +85,29 @@ class Facebook extends Component{
         }
         UserActions.updateUserStub(fbData);
         UserActions.updateUser({email,timezone})
-        this.skipFacebook(fbData)
-      })
+
+        var lastindex = this.props.navigator.getCurrentRoutes().length,
+            nextRoute = this.props.stack[lastindex];
+
+        nextRoute.passProps = {
+          ...this.props,
+          ...fbData
+        }
+        this.props.navigator.push(nextRoute)
+
+       })
       .done();
 
   }
 
 
-  skipFacebook =(moreProps)=>{
+  skipFacebook =( )=>{
     var lastindex = this.props.navigator.getCurrentRoutes().length;
-    console.log(lastindex,moreProps);
+
     var nextRoute = this.props.stack[lastindex];
 
     nextRoute.passProps = {
       ...this.props,
-      ...moreProps
     }
     this.props.navigator.push(nextRoute)
 

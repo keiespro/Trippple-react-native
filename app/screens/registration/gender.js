@@ -32,11 +32,15 @@ class GenderScreen extends Component{
     super(props);
 
     this.state = {
-      selection: null,
+      selection: props.fb_gender || null,
       canContinue: false
     }
   }
-
+  componentDidMount(){
+    this.setState({
+      selection: this.state.selection
+    })
+  }
   _selectFemale(){
     this.setState({
       selection: this.state.selection == 'f' ? null : 'f'
@@ -53,7 +57,6 @@ class GenderScreen extends Component{
     UserActions.updateUserStub({gender: this.state.selection});
 
  var lastindex = this.props.navigator.getCurrentRoutes().length;
-  console.log(lastindex);
   var nextRoute = this.props.stack[lastindex];
 
    nextRoute.passProps = {
@@ -62,7 +65,6 @@ class GenderScreen extends Component{
             }
 
     this.props.navigator.push(nextRoute)
-    console.log('HEY')
 
   }
   render() {

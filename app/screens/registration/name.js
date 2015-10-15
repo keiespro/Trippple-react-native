@@ -29,21 +29,21 @@ class NameScreen extends Component{
     super(props);
     console.log(props.user)
     this.state = {
-      name: props.user.firstname || '',
-      inputFieldValue: props.user.firstname || '',
+      name: props.fb_name || props.user.firstname || '',
+      inputFieldValue: props.fb_name || props.user.firstname || '',
     }
-    props.user.firstname && this.handleInputChange(props.user.firstname)
   }
 
+  componentDidMount(){
+    UserActions.updateUserStub({firstname: this.state.inputFieldValue});
 
+  }
   handleInputChange =(txt)=> {
-    var fontSize = 32;
-    if(!txt || txt == ''){
-      fontSize = 22
-      if(this.state.inputFieldValue.length){
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-       }
-    }
+    //  if(!txt || txt == ''){
+    //    if(this.state.inputFieldValue.length){
+    //     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    //    }
+    // }
     this._textInput && this._textInput.setNativeProps({
       value: txt
     })
@@ -98,7 +98,7 @@ class NameScreen extends Component{
             style={[styles.pinInput,{
               fontSize: 22
             }]}
-              defaultValue={this.props.fb_name || this.state.name || this.state.inputFieldValue || ''}
+              defaultValue={this.state.name || this.state.inputFieldValue || ''}
               keyboardAppearance={'dark'/*doesnt work*/}
               autoCapitalize={'words'}
               placeholder={'FIRST NAME'}

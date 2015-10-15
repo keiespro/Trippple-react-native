@@ -38,10 +38,11 @@ class BdayScreen extends Component{
 
   constructor(props){
     super(props);
+    console.log(props)
     this.state = {
        error: false,
       timeZoneOffsetInHours:props.timeZoneOffsetInHours,
-      date: props.user.bdate ? new Date(props.user.bdate) : null
+      date: props.fb_bday_year ? new Date(`${props.fb_bday_year}`) : null
     }
   }
   _submit =()=>{
