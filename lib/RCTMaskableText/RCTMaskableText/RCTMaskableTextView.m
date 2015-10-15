@@ -12,29 +12,38 @@
 #import "RCTConvert.h"
 #import "RCTEventDispatcher.h"
 #import "RCTUtils.h"
+#import "RCTUIManager.h"
 #import "UIView+React.h"
 
 @implementation RCTMaskableTextView
 {
+    RCTBridge *_bridge;
     RCTEventDispatcher *_eventDispatcher;
     BOOL _jsRequestingFirstResponder;
+    BOOL _autoGrow;
+    float _origHeight;
+    float _maxHeight;
     NSString *_placeholder;
     UITextView *_placeholderView;
     UITextView *_textView;
     NSInteger _nativeEventCount;
 }
 
-- (instancetype)initWithEventDispatcher:(RCTEventDispatcher *)eventDispatcher
+- (instancetype)initWithBridge:(RCTBridge *)bridge
 {
-    RCTAssertParam(eventDispatcher);
-    
+    RCTAssertParam(bridge);
+
     if ((self = [super initWithFrame:CGRectZero])) {
+        _bridge = bridge;
+        _autoGrow = false;
         _contentInset = UIEdgeInsetsZero;
-        _eventDispatcher = eventDispatcher;
+        _eventDispatcher = _bridge.eventDispatcher;
         _placeholderTextColor = [self defaultPlaceholderTextColor];
-        
+
         _textView = [[UITextView alloc] initWithFrame:self.bounds];
         _textView.backgroundColor = [UIColor clearColor];
+        _textView.keyboardAppearance = UIKeyboardAppearanceDark;
+
         _textView.scrollsToTop = NO;
         _textView.delegate = self;
         [self addSubview:_textView];
@@ -56,24 +65,28 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
     // first focused.
     UIEdgeInsets adjustedFrameInset = UIEdgeInsetsZero;
     adjustedFrameInset.left = _contentInset.left - 5;
-    
+
     UIEdgeInsets adjustedTextContainerInset = _contentInset;
     adjustedTextContainerInset.top += 5;
     adjustedTextContainerInset.left = 0;
-    
+
     CGRect frame = UIEdgeInsetsInsetRect(self.bounds, adjustedFrameInset);
     _textView.frame = frame;
     _placeholderView.frame = frame;
-    
+
     _textView.textContainerInset = adjustedTextContainerInset;
     _placeholderView.textContainerInset = adjustedTextContainerInset;
+
+    if (! _origHeight) {
+      _origHeight = self.frame.size.height;
+    }
 }
 
 - (void)updatePlaceholder
 {
     [_placeholderView removeFromSuperview];
     _placeholderView = nil;
-    
+
     if (_placeholder) {
         _placeholderView = [[UITextView alloc] initWithFrame:self.bounds];
         _placeholderView.backgroundColor = [UIColor clearColor];
@@ -83,11 +96,46 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
                                                                              NSFontAttributeName : (_textView.font ? _textView.font : [self defaultPlaceholderFont]),
                                                                              NSForegroundColorAttributeName : _placeholderTextColor
                                                                              }];
-        
+
         [self insertSubview:_placeholderView belowSubview:_textView];
         [self _setPlaceholderVisibility];
     }
 }
+
+- (void)updateTextViewFrame
+{
+  if (self.superview == nil) {
+    return;
+  }
+
+  if (_autoGrow) {
+    if (CGRectIsEmpty(self.frame)) {
+      return;
+    }
+
+    float currentHeight = _textView.frame.size.height;
+    float newHeight;
+
+    [_textView sizeToFit];
+
+    if (_textView.frame.size.height >= _origHeight) {
+      newHeight = _textView.frame.size.height;
+    } else {
+      newHeight = _origHeight;
+    }
+
+    if (_maxHeight > _origHeight) {
+      newHeight = fminf(newHeight, _maxHeight);
+    }
+
+    if (newHeight != currentHeight) {
+      CGRect newFrame = CGRectMake(0, 0, self.frame.size.width, newHeight);
+      [_bridge.uiManager setFrame:newFrame
+                        forView:self];
+    }
+  }
+}
+
 
 - (UIFont *)font
 {
@@ -98,6 +146,7 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
 {
     _textView.font = font;
     [self updatePlaceholder];
+    [self updateTextViewFrame];
 }
 
 - (UIColor *)textColor
@@ -108,6 +157,8 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
 - (void)setTextColor:(UIColor *)textColor
 {
     _textView.textColor = textColor;
+    _textView.keyboardAppearance = UIKeyboardAppearanceDark;
+
 }
 
 - (void)setPlaceholder:(NSString *)placeholder
@@ -186,6 +237,7 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
         UITextRange *selection = _textView.selectedTextRange;
         _textView.text = text;
         [self _setPlaceholderVisibility];
+        [self updateTextViewFrame];
         _textView.selectedTextRange = selection; // maintain cursor position/selection - this is robust to out of bounds
     } else if (eventLag > RCTTextUpdateLagWarningThreshold) {
         RCTLogWarn(@"Native TextInput(%@) is %zd events ahead of JS - try to make your JS faster.", self.text, eventLag);
@@ -210,6 +262,15 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
 {
     return _textView.autocorrectionType == UITextAutocorrectionTypeYes;
 }
+- (void)setAutoGrow:(BOOL)autoGrow
+{
+  _autoGrow = autoGrow;
+}
+
+- (void)setMaxHeight:(float)maxHeight
+{
+  _maxHeight = maxHeight;
+}
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
@@ -227,7 +288,7 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
         _textView.text = @"";
         [self _setPlaceholderVisibility];
     }
-    
+
     [_eventDispatcher sendTextEventWithType:RCTTextEventTypeFocus
                                    reactTag:self.reactTag
                                        text:textView.text
@@ -237,12 +298,13 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
 - (void)textViewDidChange:(UITextView *)textView
 {
     [self _setPlaceholderVisibility];
+    [self updateTextViewFrame];
     _nativeEventCount++;
     [_eventDispatcher sendTextEventWithType:RCTTextEventTypeChange
                                    reactTag:self.reactTag
                                        text:textView.text
                                  eventCount:_nativeEventCount];
-    
+
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView

@@ -24,6 +24,8 @@
 
 - (instancetype)initWithEventDispatcher:(RCTEventDispatcher *)eventDispatcher
 {
+    [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
+
     if ((self = [super initWithFrame:CGRectZero])) {
         RCTAssert(eventDispatcher, @"eventDispatcher is a required parameter");
         _eventDispatcher = eventDispatcher;
@@ -70,6 +72,8 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
 
 static void RCTUpdatePlaceholder(RCTMaskableTextField *self)
 {
+  self.keyboardAppearance = UIKeyboardAppearanceDark;
+
     if (self.placeholder.length > 0 && self.placeholderTextColor) {
         self.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.placeholder
                                                                      attributes:@{
