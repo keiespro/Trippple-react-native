@@ -48,10 +48,10 @@ class BdayScreen extends Component{
   _submit =()=>{
   var isLegal = moment(this.state.date).diff(moment(), 'years') < -18;
     if(!isLegal){return false}
-    // UserActions.updateUserStub({
-    //   bday_month: this.state.date.getMonth(),
-    //   bday_year: this.state.date.getYear()
-    // })
+    UserActions.updateUserStub({
+      bday_month: this.state.date.getMonth(),
+      bday_year: this.state.date.getYear()
+    })
     // this.props.navigator.push({
     //   component: this.props.stack[this.props.currentIndex+1].component,
     //   passProps: {

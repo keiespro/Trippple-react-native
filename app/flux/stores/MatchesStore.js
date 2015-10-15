@@ -77,7 +77,7 @@ class MatchesStore {
     this.getNewMatches(matchesData)
   }
   getNewMatches(matchesData){
-   var matches = matchesData.matches
+   var {matches} = matchesData
     if(matches.length){
       if(matchesData.page){
 
@@ -92,11 +92,12 @@ class MatchesStore {
             });
         }else{
 
-          var allmatches = this.state.matches;
-          var removed = allmatches.slice(0,19)
-          console.log(removed.length,allmatches.length)
 
-          allmatches.unshift(...matches)
+          var allmatches = _.unique([...this.state.matches,...matches],'id');
+          // var removed = allmatches.slice(0,19)
+          // console.log(removed.length,allmatches.length)
+          //
+          // allmatches.unshift(...matches)
           console.log(allmatches);
           this.setState({
             matches: allmatches
@@ -111,8 +112,8 @@ class MatchesStore {
     }
 
   }
-  handleGetFavorites(matches) {
-    if(matches.length){
+  handleGetFavorites(favs) {
+    if(favs.length){
 
       const updatedMatches = this.state.matches.map((m,index)=>{
         if(favs[index].isFavourited != m.isFavourited){

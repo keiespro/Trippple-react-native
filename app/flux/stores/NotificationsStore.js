@@ -41,13 +41,13 @@ class NotificationsStore {
 
   }
   expireNotification(){
-    // setTimeout(()=>{
-    //   const notifications = this.state.notifications
-    //   this.setState({
-    //      oldNotifications: [...this.state.oldNotifications, ...notifications],
-    //      notifications: [],
-    //   })
-    // },3500)
+    setTimeout(()=>{
+      const notifications = this.state.notifications
+      this.setState({
+         oldNotifications: [...this.state.oldNotifications, ...notifications],
+         notifications: [],
+      })
+    },3500)
   }
   handleNewMatchData(matchData){
     var {matches} = matchData
