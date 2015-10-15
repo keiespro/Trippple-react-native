@@ -24,6 +24,8 @@ import AltContainer from 'alt/AltNativeContainer'
 import InvertibleScrollView from 'react-native-invertible-scroll-view'
 import TimeAgo from './Timeago'
 import FakeNavBar from '../controls/FakeNavBar'
+import MaskableTextInput from '../RNMaskableTextInput.js'
+
 import { BlurView,VibrancyView} from 'react-native-blur'
 
 const styles = StyleSheet.create({
@@ -465,8 +467,9 @@ class ChatInside extends Component{
 
         <View style={styles.messageComposer}>
 
-          <TextInput
+          <MaskableTextInput
             multiline={true}
+            autoGrow={true}
             ref={component => this._textInput = component}
             style={styles.messageComposerInput}
             returnKeyType={'send'}
@@ -484,7 +487,7 @@ class ChatInside extends Component{
                   this.state.textInputValue || ' '
               }</Text>
             </View>
-          </TextInput>
+          </MaskableTextInput>
 
           <TouchableHighlight
             style={styles.sendButton}

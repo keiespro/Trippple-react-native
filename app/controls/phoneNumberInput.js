@@ -23,10 +23,11 @@ const mask = '(999) 999-9999',
     maskArr= ['(',')',' ','-'];
 
 import React from 'react-native'
-import { TextInput,View,StyleSheet  } from 'react-native'
+import { Text,TextInput,View,StyleSheet  } from 'react-native'
 import TimerMixin from 'react-timer-mixin';
 import s from 'underscore.string'
 import MaskableTextInput from '../RNMaskableTextInput.js'
+import colors from '../utils/colors'
 
 class PhoneNumberInput extends React.Component{
 
@@ -34,6 +35,7 @@ class PhoneNumberInput extends React.Component{
     super()
     this.state = {
       maskedPhone: '',
+      palceholder: true
     }
   }
 
@@ -60,7 +62,14 @@ class PhoneNumberInput extends React.Component{
       text:maskedPhone,
       fullText: maskedPhone + emptyMask.substr(maskedPhone.length,10)
     })
-    this.setState({maskedPhone})
+    var newState = {maskedPhone}
+    console.log(sanitizedText)
+    if(sanitizedText.length == 0){
+      newState.placeholder = true
+    }else if(sanitizedText.length > 0 && this.state.placeholder){
+      newState.placeholder = false
+    }
+    this.setState(newState)
     this.props.handleInputChange({phone: sanitizedText,inputFieldValue:sanitizedText})
   }
 
@@ -68,6 +77,7 @@ class PhoneNumberInput extends React.Component{
     var {text,fullText} = np
     this._textInput.setNativeProps({ text });
     this._textInput2.setNativeProps({ text: fullText });
+
   }
 
   onChangeText(text){
@@ -78,9 +88,11 @@ class PhoneNumberInput extends React.Component{
     return (
       <View>
         <View style={{flexDirection:'row',position:'relative'}}>
+          {this.state.placeholder ? null : <Text style={{left:'0',top:15,position:'absolute',color:colors.white,fontSize:26}}>+1</Text>}
           <MaskableTextInput
             ref={component => this._textInput = component}
             style={[this.props.style,{
+              paddingLeft:40,
               fontSize: 26,color:'#fff',flex:1,alignSelf:'stretch'
             }]}
             maxLength={14}
@@ -92,14 +104,15 @@ class PhoneNumberInput extends React.Component{
             onBlur={()=>{/*this._textInput.setNativeProps({editable:true})*/}}
             onChangeText={this.onChangeText.bind(this)}
             value={this.state.maskedPhone}
-            placeholder={`PHONE NUMBER`}
           />
           <TextInput
             editable={false}
             maxLength={14}
             keyboardType={'numeric'}
             style={[this.props.style,{
-              fontSize: 26,color:'#fff',flex:1,alignSelf:'stretch',position:'absolute',top:0,left:0,right:0,bottom:0
+              paddingLeft:40,
+              fontSize: 26,
+              color:'#fff',flex:1,alignSelf:'stretch',position:'absolute',top:0,left:0,right:0,bottom:0
             }]}
             ref={component => this._textInput2 = component}
           />

@@ -10,6 +10,7 @@ import {
   AlertIOS,
   TextInput,
   ListView,
+  Modal,
   TouchableHighlight,
   Dimensions,
  TouchableWithoutFeedback,
@@ -25,7 +26,6 @@ import colors from '../utils/colors'
 import _ from 'underscore'
 import Facebook from './registration/facebook'
 import BackButton from '../components/BackButton'
-import Modal from 'react-native-swipeable-modal'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 

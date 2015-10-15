@@ -68,7 +68,7 @@ class ProfileField extends React.Component{
 
     var displayField = (field) => {
       switch (field.field_type) {
-        case "input":
+        case 'input':
           return (
              <TextInput
                 autofocus={true}
@@ -94,13 +94,13 @@ class ProfileField extends React.Component{
             />
           );
 
-        case "dropdown":
+        case 'dropdown':
           // always add an empty option at the beginning of the array
           field.values.unshift('');
 
           return (
             <PickerIOS
-              style={{alignSelf:'center',width:330,backgroundColor:'red',marginHorizontal:0,alignItems:'stretch'}}
+              style={{alignSelf:'center',width:330,marginHorizontal:0,alignItems:'stretch'}}
               selectedValue={this.state.selectedDropdown || null}
               >
               {field.values.map((val) => (
@@ -149,13 +149,23 @@ class  SettingsPreferences extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      colorFalseSwitchIsOn: false
+      looking_for_mf: props.user.looking_for_mf || false,
+      looking_for_mm: props.user.looking_for_mm || false,
+      looking_for_ff: props.user.looking_for_ff || false,
     }
+  }
+  toggleField(field){
+    var newState = {}
+    newState[field] = !this.state[field]
+    UserActions.updateUser(newState)
+    this.setState(newState)
   }
   render(){
     let u = this.props.user;
     let settingOptions = this.props.settingOptions || {};
     console.log('settingOptions',settingOptions);
+
+    var {looking_for_mf,looking_for_mm,looking_for_ff} = this.state
 
         return (
           <View style={styles.inner}>
@@ -174,22 +184,33 @@ class  SettingsPreferences extends React.Component{
               title={`PREFERENCES`}
               titleColor={colors.white}
               />
-          <ScrollView style={{flex:1,marginTop:50}} contentContainerStyle={{   paddingHorizontal: 25,}} >
+            <ScrollView style={{flex:1,marginTop:50,paddingVertical:20}}   >
 
-            <TouchableHighlight onPress={this._editField}>
-              <View style={styles.formRow}>
-                <Text style={styles.textfield}>{this.props.user.relationship_status}</Text>
-              </View>
+
+
+              <TouchableHighlight underlayColor={colors.dark} style={{paddingHorizontal: 25,}} onPress={()=>{this.toggleField('looking_for_mf')}}>
+                <View  style={[{height:50,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
+                  <Text style={{color: looking_for_mf ? colors.white : colors.rollingStone,
+                      fontSize:14,fontFamily:'Montserrat'}}>MALE + FEMALE COUPLES</Text>
+                    <Image source={looking_for_mf ? require('image!ovalSelected') : require('image!ovalDashed')}/>
+                </View>
               </TouchableHighlight>
-              <View style={styles.formRow}>
-              <SwitchIOS
-                onValueChange={(value) => this.setState({colorFalseSwitchIsOn: value})}
-                onTintColor={colors.dark}
-                style={{marginVertical: 10}}
-                thumbTintColor={colors.mediumPurple}
-                tintColor={colors.dusk}
-                value={this.state.colorFalseSwitchIsOn} />
-              </View>
+
+              <TouchableHighlight underlayColor={colors.dark} style={{paddingHorizontal: 25,}} onPress={()=>{this.toggleField('looking_for_mm')}}>
+                <View  style={[{height:50,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
+                  <Text style={{color: looking_for_mm ? colors.white : colors.rollingStone,
+                      fontSize:14,fontFamily:'Montserrat'}}>MALE + MALE COUPLES</Text>
+                    <Image source={looking_for_mm ? require('image!ovalSelected') : require('image!ovalDashed')}/>
+                </View>
+              </TouchableHighlight>
+
+              <TouchableHighlight underlayColor={colors.dark} style={{paddingHorizontal: 25,}} onPress={()=>{this.toggleField('looking_for_ff')}}>
+                <View  style={[{height:50,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
+                  <Text style={{color: looking_for_ff ? colors.white : colors.rollingStone,
+                      fontSize:14,fontFamily:'Montserrat'}}>FEMALE + FEMALE COUPLES</Text>
+                    <Image source={looking_for_ff ? require('image!ovalSelected') : require('image!ovalDashed')}/>
+                </View>
+              </TouchableHighlight>
 
 
           </ScrollView>
@@ -256,7 +277,7 @@ var styles = StyleSheet.create({
    paddingTop:0,
    height:50,
    flex:1,
-   borderBottomWidth: 2,
+   borderBottomWidth: 1,
    borderBottomColor: colors.rollingStone
 
  },

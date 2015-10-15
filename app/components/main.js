@@ -177,11 +177,11 @@ const SettingsRoute = {
   navigationBar: (
     <FakeNavBar
       blur={true}
-      backgroundStyle={{backgroundColor:'transparent'}}
+      backgroundStyle={{backgroundColor:colors.shuttleGray}}
+      hideNext={true}
 
-      hidePrev={true}
-      customNext={<Image resizeMode={Image.resizeMode.contain} style={{width:30,top:10,height:20}} source={require('image!close')} />}
-      onNext={(nav,route)=> nav.pop()}
+      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12}} source={require('image!close')}/>}
+      onPrev={(nav,route)=> nav.pop()}
           title={'SETTINGS'}
           titleColor={colors.white}
 

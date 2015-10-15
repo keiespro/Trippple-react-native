@@ -140,7 +140,7 @@ class FieldModal extends React.Component{
                 borderBottomColor: colors.rollingStone,
                 textAlign:'center',
                 fontFamily:'Montserrat',
-                color: colors.white}}>{this.state.value ? this.state.value.toUpperCase() : fieldValue.toUpperCase()}</Text>
+                color: colors.white}}>{this.state.value ? this.state.value.toString().toUpperCase() : fieldValue ? fieldValue.toString().toUpperCase() : ''}</Text>
             </View>
           </View>
           {this.renderButtons()}

@@ -139,7 +139,7 @@ class ProfileField extends React.Component{
           }} style={{borderBottomWidth:2,borderColor:colors.shuttleGray}}>
           <View  style={{height:50,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
             <Text style={{color:colors.rollingStone,fontSize:20,fontFamily:'Montserrat'}}>{field.label && field.label.toUpperCase()}</Text>
-          <Text style={{color:colors.white,fontSize:20,fontFamily:'Montserrat',textAlign:'right'}}>{this.props.user[this.props.fieldName] ? this.props.user[this.props.fieldName].toUpperCase() : ''}</Text>
+          <Text style={{color:colors.white,fontSize:20,fontFamily:'Montserrat',textAlign:'right'}}>{this.props.user[this.props.fieldName] ? this.props.user[this.props.fieldName].toString().toUpperCase() : ''}</Text>
           </View>
         </TouchableHighlight>
     )
@@ -187,7 +187,6 @@ class SettingsBasic extends React.Component{
             </View>
 
             {['phone','email'].map((field) => {
-              //return <TouchableHighlight onPress={()} renderfield={<ProfileField user={this.props.user} navigator={this.props.navigator} field={settingOptions[field]} />}/>
               return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
             })}
 
@@ -201,9 +200,6 @@ class SettingsBasic extends React.Component{
             return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
           })}
 
-          <View style={styles.formHeader}>
-            <Text style={styles.formHeaderText}>Get more matches</Text>
-          </View>
 
           </View>
         </ScrollableTabView>

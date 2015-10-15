@@ -15,7 +15,7 @@ var {
 var TimerMixin = require('react-timer-mixin');
 
 var colors = require('../utils/colors')
-var Swiper = require('react-native-swiper');
+var Swiper = require('../controls/swiper');
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 var CustomSceneConfigs = require('../utils/sceneConfigs');
@@ -141,7 +141,7 @@ class Carousel extends Component{
   render(){
     var welcomeSlides = slides.map( (slide,i) => {
       return (
-        <View key={i+'slide'+slide.title.trim()} style={styles.slide}>
+        <View key={i+'slide'+i} style={styles.slide}>
         <Image style={[styles.slideImage,
           {
             paddingTop: 20,

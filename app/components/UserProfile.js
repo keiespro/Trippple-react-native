@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 
 import alt from '../flux/alt';
-import precomputeStyle from 'precomputeStyle';
 import MatchActions from '../flux/actions/MatchActions';
 import ParallaxView from  '../controls/ParallaxScrollView'
 import ParallaxSwiper from  '../controls/ParallaxSwiper'
@@ -331,4 +330,3 @@ shadowStyles:{
     marginTop:10
   }
 });
-

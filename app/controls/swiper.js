@@ -346,7 +346,7 @@ export default React.createClass({
     }
 
     return (
-      <View pointerEvents='none' style={[styles['pagination_' + this.state.dir], this.props.paginationStyle]}>
+      <View pointerEvents={'box-none'} style={[styles['pagination_' + this.state.dir], this.props.paginationStyle]}>
         {dots}
       </View>
     )
@@ -371,7 +371,7 @@ export default React.createClass({
     let prevButton = this.props.prevButton || <Text style={[styles.buttonText, {color: !this.props.loop && this.state.index == 0 ? 'rgba(0,0,0,0)' : '#007aff'}]}>‹</Text>
 
     return (
-      <View pointerEvents='box-none' style={[styles.buttonWrapper, {width: this.state.width, height: this.state.height}, this.props.buttonWrapperStyle]}>
+      <View pointerEvents={'box-none'} style={[styles.buttonWrapper, {width: this.state.width, height: this.state.height}, this.props.buttonWrapperStyle]}>
         <TouchableOpacity onPress={() => !(!this.props.loop && this.state.index == 0) && this.scrollTo.call(this, -1)}>
           <View>
             {prevButton}
@@ -443,13 +443,14 @@ export default React.createClass({
       }
 
       pages = pages.map((page, i) =>
-        <View style={pageStyle} key={i}>{children[page]}</View>
+        <View style={pageStyle} key={i+'slidepot'}>{children[page]}</View>
       )
     }
-    else pages = <View style={pageStyle}>{children}</View>
+    else pages = <View style={pageStyle}  key={'slidepot'}>{children}</View>
 
     return (
-      <View style={[styles.container, {
+      <View
+      style={[styles.container, {
         width: state.width,
         height: state.height
       }]}>
@@ -457,6 +458,7 @@ export default React.createClass({
           {...props}
           contentContainerStyle={[styles.wrapper, props.style]}
           contentOffset={state.offset}
+
           onScrollBeginDrag={this.onScrollBegin}
           onMomentumScrollEnd={this.onScrollEnd}>
           {pages}
