@@ -42,7 +42,7 @@ import EditImage from '../screens/registration/EditImage'
 import SelfImage from './loggedin/SelfImage'
 import Privacy from './privacy'
 import FacebookButton from '../buttons/FacebookButton'
-import FeedbackButton from '../screens/feedbackButton'
+
 import Contacts from '../screens/contacts'
 import colors from '../utils/colors'
 import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
