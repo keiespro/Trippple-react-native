@@ -110,6 +110,98 @@ class FieldModal extends React.Component{
 
   render(){
     var {field,fieldValue,inputField} = this.props
+
+    var inside = () =>{
+      switch(field.field_type ){
+        case 'dropdown':
+        return (
+          <View style={{ alignSelf:'stretch',flex:1}}>
+            <View style={{ alignSelf:'stretch',flex:1,height:DeviceHeight-170,alignItems:'center',justifyContent:'center',flexDirection:'column'}}>
+              <View style={{ borderBottomWidth: 2, borderBottomColor: colors.rollingStone, }}>
+                <Text style={{
+                    color: colors.rollingStone,
+                    fontSize: 16,textAlign:'center',
+                    fontFamily:'Omnes-Regular',
+                }}>{field.label}</Text>
+                <Text style={{
+                    padding: 8,
+                  fontSize: 30,
+                  width:DeviceWidth-40,
+                  borderBottomWidth: 2,
+                  borderBottomColor: colors.rollingStone,
+                  textAlign:'center',
+                  fontFamily:'Montserrat',
+                  color: colors.white}}>{this.state.value ? this.state.value.toString().toUpperCase() : fieldValue ? fieldValue.toString().toUpperCase() : ''}</Text>
+              </View>
+            </View>
+            {this.renderButtons()}
+            <View style={{backgroundColor:colors.white,flex:1,flexDirection:'column',alignItems:'center',width:DeviceWidth,justifyContent:'center',padding:0}}>
+              {React.cloneElement(inputField,{
+                onValueChange:(value) => {
+                  this.onChange(value)
+                },
+                selectedValue:this.state.value || fieldValue,
+                ref: (dropdown) => { this.dropdown = dropdown }
+              }
+            )}
+            </View>
+          </View>
+        )
+
+    case 'input':
+      return (
+        <View style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between'}}>
+          <View style={{ alignSelf:'stretch',flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',padding:20}}>
+            <Text style={{
+                color: colors.rollingStone,
+                fontSize: 16,textAlign:'center',
+                fontFamily:'Omnes-Regular',
+            }}>{field.label}</Text>
+            <View style={{ borderBottomWidth: 2, borderBottomColor: colors.rollingStone, }}>
+              {React.cloneElement(inputField,{
+              defaultValue:fieldValue,
+              onChangeText:(value) => {
+                this.onChange(value)
+              },
+              autoCapitalize:'characters',
+              ref: (textField) => { this.textField = textField }
+            }
+          )}
+          </View>
+
+          </View>
+          {this.renderButtons()}
+
+        </View>
+      )
+    case 'textarea':
+        return (
+          <View style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between'}}>
+            <View style={{ alignSelf:'stretch',flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',padding:20}}>
+              <Text style={{
+                  color: colors.rollingStone,
+                  fontSize: 16,textAlign:'center',
+                  fontFamily:'Omnes-Regular',
+              }}>{field.label}</Text>
+              <View style={{ borderBottomWidth: 2, borderBottomColor: colors.rollingStone, }}>
+
+                {React.cloneElement(this.props.inputField(),{
+                defaultValue:fieldValue,
+                onChangeText:(value) => {
+                  this.onChange(value)
+                }
+              })}
+
+            </View>
+
+            </View>
+            {this.renderButtons()}
+
+          </View>
+        )
+
+      }
+    }
     return (
       <ScrollView
         scrollEnabled={false}
@@ -123,63 +215,7 @@ class FieldModal extends React.Component{
           paddingBottom:this.state.keyboardSpace
         }]}>
 
-        {field.field_type == 'dropdown' ?
-        <View style={{ alignSelf:'stretch',flex:1}}>
-          <View style={{ alignSelf:'stretch',flex:1,height:DeviceHeight-170,alignItems:'center',justifyContent:'center',flexDirection:'column'}}>
-            <View style={{ borderBottomWidth: 2, borderBottomColor: colors.rollingStone, }}>
-              <Text style={{
-                  color: colors.rollingStone,
-                  fontSize: 16,textAlign:'center',
-                  fontFamily:'Omnes-Regular',
-              }}>{field.label}</Text>
-              <Text style={{
-                  padding: 8,
-                fontSize: 30,
-                width:DeviceWidth-40,
-                borderBottomWidth: 2,
-                borderBottomColor: colors.rollingStone,
-                textAlign:'center',
-                fontFamily:'Montserrat',
-                color: colors.white}}>{this.state.value ? this.state.value.toString().toUpperCase() : fieldValue ? fieldValue.toString().toUpperCase() : ''}</Text>
-            </View>
-          </View>
-          {this.renderButtons()}
-          <View style={{backgroundColor:colors.white,flex:1,flexDirection:'column',alignItems:'center',width:DeviceWidth,justifyContent:'center',padding:0}}>
-            {React.cloneElement(inputField,{
-              onValueChange:(value) => {
-                this.onChange(value)
-              },
-              selectedValue:this.state.value || fieldValue,
-              ref: (dropdown) => { this.dropdown = dropdown }
-            }
-          )}
-          </View>
-        </View>
-        : <View style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between'}}>
-            <View style={{ alignSelf:'stretch',flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',padding:20}}>
-              <Text style={{
-                  color: colors.rollingStone,
-                  fontSize: 16,textAlign:'center',
-                  fontFamily:'Omnes-Regular',
-              }}>{field.label}</Text>
-              <View style={{ borderBottomWidth: 2, borderBottomColor: colors.rollingStone, }}>
-                {React.cloneElement(inputField,{
-                defaultValue:fieldValue,
-                onChangeText:(value) => {
-                  this.onChange(value)
-                },
-                autoCapitalize:'characters',
-                ref: (textField) => { this.textField = textField }
-              }
-            )}
-            </View>
-
-            </View>
-            {this.renderButtons()}
-
-          </View>
-        }
-
+        {inside()}
 
       </ScrollView>
     )

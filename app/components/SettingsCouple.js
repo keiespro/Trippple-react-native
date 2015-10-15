@@ -50,6 +50,7 @@ import TrackKeyboardMixin from '../mixins/keyboardMixin'
 import reactMixin from 'react-mixin'
 
 
+
 var PickerItemIOS = PickerIOS.Item;
 
 class ProfileField extends React.Component{
@@ -68,7 +69,8 @@ class ProfileField extends React.Component{
 
     var displayField = (field) => {
       switch (field.field_type) {
-        case 'input':
+        case "input":
+        case "phone_input":
           return (
              <TextInput
                 autofocus={true}
@@ -94,13 +96,13 @@ class ProfileField extends React.Component{
             />
           );
 
-        case 'dropdown':
+        case "dropdown":
           // always add an empty option at the beginning of the array
           field.values.unshift('');
 
           return (
             <PickerIOS
-              style={{alignSelf:'center',width:330,backgroundColor:'red',marginHorizontal:0,alignItems:'stretch'}}
+              style={{alignSelf:'center',width:330,backgroundColor:colors.white,marginHorizontal:0,alignItems:'stretch'}}
               selectedValue={this.state.selectedDropdown || null}
               >
               {field.values.map((val) => (
@@ -123,24 +125,12 @@ class ProfileField extends React.Component{
     if(!field.label){ return false}
 
     return (
-        <TouchableHighlight onPress={(f)=>{
-            //trigger modal
-            this.props.navigator.push({
-              component: FieldModal,
-              passProps: {
-                inputField: displayField(field),
-                field,
-                fieldName:this.props.fieldName,
-                cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
-                fieldValue: this.props.user[this.props.fieldName]
-              }
-            })
-          }} style={{borderBottomWidth:2,borderColor:colors.shuttleGray}}>
+        <View style={{borderBottomWidth:2,borderColor:colors.shuttleGray}}>
           <View  style={{height:50,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
-            <Text style={{color:colors.rollingStone,fontSize:22,fontFamily:'Montserrat'}}>{field.label && field.label.toUpperCase()}</Text>
-            <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat',textAlign:'right'}}>{this.props.user[this.props.fieldName] ? this.props.user[this.props.fieldName].toUpperCase() : ''}</Text>
+            <Text style={{color:colors.rollingStone,fontSize:20,fontFamily:'Montserrat'}}>{field.label && field.label.toUpperCase()}</Text>
+          <Text style={{color:colors.white,fontSize:20,fontFamily:'Montserrat',textAlign:'right'}}>{this.props.user[this.props.fieldName] ? this.props.user[this.props.fieldName].toString().toUpperCase() : ''}</Text>
           </View>
-        </TouchableHighlight>
+        </View>
     )
   }
 }
@@ -153,6 +143,15 @@ class SettingsCouple extends React.Component{
     let u = this.props.user;
     let settingOptions = this.props.settingOptions || {};
     console.log('settingOptions',settingOptions);
+
+    var {partner} = this.props.user
+    var partner = {
+      firstname: 'xxx',
+      phone: '33333333',
+      gender: 'f',
+      birthday: '11'
+    }
+    // if(!partner) {return false}
     return (
       <View style={styles.inner}>
       <FakeNavBar
@@ -169,35 +168,28 @@ class SettingsCouple extends React.Component{
           title={`COUPLE`}
           titleColor={colors.white}
           />
-        <ScrollView style={{flex:1,marginTop:50}} contentContainerStyle={{   paddingHorizontal: 25,}} >
+        <ScrollView style={{flex:1,marginTop:50}} contentContainerStyle={{   paddingHorizontal: 25,paddingTop:25}} >
 
         <View style={styles.formHeader}>
-          <Text style={styles.formHeaderText}>Personal Info</Text>
+          <Text style={styles.formHeaderText}>Your Partner</Text>
         </View>
+        <Image
+          style={styles.userimage}
+          key={partner.image_thumb}
+          source={{uri: partner.image_thumb}}
+          defaultSource={require('image!defaultuser')}
+          resizeMode={Image.resizeMode.contain}/>
+        <View style={styles.formHeader}>
+
 
         {['firstname','birthday','gender'].map((field) => {
+             return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
+         })}
+
+
+        {['phone'].map((field) => {
           return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
         })}
-
-        <View style={styles.formHeader}>
-          <Text style={styles.formHeaderText}>Contact Info</Text>
-        </View>
-
-        {['phone','email'].map((field) => {
-          //return <TouchableHighlight onPress={()} renderfield={<ProfileField user={this.props.user} navigator={this.props.navigator} field={settingOptions[field]} />}/>
-          return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
-        })}
-
-        <View style={styles.formHeader}>
-          <Text style={styles.formHeaderText}>Details</Text>
-        </View>
-
-        {['height','body_type','ethnicity','eye_color','hair_color','smoke','drink'].map((field) => {
-          return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
-        })}
-
-        <View style={styles.formHeader}>
-          <Text style={styles.formHeaderText}>Get more matches</Text>
         </View>
 
 
@@ -311,5 +303,9 @@ var styles = StyleSheet.create({
    textAlign: 'left',
    fontFamily:'Montserrat',
  },
-
+userimage:{
+  backgroundColor:colors.dark,
+  width:80,height:80,borderRadius:40,alignSelf:'flex-end',
+  position:'absolute',right:25,top:25
+}
 });

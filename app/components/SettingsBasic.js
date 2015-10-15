@@ -101,7 +101,7 @@ class ProfileField extends React.Component{
 
           return (
             <PickerIOS
-              style={{alignSelf:'center',width:330,backgroundColor:'red',marginHorizontal:0,alignItems:'stretch'}}
+              style={{alignSelf:'center',width:330,backgroundColor:colors.white,marginHorizontal:0,alignItems:'stretch'}}
               selectedValue={this.state.selectedDropdown || null}
               >
               {field.values.map((val) => (
@@ -150,8 +150,14 @@ class SettingsBasic extends React.Component{
   constructor(props){
     super(props)
   }
+  onPressFacebook(fbUser){
+        console.log('settings fb button',fbUser,this.state.fbUser)
+        this.setState({fbUser});
+
+
+  }
   render(){
-    let u = this.props.user;
+    let user = this.props.user;
     let settingOptions = this.props.settingOptions || {};
     console.log('settingOptions',settingOptions);
     return (
@@ -173,10 +179,16 @@ class SettingsBasic extends React.Component{
         <ScrollView style={{flex:1,marginTop:55}} contentContainerStyle={{}} >
 
         <ScrollableTabView style={{overflow:'hidden'}} renderTabBar={(props)=><CustomTabBar {...props}/>}>
-          <View style={{height:800,backgroundColor:colors.outerSpace,width:DeviceWidth,  paddingHorizontal:25,}}  tabLabel={'BASIC'}>
+          <View style={{height:800,backgroundColor:colors.outerSpace,width:DeviceWidth,  paddingHorizontal:25,paddingTop:60}}  tabLabel={'BASIC'}>
             <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>Personal Info</Text>
             </View>
+            <Image
+              style={styles.userimage}
+              key={user.image_thumb}
+              source={{uri: user.image_thumb}}
+              defaultSource={require('image!defaultuser')}
+              resizeMode={Image.resizeMode.contain}/>
 
             {['firstname','birthday','gender'].map((field) => {
               return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
@@ -203,6 +215,10 @@ class SettingsBasic extends React.Component{
 
           </View>
         </ScrollableTabView>
+
+        <FacebookButton _onPress={this.onPressFacebook.bind(this)} buttonType={'connectionStatus'} wrapperStyle={{height:100,padding:0}}/>
+
+
       </ScrollView>
       </View>
 
@@ -339,7 +355,11 @@ tabs: {
   borderRightWidth: 0,
   borderBottomColor: colors.dark,
 },
-
+userimage:{
+  backgroundColor:colors.dark,
+  width:80,height:80,borderRadius:40,alignSelf:'flex-end',
+  position:'absolute',right:25,top:25
+}
 });
 
 

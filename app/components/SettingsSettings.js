@@ -11,6 +11,8 @@ import {
   TextInput,
   ScrollView,
   SwitchIOS,
+  PixelRatio,
+  AlertIOS,
   Animated,
   PickerIOS,
   Image,
@@ -21,6 +23,8 @@ import Mixpanel from '../utils/mixpanel';
 import SegmentedView from '../controls/SegmentedView'
 import ScrollableTabView from '../scrollable-tab-view'
 import FakeNavBar from '../controls/FakeNavBar';
+
+var Mailer = require('NativeModules').RNMail;
 
 import dismissKeyboard from 'dismissKeyboard'
 
@@ -50,154 +54,142 @@ import reactMixin from 'react-mixin'
 import FieldModal from './FieldModal'
 
 
-var PickerItemIOS = PickerIOS.Item;
 
-class ProfileField extends React.Component{
-  constructor(props){
-    super(props)
-    this.state = {
-      selectedDropdown: '',
-    }
-  }
-
-  _editField=()=>{}
-
-  render(){
-    var field = this.props.field || {};
-    console.log('ProfileField',field);
-
-    var displayField = (field) => {
-      switch (field.field_type) {
-        case "input":
-          return (
-             <TextInput
-                autofocus={true}
-                style={{
-                    height: 60,
-                    alignSelf: 'stretch',
-                    padding: 8,
-                    fontSize: 30,
-                    fontFamily:'Montserrat',
-                    color: colors.white,
-                    textAlign:'center',
-                    width:DeviceWidth-40
-                }}
-                onChangeText={(text) => this.setState({text})}
-                placeholder={field.placeholder || field.label}
-                autoCapitalize={'words'}
-                placeholderTextColor={colors.white}
-                autoCorrect={false}
-                returnKeyType={'go'}
-                autoFocus={true}
-                ref={component => this._textInput = component}
-                clearButtonMode={'always'}
-            />
-          );
-
-        case "dropdown":
-          // always add an empty option at the beginning of the array
-          field.values.unshift('');
-
-          return (
-            <PickerIOS
-              style={{alignSelf:'center',width:330,backgroundColor:'red',marginHorizontal:0,alignItems:'stretch'}}
-              selectedValue={this.state.selectedDropdown || null}
-              >
-              {field.values.map((val) => (
-                <PickerItemIOS
-                  key={val}
-                  value={val}
-                  label={val}
-                  />
-                )
-              )}
-            </PickerIOS>
-          );
-
-        default:
-          return (
-             null
-          );
-      }
-    }
-    if(!field.label){ return false}
-
-    return (
-        <TouchableHighlight onPress={(f)=>{
-            //trigger modal
-            this.props.navigator.push({
-              component: FieldModal,
-              passProps: {
-                inputField: displayField(field),
-                field,
-                fieldName:this.props.fieldName,
-                cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
-                fieldValue: this.props.user[this.props.fieldName]
-              }
-            })
-          }} style={{borderBottomWidth:2,borderColor:colors.shuttleGray}}>
-          <View  style={{height:50,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
-            <Text style={{color:colors.rollingStone,fontSize:22,fontFamily:'Montserrat'}}>{field.label && field.label.toUpperCase()}</Text>
-            <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat',textAlign:'right'}}>{this.props.user[this.props.fieldName] ? this.props.user[this.props.fieldName].toUpperCase() : ''}</Text>
-          </View>
-        </TouchableHighlight>
-    )
-  }
-}
 
 class SettingsSettings extends React.Component{
   constructor(props){
     super(props)
+    this.state = {
+      privacy: this.props.user.privacy || 'public'
+    }
+  }
+  togglePrivacy(value){
+    var payload = {}
+    payload[`privacy`] = value;
+    UserActions.updateUser(payload)
+
+    this.setState(payload)
+
   }
   componentDidMount() {
     Mixpanel.track('On - Setings Screen');
   }
 
-        onPressFacebook(fbUser){
-          console.log('settings fb button',fbUser,this.state.fbUser)
-          this.setState({fbUser});
-          return (
-            <View style={{height:800,backgroundColor:colors.outerSpace}}>
-              <CurrentPage user={this.props.user} navigator={this.props.navigator} />
-            </View>
-          )
+  handleFeedback() {
+    Mailer.mail({
+      subject: 'I\'m have an issue in the app',
+      recipients: ['feedback@trippple.co'],
+      body: 'Help!'
+    }, (error, event) => {
+        if(error) {
+          AlertIOS.alert('Error', 'Could not send mail. Please email feedback@trippple.co directly.');
         }
+    });
+  }
   render(){
     let u = this.props.user;
     let settingOptions = this.props.settingOptions || {};
+
+    var {privacy} = this.state
+
     console.log('settingOptions',settingOptions);
     return (
       <View style={styles.inner}>
           <FakeNavBar
-                backgroundStyle={{backgroundColor:colors.shuttleGray}}
-                hideNext={true}
-                navigator={this.props.navigator}
-                customPrev={
-                  <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
-                    <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
-                  </View>
-                }
-                onPrev={(nav,route)=> nav.pop()}
-                title={`SETTINGS`}
-                titleColor={colors.white}
-                />
-            <ScrollView style={{flex:1,marginTop:50}} contentContainerStyle={{   paddingHorizontal: 25,}} >
-
-            <TouchableHighlight onPress={this._editField}>
-              <View style={styles.formRow}>
-                <Text style={styles.textfield}>{this.props.user.gender}fpfoe</Text>
+            backgroundStyle={{backgroundColor:colors.shuttleGray}}
+            hideNext={true}
+            navigator={this.props.navigator}
+            customPrev={
+              <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
+                <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
               </View>
-            </TouchableHighlight>
-            <FacebookButton _onPress={this.onPressFacebook.bind(this)} buttonType={'connectionStatus'} wrapperStyle={{height:100,padding:0}}/>
+            }
+            onPrev={(nav,route)=> nav.pop()}
+            title={`SETTINGS`}
+            titleColor={colors.white}
+            />
+          <ScrollView style={{flex:1,marginTop:50}} contentContainerStyle={{   paddingHorizontal: 0}} centerContent={true} >
+            <View style={{paddingHorizontal: 25,}}>
+              <View style={styles.formHeader}>
+                <Text style={styles.formHeaderText}>Privacy</Text>
+              </View>
+            </View>
+        <TouchableHighlight underlayColor={colors.dark} style={{paddingHorizontal: 25,}} onPress={()=>{this.togglePrivacy('public')}}>
+          <View  style={[{
+              borderBottomWidth: 1 / PixelRatio.get(),
+              borderColor:colors.rollingStone,flex:1,height:130,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}]}>
+          <View style={{flexWrap:'wrap',alignSelf:'stretch',flex:1,alignItems:'flex-start',justifyContent:'center',width:DeviceWidth-120,flexDirection:'column',paddingRight:20}}>
+            <Text style={{color: privacy == 'public' ? colors.white : colors.rollingStone, fontSize:20,fontFamily:'Montserrat'}}>PUBLIC</Text>
+          <Text style={{color: privacy == 'public' ? colors.white : colors.rollingStone,fontSize:18,fontFamily:'omnes',marginTop:5}}>
+              Your profile is visible to all Trippple members.
+                  </Text>
+                </View>
+                <View style={{width:30,marginHorizontal:10}}>
+                  <Image style={{width:40,height:40}} source={privacy == 'public' ? require('image!ovalSelected') : require('image!ovalDashed')}/>
+                </View>
+                </View>
+              </TouchableHighlight>
+
+    <TouchableHighlight underlayColor={colors.dark} style={{paddingHorizontal: 25,}} onPress={()=>{this.togglePrivacy('private')}}>
+      <View  style={[{
+          borderBottomWidth: 1 / PixelRatio.get(),
+          borderColor:colors.rollingStone,flex:1,height:130,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}]}>
+      <View style={{flexWrap:'wrap',alignSelf:'stretch',flex:1,alignItems:'flex-start',justifyContent:'center',width:DeviceWidth-120,flexDirection:'column',paddingRight:20}}>
+        <Text style={{color: privacy == 'private' ? colors.white : colors.rollingStone, fontSize:20,fontFamily:'Montserrat'}}>PRIVATE</Text>
+      <Text style={{color: privacy == 'private' ? colors.white : colors.rollingStone,fontSize:18,fontFamily:'omnes',marginTop:5}}>
+          Your profile is hidden from your facebook friends and phone contacts.
+        </Text>
+      </View>
+      <View style={{width:30,marginHorizontal:10}}>
+        <Image style={{width:40,height:40}} source={privacy == 'private' ? require('image!ovalSelected') : require('image!ovalDashed')}/>
+      </View>
+      </View>
+    </TouchableHighlight>
 
 
-            <FeedbackButton />
-            <LogOutButton/>
-
-          </ScrollView>
+    <View style={{paddingHorizontal: 25,}}>
+        <View style={styles.formHeader}>
+          <Text style={styles.formHeaderText}>Helpful Links</Text>
+        </View>
+</View>
+        <TouchableHighlight style={{paddingHorizontal: 25,}} onPress={this.handleFeedback.bind(this)} underlayColor={colors.dark}>
+          <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
+            <Text style={{color:colors.white,fontSize:18}}>Feedback</Text>
+          <Image style={{width:10,height:17.5}} source={require('image!nextArrow')} />
           </View>
+        </TouchableHighlight>
+        <TouchableHighlight style={{paddingHorizontal: 25,}} onPress={(f)=>{
+          }} underlayColor={colors.dark}>
+          <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
+            <Text style={{color:colors.white,fontSize:18}}>Help</Text>
+          <Image style={{width:10,height:17.5}} source={require('image!nextArrow')} />
+          </View>
+        </TouchableHighlight>
+        <TouchableHighlight style={{paddingHorizontal: 25,}} onPress={(f)=>{
+          }} underlayColor={colors.dark}>
+          <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
+            <Text style={{color:colors.white,fontSize:18}}>Privacy Policy</Text>
+          <Image style={{width:10,height:17.5}} source={require('image!nextArrow')} />
+          </View>
+        </TouchableHighlight>
+        <TouchableHighlight style={{paddingHorizontal: 25,}} onPress={(f)=>{
+          }} underlayColor={colors.dark}>
+          <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
+            <Text style={{color:colors.white,fontSize:18}}>Terms of Use</Text>
+          <Image style={{width:10,height:17.5}} source={require('image!nextArrow')} />
+          </View>
+        </TouchableHighlight>
+        <View style={{paddingHorizontal: 25,}}>
+          <LogOutButton/>
+        <TouchableOpacity style={{alignItems:'center',marginVertical:20}} onPress={(f)=>{}}>
+          <Text style={{color:colors.shuttleGray,textAlign:'center'}}>Disable Your Account</Text>
+        </TouchableOpacity>
 
-        )
+        </View>
+        </ScrollView>
+      </View>
+
+    )
 
   }
 }
@@ -208,16 +200,25 @@ export default SettingsSettings
 
 class LogOutButton extends React.Component{
   _doLogOut(){
-    AsyncStorage.multiRemove(['ChatStore','MatchesStore'])
-    .then(() => UserActions.logOut())
+    AlertIOS.alert(
+      'Log Out of Trippple',
+      'Are you sure you want to log out?',
+      [
+        {text: 'Yes', onPress: () => {
+          AsyncStorage.multiRemove(['ChatStore','MatchesStore'])
+          .then(() => UserActions.logOut())
+        }},
+        {text: 'No', onPress: () => {return false}},
+      ]
+    )
 
   }
   render(){
 
     return (
-      <TouchableHighlight underlayColor={colors.dark} onPress={this._doLogOut}>
+      <TouchableHighlight underlayColor={colors.mediumPurple20} onPress={this._doLogOut} style={{marginVertical:20}}>
         <View style={styles.button}>
-          <Text style={styles.buttonText}>Log Out</Text>
+          <Text style={styles.buttonText}>LOG OUT OF TRIPPPLE</Text>
         </View>
       </TouchableHighlight>
     )
@@ -227,7 +228,24 @@ class LogOutButton extends React.Component{
 
 var styles = StyleSheet.create({
 
+  buttonText: {
+    fontSize: 22,
+    color: colors.white,
+    alignSelf: 'center',
+    fontFamily:'Montserrat'
 
+  },
+  button: {
+
+    flexDirection: 'column',
+    paddingVertical:20,
+    backgroundColor: 'transparent',
+    borderColor:colors.mediumPurple,
+    borderWidth: 1,
+
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
  container: {
    flex: 1,
    justifyContent: 'center',

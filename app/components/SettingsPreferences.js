@@ -21,6 +21,7 @@ import Mixpanel from '../utils/mixpanel';
 import SegmentedView from '../controls/SegmentedView'
 import ScrollableTabView from '../scrollable-tab-view'
 import FakeNavBar from '../controls/FakeNavBar';
+import MaskableTextInput from '../RNMaskableTextInput.js'
 
 import dismissKeyboard from 'dismissKeyboard'
 
@@ -30,6 +31,7 @@ import ParallaxView from  '../controls/ParallaxScrollView'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
+import AgePrefs from '../controls/AgePrefs'
 
 import DistanceSlider from '../controls/distanceSlider'
 import ToggleSwitch from '../controls/switches'
@@ -52,98 +54,6 @@ import FieldModal from './FieldModal'
 
 var PickerItemIOS = PickerIOS.Item;
 
-class ProfileField extends React.Component{
-  constructor(props){
-    super(props)
-    this.state = {
-      selectedDropdown: '',
-    }
-  }
-
-  _editField=()=>{}
-
-  render(){
-    var field = this.props.field || {};
-    console.log('ProfileField',field);
-
-    var displayField = (field) => {
-      switch (field.field_type) {
-        case 'input':
-          return (
-             <TextInput
-                autofocus={true}
-                style={{
-                    height: 60,
-                    alignSelf: 'stretch',
-                    padding: 8,
-                    fontSize: 30,
-                    fontFamily:'Montserrat',
-                    color: colors.white,
-                    textAlign:'center',
-                    width:DeviceWidth-40
-                }}
-                onChangeText={(text) => this.setState({text})}
-                placeholder={field.placeholder || field.label}
-                autoCapitalize={'words'}
-                placeholderTextColor={colors.white}
-                autoCorrect={false}
-                returnKeyType={'go'}
-                autoFocus={true}
-                ref={component => this._textInput = component}
-                clearButtonMode={'always'}
-            />
-          );
-
-        case 'dropdown':
-          // always add an empty option at the beginning of the array
-          field.values.unshift('');
-
-          return (
-            <PickerIOS
-              style={{alignSelf:'center',width:330,marginHorizontal:0,alignItems:'stretch'}}
-              selectedValue={this.state.selectedDropdown || null}
-              >
-              {field.values.map((val) => (
-                <PickerItemIOS
-                  key={val}
-                  value={val}
-                  label={val}
-                  />
-                )
-              )}
-            </PickerIOS>
-          );
-
-        default:
-          return (
-             null
-          );
-      }
-    }
-    if(!field.label){ return false}
-
-    return (
-        <TouchableHighlight onPress={(f)=>{
-            //trigger modal
-            this.props.navigator.push({
-              component: FieldModal,
-              passProps: {
-                inputField: displayField(field),
-                field,
-                fieldName:this.props.fieldName,
-                cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
-                fieldValue: this.props.user[this.props.fieldName]
-              }
-            })
-          }} style={{borderBottomWidth:2,borderColor:colors.shuttleGray}}>
-          <View  style={{height:50,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
-            <Text style={{color:colors.rollingStone,fontSize:22,fontFamily:'Montserrat'}}>{field.label && field.label.toUpperCase()}</Text>
-            <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat',textAlign:'right'}}>{this.props.user[this.props.fieldName] ? this.props.user[this.props.fieldName].toUpperCase() : ''}</Text>
-          </View>
-        </TouchableHighlight>
-    )
-  }
-}
 
 class  SettingsPreferences extends React.Component{
   constructor(props){
@@ -185,7 +95,54 @@ class  SettingsPreferences extends React.Component{
               titleColor={colors.white}
               />
             <ScrollView style={{flex:1,marginTop:50,paddingVertical:20}}   >
+              <View style={{paddingHorizontal: 25,}}>
+                  <View style={styles.formHeader}>
+                    <Text style={styles.formHeaderText}>About My Match</Text>
+                </View>
+              </View>
+              <View style={{marginVertical: 20,}}>
 
+              <TouchableHighlight onPress={(f)=>{
+                  //trigger modal
+                  this.props.navigator.push({
+                    component: FieldModal,
+                    passProps: {
+                      inputField: ()=>{
+                        return(
+                        <MaskableTextInput
+                           autofocus={true}
+                           style={{
+                               alignSelf: 'stretch',
+                               padding: 8,
+                               fontSize: 20,
+                               color: colors.white,
+                               height:60,
+                               width:DeviceWidth-40
+                           }}
+                           placeholder={''}
+                           autoGrow={true}
+                           maxHeight={300}
+                           autoCapitalize={'sentences'}
+                           placeholderTextColor={colors.white}
+                           autoCorrect={true}
+                           returnKeyType={'go'}
+                           multiline={true}
+                           ref={component => this._textArea = component}
+                           clearButtonMode={'always'}
+                       />)},
+                       field:{label:'bio',field_type:'textarea'},
+                      fieldName:'bio',
+                      cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
+                      fieldValue: this.props.user.bio
+                    }
+                  })
+                }} >
+                <View  style={{marginHorizontal:25,height:100,width:DeviceWidth-50,flexWrap:'wrap',alignItems:'center',justifyContent:'space-between',flexDirection:'column',borderBottomWidth:2,borderColor:colors.shuttleGray}}>
+                <Text style={{color:colors.white,fontSize:20,flexWrap:'wrap',fontFamily:'Montserrat'}}>{this.props.user.bio ? this.props.user.bio : ''}</Text>
+                </View>
+              </TouchableHighlight>
+
+              </View>
 
 
               <TouchableHighlight underlayColor={colors.dark} style={{paddingHorizontal: 25,}} onPress={()=>{this.toggleField('looking_for_mf')}}>
@@ -211,8 +168,9 @@ class  SettingsPreferences extends React.Component{
                     <Image source={looking_for_ff ? require('image!ovalSelected') : require('image!ovalDashed')}/>
                 </View>
               </TouchableHighlight>
-
-
+            <View  style={{marginVertical:20}}>
+              <AgePrefs user={this.props.user} />
+            </View>
           </ScrollView>
           </View>
 
@@ -256,11 +214,7 @@ var styles = StyleSheet.create({
    paddingBottom: 40,
 
  },
- closebox:{
-   height:40,
-   width:40,
-   backgroundColor:'blue'
- },
+
 
  formHeader:{
    marginTop:40
