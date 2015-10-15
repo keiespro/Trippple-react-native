@@ -74,6 +74,7 @@ class NotificationCommander extends Component{
 
 
     this.socket.on('system', (payload) => {
+      console.log('system NOTIFICATION',payload)
 
       const { data } = payload
 
@@ -99,6 +100,7 @@ class NotificationCommander extends Component{
     })
 
     this.socket.on('chat', (payload) => {
+      console.log('CHAT NOTIFICATION',payload)
       // const notifications = this.state.notifications;
       // notifications.push(payload);
       // this.setState({notifications});

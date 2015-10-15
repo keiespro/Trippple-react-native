@@ -8,7 +8,7 @@ const DeviceWidth = Dimensions.get('window').width;
 import colors from '../utils/colors'
 import {BlurView} from 'react-native-blur';
 import Overlay from 'react-native-overlay'
-var AnOverlay = Animated.createAnimatedComponent(Overlay);
+
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 
@@ -19,7 +19,7 @@ class Notification extends Component{
     super(props)
 
     this.state = {
-      yValue: -100
+      yValue: -220
     }
 
   }
@@ -31,6 +31,7 @@ class Notification extends Component{
 
     this.setState({yValue:0})
     VibrationIOS.vibrate()
+
   }
   componentWillUpdate(){
             LayoutAnimation.configureNext(animations.layout.spring);
@@ -44,6 +45,7 @@ class Notification extends Component{
 
   render(){
     console.log(this.props.payload)
+    if(!this.props.payload){return false}
     return (
       <View style={[styles.notificationWrapper,
         {
@@ -55,13 +57,14 @@ class Notification extends Component{
         <BlurView blurType="light" style={[styles.notificationOverlay]}>
 
 
-        {this.props.payload.type === 'message' &&
+        {this.props.payload.type == 'message' ?
           <TouchableOpacity onPress={(e)=>{console.log(e)}}>
-          <View style={{flex:1,flexDirection:'row'}}>
+          <View style={{flex:1,flexDirection:'row',width:DeviceWidth,padding:20}}>
             <View style={styles.notificationLeft}>
             <Image
               resizeMode={Image.resizeMode.contain}
               style={styles.notiImage}
+              defaultSource={require('image!defaultuser')}
               source={{uri: this.props.payload.from_user_info.image_url}}
             />
             </View>
@@ -70,25 +73,28 @@ class Notification extends Component{
               <Text style={styles.notiText}>{this.props.payload.message_body}</Text>
            </View>
            </View>
-           </TouchableOpacity>
+           </TouchableOpacity> : null
         }
 
-       {this.props.payload.type === 'match' &&
-          <TouchableOpacity onPress={(e)=>{console.log(e)}}>
-          <View style={{flex:1,flexDirection:'row'}}>
+       {this.props.payload.type == 'match' ?
+          <TouchableOpacity onPress={(e)=>{
+              console.log(e)
+
+            }}>
+          <View style={{flex:1,flexDirection:'row',width:DeviceWidth,padding:20}}>
             <View style={styles.notificationLeft}>
             <Image
               resizeMode={Image.resizeMode.contain}
               style={styles.notiImage}
-              source={{uri: this.props.user.relationship_status == 'single' ? this.props.payload.users.them.couple.thumb_url : this.props.payload.users.them.thumb_url}}
+              source={{uri: this.props.user.relationship_status == 'single' ? this.props.payload.thumb_url : this.props.payload.users['450'].thumb_url}}
             />
             </View>
             <View style={styles.notificationRight}>
               <Text style={styles.notiTitle}>New Match!</Text>
-              <Text style={styles.notiText}>{this.props.payload.users.them.couple.id}</Text>
+              <Text style={styles.notiText}>{this.props.payload.id}</Text>
            </View>
            </View>
-           </TouchableOpacity>
+           </TouchableOpacity> : null
         }
 
         </BlurView>
@@ -132,16 +138,17 @@ var animations = {
 
 var styles = StyleSheet.create({
   notificationWrapper:{
-    height:100,
+    height:120,
     width:DeviceWidth,
     flex: 1,
     position:'absolute',
     top:0,
     left:0,
     right:0,
+    backgroundColor:'transparent',
   },
   notificationOverlay: {
-    padding: 20,
+    backgroundColor:'transparent',
     flexDirection:'row',
     justifyContent:'space-between'
   },

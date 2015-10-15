@@ -28,7 +28,9 @@ class NotificationDisplayer extends Component{
   // }
 
   render(){
-    return this.props.notifications.length ? <Notification user={this.props.user} key={this.props.notifications[0]} payload={this.props.notifications[0]} /> : null
+    console.log(this.props.notifications)
+    return this.props.notifications[0] ?
+      <Notification user={this.props.user} key={this.props.notifications[0]} payload={this.props.notifications[0]} /> : null
 
   }
 }
