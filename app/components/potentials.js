@@ -393,7 +393,11 @@ class InsideActiveCard extends Component{
       slideIndex: 0
     }
   }
+  componentWillUnmount(){
+    this.props.panX.removeAllListeners();
+    this.props.cardWidth.removeAllListeners();
 
+  }
   componentWillUpdate(nextProps){
     LayoutAnimation.configureNext(animations.layout.spring);
   }

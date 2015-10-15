@@ -190,20 +190,21 @@ var Swipeout = React.createClass({
           }) // enable scrolling in parent scrollview when done
 
         }else{
+          action()
+
           Animated.sequence([
             Animated.timing(this.state.offsetX,{
               toValue: gestureState.dx,
               duration:0
             }),
-            Animated.delay( gestureState.dx > 0 ? 0 :  2000 ),
+            Animated.delay( gestureState.dx > 0 ? 300 :  800 ),
             Animated.spring(this.state.offsetX, {
               toValue,
-              friction:8,
-              tension:50,
+              friction:15,
+              tension:25,
               velocity: gestureState.vx,
             })
           ]).start(()=>{
-            action()
 
             // InteractionManager.runAfterInteractions(()=>{
               this.props.scroll(true);
