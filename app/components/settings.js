@@ -22,6 +22,7 @@ import SegmentedView from '../controls/SegmentedView'
 import ScrollableTabView from '../scrollable-tab-view'
 import FakeNavBar from '../controls/FakeNavBar';
 
+import dismissKeyboard from 'dismissKeyboard'
 
 import scrollable from 'react-native-scrollable-decorator'
 import Dimensions from 'Dimensions'
@@ -44,184 +45,17 @@ import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
 import EditPage from './EditPage'
 import CloseButton from './CloseButton'
 import Api from '../utils/api'
-// import {BlurView} from 'react-native-blur';
-
-var bodyTypes = [
-  'Athletic',
-  'Average',
-  'Curvy',
-  'Heavy set',
-  'Slender',
-  'Stocky',
-  'Rather not say'
-];
+import TrackKeyboardMixin from '../mixins/keyboardMixin'
+import reactMixin from 'react-mixin'
+import SettingsBasic from './SettingsBasic'
+import SettingsSettings from './SettingsSettings'
+import SettingsPreferences from './SettingsPreferences'
+import SettingsCouple from './SettingsCouple'
 
 var PickerItemIOS = PickerIOS.Item;
 
-class ProfileField extends React.Component{
-  constructor(props){
-    super(props)
-    this.state = {
-      selectedDropdown: '',
-    }
-  }
-
-  _editField=()=>{}
-
-  render(){
-    var field = this.props.field || {};
-    console.log('ProfileField',field);
-
-    var displayField = (field) => {
-      switch (field.field_type) {
-        case "input":
-          return (
-             <TextInput
-            style={{height: 40, width:200, borderColor: 'gray', borderWidth: 1}}
-            onChangeText={(text) => this.setState({text})}
-            placeholder={field.placeholder || field.label}
-            />
-          );
-
-        case "dropdown":
-          // always add an empty option at the beginning of the array
-          field.values.unshift('');
-
-          return (
-            <PickerIOS
-              selectedValue={this.state.selectedDropdown || null}
-              onValueChange={(selectedDropdown) => {
-                this.setState({selectedDropdown});
-                console.info('You picked "'+selectedDropdown+'" for field "'+field.label+'"', this.state);
-              }}>
-              {field.values.map((val) => (
-                <PickerItemIOS
-                  key={val}
-                  value={val}
-                  label={val}
-                  />
-                )
-              )}
-            </PickerIOS>
-          );
-
-        default:
-          return (
-             <Text></Text>
-          );
-      }
-    }
-
-    return (
-        <View>
-          { displayField(field) }
-        </View>
-    )
-  }
-}
-
-class BasicSettings extends React.Component{
-  constructor(props){
-    super(props)
-  }
-  render(){
-    let u = this.props.user;
-    let settingOptions = this.props.settingOptions || {};
-    console.log('settingOptions',settingOptions);
-    return (
-      <View style={styles.inner}>
-
-        <View style={styles.formHeader}>
-          <Text style={styles.formHeaderText}>Personal Info</Text>
-        </View>
-
-        {['firstname','birthday','gender'].map((field) => {
-          return <ProfileField navigator={this.props.navigator} field={settingOptions[field]} />
-        })}
-
-        <View style={styles.formHeader}>
-          <Text style={styles.formHeaderText}>Contact Info</Text>
-        </View>
-
-        {['phone','email'].map((field) => {
-          //return <TouchableHighlight onPress={()} renderfield={<ProfileField navigator={this.props.navigator} field={settingOptions[field]} />}/>
-          return <ProfileField navigator={this.props.navigator} field={settingOptions[field]} />
-        })}
-
-        <View style={styles.formHeader}>
-          <Text style={styles.formHeaderText}>Details</Text>
-        </View>
-
-        {['height','body_type'].map((field) => {
-          return <ProfileField navigator={this.props.navigator} field={settingOptions[field]} />
-        })}
-
-        <View style={styles.formHeader}>
-          <Text style={styles.formHeaderText}>Get more matches</Text>
-        </View>
 
 
-      </View>
-    )
-  }
-}
-
-class PreferencesSettings extends React.Component{
-  constructor(props){
-    super(props)
-    this.state = {
-      colorFalseSwitchIsOn: false
-    }
-  }
-
-  _editField=()=>{ }
-
-  render(){
-    return (
-      <View style={styles.inner}>
-        <TouchableHighlight onPress={this._editField}>
-          <View style={styles.formRow}>
-            <Text style={styles.textfield}>{this.props.user.relationship_status}</Text>
-          </View>
-          </TouchableHighlight>
-          <View style={styles.formRow}>
-          <SwitchIOS
-            onValueChange={(value) => this.setState({colorFalseSwitchIsOn: value})}
-            onTintColor={colors.dark}
-            style={{marginVertical: 10}}
-            thumbTintColor={colors.mediumPurple}
-            tintColor={colors.dusk}
-            value={this.state.colorFalseSwitchIsOn} />
-          </View>
-
-
-      </View>
-    )
-  }
-}
-
-class SettingsSettings extends React.Component{
-  componentDidMount() {
-    Mixpanel.track('On - Setings Screen');
-  }
-  constructor(props){
-    super(props)
-  }
-  _editField=()=>{ }
-  render(){
-    return (
-      <View style={styles.inner}>
-        <TouchableHighlight onPress={this._editField}>
-          <View style={styles.formRow}>
-            <Text style={styles.textfield}>{this.props.user.gender}fpfoe</Text>
-          </View>
-        </TouchableHighlight>
-      </View>
-    )
-  }
-}
-
-const SettingsPageAtIndex = [ BasicSettings, PreferencesSettings, SettingsSettings ]
 
 @scrollable
 class SettingsInside extends React.Component{
@@ -278,15 +112,6 @@ class SettingsInside extends React.Component{
     this.setState(()=>{return updatedAttribute});
   }
 
-  onPressFacebook(fbUser){
-    console.log('settings fb button',fbUser,this.state.fbUser)
-    this.setState({fbUser});
-    return (
-      <View style={{height:800,backgroundColor:colors.outerSpace}}>
-        <CurrentPage user={this.props.user} navigator={this.props.navigator} />
-      </View>
-    )
-  }
 
   render(){
 
@@ -302,7 +127,7 @@ class SettingsInside extends React.Component{
           key={this.props.user.image_url}
 
           backgroundSource={{uri: this.props.user.image_url}}
-          windowHeight={400}
+          windowHeight={DeviceHeight*0.6}
           navigator={this.props.navigator}
           style={{backgroundColor:colors.outerSpace,paddingTop:0}}
           header={(
@@ -332,6 +157,101 @@ class SettingsInside extends React.Component{
           </View>
       )}>
 
+      <View style={{backgroundColor:colors.outerSpace}}>
+      <TouchableHighlight onPress={(f)=>{
+          this.props.navigator.push({
+            component: SettingsBasic,
+            sceneConfig:NavigatorSceneConfigs.FloatFromRight,
+            passProps: {
+              style:styles.container,
+              settingOptions:this.state.settingOptions,
+              user:this.props.user,
+              navigator:this.props.navigator
+            }
+          })
+        }} underlayColor={colors.dark}>
+        <View  style={{borderBottomWidth:1,borderColor:colors.shuttleGray,height:80,alignItems:'center',justifyContent:'space-between',flexDirection:'row',paddingRight:25,marginLeft:25}}>
+          <View>
+            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>BASIC</Text>
+            <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
+              Your personal information and details
+            </Text>
+          </View>
+          <Image source={require('image!nextArrow')} />
+        </View>
+      </TouchableHighlight>
+
+      <TouchableHighlight onPress={(f)=>{
+          this.props.navigator.push({
+            component: SettingsCouple,
+            sceneConfig:NavigatorSceneConfigs.FloatFromRight,
+            passProps: {
+              style:styles.container,
+              settingOptions:this.state.settingOptions,
+              user:this.props.user,
+              navigator:this.props.navigator
+            }
+          })
+        }} underlayColor={colors.dark}>
+        <View  style={{borderBottomWidth:1,borderColor:colors.shuttleGray,height:80,alignItems:'center',justifyContent:'space-between',flexDirection:'row',paddingRight:25,marginLeft:25}}>
+          <View>
+            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>COUPLE</Text>
+            <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
+              You and your partner
+            </Text>
+          </View>
+          <Image source={require('image!nextArrow')} />
+          </View>
+        </TouchableHighlight>
+    </View>
+
+
+      <TouchableHighlight onPress={(f)=>{
+          this.props.navigator.push({
+            component: SettingsPreferences,
+            sceneConfig:NavigatorSceneConfigs.FloatFromRight,
+            passProps: {
+              style:styles.container,
+              settingOptions:this.state.settingOptions,
+              user:this.props.user,
+              navigator:this.props.navigator
+            }
+          })
+        }} underlayColor={colors.dark} >
+        <View  style={{borderBottomWidth:1,borderColor:colors.shuttleGray,height:80,alignItems:'center',justifyContent:'space-between',flexDirection:'row',paddingRight:25,marginLeft:25}}>
+          <View>
+            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>PREFERENCES</Text>
+            <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
+              What you're looking for
+            </Text>
+          </View>
+          <Image source={require('image!nextArrow')} />
+        </View>
+      </TouchableHighlight>
+      <TouchableHighlight onPress={(f)=>{
+          this.props.navigator.push({
+            component: SettingsSettings,
+            sceneConfig:NavigatorSceneConfigs.FloatFromRight,
+            passProps: {
+              style:styles.container,
+              settingOptions:this.state.settingOptions,
+              user:this.props.user,
+              navigator:this.props.navigator
+            }
+          })
+        }} underlayColor={colors.dark}>
+        <View  style={{borderBottomWidth:1,borderColor:colors.shuttleGray,height:80,alignItems:'center',justifyContent:'space-between',flexDirection:'row',paddingRight:25,marginLeft:25}}>
+          <View>
+            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>SETTINGS</Text>
+            <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
+              Privacy and more
+            </Text>
+          </View>
+          <Image source={require('image!nextArrow')} />
+          </View>
+        </TouchableHighlight>
+
+{/*
       <ScrollableTabView renderTabBar={(props)=><CustomTabBar {...props}/>}>
         <View style={{height:800,backgroundColor:colors.outerSpace,width:DeviceWidth}}  tabLabel={'BASIC'}>
           <BasicSettings settingOptions={this.state.settingOptions} user={this.props.user} navigator={this.props.navigator}/>
@@ -344,15 +264,10 @@ class SettingsInside extends React.Component{
          </View>
 
       </ScrollableTabView>
+*/}
 
 
 
-
-      <FacebookButton _onPress={this.onPressFacebook.bind(this)} buttonType={'connectionStatus'} wrapperStyle={{height:100,padding:0}}/>
-
-
-      <FeedbackButton />
-      <LogOutButton/>
 
     </ParallaxView>
 </View>
@@ -360,23 +275,6 @@ class SettingsInside extends React.Component{
   }
 }
 
-class LogOutButton extends React.Component{
-  _doLogOut(){
-    AsyncStorage.multiRemove(['ChatStore','MatchesStore'])
-    .then(() => UserActions.logOut())
-
-  }
-  render(){
-
-    return (
-      <TouchableHighlight underlayColor={colors.dark} onPress={this._doLogOut}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>Log Out</Text>
-        </View>
-      </TouchableHighlight>
-    )
-  }
-}
 
 class Settings extends React.Component{
 
@@ -399,10 +297,10 @@ class Settings extends React.Component{
                 blur={true}
                 backgroundStyle={{backgroundColor:colors.shuttleGray}}
                 hideNext={true}
-                 navigator={this.props.navigator}
+                navigator={this.props.navigator}
                 customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'center',top:10,justifyContent:'center',height:12,width:12}} source={require('image!close')}/>}
                 onPrev={(nav,route)=> nav.pop()}
-                title={this.props.user.firstname.toUpperCase()}
+                title={'MANAGE YOUR ACCOUNT'}
                 titleColor={colors.white}
                 />
       </View>
@@ -411,18 +309,11 @@ class Settings extends React.Component{
 }
 export default Settings
 
+
+
 var styles = StyleSheet.create({
 
-  modalStyle: {
 
-    },
-    contentStyle: {
-        justifyContent:'center',
-    },
-    swipeableAreaStyle: {
-        position: 'absolute',
-        top:0, left:0, right:0, height:20
-    },
  container: {
    flex: 1,
    justifyContent: 'center',
@@ -433,8 +324,11 @@ var styles = StyleSheet.create({
   //  overflow:'hidden'
  },
  inner:{
-   paddingHorizontal: 25,
-
+   flex: 1,
+   alignItems: 'stretch',
+   backgroundColor:colors.outerSpace,
+   flexDirection:'column',
+   justifyContent:'flex-start'
  },
 
  userimageContainer: {
@@ -609,58 +503,4 @@ segmentTitles:{
     borderBottomColor: colors.dark,
   },
 
-});
-
-
-var TAB_UNDERLINE_REF = 'TAB_UNDERLINE';
-
-
-var CustomTabBar = React.createClass({
-  propTypes: {
-    goToPage: React.PropTypes.func,
-    activeTab: React.PropTypes.object,
-    tabs: React.PropTypes.array,
-    pageNumber:React.PropTypes.number
-  },
-
-  renderTabOption(name, page) {
-    var isTabActive = this.props.pageNumber === page;
-
-    return (
-      <TouchableOpacity key={name} onPress={() => {console.log(page); this.props.goToPage(page)}}>
-        <View style={[styles.tab]}>
-          <Text style={{fontFamily:'Montserrat',fontSize:15,padding:5,color: isTabActive ? colors.white : colors.shuttleGray}}>{name}</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  },
-
-  render() {
-    var numberOfTabs = this.props.tabs.length;
-    var w = DeviceWidth / numberOfTabs
-
-    var tabUnderlineStyle = {
-      position: 'absolute',
-      width: DeviceWidth / numberOfTabs,
-      height: 2,
-      backgroundColor: colors.mediumPurple,
-      bottom: 0,
-      left:0,
-      transform: [
-        {
-          translateX: this.props.activeTab ? this.props.activeTab.interpolate({
-              inputRange: this.props.tabs.map((c,i) => (w * i) ),
-              outputRange: [0,w,(w * 2)]
-            }) : 0
-          }]
-
-    };
-
-    return (
-      <View style={styles.tabs}>
-        {this.props.tabs.map((tab, i) => this.renderTabOption(tab, i))}
-        <Animated.View style={tabUnderlineStyle} ref={TAB_UNDERLINE_REF} />
-      </View>
-    );
-  },
 });
