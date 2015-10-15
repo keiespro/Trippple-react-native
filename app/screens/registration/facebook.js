@@ -74,39 +74,40 @@ class Facebook extends Component{
           updated_time
         } = responseData;
 
-        UserActions.updateUserStub({
-          email,
-          name: first_name,
-          gender: gender == 'male' ? 'm' : 'f',
+        var fbData = {
+          fb_name: first_name,
+          fb_gender: gender == 'male' ? 'm' : 'f',
           facebook_id,
           fb_verified:verified,
-          timezone,
+          fb_timezone: timezone,
           fb_updated_time:updated_time,
-          bday_year: new Date().getFullYear() - age_range.min
-        });
+          fb_bday_year: new Date().getFullYear() - age_range.min
+        }
+        UserActions.updateUserStub(fbData);
+        UserActions.updateUser({email,timezone})
+        this.skipFacebook(fbData)
       })
       .done();
 
   }
 
 
-  skipFacebook =()=>{
-
+  skipFacebook =(moreProps)=>{
     var lastindex = this.props.navigator.getCurrentRoutes().length;
-    console.log(lastindex);
+    console.log(lastindex,moreProps);
     var nextRoute = this.props.stack[lastindex];
 
     nextRoute.passProps = {
       ...this.props,
-
+      ...moreProps
     }
     this.props.navigator.push(nextRoute)
+
 
 
   }
 
   render() {
-    // var text = this.state.user ? "LOG OUT" : "LOG IN WITH FACEBOOK";
     return (
      <View style={{width:DeviceWidth,height:DeviceHeight,position:'relative',backgroundColor:colors.outerSpace}}>
 
@@ -120,7 +121,7 @@ class Facebook extends Component{
             <Text style={styles.middleText}>Save time. Get more matches.</Text>
           </View>
 
-          <FacebookButton buttonType={'onboard'} buttonText={'VERIFY WITH FB'} _onPress={this.handleCredentials.bind(this)} />
+          <FacebookButton buttonType={'onboard'} buttonText={'VERIFY WITH FB'} onLogin={this.handleCredentials.bind(this)} />
 
           <View style={styles.middleTextWrap}>
             <Text style={[styles.middleText,{fontSize:16,marginTop:20}]}>Don’t worry, we wont tell ever your friends or post on your wall.</Text>

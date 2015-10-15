@@ -98,7 +98,7 @@ class NameScreen extends Component{
             style={[styles.pinInput,{
               fontSize: 22
             }]}
-              defaultValue={this.state.name || this.state.inputFieldValue || ''}
+              defaultValue={this.props.fb_name || this.state.name || this.state.inputFieldValue || ''}
               keyboardAppearance={'dark'/*doesnt work*/}
               autoCapitalize={'words'}
               placeholder={'FIRST NAME'}
