@@ -96,7 +96,7 @@ var lastindex = this.props.navigator.getCurrentRoutes().length;
 
       console.log(date,this.state.date);
       UserActions.updateUserStub({
-        birthday: date,
+        birthday: moment(date).format('YYYY-MM-DD'),
         bday_month: date.getMonth()+1,
         bday_year: date.getFullYear()
       });
@@ -154,6 +154,7 @@ var lastindex = this.props.navigator.getCurrentRoutes().length;
         <DatePickerIOS
             ref={'picker'}
             mode="date"
+
             date={(this.state.date || moment().toDate())}
             timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
             onDateChange={this.onDateChange.bind(this)}

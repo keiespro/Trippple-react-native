@@ -38,7 +38,7 @@ class FacebookButton extends React.Component{
   static propTypes = {
     _onPress:PropTypes.func.isRequired,
     buttonText:PropTypes.string,
-    buttonType: PropTypes.oneOf(['imageUpload','connectionStatus','onboard'])
+    buttonType: PropTypes.oneOf(['imageUpload','connectionStatus','onboard','settings'])
   };
 
   static defaultProps = {
@@ -147,7 +147,6 @@ class FacebookButton extends React.Component{
   render(){
     console.log(this.props.buttonText);
     var buttonText = this.props.buttonText;
-    this.props.buttonText;
     switch(this.props.buttonType){
       case  'uploadImage':
         buttonText = 'UPLOAD FROM FB'
@@ -158,6 +157,9 @@ class FacebookButton extends React.Component{
       case 'onboard':
         buttonText = this.state.fbUser ? `VERIFIED` : `VERIFY WITH FB`
       break;
+      case 'settings':
+        buttonText = this.state.fbUser ? `VERIFY NOW` : `VERIFY NOW`
+      break;
     }
 
     // ( this.state.fbUser ? 'CONNECTED' : 'CONNECT WITH FB')
@@ -165,6 +167,7 @@ class FacebookButton extends React.Component{
 
       <BoxyButton
         text={buttonText}
+        buttonText={this.props.buttonTextStyle}
         outerButtonStyle={styles.iconButtonOuter}
         leftBoxStyles={styles.buttonIcon}
         innerWrapStyles={styles.button}

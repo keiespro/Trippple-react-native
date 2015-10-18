@@ -52,14 +52,10 @@ class NotificationsStore {
   handleNewMatchData(matchData){
     var {matches} = matchData
     var pendingNotification = this.state.pendingNotifications[0] || this.state.notifications[0]
-    console.log(matches,pendingNotification)
-    console.log('NOTI STOR handleNewMatchData',pendingNotification)
 
     if(!pendingNotification){ return false }
     var match = _.filter(matches,(m) => m.match_id == pendingNotification.match_id);
-    console.log(pendingNotification,match,matches)
     var readyNotification = { ...pendingNotification, ...match[0], type: 'match'}
-    console.log('NOTI STOR handleNewMatchData',readyNotification)
 
     this.setState({
       notifications: [readyNotification],

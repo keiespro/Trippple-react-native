@@ -13,6 +13,7 @@ import {
   SwitchIOS,
   Animated,
   PickerIOS,
+  PixelRatio,
   Image,
   AsyncStorage,
   Navigator
@@ -23,10 +24,11 @@ import ScrollableTabView from '../scrollable-tab-view'
 import FakeNavBar from '../controls/FakeNavBar';
 
 import dismissKeyboard from 'dismissKeyboard'
-
+import moment from 'moment'
 import scrollable from 'react-native-scrollable-decorator'
 import Dimensions from 'Dimensions'
 import ParallaxView from  '../controls/ParallaxScrollView'
+import PhoneNumberInput from '../controls/phoneNumberInput.js'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -69,7 +71,7 @@ class ProfileField extends React.Component{
 
     var displayField = (field) => {
       switch (field.field_type) {
-        case "input":
+        case 'input':
           return (
              <TextInput
                 autofocus={true}
@@ -94,8 +96,14 @@ class ProfileField extends React.Component{
                 clearButtonMode={'always'}
             />
           );
-
-        case "dropdown":
+        case 'phone_input':
+          return (
+            <PhoneNumberInput
+              key={'updatephone'}
+              style={styles.phoneInput}
+            />
+          )
+        case 'dropdown':
           // always add an empty option at the beginning of the array
           field.values.unshift('');
 
@@ -136,10 +144,10 @@ class ProfileField extends React.Component{
                 fieldValue: this.props.user[this.props.fieldName]
               }
             })
-          }} style={{borderBottomWidth:2,borderColor:colors.shuttleGray}}>
-          <View  style={{height:50,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
-            <Text style={{color:colors.rollingStone,fontSize:20,fontFamily:'Montserrat'}}>{field.label && field.label.toUpperCase()}</Text>
-          <Text style={{color:colors.white,fontSize:20,fontFamily:'Montserrat',textAlign:'right'}}>{this.props.user[this.props.fieldName] ? this.props.user[this.props.fieldName].toString().toUpperCase() : ''}</Text>
+          }} underlayColor={colors.dark} style={{ paddingHorizontal:25,}}>
+          <View  style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
+            <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{field.label && field.label.toUpperCase()}</Text>
+          <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat',textAlign:'right'}}>{this.props.user[this.props.fieldName] ? this.props.user[this.props.fieldName].toString().toUpperCase() : ''}</Text>
           </View>
         </TouchableHighlight>
     )
@@ -179,23 +187,47 @@ class SettingsBasic extends React.Component{
         <ScrollView style={{flex:1,marginTop:55}} contentContainerStyle={{}} >
 
         <ScrollableTabView style={{overflow:'hidden'}} renderTabBar={(props)=><CustomTabBar {...props}/>}>
-          <View style={{height:800,backgroundColor:colors.outerSpace,width:DeviceWidth,  paddingHorizontal:25,paddingTop:60}}  tabLabel={'BASIC'}>
-            <View style={styles.formHeader}>
-              <Text style={styles.formHeaderText}>Personal Info</Text>
-            </View>
+          <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:60}}  tabLabel={'GENERAL'}>
+
+          <View style={{height:150,width:150,alignSelf:'center'}}>
             <Image
               style={styles.userimage}
               key={user.image_thumb}
               source={{uri: user.image_thumb}}
               defaultSource={require('image!defaultuser')}
               resizeMode={Image.resizeMode.contain}/>
-
-            {['firstname','birthday','gender'].map((field) => {
+              <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
+                <Image
+                    style={{width:18,height:18}}
+                    source={require('image!cog')}
+                    resizeMode={Image.resizeMode.contain}/>
+                </View>
+            </View>
+            <View style={{paddingHorizontal: 25,}}>
+              <View style={styles.formHeader}>
+                <Text style={styles.formHeaderText}>Personal Info</Text>
+              </View>
+              </View>
+            {['firstname'].map((field) => {
               return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
             })}
 
+            {['birthday','gender'].map((field) => {
+              return (
+                <View  style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray, alignItems:'center',justifyContent:'space-between',flexDirection:'row',marginHorizontal:25}}>
+                  <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ field.toUpperCase()}</Text>
+                <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat',textAlign:'right'}}>{
+                    field == 'birthday' ? this.props.user[field] ? moment(this.props.user[field]).format('MM/DD/YYYY')
+                     : '' : this.props.user[field] ? this.props.user[field].toString().toUpperCase() : ''
+                  }</Text>
+                </View>
+              )
+            })}
+            <View style={{paddingHorizontal: 25,}}>
+
             <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>Contact Info</Text>
+            </View>
             </View>
 
             {['phone','email'].map((field) => {
@@ -203,9 +235,13 @@ class SettingsBasic extends React.Component{
             })}
 
         </View>
-        <View style={{height:800,backgroundColor:colors.outerSpace,width:DeviceWidth,  paddingHorizontal:25,}}  tabLabel={'DETAILS'}>
-          <View style={styles.formHeader}>
-            <Text style={styles.formHeaderText}>Details</Text>
+        <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,  }}  tabLabel={'DETAILS'}>
+        <View style={{paddingHorizontal: 25,}}>
+
+            <View style={styles.formHeader}>
+              <Text style={styles.formHeaderText}>Details</Text>
+            </View>
+
           </View>
 
           {['height','body_type','ethnicity','eye_color','hair_color','smoke','drink'].map((field) => {
@@ -216,8 +252,27 @@ class SettingsBasic extends React.Component{
           </View>
         </ScrollableTabView>
 
-        <FacebookButton _onPress={this.onPressFacebook.bind(this)} buttonType={'connectionStatus'} wrapperStyle={{height:100,padding:0}}/>
+        {!this.props.user.facebook_user_id ?
 
+        <View style={{paddingHorizontal: 25,}}>
+        <View style={styles.formHeader}>
+          <Text style={styles.formHeaderText}>Get More Matches</Text>
+        </View>
+        </View> : null }
+
+        {!this.props.user.facebook_user_id ?
+          <View style={{paddingHorizontal: 25,marginTop:10}}>
+
+          <FacebookButton _onPress={this.onPressFacebook.bind(this)} buttonType={'settings'} buttonTextStyle={{fontSize:20,fontFamily:'Montserrat-Bold'}} wrapperStyle={{height:100,padding:0}}/>
+
+          </View>
+        : null}
+
+        {!this.props.user.facebook_user_id ?
+
+        <View style={{paddingHorizontal: 25,marginBottom:25}}>
+          <Text style={{color:colors.shuttleGray,textAlign:'center',fontSize:18}}>Don’t worry, we wont tell your friends or post on your wall.</Text>
+        </View> : null }
 
       </ScrollView>
       </View>
@@ -259,10 +314,16 @@ var styles = StyleSheet.create({
    paddingBottom: 40,
 
  },
- closebox:{
-   height:40,
-   width:40,
-   backgroundColor:'blue'
+
+ phoneInput: {
+   height: 60,
+   padding: 8,
+   flex:1,
+   width:DeviceWidth-40,
+   alignSelf:'stretch',
+   fontSize: 26,
+   fontFamily:'Montserrat',
+   color: colors.white
  },
 
  formHeader:{
@@ -280,7 +341,7 @@ var styles = StyleSheet.create({
    paddingTop:0,
    height:50,
    flex:1,
-   borderBottomWidth: 2,
+   borderBottomWidth: 1,
    borderBottomColor: colors.rollingStone
 
  },
@@ -357,8 +418,8 @@ tabs: {
 },
 userimage:{
   backgroundColor:colors.dark,
-  width:80,height:80,borderRadius:40,alignSelf:'flex-end',
-  position:'absolute',right:25,top:25
+  width:120,height:120,borderRadius:60,alignSelf:'center',
+
 }
 });
 

@@ -27,7 +27,7 @@ import FakeNavBar from '../controls/FakeNavBar';
 var Mailer = require('NativeModules').RNMail;
 
 import dismissKeyboard from 'dismissKeyboard'
-
+import WebViewScreen from './WebViewScreen'
 import scrollable from 'react-native-scrollable-decorator'
 import Dimensions from 'Dimensions'
 import ParallaxView from  '../controls/ParallaxScrollView'
@@ -73,6 +73,34 @@ class SettingsSettings extends React.Component{
   }
   componentDidMount() {
     Mixpanel.track('On - Setings Screen');
+  }
+  openWebview(page){
+    var url, pageTitle;
+    switch (page){
+      case 'help':
+        url = 'http://trippple.co/help.html';
+        pageTitle = 'Help';
+        break;
+      case 'privacy':
+        url = 'http://trippple.co/privacy.html';
+        pageTitle = 'Privacy Policy';
+        break;
+      case 'terms':
+        url = 'http://trippple.co/privacy.html';
+        pageTitle = 'Terms and Conditions';
+        break;
+    }
+
+    this.props.navigator.push({
+      component: WebViewScreen,
+      title: '',
+      id:'webview',
+      // sceneConfig: CustomSceneConfigs.HorizontalSlide,
+      passProps: {
+        url,
+        pageTitle
+      }
+    })
   }
 
   handleFeedback() {
@@ -159,6 +187,7 @@ class SettingsSettings extends React.Component{
           </View>
         </TouchableHighlight>
         <TouchableHighlight style={{paddingHorizontal: 25,}} onPress={(f)=>{
+            this.openWebview('help')
           }} underlayColor={colors.dark}>
           <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
             <Text style={{color:colors.white,fontSize:18}}>Help</Text>
@@ -166,6 +195,7 @@ class SettingsSettings extends React.Component{
           </View>
         </TouchableHighlight>
         <TouchableHighlight style={{paddingHorizontal: 25,}} onPress={(f)=>{
+            this.openWebview('privacy')
           }} underlayColor={colors.dark}>
           <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
             <Text style={{color:colors.white,fontSize:18}}>Privacy Policy</Text>
@@ -173,6 +203,7 @@ class SettingsSettings extends React.Component{
           </View>
         </TouchableHighlight>
         <TouchableHighlight style={{paddingHorizontal: 25,}} onPress={(f)=>{
+            this.openWebview('terms')
           }} underlayColor={colors.dark}>
           <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
             <Text style={{color:colors.white,fontSize:18}}>Terms of Use</Text>

@@ -35,7 +35,7 @@ class PhoneNumberInput extends React.Component{
     super()
     this.state = {
       maskedPhone: '',
-      palceholder: true
+      placeholder: true
     }
   }
 
@@ -88,7 +88,18 @@ class PhoneNumberInput extends React.Component{
     return (
       <View>
         <View style={{flexDirection:'row',position:'relative'}}>
-          {this.state.placeholder ? null : <Text style={{left:'0',top:15,position:'absolute',color:colors.white,fontSize:26}}>+1</Text>}
+          <TextInput
+            editable={false}
+            maxLength={14}
+            placeholder={`PHONE NUMBER`}
+            keyboardType={'numeric'}
+            style={[this.props.style,{
+              paddingLeft:40,
+              fontSize: 26,
+              color:'#fff',flex:1,alignSelf:'stretch',position:'absolute',top:0,left:0,right:0,bottom:0
+            }]}
+            ref={component => this._textInput2 = component}
+          />
           <MaskableTextInput
             ref={component => this._textInput = component}
             style={[this.props.style,{
@@ -103,19 +114,10 @@ class PhoneNumberInput extends React.Component{
             onFocus={()=>{/*this._textInput.setNativeProps({editable:false})*/}}
             onBlur={()=>{/*this._textInput.setNativeProps({editable:true})*/}}
             onChangeText={this.onChangeText.bind(this)}
-            value={this.state.maskedPhone}
+            value={this.state.placeholder ? '' : this.state.maskedPhone}
           />
-          <TextInput
-            editable={false}
-            maxLength={14}
-            keyboardType={'numeric'}
-            style={[this.props.style,{
-              paddingLeft:40,
-              fontSize: 26,
-              color:'#fff',flex:1,alignSelf:'stretch',position:'absolute',top:0,left:0,right:0,bottom:0
-            }]}
-            ref={component => this._textInput2 = component}
-          />
+          {this.state.placeholder ? null : <Text style={{left:0,top:15,position:'absolute',color:colors.white,fontSize:26}}>+1</Text>}
+
         </View>
       </View>
     )

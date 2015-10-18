@@ -125,7 +125,7 @@ class ProfileField extends React.Component{
     if(!field.label){ return false}
 
     return (
-        <View style={{borderBottomWidth:2,borderColor:colors.shuttleGray}}>
+        <View style={{borderBottomWidth:1,borderColor:colors.shuttleGray,marginHorizontal:25}}>
           <View  style={{height:50,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
             <Text style={{color:colors.rollingStone,fontSize:20,fontFamily:'Montserrat'}}>{field.label && field.label.toUpperCase()}</Text>
           <Text style={{color:colors.white,fontSize:20,fontFamily:'Montserrat',textAlign:'right'}}>{this.props.user[this.props.fieldName] ? this.props.user[this.props.fieldName].toString().toUpperCase() : ''}</Text>
@@ -165,32 +165,45 @@ class SettingsCouple extends React.Component{
             </View>
           }
           onPrev={(nav,route)=> nav.pop()}
-          title={`COUPLE`}
+          title={`${partner.firstname}`}
           titleColor={colors.white}
           />
-        <ScrollView style={{flex:1,marginTop:50}} contentContainerStyle={{   paddingHorizontal: 25,paddingTop:25}} >
-
-        <View style={styles.formHeader}>
-          <Text style={styles.formHeaderText}>Your Partner</Text>
-        </View>
-        <Image
-          style={styles.userimage}
-          key={partner.image_thumb}
-          source={{uri: partner.image_thumb}}
-          defaultSource={require('image!defaultuser')}
-          resizeMode={Image.resizeMode.contain}/>
-        <View style={styles.formHeader}>
+        <ScrollView style={{flex:1,marginTop:50}} contentContainerStyle={{   paddingTop:25}} >
 
 
-        {['firstname','birthday','gender'].map((field) => {
-             return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
-         })}
+                  <View style={{height:150,width:150,alignItems:'center',alignSelf:'center'}}>
+                    <Image
+                      style={styles.userimage}
+                      key={partner.image_thumb}
+                      source={{uri: partner.image_thumb}}
+                      defaultSource={require('image!defaultuser')}
+                      resizeMode={Image.resizeMode.contain}/>
+                      <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
+                        <Image
+                            style={{width:18,height:18}}
+                            source={require('image!cog')}
+                            resizeMode={Image.resizeMode.contain}/>
+                        </View>
+                    </View>
+                    <View style={{paddingHorizontal: 25,}}>
+                      <View style={styles.formHeader}>
+                        <Text style={styles.formHeaderText}>Your Partner</Text>
+                      </View>
+                      </View>
+                    {['firstname','birthday','gender'].map((field) => {
+                      return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
+                    })}
+                    <View style={{paddingHorizontal: 25,}}>
 
+                    <View style={styles.formHeader}>
+                      <Text style={styles.formHeaderText}>Contact Info</Text>
+                    </View>
+                    </View>
 
-        {['phone'].map((field) => {
-          return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
-        })}
-        </View>
+                    {['phone'].map((field) => {
+                      return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
+                    })}
+
 
 
       </ScrollView>
@@ -305,7 +318,6 @@ var styles = StyleSheet.create({
  },
 userimage:{
   backgroundColor:colors.dark,
-  width:80,height:80,borderRadius:40,alignSelf:'flex-end',
-  position:'absolute',right:25,top:25
+  width:120,height:120,borderRadius:60,alignSelf:'center',
 }
 });

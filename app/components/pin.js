@@ -122,7 +122,7 @@ var PinScreen = React.createClass({
   render(){
     return (
       <View
-        style={[{flex: 1, height:DeviceHeight, paddingBottom: this.state.keyboardSpace || 250}]}
+        style={[{flex: 1,backgroundColor: colors.outerSpace,height:DeviceHeight, paddingBottom: this.state.keyboardSpace || 250}]}
         >
          <View style={{width:100,height:50,left:20,alignSelf:'flex-start'}}>
           <BackButton navigator={this.props.navigator}/>
@@ -203,7 +203,7 @@ var styles = StyleSheet.create({
     margin:0,
     padding:0,
     height: DeviceHeight,
-    backgroundColor: 'transparent',
+    backgroundColor: colors.outerSpace,
   },
   wrap: {
     flex: 1,
@@ -335,4 +335,3 @@ var animations = {
     }
   }
 };
-

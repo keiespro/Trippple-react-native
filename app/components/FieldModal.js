@@ -12,6 +12,7 @@ import {
   ScrollView,
   SwitchIOS,
   Animated,
+  DatePickerIOS,
   PickerIOS,
   Image,
   AsyncStorage,
@@ -21,30 +22,21 @@ import Mixpanel from '../utils/mixpanel';
 import SegmentedView from '../controls/SegmentedView'
 import ScrollableTabView from '../scrollable-tab-view'
 import FakeNavBar from '../controls/FakeNavBar';
+import CustomSceneConfigs from '../utils/sceneConfigs'
 
 import dismissKeyboard from 'dismissKeyboard'
 
 import scrollable from 'react-native-scrollable-decorator'
 import Dimensions from 'Dimensions'
-import ParallaxView from  '../controls/ParallaxScrollView'
-
+import moment from 'moment'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-import DistanceSlider from '../controls/distanceSlider'
-import ToggleSwitch from '../controls/switches'
 import UserActions from '../flux/actions/UserActions'
-import EditImage from '../screens/registration/EditImage'
-import SelfImage from './loggedin/SelfImage'
-import Privacy from './privacy'
-import FacebookButton from '../buttons/FacebookButton'
+import PinScreen from './pin'
 
-import Contacts from '../screens/contacts'
 import colors from '../utils/colors'
-import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
-import EditPage from './EditPage'
 import CloseButton from './CloseButton'
-import Api from '../utils/api'
 import TrackKeyboardMixin from '../mixins/keyboardMixin'
 import reactMixin from 'react-mixin'
 
@@ -55,17 +47,13 @@ class FieldModal extends React.Component{
   constructor(props){
     super(props);
     this.state = {
+      timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
       keyboardSpace: 0,
       value:this.props.fieldValue,
       canContinue:false
     }
   }
   onChange(val){
-    // if(this.dropdown){
-    //   this.dropdown.setNativeProps({
-    //     selectedValue: val
-    //   })
-    // }
     if(val.length > 0){
       this.setState({
         canContinue:true,
@@ -73,13 +61,64 @@ class FieldModal extends React.Component{
       })
     }
   }
+  onChangePhone({phone}){
+    if(phone.length == 10){
+      this.setState({
+        canContinue:true,
+        phoneValue: phone
+      })
+    }else{
+      this.setState({
+        canContinue:false,
+        phoneValue: phone
+      })
+    }
+  }
+  // onDateChange(date){
+  //
+  //   var isLegal = moment(date).diff(moment(), 'years') < -18;
+  //   if(!isLegal){
+  //    this.setState({
+  //       error:true,
+  //       inputFieldValue: date,
+  //       date: date
+  //
+  //   })
+  //
+  //   }else{
+  //     this._root.setNativeProps({date:date})
+  //
+  //     this.setState({
+  //       error:false,
+  //       date: date,
+  //       canContinue:true
+  //     })
+  //     console.log(date,this.state.date);
+  //   }
+  // }
   submit(){
     if(!this.state.canContinue){return false}
-    var payload = {}
-    payload[`${this.props.fieldName}`] = this.state.value;
-    UserActions.updateUser(payload)
-    this.props.cancel()
+
+    if(this.props.field.field_type == 'phone_input'){
+      this.props.navigator.push({
+        component: PinScreen,
+        title: '',
+        id:'pinupdate',
+        sceneConfig: CustomSceneConfigs.HorizontalSlide,
+        passProps: {
+          goBack: this.props.cancel,
+          phone: this.state.phoneValue,
+          initialKeyboardSpace: this.state.keyboardSpace
+        }
+      })
+    }else{
+      var payload = {}
+      payload[`${this.props.fieldName}`] = this.state.value;
+      UserActions.updateUser(payload)
+      this.props.cancel()
+    }
   }
+
   renderButtons(){
     return (
       <View style={{flexDirection:'row',height:60,alignSelf:'stretch',alignItems:'center',width:DeviceWidth}}>
@@ -147,7 +186,7 @@ class FieldModal extends React.Component{
             </View>
           </View>
         )
-
+    
     case 'input':
       return (
         <View style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between'}}>
@@ -165,6 +204,31 @@ class FieldModal extends React.Component{
               },
               autoCapitalize:'characters',
               ref: (textField) => { this.textField = textField }
+            }
+          )}
+          </View>
+
+          </View>
+          {this.renderButtons()}
+
+        </View>
+      )
+
+    case 'phone_input':
+      return (
+        <View style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between'}}>
+          <View style={{ alignSelf:'stretch',flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',padding:20}}>
+            <Text style={{
+                color: colors.rollingStone,
+                fontSize: 16,textAlign:'center',
+                fontFamily:'Omnes-Regular',
+            }}>{field.label}</Text>
+            <View style={{ borderBottomWidth: 2, borderBottomColor: colors.rollingStone, }}>
+              {React.cloneElement(inputField,{
+              handleInputChange:(value) => {
+                this.onChangePhone(value)
+              },
+              ref: (phoneField) => { this.phoneField = phoneField }
             }
           )}
           </View>
