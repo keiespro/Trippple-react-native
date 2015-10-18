@@ -1,5 +1,6 @@
-
+import AppInfo from 'react-native-app-info'
 import Promise from 'bluebird'
+import {Platform} from 'react-native'
 import { FileTransfer } from 'NativeModules'
 
 const CredentialsStore = require('../flux/stores/CredentialsStore')
@@ -15,7 +16,9 @@ async function publicRequest(endpoint, payload){
       method: 'post',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-T3-App-Version': AppInfo.getInfoShortVersion(),
+        'X-T3-App-OS': Platform.OS
       },
       body: JSON.stringify(payload)
     })
