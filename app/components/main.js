@@ -33,6 +33,7 @@ var Chat = require("./chat");
 var MatchActions = require("../flux/actions/MatchActions");
 import Mixpanel from '../utils/mixpanel';
 import FakeNavBar from '../controls/FakeNavBar';
+import AppActions from '../flux/actions/AppActions'
 
   class Main extends Component{
     static propTypes = { user: React.PropTypes.any }
@@ -52,7 +53,7 @@ import FakeNavBar from '../controls/FakeNavBar';
     selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
       const RouteComponent = route.component;
       var navBar = route.navigationBar;
-
+      AppActions.updateRoute(`${route.id}`)
       Mixpanel.auth(this.props.user.username).track(`HO: On - ${route.id} Screen`);
 
       if (navBar) {

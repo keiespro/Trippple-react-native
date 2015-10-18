@@ -26,8 +26,9 @@ class AppActions {
     this.dispatch()
 
   }
-
+  updateRoute(route){
+    this.dispatch(route)
+  }
 }
 
 export default alt.createActions(AppActions)
-
