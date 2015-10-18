@@ -73,6 +73,22 @@ class AppStateStore {
 
   }
 
+  handleSelectPartner(payload){
+    console.log(payload);
+    if(payload.err){
+      return false;
+      }
+      if(payload.showCheckmark){
+        this.handleShowCheckmark({
+          copy:{
+            title:'INVITATION SENT',
+            partnerName: payload.partnerName
+
+          },
+          button: true
+        });
+      }
+  }
 
 
 
