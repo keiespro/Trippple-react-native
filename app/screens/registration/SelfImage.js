@@ -116,12 +116,14 @@ class SelfImage extends Component{
         {/*<Text style={[styles.textTop,{marginTop:0}]}>{this.props.couplePicText || ` `}</Text>*/}
         <View style={styles.imageHolder}>
 
-          <Image source={require('image!usersSingle')}
+          <Image source={require('image!iconSinglePic')}
                     resizeMode={Image.resizeMode.contain}
                         style={styles.imageInside} />
         </View>
 
-        <FacebookButton buttonType={'imageUpload'} _onPress={this.onPressFacebook.bind(this)} key={'notthesamelement'} buttonText="UPLOAD FROM FB" />
+        <View style={styles.fbButton}>
+          <FacebookButton buttonType={'imageUpload'} _onPress={this.onPressFacebook.bind(this)} key={'notthesamelement'} buttonText="UPLOAD FROM FB" />
+        </View>
 
         <View style={styles.twoButtons}>
           <TouchableHighlight style={[styles.plainButton,{marginRight:10}]} onPress={this._getCameraRoll} underlayColor={colors.shuttleGray20}>
@@ -202,22 +204,24 @@ var styles = StyleSheet.create({
     textAlign:'center'
   },
   imageHolder:{
-    width:210,
-    height:210,
-    borderRadius: 105,
-    borderColor: colors.mediumPurple,
-    borderWidth: 2,
+    width:310,
+    height:310,
     alignItems:'center',
     justifyContent:'center',
-    backgroundColor:colors.mediumPurple20,
     marginTop:40,
     marginBottom:60
   },
   imageInside:{
-    height:100,
-    width:100,
-    marginVertical:150
+    height:310,
+    width:310,
   },
+  fbButton:{
+    alignItems:'stretch',
+    alignSelf:'stretch',
+    marginHorizontal:20,
+    width:DeviceWidth-38
+  },
+
   iconButtonCouples:{
     borderColor: colors.mediumPurple,
     borderWidth: 1

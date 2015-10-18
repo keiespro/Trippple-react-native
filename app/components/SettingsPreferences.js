@@ -102,7 +102,7 @@ class  SettingsPreferences extends React.Component{
               </View>
               <View style={{marginVertical: 20,}}>
 
-              <TouchableHighlight onPress={(f)=>{
+              <TouchableHighlight  underlayColor={colors.dark}  onPress={(f)=>{
                   //trigger modal
                   this.props.navigator.push({
                     component: FieldModal,
@@ -115,8 +115,9 @@ class  SettingsPreferences extends React.Component{
                                alignSelf: 'stretch',
                                padding: 8,
                                fontSize: 20,
+                               height:200,
+                               fontFamily:'omnes',
                                color: colors.white,
-                               height:60,
                                width:DeviceWidth-40
                            }}
                            placeholder={''}
@@ -127,7 +128,7 @@ class  SettingsPreferences extends React.Component{
                            autoCorrect={true}
                            returnKeyType={'go'}
                            multiline={true}
-                           ref={component => this._textArea = component}
+                           ref={'_textArea'}
                            clearButtonMode={'always'}
                        />)},
                        field:{label:'bio',field_type:'textarea'},
@@ -137,8 +138,8 @@ class  SettingsPreferences extends React.Component{
                     }
                   })
                 }} >
-                <View  style={{marginHorizontal:25,height:100,width:DeviceWidth-50,flexWrap:'wrap',alignItems:'center',justifyContent:'space-between',flexDirection:'column',borderBottomWidth:2,borderColor:colors.shuttleGray}}>
-                <Text style={{color:colors.white,fontSize:20,flexWrap:'wrap',fontFamily:'Montserrat'}}>{this.props.user.bio ? this.props.user.bio : ''}</Text>
+                <View  style={{marginHorizontal:25,height:60,width:DeviceWidth-50,flexWrap:'wrap',alignItems:'center',justifyContent:'space-between',flexDirection:'column',borderBottomWidth:2,borderColor:colors.shuttleGray}}>
+                <Text  style={{color:colors.white,height:50,fontSize:20,overflow:'hidden',flexWrap:'wrap',fontFamily:'Montserrat'}}>{this.props.user.bio ? this.props.user.bio : ''}</Text>
                 </View>
               </TouchableHighlight>
 

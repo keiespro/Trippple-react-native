@@ -50,13 +50,27 @@ class FieldModal extends React.Component{
       timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
       keyboardSpace: 0,
       value:this.props.fieldValue,
+      phoneValue:this.props.fieldValue,
       canContinue:false
+    }
+  }
+  componentDidMount(){
+    if(this.props.field.field_type == 'textarea'){
+      this.setState({value: this.props.fieldValue+'\n'})
+
+      this.refs._textArea.focus()
+      this.refs._textArea.setNativeProps({value:this.props.fieldValue+'\n'})
     }
   }
   onChange(val){
     if(val.length > 0){
       this.setState({
         canContinue:true,
+        value: val
+      })
+    }else{
+      this.setState({
+        canContinue:false,
         value: val
       })
     }
@@ -121,11 +135,11 @@ class FieldModal extends React.Component{
 
   renderButtons(){
     return (
-      <View style={{flexDirection:'row',height:60,alignSelf:'stretch',alignItems:'center',width:DeviceWidth}}>
+      <View style={{flexDirection:'row',height:70,alignSelf:'stretch',alignItems:'center',width:DeviceWidth}}>
         <TouchableHighlight underlayColor={colors.dark} onPress={this.props.cancel}
           style={{ borderTopWidth: 1, borderColor: colors.rollingStone,flex:1,paddingVertical:20}}>
           <View>
-            <Text style={{color:colors.white,fontSize:20,fontFamily:'Montserrat-Bold',textAlign:'center'}}>
+            <Text style={{color:colors.white,fontSize:20,fontFamily:'Montserrat',textAlign:'center'}}>
               CANCEL
             </Text>
           </View>
@@ -138,7 +152,7 @@ class FieldModal extends React.Component{
           }}>
           <View>
             <Text style={{color: this.state.canContinue ? colors.white : colors.rollingStone,
-              fontSize:20,fontFamily:'Montserrat-Bold',textAlign:'center'}}>
+              fontSize:20,fontFamily:'Montserrat',textAlign:'center'}}>
               UPDATE
             </Text>
           </View>
@@ -149,24 +163,31 @@ class FieldModal extends React.Component{
 
   render(){
     var {field,fieldValue,inputField} = this.props
-
+    var purpleBorder
+    if(field.field_type == 'phone_input'){
+      purpleBorder =  this.state.canContinue || this.state.phoneValue.length == 0
+    }else{
+      purpleBorder = this.state.canContinue ||  this.state.value.length == 0
+    }
     var inside = () =>{
       switch(field.field_type ){
         case 'dropdown':
         return (
           <View style={{ alignSelf:'stretch',flex:1}}>
             <View style={{ alignSelf:'stretch',flex:1,height:DeviceHeight-170,alignItems:'center',justifyContent:'center',flexDirection:'column'}}>
-              <View style={{ borderBottomWidth: 2, borderBottomColor: colors.rollingStone, }}>
+              <View style={{ borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone }}>
                 <Text style={{
                     color: colors.rollingStone,
-                    fontSize: 16,textAlign:'center',
+                    fontSize: 20,textAlign:'center',
                     fontFamily:'Omnes-Regular',
-                }}>{field.label}</Text>
+                    marginBottom:40,
+
+                }}>{field.long_label ? field.long_label : field.label}</Text>
                 <Text style={{
                     padding: 8,
                   fontSize: 30,
                   width:DeviceWidth-40,
-                  borderBottomWidth: 2,
+                  borderBottomWidth: 1,
                   borderBottomColor: colors.rollingStone,
                   textAlign:'center',
                   fontFamily:'Montserrat',
@@ -186,19 +207,20 @@ class FieldModal extends React.Component{
             </View>
           </View>
         )
-    
+
     case 'input':
       return (
         <View style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between'}}>
           <View style={{ alignSelf:'stretch',flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',padding:20}}>
             <Text style={{
                 color: colors.rollingStone,
-                fontSize: 16,textAlign:'center',
+                fontSize: 20,textAlign:'center',
                 fontFamily:'Omnes-Regular',
-            }}>{field.label}</Text>
-            <View style={{ borderBottomWidth: 2, borderBottomColor: colors.rollingStone, }}>
+                marginBottom:40,
+              }}>{field.long_label ? field.long_label : field.label}</Text>
+            <View style={{ borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone }}>
               {React.cloneElement(inputField,{
-              defaultValue:fieldValue,
+              defaultValue:fieldValue.slice(0,10),
               onChangeText:(value) => {
                 this.onChange(value)
               },
@@ -207,7 +229,12 @@ class FieldModal extends React.Component{
             }
           )}
           </View>
-
+          {field.sub_label ? <Text  style={{
+              color: colors.rollingStone,
+              fontSize: 18,textAlign:'center',
+              fontFamily:'Omnes-Regular',
+              marginTop:15,
+            }}>{field.sub_label}</Text> : null}
           </View>
           {this.renderButtons()}
 
@@ -220,10 +247,12 @@ class FieldModal extends React.Component{
           <View style={{ alignSelf:'stretch',flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',padding:20}}>
             <Text style={{
                 color: colors.rollingStone,
-                fontSize: 16,textAlign:'center',
+                fontSize: 20,textAlign:'center',
                 fontFamily:'Omnes-Regular',
-            }}>{field.label}</Text>
-            <View style={{ borderBottomWidth: 2, borderBottomColor: colors.rollingStone, }}>
+                marginBottom:40,
+
+              }}>{field.long_label ? field.long_label : field.label}</Text>
+            <View style={{ borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone }}>
               {React.cloneElement(inputField,{
               handleInputChange:(value) => {
                 this.onChangePhone(value)
@@ -242,15 +271,17 @@ class FieldModal extends React.Component{
         return (
           <View style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between'}}>
             <View style={{ alignSelf:'stretch',flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',padding:20}}>
-              <Text style={{
+              <Text  style={{
                   color: colors.rollingStone,
-                  fontSize: 16,textAlign:'center',
+                  fontSize: 20,textAlign:'center',
                   fontFamily:'Omnes-Regular',
-              }}>{field.label}</Text>
-              <View style={{ borderBottomWidth: 2, borderBottomColor: colors.rollingStone, }}>
+                  marginBottom:40,
+                }}>{field.long_label ? field.long_label : field.label}</Text>
+              <View style={{ borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone }}>
 
                 {React.cloneElement(this.props.inputField(),{
                 defaultValue:fieldValue,
+
                 onChangeText:(value) => {
                   this.onChange(value)
                 }
@@ -337,7 +368,7 @@ var styles = StyleSheet.create({
    paddingTop:0,
    height:50,
    flex:1,
-   borderBottomWidth: 2,
+   borderBottomWidth: 1,
    borderBottomColor: colors.rollingStone
 
  },

@@ -79,15 +79,15 @@ class SettingsSettings extends React.Component{
     switch (page){
       case 'help':
         url = 'http://trippple.co/help.html';
-        pageTitle = 'Help';
+        pageTitle = 'HELP';
         break;
       case 'privacy':
         url = 'http://trippple.co/privacy.html';
-        pageTitle = 'Privacy Policy';
+        pageTitle = 'PRIVACY POLICY';
         break;
       case 'terms':
         url = 'http://trippple.co/privacy.html';
-        pageTitle = 'Terms and Conditions';
+        pageTitle = 'TERMS AND CONDITIONS';
         break;
     }
 
@@ -95,7 +95,7 @@ class SettingsSettings extends React.Component{
       component: WebViewScreen,
       title: '',
       id:'webview',
-      // sceneConfig: CustomSceneConfigs.HorizontalSlide,
+      sceneConfig: NavigatorSceneConfigs.FloatFromRight,
       passProps: {
         url,
         pageTitle
@@ -147,7 +147,7 @@ class SettingsSettings extends React.Component{
               borderBottomWidth: 1 / PixelRatio.get(),
               borderColor:colors.rollingStone,flex:1,height:130,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}]}>
           <View style={{flexWrap:'wrap',alignSelf:'stretch',flex:1,alignItems:'flex-start',justifyContent:'center',width:DeviceWidth-120,flexDirection:'column',paddingRight:20}}>
-            <Text style={{color: privacy == 'public' ? colors.white : colors.rollingStone, fontSize:20,fontFamily:'Montserrat'}}>PUBLIC</Text>
+            <Text style={{color: privacy == 'public' ? colors.white : colors.rollingStone, fontSize:20,fontFamily:'Montserrat-Bold'}}>PUBLIC</Text>
           <Text style={{color: privacy == 'public' ? colors.white : colors.rollingStone,fontSize:18,fontFamily:'omnes',marginTop:5}}>
               Your profile is visible to all Trippple members.
                   </Text>
@@ -163,7 +163,7 @@ class SettingsSettings extends React.Component{
           borderBottomWidth: 1 / PixelRatio.get(),
           borderColor:colors.rollingStone,flex:1,height:130,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}]}>
       <View style={{flexWrap:'wrap',alignSelf:'stretch',flex:1,alignItems:'flex-start',justifyContent:'center',width:DeviceWidth-120,flexDirection:'column',paddingRight:20}}>
-        <Text style={{color: privacy == 'private' ? colors.white : colors.rollingStone, fontSize:20,fontFamily:'Montserrat'}}>PRIVATE</Text>
+        <Text style={{color: privacy == 'private' ? colors.white : colors.rollingStone, fontSize:20,fontFamily:'Montserrat-Bold'}}>PRIVATE</Text>
       <Text style={{color: privacy == 'private' ? colors.white : colors.rollingStone,fontSize:18,fontFamily:'omnes',marginTop:5}}>
           Your profile is hidden from your facebook friends and phone contacts.
         </Text>
@@ -182,7 +182,7 @@ class SettingsSettings extends React.Component{
 </View>
         <TouchableHighlight style={{paddingHorizontal: 25,}} onPress={this.handleFeedback.bind(this)} underlayColor={colors.dark}>
           <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
-            <Text style={{color:colors.white,fontSize:18}}>Feedback</Text>
+            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>FEEDBACK</Text>
           <Image style={{width:10,height:17.5}} source={require('image!nextArrow')} />
           </View>
         </TouchableHighlight>
@@ -190,7 +190,7 @@ class SettingsSettings extends React.Component{
             this.openWebview('help')
           }} underlayColor={colors.dark}>
           <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
-            <Text style={{color:colors.white,fontSize:18}}>Help</Text>
+            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>HELP</Text>
           <Image style={{width:10,height:17.5}} source={require('image!nextArrow')} />
           </View>
         </TouchableHighlight>
@@ -198,7 +198,7 @@ class SettingsSettings extends React.Component{
             this.openWebview('privacy')
           }} underlayColor={colors.dark}>
           <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
-            <Text style={{color:colors.white,fontSize:18}}>Privacy Policy</Text>
+            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>PRIVACY POLICY</Text>
           <Image style={{width:10,height:17.5}} source={require('image!nextArrow')} />
           </View>
         </TouchableHighlight>
@@ -206,13 +206,13 @@ class SettingsSettings extends React.Component{
             this.openWebview('terms')
           }} underlayColor={colors.dark}>
           <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
-            <Text style={{color:colors.white,fontSize:18}}>Terms of Use</Text>
+            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>TERMS OF USE</Text>
           <Image style={{width:10,height:17.5}} source={require('image!nextArrow')} />
           </View>
         </TouchableHighlight>
         <View style={{paddingHorizontal: 25,}}>
           <LogOutButton/>
-        <TouchableOpacity style={{alignItems:'center',marginVertical:20}} onPress={(f)=>{}}>
+        <TouchableOpacity style={{alignItems:'center',marginVertical:10}} onPress={(f)=>{}}>
           <Text style={{color:colors.shuttleGray,textAlign:'center'}}>Disable Your Account</Text>
         </TouchableOpacity>
 
@@ -247,7 +247,7 @@ class LogOutButton extends React.Component{
   render(){
 
     return (
-      <TouchableHighlight underlayColor={colors.mediumPurple20} onPress={this._doLogOut} style={{marginVertical:20}}>
+      <TouchableHighlight underlayColor={colors.shuttleGray20} onPress={this._doLogOut} style={{marginVertical:20,marginTop:70}}>
         <View style={styles.button}>
           <Text style={styles.buttonText}>LOG OUT OF TRIPPPLE</Text>
         </View>
@@ -260,7 +260,7 @@ class LogOutButton extends React.Component{
 var styles = StyleSheet.create({
 
   buttonText: {
-    fontSize: 22,
+    fontSize: 18,
     color: colors.white,
     alignSelf: 'center',
     fontFamily:'Montserrat'
@@ -271,7 +271,7 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     paddingVertical:20,
     backgroundColor: 'transparent',
-    borderColor:colors.mediumPurple,
+    borderColor:colors.shuttleGray,
     borderWidth: 1,
 
     alignSelf: 'stretch',

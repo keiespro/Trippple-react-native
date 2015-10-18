@@ -18,37 +18,30 @@ import {
   Navigator
 } from  'react-native'
 import Mixpanel from '../utils/mixpanel';
-import SegmentedView from '../controls/SegmentedView'
+
 import ScrollableTabView from '../scrollable-tab-view'
 import FakeNavBar from '../controls/FakeNavBar';
 import FieldModal from './FieldModal'
 
 import dismissKeyboard from 'dismissKeyboard'
 
-import scrollable from 'react-native-scrollable-decorator'
+
 import Dimensions from 'Dimensions'
-import ParallaxView from  '../controls/ParallaxScrollView'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-import DistanceSlider from '../controls/distanceSlider'
-import ToggleSwitch from '../controls/switches'
-import UserActions from '../flux/actions/UserActions'
-import EditImage from '../screens/registration/EditImage'
-import SelfImage from './loggedin/SelfImage'
-import Privacy from './privacy'
-import FacebookButton from '../buttons/FacebookButton'
 
-import Contacts from '../screens/contacts'
+import moment from 'moment'
+
+
 import colors from '../utils/colors'
-import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
-import EditPage from './EditPage'
+
 import CloseButton from './CloseButton'
 import Api from '../utils/api'
 import TrackKeyboardMixin from '../mixins/keyboardMixin'
 import reactMixin from 'react-mixin'
-
+import formatPhone from '../utils/formatPhone'
 
 
 var PickerItemIOS = PickerIOS.Item;
@@ -62,15 +55,17 @@ class ProfileField extends React.Component{
   }
 
   _editField=()=>{}
-
+  formattedPhone(){
+    return formatPhone(this.props.user[this.props.fieldName])
+  }
   render(){
     var field = this.props.field || {};
     console.log('ProfileField',field);
 
     var displayField = (field) => {
       switch (field.field_type) {
-        case "input":
-        case "phone_input":
+        case 'input':
+        case 'phone_input':
           return (
              <TextInput
                 autofocus={true}
@@ -96,7 +91,7 @@ class ProfileField extends React.Component{
             />
           );
 
-        case "dropdown":
+        case 'dropdown':
           // always add an empty option at the beginning of the array
           field.values.unshift('');
 
@@ -128,8 +123,14 @@ class ProfileField extends React.Component{
         <View style={{borderBottomWidth:1,borderColor:colors.shuttleGray,marginHorizontal:25}}>
           <View  style={{height:50,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
             <Text style={{color:colors.rollingStone,fontSize:20,fontFamily:'Montserrat'}}>{field.label && field.label.toUpperCase()}</Text>
-          <Text style={{color:colors.white,fontSize:20,fontFamily:'Montserrat',textAlign:'right'}}>{this.props.user[this.props.fieldName] ? this.props.user[this.props.fieldName].toString().toUpperCase() : ''}</Text>
-          </View>
+          <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'Montserrat',textAlign:'right',
+        paddingRight:20}}>{this.props.user[this.props.fieldName] ? this.props.user[this.props.fieldName].toString().toUpperCase() : ''}</Text>
+          <Image
+              style={{width:15,height:15,position:'absolute',right:0,top:15}}
+              source={require('image!icon-lock')}
+              resizeMode={Image.resizeMode.contain}/>
+              </View>
+
         </View>
     )
   }
@@ -168,22 +169,17 @@ class SettingsCouple extends React.Component{
           title={`${partner.firstname}`}
           titleColor={colors.white}
           />
-        <ScrollView style={{flex:1,marginTop:50}} contentContainerStyle={{   paddingTop:25}} >
+        <ScrollView style={{flex:1,marginTop:50}} contentContainerStyle={{   paddingTop:50}} >
 
 
-                  <View style={{height:150,width:150,alignItems:'center',alignSelf:'center'}}>
+                  <View style={{height:120,width:120,alignItems:'center',alignSelf:'center'}}>
                     <Image
                       style={styles.userimage}
                       key={partner.image_thumb}
                       source={{uri: partner.image_thumb}}
-                      defaultSource={require('image!defaultuser')}
+                      defaultSource={require('image!placeholderUser')}
                       resizeMode={Image.resizeMode.contain}/>
-                      <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
-                        <Image
-                            style={{width:18,height:18}}
-                            source={require('image!cog')}
-                            resizeMode={Image.resizeMode.contain}/>
-                        </View>
+
                     </View>
                     <View style={{paddingHorizontal: 25,}}>
                       <View style={styles.formHeader}>
@@ -191,7 +187,22 @@ class SettingsCouple extends React.Component{
                       </View>
                       </View>
                     {['firstname','birthday','gender'].map((field) => {
-                      return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
+                      return (
+                        <View  style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray, alignItems:'center',justifyContent:'space-between',flexDirection:'row',marginHorizontal:25}}>
+                            <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ field.toUpperCase()}</Text>
+                          <Text style={{color:colors.shuttleGray,
+                              fontSize:18,fontFamily:'Montserrat',textAlign:'right',paddingRight:30}}>{
+                              field == 'birthday' ?
+                              this.props.user[field] ? moment(this.props.user[field]).format('MM/DD/YYYY') : ''
+                              : this.props.user[field] ? this.props.user[field].toString().toUpperCase() : ''
+                            }</Text>
+                            <Image
+                                style={{width:15,height:15,position:'absolute',right:0,top:23}}
+                                source={require('image!icon-lock')}
+                                resizeMode={Image.resizeMode.contain}/>
+
+                          </View>
+                        )
                     })}
                     <View style={{paddingHorizontal: 25,}}>
 
@@ -201,8 +212,21 @@ class SettingsCouple extends React.Component{
                     </View>
 
                     {['phone'].map((field) => {
-                      return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
-                    })}
+                      return (
+                        <View  style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray, alignItems:'center',justifyContent:'space-between',flexDirection:'row',marginHorizontal:25}}>
+                            <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ field.toUpperCase()}</Text>
+                          <Text style={{color:colors.shuttleGray,
+                              fontSize:18,fontFamily:'Montserrat',textAlign:'right',paddingRight:30}}>{
+                                formatPhone(this.props.user[field])
+                            }</Text>
+                            <Image
+                                style={{width:15,height:15,position:'absolute',right:0,top:23}}
+                                source={require('image!icon-lock')}
+                                resizeMode={Image.resizeMode.contain}/>
+
+                          </View>
+                        )
+                      })}
 
 
 

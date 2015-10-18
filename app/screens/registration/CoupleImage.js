@@ -13,7 +13,7 @@ import {
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
-import BoxyButton from '../../controls/boxyButton'
+import FacebookButton from '../../buttons/FacebookButton'
 import colors from '../../utils/colors'
 import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
 import CameraControl from '../../controls/cameraControl'
@@ -103,22 +103,14 @@ class CoupleImage extends Component{
 
         <View style={styles.imageHolder}>
 
-          <Image source={require('image!usersCouple')}
+          <Image source={require('image!iconCouplePic')}
                     resizeMode={Image.resizeMode.contain}
                         style={styles.imageInside} />
         </View>
 
-        <BoxyButton
-            text={"UPLOAD FROM FACEBOOK"}
-            leftBoxStyles={styles.iconButtonLeftBoxCouples}
-            innerWrapStyles={styles.iconButtonCouples}
-            underlayColor={colors.mediumPurple20}
-            _onPress={this.onPressFacebook}>
-
-          <Image source={require('image!fBlogo')}
-                    resizeMode={Image.resizeMode.cover}
-                        style={{height:40,width:20}} />
-        </BoxyButton>
+        <View style={styles.fbButton}>
+          <FacebookButton buttonType={'imageUpload'} _onPress={this.onPressFacebook.bind(this)} key={'notthesamelement'} buttonText="UPLOAD FROM FB" />
+        </View>
 
         <View style={styles.twoButtons}>
           <TouchableHighlight underlayColor={colors.shuttleGray20} style={[styles.plainButton,{marginRight:10}]} onPress={this._getCameraRoll}>
@@ -185,21 +177,24 @@ var styles = StyleSheet.create({
     textAlign:'center'
   },
   imageHolder:{
-    width:200,
-    height:200,
-    borderRadius: 125,
-    borderColor: colors.mediumPurple,
-    borderWidth: 2,
+    width:310,
+    height:310,
     alignItems:'center',
     justifyContent:'center',
     marginTop:40,
     marginBottom:60
   },
   imageInside:{
-    height:125,
-    width:125,
-    marginVertical:50
+    height:310,
+    width:310,
   },
+  fbButton:{
+    alignItems:'stretch',
+    alignSelf:'stretch',
+    marginHorizontal:20,
+    width:DeviceWidth-38
+  },
+
   iconButtonCouples:{
     borderColor: colors.mediumPurple,
     borderWidth: 1

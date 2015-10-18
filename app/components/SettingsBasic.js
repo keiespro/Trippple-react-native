@@ -51,7 +51,7 @@ import TrackKeyboardMixin from '../mixins/keyboardMixin'
 import reactMixin from 'react-mixin'
 
 import FieldModal from './FieldModal'
-
+import formatPhone from '../utils/formatPhone'
 
 var PickerItemIOS = PickerIOS.Item;
 
@@ -64,7 +64,9 @@ class ProfileField extends React.Component{
   }
 
   _editField=()=>{}
-
+  formattedPhone(){
+    return formatPhone(this.props.user[this.props.fieldName])
+  }
   render(){
     var field = this.props.field || {};
     console.log('ProfileField',field);
@@ -86,8 +88,9 @@ class ProfileField extends React.Component{
                     width:DeviceWidth-40
                 }}
                 onChangeText={(text) => this.setState({text})}
-                placeholder={field.placeholder || field.label}
+                placeholder={field.placeholder ? field.placeholder.toUpperCase() : field.label.toUpperCase()}
                 autoCapitalize={'words'}
+                maxLength={10}
                 placeholderTextColor={colors.white}
                 autoCorrect={false}
                 returnKeyType={'go'}
@@ -105,7 +108,6 @@ class ProfileField extends React.Component{
           )
         case 'dropdown':
           // always add an empty option at the beginning of the array
-          field.values.unshift('');
 
           return (
             <PickerIOS
@@ -147,7 +149,10 @@ class ProfileField extends React.Component{
           }} underlayColor={colors.dark} style={{ paddingHorizontal:25,}}>
           <View  style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
             <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{field.label && field.label.toUpperCase()}</Text>
-          <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat',textAlign:'right'}}>{this.props.user[this.props.fieldName] ? this.props.user[this.props.fieldName].toString().toUpperCase() : ''}</Text>
+          <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat',textAlign:'right'}}>{
+              field.field_type == 'phone_input' ? this.formattedPhone() :
+              this.props.user[this.props.fieldName] ? this.props.user[this.props.fieldName].toString().toUpperCase() : ''
+            }</Text>
           </View>
         </TouchableHighlight>
     )
@@ -216,10 +221,16 @@ class SettingsBasic extends React.Component{
               return (
                 <View  style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray, alignItems:'center',justifyContent:'space-between',flexDirection:'row',marginHorizontal:25}}>
                   <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ field.toUpperCase()}</Text>
-                <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat',textAlign:'right'}}>{
-                    field == 'birthday' ? this.props.user[field] ? moment(this.props.user[field]).format('MM/DD/YYYY')
-                     : '' : this.props.user[field] ? this.props.user[field].toString().toUpperCase() : ''
+                <Text style={{color:colors.shuttleGray,
+                    fontSize:18,fontFamily:'Montserrat',textAlign:'right',paddingRight:30}}>{
+                    field == 'birthday' ?
+                    this.props.user[field] ? moment(this.props.user[field]).format('MM/DD/YYYY') : ''
+                    : this.props.user[field] ? this.props.user[field].toString().toUpperCase() : ''
                   }</Text>
+                  <Image
+                      style={{width:15,height:15,position:'absolute',right:0,top:23}}
+                      source={require('image!icon-lock')}
+                      resizeMode={Image.resizeMode.contain}/>
                 </View>
               )
             })}
