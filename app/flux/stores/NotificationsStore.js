@@ -1,7 +1,7 @@
 import alt from '../alt'
 import MatchActions from '../actions/MatchActions'
 import NotificationActions from '../actions/NotificationActions'
-
+import ChatStore from '../stores/ChatStore'
 import { AsyncStorage, PushNotificationIOS } from 'react-native'
 import moment from 'moment'
 import Promise from 'bluebird'
@@ -79,9 +79,10 @@ class NotificationsStore {
          oldNotifications: [...this.state.oldNotifications, ...notifications],
          notifications: [],
       })
-    },33500)
+    },3500)
   }
   handleNewMatchData(matchData){
+
     var {matches} = matchData
     var pendingNotification = this.state.pendingNotifications[0] || this.state.notifications[0]
 
@@ -98,6 +99,7 @@ class NotificationsStore {
   }
   handleNewMessageData(messagesData){
     var {messages} = messagesData
+    this.waitFor(ChatStore)
 
     const {pendingNotifications} = this.state,
         readyNotification = { ...pendingNotifications[0], ...messages.message_thread[0], type: 'message'}
@@ -115,9 +117,9 @@ class NotificationsStore {
   handleNewMessage(payload){
     console.log(payload)
     var newNotification = {
+      ...payload,
       title: payload.data.alert,
       match_id: payload.data.match_id,
-      ...payload
     }
 
     const allNotifications = [...this.state.pendingNotifications, newNotification]

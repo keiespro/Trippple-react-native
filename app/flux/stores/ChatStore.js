@@ -45,6 +45,7 @@ class ChatStore {
 
   handleReceiveMessages(payload) {
     console.log(payload,'PAYLOAD')
+    if(!payload){return false}
     var matchMessages = payload.messages
     this.setState(() => {
       var newState = {};

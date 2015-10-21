@@ -317,7 +317,8 @@ class ChatInside extends Component{
   }
 
   componentDidMount(){
-    this.props.matchID && MatchActions.getMessages(this.props.matchID);
+    console.log(this.props,',,,,,,,,,,,,,,,,,,,,,,,,,,,');
+    this.props.match_id && MatchActions.getMessages(this.props.match_id);
   }
 
 // shouldComponentUpdate(nextProps,nextState){
@@ -366,7 +367,7 @@ class ChatInside extends Component{
   sendMessage(){
 
     if(this.state.textInputValue == ''){ return false }
-    MatchActions.sendMessage(this.state.textInputValue, this.props.matchID)
+    MatchActions.sendMessage(this.state.textInputValue, this.props.match_id)
 
     this._textInput.setNativeProps({text: ''});
     this.setState({ textInputValue: '' })
@@ -439,7 +440,7 @@ console.log(this.props)
         {this.props.messages.length > 0 ?
         <ListView
           ref={'scroller'}
-          matchID={this.props.matchID}
+          match_id={this.props.match_id}
           dataSource={this.state.dataSource}
           renderRow={this._renderRow.bind(this)}
           messages={this.props.messages || []}
@@ -561,7 +562,7 @@ var Chat = React.createClass({
     })
   },
   componentWillMount(){
-    MatchActions.getMessages(this.props.matchID || this.props.match_id)
+    MatchActions.getMessages(this.props.match_id || this.props.match_id)
   },
   toggleModal(){
     console.log(this.state.isVisible)
@@ -574,14 +575,14 @@ var Chat = React.createClass({
       messages: (props) => {
         return {
           store: ChatStore,
-          value: ChatStore.getMessagesForMatch( this.props.matchID)
+          value: ChatStore.getMessagesForMatch( this.props.match_id)
         }
       },
       currentMatch: (props) => {
         console.log('ALT',props,this.props)
         return {
           store: MatchesStore,
-          value: MatchesStore.getMatchInfo(this.props.matchID)
+          value: MatchesStore.getMatchInfo(this.props.match_id)
         }
       }
     }
@@ -594,7 +595,7 @@ var Chat = React.createClass({
           navigator={this.props.navigator}
           user={this.props.user}
           closeChat={this.props.closeChat}
-          matchID={this.props.matchID}
+          match_id={this.props.match_id}
           toggleModal={this.toggleModal}
         />
         {this.state.isVisible ? <View

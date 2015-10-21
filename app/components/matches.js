@@ -186,11 +186,11 @@ class MatchList extends Component{
       </Swipeout>
     );
   }
-  _pressRow(matchID: number) {
+  _pressRow(match_id: number) {
     // get messages from server and open chat view
 
 
-    MatchActions.getMessages(matchID);
+    MatchActions.getMessages(match_id);
 
     this.props.navigator.push({
       component: Chat,
@@ -199,7 +199,7 @@ class MatchList extends Component{
       title: 'CHAT',
       passProps:{
         index: 3,
-        matchID: matchID,
+        match_id: match_id,
         navigator: this.props.navigator,
         route: {
           component: Chat,
@@ -305,11 +305,11 @@ class MatchesInside extends Component{
   }
 
   componentDidMount(){
-    if(this.props.user.id){
-        // MatchActions.getMatches();
-        // MatchActions.getFavorites();
-
-    }
+    // if(this.props.user.id){
+    //     // MatchActions.getMatches();
+    //     // MatchActions.getFavorites();
+    //
+    // }
   }
   componentDidUpdate(pProps,pState) {
       console.log(this.props)

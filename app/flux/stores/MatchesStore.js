@@ -72,8 +72,8 @@ class MatchesStore {
       });
 
   }
-  handleNewMessage(){
-    this.shouldPopChat = true
+  handleNewMessage(payload){
+    this.shouldPopChat = payload.data.match_id
   }
 
   sendMessage(payload){
