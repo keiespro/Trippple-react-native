@@ -80,7 +80,7 @@ class MatchList extends Component{
 
   }
 
-  shouldComponentUpdate =(nProps,nState)=> nProps.matches.length > this.props.matches.length 
+  shouldComponentUpdate =(nProps,nState)=> nProps.matches.length > this.props.matches.length
 
   _updateDataSource(data) {
     this.props.updateDataSource(data)
@@ -297,7 +297,9 @@ class MatchesInside extends Component{
 
     }
   }
-
+  shouldComponentUpdate(nProps){
+    nProps.onLoad != this.props.onLoad || false
+  }
   componentDidMount(){
     if(this.props.user.id){
         // MatchActions.getMatches();
@@ -311,6 +313,12 @@ class MatchesInside extends Component{
 
   }
   componentWillReceiveProps(newProps) {
+    console.log(newProps,newProps.matches,newProps.matchID,newProps.currentRoute)
+    newProps.onLoad != this.props.onLoad && this.props.navigator.push({...this.props.ChatRoute,passProps:{
+        matchID: newProps.matchID || newProps.match_id,
+        currentMatch: newProps.matches[0] || {users:{}}
+      }})
+
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     this.setState({
@@ -428,6 +436,9 @@ class Matches extends Component{
     }
 
   }
+  componentDidMount(){
+
+  }
   chatActionSheet(match){
     this.setState({
       currentMatch: match,
@@ -461,7 +472,7 @@ class Matches extends Component{
             },
 
           }}>
-           <MatchesInside {...this.props} chatActionSheet={this.chatActionSheet.bind(this)} />
+           <MatchesInside {...this.props} chatActionSheet={this.chatActionSheet.bind(this)} onLoad={this.props.onLoad}/>
            {this.props.navBar}
            {this.state.isVisible ?
               <FadeInContainer

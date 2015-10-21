@@ -16,8 +16,9 @@ import FBLogin from './fb.login';
 import PendingPartner from './pendingpartner';
 
 import Onboard from '../screens/registration/onboard'
-
 import UserStore from '../flux/stores/UserStore';
+
+import AppState from '../flux/stores/AppState';
 import CredentialsStore from '../flux/stores/CredentialsStore'
 import UserActions from '../flux/actions/UserActions';
 import AppActions from '../flux/actions/AppActions';
@@ -47,13 +48,25 @@ class AppRoutes extends Component{
     switch(userStatus){
 
       case 'verified':
-        return <Onboard key="OnboardingScreen" user={this.props.user}/>
+        return <Onboard
+                key="OnboardingScreen"
+                user={this.props.user}
+                currentRoute={this.props.currentRoute}
+                />
 
       case 'pendingpartner':
-        return <PendingPartner key="PendingPartnerScreen" user={this.props.user}/>
+        return <PendingPartner
+                key="PendingPartnerScreen"
+                user={this.props.user}
+                currentRoute={this.props.currentRoute}
+                />
 
       case 'onboarded':
-        return <Main key="MainScreen" user={this.props.user} />
+        return <Main
+                key="MainScreen"
+                user={this.props.user}
+                currentRoute={this.props.currentRoute}
+                />
       case null:
       default:
         return <Welcome  key={'welcomescene'} />
@@ -87,7 +100,7 @@ class TopLevel extends Component{
     return (
       <View style={{flex:1,backgroundColor:'#000000'}}>
 
-        <AppRoutes user={this.props.user}/>
+        <AppRoutes user={this.props.user} currentRoute={this.props.currentRoute}/>
 
         {this.props.showCheckmark &&
           <CheckMarkScreen
@@ -98,7 +111,7 @@ class TopLevel extends Component{
           />
         }
 
-        <LoadingOverlay key="LoadingOverlay" isVisible={this.state.showOverlay} />
+        <LoadingOverlay key="LoadingOverlay" isVisible={this.props.showOverlay || this.state.showOverlay} />
 
         <Notifications user={this.props.user} />
 
@@ -112,8 +125,24 @@ class TopLevel extends Component{
 class App extends Component{
 
   render(){
+    var TopLevelStores = {
+      user: (props) => {
+        return {
+          store: UserStore,
+          value: UserStore.getState().user
+        }
+      },
+      currentRoute: (props) => {
+        console.log('ALT',props)
+        return {
+          store: AppState,
+          value: AppState.getAppState()
+        }
+      }
+    }
+
     return (
-      <AltContainer store={UserStore}>
+      <AltContainer stores={TopLevelStores}>
         <TopLevel />
       </AltContainer>
     );

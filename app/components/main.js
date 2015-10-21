@@ -31,6 +31,7 @@ var alt = require('alt');
 var cssVar = require('cssVar');
 var Chat = require("./chat");
 var MatchActions = require("../flux/actions/MatchActions");
+import MatchesStore from '../flux/stores/MatchesStore'
 
 import Mixpanel from '../utils/mixpanel';
 import FakeNavBar from '../controls/FakeNavBar';
@@ -45,11 +46,34 @@ import AppActions from '../flux/actions/AppActions'
       super(props);
 
     }
-
+    componentWillReceiveProps(nProps){
+      console.log(nProps)
+      console.log(this.refs.nav.navigationContext._currentRoute.id+' is the current route but should be '+nProps.currentRoute)
+      if(nProps.currentRoute){
+        if(nProps.currentRoute.route != this.refs.nav.navigationContext._currentRoute.id){
+          if(this.refs.nav.navigationContext._currentRoute.id == 'matches'){
+            this.refs.nav.push({...ChatRoute,passProps:{
+              matchID: nProps.currentRoute.matchID,
+              currentMatch: this.props.currentMatch
+            }})
+          }else if(this.refs.nav.navigationContext._currentRoute.id == 'potentials'){
+            this.refs.nav.push({...MatchesRoute,passProps:{
+              matchID: nProps.currentRoute.matchID,
+              ChatRoute: ChatRoute,
+              currentRoute: nProps.currentRoute,
+              onLoad: ()=>{  this.refs.nav.push({...ChatRoute,passProps:{
+                  matchID: nProps.currentRoute.matchID,
+                  currentMatch: MatchesStore.getMatchInfo(nProps.currentRoute.matchID)
+                }})}
+            }})
+          }
+        }
+      }
+    }
     componentDidMount(){
       this.refs.nav.navigationContext.addListener('didfocus', (e)=>{
-        console.log('New route:',e._data.route.id)
-        AppActions.updateRoute(e._data.route.id)
+        console.log('New route:',e._data.route)
+        // AppActions.updateRoute(e._data.route.id)
       })
     }
 

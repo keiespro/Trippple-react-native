@@ -91,13 +91,7 @@ class MatchesStore {
               matches: matches
             });
         }else{
-
-
           var allmatches = _.unique([...this.state.matches,...matches],'id');
-          // var removed = allmatches.slice(0,19)
-          // console.log(removed.length,allmatches.length)
-          //
-          // allmatches.unshift(...matches)
           console.log(allmatches);
           this.setState({
             matches: allmatches
@@ -172,7 +166,7 @@ class MatchesStore {
   getMatchInfo(matchID){
     const matches = this.getState().matches
     console.log('get match info',matchID);
-    var m = _.filter(matches,(ma,i) => { return ma.match_id == matchID })
+    var m = _.filter(matches,(ma,i) => { return ma.match_id == matchID || ma.id == matchID || ma.matchID == matchID })
     console.log('get match info',m);
 
     return m[0]

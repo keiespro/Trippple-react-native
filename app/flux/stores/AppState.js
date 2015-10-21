@@ -11,6 +11,7 @@ class AppStateStore {
     this.checkmarkRequireButtonPress = false
     this.checkMarkCopy = {}
     this.currentRoute = null
+    this.showOverlay = false
 
     this.bindListeners({
       handleInitialize: AppActions.GOT_CREDENTIALS,
@@ -25,6 +26,9 @@ class AppStateStore {
 
     });
 
+    this.exportPublicMethods({
+      getAppState: this.getAppState
+    })
   }
 
   handleInitialize(){
@@ -91,7 +95,11 @@ class AppStateStore {
   }
 
 
+  handleUpdateRoute({route,matchID}){
+    console.log({route,matchID})
+    this.currentRoute = {route,matchID};
 
+  }
 
   handleLogOut(){
     this.setState({ userStatus: null});
@@ -104,11 +112,14 @@ class AppStateStore {
   //   this.setState({user:updatedUser});
   // }
   //
-  // handleUpdateUser(wrap){
-  //   this.updateUserInfo(wrap.updates);
-  // }
+  handleUpdateUser(wrap){
+
+  }
   //
 
+  getAppState(){
+    return this.getState().currentRoute
+  }
 
 
 }

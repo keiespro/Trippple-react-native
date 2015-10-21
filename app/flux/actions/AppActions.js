@@ -25,8 +25,8 @@ class AppActions {
   hideCheckmark(){
     this.dispatch()
   }
-  updateRoute(route){
-    this.dispatch(route)
+  updateRoute(d){
+    this.dispatch(d)
   }
 }
 

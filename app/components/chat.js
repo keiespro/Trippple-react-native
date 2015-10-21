@@ -428,7 +428,7 @@ class ChatInside extends Component{
   }
 
   render(){
-
+console.log(this.props)
     var matchInfo = this.props.currentMatch,
         theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id),
         them = theirIds.map((id)=> matchInfo.users[id]),
@@ -436,8 +436,6 @@ class ChatInside extends Component{
 
     return (
       <View ref={'chatscroll'} style={[styles.chatInsideWrap,{paddingBottom:this.state.keyboardSpace}]}>
-
-
         {this.props.messages.length > 0 ?
         <ListView
           ref={'scroller'}
@@ -576,11 +574,11 @@ var Chat = React.createClass({
       messages: (props) => {
         return {
           store: ChatStore,
-          value: ChatStore.getMessagesForMatch(props.match_id || this.props.matchID)
+          value: ChatStore.getMessagesForMatch( this.props.matchID)
         }
       },
       currentMatch: (props) => {
-        console.log('ALT',props)
+        console.log('ALT',props,this.props)
         return {
           store: MatchesStore,
           value: MatchesStore.getMatchInfo(this.props.matchID)
