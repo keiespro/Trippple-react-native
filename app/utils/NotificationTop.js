@@ -8,7 +8,7 @@ const DeviceWidth = Dimensions.get('window').width;
 import colors from '../utils/colors'
 import {BlurView} from 'react-native-blur';
 import Overlay from 'react-native-overlay'
-
+import AppActions from '../flux/actions/AppActions'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 
@@ -54,50 +54,58 @@ class Notification extends Component{
           }]
         }
         ]}>
-        <BlurView blurType="light" style={[styles.notificationOverlay]}>
 
 
         {this.props.payload.type == 'message' ?
-          <TouchableOpacity onPress={(e)=>{console.log(e)}}>
-          <View style={{flex:1,flexDirection:'row',width:DeviceWidth,padding:20}}>
+          <View style={[styles.notificationOverlay,styles.notificationNewMessage]}>
+
+          <TouchableOpacity onPress={(e)=>{
+              console.log(this.props.payload)
+              AppActions.updateRoute({route:'chat',match_id:this.props.payload.id,matchID:this.props.payload.id})
+                console.log(e)
+              }}>
+          <View style={styles.notificationInside}>
             <View style={styles.notificationLeft}>
             <Image
               resizeMode={Image.resizeMode.contain}
               style={styles.notiImage}
-              defaultSource={require('image!defaultuser')}
-              source={{uri: this.props.payload.from_user_info.image_url}}
+              defaultSource={require('image!placeholderUserWhite')}
+              source={{uri: "https://trippple-user.s3.amazonaws.com/test/uploads/images/23/thumb_2f6acb041-original.jpeg"}}
             />
             </View>
             <View style={styles.notificationRight}>
-              <Text style={styles.notiTitle}>{this.props.payload.from_user_info.name}</Text>
+              <Text style={[styles.notiTitle,styles.titleNewMessage]}>{this.props.payload.from_user_info.name.toUpperCase()}</Text>
               <Text style={styles.notiText}>{this.props.payload.message_body}</Text>
            </View>
            </View>
-           </TouchableOpacity> : null
+           </TouchableOpacity>
+
+              </View>
+           : null
         }
 
        {this.props.payload.type == 'match' ?
+         <View style={[styles.notificationOverlay,styles.notificationNewMatch]}>
           <TouchableOpacity onPress={(e)=>{
               console.log(e)
-
+              AppActions.updateRoute({route:'chat',match_id:this.props.payload.id,matchID:this.props.payload.id})
             }}>
-          <View style={{flex:1,flexDirection:'row',width:DeviceWidth,padding:20}}>
+          <View style={{flex:1,flexDirection:'row',width:DeviceWidth,padding:15}}>
             <View style={styles.notificationLeft}>
             <Image
               resizeMode={Image.resizeMode.contain}
               style={styles.notiImage}
-              source={{uri: this.props.user.relationship_status == 'single' ? this.props.payload.thumb_url : this.props.payload.users['450'].thumb_url}}
+              defaultSource={require('image!placeholderUserWhite')}
             />
             </View>
             <View style={styles.notificationRight}>
-              <Text style={styles.notiTitle}>New Match!</Text>
-              <Text style={styles.notiText}>{this.props.payload.id}</Text>
+              <Text style={[styles.notiTitle,styles.titleNewMatch]}>IT'S A MATCH!</Text>
+              <Text style={styles.notiText}>{this.props.payload.users[this.props.payload.closer_id].firstname} likes you back!</Text>
            </View>
            </View>
-           </TouchableOpacity> : null
+           </TouchableOpacity></View> : null
         }
 
-        </BlurView>
       </View>
 
     )
@@ -138,46 +146,64 @@ var animations = {
 
 var styles = StyleSheet.create({
   notificationWrapper:{
-    height:120,
-    width:DeviceWidth,
+    width: DeviceWidth,
     flex: 1,
-    position:'absolute',
-    top:0,
-    left:0,
-    right:0,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
     backgroundColor:'transparent',
+    height:98,
+    overflow:'hidden'
   },
   notificationOverlay: {
-    backgroundColor:'transparent',
     flexDirection:'row',
     justifyContent:'space-between'
   },
+  notificationNewMessage:{
+    backgroundColor:colors.mediumPurple,
+
+  },
+  notificationNewMatch:{
+    backgroundColor:colors.sushi,
+
+  },
   notificationLeft:{
-    width:80
+    width:60
   },
   notificationRight:{
     flex:1
   },
 
   notiText: {
-    color:colors.outerSpace,
+    color:colors.white,
     fontFamily:'omnes',
-    fontSize:22
+    fontSize:16
   },
 
   notiTitle: {
-    color:colors.outerSpace,
-    fontFamily:'omnes',
-    fontWeight:'500',
+    fontFamily:'Montserrat',
+    fontSize:14
 
   },
+  titleNewMessage:{
+    color:colors.lavender,
+  },
+  titleNewMatch:{
+    color:colors.sashimi,
+  },
+  notificationInside:{
+    flex:1,
+    flexDirection:'row',
+    width:DeviceWidth,
+    padding:15
+  },
   notiImage:{
-    width:60,
-    height:60,
+    width:50,
+    height:50,
     overflow:'hidden',
-    borderRadius: 30,
-    borderWidth: 1,
-    borderColor: colors.white
+    borderRadius: 25,
+    borderWidth: 0,
   }
 
 })
