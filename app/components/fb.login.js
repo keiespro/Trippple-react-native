@@ -7,6 +7,7 @@ var {
   Image,
   Text,
   View,
+  Navigator,
   ListView,
   TouchableHighlight,
 } = React;
@@ -29,13 +30,13 @@ var ProfilePhoto = React.createClass({
     fbUser: React.PropTypes.object.isRequired,
   },
 
-  getInitialState: function(){
+  getInitialState(){
     return {
       photo: null,
     };
   },
 
-  componentDidMount: function(){
+  componentDidMount(){
     var {fbUser} = this.props;
     var api = `https://graph.facebook.com/v2.3/${fbUser.userId}/picture?width=${FB_PHOTO_WIDTH}&redirect=false&access_token=${fbUser.token}`;
 
@@ -55,7 +56,7 @@ var ProfilePhoto = React.createClass({
       .done();
   },
 
-  render: function(){
+  render(){
     var photo = this.state.photo;
 
     return (
@@ -80,13 +81,13 @@ var ProfileInfo = React.createClass({
     fbUser: React.PropTypes.object.isRequired,
   },
 
-  getInitialState: function(){
+  getInitialState(){
     return {
       info: null,
     };
   },
 
-  componentWillMount: function(){
+  componentWillMount(){
     var fbUser = this.props.fbUser;
     var api = `https://graph.facebook.com/v2.3/${fbUser.userId}?fields=name,email&access_token=${fbUser.token}`;
 
@@ -105,7 +106,7 @@ var ProfileInfo = React.createClass({
       .done();
   },
 
-  render: function(){
+  render(){
     var info = this.state.info;
 
     return (
@@ -118,12 +119,102 @@ var ProfileInfo = React.createClass({
   }
 });
 
+
+var AlbumView = React.createClass({
+
+
+  selectPhoto(photo) {
+    console.log('[FB] selectPhoto:', photo);
+    var {navigator,route,imagetype,nextRoute,afterNextRoute} = this.props;
+      console.log(this.props,photo)
+    if(nextRoute){
+      navigator.push({
+        component: nextRoute,
+        passProps: {
+          ...this.props,
+          image: {uri:photo.images && photo.images[0] && photo.images[0].source || photo.source},
+          imagetype: imagetype || '',
+          nextRoute: afterNextRoute
+        }
+      })
+      return
+
+    }else{
+      var lastindex = this.props.navigator.getCurrentRoutes().length;
+      console.log(lastindex);
+      var nextRoute = this.props.stack[lastindex];
+
+      nextRoute.passProps = {
+        ...this.props,
+        image: {uri:photo.images[0].source},
+        imagetype: imagetype || '',
+
+      }
+      navigator.push(nextRoute)
+
+    }
+
+  },
+  renderSinglePhotos(photo) {
+    console.log(photo)
+    var img = photo.images && photo.images.length > 4 && photo.images[4].source || photo.images && photo.images[0] && photo.images[0].source || photo.source;
+
+    return (
+      <View style={styles.photo_list_item}>
+        <TouchableHighlight onPress={(e) => { this.selectPhoto(photo) }}>
+          <Image style={styles.single_big_picture} source={{uri: img}} />
+        </TouchableHighlight>
+      </View>
+    );
+  },
+
+
+  render(){
+
+    var album = this.props.album_details;
+    console.log('loading album details', album);
+
+    return (
+      <View style={{flex:1}}>
+        <FakeNavBar
+          navigator={this.props.navigator}
+          route={this.props.route}
+          backgroundStyle={{backgroundColor:'transparent'}}
+          onPrev={(n,p)=>(this.props.navigator.pop())}
+          blur={true}
+          title={album.name}
+          titleColor={colors.white}
+          customPrev={
+            <View style={{flexDirection: 'row',opacity:0.5,top:-4}}>
+              <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
+            </View>
+          }
+        />
+      <View style={{marginTop:50,flex:1,width:DeviceWidth,backgroundColor:colors.outerSpace}}>
+
+
+
+          <ListView
+            contentContainerStyle={{width:DeviceWidth,height:DeviceHeight,flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}
+            dataSource={this.props.album_photos}
+            renderRow={this.renderSinglePhotos}
+          />
+        </View>
+      </View>
+    );
+
+  }
+
+
+
+})
+
 var PhotoAlbums = React.createClass({
   propTypes: {
     fbUser: React.PropTypes.object.isRequired,
   },
 
-  getInitialState: function(){
+  getInitialState(){
     var aDS = new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
     var pDS = new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
     return {
@@ -133,7 +224,7 @@ var PhotoAlbums = React.createClass({
     };
   },
 
-  componentDidMount: function(){
+  componentDidMount(){
     this.fetchAlbums();
     console.log(this.props)
   },
@@ -181,7 +272,9 @@ var PhotoAlbums = React.createClass({
       })
       .done();
   },
-
+  openAlbum(album){
+    this.fetchAlbumPhotos(album)
+  },
   fetchAlbumPhotos(album) {
     console.log(album,this.props)
     var fbUser = this.props.fbUser;
@@ -190,11 +283,23 @@ var PhotoAlbums = React.createClass({
     console.log('FB api > fetchAlbumPhotos', api);
 
     if (this.state.album_photos && album.photos) {
-      this.setState({
-        album_details: album,
-        album_photos : this.state.album_photos.cloneWithRows(album.photos),
-        view_loaded: 'list_album_photos',
-      });
+      // this.setState({
+      //   album_details: album,
+      //   album_photos : this.state.album_photos.cloneWithRows(album.photos),
+      //   view_loaded: 'list_album_photos',
+      // });
+
+                this.props.navigator.push({
+                  component: AlbumView,
+                  sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+                  passProps:{
+                    ...this.props,
+                    photos: album.photos,
+                    album_details: album,
+                    album_photos : this.state.album_photos.cloneWithRows(album.photos),
+                    view_loaded: 'list_album_photos',
+                  }
+                });
     } else {
       // fetch pictures
       fetch(api)
@@ -206,6 +311,17 @@ var PhotoAlbums = React.createClass({
           var count = 0;
           console.log('[album id: ' + album.id + '] photos ---', photos);
 
+          this.props.navigator.push({
+            component: AlbumView,
+            sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+            passProps:{
+              ...this.props,
+              photos: photos,
+              album_details: album,
+              album_photos : this.state.album_photos.cloneWithRows(photos),
+              view_loaded: 'list_album_photos',
+            }
+          });
           this.setState({
             album_details: album,
             album_photos : this.state.album_photos.cloneWithRows(photos),
@@ -216,40 +332,8 @@ var PhotoAlbums = React.createClass({
     }
   },
 
-  selectPhoto(photo) {
-    console.log('[FB] selectPhoto:', photo);
-    var {navigator,route,imagetype,nextRoute,afterNextRoute} = this.props;
-      console.log(this.props,photo)
-    if(nextRoute){
-      navigator.push({
-        component: nextRoute,
-        passProps: {
-          ...this.props,
-          image: {uri:photo.images[0].source},
-          imagetype: imagetype || '',
-          nextRoute: afterNextRoute
-        }
-      })
-      return
 
-    }else{
-      var lastindex = this.props.navigator.getCurrentRoutes().length;
-      console.log(lastindex);
-      var nextRoute = this.props.stack[lastindex];
-
-      nextRoute.passProps = {
-        ...this.props,
-        image: {uri:photo.images[0].source},
-        imagetype: imagetype || '',
-
-      }
-      navigator.push(nextRoute)
-
-    }
-
-  },
-
-  renderLoadingView: function() {
+  renderLoadingView() {
     return (
       <View style={styles.bottomBump}>
         <Text>
@@ -259,86 +343,57 @@ var PhotoAlbums = React.createClass({
     );
   },
 
-  renderListAlbums: function() {
+
+  renderAlbumCover(album) {
+    return (
+      <View style={[{width:DeviceWidth}]}>
+        <TouchableHighlight onPress={()=>this.openAlbum(album)}>
+          <View style={[styles.album_list_row,{borderBottomWidth:1,borderColor:colors.shuttleGray,height:80,alignItems:'center',justifyContent:'flex-start',flexDirection:'row',paddingRight:25,}]}>
+            <Image style={styles.album_cover_thumbnail} source={{uri: album.cover_photo_image_url}} />
+            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>{album.name}</Text>
+              <Image source={require('image!nextArrow')} style={{position:'absolute',right:10,top:35}}/>
+
+
+          </View>
+
+        </TouchableHighlight>
+
+      </View>
+    );
+  },
+
+
+  render(){
+
     var fbUser = this.props.fbUser;
     var albums = this.state.albums;
 
     console.log('[FB] albums:', albums);
 
     return (
-      <ListView
-        contentContainerStyle={styles.list_album_container}
-        dataSource={this.state.albums}
-        renderRow={this.renderAlbumCover}
-      />
-    );
-  },
-
-  renderAlbumCover: function(album) {
-    return (
-      <View style={styles.listContainer}>
-        <TouchableHighlight onPress={(e) => { this.fetchAlbumPhotos(album) }}>
-          <Image style={styles.album_cover_thumbnail} source={{uri: album.cover_photo_image_url}} />
-        </TouchableHighlight>
-
-        <Text>{album.name}</Text>
-      </View>
-    );
-  },
-
-  renderSinglePhotos: function(photo) {
-    console.log(photo)
-    return (
-      <View style={styles.album_list_row}>
-        <TouchableHighlight onPress={(e) => { this.selectPhoto(photo) }}>
-          <Image style={styles.single_big_picture} source={{uri: photo.images[4].source}} />
-        </TouchableHighlight>
-      </View>
-    );
-  },
-
-  renderAlbumPhotos: function() {
-    var album = this.state.album_details;
-    console.log('loading album details', album);
-
-    return (
-      <View>
+      <View style={{flex:1,backgroundColor:colors.outerSpace}}>
         <FakeNavBar
           navigator={this.props.navigator}
           route={this.props.route}
           backgroundStyle={{backgroundColor:'transparent'}}
-          onPrev={(n,p)=>(this.setState({view_loaded: 'list_albums',}))}
+          onPrev={(n,p)=>(this.props.navigator.pop())}
           blur={true}
-          title={album.name}
+          title={'Albums'}
           titleColor={colors.white}
           customPrev={
-            <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
-              <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
+            <View style={{flexDirection: 'row',opacity:0.5,top:-4}}>
+              <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>▼ </Text>
             </View>
           }
         />
-      <View style={{marginTop:50,flex:1,width:DeviceWidth,backgroundColor:colors.outerSpace}}>
-
-
-
-          <ListView
-            contentContainerStyle={{width:DeviceWidth,flexDirection:'row'}}
-            dataSource={this.state.album_photos}
-            renderRow={this.renderSinglePhotos}
-          />
-        </View>
-      </View>
+      <ListView
+        contentContainerStyle={styles.list_album_container}
+        style={{height:DeviceHeight,flex:1,marginTop:50}}
+        dataSource={this.state.albums}
+        renderRow={this.renderAlbumCover}
+      />
+    </View>
     );
-  },
-
-  render: function(){
-    if (this.state.view_loaded == 'list_albums') {
-      return this.renderListAlbums();
-    } else if (this.state.view_loaded == 'list_album_photos') {
-      return this.renderAlbumPhotos();
-    } else {
-      return this.renderLoadingView();
-    }
   }
 });
 
@@ -380,16 +435,7 @@ var a = {
 };
 
 var styles = StyleSheet.create({
-  list_album_container: {
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-    marginBottom: 10,
-  },
-  album_list_row: {
+  photo_list_item:{
     justifyContent: 'center',
     padding: 0,
     flexWrap: 'wrap',
@@ -397,9 +443,29 @@ var styles = StyleSheet.create({
     width: DeviceWidth / 3,
     alignItems: 'center',
   },
+  list_album_container: {
+    flex: 1,
+    flexDirection: 'column',
+    // flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: colors.outerSpace,
+    marginBottom: 10,
+  },
+  album_list_row: {
+    flexDirection: 'row',
+    height:80,
+    justifyContent: 'flex-start',
+    paddingHorizontal: 10,
+    paddingVertical:15,
+    margin: 0,
+    backgroundColor: colors.outerSpace,
+    alignItems: 'center',
+  },
   album_cover_thumbnail: {
     width: 60,
     height: 60,
+    marginRight:20
   },
   single_big_picture: {
     flex: 1,
