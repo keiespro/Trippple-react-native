@@ -18,9 +18,11 @@ var FBLoginManager = require('NativeModules').FBLoginManager;
 
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
-
+import FakeNavBar from '../controls/FakeNavBar'
 var FB_PHOTO_WIDTH = 200;
 
+
+import colors from '../utils/colors'
 
 var ProfilePhoto = React.createClass({
   propTypes: {
@@ -223,7 +225,7 @@ var PhotoAlbums = React.createClass({
         component: nextRoute,
         passProps: {
           ...this.props,
-          image: {uri:photo.source},
+          image: {uri:photo.images[0].source},
           imagetype: imagetype || '',
           nextRoute: afterNextRoute
         }
@@ -237,7 +239,7 @@ var PhotoAlbums = React.createClass({
 
       nextRoute.passProps = {
         ...this.props,
-        image: {uri:photo.source},
+        image: {uri:photo.images[0].source},
         imagetype: imagetype || '',
 
       }
@@ -285,10 +287,11 @@ var PhotoAlbums = React.createClass({
   },
 
   renderSinglePhotos: function(photo) {
+    console.log(photo)
     return (
       <View style={styles.album_list_row}>
         <TouchableHighlight onPress={(e) => { this.selectPhoto(photo) }}>
-          <Image style={styles.single_big_picture} source={{uri: photo.picture}} />
+          <Image style={styles.single_big_picture} source={{uri: photo.images[4].source}} />
         </TouchableHighlight>
       </View>
     );
@@ -300,18 +303,26 @@ var PhotoAlbums = React.createClass({
 
     return (
       <View>
-        <TouchableHighlight onPress={() => {
-          this.setState({
-            view_loaded: 'list_albums',
-          });
-        }}>
-          <Text>Back to Albums</Text>
-        </TouchableHighlight>
+        <FakeNavBar
+          navigator={this.props.navigator}
+          route={this.props.route}
+          backgroundStyle={{backgroundColor:'transparent'}}
+          onPrev={(n,p)=>(this.setState({view_loaded: 'list_albums',}))}
+          blur={true}
+          title={album.name}
+          titleColor={colors.white}
+          customPrev={
+            <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
+              <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
+            </View>
+          }
+        />
+      <View style={{marginTop:50,flex:1,width:DeviceWidth,backgroundColor:colors.outerSpace}}>
 
-        <Text>Viewing: {album.name}</Text>
 
-        <View>
+
           <ListView
+            contentContainerStyle={{width:DeviceWidth,flexDirection:'row'}}
             dataSource={this.state.album_photos}
             renderRow={this.renderSinglePhotos}
           />
@@ -353,9 +364,9 @@ var a = {
   },
   row: {
     justifyContent: 'center',
-    padding: 5,
+    padding: 0,
     margin: 0,
-    width: DeviceWidth / 3 - 20,
+    width: DeviceWidth / 3 ,
     alignItems: 'center',
   },
   image: {
@@ -380,9 +391,10 @@ var styles = StyleSheet.create({
   },
   album_list_row: {
     justifyContent: 'center',
-    padding: 5,
+    padding: 0,
+    flexWrap: 'wrap',
     margin: 0,
-    width: DeviceWidth / 3 - 20,
+    width: DeviceWidth / 3,
     alignItems: 'center',
   },
   album_cover_thumbnail: {

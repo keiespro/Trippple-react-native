@@ -274,7 +274,7 @@ class SettingsBasic extends React.Component{
         {!this.props.user.facebook_user_id ?
           <View style={{paddingHorizontal: 25,marginTop:10}}>
 
-          <FacebookButton _onPress={this.onPressFacebook.bind(this)} buttonType={'settings'} buttonTextStyle={{fontSize:20,fontFamily:'Montserrat-Bold'}} wrapperStyle={{height:100,padding:0}}/>
+          <FacebookButton shouldLogoutOnTap={true} _onPress={this.onPressFacebook.bind(this)} buttonType={'settings'} buttonTextStyle={{fontSize:20,fontFamily:'Montserrat-Bold'}} wrapperStyle={{height:100,padding:0}}/>
 
           </View>
         : null}

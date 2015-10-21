@@ -101,14 +101,16 @@ class FacebookButton extends React.Component{
         }
       });
     }else{
-      AlertIOS.alert(
-        'Log Out of Facebook',
-        'Are you sure you want to log out of Facebook?',
-        [
-          {text: 'Yes', onPress: () => {this.handleLogout()}},
-          {text: 'No', onPress: () => {return false}},
-        ]
-      )
+      if(this.props.shouldLogoutOnTap){
+          AlertIOS.alert(
+          'Log Out of Facebook',
+          'Are you sure you want to log out of Facebook?',
+          [
+            {text: 'Yes', onPress: () => {this.handleLogout()}},
+            {text: 'No', onPress: () => {return false}},
+          ]
+        )
+      }
       this.props._onPress && this.props._onPress(this.state.fbUser);
     }
 
