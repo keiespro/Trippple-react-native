@@ -52,34 +52,16 @@ import AppActions from '../flux/actions/AppActions'
 
       if(nProps.currentRoute){
         if(nProps.currentRoute.route != this.refs.nav.navigationContext._currentRoute.id){
-          if(this.refs.nav.navigationContext._currentRoute.id == 'matches'){
-            this.refs.nav.push({
-              ...ChatRoute,
-              sceneConfig: Navigator.SceneConfigs.FloatFromRight,
-              passProps:{
-                match_id: nProps.currentRoute.match_id,
-                currentMatch: this.props.currentMatch
-              }
-            })
-          }else if(this.refs.nav.navigationContext._currentRoute.id == 'potentials'){
-            this.refs.nav.push({
-              ...ChatRoute,
-              sceneConfig: Navigator.SceneConfigs.FloatFromRight,
-              passProps: {
-                match_id: nProps.currentRoute.match_id,
-                ChatRoute: ChatRoute,
-                currentRoute: nProps.currentRoute,
-                onLoad: ()=>{  this.refs.nav.push({
-                  ...ChatRoute,
-                  passProps:{
-                    shouldPopChat: true,
-                    match_id: nProps.currentRoute.match_id,
-                    currentMatch: MatchesStore.getMatchInfo(nProps.currentRoute.match_id)
-                  }
-                })}
-              }
-            })
-          }
+          this.refs.nav.push({
+            ...ChatRoute,
+            sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+            passProps:{
+              match_id: nProps.currentRoute.match_id,
+              currentMatch: this.props.currentMatch,
+              currentRoute: nProps.currentRoute,
+            }
+          })
+
         }
       }
     }
