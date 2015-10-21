@@ -95,9 +95,9 @@ class AppStateStore {
   }
 
 
-  handleUpdateRoute({route,matchID}){
-    console.log({route,matchID})
-    this.currentRoute = {route,matchID};
+  handleUpdateRoute({route}){
+    console.log({route})
+    this.currentRoute = {route};
 
   }
 

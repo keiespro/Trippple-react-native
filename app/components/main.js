@@ -49,23 +49,30 @@ import AppActions from '../flux/actions/AppActions'
     componentWillReceiveProps(nProps){
       console.log(nProps)
       console.log(this.refs.nav.navigationContext._currentRoute.id+' is the current route but should be '+nProps.currentRoute)
+
       if(nProps.currentRoute){
         if(nProps.currentRoute.route != this.refs.nav.navigationContext._currentRoute.id){
           if(this.refs.nav.navigationContext._currentRoute.id == 'matches'){
-            this.refs.nav.push({...ChatRoute,passProps:{
-              matchID: nProps.currentRoute.matchID,
-              currentMatch: this.props.currentMatch
-            }})
+            this.refs.nav.push({
+              ...ChatRoute,
+              passProps:{
+                matchID: nProps.currentRoute.matchID,
+                currentMatch: this.props.currentMatch,
+                currentRoute: nProps.currentRoute,
+                onLoad: true
+
+              }
+            })
           }else if(this.refs.nav.navigationContext._currentRoute.id == 'potentials'){
-            this.refs.nav.push({...MatchesRoute,passProps:{
-              matchID: nProps.currentRoute.matchID,
-              ChatRoute: ChatRoute,
-              currentRoute: nProps.currentRoute,
-              onLoad: ()=>{  this.refs.nav.push({...ChatRoute,passProps:{
-                  matchID: nProps.currentRoute.matchID,
-                  currentMatch: MatchesStore.getMatchInfo(nProps.currentRoute.matchID)
-                }})}
-            }})
+            this.refs.nav.push({
+              ...MatchesRoute,
+              passProps: {
+                matchID: nProps.currentRoute.matchID,
+                ChatRoute: ChatRoute,
+                currentRoute: nProps.currentRoute,
+                onLoad: true
+              }
+            })
           }
         }
       }
@@ -89,11 +96,12 @@ import AppActions from '../flux/actions/AppActions'
           style: styles.navBar
         });
       }
+
       return (
         <View style={{ flex: 1, position:'relative'}}>
-        {route.id == 'settings' && navBar}
-        <RouteComponent navigator={navigator} route={route} navBar={navBar} user={this.props.user} {...route.passProps} pRoute={route.id == 'potentials' ? PotentialsRoute : null} />
-        {route.id == 'potentials' || route.id == 'settings' || route.id == 'matches' ? null : navBar}
+          {route.id == 'settings' && navBar}
+          <RouteComponent navigator={navigator} route={route} navBar={navBar} user={this.props.user} {...route.passProps} pRoute={route.id == 'potentials' ? PotentialsRoute : null} />
+          {route.id == 'potentials' || route.id == 'settings' || route.id == 'matches' ? null : navBar}
         </View>
       );
     }
@@ -102,13 +110,13 @@ import AppActions from '../flux/actions/AppActions'
 
       return (
         <View style={styles.appContainer}>
-        <Navigator
-        ref={'nav'}
-        initialRoute={ROUTE_STACK[0]}
-        configureScene={route => route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromBottom}
-        navigator={this.props.navigator}
-        renderScene={this.selectScene.bind(this)}
-        />
+          <Navigator
+            ref={'nav'}
+            initialRoute={ROUTE_STACK[0]}
+            configureScene={route => route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromBottom}
+            navigator={this.props.navigator}
+            renderScene={this.selectScene.bind(this)}
+          />
         </View>
       );
     }

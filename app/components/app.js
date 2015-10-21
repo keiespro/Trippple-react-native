@@ -25,6 +25,7 @@ import AppActions from '../flux/actions/AppActions';
 import CheckMarkScreen from '../screens/CheckMark'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
+import NotificationActions from '../flux/actions/NotificationActions'
 
 import Notifications from '../utils/Notifications';
 import LoadingOverlay from '../components/LoadingOverlay'
@@ -82,6 +83,7 @@ class TopLevel extends Component{
       showCheckmark: false,
       showPurpleModal: false
     }
+    NotificationActions.scheduleNewPotentialsAlert()
   }
   // componentDidUpdate(prevProps,prevState){
   //   console.log(prevProps.user,this.props.user);

@@ -1,5 +1,7 @@
 import alt from '../alt'
 import MatchActions from '../actions/MatchActions'
+import NotificationActions from '../actions/NotificationActions'
+
 import { AsyncStorage } from 'react-native'
 import _ from 'underscore'
 
@@ -8,7 +10,8 @@ class MatchesStore {
   constructor() {
 
     this.state = {
-      matches: []
+      matches: [],
+      shouldPopChat: null
     }
 
     this.exportPublicMethods({
@@ -22,7 +25,8 @@ class MatchesStore {
       removeMatch: MatchActions.REMOVE_MATCH,
       toggleFavorite: MatchActions.TOGGLE_FAVORITE,
       sendMessage: MatchActions.SEND_MESSAGE,
-      unMatch: MatchActions.UN_MATCH
+      unMatch: MatchActions.UN_MATCH,
+      handleNewMessage: NotificationActions.RECEIVE_NEW_MESSAGE_NOTIFICATION
     });
 
     this.on('init',()=>{
@@ -67,6 +71,9 @@ class MatchesStore {
         matches: cleanMatches
       });
 
+  }
+  handleNewMessage(){
+    this.shouldPopChat = true
   }
 
   sendMessage(payload){

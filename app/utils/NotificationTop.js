@@ -61,7 +61,7 @@ class Notification extends Component{
 
           <TouchableOpacity onPress={(e)=>{
               console.log(this.props.payload)
-              AppActions.updateRoute({route:'chat',match_id:this.props.payload.id,matchID:this.props.payload.id})
+              AppActions.updateRoute({route:'chat'})
                 console.log(e)
               }}>
           <View style={styles.notificationInside}>

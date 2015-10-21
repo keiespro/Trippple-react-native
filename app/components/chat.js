@@ -317,7 +317,7 @@ class ChatInside extends Component{
   }
 
   componentDidMount(){
-    MatchActions.getMessages(this.props.matchID);
+    this.props.matchID && MatchActions.getMessages(this.props.matchID);
   }
 
 // shouldComponentUpdate(nextProps,nextState){

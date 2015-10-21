@@ -225,7 +225,12 @@ class MatchList extends Component{
             barColor={colors.mediumPurple}
             titles={['ALL', 'FAVORITES']}
             index={this.state.index}
-            titleStyle={{fontFamily:'Montserrat',fontSize:15,padding:5,color:colors.shuttleGray}}
+            titleStyle={{
+              fontFamily:'Montserrat',
+              fontSize:15,
+              padding:5,
+              color:colors.shuttleGray
+            }}
             selectedTitleStyle={{color:colors.white}}
             stretch
             onPress={index => this.setState({ index })}
@@ -244,6 +249,7 @@ class MatchList extends Component{
             onEndReached={ (e) => {
               const nextPage = this.props.matches.length / 20 + 1;
               if(this.state.fetching || nextPage === this.state.lastPage){ return false }
+
               this.setState({lastPage: nextPage })
               MatchActions.getMatches(nextPage);
             }}
@@ -288,7 +294,7 @@ class MatchesInside extends Component{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-      console.log(props)
+
     this.state = {
       matches: props.matches,
       isVisible: false,
@@ -297,9 +303,7 @@ class MatchesInside extends Component{
 
     }
   }
-  shouldComponentUpdate(nProps){
-    nProps.onLoad != this.props.onLoad || false
-  }
+
   componentDidMount(){
     if(this.props.user.id){
         // MatchActions.getMatches();
@@ -310,14 +314,31 @@ class MatchesInside extends Component{
   componentDidUpdate(pProps,pState) {
       console.log(this.props)
 
+      if(this.props.shouldPopChat){
+        var currentMatch = this.props.matches[0]
+
+            this.props.navigator.push({
+              component: Chat,
+              id:'chat',
+              index: 3,
+              title: 'CHAT',
+              passProps:{
+                index: 3,
+                navigator: this.props.navigator,
+                route: {
+                  component: Chat,
+                  id:'chat',
+                  index: 3,
+                  title: 'CHAT'
+                }
+              },
+              sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+            });
+      }
 
   }
   componentWillReceiveProps(newProps) {
-    console.log(newProps,newProps.matches,newProps.matchID,newProps.currentRoute)
-    newProps.onLoad != this.props.onLoad && this.props.navigator.push({...this.props.ChatRoute,passProps:{
-        matchID: newProps.matchID || newProps.match_id,
-        currentMatch: newProps.matches[0] || {users:{}}
-      }})
+
 
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
@@ -367,23 +388,23 @@ class NoMatches extends Component{
   render(){
     return (
       <ScrollView
-          contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth}}
-          scrollEnabled={false}
-          centerContent={true}
-          style={{
-            backgroundColor:colors.outerSpace,
-            flex:1,
-            alignSelf:'stretch',
-            width:DeviceWidth}}>
-            <View style={{flexDirection:'column',paddingHorizontal:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
-              <Image  style={{width:300,height:100,marginBottom:0 }} source={require('image!listing')}
-              resizeMode={Image.resizeMode.contain} />
-              <Image  style={{width:300,height:100,marginBottom:20 }} source={require('image!listing')}
-              resizeMode={Image.resizeMode.contain} />
-
-              <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',marginBottom:20}} >{`WAITING FOR MATCHES`}</Text>
-              <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes',textAlign:'center'}} >Your conversations with your matches will appear in this screen</Text>
-            </View>
+        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth}}
+        scrollEnabled={false}
+        centerContent={true}
+        style={{
+          backgroundColor:colors.outerSpace,
+          flex:1,
+          alignSelf:'stretch',
+          width:DeviceWidth
+        }}>
+        <View style={{flexDirection:'column',paddingHorizontal:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
+          <Image  style={{width:300,height:100,marginBottom:0 }} source={require('image!listing')}
+            resizeMode={Image.resizeMode.contain} />
+          <Image  style={{width:300,height:100,marginBottom:20 }} source={require('image!listing')}
+            resizeMode={Image.resizeMode.contain} />
+          <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',marginBottom:20}}>{`WAITING FOR MATCHES`}</Text>
+          <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes',textAlign:'center'}} >Your conversations with your matches will appear in this screen</Text>
+        </View>
       </ScrollView>
     )
   }
@@ -396,27 +417,27 @@ class NoFavorites extends Component{
     return (
 
       <ScrollView
+        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth}}
+        scrollEnabled={false}
+        centerContent={true}
+        style={{
+        backgroundColor:colors.outerSpace,
+        flex:1,
+        alignSelf:'stretch',
+        width:DeviceWidth}}>
+        <FadeInContainer>
 
-      contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth}}
-      scrollEnabled={false}
-      centerContent={true}
-      style={{
-      backgroundColor:colors.outerSpace,
-      flex:1,
-      alignSelf:'stretch',
-      width:DeviceWidth}}>
-      <FadeInContainer>
+          <View style={{flexDirection:'column',paddingHorizontal:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
 
-      <View style={{flexDirection:'column',paddingHorizontal:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
+            <Image  style={{width:175,height:180,marginBottom:40 }} source={require('image!iconPlaceholderFavs')}
+               resizeMode={Image.resizeMode.contain}
+            />
 
-      <Image  style={{width:175,height:180,marginBottom:40 }} source={require('image!iconPlaceholderFavs')}
-         resizeMode={Image.resizeMode.contain}
-      />
-      <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',marginBottom:20}} >{`YOUR FAVORITE PEOPLE`}</Text>
-      <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes',textAlign:'center'}} >Tap on the star next to  to add matches to your favorites for easy access</Text>
+            <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',marginBottom:20}} >{`YOUR FAVORITE PEOPLE`}</Text>
+            <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes',textAlign:'center'}} >Tap on the star next to  to add matches to your favorites for easy access</Text>
 
-      </View>
-      </FadeInContainer>
+          </View>
+        </FadeInContainer>
 
       </ScrollView>
     )
@@ -462,6 +483,12 @@ class Matches extends Component{
               return {
                 store: MatchesStore,
                 value: MatchesStore.getAllMatches()
+              }
+            },
+            shouldPopChat: (props) => {
+              return {
+                store: MatchesStore,
+                value: MatchesStore.getState().shouldPopChat
               }
             },
             favorites: (props) => {

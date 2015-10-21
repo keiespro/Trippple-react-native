@@ -19,9 +19,9 @@ class NotificationActions {
   receiveNewMessageNotification(payload){
     console.log('receive new message Notification',(payload))
     this.dispatch(payload)
-
+    console.log(payload)
     const { data } = payload
-    if(data.action === 'retrieve') {
+    if(data.action === 'retrieve' && data.match_id) {
       MatchActions.getMessages(data.match_id)
     }
 

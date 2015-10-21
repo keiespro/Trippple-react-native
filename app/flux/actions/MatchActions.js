@@ -31,7 +31,8 @@ class MatchActions {
   }
 
   getMessages(matchID,page){
-
+    console.log(matchID)
+    if(!matchID) return false
     Api.getMessages({match_id: matchID, page: page})
     .then((res) => {
       console.log(res)
