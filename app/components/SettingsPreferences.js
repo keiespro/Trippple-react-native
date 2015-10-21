@@ -59,6 +59,7 @@ class  SettingsPreferences extends React.Component{
   constructor(props){
     super(props)
     this.state = {
+      scroll: 'on',
       looking_for_mf: props.user.looking_for_mf || false,
       looking_for_mm: props.user.looking_for_mm || false,
       looking_for_ff: props.user.looking_for_ff || false,
@@ -69,6 +70,9 @@ class  SettingsPreferences extends React.Component{
     newState[field] = !this.state[field]
     UserActions.updateUser(newState)
     this.setState(newState)
+  }
+  toggleScroll(direction){
+    this.setState({scroll:direction})
   }
   render(){
     let u = this.props.user;
@@ -94,7 +98,7 @@ class  SettingsPreferences extends React.Component{
               title={`PREFERENCES`}
               titleColor={colors.white}
               />
-            <ScrollView style={{flex:1,marginTop:50,paddingVertical:20}}   >
+            <ScrollView scrollEnabled={false} style={{flex:1,marginTop:50,paddingVertical:20}}   >
               <View style={{paddingHorizontal: 25,}}>
                   <View style={styles.formHeader}>
                     <Text style={styles.formHeaderText}>About My Match</Text>
@@ -170,7 +174,7 @@ class  SettingsPreferences extends React.Component{
                 </View>
               </TouchableHighlight>
             <View  style={{marginVertical:20}}>
-              <AgePrefs user={this.props.user} />
+              <AgePrefs toggleScroll={this.toggleScroll.bind(this)} user={this.props.user} />
             </View>
           </ScrollView>
           </View>
