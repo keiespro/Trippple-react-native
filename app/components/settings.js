@@ -97,6 +97,7 @@ class SettingsInside extends React.Component{
   _pressNewImage =()=>{
     this.props.navigator.push({
       component: SelfImage,
+      sceneConfig: Navigator.SceneConfigs.FloatFromRight,
       passProps: {
 
 
