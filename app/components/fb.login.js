@@ -195,7 +195,7 @@ var AlbumView = React.createClass({
 
 
           <ListView
-            contentContainerStyle={{width:DeviceWidth,height:DeviceHeight,flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}
+            contentContainerStyle={{width:DeviceWidth,height:DeviceHeight,padding:5,flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}
             dataSource={this.props.album_photos}
             renderRow={this.renderSinglePhotos}
           />
@@ -397,50 +397,15 @@ var PhotoAlbums = React.createClass({
   }
 });
 
-var a = {
-  loginContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  bottomBump: {
-    marginBottom: 15,
-  },
-
-
-  picture: {
-    flex: 1,
-    flexWrap: 'nowrap',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    width: 100,
-    height: 100,
-    margin: 10,
-  },
-  row: {
-    justifyContent: 'center',
-    padding: 0,
-    margin: 0,
-    width: DeviceWidth / 3 ,
-    alignItems: 'center',
-  },
-  image: {
-  },
-  scrollContent: {
-    justifyContent: 'space-around',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    width: DeviceWidth,
-  },
-};
 
 var styles = StyleSheet.create({
   photo_list_item:{
     justifyContent: 'center',
     padding: 0,
     flexWrap: 'wrap',
-    margin: 0,
-    width: DeviceWidth / 3,
+    margin: 6,
+    borderRadius:6,
+    width: DeviceWidth / 3 - 15,
     alignItems: 'center',
   },
   list_album_container: {
@@ -465,16 +430,15 @@ var styles = StyleSheet.create({
   album_cover_thumbnail: {
     width: 60,
     height: 60,
-    marginRight:20
+    marginRight:20,
+    borderRadius:6
   },
   single_big_picture: {
     flex: 1,
-    flexWrap: 'nowrap',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    width: 100,
-    height: 100,
-    margin: 10,
+    // flexWrap: 'nowrap',
+    width: DeviceWidth/3 - 15,
+    height: DeviceWidth/3 - 15,
+    borderRadius:6,
   },
 });
 
