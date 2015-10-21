@@ -267,12 +267,13 @@ class Cards extends Component{
                   scale:0.95
                 }],
                 alignSelf:'center',
-                width:(this.props.profileVisible ? DeviceWidth : DeviceWidth - 40),
-                height:(this.props.profileVisible ? DeviceHeight : DeviceHeight - 40),
+                width:( DeviceWidth - 40),
+                height:(  DeviceHeight ),
                 left:this.props.profileVisible ? 0 : 20,
                 right:this.props.profileVisible ? 0 : 20,
-                top: 67,
+                top: 52,
                 flex:1,
+                bottom:0,
                 shadowColor:colors.dark,
                 shadowRadius:3,
                 shadowOpacity:0.05,
@@ -452,7 +453,7 @@ componentWillReceiveProps(nProps){
     return (
       <View ref={'cardinside'} key={`${potential.id || potential.user.id}-inside`}
         style={ [styles.shadowCard,{
-          height: isTopCard ? DeviceHeight-80 : DeviceHeight-68
+          height: isTopCard ? DeviceHeight-80 : DeviceHeight-53
         } ]}>
 
           <ScrollView
