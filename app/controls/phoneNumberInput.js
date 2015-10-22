@@ -91,6 +91,7 @@ class PhoneNumberInput extends React.Component{
           <TextInput
             editable={false}
             maxLength={14}
+            placeholderTextColor={colors.white}
             placeholder={`PHONE NUMBER`}
             keyboardType={'numeric'}
             style={[this.props.style,{

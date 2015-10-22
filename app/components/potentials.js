@@ -11,6 +11,7 @@ import {
   Image,
   TouchableOpacity,
   Animated,
+  ActivityIndicatorIOS,
   ScrollView,
   PixelRatio,
   PanResponder,
@@ -38,6 +39,7 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
 import PotentialsStore from '../flux/stores/PotentialsStore'
+import NotificationsStore from '../flux/stores/NotificationsStore'
 
 const THROW_OUT_THRESHOLD = 225;
 
@@ -836,7 +838,11 @@ class CardStack extends Component{
 
 
     var { potentials, user } = this.props
-    var NavBar = React.addons.cloneWithProps(this.props.pRoute.navigationBar, { navigator: this.props.navigator, route: this.props.route})
+    var NavBar = React.addons.cloneWithProps(this.props.pRoute.navigationBar, {
+      navigator: this.props.navigator,
+      route: this.props.route,
+      noifications: this.props.notifications && this.props.notifications.length ? 1 : 0
+    })
 
       return (
         <View style={{backgroundColor:colors.outerSpace}}>
@@ -853,7 +859,11 @@ class CardStack extends Component{
 
 
     { potentials.length < 1 &&
-      <FadeInContainer delayAmount={1000} duration={300}>
+      <View style={[{ alignItems: 'center', justifyContent: 'center',height: DeviceHeight,width:DeviceWidth,position:'absolute',top:0,left:0}]}>
+        <ActivityIndicatorIOS size={'large'} style={[{ alignItems: 'center', justifyContent: 'center',height: 80}]} animating={true}/>
+      </View>}
+    { potentials.length < 1 &&
+      <FadeInContainer delayAmount={20000} duration={300}>
          <Image source={require('image!placeholderDashed')}
             resizeMode={Image.resizeMode.contain}
             style={styles.dashedBorderImage}>
@@ -868,6 +878,7 @@ class CardStack extends Component{
     </View>
 
        {!this.state.profileVisible && NavBar}
+
        {this.state.profileVisible && <FakeNavBar
              hideNext={true}
              backgroundStyle={{backgroundColor:colors.outerSpace}}
@@ -898,6 +909,12 @@ class Potentials extends Component{
               return {
                 store: PotentialsStore,
                 value: PotentialsStore.getAll()
+              }
+            },
+            notifications: (props) => {
+              return {
+                store: NotificationsStore,
+                value: NotificationsStore.getState().notifications
               }
             }}}>
           <CardStack user={this.props.user} navigator={this.props.navigator} pRoute={this.props.pRoute}/>
