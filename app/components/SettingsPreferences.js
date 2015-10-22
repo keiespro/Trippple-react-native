@@ -13,6 +13,7 @@ import {
   SwitchIOS,
   Animated,
   PickerIOS,
+  PixelRatio,
   Image,
   AsyncStorage,
   Navigator
@@ -60,6 +61,7 @@ class  SettingsPreferences extends React.Component{
     super(props)
     this.state = {
       scroll: 'on',
+      nearMe: true,
       looking_for_mf: props.user.looking_for_mf || false,
       looking_for_mm: props.user.looking_for_mm || false,
       looking_for_ff: props.user.looking_for_ff || false,
@@ -98,10 +100,11 @@ class  SettingsPreferences extends React.Component{
               title={`PREFERENCES`}
               titleColor={colors.white}
               />
-            <ScrollView scrollEnabled={false} style={{flex:1,marginTop:50,paddingVertical:20}}   >
+            <ScrollView style={{flex:1,marginTop:50,paddingVertical:20}}
+              scrollEnabled={this.state.scroll == 'on' ? true : false}  >
               <View style={{paddingHorizontal: 25,}}>
                   <View style={styles.formHeader}>
-                    <Text style={styles.formHeaderText}>About My Match</Text>
+                    <Text style={styles.formHeaderText}>{`About ${this.props.user.relationship_status == 'single' ? 'My' : 'Our'} Match`}</Text>
                 </View>
               </View>
               <View style={{marginVertical: 20,}}>
@@ -135,15 +138,17 @@ class  SettingsPreferences extends React.Component{
                            ref={'_textArea'}
                            clearButtonMode={'always'}
                        />)},
-                       field:{label:'bio',field_type:'textarea'},
-                      fieldName:'bio',
+           field:{
+             label: `About ${this.props.user.relationship_status == 'single' ? 'My' : 'Our'} Match`,
+             field_type:'textarea'},
+            fieldName:'bio',
                       cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
                       fieldValue: this.props.user.bio
                     }
                   })
                 }} >
-                <View  style={{marginHorizontal:25,height:60,width:DeviceWidth-50,flexWrap:'wrap',alignItems:'center',justifyContent:'space-between',flexDirection:'column',borderBottomWidth:2,borderColor:colors.shuttleGray}}>
-                <Text  style={{color:colors.white,height:50,fontSize:20,overflow:'hidden',flexWrap:'wrap',fontFamily:'Montserrat'}}>{this.props.user.bio ? this.props.user.bio : ''}</Text>
+                <View  style={{marginHorizontal:25,height:60,width:DeviceWidth-50,flexWrap:'wrap',alignItems:'center',justifyContent:'space-between',flexDirection:'column',   borderBottomWidth: 1/PixelRatio.get(),borderColor:colors.shuttleGray}}>
+                <Text  style={{color:colors.white,height:50,fontSize:18,overflow:'hidden',flexWrap:'wrap'}}>{this.props.user.bio ? this.props.user.bio : ''}</Text>
                 </View>
               </TouchableHighlight>
 
@@ -151,30 +156,52 @@ class  SettingsPreferences extends React.Component{
 
 
               <TouchableHighlight underlayColor={colors.dark} style={{paddingHorizontal: 25,}} onPress={()=>{this.toggleField('looking_for_mf')}}>
-                <View  style={[{height:50,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
+                <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
                   <Text style={{color: looking_for_mf ? colors.white : colors.rollingStone,
-                      fontSize:14,fontFamily:'Montserrat'}}>MALE + FEMALE COUPLES</Text>
+                      fontSize:18,fontFamily:'Montserrat'}}>MALE + FEMALE COUPLES</Text>
                     <Image source={looking_for_mf ? require('image!ovalSelected') : require('image!ovalDashed')}/>
                 </View>
               </TouchableHighlight>
 
               <TouchableHighlight underlayColor={colors.dark} style={{paddingHorizontal: 25,}} onPress={()=>{this.toggleField('looking_for_mm')}}>
-                <View  style={[{height:50,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
+                <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
                   <Text style={{color: looking_for_mm ? colors.white : colors.rollingStone,
-                      fontSize:14,fontFamily:'Montserrat'}}>MALE + MALE COUPLES</Text>
+                      fontSize:18,fontFamily:'Montserrat'}}>MALE + MALE COUPLES</Text>
                     <Image source={looking_for_mm ? require('image!ovalSelected') : require('image!ovalDashed')}/>
                 </View>
               </TouchableHighlight>
 
               <TouchableHighlight underlayColor={colors.dark} style={{paddingHorizontal: 25,}} onPress={()=>{this.toggleField('looking_for_ff')}}>
-                <View  style={[{height:50,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
+                <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
                   <Text style={{color: looking_for_ff ? colors.white : colors.rollingStone,
-                      fontSize:14,fontFamily:'Montserrat'}}>FEMALE + FEMALE COUPLES</Text>
+                      fontSize:18,fontFamily:'Montserrat'}}>FEMALE + FEMALE COUPLES</Text>
                     <Image source={looking_for_ff ? require('image!ovalSelected') : require('image!ovalDashed')}/>
                 </View>
               </TouchableHighlight>
-            <View  style={{marginVertical:20}}>
+
+            <View  style={{marginVertical:0}}>
+              <View style={{paddingHorizontal: 25,marginBottom:30}}>
+                <View style={styles.formHeader}>
+                  <Text style={styles.formHeaderText}>{`Age Range`}</Text>
+                </View>
+              </View>
               <AgePrefs toggleScroll={this.toggleScroll.bind(this)} user={this.props.user} />
+            </View>
+            <View style={{paddingHorizontal: 25,marginBottom:15}}>
+              <View style={styles.formHeader}>
+                <Text style={styles.formHeaderText}>{`Location`}</Text>
+              </View>
+              <View style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow,{borderBottomWidth:0}]}>
+                <Text style={{color:  colors.white, fontSize:18}}>Prioritize Users Near Me</Text>
+                <SwitchIOS
+                  onValueChange={(value) => this.setState({nearMe: value})}
+                  value={this.state.nearMe}
+                  onTintColor={colors.dark}
+                  thumbTintColor={this.state.nearMe ? colors.mediumPurple : colors.shuttleGray}
+                  tintColor={colors.dark}
+                />
+              </View>
+
             </View>
           </ScrollView>
           </View>
@@ -234,9 +261,8 @@ var styles = StyleSheet.create({
 
    alignSelf: 'stretch',
    paddingTop:0,
-   height:50,
    flex:1,
-   borderBottomWidth: 1,
+   borderBottomWidth: 1/PixelRatio.get(),
    borderBottomColor: colors.rollingStone
 
  },
