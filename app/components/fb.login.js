@@ -7,8 +7,10 @@ var {
   Image,
   Text,
   View,
+  PixelRatio,
   Navigator,
   ListView,
+  ActivityIndicatorIOS,
   TouchableHighlight,
 } = React;
 
@@ -162,7 +164,7 @@ var AlbumView = React.createClass({
     return (
       <View style={styles.photo_list_item}>
         <TouchableHighlight onPress={(e) => { this.selectPhoto(photo) }}>
-          <Image style={styles.single_big_picture} source={{uri: img}} />
+          <Image style={styles.pic} source={{uri: img}} />
         </TouchableHighlight>
       </View>
     );
@@ -182,7 +184,7 @@ var AlbumView = React.createClass({
           backgroundStyle={{backgroundColor:'transparent'}}
           onPrev={(n,p)=>(this.props.navigator.pop())}
           blur={true}
-          title={album.name}
+          title={album.name.toUpperCase()}
           titleColor={colors.white}
           customPrev={
             <View style={{flexDirection: 'row',opacity:0.5,top:-4}}>
@@ -297,7 +299,7 @@ var PhotoAlbums = React.createClass({
                     photos: album.photos,
                     album_details: album,
                     album_photos : this.state.album_photos.cloneWithRows(album.photos),
-                    view_loaded: 'list_album_photos',
+                    // view_loaded: 'list_album_photos',
                   }
                 });
     } else {
@@ -319,13 +321,13 @@ var PhotoAlbums = React.createClass({
               photos: photos,
               album_details: album,
               album_photos : this.state.album_photos.cloneWithRows(photos),
-              view_loaded: 'list_album_photos',
+              // view_loaded: 'list_album_photos',
             }
           });
           this.setState({
             album_details: album,
             album_photos : this.state.album_photos.cloneWithRows(photos),
-            view_loaded: 'list_album_photos',
+            // view_loaded: 'list_album_photos',
           });
         })
         .done();
@@ -347,10 +349,13 @@ var PhotoAlbums = React.createClass({
   renderAlbumCover(album) {
     return (
       <View style={[{width:DeviceWidth}]}>
-        <TouchableHighlight onPress={()=>this.openAlbum(album)}>
-          <View style={[styles.album_list_row,{borderBottomWidth:1,borderColor:colors.shuttleGray,height:80,alignItems:'center',justifyContent:'flex-start',flexDirection:'row',paddingRight:25,}]}>
+        <TouchableHighlight underlayColor={colors.shuttleGray} onPress={()=>this.openAlbum(album)}>
+          <View style={[styles.album_list_row,{borderBottomWidth:1/PixelRatio.get(),borderColor:colors.shuttleGray,height:80,alignItems:'center',justifyContent:'flex-start',flexDirection:'row',paddingRight:25,marginLeft:25}]}>
             <Image style={styles.album_cover_thumbnail} source={{uri: album.cover_photo_image_url}} />
-            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>{album.name}</Text>
+            <View style={{flexDirection:'column'}}>
+              <Text style={{color:colors.white,fontSize:16,fontFamily:'Montserrat-Bold'}}>{ album.name.toUpperCase()}</Text>
+              <Text style={{color:colors.shuttleGray,fontSize:14}}>{`${album.count} photos`}</Text>
+          </View>
               <Image source={require('image!nextArrow')} style={{position:'absolute',right:10,top:35}}/>
 
 
@@ -371,26 +376,28 @@ var PhotoAlbums = React.createClass({
     console.log('[FB] albums:', albums);
 
     return (
-      <View style={{flex:1,backgroundColor:colors.outerSpace}}>
-        <FakeNavBar
-          navigator={this.props.navigator}
-          route={this.props.route}
-          backgroundStyle={{backgroundColor:'transparent'}}
-          onPrev={(n,p)=>(this.props.navigator.pop())}
-          blur={true}
-          title={'Albums'}
-          titleColor={colors.white}
-          customPrev={
-            <View style={{flexDirection: 'row',opacity:0.5,top:-4}}>
-              <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>▼ </Text>
-            </View>
-          }
-        />
-      <ListView
+      <View style={{flex:1,backgroundColor:colors.outerSpace,height:DeviceHeight,width:DeviceWidth}}>
+
+    {this.state.view_loaded == 'list_albums' ?  <ListView
         contentContainerStyle={styles.list_album_container}
-        style={{height:DeviceHeight,flex:1,marginTop:50}}
+        style={{height:DeviceHeight,flex:1,marginTop:55}}
         dataSource={this.state.albums}
         renderRow={this.renderAlbumCover}
+      /> : <ActivityIndicatorIOS style={{alignSelf:'center',alignItems:'center',flex:1,height:200,width:200,justifyContent:'center'}} animating={true} size={'large'}/> }
+
+      <FakeNavBar
+        navigator={this.props.navigator}
+        route={this.props.route}
+        backgroundStyle={{backgroundColor:'transparent'}}
+        onPrev={(n,p)=>(this.props.navigator.pop())}
+        blur={true}
+        title={'ALBUMS'}
+        titleColor={colors.white}
+        customPrev={
+          <View style={{flexDirection: 'row',opacity:0.5,top:-4}}>
+            <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>▼ </Text>
+          </View>
+        }
       />
     </View>
     );
@@ -424,7 +431,7 @@ var styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical:15,
     margin: 0,
-    backgroundColor: colors.outerSpace,
+    backgroundColor: 'transparent',
     alignItems: 'center',
   },
   album_cover_thumbnail: {
@@ -433,7 +440,7 @@ var styles = StyleSheet.create({
     marginRight:20,
     borderRadius:6
   },
-  single_big_picture: {
+  pic: {
     flex: 1,
     // flexWrap: 'nowrap',
     width: DeviceWidth/3 - 15,

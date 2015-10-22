@@ -145,14 +145,12 @@ class CameraRollView extends Component{
     var imageSize = DeviceWidth / 3 - 20;
     var imageStyle = [styles.image, {width: imageSize, height: imageSize}];
     return (
-      <TouchableOpacity onPress={ this.loadAsset.bind( this, asset ) } key={`${asset.node.image.uri}-tap`}>
-        <View key={asset} style={styles.row}>
-          <Image
-            source={asset.node.image}
-            style={imageStyle}
-          />
-        </View>
-      </TouchableOpacity>
+
+      <View style={styles.photo_list_item} key={`${asset.node.image.uri}-tap`}>
+        <TouchableOpacity onPress={this.loadAsset.bind( this, asset )}>
+          <Image style={styles.pic} source={asset.node.image} />
+        </TouchableOpacity>
+      </View>
     );
   }
   /**
@@ -216,14 +214,22 @@ class CameraRollView extends Component{
 
   render() {
     return (
-      <View>
+      <View style={{flex:1}}>
         <FakeNavBar
           navigator={this.props.navigator}
-          onPrev={() => { this.props.goBack ? this.props.goBack() : this.props.navigator.pop()}}
-          prevTitle={'Back'}
-          backgroundStyle={{}}
-          style={{borderBottomWidth:1,borderBottomColor:colors.dusk}}
+          route={this.props.route}
+          backgroundStyle={{backgroundColor:'transparent'}}
+          onPrev={(n,p)=>(this.props.navigator.pop())}
+          blur={true}
+          title={'YOUR PHOTOS'}
+          titleColor={colors.white}
+          customPrev={
+            <View style={{flexDirection: 'row',opacity:0.5,top:-4}}>
+              <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>▼ </Text>
+            </View>
+          }
         />
+      <View style={{marginTop:50,flex:1,width:DeviceWidth,backgroundColor:colors.outerSpace}}>
         <ListView
           renderRow={this._renderRow.bind(this)}
           renderFooter={this._renderFooterSpinner}
@@ -233,6 +239,7 @@ class CameraRollView extends Component{
           dataSource={this.state.dataSource}
           />
         </View>
+      </View>
     )
   }
 
@@ -308,12 +315,27 @@ var styles = StyleSheet.create({
 
   image: {
   },
-
+  photo_list_item:{
+    justifyContent: 'center',
+    padding: 0,
+    flexWrap: 'wrap',
+    margin: 6,
+    borderRadius:6,
+    width: DeviceWidth / 3 - 15,
+    alignItems: 'center',
+  },
   scrollContent:{
     justifyContent: 'space-around',
     flexDirection: 'row',
     flexWrap: 'wrap',
     width: DeviceWidth,
+  },
+  pic: {
+    flex: 1,
+    // flexWrap: 'nowrap',
+    width: DeviceWidth/3 - 15,
+    height: DeviceWidth/3 - 15,
+    borderRadius:6,
   },
   container: {
     flex: 1,
