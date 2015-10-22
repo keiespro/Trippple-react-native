@@ -231,10 +231,14 @@ class ActiveDot extends React.Component{
           var newAgeVal = Math.round((this._animatedValueX * 32) / InsideWidth) + 18
           this.props.updateVal(newAgeVal)
           this.props.toggleScroll('on');
+          console.log(this.props.dots)
+          var dot = this.props.dots.length ? this.props.dots.filter((n) => n.start_age > newAgeVal) : {start_age:this._animatedValueX};
+          console.log(dot[dot.length-1].start_age)
 
+var toValue = InsideWidth * (dot[0].start_age-18) / 32
           Animated.timing(this.state.ageVal,{
-            toValue:this._animatedValueX,
-            duration:100,
+            toValue,
+            duration:500,
           }).start()
         }
 
@@ -244,6 +248,9 @@ class ActiveDot extends React.Component{
 
     var {ageVal} = this.state
     var dotWidthInterpolatedWidth = Math.round(InsideWidth / this.props.numberGroups)
+
+
+// Some arbitrary interpolations for making the handle drag nicelyer
 
     var inputRange = this.props.dots.reduce( (arr,dot,i) => {
       arr.push(dotWidthInterpolatedWidth*i)
