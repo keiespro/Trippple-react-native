@@ -2,7 +2,7 @@
 
 const MIN_AGE = 18
 const MAX_AGE = 50
-const MIN_AGE_GROUP_DISTANCE = 5 ///years
+const MIN_AGE_GROUP_DISTANCE = 4 ///years
 
 import React from 'react-native';
 import {
@@ -20,6 +20,7 @@ import Dimensions from 'Dimensions'
 import UserActions from '../flux/actions/UserActions'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
+const InsideWidth = DeviceWidth - 62
 import colors from '../utils/colors'
 
 
@@ -64,14 +65,14 @@ class  AgePrefs extends React.Component{
   }
   render(){
     var {match_age_max,match_age_min} = this.state
-    var insideWidth = DeviceWidth-60
+
     var {dots} = this.state
-    var dotWidth = insideWidth / this.state.numberGroups - 7
+    var dotWidth = InsideWidth / this.state.numberGroups
 
         return (
           <View style={{flexDirection:'column',alignItems:'center',justifyContent:'center',height:100}}>
 
-       <Text style={{alignSelf:'flex-end',color:colors.white}}>{`${this.state.match_age_min} - ${this.state.match_age_max}`}</Text>
+       <Text style={{alignSelf:'flex-end',color:colors.white,marginRight:20,marginBottom:20}}>{`${this.state.match_age_min} - ${this.state.match_age_max}`}</Text>
 
         <View style={{paddingHorizontal:0,flexDirection:'row',height:90,alignItems:'center',justifyContent:'center',alignSelf:'center'}}>
 
@@ -92,7 +93,7 @@ class  AgePrefs extends React.Component{
                     borderTopColor: highlighted && lineHighlighted ? colors.mediumPurple : colors.white
                    }}/>
                }
-               <TouchableHighlight style={{position:'absolute',top:-5}} onPress={(e)=>{
+               <TouchableHighlight style={{position:'absolute',top:-10,left:-10}} onPress={(e)=>{
                    var newState = {}
                    if(Math.abs(this.state.match_age_max - dot.start_age) > Math.abs(this.state.match_age_min - dot.start_age) ){
                      newState.match_age_min = dot.start_age
@@ -103,7 +104,7 @@ class  AgePrefs extends React.Component{
                       this.setState(newState)
                     }} >
                  <View style={{
-                  flex:1,backgroundColor:highlighted ? colors.mediumPurple : colors.white,height:10,width:10,borderRadius:5,
+                  flex:1,backgroundColor:highlighted ? colors.mediumPurple : colors.white,height:20,width:20,borderRadius:10,
                }}/>
              </TouchableHighlight>
 
@@ -113,25 +114,7 @@ class  AgePrefs extends React.Component{
 
             )
           })}
-          <View style={{width:dotWidth,height:80,alignSelf:'center',position:'relative'}} >
 
-           <TouchableHighlight style={{position:'absolute',top:-5}} onPress={(e)=>{
-               var newState = {}
-               if(Math.abs(this.state.match_age_max - dots[dots.length-1].start_age) > Math.abs(this.state.match_age_min - dots[dots.length-1].start_age) ){
-                 newState.match_age_min = dots[dots.length-1].start_age
-               }else{
-                 newState.match_age_max = dots[dots.length-1].start_age
-
-               }
-                  this.setState(newState)
-                }} >
-             <View style={{
-              flex:1,backgroundColor: dots[dots.length-1].start_age >= MAX_AGE  ? colors.mediumPurple : colors.white,height:10,width:10,borderRadius:5,
-           }}/>
-         </TouchableHighlight>
-
-
-           </View>
           </View>
           <ActiveDot
             key={'minimum_dot'}
@@ -141,6 +124,9 @@ class  AgePrefs extends React.Component{
               this.setState({match_age_min:val});
 
             }}
+            numberGroups={this.state.numberGroups}
+            dots={this.state.dots}
+
             ageVal={this.state.match_age_min }
           />
           <ActiveDot
@@ -151,6 +137,9 @@ class  AgePrefs extends React.Component{
               this.setState({match_age_max:val});
 
             }}
+            numberGroups={this.state.numberGroups}
+            dots={this.state.dots}
+
             ageVal={this.state.match_age_max}
           />
 
@@ -175,7 +164,7 @@ class ActiveDot extends React.Component{
   }
   componentWillMount(){
     console.log('MOUNT')
-    this.state.ageVal.setValue((this.props.ageVal - 18) * (DeviceWidth-60) / 32)
+    this.state.ageVal.setValue(InsideWidth * (this.props.ageVal-18) / 32)
     this.initializePanResponder();
 
   }
@@ -185,18 +174,39 @@ class ActiveDot extends React.Component{
   //   })
   // }
   componentWillReceiveProps(nProps){
-    this.state.ageVal.setValue((nProps.ageVal - 18)  * (DeviceWidth-60) / 32 )
+    var nval = Math.round(InsideWidth * (nProps.ageVal-18) / 32)
+
+    console.log(Math.abs(nval - this._animatedValueX))
+    if(Math.abs(this._animatedValueX - nval) >= InsideWidth/this.props.numberGroups){
+      this._animatedValueX = nval
+
+      Animated.timing(this.state.ageVal,{
+        toValue:nval,
+        duration:100,
+      }).start()
+    }
   }
-  shouldComponentUpdate(){
-    // return false
+  shouldComponentUpdate(nProps,nState){
+    var nval = InsideWidth * (nProps.ageVal-18) / 32
+    if(nProps.ageVal == this.props.ageVal ){
+      return false
+    }
     return true
   }
   componentWillUnmount() {
     this.state.ageVal.removeAllListeners();
   }
   initializePanResponder(){
-    this._animatedValueX = (this.props.ageVal-18) * (DeviceWidth-60) / 32;
-    this.state.ageVal.addListener((value) => this._animatedValueX = parseInt(value.value));
+    this._animatedValueX = InsideWidth * (this.props.ageVal-18) / 32
+
+    this.state.ageVal.addListener((value) => {
+      console.log(value);
+      this._animatedValueX = Math.round(value.value);
+      if(this._animatedValueX % 2 == 0 ){
+      //
+        this.props.updateVal(Math.round(this._animatedValueX * 32 / InsideWidth + 18))
+      }
+    })
 
     this._panResponder = PanResponder.create({
         onMoveShouldSetResponderCapture: () => true,
@@ -204,16 +214,28 @@ class ActiveDot extends React.Component{
         onPanResponderGrant: (e, gestureState) => {
           this.props.toggleScroll('off');
 
-          this.state.ageVal.setOffset(this._animatedValueX );
+          this.state.ageVal.setOffset(this._animatedValueX);
           this.state.ageVal.setValue(0);
         },
         onPanResponderMove: Animated.event([ null, {dx: this.state.ageVal} ]),
-        onPanResponderRelease: () => {
+        onPanResponderRelease: (e, gestureState)  => {
+          console.log((gestureState.dx))
+          if(this._animatedValueX > InsideWidth){
+            this._animatedValueX = InsideWidth
+          }else if(this._animatedValueX < 0){
+            this._animatedValueX = 0
+          }else{
+            // this._animatedValueX = gestureState.dx
+          }
           this.state.ageVal.flattenOffset(); // Flatten the offset so it resets the default positioning
-          var newAgeVal = parseInt((this._animatedValueX/(DeviceWidth-60))*(32))+18
+          var newAgeVal = Math.round((this._animatedValueX * 32) / InsideWidth) + 18
           this.props.updateVal(newAgeVal)
           this.props.toggleScroll('on');
 
+          Animated.timing(this.state.ageVal,{
+            toValue:this._animatedValueX,
+            duration:100,
+          }).start()
         }
 
     })
@@ -221,16 +243,40 @@ class ActiveDot extends React.Component{
   render(){
 
     var {ageVal} = this.state
+    var dotWidthInterpolatedWidth = Math.round(InsideWidth / this.props.numberGroups)
 
+    var inputRange = this.props.dots.reduce( (arr,dot,i) => {
+      arr.push(dotWidthInterpolatedWidth*i)
+      arr.push(dotWidthInterpolatedWidth*(i) + 1)
+      arr.push(dotWidthInterpolatedWidth*(i) +5)
+      arr.push(dotWidthInterpolatedWidth*(i+1) - 30 )
+      arr.push(dotWidthInterpolatedWidth*(i+1) )
+      // arr.push(dotWidthInterpolatedWidth+dotWidthInterpolatedWidth*i)
+      // arr.push(dotWidthInterpolatedWidth+MIN_AGE_GROUP_DISTANCE)
+      return arr
+    },[0])
+    var outputRange = this.props.dots.reduce((arr,dot,i)=>{
+      arr.push(dotWidthInterpolatedWidth*i )
+      arr.push(dotWidthInterpolatedWidth*(i) + 1 )
+      arr.push(dotWidthInterpolatedWidth*(i)+ 20)
+      arr.push(dotWidthInterpolatedWidth*(i +1) - 10)
+      arr.push(dotWidthInterpolatedWidth*(i+1) )
+      return arr
+    },[0])
+    console.log(inputRange, outputRange)
     return (
       <Animated.Image {...this._panResponder.panHandlers}
-        style={{overflow:'hidden',
-          transform: [ {translateX: ageVal } ],
+        style={{
+          transform: [ {translateX: ageVal.interpolate({
+              inputRange, outputRange,
+              extrapolate:'clamp'
+            }) } ],
           backgroundColor:'transparent',alignItems:'center',justifyContent:'center',
           height:42,width:36,position:'absolute',bottom:20,
+          left:10,
         }} source={require('image!sliderHandle')}>
         <Text style={{backgroundColor:'transparent',textAlign:'center',color:colors.white,fontSize:12}}>{
-        parseInt((this._animatedValueX/(DeviceWidth-60))*(MAX_AGE-MIN_AGE) )+ 18
+        this.props.ageVal
       }</Text>
       </Animated.Image>
 
