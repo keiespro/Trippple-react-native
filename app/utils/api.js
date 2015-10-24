@@ -168,8 +168,8 @@ class api {
   }
 
 
-  async sendContactsToBlock(numbers,start){
-    return await authenticatedRequest('process_phone_contacts', {numbers})
+  async sendContactsToBlock(data,start){
+    return await authenticatedRequest('process_phone_contacts', {data})
   }
 }
 module.exports = new api()
