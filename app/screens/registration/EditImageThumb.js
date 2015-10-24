@@ -60,8 +60,8 @@ class EditImageThumb extends Component{
   }
 
   accept(){
-
-    UserActions.uploadImage(this.props.image,'profile')
+    AppActions.toggleOverlay()
+    UserActions.uploadImage(this.props.image.uri ? this.props.image.uri : this.props.image,'profile')
 
     if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
 

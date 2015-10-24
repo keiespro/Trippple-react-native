@@ -14,12 +14,10 @@ class UserStore {
   constructor() {
 
     this.user = {}
-    this.showCheckmark = false
     this.userStub = {}
     this.state = {
       user: {},
       userStub: {},
-      showCheckmark:false
     }
 
     this.registerAsync(UserSource);
@@ -38,9 +36,6 @@ class UserStore {
       handleUpload: UserActions.UPLOAD_IMAGE,
       handleUpdateUserStub: UserActions.updateUserStub,
       handleLogOut: UserActions.LOG_OUT,
-      handleHideCheckmark: AppActions.HIDE_CHECKMARK,
-      handleShowCheckmark: AppActions.SHOW_CHECKMARK,
-      handleSelectPartner: UserActions.SELECT_PARTNER
 
     });
 
@@ -53,17 +48,15 @@ class UserStore {
   }
 
   handleInitSuccess(res){
-    console.log('init success',res);
-    this.setState({
-      user: res.response.user_info
-    })
-    MatchActions.getPotentials();
-
-     MatchActions.getMatches();
-     MatchActions.getFavorites();
-
-
+    const user = res.response.user_info
+    this.setState({ user })
+    if(user.status == 'onboarded'){
+      MatchActions.getPotentials();
+      MatchActions.getMatches();
+      MatchActions.getFavorites();
+    }
   }
+
   handleBlockContacts(){
 
   }
@@ -73,29 +66,16 @@ class UserStore {
   }
 
   handleVerifyPin(res){
-    console.log(res)
     const user_info = res.response;
 
     this.setState({
       user: {  ...this.user, ...user_info },
-      showCheckmark: true,
-      checkMarkCopy: {
-        title: '',
-
-      },
-      checkmarkRequireButtonPress: false
-
     })
-
-
-    setTimeout(()=>{
-      this.setState({showCheckmark:false})
-    },1000);
 
     CredentialsStore.saveCredentials(user_info);
   }
+
   handleGetUserInfo(res){
-    console.log(res)
     if(res.error){
       return false;
     }
@@ -107,47 +87,7 @@ class UserStore {
     })
   }
 
-  handleShowCheckmark(cm){
-    var cm = cm || {};
-    this.setState({
-      showCheckmark: true,
-      checkMarkCopy: cm ? cm.copy : {} ,
-      checkmarkRequireButtonPress: cm  && cm.button
-    })
 
-    if(!cm.button){
-      setTimeout(()=>{
-        this.setState({showCheckmark:false,checkMarkCopy: {}})
-      },5000);
-    }
-
-  }
-
-  handleHideCheckmark(){
-
-    this.setState({
-      showCheckmark: false,
-      checkMarkCopy: {}
-    })
-
-  }
-
-  handleSelectPartner(payload){
-    console.log(payload);
-    if(payload.err){
-      return false;
-      }
-      if(payload.showCheckmark){
-        this.handleShowCheckmark({
-          copy:{
-            title:'INVITATION SENT',
-            partnerName: payload.partnerName
-
-          },
-          button: true
-        });
-      }
-  }
   handleUpdateUserStub(attributes = {}){
     console.log('handleUpdateUserStub',attributes,...this.state.userStub)
 

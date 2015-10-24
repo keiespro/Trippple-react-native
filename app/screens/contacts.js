@@ -29,6 +29,7 @@ import BackButton from '../components/BackButton'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 import Api from '../utils/api'
+import base64 from 'base-64'
 
 function cleanNumber(p){
   return p.replace(/[\. ,():+-]+/g, '').replace(/[A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/,'');
@@ -171,7 +172,7 @@ class Contacts extends Component{
 
       // console.log(allNumbers.length+' numbers grabbed')
 
-      Api.sendContactsToBlock(btoa(JSON.stringify(allNumbers)))
+      Api.sendContactsToBlock(base64.encode(JSON.stringify(allNumbers)))
           // .then((n)=>{
           //   var end = new Date()
           //   console.log('END',end,n.length)
@@ -329,11 +330,11 @@ var manyPhones = this.state.partnerSelection &&
               }
 
 
-    {this.state.selection ?  <Modal
+    {this.state.partnerSelection ?  <Modal
           height={DeviceHeight}
     modalStyle={{ backgroundColor: this.state.modalBG}}
 
-    isVisible={this.state.modalVisible}
+    visible={this.state.modalVisible}
     swipeableAreaStyle={{ position: 'absolute',
     top: 0,
     left: 0,
@@ -341,14 +342,14 @@ var manyPhones = this.state.partnerSelection &&
     bottom: DeviceHeight,
     backgroundColor: 'transparent'
     }}
-      onPressBackdrop={this._cancel.bind(this)}
-onDidShow={()=>{
-  console.log('shown');
-  this.setTimeout(()=>{
-    this.setState({modalBG: 'rgba(0,0,0,0.5)'});
-    console.log('endtimeout')
-  },500);
-}}
+    onPressBackdrop={this._cancel.bind(this)}
+    onDidShow={()=>{
+      console.log('shown');
+      this.setTimeout(()=>{
+        this.setState({modalBG: 'rgba(0,0,0,0.5)'});
+        console.log('endtimeout')
+      },500);
+    }}
 
 
   onWillHide={()=>{this.setState({modalVisible:false,modalBG: 'rgba(0,0,0,0.5)'})}}

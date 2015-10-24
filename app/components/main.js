@@ -57,7 +57,7 @@ import AppActions from '../flux/actions/AppActions'
             sceneConfig: Navigator.SceneConfigs.FloatFromRight,
             passProps:{
               match_id: nProps.currentRoute.match_id,
-              currentMatch: this.props.currentMatch,
+              currentMatch: nProps.currentMatch,
               currentRoute: nProps.currentRoute,
             }
           })

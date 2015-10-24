@@ -28,6 +28,9 @@ class AppActions {
   updateRoute(d){
     this.dispatch(d)
   }
+  toggleOverlay(){
+    this.dispatch();
+  }
   storeContactsToBlock(contacts){
     this.dispatch(contacts)
   }

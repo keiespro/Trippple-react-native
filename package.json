@@ -8,6 +8,7 @@
   "dependencies": {
     "alt": "latest",
     "babel-core": "latest",
+    "base-64": "^0.1.0",
     "bluebird": "latest",
     "buffer": "^3.5.1",
     "moment": "^2.10.6",
