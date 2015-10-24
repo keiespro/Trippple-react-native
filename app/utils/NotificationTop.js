@@ -71,7 +71,7 @@ class Notification extends Component{
               resizeMode={Image.resizeMode.contain}
               style={styles.notiImage}
               defaultSource={require('image!placeholderUserWhite')}
-              source={{uri: "https://trippple-user.s3.amazonaws.com/test/uploads/images/23/thumb_2f6acb041-original.jpeg"}}
+              source={{uri: this.props.payload.from_user_info.thumb_url}}
             />
             </View>
             <View style={styles.notificationRight}>

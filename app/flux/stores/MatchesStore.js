@@ -11,12 +11,16 @@ class MatchesStore {
 
     this.state = {
       matches: [],
+      unreadCounts: {},
+      lastAccessed: {},
+      mountedAt: new Date().getTime(),
       shouldPopChat: null
     }
 
     this.exportPublicMethods({
       getAllMatches: this.getAllMatches,
-      getMatchInfo: this.getMatchInfo
+      getMatchInfo: this.getMatchInfo,
+      getAnyUnread: this.getAnyUnread
     });
 
     this.bindListeners({
@@ -25,12 +29,14 @@ class MatchesStore {
       removeMatch: MatchActions.REMOVE_MATCH,
       toggleFavorite: MatchActions.TOGGLE_FAVORITE,
       sendMessage: MatchActions.SEND_MESSAGE,
+      updateLastAccessed: MatchActions.SET_ACCESS_TIME,
       unMatch: MatchActions.UN_MATCH,
-      handleNewMessage: NotificationActions.RECEIVE_NEW_MESSAGE_NOTIFICATION
+      handleNewMessages: MatchActions.GET_MESSAGES
     });
 
     this.on('init',()=>{
       console.log('matches store init')
+
     })
     this.on('bootstrap', () => {
       console.log('store bootstrap');
@@ -51,68 +57,120 @@ class MatchesStore {
           console.log(err);
         })
   }
-  handleInitializeMatches(){
-
-    // console.log(savedMatches,'handlegetmatches');
-    this.setState({
-      matches: this.state.matches
-    });
-        // get data from server
-
-  }
 
   unMatch(matchID){
     this.removeMatch(matchID)
   }
+
   removeMatch(matchID){
     const cleanMatches = _.reject(this.state.matches, match => match.match_id === matchID);
 
-      this.setState({
-        matches: cleanMatches
-      });
+    this.setState({
+      matches: cleanMatches
+    });
 
   }
-  handleNewMessage(payload){
-    this.shouldPopChat = payload.data.match_id
-  }
 
+  updateLastAccessed(payload){
+    // save timestamp of last match view, reset unread counts
+    const {match_id, timestamp} = payload
+    const newCounts = {...this.state.unreadCounts}
+    newCounts[match_id] = 0
+
+    this.setState({
+      lastAccessed: {...this.state.lastAccessed, ...{match_id: timestamp} },
+      unreadCounts: newCounts
+    })
+  }
+  handleNewMessages(payload){
+
+    if(!payload){return false}
+
+    var matchMessages = payload.messages,
+        { match_id, message_thread } = matchMessages;
+
+    if(!message_thread.length || message_thread.length == 1 && !message_thread[0].message_body) return false
+
+    var newCounts = this.state.unreadCounts,
+          access = this.state.lastAccessed
+
+    if( !newCounts[match_id] ){
+      newCounts[match_id] = 0
+    }
+    if( !access[match_id] ){
+      access[match_id] = this.state.mountedAt
+    }
+
+    message_thread.forEach( (msg,i) => {
+      if(msg.created_timestamp && (access[match_id] < (msg.created_timestamp * 1000))){
+          newCounts[match_id]++;
+      }
+    })
+
+    this.setState({
+      unreadCounts: newCounts
+    })
+
+  }
+  handleResetUnreadCount(match_id){
+    const newCounts = {...this.state.unreadCounts}
+    newCounts[match_id] = 0
+
+    this.setState({
+      unreadCounts: newCounts
+    })
+  }
   sendMessage(payload){
-    var matchesData = payload.matchesData;
-    this.getNewMatches(matchesData)
+    this.getNewMatches(payload.matchesData)
   }
   toggleFavorite(matchesData) {
     this.getNewMatches(matchesData)
   }
   getNewMatches(matchesData){
-   var {matches} = matchesData
-    if(matches.length){
-      if(matchesData.page){
+    const {matches} = matchesData
 
-        this.setState({
-          matches: [...this.state.matches, ...matches]
-        });
+    if(matches.length){
+      var allmatches, allunread, allLastAccessed
+
+      if(!this.state.matches.length){
+        // first batch of matches
+        allmatches = matches
+        allunread = _.object( _.pluck(matches,'match_id'), matches.map(()=> 0))
+        allLastAccessed = _.object( _.pluck(matches,'match_id'), matches.map(()=> this.state.mountedAt))
 
       }else{
-        if(!this.state.matches.length){
-           this.setState({
-              matches: matches
-            });
-        }else{
-          var allmatches = _.unique([...this.state.matches,...matches],'id');
-          console.log(allmatches);
-          this.setState({
-            matches: allmatches
-          });
+        // paged or refresh - deduplicate results, preserve unread counts and access times
+        allmatches = _.unique([
+          ...this.state.matches,
+          ...matches
+        ],'match_id')
+
+        allunread = {
+          ..._.object( _.pluck(allmatches,'match_id'), allmatches.map(()=> 0)),
+          ...this.state.unreadCounts
         }
-     }
+
+        allLastAccessed = {
+          ..._.object( _.pluck(allmatches,'match_id'), allmatches.map(()=> this.state.mountedAt)),
+          ...this.state.lastAccessed
+        }
+      }
+
+      this.setState({
+        matches: allmatches,
+        unreadCounts: allunread,
+        lastAccessed: allLastAccessed,
+      });
 
    }else{
+     // refresh but no update
       this.setState({
-        matches: this.state.matches
+        matches: this.state.matches,
       });
     }
 
   }
+
   handleGetFavorites(favs) {
     if(favs.length){
 
@@ -130,57 +188,34 @@ class MatchesStore {
   }
 
   handleGetMatches(matchesData) {
-    var matches = matchesData.matches
-
-    if(matches.length){
-      if(matchesData.page){
-
-        this.setState({
-          matches: [...this.state.matches, ...matches]
-        });
-
-      }else{
-        if(!this.state.matches.length){
-           this.setState({
-              matches: matches
-            });
-        }else{
-
-          var allmatches = this.state.matches;
-          var removed = allmatches.slice(0,19)
-          allmatches.unshift(matches)
-          this.setState({
-            matches: allmatches
-          });
-        }
-     }
-
-   }else{
-      this.setState({
-        matches: this.state.matches
-      });
-    }
-
+    this.getNewMatches(matchesData)
   }
 
   // public methods
+  getAnyUnread(){
+    const unread = this.getState().unreadCounts
+    return ~~_.find(unread,(c)=> c > 0)
+  }
 
   getAllMatches(){
-    console.log('getmatches',this.getState().matches);
-    return this.getState().matches
+    const unread = this.getState().unreadCounts
+    return this.getState().matches.map((m,i) => {
+      m.unreadCount = unread[m.match_id] || 0
+      return m
+    })
    }
 
   getMatchInfo(matchID){
-    const matches = this.getState().matches
-    console.log('get match info',matchID);
-    var m = _.filter(matches,(ma,i) => { return ma.match_id == matchID || ma.id == matchID || ma.matchID == matchID })
-    console.log('get match info',m);
-
+    const matches= this.getState().matches
+    let m = _.filter(matches,(ma,i) => { return ma.match_id == matchID || ma.id == matchID || ma.matchID == matchID })
+    m[0].unreadCount = this.getState().unreadCounts[matchID] || 0
     return m[0]
-
   }
 
 }
+
+
+// not used in this implementation:
 
  function orderMatches(matches){
    var _threads = matches;

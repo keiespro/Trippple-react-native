@@ -60,7 +60,6 @@ const NavigationBar = React.createClass({
      * If we have a `customPrev` component, then return
      * it's clone with additional attributes
      */
-     console.log(route)
     if (customPrev) {
       el = React.cloneElement(customPrev, { navigator, route });
       return (
@@ -161,7 +160,9 @@ const NavigationBar = React.createClass({
       hideNext,
       nextRoute,
       buttonsColor,
-      customNext
+      customNext,
+      unread
+
     } = this.props;
     var el;
 
@@ -177,7 +178,7 @@ const NavigationBar = React.createClass({
      * it's clone with additional attributes
      */
     if (customNext) {
-      el = React.cloneElement(customNext, { navigator, route, onPress: onNext });
+      el = React.cloneElement(customNext, { navigator, route, unread, onPress: onNext });
     }
 
     /*
@@ -195,9 +196,11 @@ const NavigationBar = React.createClass({
     const customStyle = buttonsColor ? { color: buttonsColor, } : {};
 
     return (
-      <TouchableOpacity underlayCOlor={'black'} onPress={() => onNext(navigator,route)}>
+      <TouchableOpacity onPress={() => onNext(navigator,route)}>
         <View style={styles.navBarRightButton}>
           {el}
+          {unread ? <View style={styles.unreadDot}/> : null}
+
         </View>
       </TouchableOpacity>
     );
@@ -304,4 +307,15 @@ const styles = StyleSheet.create({
 
     color: colors.rollingStone,
   },
+  unreadDot:{
+    position:'absolute',
+    top:8,
+    right:18,
+    backgroundColor:colors.mediumPurple,
+    width:15,
+    height:15,
+    borderRadius:7.5,
+    borderWidth:3,
+    borderColor:colors.outerSpace
+  }
 });

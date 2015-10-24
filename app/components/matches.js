@@ -80,7 +80,7 @@ class MatchList extends Component{
 
   }
 
-  shouldComponentUpdate =(nProps,nState)=> nProps.matches.length > this.props.matches.length
+  // shouldComponentUpdate =(nProps,nState)=> nProps.matches.length > this.props.matches.length
 
   _updateDataSource(data) {
     this.props.updateDataSource(data)
@@ -114,7 +114,10 @@ class MatchList extends Component{
     var modalVisible = this.state.isVisible
     var self = this
     var matchImage = them.couple && them.couple.thumb_url || them[0].thumb_url || them[1].thumb_url
-    console.log(rowData)
+
+    var unreadCount = rowData.unreadCount || 0
+
+    console.log(rowData,unreadCount)
     return (
 
       <Swipeout
@@ -149,7 +152,6 @@ class MatchList extends Component{
 
         <TouchableHighlight onPress={(e) => {
             if(this.state.isVisible || !this.state.scrollEnabled){ return false}
-            console.log('onpress Swipeout',e);
             this._pressRow(rowData.match_id);
           }}
             key={rowData.match_id+'match'}>
@@ -164,10 +166,13 @@ class MatchList extends Component{
                  defaultSource={require('image!placeholderUser')}
                  resizeMode={Image.resizeMode.cover}
                />
-               <View style={styles.newMessageCount}>
-               <Text style={{fontFamily:'Montserrat-Bold',color:colors.white,textAlign:'center',fontSize:14}}>10</Text>
+             {rowData.unreadCount > 0 ?
+                <View style={styles.newMessageCount}>
+                 <Text style={{fontFamily:'Montserrat-Bold',color:colors.white,textAlign:'center',fontSize:14}}>{
+                   unreadCount
+                 }</Text>
                </View>
-
+               : null }
             </View>
             <View style={styles.textwrap}>
               <Text style={[styles.text,styles.title]}>
@@ -201,12 +206,7 @@ class MatchList extends Component{
         index: 3,
         match_id: match_id,
         navigator: this.props.navigator,
-        route: {
-          component: Chat,
-          id:'chat',
-          index: 3,
-          title: 'CHAT'
-        }
+        matchInfo: this.props.matches[0]
       },
       sceneConfig: Navigator.SceneConfigs.FloatFromRight,
     });
@@ -310,31 +310,25 @@ class MatchesInside extends Component{
     //     // MatchActions.getFavorites();
     //
     // }
+    console.log(this.props)
   }
   componentDidUpdate(pProps,pState) {
       console.log(this.props)
 
-      if(this.props.shouldPopChat){
-        var currentMatch = this.props.matches[0]
-
-            this.props.navigator.push({
-              component: Chat,
-              id:'chat',
-              index: 3,
-              title: 'CHAT',
-              passProps:{
-                index: 3,
-                navigator: this.props.navigator,
-                route: {
-                  component: Chat,
-                  id:'chat',
-                  index: 3,
-                  title: 'CHAT'
-                }
-              },
-              sceneConfig: Navigator.SceneConfigs.FloatFromRight,
-            });
-      }
+      // if(this.props.shouldPopChat){
+      //   var currentMatch = this.props.matches[0]
+      //
+      //       this.props.navigator.push({
+      //         component: Chat,
+      //         id:'chat',
+      //         index: 3,
+      //         title: 'CHAT',
+      //         passProps:{
+      //           index: 3,
+      //         },
+      //         sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+      //       });
+      // }
 
   }
   componentWillReceiveProps(newProps) {
@@ -485,12 +479,12 @@ class Matches extends Component{
                 value: MatchesStore.getAllMatches()
               }
             },
-            shouldPopChat: (props) => {
-              return {
-                store: MatchesStore,
-                value: MatchesStore.getState().shouldPopChat
-              }
-            },
+            // shouldPopChat: (props) => {
+            //   return {
+            //     store: MatchesStore,
+            //     value: MatchesStore.getState().shouldPopChat
+            //   }
+            // },
             favorites: (props) => {
               return {
                 store: FavoritesStore,

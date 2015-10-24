@@ -39,7 +39,7 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
 import PotentialsStore from '../flux/stores/PotentialsStore'
-import NotificationsStore from '../flux/stores/NotificationsStore'
+import MatchesStore from '../flux/stores/MatchesStore'
 
 const THROW_OUT_THRESHOLD = 225;
 
@@ -838,10 +838,11 @@ class CardStack extends Component{
 
 
     var { potentials, user } = this.props
+    console.log(this.props.unread)
     var NavBar = React.addons.cloneWithProps(this.props.pRoute.navigationBar, {
       navigator: this.props.navigator,
       route: this.props.route,
-      noifications: this.props.notifications && this.props.notifications.length ? 1 : 0
+      unread: this.props.unread
     })
 
       return (
@@ -911,10 +912,10 @@ class Potentials extends Component{
                 value: PotentialsStore.getAll()
               }
             },
-            notifications: (props) => {
+            unread: (props) => {
               return {
-                store: NotificationsStore,
-                value: NotificationsStore.getState().notifications
+                store: MatchesStore,
+                value: MatchesStore.getAnyUnread()
               }
             }}}>
           <CardStack user={this.props.user} navigator={this.props.navigator} pRoute={this.props.pRoute}/>

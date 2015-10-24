@@ -317,7 +317,6 @@ class ChatInside extends Component{
   }
 
   componentDidMount(){
-    console.log(this.props,',,,,,,,,,,,,,,,,,,,,,,,,,,,');
     this.props.match_id && MatchActions.getMessages(this.props.match_id);
   }
 
@@ -562,7 +561,8 @@ var Chat = React.createClass({
     })
   },
   componentWillMount(){
-    MatchActions.getMessages(this.props.match_id || this.props.match_id)
+    MatchActions.setAccessTime({match_id:this.props.match_id,timestamp: new Date().getTime()})
+    MatchActions.getMessages(this.props.match_id)
   },
   toggleModal(){
     console.log(this.state.isVisible)

@@ -70,6 +70,10 @@ class MatchActions {
       {enableHighAccuracy: false, maximumAge: 1000}
     )
   }
+  setAccessTime(payload){
+    this.dispatch(payload)
+  }
+
 
   sendMessage(message, matchID){
 
