@@ -28,6 +28,9 @@ class AppActions {
   updateRoute(d){
     this.dispatch(d)
   }
+  storeContactsToBlock(contacts){
+    this.dispatch(contacts)
+  }
 }
 
 export default alt.createActions(AppActions)

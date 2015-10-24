@@ -167,5 +167,9 @@ class api {
     return await publicRequest('get_client_user_profile_options').then((response) => response.json())
   }
 
+
+  async sendContactsToBlock(numbers,start){
+    return await authenticatedRequest('process_phone_contacts', {numbers})
+  }
 }
 module.exports = new api()

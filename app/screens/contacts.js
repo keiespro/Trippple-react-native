@@ -28,6 +28,11 @@ import Facebook from './registration/facebook'
 import BackButton from '../components/BackButton'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
+import Api from '../utils/api'
+
+function cleanNumber(p){
+  return p.replace(/[\. ,():+-]+/g, '').replace(/[A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/,'');
+}
 
 class ContactList extends Component{
 
@@ -72,7 +77,7 @@ class ContactList extends Component{
           <View style={[styles.fullwidth,styles.row,
             (this.props.highlightedRow && this.props.highlightedRow.sectionID === sectionID && this.props.highlightedRow.rowID === rowID ? styles.rowSelected : null)]}>
 
-            <Image style={styles.contactthumb} source={rowData.thumbnailPath !== '' ? {uri: rowData.thumbnailPath} : require('image!placeholderUser')} />
+            <Image style={styles.contactthumb} source={(rowData.thumbnailPath == '' ?  require('image!placeholderUser') : {uri: rowData.thumbnailPath} )} />
 
             <View style={styles.rowtextwrapper}>
 
@@ -147,19 +152,31 @@ class Contacts extends Component{
   }
 
   componentDidMount(){
-    this.getContacts();
+    this.setTimeout(()=>{
+      this.getContacts();
+    },1500);
   }
-  _requestPermission(){
-    AddressBook.requestPermission((err, permission) => {
-      if(err){
-          //TODO:  handle err;
-      }
-      this.storeContacts()
-    })
-  }
+
   storeContacts(){
     AddressBook.getContacts((err, contacts) => {
-      console.log(err);
+      if(err){
+        console.log(err);
+        return false;
+      }
+      //
+      // var start = new Date()
+      // console.log('START',start)
+
+      var allNumbers = _.pluck(_.flatten(_.pluck(contacts,'phoneNumbers')),'number').map(cleanNumber)
+
+      // console.log(allNumbers.length+' numbers grabbed')
+
+      Api.sendContactsToBlock(btoa(JSON.stringify(allNumbers)))
+          // .then((n)=>{
+          //   var end = new Date()
+          //   console.log('END',end,n.length)
+          //   console.log(' took: '+(end - start)+' ms')
+          // })
 
       var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
       // InteractionManager.runAfterInteractions(() => {
@@ -196,7 +213,7 @@ class Contacts extends Component{
           '',
           'We need access to your contacts so you can select your partner.',
           [
-            {text: 'Try Again', onPress: () => console.log('GO TO SETTINGS TO ALLOW CONTACTS?!')},
+            {text: 'Try Again', onPress: () => this.askPermissions()},
             {text: 'Nevermind I\'m single.', onPress: () => this.props.navigator.popToTop()},
           ]
         )
@@ -206,6 +223,7 @@ class Contacts extends Component{
   askPermissions(){
     AddressBook.requestPermission((err, permission) => {
       if(err){
+
       //TODO:  handle err;
       }
       this.getContacts()
@@ -290,7 +308,13 @@ var manyPhones = this.state.partnerSelection &&
         <ActivityIndicatorIOS
             animating={true}
             color={colors.white}
-            style={{}} /></View> :
+            size={'large'}
+            style={{}} />
+
+          <View style={{padding:20,marginTop:20}}>
+              <Text style={[styles.rowtext]}>Loading your contacts...</Text>
+            </View>
+        </View> :
                    <ContactList
           ref={'contactlist'}
           user={this.props.user}
@@ -305,7 +329,7 @@ var manyPhones = this.state.partnerSelection &&
               }
 
 
-      <Modal
+    {this.state.selection ?  <Modal
           height={DeviceHeight}
     modalStyle={{ backgroundColor: this.state.modalBG}}
 
@@ -404,7 +428,7 @@ onDidShow={()=>{
                 </View>
           </View>
           </Image>
-      </Modal>
+      </Modal> : null}
     </View>
 
     );

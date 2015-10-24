@@ -28,6 +28,7 @@ class UserStore {
       getUser: this.getUser
     })
     this.bindListeners({
+      handleBlockContacts: AppActions.STORE_CONTACTS_TO_BLOCK,
       handleInitialize: AppActions.GOT_CREDENTIALS,
       handleInitSuccess: UserActions.INIT_SUCCESS,
       handleGetUserInfo: UserActions.getUserInfo,
@@ -52,7 +53,7 @@ class UserStore {
   }
 
   handleInitSuccess(res){
-  console.log('init success',res);
+    console.log('init success',res);
     this.setState({
       user: res.response.user_info
     })
