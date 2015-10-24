@@ -1,6 +1,6 @@
 window.navigator.userAgent = '' // socketio-client
 
-const TRIPPPLE_WEBSOCKET_URL = 'http://x.local:9919'
+import {WEBSOCKET_URL} from '../config'
 
 import React from 'react-native'
 import { Component, View, AlertIOS, AsyncStorage, AppStateIOS, PushNotificationIOS, VibrationIOS } from 'react-native'
@@ -26,7 +26,7 @@ class NotificationCommander extends Component{
       notifications: []
     }
 
-    this.socket = require('socket.io-client/socket.io')(TRIPPPLE_WEBSOCKET_URL, {jsonp:false})
+    this.socket = require('socket.io-client/socket.io')(WEBSOCKET_URL, {jsonp:false})
   }
 
   componentDidMount(){
