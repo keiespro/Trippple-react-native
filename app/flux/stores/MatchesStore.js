@@ -88,20 +88,23 @@ class MatchesStore {
     var matchMessages = payload.messages,
         { match_id, message_thread } = matchMessages;
 
-    // if(!message_thread.length || message_thread.length == 1 && !message_thread[0].message_body) return false
+    if(!message_thread.length || message_thread.length == 1 && !message_thread[0].message_body) return false
 
     var newCounts = {[match_id]: this.state.unreadCounts[match_id] || 0},
           access = this.state.lastAccessed
 
-    if( !newCounts[match_id] ){
+// prevent tripppling of value??
+
+    // if( !newCounts[match_id] ){
       newCounts[match_id] = 0
-    }
+    // }
+
     if( !access[match_id] ){
       access[match_id] = this.state.mountedAt
     }
 
     for(var msg of message_thread){
-      if(msg.created_timestamp && (access[match_id] < (msg.created_timestamp * 1000))){
+      if(msg.created_timestamp && !access[match_id] || (access[match_id] < (msg.created_timestamp * 1000))){
           newCounts[match_id]++
       }
     }
