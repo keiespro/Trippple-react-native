@@ -18,12 +18,13 @@ class AppStateStore {
       handleInitSuccess: UserActions.INIT_SUCCESS,
       handleGetUserInfo: UserActions.getUserInfo,
       handleUpdateUser: UserActions.UPDATE_USER,
+      handleVerifyPin: UserActions.VERIFY_SECURITY_PIN,
       handleLogOut: UserActions.LOG_OUT,
       handleHideCheckmark: AppActions.HIDE_CHECKMARK,
       handleShowCheckmark: AppActions.SHOW_CHECKMARK,
       handleSelectPartner: UserActions.SELECT_PARTNER,
-      handleUpdateRoute: AppActions.UPDATE_ROUTE
-
+      handleUpdateRoute: AppActions.UPDATE_ROUTE,
+      handleToggleOverlay: AppActions.TOGGLE_OVERLAY
     });
 
     this.exportPublicMethods({
@@ -33,6 +34,31 @@ class AppStateStore {
 
   handleInitialize(){
 
+
+  }
+  handleToggleOverlay(){
+    this.setState({
+      showOverlay: !this.showOverlay
+    })
+  }
+  handleVerifyPin(res){
+    const user_info = res.response;
+
+    this.setState({
+      user: {  ...this.user, ...user_info },
+      showCheckmark: true,
+      checkMarkCopy: {
+        title: '',
+
+      },
+      checkmarkRequireButtonPress: false
+
+    })
+
+
+    setTimeout(()=>{
+      this.setState({showCheckmark:false})
+    },1000);
 
   }
 
@@ -118,7 +144,7 @@ class AppStateStore {
   //
 
   getAppState(){
-    return this.getState().currentRoute
+    return this.getState()
   }
 
 

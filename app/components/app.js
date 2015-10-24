@@ -52,21 +52,24 @@ class AppRoutes extends Component{
         return <Onboard
                 key="OnboardingScreen"
                 user={this.props.user}
-                currentRoute={this.props.currentRoute}
+                AppState={this.props.AppState}
+                currentRoute={this.props.AppState.currentRoute}
                 />
 
       case 'pendingpartner':
         return <PendingPartner
                 key="PendingPartnerScreen"
                 user={this.props.user}
-                currentRoute={this.props.currentRoute}
+                AppState={this.props.AppState}
+                currentRoute={this.props.AppState.currentRoute}
                 />
 
       case 'onboarded':
         return <Main
                 key="MainScreen"
                 user={this.props.user}
-                currentRoute={this.props.currentRoute}
+                AppState={this.props.AppState}
+                currentRoute={this.props.AppState.currentRoute}
                 />
       case null:
       default:
@@ -102,20 +105,20 @@ class TopLevel extends Component{
     return (
       <View style={{flex:1,backgroundColor:'#000000'}}>
 
-        <AppRoutes user={this.props.user} currentRoute={this.props.currentRoute}/>
+        <AppRoutes user={this.props.user} AppState={this.props.AppState} currentRoute={this.props.AppState.currentRoute}/>
 
-        {this.props.showCheckmark &&
+        {this.props.AppState.showCheckmark &&
           <CheckMarkScreen
             key="toplevelcheckmark"
-            isVisible={this.props.showCheckmark}
-            checkMarkCopy={this.props.checkMarkCopy}
-            checkmarkRequireButtonPress={this.props.checkmarkRequireButtonPress}
+            isVisible={this.props.AppState.showCheckmark}
+            checkMarkCopy={this.props.AppState.checkMarkCopy}
+            checkmarkRequireButtonPress={this.props.AppState.checkmarkRequireButtonPress}
           />
         }
 
-        <LoadingOverlay key="LoadingOverlay" isVisible={this.props.showOverlay || this.state.showOverlay} />
+        <LoadingOverlay key="LoadingOverlay" isVisible={this.props.AppState.showOverlay || this.state.showOverlay} />
 
-        <Notifications user={this.props.user} />
+        <Notifications user={this.props.user}  AppState={this.props.AppState}/>
 
       </View>
     )
@@ -134,13 +137,12 @@ class App extends Component{
           value: UserStore.getState().user
         }
       },
-      currentRoute: (props) => {
-        console.log('ALT',props)
+      AppState: (props) => {
         return {
           store: AppState,
           value: AppState.getAppState()
         }
-      }
+      },
     }
 
     return (

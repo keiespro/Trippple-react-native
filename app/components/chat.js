@@ -178,7 +178,8 @@ const styles = StyleSheet.create({
     borderBottomColor:colors.white,
     borderBottomWidth:1,
     overflow:'hidden',
-  }
+  },
+  invertedContentContainer:{backgroundColor:colors.outerSpace,justifyContent:'flex-end',width:DeviceWidth,overflow:'hidden'}
 });
 
 class ChatMessage extends React.Component {
@@ -241,14 +242,14 @@ class ChatMessage extends React.Component {
 }
 class ChatInside extends Component{
   constructor(props){
-    super(props);
+    super();
 
-    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     console.log(props);
 
     this.state = {
-      dataSource: this.ds.cloneWithRows(props.messages),
+      dataSource: ds.cloneWithRows(props.messages || []),
       keyboardSpace: 0,
       isKeyboardOpened: false,
       textInputValue: '',
@@ -259,8 +260,7 @@ class ChatInside extends Component{
 
 
   updateKeyboardSpace(frames){
-    console.log('updateKeyboardSpace',frames,this.refs)
-    // var h = frames.endCoordinates && frames.endCoordinates.height |
+
     var h = frames.startCoordinates && frames.startCoordinates.screenY - frames.endCoordinates.screenY || frames.end && frames.end.height
     if( h == this.state.keyboardSpace){ return false }
     this.setState({
@@ -271,10 +271,10 @@ class ChatInside extends Component{
       var duration
       if( frames.duration < 100){
         return false
-        // duration = frames.duration/1000
       }else{
         duration = frames.duration
       }
+
       LayoutAnimation.configureNext({
         duration: frames.duration/2,
 
@@ -316,22 +316,21 @@ class ChatInside extends Component{
 
   }
 
-  componentDidMount(){
-    this.props.match_id && MatchActions.getMessages(this.props.match_id);
-  }
-
 // shouldComponentUpdate(nextProps,nextState){
 //   return nextProps.messages.length == this.props.messages.length
 // }
   componentDidUpdate(prevProps){
+    console.log(prevProps.messages,this.props.messages)
     if(prevProps.messages.length !== this.props.messages.length){
       this.refs.scroller.refs.listviewscroll.scrollTo(0,0)
     }
   }
 
   componentWillReceiveProps(newProps){
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    console.log(newProps)
     this.setState({
-      dataSource: this.ds.cloneWithRows(newProps.messages)
+      dataSource: ds.cloneWithRows(newProps.messages)
     })
   }
 
@@ -373,7 +372,6 @@ class ChatInside extends Component{
   }
 
   onTextInputChange(text){
-
     this.setState({
       textInputValue: text
     })
@@ -402,7 +400,7 @@ class ChatInside extends Component{
         centerContent={true}
         onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
         onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
-        style={{ backgroundColor:colors.outerSpace, flex:1, alignSelf:'stretch', width:DeviceWidth}}
+        style={{ backgroundColor:colors.outerSpace, flex:1, alignSelf:'stretch', width:DeviceWidth }}
         >
         <FadeInContainer delayRender={true} delayAmount={1200} >
           <View style={{flexDirection:'column',justifyContent:'space-between',alignItems:'center',alignSelf:'stretch'}}>
@@ -428,7 +426,6 @@ class ChatInside extends Component{
   }
 
   render(){
-console.log(this.props)
     var matchInfo = this.props.currentMatch,
         theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id),
         them = theirIds.map((id)=> matchInfo.users[id]),
@@ -450,7 +447,7 @@ console.log(this.props)
               onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
               onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
               scrollsToTop={true}
-              contentContainerStyle={{backgroundColor:colors.outerSpace,justifyContent:'flex-end',width:DeviceWidth,overflow:'hidden'}}
+              contentContainerStyle={styles.invertedContentContainer}
               {...this.props}
               scrollEventThrottle={64}
               contentInset={{top:0,right:0,left:0,bottom:88}}
@@ -560,37 +557,41 @@ var Chat = React.createClass({
       isVisible: false
     })
   },
-  componentWillMount(){
+  componentWillUnmount(){
+    MatchActions.setAccessTime({match_id:this.props.match_id,timestamp: new Date().getTime()})
+  },
+
+  componentDidMount(){
     MatchActions.setAccessTime({match_id:this.props.match_id,timestamp: new Date().getTime()})
     MatchActions.getMessages(this.props.match_id)
   },
+
   toggleModal(){
-    console.log(this.state.isVisible)
     this.setState({
       isVisible:!this.state.isVisible,
     })
   },
+
   render(){
     var storesForChat = {
       messages: (props) => {
         return {
           store: ChatStore,
-          value: ChatStore.getMessagesForMatch( this.props.match_id)
+          value: ChatStore.getMessagesForMatch( this.props.match_id )
         }
       },
       currentMatch: (props) => {
-        console.log('ALT',props,this.props)
         return {
           store: MatchesStore,
-          value: MatchesStore.getMatchInfo(this.props.match_id)
+          value: MatchesStore.getMatchInfo( this.props.match_id )
         }
       }
     }
 
     return (
-      <AltContainer stores={storesForChat}>
-
-
+      <AltContainer
+        //  shouldComponentUpdate={(nextProps) => {console.log('shouldComponentUpdate',nextProps); return true}}
+        stores={storesForChat}>
         <ChatInside
           navigator={this.props.navigator}
           user={this.props.user}

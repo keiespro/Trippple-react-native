@@ -1,7 +1,7 @@
 import alt from '../alt';
 import MatchActions from '../actions/MatchActions';
 import { AsyncStorage } from 'react-native';
-
+import _ from 'underscore'
 
 class ChatStore {
 
@@ -46,10 +46,16 @@ class ChatStore {
   handleReceiveMessages(payload) {
     console.log(payload,'PAYLOAD')
     if(!payload){return false}
-    var matchMessages = payload.messages
+    var matchMessages = payload.messages,
+        {message_thread,match_id} = matchMessages;
+
+    if(!message_thread.length || (message_thread.length == 1 && !message_thread[0].message_body)) return false
+    console.log(this.state.messages[match_id])
+    var existingMessages = this.state.messages[match_id] || []
     this.setState(() => {
       var newState = {};
-      newState[`${matchMessages.match_id}`] = matchMessages.message_thread;
+      newState[`${match_id}`] = _.unique([ ...existingMessages, ...message_thread, ], 'id')
+
       return {...newState}
 
     })

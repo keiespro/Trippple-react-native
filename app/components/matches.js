@@ -50,8 +50,8 @@ import UserProfile from './UserProfile'
 @reactMixin.decorate(TimerMixin)
 class MatchList extends Component{
 
-  static defaultProps = {
-  }
+  static defaultProps = {}
+
   constructor(props) {
     super(props);
 
@@ -67,10 +67,6 @@ class MatchList extends Component{
     Mixpanel.track('On - Matches Screen');
   }
 
-  // componentWillReceiveProps(newProps){
-  //   this._updateDataSource(newProps.matches)
-  //
-  // }
 
   _allowScroll = (scrollEnabled)=> {
     console.log('toggle scroll:',this._listView.refs.listviewscroll.refs.InnerScrollView)
@@ -101,10 +97,11 @@ class MatchList extends Component{
     console.log('TOGGLE FAVORITE',rowData);
     MatchActions.toggleFavorite(rowData.match_id.toString());
   }
+
   actionModal(match){
       this.props.chatActionSheet(match)
-
   }
+
   _renderRow(rowData, sectionID, rowID){
     var myId = this.props.user.id,
         myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
@@ -166,7 +163,7 @@ class MatchList extends Component{
                  defaultSource={require('image!placeholderUser')}
                  resizeMode={Image.resizeMode.cover}
                />
-             {rowData.unreadCount > 0 ?
+             {unreadCount ?
                 <View style={styles.newMessageCount}>
                  <Text style={{fontFamily:'Montserrat-Bold',color:colors.white,textAlign:'center',fontSize:14}}>{
                    unreadCount
@@ -297,6 +294,7 @@ class MatchesInside extends Component{
 
     this.state = {
       matches: props.matches,
+      favorites: props.favorites,
       isVisible: false,
       dataSource: this.ds.cloneWithRows(props.matches),
       favDataSource: this.ds.cloneWithRows(props.favorites)
@@ -304,50 +302,40 @@ class MatchesInside extends Component{
     }
   }
 
-  componentDidMount(){
-    // if(this.props.user.id){
-    //     // MatchActions.getMatches();
-    //     // MatchActions.getFavorites();
-    //
-    // }
-    console.log(this.props)
-  }
-  componentDidUpdate(pProps,pState) {
-      console.log(this.props)
-
-      // if(this.props.shouldPopChat){
-      //   var currentMatch = this.props.matches[0]
-      //
-      //       this.props.navigator.push({
-      //         component: Chat,
-      //         id:'chat',
-      //         index: 3,
-      //         title: 'CHAT',
-      //         passProps:{
-      //           index: 3,
-      //         },
-      //         sceneConfig: Navigator.SceneConfigs.FloatFromRight,
-      //       });
-      // }
-
-  }
   componentWillReceiveProps(newProps) {
-
-
-    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
     this.setState({
       matches: newProps.matches,
       dataSource: this.ds.cloneWithRows(newProps.matches),
       favDataSource: this.ds.cloneWithRows(newProps.favorites),
       favorites: newProps.favorites
+    })
 
-    })
+    if(newProps.matches[0]){
+      this._updateDataSource(newProps.matches)
+    }
   }
+
+    shouldComponentUpdate(nProps,nState){
+
+      var {matches} = this.state
+
+      console.log(matches,nProps.matches,nProps,nState);
+
+      var didUpdate = (matches[0].unreadCount || nProps.matches[0].unreadCount);
+              console.log(didUpdate)
+              return didUpdate
+
+    }
+
   _updateDataSource(data) {
-    this.setState({
-      dataSource: this.ds.cloneWithRows(data),
-    })
+    console.log(data)
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.match_id !== r2.match_id});
+    if(data.length > 1){
+      this.setState({
+        matches: data,
+        dataSource: ds.cloneWithRows(data || []),
+      })
+    }
   }
 
   render(){
@@ -356,7 +344,7 @@ class MatchesInside extends Component{
             user={this.props.user}
             dataSource={this.state.dataSource}
             favDataSource={this.state.favDataSource}
-            matches={this.props.matches}
+            matches={this.state.matches || this.props.matches}
             favorites={this.props.favorites}
 
             updateDataSource={this._updateDataSource.bind(this)}
@@ -470,30 +458,34 @@ class Matches extends Component{
     })
   }
   render(){
+
+    var storesForMatches = {
+      matches: (props) => {
+        return {
+          store: MatchesStore,
+          value: MatchesStore.getAllMatches()
+        }
+      },
+
+      favorites: (props) => {
+        return {
+          store: FavoritesStore,
+          value: FavoritesStore.getAllFavorites()
+        }
+      },
+
+    }
     return (
         <AltContainer
-          stores={{
-            matches: (props) => {
-              return {
-                store: MatchesStore,
-                value: MatchesStore.getAllMatches()
-              }
-            },
-            // shouldPopChat: (props) => {
-            //   return {
-            //     store: MatchesStore,
-            //     value: MatchesStore.getState().shouldPopChat
-            //   }
-            // },
-            favorites: (props) => {
-              return {
-                store: FavoritesStore,
-                value: FavoritesStore.getAllFavorites()
-              }
-            },
+          // shouldComponentUpdate={(nextProps) => {
+          //   var { matches } = this.props
+          //   return true
+          //
+          // }}
 
-          }}>
-           <MatchesInside {...this.props} chatActionSheet={this.chatActionSheet.bind(this)} onLoad={this.props.onLoad}/>
+          stores={storesForMatches}>
+           <MatchesInside {...this.props} chatActionSheet={this.chatActionSheet.bind(this)} />
+
            {this.props.navBar}
            {this.state.isVisible ?
               <FadeInContainer

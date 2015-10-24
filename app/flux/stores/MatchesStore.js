@@ -14,7 +14,6 @@ class MatchesStore {
       unreadCounts: {},
       lastAccessed: {},
       mountedAt: new Date().getTime(),
-      shouldPopChat: null
     }
 
     this.exportPublicMethods({
@@ -74,24 +73,24 @@ class MatchesStore {
   updateLastAccessed(payload){
     // save timestamp of last match view, reset unread counts
     const {match_id, timestamp} = payload
-    const newCounts = {...this.state.unreadCounts}
+    const newCounts = this.state.unreadCounts
     newCounts[match_id] = 0
 
     this.setState({
-      lastAccessed: {...this.state.lastAccessed, ...{match_id: timestamp} },
+      lastAccessed: {...this.state.lastAccessed,  match_id: timestamp },
       unreadCounts: newCounts
     })
   }
   handleNewMessages(payload){
-
+    console.log(payload)
     if(!payload){return false}
 
     var matchMessages = payload.messages,
         { match_id, message_thread } = matchMessages;
 
-    if(!message_thread.length || message_thread.length == 1 && !message_thread[0].message_body) return false
+    // if(!message_thread.length || message_thread.length == 1 && !message_thread[0].message_body) return false
 
-    var newCounts = this.state.unreadCounts,
+    var newCounts = {[match_id]: this.state.unreadCounts[match_id] || 0},
           access = this.state.lastAccessed
 
     if( !newCounts[match_id] ){
@@ -101,14 +100,14 @@ class MatchesStore {
       access[match_id] = this.state.mountedAt
     }
 
-    message_thread.forEach( (msg,i) => {
+    for(var msg of message_thread){
       if(msg.created_timestamp && (access[match_id] < (msg.created_timestamp * 1000))){
-          newCounts[match_id]++;
+          newCounts[match_id]++
       }
-    })
+    }
 
     this.setState({
-      unreadCounts: newCounts
+      unreadCounts: { ...this.state.unreadCounts, ...newCounts}
     })
 
   }
@@ -128,7 +127,7 @@ class MatchesStore {
   }
   getNewMatches(matchesData){
     const {matches} = matchesData
-
+    console.log(' getNewMatches matches',matches)
     if(matches.length){
       var allmatches, allunread, allLastAccessed
 
@@ -193,21 +192,23 @@ class MatchesStore {
 
   // public methods
   getAnyUnread(){
+
     const unread = this.getState().unreadCounts
     return ~~_.find(unread,(c)=> c > 0)
   }
 
   getAllMatches(){
     const unread = this.getState().unreadCounts
+
     return this.getState().matches.map((m,i) => {
-      m.unreadCount = unread[m.match_id] || 0
+      m.unreadCount = unread[m.match_id] || 0;
       return m
     })
    }
 
   getMatchInfo(matchID){
-    const matches= this.getState().matches
-    let m = _.filter(matches,(ma,i) => { return ma.match_id == matchID || ma.id == matchID || ma.matchID == matchID })
+
+    let m = _.filter(this.getState().matches, (ma,i) => { return ma.match_id == matchID || ma.id == matchID || ma.matchID == matchID })
     m[0].unreadCount = this.getState().unreadCounts[matchID] || 0
     return m[0]
   }

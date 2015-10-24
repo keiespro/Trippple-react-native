@@ -31,17 +31,16 @@ class MatchActions {
   }
 
   getMessages(matchID,page){
-    console.log(matchID)
+
     if(!matchID) {
       this.dispatch({messages: []});
       return false
     }
-    Api.getMessages({match_id: matchID, page: page})
-    .then((res) => {
-      console.log(res)
-      this.dispatch({messages: res.response});
-    })
 
+    Api.getMessages({match_id: matchID, page: page})
+      .then((res) => {
+        this.dispatch({messages: res.response});
+      })
   }
 
   getPotentials(){
@@ -70,10 +69,10 @@ class MatchActions {
       {enableHighAccuracy: false, maximumAge: 1000}
     )
   }
+
   setAccessTime(payload){
     this.dispatch(payload)
   }
-
 
   sendMessage(message, matchID){
 
