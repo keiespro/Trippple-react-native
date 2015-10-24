@@ -126,7 +126,6 @@ class SettingsInside extends React.Component{
 <ParallaxView
         showsVerticalScrollIndicator={false}
           key={this.props.user.image_url}
-
           backgroundSource={{uri: this.props.user.image_url}}
           windowHeight={DeviceHeight*0.6}
           navigator={this.props.navigator}
@@ -138,7 +137,7 @@ class SettingsInside extends React.Component{
                 style={styles.userimage}
                 key={this.props.user.image_thumb}
                 source={{uri: this.props.user.image_thumb}}
-                defaultSource={require('image!defaultuser')}
+                defaultSource={require('image!placeholderUser')}
                 resizeMode={Image.resizeMode.cover}/>
               <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
                 <Image
@@ -148,11 +147,14 @@ class SettingsInside extends React.Component{
                 </View>
 
             </TouchableOpacity>
-            <TouchableOpacity onPress={this._pressNewImage}>
-
-              <Text style={{textAlign:'center',color:colors.white,fontSize:18,marginTop:20,fontFamily:'Montserrat-Bold'}}>{this.props.user.firstname.toUpperCase()}</Text>
-              <Text style={{textAlign:'center',color:colors.white,fontSize:16,marginTop:0,fontFamily:'omnes'}}>View Profile</Text>
-            </TouchableOpacity>
+            <TouchableOpacity onPress={this._pressNewImage} style={{alignSelf:'stretch',flex:10}}>
+              <View style={{flex:10,alignSelf:'stretch',flexDirection:'column',alignItems:'stretch',justifyContent:'center'}}>
+              <Text style={{flex:10,textAlign:'center',alignSelf:'stretch',color:colors.white,fontSize:18,marginTop:20,fontFamily:'Montserrat-Bold'}}>{
+                  this.props.user.firstname.toUpperCase()
+                }</Text>
+              <Text style={{flex:10,alignSelf:'stretch',textAlign:'center',color:colors.white,fontSize:16,marginTop:0,fontFamily:'omnes'}}>View Profile</Text>
+              </View>
+          </TouchableOpacity>
 
 
           </View>

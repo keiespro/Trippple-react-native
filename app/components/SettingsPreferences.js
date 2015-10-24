@@ -65,8 +65,8 @@ class  SettingsPreferences extends React.Component{
       looking_for_mf: props.user.looking_for_mf || false,
       looking_for_mm: props.user.looking_for_mm || false,
       looking_for_ff: props.user.looking_for_ff || false,
-      looking_for_m: props.user.looking_for_mm || false,
-      looking_for_f: props.user.looking_for_ff || false,
+      looking_for_m: props.user.looking_for_m || false,
+      looking_for_f: props.user.looking_for_f || false,
     }
   }
   toggleField(field){
@@ -145,7 +145,7 @@ class  SettingsPreferences extends React.Component{
              field_type:'textarea'},
             fieldName:'bio',
                       cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
-                      fieldValue: this.props.user.bio
+                      fieldValue: this.props.user.bio || ''
                     }
                   })
                 }} >
@@ -195,7 +195,6 @@ class  SettingsPreferences extends React.Component{
 
 
               {this.props.user.relationship_status == 'couple' ?
-
                 <TouchableHighlight underlayColor={colors.dark} style={{paddingHorizontal: 25,}} onPress={()=>{this.toggleField('looking_for_f')}}>
                   <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
                     <Text style={{color: looking_for_f ? colors.white : colors.rollingStone,
@@ -204,6 +203,17 @@ class  SettingsPreferences extends React.Component{
                   </View>
                 </TouchableHighlight>
               : null }
+              {this.props.user.relationship_status == 'couple' ?
+                <TouchableHighlight underlayColor={colors.dark} style={{paddingHorizontal: 25,}} onPress={()=>{this.toggleField('looking_for_m')}}>
+                  <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
+                    <Text style={{color: looking_for_m ? colors.white : colors.rollingStone,
+                        fontSize:18,fontFamily:'Montserrat'}}>MALE SINGLES</Text>
+                      <Image source={looking_for_m ? require('image!ovalSelected') : require('image!ovalDashed')}/>
+                  </View>
+                </TouchableHighlight>
+              : null }
+
+
 
             <View  style={{marginTop:50}}>
               <AgePrefs toggleScroll={this.toggleScroll.bind(this)} user={this.props.user} />

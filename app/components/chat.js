@@ -441,22 +441,24 @@ class ChatInside extends Component{
           renderRow={this._renderRow.bind(this)}
           messages={this.props.messages || []}
           style={styles.listview}
-          renderScrollComponent={props =>
-            <InvertibleScrollView
-              onScroll={(e)=>{ }}
-              onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
-              onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
-              scrollsToTop={true}
-              contentContainerStyle={styles.invertedContentContainer}
-              {...this.props}
-              scrollEventThrottle={64}
-              contentInset={{top:0,right:0,left:0,bottom:88}}
-              automaticallyAdjustContentInsets={true}
-              inverted={true}
-              style={{ height:DeviceHeight}}
-              keyboardDismissMode={'on-drag'}
-            />
-          }
+          renderScrollComponent={(props) =>{
+            return (
+              <InvertibleScrollView
+                inverted={true}
+                onScroll={(e)=>{ }}
+                onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
+                onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
+                scrollsToTop={true}
+                contentContainerStyle={styles.invertedContentContainer}
+                {...this.props}
+                scrollEventThrottle={64}
+                contentInset={{top:0,right:0,left:0,bottom:88}}
+                automaticallyAdjustContentInsets={true}
+                style={{ height:DeviceHeight}}
+                keyboardDismissMode={'on-drag'}
+              />
+            )
+          }}
         />
         : this.renderNoMatches()  }
 

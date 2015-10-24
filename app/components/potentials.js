@@ -838,7 +838,6 @@ class CardStack extends Component{
 
 
     var { potentials, user } = this.props
-    console.log(this.props.unread)
     var NavBar = React.addons.cloneWithProps(this.props.pRoute.navigationBar, {
       navigator: this.props.navigator,
       route: this.props.route,

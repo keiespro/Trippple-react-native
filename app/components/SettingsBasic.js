@@ -148,8 +148,8 @@ class ProfileField extends React.Component{
             })
           }} underlayColor={colors.dark} style={{ paddingHorizontal:25,}}>
           <View  style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
-            <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{field.label && field.label.toUpperCase()}</Text>
-          <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat',textAlign:'right'}}>{
+          <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{field.label && field.label.toUpperCase()}</Text>
+            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat',textAlign:'right'}}>{
               field.field_type == 'phone_input' ? this.formattedPhone() :
               this.props.user[this.props.fieldName] ? this.props.user[this.props.fieldName].toString().toUpperCase() : ''
             }</Text>
@@ -199,7 +199,7 @@ class SettingsBasic extends React.Component{
               style={styles.userimage}
               key={user.image_thumb}
               source={{uri: user.image_thumb}}
-              defaultSource={require('image!defaultuser')}
+              defaultSource={require('image!placeholderUser')}
               resizeMode={Image.resizeMode.contain}/>
               <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
                 <Image
@@ -225,7 +225,7 @@ class SettingsBasic extends React.Component{
                     fontSize:18,fontFamily:'Montserrat',textAlign:'right',paddingRight:30}}>{
                     field == 'birthday' ?
                     this.props.user[field] ? moment(this.props.user[field]).format('MM/DD/YYYY') : ''
-                    : this.props.user[field] ? this.props.user[field].toString().toUpperCase() : ''
+                    : this.props.user[field] ? this.props.user[field] : ''
                   }</Text>
                   <Image
                       style={{width:15,height:15,position:'absolute',right:0,top:23}}
@@ -461,7 +461,7 @@ var CustomTabBar = React.createClass({
   },
 
   render() {
-    var numberOfTabs = this.props.tabs.length;
+    var numberOfTabs = this.props.tabs ? this.props.tabs.length : 0;
     var w = DeviceWidth / numberOfTabs
 
     var tabUnderlineStyle = {

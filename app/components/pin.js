@@ -19,6 +19,7 @@ var {
 } = React;
 
 var CustomSceneConfigs = require('../utils/sceneConfigs');
+var Mailer = require('NativeModules').RNMail;
 
 var colors = require('../utils/colors')
 
@@ -108,7 +109,16 @@ var PinScreen = React.createClass({
         'Account disabled',
         'Your account has been deactivated. If you did not request this, please contact us.',
         [
-          {text: 'Contact us', onPress: () => console.log('Bar Pressed!')},
+          {text: 'Contact us', onPress: () => Mailer.mail({
+                subject: 'Help! My account is disabled.',
+                recipients: ['feedback@trippple.co'],
+                body: 'Help!'
+              }, (error, event) => {
+                  if(error) {
+                    AlertIOS.alert('Error', 'Could not send mail. Please email feedback@trippple.co directly.');
+                  }
+              })
+            },
           {text: 'OK', onPress: () => this.props.navigator.popToTop()},
         ]
       )

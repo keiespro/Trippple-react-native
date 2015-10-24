@@ -40,6 +40,16 @@ import CloseButton from './CloseButton'
 import TrackKeyboardMixin from '../mixins/keyboardMixin'
 import reactMixin from 'react-mixin'
 
+function getMaxLength(fieldName){
+  let len = 20
+  switch(fieldName){
+    case 'firstname':
+      len = 10; break;
+    case 'email':
+      len = 30; break;
+  }
+  return len
+}
 
 @reactMixin.decorate(TrackKeyboardMixin)
 class FieldModal extends React.Component{
@@ -56,21 +66,29 @@ class FieldModal extends React.Component{
   }
   componentDidMount(){
     if(this.props.field.field_type == 'textarea'){
-      this.setState({value: this.props.fieldValue+'\n'})
+      this.setState({value: this.props.fieldValue ? this.props.fieldValue+'\n' : ''})
 
       this.refs._textArea.focus()
-      this.refs._textArea.setNativeProps({value:this.props.fieldValue+'\n'})
+      this.refs._textArea.setNativeProps({value: this.props.fieldValue ? this.props.fieldValue+'\n' : ''})
     }
   }
   onChange(val){
-    if(val.length > 0){
+    if(!val) return
+    var isValid = true;
+
+    if(this.props.fieldName == 'email'){
+      isValid = (/.+\@.+\..+/.test(val))
+    }
+    if(val.length > 0 && isValid){
       this.setState({
         canContinue:true,
-        value: val
+        error: false,
+        value: val.trim()
       })
     }else{
       this.setState({
         canContinue:false,
+        error: true,
         value: val
       })
     }
@@ -145,10 +163,14 @@ class FieldModal extends React.Component{
           </View>
         </TouchableHighlight>
         <TouchableHighlight underlayColor={colors.mediumPurple} onPress={this.submit.bind(this)}
-          style={{ borderTopWidth: 1, flex:1,
+          style={{
+            borderTopWidth: 1,
+            flex:1,
             backgroundColor: this.state.canContinue ? colors.mediumPurple20 : 'transparent',
             borderColor: this.state.canContinue ? colors.mediumPurple : colors.rollingStone,
-            borderLeftWidth:1,alignItems:'center',paddingVertical:20
+            borderLeftWidth:1,
+            alignItems:'center',
+            paddingVertical:20
           }}>
           <View>
             <Text style={{color: this.state.canContinue ? colors.white : colors.rollingStone,
@@ -165,10 +187,12 @@ class FieldModal extends React.Component{
     var {field,fieldValue,inputField} = this.props
     var purpleBorder
     if(field.field_type == 'phone_input'){
-      purpleBorder =  this.state.canContinue || this.state.phoneValue.length == 0
+      purpleBorder =  this.state.canContinue || (this.state.phoneValue && this.state.phoneValue.length == 0)
     }else{
-      purpleBorder = this.state.canContinue ||  this.state.value.length == 0
+      purpleBorder = this.state.canContinue ||  (this.state.value && this.state.value.length == 0)
     }
+    var borderColor = purpleBorder ? colors.mediumPurple : colors.rollingStone
+    if(this.state.error) borderColor = colors.mandy
     var inside = () =>{
       switch(field.field_type ){
         case 'dropdown':
@@ -195,15 +219,14 @@ class FieldModal extends React.Component{
               </View>
             </View>
             {this.renderButtons()}
-            <View style={{backgroundColor:colors.white,flex:1,flexDirection:'column',alignItems:'center',width:DeviceWidth,justifyContent:'center',padding:0}}>
+            <View style={{backgroundColor:colors.white, flex:1,flexDirection:'column',alignItems:'center', width:DeviceWidth,justifyContent:'center',padding:0}}>
               {React.cloneElement(inputField,{
-                onValueChange:(value) => {
-                  this.onChange(value)
-                },
-                selectedValue:this.state.value || fieldValue,
+                onValueChange:this.onChange.bind(this),
+                selectedValue:this.state.value || fieldValue || '',
                 ref: (dropdown) => { this.dropdown = dropdown }
               }
             )}
+
             </View>
           </View>
         )
@@ -218,11 +241,12 @@ class FieldModal extends React.Component{
                 fontFamily:'Omnes-Regular',
                 marginBottom:40,
               }}>{field.long_label ? field.long_label : field.label}</Text>
-            <View style={{ borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone }}>
+            <View style={{ borderBottomWidth: 1, borderBottomColor: borderColor }}>
               {React.cloneElement(inputField,{
-              defaultValue:fieldValue.slice(0,10),
+              maxLength: getMaxLength(this.props.fieldName),
+              defaultValue: this.props.fieldName == 'firstname' ? fieldValue ? fieldValue.slice(0,10) : '' : fieldValue,
               onChangeText:(value) => {
-                this.onChange(value)
+                this.onChange(value.trim())
               },
               autoCapitalize:'characters',
               ref: (textField) => { this.textField = textField }
@@ -236,6 +260,15 @@ class FieldModal extends React.Component{
               marginTop:15,
             }}>{field.sub_label}</Text> : null}
           </View>
+
+            {/*
+              this.state.error &&
+                <View style={styles.bottomErrorTextWrap}>
+                  <Text textAlign={'right'} style={[styles.bottomErrorText]}></Text>
+                </View>
+            */}
+
+
           {this.renderButtons()}
 
         </View>
@@ -421,4 +454,50 @@ var styles = StyleSheet.create({
    fontFamily:'Montserrat',
  },
 
+   bottomText: {
+     marginTop: 0,
+     color: colors.rollingStone,
+     fontSize: 16,
+     fontFamily:'Omnes-Regular',
+   },
+   bottomErrorTextWrap:{
+
+   },
+   bottomErrorText:{
+     marginTop: 0,
+     color: colors.mandy,
+     fontSize: 16,
+     fontFamily:'Omnes-Regular',
+
+   },
+   pinInputWrap: {
+     borderBottomWidth: 2,
+     borderBottomColor: colors.rollingStone,
+     height: 60,
+     alignSelf: 'stretch'
+   },
+   pinInputWrapSelected:{
+     borderBottomColor: colors.mediumPurple,
+   },
+   pinInputWrapError:{
+     borderBottomColor: colors.mandy,
+   },
+   pinInput: {
+     height: 60,
+     padding: 8,
+     fontSize: 30,
+     fontFamily:'Montserrat',
+     color: colors.white
+   },
+   middleTextWrap: {
+     alignItems:'center',
+     justifyContent:'center',
+     marginBottom:10,
+     height: 60
+   },
+   middleText: {
+     color: colors.rollingStone,
+     fontSize: 20,
+     fontFamily:'omnes',
+   },
 });

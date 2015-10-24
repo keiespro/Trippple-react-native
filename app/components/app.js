@@ -29,7 +29,7 @@ import NotificationActions from '../flux/actions/NotificationActions'
 
 import Notifications from '../utils/Notifications';
 import LoadingOverlay from '../components/LoadingOverlay'
-import PurpleModal from './PurpleModal'
+import PurpleModal from '../modals/PurpleModal'
 
 
 @reactMixin.decorate(TimerMixin)

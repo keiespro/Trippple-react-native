@@ -36,6 +36,7 @@ class UserStore {
       handleUpload: UserActions.UPLOAD_IMAGE,
       handleUpdateUserStub: UserActions.updateUserStub,
       handleLogOut: UserActions.LOG_OUT,
+      handlePartner: UserActions.SELECT_PARTNER
 
     });
 
@@ -116,6 +117,11 @@ class UserStore {
 
 
   }
+
+  handlePartner(){
+    this.handleUpdateUserStub({relationship_status:'couple'})
+  }
+
 
   updateUserInfo(attributes){
     const prevUser = this.state.user;

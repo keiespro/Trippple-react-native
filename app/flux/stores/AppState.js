@@ -40,6 +40,9 @@ class AppStateStore {
     this.setState({
       showOverlay: !this.showOverlay
     })
+    setTimeout(()=>{
+      this.setState({showOverlay:false})
+    },1000);
   }
   handleVerifyPin(res){
     const user_info = res.response;
@@ -81,6 +84,7 @@ class AppStateStore {
   handleShowCheckmark(cm){
     var cm = cm || {};
     this.setState({
+      showOverlay:false,
       showCheckmark: true,
       checkMarkCopy: cm ? cm.copy : {} ,
       checkmarkRequireButtonPress: cm  && cm.button

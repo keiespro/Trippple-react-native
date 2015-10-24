@@ -1005,9 +1005,9 @@
 					"$(PROJECT_DIR)/node_modules/react-native-url-handler/iOS/build/Debug-iphoneos",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
+				PRODUCT_BUNDLE_IDENTIFIER = co.trippplet;
 				PRODUCT_NAME = trippple;
-				PROVISIONING_PROFILE = "9af9cf0e-6d10-458b-ac6e-19b205a64deb";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -1016,8 +1016,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-1";
-				CODE_SIGN_IDENTITY = "iPhone Developer: alex Lopez (2Y9TC26AVW)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Trippple LLC";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				ENABLE_ON_DEMAND_RESOURCES = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1042,9 +1042,9 @@
 					"$(PROJECT_DIR)/node_modules/react-native-url-handler/iOS/build/Debug-iphoneos",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
+				PRODUCT_BUNDLE_IDENTIFIER = co.trippplet;
 				PRODUCT_NAME = trippple;
-				PROVISIONING_PROFILE = "9af9cf0e-6d10-458b-ac6e-19b205a64deb";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
