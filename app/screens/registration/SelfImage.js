@@ -10,8 +10,9 @@ import {
 } from 'react-native'
 
 
-const DeviceHeight = require('Dimensions').get('window').height;
-const DeviceWidth = require('Dimensions').get('window').width;
+const DeviceHeight = require('Dimensions').get('window').height
+const DeviceWidth = require('Dimensions').get('window').width
+
 import FBPhotoAlbums from '../../components/fb.login'
 import FacebookButton from '../../buttons/FacebookButton'
 import BoxyButton from '../../controls/boxyButton'

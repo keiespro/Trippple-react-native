@@ -17,8 +17,6 @@ import colors from '../utils/colors'
 
 var Dots = React.createClass({
   componentWillMount(){
-    console.log(this.props)
-
   },
 
   render(){

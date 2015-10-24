@@ -43,6 +43,9 @@
 		AC5B03A91B85A9FB003E0302 /* Default-736h@3x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5B03A41B85A9FB003E0302 /* Default-736h@3x~iphone.png */; };
 		AC5B03AA1B85A9FB003E0302 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5B03A51B85A9FB003E0302 /* Default.png */; };
 		AC5B03AB1B85A9FB003E0302 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5B03A61B85A9FB003E0302 /* Default@2x~iphone.png */; };
+		AC61ADCB1BD9E23A00EDF3A3 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
+		AC61ADE51BDA8C6C00EDF3A3 /* EXURLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = AC61ADE41BDA8C6C00EDF3A3 /* EXURLHandler.m */; };
+		AC61ADEC1BDA984900EDF3A3 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC61ADEB1BDA984000EDF3A3 /* libRCTCameraRoll.a */; };
 		AC6BC1AD1B832657005F7DFA /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = ACA1297E1B41161100CC1499 /* Montserrat-Regular.otf */; };
 		AC6BC1AE1B832657005F7DFA /* omnes-bold-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129721B40EF0D00CC1499 /* omnes-bold-webfont.ttf */; };
 		AC6BC1AF1B832657005F7DFA /* omnes-light-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129731B40EF0D00CC1499 /* omnes-light-webfont.ttf */; };
@@ -125,6 +128,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
+		};
+		AC61ADEA1BDA984000EDF3A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC61ADE61BDA984000EDF3A3 /* RCTCameraRoll.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 58B5115D1A9E6B3D00147676;
+			remoteInfo = RCTCameraRoll;
 		};
 		AC6A6D9C1BBA1E800055446D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -252,6 +262,9 @@
 		AC5B03A41B85A9FB003E0302 /* Default-736h@3x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x~iphone.png"; sourceTree = "<group>"; };
 		AC5B03A51B85A9FB003E0302 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		AC5B03A61B85A9FB003E0302 /* Default@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x~iphone.png"; sourceTree = "<group>"; };
+		AC61ADE31BDA8C6C00EDF3A3 /* EXURLHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXURLHandler.h; sourceTree = "<group>"; };
+		AC61ADE41BDA8C6C00EDF3A3 /* EXURLHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXURLHandler.m; sourceTree = "<group>"; };
+		AC61ADE61BDA984000EDF3A3 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		AC6A6D941BBA1E800055446D /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
 		AC9E7CDC1BD2F72B00245642 /* RNAppInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNAppInfo.xcodeproj; path = "node_modules/react-native-app-info/RNAppInfo.xcodeproj"; sourceTree = "<group>"; };
 		ACA1292D1B40EA1600CC1499 /* RCTFBLogin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBLogin.xcodeproj; path = "node_modules/react-native-facebook-login/RCTFBLogin.xcodeproj"; sourceTree = "<group>"; };
@@ -278,6 +291,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC61ADEC1BDA984900EDF3A3 /* libRCTCameraRoll.a in Frameworks */,
 				AC9E7CF91BD2F73A00245642 /* libRNAppInfo.a in Frameworks */,
 				ACC298A31BCF776C00F27447 /* libRNKeychain.a in Frameworks */,
 				AC2B513D1BCF6C360093820F /* libRCTActionSheet.a in Frameworks */,
@@ -414,6 +428,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				AC61ADE61BDA984000EDF3A3 /* RCTCameraRoll.xcodeproj */,
+				AC61ADE21BDA8C6C00EDF3A3 /* EXURLHandler */,
 				AC161BEE1BBE59B600150328 /* mask */,
 				AC9E7CDC1BD2F72B00245642 /* RNAppInfo.xcodeproj */,
 				AC6A6D941BBA1E800055446D /* RCTCamera.xcodeproj */,
@@ -498,6 +514,24 @@
 			);
 			name = FacebookSDK;
 			path = "node_modules/react-native-facebook-login";
+			sourceTree = "<group>";
+		};
+		AC61ADE21BDA8C6C00EDF3A3 /* EXURLHandler */ = {
+			isa = PBXGroup;
+			children = (
+				AC61ADE31BDA8C6C00EDF3A3 /* EXURLHandler.h */,
+				AC61ADE41BDA8C6C00EDF3A3 /* EXURLHandler.m */,
+			);
+			name = EXURLHandler;
+			path = "node_modules/react-native-url-handler/iOS/EXURLHandler";
+			sourceTree = "<group>";
+		};
+		AC61ADE71BDA984000EDF3A3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC61ADEB1BDA984000EDF3A3 /* libRCTCameraRoll.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		AC6A6D951BBA1E800055446D /* Products */ = {
@@ -622,7 +656,7 @@
 				KnownAssetTags = (
 					New,
 				);
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
@@ -653,6 +687,10 @@
 				{
 					ProductGroup = AC6A6D951BBA1E800055446D /* Products */;
 					ProjectRef = AC6A6D941BBA1E800055446D /* RCTCamera.xcodeproj */;
+				},
+				{
+					ProductGroup = AC61ADE71BDA984000EDF3A3 /* Products */;
+					ProjectRef = AC61ADE61BDA984000EDF3A3 /* RCTCameraRoll.xcodeproj */;
 				},
 				{
 					ProductGroup = ACA1292E1B40EA1600CC1499 /* Products */;
@@ -797,6 +835,13 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		AC61ADEB1BDA984000EDF3A3 /* libRCTCameraRoll.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTCameraRoll.a;
+			remoteRef = AC61ADEA1BDA984000EDF3A3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		AC6A6D9D1BBA1E800055446D /* libRCTCamera.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -893,6 +938,7 @@
 				AC6BC1AD1B832657005F7DFA /* Montserrat-Regular.otf in Resources */,
 				AC6BC1AE1B832657005F7DFA /* omnes-bold-webfont.ttf in Resources */,
 				AC5A3AB81BAA4EAE00EFF0B9 /* Montserrat-Bold.ttf in Resources */,
+				AC61ADCB1BD9E23A00EDF3A3 /* main.jsbundle in Resources */,
 				AC6BC1AF1B832657005F7DFA /* omnes-light-webfont.ttf in Resources */,
 				AC6BC1B11B832657005F7DFA /* omnes-regular-webfont.ttf in Resources */,
 				AC5B03A71B85A9FB003E0302 /* Default-568h@2x~iphone.png in Resources */,
@@ -919,6 +965,7 @@
 				AC161C091BBE59DA00150328 /* RCTMaskableTextFieldManager.m in Sources */,
 				AC161C0A1BBE59DA00150328 /* RCTMaskableTextManager.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				AC61ADE51BDA8C6C00EDF3A3 /* EXURLHandler.m in Sources */,
 				AC161C071BBE59DA00150328 /* RCTMaskableText.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
@@ -955,11 +1002,12 @@
 					"$(inherited)",
 					/Users/alexlopez/Desktop,
 					"$(SDKROOT)/usr/lib/system",
+					"$(PROJECT_DIR)/node_modules/react-native-url-handler/iOS/build/Debug-iphoneos",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = co.tripppletest;
+				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
 				PRODUCT_NAME = trippple;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "9af9cf0e-6d10-458b-ac6e-19b205a64deb";
 			};
 			name = Debug;
 		};
@@ -968,8 +1016,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-1";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: alex Lopez (2Y9TC26AVW)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Trippple LLC";
 				ENABLE_BITCODE = NO;
 				ENABLE_ON_DEMAND_RESOURCES = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -991,11 +1039,12 @@
 					"$(inherited)",
 					/Users/alexlopez/Desktop,
 					"$(SDKROOT)/usr/lib/system",
+					"$(PROJECT_DIR)/node_modules/react-native-url-handler/iOS/build/Debug-iphoneos",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = co.tripppletest;
+				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
 				PRODUCT_NAME = trippple;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "9af9cf0e-6d10-458b-ac6e-19b205a64deb";
 			};
 			name = Release;
 		};
@@ -1024,7 +1073,7 @@
 				ENABLE_INCREMENTAL_DISTILL = YES;
 				ENABLE_ON_DEMAND_RESOURCES = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1070,7 +1119,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Trippple LLC";
 				COPY_PHASE_STRIP = YES;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
 				ENABLE_BITCODE = NO;
