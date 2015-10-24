@@ -182,6 +182,8 @@ class SettingsInside extends React.Component{
         </View>
       </TouchableHighlight>
 
+
+    {this.props.user.relationship_status == 'couple' ?
       <TouchableHighlight onPress={(f)=>{
           this.props.navigator.push({
             component: SettingsCouple,
@@ -204,6 +206,8 @@ class SettingsInside extends React.Component{
           <Image source={require('image!nextArrow')} />
           </View>
         </TouchableHighlight>
+    : null }
+
     </View>
 
 
