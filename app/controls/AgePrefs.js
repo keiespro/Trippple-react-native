@@ -12,7 +12,8 @@ import {
   TouchableHighlight,
   Animated,
   TouchableOpacity,
-  PanResponder
+  PanResponder,
+  Easing
 
 } from  'react-native'
 
@@ -72,19 +73,21 @@ class  AgePrefs extends React.Component{
         return (
           <View style={{flexDirection:'column',alignItems:'center',justifyContent:'center',height:100}}>
 
-       <Text style={{alignSelf:'flex-end',color:colors.white,marginRight:20,marginBottom:20}}>{`${this.state.match_age_min} - ${this.state.match_age_max}`}</Text>
+        <View style={{paddingHorizontal:0,flexDirection:'row',width:InsideWidth,justifyContent:'space-between'}}>
+                <Text style={[{alignSelf:'flex-start',color: colors.rollingStone,textAlign:'left'}]}>{`Age Range`}</Text>
 
+                <Text style={{alignSelf:'flex-end',color:colors.white,textAlign:'right',marginRight:20,marginBottom:20}}>{`${this.state.match_age_min} - ${this.state.match_age_max}`}</Text>
+          </View>
         <View style={{paddingHorizontal:0,flexDirection:'row',height:90,alignItems:'center',justifyContent:'center',alignSelf:'center'}}>
 
           {dots.map((dot,i) => {
             var highlighted = i != dots.length  && match_age_min <= dot.start_age && match_age_max >= dot.start_age + MIN_AGE_GROUP_DISTANCE - 1 || Math.abs(match_age_max - dot.start_age) < MIN_AGE_GROUP_DISTANCE
 
-            var lineHighlighted = match_age_max < dot.start_age   ? false : true
-            console.log(highlighted)
+            var lineHighlighted = match_age_max <= dot.start_age   ? false : true
             return (
 
 
-              <View style={{marginLeft: i == 0 ? 40 : 0,width:dotWidth,height:80,alignSelf:'center',position:'relative'}} >
+              <View style={{marginLeft: i == 0 ? 45 : 0,width:dotWidth,height:80,alignSelf:'center',position:'relative'}} >
 
               { dot.start_age >= MAX_AGE ? null : <View style={{
                     flex:1,backgroundColor:'transparent',
@@ -93,7 +96,7 @@ class  AgePrefs extends React.Component{
                     borderTopColor: highlighted && lineHighlighted ? colors.mediumPurple : colors.white
                    }}/>
                }
-               <TouchableHighlight style={{position:'absolute',top:-10,left:-10}} onPress={(e)=>{
+               <TouchableOpacity style={{position:'absolute',top:-10,left:-10}} onPress={(e)=>{
                    var newState = {}
                    if(Math.abs(this.state.match_age_max - dot.start_age) > Math.abs(this.state.match_age_min - dot.start_age) ){
                      newState.match_age_min = dot.start_age
@@ -106,7 +109,7 @@ class  AgePrefs extends React.Component{
                  <View style={{
                   flex:1,backgroundColor:highlighted ? colors.mediumPurple : colors.white,height:20,width:20,borderRadius:10,
                }}/>
-             </TouchableHighlight>
+           </TouchableOpacity>
 
 
                </View>
@@ -180,10 +183,10 @@ class ActiveDot extends React.Component{
     if(Math.abs(this._animatedValueX - nval) >= InsideWidth/this.props.numberGroups){
       this._animatedValueX = nval
 
-      Animated.timing(this.state.ageVal,{
-        toValue:nval,
-        duration:100,
-      }).start()
+      // Animated.timing(this.state.ageVal,{
+      //   toValue:nval,
+      //   duration:100,
+      // }).start()
     }
   }
   shouldComponentUpdate(nProps,nState){
@@ -209,17 +212,19 @@ class ActiveDot extends React.Component{
     })
 
     this._panResponder = PanResponder.create({
-        onMoveShouldSetResponderCapture: () => true,
+        onStartShouldSetPanResponderCapture: () => true,
+        onStartShouldSetPanResponder: () => true,
+        onMoveShouldSetPanResponder: () => true,
         onMoveShouldSetPanResponderCapture: () => true,
         onPanResponderGrant: (e, gestureState) => {
           this.props.toggleScroll('off');
-
+          this.state.ageVal.stopAnimation();
           this.state.ageVal.setOffset(this._animatedValueX);
           this.state.ageVal.setValue(0);
         },
         onPanResponderMove: Animated.event([ null, {dx: this.state.ageVal} ]),
         onPanResponderRelease: (e, gestureState)  => {
-          console.log((gestureState.dx))
+          console.log((gestureState.vx))
           if(this._animatedValueX > InsideWidth){
             this._animatedValueX = InsideWidth
           }else if(this._animatedValueX < 0){
@@ -230,16 +235,55 @@ class ActiveDot extends React.Component{
           this.state.ageVal.flattenOffset(); // Flatten the offset so it resets the default positioning
           var newAgeVal = Math.round((this._animatedValueX * 32) / InsideWidth) + 18
           this.props.updateVal(newAgeVal)
-          this.props.toggleScroll('on');
-          console.log(this.props.dots)
-          var dot = this.props.dots.length ? this.props.dots.filter((n) => n.start_age > newAgeVal) : {start_age:this._animatedValueX};
-          console.log(dot[dot.length-1].start_age)
 
-var toValue = InsideWidth * (dot[0].start_age-18) / 32
-          Animated.timing(this.state.ageVal,{
+          var dot = this.props.dots.filter((gestureState.vx > 0 ? ((n) => n.start_age >= newAgeVal ) : (n) => n.start_age <= newAgeVal) );
+
+          var toValue = Math.round(InsideWidth * (dot[gestureState.vx > 0 ? 0 : dot.length-1].start_age-18) / 32)
+
+          Animated.spring(this.state.ageVal,{
             toValue,
-            duration:500,
-          }).start()
+            tension:60,
+            friction: 7,
+          }).start((fin)=>{
+            console.log('did animation finish',fin.finished)
+
+            this.props.toggleScroll('on');
+
+          })
+
+
+        },
+
+        onPanResponderTerminate: (e, gestureState)  => {
+          // console.log((gestureState.vx))
+          // if(this._animatedValueX > InsideWidth){
+          //   this._animatedValueX = InsideWidth
+          // }else if(this._animatedValueX < 0){
+          //   this._animatedValueX = 0
+          // }else{
+          //   // this._animatedValueX = gestureState.dx
+          // }
+          // this.state.ageVal.flattenOffset(); // Flatten the offset so it resets the default positioning
+          //
+          // var newAgeVal = Math.round((this._animatedValueX * 32) / InsideWidth) + 18
+          // this.props.updateVal(newAgeVal)
+          //
+          // var dot = this.props.dots.filter((gestureState.vx > 0 ? ((n) => n.start_age >= newAgeVal ) : (n) => n.start_age <= newAgeVal) );
+          //
+          //
+          // var toValue = Math.round(InsideWidth * (dot[0].start_age-18) / 32)
+          //
+          // Animated.spring(this.state.ageVal,{
+          //   toValue,
+          //   tension:60,
+          //   friction: 7,
+          // }).start(()=>{
+          //
+          //
+          //   this.props.toggleScroll('on');
+          //
+          // })
+
         }
 
     })
@@ -254,37 +298,34 @@ var toValue = InsideWidth * (dot[0].start_age-18) / 32
 
     var inputRange = this.props.dots.reduce( (arr,dot,i) => {
       arr.push(dotWidthInterpolatedWidth*i)
-      arr.push(dotWidthInterpolatedWidth*(i) + 1)
-      arr.push(dotWidthInterpolatedWidth*(i) +5)
-      arr.push(dotWidthInterpolatedWidth*(i+1) - 30 )
-      arr.push(dotWidthInterpolatedWidth*(i+1) )
+      // arr.push(dotWidthInterpolatedWidth*(i) + 1)
+      // arr.push(dotWidthInterpolatedWidth*(i) +5)
+      // arr.push(dotWidthInterpolatedWidth*(i+1) - 30 )
+      // arr.push(dotWidthInterpolatedWidth*(i+1) )
       // arr.push(dotWidthInterpolatedWidth+dotWidthInterpolatedWidth*i)
       // arr.push(dotWidthInterpolatedWidth+MIN_AGE_GROUP_DISTANCE)
       return arr
     },[0])
     var outputRange = this.props.dots.reduce((arr,dot,i)=>{
       arr.push(dotWidthInterpolatedWidth*i )
-      arr.push(dotWidthInterpolatedWidth*(i) + 1 )
-      arr.push(dotWidthInterpolatedWidth*(i)+ 20)
-      arr.push(dotWidthInterpolatedWidth*(i +1) - 10)
-      arr.push(dotWidthInterpolatedWidth*(i+1) )
+      // arr.push(dotWidthInterpolatedWidth*(i) + 1 )
+      // arr.push(dotWidthInterpolatedWidth*(i)+ 20)
+      // arr.push(dotWidthInterpolatedWidth*(i +1) - 10)
+      // arr.push(dotWidthInterpolatedWidth*(i+1) )
       return arr
     },[0])
     console.log(inputRange, outputRange)
     return (
       <Animated.Image {...this._panResponder.panHandlers}
         style={{
-          transform: [ {translateX: ageVal.interpolate({
-              inputRange, outputRange,
-              extrapolate:'clamp'
-            }) } ],
+          transform: [ {translateX: ageVal} ],
           backgroundColor:'transparent',alignItems:'center',justifyContent:'center',
-          height:42,width:36,position:'absolute',bottom:20,
-          left:10,
+          height:42,width:36,position:'absolute',bottom:10,
+          left:15,
         }} source={require('image!sliderHandle')}>
         <Text style={{backgroundColor:'transparent',textAlign:'center',color:colors.white,fontSize:12}}>{
-        this.props.ageVal
-      }</Text>
+            this.props.ageVal
+          }</Text>
       </Animated.Image>
 
     )
@@ -306,13 +347,13 @@ var styles = StyleSheet.create({
    alignItems: 'stretch',
    position:'relative',
    alignSelf: 'stretch',
-   backgroundColor:colors.outerSpace
+   backgroundColor:'transparent'
   //  overflow:'hidden'
  },
  inner:{
    flex: 1,
    alignItems: 'stretch',
-   backgroundColor:colors.outerSpace,
+   backgroundColor:'transparent',
    flexDirection:'column',
    justifyContent:'flex-start'
  },

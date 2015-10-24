@@ -107,7 +107,7 @@ class  SettingsPreferences extends React.Component{
                     <Text style={styles.formHeaderText}>{`About ${this.props.user.relationship_status == 'single' ? 'My' : 'Our'} Match`}</Text>
                 </View>
               </View>
-              <View style={{marginVertical: 20,}}>
+              <View style={{marginVertical: 0,}}>
 
               <TouchableHighlight  underlayColor={colors.dark}  onPress={(f)=>{
                   //trigger modal
@@ -147,13 +147,17 @@ class  SettingsPreferences extends React.Component{
                     }
                   })
                 }} >
-                <View  style={{marginHorizontal:25,height:60,width:DeviceWidth-50,flexWrap:'wrap',alignItems:'center',justifyContent:'space-between',flexDirection:'column',   borderBottomWidth: 1/PixelRatio.get(),borderColor:colors.shuttleGray}}>
-                <Text  style={{color:colors.white,height:50,fontSize:18,overflow:'hidden',flexWrap:'wrap'}}>{this.props.user.bio ? this.props.user.bio : ''}</Text>
+                <View  style={{marginHorizontal:25,height:70,width:DeviceWidth-50,flexWrap:'wrap',alignItems:'center',justifyContent:'center',flexDirection:'column',   borderBottomWidth: 1/PixelRatio.get(),borderColor:colors.shuttleGray}}>
+                <Text numberOfLines={2}  style={{color:colors.white,height:50,fontSize:18,overflow:'hidden',flexWrap:'wrap'}}>{this.props.user.bio ? this.props.user.bio : ''}</Text>
                 </View>
               </TouchableHighlight>
 
               </View>
-
+              <View style={{paddingHorizontal: 25,marginBottom:0}}>
+                <View style={styles.formHeader}>
+                  <Text style={styles.formHeaderText}>{`Show Me`}</Text>
+                </View>
+              </View>
 
               <TouchableHighlight underlayColor={colors.dark} style={{paddingHorizontal: 25,}} onPress={()=>{this.toggleField('looking_for_mf')}}>
                 <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
@@ -179,12 +183,7 @@ class  SettingsPreferences extends React.Component{
                 </View>
               </TouchableHighlight>
 
-            <View  style={{marginVertical:0}}>
-              <View style={{paddingHorizontal: 25,marginBottom:30}}>
-                <View style={styles.formHeader}>
-                  <Text style={styles.formHeaderText}>{`Age Range`}</Text>
-                </View>
-              </View>
+            <View  style={{marginTop:50}}>
               <AgePrefs toggleScroll={this.toggleScroll.bind(this)} user={this.props.user} />
             </View>
             <View style={{paddingHorizontal: 25,marginBottom:15}}>
