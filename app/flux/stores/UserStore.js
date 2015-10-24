@@ -7,7 +7,7 @@ import { datasource } from 'alt/utils/decorators'
 import Keychain from 'react-native-keychain'
 import CredentialsStore from './CredentialsStore'
 
-const KEYCHAIN_NAMESPACE =  'trippple.co'
+import {KEYCHAIN_NAMESPACE} from '../../config'
 
 @datasource(UserSource)
 class UserStore {
@@ -63,19 +63,20 @@ class UserStore {
 
 
   }
+  handleBlockContacts(){
+
+  }
 
   handleRequestPin(res){
 
   }
 
   handleVerifyPin(res){
-    const user_info = {};
-
-    user_info.id = res.response.user_id;
-    user_info.status = res.response.status;
+    console.log(res)
+    const user_info = res.response;
 
     this.setState({
-      user: {  ...user_info },
+      user: {  ...this.user, ...user_info },
       showCheckmark: true,
       checkMarkCopy: {
         title: '',
@@ -90,7 +91,7 @@ class UserStore {
       this.setState({showCheckmark:false})
     },1000);
 
-    CredentialsStore.saveCredentials(res.response);
+    CredentialsStore.saveCredentials(user_info);
   }
   handleGetUserInfo(res){
     console.log(res)

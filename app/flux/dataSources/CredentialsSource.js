@@ -1,10 +1,10 @@
 import alt from '../alt'
-var AppActions = require('../actions/AppActions')
+import AppActions from '../actions/AppActions'
 import Keychain from 'react-native-keychain'
 
 // import Promise from 'bluebird'
 
-const KEYCHAIN_NAMESPACE =  'trippple.co'
+import {KEYCHAIN_NAMESPACE} from  '../../config'
 
 const CredentialsSource = {
   init: {
@@ -27,4 +27,3 @@ const CredentialsSource = {
 };
 
 export default CredentialsSource
-

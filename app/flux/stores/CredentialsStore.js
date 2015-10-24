@@ -5,9 +5,9 @@ import UserActions from '../actions/UserActions'
 import Keychain from 'react-native-keychain'
 import AppActions from '../actions/AppActions'
 
-const KEYCHAIN_NAMESPACE =  'trippple.co'
+import {KEYCHAIN_NAMESPACE} from '../../config'
 
-var Device = require('react-native-device');
+import Device from 'react-native-device'
 
 
 @datasource(CredentialsSource)
@@ -35,7 +35,18 @@ class CredentialsStore {
   handleGotCredentials(creds){
     this.setState({ user_id: creds.username+'' , api_key: creds.password+'' })
   }
+  handleVerifyPin(res){
+    const { user_id, api_key } = res.response;
+    Keychain.setInternetCredentials(KEYCHAIN_NAMESPACE, user_id+'' , api_key)
+      .then((result)=> {
+        console.log('Credentials saved successfully!',result)
+      })
+      .catch((err)=> {
+        console.log('Credentials saving failed!',err)
+      });
 
+    this.setState({ user_id, api_key })
+  }
   saveCredentials(response){
     const { user_id, api_key } = response;
     Keychain.setInternetCredentials(KEYCHAIN_NAMESPACE, user_id+'' , api_key)

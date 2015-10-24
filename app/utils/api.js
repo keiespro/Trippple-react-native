@@ -1,3 +1,4 @@
+import { SERVER_URL } from '../config'
 import AppInfo from 'react-native-app-info'
 import Promise from 'bluebird'
 import {Platform} from 'react-native'
@@ -7,7 +8,6 @@ const CredentialsStore = require('../flux/stores/CredentialsStore')
 const UploadFile = Promise.promisify(FileTransfer.upload)
 
 
-const SERVER_URL = 'http://dev-api2.trippple.co/user'
 
 async function publicRequest(endpoint, payload){
   console.log(payload)
