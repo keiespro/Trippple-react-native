@@ -61,7 +61,7 @@ class EditImageThumb extends Component{
 
   accept(){
     AppActions.toggleOverlay()
-    UserActions.uploadImage(this.props.image.uri ? this.props.image.uri : this.props.image,'profile')
+    UserActions.uploadImage( this.props.image,'profile')
 
     if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
 
@@ -83,6 +83,7 @@ class EditImageThumb extends Component{
 
       this.props.navigator.push(nextRoute)
     }
+    AppActions.toggleOverlay()
     AppActions.showCheckmark();
 
   }

@@ -24,11 +24,14 @@ const DeviceWidth = Dimensions.get('window').width
 const InsideWidth = DeviceWidth - 62
 import colors from '../utils/colors'
 
+import TimerMixin from 'react-timer-mixin';
+import reactMixin from 'react-mixin'
 
+@reactMixin.decorate(TimerMixin)
 class  AgePrefs extends React.Component{
   constructor(props){
     super(props)
-
+    this._timeout = null;
 
     var possibleRange = MAX_AGE - MIN_AGE,
         numberGroups = (possibleRange / MIN_AGE_GROUP_DISTANCE)
@@ -38,7 +41,6 @@ class  AgePrefs extends React.Component{
       dots.push({index:i,start_age:MIN_AGE+(MIN_AGE_GROUP_DISTANCE*i)})
     }
 
-    console.log(dots)
 
     this.state = {
       dots,
@@ -47,21 +49,21 @@ class  AgePrefs extends React.Component{
       match_age_max: Math.min(props.user.match_age_max,MAX_AGE)
     }
   }
-  componentDidMount(){
+  componentDidUpdate(prevProps,prevState){
+    // const {match_age_min,match_age_max} = this.state
+    // if(prevState.match_age_min == match_age_min && prevState.match_age_max == match_age_max) return false
+    //
+    // if(this._timeout) this.clearTimeout(this._timeout)
 
+  }
+
+  updateAttributes(){
+    const {match_age_min,match_age_max} = this.state;
+    UserActions.updateUser({match_age_min,match_age_max});
   }
 
 
   componentWillReceiveProps(nProps){
-    // if(this.props.panX && this.props.profileVisible != nProps.profileVisible){
-    //   this.props.panX.removeAllListeners();
-    //   this.setState({
-    //     isMoving: false
-    //   });
-    // }
-    console.log(nProps)
-    // this.state.match_age_min.setValue(nProps.match_age_min);     // Start 0
-    // this.state.match_age_max.setValue(nProps.match_age_max);     // Start 0
 
   }
   render(){
@@ -123,26 +125,32 @@ class  AgePrefs extends React.Component{
             key={'minimum_dot'}
             toggleScroll={this.props.toggleScroll}
             updateVal={(val) => {
-              console.log(val,'MIN VAL')
-              this.setState({match_age_min:val});
+              if(this._timeout) this.clearTimeout(this._timeout)
 
+              this.setState({match_age_min:Math.round(val)});
+
+                  this._timeout = this.setTimeout(()=>{
+                    this.updateAttributes()
+                  },2000)
             }}
             numberGroups={this.state.numberGroups}
             dots={this.state.dots}
-
             ageVal={this.state.match_age_min }
           />
           <ActiveDot
             key={'maximum_dot'}
             toggleScroll={this.props.toggleScroll}
             updateVal={(val) => {
-              console.log(val,'MAX VAL')
-              this.setState({match_age_max:val});
+              if(this._timeout) this.clearTimeout(this._timeout)
 
+              this.setState({match_age_max:Math.round(val)});
+
+                  this._timeout = this.setTimeout(()=>{
+                    this.updateAttributes()
+                  },2000)
             }}
             numberGroups={this.state.numberGroups}
             dots={this.state.dots}
-
             ageVal={this.state.match_age_max}
           />
 
@@ -183,10 +191,9 @@ class ActiveDot extends React.Component{
     if(Math.abs(this._animatedValueX - nval) >= InsideWidth/this.props.numberGroups){
       this._animatedValueX = nval
 
-      // Animated.timing(this.state.ageVal,{
-      //   toValue:nval,
-      //   duration:100,
-      // }).start()
+      Animated.spring(this.state.ageVal,{
+        toValue:nval,
+      }).start()
     }
   }
   shouldComponentUpdate(nProps,nState){
@@ -203,12 +210,7 @@ class ActiveDot extends React.Component{
     this._animatedValueX = InsideWidth * (this.props.ageVal-18) / 32
 
     this.state.ageVal.addListener((value) => {
-      console.log(value);
       this._animatedValueX = Math.round(value.value);
-      if(this._animatedValueX % 2 == 0 ){
-      //
-        this.props.updateVal(Math.round(this._animatedValueX * 32 / InsideWidth + 18))
-      }
     })
 
     this._panResponder = PanResponder.create({
@@ -246,43 +248,40 @@ class ActiveDot extends React.Component{
             friction: 7,
           }).start((fin)=>{
             console.log('did animation finish',fin.finished)
-
-            this.props.toggleScroll('on');
-
+            // if(fin.finished) {
+              this.props.toggleScroll('on');
+            // }
           })
 
 
         },
 
         onPanResponderTerminate: (e, gestureState)  => {
-          // console.log((gestureState.vx))
-          // if(this._animatedValueX > InsideWidth){
-          //   this._animatedValueX = InsideWidth
-          // }else if(this._animatedValueX < 0){
-          //   this._animatedValueX = 0
-          // }else{
-          //   // this._animatedValueX = gestureState.dx
-          // }
-          // this.state.ageVal.flattenOffset(); // Flatten the offset so it resets the default positioning
-          //
-          // var newAgeVal = Math.round((this._animatedValueX * 32) / InsideWidth) + 18
-          // this.props.updateVal(newAgeVal)
-          //
-          // var dot = this.props.dots.filter((gestureState.vx > 0 ? ((n) => n.start_age >= newAgeVal ) : (n) => n.start_age <= newAgeVal) );
-          //
-          //
-          // var toValue = Math.round(InsideWidth * (dot[0].start_age-18) / 32)
-          //
-          // Animated.spring(this.state.ageVal,{
-          //   toValue,
-          //   tension:60,
-          //   friction: 7,
-          // }).start(()=>{
-          //
-          //
-          //   this.props.toggleScroll('on');
-          //
-          // })
+          if(this._animatedValueX > InsideWidth){
+            this._animatedValueX = InsideWidth
+          }else if(this._animatedValueX < 0){
+            this._animatedValueX = 0
+          }else{
+            // this._animatedValueX = gestureState.dx
+          }
+          this.state.ageVal.flattenOffset(); // Flatten the offset so it resets the default positioning
+          var newAgeVal = Math.floor((this._animatedValueX * 32) / InsideWidth) + 18
+          this.props.updateVal(newAgeVal)
+
+          var dot = this.props.dots.filter((gestureState.vx > 0 ? ((n) => n.start_age >= newAgeVal ) : (n) => n.start_age <= newAgeVal) );
+
+          var toValue = Math.round(InsideWidth * (dot[gestureState.vx > 0 ? 0 : dot.length-1].start_age-18) / 32)
+
+          Animated.spring(this.state.ageVal,{
+            toValue,
+            tension:60,
+            friction: 7,
+          }).start((fin)=>{
+            console.log('did animation finish',fin.finished)
+            // if(fin.finished) {
+              this.props.toggleScroll('on');
+            // }
+          })
 
         }
 

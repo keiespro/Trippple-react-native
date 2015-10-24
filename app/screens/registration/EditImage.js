@@ -71,7 +71,8 @@ class EditImage extends Component{
 
     if(this.props.afterSaveCallback){
       this.props.afterSaveCallback({
-        image:{uri:croppedImageURI,width:this._transformData.width,height:this._transformData.height,isStored:false} || this.props.originalImage,
+        image:{uri:croppedImageURI,
+          width:this._transformData.width,height:this._transformData.height,isStored:false} || this.props.originalImage,
         originalImage:this.props.image,
           croppedImage: croppedImageURI,
           imagetype: this.props.imagetype
@@ -219,7 +220,7 @@ class ImageCropper extends React.Component {
     // fill the crop box.
     var widthRatio = this.props.image.width / this.props.size.width;
     var heightRatio = this.props.image.height / this.props.size.height;
-    if (widthRatio < heightRatio) {
+    if (widthRatio > heightRatio) {
       this._scaledImageSize = {
         width: this.props.image.width ,
         height: this.props.image.height / widthRatio,
@@ -232,7 +233,7 @@ class ImageCropper extends React.Component {
     }
     this._contentOffset = {
       x: (this._scaledImageSize.width - this.props.size.width) / 2,
-      y: (this._scaledImageSize.height - this.props.size.height) / 2 - 80,
+      y: (this._scaledImageSize.height - this.props.size.height) / 3,
     };
     this._updateTransformData(
       this._contentOffset,
@@ -293,8 +294,7 @@ class ImageCropper extends React.Component {
       scrollEventThrottle={16}
       >
         <Image source={this.props.image}
-              resizeMode={Image.resizeMode.cover}
-              style={[{ width: this.props.size.width, height:this.props.size.height}]} />
+              style={this._scaledImageSize} />
       </ScrollView>
     );
   }
