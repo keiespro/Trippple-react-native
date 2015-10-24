@@ -10,47 +10,99 @@ import {
 } from 'react-native'
 
 
-const DeviceHeight = require('Dimensions').get('window').height;
-const DeviceWidth = require('Dimensions').get('window').width;
-import FBPhotoAlbums from '../fb.login'
+const DeviceHeight = require('Dimensions').get('window').height
+const DeviceWidth = require('Dimensions').get('window').width
+
+var ModalWrapper = React.createClass({
+  render(){
+    return (
+      <PurpleModal>
+        {this.props.children}
+      </PurpleModal>
+    )
+  }
+
+})
+
+import FBPhotoAlbums from '../../components/fb.login'
 import FacebookButton from '../../buttons/FacebookButton'
 import BoxyButton from '../../controls/boxyButton'
 import colors from '../../utils/colors'
 import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
-import BackButton from '../BackButton'
+import BackButton from '../../components/BackButton'
 import EditImage from '../../screens/registration/EditImage'
 import EditImageThumb from '../../screens/registration/EditImageThumb'
 import CameraControl from '../../controls/cameraControl'
 import CameraRollView from '../../controls/CameraRollView'
+import PurpleModal from '../../modals/PurpleModal'
+import CameraRollPermissionsModal from '../../modals/CameraRollPermissions'
+import CameraPermissionsModal from '../../modals/CameraPermissions'
 
 class SelfImage extends Component{
   constructor(props){
     super();
     this.state = {
-      modalOpen:false,
-      modalView: ''
+
     }
   }
 
   _getCameraRoll =()=> {
-      // this.setState({modalOpen:true, modalView: 'CameraRoll'})
+    var lastindex = this.props.navigator.getCurrentRoutes().length;
+    console.log(lastindex);
+    var nextRoute = this.props.stack[lastindex];
+    nextRoute.component = CameraRollView
+    nextRoute.passProps = {
+      ...this.props,
+      imagetype:'profile',
+      stack:this.props.stack,
 
-          var nextRoute = {}
-          nextRoute.component = CameraRollView
-          nextRoute.passProps = {
-            ...this.props,
-            imagetype:'profile',
-            nextRoute:EditImage
-          }
-          nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
-          this.props.navigator.push(nextRoute)
+    }
+    nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
+    this.props.navigator.push(nextRoute)
+
+
+  }
+  getCameraRollPermission(){
+    var lastindex = this.props.navigator.getCurrentRoutes().length;
+    console.log(lastindex);
+    var nextRoute =  {
+      component:  CameraRollPermissionsModal
+
+    };
+
+    nextRoute.passProps = {
+      ...this.props,
+      imagetype:'profile',
+
+      continue: this._getCameraRoll.bind(this)
+    }
+    nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
+    this.props.navigator.push(nextRoute)
+
+
+
+  }
+  getCameraPermission(){
+    var lastindex = this.props.navigator.getCurrentRoutes().length;
+    console.log(lastindex);
+    var nextRoute = {
+      component: CameraPermissionsModal
+    }
+
+    nextRoute.passProps = {
+      ...this.props,
+      imagetype:'profile',
+
+    }
+    nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
+    this.props.navigator.push(nextRoute)
 
   }
   _getCamera =()=> {
-    // this.setState({modalOpen:true, modalView: 'CameraControl'})
+    var lastindex = this.props.navigator.getCurrentRoutes().length;
+    console.log(lastindex);
+    var nextRoute = this.props.stack[lastindex];
 
-    var nextRoute = {}
-    nextRoute.component = CameraControl
     nextRoute.passProps = {
       ...this.props,
       imagetype:'profile',
@@ -70,6 +122,18 @@ class SelfImage extends Component{
   gotImage =(imageFile)=>{
     this.closeModal()
 
+    var lastindex = this.props.navigator.getCurrentRoutes().length;
+    console.log(lastindex);
+    var nextRoute = this.props.stack[lastindex];
+
+    nextRoute.passProps = {
+        ...this.props,
+        image: imageFile,
+        imagetype:'profile',
+
+            }
+
+    this.props.navigator.push(nextRoute)
 
   }
   onPressFacebook(fbUser){
@@ -87,16 +151,16 @@ class SelfImage extends Component{
     this.props.navigator.push(nextRoute)
 
   }
-  componentDidUpdate(prevProps,prevState){
+ componentDidUpdate(prevProps,prevState){
     console.log(prevProps,prevState);
   }
 
   render(){
     return (
       <View style={styles.container}>
-        <View style={{width:100,height:50,left:20,alignSelf:'flex-start',top:0}}>
-          <BackButton navigator={this.props.navigator}/>
-        </View>
+ <View style={{width:100,height:50,left:20,alignSelf:'flex-start',top:-30}}>
+        <BackButton navigator={this.props.navigator}/>
+      </View>
 
         <Text style={styles.textTop}>{this.props.couplePicTitle || 'Your Profile Picture' || 'Now upload or snap a pic of just you. This is the picture your matches will see during your chats.'}</Text>
         {/*<Text style={[styles.textTop,{marginTop:0}]}>{this.props.couplePicText || ` `}</Text>*/}
@@ -106,20 +170,23 @@ class SelfImage extends Component{
                     resizeMode={Image.resizeMode.contain}
                         style={styles.imageInside} />
         </View>
+
         <View style={styles.fbButton}>
-          <FacebookButton buttonType={'imageUpload'} _onPress={this.onPressFacebook.bind(this)} key={'notthesamelement'} buttonTextStyle={{fontFamily:'Montserrat-Bold'}} buttonText="UPLOAD FROM FB" />
+          <FacebookButton buttonType={'imageUpload'} _onPress={this.onPressFacebook.bind(this)} key={'notthesamelement'} buttonText="UPLOAD FROM FB" />
         </View>
+
         <View style={styles.twoButtons}>
-          <TouchableHighlight style={[styles.plainButton,{marginRight:10}]} onPress={this._getCameraRoll} underlayColor={colors.shuttleGray20}>
+          <TouchableHighlight style={[styles.plainButton,{marginRight:10}]} onPress={this.getCameraRollPermission.bind(this)} underlayColor={colors.shuttleGray20}>
             <Text style={styles.plainButtonText}>FROM ALBUM</Text>
           </TouchableHighlight>
 
 
-          <TouchableHighlight style={[styles.plainButton,{marginLeft:10}]} onPress={this._getCamera} underlayColor={colors.shuttleGray20}>
+          <TouchableHighlight style={[styles.plainButton,{marginLeft:10}]} onPress={this.getCameraPermission.bind(this)} underlayColor={colors.shuttleGray20}>
             <Text style={[styles.plainButtonText]}>TAKE A SELFIE</Text>
           </TouchableHighlight>
 
           </View>
+
 
       </View>
     )
@@ -151,12 +218,6 @@ var styles = StyleSheet.create({
     margin:20,
     width:DeviceWidth-38
 
-  },
-  fbButton:{
-    alignItems:'stretch',
-    alignSelf:'stretch',
-    marginHorizontal:20,
-    width:DeviceWidth-38
   },
 
   plainButton:{
@@ -193,6 +254,13 @@ var styles = StyleSheet.create({
     height:310,
     width:310,
   },
+  fbButton:{
+    alignItems:'stretch',
+    alignSelf:'stretch',
+    marginHorizontal:20,
+    width:DeviceWidth-38
+  },
+
   iconButtonCouples:{
     borderColor: colors.mediumPurple,
     borderWidth: 1

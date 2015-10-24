@@ -197,7 +197,7 @@ class EditImage extends Component{
     ImageEditingManager.cropImage(
       uri,
       this._transformData,
-      (croppedImageURI) => { console.log(croppedImageURI);this.setState({croppedImageURI}); this.accept(croppedImageURI)},
+      (croppedImageURI) => { console.log(croppedImageURI); this.setState({croppedImageURI}); this.accept(croppedImageURI)},
       (cropError) => { console.log(cropError);this.setState({cropError}) }
     );
   }

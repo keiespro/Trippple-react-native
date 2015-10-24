@@ -13,23 +13,36 @@ import {
 const DeviceHeight = require('Dimensions').get('window').height
 const DeviceWidth = require('Dimensions').get('window').width
 
+var ModalWrapper = React.createClass({
+  render(){
+    return (
+      <PurpleModal>
+        {this.props.children}
+      </PurpleModal>
+    )
+  }
+
+})
+
 import FBPhotoAlbums from '../../components/fb.login'
 import FacebookButton from '../../buttons/FacebookButton'
 import BoxyButton from '../../controls/boxyButton'
 import colors from '../../utils/colors'
 import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
 import BackButton from '../../components/BackButton'
-import EditImage from './EditImage'
-import EditImageThumb from './EditImageThumb'
+import EditImage from '../../screens/registration/EditImage'
+import EditImageThumb from '../../screens/registration/EditImageThumb'
 import CameraControl from '../../controls/cameraControl'
 import CameraRollView from '../../controls/CameraRollView'
+import PurpleModal from '../../modals/PurpleModal'
+import CameraRollPermissionsModal from '../../modals/CameraRollPermissions'
+import CameraPermissionsModal from '../../modals/CameraPermissions'
 
 class SelfImage extends Component{
   constructor(props){
     super();
     this.state = {
-      modalOpen:false,
-      modalView: ''
+
     }
   }
 
@@ -47,6 +60,42 @@ class SelfImage extends Component{
     nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
     this.props.navigator.push(nextRoute)
 
+
+  }
+  getCameraRollPermission(){
+    var lastindex = this.props.navigator.getCurrentRoutes().length;
+    console.log(lastindex);
+    var nextRoute =  {
+      component:  CameraRollPermissionsModal
+
+    };
+
+    nextRoute.passProps = {
+      ...this.props,
+      imagetype:'profile',
+
+      continue: this._getCameraRoll.bind(this)
+    }
+    nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
+    this.props.navigator.push(nextRoute)
+
+
+
+  }
+  getCameraPermission(){
+    var lastindex = this.props.navigator.getCurrentRoutes().length;
+    console.log(lastindex);
+    var nextRoute = {
+      component: CameraPermissionsModal
+    }
+
+    nextRoute.passProps = {
+      ...this.props,
+      imagetype:'profile',
+
+    }
+    nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
+    this.props.navigator.push(nextRoute)
 
   }
   _getCamera =()=> {
@@ -74,10 +123,10 @@ class SelfImage extends Component{
     this.closeModal()
 
     var lastindex = this.props.navigator.getCurrentRoutes().length;
-  console.log(lastindex);
-  var nextRoute = this.props.stack[lastindex];
+    console.log(lastindex);
+    var nextRoute = this.props.stack[lastindex];
 
-   nextRoute.passProps = {
+    nextRoute.passProps = {
         ...this.props,
         image: imageFile,
         imagetype:'profile',
@@ -127,29 +176,18 @@ class SelfImage extends Component{
         </View>
 
         <View style={styles.twoButtons}>
-          <TouchableHighlight style={[styles.plainButton,{marginRight:10}]} onPress={this._getCameraRoll} underlayColor={colors.shuttleGray20}>
+          <TouchableHighlight style={[styles.plainButton,{marginRight:10}]} onPress={this.getCameraRollPermission.bind(this)} underlayColor={colors.shuttleGray20}>
             <Text style={styles.plainButtonText}>FROM ALBUM</Text>
           </TouchableHighlight>
 
 
-          <TouchableHighlight style={[styles.plainButton,{marginLeft:10}]} onPress={this._getCamera} underlayColor={colors.shuttleGray20}>
+          <TouchableHighlight style={[styles.plainButton,{marginLeft:10}]} onPress={this.getCameraPermission.bind(this)} underlayColor={colors.shuttleGray20}>
             <Text style={[styles.plainButtonText]}>TAKE A SELFIE</Text>
           </TouchableHighlight>
 
           </View>
 
-          <Modal
-            animated={true}
-            transparent={true}
-            visible={this.state.modalOpen}
-          >
-            {this.state.modalOpen && this.state.modalView === 'CameraControl' &&
-              <CameraControl getImage={this.gotImage} imagetype={'profile'} navigator={this.props.navigator}/>
-            }
-            {this.state.modalOpen && this.state.modalView === 'CameraRoll' &&
-              <CameraRollView getImage={this.gotImage} imagetype={'profile'} goBack={this.closeModal.bind(this)} navigator={this.props.navigator}/>
-            }
-          </Modal>
+
       </View>
     )
   }

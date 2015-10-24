@@ -83,7 +83,6 @@ class EditImageThumb extends Component{
 
       this.props.navigator.push(nextRoute)
     }
-    AppActions.toggleOverlay()
     AppActions.showCheckmark();
 
   }

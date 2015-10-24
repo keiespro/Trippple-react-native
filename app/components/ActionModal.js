@@ -26,7 +26,7 @@ import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 import UserProfile from '../components/UserProfile'
 import FadeInContainer from './FadeInContainer'
-import PurpleModal from './PurpleModal'
+import PurpleModal, {ReportModal, UnmatchModal} from '../modals/PurpleModal'
 import { BlurView,VibrancyView} from 'react-native-blur'
 
 @reactMixin.decorate(TimerMixin)
@@ -73,7 +73,13 @@ class ActionModal extends Component{
   unMatchModal(match){
 
      this.props.navigator.push({
-      component: PurpleModal,
+      component: ()=>{
+        return (
+          <PurpleModal>
+            <UnmatchModal/>
+          </PurpleModal>
+        )
+      },
       passProps:{
         action: 'unmatch',
         match,
@@ -89,7 +95,13 @@ class ActionModal extends Component{
   reportModal(match){
 
      this.props.navigator.push({
-      component: PurpleModal,
+      component: ()=>{
+              return (
+                <PurpleModal>
+                  <ReportModal/>
+                </PurpleModal>
+              )
+            },
       passProps: {
         action: 'report',
         match,
