@@ -12,6 +12,7 @@ import {
   CameraRoll,
   View,
   NativeModules,
+  ActivityIndicatorIOS,
   TouchableHighlight,
   TouchableOpacity
 } from 'react-native';
@@ -55,6 +56,7 @@ class EditImage extends Component{
       croppedImageURI: null,
       cropError: null,
     };
+
     console.log(props,props.nextRoute);
   }
   componentWillMount(){
@@ -62,14 +64,15 @@ class EditImage extends Component{
   }
 
   accept(croppedImageURI){
-    console.log(this.props.image.uri,'profile')
-    UserActions.uploadImage(this.props.image.uri,'profile')
+    console.log(this.props.image,'profile')
+    // UserActions.uploadImage(this.props.image.uri,'profile')
 
     console.log(croppedImageURI);
 
     if(this.props.afterSaveCallback){
       this.props.afterSaveCallback({
-          image:this.props.image,
+        image:{uri:croppedImageURI,width:this._transformData.width,height:this._transformData.height,isStored:false} || this.props.originalImage,
+        originalImage:this.props.image,
           croppedImage: croppedImageURI,
           imagetype: this.props.imagetype
       });
@@ -80,8 +83,9 @@ class EditImage extends Component{
         component: this.props.nextRoute,
         passProps: {
           nextRoute: Privacy,
-          image:this.props.image,
-          croppedImage: this.state.croppedImageURI,
+          image:{uri:croppedImageURI,width:this._transformData.width,height:this._transformData.height,isStored:false} || this.props.originalImage,
+          originalImage:this.props.image,
+          croppedImage: croppedImageURI,
           imagetype: this.props.imagetype
         }
       })
@@ -93,8 +97,9 @@ class EditImage extends Component{
 
      nextRoute.passProps = {
           ...this.props,
-          image:this.props.image,
-          croppedImage: this.state.croppedImageURI,
+          image:{uri:croppedImageURI,width:this._transformData.width,height:this._transformData.height,isStored:false} || this.props.originalImage,
+          originalImage:this.props.image,
+          croppedImage: croppedImageURI,
           imagetype: this.props.imagetype
 
 
@@ -123,10 +128,9 @@ class EditImage extends Component{
               return;
             }
             this.setState({
-              measuredSize: {width: measuredWidth, height: measuredWidth},
+              measuredSize: {width: measuredWidth, height: event.nativeEvent.layout.height },
             });
-          }}
-        />
+          }}/>
       );
     }
 
@@ -145,15 +149,18 @@ class EditImage extends Component{
         <Text>{this.state.cropError.message}</Text>
       );
     }
+    console.warn('IMAGE',this.props.image)
+    const uri = this.props.image.uri || this.props.image
     return (
       <View style={styles.container}>
         <View style={styles.innerWrap}>
 
           <View style={[styles.cardCropper]}>
+
             <ImageCropper
-              image={this.props.image}
+              image={ { uri: uri, width: this.state.measuredSize.width, height: this.state.measuredSize.height, isStored: true } }
               size={this.state.measuredSize}
-              style={[styles.imageCropper, this.state.measuredSize,{borderRadius:5,overflow:'hidden'}]}
+              style={[styles.imageCropper,{borderRadius:5,overflow:'hidden'}]}
               onTransformDataChange={(data) => this._transformData = data}
               />
             <TouchableOpacity onPress={this.retake} style={styles.bigbutton}>
@@ -184,11 +191,13 @@ class EditImage extends Component{
 
 
   _crop() {
+    const {image} = this.props
+    const uri = image.uri || image
     ImageEditingManager.cropImage(
-      this.props.image.uri,
+      uri,
       this._transformData,
-      (croppedImageURI) => { this.setState({croppedImageURI}); this.accept(croppedImageURI)},
-      (cropError) => this.setState({cropError})
+      (croppedImageURI) => { console.log(croppedImageURI);this.setState({croppedImageURI}); this.accept(croppedImageURI)},
+      (cropError) => { console.log(cropError);this.setState({cropError}) }
     );
   }
 
@@ -212,13 +221,13 @@ class ImageCropper extends React.Component {
     var heightRatio = this.props.image.height / this.props.size.height;
     if (widthRatio < heightRatio) {
       this._scaledImageSize = {
-        width: this.props.size.width,
+        width: this.props.image.width ,
         height: this.props.image.height / widthRatio,
       };
     } else {
       this._scaledImageSize = {
         width: this.props.image.width / heightRatio,
-        height: this.props.size.height,
+        height: this.props.image.height  ,
       };
     }
     this._contentOffset = {
@@ -261,20 +270,7 @@ class ImageCropper extends React.Component {
   render() {
 
     /*
-    *       <ScrollView
-        alwaysBounceVertical={true}
-        automaticallyAdjustContentInsets={false}
-        contentOffset={this._contentOffset}
-        decelerationRate={decelerationRate}
-        horizontal={true}
-        maximumZoomScale={4.0}
-        onMomentumScrollEnd={this._onScroll.bind(this)}
-        onScrollEndDrag={this._onScroll.bind(this)}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        style={this.props.style}
-        scrollEventThrottle={16}>
- </ScrollView>
+    *
     */
     var decelerationRate =
       RCTScrollViewConsts && RCTScrollViewConsts.DecelerationRate ?
@@ -282,7 +278,24 @@ class ImageCropper extends React.Component {
         0;
 
     return (
-             <Image source={this.props.image} style={this._scaledImageSize} />
+      <ScrollView style={{height:DeviceHeight,width:DeviceWidth}}
+      alwaysBounceVertical={true}
+      automaticallyAdjustContentInsets={false}
+      contentOffset={this._contentOffset}
+      horizontal={true}
+
+      maximumZoomScale={4.0}
+      onMomentumScrollEnd={this._onScroll.bind(this)}
+      onScrollEndDrag={this._onScroll.bind(this)}
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
+      style={this.props.style}
+      scrollEventThrottle={16}
+      >
+        <Image source={this.props.image}
+              resizeMode={Image.resizeMode.cover}
+              style={[{ width: this.props.size.width, height:this.props.size.height}]} />
+      </ScrollView>
     );
   }
 
@@ -325,9 +338,9 @@ var styles = StyleSheet.create({
   },
   cardCropper:{
     flex: 1,
-    // flexDirection: 'column',
+    flexDirection: 'column',
     alignItems:'stretch',
-    // justifyContent:'flex-end',
+    justifyContent:'flex-end',
     alignSelf:'stretch',
     width: DeviceWidth - 40,
     borderRadius: 5,

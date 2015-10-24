@@ -116,7 +116,7 @@ class EditImageThumb extends Component{
           <View style={styles.circleCropbox}>
 
             <ImageCropper
-              image={this.props.image}
+              image={ { uri: this.props.image.uri, width: this.state.measuredSize.width, height: this.state.measuredSize.height, isStored: true } }
               size={cropsize}
               style={[styles.imageCropper, cropsize]}
               onTransformDataChange={(data) => this._transformData = data}
@@ -165,13 +165,14 @@ class EditImageThumb extends Component{
   }
 
   _crop() {
+    const {image} = this.props
+    const uri = image.uri || image
     ImageEditingManager.cropImage(
-      this.props.image.uri,
+      uri,
       this._transformData,
-      (croppedImageURI) => this.setState({croppedImageURI}),
-      (cropError) => this.setState({cropError})
+      (croppedImageURI) => { console.log(croppedImageURI);this.setState({croppedImageURI}); this.accept(croppedImageURI)},
+      (cropError) => { console.log(cropError); this.setState({cropError}) }
     );
-    this.accept()
   }
 
   _reset() {

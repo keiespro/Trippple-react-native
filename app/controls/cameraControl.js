@@ -30,6 +30,7 @@ class CameraControl extends Component{
   _goBack =()=> {
     this.props.navigator.pop()
   }
+
   render() {
 
     return (
@@ -55,12 +56,12 @@ class CameraControl extends Component{
           ref="cam"
           type={this.state.cameraType}
           aspect={Camera.constants.Aspect.stretch}
-          flashMode={Camera.constants.FlashMode.auto}
-          orientation={Camera.constants.Orientation.portrait}
-          captureTarget={Camera.constants.CaptureTarget.disk}
+                flashMode={Camera.constants.FlashMode.auto}
+                orientation={Camera.constants.Orientation.portrait}
+                captureTarget={Camera.constants.CaptureTarget.cameraRoll}
 
           >
-          <TouchableOpacity style={styles.bigbutton} onPress={this._takePicture} >
+          <TouchableOpacity style={styles.bigbutton} onPress={this._takePicture.bind(this)} >
             <View style={[{height:80,width:80}]}>
               <Image
               resizeMode={Image.resizeMode.cover} source={require('image!snap')} style={{height:80,width:80}}/>
@@ -73,14 +74,13 @@ class CameraControl extends Component{
   }
 
   _switchCamera =()=> {
-    var state = this.state;
-    state.cameraType = state.cameraType === Camera.constants.Type.back
-      ? Camera.constants.Type.front : Camera.constants.Type.back;
+    var state = {};
+    state.cameraType = (this.state.cameraType === Camera.constants.Type.back ? Camera.constants.Type.front : Camera.constants.Type.back);
     this.setState(state);
   }
 
   _takePicture =()=> {
-    this.refs.cam.capture((err, data)=> {
+    this.refs.cam.capture({},(err, data)=> {
       console.log('IMAGE -',data)
       if(err){console.log('camera err')}
       // CameraRoll.saveImageWithTag(data,
@@ -88,10 +88,9 @@ class CameraControl extends Component{
       //     console.log(imageTag);
       //     // console.log(contents);
       //     //
-      //     CameraRoll.getPhotos({first:1},
-      //       (imgdata)=> {
-      //         console.log(imgdata,'imgdata')
-      //         const imageFile = imgdata.edges[0].node.image
+  CameraRoll.getPhotos({first:1}, (imgdata)=> {
+      console.log(imgdata,'imgdata')
+      const imageFile = imgdata.edges[0].node.image
 
       if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
         this.props.navigator.push({
@@ -103,44 +102,43 @@ class CameraControl extends Component{
             nextRoute: EditImageThumb
           }
         })
-        return
 
+      }else{
+        if(this.props.nextRoute){
+          this.props.navigator.push({
+            component: this.props.nextRoute,
+            passProps: {
+              ...this.props,
+              image: data,
+              imagetype: this.props.imagetype || '',
+              nextRoute: EditImageThumb
+            }
+          })
+          return
+
+        }else{
+          var lastindex = this.props.navigator.getCurrentRoutes().length;
+          console.log( 'debug',lastindex );
+          var nextRoute = this.props.stack[ lastindex ];
+
+          nextRoute.passProps = {
+           ...this.props,
+            image: data,
+            imagetype: this.props.imagetype || '',
+          }
+
+          this.props.navigator.push( nextRoute )
+        }
       }
 
 
-                if(this.props.nextRoute){
-                  this.props.navigator.push({
-                    component: this.props.nextRoute,
-                    passProps: {
-                      ...this.props,
-                      image: data,
-                      imagetype: this.props.imagetype || '',
-                      nextRoute: EditImageThumb
-                    }
-                  })
-                  return
 
-                }else{
-                  var lastindex = this.props.navigator.getCurrentRoutes().length;
-                  console.log( 'debug',lastindex );
-                  var nextRoute = this.props.stack[ lastindex ];
-
-                  nextRoute.passProps = {
-                   ...this.props,
-                    image: data,
-                    imagetype: this.props.imagetype || '',
-                  }
-
-                  this.props.navigator.push( nextRoute )
-                }
-            },
-            (err)=> {
-              console.log(err,'errrrrrrrrrrrrrr');
-            }
-          )
+    },(error)=>{console.log(error)}
+    )
 
 
-  }
+  })
+}
 }
 
 
