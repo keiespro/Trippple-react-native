@@ -36,7 +36,7 @@ import ToggleSwitch from '../controls/switches'
 import UserActions from '../flux/actions/UserActions'
 import EditImage from '../screens/registration/EditImage'
 import SelfImage from './loggedin/SelfImage'
-import Privacy from './privacy'
+
 import FacebookButton from '../buttons/FacebookButton'
 
 import Contacts from '../screens/contacts'

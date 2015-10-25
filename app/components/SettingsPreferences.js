@@ -34,12 +34,11 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import AgePrefs from '../controls/AgePrefs'
 
-import DistanceSlider from '../controls/distanceSlider'
+
 import ToggleSwitch from '../controls/switches'
 import UserActions from '../flux/actions/UserActions'
 import EditImage from '../screens/registration/EditImage'
 import SelfImage from './loggedin/SelfImage'
-import Privacy from './privacy'
 import FacebookButton from '../buttons/FacebookButton'
 
 import Contacts from '../screens/contacts'

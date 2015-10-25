@@ -31,16 +31,17 @@ import WebViewScreen from './WebViewScreen'
 import scrollable from 'react-native-scrollable-decorator'
 import Dimensions from 'Dimensions'
 import ParallaxView from  '../controls/ParallaxScrollView'
+import PrivacyPermissionsModal from '../modals/PrivacyPermissions'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-import DistanceSlider from '../controls/distanceSlider'
+
 import ToggleSwitch from '../controls/switches'
 import UserActions from '../flux/actions/UserActions'
 import EditImage from '../screens/registration/EditImage'
 import SelfImage from './loggedin/SelfImage'
-import Privacy from './privacy'
+
 import FacebookButton from '../buttons/FacebookButton'
 
 import Contacts from '../screens/contacts'
@@ -114,6 +115,19 @@ class SettingsSettings extends React.Component{
         }
     });
   }
+  handleTapPrivacy(){
+
+        this.props.navigator.push({
+          component: PrivacyPermissionsModal,
+          title: '',
+          id:'privacymodal',
+          sceneConfig: NavigatorSceneConfigs.FloatFromBottom,
+          passProps: {
+            cancel: ()=> {this.props.navigator.pop()},
+            user: this.props.user,
+          }
+        })
+  }
   render(){
     let u = this.props.user;
     let settingOptions = this.props.settingOptions || {};
@@ -158,7 +172,7 @@ class SettingsSettings extends React.Component{
                 </View>
               </TouchableHighlight>
 
-    <TouchableHighlight underlayColor={colors.dark} style={{paddingHorizontal: 25,}} onPress={()=>{this.togglePrivacy('private')}}>
+    <TouchableHighlight underlayColor={colors.dark} style={{paddingHorizontal: 25,}} onPress={this.handleTapPrivacy.bind(this)}>
       <View  style={[{
           borderBottomWidth: 1 / PixelRatio.get(),
           borderColor:colors.rollingStone,flex:1,height:130,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}]}>

@@ -118,43 +118,6 @@ class GenderScreen extends Component{
 
           </TouchableOpacity>
 
-
-
-
-
-
-          {/*
-
-          <BoxyButton
-            text={"MALE"}
-            buttonText={styles.buttonText}
-              underlayColor={colors.darkSkyBlue20}
-
-            leftBoxStyles={this.state.selection == 'm' ? styles.iconButtonLeftBoxMale : styles.grayIconbuttonLeftBox}
-            innerWrapStyles={this.state.selection == 'm' ? styles.iconButtonMale : styles.grayIconbutton}
-            _onPress={this._selectMale.bind(this)}>
-
-              <Image source={this.state.selection == 'm' ? require('image!boxersBlue') : require('image!boxers') }
-                      resizeMode={Image.resizeMode.cover}
-                          style={{height:21,width:30}} />
-          </BoxyButton>
-
-          <BoxyButton
-              text={"FEMALE"}
-              outerButtonStyle={styles.iconButtonOuter}
-              buttonText={styles.buttonText}
-              underlayColor={colors.darkishPink20}
-              leftBoxStyles={this.state.selection == 'f' ? styles.iconButtonLeftBoxFemale : styles.grayIconbuttonLeftBox}
-              innerWrapStyles={this.state.selection == 'f' ? styles.iconButtonFemale : styles.grayIconbutton}
-              _onPress={this._selectFemale.bind(this)}>
-
-              <Image source={this.state.selection == 'f' ? require('image!braPink') : require('image!bra')}
-                        resizeMode={Image.resizeMode.cover}
-                            style={{height:24,width:30}}/>
-
-          </BoxyButton>
-        */}
-
         </View>
 
         <ContinueButton
