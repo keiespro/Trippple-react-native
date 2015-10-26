@@ -21,7 +21,7 @@ import Mixpanel from '../utils/mixpanel';
 import SegmentedView from '../controls/SegmentedView'
 import ScrollableTabView from '../scrollable-tab-view'
 import FakeNavBar from '../controls/FakeNavBar';
-
+import UserProfile from './UserProfile'
 import dismissKeyboard from 'dismissKeyboard'
 
 import scrollable from 'react-native-scrollable-decorator'
@@ -79,7 +79,6 @@ class SettingsInside extends React.Component{
           settingOptions: options.settings
         });
       } else {
-        console.warn('SettingsInside -> componentDidMount -> state',this.state.settingOptions);
       }
     });
   }
@@ -104,7 +103,33 @@ class SettingsInside extends React.Component{
       }
     });
   }
-  _editField=()=>{
+  _openProfile=()=>{
+    var thisYear = new Date().getFullYear()
+
+    const rel = this.props.user.relationship_status == 'single' ? 'couple' : 'single' // opposite of user's rel
+
+    const selfAsPotential = {
+      potential: {
+        user: {
+          ...this.props.user,
+          age: (thisYear - this.props.user.bday_year)
+        },
+      },
+      rel
+    }
+
+    if(this.props.user.relationship_status == 'couple'){
+      selfAsPotential.potential.partner = {
+        ...this.props.user.partner,
+        age: (thisYear - this.props.user.partner.bday_year)
+      }
+    }
+
+    this.props.navigator.push({
+      component: UserProfile,
+      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+      passProps: selfAsPotential
+    });
 
   }
 
@@ -152,8 +177,12 @@ class SettingsInside extends React.Component{
               <Text style={{flex:10,textAlign:'center',alignSelf:'stretch',color:colors.white,fontSize:18,marginTop:20,fontFamily:'Montserrat-Bold'}}>{
                   this.props.user.firstname.toUpperCase()
                 }</Text>
-              <Text style={{flex:10,alignSelf:'stretch',textAlign:'center',color:colors.white,fontSize:16,marginTop:0,fontFamily:'omnes'}}>View Profile</Text>
               </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this._openProfile} style={{alignSelf:'stretch',flex:10}}>
+              <View style={{flex:10,alignSelf:'stretch',flexDirection:'column',alignItems:'stretch',justifyContent:'center'}}>
+                <Text style={{flex:10,alignSelf:'stretch',textAlign:'center',color:colors.white,fontSize:16,marginTop:0,fontFamily:'omnes'}}>View Profile</Text>
+            </View>
           </TouchableOpacity>
 
 

@@ -8,35 +8,40 @@ import {
   LayoutAnimation,
   TouchableHighlight,
   Image,
+  TouchableOpacity,
   Animated,
+  ActivityIndicatorIOS,
   ScrollView,
-  PanResponder
+  PixelRatio,
+  PanResponder,
+  Easing
 } from 'react-native';
+
+import FakeNavBar from '../controls/FakeNavBar';
+import ScrollableTabView from '../scrollable-tab-view'
 
 import alt from '../flux/alt';
 import MatchActions from '../flux/actions/MatchActions';
-import ParallaxView from  '../controls/ParallaxScrollView'
-import ParallaxSwiper from  '../controls/ParallaxSwiper'
-import Mixpanel from '../utils/mixpanel';
-import AltContainer from 'alt/AltNativeContainer';
+
 import TimerMixin from 'react-timer-mixin';
 import colors from '../utils/colors';
-import Swiper from 'react-native-swiper';
+import Swiper from '../controls/swiper';
 
 import reactMixin from 'react-mixin';
 import Dimensions from 'Dimensions';
-import {BlurView,VibrancyView} from 'react-native-blur'
+
+import ProfileTable from './ProfileTable'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
 
-const THROW_OUT_THRESHOLD = 225;
-
-
 @reactMixin.decorate(TimerMixin)
 class UserProfile extends Component{
 
+  static defaultProps = {
+    cardWidth: DeviceWidth
+  }
  constructor(props){
     super()
     this.state = {
@@ -48,137 +53,263 @@ class UserProfile extends Component{
 
     render(){
 
-    var theirIds = Object.keys(this.props.match.users).filter( (u)=> u != this.props.user.id)
-    var them = theirIds.map((id)=> this.props.match.users[id])
+      var { rel, potential, user } = this.props,
+          matchName = `${potential.user.firstname.trim()} ${potential.user.age}`,
+          distance = potential.user.distance || 0,
+          city = potential.user.city_state || ''
 
-    var img_url = them[0].image_url
-    var matchName = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },"")
-
-
-      return (
-      <View ref={'cardinside'} key={`${this.props.match.match_id}-inside`} style={ [styles.card, styles.shadowCard]}>
-
-          <View style={[{
-              margin:0,
-              width:DeviceWidth,
-height:DeviceHeight,
-
-              padding:0,
-              position:'relative'
-             }]} key={`${this.props.match.match_id}-view`}>
+      if(rel == 'single') {
+        matchName += ` & ${potential.partner.firstname.trim()} ${potential.partner.age}`
+      }
 
 
-          <ParallaxSwiper
-            showsVerticalScrollIndicator={false}
-            windowHeight={500}
+    return (
+        <View
+          ref={'cardinside'}
+          key={`${potential.id || potential.user.id}-inside`}
+          style={[ styles.card,{
+            height:DeviceHeight,
+            overflow:'hidden',
+            left:0,
+            flex:1,
+
+            backgroundColor:colors.outerSpace,
+            transform:[ {scale: 1}, ]
+          },styles.shadowCard]}>
+
+          <ScrollView
+          style={[{
+            margin:0,
+            width:DeviceWidth,
+            height:DeviceHeight,
+            padding:0,
+            position:'relative',
+            flex:1,
+          }]}
+          canCancelContentTouches={true}
+          horizontal={false}
+          vertical={true}
+          alwaysBounceHorizontal={false}
+          scrollEnabled={true}
+          contentInset={{top: 55, left: 0, bottom: 0, right: 0}}
+          key={`${potential.id || potential.user.id}-view`}>
+
+          <View key={`${potential.id || potential.user.id}bgopacity`} style={{
+              position:'relative',
+              width:this.props.cardWidth,
+            }} ref={"incard"}>
+
+          <Swiper
+            _key={`${potential.id || potential.user.id}-swiper`}
+            loop={true}
+            width={DeviceWidth}
+            height={DeviceHeight}
+            style={{width:DeviceWidth,overflow: 'hidden',}}
+            horizontal={false}
+            vertical={true}
+            autoplay={false}
+            showsPagination={true}
+            showsButtons={false}
+            paginationStyle={{position:'absolute',right:25,top:25,height:100}}
+            dot={ <View style={styles.dot} /> }
+            activeDot={ <View style={styles.activeDot} /> }>
+
+              <Image
+                source={{uri: potential.user.image_url}}
+                key={`${potential.user.id}-cimg`}
+
+                 defaultSource={require('image!defaultuser')}
+                style={[styles.imagebg,{
+                  height: DeviceHeight,
+                  marginTop:-20,
+                  width:this.props.cardWidth,
+
+                  }]}
+                  />
+
+            {rel == 'single' && potential.partner &&
+              <Image
+                source={{uri: potential.partner.image_url}}
+                key={`${potential.partner.id}-cimg`}
+                defaultSource={require('image!defaultuser')}
+                style={[styles.imagebg,{
+                  height:DeviceHeight,
+                  marginTop:-20,
+                  width:this.props.cardWidth,
+                }]}
+                /> }
+          </Swiper>
+
+            <View
+            key={`${potential.id || potential.user.id}-bottomview`}
+            style={{
+              height: 600,
+              backgroundColor:colors.outerSpace,
+              flex:1,
+              alignSelf:'stretch',
+              width:this.props.cardWidth,
+              top:-250,
+              alignItems:'stretch',
+              left:0,
+              right:0,
+            }} >
+
+            <View style={{ width: DeviceWidth , paddingVertical:20 }}>
+              <Text style={[styles.cardBottomText,{color:colors.white,width:DeviceWidth-40}]}>
+              {
+                matchName
+              }
+              </Text>
+              <Text style={[styles.cardBottomOtherText,{color:colors.white,width:DeviceWidth-40}]}>
+              {
+                distance ? `${city} | ${distance} ${distance == 1 ? 'mile' : 'miles'} away` : null
+              }
+              </Text>
+            </View>
+
+          {rel == 'single' &&
+            <View style={{
+              height:60,
+              top:-30,
+              position:'absolute',
+              width:135,
+              right:0,
+              backgroundColor:'transparent',
+              flexDirection:'row'}}>
+                <Image
+                  source={{uri: potential.user.image_url}}
+                  key={potential.user.id + 'img'}
+                  style={[styles.circleimage, {marginRight:5,borderColor:colors.outerSpace}]}
+                />
+                <Image
+                  source={{uri: potential.partner.image_url}}
+                  key={potential.partner.id + 'img'}
+                  style={[styles.circleimage,{borderColor:colors.outerSpace}]}
+                />
+              </View>
+            }
+
+            <View style={{width: DeviceWidth}}>
 
 
+            {potential.bio || potential.user.bio ?
+              <View style={{padding:20}}>
+                <Text style={[styles.cardBottomOtherText,{color:colors.white,marginBottom:15,marginLeft:0}]}>{
+                    rel =='single' ? `About Me` : `About Us`
+                }</Text>
+                <Text style={{color:colors.white,fontSize:18,marginBottom:15}}>{
+                    potential.bio || potential.user.bio
+                }</Text>
+              </View> : null}
 
-            navigator={this.props.navigator}
-            style={[{backgroundColor:'transparent',paddingTop:0, },{flex:1,width:DeviceWidth, height:DeviceHeight,top:0,position:'absolute' }]}
-            swiper={<Swiper
-              onMomentumScrollEnd={ (e, state, context) => {
-                this.setState({slideIndex: state.index})
-              }}
+              {rel == 'single' && potential.partner ?
 
-                index={this.state.slideIndex || 0}
-                _key={`${this.props.match.match_id}-swiper`}
-                loop={true}
-                horizontal={false}
+                 <ScrollableTabView tabs={['1','2']} renderTabBar={(props) => <CustomTabBar {...props}  /> }>
+                  <ProfileTable profile={potential.user}
+                    tabLabel={`${potential.user.firstname}, ${potential.user.age}`}/>
+                  <ProfileTable profile={potential.partner}
+                    tabLabel={`${potential.partner.firstname}, ${potential.partner.age}`}/>
+                  </ScrollableTabView> :
 
-                vertical={true}
-                showsPagination={true}
-                showsButtons={false}
-                dot={ <View style={styles.dot} />}
-                activeDot={ <View style={styles.activeDot} /> }>
-
-                <Image source={{uri: them[0].image_url}}
-                  key={`${them[0].id}-cimg`}
-                  style={[styles.imagebg,{ margin:0 }]}
-                  resizeMode={Image.resizeMode.cover} />
-                <Image source={{uri: them[1].image_url}}
-                  key={`${them[1].id}-cimg`}
-                  style={[styles.imagebg,{ margin:0 }]}
-                  resizeMode={Image.resizeMode.cover} />
-
-              </Swiper>}
-            header={(
-
-
-
-                <View style={{position:'absolute',top:30,left:20,width: 50, backgroundColor:'transparent',height: 50,alignSelf:'center',justifyContent:'center'}}>
-                  <TouchableHighlight  onPress={this.props.hideProfile}>
-                    <Image source={require('image!closeWithShadow')} resizeMode={Image.resizeMode.contain}/>
-                  </TouchableHighlight>
-                </View>
-
-              )}>
-
-              <BlurView blurType={'light'}
-                key={`${this.props.match.match_id}-bottomview`}
-                style={{
-                  height:( 500),
-                  backgroundColor:'transparent',
-                  flex:1,
-                  alignSelf:'stretch',
-                  alignItems:'stretch',
-                  left:0,
-                  right:0,
-                }} >
-                  <View style={{
-                    width: DeviceWidth ,
-                    paddingVertical:20
-                    }}>
-                    <Text style={[styles.cardBottomText,{
-                    width: DeviceWidth,
-
-                    }]}>{
-                      `${them[0].firstname.trim()} and ${them[1].firstname.trim()}`
-                    }</Text>
+                  <View style={{flex:1,width:DeviceWidth,marginHorizontal:0}}>
+                    <View style={styles.tabs}>
+                      <Text style={{width:DeviceWidth-40,
+                          fontFamily:'Montserrat',fontSize:16,textAlign:'center',
+                          color:  colors.white }}>
+                          {`${potential.user.firstname} ${potential.user.age}`
+                      }</Text>
+                    </View>
+                    <View style={[styles.singleTab]}>
+                      <ProfileTable profile={potential.user} tabLabel={'single'}/>
+                    </View>
                   </View>
-                <View style={{
-                    height:60,
-                    top:-30,
-                    position:'absolute',
-                    width:135,
-                    right:0,
-                    backgroundColor:'transparent',
-                    flexDirection:'row'}}>
-                    <Image
-                      source={{uri: them[0].image_url}}
-                      key={them[0].id + 'img'}
-                      style={[styles.circleimage, {marginRight:5}]}
-                    />
-                    <Image
-                      source={{uri: them[1].image_url}}
-                      key={them[1].id + 'img'}
-                      style={styles.circleimage}
-                      />
-                </View>
-                  <View style={{width: DeviceWidth, padding:20}}>
 
-                      <View>
-                        <Text>You are welcome to contribute comments, but they should be relevant to the conversation. We reserve the right to remove off-topic remarks in the interest of keeping the conversation focused and engaging. Shameless self-promotion is well, shameless, and will get canned.</Text>
-                      </View>
-                  </View>
+              }
 
-              </BlurView>
+              <View style={{flex:1,marginTop:20}}>
+                <Text style={{color:colors.mandy,textAlign:'center'}}>Report or Block this user</Text>
+              </View>
 
-           </ParallaxSwiper>
+            </View>
 
-         </View>
-        </View>
+          </View>
 
-      )
+          </View>
+        </ScrollView>
+        <FakeNavBar
+          hideNext={true}
+          backgroundStyle={{backgroundColor:colors.outerSpace}}
+          titleColor={colors.white}
+          title={ matchName}
+          titleColor={colors.white}
+          onPrev={(nav,route)=> {this.props.navigator.pop()}}
+          customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12,marginTop:10}} source={require('image!close')} />
+          }
+        />
+      </View>
+
+    )
     }
 }
 export default UserProfile
 
+var CustomTabBar = React.createClass({
+  propTypes: {
+    goToPage: React.PropTypes.func,
+    activeTab: React.PropTypes.object,
+    tabs: React.PropTypes.array,
+    pageNumber:React.PropTypes.number
+
+  },
+
+  renderTabOption(name, page) {
+    var isTabActive = this.props.pageNumber === page;
+    console.log(name,page)
+    return (
+      <TouchableOpacity key={name} onPress={() => this.props.goToPage(page)}>
+        <View style={[styles.tab]}>
+          <Text style={{
+              fontFamily:'Montserrat',fontSize:16,
+              color: isTabActive ? colors.white : colors.shuttleGray}}>{name.toUpperCase()}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  },
 
 
-var styles = StyleSheet.create({
 
-shadowStyles:{
+  render() {
+    var numberOfTabs = this.props.tabs.length;
+    var w = (DeviceWidth-40) / numberOfTabs;
+
+    var tabUnderlineStyle = {
+      position: 'absolute',
+      width: (DeviceWidth-40) / 2,
+      height: 2,
+      backgroundColor: colors.mediumPurple,
+      bottom: 0,
+      left:0,
+      transform:[
+        {translateX: this.props.activeTab ? this.props.activeTab.interpolate({
+                inputRange: this.props.tabs.map((c,i) => (w * i) ),
+                outputRange: [0,w]
+              }) : 0
+            }]
+    };
+
+    return (
+      <View style={styles.tabs}>
+        {this.props.tabs.map((tab, i) => this.renderTabOption(tab, i))}
+        <Animated.View style={tabUnderlineStyle} ref={'TAB_UNDERLINE_REF'} />
+      </View>
+    );
+  },
+});
+
+
+const styles = StyleSheet.create({
+
+shadowCard:{
   shadowColor:colors.darkShadow,
   shadowRadius:5,
   shadowOpacity:50,
@@ -187,7 +318,58 @@ shadowStyles:{
     height: 5
   }
 },
+tab: {
+  flex: 1,
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: 10,
+  width:(DeviceWidth - 40 )/ 2,
 
+},
+singleTab:{
+  flex: 1,
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginHorizontal: 20,
+  width:DeviceWidth,
+
+},
+tabs: {
+  height: 60,
+  flexDirection: 'row',
+  marginTop: 0,
+  borderWidth: 1,
+  width:DeviceWidth-40,
+  flex:1,
+  marginHorizontal:20,
+  borderTopWidth: 1,
+  borderLeftWidth: 0,
+  borderRightWidth: 0,
+  borderBottomWidth:1,
+  overflow:'hidden',
+  justifyContent:'center',
+  alignItems:'center',
+  borderColor: colors.shuttleGray,
+},
+animatedIcon:{
+  height:60,
+  width:60,
+  borderRadius:30,
+  alignItems:'center',
+  justifyContent:'center',
+  top:DeviceHeight/2 - 80,
+  left:DeviceWidth/2 - 50,
+  position:'absolute',
+  // shadowColor:colors.darkShadow,
+  backgroundColor:'transparent',
+  // shadowRadius:5,
+  // shadowOpacity:50,
+  overflow:'hidden',
+  // shadowOffset: {
+  //   width:0,
+  //   height: 5
+  // }
+},
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -209,9 +391,9 @@ shadowStyles:{
     bottom:0
   },
   basicCard:{
-    borderRadius:3,
-    backgroundColor: colors.dark,
-      borderWidth: 1,
+    borderRadius:8,
+    backgroundColor: 'transparent',
+      borderWidth: 1 / PixelRatio.get(),
       borderColor:'rgba(0,0,0,.2)',
       overflow:'hidden',
 
@@ -220,6 +402,7 @@ shadowStyles:{
       height: 80,
       alignItems: 'center',
       flexDirection: 'row',
+      top:-40,
       justifyContent:'space-around',
       alignSelf:'stretch',
       width: undefined
@@ -239,19 +422,34 @@ shadowStyles:{
       justifyContent: 'center'
     },
   card: {
-    borderRadius:3,
-    backgroundColor: colors.dark,
+    borderRadius:8,
+    backgroundColor: 'transparent',
     alignSelf: 'stretch',
     flex: 1,
     borderWidth: 0,
     borderColor:'rgba(0,0,0,.2)',
-    justifyContent: 'center',
-    alignItems: 'center',
     overflow:'hidden'
 
   },
 
+  closeProfile:{
+    position:'absolute',
+    top:10,
+    left:5,
+    width: 50,
 
+    backgroundColor:'transparent',
+
+    height: 50,
+    alignSelf:'center',
+
+    overflow:'hidden',
+
+    justifyContent:'center',
+    alignItems:'center',
+    padding:20,
+    borderRadius:25
+  },
   dashedBorderImage:{
     marginHorizontal:0,
     marginTop:65,
@@ -277,9 +475,9 @@ shadowStyles:{
 
   dot: {
     backgroundColor: 'transparent',
-    width: 20,
-    height: 20,
-    borderRadius: 10,
+    width: 15,
+    height: 15,
+    borderRadius: 7.5,
     marginLeft: 6,
     marginRight: 6,
     marginTop: 6,
@@ -289,10 +487,10 @@ shadowStyles:{
     borderColor: colors.white
   },
   activeDot: {
-    backgroundColor: 'transparent',
-    width: 20,
-    height: 20,
-    borderRadius: 10,
+    backgroundColor: colors.mediumPurple20,
+    width: 15,
+    height: 15,
+    borderRadius: 7.5,
     marginLeft: 6,
     marginRight: 6,
     marginTop: 6,
@@ -320,13 +518,64 @@ shadowStyles:{
     borderColor:colors.white,
     borderWidth: 3
   },
-
+  cardStackContainer:{
+    width:DeviceWidth,
+    height:DeviceHeight,
+    flex:1,
+    alignItems:'center',
+    justifyContent:'center',
+    alignSelf:'stretch',
+    backgroundColor:'transparent'
+  },
 
   cardBottomText:{
-    marginLeft:15,
-    fontFamily:'Montserrat',
+    marginLeft:20,
+    fontFamily:'Montserrat-Bold',
     color: colors.shuttleGray,
-    fontSize:22,
-    marginTop:10
+    fontSize:18,
+    marginTop:0
+  },
+  cardBottomOtherText:{
+    marginLeft:20,
+    fontFamily:'omnes',
+    color: colors.rollingStone,
+    fontSize:16,
+    marginTop:0,
+    opacity:0.5
   }
 });
+
+var animations = {
+  layout: {
+    spring: {
+      duration: 250,
+      create: {
+        duration: 250,
+        property: LayoutAnimation.Properties.scaleXY,
+        type: LayoutAnimation.Types.easeInEaseOut,
+        springDamping: 0,
+      },
+      update: {
+        duration: 250,
+        type: LayoutAnimation.Types.easeInEaseOut,
+        springDamping: 0,
+        property: LayoutAnimation.Properties.scaleXY
+      }
+    },
+    easeInEaseOut: {
+      duration: 300,
+      create: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.scaleXY
+
+      },
+      update: {
+
+        duration: 2000,
+        // property: LayoutAnimation.Properties.scaleXY,
+        type: LayoutAnimation.Types.easeInEaseOut,
+
+      }
+    }
+  }
+}
