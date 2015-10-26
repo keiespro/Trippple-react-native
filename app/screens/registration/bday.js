@@ -40,7 +40,7 @@ class BdayScreen extends Component{
     super(props);
     console.log(props)
     this.state = {
-       error: false,
+      error: false,
       timeZoneOffsetInHours:props.timeZoneOffsetInHours,
       date: props.fb_bday_year ? new Date(`${props.fb_bday_year}`) : null
     }
@@ -49,6 +49,7 @@ class BdayScreen extends Component{
   var isLegal = moment(this.state.date).diff(moment(), 'years') < -18;
     if(!isLegal){return false}
     UserActions.updateUserStub({
+      birthday: this.state.date,
       bday_month: this.state.date.getMonth(),
       bday_year: this.state.date.getYear()
     })
@@ -108,6 +109,22 @@ var lastindex = this.props.navigator.getCurrentRoutes().length;
   _setYear(){}
 
   render(){
+
+    var bdate;
+
+    var {bday_month,bday_year,birthday} = this.props.user
+    if(birthday){
+      bdate = birthday
+    }else if(this.props.fb_bday_year){
+      bdate = new Date(`${this.props.fb_bday_year}`)
+    }else if(bday_month && bday_year){
+      bdate = new Date()
+      bdate.setYear(bday_year)
+      bdate.setMonth(bday_month -1)
+      bdate = new Date(bdate)
+    }
+
+
        return (
       <View style={[
           styles.container,
@@ -155,7 +172,7 @@ var lastindex = this.props.navigator.getCurrentRoutes().length;
             ref={'picker'}
             mode="date"
 
-            date={(this.state.date || moment().toDate())}
+            date={(bdate || this.state.date || moment().toDate())}
             timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
             onDateChange={this.onDateChange.bind(this)}
           />

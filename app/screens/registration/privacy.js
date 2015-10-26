@@ -29,7 +29,7 @@ class PrivacyScreen extends Component{
     super(props);
 
     this.state = {
-      selection: null
+      selection: props.user && props.user.privacy || null
     }
   }
 

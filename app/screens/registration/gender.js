@@ -32,7 +32,7 @@ class GenderScreen extends Component{
     super(props);
 
     this.state = {
-      selection: props.fb_gender || null,
+      selection: props.fb_gender || props.user && props.user.gender || null,
       canContinue: false
     }
   }
