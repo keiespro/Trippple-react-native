@@ -116,8 +116,9 @@ class api {
     return authenticatedRequest('unmatch', {match_id})
   }
 
-  reportUser(match){
-    return authenticatedRequest('report_user', {to_user_id: match.id, to_user_type: match.id})
+  reportUser(to_user_id, to_user_type, reason){
+
+    return authenticatedRequest('report_user', { to_user_id, to_user_type, reason })
   }
 
   getMessages(payload){

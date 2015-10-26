@@ -87,7 +87,10 @@ class Cards extends Component{
         easing: Easing.elastic(1),
         duration: 500
       })
-    ]).start(()=> this.initializePanResponder())
+    ]).start(()=> {
+      this.setState({animatedIn:true});
+      this.initializePanResponder()
+    })
   }
 
   componentDidUpdate(prevProps,prevState){
@@ -362,7 +365,7 @@ class Cards extends Component{
 
   }
   componentWillReceiveProps(nProps){
-    if(this.props.potentials[0].user.id != nProps.potentials[0].user.id ){
+    if(this.state.animatedIn && this.props.potentials[0].user.id != nProps.potentials[0].user.id ){
         this.state.panX.setValue(0);
         this.initializePanResponder()
 
@@ -1249,4 +1252,4 @@ var animations = {
       }
     }
   }
-};
+}

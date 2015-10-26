@@ -92,13 +92,7 @@ class ActionModal extends Component{
   unMatchModal(match){
 
      this.props.navigator.push({
-      component: ()=>{
-        return (
-          <PurpleModal>
-            <UnmatchModal/>
-          </PurpleModal>
-        )
-      },
+      component:  UnmatchModal,
       passProps:{
         action: 'unmatch',
         match,
@@ -114,13 +108,7 @@ class ActionModal extends Component{
   reportModal(match){
 
      this.props.navigator.push({
-      component: ()=>{
-              return (
-                <PurpleModal>
-                  <ReportModal/>
-                </PurpleModal>
-              )
-            },
+      component: ReportModal,
       passProps: {
         action: 'report',
         match,
