@@ -33,7 +33,7 @@ var slides = [
   {
     title: 'BROWSE',
     img: require('image!tour-browse'),
-    content: 'Find adventurous couples and singles near you.'
+    content: 'Find like-minded Couples and Singles.'
   },
   {
     title: 'MATCH',
@@ -43,12 +43,12 @@ var slides = [
   {
     title: 'CONNECT',
     img: require('image!tour-connect'),
-    content: 'Chat with real Couples or Singles in your area.'
+    content: 'Chat with real Couples or Singles who share your interests.'
   },
   {
     title: 'PRIVATE & DISCREET',
     img: require('image!tour-privacy'),
-    content: 'Protect your identity. Hide from friends and family.'
+    content: 'Protect your identity. Easily block friends and family.'
   }
 ];
 
@@ -149,7 +149,7 @@ class Carousel extends Component{
             width: i == 0 ? DeviceWidth - 150 : DeviceWidth - 200
           }
         ]} source={slide.img} resizeMode={Image.resizeMode.contain}/>
-        <View style={styles.textwrap}><Text style={[styles.textplain,
+      <View style={[styles.textwrap,{marginBottom:5}]}><Text style={[styles.textplain,
           {
             fontFamily:'Montserrat',
             fontWeight:'700',
@@ -254,13 +254,14 @@ var styles = StyleSheet.create({
     width: DeviceWidth,
     flexDirection:'column',
     alignItems:'center',
-    justifyContent:'flex-start',
+    justifyContent:'center',
     flexWrap:'nowrap',
     padding:20
   },
   slideImage:{
     width: 150,
-    height:350
+    height:350,
+    marginBottom:25
   },
   bottomarea:{
     height:140,
@@ -314,6 +315,7 @@ var styles = StyleSheet.create({
     backgroundColor: colors.mediumPurple,
   },
   wrap:{
+    marginTop:20,
     alignItems: 'center',
     flex:1,
     justifyContent:'center',
