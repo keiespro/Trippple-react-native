@@ -20,13 +20,13 @@ class MatchActions {
 
   getFavorites(page){
 
-    Api.getMatches(page || 0)
-      .then((res) => {
-        console.log('RES FAVS',res)
-        this.dispatch({matches: res.response, page: page || 0});
-      })
-      .catch(err => console.log(err))
-
+    // Api.getMatches(page)
+    //   .then((res) => {
+    //     console.log('RES FAVS',res)
+    //     this.dispatch({matches: res.response, page: page || false});
+    //   })
+    //   .catch(err => console.log(err))
+    //
 
   }
 
@@ -102,7 +102,7 @@ class MatchActions {
       Api.toggleFavorite(matchID)
       .then(()=>{
 
-        return Api.getFavorites(0)
+         Api.getFavorites(0)
         .then((res) => {
           console.log(res)
           this.dispatch({matches: res.response, page: 0});

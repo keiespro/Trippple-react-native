@@ -71,27 +71,9 @@ var UserActions = {
 
   uploadImage(image, imagetype,cropData){
     Api.uploadImage(image,imagetype,cropData)
-      .then((uploadRes) => {
-         Api.getUserInfo()
-          .then((res) => {
-            console.log(res);
-            this.dispatch(res);
-          })
-          .catch((err) => {
-            console.log(err);
-            this.dispatch({
-              err: err
-            });
-          })
-
-      })
-      .catch((err) => {
-        console.log(err);
-        this.dispatch({
-          err: err
-        });
-      })
-
+      // .then((uploadRes) => {
+      //   UserActions.getUserInfo.defer()
+      // })
   },
 
   updateUser(payload){
