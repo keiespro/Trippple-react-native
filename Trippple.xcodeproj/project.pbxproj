@@ -35,7 +35,6 @@
 		AC0020AD1BDD9C1200C5C538 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2B51571BCF6C680093820F /* FBSDKCoreKit.framework */; };
 		AC0020AE1BDD9C1200C5C538 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2B51581BCF6C680093820F /* FBSDKLoginKit.framework */; };
 		AC0020AF1BDD9C1200C5C538 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2B51591BCF6C680093820F /* FBSDKShareKit.framework */; };
-		AC0020B01BDD9C1200C5C538 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129501B40EA1600CC1499 /* libRCTPushNotification.a */; };
 		AC0020B11BDD9C1200C5C538 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		AC0020B21BDD9C1200C5C538 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		AC0020B31BDD9C1200C5C538 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
@@ -108,6 +107,7 @@
 		AC0021021BDDA17A00C5C538 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACBA6C751B8413A6009040D6 /* Media.xcassets */; };
 		AC0021031BDDA17A00C5C538 /* Default-667h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5B03A31B85A9FB003E0302 /* Default-667h@2x~iphone.png */; };
 		AC0021041BDDA17A00C5C538 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5B03A51B85A9FB003E0302 /* Default.png */; };
+		AC00210B1BDDCABE00C5C538 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129501B40EA1600CC1499 /* libRCTPushNotification.a */; };
 		AC161C071BBE59DA00150328 /* RCTMaskableText.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF01BBE59DA00150328 /* RCTMaskableText.m */; };
 		AC161C081BBE59DA00150328 /* RCTMaskableTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF51BBE59DA00150328 /* RCTMaskableTextField.m */; };
 		AC161C091BBE59DA00150328 /* RCTMaskableTextFieldManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF71BBE59DA00150328 /* RCTMaskableTextFieldManager.m */; };
@@ -426,6 +426,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC00210B1BDDCABE00C5C538 /* libRCTPushNotification.a in Frameworks */,
 				AC0020A11BDD9C1200C5C538 /* libRCTCameraRoll.a in Frameworks */,
 				AC0020A21BDD9C1200C5C538 /* libRNAppInfo.a in Frameworks */,
 				AC0020A31BDD9C1200C5C538 /* libRNKeychain.a in Frameworks */,
@@ -441,7 +442,6 @@
 				AC0020AD1BDD9C1200C5C538 /* FBSDKCoreKit.framework in Frameworks */,
 				AC0020AE1BDD9C1200C5C538 /* FBSDKLoginKit.framework in Frameworks */,
 				AC0020AF1BDD9C1200C5C538 /* FBSDKShareKit.framework in Frameworks */,
-				AC0020B01BDD9C1200C5C538 /* libRCTPushNotification.a in Frameworks */,
 				AC0020B11BDD9C1200C5C538 /* libRCTSettings.a in Frameworks */,
 				AC0020B21BDD9C1200C5C538 /* libRCTText.a in Frameworks */,
 				AC0020B31BDD9C1200C5C538 /* libRCTVibration.a in Frameworks */,
@@ -1428,6 +1428,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/node_modules/react-native/React/**",
+					"$(SRCROOT)/node_modules/react-native/Libraries/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1474,6 +1475,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/node_modules/react-native/React/**",
+					"$(SRCROOT)/node_modules/react-native/Libraries/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -1509,9 +1511,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/alexlopez/Desktop,
 					"$(SDKROOT)/usr/lib/system",
 					"$(PROJECT_DIR)/node_modules/react-native-url-handler/iOS/build/Debug-iphoneos",
+					"$(SRCROOT)/node_modules/react-native/React/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippplet;
@@ -1546,9 +1548,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/alexlopez/Desktop,
 					"$(SDKROOT)/usr/lib/system",
 					"$(PROJECT_DIR)/node_modules/react-native-url-handler/iOS/build/Debug-iphoneos",
+					"$(SRCROOT)/node_modules/react-native/React/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippplet;

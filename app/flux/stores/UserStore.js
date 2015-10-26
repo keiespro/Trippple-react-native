@@ -52,9 +52,9 @@ class UserStore {
     const user = res.response.user_info
     this.setState({ user })
     if(user.status == 'onboarded'){
-      MatchActions.getPotentials();
-      MatchActions.getMatches();
-      MatchActions.getFavorites();
+      MatchActions.getPotentials.defer();
+      MatchActions.getMatches.defer();
+      MatchActions.getFavorites.defer();
     }
   }
 
@@ -67,13 +67,19 @@ class UserStore {
   }
 
   handleVerifyPin(res){
-    const user_info = res.response;
+    const {user_info} = res.response;
+
+    CredentialsStore.saveCredentials(res.response)
 
     this.setState({
       user: {  ...this.user, ...user_info },
     })
 
-    CredentialsStore.saveCredentials(user_info);
+    if(user_info.status == 'onboarded'){
+      MatchActions.getPotentials.defer();
+      MatchActions.getMatches.defer();
+      MatchActions.getFavorites.defer();
+    }
   }
 
   handleGetUserInfo(res){

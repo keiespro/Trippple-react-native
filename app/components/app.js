@@ -88,18 +88,19 @@ class TopLevel extends Component{
     }
     NotificationActions.scheduleNewPotentialsAlert()
   }
-  // componentDidUpdate(prevProps,prevState){
-  //   console.log(prevProps.user,this.props.user);
-  //   if((this.props.showCheckMark) && this.props.user.status == "verified"){
 
-  //     this.setState({showCheckmark:true})
+  componentWillReceiveProps(nProps){
 
-  //     this.setTimeout(()=>{
-  //       console.log('time')
-  //       this.setState({showCheckmark:false})
-  //     },5000);
-  //   }
-  // }
+    if((nProps.showCheckMark) && nProps.user.status == 'verified'){
+
+      this.setState({showCheckmark:true})
+
+      this.setTimeout(()=>{
+        console.log('time')
+        this.setState({showCheckmark:false})
+      },5000);
+    }
+  }
 
   render(){
     return (

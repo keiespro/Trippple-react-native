@@ -21,7 +21,7 @@ class NotificationActions {
     console.log(payload)
     const { data } = payload
     if(data.action === 'retrieve' && data.match_id) {
-      MatchActions.getMessages(data.match_id)
+      MatchActions.getMessages.defer(data.match_id)
       console.log('MatchActions.getMessages(data.match_id)')
 
     }
@@ -30,12 +30,12 @@ class NotificationActions {
   }
   receiveNewMatchNotification(payload){
     console.log('receive New Match Notification',(payload))
-    this.dispatch(payload)
 
     const { action } = payload
     if(action === 'retrieve') {
-      MatchActions.getMatches()
+      MatchActions.getMatches.defer()
     }
+    this.dispatch(payload)
 
 
 
@@ -49,6 +49,7 @@ class NotificationActions {
     const fireDate = moment({ hour: 23 }).toDate(), //tonight at 11
           alertBody = 'New Matches!'
 
+    // PushNotificationIOS.cancelAllLocalNotifications()
     PushNotificationIOS.scheduleLocalNotification({ fireDate, alertBody })
   }
 }
