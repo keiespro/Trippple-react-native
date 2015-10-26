@@ -30,15 +30,17 @@ class FadeInContainer extends Component{
 
   }
   componentDidMount(){
-    // this.state.fadeAmount.setValue(0)
+
     Animated.timing( this.state.fadeAmount,
       {
         toValue: 1,
-        duration: this.props.duration ,
+        duration: this.props.duration,
         delay: this.props.delayAmount || 0,
-        easing: Easing.easeInEaseOut
+        easing: Easing.in(Easing.ease)
       }
-    ).start( () => {console.log('faded in')});
+    ).start( () => {
+      this.props.didShow && this.props.didShow()
+    })
 
     if(this.props.delayRender){
       this.setTimeout(()=>{

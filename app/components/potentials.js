@@ -858,12 +858,12 @@ class CardStack extends Component{
           /> : null}
 
 
-    { potentials.length < 1 &&
+    { !this.state.didShow && potentials.length < 1 &&
       <View style={[{ alignItems: 'center', justifyContent: 'center',height: DeviceHeight,width:DeviceWidth,position:'absolute',top:0,left:0}]}>
         <ActivityIndicatorIOS size={'large'} style={[{ alignItems: 'center', justifyContent: 'center',height: 80}]} animating={true}/>
       </View>}
     { potentials.length < 1 &&
-      <FadeInContainer delayAmount={20000} duration={300}>
+      <FadeInContainer delayAmount={20000} duration={300} didShow={()=>this.setState({didShow:true})}>
          <Image source={require('image!placeholderDashed')}
             resizeMode={Image.resizeMode.contain}
             style={styles.dashedBorderImage}>
