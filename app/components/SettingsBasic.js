@@ -194,7 +194,7 @@ class SettingsBasic extends React.Component{
         <ScrollableTabView style={{overflow:'hidden'}} renderTabBar={(props)=><CustomTabBar {...props}/>}>
           <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:60}}  tabLabel={'GENERAL'}>
 
-          <View style={{height:150,width:150,alignSelf:'center'}}>
+        {user.relationship_status == 'single' ? null : <View style={{height:150,width:150,alignSelf:'center'}}>
             <Image
               style={styles.userimage}
               key={user.image_thumb}
@@ -208,6 +208,7 @@ class SettingsBasic extends React.Component{
                     resizeMode={Image.resizeMode.contain}/>
                 </View>
             </View>
+          }
             <View style={{paddingHorizontal: 25,}}>
               <View style={styles.formHeader}>
                 <Text style={styles.formHeaderText}>Personal Info</Text>
