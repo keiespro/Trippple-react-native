@@ -1,5 +1,5 @@
-var React = require('react-native');
-var {
+import React from 'react-native'
+import {
   Component,
   StyleSheet,
   Text,
@@ -7,39 +7,32 @@ var {
   Image,
   TouchableHighlight,
   LayoutAnimation,
-} = React;
+} from 'react-native'
 
 var colors = require('../utils/colors')
-
-
-
-
-
-
 
 class BoxyButton extends Component{
 
   constructor(props){
-    super(props);
+    super(props)
   }
 
-  _onPress(){
-    this.props._onPress();
+  _onPress(e){
+    this.props._onPress(e)
   }
 
   render() {
-
     return (
-
-      <TouchableHighlight onPress={this._onPress.bind(this)} style={this.props.outerButtonStyle}
-
-      underlayColor={this.props.underlayColor || '#000'}>
+      <TouchableHighlight
+        onPress={this._onPress.bind(this)}
+        style={this.props.outerButtonStyle}
+        underlayColor={this.props.underlayColor || colors.dark}>
         <View style={[styles.iconButton, this.props.innerWrapStyles]}>
           <View style={[styles.iconButtonLeftBox,this.props.leftBoxStyles]}>
             {this.props.children}
           </View>
           <View style={styles.iconButtonRightBox}>
-            <Text style={[styles.textplain,styles.iconButtonText,this.props.buttonText]}>{this.props.text}</Text>
+            <Text style={[styles.textplain, styles.iconButtonText, this.props.buttonText]}>{this.props.text}</Text>
           </View>
         </View>
       </TouchableHighlight>
@@ -47,7 +40,7 @@ class BoxyButton extends Component{
   }
 }
 
-module.exports = BoxyButton;
+export default BoxyButton
 
 
 var styles = StyleSheet.create({

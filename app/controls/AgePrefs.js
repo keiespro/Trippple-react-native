@@ -73,12 +73,12 @@ class  AgePrefs extends React.Component{
     var dotWidth = InsideWidth / this.state.numberGroups
 
         return (
-          <View style={{flexDirection:'column',alignItems:'center',justifyContent:'center',height:100}}>
+          <View style={{ flexDirection:'column',alignItems:'center',justifyContent:'center',height:100}}>
 
         <View style={{paddingHorizontal:0,flexDirection:'row',width:InsideWidth,justifyContent:'space-between'}}>
                 <Text style={[{alignSelf:'flex-start',color: colors.rollingStone,textAlign:'left'}]}>{`Age Range`}</Text>
 
-                <Text style={{alignSelf:'flex-end',color:colors.white,textAlign:'right',marginRight:20,marginBottom:20}}>{`${this.state.match_age_min} - ${this.state.match_age_max}`}</Text>
+                <Text style={{alignSelf:'flex-end',color:colors.white,textAlign:'right',marginRight:0,marginBottom:20}}>{`${this.state.match_age_min} - ${this.state.match_age_max}`}</Text>
           </View>
         <View style={{paddingHorizontal:0,flexDirection:'row',height:90,alignItems:'center',justifyContent:'center',alignSelf:'center'}}>
 
@@ -185,9 +185,7 @@ class ActiveDot extends React.Component{
   //   })
   // }
   componentWillReceiveProps(nProps){
-    var nval = Math.round(InsideWidth * (nProps.ageVal-18) / 32)
-
-    console.log(Math.abs(nval - this._animatedValueX))
+    const nval = Math.round(InsideWidth * (nProps.ageVal-18) / 32)
     if(Math.abs(this._animatedValueX - nval) >= InsideWidth/this.props.numberGroups){
       this._animatedValueX = nval
 
@@ -197,7 +195,7 @@ class ActiveDot extends React.Component{
     }
   }
   shouldComponentUpdate(nProps,nState){
-    var nval = InsideWidth * (nProps.ageVal-18) / 32
+    const nval = InsideWidth * (nProps.ageVal-18) / 32
     if(nProps.ageVal == this.props.ageVal ){
       return false
     }
@@ -210,23 +208,23 @@ class ActiveDot extends React.Component{
     this._animatedValueX = InsideWidth * (this.props.ageVal-18) / 32
 
     this.state.ageVal.addListener((value) => {
-      this._animatedValueX = Math.round(value.value);
+      this._animatedValueX = value.value;
     })
 
     this._panResponder = PanResponder.create({
-        onStartShouldSetPanResponderCapture: () => true,
+        onStartShouldSetResponderCapture: () => { this.props.toggleScroll('off'); return true},
+        onStartShouldSetPanResponderCapture: () =>  { this.props.toggleScroll('off'); return true},
         onStartShouldSetPanResponder: () => true,
         onMoveShouldSetPanResponder: () => true,
         onMoveShouldSetPanResponderCapture: () => true,
+        onMoveShouldSetResponderCapture: () => true,
         onPanResponderGrant: (e, gestureState) => {
-          this.props.toggleScroll('off');
           this.state.ageVal.stopAnimation();
           this.state.ageVal.setOffset(this._animatedValueX);
           this.state.ageVal.setValue(0);
         },
         onPanResponderMove: Animated.event([ null, {dx: this.state.ageVal} ]),
         onPanResponderRelease: (e, gestureState)  => {
-          console.log((gestureState.vx))
           if(this._animatedValueX > InsideWidth){
             this._animatedValueX = InsideWidth
           }else if(this._animatedValueX < 0){
@@ -240,7 +238,7 @@ class ActiveDot extends React.Component{
 
           var dot = this.props.dots.filter((gestureState.vx > 0 ? ((n) => n.start_age >= newAgeVal ) : (n) => n.start_age <= newAgeVal) );
 
-          var toValue = Math.round(InsideWidth * (dot[gestureState.vx > 0 ? 0 : dot.length-1].start_age-18) / 32)
+          var toValue = Math.round(InsideWidth * (dot[gestureState.gx > 0 ? 0 : dot.length-1].start_age-18) / 32)
 
           Animated.spring(this.state.ageVal,{
             toValue,
@@ -255,7 +253,6 @@ class ActiveDot extends React.Component{
 
 
         },
-
         onPanResponderTerminate: (e, gestureState)  => {
           if(this._animatedValueX > InsideWidth){
             this._animatedValueX = InsideWidth
@@ -265,12 +262,12 @@ class ActiveDot extends React.Component{
             // this._animatedValueX = gestureState.dx
           }
           this.state.ageVal.flattenOffset(); // Flatten the offset so it resets the default positioning
-          var newAgeVal = Math.floor((this._animatedValueX * 32) / InsideWidth) + 18
+          var newAgeVal = Math.round((this._animatedValueX * 32) / InsideWidth) + 18
           this.props.updateVal(newAgeVal)
 
           var dot = this.props.dots.filter((gestureState.vx > 0 ? ((n) => n.start_age >= newAgeVal ) : (n) => n.start_age <= newAgeVal) );
 
-          var toValue = Math.round(InsideWidth * (dot[gestureState.vx > 0 ? 0 : dot.length-1].start_age-18) / 32)
+          var toValue = Math.round(InsideWidth * (dot[gestureState.gx > 0 ? 0 : dot.length-1].start_age-18) / 32)
 
           Animated.spring(this.state.ageVal,{
             toValue,

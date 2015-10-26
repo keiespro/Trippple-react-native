@@ -55,25 +55,23 @@ import reactMixin from 'react-mixin'
 import FieldModal from './FieldModal'
 
 
-
-
 class SettingsSettings extends React.Component{
   constructor(props){
-    super(props)
+    super()
     this.state = {
-      privacy: this.props.user.privacy || 'public'
+      privacy: props.user.privacy || 'public'
     }
   }
   togglePrivacy(value){
-    var payload = {}
-    payload[`privacy`] = value;
+    var payload = {privacy: value}
     UserActions.updateUser(payload)
-
     this.setState(payload)
-
   }
   componentDidMount() {
     Mixpanel.track('On - Setings Screen');
+  }
+  componentWillReceiveProps(nProps){
+    console.log('NPROPS',nProps)
   }
   openWebview(page){
     var url, pageTitle;
@@ -116,7 +114,7 @@ class SettingsSettings extends React.Component{
     });
   }
   handleTapPrivacy(){
-
+    if(this.state.privacy != 'private'){
         this.props.navigator.push({
           component: PrivacyPermissionsModal,
           title: '',
@@ -124,9 +122,11 @@ class SettingsSettings extends React.Component{
           sceneConfig: NavigatorSceneConfigs.FloatFromBottom,
           passProps: {
             cancel: ()=> {this.props.navigator.pop()},
+            success: (privacy) => {this.togglePrivacy('private'); this.props.navigator.pop()},
             user: this.props.user,
           }
         })
+    }
   }
   render(){
     let u = this.props.user;

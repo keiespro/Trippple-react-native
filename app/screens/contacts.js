@@ -29,11 +29,7 @@ import BackButton from '../components/BackButton'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 import Api from '../utils/api'
-import base64 from 'base-64'
 
-function cleanNumber(p){
-  return p.replace(/[\. ,():+-]+/g, '').replace(/[A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/,'');
-}
 
 class ContactList extends Component{
 
@@ -164,29 +160,16 @@ class Contacts extends Component{
         console.log(err);
         return false;
       }
-      //
-      // var start = new Date()
-      // console.log('START',start)
 
-      var allNumbers = _.pluck(_.flatten(_.pluck(contacts,'phoneNumbers')),'number').map(cleanNumber)
-
-      // console.log(allNumbers.length+' numbers grabbed')
-
-      Api.sendContactsToBlock(base64.encode(JSON.stringify(allNumbers)))
-          // .then((n)=>{
-          //   var end = new Date()
-          //   console.log('END',end,n.length)
-          //   console.log(' took: '+(end - start)+' ms')
-          // })
+      UserActions.handleContacts(contacts);
 
       var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-      // InteractionManager.runAfterInteractions(() => {
 
         this.setState({
           contacts: contacts,
           dataSource: ds.cloneWithRows(contacts)
         });
-      // });
+
     })
   }
   componentWillUnmount(){

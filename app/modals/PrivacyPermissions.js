@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   Image,
+  NativeModules,
   CameraRoll,
   View,
   TouchableHighlight,
@@ -17,34 +18,97 @@ import {
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
+var {FBLoginManager,AddressBook} = require('NativeModules')
+
 import colors from '../utils/colors'
 import _ from 'underscore'
 import MatchActions from '../flux/actions/MatchActions'
 import PurpleModal from './PurpleModal'
 import styles from './purpleModalStyles'
 import BoxyButton from '../controls/boxyButton'
+import UserActions from '../flux/actions/UserActions'
 
 export default class PrivacyPermissionsModal extends Component{
 
   constructor(props) {
     super();
     this.state = {
-      hasFacebookPermissions: false,
-      hasContactsPermissions: false
+      hasFacebookPermissions: null,
+      hasContactsPermissions: null
     }
   }
-  cancel(){
-    this.props.goBack();
+
+  componentDidMount(){
+    FBLoginManager.getCredentials((error, data)=>{
+      if (!error) {
+        this.setState({ hasFacebookPermissions: true })
+      } else {
+        this.setState({ hasFacebookPermissions: false })
+      }
+    });
+
+    AddressBook.checkPermission((err, permission) => {
+      if(!err && permission === AddressBook.PERMISSION_AUTHORIZED){
+        this.setState({ hasContactsPermissions: true })
+      }
+    })
   }
-  continue(){
-    this.props.navigator.push(this.props.nextRoute)
+
+  componentWillUpdate(nProps,nState){
+    // nState.hasFacebookPermissions && nState.hasContactsPermissions ? auto close?
   }
 
   handleTapContacts(){
-    this.setState({hasContactsPermissions:!this.state.hasContactsPermissions})
+
+    AddressBook.checkPermission((err, permission) => {
+      if(err){
+        console.log(err)
+       //TODO:  handle err;
+      }
+
+     // AddressBook.PERMISSION_AUTHORIZED || AddressBook.PERMISSION_UNDEFINED || AddressBook.PERMISSION_DENIED
+     if(permission === AddressBook.PERMISSION_UNDEFINED){
+       this.getContacts();
+     }
+     if(permission === AddressBook.PERMISSION_AUTHORIZED){
+        this.getContacts()
+      }
+     if(permission === AddressBook.PERMISSION_DENIED){
+       //handle permission denied
+     }
+
+    })
   }
+  getContacts(){
+    AddressBook.getContacts((err, contacts) => {
+      if (!err) {
+        UserActions.handleContacts(contacts)
+        UserActions.updateUser({privacy:'private'})
+        this.setState({hasContactsPermissions: true })
+      }else{
+
+      }
+    })
+  }
+
   handleTapFacebook(){
-    this.setState({hasFacebookPermissions:!this.state.hasFacebookPermissions})
+    FBLoginManager.login( (err, data) => {
+
+      if (!err) {
+        UserActions.updateUser({
+          facebook_user_id: data.credentials.userId,
+          facebook_oauth_access_token: data.credentials.token
+        });
+
+        this.setState({ hasFacebookPermissions: true })
+
+      } else {
+        this.setState({ hasFacebookPermissions: false });
+
+      }
+    });
+
+
 
   }
 
@@ -109,6 +173,15 @@ export default class PrivacyPermissionsModal extends Component{
           </BoxyButton>
 
           <View >
+            {this.state.hasFacebookPermissions && this.state.hasContactsPermissions ?
+              <TouchableOpacity
+                underlayColor={colors.mediumPurple}
+                style={{marginTop:20,marginBottom:20}}
+                onPress={this.props.success}>
+                <View style={[styles.cancelButton,{backgroundColor:'transparent'}]} >
+                  <Text style={{color:colors.white,textAlign:'center'}}>Good to go!</Text>
+                </View>
+              </TouchableOpacity>  :
             <TouchableOpacity
               underlayColor={colors.mediumPurple}
               style={{marginTop:20,marginBottom:20}}
@@ -116,7 +189,7 @@ export default class PrivacyPermissionsModal extends Component{
               <View style={[styles.cancelButton,{backgroundColor:'transparent'}]} >
                 <Text style={{color:colors.white,textAlign:'center'}}>no thanks</Text>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity>}
           </View>
 
         </View>
@@ -141,14 +214,7 @@ const buttonStyles = StyleSheet.create({
     overflow:'hidden',
     backgroundColor:colors.sapphire50
   },
-  grayIconbutton:{
-    borderColor: colors.purple,
-    borderWidth: 1,
-    alignSelf:'stretch',
-    width: DeviceWidth * .7,
-    flex:1
 
-  },
   iconButtonOuter:{
     marginTop:10
   },
@@ -158,19 +224,6 @@ const buttonStyles = StyleSheet.create({
     borderRightWidth: 1,
   },
 
-
-  iconButtonMale:{
-    borderColor: colors.darkSkyBlue,
-    borderWidth: 1,
-    width: DeviceWidth * .7,
-
-  },
-  iconButtonFemale:{
-    borderColor: colors.mandy,
-    borderWidth: 1,
-    width: DeviceWidth * .7,
-
-  },
 
 
   iconButtonText:{
@@ -184,6 +237,6 @@ const buttonStyles = StyleSheet.create({
     color:colors.white,
     fontSize:18,
     fontFamily:'Montserrat-Bold'
-},
+  },
 
 })
