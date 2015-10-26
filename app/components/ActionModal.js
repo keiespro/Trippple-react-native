@@ -55,18 +55,37 @@ class ActionModal extends Component{
   }
   _continue(){
     this.toggleModal();
-
   }
   toggleModal(){
     this.props.toggleModal()
     console.log('press');
   }
   showProfile(match){
+    console.log(match)
+
+    var {user} = this.props,
+          rel = user.relationship_status
+
+
+    var theirIds = Object.keys(match.users).filter( u => { return u != user.id})
+    console.log(theirIds)
+    var them = theirIds.map((id) => match.users[id])
+    console.log(them)
+
+    const MatchUserAsPotential = {
+      user: them[0],
+      partner: them[1] || null
+    }
+
     this.props.navigator.push({
       component: UserProfile,
-      passProps:{match, hideProfile: ()=> {
-        this.props.navigator.pop()
-      }}
+      passProps:{
+        potential: MatchUserAsPotential,
+        rel,
+        hideProfile: ()=> {
+          this.props.navigator.pop()
+        }
+      }
     })
   }
 
