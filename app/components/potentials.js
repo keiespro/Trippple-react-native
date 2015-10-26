@@ -166,15 +166,14 @@ class Cards extends Component{
         Animated.spring(this.state.panX, {
           toValue,
           velocity: gestureState.vx,       // maintain gesture velocity
-          tension: 5,
+          tension: 7,
           friction: 2,
         }).start();
 
 
         var id = this.state.panX.addListener(({value}) => {
           // when the card reaches the throw out threshold, send like
-          if (Math.abs(value) == 500) {
-            this.state.panX.removeListener(id);
+          if (Math.abs(value) >= 500) {
 
             const likeStatus = value > 0 ? 'approve' : 'deny';
             const likeUserId = this.props.potentials[0].user.id;
@@ -184,6 +183,8 @@ class Cards extends Component{
               (this.props.rel == 'single' ? 'couple' : 'single'),
               this.props.rel
             )
+            this.state.panX.removeListener(id);
+
           }
         })
       }
