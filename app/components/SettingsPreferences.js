@@ -18,39 +18,23 @@ import {
   AsyncStorage,
   Navigator
 } from  'react-native'
+
 import Mixpanel from '../utils/mixpanel';
-import SegmentedView from '../controls/SegmentedView'
-import ScrollableTabView from '../scrollable-tab-view'
 import FakeNavBar from '../controls/FakeNavBar';
 import MaskableTextInput from '../RNMaskableTextInput.js'
-
 import dismissKeyboard from 'dismissKeyboard'
-
-import scrollable from 'react-native-scrollable-decorator'
 import Dimensions from 'Dimensions'
-import ParallaxView from  '../controls/ParallaxScrollView'
-
-const DeviceHeight = Dimensions.get('window').height
-const DeviceWidth = Dimensions.get('window').width
 import AgePrefs from '../controls/AgePrefs'
-
-
 import ToggleSwitch from '../controls/switches'
 import UserActions from '../flux/actions/UserActions'
 import EditImage from '../screens/registration/EditImage'
 import SelfImage from './loggedin/SelfImage'
-import FacebookButton from '../buttons/FacebookButton'
-
-import Contacts from '../screens/contacts'
 import colors from '../utils/colors'
-import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
-import EditPage from './EditPage'
-import CloseButton from './CloseButton'
-import Api from '../utils/api'
-import TrackKeyboardMixin from '../mixins/keyboardMixin'
 import reactMixin from 'react-mixin'
 import FieldModal from './FieldModal'
 
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
 
 var PickerItemIOS = PickerIOS.Item;
 
@@ -80,9 +64,8 @@ class  SettingsPreferences extends React.Component{
   render(){
     let u = this.props.user;
     let settingOptions = this.props.settingOptions || {};
-    console.log('settingOptions',settingOptions);
 
-    var {looking_for_mf,looking_for_mm,looking_for_ff, looking_for_f, looking_for_m} = this.state
+    const {looking_for_mf,looking_for_mm,looking_for_ff, looking_for_f, looking_for_m} = this.state
 
         return (
           <View style={styles.inner}>
@@ -119,15 +102,7 @@ class  SettingsPreferences extends React.Component{
                         return(
                         <MaskableTextInput
                            autofocus={true}
-                           style={{
-                               alignSelf: 'stretch',
-                               padding: 8,
-                               fontSize: 20,
-                               height:200,
-                               fontFamily:'omnes',
-                               color: colors.white,
-                               width:DeviceWidth-40
-                           }}
+                           style={styles.autogrowTextinput}
                            placeholder={''}
                            autoGrow={true}
                            maxHeight={300}
@@ -139,16 +114,16 @@ class  SettingsPreferences extends React.Component{
                            ref={'_textArea'}
                            clearButtonMode={'always'}
                        />)},
-           field:{
-             label: `About ${this.props.user.relationship_status == 'single' ? 'My' : 'Our'} Match`,
-             field_type:'textarea'},
-            fieldName:'bio',
+                      field:{
+                        label: `About ${this.props.user.relationship_status == 'single' ? 'My' : 'Our'} Match`, field_type:'textarea'
+                      },
+                      fieldName:'bio',
                       cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
                       fieldValue: this.props.user.bio || ''
                     }
                   })
                 }} >
-                <View  style={{marginHorizontal:25,height:70,width:DeviceWidth-50,flexWrap:'wrap',alignItems:'center',justifyContent:'center',flexDirection:'column',   borderBottomWidth: 1/PixelRatio.get(),borderColor:colors.shuttleGray}}>
+                <View  style={{marginHorizontal:25,height:70,width:DeviceWidth-50,flexWrap:'wrap',alignItems:'center',justifyContent:'center',flexDirection:'column', borderBottomWidth: 1/PixelRatio.get(),borderColor:colors.shuttleGray}}>
                 <Text numberOfLines={2}  style={{color:colors.white,height:50,fontSize:18,overflow:'hidden',flexWrap:'wrap'}}>{this.props.user.bio ? this.props.user.bio : ''}</Text>
                 </View>
               </TouchableHighlight>
@@ -213,23 +188,26 @@ class  SettingsPreferences extends React.Component{
               : null }
 
 
+          <View  style={{paddingTop:50,pointerEvents:'box-none'}}>
 
-            <View  style={{marginTop:50}}>
+            <View>
               <AgePrefs toggleScroll={this.toggleScroll.bind(this)} user={this.props.user} />
             </View>
-            <View style={{paddingHorizontal: 25,marginBottom:15}}>
-              <View style={styles.formHeader}>
-                <Text style={styles.formHeaderText}>{`Location`}</Text>
-              </View>
-              <View style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow,{borderBottomWidth:0}]}>
-                <Text style={{color:  colors.white, fontSize:18}}>Prioritize Users Near Me</Text>
-                <SwitchIOS
-                  onValueChange={(value) => this.setState({nearMe: value})}
-                  value={this.state.nearMe}
-                  onTintColor={colors.dark}
-                  thumbTintColor={this.state.nearMe ? colors.mediumPurple : colors.shuttleGray}
-                  tintColor={colors.dark}
-                />
+
+              <View style={{paddingHorizontal: 25,marginBottom:15}}>
+                <View style={styles.formHeader}>
+                  <Text style={styles.formHeaderText}>{`Location`}</Text>
+                </View>
+                <View style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow,{borderBottomWidth:0}]}>
+                  <Text style={{color:  colors.white, fontSize:18}}>Prioritize Users Near Me</Text>
+                  <SwitchIOS
+                    onValueChange={(value) => this.setState({nearMe: value})}
+                    value={this.state.nearMe}
+                    onTintColor={colors.dark}
+                    thumbTintColor={this.state.nearMe ? colors.mediumPurple : colors.shuttleGray}
+                    tintColor={colors.dark}
+                  />
+                </View>
               </View>
 
             </View>
@@ -344,5 +322,13 @@ var styles = StyleSheet.create({
    textAlign: 'left',
    fontFamily:'Montserrat',
  },
-
+ autogrowTextinput:{
+     alignSelf: 'stretch',
+     padding: 8,
+     fontSize: 20,
+     height:200,
+     fontFamily:'omnes',
+     color: colors.white,
+     width:DeviceWidth-40
+ }
 });
