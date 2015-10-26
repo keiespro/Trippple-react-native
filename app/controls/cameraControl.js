@@ -55,9 +55,9 @@ class CameraControl extends Component{
           style={styles.cameraBox}
           ref="cam"
           type={this.state.cameraType}
-          aspect={Camera.constants.Aspect.stretch}
+          aspect={Camera.constants.Aspect.fill}
                 flashMode={Camera.constants.FlashMode.auto}
-                orientation={Camera.constants.Orientation.portrait}
+                orientation={Camera.constants.Orientation.auto}
                 captureTarget={Camera.constants.CaptureTarget.cameraRoll}
 
           >
@@ -97,7 +97,8 @@ class CameraControl extends Component{
           component: EditImage,
           passProps: {
             ...this.props,
-            image: data,
+            image: imageFile.uri,
+            imageData: imgdata,
             imagetype: this.props.imagetype || '',
             nextRoute: EditImageThumb
           }
@@ -109,7 +110,8 @@ class CameraControl extends Component{
             component: this.props.nextRoute,
             passProps: {
               ...this.props,
-              image: data,
+              imageData: imgdata,
+              image: imageFile.uri,
               imagetype: this.props.imagetype || '',
               nextRoute: EditImageThumb
             }
@@ -123,7 +125,8 @@ class CameraControl extends Component{
 
           nextRoute.passProps = {
            ...this.props,
-            image: data,
+            image: imageFile.uri,
+            imageData: imgdata,
             imagetype: this.props.imagetype || '',
           }
 

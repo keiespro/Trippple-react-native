@@ -8,19 +8,24 @@ import {
   Image,
   CameraRoll,
   View,
+  AsyncStorage,
   TouchableHighlight,
   Dimensions,
   PixelRatio
 } from 'react-native'
+import Camera from 'react-native-camera';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
+
+const STORAGE_KEY = '@permission:camera'
 
 import colors from '../utils/colors'
 import _ from 'underscore'
 import MatchActions from '../flux/actions/MatchActions'
 import PurpleModal from './PurpleModal'
 import styles from './purpleModalStyles'
+import CameraControl from '../controls/cameraControl'
 
 export default class CameraPermissionsModal extends Component{
 
@@ -28,12 +33,74 @@ export default class CameraPermissionsModal extends Component{
     super();
     this.state = {}
   }
+  componentWillMount(){
+    this.preloadPermission()
+  }
+  componentDidMount(){
+    if(this.state.hasPermission && this.state.hasPermission == 'true' ){
+      this.props.navigator.replace({
+        component:CameraControl,
+        passProps:{
+          ...this.props,
+        }
+      })
+    }
+  }
+  componentDidUpdate(prevProps,prevState){
+
+    if( this.state.hasPermission && this.state.hasPermission == 'true' && prevState.hasPermission != 'true'){
+      this.props.navigator.replace({
+        component:CameraControl,
+        passProps:{
+          ...this.props,
+        }
+      })
+    }
+
+  }
+  async preloadPermission(){
+    try {
+      var hasPermission = await AsyncStorage.getItem(STORAGE_KEY)
+      this.setState({hasPermission})
+    } catch (error) {
+      this.setState({hasPermission: 'false'})
+      console.log('AsyncStorage error: ' + error.message);
+    }
+  }
   cancel(){
-    this.props.goBack();
+    this.props.navigator.pop()
   }
-  continue(){
-    this.props.navigator.push(this.props.nextRoute)
+  handleTapYes(){
+
+    this.setState({renderHiddenCamera:true})
+    this.handleSuccess()
   }
+  async handleFail(){
+    console.log('HANDLE FAIL ' )
+
+    try {
+      AsyncStorage.setItem(STORAGE_KEY, 'false')
+      this.setState({hasPermission: 'false'})
+
+    } catch (error) {
+      console.log('AsyncStorage error: ' + error.message)
+    }
+
+  }
+  async handleSuccess(){
+    console.log('HANDLE SUCCESS ' )
+
+    try {
+      await AsyncStorage.setItem(STORAGE_KEY, 'true')
+      this.setState({hasPermission: 'true'})
+
+    } catch (error) {
+      console.log('AsyncStorage error: ' + error.message)
+    }
+
+  }
+
+
 
   render(){
 
@@ -51,21 +118,21 @@ export default class CameraPermissionsModal extends Component{
 
             <Text style={[styles.rowtext,styles.bigtext,{
                 fontFamily:'Montserrat',fontSize:20,marginVertical:10
-              }]}>YOUR PHOTO ALBUM
+              }]}>YOUR CAMERA
             </Text>
 
             <Text style={[styles.rowtext,styles.bigtext,{
                 fontSize:20,marginVertical:10,color: colors.lavender,marginHorizontal:20
               }]}>
-              Do you want to upload an image from your iPhone Photo Album?
+              Take a photo now?
             </Text>
             <View >
               <TouchableHighlight
                 underlayColor={colors.mediumPurple}
                 style={styles.modalButtonWrap}
-                onPress={this.props.unMatch}>
+                onPress={this.handleTapYes.bind(this)}>
                 <View style={[styles.modalButton]} >
-                  <Text style={styles.modalButtonText}>YES, OPEN MY ALBUMS</Text>
+                  <Text style={styles.modalButtonText}>YES, OPEN CAMERA</Text>
                 </View>
               </TouchableHighlight>
             </View>
@@ -74,13 +141,13 @@ export default class CameraPermissionsModal extends Component{
             <TouchableHighlight
               underlayColor={colors.mediumPurple}
               style={styles.modalButtonWrap}
-              onPress={this.props.cancel}>
+              onPress={this.cancel.bind(this)}>
               <View style={[styles.modalButton,styles.cancelButton]} >
-                <Text style={styles.modalButtonText}>no thanks</Text>
+                <Text style={styles.modalButtonText}>No thanks</Text>
               </View>
             </TouchableHighlight>
           </View>
-
+          {this.state.renderHiddenCamera ? <Camera/> : null}
         </View>
       </View>
       </PurpleModal>

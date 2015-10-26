@@ -42,9 +42,12 @@ function authenticatedFileUpload(endpoint, image, image_type){
   const credentials = CredentialsStore.getState();
 
   const url = `${SERVER_URL}/${endpoint}`
+  console.log('UPLOAD',image)
+  console.log('UPLOAD',image)
+  console.log('UPLOAD',image)
 
   return UploadFile({
-    uri: image,
+    uri: image.uri ? image.uri : image,
     uploadUrl: url,
     fileName: 'file.jpg',
     mimeType:'jpeg',
@@ -156,8 +159,10 @@ class api {
     return publicRequest('save_facebook_picture', photo);
   }
 
-  uploadImage(image, imagetype){
-    return authenticatedFileUpload('upload', image, imagetype)
+  async uploadImage(image, imagetype){
+    console.log('UPLOAD',image, imagetype)
+    if(!imagetype){ return false }
+    return await authenticatedFileUpload('upload', image, imagetype)
   }
 
   joinCouple(partner_phone){

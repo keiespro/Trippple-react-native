@@ -50,13 +50,14 @@ class SelfImage extends Component{
     var lastindex = this.props.navigator.getCurrentRoutes().length;
     console.log(lastindex);
     var nextRoute = this.props.stack[lastindex];
-    nextRoute.component = CameraRollView
     nextRoute.passProps = {
       ...this.props,
       imagetype:'profile',
       stack:this.props.stack,
-
+      nextRoute: EditImage
     }
+    nextRoute.component = CameraRollView
+
     nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
     this.props.navigator.push(nextRoute)
 
@@ -67,14 +68,11 @@ class SelfImage extends Component{
     console.log(lastindex);
     var nextRoute =  {
       component:  CameraRollPermissionsModal
-
     };
 
     nextRoute.passProps = {
       ...this.props,
       imagetype:'profile',
-
-      continue: this._getCameraRoll.bind(this)
     }
     nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
     this.props.navigator.push(nextRoute)
@@ -92,6 +90,7 @@ class SelfImage extends Component{
     nextRoute.passProps = {
       ...this.props,
       imagetype:'profile',
+      nextRoute: CameraControl
 
     }
     nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
@@ -158,7 +157,7 @@ class SelfImage extends Component{
   render(){
     return (
       <View style={styles.container}>
- <View style={{width:100,height:50,left:20,alignSelf:'flex-start',top:-30}}>
+ <View style={{width:100,height:50,left:20,alignSelf:'flex-start',top:0}}>
         <BackButton navigator={this.props.navigator}/>
       </View>
 

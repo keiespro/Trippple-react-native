@@ -65,7 +65,7 @@ class EditImage extends Component{
 
   accept(croppedImageURI){
     console.log(this.props.image,'profile')
-    // UserActions.uploadImage(this.props.image.uri,'profile')
+    UserActions.uploadImage({uri:this.props.image},'profile')
 
     console.log(croppedImageURI);
 
@@ -74,7 +74,7 @@ class EditImage extends Component{
         image:{uri:croppedImageURI,
           width:this._transformData.width,height:this._transformData.height,isStored:false} || this.props.originalImage,
         originalImage:this.props.image,
-          croppedImage: croppedImageURI,
+          croppedImage: croppedImageURI,croppedImageURI,
           imagetype: this.props.imagetype
       });
       return;
@@ -87,6 +87,7 @@ class EditImage extends Component{
           image:{uri:croppedImageURI,width:this._transformData.width,height:this._transformData.height,isStored:false} || this.props.originalImage,
           originalImage:this.props.image,
           croppedImage: croppedImageURI,
+          croppedImageURI,
           imagetype: this.props.imagetype
         }
       })
@@ -192,13 +193,13 @@ class EditImage extends Component{
 
 
   _crop() {
-    const {image} = this.props
-    const uri = image.uri || image
+    var {image} = this.props
+    var uri = image.uri ? image.uri : image
     ImageEditingManager.cropImage(
       uri,
       this._transformData,
-      (croppedImageURI) => { console.log(croppedImageURI); this.setState({croppedImageURI}); this.accept(croppedImageURI)},
-      (cropError) => { console.log(cropError);this.setState({cropError}) }
+      (croppedImageURI) => {   this.setState({croppedImageURI}); this.accept(croppedImageURI); },
+      (cropError) => { console.log('cropError',cropError); this.setState({cropError}) }
     );
   }
 
@@ -345,7 +346,6 @@ var styles = StyleSheet.create({
     width: DeviceWidth - 40,
     borderRadius: 5,
     top:0,
-    overflow:'hidden',
     position:'relative',
     shadowColor:colors.darkShadow,
     shadowRadius:15,

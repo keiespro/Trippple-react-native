@@ -59,9 +59,12 @@ class EditImageThumb extends Component{
 
   }
 
-  accept(){
+  accept(cropped){
+    console.log(cropped)
+
+
     AppActions.toggleOverlay()
-    UserActions.uploadImage( this.props.image,'profile')
+    UserActions.uploadImage( cropped ,'avatar')
 
     if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
 
@@ -77,7 +80,8 @@ class EditImageThumb extends Component{
       nextRoute.passProps = {
         ...this.props,
         image:this.props.image,
-        croppedImage: this.state.croppedImageURI
+        croppedImage: this.state.croppedImageURI,
+        imagetype:'avatar'
       }
 
 
@@ -167,10 +171,11 @@ class EditImageThumb extends Component{
   _crop() {
     const {image} = this.props
     const uri = image.uri || image
+    console.log(image, uri, this.props)
     ImageEditingManager.cropImage(
       uri,
       this._transformData,
-      (croppedImageURI) => { console.log(croppedImageURI);this.setState({croppedImageURI}); this.accept(croppedImageURI)},
+      (croppedImageURI) => { this.setState({croppedImageURI}); this.accept(croppedImageURI)},
       (cropError) => { console.log(cropError); this.setState({cropError}) }
     );
   }

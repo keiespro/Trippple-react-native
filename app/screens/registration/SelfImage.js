@@ -13,16 +13,7 @@ import {
 const DeviceHeight = require('Dimensions').get('window').height
 const DeviceWidth = require('Dimensions').get('window').width
 
-var ModalWrapper = React.createClass({
-  render(){
-    return (
-      <PurpleModal>
-        {this.props.children}
-      </PurpleModal>
-    )
-  }
 
-})
 
 import FBPhotoAlbums from '../../components/fb.login'
 import FacebookButton from '../../buttons/FacebookButton'

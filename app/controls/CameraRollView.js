@@ -25,6 +25,7 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 const ScrollViewPropTypes = ScrollView.propTypes;
 import EditImageThumb from '../screens/registration/EditImageThumb'
+import EditImage from '../screens/registration/EditImage'
 
 const propTypes = {
 
@@ -106,36 +107,51 @@ class CameraRollView extends Component{
   }
 
   loadAsset = (asset) => {
-    const imageFile = asset.node.image;
+    var imageFile = asset.node.image;
 
     if(this.props.getImage){
       this.props.getImage(imageFile)
     }
-    if(this.props.nextRoute){
+    if(!this.props.nextRoute){
       this.props.navigator.push({
-        component:this.props.nextRoute,
+        component:EditImage,
         passProps: {
+          ...this.props,
           imagetype: this.props.imagetype || '',
           image: imageFile,
-          nextRoute: EditImageThumb
+          nextRoute: EditImageThumb,
         }
       })
 
       return
+    }else if(this.props.nextRoute){
+        this.props.navigator.push({
+          component:this.props.nextRoute,
+          passProps: {
+            ...this.props,
+            imagetype: this.props.imagetype || '',
+            image: imageFile,
+            nextRoute: EditImageThumb,
+          }
+        })
+
+        return
+
+    }else{
+      var lastindex = this.props.navigator.getCurrentRoutes().length;
+     var nextRoute = this.props.stack[lastindex];
+
+      nextRoute.passProps = {
+           ...this.props,
+             imagetype: this.props.imagetype || '',
+             image: imageFile,
+
+
+       }
+       this.props.navigator.push(nextRoute)
+
     }
 
-   var lastindex = this.props.navigator.getCurrentRoutes().length;
-  console.log(lastindex,this.props.navigator.getCurrentRoutes(),this.props.stack[lastindex]);
-  var nextRoute = this.props.stack[lastindex];
-
-   nextRoute.passProps = {
-        ...this.props,
-          imagetype: this.props.imagetype || '',
-          image: imageFile,
-
-
-    }
-    this.props.navigator.push(nextRoute)
 
 
     // }

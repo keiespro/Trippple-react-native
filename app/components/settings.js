@@ -160,9 +160,8 @@ class SettingsInside extends React.Component{
             <TouchableOpacity onPress={this._pressNewImage} style={{marginTop:20}}>
               <Image
                 style={styles.userimage}
-                key={this.props.user.image_thumb}
-                source={{uri: this.props.user.image_thumb}}
-                defaultSource={require('image!placeholderUser')}
+                key={this.props.user.avatar}
+                source={{uri: this.props.user.avatar}}
                 resizeMode={Image.resizeMode.cover}/>
               <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
                 <Image

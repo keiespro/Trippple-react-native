@@ -8,13 +8,18 @@ import {
   Image,
   CameraRoll,
   View,
+  AsyncStorage,
   TouchableHighlight,
   Dimensions,
   PixelRatio
 } from 'react-native'
 
+const STORAGE_KEY = '@permission:cameraRoll'
+
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
+
+import CameraRollView from '../controls/CameraRollView'
 
 import colors from '../utils/colors'
 import _ from 'underscore'
@@ -28,11 +33,74 @@ export default class CameraRollPermissionsModal extends Component{
     super();
     this.state = {}
   }
-  cancel(){
-    this.props.goBack();
+  componentWillMount(){
+    this.preloadPermission()
   }
-  continue(){
-    this.props.navigator.push(this.props.nextRoute)
+  componentDidMount(){
+    if(this.state.hasPermission){
+      this.props.navigator.replace({
+        component:CameraRollView,
+        passProps:{
+          ...this.props,
+        }
+      })
+    }
+  }
+  componentDidUpdate(prevProps,prevState){
+    if(!prevState.hasPermission && this.state.hasPermission){
+      this.props.navigator.replace({
+        component:CameraRollView,
+        passProps:{
+          ...this.props,
+        }
+      })
+    }
+  }
+  async preloadPermission(){
+    try {
+      var hasPermission = await AsyncStorage.getItem(STORAGE_KEY)
+      this.setState({hasPermission})
+    } catch (error) {
+      this.setState({hasPermission: 'false'})
+      console.log('AsyncStorage error: ' + error.message);
+    }
+  }
+  cancel(){
+    this.props.navigator.pop()
+  }
+  handleTapYes(){
+
+    var fetchParams: Object = {
+      first: 1,
+      groupTypes: 'All',
+      assetType: 'Photos',
+    };
+    CameraRoll.getPhotos(fetchParams, this.handleSuccess.bind(this), this.handleFail.bind(this),);
+
+  }
+  async handleFail(){
+    console.log('HANDLE FAIL ' )
+
+    try {
+      AsyncStorage.setItem(STORAGE_KEY, 'false')
+      this.setState({hasPermission: 'false'})
+
+    } catch (error) {
+      console.log('AsyncStorage error: ' + error.message)
+    }
+
+  }
+  async handleSuccess(){
+    console.log('HANDLE SUCCESS ' )
+
+    try {
+      var hasPermission = await AsyncStorage.setItem(STORAGE_KEY, 'true')
+      this.setState({hasPermission})
+
+    } catch (error) {
+      console.log('AsyncStorage error: ' + error.message)
+    }
+
   }
 
   render(){
@@ -63,7 +131,7 @@ export default class CameraRollPermissionsModal extends Component{
               <TouchableHighlight
                 underlayColor={colors.mediumPurple}
                 style={styles.modalButtonWrap}
-                onPress={this.props.unMatch}>
+                onPress={this.handleTapYes.bind(this)}>
                 <View style={[styles.modalButton]} >
                   <Text style={styles.modalButtonText}>YES, OPEN MY ALBUMS</Text>
                 </View>
@@ -74,9 +142,9 @@ export default class CameraRollPermissionsModal extends Component{
             <TouchableHighlight
               underlayColor={colors.mediumPurple}
               style={styles.modalButtonWrap}
-              onPress={this.props.cancel}>
+              onPress={this.cancel.bind(this)}>
               <View style={[styles.modalButton,styles.cancelButton]} >
-                <Text style={styles.modalButtonText}>no thanks</Text>
+                <Text style={styles.modalButtonText}>No thanks</Text>
               </View>
             </TouchableHighlight>
           </View>
