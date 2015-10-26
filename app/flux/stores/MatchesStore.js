@@ -2,13 +2,11 @@ import alt from '../alt'
 import MatchActions from '../actions/MatchActions'
 import NotificationActions from '../actions/NotificationActions'
 
-import { AsyncStorage } from 'react-native'
 import _ from 'underscore'
 
 class MatchesStore {
 
   constructor() {
-
     this.state = {
       matches: [],
       favorites: [],
@@ -35,28 +33,17 @@ class MatchesStore {
       handleNewMessages: MatchActions.GET_MESSAGES
     });
 
-    this.on('init',()=>{
-      console.log('matches store init')
-
+    this.on('init', async ()=>{
     })
     this.on('bootstrap', () => {
-      console.log('store bootstrap');
-
+      console.log('matches store bootstrap');
     });
-  }
-  loadLocalData(){
 
-      AsyncStorage.getItem('MatchesStore')
-        .then((value) => {
-          console.log('got matches from storage,', JSON.parse(value))
-          if (value !== null){
-            // get data from local storage
-            alt.bootstrap(value);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
+    this.on('error', (err, payload, currentState) => {
+        console.log(err, payload);
+    })
+
+
   }
 
   unMatch(matchID){
@@ -130,6 +117,7 @@ class MatchesStore {
   toggleFavorite(matchesData) {
     console.log('toggle',matchesData)
     this.handleGetFavorites(matchesData)
+
   }
   handleGetMatches(matchesData){
     const {matches} = matchesData

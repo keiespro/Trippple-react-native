@@ -19,6 +19,10 @@ class ChatStore {
       messages: {}
     }
     this.on('init', () => console.log('ChatStore store init'))
+    this.on('error', (err, payload, currentState) => {
+        console.log(err, payload);
+    })
+
   }
 
   loadLocalData(){

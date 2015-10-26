@@ -35,6 +35,9 @@ class NotificationsStore {
 
 
     })
+    this.on('error', (err, payload, currentState) => {
+        console.log(err, payload);
+    })
 
   }
   handleMatchRemoved(){

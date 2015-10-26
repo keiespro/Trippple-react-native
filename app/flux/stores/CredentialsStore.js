@@ -18,6 +18,12 @@ class CredentialsStore {
       this.api_key = '';
 
       this.on('init', () => console.log('Credentials store init',UserActions))
+
+      this.on('error', (err, payload, currentState) => {
+          console.log(err, payload);
+      })
+
+
       this.bindListeners({
         handleInitApp: AppActions.INIT_APP,
         handleGotCredentials: AppActions.GOT_CREDENTIALS,

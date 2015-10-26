@@ -39,6 +39,9 @@ class UserStore {
       handlePartner: UserActions.SELECT_PARTNER
 
     });
+    this.on('error', (err, payload, currentState) => {
+        console.log(err, payload);
+    })
 
   }
 

@@ -30,6 +30,11 @@ class AppStateStore {
     this.exportPublicMethods({
       getAppState: this.getAppState
     })
+
+    this.on('error', (err, payload, currentState) => {
+        console.log(err, payload);
+    })
+
   }
 
   handleInitialize(){

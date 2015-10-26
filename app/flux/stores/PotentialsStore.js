@@ -19,6 +19,9 @@ class PotentialsStore {
 
     this.on('bootstrap', () => {
     })
+    this.on('error', (err, payload, currentState) => {
+        console.log(err, payload);
+    })
 
     this.exportPublicMethods({
       getAll: this.getAll

@@ -10,6 +10,10 @@ class AuthErrorStore {
       handleVerifyPinErrors: UserActions.VERIFY_SECURITY_PIN
     });
 
+    this.on('error', (err, payload, currentState) => {
+        console.log(err, payload);
+    })
+
   }
 
   handleRequestPinErrors(err) {
