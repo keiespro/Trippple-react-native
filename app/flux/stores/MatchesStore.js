@@ -11,6 +11,7 @@ class MatchesStore {
 
     this.state = {
       matches: [],
+      favorites: [],
       unreadCounts: {},
       lastAccessed: {},
       mountedAt: new Date().getTime(),
@@ -18,6 +19,7 @@ class MatchesStore {
 
     this.exportPublicMethods({
       getAllMatches: this.getAllMatches,
+      getAllFavorites: this.getAllFavorites,
       getMatchInfo: this.getMatchInfo,
       getAnyUnread: this.getAnyUnread
     });
@@ -123,12 +125,13 @@ class MatchesStore {
     })
   }
   sendMessage(payload){
-    this.getNewMatches(payload.matchesData)
+    this.handleGetMatches(payload.matchesData)
   }
   toggleFavorite(matchesData) {
-    this.getNewMatches(matchesData)
+    console.log('toggle',matchesData)
+    this.handleGetFavorites(matchesData)
   }
-  getNewMatches(matchesData){
+  handleGetMatches(matchesData){
     const {matches} = matchesData
     console.log(' getNewMatches matches',matches)
     if(matches.length){
@@ -170,27 +173,23 @@ class MatchesStore {
         matches: this.state.matches,
       });
     }
+    this.emitChange()
 
   }
 
-  handleGetFavorites(favs) {
-    if(favs.length){
+  handleGetFavorites(matchesData) {
+    const favs = matchesData.matches
 
-      const updatedMatches = this.state.matches.map((m,index)=>{
-        if(favs[index].isFavourited != m.isFavourited){
-          m.isFavourited = favs[index].isFavourited
-        }
-        return m
+    console.log('FAVORITES:',favs,this.state.favorites)
+    if(favs.length && this.state.matches.length){
+      let matches = _.unique([ ...this.state.matches, ...favs], 'match_id'),
+          favorites = _.unique([ ...this.state.favorites, ...favs], 'match_id')
+
+      this.setState({
+        matches, favorites
       })
-
-        this.setState({
-                matches: updatedMatches
-        })
+      this.emitChange()
     }
-  }
-
-  handleGetMatches(matchesData) {
-    this.getNewMatches(matchesData)
   }
 
   // public methods
@@ -201,13 +200,28 @@ class MatchesStore {
   }
 
   getAllMatches(){
-    const unread = this.getState().unreadCounts
+    const unread = this.getState().unreadCounts,
+          matches = this.getState().matches || []
 
-    return this.getState().matches.map((m,i) => {
-      m.unreadCount = unread[m.match_id] || 0;
+    return matches.map((m,i) => {
+      m.unreadCount = unread[m.match_id] || 0
       return m
     })
-   }
+  }
+
+  getAllFavorites(){
+    const unread = this.getState().unreadCounts,
+          matches = this.getState().matches || []
+
+    var f = matches.filter((match) => match.isFavourited).map((m,i) => {
+      m.unreadCount = unread[m.match_id] || 0
+      return m
+    })
+    console.log('getAllFavorites', f)
+    return f
+  }
+
+
 
   getMatchInfo(matchID){
 

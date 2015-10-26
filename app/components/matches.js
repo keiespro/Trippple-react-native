@@ -32,7 +32,7 @@ import alt from '../flux/alt'
 import Chat from './chat'
 import MatchActions from '../flux/actions/MatchActions'
 import MatchesStore from '../flux/stores/MatchesStore'
-import FavoritesStore from '../flux/stores/FavoritesStore'
+// import FavoritesStore from '../flux/stores/FavoritesStore'
 import Swipeout from './Swipeout'
 import Logger from '../utils/logger'
 import customSceneConfigs from '../utils/sceneConfigs'
@@ -68,12 +68,10 @@ class MatchList extends Component{
   }
 
 
-  _allowScroll = (scrollEnabled)=> {
-    console.log('toggle scroll:',this._listView.refs.listviewscroll.refs.InnerScrollView)
-    // if(scrollEnabled != this.state.scrollEnabled && this._listView) {
-      // this.state.index ?  : this._flistView.refs.listviewscroll.refs.InnerScrollView.setNativeProps({ scrollEnabled })
-      this._listView.refs.listviewscroll.refs.ScrollView.setNativeProps({ scrollEnabled })
-
+  _allowScroll = (scrollEnabled,listindex)=> {
+    var listref = listindex == 0 ? '_listView' : '_flistView'
+    console.log(listref,this)
+    this[listref] && this[listref].refs.listviewscroll.refs.ScrollView.setNativeProps({ scrollEnabled })
   }
 
   // shouldComponentUpdate =(nProps,nState)=> nProps.matches.length > this.props.matches.length
@@ -122,7 +120,6 @@ class MatchList extends Component{
               threshold: 200,
               action: self.actionModal.bind(self,rowData),
               backgroundColor: colors.dark,
-              underlayColor: colors.mediumPurple,
 
             }
          ]}
@@ -132,9 +129,7 @@ class MatchList extends Component{
             threshold: 200,
             component: true,
             action: () => self.toggleFavorite(rowData),
-            backgroundColor: colors.dark,
-            underlayColor: colors.dandelion,
-
+            backgroundColor: rowData.isFavourited ? colors.dandelion : colors.dark,
           }
         ]}
         rowData={rowData}
@@ -142,7 +137,7 @@ class MatchList extends Component{
         rowID={rowID}
         sectionID={sectionID}
         autoClose={false}
-        scroll={event => this._allowScroll(event)}
+        scroll={event => this._allowScroll(event,this.state.index)}
         onClose={(sectionID_, rowID_) => {console.log('close')}}
 
         onOpen={(sectionID_, rowID_) => {console.log('OPEN'); this._handleSwipeout(sectionID_, rowID_)}}>
@@ -253,7 +248,7 @@ class MatchList extends Component{
             ref={component => this._listView = component}
             dataSource={this.props.dataSource}
             renderRow={this._renderRow.bind(this)}
-            /> :
+          /> :
             <NoMatches/>
             )
             :
@@ -275,6 +270,7 @@ class MatchList extends Component{
             ref={component => this._flistView = component}
             dataSource={this.props.favDataSource}
             renderRow={this._renderRow.bind(this)}
+
             /> :
             <NoFavorites/>
         )}
@@ -311,30 +307,38 @@ class MatchesInside extends Component{
     })
 
     if(newProps.matches[0]){
-      this._updateDataSource(newProps.matches)
+      this._updateDataSource(newProps.matches,'matches')
     }
+    if(newProps.favorites[0] ){
+      this._updateDataSource(newProps.favorites,'favorites')
+    }
+
   }
 
     shouldComponentUpdate(nProps,nState){
 
-      var {matches} = this.state
+      var {matches,favorites} = this.state
 
-      console.log(matches,nProps.matches,nProps,nState);
 
-      var didUpdate = (matches[0].unreadCount || nProps.matches[0].unreadCount);
-              console.log(didUpdate)
-              return didUpdate
+      var matchesDidUpdate = (matches[0].unreadCount || nProps.matches[0].unreadCount) || (matches.length != nProps.matches.length);
+      var favsDidUpdate = (favorites[0].unreadCount || nProps.favorites[0].unreadCount) || (favorites.length != nProps.favorites.length);
+
+      return matchesDidUpdate || favsDidUpdate
 
     }
 
-  _updateDataSource(data) {
+  _updateDataSource(data,whichList) {
     console.log(data)
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.match_id !== r2.match_id});
     if(data.length > 1){
-      this.setState({
+      var newState = (whichList == 'matches') ? {
         matches: data,
         dataSource: ds.cloneWithRows(data || []),
-      })
+      } : {
+        favorites: data,
+        favDataSource: ds.cloneWithRows(data || []),
+      };
+      this.setState(newState)
     }
   }
 
@@ -345,7 +349,7 @@ class MatchesInside extends Component{
             dataSource={this.state.dataSource}
             favDataSource={this.state.favDataSource}
             matches={this.state.matches || this.props.matches}
-            favorites={this.props.favorites}
+            favorites={this.state.favorites || this.props.favorites}
 
             updateDataSource={this._updateDataSource.bind(this)}
             id={"matcheslist"}
@@ -469,8 +473,8 @@ class Matches extends Component{
 
       favorites: (props) => {
         return {
-          store: FavoritesStore,
-          value: FavoritesStore.getAllFavorites()
+          store: MatchesStore,
+          value: MatchesStore.getAllFavorites()
         }
       },
 

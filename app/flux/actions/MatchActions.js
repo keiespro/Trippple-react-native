@@ -20,10 +20,10 @@ class MatchActions {
 
   getFavorites(page){
 
-    Api.getFavorites(page || 0)
+    Api.getMatches(page || 0)
       .then((res) => {
         console.log('RES FAVS',res)
-        this.dispatch({matches: res.response, page: page || false});
+        this.dispatch({matches: res.response, page: page || 0});
       })
       .catch(err => console.log(err))
 
@@ -37,7 +37,7 @@ class MatchActions {
       return false
     }
 
-    Api.getMessages({match_id: matchID, page: page})
+    Api.getMessages({match_id: matchID, page: page || false})
       .then((res) => {
         this.dispatch({messages: res.response});
       })
@@ -102,9 +102,9 @@ class MatchActions {
       Api.toggleFavorite(matchID)
       .then(()=>{
 
-        return Api.getMatches(0)
+        return Api.getFavorites(0)
         .then((res) => {
-        console.log(res)
+          console.log(res)
           this.dispatch({matches: res.response, page: 0});
 
         })
@@ -115,44 +115,45 @@ class MatchActions {
 
 
   unMatch(matchID){
+    Api.unMatch(matchID)
+    .then(()=>{
+      this.dispatch(matchID);
+    })
+  }
 
-      Api.unMatch(matchID)
-      .then(()=>{
-         this.dispatch(matchID);
-
-        })
-
-
-
-    }
+  reportUser(user, reason){
+    console.log('REPORT USER:',user,reason)
+    Api.reportUser(user.id, user.relationship_status, reason)
+    this.dispatch({ user_id: user.id, reason});
+  }
 
   sendLike(likedUserID,likeStatus,likeUserType,rel_status){
     console.log(likedUserID)
+    Api.sendLike(likedUserID, likeStatus,likeUserType,rel_status)
 
     this.dispatch(likedUserID);
 
-    Api.sendLike(likedUserID, likeStatus,likeUserType,rel_status)
-      .then((likeRes) => {
+      // .then((likeRes) => {
 
-        navigator.geolocation.getCurrentPosition(
-          (geo) => {
-            var {latitude,longitude} = geo.coords;
-
-            // Api.getPotentials( {latitude,longitude} )
-            //   .then((res) => {
-            //     this.dispatch(res.response);
-            //   })
-            //   .catch(err => console.log(err))
-            //
-          },
-          (error) => {
-            // Open native settings
-
-            console.error(error)
-          },
-          {enableHighAccuracy: false, maximumAge: 1000}
-        )
-      })
+      //   navigator.geolocation.getCurrentPosition(
+      //     (geo) => {
+      //       var {latitude,longitude} = geo.coords;
+      //
+      //       // Api.getPotentials( {latitude,longitude} )
+      //       //   .then((res) => {
+      //       //     this.dispatch(res.response);
+      //       //   })
+      //       //   .catch(err => console.log(err))
+      //       //
+      //     },
+      //     (error) => {
+      //       // Open native settings
+      //
+      //       console.error(error)
+      //     },
+      //     {enableHighAccuracy: false, maximumAge: 1000}
+      //   )
+      // })
 
   }
 }
