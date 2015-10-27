@@ -121,7 +121,8 @@ class Cards extends Component{
   }
 
   getInactiveOpacity = ()=>{
-    return this.state.panX ? this.state.panX.interpolate({inputRange: [-300, -150, 0, 150, 300], outputRange: [1,0.7,0,0.7,1]}) : 0
+    return this.state.panX ? this.state.panX.interpolate({
+      inputRange: [-300, -100, 0, 100, 300], outputRange: [1,0.7,0,0.7,1]}) : 0
 
   }
   initializePanResponder(){
@@ -420,8 +421,20 @@ componentWillReceiveProps(nProps){
       isMoving: false
     });
   }
-
-}
+  nProps && nProps.panX && !nProps.profileVisible && nProps.isTopCard ? nProps.panX.addListener(({value}) => {
+    // listen to parent component's panX
+      if(value == 0 && this.state.isMoving){
+        this.setState({
+          isMoving: false
+        })
+      }else if(value != 0 && !this.state.isMoving){
+        this.setState({
+          isMoving: true
+        })
+      }
+      this.setNativeProps({ style:{ backgroundColor: value > 0 ? colors.sushi : colors.mandy } })
+    }) : null
+  }
 
 
 
@@ -430,19 +443,7 @@ componentWillReceiveProps(nProps){
 
     var { rel, potential, profileVisible, isTopCard, isThirdCard, panX } = this.props,
 
-        v = panX ? panX.addListener(({value}) => {
-          // listen to parent component's panX
-          if(value == 0 && this.state.isMoving){
-            this.setState({
-              isMoving: false
-            })
-          }else if(value != 0 && !this.state.isMoving){
-            this.setState({
-              isMoving: true
-            })
-          }
-          this.setNativeProps({ style:{ backgroundColor: value > 0 ? colors.sushi : colors.mandy } })
-        }) : null,
+
 
 
         matchName = `${potential.user.firstname.trim()} ${potential.user.age}`,
