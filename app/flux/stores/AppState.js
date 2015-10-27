@@ -22,7 +22,7 @@ class AppStateStore {
     this.bindListeners({
       handleInitialize: AppActions.GOT_CREDENTIALS,
       handleInitSuccess: UserActions.INIT_SUCCESS,
-      handleGetUserInfo: UserActions.getUserInfo,
+      handleGetUserInfo: UserActions.GET_USER_INFO,
       handleUpdateUser: UserActions.UPDATE_USER,
       handleVerifyPin: UserActions.VERIFY_SECURITY_PIN,
       handleLogOut: UserActions.LOG_OUT,

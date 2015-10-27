@@ -18,11 +18,12 @@ import Camera from 'react-native-camera';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-const STORAGE_KEY = '@permission:camera'
+const CameraKey = new Symbol('camera')
 
 import colors from '../utils/colors'
 import _ from 'underscore'
-import MatchActions from '../flux/actions/MatchActions'
+import AppActions  from '../flux/actions/AppActions'
+import MatchActions from 'atchActions'
 import PurpleModal from './PurpleModal'
 import styles from './purpleModalStyles'
 import CameraControl from '../controls/cameraControl'
@@ -60,10 +61,11 @@ export default class CameraPermissionsModal extends Component{
   }
   async preloadPermission(){
     try {
-      var hasPermission = await AsyncStorage.getItem(STORAGE_KEY)
+      var hasPermission = await AsyncStorage.getItem(CameraKey)
       this.setState({hasPermission})
     } catch (error) {
       this.setState({hasPermission: 'false'})
+      AppActions.denyPermission(CameraKey)
       console.log('AsyncStorage error: ' + error.message);
     }
   }
@@ -79,11 +81,11 @@ export default class CameraPermissionsModal extends Component{
     console.log('HANDLE FAIL ' )
 
     try {
-      AsyncStorage.setItem(STORAGE_KEY, 'false')
+      AsyncStorage.setItem(CameraKey, 'false')
       this.setState({hasPermission: 'false'})
 
     } catch (error) {
-      console.log('AsyncStorage error: ' + error.message)
+      AppActions.grantPermission(CameraKey)
     }
 
   }
