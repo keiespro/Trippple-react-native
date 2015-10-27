@@ -62,18 +62,21 @@ export default class CameraPermissionsModal extends Component{
   async preloadPermission(){
     try {
       var hasPermission = await AsyncStorage.getItem(CameraKey)
-      this.setState({hasPermission})
+      if(hasPermission){
+        this.setState({hasPermission: 'true'})
+      }else{
+        throw "shitatthewall"
+      }
     } catch (error) {
       this.setState({hasPermission: 'false'})
       AppActions.denyPermission(CameraKey)
-      console.log('AsyncStorage error: ' + error.message);
+      console.log(' error: ' + error.message);
     }
   }
   cancel(){
     this.props.navigator.pop()
   }
   handleTapYes(){
-
     this.setState({renderHiddenCamera:true})
     this.handleSuccess()
   }
