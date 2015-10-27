@@ -38,7 +38,7 @@ class CoupleImage extends Component{
     nextRoute.component = CameraRollView
     nextRoute.passProps = {
       ...this.props,
-      imagetype:'profile',
+      image_type:'profile',
       stack:this.props.stack,
 
     }
@@ -54,7 +54,7 @@ class CoupleImage extends Component{
 
     nextRoute.passProps = {
       ...this.props,
-      imagetype:'profile',
+      image_type:'profile',
 
     }
     nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
@@ -78,7 +78,7 @@ class CoupleImage extends Component{
    nextRoute.passProps = {
         ...this.props,
         image: imageFile,
-        imagetype:'couple_profile',
+        image_type:'couple_profile',
 
 
     }

@@ -34,6 +34,12 @@ class AppActions {
   storeContactsToBlock(contacts){
     this.dispatch(contacts)
   }
+  grantPermission(perm){
+    this.dispatch({[perm]: true})
+  }
+  denyPermission(perm){
+    this.dispatch({[perm]: false})
+  }
 }
 
 export default alt.createActions(AppActions)

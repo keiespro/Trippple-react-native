@@ -2,6 +2,11 @@ import alt from '../alt'
 import AppActions from '../actions/AppActions'
 import UserActions from '../actions/UserActions'
 import MatchActions from '../actions/MatchActions'
+import {AsyncStorage} from 'react-native'
+
+
+
+
 
 class AppStateStore {
   constructor() {
@@ -12,6 +17,7 @@ class AppStateStore {
     this.checkMarkCopy = {}
     this.currentRoute = null
     this.showOverlay = false
+    this.permissions = {}
 
     this.bindListeners({
       handleInitialize: AppActions.GOT_CREDENTIALS,
@@ -24,7 +30,9 @@ class AppStateStore {
       handleShowCheckmark: AppActions.SHOW_CHECKMARK,
       handleSelectPartner: UserActions.SELECT_PARTNER,
       handleUpdateRoute: AppActions.UPDATE_ROUTE,
-      handleToggleOverlay: AppActions.TOGGLE_OVERLAY
+      handleToggleOverlay: AppActions.TOGGLE_OVERLAY,
+      handleGratPermission: AppActions.GRANT_PERMISSION,
+      handleDenyPermission: AppActions.DENY_PERMISSION
     });
 
     this.exportPublicMethods({
@@ -40,6 +48,27 @@ class AppStateStore {
   handleInitialize(){
 
 
+  }
+  handleTogglePermission(permission, value){
+
+    const perms = this.state.permissions
+    perms[permission] = value
+    console.log('PERMISSION '+(value ? 'GRANTED: ' : 'DENIED: '+ permission))
+  }
+
+  handleGrantPermission({permission, value}){
+    this.handleTogglePermission(permission, value)
+  }
+  handleDenyPermission({permission, value}){
+    this.handleTogglePermission(permission, value)
+  }
+
+  async saveToLocalStorage(permission, value){
+    try {
+      await AsyncStorage.setItem(`@${permission}`, value)
+    } catch (error) {
+      console.log('AsyncStorage error: ' + error.message);
+    }
   }
   handleToggleOverlay(){
     this.setState({

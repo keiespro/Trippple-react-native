@@ -7,7 +7,9 @@ import {
   StyleSheet,
   Text,
   Image,
+  CameraRoll,
   View,
+  PixelRatio,
   TouchableHighlight,
   NativeModules,
   ScrollView
@@ -60,11 +62,17 @@ class EditImageThumb extends Component{
   }
 
   accept(cropped){
-    console.log(cropped)
-
 
     AppActions.toggleOverlay()
-    UserActions.uploadImage( cropped ,'avatar')
+        //
+        // CameraRoll.getPhotos({first:1}, (imgdata)=> {
+        //   const img = imgdata.edges[0].node.image
+        //   UserActions.uploadImage( img ,'avatar')
+        // },
+        // (errr)=> {
+        //   console.log( errr ,'errr')
+        // } )
+      UserActions.uploadImage( cropped ,'avatar')
 
     if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
 
@@ -81,7 +89,7 @@ class EditImageThumb extends Component{
         ...this.props,
         image:this.props.image,
         croppedImage: this.state.croppedImageURI,
-        imagetype:'avatar'
+        image_type:'avatar'
       }
 
 
@@ -105,12 +113,13 @@ class EditImageThumb extends Component{
       );
     }
     var cropsize = { width: CropBoxSize, height: CropBoxSize }
-
+    var img = this.props.image;
+    console.log('immmgg',img)
     return (
       <View style={styles.container}>
       <Image source={this.props.image}
       resizeMode={Image.resizeMode.cover} style={{width:DeviceWidth,height:DeviceHeight}}>
-        <View blurType="dark" style={styles.blurbg}/>
+        <View  style={styles.blurbg}/>
 
  <View style={{width:100,height:50,left:20}}>
         <BackButton navigator={this.props.navigator}/>
@@ -120,7 +129,7 @@ class EditImageThumb extends Component{
           <View style={styles.circleCropbox}>
 
             <ImageCropper
-              image={ { uri: this.props.image.uri, width: this.state.measuredSize.width, height: this.state.measuredSize.height, isStored: true } }
+              image={ { uri: this.props.image.hasOwnProperty('uri') ? this.props.image.uri : this.props.image, width: this.state.measuredSize.width, height: this.state.measuredSize.height, isStored: true } }
               size={cropsize}
               style={[styles.imageCropper, cropsize]}
               onTransformDataChange={(data) => this._transformData = data}
@@ -140,7 +149,6 @@ class EditImageThumb extends Component{
              handlePress={this._crop.bind(this)}
         />
 
-        {error}
 
         </Image>
         </View>
@@ -174,7 +182,7 @@ class EditImageThumb extends Component{
     console.log(image, uri, this.props)
     ImageEditingManager.cropImage(
       uri,
-      this._transformData,
+        this._transformData,
       (croppedImageURI) => { this.setState({croppedImageURI}); this.accept(croppedImageURI)},
       (cropError) => { console.log(cropError); this.setState({cropError}) }
     );
@@ -195,22 +203,19 @@ class EditImageThumb extends Component{
       <View
           style={styles.container}
           onLayout={(event) => {
-            let measuredWidth = event.nativeEvent.layout.width;
+            let measuredWidth = event.nativeEvent.layout.width,
+                measuredHeight = event.nativeEvent.layout.height;
             if (!measuredWidth) {
               return;
             }
             this.setState({
-              measuredSize: {width: measuredWidth, height: measuredWidth},
+              measuredSize: {width: measuredWidth, height: measuredHeight},
             });
           }}
         />
     );
    }
-    if (!this.state.croppedImageURI) {
       return this._renderImageCropper();
-    }
-    return this._renderCroppedImage();
-
   }
   retake =()=> {
     this.props.navigator.pop();
@@ -225,23 +230,25 @@ class ImageCropper extends React.Component {
   _contentOffset: ImageOffset;
 
   componentWillMount() {
+    console.log(this.props.image)
     var widthRatio = this.props.image.width / this.props.size.width;
     var heightRatio = this.props.image.height / this.props.size.height;
     if (widthRatio < heightRatio) {
       this._scaledImageSize = {
         width: this.props.image.width / widthRatio,
-        height: this.props.image.height / widthRatio,
+        height: this.props.image.height / heightRatio ,
       };
     } else {
       this._scaledImageSize = {
-        width: this.props.image.width / heightRatio,
-        height: this.props.image.height  / heightRatio,
+        width: this.props.image.width / widthRatio,
+        height: this.props.size.height / heightRatio,
       };
     }
     this._contentOffset = {
-      x: (this._scaledImageSize.width - this.props.size.width) / 2,
-      y: (this._scaledImageSize.height - this.props.size.height) / 2,
+      x: (this._scaledImageSize.width - this.props.size.width) / PixelRatio.get(),
+      y: (this._scaledImageSize.height - this.props.size.height) / PixelRatio.get(),
     };
+
     this._updateTransformData(
       this._contentOffset,
       this._scaledImageSize,
@@ -259,9 +266,9 @@ class ImageCropper extends React.Component {
 
   _updateTransformData(offset, scaledImageSize, croppedImageSize) {
     var offsetRatioX = offset.x / scaledImageSize.width;
-    var offsetRatioY = offset.y / scaledImageSize.height;
-    var sizeRatioX =  scaledImageSize.width;
-    var sizeRatioY =  scaledImageSize.height;
+    var offsetRatioY = offset.y;
+    var sizeRatioX = croppedImageSize.width;
+    var sizeRatioY = croppedImageSize.height / scaledImageSize.height;
 
     this.props.onTransformDataChange && this.props.onTransformDataChange({
       offset: {
@@ -274,6 +281,7 @@ class ImageCropper extends React.Component {
       },
     });
   }
+
 
   render() {
     var decelerationRate =
@@ -288,6 +296,8 @@ class ImageCropper extends React.Component {
         contentOffset={this._contentOffset}
         decelerationRate={decelerationRate}
         horizontal={true}
+        zoomScale={1}
+        minimumZoomScale={0.5}
         maximumZoomScale={5.0}
         onMomentumScrollEnd={this._onScroll.bind(this)}
         onScrollEndDrag={this._onScroll.bind(this)}
@@ -295,7 +305,7 @@ class ImageCropper extends React.Component {
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
       >
-        <Image source={this.props.image} style={this._scaledImageSize} />
+        <Image source={this.props.image} resizeMode={Image.resizeMode.cover} style={this._scaledImageSize} />
       </ScrollView>
     );
   }

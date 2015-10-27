@@ -117,7 +117,7 @@ class CameraRollView extends Component{
         component:EditImage,
         passProps: {
           ...this.props,
-          imagetype: this.props.imagetype || '',
+          image_type: this.props.image_type || '',
           image: imageFile,
           nextRoute: EditImageThumb,
         }
@@ -129,7 +129,7 @@ class CameraRollView extends Component{
           component:this.props.nextRoute,
           passProps: {
             ...this.props,
-            imagetype: this.props.imagetype || '',
+            image_type: this.props.image_type || '',
             image: imageFile,
             nextRoute: EditImageThumb,
           }
@@ -143,7 +143,7 @@ class CameraRollView extends Component{
 
       nextRoute.passProps = {
            ...this.props,
-             imagetype: this.props.imagetype || '',
+             image_type: this.props.image_type || '',
              image: imageFile,
 
 

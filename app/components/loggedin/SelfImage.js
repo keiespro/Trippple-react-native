@@ -52,7 +52,7 @@ class SelfImage extends Component{
     var nextRoute = this.props.stack[lastindex];
     nextRoute.passProps = {
       ...this.props,
-      imagetype:'profile',
+      image_type:'profile',
       stack:this.props.stack,
       nextRoute: EditImage
     }
@@ -72,7 +72,7 @@ class SelfImage extends Component{
 
     nextRoute.passProps = {
       ...this.props,
-      imagetype:'profile',
+      image_type:'profile',
     }
     nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
     this.props.navigator.push(nextRoute)
@@ -89,7 +89,7 @@ class SelfImage extends Component{
 
     nextRoute.passProps = {
       ...this.props,
-      imagetype:'profile',
+      image_type:'profile',
       nextRoute: CameraControl
 
     }
@@ -104,7 +104,7 @@ class SelfImage extends Component{
 
     nextRoute.passProps = {
       ...this.props,
-      imagetype:'profile',
+      image_type:'profile',
 
     }
     nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
@@ -128,7 +128,7 @@ class SelfImage extends Component{
     nextRoute.passProps = {
         ...this.props,
         image: imageFile,
-        imagetype:'profile',
+        image_type:'profile',
 
             }
 
@@ -141,7 +141,7 @@ class SelfImage extends Component{
     nextRoute.component = FBPhotoAlbums
     nextRoute.passProps = {
       ...this.props,
-      imagetype: 'profile',
+      image_type: 'profile',
       nextRoute: EditImage,
       afterNextRoute: EditImageThumb,
       fbUser

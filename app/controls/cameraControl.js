@@ -56,10 +56,9 @@ class CameraControl extends Component{
           ref="cam"
           type={this.state.cameraType}
           aspect={Camera.constants.Aspect.fill}
-                flashMode={Camera.constants.FlashMode.auto}
-                orientation={Camera.constants.Orientation.auto}
-                captureTarget={Camera.constants.CaptureTarget.cameraRoll}
-
+          flashMode={Camera.constants.FlashMode.auto}
+          orientation={Camera.constants.Orientation.auto}
+          captureTarget={Camera.constants.CaptureTarget.disk}
           >
           <TouchableOpacity style={styles.bigbutton} onPress={this._takePicture.bind(this)} >
             <View style={[{height:80,width:80}]}>
@@ -67,8 +66,8 @@ class CameraControl extends Component{
               resizeMode={Image.resizeMode.cover} source={require('image!snap')} style={{height:80,width:80}}/>
             </View>
           </TouchableOpacity>
-          </Camera>
-          </View>
+        </Camera>
+        </View>
       </View>
     );
   }
@@ -86,20 +85,20 @@ class CameraControl extends Component{
       // CameraRoll.saveImageWithTag(data,
       //   (imageTag)=> {
       //     console.log(imageTag);
-      //     // console.log(contents);
       //     //
-  CameraRoll.getPhotos({first:1}, (imgdata)=> {
-      console.log(imgdata,'imgdata')
-      const imageFile = imgdata.edges[0].node.image
-
+      //     //
+  // CameraRoll.getPhotos({first:1}, (imgdata)=> {
+  //     console.log(imgdata,'imgdata')
+  //     const imageFile = imgdata.edges[0].node.image
+      const imageFile = {uri: data}
       if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
         this.props.navigator.push({
           component: EditImage,
           passProps: {
             ...this.props,
             image: imageFile.uri,
-            imageData: imgdata,
-            imagetype: this.props.imagetype || '',
+            imageData: data,
+            image_type: this.props.image_type || 'profile',
             nextRoute: EditImageThumb
           }
         })
@@ -110,9 +109,9 @@ class CameraControl extends Component{
             component: this.props.nextRoute,
             passProps: {
               ...this.props,
-              imageData: imgdata,
+              imageData: data,
               image: imageFile.uri,
-              imagetype: this.props.imagetype || '',
+              image_type: this.props.image_type || '',
               nextRoute: EditImageThumb
             }
           })
@@ -126,22 +125,14 @@ class CameraControl extends Component{
           nextRoute.passProps = {
            ...this.props,
             image: imageFile.uri,
-            imageData: imgdata,
-            imagetype: this.props.imagetype || '',
+            imageData: data,
+            image_type: this.props.image_type || '',
           }
-
           this.props.navigator.push( nextRoute )
         }
       }
-
-
-
-    },(error)=>{console.log(error)}
-    )
-
-
-  })
-}
+    })
+  }
 }
 
 

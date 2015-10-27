@@ -31,33 +31,39 @@ async function publicRequest(endpoint, payload){
 }
 
 async function authenticatedRequest(endpoint: '', payload: {}){
-
-  const credentials = CredentialsStore.getState();
+  const credentials = CredentialsStore.getState()
   const authPayload = {...payload, ...credentials}
-  var req = await publicRequest(endpoint, authPayload);
-  return await req.json()
+
+  try{
+    var req = await publicRequest(endpoint, authPayload);
+    return await req.json()
+  }
+  catch(err){
+    console.log('ERR',err)
+    return err
+  }
 }
 
-function authenticatedFileUpload(endpoint, image, image_type){
-  const credentials = CredentialsStore.getState();
+async function authenticatedFileUpload(endpoint, image, image_type){
+  try{
+      const credentials = CredentialsStore.getState()
+      const uploadUrl = `${SERVER_URL}/${endpoint}`
+      const uri =  image.hasOwnProperty('uri') ? image.uri : image
 
-  const url = `${SERVER_URL}/${endpoint}`
-  console.log('UPLOAD',image)
-  console.log('UPLOAD',image)
-  console.log('UPLOAD',image)
+      console.log('UPLOAD',UploadFile,image, uri, image_type)
 
-  return UploadFile({
-    uri: image.uri ? image.uri : image,
-    uploadUrl: url,
-    fileName: 'file.jpg',
-    mimeType:'jpeg',
-    data: { ...credentials, image_type }
-  })
-  .then( (res, err) => {
-    console.log('res:',res,'err:',err);
-    return res.response;
-  })
-
+      return await UploadFile({
+        uri: uri,
+        uploadUrl: uploadUrl,
+        fileName: 'file.jpg',
+        mimeType:'jpeg',
+        data: { ...credentials, image_type }
+      })
+    }
+    catch(err){
+      console.log('ERR',err)
+      return err
+    }
 }
 
 class api {
@@ -159,10 +165,13 @@ class api {
     return publicRequest('save_facebook_picture', photo);
   }
 
-  async uploadImage(image, imagetype){
-    console.log('UPLOAD',image, imagetype)
-    if(!imagetype){ return false }
-    return await authenticatedFileUpload('upload', image, imagetype)
+  async uploadImage(image, image_type){
+    console.log('UPLOAD',image, image_type)
+    if(!image_type){
+      console.log('NO image_type!!');
+       image_type = 'avatar'
+    }
+    return await authenticatedFileUpload('upload', image, image_type).then((response) => response.json())
   }
 
   joinCouple(partner_phone){
@@ -172,7 +181,6 @@ class api {
   async getProfileSettingsOptions(){
     return await publicRequest('get_client_user_profile_options').then((response) => response.json())
   }
-
 
   async sendContactsToBlock(data,start){
     return await authenticatedRequest('process_phone_contacts', {data})

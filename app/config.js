@@ -9,9 +9,9 @@ const config = {
   },
 
   staging: {
-    SERVER_URL: 'https://52.26.56.31/user',
-    WEBSOCKET_URL: 'https://52.26.56.31:9919',
-    KEYCHAIN_NAMESPACE: 'trippple.co'
+    SERVER_URL: 'https://staging-api.trippple.co/user',
+    WEBSOCKET_URL: 'https://staging-api.trippple.co',
+    KEYCHAIN_NAMESPACE: 'staging.trippple.co'
   },
 
   dev: {

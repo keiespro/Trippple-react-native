@@ -54,7 +54,7 @@ import AppActions from '../flux/actions/AppActions'
         if(nProps.currentRoute.route != this.refs.nav.navigationContext._currentRoute.id){
           this.refs.nav.push({
             ...ChatRoute,
-            sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+            sceneConfig: Navigator.SceneConfigs.PushFromRight,
             passProps:{
               match_id: nProps.currentRoute.match_id,
               currentMatch: nProps.currentMatch,

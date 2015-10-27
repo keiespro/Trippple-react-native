@@ -48,7 +48,6 @@ class NotificationCommander extends Component{
   //   if(!this.props.api_key && nextProps.api_key){
   //     this.connectSocket()
   //   }
-
   // }
   // shouldComponentUpdate = () => false
 
@@ -80,19 +79,13 @@ class NotificationCommander extends Component{
 
       if(data.action && data.action === 'retrieve' && data.match_id) {
 
-          NotificationActions.receiveNewMatchNotification(data)
-
-
+        NotificationActions.receiveNewMatchNotification(data)
 
       }else if(data.action === 'match_removed'){
 
-          NotificationActions.receiveMatchRemovedNotification(data)
-
-
+        NotificationActions.receiveMatchRemovedNotification(data)
 
       }else if(data.action && (data.action === 'imageflagged' || 'statuschange')) {
-
-
 
 
 
@@ -101,10 +94,7 @@ class NotificationCommander extends Component{
 
     this.socket.on('chat', (payload) => {
       console.log('CHAT NOTIFICATION',payload)
-      // const notifications = this.state.notifications;
-      // notifications.push(payload);
-      // this.setState({notifications});
-      // this.onNotification();
+
       NotificationActions.receiveNewMessageNotification(payload)
 
     })
@@ -129,7 +119,7 @@ class NotificationCommander extends Component{
 
 
   render(){
-        return null
+    return null
   }
 
 }

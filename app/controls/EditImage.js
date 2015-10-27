@@ -34,12 +34,8 @@ class ImageEditor extends Component{
   }
 
   accept(){
-    UserActions.uploadImage(this.props.image,this.props.imagetype)
-    // this.props.navigator.push({
-    //   component: PrivacyScreen,
-    //   id:'priv'
-    //
-    // })
+
+    UserActions.uploadImage(this.props.image,this.props.image_type)
 
   }
   render() {
@@ -54,9 +50,9 @@ class ImageEditor extends Component{
         <TouchableHighlight onPress={this.retake} style={styles.bigbutton}>
           <View/>
         </TouchableHighlight>
-          <TouchableHighlight onPress={this.accept.bind(this)} style={[styles.bigbutton,{backgroundColor:colors.sushi}]}>
-            <View/>
-          </TouchableHighlight>
+        <TouchableHighlight onPress={this.accept.bind(this)} style={[styles.bigbutton,{backgroundColor:colors.sushi}]}>
+          <View/>
+        </TouchableHighlight>
       </View>
 
       </View>
@@ -110,12 +106,7 @@ const styles = StyleSheet.create({
     height:50,
     borderRadius:25
   },
-  bigbutton:{
-    width:80,
-    height:80,
-    backgroundColor:'red',
-    borderRadius:40
-  }
+
 });
 
 

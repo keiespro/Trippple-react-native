@@ -27,6 +27,7 @@ import PurpleModal from './PurpleModal'
 import styles from './purpleModalStyles'
 import BoxyButton from '../controls/boxyButton'
 import UserActions from '../flux/actions/UserActions'
+import AppActions from '../flux/actions/AppActions'
 
 export default class PrivacyPermissionsModal extends Component{
 
@@ -50,6 +51,8 @@ export default class PrivacyPermissionsModal extends Component{
     AddressBook.checkPermission((err, permission) => {
       if(!err && permission === AddressBook.PERMISSION_AUTHORIZED){
         this.setState({ hasContactsPermissions: true })
+      }else{
+        AppActions.denyPermission('contacts') // kind of superflous since we have their token but let's be congruent?
       }
     })
   }
@@ -73,12 +76,13 @@ export default class PrivacyPermissionsModal extends Component{
      if(permission === AddressBook.PERMISSION_AUTHORIZED){
         this.getContacts()
       }
-     if(permission === AddressBook.PERMISSION_DENIED){
-       //handle permission denied
-     }
+      if(permission === AddressBook.PERMISSION_DENIED){
+        AppActions.denyPermission('contacts')
+      }
 
     })
   }
+
   getContacts(){
     AddressBook.getContacts((err, contacts) => {
       if (!err) {
@@ -86,6 +90,7 @@ export default class PrivacyPermissionsModal extends Component{
         UserActions.updateUser({privacy:'private'})
         this.setState({hasContactsPermissions: true })
       }else{
+
 
       }
     })
@@ -98,15 +103,18 @@ export default class PrivacyPermissionsModal extends Component{
         UserActions.updateUser({
           facebook_user_id: data.credentials.userId,
           facebook_oauth_access_token: data.credentials.token
-        });
+        })
+        AppActions.grantPermission('facebook') // kind of superflous since we have their token but let's be congruent?
 
         this.setState({ hasFacebookPermissions: true })
 
       } else {
-        this.setState({ hasFacebookPermissions: false });
+        this.setState({ hasFacebookPermissions: false })
+        AppActions.denyPermission('facebook')
 
       }
-    });
+    }
+  )
 
 
 

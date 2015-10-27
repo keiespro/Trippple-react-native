@@ -24,6 +24,7 @@ import CameraRollView from '../controls/CameraRollView'
 import colors from '../utils/colors'
 import _ from 'underscore'
 import MatchActions from '../flux/actions/MatchActions'
+import AppActions from '../flux/actions/AppActions'
 import PurpleModal from './PurpleModal'
 import styles from './purpleModalStyles'
 
@@ -78,17 +79,8 @@ export default class CameraRollPermissionsModal extends Component{
     CameraRoll.getPhotos(fetchParams, this.handleSuccess.bind(this), this.handleFail.bind(this),);
 
   }
-  async handleFail(){
-    console.log('HANDLE FAIL ' )
-
-    try {
-      AsyncStorage.setItem(STORAGE_KEY, 'false')
-      this.setState({hasPermission: 'false'})
-
-    } catch (error) {
-      console.log('AsyncStorage error: ' + error.message)
-    }
-
+  handleFail(){
+      AppActions.grantPermission('facebook') // kind of superflous since we have their token but let's be congruent?
   }
   async handleSuccess(){
     console.log('HANDLE SUCCESS ' )

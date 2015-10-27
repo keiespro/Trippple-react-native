@@ -253,6 +253,7 @@ class ChatInside extends Component{
       keyboardSpace: 0,
       isKeyboardOpened: false,
       textInputValue: '',
+      fetching: false,
       lastPage: 0,
     }
 
@@ -392,15 +393,14 @@ class ChatInside extends Component{
     return (
       <ScrollView
         {...this.props}
-        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth}}
+        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight,flex:1}}
         contentInset={{top:0,right:0,left:0,bottom:50}}
         automaticallyAdjustContentInsets={true}
         scrollEnabled={false}
         removeClippedSubviews={true}
-        centerContent={true}
         onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
         onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
-        style={{ backgroundColor:colors.outerSpace, flex:1, alignSelf:'stretch', width:DeviceWidth }}
+        style={{ backgroundColor:colors.outerSpace, flex:1, alignSelf:'stretch', width:DeviceWidth ,height:DeviceHeight}}
         >
         <FadeInContainer delayRender={true} delayAmount={1200} >
           <View style={{flexDirection:'column',justifyContent:'space-between',alignItems:'center',alignSelf:'stretch'}}>
@@ -600,6 +600,7 @@ var Chat = React.createClass({
           closeChat={this.props.closeChat}
           match_id={this.props.match_id}
           toggleModal={this.toggleModal}
+
         />
         {this.state.isVisible ? <View
           style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]}>

@@ -26,7 +26,7 @@ import CheckMarkScreen from '../screens/CheckMark'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 import NotificationActions from '../flux/actions/NotificationActions'
-
+import {Connectivity, ReachabilitySubscription, AppVisibility} from '../utils/ConnectionInfo'
 import Notifications from '../utils/Notifications';
 import LoadingOverlay from '../components/LoadingOverlay'
 import PurpleModal from '../modals/PurpleModal'
@@ -71,6 +71,7 @@ class AppRoutes extends Component{
                 AppState={this.props.AppState}
                 currentRoute={this.props.AppState.currentRoute}
                 />
+
       case null:
       default:
         return <Welcome  key={'welcomescene'} />
@@ -106,20 +107,20 @@ class TopLevel extends Component{
     return (
       <View style={{flex:1,backgroundColor:'#000000'}}>
 
-        <AppRoutes user={this.props.user} AppState={this.props.AppState} currentRoute={this.props.AppState.currentRoute}/>
-
-        {this.props.AppState.showCheckmark &&
-          <CheckMarkScreen
-            key="toplevelcheckmark"
-            isVisible={this.props.AppState.showCheckmark}
-            checkMarkCopy={this.props.AppState.checkMarkCopy}
-            checkmarkRequireButtonPress={this.props.AppState.checkmarkRequireButtonPress}
-          />
-        }
-
+        <Connectivity/>
+        <ReachabilitySubscription/>
+        <AppVisibility/>
         <LoadingOverlay key="LoadingOverlay" isVisible={this.props.AppState.showOverlay || this.state.showOverlay} />
 
-        <Notifications user={this.props.user}  AppState={this.props.AppState}/>
+        <AppRoutes user={this.props.user} AppState={this.props.AppState} currentRoute={this.props.AppState.currentRoute}/>
+
+        <CheckMarkScreen
+          key="toplevelcheckmark"
+          isVisible={this.props.AppState.showCheckmark}
+          checkMarkCopy={this.props.AppState.checkMarkCopy}
+          checkmarkRequireButtonPress={this.props.AppState.checkmarkRequireButtonPress}
+        />
+
 
       </View>
     )

@@ -1,5 +1,7 @@
 //TODO: try out facebook's ssquare image cropper component
 //      https://github.com/facebook/react-native/blob/master/Examples/UIExplorer/ImageEditingExample.js
+// https://github.com/facebook/react-native/blob/62e8ddc20561a39c3c839ab9f83c95493df117c0/Libraries/Image/RCTImageEditingManager.m
+
 
 import React from 'react-native'
 
@@ -21,10 +23,11 @@ import colors from '../../utils/colors';
 import UserActions from '../../flux/actions/UserActions';
 import SharedStyles from '../../SharedStyles'
 import Privacy from './privacy';
+import EditImageThumb from './EditImageThumb'
 
 import Dimensions from 'Dimensions';
 
-const ImageEditingManager = NativeModules.ImageEditingManager;
+const {ImageEditingManager,ImageStoreManager} = NativeModules;
 const RCTScrollViewConsts = NativeModules.UIManager.RCTScrollView.Constants;
 
 
@@ -65,30 +68,22 @@ class EditImage extends Component{
 
   accept(croppedImageURI){
     console.log(this.props.image,'profile')
-    UserActions.uploadImage({uri:this.props.image},'profile')
 
-    console.log(croppedImageURI);
+    // CameraRoll.getPhotos({first:1}, (imgdata)=> {
+      // const img = imgdata.edges[0].node.image
+      UserActions.uploadImage( {uri:croppedImageURI} ,'profile')
+    // },
+    // (errr)=> {
+    //   console.log( errr ,'errr')
+    // } )
 
-    if(this.props.afterSaveCallback){
-      this.props.afterSaveCallback({
-        image:{uri:croppedImageURI,
-          width:this._transformData.width,height:this._transformData.height,isStored:false} || this.props.originalImage,
-        originalImage:this.props.image,
-          croppedImage: croppedImageURI,croppedImageURI,
-          imagetype: this.props.imagetype
-      });
-      return;
-    }
     if(this.props.nextRoute){
     this.props.navigator.push({
-        component: this.props.nextRoute,
+        component: this.props.nextRoute || EditImageThumb,
         passProps: {
-          nextRoute: Privacy,
-          image:{uri:croppedImageURI,width:this._transformData.width,height:this._transformData.height,isStored:false} || this.props.originalImage,
-          originalImage:this.props.image,
+          image:this.props.image,
           croppedImage: croppedImageURI,
-          croppedImageURI,
-          imagetype: this.props.imagetype
+          image_type: this.props.image_type
         }
       })
 
@@ -96,13 +91,14 @@ class EditImage extends Component{
    var lastindex = this.props.navigator.getCurrentRoutes().length;
     console.log(lastindex);
     var nextRoute = this.props.stack[lastindex];
+    nextRoute.component = this.props.nextRoute || EditImageThumb
 
-     nextRoute.passProps = {
+    nextRoute.passProps = {
           ...this.props,
-          image:{uri:croppedImageURI,width:this._transformData.width,height:this._transformData.height,isStored:false} || this.props.originalImage,
+          image:this.props.image,
           originalImage:this.props.image,
           croppedImage: croppedImageURI,
-          imagetype: this.props.imagetype
+          image_type: this.props.image_type
 
 
     }
@@ -125,12 +121,15 @@ class EditImage extends Component{
         <View
           style={styles.container}
           onLayout={(event) => {
-            var measuredWidth = event.nativeEvent.layout.width;
+            var measuredWidth = event.nativeEvent.layout.width,
+                measuredheight = event.nativeEvent.layout.height;
+
+                console.log(event.nativeEvent,measuredWidth,measuredheight);
             if (!measuredWidth) {
               return;
             }
             this.setState({
-              measuredSize: {width: measuredWidth, height: event.nativeEvent.layout.height },
+              measuredSize: {width: measuredWidth, height: measuredheight },
             });
           }}/>
       );
@@ -151,8 +150,10 @@ class EditImage extends Component{
         <Text>{this.state.cropError.message}</Text>
       );
     }
-    console.warn('IMAGE',this.props.image)
-    const uri = this.props.image.uri || this.props.image
+    console.log('IMAGE',this.props.image)
+    var {image} = this.props
+    var uri = image.uri ? image.uri : image
+
     return (
       <View style={styles.container}>
         <View style={styles.innerWrap}>
@@ -162,7 +163,7 @@ class EditImage extends Component{
             <ImageCropper
               image={ { uri: uri, width: this.state.measuredSize.width, height: this.state.measuredSize.height, isStored: true } }
               size={this.state.measuredSize}
-              style={[styles.imageCropper,{borderRadius:5,overflow:'hidden'}]}
+              style={[styles.imageCropper,{borderRadius:5,overflow:'hidden',}]}
               onTransformDataChange={(data) => this._transformData = data}
               />
             <TouchableOpacity onPress={this.retake} style={styles.bigbutton}>
@@ -173,7 +174,6 @@ class EditImage extends Component{
           </View>
 
           </View>
-          {error}
         <View style={[SharedStyles.continueButtonWrap,
             {bottom: 0, backgroundColor: colors.mediumPurple
             }]}>
@@ -195,6 +195,7 @@ class EditImage extends Component{
   _crop() {
     var {image} = this.props
     var uri = image.uri ? image.uri : image
+    console.log('CROPPING - ',this._transformData)
     ImageEditingManager.cropImage(
       uri,
       this._transformData,
@@ -228,14 +229,15 @@ class ImageCropper extends React.Component {
       };
     } else {
       this._scaledImageSize = {
-        width: this.props.image.width / heightRatio,
-        height: this.props.image.height  ,
-      };
-    }
-    this._contentOffset = {
-      x: (this._scaledImageSize.width - this.props.size.width) / 2,
-      y: (this._scaledImageSize.height - this.props.size.height) / 3,
+      width: this.props.image.width / heightRatio,
+      height: this.props.size.height,
     };
+  }
+  this._contentOffset = {
+    x: (this._scaledImageSize.width - this.props.size.width) / 2,
+    y: (this._scaledImageSize.height - this.props.size.height) / 2,
+  };
+
     this._updateTransformData(
       this._contentOffset,
       this._scaledImageSize,
@@ -285,8 +287,9 @@ class ImageCropper extends React.Component {
       automaticallyAdjustContentInsets={false}
       contentOffset={this._contentOffset}
       horizontal={true}
-
-      maximumZoomScale={4.0}
+      vertical={true}
+      minimumZoomScale={1.0}
+      maximumZoomScale={10.0}
       onMomentumScrollEnd={this._onScroll.bind(this)}
       onScrollEndDrag={this._onScroll.bind(this)}
       showsHorizontalScrollIndicator={false}
@@ -295,6 +298,7 @@ class ImageCropper extends React.Component {
       scrollEventThrottle={16}
       >
         <Image source={this.props.image}
+          resizeMode={Image.resizeMode.cover}
               style={this._scaledImageSize} />
       </ScrollView>
     );
@@ -305,16 +309,12 @@ class ImageCropper extends React.Component {
 var styles = StyleSheet.create({
   imageCropper: {
     alignSelf: 'center',
-    backgroundColor: colors.dark
+    backgroundColor: colors.dark,
+    flex:1
   },
   cropButtonTouchable: {
     alignSelf: 'center',
     marginTop: 12,
-  },
-  cropButton: {
-    padding: 12,
-    backgroundColor: 'blue',
-    borderRadius: 4,
   },
   innerWrap:{
     flex: 1,
@@ -343,6 +343,7 @@ var styles = StyleSheet.create({
     alignItems:'stretch',
     justifyContent:'flex-end',
     alignSelf:'stretch',
+    overflow:'hidden',
     width: DeviceWidth - 40,
     borderRadius: 5,
     top:0,

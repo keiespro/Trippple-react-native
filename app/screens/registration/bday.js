@@ -50,8 +50,8 @@ class BdayScreen extends Component{
     if(!isLegal){return false}
     UserActions.updateUserStub({
       birthday: this.state.date,
-      bday_month: this.state.date.getMonth(),
-      bday_year: this.state.date.getYear()
+      bday_month: this.state.date.getMonth()+1,
+      bday_year: this.state.date.getFullYear()
     })
     // this.props.navigator.push({
     //   component: this.props.stack[this.props.currentIndex+1].component,
@@ -62,7 +62,7 @@ class BdayScreen extends Component{
     // })
     //
     //
-var lastindex = this.props.navigator.getCurrentRoutes().length;
+  var lastindex = this.props.navigator.getCurrentRoutes().length;
   console.log(lastindex);
   var nextRoute = this.props.stack[lastindex];
 

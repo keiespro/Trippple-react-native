@@ -127,7 +127,7 @@ var AlbumView = React.createClass({
 
   selectPhoto(photo) {
     console.log('[FB] selectPhoto:', photo);
-    var {navigator,route,imagetype,nextRoute,afterNextRoute} = this.props;
+    var {navigator,route,image_type,nextRoute,afterNextRoute} = this.props;
       console.log(this.props,photo)
     if(nextRoute){
       navigator.push({
@@ -135,7 +135,7 @@ var AlbumView = React.createClass({
         passProps: {
           ...this.props,
           image: {uri:photo.images && photo.images[0] && photo.images[0].source || photo.source},
-          imagetype: imagetype || '',
+          image_type: image_type || '',
           nextRoute: afterNextRoute
         }
       })
@@ -149,11 +149,9 @@ var AlbumView = React.createClass({
       nextRoute.passProps = {
         ...this.props,
         image: {uri:photo.images[0].source},
-        imagetype: imagetype || '',
+        image_type: image_type || '',
 
       }
-      navigator.push(nextRoute)
-
     }
 
   },

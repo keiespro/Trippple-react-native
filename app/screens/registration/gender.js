@@ -81,7 +81,7 @@ class GenderScreen extends Component{
             justifyContent:'center',
             height: 60,
             marginBottom:10}}>
-            <Text style={styles.labelText,{fontSize:20,fontFamily:'omnes',color:colors.rollingStone}}>{"What's your gender?"} </Text>
+            <Text style={[styles.labelText,{fontSize:20,fontFamily:'omnes',color:colors.rollingStone}]}>{"What's your gender?"}</Text>
           </View>
 
 

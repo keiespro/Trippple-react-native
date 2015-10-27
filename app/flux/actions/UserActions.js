@@ -69,11 +69,16 @@ var UserActions = {
   },
 
 
-  uploadImage(image, imagetype,cropData){
-    Api.uploadImage(image,imagetype,cropData)
-      // .then((uploadRes) => {
-      //   UserActions.getUserInfo.defer()
-      // })
+  uploadImage(image, image_type,cropData){
+    Api.uploadImage(image,image_type,cropData)
+      .then((uploadRes) => {
+        this.dispatch(uploadRes)
+        Api.getUserInfo()
+          .then((res) => {
+            console.log(res);
+            this.dispatch(res);
+          })
+      })
   },
 
   updateUser(payload){

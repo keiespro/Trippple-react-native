@@ -150,7 +150,7 @@ class SettingsInside extends React.Component{
 
 <ParallaxView
         showsVerticalScrollIndicator={false}
-          key={this.props.user.image_url}
+          key={this.props.user.avatar}
           backgroundSource={{uri: this.props.user.image_url}}
           windowHeight={DeviceHeight*0.6}
           navigator={this.props.navigator}
@@ -162,7 +162,7 @@ class SettingsInside extends React.Component{
                 style={styles.userimage}
                 key={this.props.user.avatar}
                 source={{uri: this.props.user.avatar}}
-                resizeMode={Image.resizeMode.cover}/>
+                resizeMode={Image.resizeMode.contain}/>
               <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
                 <Image
                     style={{width:18,height:18}}

@@ -37,6 +37,7 @@ class CredentialsStore {
   }
   handleInitApp(){
     this.getInstance().init()
+
   }
   handleGotCredentials(creds){
     this.setState({ user_id: creds.username+'' , api_key: creds.password+'' })
