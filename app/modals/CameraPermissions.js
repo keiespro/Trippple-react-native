@@ -18,7 +18,7 @@ import Camera from 'react-native-camera';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-const CameraKey = Symbol('camera')
+const CameraKey = 'CAMERA_KEY'
 
 import colors from '../utils/colors'
 import _ from 'underscore'
@@ -93,8 +93,8 @@ export default class CameraPermissionsModal extends Component{
     console.log('HANDLE SUCCESS ' )
 
     try {
-      await AsyncStorage.setItem(STORAGE_KEY, 'true')
       this.setState({hasPermission: 'true'})
+      AppActions.grantPermission(CameraKey)
 
     } catch (error) {
       console.log('AsyncStorage error: ' + error.message)

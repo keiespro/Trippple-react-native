@@ -9,7 +9,7 @@ const config = {
   },
 
   staging: {
-    SERVER_URL: 'https://staging-api.trippple.co/user',
+    SERVER_URL: 'https://staging-api2.trippple.co/user',
     WEBSOCKET_URL: 'https://staging-api.trippple.co',
     KEYCHAIN_NAMESPACE: 'staging.trippple.co'
   },
