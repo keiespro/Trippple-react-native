@@ -31,7 +31,7 @@ class AppStateStore {
       handleSelectPartner: UserActions.SELECT_PARTNER,
       handleUpdateRoute: AppActions.UPDATE_ROUTE,
       handleToggleOverlay: AppActions.TOGGLE_OVERLAY,
-      handleGratPermission: AppActions.GRANT_PERMISSION,
+      handleGrantPermission: AppActions.GRANT_PERMISSION,
       handleDenyPermission: AppActions.DENY_PERMISSION
     });
 
