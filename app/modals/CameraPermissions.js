@@ -18,12 +18,12 @@ import Camera from 'react-native-camera';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-const CameraKey = new Symbol('camera')
+const CameraKey = Symbol('camera')
 
 import colors from '../utils/colors'
 import _ from 'underscore'
 import AppActions  from '../flux/actions/AppActions'
-import MatchActions from 'atchActions'
+import MatchActions from '../flux/actions/MatchActions'
 import PurpleModal from './PurpleModal'
 import styles from './purpleModalStyles'
 import CameraControl from '../controls/cameraControl'
