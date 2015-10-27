@@ -35,10 +35,10 @@ class AppActions {
     this.dispatch(contacts)
   }
   grantPermission(perm){
-    this.dispatch({[perm]: true})
+    this.dispatch(perm)
   }
   denyPermission(perm){
-    this.dispatch({[perm]: false})
+    this.dispatch(perm)
   }
 }
 

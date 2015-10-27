@@ -9,6 +9,11 @@ import {AsyncStorage} from 'react-native'
 
 
 class AppStateStore {
+
+  static config = {
+
+
+  }
   constructor() {
 
     this.userStatus = null
@@ -17,7 +22,14 @@ class AppStateStore {
     this.checkMarkCopy = {}
     this.currentRoute = null
     this.showOverlay = false
-    this.permissions = {}
+    this.permissions = {
+      camera: null,
+      cameraRoll: null,
+      contacts: null,
+      location: null,
+      notifications: null,
+
+    }
 
     this.bindListeners({
       handleInitialize: AppActions.GOT_CREDENTIALS,
@@ -43,29 +55,41 @@ class AppStateStore {
         console.log(err, payload);
     })
 
+    this.on('init', async () => {
+
+      var storedPermissions = Object.keys(this.permissions).reduce( async (aggregator, key)=>{
+        let val = await AsyncStorage.getItem(key)
+        aggregator[key] = await val == 'true'
+        return await aggregator
+      },{})
+
+      this.permissions = await storedPermissions
+    })
   }
 
   handleInitialize(){
 
 
   }
-  handleTogglePermission(permission, value){
+  handleTogglePermission(permission,value){
 
-    const perms = this.state.permissions
+    const perms = this.permissions
     perms[permission] = value
+    this.saveToLocalStorage(permission,value)
+    this.setState({permissions:perms})
     console.log('PERMISSION '+(value ? 'GRANTED: ' : 'DENIED: '+ permission))
   }
 
-  handleGrantPermission({permission, value}){
-    this.handleTogglePermission(permission, value)
+  handleGrantPermission(permission){
+    this.handleTogglePermission(permission, true)
   }
-  handleDenyPermission({permission, value}){
-    this.handleTogglePermission(permission, value)
+  handleDenyPermission(permission){
+    this.handleTogglePermission(permission, false)
   }
 
   async saveToLocalStorage(permission, value){
     try {
-      await AsyncStorage.setItem(`@${permission}`, value)
+      await AsyncStorage.setItem(`${permission}`, (value.toString()))
     } catch (error) {
       console.log('AsyncStorage error: ' + error.message);
     }

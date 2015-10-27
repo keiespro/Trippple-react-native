@@ -11,6 +11,7 @@ import {
   AsyncStorage,
   TouchableHighlight,
   Dimensions,
+  PropTypes,
   PixelRatio
 } from 'react-native'
 import Camera from 'react-native-camera';
@@ -18,7 +19,7 @@ import Camera from 'react-native-camera';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-const CameraKey = 'CAMERA_KEY'
+const CameraKey = 'camera'
 
 import colors from '../utils/colors'
 import _ from 'underscore'
@@ -31,85 +32,55 @@ import CameraControl from '../controls/cameraControl'
 export default class CameraPermissionsModal extends Component{
 
   constructor(props) {
+    console.log(props)
     super();
-    this.state = {}
+    this.state = {
+      hasPermission: props.AppState && props.AppState.permissions[CameraKey]
+    }
   }
   componentWillMount(){
-    this.preloadPermission()
+    if(this.props.AppState.permissions[CameraKey]){
+      this.props.navigator.push({
+        component:CameraControl,
+        passProps:{ }
+      })
+    }
   }
   componentDidMount(){
-    if(this.state.hasPermission && this.state.hasPermission == 'true' ){
-      this.props.navigator.replace({
+    if(this.state.hasPermission && this.state.hasPermission == true ){
+      this.props.navigator.push({
         component:CameraControl,
-        passProps:{
-          ...this.props,
-        }
+        passProps:{ }
       })
     }
   }
   componentDidUpdate(prevProps,prevState){
 
-    if( this.state.hasPermission && this.state.hasPermission == 'true' && prevState.hasPermission != 'true'){
+    if( this.state.hasPermission && !prevState.hasPermission){
       this.props.navigator.replace({
         component:CameraControl,
         passProps:{
-          ...this.props,
         }
       })
     }
 
   }
-  async preloadPermission(){
-    try {
-      var hasPermission = await AsyncStorage.getItem(CameraKey)
-      if(hasPermission){
-        this.setState({hasPermission: 'true'})
-      }else{
-        throw "shitatthewall"
-      }
-    } catch (error) {
-      this.setState({hasPermission: 'false'})
-      AppActions.denyPermission(CameraKey)
-      console.log(' error: ' + error.message);
-    }
-  }
   cancel(){
     this.props.navigator.pop()
   }
   handleTapYes(){
-    this.setState({renderHiddenCamera:true})
     this.handleSuccess()
   }
-  async handleFail(){
-    console.log('HANDLE FAIL ' )
-
-    try {
-      AsyncStorage.setItem(CameraKey, 'false')
-      this.setState({hasPermission: 'false'})
-
-    } catch (error) {
-      AppActions.grantPermission(CameraKey)
-    }
-
+  handleFail(){
+    this.setState({hasPermission: false})
+    AppActions.denyPermission(CameraKey)
   }
-  async handleSuccess(){
-    console.log('HANDLE SUCCESS ' )
-
-    try {
-      this.setState({hasPermission: 'true'})
-      AppActions.grantPermission(CameraKey)
-
-    } catch (error) {
-      console.log('AsyncStorage error: ' + error.message)
-    }
-
+  handleSuccess(){
+    this.setState({hasPermission: true})
+    AppActions.grantPermission(CameraKey)
   }
-
-
 
   render(){
-
-
     return (
     <PurpleModal>
       <View style={[styles.col,{paddingVertical:10}]}>
@@ -119,7 +90,6 @@ export default class CameraPermissionsModal extends Component{
           defaultSource={require('image!placeholderUserWhite')} />
 
         <View style={styles.insidemodalwrapper}>
-
 
             <Text style={[styles.rowtext,styles.bigtext,{
                 fontFamily:'Montserrat',fontSize:20,marginVertical:10
@@ -131,7 +101,7 @@ export default class CameraPermissionsModal extends Component{
               }]}>
               Take a photo now?
             </Text>
-            <View >
+            <View>
               <TouchableHighlight
                 underlayColor={colors.mediumPurple}
                 style={styles.modalButtonWrap}
