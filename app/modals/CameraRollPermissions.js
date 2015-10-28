@@ -80,7 +80,7 @@ export default class CameraRollPermissionsModal extends Component{
 
   }
   handleFail(){
-      AppActions.grantPermission('facebook') // kind of superflous since we have their token but let's be congruent?
+      // AppActions.grantPermission('facebook') // kind of superflous since we have their token but let's be congruent?
   }
   async handleSuccess(){
     console.log('HANDLE SUCCESS ' )

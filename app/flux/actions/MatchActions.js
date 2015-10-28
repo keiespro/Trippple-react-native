@@ -44,30 +44,17 @@ class MatchActions {
   }
 
   getPotentials(){
+    const {coords} = this
 
-    navigator.geolocation.getCurrentPosition(
-      (geo) => {
-        console.log('Got coordinates:', geo.coords);
-        var {latitude,longitude} = geo.coords;
+    Api.getPotentials( coords )
+      .then((res) => {
+        this.dispatch(res.response);
+      })
+      .catch(err => {
+        console.log('GEO ERROR POTENTIALS:',err)
+      })
 
-        Api.getPotentials( {latitude,longitude} )
-          .then((res) => {
-            this.dispatch(res.response);
-          })
-          .catch(err => {
-            console.log('GEO ERROR POTENTIALS:',err)
-          })
 
-      },
-      (error) => {
-        // Open native settings
-
-        console.log('GEO ERROR POTENTIALS:',error)
-        this.dispatch(error);
-
-      },
-      {enableHighAccuracy: false, maximumAge: 1000}
-    )
   }
 
   setAccessTime(payload){
