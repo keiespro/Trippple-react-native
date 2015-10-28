@@ -99,17 +99,6 @@ var IntroScreen = React.createClass({
 
   componentDidMount() {
       Mixpanel.track('On - Splash Screen');
-
-      ['On - Splash Screen',
-       'On - Home',
-       'CTA - Sign Up',
-       'CTA - Login',
-       'On - Phone Number',
-       'Admin - Twillio',
-       'CTA - Continue'].forEach(function (evName){
- //          Mixpanel.track(evName);
-       });
-
   },
 
   render(){
