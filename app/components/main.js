@@ -91,7 +91,7 @@ import AppActions from '../flux/actions/AppActions'
       return (
         <View style={{ flex: 1, position:'relative'}}>
           {route.id == 'settings' && navBar}
-          <RouteComponent navigator={navigator} route={route} navBar={navBar} AppState={this.props.AppState} 
+          <RouteComponent navigator={navigator} route={route} navBar={navBar} AppState={this.props.AppState}
  user={this.props.user} {...route.passProps} pRoute={route.id == 'potentials' ? PotentialsRoute : null} />
           {route.id == 'potentials' || route.id == 'settings' || route.id == 'matches' ? null : navBar}
         </View>
@@ -190,7 +190,7 @@ const PotentialsRoute = {
       backgroundStyle={{backgroundColor:'transparent'}}
       customTitle={<Image resizeMode={Image.resizeMode.contain} style={{width:80}} source={require('image!tripppleLogoText')} />}
       onPrev={(navigator,route) => navigator.push(SettingsRoute)}
-      customPrev={<Image resizeMode={Image.resizeMode.contain} style={{width:28,top:0,height:30}} source={require('image!gear')} />}
+      customPrev={<Image resizeMode={Image.resizeMode.contain} style={{width:28,top:-10,height:30}} source={require('image!gear')} />}
       onNext={(navigator,route) => {navigator.push(MatchesRoute)}}
       customNext={<Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30}} source={require('image!chat')} />}
     />)
