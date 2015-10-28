@@ -29,7 +29,7 @@ class UserStore {
       handleBlockContacts: AppActions.STORE_CONTACTS_TO_BLOCK,
       handleInitialize: AppActions.GOT_CREDENTIALS,
       handleInitSuccess: UserActions.INIT_SUCCESS,
-      handleGetUserInfo: UserActions.getUserInfo,
+      handleGetUserInfo: UserActions.GET_USER_INFO,
       handleVerifyPin: UserActions.VERIFY_SECURITY_PIN,
       handleRequestPin: UserActions.REQUEST_PIN_LOGIN,
       handleUpdateUser: UserActions.UPDATE_USER,

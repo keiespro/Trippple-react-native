@@ -11,6 +11,7 @@ import {
   AsyncStorage,
   TouchableHighlight,
   Dimensions,
+  NativeModules,
   PropTypes,
   PixelRatio
 } from 'react-native'
@@ -18,6 +19,7 @@ import Camera from 'react-native-camera';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
+const {CameraManager} = NativeModules
 
 const CameraKey = 'camera'
 
@@ -48,10 +50,23 @@ export default class CameraPermissionsModal extends Component{
   }
   componentDidMount(){
     if(this.state.hasPermission && this.state.hasPermission == true ){
-      this.props.navigator.push({
-        component:CameraControl,
-        passProps:{ }
+      CameraManager.checkDeviceAuthorizationStatus((err,res)=>{
+
+        if(err){
+          this.handleFail()
+          return
+        }
+
+
+        this.handleSuccess()
+        
+        // this.props.navigator.push({
+        //   component:CameraControl,
+        //   passProps:{ }
+        // })
+
       })
+
     }
   }
   componentDidUpdate(prevProps,prevState){
