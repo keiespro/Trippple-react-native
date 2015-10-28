@@ -21,7 +21,11 @@ var DeviceWidth = require('Dimensions').get('window').width;
 var CustomSceneConfigs = require('../utils/sceneConfigs');
 var Auth = require('./auth');
 var Facebook = require('../screens/registration/facebook');
+
+const LOGIN   = 'login';
+const REGISTER= 'register'
 import Mixpanel from '../utils/mixpanel';
+
 import dismissKeyboard from 'dismissKeyboard'
 import FadeInContainer from '../components/FadeInContainer'
 var slides = [
@@ -71,7 +75,17 @@ var IntroScreen = React.createClass({
   },
 
   handleNext(selectedTab){
-    console.log('handle register',selectedTab)
+
+      switch(selectedTab) {
+
+      case LOGIN:
+          Mixpanel.track ("CTA - Login");
+          break;
+
+      case REGISTER:
+          Mixpanel.track ("CTA - Sign Up");
+          break;
+      }
 
     this.activateAnimatingState();
     this.props.navigator.push({
@@ -110,13 +124,13 @@ var IntroScreen = React.createClass({
         <View style={styles.bottomButtons}>
           <TouchableHighlight
             style={[styles.bottomButton,(this.state.isAnimating ? styles.activeButton : styles.loginButton )]}
-            onPress={ () => this.handleNext('login')}
+            onPress={ () => this.handleNext(LOGIN)}
              underlayColor={colors.outerSpace}>
              <Text style={styles.buttonText}>LOG IN</Text>
           </TouchableHighlight>
           <TouchableHighlight
              style={[styles.bottomButton,(this.state.isAnimating ? styles.activeButton : styles.registerButton )]}
-             onPress={ () => this.handleNext('register')}
+             onPress={ () => this.handleNext(REGISTER)}
              underlayColor={colors.outerSpace}>
              <Text style={styles.buttonText}>SIGN UP</Text>
           </TouchableHighlight>
