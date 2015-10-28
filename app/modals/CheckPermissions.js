@@ -66,7 +66,7 @@ import AppActions from '../flux/actions/AppActions'
     if(this.state.hasPermission){
       this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
     }else{
-      this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
+
     }
 
   }
@@ -107,7 +107,7 @@ import AppActions from '../flux/actions/AppActions'
       {enableHighAccuracy: false, maximumAge: 1} )
   }
   doRequest(){
-    this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
+    // this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
   }
 
 

@@ -45,20 +45,24 @@ async function authenticatedRequest(endpoint: '', payload: {}){
 }
 
 async function authenticatedFileUpload(endpoint, image, image_type){
+
+  const credentials = CredentialsStore.getState()
+  const uploadUrl = `${SERVER_URL}/${endpoint}`
+  const uri =  image.hasOwnProperty('uri') ? image.uri : image
+
+  if(!image_type){
+    image_type = 'avatar'
+  }
+  const imgUpload = await UploadFile({
+    uri: uri,
+    uploadUrl: uploadUrl,
+    fileName: 'file.jpg',
+    mimeType:'jpeg',
+    data: { ...credentials, image_type }
+  })
+
   try{
-      const credentials = CredentialsStore.getState()
-      const uploadUrl = `${SERVER_URL}/${endpoint}`
-      const uri =  image.hasOwnProperty('uri') ? image.uri : image
-
-      console.log('UPLOAD',UploadFile,image, uri, image_type)
-
-      return await UploadFile({
-        uri: uri,
-        uploadUrl: uploadUrl,
-        fileName: 'file.jpg',
-        mimeType:'jpeg',
-        data: { ...credentials, image_type }
-      })
+      return await imgUpload
     }
     catch(err){
       console.log('ERR',err)
@@ -155,16 +159,16 @@ class api {
   // fix
     return authenticatedRequest('likes', { like_status, like_user_id, like_user_type, from_user_type })
   }
-
-  // uploadImage(image){
-  //   return authenticatedFileUpload('upload', image)
+  // 
+  // uploadImage(image,image_type){
+  //   return authenticatedFileUpload('upload', image,image_type)
   // }
 
   saveFacebookPicture(photo) {
     console.log('save_facebook_picture', photo);
     return publicRequest('save_facebook_picture', photo);
   }
-
+  //
   async uploadImage(image, image_type){
     console.log('UPLOAD',image, image_type)
     if(!image_type){

@@ -175,8 +175,8 @@ class SettingsCouple extends React.Component{
                   <View style={{height:120,width:120,alignItems:'center',alignSelf:'center'}}>
                     <Image
                       style={styles.userimage}
-                      key={partner.image_thumb}
-                      source={{uri: partner.image_thumb}}
+                      key={partner.thumb_url}
+                      source={{uri: partner.thumb_url}}
                       defaultSource={require('image!placeholderUser')}
                       resizeMode={Image.resizeMode.contain}/>
 

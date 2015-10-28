@@ -2,7 +2,7 @@
 
 
 import React from 'react-native';
-import {
+const {
   StyleSheet,
   Text,
   View,
@@ -16,7 +16,9 @@ import {
   Image,
   AsyncStorage,
   Navigator
-} from  'react-native'
+} = React
+
+
 import Mixpanel from '../utils/mixpanel';
 import SegmentedView from '../controls/SegmentedView'
 import ScrollableTabView from '../scrollable-tab-view'
@@ -161,8 +163,8 @@ class SettingsInside extends React.Component{
               <Image
                 style={styles.userimage}
                 key={this.props.user.avatar}
-                source={{uri: this.props.user.avatar}}
-                resizeMode={Image.resizeMode.contain}/>
+                source={{uri: this.props.user.thumb_url}}
+                resizeMode={Image.resizeMode.cover}/>
               <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
                 <Image
                     style={{width:18,height:18}}

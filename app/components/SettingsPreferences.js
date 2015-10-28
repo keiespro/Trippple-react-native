@@ -44,7 +44,7 @@ class  SettingsPreferences extends React.Component{
     super(props)
     this.state = {
       scroll: 'on',
-      nearMe: true,
+      nearMe: props.AppState.permissions.location,
       looking_for_mf: props.user.looking_for_mf || false,
       looking_for_mm: props.user.looking_for_mm || false,
       looking_for_ff: props.user.looking_for_ff || false,

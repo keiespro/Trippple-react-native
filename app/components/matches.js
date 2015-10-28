@@ -321,7 +321,7 @@ class MatchesInside extends Component{
 
 
       var matchesDidUpdate = (matches && matches[0] && matches[0].unreadCount || nProps.matches[0].unreadCount) || (matches.length != nProps.matches.length);
-      var favsDidUpdate = (favorites && favorites[0] && favorites[0].unreadCount || nProps.favorites[0].unreadCount) || (favorites.length != nProps.favorites.length);
+      var favsDidUpdate = ((favorites && favorites[0] && favorites[0].unreadCount) || (nProps.favorites && nProps.favorites[0] && nProps.favorites[0].unreadCount)) || (nProps.favorites && favorites.length != nProps.favorites.length);
 
       return matchesDidUpdate || favsDidUpdate
 

@@ -69,14 +69,14 @@ var UserActions = {
   },
 
 
-  uploadImage(image, image_type,cropData){
-    Api.uploadImage(image,image_type,cropData)
+  uploadImage(image, image_type){
+    Api.uploadImage(image, image_type)
       .then((uploadRes) => {
-        this.dispatch(uploadRes)
+        this.dispatch(uploadRes.response)
         Api.getUserInfo()
           .then((res) => {
             console.log(res);
-            this.dispatch(res);
+            this.dispatch(res.response);
           })
       })
   },

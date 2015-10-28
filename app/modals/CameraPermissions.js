@@ -122,7 +122,6 @@ export default class CameraPermissionsModal extends Component{
               </View>
             </TouchableHighlight>
           </View>
-          {this.state.renderHiddenCamera ? <Camera/> : null}
         </View>
       </View>
       </PurpleModal>

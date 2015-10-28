@@ -64,15 +64,8 @@ class EditImageThumb extends Component{
   accept(cropped){
 
     AppActions.toggleOverlay()
-        //
-        // CameraRoll.getPhotos({first:1}, (imgdata)=> {
-        //   const img = imgdata.edges[0].node.image
-        //   UserActions.uploadImage( img ,'avatar')
-        // },
-        // (errr)=> {
-        //   console.log( errr ,'errr')
-        // } )
-      UserActions.uploadImage( cropped ,'avatar')
+
+      UserActions.uploadImage( this.props.image ,'avatar')
 
     if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
 

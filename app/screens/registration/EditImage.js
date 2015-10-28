@@ -71,7 +71,7 @@ class EditImage extends Component{
 
     // CameraRoll.getPhotos({first:1}, (imgdata)=> {
       // const img = imgdata.edges[0].node.image
-      UserActions.uploadImage( {uri:croppedImageURI} ,'profile')
+      UserActions.uploadImage( this.props.image ,'profile')
     // },
     // (errr)=> {
     //   console.log( errr ,'errr')
@@ -256,8 +256,8 @@ class ImageCropper extends React.Component {
   _updateTransformData(offset, scaledImageSize, croppedImageSize) {
     var offsetRatioX = offset.x / scaledImageSize.width;
     var offsetRatioY = offset.y / scaledImageSize.height;
-    var sizeRatioX = croppedImageSize.width / scaledImageSize.width;
-    var sizeRatioY = croppedImageSize.height / scaledImageSize.height;
+    var sizeRatioX = scaledImageSize.width;
+    var sizeRatioY = scaledImageSize.height;
 
     this.props.onTransformDataChange && this.props.onTransformDataChange({
       offset: {

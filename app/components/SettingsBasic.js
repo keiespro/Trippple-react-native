@@ -197,8 +197,8 @@ class SettingsBasic extends React.Component{
         {user.relationship_status == 'single' ? null : <View style={{height:150,width:150,alignSelf:'center'}}>
             <Image
               style={styles.userimage}
-              key={user.image_thumb}
-              source={{uri: user.image_thumb}}
+              key={user.thumb_url}
+              source={{uri: user.thumb_url}}
               defaultSource={require('image!placeholderUser')}
               resizeMode={Image.resizeMode.contain}/>
               <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>

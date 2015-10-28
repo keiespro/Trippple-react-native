@@ -14,7 +14,8 @@ import {
   PixelRatio
 } from 'react-native'
 
-const STORAGE_KEY = '@permission:cameraRoll'
+const permissionsKey = 'cameraRoll'
+import UrlHandler from 'react-native-url-handler'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -59,7 +60,7 @@ export default class CameraRollPermissionsModal extends Component{
   }
   async preloadPermission(){
     try {
-      var hasPermission = await AsyncStorage.getItem(STORAGE_KEY)
+      var hasPermission = await AsyncStorage.getItem(permissionsKey)
       this.setState({hasPermission})
     } catch (error) {
       this.setState({hasPermission: 'false'})
@@ -70,7 +71,10 @@ export default class CameraRollPermissionsModal extends Component{
     this.props.navigator.pop()
   }
   handleTapYes(){
+    if(this.state.isFailed){
+      UrlHandler.openUrl(UrlHandler.settingsUrl)
 
+    }
     var fetchParams: Object = {
       first: 1,
       groupTypes: 'All',
@@ -80,13 +84,15 @@ export default class CameraRollPermissionsModal extends Component{
 
   }
   handleFail(){
+
+      this.setState({isFailed:true})
       // AppActions.grantPermission('facebook') // kind of superflous since we have their token but let's be congruent?
   }
   async handleSuccess(){
     console.log('HANDLE SUCCESS ' )
 
     try {
-      var hasPermission = await AsyncStorage.setItem(STORAGE_KEY, 'true')
+      var hasPermission = await AsyncStorage.setItem(permissionsKey, 'true')
       this.setState({hasPermission})
 
     } catch (error) {
@@ -102,9 +108,10 @@ export default class CameraRollPermissionsModal extends Component{
     <PurpleModal>
       <View style={[styles.col,{paddingVertical:10}]}>
         <Image
-          style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginVertical:20}]}
-          source={require('image!iconAlbum')}
-          defaultSource={require('image!placeholderUserWhite')} />
+          resizeMode={Image.resizeMode.contain}
+
+          style={[styles.contactthumb,{width:150,height:150,borderRadius:0,marginVertical:20}]}
+          source={require('image!iconAlbum')} />
 
         <View style={styles.insidemodalwrapper}>
 
@@ -125,7 +132,7 @@ export default class CameraRollPermissionsModal extends Component{
                 style={styles.modalButtonWrap}
                 onPress={this.handleTapYes.bind(this)}>
                 <View style={[styles.modalButton]} >
-                  <Text style={styles.modalButtonText}>YES, OPEN MY ALBUMS</Text>
+                  <Text style={styles.modalButtonText}>{this.state.isFailed ? `GO TO SETTINGS` : `YES, OPEN MY ALBUMS`}</Text>
                 </View>
               </TouchableHighlight>
             </View>
