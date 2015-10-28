@@ -34,7 +34,7 @@ import reactMixin from 'react-mixin';
 import Dimensions from 'Dimensions';
 import {BlurView,VibrancyView} from 'react-native-blur'
 import ProfileTable from './ProfileTable'
-
+import CheckPermissions from '../modals/CheckPermissions'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
@@ -869,7 +869,7 @@ class CardStack extends Component{
       </View>}
     { potentials.length < 1 &&
       <FadeInContainer delayAmount={20000} duration={300} didShow={()=>this.setState({didShow:true})}>
-         <Image source={require('image!placeholderDashed')}
+         <Image
             resizeMode={Image.resizeMode.contain}
             style={styles.dashedBorderImage}>
             <Image source={require('image!iconClock')} style={{height:150,width:150,marginBottom:40}}/>
@@ -904,7 +904,7 @@ class CardStack extends Component{
 class Potentials extends Component{
   constructor(props){
     super()
-
+    this.state = {}
   }
   render(){
     return (
@@ -922,7 +922,7 @@ class Potentials extends Component{
                 value: MatchesStore.getAnyUnread()
               }
             }}}>
-          <CardStack user={this.props.user} navigator={this.props.navigator} pRoute={this.props.pRoute}/>
+              <CardStack {...this.props}/>
       </AltContainer>
     )
   }

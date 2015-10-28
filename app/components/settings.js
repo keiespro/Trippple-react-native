@@ -152,7 +152,7 @@ class SettingsInside extends React.Component{
 
 <ParallaxView
         showsVerticalScrollIndicator={false}
-          key={this.props.user.avatar}
+          key={this.props.user.thumb_url}
           backgroundSource={{uri: this.props.user.image_url}}
           windowHeight={DeviceHeight*0.6}
           navigator={this.props.navigator}
@@ -162,7 +162,7 @@ class SettingsInside extends React.Component{
             <TouchableOpacity onPress={this._pressNewImage} style={{marginTop:20}}>
               <Image
                 style={styles.userimage}
-                key={this.props.user.avatar}
+                key={this.props.user.thumb_url}
                 source={{uri: this.props.user.thumb_url}}
                 resizeMode={Image.resizeMode.cover}/>
               <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
