@@ -13,7 +13,6 @@ class AppActions {
     this.dispatch(err)
   }
   remoteFail(){
-    console.log('remote fail')
     this.dispatch()
   }
   loadingUser(){
