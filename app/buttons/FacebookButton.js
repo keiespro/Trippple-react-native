@@ -22,12 +22,14 @@ import BoxyButton from '../controls/boxyButton'
 import BackButton from '../components/BackButton'
 import FBLogin from '../components/fb.login'
 import reactMixin from 'react-mixin'
-
+import AppActions from '../flux/actions/AppActions'
 import NativeMethodsMixin from 'NativeMethodsMixin'
 import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
 
-const DeviceHeight = Dimensions.get('window').height;
-const DeviceWidth = Dimensions.get('window').width;
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
+
+const FACEBOOK_LOCALSTORAGE_KEY = 'facebook'
 
 @reactMixin.decorate(NativeMethodsMixin)
 class FacebookButton extends React.Component{
@@ -66,12 +68,17 @@ class FacebookButton extends React.Component{
     }
   }
   componentDidMount(){
+
     FBLoginManager.getCredentials((error, data)=>{
       console.log(error, data)
       if (!error) {
         this.setState({ fbUser : data.credentials });
+
+        AppActions.grantPermission(FACEBOOK_LOCALSTORAGE_KEY)
       } else {
         this.setState({ fbUser : null });
+        AppActions.denyPermission(FACEBOOK_LOCALSTORAGE_KEY)
+
       }
     });
   }
@@ -91,11 +98,10 @@ class FacebookButton extends React.Component{
         if (!error) {
           this.setState({ fbUser : data.credentials });
           this.props._onPress && this.props._onPress(data.credentials);
-
-
+          this.handleLogin();
         } else {
           console.log('FB err',error);
-          this.handleLogin();
+          AppActions.denyPermission(FACEBOOK_LOCALSTORAGE_KEY)
 
           this.setState({ fbUser : null });
         }
@@ -126,10 +132,12 @@ class FacebookButton extends React.Component{
           facebook_oauth_access_token: data.credentials.token
         });
 
+        AppActions.grantPermission(FACEBOOK_LOCALSTORAGE_KEY)
+
         this.props.onLogin && this.props.onLogin(data);
       } else {
         this.setState({ fbUser : null });
-
+        AppActions.denyPermission(FACEBOOK_LOCALSTORAGE_KEY)
         console.log('FB err',error);
       }
     });
@@ -140,8 +148,13 @@ class FacebookButton extends React.Component{
     FBLoginManager.logout((error, data)=>{
       if (!error) {
         this.setState({ fbUser : null});
+
+        AppActions.grantPermission(FACEBOOK_LOCALSTORAGE_KEY)
+
         this.props.onLogout && this.props.onLogout();
       } else {
+        AppActions.denyPermission(FACEBOOK_LOCALSTORAGE_KEY)
+
         console.log(error, data);
       }
     });

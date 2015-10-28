@@ -90,10 +90,10 @@ export default class CameraRollPermissionsModal extends Component{
   }
   async handleSuccess(){
     console.log('HANDLE SUCCESS ' )
+    var hasPermission = await AsyncStorage.setItem(permissionsKey, 'true')
 
     try {
-      var hasPermission = await AsyncStorage.setItem(permissionsKey, 'true')
-      this.setState({hasPermission})
+      this.setState({hasPermission:true})
 
     } catch (error) {
       console.log('AsyncStorage error: ' + error.message)
@@ -138,11 +138,8 @@ export default class CameraRollPermissionsModal extends Component{
             </View>
 
           <View >
-            <TouchableHighlight
-              underlayColor={colors.mediumPurple}
-              style={styles.modalButtonWrap}
-              onPress={this.cancel.bind(this)}>
-              <View style={[styles.modalButton,styles.cancelButton]} >
+            <TouchableHighlight onPress={this.cancel.bind(this)}>
+              <View>
                 <Text style={styles.modalButtonText}>No thanks</Text>
               </View>
             </TouchableHighlight>

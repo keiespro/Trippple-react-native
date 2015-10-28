@@ -59,7 +59,7 @@ export default class CameraPermissionsModal extends Component{
 
 
         this.handleSuccess()
-        
+
         // this.props.navigator.push({
         //   component:CameraControl,
         //   passProps:{ }
@@ -127,18 +127,15 @@ export default class CameraPermissionsModal extends Component{
               </TouchableHighlight>
             </View>
 
-          <View >
-            <TouchableHighlight
-              underlayColor={colors.mediumPurple}
-              style={styles.modalButtonWrap}
-              onPress={this.cancel.bind(this)}>
-              <View style={[styles.modalButton,styles.cancelButton]} >
-                <Text style={styles.modalButtonText}>No thanks</Text>
-              </View>
-            </TouchableHighlight>
+            <View >
+              <TouchableHighlight onPress={this.cancel.bind(this)}>
+                <View>
+                  <Text style={styles.modalButtonText}>No thanks</Text>
+                </View>
+              </TouchableHighlight>
+            </View>
           </View>
         </View>
-      </View>
       </PurpleModal>
     )
   }
