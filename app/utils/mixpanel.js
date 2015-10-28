@@ -1,8 +1,13 @@
 import TrackEvt from "rn-redux-mixpanel/src/api/trackEvent";
 import Arrows from "./Arrows";
 
-const TOKEN = 'f50df064bf21092e7394129ede26935b';
-const THREE_SECONDS = 3000;
+//-this is Production App
+//const TOKEN = 'f50df064bf21092e7394129ede26935b';
+
+//-this is Trippple-V2
+const TOKEN = 'eb728e735ea988864ae8b6f7b7f3841f';
+
+const THREE_SECONDS = 5000;
 const {
     AsyncA,
     CpsA,
