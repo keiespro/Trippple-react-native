@@ -64,7 +64,7 @@ export default class PrivacyPermissionsModal extends Component{
   componentDidUpdate(pProps,pState){
     if(pState.hasFacebookPermissions && pState.hasContactsPermissions){
       UserActions.updateUser({privacy:'private'})
-      this.props.navigator.pop()
+      this.props.success && this.props.success()
     }
   }
 

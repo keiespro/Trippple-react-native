@@ -126,6 +126,7 @@ class Onboard extends Component{
               user={this.props.user}
               currentIndex={curIndex}
               stack={stack}
+              AppState={this.props.AppState}
               index={route.index ? route.index : null}
               singleStack={RouteStackSingle}
               coupleStack={RouteStackCouple}

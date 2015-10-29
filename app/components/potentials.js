@@ -144,6 +144,7 @@ class Cards extends Component{
         return false
       },
       onPanResponderReject: (e, gestureState) => {
+        this._opens = false
         console.log('onPanResponderReject', e.nativeEvent, {gestureState})
       },
 
@@ -395,24 +396,46 @@ class InsideActiveCard extends Component{
     this.props.cardWidth.removeAllListeners();
 
   }
-  componentWillUpdate(nextProps){
+  componentDidUpdate(pProps,pState){
     LayoutAnimation.configureNext(animations.layout.spring);
+
+
+    if(!pProps.isTopCard && this.props.isTopCard){
+      this.props.panX ? this.valueListener() : null
+    }
+
+  }
+  valueListener(){
+    this.props.panX && this.props.panX.addListener(({value}) => {
+      // listen to parent component's panX
+        if(value == 0 && this.state.isMoving){
+          this.setState({
+            isMoving: false
+          })
+        }else if(value != 0 && !this.state.isMoving){
+          this.setState({
+            isMoving: true
+          })
+        }
+      this.setNativeProps({ style:{ backgroundColor: value > 0 ? colors.sushi : colors.mandy } })
+    })
   }
 
   setNativeProps(np){
     this.refs.incard && this.refs.incard.setNativeProps(np)
   }
 
-componentWillReceiveProps(nProps){
-  if(this.props.panX && this.props.profileVisible != nProps.profileVisible){
-    this.props.panX.removeAllListeners();
-    this.setState({
-      isMoving: false
-    });
-  }
-  nProps && nProps.panX && !nProps.profileVisible && nProps.isTopCard ? nProps.panX.addListener(({value}) => {
+  componentWillReceiveProps(nProps){
+    if(this.props.panX && this.props.profileVisible != nProps.profileVisible){
+      this.setState({
+        isMoving: false
+      })
+      this.props.panX.removeAllListeners();
+
+    }
+    nProps && nProps.panX  && this.props.isTopCard ? nProps.panX.addListener(({value}) => {
     // listen to parent component's panX
-      if(value == 0 && this.state.isMoving){
+      if(value > 0 && this.state.isMoving){
         this.setState({
           isMoving: false
         })
@@ -424,8 +447,6 @@ componentWillReceiveProps(nProps){
       this.setNativeProps({ style:{ backgroundColor: value > 0 ? colors.sushi : colors.mandy } })
     }) : null
   }
-
-
 
 
   render(){
@@ -458,7 +479,6 @@ componentWillReceiveProps(nProps){
               padding:0,
               flex:1,
               marginLeft:0,
-
               position:'relative',
               backgroundColor:  isThirdCard ? colors.white : colors.outerSpace,
             }]} key={`${potential.id || potential.user.id}-view`}>
@@ -474,13 +494,14 @@ componentWillReceiveProps(nProps){
 
                   width: this.props.cardWidth || null,
                   backgroundColor:  colors.white, marginLeft: 0,
-                }} ref={"incard"}>
+                }} ref={isTopCard ? 'incard' : 'notincard'}>
                 <Swiper
                   automaticallyAdjustContentInsets={true}
                   _key={`${potential.id || potential.user.id}-swiper`}
                   loop={true}
                   horizontal={false}
                   vertical={true}
+                  total={1}
                   showsPagination={true}
                   paginationStyle={{position:'absolute',right:45,top:25,height:100}}
                   dot={ <View style={styles.dot} />}
@@ -488,7 +509,7 @@ componentWillReceiveProps(nProps){
                   <Animated.Image
                     source={{uri: potential.user.image_url}}
                     key={`${potential.user.id}-cimg`}
-                    style={[styles.imagebg,{
+                    style={[styles.imagebg, {
                       width: this.props.cardWidth,
                       height:this.props.cardWidth && this.props.cardWidth.interpolate({
                         inputRange: [DeviceWidth-40, DeviceWidth], outputRange: [DeviceHeight-40, DeviceHeight]
@@ -506,7 +527,7 @@ componentWillReceiveProps(nProps){
                     style={[styles.imagebg,{
                       backgroundColor:colors.white,
                       width: this.props.cardWidth,
-                      height:this.props.cardWidth && this.props.cardWidth.interpolate({inputRange: [DeviceWidth-40,DeviceWidth], outputRange: [DeviceHeight-40,DeviceHeight]}),
+                      height:this.props.cardWidth && this.props.cardWidth.interpolate({inputRange: [DeviceWidth-40,DeviceWidth], outputRange: [DeviceHeight-40, DeviceHeight]}),
                       opacity:  this.props.isTopCard && this.props.panX ? this.props.panX.interpolate({
                           inputRange: [-300, -100, 0, 100, 300],
                           outputRange: [0,0.7,1,0.7,0]
@@ -588,7 +609,8 @@ componentWillReceiveProps(nProps){
                 transform: [
                   {
                     scale: this.props.panX ? this.props.panX.interpolate({
-                      inputRange: [0,50, DeviceWidth/2], outputRange: [0,0,2]}) : 0
+                      inputRange: [0,50, DeviceWidth/2], outputRange: [0,0,2]
+                    }) : 0
                   }
                 ]
               }]}>
@@ -858,8 +880,8 @@ class CardStack extends Component{
         <ActivityIndicatorIOS size={'large'} style={[{ alignItems: 'center', justifyContent: 'center',height: 80}]} animating={true}/>
       </View>}
     { potentials.length < 1 &&
-      <FadeInContainer delayAmount={20000} duration={300} didShow={()=>this.setState({didShow:true})}>
-         <Image
+      <FadeInContainer delayAmount={2000} duration={300} didShow={()=>this.setState({didShow:true})}>
+         <Image source={require('image!placeholderDashed')}
             resizeMode={Image.resizeMode.contain}
             style={styles.dashedBorderImage}>
             <Image source={require('image!iconClock')} style={{height:150,width:150,marginBottom:40}}/>
@@ -878,8 +900,7 @@ class CardStack extends Component{
              hideNext={true}
              backgroundStyle={{backgroundColor:colors.outerSpace}}
              titleColor={colors.white}
-
-             title={ this.getPotentialInfo()}
+             title={ this.getPotentialInfo() }
              titleColor={colors.white}
              onPrev={(nav,route)=> {this.toggleProfile()}}
              customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12,marginTop:10}} source={require('image!close')} />
@@ -1117,13 +1138,11 @@ animatedIcon:{
     borderRadius:25
   },
   dashedBorderImage:{
-    marginHorizontal:0,
-    marginTop:65,
-    marginBottom:20,
+    marginHorizontal:20,
     padding:0,
-    width:DeviceWidth,
+    width:DeviceWidth-40,
     height:DeviceHeight-100,
-    flex:1,
+    flex:10,
     alignSelf:'stretch',
     alignItems:'center',
     justifyContent:'center'

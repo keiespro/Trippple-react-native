@@ -6,6 +6,7 @@ var {
   TextInput,
   View,
   Image,
+  Navigator,
   TouchableHighlight,
   TouchableOpacity,
   LayoutAnimation,
@@ -20,7 +21,7 @@ var DeviceWidth = require('Dimensions').get('window').width;
 import BackButton from '../../components/BackButton'
 
 import ContinueButton from '../../controls/ContinueButton'
-
+import PrivacyPermissionsModal from '../../modals/PrivacyPermissions'
 
 class PrivacyScreen extends Component{
 
@@ -43,10 +44,27 @@ class PrivacyScreen extends Component{
 
   _selectPrivate(){
     console.log(this.state.selection)
+    if(this.state.selection != 'private'){
+      this.props.navigator.push({
+        component: PrivacyPermissionsModal,
+        passProps:{
+          ...this.props,
+          success: () =>{
+            this.setState({
+              selection: 'private'
+            })
+            this.props.navigator.pop()
+          },
+          cancel: ()=>{
+            this.props.navigator.pop()
 
-    this.setState({
-      selection: this.state.selection == 'private' ? null : 'private'
-    })
+          }
+        },
+        sceneConfig: Navigator.SceneConfigs.FloatFromBottom
+      }
+
+      )
+    }
 
   }
   _continue(){

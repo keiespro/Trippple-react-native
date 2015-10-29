@@ -66,16 +66,16 @@ class AppRoutes extends Component{
 
       case null:
       default:
-        return <Welcome  key={'welcomescene'} />
+        return <Welcome AppState={this.props.AppState} key={'welcomescene'} />
       }
   }
 }
 
 class TopLevel extends Component{
   constructor(props){
-    super(props)
+    super()
     this.state = {
-      showOverlay: this.props.user ? false : true,
+      showOverlay: props.user ? false : true,
       showCheckmark: false,
       showPurpleModal: false
     }
@@ -84,7 +84,7 @@ class TopLevel extends Component{
 
   componentWillReceiveProps(nProps){
 
-    if((nProps.showCheckMark) && nProps.user.status == 'verified'){
+    if((nProps.AppState && nProps.AppState.showCheckMark) && nProps.user.status == 'verified'){
 
       this.setState({showCheckmark:true})
 
@@ -108,7 +108,7 @@ class TopLevel extends Component{
 
         <CheckMarkScreen
           key="toplevelcheckmark"
-          isVisible={this.props.AppState.showCheckmark}
+          isVisible={this.state.showCheckmark || this.props.AppState.showCheckmark}
           checkMarkCopy={this.props.AppState.checkMarkCopy}
           checkmarkRequireButtonPress={this.props.AppState.checkmarkRequireButtonPress}
         />
