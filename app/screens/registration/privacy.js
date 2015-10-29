@@ -6,6 +6,7 @@ var {
   TextInput,
   View,
   Image,
+  Navigator,
   TouchableHighlight,
   TouchableOpacity,
   LayoutAnimation,
@@ -43,24 +44,27 @@ class PrivacyScreen extends Component{
 
   _selectPrivate(){
     console.log(this.state.selection)
-    this.props.navigator.push({
-      component: PrivacyPermissionsModal,
-      passProps:{
-        ...this.props,
-        success: () =>{
-          this.setState({
-            selection: 'private'
-          })
-          this.props.navigator.pop()
+    if(this.state.selection != 'private'){
+      this.props.navigator.push({
+        component: PrivacyPermissionsModal,
+        passProps:{
+          ...this.props,
+          success: () =>{
+            this.setState({
+              selection: 'private'
+            })
+            this.props.navigator.pop()
+          },
+          cancel: ()=>{
+            this.props.navigator.pop()
+
+          }
         },
-        cancel: ()=>{
-          this.props.navigator.pop()
-
-        }
+        sceneConfig: Navigator.SceneConfigs.FloatFromBottom
       }
-    }
 
-    )
+      )
+    }
 
   }
   _continue(){

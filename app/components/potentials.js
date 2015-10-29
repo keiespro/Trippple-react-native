@@ -501,6 +501,7 @@ class InsideActiveCard extends Component{
                   loop={true}
                   horizontal={false}
                   vertical={true}
+                  total={1}
                   showsPagination={true}
                   paginationStyle={{position:'absolute',right:45,top:25,height:100}}
                   dot={ <View style={styles.dot} />}
@@ -879,8 +880,8 @@ class CardStack extends Component{
         <ActivityIndicatorIOS size={'large'} style={[{ alignItems: 'center', justifyContent: 'center',height: 80}]} animating={true}/>
       </View>}
     { potentials.length < 1 &&
-      <FadeInContainer delayAmount={20000} duration={300} didShow={()=>this.setState({didShow:true})}>
-         <Image
+      <FadeInContainer delayAmount={2000} duration={300} didShow={()=>this.setState({didShow:true})}>
+         <Image source={require('image!placeholderDashed')}
             resizeMode={Image.resizeMode.contain}
             style={styles.dashedBorderImage}>
             <Image source={require('image!iconClock')} style={{height:150,width:150,marginBottom:40}}/>
@@ -899,8 +900,7 @@ class CardStack extends Component{
              hideNext={true}
              backgroundStyle={{backgroundColor:colors.outerSpace}}
              titleColor={colors.white}
-
-             title={ this.getPotentialInfo()}
+             title={ this.getPotentialInfo() }
              titleColor={colors.white}
              onPrev={(nav,route)=> {this.toggleProfile()}}
              customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12,marginTop:10}} source={require('image!close')} />
@@ -1138,13 +1138,11 @@ animatedIcon:{
     borderRadius:25
   },
   dashedBorderImage:{
-    marginHorizontal:0,
-    marginTop:65,
-    marginBottom:20,
+    marginHorizontal:20,
     padding:0,
-    width:DeviceWidth,
+    width:DeviceWidth-40,
     height:DeviceHeight-100,
-    flex:1,
+    flex:10,
     alignSelf:'stretch',
     alignItems:'center',
     justifyContent:'center'

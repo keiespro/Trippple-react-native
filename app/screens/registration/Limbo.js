@@ -19,34 +19,17 @@ var BoxyButton = require('../../controls/boxyButton')
 
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
+import LoadingOverlay from '../../components/LoadingOverlay'
 
 
-class LogOutButton extends React.Component{
-  _doLogOut(){
-    AsyncStorage.multiRemove(['ChatStore','MatchesStore'])
-    .then(() => UserActions.logOut())
-
-  }
-  render(){
-
-    return (
-      <TouchableHighlight underlayColor={colors.dark} onPress={this._doLogOut}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>Log Out</Text>
-        </View>
-      </TouchableHighlight>
-    )
-  }
-}
 
 class Limbo extends Component{
-
+  componentWillMount(){
+    UserActions.updatedUserStub({status:'onboarded'})
+  }
   render(){
     return (
-      <View>
-        <LogOutButton/>
-        <Text>LIMBO</Text>
-      </View>
+      <LoadingOverlay visible={true}/>
     )
   }
 }
