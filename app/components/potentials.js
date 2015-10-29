@@ -1138,11 +1138,13 @@ animatedIcon:{
     borderRadius:25
   },
   dashedBorderImage:{
-    marginHorizontal:20,
+    marginHorizontal:0,
+    marginTop:45,
+    marginBottom:20,
     padding:0,
-    width:DeviceWidth-40,
-    height:DeviceHeight-100,
-    flex:10,
+    width:DeviceWidth,
+    height:DeviceHeight-(DeviceHeight/5),
+    flex:1,
     alignSelf:'stretch',
     alignItems:'center',
     justifyContent:'center'
