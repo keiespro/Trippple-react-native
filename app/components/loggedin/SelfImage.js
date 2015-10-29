@@ -242,16 +242,16 @@ var styles = StyleSheet.create({
     textAlign:'center'
   },
   imageHolder:{
-    width:310,
-    height:310,
+    width:DeviceWidth/2,
+    height:DeviceWidth/2,
     alignItems:'center',
     justifyContent:'center',
     marginTop:40,
     marginBottom:60
   },
   imageInside:{
-    height:310,
-    width:310,
+    height:DeviceWidth/2,
+    width:DeviceWidth/2,
   },
   fbButton:{
     alignItems:'stretch',
