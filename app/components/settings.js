@@ -158,11 +158,12 @@ class SettingsInside extends React.Component{
           style={{backgroundColor:colors.outerSpace,paddingTop:0}}
           header={(
           <View  style={[styles.userimageContainer,styles.blur,{justifyContent:'center',flexDirection:'column'}]}>
-            <TouchableOpacity onPress={this._pressNewImage} style={{marginTop:20}}>
+            <TouchableOpacity onPress={this._pressNewImage} style={{marginTop:20,}}>
               <Image
-                style={styles.userimage}
-                key={this.props.user.thumb_url}
-                source={{uri: this.props.user.thumb_url}}
+                style={[styles.userimage,{backgroundColor:colors.outerSpace50}]}
+                key={this.props.user.id+'thumb'}
+                defaultSource={require('image!placeholderUserWhite')}
+                source={{uri: this.props.user.thumb_url || this.props.user.image_url}}
                 resizeMode={Image.resizeMode.cover}/>
               <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
                 <Image
@@ -172,7 +173,7 @@ class SettingsInside extends React.Component{
                 </View>
 
             </TouchableOpacity>
-            <TouchableOpacity onPress={this._pressNewImage} >
+            <TouchableOpacity onPress={this._openProfile} >
               <View style={{flex:10,alignSelf:'stretch',flexDirection:'column',alignItems:'stretch',justifyContent:'center'}}>
               <Text style={{flex:10,textAlign:'center',alignSelf:'stretch',color:colors.white,fontSize:18,marginTop:20,fontFamily:'Montserrat-Bold'}}>{
                   this.props.user.firstname.toUpperCase()
