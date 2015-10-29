@@ -139,19 +139,19 @@ class Cards extends Component{
           this._opens = true
           this.setTimeout(()=>{
             this._opens && this._toggleProfile()
-          },200)
+          },100)
         }
         return false
       },
       onPanResponderReject: (e, gestureState) => {
-        console.log('onPanResponderReject',e.nativeEvent,{gestureState})
+        console.log('onPanResponderReject', e.nativeEvent, {gestureState})
       },
 
       onPanResponderMove: Animated.event( [null, {dx: this.state.panX}] ),
 
       onPanResponderRelease: (e, gestureState) => {
 
-        var toValue = 0;
+        var toValue = 0
         // animate back to center or off screen left or off screen right
         if (gestureState.dx > 200 || gestureState.dx > 180 && Math.abs(gestureState.vx) > 3 ) {
           toValue = 500;
@@ -431,10 +431,6 @@ componentWillReceiveProps(nProps){
   render(){
 
     var { rel, potential, profileVisible, isTopCard, isThirdCard, panX } = this.props,
-
-
-
-
         matchName = `${potential.user.firstname.trim()} ${potential.user.age}`,
         distance = potential.user.distance,
         city = potential.user.city_state;
@@ -474,7 +470,7 @@ componentWillReceiveProps(nProps){
                   opacity:isTopCard ? 1 : this.state.panX && this.state.panX.interpolate({
                           inputRange: [-300, -100, 0, 100, 300],
                           outputRange: [0,0.7,1,0.7,0]
-                        }) ,
+                        }),
 
                   width: this.props.cardWidth || null,
                   backgroundColor:  colors.white, marginLeft: 0,
@@ -493,14 +489,14 @@ componentWillReceiveProps(nProps){
                     source={{uri: potential.user.image_url}}
                     key={`${potential.user.id}-cimg`}
                     style={[styles.imagebg,{
-                      backgroundColor:colors.white,
                       width: this.props.cardWidth,
-                      height:this.props.cardWidth && this.props.cardWidth.interpolate({inputRange: [DeviceWidth-40,DeviceWidth], outputRange: [DeviceHeight-40,DeviceHeight]}),
-
-                      opacity:  this.props.isTopCard && this.state.panX ? this.state.panX.interpolate({
+                      height:this.props.cardWidth && this.props.cardWidth.interpolate({
+                        inputRange: [DeviceWidth-40, DeviceWidth], outputRange: [DeviceHeight-40, DeviceHeight]
+                      }),
+                      opacity:  this.props.isTopCard && this.props.panX ? this.props.panX.interpolate({
                           inputRange: [-300, -100, 0, 100, 300],
                           outputRange: [0,0.7,1,0.7,0]
-                        }) : this.state.panX
+                        }) : 1
                     }]}
                     resizeMode={Image.resizeMode.cover} />
                   {rel == 'single' && potential.partner &&
@@ -511,10 +507,10 @@ componentWillReceiveProps(nProps){
                       backgroundColor:colors.white,
                       width: this.props.cardWidth,
                       height:this.props.cardWidth && this.props.cardWidth.interpolate({inputRange: [DeviceWidth-40,DeviceWidth], outputRange: [DeviceHeight-40,DeviceHeight]}),
-                      opacity:  this.props.isTopCard && this.state.panX ? this.state.panX.interpolate({
+                      opacity:  this.props.isTopCard && this.props.panX ? this.props.panX.interpolate({
                           inputRange: [-300, -100, 0, 100, 300],
                           outputRange: [0,0.7,1,0.7,0]
-                        }) : this.state.panX
+                        }) : 1
                     }]}
                     resizeMode={Image.resizeMode.cover} />
                   }

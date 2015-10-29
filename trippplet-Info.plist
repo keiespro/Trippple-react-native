@@ -42,7 +42,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>3</string>
 	<key>FacebookAppID</key>
 	<string>520565374758791</string>
 	<key>FacebookDisplayName</key>
@@ -55,7 +55,7 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>dsd</string>
+	<string>Prioritize users near me?</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>omnes-bold-webfont.ttf</string>
