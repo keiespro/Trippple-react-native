@@ -146,12 +146,7 @@ class SettingsCouple extends React.Component{
     console.log('settingOptions',settingOptions);
 
     var {partner} = this.props.user
-    var partner = {
-      firstname: 'xxx',
-      phone: '33333333',
-      gender: 'f',
-      birthday: '11'
-    }
+
     // if(!partner) {return false}
     return (
       <View style={styles.inner}>
