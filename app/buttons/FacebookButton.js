@@ -68,6 +68,7 @@ class FacebookButton extends React.Component{
     }
   }
   componentDidMount(){
+    AppActions.grantPermission(FACEBOOK_LOCALSTORAGE_KEY)
 
     FBLoginManager.getCredentials((error, data)=>{
       console.log(error, data)
@@ -76,8 +77,8 @@ class FacebookButton extends React.Component{
 
         AppActions.grantPermission(FACEBOOK_LOCALSTORAGE_KEY)
       } else {
+        console.log(error)
         this.setState({ fbUser : null });
-        AppActions.denyPermission(FACEBOOK_LOCALSTORAGE_KEY)
 
       }
     });
@@ -101,9 +102,10 @@ class FacebookButton extends React.Component{
           this.handleLogin();
         } else {
           console.log('FB err',error);
-          AppActions.denyPermission(FACEBOOK_LOCALSTORAGE_KEY)
+          this.handleLogin();
 
           this.setState({ fbUser : null });
+
         }
       });
     }else{
@@ -137,7 +139,6 @@ class FacebookButton extends React.Component{
         this.props.onLogin && this.props.onLogin(data);
       } else {
         this.setState({ fbUser : null });
-        AppActions.denyPermission(FACEBOOK_LOCALSTORAGE_KEY)
         console.log('FB err',error);
       }
     });
@@ -148,19 +149,17 @@ class FacebookButton extends React.Component{
     FBLoginManager.logout((error, data)=>{
       if (!error) {
         this.setState({ fbUser : null});
+        this.props.onLogout && this.props.onLogout();
 
         AppActions.grantPermission(FACEBOOK_LOCALSTORAGE_KEY)
 
-        this.props.onLogout && this.props.onLogout();
       } else {
-        AppActions.denyPermission(FACEBOOK_LOCALSTORAGE_KEY)
 
         console.log(error, data);
       }
     });
   }
   render(){
-    console.log(this.props.buttonText);
     var buttonText = this.props.buttonText;
     switch(this.props.buttonType){
       case  'uploadImage':

@@ -33,11 +33,17 @@ export default class CameraRollPermissionsModal extends Component{
 
   constructor(props) {
     super();
-    this.state = {}
+    this.state = {
+      hasPermission:false
+    }
   }
-  componentWillMount(){
-    this.preloadPermission()
+
+  componentDidMount(){
+    if(this.props.AppState.permissions[permissionsKey]){
+      this.handleSuccess()
+    }
   }
+
   componentDidMount(){
     if(this.state.hasPermission){
       this.props.navigator.replace({
@@ -58,15 +64,16 @@ export default class CameraRollPermissionsModal extends Component{
       })
     }
   }
-  async preloadPermission(){
-    try {
-      var hasPermission = await AsyncStorage.getItem(permissionsKey)
-      this.setState({hasPermission})
-    } catch (error) {
-      this.setState({hasPermission: 'false'})
-      console.log('AsyncStorage error: ' + error.message);
-    }
-  }
+  // preloadPermission(){
+  //   var hasPermission = await AsyncStorage.getItem(permissionsKey)
+  //
+  //   try {
+  //     this.setState({hasPermission})
+  //   } catch (error) {
+  //     this.setState({hasPermission: 'false'})
+  //     console.log('AsyncStorage error: ' + error.message);
+  //   }
+  // }
   cancel(){
     this.props.navigator.pop()
   }
@@ -86,18 +93,14 @@ export default class CameraRollPermissionsModal extends Component{
   handleFail(){
 
       this.setState({isFailed:true})
-      // AppActions.grantPermission('facebook') // kind of superflous since we have their token but let's be congruent?
+      AppActions.denyPermission(permissionsKey)
   }
-  async handleSuccess(){
+  handleSuccess(){
     console.log('HANDLE SUCCESS ' )
-    var hasPermission = await AsyncStorage.setItem(permissionsKey, 'true')
 
-    try {
-      this.setState({hasPermission:true})
+    this.setState({hasPermission:true})
+    AppActions.grantPermission(permissionsKey)
 
-    } catch (error) {
-      console.log('AsyncStorage error: ' + error.message)
-    }
 
   }
 

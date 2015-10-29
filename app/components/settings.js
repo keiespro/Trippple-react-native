@@ -88,20 +88,19 @@ class SettingsInside extends React.Component{
   setNativeProps(props) {
     this._scrollView.setNativeProps(props);
   }
-  handleImages(imgs){
-    console.log(imgs);
-    UserActions.uploadImage(imgs.croppedImage,'profile')
-
-    navigator.jumpForward();
-  }
+  // handleImages(imgs){
+  //   console.log(imgs);
+  //   UserActions.uploadImage(imgs.croppedImage,'profile')
+  //
+  //   navigator.jumpForward();
+  // }
 
   _pressNewImage =()=>{
     this.props.navigator.push({
       component: SelfImage,
       sceneConfig: Navigator.SceneConfigs.FloatFromRight,
       passProps: {
-
-
+        user: this.props.user,
       }
     });
   }
@@ -195,11 +194,11 @@ class SettingsInside extends React.Component{
           this.props.navigator.push({
             component: SettingsBasic,
             sceneConfig:NavigatorSceneConfigs.FloatFromRight,
+            user:this.props.user,
             passProps: {
               style:styles.container,
               settingOptions:this.state.settingOptions,
-              user:this.props.user,
-              navigator:this.props.navigator
+              user:this.props.user
             }
           })
         }} underlayColor={colors.dark}>

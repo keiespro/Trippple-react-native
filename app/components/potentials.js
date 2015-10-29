@@ -67,8 +67,6 @@ class Cards extends Component{
 
   }
   componentDidMount(){
-    // this.state.panX.setValue(0);     // Start 0
-    // this.state.inactiveCardOpacity.setValue(0.5);     // Start 0
 
     Mixpanel.track('On - Potentials Screen');
     Animated.stagger(200,[
@@ -120,11 +118,8 @@ class Cards extends Component{
     }
   }
 
-  getInactiveOpacity = ()=>{
-    return this.state.panX ? this.state.panX.interpolate({
-      inputRange: [-300, -100, 0, 100, 300], outputRange: [1,0.7,0,0.7,1]}) : 0
 
-  }
+
   initializePanResponder(){
     this._panResponder = PanResponder.create({
 
@@ -164,10 +159,11 @@ class Cards extends Component{
           toValue = -500;
         }
 
+
         Animated.spring(this.state.panX, {
           toValue,
           velocity: gestureState.vx,       // maintain gesture velocity
-          tension: 7,
+          tension: 5,
           friction: 2,
         }).start();
 
@@ -186,6 +182,9 @@ class Cards extends Component{
             )
             this.state.panX.removeListener(id);
 
+            this.state.panX.setValue(0);     // Start 0
+
+
           }
         })
       }
@@ -197,42 +196,34 @@ class Cards extends Component{
   }
 
   _hideProfile(){
-
-    this.props.toggleProfile();
-    this.state.panX.setValue(0);     // Start 0
-
+    this.props.toggleProfile()
+    this.state.panX.setValue(0)
   }
 
   _toggleProfile(){
-    this.state.panX.removeAllListeners();
-
-    this.props.toggleProfile();
-
-    this.state.panX.setValue(0);     // Start 0
+    this.props.toggleProfile()
+    this.state.panX.setValue(0)
 
   }
 
   render() {
     var {potentials,user} = this.props
 
-    var pan = this.state.panX || 0,
-
-        inactiveCardOpacity = this.getInactiveOpacity();
+    var pan = this.state.panX || 0
 
     return (
       <View style={{
-        position:'absolute',
-        width:DeviceWidth,
-        height:DeviceHeight,
-        top:0,
-        left:0,
-        right:0,
-        bottom:0
+        position: 'absolute',
+        width:     DeviceWidth,
+        height:    DeviceHeight,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
       }}>
 
       {/*     last card      */}
       { potentials && potentials.length >= 1 && potentials[2] &&
-
         <Animated.View
           key={`${potentials[2].id || potentials[2].user.id}-wrapper`}
           style={[
@@ -297,11 +288,9 @@ class Cards extends Component{
           <InsideActiveCard
             key={`${potentials[1].id || potentials[1].user.id}-activecard`}
             user={user}
-            inactiveOpacity={inactiveCardOpacity}
             ref={"_secondCard"}
             potential={potentials[1]}
             rel={user.relationship_status}
-            isTopCard={false}
           />
         </Animated.View>
       }
@@ -354,7 +343,7 @@ class Cards extends Component{
             panX={this.state.panX}
             profileVisible={this.props.profileVisible}
             hideProfile={this._hideProfile.bind(this)}
-            inactiveOpacity={inactiveCardOpacity}
+
             showProfile={this._showProfile.bind(this)}
             potential={potentials[0]}
           />
@@ -369,7 +358,7 @@ class Cards extends Component{
   componentWillReceiveProps(nProps){
     if(this.state.animatedIn && this.props.potentials[0].user.id != nProps.potentials[0].user.id ){
         this.state.panX.setValue(0);
-        this.initializePanResponder()
+        // this.initializePanResponder()
 
     }
     if(this.state.cardWidth && this.props.profileVisible != nProps.profileVisible){
@@ -480,7 +469,12 @@ componentWillReceiveProps(nProps){
 
             {this.props.isThirdCard ? null :
               <Animated.View key={`${potential.id || potential.user.id}bgopacity`} style={{
-                  position:'relative',flex:1,
+                  position:'relative',
+                  flex:1,
+                  opacity:isTopCard ? 1 : this.state.panX && this.state.panX.interpolate({
+                          inputRange: [-300, -100, 0, 100, 300],
+                          outputRange: [0,0.7,1,0.7,0]
+                        }) ,
 
                   width: this.props.cardWidth || null,
                   backgroundColor:  colors.white, marginLeft: 0,
@@ -497,26 +491,30 @@ componentWillReceiveProps(nProps){
                   activeDot={ <View style={styles.activeDot} /> }>
                   <Animated.Image
                     source={{uri: potential.user.image_url}}
-                    defaultSource={require('image!defaultuser')}
                     key={`${potential.user.id}-cimg`}
                     style={[styles.imagebg,{
                       backgroundColor:colors.white,
                       width: this.props.cardWidth,
                       height:this.props.cardWidth && this.props.cardWidth.interpolate({inputRange: [DeviceWidth-40,DeviceWidth], outputRange: [DeviceHeight-40,DeviceHeight]}),
 
-                      opacity:  isTopCard ? panX && panX.interpolate({inputRange: [-200,0,200], outputRange: [0,1,0]})  : this.props.inactiveOpacity
+                      opacity:  this.props.isTopCard && this.state.panX ? this.state.panX.interpolate({
+                          inputRange: [-300, -100, 0, 100, 300],
+                          outputRange: [0,0.7,1,0.7,0]
+                        }) : this.state.panX
                     }]}
                     resizeMode={Image.resizeMode.cover} />
                   {rel == 'single' && potential.partner &&
                   <Animated.Image
                     source={{uri: potential.partner.image_url}}
                     key={`${potential.partner.id}-cimg`}
-                    defaultSource={require('image!defaultuser')}
                     style={[styles.imagebg,{
                       backgroundColor:colors.white,
                       width: this.props.cardWidth,
                       height:this.props.cardWidth && this.props.cardWidth.interpolate({inputRange: [DeviceWidth-40,DeviceWidth], outputRange: [DeviceHeight-40,DeviceHeight]}),
-                      opacity:  isTopCard ? panX && panX.interpolate({inputRange: [-200,0,200], outputRange: [0,1,0]})  : this.props.inactiveOpacity
+                      opacity:  this.props.isTopCard && this.state.panX ? this.state.panX.interpolate({
+                          inputRange: [-300, -100, 0, 100, 300],
+                          outputRange: [0,0.7,1,0.7,0]
+                        }) : this.state.panX
                     }]}
                     resizeMode={Image.resizeMode.cover} />
                   }
@@ -664,21 +662,19 @@ componentWillReceiveProps(nProps){
                 source={{uri: potential.user.image_url}}
                 key={`${potential.user.id}-cimg`}
 
-                 defaultSource={require('image!defaultuser')}
                 style={[styles.imagebg,{
                   height: DeviceHeight,
-marginTop:-20,
-width:this.props.cardWidth,
+                  marginTop:-20,
+                  width:this.props.cardWidth,
 
-}]}
- />
+                  }]}
+                   />
 
             {rel == 'single' && potential.partner &&
               <Animated.Image
                 source={{uri: potential.partner.image_url}}
                 key={`${potential.partner.id}-cimg`}
 
-                 defaultSource={require('image!defaultuser')}
                 style={[styles.imagebg,{
                   height:DeviceHeight,
                 marginTop:-20,
@@ -844,9 +840,7 @@ class CardStack extends Component{
 
     var { potentials, user } = this.props
     var NavBar = React.addons.cloneWithProps(this.props.pRoute.navigationBar, {
-      navigator: this.props.navigator,
-      route: this.props.route,
-      unread: this.props.unread
+      ...this.props
     })
 
       return (

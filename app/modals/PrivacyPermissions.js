@@ -18,7 +18,7 @@ import {
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-var {FBLoginManager,AddressBook} = require('NativeModules')
+var {FBLoginManager,AddressBook} = NativeModules
 
 import colors from '../utils/colors'
 import _ from 'underscore'
@@ -51,14 +51,21 @@ export default class PrivacyPermissionsModal extends Component{
     AddressBook.checkPermission((err, permission) => {
       if(!err && permission === AddressBook.PERMISSION_AUTHORIZED){
         this.setState({ hasContactsPermissions: true })
+        AppActions.grantPermission('contacts')
+
       }else{
-        AppActions.denyPermission('contacts') // kind of superflous since we have their token but let's be congruent?
+        this.setState({ hasContactsPermissions: false })
+
+        AppActions.denyPermission('contacts')
       }
     })
   }
 
-  componentWillUpdate(nProps,nState){
-    // nState.hasFacebookPermissions && nState.hasContactsPermissions ? auto close?
+  componentDidUpdate(pProps,pState){
+    if(pState.hasFacebookPermissions && pState.hasContactsPermissions){
+      UserActions.updateUser({privacy:'private'})
+      this.props.navigator.pop()
+    }
   }
 
   handleTapContacts(){
@@ -89,7 +96,10 @@ export default class PrivacyPermissionsModal extends Component{
         UserActions.handleContacts(contacts)
         UserActions.updateUser({privacy:'private'})
         this.setState({hasContactsPermissions: true })
+        AppActions.grantPermission('contacts')
+
       }else{
+        AppActions.denyPermission('contacts')
 
 
       }
