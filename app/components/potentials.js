@@ -933,7 +933,22 @@ class Potentials extends Component{
                 value: MatchesStore.getAnyUnread()
               }
             }}}>
-              <CardStack {...this.props}/>
+          <CardStack {...this.props}/>
+          {
+            /*
+            !this.props.AppState.permissions.location &&   <CheckPermissions
+              title={'PRIORITIZE LOCAL'}
+              subtitle={'We’ve found 10 matches we think you might like. Should we prioritize the matches closets to you?'}
+              headerImageSource={'iconDeck'}
+              permissionKey={'location'}
+              hideModal={()=>{this.setState({ready: true}) }}
+              visible={!this.state.ready && !this.props.AppState.permissions.location}
+              AppState={this.props.AppState}
+
+            />
+
+            */}
+
       </AltContainer>
     )
   }
