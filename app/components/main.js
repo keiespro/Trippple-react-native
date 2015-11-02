@@ -78,7 +78,7 @@ import AppActions from '../flux/actions/AppActions'
     selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
       const RouteComponent = route.component;
       var navBar = route.navigationBar;
-      Mixpanel.auth(this.props.user.username).track(`HO: On - ${route.id} Screen`);
+      Mixpanel.auth(this.props.user.id).track(`HO: On - ${route.id} Screen`);
 
       if (navBar) {
         navBar = React.addons.cloneWithProps(navBar, {
