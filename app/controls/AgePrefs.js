@@ -178,6 +178,7 @@ class ActiveDot extends React.Component{
   }
   componentWillMount(){
     console.log('MOUNT')
+
     this.state.ageVal.setValue(SliderWidth * (this.props.ageVal-18) / 32)
     this.initializePanResponder();
 
@@ -320,7 +321,7 @@ class ActiveDot extends React.Component{
           transform: [ {translateX: ageVal} ],
           backgroundColor:'transparent',alignItems:'center',justifyContent:'center',
           height:42,width:36,position:'absolute',bottom:10,
-          left:15,
+          left:MagicNumbers.isSmallDevice ? 2 : 12,
         }} source={require('image!sliderHandle')}>
         <Text style={{backgroundColor:'transparent',textAlign:'center',color:colors.white,fontSize:12}}>{
             this.props.ageVal

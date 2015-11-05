@@ -188,7 +188,6 @@ class SettingsBasic extends React.Component{
 
         <ScrollableTabView style={{overflow:'hidden'}} renderTabBar={(props)=><CustomTabBar {...props}/>}>
           <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:MagicNumbers.screenPadding/2,}}  tabLabel={'GENERAL'}>
-
         {user.relationship_status == 'single' ? null : <View style={{height:150,width:150,alignSelf:'center'}}>
             <Image
               style={styles.userimage}
