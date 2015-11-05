@@ -138,7 +138,7 @@ class ProfileField extends React.Component{
                 field,
                 fieldName:this.props.fieldName,
                 cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
-                fieldValue: this.props.user[this.props.fieldName] || field.values[0]
+                fieldValue: this.props.user[this.props.fieldName] || field.values && field.values.length > 0 && field.values[0]
               }
             })
           }} underlayColor={colors.dark} style={styles.paddedSpace}>

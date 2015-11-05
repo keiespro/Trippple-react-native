@@ -229,7 +229,7 @@ class FieldModal extends React.Component{
             <View style={{backgroundColor:colors.white, flex:1,flexDirection:'column',alignItems:'center', width:DeviceWidth,justifyContent:'center',padding:0}}>
               {React.cloneElement(inputField,{
                 onValueChange:this.onChange.bind(this),
-                selectedValue:this.state.value || fieldValue || '',
+                selectedValue:this.state.value || fieldValue || null,
                 ref: (dropdown) => { this.dropdown = dropdown }
               }
             )}
