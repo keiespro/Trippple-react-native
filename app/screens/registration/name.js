@@ -64,21 +64,15 @@ class NameScreen extends Component{
   }
   _submit =()=>{
     UserActions.updateUserStub({firstname: this.state.inputFieldValue});
-    console.log(this.props)
     var lastindex = this.props.navigator.getCurrentRoutes().length;
-    console.log(lastindex);
     var nextRoute = this.props.stack[lastindex];
 
     nextRoute.passProps = {
-        ...this.props,
-              firstname: this.state.inputFieldValue,
-              keyboardSpace: this.state.keyboardSpace
-
-
+      stack: this.props.stack,
+      firstname: this.state.inputFieldValue,
+      keyboardSpace: this.state.keyboardSpace
     }
     this.props.navigator.push(nextRoute)
-
-
 
   }
  render(){

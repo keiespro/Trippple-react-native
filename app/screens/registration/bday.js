@@ -39,12 +39,12 @@ class BdayScreen extends Component{
 
 
   constructor(props){
-    super(props);
+    super();
     console.log(props)
     this.state = {
       error: false,
       timeZoneOffsetInHours:props.timeZoneOffsetInHours,
-      date: props.fb_bday_year ? new Date(`${props.fb_bday_year}`) : null
+      date: props.fb_bday_year ? new Date(`${props.fb_bday_year}`) : new Date()
     }
   }
   _submit =()=>{
@@ -69,8 +69,10 @@ class BdayScreen extends Component{
   var nextRoute = this.props.stack[lastindex];
 
    nextRoute.passProps = {
-    ...this.props,
+              firstname:this.props.firstname,
               bday: this.state.date,
+              stack: this.props.stack,
+
             }
 
     this.props.navigator.push(nextRoute)
@@ -84,7 +86,8 @@ class BdayScreen extends Component{
      this.setState({
         error:true,
         inputFieldValue: date,
-        date: date
+        date: date,
+        isLegal: false
 
     })
 
@@ -94,7 +97,8 @@ class BdayScreen extends Component{
       this.setState({
         error:false,
         inputFieldValue: date,
-        date: date
+        date: date,
+        isLegal:true
       })
 
       console.log(date,this.state.date);
@@ -141,8 +145,8 @@ class BdayScreen extends Component{
       </View>
 
         <SingleInputScreen
-          shouldHide={(val) =>  !this.state.date || (this.state.date && this.state.error) ? 1 : 0  }
-          shouldShow={(val) => this.state.date && !this.state.error  ? 1 : 0 }
+          shouldHide={(val) =>( !this.state.isLegal || !this.state.date || (this.state.date && this.state.error) ? 1 : 0)  }
+          shouldShow={(val) => this.state.isLegal && this.state.date && !this.state.error  ? 1 : 0 }
           inputFieldValue={this.state.inputFieldValue}
           handleNext={this._submit.bind(this)}
           toptext={`What's your date of birth`}
@@ -173,8 +177,7 @@ class BdayScreen extends Component{
         <DatePickerIOS
             ref={'picker'}
             mode="date"
-
-            date={(bdate || this.state.date || moment().toDate())}
+            date={ this.state.date }
             timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
             onDateChange={this.onDateChange.bind(this)}
           />
