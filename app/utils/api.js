@@ -157,7 +157,6 @@ class api {
   // fix
     return authenticatedRequest('likes', { like_status, like_user_id, like_user_type, from_user_type })
   }
-  // 
   // uploadImage(image,image_type){
   //   return authenticatedFileUpload('upload', image,image_type)
   // }
@@ -171,7 +170,7 @@ class api {
     console.log('UPLOAD',image, image_type)
     if(!image_type){
       console.log('NO image_type!!');
-       image_type = 'avatar'
+       image_type = 'profile'
     }
     return await authenticatedFileUpload('upload', image, image_type).then((response) => response.json())
   }
