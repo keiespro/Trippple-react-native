@@ -397,6 +397,7 @@ class InsideActiveCard extends Component{
 
   }
   componentDidUpdate(pProps,pState){
+    if(pState.isMoving != this.state.isMoving){ return false }
     LayoutAnimation.configureNext(animations.layout.spring);
 
 
@@ -408,23 +409,34 @@ class InsideActiveCard extends Component{
   valueListener(){
     this.props.panX && this.props.panX.addListener(({value}) => {
       // listen to parent component's panX
-        if(value == 0 && this.state.isMoving){
+      // console.log(value,parseInt(value),this.state.isMoving)
+      const val = parseInt(value)
+
+        if(this.state.isMoving && val == 0){
           this.setState({
             isMoving: false
           })
-        }else if(value != 0 && !this.state.isMoving){
+
+        }else if(val != 0 && !this.state.isMoving){
           this.setState({
             isMoving: true
           })
+
         }
-      this.setNativeProps({ style:{ backgroundColor: value > 0 ? colors.sushi : colors.mandy } })
+        if(val != 0){
+          this.setNativeProps({ style:{ backgroundColor: val > 0 ? colors.sushi : colors.mandy } })
+        }
+
     })
   }
 
   setNativeProps(np){
     this.refs.incard && this.refs.incard.setNativeProps(np)
   }
+  componentWillMount(pProps,pState){
+      this.props.panX ? this.valueListener() : null
 
+  }
   componentWillReceiveProps(nProps){
     if(this.props.panX && this.props.profileVisible != nProps.profileVisible){
       this.setState({
@@ -435,16 +447,19 @@ class InsideActiveCard extends Component{
     }
     nProps && nProps.panX  && this.props.isTopCard ? nProps.panX.addListener(({value}) => {
     // listen to parent component's panX
-      if(value > 0 && this.state.isMoving){
+      const val = parseInt(value)
+      if(val == 0 && this.state.isMoving){
         this.setState({
           isMoving: false
         })
-      }else if(value != 0 && !this.state.isMoving){
+      }else if(val != 0 && !this.state.isMoving){
         this.setState({
           isMoving: true
         })
       }
-      this.setNativeProps({ style:{ backgroundColor: value > 0 ? colors.sushi : colors.mandy } })
+      if(val != 0){
+        this.setNativeProps({ style:{ backgroundColor: val > 0 ? colors.sushi : colors.mandy } })
+      }
     }) : null
   }
 
