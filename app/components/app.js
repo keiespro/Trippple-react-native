@@ -86,7 +86,7 @@ class TopLevel extends Component{
 
   componentWillReceiveProps(nProps){
 
-    if( nProps.user.status == 'verified' && this.props.user.status != 'verified' ){
+    if( nProps.user.status == 'verified' ){
 
       this.setState({showCheckmark:true})
 
