@@ -145,12 +145,12 @@ class AppStateStore {
       showOverlay:false,
       showCheckmark: true,
       checkMarkCopy: cm ? cm.copy : {} ,
-      checkmarkRequireButtonPress: cm  && cm.button
+      checkmarkRequireButtonPress: cm  ? cm.button : false
     })
 
     if(!cm.button){
       setTimeout(()=>{
-        this.setState({showCheckmark:false,checkMarkCopy: {}})
+        this.setState({showCheckmark:false,checkMarkCopy: {},checkmarkRequireButtonPress:false})
       },5000);
     }
 
@@ -160,7 +160,7 @@ class AppStateStore {
 
     this.setState({
       showCheckmark: false,
-      checkMarkCopy: {}
+      checkMarkCopy: {},checkmarkRequireButtonPress:false
     })
 
   }
@@ -178,7 +178,7 @@ class AppStateStore {
 
           },
           button: true
-        });
+        })
       }
   }
 

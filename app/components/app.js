@@ -4,7 +4,7 @@
 
 
 import React from 'react-native';
-
+import DeviceConfig from '../DeviceConfig'
 import { Component, View, Navigator } from 'react-native';
 
 import alt from '../flux/alt';
@@ -71,6 +71,8 @@ class AppRoutes extends Component{
   }
 }
 
+@reactMixin.decorate(TimerMixin)
+
 class TopLevel extends Component{
   constructor(props){
     super()
@@ -84,35 +86,37 @@ class TopLevel extends Component{
 
   componentWillReceiveProps(nProps){
 
-    if((nProps.AppState && nProps.AppState.showCheckMark) && nProps.user.status == 'verified'){
+    if( nProps.user.status == 'verified' && this.props.user.status != 'verified' ){
 
       this.setState({showCheckmark:true})
 
       this.setTimeout(()=>{
         console.log('time')
         this.setState({showCheckmark:false})
-      },5000);
+      },3500);
     }
   }
 
   render(){
+    console.log(this.props.AppState)
     return (
       <View style={{flex:1,backgroundColor:'#000000'}}>
 
         <Connectivity/>
         <ReachabilitySubscription/>
         <AppVisibility/>
-        <LoadingOverlay key="LoadingOverlay" isVisible={this.props.AppState.showOverlay || this.state.showOverlay} />
 
         <AppRoutes user={this.props.user} AppState={this.props.AppState} currentRoute={this.props.AppState.currentRoute}/>
 
-        <CheckMarkScreen
-          key="toplevelcheckmark"
-          isVisible={this.state.showCheckmark || this.props.AppState.showCheckmark}
-          checkMarkCopy={this.props.AppState.checkMarkCopy}
-          checkmarkRequireButtonPress={this.props.AppState.checkmarkRequireButtonPress}
-        />
+        {(this.state.showCheckmark || this.props.AppState.showCheckmark) ?
+          <CheckMarkScreen
+            key="toplevelcheckmark"
+            isVisible={this.state.showCheckmark || this.props.AppState.showCheckmark}
+            checkMarkCopy={this.props.AppState.checkMarkCopy || ''}
+            checkmarkRequireButtonPress={this.props.AppState.checkmarkRequireButtonPress || false}
+          /> : null}
 
+        <LoadingOverlay key="LoadingOverlay" isVisible={this.props.AppState.showOverlay || this.state.showOverlay} />
 
       </View>
     )
