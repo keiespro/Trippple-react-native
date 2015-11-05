@@ -19,6 +19,7 @@ var BoxyButton = require('../../controls/boxyButton')
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 import BackButton from '../../components/BackButton'
+import {MagicNumbers} from '../../DeviceConfig'
 
 import ContinueButton from '../../controls/ContinueButton'
 import PrivacyPermissionsModal from '../../modals/PrivacyPermissions'
@@ -90,7 +91,7 @@ class PrivacyScreen extends Component{
 
     return (
       <View style={[styles.container]}>
- <View style={{width:100,height:50,left:20,alignSelf:'flex-start'}}>
+ <View style={{width:100,height:50,left:MagicNumbers.screenPadding,alignSelf:'flex-start'}}>
         <BackButton navigator={this.props.navigator}/>
       </View>
 
@@ -103,7 +104,7 @@ class PrivacyScreen extends Component{
 
 
           <TouchableOpacity
-            style={{margin:20}}
+            style={{marginVertical:20}}
               onPress={this._selectPublic.bind(this)}>
               <View style={[styles.privacyWrap,
                   (this.state.selection == 'public' ? styles.selectedbutton : null)]}>
@@ -186,13 +187,6 @@ var styles = StyleSheet.create({
   //   height:90
   // },
 
-  labelText:{
-    color:colors.rollingStone,
-    fontSize:18,
-    fontFamily:'omnes',
-    textAlign:'left',
-
-  },
 
 
 selectedbutton:{
@@ -252,7 +246,7 @@ selectedbutton:{
     flexDirection:'row',
     alignItems: 'center',
     alignSelf:'stretch',
-    width: DeviceWidth-80,
+    width: MagicNumbers.screenWidth,
     padding:10,
     borderWidth:2,
     borderColor:colors.shuttleGray,

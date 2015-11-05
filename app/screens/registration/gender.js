@@ -17,6 +17,7 @@ var {
 var UserActions = require('../../flux/actions/UserActions');
 var colors = require('../../utils/colors')
 var BoxyButton = require('../../controls/boxyButton')
+import {MagicNumbers} from '../../DeviceConfig'
 
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
@@ -71,7 +72,7 @@ class GenderScreen extends Component{
 
     return (
       <View style={[styles.container]}>
-        <View style={{width:100,height:50,left:20,alignSelf:'flex-start'}}>
+        <View style={{width:100,height:50,left:MagicNumbers.screenPadding,alignSelf:'flex-start'}}>
           <BackButton navigator={this.props.navigator}/>
         </View>
 
@@ -88,7 +89,7 @@ class GenderScreen extends Component{
 
 
           <TouchableOpacity
-            style={{margin:20}}
+            style={{marginVertical:20}}
               onPress={this._selectMale.bind(this)}>
               <View style={[styles.privacyWrap,
                   (this.state.selection == 'm' ? styles.selectedbutton : null)]}>
@@ -293,7 +294,7 @@ var styles = StyleSheet.create({
     flexDirection:'row',
     alignItems: 'center',
     alignSelf:'stretch',
-    width: DeviceWidth-80,
+    width: MagicNumbers.screenWidth,
     padding:10,
     borderWidth:2,
     borderColor:colors.shuttleGray,

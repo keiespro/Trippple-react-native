@@ -17,6 +17,7 @@ import UserActions from '../../flux/actions/UserActions'
 import BoxyButton from '../../controls/boxyButton'
 import BackButton from '../../components/BackButton'
 import FBPhotoAlbums from '../../components/fb.login'
+import {MagicNumbers} from '../../DeviceConfig'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -119,22 +120,22 @@ class Facebook extends Component{
     return (
      <View style={{width:DeviceWidth,height:DeviceHeight,position:'relative',backgroundColor:colors.outerSpace}}>
 
-         <View style={{width:100,height:50,left:20}}>
+         <View style={{width:100,height:50,left:(MagicNumbers.screenPadding/2)}}>
           <BackButton navigator={this.props.navigator}/>
         </View>
 
-      <View style={[styles.container,this.props.wrapperStyle]}>
+      <View style={[styles.container,{}]}>
 
           <View style={styles.middleTextWrap}>
             <Text style={styles.middleText}>Save time. Get more matches.</Text>
           </View>
-
+          <View>
           <FacebookButton buttonType={'onboard'} buttonText={'VERIFY WITH FB'} onLogin={this.handleCredentials.bind(this)} />
 
           <View style={styles.middleTextWrap}>
             <Text style={[styles.middleText,{fontSize:16,marginTop:20}]}>Don’t worry, we wont tell ever your friends or post on your wall.</Text>
           </View>
-
+</View>
           <View style={[styles.middleTextWrap,styles.bottomwrap]}>
             <TouchableOpacity
               onPress={this.skipFacebook}
@@ -152,10 +153,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
     alignSelf:'stretch',
-    padding:40,
+    padding:MagicNumbers.screenPadding/2,
     paddingTop:0,
     backgroundColor: colors.outerSpace
   },
@@ -188,8 +189,6 @@ const styles = StyleSheet.create({
     borderRightWidth: 1
   },
   bottomwrap:{
-    marginTop:DeviceHeight/4,
-    marginBottom: -DeviceHeight/4,
   }
 });
 

@@ -16,6 +16,7 @@ import {
 import UserActions from '../../flux/actions/UserActions'
 import colors from '../../utils/colors'
 import BackButton from '../../components/BackButton'
+import {MagicNumbers} from '../../DeviceConfig'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -83,7 +84,7 @@ class NameScreen extends Component{
  render(){
    return(
      <View style={{width:DeviceWidth,height:DeviceHeight,position:'relative',backgroundColor:colors.outerSpace}}>
-       <View style={{width:100,height:50,left:20}}>
+       <View style={{width:100,height:50,left:MagicNumbers.screenPadding}}>
           <BackButton navigator={this.props.navigator}/>
         </View>
         <SingleInputScreen

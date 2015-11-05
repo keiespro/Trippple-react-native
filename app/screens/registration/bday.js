@@ -18,6 +18,8 @@ import {
   DatePickerIOS,
   TouchableHighlight,
 } from 'react-native'
+import {MagicNumbers} from '../../DeviceConfig'
+
 
 import UserActions from '../../flux/actions/UserActions'
 import colors from '../../utils/colors'
@@ -134,7 +136,7 @@ class BdayScreen extends Component{
             paddingBottom: 226
           }
         ]}>
- <View style={{width:100,height:50,left:20,alignSelf:'flex-start'}}>
+ <View style={{width:100,height:50,left:MagicNumbers.screenPadding,alignSelf:'flex-start'}}>
         <BackButton navigator={this.props.navigator}/>
       </View>
 

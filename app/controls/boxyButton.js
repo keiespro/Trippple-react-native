@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 
 var colors = require('../utils/colors')
+import {MagicNumbers} from '../DeviceConfig'
 
 class BoxyButton extends Component{
 
@@ -25,7 +26,7 @@ class BoxyButton extends Component{
     return (
       <TouchableHighlight
         onPress={this._onPress.bind(this)}
-        style={this.props.outerButtonStyle}
+        style={[this.props.outerButtonStyle,{    width:MagicNumbers.screenWidth}]}
         underlayColor={this.props.underlayColor || colors.dark}>
         <View style={[styles.iconButton, this.props.innerWrapStyles]}>
           <View style={[styles.iconButtonLeftBox,this.props.leftBoxStyles]}>

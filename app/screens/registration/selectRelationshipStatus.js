@@ -18,6 +18,7 @@ var BoxyButton = require('../../controls/boxyButton')
 
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
+import {MagicNumbers} from '../../DeviceConfig'
 
 class SelectRelationshipStatus extends Component{
 
@@ -124,7 +125,7 @@ var styles = StyleSheet.create({
   dividerLine:{
     height:27,
     position:'absolute',
-    width:DeviceWidth - 50,
+    width:MagicNumbers.screenWidth,
     alignSelf:'stretch',
     flex:1,
     borderBottomWidth: 1,
@@ -132,7 +133,7 @@ var styles = StyleSheet.create({
   },
   dividerWrap:{
     marginVertical:50,
-    width:DeviceWidth - 50,
+    width:MagicNumbers.screenWidth,
     flexDirection:'column',
     justifyContent: 'center',
     alignItems: 'center',
