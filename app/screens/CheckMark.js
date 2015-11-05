@@ -39,7 +39,7 @@ class CheckMarkScreen extends Component{
       // scale: new Animated.Value(0),
       // opacity:
       buttonOpacity: new Animated.Value(1.0),
-      bounceValue:new Animated.Value(0.1),
+      bounceValue:new Animated.Value(0),
       textOpacityValue: new Animated.Value(1.0)
     }
   }
@@ -48,7 +48,7 @@ class CheckMarkScreen extends Component{
     if(!this.props.isVisible){ return false}
 
     // this.state.bounceValue.setValue(0);     //
-    this.state.bounceValue.setValue(0.05);
+    this.state.bounceValue.setValue(0.0);
     this.state.textOpacityValue.setValue(0.0);
     this.state.buttonOpacity.setValue(0.0);
 
@@ -62,7 +62,7 @@ Animated.sequence([
         friction: 3,
       }
     ),
-    Animated.timing(                          // Base: spring, decay, timing
+    Animated.spring(                          // Base: spring, decay, timing
       this.state.textOpacityValue,                 // Animate `bounceValue`
       {
         toValue: 1.0,
@@ -72,7 +72,8 @@ Animated.sequence([
       this.state.buttonOpacity,                 // Animate `bounceValue`
       {
         toValue: 1.0,
-        delay: 2000
+        delay: 2000,
+        duration:1000
       }
     )]).start()
                     // Start the animation

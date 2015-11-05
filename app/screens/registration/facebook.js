@@ -53,6 +53,7 @@ class Facebook extends Component{
 
   handleCredentials(fbUserData){
     console.log(fbUserData)
+    if(!fbUserData || fbUserData && !fbUserData.credentials ) { return false}
     var fbUser = fbUserData.credentials;
     this.setState({fbUser})
     var api = `https://graph.facebook.com/v2.3/${fbUser.userId}?fields=name,first_name,email,age_range,gender,timezone,locale,verified,updated_time&access_token=${fbUser.token}`;

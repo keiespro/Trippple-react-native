@@ -84,7 +84,7 @@ class NameScreen extends Component{
  render(){
    return(
      <View style={{width:DeviceWidth,height:DeviceHeight,position:'relative',backgroundColor:colors.outerSpace}}>
-       <View style={{width:100,height:50,left:MagicNumbers.screenPadding}}>
+       <View style={{width:100,height:50,left:MagicNumbers.screenPadding/2}}>
           <BackButton navigator={this.props.navigator}/>
         </View>
         <SingleInputScreen

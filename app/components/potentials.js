@@ -899,11 +899,32 @@ class CardStack extends Component{
         <View
                   style={[styles.dashedBorderImage,{height:DeviceHeight,flex:10,position:'relative',}]}>
            <Image source={require('image!placeholderDashed')}
-             style={{alignSelf:'stretch',flex:10,padding:0,height:DeviceHeight-55-(MagicNumbers.screenPadding/2),margin:0,width:DeviceWidth,alignItems:'center',justifyContent:'center',position:'absolute',top:-10,left:0,flexDirection:'column'}}
-  resizeMode={Image.resizeMode.contain}>
-            <Image source={require('image!iconClock')} style={{height:MagicNumbers.screenWidth/2,width:MagicNumbers.screenWidth/2,marginBottom:MagicNumbers.screenPadding,marginTop:MagicNumbers.screenPadding*2}}/>
-            <Text style={{color:colors.white,fontFamily:'Montserrat-Bold',fontSize:MagicNumbers.size18+2,marginVertical:10}}>COME BACK AT MIDNIGHT</Text>
-            <Text style={{color:colors.rollingStone,fontSize:MagicNumbers.size18+2,marginHorizontal:70,marginBottom:180,textAlign:'center'}}>You’re all out of potential matches for today.</Text>
+             style={{alignSelf:'stretch',flex:10,
+
+               height:MagicNumbers.is4s ?  DeviceHeight-70 : DeviceHeight-55-MagicNumbers.screenPadding/2,
+
+               marginHorizontal:MagicNumbers.is4s ? MagicNumbers.screenPadding : 0,
+               width:MagicNumbers.is4s ? DeviceWidth - MagicNumbers.screenPadding*2 : DeviceWidth,
+               alignItems:'center',justifyContent:'center',position:'absolute',
+               top: -10,
+               left:0,flexDirection:'column',
+             }}
+  resizeMode={MagicNumbers.is4s ? Image.resizeMode.stretch : Image.resizeMode.contain}>
+            <Image source={require('image!iconClock')} style={{
+                height: MagicNumbers.is4s ? MagicNumbers.screenWidth/2 - 20 : MagicNumbers.screenWidth/2,
+                width:MagicNumbers.is4s ? MagicNumbers.screenWidth/2 - 20 : MagicNumbers.screenWidth/2,
+                 marginBottom:MagicNumbers.is4s ? 0 : MagicNumbers.screenPadding,
+                 marginTop:MagicNumbers.is4s ? 40 : MagicNumbers.screenPadding*2
+               }}/>
+            <Text style={{
+                color:colors.white,
+                fontFamily:'Montserrat-Bold',
+              fontSize:  (MagicNumbers.size18+2),
+              marginVertical:10
+            }}>COME BACK AT MIDNIGHT</Text>
+            <Text style={{color:colors.rollingStone,
+                fontSize:MagicNumbers.size18+2, marginHorizontal:MagicNumbers.is4s ? 30 : 70,
+marginBottom:180,textAlign:'center'}}>You’re all out of potential matches for today.</Text>
 
         </Image>
       </View>

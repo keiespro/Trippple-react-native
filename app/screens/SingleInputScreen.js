@@ -18,6 +18,7 @@ import colors from '../utils/colors'
 import ContinueButton from '../controls/ContinueButton'
 
 
+import {MagicNumbers} from '../DeviceConfig'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -231,8 +232,8 @@ const styles = StyleSheet.create({
     middleTextWrap: {
       alignItems:'center',
       justifyContent:'center',
-      height: 60,
-      marginBottom:10
+      height: MagicNumbers.is4s ? 30 : 60,
+      marginBottom:MagicNumbers.is4s ? 0 : 10
     },
     middleText: {
       color:colors.rollingStone,
@@ -327,5 +328,3 @@ const styles = StyleSheet.create({
       textAlign:'center'
     }
   });
-
-

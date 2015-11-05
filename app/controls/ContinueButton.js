@@ -12,6 +12,7 @@ var {
   StyleSheet,
   Component
 } = React;
+import {MagicNumbers} from '../DeviceConfig'
 
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
@@ -58,19 +59,19 @@ var styles = StyleSheet.create({
     alignSelf: 'stretch',
     alignItems: 'stretch',
     justifyContent: 'center',
-    height: 80,
+    height: MagicNumbers.continueButtonHeight,
     backgroundColor: colors.mediumPurple,
     width:DeviceWidth
   },
   continueButton: {
-    height: 80,
+    height: MagicNumbers.continueButtonHeight,
     alignSelf: 'stretch',
     alignItems: 'center',
     justifyContent: 'center'
   },
   continueButtonText: {
     padding: 4,
-    fontSize: 26,
+    fontSize: MagicNumbers.size18+8,
     fontFamily:'Montserrat',
     color: colors.white,
     textAlign:'center'

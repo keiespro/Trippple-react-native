@@ -132,14 +132,14 @@ var styles = StyleSheet.create({
     borderBottomColor:colors.rollingStone,
   },
   dividerWrap:{
-    marginVertical:50,
+    marginVertical:MagicNumbers.is4s ? 10 : 50,
     width:MagicNumbers.screenWidth,
     flexDirection:'column',
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf:'stretch',
     height:30,
-    marginHorizontal: 25,
+    marginHorizontal: MagicNumbers.screenPadding/2,
 
   },
   dividerText:{

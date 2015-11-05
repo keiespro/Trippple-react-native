@@ -91,20 +91,20 @@ class PrivacyScreen extends Component{
 
     return (
       <View style={[styles.container]}>
- <View style={{width:100,height:50,left:MagicNumbers.screenPadding,alignSelf:'flex-start'}}>
+ <View style={{width:100,height:50,left:MagicNumbers.screenPadding/2,alignSelf:'flex-start'}}>
         <BackButton navigator={this.props.navigator}/>
       </View>
 
         <View style={styles.topWrap}>
           <Text style={[styles.labelText,{fontSize:20}]}>{"Your Privacy"} </Text>
 
-          <Text style={[styles.labelText,{fontSize:20,marginBottom:20}]}>{"Select your perfered privacy setting"}</Text>
+          <Text style={[styles.labelText,{fontSize:20,marginBottom:MagicNumbers.screenPadding/2}]}>{"Select your perfered privacy setting"}</Text>
 
 
 
 
           <TouchableOpacity
-            style={{marginVertical:20}}
+            style={{marginVertical:MagicNumbers.screenPadding/2}}
               onPress={this._selectPublic.bind(this)}>
               <View style={[styles.privacyWrap,
                   (this.state.selection == 'public' ? styles.selectedbutton : null)]}>
@@ -123,7 +123,7 @@ class PrivacyScreen extends Component{
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={{marginTop:20}}
+            style={{marginTop:MagicNumbers.screenPadding/2}}
             onPress={this._selectPrivate.bind(this)}>
             <View style={[styles.privacyWrap,
                 (this.state.selection == 'private' ? styles.selectedbutton : null)]}>

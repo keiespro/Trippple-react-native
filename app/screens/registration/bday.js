@@ -136,7 +136,7 @@ class BdayScreen extends Component{
             paddingBottom: 226
           }
         ]}>
- <View style={{width:100,height:50,left:MagicNumbers.screenPadding,alignSelf:'flex-start'}}>
+ <View style={{width:100,height:50,left:MagicNumbers.screenPadding/2,alignSelf:'flex-start'}}>
         <BackButton navigator={this.props.navigator}/>
       </View>
 

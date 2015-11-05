@@ -12,6 +12,7 @@ import {
 
 const DeviceHeight = require('Dimensions').get('window').height
 const DeviceWidth = require('Dimensions').get('window').width
+import {MagicNumbers} from '../../DeviceConfig'
 
 var ModalWrapper = React.createClass({
   render(){
@@ -157,7 +158,7 @@ class SelfImage extends Component{
   render(){
     return (
       <View style={styles.container}>
- <View style={{width:100,height:50,left:20,alignSelf:'flex-start',top:0}}>
+ <View style={{width:100,left:0,alignSelf:'flex-start',top:-10}}>
         <BackButton navigator={this.props.navigator}/>
       </View>
 
@@ -166,26 +167,26 @@ class SelfImage extends Component{
         <View style={styles.imageHolder}>
 
           <Image source={require('image!iconSinglePic')}
-                    resizeMode={Image.resizeMode.contain}
+                    resizeMode={Image.resizeMode.cover}
                         style={styles.imageInside} />
         </View>
-
+<View>
         <View style={styles.fbButton}>
           <FacebookButton buttonType={'imageUpload'} _onPress={this.onPressFacebook.bind(this)} key={'notthesamelement'} buttonText="UPLOAD FROM FB" />
         </View>
 
         <View style={styles.twoButtons}>
-          <TouchableHighlight style={[styles.plainButton,{marginRight:10}]} onPress={this.getCameraRollPermission.bind(this)} underlayColor={colors.shuttleGray20}>
+          <TouchableHighlight style={[styles.plainButton,{marginRight:MagicNumbers.screenPadding/4}]} onPress={this.getCameraRollPermission.bind(this)} underlayColor={colors.shuttleGray20}>
             <Text style={styles.plainButtonText}>FROM ALBUM</Text>
           </TouchableHighlight>
 
 
-          <TouchableHighlight style={[styles.plainButton,{marginLeft:10}]} onPress={this.getCameraPermission.bind(this)} underlayColor={colors.shuttleGray20}>
+          <TouchableHighlight style={[styles.plainButton,{marginLeft:MagicNumbers.screenPadding/4}]} onPress={this.getCameraPermission.bind(this)} underlayColor={colors.shuttleGray20}>
             <Text style={[styles.plainButtonText]}>TAKE A SELFIE</Text>
           </TouchableHighlight>
 
           </View>
-
+</View>
 
       </View>
     )
@@ -198,24 +199,26 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection:'column',
-    justifyContent:'center',
+    justifyContent:'space-between',
     alignItems:'center',
     alignSelf:'stretch',
     width: DeviceWidth,
     margin:0,
     backgroundColor: colors.outerSpace,
-    padding:0,
-    height: DeviceHeight
+    // padding:0,
+    height: DeviceHeight,
+    padding:MagicNumbers.screenPadding/2
   },
   twoButtons:{
     flexDirection:'row',
-    height:60,
+    height:70,
     alignItems:'center',
     alignSelf:'stretch',
     justifyContent:'space-between',
     // padding:20,
-    margin:20,
-    width:DeviceWidth-38
+    marginTop:MagicNumbers.isSmallDevice ? 0 : 0,
+    marginBottom:0,
+    width:MagicNumbers.screenWidth
 
   },
 
@@ -235,29 +238,29 @@ var styles = StyleSheet.create({
     textAlign:'center',
   },
   textTop:{
-    margin: 20,
+    margin: MagicNumbers.is4s ? 0 : 20,
     fontSize: 20,
     color: colors.rollingStone,
     fontFamily:'omnes',
     textAlign:'center'
   },
   imageHolder:{
-    width:DeviceWidth/2,
-    height:DeviceWidth/2,
+    width:DeviceWidth/2 + 20,
+    height:DeviceWidth/2 ,
     alignItems:'center',
     justifyContent:'center',
-    marginTop:40,
-    marginBottom:60
+    marginTop:  MagicNumbers.is4s ? 0 : 20,
+    marginBottom: MagicNumbers.is4s ? 0 : 40
   },
   imageInside:{
-    height:DeviceWidth/2,
-    width:DeviceWidth/2,
+    height:DeviceWidth/2 ,
+    width:DeviceWidth/2 + 20,
   },
   fbButton:{
     alignItems:'stretch',
     alignSelf:'stretch',
-    marginHorizontal:20,
-    width:DeviceWidth-38
+    // marginHorizontal:20,
+    width:MagicNumbers.screenWidth
   },
 
   iconButtonCouples:{

@@ -389,10 +389,10 @@ var styles = StyleSheet.create({
  },
  userimage: {
    padding:0,
-   height: 180,
-   width:180,
+   width: DeviceWidth/2 - 20,
+   height: DeviceWidth/2 - 20 ,
    alignItems: 'center',
-   borderRadius:90,
+   borderRadius:((DeviceWidth/2 - 20)/2),
    overflow:'hidden'
  },
  changeImage: {

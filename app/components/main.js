@@ -190,9 +190,9 @@ const PotentialsRoute = {
       backgroundStyle={{backgroundColor:'transparent'}}
       customTitle={<Image resizeMode={Image.resizeMode.contain} style={{width:80}} source={require('image!tripppleLogoText')} />}
       onPrev={(navigator,route) => navigator.push(SettingsRoute)}
-      customPrev={<Image resizeMode={Image.resizeMode.contain} style={{width:28,top:-10,height:30,alignSelf:'flex-start'}} source={require('image!gear')} />}
+      customPrev={<Image resizeMode={Image.resizeMode.contain}  style={{width:28,top:-10,height:30,alignSelf:'flex-start',tintColor:colors.white,opacity:1}} source={require('image!gear')} />}
       onNext={(navigator,route) => {navigator.push(MatchesRoute)}}
-      customNext={<Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30,alignSelf:'flex-end'}} source={require('image!chat')} />}
+      customNext={<Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30,alignSelf:'flex-end',tintColor:colors.white}} source={require('image!chat')} />}
     />)
 };
 

@@ -25,11 +25,11 @@ import LoadingOverlay from '../../components/LoadingOverlay'
 
 class Limbo extends Component{
   componentWillMount(){
-    UserActions.updateUserStub({status:'onboarded'})
+    UserActions.updateUser({status:'onboarded'})
   }
   render(){
     return (
-      <LoadingOverlay visible={true}/>
+      <LoadingOverlay isVisible={true}/>
     )
   }
 }
