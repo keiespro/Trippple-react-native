@@ -57,20 +57,31 @@ class PhoneNumberInput extends React.Component{
     maskedPhone = maskMap.reduce( (phone, mapChar, index) => {
       return (mapChar.position <= phone.length ? s.insert(phone,mapChar.position,mapChar.char) : phone)
     },sanitizedText)
+    if(maskedPhone.length == 1){
+      maskedPhone = ''
+    }
+    if(this.state.placeholder == false){
 
+    }
     this.setNativeProps({
       text:maskedPhone,
-      fullText: maskedPhone + emptyMask.substr(maskedPhone.length,10)
+      fullText: maskedPhone.length == 0 ? '' : maskedPhone + emptyMask.substr(maskedPhone.length,10),
+      style:{
+        left: maskedPhone.length == 0 ? 0 : 40
+      }
     })
     var newState = {maskedPhone}
-    console.log(sanitizedText)
-    if(sanitizedText.length == 0){
+    console.log(sanitizedText.length)
+    if(maskedPhone.length == 0 ){
       newState.placeholder = true
-    }else if(sanitizedText.length > 0 && this.state.placeholder){
+    }else{
       newState.placeholder = false
     }
+    console.log(newState)
     this.setState(newState)
+
     this.props.handleInputChange({phone: sanitizedText,inputFieldValue:sanitizedText})
+
   }
 
   setNativeProps(np) {
@@ -95,17 +106,19 @@ class PhoneNumberInput extends React.Component{
             placeholder={`PHONE NUMBER`}
             keyboardType={'numeric'}
             style={[this.props.style,{
-              paddingLeft:40,
+              left:(this.state.placeholder ? 0 : 40),
               fontSize: 26,
-              color:'#fff',flex:1,alignSelf:'stretch',position:'absolute',top:0,left:0,right:0,bottom:0
+              
+              color:'#fff',flex:1,alignSelf:'stretch',position:'absolute',top:0,right:0,bottom:0
             }]}
             ref={component => this._textInput2 = component}
           />
           <MaskableTextInput
             ref={component => this._textInput = component}
             style={[this.props.style,{
-              paddingLeft:40,
-              fontSize: 26,color:'#fff',flex:1,alignSelf:'stretch'
+              left: (this.state.placeholder ? 0 : 40),
+              
+              fontSize: 26,color:'#fff',flex:1,alignSelf:'stretch',top:0,right:0,bottom:0
             }]}
             maxLength={14}
             keyboardType={'numeric'}
@@ -114,7 +127,7 @@ class PhoneNumberInput extends React.Component{
             autoFocus={true}
             onFocus={()=>{/*this._textInput.setNativeProps({editable:false})*/}}
             onBlur={()=>{/*this._textInput.setNativeProps({editable:true})*/}}
-            onChangeText={this.onChangeText.bind(this)}
+            onChangeText={this.processValue.bind(this)}
             value={this.state.placeholder ? '' : this.state.maskedPhone}
           />
           {this.state.placeholder ? null : <Text style={{left:0,top:15,position:'absolute',color:colors.white,fontSize:26}}>+1</Text>}

@@ -14,6 +14,7 @@ import {BlurView,VibrancyView} from 'react-native-blur'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
+import {MagicNumbers} from '../DeviceConfig'
 
 const NavigationBar = React.createClass({
 
@@ -283,7 +284,7 @@ const styles = StyleSheet.create({
   },
   navBarTitleText: {
     color: colors.white,
-    fontSize:18,
+    fontSize:MagicNumbers.size18,
     fontFamily:'Montserrat-Bold',
     position: 'absolute',
     left: 0,

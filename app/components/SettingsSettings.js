@@ -25,6 +25,7 @@ import ScrollableTabView from '../scrollable-tab-view'
 import FakeNavBar from '../controls/FakeNavBar';
 
 var Mailer = require('NativeModules').RNMail;
+import {MagicNumbers} from '../DeviceConfig'
 
 import dismissKeyboard from 'dismissKeyboard'
 import WebViewScreen from './WebViewScreen'
@@ -151,12 +152,12 @@ class SettingsSettings extends React.Component{
             titleColor={colors.white}
             />
           <ScrollView style={{flex:1,marginTop:50}} contentContainerStyle={{   paddingHorizontal: 0}} centerContent={true} >
-            <View style={{paddingHorizontal: 25,}}>
+            <View style={styles.paddedSpace}>
               <View style={styles.formHeader}>
                 <Text style={styles.formHeaderText}>Privacy</Text>
               </View>
             </View>
-        <TouchableHighlight underlayColor={colors.dark} style={{paddingHorizontal: 25,}} onPress={()=>{this.togglePrivacy('public')}}>
+        <TouchableHighlight underlayColor={colors.dark} style={styles.paddedSpace} onPress={()=>{this.togglePrivacy('public')}}>
           <View  style={[{
               borderBottomWidth: 1 / PixelRatio.get(),
               borderColor:colors.rollingStone,flex:1,height:130,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}]}>
@@ -172,7 +173,7 @@ class SettingsSettings extends React.Component{
                 </View>
               </TouchableHighlight>
 
-    <TouchableHighlight underlayColor={colors.dark} style={{paddingHorizontal: 25,}} onPress={this.handleTapPrivacy.bind(this)}>
+    <TouchableHighlight underlayColor={colors.dark} style={styles.paddedSpace} onPress={this.handleTapPrivacy.bind(this)}>
       <View  style={[{
           borderBottomWidth: 1 / PixelRatio.get(),
           borderColor:colors.rollingStone,flex:1,height:130,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}]}>
@@ -189,18 +190,18 @@ class SettingsSettings extends React.Component{
     </TouchableHighlight>
 
 
-    <View style={{paddingHorizontal: 25,}}>
+    <View style={styles.paddedSpace}>
         <View style={styles.formHeader}>
           <Text style={styles.formHeaderText}>Helpful Links</Text>
         </View>
 </View>
-        <TouchableHighlight style={{paddingHorizontal: 25,}} onPress={this.handleFeedback.bind(this)} underlayColor={colors.dark}>
+        <TouchableHighlight style={styles.paddedSpace} onPress={this.handleFeedback.bind(this)} underlayColor={colors.dark}>
           <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>FEEDBACK</Text>
           <Image style={{width:10,height:17.5}} source={require('image!nextArrow')} />
           </View>
         </TouchableHighlight>
-        <TouchableHighlight style={{paddingHorizontal: 25,}} onPress={(f)=>{
+        <TouchableHighlight style={styles.paddedSpace} onPress={(f)=>{
             this.openWebview('help')
           }} underlayColor={colors.dark}>
           <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
@@ -208,7 +209,7 @@ class SettingsSettings extends React.Component{
           <Image style={{width:10,height:17.5}} source={require('image!nextArrow')} />
           </View>
         </TouchableHighlight>
-        <TouchableHighlight style={{paddingHorizontal: 25,}} onPress={(f)=>{
+        <TouchableHighlight style={styles.paddedSpace} onPress={(f)=>{
             this.openWebview('privacy')
           }} underlayColor={colors.dark}>
           <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
@@ -216,7 +217,7 @@ class SettingsSettings extends React.Component{
           <Image style={{width:10,height:17.5}} source={require('image!nextArrow')} />
           </View>
         </TouchableHighlight>
-        <TouchableHighlight style={{paddingHorizontal: 25,}} onPress={(f)=>{
+        <TouchableHighlight style={styles.paddedSpace} onPress={(f)=>{
             this.openWebview('terms')
           }} underlayColor={colors.dark}>
           <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
@@ -224,7 +225,7 @@ class SettingsSettings extends React.Component{
           <Image style={{width:10,height:17.5}} source={require('image!nextArrow')} />
           </View>
         </TouchableHighlight>
-        <View style={{paddingHorizontal: 25,}}>
+        <View style={styles.paddedSpace}>
           <LogOutButton/>
         <TouchableOpacity style={{alignItems:'center',marginVertical:10}} onPress={(f)=>{}}>
           <Text style={{color:colors.shuttleGray,textAlign:'center'}}>Disable Your Account</Text>
@@ -386,5 +387,8 @@ var styles = StyleSheet.create({
    textAlign: 'left',
    fontFamily:'Montserrat',
  },
+ paddedSpace:{
+   paddingHorizontal:MagicNumbers.screenPadding/2
+ }
 
 });

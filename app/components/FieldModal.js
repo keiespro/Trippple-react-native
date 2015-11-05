@@ -25,6 +25,7 @@ import FakeNavBar from '../controls/FakeNavBar';
 import CustomSceneConfigs from '../utils/sceneConfigs'
 
 import dismissKeyboard from 'dismissKeyboard'
+import {MagicNumbers} from '../DeviceConfig'
 
 import scrollable from 'react-native-scrollable-decorator'
 import Dimensions from 'Dimensions'
@@ -64,12 +65,18 @@ class FieldModal extends React.Component{
       canContinue:false
     }
   }
-  componentDidMount(){
+  componentWillMount(){
     if(this.props.field.field_type == 'textarea'){
       this.setState({value: this.props.fieldValue ? this.props.fieldValue+'\n' : ''})
+    }
+  }
+  componentDidMount(){
+    if(this.props.field.field_type == 'textarea' && this.refs._textArea){
 
       this.refs._textArea.focus()
       this.refs._textArea.setNativeProps({value: this.props.fieldValue ? this.props.fieldValue+'\n' : ''})
+      this.refs._textArea.setSelectionRange((this.props.fieldValue ? this.props.fieldValue.length : this.state.value.length),(this.props.fieldValue ? this.props.fieldValue.length : this.state.value.length))
+
     }
   }
   onChange(val){
@@ -199,18 +206,18 @@ class FieldModal extends React.Component{
         return (
           <View style={{ alignSelf:'stretch',flex:1}}>
             <View style={{ alignSelf:'stretch',flex:1,height:DeviceHeight-170,alignItems:'center',justifyContent:'center',flexDirection:'column'}}>
-              <View style={{ borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone }}>
+              <View style={{ borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,alignItems:'center',justifyContent:'center', }}>
                 <Text style={{
                     color: colors.rollingStone,
                     fontSize: 20,textAlign:'center',
-                    fontFamily:'Omnes-Regular',
-                    marginBottom:40,
+                    fontFamily:'Omnes-Regular',alignSelf:'stretch',
+                    marginBottom:MagicNumbers.screenPadding,
 
                 }}>{field.long_label ? field.long_label : field.label}</Text>
                 <Text style={{
                     padding: 8,
                   fontSize: 30,
-                  width:DeviceWidth-40,
+                  width:MagicNumbers.screenWidth,
                   borderBottomWidth: 1,
                   borderBottomColor: colors.rollingStone,
                   textAlign:'center',
@@ -282,7 +289,7 @@ class FieldModal extends React.Component{
                 color: colors.rollingStone,
                 fontSize: 20,textAlign:'center',
                 fontFamily:'Omnes-Regular',
-                marginBottom:40,
+                marginBottom:40,alignSelf:'stretch'
 
               }}>{field.long_label ? field.long_label : field.label}</Text>
             <View style={{ borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone }}>
@@ -303,12 +310,12 @@ class FieldModal extends React.Component{
     case 'textarea':
         return (
           <View style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between'}}>
-            <View style={{ alignSelf:'stretch',flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',padding:20}}>
+            <View style={{ alignSelf:'stretch',flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',paddingHorizontal:MagicNumbers.screenPadding/2,paddingVertical:5,margin:0}}>
               <Text  style={{
                   color: colors.rollingStone,
                   fontSize: 20,textAlign:'center',
                   fontFamily:'Omnes-Regular',
-                  marginBottom:40,
+                  marginBottom:MagicNumbers.screenPadding/2,
                 }}>{field.long_label ? field.long_label : field.label}</Text>
               <View style={{ borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone }}>
 
@@ -333,6 +340,9 @@ class FieldModal extends React.Component{
     return (
       <ScrollView
         scrollEnabled={false}
+        keyboardShouldPersistTaps={true}
+        keyboardDismissMode={'interactive'}
+
         onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
         onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
         style={{flex:1}}

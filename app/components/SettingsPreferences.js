@@ -32,6 +32,7 @@ import SelfImage from './loggedin/SelfImage'
 import colors from '../utils/colors'
 import reactMixin from 'react-mixin'
 import FieldModal from './FieldModal'
+import {MagicNumbers} from '../DeviceConfig'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -86,12 +87,12 @@ class  SettingsPreferences extends React.Component{
               />
             <ScrollView style={{flex:1,marginTop:50,paddingVertical:20}}
               scrollEnabled={this.state.scroll == 'on' ? true : false}  >
-              <View style={{paddingHorizontal: 25,}}>
+              <View style={styles.paddedSpace}>
                   <View style={styles.formHeader}>
                     <Text style={styles.formHeaderText}>{`About ${this.props.user.relationship_status == 'single' ? 'My' : 'Our'} Match`}</Text>
                 </View>
               </View>
-              <View style={{marginVertical: 0,}}>
+              <View style={{marginTop:10}}>
 
               <TouchableHighlight  underlayColor={colors.dark}  onPress={(f)=>{
                   //trigger modal
@@ -105,7 +106,7 @@ class  SettingsPreferences extends React.Component{
                            style={styles.autogrowTextinput}
                            placeholder={''}
                            autoGrow={true}
-                           maxHeight={300}
+                           maxHeight={MagicNumbers.isSmallDevice ? 230 : 300}
                            autoCapitalize={'sentences'}
                            placeholderTextColor={colors.white}
                            autoCorrect={true}
@@ -123,23 +124,23 @@ class  SettingsPreferences extends React.Component{
                     }
                   })
                 }} >
-                <View  style={{marginHorizontal:25,height:70,width:DeviceWidth-50,flexWrap:'wrap',alignItems:'center',justifyContent:'center',flexDirection:'column', borderBottomWidth: 1/PixelRatio.get(),borderColor:colors.shuttleGray}}>
+                <View  style={styles.textareaWrap}>
                 <Text numberOfLines={2}  style={{color:colors.white,height:50,fontSize:18,overflow:'hidden',flexWrap:'wrap'}}>{this.props.user.bio ? this.props.user.bio : ''}</Text>
                 </View>
               </TouchableHighlight>
 
               </View>
-              <View style={{paddingHorizontal: 25,marginBottom:0}}>
+              <View style={[styles.paddedSpace,{marginBottom:0}]}>
                 <View style={styles.formHeader}>
                   <Text style={styles.formHeaderText}>{`Show Me`}</Text>
                 </View>
               </View>
 
             {this.props.user.relationship_status == 'single' ?
-                <TouchableHighlight underlayColor={colors.dark} style={{paddingHorizontal: 25,}} onPress={()=>{this.toggleField('looking_for_mf')}}>
+                <TouchableHighlight underlayColor={colors.dark} style={styles.paddedSpace} onPress={()=>{this.toggleField('looking_for_mf')}}>
                 <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
                   <Text style={{color: looking_for_mf ? colors.white : colors.rollingStone,
-                      fontSize:18,fontFamily:'Montserrat'}}>MALE + FEMALE COUPLES</Text>
+                      fontSize:MagicNumbers.size18,fontFamily:'Montserrat'}}>MALE + FEMALE COUPLES</Text>
                     <Image source={looking_for_mf ? require('image!ovalSelected') : require('image!ovalDashed')}/>
                 </View>
               </TouchableHighlight>
@@ -147,10 +148,10 @@ class  SettingsPreferences extends React.Component{
 
               {this.props.user.relationship_status == 'single' ?
 
-              <TouchableHighlight underlayColor={colors.dark} style={{paddingHorizontal: 25,}} onPress={()=>{this.toggleField('looking_for_mm')}}>
+              <TouchableHighlight underlayColor={colors.dark} style={styles.paddedSpace} onPress={()=>{this.toggleField('looking_for_mm')}}>
                 <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
                   <Text style={{color: looking_for_mm ? colors.white : colors.rollingStone,
-                      fontSize:18,fontFamily:'Montserrat'}}>MALE + MALE COUPLES</Text>
+                      fontSize:MagicNumbers.size18,fontFamily:'Montserrat'}}>MALE + MALE COUPLES</Text>
                     <Image source={looking_for_mm ? require('image!ovalSelected') : require('image!ovalDashed')}/>
                 </View>
               </TouchableHighlight>
@@ -158,10 +159,10 @@ class  SettingsPreferences extends React.Component{
 
               {this.props.user.relationship_status == 'single' ?
 
-                <TouchableHighlight underlayColor={colors.dark} style={{paddingHorizontal: 25,}} onPress={()=>{this.toggleField('looking_for_ff')}}>
+                <TouchableHighlight underlayColor={colors.dark} style={styles.paddedSpace} onPress={()=>{this.toggleField('looking_for_ff')}}>
                   <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
                     <Text style={{color: looking_for_ff ? colors.white : colors.rollingStone,
-                        fontSize:18,fontFamily:'Montserrat'}}>FEMALE + FEMALE COUPLES</Text>
+                        fontSize:MagicNumbers.size18,fontFamily:'Montserrat'}}>FEMALE + FEMALE COUPLES</Text>
                       <Image source={looking_for_ff ? require('image!ovalSelected') : require('image!ovalDashed')}/>
                   </View>
                 </TouchableHighlight>
@@ -169,19 +170,19 @@ class  SettingsPreferences extends React.Component{
 
 
               {this.props.user.relationship_status == 'couple' ?
-                <TouchableHighlight underlayColor={colors.dark} style={{paddingHorizontal: 25,}} onPress={()=>{this.toggleField('looking_for_f')}}>
+                <TouchableHighlight underlayColor={colors.dark} style={styles.paddedSpace} onPress={()=>{this.toggleField('looking_for_f')}}>
                   <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
                     <Text style={{color: looking_for_f ? colors.white : colors.rollingStone,
-                        fontSize:18,fontFamily:'Montserrat'}}>FEMALE SINGLES</Text>
+                        fontSize:MagicNumbers.size18,fontFamily:'Montserrat'}}>FEMALE SINGLES</Text>
                       <Image source={looking_for_f ? require('image!ovalSelected') : require('image!ovalDashed')}/>
                   </View>
                 </TouchableHighlight>
               : null }
               {this.props.user.relationship_status == 'couple' ?
-                <TouchableHighlight underlayColor={colors.dark} style={{paddingHorizontal: 25,}} onPress={()=>{this.toggleField('looking_for_m')}}>
+                <TouchableHighlight underlayColor={colors.dark} style={styles.paddedSpace} onPress={()=>{this.toggleField('looking_for_m')}}>
                   <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
                     <Text style={{color: looking_for_m ? colors.white : colors.rollingStone,
-                        fontSize:18,fontFamily:'Montserrat'}}>MALE SINGLES</Text>
+                        fontSize:MagicNumbers.size18,fontFamily:'Montserrat'}}>MALE SINGLES</Text>
                       <Image source={looking_for_m ? require('image!ovalSelected') : require('image!ovalDashed')}/>
                   </View>
                 </TouchableHighlight>
@@ -194,7 +195,7 @@ class  SettingsPreferences extends React.Component{
               <AgePrefs toggleScroll={this.toggleScroll.bind(this)} user={this.props.user} />
             </View>
 
-              <View style={{paddingHorizontal: 25,marginBottom:15}}>
+              <View style={[styles.paddedSpace,{marginBottom:15}]}>
                 <View style={styles.formHeader}>
                   <Text style={styles.formHeaderText}>{`Location`}</Text>
                 </View>
@@ -322,13 +323,30 @@ var styles = StyleSheet.create({
    textAlign: 'left',
    fontFamily:'Montserrat',
  },
+ paddedSpace:{
+   paddingHorizontal:MagicNumbers.screenPadding/2
+ },
+
  autogrowTextinput:{
      alignSelf: 'stretch',
-     padding: 8,
-     fontSize: 20,
+     padding: 0,
+     fontSize: MagicNumbers.size18 + 2,
      height:200,
      fontFamily:'omnes',
      color: colors.white,
-     width:DeviceWidth-40
- }
+
+     width:DeviceWidth - MagicNumbers.screenPadding
+ },
+ textareaWrap:{
+   marginHorizontal:MagicNumbers.screenPadding/2,
+   height:70,
+   width:DeviceWidth - MagicNumbers.screenPadding,
+   flexWrap:'wrap',
+   alignItems:'center',
+   justifyContent:'center',
+   flexDirection:'column',
+    borderBottomWidth: 1/PixelRatio.get(),
+    borderColor:colors.shuttleGray
+  }
+
 });

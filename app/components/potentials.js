@@ -37,7 +37,7 @@ import ProfileTable from './ProfileTable'
 import CheckPermissions from '../modals/CheckPermissions'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-
+import {MagicNumbers} from '../DeviceConfig'
 import PotentialsStore from '../flux/stores/PotentialsStore'
 import MatchesStore from '../flux/stores/MatchesStore'
 
@@ -54,7 +54,7 @@ class Cards extends Component{
 
     this.state = {
       panX: new Animated.Value(0),
-      cardWidth: new Animated.Value(DeviceWidth-40),
+      cardWidth: new Animated.Value(MagicNumbers.screenWidth),
       offsetY: {
         a:new Animated.Value(DeviceHeight),
         b:new Animated.Value(DeviceHeight),
@@ -507,7 +507,7 @@ class InsideActiveCard extends Component{
                           outputRange: [0,0.7,1,0.7,0]
                         }),
 
-                  width: this.props.cardWidth || null,
+                  width: this.props.cardWidth || MagicNumbers.screenWidth-MagicNumbers.screenPadding,
                   backgroundColor:  colors.white, marginLeft: 0,
                 }} ref={isTopCard ? 'incard' : 'notincard'}>
                 <Swiper
@@ -877,7 +877,7 @@ class CardStack extends Component{
     })
 
       return (
-        <View style={{backgroundColor:colors.outerSpace}}>
+        <View style={{backgroundColor:colors.outerSpace,flex:1,width:DeviceWidth,height:DeviceHeight}}>
 
         <View style={[styles.cardStackContainer,{backgroundColor:'transparent',top:0}]}>
 
@@ -896,14 +896,17 @@ class CardStack extends Component{
       </View>}
     { potentials.length < 1 &&
       <FadeInContainer delayAmount={2000} duration={300} didShow={()=>this.setState({didShow:true})}>
-         <Image source={require('image!placeholderDashed')}
-            resizeMode={Image.resizeMode.contain}
-            style={styles.dashedBorderImage}>
-            <Image source={require('image!iconClock')} style={{height:150,width:150,marginBottom:40}}/>
-            <Text style={{color:colors.white,fontFamily:'Montserrat-Bold',fontSize:20,marginBottom:10}}>COME BACK AT MIDNIGHT</Text>
-            <Text style={{color:colors.rollingStone,fontSize:20,marginHorizontal:70,marginBottom:180,textAlign:'center'}}>You’re all out of potential matches for today.</Text>
+        <View
+                  style={[styles.dashedBorderImage,{height:DeviceHeight,flex:10,position:'relative',}]}>
+           <Image source={require('image!placeholderDashed')}
+             style={{alignSelf:'stretch',flex:10,padding:0,height:DeviceHeight-55-(MagicNumbers.screenPadding/2),margin:0,width:DeviceWidth,alignItems:'center',justifyContent:'center',position:'absolute',top:-10,left:0,flexDirection:'column'}}
+  resizeMode={Image.resizeMode.contain}>
+            <Image source={require('image!iconClock')} style={{height:MagicNumbers.screenWidth/2,width:MagicNumbers.screenWidth/2,marginBottom:MagicNumbers.screenPadding,marginTop:MagicNumbers.screenPadding*2}}/>
+            <Text style={{color:colors.white,fontFamily:'Montserrat-Bold',fontSize:MagicNumbers.size18+2,marginVertical:10}}>COME BACK AT MIDNIGHT</Text>
+            <Text style={{color:colors.rollingStone,fontSize:MagicNumbers.size18+2,marginHorizontal:70,marginBottom:180,textAlign:'center'}}>You’re all out of potential matches for today.</Text>
 
         </Image>
+      </View>
       </FadeInContainer>
 
     }
@@ -1168,15 +1171,15 @@ animatedIcon:{
     borderRadius:25
   },
   dashedBorderImage:{
-    marginHorizontal:0,
-    marginTop:45,
-    marginBottom:20,
+    paddingHorizontal:0,
+    paddingTop:65,
+    paddingBottom:20,
+    margin:0,
     padding:0,
-    width:DeviceWidth,
-    height:DeviceHeight-(DeviceHeight/5),
     flex:1,
+    height:DeviceHeight-55,
     alignSelf:'stretch',
-    alignItems:'center',
+    alignItems:'stretch',
     justifyContent:'center'
   },
   imagebg:{

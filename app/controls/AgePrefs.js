@@ -21,8 +21,10 @@ import Dimensions from 'Dimensions'
 import UserActions from '../flux/actions/UserActions'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-const InsideWidth = DeviceWidth - 62
 import colors from '../utils/colors'
+import {MagicNumbers} from '../DeviceConfig'
+const InsideWidth = MagicNumbers.isSmallDevice ? DeviceWidth - MagicNumbers.screenPadding : DeviceWidth - 62
+const SliderWidth = MagicNumbers.isSmallDevice ? DeviceWidth - 40 : DeviceWidth - 62
 
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
@@ -70,7 +72,7 @@ class  AgePrefs extends React.Component{
     var {match_age_max,match_age_min} = this.state
 
     var {dots} = this.state
-    var dotWidth = InsideWidth / this.state.numberGroups
+    var dotWidth = SliderWidth / this.state.numberGroups
 
         return (
           <View style={{ flexDirection:'column',alignItems:'center',justifyContent:'center',height:100}}>
@@ -80,7 +82,8 @@ class  AgePrefs extends React.Component{
 
                 <Text style={{alignSelf:'flex-end',color:colors.white,textAlign:'right',marginRight:0,marginBottom:20}}>{`${this.state.match_age_min} - ${this.state.match_age_max}`}</Text>
           </View>
-        <View style={{paddingHorizontal:0,flexDirection:'row',height:90,alignItems:'center',justifyContent:'center',alignSelf:'center'}}>
+        <View style={{left: MagicNumbers.isSmallDevice ? -5 : 0,
+            paddingHorizontal:0,flexDirection:'row',height:90,alignItems:'flex-start',justifyContent:'center',alignSelf:'center'}}>
 
           {dots.map((dot,i) => {
             var highlighted = i != dots.length  && match_age_min <= dot.start_age && match_age_max >= dot.start_age + MIN_AGE_GROUP_DISTANCE - 1 || Math.abs(match_age_max - dot.start_age) < MIN_AGE_GROUP_DISTANCE
@@ -175,7 +178,7 @@ class ActiveDot extends React.Component{
   }
   componentWillMount(){
     console.log('MOUNT')
-    this.state.ageVal.setValue(InsideWidth * (this.props.ageVal-18) / 32)
+    this.state.ageVal.setValue(SliderWidth * (this.props.ageVal-18) / 32)
     this.initializePanResponder();
 
   }
@@ -185,8 +188,8 @@ class ActiveDot extends React.Component{
   //   })
   // }
   componentWillReceiveProps(nProps){
-    const nval = Math.round(InsideWidth * (nProps.ageVal-18) / 32)
-    if(Math.abs(this._animatedValueX - nval) >= InsideWidth/this.props.numberGroups){
+    const nval = Math.round(SliderWidth * (nProps.ageVal-18) / 32)
+    if(Math.abs(this._animatedValueX - nval) >= SliderWidth/this.props.numberGroups){
       this._animatedValueX = nval
 
       Animated.spring(this.state.ageVal,{
@@ -195,7 +198,7 @@ class ActiveDot extends React.Component{
     }
   }
   shouldComponentUpdate(nProps,nState){
-    const nval = InsideWidth * (nProps.ageVal-18) / 32
+    const nval = SliderWidth * (nProps.ageVal-18) / 32
     if(nProps.ageVal == this.props.ageVal ){
       return false
     }
@@ -205,7 +208,7 @@ class ActiveDot extends React.Component{
     this.state.ageVal.removeAllListeners();
   }
   initializePanResponder(){
-    this._animatedValueX = InsideWidth * (this.props.ageVal-18) / 32
+    this._animatedValueX = SliderWidth * (this.props.ageVal-18) / 32
 
     this.state.ageVal.addListener((value) => {
       this._animatedValueX = value.value;
@@ -225,20 +228,20 @@ class ActiveDot extends React.Component{
         },
         onPanResponderMove: Animated.event([ null, {dx: this.state.ageVal} ]),
         onPanResponderRelease: (e, gestureState)  => {
-          if(this._animatedValueX > InsideWidth){
-            this._animatedValueX = InsideWidth
+          if(this._animatedValueX > SliderWidth){
+            this._animatedValueX = SliderWidth
           }else if(this._animatedValueX < 0){
             this._animatedValueX = 0
           }else{
             // this._animatedValueX = gestureState.dx
           }
           this.state.ageVal.flattenOffset(); // Flatten the offset so it resets the default positioning
-          var newAgeVal = Math.round((this._animatedValueX * 32) / InsideWidth) + 18
+          var newAgeVal = Math.round((this._animatedValueX * 32) / SliderWidth) + 18
           this.props.updateVal(newAgeVal)
 
           var dot = this.props.dots.filter((gestureState.vx > 0 ? ((n) => n.start_age >= newAgeVal ) : (n) => n.start_age <= newAgeVal) );
 
-          var toValue = Math.round(InsideWidth * (dot[gestureState.gx > 0 ? 0 : dot.length-1].start_age-18) / 32)
+          var toValue = Math.round(SliderWidth * (dot[gestureState.gx > 0 ? 0 : dot.length-1].start_age-18) / 32)
 
           Animated.spring(this.state.ageVal,{
             toValue,
@@ -254,20 +257,20 @@ class ActiveDot extends React.Component{
 
         },
         onPanResponderTerminate: (e, gestureState)  => {
-          if(this._animatedValueX > InsideWidth){
-            this._animatedValueX = InsideWidth
+          if(this._animatedValueX > SliderWidth){
+            this._animatedValueX = SliderWidth
           }else if(this._animatedValueX < 0){
             this._animatedValueX = 0
           }else{
             // this._animatedValueX = gestureState.dx
           }
           this.state.ageVal.flattenOffset(); // Flatten the offset so it resets the default positioning
-          var newAgeVal = Math.round((this._animatedValueX * 32) / InsideWidth) + 18
+          var newAgeVal = Math.round((this._animatedValueX * 32) / SliderWidth) + 18
           this.props.updateVal(newAgeVal)
 
           var dot = this.props.dots.filter((gestureState.vx > 0 ? ((n) => n.start_age >= newAgeVal ) : (n) => n.start_age <= newAgeVal) );
 
-          var toValue = Math.round(InsideWidth * (dot[gestureState.gx > 0 ? 0 : dot.length-1].start_age-18) / 32)
+          var toValue = Math.round(SliderWidth * (dot[gestureState.gx > 0 ? 0 : dot.length-1].start_age-18) / 32)
 
           Animated.spring(this.state.ageVal,{
             toValue,
@@ -287,7 +290,7 @@ class ActiveDot extends React.Component{
   render(){
 
     var {ageVal} = this.state
-    var dotWidthInterpolatedWidth = Math.round(InsideWidth / this.props.numberGroups)
+    var dotWidthInterpolatedWidth = Math.round(SliderWidth / this.props.numberGroups)
 
 
 // Some arbitrary interpolations for making the handle drag nicelyer

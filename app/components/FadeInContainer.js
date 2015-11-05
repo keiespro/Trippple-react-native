@@ -50,7 +50,7 @@ class FadeInContainer extends Component{
   }
   render(){
       return (
-        <Animated.View style={{flex:1,opacity:this.state.fadeAmount,...this.props.style}}>
+        <Animated.View style={{flex:1,opacity:this.state.fadeAmount,...this.props.style,alignSelf:'stretch'}}>
 
           {this.state.shouldRenderChildren ? React.Children.map(this.props.children, (child) =>{
             return (

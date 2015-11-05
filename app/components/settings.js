@@ -25,6 +25,7 @@ import ScrollableTabView from '../scrollable-tab-view'
 import FakeNavBar from '../controls/FakeNavBar';
 import UserProfile from './UserProfile'
 import dismissKeyboard from 'dismissKeyboard'
+import {MagicNumbers} from '../DeviceConfig'
 
 import scrollable from 'react-native-scrollable-decorator'
 import Dimensions from 'Dimensions'
@@ -203,7 +204,7 @@ class SettingsInside extends React.Component{
             }
           })
         }} underlayColor={colors.dark}>
-        <View  style={{borderBottomWidth:1,borderColor:colors.shuttleGray,height:80,alignItems:'center',justifyContent:'space-between',flexDirection:'row',paddingRight:25,marginLeft:25}}>
+        <View  style={styles.wrapfield}>
           <View>
             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>BASIC</Text>
             <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
@@ -228,7 +229,7 @@ class SettingsInside extends React.Component{
             }
           })
         }} underlayColor={colors.dark}>
-        <View  style={{borderBottomWidth:1,borderColor:colors.shuttleGray,height:80,alignItems:'center',justifyContent:'space-between',flexDirection:'row',paddingRight:25,marginLeft:25}}>
+        <View  style={styles.wrapfield}>
           <View>
             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>COUPLE</Text>
             <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
@@ -255,7 +256,7 @@ class SettingsInside extends React.Component{
             }
           })
         }} underlayColor={colors.dark} >
-        <View  style={{borderBottomWidth:1,borderColor:colors.shuttleGray,height:80,alignItems:'center',justifyContent:'space-between',flexDirection:'row',paddingRight:25,marginLeft:25}}>
+        <View  style={styles.wrapfield}>
           <View>
             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>PREFERENCES</Text>
             <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
@@ -277,7 +278,7 @@ class SettingsInside extends React.Component{
             }
           })
         }} underlayColor={colors.dark}>
-        <View  style={{borderBottomWidth:1,borderColor:colors.shuttleGray,height:80,alignItems:'center',justifyContent:'space-between',flexDirection:'row',paddingRight:25,marginLeft:25}}>
+        <View  style={styles.wrapfield}>
           <View>
             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>SETTINGS</Text>
             <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
@@ -449,6 +450,16 @@ var styles = StyleSheet.create({
    justifyContent:'space-around'
 
 
+ },
+ wrapfield:{
+   borderBottomWidth:1,
+   borderColor:colors.shuttleGray,
+   height:80,
+   alignItems:'center',
+   justifyContent:'space-between',
+   flexDirection:'row',
+   paddingRight:MagicNumbers.screenPadding/1.5,
+   marginLeft:MagicNumbers.screenPadding/1.5
  },
  privacy:{
    height:100,

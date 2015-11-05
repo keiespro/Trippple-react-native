@@ -22,6 +22,7 @@ import Mixpanel from '../utils/mixpanel';
 import SegmentedView from '../controls/SegmentedView'
 import ScrollableTabView from '../scrollable-tab-view'
 import FakeNavBar from '../controls/FakeNavBar';
+import {MagicNumbers} from '../DeviceConfig'
 
 import dismissKeyboard from 'dismissKeyboard'
 import moment from 'moment'
@@ -71,24 +72,15 @@ class ProfileField extends React.Component{
     var field = this.props.field || {};
     console.log('ProfileField',field);
 
-    var displayField = (field) => {
-      switch (field.field_type) {
+    var displayField = (theField) => {
+      switch (theField.field_type) {
         case 'input':
           return (
              <TextInput
                 autofocus={true}
-                style={{
-                    height: 60,
-                    alignSelf: 'stretch',
-                    padding: 8,
-                    fontSize: 30,
-                    fontFamily:'Montserrat',
-                    color: colors.white,
-                    textAlign:'center',
-                    width:DeviceWidth-40
-                }}
+                style={styles.displayTextField}
                 onChangeText={(text) => this.setState({text})}
-                placeholder={field.placeholder ? field.placeholder.toUpperCase() : field.label.toUpperCase()}
+                placeholder={theField.placeholder ? theField.placeholder.toUpperCase() : fieldLabel.toUpperCase()}
                 autoCapitalize={'words'}
                 maxLength={10}
                 placeholderTextColor={colors.white}
@@ -132,7 +124,10 @@ class ProfileField extends React.Component{
       }
     }
     if(!field.label){ return false}
-
+    let fieldLabel = field.label || ''
+    if(MagicNumbers.isSmallDevice && field.label.indexOf(' ') > 0){
+      fieldLabel = field.label.substr(0,field.label.indexOf(' '))
+    }
     return (
         <TouchableHighlight onPress={(f)=>{
             //trigger modal
@@ -146,9 +141,9 @@ class ProfileField extends React.Component{
                 fieldValue: this.props.user[this.props.fieldName]
               }
             })
-          }} underlayColor={colors.dark} style={{ paddingHorizontal:25,}}>
-          <View  style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
-          <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{field.label && field.label.toUpperCase()}</Text>
+          }} underlayColor={colors.dark} style={styles.paddedSpace}>
+          <View  style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray,alignItems:'center',justifyContent:'space-between',flexDirection:'row',alignSelf:'stretch'}}>
+          <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{fieldLabel.toUpperCase()}</Text>
             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat',textAlign:'right'}}>{
               field.field_type == 'phone_input' ? this.formattedPhone() :
               this.props.user[this.props.fieldName] ? this.props.user[this.props.fieldName].toString().toUpperCase() : ''
@@ -189,10 +184,10 @@ class SettingsBasic extends React.Component{
           title={`BASIC`}
           titleColor={colors.white}
           />
-        <ScrollView style={{flex:1,marginTop:55}} contentContainerStyle={{}} >
+        <ScrollView style={{flex:1,marginTop:55}} contentContainerStyle={{alignItems:'flex-start'}} >
 
         <ScrollableTabView style={{overflow:'hidden'}} renderTabBar={(props)=><CustomTabBar {...props}/>}>
-          <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:60}}  tabLabel={'GENERAL'}>
+          <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:MagicNumbers.screenPadding/2,}}  tabLabel={'GENERAL'}>
 
         {user.relationship_status == 'single' ? null : <View style={{height:150,width:150,alignSelf:'center'}}>
             <Image
@@ -209,7 +204,7 @@ class SettingsBasic extends React.Component{
                 </View>
             </View>
           }
-            <View style={{paddingHorizontal: 25,}}>
+            <View style={styles.paddedSpace}>
               <View style={styles.formHeader}>
                 <Text style={styles.formHeaderText}>Personal Info</Text>
               </View>
@@ -220,10 +215,15 @@ class SettingsBasic extends React.Component{
 
             {['birthday','gender'].map((field) => {
               return (
-                <View  style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray, alignItems:'center',justifyContent:'space-between',flexDirection:'row',marginHorizontal:25}}>
+                <View  style={styles.wrapperBirthdayGender}>
                   <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ field.toUpperCase()}</Text>
-                <Text style={{color:colors.shuttleGray,
-                    fontSize:18,fontFamily:'Montserrat',textAlign:'right',paddingRight:30}}>{
+                <Text style={{
+                    color:colors.shuttleGray,
+                    fontSize:18,
+                    fontFamily:'Montserrat',
+                    textAlign:'right',
+                    paddingRight:30
+                  }}>{
                     field == 'birthday' ?
                     this.props.user[field] ? moment(this.props.user[field]).format('MM/DD/YYYY') : ''
                     : this.props.user[field] ? this.props.user[field] : ''
@@ -235,7 +235,7 @@ class SettingsBasic extends React.Component{
                 </View>
               )
             })}
-            <View style={{paddingHorizontal: 25,}}>
+            <View style={styles.paddedSpace}>
 
             <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>Contact Info</Text>
@@ -247,8 +247,8 @@ class SettingsBasic extends React.Component{
             })}
 
         </View>
-        <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,  }}  tabLabel={'DETAILS'}>
-        <View style={{paddingHorizontal: 25,}}>
+        <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth, paddingBottom:30 }}  tabLabel={'DETAILS'}>
+        <View style={styles.paddedSpace}>
 
             <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>Details</Text>
@@ -266,15 +266,15 @@ class SettingsBasic extends React.Component{
 
         {!this.props.user.facebook_user_id ?
 
-        <View style={{paddingHorizontal: 25,}}>
+        <View style={styles.paddedSpace}>
         <View style={styles.formHeader}>
           <Text style={styles.formHeaderText}>Get More Matches</Text>
         </View>
         </View> : null }
 
         {!this.props.user.facebook_user_id ?
-          <View style={{paddingHorizontal: 25,marginTop:10}}>
-
+          <View style={[styles.paddedSpace,{marginTop:10}]}>
+]
           <FacebookButton shouldLogoutOnTap={true} _onPress={this.onPressFacebook.bind(this)} buttonType={'settings'} buttonTextStyle={{fontSize:20,fontFamily:'Montserrat-Bold'}} wrapperStyle={{height:100,padding:0}}/>
 
           </View>
@@ -282,7 +282,7 @@ class SettingsBasic extends React.Component{
 
         {!this.props.user.facebook_user_id ?
 
-        <View style={{paddingHorizontal: 25,marginBottom:25}}>
+        <View style={[styles.paddedSpace,{marginBottom:25}]}>
           <Text style={{color:colors.shuttleGray,textAlign:'center',fontSize:18}}>Don’t worry, we wont tell your friends or post on your wall.</Text>
         </View> : null }
 
@@ -331,7 +331,7 @@ var styles = StyleSheet.create({
    height: 60,
    padding: 8,
    flex:1,
-   width:DeviceWidth-40,
+   width:MagicNumbers.screenWidth,
    alignSelf:'stretch',
    fontSize: 26,
    fontFamily:'Montserrat',
@@ -432,11 +432,34 @@ userimage:{
   backgroundColor:colors.dark,
   width:120,height:120,borderRadius:60,alignSelf:'center',
 
-}
+},
+displayTextField:{
+    height: 60,
+    alignSelf: 'stretch',
+    padding: 8,
+    fontSize: 30,
+    fontFamily:'Montserrat',
+    color: colors.white,
+    flex:1,
+    width:MagicNumbers.screenWidth,
+    textAlign:'center',
+  },
+  wrapperBirthdayGender:{
+    height:60,
+    borderBottomWidth:1,
+    borderColor:colors.shuttleGray,
+     alignItems:'center',
+     justifyContent:'space-between',
+     flexDirection:'row',
+     marginHorizontal:MagicNumbers.screenPadding/2,
+     alignSelf: 'stretch',
+
+
+   },
+   paddedSpace:{
+     paddingHorizontal:MagicNumbers.screenPadding/2
+   }
 });
-
-
-
 
 var TAB_UNDERLINE_REF = 'TAB_UNDERLINE';
 

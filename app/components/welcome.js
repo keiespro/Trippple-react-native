@@ -25,6 +25,7 @@ var Facebook = require('../screens/registration/facebook');
 const LOGIN   = 'login';
 const REGISTER= 'register'
 import Mixpanel from '../utils/mixpanel';
+import {MagicNumbers} from '../DeviceConfig'
 
 import dismissKeyboard from 'dismissKeyboard'
 import FadeInContainer from '../components/FadeInContainer'
@@ -145,13 +146,13 @@ class Carousel extends Component{
     var welcomeSlides = slides.map( (slide,i) => {
       return (
         <View key={i+'slide'+i} style={styles.slide}>
-        <Image style={[styles.slideImage,
-          {
+        <Image style={ {
+            marginBottom:25,
+            height: DeviceHeight/3 + MagicNumbers.screenPadding,
             paddingTop: 20,
-            marginTop: i == 0 ? 80 : 0,
-            width: i == 0 ? DeviceWidth - 150 : DeviceWidth - 200
-          }
-        ]} source={slide.img} resizeMode={Image.resizeMode.contain}/>
+            marginTop: i == 0 ? MagicNumbers.screenPadding*3 : MagicNumbers.screenPadding,
+            width: i == 0 ? MagicNumbers.screenWidth : MagicNumbers.screenPadding*5
+          } } source={slide.img} resizeMode={Image.resizeMode.contain}/>
       <View style={[styles.textwrap,{marginBottom:5}]}><Text style={[styles.textplain,
           {
             fontFamily:'Montserrat',
@@ -259,13 +260,10 @@ var styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     flexWrap:'nowrap',
-    padding:20
+    padding:MagicNumbers.screenPadding/2
   },
-  slideImage:{
-    width: 150,
-    height:350,
-    marginBottom:25
-  },
+
+
   bottomarea:{
     height:140,
     width: undefined,
