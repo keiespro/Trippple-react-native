@@ -103,7 +103,8 @@ class PrivacyScreen extends Component{
 
 
 
-          <TouchableOpacity
+            <TouchableHighlight
+              underlayColor={this.state.selection == 'public' ? colors.mediumPurple : colors.mediumPurple20}
             style={{marginVertical:MagicNumbers.screenPadding/2}}
               onPress={this._selectPublic.bind(this)}>
               <View style={[styles.privacyWrap,
@@ -120,9 +121,10 @@ class PrivacyScreen extends Component{
             </View>
 
 
-          </TouchableOpacity>
+          </TouchableHighlight>
 
-          <TouchableOpacity
+          <TouchableHighlight
+            underlayColor={this.state.selection == 'private' ? colors.mediumPurple : colors.mediumPurple20}
             style={{marginTop:MagicNumbers.screenPadding/2}}
             onPress={this._selectPrivate.bind(this)}>
             <View style={[styles.privacyWrap,
@@ -139,7 +141,7 @@ class PrivacyScreen extends Component{
 
             </View>
 
-          </TouchableOpacity>
+          </TouchableHighlight>
 
 
         </View>
@@ -251,7 +253,7 @@ selectedbutton:{
     borderWidth:2,
     borderColor:colors.shuttleGray,
     height:120,
-    marginHorizontal:40
+    marginHorizontal:0
   },
 
   labelText:{

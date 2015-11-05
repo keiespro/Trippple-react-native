@@ -104,7 +104,7 @@ class ProfileField extends React.Component{
           return (
             <PickerIOS
               style={{alignSelf:'center',width:330,backgroundColor:colors.white,marginHorizontal:0,alignItems:'stretch'}}
-              selectedValue={this.state.selectedDropdown || null}
+              selectedValue={this.state.selectedDropdown || field.values[0] || null}
               >
               {field.values.map((val) => (
                 <PickerItemIOS
@@ -138,15 +138,14 @@ class ProfileField extends React.Component{
                 field,
                 fieldName:this.props.fieldName,
                 cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
-                fieldValue: this.props.user[this.props.fieldName]
+                fieldValue: this.props.user[this.props.fieldName] || field.values[0]
               }
             })
           }} underlayColor={colors.dark} style={styles.paddedSpace}>
           <View  style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray,alignItems:'center',justifyContent:'space-between',flexDirection:'row',alignSelf:'stretch'}}>
-          <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{fieldLabel.toUpperCase()}</Text>
+          <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{fieldLabel ? fieldLabel.toUpperCase() : ''}</Text>
             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat',textAlign:'right'}}>{
-              field.field_type == 'phone_input' ? this.formattedPhone() :
-              this.props.user[this.props.fieldName] ? this.props.user[this.props.fieldName].toString().toUpperCase() : ''
+              field.field_type == 'phone_input' ? this.formattedPhone() : this.props.user[this.props.fieldName] ? this.props.user[this.props.fieldName].toString().toUpperCase() : ''
             }</Text>
           </View>
         </TouchableHighlight>

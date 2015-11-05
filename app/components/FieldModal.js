@@ -60,9 +60,9 @@ class FieldModal extends React.Component{
     this.state = {
       timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
       keyboardSpace: 0,
-      value:this.props.fieldValue,
-      phoneValue:this.props.fieldValue,
-      canContinue:false
+      value:props.fieldValue,
+      phoneValue:props.fieldValue,
+      canContinue:props.field.field_type == 'dropdown' ? !!props.fieldValue : false
     }
   }
   componentWillMount(){

@@ -455,6 +455,7 @@ var styles = StyleSheet.create({
    borderBottomWidth:1,
    borderColor:colors.shuttleGray,
    height:80,
+   backgroundColor:colors.outerSpace,
    alignItems:'center',
    justifyContent:'space-between',
    flexDirection:'row',

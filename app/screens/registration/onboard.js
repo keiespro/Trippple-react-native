@@ -128,8 +128,6 @@ class Onboard extends Component{
               stack={stack}
               AppState={this.props.AppState}
               index={route.index ? route.index : null}
-              singleStack={RouteStackSingle}
-              coupleStack={RouteStackCouple}
               {...route.passProps}
             />
     );

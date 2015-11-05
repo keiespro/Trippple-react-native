@@ -76,7 +76,7 @@ class GenderScreen extends Component{
           <BackButton navigator={this.props.navigator}/>
         </View>
 
-        <View style={[styles.genderWrap]}>
+        <View style={[styles.genderWrap,{marginHorizontal:MagicNumbers.screenPadding/2,width:MagicNumbers.screenWidth}]}>
           <View style={{
             alignItems:'center',
             justifyContent:'center',
@@ -88,7 +88,8 @@ class GenderScreen extends Component{
 
 
 
-          <TouchableOpacity
+          <TouchableHighlight
+            underlayColor={this.state.selection == 'm' ? colors.mediumPurple : colors.mediumPurple20}
             style={{marginVertical:20}}
               onPress={this._selectMale.bind(this)}>
               <View style={[styles.privacyWrap,
@@ -102,9 +103,10 @@ class GenderScreen extends Component{
               </View>
 
 
-          </TouchableOpacity>
+          </TouchableHighlight>
 
-          <TouchableOpacity
+          <TouchableHighlight
+            underlayColor={this.state.selection == 'f' ? colors.mediumPurple : colors.mediumPurple20}
             style={{marginTop:20}}
             onPress={this._selectFemale.bind(this)}>
             <View style={[styles.privacyWrap,
@@ -117,7 +119,7 @@ class GenderScreen extends Component{
               <Text style={styles.boxTitle}>FEMALE</Text>
             </View>
 
-          </TouchableOpacity>
+          </TouchableHighlight>
 
         </View>
 
@@ -293,13 +295,12 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection:'row',
     alignItems: 'center',
-    alignSelf:'stretch',
     width: MagicNumbers.screenWidth,
     padding:10,
     borderWidth:2,
     borderColor:colors.shuttleGray,
     height:90,
-    marginHorizontal:40
+    marginHorizontal:0
   },
 
   labelText:{
