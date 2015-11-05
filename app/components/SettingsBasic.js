@@ -191,9 +191,9 @@ class SettingsBasic extends React.Component{
         {user.relationship_status == 'single' ? null : <View style={{height:150,width:150,alignSelf:'center'}}>
             <Image
               style={styles.userimage}
-              key={user.thumb_url}
-              source={{uri: user.thumb_url}}
+              key={user.id+'thu'}
               defaultSource={require('image!placeholderUser')}
+              source={{uri: user.thumb_url}}
               resizeMode={Image.resizeMode.contain}/>
               <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
                 <Image
@@ -273,7 +273,6 @@ class SettingsBasic extends React.Component{
 
         {!this.props.user.facebook_user_id ?
           <View style={[styles.paddedSpace,{marginTop:10}]}>
-]
           <FacebookButton shouldLogoutOnTap={true} _onPress={this.onPressFacebook.bind(this)} buttonType={'settings'} buttonTextStyle={{fontSize:20,fontFamily:'Montserrat-Bold'}} wrapperStyle={{height:100,padding:0}}/>
 
           </View>

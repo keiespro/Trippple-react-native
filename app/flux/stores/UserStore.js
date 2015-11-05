@@ -34,7 +34,7 @@ class UserStore {
       handleRequestPin: UserActions.REQUEST_PIN_LOGIN,
       handleUpdateUser: UserActions.UPDATE_USER,
       handleUpload: UserActions.UPLOAD_IMAGE,
-      handleUpdateUserStub: UserActions.updateUserStub,
+      handleUpdateUserStub: UserActions.UPDATE_USER_STUB,
       handleLogOut: UserActions.LOG_OUT,
       handlePartner: UserActions.SELECT_PARTNER
 
@@ -86,6 +86,7 @@ class UserStore {
   }
 
   handleGetUserInfo(res){
+    console.log(res)
     if(res.error){
       return false;
     }
@@ -120,7 +121,6 @@ class UserStore {
     this.setState({ user:{}, userStub: null});
     Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE)
     .then(() => {
-      console.log('Credentials successfully deleted');
       this.setState({  api_key: null, user_id: null });
     })
 
@@ -138,8 +138,12 @@ class UserStore {
     this.setState({user:updatedUser});
   }
 
-  handleUpdateUser(wrap){
-    this.updateUserInfo(wrap.updates);
+  handleUpdateUser(res){
+    var user = res.response.user_info;
+
+    this.setState({
+      user: {...this.state.user, ...user}
+    })
   }
 
   handleUpload(response){

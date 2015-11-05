@@ -92,7 +92,7 @@ import AppActions from '../flux/actions/AppActions'
         <View style={{ flex: 1, position:'relative'}}>
           {route.id == 'settings' && navBar}
           <RouteComponent navigator={navigator} route={route} navBar={navBar} AppState={this.props.AppState}
- user={this.props.user} {...route.passProps} pRoute={route.id == 'potentials' ? PotentialsRoute : null} />
+  {...route.passProps} user={this.props.user} pRoute={route.id == 'potentials' ? PotentialsRoute : null} />
           {route.id == 'potentials' || route.id == 'settings' || route.id == 'matches' ? null : navBar}
         </View>
       );

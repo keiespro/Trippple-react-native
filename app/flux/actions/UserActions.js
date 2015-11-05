@@ -101,22 +101,18 @@ var UserActions = {
     //     })
     //   }
     // }
+    console.log('update action',payload);
+
     Api.updateUser(payload)
       .then((res) => {
         console.log(res);
-        this.dispatch({
-          response: res,
-          updates: updates
-        });
+        this.dispatch(res);
       })
       .catch((err) => {
         console.log(err);
-        this.dispatch({
-          err: err
-        });
+        this.dispatch(err);
       })
 
-    console.log('update action',payload);
   },
 
   selectPartner(partner){
