@@ -392,8 +392,8 @@ class InsideActiveCard extends Component{
     }
   }
   componentWillUnmount(){
-    this.props.panX.removeAllListeners();
-    this.props.cardWidth.removeAllListeners();
+    this.props.panX && this.props.panX.removeAllListeners();
+    this.props.cardWidth && this.props.cardWidth.removeAllListeners();
 
   }
   componentDidUpdate(pProps,pState){
