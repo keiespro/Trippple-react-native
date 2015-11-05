@@ -275,7 +275,7 @@ class Cards extends Component{
                 bottom:0,
                 shadowColor:colors.dark,
                 shadowRadius:3,
-                shadowOpacity:0.05,
+                shadowOpacity:0.5,
                 shadowOffset: {
                   width:0,
                   height: 5
@@ -290,6 +290,8 @@ class Cards extends Component{
             key={`${potentials[1].id || potentials[1].user.id}-activecard`}
             user={user}
             ref={"_secondCard"}
+            cardWidth={this.state.cardWidth}
+
             potential={potentials[1]}
             rel={user.relationship_status}
           />
@@ -300,11 +302,10 @@ class Cards extends Component{
       { potentials && potentials.length >= 1  && potentials[0] &&
 
         <Animated.View
-          style={[{
+          style={[styles.shadowCard,{
                 transform:[
                 ],
                 alignSelf:'center',
-                overflow:'hidden',
 
                 width:this.state.cardWidth,
                 height:this.state.cardWidth.interpolate({inputRange: [DeviceWidth-40,DeviceWidth], outputRange: [DeviceHeight-40,DeviceHeight]}),
@@ -404,6 +405,10 @@ class InsideActiveCard extends Component{
     if(!pProps.isTopCard && this.props.isTopCard){
       this.props.panX ? this.valueListener() : null
     }
+    if(pProps.profileVisible && !this.props.profileVisible ){
+      this.refs.scrollbox && this.refs.scrollbox.setNativeProps({contentOffset:{x:0,y:0}})
+
+    }
 
   }
   valueListener(){
@@ -480,12 +485,13 @@ class InsideActiveCard extends Component{
     if(!profileVisible){
     return (
       <View ref={'cardinside'} key={`${potential.id || potential.user.id}-inside`}
-        style={ [styles.shadowCard,{
+        style={ [{
           height: isTopCard ? DeviceHeight-80 : DeviceHeight-53
         } ]}>
 
           <ScrollView
           scrollEnabled={false}
+          ref={'scrollbox'}
           centerContent={false}
           alwaysBounceHorizontal={false}
           canCancelContentTouches={false}
@@ -495,7 +501,7 @@ class InsideActiveCard extends Component{
               flex:1,
               marginLeft:0,
               position:'relative',
-              backgroundColor:  isThirdCard ? colors.white : colors.outerSpace,
+              backgroundColor:  isThirdCard ? colors.white : colors.white,
             }]} key={`${potential.id || potential.user.id}-view`}>
 
             {this.props.isThirdCard ? null :
@@ -558,7 +564,7 @@ class InsideActiveCard extends Component{
               key={`${potential.id || potential.user.id}-bottomview`}
               style={{
                 height:180,
-                width:this.state.cardWidth,
+                width:this.props.cardWidth,
                 backgroundColor: colors.white,
                 flexDirection:'row',
                 flex:1,
@@ -652,7 +658,7 @@ class InsideActiveCard extends Component{
 
             backgroundColor:colors.outerSpace,
             transform:[ {scale: 1}, ]
-          },styles.shadowCard]}>
+          },]}>
           <ScrollView
           style={[{
             margin:0,
@@ -925,7 +931,6 @@ class CardStack extends Component{
             <Text style={{color:colors.rollingStone,
                 fontSize:MagicNumbers.size18+2, marginHorizontal:MagicNumbers.is4s ? 30 : 70,
 marginBottom:180,textAlign:'center'}}>You’re all out of potential matches for today.</Text>
-
         </Image>
       </View>
       </FadeInContainer>
