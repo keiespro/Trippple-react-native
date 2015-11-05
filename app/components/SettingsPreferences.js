@@ -125,7 +125,7 @@ class  SettingsPreferences extends React.Component{
                   })
                 }} >
                 <View  style={styles.textareaWrap}>
-                <Text numberOfLines={2}  style={{color:colors.white,height:50,fontSize:18,overflow:'hidden',flexWrap:'wrap'}}>{this.props.user.bio ? this.props.user.bio : ''}</Text>
+                <Text numberOfLines={2}  style={{color:colors.white,height:50,fontSize:18,overflow:'hidden',alignSelf:'stretch',flexWrap:'wrap',textAlign:'left'}}>{this.props.user.bio ? this.props.user.bio : ''}</Text>
                 </View>
               </TouchableHighlight>
 
