@@ -20,8 +20,6 @@ import {
   Navigator
 } from  'react-native'
 import Mixpanel from '../utils/mixpanel';
-import SegmentedView from '../controls/SegmentedView'
-import ScrollableTabView from '../scrollable-tab-view'
 import FakeNavBar from '../controls/FakeNavBar';
 
 var Mailer = require('NativeModules').RNMail;
@@ -31,7 +29,6 @@ import dismissKeyboard from 'dismissKeyboard'
 import WebViewScreen from './WebViewScreen'
 import scrollable from 'react-native-scrollable-decorator'
 import Dimensions from 'Dimensions'
-import ParallaxView from  '../controls/ParallaxScrollView'
 import PrivacyPermissionsModal from '../modals/PrivacyPermissions'
 
 const DeviceHeight = Dimensions.get('window').height
@@ -40,10 +37,6 @@ const DeviceWidth = Dimensions.get('window').width
 
 import ToggleSwitch from '../controls/switches'
 import UserActions from '../flux/actions/UserActions'
-import EditImage from '../screens/registration/EditImage'
-import SelfImage from './loggedin/SelfImage'
-
-import FacebookButton from '../buttons/FacebookButton'
 
 import Contacts from '../screens/contacts'
 import colors from '../utils/colors'
@@ -51,9 +44,7 @@ import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
 import EditPage from './EditPage'
 import CloseButton from './CloseButton'
 import Api from '../utils/api'
-import TrackKeyboardMixin from '../mixins/keyboardMixin'
-import reactMixin from 'react-mixin'
-import FieldModal from './FieldModal'
+ import FieldModal from './FieldModal'
 
 
 class SettingsSettings extends React.Component{
@@ -106,7 +97,7 @@ class SettingsSettings extends React.Component{
   handleFeedback() {
     Mailer.mail({
       subject: 'I\'m have an issue in the app',
-      recipients: ['feedback@trippple.co'],
+      recipients: ['hello@trippple.co'],
       body: 'Help!'
     }, (error, event) => {
         if(error) {
@@ -135,8 +126,7 @@ class SettingsSettings extends React.Component{
 
     var {privacy} = this.state
 
-    console.log('settingOptions',settingOptions);
-    return (
+     return (
       <View style={styles.inner}>
           <FakeNavBar
             backgroundStyle={{backgroundColor:colors.shuttleGray}}
@@ -251,8 +241,9 @@ class LogOutButton extends React.Component{
       'Are you sure you want to log out?',
       [
         {text: 'Yes', onPress: () => {
-          AsyncStorage.multiRemove(['ChatStore','MatchesStore'])
-          .then(() => UserActions.logOut())
+          UserActions.logOut()
+          // AsyncStorage.multiRemove(['ChatStore','MatchesStore'])
+          // .then(() => UserActions.logOut())
         }},
         {text: 'No', onPress: () => {return false}},
       ]
