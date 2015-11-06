@@ -46,7 +46,7 @@ class PurpleModal extends Component{
 
         <View style={[styles.col,{justifyContent:'center',alignSelf:'center',backgroundColor: 'transparent',margin:50}]}>
 
-          <Image style={[styles.modalcontainer,{flex:0}]} source={require('image!GradientBG')}>
+          <Image style={[styles.modalcontainer,{flex:0}]} source={require('image!gradientbgs')}>
             {this.props.children}
           </Image>
         </View>
@@ -169,7 +169,7 @@ export class UnmatchModal extends Component{
           <Image
             style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginVertical:20}]}
             source={{uri:matchImage}}
-            defaultSource={require('image!placeholderUserWhite')} />
+            defaultsource={require('image!placeholderUserWhite')} />
 
           <View style={styles.insidemodalwrapper}>
 

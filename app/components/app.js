@@ -81,7 +81,7 @@ class TopLevel extends Component{
       showCheckmark: false,
       showPurpleModal: false
     }
-    NotificationActions.scheduleNewPotentialsAlert()
+    // NotificationActions.scheduleNewPotentialsAlert()
   }
 
   componentWillReceiveProps(nProps){

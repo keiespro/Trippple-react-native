@@ -155,7 +155,7 @@ class MatchList extends Component{
                  key={'userimage'+rowID}
                  style={styles.thumb}
                  source={{uri: matchImage}}
-                 defaultSource={require('image!placeholderUser')}
+                 defaultsource={require('image!placeholderUser')}
                  resizeMode={Image.resizeMode.cover}
                />
              {unreadCount ?

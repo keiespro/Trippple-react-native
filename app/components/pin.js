@@ -111,7 +111,7 @@ var PinScreen = React.createClass({
         [
           {text: 'Contact us', onPress: () => Mailer.mail({
                 subject: 'Help! My account is disabled.',
-                recipients: ['feedback@trippple.co'],
+                recipients: ['hello@trippple.co'],
                 body: 'Help!'
               }, (error, event) => {
                   if(error) {

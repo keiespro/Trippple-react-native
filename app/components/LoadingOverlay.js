@@ -14,9 +14,6 @@ type Props = {
 
 class LoadingOverlay extends Component{
 
-  
-
-
   render() {
     return (
       <Overlay isVisible={this.props.isVisible}>

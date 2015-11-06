@@ -285,7 +285,7 @@ module.exports = PrivacyScreen;
                 <Text style={styles.boxTitle}>Public</Text>
                 <Text style={styles.boxP}>Your profile is visible to all Trippple members</Text>
 
-                <Image source={this.state.selection == 'public' ? require('image!ovalSelected') : require('image!ovalDashed')}
+                <Image source={this.state.selection == 'public' ? require('ovalSelected') : require('ovalDashed')}
                           resizeMode={Image.resizeMode.contain}
                             style={styles.cornerDot}/>
 
@@ -303,7 +303,7 @@ module.exports = PrivacyScreen;
               <Text style={styles.boxTitle}>Private</Text>
               <Text style={styles.boxP}>Your profile is hidden from your facebook friends and phone contacts.</Text>
 
-              <Image source={this.state.selection == 'private' ? require('image!ovalSelected') : require('image!ovalDashed')}
+              <Image source={this.state.selection == 'private' ? require('ovalSelected') : require('ovalDashed')}
                         resizeMode={Image.resizeMode.contain}
                             style={styles.cornerDot}/>
             </View>

@@ -354,7 +354,6 @@ var PhotoAlbums = React.createClass({
               <Text style={{color:colors.white,fontSize:16,fontFamily:'Montserrat-Bold'}}>{ album.name.toUpperCase()}</Text>
               <Text style={{color:colors.shuttleGray,fontSize:14}}>{`${album.count} photos`}</Text>
           </View>
-              <Image source={require('image!nextArrow')} style={{position:'absolute',right:10,top:35}}/>
 
 
           </View>

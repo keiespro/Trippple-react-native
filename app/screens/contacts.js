@@ -341,7 +341,7 @@ var manyPhones = this.state.partnerSelection &&
         >
 
 
-        <Image style={styles.modalcontainer} source={require('image!GradientBG')}>
+        <Image style={styles.modalcontainer} source={require('image!gradientbgs')}>
           <View style={[styles.col]}>
             <View style={styles.insidemodalwrapper}>
 

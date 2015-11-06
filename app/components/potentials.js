@@ -328,6 +328,12 @@ class Cards extends Component{
               },
               {
                 translateY: this.state.offsetY.a
+              },
+              {
+                scale:  this.state.panX.interpolate({
+                  inputRange: [-200, -50, 0, 50, 200],
+                  outputRange: [0.6, 1, 1, 1, 1.025]
+                })
               }
             ],
           }]}

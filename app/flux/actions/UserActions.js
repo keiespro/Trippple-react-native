@@ -22,6 +22,7 @@ var UserActions = {
   initFail(errorMessage){
     console.log(errorMessage)
     this.dispatch(errorMessage);
+    this.getUserInfo()
   },
 
 

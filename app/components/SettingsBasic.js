@@ -191,7 +191,7 @@ class SettingsBasic extends React.Component{
             <Image
               style={styles.userimage}
               key={user.id+'thu'}
-              defaultSource={require('image!placeholderUser')}
+              defaultsource={require('image!placeholderUser')}
               source={{uri: user.thumb_url}}
               resizeMode={Image.resizeMode.contain}/>
               <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>

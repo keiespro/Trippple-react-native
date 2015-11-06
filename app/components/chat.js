@@ -199,7 +199,7 @@ class ChatMessage extends React.Component {
 
         {!isMessageOurs &&
           <View style={{backgroundColor:'transparent'}}>
-            <Image style={[styles.thumb]} source={{uri:this.props.messageData.from_user_info.image_url}} defaultSource={require('image!placeholderUser')}
+            <Image style={[styles.thumb]} source={{uri:this.props.messageData.from_user_info.image_url}} defaultsource={require('image!placeholderUser')}
                     resizeMode={Image.resizeMode.cover}
             />
           </View>
@@ -414,7 +414,7 @@ class ChatInside extends Component{
               <TimeAgo time={matchInfo.created_timestamp*1000} />
             </Text>
 
-            <Image source={{uri:them[1].image_url}} style={{width:250,height:250,borderRadius:125,marginVertical:40 }}  defaultSource={require('image!placeholderUser')} />
+            <Image source={{uri:them[1].image_url}} style={{width:250,height:250,borderRadius:125,marginVertical:40 }}  defaultsource={require('image!placeholderUser')} />
             <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes'}} >Say something. {
                 (them.length == 2 ? 'They\'re' : them[0].gender == 'm' ? 'He\'s' : 'She\'s')
             } already into you.</Text>

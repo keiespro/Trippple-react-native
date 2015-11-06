@@ -44,13 +44,14 @@ class MatchActions {
   }
 
   getPotentials(){
-    const {coords} = this
 
-    Api.getPotentials( coords )
+    Api.getPotentials(  )
       .then((res) => {
         this.dispatch(res.response);
       })
       .catch(err => {
+        this.dispatch({status:false,matches:[]});
+
         console.log('GEO ERROR POTENTIALS:',err)
       })
 

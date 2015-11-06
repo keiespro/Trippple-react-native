@@ -3,6 +3,7 @@ import {StyleSheet,Dimensions,PixelRatio} from 'react-native'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import colors from '../utils/colors'
+import {MagicNumbers} from '../DeviceConfig'
 
 
 const purpleModalStyles = StyleSheet.create({
@@ -11,7 +12,6 @@ const purpleModalStyles = StyleSheet.create({
     justifyContent:'center',
     flex:1,
     margin: 5,
-    borderRadius:8,
     alignSelf:'stretch',
 },
 

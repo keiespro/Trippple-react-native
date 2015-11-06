@@ -22,6 +22,8 @@ var CustomSceneConfigs = require('../utils/sceneConfigs');
 var Auth = require('./auth');
 var Facebook = require('../screens/registration/facebook');
 
+
+
 const LOGIN   = 'login';
 const REGISTER= 'register'
 import Mixpanel from '../utils/mixpanel';
@@ -101,7 +103,7 @@ var IntroScreen = React.createClass({
   },
 
   handleFacebookButton(){
-    console.log('handle FB login',this.props.navigator,this.props.route)
+    console.log('image!handle FB login',this.props.navigator,this.props.route)
 
     this.props.navigator.push({
       component: Facebook,
