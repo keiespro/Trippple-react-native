@@ -181,9 +181,9 @@ class Cards extends Component{
               (this.props.rel == 'single' ? 'couple' : 'single'),
               this.props.rel
             )
-            this.state.panX.removeListener(id);
+            this.state.panX && this.state.panX.removeListener(id);
 
-            this.state.panX.setValue(0);     // Start 0
+            this.state.panX && this.state.panX.setValue(0);     // Start 0
 
 
           }
@@ -331,8 +331,8 @@ class Cards extends Component{
               },
               {
                 scale:  this.state.panX.interpolate({
-                  inputRange: [-200, -50, 0, 50, 200],
-                  outputRange: [0.6, 1, 1, 1, 1.025]
+                  inputRange: [-200, -70, 0, 70, 200],
+                  outputRange: [0.8, 1, 1, 1, 1.025]
                 })
               }
             ],
