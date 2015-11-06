@@ -23,6 +23,7 @@ import _ from 'underscore'
 import MatchActions from '../flux/actions/MatchActions'
 import { BlurView,VibrancyView } from 'react-native-blur'
 import styles from './purpleModalStyles'
+import {MagicNumbers} from '../DeviceConfig'
 
 
 var passProps = function(component,props) {
@@ -42,11 +43,13 @@ class PurpleModal extends Component{
 
 
     return (
-      <View style={[{height:DeviceHeight,width:DeviceWidth,padding:0,backgroundColor: 'transparent',flex:1}]}>
+      <View style={[{padding:0,backgroundColor: 'transparent',flex:1,position:'relative'}]}>
 
-        <View style={[styles.col,{justifyContent:'center',alignSelf:'center',backgroundColor: 'transparent',margin:50}]}>
+        <View style={[styles.col,{justifyContent:'center',alignSelf:'center',backgroundColor: 'transparent'}]}>
 
-          <Image style={[styles.modalcontainer,{flex:0}]} source={require('image!gradientbgs')}>
+          <Image style={[styles.modalcontainer,{overflow:'hidden',width:MagicNumbers.screenWidth,
+            marginHorizontal:MagicNumbers.screenPadding/2,padding:MagicNumbers.screenPadding/2,
+          height:DeviceHeight-MagicNumbers.screenPadding*2,marginTop:MagicNumbers.screenPadding}]} source={require('image!gradientbgs')}                 resizeMode={Image.resizeMode.stretch} >
             {this.props.children}
           </Image>
         </View>

@@ -45,12 +45,9 @@ textAlign:'center'
 
   },
   modalcontainer:{
-    flex:1,
     borderRadius:10,
-    paddingHorizontal:20,
     alignSelf:'center',
     backgroundColor: 'transparent',
-
   },
   fullwidth:{
     width: DeviceWidth
@@ -68,7 +65,6 @@ textAlign:'center'
   col: {
     flexDirection: 'column',
     padding: 0,
-    alignSelf:'stretch',
     flex: 1,
     alignItems:'center',
     justifyContent:'space-between',
