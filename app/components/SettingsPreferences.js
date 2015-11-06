@@ -14,6 +14,7 @@ import {
   Animated,
   PickerIOS,
   PixelRatio,
+  NativeModules,
   Image,
   AsyncStorage,
   Navigator
@@ -33,19 +34,19 @@ import colors from '../utils/colors'
 import reactMixin from 'react-mixin'
 import FieldModal from './FieldModal'
 import {MagicNumbers} from '../DeviceConfig'
-
+import CheckPermissions from '../modals/CheckPermissions'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-var PickerItemIOS = PickerIOS.Item;
-
+var PickerItemIOS = PickerIOS.Item
+var {OSPermissions} = NativeModules
 
 class  SettingsPreferences extends React.Component{
   constructor(props){
     super(props)
     this.state = {
       scroll: 'on',
-      nearMe: props.AppState.permissions.location,
+      nearMe: parseInt(OSPermissions.location) - 2,
       looking_for_mf: props.user.looking_for_mf || false,
       looking_for_mm: props.user.looking_for_mm || false,
       looking_for_ff: props.user.looking_for_ff || false,
@@ -62,9 +63,38 @@ class  SettingsPreferences extends React.Component{
   toggleScroll(direction){
     this.setState({scroll:direction})
   }
+  componentWillReceiveProps(nProps){
+
+  }
+  componentDidUpdate(pProps,pState){
+    if(this.state.nearMe != pState.nearMe && this.state.nearMe > 2){
+      if(OSPermissions.location != this.state.nearMe){
+        this.setState({nearMe:0})
+      }
+    }
+    if(OSPermissions.location < 3 && this.state.nearMe && !pState.nearMe){
+      this.props.navigator.push({
+        component:CheckPermissions,
+        passProps:{
+          title:'PRIORITIZE LOCAL',
+          subtitle:'We’ve found 10 matches we think you might like. Should we prioritize the matches closest to you?',
+          failedTitle: 'LOCATION DISABLED',
+          failCallback:()=>{this.props.navigator.pop(); this.setState({nearMe:0})},
+          failedSubtitle: 'Geolocation is disabled. You can enable it in your phone’s Settings.',
+          failedState: OSPermissions.location < 3 ? true : false,
+          headerImageSource:'iconDeck',
+          permissionKey:'location',
+          renderNextMethod: 'pop',
+          renderMethod:'push',
+          renderPrevMethod:'pop',
+          AppState:this.props.AppState,
+
+        }
+      })
+    }
+  }
   render(){
     let u = this.props.user;
-    let settingOptions = this.props.settingOptions || {};
 
     const {looking_for_mf,looking_for_mm,looking_for_ff, looking_for_f, looking_for_m} = this.state
 
@@ -189,7 +219,7 @@ class  SettingsPreferences extends React.Component{
               : null }
 
 
-          <View  style={{paddingTop:50,pointerEvents:'box-none'}}>
+          <View  style={{paddingTop:50}}>
 
             <View>
               <AgePrefs toggleScroll={this.toggleScroll.bind(this)} user={this.props.user} />
@@ -203,7 +233,7 @@ class  SettingsPreferences extends React.Component{
                   <Text style={{color:  colors.white, fontSize:18}}>Prioritize Users Near Me</Text>
                   <SwitchIOS
                     onValueChange={(value) => this.setState({nearMe: value})}
-                    value={this.state.nearMe}
+                    value={this.state.nearMe > 0 ? true : false}
                     onTintColor={colors.dark}
                     thumbTintColor={this.state.nearMe ? colors.mediumPurple : colors.shuttleGray}
                     tintColor={colors.dark}
@@ -213,6 +243,7 @@ class  SettingsPreferences extends React.Component{
 
             </View>
           </ScrollView>
+
           </View>
 
 

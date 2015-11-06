@@ -172,7 +172,7 @@ export class UnmatchModal extends Component{
           <Image
             style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginVertical:20}]}
             source={{uri:matchImage}}
-            defaultsource={require('image!placeholderUserWhite')} />
+            defaultSource={require('image!placeholderUserWhite')} />
 
           <View style={styles.insidemodalwrapper}>
 

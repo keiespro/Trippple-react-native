@@ -163,7 +163,7 @@ class SettingsInside extends React.Component{
               <Image
                 style={[styles.userimage,{backgroundColor:colors.outerSpace50}]}
                 key={this.props.user.id+'thumb'}
-                defaultsource={require('image!placeholderUserWhite')}
+                defaultSource={require('image!placeholderUserWhite')}
                 source={{uri: this.props.user.thumb_url || this.props.user.image_url}}
                 resizeMode={Image.resizeMode.cover}/>
               <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
