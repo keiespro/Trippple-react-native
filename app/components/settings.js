@@ -191,7 +191,7 @@ class SettingsInside extends React.Component{
           </View>
       )}>
 
-      <View style={{backgroundColor:colors.outerSpace}}>
+      <View style={{backgroundColor:'transparent'}}>
       <TouchableHighlight onPress={(f)=>{
           this.props.navigator.push({
             component: SettingsBasic,
@@ -455,7 +455,7 @@ var styles = StyleSheet.create({
    borderBottomWidth:1,
    borderColor:colors.shuttleGray,
    height:80,
-   backgroundColor:colors.outerSpace,
+  //  backgroundColor:colors.outerSpace,
    alignItems:'center',
    justifyContent:'space-between',
    flexDirection:'row',

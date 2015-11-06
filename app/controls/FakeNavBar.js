@@ -171,7 +171,7 @@ const NavigationBar = React.createClass({
      * Check if we need to hide `next` button
      */
     if (hideNext) {
-      el = <View style={styles.navBarLeftButton}></View>;
+      el = <View style={styles.navBarLeftButton}/>;
     }
 
     /*
@@ -214,11 +214,11 @@ const NavigationBar = React.createClass({
       StatusBarIOS.setStyle('default', false);
     }
 
-    const { style, backgroundStyle, blur } = this.props;
+    const { style, backgroundStyle, blur, insideStyle } = this.props;
       if(blur){
           return (
             <BlurView blurType={'light'}  style={[styles.navBarContainer, backgroundStyle, ]}>
-              <View style={[styles.navBar, {alignSelf:'stretch'}, ]}>
+              <View style={[styles.navBar, {alignSelf:'stretch'}, insideStyle ]}>
                   {this.getTitleElement()}
                 {this.getLeftButtonElement()}
                 {this.getRightButtonElement()}
@@ -227,7 +227,7 @@ const NavigationBar = React.createClass({
             );
           }else{
             return (
-              <View style={[styles.navBarContainer, backgroundStyle, ]}>
+              <View style={[styles.navBarContainer, backgroundStyle, insideStyle ]}>
                 <View style={[styles.navBar, {alignSelf:'stretch'}, ]}>
                   {this.getTitleElement()}
                   {this.getLeftButtonElement()}
