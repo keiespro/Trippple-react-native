@@ -351,7 +351,7 @@ class Cards extends Component{
             panX={this.state.panX}
             profileVisible={this.props.profileVisible}
             hideProfile={this._hideProfile.bind(this)}
-
+            toggleProfile={this._toggleProfile.bind(this)}
             showProfile={this._showProfile.bind(this)}
             potential={potentials[0]}
           />
@@ -453,7 +453,7 @@ class InsideActiveCard extends Component{
       this.setState({
         isMoving: false
       })
-      this.props.panX.removeAllListeners();
+      this.props.panX && this.props.panX.removeAllListeners();
 
     }
     nProps && nProps.panX  && this.props.isTopCard ? nProps.panX.addListener(({value}) => {
@@ -656,29 +656,36 @@ class InsideActiveCard extends Component{
         <View
           ref={'cardinside'}
           key={`${potential.id || potential.user.id}-inside`}
-          style={[ styles.card,{
+          style={[ {
             height:DeviceHeight,
-            overflow:'hidden',
+            overflow:'visible',
+            width:DeviceWidth,
+            backgroundColor:'#000000',
             left:0,
             flex:1,
-
-            backgroundColor:colors.outerSpace,
+            borderRadius:0,
+            top:0,
             transform:[ {scale: 1}, ]
           },]}>
+
           <ScrollView
           style={[{
             margin:0,
             width:DeviceWidth,
             height:DeviceHeight,
             padding:0,
-            position:'relative',
+            backgroundColor:'#000000',
+            top:0,
+            position:'absolute',
             flex:1,
           }]}
           canCancelContentTouches={true}
           horizontal={false}
           vertical={true}
-          alwaysBounceHorizontal={false}
+           alwaysBounceHorizontal={false}
           scrollEnabled={true}
+          automaticallyAdjustContentInsets={true}
+          contentInset={{top: 0, left: 0, bottom: 0, right: 0}}
 
           key={`${potential.id || potential.user.id}-view`}>
 
@@ -826,6 +833,23 @@ class InsideActiveCard extends Component{
 
           </Animated.View>
         </ScrollView>
+        <FakeNavBar
+          hideNext={true}
+          backgroundStyle={{
+            backgroundColor:'black',top:-55,
+}}
+insideStyle={{flex:1,width:DeviceWidth,height:50,
+            backgroundColor:colors.outerSpace,
+            borderTopLeftRadius:8,
+          borderTopRightRadius:8,
+          overflow:'hidden',
+        }}
+          titleColor={colors.white}
+          title={ matchName }
+          onPrev={(nav,route)=> {this.props.toggleProfile()}}
+          customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12,marginTop:10}} source={require('image!close')} />
+          }
+        />
       </View>
 
     )
@@ -889,7 +913,8 @@ class CardStack extends Component{
     })
 
       return (
-        <View style={{backgroundColor:colors.outerSpace,flex:1,width:DeviceWidth,height:DeviceHeight}}>
+        <View style={{backgroundColor:this.state.profileVisible ? 'black' : colors.outerSpace,
+            flex:1,width:DeviceWidth,height:DeviceHeight}}>
 
         <View style={[styles.cardStackContainer,{backgroundColor:'transparent',top:0}]}>
 
@@ -946,16 +971,7 @@ marginBottom:180,textAlign:'center'}}>You’re all out of potential matches for 
 
        {!this.state.profileVisible && NavBar}
 
-       {this.state.profileVisible && <FakeNavBar
-             hideNext={true}
-             backgroundStyle={{backgroundColor:colors.outerSpace}}
-             titleColor={colors.white}
-             title={ this.getPotentialInfo() }
-             titleColor={colors.white}
-             onPrev={(nav,route)=> {this.toggleProfile()}}
-             customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12,marginTop:10}} source={require('image!close')} />
-             }
-           />}
+
     </View>
 
     )
