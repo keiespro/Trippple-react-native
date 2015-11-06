@@ -8,11 +8,12 @@ import {
   View,
   LayoutAnimation,
   TouchableHighlight,
-  Image,
+  Image,AsyncStorage,
   TouchableOpacity,
   Animated,
   ActivityIndicatorIOS,
   ScrollView,
+  NativeModules,
   PixelRatio,
   PanResponder,
   Easing
@@ -22,6 +23,8 @@ import ScrollableTabView from '../scrollable-tab-view'
 
 import alt from '../flux/alt';
 import MatchActions from '../flux/actions/MatchActions';
+import AppActions from '../flux/actions/AppActions';
+
 import ParallaxView from  '../controls/ParallaxScrollView'
 import ParallaxSwiper from  '../controls/ParallaxSwiper'
 import Mixpanel from '../utils/mixpanel';
@@ -318,7 +321,7 @@ class Cards extends Component{
           },{
             transform: [
               {
-                translateX: this.state.panX
+                translateX: this.state.panX ? this.state.panX : 0
               },
               {
                 rotate: this.state.panX.interpolate({
@@ -889,7 +892,30 @@ class CardStack extends Component{
     this.setState({profileVisible:!this.state.profileVisible})
     // if(potential)
   }
+  componentDidMount(){
+    AsyncStorage.getItem('location').then((locPerm)=>{
+      if(!( locPerm) && parseInt(NativeModules.OSPermissions.location) < 3){
+        this.props.navigator.push({
+          component:CheckPermissions,
+          passProps:{
+            title:'PRIORITIZE LOCAL',
+            subtitle:'We’ve found 10 matches we think you might like. Should we prioritize the matches closest to you?',
+            failedTitle: 'LOCATION DISABLED',
+            failedSubtitle: 'Geolocation is disabled. You can enable it in your phone’s Settings.',
+            failedState: parseInt(NativeModules.OSPermissions.location) < 3 ? true : false,
+            headerImageSource:'iconDeck',
+            permissionKey:'location',
+            renderNextMethod: 'pop',
+            failCallback:()=>{ AppActions.denyPermission('location')},
+            renderMethod:'push',
+            renderPrevMethod:'pop',
+            AppState:this.props.AppState,
+          }
+        })
+      }
+    })
 
+  }
   getPotentialInfo(){
     console.log(this)
 
@@ -1000,20 +1026,7 @@ class Potentials extends Component{
               }
             }}}>
           <CardStack {...this.props}/>
-          {
-            /*
-            !this.props.AppState.permissions.location &&   <CheckPermissions
-              title={'PRIORITIZE LOCAL'}
-              subtitle={'We’ve found 10 matches we think you might like. Should we prioritize the matches closets to you?'}
-              headerImageSource={'iconDeck'}
-              permissionKey={'location'}
-              hideModal={()=>{this.setState({ready: true}) }}
-              visible={!this.state.ready && !this.props.AppState.permissions.location}
-              AppState={this.props.AppState}
 
-            />
-
-            */}
 
       </AltContainer>
     )

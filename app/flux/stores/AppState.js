@@ -2,8 +2,9 @@ import alt from '../alt'
 import AppActions from '../actions/AppActions'
 import UserActions from '../actions/UserActions'
 import MatchActions from '../actions/MatchActions'
-import {AsyncStorage} from 'react-native'
-
+import {AsyncStorage,PushNotificationIOS,NativeModules} from 'react-native'
+const {CameraManager,OSPermissions} = NativeModules
+import AddressBook from 'react-native-addressbook'
 
 
 
@@ -30,6 +31,8 @@ class AppStateStore {
       notifications: null,
 
     }
+    console.log(OSPermissions)
+    this.OSPermissions = {...OSPermissions }
 
     this.bindListeners({
       handleInitialize: AppActions.GOT_CREDENTIALS,
@@ -62,10 +65,13 @@ class AppStateStore {
         aggregator[key] = await val == 'true'
         return await aggregator
       },{})
+      var updatedPermissions = await storedPermissions
+      const newPermissions  = { ...this.permissions, ...updatedPermissions }
 
-      this.permissions = await storedPermissions
+      this.setState({permissions:newPermissions})
     })
   }
+
 
   handleInitialize(){
 
@@ -84,7 +90,7 @@ class AppStateStore {
     this.handleTogglePermission(permission, true)
   }
   handleDenyPermission(permission){
-    this.handleTogglePermission(permission, false)
+    this.handleTogglePermission(permission, true)
   }
 
   async saveToLocalStorage(permission, value){

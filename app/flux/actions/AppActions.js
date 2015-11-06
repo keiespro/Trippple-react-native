@@ -1,6 +1,6 @@
 import alt from '../alt'
 import Api from '../../utils/api'
-
+import {PushNotificationIOS} from 'react-native'
 class AppActions {
   initApp(){
      this.dispatch()
@@ -38,6 +38,12 @@ class AppActions {
   }
   denyPermission(perm){
     this.dispatch(perm)
+  }
+  requestNotificationsPermission(){
+    PushNotificationIOS.requestPermissions()
+    PushNotificationIOS.addEventListener('register',AppActions.grantPermission('notifications'))
+    this.dispatch()
+
   }
 }
 

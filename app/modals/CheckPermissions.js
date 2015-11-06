@@ -7,6 +7,7 @@ import {
   Text,
   Image,
   NativeModules,
+  Settings,
   CameraRoll,
   View,
   PropTypes,
@@ -19,7 +20,7 @@ import {
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-import {FBLoginManager,AddressBook} from 'NativeModules'
+var {FBLoginManager,AddressBook,OSPermissions} = NativeModules
 import UrlHandler from 'react-native-url-handler'
 import colors from '../utils/colors'
 import _ from 'underscore'
@@ -63,6 +64,7 @@ import AppActions from '../flux/actions/AppActions'
   }
 
   componentDidMount(){
+    console.log('LOC MODAL')
     if(this.state.hasPermission){
       this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
     }else{
@@ -74,7 +76,6 @@ import AppActions from '../flux/actions/AppActions'
     if(this.state.hasPermission && !prevState.hasPermission){
       this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
     }else if(this.state.failedState){
-
     }
   }
 
@@ -93,13 +94,14 @@ import AppActions from '../flux/actions/AppActions'
   }
   getLocation(){
       navigator.geolocation.getCurrentPosition( (geo) => {
+        console.log('x',geo)
 
-        this.handleSuccess()
+        this.handleSuccess(geo)
         this.props.successCallback && this.props.successCallback( geo.coords)
       },
       (error) => {
         this.setState({hasPermission: false, failedState: true})
-
+        console.log('x',error)
         this.handleFail()
         // this.props.navigator[this.props.renderPrevMethod]()
 
@@ -113,8 +115,9 @@ import AppActions from '../flux/actions/AppActions'
 
 
   cancel(){
+    this.props.failCallback()
 
-    this.props.hideModal ? this.props.hideModal() : this.props.navigator.pop()
+    // this.props.hideModal ? this.props.hideModal() : this.props.navigator.pop()
   }
   openSettings(){
       UrlHandler.openUrl(UrlHandler.settingsUrl)
@@ -135,8 +138,9 @@ import AppActions from '../flux/actions/AppActions'
 
   }
 
-  handleSuccess(){
+  handleSuccess(geo){
     this.setState({hasPermission: true})
+    UserActions.updateUser({...geo.coords})
     AppActions.grantPermission(this.props.permissionKey)
   }
 
@@ -193,13 +197,12 @@ import AppActions from '../flux/actions/AppActions'
           </View>
 
           <View >
-            <TouchableHighlight
-              underlayColor={colors.mediumPurple}
+            <TouchableOpacity
               onPress={this.cancel.bind(this)}>
-              <View style={[styles.cancelButton]} >
-                <Text style={styles.modalButtonText}>No thanks</Text>
+              <View style={[styles.cancelButton,{  backgroundColor:'transparent'}]} >
+                <Text style={[styles.modalButtonText,{  backgroundColor:'transparent'}]}>No thanks</Text>
               </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         </View>
       </PurpleModal>
