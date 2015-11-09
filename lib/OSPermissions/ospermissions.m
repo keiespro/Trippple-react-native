@@ -11,22 +11,22 @@ RCT_EXPORT_MODULE();
 
 - (NSDictionary *)constantsToExport {
 
-    ALAuthorizationStatus cameraroll_perm = [ALAssetsLibrary authorizationStatus];
-    CLAuthorizationStatus location_perm = [CLLocationManager authorizationStatus];
-    AVAuthorizationStatus camera_perm = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo ];
-    ABAuthorizationStatus contacts_perm = ABAddressBookGetAuthorizationStatus();
+    ALAuthorizationStatus camerarollPerm = [ALAssetsLibrary authorizationStatus];
+    CLAuthorizationStatus locationPerm = [CLLocationManager authorizationStatus];
+    AVAuthorizationStatus cameraPerm = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo ];
+    ABAuthorizationStatus contactsPerm = ABAddressBookGetAuthorizationStatus();
 //
 //     NSString *location_status;
 //
-//     if (location_perm==kCLAuthorizationStatusNotDetermined) {
+//     if (locationPerm==kCLAuthorizationStatusNotDetermined) {
 // //        _status.text = @"Not Determined";
 //         location_status = @"0";
 //     }
-//     if (location_perm==kCLAuthorizationStatusDenied) {
+//     if (locationPerm==kCLAuthorizationStatusDenied) {
 // //        _status.text = @"Denied";
 //         location_status = @"-1";
 //     }
-//     if (location_perm==kCLAuthorizationStatusRestricted || location_perm==kCLAuthorizationStatusAuthorizedAlways || location_perm==kCLAuthorizationStatusAuthorizedWhenInUse) {
+//     if (locationPerm==kCLAuthorizationStatusRestricted || locationPerm==kCLAuthorizationStatusAuthorizedAlways || locationPerm==kCLAuthorizationStatusAuthorizedWhenInUse) {
 //     //  @"Restricted" /  @"Always Allowed" / @"When In Use Allowed"
 //         location_status = @"1";
 //     }
@@ -34,11 +34,10 @@ RCT_EXPORT_MODULE();
 
 
     NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-            // [ NSString stringWithString:location_status ], @"location",
-            [ NSString stringWithString: @(location_perm).stringValue ], @"location",
-            [ NSString stringWithString: @(cameraroll_perm).stringValue ], @"cameraroll",
-            [ NSString stringWithString: @(camera_perm).stringValue], @"camera",
-            [ NSString stringWithString: @(contacts_perm).stringValue], @"contacts",
+            [ NSString stringWithString: @(locationPerm).stringValue ], @"location",
+            [ NSString stringWithString: @(camerarollPerm).stringValue ], @"cameraRoll",
+            [ NSString stringWithString: @(cameraPerm).stringValue], @"camera",
+            [ NSString stringWithString: @(contactsPerm).stringValue], @"contacts",
                                                                                                                 nil];
 
     return dictionary;

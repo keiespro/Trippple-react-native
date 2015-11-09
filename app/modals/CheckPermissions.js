@@ -53,20 +53,22 @@ import AppActions from '../flux/actions/AppActions'
   constructor(props) {
     super();
     this.state = {
-      hasPermission: null
+      hasPermission: (OSPermissions.location > 3 ? true : false),
+      failedState: props.failedState
     }
   }
 
   componentWillMount(){
-    if(this.props.AppState.permissions[this.props.permissionKey]){
-      this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
-    }
+    // if(this.props.AppState.permissions[this.props.permissionKey]){
+    //   this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
+    // }
+
   }
 
   componentDidMount(){
     console.log('LOC MODAL')
     if(this.state.hasPermission){
-      this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
+      // this.props.failCallback ? this.props.failCallback() : this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
     }else{
 
     }
@@ -74,8 +76,10 @@ import AppActions from '../flux/actions/AppActions'
   }
   componentDidUpdate(prevProps,prevState){
     if(this.state.hasPermission && !prevState.hasPermission){
-      this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
+      // should i maybe  auto do this ?
+      // this.props.failCallback ? this.props.failCallback() : this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
     }else if(this.state.failedState){
+
     }
   }
 
@@ -120,21 +124,32 @@ import AppActions from '../flux/actions/AppActions'
     // this.props.hideModal ? this.props.hideModal() : this.props.navigator.pop()
   }
   openSettings(){
+
+    // set an actual app state listener for when user comes back after settings
+
       UrlHandler.openUrl(UrlHandler.settingsUrl)
   }
 
   handleTapYes(){
-    if(!this.state.failedState && !this.state.hasPermission){
-      this.requestPermission()
+    if(this.state.failedState){
+      this.openSettings()
     }else{
-      this.state.failedState ? this.openSettings() : this.handleSuccess()
+      if(!this.state.hasPermission){
+        this.requestPermission()
+      }else{
+        this.handleSuccess()
+
+      }
     }
+
+
 
   }
 
   handleFail(){
     this.setState({hasPermission: false})
     AppActions.denyPermission(this.props.permissionKey)
+    this.props.failCallback()
 
   }
 
@@ -142,6 +157,7 @@ import AppActions from '../flux/actions/AppActions'
     this.setState({hasPermission: true})
     UserActions.updateUser({...geo.coords})
     AppActions.grantPermission(this.props.permissionKey)
+    this.cancel();
   }
 
   handleContinue(){
@@ -185,12 +201,12 @@ import AppActions from '../flux/actions/AppActions'
             <Text style={[styles.rowtext,styles.bigtext,{
                 fontFamily:'Montserrat',fontSize:20,marginVertical:10
               }]}>
-              {this.props.title}
+              {this.state.failedState ? this.props.failedTitle : this.props.title}
             </Text>
 
             <Text style={[styles.rowtext,styles.bigtext,{
                 fontSize:18,marginVertical:10,color: colors.lavender,marginHorizontal:10
-              }]}>{this.props.subtitle || ''}
+              }]}>{this.state.failedState ? this.props.failedSubtitle : this.props.subtitle || ''}
             </Text>
 
             {this.renderButton()}
