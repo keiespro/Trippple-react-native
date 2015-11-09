@@ -53,15 +53,15 @@ import AppActions from '../flux/actions/AppActions'
   constructor(props) {
     super();
     this.state = {
-      hasPermission: (OSPermissions.location > 3 ? true : false),
-      failedState: props.failedState
+      hasPermission: (parseInt(OSPermissions.location)  &&  OSPermissions.location > 2),
+      failedState: (parseInt(OSPermissions.location)  && parseInt(OSPermissions.location) < 2)
     }
   }
 
   componentWillMount(){
-    // if(this.props.AppState.permissions[this.props.permissionKey]){
-    //   this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
-    // }
+    if(this.props.AppState.permissions[this.props.permissionKey]){
+      this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
+    }
 
   }
 
@@ -77,7 +77,7 @@ import AppActions from '../flux/actions/AppActions'
   componentDidUpdate(prevProps,prevState){
     if(this.state.hasPermission && !prevState.hasPermission){
       // should i maybe  auto do this ?
-      // this.props.failCallback ? this.props.failCallback() : this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
+      this.props.failCallback ? this.props.failCallback(true) : this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
     }else if(this.state.failedState){
 
     }
@@ -118,8 +118,9 @@ import AppActions from '../flux/actions/AppActions'
 
 
 
-  cancel(){
-    this.props.failCallback()
+  cancel(val){
+
+    this.props.failCallback(val)
 
     // this.props.hideModal ? this.props.hideModal() : this.props.navigator.pop()
   }
@@ -149,15 +150,14 @@ import AppActions from '../flux/actions/AppActions'
   handleFail(){
     this.setState({hasPermission: false})
     AppActions.denyPermission(this.props.permissionKey)
-    this.props.failCallback()
+    this.props.failCallback(0)
 
   }
 
   handleSuccess(geo){
     this.setState({hasPermission: true})
-    UserActions.updateUser({...geo.coords})
     AppActions.grantPermission(this.props.permissionKey)
-    this.cancel();
+    this.cancel(true);
   }
 
   handleContinue(){

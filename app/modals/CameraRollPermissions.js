@@ -11,7 +11,8 @@ import {
   AsyncStorage,
   TouchableHighlight,
   Dimensions,
-  PixelRatio
+  PixelRatio,
+  AppStateIOS
 } from 'react-native'
 
 const permissionsKey = 'cameraRoll'
@@ -33,77 +34,80 @@ export default class CameraRollPermissionsModal extends Component{
 
   constructor(props) {
     super();
+    console.log(props.AppState.OSPermissions)
     this.state = {
-      hasPermission:false
+      failedState: props.AppState.OSPermissions && props.AppState.OSPermissions.cameraRoll <= 2 || false,
+      hasPermission:props.AppState.OSPermissions && props.AppState.OSPermissions.cameraRoll > 2 ? true : false
     }
   }
 
-  componentDidMount(){
-    if(this.props.AppState.permissions[permissionsKey]){
-      this.handleSuccess()
-    }
-  }
 
-  componentDidMount(){
-    if(this.state.hasPermission){
-      this.props.navigator.replace({
-        component:CameraRollView,
-        passProps:{
-          ...this.props,
-        }
-      })
-    }
-  }
+  // componentDidMount(){
+  //   if(this.state.hasPermission){
+  //     this.props.navigator.replace({
+  //       component:CameraRollView,
+  //       passProps:{
+  //       },
+  //
+  //     })
+  //   }
+  // }
   componentDidUpdate(prevProps,prevState){
     if(!prevState.hasPermission && this.state.hasPermission){
       this.props.navigator.replace({
         component:CameraRollView,
         passProps:{
-          ...this.props,
-        }
+          // ...this.props,
+        },
       })
     }
   }
-  // preloadPermission(){
-  //   var hasPermission = await AsyncStorage.getItem(permissionsKey)
-  //
-  //   try {
-  //     this.setState({hasPermission})
-  //   } catch (error) {
-  //     this.setState({hasPermission: 'false'})
-  //     console.log('AsyncStorage error: ' + error.message);
-  //   }
-  // }
+
   cancel(){
     this.props.navigator.pop()
   }
   handleTapYes(){
-    if(this.state.isFailed){
+    if(this.state.failedState){
       UrlHandler.openUrl(UrlHandler.settingsUrl)
 
+    }else{
+      var fetchParams: Object = {
+        first: 1,
+        groupTypes: 'All',
+        assetType: 'Photos',
+      };
+      CameraRoll.getPhotos(fetchParams, this.handleSuccess.bind(this), this.handleFail.bind(this),);
     }
-    var fetchParams: Object = {
-      first: 1,
-      groupTypes: 'All',
-      assetType: 'Photos',
-    };
-    CameraRoll.getPhotos(fetchParams, this.handleSuccess.bind(this), this.handleFail.bind(this),);
 
   }
   handleFail(){
 
-      this.setState({isFailed:true})
       AppActions.denyPermission(permissionsKey)
+      this.setState({failedState:true})
+
   }
   handleSuccess(){
     console.log('HANDLE SUCCESS ' )
 
+    // AppActions.grantPermission(permissionsKey)
     this.setState({hasPermission:true})
-    AppActions.grantPermission(permissionsKey)
 
 
   }
-
+  componentDidMount() {
+    AppStateIOS.addEventListener('change', this._handleAppStateChange.bind(this));
+  }
+  componentWillUnmount() {
+    AppStateIOS.removeEventListener('change', this._handleAppStateChange);
+  }
+  _handleAppStateChange(currentAppState) {
+    if(currentAppState == 'active'){
+      const hasPerm = require('react-native').NativeModules.OSPermissions['cameraRoll']
+      console.log(hasPerm)
+      this.setState({ hasPermission: hasPerm });
+      AppStateIOS.removeEventListener('change', this._handleAppStateChange);
+    }
+  }
   render(){
 
 
@@ -127,7 +131,7 @@ export default class CameraRollPermissionsModal extends Component{
             <Text style={[styles.rowtext,styles.bigtext,{
                 fontSize:20,marginVertical:10,color: colors.lavender,marginHorizontal:20
               }]}>
-              Do you want to upload an image from your iPhone Photo Album?
+              {this.state.failedState ? `Access to iPhone Photo Album is disabled. You can enable it in Settings` : `Do you want to upload an image from your iPhone Photo Album?`}
             </Text>
             <View >
               <TouchableHighlight
@@ -135,7 +139,7 @@ export default class CameraRollPermissionsModal extends Component{
                 style={styles.modalButtonWrap}
                 onPress={this.handleTapYes.bind(this)}>
                 <View style={[styles.modalButton]} >
-                  <Text style={styles.modalButtonText}>{this.state.isFailed ? `GO TO SETTINGS` : `YES, OPEN MY ALBUMS`}</Text>
+                  <Text style={styles.modalButtonText}>{this.state.failedState ? `GO TO SETTINGS` : `YES, OPEN MY ALBUMS`}</Text>
                 </View>
               </TouchableHighlight>
             </View>

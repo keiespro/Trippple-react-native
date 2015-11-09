@@ -19,7 +19,7 @@ import Camera from 'react-native-camera';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-const {CameraManager} = NativeModules
+const {CameraManager,UrlHandler} = NativeModules
 
 const CameraKey = 'camera'
 
@@ -37,11 +37,12 @@ export default class CameraPermissionsModal extends Component{
     console.log(props)
     super();
     this.state = {
-      hasPermission: props.AppState && props.AppState.permissions[CameraKey]
+      failedState: props.AppState && parseInt(props.AppState.OSPermissions[CameraKey]) && props.AppState.OSPermissions[CameraKey] < 3,
+      hasPermission: props.AppState && props.AppState.OSPermissions[CameraKey] > 2
     }
   }
   componentWillMount(){
-    if(this.props.AppState.permissions[CameraKey]){
+    if(this.props.AppState.OSPermissions[CameraKey]){
       this.props.navigator.push({
         component:CameraControl,
         passProps:{ }
@@ -49,25 +50,7 @@ export default class CameraPermissionsModal extends Component{
     }
   }
   componentDidMount(){
-    if(this.state.hasPermission && this.state.hasPermission == true ){
-      CameraManager.checkDeviceAuthorizationStatus((err,res)=>{
 
-        if(err){
-          this.handleFail()
-          return
-        }
-
-
-        this.handleSuccess()
-
-        // this.props.navigator.push({
-        //   component:CameraControl,
-        //   passProps:{ }
-        // })
-
-      })
-
-    }
   }
   componentDidUpdate(prevProps,prevState){
 
@@ -84,7 +67,17 @@ export default class CameraPermissionsModal extends Component{
     this.props.navigator.pop()
   }
   handleTapYes(){
-    this.handleSuccess()
+    if(this.state.failedState){
+      UrlHandler.openUrl(UrlHandler.settingsUrl)
+
+    }else{
+      var fetchParams: Object = {
+        first: 1,
+        groupTypes: 'All',
+        assetType: 'Photos',
+      };
+      CameraRoll.getPhotos(fetchParams, this.handleSuccess.bind(this), this.handleFail.bind(this),);
+    }
   }
   handleFail(){
     this.setState({hasPermission: false})
@@ -108,13 +101,13 @@ export default class CameraPermissionsModal extends Component{
 
             <Text style={[styles.rowtext,styles.bigtext,{
                 fontFamily:'Montserrat',fontSize:20,marginVertical:10
-              }]}>YOUR CAMERA
+              }]}>TAKE PHOTO
             </Text>
 
             <Text style={[styles.rowtext,styles.bigtext,{
                 fontSize:20,marginVertical:10,color: colors.lavender,marginHorizontal:20
               }]}>
-              Take a photo now?
+              {this.state.failedState ? `Camera access is disabled. You can enabled it in Settings.` : `Take a photo now?`}
             </Text>
             <View>
               <TouchableHighlight
@@ -122,7 +115,7 @@ export default class CameraPermissionsModal extends Component{
                 style={styles.modalButtonWrap}
                 onPress={this.handleTapYes.bind(this)}>
                 <View style={[styles.modalButton]} >
-                  <Text style={styles.modalButtonText}>YES, OPEN CAMERA</Text>
+                  <Text style={styles.modalButtonText}>{this.state.failedState ? `GO TO SETTINGS` : `YES, OPEN CAMERA`}</Text>
                 </View>
               </TouchableHighlight>
             </View>
