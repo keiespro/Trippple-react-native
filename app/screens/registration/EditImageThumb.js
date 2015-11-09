@@ -64,9 +64,8 @@ class EditImageThumb extends Component{
 
   accept(cropped){
 
-    AppActions.toggleOverlay()
 
-      UserActions.uploadImage( this.props.image ,'avatar')
+      UserActions.uploadImage( this.state.croppedImageURI ,'avatar')
 
     if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
 
@@ -76,15 +75,13 @@ class EditImageThumb extends Component{
     }else{
 
       OnboardingActions.proceedToNextScreen({
-        image:this.props.image,
-        croppedImage: this.state.croppedImageURI,
-        image_type:'avatar',
+        // croppedImage: this.state.croppedImageURI,
+        // image_type:'avatar',
         ready:true
       })
 
 
     }
-    AppActions.showCheckmark();
 
   }
 

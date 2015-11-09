@@ -108,8 +108,14 @@ class Onboard extends Component{
 
      console.log(this.props.onboardingState.routeIndex,e._data.route.__navigatorRouteID)
 
+     //if the current route changed by a route, update the store
      if(this.props.onboardingState.routeIndex == e._data.route.__navigatorRouteID && !this.props.onboardingState.popped){
        OnboardingActions.updateRoute(this.props.onboardingState.routeIndex - 1)
+     }
+      if(e._data.route.__navigatorRouteID > this.props.onboardingState.routeIndex +1 && !this.props.onboardingState.pushed){
+        console.log('Update route:', ...e)
+
+       OnboardingActions.updateRoute(this.props.onboardingState.routeIndex+1)
 
      }
      // AppActions.updateRoute(e._data.route.id)
@@ -131,7 +137,7 @@ class Onboard extends Component{
     if(this.props.onboardingState.routeIndex > nProps.onboardingState.routeIndex &&  nProps.onboardingState.popped){
       this.refs.onboardingNavigator.pop()
 
-    }else if( nProps.onboardingState.routeIndex > this.props.onboardingState.routeIndex ){
+    }else if( nProps.onboardingState.routeIndex > this.props.onboardingState.routeIndex && nProps.onboardingState.pushed){
 
       this.refs.onboardingNavigator.push(
         stacks[nProps.onboardingState.currentStack][nProps.onboardingState.routeIndex]
@@ -146,7 +152,7 @@ class Onboard extends Component{
       <View style={{backgroundColor:'#000000',height:DeviceHeight,width:DeviceWidth}}>
         <Navigator
           configureScene={
-            (route) => route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromRight
+            (route) => route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.HorizontalSwipeJump
           }
           renderScene={this.selectScene.bind(this)}
           sceneStyle={styles.container}

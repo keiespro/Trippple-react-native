@@ -8,15 +8,10 @@ import {
   Text,
   TextInput,
   View,
-  Navigator,
-  Image,
-  AlertIOS,
-  LayoutAnimation,
-  ScrollView,
-  Dimensions,
+   Image,
+    Dimensions,
   Component,
   DatePickerIOS,
-  TouchableHighlight,
 } from 'react-native'
 import {MagicNumbers} from '../../DeviceConfig'
 
@@ -41,11 +36,10 @@ class BdayScreen extends Component{
 
   constructor(props){
     super();
-    console.log(props)
-    this.state = {
+     this.state = {
       error: false,
       timeZoneOffsetInHours:props.timeZoneOffsetInHours,
-      date: props.fb_bday_year ? new Date(`${props.fb_bday_year}`) : new Date()
+      date: (props.fb_bday_year ? new Date(`${props.fb_bday_year}`) : new Date())
     }
   }
   _submit =()=>{
@@ -81,7 +75,7 @@ class BdayScreen extends Component{
         isLegal:true
       })
 
-      console.log(date,this.state.date);
+      // console.log(date,this.state.date);
       OnboardingActions.updateUserInfo({
         birthday: moment(date).format('YYYY-MM-DD'),
         bday_month: date.getMonth()+1,

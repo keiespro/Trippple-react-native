@@ -1,5 +1,6 @@
 import alt from '../alt'
 import OnboardingActions from '../actions/OnboardingActions'
+import UserActions from '../actions/UserActions'
 
 class OnboardingStore {
 
@@ -8,6 +9,8 @@ class OnboardingStore {
     this.routeIndex = 0
     this.currentStack = 'single'
     this.userInfo = {}
+    this.popped = false
+    this.pushed = false
 
     this.bindListeners({
       handleProceedToPrev: OnboardingActions.PROCEED_TO_PREV_SCREEN,
@@ -34,7 +37,8 @@ class OnboardingStore {
 
     this.setState({
       routeIndex: newIndex,
-      popped: true
+      popped: true,
+      pushed: false
     })
 
   }
@@ -48,7 +52,8 @@ class OnboardingStore {
     var newState = {
       routeIndex: newIndex,
       userInfo: newInfo,
-      popped: false
+      popped: false,
+      pushed: true
     }
 
     if(payload.relationship_status && payload.relationship_status == 'couple'){
@@ -62,9 +67,9 @@ class OnboardingStore {
 
     this.setState({
       routeIndex: newIndex,
-      popped: false
+      popped: false,
+      pushed: false
     })
-    // this.preventDefault();
     console.log('updateroute',newIndex)
   }
 
@@ -75,13 +80,16 @@ class OnboardingStore {
 
     var newState = {
       userInfo: newInfo,
-      popped: false
     }
 
     if(payload.relationship_status && payload.relationship_status == 'couple'){
       newState.currentStack = 'couple'
     }
 
+    if(payload.ready){
+      UserActions.updateUserInfo.defer(this.userInfo)
+      console.log('update user')
+    }
     this.setState(newState)
 
   }

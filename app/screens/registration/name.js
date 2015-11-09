@@ -40,11 +40,7 @@ class NameScreen extends Component{
     // OnboardingActions.updateUserInfo({firstname: this.state.inputFieldValue})
   }
   handleInputChange =(txt)=> {
-    //  if(!txt || txt == ''){
-    //    if(this.state.inputFieldValue.length){
-    //     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    //    }
-    // }
+
     this._textInput && this._textInput.setNativeProps({
       value: txt
     })
@@ -58,11 +54,13 @@ class NameScreen extends Component{
     })
   }
   handleInputFieldBlurred(){
-    this.setState({
-      inputFieldFocused: false
-    })
+
+      this.setState({
+        inputFieldFocused: false
+      })
+
   }
-  _submit =()=>{
+  _submit(){
     OnboardingActions.proceedToNextScreen({firstname: this.state.inputFieldValue})
 
   }
