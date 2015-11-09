@@ -85,7 +85,7 @@ class NotificationCommander extends Component{
 
         NotificationActions.receiveMatchRemovedNotification(data)
 
-      }else if(data.action && (data.action === '../../newimg/lagged.png') || 'statuschange')) {
+      }else if(data.action && (data.action === '???') || 'statuschange.pn') {
 
 
 

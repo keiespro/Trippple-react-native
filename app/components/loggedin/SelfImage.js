@@ -116,13 +116,13 @@ class SelfImage extends Component{
         {/*<Text style={[styles.textTop,{marginTop:0}]}>{this.props.couplePicText || ` `}</Text>*/}
         <View style={styles.imageHolder}>
 
-          <Image source={require('../../newimg/iconSinglePic.png'))}
+          <Image source={require('../../../newimg/iconSinglePic.png')}
                     resizeMode={Image.resizeMode.cover}
                         style={styles.imageInside} />
         </View>
 <View>
         <View style={styles.fbButton}>
-          <FacebookButton buttonType={'../../newimg/pload.png')} _onPress={this.onPressFacebook.bind(this)} key={'notthesamelement'} buttonText="UPLOAD FROM FB" />
+          <FacebookButton buttonType={'upload'} _onPress={this.onPressFacebook.bind(this)} key={'notthesamelement'} buttonText="UPLOAD FROM FB" />
         </View>
 
         <View style={styles.twoButtons}>

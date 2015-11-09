@@ -49,7 +49,7 @@ class PurpleModal extends Component{
 
           <Image style={[styles.modalcontainer,{overflow:'hidden',width:MagicNumbers.screenWidth,
             marginHorizontal:MagicNumbers.screenPadding/2,padding:MagicNumbers.screenPadding/2,
-          height:DeviceHeight-MagicNumbers.screenPadding*2,marginTop:MagicNumbers.screenPadding}]} source={require('../../newimg/gradientbgs.png'))}                 resizeMode={Image.resizeMode.stretch} >
+          height:DeviceHeight-MagicNumbers.screenPadding*2,marginTop:MagicNumbers.screenPadding}]} source={require('../../newimg/gradientbgs.png')}                 resizeMode={Image.resizeMode.stretch} >
             {this.props.children}
           </Image>
         </View>
@@ -172,7 +172,7 @@ export class UnmatchModal extends Component{
           <Image
             style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginVertical:20}]}
             source={{uri:matchImage}}
-            defaultSource={require('../../newimg/placeholderUserWhite.png'))} />
+            defaultSource={require('../../newimg/placeholderUserWhite.png')} />
 
           <View style={styles.insidemodalwrapper}>
 

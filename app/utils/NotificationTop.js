@@ -70,7 +70,7 @@ class Notification extends Component{
             <Image
               resizeMode={Image.resizeMode.contain}
               style={styles.notiImage}
-              defaultSource={require('../../newimg/placeholderUserWhite.png'))}
+              defaultSource={require('../../newimg/placeholderUserWhite.png')}
               source={{uri: this.props.payload.from_user_info.thumb_url}}
             />
             </View>
@@ -97,7 +97,7 @@ class Notification extends Component{
             <Image
               resizeMode={Image.resizeMode.contain}
               style={styles.notiImage}
-              defaultSource={require('../../newimg/placeholderUserWhite.png'))}
+              defaultSource={require('../../newimg/placeholderUserWhite.png')}
             />
             </View>
             <View style={styles.notificationRight}>

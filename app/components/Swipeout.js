@@ -62,7 +62,7 @@ var SwipeoutBtn = React.createClass({
                         outputRange:  opacityOutputRange[~~!isFavourited],
                        })
                      }}
-                     source={require('../../newimg/star.png'))}
+                     source={require('../../newimg/star.png')}
                      resizeMode={Image.resizeMode.contain}
                    />
                  </View>
@@ -87,7 +87,7 @@ var SwipeoutBtn = React.createClass({
                          outputRange:  opacityOutputRange[~~isFavourited],
                        })
                      }}
-                     source={require('../../newimg/starOutline.png'))}
+                     source={require('../../newimg/starOutline.png')}
                      resizeMode={Image.resizeMode.contain}
                    />
                  </View>

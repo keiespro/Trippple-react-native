@@ -74,8 +74,8 @@ class EditImageThumb extends Component{
       this.props.navigator.popToRoute(this.props.navigator.getCurrentRoutes()[1])
       return
     }else{
-
-      OnboardingActions.proceedToNextScreen({
+      OnboardingActions.updateRoute(this.props.navigator.getCurrentRoutes().length+1)
+      OnboardingActions.updateUserInfo({
         // croppedImage: this.state.croppedImageURI,
         // image_type:'avatar',
         ready:true

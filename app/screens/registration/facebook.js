@@ -41,8 +41,10 @@ class Facebook extends Component{
   }
 
   handleCredentials(fbUserData){
+
     console.log(fbUserData)
     if(!fbUserData || fbUserData && !fbUserData.credentials ) { return false}
+
     var fbUser = fbUserData.credentials;
     this.setState({fbUser})
     var api = `https://graph.facebook.com/v2.3/${fbUser.userId}?fields=name,first_name,email,age_range,gender,timezone,locale,verified,updated_time&access_token=${fbUser.token}`;
@@ -75,11 +77,10 @@ class Facebook extends Component{
           fb_bday_year: new Date().getFullYear() - age_range.min
         }
         OnboardingActions.proceedToNextScreen(fbData);
-        UserActions.updateUser({email,timezone})
+        // UserActions.updateUser({email,timezone})
 
-       })
-      .done();
 
+     })
   }
 
 
@@ -109,9 +110,8 @@ class Facebook extends Component{
 </View>
           <View style={[styles.middleTextWrap,styles.bottomwrap]}>
             <TouchableOpacity
-              onPress={this.skipFacebook}
-            >
-              <Text style={styles.middleText}>No thanks</Text>
+              onPress={this.skipFacebook.bind(this)}
+            ><Text style={styles.middleText}>No thanks</Text>
             </TouchableOpacity>
           </View>
       </View>

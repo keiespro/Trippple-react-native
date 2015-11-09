@@ -199,14 +199,14 @@ class ChatMessage extends React.Component {
 
         {!isMessageOurs &&
           <View style={{backgroundColor:'transparent'}}>
-            <Image style={[styles.thumb]} source={{uri:this.props.messageData.from_user_info.image_url}} defaultSource={require('../../newimg/placeholderUser.png'))}
+            <Image style={[styles.thumb]} source={{uri:this.props.messageData.from_user_info.image_url}} defaultSource={require('../../newimg/placeholderUser.png')}
                     resizeMode={Image.resizeMode.cover}
             />
           </View>
         }
 
         { !isMessageOurs &&
-          <Image resizeMode={Image.resizeMode.contain} source={require('../../newimg/TrianglePurple.png'))}
+          <Image resizeMode={Image.resizeMode.contain} source={require('../../newimg/TrianglePurple.png')}
                   style={{left:0,width:10,height:22}}/>
           }
 
@@ -225,7 +225,7 @@ class ChatMessage extends React.Component {
           </View>
 
           {isMessageOurs &&
-            <Image resizeMode={Image.resizeMode.contain} source={require('../../newimg/TriangleDark.png'))}
+            <Image resizeMode={Image.resizeMode.contain} source={require('../../newimg/TriangleDark.png')}
                   style={{right:0,width:10,height:22}}/>
           }
 
@@ -414,7 +414,7 @@ class ChatInside extends Component{
               <TimeAgo time={matchInfo.created_timestamp*1000} />
             </Text>
 
-            <Image source={{uri:them[1].image_url}} style={{width:250,height:250,borderRadius:125,marginVertical:40 }}  defaultSource={require('../../newimg/placeholderUser.png'))} />
+            <Image source={{uri:them[1].image_url}} style={{width:250,height:250,borderRadius:125,marginVertical:40 }}  defaultSource={require('../../newimg/placeholderUser.png')} />
             <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes'}} >Say something. {
                 (them.length == 2 ? 'They\'re' : them[0].gender == 'm' ? 'He\'s' : 'She\'s')
             } already into you.</Text>

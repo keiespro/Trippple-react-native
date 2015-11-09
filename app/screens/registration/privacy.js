@@ -97,7 +97,7 @@ class PrivacyScreen extends Component{
               onPress={this._selectPublic.bind(this)}>
               <View style={[styles.privacyWrap,
                   (this.state.selection == 'public' ? styles.selectedbutton : null)]}>
-        <Image source={this.state.selection == 'public' ? require('../../../newimg/ovalSelected.png')) : require('../../../newimg/ovalDashed.png'))}
+        <Image source={this.state.selection == 'public' ? require('../../../newimg/ovalSelected.png') : require('../../../newimg/ovalDashed.png')}
                           resizeMode={Image.resizeMode.contain}
                             style={styles.cornerDot}/>
 
@@ -118,7 +118,7 @@ class PrivacyScreen extends Component{
             <View style={[styles.privacyWrap,
                 (this.state.selection == 'private' ? styles.selectedbutton : null)]}>
 
-              <Image source={this.state.selection == 'private' ? require('../../../newimg/ovalSelected.png')) : require('../../../newimg/ovalDashed.png'))}
+              <Image source={this.state.selection == 'private' ? require('../../../newimg/ovalSelected.png') : require('../../../newimg/ovalDashed.png')}
                         resizeMode={Image.resizeMode.contain}
                             style={styles.cornerDot}/>
               <View style={{flexDirection:'column',alignItems:'flex-start',justifyContent:'space-around',flex:1,width:100}}>

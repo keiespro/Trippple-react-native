@@ -155,13 +155,13 @@ class CoupleImage extends Component{
 
         <View style={styles.imageHolder}>
 
-          <Image source={require('../../newimg/iconCouplePic.png'))}
+          <Image source={require('../../../newimg/iconCouplePic.png')}
                     resizeMode={Image.resizeMode.contain}
                         style={styles.imageInside} />
         </View>
 
         <View style={styles.fbButton}>
-          <FacebookButton buttonType={'../../newimg/pload.png')} _onPress={this.onPressFacebook.bind(this)} key={'notthesamelement'} buttonText="UPLOAD FROM FB" />
+          <FacebookButton buttonType={'upload'} _onPress={this.onPressFacebook.bind(this)} key={'notthesamelement.png'} buttonText="UPLOAD FROM FB" />
         </View>
 
         <View style={styles.twoButtons}>

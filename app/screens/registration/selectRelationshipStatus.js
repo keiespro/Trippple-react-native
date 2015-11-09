@@ -66,7 +66,7 @@ class SelectRelationshipStatus extends Component{
               underlayColor={colors.mediumPurple20}
               _onPress={this._selectCouple.bind(this)}>
 
-              <Image source={require('../../newimg/ovalCouple.png'))}
+              <Image source={require('../../../newimg/ovalCouple.png')}
                         resizeMode={Image.resizeMode.contain}
                             style={{height:30,width:70}} />
 
@@ -87,7 +87,7 @@ class SelectRelationshipStatus extends Component{
               underlayColor={colors.darkSkyBlue20}
               _onPress={this._selectSingle.bind(this)}>
 
-              <Image source={require('../../newimg/ovalSingle.png'))}
+              <Image source={require('../../../newimg/ovalSingle.png')}
                         resizeMode={Image.resizeMode.contain}
                             style={{height:30,width:30}}/>
 

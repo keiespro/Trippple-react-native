@@ -36,9 +36,6 @@ class NameScreen extends Component{
     }
   }
 
-  componentDidMount(){
-    // OnboardingActions.updateUserInfo({firstname: this.state.inputFieldValue})
-  }
   handleInputChange =(txt)=> {
 
     this._textInput && this._textInput.setNativeProps({
@@ -96,7 +93,7 @@ class NameScreen extends Component{
             onFocus={this.handleInputFieldFocused.bind(this)}
             onBlur={this.handleInputFieldBlurred.bind(this)}
             textAlign={'center'}
-            onChangeText={this.handleInputChange}
+            onChangeText={this.handleInputChange.bind(this)}
           />
         </SingleInputScreen>
       </View>

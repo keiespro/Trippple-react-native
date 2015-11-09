@@ -118,7 +118,7 @@ export default class CameraRollPermissionsModal extends Component{
           resizeMode={Image.resizeMode.contain}
 
           style={[styles.contactthumb,{width:150,height:150,borderRadius:0,marginVertical:20}]}
-          source={require('../../newimg/iconAlbum.png'))} />
+          source={require('../../newimg/iconAlbum.png')} />
 
         <View style={styles.insidemodalwrapper}>
 

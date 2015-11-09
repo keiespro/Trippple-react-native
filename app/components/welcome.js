@@ -34,27 +34,27 @@ import FadeInContainer from '../components/FadeInContainer'
 var slides = [
   {
     title: '',
-    img: require('../../newimg/logo.png')),
+    img: require('../../newimg/logo.png'),
     content: ''
   },
   {
     title: 'BROWSE',
-    img: require('../../newimg/tour-browse.png')),
+    img: require('../../newimg/tour-browse.png'),
     content: 'Find like-minded Couples and Singles.'
   },
   {
     title: 'MATCH',
-    img: require('../../newimg/tour-match.png')),
+    img: require('../../newimg/tour-match.png'),
     content: 'If they like you too, we\'ll connect you.'
   },
   {
     title: 'CONNECT',
-    img: require('../../newimg/tour-connect.png')),
+    img: require('../../newimg/tour-connect.png'),
     content: 'Chat with real Couples or Singles who share your interests.'
   },
   {
     title: 'PRIVATE & DISCREET',
-    img: require('../../newimg/tour-privacy.png')),
+    img: require('../../newimg/tour-privacy.png'),
     content: 'Protect your identity. Easily block friends and family.'
   }
 ];
@@ -103,7 +103,7 @@ var IntroScreen = React.createClass({
   },
 
   handleFacebookButton(){
-    console.log('../../newimg/handle FB login.png'),this.props.navigator,this.props.route)
+    console.log('../../newimg/handle FB login.png',this.props.navigator,this.props.route)
 
     this.props.navigator.push({
       component: Facebook,
@@ -204,7 +204,7 @@ var Welcome = React.createClass({
         delayAmount={800}
         duration={500}>
 
-        <Image resizeMode={Image.resizeMode.cover} source={require('../../newimg/gradientbgs.png'))} style={styles.imagebg}>
+        <Image resizeMode={Image.resizeMode.cover} source={require('../../newimg/gradientbgs.png')} style={styles.imagebg}>
           <Navigator
             initialRoute={{
               component: IntroScreen,

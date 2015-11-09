@@ -191,13 +191,13 @@ class SettingsBasic extends React.Component{
             <Image
               style={styles.userimage}
               key={user.id+'thu'}
-              defaultSource={require('../../newimg/placeholderUser.png'))}
+              defaultSource={require('../../newimg/placeholderUser.png')}
               source={{uri: user.thumb_url}}
               resizeMode={Image.resizeMode.contain}/>
               <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
                 <Image
                     style={{width:18,height:18}}
-                    source={require('../../newimg/cog.png'))}
+                    source={require('../../newimg/cog.png')}
                     resizeMode={Image.resizeMode.contain}/>
                 </View>
             </View>
@@ -223,11 +223,11 @@ class SettingsBasic extends React.Component{
                     paddingRight:30
                   }}>{
                     field == 'birthday' ?
-                    this.props.user[field] ? moment(this.props.user[field]).format('MM/DD/YYYY') : '' : this.props.user.gender == 'f' ? 'FEMALE' : 'MALE'  
+                    this.props.user[field] ? moment(this.props.user[field]).format('MM/DD/YYYY') : '' : this.props.user.gender == 'f' ? 'FEMALE' : 'MALE'
                   }</Text>
                   <Image
                       style={{width:15,height:15,position:'absolute',right:0,top:23}}
-                      source={require('../../newimg/icon-lock.png'))}
+                      source={require('../../newimg/icon-lock.png')}
                       resizeMode={Image.resizeMode.contain}/>
                 </View>
               )

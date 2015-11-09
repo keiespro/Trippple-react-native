@@ -188,11 +188,11 @@ const PotentialsRoute = {
   navigationBar: (
     <FakeNavBar
       backgroundStyle={{backgroundColor:'transparent'}}
-      customTitle={<Image resizeMode={Image.resizeMode.contain} style={{width:80}} source={require('../../newimg/tripppleLogoText.png'))} />}
+      customTitle={<Image resizeMode={Image.resizeMode.contain} style={{width:80}} source={require('../../newimg/tripppleLogoText.png')} />}
       onPrev={(navigator,route) => navigator.push(SettingsRoute)}
-      customPrev={<Image resizeMode={Image.resizeMode.contain}  style={{width:28,top:-10,height:30,alignSelf:'flex-start',tintColor:colors.white,opacity:1}} source={require('../../newimg/gear.png'))} />}
+      customPrev={<Image resizeMode={Image.resizeMode.contain}  style={{width:28,top:-10,height:30,alignSelf:'flex-start',tintColor:colors.white,opacity:1}} source={require('../../newimg/gear.png')} />}
       onNext={(navigator,route) => {navigator.push(MatchesRoute)}}
-      customNext={<Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30,alignSelf:'flex-end',tintColor:colors.white}} source={require('../../newimg/chat.png'))} />}
+      customNext={<Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30,alignSelf:'flex-end',tintColor:colors.white}} source={require('../../newimg/chat.png')} />}
     />)
 };
 
@@ -207,7 +207,7 @@ const SettingsRoute = {
       backgroundStyle={{backgroundColor:colors.shuttleGray}}
       hideNext={true}
 
-      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12}} source={require('../../newimg/close.png'))}/>}
+      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12}} source={require('../../newimg/close.png')}/>}
       onPrev={(nav,route)=> nav.pop()}
           title={'SETTINGS'}
           titleColor={colors.white}
@@ -230,7 +230,7 @@ const MatchesRoute = {
 
       title={'MESSAGES'} titleColor={colors.white}
       onPrev={(nav,route)=> nav.pop()}
-      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12}} source={require('../../newimg/close.png'))} />
+      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12}} source={require('../../newimg/close.png')} />
       }
     />
   ),

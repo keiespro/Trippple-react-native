@@ -73,19 +73,18 @@ class EditImage extends Component{
     //   console.log( errr ,'errr')
     // } )
 
-    if(this.props.nextRoute){
+    // if(this.props.nextRoute){
     this.props.navigator.push({
-        component: this.props.nextRoute || EditImageThumb,
+        component: EditImageThumb,
         passProps: {
           image:this.props.image,
-          croppedImage: croppedImageURI,
+          // croppedImage: croppedImageURI,
           image_type: this.props.image_type
         }
       })
 
-  }else{
+  // }else{
 
-    OnboardingActions.proceedToNextScreen()
   //  var lastindex = this.props.navigator.getCurrentRoutes().length;
   //   console.log(lastindex);
   //   var nextRoute = this.props.stack[lastindex];
@@ -103,7 +102,7 @@ class EditImage extends Component{
    //
   //   this.props.navigator.push(nextRoute)
 
-  }
+  // }
 
 
   }
@@ -166,7 +165,7 @@ class EditImage extends Component{
               />
             <TouchableOpacity onPress={this.retake} style={styles.bigbutton}>
                <View style={[{height:80,width:80}]}>
-                <Image resizeMode={Image.resizeMode.cover} source={require('../../../newimg/redo.png'))} style={{height:80,width:80}}/>
+                <Image resizeMode={Image.resizeMode.cover} source={require('../../../newimg/redo.png')} style={{height:80,width:80}}/>
               </View>
             </TouchableOpacity>
           </View>
