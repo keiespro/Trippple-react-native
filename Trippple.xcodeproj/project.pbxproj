@@ -67,7 +67,6 @@
 		AC0020F21BDDA17A00C5C538 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		AC0020F31BDDA17A00C5C538 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129531B40EA1600CC1499 /* libRNFS.a */; };
 		AC0020F41BDDA17A00C5C538 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1295A1B40EA1600CC1499 /* libRNMail.a */; };
-		AC0020F51BDDA17A00C5C538 /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACABA31E1B8F7B760024503C /* libRNOverlay.a */; };
 		AC0020F71BDDA17A00C5C538 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5B03A61B85A9FB003E0302 /* Default@2x~iphone.png */; };
 		AC0020F81BDDA17A00C5C538 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACA1296E1B40EC3B00CC1499 /* Images.xcassets */; };
 		AC0020F91BDDA17A00C5C538 /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = ACA1297E1B41161100CC1499 /* Montserrat-Regular.otf */; };
@@ -103,7 +102,6 @@
 		AC2B514A1BCF6C360093820F /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		AC2B514B1BCF6C360093820F /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129531B40EA1600CC1499 /* libRNFS.a */; };
 		AC2B514C1BCF6C360093820F /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1295A1B40EA1600CC1499 /* libRNMail.a */; };
-		AC2B514D1BCF6C360093820F /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACABA31E1B8F7B760024503C /* libRNOverlay.a */; };
 		AC2B516C1BCF6D3B0093820F /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2B51561BCF6C680093820F /* Bolts.framework */; };
 		AC2B516D1BCF6D3B0093820F /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2B51571BCF6C680093820F /* FBSDKCoreKit.framework */; };
 		AC2B516E1BCF6D3B0093820F /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2B51581BCF6C680093820F /* FBSDKLoginKit.framework */; };
@@ -318,7 +316,6 @@
 		ACA55AA91BF090E1000BDC80 /* libRNAppInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC9E7CF11BD2F72C00245642 /* libRNAppInfo.a */; };
 		ACA55AAA1BF090E1000BDC80 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129531B40EA1600CC1499 /* libRNFS.a */; };
 		ACA55AAC1BF090E1000BDC80 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1295A1B40EA1600CC1499 /* libRNMail.a */; };
-		ACA55AAD1BF090E1000BDC80 /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACABA31E1B8F7B760024503C /* libRNOverlay.a */; };
 		ACA55AAE1BF090E1000BDC80 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2B51561BCF6C680093820F /* Bolts.framework */; };
 		ACA55AAF1BF090E1000BDC80 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2B51571BCF6C680093820F /* FBSDKCoreKit.framework */; };
 		ACA55AB01BF090E1000BDC80 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2B51581BCF6C680093820F /* FBSDKLoginKit.framework */; };
@@ -396,7 +393,6 @@
 		ACA9FC901BDF01B600DBDB1B /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		ACA9FC911BDF01B600DBDB1B /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129531B40EA1600CC1499 /* libRNFS.a */; };
 		ACA9FC921BDF01B600DBDB1B /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1295A1B40EA1600CC1499 /* libRNMail.a */; };
-		ACA9FC931BDF01B600DBDB1B /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACABA31E1B8F7B760024503C /* libRNOverlay.a */; };
 		ACA9FC951BDF01B600DBDB1B /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5B03A61B85A9FB003E0302 /* Default@2x~iphone.png */; };
 		ACA9FC961BDF01B600DBDB1B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACA1296E1B40EC3B00CC1499 /* Images.xcassets */; };
 		ACA9FC971BDF01B600DBDB1B /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = ACA1297E1B41161100CC1499 /* Montserrat-Regular.otf */; };
@@ -446,7 +442,6 @@
 		ACA9FD381BE1482B00DBDB1B /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		ACA9FD391BE1482B00DBDB1B /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129531B40EA1600CC1499 /* libRNFS.a */; };
 		ACA9FD3A1BE1482B00DBDB1B /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1295A1B40EA1600CC1499 /* libRNMail.a */; };
-		ACA9FD3B1BE1482B00DBDB1B /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACABA31E1B8F7B760024503C /* libRNOverlay.a */; };
 		ACA9FD3D1BE1482B00DBDB1B /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5B03A61B85A9FB003E0302 /* Default@2x~iphone.png */; };
 		ACA9FD3E1BE1482B00DBDB1B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACA1296E1B40EC3B00CC1499 /* Images.xcassets */; };
 		ACA9FD3F1BE1482B00DBDB1B /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = ACA1297E1B41161100CC1499 /* Montserrat-Regular.otf */; };
@@ -481,9 +476,7 @@
 		ACFBD8DB1BEC6E83000AB91A /* libRNAppInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC9E7CF11BD2F72C00245642 /* libRNAppInfo.a */; };
 		ACFBD8DC1BEC6E83000AB91A /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129531B40EA1600CC1499 /* libRNFS.a */; };
 		ACFBD8DE1BEC6E83000AB91A /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1295A1B40EA1600CC1499 /* libRNMail.a */; };
-		ACFBD8DF1BEC6E83000AB91A /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACABA31E1B8F7B760024503C /* libRNOverlay.a */; };
 		ACFBD8E21BEC85AA000AB91A /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = ACFBD8E11BEC85AA000AB91A /* main.jsbundle */; };
-		ACFBD8E31BEC873E000AB91A /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = ACFBD8E11BEC85AA000AB91A /* main.jsbundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -542,6 +535,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
+		};
+		7830FAD51BF110CC004247EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ACA55B281BF0E432000BDC80 /* RCTOSPermissions.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ACA55B351BF0E638000BDC80;
+			remoteInfo = "RCTOSPermissions copy";
 		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -647,13 +647,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 5D82366F1B0CE05B005A9EF3;
 			remoteInfo = RNKeychain;
-		};
-		ACABA31D1B8F7B760024503C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ACABA3191B8F7B760024503C /* RNOverlay.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNOverlay;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -914,7 +907,6 @@
 		ACA9FD151BE0D99800DBDB1B /* trippplet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = trippplet.entitlements; sourceTree = "<group>"; };
 		ACA9FD501BE1482B00DBDB1B /* tripppletest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tripppletest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACA9FD511BE1482B00DBDB1B /* trippplet copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "trippplet copy2-Info.plist"; path = "/Users/alexlopez/code/Trippple/Native/trippplet copy2-Info.plist"; sourceTree = "<absolute>"; };
-		ACABA3191B8F7B760024503C /* RNOverlay.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNOverlay.xcodeproj; path = "node_modules/react-native-overlay/RNOverlay.xcodeproj"; sourceTree = "<group>"; };
 		ACBA6C751B8413A6009040D6 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		ACBC57271B92498900615D7A /* DeviceUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceUtil.h; path = "node_modules/react-native-device/DeviceUtil.h"; sourceTree = "<group>"; };
 		ACBC57281B92498900615D7A /* DeviceUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceUtil.m; path = "node_modules/react-native-device/DeviceUtil.m"; sourceTree = "<group>"; };
@@ -948,7 +940,6 @@
 				AC2B514A1BCF6C360093820F /* libReact.a in Frameworks */,
 				AC2B514B1BCF6C360093820F /* libRNFS.a in Frameworks */,
 				AC2B514C1BCF6C360093820F /* libRNMail.a in Frameworks */,
-				AC2B514D1BCF6C360093820F /* libRNOverlay.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -979,7 +970,6 @@
 				ACFBD8DB1BEC6E83000AB91A /* libRNAppInfo.a in Frameworks */,
 				ACFBD8DC1BEC6E83000AB91A /* libRNFS.a in Frameworks */,
 				ACFBD8DE1BEC6E83000AB91A /* libRNMail.a in Frameworks */,
-				ACFBD8DF1BEC6E83000AB91A /* libRNOverlay.a in Frameworks */,
 				AC0020AC1BDD9C1200C5C538 /* Bolts.framework in Frameworks */,
 				AC0020AD1BDD9C1200C5C538 /* FBSDKCoreKit.framework in Frameworks */,
 				AC0020AE1BDD9C1200C5C538 /* FBSDKLoginKit.framework in Frameworks */,
@@ -1013,7 +1003,6 @@
 				AC0020F21BDDA17A00C5C538 /* libReact.a in Frameworks */,
 				AC0020F31BDDA17A00C5C538 /* libRNFS.a in Frameworks */,
 				AC0020F41BDDA17A00C5C538 /* libRNMail.a in Frameworks */,
-				AC0020F51BDDA17A00C5C538 /* libRNOverlay.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1041,7 +1030,6 @@
 				ACA55AA91BF090E1000BDC80 /* libRNAppInfo.a in Frameworks */,
 				ACA55AAA1BF090E1000BDC80 /* libRNFS.a in Frameworks */,
 				ACA55AAC1BF090E1000BDC80 /* libRNMail.a in Frameworks */,
-				ACA55AAD1BF090E1000BDC80 /* libRNOverlay.a in Frameworks */,
 				ACA55AAE1BF090E1000BDC80 /* Bolts.framework in Frameworks */,
 				ACA55AAF1BF090E1000BDC80 /* FBSDKCoreKit.framework in Frameworks */,
 				ACA55AB01BF090E1000BDC80 /* FBSDKLoginKit.framework in Frameworks */,
@@ -1075,7 +1063,6 @@
 				ACA9FC901BDF01B600DBDB1B /* libReact.a in Frameworks */,
 				ACA9FC911BDF01B600DBDB1B /* libRNFS.a in Frameworks */,
 				ACA9FC921BDF01B600DBDB1B /* libRNMail.a in Frameworks */,
-				ACA9FC931BDF01B600DBDB1B /* libRNOverlay.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1105,7 +1092,6 @@
 				ACA9FD381BE1482B00DBDB1B /* libReact.a in Frameworks */,
 				ACA9FD391BE1482B00DBDB1B /* libRNFS.a in Frameworks */,
 				ACA9FD3A1BE1482B00DBDB1B /* libRNMail.a in Frameworks */,
-				ACA9FD3B1BE1482B00DBDB1B /* libRNOverlay.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1211,6 +1197,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		7830FAC71BF110CC004247EB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7830FAD61BF110CC004247EB /* libRCTOSPermissions copy.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1233,7 +1227,6 @@
 				AC6A6D941BBA1E800055446D /* RCTCamera.xcodeproj */,
 				ACBC57271B92498900615D7A /* DeviceUtil.h */,
 				ACBC57281B92498900615D7A /* DeviceUtil.m */,
-				ACABA3191B8F7B760024503C /* RNOverlay.xcodeproj */,
 				ACA1292D1B40EA1600CC1499 /* RCTFBLogin.xcodeproj */,
 				ACA129301B40EA1600CC1499 /* RCTPushNotification.xcodeproj */,
 				ACA129331B40EA1600CC1499 /* RNFS.xcodeproj */,
@@ -1666,14 +1659,6 @@
 				ACA9FCF41BE0D11200DBDB1B /* iTunesArtwork@2x.png */,
 			);
 			path = "App Icon [Squared]";
-			sourceTree = "<group>";
-		};
-		ACABA31A1B8F7B760024503C /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				ACABA31E1B8F7B760024503C /* libRNOverlay.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
