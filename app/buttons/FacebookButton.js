@@ -38,7 +38,6 @@ class FacebookButton extends React.Component{
   static Events = FBLoginManager.Events;
 
   static propTypes = {
-    _onPress:PropTypes.func.isRequired,
     buttonText:PropTypes.string,
     buttonType: PropTypes.oneOf(['imageUpload','connectionStatus','onboard','settings'])
   };
@@ -47,6 +46,7 @@ class FacebookButton extends React.Component{
     buttonText: 'FACEBOOK'
   };
   // propTypes: {
+  //  onPress:PropTypes.func,
   //   style: StyleSheetPropType(LayoutPropTypes),
   //   permissions: PropTypes.array, // default: ["public_profile", "email"]
   //   onLogin: PropTypes.func,
