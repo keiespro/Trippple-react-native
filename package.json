@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node_modules/react-native/packager/packager.sh",
-    "build": "NODE_ENV=production react-native bundle --dev=true --platform=ios --entry-file=./index.ios.js --bundle-output=main.jsbundle --verbose=true --assets-dest=assets"
+    "build": "`react-native bundle --platform=ios --entry-file=./index.ios.js --bundle-output=./main.jsbundle --dev=false`"
   },
   "dependencies": {
     "alt": "latest",
@@ -12,15 +12,16 @@
     "base-64": "^0.1.0",
     "bluebird": "latest",
     "buffer": "^3.5.1",
+    "isnode": "0.0.1",
+    "lodash": "latest",
     "moment": "^2.10.6",
     "phone-parser": "0.0.2",
     "react-mixin": "latest",
-    "react-native": "^0.14.0",
+    "react-native": "latest",
     "react-native-addressbook": "latest",
     "react-native-app-info": "0.0.6",
     "react-native-camera": "^0.3.8",
     "react-native-device": "GertjanReynaert/react-native-device#gr-improve-device-support",
-    "react-native-file-transfer": "latest",
     "react-native-fs": "latest",
     "react-native-invertible-scroll-view": "latest",
     "react-native-mail": "latest",

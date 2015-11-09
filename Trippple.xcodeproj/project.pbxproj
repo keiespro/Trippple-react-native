@@ -11,7 +11,6 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		AC0020951BDD9C1200C5C538 /* RCTMaskableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFB1BBE59DA00150328 /* RCTMaskableTextView.m */; };
 		AC0020961BDD9C1200C5C538 /* RCTMaskableTextViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFD1BBE59DA00150328 /* RCTMaskableTextViewManager.m */; };
-		AC0020971BDD9C1200C5C538 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA1296C1B40EC0500CC1499 /* RCTFileTransfer.m */; };
 		AC0020981BDD9C1200C5C538 /* RCTMaskableTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF51BBE59DA00150328 /* RCTMaskableTextField.m */; };
 		AC0020991BDD9C1200C5C538 /* DeviceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBC57281B92498900615D7A /* DeviceUtil.m */; };
 		AC00209A1BDD9C1200C5C538 /* RCTMaskableTextFieldManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF71BBE59DA00150328 /* RCTMaskableTextFieldManager.m */; };
@@ -39,7 +38,6 @@
 		AC0020CF1BDD9CD400C5C538 /* TestAppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC0020CE1BDD9CD400C5C538 /* TestAppIcon.xcassets */; };
 		AC0020D21BDDA17A00C5C538 /* RCTMaskableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFB1BBE59DA00150328 /* RCTMaskableTextView.m */; };
 		AC0020D31BDDA17A00C5C538 /* RCTMaskableTextViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFD1BBE59DA00150328 /* RCTMaskableTextViewManager.m */; };
-		AC0020D41BDDA17A00C5C538 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA1296C1B40EC0500CC1499 /* RCTFileTransfer.m */; };
 		AC0020D51BDDA17A00C5C538 /* RCTMaskableTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF51BBE59DA00150328 /* RCTMaskableTextField.m */; };
 		AC0020D61BDDA17A00C5C538 /* DeviceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBC57281B92498900615D7A /* DeviceUtil.m */; };
 		AC0020D71BDDA17A00C5C538 /* RCTMaskableTextFieldManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF71BBE59DA00150328 /* RCTMaskableTextFieldManager.m */; };
@@ -291,10 +289,8 @@
 		AC6BC1B01B832657005F7DFA /* omnes-medium-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129741B40EF0D00CC1499 /* omnes-medium-webfont.ttf */; };
 		AC6BC1B11B832657005F7DFA /* omnes-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129751B40EF0D00CC1499 /* omnes-regular-webfont.ttf */; };
 		AC9E7CF91BD2F73A00245642 /* libRNAppInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC9E7CF11BD2F72C00245642 /* libRNAppInfo.a */; };
-		ACA1296D1B40EC0500CC1499 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA1296C1B40EC0500CC1499 /* RCTFileTransfer.m */; };
 		ACA55A8B1BF090E1000BDC80 /* RCTMaskableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFB1BBE59DA00150328 /* RCTMaskableTextView.m */; };
 		ACA55A8C1BF090E1000BDC80 /* RCTMaskableTextViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFD1BBE59DA00150328 /* RCTMaskableTextViewManager.m */; };
-		ACA55A8D1BF090E1000BDC80 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA1296C1B40EC0500CC1499 /* RCTFileTransfer.m */; };
 		ACA55A8E1BF090E1000BDC80 /* RCTMaskableTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF51BBE59DA00150328 /* RCTMaskableTextField.m */; };
 		ACA55A8F1BF090E1000BDC80 /* DeviceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBC57281B92498900615D7A /* DeviceUtil.m */; };
 		ACA55A901BF090E1000BDC80 /* RCTMaskableTextFieldManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF71BBE59DA00150328 /* RCTMaskableTextFieldManager.m */; };
@@ -345,9 +341,16 @@
 		ACA55B461BF0EB02000BDC80 /* libEXURLHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA55B451BF0EAE4000BDC80 /* libEXURLHandler.a */; };
 		ACA55B4D1BF0EB85000BDC80 /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA55B4C1BF0EB6C000BDC80 /* libRNKeychain.a */; };
 		ACA55B4F1BF0EC2E000BDC80 /* libRCTOSPermissions copy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA55B4E1BF0EC2E000BDC80 /* libRCTOSPermissions copy.a */; };
+		ACA55B561BF0F51E000BDC80 /* package.json in Resources */ = {isa = PBXBuildFile; fileRef = ACA55B521BF0F51E000BDC80 /* package.json */; };
+		ACA55B571BF0F51E000BDC80 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA55B531BF0F51E000BDC80 /* RCTFileTransfer.m */; };
+		ACA55B581BF0F51E000BDC80 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = ACA55B541BF0F51E000BDC80 /* README.md */; };
+		ACA55B591BF0F529000BDC80 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA55B531BF0F51E000BDC80 /* RCTFileTransfer.m */; };
+		ACA55B5A1BF0F52A000BDC80 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA55B531BF0F51E000BDC80 /* RCTFileTransfer.m */; };
+		ACA55B5B1BF0F52B000BDC80 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA55B531BF0F51E000BDC80 /* RCTFileTransfer.m */; };
+		ACA55B5C1BF0F52C000BDC80 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA55B531BF0F51E000BDC80 /* RCTFileTransfer.m */; };
+		ACA55B5D1BF0F52C000BDC80 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA55B531BF0F51E000BDC80 /* RCTFileTransfer.m */; };
 		ACA9FC701BDF01B600DBDB1B /* RCTMaskableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFB1BBE59DA00150328 /* RCTMaskableTextView.m */; };
 		ACA9FC711BDF01B600DBDB1B /* RCTMaskableTextViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFD1BBE59DA00150328 /* RCTMaskableTextViewManager.m */; };
-		ACA9FC721BDF01B600DBDB1B /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA1296C1B40EC0500CC1499 /* RCTFileTransfer.m */; };
 		ACA9FC731BDF01B600DBDB1B /* RCTMaskableTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF51BBE59DA00150328 /* RCTMaskableTextField.m */; };
 		ACA9FC741BDF01B600DBDB1B /* DeviceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBC57281B92498900615D7A /* DeviceUtil.m */; };
 		ACA9FC751BDF01B600DBDB1B /* RCTMaskableTextFieldManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF71BBE59DA00150328 /* RCTMaskableTextFieldManager.m */; };
@@ -398,7 +401,6 @@
 		ACA9FD141BE0D11200DBDB1B /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ACA9FCF41BE0D11200DBDB1B /* iTunesArtwork@2x.png */; };
 		ACA9FD181BE1482B00DBDB1B /* RCTMaskableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFB1BBE59DA00150328 /* RCTMaskableTextView.m */; };
 		ACA9FD191BE1482B00DBDB1B /* RCTMaskableTextViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFD1BBE59DA00150328 /* RCTMaskableTextViewManager.m */; };
-		ACA9FD1A1BE1482B00DBDB1B /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA1296C1B40EC0500CC1499 /* RCTFileTransfer.m */; };
 		ACA9FD1B1BE1482B00DBDB1B /* RCTMaskableTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF51BBE59DA00150328 /* RCTMaskableTextField.m */; };
 		ACA9FD1C1BE1482B00DBDB1B /* DeviceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBC57281B92498900615D7A /* DeviceUtil.m */; };
 		ACA9FD1D1BE1482B00DBDB1B /* RCTMaskableTextFieldManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF71BBE59DA00150328 /* RCTMaskableTextFieldManager.m */; };
@@ -858,7 +860,6 @@
 		ACA129331B40EA1600CC1499 /* RNFS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
 		ACA129391B40EA1600CC1499 /* RNMail.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMail.xcodeproj; path = "node_modules/react-native-mail/RNMail.xcodeproj"; sourceTree = "<group>"; };
 		ACA1293C1B40EA1600CC1499 /* RCTAddressBook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAddressBook.xcodeproj; path = "node_modules/react-native-addressbook/RCTAddressBook.xcodeproj"; sourceTree = "<group>"; };
-		ACA1296C1B40EC0500CC1499 /* RCTFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTFileTransfer.m; path = "node_modules/react-native-file-transfer/RCTFileTransfer.m"; sourceTree = "<group>"; };
 		ACA1296E1B40EC3B00CC1499 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = /Users/alexlopez/code/Trippple/Native/Images.xcassets; sourceTree = "<absolute>"; };
 		ACA129721B40EF0D00CC1499 /* omnes-bold-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "omnes-bold-webfont.ttf"; sourceTree = "<group>"; };
 		ACA129731B40EF0D00CC1499 /* omnes-light-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "omnes-light-webfont.ttf"; sourceTree = "<group>"; };
@@ -871,6 +872,9 @@
 		ACA55B401BF0EAE4000BDC80 /* EXURLHandler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EXURLHandler.xcodeproj; path = "lib/react-native-url-handler/iOS/EXURLHandler.xcodeproj"; sourceTree = "<group>"; };
 		ACA55B471BF0EB6C000BDC80 /* RNKeychain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNKeychain.xcodeproj; path = "lib/react-native-keychain/RNKeychain.xcodeproj"; sourceTree = "<group>"; };
 		ACA55B4E1BF0EC2E000BDC80 /* libRCTOSPermissions copy.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libRCTOSPermissions copy.a"; path = "Build/Products/Release-iphoneos/libRCTOSPermissions copy.a"; sourceTree = "<group>"; };
+		ACA55B521BF0F51E000BDC80 /* package.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = package.json; sourceTree = "<group>"; };
+		ACA55B531BF0F51E000BDC80 /* RCTFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTFileTransfer.m; sourceTree = "<group>"; };
+		ACA55B541BF0F51E000BDC80 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		ACA9FCA81BDF01B600DBDB1B /* debug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = debug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACA9FCA91BDF01B600DBDB1B /* trippplet copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "trippplet copy-Info.plist"; path = "/Users/alexlopez/code/Trippple/Native/trippplet copy-Info.plist"; sourceTree = "<absolute>"; };
 		ACA9FCF31BE0D11200DBDB1B /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
@@ -1186,6 +1190,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				ACA55B501BF0F51E000BDC80 /* react-native-file-transfer */,
 				ACA55B471BF0EB6C000BDC80 /* RNKeychain.xcodeproj */,
 				ACA55B401BF0EAE4000BDC80 /* EXURLHandler.xcodeproj */,
 				ACA55B281BF0E432000BDC80 /* RCTOSPermissions.xcodeproj */,
@@ -1196,7 +1201,6 @@
 				ACBC57271B92498900615D7A /* DeviceUtil.h */,
 				ACBC57281B92498900615D7A /* DeviceUtil.m */,
 				ACABA3191B8F7B760024503C /* RNOverlay.xcodeproj */,
-				ACA1296C1B40EC0500CC1499 /* RCTFileTransfer.m */,
 				ACA1292D1B40EA1600CC1499 /* RCTFBLogin.xcodeproj */,
 				ACA129301B40EA1600CC1499 /* RCTPushNotification.xcodeproj */,
 				ACA129331B40EA1600CC1499 /* RNFS.xcodeproj */,
@@ -1561,6 +1565,17 @@
 				ACA55B4C1BF0EB6C000BDC80 /* libRNKeychain.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		ACA55B501BF0F51E000BDC80 /* react-native-file-transfer */ = {
+			isa = PBXGroup;
+			children = (
+				ACA55B521BF0F51E000BDC80 /* package.json */,
+				ACA55B531BF0F51E000BDC80 /* RCTFileTransfer.m */,
+				ACA55B541BF0F51E000BDC80 /* README.md */,
+			);
+			name = "react-native-file-transfer";
+			path = "lib/react-native-file-transfer";
 			sourceTree = "<group>";
 		};
 		ACA9FCE41BE0D11200DBDB1B /* App Icon [Squared] */ = {
@@ -2106,6 +2121,7 @@
 				AC501FD81BECC3B90023A882 /* boxers.png in Resources */,
 				AC50203C1BECC3B90023A882 /* ovalDashed.png in Resources */,
 				AC5020201BECC3B90023A882 /* iconDeck@3x.png in Resources */,
+				ACA55B561BF0F51E000BDC80 /* package.json in Resources */,
 				AC50200D1BECC3B90023A882 /* gradientbgs@2x.png in Resources */,
 				AC50202B1BECC3B90023A882 /* iconPrivacyMask@2x.png in Resources */,
 				AC5020221BECC3B90023A882 /* iconDeny@2x.png in Resources */,
@@ -2374,9 +2390,10 @@
 			files = (
 				AC161C0B1BBE59DA00150328 /* RCTMaskableTextView.m in Sources */,
 				AC161C0C1BBE59DA00150328 /* RCTMaskableTextViewManager.m in Sources */,
-				ACA1296D1B40EC0500CC1499 /* RCTFileTransfer.m in Sources */,
 				AC161C081BBE59DA00150328 /* RCTMaskableTextField.m in Sources */,
 				ACBC57291B92498900615D7A /* DeviceUtil.m in Sources */,
+				ACA55B571BF0F51E000BDC80 /* RCTFileTransfer.m in Sources */,
+				ACA55B581BF0F51E000BDC80 /* README.md in Sources */,
 				AC161C091BBE59DA00150328 /* RCTMaskableTextFieldManager.m in Sources */,
 				AC161C0A1BBE59DA00150328 /* RCTMaskableTextManager.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
@@ -2391,9 +2408,9 @@
 			files = (
 				AC0020951BDD9C1200C5C538 /* RCTMaskableTextView.m in Sources */,
 				AC0020961BDD9C1200C5C538 /* RCTMaskableTextViewManager.m in Sources */,
-				AC0020971BDD9C1200C5C538 /* RCTFileTransfer.m in Sources */,
 				AC0020981BDD9C1200C5C538 /* RCTMaskableTextField.m in Sources */,
 				AC0020991BDD9C1200C5C538 /* DeviceUtil.m in Sources */,
+				ACA55B591BF0F529000BDC80 /* RCTFileTransfer.m in Sources */,
 				AC00209A1BDD9C1200C5C538 /* RCTMaskableTextFieldManager.m in Sources */,
 				AC00209B1BDD9C1200C5C538 /* RCTMaskableTextManager.m in Sources */,
 				AC00209C1BDD9C1200C5C538 /* AppDelegate.m in Sources */,
@@ -2408,9 +2425,9 @@
 			files = (
 				AC0020D21BDDA17A00C5C538 /* RCTMaskableTextView.m in Sources */,
 				AC0020D31BDDA17A00C5C538 /* RCTMaskableTextViewManager.m in Sources */,
-				AC0020D41BDDA17A00C5C538 /* RCTFileTransfer.m in Sources */,
 				AC0020D51BDDA17A00C5C538 /* RCTMaskableTextField.m in Sources */,
 				AC0020D61BDDA17A00C5C538 /* DeviceUtil.m in Sources */,
+				ACA55B5A1BF0F52A000BDC80 /* RCTFileTransfer.m in Sources */,
 				AC0020D71BDDA17A00C5C538 /* RCTMaskableTextFieldManager.m in Sources */,
 				AC0020D81BDDA17A00C5C538 /* RCTMaskableTextManager.m in Sources */,
 				AC0020D91BDDA17A00C5C538 /* AppDelegate.m in Sources */,
@@ -2425,9 +2442,9 @@
 			files = (
 				ACA55A8B1BF090E1000BDC80 /* RCTMaskableTextView.m in Sources */,
 				ACA55A8C1BF090E1000BDC80 /* RCTMaskableTextViewManager.m in Sources */,
-				ACA55A8D1BF090E1000BDC80 /* RCTFileTransfer.m in Sources */,
 				ACA55A8E1BF090E1000BDC80 /* RCTMaskableTextField.m in Sources */,
 				ACA55A8F1BF090E1000BDC80 /* DeviceUtil.m in Sources */,
+				ACA55B5C1BF0F52C000BDC80 /* RCTFileTransfer.m in Sources */,
 				ACA55A901BF090E1000BDC80 /* RCTMaskableTextFieldManager.m in Sources */,
 				ACA55A911BF090E1000BDC80 /* RCTMaskableTextManager.m in Sources */,
 				ACA55A921BF090E1000BDC80 /* AppDelegate.m in Sources */,
@@ -2442,9 +2459,9 @@
 			files = (
 				ACA9FC701BDF01B600DBDB1B /* RCTMaskableTextView.m in Sources */,
 				ACA9FC711BDF01B600DBDB1B /* RCTMaskableTextViewManager.m in Sources */,
-				ACA9FC721BDF01B600DBDB1B /* RCTFileTransfer.m in Sources */,
 				ACA9FC731BDF01B600DBDB1B /* RCTMaskableTextField.m in Sources */,
 				ACA9FC741BDF01B600DBDB1B /* DeviceUtil.m in Sources */,
+				ACA55B5D1BF0F52C000BDC80 /* RCTFileTransfer.m in Sources */,
 				ACA9FC751BDF01B600DBDB1B /* RCTMaskableTextFieldManager.m in Sources */,
 				ACA9FC761BDF01B600DBDB1B /* RCTMaskableTextManager.m in Sources */,
 				ACA9FC771BDF01B600DBDB1B /* AppDelegate.m in Sources */,
@@ -2459,9 +2476,9 @@
 			files = (
 				ACA9FD181BE1482B00DBDB1B /* RCTMaskableTextView.m in Sources */,
 				ACA9FD191BE1482B00DBDB1B /* RCTMaskableTextViewManager.m in Sources */,
-				ACA9FD1A1BE1482B00DBDB1B /* RCTFileTransfer.m in Sources */,
 				ACA9FD1B1BE1482B00DBDB1B /* RCTMaskableTextField.m in Sources */,
 				ACA9FD1C1BE1482B00DBDB1B /* DeviceUtil.m in Sources */,
+				ACA55B5B1BF0F52B000BDC80 /* RCTFileTransfer.m in Sources */,
 				ACA9FD1D1BE1482B00DBDB1B /* RCTMaskableTextFieldManager.m in Sources */,
 				ACA9FD1E1BE1482B00DBDB1B /* RCTMaskableTextManager.m in Sources */,
 				ACA9FD1F1BE1482B00DBDB1B /* AppDelegate.m in Sources */,
