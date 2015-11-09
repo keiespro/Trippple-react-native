@@ -1,7 +1,6 @@
 /**
  * @flow
  */
- ;
 
 var React = require('react-native');
 var {
@@ -10,6 +9,7 @@ var {
   View,
   TouchableHighlight,
   StyleSheet,
+  ActivityIndicatorIOS,
   Component
 } = React;
 import {MagicNumbers} from '../DeviceConfig'
@@ -24,15 +24,21 @@ var colors = require('../utils/colors');
 class ContinueButton extends Component{
 
   constructor(props){
-    super(props);
+    super();
 
+    this.state = {
+      submitting: false
+    }
 
   }
 
 
   handleContinue(){
+    // if(this.state.submitting) { return false }
+    this.setState({submitting:true})
     this.props.handlePress()
   }
+  nothing(){}
   render(){
     return (
       <View style={[styles.continueButtonWrap,
@@ -42,10 +48,13 @@ class ContinueButton extends Component{
           }]}>
         <TouchableHighlight
            style={[styles.continueButton]}
-           onPress={this.handleContinue.bind(this)}
+           onPress={ this.handleContinue.bind(this)}
            underlayColor={colors.darkPurple}>
+           <View>
+          <Text style={styles.continueButtonText}>CONTINUE</Text>
 
-           <Text style={styles.continueButtonText}>CONTINUE</Text>
+        {/*this.state.submitting ? <ActivityIndicatorIOS style={{alignSelf:'center',alignItems:'center',flex:1,height:60,width:60,justifyContent:'center'}} animating={true} size={'large'}/> : <Text style={styles.continueButtonText}>CONTINUE</Text>*/}
+          </View>
          </TouchableHighlight>
       </View>
     )

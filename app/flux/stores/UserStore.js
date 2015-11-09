@@ -25,6 +25,7 @@ class UserStore {
     this.exportPublicMethods({
       getUser: this.getUser
     })
+
     this.bindListeners({
       handleBlockContacts: AppActions.STORE_CONTACTS_TO_BLOCK,
       handleInitialize: AppActions.GOT_CREDENTIALS,
@@ -123,8 +124,6 @@ class UserStore {
     .then(() => {
       this.setState({  api_key: null, user_id: null });
     })
-
-
   }
 
   handlePartner(){

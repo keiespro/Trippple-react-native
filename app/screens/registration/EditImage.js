@@ -24,6 +24,7 @@ import UserActions from '../../flux/actions/UserActions';
 import SharedStyles from '../../SharedStyles'
 import Privacy from './privacy';
 import EditImageThumb from './EditImageThumb'
+import OnboardingActions from '../../flux/actions/OnboardingActions'
 
 import Dimensions from 'Dimensions';
 
@@ -60,14 +61,9 @@ class EditImage extends Component{
       cropError: null,
     };
 
-    console.log(props,props.nextRoute);
-  }
-  componentWillMount(){
-    console.log('will mount editor')
-  }
+   }
 
   accept(croppedImageURI){
-    console.log(this.props.image,'profile')
 
     // CameraRoll.getPhotos({first:1}, (imgdata)=> {
       // const img = imgdata.edges[0].node.image
@@ -88,22 +84,24 @@ class EditImage extends Component{
       })
 
   }else{
-   var lastindex = this.props.navigator.getCurrentRoutes().length;
-    console.log(lastindex);
-    var nextRoute = this.props.stack[lastindex];
-    nextRoute.component = this.props.nextRoute || EditImageThumb
 
-    nextRoute.passProps = {
-          ...this.props,
-          image:this.props.image,
-          originalImage:this.props.image,
-          croppedImage: croppedImageURI,
-          image_type: this.props.image_type
-
-
-    }
-
-    this.props.navigator.push(nextRoute)
+    OnboardingActions.proceedToNextScreen()
+  //  var lastindex = this.props.navigator.getCurrentRoutes().length;
+  //   console.log(lastindex);
+  //   var nextRoute = this.props.stack[lastindex];
+  //   nextRoute.component = this.props.nextRoute || EditImageThumb
+   //
+  //   nextRoute.passProps = {
+  //         ...this.props,
+  //         image:this.props.image,
+  //         originalImage:this.props.image,
+  //         croppedImage: croppedImageURI,
+  //         image_type: this.props.image_type
+   //
+   //
+  //   }
+   //
+  //   this.props.navigator.push(nextRoute)
 
   }
 
@@ -111,7 +109,7 @@ class EditImage extends Component{
   }
   retake =()=> {
     console.log('retake')
-    this.props.navigator.pop();
+    OnboardingActions.proceedToPrevScreen()
   }
 
 

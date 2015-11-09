@@ -15,16 +15,7 @@ const DeviceWidth = require('Dimensions').get('window').width
 import {MagicNumbers} from '../../DeviceConfig'
 import OnboardingActions from '../../flux/actions/OnboardingActions'
 
-var ModalWrapper = React.createClass({
-  render(){
-    return (
-      <PurpleModal>
-        {this.props.children}
-      </PurpleModal>
-    )
-  }
 
-})
 
 import FBPhotoAlbums from '../../components/fb.login'
 import FacebookButton from '../../buttons/FacebookButton'
@@ -36,8 +27,7 @@ import EditImage from '../../screens/registration/EditImage'
 import EditImageThumb from '../../screens/registration/EditImageThumb'
 import CameraControl from '../../controls/cameraControl'
 import CameraRollView from '../../controls/CameraRollView'
-import PurpleModal from '../../modals/PurpleModal'
-import CameraRollPermissionsModal from '../../modals/CameraRollPermissions'
+ import CameraRollPermissionsModal from '../../modals/CameraRollPermissions'
 import CameraPermissionsModal from '../../modals/CameraPermissions'
 
 class SelfImage extends Component{
@@ -46,17 +36,14 @@ class SelfImage extends Component{
     this.state = {
 
     }
-  }
-
-  _getCameraRoll =()=> {
-    OnboardingActions.proceedToNextScreen()
 
   }
+
+
   getCameraRollPermission(){
-    var lastindex = this.props.navigator.getCurrentRoutes().length;
-    console.log(lastindex);
-    var nextRoute =  {
-      component:  CameraRollPermissionsModal
+
+     var nextRoute =  {
+      component:  (this.props.AppState.OSPermissions && parseInt(this.props.AppState.OSPermissions.cameraRoll) > 2 ? CameraRollView : CameraRollPermissionsModal)
     };
 
     nextRoute.passProps = {
@@ -86,9 +73,7 @@ class SelfImage extends Component{
     this.props.navigator.push(nextRoute)
 
   }
-  _getCamera =()=> {
-    OnboardingActions.proceedToNextScreen()
-   }
+
   closeModal(){
    this.setState({
       modalOpen:false,
@@ -117,9 +102,8 @@ class SelfImage extends Component{
     this.props.navigator.push(nextRoute)
 
   }
- componentDidUpdate(prevProps,prevState){
-    console.log(prevProps,prevState);
-  }
+
+
 
   render(){
     return (

@@ -35,7 +35,8 @@ export default class PrivacyPermissionsModal extends Component{
     super();
     this.state = {
       hasFacebookPermissions: null,
-      hasContactsPermissions: null
+      failedStateContacts: parseInt(props.AppState.OSPermissions.contacts) && props.AppState.OSPermissions.contacts < 3,
+      hasContactsPermissions: parseInt(props.AppState.OSPermissions.contacts) && props.AppState.OSPermissions.contacts > 2
     }
   }
 
@@ -48,23 +49,25 @@ export default class PrivacyPermissionsModal extends Component{
       }
     });
 
-    AddressBook.checkPermission((err, permission) => {
-      if(!err && permission === AddressBook.PERMISSION_AUTHORIZED){
-        this.setState({ hasContactsPermissions: true })
-        AppActions.grantPermission('contacts')
-
-      }else{
-        this.setState({ hasContactsPermissions: false })
-
-        AppActions.denyPermission('contacts')
-      }
-    })
+    // AddressBook.checkPermission((err, permission) => {
+    //   if(!err && permission === AddressBook.PERMISSION_AUTHORIZED){
+    //     this.setState({ hasContactsPermissions: true })
+    //     AppActions.grantPermission('contacts')
+    //
+    //   }else{
+    //     this.setState({ hasContactsPermissions: false })
+    //
+    //     AppActions.denyPermission('contacts')
+    //   }
+    // })
   }
 
   componentDidUpdate(pProps,pState){
     if(pState.hasFacebookPermissions && pState.hasContactsPermissions){
-      UserActions.updateUser({privacy:'private'})
+      UserActions.updateUser({privacy:'private'});
       this.props.success && this.props.success()
+      this.props.navigator.pop()
+
     }
   }
 

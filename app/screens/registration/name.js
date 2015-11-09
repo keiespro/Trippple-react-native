@@ -29,10 +29,10 @@ class NameScreen extends Component{
 
   constructor(props){
     super(props);
-    console.log(props.user)
+    console.log(props)
     this.state = {
-      name: props.fb_name || props.userInfo.firstname || '',
-      inputFieldValue: props.fb_name || props.userInfo.firstname || '',
+      name: '',
+      inputFieldValue:  '',
     }
   }
 
@@ -82,7 +82,7 @@ class NameScreen extends Component{
           style={[styles.pinInput,{
             fontSize: 22
           }]}
-            defaultValue={this.state.name || this.state.inputFieldValue || ''}
+            defaultValue={this.props.fb_name || this.props.user.firstname || ''}
             keyboardAppearance={'dark'/*doesnt work*/}
             autoCapitalize={'words'}
             placeholder={'FIRST NAME'}

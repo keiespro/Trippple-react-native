@@ -36,14 +36,15 @@ class BdayScreen extends Component{
 
   constructor(props){
     super();
+    var savedBday = props.fb_bday_year || props.userInfo.birthday || props.userInfo.bday_month || props.userInfo.bday_year;
      this.state = {
       error: false,
       timeZoneOffsetInHours:props.timeZoneOffsetInHours,
-      date: (props.fb_bday_year ? new Date(`${props.fb_bday_year}`) : new Date())
+      date: (savedBday ? new Date(`${savedBday}`) : new Date())
     }
   }
   _submit =()=>{
-  var isLegal = moment(this.state.date).diff(moment(), 'years') < -18;
+    var isLegal = moment(this.state.date).diff(moment(), 'years') < -18;
     if(!isLegal){return false}
     OnboardingActions.proceedToNextScreen({
       birthday: this.state.date,
@@ -55,7 +56,7 @@ class BdayScreen extends Component{
 
   onDateChange(date){
 
-  var isLegal = moment(date).diff(moment(), 'years') < -18;
+    var isLegal = moment(date).diff(moment(), 'years') < -18;
     if(!isLegal){
      this.setState({
         error:true,

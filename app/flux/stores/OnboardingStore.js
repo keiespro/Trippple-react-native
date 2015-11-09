@@ -16,7 +16,10 @@ class OnboardingStore {
       handleProceedToPrev: OnboardingActions.PROCEED_TO_PREV_SCREEN,
       handleProceedToNext: OnboardingActions.PROCEED_TO_NEXT_SCREEN,
       handleUpdateUserInfo: OnboardingActions.UPDATE_USER_INFO,
-      handleUpdateRoute: OnboardingActions.UPDATE_ROUTE
+      handleUpdateRoute: OnboardingActions.UPDATE_ROUTE,
+      handleGetUserInfo: UserActions.GET_USER_INFO,
+      handleInitSuccess: UserActions.INIT_SUCCESS,
+
 
     });
 
@@ -30,6 +33,14 @@ class OnboardingStore {
         console.log('error', err, payload)
     })
 
+  }
+  handleInitSuccess(res){
+    this.setState({userInfo: res.response.user_info})
+  }
+
+
+  handleGetUserInfo(res){
+    this.setState({userInfo: res.response.user_info})
   }
 
   handleProceedToPrev(){
