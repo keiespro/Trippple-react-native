@@ -1,4 +1,4 @@
-#import "OSPermissions.h"
+#import "ospermissions.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <CoreLocation/CoreLocation.h>
 #import <AVFoundation/AVFoundation.h>
