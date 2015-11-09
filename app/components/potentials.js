@@ -902,7 +902,7 @@ class CardStack extends Component{
             subtitle:'We’ve found 10 matches we think you might like. Should we prioritize the matches closest to you?',
             failedTitle: 'LOCATION DISABLED',
             failedSubtitle: 'Geolocation is disabled. You can enable it in your phone’s Settings.',
-            failedState: parseInt(NativeModules.OSPermissions.location) < 3 ? true : false,
+            failedState: parseInt(NativeModules.OSPermissions.location) && parseInt(NativeModules.OSPermissions.location) < 3 ? true : false,
             headerImageSource:'iconDeck',
             permissionKey:'location',
             renderNextMethod: 'pop',
