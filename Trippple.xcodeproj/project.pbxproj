@@ -349,6 +349,22 @@
 		ACA55B5B1BF0F52B000BDC80 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA55B531BF0F51E000BDC80 /* RCTFileTransfer.m */; };
 		ACA55B5C1BF0F52C000BDC80 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA55B531BF0F51E000BDC80 /* RCTFileTransfer.m */; };
 		ACA55B5D1BF0F52C000BDC80 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA55B531BF0F51E000BDC80 /* RCTFileTransfer.m */; };
+		ACA55B721BF100C3000BDC80 /* .eslintrc in Resources */ = {isa = PBXBuildFile; fileRef = ACA55B5F1BF100C3000BDC80 /* .eslintrc */; };
+		ACA55B731BF100C3000BDC80 /* .npmignore in Resources */ = {isa = PBXBuildFile; fileRef = ACA55B601BF100C3000BDC80 /* .npmignore */; };
+		ACA55B741BF100C3000BDC80 /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = ACA55B611BF100C3000BDC80 /* index.js */; };
+		ACA55B751BF100C3000BDC80 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = ACA55B621BF100C3000BDC80 /* LICENSE */; };
+		ACA55B761BF100C3000BDC80 /* package.json in Resources */ = {isa = PBXBuildFile; fileRef = ACA55B631BF100C3000BDC80 /* package.json */; };
+		ACA55B771BF100C3000BDC80 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = ACA55B641BF100C3000BDC80 /* README.md */; };
+		ACA55B781BF100C3000BDC80 /* BlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA55B671BF100C3000BDC80 /* BlurView.m */; };
+		ACA55B791BF100C3000BDC80 /* BlurViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA55B691BF100C3000BDC80 /* BlurViewManager.m */; };
+		ACA55B7A1BF100C3000BDC80 /* VibrancyView.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA55B6C1BF100C3000BDC80 /* VibrancyView.m */; };
+		ACA55B7B1BF100C3000BDC80 /* VibrancyViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA55B6E1BF100C3000BDC80 /* VibrancyViewManager.m */; };
+		ACA55B7C1BF100C3000BDC80 /* BlurView.js in Resources */ = {isa = PBXBuildFile; fileRef = ACA55B701BF100C3000BDC80 /* BlurView.js */; };
+		ACA55B7D1BF100C3000BDC80 /* VibrancyView.js in Resources */ = {isa = PBXBuildFile; fileRef = ACA55B711BF100C3000BDC80 /* VibrancyView.js */; };
+		ACA55B801BF10132000BDC80 /* BlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA55B671BF100C3000BDC80 /* BlurView.m */; };
+		ACA55B821BF10132000BDC80 /* BlurViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA55B691BF100C3000BDC80 /* BlurViewManager.m */; };
+		ACA55B841BF10132000BDC80 /* VibrancyView.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA55B6C1BF100C3000BDC80 /* VibrancyView.m */; };
+		ACA55B861BF10132000BDC80 /* VibrancyViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA55B6E1BF100C3000BDC80 /* VibrancyViewManager.m */; };
 		ACA9FC701BDF01B600DBDB1B /* RCTMaskableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFB1BBE59DA00150328 /* RCTMaskableTextView.m */; };
 		ACA9FC711BDF01B600DBDB1B /* RCTMaskableTextViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFD1BBE59DA00150328 /* RCTMaskableTextViewManager.m */; };
 		ACA9FC731BDF01B600DBDB1B /* RCTMaskableTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF51BBE59DA00150328 /* RCTMaskableTextField.m */; };
@@ -875,6 +891,22 @@
 		ACA55B521BF0F51E000BDC80 /* package.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = package.json; sourceTree = "<group>"; };
 		ACA55B531BF0F51E000BDC80 /* RCTFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTFileTransfer.m; sourceTree = "<group>"; };
 		ACA55B541BF0F51E000BDC80 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		ACA55B5F1BF100C3000BDC80 /* .eslintrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .eslintrc; sourceTree = "<group>"; };
+		ACA55B601BF100C3000BDC80 /* .npmignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .npmignore; sourceTree = "<group>"; };
+		ACA55B611BF100C3000BDC80 /* index.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
+		ACA55B621BF100C3000BDC80 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		ACA55B631BF100C3000BDC80 /* package.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = package.json; sourceTree = "<group>"; };
+		ACA55B641BF100C3000BDC80 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		ACA55B661BF100C3000BDC80 /* BlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlurView.h; sourceTree = "<group>"; };
+		ACA55B671BF100C3000BDC80 /* BlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlurView.m; sourceTree = "<group>"; };
+		ACA55B681BF100C3000BDC80 /* BlurViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlurViewManager.h; sourceTree = "<group>"; };
+		ACA55B691BF100C3000BDC80 /* BlurViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlurViewManager.m; sourceTree = "<group>"; };
+		ACA55B6B1BF100C3000BDC80 /* VibrancyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VibrancyView.h; sourceTree = "<group>"; };
+		ACA55B6C1BF100C3000BDC80 /* VibrancyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VibrancyView.m; sourceTree = "<group>"; };
+		ACA55B6D1BF100C3000BDC80 /* VibrancyViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VibrancyViewManager.h; sourceTree = "<group>"; };
+		ACA55B6E1BF100C3000BDC80 /* VibrancyViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VibrancyViewManager.m; sourceTree = "<group>"; };
+		ACA55B701BF100C3000BDC80 /* BlurView.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = BlurView.js; sourceTree = "<group>"; };
+		ACA55B711BF100C3000BDC80 /* VibrancyView.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = VibrancyView.js; sourceTree = "<group>"; };
 		ACA9FCA81BDF01B600DBDB1B /* debug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = debug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACA9FCA91BDF01B600DBDB1B /* trippplet copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "trippplet copy-Info.plist"; path = "/Users/alexlopez/code/Trippple/Native/trippplet copy-Info.plist"; sourceTree = "<absolute>"; };
 		ACA9FCF31BE0D11200DBDB1B /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
@@ -1190,6 +1222,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				ACA55B5E1BF100C3000BDC80 /* react-native-blur */,
 				ACA55B501BF0F51E000BDC80 /* react-native-file-transfer */,
 				ACA55B471BF0EB6C000BDC80 /* RNKeychain.xcodeproj */,
 				ACA55B401BF0EAE4000BDC80 /* EXURLHandler.xcodeproj */,
@@ -1576,6 +1609,54 @@
 			);
 			name = "react-native-file-transfer";
 			path = "lib/react-native-file-transfer";
+			sourceTree = "<group>";
+		};
+		ACA55B5E1BF100C3000BDC80 /* react-native-blur */ = {
+			isa = PBXGroup;
+			children = (
+				ACA55B5F1BF100C3000BDC80 /* .eslintrc */,
+				ACA55B601BF100C3000BDC80 /* .npmignore */,
+				ACA55B611BF100C3000BDC80 /* index.js */,
+				ACA55B621BF100C3000BDC80 /* LICENSE */,
+				ACA55B631BF100C3000BDC80 /* package.json */,
+				ACA55B641BF100C3000BDC80 /* README.md */,
+				ACA55B651BF100C3000BDC80 /* RNBlur */,
+				ACA55B6A1BF100C3000BDC80 /* RNVibrancy */,
+				ACA55B6F1BF100C3000BDC80 /* src */,
+			);
+			name = "react-native-blur";
+			path = "lib/react-native-blur";
+			sourceTree = "<group>";
+		};
+		ACA55B651BF100C3000BDC80 /* RNBlur */ = {
+			isa = PBXGroup;
+			children = (
+				ACA55B661BF100C3000BDC80 /* BlurView.h */,
+				ACA55B671BF100C3000BDC80 /* BlurView.m */,
+				ACA55B681BF100C3000BDC80 /* BlurViewManager.h */,
+				ACA55B691BF100C3000BDC80 /* BlurViewManager.m */,
+			);
+			path = RNBlur;
+			sourceTree = "<group>";
+		};
+		ACA55B6A1BF100C3000BDC80 /* RNVibrancy */ = {
+			isa = PBXGroup;
+			children = (
+				ACA55B6B1BF100C3000BDC80 /* VibrancyView.h */,
+				ACA55B6C1BF100C3000BDC80 /* VibrancyView.m */,
+				ACA55B6D1BF100C3000BDC80 /* VibrancyViewManager.h */,
+				ACA55B6E1BF100C3000BDC80 /* VibrancyViewManager.m */,
+			);
+			path = RNVibrancy;
+			sourceTree = "<group>";
+		};
+		ACA55B6F1BF100C3000BDC80 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				ACA55B701BF100C3000BDC80 /* BlurView.js */,
+				ACA55B711BF100C3000BDC80 /* VibrancyView.js */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 		ACA9FCE41BE0D11200DBDB1B /* App Icon [Squared] */ = {
@@ -2043,6 +2124,7 @@
 				AC501FEE1BECC3B90023A882 /* checkmarkWhiteSmall@2x.png in Resources */,
 				AC50200F1BECC3B90023A882 /* icon-lock.png in Resources */,
 				AC5020141BECC3B90023A882 /* iconAlbum@3x.png in Resources */,
+				ACA55B741BF100C3000BDC80 /* index.js in Resources */,
 				AC50204B1BECC3B90023A882 /* placeholderUser.png in Resources */,
 				AC501FF61BECC3B90023A882 /* cog.png in Resources */,
 				AC50203D1BECC3B90023A882 /* ovalDashed@2x.png in Resources */,
@@ -2058,6 +2140,7 @@
 				AC5020771BECC3B90023A882 /* usersCouple.png in Resources */,
 				AC50200A1BECC3B90023A882 /* GradientBG@2x~iphone.png in Resources */,
 				AC501FE51BECC3B90023A882 /* chat@2x.png in Resources */,
+				ACA55B7C1BF100C3000BDC80 /* BlurView.js in Resources */,
 				AC5B03A11B85A899003E0302 /* Images.xcassets in Resources */,
 				AC5020111BECC3B90023A882 /* icon-lock@3x.png in Resources */,
 				AC6BC1AD1B832657005F7DFA /* Montserrat-Regular.otf in Resources */,
@@ -2079,6 +2162,7 @@
 				AC50201E1BECC3B90023A882 /* iconDeck.png in Resources */,
 				AC5020381BECC3B90023A882 /* nextArrow@3x.png in Resources */,
 				AC50200B1BECC3B90023A882 /* GradientBG@3x~iphone.png in Resources */,
+				ACA55B761BF100C3000BDC80 /* package.json in Resources */,
 				AC501FEB1BECC3B90023A882 /* checkMarkPurple@2x.png in Resources */,
 				AC5A3AB81BAA4EAE00EFF0B9 /* Montserrat-Bold.ttf in Resources */,
 				AC5020301BECC3B90023A882 /* listing.png in Resources */,
@@ -2134,6 +2218,7 @@
 				AC5020191BECC3B90023A882 /* iconClock@2x.png in Resources */,
 				AC5020321BECC3B90023A882 /* listing@3x.png in Resources */,
 				AC5B03A71B85A9FB003E0302 /* Default-568h@2x~iphone.png in Resources */,
+				ACA55B751BF100C3000BDC80 /* LICENSE in Resources */,
 				AC5020521BECC3B90023A882 /* redo@2x.png in Resources */,
 				AC5020561BECC3B90023A882 /* search@3x.png in Resources */,
 				AC50202D1BECC3B90023A882 /* iconSinglePic.png in Resources */,
@@ -2152,6 +2237,7 @@
 				AC5020091BECC3B90023A882 /* GradientBG.png in Resources */,
 				AC5020031BECC3B90023A882 /* flipCamera.png in Resources */,
 				AC5020071BECC3B90023A882 /* gear@2x.png in Resources */,
+				ACA55B731BF100C3000BDC80 /* .npmignore in Resources */,
 				AC5020671BECC3B90023A882 /* tour-connect.png in Resources */,
 				AC5020491BECC3B90023A882 /* placeholderDashed@2x.png in Resources */,
 				AC5020161BECC3B90023A882 /* iconApprove@2x.png in Resources */,
@@ -2161,6 +2247,7 @@
 				AC501FF71BECC3B90023A882 /* cog@2x.png in Resources */,
 				AC5020121BECC3B90023A882 /* iconAlbum.png in Resources */,
 				AC50202C1BECC3B90023A882 /* iconPrivacyMask@3x.png in Resources */,
+				ACA55B7D1BF100C3000BDC80 /* VibrancyView.js in Resources */,
 				AC6BC1B01B832657005F7DFA /* omnes-medium-webfont.ttf in Resources */,
 				AC5020131BECC3B90023A882 /* iconAlbum@2x.png in Resources */,
 				AC5020151BECC3B90023A882 /* iconApprove.png in Resources */,
@@ -2215,6 +2302,7 @@
 				AC50203F1BECC3B90023A882 /* ovalInvite.png in Resources */,
 				AC5020261BECC3B90023A882 /* iconFbPhotos@3x.png in Resources */,
 				AC50206A1BECC3B90023A882 /* TriangleDark.png in Resources */,
+				ACA55B721BF100C3000BDC80 /* .eslintrc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2389,16 +2477,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC161C0B1BBE59DA00150328 /* RCTMaskableTextView.m in Sources */,
+				ACA55B791BF100C3000BDC80 /* BlurViewManager.m in Sources */,
 				AC161C0C1BBE59DA00150328 /* RCTMaskableTextViewManager.m in Sources */,
 				AC161C081BBE59DA00150328 /* RCTMaskableTextField.m in Sources */,
+				ACA55B7B1BF100C3000BDC80 /* VibrancyViewManager.m in Sources */,
 				ACBC57291B92498900615D7A /* DeviceUtil.m in Sources */,
 				ACA55B571BF0F51E000BDC80 /* RCTFileTransfer.m in Sources */,
 				ACA55B581BF0F51E000BDC80 /* README.md in Sources */,
+				ACA55B771BF100C3000BDC80 /* README.md in Sources */,
+				ACA55B781BF100C3000BDC80 /* BlurView.m in Sources */,
 				AC161C091BBE59DA00150328 /* RCTMaskableTextFieldManager.m in Sources */,
 				AC161C0A1BBE59DA00150328 /* RCTMaskableTextManager.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				AC161C071BBE59DA00150328 /* RCTMaskableText.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				ACA55B7A1BF100C3000BDC80 /* VibrancyView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2406,6 +2499,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACA55B801BF10132000BDC80 /* BlurView.m in Sources */,
+				ACA55B821BF10132000BDC80 /* BlurViewManager.m in Sources */,
+				ACA55B841BF10132000BDC80 /* VibrancyView.m in Sources */,
+				ACA55B861BF10132000BDC80 /* VibrancyViewManager.m in Sources */,
 				AC0020951BDD9C1200C5C538 /* RCTMaskableTextView.m in Sources */,
 				AC0020961BDD9C1200C5C538 /* RCTMaskableTextViewManager.m in Sources */,
 				AC0020981BDD9C1200C5C538 /* RCTMaskableTextField.m in Sources */,
