@@ -907,6 +907,7 @@ class CardStack extends Component{
             permissionKey:'location',
             renderNextMethod: 'pop',
             failCallback:()=>{ AppActions.denyPermission('location')},
+            successCallback:()=>{ this.props.navigator.pop()},
             renderMethod:'push',
             renderPrevMethod:'pop',
             AppState:this.props.AppState,

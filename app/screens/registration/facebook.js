@@ -11,7 +11,6 @@ import {
   TouchableOpacity
 } from 'react-native'
 
-import { FBLoginManager } from 'NativeModules'
 import colors from '../../utils/colors'
 import UserActions from '../../flux/actions/UserActions'
 import BoxyButton from '../../controls/boxyButton'
@@ -40,17 +39,6 @@ class Facebook extends Component{
       user: null,
     }
   }
-  componentDidMount(){
-    //  FBLoginManager.getCredentials((error, data) =>{
-    //   console.log(error, data);
-    //
-    //   if (!error) {
-    //     this.setState({ user : data})
-    //   }
-    // });
-
-  }
-
 
   handleCredentials(fbUserData){
     console.log(fbUserData)

@@ -18,6 +18,7 @@ import EditImageThumb from '../screens/registration/EditImageThumb'
 import EditImage from '../screens/registration/EditImage'
 import OnboardingActions from '../flux/actions/OnboardingActions'
 import OnboardingBackButton from '../screens/registration/BackButton'
+
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
