@@ -109,7 +109,7 @@ class EditImage extends Component{
   }
   retake =()=> {
     console.log('retake')
-    OnboardingActions.proceedToPrevScreen()
+    this.props.navigator.getCurrentRoutes()[0].id == 'potentials' ? this.props.navigator.pop() :   OnboardingActions.proceedToPrevScreen()
   }
 
 

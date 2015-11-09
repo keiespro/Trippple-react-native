@@ -18,6 +18,7 @@ import {
   Dimensions
 } from 'react-native'
 import scrollable from 'react-native-scrollable-decorator';
+import OnboardingActions from '../flux/actions/OnboardingActions'
 
 import colors from '../utils/colors'
 import FakeNavBar from './FakeNavBar'
@@ -229,23 +230,30 @@ class CameraRollView extends Component{
   }
 
   render() {
+    const isOnboarding = !this.props.navigator.getCurrentRoutes()[0].id == 'potentials'
     return (
       <View style={{flex:1}}>
         <FakeNavBar
           navigator={this.props.navigator}
           route={this.props.route}
-          backgroundStyle={{backgroundColor:'transparent'}}
-          onPrev={(n,p)=>(n.pop())}
+          backgroundStyle={{backgroundColor:colors.shuttleGray}}
+          onPrev={(n,p)=>{
+            if(isOnboarding){
+              OnboardingActions.proceedToPrevScreen()
+            }else{
+              n.pop()
+            }
+          }}
           blur={true}
           title={'YOUR PHOTOS'}
           titleColor={colors.white}
           customPrev={
-            <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
+            <View style={{flexDirection: 'row',opacity:0.5,top:this.props.navigator.getCurrentRoutes()[0].id == 'potentials' ? 0 : 7}}>
               <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>▼ </Text>
             </View>
           }
         />
-      <View style={{marginTop:55,flex:1,width:DeviceWidth,backgroundColor:colors.outerSpace}}>
+      <View style={{marginTop:54,flex:1,width:DeviceWidth,backgroundColor:colors.outerSpace}}>
         <ListView
           renderRow={this._renderRow.bind(this)}
           renderFooter={this._renderFooterSpinner}
@@ -328,7 +336,8 @@ var styles = StyleSheet.create({
   item: {
     justifyContent: 'center',
     padding: 5,
-    margin: 5,
+    marginHorizontal:6,
+    marginVertical: 1,
     width: DeviceWidth / 3 - 15,
     alignItems: 'center',
   },
@@ -349,6 +358,7 @@ var styles = StyleSheet.create({
     flexWrap: 'wrap',
     alignItems:'center',
     width: DeviceWidth,
+    paddingTop:7
   },
   pic: {
     flex: 1,

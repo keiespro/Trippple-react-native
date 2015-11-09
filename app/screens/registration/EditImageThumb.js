@@ -18,6 +18,7 @@ import {
 const ImageEditingManager = NativeModules.ImageEditingManager;
 const RCTScrollViewConsts = NativeModules.UIManager.RCTScrollView.Constants;
 import OnboardingActions from '../../flux/actions/OnboardingActions'
+import OtherBackButton from '../../components/BackButton'
 
 import SharedStyles from '../../SharedStyles'
 import colors from '../../utils/colors';
@@ -108,7 +109,7 @@ class EditImageThumb extends Component{
         <View  style={styles.blurbg}/>
 
  <View style={{width:100,height:50,left:20}}>
-        <BackButton navigator={this.props.navigator}/>
+ {this.props.navigator.getCurrentRoutes()[0].id == 'potentials' ? <OtherBackButton navigator={this.props.navigator}/> : <BackButton/> }
       </View>
 
         <View style={styles.innerWrap}>

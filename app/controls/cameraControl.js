@@ -17,7 +17,7 @@ import BackButton from '../components/BackButton'
 import EditImageThumb from '../screens/registration/EditImageThumb'
 import EditImage from '../screens/registration/EditImage'
 import OnboardingActions from '../flux/actions/OnboardingActions'
-
+import OnboardingBackButton from '../screens/registration/BackButton'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
@@ -32,8 +32,12 @@ class CameraControl extends Component{
     this.setState({
       image: null
     })
+    if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
 
-    this.props.navigator.pop()
+      this.props.navigator.pop()
+    }else{
+      OnboardingActions.proceedToPrevScreen()
+    }
   }
 
   render() {
@@ -44,7 +48,7 @@ class CameraControl extends Component{
         <View style={styles.paddedTop} pointerEvents={'box-none'}>
 
         <View style={{marginBottom:10}}>
-          <BackButton />
+          {this.props.navigator.getCurrentRoutes()[0].id == 'potentials' ? <BackButton navigator={this.props.navigator}/> : <OnboardingBackButton/> }
         </View>
           <TouchableOpacity  onPress={this._switchCamera} style={[{height:50,width:48},styles.rightbutton]}>
             <View>
