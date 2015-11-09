@@ -166,7 +166,7 @@ class EditImage extends Component{
               />
             <TouchableOpacity onPress={this.retake} style={styles.bigbutton}>
                <View style={[{height:80,width:80}]}>
-                <Image resizeMode={Image.resizeMode.cover} source={require('image!redo')} style={{height:80,width:80}}/>
+                <Image resizeMode={Image.resizeMode.cover} source={require('../../../newimg/redo.png'))} style={{height:80,width:80}}/>
               </View>
             </TouchableOpacity>
           </View>

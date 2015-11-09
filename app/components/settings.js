@@ -163,13 +163,13 @@ class SettingsInside extends React.Component{
               <Image
                 style={[styles.userimage,{backgroundColor:colors.outerSpace50}]}
                 key={this.props.user.id+'thumb'}
-                defaultSource={require('image!placeholderUserWhite')}
+                defaultSource={require('../../newimg/placeholderUserWhite.png'))}
                 source={{uri: this.props.user.thumb_url || this.props.user.image_url}}
                 resizeMode={Image.resizeMode.cover}/>
               <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
                 <Image
                     style={{width:18,height:18}}
-                    source={require('image!cog')}
+                    source={require('../../newimg/cog.png'))}
                     resizeMode={Image.resizeMode.contain}/>
                 </View>
 
@@ -211,7 +211,7 @@ class SettingsInside extends React.Component{
               Your personal information and details
             </Text>
           </View>
-          <Image source={require('image!nextArrow')} />
+          <Image source={require('../../newimg/nextArrow.png'))} />
         </View>
       </TouchableHighlight>
 
@@ -236,7 +236,7 @@ class SettingsInside extends React.Component{
               You and your partner
             </Text>
           </View>
-          <Image source={require('image!nextArrow')} />
+          <Image source={require('../../newimg/nextArrow.png'))} />
           </View>
         </TouchableHighlight>
     : null }
@@ -263,7 +263,7 @@ class SettingsInside extends React.Component{
               What you're looking for
             </Text>
           </View>
-          <Image source={require('image!nextArrow')} />
+          <Image source={require('../../newimg/nextArrow.png'))} />
         </View>
       </TouchableHighlight>
       <TouchableHighlight onPress={(f)=>{
@@ -285,7 +285,7 @@ class SettingsInside extends React.Component{
               Privacy and more
             </Text>
           </View>
-          <Image source={require('image!nextArrow')} />
+          <Image source={require('../../newimg/nextArrow.png'))} />
           </View>
         </TouchableHighlight>
 
@@ -336,7 +336,7 @@ class Settings extends React.Component{
                 backgroundStyle={{backgroundColor:colors.shuttleGray}}
                 hideNext={true}
                 navigator={this.props.navigator}
-                customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'center',top:10,justifyContent:'center',height:12,width:12}} source={require('image!close')}/>}
+                customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'center',top:10,justifyContent:'center',height:12,width:12}} source={require('../../newimg/close.png'))}/>}
                 onPrev={(nav,route)=> nav.pop()}
                 title={'MANAGE YOUR ACCOUNT'}
                 titleColor={colors.white}

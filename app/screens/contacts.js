@@ -74,7 +74,7 @@ class ContactList extends Component{
           <View style={[styles.fullwidth,styles.row,
             (this.props.highlightedRow && this.props.highlightedRow.sectionID === sectionID && this.props.highlightedRow.rowID === rowID ? styles.rowSelected : null)]}>
 
-            <Image style={styles.contactthumb} source={(rowData.thumbnailPath == '' ?  require('image!placeholderUser') : {uri: rowData.thumbnailPath} )} />
+            <Image style={styles.contactthumb} source={(rowData.thumbnailPath == '' ?  require('../../newimg/placeholderUser.png')) : {uri: rowData.thumbnailPath} )} />
 
             <View style={styles.rowtextwrapper}>
 
@@ -277,7 +277,7 @@ var manyPhones = this.state.partnerSelection &&
       </View>
 
         <View style={styles.searchwrap}>
-          <Image source={require('image!search')} style={styles.searchicon}/>
+          <Image source={require('../../newimg/search.png'))} style={styles.searchicon}/>
           <TextInput
             ref="searchinput"
             style={styles.searchfield}
@@ -341,12 +341,12 @@ var manyPhones = this.state.partnerSelection &&
         >
 
 
-        <Image style={styles.modalcontainer} source={require('image!gradientbgs')}>
+        <Image style={styles.modalcontainer} source={require('../../newimg/gradientbgs.png'))}>
           <View style={[styles.col]}>
             <View style={styles.insidemodalwrapper}>
 
           <Image style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginBottom:20}]}
-                source={this.state.partnerSelection.thumbnailPath !== '' ? {uri: this.state.partnerSelection.thumbnailPath} : require('image!placeholderUserWhite')} />
+                source={this.state.partnerSelection.thumbnailPath !== '' ? {uri: this.state.partnerSelection.thumbnailPath} : require('../../newimg/placeholderUserWhite.png'))} />
 
             <View style={styles.rowtextwrapper}>
 

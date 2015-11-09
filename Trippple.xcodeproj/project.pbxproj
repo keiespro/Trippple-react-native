@@ -1829,7 +1829,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "trippple" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Trippple" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -1882,6 +1882,10 @@
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
 				},
 				{
+					ProductGroup = 7830FAC71BF110CC004247EB /* Products */;
+					ProjectRef = ACA55B281BF0E432000BDC80 /* RCTOSPermissions.xcodeproj */;
+				},
+				{
 					ProductGroup = ACA129311B40EA1600CC1499 /* Products */;
 					ProjectRef = ACA129301B40EA1600CC1499 /* RCTPushNotification.xcodeproj */;
 				},
@@ -1920,10 +1924,6 @@
 				{
 					ProductGroup = ACA1293A1B40EA1600CC1499 /* Products */;
 					ProjectRef = ACA129391B40EA1600CC1499 /* RNMail.xcodeproj */;
-				},
-				{
-					ProductGroup = ACABA31A1B8F7B760024503C /* Products */;
-					ProjectRef = ACABA3191B8F7B760024503C /* RNOverlay.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1993,6 +1993,13 @@
 			fileType = archive.ar;
 			path = libReact.a;
 			remoteRef = 146834031AC3E56700842450 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7830FAD61BF110CC004247EB /* libRCTOSPermissions copy.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRCTOSPermissions copy.a";
+			remoteRef = 7830FAD51BF110CC004247EB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {
@@ -2098,13 +2105,6 @@
 			fileType = archive.ar;
 			path = libRNKeychain.a;
 			remoteRef = ACA55B4B1BF0EB6C000BDC80 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		ACABA31E1B8F7B760024503C /* libRNOverlay.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNOverlay.a;
-			remoteRef = ACABA31D1B8F7B760024503C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2310,7 +2310,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACFBD8E31BEC873E000AB91A /* main.jsbundle in Resources */,
 				AC0020BA1BDD9C1200C5C538 /* Default@2x~iphone.png in Resources */,
 				AC0020BB1BDD9C1200C5C538 /* Images.xcassets in Resources */,
 				AC0020BC1BDD9C1200C5C538 /* Montserrat-Regular.otf in Resources */,
@@ -3157,7 +3156,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "trippple" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Trippple" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

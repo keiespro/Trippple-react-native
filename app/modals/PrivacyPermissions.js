@@ -144,7 +144,7 @@ export default class PrivacyPermissionsModal extends Component{
           resizeMode={Image.resizeMode.contain}
 
           style={[{width:120,height:120,marginBottom:10,marginTop:30}]}
-          source={require('image!iconPrivacyMask')} />
+          source={require('../../newimg/iconPrivacyMask.png'))} />
 
         <View style={styles.insidemodalwrapper}>
             <Text style={[styles.rowtext,styles.bigtext,{
@@ -171,7 +171,7 @@ export default class PrivacyPermissionsModal extends Component{
               _onPress={this.handleTapFacebook.bind(this)}>
 
               {hasFacebookPermissions ?
-                      <Image source={require('image!checkmarkWhiteSmall') }
+                      <Image source={require('../../newimg/checkmarkWhiteSmall.png')) }
                         resizeMode={Image.resizeMode.cover}
                             style={{height:21,width:30}} /> :
                             <View style={{backgroundColor:colors.mediumPurple,height:20,width:20,borderRadius:10,alignSelf:'center'}} /> }
@@ -187,7 +187,7 @@ export default class PrivacyPermissionsModal extends Component{
                 _onPress={this.handleTapContacts.bind(this)}>
 
               {hasContactsPermissions ?
-                <Image source={require('image!checkmarkWhiteSmall') }
+                <Image source={require('../../newimg/checkmarkWhiteSmall.png')) }
                   resizeMode={Image.resizeMode.cover}
                       style={{height:21,width:30}} /> :
                       <View style={{backgroundColor:colors.mediumPurple,height:20,width:20,borderRadius:10,alignSelf:'center'}} /> }

@@ -39,7 +39,7 @@ class FacebookButton extends React.Component{
 
   static propTypes = {
     buttonText:PropTypes.string,
-    buttonType: PropTypes.oneOf(['imageUpload','connectionStatus','onboard','settings'])
+    buttonType: PropTypes.oneOf(['../../newimg/pload.png'),'connectionStatus','onboard','settings'])
   };
 
   static defaultProps = {
@@ -188,7 +188,7 @@ class FacebookButton extends React.Component{
         underlayColor={colors.mediumPurple20}
         _onPress={this.onPress.bind(this)}>
 
-          <Image source={require('image!fBlogo')}
+          <Image source={require('../../newimg/fBlogo.png'))}
                     resizeMode={Image.resizeMode.cover}
                         style={{height:40,width:20}} />
         </BoxyButton>

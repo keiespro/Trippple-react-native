@@ -335,7 +335,7 @@ class ActiveDot extends React.Component{
           backgroundColor:'transparent',alignItems:'center',justifyContent:'center',
           height:42,width:36,position:'absolute',bottom:10,
           left:MagicNumbers.isSmallDevice ? 2 : 12,
-        }} source={require('image!sliderHandle')}>
+        }} source={require('../../newimg/sliderHandle.png'))}>
         <Text style={{backgroundColor:'transparent',textAlign:'center',color:colors.white,fontSize:12}}>{
             this.props.ageVal
           }</Text>

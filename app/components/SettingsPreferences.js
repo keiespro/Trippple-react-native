@@ -171,7 +171,7 @@ class  SettingsPreferences extends React.Component{
                 <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
                   <Text style={{color: looking_for_mf ? colors.white : colors.rollingStone,
                       fontSize:MagicNumbers.size18,fontFamily:'Montserrat'}}>MALE + FEMALE COUPLES</Text>
-                    <Image source={looking_for_mf ? require('image!ovalSelected') : require('image!ovalDashed')}/>
+                    <Image source={looking_for_mf ? require('../../newimg/ovalSelected.png')) : require('../../newimg/ovalDashed.png'))}/>
                 </View>
               </TouchableHighlight>
               : null }
@@ -182,7 +182,7 @@ class  SettingsPreferences extends React.Component{
                 <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
                   <Text style={{color: looking_for_mm ? colors.white : colors.rollingStone,
                       fontSize:MagicNumbers.size18,fontFamily:'Montserrat'}}>MALE + MALE COUPLES</Text>
-                    <Image source={looking_for_mm ? require('image!ovalSelected') : require('image!ovalDashed')}/>
+                    <Image source={looking_for_mm ? require('../../newimg/ovalSelected.png')) : require('../../newimg/ovalDashed.png'))}/>
                 </View>
               </TouchableHighlight>
               : null }
@@ -193,7 +193,7 @@ class  SettingsPreferences extends React.Component{
                   <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
                     <Text style={{color: looking_for_ff ? colors.white : colors.rollingStone,
                         fontSize:MagicNumbers.size18,fontFamily:'Montserrat'}}>FEMALE + FEMALE COUPLES</Text>
-                      <Image source={looking_for_ff ? require('image!ovalSelected') : require('image!ovalDashed')}/>
+                      <Image source={looking_for_ff ? require('../../newimg/ovalSelected.png')) : require('../../newimg/ovalDashed.png'))}/>
                   </View>
                 </TouchableHighlight>
               : null }
@@ -204,7 +204,7 @@ class  SettingsPreferences extends React.Component{
                   <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
                     <Text style={{color: looking_for_f ? colors.white : colors.rollingStone,
                         fontSize:MagicNumbers.size18,fontFamily:'Montserrat'}}>FEMALE SINGLES</Text>
-                      <Image source={looking_for_f ? require('image!ovalSelected') : require('image!ovalDashed')}/>
+                      <Image source={looking_for_f ? require('../../newimg/ovalSelected.png')) : require('../../newimg/ovalDashed.png'))}/>
                   </View>
                 </TouchableHighlight>
               : null }
@@ -213,7 +213,7 @@ class  SettingsPreferences extends React.Component{
                   <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
                     <Text style={{color: looking_for_m ? colors.white : colors.rollingStone,
                         fontSize:MagicNumbers.size18,fontFamily:'Montserrat'}}>MALE SINGLES</Text>
-                      <Image source={looking_for_m ? require('image!ovalSelected') : require('image!ovalDashed')}/>
+                      <Image source={looking_for_m ? require('../../newimg/ovalSelected.png')) : require('../../newimg/ovalDashed.png'))}/>
                   </View>
                 </TouchableHighlight>
               : null }

@@ -94,8 +94,8 @@ export default class CameraPermissionsModal extends Component{
       <View style={[styles.col,{paddingVertical:10}]}>
         <Image
           style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginVertical:20}]}
-          source={require('image!iconAlbum')}
-          defaultSource={require('image!placeholderUserWhite')} />
+          source={require('../../newimg/iconAlbum.png'))}
+          defaultSource={require('../../newimg/placeholderUserWhite.png'))} />
 
         <View style={styles.insidemodalwrapper}>
 

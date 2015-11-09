@@ -93,7 +93,7 @@ Animated.sequence([
         alignItems:'center',
         justifyContent:'center'
       }}>
-          <Animated.Image source={require('image!checkMark')}
+          <Animated.Image source={require('../../newimg/checkMark.png'))}
           style={{width:200,height:200,
             opacity:this.state.bounceValue,
             transform: [                        // `transform` is an ordered array

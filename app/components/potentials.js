@@ -631,7 +631,7 @@ class InsideActiveCard extends Component{
                   }
                 ]
               }]}>
-                <Image source={require('image!iconDeny')} style={{backgroundColor:'transparent',width:60,height:60}}/>
+                <Image source={require('../../newimg/iconDeny.png'))} style={{backgroundColor:'transparent',width:60,height:60}}/>
               </Animated.View> : null
           }
           {isTopCard && !profileVisible && this.state.isMoving ?
@@ -644,7 +644,7 @@ class InsideActiveCard extends Component{
                   }
                 ]
               }]}>
-                <Image source={require('image!iconApprove')} style={{backgroundColor:'transparent',width:60,height:60}}/>
+                <Image source={require('../../newimg/iconApprove.png'))} style={{backgroundColor:'transparent',width:60,height:60}}/>
               </Animated.View> : null
           }
 
@@ -850,7 +850,7 @@ insideStyle={{flex:1,width:DeviceWidth,height:50,
           titleColor={colors.white}
           title={ matchName }
           onPrev={(nav,route)=> {this.props.toggleProfile()}}
-          customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12,marginTop:10}} source={require('image!close')} />
+          customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12,marginTop:10}} source={require('../../newimg/close.png'))} />
           }
         />
       </View>
@@ -962,7 +962,7 @@ class CardStack extends Component{
       <FadeInContainer delayAmount={2000} duration={300} didShow={()=>this.setState({didShow:true})}>
         <View
                   style={[styles.dashedBorderImage,{height:DeviceHeight,flex:10,position:'relative',}]}>
-           <Image source={require('image!placeholderDashed')}
+           <Image source={require('../../newimg/placeholderDashed.png'))}
              style={{alignSelf:'stretch',flex:10,
 
                height:MagicNumbers.is4s ?  DeviceHeight-70 : DeviceHeight-55-MagicNumbers.screenPadding/2,
@@ -974,7 +974,7 @@ class CardStack extends Component{
                left:0,flexDirection:'column',
              }}
   resizeMode={MagicNumbers.is4s ? Image.resizeMode.stretch : Image.resizeMode.contain}>
-            <Image source={require('image!iconClock')} style={{
+            <Image source={require('../../newimg/iconClock.png'))} style={{
                 height: MagicNumbers.is4s ? MagicNumbers.screenWidth/2 - 20 : MagicNumbers.screenWidth/2,
                 width:MagicNumbers.is4s ? MagicNumbers.screenWidth/2 - 20 : MagicNumbers.screenWidth/2,
                  marginBottom:MagicNumbers.is4s ? 0 : MagicNumbers.screenPadding,
