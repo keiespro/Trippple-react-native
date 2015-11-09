@@ -13,17 +13,9 @@ import {
 const DeviceHeight = require('Dimensions').get('window').height
 const DeviceWidth = require('Dimensions').get('window').width
 import {MagicNumbers} from '../../DeviceConfig'
+import OnboardingActions from '../../flux/actions/OnboardingActions'
 
-var ModalWrapper = React.createClass({
-  render(){
-    return (
-      <PurpleModal>
-        {this.props.children}
-      </PurpleModal>
-    )
-  }
 
-})
 
 import FBPhotoAlbums from '../../components/fb.login'
 import FacebookButton from '../../buttons/FacebookButton'
@@ -35,8 +27,7 @@ import EditImage from '../../screens/registration/EditImage'
 import EditImageThumb from '../../screens/registration/EditImageThumb'
 import CameraControl from '../../controls/cameraControl'
 import CameraRollView from '../../controls/CameraRollView'
-import PurpleModal from '../../modals/PurpleModal'
-import CameraRollPermissionsModal from '../../modals/CameraRollPermissions'
+ import CameraRollPermissionsModal from '../../modals/CameraRollPermissions'
 import CameraPermissionsModal from '../../modals/CameraPermissions'
 
 class SelfImage extends Component{
@@ -45,30 +36,14 @@ class SelfImage extends Component{
     this.state = {
 
     }
-  }
-
-  _getCameraRoll =()=> {
-    var lastindex = this.props.navigator.getCurrentRoutes().length;
-    console.log(lastindex);
-    var nextRoute = this.props.stack[lastindex];
-    nextRoute.passProps = {
-      ...this.props,
-      image_type:'profile',
-      stack:this.props.stack,
-      nextRoute: EditImage
-    }
-    nextRoute.component = CameraRollView
-
-    nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
-    this.props.navigator.push(nextRoute)
-
 
   }
+
+
   getCameraRollPermission(){
-    var lastindex = this.props.navigator.getCurrentRoutes().length;
-    console.log(lastindex);
-    var nextRoute =  {
-      component:  CameraRollPermissionsModal
+
+     var nextRoute =  {
+      component:  (this.props.AppState.OSPermissions && parseInt(this.props.AppState.OSPermissions.cameraRoll) > 2 ? CameraRollView : CameraRollPermissionsModal)
     };
 
     nextRoute.passProps = {
@@ -98,21 +73,7 @@ class SelfImage extends Component{
     this.props.navigator.push(nextRoute)
 
   }
-  _getCamera =()=> {
-    var lastindex = this.props.navigator.getCurrentRoutes().length;
-    console.log(lastindex);
-    var nextRoute = this.props.stack[lastindex];
 
-    nextRoute.passProps = {
-      ...this.props,
-      image_type:'profile',
-
-    }
-    nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
-    this.props.navigator.push(nextRoute)
-
-
-  }
   closeModal(){
    this.setState({
       modalOpen:false,
@@ -122,18 +83,8 @@ class SelfImage extends Component{
   gotImage =(imageFile)=>{
     this.closeModal()
 
-    var lastindex = this.props.navigator.getCurrentRoutes().length;
-    console.log(lastindex);
-    var nextRoute = this.props.stack[lastindex];
+    OnboardingActions.proceedToNextScreen({image:imageFile,image_type:'profile'});
 
-    nextRoute.passProps = {
-        ...this.props,
-        image: imageFile,
-        image_type:'profile',
-
-            }
-
-    this.props.navigator.push(nextRoute)
 
   }
   onPressFacebook(fbUser){
@@ -151,9 +102,8 @@ class SelfImage extends Component{
     this.props.navigator.push(nextRoute)
 
   }
- componentDidUpdate(prevProps,prevState){
-    console.log(prevProps,prevState);
-  }
+
+
 
   render(){
     return (
@@ -238,23 +188,23 @@ var styles = StyleSheet.create({
     textAlign:'center',
   },
   textTop:{
-    margin: MagicNumbers.is4s ? 0 : 20,
+    margin: 20,
     fontSize: 20,
     color: colors.rollingStone,
     fontFamily:'omnes',
     textAlign:'center'
   },
   imageHolder:{
-    width:DeviceWidth/2 + 20,
-    height:DeviceWidth/2 ,
+    width:MagicNumbers.is4s ? DeviceWidth/2 - 10 : DeviceWidth/2 + 20,
+    height:MagicNumbers.is4s ? DeviceWidth/2 - 30 : DeviceWidth/2 ,
     alignItems:'center',
     justifyContent:'center',
-    marginTop:  MagicNumbers.is4s ? 0 : 20,
-    marginBottom: MagicNumbers.is4s ? 0 : 40
+    marginTop:20,
+    marginBottom:40
   },
   imageInside:{
-    height:DeviceWidth/2 ,
-    width:DeviceWidth/2 + 20,
+    width:MagicNumbers.is4s ? DeviceWidth/2 - 10 : DeviceWidth/2 + 20,
+    height:MagicNumbers.is4s ? DeviceWidth/2 - 30 : DeviceWidth/2 ,
   },
   fbButton:{
     alignItems:'stretch',
