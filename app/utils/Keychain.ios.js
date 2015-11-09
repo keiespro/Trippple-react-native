@@ -1,5 +1,5 @@
 /**
- * @providesModule Keychain
+ * @providesModule KeychainX
  */
 'use strict';
 
