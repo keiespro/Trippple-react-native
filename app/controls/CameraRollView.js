@@ -235,17 +235,17 @@ class CameraRollView extends Component{
           navigator={this.props.navigator}
           route={this.props.route}
           backgroundStyle={{backgroundColor:'transparent'}}
-          onPrev={(n,p)=>(this.props.navigator.pop())}
+          onPrev={(n,p)=>(n.pop())}
           blur={true}
           title={'YOUR PHOTOS'}
           titleColor={colors.white}
           customPrev={
-            <View style={{flexDirection: 'row',opacity:0.5,top:-4}}>
+            <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
               <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>▼ </Text>
             </View>
           }
         />
-      <View style={{marginTop:50,flex:1,width:DeviceWidth,backgroundColor:colors.outerSpace}}>
+      <View style={{marginTop:55,flex:1,width:DeviceWidth,backgroundColor:colors.outerSpace}}>
         <ListView
           renderRow={this._renderRow.bind(this)}
           renderFooter={this._renderFooterSpinner}
@@ -276,7 +276,11 @@ class CameraRollView extends Component{
 
   _renderFooterSpinner = () => {
     if (!this.state.noMore) {
-      return <ActivityIndicatorIOS style={styles.spinner} />;
+      return (
+          <View style={{flexDirection:'row',alignSelf:'stretch',alignItems:'center',justifyContent:'center',width:DeviceWidth,height:80,backgroundColor:colors.dark}}>
+              <ActivityIndicatorIOS style={styles.spinner} />
+            </View>
+          )
     }
     return null;
   }
@@ -290,7 +294,7 @@ class CameraRollView extends Component{
       return this.renderImage(image)
     }) : [ this.renderImage(rowData) ];
     return (
-      <View style={styles.row} key={`${rowID}-row`}>
+      <View style={styles.item} key={`${rowID}-row`}>
         {images}
       </View>
     );
@@ -321,11 +325,11 @@ class CameraRollView extends Component{
 }
 
 var styles = StyleSheet.create({
-  row: {
+  item: {
     justifyContent: 'center',
     padding: 5,
-    margin: 0,
-    width: DeviceWidth / 3 - 20,
+    margin: 5,
+    width: DeviceWidth / 3 - 15,
     alignItems: 'center',
   },
 
@@ -335,15 +339,15 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 0,
     flexWrap: 'wrap',
-    margin: 6,
     borderRadius:6,
     width: DeviceWidth / 3 - 15,
     alignItems: 'center',
   },
   scrollContent:{
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    alignItems:'center',
     width: DeviceWidth,
   },
   pic: {
