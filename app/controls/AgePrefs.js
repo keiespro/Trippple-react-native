@@ -36,7 +36,7 @@ class  AgePrefs extends React.Component{
     this._timeout = null;
 
     var possibleRange = MAX_AGE - MIN_AGE,
-        numberGroups = (possibleRange / MIN_AGE_GROUP_DISTANCE)
+        numberGroups = parseInt(possibleRange / MIN_AGE_GROUP_DISTANCE)
     var dots = [];
 
     for (let i = 0; i <= numberGroups; i++) {
@@ -190,13 +190,15 @@ class ActiveDot extends React.Component{
   // }
   componentWillReceiveProps(nProps){
     const nval = Math.round(SliderWidth * (nProps.ageVal-18) / 32)
-    if(Math.abs(this._animatedValueX - nval) >= SliderWidth/this.props.numberGroups){
+    // if(Math.abs(this._animatedValueX - nval) >= SliderWidth/this.props.numberGroups){
       this._animatedValueX = nval
 
       Animated.spring(this.state.ageVal,{
         toValue:nval,
+        tension:40,
+        friction:10
       }).start()
-    }
+    // }
   }
   shouldComponentUpdate(nProps,nState){
     const nval = SliderWidth * (nProps.ageVal-18) / 32
@@ -238,22 +240,30 @@ class ActiveDot extends React.Component{
           }
           this.state.ageVal.flattenOffset(); // Flatten the offset so it resets the default positioning
           var newAgeVal = Math.round((this._animatedValueX * 32) / SliderWidth) + 18
+
+          if(newAgeVal%4 != 2){
+            if(newAgeVal%4 == 0){
+              newAgeVal = gestureState.vx > 0 ? newAgeVal + 2 : newAgeVal - 2
+
+            }else{
+              newAgeVal = gestureState.vx > 0 ? newAgeVal + newAgeVal%4 : newAgeVal - 4 + newAgeVal%4
+
+            }
+          }
           this.props.updateVal(newAgeVal)
 
-          var dot = this.props.dots.filter((gestureState.vx > 0 ? ((n) => n.start_age >= newAgeVal ) : (n) => n.start_age <= newAgeVal) );
-
-          var toValue = Math.round(SliderWidth * (dot[gestureState.gx > 0 ? 0 : dot.length-1].start_age-18) / 32)
-
-          Animated.spring(this.state.ageVal,{
-            toValue,
-            tension:60,
-            friction: 7,
-          }).start((fin)=>{
-            console.log('did animation finish',fin.finished)
-            // if(fin.finished) {
-              this.props.toggleScroll('on');
-            // }
-          })
+          // var toValue = Math.round(SliderWidth * (dot[gestureState.gx > 0 ? 0 : dot.length-1].start_age-18) / 32)
+          //
+          // Animated.spring(this.state.ageVal,{
+          //   toValue,
+          //   tension:40,
+          //   friction: 10,
+          // }).start((fin)=>{
+          //   console.log('did animation finish',fin.finished)
+          //   // if(fin.finished) {
+          //     this.props.toggleScroll('on');
+          //   // }
+          // })
 
 
         },
@@ -267,22 +277,25 @@ class ActiveDot extends React.Component{
           }
           this.state.ageVal.flattenOffset(); // Flatten the offset so it resets the default positioning
           var newAgeVal = Math.round((this._animatedValueX * 32) / SliderWidth) + 18
+          if(newAgeVal%4 != 2){
+            newAgeVal = gestureState.vx > 0 ? newAgeVal + newAgeVal%4 : newAgeVal - 4 + newAgeVal%4
+          }
           this.props.updateVal(newAgeVal)
 
-          var dot = this.props.dots.filter((gestureState.vx > 0 ? ((n) => n.start_age >= newAgeVal ) : (n) => n.start_age <= newAgeVal) );
+          // var dot = this.props.dots.filter((gestureState.vx > 0 ? ((n) => n.start_age >= newAgeVal ) : (n) => n.start_age <= newAgeVal) );
+          //
+          // var toValue = Math.round(SliderWidth * (dot[gestureState.gx > 0 ? 0 : dot.length-1].start_age-18) / 32)
 
-          var toValue = Math.round(SliderWidth * (dot[gestureState.gx > 0 ? 0 : dot.length-1].start_age-18) / 32)
-
-          Animated.spring(this.state.ageVal,{
-            toValue,
-            tension:60,
-            friction: 7,
-          }).start((fin)=>{
-            console.log('did animation finish',fin.finished)
-            // if(fin.finished) {
-              this.props.toggleScroll('on');
-            // }
-          })
+          // Animated.spring(this.state.ageVal,{
+          //   toValue,
+          //   tension:60,
+          //   friction: 7,
+          // }).start((fin)=>{
+          //   console.log('did animation finish',fin.finished)
+          //   // if(fin.finished) {
+          //     this.props.toggleScroll('on');
+          //   // }
+          // })
 
         }
 

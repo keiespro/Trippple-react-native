@@ -43,11 +43,10 @@ var {OSPermissions} = NativeModules
 
 class  SettingsPreferences extends React.Component{
   constructor(props){
-    super(props)
-    console.log(NativeModules,OSPermissions)
+    super()
     this.state = {
       scroll: 'on',
-      nearMeToggled: parseInt(OSPermissions.location) - 2,
+      nearMeToggled: parseInt(OSPermissions.location) && (parseInt(OSPermissions.location) - 2),
       looking_for_mf: props.user.looking_for_mf || false,
       looking_for_mm: props.user.looking_for_mm || false,
       looking_for_ff: props.user.looking_for_ff || false,
@@ -63,9 +62,6 @@ class  SettingsPreferences extends React.Component{
   }
   toggleScroll(direction){
     this.setState({scroll:direction})
-  }
-  componentWillReceiveProps(nProps){
-
   }
   componentDidUpdate(pProps,pState){
     //i dont know why this is here
@@ -83,7 +79,7 @@ class  SettingsPreferences extends React.Component{
           title:'PRIORITIZE LOCAL',
           subtitle:'We’ve found 10 matches we think you might like. Should we prioritize the matches closest to you?',
           failedTitle: 'LOCATION DISABLED',
-          failCallback:()=>{this.props.navigator.pop(); this.setState({nearMeToggled:0})},
+          failCallback:(val)=>{this.props.navigator.pop(); this.setState({nearMeToggled:val})},
           failedSubtitle: 'Geolocation is disabled. You can enable it in your phone’s Settings.',
           failedState: (OSPermissions.location < 3 && this.state.nearMeToggled ? true : false),
           headerImageSource:'iconDeck',

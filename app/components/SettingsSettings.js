@@ -62,9 +62,8 @@ class SettingsSettings extends React.Component{
   componentDidMount() {
     Mixpanel.track('On - Setings Screen');
   }
-  componentWillReceiveProps(nProps){
-    console.log('NPROPS',nProps)
-  }
+
+
   openWebview(page){
     var url, pageTitle;
     switch (page){
@@ -114,7 +113,7 @@ class SettingsSettings extends React.Component{
           sceneConfig: NavigatorSceneConfigs.FloatFromBottom,
           passProps: {
             cancel: ()=> {this.props.navigator.pop()},
-            success: (privacy) => {this.togglePrivacy('private'); this.props.navigator.pop()},
+            success: (privacy) => {this.togglePrivacy('private');},
             user: this.props.user,
           }
         })
@@ -153,8 +152,10 @@ class SettingsSettings extends React.Component{
               borderColor:colors.rollingStone,flex:1,height:130,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}]}>
           <View style={{flexWrap:'wrap',alignSelf:'stretch',flex:1,alignItems:'flex-start',justifyContent:'center',width:DeviceWidth-120,flexDirection:'column',paddingRight:20}}>
             <Text style={{color: privacy == 'public' ? colors.white : colors.rollingStone, fontSize:20,fontFamily:'Montserrat-Bold'}}>PUBLIC</Text>
-          <Text style={{color: privacy == 'public' ? colors.white : colors.rollingStone,fontSize:18,fontFamily:'omnes',marginTop:5}}>
-              Your profile is visible to all Trippple members.
+          <Text style={{
+              color: privacy == 'public' ? colors.white : colors.rollingStone,fontSize:18,
+              fontFamily:'omnes',marginTop:5}}>
+                Your profile is visible to all Trippple members.
                   </Text>
                 </View>
                 <View style={{width:30,marginHorizontal:10}}>

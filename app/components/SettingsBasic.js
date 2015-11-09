@@ -223,8 +223,7 @@ class SettingsBasic extends React.Component{
                     paddingRight:30
                   }}>{
                     field == 'birthday' ?
-                    this.props.user[field] ? moment(this.props.user[field]).format('MM/DD/YYYY') : ''
-                    : this.props.user[field] ? this.props.user[field] : ''
+                    this.props.user[field] ? moment(this.props.user[field]).format('MM/DD/YYYY') : '' : this.props.user.gender == 'f' ? 'FEMALE' : 'MALE'  
                   }</Text>
                   <Image
                       style={{width:15,height:15,position:'absolute',right:0,top:23}}
