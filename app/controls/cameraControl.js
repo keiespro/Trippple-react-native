@@ -16,6 +16,7 @@ import Dimensions from 'Dimensions';
 import BackButton from '../components/BackButton'
 import EditImageThumb from '../screens/registration/EditImageThumb'
 import EditImage from '../screens/registration/EditImage'
+import OnboardingActions from '../flux/actions/OnboardingActions'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -28,6 +29,10 @@ class CameraControl extends Component{
     }
   }
   _goBack =()=> {
+    this.setState({
+      image: null
+    })
+
     this.props.navigator.pop()
   }
 
@@ -39,7 +44,7 @@ class CameraControl extends Component{
         <View style={styles.paddedTop} pointerEvents={'box-none'}>
 
         <View style={{marginBottom:10}}>
-          <BackButton navigator={this.props.navigator}/>
+          <BackButton />
         </View>
           <TouchableOpacity  onPress={this._switchCamera} style={[{height:50,width:48},styles.rightbutton]}>
             <View>
@@ -57,7 +62,7 @@ class CameraControl extends Component{
           type={this.state.cameraType}
           aspect={Camera.constants.Aspect.fill}
           flashMode={Camera.constants.FlashMode.auto}
-          orientation={Camera.constants.Orientation.auto}
+          orientation={Camera.constants.Orientation.portrait}
           captureTarget={Camera.constants.CaptureTarget.disk}
           >
           <TouchableOpacity style={styles.bigbutton} onPress={this._takePicture.bind(this)} >
@@ -80,8 +85,7 @@ class CameraControl extends Component{
 
   _takePicture =()=> {
     this.refs.cam.capture({},(err, data)=> {
-      console.log('IMAGE -',data)
-      if(err){console.log('camera err')}
+       if(err){console.log('camera err')}
       // CameraRoll.saveImageWithTag(data,
       //   (imageTag)=> {
       //     console.log(imageTag);
@@ -118,17 +122,16 @@ class CameraControl extends Component{
           return
 
         }else{
-          var lastindex = this.props.navigator.getCurrentRoutes().length;
-          console.log( 'debug',lastindex );
-          var nextRoute = this.props.stack[ lastindex ];
-
-          nextRoute.passProps = {
-           ...this.props,
-            image: imageFile.uri,
-            imageData: data,
-            image_type: this.props.image_type || '',
-          }
-          this.props.navigator.push( nextRoute )
+          this.props.navigator.push({
+            component: EditImage,
+            passProps: {
+               imageData: data,
+              image: imageFile,
+              image_type: this.props.image_type || '',
+              nextRoute: EditImageThumb
+            }
+          })
+          return
         }
       }
     })
