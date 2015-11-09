@@ -15,8 +15,9 @@ import {
 
 import UserActions from '../../flux/actions/UserActions'
 import colors from '../../utils/colors'
-import BackButton from '../../components/BackButton'
+import BackButton from './BackButton'
 import {MagicNumbers} from '../../DeviceConfig'
+import OnboardingActions from '../../flux/actions/OnboardingActions'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -30,14 +31,13 @@ class NameScreen extends Component{
     super(props);
     console.log(props.user)
     this.state = {
-      name: props.fb_name || props.user.firstname || '',
-      inputFieldValue: props.fb_name || props.user.firstname || '',
+      name: props.fb_name || props.userInfo.firstname || '',
+      inputFieldValue: props.fb_name || props.userInfo.firstname || '',
     }
   }
 
   componentDidMount(){
-    UserActions.updateUserStub({firstname: this.state.inputFieldValue});
-
+    // OnboardingActions.updateUserInfo({firstname: this.state.inputFieldValue})
   }
   handleInputChange =(txt)=> {
     //  if(!txt || txt == ''){
@@ -63,55 +63,46 @@ class NameScreen extends Component{
     })
   }
   _submit =()=>{
-    UserActions.updateUserStub({firstname: this.state.inputFieldValue});
-    var lastindex = this.props.navigator.getCurrentRoutes().length;
-    var nextRoute = this.props.stack[lastindex];
-
-    nextRoute.passProps = {
-      stack: this.props.stack,
-      firstname: this.state.inputFieldValue,
-      keyboardSpace: this.state.keyboardSpace
-    }
-    this.props.navigator.push(nextRoute)
+    OnboardingActions.proceedToNextScreen({firstname: this.state.inputFieldValue})
 
   }
  render(){
    return(
-     <View style={{width:DeviceWidth,height:DeviceHeight,position:'relative',backgroundColor:colors.outerSpace}}>
-       <View style={{width:100,height:50,left:MagicNumbers.screenPadding/2}}>
-          <BackButton navigator={this.props.navigator}/>
-        </View>
-        <SingleInputScreen
-          shouldHide={(val) => { return (val.length <= 0) ? true : false }}
-          shouldShow={(val) => { return (val.length > 0)  ? true : false }}
-          inputFieldValue={this.state.inputFieldValue}
-          inputFieldFocused={this.state.inputFieldFocused}
-          handleNext={this._submit.bind(this)}
-          >
+    <View style={{width:DeviceWidth,height:DeviceHeight,position:'relative',backgroundColor:colors.outerSpace}}>
+      <View style={{width:100,height:50,left:(MagicNumbers.screenPadding/2)}}>
+        <BackButton/>
+      </View>
+      <SingleInputScreen
+        shouldHide={(val) => { return (val.length <= 0) ? true : false }}
+        shouldShow={(val) => { return (val.length > 0)  ? true : false }}
+        inputFieldValue={this.state.inputFieldValue}
+        inputFieldFocused={this.state.inputFieldFocused}
+        handleNext={this._submit.bind(this)}
+        >
 
-          <TextInput
-            style={[styles.pinInput,{
-              fontSize: 22
-            }]}
-              defaultValue={this.state.name || this.state.inputFieldValue || ''}
-              keyboardAppearance={'dark'/*doesnt work*/}
-              autoCapitalize={'words'}
-              placeholder={'FIRST NAME'}
-              placeholderTextColor={colors.white}
-              autoCorrect={false}
-              returnKeyType={'next'}
-              autoFocus={true}
-              maxLength={10}
-              ref={component => this._textInput = component}
-              clearButtonMode={'never'}
-              onFocus={this.handleInputFieldFocused.bind(this)}
-              onBlur={this.handleInputFieldBlurred.bind(this)}
-              textAlign={'center'}
-              onChangeText={this.handleInputChange}
-            />
-            </SingleInputScreen>
-            </View>
-        )
+        <TextInput
+          style={[styles.pinInput,{
+            fontSize: 22
+          }]}
+            defaultValue={this.state.name || this.state.inputFieldValue || ''}
+            keyboardAppearance={'dark'/*doesnt work*/}
+            autoCapitalize={'words'}
+            placeholder={'FIRST NAME'}
+            placeholderTextColor={colors.white}
+            autoCorrect={false}
+            returnKeyType={'next'}
+            autoFocus={true}
+            maxLength={10}
+            ref={component => this._textInput = component}
+            clearButtonMode={'never'}
+            onFocus={this.handleInputFieldFocused.bind(this)}
+            onBlur={this.handleInputFieldBlurred.bind(this)}
+            textAlign={'center'}
+            onChangeText={this.handleInputChange}
+          />
+        </SingleInputScreen>
+      </View>
+    )
   }
 }
 

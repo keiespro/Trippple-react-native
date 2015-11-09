@@ -15,10 +15,11 @@ var {
 var UserActions = require('../../flux/actions/UserActions');
 var colors = require('../../utils/colors')
 var BoxyButton = require('../../controls/boxyButton')
+import OnboardingActions from '../../flux/actions/OnboardingActions'
 
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
-import BackButton from '../../components/BackButton'
+import BackButton from './BackButton'
 import {MagicNumbers} from '../../DeviceConfig'
 
 import ContinueButton from '../../controls/ContinueButton'
@@ -71,20 +72,7 @@ class PrivacyScreen extends Component{
   _continue(){
     console.log(this.state.selection)
 
-    UserActions.updateUserStub({privacy: this.state.selection, ready:true});
-
-   var lastindex = this.props.navigator.getCurrentRoutes().length;
-  console.log(lastindex);
-  var nextRoute = this.props.stack[lastindex];
-
-   nextRoute.passProps = {
-        ...this.props,
-        privacy: this.state.selection
-
-
-    }
-    this.props.navigator.push(nextRoute)
-
+    OnboardingActions.proceedToNextScreen({privacy: this.state.selection, ready:true})
 
   }
   render() {
@@ -92,7 +80,7 @@ class PrivacyScreen extends Component{
     return (
       <View style={[styles.container]}>
  <View style={{width:100,height:50,left:MagicNumbers.screenPadding/2,alignSelf:'flex-start'}}>
-        <BackButton navigator={this.props.navigator}/>
+        <BackButton/>
       </View>
 
         <View style={styles.topWrap}>

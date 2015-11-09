@@ -15,12 +15,13 @@ import { FBLoginManager } from 'NativeModules'
 import colors from '../../utils/colors'
 import UserActions from '../../flux/actions/UserActions'
 import BoxyButton from '../../controls/boxyButton'
-import BackButton from '../../components/BackButton'
+import BackButton from './BackButton'
 import FBPhotoAlbums from '../../components/fb.login'
 import {MagicNumbers} from '../../DeviceConfig'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
+import OnboardingActions from '../../flux/actions/OnboardingActions'
 
 import FacebookButton from '../../buttons/FacebookButton'
 
@@ -85,17 +86,8 @@ class Facebook extends Component{
           fb_updated_time:updated_time,
           fb_bday_year: new Date().getFullYear() - age_range.min
         }
-        UserActions.updateUserStub(fbData);
+        OnboardingActions.proceedToNextScreen(fbData);
         UserActions.updateUser({email,timezone})
-
-        var lastindex = this.props.navigator.getCurrentRoutes().length,
-            nextRoute = this.props.stack[lastindex];
-
-        nextRoute.passProps = {
-          ...this.props,
-          ...fbData
-        }
-        this.props.navigator.push(nextRoute)
 
        })
       .done();
@@ -103,18 +95,8 @@ class Facebook extends Component{
   }
 
 
-  skipFacebook =( )=>{
-    var lastindex = this.props.navigator.getCurrentRoutes().length;
-
-    var nextRoute = this.props.stack[lastindex];
-
-    nextRoute.passProps = {
-      ...this.props,
-    }
-    this.props.navigator.push(nextRoute)
-
-
-
+  skipFacebook(){
+    OnboardingActions.proceedToNextScreen({});
   }
 
   render() {
@@ -122,7 +104,7 @@ class Facebook extends Component{
      <View style={{width:DeviceWidth,height:DeviceHeight,position:'relative',backgroundColor:colors.outerSpace}}>
 
          <View style={{width:100,height:50,left:(MagicNumbers.screenPadding/2)}}>
-          <BackButton navigator={this.props.navigator}/>
+          <BackButton/>
         </View>
 
       <View style={[styles.container,{}]}>

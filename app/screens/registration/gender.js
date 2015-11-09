@@ -18,12 +18,13 @@ var UserActions = require('../../flux/actions/UserActions');
 var colors = require('../../utils/colors')
 var BoxyButton = require('../../controls/boxyButton')
 import {MagicNumbers} from '../../DeviceConfig'
+import OnboardingActions from '../../flux/actions/OnboardingActions'
 
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 import SharedStyles from '../../SharedStyles'
 import Gobackbutton from '../../controls/Gobackbutton'
-import BackButton from '../../components/BackButton'
+import BackButton from './BackButton'
 import ContinueButton from '../../controls/ContinueButton'
 
 class GenderScreen extends Component{
@@ -37,7 +38,7 @@ class GenderScreen extends Component{
       canContinue: false
     }
   }
-  componentDidMount(){
+  componentWillMount(){
     this.setState({
       selection: this.state.selection
     })
@@ -55,25 +56,14 @@ class GenderScreen extends Component{
 
   }
   _continue(){
-    UserActions.updateUserStub({gender: this.state.selection});
-
- var lastindex = this.props.navigator.getCurrentRoutes().length;
-  var nextRoute = this.props.stack[lastindex];
-
-   nextRoute.passProps = {
-          ...this.props,
-              gender: this.state.selection,
-            }
-
-    this.props.navigator.push(nextRoute)
-
+    OnboardingActions.proceedToNextScreen({gender: this.state.selection});
   }
   render() {
 
     return (
       <View style={[styles.container]}>
         <View style={{width:100,height:50,left:MagicNumbers.screenPadding/2,alignSelf:'flex-start'}}>
-          <BackButton navigator={this.props.navigator}/>
+          <BackButton/>
         </View>
 
         <View style={[styles.genderWrap,{marginHorizontal:MagicNumbers.screenPadding/2,width:MagicNumbers.screenWidth}]}>
@@ -215,20 +205,20 @@ var styles = StyleSheet.create({
     width: DeviceWidth,
     paddingHorizontal:50
   },
-
-  labelText:{
-    color:colors.rollingStone,
-    fontSize:32,
-    fontFamily:'omnes',
-    textAlign:'center',
-    marginBottom:60
-
-  },
+  //
+  // labelText:{
+  //   color:colors.rollingStone,
+  //   fontSize:32,
+  //   fontFamily:'omnes',
+  //   textAlign:'center',
+  //   marginBottom:60
+  //
+  // },
   grayIconbutton:{
     borderColor: colors.rollingStone,
     borderWidth: 1,
     alignSelf:'stretch',
-    width: DeviceWidth * .7,
+    width: DeviceWidth * 0.7,
     flex:1
 
   },
@@ -254,13 +244,13 @@ var styles = StyleSheet.create({
   iconButtonMale:{
     borderColor: colors.darkSkyBlue,
     borderWidth: 1,
-    width: DeviceWidth * .7,
+    width: DeviceWidth * 0.7,
 
   },
   iconButtonFemale:{
     borderColor: colors.mandy,
     borderWidth: 1,
-    width: DeviceWidth * .7,
+    width: DeviceWidth * 0.7,
 
   },
 

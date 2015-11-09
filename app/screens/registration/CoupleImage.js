@@ -13,16 +13,33 @@ import {
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
+import FBPhotoAlbums from '../../components/fb.login'
 import FacebookButton from '../../buttons/FacebookButton'
+import BoxyButton from '../../controls/boxyButton'
 import colors from '../../utils/colors'
 import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
-import CameraControl from '../../controls/cameraControl'
-
-import CameraRollView from '../../controls/CameraRollView'
 import BackButton from '../../components/BackButton'
+import EditImage from '../../screens/registration/EditImage'
+import EditImageThumb from '../../screens/registration/EditImageThumb'
+import CameraControl from '../../controls/cameraControl'
+import CameraRollView from '../../controls/CameraRollView'
+import PurpleModal from '../../modals/PurpleModal'
+import CameraRollPermissionsModal from '../../modals/CameraRollPermissions'
+import CameraPermissionsModal from '../../modals/CameraPermissions'
+import OnboardingActions from '../../flux/actions/OnboardingActions'
+import {MagicNumbers} from '../../DeviceConfig'
 
-import EditImage from './EditImage'
 
+var ModalWrapper = React.createClass({
+  render(){
+    return (
+      <PurpleModal>
+        {this.props.children}
+      </PurpleModal>
+    )
+  }
+
+})
 class CoupleImage extends Component{
 
   constructor(props){
@@ -31,71 +48,106 @@ class CoupleImage extends Component{
     }
   }
 
-  _getCameraRoll =()=> {
-    var lastindex = this.props.navigator.getCurrentRoutes().length;
-    console.log(lastindex);
-    var nextRoute = this.props.stack[lastindex];
-    nextRoute.component = CameraRollView
-    nextRoute.passProps = {
-      ...this.props,
-      image_type:'profile',
-      stack:this.props.stack,
 
-    }
-    nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
-    this.props.navigator.push(nextRoute)
-
-
-  }
-  _getCamera =()=> {
-    var lastindex = this.props.navigator.getCurrentRoutes().length;
-    console.log(lastindex);
-    var nextRoute = this.props.stack[lastindex];
-
-    nextRoute.passProps = {
-      ...this.props,
-      image_type:'profile',
-
-    }
-    nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
-    this.props.navigator.push(nextRoute)
-
-
-  }
-  closeModal(){
-   this.setState({
-      modalOpen:false,
-      modalView: ''
-    })
-  }
-  gotImage =(imageFile)=>{
-    this.closeModal()
-
-   var lastindex = this.props.navigator.getCurrentRoutes().length;
-  console.log(lastindex);
-  var nextRoute = this.props.stack[lastindex];
-
-   nextRoute.passProps = {
+    _getCameraRoll =()=> {
+      var lastindex = this.props.navigator.getCurrentRoutes().length;
+      console.log(lastindex);
+      var nextRoute = this.props.stack[lastindex];
+      nextRoute.passProps = {
         ...this.props,
-        image: imageFile,
-        image_type:'couple_profile',
+        image_type:'profile',
+        stack:this.props.stack,
+        nextRoute: EditImage
+      }
+      nextRoute.component = CameraRollView
+
+      nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
+      this.props.navigator.push(nextRoute)
 
 
     }
-    this.props.navigator.push(nextRoute)
-  }
-  componentDidUpdate(prevProps,prevState){
-    console.log(prevProps,prevState);
-  }
-  onPressFacebook(){
-    console.log('fb')
+    getCameraRollPermission(){
+      var lastindex = this.props.navigator.getCurrentRoutes().length;
+      console.log(lastindex);
+      var nextRoute =  {
+        component:  CameraRollPermissionsModal
+      };
 
-  }
+      nextRoute.passProps = {
+        ...this.props,
+        image_type:'profile',
+      }
+      nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
+      this.props.navigator.push(nextRoute)
+
+
+
+    }
+    getCameraPermission(){
+      var lastindex = this.props.navigator.getCurrentRoutes().length;
+      console.log(lastindex);
+      var nextRoute = {
+        component: CameraPermissionsModal
+      }
+
+      nextRoute.passProps = {
+        ...this.props,
+        image_type:'profile',
+        nextRoute: CameraControl
+
+      }
+      nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
+      this.props.navigator.push(nextRoute)
+
+    }
+    _getCamera =()=> {
+      var lastindex = this.props.navigator.getCurrentRoutes().length;
+      console.log(lastindex);
+      var nextRoute = this.props.stack[lastindex];
+
+      nextRoute.passProps = {
+        ...this.props,
+        image_type:'profile',
+
+      }
+      nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
+      this.props.navigator.push(nextRoute)
+
+
+    }
+    closeModal(){
+     this.setState({
+        modalOpen:false,
+        modalView: ''
+      })
+    }
+    gotImage =(imageFile)=>{
+      this.closeModal()
+
+      OnboardingActions.proceedToNextScreen({image:imageFile,image_type:'couple_profile'});
+
+
+    }
+    onPressFacebook(fbUser){
+
+      var nextRoute = {}
+      nextRoute.component = FBPhotoAlbums
+      nextRoute.passProps = {
+        ...this.props,
+        image_type: 'profile',
+        nextRoute: EditImage,
+        afterNextRoute: EditImageThumb,
+        fbUser
+      }
+      nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
+      this.props.navigator.push(nextRoute)
+
+    }
   render(){
     return (
       <View style={styles.container}>
-      <View style={{width:100,height:50,left:20,top:0,alignSelf:'flex-start',position:'absolute'}}>
-        <BackButton navigator={this.props.navigator}/>
+      <View style={{width:100,height:50,left:MagicNumbers.screenPadding/2,alignSelf:'flex-start',position:'absolute'}}>
+        <BackButton />
       </View>
 
         <Text style={[styles.textTop,{marginTop:40}]}>You and your Partner</Text>

@@ -12,6 +12,9 @@ import {
 import UserActions from '../../flux/actions/UserActions'
 import colors from '../../utils/colors'
 import CustomSceneConfigs from '../../utils/sceneConfigs'
+import OnboardingStore from '../../flux/stores/OnboardingStore'
+import OnboardingActions from '../../flux/actions/OnboardingActions'
+import AltContainer from 'alt/AltNativeContainer'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -87,8 +90,10 @@ var RouteStackSingle = [
     {component: Limbo,  title: 'Limbo'},
   ];
 
-RouteStackSingle = RouteStackSingle.map( (r,i) =>{ r.index = i; return r})
-RouteStackCouple = RouteStackCouple.map( (r,i) =>{ r.index = i; return r})
+const stacks = {
+  single: RouteStackSingle,
+  couple: RouteStackCouple
+}
 
 class Onboard extends Component{
   constructor(props){
@@ -97,51 +102,56 @@ class Onboard extends Component{
       selection: 'single'
     }
   }
+  componentDidMount(){
+    this.refs.onboardingNavigator.navigationContext.addListener('didfocus', (e)=>{
+     console.log('New route:', ...e)
 
+     console.log(this.props.onboardingState.routeIndex,e._data.route.__navigatorRouteID)
+
+     if(this.props.onboardingState.routeIndex == e._data.route.__navigatorRouteID && !this.props.onboardingState.popped){
+       OnboardingActions.updateRoute(this.props.onboardingState.routeIndex - 1)
+
+     }
+     // AppActions.updateRoute(e._data.route.id)
+   })
+  }
   selectScene (route: Navigator.route, navigator: Navigator) {
-    var stack
-    if(route.passProps){
-      if(route.passProps.stack){
-        stack = route.passProps.stack
-      }else if(route.passProps.relationship_status){
-        stack = route.passProps.relationship_status == 'single' ? RouteStackSingle : RouteStackCouple;
-      }else if(route.index){
-        console.log(route.index)
-      }else{
-        stack = RouteStackSingle
-      }
-    }else{
-        stack = RouteStackSingle
-      }
 
-    var curIndex = _.findIndex(stack,(ro, i)=>{ return ro.index == route.index })
-    if(!curIndex && (route.title == 'CameraRollView' || route.title == 'CameraControl')){
-
-      curIndex = _.findIndex(stack,(ro, i)=>{ return ro.title == 'CAMERA' })
-    }
-    console.log('this.props.currentIndex:',curIndex);
     return (
             <route.component
               navigator={navigator}
               user={this.props.user}
-              currentIndex={curIndex}
-              stack={stack}
+              userInfo={this.props.onboardingState.userInfo}
               AppState={this.props.AppState}
-              index={route.index ? route.index : null}
               {...route.passProps}
             />
     );
+  }
+  componentWillReceiveProps(nProps){
+    if(this.props.onboardingState.routeIndex > nProps.onboardingState.routeIndex &&  nProps.onboardingState.popped){
+      this.refs.onboardingNavigator.pop()
+
+    }else if( nProps.onboardingState.routeIndex > this.props.onboardingState.routeIndex ){
+
+      this.refs.onboardingNavigator.push(
+        stacks[nProps.onboardingState.currentStack][nProps.onboardingState.routeIndex]
+      )
+    }
   }
 
   render() {
 
     return (
+
       <View style={{backgroundColor:'#000000',height:DeviceHeight,width:DeviceWidth}}>
         <Navigator
-          configureScene={ (route) => route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromRight }
+          configureScene={
+            (route) => route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromRight
+          }
           renderScene={this.selectScene.bind(this)}
           sceneStyle={styles.container}
           navigationBar={false}
+          ref={'onboardingNavigator'}
           initialRoute={RouteStackSingle[0]}
           />
           </View>
@@ -151,6 +161,19 @@ class Onboard extends Component{
 
 }
 
+class Onboarding extends Component{
+
+
+  render(){
+
+        return (
+            <AltContainer stores={{onboardingState: OnboardingStore}}>
+              <Onboard user={this.props.user} AppState={this.props.AppState} />
+            </AltContainer>
+    )
+
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -168,4 +191,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Onboard
+export default Onboarding

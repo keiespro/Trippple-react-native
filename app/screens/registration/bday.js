@@ -24,7 +24,8 @@ import {MagicNumbers} from '../../DeviceConfig'
 import UserActions from '../../flux/actions/UserActions'
 import colors from '../../utils/colors'
 import moment from 'moment'
-import BackButton from '../../components/BackButton'
+import BackButton from './BackButton'
+import OnboardingActions from '../../flux/actions/OnboardingActions'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -50,32 +51,11 @@ class BdayScreen extends Component{
   _submit =()=>{
   var isLegal = moment(this.state.date).diff(moment(), 'years') < -18;
     if(!isLegal){return false}
-    UserActions.updateUserStub({
+    OnboardingActions.proceedToNextScreen({
       birthday: this.state.date,
       bday_month: this.state.date.getMonth()+1,
       bday_year: this.state.date.getFullYear()
     })
-    // this.props.navigator.push({
-    //   component: this.props.stack[this.props.currentIndex+1].component,
-    //   passProps: {
-    //     ...this.props,
-    //     bday: this.state.date
-    //   }
-    // })
-    //
-    //
-  var lastindex = this.props.navigator.getCurrentRoutes().length;
-  console.log(lastindex);
-  var nextRoute = this.props.stack[lastindex];
-
-   nextRoute.passProps = {
-              firstname:this.props.firstname,
-              bday: this.state.date,
-              stack: this.props.stack,
-
-            }
-
-    this.props.navigator.push(nextRoute)
 
   }
 
@@ -102,7 +82,7 @@ class BdayScreen extends Component{
       })
 
       console.log(date,this.state.date);
-      UserActions.updateUserStub({
+      OnboardingActions.updateUserInfo({
         birthday: moment(date).format('YYYY-MM-DD'),
         bday_month: date.getMonth()+1,
         bday_year: date.getFullYear()

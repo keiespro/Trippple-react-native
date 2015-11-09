@@ -14,42 +14,32 @@ import {
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 
+import OnboardingActions from '../../flux/actions/OnboardingActions'
 
 import colors from '../../utils/colors'
 import UserActions from '../../flux/actions/UserActions'
 import BoxyButton from '../../controls/boxyButton'
 import Contacts from '../contacts'
 import Facebook from './facebook'
-import BackButton from '../../components/BackButton'
+import BackButton from './BackButton'
+import {MagicNumbers} from '../../DeviceConfig'
 
 class InvitePartner extends Component{
   constructor(props){
     super(props);
   }
   onPress(){
-   var lastindex = this.props.navigator.getCurrentRoutes().length;
-  console.log(lastindex);
-  var nextRoute = this.props.stack[lastindex];
 
-   nextRoute.passProps = {
-        ...this.props,
-
-    }
-    this.props.navigator.push(nextRoute)
-
-
+    OnboardingActions.proceedToNextScreen()
 
   }
 
-  goBack(){
-    this.props.navigator.pop()
-  }
 
   render() {
     return (
       <View style={styles.container}>
-        <View style={{width:100,height:50,left:20,top:0,alignSelf:'flex-start',position:'absolute'}}>
-          <BackButton navigator={this.props.navigator}/>
+        <View style={{width:100,height:50,left:MagicNumbers.screenPadding/2,alignSelf:'flex-start',position:'absolute'}}>
+          <BackButton />
          </View>
 
         <View style={[styles.middleTextWrap,styles.pushDown]}>

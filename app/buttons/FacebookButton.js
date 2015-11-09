@@ -68,7 +68,7 @@ class FacebookButton extends React.Component{
     }
   }
   componentDidMount(){
-    AppActions.grantPermission(FACEBOOK_LOCALSTORAGE_KEY)
+    // AppActions.grantPermission(FACEBOOK_LOCALSTORAGE_KEY)
 
     FBLoginManager.getCredentials((error, data)=>{
       console.log(error, data)
@@ -85,7 +85,7 @@ class FacebookButton extends React.Component{
   }
   componentWillUnmount(){
     var {subscriptions} = this.state;
-    subscriptions.forEach(function(subscription){
+    subscriptions && subscriptions.forEach(function(subscription){
       subscription.remove();
     });
   }

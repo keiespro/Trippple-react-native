@@ -17,6 +17,7 @@ import {
 
 const ImageEditingManager = NativeModules.ImageEditingManager;
 const RCTScrollViewConsts = NativeModules.UIManager.RCTScrollView.Constants;
+import OnboardingActions from '../../flux/actions/OnboardingActions'
 
 import SharedStyles from '../../SharedStyles'
 import colors from '../../utils/colors';
@@ -28,7 +29,7 @@ import AppActions from '../../flux/actions/AppActions';
 import Dimensions from 'Dimensions';
 import {BlurView,VibrancyView} from 'react-native-blur'
 import ContinueButton from '../../controls/ContinueButton'
-import BackButton from '../../components/BackButton'
+import BackButton from './BackButton'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -74,19 +75,14 @@ class EditImageThumb extends Component{
       return
     }else{
 
-      var lastindex = this.props.navigator.getCurrentRoutes().length;
-      console.log(lastindex);
-      var nextRoute = this.props.stack[lastindex];
-      UserActions.updateUserStub({ready:true})
-      nextRoute.passProps = {
-        ...this.props,
+      OnboardingActions.proceedToNextScreen({
         image:this.props.image,
         croppedImage: this.state.croppedImageURI,
-        image_type:'avatar'
-      }
+        image_type:'avatar',
+        ready:true
+      })
 
 
-      this.props.navigator.push(nextRoute)
     }
     AppActions.showCheckmark();
 

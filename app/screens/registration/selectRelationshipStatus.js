@@ -15,80 +15,13 @@ var {
 var UserActions = require('../../flux/actions/UserActions');
 var colors = require('../../utils/colors')
 var BoxyButton = require('../../controls/boxyButton')
-import CheckMarkScreen from '../CheckMark'
 
-import Facebook from './facebook'
-import PrivacyScreen from './privacy'
-import InvitePartner from './invitePartner'
-import Contacts from '../contacts'
-import name from './name'
-import bday  from './bday'
-import gender from './gender'
-import CoupleImage from './CoupleImage'
-import EditImage from './EditImage'
-import EditImageThumb from './EditImageThumb'
-import SelfImage from './SelfImage'
-import Limbo from './Limbo'
-import CAMERA from '../../controls/cameraControl'
+
+import OnboardingActions from '../../flux/actions/OnboardingActions'
 
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 import {MagicNumbers} from '../../DeviceConfig'
-
-var RouteStackCouple = [
-    {component: SelectRelationshipStatus,title:'SelectRelationshipStatus'},
-
-    /*
-     *
-     * DEV MODE: PUT THE SCREEN CURRENTLY BEING WORKED ON HERE.
-     *
-     * MAKE SURE TO REMOVE
-     *
-     */
-
-
-
-    /*
-     *
-     * MAKE SURE TO REMOVE
-     *
-     */
-
-    {component: InvitePartner,  title: 'InvitePartner'},
-    {component: Contacts, title: 'Contacts'},
-    {component: Facebook, title: 'Facebook'},
-    {component: name, title: 'name'},
-    {component: bday,  title: 'bday'},
-    {component: gender, title: 'gender'},
-    {component: PrivacyScreen, title: 'PrivacyScreen'},
-    {component: CoupleImage,  title: 'CoupleImage'},
-    {component: CAMERA, title: 'CAMERA'},
-    {component: EditImage, title: 'EditImage'},
-    {component: SelfImage,  title: 'SelfImage'},
-    {component: CAMERA, title: 'CAMERA2'},
-    {component: EditImage, title: 'EditImage2'},
-    {component: EditImageThumb, title: 'EditImageThumb'},
-    {component: Limbo,  title: 'Limbo'},
-
-  ];
-
-var RouteStackSingle = [
-    {component: SelectRelationshipStatus,title:'SelectRelationshipStatus'},
-
-    {component: Facebook,title:'Facebook'},
-    {component: name,title: 'name'},
-    {component: bday,title: 'bday'},
-    {component: gender,  title: 'gender'},
-    {component: PrivacyScreen, title: 'PrivacyScreen'},
-    {component: SelfImage, title: 'SelfImage'},
-    {component: CAMERA, title: 'CAMERA'},
-    {component: EditImage,  title: 'EditImage'},
-    {component: EditImageThumb,  title: 'EditImageThumb'},
-    {component: Limbo,  title: 'Limbo'},
-  ];
-
-var singleStack = RouteStackSingle.map( (r,i) =>{ r.index = i; return r})
-var coupleStack = RouteStackCouple.map( (r,i) =>{ r.index = i; return r})
 
 class SelectRelationshipStatus extends Component{
 
@@ -107,44 +40,18 @@ class SelectRelationshipStatus extends Component{
     })
     this._continue('single');
   }
+
   _selectCouple(){
     this.setState({
       selection: 'couple'
     })
     this._continue('couple');
   }
+
   _continue(selection){
-    UserActions.updateUserStub({relationship_status: selection});
-         console.log(selection,this.props,this.props.navigator.getCurrentRoutes());
-         if(selection == 'couple'){
-
-console.log('COUPLE')
-          this.props.navigator.push({
-            component: coupleStack[1].component,
-            passProps: {
-              ...this.props,
-              stack: coupleStack,
-              partner: this.state.partnerSelection
-            }
-          })
-
-
-        }else if(selection == 'single'){
-console.log('SINGLE')
-
-          this.props.navigator.push({
-            component: singleStack[1].component,
-            passProps: {
-              ...this.props,
-              stack: singleStack,
-              partner: this.state.partnerSelection
-            }
-          })
-
-
-
-        }
+    OnboardingActions.proceedToNextScreen({relationship_status: selection});
   }
+
   render(){
 
     return (

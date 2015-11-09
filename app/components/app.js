@@ -14,7 +14,7 @@ import Welcome from './welcome';
 import Main from './main';
 import PendingPartner from './pendingpartner';
 
-import Onboard from '../screens/registration/onboard'
+import Onboarding from '../screens/registration/onboard'
 import UserStore from '../flux/stores/UserStore';
 
 import AppState from '../flux/stores/AppState';
@@ -48,7 +48,7 @@ class AppRoutes extends Component{
     switch(userStatus){
 
       case 'verified':
-        return <Onboard
+        return <Onboarding
                 key="OnboardingScreen"
                 user={this.props.user}
                 AppState={this.props.AppState}
