@@ -23,7 +23,6 @@
 		AC0020AE1BDD9C1200C5C538 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2B51581BCF6C680093820F /* FBSDKLoginKit.framework */; };
 		AC0020AF1BDD9C1200C5C538 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2B51591BCF6C680093820F /* FBSDKShareKit.framework */; };
 		AC0020BA1BDD9C1200C5C538 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5B03A61B85A9FB003E0302 /* Default@2x~iphone.png */; };
-		AC0020BB1BDD9C1200C5C538 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACA1296E1B40EC3B00CC1499 /* Images.xcassets */; };
 		AC0020BC1BDD9C1200C5C538 /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = ACA1297E1B41161100CC1499 /* Montserrat-Regular.otf */; };
 		AC0020BD1BDD9C1200C5C538 /* omnes-bold-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129721B40EF0D00CC1499 /* omnes-bold-webfont.ttf */; };
 		AC0020BE1BDD9C1200C5C538 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC5A3AB71BAA4EAE00EFF0B9 /* Montserrat-Bold.ttf */; };
@@ -69,7 +68,6 @@
 		AC0020F41BDDA17A00C5C538 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1295A1B40EA1600CC1499 /* libRNMail.a */; };
 		AC0020F51BDDA17A00C5C538 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		AC0020F71BDDA17A00C5C538 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5B03A61B85A9FB003E0302 /* Default@2x~iphone.png */; };
-		AC0020F81BDDA17A00C5C538 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACA1296E1B40EC3B00CC1499 /* Images.xcassets */; };
 		AC0020F91BDDA17A00C5C538 /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = ACA1297E1B41161100CC1499 /* Montserrat-Regular.otf */; };
 		AC0020FA1BDDA17A00C5C538 /* omnes-bold-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129721B40EF0D00CC1499 /* omnes-bold-webfont.ttf */; };
 		AC0020FB1BDDA17A00C5C538 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC5A3AB71BAA4EAE00EFF0B9 /* Montserrat-Bold.ttf */; };
@@ -276,7 +274,6 @@
 		AC50207E1BECCE9E0023A882 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC50207D1BECCE9E0023A882 /* CoreLocation.framework */; };
 		AC5020801BECD9CE0023A882 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC50207F1BECD9CE0023A882 /* AssetsLibrary.framework */; };
 		AC5A3AB81BAA4EAE00EFF0B9 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC5A3AB71BAA4EAE00EFF0B9 /* Montserrat-Bold.ttf */; };
-		AC5B03A11B85A899003E0302 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACA1296E1B40EC3B00CC1499 /* Images.xcassets */; };
 		AC5B03A71B85A9FB003E0302 /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5B03A21B85A9FB003E0302 /* Default-568h@2x~iphone.png */; };
 		AC5B03A81B85A9FB003E0302 /* Default-667h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5B03A31B85A9FB003E0302 /* Default-667h@2x~iphone.png */; };
 		AC5B03A91B85A9FB003E0302 /* Default-736h@3x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5B03A41B85A9FB003E0302 /* Default-736h@3x~iphone.png */; };
@@ -325,7 +322,6 @@
 		ACA55AB11BF090E1000BDC80 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2B51591BCF6C680093820F /* FBSDKShareKit.framework */; };
 		ACA55AB31BF090E1000BDC80 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = ACFBD8E11BEC85AA000AB91A /* main.jsbundle */; };
 		ACA55AB41BF090E1000BDC80 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5B03A61B85A9FB003E0302 /* Default@2x~iphone.png */; };
-		ACA55AB51BF090E1000BDC80 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACA1296E1B40EC3B00CC1499 /* Images.xcassets */; };
 		ACA55AB61BF090E1000BDC80 /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = ACA1297E1B41161100CC1499 /* Montserrat-Regular.otf */; };
 		ACA55AB71BF090E1000BDC80 /* omnes-bold-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129721B40EF0D00CC1499 /* omnes-bold-webfont.ttf */; };
 		ACA55AB81BF090E1000BDC80 /* TestAppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC0020CE1BDD9CD400C5C538 /* TestAppIcon.xcassets */; };
@@ -340,7 +336,6 @@
 		ACA55AC11BF090E1000BDC80 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5B03A51B85A9FB003E0302 /* Default.png */; };
 		ACA55B461BF0EB02000BDC80 /* libEXURLHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA55B451BF0EAE4000BDC80 /* libEXURLHandler.a */; };
 		ACA55B4D1BF0EB85000BDC80 /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA55B4C1BF0EB6C000BDC80 /* libRNKeychain.a */; };
-		ACA55B4F1BF0EC2E000BDC80 /* libRCTOSPermissions copy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA55B4E1BF0EC2E000BDC80 /* libRCTOSPermissions copy.a */; };
 		ACA55B561BF0F51E000BDC80 /* package.json in Resources */ = {isa = PBXBuildFile; fileRef = ACA55B521BF0F51E000BDC80 /* package.json */; };
 		ACA55B571BF0F51E000BDC80 /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA55B531BF0F51E000BDC80 /* RCTFileTransfer.m */; };
 		ACA55B581BF0F51E000BDC80 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = ACA55B541BF0F51E000BDC80 /* README.md */; };
@@ -398,7 +393,6 @@
 		ACA9FC921BDF01B600DBDB1B /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1295A1B40EA1600CC1499 /* libRNMail.a */; };
 		ACA9FC931BDF01B600DBDB1B /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		ACA9FC951BDF01B600DBDB1B /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5B03A61B85A9FB003E0302 /* Default@2x~iphone.png */; };
-		ACA9FC961BDF01B600DBDB1B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACA1296E1B40EC3B00CC1499 /* Images.xcassets */; };
 		ACA9FC971BDF01B600DBDB1B /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = ACA1297E1B41161100CC1499 /* Montserrat-Regular.otf */; };
 		ACA9FC981BDF01B600DBDB1B /* omnes-bold-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129721B40EF0D00CC1499 /* omnes-bold-webfont.ttf */; };
 		ACA9FC991BDF01B600DBDB1B /* TestAppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC0020CE1BDD9CD400C5C538 /* TestAppIcon.xcassets */; };
@@ -448,7 +442,6 @@
 		ACA9FD3A1BE1482B00DBDB1B /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1295A1B40EA1600CC1499 /* libRNMail.a */; };
 		ACA9FD3B1BE1482B00DBDB1B /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		ACA9FD3D1BE1482B00DBDB1B /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5B03A61B85A9FB003E0302 /* Default@2x~iphone.png */; };
-		ACA9FD3E1BE1482B00DBDB1B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACA1296E1B40EC3B00CC1499 /* Images.xcassets */; };
 		ACA9FD3F1BE1482B00DBDB1B /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = ACA1297E1B41161100CC1499 /* Montserrat-Regular.otf */; };
 		ACA9FD401BE1482B00DBDB1B /* omnes-bold-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129721B40EF0D00CC1499 /* omnes-bold-webfont.ttf */; };
 		ACA9FD411BE1482B00DBDB1B /* TestAppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC0020CE1BDD9CD400C5C538 /* TestAppIcon.xcassets */; };
@@ -463,6 +456,8 @@
 		ACA9FD4B1BE1482B00DBDB1B /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5B03A51B85A9FB003E0302 /* Default.png */; };
 		ACBA6C761B8413A6009040D6 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACBA6C751B8413A6009040D6 /* Media.xcassets */; };
 		ACBC57291B92498900615D7A /* DeviceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBC57281B92498900615D7A /* DeviceUtil.m */; };
+		ACC310161BF15432007F94D6 /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC310151BF120C8007F94D6 /* libRNOverlay.a */; };
+		ACC310171BF15455007F94D6 /* libRCTOSPermissions copy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC310061BF120C8007F94D6 /* libRCTOSPermissions copy.a */; };
 		ACFBD8CC1BEC6E83000AB91A /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		ACFBD8CD1BEC6E83000AB91A /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129451B40EA1600CC1499 /* libRCTAddressBook.a */; };
 		ACFBD8CE1BEC6E83000AB91A /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6A6D9D1BBA1E800055446D /* libRCTCamera.a */; };
@@ -481,7 +476,6 @@
 		ACFBD8DB1BEC6E83000AB91A /* libRNAppInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC9E7CF11BD2F72C00245642 /* libRNAppInfo.a */; };
 		ACFBD8DC1BEC6E83000AB91A /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129531B40EA1600CC1499 /* libRNFS.a */; };
 		ACFBD8DE1BEC6E83000AB91A /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1295A1B40EA1600CC1499 /* libRNMail.a */; };
-		ACFBD8DF1BEC6E83000AB91A /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		ACFBD8E21BEC85AA000AB91A /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = ACFBD8E11BEC85AA000AB91A /* main.jsbundle */; };
 /* End PBXBuildFile section */
 
@@ -882,7 +876,6 @@
 		ACA129331B40EA1600CC1499 /* RNFS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
 		ACA129391B40EA1600CC1499 /* RNMail.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMail.xcodeproj; path = "node_modules/react-native-mail/RNMail.xcodeproj"; sourceTree = "<group>"; };
 		ACA1293C1B40EA1600CC1499 /* RCTAddressBook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAddressBook.xcodeproj; path = "node_modules/react-native-addressbook/RCTAddressBook.xcodeproj"; sourceTree = "<group>"; };
-		ACA1296E1B40EC3B00CC1499 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = /Users/alexlopez/code/Trippple/Native/Images.xcassets; sourceTree = "<absolute>"; };
 		ACA129721B40EF0D00CC1499 /* omnes-bold-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "omnes-bold-webfont.ttf"; sourceTree = "<group>"; };
 		ACA129731B40EF0D00CC1499 /* omnes-light-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "omnes-light-webfont.ttf"; sourceTree = "<group>"; };
 		ACA129741B40EF0D00CC1499 /* omnes-medium-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "omnes-medium-webfont.ttf"; sourceTree = "<group>"; };
@@ -893,7 +886,6 @@
 		ACA55B281BF0E432000BDC80 /* RCTOSPermissions.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTOSPermissions.xcodeproj; path = lib/OSPermissions/RCTOSPermissions.xcodeproj; sourceTree = "<group>"; };
 		ACA55B401BF0EAE4000BDC80 /* EXURLHandler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EXURLHandler.xcodeproj; path = "lib/react-native-url-handler/iOS/EXURLHandler.xcodeproj"; sourceTree = "<group>"; };
 		ACA55B471BF0EB6C000BDC80 /* RNKeychain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNKeychain.xcodeproj; path = "lib/react-native-keychain/RNKeychain.xcodeproj"; sourceTree = "<group>"; };
-		ACA55B4E1BF0EC2E000BDC80 /* libRCTOSPermissions copy.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libRCTOSPermissions copy.a"; path = "Build/Products/Release-iphoneos/libRCTOSPermissions copy.a"; sourceTree = "<group>"; };
 		ACA55B521BF0F51E000BDC80 /* package.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = package.json; sourceTree = "<group>"; };
 		ACA55B531BF0F51E000BDC80 /* RCTFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTFileTransfer.m; sourceTree = "<group>"; };
 		ACA55B541BF0F51E000BDC80 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -962,7 +954,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACA55B4F1BF0EC2E000BDC80 /* libRCTOSPermissions copy.a in Frameworks */,
+				ACC310161BF15432007F94D6 /* libRNOverlay.a in Frameworks */,
 				ACA55B4D1BF0EB85000BDC80 /* libRNKeychain.a in Frameworks */,
 				ACA55B461BF0EB02000BDC80 /* libEXURLHandler.a in Frameworks */,
 				AC5020801BECD9CE0023A882 /* AssetsLibrary.framework in Frameworks */,
@@ -981,11 +973,11 @@
 				ACFBD8D71BEC6E83000AB91A /* libRCTText.a in Frameworks */,
 				ACFBD8D81BEC6E83000AB91A /* libRCTVibration.a in Frameworks */,
 				ACFBD8D91BEC6E83000AB91A /* libRCTWebSocket.a in Frameworks */,
+				ACC310171BF15455007F94D6 /* libRCTOSPermissions copy.a in Frameworks */,
 				ACFBD8DA1BEC6E83000AB91A /* libReact.a in Frameworks */,
 				ACFBD8DB1BEC6E83000AB91A /* libRNAppInfo.a in Frameworks */,
 				ACFBD8DC1BEC6E83000AB91A /* libRNFS.a in Frameworks */,
 				ACFBD8DE1BEC6E83000AB91A /* libRNMail.a in Frameworks */,
-				ACFBD8DF1BEC6E83000AB91A /* (null) in Frameworks */,
 				AC0020AC1BDD9C1200C5C538 /* Bolts.framework in Frameworks */,
 				AC0020AD1BDD9C1200C5C538 /* FBSDKCoreKit.framework in Frameworks */,
 				AC0020AE1BDD9C1200C5C538 /* FBSDKLoginKit.framework in Frameworks */,
@@ -1196,7 +1188,6 @@
 				AC571EEC1BEC601F00BA4F75 /* newimg */,
 				AC2B515A1BCF6C680093820F /* FacebookSDK */,
 				ACA129701B40EF0D00CC1499 /* assets */,
-				ACA1296E1B40EC3B00CC1499 /* Images.xcassets */,
 				ACA9FCE41BE0D11200DBDB1B /* App Icon [Squared] */,
 				ACFBD8E11BEC85AA000AB91A /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -1270,7 +1261,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				ACA55B4E1BF0EC2E000BDC80 /* libRCTOSPermissions copy.a */,
 				AC50207F1BECD9CE0023A882 /* AssetsLibrary.framework */,
 				AC50207D1BECCE9E0023A882 /* CoreLocation.framework */,
 				ACA9FD151BE0D99800DBDB1B /* trippplet.entitlements */,
@@ -2166,7 +2156,6 @@
 				AC50200A1BECC3B90023A882 /* GradientBG@2x~iphone.png in Resources */,
 				AC501FE51BECC3B90023A882 /* chat@2x.png in Resources */,
 				ACA55B7C1BF100C3000BDC80 /* BlurView.js in Resources */,
-				AC5B03A11B85A899003E0302 /* Images.xcassets in Resources */,
 				AC5020111BECC3B90023A882 /* icon-lock@3x.png in Resources */,
 				AC6BC1AD1B832657005F7DFA /* Montserrat-Regular.otf in Resources */,
 				AC50202E1BECC3B90023A882 /* iconSinglePic@2x.png in Resources */,
@@ -2336,7 +2325,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC0020BA1BDD9C1200C5C538 /* Default@2x~iphone.png in Resources */,
-				AC0020BB1BDD9C1200C5C538 /* Images.xcassets in Resources */,
 				AC0020BC1BDD9C1200C5C538 /* Montserrat-Regular.otf in Resources */,
 				AC0020BD1BDD9C1200C5C538 /* omnes-bold-webfont.ttf in Resources */,
 				AC0020CF1BDD9CD400C5C538 /* TestAppIcon.xcassets in Resources */,
@@ -2358,7 +2346,6 @@
 			files = (
 				ACA9FD141BE0D11200DBDB1B /* iTunesArtwork@2x.png in Resources */,
 				AC0020F71BDDA17A00C5C538 /* Default@2x~iphone.png in Resources */,
-				AC0020F81BDDA17A00C5C538 /* Images.xcassets in Resources */,
 				AC0020F91BDDA17A00C5C538 /* Montserrat-Regular.otf in Resources */,
 				AC0020FA1BDDA17A00C5C538 /* omnes-bold-webfont.ttf in Resources */,
 				ACA9FD121BE0D11200DBDB1B /* iTunesArtwork.png in Resources */,
@@ -2380,7 +2367,6 @@
 			files = (
 				ACA55AB31BF090E1000BDC80 /* main.jsbundle in Resources */,
 				ACA55AB41BF090E1000BDC80 /* Default@2x~iphone.png in Resources */,
-				ACA55AB51BF090E1000BDC80 /* Images.xcassets in Resources */,
 				ACA55AB61BF090E1000BDC80 /* Montserrat-Regular.otf in Resources */,
 				ACA55AB71BF090E1000BDC80 /* omnes-bold-webfont.ttf in Resources */,
 				ACA55AB81BF090E1000BDC80 /* TestAppIcon.xcassets in Resources */,
@@ -2401,7 +2387,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACA9FC951BDF01B600DBDB1B /* Default@2x~iphone.png in Resources */,
-				ACA9FC961BDF01B600DBDB1B /* Images.xcassets in Resources */,
 				ACA9FC971BDF01B600DBDB1B /* Montserrat-Regular.otf in Resources */,
 				ACA9FC981BDF01B600DBDB1B /* omnes-bold-webfont.ttf in Resources */,
 				ACA9FC991BDF01B600DBDB1B /* TestAppIcon.xcassets in Resources */,
@@ -2422,7 +2407,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACA9FD3D1BE1482B00DBDB1B /* Default@2x~iphone.png in Resources */,
-				ACA9FD3E1BE1482B00DBDB1B /* Images.xcassets in Resources */,
 				ACA9FD3F1BE1482B00DBDB1B /* Montserrat-Regular.otf in Resources */,
 				ACA9FD401BE1482B00DBDB1B /* omnes-bold-webfont.ttf in Resources */,
 				ACA9FD411BE1482B00DBDB1B /* TestAppIcon.xcassets in Resources */,
@@ -2640,6 +2624,7 @@
 					/Users/alexlopez/Desktop,
 					"$(SDKROOT)/usr/lib/system",
 					"$(PROJECT_DIR)/node_modules/react-native-url-handler/iOS/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Build/Products/Release-iphoneos",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = co.tripppletest;
@@ -2677,6 +2662,7 @@
 					/Users/alexlopez/Desktop,
 					"$(SDKROOT)/usr/lib/system",
 					"$(PROJECT_DIR)/node_modules/react-native-url-handler/iOS/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Build/Products/Release-iphoneos",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = co.tripppletest;
@@ -2733,7 +2719,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -2897,6 +2883,7 @@
 					/Users/alexlopez/Desktop,
 					"$(SDKROOT)/usr/lib/system",
 					"$(PROJECT_DIR)/node_modules/react-native-url-handler/iOS/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Build/Products/Release-iphoneos",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
@@ -2936,6 +2923,7 @@
 					/Users/alexlopez/Desktop,
 					"$(SDKROOT)/usr/lib/system",
 					"$(PROJECT_DIR)/node_modules/react-native-url-handler/iOS/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Build/Products/Release-iphoneos",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
@@ -2974,6 +2962,7 @@
 					"$(SDKROOT)/usr/lib/system",
 					"$(PROJECT_DIR)/node_modules/react-native-url-handler/iOS/build/Debug-iphoneos",
 					"$(SRCROOT)/node_modules/react-native/React/**",
+					"$(PROJECT_DIR)/Build/Products/Release-iphoneos",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
@@ -3012,6 +3001,7 @@
 					"$(SDKROOT)/usr/lib/system",
 					"$(PROJECT_DIR)/node_modules/react-native-url-handler/iOS/build/Debug-iphoneos",
 					"$(SRCROOT)/node_modules/react-native/React/**",
+					"$(PROJECT_DIR)/Build/Products/Release-iphoneos",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
@@ -3050,6 +3040,7 @@
 					"$(SDKROOT)/usr/lib/system",
 					"$(PROJECT_DIR)/node_modules/react-native-url-handler/iOS/build/Debug-iphoneos",
 					"$(SRCROOT)/node_modules/react-native/React/**",
+					"$(PROJECT_DIR)/Build/Products/Release-iphoneos",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippplet;
@@ -3087,6 +3078,7 @@
 					"$(SDKROOT)/usr/lib/system",
 					"$(PROJECT_DIR)/node_modules/react-native-url-handler/iOS/build/Debug-iphoneos",
 					"$(SRCROOT)/node_modules/react-native/React/**",
+					"$(PROJECT_DIR)/Build/Products/Release-iphoneos",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippplet;
@@ -3124,6 +3116,7 @@
 					"$(SDKROOT)/usr/lib/system",
 					"$(PROJECT_DIR)/node_modules/react-native-url-handler/iOS/build/Debug-iphoneos",
 					"$(SRCROOT)/node_modules/react-native/React/**",
+					"$(PROJECT_DIR)/Build/Products/Release-iphoneos",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = tripppletest;
@@ -3161,6 +3154,7 @@
 					"$(SDKROOT)/usr/lib/system",
 					"$(PROJECT_DIR)/node_modules/react-native-url-handler/iOS/build/Debug-iphoneos",
 					"$(SRCROOT)/node_modules/react-native/React/**",
+					"$(PROJECT_DIR)/Build/Products/Release-iphoneos",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = tripppletest;
