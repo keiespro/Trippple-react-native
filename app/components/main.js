@@ -22,7 +22,8 @@ var {
   TouchableHighlight,
   AsyncStorage,
   TouchableOpacity,
-  View
+  View,
+  Animated
 } = React;
 var CustomSceneConfigs = require('../utils/sceneConfigs')
 
@@ -195,6 +196,72 @@ const PotentialsRoute = {
       customNext={<Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30,alignSelf:'flex-end',tintColor:colors.white}} source={require('../../newimg/chat.png')} />}
     />)
 };
+const Yes = true;
+const No  = false;
+
+import {Theme, SCREEN_WIDTH, SCREEN_HEIGHT} from '../lib/Theme';
+
+const DeckScrollViewOptions = {
+  key: "Deck",
+  flex: 1,
+  scrollEventThrottle: 100,
+  automaticallyAdjustContentInsets: Yes,
+  snapToAlignment: "center",
+  directionalLockEnabled: No,
+  snapToInterval: SCREEN_HEIGHT/2,
+  showsVerticalScrollIndicator: No,
+  snapToAlignment: 'end',
+  pagingEnabled: No,
+  onScroll: (evt: nativeEvent) => {
+              console.log('onScroll!',JSON.stringify(evt.nativeEvent.contentOffset),evt.nativeEvent.contentOffset.x,evt.nativeEvent.contentOffset.y);
+            }
+
+}
+
+class Deck extends Component{
+  render() {
+
+    const Jake = (
+      <View>
+      <Animated.View
+        key={`jake`}
+        style={ {
+            ...Theme.FullScreenContainer,
+            backgroundColor:  colors.white,
+            marginLeft: 15
+        }}
+        ref={''}>
+        <Animated.Image
+          source={{uri:"http://1.bp.blogspot.com/--eaCDQhqGQg/TkDCGj9sC7I/AAAAAAAAGkw/yXsraLKzdQc/s1600/Christina_Milian_Hot_In_Bikini_Picture_1024x768_216.jpg"}}
+          key={`jake-img`}
+          style={[Theme.FullSCreenImage]}
+          resizeMode={Image.resizeMode.cover} />
+        </Animated.View>
+        </View>
+    );
+
+    return (
+      <View style={Theme.Potentials.Housing}>
+        <ScrollView
+          {...DeckScrollViewOptions}
+          style={[Theme.Potentials.Deck, Theme.Potentials.Card]}
+          >
+          <View key={'jk-1'}>{Jake}</View>
+          <View key={'jk-2'}>{Jake}</View>
+          <View key={'jk-3'}>{Jake}</View>
+        </ScrollView>
+      </View>
+    );
+  }
+}
+
+const demoRoute = {
+  component: Deck,
+  index: 0,
+  title: 'Dante-Rocks',
+  id: 'potentials',
+  navigationBar: (<FakeNavBar/>)
+};
 
 const SettingsRoute = {
   component: Settings,
@@ -262,5 +329,5 @@ const ChatRoute = {
   ),
     // sceneConfig: Navigator.SceneConfigs.FloatFromRight
 }
-
-var ROUTE_STACK = [PotentialsRoute,SettingsRoute,MatchesRoute];
+var MAIN = 0 == 0 ? demoRoute : PotentialsRoute;
+var ROUTE_STACK = [MAIN];//,SettingsRoute,MatchesRoute];

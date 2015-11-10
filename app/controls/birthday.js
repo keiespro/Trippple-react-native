@@ -35,10 +35,10 @@ for(var i = currentyear - 18; i >= currentyear - 65; i--){
 }
 
 var Birthday = React.createClass({
-  // propTypes: {
-  //   updateMonth: React.propTypes.function,
-  //   updateYear: React.propTypes.function
-  // },
+  propTypes: {
+    updateMonth: React.propTypes.function,
+    updateYear: React.propTypes.function
+  },
   getInitialState() {
     return {
       bday_month: this.props.bdayMonth,

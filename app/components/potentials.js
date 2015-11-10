@@ -90,13 +90,13 @@ class Cards extends Component{
       })
     ]).start(()=> {
       this.setState({animatedIn:true});
-      this.initializePanResponder()
+      this.initializePanResponder();
     })
   }
 
   componentDidUpdate(prevProps,prevState){
-    // this.initializePanResponder()
-    // this.state.panX.setValue(0)
+     this.initializePanResponder();
+     this.state.panX.setValue(0);
 
   }
 
