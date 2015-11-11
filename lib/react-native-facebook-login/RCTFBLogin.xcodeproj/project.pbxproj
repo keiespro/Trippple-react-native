@@ -244,6 +244,7 @@
 					"$(SRCROOT)/../../../react-native/React/**",
 					"$(SRCROOT)/../../node_modules/react-native/React/**",
 					"../../../react-native/React/**",
+					"$(SRCROOT)/",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -274,6 +275,7 @@
 					"$(SRCROOT)/../../../react-native/React/**",
 					"$(SRCROOT)/../../node_modules/react-native/React/**",
 					"../../../react-native/React/**",
+					"$(SRCROOT)/",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
