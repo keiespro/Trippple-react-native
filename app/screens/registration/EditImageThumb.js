@@ -70,7 +70,7 @@ class EditImageThumb extends Component{
       var lastRoute
 
     if(this.props.navigator.getCurrentRoutes()[1].id == 'settings'){
-      if(this.props.navigator.getCurrentRoutes()[2].id == 'settingsbasic'){
+      if(this.props.navigator.getCurrentRoutes()[2] && this.props.navigator.getCurrentRoutes()[2].id == 'settingsbasic'){
          lastRoute = this.props.navigator.getCurrentRoutes()[2]
       }else{
         lastRoute = this.props.navigator.getCurrentRoutes()[1]
@@ -81,8 +81,6 @@ class EditImageThumb extends Component{
     }else{
       OnboardingActions.updateRoute(this.props.navigator.getCurrentRoutes().length+1)
       OnboardingActions.updateUserInfo({
-        // croppedImage: this.state.croppedImageURI,
-        // image_type:'avatar',
         ready:true
       })
 

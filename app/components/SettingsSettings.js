@@ -16,14 +16,19 @@ import {
   Animated,
   PickerIOS,
   Image,
+  NativeModules,
   AsyncStorage,
   Navigator
 } from  'react-native'
 import Mixpanel from '../utils/mixpanel';
 import FakeNavBar from '../controls/FakeNavBar';
-
+import alt from '../flux/alt'
 var Mailer = require('NativeModules').RNMail;
+var RNFS = require('react-native-fs');
+var {RNAppInfo} = NativeModules
 import {MagicNumbers} from '../DeviceConfig'
+import AppInfo from 'react-native-app-info'
+import DeviceInfo from 'react-native-device'
 
 import dismissKeyboard from 'dismissKeyboard'
 import WebViewScreen from './WebViewScreen'
@@ -94,15 +99,48 @@ class SettingsSettings extends React.Component{
   }
 
   handleFeedback() {
-    Mailer.mail({
-      subject: 'I\'m have an issue in the app',
-      recipients: ['hello@trippple.co'],
-      body: 'Help!'
-    }, (error, event) => {
-        if(error) {
-          AlertIOS.alert('Error', 'Could not send mail. Please email feedback@trippple.co directly.');
-        }
-    });
+    var snapshot = alt.takeSnapshot();
+    var {settings} = React.NativeModules.SettingsManager
+    var fileName = 'trippple-feedback'+ Date.now() +'.ttt'
+    var path = RNFS.DocumentDirectoryPath + '/' + fileName
+
+    var appInfo = {}
+
+    for(var c in React.NativeModules.RNAppInfo){
+      console.log(c,typeof React.NativeModules.RNAppInfo[c])
+
+      if (typeof React.NativeModules.RNAppInfo[c] != 'function'){
+        appInfo[c] = React.NativeModules.RNAppInfo[c]
+      }
+    }
+    console.log(DeviceInfo,RNAppInfo)
+
+    var fileContents = { snapshot,
+                        appInfo: JSON.stringify(appInfo),
+                        DeviceInfo: JSON.stringify(DeviceInfo),
+                        osSettings:  JSON.stringify(settings)
+                      }
+    RNFS.writeFile(path, (fileContents))
+      .then((success) => {
+        Mailer.mail({
+          subject: `I'm having an issue in the app`,
+          recipients: ['hello@trippple.co'],
+          body:  'Help!', // JSON.stringify(fileContents) || ??
+          attachment: {
+            path,  // The absolute path of the file from which to read data.
+            type: '',   // Mime Type: jpg, png, doc, ppt, html, pdf
+            name: fileName
+          }
+        }, (error, event) => {
+            if(error) {
+              AlertIOS.alert('Error', 'Could not send mail. Please email feedback@trippple.co directly.');
+            }
+        });
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+
   }
   handleTapPrivacy(){
     if(this.state.privacy != 'private'){
