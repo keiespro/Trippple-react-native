@@ -51,7 +51,7 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Prioritize user nearby?</string>
+	<string>Prioritize users nearby?</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>omnes-bold-webfont.ttf</string>
