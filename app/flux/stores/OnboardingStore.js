@@ -95,8 +95,10 @@ class OnboardingStore {
       userInfo: newInfo,
     }
 
-    if(payload.relationship_status && payload.relationship_status == 'couple'){
+    if(payload.relationship_status && payload.relationship_status == 'couple' && this.stack == 'single'){
       newState.currentStack = 'couple'
+    }else if(payload.relationship_status && payload.relationship_status == 'single' && this.stack == 'couple'){
+      newState.currentStack = 'single'
     }
 
     if(payload.ready){

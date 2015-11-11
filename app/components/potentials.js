@@ -172,7 +172,7 @@ class Cards extends Component{
         }).start();
 
 
-        var id = this.state.panX.addListener(({value}) => {
+        this._lid = this.state.panX.addListener(({value}) => {
           // when the card reaches the throw out threshold, send like
           if (Math.abs(value) >= 500) {
 
@@ -184,7 +184,7 @@ class Cards extends Component{
               (this.props.rel == 'single' ? 'couple' : 'single'),
               this.props.rel
             )
-            this.state.panX && this.state.panX.removeListener(id);
+            this.state.panX && this.state.panX.removeListener(this._lid);
 
             this.state.panX && this.state.panX.setValue(0);     // Start 0
 
@@ -403,13 +403,11 @@ class InsideActiveCard extends Component{
   }
   componentWillUnmount(){
     this.props.panX && this.props.panX.removeAllListeners();
-    this.props.cardWidth && this.props.cardWidth.removeAllListeners();
-
   }
   componentDidUpdate(pProps,pState){
     if(pState.isMoving != this.state.isMoving){ return false }
     LayoutAnimation.configureNext(animations.layout.spring);
-
+    console.log(this.props.panX)
 
     if(!pProps.isTopCard && this.props.isTopCard){
       this.props.panX ? this.valueListener() : null

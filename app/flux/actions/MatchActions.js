@@ -119,7 +119,7 @@ class MatchActions {
     console.log(likedUserID)
     Api.sendLike(likedUserID, likeStatus,likeUserType,rel_status)
 
-    this.dispatch(likedUserID);
+    this.dispatch({likedUserID,likeStatus});
 
       // .then((likeRes) => {
 

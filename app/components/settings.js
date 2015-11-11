@@ -146,7 +146,7 @@ class SettingsInside extends React.Component{
 
     console.log('this.state',this.state);
     const singleImage =   this.props.user.localUserImage || {uri: this.props.user.image_url },
-          coupleImage = this.props.user.localCoupleImage || {uri: this.props.user.couple.image_url },
+          coupleImage = this.props.user.localCoupleImage || this.props.user.couple ? {uri: this.props.user.couple.image_url } : null,
           src = this.props.user.relationship_status == 'single' ? singleImage : coupleImage
 
     return (

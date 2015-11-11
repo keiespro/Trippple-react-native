@@ -7,9 +7,11 @@ class OnboardingActions {
 
   updateUserInfo(payload){
 
-      this.dispatch(payload)
       UserActions.updateUser.defer(payload)
+      this.dispatch(payload)
+
   }
+
   updateRoute(newIndex){
     this.dispatch(newIndex)
 
@@ -18,7 +20,7 @@ class OnboardingActions {
   proceedToNextScreen(payload){
 
       if(payload && Object.keys(payload).length){
-        // UserActions.updateUser.defer(payload)
+        UserActions.updateUser.defer(payload)
       }
       this.dispatch(payload)
 

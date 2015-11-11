@@ -1,12 +1,15 @@
 import alt from '../alt'
 import MatchActions from '../actions/MatchActions'
 import { AsyncStorage } from 'react-native'
+import NotificationActions from '../actions/NotificationActions'
+import _ from 'underscore'
 
 class PotentialsStore {
 
   constructor() {
 
     this.potentials = []
+    this.hasSentAnyLikes = false
 
     this.bindListeners({
       handleGetPotentials: MatchActions.GET_POTENTIALS,
@@ -46,16 +49,26 @@ class PotentialsStore {
 
   handleSentLike(payload){
     console.log(payload)
+
     if(payload.matches && payload.matches.length > 0){
       this.handleGetPotentials(payload)
     }else{
-      var likedUserID = payload
+      var {likedUserID,likeStatus} = payload
+      if(likeStatus == 'approve' && !this.hasSentAnyLikes){
 
+        const relevantUser = _.findWhere(this.potentials,(el,i)=>{
+          return el.user.id == likedUserID
+        })
+        console.log(relevantUser)
+
+
+        NotificationActions.requestNotificationsPermission(relevantUser)
+      }
       const newPotentials = this.potentials.filter((el,i)=>{
         return el.user.id != likedUserID
       })
       console.log(newPotentials)
-      this.setState({potentials:newPotentials})
+      this.setState({potentials:newPotentials,hasSentAnyLikes:true})
     }
   }
 
