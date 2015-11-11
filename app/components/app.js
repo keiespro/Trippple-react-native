@@ -5,7 +5,9 @@
 
 import React from 'react-native';
 import DeviceConfig from '../DeviceConfig'
-import { Component, View, Navigator } from 'react-native';
+import { Component, View, Navigator, Dimensions } from 'react-native';
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
 
 import alt from '../flux/alt';
 import AltContainer from 'alt/AltNativeContainer';
@@ -100,7 +102,7 @@ class TopLevel extends Component{
   render(){
     console.log(this.props.AppState)
     return (
-      <View style={{flex:1,backgroundColor:'#000000'}}>
+      <View style={{flex:1,backgroundColor:'#000000', width:DeviceWidth,height:DeviceHeight}}>
 
         <Connectivity/>
         <ReachabilitySubscription/>
@@ -117,7 +119,7 @@ class TopLevel extends Component{
           /> : null}
 
         <LoadingOverlay key="LoadingOverlay" isVisible={this.props.AppState.showOverlay || this.state.showOverlay} />
-
+        <Notifications user={this.props.user} AppState={this.props.AppState} />
       </View>
     )
   }

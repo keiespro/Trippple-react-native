@@ -13,12 +13,11 @@ import Notification from './NotificationTop'
 import TimerMixin from 'react-timer-mixin'
 
 import reactMixin from 'react-mixin'
-const checkPermissions = Promise.promisify(PushNotificationIOS.checkPermissions)
 
 @reactMixin.decorate(TimerMixin)
 class NotificationCommander extends Component{
   constructor(props){
-    super(props)
+    super()
 
     this.state = {
       appState: AppStateIOS.currentState,
@@ -29,14 +28,14 @@ class NotificationCommander extends Component{
     this.socket = require('socket.io-client/socket.io')(WEBSOCKET_URL, {jsonp:false})
   }
 
-  componentWillMount(){
+  componentDidMount(){
     PushNotificationIOS.checkPermissions((permissions) => {
       if(permissions){
         console.log('PUSH PERMISSIONS')
-        PushNotificationIOS.addEventListener('notification', this._onPushNotification.bind(this))
+        PushNotificationIOS.addEventListener('notification', this._onPushNotification )
       }
     })
-    AppStateIOS.addEventListener('change', this._handleAppStateChange.bind(this));
+    AppStateIOS.addEventListener('change', this._handleAppStateChange );
     if(this.props.api_key && this.props.user_id){
       this.connectSocket()
     }
@@ -46,7 +45,7 @@ class NotificationCommander extends Component{
   componentWillUnmount(){
     PushNotificationIOS.removeEventListener('notification', this._onPushNotification)
 
-    AppStateIOS.removeEventListener('change', this._handleAppStateChange.bind(this));
+    AppStateIOS.removeEventListener('change', this._handleAppStateChange );
   }
   componentDidUpdate(prevProps,prevState){
     if(!prevProps.api_key && this.props.api_key && !prevState.socketConnected){
@@ -60,12 +59,14 @@ class NotificationCommander extends Component{
   // }
   // shouldComponentUpdate = () => false
 
-  _onPushNotification(pushNotification){
+  _onPushNotification =(pushNotification)=>{
     console.log('pushNotification! pushNotification!',pushNotification)
     VibrationIOS.vibrate()
     this.handlePushData(pushNotification)
   }
   handlePushData(pushNotification){
+    console.log('handlePushData',pushNotification)
+
     const {data} = pushNotification
     if(data.action && data.action === 'retrieve' && data.match_id) {
 
@@ -79,7 +80,10 @@ class NotificationCommander extends Component{
 
   }
   _handleAppStateChange =(appState)=> {
-    // appState === 'background' ?  this.connectSocket()
+    console.log('APP STATE CHANGE',appState)
+    const newNotification = PushNotificationIOS.popInitialNotification()
+      console.log(newNotification)
+    // appState === 'active' && PushNotificationIOS.popInitialNotification()
     this.setState({ appState });
 
   }
@@ -116,6 +120,14 @@ class NotificationCommander extends Component{
 
 
 
+      }else if(data.action && data.action === 'retrieve' && data.userInfo == true) {
+          console.log('FETCH USER INFO!!!!!')
+
+
+      }else if(data.action && data.action === 'logout') {
+          console.log('FORCE LOG OUT!!!!!')
+
+          UserActions.logOut()
       }
     })
 
@@ -142,7 +154,9 @@ class NotificationCommander extends Component{
 
 
   render(){
-    return null
+    console.log(' NOTIFICATION CMDR')
+
+    return <View/>
   }
 
 }
