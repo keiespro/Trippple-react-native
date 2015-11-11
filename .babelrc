@@ -25,12 +25,11 @@
     "es7.functionBind",
     "es7.objectRestSpread",
     "es7.trailingFunctionCommas",
-    "regenerator",
     "flow",
     "react",
     "react.displayName"
   ],
   "loose": "all",
   "compact": true,
-  "sourceMaps": "false"
+  "sourceMaps": "true"
 }

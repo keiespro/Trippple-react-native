@@ -77,7 +77,7 @@ class EditImage extends Component{
       }else{
         localImages.localUserImage = this.props.image.uri
       }
-      UserActions.updateLocally(localImages)
+      // UserActions.updateLocally(localImages)
       AlertIOS.alert('img', JSON.stringify(localImages));
       UserActions.uploadImage( this.props.image, this.props.image_type)
     // },

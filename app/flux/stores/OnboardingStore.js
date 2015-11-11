@@ -67,8 +67,10 @@ class OnboardingStore {
       pushed: true
     }
 
-    if(payload.relationship_status && payload.relationship_status == 'couple'){
+    if(payload && payload.relationship_status && payload.relationship_status == 'couple' && this.currentStack == 'single'){
       newState.currentStack = 'couple'
+    }else if(payload && payload.relationship_status && payload.relationship_status == 'single' && this.currentStack == 'couple'){
+      newState.currentStack = 'single'
     }
 
     this.setState(newState)
@@ -98,7 +100,7 @@ class OnboardingStore {
     }
 
     if(payload.ready){
-      UserActions.updateUserInfo.defer(this.userInfo)
+      UserActions.updateUserInfo(this.userInfo)
       console.log('update user')
     }
     this.setState(newState)
