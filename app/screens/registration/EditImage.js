@@ -72,13 +72,13 @@ class EditImage extends Component{
       var localImages = { image_url: null, thumb_url: null }
       if(this.props.image_type == 'couple_profile'){
         localImages.couple = {...this.props.user.couple, ...localImages}
-        localImages.localCoupleImage = this.props.image.uri
+        localImages.localCoupleImage = this.props.image
 
       }else{
-        localImages.localUserImage = this.props.image.uri
+        localImages.localUserImage = this.props.image
       }
-      // UserActions.updateLocally(localImages)
-      AlertIOS.alert('img', JSON.stringify(localImages));
+      UserActions.updateLocally(localImages)
+      // AlertIOS.alert('img', JSON.stringify(localImages));
       UserActions.uploadImage( this.props.image, this.props.image_type)
     // },
     // (errr)=> {

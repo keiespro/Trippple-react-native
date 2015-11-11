@@ -73,9 +73,9 @@ var UserActions = {
 
 
   uploadImage(image, image_type){
+
     Api.uploadImage(image, image_type)
       .then((uploadRes) => {
-        this.dispatch(uploadRes.response)
         Api.getUserInfo()
           .then((res) => {
             console.log(res);
@@ -154,6 +154,11 @@ var UserActions = {
     var allNumbers = _.pluck( _.flatten( _.pluck( contacts, 'phoneNumbers') ), 'number' ).map(cleanNumber)
     Api.sendContactsToBlock( base64.encode( JSON.stringify(allNumbers)))
     this.dispatch();
+  },
+
+
+  updateLocally(payload){
+    this.dispatch(payload)
   }
 }
 

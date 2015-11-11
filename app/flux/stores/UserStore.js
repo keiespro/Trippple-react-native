@@ -37,7 +37,8 @@ class UserStore {
       handleUpload: UserActions.UPLOAD_IMAGE,
       handleUpdateUserStub: UserActions.UPDATE_USER_STUB,
       handleLogOut: UserActions.LOG_OUT,
-      handlePartner: UserActions.SELECT_PARTNER
+      handlePartner: UserActions.SELECT_PARTNER,
+      handleUpdateLocally: UserActions.UPDATE_LOCALLY
 
     });
     this.on('error', (err, payload, currentState) => {
@@ -146,9 +147,15 @@ class UserStore {
   }
 
   handleUpload(response){
-    const updatedUser = {...this.state.user, ...response.user_info};
-    this.setState({user:updatedUser});
+    // const updatedUser = {...this.state.user, ...response.user_info};
+    // this.setState({user:updatedUser});
 
+  }
+
+  handleUpdateLocally(payload){
+    const updatedUser = {...this.state.user, ...payload};
+    console.log(this.state.user)
+    this.setState({user:updatedUser})
   }
 
   getUser(){

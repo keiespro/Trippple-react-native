@@ -18,7 +18,7 @@ class OnboardingActions {
   proceedToNextScreen(payload){
 
       if(payload && Object.keys(payload).length){
-        UserActions.updateUser.defer(payload)
+        // UserActions.updateUser.defer(payload)
       }
       this.dispatch(payload)
 
