@@ -161,7 +161,7 @@ class SettingsCouple extends React.Component{
             </View>
           }
           onPrev={(nav,route)=> nav.pop()}
-          title={`${partner.firstname}`}
+          title={`${partner.firstname || `YOUR PARTNER` }`}
           titleColor={colors.white}
           />
         <ScrollView style={{flex:1,marginTop:50}} contentContainerStyle={{   paddingTop:50}} >
@@ -188,8 +188,8 @@ class SettingsCouple extends React.Component{
                           <Text style={{color:colors.shuttleGray,
                               fontSize:18,fontFamily:'Montserrat',textAlign:'right',paddingRight:30}}>{
                               field == 'birthday' ?
-                              this.props.user[field] ? moment(this.props.user[field]).format('MM/DD/YYYY') : ''
-                              : this.props.user[field] ? this.props.user[field].toString().toUpperCase() : ''
+                              partner[field] ? moment(partner[field]).format('MM/DD/YYYY') : ''
+                              : partner[field] ? partner[field].toString().toUpperCase() : ''
                             }</Text>
                             <Image
                                 style={{width:15,height:15,position:'absolute',right:0,top:23}}
@@ -212,7 +212,7 @@ class SettingsCouple extends React.Component{
                             <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ field.toUpperCase()}</Text>
                           <Text style={{color:colors.shuttleGray,
                               fontSize:18,fontFamily:'Montserrat',textAlign:'right',paddingRight:30}}>{
-                                formatPhone(this.props.user[field])
+                              partner[field] && formatPhone(partner[field])
                             }</Text>
                             <Image
                                 style={{width:15,height:15,position:'absolute',right:0,top:23}}

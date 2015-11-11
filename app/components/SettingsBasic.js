@@ -163,6 +163,15 @@ class SettingsBasic extends React.Component{
 
 
   }
+  _pressNewImage =()=>{
+    this.props.navigator.push({
+      component: SelfImage,
+      sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+      passProps: {
+        user: this.props.user,
+      }
+    });
+  }
   render(){
     let user = this.props.user;
     let settingOptions = this.props.settingOptions || {};
@@ -187,19 +196,22 @@ class SettingsBasic extends React.Component{
 
         <ScrollableTabView style={{overflow:'hidden'}} renderTabBar={(props)=><CustomTabBar {...props}/>}>
           <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:MagicNumbers.screenPadding/2,}}  tabLabel={'GENERAL'}>
-        {user.relationship_status == 'single' ? null : <View style={{height:150,width:150,alignSelf:'center'}}>
+          {user.relationship_status == 'single' ? null : <View style={{height:150,width:150,alignSelf:'center'}}>
+          <TouchableOpacity onPress={this._pressNewImage} style={{marginTop:20,}}>
             <Image
               style={styles.userimage}
               key={user.id+'thu'}
-              defaultSource={require('../../newimg/placeholderUser.png')}
+              defaultSource={this.props.user.relationship_status == 'single' ? {uri: this.props.user.localUserImage} ||  require('../../newimg/placeholderUserWhite.png') : {uri: this.props.localCoupleImage } || require('../../newimg/placeholderUserWhite.png')}
               source={{uri: user.thumb_url}}
               resizeMode={Image.resizeMode.contain}/>
-              <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
-                <Image
-                    style={{width:18,height:18}}
-                    source={require('../../newimg/cog.png')}
-                    resizeMode={Image.resizeMode.contain}/>
+                <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
+                  <Image
+                      style={{width:18,height:18}}
+                      source={require('../../newimg/cog.png')}
+                      resizeMode={Image.resizeMode.contain}/>
                 </View>
+            </TouchableOpacity>
+
             </View>
           }
             <View style={styles.paddedSpace}>

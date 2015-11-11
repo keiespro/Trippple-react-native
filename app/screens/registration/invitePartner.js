@@ -38,7 +38,7 @@ class InvitePartner extends Component{
   render() {
     return (
       <View style={styles.container}>
-        <View style={{width:100,height:50,left:MagicNumbers.screenPadding/2,alignSelf:'flex-start',position:'absolute'}}>
+        <View style={{width:100,height:50,left:MagicNumbers.screenPadding/2,alignSelf:'flex-start',position:'absolute',top:0}}>
           <BackButton />
          </View>
 
@@ -119,7 +119,7 @@ var styles = StyleSheet.create({
     alignSelf: 'stretch'
   },
   pushDown:{
-    marginBottom:20
+    marginBottom:50
   }
 });
 

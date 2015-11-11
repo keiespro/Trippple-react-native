@@ -30,6 +30,7 @@ import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 import Api from '../utils/api'
 
+import OnboardingActions from '../flux/actions/OnboardingActions'
 
 class ContactList extends Component{
 
@@ -62,7 +63,7 @@ class ContactList extends Component{
     if(this.props.highlightedRow && this.props.highlightedRow.rowID === rowID){
       console.log('HIGHLIGHT')
     }
-
+    console.log(rowData.thumbnailPath)
     return (
         <TouchableHighlight
           underlayColor={colors.mediumPurple20}
@@ -74,7 +75,7 @@ class ContactList extends Component{
           <View style={[styles.fullwidth,styles.row,
             (this.props.highlightedRow && this.props.highlightedRow.sectionID === sectionID && this.props.highlightedRow.rowID === rowID ? styles.rowSelected : null)]}>
 
-            <Image style={styles.contactthumb} source={(rowData.thumbnailPath == '' ?  require('../../newimg/placeholderUser.png') : {uri: rowData.thumbnailPath} )} />
+            <Image style={styles.contactthumb} source={{uri: rowData.thumbnailPath}}/>
 
             <View style={styles.rowtextwrapper}>
 
@@ -155,25 +156,50 @@ class Contacts extends Component{
   }
 
   storeContacts(){
-    AddressBook.getContacts((err, contacts) => {
-      if(err){
-        console.log(err);
-        return false;
-      }
 
-      UserActions.handleContacts(contacts);
+    //add a fake contact
+    const randomPhone = Math.floor(Math.random() * 9000000) + 1000000;
+    console.log(randomPhone)
 
-      var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    AddressBook.addContact({
+      lastName: 'YOUR',
+      firstName: 'PARTNER',
+      phoneNumbers: [{
+        label: 'work',
+        number: `666${randomPhone}`,
+      }],
+    }, (error) => {
+        if(error) {
+          console.log(error)
+          return false
+        }
 
-        this.setState({
-          contacts: contacts,
-          dataSource: ds.cloneWithRows(contacts)
-        });
+        AddressBook.getContacts((err, contacts) => {
+          if(err){
+            console.log(err);
+            return false;
+          }
 
-    })
+          UserActions.handleContacts(contacts);
+
+          var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
+            this.setState({
+              contacts: contacts,
+              dataSource: ds.cloneWithRows(contacts)
+            });
+
+        })
+      })
+
   }
   componentWillUnmount(){
     console.log('UNmount contacts')
+  }
+  nevermind(){
+
+    this.props.navigator.popToTop()
+    OnboardingActions.updateRoute(0)
   }
   getContacts(){
      AddressBook.checkPermission((err, permission) => {
@@ -198,7 +224,7 @@ class Contacts extends Component{
           'We need access to your contacts so you can select your partner.',
           [
             {text: 'Try Again', onPress: () => this.askPermissions()},
-            {text: 'Nevermind I\'m single.', onPress: () => this.props.navigator.popToTop()},
+            {text: 'Nevermind I\'m single.', onPress: () => this.nevermind()},
           ]
         )
       }
@@ -207,9 +233,11 @@ class Contacts extends Component{
   askPermissions(){
     AddressBook.requestPermission((err, permission) => {
       if(err){
-
+        console.log(err)
+        return
       //TODO:  handle err;
       }
+      console.log('CONTACT PERMISSION: ',permission)
       this.getContacts()
     })
   }
@@ -240,16 +268,8 @@ class Contacts extends Component{
     var partner_phone = partnerSelection.number || this.state.partnerSelection.phoneNumbers[0].number;
 
     UserActions.selectPartner({phone: partner_phone,name: partnerSelection.name})
-    var lastindex = this.props.navigator.getCurrentRoutes().length;
 
-    var nextRoute = this.props.stack[lastindex];
-
-   nextRoute.passProps = {
-        ...this.props,
-        partner:this.state.partnerSelection,
-
-    }
-    this.props.navigator.push(nextRoute)
+    OnboardingActions.proceedToNextScreen()
 
 
 
@@ -345,13 +365,15 @@ var manyPhones = this.state.partnerSelection &&
           <View style={[styles.col]}>
             <View style={styles.insidemodalwrapper}>
 
-          <Image style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginBottom:20}]}
-                source={this.state.partnerSelection.thumbnailPath !== '' ? {uri: this.state.partnerSelection.thumbnailPath} : require('../../newimg/placeholderUserWhite.png')} />
+              <Image style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginBottom:20}]}
+                source={{uri: this.state.partnerSelection.thumbnailPath}}
+                defaultSource={require('../../newimg/placeholderUserWhite.png')}
+                />
 
-            <View style={styles.rowtextwrapper}>
+              <View style={{alignSelf:'stretch', justifyContent:'center',alignItems:'center'}}>
 
-            <Text style={[styles.rowtext,styles.bigtext,{
-                  fontFamily:'Montserrat',fontSize:22,marginVertical:10
+            <Text style={[styles.rowtext,styles.bigtext,{alignSelf:'stretch',
+                  fontFamily:'Montserrat',fontSize:22,marginVertical:10,textAlign:'center'
             }]}>
                 {`INVITE ${invitedName}`}
             </Text>

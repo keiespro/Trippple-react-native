@@ -39,6 +39,7 @@ import ToggleSwitch from '../controls/switches'
 import UserActions from '../flux/actions/UserActions'
 import EditImage from '../screens/registration/EditImage'
 import SelfImage from './loggedin/SelfImage'
+import CoupleImage from './loggedin/CoupleImage'
 
 import FacebookButton from '../buttons/FacebookButton'
 
@@ -98,7 +99,7 @@ class SettingsInside extends React.Component{
 
   _pressNewImage =()=>{
     this.props.navigator.push({
-      component: SelfImage,
+      component: this.props.user.relationship_status == 'single' ? SelfImage : CoupleImage,
       sceneConfig: Navigator.SceneConfigs.FloatFromRight,
       passProps: {
         user: this.props.user,
@@ -153,7 +154,7 @@ class SettingsInside extends React.Component{
 <ParallaxView
         showsVerticalScrollIndicator={false}
           key={this.props.user.thumb_url}
-          backgroundSource={{uri: this.props.user.image_url}}
+          backgroundSource={{uri: this.props.user.relationship_status == 'single' ? this.props.user.thumb_url || this.props.user.image_url : this.props.user.couple.image_url}}
           windowHeight={DeviceHeight*0.6}
           navigator={this.props.navigator}
           style={{backgroundColor:colors.outerSpace,paddingTop:0}}
@@ -163,8 +164,9 @@ class SettingsInside extends React.Component{
               <Image
                 style={[styles.userimage,{backgroundColor:colors.outerSpace50}]}
                 key={this.props.user.id+'thumb'}
-                defaultSource={require('../../newimg/placeholderUserWhite.png')}
-                source={{uri: this.props.user.thumb_url || this.props.user.image_url}}
+                defaultSource={this.props.user.relationship_status == 'single' ? {uri: this.props.user.thumb_url} ||  require('../../newimg/placeholderUserWhite.png') : {uri: this.props.user.couple.thumb_url } || require('../../newimg/placeholderUserWhite.png')}
+
+                source={{uri: this.props.user.relationship_status == 'single' ? this.props.user.thumb_url || this.props.user.image_url : this.props.user.couple.thumb_url || this.props.user.couple.image_url}}
                 resizeMode={Image.resizeMode.cover}/>
               <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
                 <Image

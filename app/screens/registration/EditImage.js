@@ -15,6 +15,7 @@ import {
   View,
   NativeModules,
   ActivityIndicatorIOS,
+  AlertIOS,
   TouchableHighlight,
   TouchableOpacity
 } from 'react-native';
@@ -25,7 +26,7 @@ import SharedStyles from '../../SharedStyles'
 import Privacy from './privacy';
 import EditImageThumb from './EditImageThumb'
 import OnboardingActions from '../../flux/actions/OnboardingActions'
-
+import SelfImage from './SelfImage'
 import Dimensions from 'Dimensions';
 
 const {ImageEditingManager,ImageStoreManager} = NativeModules;
@@ -64,46 +65,35 @@ class EditImage extends Component{
    }
 
   accept(croppedImageURI){
-
+    console.log(this.props.image)
     // CameraRoll.getPhotos({first:1}, (imgdata)=> {
       // const img = imgdata.edges[0].node.image
-      UserActions.uploadImage( this.props.image ,'profile')
+
+      var localImages = { image_url: null, thumb_url: null }
+      if(this.props.image_type == 'couple_profile'){
+        localImages.couple = {...this.props.user.couple, ...localImages}
+        localImages.localCoupleImage = this.props.image.uri
+
+      }else{
+        localImages.localUserImage = this.props.image.uri
+      }
+      UserActions.updateLocally(localImages)
+      AlertIOS.alert('img', JSON.stringify(localImages));
+      UserActions.uploadImage( this.props.image, this.props.image_type)
     // },
     // (errr)=> {
     //   console.log( errr ,'errr')
     // } )
+    const nextRoute = this.props.image_type == 'couple_profile' && this.props.navigator.getCurrentRoutes()[0].id != 'potentials' ? SelfImage : this.props.nextRoute || EditImageThumb
 
-    // if(this.props.nextRoute){
     this.props.navigator.push({
-        component: EditImageThumb,
+        component:  nextRoute,
         passProps: {
           image:this.props.image,
           // croppedImage: croppedImageURI,
           image_type: this.props.image_type
         }
       })
-
-  // }else{
-
-  //  var lastindex = this.props.navigator.getCurrentRoutes().length;
-  //   console.log(lastindex);
-  //   var nextRoute = this.props.stack[lastindex];
-  //   nextRoute.component = this.props.nextRoute || EditImageThumb
-   //
-  //   nextRoute.passProps = {
-  //         ...this.props,
-  //         image:this.props.image,
-  //         originalImage:this.props.image,
-  //         croppedImage: croppedImageURI,
-  //         image_type: this.props.image_type
-   //
-   //
-  //   }
-   //
-  //   this.props.navigator.push(nextRoute)
-
-  // }
-
 
   }
   retake =()=> {
