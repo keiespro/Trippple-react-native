@@ -176,6 +176,8 @@ class SettingsBasic extends React.Component{
     let user = this.props.user;
     let settingOptions = this.props.settingOptions || {};
     console.log('settingOptions',settingOptions);
+    const singleImage =   this.props.user.localUserImage || {uri: this.props.user.image_url }
+
     return (
       <View style={styles.inner}>
       <FakeNavBar
@@ -201,9 +203,9 @@ class SettingsBasic extends React.Component{
             <Image
               style={styles.userimage}
               key={user.id+'thu'}
-              defaultSource={this.props.user.relationship_status == 'single' ? {uri: this.props.user.localUserImage} ||  require('../../newimg/placeholderUserWhite.png') : {uri: this.props.localCoupleImage } || require('../../newimg/placeholderUserWhite.png')}
-              source={{uri: user.thumb_url}}
-              resizeMode={Image.resizeMode.contain}/>
+              defaultSource={ require('../../newimg/placeholderUserWhite.png')}
+              source={singleImage}
+              resizeMode={Image.resizeMode.fill}/>
                 <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
                   <Image
                       style={{width:18,height:18}}

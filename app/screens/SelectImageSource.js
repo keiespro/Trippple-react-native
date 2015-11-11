@@ -116,7 +116,7 @@ class SelectImageSource extends Component{
   render(){
 
     const isCoupleImage = this.props.imageType == 'couple_profile',
-          isOboarding = this.props.navigator.getCurrentRoutes()[0].id == 'potentials'
+          isOnboarding = this.props.navigator.getCurrentRoutes()[0].id != 'potentials'
 
 
     return (
@@ -124,7 +124,7 @@ class SelectImageSource extends Component{
 
         <View style={{width:100,left:0,alignSelf:'flex-start',top:-10}}>
           {
-            isOboarding ? <OnboardingBackButton/> : <BackButton navigator={this.props.navigator}/>
+            isOnboarding ? <OnboardingBackButton/> : <BackButton navigator={this.props.navigator}/>
           }
         </View>
 

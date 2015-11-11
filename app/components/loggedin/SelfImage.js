@@ -92,7 +92,6 @@ class SelfImage extends Component{
     var nextRoute = {}
     nextRoute.component = FBPhotoAlbums
     nextRoute.passProps = {
-      ...this.props,
       image_type: 'profile',
       nextRoute: EditImage,
       afterNextRoute: EditImageThumb,

@@ -67,11 +67,16 @@ class EditImageThumb extends Component{
 
 
       UserActions.uploadImage( this.state.croppedImageURI ,'avatar')
+      var lastRoute
 
-    if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
-
+    if(this.props.navigator.getCurrentRoutes()[1].id == 'settings'){
+      if(this.props.navigator.getCurrentRoutes()[2].id == 'settingsbasic'){
+         lastRoute = this.props.navigator.getCurrentRoutes()[2]
+      }else{
+        lastRoute = this.props.navigator.getCurrentRoutes()[1]
+      }
       console.log('from settings')
-      this.props.navigator.popToRoute(this.props.navigator.getCurrentRoutes()[1])
+      this.props.navigator.popToRoute(lastRoute)
       return
     }else{
       OnboardingActions.updateRoute(this.props.navigator.getCurrentRoutes().length+1)

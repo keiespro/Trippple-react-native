@@ -147,7 +147,7 @@ class SettingsInside extends React.Component{
     console.log('this.state',this.state);
     const singleImage =   this.props.user.localUserImage || {uri: this.props.user.image_url },
           coupleImage = this.props.user.localCoupleImage || {uri: this.props.user.couple.image_url },
-          dfltsrc = this.props.user.relationship_status == 'single' ? singleImage ||  require('../../newimg/placeholderUserWhite.png') : coupleImage || require('../../newimg/placeholderUserWhite.png')
+          src = this.props.user.relationship_status == 'single' ? singleImage : coupleImage
 
     return (
       <View style={{flex:1}}>
@@ -157,7 +157,7 @@ class SettingsInside extends React.Component{
 <ParallaxView
         showsVerticalScrollIndicator={false}
           key={this.props.user.thumb_url}
-          backgroundSource={dfltsrc}
+          backgroundSource={src}
           windowHeight={DeviceHeight*0.6}
           navigator={this.props.navigator}
           style={{backgroundColor:colors.outerSpace,paddingTop:0}}
@@ -167,8 +167,8 @@ class SettingsInside extends React.Component{
               <Image
                 style={[styles.userimage,{backgroundColor:colors.outerSpace50}]}
                 key={this.props.user.id+'thumb'}
-                defaultSource={dfltsrc}
-                source={dfltsrc}
+                defaultSource={require('../../newimg/placeholderUserWhite.png')}
+                source={src}
                 resizeMode={Image.resizeMode.cover}/>
               <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
                 <Image
@@ -201,6 +201,7 @@ class SettingsInside extends React.Component{
             component: SettingsBasic,
             sceneConfig:NavigatorSceneConfigs.FloatFromRight,
             user:this.props.user,
+            id:'settingsbasic',
             passProps: {
               style:styles.container,
               settingOptions:this.state.settingOptions,
