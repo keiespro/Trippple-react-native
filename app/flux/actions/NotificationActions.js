@@ -4,6 +4,7 @@ import Keychain from 'Keychain'
 import moment from 'moment'
 import Promise from 'bluebird'
 import MatchActions from '../actions/MatchActions'
+import AppActions from '../actions/AppActions'
 import { AsyncStorage, PushNotificationIOS } from 'react-native'
 
 
@@ -11,6 +12,31 @@ import { AsyncStorage, PushNotificationIOS } from 'react-native'
 class NotificationActions {
 
 
+  requestNotificationsPermission(){
+    PushNotificationIOS.addEventListener('register',(token) => {
+      console.log('APN TOKEN?',token,Api)
+
+      Api.updatePushToken(token)
+      .then(()=> this.dispatch(token))
+    })
+    PushNotificationIOS.requestPermissions()
+
+
+
+
+  }
+
+
+  sendFakeNotification() {
+    require('RCTDeviceEventEmitter').emit('remoteNotificationReceived', {
+      aps: {
+        alert: 'Sample notification',
+        badge: '+1',
+        sound: 'default',
+        category: 'REACT_NATIVE'
+      },
+    });
+  }
 
   dispatchNotification(payload){
     this.dispatch(payload)

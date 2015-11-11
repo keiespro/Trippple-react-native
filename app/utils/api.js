@@ -186,5 +186,10 @@ class api {
   async sendContactsToBlock(data,start){
     return await authenticatedRequest('process_phone_contacts', {data})
   }
+
+  async updatePushToken(push_token){
+    return await authenticatedRequest('update', { push_token })
+  }
+
 }
 module.exports = new api()

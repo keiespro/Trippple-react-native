@@ -29,15 +29,24 @@ class NotificationCommander extends Component{
     this.socket = require('socket.io-client/socket.io')(WEBSOCKET_URL, {jsonp:false})
   }
 
-  componentDidMount(){
-    AppStateIOS.addEventListener('change', this._handleAppStateChange);
+  componentWillMount(){
+    PushNotificationIOS.checkPermissions((permissions) => {
+      if(permissions){
+        console.log('PUSH PERMISSIONS')
+        PushNotificationIOS.addEventListener('notification', this._onPushNotification.bind(this))
+      }
+    })
+    AppStateIOS.addEventListener('change', this._handleAppStateChange.bind(this));
     if(this.props.api_key && this.props.user_id){
       this.connectSocket()
     }
-  }
+
+ }
 
   componentWillUnmount(){
-    AppStateIOS.removeEventListener('change', this._handleAppStateChange);
+    PushNotificationIOS.removeEventListener('notification', this._onPushNotification)
+
+    AppStateIOS.removeEventListener('change', this._handleAppStateChange.bind(this));
   }
   componentDidUpdate(prevProps,prevState){
     if(!prevProps.api_key && this.props.api_key && !prevState.socketConnected){
@@ -51,6 +60,24 @@ class NotificationCommander extends Component{
   // }
   // shouldComponentUpdate = () => false
 
+  _onPushNotification(pushNotification){
+    console.log('pushNotification! pushNotification!',pushNotification)
+    VibrationIOS.vibrate()
+    this.handlePushData(pushNotification)
+  }
+  handlePushData(pushNotification){
+    const {data} = pushNotification
+    if(data.action && data.action === 'retrieve' && data.match_id) {
+
+      NotificationActions.receiveNewMatchNotification(data)
+
+    }else if(data.action === 'chat'){
+
+      NotificationActions.receiveNewMessageNotification(data)
+
+    }
+
+  }
   _handleAppStateChange =(appState)=> {
     // appState === 'background' ?  this.connectSocket()
     this.setState({ appState });
@@ -112,10 +139,6 @@ class NotificationCommander extends Component{
     this.setState({socketConnected:false})
   }
 
-  onNotification(){
-    //TODO: write code here
-    VibrationIOS.vibrate()
-  }
 
 
   render(){
