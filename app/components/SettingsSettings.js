@@ -115,20 +115,20 @@ class SettingsSettings extends React.Component{
     }
     console.log(DeviceInfo,RNAppInfo)
 
-    var fileContents = { snapshot,
+    var fileContents = JSON.stringify({ snapshot,
                         appInfo: JSON.stringify(appInfo),
                         DeviceInfo: JSON.stringify(DeviceInfo),
                         osSettings:  JSON.stringify(settings)
-                      }
+                      })
     RNFS.writeFile(path, (fileContents))
       .then((success) => {
         Mailer.mail({
           subject: `I'm having an issue in the app`,
           recipients: ['hello@trippple.co'],
-          body:  'Help!', // JSON.stringify(fileContents) || ??
+          body:  'Help!',
           attachment: {
             path,  // The absolute path of the file from which to read data.
-            type: '',   // Mime Type: jpg, png, doc, ppt, html, pdf
+            type: 'html',   // Mime Type: jpg, png, doc, ppt, html, pdf
             name: fileName
           }
         }, (error, event) => {

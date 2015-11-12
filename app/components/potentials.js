@@ -54,9 +54,10 @@ class Cards extends Component{
 
   constructor(props){
     super()
-
+    this._lid = {}
     this.state = {
       panX: new Animated.Value(0),
+      animatedIn:true,
       cardWidth: new Animated.Value(MagicNumbers.screenWidth),
       offsetY: {
         a:new Animated.Value(DeviceHeight),
@@ -76,17 +77,14 @@ class Cards extends Component{
       Animated.spring(this.state.offsetY.c,{
         toValue: 0,
         easing: Easing.elastic(1),
-        duration: 500
       }),
       Animated.spring(this.state.offsetY.b,{
         toValue: 0,
         easing: Easing.elastic(1),
-        duration: 500
       }),
       Animated.spring(this.state.offsetY.a,{
         toValue: 0,
         easing: Easing.elastic(1),
-        duration: 500
       })
     ]).start(()=> {
       this.setState({animatedIn:true});
@@ -167,24 +165,30 @@ class Cards extends Component{
         Animated.spring(this.state.panX, {
           toValue,
           velocity: gestureState.vx,       // maintain gesture velocity
-          tension: 5,
-          friction: 2,
-        }).start();
+          tension: 20,
+          friction: 5,
+        }).start((result)=>{
+          if(!result.finished){
+            this.state.panX && this.state.panX.removeAllListeners();
+
+          }
+        });
 
 
-        this._lid = this.state.panX.addListener(({value}) => {
+        this.state.panX.addListener(({value}) => {
           // when the card reaches the throw out threshold, send like
           if (Math.abs(value) >= 500) {
 
             const likeStatus = value > 0 ? 'approve' : 'deny';
             const likeUserId = this.props.potentials[0].user.id;
+            console.log('sendlike')
             MatchActions.sendLike(
               likeUserId,
               likeStatus,
               (this.props.rel == 'single' ? 'couple' : 'single'),
               this.props.rel
             )
-            this.state.panX && this.state.panX.removeListener(this._lid);
+            this.state.panX && this.state.panX.removeAllListeners();
 
             this.state.panX && this.state.panX.setValue(0);     // Start 0
 
@@ -375,9 +379,8 @@ class Cards extends Component{
     if(this.state.cardWidth && this.props.profileVisible != nProps.profileVisible){
         // Start 0
 
-      Animated.timing(this.state.cardWidth,{
+      Animated.spring(this.state.cardWidth,{
         toValue: this.props.profileVisible ? DeviceWidth-40 : DeviceWidth,
-        duration:150,
       }).start()
     }
 
@@ -400,17 +403,18 @@ class InsideActiveCard extends Component{
     this.state = {
       slideIndex: 0
     }
+    console.log(props.panX && props.panX._listeners)
   }
   componentWillUnmount(){
-    this.props.panX && this.props.panX.removeAllListeners();
+    this.props.panX && this.props.panX._listeners && Object.keys(this.props.panX._listeners).length && this.props.panX.removeAllListeners();
   }
   componentDidUpdate(pProps,pState){
     if(pState.isMoving != this.state.isMoving){ return false }
-    LayoutAnimation.configureNext(animations.layout.spring);
+    // LayoutAnimation.configureNext(animations.layout.spring);
     console.log(this.props.panX)
 
     if(!pProps.isTopCard && this.props.isTopCard){
-      this.props.panX ? this.valueListener() : null
+      // this.props.panX ? this.valueListener() : null
     }
     if(pProps.profileVisible && !this.props.profileVisible ){
       this.refs.scrollbox && this.refs.scrollbox.setNativeProps({contentOffset:{x:0,y:0}})
@@ -445,34 +449,34 @@ class InsideActiveCard extends Component{
   setNativeProps(np){
     this.refs.incard && this.refs.incard.setNativeProps(np)
   }
-  componentWillMount(pProps,pState){
-      this.props.panX ? this.valueListener() : null
+  componentWillMount(){
+      this.props.panX && this.props.isTopCard && this.valueListener()
 
   }
   componentWillReceiveProps(nProps){
-    if(this.props.panX && this.props.profileVisible != nProps.profileVisible){
+    if(nProps.panX && !this.props.profileVisible && nProps.profileVisible){
       this.setState({
         isMoving: false
       })
-      this.props.panX && this.props.panX.removeAllListeners();
+      // nProps.panX && nProps.isTopCard && nProps.panX.removeAllListeners();
 
     }
-    nProps && nProps.panX  && this.props.isTopCard ? nProps.panX.addListener(({value}) => {
-    // listen to parent component's panX
-      const val = parseInt(value)
-      if(val == 0 && this.state.isMoving){
-        this.setState({
-          isMoving: false
-        })
-      }else if(val != 0 && !this.state.isMoving){
-        this.setState({
-          isMoving: true
-        })
-      }
-      if(val != 0){
-        this.setNativeProps({ style:{ backgroundColor: val > 0 ? colors.sushi : colors.mandy } })
-      }
-    }) : null
+    // nProps && nProps.panX  && this.props.isTopCard ? nProps.panX.addListener(({value}) => {
+    // // listen to parent component's panX
+    //   const val = parseInt(value)
+    //   if(val == 0 && this.state.isMoving){
+    //     this.setState({
+    //       isMoving: false
+    //     })
+    //   }else if(val != 0 && !this.state.isMoving){
+    //     this.setState({
+    //       isMoving: true
+    //     })
+    //   }
+    //   if(val != 0){
+    //     this.setNativeProps({ style:{ backgroundColor: val > 0 ? colors.sushi : colors.mandy } })
+    //   }
+    // }) : null
   }
 
 
@@ -520,7 +524,7 @@ class InsideActiveCard extends Component{
                           outputRange: [0,0.7,1,0.7,0]
                         }),
 
-                  width: this.props.cardWidth || MagicNumbers.screenWidth-MagicNumbers.screenPadding,
+                  width: this.props.isTopCard && this.props.cardWidth || MagicNumbers.screenWidth-MagicNumbers.screenPadding,
                   backgroundColor:  colors.white, marginLeft: 0,
                 }} ref={isTopCard ? 'incard' : 'notincard'}>
                 <Swiper
@@ -539,7 +543,7 @@ class InsideActiveCard extends Component{
                     key={`${potential.user.id}-cimg`}
                     style={[styles.imagebg, {
                       width: this.props.cardWidth,
-                      height:this.props.cardWidth && this.props.cardWidth.interpolate({
+                      height: this.props.isTopCard && this.props.cardWidth && this.props.cardWidth.interpolate({
                         inputRange: [DeviceWidth-40, DeviceWidth], outputRange: [DeviceHeight-40, DeviceHeight]
                       }),
                       opacity:  this.props.isTopCard && this.props.panX ? this.props.panX.interpolate({
@@ -555,7 +559,7 @@ class InsideActiveCard extends Component{
                     style={[styles.imagebg,{
                       backgroundColor:colors.white,
                       width: this.props.cardWidth,
-                      height:this.props.cardWidth && this.props.cardWidth.interpolate({inputRange: [DeviceWidth-40,DeviceWidth], outputRange: [DeviceHeight-40, DeviceHeight]}),
+                      height:this.props.isTopCard && this.props.cardWidth && this.props.cardWidth.interpolate({inputRange: [DeviceWidth-40,DeviceWidth], outputRange: [DeviceHeight-40, DeviceHeight]}),
                       opacity:  this.props.isTopCard && this.props.panX ? this.props.panX.interpolate({
                           inputRange: [-300, -100, 0, 100, 300],
                           outputRange: [0,0.7,1,0.7,0]
