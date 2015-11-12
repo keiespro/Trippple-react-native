@@ -113,13 +113,14 @@ class SettingsSettings extends React.Component{
         appInfo[c] = React.NativeModules.RNAppInfo[c]
       }
     }
-    console.log(DeviceInfo,RNAppInfo)
 
-    var fileContents = JSON.stringify({ snapshot,
-                        appInfo: JSON.stringify(appInfo),
-                        DeviceInfo: JSON.stringify(DeviceInfo),
-                        osSettings:  JSON.stringify(settings)
+    var fileContents = JSON.stringify({ state: JSON.parse(snapshot),
+                        appInfo: appInfo,
+                        DeviceInfo: DeviceInfo,
+                        osSettings:  settings
                       })
+                      console.log(fileContents)
+
     RNFS.writeFile(path, (fileContents))
       .then((success) => {
         Mailer.mail({
