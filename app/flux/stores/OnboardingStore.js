@@ -100,9 +100,9 @@ class OnboardingStore {
     }else if(payload.relationship_status && payload.relationship_status == 'single' && this.stack == 'couple'){
       newState.currentStack = 'single'
     }
-
+    const userInfo = {...this.userInfo}
     if(payload.ready){
-      UserActions.updateUserInfo(this.userInfo)
+      UserActions.updateUserInfo(userInfo)
       console.log('update user')
     }
     this.setState(newState)

@@ -84,7 +84,7 @@ class EditImage extends Component{
     // (errr)=> {
     //   console.log( errr ,'errr')
     // } )
-    const nextRoute = this.props.image_type == 'couple_profile' && this.props.navigator.getCurrentRoutes()[0].id != 'potentials' ? SelfImage : this.props.nextRoute || EditImageThumb
+    const nextRoute =  EditImageThumb
 
     this.props.navigator.push({
         component:  nextRoute,

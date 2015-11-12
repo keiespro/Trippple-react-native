@@ -78,6 +78,14 @@ class EditImageThumb extends Component{
       console.log('from settings')
       this.props.navigator.popToRoute(lastRoute)
       return
+    }else if(this.props.image_type == 'couple_profile'){
+      this.props.navigator.push({component: SelfImage,
+        passProps: {
+          image_type: 'profile'
+        }
+      })
+
+
     }else{
       OnboardingActions.updateRoute(this.props.navigator.getCurrentRoutes().length+1)
       OnboardingActions.updateUserInfo({
