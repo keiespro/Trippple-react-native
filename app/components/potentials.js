@@ -410,11 +410,11 @@ class InsideActiveCard extends Component{
   }
   componentDidUpdate(pProps,pState){
     if(pState.isMoving != this.state.isMoving){ return false }
-    // LayoutAnimation.configureNext(animations.layout.spring);
+    LayoutAnimation.spring();
     console.log(this.props.panX)
 
     if(!pProps.isTopCard && this.props.isTopCard){
-      // this.props.panX ? this.valueListener() : null
+      this.props.panX ? this.valueListener() : null
     }
     if(pProps.profileVisible && !this.props.profileVisible ){
       this.refs.scrollbox && this.refs.scrollbox.setNativeProps({contentOffset:{x:0,y:0}})
@@ -574,7 +574,7 @@ class InsideActiveCard extends Component{
             <Animated.View
               key={`${potential.id || potential.user.id}-bottomview`}
               style={{
-                height:180,
+                height:this.props.isTopCard ? 180 : 145,
                 width:this.props.cardWidth,
                 backgroundColor: colors.white,
                 flexDirection:'row',
