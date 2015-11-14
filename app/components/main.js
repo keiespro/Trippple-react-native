@@ -36,6 +36,8 @@ import MatchesStore from '../flux/stores/MatchesStore'
 import Mixpanel from '../utils/mixpanel';
 import FakeNavBar from '../controls/FakeNavBar';
 import AppActions from '../flux/actions/AppActions'
+import NotificationActions from '../flux/actions/NotificationActions'
+
 
   class Main extends Component{
     static propTypes = { user: React.PropTypes.any }
@@ -73,6 +75,7 @@ import AppActions from '../flux/actions/AppActions'
         console.log('New route:',e._data.route)
         // AppActions.updateRoute(e._data.route.id)
       })
+
     }
 
     selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
@@ -89,7 +92,7 @@ import AppActions from '../flux/actions/AppActions'
       }
 
       return (
-        <View style={{ flex: 1, position:'relative'}}>
+        <View style={{ flex: 1,  width:DeviceWidth,height:DeviceHeight}}>
           {route.id == 'settings' && navBar}
           <RouteComponent navigator={navigator} route={route} navBar={navBar} AppState={this.props.AppState}
   {...route.passProps} user={this.props.user} pRoute={route.id == 'potentials' ? PotentialsRoute : null} />
