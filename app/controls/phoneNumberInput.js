@@ -26,7 +26,7 @@ import React from 'react-native'
 import { Text,TextInput,View,StyleSheet  } from 'react-native'
 import TimerMixin from 'react-timer-mixin';
 import s from 'underscore.string'
-import MaskableTextInput from '../RNMaskableTextInput.js'
+// import MaskableTextInput from '../RNMaskableTextInput.js'
 import colors from '../utils/colors'
 
 class PhoneNumberInput extends React.Component{
@@ -42,7 +42,7 @@ class PhoneNumberInput extends React.Component{
   componentDidUpdate(prevProps,prevState){
     const {maskedPhone} = this.state
     if(maskedPhone.length && maskedPhone.length > prevState.maskedPhone.length){
-      this._textInput.setSelectionRange(maskedPhone.length,maskedPhone.length)
+      // this._textInput.setSelectionRange(maskedPhone.length,maskedPhone.length)
     }
   }
 
@@ -87,7 +87,7 @@ class PhoneNumberInput extends React.Component{
   setNativeProps(np) {
     var {text,fullText} = np
     this._textInput.setNativeProps({ text });
-    this._textInput2.setNativeProps({ text: fullText });
+    this._textInput2.setNativeProps({ text });
 
   }
 
@@ -108,16 +108,17 @@ class PhoneNumberInput extends React.Component{
             style={[this.props.style,{
               left:(this.state.placeholder ? 0 : 40),
               fontSize: 26,
-              
+
               color:'#fff',flex:1,alignSelf:'stretch',position:'absolute',top:0,right:0,bottom:0
             }]}
+            value={this.state.placeholder ? '' : this.state.maskedPhone}
             ref={component => this._textInput2 = component}
           />
-          <MaskableTextInput
+          <TextInput
             ref={component => this._textInput = component}
             style={[this.props.style,{
               left: (this.state.placeholder ? 0 : 40),
-              
+
               fontSize: 26,color:'#fff',flex:1,alignSelf:'stretch',top:0,right:0,bottom:0
             }]}
             maxLength={14}
@@ -130,7 +131,7 @@ class PhoneNumberInput extends React.Component{
             onChangeText={this.processValue.bind(this)}
             value={this.state.placeholder ? '' : this.state.maskedPhone}
           />
-          {this.state.placeholder ? null : <Text style={{left:0,top:15,position:'absolute',color:colors.white,fontSize:26}}>+1</Text>}
+        {this.state.placeholder ? null : <Text style={{left:0,top:15,position:'absolute',color:'transparent',fontSize:26}}>+1</Text>}
 
         </View>
       </View>
