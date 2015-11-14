@@ -27,6 +27,14 @@ t3p-pkg() {
  t3p-pkg-cp-dir lib;
 
  t3p-snapshot;
+
+ #-summary
+ t3p-tell "Tripple Build Summary:"
+ t3p-tell "Bundle(zip) -> $t3p_bundlezip"
+ t3p-tell "Release: $t3p_releasetag"
+
+ #-coming soon
+ t3p-tell "Coming Soon!: t3p-restore <sha> -- rebuilds pacakge settings"
 }
 
 t3p-tell() {
@@ -44,14 +52,14 @@ _t3p-pkg-cp-dir() {
 
 t3p-snapshot() {
  t3p-tell "Finalising Snapshot...";
- zip -r $t3p_bundlezip $t3p_releasedir;
- t3p-tell "Done in _ nano secs";
+ time zip -r $t3p_bundlezip $t3p_releasedir;
+ t3p-tell "Done";
 }
 
 _t3p-work-and-track() {
  _zSTART=$(date +%s.0);
  $($@)
  _zEND=$(date +%s.0);
- _zDIFF=$("$_zEND - $_zSTART" | bc);
+ _zDIFF="$_zEND - $_zSTART" | bc;
  echo _zDIFF;
 }
