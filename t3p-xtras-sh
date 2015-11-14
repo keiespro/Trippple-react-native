@@ -1,4 +1,6 @@
 #;generate a new release-tag
+#;use  this file by sourcing it.
+#;then running t3p-pkg to generate a release.
 
 t3p-pkg() {
  #- set up some constants
