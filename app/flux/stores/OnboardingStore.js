@@ -54,11 +54,17 @@ class OnboardingStore {
 
   }
 
-  handleProceedToNext(payload) {
+  handleProceedToNext(payload = {}) {
     console.log(payload,'Onboarding store next')
+    var newIndex, newInfo
 
-    const newIndex = this.routeIndex + 1,
-          newInfo = {...this.userinfo, ...payload}
+
+    if(payload.ready){
+      newInfo.status = {...this.userInfo, status: 'onboarded' }
+    }else{
+      newInfo = {...this.userInfo, ...payload}
+      newIndex = this.routeIndex + 1
+    }
 
     var newState = {
       routeIndex: newIndex,
@@ -102,7 +108,6 @@ class OnboardingStore {
     }
     const userInfo = {...this.userInfo}
     if(payload.ready){
-      UserActions.updateUserInfo(userInfo)
       console.log('update user')
     }
     this.setState(newState)

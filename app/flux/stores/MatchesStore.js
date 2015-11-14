@@ -40,7 +40,7 @@ class MatchesStore {
     });
 
     this.on('error', (err, payload, currentState) => {
-        console.log(err, payload);
+        console.log(err, payload,currentState);
     })
 
 
@@ -122,7 +122,7 @@ class MatchesStore {
   handleGetMatches(matchesData){
     const {matches} = matchesData
     console.log(' getNewMatches matches',matches)
-    if(matches.length){
+    if(matches.length > 0){
       var allmatches, allunread, allLastAccessed
 
       if(!this.state.matches.length){
@@ -157,12 +157,9 @@ class MatchesStore {
 
    }else{
      // refresh but no update
-      this.setState({
-        matches: this.state.matches,
-      });
-    }
-    this.emitChange()
 
+      this.emitChange()
+    }
   }
 
   handleGetFavorites(matchesData) {

@@ -39,7 +39,7 @@ import Limbo from './Limbo'
 import CAMERA from '../../controls/cameraControl'
 
 var RouteStackCouple = [
-    {component: SelectRelationshipStatus,title:'SelectRelationshipStatus'},
+    {component: SelectRelationshipStatus,id:'SelectRelationshipStatus',title:'SelectRelationshipStatus'},
 
     /*
      *
@@ -57,7 +57,7 @@ var RouteStackCouple = [
      *
      */
 
-    {component: InvitePartner,  title: 'InvitePartner'},
+    {component: InvitePartner,  id: 'InvitePartner', title: 'InvitePartner'},
     {component: Contacts, title: 'Contacts'},
     {component: Facebook, title: 'Facebook'},
     {component: name, title: 'name'},
@@ -152,15 +152,15 @@ class Onboard extends Component{
       <View style={{backgroundColor:'#000000',height:DeviceHeight,width:DeviceWidth}}>
         <Navigator
           configureScene={
-            (route) => route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.HorizontalSwipeJump
+            (route) => route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.SlideInFromRight || Navigator.SceneConfigs.HorizontalSwipeJump
           }
           renderScene={this.selectScene.bind(this)}
           sceneStyle={styles.container}
           navigationBar={false}
           ref={'onboardingNavigator'}
           initialRoute={RouteStackSingle[0]}
-          />
-          </View>
+        />
+      </View>
     )
 
   }

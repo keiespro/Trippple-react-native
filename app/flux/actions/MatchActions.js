@@ -13,7 +13,8 @@ class MatchActions {
 
     Api.getMatches(page || 0)
       .then((res) => {
-        this.dispatch({matches: res.response, page: page || false});
+        console.log(res)
+        this.dispatch({matches: res.response.length ? res.response : [], page: page || false});
       })
 
   }
