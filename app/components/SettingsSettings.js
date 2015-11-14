@@ -113,13 +113,16 @@ class SettingsSettings extends React.Component{
         appInfo[c] = React.NativeModules.RNAppInfo[c]
       }
     }
+    var feedbackDebugInfo = {
+          state: JSON.parse(snapshot),
+          appInfo: appInfo,
+          DeviceInfo: DeviceInfo,
+          osSettings: settings
+        },
+        fileContents = unescape(encodeURIComponent(JSON.stringify(feedbackDebugInfo)))
+        // encodeURIComponent + unescape prevents "string to be encoded contains characters outside of the Latin1 range" error
 
-    var fileContents = JSON.stringify({ state: JSON.parse(snapshot),
-                        appInfo: appInfo,
-                        DeviceInfo: DeviceInfo,
-                        osSettings:  settings
-                      })
-                      console.log(fileContents)
+    console.log(fileContents)
 
     RNFS.writeFile(path, (fileContents))
       .then((success) => {
