@@ -8,6 +8,7 @@ t3p-pkg() {
  export t3p_releasedir="WorkingHeads/Releases/$t3p_releasetag";
  export t3p_bundledir="WorkingHeads/Bundles/";
  export t3p_bundlezip="WorkingHeads/Bundles/$t3p_releasetag.zip";
+ export t3p_buildsummary="WorkingHeads/Bundles/$t3p_releasetag.t3p_summary";
 
  #- initiate process;
  t3p-tell "Compiling new Release: ($t3p_releasetag) into $t3p_releasedir";
@@ -44,24 +45,25 @@ t3p-tell() {
 }
 
 t3p-pkg-cp-dir() {
- _t3p-pkg-cp-dir $t3p_releasedir $@
+ __t3p-pkg-cp-dir $t3p_releasedir $@
 }
 
-_t3p-pkg-cp-dir() {
-  t3p-tell "Copying $1...";
-  cp -Rv $2 $1/$2
+__t3p-pkg-cp-dir() {
+  t3p-tell "Copying $2...";
+  __t3p-work-and-track cp -Rv $2 $1/$2
 }
 
 t3p-snapshot() {
  t3p-tell "Finalising Snapshot...";
- time zip -r $t3p_bundlezip $t3p_releasedir;
+ __t3p-work-and-track zip -r $t3p_bundlezip $t3p_releasedir;
  t3p-tell "Done";
 }
 
-_t3p-work-and-track() {
- _zSTART=$(date +%s.0);
- $($@)
- _zEND=$(date +%s.0);
- _zDIFF="$_zEND - $_zSTART" | bc;
- echo _zDIFF;
+t3p-snapshot-test() {
+ __t3p-work-and-track zip -r $t3p_bundlezip $t3p_releasedir;
+ t3p-tell "Done";
+}
+
+__t3p-work-and-track() {
+ time $@ > $t3p_buildsummary;
 }
