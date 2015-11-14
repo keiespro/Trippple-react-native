@@ -1,0 +1,57 @@
+#;generate a new release-tag
+
+t3p-pkg() {
+ #- set up some constants
+ export t3p_releasetag=`git show HEAD | head -1 | awk '{print $2}'`;
+ export t3p_releasedir="WorkingHeads/Releases/$t3p_releasetag";
+ export t3p_bundledir="WorkingHeads/Bundles/";
+ export t3p_bundlezip="WorkingHeads/Bundles/$t3p_releasetag.zip";
+
+ #- initiate process;
+ t3p-tell "Compiling new Release: ($t3p_releasetag) into $t3p_releasedir";
+ t3p-tell "[Return] To begin"
+ read
+
+ #- targets
+ mkdir -p $t3p_releasedir;
+ mkdir -p $t3p_bundledir/;
+
+ #- run-script
+ #- basically packages the following dirs, then compresses it all.
+ #- release are tagged by sha so we can associate a working set of dependencies
+ #- to a node in the source tree.
+
+ t3p-pkg-cp-dir node_modules;
+ t3p-pkg-cp-dir trippple.xcodeproj;
+ t3p-pkg-cp-dir iOS;
+ t3p-pkg-cp-dir lib;
+
+ t3p-snapshot;
+}
+
+t3p-tell() {
+ echo "$@"
+}
+
+t3p-pkg-cp-dir() {
+ _t3p-pkg-cp-dir $t3p_releasedir $@
+}
+
+_t3p-pkg-cp-dir() {
+  t3p-tell "Copying $1...";
+  cp -Rv $2 $1/$2
+}
+
+t3p-snapshot() {
+ t3p-tell "Finalising Snapshot...";
+ zip -r $t3p_bundlezip $t3p_releasedir;
+ t3p-tell "Done in _ nano secs";
+}
+
+_t3p-work-and-track() {
+ _zSTART=$(date +%s.0);
+ $($@)
+ _zEND=$(date +%s.0);
+ _zDIFF=$("$_zEND - $_zSTART" | bc);
+ echo _zDIFF;
+}
