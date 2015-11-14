@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		78BEBFA71BF7A32C003C0B0D /* libEXURLHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA55B451BF0EAE4000BDC80 /* libEXURLHandler.a */; };
+		78BEBFA81BF7A32C003C0B0D /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2CC1211BF2EBC90017DBB1 /* libRCTFBLogin.a */; };
+		78BEBFA91BF7A32C003C0B0D /* libRCTOSPermissions copy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD2A7CF1BF3F8B100946CD0 /* libRCTOSPermissions copy.a */; };
+		78BEBFAA1BF7A32C003C0B0D /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA55B4C1BF0EB6C000BDC80 /* libRNKeychain.a */; };
+		78BEBFAB1BF7A32C003C0B0D /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD2E3761BF2EF7300CB703A /* libRNOverlay.a */; };
 		AC0020951BDD9C1200C5C538 /* RCTMaskableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFB1BBE59DA00150328 /* RCTMaskableTextView.m */; };
 		AC0020961BDD9C1200C5C538 /* RCTMaskableTextViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFD1BBE59DA00150328 /* RCTMaskableTextViewManager.m */; };
 		AC0020981BDD9C1200C5C538 /* RCTMaskableTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF51BBE59DA00150328 /* RCTMaskableTextField.m */; };
@@ -263,7 +268,6 @@
 		AC2B514A1BCF6C360093820F /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		AC2B514B1BCF6C360093820F /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129531B40EA1600CC1499 /* libRNFS.a */; };
 		AC2B514C1BCF6C360093820F /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA1295A1B40EA1600CC1499 /* libRNMail.a */; };
-		AC2B514D1BCF6C360093820F /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		AC2CC1271BF2EC0B0017DBB1 /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2CC1211BF2EBC90017DBB1 /* libRCTFBLogin.a */; };
 		AC2CC13D1BF2EDDE0017DBB1 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2CC1361BF2EDDE0017DBB1 /* Bolts.framework */; };
 		AC2CC13E1BF2EDDE0017DBB1 /* FacebookSDKStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AC2CC1371BF2EDDE0017DBB1 /* FacebookSDKStrings.bundle */; };
@@ -897,6 +901,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78BEBFA71BF7A32C003C0B0D /* libEXURLHandler.a in Frameworks */,
+				78BEBFA81BF7A32C003C0B0D /* libRCTFBLogin.a in Frameworks */,
+				78BEBFA91BF7A32C003C0B0D /* libRCTOSPermissions copy.a in Frameworks */,
+				78BEBFAA1BF7A32C003C0B0D /* libRNKeychain.a in Frameworks */,
+				78BEBFAB1BF7A32C003C0B0D /* libRNOverlay.a in Frameworks */,
 				AC61ADEC1BDA984900EDF3A3 /* libRCTCameraRoll.a in Frameworks */,
 				AC2CC13D1BF2EDDE0017DBB1 /* Bolts.framework in Frameworks */,
 				AC9E7CF91BD2F73A00245642 /* libRNAppInfo.a in Frameworks */,
@@ -918,7 +927,6 @@
 				AC2B514A1BCF6C360093820F /* libReact.a in Frameworks */,
 				AC2B514B1BCF6C360093820F /* libRNFS.a in Frameworks */,
 				AC2B514C1BCF6C360093820F /* libRNMail.a in Frameworks */,
-				AC2B514D1BCF6C360093820F /* (null) in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1635,7 +1643,7 @@
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
-				AC00207B1BDC65A700C5C538 /* ShellScript */,
+				AC00207B1BDC65A700C5C538 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -2371,13 +2379,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		AC00207B1BDC65A700C5C538 /* ShellScript */ = {
+		AC00207B1BDC65A700C5C538 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -25,7 +25,7 @@
 /* Begin PBXFileReference section */
 		AC5020871BECECE40023A882 /* ospermissions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ospermissions.h; path = ios/ospermissions.h; sourceTree = "<group>"; };
 		AC5020881BECECE40023A882 /* ospermissions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ospermissions.m; path = ios/ospermissions.m; sourceTree = "<group>"; };
-		ACA55B351BF0E638000BDC80 /* libRCTOSPermissions copy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libRCTOSPermissions copy.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACA55B351BF0E638000BDC80 /* libRCTOSPermissions copy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libRCTOSPermissions copy.a"; path = "/Users/alexlopez/code/Trippple/Native/lib/OSPermissions/build/Release-iphoneos/libRCTOSPermissions copy.a"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,7 +44,6 @@
 			children = (
 				AC5020871BECECE40023A882 /* ospermissions.h */,
 				AC5020881BECECE40023A882 /* ospermissions.m */,
-				ACA55B351BF0E638000BDC80 /* libRCTOSPermissions copy.a */,
 			);
 			sourceTree = "<group>";
 		};
