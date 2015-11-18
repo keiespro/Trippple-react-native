@@ -206,10 +206,11 @@ class FieldModal extends React.Component{
         return (
           <View style={{ alignSelf:'stretch',flex:1}}>
             <View style={{ alignSelf:'stretch',flex:1,height:DeviceHeight-170,alignItems:'center',justifyContent:'center',flexDirection:'column'}}>
-              <View style={{ borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,alignItems:'center',justifyContent:'center', }}>
+              <View style={{ borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,alignItems:'center',justifyContent:'center',alignSelf:'stretch' }}>
                 <Text style={{
                     color: colors.rollingStone,
                     fontSize: 20,textAlign:'center',
+                    textAlign:'center',
                     fontFamily:'Omnes-Regular',alignSelf:'stretch',
                     marginBottom:MagicNumbers.screenPadding,
 
