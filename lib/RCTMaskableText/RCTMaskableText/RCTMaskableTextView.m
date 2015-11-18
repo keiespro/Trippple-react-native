@@ -289,10 +289,10 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
         [self _setPlaceholderVisibility];
     }
 
-    [_eventDispatcher sendTextEventWithType:RCTTextEventTypeFocus
-                                   reactTag:self.reactTag
-                                       text:textView.text
-                                 eventCount:_nativeEventCount];
+//    [_eventDispatcher sendTextEventWithType:RCTTextEventTypeFocus
+//                                   reactTag:self.reactTag
+//                                       text:textView.text
+//                                 eventCount:_nativeEventCount];
 }
 
 - (void)textViewDidChange:(UITextView *)textView
@@ -300,19 +300,19 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
     [self _setPlaceholderVisibility];
     [self updateTextViewFrame];
     _nativeEventCount++;
-    [_eventDispatcher sendTextEventWithType:RCTTextEventTypeChange
-                                   reactTag:self.reactTag
-                                       text:textView.text
-                                 eventCount:_nativeEventCount];
+//    [_eventDispatcher sendTextEventWithType:RCTTextEventTypeChange
+//                                   reactTag:self.reactTag
+//                                       text:textView.text
+//                                 eventCount:_nativeEventCount];
 
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-    [_eventDispatcher sendTextEventWithType:RCTTextEventTypeEnd
-                                   reactTag:self.reactTag
-                                       text:textView.text
-                                 eventCount:_nativeEventCount];
+//    [_eventDispatcher sendTextEventWithType:RCTTextEventTypeEnd
+//                                   reactTag:self.reactTag
+//                                       text:textView.text
+//                                 eventCount:_nativeEventCount];
 }
 
 - (BOOL)becomeFirstResponder
@@ -328,10 +328,10 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
     [super resignFirstResponder];
     BOOL result = [_textView resignFirstResponder];
     if (result) {
-        [_eventDispatcher sendTextEventWithType:RCTTextEventTypeBlur
-                                       reactTag:self.reactTag
-                                           text:_textView.text
-                                     eventCount:_nativeEventCount];
+//        [_eventDispatcher sendTextEventWithType:RCTTextEventTypeBlur
+//                                       reactTag:self.reactTag
+//                                           text:_textView.text
+//                                     eventCount:_nativeEventCount];
     }
     return result;
 }

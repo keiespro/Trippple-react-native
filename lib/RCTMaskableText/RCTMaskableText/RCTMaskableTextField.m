@@ -20,23 +20,34 @@
     NSMutableArray *_reactSubviews;
     BOOL _jsRequestingFirstResponder;
     NSInteger _nativeEventCount;
+    BOOL _submitted;
+    UITextRange *_previousSelectionRange;
+
 }
+
+
 
 - (instancetype)initWithEventDispatcher:(RCTEventDispatcher *)eventDispatcher
 {
-    [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
-
-    if ((self = [super initWithFrame:CGRectZero])) {
-        RCTAssert(eventDispatcher, @"eventDispatcher is a required parameter");
-        _eventDispatcher = eventDispatcher;
-        [self addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
-        [self addTarget:self action:@selector(textFieldBeginEditing) forControlEvents:UIControlEventEditingDidBegin];
-        [self addTarget:self action:@selector(textFieldEndEditing) forControlEvents:UIControlEventEditingDidEnd];
-        [self addTarget:self action:@selector(textFieldSubmitEditing) forControlEvents:UIControlEventEditingDidEndOnExit];
-        _reactSubviews = [NSMutableArray new];
-    }
-    return self;
+  if ((self = [super initWithFrame:CGRectZero])) {
+    RCTAssert(eventDispatcher, @"eventDispatcher is a required parameter");
+    _eventDispatcher = eventDispatcher;
+    _previousSelectionRange = self.selectedTextRange;
+    [self addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
+    [self addTarget:self action:@selector(textFieldBeginEditing) forControlEvents:UIControlEventEditingDidBegin];
+    [self addTarget:self action:@selector(textFieldEndEditing) forControlEvents:UIControlEventEditingDidEnd];
+    [self addTarget:self action:@selector(textFieldSubmitEditing) forControlEvents:UIControlEventEditingDidEndOnExit];
+    [self addObserver:self forKeyPath:@"selectedTextRange" options:0 context:nil];
+    _reactSubviews = [NSMutableArray new];
+  }
+  return self;
 }
+
+- (void)dealloc
+{
+  [self removeObserver:self forKeyPath:@"selectedTextRange"];
+}
+
 
 RCT_NOT_IMPLEMENTED(- (instancetype)initWithFrame:(CGRect)frame)
 RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
@@ -58,6 +69,23 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
     }
 }
 
+- (void)sendKeyValueForString:(NSString *)string
+{
+ [_eventDispatcher sendTextEventWithType:RCTTextEventTypeKeyPress
+                                reactTag:self.reactTag
+                                    text:nil
+                                     key:string
+                              eventCount:_nativeEventCount];
+}
+
+// This method is overriden for `onKeyPress`. The manager
+// will not send a keyPress for text that was pasted.
+- (void)paste:(id)sender
+{
+ // _textWasPasted = YES;
+  [super paste:sender];
+}
+
 - (void)setText:(NSString *)text
 {
     NSInteger eventLag = _nativeEventCount - _mostRecentEventCount;
@@ -69,6 +97,7 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
         RCTLogWarn(@"Native TextInput(%@) is %zd events ahead of JS - try to make your JS faster.", self.text, eventLag);
     }
 }
+
 
 static void RCTUpdatePlaceholder(RCTMaskableTextField *self)
 {
@@ -96,7 +125,7 @@ static void RCTUpdatePlaceholder(RCTMaskableTextField *self)
     RCTUpdatePlaceholder(self);
 }
 
-- (NSArray *)reactSubviews
+- (NSArray<UIView *> *)reactSubviews
 {
     // TODO: do we support subviews of textfield in React?
     // In any case, we should have a better approach than manually
@@ -152,25 +181,25 @@ static void RCTUpdatePlaceholder(RCTMaskableTextField *self)
 - (void)textFieldDidChange
 {
     _nativeEventCount++;
-    [_eventDispatcher sendTextEventWithType:RCTTextEventTypeChange
-                                   reactTag:self.reactTag
-                                       text:self.text
-                                 eventCount:_nativeEventCount];
+//   [_eventDispatcher sendTextEventWithType:RCTTextEventTypeChange
+//                                  reactTag:self.reactTag
+//                                      text:self.text
+//                                eventCount:_nativeEventCount];
 }
 
 - (void)textFieldEndEditing
 {
-    [_eventDispatcher sendTextEventWithType:RCTTextEventTypeEnd
-                                   reactTag:self.reactTag
-                                       text:self.text
-                                 eventCount:_nativeEventCount];
+//   [_eventDispatcher sendTextEventWithType:RCTTextEventTypeEnd
+//                                  reactTag:self.reactTag
+//                                      text:self.text
+//                                eventCount:_nativeEventCount];
 }
 - (void)textFieldSubmitEditing
 {
-    [_eventDispatcher sendTextEventWithType:RCTTextEventTypeSubmit
-                                   reactTag:self.reactTag
-                                       text:self.text
-                                 eventCount:_nativeEventCount];
+//   [_eventDispatcher sendTextEventWithType:RCTTextEventTypeSubmit
+//                                  reactTag:self.reactTag
+//                                      text:self.text
+//                                eventCount:_nativeEventCount];
 }
 
 - (void)textFieldBeginEditing
@@ -180,10 +209,10 @@ static void RCTUpdatePlaceholder(RCTMaskableTextField *self)
             [self selectAll:nil];
         });
     }
-    [_eventDispatcher sendTextEventWithType:RCTTextEventTypeFocus
-                                   reactTag:self.reactTag
-                                       text:self.text
-                                 eventCount:_nativeEventCount];
+//   [_eventDispatcher sendTextEventWithType:RCTTextEventTypeFocus
+//                                  reactTag:self.reactTag
+//                                      text:self.text
+//                                eventCount:_nativeEventCount];
 }
 
 - (BOOL)becomeFirstResponder
@@ -199,10 +228,10 @@ static void RCTUpdatePlaceholder(RCTMaskableTextField *self)
     BOOL result = [super resignFirstResponder];
     if (result)
     {
-        [_eventDispatcher sendTextEventWithType:RCTTextEventTypeBlur
-                                       reactTag:self.reactTag
-                                           text:self.text
-                                     eventCount:_nativeEventCount];
+//       [_eventDispatcher sendTextEventWithType:RCTTextEventTypeBlur
+//                                      reactTag:self.reactTag
+//                                          text:self.text
+//                                    eventCount:_nativeEventCount];
     }
     return result;
 }
