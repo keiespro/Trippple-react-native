@@ -72,7 +72,7 @@ class PrivacyScreen extends Component{
   _continue(){
     console.log(this.state.selection)
 
-    OnboardingActions.proceedToNextScreen({privacy: this.state.selection, ready:true})
+    OnboardingActions.proceedToNextScreen({privacy: this.state.selection})
 
   }
   render() {

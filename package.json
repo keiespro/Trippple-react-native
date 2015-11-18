@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "alt": "latest",
-    "babel-core": "^6.1.2",
+    "babel-core": "^5.8.0",
     "base-64": "^0.1.0",
     "bluebird": "latest",
     "buffer": "^3.5.1",
@@ -17,7 +17,7 @@
     "moment": "^2.10.6",
     "phone-parser": "0.0.2",
     "react-mixin": "latest",
-    "react-native": "latest",
+    "react-native": "0.15.0-rc",
     "react-native-addressbook": "latest",
     "react-native-app-info": "0.0.6",
     "react-native-camera": "^0.3.8",
