@@ -87,10 +87,10 @@ class EditImageThumb extends Component{
 
 
     }else{
-      OnboardingActions.updateRoute(this.props.navigator.getCurrentRoutes().length+1)
       OnboardingActions.updateUserInfo({
         ready:true
       })
+      OnboardingActions.updateRoute(this.props.navigator.getCurrentRoutes().length)
 
 
     }
@@ -201,13 +201,12 @@ class EditImageThumb extends Component{
       <View
           style={styles.container}
           onLayout={(event) => {
-            let measuredWidth = event.nativeEvent.layout.width,
-                measuredHeight = event.nativeEvent.layout.height;
+            var measuredWidth = event.nativeEvent.layout.width;
             if (!measuredWidth) {
               return;
             }
             this.setState({
-              measuredSize: {width: measuredWidth, height: measuredHeight},
+              measuredSize: {width: measuredWidth, height: event.nativeEvent.layout.height},
             });
           }}
         />
@@ -228,57 +227,58 @@ class ImageCropper extends React.Component {
   _contentOffset: ImageOffset;
 
   componentWillMount() {
-    console.log(this.props.image)
-    var widthRatio = this.props.image.width / this.props.size.width;
-    var heightRatio = this.props.image.height / this.props.size.height;
-    if (widthRatio < heightRatio) {
-      this._scaledImageSize = {
-        width: this.props.image.width / widthRatio,
-        height: this.props.image.height / heightRatio ,
-      };
-    } else {
-      this._scaledImageSize = {
-        width: this.props.image.width / widthRatio,
-        height: this.props.size.height / heightRatio,
-      };
-    }
-    this._contentOffset = {
-      x: (this._scaledImageSize.width - this.props.size.width) / PixelRatio.get(),
-      y: (this._scaledImageSize.height - this.props.size.height) / PixelRatio.get(),
-    };
+     // Scale an image to the minimum size that is large enough to completely
+     // fill the crop box.
+     var widthRatio = this.props.image.width / this.props.size.width;
+     var heightRatio = this.props.image.height / this.props.size.height;
+     if (widthRatio < heightRatio) {
+       this._scaledImageSize = {
+         width: this.props.size.width,
+         height: this.props.image.height / widthRatio,
+       };
+     } else {
+       this._scaledImageSize = {
+         width: this.props.image.width / heightRatio,
+         height: this.props.size.height,
+       };
+     }
+     this._contentOffset = {
+       x: (this._scaledImageSize.width - this.props.size.width) / 2,
+       y: (this._scaledImageSize.height - this.props.size.height) / 2,
+     };
+     this._updateTransformData(
+       this._contentOffset,
+       this._scaledImageSize,
+       this.props.size
+     );
+   }
 
-    this._updateTransformData(
-      this._contentOffset,
-      this._scaledImageSize,
-      this.props.size
-    );
-  }
 
-  _onScroll(event) {
-    this._updateTransformData(
-      event.nativeEvent.contentOffset,
-      event.nativeEvent.contentSize,
-      event.nativeEvent.layoutMeasurement
-    );
-  }
+     _onScroll(event) {
+       this._updateTransformData(
+         event.nativeEvent.contentOffset,
+         event.nativeEvent.contentSize,
+         event.nativeEvent.layoutMeasurement
+       );
+     }
 
-  _updateTransformData(offset, scaledImageSize, croppedImageSize) {
-    var offsetRatioX = offset.x / scaledImageSize.width;
-    var offsetRatioY = offset.y;
-    var sizeRatioX = croppedImageSize.width;
-    var sizeRatioY = croppedImageSize.height / scaledImageSize.height;
+     _updateTransformData(offset, scaledImageSize, croppedImageSize) {
+       var offsetRatioX = offset.x / scaledImageSize.width;
+       var offsetRatioY = offset.y / scaledImageSize.height;
+       var sizeRatioX = croppedImageSize.width / scaledImageSize.width;
+       var sizeRatioY = croppedImageSize.height / scaledImageSize.height;
 
-    this.props.onTransformDataChange && this.props.onTransformDataChange({
-      offset: {
-        x: this.props.image.width * offsetRatioX,
-        y: this.props.image.height * offsetRatioY,
-      },
-      size: {
-        width: this.props.image.width * sizeRatioX,
-        height: this.props.image.height * sizeRatioY,
-      },
-    });
-  }
+       this.props.onTransformDataChange && this.props.onTransformDataChange({
+         offset: {
+           x: this.props.image.width * offsetRatioX,
+           y: this.props.image.height * offsetRatioY,
+         },
+         size: {
+           width: this.props.image.width * sizeRatioX,
+           height: this.props.image.height * sizeRatioY,
+         },
+       });
+     }
 
 
   render() {
@@ -294,7 +294,6 @@ class ImageCropper extends React.Component {
         contentOffset={this._contentOffset}
         decelerationRate={decelerationRate}
         horizontal={true}
-        zoomScale={1}
         minimumZoomScale={0.5}
         maximumZoomScale={5.0}
         onMomentumScrollEnd={this._onScroll.bind(this)}
