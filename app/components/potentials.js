@@ -119,8 +119,6 @@ class Cards extends Component{
     }
   }
 
-
-
   initializePanResponder(){
     this._panResponder = PanResponder.create({
 
@@ -169,30 +167,24 @@ class Cards extends Component{
           friction: 5,
         }).start((result)=>{
           if(!result.finished){
-            this.state.panX && this.state.panX.removeAllListeners();
+            // this.state.panX && this.state.panX.removeAllListeners();
 
           }
         });
 
-
         this.state.panX.addListener(({value}) => {
           // when the card reaches the throw out threshold, send like
           if (Math.abs(value) >= 500) {
-
             const likeStatus = value > 0 ? 'approve' : 'deny';
             const likeUserId = this.props.potentials[0].user.id;
-            console.log('sendlike')
+            this.state.panX && this.state.panX.removeAllListeners();
+            this.state.panX && this.state.panX.setValue(0);     // Start 0
             MatchActions.sendLike(
               likeUserId,
               likeStatus,
               (this.props.rel == 'single' ? 'couple' : 'single'),
               this.props.rel
             )
-            this.state.panX && this.state.panX.removeAllListeners();
-
-            this.state.panX && this.state.panX.setValue(0);     // Start 0
-
-
           }
         })
       }
@@ -461,22 +453,22 @@ class InsideActiveCard extends Component{
       // nProps.panX && nProps.isTopCard && nProps.panX.removeAllListeners();
 
     }
-    // nProps && nProps.panX  && this.props.isTopCard ? nProps.panX.addListener(({value}) => {
-    // // listen to parent component's panX
-    //   const val = parseInt(value)
-    //   if(val == 0 && this.state.isMoving){
-    //     this.setState({
-    //       isMoving: false
-    //     })
-    //   }else if(val != 0 && !this.state.isMoving){
-    //     this.setState({
-    //       isMoving: true
-    //     })
-    //   }
-    //   if(val != 0){
-    //     this.setNativeProps({ style:{ backgroundColor: val > 0 ? colors.sushi : colors.mandy } })
-    //   }
-    // }) : null
+    nProps && nProps.panX  && this.props.isTopCard ? nProps.panX.addListener(({value}) => {
+    // listen to parent component's panX
+      const val = parseInt(value)
+      if(val == 0 && this.state.isMoving){
+        this.setState({
+          isMoving: false
+        })
+      }else if(val != 0 && !this.state.isMoving){
+        this.setState({
+          isMoving: true
+        })
+      }
+      if(val != 0){
+        this.setNativeProps({ style:{ backgroundColor: val > 0 ? colors.sushi : colors.mandy } })
+      }
+    }) : null
   }
 
 

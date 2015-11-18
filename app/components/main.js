@@ -14,6 +14,7 @@ var {
   Component,
   PixelRatio,
   Navigator,
+  AlertIOS,
   ScrollView,
   StyleSheet,
   InteractionManager,
@@ -191,7 +192,7 @@ const PotentialsRoute = {
   navigationBar: (
     <FakeNavBar
       backgroundStyle={{backgroundColor:'transparent'}}
-      customTitle={<Image resizeMode={Image.resizeMode.contain} style={{width:80}} source={require('../../newimg/tripppleLogoText.png')} />}
+      customTitle={<Image onError={(e)=>{AlertIOS.alert('err',JSON.stringify(e))}} resizeMode={Image.resizeMode.contain} style={{width:80}} source={require('../../newimg/tripppleLogoText.png')} />}
       onPrev={(navigator,route) => navigator.push(SettingsRoute)}
       customPrev={<Image resizeMode={Image.resizeMode.contain}  style={{width:28,top:-10,height:30,alignSelf:'flex-start',tintColor:colors.white,opacity:1}} source={require('../../newimg/gear.png')} />}
       onNext={(navigator,route) => {navigator.push(MatchesRoute)}}
