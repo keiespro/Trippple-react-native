@@ -25,7 +25,7 @@ import { AddressBook } from 'NativeModules'
 import colors from '../utils/colors'
 import _ from 'underscore'
 import Facebook from './registration/facebook'
-import BackButton from '../components/BackButton'
+import BackButton from './registration/BackButton'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 import Api from '../utils/api'
@@ -294,7 +294,7 @@ var manyPhones = this.state.partnerSelection &&
 
       <View style={styles.container} noScroll={true}>
  <View style={{width:100,height:50,left:20}}>
-        <BackButton navigator={this.props.navigator}/>
+        <BackButton />
       </View>
 
         <View style={styles.searchwrap}>
