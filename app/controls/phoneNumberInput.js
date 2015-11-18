@@ -27,8 +27,8 @@ const KEYBOARD_HEIGHT = 280
 import React from 'react-native'
 import { Text,TextInput,View,StyleSheet,TouchableHighlight,Dimensions,PixelRatio  } from 'react-native'
 import TimerMixin from 'react-timer-mixin';
- import s from 'underscore.string'
- import colors from '../utils/colors'
+import s from 'underscore.string'
+import colors from '../utils/colors'
 import {MagicNumbers} from '../DeviceConfig'
 import Numpad from '../components/Numpad'
 

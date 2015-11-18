@@ -1,4 +1,4 @@
-const APP_ENV = 'staging';
+const APP_ENV = 'staging'
 
 const config = {
 

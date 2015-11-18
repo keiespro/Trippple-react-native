@@ -1,0 +1,75 @@
+#;usage: t3p-pkp
+#;generate a new release, and packages into WorkingHeads dir.
+#;use  this file by sourcing it. (source t3p-xtras-sh)
+#;then running t3p-pkg to generate a release.
+
+t3p-pkg() {
+ #- set up some constants
+ t3p_releasetag=`git show HEAD | head -1 | awk '{print $2}'`;
+ _now=`date +%s-%D | tr '/' '-'`;
+ t3p_releasetag="$_now-$t3p_releasetag";
+ export t3p_releasetag=$t3p_releasetag;
+ export t3p_releasedir="WorkingHeads/Releases/$t3p_releasetag";
+ export t3p_bundledir="WorkingHeads/Bundles/";
+ export t3p_bundlezip="WorkingHeads/Bundles/$t3p_releasetag.zip";
+ export t3p_buildlog="WorkingHeads/Bundles/$t3p_releasetag.t3p_debugsummary.txt";
+ export t3p_report="$t3p_bundledir$t3p_releasetag.report.txt";
+ 
+ __t3p-pkg >/dev/null 2>&1 | tee $t3p_report
+}
+
+__t3p-pkg() {
+ #- initiate process;
+ t3p-tell "Compiling new Release: ($t3p_releasetag) into $t3p_releasedir";
+ t3p-tell "Press Any Key To begin || CTRL-C to cancel";
+ read
+
+ #- targets
+ mkdir -p $t3p_releasedir;
+ mkdir -p $t3p_bundledir;
+
+ #- run-script
+ #- basically packages the following dirs, then compresses it all.
+ #- releases are tagged by epoch-sha so we can associate a working set of dependencies
+ #- to a node in the source tree at a particular point in time.
+
+ t3p-pkg-cp-dir node_modules;
+ t3p-pkg-cp-dir trippple.xcodeproj;
+ t3p-pkg-cp-dir iOS;
+ t3p-pkg-cp-dir lib;
+ 
+ t3p-tell "Finalising Snapshot...$t3p_bundlezip"; 
+ t3p-snapshot;
+
+ #-summary
+ t3p-tell "Tripple Build Summary -> $t3p_report"
+ t3p-tell "Bundle(zip)           -> $t3p_bundlezip"
+ t3p-tell "Release: $t3p_releasetag"
+
+ #-coming soon
+ t3p-tell "Coming Soon!: t3p-restore <sha> -- rebuilds package settings"
+ exit 0;
+}
+
+t3p-tell() {
+ echo "$@" | tee -a $t3p_buildlog;
+}
+
+t3p-pkg-cp-dir() {
+ __t3p-pkg-cp-dir $t3p_releasedir $@
+}
+
+__t3p-pkg-cp-dir() {
+  t3p-tell "Copying $2 -> $1/$2";
+  __t3p-work-and-track cp -Rv $2 $1/$2
+}
+
+t3p-snapshot() {
+ __t3p-work-and-track zip -r $t3p_bundlezip $t3p_releasedir;
+}
+
+#__t3p-snapshot-test() {}
+
+__t3p-work-and-track() {
+ time ($@ &> $t3p_buildlog)
+}

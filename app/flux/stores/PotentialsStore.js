@@ -59,16 +59,13 @@ class PotentialsStore {
         const relevantUser = _.findWhere(this.potentials,(el,i)=>{
           return el.user.id == likedUserID
         })
-        console.log(relevantUser)
-
 
         NotificationActions.requestNotificationsPermission(relevantUser)
       }
       const newPotentials = this.potentials.filter((el,i)=>{
         return el.user.id != likedUserID
       })
-      console.log(newPotentials)
-      this.setState({potentials:newPotentials,hasSentAnyLikes:true})
+      this.setState({potentials:newPotentials, hasSentAnyLikes:true})
     }
   }
 

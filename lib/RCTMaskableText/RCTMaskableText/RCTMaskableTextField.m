@@ -21,7 +21,7 @@
     BOOL _jsRequestingFirstResponder;
     NSInteger _nativeEventCount;
     BOOL _submitted;
-    UITextRange *_previousSelectionRange;
+
 }
 
 - (instancetype)initWithEventDispatcher:(RCTEventDispatcher *)eventDispatcher
