@@ -126,6 +126,7 @@ class Contacts extends Component{
     this.state = {
       contacts: [],
       partnerSelection:{},
+      contactsLoaded: false,
       dataSource: ds.cloneWithRows([]),
       searchText: '',
       modalVisible: false,
@@ -158,21 +159,21 @@ class Contacts extends Component{
   storeContacts(){
 
     //add a fake contact
-    const randomPhone = Math.floor(Math.random() * 9000000) + 1000000;
-    console.log(randomPhone)
-
-    AddressBook.addContact({
-      lastName: 'YOUR',
-      firstName: 'PARTNER',
-      phoneNumbers: [{
-        label: 'work',
-        number: `666${randomPhone}`,
-      }],
-    }, (error) => {
-        if(error) {
-          console.log(error)
-          return false
-        }
+    // const randomPhone = Math.floor(Math.random() * 9000000) + 1000000;
+    // console.log(randomPhone)
+    //
+    // AddressBook.addContact({
+    //   lastName: 'YOUR',
+    //   firstName: 'PARTNER',
+    //   phoneNumbers: [{
+    //     label: 'work',
+    //     number: `666${randomPhone}`,
+    //   }],
+    // }, (error) => {
+    //     if(error) {
+    //       console.log(error)
+    //       return false
+    //     }
 
         AddressBook.getContacts((err, contacts) => {
           if(err){
@@ -186,11 +187,12 @@ class Contacts extends Component{
 
             this.setState({
               contacts: contacts,
+              contactsLoaded: true,
               dataSource: ds.cloneWithRows(contacts)
             });
 
         })
-      })
+      // })
 
   }
   componentWillUnmount(){
@@ -254,8 +256,7 @@ class Contacts extends Component{
     this.setState({
       searchText: text,
       dataSource: ds.cloneWithRows(_.filter(this.state.contacts, (contact)=>{
-        var name = `${contact.firstName || ''}`;
-        var lastName = `${contact.lastName || ''}`;
+        var name = `${contact.firstName || ''}` +' '+ `${contact.lastName || ''}`;
 
         return name.toLowerCase().indexOf(text.toLowerCase()) >= 0
       }))
@@ -302,7 +303,9 @@ var manyPhones = this.state.partnerSelection &&
             ref="searchinput"
             style={styles.searchfield}
             textAlign="center"
+            editable={this.state.contactsLoaded}
             placeholder="SEARCH"
+            autoCorrect={false}
             clearButtonMode="always"
             placeholderTextColor={colors.shuttleGray}
             onChangeText={this._searchChange.bind(this)}
