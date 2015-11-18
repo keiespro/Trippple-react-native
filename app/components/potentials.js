@@ -183,18 +183,13 @@ class Cards extends Component{
 
             const likeStatus = value > 0 ? 'approve' : 'deny';
             const likeUserId = this.props.potentials[0].user.id;
-            console.log('sendlike')
             MatchActions.sendLike(
               likeUserId,
               likeStatus,
               (this.props.rel == 'single' ? 'couple' : 'single'),
               this.props.rel
-            )
+            );
             this.state.panX && this.state.panX.removeListener(this._actionlistener);
-
-            this.state.panX && this.state.panX.setValue(0);     // Start 0
-
-
           }
         })
       }
