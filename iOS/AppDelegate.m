@@ -16,7 +16,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   NSURL *jsCodeLocation;
+  UIColor *blackColor;
   [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
+  [[UIWindow appearance] setBackgroundColor:blackColor];
 
   /**
    * Loading JavaScript code - uncomment the one you want.
