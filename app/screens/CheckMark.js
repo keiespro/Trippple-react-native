@@ -45,7 +45,7 @@ class CheckMarkScreen extends Component{
   }
 
   componentDidMount() {
-    if(!this.props.isVisible){ return false}
+    // if(!this.props.isVisible){ return false}
 
     // this.state.bounceValue.setValue(0);     //
     this.state.bounceValue.setValue(0.0);

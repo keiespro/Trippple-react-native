@@ -113,7 +113,7 @@ class TopLevel extends Component{
         {(this.state.showCheckmark || this.props.AppState.showCheckmark) ?
           <CheckMarkScreen
             key="toplevelcheckmark"
-            isVisible={this.state.showCheckmark || this.props.AppState.showCheckmark}
+            isVisible={true}
             checkMarkCopy={this.props.AppState.checkMarkCopy || ''}
             checkmarkRequireButtonPress={this.props.AppState.checkmarkRequireButtonPress || false}
           /> : null}
