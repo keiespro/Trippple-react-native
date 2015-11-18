@@ -25,6 +25,7 @@ var colors = require('../utils/colors')
 
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
+import Numpad from '../components/Numpad'
 
 var UserActions = require('../flux/actions/UserActions');
 
@@ -41,6 +42,8 @@ var PinScreen = React.createClass({
     return ({
       pin: '',
       submitting: false,
+      absoluteContinue: true,
+
       verifyError: null
     })
   },
@@ -67,7 +70,7 @@ var PinScreen = React.createClass({
 
   handleInputChange(event: any){
 
-    var pin = event.nativeEvent.text;
+    var pin = event && event.nativeEvent ?  event.nativeEvent.text : event.pin;
 
     if(pin.length > 4){
       event.preventDefault();
@@ -86,12 +89,19 @@ var PinScreen = React.createClass({
 
     }
 
-
+    this.setNativeProps({text:pin})
     this.setState({
       inputFieldValue: pin
     })
 
   },
+
+  setNativeProps(np) {
+    var {text} = np
+    this._inp && this._inp.setNativeProps({text });
+
+  },
+
 
   componentDidUpdate(prevProps, prevState){
 
@@ -125,6 +135,14 @@ var PinScreen = React.createClass({
     }
 
   },
+  backspace(){
+    this.handleInputChange({pin: this.state.inputFieldValue.substring(0,this.state.inputFieldValue.length-1)  })
+
+  },
+  onChangeText(digit){
+    console.log(this.state.inputFieldValue,digit)
+    this.handleInputChange({pin: this.state.inputFieldValue + digit  })
+  },
 
   goBack(){
     this.props.navigator.pop();
@@ -138,12 +156,6 @@ var PinScreen = React.createClass({
           <BackButton navigator={this.props.navigator}/>
         </View>
 
-        <ScrollView
-          contentContainerStyle={styles.wrap}
-          keyboardDismissMode={'on-drag'}
-          bounces={false}
-          keyboardShouldPersistTaps={true}
-          >
 
           <View style={[styles.middleTextWrap]}>
             <Text style={[styles.middleText]}>We've sent you a login pin</Text>
@@ -161,20 +173,16 @@ var PinScreen = React.createClass({
               style={[styles.pinInput,{
                 fontSize: 26
               }]}
-              value={this.state.inputFieldValue || ''}
+              ref={(inp) => this._inp = inp}
+              editable={false}
               keyboardAppearance={'dark'/*doesnt work*/}
               keyboardType={'phone-pad'}
               autoCapitalize={'none'}
               placeholder={'ENTER PIN'}
               placeholderTextColor={'#fff'}
-              autoFocus={true}
-              autoCorrect={false}
-              clearButtonMode={'always'}
-              textAlign={'center'}
-              onChange={this.handleInputChange}
-              onFocus={this.handleInputFieldFocused}
-              onBlur={this.handleInputFieldBlurred}
-            />
+               autoCorrect={false}
+               textAlign={'center'}
+             />
           </View>
 
           <View style={[styles.middleTextWrap,styles.underPinInput]}>
@@ -185,9 +193,8 @@ var PinScreen = React.createClass({
                 </View>
             }
           </View>
-
-        </ScrollView>
-      </View>
+          <Numpad backspace={this.backspace} onChangeText={this.onChangeText}/>
+       </View>
     )
 
   }

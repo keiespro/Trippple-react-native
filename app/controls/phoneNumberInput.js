@@ -22,12 +22,19 @@ const mask = '(999) 999-9999',
     ],
     maskArr= ['(',')',' ','-'];
 
+const KEYBOARD_HEIGHT = 280
+
 import React from 'react-native'
-import { Text,TextInput,View,StyleSheet  } from 'react-native'
+import { Text,TextInput,View,StyleSheet,TouchableHighlight,Dimensions,PixelRatio  } from 'react-native'
 import TimerMixin from 'react-timer-mixin';
-import s from 'underscore.string'
-// import MaskableTextInput from '../RNMaskableTextInput.js'
-import colors from '../utils/colors'
+ import s from 'underscore.string'
+ import colors from '../utils/colors'
+import {MagicNumbers} from '../DeviceConfig'
+import Numpad from '../components/Numpad'
+
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
+
 
 class PhoneNumberInput extends React.Component{
 
@@ -35,8 +42,9 @@ class PhoneNumberInput extends React.Component{
     super()
     this.state = {
       maskedPhone: '',
-      placeholder: true
-    }
+      sanitizedText: '',
+      placeholder: true,
+     }
   }
 
   componentDidUpdate(prevProps,prevState){
@@ -49,87 +57,236 @@ class PhoneNumberInput extends React.Component{
   processValue(value){
     var sanitizedText = (value+'')
         .replace(/[\. ,():+-]+/g, '')
-        .replace(/[A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/,'');
-    console.log(sanitizedText)
+        // .replace(/[A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/,'');
+
     var maskedPhone,
         paddedValue = s(sanitizedText).pad(10, ` `, 'right').value();
 
     maskedPhone = maskMap.reduce( (phone, mapChar, index) => {
-      console.log()
       return (mapChar.position <= phone.length ? s.insert(phone,mapChar.position,mapChar.char) : phone)
     },sanitizedText)
-
-
-    console.log(sanitizedText,maskedPhone)
-    if(maskedPhone.length == 1){
-      maskedPhone = ''
-    }
-    if(this.state.placeholder == false){
-
+    this.handleValueChange(maskedPhone,sanitizedText)
+  }
+  handleValueChange(masked,sanitized){
+    if(masked.length == 1){
+      masked = ''
     }
     this.setNativeProps({
-      text:maskedPhone,
-      fullText: maskedPhone.length == 0 ? '' : maskedPhone + emptyMask.substr(maskedPhone.length,10)
-    })
+      text:masked,
+      fullText: masked.length == 0 ? '' : masked + emptyMask.substr(masked.length,14),
+     })
 
-    var newState = {maskedPhone}
-    console.log(sanitizedText.length,newState)
-    if(maskedPhone.length == 0 ){
+    const newState = {maskedPhone:masked, sanitizedText: sanitized}
+
+    if(masked.length == 0 ){
       newState.placeholder = true
     }else{
       newState.placeholder = false
     }
-    console.log(newState)
+
     this.setState(newState)
 
-    this.props.handleInputChange({phone: sanitizedText,inputFieldValue:sanitizedText})
+    this.props.handleInputChange({phone: sanitized,inputFieldValue:sanitized})
 
   }
 
   setNativeProps(np) {
     var {text,fullText} = np
     console.log(text,fullText,this._textInput)
-    this._textInput && this._textInput.setNativeProps({ text:  text, selectionRange: {start:fullText.length, end:fullText.length} });
+    this._textInput && this._textInput.setNativeProps({text: fullText.length > 1 ? '+1 \u2007'+fullText : null });
     // this._textInput2.setNativesProps({ text: fullText });
 
   }
 
   onChangeText(text){
     console.log('ONCHANGETEXT',text)
-    this.processValue(text)
+    if(this.state.maskedPhone.length >= 14){
+      return false
+    }
+    this.processValue(this.state.maskedPhone + text)
   }
-
+  backspace(){
+    const newText = this.state.sanitizedText.substring(0,this.state.sanitizedText.length-1)
+    this.processValue(newText)
+  }
   render(){
-    console.log('!!!!!!!!!!',this.state.maskedPhone)
+
     return (
-      <View>
-        <View style={{flexDirection:'row',position:'relative'}}>
+    <View style={{height: DeviceHeight-80}}>
+      <View style={{paddingVertical:160}}>
+      <View style={[styles.phoneInputWrap,
+          (this.props.inputFieldFocused ? styles.phoneInputWrapSelected : null),
+          (this.props.phoneError ? styles.phoneInputWrapError : null)]}>
 
         <TextInput
-
+            editable={false}
             ref={component => this._textInput = component}
-            style={[this.props.style,{
-              left: (this.state.placeholder ? 0 : 40),
-
-              fontSize: 26,color:'#fff',flex:1,alignSelf:'stretch',top:0,right:0,bottom:0
+            style={[{
+              textAlign:'center',
+              fontSize: 26,color:'#fff',alignSelf:'flex-start',height:60,width:MagicNumbers.screenWidth,
+              fontFamily:'Montserrat'
             }]}
-            onSelectionStateChange={(e)=>{console.log('SELECTION CHANGE',e)}}
             maxLength={14}
             keyboardType={'numeric'}
             placeholderTextColor="#fff"
-            autoCorrect={false}
-            autoFocus={true}
-            onChangeText={this.processValue.bind(this)}
-            value={this.state.maskedPhone}
+            autoFocus={false}
+             autoCorrect={false}
+            placeholder={'PHONE NUMBER'}
 
 
           />
-        {this.state.placeholder ? null : <Text style={{left:0,top:15,position:'absolute',color:'transparent',fontSize:26}}>+1</Text>}
+        {this.state.phoneError && <View ><Text textAlign={'right'} style={[styles.bottomErrorText]}>Did you mean to register?</Text> </View>}
+
 
         </View>
+        {this.props.continueButton}
+      </View>
+
+        <Numpad backspace={this.backspace.bind(this)} onChangeText={this.onChangeText.bind(this)}/>
       </View>
     )
   }
 }
 
 export default PhoneNumberInput
+
+
+
+
+
+const styles = StyleSheet.create({
+
+  container: {
+    flex: 1,
+    alignItems:'center',
+    justifyContent:'center',
+    alignSelf:'stretch',
+    width: DeviceWidth,
+    margin:0,
+    padding:0,
+    height: DeviceHeight,
+    backgroundColor: 'transparent',
+  },
+  wrap: {
+    flex: 1,
+    alignItems:'center',
+    justifyContent:'center',
+    alignSelf:'stretch',
+    width: DeviceWidth,
+    margin:0,
+    height: DeviceHeight,
+    backgroundColor: 'transparent',
+    padding:0
+
+  },
+  phoneInputWrap: {
+    borderBottomWidth: 2,
+    borderBottomColor: colors.rollingStone,
+    marginHorizontal:MagicNumbers.screenPadding/2,
+    alignSelf: 'stretch'
+  },
+  phoneInputWrapSelected:{
+    borderBottomColor: colors.mediumPurple,
+  },
+  phoneInput: {
+    height: 60,
+    padding: 8,
+    fontSize: 26,
+    fontFamily:'Montserrat',
+    color: colors.white
+  },
+  middleTextWrap: {
+    alignItems:'center',
+    justifyContent:'center',
+    height: 60
+  },
+  middleText: {
+    color: colors.rollingStone,
+    fontSize: 21,
+    fontFamily:'Montserrat',
+  },
+  buttonText: {
+    fontSize: 18,
+    color: colors.white,
+    alignSelf: 'center',
+    fontFamily:'omnes'
+  },
+  imagebg:{
+    flex: 1,
+    alignSelf:'stretch',
+    width: DeviceWidth,
+    height: DeviceHeight,
+  },
+  button: {
+    height: 45,
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
+    borderColor: colors.white,
+    borderWidth: 2,
+    borderRadius: 8,
+    marginBottom: 10,
+    marginTop: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
+  continueButtonWrap:{
+    alignSelf: 'stretch',
+    alignItems: 'stretch',
+    justifyContent: 'center',
+    height: 80,
+    backgroundColor: colors.mediumPurple,
+
+    width:DeviceWidth
+  },
+  continueButton: {
+    height: 80,
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  continueButtonText: {
+    padding: 4,
+    fontSize: 30,
+    fontFamily:'Montserrat',
+    color: colors.white,
+    textAlign:'center'
+  },
+  bottomErrorText:{
+    marginTop: 0,
+    color: colors.mandy,
+    fontSize: 16,
+    fontFamily:'Omnes-Regular',
+
+  },
+  phoneInputWrapError:{
+    borderBottomColor: colors.mandy,
+  },
+});
+//
+// var animations = {
+//   layout: {
+//     spring: {
+//       duration: 500,
+//       create: {
+//         duration: 300,
+//         type: LayoutAnimation.Types.easeInEaseOut,
+//         property: LayoutAnimation.Properties.opacity
+//       },
+//       update: {
+//         type: LayoutAnimation.Types.spring,
+//         springDamping: 200
+//       }
+//     },
+//     easeInEaseOut: {
+//       duration: 300,
+//       create: {
+//         type: LayoutAnimation.Types.easeInEaseOut,
+//         property: LayoutAnimation.Properties.scaleXY
+//       },
+//       update: {
+//         delay: 100,
+//         type: LayoutAnimation.Types.easeInEaseOut
+//       }
+//     }
+//   }
+// };

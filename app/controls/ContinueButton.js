@@ -44,8 +44,8 @@ class ContinueButton extends Component{
       <View style={[styles.continueButtonWrap,
           {
             bottom: this.props.canContinue ? 0 : -80,
-            backgroundColor: this.props.canContinue ? colors.mediumPurple : colors.mediumPurple20
-          }]}>
+            backgroundColor: this.props.canContinue ? colors.mediumPurple : 'transparent'
+          },{position:this.props.absoluteContinue ? 'absolute' : null}]}>
         <TouchableHighlight
            style={[styles.continueButton]}
            onPress={ this.handleContinue.bind(this)}

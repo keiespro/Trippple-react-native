@@ -45,6 +45,8 @@ class Register extends Component{
     this.state = {
       phone: '',
       isLoading: false,
+      absoluteContinue: true,
+
       keyboardSpace: props.keyboardSpace || 240
     }
   }
@@ -111,37 +113,21 @@ class Register extends Component{
   render(){
 
     return (
-      <View style={[{flex: 1, height:DeviceHeight, paddingBottom: this.state.keyboardSpace}]}>
-        <ScrollView
-          key={'scr'}
-          keyboardDismissMode={'interactive'}
-          contentContainerStyle={[styles.wrap, {left: 0}]}
-          bounces={false}
-          keyboardShouldPersistTaps={true}
-          onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
-          onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
-
-          >
-          <View style={[styles.phoneInputWrap,
-              (this.state.inputFieldFocused ? styles.phoneInputWrapSelected : null),
-              (this.state.phoneError ? styles.phoneInputWrapError : null)]}>
+      <View style={[{flex: 1, height:DeviceHeight,width:DeviceWidth}]}>
 
             <PhoneNumberInput
-              key={'registerphone'}
+              key={'loginphone'}
+              keyboardHeight={this.state.keyboardSpace}
               style={styles.phoneInput}
+              continueButton={this.renderContinueButton()}
+              phoneError={this.state.phoneError}
+              inputFieldFocused={this.state.inputFieldFocused}
               handleInputChange={this.handleInputChange.bind(this)}
             />
-          </View>
-          {this.state.phoneError &&
-              <View >
-                <Text textAlign={'right'} style={[styles.bottomErrorText]}>Did you mean to register?</Text>
-              </View>
-          }
-        </ScrollView>
 
-        {this.renderContinueButton()}
 
     </View>
+
 
     );
   }
