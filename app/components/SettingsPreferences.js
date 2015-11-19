@@ -22,7 +22,6 @@ import {
 
 import Mixpanel from '../utils/mixpanel';
 import FakeNavBar from '../controls/FakeNavBar';
-import MaskableTextInput from '../RNMaskableTextInput.js'
 import dismissKeyboard from 'dismissKeyboard'
 import Dimensions from 'Dimensions'
 import AgePrefs from '../controls/AgePrefs'
@@ -131,7 +130,7 @@ class  SettingsPreferences extends React.Component{
                     passProps: {
                       inputField: ()=>{
                         return(
-                        <MaskableTextInput
+                        <TextInput
                            autofocus={true}
                            style={styles.autogrowTextinput}
                            placeholder={''}
