@@ -14,9 +14,6 @@
 		78BEBFA91BF7A32C003C0B0D /* libRCTOSPermissions copy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD2A7CF1BF3F8B100946CD0 /* libRCTOSPermissions copy.a */; };
 		78BEBFAA1BF7A32C003C0B0D /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA55B4C1BF0EB6C000BDC80 /* libRNKeychain.a */; };
 		78BEBFAB1BF7A32C003C0B0D /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD2E3761BF2EF7300CB703A /* libRNOverlay.a */; };
-		AC0020951BDD9C1200C5C538 /* RCTMaskableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFB1BBE59DA00150328 /* RCTMaskableTextView.m */; };
-		AC0020961BDD9C1200C5C538 /* RCTMaskableTextViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BFD1BBE59DA00150328 /* RCTMaskableTextViewManager.m */; };
-		AC0020981BDD9C1200C5C538 /* RCTMaskableTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = AC161BF51BBE59DA00150328 /* RCTMaskableTextField.m */; };
 		AC0020991BDD9C1200C5C538 /* DeviceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBC57281B92498900615D7A /* DeviceUtil.m */; };
 		AC00209C1BDD9C1200C5C538 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		AC00209F1BDD9C1200C5C538 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -406,6 +403,9 @@
 		ACA9FD4A1BE1482B00DBDB1B /* Default-667h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5B03A31B85A9FB003E0302 /* Default-667h@2x~iphone.png */; };
 		ACA9FD4B1BE1482B00DBDB1B /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5B03A51B85A9FB003E0302 /* Default.png */; };
 		ACB3C5E41BF30DB800217529 /* newimg.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACB3C5E31BF30DB800217529 /* newimg.xcassets */; };
+		ACB6BF351BFD56AD00736F15 /* UIColor+TRColors.m in Sources */ = {isa = PBXBuildFile; fileRef = ACB6BF341BFD56AD00736F15 /* UIColor+TRColors.m */; };
+		ACB6BF4F1BFD581200736F15 /* UIColor+TRColors.h in Sources */ = {isa = PBXBuildFile; fileRef = ACB6BF331BFD56AD00736F15 /* UIColor+TRColors.h */; };
+		ACB6BF501BFD581200736F15 /* UIColor+TRColors.m in Sources */ = {isa = PBXBuildFile; fileRef = ACB6BF341BFD56AD00736F15 /* UIColor+TRColors.m */; };
 		ACBA6C761B8413A6009040D6 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACBA6C751B8413A6009040D6 /* Media.xcassets */; };
 		ACBC57291B92498900615D7A /* DeviceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBC57281B92498900615D7A /* DeviceUtil.m */; };
 		ACBF0ADB1BFD27AC00B28F26 /* boxers.png in Resources */ = {isa = PBXBuildFile; fileRef = AC12411A1BF7BC04007A07FA /* boxers.png */; };
@@ -1010,6 +1010,8 @@
 		ACA9FD511BE1482B00DBDB1B /* trippplet copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "trippplet copy2-Info.plist"; path = "/Users/alexlopez/code/Trippple/Native/trippplet copy2-Info.plist"; sourceTree = "<absolute>"; };
 		ACABA3191B8F7B760024503C /* RNOverlay.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNOverlay.xcodeproj; path = "lib/react-native-overlay/RNOverlay.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		ACB3C5E31BF30DB800217529 /* newimg.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = newimg.xcassets; sourceTree = "<group>"; };
+		ACB6BF331BFD56AD00736F15 /* UIColor+TRColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+TRColors.h"; path = "iOS/UIColor+TRColors.h"; sourceTree = "<group>"; };
+		ACB6BF341BFD56AD00736F15 /* UIColor+TRColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+TRColors.m"; path = "iOS/UIColor+TRColors.m"; sourceTree = "<group>"; };
 		ACBA6C751B8413A6009040D6 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		ACBC57271B92498900615D7A /* DeviceUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceUtil.h; path = "node_modules/react-native-device/DeviceUtil.h"; sourceTree = "<group>"; };
 		ACBC57281B92498900615D7A /* DeviceUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceUtil.m; path = "node_modules/react-native-device/DeviceUtil.m"; sourceTree = "<group>"; };
@@ -1248,6 +1250,8 @@
 		13B07FAE1A68108700A75B9A /* trippple */ = {
 			isa = PBXGroup;
 			children = (
+				ACB6BF331BFD56AD00736F15 /* UIColor+TRColors.h */,
+				ACB6BF341BFD56AD00736F15 /* UIColor+TRColors.m */,
 				AC1241191BF7BC04007A07FA /* newimg */,
 				AC14C71D1BF3E88400F8D95F /* main.jsbundle */,
 				ACA129701B40EF0D00CC1499 /* assets */,
@@ -2684,6 +2688,7 @@
 				ACA55B571BF0F51E000BDC80 /* RCTFileTransfer.m in Sources */,
 				ACA55B781BF100C3000BDC80 /* BlurView.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				ACB6BF351BFD56AD00736F15 /* UIColor+TRColors.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				ACA55B7A1BF100C3000BDC80 /* VibrancyView.m in Sources */,
 			);
@@ -2693,6 +2698,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACB6BF4F1BFD581200736F15 /* UIColor+TRColors.h in Sources */,
+				ACB6BF501BFD581200736F15 /* UIColor+TRColors.m in Sources */,
 				ACA55B801BF10132000BDC80 /* BlurView.m in Sources */,
 				ACA55B821BF10132000BDC80 /* BlurViewManager.m in Sources */,
 				ACA55B841BF10132000BDC80 /* VibrancyView.m in Sources */,
