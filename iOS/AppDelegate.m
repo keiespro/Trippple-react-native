@@ -26,7 +26,7 @@
   ///////////////////////////
 
   // PRODUCTION
-  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  //jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
   /////////////////////////
 
