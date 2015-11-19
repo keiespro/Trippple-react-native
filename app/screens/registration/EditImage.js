@@ -182,13 +182,14 @@ class EditImage extends Component{
   _crop() {
     var {image} = this.props
     var uri = image.uri ? image.uri : image
+    this.accept(uri)
     console.log('CROPPING - ',this._transformData)
-    ImageEditingManager.cropImage(
-      uri,
-      this._transformData,
-      (croppedImageURI) => {   this.setState({croppedImageURI}); this.accept(croppedImageURI); },
-      (cropError) => { console.log('cropError',cropError); this.setState({cropError}) }
-    );
+    // ImageEditingManager.cropImage(
+    //   uri,
+    //   this._transformData,
+    //   (croppedImageURI) => {   this.setState({croppedImageURI}); this.accept(croppedImageURI); },
+    //   (cropError) => { console.log('cropError',cropError); this.setState({cropError}) }
+    // );
   }
 
   _reset() {

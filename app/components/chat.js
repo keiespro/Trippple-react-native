@@ -24,7 +24,7 @@ import AltContainer from 'alt/AltNativeContainer'
 import InvertibleScrollView from 'react-native-invertible-scroll-view'
 import TimeAgo from './Timeago'
 import FakeNavBar from '../controls/FakeNavBar'
-import MaskableTextInput from '../RNMaskableTextInput.js'
+// import MaskableTextInput from '../RNMaskableTextInput.js'
 
 import { BlurView,VibrancyView} from 'react-native-blur'
 
@@ -199,7 +199,7 @@ class ChatMessage extends React.Component {
 
         {!isMessageOurs &&
           <View style={{backgroundColor:'transparent'}}>
-            <Image style={[styles.thumb]} source={{uri:this.props.messageData.from_user_info.image_url}} defaultSource={require('../../newimg/placeholderUser.png')}
+            <Image style={[styles.thumb]} source={this.props.messageData.from_user_info.image_url && this.props.messageData.from_user_info.image_url != '' ? {uri:this.props.messageData.from_user_info.image_url} : {uri:'../../newimg/placeholderUser.png'}}
                     resizeMode={Image.resizeMode.cover}
             />
           </View>
@@ -455,7 +455,7 @@ class ChatInside extends Component{
                 contentInset={{top:0,right:0,left:0,bottom:88}}
                 automaticallyAdjustContentInsets={true}
                 style={{ height:DeviceHeight}}
-                keyboardDismissMode={'on-drag'}
+                keyboardDismissMode={'interactive'}
               />
             )
           }}
@@ -464,7 +464,7 @@ class ChatInside extends Component{
 
         <View style={styles.messageComposer}>
 
-          <MaskableTextInput
+          <TextInput
             multiline={true}
             autoGrow={true}
             ref={component => this._textInput = component}
@@ -484,7 +484,7 @@ class ChatInside extends Component{
                   this.state.textInputValue || ' '
               }</Text>
             </View>
-          </MaskableTextInput>
+          </TextInput>
 
           <TouchableHighlight
             style={styles.sendButton}
