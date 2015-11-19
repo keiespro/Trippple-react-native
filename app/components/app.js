@@ -104,7 +104,6 @@ class TopLevel extends Component{
     return (
       <View style={{flex:1,backgroundColor:'#000000', width:DeviceWidth,height:DeviceHeight}}>
 
-        <Connectivity/>
         <ReachabilitySubscription/>
         <AppVisibility/>
 
@@ -119,6 +118,8 @@ class TopLevel extends Component{
           /> : null}
 
         <LoadingOverlay key="LoadingOverlay" isVisible={this.props.AppState.showOverlay || this.state.showOverlay} />
+        <Connectivity/>
+
         <Notifications user={this.props.user} AppState={this.props.AppState} />
       </View>
     )

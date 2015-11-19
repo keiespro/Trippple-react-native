@@ -1,5 +1,7 @@
 import React from 'react-native'
 import { NetInfo, AppStateIOS, Text, View } from 'react-native'
+
+import NoInternetBanner from '../controls/NoInternetBanner'
 /////////////////////////////////////////////////////////////////////////
 //
 //  ReachabilitySubscription
@@ -45,7 +47,7 @@ class Connectivity extends React.Component{
   constructor(props) {
     super()
     this.state = {
-      isConnected: null,
+      isConnected: true,
     }
   }
   componentDidMount() {
@@ -60,7 +62,7 @@ class Connectivity extends React.Component{
     this.setState({ isConnected, })
   }
   render() {
-    return ( !this.state.isConnected ? <View style={{position:'absolute'}}/> : null )
+    return ( !this.state.isConnected ? <NoInternetBanner/> : null )
   }
 }
 
