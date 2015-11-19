@@ -40,6 +40,7 @@
 			<array>
 				<string>fb520565374758791</string>
 				<string>tripppletest</string>
+
 			</array>
 		</dict>
 	</array>
@@ -51,7 +52,11 @@
 	<string>trippplet</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
-	<key>LSRequiresIPhoneOS</key>
+	<key>LSApplicationQueriesSchemes</key>
+    <array>
+     <string>fbauth2</string>
+	 </array>
+ 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>

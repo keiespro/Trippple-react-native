@@ -231,6 +231,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/FacebookSDK",
 					"$(SRCROOT)/FacebookSDK",
+					"$(PROJECT_DIR)/lib/react-native-facebook-login/FacebookSDK",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -260,6 +261,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/FacebookSDK",
 					"$(SRCROOT)/FacebookSDK",
+					"$(PROJECT_DIR)/Lib/FacebookSDK/**",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
