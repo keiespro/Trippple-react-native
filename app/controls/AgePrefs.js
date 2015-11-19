@@ -69,10 +69,10 @@ class  AgePrefs extends React.Component{
 
   }
   render(){
-    var {match_age_max,match_age_min} = this.state
+    const {match_age_max,match_age_min} = this.state
 
-    var {dots} = this.state
-    var dotWidth = SliderWidth / this.state.numberGroups
+    const {dots} = this.state
+    const dotWidth = SliderWidth / this.state.numberGroups
 
         return (
           <View style={{ flexDirection:'column',alignItems:'center',justifyContent:'center',height:100}}>
@@ -130,15 +130,22 @@ class  AgePrefs extends React.Component{
             updateVal={(val) => {
               if(this._timeout) this.clearTimeout(this._timeout)
 
-              this.setState({match_age_min:Math.round(val)});
+              var newState = {
+                match_age_min:Math.min(this.state.match_age_max,Math.round(val)),
+                match_age_max:Math.max(Math.round(val),this.state.match_age_max)
 
-                  this._timeout = this.setTimeout(()=>{
-                    this.updateAttributes()
-                  },2000)
+              }
+
+              this.setState(newState);
+
+
+              this._timeout = this.setTimeout(()=>{
+                this.updateAttributes()
+              },2000)
             }}
             numberGroups={this.state.numberGroups}
             dots={this.state.dots}
-            ageVal={this.state.match_age_min }
+            ageVal={Math.min(this.state.match_age_min,this.state.match_age_max) }
           />
           <ActiveDot
             key={'maximum_dot'}
@@ -146,7 +153,13 @@ class  AgePrefs extends React.Component{
             updateVal={(val) => {
               if(this._timeout) this.clearTimeout(this._timeout)
 
-              this.setState({match_age_max:Math.round(val)});
+              var newState = {
+                match_age_min:Math.min(this.state.match_age_min,Math.round(val)),
+                match_age_max:Math.max(Math.round(val),this.state.match_age_min)
+
+              }
+
+              this.setState(newState);
 
                   this._timeout = this.setTimeout(()=>{
                     this.updateAttributes()
@@ -154,7 +167,7 @@ class  AgePrefs extends React.Component{
             }}
             numberGroups={this.state.numberGroups}
             dots={this.state.dots}
-            ageVal={this.state.match_age_max}
+            ageVal={Math.max(this.state.match_age_min,this.state.match_age_max) }
           />
 
 
