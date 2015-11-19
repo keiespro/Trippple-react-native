@@ -275,6 +275,9 @@
 		AC6BC1AF1B832657005F7DFA /* omnes-light-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129731B40EF0D00CC1499 /* omnes-light-webfont.ttf */; };
 		AC6BC1B01B832657005F7DFA /* omnes-medium-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129741B40EF0D00CC1499 /* omnes-medium-webfont.ttf */; };
 		AC6BC1B11B832657005F7DFA /* omnes-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129751B40EF0D00CC1499 /* omnes-regular-webfont.ttf */; };
+		AC784E0D1BFE5AD7001E5276 /* iconWifi.png in Resources */ = {isa = PBXBuildFile; fileRef = AC784E0A1BFE5AD7001E5276 /* iconWifi.png */; };
+		AC784E0E1BFE5AD7001E5276 /* iconWifi@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AC784E0B1BFE5AD7001E5276 /* iconWifi@2x.png */; };
+		AC784E0F1BFE5AD7001E5276 /* iconWifi@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = AC784E0C1BFE5AD7001E5276 /* iconWifi@3x.png */; };
 		AC9E7CF91BD2F73A00245642 /* libRNAppInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC9E7CF11BD2F72C00245642 /* libRNAppInfo.a */; };
 		ACA55A8F1BF090E1000BDC80 /* DeviceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBC57281B92498900615D7A /* DeviceUtil.m */; };
 		ACA55A921BF090E1000BDC80 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -983,6 +986,9 @@
 		AC5B03A61B85A9FB003E0302 /* Default@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x~iphone.png"; sourceTree = "<group>"; };
 		AC61ADE61BDA984000EDF3A3 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		AC6A6D941BBA1E800055446D /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
+		AC784E0A1BFE5AD7001E5276 /* iconWifi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconWifi.png; sourceTree = "<group>"; };
+		AC784E0B1BFE5AD7001E5276 /* iconWifi@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconWifi@2x.png"; sourceTree = "<group>"; };
+		AC784E0C1BFE5AD7001E5276 /* iconWifi@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconWifi@3x.png"; sourceTree = "<group>"; };
 		AC9E7CDC1BD2F72B00245642 /* RNAppInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNAppInfo.xcodeproj; path = "node_modules/react-native-app-info/RNAppInfo.xcodeproj"; sourceTree = "<group>"; };
 		ACA1292D1B40EA1600CC1499 /* RCTFBLogin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBLogin.xcodeproj; path = "lib/react-native-facebook-login/RCTFBLogin.xcodeproj"; sourceTree = "<group>"; };
 		ACA129301B40EA1600CC1499 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
@@ -1375,6 +1381,9 @@
 		AC1241191BF7BC04007A07FA /* newimg */ = {
 			isa = PBXGroup;
 			children = (
+				AC784E0A1BFE5AD7001E5276 /* iconWifi.png */,
+				AC784E0B1BFE5AD7001E5276 /* iconWifi@2x.png */,
+				AC784E0C1BFE5AD7001E5276 /* iconWifi@3x.png */,
 				AC12411A1BF7BC04007A07FA /* boxers.png */,
 				AC12411B1BF7BC04007A07FA /* boxers@2x.png */,
 				AC12411C1BF7BC04007A07FA /* boxers@3x.png */,
@@ -2189,6 +2198,7 @@
 			files = (
 				AC12424F1BF7BC04007A07FA /* tour-match.png in Resources */,
 				AC1242321BF7BC04007A07FA /* placeholderUser.png in Resources */,
+				AC784E0E1BFE5AD7001E5276 /* iconWifi@2x.png in Resources */,
 				AC1241DD1BF7BC04007A07FA /* cog.png in Resources */,
 				ACA9FD131BE0D11200DBDB1B /* iTunesArtwork@2x.png in Resources */,
 				AC1242511BF7BC04007A07FA /* TriangleDark.png in Resources */,
@@ -2292,6 +2302,7 @@
 				AC12421A1BF7BC04007A07FA /* logo.png in Resources */,
 				AC1242341BF7BC04007A07FA /* placeholderUser@3x.png in Resources */,
 				AC1242011BF7BC04007A07FA /* iconClock@3x.png in Resources */,
+				AC784E0D1BFE5AD7001E5276 /* iconWifi.png in Resources */,
 				AC1241F81BF7BC04007A07FA /* icon-lock@3x.png in Resources */,
 				AC12420F1BF7BC04007A07FA /* iconPlaceholderFavs@2x.png in Resources */,
 				AC12421C1BF7BC04007A07FA /* logo@3x.png in Resources */,
@@ -2302,6 +2313,7 @@
 				AC12422A1BF7BC04007A07FA /* ovalSelected@2x.png in Resources */,
 				AC1242351BF7BC04007A07FA /* placeholderUserWhite.png in Resources */,
 				AC1242501BF7BC04007A07FA /* tour-privacy.png in Resources */,
+				AC784E0F1BFE5AD7001E5276 /* iconWifi@3x.png in Resources */,
 				AC1241CD1BF7BC04007A07FA /* chat@3x.png in Resources */,
 				AC1242121BF7BC04007A07FA /* iconPrivacyMask@2x.png in Resources */,
 				AC6BC1B01B832657005F7DFA /* omnes-medium-webfont.ttf in Resources */,
