@@ -12,6 +12,8 @@ import {
   ListView,
   Modal,
   TouchableHighlight,
+  Animated,
+  Easing,
   Dimensions,
  TouchableWithoutFeedback,
   ActivityIndicatorIOS
@@ -32,11 +34,92 @@ import Api from '../utils/api'
 
 import OnboardingActions from '../flux/actions/OnboardingActions'
 
+class ContactRow extends Component{
+  constructor(props){
+    super(props)
+    this.state = {
+      uri: null
+    }
+  }
+  // shouldComponentUpdate(nProps,nState){
+  //   return nState.uri != this.state.uri
+  // }
+componentDidMount(){
+      console.log('load',this.props.imagePath)
+  //
+  React.NativeModules.RNFSManager.readFile(this.props.imagePath, (err,uri)=>{
+    console.log(err,'imgget');
+    if(!uri || uri == ''){
+      return false
+    }
+    this.setState({
+      uri: 'data:image/gif;base64,'+uri
+    })
+
+
+  })
+}
+  // componentWillReceiveProps(nProps){
+  //   console.log('NPROPS',nProps)
+  //   if(nProps.execute){
+  //     this.props.loadImage(
+  //       (imageUri)=>{
+  //         console.log('load')
+  //
+  //       this.setState({
+  //         imageUri
+  //       })
+  //     })
+  //   }
+  // }
+  render(){
+    const {sectionID,rowID,rowData,imagePath,execute} = this.props
+    var phoneNumber = rowData.phoneNumbers && rowData.phoneNumbers[0] ? rowData.phoneNumbers[0].number : '';
+    // console.log(sectionID, rowID)
+
+    if(this.props.highlightedRow && this.props.highlightedRow.rowID === rowID){
+    }
+    console.log('component row',sectionID,rowID,rowData,imagePath)
+
+    return (
+      <TouchableHighlight
+          underlayColor={colors.mediumPurple20}
+          onPress={()=>{
+            this.props.onPress(sectionID,rowID,rowData);
+            this.props.highlightRow(sectionID,rowID)
+          }}>
+          <View style={[styles.fullwidth,styles.row,
+            (this.props.highlightedRow && this.props.highlightedRow.sectionID === sectionID && this.props.highlightedRow.rowID === rowID ? styles.rowSelected : null)]}>
+
+            <Image style={[styles.contactthumb,{backgroundColor:colors.shuttleGray20}]} resizeMode={Image.resizeMode.cover}
+               source={{uri: (!this.state.uri || this.state.uri == '' ? '../../newimg/defaultuser.png' : (this.state.uri))}}/>
+
+            <View style={styles.rowtextwrapper}>
+
+              <Text style={styles.rowtext}>
+                {`${rowData.firstName || ''} ${rowData.lastName || ''}`}
+              </Text>
+              <Text style={styles.text}>
+                {`${phoneNumber || ''}`}
+              </Text>
+
+            </View>
+          </View>
+        </TouchableHighlight>
+    )
+  }
+
+}
+
+
 class ContactList extends Component{
 
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      currentIndex: new Animated.Value(0),
+      followIndex: new Animated.Value(0)
+    }
 
   }
   onPress(sectionID,rowID,rowData){
@@ -55,41 +138,51 @@ class ContactList extends Component{
 
   }
 
-
+  componentDidMount(){
+    // let stub = () => {console.log('anim done')};
+    // const digits =  (i) =>  {
+    //     return Array.from(new Array(this.props.contacts.length), () => i++)
+    //   }
+    //
+    // Animated.timing(this.state.currentIndex,{
+    //   toValue: 100,
+    //   easing: Easing.out(Easing.ease),
+    //   duration: 5000,
+    //   delay: 100
+    // }).start(stub);
+    //
+    // Animated.timing(this.state.followIndex,{
+    //   toValue: this.state.currentIndex.interpolate({
+    //     inputRange: [1,100],
+    //     outputRange:[0, this.props.contacts.length]
+    //   }),
+    //   duration: 0,
+    //   delay: 0
+    // }).start(stub);
+    //
+    //
+    // this.loadListener = this.state.followIndex.addListener( (value) =>{
+    //   console.log(parseInt(value));
+    //   this.setState({
+    //     currentValue: parseInt(value)
+    //   })
+    // })
+  }
   _renderRow(rowData, sectionID: number, rowID: number, highlightRow) {
-    var phoneNumber = rowData.phoneNumbers && rowData.phoneNumbers[0] ? rowData.phoneNumbers[0].number : '';
-    // console.log(sectionID, rowID)
-
-    if(this.props.highlightedRow && this.props.highlightedRow.rowID === rowID){
-      console.log('HIGHLIGHT')
-    }
-    console.log(rowData.thumbnailPath)
+    console.log(rowData, sectionID, rowID)
     return (
-        <TouchableHighlight
-          underlayColor={colors.mediumPurple20}
-          onPress={()=>{
-            this.onPress(sectionID,rowID,rowData);
-            highlightRow(sectionID,rowID)
-          }}
-          key={`rowID${rowData.id}`}>
-          <View style={[styles.fullwidth,styles.row,
-            (this.props.highlightedRow && this.props.highlightedRow.sectionID === sectionID && this.props.highlightedRow.rowID === rowID ? styles.rowSelected : null)]}>
 
-            <Image style={styles.contactthumb} source={{uri: rowData.thumbnailPath}}/>
+        <ContactRow rowData={rowData} rowID={rowID} sectionID={sectionID} highlightRow={highlightRow}
+          highlightedRow={this.props.highlightedRow}
+          imagePath={rowData.thumbnailPath}
+          onPress={()=>{this.onPress(sectionID,rowID,rowData)}}
+          key={'contactrowel'+rowID}
+          execute={true
+             //this.state.currentValue == rowID
+          }
 
-            <View style={styles.rowtextwrapper}>
 
-              <Text style={styles.rowtext}>
-                {`${rowData.firstName || ''} ${rowData.lastName || ''}`}
-              </Text>
-              <Text style={styles.text}>
-                {`${phoneNumber || ''}`}
-              </Text>
-
-            </View>
-          </View>
-        </TouchableHighlight>
-
+          />
 
     );
   }
