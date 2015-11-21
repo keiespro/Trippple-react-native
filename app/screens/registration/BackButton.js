@@ -1,3 +1,4 @@
+
 import React from 'react-native';
 import {
   Component,
@@ -12,12 +13,10 @@ import OnboardingActions from '../../flux/actions/OnboardingActions'
 
 
 class BackButton extends Component{
-  constuctor(props){
-    super(props);
-    this.state = {}
-
+  constructor(props){
+    super();
+    this.state = {};
   }
-
 
   goBack(){
 

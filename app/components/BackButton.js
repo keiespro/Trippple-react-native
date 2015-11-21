@@ -1,3 +1,6 @@
+/*
+* @flow
+*/
 import React from 'react-native';
 import {
   Component,
@@ -11,7 +14,7 @@ import colors from '../utils/colors'
 
 
 class BackButton extends Component{
-  constuctor(props){
+  constructor(props){
     super(props);
     this.state = {}
 
@@ -65,5 +68,3 @@ var styles = StyleSheet.create({
     justifyContent:'center'
   },
 });
-
-
