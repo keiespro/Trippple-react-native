@@ -171,10 +171,9 @@ class Carousel extends Component{
           loop={true}
           style={styles.carousel}
           horizontal={true}
+          grayDots={true}
           showsPagination={true}
           showsButtons={false}
-          dot={ <View style={styles.dot} />}
-          activeDot={ <View style={styles.activeDot} /> }
         >
           {welcomeSlides}
         </Swiper>

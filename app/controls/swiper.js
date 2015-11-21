@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native'
+import colors  from '../utils/colors'
 
 // Using bare setTimeout, setInterval, setImmediate
 // and requestAnimationFrame calls is very dangerous
@@ -22,6 +23,41 @@ let { width, height } = Dimensions.get('window')
  * @type {StyleSheetPropType}
  */
 let styles = StyleSheet.create({
+  grayDot: {
+    backgroundColor: colors.shuttleGray,
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    marginLeft: 8,
+    marginRight: 8,
+    marginTop: 3,
+    marginBottom: 3,
+    borderColor: colors.shuttleGray
+  },
+  dot: {
+    backgroundColor: 'transparent',
+    width: 15,
+    height: 15,
+    borderRadius: 7.5,
+    marginLeft: 6,
+    marginRight: 6,
+    marginTop: 6,
+    marginBottom: 6,
+    borderWidth: 2,
+    borderColor: colors.white
+  },
+  activeDot: {
+    backgroundColor: colors.mediumPurple20,
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    marginLeft: 8,
+    marginRight: 8,
+    marginTop: 3,
+    marginBottom: 3,
+    borderWidth: 2,
+    borderColor: colors.mediumPurple
+  },
   container: {
     backgroundColor: 'transparent',
     position: 'relative',
@@ -319,35 +355,19 @@ export default React.createClass({
     // By default, dots only show when `total` > 2
     if(this.state.total <= 1) return null
 
-    let dots = []
-    for(let i = 0; i < this.state.total; i++) {
-      dots.push(i === this.state.index
-        ? (this.props.activeDot || <View style={{
-            backgroundColor: '#007aff',
-            width: 8,
-            height: 8,
-            borderRadius: 4,
-            marginLeft: 3,
-            marginRight: 3,
-            marginTop: 3,
-            marginBottom: 3,
-          }} key={'dot'+i} />)
-        : (this.props.dot || <View style={{
-            backgroundColor:'rgba(0,0,0,.2)',
-            width: 8,
-            height: 8,
-            borderRadius: 4,
-            marginLeft: 3,
-            marginRight: 3,
-            marginTop: 3,
-            marginBottom: 3,
-          }} key={'dot'+i} />)
-      )
-    }
-
     return (
-      <View pointerEvents={'box-none'} style={[styles['pagination_' + this.state.dir], this.props.paginationStyle]}>
-        {dots}
+      <View>
+        {React.Children.map(this.props.children, (c,i) => {
+          return (
+            <View pointerEvents={'box-none'} style={[styles['pagination_' + this.state.dir], this.props.paginationStyle]}>
+
+              {i === this.state.index
+                ? (<View style={styles.activeDot} key={'dot'+i} />)
+                : (<View style={this.props.grayDots ?  styles.grayDot : styles.dot} key={'dot'+i} />)
+              }
+            </View>
+          )
+      }) }
       </View>
     )
   },
@@ -463,9 +483,16 @@ export default React.createClass({
           onMomentumScrollEnd={this.onScrollEnd}>
           {pages}
         </ScrollView>
-        {props.showsPagination && (props.renderPagination
-          ? this.props.renderPagination(state.index, state.total, this)
-          : this.renderPagination())}
+        <View pointerEvents={'box-none'} style={[styles['pagination_' + this.state.dir], this.props.paginationStyle]}>
+          {props.showsPagination && React.Children.map(this.props.children, (c,i) => {
+            return (
+                <View
+                    style={i === this.state.index ? styles.activeDot : this.props.grayDots ?  styles.grayDot : styles.dot}
+                    key={'swiperdot'+i}
+                  />
+            )
+          })}
+        </View>
         {this.renderTitle()}
         {this.props.showsButtons && this.renderButtons()}
       </View>
