@@ -17,7 +17,7 @@
     "moment": "^2.10.6",
     "phone-parser": "0.0.2",
     "react-mixin": "latest",
-    "react-native": "0.15.0-rc",
+    "react-native": "0.14.2",
     "react-native-addressbook": "latest",
     "react-native-app-info": "0.0.6",
     "react-native-camera": "^0.3.8",
