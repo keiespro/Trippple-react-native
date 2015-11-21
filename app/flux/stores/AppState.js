@@ -109,15 +109,16 @@ class AppStateStore {
     },1000);
   }
   handleVerifyPin(res){
-    const user_info = res.response;
+    if(res.error){
+      return false
+    }
+    const user_info = res.response,
+          prevUser = this.user;
 
     this.setState({
-      user: {  ...this.user, ...user_info },
+      user: {  ...prevUser, ...user_info },
       showCheckmark: true,
-      checkMarkCopy: {
-        title: '',
-
-      },
+      checkMarkCopy: {},
       checkmarkRequireButtonPress: false
 
     })
@@ -125,7 +126,7 @@ class AppStateStore {
 
     setTimeout(()=>{
       this.setState({showCheckmark:false})
-    },1000);
+    },3000);
 
   }
 
@@ -144,17 +145,21 @@ class AppStateStore {
       userStatus: res.response.user_info.status
     })
   }
-
-  handleShowCheckmark(cm){
-    var cm = cm || {};
+  forceCheckmarkRoute(){
     this.setState({
-      showOverlay:false,
+      currentRoute: {route:'checkmark'},
+    })
+
+  }
+  handleShowCheckmark(cm){
+    this.setState({
+      showOverlay: false,
       showCheckmark: true,
       checkMarkCopy: cm ? cm.copy : {} ,
       checkmarkRequireButtonPress: cm  ? cm.button : false
     })
-
-    if(!cm.button){
+    //
+    if(!cm || !cm.button){
       setTimeout(()=>{
         this.setState({showCheckmark:false,checkMarkCopy: {},checkmarkRequireButtonPress:false})
       },5000);
@@ -166,7 +171,8 @@ class AppStateStore {
 
     this.setState({
       showCheckmark: false,
-      checkMarkCopy: {},checkmarkRequireButtonPress:false
+      checkMarkCopy: {},
+      checkmarkRequireButtonPress:false
     })
 
   }
@@ -189,9 +195,9 @@ class AppStateStore {
   }
 
 
-  handleUpdateRoute({route,match_id}){
-    console.log({route,match_id})
-    this.currentRoute = {route,match_id};
+  handleUpdateRoute(payload){
+    console.log(payload)
+    this.currentRoute = payload;
 
   }
 

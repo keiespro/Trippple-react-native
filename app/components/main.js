@@ -5,7 +5,7 @@ var React = require('react-native');
 var Settings = require('./settings');
 var Matches = require('./matches');
 var Potentials = require('./potentials');
-
+import CheckMarkScreen from '../screens/CheckMark'
 // var GearIcon = require('./svg/icon-gear');
 var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
@@ -50,20 +50,32 @@ import NotificationActions from '../flux/actions/NotificationActions'
     }
     componentWillReceiveProps(nProps){
       console.log(nProps)
-      console.log(this.refs.nav.navigationContext._currentRoute.id+' is the current route but should be '+nProps.currentRoute)
 
       if(nProps.currentRoute){
         if(nProps.currentRoute.route != this.refs.nav.navigationContext._currentRoute.id){
-          this.refs.nav.push({
-            ...ChatRoute,
-            sceneConfig: Navigator.SceneConfigs.PushFromRight,
-            passProps:{
-              match_id: nProps.currentRoute.match_id,
-              currentMatch: nProps.currentMatch,
-              currentRoute: nProps.currentRoute,
-            }
-          })
-
+          console.log(this.refs.nav.navigationContext._currentRoute.id+' is the current route but should be '+nProps.currentRoute)
+          if(nProps.currentRoute.route == 'chat'){
+            this.refs.nav.push({
+              ...ChatRoute,
+              sceneConfig: Navigator.SceneConfigs.PushFromRight,
+              passProps:{
+                match_id: nProps.currentRoute.match_id,
+                currentMatch: nProps.currentMatch,
+                currentRoute: nProps.currentRoute,
+              }
+            })
+          }else if(nProps.currentRoute.route == 'checkmark'){
+            const nowRoute = this.refs.nav.navigationContext._currentRoute
+            this.refs.nav.replace({
+              component: CheckMarkScreen,
+              passProps:{
+                continueAfter: 1000,
+                exitCheckMarkScreen: () => {
+                  this.refs.nav.replace(nowRoute)
+                }
+              }
+            })
+          }
         }
       }
     }

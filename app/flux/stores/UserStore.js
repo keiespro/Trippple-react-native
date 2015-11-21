@@ -6,6 +6,7 @@ import AppActions from '../actions/AppActions'
 import { datasource } from 'alt/utils/decorators'
 import Keychain from 'react-native-keychain'
 import CredentialsStore from './CredentialsStore'
+import AppState from './AppState'
 
 import {KEYCHAIN_NAMESPACE} from '../../config'
 
@@ -73,7 +74,7 @@ class UserStore {
 
   handleVerifyPin(res){
     const {user_info} = res.response;
-
+    this.waitFor(AppState)
     CredentialsStore.saveCredentials(res.response)
 
     this.setState({

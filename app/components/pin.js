@@ -69,13 +69,9 @@ var PinScreen = React.createClass({
 
 
   handleInputChange(event: any){
+    if(!event && typeof event != 'object'){ return false}
+    var pin =   event.nativeEvent ?  event.nativeEvent.text : event.pin;
 
-    var pin = event && event.nativeEvent ?  event.nativeEvent.text : event.pin;
-
-    if(pin.length > 4){
-      event.preventDefault();
-      return false;
-    }
 
 
     // Submit pin automatically when 4 digits have been entered

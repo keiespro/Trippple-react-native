@@ -47,7 +47,7 @@ var UserActions = {
     }
     catch(err){
       console.log('error catched',err);
-      this.dispatch(err)
+      this.dispatch({error: err})
     }
   },
 

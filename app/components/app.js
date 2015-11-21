@@ -115,7 +115,7 @@ class TopLevel extends Component{
             isVisible={true}
             checkMarkCopy={this.props.AppState.checkMarkCopy || ''}
             checkmarkRequireButtonPress={this.props.AppState.checkmarkRequireButtonPress || false}
-          /> : null}
+          /> : null }
 
         <LoadingOverlay key="LoadingOverlay" isVisible={this.props.AppState.showOverlay || this.state.showOverlay} />
         <Connectivity/>
