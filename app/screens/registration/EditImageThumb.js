@@ -65,9 +65,27 @@ class EditImageThumb extends Component{
 
   accept(cropped){
 
+    // React.NativeModules.CameraRollManager.saveImageWithTag(cropped, (uri)=>{
+      // console.log('top',uri);
+      // var lastRoute
+      //
+      // const localImages = { thumb_url: uri };
+      //
+      //
+      // UserActions.updateLocally(localImages)
+      //
+      UserActions.updateLocally({status:'pendingpartner'})
 
-      UserActions.uploadImage( this.state.croppedImageURI ,'avatar')
-      var lastRoute
+      // UserActions.uploadImage( uri ,'avatar')
+
+    //
+    // }, (x)=>{
+    //   console.log('bottom',x);
+    //
+    // })
+
+
+
 
     if(this.props.navigator.getCurrentRoutes()[1].id == 'settings'){
       if(this.props.navigator.getCurrentRoutes()[2] && this.props.navigator.getCurrentRoutes()[2].id == 'settingsbasic'){
