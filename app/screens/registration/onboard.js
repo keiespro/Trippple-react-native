@@ -21,7 +21,6 @@ const DeviceWidth = Dimensions.get('window').width
 
 import _ from 'underscore'
 
-import CheckMarkScreen from '../CheckMark'
 
 import Facebook from './facebook'
 import SelectRelationshipStatus from './selectRelationshipStatus'
@@ -118,7 +117,6 @@ class Onboard extends Component{
        OnboardingActions.updateRoute(this.props.onboardingState.routeIndex+1)
 
      }
-     // AppActions.updateRoute(e._data.route.id)
    })
   }
   selectScene (route: Navigator.route, navigator: Navigator) {

@@ -104,9 +104,11 @@ import AppActions from '../flux/actions/AppActions'
         this.props.successCallback && this.props.successCallback( geo.coords)
       },
       (error) => {
-        this.setState({hasPermission: false, failedState: true})
+        this.requestPermission()
+
+        // this.setState({hasPermission: false, failedState: true})
         console.log('x',error)
-        this.handleFail()
+        // this.handleFail()
         // this.props.navigator[this.props.renderPrevMethod]()
 
       },

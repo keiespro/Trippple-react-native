@@ -285,17 +285,17 @@ class Contacts extends Component{
 
   }
   render(){
-  var invitedName = this.state.partnerSelection && this.state.partnerSelection.firstName && this.state.partnerSelection.firstName.toUpperCase() || ''
-var manyPhones = this.state.partnerSelection &&
+  const invitedName = this.state.partnerSelection && this.state.partnerSelection.firstName && this.state.partnerSelection.firstName.toUpperCase() || ''
+  const manyPhones = this.state.partnerSelection &&
                   this.state.partnerSelection.phoneNumbers &&
                   this.state.partnerSelection.phoneNumbers.length &&
                   this.state.partnerSelection.phoneNumbers.length > 1;
     return (
 
       <View style={styles.container} noScroll={true}>
- <View style={{width:100,height:50,left:20}}>
-        <BackButton />
-      </View>
+        <View style={{width:100,height:50,left:20}}>
+          <BackButton />
+        </View>
 
         <View style={styles.searchwrap}>
           <Image source={require('../../newimg/search.png')} style={styles.searchicon}/>
@@ -319,8 +319,8 @@ var manyPhones = this.state.partnerSelection &&
             style={{}} />
 
           <View style={{padding:20,marginTop:20}}>
-              <Text style={[styles.rowtext]}>Loading your contacts...</Text>
-            </View>
+            <Text style={[styles.rowtext]}>Loading your contacts...</Text>
+          </View>
         </View> :
                    <ContactList
           ref={'contactlist'}
@@ -370,7 +370,7 @@ var manyPhones = this.state.partnerSelection &&
 
               <Image style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginBottom:20}]}
                 source={{uri: this.state.partnerSelection.thumbnailPath}}
-                defaultSource={require('../../newimg/placeholderUserWhite.png')}
+                defaultSource={{uri:'../../newimg/placeholderUserWhite.png'}}
                 />
 
               <View style={{alignSelf:'stretch', justifyContent:'center',alignItems:'center'}}>
