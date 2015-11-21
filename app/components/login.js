@@ -34,7 +34,7 @@ import reactMixin from 'react-mixin'
 import TimerMixin from 'react-timer-mixin'
 import SingleInputScreenMixin from '../mixins/SingleInputScreenMixin'
 import TrackKeyboardMixin from '../mixins/keyboardMixin'
-import Mixpanel from '../utils/mixpanel';
+import Mixpanel from '../utils/mixpanel'
 
 @reactMixin.decorate(TimerMixin)
 @reactMixin.decorate(TrackKeyboardMixin)
@@ -100,7 +100,7 @@ class Login extends Component{
 
       this.props.navigator.push({
         component: PinScreen,
-        title: '',
+        title: 'pin',
         id:'pw',
         sceneConfig: CustomSceneConfigs.HorizontalSlide,
         passProps: {

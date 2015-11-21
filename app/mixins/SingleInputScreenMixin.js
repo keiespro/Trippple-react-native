@@ -87,7 +87,11 @@ module.exports =  {
   renderContinueButton(){
 
     return(
-      <ContinueButton canContinue={this.state.canContinue} absoluteContinue={this.state.absoluteContinue} handlePress={this.handleContinue.bind(this)}/>
+      <ContinueButton
+          canContinue={this.state.canContinue}
+          absoluteContinue={this.state.absoluteContinue}
+          handlePress={this.handleContinue.bind(this)}
+        />
       )
   }
 

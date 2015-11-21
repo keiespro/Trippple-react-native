@@ -47,12 +47,8 @@ class PhoneNumberInput extends React.Component{
      }
   }
 
-  componentDidUpdate(prevProps,prevState){
-    const {maskedPhone} = this.state
-    if(maskedPhone.length && maskedPhone.length > prevState.maskedPhone.length){
-      // this._textInput.setSelectionRange(maskedPhone.length,maskedPhone.length)
-    }
-  }
+
+
 
   processValue(value){
     var sanitizedText = (value+'')

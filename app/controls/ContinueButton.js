@@ -23,6 +23,9 @@ var colors = require('../utils/colors');
 
 class ContinueButton extends Component{
 
+  static defaultProps = {
+    canContinue: false
+  }
   constructor(props){
     super();
 
@@ -45,7 +48,8 @@ class ContinueButton extends Component{
           {
             bottom: this.props.canContinue ? 0 : -80,
             backgroundColor: this.props.canContinue ? colors.mediumPurple : 'transparent'
-          },{position:this.props.absoluteContinue ? 'absolute' : null}]}>
+          },{position:this.props.absoluteContinue ? 'absolute' : null,
+          opacity: (this.props.canContinue  && 1) || this.props.absoluteContinue && 0 || 1 }]}>
         <TouchableHighlight
            style={[styles.continueButton]}
            onPress={ this.handleContinue.bind(this)}
