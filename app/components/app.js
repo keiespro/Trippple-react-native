@@ -5,7 +5,8 @@
 
 import React from 'react-native';
 import DeviceConfig from '../DeviceConfig'
-import { Component, View, Navigator, Dimensions } from 'react-native';
+import { Component, View, Navigator, Dimensions } from 'react-native'
+
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
@@ -32,6 +33,7 @@ import Notifications from '../utils/Notifications';
 import LoadingOverlay from '../components/LoadingOverlay'
 import PurpleModal from '../modals/PurpleModal'
 
+import colors from '../utils/colors'
 
 @reactMixin.decorate(TimerMixin)
 class AppRoutes extends Component{
@@ -102,7 +104,7 @@ class TopLevel extends Component{
   render(){
     console.log(this.props.AppState)
     return (
-      <View style={{flex:1,backgroundColor:'#000000', width:DeviceWidth,height:DeviceHeight}}>
+      <View style={{flex:1,backgroundColor:colors.outerSpace, width:DeviceWidth,height:DeviceHeight}}>
 
         <ReachabilitySubscription/>
         <AppVisibility/>
