@@ -37,6 +37,7 @@ const DeviceWidth = Dimensions.get('window').width
 import DistanceSlider from '../controls/distanceSlider'
 import ToggleSwitch from '../controls/switches'
 import UserActions from '../flux/actions/UserActions'
+import AppActions from '../flux/actions/AppActions'
 import EditImage from '../screens/registration/EditImage'
 import SelfImage from './loggedin/SelfImage'
 import CoupleImage from './loggedin/CoupleImage'
@@ -112,26 +113,34 @@ class SettingsInside extends React.Component{
     const rel = this.props.user.relationship_status == 'single' ? 'couple' : 'single' // opposite of user's rel
 
     const selfAsPotential = {
-      potential: {
-        user: {
-          ...this.props.user,
-          age: (thisYear - this.props.user.bday_year)
-        },
+
+      user: {
+        ...this.props.user,
+        age: (thisYear - this.props.user.bday_year)
       },
-      rel
     }
 
     if(this.props.user.relationship_status == 'couple'){
-      selfAsPotential.potential.partner = {
-        ...this.props.user.partner,
-        age: (thisYear - this.props.user.partner.bday_year)
+      delete selfAsPotential.coupleImage
+      delete selfAsPotential.partner
+
+
+      const coupleAsPotential = {
+        ...this.props.user.couple,
+        user: selfAsPotential.user,
+        partner: {
+          ...this.props.user.partner,
+          age: (thisYear - this.props.user.partner.bday_year)
+        },
       }
     }
 
     this.props.navigator.push({
       component: UserProfile,
       sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
-      passProps: selfAsPotential
+      passProps: {
+        potential: rel == 'single' ? selfAsPotential : coupleAsPotential
+      }
     });
 
   }
@@ -293,6 +302,20 @@ class SettingsInside extends React.Component{
           <Image source={require('../../newimg/nextArrow.png')} />
           </View>
         </TouchableHighlight>
+
+              <TouchableHighlight onPress={(f)=>{
+                  AppActions.showCheckmark()
+                }} underlayColor={colors.dark} >
+                <View  style={styles.wrapfield}>
+                  <View>
+                    <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>checkmark</Text>
+                    <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
+                      debug
+                    </Text>
+                  </View>
+                  <Image source={require('../../newimg/nextArrow.png')} />
+                </View>
+              </TouchableHighlight>
 
 {/*
       <ScrollableTabView renderTabBar={(props)=><CustomTabBar {...props}/>}>
