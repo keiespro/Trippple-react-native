@@ -3,7 +3,7 @@
 const KEYBOARD_HEIGHT = 280
 
 import React from 'react-native'
-import { Text,TextInput,View,StyleSheet,TouchableHighlight,Dimensions,PixelRatio  } from 'react-native'
+import { Text,TextInput,View,StyleSheet,TouchableHighlight,Dimensions,PixelRatio,Image  } from 'react-native'
 import {BlurView,VibrancyView} from 'react-native-blur'
 import colors from '../utils/colors'
 import {MagicNumbers} from '../DeviceConfig'
@@ -22,20 +22,22 @@ class Numpad extends React.Component{
   render(){
 
     return (
-        <BlurView
+        <View
           style={styles.numberPadWrap}
-          blurType={'dark'}
+
           >
           <View style={styles.keyWrapper}>
             { digits.map( (el,i)=>
               <TouchableHighlight
                 key={'phonepad'+i}
-                underlayColor={colors.dark}
+                underlayColor={colors.outerSpace}
                 onPress={()=>this.props.onChangeText(i+1)}
                 >
                 <View style={[
                     styles.gridKeys,
-                    { borderTopWidth: i >= 3 ? 1/PixelRatio.get() : 0 }
+                    { borderTopWidth: i >= 3 ? 1/PixelRatio.get() : 0,
+                    borderRightWidth: (i+1)%3 == 2 ? 1/PixelRatio.get() : 0,
+                    borderLeftWidth: (i+1)%3 == 2 ? 1/PixelRatio.get() : 0, }
                   ]}>
                   <Text style={styles.whiteText}>
                     {i+1}
@@ -46,7 +48,7 @@ class Numpad extends React.Component{
 
             <TouchableHighlight
               key={'phonepadnull'}
-              underlayColor={colors.dark}
+              underlayColor={colors.outerSpace}
               >
               <View style={styles.bottomRowKeys}>
                 <Text style={styles.whiteText}>
@@ -56,10 +58,14 @@ class Numpad extends React.Component{
             </TouchableHighlight>
             <TouchableHighlight
               key={'phonepad0'}
-              underlayColor={colors.dark}
+              underlayColor={colors.outerSpace}
               onPress={()=>this.props.onChangeText('0')}
               >
-              <View style={styles.bottomRowKeys}>
+              <View style={[styles.bottomRowKeys,{
+                borderColor:colors.shuttleGray,
+                borderRightWidth:1/PixelRatio.get(),
+                borderLeftWidth: 1/PixelRatio.get()
+              }]}>
                 <Text style={styles.whiteText}>
                   {'0'}
                 </Text>
@@ -67,17 +73,17 @@ class Numpad extends React.Component{
             </TouchableHighlight>
             <TouchableHighlight
               key={'phonepaddel'}
-              underlayColor={colors.dark}
+              underlayColor={colors.outerSpace}
               style={{alignSelf:'flex-end'}}
               onPress={()=>this.props.backspace()}
               >
-              <View style={styles.bottomRowKeys}>
-                <Text style={styles.backButton}>⌫</Text>
+              <View style={[styles.bottomRowKeys]}>
+                <Image style={{width:33,height:20}} source={require('../../newimg/btn-delete.png')} resizeMode={Image.resizeMode.contain}/>
               </View>
             </TouchableHighlight>
 
           </View>
-        </BlurView>
+        </View>
     )
   }
 }
@@ -93,7 +99,7 @@ const styles = StyleSheet.create({
     position:'absolute',
     bottom:0,
     left:0,
-    backgroundColor:colors.mediumPurple20
+    backgroundColor:colors.dark
   },
   keyWrapper:{
     flexDirection:'row',
@@ -108,7 +114,7 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
     alignSelf:'stretch',
-    borderTopColor:colors.shuttleGray
+    borderColor:colors.shuttleGray
 
   },
 

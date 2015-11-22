@@ -27,9 +27,9 @@ var DeviceHeight = require('Dimensions').get('window').height;
 var DeviceWidth = require('Dimensions').get('window').width;
 import Numpad from '../components/Numpad'
 
-var UserActions = require('../flux/actions/UserActions');
+var UserActions = require('../flux/actions/UserActions')
 
-var AuthErrorStore = require('../flux/stores/AuthErrorStore');
+var AuthErrorStore = require('../flux/stores/AuthErrorStore')
 import SingleInputScreenMixin from '../mixins/SingleInputScreenMixin'
 
 import BackButton from './BackButton'
@@ -136,6 +136,7 @@ var PinScreen = React.createClass({
 
   },
   onChangeText(digit){
+    if(this.state.inputFieldValue.length >= 4){ return false}
     console.log(this.state.inputFieldValue,digit)
     this.handleInputChange({pin: this.state.inputFieldValue + digit  })
   },
@@ -146,7 +147,8 @@ var PinScreen = React.createClass({
   render(){
     return (
       <View
-        style={[{flex: 1,backgroundColor: colors.outerSpace,height:DeviceHeight, paddingBottom: this.state.keyboardSpace || 250}]}
+        style={[{flex: 1,
+          justifyContent:'space-between',alignItems:'center',backgroundColor: colors.outerSpace, paddingBottom: this.state.keyboardSpace || 280}]}
         >
          <View style={{width:100,height:50,left:20,alignSelf:'flex-start'}}>
           <BackButton navigator={this.props.navigator}/>
@@ -157,6 +159,7 @@ var PinScreen = React.createClass({
             <Text style={[styles.middleText]}>We've sent you a login pin</Text>
           </View>
 
+          <View style={[{marginBottom:50, marginHorizontal:20,paddingBottom:50, alignSelf: 'stretch',}]}>
           <View
             style={[
               styles.pinInputWrap,
@@ -189,6 +192,8 @@ var PinScreen = React.createClass({
                 </View>
             }
           </View>
+          
+        </View>
           <Numpad backspace={this.backspace} onChangeText={this.onChangeText}/>
        </View>
     )
@@ -233,8 +238,9 @@ var styles = StyleSheet.create({
   pinInputWrap: {
     borderBottomWidth: 2,
     borderBottomColor: colors.rollingStone,
-    height: 60,
-    alignSelf: 'stretch'
+    height: 62,
+     alignSelf: 'stretch',
+    marginBottom:0
   },
   pinInputWrapSelected:{
     borderBottomColor: colors.mediumPurple,
@@ -252,8 +258,8 @@ var styles = StyleSheet.create({
   middleTextWrap: {
     alignItems:'center',
     justifyContent:'center',
-    marginBottom:10,
-    height: 60
+    marginBottom:0,
+    height: 60,
   },
   middleText: {
     color: colors.rollingStone,
@@ -283,7 +289,6 @@ var styles = StyleSheet.create({
     marginTop: 10,
     height: 30,
     flexDirection: 'row',
-    backgroundColor: 'transparent',
     justifyContent: 'space-between',
     alignSelf: 'stretch'
   },
