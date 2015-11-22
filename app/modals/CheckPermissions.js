@@ -175,7 +175,7 @@ import AppActions from '../flux/actions/AppActions'
     return (
       <View>
         <TouchableHighlight
-          underlayColor={colors.mediumPurple}
+          underlayColor={colors.darkGreenBlue}
           style={styles.modalButtonWrap}
           onPress={this.handleTapYes.bind(this)}>
           <View style={[styles.modalButton]} >
@@ -201,13 +201,13 @@ import AppActions from '../flux/actions/AppActions'
           <View style={[styles.insidemodalwrapper,{justifyContent:'space-between'}]}>
 
             <Text style={[styles.rowtext,styles.bigtext,{
-                fontFamily:'Montserrat',fontSize:20,marginVertical:10
+                fontFamily:'Montserrat',fontSize:20,marginVertical:10,color: colors.shuttleGray
               }]}>
               {this.state.failedState ? this.props.failedTitle : this.props.title}
             </Text>
 
             <Text style={[styles.rowtext,styles.bigtext,{
-                fontSize:18,marginVertical:10,color: colors.lavender,marginHorizontal:10
+                fontSize:18,marginVertical:10,color: colors.shuttleGray,marginHorizontal:10
               }]}>{this.state.failedState ? this.props.failedSubtitle : this.props.subtitle || ''}
             </Text>
 
@@ -218,7 +218,7 @@ import AppActions from '../flux/actions/AppActions'
             <TouchableOpacity
               onPress={this.cancel.bind(this)}>
               <View style={[styles.cancelButton,{  backgroundColor:'transparent'}]} >
-                <Text style={[styles.modalButtonText,{  backgroundColor:'transparent'}]}>No thanks</Text>
+                <Text style={[styles.nothankstext,{  backgroundColor:'transparent'}]}>no thanks</Text>
               </View>
             </TouchableOpacity>
           </View>

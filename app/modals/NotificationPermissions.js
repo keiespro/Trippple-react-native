@@ -36,7 +36,7 @@ import NotificationActions from '../flux/actions/NotificationActions'
 const failedTitle = `ALERTS DISABLED`,
       failedSubtitle = `Notification permissions have been disabled. You can enable them in Settings`,
       buttonText = `YES, ALERT ME`,
-      subtitle = `Great! You’ve swiped right. Would you like to be notified when you've made a match?`
+      subtitle = `Great! You’ve liked {USERNAME}. Would you like to be notified when {THEY} like you back?`
 
  export default class NotificationPermissions extends React.Component{
 

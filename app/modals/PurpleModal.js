@@ -47,11 +47,12 @@ class PurpleModal extends Component{
 
         <View style={[styles.col,{justifyContent:'center',alignSelf:'center',backgroundColor: 'transparent'}]}>
 
-          <Image style={[styles.modalcontainer,{overflow:'hidden',width:MagicNumbers.screenWidth,
+          <View style={[styles.modalcontainer,{overflow:'hidden',width:MagicNumbers.screenWidth,
             marginHorizontal:MagicNumbers.screenPadding/2,padding:MagicNumbers.screenPadding/2,
-          height:DeviceHeight-MagicNumbers.screenPadding*2,marginTop:MagicNumbers.screenPadding}]} source={require('../../newimg/gradientbgs.png')}                 resizeMode={Image.resizeMode.stretch} >
+            backgroundColor:colors.white,
+          height:DeviceHeight-MagicNumbers.screenPadding*2,marginTop:MagicNumbers.screenPadding}]}  >
             {this.props.children}
-          </Image>
+          </View>
         </View>
       </View>
 

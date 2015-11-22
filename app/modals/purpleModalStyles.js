@@ -18,12 +18,12 @@ const purpleModalStyles = StyleSheet.create({
 modalButton:{
   alignSelf:'stretch',
   height:60,
-  backgroundColor:colors.sapphire50,
+  backgroundColor:colors.sushi,
   alignItems:'center',
   margin: 0,
-  borderRadius:8,
+  borderRadius:4,
   borderWidth:2 / PixelRatio.get(),
-  borderColor:colors.purple,
+  borderColor:colors.darkGreenBlue,
 
   justifyContent:'center',
   flex:1,
@@ -33,7 +33,10 @@ modalButtonText:{
   fontFamily:'Montserrat',
   fontSize:18,
 
-textAlign:'center'
+  textAlign:'center'
+},
+nothankstext:{
+  color:colors.shuttleGray,
 },
   container: {
     flex:1,

@@ -25,6 +25,7 @@
     "react-native-fs": "latest",
     "react-native-invertible-scroll-view": "latest",
     "react-native-mail": "latest",
+    "react-native-message-composer": "0.0.3",
     "react-native-scrollable-decorator": "latest",
     "react-native-swiper": "latest",
     "react-timer-mixin": "^0.13.3",

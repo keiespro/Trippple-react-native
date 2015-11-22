@@ -34,6 +34,8 @@ import reactMixin from 'react-mixin'
 import FieldModal from './FieldModal'
 import {MagicNumbers} from '../DeviceConfig'
 import CheckPermissions from '../modals/CheckPermissions'
+import PartnerMissingModal from '../modals/PartnerMissingModal'
+
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
@@ -92,6 +94,18 @@ class  SettingsPreferences extends React.Component{
       })
     }
   }
+  showPartnerMissingModal(){
+    // if permission has been denied, show the modal in failedState mode (show settings link)
+      this.props.navigator.push({
+        component:PartnerMissingModal,
+        passProps:{
+        
+        
+          goBack:()=>{this.props.navigator.pop(); },
+
+        }
+      })
+    }
   render(){
     let u = this.props.user;
 
@@ -199,7 +213,12 @@ class  SettingsPreferences extends React.Component{
 
 
               {this.props.user.relationship_status == 'couple' ?
-                <TouchableHighlight underlayColor={colors.dark} style={styles.paddedSpace} onPress={()=>{this.toggleField('looking_for_f')}}>
+                <TouchableHighlight 
+                  underlayColor={colors.dark} 
+                  style={styles.paddedSpace} 
+                  onPress={()=>{
+                      this.props.user.status == 'onboarded' ? this.toggleField('looking_for_f') : this.showPartnerMissingModal()
+                  }}>
                   <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
                     <Text style={{color: looking_for_f ? colors.white : colors.rollingStone,
                         fontSize:MagicNumbers.size18,fontFamily:'Montserrat'}}>FEMALE SINGLES</Text>
@@ -208,7 +227,12 @@ class  SettingsPreferences extends React.Component{
                 </TouchableHighlight>
               : null }
               {this.props.user.relationship_status == 'couple' ?
-                <TouchableHighlight underlayColor={colors.dark} style={styles.paddedSpace} onPress={()=>{this.toggleField('looking_for_m')}}>
+                <TouchableHighlight 
+                  underlayColor={colors.dark} 
+                  style={styles.paddedSpace} 
+                  onPress={()=>{
+                      this.props.user.status == 'onboarded' ? this.toggleField('looking_for_m') : this.showPartnerMissingModal()
+                  }}>
                   <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
                     <Text style={{color: looking_for_m ? colors.white : colors.rollingStone,
                         fontSize:MagicNumbers.size18,fontFamily:'Montserrat'}}>MALE SINGLES</Text>
@@ -221,7 +245,7 @@ class  SettingsPreferences extends React.Component{
           <View  style={{paddingTop:50}}>
 
             <View>
-              <AgePrefs toggleScroll={this.toggleScroll.bind(this)} user={this.props.user} />
+              <AgePrefs toggleScroll={this.toggleScroll.bind(this)} user={this.props.user} showPartnerMissingModal={this.showPartnerMissingModal.bind(this)} />
             </View>
 
               <View style={[styles.paddedSpace,{marginBottom:15}]}>

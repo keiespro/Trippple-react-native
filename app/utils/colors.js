@@ -23,7 +23,7 @@ const colors = {
   outerSpace:         'rgb(44,57,65)',
 
   outerSpace50:         'rgba(44,57,65,0.5)',
-
+  darkGreenBlue:      'rgb(25,105,66)',
 
   sushi:              'rgb(66,181,125)',
   sashimi:             'rgba(33,120,77,1)',

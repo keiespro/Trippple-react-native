@@ -80,7 +80,7 @@ class  AgePrefs extends React.Component{
         <View style={{paddingHorizontal:0,flexDirection:'row',width:InsideWidth,justifyContent:'space-between'}}>
                 <Text style={[{alignSelf:'flex-start',color: colors.rollingStone,textAlign:'left'}]}>{`Age Range`}</Text>
 
-                <Text style={{alignSelf:'flex-end',color:colors.white,textAlign:'right',marginRight:0,marginBottom:20}}>{`${this.state.match_age_min} - ${this.state.match_age_max}`}</Text>
+                <Text style={{alignSelf:'flex-end',color:colors.white,textAlign:'right',marginRight:0,marginBottom:20}}>{`${this.state.match_age_min} - ${this.state.match_age_max == 50 ? '50+' : this.state.match_age_max}`}</Text>
           </View>
         <View style={{left: MagicNumbers.isSmallDevice ? -5 : 0,
             paddingHorizontal:0,flexDirection:'row',height:90,alignItems:'flex-start',justifyContent:'center',alignSelf:'center'}}>
@@ -102,6 +102,10 @@ class  AgePrefs extends React.Component{
                    }}/>
                }
                <TouchableOpacity style={{position:'absolute',top:-10,left:-10}} onPress={(e)=>{
+                 if(this.props.user.status == 'pendingpartner'){
+                   this.props.showPartnerMissingModal();
+                   return false
+                 }
                    var newState = {}
                    if(Math.abs(this.state.match_age_max - dot.start_age) > Math.abs(this.state.match_age_min - dot.start_age) ){
                      newState.match_age_min = dot.start_age
@@ -124,7 +128,7 @@ class  AgePrefs extends React.Component{
           })}
 
           </View>
-          <ActiveDot
+        {!this.props.user.status == 'pendingpartner' &&  <ActiveDot
             key={'minimum_dot'}
             toggleScroll={this.props.toggleScroll}
             updateVal={(val) => {
@@ -146,8 +150,8 @@ class  AgePrefs extends React.Component{
             numberGroups={this.state.numberGroups}
             dots={this.state.dots}
             ageVal={Math.min(this.state.match_age_min,this.state.match_age_max) }
-          />
-          <ActiveDot
+          />}
+          {!this.props.user.status == 'pendingpartner' &&  <ActiveDot
             key={'maximum_dot'}
             toggleScroll={this.props.toggleScroll}
             updateVal={(val) => {
@@ -168,7 +172,7 @@ class  AgePrefs extends React.Component{
             numberGroups={this.state.numberGroups}
             dots={this.state.dots}
             ageVal={Math.max(this.state.match_age_min,this.state.match_age_max) }
-          />
+          />}
 
 
 
@@ -350,7 +354,7 @@ class ActiveDot extends React.Component{
           left:MagicNumbers.isSmallDevice ? 2 : 12,
         }} source={require('../../newimg/sliderHandle.png')}>
         <Text style={{backgroundColor:'transparent',textAlign:'center',color:colors.white,fontSize:12}}>{
-            this.props.ageVal
+            this.props.ageVal == 50 ? '50+' : this.props.ageVal
           }</Text>
       </Animated.Image>
 
