@@ -55,7 +55,7 @@ var RouteStackCouple = [
      */
 
     {component: InvitePartner,  id: 'InvitePartner', title: 'InvitePartner'},
-    // {component: Contacts, title: 'Contacts'},
+    {component: Contacts, title: 'Contacts'},
     {component: Facebook, title: 'Facebook'},
     {component: name, title: 'name'},
     {component: bday,  title: 'bday'},

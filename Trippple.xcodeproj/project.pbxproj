@@ -236,6 +236,7 @@
 		AC14C7211BF3E88400F8D95F /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = AC14C71D1BF3E88400F8D95F /* main.jsbundle */; };
 		AC14C7221BF3E88400F8D95F /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = AC14C71D1BF3E88400F8D95F /* main.jsbundle */; };
 		AC14C7231BF3E88400F8D95F /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = AC14C71D1BF3E88400F8D95F /* main.jsbundle */; };
+		AC196B2F1C02FB7C00C4AD76 /* newimg.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACB3C5E31BF30DB800217529 /* newimg.xcassets */; };
 		AC2B513D1BCF6C360093820F /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		AC2B513E1BCF6C360093820F /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA129451B40EA1600CC1499 /* libRCTAddressBook.a */; };
 		AC2B513F1BCF6C360093820F /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6A6D9D1BBA1E800055446D /* libRCTCamera.a */; };
@@ -277,6 +278,9 @@
 		AC6302731C0134E000774453 /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA55B4C1BF0EB6C000BDC80 /* libRNKeychain.a */; };
 		AC6302741C0134E000774453 /* libRNMessageComposer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC63026C1C0134BF00774453 /* libRNMessageComposer.a */; };
 		AC6302751C0134E000774453 /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD2E3761BF2EF7300CB703A /* libRNOverlay.a */; };
+		AC6302761C02B6EC00774453 /* iconWifi.png in Resources */ = {isa = PBXBuildFile; fileRef = AC784E0A1BFE5AD7001E5276 /* iconWifi.png */; };
+		AC6302771C02B6EC00774453 /* iconWifi@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AC784E0B1BFE5AD7001E5276 /* iconWifi@2x.png */; };
+		AC6302781C02B6EC00774453 /* iconWifi@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = AC784E0C1BFE5AD7001E5276 /* iconWifi@3x.png */; };
 		AC6BC1AD1B832657005F7DFA /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = ACA1297E1B41161100CC1499 /* Montserrat-Regular.otf */; };
 		AC6BC1AE1B832657005F7DFA /* omnes-bold-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129721B40EF0D00CC1499 /* omnes-bold-webfont.ttf */; };
 		AC6BC1AF1B832657005F7DFA /* omnes-light-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACA129731B40EF0D00CC1499 /* omnes-light-webfont.ttf */; };
@@ -584,7 +588,6 @@
 		ACBF0B7D1BFD27AC00B28F26 /* usersSingle.png in Resources */ = {isa = PBXBuildFile; fileRef = AC1241BC1BF7BC04007A07FA /* usersSingle.png */; };
 		ACBF0B7E1BFD27AC00B28F26 /* usersSingle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AC1241BD1BF7BC04007A07FA /* usersSingle@2x.png */; };
 		ACBF0B7F1BFD27AC00B28F26 /* usersSingle@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = AC1241BE1BF7BC04007A07FA /* usersSingle@3x.png */; };
-		ACBF0B801BFD27E800B28F26 /* newimg.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACB3C5E31BF30DB800217529 /* newimg.xcassets */; };
 		ACBF0B811BFD27F000B28F26 /* newimg.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACB3C5E31BF30DB800217529 /* newimg.xcassets */; };
 		ACD2A7DD1BF40A5C00946CD0 /* libRCTOSPermissions copy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD2A7CF1BF3F8B100946CD0 /* libRCTOSPermissions copy.a */; };
 		ACFBD8CC1BEC6E83000AB91A /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
@@ -1795,6 +1798,7 @@
 				AC0020941BDD9C1200C5C538 /* Sources */,
 				AC0020A01BDD9C1200C5C538 /* Frameworks */,
 				AC0020B91BDD9C1200C5C538 /* Resources */,
+				AC196B4B1C02FDAB00C4AD76 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -2442,10 +2446,12 @@
 				ACBF0B401BFD27AC00B28F26 /* ovalDashed@2x.png in Resources */,
 				ACBF0AF01BFD27AC00B28F26 /* checkmarkWhiteSmall.png in Resources */,
 				ACBF0AEF1BFD27AC00B28F26 /* checkMarkPurple@3x.png in Resources */,
+				AC6302771C02B6EC00774453 /* iconWifi@2x.png in Resources */,
 				ACBF0B631BFD27AC00B28F26 /* star.png in Resources */,
 				ACBF0B4E1BFD27AC00B28F26 /* placeholderUser.png in Resources */,
 				ACBF0B261BFD27AC00B28F26 /* iconDeny@3x.png in Resources */,
 				ACBF0B031BFD27AC00B28F26 /* fBlogo.png in Resources */,
+				AC6302761C02B6EC00774453 /* iconWifi.png in Resources */,
 				ACBF0B2F1BFD27AC00B28F26 /* iconPrivacyMask@3x.png in Resources */,
 				ACBF0B7A1BFD27AC00B28F26 /* usersCouple.png in Resources */,
 				ACBF0B381BFD27AC00B28F26 /* logo@3x.png in Resources */,
@@ -2457,6 +2463,7 @@
 				ACBF0B411BFD27AC00B28F26 /* ovalDashed@3x.png in Resources */,
 				ACBF0B221BFD27AC00B28F26 /* iconDeck@2x.png in Resources */,
 				ACBF0B1A1BFD27AC00B28F26 /* iconApprove@3x.png in Resources */,
+				AC196B2F1C02FB7C00C4AD76 /* newimg.xcassets in Resources */,
 				ACBF0B2E1BFD27AC00B28F26 /* iconPrivacyMask@2x.png in Resources */,
 				AC0020BA1BDD9C1200C5C538 /* Default@2x~iphone.png in Resources */,
 				ACBF0B271BFD27AC00B28F26 /* iconFbPhotos.png in Resources */,
@@ -2499,7 +2506,6 @@
 				ACBF0AF41BFD27AC00B28F26 /* close@2x.png in Resources */,
 				ACBF0AFD1BFD27AC00B28F26 /* cogSmall@2x.png in Resources */,
 				ACBF0B641BFD27AC00B28F26 /* star@2x.png in Resources */,
-				ACBF0B801BFD27E800B28F26 /* newimg.xcassets in Resources */,
 				ACBF0B061BFD27AC00B28F26 /* flipCamera.png in Resources */,
 				ACBF0B071BFD27AC00B28F26 /* flipCamera@2x.png in Resources */,
 				ACBF0B091BFD27AC00B28F26 /* gear.png in Resources */,
@@ -2564,6 +2570,7 @@
 				ACBF0B771BFD27AC00B28F26 /* tripppleLogoText@2x.png in Resources */,
 				ACBF0B761BFD27AC00B28F26 /* tripppleLogoText.png in Resources */,
 				ACBF0B3B1BFD27AC00B28F26 /* nextArrow@3x.png in Resources */,
+				AC6302781C02B6EC00774453 /* iconWifi@3x.png in Resources */,
 				ACBF0B351BFD27AC00B28F26 /* listing@3x.png in Resources */,
 				ACBF0AFF1BFD27AC00B28F26 /* defaultuser.png in Resources */,
 				ACBF0B3A1BFD27AC00B28F26 /* nextArrow@2x.png in Resources */,
@@ -2732,6 +2739,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "";
+		};
+		AC196B4B1C02FDAB00C4AD76 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "./t3-react-native-xcode.sh";
 		};
 		ACA9FCA41BDF01B600DBDB1B /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
