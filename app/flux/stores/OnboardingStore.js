@@ -55,12 +55,10 @@ class OnboardingStore {
   }
 
   handleProceedToNext(payload = {}) {
-    console.log(payload,'Onboarding store next')
     var newIndex, newInfo
 
-
     if(payload.ready){
-      newInfo.status = {...this.userInfo, status: 'onboarded' }
+      newInfo = {...this.userInfo, status: 'onboarded' }
     }else{
       newInfo = {...this.userInfo, ...payload}
       newIndex = this.routeIndex + 1
@@ -89,11 +87,9 @@ class OnboardingStore {
       popped: false,
       pushed: false
     })
-    console.log('updateroute',newIndex)
   }
 
   handleUpdateUserInfo(payload) {
-    console.log(payload,'Onboarding store update user')
 
     const newInfo = {...this.userinfo, ...payload}
 
@@ -107,9 +103,6 @@ class OnboardingStore {
       newState.currentStack = 'single'
     }
     const userInfo = {...this.userInfo}
-    if(payload.ready){
-      console.log('update user')
-    }
     this.setState(newState)
 
   }

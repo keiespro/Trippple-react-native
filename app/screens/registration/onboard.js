@@ -46,9 +46,7 @@ var RouteStackCouple = [
      *
      * MAKE SURE TO REMOVE
      *
-     */
-
-
+    */
 
     /*
      *
@@ -57,18 +55,19 @@ var RouteStackCouple = [
      */
 
     {component: InvitePartner,  id: 'InvitePartner', title: 'InvitePartner'},
-    {component: Contacts, title: 'Contacts'},
+    // {component: Contacts, title: 'Contacts'},
     {component: Facebook, title: 'Facebook'},
     {component: name, title: 'name'},
     {component: bday,  title: 'bday'},
     {component: gender, title: 'gender'},
     {component: PrivacyScreen, title: 'PrivacyScreen'},
     {component: CoupleImage,  title: 'CoupleImage'},
-    {component: CAMERA, title: 'CAMERA'},
-    {component: EditImage, title: 'EditImage'},
+    {component: CAMERA, title: 'CAMERA', passProps:{image_type:'couple_profile'}},
+    {component: EditImage, title: 'EditImage', id:'editimage'},
+    {component: EditImageThumb, title: 'EditImageThumb'},
     {component: SelfImage,  title: 'SelfImage'},
-    {component: CAMERA, title: 'CAMERA2'},
-    {component: EditImage, title: 'EditImage2'},
+    {component: CAMERA, title: 'CAMERA2', passProps:{image_type:'profile'}},
+    {component: EditImage, title: 'EditImage', id:'editimage2'},
     {component: EditImageThumb, title: 'EditImageThumb'},
     {component: Limbo,  title: 'Limbo'},
 
@@ -103,26 +102,22 @@ class Onboard extends Component{
   }
   componentDidMount(){
     this.refs.onboardingNavigator.navigationContext.addListener('didfocus', (e)=>{
-     console.log('New route:', ...e)
 
-     console.log(this.props.onboardingState.routeIndex,e._data.route.__navigatorRouteID)
-
-     //if the current route changed by a route, update the store
-     if(this.props.onboardingState.routeIndex == e._data.route.__navigatorRouteID && !this.props.onboardingState.popped){
-       OnboardingActions.updateRoute(this.props.onboardingState.routeIndex - 1)
-     }
-      if(e._data.route.__navigatorRouteID > this.props.onboardingState.routeIndex +1 && !this.props.onboardingState.pushed){
-        console.log('Update route:', ...e)
-
-       OnboardingActions.updateRoute(this.props.onboardingState.routeIndex+1)
-
-     }
-   })
+      const navIndex = this.refs.onboardingNavigator.state.presentedIndex,
+            storeIndex = this.props.onboardingState.routeIndex;
+      //if the current route changed by a route, update the store
+      if(storeIndex < navIndex ){
+        OnboardingActions.updateRoute(this.props.onboardingState.routeIndex + 1)
+      }
+      if( storeIndex > navIndex ){
+        OnboardingActions.updateRoute(this.props.onboardingState.routeIndex-1)
+      }
+    })
   }
   selectScene (route: Navigator.route, navigator: Navigator) {
 
     return (
-            <route.component
+      <route.component
               navigator={navigator}
               user={this.props.user}
               userInfo={this.props.onboardingState.userInfo}
@@ -141,6 +136,7 @@ class Onboard extends Component{
         stacks[nProps.onboardingState.currentStack][nProps.onboardingState.routeIndex]
       )
     }
+
   }
 
   render() {
@@ -151,7 +147,8 @@ class Onboard extends Component{
         <Navigator
           configureScene={
             (route) => route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.SlideInFromRight || Navigator.SceneConfigs.HorizontalSwipeJump
-          }
+  }
+          key={'obnav'}
           renderScene={this.selectScene.bind(this)}
           sceneStyle={styles.container}
           navigationBar={false}

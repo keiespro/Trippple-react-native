@@ -57,6 +57,7 @@ export default class CameraRollPermissionsModal extends Component{
       this.props.navigator.replace({
         component:CameraRollView,
         passProps:{
+          image_type:this.props.image_type
           // ...this.props,
         },
       })

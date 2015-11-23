@@ -61,7 +61,8 @@ class SelectImageSource extends Component{
     };
 
     nextRoute.passProps = {
-      image_type: this.props.imageType,
+      image_type: this.props.image_type || this.props.imageType,
+
     }
     nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
     this.props.navigator.push(nextRoute)
@@ -77,7 +78,8 @@ class SelectImageSource extends Component{
     }
 
     nextRoute.passProps = {
-      image_type:this.props.imageType,
+      image_type: this.props.image_type || this.props.imageType,
+
       nextRoute: CameraControl
 
     }
@@ -90,7 +92,8 @@ class SelectImageSource extends Component{
 
     OnboardingActions.proceedToNextScreen({
       image:imageFile,
-      image_type:this.props.imageType
+      image_type: this.props.image_type || this.props.imageType,
+
     })
 
   }
@@ -101,7 +104,7 @@ class SelectImageSource extends Component{
     nextRoute.component = FBPhotoAlbums
     nextRoute.passProps = {
       ...this.props,
-      image_type: this.props.imageType,
+      image_type: this.props.image_type || this.props.imageType,
       nextRoute: EditImage,
       afterNextRoute: EditImageThumb,
       fbUser

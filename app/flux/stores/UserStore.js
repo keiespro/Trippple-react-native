@@ -89,28 +89,33 @@ class UserStore {
   }
 
   handleGetUserInfo(res){
-    console.log(res)
+    console.log(res,'AAAAAA!!!!!!!!')
     if(res.error){
       return false;
     }
 
-    var user = res.response.user_info;
+    const {user_info} = res.response;
 
     this.setState({
-      user: {...this.state.user, ...user}
+      user: {...this.state.user, ...user_info, status: user_info.ready ? 'onboarded' :  user_info.status }
     })
+
+    if( user_info.ready){
+
+
+      UserActions.updateUser({...this.state.user, ...user_info, status: user_info.ready ? 'onboarded' :  user_info.status})
+
+    }
   }
 
 
   handleUpdateUserStub(attributes = {}){
-    console.log('handleUpdateUserStub',attributes,...this.state.userStub)
 
     var updatedUserStub = {...this.state.userStub, ...attributes};
     this.setState({userStub: updatedUserStub});
 
     if( attributes.ready){
 
-      console.log(this.state.user,this.state.userStub);
 
       UserActions.updateUser(updatedUserStub)
 
@@ -136,15 +141,17 @@ class UserStore {
   updateUserInfo(attributes){
     const prevUser = this.state.user;
     const updatedUser = {...prevUser, ...attributes};
-    this.setState({user:updatedUser});
+    this.setState({user:updatedUser, status: attributes.ready ? 'onboarded' :  this.state.user.status});
   }
 
   handleUpdateUser(res){
-    var user = res.response.user_info;
+    const user = res.response.user_info;
 
     this.setState({
       user: {...this.state.user, ...user}
     })
+
+
   }
 
   handleUpload(response){
@@ -155,7 +162,6 @@ class UserStore {
 
   handleUpdateLocally(payload){
     const updatedUser = {...this.state.user, ...payload};
-    console.log(this.state.user)
     this.setState({user:updatedUser})
   }
 

@@ -29,7 +29,6 @@ var UserActions = {
   getUserInfo(){
     Api.getUserInfo()
       .then((res) => {
-        console.log(res);
         this.dispatch(res);
       })
       .catch((err) => {
@@ -46,19 +45,16 @@ var UserActions = {
       this.dispatch(await res.json())
     }
     catch(err){
-      console.log('error catched',err);
       this.dispatch({error: err})
     }
   },
 
   async requestPinLogin(phone){
-    console.log('Request Pin Login Action');
     var res = await Api.requestPin(phone)
     try{
       this.dispatch(await res.json())
     }
     catch(err){
-      console.log('error catched',err);
       this.dispatch(err)
     }
   },
@@ -73,14 +69,10 @@ var UserActions = {
 
 
   uploadImage(image, image_type){
-
     Api.uploadImage(image, image_type)
       .then((uploadRes) => {
-        Api.getUserInfo()
-          .then((res) => {
-            console.log(res);
-            this.dispatch(res.response);
-          })
+        this.getUserInfo.defer()
+        this.dispatch(uploadRes)
       })
   },
 
@@ -111,7 +103,7 @@ var UserActions = {
       })
       .catch((err) => {
         console.log(err);
-        this.dispatch(err);
+        this.dispatch({error: err});
       })
 
   },

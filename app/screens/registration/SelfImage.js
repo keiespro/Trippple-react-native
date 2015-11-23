@@ -6,10 +6,11 @@ import {
   Image,
   View,
   TouchableHighlight,
+  NativeModules,
   Modal,
 } from 'react-native'
 
-
+const { OSPermissions } = NativeModules
 const DeviceHeight = require('Dimensions').get('window').height
 const DeviceWidth = require('Dimensions').get('window').width
 import {MagicNumbers} from '../../DeviceConfig'
@@ -36,7 +37,6 @@ class SelfImage extends Component{
     this.state = {
 
     }
-
   }
 
 
@@ -49,6 +49,8 @@ class SelfImage extends Component{
     nextRoute.passProps = {
       ...this.props,
       image_type:'profile',
+      id:(OSPermissions.camera > 2 ? 'camerarollview' : 'camerarollpermission'),
+
     }
     nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
     this.props.navigator.push(nextRoute)
@@ -57,16 +59,14 @@ class SelfImage extends Component{
 
   }
   getCameraPermission(){
-    var lastindex = this.props.navigator.getCurrentRoutes().length;
-    console.log(lastindex);
     var nextRoute = {
-      component: CameraPermissionsModal
-    }
+      component:  (OSPermissions.camera > 2 ? CameraControl : CameraPermissionsModal),
+      id: (OSPermissions.camera > 2 ? 'cameraview' : 'camerapermission'),
+      passProps: {
+         ...this.props,
+        image_type:'profile'
+      }
 
-    nextRoute.passProps = {
-      ...this.props,
-      image_type:'profile',
-      nextRoute: CameraControl
 
     }
     nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom

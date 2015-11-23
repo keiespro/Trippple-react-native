@@ -16,6 +16,7 @@ import {
   PixelRatio
 } from 'react-native'
 import Camera from 'react-native-camera';
+import CoupleCameraControl from '../controls/CoupleCameraControl'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -34,30 +35,29 @@ import CameraControl from '../controls/cameraControl'
 export default class CameraPermissionsModal extends Component{
 
   constructor(props) {
-    console.log(props)
-    super();
+    super()
     this.state = {
-      failedState: props.AppState && parseInt(props.AppState.OSPermissions[CameraKey]) && props.AppState.OSPermissions[CameraKey] < 3,
-      hasPermission: props.AppState && props.AppState.OSPermissions[CameraKey] > 2
-    }
-  }
-  componentWillMount(){
-    if(this.props.AppState.OSPermissions[CameraKey]){
-      this.props.navigator.push({
-        component:CameraControl,
-        passProps:{ }
-      })
+      image_type: props.image_type,
+      failedState: parseInt(props.AppState.OSPermissions) && props.AppState.OSPermissions[CameraKey] < 3|| false,
+      hasPermission:parseInt(props.AppState.OSPermissions) && props.AppState.OSPermissions[CameraKey] > 2 ? true : false
     }
   }
   componentDidMount(){
+    if(this.props.AppState.OSPermissions[CameraKey] > 2 ){
+      this.props.navigator.push({
+        component: (this.props.image_type == 'couple_profile' ? CoupleCameraControl : CameraControl),
+        id: 'cc',
+      })
+    }
 
   }
   componentDidUpdate(prevProps,prevState){
-
-    if( this.state.hasPermission && !prevState.hasPermission){
-      this.props.navigator.replace({
+    if(!prevState.hasPermission && this.state.hasPermission ){
+      this.props.navigator.push({
         component:CameraControl,
+        id: 'cc',
         passProps:{
+          image_type: this.props.image_type
         }
       })
     }
@@ -95,7 +95,7 @@ export default class CameraPermissionsModal extends Component{
         <Image
           style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginVertical:20}]}
           source={require('../../newimg/iconAlbum.png')}
-          defaultSource={require('../../newimg/placeholderUserWhite.png')} />
+          defaultSource={{uri: '../../newimg/placeholderUserWhite.png'}} />
 
         <View style={styles.insidemodalwrapper}>
 

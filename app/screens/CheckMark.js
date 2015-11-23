@@ -28,7 +28,7 @@ var inviteText = (partnerName)=>{
                   fontSize:22,
                   textAlign:'center',
                   color:colors.white,
-                }}> To complete the registration, <Text style={{color:colors.sushi}}> {partnerName} must download Trippple</Text> and select you as their partner.</Text>
+                }}>To complete the registration, <Text style={{color:colors.sushi}}> {partnerName} must download Trippple</Text> and select you as their partner.</Text>
               </View>
           )
 }
@@ -118,14 +118,15 @@ class CheckMarkScreen extends Component{
           style={{width:200,height:200, }} />
         </Animated.View>
 
-          <Animated.Text
-          style={{
-            opacity:this.state.textOpacityValue,
-            fontSize:24,
-            color:'#ffffff',
-            marginTop:40,
-            fontFamily:'Montserrat-Bold',
-          }}>{this.props.checkMarkCopy && this.props.checkMarkCopy.title || ''}</Animated.Text>
+          <Animated.View
+            style={{ opacity:this.state.textOpacityValue}}>
+            <Text
+              style={{
+              fontSize:24,
+              color:'#ffffff',
+              marginTop:40,
+              fontFamily:'Montserrat-Bold',
+            }}>{this.props.checkMarkCopy && this.props.checkMarkCopy.title || ''}</Text></Animated.View>
 
         <Animated.View
           style={{

@@ -65,7 +65,6 @@ class EditImage extends Component{
    }
 
   accept(croppedImageURI){
-    console.log(this.props.image)
     // CameraRoll.getPhotos({first:1}, (imgdata)=> {
       // const img = imgdata.edges[0].node.image
 
@@ -77,10 +76,7 @@ class EditImage extends Component{
       }else{
         localImages.localUserImage = this.props.image
       }
-      UserActions.updateLocally(localImages)
-      // AlertIOS.alert('img', JSON.stringify(localImages));
-      UserActions.uploadImage( this.props.image, this.props.image_type)
-    // },
+      UserActions.uploadImage( this.props.image, this.props.image_type )    // },
     // (errr)=> {
     //   console.log( errr ,'errr')
     // } )
@@ -97,7 +93,6 @@ class EditImage extends Component{
 
   }
   retake =()=> {
-    console.log('retake')
     this.props.navigator.getCurrentRoutes()[0].id == 'potentials' ? this.props.navigator.pop() :   OnboardingActions.proceedToPrevScreen()
   }
 
@@ -111,7 +106,6 @@ class EditImage extends Component{
             var measuredWidth = event.nativeEvent.layout.width,
                 measuredheight = event.nativeEvent.layout.height;
 
-                console.log(event.nativeEvent,measuredWidth,measuredheight);
             if (!measuredWidth) {
               return;
             }
@@ -182,8 +176,7 @@ class EditImage extends Component{
   _crop() {
     var {image} = this.props
     var uri = image.uri ? image.uri : image
-    this.accept(uri)
-    console.log('CROPPING - ',this._transformData)
+    this.accept()
     // ImageEditingManager.cropImage(
     //   uri,
     //   this._transformData,

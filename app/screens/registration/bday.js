@@ -43,6 +43,18 @@ class BdayScreen extends Component{
       date: (savedBday ? new Date(`${savedBday}`) : new Date())
     }
   }
+
+  componentDidMount(){
+    var isLegal = moment(this.state.date).diff(moment(), 'years') < -18;
+
+    if(isLegal){
+       this.setState({
+        error:false,
+        isLegal:true
+      })
+    }
+  }
+
   _submit =()=>{
     var isLegal = moment(this.state.date).diff(moment(), 'years') < -18;
     if(!isLegal){return false}
@@ -58,13 +70,13 @@ class BdayScreen extends Component{
 
     var isLegal = moment(date).diff(moment(), 'years') < -18;
     if(!isLegal){
-     this.setState({
+      this.setState({
         error:true,
         inputFieldValue: date,
         date: date,
         isLegal: false
 
-    })
+      })
 
     }else{
       this._root.setNativeProps({date:date})

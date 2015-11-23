@@ -22,9 +22,9 @@ import OnboardingBackButton from '../screens/registration/BackButton'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
-class CameraControl extends Component{
+class CoupleCameraControl extends Component{
   constructor(props){
-    super(props)
+    super()
     this.state = {
       cameraType: Camera.constants.Type.front
     }
@@ -88,8 +88,7 @@ class CameraControl extends Component{
     this.setState(state);
   }
 
-  _takePicture =()=> {
-          console.log(this.props,'CAMERA');
+  _takePicture () {
 
     this.refs.cam.capture({},(err, data)=> {
        if(err){console.log('camera err')}
@@ -105,12 +104,10 @@ class CameraControl extends Component{
       if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
         this.props.navigator.push({
           component: EditImage,
-          id: 'ee',
           passProps: {
             image: imageFile.uri,
             imageData: data,
-            image_type:  this.props.image_type ||  'profile',
-            nextRoute: EditImageThumb
+            image_type: this.props.image_type || 'couple_profile',
           }
         })
 
@@ -121,19 +118,19 @@ class CameraControl extends Component{
             passProps: {
               imageData: data,
               image: imageFile.uri,
-              image_type: this.props.image_type || 'profile',
-              nextRoute: EditImageThumb
+              image_type: this.props.image_type ||  'couple_profile',
+
             }
           })
 
         }else{
-          this.props.navigator.push({
+          this.props.navigator.replace({
             component: EditImage,
-            id:'zzzzz',
+            id:'eee',
             passProps: {
               imageData: data,
               image: imageFile,
-              image_type: this.props.image_type || 'profile',
+              image_type: this.props.image_type ||  'couple_profile',
             }
           })
         }
@@ -228,4 +225,4 @@ const styles = StyleSheet.create({
 });
 
 
-module.exports = CameraControl;
+module.exports = CoupleCameraControl;

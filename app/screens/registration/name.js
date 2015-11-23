@@ -36,6 +36,13 @@ class NameScreen extends Component{
     }
   }
 
+  componentDidMount(){
+
+    this.setState({inputFieldValue: this.props.fb_name || this.props.user.firstname || '' })
+
+  }
+
+
   handleInputChange =(txt)=> {
 
     this._textInput && this._textInput.setNativeProps({

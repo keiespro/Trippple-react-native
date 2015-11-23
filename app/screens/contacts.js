@@ -45,19 +45,18 @@ class ContactRow extends Component{
   //   return nState.uri != this.state.uri
   // }
 componentDidMount(){
-      console.log('load',this.props.imagePath)
   //
-  React.NativeModules.RNFSManager.readFile(this.props.imagePath, (err,uri)=>{
-    console.log(err,'imgget');
-    if(!uri || uri == ''){
-      return false
-    }
-    this.setState({
-      uri: 'data:image/gif;base64,'+uri
+  if(this.props.imagePath && this.props.imagePath.length){
+    React.NativeModules.RNFSManager.readFile(this.props.imagePath, (err,uri)=>{
+      console.log(err,'imgget');
+      if(!uri || uri == ''){
+        return false
+      }
+      this.setState({
+        uri: 'data:image/gif;base64,'+uri
+      })
     })
-
-
-  })
+  }
 }
   // componentWillReceiveProps(nProps){
   //   console.log('NPROPS',nProps)
@@ -79,13 +78,12 @@ componentDidMount(){
 
     if(this.props.highlightedRow && this.props.highlightedRow.rowID === rowID){
     }
-    console.log('component row',sectionID,rowID,rowData,imagePath)
 
     return (
       <TouchableHighlight
           underlayColor={colors.mediumPurple20}
           onPress={()=>{
-            this.props.onPress(sectionID,rowID,rowData);
+            this.props.onPress(sectionID,rowID,rowData,this.state.uri);
             this.props.highlightRow(sectionID,rowID)
           }}>
           <View style={[styles.fullwidth,styles.row,
@@ -122,8 +120,7 @@ class ContactList extends Component{
     }
 
   }
-  onPress(sectionID,rowID,rowData){
-    console.log('contact list onPress',sectionID,rowID,rowData);
+  onPress(sectionID,rowID,rowData,image){
     // this.setState({
     //   highlightedRow: {sectionID,rowID}
     //})
@@ -134,7 +131,7 @@ class ContactList extends Component{
     // })
 
 
-    this.props.onPress( { sectionID, rowID, rowData } );
+    this.props.onPress( { sectionID, rowID, rowData, image } );
 
   }
 
@@ -169,13 +166,12 @@ class ContactList extends Component{
     // })
   }
   _renderRow(rowData, sectionID: number, rowID: number, highlightRow) {
-    console.log(rowData, sectionID, rowID)
     return (
 
         <ContactRow rowData={rowData} rowID={rowID} sectionID={sectionID} highlightRow={highlightRow}
           highlightedRow={this.props.highlightedRow}
           imagePath={rowData.thumbnailPath}
-          onPress={()=>{this.onPress(sectionID,rowID,rowData)}}
+          onPress={this.props.onPress}
           key={'contactrowel'+rowID}
           execute={true
              //this.state.currentValue == rowID
@@ -227,14 +223,14 @@ class Contacts extends Component{
       modalBG: 'transparent'
     }
   }
-  _pressRow(contact){
-
-    console.log(contact);
+  _pressRow(sectionID,contactID,contact,image){
+    console.log(image,contact)
     this.refs.searchinput.blur();
     this.setState({
-      partnerSelection: contact.rowData,
+      partnerSelection: { ...contact, image },
       highlightedRow: contact,
-      modalVisible: true
+      selectedImage: image,
+      modalVisible: true,
     })
 
   }
@@ -244,9 +240,7 @@ class Contacts extends Component{
   }
 
   componentDidMount(){
-    this.setTimeout(()=>{
       this.getContacts();
-    },1500);
   }
 
   storeContacts(){
@@ -274,22 +268,20 @@ class Contacts extends Component{
             return false;
           }
 
+
+
+          this.setState({
+            contacts: contacts,
+            contactsLoaded: true,
+            dataSource: this.state.dataSource.cloneWithRows(contacts)
+          });
           UserActions.handleContacts(contacts);
-
-          var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
-            this.setState({
-              contacts: contacts,
-              contactsLoaded: true,
-              dataSource: ds.cloneWithRows(contacts)
-            });
 
         })
       // })
 
   }
   componentWillUnmount(){
-    console.log('UNmount contacts')
   }
   nevermind(){
 
@@ -342,26 +334,28 @@ class Contacts extends Component{
     const shouldScrollToTop = text.length === 1 && this.state.searchText.length === 0
 
     const listref = this.refs.contactlist.refs.thelist
-    console.log(text,shouldScrollToTop)
 
     shouldScrollToTop ? listref.setNativeProps({ contentOffset: { y: 0 }}) : null
 
     this.setState({
       searchText: text,
       dataSource: ds.cloneWithRows(_.filter(this.state.contacts, (contact)=>{
-        var name = `${contact.firstName || ''}` +' '+ `${contact.lastName || ''}`;
+        const name = `${contact.firstName || ''}` +' '+ `${contact.lastName || ''}`;
 
         return name.toLowerCase().indexOf(text.toLowerCase()) >= 0
       }))
     });
 
   }
-  _continue(partnerSelection){
+  _continue(partnerSelection = {}){
     this.closeModal();
 
     var partner_phone = partnerSelection.number || this.state.partnerSelection.phoneNumbers[0].number;
 
-    UserActions.selectPartner({phone: partner_phone,name: partnerSelection.name})
+    UserActions.selectPartner({
+      phone: partner_phone,
+      name: partnerSelection.name || this.state.partnerSelection.firstName
+    })
 
     OnboardingActions.proceedToNextScreen()
 
@@ -378,8 +372,8 @@ class Contacts extends Component{
 
   }
   render(){
-  const invitedName = this.state.partnerSelection && this.state.partnerSelection.firstName && this.state.partnerSelection.firstName.toUpperCase() || ''
-  const manyPhones = this.state.partnerSelection &&
+    const invitedName = this.state.partnerSelection && this.state.partnerSelection.firstName && this.state.partnerSelection.firstName.toUpperCase() || '',
+          manyPhones = this.state.partnerSelection &&
                   this.state.partnerSelection.phoneNumbers &&
                   this.state.partnerSelection.phoneNumbers.length &&
                   this.state.partnerSelection.phoneNumbers.length > 1;
@@ -415,7 +409,7 @@ class Contacts extends Component{
             <Text style={[styles.rowtext]}>Loading your contacts...</Text>
           </View>
         </View> :
-                   <ContactList
+        <ContactList
           ref={'contactlist'}
           user={this.props.user}
           dataSource={this.state.dataSource}
@@ -426,7 +420,7 @@ class Contacts extends Component{
           id={"contactslist"}
           title={"contactlist"}
           />
-              }
+      }
 
 
     {this.state.partnerSelection ?  <Modal
@@ -457,25 +451,25 @@ class Contacts extends Component{
         >
 
 
-        <Image style={styles.modalcontainer} source={require('../../newimg/gradientbgs.png')}>
+        <View style={styles.modalcontainer} >
           <View style={[styles.col]}>
             <View style={styles.insidemodalwrapper}>
 
-              <Image style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginBottom:20}]}
-                source={{uri: this.state.partnerSelection.thumbnailPath}}
-                defaultSource={{uri:'../../newimg/placeholderUserWhite.png'}}
+            <Image style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginBottom:20,
+            backgroundColor:colors.shuttleGray}]}
+                source={{uri: this.state.partnerSelection.image || '../../newimg/placeholderUser.png'}}
                 />
 
               <View style={{alignSelf:'stretch', justifyContent:'center',alignItems:'center'}}>
 
-            <Text style={[styles.rowtext,styles.bigtext,{alignSelf:'stretch',
+            <Text style={[styles.rowtext,styles.bigtext,{alignSelf:'stretch',color:colors.shuttleGray,
                   fontFamily:'Montserrat',fontSize:22,marginVertical:10,textAlign:'center'
             }]}>
                 {`INVITE ${invitedName}`}
             </Text>
 
             <Text style={[styles.rowtext,styles.bigtext,{
-                  fontSize:22,marginVertical:10,color: colors.lavender,marginHorizontal:20
+                  fontSize:22,marginVertical:10,color: colors.shuttleGray,marginHorizontal:20
             }]}>{this.state.partnerSelection.phoneNumbers && this.state.partnerSelection.phoneNumbers.length > 1 ?
               `What number should we use to invite ${this.state.partnerSelection.firstName}` :
               `Invite ${this.state.partnerSelection.firstName} as your partner?`
@@ -491,7 +485,10 @@ class Contacts extends Component{
                     return (
                       <View style={{width:DeviceWidth-80}} >
 
-                     <TouchableHighlight underlayColor={colors.mediumPurple} style={styles.modalButton} onPress={()=>{this._continue({number: number.number, name: this.state.partnerSelection.firstName })}}>
+                        <TouchableHighlight
+                          underlayColor={colors.mediumPurple}
+                          style={styles.modalButton}
+                          onPress={()=>{this._continue({number: number.number, name: this.state.partnerSelection.firstName })}}>
                       <View style={{height:60}} >
                         <Text style={[styles.modalButtonText,{marginTop:15}]}>{number.number}</Text>
                       </View>
@@ -506,7 +503,8 @@ class Contacts extends Component{
                   this.state.partnerSelection.phoneNumbers.length == 1 &&
                       <View style={{height:100,width:DeviceWidth-80}} >
 
-                      <TouchableHighlight underlayColor={colors.mediumPurple} style={styles.modalButton} onPress={this._continue.bind(this)}>
+                      <TouchableHighlight underlayColor={colors.mediumPurple} style={styles.modalButton}
+                        onPress={this._continue.bind(this)}>
                       <View >
                         <Text style={styles.modalButtonText}>YES</Text>
                       </View>
@@ -529,7 +527,7 @@ class Contacts extends Component{
 
                 </View>
           </View>
-          </Image>
+          </View>
       </Modal> : null}
     </View>
 
@@ -543,8 +541,8 @@ export default Contacts;
 var styles = StyleSheet.create({
   modalButton:{
     alignSelf:'stretch',
-    backgroundColor:colors.sapphire50,
-    borderColor:colors.purple,
+    backgroundColor:colors.sushi,
+    borderColor:colors.darkGreenBlue,
     alignItems:'center',
     margin: 10,
     borderRadius:8,
@@ -569,7 +567,7 @@ textAlign:'center'
 
   },
   modalcontainer:{
-    backgroundColor: colors.mediumPurple20,
+    backgroundColor: colors.white,
     flex:1,
     width: DeviceWidth-50,
     borderRadius:10,

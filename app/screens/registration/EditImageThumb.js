@@ -51,10 +51,25 @@ type TransformData = {
   size: ImageSize;
 }
 
+
+class Imagetest extends Component{
+  constructor(props){
+    super()
+  }
+  render(){
+    return (
+      <View style={{width:DeviceWidth,height:DeviceHeight}}>
+        <Image source={{uri:this.props.image}}   />
+
+        </View>
+    )
+  }
+}
+
 class EditImageThumb extends Component{
   constructor(props){
     super()
-    this._isMounted = true;
+
     this.state = {
       measuredSize: null,
       croppedImageURI: null,
@@ -74,8 +89,13 @@ class EditImageThumb extends Component{
       //
       // UserActions.updateLocally(localImages)
       //
-      UserActions.updateLocally({status:'pendingpartner'})
-
+      //l//
+      const {user,userInfo} = this.props
+      if(user.status == 'verified' && user.relationship_status == 'couple' && userInfo.couple.image_url ){
+        UserActions.updateLocally({status:'pendingpartner'})
+      }else{
+        this.proceed()
+      }
       // UserActions.uploadImage( uri ,'avatar')
 
     //
@@ -83,38 +103,32 @@ class EditImageThumb extends Component{
     //   console.log('bottom',x);
     //
     // })
-
-
-
-
+  }
+  proceed(){
     if(this.props.navigator.getCurrentRoutes()[1].id == 'settings'){
       if(this.props.navigator.getCurrentRoutes()[2] && this.props.navigator.getCurrentRoutes()[2].id == 'settingsbasic'){
          lastRoute = this.props.navigator.getCurrentRoutes()[2]
       }else{
         lastRoute = this.props.navigator.getCurrentRoutes()[1]
       }
-      console.log('from settings')
       this.props.navigator.popToRoute(lastRoute)
-      return
+
+
     }else if(this.props.image_type == 'couple_profile'){
-      this.props.navigator.push({component: SelfImage,
+      this.props.navigator.push({
+        component: SelfImage,
         passProps: {
           image_type: 'profile'
+
         }
       })
-
-
     }else{
-      OnboardingActions.updateUserInfo({
-        ready:true
-      })
+        UserActions.updateLocally({status:'pendingpartner'})
+
       OnboardingActions.updateRoute(this.props.navigator.getCurrentRoutes().length)
-
-
     }
 
   }
-
 
   _renderImageCropper() {
     if (!this.props.image) {
@@ -130,7 +144,6 @@ class EditImageThumb extends Component{
     }
     var cropsize = { width: CropBoxSize, height: CropBoxSize }
     var img = this.props.image;
-    console.log('immmgg',img)
     return (
       <View style={styles.container}>
       <Image source={this.props.image}
@@ -162,7 +175,7 @@ class EditImageThumb extends Component{
 
         <ContinueButton
         canContinue={true}
-             handlePress={this._crop.bind(this)}
+             handlePress={this.skip.bind(this)}
         />
 
 
@@ -191,11 +204,13 @@ class EditImageThumb extends Component{
       </View>
     );
   }
+  skip(){
+    this.proceed()
+  }
 
   _crop() {
     const {image} = this.props
     const uri = image.uri || image
-    console.log(image, uri, this.props)
     ImageEditingManager.cropImage(
       uri,
         this._transformData,

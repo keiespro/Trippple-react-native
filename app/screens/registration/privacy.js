@@ -55,10 +55,14 @@ class PrivacyScreen extends Component{
             this.setState({
               selection: 'private'
             })
-            this.props.navigator.pop()
+            // this.props.navigator.pop()
+            OnboardingActions.proceedToPrevScreen()
+
           },
           cancel: ()=>{
-            this.props.navigator.pop()
+            // this.props.navigator.pop()
+            OnboardingActions.proceedToPrevScreen()
+
 
           }
         },
