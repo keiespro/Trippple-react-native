@@ -139,7 +139,7 @@ class SettingsInside extends React.Component{
       component: UserProfile,
       sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
       passProps: {
-        potential: rel == 'single' ? selfAsPotential : coupleAsPotential
+        potential: this.props.user.relationship_status == 'single' ? selfAsPotential : coupleAsPotential
       }
     });
 
@@ -153,18 +153,21 @@ class SettingsInside extends React.Component{
 
   render(){
 
-    console.log('this.state',this.state);
     const singleImage = this.props.user.localUserImage || {uri: this.props.user.image_url },
           coupleImage = this.props.user.localCoupleImage || this.props.user.couple ? {uri: this.props.user.couple.image_url } : null,
-          src = this.props.user.relationship_status == 'single' ? singleImage : coupleImage
+          singleImageThumb = this.props.user.localUserImage || {uri: this.props.user.thumb_url },
+          coupleImageThumb = this.props.user.localCoupleImage || this.props.user.couple ? {uri: this.props.user.couple.thumb_url } : null,
+          src = this.props.user.relationship_status == 'single' ? singleImage : coupleImage,
+        thumbSrc = this.props.user.relationship_status == 'single' ? singleImageThumb : coupleImageThumb
+
 
     return (
       <View style={{flex:1}}>
 
 
 
-<ParallaxView
-        showsVerticalScrollIndicator={false}
+        <ParallaxView
+          showsVerticalScrollIndicator={false}
           key={this.props.user.thumb_url}
           backgroundSource={src}
           windowHeight={DeviceHeight*0.6}
@@ -177,7 +180,7 @@ class SettingsInside extends React.Component{
                 style={[styles.userimage,{backgroundColor:colors.outerSpace50}]}
                 key={this.props.user.id+'thumb'}
                 defaultSource={{uri:'../../newimg/placeholderUserWhite.png'}}
-                source={{uri:this.props.user.thumb_url}}
+                source={thumbSrc}
                 resizeMode={Image.resizeMode.cover}/>
               <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
                 <Image
@@ -193,8 +196,6 @@ class SettingsInside extends React.Component{
                   this.props.user.firstname.toUpperCase()
                 }</Text>
               </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this._openProfile} >
               <View style={{alignSelf:'stretch',flexDirection:'column',alignItems:'stretch',justifyContent:'center'}}>
                 <Text style={{alignSelf:'stretch',textAlign:'center',color:colors.white,fontSize:16,marginTop:0,fontFamily:'omnes'}}>View Profile</Text>
             </View>
@@ -204,7 +205,7 @@ class SettingsInside extends React.Component{
           </View>
       )}>
 
-      <View style={{backgroundColor:'transparent'}}>
+      <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth}}>
       <TouchableHighlight onPress={(f)=>{
           this.props.navigator.push({
             component: SettingsBasic,
@@ -303,7 +304,7 @@ class SettingsInside extends React.Component{
           </View>
         </TouchableHighlight>
 
-              <TouchableHighlight onPress={(f)=>{
+        {/*   <TouchableHighlight onPress={(f)=>{
                   AppActions.showCheckmark()
                 }} underlayColor={colors.dark} >
                 <View  style={styles.wrapfield}>
@@ -316,7 +317,7 @@ class SettingsInside extends React.Component{
                   <Image source={require('../../newimg/nextArrow.png')} />
                 </View>
               </TouchableHighlight>
-
+          */}
 {/*
       <ScrollableTabView renderTabBar={(props)=><CustomTabBar {...props}/>}>
         <View style={{height:800,backgroundColor:colors.outerSpace,width:DeviceWidth}}  tabLabel={'BASIC'}>

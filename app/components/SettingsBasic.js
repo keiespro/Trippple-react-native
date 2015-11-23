@@ -70,7 +70,6 @@ class ProfileField extends React.Component{
   }
   render(){
     var field = this.props.field || {};
-    console.log('ProfileField',field);
 
     var displayField = (theField) => {
       switch (theField.field_type) {
@@ -143,7 +142,7 @@ class ProfileField extends React.Component{
             })
           }} underlayColor={colors.dark} style={styles.paddedSpace}>
           <View  style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray,alignItems:'center',justifyContent:'space-between',flexDirection:'row',alignSelf:'stretch'}}>
-          <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{fieldLabel ? fieldLabel.toUpperCase() : ''}</Text>
+            <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{fieldLabel ? fieldLabel.toUpperCase() : ''}</Text>
             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat',textAlign:'right'}}>{
               field.field_type == 'phone_input' ? this.formattedPhone() : this.props.user[this.props.fieldName] ? this.props.user[this.props.fieldName].toString().toUpperCase() : ''
             }</Text>
@@ -158,10 +157,7 @@ class SettingsBasic extends React.Component{
     super(props)
   }
   onPressFacebook(fbUser){
-        console.log('settings fb button',fbUser,this.state.fbUser)
-        this.setState({fbUser});
-
-
+    this.setState({fbUser});
   }
   _pressNewImage =()=>{
     this.props.navigator.push({
@@ -175,7 +171,6 @@ class SettingsBasic extends React.Component{
   render(){
     let user = this.props.user;
     let settingOptions = this.props.settingOptions || {};
-    console.log('settingOptions',settingOptions);
     const singleImage =   this.props.user.localUserImage || {uri: this.props.user.image_url }
 
     return (
@@ -203,24 +198,25 @@ class SettingsBasic extends React.Component{
             <Image
               style={styles.userimage}
               key={user.id+'thu'}
-              defaultSource={ require('../../newimg/placeholderUserWhite.png')}
+              defaultSource={ {uri: '../../newimg/placeholderUserWhite.png'}}
               source={singleImage}
               resizeMode={Image.resizeMode.fill}/>
                 <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
                   <Image
-                      style={{width:18,height:18}}
-                      source={require('../../newimg/cog.png')}
-                      resizeMode={Image.resizeMode.contain}/>
+                    style={{width:18,height:18}}
+                    source={require('../../newimg/cog.png')}
+                    resizeMode={Image.resizeMode.contain}
+                  />
                 </View>
-            </TouchableOpacity>
-
+              </TouchableOpacity>
             </View>
           }
             <View style={styles.paddedSpace}>
               <View style={styles.formHeader}>
                 <Text style={styles.formHeaderText}>Personal Info</Text>
               </View>
-              </View>
+            </View>
+
             {['firstname'].map((field) => {
               return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
             })}
@@ -229,7 +225,7 @@ class SettingsBasic extends React.Component{
               return (
                 <View  style={styles.wrapperBirthdayGender}>
                   <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ field.toUpperCase()}</Text>
-                <Text style={{
+                  <Text style={{
                     color:colors.shuttleGray,
                     fontSize:18,
                     fontFamily:'Montserrat',
@@ -240,17 +236,17 @@ class SettingsBasic extends React.Component{
                     this.props.user[field] ? moment(this.props.user[field]).format('MM/DD/YYYY') : '' : this.props.user.gender == 'f' ? 'FEMALE' : 'MALE'
                   }</Text>
                   <Image
-                      style={{width:15,height:15,position:'absolute',right:0,top:23}}
-                      source={require('../../newimg/icon-lock.png')}
-                      resizeMode={Image.resizeMode.contain}/>
+                    style={{width:15,height:15,position:'absolute',right:0,top:23}}
+                    source={require('../../newimg/icon-lock.png')}
+                    resizeMode={Image.resizeMode.contain}
+                  />
                 </View>
               )
             })}
             <View style={styles.paddedSpace}>
-
-            <View style={styles.formHeader}>
-              <Text style={styles.formHeaderText}>Contact Info</Text>
-            </View>
+              <View style={styles.formHeader}>
+                <Text style={styles.formHeaderText}>Contact Info</Text>
+              </View>
             </View>
 
             {['phone','email'].map((field) => {
@@ -259,18 +255,15 @@ class SettingsBasic extends React.Component{
 
         </View>
         <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth, paddingBottom:30 }}  tabLabel={'DETAILS'}>
-        <View style={styles.paddedSpace}>
-
+          <View style={styles.paddedSpace}>
             <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>Details</Text>
             </View>
-
           </View>
 
           {['height','body_type','ethnicity','eye_color','hair_color','smoke','drink'].map((field) => {
             return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
           })}
-
 
           </View>
         </ScrollableTabView>
@@ -278,9 +271,9 @@ class SettingsBasic extends React.Component{
         {!this.props.user.facebook_user_id ?
 
         <View style={styles.paddedSpace}>
-        <View style={styles.formHeader}>
-          <Text style={styles.formHeaderText}>Get More Matches</Text>
-        </View>
+          <View style={styles.formHeader}>
+            <Text style={styles.formHeaderText}>Get More Matches</Text>
+          </View>
         </View> : null }
 
         {!this.props.user.facebook_user_id ?

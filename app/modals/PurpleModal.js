@@ -27,7 +27,7 @@ import {MagicNumbers} from '../DeviceConfig'
 
 
 var passProps = function(component,props) {
-  return React.addons.cloneWithProps(component, props);
+  return React.cloneElement(component, props);
 };
 
 class PurpleModal extends Component{
@@ -47,9 +47,9 @@ class PurpleModal extends Component{
 
         <View style={[styles.col,{justifyContent:'center',alignSelf:'center',backgroundColor: 'transparent'}]}>
 
-          <View style={[styles.modalcontainer,{overflow:'hidden',width:MagicNumbers.screenWidth,
-            marginHorizontal:MagicNumbers.screenPadding/2,padding:MagicNumbers.screenPadding/2,
-            backgroundColor:colors.white,
+        <View style={[styles.modalcontainer,{overflow:'hidden',width:MagicNumbers.screenWidth,
+          marginHorizontal:MagicNumbers.screenPadding/2,padding:MagicNumbers.screenPadding/2,
+          backgroundColor:colors.white,
           height:DeviceHeight-MagicNumbers.screenPadding*2,marginTop:MagicNumbers.screenPadding}]}  >
             {this.props.children}
           </View>
@@ -176,7 +176,6 @@ export class UnmatchModal extends Component{
             defaultSource={require('../../newimg/placeholderUserWhite.png')} />
 
           <View style={styles.insidemodalwrapper}>
-
 
               <Text style={[styles.rowtext,styles.bigtext,{
                   fontFamily:'Montserrat',fontSize:20,marginVertical:10

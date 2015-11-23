@@ -128,7 +128,7 @@ class  AgePrefs extends React.Component{
           })}
 
           </View>
-        {!this.props.user.status == 'pendingpartner' &&  <ActiveDot
+        {this.props.user.status != 'pendingpartner' &&  <ActiveDot
             key={'minimum_dot'}
             toggleScroll={this.props.toggleScroll}
             updateVal={(val) => {
@@ -151,7 +151,7 @@ class  AgePrefs extends React.Component{
             dots={this.state.dots}
             ageVal={Math.min(this.state.match_age_min,this.state.match_age_max) }
           />}
-          {!this.props.user.status == 'pendingpartner' &&  <ActiveDot
+          {this.props.user.status != 'pendingpartner' &&  <ActiveDot
             key={'maximum_dot'}
             toggleScroll={this.props.toggleScroll}
             updateVal={(val) => {
