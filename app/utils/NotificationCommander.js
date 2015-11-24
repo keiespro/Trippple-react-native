@@ -31,7 +31,6 @@ class NotificationCommander extends Component{
   componentDidMount(){
     PushNotificationIOS.checkPermissions((permissions) => {
       if(permissions){
-        console.log('PUSH PERMISSIONS')
         PushNotificationIOS.addEventListener('notification', this._onPushNotification )
       }
     })
@@ -80,9 +79,7 @@ class NotificationCommander extends Component{
 
   }
   _handleAppStateChange =(appState)=> {
-    console.log('APP STATE CHANGE',appState)
     const newNotification = PushNotificationIOS.popInitialNotification()
-      console.log(newNotification)
     // appState === 'active' && PushNotificationIOS.popInitialNotification()
     this.setState({ appState });
 
@@ -154,7 +151,6 @@ class NotificationCommander extends Component{
 
 
   render(){
-    console.log(' NOTIFICATION CMDR')
 
     return <View/>
   }

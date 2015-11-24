@@ -108,7 +108,7 @@ class MatchList extends Component{
     var threadName = them.map( (user,i) => user.firstname.trim() ).join(' & ');
     var modalVisible = this.state.isVisible
     var self = this
-    var matchImage = them.couple && them.couple.thumb_url || them[0].thumb_url || them[1].thumb_url || null
+    var matchImage = ( them.couple && them.couple.thumb_url ) || them[0].thumb_url || them[1].thumb_url || null
 
     var unreadCount = rowData.unreadCount || 0
 
@@ -156,6 +156,7 @@ class MatchList extends Component{
                  style={styles.thumb}
                  source={matchImage ? {uri: matchImage} : {uri:'../../newimg/placeholderUser.png'}}
                  resizeMode={Image.resizeMode.cover}
+                  defaultSource={{uri:'../../newimg/placeholderUser.png'}}
                />
              {unreadCount ?
                 <View style={styles.newMessageCount}>
