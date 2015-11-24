@@ -42,7 +42,7 @@ async function authenticatedRequest(endpoint: '', payload: {}){
   }
 }
 
-async function authenticatedFileUpload(endpoint, image, image_type){
+async function authenticatedFileUpload(endpoint, image, image_type, cropData){
 
   const credentials = CredentialsStore.getState()
   const uploadUrl = `${SERVER_URL}/${endpoint}`
@@ -56,16 +56,16 @@ async function authenticatedFileUpload(endpoint, image, image_type){
     uploadUrl: uploadUrl,
     fileName: 'file.jpg',
     mimeType:'jpeg',
-    data: { ...credentials, image_type }
+    data: { ...credentials, image_type, ...cropData }
   })
 
   try{
-      return await imgUpload
-    }
-    catch(err){
-      console.log('ERR',err)
-      return err
-    }
+    return await imgUpload
+  }
+  catch(err){
+    console.log('ERR',err)
+    return err
+  }
 }
 
 class api {
@@ -157,22 +157,19 @@ class api {
   // fix
     return authenticatedRequest('likes', { like_status, like_user_id, like_user_type, from_user_type })
   }
-  // uploadImage(image,image_type){
-  //   return authenticatedFileUpload('upload', image,image_type)
-  // }
 
   saveFacebookPicture(photo) {
     console.log('save_facebook_picture', photo);
     return publicRequest('save_facebook_picture', photo);
   }
   //
-  async uploadImage(image, image_type){
+  async uploadImage(image, image_type, cropData){
     console.log('UPLOAD',image, image_type)
     if(!image_type){
       console.log('NO image_type!!');
        image_type = 'profile'
     }
-    return await authenticatedFileUpload('upload', image, image_type).then((response) => response.json())
+    return await authenticatedFileUpload('upload', image, image_type, cropData).then((response) => response.json())
   }
 
   joinCouple(partner_phone){
