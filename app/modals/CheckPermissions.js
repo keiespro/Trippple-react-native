@@ -54,7 +54,7 @@ import AppActions from '../flux/actions/AppActions'
     super();
     this.state = {
       hasPermission: (parseInt(OSPermissions.location)  &&  OSPermissions.location > 2),
-      failedState: (parseInt(OSPermissions.location)  && parseInt(OSPermissions.location) < 2)
+      failedState: (parseInt(OSPermissions.location)  && parseInt(OSPermissions.location) < 3)
     }
   }
 
