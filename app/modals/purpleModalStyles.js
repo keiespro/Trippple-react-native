@@ -37,6 +37,11 @@ const purpleModalStyles = StyleSheet.create({
   },
   nothankstext:{
     color:colors.shuttleGray,
+    fontFamily:'Montserrat',
+    fontSize:18,
+
+    textAlign:'center'
+
   },
   container: {
     flex:1,

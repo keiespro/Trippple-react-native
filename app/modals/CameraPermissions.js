@@ -9,10 +9,12 @@ import {
   CameraRoll,
   View,
   AsyncStorage,
+  TouchableOpacity,
   TouchableHighlight,
   Dimensions,
   NativeModules,
   PropTypes,
+  AppStateIOS,
   PixelRatio
 } from 'react-native'
 import Camera from 'react-native-camera';
@@ -20,7 +22,8 @@ import CoupleCameraControl from '../controls/CoupleCameraControl'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-const {CameraManager,UrlHandler} = NativeModules
+const {CameraManager,OSPermissions} = NativeModules
+import UrlHandler from 'react-native-url-handler'
 
 const CameraKey = 'camera'
 
@@ -36,14 +39,17 @@ export default class CameraPermissionsModal extends Component{
 
   constructor(props) {
     super()
+    console.log(OSPermissions);
     this.state = {
       image_type: props.image_type,
-      failedState: parseInt(props.AppState.OSPermissions) && props.AppState.OSPermissions[CameraKey] < 3|| false,
-      hasPermission:parseInt(props.AppState.OSPermissions) && props.AppState.OSPermissions[CameraKey] > 2 ? true : false
+      failedState: OSPermissions && parseInt(OSPermissions[CameraKey]) < 3  ? true : false,
+      hasPermission: OSPermissions && parseInt(OSPermissions[CameraKey]) > 2 ? true : false
     }
   }
-  componentDidMount(){
-    if(this.props.AppState.OSPermissions[CameraKey] > 2 ){
+  componentWillMount(){
+    if(parseInt(OSPermissions[CameraKey]) > 2 ){
+      console.log('componentWillMount camera permiss');
+
       this.props.navigator.push({
         component: (this.props.image_type == 'couple_profile' ? CoupleCameraControl : CameraControl),
         id: 'cc',
@@ -53,7 +59,9 @@ export default class CameraPermissionsModal extends Component{
   }
   componentDidUpdate(prevProps,prevState){
     if(!prevState.hasPermission && this.state.hasPermission ){
-      this.props.navigator.push({
+      console.log('update push camera route');
+
+      this.props.navigator.replace({
         component:CameraControl,
         id: 'cc',
         passProps:{
@@ -71,12 +79,7 @@ export default class CameraPermissionsModal extends Component{
       UrlHandler.openUrl(UrlHandler.settingsUrl)
 
     }else{
-      var fetchParams: Object = {
-        first: 1,
-        groupTypes: 'All',
-        assetType: 'Photos',
-      };
-      CameraRoll.getPhotos(fetchParams, this.handleSuccess.bind(this), this.handleFail.bind(this),);
+      this.handleSuccess();
     }
   }
   handleFail(){
@@ -84,14 +87,38 @@ export default class CameraPermissionsModal extends Component{
     AppActions.denyPermission(CameraKey)
   }
   handleSuccess(){
+      console.log('handleSuccess');
+
     this.setState({hasPermission: true})
     AppActions.grantPermission(CameraKey)
+    if(this.props.AppState.OSPermissions[CameraKey] > 2 ){
+      this.props.navigator.push({
+        component: (this.props.image_type == 'couple_profile' ? CoupleCameraControl : CameraControl),
+        id: 'cc',
+      })
+    }
+
+  }
+  componentDidMount() {
+    AppStateIOS.addEventListener('change', this._handleAppStateChange.bind(this));
+  }
+  componentWillUnmount() {
+    AppStateIOS.removeEventListener('change', this._handleAppStateChange);
+  }
+  _handleAppStateChange(currentAppState) {
+    if(currentAppState == 'active'){
+      const hasPerm = parseInt(require('react-native').NativeModules.OSPermissions['camera']) > 2 ? true : false;
+      console.log(hasPerm)
+      this.setState({ hasPermission: hasPerm, failedState: false });
+      AppStateIOS.removeEventListener('change', this._handleAppStateChange);
+    }
   }
 
   render(){
     return (
     <PurpleModal>
-      <View style={[styles.col,{paddingVertical:10}]}>
+          <View style={[styles.col,styles.fullWidth,{justifyContent:'space-between'}]}>
+
         <Image
           style={[{width:150,height:150,borderRadius:75,marginVertical:20}]}
             source={this.state.failedState ? require('../../newimg/iconModalDenied.png') : require('../../newimg/iconModalCamera.png')}/>
@@ -105,9 +132,9 @@ export default class CameraPermissionsModal extends Component{
             </Text>
 
             <Text style={[styles.rowtext,styles.bigtext,{
-                fontSize:20,marginVertical:10,color: colors.lavender,marginHorizontal:20
+                fontSize:20,marginVertical:10,color: colors.shuttleGray,marginHorizontal:20
               }]}>
-              {this.state.failedState ? `Camera access is disabled. You can enabled it in Settings.` : `Take a photo now?`}
+              {this.state.failedState ? `Camera access is disabled. You can enable it in Settings.` : `Take a photo now?`}
             </Text>
             <View>
               <TouchableHighlight
@@ -121,11 +148,11 @@ export default class CameraPermissionsModal extends Component{
             </View>
 
             <View >
-              <TouchableHighlight onPress={this.cancel.bind(this)}>
+              <TouchableOpacity onPress={this.cancel.bind(this)}>
                 <View>
-                  <Text style={styles.modalButtonText}>No thanks</Text>
+                  <Text style={styles.nothankstext}>No thanks</Text>
                 </View>
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
           </View>
         </View>

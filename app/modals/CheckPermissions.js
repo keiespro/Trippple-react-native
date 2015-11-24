@@ -189,7 +189,6 @@ import AppActions from '../flux/actions/AppActions'
   renderModal(){
     console.log('RENDER MODAL')
     return (
-      <View style={{position:'absolute',top:0}}>
       <PurpleModal>
           <View style={[styles.col,styles.fullWidth,{justifyContent:'space-between'}]}>
 
@@ -208,15 +207,15 @@ import AppActions from '../flux/actions/AppActions'
             </Text>
 
             <Text style={[styles.rowtext,styles.bigtext,{
-                fontSize:18,marginVertical:10,color: colors.shuttleGray,marginHorizontal:10
+                fontSize:18,marginVertical:10,color: colors.shuttleGray,marginHorizontal:10,marginBottom:30
               }]}>{this.state.failedState ? this.props.failedSubtitle : this.props.subtitle || ''}
             </Text>
 
             {this.renderButton()}
           </View>
 
-          <View >
-            <TouchableOpacity
+          <View style={{marginTop:20}}>
+            <TouchableOpacity style={{padding:10}}
               onPress={this.cancel.bind(this)}>
               <View style={[styles.cancelButton,{  backgroundColor:'transparent'}]} >
                 <Text style={[styles.nothankstext,{  backgroundColor:'transparent'}]}>no thanks</Text>
@@ -225,7 +224,6 @@ import AppActions from '../flux/actions/AppActions'
           </View>
         </View>
       </PurpleModal>
-    </View>
 
     )
   }

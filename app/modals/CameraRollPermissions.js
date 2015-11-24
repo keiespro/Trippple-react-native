@@ -10,7 +10,9 @@ import {
   View,
   AsyncStorage,
   TouchableHighlight,
+  TouchableOpacity,
   Dimensions,
+  NativeModules,
   PixelRatio,
   AppStateIOS
 } from 'react-native'
@@ -20,7 +22,7 @@ import UrlHandler from 'react-native-url-handler'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-
+const {OSPermissions} = NativeModules
 import CameraRollView from '../controls/CameraRollView'
 
 import colors from '../utils/colors'
@@ -34,31 +36,30 @@ export default class CameraRollPermissionsModal extends Component{
 
   constructor(props) {
     super();
-    console.log(props.AppState.OSPermissions)
+    console.log(props.AppState.OSPermissions,OSPermissions)
     this.state = {
-      failedState: parseInt(props.AppState.OSPermissions) && props.AppState.OSPermissions.cameraRoll < 3|| false,
-      hasPermission:parseInt(props.AppState.OSPermissions) && props.AppState.OSPermissions.cameraRoll > 2 ? true : false
+      failedState: OSPermissions && parseInt(OSPermissions.cameraRoll) < 3,
+      hasPermission: OSPermissions && OSPermissions.cameraRoll > 2 ? true : false
     }
   }
 
 
-  // componentDidMount(){
-  //   if(this.state.hasPermission){
-  //     this.props.navigator.replace({
-  //       component:CameraRollView,
-  //       passProps:{
-  //       },
-  //
-  //     })
-  //   }
-  // }
+   componentDidMount(){
+     if(this.state.hasPermission){
+       this.props.navigator.replace({
+         component:CameraRollView,
+         passProps:{
+         },
+
+       })
+     }
+   }
   componentDidUpdate(prevProps,prevState){
     if(!prevState.hasPermission && this.state.hasPermission){
       this.props.navigator.replace({
         component:CameraRollView,
         passProps:{
           image_type:this.props.image_type
-          // ...this.props,
         },
       })
     }
@@ -105,7 +106,7 @@ export default class CameraRollPermissionsModal extends Component{
     if(currentAppState == 'active'){
       const hasPerm = require('react-native').NativeModules.OSPermissions['cameraRoll']
       console.log(hasPerm)
-      this.setState({ hasPermission: hasPerm });
+      this.setState({ hasPermission: hasPerm, failedState: false });
       AppStateIOS.removeEventListener('change', this._handleAppStateChange);
     }
   }
@@ -148,11 +149,11 @@ export default class CameraRollPermissionsModal extends Component{
             </View>
 
           <View >
-            <TouchableHighlight onPress={this.cancel.bind(this)}>
+            <TouchableOpacity onPress={this.cancel.bind(this)}>
               <View>
-                <Text style={styles.modalButtonText}>No thanks</Text>
+                <Text style={styles.nothankstext}>No thanks</Text>
               </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
 
         </View>

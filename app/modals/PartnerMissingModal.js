@@ -27,7 +27,7 @@ import { BlurView,VibrancyView } from 'react-native-blur'
 import styles from './purpleModalStyles'
 import {MagicNumbers} from '../DeviceConfig'
 const { RNMessageComposer } = NativeModules ;
-
+import PurpleModal from './PurpleModal'
 
 var passProps = function(component,props) {
   return React.addons.cloneWithProps(component, props);
@@ -72,14 +72,8 @@ class PartnerMissingModal extends Component{
   }
   render(){
     return (
-      <View style={[{padding:0,backgroundColor: 'transparent',flex:1,position:'relative'}]}>
-
-        <View style={[styles.col,{justifyContent:'center',alignSelf:'center',backgroundColor: 'transparent'}]}>
-
-          <View style={[styles.modalcontainer,{overflow:'hidden',width:MagicNumbers.screenWidth,backgroundColor:colors.white,
-            marginHorizontal:MagicNumbers.screenPadding/2,padding:MagicNumbers.screenPadding/2,
-            height:DeviceHeight-MagicNumbers.screenPadding*2,marginTop:MagicNumbers.screenPadding}]} resizeMode={Image.resizeMode.stretch} >
-            <View style={[styles.col,{paddingVertical:10}]}>
+    <PurpleModal>
+          <View style={[styles.col,styles.fullWidth,{justifyContent:'space-between'}]}>
 
               <Image
                 resizeMode={Image.resizeMode.contain}
@@ -96,14 +90,14 @@ class PartnerMissingModal extends Component{
                 </Text>
 
                 <Text style={[styles.rowtext,styles.bigtext,{
-                    fontSize:20,marginVertical:10,color: colors.shuttleGray,marginHorizontal:20
+                    fontSize:20,marginVertical:10,color: colors.shuttleGray,marginHorizontal: 0
                   }]}>
-                  You can not update your prefrences until your partner downloads Trippple and completes the registration.
+                  You can not {this.props.nameOfDeniedAction || `update your prefrences`} until your partner downloads Trippple and completes the registration on their phone.
                 </Text>
                 <View>
                   <TouchableHighlight
                     underlayColor={colors.mediumPurple}
-                    style={styles.modalButtonWrap}
+                    style={[styles.modalButtonWrap,{marginVertical:30}]}
                     onPress={this.handleSendMessage.bind(this)}
                     >
                     <View style={[styles.modalButton]} >
@@ -120,9 +114,7 @@ class PartnerMissingModal extends Component{
                 </View>
               </View>
             </View>
-          </View>
-        </View>
-      </View>
+          </PurpleModal>
 
     )
   }
