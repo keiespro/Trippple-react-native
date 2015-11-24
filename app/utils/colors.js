@@ -24,7 +24,7 @@ const colors = {
 
   outerSpace50:         'rgba(44,57,65,0.5)',
   darkGreenBlue:      'rgb(25,105,66)',
-
+  darkGreenBlue40: 'rgba (25, 104, 65, 0.40)',
   sushi:              'rgb(66,181,125)',
   sashimi:             'rgba(33,120,77,1)',
   atlantis:           'rgb(129,209,53)',

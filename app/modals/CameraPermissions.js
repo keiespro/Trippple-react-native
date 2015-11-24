@@ -93,9 +93,9 @@ export default class CameraPermissionsModal extends Component{
     <PurpleModal>
       <View style={[styles.col,{paddingVertical:10}]}>
         <Image
-          style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginVertical:20}]}
-          source={require('../../newimg/iconAlbum.png')}
-          defaultSource={{uri: '../../newimg/placeholderUserWhite.png'}} />
+          style={[{width:150,height:150,borderRadius:75,marginVertical:20}]}
+            source={this.state.failedState ? require('../../newimg/iconModalDenied.png') : require('../../newimg/iconModalCamera.png')}/>
+
 
         <View style={styles.insidemodalwrapper}>
 
@@ -111,7 +111,7 @@ export default class CameraPermissionsModal extends Component{
             </Text>
             <View>
               <TouchableHighlight
-                underlayColor={colors.mediumPurple}
+                underlayColor={colors.darkGreenBlue}
                 style={styles.modalButtonWrap}
                 onPress={this.handleTapYes.bind(this)}>
                 <View style={[styles.modalButton]} >

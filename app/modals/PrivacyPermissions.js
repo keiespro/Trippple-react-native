@@ -138,50 +138,51 @@ export default class PrivacyPermissionsModal extends Component{
     const {hasFacebookPermissions,hasContactsPermissions} = this.state
 
     return (
-    <PurpleModal>
-      <View style={[styles.col,{justifyContent:'space-around',paddingVertical:0}]}>
-        <Image
-          resizeMode={Image.resizeMode.contain}
-
-          style={[{width:120,height:120,marginBottom:10,marginTop:30}]}
-          source={require('../../newimg/iconPrivacyMask.png')} />
-
-        <View style={styles.insidemodalwrapper}>
+        <PurpleModal>
+          <View style={[styles.col,styles.fullWidth,{justifyContent:'space-between'}]}>
+            <View style={{alignItems:'center'}}>
+              <Image
+                resizeMode={Image.resizeMode.contain}
+                style={[{width:150,height:150,marginBottom:30,marginTop:20}]}
+                source={require('../../newimg/iconModalPrivacy.png')}
+              />
+            </View>
             <Text style={[styles.rowtext,styles.bigtext,{
                 fontFamily:'Montserrat-Bold',fontSize:20,marginVertical:0
-              }]}>PROTECT YOUR PRIVACY</Text>
+            }]}
+            >PROTECT YOUR PRIVACY</Text>
 
             <Text style={[styles.rowtext,styles.bigtext,{
-                fontSize:18,marginVertical:10,color: colors.white,marginHorizontal:10
+                fontSize:18,marginVertical:10,color: colors.shuttleGray,marginHorizontal:10
               }]}>
               Hide from your Facebook Friends and Phone Contacts
             </Text>
 
-            <View style={{marginTop:10}}>
+            <View style={{marginTop:20}}>
 
 
 
             <BoxyButton
               text={"BLOCK FACEBOOK"}
               buttonText={buttonStyles.buttonText}
-              underlayColor={colors.mediumPurple20}
+              underlayColor={colors.darkGreenBlue}
               innerWrapStyles={buttonStyles.innerWrapStyles}
               leftBoxStyles={  buttonStyles.grayIconbuttonLeftBox}
-
+              outerButtonStyles={{}}
               _onPress={this.handleTapFacebook.bind(this)}>
 
               {hasFacebookPermissions ?
                       <Image source={require('../../newimg/checkmarkWhiteSmall.png') }
                         resizeMode={Image.resizeMode.cover}
                             style={{height:21,width:30}} /> :
-                            <View style={{backgroundColor:colors.mediumPurple,height:20,width:20,borderRadius:10,alignSelf:'center'}} /> }
+                            <View style={{backgroundColor:colors.darkGreenBlue,height:20,width:20,borderRadius:10,alignSelf:'center'}} /> }
             </BoxyButton>
 
             <BoxyButton
                 text={"BLOCK CONTACTS"}
                 outerButtonStyle={buttonStyles.iconButtonOuter}
                 buttonText={buttonStyles.buttonText}
-                underlayColor={colors.mediumPurple20}
+                underlayColor={colors.darkGreenBlue}
                 innerWrapStyles={buttonStyles.innerWrapStyles}
                 leftBoxStyles={ buttonStyles.grayIconbuttonLeftBox}
                 _onPress={this.handleTapContacts.bind(this)}>
@@ -190,33 +191,39 @@ export default class PrivacyPermissionsModal extends Component{
                 <Image source={require('../../newimg/checkmarkWhiteSmall.png') }
                   resizeMode={Image.resizeMode.cover}
                       style={{height:21,width:30}} /> :
-                      <View style={{backgroundColor:colors.mediumPurple,height:20,width:20,borderRadius:10,alignSelf:'center'}} /> }
+                      <View style={{backgroundColor:colors.darkGreenBlue,height:20,width:20,borderRadius:10,alignSelf:'center'}} /> }
           </BoxyButton>
+        </View>
 
-          <View >
-            {this.state.hasFacebookPermissions && this.state.hasContactsPermissions ?
+
+            <View
+            style={{
+              marginTop:0,
+              marginBottom:-20,
+              flex:1,
+              flexDirection:'column',
+              alignItems:'center',
+              alignSelf:'stretch'
+            }} >
+          {this.state.hasFacebookPermissions && this.state.hasContactsPermissions ?
               <TouchableOpacity
-                underlayColor={colors.mediumPurple}
-                style={{marginTop:20,marginBottom:20}}
+                style={{padding:20,flex:0}}
                 onPress={this.props.success}>
                 <View style={[styles.cancelButton,{backgroundColor:'transparent'}]} >
-                  <Text style={{color:colors.white,textAlign:'center'}}>Good to go!</Text>
+                  <Text style={{color:colors.shuttleGray,textAlign:'center'}}>Good to go!</Text>
                 </View>
               </TouchableOpacity>  :
             <TouchableOpacity
-              underlayColor={colors.mediumPurple}
-              style={{marginTop:20,marginBottom:20}}
+              style={{padding:10,marginBottom:0}}
               onPress={this.props.cancel}>
               <View style={[styles.cancelButton,{backgroundColor:'transparent'}]} >
-                <Text style={{color:colors.white,textAlign:'center'}}>no thanks</Text>
+                <Text style={{color:colors.shuttleGray,textAlign:'center'}}>no thanks</Text>
               </View>
             </TouchableOpacity>}
-          </View>
+
+             </View>
 
         </View>
-      </View>
-    </View>
-
       </PurpleModal>
     )
   }
@@ -229,19 +236,19 @@ const buttonStyles = StyleSheet.create({
     height:60,
   },
   innerWrapStyles:{
-    borderColor: colors.purple,
+    borderColor: colors.darkGreenBlue,
     borderWidth: 1,
-    borderRadius:10,
+    borderRadius:8,
     overflow:'hidden',
-    backgroundColor:colors.sapphire50
+    backgroundColor:colors.sushi
   },
 
   iconButtonOuter:{
-    marginTop:10
+    marginTop:20
   },
   grayIconbuttonLeftBox:{
-    backgroundColor: '#582A99',
-    borderRightColor: colors.purple,
+    backgroundColor: colors.darkGreenBlue40,
+    borderRightColor: colors.darkGreenBlue,
     borderRightWidth: 1,
   },
 

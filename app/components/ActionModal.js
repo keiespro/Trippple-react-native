@@ -26,7 +26,9 @@ import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 import UserProfile from '../components/UserProfile'
 import FadeInContainer from './FadeInContainer'
-import PurpleModal, {ReportModal, UnmatchModal} from '../modals/PurpleModal'
+import ReportModal from '../modals/ReportModal'
+import UnmatchModal from '../modals/UnmatchModal'
+
 import { BlurView,VibrancyView} from 'react-native-blur'
 
 @reactMixin.decorate(TimerMixin)
@@ -283,14 +285,6 @@ var styles = StyleSheet.create({
     bottom:0,
     padding:10,
     overflow:'hidden'
-    // shadowColor:colors.darkShadow,
-    //       shadowRadius:2,
-    //       shadowOpacity:50,
-    //       shadowOffset: {
-    //           width:0,
-    //           height: -
-    //       }
-
 
   },
   clearButton:{

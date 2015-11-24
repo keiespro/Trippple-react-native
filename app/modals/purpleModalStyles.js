@@ -13,31 +13,31 @@ const purpleModalStyles = StyleSheet.create({
     flex:1,
     margin: 5,
     alignSelf:'stretch',
-},
+  },
 
-modalButton:{
-  alignSelf:'stretch',
-  height:60,
-  backgroundColor:colors.sushi,
-  alignItems:'center',
-  margin: 0,
-  borderRadius:4,
-  borderWidth:2 / PixelRatio.get(),
-  borderColor:colors.darkGreenBlue,
+  modalButton:{
+    alignSelf:'stretch',
+    height:60,
+    backgroundColor:colors.sushi,
+    alignItems:'center',
+    margin: 0,
+    borderRadius:8,
+    borderWidth:1 / PixelRatio.get(),
+    borderColor:colors.darkGreenBlue,
 
-  justifyContent:'center',
-  flex:1,
-},
-modalButtonText:{
-  color:colors.white,
-  fontFamily:'Montserrat',
-  fontSize:18,
+    justifyContent:'center',
+    flex:1,
+  },
+  modalButtonText:{
+    color:colors.white,
+    fontFamily:'Montserrat',
+    fontSize:18,
 
-  textAlign:'center'
-},
-nothankstext:{
-  color:colors.shuttleGray,
-},
+    textAlign:'center'
+  },
+  nothankstext:{
+    color:colors.shuttleGray,
+  },
   container: {
     flex:1,
     justifyContent: 'flex-start',
@@ -49,11 +49,12 @@ nothankstext:{
   },
   modalcontainer:{
     borderRadius:10,
-    alignSelf:'center',
     backgroundColor: 'transparent',
   },
-  fullwidth:{
-    width: DeviceWidth
+  fullWidth:{
+    width: MagicNumbers.screenWidth,
+    padding:30
+
   },
   row: {
     flexDirection: 'row',
@@ -68,9 +69,8 @@ nothankstext:{
   col: {
     flexDirection: 'column',
     padding: 0,
-    flex: 1,
     alignItems:'center',
-    justifyContent:'space-between',
+    justifyContent:'space-around',
     backgroundColor: 'transparent',
 
   },
@@ -79,13 +79,13 @@ nothankstext:{
     fontFamily:'omnes'
   },
   rowtext:{
-    color: colors.white,
+    color: colors.shuttleGray,
     fontSize:18,
     fontFamily:'omnes'
   },
   bigtext: {
     textAlign:'center',
-    color: colors.white,
+    color: colors.shuttleGray,
 
   },
   separator: {
@@ -95,15 +95,15 @@ nothankstext:{
   rowtextwrapper:{
     flexDirection:'column',
     justifyContent:'space-around'
-},
-insidemodalwrapper:{
+  },
+  insidemodalwrapper:{
     flexDirection:'column',
     justifyContent:'space-around',
     alignItems:'stretch',
     flex:1,
     marginTop:20,
     alignSelf:'stretch',
-},
+  },
   rowSelected:{
     backgroundColor: colors.mediumPurple20,
     borderColor: colors.mediumPurple,
@@ -146,8 +146,8 @@ insidemodalwrapper:{
     height:20
   },
   cancelButton:{
-    backgroundColor: colors.white20,
-
+    backgroundColor: colors.mandy,
+    borderColor: colors.mandy
   },
   plainButton:{
     borderColor: colors.rollingStone,
@@ -168,7 +168,19 @@ insidemodalwrapper:{
     top:0,
     width:DeviceWidth,
     height:DeviceHeight,backgroundColor: 'transparent'
-  }
+},
+grayIconbuttonLeftBox:{
+ // backgroundColor:colors.darkGreenBlue,
+},
+fullContainer:{
+  overflow:'hidden',
+  width:MagicNumbers.screenWidth,
+  marginHorizontal:MagicNumbers.screenPadding/2,
+  padding:MagicNumbers.screenPadding/2,
+          backgroundColor:colors.white,
+          height:DeviceHeight-MagicNumbers.screenPadding*2,
+          marginTop:MagicNumbers.screenPadding
+}
 })
 
 

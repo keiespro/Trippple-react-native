@@ -114,12 +114,14 @@ export default class CameraRollPermissionsModal extends Component{
 
     return (
     <PurpleModal>
-      <View style={[styles.col,{paddingVertical:10}]}>
+          <View style={[styles.col,styles.fullWidth,{justifyContent:'space-between'}]}>
+
         <Image
           resizeMode={Image.resizeMode.contain}
 
           style={[styles.contactthumb,{width:150,height:150,borderRadius:0,marginVertical:20}]}
-          source={require('../../newimg/iconAlbum.png')} />
+            source={this.state.failedState ? require('../../newimg/iconModalDenied.png') : require('../../newimg/iconModalAlbum.png')}/>
+
 
         <View style={styles.insidemodalwrapper}>
 
@@ -130,13 +132,13 @@ export default class CameraRollPermissionsModal extends Component{
             </Text>
 
             <Text style={[styles.rowtext,styles.bigtext,{
-                fontSize:20,marginVertical:10,color: colors.lavender,marginHorizontal:20
+                fontSize:20,marginVertical:10,color: colors.shuttleGray,marginHorizontal:20
               }]}>
               {this.state.failedState ? `Access to iPhone Photo Album is disabled. You can enable it in Settings` : `Do you want to upload an image from your iPhone Photo Album?`}
             </Text>
             <View >
               <TouchableHighlight
-                underlayColor={colors.mediumPurple}
+                underlayColor={colors.darkGreenBlue}
                 style={styles.modalButtonWrap}
                 onPress={this.handleTapYes.bind(this)}>
                 <View style={[styles.modalButton]} >

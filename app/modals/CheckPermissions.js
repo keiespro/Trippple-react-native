@@ -191,12 +191,13 @@ import AppActions from '../flux/actions/AppActions'
     return (
       <View style={{position:'absolute',top:0}}>
       <PurpleModal>
-        <View style={[styles.col,{paddingVertical:10}]}>
+          <View style={[styles.col,styles.fullWidth,{justifyContent:'space-between'}]}>
+
           <Image
             resizeMode={Image.resizeMode.contain}
 
             style={[{width:150,height:150,borderRadius:0,marginVertical:20}]}
-            source={require('../../newimg/iconDeck.png')}/>
+            source={this.state.failedState ? require('../../newimg/iconModalDenied.png') : require('../../newimg/iconModalDeck.png')}/>
 
           <View style={[styles.insidemodalwrapper,{justifyContent:'space-between'}]}>
 
