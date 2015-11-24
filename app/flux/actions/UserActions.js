@@ -68,8 +68,8 @@ var UserActions = {
   },
 
 
-  uploadImage(image, image_type){
-    Api.uploadImage(image, image_type)
+  uploadImage(image, image_type, data = {}){
+    Api.uploadImage(image, image_type, data)
       .then((uploadRes) => {
         this.getUserInfo.defer()
         this.dispatch(uploadRes)

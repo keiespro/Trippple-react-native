@@ -171,11 +171,11 @@ class SettingsBasic extends React.Component{
   render(){
     let user = this.props.user;
     let settingOptions = this.props.settingOptions || {};
-    const singleImage =   this.props.user.localUserImage || {uri: this.props.user.image_url }
+    const singleImage = this.props.user.localUserImage || {uri: this.props.user.image_url }
 
     return (
       <View style={styles.inner}>
-      <FakeNavBar
+        <FakeNavBar
           blur={true}
           backgroundStyle={{backgroundColor:colors.shuttleGray}}
           hideNext={true}

@@ -414,7 +414,11 @@ class ChatInside extends Component{
               <TimeAgo time={matchInfo.created_timestamp*1000} />
             </Text>
 
-            <Image source={{uri:them[1].image_url}} style={{width:250,height:250,borderRadius:125,marginVertical:40 }}  defaultSource={require('../../newimg/placeholderUser.png')} />
+            <Image
+              source={{uri:them[1].image_url}}
+              style={{width:250,height:250,borderRadius:125,marginVertical:40 }}
+              defaultSource={{uri:'../../newimg/placeholderUser.png'}}
+            />
             <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes'}} >Say something. {
                 (them.length == 2 ? 'They\'re' : them[0].gender == 'm' ? 'He\'s' : 'She\'s')
             } already into you.</Text>

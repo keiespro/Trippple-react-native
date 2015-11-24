@@ -103,14 +103,12 @@ class EditImage extends Component{
         <View
           style={styles.container}
           onLayout={(event) => {
-            var measuredWidth = event.nativeEvent.layout.width,
-                measuredheight = event.nativeEvent.layout.height;
-
+            var measuredWidth = event.nativeEvent.layout.width;
             if (!measuredWidth) {
               return;
             }
             this.setState({
-              measuredSize: {width: measuredWidth, height: measuredheight },
+              measuredSize: {width: measuredWidth, height: measuredWidth},
             });
           }}/>
       );
