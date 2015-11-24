@@ -77,7 +77,7 @@ class ProfileField extends React.Component{
           return (
              <TextInput
                 autofocus={true}
-                style={styles.displayTextField}
+                style={[styles.displayTextField,{fontSize: this.props.fieldName == 'email' ? 20 : 30 }]}
                 onChangeText={(text) => this.setState({text})}
                 placeholder={theField.placeholder ? theField.placeholder.toUpperCase() : fieldLabel.toUpperCase()}
                 autoCapitalize={'words'}
@@ -144,7 +144,11 @@ class ProfileField extends React.Component{
           <View  style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray,alignItems:'center',justifyContent:'space-between',flexDirection:'row',alignSelf:'stretch'}}>
             <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{fieldLabel ? fieldLabel.toUpperCase() : ''}</Text>
             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat',textAlign:'right'}}>{
-              field.field_type == 'phone_input' ? this.formattedPhone() : this.props.user[this.props.fieldName] ? this.props.user[this.props.fieldName].toString().toUpperCase() : ''
+              field.field_type == 'phone_input' ?
+                this.formattedPhone() :
+                  this.props.user[this.props.fieldName] ?
+                    this.props.user[this.props.fieldName].toString().toUpperCase() :
+                      ''
             }</Text>
           </View>
         </TouchableHighlight>
@@ -171,7 +175,8 @@ class SettingsBasic extends React.Component{
   render(){
     let user = this.props.user;
     let settingOptions = this.props.settingOptions || {};
-    const singleImage = this.props.user.localUserImage || {uri: this.props.user.image_url }
+    const singleImage = this.props.user.localUserImage || {uri: this.props.user.image_url },
+          singleImageThumb = this.props.user.localUserImage || {uri: this.props.user.thumb_url };
 
     return (
       <View style={styles.inner}>
@@ -199,7 +204,7 @@ class SettingsBasic extends React.Component{
               style={styles.userimage}
               key={user.id+'thu'}
               defaultSource={ {uri: '../../newimg/placeholderUserWhite.png'}}
-              source={singleImage}
+              source={singleImageThumb}
               resizeMode={Image.resizeMode.fill}/>
                 <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
                   <Image
@@ -277,7 +282,7 @@ class SettingsBasic extends React.Component{
         </View> : null }
 
         {!this.props.user.facebook_user_id ?
-          <View style={[styles.paddedSpace,{marginTop:10}]}>
+          <View style={[styles.paddedSpace,{marginTop:10,flex:1,alignSelf:'stretch',}]}>
           <FacebookButton shouldLogoutOnTap={true} _onPress={this.onPressFacebook.bind(this)} buttonType={'settings'} buttonTextStyle={{fontSize:20,fontFamily:'Montserrat-Bold'}} wrapperStyle={{height:100,padding:0}}/>
 
           </View>

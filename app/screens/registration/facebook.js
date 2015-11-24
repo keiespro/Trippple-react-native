@@ -101,7 +101,7 @@ class Facebook extends Component{
           <View style={styles.middleTextWrap}>
             <Text style={styles.middleText}>Save time. Get more matches.</Text>
           </View>
-          <View>
+          <View style={{alignSelf:'stretch'}}>
           <FacebookButton buttonType={'onboard'} buttonText={'VERIFY WITH FB'} onLogin={this.handleCredentials.bind(this)} />
 
           <View style={styles.middleTextWrap}>

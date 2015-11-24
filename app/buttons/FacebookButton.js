@@ -205,6 +205,8 @@ const styles = StyleSheet.create({
   },
   iconButtonOuter:{
     alignSelf:'stretch',
+    flex:1,
+    flexDirection:'row',
     marginVertical:15
   },
   middleTextWrap: {

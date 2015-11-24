@@ -51,6 +51,11 @@ class InvitePartner extends Component{
             text={"INVITE YOUR PARTNER"}
             leftBoxStyles={styles.iconButtonLeftBoxCouples}
             innerWrapStyles={styles.iconButtonCouples}
+            outerButtonStyle={{
+              alignSelf:'stretch',
+              flexDirection:'row',
+              marginHorizontal:MagicNumbers.screenPadding/2
+            }}
             underlayColor={colors.mediumPurple20}
             _onPress={this.onPress.bind(this)}>
 
