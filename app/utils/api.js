@@ -164,7 +164,6 @@ class api {
   }
   //
   async uploadImage(image, image_type, cropData){
-    console.log('UPLOAD',image, image_type)
     if(!image_type){
       console.log('NO image_type!!');
        image_type = 'profile'
