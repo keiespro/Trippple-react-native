@@ -43,16 +43,18 @@ var TopTabs = React.createClass({
           key={'toptablogin'}
           style={[styles.topButton,(this.props.active == 'login' ? styles.activeButton : styles.otherButton)]}
           onPress={()=>this.toggleTab('login')}
-          underlayColor={this.props.active == 'login' ? colors.outerSpace : colors.rollingStone}>
-          <Text style={styles.buttonText}>LOG IN</Text>
+          underlayColor={this.props.active == 'login' ? colors.outerSpace : colors.rollingStone}
+          >
+          <Text style={[styles.buttonText, styles.activeButtonText]}>LOG IN</Text>
         </TouchableHighlight>
 
         <TouchableHighlight
           key={'toptabregister'}
           style={[styles.topButton,(this.props.active == 'register' ? styles.activeButton : styles.otherButton)]}
           onPress={()=>this.toggleTab('register')}
-          underlayColor={this.props.active == 'register' ? colors.outerSpace : colors.rollingStone}>
-          <Text style={styles.buttonText}>SIGN UP</Text>
+          underlayColor={this.props.active == 'register' ? colors.outerSpace : colors.rollingStone}
+          >
+          <Text style={[styles.buttonText, styles.activeButtonText ]}>SIGN UP</Text>
         </TouchableHighlight>
       </View>
     );
@@ -84,10 +86,15 @@ var styles = StyleSheet.create({
   buttonText: {
     fontSize: 24,
     color: colors.white,
-    opacity:0.5,
     alignSelf: 'center',
     fontFamily:'Montserrat'
   },
+  inactiveButtonText:{
+    color:colors.outerSpace,
+},
+activeButtontext:{
+    color: colors.white,
+},
   topButtons: {
     height: 80,
     alignItems: 'center',
