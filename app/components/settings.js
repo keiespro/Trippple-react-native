@@ -17,6 +17,7 @@ const {
   AsyncStorage,
   Navigator
 } = React
+import PartnerMissingModal from '../modals/PartnerMissingModal'
 
 
 import Mixpanel from '../utils/mixpanel';
@@ -107,42 +108,57 @@ class SettingsInside extends React.Component{
       }
     });
   }
+  showPartnerMissingModal(){
+    this.props.navigator.push({
+      component: PartnerMissingModal,
+      passProps: {
+        nameOfDeniedAction: `view your couple profile `,
+        goBack: () => {this.props.navigator.pop() },
+      }
+    })
+  }
+
   _openProfile=()=>{
-    var thisYear = new Date().getFullYear()
 
-    const rel = this.props.user.relationship_status == 'single' ? 'couple' : 'single' // opposite of user's rel
+    if(this.props.user.status != 'onboarded'){
+      this.showPartnerMissingModal()
+      return
+    }else{
+      var thisYear = new Date().getFullYear()
 
-    const selfAsPotential = {
+      const rel = this.props.user.relationship_status == 'single' ? 'couple' : 'single' // opposite of user's rel
 
-      user: {
-        ...this.props.user,
-        age: (thisYear - this.props.user.bday_year)
-      },
-    }
+      const selfAsPotential = {
 
-    if(this.props.user.relationship_status == 'couple'){
-      delete selfAsPotential.coupleImage
-      delete selfAsPotential.partner
-
-
-      const coupleAsPotential = {
-        ...this.props.user.couple,
-        user: selfAsPotential.user,
-        partner: {
-          ...this.props.user.partner,
-          age: (thisYear - this.props.user.partner.bday_year)
+        user: {
+          ...this.props.user,
+          age: (thisYear - this.props.user.bday_year)
         },
       }
-    }
 
-    this.props.navigator.push({
-      component: UserProfile,
-      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
-      passProps: {
-        potential: this.props.user.relationship_status == 'single' ? selfAsPotential : coupleAsPotential
+      if(this.props.user.relationship_status == 'couple'){
+        delete selfAsPotential.coupleImage
+        delete selfAsPotential.partner
+
+
+        const coupleAsPotential = {
+          ...this.props.user.couple,
+          user: selfAsPotential.user,
+          partner: {
+            ...this.props.user.partner,
+            age: (thisYear - this.props.user.partner.bday_year)
+          },
+        }
       }
-    });
 
+      this.props.navigator.push({
+        component: UserProfile,
+        sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+        passProps: {
+          potential: this.props.user.relationship_status == 'single' ? selfAsPotential : coupleAsPotential
+        }
+      });
+    }
   }
 
 
@@ -190,14 +206,14 @@ class SettingsInside extends React.Component{
                 </View>
 
             </TouchableOpacity>
-            <TouchableOpacity onPress={this._openProfile} >
+            <TouchableOpacity onPress={this._openProfile}  style={{alignSelf:'stretch',}} >
               <View style={{flex:10,alignSelf:'stretch',flexDirection:'column',alignItems:'stretch',justifyContent:'center'}}>
               <Text style={{flex:10,textAlign:'center',alignSelf:'stretch',color:colors.white,fontSize:18,marginTop:20,fontFamily:'Montserrat-Bold'}}>{
                   this.props.user.firstname.toUpperCase()
                 }</Text>
               </View>
-              <View style={{alignSelf:'stretch',flexDirection:'column',alignItems:'stretch',justifyContent:'center'}}>
-                <Text style={{alignSelf:'stretch',textAlign:'center',color:colors.white,fontSize:16,marginTop:0,fontFamily:'omnes'}}>View Profile</Text>
+              <View style={{flex:1,alignSelf:'stretch',flexDirection:'column',alignItems:'stretch',justifyContent:'center'}}>
+                <Text style={{flex:1,alignSelf:'stretch',textAlign:'center',color:colors.white,fontSize:16,marginTop:0,fontFamily:'omnes'}}>View Profile</Text>
             </View>
           </TouchableOpacity>
 
@@ -256,7 +272,6 @@ class SettingsInside extends React.Component{
         </TouchableHighlight>
     : null }
 
-    </View>
 
 
       <TouchableHighlight onPress={(f)=>{
@@ -318,27 +333,10 @@ class SettingsInside extends React.Component{
                 </View>
               </TouchableHighlight>
           */}
-{/*
-      <ScrollableTabView renderTabBar={(props)=><CustomTabBar {...props}/>}>
-        <View style={{height:800,backgroundColor:colors.outerSpace,width:DeviceWidth}}  tabLabel={'BASIC'}>
-          <BasicSettings settingOptions={this.state.settingOptions} user={this.props.user} navigator={this.props.navigator}/>
-        </View>
-        <View style={{height:800,backgroundColor:colors.outerSpace,width:DeviceWidth}} tabLabel={'PREFERENCES'}>
-          <PreferencesSettings  user={this.props.user} navigator={this.props.navigator} />
-         </View>
-        <View style={{height:800,backgroundColor:colors.outerSpace,width:DeviceWidth}} tabLabel={'SETTINGS'}>
-          <SettingsSettings  user={this.props.user} navigator={this.props.navigator} />
-         </View>
-
-      </ScrollableTabView>
-*/}
-
-
-
-
-    </ParallaxView>
-</View>
-)
+          </View>
+        </ParallaxView>
+      </View>
+    )
   }
 }
 

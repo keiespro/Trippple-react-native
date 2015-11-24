@@ -48,7 +48,7 @@ class  AgePrefs extends React.Component{
       dots,
       numberGroups,
       match_age_min: Math.max(props.user.match_age_min,MIN_AGE),
-      match_age_max: Math.min(props.user.match_age_max,MAX_AGE)
+      match_age_max: Math.min(props.user.match_age_max,MAX_AGE) || MAX_AGE
     }
   }
   componentDidUpdate(prevProps,prevState){
