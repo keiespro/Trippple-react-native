@@ -3,8 +3,7 @@
 * @flow
 */
 
-import React from 'react-native'
-import { Component, AppRegistry } from 'react-native'
+import React, { AppRegistry } from 'react-native'
 import App from './app/components/app'
 
 ((g) =>{ g.AppRoot = './app/' }(window ? window : global))
@@ -14,15 +13,9 @@ window.React = React
 
 
 
-class trippple extends Component{
-
-
-
+class trippple extends React.Component{
 
   render = () => <App key="app"/>
-
-
-
 
 }
 
