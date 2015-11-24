@@ -38,6 +38,7 @@ __t3p-pkg() {
  t3p-pkg-cp-dir iOS;
  t3p-pkg-cp-dir lib;
  t3p-pkg-cp-dir main.jsbundle;
+ t3p-pkg-cp-dir newimg;
  
  t3p-tell "Finalising Snapshot...$t3p_bundlezip"; 
  t3p-snapshot;
