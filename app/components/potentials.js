@@ -249,6 +249,7 @@ class Cards extends Component{
           <InsideActiveCard
             user={user}
             ref={"_thirdCard"}
+          shouldRasterizeIOS={!this.state.animatedIn}
             potential={potentials[2]}
             rel={user.relationship_status}
             isTopCard={false}
@@ -295,6 +296,7 @@ class Cards extends Component{
             user={user}
             ref={"_secondCard"}
             cardWidth={this.state.cardWidth}
+          shouldRasterizeIOS={!this.state.animatedIn}
 
             potential={potentials[1]}
             rel={user.relationship_status}
@@ -346,7 +348,8 @@ class Cards extends Component{
           ref={(card) => { this.card = card }}
           >
           <InsideActiveCard
-            user={user}
+          user={user}
+          shouldRasterizeIOS={!this.state.animatedIn}
             cardWidth={this.state.cardWidth}
             key={`${potentials[0].id || potentials[0].user.id}-activecard`}
             rel={user.relationship_status}
