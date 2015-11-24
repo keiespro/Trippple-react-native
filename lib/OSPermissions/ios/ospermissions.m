@@ -15,23 +15,6 @@ RCT_EXPORT_MODULE();
     CLAuthorizationStatus locationPerm = [CLLocationManager authorizationStatus];
     AVAuthorizationStatus cameraPerm = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo ];
     ABAuthorizationStatus contactsPerm = ABAddressBookGetAuthorizationStatus();
-//
-//     NSString *location_status;
-//
-//     if (locationPerm==kCLAuthorizationStatusNotDetermined) {
-// //        _status.text = @"Not Determined";
-//         location_status = @"0";
-//     }
-//     if (locationPerm==kCLAuthorizationStatusDenied) {
-// //        _status.text = @"Denied";
-//         location_status = @"-1";
-//     }
-//     if (locationPerm==kCLAuthorizationStatusRestricted || locationPerm==kCLAuthorizationStatusAuthorizedAlways || locationPerm==kCLAuthorizationStatusAuthorizedWhenInUse) {
-//     //  @"Restricted" /  @"Always Allowed" / @"When In Use Allowed"
-//         location_status = @"1";
-//     }
-
-
 
     NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
             [ NSString stringWithString: @(locationPerm).stringValue ], @"location",
@@ -42,6 +25,31 @@ RCT_EXPORT_MODULE();
 
     return dictionary;
 }
+
+RCT_EXPORT_METHOD(canUseCamera:(RCTResponseSenderBlock)callback)
+{
+    AVAuthorizationStatus cameraPerm = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo ];
+    callback(@[@(cameraPerm).stringValue]);
+}
+
+RCT_EXPORT_METHOD(canUseLocation:(RCTResponseSenderBlock)callback)
+{
+    CLAuthorizationStatus locationPerm = [CLLocationManager authorizationStatus];
+    callback(@[@(locationPerm).stringValue]);
+}
+
+RCT_EXPORT_METHOD(canUseCameraRoll:(RCTResponseSenderBlock)callback)
+{
+    ALAuthorizationStatus camerarollPerm = [ALAssetsLibrary authorizationStatus];
+    callback(@[@(camerarollPerm).stringValue]);
+}
+
+RCT_EXPORT_METHOD(canUseContacts:(RCTResponseSenderBlock)callback)
+{
+    ABAuthorizationStatus contactsPerm = ABAddressBookGetAuthorizationStatus();
+    callback(@[@(contactsPerm).stringValue]);
+}
+
 
 //if (status==kCLAuthorizationStatusNotDetermined) {
 //    _status.text = @"Not Determined";
