@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     alignItems:'center'
   },
   gridKeys: {
-    width:DeviceWidth/3.5,
+    width:DeviceWidth/3,
     height:60,
     flex:1,
     justifyContent:'center',
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   },
 
   bottomRowKeys: {
-    width:DeviceWidth/3.5,
+    width:DeviceWidth/3,
     height:60,
     flex:1,
     justifyContent:'center',

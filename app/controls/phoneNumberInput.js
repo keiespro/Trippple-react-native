@@ -56,7 +56,7 @@ class PhoneNumberInput extends React.Component{
         // .replace(/[A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/,'');
 
     var maskedPhone,
-        paddedValue = s(sanitizedText).pad(10, ` `, 'right').value();
+        paddedValue = s(sanitizedText).pad(10, `\u2007`, 'right').value();
 
     maskedPhone = maskMap.reduce( (phone, mapChar, index) => {
       return (mapChar.position <= phone.length ? s.insert(phone,mapChar.position,mapChar.char) : phone)
@@ -89,7 +89,7 @@ class PhoneNumberInput extends React.Component{
   setNativeProps(np) {
     var {text,fullText} = np
     console.log(text,fullText,this._textInput)
-    this._textInput && this._textInput.setNativeProps({text: fullText.length > 1 ? '+1 \u2007'+fullText : null });
+    this._textInput && this._textInput.setNativeProps({text: fullText.length > 1 ? '+1\u2007'+fullText : null });
     // this._textInput2.setNativesProps({ text: fullText });
 
   }
