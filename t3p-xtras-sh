@@ -1,4 +1,4 @@
-#;usage: t3p-pkp
+#;usage: t3p-pkg
 #;generate a new release, and packages into WorkingHeads dir.
 #;use  this file by sourcing it. (source t3p-xtras-sh)
 #;then running t3p-pkg to generate a release.
@@ -14,7 +14,7 @@ t3p-pkg() {
  export t3p_bundlezip="WorkingHeads/Bundles/$t3p_releasetag.zip";
  export t3p_buildlog="WorkingHeads/Bundles/$t3p_releasetag.t3p_debugsummary.txt";
  export t3p_report="$t3p_bundledir$t3p_releasetag.report.txt";
- 
+
  __t3p-pkg >/dev/null 2>&1 | tee $t3p_report
 }
 
@@ -35,12 +35,14 @@ __t3p-pkg() {
 
  t3p-pkg-cp-dir node_modules;
  t3p-pkg-cp-dir trippple.xcodeproj;
+ t3p-pkg-cp-dir package.json;
+ tp3-pkg-cp-dir npm-debug.log;
  t3p-pkg-cp-dir iOS;
  t3p-pkg-cp-dir lib;
  t3p-pkg-cp-dir main.jsbundle;
  t3p-pkg-cp-dir newimg;
- 
- t3p-tell "Finalising Snapshot...$t3p_bundlezip"; 
+
+ t3p-tell "Finalising Snapshot...$t3p_bundlezip";
  t3p-snapshot;
 
  #-summary
