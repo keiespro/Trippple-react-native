@@ -68,15 +68,16 @@ class EditImage extends Component{
     // CameraRoll.getPhotos({first:1}, (imgdata)=> {
       // const img = imgdata.edges[0].node.image
 
-      var localImages = { image_url: null, thumb_url: null }
+      var localImages = { image_url: this.props.image, thumb_url: this.props.image }
       if(this.props.image_type == 'couple_profile'){
         localImages.couple = {...this.props.user.couple, ...localImages}
         localImages.localCoupleImage = this.props.image
 
       }else{
-        localImages.localUserImage = this.props.image
+
       }
-      UserActions.uploadImage( this.props.image, this.props.image_type )    // },
+      UserActions.updateLocally(localImages)
+      UserActions.uploadImage.defer( this.props.image, this.props.image_type )    // },
     // (errr)=> {
     //   console.log( errr ,'errr')
     // } )
@@ -103,12 +104,12 @@ class EditImage extends Component{
         <View
           style={styles.container}
           onLayout={(event) => {
-            var measuredWidth = event.nativeEvent.layout.width;
-            if (!measuredWidth) {
+            const {width,height} = event.nativeEvent.layout;
+            if (!width) {
               return;
             }
             this.setState({
-              measuredSize: {width: measuredWidth, height: measuredWidth},
+              measuredSize: {width, height},
             });
           }}/>
       );

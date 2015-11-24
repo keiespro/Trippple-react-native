@@ -95,12 +95,8 @@ class CameraControl extends Component{
        if(err){console.log('camera err')}
       // CameraRoll.saveImageWithTag(data,
       //   (imageTag)=> {
-      //     console.log(imageTag);
-      //     //
-      //     //
-  // CameraRoll.getPhotos({first:1}, (imgdata)=> {
-  //     console.log(imgdata,'imgdata')
-  //     const imageFile = imgdata.edges[0].node.image
+      // CameraRoll.getPhotos({first:1}, (imgdata)=> {
+        //     const imageFile = imgdata.edges[0].node.image
       const imageFile = {uri: data}
       if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
         this.props.navigator.push({

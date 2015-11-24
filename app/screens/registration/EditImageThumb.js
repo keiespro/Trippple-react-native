@@ -87,6 +87,9 @@ class EditImageThumb extends Component{
   }
 
   accept(cropped,transformData){
+    if(this.props.image_type == 'couple_profile'){
+      this.proceed()
+    }else{
 
     React.NativeModules.ImageStoreManager.getBase64ForTag( cropped, (uri) => {
 
@@ -95,7 +98,7 @@ class EditImageThumb extends Component{
       }
 
       const dataUri = 'data:image/gif;base64,'+uri,
-            localImages = { thumb_url: dataUri, image_uri: this.props.image };
+            localImages = { thumb_url: dataUri, image_url: this.props.image, localUserImage: null, localCoupleImage: null  };
 
       this.setState({croppedImageURI:dataUri });
 
@@ -105,19 +108,19 @@ class EditImageThumb extends Component{
 
       UserActions.uploadImage.defer( dataUri ,'avatar', cropData)
 
-      const {user,userInfo} = this.props
+      // const {user,userInfo} = this.props
 
-      if(user.status == 'verified' && user.relationship_status == 'couple' && userInfo.couple.image_url ){
-        UserActions.updateLocally({status:'pendingpartner'})
-      }else{
+      // if(user.status == 'verified' && user.relationship_status == 'couple' && userInfo.couple && userInfo.couple.image_url ){
+      //   UserActions.updateLocally({status:'pendingpartner'})
+      // }else{
         this.proceed()
-      }
+      // }
 
     }, (err) =>{
       console.log(err,'err');
     })
 
-
+  }
 
   }
 
