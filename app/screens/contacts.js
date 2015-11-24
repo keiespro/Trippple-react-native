@@ -224,7 +224,6 @@ class Contacts extends Component{
     }
   }
   _pressRow(sectionID,contactID,contact,image){
-    console.log(image,contact)
     this.refs.searchinput.blur();
     this.setState({
       partnerSelection: { ...contact, image },
@@ -281,13 +280,13 @@ class Contacts extends Component{
       // })
 
   }
-  componentWillUnmount(){
-  }
-  nevermind(){
 
+  nevermind(){
     this.props.navigator.popToTop()
     OnboardingActions.updateRoute(0)
   }
+
+
   getContacts(){
      AddressBook.checkPermission((err, permission) => {
        if(err){

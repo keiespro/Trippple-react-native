@@ -109,7 +109,9 @@ var UserActions = {
   },
 
   selectPartner(partner){
-    const partner_phone = phoneParser(partner.phone,'xxxxxxxxxx');
+    var partnerPhone = partner.phone[0] == '1' ? partner.phone.substr(1,11) : partner.phone
+    console.log('partnerPhone',partnerPhone);
+    const partner_phone = phoneParser(partnerPhone,'xxxxxxxxxx');
     Api.joinCouple(partner_phone)
       .then((res) => {
         console.log(res);
