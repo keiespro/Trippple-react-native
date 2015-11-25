@@ -23,7 +23,7 @@ const config = {
   devAlex: {
     SERVER_URL: 'http://x.local:9999/user',
     WEBSOCKET_URL: 'http://x.local:9919',
-    KEYCHAIN_NAMESPACE: 'dev.trippple.co'
+    KEYCHAIN_NAMESPACE: '6'
   },
 
   devDante: {
