@@ -38,8 +38,18 @@ export default class CameraRollPermissionsModal extends Component{
     super();
     console.log(props.AppState.OSPermissions,OSPermissions)
     this.state = {
-      failedState: OSPermissions && parseInt(OSPermissions.cameraRoll) < 3,
-      hasPermission: OSPermissions && OSPermissions.cameraRoll > 2 ? true : false
+      failedState: OSPermissions.cameraRoll && parseInt(OSPermissions.cameraRoll) < 3,
+      hasPermission: OSPermissions.cameraRoll && OSPermissions.cameraRoll > 2 ? true : false
+    }
+  }
+
+  _handleAppStateChange(currentAppState) {
+    if(currentAppState == 'active'){
+      OSPermissions.canUseCamera( (permission) => {
+        console.log('camera permissions ',permission)
+        this.setState({ hasPermission: parseInt(permission > 2) ? true : false, failedState: false });
+        AppStateIOS.removeEventListener('change', this._handleAppStateChange);
+      })
     }
   }
 
@@ -49,11 +59,18 @@ export default class CameraRollPermissionsModal extends Component{
        this.props.navigator.replace({
          component:CameraRollView,
          passProps:{
+          image_type:this.props.image_type
          },
 
        })
-     }
-   }
+     }else{
+      AppStateIOS.addEventListener('change', this._handleAppStateChange.bind(this));
+    }
+  }
+  componentWillUnmount() {
+    AppStateIOS.removeEventListener('change', this._handleAppStateChange);
+  }
+
   componentDidUpdate(prevProps,prevState){
     if(!prevState.hasPermission && this.state.hasPermission){
       this.props.navigator.replace({
@@ -84,8 +101,7 @@ export default class CameraRollPermissionsModal extends Component{
   }
   handleFail(){
 
-      AppActions.denyPermission(permissionsKey)
-      this.setState({failedState:true})
+    this.setState({failedState:true})
 
   }
   handleSuccess(){
@@ -96,41 +112,22 @@ export default class CameraRollPermissionsModal extends Component{
 
 
   }
-  componentDidMount() {
-    AppStateIOS.addEventListener('change', this._handleAppStateChange.bind(this));
-  }
-  componentWillUnmount() {
-    AppStateIOS.removeEventListener('change', this._handleAppStateChange);
-  }
-  _handleAppStateChange(currentAppState) {
-    if(currentAppState == 'active'){
-      const hasPerm = require('react-native').NativeModules.OSPermissions['cameraRoll']
-      console.log(hasPerm)
-      this.setState({ hasPermission: hasPerm, failedState: false });
-      AppStateIOS.removeEventListener('change', this._handleAppStateChange);
-    }
-  }
   render(){
 
 
     return (
     <PurpleModal>
-          <View style={[styles.col,styles.fullWidth,{justifyContent:'space-between'}]}>
+      <View style={[styles.col,styles.fullWidth,{justifyContent:'space-between'}]}>
 
         <Image
           resizeMode={Image.resizeMode.contain}
-
           style={[styles.contactthumb,{width:150,height:150,borderRadius:0,marginVertical:20}]}
-            source={this.state.failedState ? require('../../newimg/iconModalDenied.png') : require('../../newimg/iconModalAlbum.png')}/>
-
-
+          source={this.state.failedState ? require('../../newimg/iconModalDenied.png') : require('../../newimg/iconModalAlbum.png')}
+        />
         <View style={styles.insidemodalwrapper}>
-
-
-            <Text style={[styles.rowtext,styles.bigtext,{
-                fontFamily:'Montserrat',fontSize:20,marginVertical:10
-              }]}>YOUR PHOTO ALBUM
-            </Text>
+          <Text style={[styles.rowtext,styles.bigtext,{
+                  fontFamily:'Montserrat',fontSize:20,marginVertical:10
+          }]}>YOUR PHOTO ALBUM</Text>
 
             <Text style={[styles.rowtext,styles.bigtext,{
                 fontSize:20,marginVertical:10,color: colors.shuttleGray,marginHorizontal:20

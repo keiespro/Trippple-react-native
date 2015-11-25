@@ -53,32 +53,21 @@ import AppActions from '../flux/actions/AppActions'
   constructor(props) {
     super();
     this.state = {
-      hasPermission: (parseInt(OSPermissions.location)  &&  OSPermissions.location > 2),
-      failedState: (parseInt(OSPermissions.location)  && parseInt(OSPermissions.location) < 3)
+      hasPermission: OSPermissions.location && parseInt(OSPermissions.location) > 2,
+      failedState: OSPermissions.location && parseInt(OSPermissions.location) < 3
     }
   }
 
   componentWillMount(){
-    if(this.props.AppState.permissions[this.props.permissionKey]){
-      this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
-    }
+    // if(OSPermissions[this.props.permissionKey]  && parseInt(OSPermissions[this.props.permissionKey]) > 2){
+    //   this.props.failCallback ? this.props.failCallback(true) : this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
 
-  }
-
-  componentDidMount(){
-    console.log('LOC MODAL')
-    if(this.state.hasPermission){
-      // this.props.failCallback ? this.props.failCallback() : this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
-    }else{
-
-    }
+    // }
 
   }
   componentDidUpdate(prevProps,prevState){
-    if(this.state.hasPermission && !prevState.hasPermission){
-      // should i maybe  auto do this ?
+    if(!prevState.hasPermission && this.state.hasPermission ){
       this.props.failCallback ? this.props.failCallback(true) : this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
-    }else if(this.state.failedState){
 
     }
   }
@@ -114,11 +103,6 @@ import AppActions from '../flux/actions/AppActions'
       },
       {enableHighAccuracy: false, maximumAge: 1} )
   }
-  doRequest(){
-    // this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
-  }
-
-
 
   cancel(val){
 
@@ -137,6 +121,7 @@ import AppActions from '../flux/actions/AppActions'
     if(this.state.failedState){
       this.openSettings()
     }else{
+      console.log(this.state.hasPermission)
       if(!this.state.hasPermission){
         this.requestPermission()
       }else{
@@ -151,14 +136,11 @@ import AppActions from '../flux/actions/AppActions'
 
   handleFail(){
     this.setState({hasPermission: false})
-    AppActions.denyPermission(this.props.permissionKey)
     this.props.failCallback(0)
 
   }
 
   handleSuccess(geo){
-    this.setState({hasPermission: true})
-    AppActions.grantPermission(this.props.permissionKey)
     this.cancel(true);
   }
 
@@ -216,7 +198,7 @@ import AppActions from '../flux/actions/AppActions'
 
           <View style={{marginTop:20}}>
             <TouchableOpacity style={{padding:10}}
-              onPress={this.cancel.bind(this)}>
+            onPress={()=>this.cancel(false)}>
               <View style={[styles.cancelButton,{  backgroundColor:'transparent'}]} >
                 <Text style={[styles.nothankstext,{  backgroundColor:'transparent'}]}>no thanks</Text>
               </View>

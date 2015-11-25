@@ -47,7 +47,7 @@ class  SettingsPreferences extends React.Component{
     super()
     this.state = {
       scroll: 'on',
-      nearMeToggled: parseInt(OSPermissions.location) && (parseInt(OSPermissions.location) - 2),
+      nearMeToggled: OSPermissions.location && parseInt(OSPermissions.location) > 2,
       looking_for_mf: props.user.looking_for_mf || false,
       looking_for_mm: props.user.looking_for_mm || false,
       looking_for_ff: props.user.looking_for_ff || false,
@@ -66,11 +66,15 @@ class  SettingsPreferences extends React.Component{
   }
   componentDidUpdate(pProps,pState){
     //i dont know why this is here
-    // if(this.state.nearMeToggled != pState.nearMeToggled && this.state.nearMeToggled > 2){
-    //   if(OSPermissions.location != this.state.nearMeToggled){
-    //     this.setState({nearMeToggled:0})
-    //   }
-    // }
+    if(this.state.nearMeToggled != pState.nearMeToggled && !pState.nearMeToggled){
+      OSPermissions.canUseLocation( (locPerm) => {
+        if(locPerm > 2){
+          this.setState({nearMeToggled:true})
+        }else{
+          this.setState({nearMeToggled:false})
+        }
+      })
+    }
 
     // if permission has been denied, show the modal in failedState mode (show settings link)
     if((this.state.nearMeToggled && !pState.nearMeToggled)){
@@ -80,16 +84,18 @@ class  SettingsPreferences extends React.Component{
           title:'PRIORITIZE LOCAL',
           subtitle:'We’ve found 10 matches we think you might like. Should we prioritize the matches closest to you?',
           failedTitle: 'LOCATION DISABLED',
-          failCallback:(val)=>{this.props.navigator.pop(); this.setState({nearMeToggled:val})},
+          failCallback:(val)=>{
+            this.props.navigator.pop();
+          this.setState({nearMeToggled:val})
+
+          },
           failedSubtitle: 'Geolocation is disabled. You can enable it in your phone’s Settings.',
-          failedState: (OSPermissions.location < 3 && this.state.nearMeToggled ? true : false),
+          failedState: (OSPermissions.location < 3 ? true : false),
           headerImageSource:'iconDeck',
           permissionKey:'location',
           renderNextMethod: 'pop',
           renderMethod:'push',
           renderPrevMethod:'pop',
-          AppState:this.props.AppState,
-
         }
       })
     }
@@ -99,8 +105,8 @@ class  SettingsPreferences extends React.Component{
       this.props.navigator.push({
         component:PartnerMissingModal,
         passProps:{
-        
-        
+
+
           goBack:()=>{this.props.navigator.pop(); },
 
         }
@@ -213,9 +219,9 @@ class  SettingsPreferences extends React.Component{
 
 
               {this.props.user.relationship_status == 'couple' ?
-                <TouchableHighlight 
-                  underlayColor={colors.dark} 
-                  style={styles.paddedSpace} 
+                <TouchableHighlight
+                  underlayColor={colors.dark}
+                  style={styles.paddedSpace}
                   onPress={()=>{
                       this.props.user.status == 'onboarded' ? this.toggleField('looking_for_f') : this.showPartnerMissingModal()
                   }}>
@@ -227,9 +233,9 @@ class  SettingsPreferences extends React.Component{
                 </TouchableHighlight>
               : null }
               {this.props.user.relationship_status == 'couple' ?
-                <TouchableHighlight 
-                  underlayColor={colors.dark} 
-                  style={styles.paddedSpace} 
+                <TouchableHighlight
+                  underlayColor={colors.dark}
+                  style={styles.paddedSpace}
                   onPress={()=>{
                       this.props.user.status == 'onboarded' ? this.toggleField('looking_for_m') : this.showPartnerMissingModal()
                   }}>

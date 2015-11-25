@@ -49,25 +49,19 @@ export default class PrivacyPermissionsModal extends Component{
       }
     });
 
-    // AddressBook.checkPermission((err, permission) => {
-    //   if(!err && permission === AddressBook.PERMISSION_AUTHORIZED){
-    //     this.setState({ hasContactsPermissions: true })
-    //     AppActions.grantPermission('contacts')
-    //
-    //   }else{
-    //     this.setState({ hasContactsPermissions: false })
-    //
-    //     AppActions.denyPermission('contacts')
-    //   }
-    // })
+     AddressBook.checkPermission((err, permission) => {
+       if(!err && permission === AddressBook.PERMISSION_AUTHORIZED){
+         this.setState({ hasContactsPermissions: true })
+       }else{
+         this.setState({ hasContactsPermissions: false })
+       }
+     })
   }
 
   componentDidUpdate(pProps,pState){
-    if(pState.hasFacebookPermissions && pState.hasContactsPermissions){
-      UserActions.updateUser({privacy:'private'});
+    if(this.state.hasFacebookPermissions && this.state.hasContactsPermissions){
       this.props.success && this.props.success()
       this.props.navigator.pop()
-
     }
   }
 
@@ -87,7 +81,7 @@ export default class PrivacyPermissionsModal extends Component{
         this.getContacts()
       }
       if(permission === AddressBook.PERMISSION_DENIED){
-        AppActions.denyPermission('contacts')
+        // AppActions.denyPermission('contacts')
       }
 
     })
@@ -96,14 +90,12 @@ export default class PrivacyPermissionsModal extends Component{
   getContacts(){
     AddressBook.getContacts((err, contacts) => {
       if (!err) {
-        UserActions.handleContacts(contacts)
         UserActions.updateUser({privacy:'private'})
-        this.setState({hasContactsPermissions: true })
-        AppActions.grantPermission('contacts')
+        // UserActions.handleContacts.defer(contacts)
+        this.setState({hasContactsPermission:true})
 
       }else{
-        AppActions.denyPermission('contacts')
-
+        this.setState({hasContactsPermission:false})
 
       }
     })
@@ -117,13 +109,11 @@ export default class PrivacyPermissionsModal extends Component{
           facebook_user_id: data.credentials.userId,
           facebook_oauth_access_token: data.credentials.token
         })
-        AppActions.grantPermission('facebook') // kind of superflous since we have their token but let's be congruent?
 
         this.setState({ hasFacebookPermissions: true })
 
       } else {
         this.setState({ hasFacebookPermissions: false })
-        AppActions.denyPermission('facebook')
 
       }
     }
@@ -159,8 +149,6 @@ export default class PrivacyPermissionsModal extends Component{
             </Text>
 
             <View style={{marginTop:20}}>
-
-
 
             <BoxyButton
               text={"BLOCK FACEBOOK"}
