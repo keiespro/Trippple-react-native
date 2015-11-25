@@ -254,7 +254,30 @@ class SettingsBasic extends React.Component{
               </View>
             </View>
 
-            {['phone','email'].map((field) => {
+            {['phone'].map((field) => {
+              return (
+                <View  style={styles.wrapperBirthdayGender}>
+                  <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ field.toUpperCase()}</Text>
+                  <Text style={{
+                    color:colors.shuttleGray,
+                    fontSize:18,
+                    fontFamily:'Montserrat',
+                    textAlign:'right',
+                    paddingRight:30
+                  }}>
+                  { formatPhone(this.props.user[field]) }
+                  </Text>
+
+                  <Image
+                    style={{width:15,height:15,position:'absolute',right:0,top:23}}
+                    source={require('../../newimg/icon-lock.png')}
+                    resizeMode={Image.resizeMode.contain}
+                  />
+                </View>
+              )
+            })}
+
+            {['email'].map((field) => {
               return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
             })}
 
