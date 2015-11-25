@@ -18,7 +18,9 @@ class Numpad extends React.Component{
   constructor(props: Object){
     super()
   }
-
+  shouldComponentUpdate(){
+    return false
+  }
   render(){
 
     return (
