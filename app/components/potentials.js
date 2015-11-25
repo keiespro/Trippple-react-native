@@ -87,15 +87,13 @@ class Cards extends Component{
         easing: Easing.elastic(1),
       })
     ]).start((fin)=> {
-      console.log('animate cards in - ',fin)
       this.setState({animatedIn:true});
-      // this.initializePanResponder()
+      this.initializePanResponder()
     })
   }
 
   componentDidUpdate(prevProps,prevState){
     if(!prevState.animatedIn && this.state.animatedIn){
-      delete this._panResponder;
       this.initializePanResponder()
 
     }
@@ -126,6 +124,8 @@ class Cards extends Component{
 
 
   initializePanResponder(){
+    delete this._panResponder
+
     this._panResponder = PanResponder.create({
 
       onMoveShouldSetPanResponderCapture: (e,gestureState) => {
@@ -150,7 +150,6 @@ class Cards extends Component{
       },
       onPanResponderReject: (e, gestureState) => {
         this._opens = false
-        console.log('onPanResponderReject', e.nativeEvent, {gestureState})
       },
 
       onPanResponderMove: Animated.event( [null, {dx: this.state.panX}] ),
@@ -160,9 +159,9 @@ class Cards extends Component{
         var toValue = 0
         // animate back to center or off screen left or off screen right
         if (gestureState.dx > 200 || gestureState.dx > 180 && Math.abs(gestureState.vx) > 3 ) {
-          toValue = 500;
+          toValue = 600;
         }else if(gestureState.dx < -200 || gestureState.dx < -180 &&  Math.abs(gestureState.vx) > 3 ) {
-          toValue = -500;
+          toValue = -600;
         }
 
 
@@ -214,8 +213,10 @@ class Cards extends Component{
   render() {
     var {potentials,user} = this.props
 
+    if(this.state.animatedIn && !this._panResponder.panHandlers){
+       this.initializePanResponder()
+    }
     var pan = this.state.panX || 0
-
     return (
       <View style={{
         position: 'absolute',
@@ -297,6 +298,8 @@ class Cards extends Component{
             ref={"_secondCard"}
             cardWidth={this.state.cardWidth}
           shouldRasterizeIOS={!this.state.animatedIn}
+            panX={this.state.panX}
+            profileVisible={this.props.profileVisible}
 
             potential={potentials[1]}
             rel={user.relationship_status}
@@ -329,7 +332,8 @@ class Cards extends Component{
               {
                 rotate: this.state.panX.interpolate({
                   inputRange: [-200, 0, 200],
-                  outputRange: ['-15deg', '0deg', '15deg']
+                  outputRange: ['-11deg', '0deg', '11deg'],
+                  extrapolate: 'clamp'
                 })
               },
               {
@@ -354,7 +358,6 @@ class Cards extends Component{
             key={`${potentials[0].id || potentials[0].user.id}-activecard`}
             rel={user.relationship_status}
             isTopCard={true}
-            directionColor={this.state.directionColor}
             panX={this.state.panX}
             profileVisible={this.props.profileVisible}
             hideProfile={this._hideProfile.bind(this)}
@@ -373,8 +376,7 @@ class Cards extends Component{
   componentWillReceiveProps(nProps){
     if(this.state.animatedIn && this.props.potentials[0].user.id != nProps.potentials[0].user.id ){
         this.state.panX.setValue(0);
-        // this.initializePanResponder()
-
+        this.initializePanResponder()
     }
     if(this.state.cardWidth && this.props.profileVisible != nProps.profileVisible){
         // Start 0
@@ -403,18 +405,16 @@ class InsideActiveCard extends Component{
     this.state = {
       slideIndex: 0
     }
-    console.log(props.panX && props.panX._listeners)
   }
   componentWillUnmount(){
-    this.props.panX && this.props.panX._listeners && Object.keys(this.props.panX._listeners).length && this.props.panX.removeListener(this._valuelistener);
+    // this.props.panX && this.props.panX._listeners && Object.keys(this.props.panX._listeners).length && this.props.panX.removeListener(this._valuelistener);
   }
   componentDidUpdate(pProps,pState){
     if(pState.isMoving != this.state.isMoving){ return false }
     LayoutAnimation.spring();
-    console.log(this.props.panX)
 
     if(!pProps.isTopCard && this.props.isTopCard){
-      this.props.panX ? this.valueListener() : null
+      // this.props.panX ? this.valueListener() : null
     }
     if(pProps.profileVisible && !this.props.profileVisible ){
       this.refs.scrollbox && this.refs.scrollbox.setNativeProps({contentOffset:{x:0,y:0}})
@@ -449,7 +449,7 @@ class InsideActiveCard extends Component{
     this.refs.incard && this.refs.incard.setNativeProps(np)
   }
   componentWillMount(){
-      this.props.panX && this.props.isTopCard && this.valueListener()
+      // this.props.panX && this.props.isTopCard && this.valueListener()
 
   }
   componentWillReceiveProps(nProps){
@@ -457,25 +457,9 @@ class InsideActiveCard extends Component{
       this.setState({
         isMoving: false
       })
-      nProps.panX && nProps.isTopCard && nProps.panX.removeListener(this._valuelistener);
+      // nProps.panX && nProps.isTopCard && nProps.panX.removeListener(this._valuelistener);
 
     }
-    nProps && nProps.panX  && this.props.isTopCard ? nProps.panX.addListener(({value}) => {
-    // listen to parent component's panX
-      const val = parseInt(value)
-      if(val == 0 && this.state.isMoving){
-        this.setState({
-          isMoving: false
-        })
-      }else if(val != 0 && !this.state.isMoving){
-        this.setState({
-          isMoving: true
-        })
-      }
-      if(val != 0){
-        this.setNativeProps({ style:{ backgroundColor: val > 0 ? colors.sushi : colors.mandy } })
-      }
-    }) : null
   }
 
 
@@ -509,22 +493,33 @@ class InsideActiveCard extends Component{
               margin:0,
               padding:0,
               flex:1,
+              backgroundColor: colors.white,
               marginLeft:0,
               position:'relative',
-              backgroundColor:  isThirdCard ? colors.white : colors.white,
-            }]} key={`${potential.id || potential.user.id}-view`}>
+                        }]} key={`${potential.id || potential.user.id}-view`}>
 
             {this.props.isThirdCard ? null :
               <Animated.View key={`${potential.id || potential.user.id}bgopacity`} style={{
                   position:'relative',
                   flex:1,
-                  opacity:isTopCard ? 1 : this.state.panX && this.state.panX.interpolate({
+
+ backgroundColor: isTopCard ? this.props.panX && this.props.panX.interpolate({
+                    inputRange: [-300, -1, 0, 1, 300],
+                    outputRange: ['rgb(232,74,107)',
+                              'rgb(232,74,107)',
+                              'rgb(255,255,255)',
+                              'rgb(66,181,125)',
+                              'rgb(66,181,125)' ],
+                  }) : colors.white,
+
+
+
+                  opacity: isTopCard ? 1 : this.props.panX && this.props.panX.interpolate({
                           inputRange: [-300, -100, 0, 100, 300],
-                          outputRange: [0,0.7,1,0.7,0]
+                          outputRange: [1,0,0,0,1]
                         }),
 
-                  width: this.props.isTopCard && this.props.cardWidth || MagicNumbers.screenWidth-MagicNumbers.screenPadding,
-                  backgroundColor:  colors.white, marginLeft: 0,
+                  width: this.props.isTopCard && this.props.cardWidth || undefined,
                 }} ref={isTopCard ? 'incard' : 'notincard'}>
                 <Swiper
                   automaticallyAdjustContentInsets={true}
@@ -541,10 +536,9 @@ class InsideActiveCard extends Component{
                     source={{uri: potential.user.image_url}}
                     key={`${potential.user.id}-cimg`}
                     style={[styles.imagebg, {
-                      width: this.props.cardWidth,
-                      height: this.props.isTopCard && this.props.cardWidth && this.props.cardWidth.interpolate({
-                        inputRange: [DeviceWidth-40, DeviceWidth], outputRange: [DeviceHeight-40, DeviceHeight]
-                      }),
+                      height: this.props.isTopCard ? this.props.cardWidth && this.props.cardWidth.interpolate({
+                        inputRange: [DeviceWidth-40, DeviceWidth], outputRange: [DeviceHeight-40, DeviceHeight-80]
+                      }) : undefined,
                       opacity:  this.props.isTopCard && this.props.panX ? this.props.panX.interpolate({
                           inputRange: [-300, -100, 0, 100, 300],
                           outputRange: [0,0.7,1,0.7,0]
@@ -557,7 +551,6 @@ class InsideActiveCard extends Component{
                     key={`${potential.partner.id}-cimg`}
                     style={[styles.imagebg,{
                       backgroundColor:colors.white,
-                      width: this.props.cardWidth,
                       height:this.props.isTopCard && this.props.cardWidth && this.props.cardWidth.interpolate({inputRange: [DeviceWidth-40,DeviceWidth], outputRange: [DeviceHeight-40, DeviceHeight]}),
                       opacity:  this.props.isTopCard && this.props.panX ? this.props.panX.interpolate({
                           inputRange: [-300, -100, 0, 100, 300],
@@ -623,7 +616,7 @@ class InsideActiveCard extends Component{
             </Animated.View>}
             </Animated.View>
           }
-          {isTopCard && !profileVisible && this.state.isMoving ?
+          {isTopCard && !profileVisible  ?
               <Animated.View key={'denyicon'} style={[styles.animatedIcon,{
                 transform: [
                   {
@@ -635,7 +628,7 @@ class InsideActiveCard extends Component{
                 <Image source={require('../../newimg/iconDeny.png')} style={{backgroundColor:'transparent',width:60,height:60}}/>
               </Animated.View> : null
           }
-          {isTopCard && !profileVisible && this.state.isMoving ?
+          {isTopCard && !profileVisible  ?
               <Animated.View key={'approveicon'} style={[styles.animatedIcon,{
                 transform: [
                   {
@@ -663,10 +656,12 @@ class InsideActiveCard extends Component{
           style={[ {
             height:DeviceHeight,
             overflow:'visible',
-            width:DeviceWidth,
             backgroundColor:'#000000',
             left:0,
             flex:1,
+              alignSelf:'stretch',
+            width:DeviceWidth,
+
             borderRadius:0,
             top:0,
             transform:[ {scale: 1}, ]
@@ -694,34 +689,32 @@ class InsideActiveCard extends Component{
           key={`${potential.id || potential.user.id}-view`}>
 
           <Animated.View key={`${potential.id || potential.user.id}bgopacity`} style={{
-              position:'relative',
-              width:this.props.cardWidth,
-            }} ref={"incard"}>
+                      width: this.props.cardWidth,
+          }}
+
+              ref={"incard"}>
 
           <Swiper
             _key={`${potential.id || potential.user.id}-swiper`}
             loop={true}
-            width={DeviceWidth}
             height={DeviceHeight}
-            style={{width:DeviceWidth,overflow: 'hidden',
-}}
+            style={{
+              flex:1,
+            }}
             horizontal={false}
             vertical={true}
             autoplay={false}
             showsPagination={true}
             showsButtons={false}
             paginationStyle={{position:'absolute',right:25,top:25,height:100}}
-            dot={ <View style={styles.dot} /> }
-            activeDot={ <View style={styles.activeDot} /> }>
+          >
 
               <Animated.Image
                 source={{uri: potential.user.image_url}}
                 key={`${potential.user.id}-cimg`}
 
                 style={[styles.imagebg,{
-                  height: DeviceHeight,
                   marginTop:-20,
-                  width:this.props.cardWidth,
 
                   }]}
                    />
@@ -731,10 +724,9 @@ class InsideActiveCard extends Component{
                 source={{uri: potential.partner.image_url}}
                 key={`${potential.partner.id}-cimg`}
 
+
                 style={[styles.imagebg,{
-                  height:DeviceHeight,
                 marginTop:-20,
-                width:this.props.cardWidth,
  }]}
   />
               }
@@ -742,20 +734,19 @@ class InsideActiveCard extends Component{
 
             <Animated.View
             key={`${potential.id || potential.user.id}-bottomview`}
+pointerEvents={'box-none'}
+
             style={{
               height: 600,
+              top:-150,
               backgroundColor:colors.outerSpace,
               flex:1,
-              alignSelf:'stretch',
-              width:this.props.cardWidth,
+              width:DeviceWidth,
+              }} >
 
-              top:-250,
-              alignItems:'stretch',
-              left:0,
-              right:0,
-            }} >
-
-            <View style={{ width: DeviceWidth , paddingVertical:20 }}>
+            <View style={{
+              flex:1,height:60,
+              paddingVertical:20, }}>
               <Text style={[styles.cardBottomText,{color:colors.white,width:DeviceWidth-40}]}>
               {
                 {matchName}
@@ -775,7 +766,7 @@ class InsideActiveCard extends Component{
               position:'absolute',
               width:135,
               right:0,
-              backgroundColor:'transparent',
+                        backgroundColor:'transparent',
               flexDirection:'row'}}>
                 <Image
                   source={{uri: this.props.potential.user.image_url}}
@@ -790,8 +781,7 @@ class InsideActiveCard extends Component{
               </View>
             }
 
-            <View style={{width: DeviceWidth}}>
-
+            <View style={{top:-50}}>
 
             {potential.bio || potential.user.bio ?
               <View style={{padding:20}}>
@@ -812,7 +802,10 @@ class InsideActiveCard extends Component{
                     tabLabel={`${potential.partner.firstname}, ${potential.partner.age}`}/>
                   </ScrollableTabView> :
 
-                  <View style={{flex:1,width:DeviceWidth,marginHorizontal:0}}>
+                  <View style={{flex:1,width:DeviceWidth,
+              flex:1,
+              alignSelf:'stretch',
+                    marginHorizontal:0}}>
                     <View style={styles.tabs}>
                       <Text style={{width:DeviceWidth-40,
                           fontFamily:'Montserrat',fontSize:16,textAlign:'center',
@@ -842,7 +835,7 @@ class InsideActiveCard extends Component{
           backgroundStyle={{
             backgroundColor:'black',top:-55,
 }}
-insideStyle={{flex:1,width:DeviceWidth,height:50,
+insideStyle={{flex:1,width:DeviceWidth,height:55,
             backgroundColor:colors.outerSpace,
             borderTopLeftRadius:8,
           borderTopRightRadius:8,
@@ -887,7 +880,6 @@ class CardStack extends Component{
   constructor(props){
     super()
     this.state = {profileVisible:false}
-    console.log(props.potentials)
   }
   toggleProfile(){
     this.setState({profileVisible:!this.state.profileVisible})
@@ -919,12 +911,10 @@ class CardStack extends Component{
 
   }
   getPotentialInfo(){
-    console.log(this)
 
     if(!this.props.potentials[0]){ return false}
     var potential = this.props.potentials[0]
     var matchName = `${potential.user.firstname.trim()}`;
-    console.log(matchName)
     var distance = potential.user.distance
     if(this.props.user.relationship_status == 'single') {
       matchName += ` & ${potential.partner.firstname.trim()}`
@@ -1048,7 +1038,6 @@ var CustomTabBar = React.createClass({
 
   renderTabOption(name, page) {
     var isTabActive = this.props.pageNumber === page;
-    console.log(name,page)
     return (
       <TouchableOpacity key={name} onPress={() => this.props.goToPage(page)}>
         <View style={[styles.tab]}>
@@ -1250,9 +1239,7 @@ animatedIcon:{
     alignSelf:'stretch',
      padding:0,
     alignItems:'stretch',
-    flexDirection:'column',
-    width:DeviceWidth,
-    height:DeviceHeight,
+
 
   },
 
