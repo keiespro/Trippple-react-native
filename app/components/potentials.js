@@ -1,5 +1,13 @@
 /* @flow */
 
+
+const THROW_THRESHOLD_DENY = -180,
+      THROW_THRESHOLD_APPROVE = 180,
+      SWIPE_THRESHOLD_APPROVE = 230,
+      SWIPE_THRESHOLD_DENY = -230,
+      THROW_SPEED_THRESHOLD = 2.5;
+
+
 import React from 'react-native';
 import {
   Component,
@@ -54,74 +62,60 @@ class Cards extends Component{
 
   constructor(props){
     super()
-    this._lid = {}
     this.state = {
-      panX: new Animated.Value(0),
+      pan: new Animated.ValueXY(),
       animatedIn:false,
-      cardWidth: new Animated.Value(MagicNumbers.screenWidth),
       offsetY: {
-        a:new Animated.Value(DeviceHeight),
-        b:new Animated.Value(DeviceHeight),
-        c:new Animated.Value(DeviceHeight),
+        a:new Animated.Value(-DeviceHeight),
+        b:new Animated.Value(-DeviceHeight),
+        c:new Animated.Value(-DeviceHeight),
       }
     }
   }
   componentWillMount(){
     this._panResponder = {}
+    Mixpanel.track('On - Potentials Screen');
 
-  }
+}
+componentWillUnmount(){
+    this.state.pan && this.state.pan._listeners && Object.keys(this.state.pan._listeners).length && this.state.pan.removeAllListeners();
+
+}
   componentDidMount(){
 
-    Mixpanel.track('On - Potentials Screen');
-    Animated.stagger(200,[
+    Animated.stagger(300,[
       Animated.spring(this.state.offsetY.c,{
         toValue: 0,
-        easing: Easing.elastic(1),
+        tension: 50,
+        friction: 7,
       }),
       Animated.spring(this.state.offsetY.b,{
         toValue: 0,
-        easing: Easing.elastic(1),
+        tension: 50,
+        friction: 7,
       }),
       Animated.spring(this.state.offsetY.a,{
         toValue: 0,
-        easing: Easing.elastic(1),
+        tension: 50,
+        friction: 7,
       })
     ]).start((fin)=> {
-      this.setState({animatedIn:true});
       this.initializePanResponder()
+      this.setState({animatedIn:true});
+
     })
   }
 
-  componentDidUpdate(prevProps,prevState){
+  componentDidUpdate(pProps,prevState){
     if(!prevState.animatedIn && this.state.animatedIn){
       this.initializePanResponder()
+    }
+    if( pProps.potentials[0].user.id != this.props.potentials[0].user.id){
+      LayoutAnimation.configureNext(animations.layout.spring);
 
     }
 
   }
-
-
-
-  getStyle = ()=> {
-    return {
-      transform: [
-        {
-          translateX: this.state.panX
-        },
-        {
-          rotate: this.state.panX.interpolate({
-            inputRange: [-200, 0, 200],
-            outputRange: ['-15deg', '0deg', '15deg']
-          })
-        },
-        {
-          translateY: this.state.offsetY.a
-        }
-      ],
-    }
-  }
-
-
 
   initializePanResponder(){
     delete this._panResponder
@@ -152,43 +146,55 @@ class Cards extends Component{
         this._opens = false
       },
 
-      onPanResponderMove: Animated.event( [null, {dx: this.state.panX}] ),
+      onPanResponderMove: Animated.event([null, {
+         dx: this.state.pan.x, // x,y are Animated.Value
+         dy: this.state.pan.y
+      }]),
 
       onPanResponderRelease: (e, gestureState) => {
 
-        var toValue = 0
+        var toValue = 0,
+            velocity = 1;
+
+        const {dx,dy,vx,vy} = gestureState;
+
         // animate back to center or off screen left or off screen right
-        if (gestureState.dx > 200 || gestureState.dx > 180 && Math.abs(gestureState.vx) > 3 ) {
+        if (dx > SWIPE_THRESHOLD_APPROVE || dx > THROW_THRESHOLD_APPROVE && Math.abs(vx) > THROW_SPEED_THRESHOLD){
           toValue = 600;
-        }else if(gestureState.dx < -200 || gestureState.dx < -180 &&  Math.abs(gestureState.vx) > 3 ) {
+          velocity = {x: vx, y: vy}
+        }else if(dx < SWIPE_THRESHOLD_DENY || dx < THROW_THRESHOLD_DENY && Math.abs(vx) > THROW_SPEED_THRESHOLD){
           toValue = -600;
+          velocity = {x: vx, y: vy}
         }
 
 
-        Animated.spring(this.state.panX, {
+        Animated.spring(this.state.pan, {
           toValue,
-          velocity: gestureState.vx,       // maintain gesture velocity
-          tension: 20,
-          friction: 5,
+          velocity,       // maintain gesture velocity
+          tension: 60,
+          friction: 4,
         }).start((result)=>{
           if(!result.finished){
+
           }
         });
 
 
-        this._actionlistener = this.state.panX.addListener(({value}) => {
+        this._actionlistener = this.state.pan.addListener((value) => {
+          if(!value || !value.x){ return false }
           // when the card reaches the throw out threshold, send like
-          if (Math.abs(value) >= 500) {
+          if (Math.abs(value.x) >= 600) {
 
-            const likeStatus = value > 0 ? 'approve' : 'deny';
-            const likeUserId = this.props.potentials[0].user.id;
+            const likeStatus = value.x > 0 ? 'approve' : 'deny',
+                  likeUserId = this.props.potentials[0].user.id;
+            this.state.pan && this._actionlistener && this.state.pan.removeListener(this._actionlistener);
+
             MatchActions.sendLike(
               likeUserId,
               likeStatus,
               (this.props.rel == 'single' ? 'couple' : 'single'),
               this.props.rel
             );
-            this.state.panX && this.state.panX.removeListener(this._actionlistener);
           }
         })
       }
@@ -201,12 +207,12 @@ class Cards extends Component{
 
   _hideProfile(){
     this.props.toggleProfile()
-    this.state.panX.setValue(0)
+    // this.state.pan.setValue({x: 0, y: 0})
   }
 
   _toggleProfile(){
     this.props.toggleProfile()
-    this.state.panX.setValue(0)
+    // this.state.pan.setValue({x: 0, y: 0})
 
   }
 
@@ -216,35 +222,32 @@ class Cards extends Component{
     if(this.state.animatedIn && !this._panResponder.panHandlers){
        this.initializePanResponder()
     }
-    var pan = this.state.panX || 0
+    var pan = this.state.pan || 0
     return (
-      <View style={{
-        position: 'absolute',
-        width:     DeviceWidth,
-        height:    DeviceHeight,
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0
-      }}>
+      <View
+      onLayout={(e)=>{
+        const {x, y, width, height} =  e.nativeEvent.layout;
+        console.log(x, y, width, height)
+
+
+
+      }}
+      style={{
+          }}>
 
       {/*     last card      */}
-      { potentials && potentials.length >= 1 && potentials[2] &&
+      { !this.props.profileVisible && potentials && potentials.length >= 1 && potentials[2] &&
         <Animated.View
           key={`${potentials[2].id || potentials[2].user.id}-wrapper`}
           style={[
             styles.basicCard,
             {
-              margin:40,
-              transform:[ { translateY: this.state.offsetY.c } ],
-              marginTop:72,
+              transform:[ { translateY: this.state.offsetY.c },
+              {scale: .75}],
+              top:22,
               flex:1,
               backgroundColor:colors.white,
-              marginBottom:0,
-              overflow:'hidden',
-              position:'absolute',
-              height:DeviceHeight - 80,
-              width:DeviceWidth-80
+              position:'absolute'
             }]
           }>
           <InsideActiveCard
@@ -261,7 +264,7 @@ class Cards extends Component{
       }
 
       {/*       Middle card       */}
-      { potentials && potentials.length >= 1 && potentials[1] &&
+      { !this.props.profileVisible && potentials && potentials.length >= 1 && potentials[1] &&
 
         <Animated.View
           style={[{
@@ -269,16 +272,12 @@ class Cards extends Component{
                 {
                   translateY: this.state.offsetY.b
                 },{
-                  scale:0.95
+                  scale:0.85
                 }],
                 alignSelf:'center',
-                width:( DeviceWidth - 40),
-                height:(  DeviceHeight ),
-                left:this.props.profileVisible ? 0 : 20,
-                right:this.props.profileVisible ? 0 : 20,
-                top: 52,
                 flex:1,
-                bottom:0,
+                top:-20,
+                position:'absolute',
                 shadowColor:colors.dark,
                 shadowRadius:3,
                 shadowOpacity:0.5,
@@ -286,7 +285,6 @@ class Cards extends Component{
                   width:0,
                   height: 5
                 },
-                position:'absolute',
 
           }]}
           key={`${potentials[1].id || potentials[1].user.id}-wrapper`}
@@ -296,9 +294,8 @@ class Cards extends Component{
             key={`${potentials[1].id || potentials[1].user.id}-activecard`}
             user={user}
             ref={"_secondCard"}
-            cardWidth={this.state.cardWidth}
           shouldRasterizeIOS={!this.state.animatedIn}
-            panX={this.state.panX}
+            pan={this.state.pan}
             profileVisible={this.props.profileVisible}
 
             potential={potentials[1]}
@@ -309,63 +306,56 @@ class Cards extends Component{
 
       {/*       Front card       */}
       { potentials && potentials.length >= 1  && potentials[0] &&
-
-        <Animated.View
+             <Animated.View
           style={[styles.shadowCard,{
-                transform:[
-                ],
-                alignSelf:'center',
-
-                width:this.state.cardWidth,
-                height:this.state.cardWidth.interpolate({inputRange: [DeviceWidth-40,DeviceWidth], outputRange: [DeviceHeight-40,DeviceHeight]}),
-                left:this.state.cardWidth && this.state.cardWidth.interpolate({inputRange: [DeviceWidth-40,DeviceWidth], outputRange: [20,0]}),
-                right:this.state.cardWidth && this.state.cardWidth.interpolate({inputRange: [DeviceWidth-40,DeviceWidth], outputRange: [20,0]}),
-                top: 55,
-                flex:1,
-                position:'absolute',
-
-          },{
+            alignSelf:'center',
+            top: this.props.profileVisible ? -20 : -40,
+          },
+          {
             transform: [
               {
-                translateX: this.state.panX ? this.state.panX : 0
+                translateX: this.state.pan ? this.state.pan.x : 0
               },
               {
-                rotate: this.state.panX.interpolate({
-                  inputRange: [-200, 0, 200],
-                  outputRange: ['-11deg', '0deg', '11deg'],
-                  extrapolate: 'clamp'
+                rotate: this.state.pan.y.interpolate({
+                  inputRange: [-200,  200],
+                  outputRange: ['8deg','-8deg'],
+                  /* extrapolate: 'clamp'*/
                 })
               },
               {
-                translateY: this.state.offsetY.a
+                translateY: this.state.animatedIn ?  this.state.pan.y.interpolate({
+                  inputRange: [-300, 0, 500],
+                  outputRange: [-150,0,150]
+                }) : this.state.offsetY.a
               },
               {
-                scale:  this.state.panX.interpolate({
-                  inputRange: [-200, -70, 0, 70, 200],
-                  outputRange: [0.8, 1, 1, 1, 1.025]
+                scale: this.props.profileVisible ? 1 : this.state.pan.x.interpolate({
+                  inputRange: [-300, -250, -90, 0,  90, 250, 300],
+                  outputRange: [    1, 1,  0.9, 0.9, 0.9, 1, 1]
                 })
               }
             ],
           }]}
           key={`${potentials[0].id || potentials[0].user.id}-wrapper`}
-          { ...this._panResponder.panHandlers}
           ref={(card) => { this.card = card }}
+          { ...this._panResponder.panHandlers}
           >
           <InsideActiveCard
           user={user}
           shouldRasterizeIOS={!this.state.animatedIn}
-            cardWidth={this.state.cardWidth}
             key={`${potentials[0].id || potentials[0].user.id}-activecard`}
             rel={user.relationship_status}
             isTopCard={true}
-            panX={this.state.panX}
+            pan={this.state.pan}
             profileVisible={this.props.profileVisible}
             hideProfile={this._hideProfile.bind(this)}
             toggleProfile={this._toggleProfile.bind(this)}
             showProfile={this._showProfile.bind(this)}
             potential={potentials[0]}
           />
-        </Animated.View>
+          </Animated.View>
+
       }
 
       </View>
@@ -375,17 +365,9 @@ class Cards extends Component{
   }
   componentWillReceiveProps(nProps){
     if(this.state.animatedIn && this.props.potentials[0].user.id != nProps.potentials[0].user.id ){
-        this.state.panX.setValue(0);
-        this.initializePanResponder()
+        this.state.pan.setValue({x: 0, y: 0});
+        // this.initializePanResponder()
     }
-    if(this.state.cardWidth && this.props.profileVisible != nProps.profileVisible){
-        // Start 0
-
-      Animated.spring(this.state.cardWidth,{
-        toValue: this.props.profileVisible ? DeviceWidth-40 : DeviceWidth,
-      }).start()
-    }
-
 
 
   }
@@ -406,66 +388,65 @@ class InsideActiveCard extends Component{
       slideIndex: 0
     }
   }
-  componentWillUnmount(){
-    // this.props.panX && this.props.panX._listeners && Object.keys(this.props.panX._listeners).length && this.props.panX.removeListener(this._valuelistener);
-  }
-  componentDidUpdate(pProps,pState){
-    if(pState.isMoving != this.state.isMoving){ return false }
-    LayoutAnimation.spring();
+   componentDidUpdate(pProps,pState){
 
-    if(!pProps.isTopCard && this.props.isTopCard){
-      // this.props.panX ? this.valueListener() : null
-    }
+    // if(!pProps.isTopCard && this.props.isTopCard){
+      // this.props.pan ? this.valueListener() : null
+      // }
+      //
     if(pProps.profileVisible && !this.props.profileVisible ){
       this.refs.scrollbox && this.refs.scrollbox.setNativeProps({contentOffset:{x:0,y:0}})
 
     }
 
   }
-  valueListener(){
-    this._valuelistener = this.props.panX && this.props.panX.addListener(({value}) => {
-      // listen to parent component's panX
-      const val = parseInt(value)
+  // valueListener(){
+  //   this._valuelistener = this.props.pan && this.props.pan.addListener(({value}) => {
+  //     // listen to parent component's pan
+  //     const val = parseInt(value)
 
-        if(this.state.isMoving && val == 0){
-          this.setState({
-            isMoving: false
-          })
+  //       if(this.state.isMoving && val == 0){
+  //         this.setState({
+  //           isMoving: false
+  //         })
 
-        }else if(val != 0 && !this.state.isMoving){
-          this.setState({
-            isMoving: true
-          })
+  //       }else if(val != 0 && !this.state.isMoving){
+  //         this.setState({
+  //           isMoving: true
+  //         })
 
-        }
-        if(val != 0){
-          this.setNativeProps({ style:{ backgroundColor: val > 0 ? colors.sushi : colors.mandy } })
-        }
+  //       }
+  //       if(val != 0){
+  //         this.setNativeProps({ style:{ backgroundColor: val > 0 ? colors.sushi : colors.mandy } })
+  //       }
 
-    })
-  }
+  //   })
+  // }
 
   setNativeProps(np){
     this.refs.incard && this.refs.incard.setNativeProps(np)
   }
   componentWillMount(){
-      // this.props.panX && this.props.isTopCard && this.valueListener()
+      // this.props.pan && this.props.isTopCard && this.valueListener()
 
   }
   componentWillReceiveProps(nProps){
-    if(nProps.panX && !this.props.profileVisible && nProps.profileVisible){
+    if(nProps.pan && this.props.profileVisible != nProps.profileVisible){
+      LayoutAnimation.configureNext(animations.layout.spring);
       this.setState({
         isMoving: false
       })
-      // nProps.panX && nProps.isTopCard && nProps.panX.removeListener(this._valuelistener);
+
+      // nProps.pan && nProps.isTopCard && nProps.pan.removeListener(this._valuelistener);
 
     }
+
   }
 
 
   render(){
 
-    var { rel, potential, profileVisible, isTopCard, isThirdCard, panX } = this.props,
+    var { rel, potential, profileVisible, isTopCard, isThirdCard, pan } = this.props,
         matchName = `${potential.user.firstname.trim()} ${potential.user.age}`,
         distance = potential.user.distance,
         city = potential.user.city_state;
@@ -479,8 +460,7 @@ class InsideActiveCard extends Component{
     if(!profileVisible){
     return (
       <View ref={'cardinside'} key={`${potential.id || potential.user.id}-inside`}
-        style={ [{
-          height: isTopCard ? DeviceHeight-80 : DeviceHeight-53
+      style={ [{
         } ]}>
 
           <ScrollView
@@ -495,6 +475,7 @@ class InsideActiveCard extends Component{
               flex:1,
               backgroundColor: colors.white,
               marginLeft:0,
+
               position:'relative',
                         }]} key={`${potential.id || potential.user.id}-view`}>
 
@@ -502,8 +483,8 @@ class InsideActiveCard extends Component{
               <Animated.View key={`${potential.id || potential.user.id}bgopacity`} style={{
                   position:'relative',
                   flex:1,
-
- backgroundColor: isTopCard ? this.props.panX && this.props.panX.interpolate({
+                  alignItems:'center',justifyContent:'center',flexDirection:'column',
+ backgroundColor: isTopCard ? this.props.pan && this.props.pan.x.interpolate({
                     inputRange: [-300, -1, 0, 1, 300],
                     outputRange: ['rgb(232,74,107)',
                               'rgb(232,74,107)',
@@ -514,12 +495,11 @@ class InsideActiveCard extends Component{
 
 
 
-                  opacity: isTopCard ? 1 : this.props.panX && this.props.panX.interpolate({
-                          inputRange: [-300, -100, 0, 100, 300],
+                  opacity: isTopCard ? 1 : this.props.pan && this.props.pan.x.interpolate({
+                          inputRange: [-500, -10, 0, 10, 500],
                           outputRange: [1,0,0,0,1]
                         }),
 
-                  width: this.props.isTopCard && this.props.cardWidth || undefined,
                 }} ref={isTopCard ? 'incard' : 'notincard'}>
                 <Swiper
                   automaticallyAdjustContentInsets={true}
@@ -536,10 +516,7 @@ class InsideActiveCard extends Component{
                     source={{uri: potential.user.image_url}}
                     key={`${potential.user.id}-cimg`}
                     style={[styles.imagebg, {
-                      height: this.props.isTopCard ? this.props.cardWidth && this.props.cardWidth.interpolate({
-                        inputRange: [DeviceWidth-40, DeviceWidth], outputRange: [DeviceHeight-40, DeviceHeight-80]
-                      }) : undefined,
-                      opacity:  this.props.isTopCard && this.props.panX ? this.props.panX.interpolate({
+                      opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                           inputRange: [-300, -100, 0, 100, 300],
                           outputRange: [0,0.7,1,0.7,0]
                         }) : 1
@@ -551,8 +528,7 @@ class InsideActiveCard extends Component{
                     key={`${potential.partner.id}-cimg`}
                     style={[styles.imagebg,{
                       backgroundColor:colors.white,
-                      height:this.props.isTopCard && this.props.cardWidth && this.props.cardWidth.interpolate({inputRange: [DeviceWidth-40,DeviceWidth], outputRange: [DeviceHeight-40, DeviceHeight]}),
-                      opacity:  this.props.isTopCard && this.props.panX ? this.props.panX.interpolate({
+                      opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                           inputRange: [-300, -100, 0, 100, 300],
                           outputRange: [0,0.7,1,0.7,0]
                         }) : 1
@@ -567,7 +543,6 @@ class InsideActiveCard extends Component{
               key={`${potential.id || potential.user.id}-bottomview`}
               style={{
                 height:this.props.isTopCard ? 180 : 145,
-                width:this.props.cardWidth,
                 backgroundColor: colors.white,
                 flexDirection:'row',
                 flex:1,
@@ -620,7 +595,7 @@ class InsideActiveCard extends Component{
               <Animated.View key={'denyicon'} style={[styles.animatedIcon,{
                 transform: [
                   {
-                    scale: this.props.panX ? this.props.panX.interpolate({
+                    scale: this.props.pan ? this.props.pan.x.interpolate({
                       inputRange: [-DeviceWidth/2,-50,0], outputRange: [2,0,0]}) : 0
                   }
                 ]
@@ -632,18 +607,31 @@ class InsideActiveCard extends Component{
               <Animated.View key={'approveicon'} style={[styles.animatedIcon,{
                 transform: [
                   {
-                    scale: this.props.panX ? this.props.panX.interpolate({
+                    scale: this.props.pan ? this.props.pan.x.interpolate({
                       inputRange: [0,50, DeviceWidth/2], outputRange: [0,0,2]
                     }) : 0
                   }
                 ]
               }]}>
-                <Image source={require('../../newimg/iconApprove.png')} style={{backgroundColor:'transparent',width:60,height:60}}/>
+              <Image
+              source={require('../../newimg/iconApprove.png')}
+              style={{backgroundColor:'transparent',width:60,height:60}}/>
               </Animated.View> : null
           }
 
 
           </ScrollView>
+          <View
+          key={'navbarholder'}
+            style={{
+              backgroundColor:'black',
+              flex:1,
+        width: DeviceWidth,
+              position:'absolute',
+              top:0
+            }}
+            />
+
         </View>
 
     )
@@ -654,60 +642,59 @@ class InsideActiveCard extends Component{
           ref={'cardinside'}
           key={`${potential.id || potential.user.id}-inside`}
           style={[ {
-            height:DeviceHeight,
-            overflow:'visible',
+            height:DeviceHeight-55,
             backgroundColor:'#000000',
             left:0,
             flex:1,
               alignSelf:'stretch',
-            width:DeviceWidth,
-
+              width:DeviceWidth,
+              right:0,
+            top:-55,
             borderRadius:0,
-            top:0,
             transform:[ {scale: 1}, ]
-          },]}>
+          } ]}>
 
           <ScrollView
-          style={[{
-            margin:0,
-            width:DeviceWidth,
-            height:DeviceHeight,
-            padding:0,
-            backgroundColor:'#000000',
-            top:0,
-            position:'absolute',
-            flex:1,
-          }]}
-          canCancelContentTouches={true}
-          horizontal={false}
-          vertical={true}
-           alwaysBounceHorizontal={false}
-          scrollEnabled={true}
-          automaticallyAdjustContentInsets={true}
-          contentInset={{top: 0, left: 0, bottom: 0, right: 0}}
-
-          key={`${potential.id || potential.user.id}-view`}>
-
-          <Animated.View key={`${potential.id || potential.user.id}bgopacity`} style={{
-                      width: this.props.cardWidth,
-          }}
-
-              ref={"incard"}>
-
-          <Swiper
-            _key={`${potential.id || potential.user.id}-swiper`}
-            loop={true}
-            height={DeviceHeight}
-            style={{
+            style={[{
+              margin:0,
+              width:DeviceWidth,
+              height:DeviceHeight-55,
+              marginTop:55,
+              top:0,
+              overflow:'hidden',
+              backgroundColor:'#000000',
               flex:1,
-            }}
+            }]}
+            canCancelContentTouches={true}
             horizontal={false}
             vertical={true}
-            autoplay={false}
-            showsPagination={true}
-            showsButtons={false}
-            paginationStyle={{position:'absolute',right:25,top:25,height:100}}
-          >
+             alwaysBounceHorizontal={false}
+            scrollEnabled={true}
+            automaticallyAdjustContentInsets={true}
+            contentInset={{top:0, left: 0, bottom: 0, right: 0}}
+            key={`${potential.id || potential.user.id}-view`}
+            >
+
+            <Animated.View
+              key={`${potential.id || potential.user.id}bgopacity`}
+              style={{  }}
+              ref={"incard"}
+              >
+
+              <Swiper
+                _key={`${potential.id || potential.user.id}-swiper`}
+                loop={true}
+                height={DeviceHeight-55-40}
+                style={{
+                  flex:1,
+                }}
+                horizontal={false}
+                vertical={true}
+                autoplay={false}
+                showsPagination={true}
+                showsButtons={false}
+                paginationStyle={{position:'absolute',right:25,top:25,height:100}}
+              >
 
               <Animated.Image
                 source={{uri: potential.user.image_url}}
@@ -738,16 +725,20 @@ pointerEvents={'box-none'}
 
             style={{
               height: 600,
-              top:-150,
+              top:-70,
               backgroundColor:colors.outerSpace,
               flex:1,
               width:DeviceWidth,
               }} >
 
-            <View style={{
+              <View
+            key={`${potential.id || potential.user.id}-names`}
+              style={{
               flex:1,height:60,
               paddingVertical:20, }}>
-              <Text style={[styles.cardBottomText,{color:colors.white,width:DeviceWidth-40}]}>
+              <Text
+            key={`${potential.id || potential.user.id}-matchn`}
+              style={[styles.cardBottomText,{color:colors.white,width:DeviceWidth-40}]}>
               {
                 {matchName}
               }
@@ -829,24 +820,43 @@ pointerEvents={'box-none'}
           </Animated.View>
 
           </Animated.View>
-        </ScrollView>
-        <FakeNavBar
-          hideNext={true}
-          backgroundStyle={{
-            backgroundColor:'black',top:-55,
-}}
-insideStyle={{flex:1,width:DeviceWidth,height:55,
-            backgroundColor:colors.outerSpace,
-            borderTopLeftRadius:8,
-          borderTopRightRadius:8,
-          overflow:'hidden',
-        }}
-          titleColor={colors.white}
-          title={ matchName }
-          onPrev={(nav,route)=> {this.props.toggleProfile()}}
-          customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12,marginTop:10}} source={require('../../newimg/close.png')} />
-          }
-        />
+          </ScrollView>
+          <View
+          key={'navbarholder'+potential.user.id}
+            style={{
+              backgroundColor:'black',
+              width:DeviceWidth,
+              position:'absolute',
+              top:0
+            }}
+            >
+            <FakeNavBar
+              hideNext={true}
+              backgroundStyle={{
+                backgroundColor:'black',
+              }}
+              insideStyle={{
+                flex:1,
+                width:DeviceWidth,
+                height:55,
+                backgroundColor:colors.outerSpace,
+                borderTopLeftRadius:8,
+                borderTopRightRadius:8,
+                overflow:'hidden',
+              }}
+              titleColor={colors.white}
+              title={ matchName }
+              onPrev={(nav,route)=> {this.props.toggleProfile()}}
+              customPrev={
+                <Image
+                resizeMode={Image.resizeMode.contain}
+                style={{margin:0,alignItems:'flex-start',height:12,width:12,marginTop:10}}
+                source={require('../../newimg/close.png')}
+                />
+              }
+            />
+          </View>
+
       </View>
 
     )
@@ -886,28 +896,28 @@ class CardStack extends Component{
     // if(potential)
   }
   componentDidMount(){
-    AsyncStorage.getItem('location').then((locPerm)=>{
-      if(!( locPerm) && parseInt(NativeModules.OSPermissions.location) < 3){
-        this.props.navigator.push({
-          component:CheckPermissions,
-          passProps:{
-            title:'PRIORITIZE LOCAL',
-            subtitle:'We’ve found 10 matches we think you might like. Should we prioritize the matches closest to you?',
-            failedTitle: 'LOCATION DISABLED',
-            failedSubtitle: 'Geolocation is disabled. You can enable it in your phone’s Settings.',
-            failedState: parseInt(NativeModules.OSPermissions.location) && parseInt(NativeModules.OSPermissions.location) < 3 ? true : false,
-            headerImageSource:'iconDeck',
-            permissionKey:'location',
-            renderNextMethod: 'pop',
-            failCallback:()=>{ AppActions.denyPermission('location')},
-            successCallback:()=>{ this.props.navigator.pop()},
-            renderMethod:'push',
-            renderPrevMethod:'pop',
-            AppState:this.props.AppState,
-          }
-        })
-      }
-    })
+    // AsyncStorage.getItem('location').then((locPerm)=>{
+    //   if(!( locPerm) && parseInt(NativeModules.OSPermissions.location) < 3){
+    //     this.props.navigator.push({
+    //       component:CheckPermissions,
+    //       passProps:{
+    //         title:'PRIORITIZE LOCAL',
+    //         subtitle:'We’ve found 10 matches we think you might like. Should we prioritize the matches closest to you?',
+    //         failedTitle: 'LOCATION DISABLED',
+    //         failedSubtitle: 'Geolocation is disabled. You can enable it in your phone’s Settings.',
+    //         failedState: parseInt(NativeModules.OSPermissions.location) && parseInt(NativeModules.OSPermissions.location) < 3 ? true : false,
+    //         headerImageSource:'iconDeck',
+    //         permissionKey:'location',
+    //         renderNextMethod: 'pop',
+    //         failCallback:()=>{ AppActions.denyPermission('location')},
+    //         successCallback:()=>{ this.props.navigator.pop()},
+    //         renderMethod:'push',
+    //         renderPrevMethod:'pop',
+    //         AppState:this.props.AppState,
+    //       }
+    //     })
+    //   }
+    // })
 
   }
   getPotentialInfo(){
@@ -932,11 +942,13 @@ class CardStack extends Component{
 
       return (
         <View style={{backgroundColor:this.state.profileVisible ? 'black' : colors.outerSpace,
-            flex:1,width:DeviceWidth,height:DeviceHeight}}>
+            flex:1,width:DeviceWidth,height:DeviceHeight,top:0}}>
+       {!this.state.profileVisible && NavBar}
 
-        <View style={[styles.cardStackContainer,{backgroundColor:'transparent',top:0}]}>
+        <View style={[styles.cardStackContainer,{backgroundColor:'transparent',position:'relative',top:55}]}>
 
-        { potentials.length ?  <Cards
+        { potentials.length ?
+          <Cards
             user={user}
             rel={user.relationship_status}
             potentials={potentials}
@@ -945,10 +957,10 @@ class CardStack extends Component{
           /> : null}
 
 
-    { !this.state.didShow && potentials.length < 1 &&
-      <View style={[{ alignItems: 'center', justifyContent: 'center',height: DeviceHeight,width:DeviceWidth,position:'absolute',top:0,left:0}]}>
-        <ActivityIndicatorIOS size={'large'} style={[{ alignItems: 'center', justifyContent: 'center',height: 80}]} animating={true}/>
-      </View>}
+          { !this.state.didShow && potentials.length < 1 &&
+            <View style={[{ alignItems: 'center', justifyContent: 'center',height: DeviceHeight,width:DeviceWidth,position:'absolute',top:0,left:0}]}>
+            <ActivityIndicatorIOS size={'large'} style={[{ alignItems: 'center', justifyContent: 'center',height: 80}]} animating={true}/>
+            </View>}
     { potentials.length < 1 &&
       <FadeInContainer delayAmount={2000} duration={300} didShow={()=>this.setState({didShow:true})}>
         <View
@@ -987,7 +999,6 @@ marginBottom:180,textAlign:'center'}}>You’re all out of potential matches for 
     }
     </View>
 
-       {!this.state.profileVisible && NavBar}
 
 
     </View>
@@ -1083,7 +1094,7 @@ var styles = StyleSheet.create({
 
 shadowCard:{
   shadowColor:colors.darkShadow,
-  shadowRadius:5,
+  shadowRadius:4,
   shadowOpacity:50,
   shadowOffset: {
     width:0,
@@ -1165,8 +1176,6 @@ animatedIcon:{
   basicCard:{
     borderRadius:8,
     backgroundColor: 'transparent',
-      borderWidth: 1 / PixelRatio.get(),
-      borderColor:'rgba(0,0,0,.2)',
       overflow:'hidden',
 
     },
@@ -1290,7 +1299,7 @@ animatedIcon:{
   },
   cardStackContainer:{
     width:DeviceWidth,
-    height:DeviceHeight,
+    height:DeviceHeight-55,
     flex:1,
     alignItems:'center',
     justifyContent:'center',
@@ -1322,13 +1331,13 @@ var animations = {
       create: {
         duration: 250,
         property: LayoutAnimation.Properties.scaleXY,
-        type: LayoutAnimation.Types.easeInEaseOut,
-        springDamping: 0,
+        type: LayoutAnimation.Types.spring,
+        springDamping: 9,
       },
       update: {
         duration: 250,
-        type: LayoutAnimation.Types.easeInEaseOut,
-        springDamping: 0,
+        type: LayoutAnimation.Types.spring,
+        springDamping: 9,
         property: LayoutAnimation.Properties.scaleXY
       }
     },
