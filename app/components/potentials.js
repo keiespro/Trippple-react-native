@@ -18,6 +18,7 @@ import {
   TouchableHighlight,
   Image,AsyncStorage,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   Animated,
   ActivityIndicatorIOS,
   ScrollView,
@@ -78,7 +79,6 @@ class Cards extends Component{
 
 }
 componentWillUnmount(){
-    this.state.pan && this.state.pan._listeners && Object.keys(this.state.pan._listeners).length && this.state.pan.removeAllListeners();
 
 }
   componentDidMount(){
@@ -123,27 +123,18 @@ componentWillUnmount(){
     this._panResponder = PanResponder.create({
 
       onMoveShouldSetPanResponderCapture: (e,gestureState) => {
-        this._opens = false
         return false;
       },
 
       onMoveShouldSetPanResponder: (e,gestureState) => {
-        this._opens = false
         return !this.props.profileVisible && Math.abs(gestureState.dy) < 5
       },
 
       onStartShouldSetPanResponder: (e,gestureState) => {
         // set a timeout to open profile, if no moves have happened
-        if(!this.props.profileVisible){
-          this._opens = true
-          this.setTimeout(()=>{
-            this._opens && this._toggleProfile()
-          },100)
-        }
         return false
       },
       onPanResponderReject: (e, gestureState) => {
-        this._opens = false
       },
 
       onPanResponderMove: Animated.event([null, {
@@ -187,7 +178,7 @@ componentWillUnmount(){
 
             const likeStatus = value.x > 0 ? 'approve' : 'deny',
                   likeUserId = this.props.potentials[0].user.id;
-            this.state.pan && this._actionlistener && this.state.pan.removeListener(this._actionlistener);
+            this.state.pan && this._actionlistener && this._actionlistener.x && this.state.pan.removeListener(this._actionlistener);
 
             MatchActions.sendLike(
               likeUserId,
@@ -429,7 +420,12 @@ class InsideActiveCard extends Component{
   componentWillMount(){
       // this.props.pan && this.props.isTopCard && this.valueListener()
 
-  }
+}
+openProfileFromImage(e){
+  console.log(e);
+  this.setState({activeIndex: this.state.activeIndex + 1})
+  this.props.toggleProfile()
+}
   componentWillReceiveProps(nProps){
     if(nProps.pan && this.props.profileVisible != nProps.profileVisible){
       LayoutAnimation.configureNext(animations.layout.spring);
@@ -461,6 +457,7 @@ class InsideActiveCard extends Component{
     return (
       <View ref={'cardinside'} key={`${potential.id || potential.user.id}-inside`}
       style={ [{
+        alignSelf:'stretch',flex:1,height:undefined
         } ]}>
 
           <ScrollView
@@ -477,9 +474,8 @@ class InsideActiveCard extends Component{
               marginLeft:0,
 
               position:'relative',
-                        }]} key={`${potential.id || potential.user.id}-view`}>
+           }]} key={`${potential.id || potential.user.id}-view`}>
 
-            {this.props.isThirdCard ? null :
               <Animated.View key={`${potential.id || potential.user.id}bgopacity`} style={{
                   position:'relative',
                   flex:1,
@@ -500,18 +496,18 @@ class InsideActiveCard extends Component{
                           outputRange: [1,0,0,0,1]
                         }),
 
-                }} ref={isTopCard ? 'incard' : 'notincard'}>
+                }} ref={isTopCard ? 'incard' : null}>
                 <Swiper
                   automaticallyAdjustContentInsets={true}
                   _key={`${potential.id || potential.user.id}-swiper`}
                   loop={true}
                   horizontal={false}
+                  activeIndex={this.state.activeIndex}
                   vertical={true}
-                  total={1}
                   showsPagination={true}
                   paginationStyle={{position:'absolute',right:45,top:25,height:100}}
-                  dot={ <View style={styles.dot} />}
-                  activeDot={ <View style={styles.activeDot} /> }>
+                  >
+                  <TouchableWithoutFeedback  onPress={this.openProfileFromImage.bind(this)}>
                   <Animated.Image
                     source={{uri: potential.user.image_url}}
                     key={`${potential.user.id}-cimg`}
@@ -522,27 +518,30 @@ class InsideActiveCard extends Component{
                         }) : 1
                     }]}
                     resizeMode={Image.resizeMode.cover} />
-                  {rel == 'single' && potential.partner &&
+                    </TouchableWithoutFeedback>
+                    {rel == 'single' && potential.partner &&
+                  <TouchableWithoutFeedback  onPress={this.openProfileFromImage.bind(this)}>
+
+
                   <Animated.Image
                     source={{uri: potential.partner.image_url}}
                     key={`${potential.partner.id}-cimg`}
                     style={[styles.imagebg,{
-                      backgroundColor:colors.white,
                       opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                           inputRange: [-300, -100, 0, 100, 300],
                           outputRange: [0,0.7,1,0.7,0]
                         }) : 1
                     }]}
-                    resizeMode={Image.resizeMode.cover} />
+                    resizeMode={Image.resizeMode.fill} />
+                    </TouchableWithoutFeedback>
                   }
                 </Swiper>
 
-            {this.props.isThirdCard ? null :
 
-            <Animated.View
+            <View
               key={`${potential.id || potential.user.id}-bottomview`}
               style={{
-                height:this.props.isTopCard ? 180 : 145,
+                height:this.props.isTopCard ? 120 : 105,
                 backgroundColor: colors.white,
                 flexDirection:'row',
                 flex:1,
@@ -554,43 +553,48 @@ class InsideActiveCard extends Component{
                 right:0,
               }}
               >
-               <View style={{ paddingTop:30, paddingBottom:15, height:130,flex:1 }}>
-                  <View>
-                    <Text style={[styles.cardBottomText,{flex:1}]}>{
+              <View
+              key={`${potential.id || potential.user.id}-infos`}
+              style={{ paddingTop:30, paddingBottom:15, height:130,flex:1 }}>
+                  <Text style={[styles.cardBottomText,{flex:1}]}
+
+          key={`${potential.id || potential.user.id}-names`}>{
                       {matchName}
                     }</Text>
-                    <Text style={[styles.cardBottomOtherText,{flex:1}]}>{
+                    <Text style={[styles.cardBottomOtherText,{flex:1}]}
+                    key={`${potential.id || potential.user.id}-matchn`}>{
                       `${city} | ${distance} ${distance == 1 ? 'mile' : 'miles'} away`
                     }</Text>
-                  </View>
                 </View>
 
             {rel == 'single' &&
               <View style={{
-                  height:60,
-                  top:-30,
-                  position:'absolute',
-                  width:135,
-                  right:0,
-                  backgroundColor:'transparent',
-                  flexDirection:'row'}}>
+                height:60,
+                top:-30,
+                position:'absolute',
+                width:135,
+                right:0,
+                backgroundColor:'transparent',
+                flexDirection:'row'}}>
+                  <TouchableOpacity onPress={(e)=>{ this.setState({activeIndex: 0}) }}>
                   <Image
-                    source={{uri: potential.user.image_url}}
-                    key={potential.user.id + 'img'}
-                    style={[styles.circleimage, {marginRight:5}]}
+                    source={{uri: this.props.potential.user.image_url}}
+                    key={this.props.potential.user.id + 'img'}
+                    style={[styles.circleimage, {marginRight:5,borderColor:colors.outerSpace}]}
                   />
-                  {rel == 'single' &&
+                </TouchableOpacity>
+                <TouchableOpacity onPress={(e)=>{ this.setState({activeIndex: 1}) }}>
                   <Image
-                    source={{uri: potential.partner.image_url}}
-                    key={potential.partner.id + 'img'}
-                    style={styles.circleimage}
-                    />
-                  }
-              </View>}
+                    source={{uri: this.props.potential.partner.image_url}}
+                    key={this.props.potential.partner.id + 'img'}
+                    style={[styles.circleimage,{borderColor:colors.outerSpace}]}
+                  />
+                </TouchableOpacity>
+                </View>}
 
-            </Animated.View>}
+              </View>
             </Animated.View>
-          }
+
           {isTopCard && !profileVisible  ?
               <Animated.View key={'denyicon'} style={[styles.animatedIcon,{
                 transform: [
@@ -622,13 +626,13 @@ class InsideActiveCard extends Component{
 
           </ScrollView>
           <View
-          key={'navbarholder'}
+            key={'navbarholder'}
             style={{
               backgroundColor:'black',
               flex:1,
-        width: DeviceWidth,
+              width: DeviceWidth,
               position:'absolute',
-              top:0
+              top:150
             }}
             />
 
@@ -642,16 +646,7 @@ class InsideActiveCard extends Component{
           ref={'cardinside'}
           key={`${potential.id || potential.user.id}-inside`}
           style={[ {
-            height:DeviceHeight-55,
-            backgroundColor:'#000000',
-            left:0,
-            flex:1,
-              alignSelf:'stretch',
-              width:DeviceWidth,
-              right:0,
-            top:-55,
-            borderRadius:0,
-            transform:[ {scale: 1}, ]
+        alignSelf:'stretch',flex:1,height:undefined
           } ]}>
 
           <ScrollView
@@ -682,7 +677,7 @@ class InsideActiveCard extends Component{
               >
 
               <Swiper
-                _key={`${potential.id || potential.user.id}-swiper`}
+                key={`${potential.id || potential.user.id}-swiper`}
                 loop={true}
                 height={DeviceHeight-55-40}
                 style={{
@@ -699,9 +694,8 @@ class InsideActiveCard extends Component{
               <Animated.Image
                 source={{uri: potential.user.image_url}}
                 key={`${potential.user.id}-cimg`}
-
+                resizeMode={Image.resizeMode.fill}
                 style={[styles.imagebg,{
-                  marginTop:-20,
 
                   }]}
                    />
@@ -710,43 +704,43 @@ class InsideActiveCard extends Component{
               <Animated.Image
                 source={{uri: potential.partner.image_url}}
                 key={`${potential.partner.id}-cimg`}
-
-
+                resizeMode={Image.resizeMode.fill}
                 style={[styles.imagebg,{
-                marginTop:-20,
- }]}
-  />
-              }
+            }]}
+            />
+          }
           </Swiper>
 
-            <Animated.View
+            <View
             key={`${potential.id || potential.user.id}-bottomview`}
-pointerEvents={'box-none'}
 
             style={{
               height: 600,
-              top:-70,
+              top:-180,
               backgroundColor:colors.outerSpace,
               flex:1,
+              position:'relative',
               width:DeviceWidth,
               }} >
 
               <View
-            key={`${potential.id || potential.user.id}-names`}
+              key={`${potential.id || potential.user.id}-infos`}
               style={{
               flex:1,height:60,
               paddingVertical:20, }}>
               <Text
-            key={`${potential.id || potential.user.id}-matchn`}
+              key={`${potential.id || potential.user.id}-names`}
               style={[styles.cardBottomText,{color:colors.white,width:DeviceWidth-40}]}>
               {
                 {matchName}
               }
               </Text>
-              <Text style={[styles.cardBottomOtherText,{color:colors.white,width:DeviceWidth-40}]}>
-              {
-                `${city} | ${distance} ${distance == 1 ? 'mile' : 'miles'} away`
-              }
+              <Text
+                key={`${potential.id || potential.user.id}-matchn`}
+                style={[styles.cardBottomOtherText,{color:colors.white,width:DeviceWidth-40}]}>
+                {
+                  `${city} | ${distance} ${distance == 1 ? 'mile' : 'miles'} away`
+                }
               </Text>
             </View>
 
@@ -757,20 +751,25 @@ pointerEvents={'box-none'}
               position:'absolute',
               width:135,
               right:0,
-                        backgroundColor:'transparent',
-              flexDirection:'row'}}>
+              backgroundColor:'transparent',
+              flexDirection:'row'}}
+              >
+              <TouchableOpacity onPress={(e)=>{ this.setState({activeIndex: 0}) }}>
                 <Image
                   source={{uri: this.props.potential.user.image_url}}
                   key={this.props.potential.user.id + 'img'}
                   style={[styles.circleimage, {marginRight:5,borderColor:colors.outerSpace}]}
                 />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={(e)=>{ this.setState({activeIndex: 1}) }}>
                 <Image
                   source={{uri: this.props.potential.partner.image_url}}
                   key={this.props.potential.partner.id + 'img'}
                   style={[styles.circleimage,{borderColor:colors.outerSpace}]}
                 />
-              </View>
-            }
+              </TouchableOpacity>
+            </View>
+          }
 
             <View style={{top:-50}}>
 
@@ -817,7 +816,7 @@ pointerEvents={'box-none'}
 
             </View>
 
-          </Animated.View>
+          </View>
 
           </Animated.View>
           </ScrollView>
@@ -945,7 +944,7 @@ class CardStack extends Component{
             flex:1,width:DeviceWidth,height:DeviceHeight,top:0}}>
        {!this.state.profileVisible && NavBar}
 
-        <View style={[styles.cardStackContainer,{backgroundColor:'transparent',position:'relative',top:55}]}>
+        <View style={[styles.cardStackContainer,{backgroundColor:'transparent',position:'relative',top: this.state.profileVisible ? 15 : 55}]}>
 
         { potentials.length ?
           <Cards
