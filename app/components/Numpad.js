@@ -1,6 +1,5 @@
 /* @flow */
 
-const KEYBOARD_HEIGHT = 280
 
 import React from 'react-native'
 import { Text,TextInput,View,StyleSheet,TouchableHighlight,Dimensions,PixelRatio,Image  } from 'react-native'
@@ -10,6 +9,8 @@ import {MagicNumbers} from '../DeviceConfig'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 const digits =  [1, 2, 3, 4, 5, 6, 7, 8, 9]
+const KEYBOARD_HEIGHT = MagicNumbers.keyboardHeight
+
 // 2 cool
 // const digits =  ( (i) =>  {return Array.from(new Array(9), () => i++)}(1))
 
@@ -18,9 +19,7 @@ class Numpad extends React.Component{
   constructor(props: Object){
     super()
   }
-  shouldComponentUpdate(){
-    return false
-  }
+
   render(){
 
     return (
@@ -94,7 +93,7 @@ export default Numpad
 const styles = StyleSheet.create({
   numberPadWrap: {
     height: KEYBOARD_HEIGHT,
-    paddingVertical:20,
+    paddingVertical:0,
     flex:1,
     width:DeviceWidth,
     alignSelf:'flex-end',
@@ -111,7 +110,7 @@ const styles = StyleSheet.create({
   },
   gridKeys: {
     width:DeviceWidth/3,
-    height:60,
+height:KEYBOARD_HEIGHT/4,
     flex:1,
     justifyContent:'center',
     alignItems:'center',
@@ -122,7 +121,7 @@ const styles = StyleSheet.create({
 
   bottomRowKeys: {
     width:DeviceWidth/3,
-    height:60,
+height:KEYBOARD_HEIGHT/4,
     flex:1,
     justifyContent:'center',
     alignItems:'center',
