@@ -52,8 +52,7 @@ const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../DeviceConfig'
 import PotentialsStore from '../flux/stores/PotentialsStore'
 import MatchesStore from '../flux/stores/MatchesStore'
-
-const THROW_OUT_THRESHOLD = 225;
+import scrollable from 'react-native-scrollable-decorator'
 
 
 @reactMixin.decorate(TimerMixin)
@@ -265,9 +264,10 @@ componentWillUnmount(){
                 },{
                   scale:0.85
                 }],
-                alignSelf:'center',
+                alignSelf:'flex-start',
                 flex:1,
                 top:-20,
+                marginBottom:20,
                 position:'absolute',
                 shadowColor:colors.dark,
                 shadowRadius:3,
@@ -301,6 +301,7 @@ componentWillUnmount(){
           style={[styles.shadowCard,{
             alignSelf:'center',
             top: this.props.profileVisible ? -20 : -40,
+
           },
           {
             transform: [
@@ -366,7 +367,7 @@ componentWillUnmount(){
 
 
 
-
+@scrollable
 class InsideActiveCard extends Component{
 
   static defaultProps = {
@@ -457,7 +458,7 @@ openProfileFromImage(e){
     return (
       <View ref={'cardinside'} key={`${potential.id || potential.user.id}-inside`}
       style={ [{
-        alignSelf:'stretch',flex:1,height:undefined
+        alignSelf:'stretch',flex:1,height:undefined,
         } ]}>
 
           <ScrollView
@@ -481,25 +482,27 @@ openProfileFromImage(e){
                   flex:1,
                   alignItems:'center',justifyContent:'center',flexDirection:'column',
  backgroundColor: isTopCard ? this.props.pan && this.props.pan.x.interpolate({
-                    inputRange: [-300, -1, 0, 1, 300],
+                    inputRange: [-300, -50, 0, 50, 300],
                     outputRange: ['rgb(232,74,107)',
-                              'rgb(232,74,107)',
                               'rgb(255,255,255)',
-                              'rgb(66,181,125)',
+
+                              'rgb(255,255,255)',
+                              'rgb(255,255,255)',
+
                               'rgb(66,181,125)' ],
                   }) : colors.white,
 
 
 
                   opacity: isTopCard ? 1 : this.props.pan && this.props.pan.x.interpolate({
-                          inputRange: [-500, -10, 0, 10, 500],
+                          inputRange: [-500, -50, 0, 50, 500],
                           outputRange: [1,0,0,0,1]
                         }),
 
                 }} ref={isTopCard ? 'incard' : null}>
                 <Swiper
                   automaticallyAdjustContentInsets={true}
-                  _key={`${potential.id || potential.user.id}-swiper`}
+                 key={`${potential.id || potential.user.id}-swiper`}
                   loop={true}
                   horizontal={false}
                   activeIndex={this.state.activeIndex}
@@ -513,8 +516,8 @@ openProfileFromImage(e){
                     key={`${potential.user.id}-cimg`}
                     style={[styles.imagebg, {
                       opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
-                          inputRange: [-300, -100, 0, 100, 300],
-                          outputRange: [0,0.7,1,0.7,0]
+                          inputRange: [-300, -50, 0, 50, 300],
+                          outputRange: [0,1,1,1,0]
                         }) : 1
                     }]}
                     resizeMode={Image.resizeMode.cover} />
@@ -529,7 +532,7 @@ openProfileFromImage(e){
                     style={[styles.imagebg,{
                       opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                           inputRange: [-300, -100, 0, 100, 300],
-                          outputRange: [0,0.7,1,0.7,0]
+                          outputRange: [0,1,1,1,0]
                         }) : 1
                     }]}
                     resizeMode={Image.resizeMode.fill} />
@@ -944,7 +947,7 @@ class CardStack extends Component{
             flex:1,width:DeviceWidth,height:DeviceHeight,top:0}}>
        {!this.state.profileVisible && NavBar}
 
-        <View style={[styles.cardStackContainer,{backgroundColor:'transparent',position:'relative',top: this.state.profileVisible ? 15 : 55}]}>
+        <View style={[styles.cardStackContainer,{backgroundColor:'transparent',position:'relative',top: this.state.profileVisible ? 25 : 55}]}>
 
         { potentials.length ?
           <Cards
@@ -1232,7 +1235,6 @@ animatedIcon:{
   },
   dashedBorderImage:{
     paddingHorizontal:0,
-    paddingTop:65,
     paddingBottom:20,
     margin:0,
     padding:0,

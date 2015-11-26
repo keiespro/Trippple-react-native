@@ -341,7 +341,7 @@ export default React.createClass({
 
   componentWillReceiveProps(nProps){
     if(nProps.activeIndex != this.props.activeIndex){
-      this.scrollTo(nProps.activeIndex);
+      this.scrollTo(nProps.activeIndex+this.state.index);
     }
   },
 
@@ -389,8 +389,10 @@ export default React.createClass({
         <ScrollView ref="scrollView"
           {...props}
           onScroll={Animated.event(
-            [{nativeEvent: {contentOffset: {x: this.state.scroll}}}]   // scrollX = e.nativeEvent.contentOffset.x
-          )}
+            [{nativeEvent: {contentOffset: {y: this.state.scroll}}}]   // scrollX = e.nativeEvent.contentOffset.x
+    )}
+        scrollEventThrottle={16}
+
           contentContainerStyle={[styles.wrapper, props.style]}
           contentOffset={state.offset}
           onScrollBeginDrag={this.onScrollBegin}
