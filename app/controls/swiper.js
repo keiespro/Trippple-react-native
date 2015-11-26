@@ -95,37 +95,6 @@ let styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor:'transparent',
   },
-
-  title: {
-    height: 30,
-    justifyContent: 'center',
-    position: 'absolute',
-    paddingLeft: 10,
-    bottom: -30,
-    left: 0,
-    flexWrap: 'nowrap',
-    width: 250,
-    backgroundColor: 'transparent',
-  },
-
-  buttonWrapper: {
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    flex: 1,
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-
-  buttonText: {
-    fontSize: 50,
-    color: '#007aff',
-    fontFamily: 'Arial',
-  },
 })
 
 export default React.createClass({
@@ -388,13 +357,7 @@ export default React.createClass({
       }]}>
         <ScrollView ref="scrollView"
           {...props}
-          onScroll={Animated.event(
-            [{nativeEvent: {contentOffset: {y: this.state.scroll}}}]   // scrollX = e.nativeEvent.contentOffset.x
-    )}
-        scrollEventThrottle={16}
-
           contentContainerStyle={[styles.wrapper, props.style]}
-          contentOffset={state.offset}
           onScrollBeginDrag={this.onScrollBegin}
           onMomentumScrollEnd={this.onScrollEnd}>
           {pages}

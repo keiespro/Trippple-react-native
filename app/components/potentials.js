@@ -310,7 +310,7 @@ componentWillUnmount(){
               },
               {
                 rotate: this.state.pan.y.interpolate({
-                  inputRange: [-200,  200],
+                  inputRange: [-300,  300],
                   outputRange: ['8deg','-8deg'],
                   /* extrapolate: 'clamp'*/
                 })
@@ -324,7 +324,7 @@ componentWillUnmount(){
               {
                 scale: this.props.profileVisible ? 1 : this.state.pan.x.interpolate({
                   inputRange: [-300, -250, -90, 0,  90, 250, 300],
-                  outputRange: [    1, 1,  0.9, 0.9, 0.9, 1, 1]
+                  outputRange: [    0.95,  0.95,  0.9, 0.9, 0.9, 1, 1]
                 })
               }
             ],
@@ -335,7 +335,6 @@ componentWillUnmount(){
           >
           <InsideActiveCard
           user={user}
-          shouldRasterizeIOS={!this.state.animatedIn}
             key={`${potentials[0].id || potentials[0].user.id}-activecard`}
             rel={user.relationship_status}
             isTopCard={true}
@@ -464,7 +463,7 @@ openProfileFromImage(e){
           <ScrollView
           scrollEnabled={false}
           ref={'scrollbox'}
-          centerContent={false}
+          centerContent={true}
           alwaysBounceHorizontal={false}
           canCancelContentTouches={false}
             style={[styles.card,{
@@ -472,32 +471,34 @@ openProfileFromImage(e){
               padding:0,
               flex:1,
               backgroundColor: colors.white,
-              marginLeft:0,
 
               position:'relative',
            }]} key={`${potential.id || potential.user.id}-view`}>
 
               <Animated.View key={`${potential.id || potential.user.id}bgopacity`} style={{
-                  position:'relative',
                   flex:1,
-                  alignItems:'center',justifyContent:'center',flexDirection:'column',
- backgroundColor: isTopCard ? this.props.pan && this.props.pan.x.interpolate({
-                    inputRange: [-300, -50, 0, 50, 300],
-                    outputRange: ['rgb(232,74,107)',
-                              'rgb(255,255,255)',
-
-                              'rgb(255,255,255)',
-                              'rgb(255,255,255)',
-
-                              'rgb(66,181,125)' ],
-                  }) : colors.white,
-
-
+                  alignItems:'center',
+                  justifyContent:'center',
+                  flexDirection:'column',
 
                   opacity: isTopCard ? 1 : this.props.pan && this.props.pan.x.interpolate({
                           inputRange: [-500, -50, 0, 50, 500],
                           outputRange: [1,0,0,0,1]
                         }),
+
+                  backgroundColor: isTopCard ? this.props.pan && this.props.pan.x.interpolate({
+                    inputRange: [-300,-50, -40, 0, 40,  50, 300],
+                    outputRange: [
+                      'rgb(232,74,107)',
+                      'rgb(232,74,107)',
+                      'rgb(255,255,255)',
+                      'rgb(255,255,255)',
+                      'rgb(255,255,255)',
+                      'rgb(66,181,125)',
+                      'rgb(66,181,125)' ],
+                  }) : colors.white,
+
+
 
                 }} ref={isTopCard ? 'incard' : null}>
                 <Swiper
@@ -510,32 +511,43 @@ openProfileFromImage(e){
                   showsPagination={true}
                   paginationStyle={{position:'absolute',right:45,top:25,height:100}}
                   >
-                  <TouchableWithoutFeedback  onPress={this.openProfileFromImage.bind(this)}>
+                  <TouchableWithoutFeedback
+                      key={`${potential.user.id}-touchableimg`}
+                  style={[styles.imagebg]} onPress={this.openProfileFromImage.bind(this)}>
                   <Animated.Image
                     source={{uri: potential.user.image_url}}
                     key={`${potential.user.id}-cimg`}
                     style={[styles.imagebg, {
+                      backgroundColor: colors.white,
+
+                      flex:1,
+
                       opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
-                          inputRange: [-300, -50, 0, 50, 300],
+                          inputRange: [-300, -80, 0, 80, 300],
                           outputRange: [0,1,1,1,0]
                         }) : 1
                     }]}
                     resizeMode={Image.resizeMode.cover} />
                     </TouchableWithoutFeedback>
                     {rel == 'single' && potential.partner &&
-                  <TouchableWithoutFeedback  onPress={this.openProfileFromImage.bind(this)}>
+                      <TouchableWithoutFeedback
+                      key={`${potential.partner.id}-touchableimg`}
+                      style={[styles.imagebg]} onPress={this.openProfileFromImage.bind(this)}>
 
 
                   <Animated.Image
                     source={{uri: potential.partner.image_url}}
                     key={`${potential.partner.id}-cimg`}
                     style={[styles.imagebg,{
+                      backgroundColor:  colors.white,
+                      flex:1,
+
                       opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                           inputRange: [-300, -100, 0, 100, 300],
                           outputRange: [0,1,1,1,0]
                         }) : 1
                     }]}
-                    resizeMode={Image.resizeMode.fill} />
+                    resizeMode={Image.resizeMode.cover} />
                     </TouchableWithoutFeedback>
                   }
                 </Swiper>
@@ -545,13 +557,11 @@ openProfileFromImage(e){
               key={`${potential.id || potential.user.id}-bottomview`}
               style={{
                 height:this.props.isTopCard ? 120 : 105,
+                marginTop:this.props.isTopCard ? -120 : -105,
+position:'absolute',
                 backgroundColor: colors.white,
-                flexDirection:'row',
+                flexDirection:'column',
                 flex:1,
-                alignSelf:'stretch',
-                alignItems:'stretch',
-                position:'absolute',
-                bottom:0,
                 left:0,
                 right:0,
               }}
@@ -574,23 +584,29 @@ openProfileFromImage(e){
               <View style={{
                 height:60,
                 top:-30,
-                position:'absolute',
-                width:135,
                 right:0,
+                alignSelf:'flex-end',
+                position:'absolute',
+
+                alignItems:'flex-end',
                 backgroundColor:'transparent',
                 flexDirection:'row'}}>
                   <TouchableOpacity onPress={(e)=>{ this.setState({activeIndex: 0}) }}>
                   <Image
                     source={{uri: this.props.potential.user.image_url}}
                     key={this.props.potential.user.id + 'img'}
-                    style={[styles.circleimage, {marginRight:5,borderColor:colors.outerSpace}]}
+                    style={[styles.circleimage, {
+                      marginRight:5,
+                      borderColor: this.state.activeIndex == 0 ? colors.mediumPurple : colors.white,
+                    }]}
                   />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={(e)=>{ this.setState({activeIndex: 1}) }}>
                   <Image
                     source={{uri: this.props.potential.partner.image_url}}
                     key={this.props.potential.partner.id + 'img'}
-                    style={[styles.circleimage,{borderColor:colors.outerSpace}]}
+                    style={[styles.circleimage,{
+                      borderColor: this.state.activeIndex == 1 ? colors.mediumPurple : colors.white}]}
                   />
                 </TouchableOpacity>
                 </View>}
@@ -666,6 +682,7 @@ openProfileFromImage(e){
             canCancelContentTouches={true}
             horizontal={false}
             vertical={true}
+            ref={'scrollbox'}
              alwaysBounceHorizontal={false}
             scrollEnabled={true}
             automaticallyAdjustContentInsets={true}
@@ -682,11 +699,12 @@ openProfileFromImage(e){
               <Swiper
                 key={`${potential.id || potential.user.id}-swiper`}
                 loop={true}
-                height={DeviceHeight-55-40}
+                height={DeviceHeight-140}
                 style={{
                   flex:1,
                 }}
                 horizontal={false}
+                activeIndex={this.state.activeIndex}
                 vertical={true}
                 autoplay={false}
                 showsPagination={true}
@@ -694,24 +712,43 @@ openProfileFromImage(e){
                 paginationStyle={{position:'absolute',right:25,top:25,height:100}}
               >
 
-              <Animated.Image
-                source={{uri: potential.user.image_url}}
-                key={`${potential.user.id}-cimg`}
-                resizeMode={Image.resizeMode.fill}
-                style={[styles.imagebg,{
+               <TouchableWithoutFeedback
+                      key={`${potential.user.id}-touchableimg`}
+                  style={[styles.imagebg]} onPress={this.openProfileFromImage.bind(this)}>
+                  <Animated.Image
+                    source={{uri: potential.user.image_url}}
+                    key={`${potential.user.id}-cimg`}
+                    style={[styles.imagebg, {
 
-                  }]}
-                   />
+                      flex:1,
 
-            {rel == 'single' && potential.partner &&
-              <Animated.Image
-                source={{uri: potential.partner.image_url}}
-                key={`${potential.partner.id}-cimg`}
-                resizeMode={Image.resizeMode.fill}
-                style={[styles.imagebg,{
-            }]}
-            />
-          }
+                      opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
+                          inputRange: [-300, -80, 0, 80, 300],
+                          outputRange: [0,1,1,1,0]
+                        }) : 1
+                    }]}
+                    resizeMode={Image.resizeMode.cover} />
+                    </TouchableWithoutFeedback>
+                    {rel == 'single' && potential.partner &&
+                      <TouchableWithoutFeedback
+                      key={`${potential.partner.id}-touchableimg`}
+                      style={[styles.imagebg]} onPress={this.openProfileFromImage.bind(this)}>
+
+
+                  <Animated.Image
+                    source={{uri: potential.partner.image_url}}
+                    key={`${potential.partner.id}-cimg`}
+                    style={[styles.imagebg,{
+                      flex:1,
+
+                      opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
+                          inputRange: [-300, -100, 0, 100, 300],
+                          outputRange: [0,1,1,1,0]
+                        }) : 1
+                    }]}
+                    resizeMode={Image.resizeMode.cover} />
+                    </TouchableWithoutFeedback>
+                  }
           </Swiper>
 
             <View
@@ -719,10 +756,9 @@ openProfileFromImage(e){
 
             style={{
               height: 600,
-              top:-180,
+              marginTop:-180,
               backgroundColor:colors.outerSpace,
               flex:1,
-              position:'relative',
               width:DeviceWidth,
               }} >
 
@@ -972,10 +1008,10 @@ class CardStack extends Component{
 
                height:MagicNumbers.is4s ?  DeviceHeight-70 : DeviceHeight-55-MagicNumbers.screenPadding/2,
 
-               marginHorizontal:MagicNumbers.is4s ? MagicNumbers.screenPadding : 0,
-               width:MagicNumbers.is4s ? DeviceWidth - MagicNumbers.screenPadding*2 : DeviceWidth,
+               marginHorizontal:MagicNumbers.is4s ? MagicNumbers.screenPadding : 15,
+               width:MagicNumbers.is4s ? DeviceWidth - MagicNumbers.screenPadding*2 : DeviceWidth-30,
                alignItems:'center',justifyContent:'center',position:'absolute',
-               top: -10,
+               top: 0,
                left:0,flexDirection:'column',
              }}
   resizeMode={MagicNumbers.is4s ? Image.resizeMode.stretch : Image.resizeMode.contain}>
@@ -1333,13 +1369,13 @@ var animations = {
         duration: 250,
         property: LayoutAnimation.Properties.scaleXY,
         type: LayoutAnimation.Types.spring,
-        springDamping: 9,
+        springDamping: 2,
       },
       update: {
-        duration: 250,
+        duration: 350,
         type: LayoutAnimation.Types.spring,
-        springDamping: 9,
-        property: LayoutAnimation.Properties.scaleXY
+        springDamping: 2,
+        property: LayoutAnimation.Properties.easeInEaseOut
       }
     },
     easeInEaseOut: {
