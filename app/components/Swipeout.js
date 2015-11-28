@@ -42,11 +42,11 @@ var SwipeoutBtn = React.createClass({
                 btn.component ?
               <View style={styles.swipeButtons}>
                 <View style={{height, width,
-                    alignItems:'center',top:0,left:0,bottom:0,position:'absolute',right:0, paddingVertical:40,backgroundColor: isFavourited ? colors.dandelion : 'transparent'}}>
+                    alignItems:'center',top:0,left:0,bottom:0,position:'absolute',right:0, paddingVertical:40,backgroundColor: 'transparent'}}>
                    <Animated.Image
                      style={{
                        alignSelf:'center',
-                      tintColor:isFavourited ? colors.dark : colors.dandelion,
+                      tintColor:isFavourited ?  colors.dandelion : colors.dark,
                       width:15,height:20,
                       transform:[
                         {
@@ -67,7 +67,7 @@ var SwipeoutBtn = React.createClass({
                    />
                  </View>
                  <View style={{height, width,
-                     alignItems:'center',top:0,left:0,bottom:0,position:'absolute',right:0, paddingVertical:40,backgroundColor: isFavourited ? 'transparent' : colors.dandelion}}>
+                     alignItems:'center',top:0,left:0,bottom:0,position:'absolute',right:0, paddingVertical:40,backgroundColor:'transparent' }}>
                    <Animated.Image
                      style={{
                       alignSelf:'center',

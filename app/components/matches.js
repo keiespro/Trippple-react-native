@@ -320,7 +320,7 @@ class MatchesInside extends Component{
       var {matches,favorites} = this.state
 
 
-      var matchesDidUpdate = (matches && matches[0] && matches[0].unreadCount || nProps.matches[0].unreadCount) || (matches.length != nProps.matches.length);
+      var matchesDidUpdate = (matches && matches[0] && matches[0].unreadCount || nProps.matches && nProps.matches[0] && nProps.matches[0].unreadCount) || (matches.length != nProps.matches.length);
       var favsDidUpdate = ((favorites && favorites[0] && favorites[0].unreadCount) || (nProps.favorites && nProps.favorites[0] && nProps.favorites[0].unreadCount)) || (nProps.favorites && favorites.length != nProps.favorites.length);
 
       return matchesDidUpdate || favsDidUpdate
@@ -382,15 +382,19 @@ class NoMatches extends Component{
           flex:1,
           alignSelf:'stretch',
           width:DeviceWidth
-        }}>
-        <View style={{flexDirection:'column',paddingHorizontal:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
-          <Image  style={{width:300,height:100,marginBottom:0 }} source={require('../../newimg/listing.png')}
-            resizeMode={Image.resizeMode.contain} />
-          <Image  style={{width:300,height:100,marginBottom:20 }} source={require('../../newimg/listing.png')}
-            resizeMode={Image.resizeMode.contain} />
-          <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',marginBottom:20}}>{`WAITING FOR MATCHES`}</Text>
-          <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes',textAlign:'center'}} >Your conversations with your matches will appear in this screen</Text>
-        </View>
+  }}>
+        <FadeInContainer>
+
+          <View style={{flexDirection:'column',paddingHorizontal:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
+            <Image  style={{width:300,height:100,marginBottom:0 }} source={require('../../newimg/listing.png')}
+              resizeMode={Image.resizeMode.contain} />
+            <Image  style={{width:300,height:100,marginBottom:20 }} source={require('../../newimg/listing.png')}
+              resizeMode={Image.resizeMode.contain} />
+            <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',marginBottom:20}}>{`WAITING FOR MATCHES`}</Text>
+            <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes',textAlign:'center'}} >Your conversations with your matches will appear in this screen</Text>
+            </View>
+            </FadeInContainer>
+
       </ScrollView>
     )
   }
@@ -481,11 +485,6 @@ class Matches extends Component{
     }
     return (
         <AltContainer
-          // shouldComponentUpdate={(nextProps) => {
-          //   var { matches } = this.props
-          //   return true
-          //
-          // }}
 
           stores={storesForMatches}>
            <MatchesInside {...this.props} chatActionSheet={this.chatActionSheet.bind(this)} />

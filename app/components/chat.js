@@ -403,7 +403,7 @@ class ChatInside extends Component{
         style={{ backgroundColor:colors.outerSpace, flex:1, alignSelf:'stretch', width:DeviceWidth ,height:DeviceHeight}}
         >
         <FadeInContainer delayRender={true} delayAmount={1200} >
-          <View style={{flexDirection:'column',justifyContent:'space-between',alignItems:'center',alignSelf:'stretch'}}>
+          <View style={{flexDirection:'column',justifyContent:'space-around',alignItems:'center',alignSelf:'stretch'}}>
             <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{
                 `YOU MATCHED WITH`
             }</Text>
@@ -593,10 +593,10 @@ var Chat = React.createClass({
         }
       }
     }
+    //         shouldComponentUpdate={(nextProps) => {console.log('shouldComponentUpdate',nextProps); return true}}
 
     return (
       <AltContainer
-        //  shouldComponentUpdate={(nextProps) => {console.log('shouldComponentUpdate',nextProps); return true}}
         stores={storesForChat}>
         <ChatInside
           navigator={this.props.navigator}
@@ -610,7 +610,8 @@ var Chat = React.createClass({
           style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]}>
 
            <FadeInContainer duration={300} >
-             <TouchableOpacity activeOpacity={0.5} onPress={this.toggleModal}                 style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]} >
+           <TouchableOpacity activeOpacity={0.5} onPress={this.toggleModal}
+            style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]} >
 
                <BlurView
                  blurType="light"
