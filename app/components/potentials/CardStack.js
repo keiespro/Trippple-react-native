@@ -15,7 +15,6 @@ import React, {
   TouchableHighlight,
   Image,
   Animated,
-  ActivityIndicatorIOS,
   PanResponder,
   Dimensions
 } from 'react-native';
@@ -289,7 +288,7 @@ class CardStack extends React.Component{
         <Animated.View
           style={[styles.shadowCard,{
             alignSelf:'center',
-            top: this.props.profileVisible ? -50 : -10,
+            top: this.props.profileVisible ? -45 : -10,
             // left:  this.props.profileVisible ? -DeviceWidth/2 : -DeviceWidth/2 + 20 ,
             // width: this.props.profileVisible ? DeviceWidth : DeviceWidth - 50,
             // height: this.props.profileVisible ? DeviceHeight : DeviceHeight - 120,

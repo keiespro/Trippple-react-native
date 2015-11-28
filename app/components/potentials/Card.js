@@ -1,5 +1,7 @@
 /* @flow */
-
+// ISSUES:
+// setting centerContent=true on a scrollview changes the entire layout system
+// cards are scaled and can safely be left at dw/dh ?
 import React, {
   StyleSheet,
   Text,
@@ -31,7 +33,7 @@ const cardSizeMap = {
 
 }
 
-
+@scrollable
 class Card extends React.Component{
 
   static defaultProps = {
@@ -112,6 +114,7 @@ left:0,right:0,
           ref={'scrollbox'}
           centerContent={true}
           alwaysBounceHorizontal={false}
+          horizontal={false}
           canCancelContentTouches={false}
           contentContainerStyle={{
             alignItems:'center',
@@ -127,8 +130,8 @@ left:0,right:0,
             style={[styles.card,{
               margin:0,
               padding:0,
-                width:DeviceWidth,
-                height:DeviceHeight,
+                width:DeviceWidth-40,
+                height:DeviceHeight-80,
 left:0,right:0,
                   padding: 0,
                   position:'relative',
@@ -362,7 +365,8 @@ left:0,right:0,
               width:DeviceWidth,
               position: 'absolute',
 right:0,              left:-20,
-
+alignItems:'flex-start',
+              height:DeviceHeight,
               right:0,
         alignSelf:'stretch',flex:1
           } ]}>
@@ -375,18 +379,18 @@ right:0,              left:-20,
               top:0,
               left:0,
               right:0,
-              overflow:'hidden',
               backgroundColor:'black',
+              height:DeviceHeight,
 
               flex:1,
   }]}
     contentContainerStyle={{
-            alignItems:'center',
+      alignItems:'flex-start',
+
               justifyContent:'center',
               width:DeviceWidth,
               left:0,
               right:0,
-              height:DeviceHeight,
               flex:1,
 
         }}
@@ -413,11 +417,14 @@ right:0,              left:-20,
                 loop={true}
                 style={{
                   flex:1,
-                  left:0,
-                      width: DeviceWidth,
+      left:0,
+              height:DeviceHeight,
+
+                      width: DeviceWidth
                 }}
                 contentContainerStyle={{
-                  alignItems:'center',
+      alignItems:'flex-start',
+
                                     justifyContent:'center'
                 }}
 

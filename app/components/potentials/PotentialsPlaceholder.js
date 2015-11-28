@@ -12,16 +12,15 @@ const DeviceWidth = Dimensions.get('window').width;
 class PotentialsPlaceholder extends React.Component{
   constructor(props){
     super()
-    this.state = {
-      didShow: false
-    }
-  }
+   }
   render(){
     return (
       <FadeInContainer
         delayAmount={2000}
         duration={300}
-        didShow={()=>this.setState({didShow:true})}
+        onDidShow={()=>{
+          this.props.onDidShow(true)
+        }}
         >
         <View
           style={[

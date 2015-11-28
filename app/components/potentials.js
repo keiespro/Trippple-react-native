@@ -25,7 +25,6 @@ import styles from './potentials/styles'
 class Potentials extends React.Component{
   constructor(props){
     super()
-    this.state = {}
   }
   render(){
     return (
@@ -55,7 +54,10 @@ class Potentials extends React.Component{
 class PotentialsPage extends React.Component{
   constructor(props){
     super()
-    this.state = {profileVisible:false}
+    this.state = {
+      didShow:false,
+      profileVisible:false
+    }
   }
   toggleProfile(){
     this.setState({profileVisible:!this.state.profileVisible})
@@ -133,14 +135,20 @@ class PotentialsPage extends React.Component{
                 style={[{
                   alignItems: 'center',
                   justifyContent: 'center',
-                  height: 80
+                  height: 80,
+                  top:-40
                 }]}
                 animating={true}
               />
             </View>
           }
 
-          { potentials.length < 1 && <PotentialsPlaceholder />}
+          { potentials.length < 1 &&
+            <PotentialsPlaceholder
+              didShow={this.state.didShow}
+              onDidShow={()=>{ this.setState({didShow:true});}}
+            />
+          }
 
         </View>
       </View>
