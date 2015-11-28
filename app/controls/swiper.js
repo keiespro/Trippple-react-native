@@ -295,23 +295,37 @@ export default React.createClass({
               pointerEvents={'box-none'}
               style={[styles['pagination_' + this.state.dir], this.props.paginationStyle]}
               >
-
-              {i === this.state.index
-                ? (<View style={styles.activeDot} key={'dot'+i} />)
-                : (<View style={this.props.grayDots ?  styles.grayDot : styles.dot} key={'dot'+i} />)
-              }
+              <View style={this.props.grayDots ?  styles.grayDot : styles.dot} key={'dot'+i} />
             </View>
           )
-      }) }
+        })}
+
+            <View
+              pointerEvents={'box-none'}
+              style={[styles['pagination_' + this.state.dir], this.props.paginationStyle,{
+                top: dir = y ? this.state.scroll.interpolate({
+                  inputRange: [0, DeviceHeight],
+                  outputRange: [0, 100]
+                }) : 0,
+                left: dir = x ? this.state.scroll.interpolate({
+                  inputRange: [0, DeviceHeight],
+                  outputRange: [0, 100]
+                }) : 0,
+
+              }]}
+              >
+              <View style={[styles.activeDot,{}]} key={'dot'+i} />
+            </View>
+
       </View>
     )
   },
 
 
   componentWillReceiveProps(nProps){
-    if(nProps.activeIndex != this.props.activeIndex){
-      this.scrollTo(nProps.activeIndex+this.state.index);
-    }
+    // if(nProps.activeIndex != this.props.activeIndex){
+    //   this.scrollTo(nProps.activeIndex+this.state.index);
+    // }
   },
 
   /**
@@ -357,6 +371,11 @@ export default React.createClass({
       }]}>
         <ScrollView ref="scrollView"
           {...props}
+          onScroll={Animated.event(
+            [{nativeEvent: {contentOffset: {y: this.state.scroll}}}]   // scrollX = e.nativeEvent.contentOffset.x
+          )}
+          scrollEventThrottle={16}
+
           contentContainerStyle={[styles.wrapper, props.style]}
           onScrollBeginDrag={this.onScrollBegin}
           onMomentumScrollEnd={this.onScrollEnd}>

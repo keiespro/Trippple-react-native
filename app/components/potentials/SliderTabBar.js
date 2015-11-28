@@ -1,0 +1,70 @@
+import React, {
+  Text,
+  View,
+  TouchableOpacity,
+  Dimensions,
+  Animated
+} from 'react-native'
+
+import styles from './styles'
+
+import colors from '../../utils/colors';
+
+var SliderTabBar = React.createClass({
+  propTypes: {
+    goToPage: React.PropTypes.func,
+    activeTab: React.PropTypes.object,
+    tabs: React.PropTypes.array,
+    pageNumber:React.PropTypes.number
+  },
+
+  renderTabOption(name, page) {
+    var isTabActive = this.props.pageNumber === page;
+    return (
+      <TouchableOpacity key={name} onPress={() => this.props.goToPage(page)}>
+        <View style={[styles.tab]}>
+          <Text
+            style={{
+              fontFamily:'Montserrat',
+              fontSize:16,
+              color: isTabActive ? colors.white : colors.shuttleGray}}
+            >{
+              name.toUpperCase()
+            }</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  },
+
+
+
+  render() {
+    var numberOfTabs = this.props.tabs.length;
+    var w = (DeviceWidth-40) / numberOfTabs;
+
+    var tabUnderlineStyle = {
+      position: 'absolute',
+      width: (DeviceWidth-40) / 2,
+      height: 2,
+      backgroundColor: colors.mediumPurple,
+      bottom: 0,
+      left:0,
+      transform:[
+        {translateX: this.props.activeTab ? this.props.activeTab.interpolate({
+                inputRange: this.props.tabs.map((c,i) => (w * i) ),
+                outputRange: [0,w]
+              }) : 0
+            }]
+    };
+
+    return (
+      <View style={styles.tabs}>
+        {this.props.tabs.map((tab, i) => this.renderTabOption(tab, i))}
+        <Animated.View style={tabUnderlineStyle} ref={'TAB_UNDERLINE_REF'} />
+      </View>
+    );
+  },
+});
+
+
+export default SliderTabBar
