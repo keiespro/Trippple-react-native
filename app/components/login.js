@@ -74,15 +74,13 @@ class Login extends Component{
   }
 
   shouldHide(state) { return (state.phone.length != 10) }
-  shouldShow(state) { console.log(state.phone.length); return (state.phone.length == 10) }
+  shouldShow(state) { return (state.phone.length == 10) }
 
   handleInputChange =(newValues: any)=> {
     var {phone} = newValues;
-    console.log(phone)
 
     if(phone && phone.length < this.state.phone.length){
       newValues.phoneError = null
-      console.log('x',phone)
     }
     this.setState(newValues)
   }

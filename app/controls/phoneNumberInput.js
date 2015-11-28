@@ -88,14 +88,12 @@ class PhoneNumberInput extends React.Component{
 
   setNativeProps(np) {
     var {text,fullText} = np
-    console.log(text,fullText,this._textInput)
     this._textInput && this._textInput.setNativeProps({text: fullText.length > 1 ? '+1\u2007'+fullText : null });
     // this._textInput2.setNativesProps({ text: fullText });
 
   }
 
   onChangeText(text){
-    console.log('ONCHANGETEXT',text)
     if(this.state.maskedPhone.length >= 14){
       return false
     }

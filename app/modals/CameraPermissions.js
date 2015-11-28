@@ -39,7 +39,6 @@ export default class CameraPermissionsModal extends Component{
 
   constructor(props) {
     super()
-    console.log(OSPermissions)
     this.state = {
       image_type: props.image_type,
       failedState: OSPermissions.camera && parseInt(OSPermissions.camera) && parseInt(OSPermissions.camera) < 3,
@@ -103,7 +102,6 @@ export default class CameraPermissionsModal extends Component{
   _handleAppStateChange(currentAppState) {
     if(currentAppState == 'active'){
       OSPermissions.canUseCamera( (permission) => {
-        console.log('camera permissions ',permission)
         this.setState({ hasPermission: (parseInt(permission) > 2), failedState: false });
         AppStateIOS.removeEventListener('change', this._handleAppStateChange);
       })
