@@ -63,7 +63,7 @@ class Numpad extends React.Component{
               onPress={()=>this.props.onChangeText('0')}
               >
               <View style={[styles.bottomRowKeys,{
-                borderColor:colors.shuttleGray,
+                borderColor:colors.outerSpace,
                 borderRightWidth:1/PixelRatio.get(),
                 borderLeftWidth: 1/PixelRatio.get()
               }]}>
@@ -115,19 +115,19 @@ height:KEYBOARD_HEIGHT/4,
     justifyContent:'center',
     alignItems:'center',
     alignSelf:'stretch',
-    borderColor:colors.shuttleGray
+    borderColor:colors.outerSpace
 
   },
 
   bottomRowKeys: {
     width:DeviceWidth/3,
-height:KEYBOARD_HEIGHT/4,
+    height:KEYBOARD_HEIGHT/4,
     flex:1,
     justifyContent:'center',
     alignItems:'center',
     alignSelf:'stretch',
     borderTopWidth:1/PixelRatio.get(),
-    borderTopColor:colors.shuttleGray
+    borderTopColor:colors.outerSpace
   },
   whiteText:{
     fontSize:30,
