@@ -5,6 +5,8 @@ import React, {
   Dimensions,
   Animated
 } from 'react-native'
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
 import styles from './styles'
 

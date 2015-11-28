@@ -21,7 +21,7 @@ import React, {
 } from 'react-native';
 
 import styles from './styles'
-import LayoutAnimations from './LayoutAnimations'
+import animations from './LayoutAnimations'
 import MatchActions from '../../flux/actions/MatchActions';
 import Mixpanel from '../../utils/mixpanel';
 import TimerMixin from 'react-timer-mixin';
@@ -179,12 +179,12 @@ class CardStack extends React.Component{
 
   _hideProfile(){
     this.props.toggleProfile()
-    // this.state.pan.setValue({x: 0, y: 0})
+    this.state.pan.setValue({x: 0, y: 0})
   }
 
   _toggleProfile(){
     this.props.toggleProfile()
-    // this.state.pan.setValue({x: 0, y: 0})
+    this.state.pan.setValue({x: 0, y: 0})
 
   }
 
@@ -197,11 +197,17 @@ class CardStack extends React.Component{
     var pan = this.state.pan || 0
     return (
       <View
-        onLayout={(e)=>{
-          const {x, y, width, height} =  e.nativeEvent.layout;
-          console.log(x, y, width, height)
-        }}
-        style={{ }}>
+      style={{ position:'absolute',margin:20,
+              // backgroundColor:colors.mediumPurple,
+              top: 0,
+              left:0,
+              width: DeviceWidth,
+              flex:1,
+              alignSelf:'stretch',
+              right: 0,
+              bottom:0,
+              alignItems:'center'
+      }}>
 
       {/*     last card      */}
       { !this.props.profileVisible && potentials && potentials.length >= 1 && potentials[2] &&
@@ -214,13 +220,11 @@ class CardStack extends React.Component{
               {scale: .85}],
               flex:1,
               backgroundColor:colors.white,
-              top: -DeviceHeight/2+65,
-              left:   -DeviceWidth/2 + 20 ,
+              top: 30,
               width: DeviceWidth - 40,
               height:  DeviceHeight - 80,
-              left:   -DeviceWidth/2 + 20 ,
-              position: 'absolute'
-
+              position: 'absolute',
+              marginBottom:20
             }]
           }>
           <Card
@@ -249,15 +253,11 @@ class CardStack extends React.Component{
                 }],
                 alignSelf:'flex-start',
                 flex:1,
-            top:  -DeviceHeight/2+33,
-            left: -DeviceWidth/2 + 20 ,
+            top:  -5,
             width: DeviceWidth - 40,
             height: DeviceHeight - 80,
-            left:  -DeviceWidth/2 + 20 ,
             position: 'absolute',
-
-                marginBottom:20,
-                position:'absolute',
+  bottom:80,
                 shadowColor:colors.dark,
                 shadowRadius:3,
                 shadowOpacity:0.5,
@@ -289,12 +289,18 @@ class CardStack extends React.Component{
         <Animated.View
           style={[styles.shadowCard,{
             alignSelf:'center',
-            top: this.props.profileVisible ? -DeviceHeight/2-20  : -DeviceHeight/2+0,
-            left:  this.props.profileVisible ? -DeviceWidth/2 : -DeviceWidth/2 + 20 ,
-            width: this.props.profileVisible ? DeviceWidth : DeviceWidth - 40,
-            height: this.props.profileVisible ? DeviceHeight : DeviceHeight - 80,
-            left:  this.props.profileVisible ? -DeviceWidth/2 : -DeviceWidth/2 + 20 ,
-            position: 'absolute'
+            top: this.props.profileVisible ? -50 : -10,
+            // left:  this.props.profileVisible ? -DeviceWidth/2 : -DeviceWidth/2 + 20 ,
+            // width: this.props.profileVisible ? DeviceWidth : DeviceWidth - 50,
+            // height: this.props.profileVisible ? DeviceHeight : DeviceHeight - 120,
+            // right:  this.props.profileVisible ? -DeviceWidth/2 : -DeviceWidth/2 + 20,
+            // marginLeft:17,
+            // marginRight:17,
+            // position: 'absolute',
+            left:0,right:0,
+           bottom: this.props.profileVisible ? 0 : 80,
+              position: 'absolute',
+
           },
           {
             transform: [
@@ -305,7 +311,7 @@ class CardStack extends React.Component{
                 rotate: this.state.pan.y.interpolate({
                   inputRange: [-300,  300],
                   outputRange: ['8deg','-8deg'],
-                  /* extrapolate: 'clamp'*/
+                  // /* extrapolate: 'clamp'*/
                 })
               },
               {
@@ -332,8 +338,7 @@ class CardStack extends React.Component{
             rel={user.relationship_status}
             isTopCard={true}
             pan={this.state.pan}
-          animatedIn={this.state.animatedIn}
-
+            animatedIn={this.state.animatedIn}
             profileVisible={this.props.profileVisible}
             hideProfile={this._hideProfile.bind(this)}
             toggleProfile={this._toggleProfile.bind(this)}
