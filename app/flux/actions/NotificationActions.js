@@ -19,7 +19,11 @@ class NotificationActions {
       Api.updatePushToken(token)
       .then(()=> this.dispatch(token))
     })
-    PushNotificationIOS.requestPermissions()
+    PushNotificationIOS.requestPermissions((result) =>{
+
+      console.log("GOT PERMISSIONS",result)
+
+    })
 
 
 
@@ -71,12 +75,12 @@ class NotificationActions {
     this.dispatch(payload.match_id)
   }
 
-  scheduleNewPotentialsAlert(){
-    const fireDate = moment({ hour: 23 }).toDate(), //tonight at 11
+  scheduleNewPotentialsAlert(time){
+    const fireDate = moment((time || { hour: 11 })).toDate(), //tonight at 11
           alertBody = 'New Matches!'
-
+    console.log('scheduling local alert for',fireDate)
     // PushNotificationIOS.cancelAllLocalNotifications()
-    PushNotificationIOS.scheduleLocalNotification({ fireDate, alertBody })
+    PushNotificationIOS.scheduleLocalNotification({ fireDate: fireDate.getTime(), alertBody })
   }
 }
 

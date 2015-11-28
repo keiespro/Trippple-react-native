@@ -40,6 +40,10 @@ class NotificationsStore {
     })
 
   }
+  updateBadgeCount(delta){
+    var currentCount = React.NativeModules.PushNotificationManager.getApplicationIconBadgeNumber()
+    React.NativeModules.PushNotificationManager.setApplicationIconBadgeNumber(currentCount+delta)
+  }
   handleMatchRemoved(){
 
   }
@@ -66,6 +70,7 @@ class NotificationsStore {
       pendingNotifications: []
     })
     this.expireNotification()
+    this.updateBadgeCount(1)
 
   }
   handleNewMessageData(messagesData){
@@ -81,6 +86,7 @@ class NotificationsStore {
       notifications: [...pendingNotifications, readyNotification],
       pendingNotifications: []
     })
+    this.updateBadgeCount(1)
     this.expireNotification()
 
 

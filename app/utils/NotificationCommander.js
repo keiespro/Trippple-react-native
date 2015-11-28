@@ -66,7 +66,8 @@ class NotificationCommander extends Component{
   handlePushData(pushNotification){
     console.log('handlePushData',pushNotification)
 
-    const {data} = pushNotification
+    const data = pushNotification.data || {action: 'system'}
+
     if(data.action && data.action === 'retrieve' && data.match_id) {
 
       NotificationActions.receiveNewMatchNotification(data)
@@ -75,12 +76,20 @@ class NotificationCommander extends Component{
 
       NotificationActions.receiveNewMessageNotification(data)
 
+    }else if(data.action === 'logout'){
+
+          UserActions.logOut()
+
+
     }
+
 
   }
   _handleAppStateChange =(appState)=> {
-    const newNotification = PushNotificationIOS.popInitialNotification()
-    // appState === 'active' && PushNotificationIOS.popInitialNotification()
+    if(appState === 'active'){
+      const newNotification = PushNotificationIOS.popInitialNotification()
+      this.handlePushData(newNotification)
+    }
     this.setState({ appState });
 
   }
