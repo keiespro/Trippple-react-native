@@ -60,7 +60,6 @@ class PotentialsStore {
           return el.user.id == likedUserID
         })
 
-        NotificationActions.requestNotificationsPermission(relevantUser)
       }
       const newPotentials = this.potentials.filter((el,i)=>{
         return el.user.id != likedUserID

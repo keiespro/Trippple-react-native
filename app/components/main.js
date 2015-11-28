@@ -85,7 +85,7 @@ import NotificationActions from '../flux/actions/NotificationActions'
     componentDidMount(){
       this.refs.nav.navigationContext.addListener('didfocus', (e)=>{
         console.log('New route:',e._data.route)
-        // AppActions.updateRoute(e._data.route.id)
+        AppActions.updateRoute(this.refs.nav.state.presentedIndex)
       })
 
     }

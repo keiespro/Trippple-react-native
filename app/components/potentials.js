@@ -6,7 +6,8 @@ import React, {
   Image,
   Animated,
   ActivityIndicatorIOS,
-  Dimensions
+  Dimensions,
+  NativeModules
 } from 'react-native';
 
 import alt from '../flux/alt';
@@ -21,6 +22,8 @@ import MatchesStore from '../flux/stores/MatchesStore'
 import PotentialsPlaceholder from './potentials/PotentialsPlaceholder'
 import CardStack from './potentials/CardStack'
 import styles from './potentials/styles'
+import NotificationPermissions from '../modals/NotificationPermissions'
+
 
 class Potentials extends React.Component{
   constructor(props){
@@ -63,8 +66,27 @@ class PotentialsPage extends React.Component{
     this.setState({profileVisible:!this.state.profileVisible})
     // if(potential)
   }
-  // componentDidMount(){
-  // }
+  componentDidMount(){
+    NativeModules.PushNotificationManager.checkPermissions((result)=>{
+      var pushPermission = Object.keys(result).reduce( (acc,el,i) => {
+        acc = acc + result[el];
+        return acc
+    },0)
+    console.log(pushPermission);
+      this.setState({hasPushPermission: (pushPermission > 0) })
+    })
+  }
+  componentDidUpdate(){
+    if(!this.state.hasPushPermission && !this.state.requestingPushPermission ){
+      this.setState({requestingPushPermission:true})
+      this.props.navigator.push({
+        component: NotificationPermissions,
+        passProps:{}
+      })
+    }
+
+  }
+
   getPotentialInfo(){
 
     if(!this.props.potentials[0]){ return false}

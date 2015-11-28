@@ -303,14 +303,14 @@ export default React.createClass({
             <View
               pointerEvents={'box-none'}
               style={[styles['pagination_' + this.state.dir], this.props.paginationStyle,{
-                top: dir = y ? this.state.scroll.interpolate({
+                top: dir == y ? this.state.scroll && this.state.scroll.interpolate({
                   inputRange: [0, DeviceHeight],
                   outputRange: [0, 100]
                 }) : 0,
-                left: dir = x ? this.state.scroll.interpolate({
+                left: dir == x ? ( this.state.scroll && this.state.scroll.interpolate({
                   inputRange: [0, DeviceHeight],
                   outputRange: [0, 100]
-                }) : 0,
+                }) ) || 0 : 0,
 
               }]}
               >
