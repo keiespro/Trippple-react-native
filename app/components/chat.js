@@ -337,10 +337,10 @@ class ChatInside extends Component{
 
   saveToStorage(){
     console.log('save??')
-    // AsyncStorage.setItem('ChatStore', alt.takeSnapshot(ChatStore))
-    //   .then(() => {console.log('saved chat store')})
-    //   .catch((error) => {console.log('AsyncStorage error: ' + error.message)})
-    //   .done();
+    AsyncStorage.setItem('ChatStore', alt.takeSnapshot(ChatStore))
+      .then(() => {console.log('saved chat store')})
+      .catch((error) => {console.log('AsyncStorage error: ' + error.message)})
+      .done();
   }
 
   _renderRow(rowData, sectionID: number, rowID: number) {
@@ -449,7 +449,6 @@ class ChatInside extends Component{
             return (
               <InvertibleScrollView
                 inverted={true}
-                onScroll={(e)=>{ }}
                 onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
                 onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
                 scrollsToTop={true}
@@ -474,7 +473,7 @@ class ChatInside extends Component{
             ref={component => this._textInput = component}
             style={styles.messageComposerInput}
             returnKeyType={'default'}
-            keyboardAppearance={'dark'/*doesnt work*/}
+            keyboardAppearance={'dark'}
             autoCorrect={true}
             placeholder={'Type Message...'}
             placeholderTextColor={colors.shuttleGray}

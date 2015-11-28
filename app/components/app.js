@@ -57,7 +57,7 @@ class AppRoutes extends Component{
                 user={this.props.user}
                 AppState={this.props.AppState}
                 currentRoute={this.props.AppState.currentRoute}
-                />
+              />
 
       case 'pendingpartner':
       case 'onboarded':
@@ -66,7 +66,7 @@ class AppRoutes extends Component{
                 user={this.props.user}
                 AppState={this.props.AppState}
                 currentRoute={this.props.AppState.currentRoute}
-                />
+              />
 
       case null:
       default:
@@ -76,14 +76,12 @@ class AppRoutes extends Component{
 }
 
 @reactMixin.decorate(TimerMixin)
-
 class TopLevel extends Component{
   constructor(props){
     super()
     this.state = {
       showOverlay: props.user ? false : true,
       showCheckmark: false,
-      showPurpleModal: false
     }
 
 
@@ -99,7 +97,7 @@ class TopLevel extends Component{
 
       this.setTimeout(()=>{
         console.log('time')
-        this.setState({showCheckmark:false})
+        this.setState({showCheckmark:false,checkMarkCopy:null})
       },3500);
     }
   }
