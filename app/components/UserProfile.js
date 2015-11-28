@@ -118,7 +118,7 @@ class UserProfile extends Component{
                 source={{uri: potential.user.image_url}}
                 key={`${potential.user.id}-cimg`}
 
-                 defaultSource={require('../../newimg/defaultuser.png')}
+                 defaultSource={{uri:'../../newimg/defaultuser.png'}}
                 style={[styles.imagebg,{
                   height: DeviceHeight,
                   marginTop:-20,
@@ -129,15 +129,17 @@ class UserProfile extends Component{
 
             {rel == 'single' && potential.partner &&
               <Image
+                resizeMode={Image.resizeMode.cover}
                 source={{uri: potential.partner.image_url}}
                 key={`${potential.partner.id}-cimg`}
-                defaultSource={require('../../newimg/defaultuser.png')}
+                defaultSource={{uri:'../../newimg/defaultuser.png'}}
                 style={[styles.imagebg,{
                   height:DeviceHeight,
                   marginTop:-20,
                   width:this.props.cardWidth,
                 }]}
-                /> }
+                />
+            }
           </Swiper>
 
             <View

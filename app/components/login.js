@@ -27,9 +27,9 @@ import UserActions from '../flux/actions/UserActions'
 import AuthErrorStore from '../flux/stores/AuthErrorStore'
 
 import TopTabs from '../controls/topSignupSigninTabs'
-import PhoneNumberInput from '../controls/phoneNumberInput.js'
+import PhoneNumberInput from '../controls/phoneNumberInput'
 import PinScreen from './pin'
-
+import {MagicNumbers} from '../DeviceConfig'
 import reactMixin from 'react-mixin'
 import TimerMixin from 'react-timer-mixin'
 import SingleInputScreenMixin from '../mixins/SingleInputScreenMixin'
@@ -46,7 +46,7 @@ class Login extends Component{
       phone: '',
       isLoading: false,
       absoluteContinue: true,
-      keyboardSpace: props.keyboardSpace || 240
+      keyboardSpace: MagicNumbers.keyboardHeight || 240
     }
   }
 

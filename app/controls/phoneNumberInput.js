@@ -22,7 +22,6 @@ const mask = '(999) 999-9999',
     ],
     maskArr= ['(',')',' ','-'];
 
-const KEYBOARD_HEIGHT = 280
 
 import React from 'react-native'
 import { Text,TextInput,View,StyleSheet,TouchableHighlight,Dimensions,PixelRatio  } from 'react-native'
@@ -31,6 +30,7 @@ import s from 'underscore.string'
 import colors from '../utils/colors'
 import {MagicNumbers} from '../DeviceConfig'
 import Numpad from '../components/Numpad'
+const KEYBOARD_HEIGHT = MagicNumbers.keyboardHeight
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -108,8 +108,15 @@ class PhoneNumberInput extends React.Component{
   render(){
 
     return (
-    <View style={{height: DeviceHeight-80}}>
-      <View style={{paddingVertical:160}}>
+    <View style={{height: DeviceHeight-80,paddingBottom:KEYBOARD_HEIGHT,position:'relative',flex:1}} >
+    <View style={{
+      alignSelf:'flex-start',
+      flexDirection:'column',
+      position:'relative',
+      alignItems:'center',
+      height: (DeviceHeight  - KEYBOARD_HEIGHT),
+      flex:1,
+      justifyContent:'center',}}>
       <View style={[styles.phoneInputWrap,
           (this.props.inputFieldFocused ? styles.phoneInputWrapSelected : null),
           (this.props.phoneError ? styles.phoneInputWrapError : null)]}>
@@ -119,7 +126,7 @@ class PhoneNumberInput extends React.Component{
             ref={component => this._textInput = component}
             style={[{
               textAlign:'center',
-              fontSize: 26,color:'#fff',alignSelf:'flex-start',height:60,width:MagicNumbers.screenWidth,
+              fontSize: 26,color:'#fff',height:60,width:MagicNumbers.screenWidth,
               fontFamily:'Montserrat'
             }]}
             maxLength={14}
@@ -135,6 +142,7 @@ class PhoneNumberInput extends React.Component{
 
 
         </View>
+
         {this.props.continueButton}
       </View>
 
@@ -179,7 +187,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: colors.rollingStone,
     marginHorizontal:MagicNumbers.screenPadding/2,
-    alignSelf: 'stretch'
+    // flex1,
+    alignItems:'center',
+    height:80,
+    alignSelf:'center',
+    justifyContent:'center',
+    flexDirection:'column',
   },
   phoneInputWrapSelected:{
     borderBottomColor: colors.mediumPurple,

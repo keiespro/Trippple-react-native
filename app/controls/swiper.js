@@ -5,6 +5,7 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  Animated
 } from 'react-native'
 import colors  from '../utils/colors'
 
@@ -94,37 +95,6 @@ let styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor:'transparent',
   },
-
-  title: {
-    height: 30,
-    justifyContent: 'center',
-    position: 'absolute',
-    paddingLeft: 10,
-    bottom: -30,
-    left: 0,
-    flexWrap: 'nowrap',
-    width: 250,
-    backgroundColor: 'transparent',
-  },
-
-  buttonWrapper: {
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    flex: 1,
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-
-  buttonText: {
-    fontSize: 50,
-    color: '#007aff',
-    fontFamily: 'Arial',
-  },
 })
 
 export default React.createClass({
@@ -190,6 +160,7 @@ export default React.createClass({
 
     let initState = {
       isScrolling: false,
+      scroll: new Animated.Value(0),
       autoplayEnd: false,
     }
 
@@ -217,51 +188,21 @@ export default React.createClass({
     return initState
   },
 
-  /**
-   * autoplay timer
-   * @type {null}
-   */
-  autoplayTimer: null,
 
-  componentWillMount() {
-    this.props = this.injectState(this.props)
-  },
+  // componentWillMount() {
+  // },
 
-  componentDidMount() {
-    this.autoplay()
-  },
+  // componentDidMount() {
+  // },
 
-  /**
-   * Automatic rolling
-   */
-  autoplay() {
-    if(!this.props.autoplay
-      || this.state.isScrolling
-      || this.state.autoplayEnd) {return}
-
-    clearTimeout(this.autoplayTimer)
-
-    this.autoplayTimer = this.setTimeout(() => {
-      if(!this.props.loop && (this.props.autoplayDirection
-          ? this.state.index == this.state.total - 1
-          : this.state.index == 0)) {return this.setState({
-        autoplayEnd: true
-      })}
-      this.scrollTo(this.props.autoplayDirection ? 1 : -1)
-    }, this.props.autoplayTimeout * 1000)
-  },
-
-  /**
+    /**
    * Scroll begin handle
    * @param  {object} e native event
    */
   onScrollBegin(e) {
     // update scroll state
-    this.setState({
-      isScrolling: true
-    })
 
-    this.setTimeout(() => {
+    this.setImmediate(() => {
       this.props.onScrollBeginDrag && this.props.onScrollBeginDrag(e, this.state, this)
     })
   },
@@ -273,16 +214,13 @@ export default React.createClass({
   onScrollEnd(e) {
 
     // update scroll state
-    this.setState({
-      isScrolling: false
-    })
 
     this.updateIndex(e.nativeEvent.contentOffset, this.state.dir)
 
     // Note: `this.setState` is async, so I call the `onMomentumScrollEnd`
     // in setTimeout to ensure synchronous update `index`
-    this.setTimeout(() => {
-      this.autoplay()
+    this.setImmediate(() => {
+      // this.autoplay()
 
       // if `onMomentumScrollEnd` registered will be called here
       this.props.onMomentumScrollEnd && this.props.onMomentumScrollEnd(e, this.state, this)
@@ -338,12 +276,6 @@ export default React.createClass({
     if(state.dir == 'x') x = diff * state.width
     if(state.dir == 'y') y = diff * state.height
     this.refs.scrollView && this.refs.scrollView.scrollTo(y, x)
-
-    // update scroll state
-    this.setState({
-      isScrolling: true,
-      autoplayEnd: false,
-    })
   },
 
   /**
@@ -359,80 +291,41 @@ export default React.createClass({
       <View>
         {React.Children.map(this.props.children, (c,i) => {
           return (
-            <View pointerEvents={'box-none'} style={[styles['pagination_' + this.state.dir], this.props.paginationStyle]}>
-
-              {i === this.state.index
-                ? (<View style={styles.activeDot} key={'dot'+i} />)
-                : (<View style={this.props.grayDots ?  styles.grayDot : styles.dot} key={'dot'+i} />)
-              }
+            <View
+              pointerEvents={'box-none'}
+              style={[styles['pagination_' + this.state.dir], this.props.paginationStyle]}
+              >
+              <View style={this.props.grayDots ?  styles.grayDot : styles.dot} key={'dot'+i} />
             </View>
           )
-      }) }
+        })}
+
+            <View
+              pointerEvents={'box-none'}
+              style={[styles['pagination_' + this.state.dir], this.props.paginationStyle,{
+                top: dir = y ? this.state.scroll.interpolate({
+                  inputRange: [0, DeviceHeight],
+                  outputRange: [0, 100]
+                }) : 0,
+                left: dir = x ? this.state.scroll.interpolate({
+                  inputRange: [0, DeviceHeight],
+                  outputRange: [0, 100]
+                }) : 0,
+
+              }]}
+              >
+              <View style={[styles.activeDot,{}]} key={'dot'+i} />
+            </View>
+
       </View>
     )
   },
 
-  renderTitle() {
-    let child = this.props.children[this.state.index]
-    let title = child && child.props.title
-    return title
-      ? (
-        <View style={styles.title}>
-          {this.props.children[this.state.index].props.title}
-        </View>
-      )
-      : null
-  },
 
-  renderButtons() {
-
-    let nextButton = this.props.nextButton || <Text style={[styles.buttonText, {color: !this.props.loop && this.state.index == this.state.total - 1 ? 'rgba(0,0,0,0)' : '#007aff'}]}>›</Text>
-
-    let prevButton = this.props.prevButton || <Text style={[styles.buttonText, {color: !this.props.loop && this.state.index == 0 ? 'rgba(0,0,0,0)' : '#007aff'}]}>‹</Text>
-
-    return (
-      <View pointerEvents={'box-none'} style={[styles.buttonWrapper, {width: this.state.width, height: this.state.height}, this.props.buttonWrapperStyle]}>
-        <TouchableOpacity onPress={() => !(!this.props.loop && this.state.index == 0) && this.scrollTo.call(this, -1)}>
-          <View>
-            {prevButton}
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => !(!this.props.loop && this.state.index == this.state.total - 1) && this.scrollTo.call(this, 1)}>
-          <View>
-            {nextButton}
-          </View>
-        </TouchableOpacity>
-      </View>
-    )
-  },
-
-  /**
-   * Inject state to ScrollResponder
-   * @param  {object} props origin props
-   * @return {object} props injected props
-   */
-  injectState(props) {
-/*    const scrollResponders = [
-      'onMomentumScrollBegin',
-      'onTouchStartCapture',
-      'onTouchStart',
-      'onTouchEnd',
-      'onResponderRelease',
-    ]*/
-
-    for(let prop in props) {
-      // if(~scrollResponders.indexOf(prop)
-      if(typeof props[prop] === 'function'
-        && prop !== 'onMomentumScrollEnd'
-        && prop !== 'renderPagination'
-        && prop !== 'onScrollBeginDrag'
-      ) {
-        let originResponder = props[prop]
-        props[prop] = (e) => originResponder(e, this.state, this)
-      }
-    }
-
-    return props
+  componentWillReceiveProps(nProps){
+    // if(nProps.activeIndex != this.props.activeIndex){
+    //   this.scrollTo(nProps.activeIndex+this.state.index);
+    // }
   },
 
   /**
@@ -466,7 +359,9 @@ export default React.createClass({
         <View style={pageStyle} key={i+'slidepot'}>{children[page]}</View>
       )
     }
-    else pages = <View style={pageStyle}  key={'slidepot'}>{children}</View>
+    else{
+      pages = <View style={pageStyle}  key={'slidepot'}>{children}</View>
+    }
 
     return (
       <View
@@ -476,13 +371,17 @@ export default React.createClass({
       }]}>
         <ScrollView ref="scrollView"
           {...props}
-          contentContainerStyle={[styles.wrapper, props.style]}
-          contentOffset={state.offset}
+          onScroll={Animated.event(
+            [{nativeEvent: {contentOffset: {y: this.state.scroll}}}]   // scrollX = e.nativeEvent.contentOffset.x
+          )}
+          scrollEventThrottle={16}
 
+          contentContainerStyle={[styles.wrapper, props.style]}
           onScrollBeginDrag={this.onScrollBegin}
           onMomentumScrollEnd={this.onScrollEnd}>
           {pages}
         </ScrollView>
+
         <View pointerEvents={'box-none'} style={[styles['pagination_' + this.state.dir], this.props.paginationStyle]}>
           {props.showsPagination && React.Children.map(this.props.children, (c,i) => {
             return (
@@ -493,8 +392,6 @@ export default React.createClass({
             )
           })}
         </View>
-        {this.renderTitle()}
-        {this.props.showsButtons && this.renderButtons()}
       </View>
     )
   }

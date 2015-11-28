@@ -170,17 +170,17 @@ class SettingsInside extends React.Component{
   render(){
 
     const singleImage = this.props.user.localUserImage || {uri: this.props.user.image_url },
-          coupleImage = this.props.user.localCoupleImage || this.props.user.couple ? {uri: this.props.user.couple.image_url } : null,
+          coupleImage = this.props.user.localCoupleImage || this.props.user.couple ?
+            {uri: this.props.user.couple.image_url } : null,
           singleImageThumb = this.props.user.localUserImage || {uri: this.props.user.thumb_url },
-          coupleImageThumb = this.props.user.localCoupleImage || this.props.user.couple ? {uri: this.props.user.couple.thumb_url } : null,
+          coupleImageThumb = this.props.user.localCoupleImage || this.props.user.couple ?
+            {uri: this.props.user.couple.thumb_url } : null,
           src = this.props.user.relationship_status == 'single' ? singleImage : coupleImage,
-        thumbSrc = this.props.user.relationship_status == 'single' ? singleImageThumb : coupleImageThumb
+          thumbSrc = this.props.user.relationship_status == 'single' ? singleImageThumb : coupleImageThumb
 
 
     return (
       <View style={{flex:1}}>
-
-
 
         <ParallaxView
           showsVerticalScrollIndicator={false}
@@ -190,21 +190,33 @@ class SettingsInside extends React.Component{
           navigator={this.props.navigator}
           style={{backgroundColor:colors.outerSpace,paddingTop:0}}
           header={(
-          <View  style={[styles.userimageContainer,styles.blur,{justifyContent:'center',flexDirection:'column'}]}>
-            <TouchableOpacity onPress={this._pressNewImage} style={{marginTop:20,}}>
+            <View
+            style={[
+              styles.userimageContainer,styles.blur,
+              {
+                justifyContent:'center',
+                flexDirection:'column'
+              }]}
+              >
+
+            <TouchableOpacity
+              onPress={this._pressNewImage}
+              style={{marginTop:20,}}
+              >
               <Image
-                style={[styles.userimage,{backgroundColor:colors.outerSpace50}]}
+                style={[ styles.userimage, { backgroundColor:colors.outerSpace50}]}
                 key={this.props.user.id+'thumb'}
                 defaultSource={{uri:'../../newimg/placeholderUserWhite.png'}}
                 source={thumbSrc}
-                resizeMode={Image.resizeMode.cover}/>
+                resizeMode={Image.resizeMode.cover}
+              />
               <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
                 <Image
-                    style={{width:18,height:18}}
-                    source={require('../../newimg/cog.png')}
-                    resizeMode={Image.resizeMode.contain}/>
-                </View>
-
+                  style={{width:18,height:18}}
+                  source={require('../../newimg/cog.png')}
+                  resizeMode={Image.resizeMode.contain}
+                />
+              </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={this._openProfile}  style={{alignSelf:'stretch',}} >
               <View style={{flex:10,alignSelf:'stretch',flexDirection:'column',alignItems:'stretch',justifyContent:'center'}}>

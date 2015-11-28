@@ -25,6 +25,7 @@ const DeviceWidth = Dimensions.get('window').width
 
 import UserActions from '../flux/actions/UserActions'
 import AuthErrorStore from '../flux/stores/AuthErrorStore'
+import {MagicNumbers} from '../DeviceConfig.js'
 
 import TopTabs from '../controls/topSignupSigninTabs'
 import PhoneNumberInput from '../controls/phoneNumberInput.js'
@@ -46,8 +47,8 @@ class Register extends Component{
       phone: '',
       isLoading: false,
       absoluteContinue: true,
+      keyboardSpace: MagicNumbers.keyboardHeight || 240
 
-      keyboardSpace: props.keyboardSpace || 240
     }
   }
 
