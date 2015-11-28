@@ -88,7 +88,7 @@ class PrivacyScreen extends Component{
       </View>
 
         <View style={styles.topWrap}>
-          <Text style={[styles.labelText,{fontSize:20}]}>{"Your Privacy"} </Text>
+          <Text style={[styles.labelText,{fontSize:22,marginBottom:5,color:colors.white,fontFamily:'Montserrat-Bold'}]}>{"YOUR PRIVACY"} </Text>
 
           <Text style={[styles.labelText,{fontSize:20,marginBottom:MagicNumbers.screenPadding/2}]}>{"Select your perfered privacy setting"}</Text>
 
@@ -106,7 +106,7 @@ class PrivacyScreen extends Component{
                             style={styles.cornerDot}/>
 
               <View style={{flexDirection:'column',alignItems:'flex-start',justifyContent:'space-around',flex:1,width:100}}>
-                <Text style={styles.boxTitle}>Public</Text>
+                <Text style={styles.boxTitle}>PUBLIC</Text>
                 <Text style={styles.boxP}>Your profile is visible to all Trippple members</Text>
               </View>
 
@@ -126,7 +126,7 @@ class PrivacyScreen extends Component{
                         resizeMode={Image.resizeMode.contain}
                             style={styles.cornerDot}/>
               <View style={{flexDirection:'column',alignItems:'flex-start',justifyContent:'space-around',flex:1,width:100}}>
-                <Text style={styles.boxTitle}>Private</Text>
+                <Text style={styles.boxTitle}>PRIVATE</Text>
                 <Text style={styles.boxP}>Your profile is hidden from your facebook friends and phone contacts. Facebook required.</Text>
               </View>
 
@@ -200,12 +200,12 @@ selectedbutton:{
 //   },
 
 
-  boxTitle:{
+boxTitle:{
+  marginVertical:5,
     color: colors.white,
-    fontFamily: 'Montserrat',
-    fontSize: 18,
+    fontSize:20,
+    fontFamily:'Montserrat-Bold',
     textAlign: 'left',
-    marginBottom:5
   },
 
 
