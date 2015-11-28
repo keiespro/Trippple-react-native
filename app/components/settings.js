@@ -168,15 +168,14 @@ class SettingsInside extends React.Component{
 
 
   render(){
-
-    const singleImage = this.props.user.localUserImage || {uri: this.props.user.image_url },
-          coupleImage = this.props.user.localCoupleImage || this.props.user.couple ?
-            {uri: this.props.user.couple.image_url } : null,
-          singleImageThumb = this.props.user.localUserImage || {uri: this.props.user.thumb_url },
-          coupleImageThumb = this.props.user.localCoupleImage || this.props.user.couple ?
-            {uri: this.props.user.couple.thumb_url } : null,
-          src = this.props.user.relationship_status == 'single' ? singleImage : coupleImage,
-          thumbSrc = this.props.user.relationship_status == 'single' ? singleImageThumb : coupleImageThumb
+    const { user } = this.props
+    if(!user){ return false }
+    const singleImage = user.localUserImage || {uri: user.image_url },
+          coupleImage = user.localCoupleImage || user.relationship_status == 'couple' && user.couple ? {uri: user.couple.image_url } : null,
+          singleImageThumb = user.localUserImage || {uri: user.thumb_url },
+          coupleImageThumb = user.localCoupleImage || user.couple ? {uri: user.couple.thumb_url } : null,
+          src = user.relationship_status == 'single' ? singleImage : coupleImage,
+          thumbSrc = user.relationship_status == 'single' ? singleImageThumb : coupleImageThumb;
 
 
     return (

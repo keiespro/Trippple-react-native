@@ -160,7 +160,7 @@ class FieldModal extends React.Component{
 
   renderButtons(){
     return (
-      <View style={{flexDirection:'row',height:70,alignSelf:'stretch',alignItems:'center',width:DeviceWidth}}>
+      <View style={{bottom:-1,flexDirection:'row',height:70,alignSelf:'stretch',alignItems:'center',width:DeviceWidth}}>
         <TouchableHighlight underlayColor={colors.dark} onPress={this.props.cancel}
           style={{ borderTopWidth: 1, borderColor: colors.rollingStone,flex:1,paddingVertical:20}}>
           <View>

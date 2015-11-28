@@ -194,10 +194,10 @@ class SettingsBasic extends React.Component{
           title={`BASIC`}
           titleColor={colors.white}
           />
-        <ScrollView style={{flex:1,marginTop:55}} contentContainerStyle={{alignItems:'flex-start'}} >
+        <ScrollView style={{flex:1,marginTop:55,backgroundColor:colors.dark}} contentContainerStyle={{alignItems:'flex-start'}} >
 
         <ScrollableTabView style={{overflow:'hidden'}} renderTabBar={(props)=><CustomTabBar {...props}/>}>
-          <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:MagicNumbers.screenPadding/2,}}  tabLabel={'GENERAL'}>
+          <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:MagicNumbers.screenPadding/2,paddingBottom:50}}  tabLabel={'GENERAL'}>
           {user.relationship_status == 'single' ? null : <View style={{height:150,width:150,alignSelf:'center'}}>
           <TouchableOpacity onPress={this._pressNewImage} style={{marginTop:20,}}>
             <Image
@@ -295,6 +295,10 @@ class SettingsBasic extends React.Component{
 
           </View>
         </ScrollableTabView>
+  <View style={[{
+    backgroundColor:colors.outerSpace,
+alignItems:'stretch'
+          }]}>
 
         {!this.props.user.facebook_user_id ?
 
@@ -316,6 +320,7 @@ class SettingsBasic extends React.Component{
         <View style={[styles.paddedSpace,{marginBottom:25}]}>
           <Text style={{color:colors.shuttleGray,textAlign:'center',fontSize:18}}>Don’t worry, we wont tell your friends or post on your wall.</Text>
         </View> : null }
+          </View>
 
       </ScrollView>
       </View>
@@ -344,7 +349,7 @@ var styles = StyleSheet.create({
  inner:{
    flex: 1,
    alignItems: 'stretch',
-   backgroundColor:colors.outerSpace,
+   backgroundColor:colors.dark,
    flexDirection:'column',
    justifyContent:'flex-start'
  },
