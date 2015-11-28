@@ -51,22 +51,20 @@ class NotificationCommander extends Component{
       this.connectSocket()
     }
   }
-  // componentWillReceiveProps(nextProps){
-  //   if(!this.props.api_key && nextProps.api_key){
-  //     this.connectSocket()
-  //   }
-  // }
-  // shouldComponentUpdate = () => false
 
   _onPushNotification =(pushNotification)=>{
     console.log('pushNotification! pushNotification!',pushNotification)
     VibrationIOS.vibrate()
     this.handlePushData(pushNotification)
   }
+
   handlePushData(pushNotification){
     console.log('handlePushData',pushNotification)
 
-    const data = pushNotification.data || {action: 'system'}
+    if(!pushNotification || !pushNotification.data){
+      console.log(pushNotification, 'This notification is empty?');
+      return false
+    }
 
     if(data.action && data.action === 'retrieve' && data.match_id) {
 
@@ -79,7 +77,6 @@ class NotificationCommander extends Component{
     }else if(data.action === 'logout'){
 
           UserActions.logOut()
-
 
     }
 

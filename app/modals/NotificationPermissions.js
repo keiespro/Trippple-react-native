@@ -8,13 +8,12 @@ import {
   Image,
   NativeModules,
   Settings,
-  CameraRoll,
   View,
+  AppStateIOS,
   PropTypes,
   TouchableHighlight,
   Dimensions,
   PixelRatio,
-
   PushNotificationIOS,
   TouchableOpacity
 } from 'react-native'
@@ -22,7 +21,7 @@ import {
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
- import UrlHandler from 'react-native-url-handler'
+import UrlHandler from 'react-native-url-handler'
 import colors from '../utils/colors'
 import _ from 'underscore'
 import MatchActions from '../flux/actions/MatchActions'
@@ -35,195 +34,145 @@ import NotificationActions from '../flux/actions/NotificationActions'
 
 const failedTitle = `ALERTS DISABLED`,
       failedSubtitle = `Notification permissions have been disabled. You can enable them in Settings`,
-      buttonText = `YES, ALERT ME`,
-      subtitle = `Great! You’ve liked {USERNAME}. Would you like to be notified when {THEY} like you back?`
+      buttonText = `YES, ALERT ME`;
 
- export default class NotificationPermissions extends React.Component{
-    constructor(props){
+class NotificationPermissions extends React.Component{
+  static propTypes = {
+    relevantUser: PropTypes.object //user
+  }
+
+  static defaultProps = {
+    buttonText: 'YES',
+    relevantUser: {
+      image_url: '../../newimg/placeholderUser.png',
+      firstname: 'This user'
+    }
+  }
+
+  constructor(props){
       super()
 
       this.state = {
+        failedState: false,
         permissions: null,
         hasPermission: null
       }
     }
     componentWillMount(){
-      this.recheck()
+      this.checkPermission()
     }
 
-    recheck(){
+    checkPermission(){
       PushNotificationIOS.checkPermissions((permissions) => {
-        this.setState({permissions, hasPermission: permissions})
+        const permResult = Object.keys(permissions).reduce((acc,el,i) =>{
+          acc = acc + permissions[el];
+          return acc
+        },0);
+
+        this.setState({permissions, hasPermission: permResult > 0})
       })
     }
-
-    render(){
-      return <InsideNotificationModal
-              navigator={this.props.navigator}
-              recheck={this.recheck.bind(this)}
-              permission={this.state.hasPermission}
-              relevantUser={this.props.relevantUser}
-            />
+    componentDidUpdate(prevProps,prevState){
+      if(!prevState.hasPermission && this.state.hasPermission ){
+        this.cancel()
+      }
     }
-
- }
-
-
-
-
- class InsideNotificationModal extends React.Component{
-
-  static propTypes = {
-    relevantUser: PropTypes.object //user
-  };
-
-  static defaultProps = {
-    buttonText: 'YES'
-  }
-
-  constructor(props) {
-    super();
-    this.state = {
-      hasPermission: props.hasPermission,
-      failedState: (parseInt(props.hasPermission)  && parseInt(props.hasPermission) < 2)
+    cancel(){
+      this.props.navigator.pop()
     }
-  }
+    handleTapYes(){
+      if(this.state.failedState){
+        UrlHandler.openUrl(UrlHandler.settingsUrl)
 
-  componentWillMount(){
-
-
-  }
-
-  componentDidMount(){
-    console.log('LOC MODAL')
-    if(this.state.hasPermission){
-      // this.props.failCallback ? this.props.failCallback() : this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
-    }else{
-
-    }
-
-  }
-  componentDidUpdate(prevProps,prevState){
-    if(this.state.hasPermission && !prevState.hasPermission){
-      // should i maybe  auto do this ?
-      // this.props.navigator.pop()
-
-    }else if(this.state.failedState){
-
-    }
-  }
-
-  requestPermission(){
-        NotificationActions.requestNotificationsPermission(relevantUser)
-
-    this.props.navigator.pop();
-  }
-
-  cancel(){
-    this.props.navigator.pop()
-  }
-  openSettings(){
-
-    // set an actual app state listener for when user comes back after settings
-
-      UrlHandler.openUrl(UrlHandler.settingsUrl)
-  }
-
-  handleTapYes(){
-    if(this.state.failedState){
-      this.openSettings()
-    }else{
-      if(!this.state.hasPermission){
-        this.requestPermission()
       }else{
+        NotificationActions.requestNotificationsPermission()
         this.handleSuccess()
+      }
+    }
+    handleFail(){
+      this.setState({hasPermission: false})
+      // AppActions.denyPermission(CameraKey)
+    }
+    handleSuccess(){
+      this.setState({hasPermission: true})
 
+    }
+    componentDidMount() {
+      AppStateIOS.addEventListener('change', this._handleAppStateChange.bind(this));
+    }
+    componentWillUnmount() {
+      AppStateIOS.removeEventListener('change', this._handleAppStateChange);
+    }
+    _handleAppStateChange(currentAppState) {
+      if(currentAppState == 'active'){
+        PushNotificationIOS.checkPermission( (permission) => {
+          this.setState({ hasPermission: (parseInt(permission) > 2), failedState: false });
+          AppStateIOS.removeEventListener('change', this._handleAppStateChange);
+        })
       }
     }
 
+    render(){
+      const { relevantUser } = this.props
+      return  (
+        <PurpleModal>
+          <View style={[styles.col,styles.fullWidth,{justifyContent:'space-between'}]}>
+            <Image
+              style={[{width:150,height:150,borderRadius:75,marginVertical:20}]}
+              source={
+                this.state.failedState ?
+                  require('../../newimg/iconModalDenied.png') :
+                  {uri: relevantUser.image_url}
+              }
+            />
+            <View style={styles.insidemodalwrapper}>
+              <Text style={[styles.rowtext,styles.bigtext,{
+                  fontFamily:'Montserrat-Bold',fontSize:22,marginVertical:10
+               }]}>  {
+                this.state.failedState ? failedTitle : `GET NOTIFIED`
+                }
+              </Text>
 
-
-  }
-
-  handleFail(){
-    this.setState({hasPermission: false})
-    // AppActions.denyPermission(this.props.permissionKey)
-    this.props.navigator.pop()
-
-  }
-
-  handleSuccess(geo){
-    this.setState({hasPermission: true})
-    // AppActions.grantPermission(this.props.permissionKey)
-    this.cancel();
-  }
-
-  handleContinue(){
-    this.cancel();
-  }
-
-  render(){
-    return this.renderModal()
-  }
-
-
-  renderButton(){
-    return (
-      <View style={styles.modalButtonWrap} >
-        <TouchableHighlight
-          underlayColor={colors.mediumPurple}
-          style={styles.modalButtonWrap}
-          onPress={this.handleTapYes.bind(this)}>
-          <View style={[styles.modalButton]} >
-            <Text style={styles.modalButtonText}>{this.state.failedState ? 'GO TO SETTINGS' : buttonText}</Text>
-          </View>
-        </TouchableHighlight>
-      </View>
-    )
-  }
-
-  renderModal(){
-    console.log('RENDER MODAL')
-    return (
-      <View style={{position:'absolute',top:0}}>
-      <PurpleModal>
-        <View style={[styles.col,{paddingVertical:10}]}>
-          <Image
-            resizeMode={Image.resizeMode.fill}
-
-            style={[{width:150,height:150,borderRadius:0,marginVertical:20}]}
-            source={this.props.relevantUser}/>
-
-          <View style={[styles.insidemodalwrapper,{justifyContent:'space-between'}]}>
-
-            <Text style={[styles.rowtext,styles.bigtext,{
-                fontFamily:'Montserrat',fontSize:20,marginVertical:10
+              <Text
+                style={[styles.rowtext,styles.bigtext,{
+                  fontSize:20,
+                  marginVertical:10,
+                  color: colors.shuttleGray,
+                  marginHorizontal:-5,
+                  marginBottom:15
               }]}>
-              {this.state.failedState ? failedTitle : `GET NOTIFIED`}
-            </Text>
+               {`Great! You’ve liked ${this.props.relevantUser.firstname}. Would you like to be notified when they like you back?`}
+              </Text>
+              <View>
+                <TouchableHighlight
+                  underlayColor={colors.darkGreenBlue}
+                  style={styles.modalButtonWrap}
+                  onPress={this.handleTapYes.bind(this)}>
+                  <View style={[styles.modalButton]} >
+                  <Text style={styles.modalButtonText}>{
+                    this.state.failedState ? 'GO TO SETTINGS' : `YES, ALERT ME`
 
-            <Text style={[styles.rowtext,styles.bigtext,{
-                fontSize:18,marginVertical:10,color: colors.lavender,marginHorizontal:10
-              }]}>{this.state.failedState ? this.props.failedSubtitle : subtitle || ''}
-            </Text>
-
-            {this.renderButton()}
-          </View>
-
-          <View >
-            <TouchableOpacity
-              onPress={this.cancel.bind(this)}>
-              <View style={[styles.cancelButton,{  backgroundColor:'transparent'}]} >
-                <Text style={[styles.nothankstext,{  backgroundColor:'transparent'}]}>no thanks</Text>
+                  }</Text>
+                  </View>
+                </TouchableHighlight>
               </View>
-            </TouchableOpacity>
+
+            <View >
+              <TouchableOpacity onPress={this.cancel.bind(this)}>
+                <View>
+                  <Text style={styles.nothankstext}>no thanks</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </PurpleModal>
-    </View>
-
     )
   }
 
-
 }
+
+
+
+export default NotificationPermissions
+
