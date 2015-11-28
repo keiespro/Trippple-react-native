@@ -7,16 +7,14 @@ const THROW_THRESHOLD_DENY = -180,
       SWIPE_THRESHOLD_DENY = -230,
       THROW_SPEED_THRESHOLD = 2.5;
 
-
-import React from 'react-native';
-import {
-  Component,
+import React, {
   StyleSheet,
   Text,
   View,
   LayoutAnimation,
   TouchableHighlight,
-  Image,AsyncStorage,
+  Image,
+  AsyncStorage,
   TouchableOpacity,
   TouchableWithoutFeedback,
   Animated,
@@ -25,26 +23,22 @@ import {
   NativeModules,
   PixelRatio,
   PanResponder,
-  Easing
+  Easing,
+  Dimensions
 } from 'react-native';
+
 import FakeNavBar from '../controls/FakeNavBar';
 import ScrollableTabView from '../scrollable-tab-view'
 
 import alt from '../flux/alt';
 import MatchActions from '../flux/actions/MatchActions';
 import AppActions from '../flux/actions/AppActions';
-
-import ParallaxView from  '../controls/ParallaxScrollView'
-import ParallaxSwiper from  '../controls/ParallaxSwiper'
 import Mixpanel from '../utils/mixpanel';
 import AltContainer from 'alt/AltNativeContainer';
 import TimerMixin from 'react-timer-mixin';
 import colors from '../utils/colors';
 import Swiper from '../controls/swiper';
-import FadeInContainer from './FadeInContainer'
 import reactMixin from 'react-mixin';
-import Dimensions from 'Dimensions';
-import {BlurView,VibrancyView} from 'react-native-blur'
 import ProfileTable from './ProfileTable'
 import CheckPermissions from '../modals/CheckPermissions'
 const DeviceHeight = Dimensions.get('window').height;
@@ -53,10 +47,14 @@ import {MagicNumbers} from '../DeviceConfig'
 import PotentialsStore from '../flux/stores/PotentialsStore'
 import MatchesStore from '../flux/stores/MatchesStore'
 import scrollable from 'react-native-scrollable-decorator'
+import PotentialsPlaceholder from './PotentialsPlaceholder'
 
+const cardSizeMap = {
+
+}
 
 @reactMixin.decorate(TimerMixin)
-class Cards extends Component{
+class Cards extends React.Component{
 
   static displayName = 'ActiveCard'
 
@@ -76,10 +74,7 @@ class Cards extends Component{
     this._panResponder = {}
     Mixpanel.track('On - Potentials Screen');
 
-}
-componentWillUnmount(){
-
-}
+  }
   componentDidMount(){
 
     Animated.stagger(300,[
@@ -215,15 +210,11 @@ componentWillUnmount(){
     var pan = this.state.pan || 0
     return (
       <View
-      onLayout={(e)=>{
-        const {x, y, width, height} =  e.nativeEvent.layout;
-        console.log(x, y, width, height)
-
-
-
-      }}
-      style={{
-          }}>
+        onLayout={(e)=>{
+          const {x, y, width, height} =  e.nativeEvent.layout;
+          console.log(x, y, width, height)
+        }}
+        style={{ }}>
 
       {/*     last card      */}
       { !this.props.profileVisible && potentials && potentials.length >= 1 && potentials[2] &&
@@ -243,7 +234,7 @@ componentWillUnmount(){
           <InsideActiveCard
             user={user}
             ref={"_thirdCard"}
-          shouldRasterizeIOS={!this.state.animatedIn}
+          animatedIn={this.state.animatedIn}
             potential={potentials[2]}
             rel={user.relationship_status}
             isTopCard={false}
@@ -285,9 +276,9 @@ componentWillUnmount(){
             key={`${potentials[1].id || potentials[1].user.id}-activecard`}
             user={user}
             ref={"_secondCard"}
-          shouldRasterizeIOS={!this.state.animatedIn}
             pan={this.state.pan}
             profileVisible={this.props.profileVisible}
+          animatedIn={this.state.animatedIn}
 
             potential={potentials[1]}
             rel={user.relationship_status}
@@ -297,11 +288,16 @@ componentWillUnmount(){
 
       {/*       Front card       */}
       { potentials && potentials.length >= 1  && potentials[0] &&
-             <Animated.View
+        <Animated.View
           style={[styles.shadowCard,{
             alignSelf:'center',
-            top: this.props.profileVisible ? -20 : -40,
+            top: this.props.profileVisible ? -DeviceHeight/2-20  : -DeviceHeight/2+0,
+            left:  this.props.profileVisible ? -DeviceWidth/2 : -DeviceWidth/2 + 20 ,
+            width: this.props.profileVisible ? DeviceWidth : DeviceWidth - 40,
+            height: this.props.profileVisible ? DeviceHeight : DeviceHeight - 80,
+            left:  this.props.profileVisible ? -DeviceWidth/2 : -DeviceWidth/2 + 20 ,
 
+            position: 'absolute'
           },
           {
             transform: [
@@ -321,12 +317,12 @@ componentWillUnmount(){
                   outputRange: [-150,0,150]
                 }) : this.state.offsetY.a
               },
-              {
-                scale: this.props.profileVisible ? 1 : this.state.pan.x.interpolate({
-                  inputRange: [-300, -250, -90, 0,  90, 250, 300],
-                  outputRange: [    0.95,  0.95,  0.9, 0.9, 0.9, 1, 1]
-                })
-              }
+              // {
+              //   scale: this.props.profileVisible ? 1 : this.state.pan.x.interpolate({
+              //     inputRange: [-300, -250, -90, 0,  90, 250, 300],
+              //     outputRange: [    0.95,  0.95,  0.9, 0.9, 0.9, 1, 1]
+              //   })
+              // }
             ],
           }]}
           key={`${potentials[0].id || potentials[0].user.id}-wrapper`}
@@ -334,11 +330,13 @@ componentWillUnmount(){
           { ...this._panResponder.panHandlers}
           >
           <InsideActiveCard
-          user={user}
+            user={user}
             key={`${potentials[0].id || potentials[0].user.id}-activecard`}
             rel={user.relationship_status}
             isTopCard={true}
             pan={this.state.pan}
+          animatedIn={this.state.animatedIn}
+
             profileVisible={this.props.profileVisible}
             hideProfile={this._hideProfile.bind(this)}
             toggleProfile={this._toggleProfile.bind(this)}
@@ -367,7 +365,7 @@ componentWillUnmount(){
 
 
 @scrollable
-class InsideActiveCard extends Component{
+class InsideActiveCard extends React.Component{
 
   static defaultProps = {
     profileVisible: false
@@ -379,66 +377,31 @@ class InsideActiveCard extends Component{
       slideIndex: 0
     }
   }
-   componentDidUpdate(pProps,pState){
-
-    // if(!pProps.isTopCard && this.props.isTopCard){
-      // this.props.pan ? this.valueListener() : null
-      // }
-      //
+  componentDidUpdate(pProps,pState){
     if(pProps.profileVisible && !this.props.profileVisible ){
       this.refs.scrollbox && this.refs.scrollbox.setNativeProps({contentOffset:{x:0,y:0}})
-
     }
-
   }
-  // valueListener(){
-  //   this._valuelistener = this.props.pan && this.props.pan.addListener(({value}) => {
-  //     // listen to parent component's pan
-  //     const val = parseInt(value)
-
-  //       if(this.state.isMoving && val == 0){
-  //         this.setState({
-  //           isMoving: false
-  //         })
-
-  //       }else if(val != 0 && !this.state.isMoving){
-  //         this.setState({
-  //           isMoving: true
-  //         })
-
-  //       }
-  //       if(val != 0){
-  //         this.setNativeProps({ style:{ backgroundColor: val > 0 ? colors.sushi : colors.mandy } })
-  //       }
-
-  //   })
-  // }
 
   setNativeProps(np){
     this.refs.incard && this.refs.incard.setNativeProps(np)
   }
-  componentWillMount(){
-      // this.props.pan && this.props.isTopCard && this.valueListener()
-
-}
-openProfileFromImage(e){
-  console.log(e);
-  this.setState({activeIndex: this.state.activeIndex + 1})
-  this.props.toggleProfile()
-}
+  // componentWillMount(){
+  //   this.props.pan && this.props.isTopCard && this.valueListener()
+  // }
+  openProfileFromImage(e){
+    console.log(e);
+    this.setState({activeIndex: this.state.activeIndex + 1})
+    this.props.toggleProfile()
+  }
   componentWillReceiveProps(nProps){
     if(nProps.pan && this.props.profileVisible != nProps.profileVisible){
       LayoutAnimation.configureNext(animations.layout.spring);
       this.setState({
         isMoving: false
       })
-
-      // nProps.pan && nProps.isTopCard && nProps.pan.removeListener(this._valuelistener);
-
     }
-
   }
-
 
   render(){
 
@@ -455,7 +418,9 @@ openProfileFromImage(e){
 
     if(!profileVisible){
     return (
-      <View ref={'cardinside'} key={`${potential.id || potential.user.id}-inside`}
+      <View
+          shouldRasterizeIOS={!this.props.animatedIn}
+      ref={'cardinside'} key={`${potential.id || potential.user.id}-inside`}
       style={ [{
         alignSelf:'stretch',flex:1,height:undefined,
         } ]}>
@@ -480,12 +445,10 @@ openProfileFromImage(e){
                   alignItems:'center',
                   justifyContent:'center',
                   flexDirection:'column',
-
                   opacity: isTopCard ? 1 : this.props.pan && this.props.pan.x.interpolate({
                           inputRange: [-500, -50, 0, 50, 500],
                           outputRange: [1,0,0,0,1]
                         }),
-
                   backgroundColor: isTopCard ? this.props.pan && this.props.pan.x.interpolate({
                     inputRange: [-300,-50, -40, 0, 40,  50, 300],
                     outputRange: [
@@ -497,9 +460,6 @@ openProfileFromImage(e){
                       'rgb(66,181,125)',
                       'rgb(66,181,125)' ],
                   }) : colors.white,
-
-
-
                 }} ref={isTopCard ? 'incard' : null}>
                 <Swiper
                   automaticallyAdjustContentInsets={true}
@@ -614,18 +574,24 @@ position:'absolute',
               </View>
             </Animated.View>
 
-          {isTopCard && !profileVisible  ?
-              <Animated.View key={'denyicon'} style={[styles.animatedIcon,{
-                transform: [
-                  {
-                    scale: this.props.pan ? this.props.pan.x.interpolate({
-                      inputRange: [-DeviceWidth/2,-50,0], outputRange: [2,0,0]}) : 0
-                  }
-                ]
-              }]}>
-                <Image source={require('../../newimg/iconDeny.png')} style={{backgroundColor:'transparent',width:60,height:60}}/>
-              </Animated.View> : null
-          }
+          {isTopCard && !profileVisible ?
+            <Animated.View key={'denyicon'} style={[styles.animatedIcon,{
+              transform: [
+                {
+                  scale: this.props.pan ? this.props.pan.x.interpolate({
+                    inputRange: [-DeviceWidth/2,-50,0], outputRange: [2,0,0]}) : 0
+                }
+              ]
+            }]}>
+              <Image
+              source={require('../../newimg/iconDeny.png')}
+              style={{
+                backgroundColor:'transparent',
+                width:60,
+                height:60
+              }}/>
+            </Animated.View> : null }
+
           {isTopCard && !profileVisible  ?
               <Animated.View key={'approveicon'} style={[styles.animatedIcon,{
                 transform: [
@@ -902,7 +868,7 @@ position:'absolute',
   }
 }
 
-class DummyCard extends Component{
+class DummyCard extends React.Component{
   constructor(props){
     super(props)
   }
@@ -924,7 +890,7 @@ class DummyCard extends Component{
   }
 }
 
-class CardStack extends Component{
+class CardStack extends React.Component{
   constructor(props){
     super()
     this.state = {profileVisible:false}
@@ -978,74 +944,70 @@ class CardStack extends Component{
       ...this.props
     })
 
-      return (
-        <View style={{backgroundColor:this.state.profileVisible ? 'black' : colors.outerSpace,
-            flex:1,width:DeviceWidth,height:DeviceHeight,top:0}}>
-       {!this.state.profileVisible && NavBar}
+    return (
+      <View
+        style={{
+          backgroundColor:this.state.profileVisible ? 'black' : colors.outerSpace,
+          flex:1,
+          width:DeviceWidth,
+          height:DeviceHeight,
+          top:0
+        }}>
 
-        <View style={[styles.cardStackContainer,{backgroundColor:'transparent',position:'relative',top: this.state.profileVisible ? 25 : 55}]}>
+        {!this.state.profileVisible && NavBar}
 
-        { potentials.length ?
-          <Cards
-            user={user}
-            rel={user.relationship_status}
-            potentials={potentials}
-            profileVisible={this.state.profileVisible}
-            toggleProfile={this.toggleProfile.bind(this)}
-          /> : null}
+         <View style={[
+           styles.cardStackContainer,
+           {
+             backgroundColor:'transparent',
+             position:'relative',
+             top: this.state.profileVisible ? 25 : 55
+           }]}>
+
+           { potentials.length ?
+
+            <Cards
+              user={user}
+              rel={user.relationship_status}
+              potentials={potentials}
+              profileVisible={this.state.profileVisible}
+              toggleProfile={this.toggleProfile.bind(this)}
+            /> : null }
 
 
-          { !this.state.didShow && potentials.length < 1 &&
-            <View style={[{ alignItems: 'center', justifyContent: 'center',height: DeviceHeight,width:DeviceWidth,position:'absolute',top:0,left:0}]}>
-            <ActivityIndicatorIOS size={'large'} style={[{ alignItems: 'center', justifyContent: 'center',height: 80}]} animating={true}/>
-            </View>}
-    { potentials.length < 1 &&
-      <FadeInContainer delayAmount={2000} duration={300} didShow={()=>this.setState({didShow:true})}>
-        <View
-                  style={[styles.dashedBorderImage,{height:DeviceHeight,flex:10,position:'relative',}]}>
-           <Image source={require('../../newimg/placeholderDashed.png')}
-             style={{alignSelf:'stretch',flex:10,
+          {!this.state.didShow && potentials.length < 1 &&
 
-               height:MagicNumbers.is4s ?  DeviceHeight-70 : DeviceHeight-55-MagicNumbers.screenPadding/2,
+            <View
+              style={[{
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: DeviceHeight,
+                width:DeviceWidth,
+                position:'absolute',
+                top:0,
+                left:0
+              }]}>
+              <ActivityIndicatorIOS
+                size={'large'}
+                style={[{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: 80
+                }]}
+                animating={true}
+              />
+            </View>
+          }
 
-               marginHorizontal:MagicNumbers.is4s ? MagicNumbers.screenPadding : 15,
-               width:MagicNumbers.is4s ? DeviceWidth - MagicNumbers.screenPadding*2 : DeviceWidth-30,
-               alignItems:'center',justifyContent:'center',position:'absolute',
-               top: 0,
-               left:0,flexDirection:'column',
-             }}
-  resizeMode={MagicNumbers.is4s ? Image.resizeMode.stretch : Image.resizeMode.contain}>
-            <Image source={require('../../newimg/iconClock.png')} style={{
-                height: MagicNumbers.is4s ? MagicNumbers.screenWidth/2 - 20 : MagicNumbers.screenWidth/2,
-                width:MagicNumbers.is4s ? MagicNumbers.screenWidth/2 - 20 : MagicNumbers.screenWidth/2,
-                 marginBottom:MagicNumbers.is4s ? 0 : MagicNumbers.screenPadding,
-                 marginTop:MagicNumbers.is4s ? 40 : MagicNumbers.screenPadding*2
-               }}/>
-            <Text style={{
-                color:colors.white,
-                fontFamily:'Montserrat-Bold',
-              fontSize:  (MagicNumbers.size18+2),
-              marginVertical:10
-            }}>COME BACK AT MIDNIGHT</Text>
-            <Text style={{color:colors.rollingStone,
-                fontSize:MagicNumbers.size18+2, marginHorizontal:MagicNumbers.is4s ? 30 : 70,
-marginBottom:180,textAlign:'center'}}>You’re all out of potential matches for today.</Text>
-        </Image>
+          { potentials.length < 1 && <PotentialsPlaceholder />}
+
+        </View>
       </View>
-      </FadeInContainer>
-
-    }
-    </View>
-
-
-
-    </View>
-
     )
   }
 }
 
-class Potentials extends Component{
+class Potentials extends React.Component{
   constructor(props){
     super()
     this.state = {}
@@ -1076,6 +1038,7 @@ class Potentials extends Component{
 
 
 export default Potentials;
+
 var CustomTabBar = React.createClass({
   propTypes: {
     goToPage: React.PropTypes.func,
