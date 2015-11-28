@@ -39,24 +39,30 @@ const failedTitle = `ALERTS DISABLED`,
       subtitle = `Great! You’ve liked {USERNAME}. Would you like to be notified when {THEY} like you back?`
 
  export default class NotificationPermissions extends React.Component{
+    constructor(props){
+      super()
 
+      this.state = {
+        permissions: null,
+        hasPermission: null
+      }
+    }
     componentWillMount(){
       this.recheck()
     }
 
     recheck(){
       PushNotificationIOS.checkPermissions((permissions) => {
-        console.log(permissions)
-        this.setState({permissions, hasPermission: permissions ? true : false})
+        this.setState({permissions, hasPermission: permissions})
       })
     }
 
     render(){
       return <InsideNotificationModal
+              navigator={this.props.navigator}
               recheck={this.recheck.bind(this)}
               permission={this.state.hasPermission}
               relevantUser={this.props.relevantUser}
-
             />
     }
 
@@ -108,9 +114,10 @@ const failedTitle = `ALERTS DISABLED`,
   }
 
   requestPermission(){
-    NotificationActions.requestNotificationsPermission()
-  }
+        NotificationActions.requestNotificationsPermission(relevantUser)
 
+    this.props.navigator.pop();
+  }
 
   cancel(){
     this.props.navigator.pop()
@@ -140,14 +147,14 @@ const failedTitle = `ALERTS DISABLED`,
 
   handleFail(){
     this.setState({hasPermission: false})
-    AppActions.denyPermission(this.props.permissionKey)
+    // AppActions.denyPermission(this.props.permissionKey)
     this.props.navigator.pop()
 
   }
 
   handleSuccess(geo){
     this.setState({hasPermission: true})
-    AppActions.grantPermission(this.props.permissionKey)
+    // AppActions.grantPermission(this.props.permissionKey)
     this.cancel();
   }
 
@@ -162,7 +169,7 @@ const failedTitle = `ALERTS DISABLED`,
 
   renderButton(){
     return (
-      <View>
+      <View style={styles.modalButtonWrap} >
         <TouchableHighlight
           underlayColor={colors.mediumPurple}
           style={styles.modalButtonWrap}
@@ -207,7 +214,7 @@ const failedTitle = `ALERTS DISABLED`,
             <TouchableOpacity
               onPress={this.cancel.bind(this)}>
               <View style={[styles.cancelButton,{  backgroundColor:'transparent'}]} >
-                <Text style={[styles.modalButtonText,{  backgroundColor:'transparent'}]}>No thanks</Text>
+                <Text style={[styles.nothankstext,{  backgroundColor:'transparent'}]}>no thanks</Text>
               </View>
             </TouchableOpacity>
           </View>

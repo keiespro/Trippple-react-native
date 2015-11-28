@@ -170,23 +170,29 @@ import AppActions from '../flux/actions/AppActions'
   }
 
   renderModal(){
-    console.log('RENDER MODAL')
     return (
       <PurpleModal>
-          <View style={[styles.col,styles.fullWidth,{justifyContent:'space-between'}]}>
+        <View style={[styles.col,styles.fullWidth,{justifyContent:'space-between'}]}>
 
           <Image
             resizeMode={Image.resizeMode.contain}
+            style={[{
+              width:150,
+              height:150,
+              borderRadius:0,
+              marginVertical:20
+            }]}
+            source={
+              this.state.failedState ? require('../../newimg/iconModalDenied.png') : require('../../newimg/iconModalDeck.png')
+            }
+          />
 
-            style={[{width:150,height:150,borderRadius:0,marginVertical:20}]}
-            source={this.state.failedState ? require('../../newimg/iconModalDenied.png') : require('../../newimg/iconModalDeck.png')}/>
-
-          <View style={[styles.insidemodalwrapper,{justifyContent:'space-between'}]}>
+        <View style={[styles.insidemodalwrapper,{justifyContent:'space-between'}]}>
 
             <Text style={[styles.rowtext,styles.bigtext,{
-                fontFamily:'Montserrat',fontSize:20,marginVertical:10,color: colors.shuttleGray
+                fontFamily:'Montserrat-Bold',fontSize:22,marginVertical:10,color: colors.shuttleGray
               }]}>
-              {this.state.failedState ? this.props.failedTitle : this.props.title}
+              {this.state.failedState ? this.props.failedTitle.toUpperCase() : this.props.title.toUpperCase()}
             </Text>
 
             <Text style={[styles.rowtext,styles.bigtext,{
@@ -200,8 +206,8 @@ import AppActions from '../flux/actions/AppActions'
           <View style={{marginTop:20}}>
             <TouchableOpacity style={{padding:10}}
             onPress={()=>this.cancel(false)}>
-              <View style={[styles.cancelButton,{  backgroundColor:'transparent'}]} >
-                <Text style={[styles.nothankstext,{  backgroundColor:'transparent'}]}>no thanks</Text>
+              <View style={[styles.cancelButton,{ backgroundColor:'transparent'}]} >
+                <Text style={[styles.nothankstext,{ backgroundColor:'transparent'}]}>no thanks</Text>
               </View>
             </TouchableOpacity>
           </View>

@@ -84,7 +84,7 @@ class PartnerMissingModal extends Component{
               <View style={styles.insidemodalwrapper}>
 
                 <Text style={[styles.rowtext,styles.bigtext,{
-                    fontFamily:'Montserrat',fontSize:20,marginVertical:10,color: colors.shuttleGray
+                    fontFamily:'Montserrat-Bold',fontSize:22,marginVertical:10,color: colors.shuttleGray
                   }]}>
                   {`WAITING FOR PARTNER`}
                 </Text>

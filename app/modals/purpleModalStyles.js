@@ -8,7 +8,7 @@ import {MagicNumbers} from '../DeviceConfig'
 
 const purpleModalStyles = StyleSheet.create({
   modalButtonWrap:{
-    borderRadius:8,
+    borderRadius:4,
     justifyContent:'center',
     flex:1,
     margin: 5,
@@ -21,7 +21,7 @@ const purpleModalStyles = StyleSheet.create({
     backgroundColor:colors.sushi,
     alignItems:'center',
     margin: 0,
-    borderRadius:8,
+    borderRadius:4,
     borderWidth:1 / PixelRatio.get(),
     borderColor:colors.darkGreenBlue,
 
@@ -38,6 +38,7 @@ const purpleModalStyles = StyleSheet.create({
   nothankstext:{
     color:colors.shuttleGray,
     fontFamily:'Montserrat',
+    marginVertical: 10,
     fontSize:18,
 
     textAlign:'center'
@@ -53,7 +54,7 @@ const purpleModalStyles = StyleSheet.create({
 
   },
   modalcontainer:{
-    borderRadius:10,
+    borderRadius:4,
     backgroundColor: 'transparent',
   },
   fullWidth:{

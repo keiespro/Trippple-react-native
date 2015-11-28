@@ -18,7 +18,7 @@ import {
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-var {FBLoginManager,AddressBook} = NativeModules
+var {FBLoginManager,AddressBook, OSPermissions} = NativeModules
 
 import colors from '../utils/colors'
 import _ from 'underscore'
@@ -35,8 +35,8 @@ export default class PrivacyPermissionsModal extends Component{
     super();
     this.state = {
       hasFacebookPermissions: null,
-      failedStateContacts: parseInt(props.AppState.OSPermissions.contacts) && props.AppState.OSPermissions.contacts < 3,
-      hasContactsPermissions: parseInt(props.AppState.OSPermissions.contacts) && props.AppState.OSPermissions.contacts > 2
+      failedStateContacts: OSPermissions.contacts && parseInt(OSPermissions.contacts) && OSPermissions.contacts < 3,
+      hasContactsPermissions: OSPermissions.contacts && parseInt(OSPermissions.contacts) && OSPermissions.contacts > 2
     }
   }
 
@@ -95,6 +95,7 @@ export default class PrivacyPermissionsModal extends Component{
         this.setState({hasContactsPermission:true})
 
       }else{
+        console.log('CONTACTS ERROR',err)
         this.setState({hasContactsPermission:false})
 
       }
@@ -198,14 +199,14 @@ export default class PrivacyPermissionsModal extends Component{
                 style={{padding:20,flex:0}}
                 onPress={this.props.success}>
                 <View style={[styles.cancelButton,{backgroundColor:'transparent'}]} >
-                  <Text style={{color:colors.shuttleGray,textAlign:'center'}}>Good to go!</Text>
+                  <Text style={{color:colors.shuttleGray,textAlign:'center'}}>Continue</Text>
                 </View>
               </TouchableOpacity>  :
             <TouchableOpacity
               style={{padding:10,marginBottom:0}}
               onPress={this.props.cancel}>
               <View style={[styles.cancelButton,{backgroundColor:'transparent'}]} >
-                <Text style={{color:colors.shuttleGray,textAlign:'center'}}>no thanks</Text>
+                <Text style={[{color:colors.shuttleGray,textAlign:'center',padding:10},styles.nothankstext]}>no thanks</Text>
               </View>
             </TouchableOpacity>}
 

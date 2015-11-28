@@ -122,7 +122,7 @@ export default class CameraPermissionsModal extends Component{
           />
           <View style={styles.insidemodalwrapper}>
             <Text style={[styles.rowtext,styles.bigtext,{
-                fontFamily:'Montserrat',fontSize:20,marginVertical:10
+                fontFamily:'Montserrat-Bold',fontSize:22,marginVertical:10
               }]}>TAKE PHOTO
             </Text>
 
