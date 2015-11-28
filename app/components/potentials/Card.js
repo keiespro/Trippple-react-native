@@ -47,7 +47,7 @@ class Card extends React.Component{
     }
   }
   componentDidUpdate(pProps,pState){
-    if(pProps.profileVisible && !this.props.profileVisible ){
+    if(pProps.profileVisible != this.props.profileVisible ){
       this.refs.scrollbox && this.refs.scrollbox.setNativeProps({contentOffset:{x:0,y:0}})
     }
   }
@@ -65,7 +65,7 @@ class Card extends React.Component{
   componentWillReceiveProps(nProps){
     if(nProps.pan && this.props.profileVisible != nProps.profileVisible){
       LayoutAnimation.configureNext(animations.layout.spring);
-       }
+    }
   }
 
   toggleCardHoverOn(e){
@@ -112,7 +112,7 @@ left:0,right:0,
           <ScrollView
           scrollEnabled={false}
           ref={'scrollbox'}
-          centerContent={true}
+          centerContent={false}
           alwaysBounceHorizontal={false}
           horizontal={false}
           canCancelContentTouches={false}
@@ -122,18 +122,16 @@ left:0,right:0,
               width:DeviceWidth,
               left:0,
               right:0,
-              height:DeviceHeight-55,
               flex:1,
-              position:'absolute'
 
-        }}
+    }}
+    contentOffset={{x:0,y:0}}
             style={[styles.card,{
               margin:0,
               padding:0,
                 width:DeviceWidth-40,
-                height:DeviceHeight-80,
-left:0,right:0,
-                  padding: 0,
+                left:0,right:0,
+                padding: 0,
                   position:'relative',
               flex:1,
               backgroundColor: colors.white,
@@ -178,7 +176,6 @@ left:0,right:0,
                   <TouchableWithoutFeedback
                     key={`${potential.user.id}-touchableimg`}
                     style={[styles.imagebg,{ overflow:'hidden'}]}
-                    delayPressIn={100}
 
                     onPressIn={this.toggleCardHoverOn.bind(this)}
                     onPressOut={this.toggleCardHoverOff.bind(this)}
@@ -204,7 +201,6 @@ left:0,right:0,
                   </TouchableWithoutFeedback>
                   {rel == 'single' && potential.partner &&
                     <TouchableWithoutFeedback
-                    delayPressIn={100}
                     key={`${potential.partner.id}-touchableimg`}
                     style={[styles.imagebg,{}]}
                     onPressIn={this.toggleCardHoverOn.bind(this)}
@@ -224,7 +220,7 @@ left:0,right:0,
                           outputRange: [0,1,1,1,0]
                         }) : 1
                     }]}
-                    resizeMode={Image.resizeMode.contain}
+                    resizeMode={Image.resizeMode.cover}
                     />
                     </TouchableWithoutFeedback>
                   }
@@ -382,18 +378,9 @@ alignItems:'flex-start',
               backgroundColor:'black',
               height:DeviceHeight,
 
+
               flex:1,
   }]}
-    contentContainerStyle={{
-      alignItems:'flex-start',
-
-              justifyContent:'center',
-              width:DeviceWidth,
-              left:0,
-              right:0,
-              flex:1,
-
-        }}
 
             canCancelContentTouches={true}
             horizontal={false}
@@ -408,25 +395,22 @@ alignItems:'flex-start',
             <Animated.View
               key={`${potential.id || potential.user.id}bgopacity`}
               style={{
+                flex:1,position:'relative',
               }}
               ref={"incard"}
               >
 
               <Swiper
-                key={`${potential.id || potential.user.id}-swiper`}
-                loop={true}
-                style={{
-                  flex:1,
-      left:0,
-              height:DeviceHeight,
+              key={`${potential.id || potential.user.id}-swiper`}
+              loop={true}
+              style={{
+                flex:1,
+                left:0,
+                height:DeviceHeight,
+                position:'absolute',top:0,
 
-                      width: DeviceWidth
-                }}
-                contentContainerStyle={{
-      alignItems:'flex-start',
-
-                                    justifyContent:'center'
-                }}
+                width: DeviceWidth
+              }}
 
                 horizontal={false}
                 activeIndex={this.state.activeIndex}
@@ -505,6 +489,7 @@ alignItems:'flex-start',
 
             style={{
               height: 600,
+              top:60,
               marginTop:-180,
               backgroundColor:colors.outerSpace,
               flex:1,

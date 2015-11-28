@@ -298,7 +298,7 @@ class CardStack extends React.Component{
             // position: 'absolute',
             left:0,right:0,
            bottom: this.props.profileVisible ? 0 : 80,
-              position: 'absolute',
+           position: 'absolute',
 
           },
           {
@@ -319,12 +319,12 @@ class CardStack extends React.Component{
                   outputRange: [-150,0,150]
                 }) : this.state.offsetY.a
               },
-              // {
-              //   scale: this.props.profileVisible ? 1 : this.state.pan.x.interpolate({
-              //     inputRange: [-300, -250, -90, 0,  90, 250, 300],
-              //     outputRange: [    0.95,  0.95,  0.9, 0.9, 0.9, 1, 1]
-              //   })
-              // }
+              {
+                scale: this.props.profileVisible ? 1 : this.state.pan.x.interpolate({
+                  inputRange: [-300, -250, -90, 0,  90, 250, 300],
+                  outputRange: [    0.95,  0.95,  1, 1, 1,  0.95, 0.95, ]
+                })
+              }
             ],
           }]}
           key={`${potentials[0].id || potentials[0].user.id}-wrapper`}

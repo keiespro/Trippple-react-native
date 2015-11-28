@@ -18,7 +18,7 @@ class PotentialsPlaceholder extends React.Component{
       <FadeInContainer
         delayAmount={2000}
         duration={300}
-        onDidShow={()=>{
+        didShow={()=>{
           this.props.onDidShow(true)
         }}
         >
