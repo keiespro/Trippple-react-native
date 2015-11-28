@@ -164,9 +164,7 @@ export default React.createClass({
       autoplayEnd: false,
     }
 
-    initState.total = props.children
-      ? (props.children.length || 1)
-      : 0
+    initState.total = props.children ? (props.children.length || 1) : 0
 
     initState.index = initState.total > 1
       ? Math.min(props.index, initState.total - 1)
@@ -180,9 +178,7 @@ export default React.createClass({
 
     if(initState.total > 1) {
       let setup = props.loop ? 1 : initState.index
-      initState.offset[initState.dir] = initState.dir == 'y'
-        ? initState.height * setup
-        : initState.width * setup
+      initState.offset[initState.dir] = initState.dir == 'y' ? initState.height * setup : initState.width * setup
     }
 
     return initState
@@ -192,8 +188,12 @@ export default React.createClass({
   // componentWillMount() {
   // },
 
-  // componentDidMount() {
-  // },
+  componentDidMount() {
+    this.state.scroll.addListener((e)=>{
+      console.log(e);
+    })
+
+  },
 
     /**
    * Scroll begin handle
@@ -238,7 +238,7 @@ export default React.createClass({
     let index = state.index
     let diff = offset[dir] - state.offset[dir]
     let step = dir == 'x' ? state.width : state.height
-
+    console.log(state,diff,step)
     // Do nothing if offset no change.
     if(!diff) return
 
@@ -300,22 +300,6 @@ export default React.createClass({
           )
         })}
 
-            <View
-              pointerEvents={'box-none'}
-              style={[styles['pagination_' + this.state.dir], this.props.paginationStyle,{
-                top: dir == y ? this.state.scroll && this.state.scroll.interpolate({
-                  inputRange: [0, DeviceHeight],
-                  outputRange: [0, 100]
-                }) : 0,
-                left: dir == x ? ( this.state.scroll && this.state.scroll.interpolate({
-                  inputRange: [0, DeviceHeight],
-                  outputRange: [0, 100]
-                }) ) || 0 : 0,
-
-              }]}
-              >
-              <View style={[styles.activeDot,{}]} key={'dot'+i} />
-            </View>
 
       </View>
     )
@@ -323,9 +307,9 @@ export default React.createClass({
 
 
   componentWillReceiveProps(nProps){
-    // if(nProps.activeIndex != this.props.activeIndex){
-    //   this.scrollTo(nProps.activeIndex+this.state.index);
-    // }
+    if(nProps.activeIndex != this.props.activeIndex){
+      this.scrollTo(nProps.activeIndex+this.state.index);
+    }
   },
 
   /**
@@ -360,8 +344,12 @@ export default React.createClass({
       )
     }
     else{
-      pages = <View style={pageStyle}  key={'slidepot'}>{children}</View>
+      pages = <View style={pageStyle} key={'xslidepot'}>{children}</View>
     }
+
+    // For the WELCOME slider
+    var inputRange = [0,width,width*2,width*3,width*4,width*5,width*6,width*7,width*8,width*9],
+                      outputRange = [-64,-32,0,32,64,-64,-32,0,32,64]
 
     return (
       <View
@@ -372,10 +360,10 @@ export default React.createClass({
         <ScrollView ref="scrollView"
           {...props}
           onScroll={Animated.event(
-            [{nativeEvent: {contentOffset: {y: this.state.scroll}}}]   // scrollX = e.nativeEvent.contentOffset.x
+            [{nativeEvent: {contentOffset: dir == 'y' ? {y: this.state.scroll} : {x: this.state.scroll} }}]   // scrollX = e.nativeEvent.contentOffset.x
           )}
           scrollEventThrottle={16}
-
+          pagingEnabled={true}
           contentContainerStyle={[styles.wrapper, props.style]}
           onScrollBeginDrag={this.onScrollBegin}
           onMomentumScrollEnd={this.onScrollEnd}>
@@ -386,12 +374,36 @@ export default React.createClass({
           {props.showsPagination && React.Children.map(this.props.children, (c,i) => {
             return (
                 <View
-                    style={i === this.state.index ? styles.activeDot : this.props.grayDots ?  styles.grayDot : styles.dot}
+                    style={ this.props.grayDots ?  styles.grayDot : styles.dot}
                     key={'swiperdot'+i}
                   />
             )
           })}
-        </View>
+          </View>
+            <Animated.View
+              pointerEvents={'box-none'}
+              style={[styles['pagination_' + this.state.dir], this.props.paginationStyle,
+                {
+                transform:[
+                  {
+                    translateY: dir == 'y' ? this.state.scroll && this.state.scroll.interpolate({
+                      inputRange: inputRange,
+                      outputRange: outputRange
+                   }) : 0,
+                  },{
+                    translateX: dir == 'x' ? ( this.state.scroll && this.state.scroll.interpolate({
+                      inputRange,
+                    outputRange
+                    }) ) || 0 : 0,
+                  }
+
+                ],
+
+              }]}
+              >
+              <View style={[styles.activeDot,{}]} key={'dot-active'} />
+            </Animated.View>
+
       </View>
     )
   }
