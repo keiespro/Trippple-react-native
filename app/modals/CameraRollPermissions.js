@@ -38,8 +38,10 @@ export default class CameraRollPermissionsModal extends Component{
     super();
     console.log(props.AppState.OSPermissions,OSPermissions)
     this.state = {
-      failedState: OSPermissions.cameraRoll && parseInt(OSPermissions.cameraRoll) < 3,
-      hasPermission: OSPermissions.cameraRoll && OSPermissions.cameraRoll > 2 ? true : false
+      image_type: props.image_type,
+      failedState: OSPermissions.cameraRoll && parseInt(OSPermissions.cameraRoll) && parseInt(OSPermissions.cameraRoll) < 3,
+      hasPermission: OSPermissions.cameraRoll && parseInt(OSPermissions.cameraRoll) && OSPermissions.cameraRoll > 2
+
     }
   }
 

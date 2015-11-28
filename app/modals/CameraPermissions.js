@@ -39,11 +39,13 @@ export default class CameraPermissionsModal extends Component{
 
   constructor(props) {
     super()
+    console.log(OSPermissions)
     this.state = {
       image_type: props.image_type,
-      failedState: OSPermissions[CameraKey] && parseInt(OSPermissions[CameraKey]) < 3  ? true : false,
-      hasPermission: OSPermissions[CameraKey] && parseInt(OSPermissions[CameraKey]) > 2 ? true : false
+      failedState: OSPermissions.camera && parseInt(OSPermissions.camera) && parseInt(OSPermissions.camera) < 3,
+      hasPermission: OSPermissions.camera && parseInt(OSPermissions.camera) && OSPermissions.camera > 2
     }
+    console.log(this.state)
   }
   componentWillMount(){
     if(OSPermissions[CameraKey] && parseInt(OSPermissions[CameraKey]) > 2 ){
@@ -51,7 +53,10 @@ export default class CameraPermissionsModal extends Component{
         component: (this.props.image_type == 'couple_profile' ? CoupleCameraControl : CameraControl),
         id: 'cc',
       })
+    }else if(!OSPermissions[CameraKey]){
+      this.setState({failedState:false})
     }
+
   }
   componentDidUpdate(prevProps,prevState){
     if(!prevState.hasPermission && this.state.hasPermission ){
@@ -99,7 +104,7 @@ export default class CameraPermissionsModal extends Component{
     if(currentAppState == 'active'){
       OSPermissions.canUseCamera( (permission) => {
         console.log('camera permissions ',permission)
-        this.setState({ hasPermission: parseInt(permission > 2) ? true : false, failedState: false });
+        this.setState({ hasPermission: (parseInt(permission) > 2), failedState: false });
         AppStateIOS.removeEventListener('change', this._handleAppStateChange);
       })
     }

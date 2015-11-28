@@ -53,8 +53,9 @@ import AppActions from '../flux/actions/AppActions'
   constructor(props) {
     super();
     this.state = {
-      hasPermission: OSPermissions.location && parseInt(OSPermissions.location) > 2,
-      failedState: OSPermissions.location && parseInt(OSPermissions.location) < 3
+      failedState: OSPermissions.location && parseInt(OSPermissions.location) && parseInt(OSPermissions.location) < 3,
+      hasPermission: OSPermissions.location && parseInt(OSPermissions.location) && OSPermissions.location > 2
+
     }
   }
 
