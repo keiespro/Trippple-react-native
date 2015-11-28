@@ -85,14 +85,17 @@ class TopLevel extends Component{
       showCheckmark: false,
       showPurpleModal: false
     }
-    // NotificationActions.scheduleNewPotentialsAlert()
-  }
 
+
+  }
+  componentDidMount(){
+    NotificationActions.scheduleNewPotentialsAlert()
+  }
   componentWillReceiveProps(nProps){
 
     if(this.props.user && nProps.user &&  nProps.user.status == 'verified' && this.props.user.status != 'verified'){
 
-      this.setState({showCheckmark:true})
+      this.setState({showCheckmark:true,checkMarkCopy: {title: 'SUCCESS' }})
 
       this.setTimeout(()=>{
         console.log('time')
@@ -115,7 +118,7 @@ class TopLevel extends Component{
           <CheckMarkScreen
             key="toplevelcheckmark"
             isVisible={true}
-            checkMarkCopy={this.props.AppState.checkMarkCopy || ''}
+            checkMarkCopy={this.state.checkMarkCopy || this.props.AppState.checkMarkCopy || ''}
             checkmarkRequireButtonPress={this.props.AppState.checkmarkRequireButtonPress || false}
           /> : null }
 
