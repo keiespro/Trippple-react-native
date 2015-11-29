@@ -68,13 +68,15 @@ class NotificationPermissions extends React.Component{
           acc = acc + permissions[el];
           return acc
         },0);
-
+        NotificationActions.requestNotificationsPermission();
         this.setState({permissions, hasPermission: permResult > 0})
       })
     }
     componentDidUpdate(prevProps,prevState){
       if(!prevState.hasPermission && this.state.hasPermission ){
-        this.cancel()
+        this.props.navigator.pop()
+
+
       }
     }
     cancel(){
