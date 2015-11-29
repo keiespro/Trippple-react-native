@@ -3,6 +3,7 @@ import MatchActions from '../actions/MatchActions';
 import { AsyncStorage } from 'react-native';
 import {matchWasAdded, messageWasAdded} from '../../utils/matchstix'
 import _ from 'underscore'
+import Log from '../../Log'
 
 class ChatStore {
 
@@ -19,28 +20,28 @@ class ChatStore {
     this.state = {
       messages: {}
     }
-    this.on('init', () => console.log('ChatStore store init'))
+    this.on('init', () => {/*noop*/})
     this.on('error', (err, payload, currentState) => {
-        console.log(err, payload);
+      Log(err, payload, currentState);
     })
+    this.on('afterEach', (state) =>{
+      console.log('after each chat store')
+      this.save()
+    })
+
 
   }
 
-  loadLocalData(){
-    AsyncStorage.getItem('ChatStore')
-    .then((value) => {
-      console.log('got ChatStore from storage,', JSON.parse(value))
-      if (value !== null){
-        // get data from local storage
-        alt.bootstrap(value);
-      }
-    })
+  save(){
+
+    var partialSnapshot = alt.takeSnapshot(this);
+    AsyncStorage.setItem('ChatStore',JSON.stringify(partialSnapshot));
+
 
   }
 
   handleSentMessage(payload) {
     var matchMessages = payload.messages
-    console.log(matchMessages)
     this.setState(() => {
       var newState = {};
       newState[`${matchMessages.match_id}`] = matchMessages.message_thread;

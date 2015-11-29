@@ -94,7 +94,6 @@ class SettingsInside extends React.Component{
     this._scrollView.setNativeProps(props);
   }
   // handleImages(imgs){
-  //   console.log(imgs);
   //   UserActions.uploadImage(imgs.croppedImage,'profile')
   //
   //   navigator.jumpForward();
@@ -332,7 +331,7 @@ class SettingsInside extends React.Component{
           </View>
         </TouchableHighlight>
 
-           <TouchableHighlight onPress={(f)=>{
+        { __DEV__ && <TouchableHighlight onPress={(f)=>{
                this.props.navigator.push({
                 component: SettingsDebug,
                 sceneConfig:NavigatorSceneConfigs.FloatFromBottom,
@@ -354,7 +353,7 @@ class SettingsInside extends React.Component{
                   <Image source={require('../../newimg/nextArrow.png')} />
                 </View>
               </TouchableHighlight>
-
+            }
               </View>
         </ParallaxView>
       </View>

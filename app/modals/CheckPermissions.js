@@ -88,7 +88,6 @@ import AppActions from '../flux/actions/AppActions'
   }
   getLocation(){
       navigator.geolocation.getCurrentPosition( (geo) => {
-        console.log('x',geo)
 
         this.handleSuccess(geo)
         this.props.successCallback && this.props.successCallback( geo.coords)
@@ -97,7 +96,6 @@ import AppActions from '../flux/actions/AppActions'
         this.requestPermission()
 
         // this.setState({hasPermission: false, failedState: true})
-        console.log('x',error)
         // this.handleFail()
         // this.props.navigator[this.props.renderPrevMethod]()
 
@@ -122,7 +120,6 @@ import AppActions from '../flux/actions/AppActions'
     if(this.state.failedState){
       this.openSettings()
     }else{
-      console.log(this.state.hasPermission)
       if(!this.state.hasPermission){
         this.requestPermission()
       }else{

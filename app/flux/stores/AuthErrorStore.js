@@ -1,5 +1,6 @@
 import alt from '../alt'
 import UserActions from '../actions/UserActions'
+import Log from '../../Log'
 
 class AuthErrorStore {
 
@@ -10,8 +11,9 @@ class AuthErrorStore {
       handleVerifyPinErrors: UserActions.VERIFY_SECURITY_PIN
     });
 
+    this.on('init', () => {/*noop*/})
     this.on('error', (err, payload, currentState) => {
-        console.log(err, payload);
+        Log(err, payload, currentState);
     })
 
   }
@@ -20,7 +22,6 @@ class AuthErrorStore {
     if(!err.error){
       return false;
     }
-    console.log(err.error)
 
     this.setState({
       phoneError: err.error,
@@ -31,7 +32,6 @@ class AuthErrorStore {
     if(!err.error){
       return false;
     }
-    console.log(err.error)
 
     this.setState({
       verifyError: err.error

@@ -36,7 +36,6 @@ export default class CameraRollPermissionsModal extends Component{
 
   constructor(props) {
     super();
-    console.log(props.AppState.OSPermissions,OSPermissions)
     this.state = {
       image_type: props.image_type,
       failedState: OSPermissions.cameraRoll && parseInt(OSPermissions.cameraRoll) && parseInt(OSPermissions.cameraRoll) < 3,
@@ -48,7 +47,6 @@ export default class CameraRollPermissionsModal extends Component{
   _handleAppStateChange(currentAppState) {
     if(currentAppState == 'active'){
       OSPermissions.canUseCamera( (permission) => {
-        console.log('camera permissions ',permission)
         this.setState({ hasPermission: parseInt(permission > 2) ? true : false, failedState: false });
         AppStateIOS.removeEventListener('change', this._handleAppStateChange);
       })
@@ -107,7 +105,6 @@ export default class CameraRollPermissionsModal extends Component{
 
   }
   handleSuccess(){
-    console.log('HANDLE SUCCESS ' )
 
     // AppActions.grantPermission(permissionsKey)
     this.setState({hasPermission:true})

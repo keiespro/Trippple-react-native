@@ -58,7 +58,6 @@ var ImageProject = React.createClass({
     },
 
     logImageError(err) {
-        console.log(err);
     },
 
     selectImage(uri) {
@@ -66,7 +65,6 @@ var ImageProject = React.createClass({
             this.setState({
                 selected: image,
             });
-            console.log(image);
         });
     },
 

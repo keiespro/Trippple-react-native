@@ -48,7 +48,6 @@ componentDidMount(){
   //
   if(this.props.imagePath && this.props.imagePath.length){
     React.NativeModules.RNFSManager.readFile(this.props.imagePath, (err,uri)=>{
-      console.log(err,'imgget');
       if(!uri || uri == ''){
         return false
       }
@@ -59,11 +58,9 @@ componentDidMount(){
   }
 }
   // componentWillReceiveProps(nProps){
-  //   console.log('NPROPS',nProps)
   //   if(nProps.execute){
   //     this.props.loadImage(
   //       (imageUri)=>{
-  //         console.log('load')
   //
   //       this.setState({
   //         imageUri
@@ -74,7 +71,6 @@ componentDidMount(){
   render(){
     const {sectionID,rowID,rowData,imagePath,execute} = this.props
     var phoneNumber = rowData.phoneNumbers && rowData.phoneNumbers[0] ? rowData.phoneNumbers[0].number : '';
-    // console.log(sectionID, rowID)
 
     if(this.props.highlightedRow && this.props.highlightedRow.rowID === rowID){
     }
@@ -136,7 +132,6 @@ class ContactList extends Component{
   }
 
   componentDidMount(){
-    // let stub = () => {console.log('anim done')};
     // const digits =  (i) =>  {
     //     return Array.from(new Array(this.props.contacts.length), () => i++)
     //   }
@@ -159,7 +154,6 @@ class ContactList extends Component{
     //
     //
     // this.loadListener = this.state.followIndex.addListener( (value) =>{
-    //   console.log(parseInt(value));
     //   this.setState({
     //     currentValue: parseInt(value)
     //   })
@@ -246,7 +240,6 @@ class Contacts extends Component{
 
     //add a fake contact
     // const randomPhone = Math.floor(Math.random() * 9000000) + 1000000;
-    // console.log(randomPhone)
     //
     // AddressBook.addContact({
     //   lastName: 'YOUR',
@@ -257,13 +250,11 @@ class Contacts extends Component{
     //   }],
     // }, (error) => {
     //     if(error) {
-    //       console.log(error)
     //       return false
     //     }
 
         AddressBook.getContacts((err, contacts) => {
           if(err){
-            console.log(err);
             return false;
           }
 
@@ -290,7 +281,6 @@ class Contacts extends Component{
   getContacts(){
      AddressBook.checkPermission((err, permission) => {
        if(err){
-         console.log(err)
         //TODO:  handle err;
       }
 
@@ -319,11 +309,9 @@ class Contacts extends Component{
   askPermissions(){
     AddressBook.requestPermission((err, permission) => {
       if(err){
-        console.log(err)
         return
       //TODO:  handle err;
       }
-      console.log('CONTACT PERMISSION: ',permission)
       this.getContacts()
     })
   }
@@ -436,10 +424,8 @@ class Contacts extends Component{
     }}
     onPressBackdrop={this._cancel.bind(this)}
     onDidShow={()=>{
-      console.log('shown');
       this.setTimeout(()=>{
         this.setState({modalBG: 'rgba(0,0,0,0.5)'});
-        console.log('endtimeout')
       },500);
     }}
 

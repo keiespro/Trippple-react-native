@@ -51,7 +51,6 @@ class ChatInput extends Component{
 
   }
   _pressSend(){
-    console.log('SEND: ',this.state.curText)
   }
 
   render(){

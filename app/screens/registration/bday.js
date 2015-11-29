@@ -88,7 +88,6 @@ class BdayScreen extends Component{
         isLegal:true
       })
 
-      // console.log(date,this.state.date);
       OnboardingActions.updateUserInfo({
         birthday: moment(date).format('YYYY-MM-DD'),
         bday_month: date.getMonth()+1,

@@ -7,6 +7,7 @@ const {CameraManager,OSPermissions} = NativeModules
 import AddressBook from 'react-native-addressbook'
 
 
+import Log from '../../Log'
 
 
 class AppStateStore {
@@ -31,7 +32,6 @@ class AppStateStore {
       notifications: null,
 
     }
-    console.log(OSPermissions)
     this.OSPermissions = {...OSPermissions }
 
     this.bindListeners({
@@ -55,9 +55,8 @@ class AppStateStore {
     })
 
     this.on('error', (err, payload, currentState) => {
-        console.log(err, payload);
+        Log(err, payload, currentState);
     })
-
     this.on('init', async () => {
 
       var storedPermissions = Object.keys(this.permissions).reduce( async (aggregator, key)=>{
@@ -83,7 +82,6 @@ class AppStateStore {
     perms[permission] = value
     this.saveToLocalStorage(permission,value)
     this.setState({permissions:perms})
-    console.log('PERMISSION '+(value ? 'GRANTED: ' : 'DENIED: '+ permission))
   }
 
   handleGrantPermission(permission){
@@ -97,7 +95,6 @@ class AppStateStore {
     try {
       await AsyncStorage.setItem(`${permission}`, (value.toString()))
     } catch (error) {
-      console.log('AsyncStorage error: ' + error.message);
     }
   }
   handleToggleOverlay(){
@@ -178,7 +175,6 @@ class AppStateStore {
   }
 
   handleSelectPartner(payload){
-    console.log(payload);
     if(payload.err){
       return false;
       }
@@ -196,7 +192,6 @@ class AppStateStore {
 
 
   handleUpdateRoute(payload){
-    console.log(payload)
     this.currentRoute = payload;
 
   }

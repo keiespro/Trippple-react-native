@@ -67,7 +67,6 @@ class SingleInputScreen extends Component{
     }
   }
   updateKeyboardSpace =(frames)=> {
-    console.log(frames);
     if(!frames.endCoordinates){return false}
     this.setState({
       keyboardSpace: frames.endCoordinates.height,

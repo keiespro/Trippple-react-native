@@ -42,7 +42,6 @@ var ProfilePhoto = React.createClass({
     var {fbUser} = this.props;
     var api = `https://graph.facebook.com/v2.3/${fbUser.userId}/picture?width=${FB_PHOTO_WIDTH}&redirect=false&access_token=${fbUser.token}`;
 
-    console.log('FB api > ProfilePhoto',api);
 
     fetch(api)
       .then((response) => response.json())
@@ -93,7 +92,6 @@ var ProfileInfo = React.createClass({
     var fbUser = this.props.fbUser;
     var api = `https://graph.facebook.com/v2.3/${fbUser.userId}?fields=name,email&access_token=${fbUser.token}`;
 
-    console.log('FB api > ProfileInfo',api);
 
     fetch(api)
       .then((response) => response.json())
@@ -126,9 +124,7 @@ var AlbumView = React.createClass({
 
 
   selectPhoto(photo) {
-    console.log('[FB] selectPhoto:', photo);
     var {navigator,route,image_type,nextRoute,afterNextRoute} = this.props;
-      console.log(this.props,photo)
     if(nextRoute){
       navigator.push({
         component: nextRoute,
@@ -143,7 +139,6 @@ var AlbumView = React.createClass({
 
     }else{
       var lastindex = this.props.navigator.getCurrentRoutes().length;
-      console.log(lastindex);
       var nextRoute = this.props.stack[lastindex];
 
       nextRoute.passProps = {
@@ -156,7 +151,6 @@ var AlbumView = React.createClass({
 
   },
   renderSinglePhotos(photo) {
-    console.log(photo)
     var img = photo.images && photo.images.length > 4 && photo.images[4].source || photo.images && photo.images[0] && photo.images[0].source || photo.source;
 
     return (
@@ -172,7 +166,6 @@ var AlbumView = React.createClass({
   render(){
 
     var album = this.props.album_details;
-    console.log('loading album details', album);
 
     return (
       <View style={{flex:1}}>
@@ -226,14 +219,12 @@ var PhotoAlbums = React.createClass({
 
   componentDidMount(){
     this.fetchAlbums();
-    console.log(this.props)
   },
 
   fetchAlbums() {
     var fbUser = this.props.fbUser;
     var api = `https://graph.facebook.com/v2.3/${fbUser.userId}/albums?redirect=false&access_token=${fbUser.token}`;
 
-    console.log('FB api > PhotoAlbums',api);
 
     fetch(api)
       .then((response) => response.json())
@@ -241,7 +232,6 @@ var PhotoAlbums = React.createClass({
         var albums = responseData.data;
         var total_found = albums.length;
         var count = 0;
-        console.log('albums ---',albums);
 
         if (albums) {
           for (var i in albums) {
@@ -252,11 +242,9 @@ var PhotoAlbums = React.createClass({
               .then((response) => response.json())
               .then((responseData) => {
                 albums[x].cover_photo_image_url = responseData.data.url
-                console.log('albums[i]',x, albums[x]);
                 return x;
               })
               .done((index) => {
-                console.log('done',(+new Date), index);
                 count++;
 
                 if (total_found == count) {
@@ -276,11 +264,9 @@ var PhotoAlbums = React.createClass({
     this.fetchAlbumPhotos(album)
   },
   fetchAlbumPhotos(album) {
-    console.log(album,this.props)
     var fbUser = this.props.fbUser;
     var api = 'https://graph.facebook.com/v2.3/' + album.id + '/photos?redirect=false&access_token=' + fbUser.token;
 
-    console.log('FB api > fetchAlbumPhotos', api);
 
     if (this.state.album_photos && album.photos) {
       // this.setState({
@@ -305,11 +291,9 @@ var PhotoAlbums = React.createClass({
       fetch(api)
         .then((response) => response.json())
         .then((responseData) => {
-          console.log(responseData)
           var photos = responseData.data;
           var total_found = photos.length;
           var count = 0;
-          console.log('[album id: ' + album.id + '] photos ---', photos);
 
           this.props.navigator.push({
             component: AlbumView,
@@ -370,7 +354,6 @@ var PhotoAlbums = React.createClass({
     var fbUser = this.props.fbUser;
     var albums = this.state.albums;
 
-    console.log('[FB] albums:', albums);
 
     return (
       <View style={{flex:1,backgroundColor:colors.outerSpace,height:DeviceHeight,width:DeviceWidth}}>

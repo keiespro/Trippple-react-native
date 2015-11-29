@@ -132,7 +132,6 @@ class FieldModal extends React.Component{
   //       date: date,
   //       canContinue:true
   //     })
-  //     console.log(date,this.state.date);
   //   }
   // }
   submit(){

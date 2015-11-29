@@ -107,7 +107,6 @@ class SettingsSettings extends React.Component{
     var appInfo = {}
 
     for(var c in React.NativeModules.RNAppInfo){
-      console.log(c,typeof React.NativeModules.RNAppInfo[c])
 
       if (typeof React.NativeModules.RNAppInfo[c] != 'function'){
         appInfo[c] = React.NativeModules.RNAppInfo[c]
@@ -122,7 +121,6 @@ class SettingsSettings extends React.Component{
         fileContents = unescape(encodeURIComponent(JSON.stringify(feedbackDebugInfo)))
         // encodeURIComponent + unescape prevents "string to be encoded contains characters outside of the Latin1 range" error
 
-    console.log(fileContents)
 
     RNFS.writeFile(path, (fileContents))
       .then((success) => {
@@ -142,7 +140,6 @@ class SettingsSettings extends React.Component{
         });
       })
       .catch((err) => {
-        console.log(err.message);
       });
 
   }

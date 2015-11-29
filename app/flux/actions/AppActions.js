@@ -11,7 +11,6 @@ class AppActions {
      this.dispatch(creds)
   }
   noCredentials(err){
-    console.log('FAIL',err)
     this.dispatch(err)
   }
   remoteFail(){

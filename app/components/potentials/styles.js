@@ -209,7 +209,16 @@ animatedIcon:{
     borderRadius: 30,
     borderColor:colors.white,
     borderWidth: 3
+},
+  circleimageSmaller:{
+    backgroundColor: colors.shuttleGray,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    borderColor:colors.white,
+    borderWidth: 3
   },
+
   cardStackContainer:{
     width:DeviceWidth,
     height:DeviceHeight-55,
@@ -221,14 +230,14 @@ animatedIcon:{
   },
 
   cardBottomText:{
-    marginLeft:20,
+    marginLeft:0,
     fontFamily:'Montserrat-Bold',
     color: colors.shuttleGray,
     fontSize:18,
     marginTop:0
   },
   cardBottomOtherText:{
-    marginLeft:20,
+    marginLeft: 0,
     fontFamily:'omnes',
     color: colors.rollingStone,
     fontSize:16,

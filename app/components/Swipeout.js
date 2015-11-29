@@ -119,7 +119,7 @@ var SwipeoutBtn = React.createClass({
 var Swipeout = React.createClass({
   getDefaultProps() {
     return {
-      onOpen: (sectionID, rowID) => {console.log('onOpen: '+sectionID+' '+rowID)},
+      onOpen: (sectionID, rowID) => { /* no op*/},
       rowID: -1,
       sectionID: -1,
     }
@@ -154,7 +154,6 @@ var Swipeout = React.createClass({
 
   },
   shouldComponentUpdate(nextProps,nextState){
-    console.log(nextProps)
     return nextProps.rowData.unreadCount ? true : false
   },
   initializePanResponder(){
@@ -222,7 +221,6 @@ var Swipeout = React.createClass({
   render(){
     var {offsetX, contentWidth} = this.state
     var {rowData} = this.props
-    console.log(rowData,rowData.isFavourited)
     return (
       <Animated.View style={{position:'relative',width:DeviceWidth,overflow:'hidden',
       backgroundColor:   offsetX.interpolate({

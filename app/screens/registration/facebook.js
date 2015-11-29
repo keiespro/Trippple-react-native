@@ -42,7 +42,6 @@ class Facebook extends Component{
 
   handleCredentials(fbUserData){
 
-    console.log(fbUserData)
     if(!fbUserData || fbUserData && !fbUserData.credentials ) { return false}
 
     var fbUser = fbUserData.credentials;
@@ -53,7 +52,6 @@ class Facebook extends Component{
     fetch(api)
       .then((response) => response.json())
       .then((responseData) => {
-        console.log(responseData)
 
         var {
           email,

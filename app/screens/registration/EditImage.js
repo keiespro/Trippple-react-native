@@ -79,7 +79,6 @@ class EditImage extends Component{
       UserActions.updateLocally(localImages)
       UserActions.uploadImage.defer( this.props.image, this.props.image_type )    // },
     // (errr)=> {
-    //   console.log( errr ,'errr')
     // } )
     const nextRoute =  EditImageThumb
 
@@ -130,7 +129,6 @@ class EditImage extends Component{
         <Text>{this.state.cropError.message}</Text>
       );
     }
-    console.log('IMAGE',this.props.image)
     var {image} = this.props
     var uri = image.uri ? image.uri : image
 
@@ -180,7 +178,7 @@ class EditImage extends Component{
     //   uri,
     //   this._transformData,
     //   (croppedImageURI) => {   this.setState({croppedImageURI}); this.accept(croppedImageURI); },
-    //   (cropError) => { console.log('cropError',cropError); this.setState({cropError}) }
+    //   (cropError) => { this.setState({cropError}) }
     // );
   }
 

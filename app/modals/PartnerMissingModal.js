@@ -52,19 +52,14 @@ class PartnerMissingModal extends Component{
       (result) => {
         switch(result) {
           case RNMessageComposer.Sent:
-            // console.log('the message has been sent');
             break;
           case RNMessageComposer.Cancelled:
-            // console.log('user cancelled sending the message');
             break;
           case RNMessageComposer.Failed:
-            // console.log('failed to send the message');
             break;
           case RNMessageComposer.NotSupported:
-            // console.log('this device does not support sending texts');
             break;
           default:
-            // console.log('something unexpected happened');
             break;
         }
       }

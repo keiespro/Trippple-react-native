@@ -25,7 +25,6 @@ class Notification extends Component{
   }
 
   componentWillMount() {
-    console.log('notification top')
             LayoutAnimation.spring();
 
   }
@@ -46,7 +45,6 @@ class Notification extends Component{
   }
 
   render(){
-    console.log(this.props.payload)
     if(!this.props.payload){return false}
     const { payload } = this.props
 
@@ -64,10 +62,8 @@ class Notification extends Component{
           <View style={[styles.notificationOverlay,styles.notificationNewMessage]}>
 
           <TouchableOpacity onPress={(e)=>{
-              console.log(this.props.payload)
               this.setState({yValue:-220})
               AppActions.updateRoute({route:'chat',match_id:this.props.payload.match_id})
-                console.log(e)
               }}>
           <View style={styles.notificationInside}>
             <View style={styles.notificationLeft}>
@@ -92,7 +88,6 @@ class Notification extends Component{
        {this.props.payload.type == 'match' ?
          <View style={[styles.notificationOverlay,styles.notificationNewMatch]}>
           <TouchableOpacity onPress={(e)=>{
-              console.log(e)
               this.setState({yValue:-220})
               AppActions.updateRoute({route:'chat',match_id:this.props.payload.match_id,})
             }}>

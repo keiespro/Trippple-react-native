@@ -58,7 +58,6 @@ class SelfImage extends Component{
   }
   getCameraPermission(){
     var lastindex = this.props.navigator.getCurrentRoutes().length;
-    console.log(lastindex);
     var nextRoute = {
       component: CameraPermissionsModal
     }

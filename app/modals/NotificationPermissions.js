@@ -68,7 +68,6 @@ class NotificationPermissions extends React.Component{
           acc = acc + permissions[el];
           return acc
         },0);
-        NotificationActions.requestNotificationsPermission();
         this.setState({permissions, hasPermission: permResult > 0})
       })
     }
@@ -108,7 +107,12 @@ class NotificationPermissions extends React.Component{
     _handleAppStateChange(currentAppState) {
       if(currentAppState == 'active'){
         PushNotificationIOS.checkPermissions( (permission) => {
-          this.setState({ hasPermission: (parseInt(permission) > 2), failedState: false });
+          const permResult = Object.keys(permissions).reduce((acc,el,i) =>{
+            acc = acc + permissions[el];
+            return acc
+          },0);
+
+          this.setState({ hasPermission: (permResult > 0), failedState: false });
           AppStateIOS.removeEventListener('change', this._handleAppStateChange);
         })
       }

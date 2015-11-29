@@ -32,7 +32,7 @@ var deviceWidth = Dimensions.get('window').width;
 //     var isTabActive = this.props.pageNumber === page;
 //
 //     return (
-//       <TouchableOpacity key={name} onPress={() => {console.log(page); this.props.goToPage(page)}}>
+//       <TouchableOpacity key={name} onPress={() => {this.props.goToPage(page)}}>
 //         <View style={[styles.tab]}>
 //           <Text style={{fontFamily:'Montserrat',fontSize:15,padding:5,color: isTabActive ? colors.white : colors.shuttleGray}}>{name}</Text>
 //         </View>
@@ -131,7 +131,6 @@ var ScrollableTabView = React.createClass({
   //       var relativeGestureDistance = gestureState.dx / deviceWidth,
   //           lastPageIndex = this.props.children.length - 1,
   //           vx = gestureState.vx;
-  //           console.log(relativeGestureDistance);
   //       this.goToPage(gestureState.dx,relativeGestureDistance);
   //     },
   //

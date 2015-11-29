@@ -11,6 +11,7 @@ import MatchActions from '../flux/actions/MatchActions'
 import UserActions from '../flux/actions/UserActions'
 import Notification from './NotificationTop'
 import TimerMixin from 'react-timer-mixin'
+import colors from './colors'
 
 import reactMixin from 'react-mixin'
 
@@ -53,16 +54,13 @@ class NotificationCommander extends Component{
   }
 
   _onPushNotification =(pushNotification)=>{
-    console.log('pushNotification! pushNotification!',pushNotification)
     VibrationIOS.vibrate()
     this.handlePushData(pushNotification)
   }
 
   handlePushData(pushNotification){
-    console.log('handlePushData',pushNotification)
 
     if(!pushNotification || !pushNotification.data){
-      console.log(pushNotification, 'This notification is empty?');
       return false
     }
 
@@ -85,7 +83,6 @@ class NotificationCommander extends Component{
   _handleAppStateChange =(appState)=> {
     if(appState === 'active'){
       const newNotification = PushNotificationIOS.popInitialNotification()
-      console.log('popped notification: ',newNotification);
       if(newNotification){
         this.handlePushData(newNotification)
       }
@@ -110,7 +107,6 @@ class NotificationCommander extends Component{
 
 
     this.socket.on('system', (payload) => {
-      console.log('system NOTIFICATION',payload)
 
       const { data } = payload
 
@@ -127,18 +123,15 @@ class NotificationCommander extends Component{
 
 
       }else if(data.action && data.action === 'retrieve' && data.userInfo == true) {
-          console.log('FETCH USER INFO!!!!!')
 
 
       }else if(data.action && data.action === 'logout') {
-          console.log('FORCE LOG OUT!!!!!')
 
           UserActions.logOut()
       }
     })
 
     this.socket.on('chat', (payload) => {
-      console.log('CHAT NOTIFICATION',payload)
 
       NotificationActions.receiveNewMessageNotification(payload)
 
@@ -160,8 +153,30 @@ class NotificationCommander extends Component{
 
 
   render(){
+    const devStyles =  {
+      position:'absolute',
+      top:0,
+      left:0,
+      width:1,
+      height:1,
+      borderRadius:1,
+      backgroundColor: this.state.socketConnected ? colors.sushi : colors.mandy
+    };
 
-    return <View/>
+    const noStyles = {
+      top:0,
+      left:0,
+      width:0,
+      height:0,
+
+    }
+
+    return (
+
+      <View
+        style={ __DEV__ ? devStyles : noStyles}
+      />
+    )
   }
 
 }

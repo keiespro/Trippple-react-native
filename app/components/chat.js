@@ -27,6 +27,8 @@ import FakeNavBar from '../controls/FakeNavBar'
 // import MaskableTextInput from '../RNMaskableTextInput.js'
 
 import { BlurView,VibrancyView} from 'react-native-blur'
+import Log from '../Log'
+
 
 const styles = StyleSheet.create({
   container: {
@@ -186,6 +188,9 @@ class ChatMessage extends React.Component {
   constructor(props){
     super(props);
   }
+  shouldComponentUpdate(){
+    return false
+  }
   render() {
     var isMessageOurs = (this.props.messageData.from_user_info.id === this.props.user.id || this.props.messageData.from_user_info.id === this.props.user.partner_id);
 
@@ -249,7 +254,6 @@ class ChatInside extends Component{
 
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-    console.log(props);
 
     this.state = {
       dataSource: ds.cloneWithRows(props.messages || []),
@@ -324,7 +328,6 @@ class ChatInside extends Component{
 //   return nextProps.messages.length == this.props.messages.length
 // }
   componentDidUpdate(prevProps){
-    console.log(prevProps.messages,this.props.messages)
     if(prevProps.messages.length !== this.props.messages.length){
       this.refs.scroller.refs.listviewscroll.scrollTo(0,0)
     }
@@ -332,17 +335,14 @@ class ChatInside extends Component{
 
   componentWillReceiveProps(newProps){
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    console.log(newProps)
     this.setState({
       dataSource: ds.cloneWithRows(newProps.messages)
     })
   }
 
   saveToStorage(){
-    console.log('save??')
     AsyncStorage.setItem('ChatStore', alt.takeSnapshot(ChatStore))
-      .then(() => {console.log('saved chat store')})
-      .catch((error) => {console.log('AsyncStorage error: ' + error.message)})
+      .catch((error) => {Log('AsyncStorage error: ' + error.message)})
       .done();
   }
 
@@ -483,7 +483,6 @@ class ChatInside extends Component{
             autoFocus={false}
             clearButtonMode={'never'}
             onChangeText={this.onTextInputChange.bind(this)}
-            onLayout={(e) => { console.log(e,e.nativeEvent)}}
             >
             <View style={{ }}>
               <Text style={{ fontSize:17, padding:1, paddingBottom:7.5, color:colors.outerSpace, }} >{
@@ -568,10 +567,14 @@ var Chat = React.createClass({
   componentWillUnmount(){
     MatchActions.setAccessTime({match_id:this.props.match_id,timestamp: new Date().getTime()})
   },
-
   componentDidMount(){
     MatchActions.setAccessTime.defer({match_id:this.props.match_id,timestamp: new Date().getTime()})
     MatchActions.getMessages(this.props.match_id)
+
+    if(this.props.handle){
+      InteractionManager.clearInteractionHandle(this.props.handle)
+    }
+
   },
 
   toggleModal(){
@@ -595,7 +598,6 @@ var Chat = React.createClass({
         }
       }
     }
-    //         shouldComponentUpdate={(nextProps) => {console.log('shouldComponentUpdate',nextProps); return true}}
 
     return (
       <AltContainer

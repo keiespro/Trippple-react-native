@@ -60,7 +60,6 @@ class ProfileField extends React.Component{
   }
   render(){
     var field = this.props.field || {};
-    console.log('ProfileField',field);
 
     var displayField = (field) => {
       switch (field.field_type) {
@@ -143,7 +142,6 @@ class SettingsCouple extends React.Component{
   render(){
     let u = this.props.user;
     let settingOptions = this.props.settingOptions || {};
-    console.log('settingOptions',settingOptions);
 
     var {partner} = this.props.user
 

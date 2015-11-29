@@ -104,7 +104,6 @@ var IntroScreen = React.createClass({
   },
 
   handleFacebookButton(){
-    console.log('../../newimg/handle FB login.png',this.props.navigator,this.props.route)
 
     this.props.navigator.push({
       component: Facebook,
@@ -188,7 +187,6 @@ var Welcome = React.createClass({
       Mixpanel.track('On - Home Screen');
       this.refs.nav.navigationContext.addListener('willfocus', (e)=>{
         dismissKeyboard();
-        console.log(e);
       })
   },
 

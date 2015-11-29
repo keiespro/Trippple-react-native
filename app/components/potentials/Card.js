@@ -251,7 +251,7 @@ class Card extends React.Component{
               key={`${potential.id || potential.user.id}-infos`}
               style={{
                 padding: isTopCard ? 10 : 5,
-                paddingTop:30, paddingBottom:15, height:110,flex:1,
+                paddingTop:15, paddingBottom:15, height:110,flex:1,
               top:-30,}}>
                   <Text style={[styles.cardBottomText,{}]}
                     key={`${potential.id || potential.user.id}-names`}>{
@@ -266,12 +266,12 @@ class Card extends React.Component{
             {rel == 'single' &&
               <View style={{
                 height:60,
-                top:0,
-                right:30,
+                top:-65,
+                right:35,
                 alignSelf:'flex-end',
                 position:'absolute',
-                padding:10,
-
+                padding:5,
+overflow:'hidden',
                 alignItems:'flex-end',
                 backgroundColor:'transparent',
                 flexDirection:'row'}}>
@@ -279,8 +279,8 @@ class Card extends React.Component{
                   <Image
                     source={{uri: this.props.potential.user.image_url}}
                     key={this.props.potential.user.id + 'img'}
-                    style={[styles.circleimage, {
-                      marginRight:5,
+                    style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller), {
+                      marginRight:0,
                       borderColor: this.state.activeIndex == 0 ? colors.mediumPurple : colors.white,
                     }]}
                   />
@@ -289,7 +289,7 @@ class Card extends React.Component{
                   <Image
                     source={{uri: this.props.potential.partner.image_url}}
                     key={this.props.potential.partner.id + 'img'}
-                    style={[styles.circleimage,{
+                    style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller), {
                       borderColor: this.state.activeIndex == 1 ? colors.mediumPurple : colors.white}]}
                   />
                 </TouchableOpacity>
@@ -410,6 +410,7 @@ class Card extends React.Component{
               loop={true}
               style={{
                 flex:1,
+                position:'absolute',
                 height:DeviceHeight,
 
                 width: DeviceWidth
@@ -421,7 +422,7 @@ class Card extends React.Component{
                 autoplay={false}
                 showsPagination={true}
                 showsButtons={false}
-                paginationStyle={{position:'absolute',right:25,top:25,height:100}}
+                paginationStyle={{position:'absolute',right:10,top:25,height:100}}
               >
 
                <TouchableWithoutFeedback
@@ -433,9 +434,8 @@ class Card extends React.Component{
 
                   onPress={this.openProfileFromImage.bind(this)}
                   onPressIn={(e)=>{
-                    console.log(e)
                     this.refs.cardinside.setNativeProps({
-                      style: { opacity: 0.8 }
+                      // style: { opacity: 0.8 }
                     })
                   }}
                   >
@@ -497,11 +497,13 @@ class Card extends React.Component{
               <View
               key={`${potential.id || potential.user.id}-infos`}
               style={{
-              flex:1,height:60,
-              overflow:'visible',
-
-                      width: DeviceWidth,left:0,
-              paddingVertical:20, }}>
+                flex:1,
+                height:60,
+                overflow:'hidden',
+                width: DeviceWidth,
+                left:0,
+                marginLeft: MagicNumbers.screenPadding/2,
+                paddingVertical:20, }}>
               <Text
               key={`${potential.id || potential.user.id}-names`}
               style={[styles.cardBottomText,{color:colors.white,width:DeviceWidth-40}]}>
@@ -523,7 +525,7 @@ class Card extends React.Component{
               height:60,
               top:-30,
               position:'absolute',
-              width:135,
+              width:125,
               right:0,
               backgroundColor:'transparent',
               flexDirection:'row'}}

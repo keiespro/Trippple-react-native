@@ -64,13 +64,15 @@ class MatchList extends Component{
   }
 
   componentDidMount() {
+    MatchActions.getMatches();
+    MatchActions.getFavorites.defer();
+
     Mixpanel.track('On - Matches Screen');
   }
 
 
   _allowScroll = (scrollEnabled,listindex)=> {
     var listref = listindex == 0 ? '_listView' : '_flistView'
-    console.log(listref,this)
     this[listref] && this[listref].refs.listviewscroll.refs.ScrollView.setNativeProps({ scrollEnabled })
   }
 
@@ -92,7 +94,6 @@ class MatchList extends Component{
   }
 
   toggleFavorite(rowData){
-    console.log('TOGGLE FAVORITE',rowData);
     MatchActions.toggleFavorite(rowData.match_id.toString());
   }
 
@@ -112,7 +113,6 @@ class MatchList extends Component{
 
     var unreadCount = rowData.unreadCount || 0
 
-    console.log(rowData,unreadCount)
     return (
 
       <Swipeout
@@ -138,9 +138,8 @@ class MatchList extends Component{
         sectionID={sectionID}
         autoClose={false}
         scroll={event => this._allowScroll(event,this.state.index)}
-        onClose={(sectionID_, rowID_) => {console.log('close')}}
 
-        onOpen={(sectionID_, rowID_) => {console.log('OPEN'); this._handleSwipeout(sectionID_, rowID_)}}>
+        onOpen={(sectionID_, rowID_) => {this._handleSwipeout(sectionID_, rowID_)}}>
 
         <TouchableHighlight onPress={(e) => {
             if(this.state.isVisible || !this.state.scrollEnabled){ return false}
@@ -185,9 +184,11 @@ class MatchList extends Component{
   }
   _pressRow(match_id: number) {
     // get messages from server and open chat view
+    var handle = InteractionManager.createInteractionHandle();
 
-
-    MatchActions.getMessages(match_id);
+    InteractionManager.runAfterInteractions(() => {
+      MatchActions.getMessages(match_id);
+   })
 
     this.props.navigator.push({
       component: Chat,
@@ -195,6 +196,7 @@ class MatchList extends Component{
       index: 3,
       title: 'CHAT',
       passProps:{
+        handle,
         index: 3,
         match_id: match_id,
         navigator: this.props.navigator,
@@ -202,11 +204,15 @@ class MatchList extends Component{
       },
       sceneConfig: Navigator.SceneConfigs.FloatFromRight,
     });
+
+
+
   }
 
   render(){
     var self = this,
-        isVisible = this.state.isVisible
+        isVisible = this.state.isVisible;
+
     return (
       <View style={styles.container}>
         <View style={{height:50}}>
@@ -234,7 +240,6 @@ class MatchList extends Component{
           <ListView
             initialListSize={12}
             scrollEnabled={this.state.scrollEnabled}
-            removeClippedSubviews={true}
             directionalLockEnabled={true}
             vertical={true}
             chatActionSheet={this.props.chatActionSheet}
@@ -261,7 +266,6 @@ class MatchList extends Component{
             vertical={true}
             chatActionSheet={this.props.chatActionSheet}
             onEndReached={ (e) => {
-              console.log('FAVS ON END REACHED')
              // const nextPage = this.props.favorites.length/20 + 1;
               // if(this.state.fetching || nextPage === this.state.lastPage){ return false }
               // this.setState({lastPage: nextPage })
@@ -287,13 +291,14 @@ class MatchesInside extends Component{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.fds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     this.state = {
       matches: props.matches,
       favorites: props.favorites,
       isVisible: false,
       dataSource: this.ds.cloneWithRows(props.matches),
-      favDataSource: this.ds.cloneWithRows(props.favorites)
+      favDataSource: this.fds.cloneWithRows(props.favorites)
 
     }
   }
@@ -328,15 +333,14 @@ class MatchesInside extends Component{
     }
 
   _updateDataSource(data,whichList) {
-    console.log(data)
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.match_id !== r2.match_id});
+    // var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.match_id !== r2.match_id});
     if(data.length > 1){
       var newState = (whichList == 'matches') ? {
         matches: data,
-        dataSource: ds.cloneWithRows(data || []),
+        dataSource: this.ds.cloneWithRows(data || []),
       } : {
         favorites: data,
-        favDataSource: ds.cloneWithRows(data || []),
+        favDataSource: this.fds.cloneWithRows(data || []),
       };
       this.setState(newState)
     }
@@ -350,7 +354,6 @@ class MatchesInside extends Component{
             favDataSource={this.state.favDataSource}
             matches={this.state.matches || this.props.matches}
             favorites={this.state.favorites || this.props.favorites}
-
             updateDataSource={this._updateDataSource.bind(this)}
             id={"matcheslist"}
             chatActionSheet={this.props.chatActionSheet}
@@ -385,7 +388,7 @@ class NoMatches extends Component{
   }}>
         <FadeInContainer>
 
-          <View style={{flexDirection:'column',paddingHorizontal:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
+          <View style={{flexDirection:'column',padding:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
             <Image  style={{width:300,height:100,marginBottom:0 }} source={require('../../newimg/listing.png')}
               resizeMode={Image.resizeMode.contain} />
             <Image  style={{width:300,height:100,marginBottom:20 }} source={require('../../newimg/listing.png')}
@@ -417,7 +420,7 @@ class NoFavorites extends Component{
         width:DeviceWidth}}>
         <FadeInContainer>
 
-          <View style={{flexDirection:'column',paddingHorizontal:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
+          <View style={{flexDirection:'column',padding:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
 
             <Image  style={{width:175,height:180,marginBottom:40 }} source={require('../../newimg/iconPlaceholderFavs.png')}
                resizeMode={Image.resizeMode.contain}
@@ -435,19 +438,13 @@ class NoFavorites extends Component{
 }
 class Matches extends Component{
 
-  static defaultProps = {
-
-  }
   constructor(props) {
-    super(props);
+    super();
 
     this.state = {
       currentMatch:null,
       isVisible:false
     }
-
-  }
-  componentDidMount(){
 
   }
   chatActionSheet(match){
@@ -494,7 +491,7 @@ class Matches extends Component{
               <FadeInContainer
                 duration={300}
                 style={{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}}>
-                <TouchableOpacity activeOpacity={0.5} onPress={(e)=>{ console.log(e); this.setState({isVisible:false}) }}>
+                <TouchableOpacity activeOpacity={0.5} onPress={(e)=>{ this.setState({isVisible:false}) }}>
                   <BlurView
                     blurType="light"
                     style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]} >
@@ -506,7 +503,7 @@ class Matches extends Component{
             <View><ActionModal
               user={this.props.user}
               navigator={this.props.navigator}
-              toggleModal={(e)=>{ console.log(e); this.setState({isVisible:false}) }}
+              toggleModal={(e)=>{ this.setState({isVisible:false}) }}
               isVisible={this.state.isVisible}
               currentMatch={this.state.currentMatch}
             /></View>
@@ -622,7 +619,6 @@ class StarButton extends Component{
     super()
   }
   render(){
-    console.log(this.props)
     return (
        this.props.startValue ?  <ActiveStarButton {...this.props}/> : <EmptyStarButton {...this.props}/>
 

@@ -35,7 +35,7 @@ let styles = StyleSheet.create({
     marginBottom: 3,
     borderColor: colors.shuttleGray
   },
-  dot: {
+  dot15: {
     backgroundColor: 'transparent',
     width: 15,
     height: 15,
@@ -47,7 +47,22 @@ let styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.white
   },
-  activeDot: {
+  activeDot15:{
+    width: 15,
+    height: 15,
+    borderRadius: 7.5,
+    marginLeft: 6,
+    marginRight: 6,
+    marginTop: 6,
+    marginBottom: 6,
+    borderWidth: 2,
+
+    borderColor: colors.mediumPurple,
+    backgroundColor: colors.mediumPurple20,
+
+  },
+
+  activeDot16: {
     backgroundColor: colors.mediumPurple20,
     width: 16,
     height: 16,
@@ -56,7 +71,7 @@ let styles = StyleSheet.create({
     marginRight: 8,
     marginTop: 3,
     marginBottom: 3,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: colors.mediumPurple
   },
   container: {
@@ -190,7 +205,6 @@ export default React.createClass({
 
   componentDidMount() {
     this.state.scroll.addListener((e)=>{
-      console.log(e);
     })
 
   },
@@ -238,7 +252,6 @@ export default React.createClass({
     let index = state.index
     let diff = offset[dir] - state.offset[dir]
     let step = dir == 'x' ? state.width : state.height
-    console.log(state,diff,step)
     // Do nothing if offset no change.
     if(!diff) return
 
@@ -351,8 +364,8 @@ export default React.createClass({
     var inputRange = [0,width,width*2,width*3,width*4,width*5,width*6],
     outputRange = [-64,-64,-32,0,32,64,-64];
 
-    var inputRangeVertical = [0,(height-80),(height-80)*2,(height-80)*3],
-    outputRangeVertical = [6,40,10,40];
+    var inputRangeVertical = [0,height,height*2,height*3],
+    outputRangeVertical = [9,36,9,36];
 
 
 
@@ -381,17 +394,16 @@ export default React.createClass({
           {props.showsPagination && React.Children.map(this.props.children, (c,i) => {
             return (
                 <View
-                    style={ this.props.grayDots ?  styles.grayDot : styles.dot}
+                    style={ this.props.grayDots ?  styles.grayDot : styles.dot15}
                     key={'swiperdot'+i}
                   />
             )
           })}
-          </View>
             <Animated.View
               pointerEvents={'box-none'}
               style={[styles['pagination_' + this.state.dir], this.props.paginationStyle,
                 {
-                  position:'absolute',top:2,right:35,
+                  position:'absolute',top:  dir == 'y' ? 2.5 : 0,alignSelf:'flex-end',
                 transform:[
                   {
                     translateY: dir == 'y' ? this.state.scroll && this.state.scroll.interpolate({
@@ -409,8 +421,12 @@ export default React.createClass({
 
               }]}
               >
-              <View style={[styles.activeDot,{}]} key={'dot-active'} />
+              <View style={[
+                (this.props.grayDots ?  styles.grayDot : styles.dot15),
+                (this.props.grayDots ? styles.activeDot16 : styles.activeDot15),
+                {}]} key={'dot-active'} />
             </Animated.View>
+          </View>
 
       </View>
     )

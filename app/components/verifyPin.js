@@ -26,7 +26,6 @@ class VerifyPin extends Component{
   }
   handlePinChange(value){
     value = value.slice(0,4);
-    console.log(value,'length: '+value.length)
 
 
       this.setState({
