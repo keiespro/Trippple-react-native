@@ -26,6 +26,8 @@ class Notification extends Component{
 
   componentWillMount() {
     console.log('notification top')
+            LayoutAnimation.spring();
+
   }
   componentDidMount(){
 
@@ -33,8 +35,8 @@ class Notification extends Component{
     VibrationIOS.vibrate()
 
   }
-  componentWillUpdate(){
-            LayoutAnimation.configureNext(animations.layout.spring);
+  componentDidUpdate(){
+            LayoutAnimation.spring();
 
   }
   componentWillUnmount(){
@@ -46,6 +48,8 @@ class Notification extends Component{
   render(){
     console.log(this.props.payload)
     if(!this.props.payload){return false}
+    const { payload } = this.props
+
     return (
       <View style={[styles.notificationWrapper,
         {
@@ -70,8 +74,8 @@ class Notification extends Component{
             <Image
               resizeMode={Image.resizeMode.contain}
               style={styles.notiImage}
-              defaultSource={require('../../newimg/placeholderUserWhite.png')}
-              source={{uri: this.props.payload.from_user_info.thumb_url}}
+              defaultSource={{uri:'../../newimg/placeholderUserWhite.png'}}
+              source={{uri: payload.from_user_info.image_url}}
             />
             </View>
             <View style={styles.notificationRight}>
@@ -97,12 +101,14 @@ class Notification extends Component{
             <Image
               resizeMode={Image.resizeMode.contain}
               style={styles.notiImage}
-              defaultSource={require('../../newimg/placeholderUserWhite.png')}
+              defaultSource={{uri:'../../newimg/placeholderUserWhite.png'}}
+              source={{uri: payload.users[payload.closer_id].image_url}}
+
             />
             </View>
             <View style={styles.notificationRight}>
               <Text style={[styles.notiTitle,styles.titleNewMatch]}>IT'S A MATCH!</Text>
-              <Text style={styles.notiText}>{this.props.payload.users[this.props.payload.closer_id].firstname} likes you back!</Text>
+              <Text style={styles.notiText}>{payload.users[payload.closer_id].firstname} likes you back!</Text>
            </View>
            </View>
            </TouchableOpacity></View> : null
@@ -206,6 +212,7 @@ var styles = StyleSheet.create({
     overflow:'hidden',
     borderRadius: 25,
     borderWidth: 0,
+    backgroundColor:colors.dark
   }
 
 })

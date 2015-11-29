@@ -565,6 +565,7 @@ var styles = StyleSheet.create({
     borderRadius: 32,
     width: 64,
     height: 64,
+    backgroundColor:colors.dark
   },
   rightthumb: {
     left: -16

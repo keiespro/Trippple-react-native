@@ -41,8 +41,12 @@ class NotificationsStore {
 
   }
   updateBadgeCount(delta){
-    var currentCount = React.NativeModules.PushNotificationManager.getApplicationIconBadgeNumber()
-    React.NativeModules.PushNotificationManager.setApplicationIconBadgeNumber(currentCount+delta)
+
+    const newNotifications = delta || 0;
+
+    React.NativeModules.PushNotificationManager.getApplicationIconBadgeNumber((result) => {
+      React.NativeModules.PushNotificationManager.setApplicationIconBadgeNumber(result + newNotifications)
+    })
   }
   handleMatchRemoved(){
 

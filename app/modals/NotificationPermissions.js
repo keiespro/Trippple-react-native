@@ -44,7 +44,7 @@ class NotificationPermissions extends React.Component{
   static defaultProps = {
     buttonText: 'YES',
     relevantUser: {
-      image_url: '../../newimg/placeholderUser.png',
+      image_url: null,
       firstname: 'This user'
     }
   }
@@ -123,7 +123,9 @@ class NotificationPermissions extends React.Component{
                 this.state.failedState ?
                   require('../../newimg/iconModalDenied.png') :
                   {uri: relevantUser.image_url}
-              }
+                }
+                defaultSource={{uri: '../../newimg/placeholderUser.png'}}
+
             />
             <View style={styles.insidemodalwrapper}>
               <Text style={[styles.rowtext,styles.bigtext,{
