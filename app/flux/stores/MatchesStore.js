@@ -1,5 +1,6 @@
 import alt from '../alt'
 import MatchActions from '../actions/MatchActions'
+import Log from '../../Log'
 import NotificationActions from '../actions/NotificationActions'
 
 import _ from 'underscore'
@@ -33,16 +34,10 @@ class MatchesStore {
       handleNewMessages: MatchActions.GET_MESSAGES
     });
 
-    this.on('init', async ()=>{
-    })
-    this.on('bootstrap', () => {
-      console.log('matches store bootstrap');
-    });
-
+    this.on('init', () => {/*noop*/})
     this.on('error', (err, payload, currentState) => {
-        console.log(err, payload,currentState);
+        Log(err, payload, currentState);
     })
-
 
   }
 
@@ -71,7 +66,6 @@ class MatchesStore {
     })
   }
   handleNewMessages(payload){
-    console.log(payload)
     if(!payload){return false}
 
     var matchMessages = payload.messages,
@@ -119,13 +113,11 @@ class MatchesStore {
     this.handleGetMatches(payload.matchesData)
   }
   toggleFavorite(matchesData) {
-    console.log('toggle',matchesData)
     this.handleGetFavorites(matchesData)
 
   }
   handleGetMatches(matchesData){
     const {matches} = matchesData
-    console.log(' getNewMatches matches',matches)
     if(matches.length > 0){
       var allmatches, allunread, allLastAccessed
 
@@ -169,7 +161,6 @@ class MatchesStore {
   handleGetFavorites(matchesData) {
     const favs = matchesData.matches
 
-    console.log('FAVORITES:',favs,this.state.favorites)
     if(favs.length && this.state.matches.length){
       let matches = _.unique([ ...this.state.matches, ...favs], 'match_id'),
           favorites = _.unique([ ...this.state.favorites, ...favs], 'match_id')
@@ -206,7 +197,6 @@ class MatchesStore {
       m.unreadCount = unread[m.match_id] || 0
       return m
     })
-    console.log('getAllFavorites', f)
     return f
   }
 

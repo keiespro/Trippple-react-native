@@ -117,7 +117,6 @@ class EditImageThumb extends Component{
       // }
 
     }, (err) =>{
-      console.log(err,'err');
     })
 
   }
@@ -240,7 +239,7 @@ class EditImageThumb extends Component{
 
     ImageEditingManager.cropImage( uri, this._transformData,
       (croppedImageURI) => {  this.accept(croppedImageURI,this._transformData)},
-      (cropError) => { console.log(cropError); this.setState({cropError}) }
+      (cropError) => { this.setState({cropError}) }
     );
   }
 

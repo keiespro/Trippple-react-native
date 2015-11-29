@@ -44,7 +44,6 @@ export default class CameraPermissionsModal extends Component{
       failedState: OSPermissions.camera && parseInt(OSPermissions.camera) && parseInt(OSPermissions.camera) < 3,
       hasPermission: OSPermissions.camera && parseInt(OSPermissions.camera) && OSPermissions.camera > 2
     }
-    console.log(this.state)
   }
   componentWillMount(){
     if(OSPermissions[CameraKey] && parseInt(OSPermissions[CameraKey]) > 2 ){

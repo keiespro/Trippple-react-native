@@ -79,7 +79,6 @@ class AppVisibility extends React.Component{
   constructor(props){
     super()
 
-    console.log(AppStateIOS.currentState)
     this.state = {
       appState: AppStateIOS.currentState,
     }

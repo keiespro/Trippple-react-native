@@ -216,7 +216,7 @@ class CameraRollView extends Component{
       fetchParams.after = this.state.lastCursor;
     }
 
-    CameraRoll.getPhotos(fetchParams, this._appendAssets.bind(this), (err) => {console.log(err)});
+    CameraRoll.getPhotos(fetchParams, this._appendAssets.bind(this), (err) => { /* noop */});
   }
 
   /**

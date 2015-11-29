@@ -94,7 +94,6 @@ class SettingsInside extends React.Component{
     this._scrollView.setNativeProps(props);
   }
   // handleImages(imgs){
-  //   console.log(imgs);
   //   UserActions.uploadImage(imgs.croppedImage,'profile')
   //
   //   navigator.jumpForward();

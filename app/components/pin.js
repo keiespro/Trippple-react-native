@@ -137,7 +137,6 @@ var PinScreen = React.createClass({
   },
   onChangeText(digit){
     if(this.state.inputFieldValue.length >= 4){ return false}
-    console.log(this.state.inputFieldValue,digit)
     this.handleInputChange({pin: this.state.inputFieldValue + digit  })
   },
 

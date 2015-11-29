@@ -47,7 +47,6 @@ class UserProfile extends Component{
     this.state = {
       slideIndex: 0
     }
-    console.log(props)
   }
 
 
@@ -266,7 +265,6 @@ var CustomTabBar = React.createClass({
 
   renderTabOption(name, page) {
     var isTabActive = this.props.pageNumber === page;
-    console.log(name,page)
     return (
       <TouchableOpacity key={name} onPress={() => this.props.goToPage(page)}>
         <View style={[styles.tab]}>

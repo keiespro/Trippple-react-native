@@ -9,6 +9,7 @@ import Promise from 'bluebird'
 import TimerMixin from 'react-timer-mixin'
 import reactMixin from 'react-mixin'
 import _ from 'underscore'
+import Log from '../../Log'
 
 
 @reactMixin.decorate(TimerMixin)
@@ -33,15 +34,10 @@ class NotificationsStore {
       handleLogOut: UserActions.LOG_OUT
     })
 
-    this.on('init', () => {
-      console.log('notifications store init')
-
-
-    })
+    this.on('init', () => {/*noop*/})
     this.on('error', (err, payload, currentState) => {
-        console.log(err, payload);
+      Log(err, payload, currentState);
     })
-
   }
 
   handleLogOut(){
@@ -110,7 +106,6 @@ class NotificationsStore {
   }
 
   handleNewMessage(payload){
-    console.log(payload)
     var newNotification = {
       ...payload,
       title: payload.data.alert,

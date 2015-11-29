@@ -8,7 +8,6 @@ const CredentialsStore = require('../flux/stores/CredentialsStore')
 const UploadFile = Promise.promisify(FileTransfer.upload)
 
 async function publicRequest(endpoint, payload){
-  console.log(payload)
   try{
     var res = fetch( `${SERVER_URL}/${endpoint}`, {
       method: 'post',
@@ -24,7 +23,6 @@ async function publicRequest(endpoint, payload){
     return await res
   }
   catch(err){
-    console.log('ERR',err)
   }
 }
 
@@ -37,7 +35,6 @@ async function authenticatedRequest(endpoint: '', payload: {}){
     return await req.json()
   }
   catch(err){
-    console.log('ERR',err)
     return err
   }
 }
@@ -63,7 +60,6 @@ async function authenticatedFileUpload(endpoint, image, image_type, cropData){
     return await imgUpload
   }
   catch(err){
-    console.log('ERR',err)
     return err
   }
 }
@@ -95,7 +91,6 @@ class api {
 
     var payload = { pin, phone, ...deviceInfo }
 
-    console.log('verify pin with payload',payload)
 
     return await publicRequest('verify_security_pin', payload);
   }
@@ -159,13 +154,11 @@ class api {
   }
 
   saveFacebookPicture(photo) {
-    console.log('save_facebook_picture', photo);
     return publicRequest('save_facebook_picture', photo);
   }
   //
   async uploadImage(image, image_type, cropData){
     if(!image_type){
-      console.log('NO image_type!!');
        image_type = 'profile'
     }
     return await authenticatedFileUpload('upload', image, image_type, cropData).then((response) => response.json())

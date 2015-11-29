@@ -194,7 +194,6 @@ class ActiveDot extends React.Component{
     }
   }
   componentWillMount(){
-    console.log('MOUNT')
 
     this.state.ageVal.setValue(SliderWidth * (this.props.ageVal-18) / 32)
     this.initializePanResponder();
@@ -276,7 +275,6 @@ class ActiveDot extends React.Component{
           //   tension:40,
           //   friction: 10,
           // }).start((fin)=>{
-          //   console.log('did animation finish',fin.finished)
           //   // if(fin.finished) {
           //     this.props.toggleScroll('on');
           //   // }
@@ -308,7 +306,6 @@ class ActiveDot extends React.Component{
           //   tension:60,
           //   friction: 7,
           // }).start((fin)=>{
-          //   console.log('did animation finish',fin.finished)
           //   // if(fin.finished) {
           //     this.props.toggleScroll('on');
           //   // }
@@ -344,7 +341,6 @@ class ActiveDot extends React.Component{
       // arr.push(dotWidthInterpolatedWidth*(i+1) )
       return arr
     },[0])
-    console.log(inputRange, outputRange)
     return (
       <Animated.Image {...this._panResponder.panHandlers}
         style={{

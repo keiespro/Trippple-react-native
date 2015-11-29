@@ -2,6 +2,7 @@
 // import MatchActions from '../actions/MatchActions'
 // import { AsyncStorage } from 'react-native'
 // import _ from 'underscore'
+// import Log from '../../Log'
 //
 // class FavoritesStore {
 //
@@ -23,31 +24,25 @@
 //       handleToggleFavorite: MatchActions.TOGGLE_FAVORITE
 //     });
 //
-//     this.on('init',()=>{
-//       console.log('matches store init')
+//    this.on('init', () => {/*noop*/})
+//    this.on('error', (err, payload, currentState) => {
+//       Log(err, payload, currentState);
 //     })
-//     this.on('bootstrap', () => {
-//       console.log('store bootstrap');
-//
-//     });
 //   }
 //   loadLocalData(){
 //
 //       AsyncStorage.getItem('FavoritesStore')
 //         .then((value) => {
-//           console.log('got matches from storage,', JSON.parse(value))
 //           if (value !== null){
 //             // get data from local storage
 //             alt.bootstrap(value);
 //           }
 //         })
 //         .catch((err) => {
-//           console.log(err);
 //         })
 //   }
 //   handleInitializeFavorites(){
 //
-//     // console.log(savedFavorites,'handlegetmatches');
 //     this.setState({
 //       matches: this.state.matches
 //     });
@@ -73,7 +68,6 @@
 //   }
 //
 //   handleGetFavorites(matchesData) {
-//   console.log('GOT FAVS',matchesData)
 //    var matches = matchesData.matches
 //
 //     if(matches.length){
@@ -111,15 +105,12 @@
 //   // public methods
 //
 //   getAllFavorites(){
-//     console.log('getfavsfromstore',this.getState().matches);
 //     return this.getState().matches
 //    }
 //
 //   getMatchInfo(matchID){
 //     const matches = this.getState().matches
-//     console.log('get match info',matchID);
 //     var m = _.filter(matches,(ma,i) => { return ma.match_id == matchID })
-//     console.log('get match info',m);
 //
 //     return m[0]
 //

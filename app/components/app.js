@@ -96,14 +96,12 @@ class TopLevel extends Component{
       this.setState({showCheckmark:true,checkMarkCopy: {title: 'SUCCESS' }})
 
       this.setTimeout(()=>{
-        console.log('time')
         this.setState({showCheckmark:false,checkMarkCopy:null})
       },3500);
     }
   }
 
   render(){
-    console.log(this.props.AppState)
     return (
       <View style={{flex:1,backgroundColor:colors.outerSpace, width:DeviceWidth,height:DeviceHeight}}>
 

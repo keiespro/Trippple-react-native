@@ -53,16 +53,13 @@ class NotificationCommander extends Component{
   }
 
   _onPushNotification =(pushNotification)=>{
-    console.log('pushNotification! pushNotification!',pushNotification)
     VibrationIOS.vibrate()
     this.handlePushData(pushNotification)
   }
 
   handlePushData(pushNotification){
-    console.log('handlePushData',pushNotification)
 
     if(!pushNotification || !pushNotification.data){
-      console.log(pushNotification, 'This notification is empty?');
       return false
     }
 
@@ -85,7 +82,6 @@ class NotificationCommander extends Component{
   _handleAppStateChange =(appState)=> {
     if(appState === 'active'){
       const newNotification = PushNotificationIOS.popInitialNotification()
-      console.log('popped notification: ',newNotification);
       if(newNotification){
         this.handlePushData(newNotification)
       }
@@ -110,7 +106,6 @@ class NotificationCommander extends Component{
 
 
     this.socket.on('system', (payload) => {
-      console.log('system NOTIFICATION',payload)
 
       const { data } = payload
 
@@ -127,18 +122,15 @@ class NotificationCommander extends Component{
 
 
       }else if(data.action && data.action === 'retrieve' && data.userInfo == true) {
-          console.log('FETCH USER INFO!!!!!')
 
 
       }else if(data.action && data.action === 'logout') {
-          console.log('FORCE LOG OUT!!!!!')
 
           UserActions.logOut()
       }
     })
 
     this.socket.on('chat', (payload) => {
-      console.log('CHAT NOTIFICATION',payload)
 
       NotificationActions.receiveNewMessageNotification(payload)
 

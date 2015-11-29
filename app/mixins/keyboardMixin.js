@@ -4,7 +4,6 @@
    //   return { keyboardSpace: 0, isKeyboardOpened: false };
    // },
    updateKeyboardSpace(frames) {
-     console.log(frames)
      this.setState({
        keyboardSpace: frames.endCoordinates ? frames.endCoordinates.height : frames.end.height,
        isKeyboardOpened: true

@@ -49,7 +49,6 @@ class ActionModal extends Component{
 
   }
   componentWillUnmount(){
-    console.log('UNmount actionmodal')
   }
   componentWillReceiveProps(props){
 
@@ -60,19 +59,15 @@ class ActionModal extends Component{
   }
   toggleModal(){
     this.props.toggleModal()
-    console.log('press');
   }
   showProfile(match){
-    console.log(match)
 
     var {user} = this.props,
           rel = user.relationship_status
 
 
     var theirIds = Object.keys(match.users).filter( u => { return u != user.id})
-    console.log(theirIds)
     var them = theirIds.map((id) => match.users[id])
-    console.log(them)
 
     const MatchUserAsPotential = {
       user: them[0],
@@ -128,7 +123,6 @@ class ActionModal extends Component{
   render(){
     if(!this.props.currentMatch ){ return false;}
     var {isVisible} = this.props
-    console.log(this.props)
     var theirIds = Object.keys(this.props.currentMatch.users).filter( (u)=> u != this.props.user.id)
     var them = theirIds.map((id)=> this.props.currentMatch.users[id])
 

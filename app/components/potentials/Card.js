@@ -434,7 +434,6 @@ overflow:'hidden',
 
                   onPress={this.openProfileFromImage.bind(this)}
                   onPressIn={(e)=>{
-                    console.log(e)
                     this.refs.cardinside.setNativeProps({
                       // style: { opacity: 0.8 }
                     })

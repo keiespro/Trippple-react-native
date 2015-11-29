@@ -15,7 +15,6 @@ class CloseButton extends Component{
     super(props)
   }
   render(){
-    console.log(this.props.navigator.getCurrentRoutes())
     return (
       <View style={[styles.navBarLeftButton]}>
         <TouchableOpacity onPress={() => this.props.navigator.jumpForward() }>

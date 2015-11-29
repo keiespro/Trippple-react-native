@@ -71,13 +71,11 @@ class FacebookButton extends React.Component{
     // AppActions.grantPermission(FACEBOOK_LOCALSTORAGE_KEY)
 
     FBLoginManager.getCredentials((error, data)=>{
-      console.log(error, data)
       if (!error) {
         this.setState({ fbUser : data.credentials });
 
         AppActions.grantPermission(FACEBOOK_LOCALSTORAGE_KEY)
       } else {
-        console.log(error)
         this.setState({ fbUser : null });
 
       }
@@ -93,7 +91,6 @@ class FacebookButton extends React.Component{
 
   }
   onPress(e){
-    console.log('onpress',this.state.fbUser,!this.state.fbUser)
     if(!this.state.fbUser){
       FBLoginManager.getCredentials((error, data)=>{
         if (!error) {
@@ -101,7 +98,6 @@ class FacebookButton extends React.Component{
           this.props._onPress && this.props._onPress(data.credentials);
           this.handleLogin();
         } else {
-          console.log('FB err',error);
           this.handleLogin();
 
           this.setState({ fbUser : null });
@@ -138,7 +134,6 @@ class FacebookButton extends React.Component{
         this.props.onLogin && this.props.onLogin(data);
       } else {
         this.setState({ fbUser : null });
-        console.log('FB err',error);
       }
     });
   }
@@ -154,7 +149,6 @@ class FacebookButton extends React.Component{
 
       } else {
 
-        console.log(error, data);
       }
     });
   }

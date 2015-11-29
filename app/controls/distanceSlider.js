@@ -36,10 +36,10 @@ var DistanceSlider = React.createClass({
         style={styles.container}
         pointerEvents={'box-none'}
         onMoveShouldSetResponder={()=>{return true}}
-        onResponderGrant={()=>{console.log('RESPONDER GRANT')}}
-        onStartShouldSetResponderCapture={(e)=>{console.log(e); return true}}
-        onMoveShouldSetResponderCapture={(e)=>{console.log(e); return true}}
-        onResponderTerminate={()=>{console.log('RESPONDER TERMINATED')}}
+        onResponderGrant={()=>{}}
+        onStartShouldSetResponderCapture={(e)=>{}}
+        onMoveShouldSetResponderCapture={(e)=>{}}
+        onResponderTerminate={()=>{}}
         >
         <Text style={styles.text} >
           {this.state.value}

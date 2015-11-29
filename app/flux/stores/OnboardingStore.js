@@ -1,6 +1,7 @@
 import alt from '../alt'
 import OnboardingActions from '../actions/OnboardingActions'
 import UserActions from '../actions/UserActions'
+import Log from '../../Log'
 
 class OnboardingStore {
 
@@ -23,14 +24,9 @@ class OnboardingStore {
 
     });
 
-    this.on('init',()=>{
-      console.log('Onboarding store init')
-    })
-
-    this.on('bootstrap', () => { })
-
+    this.on('init', () => {/*noop*/})
     this.on('error', (err, payload, currentState) => {
-        console.log('error', err, payload)
+        Log(err, payload, currentState);
     })
 
   }

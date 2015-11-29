@@ -205,7 +205,6 @@ export default React.createClass({
 
   componentDidMount() {
     this.state.scroll.addListener((e)=>{
-      console.log(e);
     })
 
   },
@@ -253,7 +252,6 @@ export default React.createClass({
     let index = state.index
     let diff = offset[dir] - state.offset[dir]
     let step = dir == 'x' ? state.width : state.height
-    console.log(state,diff,step)
     // Do nothing if offset no change.
     if(!diff) return
 

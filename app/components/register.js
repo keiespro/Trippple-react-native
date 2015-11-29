@@ -57,7 +57,6 @@ class Register extends Component{
   }
 
   onError =(err)=>{
-    console.log(err);
     if(!err || !err.phoneError){
         return;
     }

@@ -20,7 +20,6 @@ var UserActions = {
   },
 
   initFail(errorMessage){
-    console.log(errorMessage)
     this.dispatch(errorMessage);
     this.getUserInfo()
   },
@@ -32,7 +31,6 @@ var UserActions = {
         this.dispatch(res);
       })
       .catch((err) => {
-        console.log('error',err);
         this.dispatch(err);
       })
 
@@ -88,21 +86,17 @@ var UserActions = {
     //     })
     //   }
     //   catch(err){
-    //     console.log('error catched',err);
     //     this.dispatch({
     //       err: err
     //     })
     //   }
     // }
-    console.log('update action',payload);
 
     Api.updateUser(payload)
       .then((res) => {
-        console.log(res);
         this.dispatch(res);
       })
       .catch((err) => {
-        console.log(err);
         this.dispatch({error: err});
       })
 
@@ -110,11 +104,9 @@ var UserActions = {
 
   selectPartner(partner){
     var partnerPhone = partner.phone[0] == '1' ? partner.phone.substr(1,11) : partner.phone
-    console.log('partnerPhone',partnerPhone);
     const partner_phone = phoneParser(partnerPhone,'xxxxxxxxxx');
     Api.joinCouple(partner_phone)
       .then((res) => {
-        console.log(res);
         this.dispatch({
           response: res,
           showCheckmark:true,
@@ -122,7 +114,6 @@ var UserActions = {
         });
       })
       .catch((err) => {
-        console.log(err,'selectPartner err');
         this.dispatch({
           err: err
         });
@@ -134,11 +125,9 @@ var UserActions = {
   saveFacebookPicture(photo) {
     Api.saveFacebookPicture(photo)
     .then((res) => {
-      console.log('FB photo res', res);
       this.dispatch(res);
     })
     .catch((err) => {
-      console.log('FB photo err', err);
       this.dispatch(err);
     })
   },

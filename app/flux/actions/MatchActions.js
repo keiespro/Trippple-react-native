@@ -13,7 +13,6 @@ class MatchActions {
 
     Api.getMatches(page || 0)
       .then((res) => {
-        console.log(res)
         this.dispatch({matches: res.response.length ? res.response : [], page: page || false});
       })
 
@@ -23,10 +22,9 @@ class MatchActions {
 
     // Api.getMatches(page)
     //   .then((res) => {
-    //     console.log('RES FAVS',res)
     //     this.dispatch({matches: res.response, page: page || false});
     //   })
-    //   .catch(err => console.log(err))
+    //   .catch((err) => ){ /*noop*/}
     //
 
   }
@@ -53,7 +51,6 @@ class MatchActions {
       .catch(err => {
         this.dispatch({status:false,matches:[]});
 
-        console.log('GEO ERROR POTENTIALS:',err)
       })
 
 
@@ -73,14 +70,13 @@ class MatchActions {
         var messages = res.response
         Api.getMatches(0)
           .then((res) => {
-            console.log(res)
             this.dispatch({messages, matchesData: {matches: res.response, page: 0}});
 
           })
 
       })
     })
-    .catch(err => {console.log('promise err',err)})
+    .catch((err) => {/*noop*/})
 
 
   }
@@ -93,7 +89,6 @@ class MatchActions {
 
          Api.getFavorites(0)
         .then((res) => {
-          console.log(res)
           this.dispatch({matches: res.response, page: 0});
 
         })
@@ -111,13 +106,11 @@ class MatchActions {
   }
 
   reportUser(user, reason){
-    console.log('REPORT USER:',user,reason)
     Api.reportUser(user.id, user.relationship_status, reason)
     this.dispatch({ user_id: user.id, reason});
   }
 
   sendLike(likedUserID,likeStatus,likeUserType,rel_status){
-    console.log(likedUserID)
     Api.sendLike(likedUserID, likeStatus,likeUserType,rel_status)
 
     this.dispatch({likedUserID,likeStatus});
@@ -132,13 +125,11 @@ class MatchActions {
       //       //   .then((res) => {
       //       //     this.dispatch(res.response);
       //       //   })
-      //       //   .catch(err => console.log(err))
       //       //
       //     },
       //     (error) => {
       //       // Open native settings
       //
-      //       console.error(error)
       //     },
       //     {enableHighAccuracy: false, maximumAge: 1000}
       //   )

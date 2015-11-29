@@ -7,6 +7,7 @@ import { datasource } from 'alt/utils/decorators'
 import Keychain from 'react-native-keychain'
 import CredentialsStore from './CredentialsStore'
 import AppState from './AppState'
+import Log from '../../Log'
 
 import {KEYCHAIN_NAMESPACE} from '../../config'
 
@@ -42,10 +43,10 @@ class UserStore {
       handleUpdateLocally: UserActions.UPDATE_LOCALLY
 
     });
+    this.on('init', () => {/*noop*/})
     this.on('error', (err, payload, currentState) => {
-        console.log(err, payload);
+        Log(err, payload, currentState);
     })
-
   }
 
   handleInitialize(){
@@ -89,7 +90,6 @@ class UserStore {
   }
 
   handleGetUserInfo(res){
-    console.log(res,'AAAAAA!!!!!!!!')
     if(res.error){
       return false;
     }

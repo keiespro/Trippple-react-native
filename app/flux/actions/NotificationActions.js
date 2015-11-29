@@ -14,14 +14,12 @@ class NotificationActions {
 
   requestNotificationsPermission(){
     PushNotificationIOS.addEventListener('register',(token) => {
-      console.log('APN TOKEN?',token,Api)
 
       Api.updatePushToken(token)
       .then(()=> this.dispatch(token))
     })
     PushNotificationIOS.requestPermissions((result) =>{
 
-      console.log("GOT PERMISSIONS",result)
 
     })
 
@@ -48,19 +46,15 @@ class NotificationActions {
   }
 
   receiveNewMessageNotification(payload){
-    console.log('receive new message Notification',(payload))
-    console.log(payload)
     const { data } = payload
     if(data.action === 'retrieve' && data.match_id) {
       MatchActions.getMessages.defer(data.match_id)
-      console.log('MatchActions.getMessages(data.match_id)')
 
     }
     this.dispatch(payload)
 
   }
   receiveNewMatchNotification(payload){
-    console.log('receive New Match Notification',(payload))
 
     const { action } = payload
     if(action === 'retrieve') {
@@ -72,14 +66,12 @@ class NotificationActions {
 
   }
   receiveMatchRemovedNotification(payload){
-    console.log(payload)
     this.dispatch(payload.match_id)
   }
 
   scheduleNewPotentialsAlert(time){
     const fireDate = moment((time || { hour: 11 })).toDate(), //tonight at 11
           alertBody = 'New Matches!'
-    console.log('scheduling local alert for',fireDate)
     // PushNotificationIOS.cancelAllLocalNotifications()
     PushNotificationIOS.scheduleLocalNotification({ fireDate: fireDate.getTime(), alertBody })
   }

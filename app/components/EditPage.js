@@ -20,7 +20,6 @@ class EditPage extends Component{
     this.props.navigator.pop();
   }
   handleUpdate =()=>{
-    console.log(this.state.editedValue)
     UserActions.updateUser({firstname: this.state.editedValue});
     // this.props.navigator.pop();
 

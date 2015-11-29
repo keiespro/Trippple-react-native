@@ -1,0 +1,5 @@
+const Log = () => {
+
+  // No op
+}
+

@@ -2,6 +2,7 @@ import alt from '../alt';
 import MatchActions from '../actions/MatchActions';
 import { AsyncStorage } from 'react-native';
 import _ from 'underscore'
+import Log from '../../Log'
 
 class ChatStore {
 
@@ -18,9 +19,9 @@ class ChatStore {
     this.state = {
       messages: {}
     }
-    this.on('init', () => console.log('ChatStore store init'))
+    this.on('init', () => {/*noop*/})
     this.on('error', (err, payload, currentState) => {
-        console.log(err, payload);
+        Log(err, payload, currentState);
     })
 
   }
@@ -28,7 +29,6 @@ class ChatStore {
   loadLocalData(){
     AsyncStorage.getItem('ChatStore')
     .then((value) => {
-      console.log('got ChatStore from storage,', JSON.parse(value))
       if (value !== null){
         // get data from local storage
         alt.bootstrap(value);
@@ -39,7 +39,6 @@ class ChatStore {
 
   handleSentMessage(payload) {
     var matchMessages = payload.messages
-    console.log(matchMessages)
     this.setState(() => {
       var newState = {};
       newState[`${matchMessages.match_id}`] = matchMessages.message_thread;

@@ -3,6 +3,7 @@ import MatchActions from '../actions/MatchActions'
 import { AsyncStorage } from 'react-native'
 import NotificationActions from '../actions/NotificationActions'
 import _ from 'underscore'
+import Log from '../../Log'
 
 class PotentialsStore {
 
@@ -16,14 +17,9 @@ class PotentialsStore {
       handleSentLike: MatchActions.SEND_LIKE
     });
 
-    this.on('init',()=>{
-      console.log('potentials store init')
-    })
-
-    this.on('bootstrap', () => {
-    })
+    this.on('init', () => {/*noop*/})
     this.on('error', (err, payload, currentState) => {
-        console.log(err, payload);
+      Log(err, payload, currentState);
     })
 
     this.exportPublicMethods({
@@ -32,7 +28,6 @@ class PotentialsStore {
   }
 
   handleGetPotentials(data) {
-    console.log(data,'POTENTIALS');
 
     if(data.matches.length){
       var potentials;
@@ -48,7 +43,6 @@ class PotentialsStore {
   }
 
   handleSentLike(payload){
-    console.log(payload)
 
     if(payload.matches && payload.matches.length > 0){
       this.handleGetPotentials(payload)

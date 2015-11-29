@@ -37,7 +37,6 @@ class PrivacyScreen extends Component{
   }
 
   _selectPublic(){
-    console.log(this.state.selection)
 
     this.setState({
       selection: this.state.selection == 'public' ? null : 'public'
@@ -45,7 +44,6 @@ class PrivacyScreen extends Component{
   }
 
   _selectPrivate(){
-    console.log(this.state.selection)
     if(this.state.selection != 'private'){
       this.props.navigator.push({
         component: PrivacyPermissionsModal,
@@ -74,7 +72,6 @@ class PrivacyScreen extends Component{
 
   }
   _continue(){
-    console.log(this.state.selection)
 
     OnboardingActions.proceedToNextScreen({privacy: this.state.selection})
 

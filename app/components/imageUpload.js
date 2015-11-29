@@ -13,10 +13,8 @@ var CameraControl = require('../controls/cameraControl');
 var Img = React.createClass({
   _getCameraRoll() {
 
-    console.log('getcameraroll')
   },
   _getCamera() {
-    console.log('get camera')
 
 
     this.props.navigator.push({

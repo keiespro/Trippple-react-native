@@ -9,6 +9,7 @@ import {KEYCHAIN_NAMESPACE} from '../../config'
 
 import Device from 'react-native-device'
 
+import Log from '../../Log'
 
 @datasource(CredentialsSource)
 class CredentialsStore {
@@ -17,10 +18,9 @@ class CredentialsStore {
       this.user_id = '';
       this.api_key = '';
 
-      this.on('init', () => console.log('Credentials store init',UserActions))
-
+      this.on('init', () => {/*noop*/})
       this.on('error', (err, payload, currentState) => {
-          console.log(err, payload);
+        Log(err, payload, currentState);
       })
 
 
@@ -46,10 +46,8 @@ class CredentialsStore {
     const { user_id, api_key } = res.response;
     Keychain.setInternetCredentials(KEYCHAIN_NAMESPACE, user_id+'' , api_key)
       .then((result)=> {
-        console.log('Credentials saved successfully!',result)
       })
       .catch((err)=> {
-        console.log('Credentials saving failed!',err)
       });
 
     this.setState({ user_id, api_key })
@@ -58,10 +56,8 @@ class CredentialsStore {
     const { user_id, api_key } = response;
     Keychain.setInternetCredentials(KEYCHAIN_NAMESPACE, user_id+'' , api_key)
       .then((result)=> {
-        console.log('Credentials saved successfully!',result)
       })
       .catch((err)=> {
-        console.log('Credentials saving failed!',err)
       });
 
     this.setState({ user_id, api_key })
@@ -70,13 +66,10 @@ class CredentialsStore {
 
   handleVerifyPin(res){
     // doesnt work. setting is done manually thru public method saveCredentials
-    console.log(res,'handleVerifyPin');
 
     const { user_id, api_key } = res;
-    console.log('verify pin credentials store')
     Keychain.setInternetCredentials(KEYCHAIN_NAMESPACE, user_id, api_key)
       .then((result)=> {
-        console.log('Credentials saved successfully!',result)
         this.setState({ user_id, api_key })
       });
 

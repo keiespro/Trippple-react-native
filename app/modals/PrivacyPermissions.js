@@ -69,7 +69,6 @@ export default class PrivacyPermissionsModal extends Component{
 
     AddressBook.checkPermission((err, permission) => {
       if(err){
-        console.log(err)
        //TODO:  handle err;
       }
 
@@ -95,7 +94,6 @@ export default class PrivacyPermissionsModal extends Component{
         this.setState({hasContactsPermission:true})
 
       }else{
-        console.log('CONTACTS ERROR',err)
         this.setState({hasContactsPermission:false})
 
       }

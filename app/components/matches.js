@@ -70,7 +70,6 @@ class MatchList extends Component{
 
   _allowScroll = (scrollEnabled,listindex)=> {
     var listref = listindex == 0 ? '_listView' : '_flistView'
-    console.log(listref,this)
     this[listref] && this[listref].refs.listviewscroll.refs.ScrollView.setNativeProps({ scrollEnabled })
   }
 
@@ -92,7 +91,6 @@ class MatchList extends Component{
   }
 
   toggleFavorite(rowData){
-    console.log('TOGGLE FAVORITE',rowData);
     MatchActions.toggleFavorite(rowData.match_id.toString());
   }
 
@@ -112,7 +110,6 @@ class MatchList extends Component{
 
     var unreadCount = rowData.unreadCount || 0
 
-    console.log(rowData,unreadCount)
     return (
 
       <Swipeout
@@ -138,9 +135,8 @@ class MatchList extends Component{
         sectionID={sectionID}
         autoClose={false}
         scroll={event => this._allowScroll(event,this.state.index)}
-        onClose={(sectionID_, rowID_) => {console.log('close')}}
 
-        onOpen={(sectionID_, rowID_) => {console.log('OPEN'); this._handleSwipeout(sectionID_, rowID_)}}>
+        onOpen={(sectionID_, rowID_) => {this._handleSwipeout(sectionID_, rowID_)}}>
 
         <TouchableHighlight onPress={(e) => {
             if(this.state.isVisible || !this.state.scrollEnabled){ return false}
@@ -261,7 +257,6 @@ class MatchList extends Component{
             vertical={true}
             chatActionSheet={this.props.chatActionSheet}
             onEndReached={ (e) => {
-              console.log('FAVS ON END REACHED')
              // const nextPage = this.props.favorites.length/20 + 1;
               // if(this.state.fetching || nextPage === this.state.lastPage){ return false }
               // this.setState({lastPage: nextPage })
@@ -328,7 +323,6 @@ class MatchesInside extends Component{
     }
 
   _updateDataSource(data,whichList) {
-    console.log(data)
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.match_id !== r2.match_id});
     if(data.length > 1){
       var newState = (whichList == 'matches') ? {
@@ -494,7 +488,7 @@ class Matches extends Component{
               <FadeInContainer
                 duration={300}
                 style={{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}}>
-                <TouchableOpacity activeOpacity={0.5} onPress={(e)=>{ console.log(e); this.setState({isVisible:false}) }}>
+                <TouchableOpacity activeOpacity={0.5} onPress={(e)=>{ this.setState({isVisible:false}) }}>
                   <BlurView
                     blurType="light"
                     style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]} >
@@ -506,7 +500,7 @@ class Matches extends Component{
             <View><ActionModal
               user={this.props.user}
               navigator={this.props.navigator}
-              toggleModal={(e)=>{ console.log(e); this.setState({isVisible:false}) }}
+              toggleModal={(e)=>{ this.setState({isVisible:false}) }}
               isVisible={this.state.isVisible}
               currentMatch={this.state.currentMatch}
             /></View>
@@ -622,7 +616,6 @@ class StarButton extends Component{
     super()
   }
   render(){
-    console.log(this.props)
     return (
        this.props.startValue ?  <ActiveStarButton {...this.props}/> : <EmptyStarButton {...this.props}/>
 

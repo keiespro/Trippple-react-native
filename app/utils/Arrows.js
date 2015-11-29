@@ -272,18 +272,15 @@
         ////////////////////////////////////////////////////
         // setTimeout(function () {                       //
         //     return                                     //
-        //     console.log('blurb attack');               //
         //     var p = EventA('blurb')                    //
         //         .next(dataInA)                         //
         //         .next(EventA('blurb'))                 //
         //         .next(dataInA)                         //
         //         .next(function (y) {                   //
-        //             console.log('blurb attack done!'); //
         //         })                                     //
         //         .run(target);                          //
         //                                                //
         //     setTimeout(function () {                   //
-        //         console.log('killing arrr');           //
         //         p.cancel();                            //
         //     },3000);                                   //
         // },1000);                                       //
@@ -312,9 +309,7 @@
                                                              //
         /////////////////////////////////////////////////////////////
         // slowBubbleSortA.next(function (list) {               // //
-        //     console.log('slow', list);                       // //
         // }).or( fastBubbleSortA.next(function (list) {        // //
-        //     console.log('fast', list);                       // //
         /////////////////////////////////////////////////////////////
         //})).run({i: 10, j: 0, xs: [9,8,7,6,5,4,3,2,1,20]});  //
 
