@@ -11,6 +11,7 @@ import MatchActions from '../flux/actions/MatchActions'
 import UserActions from '../flux/actions/UserActions'
 import Notification from './NotificationTop'
 import TimerMixin from 'react-timer-mixin'
+import colors from './colors'
 
 import reactMixin from 'react-mixin'
 
@@ -152,8 +153,30 @@ class NotificationCommander extends Component{
 
 
   render(){
+    const devStyles =  {
+      position:'absolute',
+      top:0,
+      left:0,
+      width:1,
+      height:1,
+      borderRadius:1,
+      backgroundColor: this.state.socketConnected ? colors.sushi : colors.mandy
+    };
 
-    return <View/>
+    const noStyles = {
+      top:0,
+      left:0,
+      width:0,
+      height:0,
+
+    }
+
+    return (
+
+      <View
+        style={ __DEV__ ? devStyles : noStyles}
+      />
+    )
   }
 
 }
