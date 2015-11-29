@@ -16,7 +16,7 @@ const {
 import AppActions from '../flux/actions/AppActions'
 import colors from '../utils/colors'
 
-import MagicNumbers from '../DeviceConfig'
+import { MagicNumbers } from '../DeviceConfig'
 
 class SettingsDebug extends React.Component{
   constructor(props){
@@ -77,6 +77,6 @@ const styles = StyleSheet.create({
    justifyContent:'space-between',
    flexDirection:'row',
    paddingRight:MagicNumbers.screenPadding/1.5,
-   marginLeft:MagicNumbers.screenPadding/1.5
+   marginLeft:MagicNumbers.screenPadding/1.5,
  },
 })
