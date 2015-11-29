@@ -24,9 +24,10 @@ class MatchStix {
     if (arguments[1] === undefined) throw "MatchStixerr -> reserve: TimeStamp";
 
     const strSlug = slug.toString();
-    this._cache[strSlug]         = true;
-    this._lastUpdatedAt[strSlug] = ts;
-    this._unread[strSlug]        = 0;
+    this._cache[strSlug]                     = true;
+    this._Map_MatchID_lastUpdatedAt[strSlug] = ts;
+    this._unread[strSlug]                    = 0;
+    this._mCount++;
   }
 
   static scaleUnread(slug, delta) {
@@ -34,12 +35,18 @@ class MatchStix {
     let newCnt = Math.max(0, delta + currentUnread);
     true; //- for debugging
   }
+
+  static get matchCount(){
+    return this._mCount;
+  }
 }
 
-MatchStix._cache                = {};
-MatchStix._lastUpdatedAt        = {};
-MatchStix._unread               = {};
-MatchStix._running              = false;
+MatchStix._cache                     = {};
+MatchStix._Map_MatchID_lastUpdatedAt = {};
+MatchStix._unread                    = {};
+MatchStix._running                   = false;
+MatchStix._mCount                    = 0;
+MatchStix.currentMatchId             = null;
 
 class MatchPayload {
   static __idcnt;
@@ -65,7 +72,7 @@ class MatchPayload {
 
     if (!this.isStale()) {
       MatchStix.cache(this);
-      MatchStix.scaleUnread(this.matchId, 1); // move it up one for each new match.
+      //MatchStix.scaleUnread(this.matchId, 1); // move it up one for each new match.
     }
     true; //- for debugging
   }
@@ -81,18 +88,24 @@ class MatchPayload {
 
 class MatchInfo extends MatchPayload {
   constructor(data: any) {
-    super(false,data)
+    super(false,data);
+    this.messages = [];
+  }
+
+  touch() {
+    MatchStix.scaleUnread(this.matchId, -1);
   }
 }
 
 class MessageInfo extends MatchPayload{
   constructor(data: any) {
-    super(true,data)
+    super(true,data);
   }
 }
 
-MatchStix.prototype = new AsyncA(function (matchData){
+MatchStix.prototype = new AsyncA(function (ts,a){ // when the loop was triggered
   true; //- for debugging
+  a.cont();
 })
 
 function now() {
@@ -110,4 +123,8 @@ function messageWasAdded(messageData: any){
   return new MessageInfo(messageData);
 }
 
-export { matchWasAdded, messageWasAdded}
+function shouldIgnoreMatchPayload(matchData: any) {
+  return false;
+}
+
+export { matchWasAdded, messageWasAdded, shouldIgnoreMatchPayload}
