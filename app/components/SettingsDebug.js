@@ -8,14 +8,16 @@ const {
   TouchableOpacity,
   Animated,
   PushNotificationIOS,
-  Image,
+  Image,ScrollView,
   AsyncStorage,
   Navigator
 } = React
 
+import NotificationActions from '../flux/actions/NotificationActions'
+
 import AppActions from '../flux/actions/AppActions'
 import colors from '../utils/colors'
-
+import NotificationPermissions from '../modals/NotificationPermissions'
 import { MagicNumbers } from '../DeviceConfig'
 
 class SettingsDebug extends React.Component{
@@ -24,36 +26,74 @@ class SettingsDebug extends React.Component{
   }
   render(){
       return (
-          <View>
+          <ScrollView>
 
-          <TouchableHighlight
-            onPress={(f)=>{
-                  AppActions.showCheckmark()
+            <TouchableHighlight
+              onPress={()=>{ AppActions.showCheckmark() }}
+              >
+              <View style={styles.wrapfield}>
 
-             }}
-            underlayColor={colors.dark}
-            style={styles.wrapfield}>
-            <View>
-            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>Checkmark</Text>
-            <Image source={require('../../newimg/nextArrow.png')} />
-          </View>
-        </TouchableHighlight>
+                <Text style={{color:colors.white}}>Checkmark</Text>
+                <Image source={require('../../newimg/nextArrow.png')} />
+              </View>
+            </TouchableHighlight>
 
-     <TouchableHighlight
-            onPress={(f)=>{
-               PushNotificationIOS.presentLocalNotification({alertBody:"HEY"})
-            }}
-            underlayColor={colors.dark}
-            >
-          <View>
-            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>Local Notification</Text>
-            <Image source={require('../../newimg/nextArrow.png')} />
-          </View>
-        </TouchableHighlight>
+            <TouchableHighlight
+              onPress={()=>{
+                PushNotificationIOS.presentLocalNotification({alertBody:"HEY"})
+              }}
+              >
+              <View style={styles.wrapfield}>
+
+                <Text style={{color:colors.white}}>Local Notification</Text>
+                <Image source={require('../../newimg/nextArrow.png')} />
+              </View>
+            </TouchableHighlight>
+
+            <TouchableHighlight
+              onPress={()=>{
+                NotificationActions.receiveNewMessageNotification({
+                  data: {
+                    alert:'New message!',
+                    type:'chat',
+                    message:'jk, you asked for this!',
+                    match_id: 100
+                   }
+                })
+              }} >
+              <View style={styles.wrapfield}>
+                <Text style={{color:colors.white,}}>In-app New Message Notification</Text>
+                <Image source={require('../../newimg/nextArrow.png')} />
+              </View>
+            </TouchableHighlight>
+
+            <TouchableHighlight
+              onPress={(f)=>{
+                NotificationActions.receiveNewMatchNotification({
+                  data: {
+                    alert:'New match!',
+                    type:'retrieve',
+                    message:'(Not real)',
+                    match_id: 100
+                  }
+                })
+              }} >
+              <View style={styles.wrapfield}>
+                <Text style={{color:colors.white,}}>In-app New Match Notification</Text>
+                <Image source={require('../../newimg/nextArrow.png')} />
+              </View>
+            </TouchableHighlight>
+
+            <TouchableHighlight
+              onPress={()=>{ AppActions.toggleOverlay() }} >
+              <View style={styles.wrapfield}>
+                <Text style={{color:colors.white,}}>Toggle Loading Overlay</Text>
+                <Image source={require('../../newimg/nextArrow.png')} />
+              </View>
+            </TouchableHighlight>
 
 
-
-          </View>
+          </ScrollView>
 
 
       )
@@ -68,7 +108,8 @@ export default SettingsDebug
 
 
 const styles = StyleSheet.create({
-   wrapfield:{
+  row:{},
+  wrapfield:{
    borderBottomWidth:1,
    borderColor:colors.shuttleGray,
    height:80,
