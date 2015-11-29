@@ -46,7 +46,7 @@ var SwipeoutBtn = React.createClass({
                    <Animated.Image
                      style={{
                        alignSelf:'center',
-                      tintColor:isFavourited ?  colors.dandelion : colors.dark,
+                      tintColor: colors.dandelion ,
                       width:15,height:20,
                       transform:[
                         {
@@ -72,6 +72,7 @@ var SwipeoutBtn = React.createClass({
                      style={{
                       alignSelf:'center',
                       width:15,height:20,
+                      tintColor: isFavourited ? colors.dandelion   : 'transparent',
                       transform:[
                         {
                           scale: offsetX.interpolate({
@@ -85,8 +86,9 @@ var SwipeoutBtn = React.createClass({
                       opacity: offsetX.interpolate({
                          inputRange:   [-BTNTHRESHOLD, -BTNWIDTH, 0, BTNWIDTH],
                          outputRange:  opacityOutputRange[~~isFavourited],
-                       })
-                     }}
+                     })
+                       }}
+
                      source={require('../../newimg/starOutline.png')}
                      resizeMode={Image.resizeMode.contain}
                    />

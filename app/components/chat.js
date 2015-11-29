@@ -199,8 +199,11 @@ class ChatMessage extends React.Component {
 
         {!isMessageOurs &&
           <View style={{backgroundColor:'transparent'}}>
-            <Image style={[styles.thumb]} source={this.props.messageData.from_user_info.image_url && this.props.messageData.from_user_info.image_url != '' ? {uri:this.props.messageData.from_user_info.image_url} : {uri:'../../newimg/placeholderUser.png'}}
-                    resizeMode={Image.resizeMode.cover}
+          <Image style={[styles.thumb,{backgroundColor:colors.dark}]}
+              source={this.props.messageData.from_user_info.image_url && this.props.messageData.from_user_info.image_url != '' ? {uri:this.props.messageData.from_user_info.image_url} : {uri:'../../newimg/placeholderUser.png'}}
+              resizeMode={Image.resizeMode.cover}
+              defaultSource={{uri:'../../newimg/placeholderUser.png'}}
+
             />
           </View>
         }
