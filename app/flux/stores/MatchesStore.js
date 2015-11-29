@@ -1,7 +1,7 @@
 import alt from '../alt'
 import MatchActions from '../actions/MatchActions'
 import NotificationActions from '../actions/NotificationActions'
-
+import MatchStix from '../../utils/matchstix'
 import _ from 'underscore'
 
 class MatchesStore {
