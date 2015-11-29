@@ -185,7 +185,7 @@ var AlbumView = React.createClass({
           title={album.name.toUpperCase()}
           titleColor={colors.white}
           customPrev={
-            <View style={{flexDirection: 'row',opacity:0.5,top:-4}}>
+            <View style={{flexDirection: 'row',opacity:0.5,top: DeviceHeight > 568 ? 7 : -3}}>
               <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
             </View>
           }

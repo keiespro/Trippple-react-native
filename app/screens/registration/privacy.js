@@ -244,7 +244,7 @@ boxTitle:{
     padding:10,
     borderWidth:2,
     borderColor:colors.shuttleGray,
-    height:120,
+    height:DeviceHeight > 568 ? 120 : 150,
     marginHorizontal:0
   },
 

@@ -124,7 +124,7 @@ class CheckMarkScreen extends Component{
               style={{
               fontSize:24,
               color:'#ffffff',
-              marginTop:40,
+              marginTop: this.props.checkMarkCopy.partnerName ? 40 : -100,
               fontFamily:'Montserrat-Bold',
             }}>{this.props.checkMarkCopy && this.props.checkMarkCopy.title || ''}</Text></Animated.View>
 

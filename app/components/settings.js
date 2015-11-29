@@ -57,6 +57,7 @@ import SettingsBasic from './SettingsBasic'
 import SettingsSettings from './SettingsSettings'
 import SettingsPreferences from './SettingsPreferences'
 import SettingsCouple from './SettingsCouple'
+import SettingsDebug from './SettingsDebug'
 
 var PickerItemIOS = PickerIOS.Item;
 
@@ -170,13 +171,14 @@ class SettingsInside extends React.Component{
   render(){
     const { user } = this.props
     if(!user){ return false }
-    const singleImage = user.localUserImage || {uri: user.image_url },
-          coupleImage = user.localCoupleImage || user.relationship_status == 'couple' && user.couple ? {uri: user.couple.image_url } : null,
-          singleImageThumb = user.localUserImage || {uri: user.thumb_url },
-          coupleImageThumb = user.localCoupleImage || user.couple ? {uri: user.couple.thumb_url } : null,
-          src = user.relationship_status == 'single' ? singleImage : coupleImage,
-          thumbSrc = user.relationship_status == 'single' ? singleImageThumb : coupleImageThumb;
 
+    var src = user.localUserImage || user.image_url;
+    var thumbSrc = user.localUserImage ||  user.thumb_url;
+
+    if(user.relationship_status == 'couple'){
+      src = user.localCoupleImage || user.couple && user.couple.image_url;
+      thumbSrc = user.localCoupleImage || user.couple && user.couple.thumb_url;
+    }
 
     return (
       <View style={{flex:1}}>
@@ -184,7 +186,7 @@ class SettingsInside extends React.Component{
         <ParallaxView
           showsVerticalScrollIndicator={false}
           key={this.props.user.thumb_url}
-          backgroundSource={src}
+          backgroundSource={{uri:src}}
           windowHeight={DeviceHeight*0.6}
           navigator={this.props.navigator}
           style={{backgroundColor:colors.outerSpace,paddingTop:0}}
@@ -206,7 +208,7 @@ class SettingsInside extends React.Component{
                 style={[ styles.userimage, { backgroundColor:colors.outerSpace50}]}
                 key={this.props.user.id+'thumb'}
                 defaultSource={{uri:'../../newimg/placeholderUserWhite.png'}}
-                source={thumbSrc}
+                source={{uri:thumbSrc}}
                 resizeMode={Image.resizeMode.cover}
               />
               <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
@@ -330,21 +332,30 @@ class SettingsInside extends React.Component{
           </View>
         </TouchableHighlight>
 
-        {/*   <TouchableHighlight onPress={(f)=>{
-                  AppActions.showCheckmark()
-                }} underlayColor={colors.dark} >
+           <TouchableHighlight onPress={(f)=>{
+               this.props.navigator.push({
+                component: SettingsDebug,
+                sceneConfig:NavigatorSceneConfigs.FloatFromBottom,
+                passProps: {
+                  style:styles.container,
+                  settingOptions:this.state.settingOptions,
+                  user:this.props.user,
+                  navigator:this.props.navigator
+                }
+              })
+              }} underlayColor={colors.dark} >
                 <View  style={styles.wrapfield}>
                   <View>
-                    <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>checkmark</Text>
+                    <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>DEBUG</Text>
                     <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
-                      debug
+                      stuff
                     </Text>
                   </View>
                   <Image source={require('../../newimg/nextArrow.png')} />
                 </View>
               </TouchableHighlight>
-          */}
-          </View>
+
+              </View>
         </ParallaxView>
       </View>
     )

@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     fakeInput: {
       height: 60,
       padding: 8,
-      fontSize: 28,
+      fontSize: DeviceHeight > 568 ? 28 : 26,
       fontFamily:'Montserrat',
       color: colors.white,
       textAlign:'center'

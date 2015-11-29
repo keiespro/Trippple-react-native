@@ -64,7 +64,8 @@ class SelectRelationshipStatus extends Component{
               leftBoxStyles={styles.iconButtonLeftBoxCouples}
               innerWrapStyles={styles.iconButtonCouples}
               underlayColor={colors.mediumPurple20}
-              _onPress={this._selectCouple.bind(this)}>
+              _onPress={this._selectCouple.bind(this)}
+              buttonText={{fontSize:14}}>
 
               <Image source={require('../../../newimg/ovalCouple.png')}
                         resizeMode={Image.resizeMode.contain}
@@ -85,7 +86,8 @@ class SelectRelationshipStatus extends Component{
               leftBoxStyles={styles.iconButtonLeftBoxSingles}
               innerWrapStyles={styles.iconButtonSingles}
               underlayColor={colors.darkSkyBlue20}
-              _onPress={this._selectSingle.bind(this)}>
+              _onPress={this._selectSingle.bind(this)}
+              buttonText={{fontSize:14}}>
 
               <Image source={require('../../../newimg/ovalSingle.png')}
                         resizeMode={Image.resizeMode.contain}

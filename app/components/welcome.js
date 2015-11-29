@@ -56,7 +56,8 @@ var slides = [
     title: 'PRIVATE & DISCREET',
     img: require('../../newimg/tour-privacy.png'),
     content: 'Protect your identity. Easily block friends and family.'
-  }
+  },
+
 ];
 
 var IntroScreen = React.createClass({
@@ -173,7 +174,6 @@ class Carousel extends Component{
           horizontal={true}
           grayDots={true}
           showsPagination={true}
-          showsButtons={false}
         >
           {welcomeSlides}
         </Swiper>
@@ -203,7 +203,7 @@ var Welcome = React.createClass({
         delayAmount={800}
         duration={500}>
 
-        <Image resizeMode={Image.resizeMode.cover} source={require('../../newimg/gradientbgs.png')} style={styles.imagebg}>
+        <Image resizeMode={Image.resizeMode.cover} style={styles.imagebg}>
           <Navigator
             initialRoute={{
               component: IntroScreen,
