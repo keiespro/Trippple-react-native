@@ -35,6 +35,7 @@ import FieldModal from './FieldModal'
 import {MagicNumbers} from '../DeviceConfig'
 import CheckPermissions from '../modals/CheckPermissions'
 import PartnerMissingModal from '../modals/PartnerMissingModal'
+import NotificationPermissions from '../modals/NotificationPermissions'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -98,7 +99,22 @@ class  SettingsPreferences extends React.Component{
           renderPrevMethod:'pop',
         }
       })
+  }
+
+      // if permission has been denied, show the modal in failedState mode (show settings link)
+    if((this.state.notifyToggled && !pState.notifyToggled)){
+      this.props.navigator.push({
+        component:NotificationPermissions,
+        passProps:{
+          failCallback:(val)=>{
+            this.props.navigator.pop();
+            this.setState({notifyToggled:val})
+
+          },
+        }
+      })
     }
+
   }
   showPartnerMissingModal(){
     // if permission has been denied, show the modal in failedState mode (show settings link)
@@ -265,6 +281,21 @@ class  SettingsPreferences extends React.Component{
                     value={this.state.nearMeToggled > 0 ? true : false}
                     onTintColor={colors.dark}
                     thumbTintColor={this.state.nearMeToggled ? colors.mediumPurple : colors.shuttleGray}
+                    tintColor={colors.dark}
+                  />
+                </View>
+              </View>
+             <View style={[styles.paddedSpace,{marginBottom:15}]}>
+                <View style={styles.formHeader}>
+                  <Text style={styles.formHeaderText}>{`Notifications`}</Text>
+                </View>
+                <View style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow,{borderBottomWidth:0}]}>
+                  <Text style={{color:  colors.white, fontSize:18}}>Get notifications</Text>
+                  <SwitchIOS
+                    onValueChange={(value) => this.setState({notifyToggled: value})}
+                    value={this.state.notifyToggled > 0 ? true : false}
+                    onTintColor={colors.dark}
+                    thumbTintColor={this.state.notifyToggled ? colors.mediumPurple : colors.shuttleGray}
                     tintColor={colors.dark}
                   />
                 </View>
