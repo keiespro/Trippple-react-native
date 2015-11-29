@@ -282,8 +282,6 @@ class LogOutButton extends React.Component{
       [
         {text: 'Yes', onPress: () => {
           UserActions.logOut()
-          // AsyncStorage.multiRemove(['ChatStore','MatchesStore'])
-          // .then(() => UserActions.logOut())
         }},
         {text: 'No', onPress: () => {return false}},
       ]

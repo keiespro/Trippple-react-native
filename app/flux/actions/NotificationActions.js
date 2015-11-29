@@ -70,9 +70,8 @@ class NotificationActions {
   }
 
   scheduleNewPotentialsAlert(time){
-    const fireDate = moment((time || { hour: 11 })).toDate(), //tonight at 11
+    const fireDate = moment((time || { hour: 24 })).toDate(), //tonight at midnight
           alertBody = 'New Matches!'
-    // PushNotificationIOS.cancelAllLocalNotifications()
     PushNotificationIOS.scheduleLocalNotification({ fireDate: fireDate.getTime(), alertBody })
   }
 }
