@@ -2,7 +2,7 @@ import alt from '../alt'
 import MatchActions from '../actions/MatchActions'
 import Log from '../../Log'
 import NotificationActions from '../actions/NotificationActions'
-
+import {AsyncStorage} from 'react-native'
 import _ from 'underscore'
 
 class MatchesStore {
@@ -38,9 +38,18 @@ class MatchesStore {
     this.on('error', (err, payload, currentState) => {
         Log(err, payload, currentState);
     })
+    this.on('afterEach', (payload, state) =>{
+      this.save()
+      console.log('after each matches store')
+
+    })
+  }
+  save(){
+
+    var partialSnapshot = alt.takeSnapshot(this);
+    AsyncStorage.setItem('MatchesStore',JSON.stringify(partialSnapshot));
 
   }
-
   unMatch(matchID){
     this.removeMatch(matchID)
   }
@@ -209,7 +218,9 @@ class MatchesStore {
     return m[0]
   }
 
-}
+
+
+ }
 
 
 // not used in this implementation:

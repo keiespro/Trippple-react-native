@@ -77,9 +77,23 @@ import NotificationActions from '../flux/actions/NotificationActions'
         }
       }
     }
+
+
     componentWillMount(){
-      // alt.bootstrap()
+        AsyncStorage.multiGet(['ChatStore','MatchesStore'])
+        .then((data) => {
+              console.log('LOADED DATA')
+            if (data[1] !== null){
+              //   // get data from local storage
+              var p = {}
+              var c = JSON.parse(data[0][1])
+              var m = JSON.parse(data[1][1])
+              alt.bootstrap({...c,...m});
+            }
+          })
+
     }
+
     componentDidMount(){
       this.refs.nav.navigationContext.addListener('didfocus', (e)=>{
         AppActions.updateRoute(this.refs.nav.state.presentedIndex)

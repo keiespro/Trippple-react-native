@@ -64,6 +64,9 @@ class MatchList extends Component{
   }
 
   componentDidMount() {
+    MatchActions.getMatches();
+    MatchActions.getFavorites.defer();
+
     Mixpanel.track('On - Matches Screen');
   }
 
@@ -181,9 +184,11 @@ class MatchList extends Component{
   }
   _pressRow(match_id: number) {
     // get messages from server and open chat view
+    var handle = InteractionManager.createInteractionHandle();
 
-
-    MatchActions.getMessages(match_id);
+    InteractionManager.runAfterInteractions(() => {
+      MatchActions.getMessages(match_id);
+   })
 
     this.props.navigator.push({
       component: Chat,
@@ -191,6 +196,7 @@ class MatchList extends Component{
       index: 3,
       title: 'CHAT',
       passProps:{
+        handle,
         index: 3,
         match_id: match_id,
         navigator: this.props.navigator,
@@ -198,11 +204,15 @@ class MatchList extends Component{
       },
       sceneConfig: Navigator.SceneConfigs.FloatFromRight,
     });
+
+
+
   }
 
   render(){
     var self = this,
-        isVisible = this.state.isVisible
+        isVisible = this.state.isVisible;
+
     return (
       <View style={styles.container}>
         <View style={{height:50}}>
@@ -230,7 +240,6 @@ class MatchList extends Component{
           <ListView
             initialListSize={12}
             scrollEnabled={this.state.scrollEnabled}
-            removeClippedSubviews={true}
             directionalLockEnabled={true}
             vertical={true}
             chatActionSheet={this.props.chatActionSheet}
@@ -282,13 +291,14 @@ class MatchesInside extends Component{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.fds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     this.state = {
       matches: props.matches,
       favorites: props.favorites,
       isVisible: false,
       dataSource: this.ds.cloneWithRows(props.matches),
-      favDataSource: this.ds.cloneWithRows(props.favorites)
+      favDataSource: this.fds.cloneWithRows(props.favorites)
 
     }
   }
@@ -323,14 +333,14 @@ class MatchesInside extends Component{
     }
 
   _updateDataSource(data,whichList) {
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.match_id !== r2.match_id});
+    // var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.match_id !== r2.match_id});
     if(data.length > 1){
       var newState = (whichList == 'matches') ? {
         matches: data,
-        dataSource: ds.cloneWithRows(data || []),
+        dataSource: this.ds.cloneWithRows(data || []),
       } : {
         favorites: data,
-        favDataSource: ds.cloneWithRows(data || []),
+        favDataSource: this.fds.cloneWithRows(data || []),
       };
       this.setState(newState)
     }
@@ -344,7 +354,6 @@ class MatchesInside extends Component{
             favDataSource={this.state.favDataSource}
             matches={this.state.matches || this.props.matches}
             favorites={this.state.favorites || this.props.favorites}
-
             updateDataSource={this._updateDataSource.bind(this)}
             id={"matcheslist"}
             chatActionSheet={this.props.chatActionSheet}
@@ -379,7 +388,7 @@ class NoMatches extends Component{
   }}>
         <FadeInContainer>
 
-          <View style={{flexDirection:'column',paddingHorizontal:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
+          <View style={{flexDirection:'column',padding:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
             <Image  style={{width:300,height:100,marginBottom:0 }} source={require('../../newimg/listing.png')}
               resizeMode={Image.resizeMode.contain} />
             <Image  style={{width:300,height:100,marginBottom:20 }} source={require('../../newimg/listing.png')}
@@ -411,7 +420,7 @@ class NoFavorites extends Component{
         width:DeviceWidth}}>
         <FadeInContainer>
 
-          <View style={{flexDirection:'column',paddingHorizontal:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
+          <View style={{flexDirection:'column',padding:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
 
             <Image  style={{width:175,height:180,marginBottom:40 }} source={require('../../newimg/iconPlaceholderFavs.png')}
                resizeMode={Image.resizeMode.contain}
@@ -429,19 +438,13 @@ class NoFavorites extends Component{
 }
 class Matches extends Component{
 
-  static defaultProps = {
-
-  }
   constructor(props) {
-    super(props);
+    super();
 
     this.state = {
       currentMatch:null,
       isVisible:false
     }
-
-  }
-  componentDidMount(){
 
   }
   chatActionSheet(match){

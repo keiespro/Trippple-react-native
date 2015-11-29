@@ -331,7 +331,7 @@ class SettingsInside extends React.Component{
           </View>
         </TouchableHighlight>
 
-           <TouchableHighlight onPress={(f)=>{
+        { __DEV__ && <TouchableHighlight onPress={(f)=>{
                this.props.navigator.push({
                 component: SettingsDebug,
                 sceneConfig:NavigatorSceneConfigs.FloatFromBottom,
@@ -353,7 +353,7 @@ class SettingsInside extends React.Component{
                   <Image source={require('../../newimg/nextArrow.png')} />
                 </View>
               </TouchableHighlight>
-
+            }
               </View>
         </ParallaxView>
       </View>

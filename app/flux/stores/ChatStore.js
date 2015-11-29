@@ -21,19 +21,21 @@ class ChatStore {
     }
     this.on('init', () => {/*noop*/})
     this.on('error', (err, payload, currentState) => {
-        Log(err, payload, currentState);
+      Log(err, payload, currentState);
     })
+    this.on('afterEach', (state) =>{
+      console.log('after each chat store')
+      this.save()
+    })
+
 
   }
 
-  loadLocalData(){
-    AsyncStorage.getItem('ChatStore')
-    .then((value) => {
-      if (value !== null){
-        // get data from local storage
-        alt.bootstrap(value);
-      }
-    })
+  save(){
+
+    var partialSnapshot = alt.takeSnapshot(this);
+    AsyncStorage.setItem('ChatStore',JSON.stringify(partialSnapshot));
+
 
   }
 

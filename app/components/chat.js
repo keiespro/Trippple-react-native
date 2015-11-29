@@ -188,6 +188,9 @@ class ChatMessage extends React.Component {
   constructor(props){
     super(props);
   }
+  shouldComponentUpdate(){
+    return false
+  }
   render() {
     var isMessageOurs = (this.props.messageData.from_user_info.id === this.props.user.id || this.props.messageData.from_user_info.id === this.props.user.partner_id);
 
@@ -564,10 +567,14 @@ var Chat = React.createClass({
   componentWillUnmount(){
     MatchActions.setAccessTime({match_id:this.props.match_id,timestamp: new Date().getTime()})
   },
-
   componentDidMount(){
     MatchActions.setAccessTime.defer({match_id:this.props.match_id,timestamp: new Date().getTime()})
     MatchActions.getMessages(this.props.match_id)
+
+    if(this.props.handle){
+      InteractionManager.clearInteractionHandle(this.props.handle)
+    }
+
   },
 
   toggleModal(){
