@@ -348,8 +348,13 @@ export default React.createClass({
     }
 
     // For the WELCOME slider
-    var inputRange = [0,width,width*2,width*3,width*4,width*5,width*6,width*7,width*8,width*9],
-                      outputRange = [-64,-32,0,32,64,-64,-32,0,32,64]
+    var inputRange = [0,width,width*2,width*3,width*4,width*5,width*6],
+    outputRange = [-64,-64,-32,0,32,64,-64];
+
+    var inputRangeVertical = [0,(height-80),(height-80)*2,(height-80)*3],
+    outputRangeVertical = [6,40,10,40];
+
+
 
     return (
       <View
@@ -360,10 +365,12 @@ export default React.createClass({
         <ScrollView ref="scrollView"
           {...props}
           onScroll={Animated.event(
-            [{nativeEvent: {contentOffset: dir == 'y' ? {y: this.state.scroll} : {x: this.state.scroll} }}]   // scrollX = e.nativeEvent.contentOffset.x
+            [{nativeEvent: {contentOffset: dir == 'y' ? {y: this.state.scroll} : {x: this.state.scroll} }}]
+            // scrollX = e.nativeEvent.contentOffset.x
           )}
-          scrollEventThrottle={16}
+          scrollEventThrottle={32}
           pagingEnabled={true}
+          contentOffset={state.offset}
           contentContainerStyle={[styles.wrapper, props.style]}
           onScrollBeginDrag={this.onScrollBegin}
           onMomentumScrollEnd={this.onScrollEnd}>
@@ -384,11 +391,12 @@ export default React.createClass({
               pointerEvents={'box-none'}
               style={[styles['pagination_' + this.state.dir], this.props.paginationStyle,
                 {
+                  position:'absolute',top:2,right:35,
                 transform:[
                   {
                     translateY: dir == 'y' ? this.state.scroll && this.state.scroll.interpolate({
-                      inputRange: inputRange,
-                      outputRange: outputRange
+                      inputRange: inputRangeVertical,
+                      outputRange: outputRangeVertical
                    }) : 0,
                   },{
                     translateX: dir == 'x' ? ( this.state.scroll && this.state.scroll.interpolate({

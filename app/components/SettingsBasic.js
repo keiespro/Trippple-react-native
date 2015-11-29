@@ -195,9 +195,10 @@ class SettingsBasic extends React.Component{
           titleColor={colors.white}
           />
         <ScrollView style={{flex:1,marginTop:55,backgroundColor:colors.dark}} contentContainerStyle={{alignItems:'flex-start'}} >
+      <View style={{backgroundColor:colors.outerSpace}}>
 
-        <ScrollableTabView style={{overflow:'hidden'}} renderTabBar={(props)=><CustomTabBar {...props}/>}>
-          <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:MagicNumbers.screenPadding/2,paddingBottom:50}}  tabLabel={'GENERAL'}>
+        <ScrollableTabView style={{overflow:'hidden',}} renderTabBar={(props)=><CustomTabBar {...props}/>}>
+          <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:MagicNumbers.screenPadding/2}}  tabLabel={'GENERAL'}>
           {user.relationship_status == 'single' ? null : <View style={{height:150,width:150,alignSelf:'center'}}>
           <TouchableOpacity onPress={this._pressNewImage} style={{marginTop:20,}}>
             <Image
@@ -253,7 +254,7 @@ class SettingsBasic extends React.Component{
                 <Text style={styles.formHeaderText}>Contact Info</Text>
               </View>
             </View>
-
+            <View style={{}}>
             {['phone'].map((field) => {
               return (
                 <View  style={styles.wrapperBirthdayGender}>
@@ -281,23 +282,29 @@ class SettingsBasic extends React.Component{
               return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
             })}
 
-        </View>
-        <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth, paddingBottom:30 }}  tabLabel={'DETAILS'}>
+            </View>
+                </View>
+
+        <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth, paddingBottom:0 }}  tabLabel={'DETAILS'}>
           <View style={styles.paddedSpace}>
             <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>Details</Text>
             </View>
           </View>
-
+          <View style={{}}>
           {['height','body_type','ethnicity','eye_color','hair_color','smoke','drink'].map((field) => {
             return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
           })}
+          </View>
 
           </View>
         </ScrollableTabView>
-  <View style={[{
+        <View style={[{
+
     backgroundColor:colors.outerSpace,
-alignItems:'stretch'
+    alignItems:'stretch',
+    alignItems:'stretch',flex:1,
+    width:DeviceWidth-40
           }]}>
 
         {!this.props.user.facebook_user_id ?
@@ -309,7 +316,7 @@ alignItems:'stretch'
         </View> : null }
 
         {!this.props.user.facebook_user_id ?
-          <View style={[styles.paddedSpace,{marginTop:10,flex:1,alignSelf:'stretch',}]}>
+          <View style={[styles.paddedSpace,{width:DeviceWidth,marginTop:10,flex:1,alignItems:'stretch',alignSelf:'stretch'}]}>
           <FacebookButton shouldLogoutOnTap={true} _onPress={this.onPressFacebook.bind(this)} buttonType={'settings'} buttonTextStyle={{fontSize:20,fontFamily:'Montserrat-Bold'}} wrapperStyle={{height:100,padding:0}}/>
 
           </View>
@@ -317,10 +324,11 @@ alignItems:'stretch'
 
         {!this.props.user.facebook_user_id ?
 
-        <View style={[styles.paddedSpace,{marginBottom:25}]}>
+        <View style={[styles.paddedSpace,{width:DeviceWidth,marginBottom:25}]}>
           <Text style={{color:colors.shuttleGray,textAlign:'center',fontSize:18}}>Don’t worry, we wont tell your friends or post on your wall.</Text>
         </View> : null }
           </View>
+      </View>
 
       </ScrollView>
       </View>

@@ -1,5 +1,6 @@
 import alt from '../alt'
 import MatchActions from '../actions/MatchActions'
+import UserActions from '../actions/UserActions'
 import NotificationActions from '../actions/NotificationActions'
 import ChatStore from '../stores/ChatStore'
 import { AsyncStorage, PushNotificationIOS } from 'react-native'
@@ -28,7 +29,8 @@ class NotificationsStore {
       handleNewMessage: NotificationActions.RECEIVE_NEW_MESSAGE_NOTIFICATION,
       handleNewMatchData: MatchActions.GET_MATCHES,
       handleNewMessageData: MatchActions.GET_MESSAGES,
-      handleUpdateBadgeNumber: NotificationActions.UPDATE_BADGE_NUMBER
+      handleUpdateBadgeNumber: NotificationActions.UPDATE_BADGE_NUMBER,
+      handleLogOut: UserActions.LOG_OUT
     })
 
     this.on('init', () => {
@@ -41,6 +43,11 @@ class NotificationsStore {
     })
 
   }
+
+  handleLogOut(){
+    PushNotificationIOS.cancelAllLocalNotifications()
+  }
+
   updateBadgeCount(delta){
 
     const newNotifications = delta || 0;

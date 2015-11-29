@@ -98,7 +98,7 @@ class EditImageThumb extends Component{
       }
 
       const dataUri = 'data:image/gif;base64,'+uri,
-            localImages = { thumb_url: dataUri, image_url: this.props.image, localUserImage: dataUri, localCoupleImage: dataUri  };
+            localImages = { localUserImage: dataUri, localCoupleImage: dataUri };
 
       this.setState({croppedImageURI:dataUri });
 

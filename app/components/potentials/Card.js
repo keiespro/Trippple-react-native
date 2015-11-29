@@ -65,17 +65,19 @@ class Card extends React.Component{
   componentWillReceiveProps(nProps){
     if(nProps.pan && this.props.profileVisible != nProps.profileVisible){
       LayoutAnimation.configureNext(animations.layout.spring);
+      this.toggleCardHoverOff()
+
     }
   }
 
-  toggleCardHoverOn(e){
+  toggleCardHoverOn(){
 
     this.refs.cardinside.setNativeProps({
       style: { shadowColor: colors.darkShadow, shadowRadius:30, shadowOpacity: 1 }
     })
 
   }
-  toggleCardHoverOff(e){
+  toggleCardHoverOff(){
     this.refs.cardinside.setNativeProps({
       style: {   shadowColor: colors.darkShadow, shadowRadius:0, shadowOpacity: 0  }
     })
@@ -102,10 +104,12 @@ class Card extends React.Component{
         ref={'cardinside'} key={`${potential.id || potential.user.id}-inside`}
         style={ [{
           borderRadius: 8,
-          flex:1,  width:DeviceWidth,
-                  position:'relative',
-                height:DeviceHeight-55,
-left:0,right:0,
+          flex:1,
+          width:DeviceWidth,
+          position:'relative',
+          height:DeviceHeight-55,
+          left:0,
+          right:0,
 
         } ]}>
 
@@ -115,6 +119,7 @@ left:0,right:0,
           centerContent={false}
           alwaysBounceHorizontal={false}
           horizontal={false}
+          removeClippedSubviews={true}
           canCancelContentTouches={false}
           contentContainerStyle={{
             alignItems:'center',
@@ -143,11 +148,7 @@ left:0,right:0,
                   justifyContent:'center',left:0,right:0,
                   marginHorizontal:0,
                   flexDirection:'column',
-                  opacity: isTopCard ? 1 : this.props.pan && this.props.pan.x.interpolate({
-                          inputRange: [-500, -50, 0, 50, 500],
-                          outputRange: [1,0,0,0,1]
-                        }),
-                  backgroundColor: isTopCard ? this.props.pan && this.props.pan.x.interpolate({
+                                   backgroundColor: isTopCard ? this.props.pan && this.props.pan.x.interpolate({
                     inputRange: [-300,-50, -40, 0, 40,  50, 300],
                     outputRange: [
                       'rgb(232,74,107)',
@@ -165,11 +166,13 @@ left:0,right:0,
                   horizontal={false}
                   activeIndex={this.state.activeIndex}
                   vertical={true}
-          centerContent={true}
 
-          style={{alignSelf:'center',marginLeft:0,marginRight:0,
-                  left:0,
-          }}
+                  style={{
+                    alignSelf:'center',
+                    marginLeft:0,
+                    marginRight:0,
+                    left:0,
+                  }}
                   showsPagination={true}
                   paginationStyle={{position:'absolute',right:45,top:25,height:100}}
                   >
@@ -191,62 +194,64 @@ left:0,right:0,
                       flex:1,
                       left:0,
                       right:0,
-                      opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
-                          inputRange: [-300, -80, 0, 80, 300],
-                          outputRange: [0,1,1,1,0]
+                      opacity: isTopCard && pan ? pan.x.interpolate({
+                          inputRange:  [-300, -80, 0, 80, 300],
+                          outputRange: [   0,   1, 1,  1,   0]
                         }) : 1
                     }]}
                     resizeMode={Image.resizeMode.cover}
                   />
                   </TouchableWithoutFeedback>
+
                   {rel == 'single' && potential.partner &&
-                    <TouchableWithoutFeedback
+
+                  <TouchableWithoutFeedback
                     key={`${potential.partner.id}-touchableimg`}
                     style={[styles.imagebg,{}]}
                     onPressIn={this.toggleCardHoverOn.bind(this)}
                     onPressOut={this.toggleCardHoverOff.bind(this)}
                     onPress={this.openProfileFromImage.bind(this)}
-                    >
-                    <Animated.Image
-                      source={{uri: potential.partner.image_url}}
-                      key={`${potential.partner.id}-cimg`}
-                      defaultSource={{uri:'../../newimg/defaultuser.png'}}
-                      style={[styles.imagebg,{
-                        backgroundColor:  colors.white,
-                        flex:1,
-                        width: DeviceWidth,
-                        opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
-                          inputRange: [-300, -100, 0, 100, 300],
-                          outputRange: [0,1,1,1,0]
-                        }) : 1
+                  >
+                  <Animated.Image
+                    source={{uri: potential.partner.image_url}}
+                    key={`${potential.partner.id}-cimg`}
+                    defaultSource={{uri:'../../newimg/defaultuser.png'}}
+                    style={[styles.imagebg,{
+                      backgroundColor: colors.white,
+                      flex:1,
+                      width: DeviceWidth,
+                      opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
+                          inputRange:  [-300, -80, 0, 80, 300],
+                          outputRange: [   0,   1, 1,  1,   0]
+                      }) : 1
                     }]}
                     resizeMode={Image.resizeMode.cover}
-                    />
-                    </TouchableWithoutFeedback>
-                  }
-                </Swiper>
+                  />
+                  </TouchableWithoutFeedback>
+                }
+              </Swiper>
 
 
             <View
               key={`${potential.id || potential.user.id}-bottomview`}
               style={{
-                height: this.props.isTopCard ? 150 : 105,
-                marginTop: this.props.isTopCard ? -150 : -105,
+                height: isTopCard ? 120 : 105,
+                marginTop: isTopCard ? -110 : -105,
                 flexDirection:'row',
                 flex:1,
                 left:0,
-                bottom:50,
-  backgroundColor:colors.white,
+                bottom:isTopCard ? -80 : -60,
+                backgroundColor:colors.white,
                 width:DeviceWidth,
-                position:'relative',
+                position:'absolute',
                 marginRight: this.props.profileVisible ? 0 : 50,
               }}
               >
               <View
               key={`${potential.id || potential.user.id}-infos`}
               style={{
-                padding:20,
-                paddingTop:30, paddingBottom:15, height:130,flex:1,
+                padding: isTopCard ? 10 : 5,
+                paddingTop:30, paddingBottom:15, height:110,flex:1,
               top:-30,}}>
                   <Text style={[styles.cardBottomText,{}]}
                     key={`${potential.id || potential.user.id}-names`}>{
@@ -261,11 +266,12 @@ left:0,right:0,
             {rel == 'single' &&
               <View style={{
                 height:60,
-                top:-50,
-                right:0,
+                top:0,
+                right:30,
                 alignSelf:'flex-end',
                 position:'absolute',
-                padding:20,
+                padding:10,
+
                 alignItems:'flex-end',
                 backgroundColor:'transparent',
                 flexDirection:'row'}}>
@@ -360,11 +366,13 @@ left:0,right:0,
           style={[ {
               width:DeviceWidth,
               position: 'absolute',
-right:0,              left:-20,
-alignItems:'flex-start',
+              right:0,
+              left:-20,
+              alignItems:'flex-start',
               height:DeviceHeight,
               right:0,
-        alignSelf:'stretch',flex:1
+              alignSelf:'stretch',
+              flex:1
           } ]}>
 
           <ScrollView
@@ -377,10 +385,8 @@ alignItems:'flex-start',
               right:0,
               backgroundColor:'black',
               height:DeviceHeight,
-
-
               flex:1,
-  }]}
+            }]}
 
             canCancelContentTouches={true}
             horizontal={false}
@@ -395,7 +401,6 @@ alignItems:'flex-start',
             <Animated.View
               key={`${potential.id || potential.user.id}bgopacity`}
               style={{
-                flex:1,position:'relative',
               }}
               ref={"incard"}
               >
@@ -405,9 +410,7 @@ alignItems:'flex-start',
               loop={true}
               style={{
                 flex:1,
-                left:0,
                 height:DeviceHeight,
-                position:'absolute',top:0,
 
                 width: DeviceWidth
               }}
@@ -442,7 +445,6 @@ alignItems:'flex-start',
                     style={[styles.imagebg, {
                       flex:1,
                       width: DeviceWidth,
-                                  position:'absolute',
                       opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                           inputRange: [-300, -80, 0, 80, 300],
                           outputRange: [0,1,1,1,0]
@@ -455,11 +457,7 @@ alignItems:'flex-start',
                 {rel == 'single' && potential.partner &&
                 <TouchableWithoutFeedback
                   key={`${potential.partner.id}-touchableimg`}
-                  style={[styles.imagebg,{
-
-                  }]}
-
-
+                  style={[styles.imagebg,{ }]}
                   onPress={this.openProfileFromImage.bind(this)}>
 
 
@@ -468,10 +466,7 @@ alignItems:'flex-start',
                     key={`${potential.partner.id}-cimg`}
                     style={[styles.imagebg,{
                       width: DeviceWidth,
-                                  position:'absolute',
-
                       flex:1,
-
                       opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                           inputRange: [-300, -100, 0, 100, 300],
                           outputRange: [0,1,1,1,0]
@@ -488,7 +483,7 @@ alignItems:'flex-start',
             key={`${potential.id || potential.user.id}-bottomview`}
 
             style={{
-              height: 600,
+              height: 800,
               top:60,
               marginTop:-180,
               backgroundColor:colors.outerSpace,
