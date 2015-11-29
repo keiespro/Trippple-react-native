@@ -26,12 +26,16 @@ class MatchStix {
     const strSlug = slug.toString();
     this._cache[strSlug]                     = true;
     this._Map_MatchID_lastUpdatedAt[strSlug] = ts;
-    this._unread[strSlug]                    = 0;
+    this._Map_MatchID_unreadCnt[strSlug]     = 0;
     this._mCount++;
   }
 
+  static appendMsg(matchId: integer, msgInfo: any){
+    this._Map_MatchID_unreadCnt[matchId]++;
+  }
+
   static scaleUnread(slug, delta) {
-    const currentUnread = this._unread[slug];
+    const currentUnread = this._Map_MatchID_unreadCnt[slug];
     let newCnt = Math.max(0, delta + currentUnread);
     true; //- for debugging
   }
@@ -39,11 +43,15 @@ class MatchStix {
   static get matchCount(){
     return this._mCount;
   }
+
+  static get unreadCount() {
+    return _.reduce(Object.values(this._Map_MatchID_unreadCnt), (a, m) => a+m, 0);
+  }
 }
 
 MatchStix._cache                     = {};
 MatchStix._Map_MatchID_lastUpdatedAt = {};
-MatchStix._unread                    = {};
+MatchStix._Map_MatchID_unreadCnt     = {};
 MatchStix._running                   = false;
 MatchStix._mCount                    = 0;
 MatchStix.currentMatchId             = null;
@@ -69,6 +77,7 @@ class MatchPayload {
     this.createdAt       = created_timestamp;
     this.lastAccessedAt  = null;
     this.data            = data;
+    this.isPriority      = false;
 
     if (!this.isStale()) {
       MatchStix.cache(this);
@@ -100,10 +109,14 @@ class MatchInfo extends MatchPayload {
 class MessageInfo extends MatchPayload{
   constructor(data: any) {
     super(true,data);
+
+    const matchID=data.id;
+    MatchStix.appendMsg(matchID,data);
   }
 }
 
 MatchStix.prototype = new AsyncA(function (ts,a){ // when the loop was triggered
+  console.log("UNREAD:%d",this.unreadCount);
   true; //- for debugging
   a.cont();
 })
