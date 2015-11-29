@@ -14,7 +14,7 @@ class NotificationActions {
 
   requestNotificationsPermission(){
     PushNotificationIOS.addEventListener('register',(token) => {
-      console.log('APN TOKEN?',token,Api)
+      console.log('APN TOKEN?',token,Api);
 
       Api.updatePushToken(token)
       .then(()=> this.dispatch(token))
