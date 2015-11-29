@@ -71,7 +71,7 @@ let styles = StyleSheet.create({
     marginRight: 8,
     marginTop: 3,
     marginBottom: 3,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: colors.mediumPurple
   },
   container: {
@@ -399,12 +399,11 @@ export default React.createClass({
                   />
             )
           })}
-          </View>
             <Animated.View
               pointerEvents={'box-none'}
               style={[styles['pagination_' + this.state.dir], this.props.paginationStyle,
                 {
-                  position:'absolute',top:2.5,alignSelf:'flex-end',
+                  position:'absolute',top:  dir == 'y' ? 2.5 : 0,alignSelf:'flex-end',
                 transform:[
                   {
                     translateY: dir == 'y' ? this.state.scroll && this.state.scroll.interpolate({
@@ -427,6 +426,7 @@ export default React.createClass({
                 (this.props.grayDots ? styles.activeDot16 : styles.activeDot15),
                 {}]} key={'dot-active'} />
             </Animated.View>
+          </View>
 
       </View>
     )
