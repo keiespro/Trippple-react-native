@@ -10,42 +10,62 @@ const {
 } = Arrows;
 
 class MatchStix {
-  constructor() {
-    this.cache          = {};
-    this.lastUpdatedAt  = {};
-    this.initialised    = false;
-    true; //- for debugging
+  static cache (m) {
+    if (this._cache[m.matchId]) {
+      if (m.isStale()) {
+        return;
+      }
+    }
+    this.reserve(m.matchId,now());
   }
 
-  static cache (mp) {
-    if (this.cache[mp.id]) {
-      return if mp.isStale();
-    }
+  static reserve(slug,ts) {
+    if (arguments[0] === undefined) throw "MatchStixerr -> reserve: String";
+    if (arguments[1] === undefined) throw "MatchStixerr -> reserve: TimeStamp";
+
+    const strSlug = slug.toString();
+    this._cache[strSlug]         = true;
+    this._lastUpdatedAt[strSlug] = ts;
+    this._unread[strSlug]        = 0;
+  }
+
+  static scaleUnread(slug, delta) {
+    const currentUnread = this._unread[slug];
+    let newCnt = Math.max(0, delta + currentUnread);
+    true; //- for debugging
   }
 }
+
+MatchStix._cache                = {};
+MatchStix._lastUpdatedAt        = {};
+MatchStix._unread               = {};
+MatchStix._running              = false;
 
 class MatchPayload {
   static __idcnt;
 
   static nextId() {
-    if (this.__idcnt == undefined) this.__idcnt = 0;
+    if (this.__idcnt === undefined) this.__idcnt = 0;
     return ++this.__idcnt;
   }
 
   constructor(isMessage: boolean,data: any) {
-    if (arguments[1] == undefined) throw "MatchPayloaderr -> isMessage: boolean";
-    if (arguments[2] == undefined) throw "MatchPayloadErr -> data: {}";
+    if (arguments[0] === undefined) throw "MatchPayloaderr -> isMessage: boolean";
+    if (arguments[1] === undefined) throw "MatchPayloadErr -> data: {}";
 
-    let { id } = data;
+    const { match_id, isFavourited, created_timestamp } = data;
 
-    this.isMessage = isMessage;
-    this.id        = MatchPayload.nextId();
-    this.matchId   = id;
-    this.lastAccessedAt = null;
-    this.data = data;
+    this.isMessage       = isMessage;
+    this._id             = MatchPayload.nextId();
+    this.matchId         = match_id;
+    this.isFavourited    = isFavourited;
+    this.createdAt       = created_timestamp;
+    this.lastAccessedAt  = null;
+    this.data            = data;
 
     if (!this.isStale()) {
       MatchStix.cache(this);
+      MatchStix.scaleUnread(this.matchId, 1); // move it up one for each new match.
     }
     true; //- for debugging
   }
@@ -55,12 +75,20 @@ class MatchPayload {
   }
 
   touch() {
-    this.last
+    true //- for debugging;
   }
 }
 
-function MessagePayload(data) {
-  return new MatchPayload(true, data);
+class MatchInfo extends MatchPayload {
+  constructor(data: any) {
+    super(false,data)
+  }
+}
+
+class MessageInfo extends MatchPayload{
+  constructor(data: any) {
+    super(true,data)
+  }
 }
 
 MatchStix.prototype = new AsyncA(function (matchData){
@@ -72,8 +100,14 @@ function now() {
     return now.getTime();
 }
 
-function indexMatch (match: MatchPayload){
-  true; //- for debugging
+function matchWasAdded(matchData: any) {
+  const { match_id , users , isFavourited, created_timestamp, recent_message} = matchData;
+  return new MatchInfo(matchData);
 }
 
-export default MatchStix;
+
+function messageWasAdded(messageData: any){
+  return new MessageInfo(messageData);
+}
+
+export { matchWasAdded, messageWasAdded}
