@@ -27,7 +27,8 @@ class NotificationsStore {
       handleNewMatch: NotificationActions.RECEIVE_NEW_MATCH_NOTIFICATION,
       handleNewMessage: NotificationActions.RECEIVE_NEW_MESSAGE_NOTIFICATION,
       handleNewMatchData: MatchActions.GET_MATCHES,
-      handleNewMessageData: MatchActions.GET_MESSAGES
+      handleNewMessageData: MatchActions.GET_MESSAGES,
+      handleUpdateBadgeNumber: NotificationActions.UPDATE_BADGE_NUMBER
     })
 
     this.on('init', () => {
@@ -48,6 +49,11 @@ class NotificationsStore {
       React.NativeModules.PushNotificationManager.setApplicationIconBadgeNumber(result + newNotifications)
     })
   }
+
+  handleUpdateBadgeNumber(amount){
+    this.updateBadgeCount(amount);
+  }
+
   handleMatchRemoved(){
 
   }

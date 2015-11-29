@@ -107,6 +107,10 @@ class MatchesStore {
     const newCounts = {...this.state.unreadCounts}
     newCounts[match_id] = 0
 
+    React.NativeModules.PushNotificationManager.setApplicationIconBadgeNumber(currentCount+delta)
+    NotificationActions.changeAppIconBadgeNumber(newCounts[match_id].length * -1)
+    result + newCounts[match_id]
+
     this.setState({
       unreadCounts: newCounts
     })

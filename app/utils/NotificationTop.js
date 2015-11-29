@@ -129,12 +129,12 @@ var animations = {
       duration: 300,
       create: {
         duration: 300,
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.opacity
+        type: LayoutAnimation.Types.spring,
+        property: LayoutAnimation.Properties.scaleXY
       },
       update: {
         type: LayoutAnimation.Types.spring,
-        springDamping: 200
+        springDamping: 20
       }
     },
     easeInEaseOut: {

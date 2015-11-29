@@ -25,9 +25,10 @@ class NotificationActions {
 
     })
 
+  }
 
-
-
+  updateBadgeNumber(numberToAdd){
+    this.dispatch(numberToAdd)
   }
 
 

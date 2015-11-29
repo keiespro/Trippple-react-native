@@ -105,7 +105,7 @@ class NotificationPermissions extends React.Component{
     }
     _handleAppStateChange(currentAppState) {
       if(currentAppState == 'active'){
-        PushNotificationIOS.checkPermission( (permission) => {
+        PushNotificationIOS.checkPermissions( (permission) => {
           this.setState({ hasPermission: (parseInt(permission) > 2), failedState: false });
           AppStateIOS.removeEventListener('change', this._handleAppStateChange);
         })

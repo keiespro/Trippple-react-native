@@ -85,7 +85,10 @@ class NotificationCommander extends Component{
   _handleAppStateChange =(appState)=> {
     if(appState === 'active'){
       const newNotification = PushNotificationIOS.popInitialNotification()
-      this.handlePushData(newNotification)
+      console.log('popped notification: ',newNotification);
+      if(newNotification){
+        this.handlePushData(newNotification)
+      }
     }
     this.setState({ appState });
 

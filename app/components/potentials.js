@@ -71,13 +71,12 @@ class PotentialsPage extends React.Component{
       var pushPermission = Object.keys(result).reduce( (acc,el,i) => {
         acc = acc + result[el];
         return acc
-    },0)
-    console.log(pushPermission);
+      },0)
       this.setState({hasPushPermission: (pushPermission > 0) })
     })
   }
   componentDidUpdate(){
-    if(!this.state.hasPushPermission && !this.state.requestingPushPermission ){
+    if(true == false && !this.state.hasPushPermission && !this.state.requestingPushPermission ){
       this.setState({requestingPushPermission:true})
       this.props.navigator.push({
         component: NotificationPermissions,
