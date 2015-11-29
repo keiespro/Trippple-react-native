@@ -59,7 +59,7 @@ const purpleModalStyles = StyleSheet.create({
   },
   fullWidth:{
     width: MagicNumbers.screenWidth,
-    padding:30
+    padding:MagicNumbers.screenPadding
 
   },
   row: {

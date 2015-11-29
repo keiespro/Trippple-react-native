@@ -46,13 +46,11 @@ class PurpleModal extends Component{
       <View style={[{padding:0,backgroundColor: 'transparent',flex:1,position:'relative',justifyContent:'center',alignItems:'center',}]}>
 
       <View style={[styles.col,{justifyContent:'center',alignItems:'center',backgroundColor: 'transparent',
-    marginHorizontal:MagicNumbers.screenPadding,
       }]}>
 
         <View style={[styles.modalcontainer,{
           backgroundColor:colors.white,
           flex:1,
-          margin:20
         }]}  >
             {this.props.children}
           </View>

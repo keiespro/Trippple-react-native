@@ -130,7 +130,7 @@ export default class PrivacyPermissionsModal extends Component{
 
     return (
         <PurpleModal>
-          <View style={[styles.col,styles.fullWidth,{justifyContent:'space-between'}]}>
+          <View style={[styles.col,{justifyContent:'space-between',}]}>
             <View style={{alignItems:'center'}}>
               <Image
                 resizeMode={Image.resizeMode.contain}
@@ -203,7 +203,7 @@ export default class PrivacyPermissionsModal extends Component{
                 </View>
               </TouchableOpacity>  :
             <TouchableOpacity
-              style={{padding:10,marginBottom:0}}
+              style={{padding:10,marginBottom:0,alignSelf:'stretch',flex:1}}
               onPress={this.props.cancel}>
               <View style={[styles.cancelButton,{backgroundColor:'transparent'}]} >
                 <Text style={[{color:colors.shuttleGray,textAlign:'center',padding:10},styles.nothankstext]}>no thanks</Text>
