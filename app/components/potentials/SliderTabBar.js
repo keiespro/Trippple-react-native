@@ -42,11 +42,11 @@ var SliderTabBar = React.createClass({
 
   render() {
     var numberOfTabs = this.props.tabs.length;
-    var w = (DeviceWidth-40) / numberOfTabs;
+    var w = (DeviceWidth-30) / numberOfTabs;
 
     var tabUnderlineStyle = {
       position: 'absolute',
-      width: (DeviceWidth-40) / 2,
+      width: (DeviceWidth-30) / 2,
       height: 2,
       backgroundColor: colors.mediumPurple,
       bottom: 0,

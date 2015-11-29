@@ -38,8 +38,8 @@ class ProfileTable extends Component{
 
     return (
       <View
-        style={{backgroundColor:colors.outerSpace,width:DeviceWidth-40,flex:1,
-          paddingHorizontal:this.props.tabLabel == 'single' ? 0 : 20,
+        style={{backgroundColor:colors.outerSpace,width:DeviceWidth-30,flex:1,
+          paddingHorizontal:this.props.tabLabel == 'single' ? 0 : 15,
           paddingVertical:20,
           alignSelf:'stretch'}}
       >

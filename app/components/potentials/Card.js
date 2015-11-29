@@ -137,6 +137,8 @@ class Card extends React.Component{
                 width:DeviceWidth-40,
                 left:0,right:0,
                 padding: 0,
+                paddingTop:30,
+                height:DeviceHeight-80,
                   position:'relative',
               flex:1,
               backgroundColor: colors.white,
@@ -170,11 +172,13 @@ class Card extends React.Component{
                   style={{
                     alignSelf:'center',
                     marginLeft:0,
+            overflow:'hidden',
+
                     marginRight:0,
                     left:0,
                   }}
                   showsPagination={true}
-                  paginationStyle={{position:'absolute',right:45,top:25,height:100}}
+                  paginationStyle={{position:'absolute',paddingRight:40,right:0,top:25,height:100}}
                   >
                   <TouchableWithoutFeedback
                     key={`${potential.user.id}-touchableimg`}
@@ -240,19 +244,20 @@ class Card extends React.Component{
                 flexDirection:'row',
                 flex:1,
                 left:0,
-                bottom:isTopCard ? -80 : -60,
+                bottom:isTopCard ? -40 : -60,
                 backgroundColor:colors.white,
                 width:DeviceWidth,
                 position:'absolute',
                 marginRight: this.props.profileVisible ? 0 : 50,
               }}
               >
+            {isTopCard ?
               <View
               key={`${potential.id || potential.user.id}-infos`}
               style={{
                 padding: isTopCard ? 10 : 5,
                 paddingTop:15, paddingBottom:15, height:110,flex:1,
-              top:-30,}}>
+              top:0,}}>
                   <Text style={[styles.cardBottomText,{}]}
                     key={`${potential.id || potential.user.id}-names`}>{
                       {matchName}
@@ -261,17 +266,17 @@ class Card extends React.Component{
                     key={`${potential.id || potential.user.id}-matchn`}>{
                       `${city} | ${distance} ${distance == 1 ? 'mile' : 'miles'} away`
                     }</Text>
-                </View>
+                </View> : null }
 
-            {rel == 'single' &&
+            {this.props.rel == 'single' && isTopCard ?
+
               <View style={{
-                height:60,
-                top:-65,
+                height:70,
+                top:-35,
                 right:35,
                 alignSelf:'flex-end',
                 position:'absolute',
                 padding:5,
-overflow:'hidden',
                 alignItems:'flex-end',
                 backgroundColor:'transparent',
                 flexDirection:'row'}}>
@@ -293,7 +298,8 @@ overflow:'hidden',
                       borderColor: this.state.activeIndex == 1 ? colors.mediumPurple : colors.white}]}
                   />
                 </TouchableOpacity>
-                </View>}
+                </View> : null
+              }
 
               </View>
             </Animated.View>
@@ -326,13 +332,14 @@ overflow:'hidden',
                 transform: [
                   {
                     scale: this.props.pan ? this.props.pan.x.interpolate({
-                      inputRange: [0,50, DeviceWidth/2], outputRange: [0,0,2]
+                      inputRange: [0,50, DeviceWidth/2], outputRange: [0,1,2]
                     }) : 0
                   }
               ],
               marginLeft: this.props.pan ? this.props.pan.x.interpolate({
                 inputRange: [0, DeviceWidth/3],
-                outputRange: [0,-50]}) : 0
+              outputRange: [0,-50]
+              }) : 0
 
 
               }]}>
@@ -379,7 +386,7 @@ overflow:'hidden',
             style={[{
               margin:0,
               width:DeviceWidth,
-              marginTop:0,
+              paddingTop:55,
               top:0,
               left:0,
               right:0,
@@ -394,7 +401,7 @@ overflow:'hidden',
             ref={'scrollbox'}
              alwaysBounceHorizontal={false}
             scrollEnabled={true}
-            contentInset={{top:55, left: 0, bottom: 0, right: 0}}
+            contentInset={{top: 0,left: 0, bottom: 0, right: 0}}
             key={`${potential.id || potential.user.id}-view`}
             >
 
@@ -408,21 +415,17 @@ overflow:'hidden',
               <Swiper
               key={`${potential.id || potential.user.id}-swiper`}
               loop={true}
-              style={{
-                flex:1,
-                position:'absolute',
-                height:DeviceHeight,
-
-                width: DeviceWidth
-              }}
-
                 horizontal={false}
                 activeIndex={this.state.activeIndex}
                 vertical={true}
                 autoplay={false}
                 showsPagination={true}
                 showsButtons={false}
-                paginationStyle={{position:'absolute',right:10,top:25,height:100}}
+                            width={DeviceWidth}
+            height={DeviceHeight}
+            style={{width:DeviceWidth,overflow: 'hidden',}}
+
+                paginationStyle={{position:'absolute',right:0,top:45,height:100}}
               >
 
                <TouchableWithoutFeedback
@@ -434,9 +437,9 @@ overflow:'hidden',
 
                   onPress={this.openProfileFromImage.bind(this)}
                   onPressIn={(e)=>{
-                    this.refs.cardinside.setNativeProps({
+                    // this.refs.cardinside.setNativeProps({
                       // style: { opacity: 0.8 }
-                    })
+                    // })
                   }}
                   >
                   <Animated.Image
@@ -483,25 +486,25 @@ overflow:'hidden',
             key={`${potential.id || potential.user.id}-bottomview`}
 
             style={{
-              height: 800,
-              top:60,
-              marginTop:-180,
+              // height: 800,
+              top: 0,
+              marginTop: (DeviceHeight <= 568 ? -80 : -180),
               backgroundColor:colors.outerSpace,
               flex:1,
               left:0,
-              bottom:0,
               right:0,
+              // bottom:-180,
               width:DeviceWidth,
               }} >
 
               <View
               key={`${potential.id || potential.user.id}-infos`}
               style={{
-                flex:1,
-                height:60,
-                overflow:'hidden',
+                // height:60,
+                // overflow:'hidden',
                 width: DeviceWidth,
                 left:0,
+                height:150,
                 marginLeft: MagicNumbers.screenPadding/2,
                 paddingVertical:20, }}>
               <Text
@@ -586,7 +589,7 @@ overflow:'hidden',
 
               }
 
-              <View style={{flex:1,marginTop:20}}>
+              <View style={{flex:1,marginTop:20,paddingBottom:50}}>
                 <Text style={{color:colors.mandy,textAlign:'center'}}>Report or Block this user</Text>
               </View>
 
@@ -602,13 +605,20 @@ overflow:'hidden',
               backgroundColor:'black',
               width:DeviceWidth,
               position:'absolute',
-              top:0
+                height:55,
+                top:0,
+                overflow:'visible',
+                borderRadius:0
             }}
             >
+            <View style={{backgroundColor:'#000'}}>
             <FakeNavBar
               hideNext={true}
               backgroundStyle={{
                 backgroundColor:'black',
+                width:DeviceWidth,
+                height:55,
+
               }}
               insideStyle={{
                 flex:1,
@@ -629,7 +639,9 @@ overflow:'hidden',
                 source={require('../../../newimg/close.png')}
                 />
               }
-            />
+              />
+          </View>
+
           </View>
 
       </View>

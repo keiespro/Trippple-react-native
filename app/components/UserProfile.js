@@ -109,7 +109,7 @@ class UserProfile extends Component{
             autoplay={false}
             showsPagination={true}
             showsButtons={false}
-            paginationStyle={{position:'absolute',right:25,top:25,height:100}}
+            paginationStyle={{position:'absolute',right:0,top: 5,height:100}}
             dot={ <View style={styles.dot} /> }
             activeDot={ <View style={styles.activeDot} /> }>
 

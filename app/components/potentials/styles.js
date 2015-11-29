@@ -20,14 +20,14 @@ tab: {
   alignItems: 'center',
   justifyContent: 'center',
   padding: 10,
-  width:(DeviceWidth - 40 )/ 2,
+  width:(DeviceWidth - 30 )/ 2,
 
 },
 singleTab:{
   flex: 1,
   alignItems: 'center',
   justifyContent: 'center',
-  marginHorizontal: 20,
+  marginHorizontal: 15,
   width:DeviceWidth,
 
 },
@@ -36,9 +36,9 @@ tabs: {
   flexDirection: 'row',
   marginTop: 0,
   borderWidth: 1,
-  width:DeviceWidth-40,
+  width:DeviceWidth-30,
   flex:1,
-  marginHorizontal:20,
+  marginHorizontal:15,
   borderTopWidth: 1,
   borderLeftWidth: 0,
   borderRightWidth: 0,

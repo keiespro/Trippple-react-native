@@ -365,7 +365,7 @@ export default React.createClass({
     outputRange = [-64,-64,-32,0,32,64,-64];
 
     var inputRangeVertical = [0,height,height*2,height*3],
-    outputRangeVertical = [9,36,9,36];
+    outputRangeVertical = [0,27,0,27];
 
 
 
@@ -403,7 +403,7 @@ export default React.createClass({
               pointerEvents={'box-none'}
               style={[styles['pagination_' + this.state.dir], this.props.paginationStyle,
                 {
-                  position:'absolute',top:  dir == 'y' ? 2.5 : 0,alignSelf:'flex-end',
+                  position:'absolute',top:  dir == 'y' ? -13.5 : 0,alignSelf:'flex-start',
                 transform:[
                   {
                     translateY: dir == 'y' ? this.state.scroll && this.state.scroll.interpolate({

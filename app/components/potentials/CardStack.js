@@ -158,7 +158,7 @@ class CardStack extends React.Component{
 
             const likeStatus = value.x > 0 ? 'approve' : 'deny',
                   likeUserId = this.props.potentials[0].user.id;
-            this.state.pan && this._actionlistener && this._actionlistener.x && this.state.pan.removeListener(this._actionlistener);
+            this.state.pan && this._actionlistener && this.state.pan.removeListener(this._actionlistener);
 
             MatchActions.sendLike(
               likeUserId,
@@ -219,7 +219,7 @@ class CardStack extends React.Component{
               {scale: .85}],
               flex:1,
               backgroundColor:colors.white,
-              top: 30,
+              top:  (DeviceHeight <= 568 ? 30 : 20),
               width: DeviceWidth - 40,
               height:  DeviceHeight - 80,
               position: 'absolute',
@@ -252,11 +252,11 @@ class CardStack extends React.Component{
                 }],
                 alignSelf:'flex-start',
                 flex:1,
-            top: 5,
+            top:  (DeviceHeight <= 568 ? -5 : -30),
             width: DeviceWidth - 40,
-            height: DeviceHeight - 80,
+            height: (DeviceHeight <= 568 ? (DeviceHeight - 75) : (DeviceHeight-65)),
             position: 'absolute',
-  bottom:50,
+            bottom:  (DeviceHeight <= 568 ? 80 : 40),
                 shadowColor:colors.dark,
                 shadowRadius:3,
                 shadowOpacity:0.5,
@@ -288,7 +288,7 @@ class CardStack extends React.Component{
         <Animated.View
           style={[styles.shadowCard,{
             alignSelf:'center',
-            top: this.props.profileVisible ? -45 : -10,
+            top: this.props.profileVisible ? -45 :  (DeviceHeight <= 568 ? -20 : -10),
             // left:  this.props.profileVisible ? -DeviceWidth/2 : -DeviceWidth/2 + 20 ,
             // width: this.props.profileVisible ? DeviceWidth : DeviceWidth - 50,
             // height: this.props.profileVisible ? DeviceHeight : DeviceHeight - 120,
@@ -297,7 +297,7 @@ class CardStack extends React.Component{
             // marginRight:17,
             // position: 'absolute',
             left:0,right:0,
-           bottom: this.props.profileVisible ? 0 : 60,
+            bottom: this.props.profileVisible ? 0 : (DeviceHeight <= 568 ? 70 : 90),
            position: 'absolute',
 
           },
@@ -322,7 +322,7 @@ class CardStack extends React.Component{
               {
                 scale: this.props.profileVisible ? 1 : this.state.pan.x.interpolate({
                   inputRange: [-300, -250, -90, 0,  90, 250, 300],
-                  outputRange: [    0.95,  0.95,  1, 1, 1,  0.95, 0.95, ]
+                  outputRange: [    0.98,  0.98,  1, 1, 1,  0.98, 0.98, ]
                 })
               }
             ],
