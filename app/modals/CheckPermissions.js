@@ -90,7 +90,7 @@ import AppActions from '../flux/actions/AppActions'
       navigator.geolocation.getCurrentPosition( (geo) => {
 
         this.handleSuccess(geo)
-        this.props.successCallback && this.props.successCallback( geo.coords)
+        this.props.successCallback && this.props.successCallback( geo.coords )
       },
       (error) => {
         this.requestPermission()
@@ -139,6 +139,7 @@ import AppActions from '../flux/actions/AppActions'
   }
 
   handleSuccess(geo){
+    UserActions.updateUser(geo);
     this.cancel(true);
   }
 

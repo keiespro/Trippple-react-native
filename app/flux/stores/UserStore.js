@@ -40,7 +40,8 @@ class UserStore {
       handleUpdateUserStub: UserActions.UPDATE_USER_STUB,
       handleLogOut: UserActions.LOG_OUT,
       handlePartner: UserActions.SELECT_PARTNER,
-      handleUpdateLocally: UserActions.UPDATE_LOCALLY
+      handleUpdateLocally: UserActions.UPDATE_LOCALLY,
+      handleGetLocation: UserActions.GET_LOCATION
 
     });
     this.on('init', () => {/*noop*/})
@@ -71,7 +72,11 @@ class UserStore {
 
   handleRequestPin(res){
 
-  }
+}
+
+handleGetLocation(coords){
+
+}
 
   handleVerifyPin(res){
     const {user_info} = res.response;

@@ -24,6 +24,22 @@ var UserActions = {
     this.getUserInfo()
   },
 
+  getLocation(){
+
+     navigator.geolocation.getCurrentPosition(
+         (geo) => {
+           var {latitude,longitude} = geo.coords;
+           this.updateUser.defer(geo.coords);
+           this.dispatch(geo.coords);
+         },
+         (error) => {
+           // Open native settings
+
+         },
+         {enableHighAccuracy: false, maximumAge: 1000}
+       )
+
+  },
 
   getUserInfo(){
     Api.getUserInfo()
