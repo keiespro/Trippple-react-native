@@ -178,7 +178,7 @@ class Card extends React.Component{
                     left:0,
                   }}
                   showsPagination={true}
-                  paginationStyle={{position:'absolute',paddingRight:40,right:0,top:25,height:100}}
+                  paginationStyle={{position:'absolute',paddingRight:40,right:0,top:45,height:100}}
                   >
                   <TouchableWithoutFeedback
                     key={`${potential.user.id}-touchableimg`}
@@ -271,7 +271,7 @@ class Card extends React.Component{
             {this.props.rel == 'single' && isTopCard ?
 
               <View style={{
-                height:70,
+                height:74,
                 top:-35,
                 right:35,
                 alignSelf:'flex-end',
@@ -281,21 +281,24 @@ class Card extends React.Component{
                 backgroundColor:'transparent',
                 flexDirection:'row'}}>
                 <TouchableHighlight onPress={(e)=>{ this.setState({activeIndex: 0}) }}
-                  underlayColor={colors.mediumPurple} style={{padding:2}}>
+                underlayColor={colors.mediumPurple} style={styles.circleimagewrap}>
                   <Image
                     source={{uri: this.props.potential.user.image_url}}
                     key={this.props.potential.user.id + 'img'}
                     style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller), {
                       marginRight:0,
+                      opacity: this.state.activeIndex == 1 ? 1 : 0.9
                     }]}
                   />
                 </TouchableHighlight>
                 <TouchableHighlight onPress={(e)=>{ this.setState({activeIndex: 1}) }}
-                  underlayColor={colors.mediumPurple} style={{padding:2}}>
-                  <Image
+                underlayColor={colors.mediumPurple} style={styles.circleimagewrap}>
+                          <Image
                     source={{uri: this.props.potential.partner.image_url}}
                     key={this.props.potential.partner.id + 'img'}
-                    style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller)]}
+                    style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller),{
+                      opacity: this.state.activeIndex == 1 ? 1 : 0.9
+                    }]}
                   />
                 </TouchableHighlight>
                 </View> : null
@@ -533,18 +536,34 @@ class Card extends React.Component{
               backgroundColor:'transparent',
               flexDirection:'row'}}
               >
-              <TouchableHighlight onPress={(e)=>{ this.setState({activeIndex: 0}) }}>
+              <TouchableHighlight onPress={(e)=>{ this.setState({activeIndex: 0}) }}
+              underlayColor={colors.mediumPurple}
+              style={[styles.circleimagewrap,{
+                backgroundColor:colors.outerSpace
+              }]}>
                 <Image
                   source={{uri: this.props.potential.user.image_url}}
                   key={this.props.potential.user.id + 'img'}
-                  style={[styles.circleimage, {marginRight:5,borderColor:colors.outerSpace}]}
+                    style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller), {
+                      marginRight:0,
+                      opacity: this.state.activeIndex == 1 ? 1 : 0.9
+
+                    }]}
                 />
               </TouchableHighlight>
-              <TouchableHighlight onPress={(e)=>{ this.setState({activeIndex: 1}) }}>
+              <TouchableHighlight onPress={(e)=>{ this.setState({activeIndex: 1}) }}
+              underlayColor={colors.mediumPurple}
+              style={[styles.circleimagewrap,{
+                backgroundColor:colors.outerSpace
+              }]}>
                 <Image
                   source={{uri: this.props.potential.partner.image_url}}
                   key={this.props.potential.partner.id + 'img'}
-                  style={[styles.circleimage,{borderColor:colors.outerSpace}]}
+                    style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller), {
+                      marginRight:0,
+                      opacity: this.state.activeIndex == 1 ? 1 : 0.9
+
+                    }]}
                 />
               </TouchableHighlight>
             </View>
