@@ -8,7 +8,7 @@ import React, {
   View,
   LayoutAnimation,
   Image,
-  TouchableOpacity,
+  TouchableHighlight,
   TouchableWithoutFeedback,
   Animated,
   ScrollView,
@@ -137,7 +137,7 @@ class Card extends React.Component{
                 width:DeviceWidth-40,
                 left:0,right:0,
                 padding: 0,
-                paddingTop:30,
+                paddingTop: 0,
                 height:DeviceHeight-80,
                   position:'relative',
               flex:1,
@@ -244,7 +244,7 @@ class Card extends React.Component{
                 flexDirection:'row',
                 flex:1,
                 left:0,
-                bottom:isTopCard ? -40 : -60,
+                bottom:isTopCard ? -40 : -110,
                 backgroundColor:colors.white,
                 width:DeviceWidth,
                 position:'absolute',
@@ -280,24 +280,24 @@ class Card extends React.Component{
                 alignItems:'flex-end',
                 backgroundColor:'transparent',
                 flexDirection:'row'}}>
-                  <TouchableOpacity onPress={(e)=>{ this.setState({activeIndex: 0}) }}>
+                <TouchableHighlight onPress={(e)=>{ this.setState({activeIndex: 0}) }}
+                  underlayColor={colors.mediumPurple} style={{padding:2}}>
                   <Image
                     source={{uri: this.props.potential.user.image_url}}
                     key={this.props.potential.user.id + 'img'}
                     style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller), {
                       marginRight:0,
-                      borderColor: this.state.activeIndex == 0 ? colors.mediumPurple : colors.white,
                     }]}
                   />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={(e)=>{ this.setState({activeIndex: 1}) }}>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={(e)=>{ this.setState({activeIndex: 1}) }}
+                  underlayColor={colors.mediumPurple} style={{padding:2}}>
                   <Image
                     source={{uri: this.props.potential.partner.image_url}}
                     key={this.props.potential.partner.id + 'img'}
-                    style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller), {
-                      borderColor: this.state.activeIndex == 1 ? colors.mediumPurple : colors.white}]}
+                    style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller)]}
                   />
-                </TouchableOpacity>
+                </TouchableHighlight>
                 </View> : null
               }
 
@@ -312,9 +312,9 @@ class Card extends React.Component{
                     inputRange: [-DeviceWidth/2,-50,0], outputRange: [2,0,0]}) : 0
                 }
             ],
-            marginLeft: this.props.pan ? this.props.pan.x.interpolate({
-              inputRange: [-DeviceWidth/3,0],
-              outputRange: [50,0]}) : 0
+            // marginLeft: this.props.pan ? this.props.pan.x.interpolate({
+            //   inputRange: [-DeviceWidth/3,0],
+            //   outputRange: [50,0]}) : 0
 
             }]}>
               <Image
@@ -332,14 +332,14 @@ class Card extends React.Component{
                 transform: [
                   {
                     scale: this.props.pan ? this.props.pan.x.interpolate({
-                      inputRange: [0,50, DeviceWidth/2], outputRange: [0,1,2]
+                      inputRange: [0,50, DeviceWidth/2], outputRange: [0,0,2]
                     }) : 0
                   }
               ],
-              marginLeft: this.props.pan ? this.props.pan.x.interpolate({
-                inputRange: [0, DeviceWidth/3],
-              outputRange: [0,-50]
-              }) : 0
+              // marginLeft: this.props.pan ? this.props.pan.x.interpolate({
+              //   inputRange: [0, DeviceWidth/3],
+              // outputRange: [0,-50]
+              // }) : 0
 
 
               }]}>
@@ -533,20 +533,20 @@ class Card extends React.Component{
               backgroundColor:'transparent',
               flexDirection:'row'}}
               >
-              <TouchableOpacity onPress={(e)=>{ this.setState({activeIndex: 0}) }}>
+              <TouchableHighlight onPress={(e)=>{ this.setState({activeIndex: 0}) }}>
                 <Image
                   source={{uri: this.props.potential.user.image_url}}
                   key={this.props.potential.user.id + 'img'}
                   style={[styles.circleimage, {marginRight:5,borderColor:colors.outerSpace}]}
                 />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={(e)=>{ this.setState({activeIndex: 1}) }}>
+              </TouchableHighlight>
+              <TouchableHighlight onPress={(e)=>{ this.setState({activeIndex: 1}) }}>
                 <Image
                   source={{uri: this.props.potential.partner.image_url}}
                   key={this.props.potential.partner.id + 'img'}
                   style={[styles.circleimage,{borderColor:colors.outerSpace}]}
                 />
-              </TouchableOpacity>
+              </TouchableHighlight>
             </View>
           }
 
