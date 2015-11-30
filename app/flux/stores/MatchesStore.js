@@ -2,6 +2,7 @@ import alt from '../alt'
 import MatchActions from '../actions/MatchActions'
 import Log from '../../Log'
 import NotificationActions from '../actions/NotificationActions'
+import {matchWasAdded, messageWasAdded} from '../../utils/matchstix'
 import {AsyncStorage} from 'react-native'
 import _ from 'underscore'
 
@@ -136,6 +137,7 @@ class MatchesStore {
         allunread = _.object( _.pluck(matches,'match_id'), matches.map(()=> 0))
         allLastAccessed = _.object( _.pluck(matches,'match_id'), matches.map(()=> this.state.mountedAt))
 
+        allmatches.map(matchWasAdded);
       }else{
         // paged or refresh - deduplicate results, preserve unread counts and access times
         allmatches = _.unique([
