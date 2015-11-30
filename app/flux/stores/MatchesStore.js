@@ -39,8 +39,8 @@ class MatchesStore {
         Log(err, payload, currentState);
     })
     this.on('afterEach', (payload, state) =>{
+      console.log(payload)
       this.save()
-      console.log('after each matches store')
 
     })
   }

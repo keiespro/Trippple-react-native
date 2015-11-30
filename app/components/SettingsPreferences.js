@@ -87,11 +87,11 @@ class  SettingsPreferences extends React.Component{
           failedTitle: 'LOCATION DISABLED',
           failCallback:(val)=>{
             this.props.navigator.pop();
-          this.setState({nearMeToggled:val})
+            this.setState({nearMeToggled:val})
 
           },
           failedSubtitle: 'Geolocation is disabled. You can enable it in your phone’s Settings.',
-          failedState: (OSPermissions.location < 3 ? true : false),
+          failedState: (parseInt(OSPermissions.location) < 3 ? true : false),
           headerImageSource:'iconDeck',
           permissionKey:'location',
           renderNextMethod: 'pop',

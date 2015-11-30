@@ -157,8 +157,8 @@ class NotificationCommander extends Component{
       position:'absolute',
       top:0,
       left:0,
-      width:1,
-      height:1,
+      width:2,
+      height:2,
       borderRadius:1,
       backgroundColor: this.state.socketConnected ? colors.sushi : colors.mandy
     };

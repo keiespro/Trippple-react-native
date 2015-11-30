@@ -81,6 +81,7 @@ export default class PrivacyPermissionsModal extends Component{
       }
       if(permission === AddressBook.PERMISSION_DENIED){
         // AppActions.denyPermission('contacts')
+        this.setState({failedStateContacts:true})
       }
 
     })

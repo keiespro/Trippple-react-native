@@ -24,7 +24,6 @@ class ChatStore {
       Log(err, payload, currentState);
     })
     this.on('afterEach', (state) =>{
-      console.log('after each chat store')
       this.save()
     })
 
