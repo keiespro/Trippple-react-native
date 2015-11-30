@@ -157,8 +157,7 @@ class CardStack extends React.Component{
           if (Math.abs(value.x) >= 600) {
 
             const likeStatus = value > 0 ? 'approve' : 'deny',
-            likeUserId = this.props.potentials[0].user.id;
-            console.log(this._actionlistener)
+                  likeUserId = this.props.potentials[0].user.id;
             this.state.pan && this._actionlistener && this.state.pan._listeners[this._actionlistener] && this.state.pan.removeListener(this._actionlistener);
 
             MatchActions.sendLike(

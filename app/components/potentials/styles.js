@@ -208,15 +208,24 @@ animatedIcon:{
     height: 60,
     borderRadius: 30,
     borderColor:colors.white,
-    borderWidth: 3
-},
+    borderWidth: 0
+  },
+  circleimagewrap:{
+    padding: DeviceHeight > 568 ? 3 : 2,
+    backgroundColor:colors.white,
+    alignItems:'center',
+    justifyContent:'center',
+    height:DeviceHeight > 568 ? 64 : 52,
+    width:DeviceHeight > 568 ? 64 : 52,
+    borderRadius: DeviceHeight > 568 ? 32 : 26
+  },
   circleimageSmaller:{
     backgroundColor: colors.shuttleGray,
     width: 50,
     height: 50,
     borderRadius: 25,
     borderColor:colors.white,
-    borderWidth: 3
+    borderWidth: 0
   },
 
   cardStackContainer:{
