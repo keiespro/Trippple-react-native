@@ -1,6 +1,7 @@
 import alt from '../alt';
 import MatchActions from '../actions/MatchActions';
 import { AsyncStorage } from 'react-native';
+import {matchWasAdded, messageWasAdded} from '../../utils/matchstix'
 import _ from 'underscore'
 import Log from '../../Log'
 
@@ -54,7 +55,7 @@ class ChatStore {
         {message_thread,match_id} = matchMessages;
 
     if(!message_thread.length || (message_thread.length == 1 && !message_thread[0].message_body)) return false
-
+    message_thread.map(messageWasAdded);
     var existingMessages = this.state.messages[match_id] || []
     this.setState(() => {
       var newState = {};
