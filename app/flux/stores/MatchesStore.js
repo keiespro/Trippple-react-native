@@ -49,11 +49,11 @@ class MatchesStore {
       }
     })
     this.on('afterEach', ({payload, state}) =>{
-
-      if(state.matches.length != this.state.matches.length){
-        this.save()
         console.log('saving',payload,state)
 
+      if(state.matches.length != this.state.matches.length || payload.payload && payload.payload.matches && state.matches.length != payload.payload.matches.length){
+        this.save()
+        console.log('saving')
       }
 
     })
@@ -61,7 +61,15 @@ class MatchesStore {
   save(){
 
     var partialSnapshot = alt.takeSnapshot(this);
-    AsyncStorage.setItem('MatchesStore',JSON.stringify(partialSnapshot.MatchesStore));
+    var matchesSnapshot = _.unique(partialSnapshot.MatchesStore.matches,'match_id');
+
+    const snapshot = {
+      MatchesStore: {
+        ...partialSnapshot,
+        matches: matchesSnapshot
+      }
+    }
+    AsyncStorage.setItem('MatchesStore',JSON.stringify(snapshot));
 
   }
   unMatch(matchID){

@@ -86,12 +86,12 @@ class  SettingsPreferences extends React.Component{
           subtitle:'We’ve found 10 matches we think you might like. Should we prioritize the matches closest to you?',
           failedTitle: 'LOCATION DISABLED',
           failCallback:(val)=>{
-            // this.props.navigator.pop();
+            this.props.navigator.pop();
             this.setState({nearMeToggled:val})
 
         },
          successCallback:(val)=>{
-            // this.props.navigator.pop();
+            this.props.navigator.pop();
             this.setState({nearMeToggled:val})
 
           },

@@ -59,9 +59,9 @@ export default class PrivacyPermissionsModal extends Component{
   }
 
   componentDidUpdate(pProps,pState){
-    if(this.state.hasFacebookPermissions && this.state.hasContactsPermissions){
+    if(!pState.hasFacebookPermissions && this.state.hasFacebookPermissions && !pState.hasContactsPermissions && this.state.hasContactsPermissions){
       this.props.success && this.props.success()
-      this.props.navigator.pop()
+      // this.props.navigator.pop()
     }
   }
 
@@ -149,14 +149,13 @@ export default class PrivacyPermissionsModal extends Component{
             </Text>
 
             <View style={{marginTop:20}}>
-
+            <View style={{overflow:'hidden',borderRadius:4}}>
             <BoxyButton
               text={"BLOCK FACEBOOK"}
               buttonText={buttonStyles.buttonText}
               underlayColor={colors.darkGreenBlue}
-              innerWrapStyles={buttonStyles.innerWrapStyles}
+              innerWrapStyles={[buttonStyles.innerWrapStyles,{overflow:'hidden',borderRadius:4}]}
               leftBoxStyles={  buttonStyles.grayIconbuttonLeftBox}
-              outerButtonStyles={{overflow:'hidden',borderRadius:8}}
               _onPress={this.handleTapFacebook.bind(this)}>
 
               {hasFacebookPermissions ?
@@ -165,14 +164,14 @@ export default class PrivacyPermissionsModal extends Component{
                             style={{height:21,width:30}} /> :
                             <View style={{backgroundColor:colors.darkGreenBlue,height:20,width:20,borderRadius:10,alignSelf:'center'}} /> }
             </BoxyButton>
-
+            </View>
+            <View style={{overflow:'hidden',borderRadius:4,marginTop:20}}>
             <BoxyButton
                 text={"BLOCK CONTACTS"}
-                outerButtonStyle={buttonStyles.iconButtonOuter}
                 buttonText={buttonStyles.buttonText}
                 underlayColor={colors.darkGreenBlue}
-              outerButtonStyles={{overflow:'hidden',borderRadius:8}}
-                innerWrapStyles={buttonStyles.innerWrapStyles}
+              innerWrapStyles={[buttonStyles.innerWrapStyles,{overflow:'hidden',borderRadius:4}]}
+
                 leftBoxStyles={ buttonStyles.grayIconbuttonLeftBox}
                 _onPress={this.handleTapContacts.bind(this)}>
 
@@ -183,30 +182,26 @@ export default class PrivacyPermissionsModal extends Component{
                       <View style={{backgroundColor:colors.darkGreenBlue,height:20,width:20,borderRadius:10,alignSelf:'center'}} /> }
           </BoxyButton>
         </View>
+        </View>
 
 
             <View
             style={{
-              marginTop:0,
-              marginBottom:-20,
-              flex:1,
-              flexDirection:'column',
-              alignItems:'center',
-              alignSelf:'stretch'
-            }} >
+                       }} >
           {this.state.hasFacebookPermissions && this.state.hasContactsPermissions ?
               <TouchableOpacity
-                style={{padding:20,flex:0}}
+              style={{width:undefined,paddingHorizontal:10,marginVertical:10,flexDirection:'row',alignSelf:'stretch',flex:1,alignItems:'stretch'}}
+
                 onPress={this.props.success}>
-                <View style={[styles.cancelButton,{backgroundColor:'transparent'}]} >
-                  <Text style={{color:colors.shuttleGray,textAlign:'center'}}>Continue</Text>
+              <View style={[styles.cancelButton,{backgroundColor:'transparent',flex:1,alignItems:'stretch',alignSelf:'stretch',flex:1,flexDirection:'row'}]} >
+                <Text style={[{color:colors.shuttleGray,textAlign:'center',padding:10,paddingVertical:20,flex:1,alignSelf:'stretch'},styles.nothankstext]}>Continue</Text>
                 </View>
               </TouchableOpacity>  :
             <TouchableOpacity
-              style={{padding:10,marginBottom:0,alignSelf:'stretch',flex:1}}
+              style={{paddingHorizontal:10,marginVertical:10,alignSelf:'stretch',flex:1,alignItems:'stretch'}}
               onPress={this.props.cancel}>
-              <View style={[styles.cancelButton,{backgroundColor:'transparent'}]} >
-                <Text style={[{color:colors.shuttleGray,textAlign:'center',padding:10},styles.nothankstext]}>no thanks</Text>
+              <View style={[styles.cancelButton,{backgroundColor:'transparent',flex:1,alignItems:'stretch',alignSelf:'stretch'}]} >
+                <Text style={[{color:colors.shuttleGray,textAlign:'center',padding:10,flex:1,alignSelf:'stretch'},styles.nothankstext]}>no thanks</Text>
               </View>
             </TouchableOpacity>}
 

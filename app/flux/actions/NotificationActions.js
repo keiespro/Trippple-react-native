@@ -70,8 +70,16 @@ class NotificationActions {
 
   scheduleNewPotentialsAlert(time){
     const fireDate = moment((time || { hour: 24 })).toDate(), //tonight at midnight
-          alertBody = 'New Matches!'
-    PushNotificationIOS.scheduleLocalNotification({ fireDate: fireDate.getTime(), alertBody })
+          data = {
+            alert: {
+              title: 'New Matches!',
+              body: 'body'
+            },
+            sound: 'default',
+            category: 'TRIPPPLE',
+            badge: '+1'
+          };
+    PushNotificationIOS.scheduleLocalNotification({ fireDate: fireDate.getTime(), data })
   }
 }
 

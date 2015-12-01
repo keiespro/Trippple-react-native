@@ -8,7 +8,7 @@ import Keychain from 'react-native-keychain'
 import CredentialsStore from './CredentialsStore'
 import AppState from './AppState'
 import Log from '../../Log'
-
+import {AsyncStorage} from 'react-native'
 import {KEYCHAIN_NAMESPACE} from '../../config'
 
 @datasource(UserSource)

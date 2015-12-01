@@ -153,9 +153,9 @@ var Swipeout = React.createClass({
     this.initializePanResponder()
 
   },
-  shouldComponentUpdate(nextProps,nextState){
-    return nextProps.rowData.unreadCount ? true : false
-  },
+  // shouldComponentUpdate(nextProps,nextState){
+  //   return nextProps.rowData.unreadCount ? true : false
+  // },
   initializePanResponder(){
 
     this._panResponder = PanResponder.create({

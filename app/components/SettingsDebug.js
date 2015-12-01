@@ -14,6 +14,7 @@ const {
 } = React
 
 import NotificationActions from '../flux/actions/NotificationActions'
+import MatchActions from '../flux/actions/MatchActions'
 
 import AppActions from '../flux/actions/AppActions'
 import colors from '../utils/colors'
@@ -39,8 +40,25 @@ class SettingsDebug extends React.Component{
             </TouchableHighlight>
 
             <TouchableHighlight
-              onPress={()=>{
-                PushNotificationIOS.presentLocalNotification({alertBody:"HEY"})
+            onPress={()=>{
+               require('RCTDeviceEventEmitter').emit('remoteNotificationReceived', {
+                 aps: {
+
+                   alert: {
+                     title: 'x',
+                     body: 'Sample notification',
+                   },
+                   badge: '+1',
+                   sound: 'default',
+                   category: 'REACT_NATIVE'
+                 },
+                 action: 'logout'
+
+              });
+                PushNotificationIOS.presentLocalNotification({
+                  alertSound:'default',
+                  alertTitle:'hi'
+                })
               }}
               >
               <View style={styles.wrapfield}>
@@ -65,7 +83,21 @@ class SettingsDebug extends React.Component{
                 <Text style={{color:colors.white,}}>In-app New Message Notification</Text>
                 <Image source={require('../../newimg/nextArrow.png')} />
               </View>
+              </TouchableHighlight>
+
+
+
+              <TouchableHighlight
+              onPress={(f)=>{
+                MatchActions.getPotentials()
+              }} >
+              <View style={styles.wrapfield}>
+                <Text style={{color:colors.white,}}>Fetch potentials</Text>
+                <Image source={require('../../newimg/nextArrow.png')} />
+              </View>
             </TouchableHighlight>
+
+
 
             <TouchableHighlight
               onPress={(f)=>{

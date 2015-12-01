@@ -152,7 +152,10 @@ class SettingsSettings extends React.Component{
           sceneConfig: NavigatorSceneConfigs.FloatFromBottom,
           passProps: {
             cancel: ()=> {this.props.navigator.pop()},
-            success: (privacy) => {this.togglePrivacy('private');},
+            success: (privacy) => {
+              this.props.navigator.pop();
+              this.togglePrivacy('private');
+            },
             user: this.props.user,
           }
         })
