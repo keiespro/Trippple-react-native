@@ -123,7 +123,7 @@ import AppActions from '../flux/actions/AppActions'
       if(!this.state.hasPermission){
         this.requestPermission()
       }else{
-        this.handleSuccess()
+        this.getLocation()
 
       }
     }
