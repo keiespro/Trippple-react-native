@@ -1,5 +1,1 @@
-const Log = () => {
-
-  // No op
-}
-
+export default console.log

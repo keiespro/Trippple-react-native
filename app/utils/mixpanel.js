@@ -13,6 +13,7 @@ const {
     CpsA,
     ProgressA,
     ConstA,
+    Done,
     Repeat
 } = Arrows;
 
@@ -38,7 +39,7 @@ function TrackA() {
             TrackEvt(e.eventName, e);
         tracker.lastFlushAt = now();
         return tracker;
-    }.AsyncA().next(Repeat);
+    }.AsyncA().next(Done);
 
     TrackingA
         .repeat(THREE_SECONDS)

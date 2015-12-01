@@ -27,10 +27,10 @@ var {
 var CustomSceneConfigs = require('../utils/sceneConfigs')
 
 var colors = require('../utils/colors');
-var alt = require('alt');
+var alt = require('../flux/alt');
 var cssVar = require('cssVar');
-var Chat = require("./chat");
-var MatchActions = require("../flux/actions/MatchActions");
+var Chat = require('./chat');
+var MatchActions = require('../flux/actions/MatchActions');
 import MatchesStore from '../flux/stores/MatchesStore'
 
 import Mixpanel from '../utils/mixpanel';
@@ -82,13 +82,10 @@ import NotificationActions from '../flux/actions/NotificationActions'
     componentWillMount(){
         AsyncStorage.multiGet(['ChatStore','MatchesStore'])
         .then((data) => {
-              console.log('LOADED DATA')
-            if (data[1] !== null){
-              //   // get data from local storage
-              var p = {}
-              var c = JSON.parse(data[0][1])
-              var m = JSON.parse(data[1][1])
-              alt.bootstrap({...c,...m});
+            if (data){
+              var p = {};
+              var m = JSON.parse(data[1][1]);
+              alt.bootstrap(m);
             }
           })
 

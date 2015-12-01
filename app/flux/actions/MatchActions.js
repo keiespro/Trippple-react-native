@@ -30,16 +30,17 @@ class MatchActions {
   }
 
   getMessages(matchID,page){
-
+    console.log(matchID,page)
     if(!matchID) {
       this.dispatch({messages: []});
       return false
     }
 
     Api.getMessages({match_id: matchID, page: page || false})
-      .then((res) => {
-        this.dispatch({messages: res.response});
-      })
+    .then((res) => {
+      console.log(res)
+        this.dispatch({messages: res.response || []});
+     })
   }
 
   getPotentials(){
@@ -60,14 +61,16 @@ class MatchActions {
     this.dispatch(payload)
   }
 
-  sendMessage(message, matchID){
+  sendMessage(message, matchID,timestamp){
+    this.dispatch({message, matchID,timestamp});
 
+
+  }
+  sendMessageToServer(message, matchID){
     Api.createMessage(message, matchID)
     .then(()=>{
-
-      return Api.getMessages({match_id: matchID})
-      .then((res) => {
-        var messages = res.response
+      return Api.getMessages({match_id: matchID}).then((res) => {
+        const messages = res.response
         Api.getMatches(0)
           .then((res) => {
             this.dispatch({messages, matchesData: {matches: res.response, page: 0}});
@@ -80,7 +83,6 @@ class MatchActions {
 
 
   }
-
 
   toggleFavorite(matchID){
 

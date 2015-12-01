@@ -61,8 +61,8 @@ class UserStore {
     this.setState({ user })
     if(user.status == 'onboarded'){
       MatchActions.getPotentials.defer();
-      // MatchActions.getMatches.defer();
-      // MatchActions.getFavorites.defer();
+      MatchActions.getMatches.defer();
+      MatchActions.getFavorites.defer();
     }
   }
 
@@ -131,6 +131,7 @@ handleGetLocation(coords){
   }
 
   handleLogOut(){
+    AsyncStorage.clear()
     this.setState({ user:{}, userStub: null});
     Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE)
     .then(() => {

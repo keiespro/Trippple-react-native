@@ -68,11 +68,11 @@ class MatchPayload {
     if (arguments[0] === undefined) throw "MatchPayloaderr -> isMessage: boolean";
     if (arguments[1] === undefined) throw "MatchPayloadErr -> data: {}";
 
-    const { match_id, isFavourited, created_timestamp } = data;
+    const { matchId, isFavourited, created_timestamp } = data;
 
     this.isMessage       = isMessage;
     this._id             = MatchPayload.nextId();
-    this.matchId         = match_id;
+    this.matchId         = matchId;
     this.isFavourited    = isFavourited;
     this.createdAt       = created_timestamp;
     this.lastAccessedAt  = null;
@@ -137,7 +137,7 @@ function messageWasAdded(messageData: any){
 }
 
 function shouldIgnoreMatchPayload(matchData: any) {
-  return false;
+  return matchData.ephemeral;
 }
 
 export { matchWasAdded, messageWasAdded, shouldIgnoreMatchPayload}

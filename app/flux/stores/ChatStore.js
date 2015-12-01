@@ -4,13 +4,15 @@ import { AsyncStorage } from 'react-native';
 import {matchWasAdded, messageWasAdded} from '../../utils/matchstix'
 import _ from 'underscore'
 import Log from '../../Log'
+import UserStore from './UserStore'
 
 class ChatStore {
 
   constructor() {
 
     this.bindListeners({
-      handleSentMessage: MatchActions.SEND_MESSAGE,
+      handleSentMessage: MatchActions.SEND_MESSAGE_TO_SERVER,
+      handleLocalMessage: MatchActions.SEND_MESSAGE,
       handleReceiveMessages: MatchActions.GET_MESSAGES
     });
 
@@ -22,10 +24,24 @@ class ChatStore {
     }
     this.on('init', () => {/*noop*/})
     this.on('error', (err, payload, currentState) => {
-      Log(err, payload, currentState);
+      if(__DEV__){
+        console.log(err, payload, currentState);
+      }
     })
-    this.on('afterEach', (state) =>{
-      this.save()
+    this.on('bootstrap', (p) => {
+      if(__DEV__){
+        console.log('bootstrap',p);
+      }
+    })
+
+
+    this.on('afterEach', ({payload,state}) =>{
+      if(__DEV__){
+        console.log('aftereach',state,payload)
+      }
+      if(payload.payload && payload.payload.messages && payload.payload.messages.match_id){
+        this.save()
+      }
     })
 
 
@@ -33,8 +49,34 @@ class ChatStore {
 
   save(){
 
-    var partialSnapshot = alt.takeSnapshot(this);
+    var partialSnapshot = alt.takeSnapshot(ChatStore);
+    if(__DEV__){
+      console.log('partialSnapshot',partialSnapshot)
+    }
     AsyncStorage.setItem('ChatStore',JSON.stringify(partialSnapshot));
+
+
+  }
+  handleLocalMessage(payload){
+    const {message, matchID,timestamp} = payload
+    const user = UserStore.getUser()
+
+    const newMessage = {
+      created_timestamp: timestamp,
+      message_body: message,
+      from_user_info: {
+        name: user.firstname,
+        id: user.id,
+        match_id: matchID
+      },
+      ephemeral: true,
+      matchId: matchID,
+      id: timestamp
+    }
+    const newStateMessages = [...[newMessage],...this.state[matchID]]
+
+    this.setState({[matchID]: newStateMessages});
+    this.emitChange()
 
 
   }
@@ -46,17 +88,21 @@ class ChatStore {
       newState[`${matchMessages.match_id}`] = matchMessages.message_thread;
       return {...newState}
     })
+    this.emitChange()
+
   }
 
   handleReceiveMessages(payload) {
 
-    if(!payload){return false}
-    var matchMessages = payload.messages,
-        {message_thread,match_id} = matchMessages;
+    if(!payload || !payload.messages){return false}
 
-    if(!message_thread.length || (message_thread.length == 1 && !message_thread[0].message_body)) return false
-    message_thread.map(messageWasAdded);
+    var {message_thread,match_id} = payload.messages;
+
+    if(!message_thread || !message_thread.length || (message_thread.length == 1 && !message_thread[0].message_body)) return false
+
+    message_thread.map((m)=>{m.matchId = match_id; return m}).map(messageWasAdded);
     var existingMessages = this.state.messages[match_id] || []
+
     this.setState(() => {
       var newState = {};
       newState[`${match_id}`] = _.unique([ ...existingMessages, ...message_thread, ], 'id')
@@ -64,6 +110,8 @@ class ChatStore {
       return {...newState}
 
     })
+    this.emitChange()
+
   }
 
 

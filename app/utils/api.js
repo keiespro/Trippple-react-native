@@ -131,8 +131,9 @@ class api {
     if(!payload.match_id){
       return false;
     }
-    payload.message_type = 'retrieve';
-    return authenticatedRequest('messages', payload)
+    const outgoingPayload = payload
+    outgoingPayload.message_type = 'retrieve';
+    return authenticatedRequest('messages', outgoingPayload)
   }
 
   createMessage(message, matchID){

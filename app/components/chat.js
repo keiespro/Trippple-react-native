@@ -25,6 +25,7 @@ import InvertibleScrollView from 'react-native-invertible-scroll-view'
 import TimeAgo from './Timeago'
 import FakeNavBar from '../controls/FakeNavBar'
 // import MaskableTextInput from '../RNMaskableTextInput.js'
+import moment from 'moment'
 
 import { BlurView,VibrancyView} from 'react-native-blur'
 import Log from '../Log'
@@ -186,10 +187,10 @@ const styles = StyleSheet.create({
 
 class ChatMessage extends React.Component {
   constructor(props){
-    super(props);
+    super();
   }
   shouldComponentUpdate(nProps,nState){
-    return nProps.id != this.props.id
+    return true; //nProps.messageData.id != this.props.messageData.id
   }
   render() {
     var isMessageOurs = (this.props.messageData.from_user_info.id === this.props.user.id || this.props.messageData.from_user_info.id === this.props.user.partner_id);
@@ -200,7 +201,7 @@ class ChatMessage extends React.Component {
       <View style={[styles.row]}>
 
 
-        <View style={{flex:1,position:'relative',alignSelf:'stretch',alignItems:'center',flexDirection:'row', justifyContent:'center'}}>
+        <View style={{flex:1,position:'relative',alignSelf:'stretch',alignItems:'center',flexDirection:'row', justifyContent:'center',backgroundColor: this.props.messageData.ephemeral && __DEV__ ? colors.sushi : 'transparent'}}>
 
         {!isMessageOurs &&
           <View style={{backgroundColor:'transparent'}}>
@@ -252,11 +253,11 @@ class ChatInside extends Component{
   constructor(props){
     super();
 
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 
     this.state = {
-      dataSource: ds.cloneWithRows(props.messages || []),
+      dataSource: this.ds.cloneWithRows(props.messages || []),
       keyboardSpace: 0,
       isKeyboardOpened: false,
       textInputValue: '',
@@ -329,14 +330,14 @@ class ChatInside extends Component{
 // }
   componentDidUpdate(prevProps){
     if(prevProps.messages.length !== this.props.messages.length){
-      this.refs.scroller.refs.listviewscroll.scrollTo(0,0)
     }
+    // this.refs.scroller.refs.listviewscroll.scrollTo(0,0)
   }
 
   componentWillReceiveProps(newProps){
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
     this.setState({
-      dataSource: ds.cloneWithRows(newProps.messages)
+      dataSource: this.ds.cloneWithRows(newProps.messages)
     })
   }
 
@@ -369,8 +370,10 @@ class ChatInside extends Component{
   sendMessage(){
 
     if(this.state.textInputValue == ''){ return false }
-    MatchActions.sendMessage(this.state.textInputValue, this.props.match_id)
+    const timestamp = moment().utc().unix()
+    MatchActions.sendMessage(this.state.textInputValue, this.props.match_id, timestamp)
 
+    MatchActions.sendMessageToServer.defer(this.state.textInputValue, this.props.match_id)
     this._textInput.setNativeProps({text: ''});
     this.setState({ textInputValue: '' })
   }
@@ -406,7 +409,7 @@ class ChatInside extends Component{
         style={{ backgroundColor:colors.outerSpace, flex:1, alignSelf:'stretch', width:DeviceWidth ,height:DeviceHeight}}
         >
         <FadeInContainer delayRender={true} delayAmount={1200} >
-          <View style={{flexDirection:'column',justifyContent:'space-around',alignItems:'center',alignSelf:'stretch'}}>
+          <View style={{flexDirection:'column',justifyContent:'center',flex:1,alignItems:'center',alignSelf:'stretch'}}>
             <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{
                 `YOU MATCHED WITH`
             }</Text>
@@ -419,7 +422,7 @@ class ChatInside extends Component{
 
             <Image
               source={{uri:them[1].image_url}}
-              style={{width:250,height:250,borderRadius:125,marginVertical:40 }}
+              style={{width:200,height:200,borderRadius:100,marginVertical:40,backgroundColor:colors.dark}}
               defaultSource={{uri:'../../newimg/placeholderUser.png'}}
             />
             <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes'}} >Say something. {
@@ -568,12 +571,12 @@ var Chat = React.createClass({
     MatchActions.setAccessTime({match_id:this.props.match_id,timestamp: new Date().getTime()})
   },
   componentDidMount(){
-    MatchActions.setAccessTime.defer({match_id:this.props.match_id,timestamp: new Date().getTime()})
-    MatchActions.getMessages(this.props.match_id)
+    // MatchActions.getMessages(this.props.match_id)
 
     if(this.props.handle){
       InteractionManager.clearInteractionHandle(this.props.handle)
     }
+    MatchActions.setAccessTime.defer({match_id:this.props.match_id,timestamp: new Date().getTime()})
 
   },
 

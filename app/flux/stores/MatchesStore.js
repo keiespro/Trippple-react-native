@@ -8,6 +8,7 @@ import _ from 'underscore'
 
 class MatchesStore {
 
+
   constructor() {
     this.state = {
       matches: [],
@@ -29,7 +30,8 @@ class MatchesStore {
       handleGetMatches: MatchActions.GET_MATCHES,
       removeMatch: MatchActions.REMOVE_MATCH,
       toggleFavorite: MatchActions.TOGGLE_FAVORITE,
-      sendMessage: MatchActions.SEND_MESSAGE,
+      sendMessage: MatchActions.SEND_MESSAGE_TO_SERVER,
+      insertLocalMessage: MatchActions.SEND_MESSAGE,
       updateLastAccessed: MatchActions.SET_ACCESS_TIME,
       unMatch: MatchActions.UN_MATCH,
       handleNewMessages: MatchActions.GET_MESSAGES
@@ -37,18 +39,30 @@ class MatchesStore {
 
     this.on('init', () => {/*noop*/})
     this.on('error', (err, payload, currentState) => {
-        Log(err, payload, currentState);
+      if(__DEV__){
+        console.log('ERROR',err, payload, currentState);
+      }
     })
-    this.on('afterEach', (payload, state) =>{
-      console.log(payload)
-      this.save()
+    this.on('bootstrap', (p) => {
+      if(__DEV__){
+        console.log('bootstrap',p);
+      }
+    })
+    this.on('afterEach', ({payload, state}) =>{
+        console.log('chatupdate',payload,state)
+
+      if(state.matches.length != this.state.matches.length){
+        this.save()
+        console.log('saving Matches',payload,state)
+
+      }
 
     })
   }
   save(){
 
     var partialSnapshot = alt.takeSnapshot(this);
-    AsyncStorage.setItem('MatchesStore',JSON.stringify(partialSnapshot));
+    AsyncStorage.setItem('MatchesStore',JSON.stringify(partialSnapshot.MatchesStore));
 
   }
   unMatch(matchID){
@@ -77,19 +91,18 @@ class MatchesStore {
   }
   handleNewMessages(payload){
     if(!payload){return false}
+    console.log(payload)
+    var { match_id, message_thread } = payload.messages;
 
-    var matchMessages = payload.messages,
-        { match_id, message_thread } = matchMessages;
-
-    if(!message_thread.length || message_thread.length == 1 && !message_thread[0].message_body) return false
+    if(!message_thread || !message_thread.length || (message_thread.length == 1 && !message_thread[0].message_body)) return false
 
     var newCounts = {[match_id]: this.state.unreadCounts[match_id] || 0},
-          access = this.state.lastAccessed
+          access = this.state.lastAccessed;
 
 // prevent tripppling of value??
 
     // if( !newCounts[match_id] ){
-      newCounts[match_id] = 0
+      newCounts[match_id] = 0;
     // }
 
     if( !access[match_id] ){
@@ -124,6 +137,15 @@ class MatchesStore {
   }
   toggleFavorite(matchesData) {
     this.handleGetFavorites(matchesData)
+
+  }
+  insertLocalMessage(payload){
+    // const {message, matchID} = payload
+    // const cleanMatches = _.(this.state.matches, match => match.match_id === matchID);
+
+    // this.setState({
+    //   matches: cleanMatches
+    // });
 
   }
   handleGetMatches(matchesData){
