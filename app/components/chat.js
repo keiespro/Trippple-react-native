@@ -188,8 +188,8 @@ class ChatMessage extends React.Component {
   constructor(props){
     super(props);
   }
-  shouldComponentUpdate(){
-    return false
+  shouldComponentUpdate(nProps,nState){
+    return nProps.id != this.props.id
   }
   render() {
     var isMessageOurs = (this.props.messageData.from_user_info.id === this.props.user.id || this.props.messageData.from_user_info.id === this.props.user.partner_id);
