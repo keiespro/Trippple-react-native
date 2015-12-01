@@ -80,6 +80,8 @@ class SettingsInside extends React.Component{
   }
 
   componentDidMount() {
+
+
     Api.getProfileSettingsOptions().then((options) => {
       if (options.settings) {
         this.setState({
@@ -120,7 +122,7 @@ class SettingsInside extends React.Component{
 
   _openProfile=()=>{
 
-    if(this.props.user.status != 'onboarded'){
+    if(this.props.user.relationship_status == 'couple' && this.props.user.status != 'onboarded'){
       this.showPartnerMissingModal()
       return
     }else{
