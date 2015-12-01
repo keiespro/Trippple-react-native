@@ -53,7 +53,7 @@ class ChatStore {
     if(__DEV__){
       console.log('partialSnapshot',partialSnapshot)
     }
-    AsyncStorage.setItem('ChatStore',JSON.stringify(partialSnapshot));
+    AsyncStorage.setItem('ChatStore',JSON.stringify(partialSnapshot.ChatStore));
 
 
   }
@@ -72,11 +72,12 @@ class ChatStore {
       ephemeral: true,
       matchId: matchID,
       id: timestamp
-    }
-    const newStateMessages = [...[newMessage],...this.state[matchID]]
+  }
+  console.log(...this.state[matchID])
+    const oldMessages = this.state[matchID] || []
+    const newStateMessages = [...[newMessage], ...oldMessages]
 
     this.setState({[matchID]: newStateMessages});
-    this.emitChange()
 
 
   }
@@ -110,7 +111,6 @@ class ChatStore {
       return {...newState}
 
     })
-    this.emitChange()
 
   }
 

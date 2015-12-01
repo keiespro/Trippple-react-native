@@ -2,6 +2,7 @@ import alt from '../alt'
 import MatchActions from '../actions/MatchActions'
 import UserActions from '../actions/UserActions'
 import NotificationActions from '../actions/NotificationActions'
+import MatchesStore from '../stores/MatchesStore'
 import ChatStore from '../stores/ChatStore'
 import { AsyncStorage, PushNotificationIOS } from 'react-native'
 import moment from 'moment'
@@ -88,6 +89,8 @@ class NotificationsStore {
   }
   handleNewMessageData(messagesData){
     this.waitFor(ChatStore)
+    this.waitFor(MatchesStore)
+
     var {messages} = messagesData
 
     if(!this.state.pendingNotifications.length){return false}

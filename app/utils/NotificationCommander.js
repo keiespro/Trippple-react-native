@@ -110,8 +110,6 @@ class NotificationCommander extends Component{
 
       const { data } = payload
 
-      // __DEV__ && AlertIOS.alert('notification',JSON.stringify(payload));
-
       if(data.action && data.action === 'retrieve' && data.match_id) {
 
         NotificationActions.receiveNewMatchNotification(data)

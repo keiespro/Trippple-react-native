@@ -92,10 +92,10 @@ export default class PrivacyPermissionsModal extends Component{
       if (!err) {
         UserActions.updateUser({privacy:'private'})
         // UserActions.handleContacts.defer(contacts)
-        this.setState({hasContactsPermission:true})
+        this.setState({hasContactsPermissions:true})
 
       }else{
-        this.setState({hasContactsPermission:false})
+        this.setState({hasContactsPermissions:false})
 
       }
     })
@@ -156,7 +156,7 @@ export default class PrivacyPermissionsModal extends Component{
               underlayColor={colors.darkGreenBlue}
               innerWrapStyles={buttonStyles.innerWrapStyles}
               leftBoxStyles={  buttonStyles.grayIconbuttonLeftBox}
-              outerButtonStyles={{}}
+              outerButtonStyles={{overflow:'hidden',borderRadius:8}}
               _onPress={this.handleTapFacebook.bind(this)}>
 
               {hasFacebookPermissions ?
@@ -171,6 +171,7 @@ export default class PrivacyPermissionsModal extends Component{
                 outerButtonStyle={buttonStyles.iconButtonOuter}
                 buttonText={buttonStyles.buttonText}
                 underlayColor={colors.darkGreenBlue}
+              outerButtonStyles={{overflow:'hidden',borderRadius:8}}
                 innerWrapStyles={buttonStyles.innerWrapStyles}
                 leftBoxStyles={ buttonStyles.grayIconbuttonLeftBox}
                 _onPress={this.handleTapContacts.bind(this)}>

@@ -68,8 +68,7 @@ import AppActions from '../flux/actions/AppActions'
   }
   componentDidUpdate(prevProps,prevState){
     if(!prevState.hasPermission && this.state.hasPermission ){
-      this.props.failCallback ? this.props.failCallback(true) : this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
-
+      // this.props.failCallback && this.props.failCallback()
     }
   }
 
@@ -88,7 +87,6 @@ import AppActions from '../flux/actions/AppActions'
   }
   getLocation(){
       navigator.geolocation.getCurrentPosition( (geo) => {
-
         this.handleSuccess(geo)
         this.props.successCallback && this.props.successCallback( geo.coords )
       },
@@ -139,7 +137,8 @@ import AppActions from '../flux/actions/AppActions'
   }
 
   handleSuccess(geo){
-    UserActions.updateUser(geo);
+    const { latitude, longitude } = geo.coords
+    UserActions.updateUser({ latitude, longitude });
     this.cancel(true);
   }
 

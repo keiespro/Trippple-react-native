@@ -131,12 +131,16 @@ handleGetLocation(coords){
   }
 
   handleLogOut(){
-    AsyncStorage.clear()
     this.setState({ user:{}, userStub: null});
-    Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE)
+
+    AsyncStorage.clear()
     .then(() => {
       this.setState({  api_key: null, user_id: null });
     })
+    .then(() => {
+       Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE)
+    })
+
   }
 
   handlePartner(){

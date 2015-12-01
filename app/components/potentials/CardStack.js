@@ -159,8 +159,8 @@ class CardStack extends React.Component{
             likeUserId = this.props.potentials[0].user.id;
             console.log(value.x,likeStatus)
 
-            this.state.pan && this._actionlistener && this.state.pan._listeners && this.state.pan._listeners[this._actionlistener] && this.state.pan.removeListener(this._actionlistener);
-            this.state.pan.x.removeAllListeners()
+            this.state.pan && this._actionlistener && this.state.pan._listeners[this._actionlistener] && this.state.pan.removeListener(this._actionlistener);
+            // this.state.pan.x.removeAllListeners()
 
             MatchActions.sendLike(
               likeUserId,

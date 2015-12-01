@@ -86,10 +86,16 @@ class  SettingsPreferences extends React.Component{
           subtitle:'We’ve found 10 matches we think you might like. Should we prioritize the matches closest to you?',
           failedTitle: 'LOCATION DISABLED',
           failCallback:(val)=>{
-            this.props.navigator.pop();
+            // this.props.navigator.pop();
+            this.setState({nearMeToggled:val})
+
+        },
+         successCallback:(val)=>{
+            // this.props.navigator.pop();
             this.setState({nearMeToggled:val})
 
           },
+
           failedSubtitle: 'Geolocation is disabled. You can enable it in your phone’s Settings.',
           failedState: (parseInt(OSPermissions.location) < 3 ? true : false),
           headerImageSource:'iconDeck',

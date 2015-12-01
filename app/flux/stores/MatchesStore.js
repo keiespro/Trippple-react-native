@@ -3,7 +3,7 @@ import MatchActions from '../actions/MatchActions'
 import Log from '../../Log'
 import NotificationActions from '../actions/NotificationActions'
 import {matchWasAdded, messageWasAdded} from '../../utils/matchstix'
-import {AsyncStorage} from 'react-native'
+import {AsyncStorage, AlertIOS} from 'react-native'
 import _ from 'underscore'
 
 class MatchesStore {
@@ -49,11 +49,10 @@ class MatchesStore {
       }
     })
     this.on('afterEach', ({payload, state}) =>{
-        console.log('chatupdate',payload,state)
 
       if(state.matches.length != this.state.matches.length){
         this.save()
-        console.log('saving Matches',payload,state)
+        console.log('saving',payload,state)
 
       }
 
@@ -91,7 +90,6 @@ class MatchesStore {
   }
   handleNewMessages(payload){
     if(!payload){return false}
-    console.log(payload)
     var { match_id, message_thread } = payload.messages;
 
     if(!message_thread || !message_thread.length || (message_thread.length == 1 && !message_thread[0].message_body)) return false
@@ -101,9 +99,9 @@ class MatchesStore {
 
 // prevent tripppling of value??
 
-    // if( !newCounts[match_id] ){
+    if( !newCounts[match_id] ){
       newCounts[match_id] = 0;
-    // }
+    }
 
     if( !access[match_id] ){
       access[match_id] = this.state.mountedAt
@@ -150,6 +148,7 @@ class MatchesStore {
   }
   handleGetMatches(matchesData){
     const {matches} = matchesData
+
     if(matches.length > 0){
       var allmatches, allunread, allLastAccessed
 
@@ -159,7 +158,7 @@ class MatchesStore {
         allunread = _.object( _.pluck(matches,'match_id'), matches.map(()=> 0))
         allLastAccessed = _.object( _.pluck(matches,'match_id'), matches.map(()=> this.state.mountedAt))
 
-        allmatches.map(matchWasAdded);
+        // allmatches.map(matchWasAdded);
       }else{
         // paged or refresh - deduplicate results, preserve unread counts and access times
         allmatches = _.unique([
@@ -177,7 +176,6 @@ class MatchesStore {
           ...this.state.lastAccessed
         }
       }
-
       this.setState({
         matches: allmatches,
         unreadCounts: allunread,

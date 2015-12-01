@@ -30,7 +30,6 @@ class MatchActions {
   }
 
   getMessages(matchID,page){
-    console.log(matchID,page)
     if(!matchID) {
       this.dispatch({messages: []});
       return false
