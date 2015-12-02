@@ -113,6 +113,18 @@ class FieldModal extends React.Component{
       })
     }
   }
+
+  getValueFromKey(data, key) {
+    var value = null;
+    Object.keys(data).forEach(function(i) {
+       if (i == key) {
+          value = data[i];
+       }
+    });
+
+    return { key: key, value: value};
+  }
+
   // onDateChange(date){
   //
   //   var isLegal = moment(date).diff(moment(), 'years') < -18;
@@ -199,6 +211,24 @@ class FieldModal extends React.Component{
     }
     var borderColor = purpleBorder ? colors.mediumPurple : colors.rollingStone
     if(this.state.error) borderColor = colors.mandy
+
+    //console.info('init fieldmodal render:', {state:this.state, field:field, fieldValue:fieldValue, inputField:inputField});
+
+    fieldLabel = (fieldValue.label || fieldValue);
+    fieldValue = (fieldValue.value || fieldValue);
+
+    fieldValue = fieldValue ? fieldValue.toString().toUpperCase() : '';
+
+    var selectedFieldLabel = (this.state.value || fieldLabel || '');
+    var selectedFieldValue = (this.state.value || fieldValue || '');
+
+    if (typeof field.values == 'object' && selectedFieldValue) {
+      selectedFieldLabel = this.getValueFromKey(field.values, selectedFieldValue).value || selectedFieldLabel;
+    }
+
+    var displayStateFieldValue = selectedFieldLabel.toString().toUpperCase();
+    displayStateFieldValue = (field.labelPrefix || '') + displayStateFieldValue + (field.labelSuffix || '');
+
     var inside = () =>{
       switch(field.field_type ){
         case 'dropdown':
@@ -222,14 +252,14 @@ class FieldModal extends React.Component{
                   borderBottomColor: colors.rollingStone,
                   textAlign:'center',
                   fontFamily:'Montserrat',
-                  color: colors.white}}>{this.state.value ? this.state.value.toString().toUpperCase() : fieldValue ? fieldValue.toString().toUpperCase() : ''}</Text>
+                  color: colors.white}}>{displayStateFieldValue}</Text>
               </View>
             </View>
             {this.renderButtons()}
             <View style={{backgroundColor:colors.white, flex:1,flexDirection:'column',alignItems:'center', width:DeviceWidth,justifyContent:'center',padding:0}}>
               {React.cloneElement(inputField,{
-                onValueChange:this.onChange.bind(this),
-                selectedValue:this.state.value || fieldValue || null,
+                onValueChange: this.onChange.bind(this),
+                selectedValue: (selectedFieldValue || null),
                 ref: (dropdown) => { this.dropdown = dropdown }
               }
             )}
