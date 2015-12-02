@@ -265,7 +265,7 @@ class Contacts extends Component{
             contactsLoaded: true,
             dataSource: this.state.dataSource.cloneWithRows(contacts)
           });
-          UserActions.handleContacts(contacts);
+          // UserActions.handleContacts(contacts);
 
         })
       // })
