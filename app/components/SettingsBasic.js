@@ -71,6 +71,9 @@ class ProfileField extends React.Component{
   render(){
     var field = this.props.field || {};
 
+    var get_values = typeof field.values == 'object' && Object.keys(field.values).map(key => key) || field.values;
+    var get_key_vals = typeof field.values == 'object' && field.values || {};
+
     var displayField = (theField) => {
       switch (theField.field_type) {
         case 'input':
@@ -105,11 +108,11 @@ class ProfileField extends React.Component{
               style={{alignSelf:'center',width:330,backgroundColor:colors.white,marginHorizontal:0,alignItems:'stretch'}}
               selectedValue={this.state.selectedDropdown || field.values[0] || null}
               >
-              {field.values.map((val) => (
+              {get_values.map((val) => (
                 <PickerItemIOS
                   key={val}
                   value={val}
-                  label={val}
+                  label={(field.labelPrefix || '') + (get_key_vals[val] || val) + (field.labelSuffix || '')}
                   />
                 )
               )}
@@ -127,6 +130,17 @@ class ProfileField extends React.Component{
     if(MagicNumbers.isSmallDevice && field.label.indexOf(' ') > 0){
       fieldLabel = field.label.substr(0,field.label.indexOf(' '))
     }
+
+    var getValue = (this.props.user[this.props.fieldName] || '');
+    getValue = (get_key_vals[getValue] || getValue);
+    displayValueText = (field.labelPrefix || '') + getValue.toString().toUpperCase() + (field.labelSuffix || '');
+
+    if (field.field_type == 'phone_input') {
+      displayValueText = this.formattedPhone();
+    }
+
+    displayFieldText = fieldLabel ? fieldLabel.toUpperCase() : '';
+
     return (
         <TouchableHighlight onPress={(f)=>{
             //trigger modal
@@ -142,14 +156,8 @@ class ProfileField extends React.Component{
             })
           }} underlayColor={colors.dark} style={styles.paddedSpace}>
           <View  style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray,alignItems:'center',justifyContent:'space-between',flexDirection:'row',alignSelf:'stretch'}}>
-            <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{fieldLabel ? fieldLabel.toUpperCase() : ''}</Text>
-            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat',textAlign:'right'}}>{
-              field.field_type == 'phone_input' ?
-                this.formattedPhone() :
-                  this.props.user[this.props.fieldName] ?
-                    this.props.user[this.props.fieldName].toString().toUpperCase() :
-                      ''
-            }</Text>
+            <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ displayFieldText }</Text>
+            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat',textAlign:'right'}}>{ displayValueText }</Text>
           </View>
         </TouchableHighlight>
     )
