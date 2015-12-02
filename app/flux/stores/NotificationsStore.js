@@ -4,7 +4,7 @@ import UserActions from '../actions/UserActions'
 import NotificationActions from '../actions/NotificationActions'
 import MatchesStore from '../stores/MatchesStore'
 import ChatStore from '../stores/ChatStore'
-import { AsyncStorage, PushNotificationIOS } from 'react-native'
+import { AsyncStorage, PushNotificationIOS, AlertIOS } from 'react-native'
 import moment from 'moment'
 import Promise from 'bluebird'
 import TimerMixin from 'react-timer-mixin'
@@ -37,7 +37,7 @@ class NotificationsStore {
 
     this.on('init', () => {/*noop*/})
     this.on('error', (err, payload, currentState) => {
-      Log(err, payload, currentState);
+      console.log(err, payload, currentState);
     })
   }
 
@@ -88,8 +88,9 @@ class NotificationsStore {
 
   }
   handleNewMessageData(messagesData){
-    this.waitFor(ChatStore)
-    this.waitFor(MatchesStore)
+
+//     this.waitFor(ChatStore)
+//     this.waitFor(MatchesStore)
 
     var {messages} = messagesData
 
@@ -97,14 +98,15 @@ class NotificationsStore {
     const { pendingNotifications} = this.state,
                 readyNotification = { ...pendingNotifications.shift(), ...messages.message_thread[0], type: 'message'}
 
+    if(pendingNotifications.length){
+      this.updateBadgeCount(1)
+    }
+    this.expireNotification()
 
     this.setState({
       notifications: [...pendingNotifications, readyNotification],
       pendingNotifications: []
     })
-    this.updateBadgeCount(1)
-    this.expireNotification()
-
 
   }
 
@@ -123,13 +125,13 @@ class NotificationsStore {
   }
 
   handleNewMatch(payload){
-   var newNotification = {
-      title: payload.alert,
-      match_id: payload.match_id,
-      ...payload
-    }
+    const newNotification = {
+            title: payload.alert,
+            match_id: payload.match_id,
+            ...payload
+          },
+          allNotifications = [...this.state.pendingNotifications, newNotification];
 
-    const allNotifications = [...this.state.pendingNotifications, newNotification]
     this.setState({
       pendingNotifications: allNotifications
     })

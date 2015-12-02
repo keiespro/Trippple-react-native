@@ -1,6 +1,6 @@
 
 import React from 'react-native'
-import { Image,TouchableOpacity, Component, View, StyleSheet, Text, Animated, Dimensions,LayoutAnimation,VibrationIOS } from 'react-native'
+import { Image,TouchableOpacity, Component, PushNotificationIOS, View, StyleSheet, Text, Animated, Dimensions,LayoutAnimation,VibrationIOS,AlertIOS } from 'react-native'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -8,6 +8,7 @@ const DeviceWidth = Dimensions.get('window').width;
 import colors from '../utils/colors'
 import {BlurView} from 'react-native-blur';
 import Overlay from 'react-native-overlay'
+import NotificationActions from '../flux/actions/NotificationActions'
 import AppActions from '../flux/actions/AppActions'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
@@ -25,7 +26,7 @@ class Notification extends Component{
   }
 
   componentWillMount() {
-            LayoutAnimation.spring();
+    LayoutAnimation.spring();
 
   }
   componentDidMount(){
@@ -34,12 +35,11 @@ class Notification extends Component{
     VibrationIOS.vibrate()
 
   }
-  componentDidUpdate(){
-            LayoutAnimation.spring();
-
+  componentDidUpdate(pProps,pState){
+    LayoutAnimation.spring();
   }
   componentWillUnmount(){
-            LayoutAnimation.configureNext(animations.layout.spring);
+    LayoutAnimation.configureNext(animations.layout.spring);
 
 
   }
@@ -61,55 +61,60 @@ class Notification extends Component{
         {this.props.payload.type == 'message' ?
           <View style={[styles.notificationOverlay,styles.notificationNewMessage]}>
 
-          <TouchableOpacity onPress={(e)=>{
-              this.setState({yValue:-220})
-              AppActions.updateRoute({route:'chat',match_id:this.props.payload.match_id})
+            <TouchableOpacity
+              onPress={(e)=>{
+                this.setState({yValue:-220});
+                NotificationActions.updateBadgeNumber(-1)
+                AppActions.updateRoute({route:'chat',match_id:this.props.payload.match_id})
               }}>
-          <View style={styles.notificationInside}>
-            <View style={styles.notificationLeft}>
-            <Image
-              resizeMode={Image.resizeMode.contain}
-              style={styles.notiImage}
-              defaultSource={{uri:'../../newimg/placeholderUserWhite.png'}}
-              source={{uri: payload.from_user_info.image_url}}
-            />
-            </View>
-            <View style={styles.notificationRight}>
-              <Text style={[styles.notiTitle,styles.titleNewMessage]}>{this.props.payload.from_user_info.name.toUpperCase()}</Text>
-              <Text style={styles.notiText}>{this.props.payload.message_body}</Text>
-           </View>
-           </View>
-           </TouchableOpacity>
-
+              <View style={styles.notificationInside}>
+                <View style={styles.notificationLeft}>
+                <Image
+                  resizeMode={Image.resizeMode.contain}
+                  style={styles.notiImage}
+                  defaultSource={{uri:'../../newimg/placeholderUserWhite.png'}}
+                  source={{uri: payload.from_user_info.image_url}}
+                />
+                </View>
+                <View style={styles.notificationRight}>
+                  <Text style={[styles.notiTitle,styles.titleNewMessage]}>{
+                    this.props.payload.from_user_info.name.toUpperCase()
+                  }</Text>
+                  <Text style={styles.notiText}>{this.props.payload.message_body}</Text>
+                </View>
               </View>
-           : null
+            </TouchableOpacity>
+
+          </View>
+          : null
         }
 
-       {this.props.payload.type == 'match' ?
-         <View style={[styles.notificationOverlay,styles.notificationNewMatch]}>
+        {this.props.payload.type == 'match' ?
+          <View style={[styles.notificationOverlay,styles.notificationNewMatch]}>
           <TouchableOpacity onPress={(e)=>{
-              this.setState({yValue:-220})
-              AppActions.updateRoute({route:'chat',match_id:this.props.payload.match_id,})
-            }}>
+            NotificationActions.updateBadgeNumber(-1)
+            this.setState({yValue:-220})
+            AppActions.updateRoute({route:'chat',match_id:this.props.payload.match_id,})
+          }}>
           <View style={{flex:1,flexDirection:'row',width:DeviceWidth,padding:15}}>
-            <View style={styles.notificationLeft}>
-            <Image
-              resizeMode={Image.resizeMode.contain}
-              style={styles.notiImage}
-              defaultSource={{uri:'../../newimg/placeholderUserWhite.png'}}
-              source={{uri: payload.users[payload.closer_id].image_url}}
+          <View style={styles.notificationLeft}>
+          <Image
+          resizeMode={Image.resizeMode.contain}
+          style={styles.notiImage}
+          defaultSource={{uri:'../../newimg/placeholderUserWhite.png'}}
+          source={{uri: payload.users[payload.closer_id].image_url}}
 
-            />
-            </View>
-            <View style={styles.notificationRight}>
-              <Text style={[styles.notiTitle,styles.titleNewMatch]}>IT'S A MATCH!</Text>
-              <Text style={styles.notiText}>{payload.users[payload.closer_id].firstname} likes you back!</Text>
-           </View>
-           </View>
-           </TouchableOpacity></View> : null
+          />
+          </View>
+          <View style={styles.notificationRight}>
+          <Text style={[styles.notiTitle,styles.titleNewMatch]}>IT'S A MATCH!</Text>
+          <Text style={styles.notiText}>{payload.users[payload.closer_id].firstname} likes you back!</Text>
+          </View>
+          </View>
+          </TouchableOpacity></View> : null
         }
 
-      </View>
+        </View>
 
     )
   }

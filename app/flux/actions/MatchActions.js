@@ -1,14 +1,14 @@
 import alt from '../alt';
 import Api from '../../utils/api';
 
-
+import { AlertIOS } from 'react-native'
 class MatchActions {
 
 
   removeMatch(matchID){
-
     this.dispatch(matchID)
   }
+
   getMatches(page){
 
     Api.getMatches(page || 0)
@@ -20,16 +20,10 @@ class MatchActions {
 
   getFavorites(page){
 
-    // Api.getMatches(page)
-    //   .then((res) => {
-    //     this.dispatch({matches: res.response, page: page || false});
-    //   })
-    //   .catch((err) => ){ /*noop*/}
-    //
-
   }
 
   getMessages(matchID,page){
+
     if(!matchID) {
       this.dispatch({messages: []});
       return false
@@ -37,22 +31,19 @@ class MatchActions {
 
     Api.getMessages({match_id: matchID, page: page || false})
     .then((res) => {
-      console.log(res)
-        this.dispatch({messages: res.response || []});
-     })
+      this.dispatch({messages: res.response || []});
+    })
   }
 
   getPotentials(){
 
     Api.getPotentials(  )
-      .then((res) => {
-        this.dispatch(res.response);
-      })
-      .catch(err => {
-        this.dispatch({status:false,matches:[]});
-
-      })
-
+    .then((res) => {
+      this.dispatch(res.response);
+    })
+    .catch((err) => {
+      this.dispatch(err);
+    })
 
   }
 
@@ -62,41 +53,32 @@ class MatchActions {
 
   sendMessage(message, matchID,timestamp){
     this.dispatch({message, matchID,timestamp});
-
-
   }
   sendMessageToServer(message, matchID){
     Api.createMessage(message, matchID)
     .then(()=>{
       return Api.getMessages({match_id: matchID}).then((res) => {
-        const messages = res.response
+        const messages = res.response;
         Api.getMatches(0)
-          .then((res) => {
-            this.dispatch({messages, matchesData: {matches: res.response, page: 0}});
-
-          })
-
+        .then((res) => {
+          this.dispatch({messages, matchesData: {matches: res.response, page: 0}});
+        })
       })
     })
     .catch((err) => {/*noop*/})
-
 
   }
 
   toggleFavorite(matchID){
 
-      Api.toggleFavorite(matchID)
-      .then(()=>{
-
-         Api.getFavorites(0)
-        .then((res) => {
-          this.dispatch({matches: res.response, page: 0});
-
-        })
+    Api.toggleFavorite(matchID)
+    .then(()=>{
+      Api.getFavorites(0)
+      .then((res) => {
+        this.dispatch({matches: res.response, page: 0});
       })
-
-
-    }
+    })
+  }
 
 
   unMatch(matchID){
@@ -115,26 +97,6 @@ class MatchActions {
     Api.sendLike(likedUserID, likeStatus,likeUserType,rel_status)
 
     this.dispatch({likedUserID,likeStatus});
-
-      // .then((likeRes) => {
-
-      //   navigator.geolocation.getCurrentPosition(
-      //     (geo) => {
-      //       var {latitude,longitude} = geo.coords;
-      //
-      //       // Api.getPotentials( {latitude,longitude} )
-      //       //   .then((res) => {
-      //       //     this.dispatch(res.response);
-      //       //   })
-      //       //
-      //     },
-      //     (error) => {
-      //       // Open native settings
-      //
-      //     },
-      //     {enableHighAccuracy: false, maximumAge: 1000}
-      //   )
-      // })
 
   }
 }

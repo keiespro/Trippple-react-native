@@ -59,10 +59,11 @@ class NotificationCommander extends Component{
   }
 
   handlePushData(pushNotification){
-
+    AlertIOS.alert('APN Push Notification',JSON.stringify(pushNotification.getData()));
     if(!pushNotification || !pushNotification.data){
       return false
     }
+    const data = PushNotification.getData();
 
     if(data.action && data.action === 'retrieve' && data.match_id) {
 
@@ -72,12 +73,11 @@ class NotificationCommander extends Component{
 
       NotificationActions.receiveNewMessageNotification(data)
 
-    }else if(data.action === 'logout'){
+    }else if(data.action == 'logout'){
 
-          UserActions.logOut()
+      UserActions.logOut()
 
     }
-
 
   }
   _handleAppStateChange =(appState)=> {
@@ -118,16 +118,13 @@ class NotificationCommander extends Component{
 
         NotificationActions.receiveMatchRemovedNotification(data)
 
-      }else if(data.action && (data.action === '???') || 'statuschange') {
+      }else if(data.action && data.action == 'statuschange') {
 
-
-
-      }else if(data.action && data.action === 'retrieve' && data.userInfo == true) {
-
+        UserActions.getUserInfo()
 
       }else if(data.action && data.action === 'logout') {
 
-          UserActions.logOut()
+        UserActions.logOut()
       }
 
     })
@@ -135,7 +132,6 @@ class NotificationCommander extends Component{
     this.socket.on('chat', (payload) => {
 
       NotificationActions.receiveNewMessageNotification(payload)
-      // __DEV__ && AlertIOS.alert('notification',JSON.stringify(payload));
 
     })
 

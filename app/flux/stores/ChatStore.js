@@ -39,9 +39,9 @@ class ChatStore {
       if(__DEV__){
         console.log('aftereach',state,payload)
       }
-      if(payload.payload && payload.payload.messages && payload.payload.messages.match_id){
-        this.save()
-      }
+      // if(payload.payload && payload.payload.messages && payload.payload.messages.match_id){
+      //   this.save()
+      // }
     })
 
 
@@ -73,7 +73,6 @@ class ChatStore {
       matchId: matchID,
       id: timestamp
   }
-  console.log(...this.state[matchID])
     const oldMessages = this.state[matchID] || []
     const newStateMessages = [...[newMessage], ...oldMessages]
 
@@ -94,7 +93,7 @@ class ChatStore {
   }
 
   handleReceiveMessages(payload) {
-
+    console.log(Object.keys(payload))
     if(!payload || !payload.messages){return false}
 
     var {message_thread,match_id} = payload.messages;
@@ -106,10 +105,8 @@ class ChatStore {
 
     this.setState(() => {
       var newState = {};
-      newState[`${match_id}`] = _.unique([ ...existingMessages, ...message_thread, ], 'id')
-
+      newState[`${match_id}`] = _.unique([ ...existingMessages, ...message_thread, ], 'id');
       return {...newState}
-
     })
 
   }

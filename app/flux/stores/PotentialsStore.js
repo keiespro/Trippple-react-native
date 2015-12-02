@@ -1,9 +1,8 @@
 import alt from '../alt'
 import MatchActions from '../actions/MatchActions'
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage,AlertIOS } from 'react-native'
 import NotificationActions from '../actions/NotificationActions'
 import _ from 'underscore'
-import Log from '../../Log'
 
 class PotentialsStore {
 
@@ -17,18 +16,18 @@ class PotentialsStore {
       handleSentLike: MatchActions.SEND_LIKE
     });
 
-    this.on('init', () => {/*noop*/})
+    this.on('init', () => {/*noop*/});
+
     this.on('error', (err, payload, currentState) => {
-      Log(err, payload, currentState);
-    })
+      console.log(err, payload, currentState);
+    });
 
     this.exportPublicMethods({
       getAll: this.getAll
-    })
+    });
   }
 
   handleGetPotentials(data) {
-
     if(data.matches.length){
       var potentials;
       if(!data.matches[0].user){
@@ -38,7 +37,7 @@ class PotentialsStore {
       }else{
         potentials = data.matches
       }
-      this.potentials = potentials
+      this.potentials = data.matches
     }
   }
 
@@ -49,11 +48,9 @@ class PotentialsStore {
     }else{
       var {likedUserID,likeStatus} = payload
       if(likeStatus == 'approve' && !this.hasSentAnyLikes){
-
         const relevantUser = _.findWhere(this.potentials,(el,i)=>{
           return el.user.id == likedUserID
         })
-
       }
       const newPotentials = this.potentials.filter((el,i)=>{
         return el.user.id != likedUserID

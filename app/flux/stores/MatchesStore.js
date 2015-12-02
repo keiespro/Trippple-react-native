@@ -37,24 +37,24 @@ class MatchesStore {
       handleNewMessages: MatchActions.GET_MESSAGES
     });
 
-    this.on('init', () => {/*noop*/})
+    this.on('init', () => {/*noop*/});
     this.on('error', (err, payload, currentState) => {
       if(__DEV__){
         console.log('ERROR',err, payload, currentState);
       }
-    })
+    });
     this.on('bootstrap', (p) => {
       if(__DEV__){
         console.log('bootstrap',p);
       }
-    })
+    });
     this.on('afterEach', ({payload, state}) =>{
-        console.log('saving',payload,state)
+      __DEV__ && console.log(payload,state);
 
-      if(state.matches.length != this.state.matches.length || payload.payload && payload.payload.matches && state.matches.length != payload.payload.matches.length){
-        this.save()
-        console.log('saving')
-      }
+      // if(state.matches.length && state.matches.length != this.state.matches.length || ( payload.payload && payload.payload.matches && state.matches.length != payload.payload.matches.length) ){
+      //   this.save();
+      //    __DEV__ && console.log('saving');
+      // }
 
     })
   }

@@ -23,6 +23,7 @@ async function publicRequest(endpoint, payload){
     return await res
   }
   catch(err){
+    return err
   }
 }
 
@@ -145,13 +146,13 @@ class api {
     return authenticatedRequest('messages', payload)
   }
 
-  getPotentials(coordinates){
-    return authenticatedRequest('potentials',coordinates)
+  async getPotentials(coordinates){
+    return await authenticatedRequest('potentials')
   }
 
-  sendLike(like_user_id,like_status,like_user_type,from_user_type){
+  async sendLike(like_user_id,like_status,like_user_type,from_user_type){
   // fix
-    return authenticatedRequest('likes', { like_status, like_user_id, like_user_type, from_user_type })
+    return await authenticatedRequest('likes', { like_status, like_user_id, like_user_type, from_user_type })
   }
 
   saveFacebookPicture(photo) {

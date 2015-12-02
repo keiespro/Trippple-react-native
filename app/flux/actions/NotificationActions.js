@@ -46,6 +46,8 @@ class NotificationActions {
 
   receiveNewMessageNotification(payload){
     const { data } = payload
+
+
     if(data.action === 'retrieve' && data.match_id) {
       MatchActions.getMessages.defer(data.match_id)
 
