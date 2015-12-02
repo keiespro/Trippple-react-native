@@ -128,10 +128,7 @@ class SettingsInside extends React.Component{
     }else{
       var thisYear = new Date().getFullYear()
 
-      const rel = this.props.user.relationship_status == 'single' ? 'couple' : 'single' // opposite of user's rel
-
       const selfAsPotential = {
-
         user: {
           ...this.props.user,
           age: (thisYear - this.props.user.bday_year)
@@ -141,23 +138,23 @@ class SettingsInside extends React.Component{
       if(this.props.user.relationship_status == 'couple'){
         delete selfAsPotential.coupleImage
         delete selfAsPotential.partner
-
-
-        const coupleAsPotential = {
+        potential = {
           ...this.props.user.couple,
           user: selfAsPotential.user,
           partner: {
             ...this.props.user.partner,
             age: (thisYear - this.props.user.partner.bday_year)
           },
-        }
+        };
+      }else{
+        potential = selfAsPotential
       }
 
       this.props.navigator.push({
         component: UserProfile,
         sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
         passProps: {
-          potential: this.props.user.relationship_status == 'single' ? selfAsPotential : coupleAsPotential
+          potential
         }
       });
     }
