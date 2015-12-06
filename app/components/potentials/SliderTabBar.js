@@ -9,6 +9,7 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
 import styles from './styles'
+import {MagicNumbers} from '../../DeviceConfig'
 
 import colors from '../../utils/colors';
 
@@ -42,11 +43,11 @@ var SliderTabBar = React.createClass({
 
   render() {
     var numberOfTabs = this.props.tabs.length;
-    var w = (DeviceWidth-30) / numberOfTabs;
+    var w = MagicNumbers.screenWidth/ numberOfTabs;
 
     var tabUnderlineStyle = {
       position: 'absolute',
-      width: (DeviceWidth-30) / 2,
+      width: MagicNumbers.screenWidth / 2,
       height: 2,
       backgroundColor: colors.mediumPurple,
       bottom: 0,

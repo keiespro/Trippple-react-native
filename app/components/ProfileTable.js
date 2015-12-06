@@ -21,7 +21,7 @@ import {
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-
+import { MagicNumbers } from '../DeviceConfig'
 
 class ProfileTable extends Component{
 
@@ -38,10 +38,18 @@ class ProfileTable extends Component{
 
     return (
       <View
-        style={{backgroundColor:colors.outerSpace,width:DeviceWidth-30,flex:1,
-          paddingHorizontal:this.props.tabLabel == 'single' ? 0 : 15,
+      style={{
+        backgroundColor:colors.outerSpace,
+        flex:1,
+      overflow:'hidden',
+      marginHorizontal: this.props.location == 'settings' ? MagicNumbers.screenPadding/2 : 0,
+        // left:MagicNumbers.screenPadding/2,
           paddingVertical:20,
-          alignSelf:'stretch'}}
+          width:MagicNumbers.screenWidth,
+          alignSelf:'stretch',
+          alignItems:'stretch'
+
+      }}
       >
         <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15,flex:1,}}>
           <Text style={{color:colors.rollingStone,fontSize:18}}>Gender</Text>

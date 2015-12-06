@@ -13,6 +13,7 @@ var {
 
 var DefaultTabBar = require('./components/CustomTabBar');
 var deviceWidth = Dimensions.get('window').width;
+import {MagicNumbers} from './DeviceConfig';
 
 
 //
@@ -173,7 +174,9 @@ var ScrollableTabView = React.createClass({
       width: deviceWidth * this.props.children.length,
       flex: 1,
       left:0,
+      // paddingHorizontal:MagicNumbers.screenPadding/2,
       flexDirection: 'row',
+      overflow:'hidden',
       transform:[
         {translateX:this.state.currentPage ? this.state.currentPage.interpolate({
                 inputRange: this.props.children.map((c,i) => w * i ),

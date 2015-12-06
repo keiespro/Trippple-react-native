@@ -144,13 +144,16 @@ class Card extends React.Component{
               backgroundColor: colors.white,
            }]} key={`${potential.id || potential.user.id}-view`}>
 
-              <Animated.View key={`${potential.id || potential.user.id}bgopacity`} style={{
+              <Animated.View
+                key={`${potential.id || potential.user.id}bgopacity`}
+                ref={isTopCard ? 'incard' : null}
+                style={{
                   flex:1,
                   alignItems:'center',
                   justifyContent:'center',left:0,right:0,
                   marginHorizontal:0,
                   flexDirection:'column',
-                                   backgroundColor: isTopCard ? this.props.pan && this.props.pan.x.interpolate({
+                  backgroundColor: isTopCard ? this.props.pan && this.props.pan.x.interpolate({
                     inputRange: [-300,-50, -40, 0, 40,  50, 300],
                     outputRange: [
                       'rgb(232,74,107)',
@@ -161,19 +164,18 @@ class Card extends React.Component{
                       'rgb(66,181,125)',
                       'rgb(66,181,125)' ],
                   }) : colors.white,
-                }} ref={isTopCard ? 'incard' : null}>
-                <Swiper
+                }}
+                >
+                {potential.user.relationship_status == 'couple' ? <Swiper
                   key={`${potential.id || potential.user.id}-swiper`}
                   loop={true}
                   horizontal={false}
                   activeIndex={this.state.activeIndex}
                   vertical={true}
-
                   style={{
                     alignSelf:'center',
                     marginLeft:0,
-            overflow:'hidden',
-
+                    overflow:'hidden',
                     marginRight:0,
                     left:0,
                   }}
@@ -183,7 +185,6 @@ class Card extends React.Component{
                   <TouchableWithoutFeedback
                     key={`${potential.user.id}-touchableimg`}
                     style={[styles.imagebg,{ overflow:'hidden'}]}
-
                     onPressIn={this.toggleCardHoverOn.bind(this)}
                     onPressOut={this.toggleCardHoverOff.bind(this)}
                     onPress={this.openProfileFromImage.bind(this)}
@@ -215,6 +216,31 @@ class Card extends React.Component{
                     onPressIn={this.toggleCardHoverOn.bind(this)}
                     onPressOut={this.toggleCardHoverOff.bind(this)}
                     onPress={this.openProfileFromImage.bind(this)}
+                    >
+                    <Animated.Image
+                      source={{uri: potential.partner.image_url}}
+                      key={`${potential.partner.id}-cimg`}
+                      defaultSource={{uri:'../../newimg/defaultuser.png'}}
+                      style={[styles.imagebg,{
+                        backgroundColor: colors.white,
+                        flex:1,
+                        width: DeviceWidth,
+                        opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
+                            inputRange:  [-300, -80, 0, 80, 300],
+                            outputRange: [   0,   1, 1,  1,   0]
+                        }) : 1
+                      }]}
+                      resizeMode={Image.resizeMode.cover}
+                    />
+                  </TouchableWithoutFeedback>
+                }
+                </Swiper> :
+                <TouchableWithoutFeedback
+                  key={`${potential.user.id}-touchableimg`}
+                  style={[styles.imagebg,{ overflow:'hidden'}]}
+                  onPressIn={this.toggleCardHoverOn.bind(this)}
+                  onPressOut={this.toggleCardHoverOff.bind(this)}
+                  onPress={this.openProfileFromImage.bind(this)}
                   >
                   <Animated.Image
                     source={{uri: potential.partner.image_url}}
@@ -231,9 +257,8 @@ class Card extends React.Component{
                     }]}
                     resizeMode={Image.resizeMode.cover}
                   />
-                  </TouchableWithoutFeedback>
+                </TouchableWithoutFeedback>
                 }
-              </Swiper>
 
 
             <View
@@ -415,21 +440,22 @@ class Card extends React.Component{
               ref={"incard"}
               >
 
-              <Swiper
-              key={`${potential.id || potential.user.id}-swiper`}
-              loop={true}
-                horizontal={false}
-                activeIndex={this.state.activeIndex}
-                vertical={true}
-                autoplay={false}
-                showsPagination={true}
-                showsButtons={false}
-                            width={DeviceWidth}
-            height={DeviceHeight}
-            style={{width:DeviceWidth,overflow: 'hidden',}}
+              {potential.user.relationship_status == 'couple' ?
+                <Swiper
+                  key={`${potential.id || potential.user.id}-swiper`}
+                  loop={true}
+                  horizontal={false}
+                  activeIndex={this.state.activeIndex}
+                  vertical={true}
+                  autoplay={false}
+                  showsPagination={true}
+                  showsButtons={false}
+                  width={DeviceWidth}
+                  height={DeviceHeight}
+                  style={{width:DeviceWidth,overflow: 'hidden',}}
 
-                paginationStyle={{position:'absolute',right:0,top:45,height:100}}
-              >
+                  paginationStyle={{position:'absolute',right:0,top:45,height:100}}
+                  >
 
                <TouchableWithoutFeedback
                   key={`${potential.user.id}-touchableimg`}
@@ -483,7 +509,32 @@ class Card extends React.Component{
                   />
                 </TouchableWithoutFeedback>
               }
-          </Swiper>
+              </Swiper> :
+               <TouchableWithoutFeedback
+                  key={`${potential.user.id}-touchableimg`}
+                  style={[styles.imagebg,{ overflow:'hidden'}]}
+                  onPressIn={this.toggleCardHoverOff.bind(this)}
+                  onPressOut={this.toggleCardHoverOn.bind(this)}
+                  onPress={this.openProfileFromImage.bind(this)}
+                  >
+                  <Animated.Image
+                    source={{uri: potential.user.image_url}}
+                    key={`${potential.user.id}-cimg`}
+                    style={[styles.imagebg, {
+                      flex:1,
+                      alignSelf:'stretch',
+                      height:500,
+
+                      width: DeviceWidth,
+                      opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
+                          inputRange: [-300, -80, 0, 80, 300],
+                          outputRange: [0,1,1,1,0]
+                        }) : 1
+                    }]}
+                    resizeMode={Image.resizeMode.cover}
+                   />
+                </TouchableWithoutFeedback>
+            }
 
             <View
             key={`${potential.id || potential.user.id}-bottomview`}
@@ -569,10 +620,10 @@ class Card extends React.Component{
             </View>
           }
 
-            <View style={{top:-50}}>
+          <View style={{top:-50,padding:MagicNumbers.screenPadding/4}}>
 
             {potential.bio || potential.user.bio ?
-              <View style={{padding:20}}>
+              <View style={{}}>
                 <Text style={[styles.cardBottomOtherText,{color:colors.white,marginBottom:15,marginLeft:0}]}>{
                     rel =='single' ? `About Me` : `About Us`
                 }</Text>

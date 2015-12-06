@@ -13,6 +13,7 @@ import {
   ActivityIndicatorIOS,
   ScrollView,
   PixelRatio,
+  Dimensions,
   PanResponder,
   Easing
 } from 'react-native';
@@ -28,12 +29,12 @@ import colors from '../utils/colors';
 import Swiper from '../controls/swiper';
 
 import reactMixin from 'react-mixin';
-import Dimensions from 'Dimensions';
 
 import ProfileTable from './ProfileTable'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
+import {MagicNumbers} from '../DeviceConfig'
 
 
 @reactMixin.decorate(TimerMixin)
@@ -52,13 +53,14 @@ class UserProfile extends Component{
 
     render(){
 
-      var { rel, potential, user } = this.props,
-          matchName = `${potential.user.firstname.trim()} ${potential.user.age}`,
+      var {  potential, user } = this.props,
+      matchName = `${potential.user.firstname.trim()}`,// ${potential.user.age}
           distance = potential.user.distance || 0,
-          city = potential.user.city_state || ''
+          city = potential.user.city_state || '';
+      const rel = this.props.rel || this.props.user.relationship_status;
 
-      if(rel == 'single') {
-        matchName += ` & ${potential.partner.firstname.trim()} ${potential.partner.age}`
+      if(rel == 'couple') {
+        matchName += ` & ${potential.partner.firstname.trim()}`//${potential.partner.age}
       }
 
 
@@ -71,6 +73,7 @@ class UserProfile extends Component{
             overflow:'hidden',
             left:0,
             flex:1,
+            width:DeviceWidth,
 
             backgroundColor:colors.outerSpace,
             transform:[ {scale: 1}, ]
@@ -95,10 +98,9 @@ class UserProfile extends Component{
 
           <View key={`${potential.id || potential.user.id}bgopacity`} style={{
               position:'relative',
-              width:this.props.cardWidth,
             }} ref={"incard"}>
 
-          <Swiper
+            {rel == 'couple' ? <Swiper
             _key={`${potential.id || potential.user.id}-swiper`}
             loop={true}
             width={DeviceWidth}
@@ -126,7 +128,7 @@ class UserProfile extends Component{
                   }]}
                   />
 
-            {rel == 'single' && potential.partner &&
+            {rel == 'couple' && potential.partner &&
               <Image
                 resizeMode={Image.resizeMode.cover}
                 source={{uri: potential.partner.image_url}}
@@ -139,7 +141,20 @@ class UserProfile extends Component{
                 }]}
                 />
             }
-          </Swiper>
+            </Swiper> :
+            <Image
+                    source={{uri: potential.user.image_url}}
+                    key={`${potential.user.id}-cimg`}
+                    style={[styles.imagebg, {
+                      flex:1,
+                      alignSelf:'stretch',
+                      height:500,
+
+                      width: DeviceWidth,
+                                    }]}
+                    resizeMode={Image.resizeMode.cover}
+                   />
+              }
 
             <View
             key={`${potential.id || potential.user.id}-bottomview`}
@@ -148,27 +163,28 @@ class UserProfile extends Component{
               backgroundColor:colors.outerSpace,
               flex:1,
               alignSelf:'stretch',
-              width:this.props.cardWidth,
+              width:DeviceWidth,
               top:-250,
               alignItems:'stretch',
               left:0,
               right:0,
+
             }} >
 
-            <View style={{ width: DeviceWidth , paddingVertical:20 }}>
-              <Text style={[styles.cardBottomText,{color:colors.white,width:DeviceWidth-40}]}>
+            <View style={{ width: MagicNumbers.screenWidth , paddingVertical:20,marginLeft:MagicNumbers.screenPadding/2, }}>
+              <Text style={[styles.cardBottomText,{color:colors.white,marginLeft:0,width:MagicNumbers.screenWidth}]}>
               {
                 matchName
               }
               </Text>
-              <Text style={[styles.cardBottomOtherText,{color:colors.white,width:DeviceWidth-40}]}>
+              <Text style={[styles.cardBottomOtherText,{color:colors.white,marginLeft:0,width:MagicNumbers.screenWidth}]}>
               {
                 distance ? `${city} | ${distance} ${distance == 1 ? 'mile' : 'miles'} away` : null
               }
               </Text>
             </View>
 
-          {rel == 'single' &&
+          {rel == 'couple' &&
             <View style={{
               height:60,
               top:-30,
@@ -190,11 +206,13 @@ class UserProfile extends Component{
               </View>
             }
 
-            <View style={{width: DeviceWidth}}>
+            <View style={{width: MagicNumbers.screenWidth,
+              paddingHorizontal:MagicNumbers.screenPadding/2
+            }}>
 
 
             {potential.bio || potential.user.bio ?
-              <View style={{padding:20}}>
+              <View style={{padding:0,margin:0,alignSelf:'flex-start'}}>
                 <Text style={[styles.cardBottomOtherText,{color:colors.white,marginBottom:15,marginLeft:0}]}>{
                     rel =='single' ? `About Me` : `About Us`
                 }</Text>
@@ -202,19 +220,20 @@ class UserProfile extends Component{
                     potential.bio || potential.user.bio
                 }</Text>
               </View> : null}
-
-              {rel == 'single' && potential.partner ?
+  </View>
+              <View style={{ paddingVertical:20,alignItems:'stretch' }}>
+              {rel == 'couple' && potential.partner ?
 
                  <ScrollableTabView tabs={['1','2']} renderTabBar={(props) => <CustomTabBar {...props}  /> }>
-                  <ProfileTable profile={potential.user}
+                  <ProfileTable profile={potential.user}  location={'settings'}
                     tabLabel={`${potential.user.firstname}, ${potential.user.age}`}/>
-                  <ProfileTable profile={potential.partner}
+                  <ProfileTable profile={potential.partner} location={'settings'}
                     tabLabel={`${potential.partner.firstname}, ${potential.partner.age}`}/>
                   </ScrollableTabView> :
 
-                  <View style={{flex:1,width:DeviceWidth,marginHorizontal:0}}>
+                  <View style={{flex:1,width:MagicNumbers.screenWidth,marginHorizontal:MagicNumbers.screenPadding/2}}>
                     <View style={styles.tabs}>
-                      <Text style={{width:DeviceWidth-40,
+                      <Text style={{width:MagicNumbers.screenWidth,
                           fontFamily:'Montserrat',fontSize:16,textAlign:'center',
                           color:  colors.white }}>
                           {`${potential.user.firstname} ${potential.user.age}`
@@ -226,12 +245,12 @@ class UserProfile extends Component{
                   </View>
 
               }
+                  </View>
 
               <View style={{flex:1,marginTop:20}}>
                 <Text style={{color:colors.mandy,textAlign:'center'}}>Report or Block this user</Text>
               </View>
 
-            </View>
 
           </View>
 
@@ -280,11 +299,11 @@ var CustomTabBar = React.createClass({
 
   render() {
     var numberOfTabs = this.props.tabs.length;
-    var w = (DeviceWidth-40) / numberOfTabs;
+    var w = MagicNumbers.screenWidth / numberOfTabs;
 
     var tabUnderlineStyle = {
       position: 'absolute',
-      width: (DeviceWidth-40) / 2,
+      width: MagicNumbers.screenWidth / 2,
       height: 2,
       backgroundColor: colors.mediumPurple,
       bottom: 0,
@@ -298,7 +317,7 @@ var CustomTabBar = React.createClass({
     };
 
     return (
-      <View style={styles.tabs}>
+      <View style={[styles.tabs,{marginHorizontal:MagicNumbers.screenPadding/2}]}>
         {this.props.tabs.map((tab, i) => this.renderTabOption(tab, i))}
         <Animated.View style={tabUnderlineStyle} ref={'TAB_UNDERLINE_REF'} />
       </View>
@@ -322,16 +341,16 @@ tab: {
   flex: 1,
   alignItems: 'center',
   justifyContent: 'center',
-  padding: 10,
-  width:(DeviceWidth - 40 )/ 2,
+  padding: 0,
+  width:MagicNumbers.screenWidth/ 2,
 
 },
 singleTab:{
   flex: 1,
   alignItems: 'center',
   justifyContent: 'center',
-  marginHorizontal: 20,
-  width:DeviceWidth,
+  marginHorizontal: MagicNumbers.screenPadding/4,
+  width:MagicNumbers.screenWidth,
 
 },
 tabs: {
@@ -339,9 +358,9 @@ tabs: {
   flexDirection: 'row',
   marginTop: 0,
   borderWidth: 1,
-  width:DeviceWidth-40,
+  width:MagicNumbers.screenWidth,
   flex:1,
-  marginHorizontal:20,
+  marginHorizontal:0,
   borderTopWidth: 1,
   borderLeftWidth: 0,
   borderRightWidth: 0,

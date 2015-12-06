@@ -3,6 +3,7 @@ import { StyleSheet, Dimensions, } from 'react-native'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import colors from '../../utils/colors';
+import {MagicNumbers} from '../../DeviceConfig'
 
 const styles = StyleSheet.create({
 
@@ -19,15 +20,15 @@ tab: {
   flex: 1,
   alignItems: 'center',
   justifyContent: 'center',
-  padding: 10,
-  width:(DeviceWidth - 30 )/ 2,
+  padding: 0,
+  width:MagicNumbers.screenWidth/ 2,
 
 },
 singleTab:{
   flex: 1,
   alignItems: 'center',
   justifyContent: 'center',
-  marginHorizontal: 15,
+  marginHorizontal: MagicNumbers.screenPadding/4,
   width:DeviceWidth,
 
 },
@@ -36,7 +37,7 @@ tabs: {
   flexDirection: 'row',
   marginTop: 0,
   borderWidth: 1,
-  width:DeviceWidth-30,
+  width:MagicNumbers.screenWidth,
   flex:1,
   marginHorizontal:15,
   borderTopWidth: 1,
