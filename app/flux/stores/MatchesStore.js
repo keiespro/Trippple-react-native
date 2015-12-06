@@ -93,10 +93,12 @@ class MatchesStore {
   }
 
   updateLastAccessed(payload){
+    console.log('update last accessed')
     // save timestamp of last match view, reset unread counts
-    const {match_id, timestamp} = payload
-    const newCounts = this.state.unreadCounts
-    newCounts[match_id] = 0
+    const {match_id, timestamp} = payload;
+    const newCounts = this.state.unreadCounts;
+    newCounts[match_id] = 0;
+    const m = this.matches;
 
     this.setState({
       lastAccessed: {...this.state.lastAccessed,  match_id: timestamp },
@@ -105,12 +107,12 @@ class MatchesStore {
   }
   handleNewMessages(payload){
     if(!payload){return false}
-    var { match_id, message_thread } = payload.messages;
-
+    const { match_id, message_thread } = payload.messages;
+    const user = UserStore.getUser()
     if(!message_thread || !message_thread.length || (message_thread.length == 1 && !message_thread[0].message_body)) return false
 
     var newCounts = {[match_id]: this.state.unreadCounts[match_id] || 0},
-          access = this.state.lastAccessed;
+        access = this.state.lastAccessed;
 
 // prevent tripppling of value??
 
@@ -123,7 +125,7 @@ class MatchesStore {
     }
 
     for(var msg of message_thread){
-      if(msg.created_timestamp && !access[match_id] || (access[match_id] < (msg.created_timestamp * 1000))){
+      if(msg.from_user_info.id != user.id && (msg.created_timestamp && !access[match_id] || (access[match_id] < (msg.created_timestamp * 1000)))){
           newCounts[match_id]++
       }
     }
@@ -153,51 +155,51 @@ class MatchesStore {
 
   }
   insertLocalMessage(payload){
-    // const {message, matchID} = payload
-    // const cleanMatches = _.(this.state.matches, match => match.match_id === matchID);
-
-    // this.setState({
-    //   matches: cleanMatches
-    // });
-
+    this.handleGetMatches(payload.matchesData)
   }
   handleGetMatches(matchesData){
+    console.log(matchesData);
     const {matches} = matchesData
 
     if(matches.length > 0){
-      var allmatches, allunread, allLastAccessed
+      var allmatches, allunread, allLastAccessed;
 
       if(!this.state.matches.length){
         // first batch of matches
-        allmatches = matches
+        allmatches = orderMatches(matches)
         allunread = _.object( _.pluck(matches,'match_id'), matches.map(()=> 0))
         allLastAccessed = _.object( _.pluck(matches,'match_id'), matches.map(()=> this.state.mountedAt))
 
         // allmatches.map(matchWasAdded);
       }else{
+        console.log(this.state.matches, matches, _.pluck(matches,'match_id'))
         // paged or refresh - deduplicate results, preserve unread counts and access times
-        allmatches = _.unique([
+        allmatches = orderMatches(_.unique([
+          ...matches,
           ...this.state.matches,
-          ...matches
-        ],'match_id')
+        ],'match_id'))
+        console.log(allmatches, _.pluck(allmatches,'match_id'))
 
         allunread = {
           ..._.object( _.pluck(allmatches,'match_id'), allmatches.map(()=> 0)),
-          ...this.state.unreadCounts
+          ...this.state.unreadCounts,
         }
 
         allLastAccessed = {
           ..._.object( _.pluck(allmatches,'match_id'), allmatches.map(()=> this.state.mountedAt)),
-          ...this.state.lastAccessed
+          ...this.state.lastAccessed,
         }
+        // AlertIOS.alert('update matches after',matches[0].recent_message.message_body+' '+allmatches[0].recent_message.message_body)
+
       }
+
       this.setState({
         matches: allmatches,
         unreadCounts: allunread,
         lastAccessed: allLastAccessed,
       });
 
-   }else{
+    }else{
      // refresh but no update
 
       this.emitChange()
@@ -273,9 +275,11 @@ class MatchesStore {
     }
     // wrong formatting, rensmr lastMessage
     orderedThreads.sort(function(a, b) {
-      if (a.recent_message.created_timestamp < b.recent_message.created_timestamp) {
+      const aTime = a.recent_message.created_timestamp || a.created_timestamp
+      const bTime = b.recent_message.created_timestamp || b.created_timestamp
+      if (aTime < bTime) {
         return 1;
-      } else if (a.recent_message.created_timestamp > b.recent_message.created_timestamp) {
+      } else if (aTime > bTime) {
         return -1;
       }
       return 0;

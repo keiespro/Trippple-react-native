@@ -19,6 +19,7 @@ var {
   InteractionManager,
   Text,
   Image,
+  AlertIOS,
   TouchableHighlight,
   AsyncStorage,
   TouchableOpacity,
@@ -51,7 +52,7 @@ import NotificationActions from '../flux/actions/NotificationActions'
     componentWillReceiveProps(nProps){
 
       if(nProps.currentRoute){
-        if(nProps.currentRoute.route != this.refs.nav.navigationContext._currentRoute.id){
+        if(nProps.currentRoute.route != this.refs.nav.state.presentedIndex){
           if(nProps.currentRoute.route == 'chat'){
             this.refs.nav.push({
               ...ChatRoute,
@@ -80,14 +81,13 @@ import NotificationActions from '../flux/actions/NotificationActions'
 
 
     componentWillMount(){
-        AsyncStorage.multiGet(['ChatStore','MatchesStore'])
-        .then((data) => {
-            if (data){
-              var p = {};
-              var m = JSON.parse(data[1][1]);
-              alt.bootstrap(m);
-            }
-          })
+      AsyncStorage.multiGet(['ChatStore','MatchesStore'])
+      .then((data) => {
+        if (data){
+          var m = JSON.parse(data[1][1]);
+          alt.bootstrap(m);
+        }
+      })
 
     }
 
@@ -113,10 +113,21 @@ import NotificationActions from '../flux/actions/NotificationActions'
 
       return (
         <View style={{ flex: 1,  width:DeviceWidth,height:DeviceHeight}}>
+
           {route.id == 'settings' && navBar}
-          <RouteComponent navigator={navigator} route={route} navBar={navBar} AppState={this.props.AppState}
-  {...route.passProps} user={this.props.user} pRoute={route.id == 'potentials' ? PotentialsRoute : null} />
+
+          <RouteComponent
+            navigator={navigator}
+            route={route}
+            navBar={navBar}
+            AppState={this.props.AppState}
+            {...route.passProps}
+            user={this.props.user}
+            pRoute={route.id == 'potentials' ? PotentialsRoute : null}
+          />
+
           {route.id == 'potentials' || route.id == 'settings' || route.id == 'matches' ? null : navBar}
+
         </View>
       );
     }

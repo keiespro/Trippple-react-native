@@ -102,7 +102,7 @@ class MatchList extends Component{
   }
 
   _renderRow(rowData, sectionID, rowID){
-    var myId = this.props.user.id,
+    const myId = this.props.user.id,
         myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
     var theirIds = Object.keys(rowData.users).filter( (u)=> u != this.props.user.id)
     var them = theirIds.map((id)=> rowData.users[id])
@@ -116,30 +116,29 @@ class MatchList extends Component{
     return (
 
       <Swipeout
-        left={[ {
-              threshold: 200,
-              action: self.actionModal.bind(self,rowData),
-              backgroundColor: colors.dark,
-
-            }
-         ]}
-
-        right={[
-          {
+        left={
+          [{
+            threshold: 200,
+            action: self.actionModal.bind(self,rowData),
+            backgroundColor: colors.dark,
+          }]
+        }
+        right={
+          [{
             threshold: 200,
             component: true,
             action: () => self.toggleFavorite(rowData),
             backgroundColor: rowData.isFavourited ? colors.dandelion : colors.dark,
-          }
-        ]}
+          }]
+        }
         rowData={rowData}
         backgroundColor={colors.dark}
         rowID={rowID}
         sectionID={sectionID}
         autoClose={false}
         scroll={event => this._allowScroll(event,this.state.index)}
-
-        onOpen={(sectionID_, rowID_) => {this._handleSwipeout(sectionID_, rowID_)}}>
+        onOpen={(sectionID_, rowID_) => {this._handleSwipeout(sectionID_, rowID_)}}
+        >
 
         <TouchableHighlight onPress={(e) => {
             if(this.state.isVisible || !this.state.scrollEnabled){ return false}
@@ -320,22 +319,22 @@ class MatchesInside extends Component{
 
   }
 
-    shouldComponentUpdate(nProps,nState){
+  // shouldComponentUpdate(nProps,nState){
 
-      var {matches,favorites} = this.state
+  //   var {matches,favorites} = this.state
 
 
-      var matchesDidUpdate = (matches && matches[0] && matches[0].unreadCount || nProps.matches && nProps.matches[0] && nProps.matches[0].unreadCount) || (matches.length != nProps.matches.length);
-      var favsDidUpdate = ((favorites && favorites[0] && favorites[0].unreadCount) || (nProps.favorites && nProps.favorites[0] && nProps.favorites[0].unreadCount)) || (nProps.favorites && favorites.length != nProps.favorites.length);
+  //   var matchesDidUpdate = (matches && matches[0] && matches[0].unreadCount || nProps.matches && nProps.matches[0] && nProps.matches[0].unreadCount) || (matches.length != nProps.matches.length);
+  //   var favsDidUpdate = ((favorites && favorites[0] && favorites[0].unreadCount) || (nProps.favorites && nProps.favorites[0] && nProps.favorites[0].unreadCount)) || (nProps.favorites && favorites.length != nProps.favorites.length);
 
-      return matchesDidUpdate || favsDidUpdate
+  //   return matchesDidUpdate || favsDidUpdate
 
-    }
+  // }
 
   _updateDataSource(data,whichList) {
     // var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.match_id !== r2.match_id});
     if(data.length > 1){
-      var newState = (whichList == 'matches') ? {
+      const newState = (whichList == 'matches') ? {
         matches: data,
         dataSource: this.ds.cloneWithRows(data || []),
       } : {
@@ -347,26 +346,26 @@ class MatchesInside extends Component{
   }
 
   render(){
-     return (
-           <MatchList
-            user={this.props.user}
-            dataSource={this.state.dataSource}
-            favDataSource={this.state.favDataSource}
-            matches={this.state.matches || this.props.matches}
-            favorites={this.state.favorites || this.props.favorites}
-            updateDataSource={this._updateDataSource.bind(this)}
-            id={"matcheslist"}
-            chatActionSheet={this.props.chatActionSheet}
-            navigator={this.props.navigator}
-            route={{
-              component: Matches,
-              title:'matches',
-              id:'matcheslist',
-            }}
-            title={"matchlist"}
-          />
+    return (
+      <MatchList
+        user={this.props.user}
+        dataSource={this.state.dataSource}
+        favDataSource={this.state.favDataSource}
+        matches={this.state.matches || this.props.matches}
+        favorites={this.state.favorites || this.props.favorites}
+        updateDataSource={this._updateDataSource.bind(this)}
+        id={"matcheslist"}
+        chatActionSheet={this.props.chatActionSheet}
+        navigator={this.props.navigator}
+        route={{
+          component: Matches,
+          title:'matches',
+          id:'matcheslist',
+        }}
+        title={"matchlist"}
+      />
 
-     )
+    )
 
   }
 
@@ -385,18 +384,30 @@ class NoMatches extends Component{
           flex:1,
           alignSelf:'stretch',
           width:DeviceWidth
-  }}>
+        }}
+        >
         <FadeInContainer>
-
-          <View style={{flexDirection:'column',padding:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
-            <Image  style={{width:300,height:100,marginBottom:0 }} source={require('../../newimg/listing.png')}
-              resizeMode={Image.resizeMode.contain} />
-            <Image  style={{width:300,height:100,marginBottom:20 }} source={require('../../newimg/listing.png')}
-              resizeMode={Image.resizeMode.contain} />
-            <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',marginBottom:20}}>{`WAITING FOR MATCHES`}</Text>
-            <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes',textAlign:'center'}} >Your conversations with your matches will appear in this screen</Text>
-            </View>
-            </FadeInContainer>
+          <View
+            style={{flexDirection:'column',padding:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}
+            >
+            <Image
+              style={{width:300,height:100,marginBottom:0 }}
+              source={require('../../newimg/listing.png')}
+              resizeMode={Image.resizeMode.contain}
+            />
+            <Image
+              style={{width:300,height:100,marginBottom:20 }}
+              source={require('../../newimg/listing.png')}
+              resizeMode={Image.resizeMode.contain}
+            />
+            <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',marginBottom:20}}>{
+              `WAITING FOR MATCHES`
+            }</Text>
+            <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes',textAlign:'center'}}>{
+              `Your conversations with your matches will appear in this screen`
+            }</Text>
+          </View>
+        </FadeInContainer>
 
       </ScrollView>
     )
@@ -417,17 +428,50 @@ class NoFavorites extends Component{
         backgroundColor:colors.outerSpace,
         flex:1,
         alignSelf:'stretch',
-        width:DeviceWidth}}>
+        width:DeviceWidth}}
+        >
         <FadeInContainer>
 
-          <View style={{flexDirection:'column',padding:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}>
+          <View
+            style={{
+              flexDirection:'column',
+              padding:20,
+              justifyContent:'space-between',
+              alignItems:'center',
+              alignSelf:'stretch',
+              paddingBottom:80,
+            }}
+            >
 
-            <Image  style={{width:175,height:180,marginBottom:40 }} source={require('../../newimg/iconPlaceholderFavs.png')}
-               resizeMode={Image.resizeMode.contain}
+            <Image
+              style={{width:175,height:180,marginBottom:40 }}
+              source={require('../../newimg/iconPlaceholderFavs.png')}
+              resizeMode={Image.resizeMode.contain}
             />
 
-            <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',marginBottom:20}} >{`YOUR FAVORITE PEOPLE`}</Text>
-            <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes',textAlign:'center'}} >Tap on the star next to  to add matches to your favorites for easy access</Text>
+            <Text
+              style={{
+                color:colors.white,
+                fontSize:22,
+                fontFamily:'Montserrat-Bold',
+                textAlign:'center',
+                marginBottom:20
+              }}
+              >{
+                `YOUR FAVORITE PEOPLE`
+              }
+            </Text>
+            <Text
+              style={{
+                color:colors.shuttleGray,
+                fontSize:20,
+                fontFamily:'omnes',
+                textAlign:'center'
+              }}
+              >{
+                `Tap on the star next to  to add matches to your favorites for easy access`
+              }
+            </Text>
 
           </View>
         </FadeInContainer>
@@ -481,35 +525,40 @@ class Matches extends Component{
 
     }
     return (
-        <AltContainer
+        <AltContainer stores={storesForMatches}>
 
-          stores={storesForMatches}>
-           <MatchesInside {...this.props} chatActionSheet={this.chatActionSheet.bind(this)} />
+          <MatchesInside {...this.props} chatActionSheet={this.chatActionSheet.bind(this)} />
 
-           {this.props.navBar}
-           {this.state.isVisible ?
-              <FadeInContainer
-                duration={300}
-                style={{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}}>
-                <TouchableOpacity activeOpacity={0.5} onPress={(e)=>{ this.setState({isVisible:false}) }}>
-                  <BlurView
-                    blurType="light"
-                    style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]} >
-                    <View style={[{}]}/>
-                  </BlurView>
-                </TouchableOpacity>
-              </FadeInContainer>
-            : <View/>}
-            <View><ActionModal
+          {this.props.navBar}
+
+          {this.state.isVisible ?
+          <FadeInContainer
+            duration={300}
+            style={{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}}
+            >
+            <TouchableOpacity activeOpacity={0.5} onPress={(e)=>{ this.setState({isVisible:false}) }}>
+              <BlurView
+                blurType="light"
+                style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]}
+                >
+                <View style={[{}]}/>
+              </BlurView>
+            </TouchableOpacity>
+          </FadeInContainer> : <View/>
+          }
+
+          <View>
+            <ActionModal
               user={this.props.user}
               navigator={this.props.navigator}
               toggleModal={(e)=>{ this.setState({isVisible:false}) }}
               isVisible={this.state.isVisible}
               currentMatch={this.state.currentMatch}
-            /></View>
+            />
+          </View>
 
         </AltContainer>
-    );
+    )
   }
 }
 

@@ -269,7 +269,7 @@ class ChatInside extends Component{
 
 
   updateKeyboardSpace(frames){
-
+    console.log(frames)
     var h = frames.startCoordinates && frames.startCoordinates.screenY - frames.endCoordinates.screenY || frames.end && frames.end.height
     if( h == this.state.keyboardSpace){ return false }
     this.setState({
@@ -331,7 +331,7 @@ class ChatInside extends Component{
   componentDidUpdate(prevProps){
     if(prevProps.messages.length !== this.props.messages.length){
     }
-    // this.refs.scroller.refs.listviewscroll.scrollTo(0,0)
+    // this.refs.scroller && this.refs.scroller.refs.listviewscroll.scrollTo(0,0)
   }
 
   componentWillReceiveProps(newProps){
@@ -359,20 +359,11 @@ class ChatInside extends Component{
     )
   }
 
-  componentWillUpdate(props, state) {
-
-    if(state.canContinue !== this.state.canContinue) {
-      LayoutAnimation.configureNext(animations.layout.spring);
-    }
-
-  }
-
   sendMessage(){
 
     if(this.state.textInputValue == ''){ return false }
     const timestamp = moment().utc().unix()
     MatchActions.sendMessage(this.state.textInputValue, this.props.match_id, timestamp)
-
     MatchActions.sendMessageToServer.defer(this.state.textInputValue, this.props.match_id)
     this._textInput.setNativeProps({text: ''});
     this.setState({ textInputValue: '' })
@@ -390,7 +381,7 @@ class ChatInside extends Component{
     this.props.toggleModal()
   }
 
-  renderNoMatches(){
+  renderNoMessages(){
     var matchInfo = this.props.currentMatch,
         theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id),
         them = theirIds.map((id)=> matchInfo.users[id]),
@@ -410,23 +401,31 @@ class ChatInside extends Component{
         >
         <FadeInContainer delayRender={true} delayAmount={1200} >
           <View style={{flexDirection:'column',justifyContent:'center',flex:1,alignItems:'center',alignSelf:'stretch'}}>
-            <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{
+            <Text style={{color:colors.white,fontSize:22,opacity:this.state.isKeyboardOpened ? 0 : 1,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{
                 `YOU MATCHED WITH`
             }</Text>
-            <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{
+            <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',
+            opacity:this.state.isKeyboardOpened ? 0 : 1}} >{
                 `${chatTitle}`
             }</Text>
-            <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes'}} >
+            <Text style={{color:colors.shuttleGray,
+              fontSize:20,fontFamily:'omnes',opacity:this.state.isKeyboardOpened ? 0 : 1}} >
               <TimeAgo time={matchInfo.created_timestamp*1000} />
             </Text>
 
             <Image
               source={{uri:them[1].image_url}}
-              style={{width:200,height:200,borderRadius:100,marginVertical:40,backgroundColor:colors.dark}}
+              style={{
+                width:this.state.isKeyboardOpened ? 140 : 200,
+                height:this.state.isKeyboardOpened ? 140 : 200,
+                borderRadius:this.state.isKeyboardOpened ? 70 : 100,
+                marginVertical:this.state.isKeyboardOpened ? 20 : 40,
+                backgroundColor:colors.dark
+              }}
               defaultSource={{uri:'../../newimg/placeholderUser.png'}}
             />
             <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes'}} >Say something. {
-                (them.length == 2 ? 'They\'re' : them[0].gender == 'm' ? 'He\'s' : 'She\'s')
+              (them.length == 2 ? 'They\'re' : them[0].gender == 'm' ? 'He\'s' : 'She\'s')
             } already into you.</Text>
 
           </View>
@@ -439,14 +438,13 @@ class ChatInside extends Component{
     var matchInfo = this.props.currentMatch,
         theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id),
         them = theirIds.map((id)=> matchInfo.users[id]),
-        chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },'')
+        chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },'');
 
     return (
       <View ref={'chatscroll'} style={[styles.chatInsideWrap,{paddingBottom:this.state.keyboardSpace}]}>
         {this.props.messages.length > 0 ?
         <ListView
           ref={'scroller'}
-          match_id={this.props.match_id}
           dataSource={this.state.dataSource}
           renderRow={this._renderRow.bind(this)}
           messages={this.props.messages || []}
@@ -460,16 +458,22 @@ class ChatInside extends Component{
                 scrollsToTop={true}
                 contentContainerStyle={styles.invertedContentContainer}
                 {...this.props}
+                // onScroll={(e) =>{
+                  // if(e.nativeEvent.contentOffset.y > ){
+
+                  // };
+                  // console.log(e)
+                // }}
                 scrollEventThrottle={64}
                 contentInset={{top:0,right:0,left:0,bottom:88}}
                 automaticallyAdjustContentInsets={true}
                 style={{ height:DeviceHeight}}
-                keyboardDismissMode={'interactive'}
+                keyboardDismissMode={'on-drag'}
               />
             )
           }}
         />
-        : this.renderNoMatches()  }
+        : this.renderNoMessages()}
 
         <View style={styles.messageComposer}>
 
@@ -477,7 +481,9 @@ class ChatInside extends Component{
             multiline={true}
             autoGrow={true}
             ref={component => this._textInput = component}
-            style={styles.messageComposerInput}
+            style={[styles.messageComposerInput,{
+              borderBottomColor: this.state.inputFocused ? colors.white : colors.shuttleGray,
+            }]}
             returnKeyType={'default'}
             keyboardAppearance={'dark'}
             autoCorrect={true}
@@ -485,6 +491,10 @@ class ChatInside extends Component{
             placeholderTextColor={colors.shuttleGray}
             autoFocus={false}
             clearButtonMode={'never'}
+            onFocus={(e)=>{this.setState({inputFocused:true})}}
+            onBlur={(e)=>{this.setState({inputFocused:false})}}
+
+
             onChangeText={this.onTextInputChange.bind(this)}
             >
             <View style={{ }}>
@@ -512,7 +522,10 @@ class ChatInside extends Component{
           customNext={<ThreeDots/>}
           onNext={this.chatActionSheet.bind(this)}
           backgroundStyle={{backgroundColor:'transparent'}}
-          onPrev={(n,p)=>n.pop()}
+          onPrev={(n,p)=>{
+            MatchActions.getMatches();
+            n.pop()
+          }}
           blur={true}
           title={chatTitle}
           titleColor={colors.white}
