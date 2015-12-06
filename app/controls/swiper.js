@@ -361,8 +361,8 @@ export default React.createClass({
     }
 
     // For the WELCOME slider
-    var inputRange = [0,width,width*2,width*3,width*4,width*5,width*6],
-    outputRange = [-64,-64,-32,0,32,64,-64];
+    var inputRange = [0,0,width,width*2,width*3,width*4,width*5,width*6],
+    outputRange = [-64,64,-64,-32,0,32,64,-64];
 
     var inputRangeVertical = [0,height,height*2,height*3],
     outputRangeVertical = [0,27,0,27];
