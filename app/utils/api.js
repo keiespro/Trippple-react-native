@@ -105,6 +105,8 @@ class api {
   }
 
   getMatches(page){
+    __DEBUG__ &&    console.log('get messages')
+
     return authenticatedRequest('getMatches', {page})
     //v2 endpoint
   }
@@ -129,6 +131,7 @@ class api {
   }
 
   getMessages(payload){
+       __DEBUG__ &&  console.log('get messages')
     if(!payload.match_id){
       return false;
     }

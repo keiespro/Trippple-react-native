@@ -30,6 +30,7 @@ import ActionModal from './ActionModal'
 import _ from 'underscore'
 import alt from '../flux/alt'
 import Chat from './chat'
+import AppActions from '../flux/actions/AppActions'
 import MatchActions from '../flux/actions/MatchActions'
 import MatchesStore from '../flux/stores/MatchesStore'
 // import FavoritesStore from '../flux/stores/FavoritesStore'
@@ -505,7 +506,10 @@ class Matches extends Component{
         this.props.navigator.pop()
       }}
     })
-  }
+}
+componentDidUpdate(){
+        AppActions.saveStores.defer(2)
+}
   render(){
 
     var storesForMatches = {
