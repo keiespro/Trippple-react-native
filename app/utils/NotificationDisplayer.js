@@ -20,9 +20,9 @@ class NotificationDisplayer extends Component{
     }
 
   }
-  // shouldComponentUpdate(nextProps){
-  //   return this.props.notifications[0] !== nextProps.notifications[0]
-  // }
+  shouldComponentUpdate(nextProps){
+    return this.props.notifications[0] !== nextProps.notifications[0]
+  }
 
   render(){
 
