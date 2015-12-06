@@ -11,6 +11,10 @@ class OnboardingActions {
       this.dispatch(payload)
 
   }
+  acceptInvitation(phone){
+    Api.joinCouple(phone)
+    this.dispatch()
+  }
 
   updateRoute(newIndex){
     this.dispatch(newIndex)

@@ -16,7 +16,7 @@ var UserActions = require('../../flux/actions/UserActions');
 var colors = require('../../utils/colors')
 var BoxyButton = require('../../controls/boxyButton')
 
-
+import CoupleInvitation from './CoupleInvitation'
 import OnboardingActions from '../../flux/actions/OnboardingActions'
 
 var DeviceHeight = require('Dimensions').get('window').height;
@@ -34,6 +34,28 @@ class SelectRelationshipStatus extends Component{
     }
   }
 
+  componentWillMount(){
+    if(this.props.user.invitation && !this.state.declinedInvitation){
+      this.props.navigator.push({
+        component:CoupleInvitation,
+        id:'coupleinvite',
+        passProps:{
+          invitation,
+          acceptInvitation: this._acceptInvitation.bind(this),
+          denyInvitation: this._denyInvitation.bind(this)
+        }
+      })
+  }
+  }
+  _acceptInvitation(){
+    OnboardingActions.acceptInvitation(this.props.user.invitation.inviter_phone);
+    UserActions.updateUser.defer({relationship_status:'couple'});
+
+  }
+  _denyInvitation(){
+    this.props.navigator.pop()
+    this.setState({declinedInvitation:true})
+  }
   _selectSingle(){
     this.setState({
       selection: 'single'
