@@ -14,19 +14,27 @@ import reactMixin from 'react-mixin'
 @reactMixin.decorate(TimerMixin)
 class NotificationDisplayer extends Component{
   constructor(props){
-    super(props)
+    super()
 
     this.state = {
     }
 
   }
-  shouldComponentUpdate(nextProps){
-    return this.props.notifications[0] !== nextProps.notifications[0]
-  }
+  // shouldComponentUpdate(nextProps){
+  //   return this.props.notifications[0] !== nextProps.notifications[0]
+  // }
 
   render(){
-    return this.props.notifications[0] ?
-      <Notification user={this.props.user} key={this.props.notifications[0]} payload={this.props.notifications[0]} /> : null
+
+    return (
+      this.props.notifications[0] ?
+        <Notification
+          user={this.props.user}
+          key={'noti'+Date.now()}
+          payload={this.props.notifications[0]}
+        /> :
+      null
+    )
 
   }
 }

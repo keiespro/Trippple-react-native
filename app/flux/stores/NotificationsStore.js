@@ -89,8 +89,8 @@ class NotificationsStore {
   }
   handleNewMessageData(messagesData){
 
-//     this.waitFor(ChatStore)
-//     this.waitFor(MatchesStore)
+    this.waitFor(ChatStore)
+    this.waitFor(MatchesStore)
 
     var {messages} = messagesData
 

@@ -1,6 +1,6 @@
+/* @flow */
 
-import React from 'react-native'
-import { Image,TouchableOpacity, Component, PushNotificationIOS, View, StyleSheet, Text, Animated, Dimensions,LayoutAnimation,VibrationIOS,AlertIOS } from 'react-native'
+import React, { Image, TouchableOpacity, PushNotificationIOS, View, StyleSheet, Text, Animated, Dimensions, VibrationIOS, AlertIOS } from 'react-native'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -14,142 +14,113 @@ import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 
 @reactMixin.decorate(TimerMixin)
-class Notification extends Component{
+class Notification extends React.Component{
 
   constructor(props){
-    super(props)
+    super()
 
     this.state = {
-      yValue: -220
+      yValue: new Animated.Value(-220)
     }
 
   }
 
-  componentWillMount() {
-    LayoutAnimation.spring();
+  componentDidMount() {
 
-  }
-  componentDidMount(){
-
-    this.setState({yValue:0})
     VibrationIOS.vibrate()
 
-  }
-  componentDidUpdate(pProps,pState){
-    LayoutAnimation.spring();
-  }
-  componentWillUnmount(){
-    LayoutAnimation.configureNext(animations.layout.spring);
+    Animated.timing(this.state.yValue, {
+      toValue: 0,
+      duration: 200,
+    }).start((fin)=>{})
 
+    this.setTimeout(()=>{
+      Animated.timing(this.state.yValue, {
+        toValue: -220,
+        duration: 200,
+      }).start()
+    },3000)
+
+  }
+  // componentDidUpdate(pProps,pState){
+
+  // }
+  tapNotification(e){
+    NotificationActions.updateBadgeNumber(-1)
+
+    Animated.timing(this.state.yValue, {
+      toValue: -220,
+      duration: 200,
+    }).start()
+
+    AppActions.updateRoute({route:'chat',match_id:this.props.payload.match_id,})
 
   }
 
   render(){
-    if(!this.props.payload){return false}
-    const { payload } = this.props
+
+    if(!this.props.payload) { return  }
+
+    const { payload } = this.props;
 
     return (
-      <View style={[styles.notificationWrapper,
+      <Animated.View style={[styles.notificationWrapper,
         {
           transform: [{
             translateY: this.state.yValue
-          }]
+          }],
         }
         ]}>
 
-
-        {this.props.payload.type == 'message' ?
+        {payload.type == 'message' ?
           <View style={[styles.notificationOverlay,styles.notificationNewMessage]}>
-
-            <TouchableOpacity
-              onPress={(e)=>{
-                this.setState({yValue:-220});
-                NotificationActions.updateBadgeNumber(-1)
-                AppActions.updateRoute({route:'chat',match_id:this.props.payload.match_id})
-              }}>
+            <TouchableOpacity onPress={this.tapNotification.bind(this)}>
               <View style={styles.notificationInside}>
                 <View style={styles.notificationLeft}>
-                <Image
-                  resizeMode={Image.resizeMode.contain}
-                  style={styles.notiImage}
-                  defaultSource={{uri:'../../newimg/placeholderUserWhite.png'}}
-                  source={{uri: payload.from_user_info.image_url}}
-                />
+                  <Image
+                    resizeMode={Image.resizeMode.contain}
+                    style={styles.notiImage}
+                    defaultSource={{uri:'../../newimg/placeholderUserWhite.png'}}
+                    source={{uri: payload.from_user_info.image_url}}
+                  />
                 </View>
                 <View style={styles.notificationRight}>
                   <Text style={[styles.notiTitle,styles.titleNewMessage]}>{
-                    this.props.payload.from_user_info.name.toUpperCase()
+                    payload.from_user_info.name.toUpperCase()
                   }</Text>
-                  <Text style={styles.notiText}>{this.props.payload.message_body}</Text>
+                  <Text style={styles.notiText}>{payload.message_body}</Text>
                 </View>
               </View>
             </TouchableOpacity>
-
-          </View>
-          : null
+          </View> : null
         }
 
-        {this.props.payload.type == 'match' ?
+        {payload.type == 'match' ?
           <View style={[styles.notificationOverlay,styles.notificationNewMatch]}>
-          <TouchableOpacity onPress={(e)=>{
-            NotificationActions.updateBadgeNumber(-1)
-            this.setState({yValue:-220})
-            AppActions.updateRoute({route:'chat',match_id:this.props.payload.match_id,})
-          }}>
-          <View style={{flex:1,flexDirection:'row',width:DeviceWidth,padding:15}}>
-          <View style={styles.notificationLeft}>
-          <Image
-          resizeMode={Image.resizeMode.contain}
-          style={styles.notiImage}
-          defaultSource={{uri:'../../newimg/placeholderUserWhite.png'}}
-          source={{uri: payload.users[payload.closer_id].image_url}}
-
-          />
-          </View>
-          <View style={styles.notificationRight}>
-          <Text style={[styles.notiTitle,styles.titleNewMatch]}>IT'S A MATCH!</Text>
-          <Text style={styles.notiText}>{payload.users[payload.closer_id].firstname} likes you back!</Text>
-          </View>
-          </View>
-          </TouchableOpacity></View> : null
+            <TouchableOpacity onPress={this.tapNotification.bind(this)}>
+              <View style={styles.notificationInside}>
+                <View style={styles.notificationLeft}>
+                  <Image
+                    resizeMode={Image.resizeMode.contain}
+                    style={styles.notiImage}
+                    defaultSource={{uri:'../../newimg/placeholderUserWhite.png'}}
+                    source={{uri: null}}
+                  />
+                </View>
+                <View style={styles.notificationRight}>
+                  <Text style={[styles.notiTitle,styles.titleNewMatch]}>IT'S A MATCH!</Text>
+                  <Text style={styles.notiText}>{`matchName  likes you back!`}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View> : null
         }
-
-        </View>
-
+      </Animated.View>
     )
   }
 }
 
 export default Notification
-
-
-var animations = {
-  layout: {
-    spring: {
-      duration: 300,
-      create: {
-        duration: 300,
-        type: LayoutAnimation.Types.spring,
-        property: LayoutAnimation.Properties.scaleXY
-      },
-      update: {
-        type: LayoutAnimation.Types.spring,
-        springDamping: 20
-      }
-    },
-    easeInEaseOut: {
-      duration: 300,
-      create: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.scaleXY
-      },
-      update: {
-        delay: 100,
-        type: LayoutAnimation.Types.easeInEaseOut
-      }
-    }
-  }
-};
 
 
 var styles = StyleSheet.create({
