@@ -2,7 +2,6 @@
 
 import React from 'react-native'
 import {
-  Component,
   StyleSheet,
   Text,
   Image,
@@ -10,12 +9,11 @@ import {
   AlertIOS,
   TextInput,
   ListView,
-  Modal,
   TouchableHighlight,
   Animated,
   Easing,
   Dimensions,
- TouchableWithoutFeedback,
+  Navigator,
   ActivityIndicatorIOS
 } from 'react-native'
 
@@ -31,10 +29,11 @@ import BackButton from './registration/BackButton'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 import Api from '../utils/api'
-
+import ConfirmPartner from './registration/ConfirmPartner'
 import OnboardingActions from '../flux/actions/OnboardingActions'
+import styles from './registration/contactStyles'
 
-class ContactRow extends Component{
+class ContactRow extends React.Component{
   constructor(props){
     super(props)
     this.state = {
@@ -106,7 +105,7 @@ componentDidMount(){
 }
 
 
-class ContactList extends Component{
+class ContactList extends React.Component{
 
   constructor(props) {
     super(props);
@@ -132,33 +131,7 @@ class ContactList extends Component{
   }
 
   componentDidMount(){
-    // const digits =  (i) =>  {
-    //     return Array.from(new Array(this.props.contacts.length), () => i++)
-    //   }
-    //
-    // Animated.timing(this.state.currentIndex,{
-    //   toValue: 100,
-    //   easing: Easing.out(Easing.ease),
-    //   duration: 5000,
-    //   delay: 100
-    // }).start(stub);
-    //
-    // Animated.timing(this.state.followIndex,{
-    //   toValue: this.state.currentIndex.interpolate({
-    //     inputRange: [1,100],
-    //     outputRange:[0, this.props.contacts.length]
-    //   }),
-    //   duration: 0,
-    //   delay: 0
-    // }).start(stub);
-    //
-    //
-    // this.loadListener = this.state.followIndex.addListener( (value) =>{
-    //   this.setState({
-    //     currentValue: parseInt(value)
-    //   })
-    // })
-  }
+    }
   _renderRow(rowData, sectionID: number, rowID: number, highlightRow) {
     return (
 
@@ -200,7 +173,7 @@ class ContactList extends Component{
 
 
 @reactMixin.decorate(TimerMixin)
-class Contacts extends Component{
+class Contacts extends React.Component{
 
   constructor(props){
     super(props);
@@ -219,56 +192,37 @@ class Contacts extends Component{
   }
   _pressRow(sectionID,contactID,contact,image){
     this.refs.searchinput.blur();
-    this.setState({
-      partnerSelection: { ...contact, image },
-      highlightedRow: contact,
-      selectedImage: image,
-      modalVisible: true,
+    // this.setState({
+    //   highlightedRow: contact,
+    // })
+
+    this.props.navigator.push({
+      component: ConfirmPartner,
+      passProps: {
+        partner: contact, image,
+        _continue: this._continue.bind(this)
+      },
+      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+
     })
-
-  }
-
-  closeModal(){
-    this.setState({modalVisible: false});
   }
 
   componentDidMount(){
-      this.getContacts();
+    this.getContacts();
   }
 
   storeContacts(){
 
-    //add a fake contact
-    // const randomPhone = Math.floor(Math.random() * 9000000) + 1000000;
-    //
-    // AddressBook.addContact({
-    //   lastName: 'YOUR',
-    //   firstName: 'PARTNER',
-    //   phoneNumbers: [{
-    //     label: 'work',
-    //     number: `666${randomPhone}`,
-    //   }],
-    // }, (error) => {
-    //     if(error) {
-    //       return false
-    //     }
+    AddressBook.getContacts((err, contacts) => {
+      if(err){ return false; }
+      this.setState({
+        contacts: contacts,
+        contactsLoaded: true,
+        dataSource: this.state.dataSource.cloneWithRows(contacts)
+      });
+      // UserActions.handleContacts(contacts);
 
-        AddressBook.getContacts((err, contacts) => {
-          if(err){
-            return false;
-          }
-
-
-
-          this.setState({
-            contacts: contacts,
-            contactsLoaded: true,
-            dataSource: this.state.dataSource.cloneWithRows(contacts)
-          });
-          // UserActions.handleContacts(contacts);
-
-        })
-      // })
+    })
 
   }
 
@@ -334,15 +288,8 @@ class Contacts extends Component{
     });
 
   }
-  _continue(partnerSelection = {}){
-    this.closeModal();
+  _continue(){
 
-    var partner_phone = partnerSelection.number || this.state.partnerSelection.phoneNumbers[0].number;
-
-    UserActions.selectPartner({
-      phone: partner_phone,
-      name: partnerSelection.name || this.state.partnerSelection.firstName
-    })
 
     OnboardingActions.proceedToNextScreen()
 
@@ -359,11 +306,6 @@ class Contacts extends Component{
 
   }
   render(){
-    const invitedName = this.state.partnerSelection && this.state.partnerSelection.firstName && this.state.partnerSelection.firstName.toUpperCase() || '',
-          manyPhones = this.state.partnerSelection &&
-                  this.state.partnerSelection.phoneNumbers &&
-                  this.state.partnerSelection.phoneNumbers.length &&
-                  this.state.partnerSelection.phoneNumbers.length > 1;
     return (
 
       <View style={styles.container} noScroll={true}>
@@ -409,111 +351,6 @@ class Contacts extends Component{
           />
       }
 
-
-    {this.state.partnerSelection ?  <Modal
-          height={DeviceHeight}
-    modalStyle={{ backgroundColor: this.state.modalBG}}
-
-    visible={this.state.modalVisible}
-    swipeableAreaStyle={{ position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: DeviceHeight,
-    backgroundColor: 'transparent'
-    }}
-    onPressBackdrop={this._cancel.bind(this)}
-    onDidShow={()=>{
-      this.setTimeout(()=>{
-        this.setState({modalBG: 'rgba(0,0,0,0.5)'});
-      },500);
-    }}
-
-
-  onWillHide={()=>{this.setState({modalVisible:false,modalBG: 'rgba(0,0,0,0.5)'})}}
-
-        onClose={() => this.closeModal.bind(this)}
-        >
-
-
-        <View style={styles.modalcontainer} >
-          <View style={[styles.col]}>
-            <View style={styles.insidemodalwrapper}>
-
-            <Image style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginBottom:20,
-            backgroundColor:colors.shuttleGray}]}
-                source={{uri: this.state.partnerSelection.image || '../../newimg/placeholderUser.png'}}
-                />
-
-              <View style={{alignSelf:'stretch', justifyContent:'center',alignItems:'center'}}>
-
-            <Text style={[styles.rowtext,styles.bigtext,{alignSelf:'stretch',color:colors.shuttleGray,
-                  fontFamily:'Montserrat',fontSize:22,marginVertical:10,textAlign:'center'
-            }]}>
-                {`INVITE ${invitedName}`}
-            </Text>
-
-            <Text style={[styles.rowtext,styles.bigtext,{
-                  fontSize:22,marginVertical:10,color: colors.shuttleGray,marginHorizontal:20
-            }]}>{this.state.partnerSelection.phoneNumbers && this.state.partnerSelection.phoneNumbers.length > 1 ?
-              `What number should we use to invite ${this.state.partnerSelection.firstName}` :
-              `Invite ${this.state.partnerSelection.firstName} as your partner?`
-                }
-                </Text>
-
-                </View>
-                { this.state.partnerSelection &&
-                  this.state.partnerSelection.phoneNumbers &&
-                  this.state.partnerSelection.phoneNumbers.length &&
-                  this.state.partnerSelection.phoneNumbers.length > 1 &&
-                  this.state.partnerSelection.phoneNumbers.map( (number, i) => {
-                    return (
-                      <View style={{width:DeviceWidth-80}} >
-
-                        <TouchableHighlight
-                          underlayColor={colors.mediumPurple}
-                          style={styles.modalButton}
-                          onPress={()=>{this._continue({number: number.number, name: this.state.partnerSelection.firstName })}}>
-                      <View style={{height:60}} >
-                        <Text style={[styles.modalButtonText,{marginTop:15}]}>{number.number}</Text>
-                      </View>
-                     </TouchableHighlight>
-                     </View>
-
-                  )
-                })}
-              { this.state.partnerSelection &&
-                  this.state.partnerSelection.phoneNumbers &&
-                  this.state.partnerSelection.phoneNumbers.length &&
-                  this.state.partnerSelection.phoneNumbers.length == 1 &&
-                      <View style={{height:100,width:DeviceWidth-80}} >
-
-                      <TouchableHighlight underlayColor={colors.mediumPurple} style={styles.modalButton}
-                        onPress={this._continue.bind(this)}>
-                      <View >
-                        <Text style={styles.modalButtonText}>YES</Text>
-                      </View>
-                     </TouchableHighlight>
-                      </View>
-
-              }
-
-
-                      <View style={{height: manyPhones ?  80  : 100,width:DeviceWidth-80,marginBottom:50}} >
-
-              <TouchableHighlight style={[styles.modalButton,{backgroundColor:'transparent',borderColor:colors.lavender}]} underlayColor={colors.white}  onPress={this._cancel.bind(this)}>
-                <View >
-                <Text style={[styles.modalButtonText,{color:colors.lavender}]}>{
-                  manyPhones ? 'CANCEL' : 'NO'}</Text>
-                </View>
-                </TouchableHighlight>
-                </View>
-
-
-                </View>
-          </View>
-          </View>
-      </Modal> : null}
     </View>
 
     );
@@ -523,148 +360,3 @@ class Contacts extends Component{
 
 export default Contacts;
 
-var styles = StyleSheet.create({
-  modalButton:{
-    alignSelf:'stretch',
-    backgroundColor:colors.sushi,
-    borderColor:colors.darkGreenBlue,
-    alignItems:'center',
-    margin: 10,
-    borderRadius:8,
-    justifyContent:'center',
-    flex:1,
-    borderWidth:1
-},
-modalButtonText:{
-  color:colors.white,
-  fontFamily:'Montserrat',
-  fontSize:20,
-
-textAlign:'center'
-},
-  container: {
-    flex:1,
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    backgroundColor: colors.outerSpace,
-    alignSelf:'stretch',
-    flexDirection: 'column',
-
-  },
-  modalcontainer:{
-    backgroundColor: colors.white,
-    flex:1,
-    width: DeviceWidth-50,
-    borderRadius:10,
-    margin:25
-  },
-  fullwidth:{
-    width: DeviceWidth
-  },
-  row: {
-    flexDirection: 'row',
-    padding: 0,
-    alignSelf:'stretch',
-    height:70,
-    flex: 1,
-    backgroundColor: 'transparent',
-    alignItems:'center',
-    justifyContent:'flex-start'
-  },
-  col: {
-    flexDirection: 'column',
-    padding: 0,
-    alignSelf:'stretch',
-    flex: 1,
-    backgroundColor: 'transparent',
-    alignItems:'center',
-    justifyContent:'center'
-  },
-  text:{
-    color: colors.shuttleGray,
-    fontFamily:'omnes'
-  },
-  rowtext:{
-    color: colors.white,
-    fontSize:18,
-    fontFamily:'omnes'
-  },
-  bigtext: {
-    textAlign:'center',
-    color: colors.white,
-
-  },
-  separator: {
-    height: 1,
-    backgroundColor: colors.outerSpace,
-  },
-  rowtextwrapper:{
-    flexDirection:'column',
-    justifyContent:'space-around'
-},
-insidemodalwrapper:{
-    flexDirection:'column',
-    justifyContent:'space-around',
-    alignItems:'center',
-    flex:1,
-    marginTop:50,
-    alignSelf:'stretch',
-},
-  rowSelected:{
-    backgroundColor: colors.mediumPurple20,
-    borderColor: colors.mediumPurple,
-    borderWidth: 1
-  },
-  searchwrap:{
-    flexDirection: 'row',
-    justifyContent: 'center',
-    height:60,
-    alignSelf:'stretch',
-    alignItems:'center',
-    borderBottomWidth: 2,
-    marginHorizontal:10,
-    borderBottomColor: colors.mediumPurple
-  },
-  searchfield:{
-    color:colors.white,
-    fontSize:22,
-    alignItems: 'stretch',
-    flex:1,
-    paddingHorizontal:10,
-    fontFamily:'Montserrat',
-    height:60,
-    backgroundColor: 'transparent',
-
-  },
-  wrapper:{
-    backgroundColor: colors.outerSpace,
-
-  },
-  contactthumb:{
-    borderRadius: 25,
-    width:50,
-    height:50,
-    marginHorizontal:10
-  },
-  searchicon:{
-    top:20,
-    left:10,
-    position:'absolute',
-    width:20,
-    height:20
-  },
-  plainButton:{
-    borderColor: colors.rollingStone,
-    borderWidth: 1,
-    height:70,
-    alignSelf:'stretch',
-    alignItems:'center',
-    justifyContent:'center',
-  },
-  plainButtonText:{
-    color: colors.rollingStone,
-    fontSize: 16,
-    fontFamily:'Montserrat',
-    textAlign:'center',
-  },
-})

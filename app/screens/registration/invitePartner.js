@@ -6,7 +6,6 @@ import {
   Image,
   View,
   TouchableHighlight,
-  Component,
   Dimensions
 }  from 'react-native'
 
@@ -24,14 +23,15 @@ import Facebook from './facebook'
 import BackButton from './BackButton'
 import {MagicNumbers} from '../../DeviceConfig'
 
-class InvitePartner extends Component{
+class InvitePartner extends React.Component{
   constructor(props){
     super(props);
   }
   onPress(){
 
-    OnboardingActions.proceedToNextScreen()
-
+    this.props.navigator.push({
+      component: Contacts
+    })
   }
 
 
