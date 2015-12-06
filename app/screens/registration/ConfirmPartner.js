@@ -35,14 +35,15 @@ import PurpleModal from '../../modals/PurpleModal'
 import OnboardingActions from '../../flux/actions/OnboardingActions'
 import styles from './contactStyles'
 import InvitePartner from './invitePartner'
+import {MagicNumbers} from '../../DeviceConfig'
 
+@reactMixin.decorate(TimerMixin)
 class ConfirmPartner extends React.Component{
   _cancel(){
     this.props.navigator.pop()
   }
 
   _confirm(number){
-    number && AlertIOS.alert('phone',number);
     var partner_phone = number || this.props.partner.phoneNumbers[0].number;
 
     UserActions.selectPartner({
@@ -50,7 +51,9 @@ class ConfirmPartner extends React.Component{
       name: this.props.partner.firstName
     })
     const rs = this.props.navigator.getCurrentRoutes()
-    this.props._continue();
+    this.setTimeout(()=>{
+      this.props._continue();
+    },500);
   }
   _selectNumber(number){
     this._confirm(number)
@@ -63,26 +66,24 @@ class ConfirmPartner extends React.Component{
           manyPhones = this.props.partner.phoneNumbers && this.props.partner.phoneNumbers.length;
 
     return (
-
       <PurpleModal >
-        <View style={styles.modalcontainer} >
-          <View style={[styles.col]}>
-            <View style={styles.insidemodalwrapper}>
+          <View style={[styles.col,styles.fullWidth,{backgroundColor:'transparent',justifyContent:'space-between'}]}>
 
-              <Image style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginBottom:20,
+
+              <Image style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginBottom:20,marginTop:40,
                 backgroundColor:colors.shuttleGray}]}
                 source={{uri: this.props.partner.image || '../../newimg/placeholderUser.png'}}
               />
 
               <View style={{alignSelf:'stretch', justifyContent:'center',alignItems:'center'}}>
 
-                <Text style={[styles.rowtext,styles.bigtext,{alignSelf:'stretch',color:colors.shuttleGray,
-                      fontFamily:'Montserrat',fontSize:22,marginVertical:10,textAlign:'center'
+                <Text style={[styles.rowtext,styles.bigtext,{alignSelf:'center',color:colors.shuttleGray,
+                      fontFamily:'Montserrat',fontSize:22,marginVertical:10,textAlign:'center',
                 }]}>
                   {`INVITE ${invitedName}`}
                 </Text>
 
-                <Text style={[styles.rowtext,styles.bigtext,{
+                <Text style={[styles.rowtext,styles.bigtext,{alignSelf:'center',textAlign:'center',
                     fontSize:22,marginVertical:10,color: colors.shuttleGray,marginHorizontal:20
                   }]}>{this.props.partner.phoneNumbers && this.props.partner.phoneNumbers.length > 1 ?
                 `What number should we use to invite ${this.props.partner.firstName}` :
@@ -96,7 +97,8 @@ class ConfirmPartner extends React.Component{
                 this.props.partner.phoneNumbers.length > 1 &&
                 this.props.partner.phoneNumbers.map( (number, i) => {
                   return (
-                    <View style={{width:DeviceWidth-80}} >
+                      <View style={{height:70}} >
+
 
                       <TouchableHighlight
                         underlayColor={colors.mediumPurple}
@@ -104,7 +106,7 @@ class ConfirmPartner extends React.Component{
                         onPress={()=>{
                           this._selectNumber( number.number )
                         }}>
-                    <View style={{height:60}} >
+                    <View style={{height:60,flex:1,width:MagicNumbers.screenWidth-40}} >
                       <Text style={[styles.modalButtonText,{marginTop:15}]}>{number.number}</Text>
                     </View>
                    </TouchableHighlight>
@@ -116,12 +118,14 @@ class ConfirmPartner extends React.Component{
                   this.props.partner.phoneNumbers &&
                   this.props.partner.phoneNumbers.length &&
                   this.props.partner.phoneNumbers.length == 1 &&
-                      <View style={{height:100,width:DeviceWidth-80}} >
+                      <View style={{height:70,flex:1,alignSelf:'stretch'}} >
 
                       <TouchableHighlight underlayColor={colors.mediumPurple} style={styles.modalButton}
                         onPress={this._confirm.bind(this)}>
-                      <View >
-                        <Text style={styles.modalButtonText}>YES</Text>
+                      <View style={{height:60,flex:1,alignSelf:'stretch',width:MagicNumbers.screenWidth-40}} >
+
+
+                        <Text style={[styles.modalButtonText,{marginTop:15}]}>YES</Text>
                       </View>
                      </TouchableHighlight>
                       </View>
@@ -129,20 +133,16 @@ class ConfirmPartner extends React.Component{
               }
 
 
-                      <View style={{height: manyPhones ?  80  : 100,width:DeviceWidth-80,marginBottom:50}} >
+                      <View style={{height: 70,marginBottom:50}} >
 
-              <TouchableHighlight style={[styles.modalButton,{backgroundColor:'transparent',borderColor:colors.lavender}]} underlayColor={colors.white}  onPress={this._cancel.bind(this)}>
-                <View >
-                <Text style={[styles.modalButtonText,{color:colors.lavender}]}>{
+              <TouchableHighlight style={[styles.modalButton,{backgroundColor:'transparent',borderColor:colors.lavender}]} underlayColor={colors.mediumPurple}  onPress={this._cancel.bind(this)}>
+                <View style={{width:MagicNumbers.screenWidth-40,height:60,flex:1,alignSelf:'stretch'}}>
+                <Text style={[styles.modalButtonText,{color:colors.lavender,marginTop:15}]}>{
                   manyPhones ? 'CANCEL' : 'NO'}</Text>
                 </View>
-                </TouchableHighlight>
-                </View>
-
-
-                </View>
-          </View>
-          </View>
+              </TouchableHighlight>
+         </View>
+         </View>
       </PurpleModal>
     )
   }

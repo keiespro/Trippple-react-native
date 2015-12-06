@@ -92,7 +92,7 @@ class NameScreen extends Component{
             placeholderTextColor={colors.white}
             autoCorrect={false}
             returnKeyType={'next'}
-            autoFocus={true}
+            autoFocus={false }
             maxLength={10}
             ref={component => this._textInput = component}
             clearButtonMode={'never'}

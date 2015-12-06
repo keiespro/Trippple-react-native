@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     alignSelf:'stretch',
-    backgroundColor: colors.dark
+    backgroundColor: 'transparent'
   },
 });
 

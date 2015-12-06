@@ -1,7 +1,8 @@
-import React, { StyleSheet,Dimensions } from 'react-native'
+import React, { StyleSheet,Dimensions,PixelRatio } from 'react-native'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import colors from '../../utils/colors'
+import {MagicNumbers} from '../../DeviceConfig'
 
 const styles = StyleSheet.create({
   modalButton:{
@@ -9,11 +10,12 @@ const styles = StyleSheet.create({
     backgroundColor:colors.sushi,
     borderColor:colors.darkGreenBlue,
     alignItems:'center',
-    margin: 10,
-    borderRadius:8,
+    margin: 6,
+    borderRadius:4,
     justifyContent:'center',
     flex:1,
-    borderWidth:1
+    flexDirection:'column',
+    borderWidth:1/PixelRatio.get()
 },
 modalButtonText:{
   color:colors.white,
@@ -34,9 +36,10 @@ textAlign:'center'
   modalcontainer:{
     backgroundColor: colors.white,
     flex:1,
-    width: DeviceWidth-50,
+    width: MagicNumbers.screenWidth,
     borderRadius:10,
-    margin:25
+    padding:MagicNumbers.screenPadding/2,
+    margin:MagicNumbers.screenPadding/2
   },
   fullwidth:{
     width: DeviceWidth
