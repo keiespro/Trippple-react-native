@@ -27,14 +27,14 @@ class ChatStore {
     }
     this.on('init', () => {/*noop*/})
     this.on('error', (err, payload, currentState) => {
-      // if(__DEBUG__ && __DEV__){
+      if(__DEBUG__ && __DEV__){
         console.log(err, payload, currentState);
-      // }
+      }
     })
     this.on('bootstrap', (p) => {
-      // if(__DEBUG__ && __DEV__){
+      if(__DEBUG__ && __DEV__){
         console.log('bootstrap',p);
-      // }
+      }
     })
 
 
@@ -51,7 +51,6 @@ class ChatStore {
   }
 
   save(){
-    console.log('saving');
     var partialSnapshot = alt.takeSnapshot(this);
     if(__DEBUG__ && __DEV__){
       console.log('partialSnapshot',partialSnapshot)

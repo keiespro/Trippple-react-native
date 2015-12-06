@@ -56,23 +56,15 @@ class MatchesStore {
       if(__DEBUG__ && __DEV__){
         console.log(payload,state);
       }
-      // if(state.matches.length && state.matches.length != this.state.matches.length || ( payload.payload && payload.payload.matches && state.matches.length != payload.payload.matches.length) ){
-      //   this.save();
-      //    __DEV__ && console.log('saving');
-      // }
-
     })
   }
   handleSaveStores(){
     this.save();
   }
   save(){
-    console.log('saving');
-
     var partialSnapshot = alt.takeSnapshot(this);
-    // var matchesSnapshot = _.unique(partialSnapshot.MatchesStore.matches,'match_id');
 
-    console.log('saving',partialSnapshot);
+    __DEV__ && console.log('saving',partialSnapshot);
     AsyncStorage.setItem('MatchesStore',JSON.stringify(partialSnapshot));
 
   }

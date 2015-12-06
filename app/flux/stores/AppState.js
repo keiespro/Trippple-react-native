@@ -55,19 +55,19 @@ class AppStateStore {
     })
 
     this.on('error', (err, payload, currentState) => {
-        Log(err, payload, currentState);
+      __DEV__ && __DEBUG__ &&  console.log(err, payload, currentState);
     })
     this.on('init', async () => {
 
-      var storedPermissions = Object.keys(this.permissions).reduce( async (aggregator, key)=>{
-        let val = await AsyncStorage.getItem(key)
-        aggregator[key] = await val == 'true'
-        return await aggregator
-      },{})
-      var updatedPermissions = await storedPermissions
-      const newPermissions  = { ...this.permissions, ...updatedPermissions }
+      // var storedPermissions = Object.keys(this.permissions).reduce( async (aggregator, key)=>{
+      //   let val = await AsyncStorage.getItem(key)
+      //   aggregator[key] = await val == 'true'
+      //   return await aggregator
+      // },{})
+      // var updatedPermissions = await storedPermissions
+      // const newPermissions  = { ...this.permissions, ...updatedPermissions }
 
-      this.setState({permissions:newPermissions})
+      // this.setState({permissions:newPermissions})
     })
   }
 

@@ -72,11 +72,11 @@ class UserStore {
 
   handleRequestPin(res){
 
-}
+  }
 
-handleGetLocation(coords){
+  handleGetLocation(coords){
 
-}
+  }
 
   handleVerifyPin(res){
     const {user_info} = res.response;
@@ -107,8 +107,11 @@ handleGetLocation(coords){
 
     if( user_info.ready){
 
-
-      UserActions.updateUser({...this.state.user, ...user_info, status: user_info.ready ? 'onboarded' :  user_info.status})
+      UserActions.updateUser({
+        ...this.state.user,
+        ...user_info,
+        status: user_info.ready ? 'onboarded' :  user_info.status
+      })
 
     }
   }
@@ -127,7 +130,6 @@ handleGetLocation(coords){
     }else{
 
     }
-
   }
 
   handleLogOut(){
