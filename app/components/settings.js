@@ -136,8 +136,8 @@ class SettingsInside extends React.Component{
         },
       }
       if(this.props.user.relationship_status == 'couple'){
-        delete selfAsPotential.coupleImage;
-        delete selfAsPotential.partner;
+        // delete selfAsPotential.coupleImage;
+        // delete selfAsPotential.partner;
         potential = {
           ...this.props.user.couple,
           user: selfAsPotential.user,
@@ -168,10 +168,10 @@ class SettingsInside extends React.Component{
 
   render(){
     const { user } = this.props
-    if(!user){ return false }
+    if(!user){ return  <View/>}
 
-    var src = user.localUserImage || user.image_url;
-    var thumbSrc = user.localUserImage ||  user.thumb_url;
+    var src =  user.image_url;
+    var thumbSrc = user.thumb_url;
 
     if(user.relationship_status == 'couple'){
       src = user.localCoupleImage || user.couple && user.couple.image_url;

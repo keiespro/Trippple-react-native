@@ -66,7 +66,6 @@ class  SettingsPreferences extends React.Component{
     this.setState({scroll:direction})
   }
   componentDidUpdate(pProps,pState){
-    //i dont know why this is here
     if(this.state.nearMeToggled != pState.nearMeToggled && !pState.nearMeToggled){
       OSPermissions.canUseLocation( (locPerm) => {
         if(locPerm > 2){
@@ -87,12 +86,12 @@ class  SettingsPreferences extends React.Component{
           failedTitle: 'LOCATION DISABLED',
           failCallback:(val)=>{
             this.props.navigator.pop();
-            this.setState({nearMeToggled:val})
+            this.setState({nearMeToggled:false})
 
         },
-         successCallback:(val)=>{
+         successCallback:(coords)=>{
             this.props.navigator.pop();
-            this.setState({nearMeToggled:val})
+            this.setState({nearMeToggled:true})
 
           },
 
@@ -105,9 +104,9 @@ class  SettingsPreferences extends React.Component{
           renderPrevMethod:'pop',
         }
       })
-  }
+    }
 
-      // if permission has been denied, show the modal in failedState mode (show settings link)
+    // if permission has been denied, show the modal in failedState mode (show settings link)
     if((this.state.notifyToggled && !pState.notifyToggled)){
       this.props.navigator.push({
         component:NotificationPermissions,
