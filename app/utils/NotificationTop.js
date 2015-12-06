@@ -23,12 +23,14 @@ class Notification extends React.Component{
       yValue: new Animated.Value(-220)
     }
 
-  }
+}
+componentWillMount(){
+    VibrationIOS.vibrate()
+}
 
   componentDidMount() {
     this.state.yValue.setValue(0);
 
-    VibrationIOS.vibrate()
 
     Animated.timing(this.state.yValue, {
       toValue: 0,
@@ -64,7 +66,7 @@ class Notification extends React.Component{
 
     const { payload } = this.props;
 
-    return (
+        return (
       <Animated.View style={[styles.notificationWrapper,
         {
           transform: [{
@@ -110,7 +112,7 @@ class Notification extends React.Component{
                 </View>
                 <View style={styles.notificationRight}>
                   <Text style={[styles.notiTitle,styles.titleNewMatch]}>IT'S A MATCH!</Text>
-                  <Text style={styles.notiText}>{`matchName  likes you back!`}</Text>
+                  <Text style={styles.notiText}>{`${matchName} likes you back!`}</Text>
                 </View>
               </View>
             </TouchableOpacity>

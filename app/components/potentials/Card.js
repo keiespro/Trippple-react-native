@@ -166,7 +166,7 @@ class Card extends React.Component{
                   }) : colors.white,
                 }}
                 >
-                {potential.user.relationship_status == 'couple' ? <Swiper
+                {this.props.user.relationship_status == 'single' ? <Swiper
                   key={`${potential.id || potential.user.id}-swiper`}
                   loop={true}
                   horizontal={false}
@@ -440,8 +440,7 @@ class Card extends React.Component{
               ref={"incard"}
               >
 
-              {potential.user.relationship_status == 'couple' ?
-                <Swiper
+                {this.props.user.relationship_status == 'single' ? <Swiper
                   key={`${potential.id || potential.user.id}-swiper`}
                   loop={true}
                   horizontal={false}

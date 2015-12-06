@@ -23,7 +23,8 @@ class NotificationsStore {
       oldNotifications:[],
       pendingNotifications: []
 
-    }
+  }
+    this.timer = null;
 
     this.bindListeners({
       handleMatchRemoved: NotificationActions.RECEIVE_MATCH_REMOVED_NOTIFICATION,
@@ -62,7 +63,9 @@ class NotificationsStore {
 
   }
   expireNotification(){
-    setTimeout(()=>{
+    this.clearTimeout(this.timer);
+
+    this.timer = setTimeout(()=>{
       const {notifications} = this.state
       this.setState({
          oldNotifications: [...this.state.oldNotifications, ...notifications],

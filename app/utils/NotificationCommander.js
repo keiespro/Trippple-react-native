@@ -95,13 +95,21 @@ class NotificationCommander extends Component{
 
       AlertIOS.alert(data.title, JSON.stringify(data.body));
 
-    }else if(data.action == 'logout'){
+     }else if(data.action === 'match_removed'){
 
-      UserActions.logOut()
+        NotificationActions.receiveMatchRemovedNotification(data)
 
-    }
+      }else if(data.action && data.action == 'statuschange') {
 
-    AlertIOS.alert('APN Push Notification',JSON.stringify(pushNotification.getData()));
+        UserActions.getUserInfo()
+
+      }else if(data.action == 'logout'){
+
+        UserActions.logOut()
+
+      }
+
+      // AlertIOS.alert('APN Push Notification',JSON.stringify(pushNotification.getData()));
   }
   _handleAppStateChange =(appState)=> {
     if(appState === 'active'){
@@ -129,6 +137,7 @@ class NotificationCommander extends Component{
 
 
     this.socket.on('system', (payload) => {
+
       this.setState({processing:true})
       const { data } = payload
 
@@ -152,6 +161,7 @@ class NotificationCommander extends Component{
     })
 
     this.socket.on('chat', (payload) => {
+
       this.setState({processing:true})
 
       NotificationActions.receiveNewMessageNotification(payload)
