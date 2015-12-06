@@ -93,9 +93,13 @@ class AppVisibility extends React.Component{
   }
 
   _handleAppStateChange =(appState)=> {
+    if(appState === 'hidden'){
+      AppActions.saveStores()
+    }
     this.setState({ appState })
   }
   render() {
+
     return ( !this.state.isConnected ? <View style={{position:'absolute'}}/> : null )
   }
 }

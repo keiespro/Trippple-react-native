@@ -5,6 +5,8 @@ import {matchWasAdded, messageWasAdded} from '../../utils/matchstix'
 import _ from 'underscore'
 import Log from '../../Log'
 import UserStore from './UserStore'
+import AppActions from '../actions/AppActions'
+
 
 class ChatStore {
 
@@ -13,6 +15,7 @@ class ChatStore {
     this.bindListeners({
       handleSentMessage: MatchActions.SEND_MESSAGE_TO_SERVER,
       handleLocalMessage: MatchActions.SEND_MESSAGE,
+      handleSaveStores: AppActions.SAVE_STORES,
       handleReceiveMessages: MatchActions.GET_MESSAGES
     });
 
@@ -45,6 +48,9 @@ class ChatStore {
     })
 
 
+  }
+  handleSaveStores(){
+    this.save();
   }
 
   save(){

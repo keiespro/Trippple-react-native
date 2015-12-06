@@ -40,7 +40,11 @@ class AppActions {
   denyPermission(perm){
     this.dispatch(perm)
   }
+  saveStores(){
+    console.log('SAVING STORES')
 
+    this.dispatch();
+  }
 
 }
 

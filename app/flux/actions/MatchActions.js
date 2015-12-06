@@ -60,8 +60,8 @@ class MatchActions {
       return Api.getMessages({match_id: matchID}).then((res) => {
         const messages = res.response;
         Api.getMatches(0)
-        .then((res) => {
-          this.dispatch({messages, matchesData: {matches: res.response, page: 0}});
+        .then((resMatches) => {
+          this.dispatch({messages, matchesData: {matches: resMatches.response, page: 0}});
         })
       })
     })

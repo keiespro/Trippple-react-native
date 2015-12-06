@@ -1,10 +1,13 @@
 import alt from '../alt'
 import MatchActions from '../actions/MatchActions'
 import Log from '../../Log'
+import AppActions from '../actions/AppActions'
+
 import NotificationActions from '../actions/NotificationActions'
 import {matchWasAdded, messageWasAdded} from '../../utils/matchstix'
 import {AsyncStorage, AlertIOS} from 'react-native'
 import _ from 'underscore'
+import UserStore from './UserStore'
 
 class MatchesStore {
 
@@ -34,7 +37,8 @@ class MatchesStore {
       insertLocalMessage: MatchActions.SEND_MESSAGE,
       updateLastAccessed: MatchActions.SET_ACCESS_TIME,
       unMatch: MatchActions.UN_MATCH,
-      handleNewMessages: MatchActions.GET_MESSAGES
+      handleNewMessages: MatchActions.GET_MESSAGES,
+      handleSaveStores: AppActions.SAVE_STORES
     });
 
     this.on('init', () => {/*noop*/});
@@ -57,6 +61,9 @@ class MatchesStore {
       // }
 
     })
+  }
+  handleSaveStores(){
+    this.save();
   }
   save(){
 
