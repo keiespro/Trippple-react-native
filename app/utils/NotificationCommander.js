@@ -23,7 +23,8 @@ class NotificationCommander extends Component{
     this.state = {
       appState: AppStateIOS.currentState,
       socketConnected: false,
-      notifications: []
+      notifications: [],
+      processing:false
     }
 
     this.socket = require('socket.io-client/socket.io')(WEBSOCKET_URL, {jsonp:false})
@@ -51,6 +52,14 @@ class NotificationCommander extends Component{
     if(!prevProps.api_key && this.props.api_key && !prevState.socketConnected){
       this.connectSocket()
     }
+
+    if(this.state.processing && !prevState.processing){
+      this.setTimeout(()=>{
+        this.setState({processing:false})
+      },500)
+
+    }
+
   }
 
   _onPushNotification =(pushNotification)=>{
@@ -90,9 +99,7 @@ class NotificationCommander extends Component{
     this.setState({ appState });
 
   }
-
-  connectSocket =()=> {
-    this.setState({socketConnected:true})
+   connectSocket =()=> {
     this.socket.on('user.connect', (data) => {
       this.online_id = data.online_id;
       const myApikey = this.props.api_key
@@ -102,12 +109,13 @@ class NotificationCommander extends Component{
         online_id: data.online_id,
         api_uid: (`${myApikey}:${myID}`)
       })
+      this.setState({socketConnected:true})
 
     })
 
 
     this.socket.on('system', (payload) => {
-
+      this.setState({processing:true})
       const { data } = payload
 
       if(data.action && data.action === 'retrieve' && data.match_id) {
@@ -130,6 +138,7 @@ class NotificationCommander extends Component{
     })
 
     this.socket.on('chat', (payload) => {
+      this.setState({processing:true})
 
       NotificationActions.receiveNewMessageNotification(payload)
 
@@ -155,9 +164,9 @@ class NotificationCommander extends Component{
       position:'absolute',
       top:0,
       left:0,
-      width:2,
-      height:2,
-      borderRadius:1,
+      width: this.state.processing ? 5 : 2,
+      height: this.state.processing ? 5 : 2,
+      borderRadius: 1,
       backgroundColor: this.state.socketConnected ? colors.sushi : colors.mandy
     };
 

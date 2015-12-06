@@ -63,7 +63,7 @@ class NotificationsStore {
   }
   expireNotification(){
     setTimeout(()=>{
-      const notifications = this.state.notifications
+      const {notifications} = this.state
       this.setState({
          oldNotifications: [...this.state.oldNotifications, ...notifications],
          notifications: [],

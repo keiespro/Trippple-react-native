@@ -21,20 +21,32 @@ class NotificationDisplayer extends Component{
 
   }
   shouldComponentUpdate(nextProps){
-    return this.props.notifications[0] !== nextProps.notifications[0]
+    return nextProps.notifications.length < 1 || !this.props.notifications.length || this.props.notifications[0] && this.props.notifications[0].match_id != nextProps.notifications[0].match_id
   }
 
   render(){
-
     return (
-      this.props.notifications[0] ?
-        <Notification
+      <View>
+      {this.props.notifications[0] && <Notification
           user={this.props.user}
-          key={'noti'+Date.now()}
+          key={'noti'+this.props.notifications[0].match_id}
           payload={this.props.notifications[0]}
-        /> :
-      null
+        />}
+      </View>
+
     )
+//     return (
+//       <View>
+//       {this.props.notifications.map((noti,i)=>{
+//         return (<View style={{top:i*10}}><Notification
+//           user={this.props.user}
+//           key={'noti'+i}
+//           index={i}
+//           payload={this.props.notifications[i]}
+//         /></View>) })
+//       }
+//       </View>
+//     )
 
   }
 }

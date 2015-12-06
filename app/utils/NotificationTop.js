@@ -26,6 +26,7 @@ class Notification extends React.Component{
   }
 
   componentDidMount() {
+    this.state.yValue.setValue(0);
 
     VibrationIOS.vibrate()
 
@@ -34,19 +35,18 @@ class Notification extends React.Component{
       duration: 200,
     }).start((fin)=>{})
 
-    this.setTimeout(()=>{
-      Animated.timing(this.state.yValue, {
-        toValue: -220,
-        duration: 200,
-      }).start()
-    },3000)
+    // this.setTimeout(()=>{
+    //   Animated.timing(this.state.yValue, {
+    //     toValue: -220,
+    //     duration: 200,
+    //   }).start()
+    // },3000)
 
   }
   // componentDidUpdate(pProps,pState){
 
   // }
   tapNotification(e){
-    NotificationActions.updateBadgeNumber(-1)
 
     Animated.timing(this.state.yValue, {
       toValue: -220,
@@ -54,6 +54,7 @@ class Notification extends React.Component{
     }).start()
 
     AppActions.updateRoute({route:'chat',match_id:this.props.payload.match_id,})
+    NotificationActions.updateBadgeNumber.defer(-1)
 
   }
 
@@ -88,7 +89,7 @@ class Notification extends React.Component{
                   <Text style={[styles.notiTitle,styles.titleNewMessage]}>{
                     payload.from_user_info.name.toUpperCase()
                   }</Text>
-                  <Text style={styles.notiText}>{payload.message_body}</Text>
+                  <Text style={styles.notiText} numberOfLines={2}>{ payload.message_body}</Text>
                 </View>
               </View>
             </TouchableOpacity>
@@ -132,7 +133,7 @@ var styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor:'transparent',
-    height:98,
+    height:88,
     overflow:'hidden'
   },
   notificationOverlay: {
