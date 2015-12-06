@@ -84,7 +84,7 @@ class ConfirmPartner extends React.Component{
                 </Text>
 
                 <Text style={[styles.rowtext,styles.bigtext,{alignSelf:'center',textAlign:'center',
-                    fontSize:22,marginVertical:10,color: colors.shuttleGray,marginHorizontal:20
+                    fontSize:22,marginVertical:10,color: colors.shuttleGray,flex:1,
                   }]}>{this.props.partner.phoneNumbers && this.props.partner.phoneNumbers.length > 1 ?
                 `What number should we use to invite ${this.props.partner.firstName}` :
                 `Invite ${this.props.partner.firstName} as your partner?`
@@ -122,7 +122,8 @@ class ConfirmPartner extends React.Component{
 
                       <TouchableHighlight underlayColor={colors.mediumPurple} style={styles.modalButton}
                         onPress={this._confirm.bind(this)}>
-                      <View style={{height:60,flex:1,alignSelf:'stretch',width:MagicNumbers.screenWidth-40}} >
+                    <View style={{height:60,flex:1,width:MagicNumbers.screenWidth-40}} >
+
 
 
                         <Text style={[styles.modalButtonText,{marginTop:15}]}>YES</Text>

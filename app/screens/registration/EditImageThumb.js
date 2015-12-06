@@ -82,6 +82,7 @@ class EditImageThumb extends Component{
       measuredSize: null,
       croppedImageURI: null,
       cropError: null,
+      busy: false
     };
 
   }
@@ -91,45 +92,40 @@ class EditImageThumb extends Component{
       this.proceed()
     }else{
 
-    React.NativeModules.ImageStoreManager.getBase64ForTag( cropped, (uri) => {
+      React.NativeModules.ImageStoreManager.getBase64ForTag( cropped, (uri) => {
 
-      if(!uri || uri == ''){
-        return false
-      }
+        if(!uri || uri == ''){
+          return false
+        }
 
-      const dataUri = 'data:image/gif;base64,'+uri,
-            localImages = { localUserImage: dataUri, localCoupleImage: dataUri };
+        const dataUri = 'data:image/gif;base64,'+uri,
+        localImages = { localUserImage: {uri: dataUri}, localCoupleImage: {uri: dataUri } };
 
-      this.setState({croppedImageURI:dataUri });
+        this.setState({croppedImageURI:dataUri });
 
-      UserActions.updateLocally(localImages)
+        UserActions.updateLocally(localImages)
 
-      const cropData = getCropDataForSending(transformData)
+        const cropData = getCropDataForSending(transformData)
 
-      UserActions.uploadImage.defer( dataUri ,'avatar', cropData)
+        UserActions.uploadImage.defer( dataUri ,'avatar', cropData)
 
-      // const {user,userInfo} = this.props
-
-      // if(user.status == 'verified' && user.relationship_status == 'couple' && userInfo.couple && userInfo.couple.image_url ){
-      //   UserActions.updateLocally({status:'pendingpartner'})
-      // }else{
         this.proceed()
-      // }
 
-    }, (err) =>{
-    })
+      }, (err) =>{ })
 
-  }
+    }
 
   }
 
   proceed(){
-    if(this.props.navigator.getCurrentRoutes()[1].id == 'settings'){
+    const currentRoutes = this.props.navigator.getCurrentRoutes()
 
-      if(this.props.navigator.getCurrentRoutes()[2] && this.props.navigator.getCurrentRoutes()[2].id == 'settingsbasic'){
-        lastRoute = this.props.navigator.getCurrentRoutes()[2]
+    if(currentRoutes[1].id == 'settings'){
+
+      if(currentRoutes[2] && currentRoutes[2].id == 'settingsbasic'){
+        lastRoute = currentRoutes[2]
       }else{
-        lastRoute = this.props.navigator.getCurrentRoutes()[1]
+        lastRoute = currentRoutes[1]
       }
 
       this.props.navigator.popToRoute(lastRoute)
@@ -145,8 +141,10 @@ class EditImageThumb extends Component{
 
     }else{
       UserActions.updateLocally({status:'pendingpartner'})
-      OnboardingActions.updateRoute(this.props.navigator.getCurrentRoutes().length)
-    }
+      OnboardingActions.updateRoute(currentRoutes.length)
+  }
+    this.setState({busy:false})
+
 
   }
 
@@ -190,6 +188,7 @@ class EditImageThumb extends Component{
                   isStored: true
                 }}
                 size={cropsize}
+                busy={this.state.busy}
                 style={[styles.imageCropper, cropsize]}
                 onTransformDataChange={(data) => this._transformData = data}
               />
@@ -234,6 +233,7 @@ class EditImageThumb extends Component{
   }
 
   _crop() {
+    this.setState({busy:true})
     const {image} = this.props
     const uri = image.uri || image;
 
@@ -353,6 +353,7 @@ class ImageCropper extends React.Component {
         decelerationRate={decelerationRate}
         horizontal={true}
         minimumZoomScale={0.5}
+        scrollEnabled={!this.props.busy}
         maximumZoomScale={5.0}
         onMomentumScrollEnd={this._onScroll.bind(this)}
         onScrollEndDrag={this._onScroll.bind(this)}
