@@ -56,7 +56,7 @@ class ChatStore {
     if(__DEBUG__ && __DEV__){
       console.log('partialSnapshot',partialSnapshot)
     }
-    AsyncStorage.mergeItem('ChatStore',JSON.stringify(partialSnapshot));
+    AsyncStorage.setItem('ChatStore',JSON.stringify(partialSnapshot));
 
 
   }

@@ -90,18 +90,13 @@ class MatchesStore {
   }
 
   updateLastAccessed(payload){
-
-    if(__DEBUG__ && __DEV__){
-      console.log('update last accessed')
-    }
     // save timestamp of last match view, reset unread counts
     const {match_id, timestamp} = payload;
     const newCounts = this.state.unreadCounts;
     newCounts[match_id] = 0;
-    const m = this.matches;
-
+    const lastAccessed = {...this.state.lastAccessed,  [match_id]: timestamp }
     this.setState({
-      lastAccessed: {...this.state.lastAccessed,  match_id: timestamp },
+      lastAccessed,
       unreadCounts: newCounts
     })
   }
@@ -125,7 +120,7 @@ class MatchesStore {
     }
 
     for(var msg of message_thread){
-      if(msg.from_user_info.id != user.id && (msg.created_timestamp && !access[match_id] || (access[match_id] < (msg.created_timestamp * 1000)))){
+      if(msg.from_user_info.id != user.id && (msg.created_timestamp &&  (access[match_id] < (msg.created_timestamp * 1000)))){
           newCounts[match_id]++
       }
     }
@@ -143,7 +138,7 @@ class MatchesStore {
     this.setState({
       unreadCounts: newCounts
     })
-    React.NativeModules.PushNotificationManager.setApplicationIconBadgeNumber(currentCount+delta)
+    // React.NativeModules.PushNotificationManager.setApplicationIconBadgeNumber(currentCount+delta)
     // NotificationActions.changeAppIconBadgeNumber.defer(newCounts[match_id].length * -1)
     // result + newCounts[match_id]
 

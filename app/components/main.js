@@ -59,6 +59,7 @@ import NotificationActions from '../flux/actions/NotificationActions'
             if(routs[this.refs.nav.state.presentedIndex].id == 'chat'){
               this.refs.nav.replace({
                 ...ChatRoute,
+                sceneConfig: Navigator.SceneConfigs.PushFromRight,
                 passProps:{
                   match_id: nProps.currentRoute.match_id,
                   currentMatch: nProps.currentMatch,
