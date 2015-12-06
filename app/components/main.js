@@ -46,9 +46,32 @@ import NotificationActions from '../flux/actions/NotificationActions'
     static defaultProps = { user: null }
 
     constructor(props){
-      super(props);
+      super();
 
     }
+
+    componentWillMount(){
+      // bootstrap stores from asyncstorage
+      AsyncStorage.multiGet(['ChatStore','MatchesStore'])
+      .then((data) => {
+        if (data){
+          const savedMatches = JSON.parse(data[1][1]);
+          const savedChats = JSON.parse(data[0][1]);
+          const saved = {...JSON.parse(savedChats),...JSON.parse(savedMatches)}
+          __DEV__ && console.log(saved);
+          alt.bootstrap(JSON.stringify(saved));
+        }
+      })
+
+    }
+
+    componentDidMount(){
+      this.refs.nav.navigationContext.addListener('didfocus', (e)=>{
+        AppActions.updateRoute.defer(this.refs.nav.state.presentedIndex)
+      })
+
+    }
+
     componentWillReceiveProps(nProps){
       const routs = this.refs.nav.getCurrentRoutes()
       if(nProps.currentRoute){
@@ -79,7 +102,7 @@ import NotificationActions from '../flux/actions/NotificationActions'
 
             }
           }else if(nProps.currentRoute.route && nProps.currentRoute.route == 'checkmark'){
-            const nowRoute = this.refs.nav.navigationContext._currentRoute
+            const nowRoute = this.refs.nav.navigationContext._currentRoute;
             this.refs.nav.replace({
               component: CheckMarkScreen,
               passProps:{
@@ -94,30 +117,6 @@ import NotificationActions from '../flux/actions/NotificationActions'
       }
     }
 
-
-    componentWillMount(){
-      AsyncStorage.multiGet(['ChatStore','MatchesStore'])
-      .then((data) => {
-        if (data){
-          console.log(data)
-          const savedMatches = JSON.parse(data[1][1]);
-          const savedChats = JSON.parse(data[0][1]);
-          console.log(JSON.parse(savedChats),JSON.parse(savedMatches))
-
-          const saved = {...JSON.parse(savedChats),...JSON.parse(savedMatches)}
-          console.log(saved)
-          alt.bootstrap(JSON.stringify(saved));
-        }
-      })
-
-    }
-
-    componentDidMount(){
-      this.refs.nav.navigationContext.addListener('didfocus', (e)=>{
-        AppActions.updateRoute.defer(this.refs.nav.state.presentedIndex)
-      })
-
-    }
 
     selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
       const RouteComponent = route.component;
