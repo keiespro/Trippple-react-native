@@ -53,7 +53,7 @@ import NotificationActions from '../flux/actions/NotificationActions'
       const routs = this.refs.nav.getCurrentRoutes()
       if(nProps.currentRoute){
         if(nProps.currentRoute != this.refs.nav.state.presentedIndex){
-          if(this.props.currentRoute.match_id && nProps.currentRoute.match_id && nProps.currentRoute.match_id == this.props.currentRoute.match_id){
+          if(this.props.currentRoute && nProps.currentRoute && this.props.currentRoute.match_id && nProps.currentRoute.match_id && nProps.currentRoute.match_id == this.props.currentRoute.match_id){
             return false
           }else if(nProps.currentRoute.route && nProps.currentRoute.route == 'chat'){
             if(routs[this.refs.nav.state.presentedIndex].id == 'chat'){
