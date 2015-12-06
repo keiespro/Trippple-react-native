@@ -8,6 +8,7 @@ const {
   View,
   TouchableHighlight,
   TouchableOpacity,
+  AlertIOS,
   TextInput,
   ScrollView,
   SwitchIOS,
@@ -134,10 +135,9 @@ class SettingsInside extends React.Component{
           age: (thisYear - this.props.user.bday_year)
         },
       }
-
       if(this.props.user.relationship_status == 'couple'){
-        delete selfAsPotential.coupleImage
-        delete selfAsPotential.partner
+        delete selfAsPotential.coupleImage;
+        delete selfAsPotential.partner;
         potential = {
           ...this.props.user.couple,
           user: selfAsPotential.user,
@@ -203,7 +203,7 @@ class SettingsInside extends React.Component{
               style={{marginTop:20,}}
               >
               <Image
-                style={[ styles.userimage, { backgroundColor:colors.outerSpace50}]}
+                style={[ styles.userimage, { backgroundColor:colors.dark}]}
                 key={this.props.user.id+'thumb'}
                 defaultSource={{uri:'../../newimg/placeholderUserWhite.png'}}
                 source={{uri:thumbSrc}}
