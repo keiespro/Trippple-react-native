@@ -1,6 +1,6 @@
 import React from 'react-native'
 import { NetInfo, AppStateIOS, Text, View } from 'react-native'
-
+import AppActions from '../flux/actions/AppActions'
 import NoInternetBanner from '../controls/NoInternetBanner'
 /////////////////////////////////////////////////////////////////////////
 //
@@ -93,7 +93,8 @@ class AppVisibility extends React.Component{
   }
 
   _handleAppStateChange =(appState)=> {
-    if(appState === 'hidden'){
+    console.log(appState)
+    if(appState === 'background'){
       AppActions.saveStores()
     }
     this.setState({ appState })
@@ -104,7 +105,7 @@ class AppVisibility extends React.Component{
   }
 }
 
-exports.Visibility = AppVisibility
+exports.AppVisibility = AppVisibility
 
 
 export default { Connectivity, ReachabilitySubscription, AppVisibility }

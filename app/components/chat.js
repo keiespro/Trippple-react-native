@@ -269,7 +269,7 @@ class ChatInside extends Component{
 
 
   updateKeyboardSpace(frames){
-    console.log(frames)
+    // console.log(frames)
     var h = frames.startCoordinates && frames.startCoordinates.screenY - frames.endCoordinates.screenY || frames.end && frames.end.height
     if( h == this.state.keyboardSpace){ return false }
     this.setState({
@@ -363,9 +363,10 @@ class ChatInside extends Component{
 
     if(this.state.textInputValue == ''){ return false }
     const timestamp = moment().utc().unix()
+    this._textInput.setNativeProps({text: ''});
     MatchActions.sendMessage(this.state.textInputValue, this.props.match_id, timestamp)
     MatchActions.sendMessageToServer.defer(this.state.textInputValue, this.props.match_id)
-    this._textInput.setNativeProps({text: ''});
+
     this.setState({ textInputValue: '' })
   }
 
@@ -581,7 +582,7 @@ var Chat = React.createClass({
     })
   },
   componentWillUnmount(){
-    MatchActions.setAccessTime({match_id:this.props.match_id,timestamp: new Date().getTime()})
+    MatchActions.setAccessTime.defer({match_id:this.props.match_id,timestamp: new Date().getTime()})
   },
   componentDidMount(){
     // MatchActions.getMessages(this.props.match_id)

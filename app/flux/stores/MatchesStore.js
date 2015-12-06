@@ -43,18 +43,19 @@ class MatchesStore {
 
     this.on('init', () => {/*noop*/});
     this.on('error', (err, payload, currentState) => {
-      if(__DEV__){
+      if(__DEBUG__ && __DEV__){
         console.log('ERROR',err, payload, currentState);
       }
     });
     this.on('bootstrap', (p) => {
-      if(__DEV__){
+      if(__DEBUG__ && __DEV__){
         console.log('bootstrap',p);
       }
     });
     this.on('afterEach', ({payload, state}) =>{
-      __DEV__ && console.log(payload,state);
-
+      if(__DEBUG__ && __DEV__){
+        console.log(payload,state);
+      }
       // if(state.matches.length && state.matches.length != this.state.matches.length || ( payload.payload && payload.payload.matches && state.matches.length != payload.payload.matches.length) ){
       //   this.save();
       //    __DEV__ && console.log('saving');
@@ -66,17 +67,13 @@ class MatchesStore {
     this.save();
   }
   save(){
+    console.log('saving');
 
     var partialSnapshot = alt.takeSnapshot(this);
-    var matchesSnapshot = _.unique(partialSnapshot.MatchesStore.matches,'match_id');
+    // var matchesSnapshot = _.unique(partialSnapshot.MatchesStore.matches,'match_id');
 
-    const snapshot = {
-      MatchesStore: {
-        ...partialSnapshot,
-        matches: matchesSnapshot
-      }
-    }
-    AsyncStorage.setItem('MatchesStore',JSON.stringify(snapshot));
+    console.log('saving',partialSnapshot);
+    AsyncStorage.setItem('MatchesStore',JSON.stringify(partialSnapshot));
 
   }
   unMatch(matchID){
@@ -93,7 +90,10 @@ class MatchesStore {
   }
 
   updateLastAccessed(payload){
-    console.log('update last accessed')
+
+    if(__DEBUG__ && __DEV__){
+      console.log('update last accessed')
+    }
     // save timestamp of last match view, reset unread counts
     const {match_id, timestamp} = payload;
     const newCounts = this.state.unreadCounts;
@@ -116,9 +116,9 @@ class MatchesStore {
 
 // prevent tripppling of value??
 
-    if( !newCounts[match_id] ){
-      newCounts[match_id] = 0;
-    }
+//     if( !newCounts[match_id] ){
+//       newCounts[match_id] = 0;
+//     }
 
     if( !access[match_id] ){
       access[match_id] = this.state.mountedAt
@@ -139,13 +139,14 @@ class MatchesStore {
     const newCounts = {...this.state.unreadCounts}
     newCounts[match_id] = 0
 
-    React.NativeModules.PushNotificationManager.setApplicationIconBadgeNumber(currentCount+delta)
-    NotificationActions.changeAppIconBadgeNumber(newCounts[match_id].length * -1)
-    result + newCounts[match_id]
 
     this.setState({
       unreadCounts: newCounts
     })
+    React.NativeModules.PushNotificationManager.setApplicationIconBadgeNumber(currentCount+delta)
+    // NotificationActions.changeAppIconBadgeNumber.defer(newCounts[match_id].length * -1)
+    // result + newCounts[match_id]
+
   }
   sendMessage(payload){
     this.handleGetMatches(payload.matchesData)
@@ -158,7 +159,6 @@ class MatchesStore {
     this.handleGetMatches(payload.matchesData)
   }
   handleGetMatches(matchesData){
-    console.log(matchesData);
     const {matches} = matchesData
 
     if(matches.length > 0){
@@ -172,31 +172,28 @@ class MatchesStore {
 
         // allmatches.map(matchWasAdded);
       }else{
-        console.log(this.state.matches, matches, _.pluck(matches,'match_id'))
         // paged or refresh - deduplicate results, preserve unread counts and access times
         allmatches = orderMatches(_.unique([
           ...matches,
           ...this.state.matches,
         ],'match_id'))
-        console.log(allmatches, _.pluck(allmatches,'match_id'))
 
-        allunread = {
-          ..._.object( _.pluck(allmatches,'match_id'), allmatches.map(()=> 0)),
-          ...this.state.unreadCounts,
-        }
+//         allunread = {
+//           // ..._.object( _.pluck(allmatches,'match_id'), allmatches.map(()=> 0)),
+//           ...this.state.unreadCounts,
+//         }
 
-        allLastAccessed = {
-          ..._.object( _.pluck(allmatches,'match_id'), allmatches.map(()=> this.state.mountedAt)),
-          ...this.state.lastAccessed,
-        }
-        // AlertIOS.alert('update matches after',matches[0].recent_message.message_body+' '+allmatches[0].recent_message.message_body)
+//         allLastAccessed = {
+//           // ..._.object( _.pluck(allmatches,'match_id'), allmatches.map(()=> this.state.mountedAt)),
+//           ...this.state.lastAccessed,
+//         }
 
       }
 
       this.setState({
         matches: allmatches,
-        unreadCounts: allunread,
-        lastAccessed: allLastAccessed,
+        // unreadCounts: allunread,
+        // lastAccessed: allLastAccessed,
       });
 
     }else{

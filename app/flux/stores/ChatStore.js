@@ -27,24 +27,21 @@ class ChatStore {
     }
     this.on('init', () => {/*noop*/})
     this.on('error', (err, payload, currentState) => {
-      if(__DEV__){
+      // if(__DEBUG__ && __DEV__){
         console.log(err, payload, currentState);
-      }
+      // }
     })
     this.on('bootstrap', (p) => {
-      if(__DEV__){
+      // if(__DEBUG__ && __DEV__){
         console.log('bootstrap',p);
-      }
+      // }
     })
 
 
     this.on('afterEach', ({payload,state}) =>{
-      if(__DEV__){
+      if(__DEBUG__ && __DEV__){
         console.log('aftereach',state,payload)
       }
-      // if(payload.payload && payload.payload.messages && payload.payload.messages.match_id){
-      //   this.save()
-      // }
     })
 
 
@@ -54,12 +51,12 @@ class ChatStore {
   }
 
   save(){
-
-    var partialSnapshot = alt.takeSnapshot(ChatStore);
-    if(__DEV__){
+    console.log('saving');
+    var partialSnapshot = alt.takeSnapshot(this);
+    if(__DEBUG__ && __DEV__){
       console.log('partialSnapshot',partialSnapshot)
     }
-    AsyncStorage.setItem('ChatStore',JSON.stringify(partialSnapshot.ChatStore));
+    AsyncStorage.mergeItem('ChatStore',JSON.stringify(partialSnapshot));
 
 
   }

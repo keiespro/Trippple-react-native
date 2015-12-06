@@ -50,20 +50,34 @@ import NotificationActions from '../flux/actions/NotificationActions'
 
     }
     componentWillReceiveProps(nProps){
-
+      const routs = this.refs.nav.getCurrentRoutes()
       if(nProps.currentRoute){
-        if(nProps.currentRoute.route != this.refs.nav.state.presentedIndex){
-          if(nProps.currentRoute.route == 'chat'){
-            this.refs.nav.push({
-              ...ChatRoute,
-              sceneConfig: Navigator.SceneConfigs.PushFromRight,
-              passProps:{
-                match_id: nProps.currentRoute.match_id,
-                currentMatch: nProps.currentMatch,
-                currentRoute: nProps.currentRoute,
-              }
-            })
-          }else if(nProps.currentRoute.route == 'checkmark'){
+        if(nProps.currentRoute != this.refs.nav.state.presentedIndex){
+          if(this.props.currentRoute.match_id && nProps.currentRoute.match_id && nProps.currentRoute.match_id == this.props.currentRoute.match_id){
+            return false
+          }else if(nProps.currentRoute.route && nProps.currentRoute.route == 'chat'){
+            if(routs[this.refs.nav.state.presentedIndex].id == 'chat'){
+              this.refs.nav.replace({
+                ...ChatRoute,
+                passProps:{
+                  match_id: nProps.currentRoute.match_id,
+                  currentMatch: nProps.currentMatch,
+                  currentRoute: nProps.currentRoute,
+                }
+              })
+            }else{
+             this.refs.nav.push({
+                ...ChatRoute,
+                sceneConfig: Navigator.SceneConfigs.PushFromRight,
+                passProps:{
+                  match_id: nProps.currentRoute.match_id,
+                  currentMatch: nProps.currentMatch,
+                  currentRoute: nProps.currentRoute,
+                }
+              })
+
+            }
+          }else if(nProps.currentRoute.route && nProps.currentRoute.route == 'checkmark'){
             const nowRoute = this.refs.nav.navigationContext._currentRoute
             this.refs.nav.replace({
               component: CheckMarkScreen,
@@ -84,8 +98,14 @@ import NotificationActions from '../flux/actions/NotificationActions'
       AsyncStorage.multiGet(['ChatStore','MatchesStore'])
       .then((data) => {
         if (data){
-          var m = JSON.parse(data[1][1]);
-          alt.bootstrap(m);
+          console.log(data)
+          const savedMatches = JSON.parse(data[1][1]);
+          const savedChats = JSON.parse(data[0][1]);
+          console.log(JSON.parse(savedChats),JSON.parse(savedMatches))
+
+          const saved = {...JSON.parse(savedChats),...JSON.parse(savedMatches)}
+          console.log(saved)
+          alt.bootstrap(JSON.stringify(saved));
         }
       })
 
@@ -93,7 +113,7 @@ import NotificationActions from '../flux/actions/NotificationActions'
 
     componentDidMount(){
       this.refs.nav.navigationContext.addListener('didfocus', (e)=>{
-        AppActions.updateRoute(this.refs.nav.state.presentedIndex)
+        AppActions.updateRoute.defer(this.refs.nav.state.presentedIndex)
       })
 
     }
