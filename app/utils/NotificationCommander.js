@@ -40,6 +40,11 @@ class NotificationCommander extends Component{
     if(this.props.api_key && this.props.user_id){
       this.connectSocket()
     }
+    const newNotification = PushNotificationIOS.popInitialNotification()
+    if(newNotification){
+      this.handlePushData(newNotification)
+    }
+
 
  }
 
@@ -68,19 +73,27 @@ class NotificationCommander extends Component{
   }
 
   handlePushData(pushNotification){
-    AlertIOS.alert('APN Push Notification',JSON.stringify(pushNotification.getData()));
-    if(!pushNotification || !pushNotification.data){
-      return false
-    }
-    const data = PushNotification.getData();
+    if(!pushNotification){ return false }
 
-    if(data.action && data.action === 'retrieve' && data.match_id) {
+    const data = pushNotification.getData();
+
+    if(!data.action){ /* shot a blank */}
+
+    if(data.action === 'retrieve' && data.type == 'potentials') {
+
+      MatchActions.getPotentials()
+
+    }else if(data.action === 'retrieve' && data.match_id) {
 
       NotificationActions.receiveNewMatchNotification(data)
 
-    }else if(data.action === 'chat'){
+    }else if(data.action === 'chat' && data.match_id){
 
       NotificationActions.receiveNewMessageNotification(data)
+
+    }else if(data.action === 'notify') {
+
+      AlertIOS.alert(data.title, JSON.stringify(data.body));
 
     }else if(data.action == 'logout'){
 
@@ -88,6 +101,7 @@ class NotificationCommander extends Component{
 
     }
 
+    AlertIOS.alert('APN Push Notification',JSON.stringify(pushNotification.getData()));
   }
   _handleAppStateChange =(appState)=> {
     if(appState === 'active'){

@@ -14,6 +14,7 @@ class NotificationActions {
 
   requestNotificationsPermission(){
     PushNotificationIOS.addEventListener('register',(token) => {
+      __DEV__ && console.log('APN -> ',token);
       Api.updatePushToken(token)
       .then(()=> this.dispatch(token))
     })
@@ -77,6 +78,8 @@ class NotificationActions {
               title: 'New Matches!',
               body: 'body'
             },
+            action:'retrieve',
+            type: 'potentials',
             sound: 'default',
             category: 'TRIPPPLE',
             badge: '+1'

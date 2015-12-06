@@ -45,14 +45,16 @@ class SettingsDebug extends React.Component{
                  aps: {
 
                    alert: {
-                     title: 'x',
+                     title: 'notify',
                      body: 'Sample notification',
                    },
-                   badge: '+1',
                    sound: 'default',
-                   category: 'REACT_NATIVE'
+                   category: 'TRIPPPLE'
                  },
-                 action: 'logout'
+                 action: 'notify',
+                     title: 'notify',
+                     body: 'Sample notification',
+
 
               });
                 PushNotificationIOS.presentLocalNotification({
@@ -68,7 +70,7 @@ class SettingsDebug extends React.Component{
               </View>
             </TouchableHighlight>
 
-            <TouchableHighlight
+             {/* <TouchableHighlight
               onPress={()=>{
                 NotificationActions.receiveNewMessageNotification({
                   data: {
@@ -83,7 +85,7 @@ class SettingsDebug extends React.Component{
                 <Text style={{color:colors.white,}}>In-app New Message Notification</Text>
                 <Image source={require('../../newimg/nextArrow.png')} />
               </View>
-              </TouchableHighlight>
+              </TouchableHighlight>*/}
 
 
 
@@ -99,7 +101,7 @@ class SettingsDebug extends React.Component{
 
 
 
-            <TouchableHighlight
+            {/* <TouchableHighlight
               onPress={(f)=>{
                 NotificationActions.receiveNewMatchNotification({
                   data: {
@@ -114,7 +116,7 @@ class SettingsDebug extends React.Component{
                 <Text style={{color:colors.white,}}>In-app New Match Notification</Text>
                 <Image source={require('../../newimg/nextArrow.png')} />
               </View>
-            </TouchableHighlight>
+              </TouchableHighlight>*/}
 
             <TouchableHighlight
               onPress={()=>{ AppActions.toggleOverlay() }} >
@@ -124,6 +126,14 @@ class SettingsDebug extends React.Component{
               </View>
             </TouchableHighlight>
 
+            <View>
+              <Text style={{color:colors.white}}>USER INFO:</Text>
+              {
+                Object.keys(this.props.user).map((k,i)=>{
+                  return <Text style={{color:colors.white}}>{k} : {this.props.user[k]}</Text>
+
+                }) }
+              </View>
 
           </ScrollView>
 
