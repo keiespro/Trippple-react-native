@@ -25,7 +25,7 @@ var SliderTabBar = React.createClass({
     var isTabActive = this.props.pageNumber === page;
     return (
       <TouchableOpacity key={name} onPress={() => this.props.goToPage(page)}>
-        <View style={[styles.tab]}>
+      <View style={[styles.tab,]}>
           <Text
             style={{
               fontFamily:'Montserrat',
@@ -61,7 +61,7 @@ var SliderTabBar = React.createClass({
     };
 
     return (
-      <View style={styles.tabs}>
+      <View style={[styles.tabs,]}>
         {this.props.tabs.map((tab, i) => this.renderTabOption(tab, i))}
         <Animated.View style={tabUnderlineStyle} ref={'TAB_UNDERLINE_REF'} />
       </View>

@@ -1,7 +1,5 @@
 
-import React from 'react-native';
-import {
-  Component,
+import React, {
   StyleSheet,
   Text,
   View,
@@ -19,18 +17,15 @@ import {
 } from 'react-native';
 
 import FakeNavBar from '../controls/FakeNavBar';
-import ScrollableTabView from '../scrollable-tab-view'
 
 import alt from '../flux/alt';
 import MatchActions from '../flux/actions/MatchActions';
-
+import UserDetails from '../UserDetails'
 import TimerMixin from 'react-timer-mixin';
 import colors from '../utils/colors';
 import Swiper from '../controls/swiper';
 
 import reactMixin from 'react-mixin';
-
-import ProfileTable from './ProfileTable'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -38,7 +33,7 @@ import {MagicNumbers} from '../DeviceConfig'
 
 
 @reactMixin.decorate(TimerMixin)
-class UserProfile extends Component{
+class UserProfile extends React.Component{
 
   static defaultProps = {
     cardWidth: DeviceWidth
@@ -220,32 +215,10 @@ class UserProfile extends Component{
                     potential.bio || potential.user.bio
                 }</Text>
               </View> : null}
-  </View>
+              </View>
               <View style={{ paddingVertical:20,alignItems:'stretch' }}>
-              {rel == 'couple' && potential.partner ?
-
-                 <ScrollableTabView tabs={['1','2']} renderTabBar={(props) => <CustomTabBar {...props}  /> }>
-                  <ProfileTable profile={potential.user}  location={'settings'}
-                    tabLabel={`${potential.user.firstname}, ${potential.user.age}`}/>
-                  <ProfileTable profile={potential.partner} location={'settings'}
-                    tabLabel={`${potential.partner.firstname}, ${potential.partner.age}`}/>
-                  </ScrollableTabView> :
-
-                  <View style={{flex:1,width:MagicNumbers.screenWidth,marginHorizontal:MagicNumbers.screenPadding/2}}>
-                    <View style={styles.tabs}>
-                      <Text style={{width:MagicNumbers.screenWidth,
-                          fontFamily:'Montserrat',fontSize:16,textAlign:'center',
-                          color:  colors.white }}>
-                          {`${potential.user.firstname} ${potential.user.age}`
-                      }</Text>
-                    </View>
-                    <View style={[styles.singleTab]}>
-                      <ProfileTable profile={potential.user} tabLabel={'single'}/>
-                    </View>
-                  </View>
-
-              }
-                  </View>
+                <UserDetails potential={potential} user={this.props.user} location={'card'} />
+              </View>
 
               <View style={{flex:1,marginTop:20}}>
                 <Text style={{color:colors.mandy,textAlign:'center'}}>Report or Block this user</Text>
@@ -342,14 +315,14 @@ tab: {
   alignItems: 'center',
   justifyContent: 'center',
   padding: 0,
-  width:MagicNumbers.screenWidth/ 2,
+  width:DeviceWidth,
 
 },
 singleTab:{
   flex: 1,
   alignItems: 'center',
   justifyContent: 'center',
-  marginHorizontal: MagicNumbers.screenPadding/4,
+  marginHorizontal: MagicNumbers.screenPadding/2,
   width:MagicNumbers.screenWidth,
 
 },
@@ -358,7 +331,7 @@ tabs: {
   flexDirection: 'row',
   marginTop: 0,
   borderWidth: 1,
-  width:MagicNumbers.screenWidth,
+  width:DeviceWidth,
   flex:1,
   marginHorizontal:0,
   borderTopWidth: 1,

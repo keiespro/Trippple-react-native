@@ -28,6 +28,7 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../../DeviceConfig'
 import scrollable from 'react-native-scrollable-decorator'
+import UserDetails from '../../UserDetails'
 
 const cardSizeMap = {
 
@@ -562,14 +563,14 @@ class Card extends React.Component{
                 paddingVertical:20, }}>
               <Text
               key={`${potential.id || potential.user.id}-names`}
-              style={[styles.cardBottomText,{color:colors.white,width:DeviceWidth-40}]}>
+              style={[styles.cardBottomText,{color:colors.white}]}>
               {
                 {matchName}
               }
               </Text>
               <Text
                 key={`${potential.id || potential.user.id}-matchn`}
-                style={[styles.cardBottomOtherText,{color:colors.white,width:DeviceWidth-40}]}>
+                style={[styles.cardBottomOtherText,{color:colors.white}]}>
                 {
                   `${city} | ${distance} ${distance == 1 ? 'mile' : 'miles'} away`
                 }
@@ -619,51 +620,28 @@ class Card extends React.Component{
             </View>
           }
 
-          <View style={{top:-50,padding:MagicNumbers.screenPadding/4}}>
+          <View style={{top:-50}}>
 
             {potential.bio || potential.user.bio ?
-              <View style={{}}>
+              <View style={{margin:MagicNumbers.screenPadding/2}}>
                 <Text style={[styles.cardBottomOtherText,{color:colors.white,marginBottom:15,marginLeft:0}]}>{
                     rel =='single' ? `About Me` : `About Us`
                 }</Text>
                 <Text style={{color:colors.white,fontSize:18,marginBottom:15}}>{
                     potential.bio || potential.user.bio
                 }</Text>
-              </View> : null}
+                </View> : null}
 
-              {this.props.rel == 'single' && potential.partner ?
-
-                 <ScrollableTabView tabs={['1','2']} renderTabBar={(props) => <SliderTabBar {...props}  /> }>
-                  <ProfileTable profile={this.props.potential.user}
-                    tabLabel={`${potential.user.firstname}, ${potential.user.age}`}/>
-                  <ProfileTable profile={potential.partner}
-                    tabLabel={`${potential.partner.firstname}, ${potential.partner.age}`}/>
-                  </ScrollableTabView> :
-
-                  <View style={{flex:1,width:DeviceWidth,
-                    flex:1,
-                    alignSelf:'stretch',
-                    marginHorizontal:0}}>
-                    <View style={styles.tabs}>
-                      <Text style={{width:DeviceWidth-40,
-                          fontFamily:'Montserrat',fontSize:16,textAlign:'center',
-                          color:  colors.white }}>
-                          {`${potential.user.firstname} ${potential.user.age}`
-                      }</Text>
-                    </View>
-                    <View style={[styles.singleTab]}>
-                      <ProfileTable profile={potential.user} tabLabel={'single'}/>
-                    </View>
-                  </View>
-
-              }
+              <View style={{ paddingVertical:20,alignItems:'stretch' }}>
+                <UserDetails potential={potential} user={this.props.user} location={'card'} />
+              </View>
 
               <View style={{flex:1,marginTop:20,paddingBottom:50}}>
                 <Text style={{color:colors.mandy,textAlign:'center'}}>Report or Block this user</Text>
               </View>
 
-            </View>
 
+          </View>
           </View>
 
           </Animated.View>

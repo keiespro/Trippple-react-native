@@ -37,21 +37,18 @@ class ProfileTable extends Component{
     var { profile } = this.props
 
     return (
-      <View
-      style={{
-        backgroundColor:colors.outerSpace,
-        flex:1,
-      overflow:'hidden',
-      marginHorizontal: this.props.location == 'settings' ? MagicNumbers.screenPadding/2 : 0,
-        // left:MagicNumbers.screenPadding/2,
-          paddingVertical:20,
+        <View
+        style={{
+          backgroundColor:colors.outerSpace,
+          flex:1,
           width:MagicNumbers.screenWidth,
-          alignSelf:'stretch',
+          flexDirection:'column',
           alignItems:'stretch'
-
-      }}
-      >
-        <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15,flex:1,}}>
+        }}
+        >
+        <View style={{flexDirection:'row',
+          alignSelf:'stretch',
+          justifyContent:'space-between',marginBottom:15,flex:1,}}>
           <Text style={{color:colors.rollingStone,fontSize:18}}>Gender</Text>
           <Text style={{color:colors.white,fontSize:18}} textAlign={'right'}>{
               profile.gender && profile.gender == 'm' ? 'Male' : 'Female'
@@ -91,8 +88,8 @@ class ProfileTable extends Component{
           <Text style={{color:colors.rollingStone,fontSize:18}}>Drink</Text>
           <Text style={{color:colors.white,fontSize:18}} textAlign={'right'}>{profile.drink}</Text>
         </View>
-
       </View>
+
     )
 
   }

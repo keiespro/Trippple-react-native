@@ -28,8 +28,8 @@ singleTab:{
   flex: 1,
   alignItems: 'center',
   justifyContent: 'center',
-  marginHorizontal: MagicNumbers.screenPadding/4,
-  width:DeviceWidth,
+  marginHorizontal: MagicNumbers.screenPadding/2,
+  width:MagicNumbers.screenWidth,
 
 },
 tabs: {
@@ -39,7 +39,7 @@ tabs: {
   borderWidth: 1,
   width:MagicNumbers.screenWidth,
   flex:1,
-  marginHorizontal:15,
+  marginHorizontal:0,
   borderTopWidth: 1,
   borderLeftWidth: 0,
   borderRightWidth: 0,
