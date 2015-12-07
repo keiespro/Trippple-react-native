@@ -164,29 +164,60 @@ class SettingsInside extends React.Component{
   _updateAttr(updatedAttribute){
     this.setState(()=>{return updatedAttribute});
   }
-
+  componentWillMount(){
+      console.log('user',this.props.user);
+  }
 
   render(){
     const { user } = this.props
-    if(!user){ return  <View/>}
+    var src ;
+    var thumbSrc ;
 
-    var src =  user.image_url;
-    var thumbSrc = user.thumb_url;
+  if(user.localUserImage && user.localUserImage.uri){
+    src = user.localUserImage.uri;
+    thumbSrc = user.localUserImage.uri;
+  }else if(user.localUserImage && !user.localUserImage.uri){
+    src = user.localUserImage;
+    thumbSrc = user.localUserImage.uri;
+  }else if(!user.localUserImage && user.image_url && user.image_url.uri){
+    src = user.image_url.uri;
+    thumbSrc = user.thumb_url.uri;
+  }else if(!user.localUserImage && user.image_url && !user.image_url.uri){
+    src = user.image_url;
+    thumbSrc = user.thumb_url.uri;
+  }
 
-    if(user.relationship_status == 'couple'){
-      src = user.localCoupleImage || user.couple && user.couple.image_url;
-      thumbSrc = user.localCoupleImage || user.couple && user.couple.thumb_url;
+
+
+  if(user.relationship_status == 'couple'){
+
+
+    if(user.localCoupleImage && user.localCoupleImage.uri){
+      src = user.localCoupleImage.uri;
+      thumbSrc = user.localCoupleImage.uri;
+    }else if(user.localCoupleImage && !user.localCoupleImage.uri){
+      src = user.localCoupleImage;
+      thumbSrc = user.localCoupleImage;
+    }else if(!user.localCoupleImage && user.couple && user.couple.image_url && user.couple.image_url.uri){
+      src = user.couple.image_url.uri;
+      thumbSrc = user.couple.thumb_url.uri;
+    }else if(!user.localCoupleImage && user.couple && user.couple.image_url && !user.couple.image_url.uri){
+      src = user.couple.image_url;
+      thumbSrc = user.couple.thumb_url;
     }
+
+  }
 
     return (
       <View style={{flex:1}}>
 
         <ParallaxView
           showsVerticalScrollIndicator={false}
-          key={this.props.user.thumb_url}
-          backgroundSource={{uri:src}}
+          key={this.props.user.id}
           windowHeight={DeviceHeight*0.6}
           navigator={this.props.navigator}
+          backgroundSource={{uri:src}}
+
           style={{backgroundColor:colors.outerSpace,paddingTop:0}}
           header={(
             <View
@@ -206,8 +237,9 @@ class SettingsInside extends React.Component{
                 style={[ styles.userimage, { backgroundColor:colors.dark}]}
                 key={this.props.user.id+'thumb'}
                 defaultSource={{uri:'../../newimg/placeholderUserWhite.png'}}
-                source={{uri:thumbSrc}}
                 resizeMode={Image.resizeMode.cover}
+                source={{uri:thumbSrc}}
+
               />
               <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
                 <Image
