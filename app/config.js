@@ -1,5 +1,7 @@
 const APP_ENV = 'staging'
 
+global.__DEBUG__ = __DEV__;
+
 const config = {
 
   production: {
