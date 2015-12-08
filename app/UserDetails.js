@@ -66,7 +66,7 @@ class UserDetails extends React.Component{
             </ScrollableTabView></View> :
 
         <View style={{flex:1,width:MagicNumbers.screenWidth, alignSelf:'stretch'}}>
-          <View style={[styles.tabs,{ marginHorizontal:MagicNumbers.screenPadding/2}]}>
+          <View style={[styles.tabs,{ marginHorizontal:MagicNumbers.screenPadding/2,marginBottom:20}]}>
             <Text style={{fontFamily:'Montserrat',fontSize:16,textAlign:'center', color:  colors.white }} >
             {
               `${potential.user.firstname} ${potential.user.age}`

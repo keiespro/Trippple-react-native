@@ -143,10 +143,9 @@ class UserProfile extends React.Component{
                     style={[styles.imagebg, {
                       flex:1,
                       alignSelf:'stretch',
-                      height:500,
-
+                      height:DeviceHeight,
                       width: DeviceWidth,
-                                    }]}
+                    }]}
                     resizeMode={Image.resizeMode.cover}
                    />
               }

@@ -117,10 +117,57 @@ class  SettingsPreferences extends React.Component{
 
           },
         }
-      })
+    })
     }
 
   }
+  editBio(){
+    this.props.navigator.push({
+      component: FieldModal,
+      passProps: {
+        inputField: ()=>{
+          return(
+            <TextInput
+            autofocus={true}
+            style={styles.autogrowTextinput}
+            placeholder={''}
+            autoGrow={true}
+            maxHeight={MagicNumbers.isSmallDevice ? 230 : 300}
+            autoCapitalize={'sentences'}
+            placeholderTextColor={colors.white}
+            autoCorrect={true}
+            returnKeyType={'go'}
+            multiline={true}
+            ref={'_textArea'}
+            clearButtonMode={'always'}
+            />
+          )
+        },
+        field:{
+          label: `About ${this.props.user.relationship_status == 'single' ? 'My' : 'Our'} Match`,
+          field_type:'textarea'
+        },
+        fieldName:'bio',
+        cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
+        fieldValue: this.props.user.bio || ''
+      }
+    })
+
+  }
+  onPressSelectable(field){
+    if(this.props.user.status == 'onboarded'){
+      this.toggleField(field)
+    }else{
+      this.showPartnerMissingModal()
+    }
+
+  }
+
+  toggleLocation(value){
+    this.setState({nearMeToggled: value})
+
+  }
+
   showPartnerMissingModal(){
     // if permission has been denied, show the modal in failedState mode (show settings link)
       this.props.navigator.push({
@@ -137,190 +184,167 @@ class  SettingsPreferences extends React.Component{
     let u = this.props.user;
 
     const {looking_for_mf,looking_for_mm,looking_for_ff, looking_for_f, looking_for_m} = this.state
-
+    const values = {looking_for_mf,looking_for_mm,looking_for_ff, looking_for_f, looking_for_m}
         return (
           <View style={styles.inner}>
 
           <FakeNavBar
-              blur={true}
-              backgroundStyle={{backgroundColor:colors.shuttleGray}}
-              hideNext={true}
-               navigator={this.props.navigator}
-              customPrev={
-                  <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
-                    <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
-                  </View>
-              }
-              onPrev={(nav,route)=> nav.pop()}
-              title={`PREFERENCES`}
-              titleColor={colors.white}
-              />
-            <ScrollView style={{flex:1,marginTop:50,paddingVertical:20}}
-              scrollEnabled={this.state.scroll == 'on' ? true : false}  >
-              <View style={styles.paddedSpace}>
-                  <View style={styles.formHeader}>
-                    <Text style={styles.formHeaderText}>{`About ${this.props.user.relationship_status == 'single' ? 'My' : 'Our'} Match`}</Text>
+            blur={true}
+            backgroundStyle={{backgroundColor:colors.shuttleGray}}
+            hideNext={true}
+            navigator={this.props.navigator}
+            customPrev={
+                <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
+                  <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
                 </View>
+            }
+            onPrev={(nav,route)=> nav.pop()}
+            title={`PREFERENCES`}
+            titleColor={colors.white}
+          />
+          <ScrollView
+            style={{flex:1,marginTop:50,paddingVertical:20}}
+            scrollEnabled={this.state.scroll == 'on' ? true : false}
+            >
+            <View style={styles.paddedSpace}>
+              <View style={styles.formHeader}>
+                <Text style={styles.formHeaderText}>
+                  {`About ${this.props.user.relationship_status == 'single' ? 'My' : 'Our'} Match`}
+                </Text>
               </View>
-              <View style={{marginTop:10}}>
-
-              <TouchableHighlight  underlayColor={colors.dark}  onPress={(f)=>{
-                  //trigger modal
-                  this.props.navigator.push({
-                    component: FieldModal,
-                    passProps: {
-                      inputField: ()=>{
-                        return(
-                        <TextInput
-                           autofocus={true}
-                           style={styles.autogrowTextinput}
-                           placeholder={''}
-                           autoGrow={true}
-                           maxHeight={MagicNumbers.isSmallDevice ? 230 : 300}
-                           autoCapitalize={'sentences'}
-                           placeholderTextColor={colors.white}
-                           autoCorrect={true}
-                           returnKeyType={'go'}
-                           multiline={true}
-                           ref={'_textArea'}
-                           clearButtonMode={'always'}
-                       />)},
-                      field:{
-                        label: `About ${this.props.user.relationship_status == 'single' ? 'My' : 'Our'} Match`, field_type:'textarea'
-                      },
-                      fieldName:'bio',
-                      cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
-                      fieldValue: this.props.user.bio || ''
-                    }
-                  })
-                }} >
-                <View  style={styles.textareaWrap}>
-                <Text numberOfLines={2}  style={{color:colors.white,height:50,fontSize:18,overflow:'hidden',alignSelf:'stretch',flexWrap:'wrap',textAlign:'left'}}>{this.props.user.bio ? this.props.user.bio : ''}</Text>
-                </View>
-              </TouchableHighlight>
-
-              </View>
-              <View style={[styles.paddedSpace,{marginBottom:0}]}>
-                <View style={styles.formHeader}>
-                  <Text style={styles.formHeaderText}>{`Show Me`}</Text>
-                </View>
-              </View>
-
-            {this.props.user.relationship_status == 'single' ?
-                <TouchableHighlight underlayColor={colors.dark} style={styles.paddedSpace} onPress={()=>{this.toggleField('looking_for_mf')}}>
-                <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
-                  <Text style={{color: looking_for_mf ? colors.white : colors.rollingStone,
-                      fontSize:MagicNumbers.size18,fontFamily:'Montserrat'}}>MALE + FEMALE COUPLES</Text>
-                    <Image source={looking_for_mf ? require('../../newimg/ovalSelected.png') : require('../../newimg/ovalDashed.png')}/>
-                </View>
-              </TouchableHighlight>
-              : null }
-
-              {this.props.user.relationship_status == 'single' ?
-
-              <TouchableHighlight underlayColor={colors.dark} style={styles.paddedSpace} onPress={()=>{this.toggleField('looking_for_mm')}}>
-                <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
-                  <Text style={{color: looking_for_mm ? colors.white : colors.rollingStone,
-                      fontSize:MagicNumbers.size18,fontFamily:'Montserrat'}}>MALE + MALE COUPLES</Text>
-                    <Image source={looking_for_mm ? require('../../newimg/ovalSelected.png') : require('../../newimg/ovalDashed.png')}/>
-                </View>
-              </TouchableHighlight>
-              : null }
-
-              {this.props.user.relationship_status == 'single' ?
-
-                <TouchableHighlight underlayColor={colors.dark} style={styles.paddedSpace} onPress={()=>{this.toggleField('looking_for_ff')}}>
-                  <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
-                    <Text style={{color: looking_for_ff ? colors.white : colors.rollingStone,
-                        fontSize:MagicNumbers.size18,fontFamily:'Montserrat'}}>FEMALE + FEMALE COUPLES</Text>
-                      <Image source={looking_for_ff ? require('../../newimg/ovalSelected.png') : require('../../newimg/ovalDashed.png')}/>
-                  </View>
-                </TouchableHighlight>
-              : null }
-
-
-              {this.props.user.relationship_status == 'couple' ?
-                <TouchableHighlight
-                  underlayColor={colors.dark}
-                  style={styles.paddedSpace}
-                  onPress={()=>{
-                      this.props.user.status == 'onboarded' ? this.toggleField('looking_for_f') : this.showPartnerMissingModal()
-                  }}>
-                  <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
-                    <Text style={{color: looking_for_f ? colors.white : colors.rollingStone,
-                        fontSize:MagicNumbers.size18,fontFamily:'Montserrat'}}>FEMALE SINGLES</Text>
-                      <Image source={looking_for_f ? require('../../newimg/ovalSelected.png') : require('../../newimg/ovalDashed.png')}/>
-                  </View>
-                </TouchableHighlight>
-              : null }
-              {this.props.user.relationship_status == 'couple' ?
-                <TouchableHighlight
-                  underlayColor={colors.dark}
-                  style={styles.paddedSpace}
-                  onPress={()=>{
-                      this.props.user.status == 'onboarded' ? this.toggleField('looking_for_m') : this.showPartnerMissingModal()
-                  }}>
-                  <View  style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow]}>
-                    <Text style={{color: looking_for_m ? colors.white : colors.rollingStone,
-                        fontSize:MagicNumbers.size18,fontFamily:'Montserrat'}}>MALE SINGLES</Text>
-                      <Image source={looking_for_m ? require('../../newimg/ovalSelected.png') : require('../../newimg/ovalDashed.png')}/>
-                  </View>
-                </TouchableHighlight>
-              : null }
-
-
-          <View  style={{paddingTop:50}}>
-
-            <View>
-              <AgePrefs toggleScroll={this.toggleScroll.bind(this)} user={this.props.user} showPartnerMissingModal={this.showPartnerMissingModal.bind(this)} />
             </View>
 
-              <View style={[styles.paddedSpace,{marginBottom:15}]}>
-                <View style={styles.formHeader}>
-                  <Text style={styles.formHeaderText}>{`Location`}</Text>
+            <View style={{marginTop:10}}>
+              <TouchableHighlight underlayColor={colors.dark} onPress={this.editBio.bind(this)}>
+                <View style={styles.textareaWrap}>
+                  <Text numberOfLines={2} style={styles.bioText}>
+                    {this.props.user.bio ? this.props.user.bio : ''}
+                  </Text>
                 </View>
-                <View style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow,{borderBottomWidth:0}]}>
-                  <Text style={{color:  colors.white, fontSize:18}}>Prioritize Users Near Me</Text>
-                  <SwitchIOS
-                    onValueChange={(value) => this.setState({nearMeToggled: value})}
-                    value={this.state.nearMeToggled > 0 ? true : false}
-                    onTintColor={colors.dark}
-                    thumbTintColor={this.state.nearMeToggled ? colors.mediumPurple : colors.shuttleGray}
-                    tintColor={colors.dark}
-                  />
-                </View>
-              </View>
-             <View style={[styles.paddedSpace,{marginBottom:15}]}>
-                <View style={styles.formHeader}>
-                  <Text style={styles.formHeaderText}>{`Notifications`}</Text>
-                </View>
-                <View style={[{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'},styles.formRow,{borderBottomWidth:0}]}>
-                  <Text style={{color:  colors.white, fontSize:18}}>Get notifications</Text>
-                  <SwitchIOS
-                    onValueChange={(value) => this.setState({notifyToggled: value})}
-                    value={this.state.notifyToggled > 0 ? true : false}
-                    onTintColor={colors.dark}
-                    thumbTintColor={this.state.notifyToggled ? colors.mediumPurple : colors.shuttleGray}
-                    tintColor={colors.dark}
-                  />
-                </View>
-              </View>
-
+              </TouchableHighlight>
             </View>
-          </ScrollView>
+
+            <View style={[styles.paddedSpace,{marginBottom:0}]}>
+              <View style={styles.formHeader}>
+                <Text style={styles.formHeaderText}>{`Show Me`}</Text>
+              </View>
+            </View>
+
+      {this.props.user.relationship_status == 'single' ?
+        <Selectable
+          field={'looking_for_mf'}
+          onPress={this.onPressSelectable.bind(this)}
+          label={'MALE + FEMALE COUPLES'}
+          values={values}
+        /> : null }
+      {this.props.user.relationship_status == 'single' ?
+        <Selectable
+          field={'looking_for_mm'}
+          onPress={this.onPressSelectable.bind(this)}
+          label={'MALE + MALE COUPLES'}
+          values={values}
+        /> : null }
+      {this.props.user.relationship_status == 'single' ?
+        <Selectable
+          field={'looking_for_ff'}
+          onPress={this.onPressSelectable.bind(this)}
+          label={'FEMALE + FEMALE COUPLES'}
+          values={values}
+        /> : null }
+
+      {this.props.user.relationship_status == 'couple' ?
+        <Selectable
+          field={'looking_for_f'}
+          onPress={this.onPressSelectable.bind(this)}
+          label={'FEMALE SINGLES'}
+          values={values}
+        /> : null }
+      {this.props.user.relationship_status == 'couple' ?
+        <Selectable
+          field={'looking_for_m'}
+          onPress={this.onPressSelectable.bind(this)}
+          label={'MALE SINGLES'}
+          values={values}
+        /> : null }
+
+      <View style={{paddingTop:50}}>
+
+        <View>
+          <AgePrefs
+            toggleScroll={this.toggleScroll.bind(this)}
+            user={this.props.user}
+            showPartnerMissingModal={this.showPartnerMissingModal.bind(this)}
+          />
+        </View>
+
+            <View style={[styles.paddedSpace,{marginBottom:15}]}>
+              <View style={styles.formHeader}>
+                <Text style={styles.formHeaderText}>{`Location`}</Text>
+              </View>
+              <View style={[styles.insideSelectable,styles.formRow,{borderBottomWidth:0}]}>
+                <Text style={{color: colors.white, fontSize:18}}>Prioritize Users Near Me</Text>
+                <SwitchIOS
+                  onValueChange={this.toggleLocation.bind(this)}
+                  value={this.state.nearMeToggled > 0 ? true : false}
+                  onTintColor={colors.dark}
+                  thumbTintColor={this.state.nearMeToggled ? colors.mediumPurple : colors.shuttleGray}
+                  tintColor={colors.dark}
+                />
+              </View>
+            </View>
+            <View style={[styles.paddedSpace,{marginBottom:15}]}>
+              <View style={styles.formHeader}>
+                <Text style={styles.formHeaderText}>{`Notifications`}</Text>
+              </View>
+              <View style={[styles.insideSelectable,styles.formRow,{borderBottomWidth:0}]}>
+                <Text style={{color:  colors.white, fontSize:18}}>Get notifications</Text>
+                <SwitchIOS
+                  onValueChange={(value) => this.setState({notifyToggled: value})}
+                  value={this.state.notifyToggled > 0 ? true : false}
+                  onTintColor={colors.dark}
+                  thumbTintColor={this.state.notifyToggled ? colors.mediumPurple : colors.shuttleGray}
+                  tintColor={colors.dark}
+                />
+              </View>
+            </View>
 
           </View>
+        </ScrollView>
 
-
-
-
+      </View>
     )
   }
 }
 
 export default SettingsPreferences
 
-
+class Selectable extends React.Component{
+  constructor(props){
+    super()
+  }
+  render(){
+    return (
+      <TouchableHighlight
+        underlayColor={colors.dark}
+        style={styles.paddedSpace}
+        onPress={() => this.props.onPress(this.props.field) }
+        >
+        <View style={[styles.insideSelectable,styles.formRow]}>
+          <Text
+            style={{color: this.props.values[this.props.field] ? colors.white : colors.rollingStone,
+              fontSize:MagicNumbers.size18,fontFamily:'Montserrat'
+            }}
+          >{this.props.label}</Text>
+          <Image
+            source={this.props.values[this.props.field] ?
+              require('../../newimg/ovalSelected.png') :
+              require('../../newimg/ovalDashed.png')}
+          />
+        </View>
+      </TouchableHighlight>
+    )
+  }
+}
 
 
 var styles = StyleSheet.create({
@@ -379,7 +403,22 @@ var styles = StyleSheet.create({
    alignItems: 'center',
    flexDirection: 'row',
    justifyContent: 'center'
- },
+},
+insideSelectable:{
+  height:60,
+  alignItems:'center',
+  justifyContent:'space-between',
+  flexDirection:'row'
+},
+biotext:{
+  color:colors.white,
+  height:50,
+  fontSize:18,
+  overflow:'hidden',
+  alignSelf:'stretch',
+  flexWrap:'wrap',
+  textAlign:'left'
+},
  sliderFormRow:{
    height:160,
    paddingLeft: 30,

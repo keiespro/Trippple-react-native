@@ -45,7 +45,7 @@ var SliderTabBar = React.createClass({
     var numberOfTabs = this.props.tabs.length;
     var w = MagicNumbers.screenWidth/ numberOfTabs;
 
-    var tabUnderlineStyle = {
+    const tabUnderlineStyle = {
       position: 'absolute',
       width: MagicNumbers.screenWidth / 2,
       height: 2,
@@ -61,7 +61,7 @@ var SliderTabBar = React.createClass({
     };
 
     return (
-      <View style={[styles.tabs,]}>
+      <View style={[styles.tabs,{marginBottom:20}]}>
         {this.props.tabs.map((tab, i) => this.renderTabOption(tab, i))}
         <Animated.View style={tabUnderlineStyle} ref={'TAB_UNDERLINE_REF'} />
       </View>
