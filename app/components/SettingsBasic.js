@@ -205,7 +205,7 @@ class SettingsBasic extends React.Component{
         <ScrollView style={{flex:1,marginTop:55,backgroundColor:colors.dark}} contentContainerStyle={{alignItems:'flex-start'}} >
       <View style={{backgroundColor:colors.outerSpace}}>
 
-        <ScrollableTabView style={{overflow:'hidden',}} renderTabBar={(props)=><CustomTabBar {...props}/>}>
+        <ScrollableTabView style={{overflow:'hidden',}} padded={false} renderTabBar={(props)=><CustomTabBar {...props}/>}>
           <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:MagicNumbers.screenPadding/2}}  tabLabel={'GENERAL'}>
           {user.relationship_status == 'single' ? null : <View style={{height:150,width:150,alignSelf:'center'}}>
           <TouchableOpacity onPress={this._pressNewImage} style={{marginTop:20,}}>
@@ -293,15 +293,24 @@ class SettingsBasic extends React.Component{
             </View>
                 </View>
 
-        <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth, paddingBottom:0 }}  tabLabel={'DETAILS'}>
+                <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth, paddingBottom:0 }}  tabLabel={'DETAILS'}>
           <View style={styles.paddedSpace}>
             <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>Details</Text>
             </View>
           </View>
-          <View style={{}}>
+          <View style={{alignSelf:'stretch',alignItems:'stretch',width:DeviceWidth}}>
           {['height','body_type','ethnicity','eye_color','hair_color','smoke','drink'].map((field) => {
-            return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
+            return (
+              <View style={{alignSelf:'stretch',alignItems:'stretch',width:DeviceWidth}}>
+                <ProfileField
+                  user={this.props.user}
+                  navigator={this.props.navigator}
+                  fieldName={field}
+                  field={settingOptions[field]}
+                />
+              </View>
+            )
           })}
           </View>
 
