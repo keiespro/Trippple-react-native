@@ -64,9 +64,16 @@ componentWillMount(){
 
     if(!this.props.payload) { return  }
 
-    const { payload } = this.props;
+    const { payload,user } = this.props;
 
-        return (
+    if(payload.type =='match'){
+      const myPartnerId = user.relationship_status === 'couple' ? user.partner_id : null,
+          theirIds = Object.keys(payload.users).filter( (u)=> u != user.id),
+          them = theirIds.map((id)=> payload.users[id]),
+          threadName = them.map( (u,i) => u.firstname.trim() ).join(' & '),
+          matchName = threadName + (theirIds.length > 1 ? ' like ' : ' likes ');
+    }
+    return (
       <Animated.View style={[styles.notificationWrapper,
         {
           transform: [{
@@ -112,7 +119,7 @@ componentWillMount(){
                 </View>
                 <View style={styles.notificationRight}>
                   <Text style={[styles.notiTitle,styles.titleNewMatch]}>IT'S A MATCH!</Text>
-                  <Text style={styles.notiText}>{`${matchName} likes you back!`}</Text>
+                  <Text style={styles.notiText}>{`${matchName} you back!`}</Text>
                 </View>
               </View>
             </TouchableOpacity>

@@ -93,7 +93,8 @@ class NotificationPermissions extends React.Component{
           },0);
 
           if(permResult == 0){
-            NotificationActions.requestNotificationsPermission()
+    NotificationActions.requestNotificationsPermission({alert:true,badge:true,sound:true})
+
             this.setState({failedState:true})
           }else{
 

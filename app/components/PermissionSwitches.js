@@ -7,12 +7,13 @@ import React, {
   View,
   SwitchIOS,
   PixelRatio,
+  PushNotificationIOS,
   NativeModules,
   AsyncStorage,
   Dimensions
 } from  'react-native'
 
-import UserActions from '../flux/actions/UserActions'
+import NotificationActions from '../flux/actions/NotificationActions'
 import colors from '../utils/colors'
 import reactMixin from 'react-mixin'
 import {MagicNumbers} from '../DeviceConfig'
@@ -78,6 +79,8 @@ class PermissionSwitches extends React.Component{
     }
   }
   toggleNotification(){
+    if(this.state.notificationSetting == false){
+
     PushNotificationIOS.checkPermissions( (permissions) => {
       const permResult = Object.keys(permissions).reduce((acc,el,i) =>{
         acc = acc + permissions[el];
@@ -85,12 +88,13 @@ class PermissionSwitches extends React.Component{
       },0);
 
       if(!permResult){
+        PushNotificationIOS.abandonPermissions()
         this.props.navigator.push({
           component:NotificationPermissions,
           passProps:{
             failCallback: (val)=>{
               this.props.navigator.pop();
-              this.setState({ notificationSetting: ~~val })
+              this.setState({ notificationSetting: val })
             }
           }
         })
@@ -100,6 +104,10 @@ class PermissionSwitches extends React.Component{
         this.setState({ notificationSetting: newValue })
       }
     })
+
+  }else{
+        this.setState({ notificationSetting: false })
+  }
   }
   componentDidUpdate(pProps,pState){
     // if(this.state.nearMeToggled != pState.nearMeToggled && !pState.nearMeToggled){
