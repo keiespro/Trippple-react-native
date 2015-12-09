@@ -78,17 +78,17 @@ class AppStateStore {
   }
   handleTogglePermission(permission,value){
 
-    const perms = this.permissions
-    perms[permission] = value
-    this.saveToLocalStorage(permission,value)
-    this.setState({permissions:perms})
+//     const perms = this.permissions
+//     perms[permission] = value
+//     this.saveToLocalStorage(permission,value)
+//     this.setState({permissions:perms})
   }
 
   handleGrantPermission(permission){
-    this.handleTogglePermission(permission, true)
+    // this.handleTogglePermission(permission, true)
   }
   handleDenyPermission(permission){
-    this.handleTogglePermission(permission, true)
+    // this.handleTogglePermission(permission, true)
   }
 
   async saveToLocalStorage(permission, value){

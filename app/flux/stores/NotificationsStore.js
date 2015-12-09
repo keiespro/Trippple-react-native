@@ -84,7 +84,7 @@ class NotificationsStore {
 
     this.setState({
       notifications: [readyNotification],
-      pendingNotifications: []
+      pendingNotifications: [...this.state.pendingNotifications.slice(1,this.state.pendingNotifications.length)]
     })
     this.expireNotification()
     this.updateBadgeCount(1)
