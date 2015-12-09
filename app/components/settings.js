@@ -170,43 +170,42 @@ class SettingsInside extends React.Component{
 
   render(){
     const { user } = this.props
-    var src ;
-    var thumbSrc ;
-
-  if(user.localUserImage && user.localUserImage.uri){
-    src = user.localUserImage.uri;
-    thumbSrc = user.localUserImage.uri;
-  }else if(user.localUserImage && !user.localUserImage.uri){
-    src = user.localUserImage;
-    thumbSrc = user.localUserImage.uri;
-  }else if(!user.localUserImage && user.image_url && user.image_url.uri){
-    src = user.image_url.uri;
-    thumbSrc = user.thumb_url.uri;
-  }else if(!user.localUserImage && user.image_url && !user.image_url.uri){
-    src = user.image_url;
-    thumbSrc = user.thumb_url.uri;
-  }
-
-
-
-  if(user.relationship_status == 'couple'){
-
-
-    if(user.localCoupleImage && user.localCoupleImage.uri){
-      src = user.localCoupleImage.uri;
-      thumbSrc = user.localCoupleImage.uri;
-    }else if(user.localCoupleImage && !user.localCoupleImage.uri){
-      src = user.localCoupleImage;
-      thumbSrc = user.localCoupleImage;
-    }else if(!user.localCoupleImage && user.couple && user.couple.image_url && user.couple.image_url.uri){
-      src = user.couple.image_url.uri;
-      thumbSrc = user.couple.thumb_url.uri;
-    }else if(!user.localCoupleImage && user.couple && user.couple.image_url && !user.couple.image_url.uri){
-      src = user.couple.image_url;
-      thumbSrc = user.couple.thumb_url;
+    var src;
+    var thumbSrc;
+    if(user.localUserImage && user.localUserImage.uri){
+      src = user.localUserImage.uri;
+      thumbSrc = user.localUserImage.uri;
+    }else if(user.localUserImage && !user.localUserImage.uri){
+      src = user.localUserImage;
+      thumbSrc = user.localUserImage.uri;
+    }else if(!user.localUserImage && user.image_url && user.image_url.uri){
+      src = user.image_url.uri;
+      thumbSrc = user.thumb_url.uri;
+    }else if(!user.localUserImage && user.image_url && !user.image_url.uri){
+      src = user.image_url;
+      thumbSrc = user.thumb_url;
     }
 
-  }
+
+
+    if(user.relationship_status == 'couple'){
+
+
+      if(user.localCoupleImage && user.localCoupleImage.uri){
+        src = user.localCoupleImage.uri;
+        thumbSrc = user.localCoupleImage.uri;
+      }else if(user.localCoupleImage && !user.localCoupleImage.uri){
+        src = user.localCoupleImage;
+        thumbSrc = user.localCoupleImage;
+      }else if(!user.localCoupleImage && user.couple && user.couple.image_url && user.couple.image_url.uri){
+        src = user.couple.image_url.uri;
+        thumbSrc = user.couple.thumb_url.uri;
+      }else if(!user.localCoupleImage && user.couple && user.couple.image_url && !user.couple.image_url.uri){
+        src = user.couple.image_url;
+        thumbSrc = user.couple.thumb_url;
+      }
+
+    }
 
     return (
       <View style={{flex:1}}>

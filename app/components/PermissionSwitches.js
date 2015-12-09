@@ -43,7 +43,7 @@ class PermissionSwitches extends React.Component{
 
       this.setState({
         locationSetting: parseInt(OSPermissions.location) > 2 && locationSetting ? true : false,
-        notificationSetting:  JSON.parse(OSPermissions.notifications) && notificationSetting ? true : false,
+        notificationSetting: OSPermissions.notifications && notificationSetting ? true : false,
       })
     })
   }
@@ -81,34 +81,34 @@ class PermissionSwitches extends React.Component{
   toggleNotification(){
     if(this.state.notificationSetting == false){
 
-    PushNotificationIOS.checkPermissions( (permissions) => {
-      const permResult = Object.keys(permissions).reduce((acc,el,i) =>{
-        acc = acc + permissions[el];
-        return acc
-      },0);
+      PushNotificationIOS.checkPermissions( (permissions) => {
+        const permResult = Object.keys(permissions).reduce((acc,el,i) =>{
+          acc = acc + permissions[el];
+          return acc
+        },0);
 
-      if(!permResult){
-        this.props.navigator.push({
-          component:NotificationPermissions,
-          passProps:{
-            failCallback: (val)=>{
-              this.props.navigator.pop();
-              this.setState({ notificationSetting: val })
+        if(!permResult){
+          this.props.navigator.push({
+            component:NotificationPermissions,
+            passProps:{
+              failCallback: (val)=>{
+                this.props.navigator.pop();
+                this.setState({ notificationSetting: val })
+              }
             }
-          }
-        })
-      }else{
-        const newValue = !this.state.notificationSetting;
-        AsyncStorage.setItem('notificationSetting', newValue + '');
-        this.setState({ notificationSetting: newValue })
-      }
-    })
+          })
+        }else{
+          const newValue = !this.state.notificationSetting;
+          this.setState({ notificationSetting: newValue });
+          AsyncStorage.setItem('notificationSetting', newValue + '');
+        }
+      })
 
-  }else{
-        this.setState({ notificationSetting: false })
+    }else{
+      this.setState({ notificationSetting: false })
+    }
   }
-  }
-  componentDidUpdate(pProps,pState){
+  // componentDidUpdate(pProps,pState){
     // if(this.state.nearMeToggled != pState.nearMeToggled && !pState.nearMeToggled){
     //   OSPermissions.canUseLocation( (locPerm) => {
     //     if(locPerm > 2){
@@ -119,7 +119,7 @@ class PermissionSwitches extends React.Component{
     //   })
     // }
 
-  }
+  // }
 
   render(){
     return (

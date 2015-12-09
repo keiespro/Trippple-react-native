@@ -68,7 +68,7 @@ insideSelectable:{
   justifyContent:'space-between',
   flexDirection:'row'
 },
-biotext:{
+bioText:{
   color:colors.white,
   height:50,
   fontSize:18,
