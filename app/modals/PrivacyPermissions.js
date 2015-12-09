@@ -129,7 +129,7 @@ export default class PrivacyPermissionsModal extends Component{
 
     return (
         <PurpleModal>
-          <View style={[styles.col,{justifyContent:'space-between',}]}>
+          <View style={[styles.col,{justifyContent:'space-between',padding:20}]}>
             <View style={{alignItems:'center'}}>
               <Image
                 resizeMode={Image.resizeMode.contain}

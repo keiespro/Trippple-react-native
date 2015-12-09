@@ -152,7 +152,7 @@ class Carousel extends Component{
             marginBottom:25,
             height: DeviceHeight/3 + MagicNumbers.screenPadding,
             paddingTop: 20,
-            marginTop: i == 0 ? MagicNumbers.screenPadding*3 : MagicNumbers.screenPadding,
+            marginTop: i == 0 ? MagicNumbers.screenPadding*1.8 : MagicNumbers.screenPadding,
             width: i == 0 ? MagicNumbers.screenWidth : MagicNumbers.screenPadding*5
           } } source={slide.img} resizeMode={Image.resizeMode.contain}/>
       <View style={[styles.textwrap,{marginBottom:5}]}><Text style={[styles.textplain,

@@ -18,10 +18,7 @@ class NotificationActions {
       Api.updatePushToken(token)
       .then(()=> this.dispatch(token))
     })
-    PushNotificationIOS.requestPermissions((result) =>{
-
-
-    })
+    PushNotificationIOS.requestPermissions({alert:true,badge:true,sound:true})
 
   }
 
@@ -45,26 +42,26 @@ class NotificationActions {
     this.dispatch(payload)
   }
 
-  receiveNewMessageNotification(payload){
+  receiveNewMessageNotification(payload,isBackground){
     const { data } = payload
 
 
     if(data.action === 'retrieve' && data.match_id) {
       MatchActions.getMessages.defer(data.match_id)
-
     }
-    this.dispatch(payload)
-
+    if(!isBackground){
+      this.dispatch(payload)
+    }
   }
-  receiveNewMatchNotification(payload){
+  receiveNewMatchNotification(payload,isBackground){
 
     const { action } = payload
     if(action === 'retrieve') {
       MatchActions.getMatches.defer()
     }
-    this.dispatch(payload)
-
-
+    if(!isBackground){
+      this.dispatch(payload)
+    }
 
   }
   receiveMatchRemovedNotification(payload){
@@ -72,11 +69,12 @@ class NotificationActions {
   }
 
   scheduleNewPotentialsAlert(time){
-    const fireDate = moment((time || { hour: 24 })).toDate(), //tonight at midnight
+    var t = time ||  { hour: 23, minute: 59 }
+    const fireDate = moment(t).toDate(), //tonight at midnight
           data = {
             alert: {
               title: 'New Matches!',
-              body: 'body'
+              body: 'body',
             },
             action:'retrieve',
             type: 'potentials',

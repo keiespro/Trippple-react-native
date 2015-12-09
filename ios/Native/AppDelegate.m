@@ -36,9 +36,6 @@
 
 
   [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
-  UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
-  UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-  [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"trippple"

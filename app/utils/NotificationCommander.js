@@ -85,11 +85,19 @@ class NotificationCommander extends Component{
 
     }else if(data.action === 'retrieve' && data.match_id) {
 
-      NotificationActions.receiveNewMatchNotification(data)
+      // NotificationActions.receiveNewMatchNotification(data,true)
+
+      MatchActions.getMatches()
+      AppActions.updateRoute({route:'chat',match_id: data.match_id,})
+      NotificationActions.updateBadgeNumber.defer(-1)
 
     }else if(data.action === 'chat' && data.match_id){
 
-      NotificationActions.receiveNewMessageNotification(data)
+      // NotificationActions.receiveNewMessageNotification(data,true)
+
+      MatchActions.getMessages(data.match_id)
+      AppActions.updateRoute({route:'chat',match_id: data.match_id,})
+      NotificationActions.updateBadgeNumber.defer(-1)
 
     }else if(data.action === 'notify') {
 

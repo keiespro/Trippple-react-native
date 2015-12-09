@@ -72,7 +72,12 @@ class PartnerMissingModal extends Component{
 
               <Image
                 resizeMode={Image.resizeMode.contain}
-                style={[styles.contactthumb,{width:150,height:160,marginVertical:20}]}
+                style={[styles.contactthumb,{
+                  width:150,
+                  height:160,
+                  marginTop:20,
+                    marginBottom:MagicNumbers.isSmallDevice ? 10 : 20
+}]}
                 source={require('../../newimg/iconModalMissingPartner.png')}
                />
 

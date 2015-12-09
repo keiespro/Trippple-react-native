@@ -320,7 +320,8 @@ class ImageCropper extends React.Component {
   }
 
   _updateTransformData(offset, scaledImageSize, croppedImageSize) {
-    const MN = 1.667; // perhaps not entirely correct
+    const MN = scaledImageSize.height/scaledImageSize.width;
+    //1.667; // perhaps not entirely correct
 
     const offsetRatioX = offset.x / scaledImageSize.width,
           offsetRatioY = offset.y / scaledImageSize.height,
@@ -352,7 +353,7 @@ class ImageCropper extends React.Component {
         contentOffset={this._contentOffset}
         decelerationRate={decelerationRate}
         horizontal={true}
-        minimumZoomScale={0.5}
+        minimumZoomScale={1}
         scrollEnabled={!this.props.busy}
         maximumZoomScale={5.0}
         onMomentumScrollEnd={this._onScroll.bind(this)}

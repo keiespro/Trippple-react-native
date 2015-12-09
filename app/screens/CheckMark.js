@@ -95,7 +95,7 @@ class CheckMarkScreen extends Component{
         height:DeviceHeight,
         backgroundColor:colors.outerSpace,
         alignItems:'center',
-
+flexDirection:'column',
         top:0,
         left:0,
         position:'absolute',
@@ -105,7 +105,7 @@ class CheckMarkScreen extends Component{
 
         <Animated.View style={{
           width:DeviceWidth,
-          height:DeviceHeight,
+          height:200,
           alignItems:'center',
           justifyContent:'center',
           flex:1,
@@ -118,15 +118,28 @@ class CheckMarkScreen extends Component{
           style={{width:200,height:200, }} />
         </Animated.View>
 
-          <Animated.View
+        {!this.props.checkMarkCopy.partnerName && <Animated.View
+          style={{
+            opacity: this.state.textOpacityValue,
+            top: -120
+          }}>
+            <Text
+              style={{
+              fontSize:24,
+              color:'#ffffff',
+              marginTop: 0,
+              fontFamily:'Montserrat-Bold',
+            }}>{this.props.checkMarkCopy && this.props.checkMarkCopy.title || ''}</Text></Animated.View>}
+
+        {this.props.checkMarkCopy.partnerName && <Animated.View
             style={{ opacity:this.state.textOpacityValue}}>
             <Text
               style={{
               fontSize:24,
               color:'#ffffff',
-              marginTop: this.props.checkMarkCopy.partnerName ? 40 : -100,
+              marginTop: 40,
               fontFamily:'Montserrat-Bold',
-            }}>{this.props.checkMarkCopy && this.props.checkMarkCopy.title || ''}</Text></Animated.View>
+            }}>{this.props.checkMarkCopy && this.props.checkMarkCopy.title || ''}</Text></Animated.View>}
 
         <Animated.View
           style={{

@@ -100,31 +100,25 @@ class  SettingsPreferences extends React.Component{
 
   }
   onPressSelectable(field){
-    if(this.props.user.status == 'onboarded'){
+    if(this.props.user.relationship_status == 'couple' && this.props.user.status == 'onboarded'){
       this.toggleField(field)
-    }else{
+    }else if(this.props.user.relationship_status == 'couple' && this.props.user.status != 'onboarded'){
       this.showPartnerMissingModal()
+    }else if(this.props.user.relationship_status == 'single'){
+      this.toggleField(field)
+
     }
-
-  }
-
-  toggleLocation(value){
-    this.setState({nearMeToggled: value})
-
   }
 
   showPartnerMissingModal(){
     // if permission has been denied, show the modal in failedState mode (show settings link)
-      this.props.navigator.push({
-        component:PartnerMissingModal,
-        passProps:{
-
-
-          goBack:()=>{this.props.navigator.pop(); },
-
-        }
-      })
-    }
+    this.props.navigator.push({
+      component:PartnerMissingModal,
+      passProps:{
+        goBack:()=>{this.props.navigator.pop(); },
+      }
+    })
+  }
   render(){
     let u = this.props.user;
 
@@ -139,9 +133,9 @@ class  SettingsPreferences extends React.Component{
             hideNext={true}
             navigator={this.props.navigator}
             customPrev={
-                <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
-                  <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
-                </View>
+              <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
+                <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
+              </View>
             }
             onPrev={(nav,route)=> nav.pop()}
             title={`PREFERENCES`}

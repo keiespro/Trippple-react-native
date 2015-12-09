@@ -53,12 +53,24 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>graph.facebook.com</key>
-			<dict/>
 			<key>api.mixpanel.com</key>
 			<dict/>
+			<key>graph.facebook.com</key>
+			<dict/>
+			<key>localhost</key>
+			<dict>
+				<key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+			<key>mbp-elrik-iii.local</key>
+			<dict>
+				<key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
 			<key>trippple.co</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
@@ -72,8 +84,6 @@
 				<true/>
 			</dict>
 		</dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<false/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Prioritize users nearby?</string>
