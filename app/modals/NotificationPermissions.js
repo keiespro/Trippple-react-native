@@ -68,14 +68,14 @@ class NotificationPermissions extends React.Component{
           acc = acc + permissions[el];
           return acc
         },0);
+
         this.setState({permissions, hasPermission: permResult > 0})
+
       })
     }
     componentDidUpdate(prevProps,prevState){
       if(!prevState.hasPermission && this.state.hasPermission ){
-        this.props.navigator.pop()
-
-
+        this.props.failCallback(true)
       }
     }
     cancel(){
@@ -86,8 +86,22 @@ class NotificationPermissions extends React.Component{
         UrlHandler.openUrl(UrlHandler.settingsUrl)
 
       }else{
-        NotificationActions.requestNotificationsPermission()
-        this.handleSuccess()
+        PushNotificationIOS.checkPermissions((permissions) => {
+          const permResult = Object.keys(permissions).reduce((acc,el,i) =>{
+            acc = acc + permissions[el];
+            return acc
+          },0);
+
+          if(permResult == 0){
+            NotificationActions.requestNotificationsPermission()
+            this.setState({failedState:true})
+          }else{
+
+            this.setState({permissions, hasPermission: permResult > 0})
+          }
+
+        })
+
       }
     }
     handleFail(){
@@ -106,7 +120,7 @@ class NotificationPermissions extends React.Component{
     }
     _handleAppStateChange(currentAppState) {
       if(currentAppState == 'active'){
-        PushNotificationIOS.checkPermissions( (permission) => {
+        PushNotificationIOS.checkPermissions( (permissions) => {
           const permResult = Object.keys(permissions).reduce((acc,el,i) =>{
             acc = acc + permissions[el];
             return acc

@@ -90,6 +90,7 @@ import AppActions from '../flux/actions/AppActions'
         this.handleSuccess(geo)
       },
       (error) => {
+        __DEV__ && console.log(error)
         this.requestPermission()
 
         // this.setState({hasPermission: false, failedState: true})

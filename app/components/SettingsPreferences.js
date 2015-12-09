@@ -25,7 +25,7 @@ import FakeNavBar from '../controls/FakeNavBar';
 import dismissKeyboard from 'dismissKeyboard'
 import Dimensions from 'Dimensions'
 import AgePrefs from '../controls/AgePrefs'
-import ToggleSwitch from '../controls/switches'
+import PermissionSwitches from './PermissionSwitches'
 import UserActions from '../flux/actions/UserActions'
 import EditImage from '../screens/registration/EditImage'
 import SelfImage from './loggedin/SelfImage'
@@ -36,6 +36,7 @@ import {MagicNumbers} from '../DeviceConfig'
 import CheckPermissions from '../modals/CheckPermissions'
 import PartnerMissingModal from '../modals/PartnerMissingModal'
 import NotificationPermissions from '../modals/NotificationPermissions'
+import styles from './settingsStyles'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -65,63 +66,7 @@ class  SettingsPreferences extends React.Component{
   toggleScroll(direction){
     this.setState({scroll:direction})
   }
-  componentDidUpdate(pProps,pState){
-    if(this.state.nearMeToggled != pState.nearMeToggled && !pState.nearMeToggled){
-      OSPermissions.canUseLocation( (locPerm) => {
-        if(locPerm > 2){
-          this.setState({nearMeToggled:true})
-        }else{
-          this.setState({nearMeToggled:false})
-        }
-      })
-    }
-
-    // if permission has been denied, show the modal in failedState mode (show settings link)
-    if((this.state.nearMeToggled && !pState.nearMeToggled)){
-      this.props.navigator.push({
-        component:CheckPermissions,
-        passProps:{
-          title:'PRIORITIZE LOCAL',
-          subtitle:'We’ve found 10 matches we think you might like. Should we prioritize the matches closest to you?',
-          failedTitle: 'LOCATION DISABLED',
-          failCallback:(val)=>{
-            this.props.navigator.pop();
-            this.setState({nearMeToggled:false})
-
-        },
-         successCallback:(coords)=>{
-            this.props.navigator.pop();
-            this.setState({nearMeToggled:true})
-
-          },
-
-          failedSubtitle: 'Geolocation is disabled. You can enable it in your phone’s Settings.',
-          failedState: (parseInt(OSPermissions.location) < 3 ? true : false),
-          headerImageSource:'iconDeck',
-          permissionKey:'location',
-          renderNextMethod: 'pop',
-          renderMethod:'push',
-          renderPrevMethod:'pop',
-        }
-      })
-    }
-
-    // if permission has been denied, show the modal in failedState mode (show settings link)
-    if((this.state.notifyToggled && !pState.notifyToggled)){
-      this.props.navigator.push({
-        component:NotificationPermissions,
-        passProps:{
-          failCallback:(val)=>{
-            this.props.navigator.pop();
-            this.setState({notifyToggled:val})
-
-          },
-        }
-    })
-    }
-
-  }
-  editBio(){
+   editBio(){
     this.props.navigator.push({
       component: FieldModal,
       passProps: {
@@ -277,44 +222,16 @@ class  SettingsPreferences extends React.Component{
           />
         </View>
 
-            <View style={[styles.paddedSpace,{marginBottom:15}]}>
-              <View style={styles.formHeader}>
-                <Text style={styles.formHeaderText}>{`Location`}</Text>
-              </View>
-              <View style={[styles.insideSelectable,styles.formRow,{borderBottomWidth:0}]}>
-                <Text style={{color: colors.white, fontSize:18}}>Prioritize Users Near Me</Text>
-                <SwitchIOS
-                  onValueChange={this.toggleLocation.bind(this)}
-                  value={this.state.nearMeToggled > 0 ? true : false}
-                  onTintColor={colors.dark}
-                  thumbTintColor={this.state.nearMeToggled ? colors.mediumPurple : colors.shuttleGray}
-                  tintColor={colors.dark}
-                />
-              </View>
-            </View>
-            <View style={[styles.paddedSpace,{marginBottom:15}]}>
-              <View style={styles.formHeader}>
-                <Text style={styles.formHeaderText}>{`Notifications`}</Text>
-              </View>
-              <View style={[styles.insideSelectable,styles.formRow,{borderBottomWidth:0}]}>
-                <Text style={{color:  colors.white, fontSize:18}}>Get notifications</Text>
-                <SwitchIOS
-                  onValueChange={(value) => this.setState({notifyToggled: value})}
-                  value={this.state.notifyToggled > 0 ? true : false}
-                  onTintColor={colors.dark}
-                  thumbTintColor={this.state.notifyToggled ? colors.mediumPurple : colors.shuttleGray}
-                  tintColor={colors.dark}
-                />
-              </View>
-            </View>
+        <PermissionSwitches {...this.props} />
+        </View>
 
-          </View>
         </ScrollView>
 
       </View>
     )
   }
 }
+
 
 export default SettingsPreferences
 
@@ -345,143 +262,3 @@ class Selectable extends React.Component{
     )
   }
 }
-
-
-var styles = StyleSheet.create({
-
-
- container: {
-   flex: 1,
-   justifyContent: 'center',
-   alignItems: 'stretch',
-   position:'relative',
-   alignSelf: 'stretch',
-   backgroundColor:colors.outerSpace
-  //  overflow:'hidden'
- },
- inner:{
-   flex: 1,
-   alignItems: 'stretch',
-   backgroundColor:colors.outerSpace,
-   flexDirection:'column',
-   justifyContent:'flex-start'
- },
-
- blur:{
-   flex:1,
-   alignSelf:'stretch',
-   alignItems:'center',
-   paddingTop: 60,
-   paddingBottom: 40,
-
- },
-
-
- formHeader:{
-   marginTop:40
- },
- formHeaderText:{
-   color: colors.rollingStone,
-   fontFamily: 'omnes'
- },
- formRow: {
-   alignItems: 'center',
-   flexDirection: 'row',
-
-   alignSelf: 'stretch',
-   paddingTop:0,
-   flex:1,
-   borderBottomWidth: 1/PixelRatio.get(),
-   borderBottomColor: colors.rollingStone
-
- },
- tallFormRow: {
-   width: 250,
-   left:0,
-   height:220,
-   alignSelf:'stretch',
-   alignItems: 'center',
-   flexDirection: 'row',
-   justifyContent: 'center'
-},
-insideSelectable:{
-  height:60,
-  alignItems:'center',
-  justifyContent:'space-between',
-  flexDirection:'row'
-},
-biotext:{
-  color:colors.white,
-  height:50,
-  fontSize:18,
-  overflow:'hidden',
-  alignSelf:'stretch',
-  flexWrap:'wrap',
-  textAlign:'left'
-},
- sliderFormRow:{
-   height:160,
-   paddingLeft: 30,
-   paddingRight:30
- },
- picker:{
-   height:200,
-   alignItems: 'stretch',
-   flexDirection: 'column',
-   alignSelf:'flex-end',
-   justifyContent:'center',
- },
- halfcell:{
-   width:DeviceWidth / 2,
-   alignItems: 'center',
-   alignSelf:'center',
-   justifyContent:'space-around'
-
-
- },
-
- formLabel: {
-   flex: 8,
-   fontSize: 18,
-   fontFamily:'omnes'
- },
- header:{
-   fontSize:24,
-   fontFamily:'omnes'
-
- },
- textfield:{
-   color: colors.white,
-   fontSize:20,
-   alignItems: 'stretch',
-   flex:1,
-   textAlign: 'left',
-   fontFamily:'Montserrat',
- },
- paddedSpace:{
-   paddingHorizontal:MagicNumbers.screenPadding/2
- },
-
- autogrowTextinput:{
-     alignSelf: 'stretch',
-     padding: 0,
-     fontSize: MagicNumbers.size18 + 2,
-     height:200,
-     fontFamily:'omnes',
-     color: colors.white,
-
-     width:DeviceWidth - MagicNumbers.screenPadding
- },
- textareaWrap:{
-   marginHorizontal:MagicNumbers.screenPadding/2,
-   height:70,
-   width:DeviceWidth - MagicNumbers.screenPadding,
-   flexWrap:'wrap',
-   alignItems:'center',
-   justifyContent:'center',
-   flexDirection:'column',
-    borderBottomWidth: 1/PixelRatio.get(),
-    borderColor:colors.shuttleGray
-  }
-
-});
