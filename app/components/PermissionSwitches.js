@@ -88,7 +88,6 @@ class PermissionSwitches extends React.Component{
       },0);
 
       if(!permResult){
-        PushNotificationIOS.abandonPermissions()
         this.props.navigator.push({
           component:NotificationPermissions,
           passProps:{
