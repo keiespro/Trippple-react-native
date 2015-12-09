@@ -98,27 +98,22 @@ class MatchesStore {
     const user = UserStore.getUser()
     if(!message_thread || !message_thread.length || (message_thread.length == 1 && !message_thread[0].message_body)) return false
 
-    var newCounts = {[match_id]: this.state.unreadCounts[match_id] || 0},
+    var newCounts = this.state.unreadCounts,
         access = this.state.lastAccessed;
 
-// prevent tripppling of value??
-
-//     if( !newCounts[match_id] ){
-//       newCounts[match_id] = 0;
-//     }
-
+    newCounts[match_id] = 0;
     if( !access[match_id] ){
       access[match_id] = this.state.mountedAt
     }
-
+    let count = 0;
     for(var msg of message_thread){
       if(msg.from_user_info.id != user.id && (msg.created_timestamp &&  (access[match_id] < (msg.created_timestamp * 1000)))){
-          newCounts[match_id]++
+          count = count + 1
       }
     }
-
+    newCounts[match_id] = count;
     this.setState({
-      unreadCounts: { ...this.state.unreadCounts, ...newCounts}
+      unreadCounts: newCounts
     })
 
   }
