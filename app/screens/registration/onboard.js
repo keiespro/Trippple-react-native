@@ -14,7 +14,7 @@ import colors from '../../utils/colors'
 import CustomSceneConfigs from '../../utils/sceneConfigs'
 import OnboardingStore from '../../flux/stores/OnboardingStore'
 import OnboardingActions from '../../flux/actions/OnboardingActions'
-import AltContainer from 'alt/AltNativeContainer'
+import AltContainer from 'alt-container/native'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width

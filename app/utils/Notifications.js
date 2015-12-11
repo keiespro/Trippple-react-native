@@ -8,7 +8,7 @@ import React from 'react-native';
 import { Component, View, Navigator } from 'react-native';
 
 import alt from '../flux/alt';
-import AltContainer from 'alt/AltNativeContainer';
+import AltContainer from 'alt-container/native';
 
 import UserStore from '../flux/stores/UserStore';
 import CredentialsStore from '../flux/stores/CredentialsStore'

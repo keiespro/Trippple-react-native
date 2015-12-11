@@ -1,8 +1,3 @@
 import Alt from 'alt'
-
-const alt = new Alt();
-// var chromeDebug = require('alt/utils/chromeDebug')
-
-// chromeDebug(alt);
-// alt.bootstrap();
+const alt = new Alt()
 export default alt

@@ -40,7 +40,7 @@ import customSceneConfigs from '../utils/sceneConfigs'
 import SegmentedView from '../controls/SegmentedView'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin';
-import AltContainer from 'alt/AltNativeContainer'
+import AltContainer from 'alt-container/native'
 import FakeNavBar from '../controls/FakeNavBar'
 import Mixpanel from '../utils/mixpanel'
 import FadeInContainer from './FadeInContainer'
