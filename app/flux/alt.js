@@ -1,3 +1,4 @@
-import Alt from 'alt'
-const alt = new Alt()
-export default alt
+import Alt from 'alt';
+
+
+export default  new Alt();

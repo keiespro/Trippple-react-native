@@ -1,11 +1,12 @@
-import alt from '../alt'
-import Api from '../../utils/api'
-import {PushNotificationIOS} from 'react-native'
+var alt = require( '../alt.js');
+
 
 
 class AppActions {
+
   initApp(){
-     this.dispatch()
+    console.log(this,this.dispatch)
+    this.dispatch()
   }
   gotCredentials(creds){
      this.dispatch(creds)
@@ -48,4 +49,4 @@ class AppActions {
 
 }
 
-export default alt.createActions(AppActions)
+module.exports =  alt.createActions(AppActions);

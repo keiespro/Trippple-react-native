@@ -1,28 +1,27 @@
-import alt from '../alt'
+var alt = require( '../alt')
 import Api from '../../utils/api'
 import phoneParser from 'phone-parser'
 import _ from 'underscore'
 import base64 from 'base-64'
 import Mixpanel from '../../utils/mixpanel';
-import AppActions from './AppActions'
 
 function cleanNumber(p){
   return p.replace(/[\. ,():+-]+/g, '').replace(/[A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/,'');
 }
 
-var UserActions = {
+class UserActions {
   initialize(){
     this.dispatch()
-  },
+  }
 
   initSuccess(user_info){
     this.dispatch(user_info);
-  },
+  }
 
   initFail(errorMessage){
     this.dispatch(errorMessage);
     this.getUserInfo()
-  },
+  }
 
   getLocation(){
 
@@ -39,7 +38,7 @@ var UserActions = {
          {enableHighAccuracy: false, maximumAge: 1000}
        )
 
-  },
+  }
 
   getUserInfo(){
     Api.getUserInfo()
@@ -50,7 +49,7 @@ var UserActions = {
         this.dispatch(err);
       })
 
-  },
+  }
 
   async verifySecurityPin(pin, phone){
     if( pin.length !== 4 ){ return false }
@@ -61,7 +60,7 @@ var UserActions = {
     catch(err){
       this.dispatch({error: err})
     }
-  },
+  }
 
   async requestPinLogin(phone){
     var res = await Api.requestPin(phone)
@@ -71,15 +70,15 @@ var UserActions = {
     catch(err){
       this.dispatch(err)
     }
-  },
+  }
 
   logOut(){
     this.dispatch();
-  },
+  }
 
   updateUserStub(updateAttributes){
     this.dispatch(updateAttributes);
-  },
+  }
 
 
   uploadImage(image, image_type, data = {}){
@@ -88,7 +87,7 @@ var UserActions = {
         this.getUserInfo.defer()
         this.dispatch(uploadRes)
       })
-  },
+  }
 
   updateUser(payload){
     var updates = payload;
@@ -116,7 +115,7 @@ var UserActions = {
         this.dispatch({error: err});
       })
 
-  },
+  }
 
   selectPartner(partner){
     var partnerPhone = partner.phone[0] == '1' ? partner.phone.substr(1,11) : partner.phone
@@ -136,7 +135,7 @@ var UserActions = {
       })
 
 
-  },
+  }
 
   saveFacebookPicture(photo) {
     Api.saveFacebookPicture(photo)
@@ -146,19 +145,18 @@ var UserActions = {
     .catch((err) => {
       this.dispatch(err);
     })
-  },
+  }
 
   handleContacts(contacts){
-    AppActions.grantPermission('contacts');
     var allNumbers = _.pluck( _.flatten( _.pluck( contacts, 'phoneNumbers') ), 'number' ).map(cleanNumber)
     Api.sendContactsToBlock( base64.encode( JSON.stringify(allNumbers)))
     this.dispatch();
-  },
+  }
 
 
   updateLocally(payload){
     this.dispatch(payload)
   }
-}
+};
 
-export default alt.createActions(UserActions)
+module.exports = alt.createActions(UserActions)

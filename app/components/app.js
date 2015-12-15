@@ -11,29 +11,30 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
 import alt from '../flux/alt';
-import AltContainer from 'alt-container';
+import UserStore from '../flux/stores/UserStore';
+
+import AppState from '../flux/stores/AppState';
 
 import Welcome from './welcome';
 import Main from './main';
 import PendingPartner from './pendingpartner';
 
 import Onboarding from '../screens/registration/onboard'
-import UserStore from '../flux/stores/UserStore';
 
-import AppState from '../flux/stores/AppState';
-import CredentialsStore from '../flux/stores/CredentialsStore'
-import UserActions from '../flux/actions/UserActions';
-import AppActions from '../flux/actions/AppActions';
 import CheckMarkScreen from '../screens/CheckMark'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
-import NotificationActions from '../flux/actions/NotificationActions'
 import {Connectivity, ReachabilitySubscription, AppVisibility} from '../utils/ConnectionInfo'
 import Notifications from '../utils/Notifications';
 import LoadingOverlay from '../components/LoadingOverlay'
 import PurpleModal from '../modals/PurpleModal'
 
 import colors from '../utils/colors'
+import UserActions from '../flux/actions/UserActions';
+
+import NotificationActions from '../flux/actions/NotificationActions'
+
+import AltContainer from 'alt-container/native';
 
 @reactMixin.decorate(TimerMixin)
 class AppRoutes extends Component{
@@ -43,7 +44,6 @@ class AppRoutes extends Component{
 
   }
   componentDidMount(){
-    AppActions.initApp()
   }
 
   render(){

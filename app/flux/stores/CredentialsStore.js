@@ -1,28 +1,35 @@
 import alt from '../alt'
-import { datasource } from 'alt-utils/lib/decorators'
-import CredentialsSource from '../dataSources/CredentialsSource'
-import UserActions from '../actions/UserActions'
+
 import Keychain from 'react-native-keychain'
-import AppActions from '../actions/AppActions'
 
 import {KEYCHAIN_NAMESPACE} from '../../config'
 
 import Device from 'react-native-device'
+// import Log from '../../Log'
+var AppActions = require('../actions/AppActions');
+var UserActions = require('../actions/UserActions')
 
-import Log from '../../Log'
 
-@datasource(CredentialsSource)
+
 class CredentialsStore {
 
   constructor() {
       this.user_id = '';
       this.api_key = '';
 
-      this.on('init', () => {/*noop*/})
-      this.on('error', (err, payload, currentState) => {
-        Log(err, payload, currentState);
-      })
+      this.on('init', () => {
+        Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
+        .then((creds) => { AppActions.gotCredentials(creds) })
+        .catch((err) => { AppActions.noCredentials })
+        console.log(AppActions)
+        AppActions.initApp()
 
+      /*noop*/
+      });
+      this.on('error', (err, payload, currentState) => {
+        // Log.log(err, payload, currentState);
+      })
+      console.log(AppActions,UserActions,alt)
 
       this.bindListeners({
         handleInitApp: AppActions.INIT_APP,
@@ -32,7 +39,6 @@ class CredentialsStore {
         saveCredentials: this.saveCredentials.bind(this)
       })
 
-      this.registerAsync(CredentialsSource);
 
   }
   handleInitApp(){
