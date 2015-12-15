@@ -320,8 +320,7 @@ class ImageCropper extends React.Component {
   }
 
   _updateTransformData(offset, scaledImageSize, croppedImageSize) {
-    const MN = scaledImageSize.height/scaledImageSize.width;
-    //1.667; // perhaps not entirely correct
+    const MN = 1.667; // perhaps not entirely correct
 
     const offsetRatioX = offset.x / scaledImageSize.width,
           offsetRatioY = offset.y / scaledImageSize.height,
