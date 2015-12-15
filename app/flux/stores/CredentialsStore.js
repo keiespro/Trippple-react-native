@@ -1,5 +1,5 @@
 import alt from '../alt'
-import { datasource } from 'alt-utils/decorators'
+import { datasource } from 'alt-utils/lib/decorators'
 import CredentialsSource from '../dataSources/CredentialsSource'
 import UserActions from '../actions/UserActions'
 import Keychain from 'react-native-keychain'

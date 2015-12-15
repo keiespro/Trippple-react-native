@@ -11,7 +11,7 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
 import alt from '../flux/alt';
-import AltContainer from 'alt-container/native';
+import AltContainer from 'alt-container';
 
 import Welcome from './welcome';
 import Main from './main';

@@ -19,7 +19,7 @@ import MatchesStore from '../flux/stores/MatchesStore'
 import ChatStore from '../flux/stores/ChatStore'
 import MatchActions from '../flux/actions/MatchActions'
 import alt from '../flux/alt'
-import AltContainer from 'alt-container/native'
+import AltContainer from 'alt-container'
 
 import InvertibleScrollView from 'react-native-invertible-scroll-view'
 import TimeAgo from './Timeago'
