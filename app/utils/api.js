@@ -16,7 +16,8 @@ async function publicRequest(endpoint, payload){
         'Content-Type':     'application/json',
         'X-T3-Api-Version': 2,
         'X-T3-App-Version': AppInfo.getInfoShortVersion(),
-        'X-T3-App-OS':      Platform.OS
+        'X-T3-App-OS':      Platform.OS,
+        'X-T3-App-Name':    AppInfo.name
       },
       body: JSON.stringify(payload)
     })
