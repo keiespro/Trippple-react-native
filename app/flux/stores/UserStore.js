@@ -9,7 +9,6 @@ import Log from '../../Log'
 import {AsyncStorage} from 'react-native'
 import {KEYCHAIN_NAMESPACE} from '../../config'
 
-@datasource(UserSource)
 class UserStore {
   constructor() {
 
