@@ -8,12 +8,13 @@ import Boot from './app/Boot'
 
 if(__DEV__){ window.React = React }
 
-class trippple extends React.Component{
+export default class trippple extends React.Component{
+  constructor(props){
+    super()
+  }
 
   render = () => <Boot/>
 
 }
-
-export default trippple
 
 AppRegistry.registerComponent('trippple', () => trippple)

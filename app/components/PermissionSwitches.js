@@ -101,6 +101,7 @@ class PermissionSwitches extends React.Component{
           const newValue = !this.state.notificationSetting;
           this.setState({ notificationSetting: newValue });
           AsyncStorage.setItem('notificationSetting', newValue + '');
+          NotificationActions.requestNotificationsPermission()
         }
       })
 
