@@ -46,7 +46,7 @@ class UserStore {
 
   handleInitialize(){
 
-    if(this.state.user.status == 'onboarded'){
+    if(this.state.user && this.state.user.status && this.state.user.status == 'onboarded'){
       MatchActions.getPotentials.defer();
       MatchActions.getMatches.defer();
       MatchActions.getFavorites.defer();

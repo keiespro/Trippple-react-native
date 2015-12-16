@@ -13,9 +13,6 @@ import React, {
 const DeviceHeight = require('Dimensions').get('window').height
 const DeviceWidth = require('Dimensions').get('window').width
 
-const coupleTitle = `You and your Partner`,
-      singleTitle = `Your Profile Picture`,
-      coupleSubtitle = `Upload or snap a pic of you and your partner together`
 
 import {MagicNumbers} from '../DeviceConfig'
 import OnboardingActions from '../flux/actions/OnboardingActions'
@@ -117,9 +114,32 @@ class SelectImageSource extends Component{
 
   render(){
 
-    const isCoupleImage = this.props.imageType == 'couple_profile',
-          isOnboarding = this.props.navigator.getCurrentRoutes()[0].id != 'potentials'
+    const isCoupleImage = this.props.image_type == 'couple_profile' || this.props.imageType == 'couple_profile',
+    isOnboarding = this.props.navigator.getCurrentRoutes()[0].id != 'potentials';
 
+    const copy = {
+        coupleTitle: `You and your Partner`,
+        singleTitle: `Just You`,
+        coupleSubtitle: ()=>{
+          return (
+            <Text style={[styles.textTop,{marginTop:0}]}>
+              <Text>Upload or snap a pic of </Text>
+              <Text style={{color:colors.sushi}}>you and your partner together</Text>
+              <Text>.</Text>
+            </Text>
+          )
+        },
+        singleSubtitle: ()=>{
+          return (
+            <Text style={[styles.textTop,{marginTop:0}]}>
+              <Text>Now upload or snap </Text>
+              <Text style={{color:colors.sushi}}>a pic of just you</Text>
+              <Text>. This is the picture your matches will see during your chats.</Text>
+            </Text>
+          )
+        }
+
+    }
 
     return (
       <View style={styles.container}>
@@ -130,18 +150,17 @@ class SelectImageSource extends Component{
           }
         </View>
 
-        <Text style={styles.textTop}>{ isCoupleImage ? coupleTitle : singleTitle }</Text>
+        <Text style={styles.textTop}>{ isCoupleImage ? copy.coupleTitle : copy.singleTitle }</Text>
 
-        {
-          isCoupleImage ? <Text style={[styles.textTop,{marginTop:0}]}>{coupleSubtitle}</Text> : null
-        }
+        {isCoupleImage ? copy.coupleSubtitle() : copy.singleSubtitle()}
+
 
         <View style={styles.imageHolder}>
           <Image
             source={
               isCoupleImage ? require('../../newimg/iconCouplePic.png') : require('../../newimg/iconSinglePic.png')
             }
-            resizeMode={Image.resizeMode.cover}
+            resizeMode={Image.resizeMode.contain}
             style={styles.imageInside}
           />
         </View>
@@ -229,7 +248,7 @@ var styles = StyleSheet.create({
     textAlign:'center',
   },
   textTop:{
-    margin: 20,
+    marginBottom: 0,
     fontSize: 20,
     color: colors.rollingStone,
     fontFamily:'omnes',

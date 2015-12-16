@@ -333,10 +333,10 @@ class ImageCropper extends React.Component {
           sizeRatioY = croppedImageSize.height / scaledImageSize.height;
 
     const { originalImage } = this.props;
-    const originalRatio = originalImage ? ( Math.min(originalImage.width,originalImage.height) / Math.max(originalImage.width,originalImage.height ) + 1) : MN;
+    const originalRatio = originalImage && originalImage.width ? ( Math.min(originalImage.width,originalImage.height) / Math.max(originalImage.width,originalImage.height ) + 1) : MN;
 
-    const w = originalImage ? originalImage.width : this.props.image.width * MN;
-    const h = originalImage ? originalImage.height : this.props.image.height * MN;
+    const w = originalImage && originalImage.width ? originalImage.width : this.props.image.width * MN;
+    const h = originalImage && originalImage.height ? originalImage.height : this.props.image.height * MN;
 
 
     const tData = {
@@ -352,7 +352,7 @@ class ImageCropper extends React.Component {
 
     this.props.onTransformDataChange && this.props.onTransformDataChange(tData);
 
-    if(__DEV__ && __DEBUG__){
+    if(__DEV__ ){
       console.table([{
         'originalRatio':originalRatio,
         'SCALE':zoomscale,

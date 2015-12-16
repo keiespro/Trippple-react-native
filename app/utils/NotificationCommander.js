@@ -107,6 +107,10 @@ class NotificationCommander extends Component{
 
         NotificationActions.receiveMatchRemovedNotification(data)
 
+      }else if(data.action && data.action == 'coupleready') {
+        UserActions.getUserInfo()
+        AlertIOS.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
+
       }else if(data.action && data.action == 'statuschange') {
 
         UserActions.getUserInfo()
@@ -160,6 +164,10 @@ class NotificationCommander extends Component{
       }else if(data.action && data.action == 'statuschange') {
 
         UserActions.getUserInfo()
+
+      }else if(data.action && data.action == 'coupleready') {
+        UserActions.getUserInfo()
+        AlertIOS.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
 
       }else if(data.action && data.action === 'logout') {
 

@@ -97,7 +97,6 @@ class Card extends React.Component{
       distance = Math.min(distance,potential.partner.distance)
     }
 
-
     if(!profileVisible){
     return (
       <View
@@ -167,7 +166,8 @@ class Card extends React.Component{
                   }) : colors.white,
                 }}
                 >
-                {this.props.user.relationship_status == 'single' ? <Swiper
+                {this.props.user.relationship_status == 'single' ?
+                <Swiper
                   key={`${potential.id || potential.user.id}-swiper`}
                   loop={true}
                   horizontal={false}
@@ -183,6 +183,7 @@ class Card extends React.Component{
                   showsPagination={true}
                   paginationStyle={{position:'absolute',paddingRight:40,right:0,top:45,height:100}}
                   >
+
                   <TouchableWithoutFeedback
                     key={`${potential.user.id}-touchableimg`}
                     style={[styles.imagebg,{ overflow:'hidden'}]}
@@ -191,9 +192,9 @@ class Card extends React.Component{
                     onPress={this.openProfileFromImage.bind(this)}
                   >
                   <Animated.Image
-                    source={{uri: potential.user.image_url}}
+                  source={potential.user.image_url ? {uri: potential.user.image_url} : require('../../../newimg/defaultuser.png')}
                     key={`${potential.user.id}-cimg`}
-                    defaultSource={{uri:'../../newimg/defaultuser.png'}}
+                    defaultSource={{uri:'../../,,/newimg/defaultuser.png'}}
                     style={[styles.imagebg, {
                       backgroundColor: colors.white,
                       width: DeviceWidth,
@@ -209,7 +210,7 @@ class Card extends React.Component{
                   />
                   </TouchableWithoutFeedback>
 
-                  {rel == 'single' && potential.partner &&
+                  {potential.partner &&
 
                   <TouchableWithoutFeedback
                     key={`${potential.partner.id}-touchableimg`}
@@ -219,9 +220,9 @@ class Card extends React.Component{
                     onPress={this.openProfileFromImage.bind(this)}
                     >
                     <Animated.Image
-                      source={{uri: potential.partner.image_url}}
+                    source={potential.partner.image_url ? {uri: potential.partner.image_url} : require('../../../newimg/defaultuser.png')}
                       key={`${potential.partner.id}-cimg`}
-                      defaultSource={{uri:'../../newimg/defaultuser.png'}}
+                      defaultSource={{uri:'../../../newimg/defaultuser.png'}}
                       style={[styles.imagebg,{
                         backgroundColor: colors.white,
                         flex:1,
@@ -235,6 +236,28 @@ class Card extends React.Component{
                     />
                   </TouchableWithoutFeedback>
                 }
+                { potential.partner && potential.image && potential.image != null &&
+                    <TouchableWithoutFeedback
+                      key={`${potential.couple.id}-touchableimg`}
+                      style={[styles.imagebg,{ }]}
+                      onPress={this.openProfileFromImage.bind(this)}
+                      >
+                      <Animated.Image
+                        source={{uri: potential.image}}
+                        key={`${potential.partner.id}-cimg`}
+                        style={[styles.imagebg,{
+                          width: DeviceWidth,
+                          flex:1,
+                          opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
+                            inputRange: [-300, -100, 0, 100, 300],
+                            outputRange: [0,1,1,1,0]
+                          }) : 1
+                        }]}
+                        resizeMode={Image.resizeMode.cover}
+                      />
+                    </TouchableWithoutFeedback>
+                  }
+
                 </Swiper> :
                 <TouchableWithoutFeedback
                   key={`${potential.user.id}-touchableimg`}
@@ -306,7 +329,7 @@ class Card extends React.Component{
                 alignItems:'flex-end',
                 backgroundColor:'transparent',
                 flexDirection:'row'}}>
-                <TouchableHighlight onPress={(e)=>{ this.setState({activeIndex: 0}) }}
+                <TouchableHighlight onPress={this.openProfileFromImage.bind(this)}
                 underlayColor={colors.mediumPurple} style={styles.circleimagewrap}>
                   <Image
                     source={{uri: this.props.potential.user.image_url}}
@@ -317,7 +340,7 @@ class Card extends React.Component{
                     }]}
                   />
                 </TouchableHighlight>
-                <TouchableHighlight onPress={(e)=>{ this.setState({activeIndex: 1}) }}
+                <TouchableHighlight onPress={this.openProfileFromImage.bind(this) }
                 underlayColor={colors.mediumPurple} style={styles.circleimagewrap}>
                           <Image
                     source={{uri: this.props.potential.partner.image_url}}
@@ -436,12 +459,11 @@ class Card extends React.Component{
 
             <Animated.View
               key={`${potential.id || potential.user.id}bgopacity`}
-              style={{
-              }}
               ref={"incard"}
               >
 
-                {this.props.user.relationship_status == 'single' ? <Swiper
+              {this.props.user.relationship_status == 'single' ?
+                <Swiper
                   key={`${potential.id || potential.user.id}-swiper`}
                   loop={true}
                   horizontal={false}
@@ -453,64 +475,80 @@ class Card extends React.Component{
                   width={DeviceWidth}
                   height={DeviceHeight}
                   style={{width:DeviceWidth,overflow: 'hidden',}}
-
                   paginationStyle={{position:'absolute',right:0,top:45,height:100}}
                   >
 
-               <TouchableWithoutFeedback
-                  key={`${potential.user.id}-touchableimg`}
-                  style={[styles.imagebg,{
-                    width: DeviceWidth,
-
-                  }]}
-
-                  onPress={this.openProfileFromImage.bind(this)}
-                  onPressIn={(e)=>{
-                    // this.refs.cardinside.setNativeProps({
-                      // style: { opacity: 0.8 }
-                    // })
-                  }}
-                  >
-                  <Animated.Image
-                    source={{uri: potential.user.image_url}}
-                    key={`${potential.user.id}-cimg`}
-                    style={[styles.imagebg, {
-                      flex:1,
+                  <TouchableWithoutFeedback
+                    key={`${potential.user.id}-touchableimg`}
+                    style={[styles.imagebg,{
                       width: DeviceWidth,
-                      opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
+                    }]}
+                    onPress={this.openProfileFromImage.bind(this)}
+                    onPressIn={(e)=>{/* this.refs.cardinside.setNativeProps({style:{opacity:0.8}}) */}}
+                    >
+                    <Animated.Image
+                    source={potential.user.image_url ? {uri: potential.user.image_url} : require('../../../newimg/defaultuser.png')}
+
+                      key={`${potential.user.id}-cimg`}
+                      style={[styles.imagebg, {
+                        flex:1,
+                        width: DeviceWidth,
+                        opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                           inputRange: [-300, -80, 0, 80, 300],
                           outputRange: [0,1,1,1,0]
                         }) : 1
-                    }]}
-                    resizeMode={Image.resizeMode.cover}
-                   />
-                </TouchableWithoutFeedback>
+                      }]}
+                      resizeMode={Image.resizeMode.cover}
+                    />
+                  </TouchableWithoutFeedback>
 
-                {rel == 'single' && potential.partner &&
+                  { potential.partner &&
+                    <TouchableWithoutFeedback
+                      key={`${potential.partner.id}-touchableimg`}
+                      style={[styles.imagebg,{ }]}
+                      onPress={this.openProfileFromImage.bind(this)}
+                      >
+                      <Animated.Image
+                      source={potential.partner.image_url ? {uri: potential.partner.image_url} : require('../../../newimg/defaultuser.png')}
+                        key={`${potential.partner.id}-cimg`}
+                        style={[styles.imagebg,{
+                          width: DeviceWidth,
+                          flex:1,
+                          opacity: this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
+                            inputRange: [-300, -100, 0, 100, 300],
+                            outputRange: [0,1,1,1,0]
+                          }) : 1
+                        }]}
+                        resizeMode={Image.resizeMode.cover}
+                      />
+                    </TouchableWithoutFeedback>
+                  }
+                  { potential.partner && potential.image && potential.image != null &&
+
+                    <TouchableWithoutFeedback
+                      key={`${potential.couple.id}-touchableimg`}
+                      style={[styles.imagebg,{ }]}
+                      onPress={this.openProfileFromImage.bind(this)}
+                      >
+                      <Animated.Image
+                      source={potential.image ? {uri: potential.image} : require('../../../newimg/defaultuser.png')}
+
+                        key={`${potential.partner.id}-cimg`}
+                        style={[styles.imagebg,{
+                          width: DeviceWidth,
+                          flex:1,
+                          opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
+                            inputRange: [-300, -100, 0, 100, 300],
+                            outputRange: [0,1,1,1,0]
+                          }) : 1
+                        }]}
+                        resizeMode={Image.resizeMode.cover}
+                      />
+                    </TouchableWithoutFeedback>
+                  }
+
+                </Swiper> :
                 <TouchableWithoutFeedback
-                  key={`${potential.partner.id}-touchableimg`}
-                  style={[styles.imagebg,{ }]}
-                  onPress={this.openProfileFromImage.bind(this)}>
-
-
-                  <Animated.Image
-                    source={{uri: potential.partner.image_url}}
-                    key={`${potential.partner.id}-cimg`}
-                    style={[styles.imagebg,{
-                      width: DeviceWidth,
-                      flex:1,
-                      opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
-                          inputRange: [-300, -100, 0, 100, 300],
-                          outputRange: [0,1,1,1,0]
-                        }) : 1
-                    }]}
-                    resizeMode={Image.resizeMode.cover}
-
-                  />
-                </TouchableWithoutFeedback>
-              }
-              </Swiper> :
-               <TouchableWithoutFeedback
                   key={`${potential.user.id}-touchableimg`}
                   style={[styles.imagebg,{ overflow:'hidden'}]}
                   onPressIn={this.toggleCardHoverOff.bind(this)}
@@ -524,113 +562,116 @@ class Card extends React.Component{
                       flex:1,
                       alignSelf:'stretch',
                       height:500,
-
                       width: DeviceWidth,
                       opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
-                          inputRange: [-300, -80, 0, 80, 300],
-                          outputRange: [0,1,1,1,0]
-                        }) : 1
+                        inputRange: [-300, -80, 0, 80, 300],
+                        outputRange: [0,1,1,1,0]
+                      }) : 1
                     }]}
                     resizeMode={Image.resizeMode.cover}
-                   />
+                  />
                 </TouchableWithoutFeedback>
-            }
+              }
 
             <View
-            key={`${potential.id || potential.user.id}-bottomview`}
-
-            style={{
-              // height: 800,
-              top: 0,
-              marginTop: (DeviceHeight <= 568 ? -80 : -180),
-              backgroundColor:colors.outerSpace,
-              flex:1,
-              left:0,
-              right:0,
-              // bottom:-180,
-              width:DeviceWidth,
-              }} >
+              key={`${potential.id || potential.user.id}-bottomview`}
+              style={{
+                // height: 800,
+                top: 0,
+                marginTop: (DeviceHeight <= 568 ? -80 : -180),
+                backgroundColor:colors.outerSpace,
+                flex:1,
+                left:0,
+                right:0,
+                // bottom:-180,
+                width:DeviceWidth,
+              }}
+              >
 
               <View
-              key={`${potential.id || potential.user.id}-infos`}
-              style={{
-                // height:60,
-                // overflow:'hidden',
-                width: DeviceWidth,
-                left:0,
-                height:150,
-                marginLeft: MagicNumbers.screenPadding/2,
-                paddingVertical:20, }}>
-              <Text
-              key={`${potential.id || potential.user.id}-names`}
-              style={[styles.cardBottomText,{color:colors.white}]}>
-              {
-                {matchName}
-              }
-              </Text>
-              <Text
-                key={`${potential.id || potential.user.id}-matchn`}
-                style={[styles.cardBottomOtherText,{color:colors.white}]}>
+                key={`${potential.id || potential.user.id}-infos`}
+                style={{
+                  // height:60,
+                  // overflow:'hidden',
+                  width: DeviceWidth,
+                  left:0,
+                  height:150,
+                  marginLeft: MagicNumbers.screenPadding/2,
+                  paddingVertical:20,
+                }}
+                >
+                <Text
+                  key={`${potential.id || potential.user.id}-names`}
+                  style={[styles.cardBottomText,{color:colors.white}]}
+                  >
+                {
+                  {matchName}
+                }
+                </Text>
+                <Text
+                  key={`${potential.id || potential.user.id}-matchn`}
+                  style={[styles.cardBottomOtherText,{color:colors.white}]}
+                  >
                 {
                   `${city} | ${distance} ${distance == 1 ? 'mile' : 'miles'} away`
                 }
-              </Text>
-            </View>
+                </Text>
+              </View>
 
-          {this.props.rel == 'single' &&
-            <View style={{
-              height:60,
-              top:-30,
-              position:'absolute',
-              width:125,
-              right:0,
-              backgroundColor:'transparent',
-              flexDirection:'row'}}
-              >
-              <TouchableHighlight onPress={(e)=>{ this.setState({activeIndex: 0}) }}
-              underlayColor={colors.mediumPurple}
-              style={[styles.circleimagewrap,{
-                backgroundColor:colors.outerSpace
-              }]}>
-                <Image
-                  source={{uri: this.props.potential.user.image_url}}
-                  key={this.props.potential.user.id + 'img'}
+            {this.props.rel == 'single' &&
+              <View style={{
+                height:60,
+                top:-30,
+                position:'absolute',
+                width:125,
+                right:0,
+                backgroundColor:'transparent',
+                flexDirection:'row'}}
+                >
+                <TouchableHighlight
+                onPress={(e)=>{ /*this.setState({activeIndex: 0}) */} }
+                  underlayColor={colors.mediumPurple}
+                  style={[styles.circleimagewrap,{ backgroundColor:colors.outerSpace }]}
+                  >
+                  <Image
+                    source={{uri: this.props.potential.user.image_url}}
+                    key={this.props.potential.user.id + 'img'}
                     style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller), {
                       marginRight:0,
                       opacity: this.state.activeIndex == 1 ? 1 : 0.9
-
                     }]}
-                />
-              </TouchableHighlight>
-              <TouchableHighlight onPress={(e)=>{ this.setState({activeIndex: 1}) }}
-              underlayColor={colors.mediumPurple}
-              style={[styles.circleimagewrap,{
-                backgroundColor:colors.outerSpace
-              }]}>
-                <Image
-                  source={{uri: this.props.potential.partner.image_url}}
-                  key={this.props.potential.partner.id + 'img'}
+                  />
+                </TouchableHighlight>
+                <TouchableHighlight
+                onPress={(e)=>{ /*this.setState({activeIndex: 1}) */} }
+
+                  underlayColor={colors.mediumPurple}
+                  style={[styles.circleimagewrap, { backgroundColor:colors.outerSpace }]}
+                  >
+                  <Image
+                    source={{uri: this.props.potential.partner.image_url}}
+                    key={this.props.potential.partner.id + 'img'}
                     style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller), {
                       marginRight:0,
                       opacity: this.state.activeIndex == 1 ? 1 : 0.9
-
                     }]}
-                />
-              </TouchableHighlight>
-            </View>
-          }
+                  />
+                </TouchableHighlight>
+              </View>
+            }
 
-          <View style={{top:-50}}>
+            <View style={{top:-50}}>
 
-            {potential.bio || potential.user.bio ?
-              <View style={{margin:MagicNumbers.screenPadding/2}}>
-                <Text style={[styles.cardBottomOtherText,{color:colors.white,marginBottom:15,marginLeft:0}]}>{
-                    rel =='single' ? `About Me` : `About Us`
-                }</Text>
-                <Text style={{color:colors.white,fontSize:18,marginBottom:15}}>{
-                    potential.bio || potential.user.bio
-                }</Text>
-                </View> : null}
+              {potential.bio && potential.user.bio &&
+                <View style={{margin:MagicNumbers.screenPadding/2}}>
+                  <Text style={[styles.cardBottomOtherText,{color:colors.white,marginBottom:15,marginLeft:0}]}>{
+                      rel =='single' ? `About Me` : `About Us`
+                  }</Text>
+                  <Text style={{color:colors.white,fontSize:18,marginBottom:15}}>{
+                      potential.bio || potential.user.bio
+                  }</Text>
+                </View>
+              }
 
               <View style={{ paddingVertical:20,alignItems:'stretch' }}>
                 <UserDetails potential={potential} user={this.props.user} location={'card'} />
@@ -640,60 +681,56 @@ class Card extends React.Component{
                 <Text style={{color:colors.mandy,textAlign:'center'}}>Report or Block this user</Text>
               </View>
 
-
+            </View>
           </View>
-          </View>
 
-          </Animated.View>
-          </ScrollView>
-          <View
-          key={'navbarholder'+potential.user.id}
-            style={{
+        </Animated.View>
+      </ScrollView>
+      <View
+        key={'navbarholder'+potential.user.id}
+        style={{
+          backgroundColor:'black',
+          width:DeviceWidth,
+          position:'absolute',
+          height:55,
+          top:0,
+          overflow:'visible',
+          borderRadius:0
+        }}
+        >
+        <View style={{backgroundColor:'#000'}}>
+          <FakeNavBar
+            hideNext={true}
+            backgroundStyle={{
               backgroundColor:'black',
               width:DeviceWidth,
-              position:'absolute',
-                height:55,
-                top:0,
-                overflow:'visible',
-                borderRadius:0
+              height:55,
             }}
-            >
-            <View style={{backgroundColor:'#000'}}>
-            <FakeNavBar
-              hideNext={true}
-              backgroundStyle={{
-                backgroundColor:'black',
-                width:DeviceWidth,
-                height:55,
-
-              }}
-              insideStyle={{
-                flex:1,
-                width:DeviceWidth,
-                height:55,
-                backgroundColor:colors.outerSpace,
-                borderTopLeftRadius:8,
-                borderTopRightRadius:8,
-                overflow:'hidden',
-              }}
-              titleColor={colors.white}
-              title={ matchName }
-              onPrev={(nav,route)=> {this.props.toggleProfile()}}
-              customPrev={
-                <Image
-                resizeMode={Image.resizeMode.contain}
-                style={{margin:0,alignItems:'flex-start',height:12,width:12,marginTop:10}}
-                source={require('../../../newimg/close.png')}
-                />
-              }
+            insideStyle={{
+              flex:1,
+              width:DeviceWidth,
+              height:55,
+              backgroundColor:colors.outerSpace,
+              borderTopLeftRadius:8,
+              borderTopRightRadius:8,
+              overflow:'hidden',
+            }}
+            titleColor={colors.white}
+            title={ matchName }
+            onPrev={(nav,route)=> {this.props.toggleProfile()}}
+            customPrev={
+              <Image
+              resizeMode={Image.resizeMode.contain}
+              style={{margin:0,alignItems:'flex-start',height:12,width:12,marginTop:10}}
+              source={require('../../../newimg/close.png')}
               />
+            }
+          />
           </View>
-
           </View>
+        </View>
 
-      </View>
-
-    )
+      )
     }
   }
 }

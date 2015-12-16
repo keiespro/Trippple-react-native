@@ -8,8 +8,6 @@ class AppActions {
     this.dispatch(creds)
   }
   noCredentials(err){
-    UserActions.getUserInfo.defer()
-
     this.dispatch(err)
   }
   remoteFail(){
@@ -40,8 +38,6 @@ class AppActions {
     this.dispatch(perm)
   }
   saveStores(){
-    console.log('SAVING STORES')
-
     this.dispatch();
   }
 

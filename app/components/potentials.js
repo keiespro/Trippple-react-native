@@ -23,7 +23,7 @@ import PotentialsPlaceholder from './potentials/PotentialsPlaceholder'
 import CardStack from './potentials/CardStack'
 import styles from './potentials/styles'
 import NotificationPermissions from '../modals/NotificationPermissions'
-
+import MatchActions from '../flux/actions/MatchActions'
 
 class Potentials extends React.Component{
   constructor(props){
@@ -67,6 +67,13 @@ class PotentialsPage extends React.Component{
     // if(potential)
   }
   componentDidMount(){
+
+    if(this.props.user.status == 'onboarded'){
+      MatchActions.getPotentials.defer();
+      MatchActions.getMatches.defer();
+      MatchActions.getFavorites.defer();
+    }
+
     NativeModules.PushNotificationManager.checkPermissions((result)=>{
       var pushPermission = Object.keys(result).reduce( (acc,el,i) => {
         acc = acc + result[el];

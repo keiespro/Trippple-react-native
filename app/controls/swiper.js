@@ -26,51 +26,39 @@ let { width, height } = Dimensions.get('window')
 let styles = StyleSheet.create({
   grayDot: {
     backgroundColor: colors.shuttleGray,
-    width: 16,
-    height: 16,
-    borderRadius: 8,
-    marginLeft: 8,
-    marginRight: 8,
-    marginTop: 3,
-    marginBottom: 3,
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    marginLeft: 4,
+    marginRight: 4,
+    marginTop: 2,
+    marginBottom: 2,
     borderColor: colors.shuttleGray
   },
   dot15: {
     backgroundColor: 'transparent',
-    width: 15,
-    height: 15,
-    borderRadius: 7.5,
+    width: 12,
+    height: 12,
+    borderRadius: 6,
     marginLeft: 6,
     marginRight: 6,
-    marginTop: 6,
-    marginBottom: 6,
+    marginTop: 5,
+    marginBottom: 5,
     borderWidth: 2,
     borderColor: colors.white
   },
   activeDot15:{
-    width: 15,
-    height: 15,
-    borderRadius: 7.5,
-    marginLeft: 6,
-    marginRight: 6,
-    marginTop: 6,
-    marginBottom: 6,
-    borderWidth: 2,
-
-    borderColor: colors.mediumPurple,
-    backgroundColor: colors.mediumPurple20,
+      borderColor: colors.mediumPurple,
+    backgroundColor: colors.mediumPurple,
 
   },
 
   activeDot16: {
-    backgroundColor: colors.mediumPurple20,
-    width: 16,
-    height: 16,
-    borderRadius: 8,
-    marginLeft: 8,
-    marginRight: 8,
-    marginTop: 3,
-    marginBottom: 3,
+    backgroundColor: colors.mediumPurple,
+    marginLeft: 4,
+    marginRight: 4,
+    marginTop: 2,
+    marginBottom: 2,
     borderWidth: 1,
     borderColor: colors.mediumPurple
   },
@@ -181,9 +169,7 @@ export default React.createClass({
 
     initState.total = props.children ? (props.children.length || 1) : 0
 
-    initState.index = initState.total > 1
-      ? Math.min(props.index, initState.total - 1)
-      : 0
+    initState.index = initState.total > 1 ? props.index || 0 : 0
 
     // Default: horizontal
     initState.dir = props.horizontal == false ? 'y' : 'x'
@@ -320,9 +306,9 @@ export default React.createClass({
 
 
   componentWillReceiveProps(nProps){
-    if(nProps.activeIndex != this.props.activeIndex){
-      this.scrollTo(nProps.activeIndex+this.state.index);
-    }
+    // if(nProps.activeIndex != this.props.activeIndex){
+    //   this.scrollTo(nProps.activeIndex+this.state.index);
+    // }
   },
 
   /**
@@ -390,16 +376,17 @@ export default React.createClass({
           {pages}
         </ScrollView>
 
-        <View pointerEvents={'box-none'} style={[styles['pagination_' + this.state.dir], this.props.paginationStyle]}>
+        <View pointerEvents={'box-none'} style={[styles['pagination_' + this.state.dir], this.props.paginationStyle,{backgroundColor:colors.spacegray20}]}>
           {props.showsPagination && React.Children.map(this.props.children, (c,i) => {
             return (
                 <View
-                    style={ this.props.grayDots ?  styles.grayDot : styles.dot15}
+                style={ [(this.props.grayDots ?  styles.grayDot : styles.dot15),
+                  (index == i ? this.props.grayDots ? styles.activeDot16 : styles.activeDot15 : null)]}
                     key={'swiperdot'+i}
                   />
             )
           })}
-            <Animated.View
+          {/* <Animated.View
               pointerEvents={'box-none'}
               style={[styles['pagination_' + this.state.dir], this.props.paginationStyle,
                 {
@@ -426,6 +413,7 @@ export default React.createClass({
                 (this.props.grayDots ? styles.activeDot16 : styles.activeDot15),
                 {}]} key={'dot-active'} />
             </Animated.View>
+            */}
           </View>
 
       </View>

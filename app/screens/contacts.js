@@ -45,14 +45,14 @@ class ContactRow extends React.Component{
   // }
 componentDidMount(){
   //
-  if(this.props.imagePath && this.props.imagePath.length){
+  if(this.props.imagePath && this.props.imagePath.length && this.props.imagePath.length != ''){
     React.NativeModules.RNFSManager.readFile(this.props.imagePath, (err,uri)=>{
       if(!uri || uri == ''){
-        return false
-      }
+      }else{
       this.setState({
         uri: 'data:image/gif;base64,'+uri
       })
+    }
     })
   }
 }
@@ -74,18 +74,23 @@ componentDidMount(){
     if(this.props.highlightedRow && this.props.highlightedRow.rowID === rowID){
     }
 
+  const hasPhone = rowData.phoneNumbers && rowData.phoneNumbers.length && rowData.phoneNumbers.length > 0 && rowData.phoneNumbers[0].number;
     return (
-      <TouchableHighlight
+      <TouchableHighlight key={'contactrow'+rowID}
           underlayColor={colors.mediumPurple20}
           onPress={()=>{
-            this.props.onPress(sectionID,rowID,rowData,this.state.uri);
-            this.props.highlightRow(sectionID,rowID)
+            if(!hasPhone){
+              AlertIOS.alert('No phone number','Unfortunately, this contact doesn\'t have a phone number we can recognize. Please selet another contact.');
+            }else{
+              this.props.onPress(sectionID,rowID,rowData,this.state.uri);
+              this.props.highlightRow(sectionID,rowID)
+            }
           }}>
           <View style={[styles.fullwidth,styles.row,
             (this.props.highlightedRow && this.props.highlightedRow.sectionID === sectionID && this.props.highlightedRow.rowID === rowID ? styles.rowSelected : null)]}>
 
             <Image style={[styles.contactthumb,{backgroundColor:colors.shuttleGray20}]} resizeMode={Image.resizeMode.cover}
-               source={{uri: (!this.state.uri || this.state.uri == '' ? '../../newimg/defaultuser.png' : (this.state.uri))}}/>
+               source={ (!this.state.uri || this.state.uri == null || this.state.uri == '' ? require('../../newimg/placeholderUser.png') : {uri: (this.state.uri)})}/>
 
             <View style={styles.rowtextwrapper}>
 
@@ -139,7 +144,7 @@ class ContactList extends React.Component{
           highlightedRow={this.props.highlightedRow}
           imagePath={rowData.thumbnailPath}
           onPress={this.props.onPress}
-          key={'contactrowel'+rowID}
+          key={'contactrowel'+rowID+rowData.firstName}
           execute={true
              //this.state.currentValue == rowID
           }
@@ -199,7 +204,7 @@ class Contacts extends React.Component{
     this.props.navigator.push({
       component: ConfirmPartner,
       passProps: {
-        partner: contact, image,
+        partner: {...contact, image},
         _continue: this._continue.bind(this)
       },
       sceneConfig: Navigator.SceneConfigs.FloatFromBottom,

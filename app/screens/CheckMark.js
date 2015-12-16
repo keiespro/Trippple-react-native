@@ -143,7 +143,7 @@ flexDirection:'column',
               color:'#ffffff',
               marginTop: 40,
               fontFamily:'Montserrat-Bold',
-            }}>{this.props.checkMarkCopy && this.props.checkMarkCopy.title || ''}</Text></Animated.View>}
+            }}>{this.props.checkMarkCopy ? this.props.checkMarkCopy.title : ''}</Text></Animated.View>}
 
         <Animated.View
           style={{

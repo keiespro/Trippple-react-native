@@ -165,7 +165,6 @@ class SettingsInside extends React.Component{
     this.setState(()=>{return updatedAttribute});
   }
   componentWillMount(){
-      console.log('user',this.props.user);
   }
 
   render(){

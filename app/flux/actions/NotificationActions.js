@@ -69,9 +69,10 @@ class NotificationActions {
   }
 
   scheduleNewPotentialsAlert(time){
-    var t = time ||  { hour: 23, minute: 59 }
-    const fireDate = moment(t).toDate(), //tonight at midnight
-          data = {
+    let t = time || false;
+    let fireDate = t ? moment(t).unix() : moment().endOf('day').unix();
+
+    const data = {
             alert: {
               title: 'New Matches!',
               body: 'body',
@@ -82,7 +83,7 @@ class NotificationActions {
             category: 'TRIPPPLE',
             badge: '+1'
           };
-    PushNotificationIOS.scheduleLocalNotification({ fireDate: fireDate.getTime(), data })
+    PushNotificationIOS.scheduleLocalNotification({ fireDate, data })
   }
 }
 

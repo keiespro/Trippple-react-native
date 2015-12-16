@@ -12,6 +12,7 @@ import {
   ListView,
   Modal,
   TouchableHighlight,
+  TouchableOpacity,
   Animated,
   Easing,
   Dimensions,
@@ -60,8 +61,10 @@ class ConfirmPartner extends React.Component{
 }
 // componentDidMount(){
 // }
-  render(){
-    if(!this.props.partner){ return false }
+render(){
+  const hasPhone = this.props.partner && this.props.partner.phoneNumbers && this.props.partner.phoneNumbers.length && this.props.partner.phoneNumbers.length > 0 && this.props.partner.phoneNumbers[0].number;
+  if(!this.props.partner || !hasPhone){ return false }
+
     const invitedName = this.props.partner.firstName && this.props.partner.firstName.toUpperCase() || '',
           manyPhones = this.props.partner.phoneNumbers && this.props.partner.phoneNumbers.length;
 
@@ -70,12 +73,14 @@ class ConfirmPartner extends React.Component{
           <View style={[styles.col,styles.fullWidth,{flexDirection:'column',paddingHorizontal:20,backgroundColor:'transparent',alignItems:'center',justifyContent:'space-between'}]}>
 
 
-              <Image style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginBottom:20,marginTop:40,
-                backgroundColor:colors.shuttleGray}]}
-                source={{uri: '../../newimg/placeholderUser.png'}}
+          <Image
+          style={[{borderRadius:75,
+            width:150,height:150,marginBottom:20,marginTop:40}]}
+            resizeMode={Image.resizeMode.contain}
+            source={this.props.partner.image && this.props.partner.image != '' && this.props.partner.image != null ? {uri: this.props.partner.image} : require('../../../assets/newimg/placeholderUser.png')}
               />
 
-              <View style={{alignSelf:'center',flexDirection:'column', justifyContent:'center',alignItems:'center'}}>
+              <View style={{alignSelf:'center',flexDirection:'column', marginBottom:20,justifyContent:'center',alignItems:'center'}}>
 
                 <Text style={[styles.rowtext,styles.bigtext,{alignSelf:'center',color:colors.shuttleGray,
                       fontFamily:'Montserrat',fontSize:22,marginVertical:10,textAlign:'center',
@@ -137,12 +142,14 @@ class ConfirmPartner extends React.Component{
 
                       <View style={{height: 70,marginBottom:50}} >
 
-              <TouchableHighlight style={[styles.modalButton,{backgroundColor:'transparent',borderColor:'transparent'}]} underlayColor={colors.mediumPurple}  onPress={this._cancel.bind(this)}>
+                      <TouchableOpacity
+                      style={[styles.modalButton,{backgroundColor:'transparent',borderColor:'transparent'}]}
+                      onPress={this._cancel.bind(this)}>
                 <View style={{width:MagicNumbers.screenWidth-40,height:60,flex:1,alignSelf:'stretch'}}>
-                <Text style={[styles.modalButtonText,{color:colors.lavender,marginTop:15}]}>{
+                <Text style={[styles.modalButtonText,{color:colors.dark,marginTop:15}]}>{
                   manyPhones ? 'CANCEL' : 'NO'}</Text>
                 </View>
-              </TouchableHighlight>
+              </TouchableOpacity>
          </View>
          </View>
       </PurpleModal>
