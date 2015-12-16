@@ -15,15 +15,6 @@ var UserActions = {
     this.dispatch()
   },
 
-  initSuccess(user_info){
-    this.dispatch(user_info);
-  },
-
-  initFail(errorMessage){
-    this.dispatch(errorMessage);
-    this.getUserInfo()
-  },
-
   getLocation(){
 
      navigator.geolocation.getCurrentPosition(

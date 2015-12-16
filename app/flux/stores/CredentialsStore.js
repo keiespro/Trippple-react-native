@@ -12,27 +12,25 @@ import Log from '../../Log'
 class CredentialsStore {
 
   constructor() {
-      this.user_id = '';
-      this.api_key = '';
+    this.user_id = '';
+    this.api_key = '';
 
-      this.on('init', () => {/*noop*/})
-      this.on('error', (err, payload, currentState) => {
-        Log(err, payload, currentState);
-      })
+    this.on('init', () => {/*noop*/})
 
+    this.on('error', (err, payload, currentState) => {
+      Log(err, payload, currentState);
+    })
 
-      this.bindListeners({
-        handleInitApp: AppActions.INIT_APP,
-        handleGotCredentials: AppActions.GOT_CREDENTIALS,
-      });
-      this.exportPublicMethods({
-        saveCredentials: this.saveCredentials.bind(this)
-      })
+    this.bindListeners({
+      handleGotCredentials: AppActions.GOT_CREDENTIALS,
+    });
+
+    this.exportPublicMethods({
+      saveCredentials: this.saveCredentials.bind(this)
+    })
 
   }
-  handleInitApp(){
-    this.getInstance().init()
-  }
+
   handleGotCredentials(creds){
     this.setState({ user_id: creds.username+'' , api_key: creds.password+'' })
   }

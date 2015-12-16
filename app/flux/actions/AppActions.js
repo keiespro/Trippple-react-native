@@ -3,9 +3,6 @@ import UserActions from './UserActions'
 
 
 class AppActions {
-  initApp(){
-     this.dispatch()
-  }
   gotCredentials(creds){
     UserActions.getUserInfo.defer()
     this.dispatch(creds)

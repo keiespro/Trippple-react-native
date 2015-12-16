@@ -36,7 +36,6 @@ class AppStateStore {
 
     this.bindListeners({
       handleInitialize: AppActions.GOT_CREDENTIALS,
-      handleInitSuccess: UserActions.INIT_SUCCESS,
       handleGetUserInfo: UserActions.GET_USER_INFO,
       handleUpdateUser: UserActions.UPDATE_USER,
       handleVerifyPin: UserActions.VERIFY_SECURITY_PIN,
@@ -46,8 +45,6 @@ class AppStateStore {
       handleSelectPartner: UserActions.SELECT_PARTNER,
       handleUpdateRoute: AppActions.UPDATE_ROUTE,
       handleToggleOverlay: AppActions.TOGGLE_OVERLAY,
-      handleGrantPermission: AppActions.GRANT_PERMISSION,
-      handleDenyPermission: AppActions.DENY_PERMISSION
     });
 
     this.exportPublicMethods({
@@ -124,13 +121,6 @@ class AppStateStore {
     setTimeout(()=>{
       this.setState({showCheckmark:false})
     },3000);
-
-  }
-
-  handleInitSuccess(res){
-    this.setState({
-      userStatus: res.response.user_info.status
-    })
 
   }
 

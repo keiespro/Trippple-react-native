@@ -26,7 +26,6 @@ class UserStore {
     this.bindListeners({
       handleBlockContacts: AppActions.STORE_CONTACTS_TO_BLOCK,
       handleInitialize: AppActions.GOT_CREDENTIALS,
-      handleInitSuccess: UserActions.INIT_SUCCESS,
       handleGetUserInfo: UserActions.GET_USER_INFO,
       handleVerifyPin: UserActions.VERIFY_SECURITY_PIN,
       handleRequestPin: UserActions.REQUEST_PIN_LOGIN,
@@ -47,17 +46,12 @@ class UserStore {
 
   handleInitialize(){
 
-
-  }
-
-  handleInitSuccess(res){
-    const user = res.response.user_info
-    this.setState({ user })
-    if(user.status == 'onboarded'){
+    if(this.state.user.status == 'onboarded'){
       MatchActions.getPotentials.defer();
       MatchActions.getMatches.defer();
       MatchActions.getFavorites.defer();
     }
+
   }
 
   handleBlockContacts(){

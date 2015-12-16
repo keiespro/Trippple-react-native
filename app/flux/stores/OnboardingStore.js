@@ -20,7 +20,6 @@ class OnboardingStore {
       handleUpdateRoute: OnboardingActions.UPDATE_ROUTE,
       handleAcceptInvitation: OnboardingActions.ACCEPT_INVITATION,
       handleGetUserInfo: UserActions.GET_USER_INFO,
-      handleInitSuccess: UserActions.INIT_SUCCESS,
 
 
     });
@@ -31,22 +30,19 @@ class OnboardingStore {
     })
 
   }
-  handleInitSuccess(res){
-    this.setState({userInfo: res.response.user_info})
-  }
-
 
   handleGetUserInfo(res){
     this.setState({userInfo: res.response.user_info})
   }
+
   handleAcceptInvitation(){
     this.setState({
       routeIndex: 4,
       popped: false,
       pushed: false
     })
-
   }
+
   handleProceedToPrev(){
     const newIndex = this.routeIndex - 1
 
