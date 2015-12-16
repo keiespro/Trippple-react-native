@@ -67,15 +67,15 @@ class ConfirmPartner extends React.Component{
 
     return (
       <PurpleModal >
-          <View style={[styles.col,styles.fullWidth,{backgroundColor:'transparent',justifyContent:'space-between'}]}>
+          <View style={[styles.col,styles.fullWidth,{flexDirection:'column',paddingHorizontal:20,backgroundColor:'transparent',alignItems:'center',justifyContent:'space-between'}]}>
 
 
               <Image style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginBottom:20,marginTop:40,
                 backgroundColor:colors.shuttleGray}]}
-                source={{uri: this.props.partner.image || '../../newimg/placeholderUser.png'}}
+                source={{uri: '../../newimg/placeholderUser.png'}}
               />
 
-              <View style={{alignSelf:'stretch', justifyContent:'center',alignItems:'center'}}>
+              <View style={{alignSelf:'center',flexDirection:'column', justifyContent:'center',alignItems:'center'}}>
 
                 <Text style={[styles.rowtext,styles.bigtext,{alignSelf:'center',color:colors.shuttleGray,
                       fontFamily:'Montserrat',fontSize:22,marginVertical:10,textAlign:'center',
@@ -118,25 +118,26 @@ class ConfirmPartner extends React.Component{
                   this.props.partner.phoneNumbers &&
                   this.props.partner.phoneNumbers.length &&
                   this.props.partner.phoneNumbers.length == 1 &&
-                      <View style={{height:70,flex:1,alignSelf:'stretch'}} >
+                  <View style={{height:70,flex:1,alignSelf:'stretch'}} >
 
-                      <TouchableHighlight underlayColor={colors.mediumPurple} style={styles.modalButton}
-                        onPress={this._confirm.bind(this)}>
-                    <View style={{height:60,flex:1,width:MagicNumbers.screenWidth-40}} >
+                  <TouchableHighlight underlayColor={colors.mediumPurple} style={[styles.modalButton,{
+                    overflow:'hidden'}]}
+                    onPress={()=>{this._confirm(this.props.partner.phoneNumbers[0].number)}}>
+                    <View style={{height:60,flex:1,width:MagicNumbers.screenWidth-40,overflow:'hidden'}} >
 
 
 
-                        <Text style={[styles.modalButtonText,{marginTop:15}]}>YES</Text>
-                      </View>
-                     </TouchableHighlight>
-                      </View>
+                    <Text style={[styles.modalButtonText,{marginTop:15}]}>YES</Text>
+                    </View>
+                    </TouchableHighlight>
+                    </View>
 
               }
 
 
                       <View style={{height: 70,marginBottom:50}} >
 
-              <TouchableHighlight style={[styles.modalButton,{backgroundColor:'transparent',borderColor:colors.lavender}]} underlayColor={colors.mediumPurple}  onPress={this._cancel.bind(this)}>
+              <TouchableHighlight style={[styles.modalButton,{backgroundColor:'transparent',borderColor:'transparent'}]} underlayColor={colors.mediumPurple}  onPress={this._cancel.bind(this)}>
                 <View style={{width:MagicNumbers.screenWidth-40,height:60,flex:1,alignSelf:'stretch'}}>
                 <Text style={[styles.modalButtonText,{color:colors.lavender,marginTop:15}]}>{
                   manyPhones ? 'CANCEL' : 'NO'}</Text>

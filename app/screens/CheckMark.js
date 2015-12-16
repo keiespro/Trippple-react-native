@@ -103,19 +103,23 @@ flexDirection:'column',
         flex:1
       }}>
 
-        <Animated.View style={{
+      <Animated.View
+        style={{
           width:DeviceWidth,
           height:200,
           alignItems:'center',
           justifyContent:'center',
           flex:1,
-        transform: [
-          {scale: this.state.bounceValue ? this.state.bounceValue : 1},
-        ],
-
-      }}>
-          <Image source={require('../../newimg/checkMark.png')}
-          style={{width:200,height:200, }} />
+          transform: [
+            {scale: this.state.bounceValue ? this.state.bounceValue : 1},
+          ],
+        }}
+        >
+        <Image
+          source={require('../../newimg/checkMark.png')}
+          style={{width:200,height:200, }}
+          resizeMode={Image.resizeMode.contain}
+        />
         </Animated.View>
 
         {!this.props.checkMarkCopy.partnerName && <Animated.View
@@ -144,7 +148,7 @@ flexDirection:'column',
         <Animated.View
           style={{
             opacity:this.state.textOpacityValue,
-            margin:40,
+            margin:30,
           }}>
          {this.props.checkMarkCopy && this.props.checkMarkCopy.partnerName && inviteText(this.props.checkMarkCopy.partnerName) }
         </Animated.View>
@@ -153,7 +157,7 @@ flexDirection:'column',
           <Animated.View
           style={{
             opacity:this.state.buttonOpacity,
-            margin:40,
+            margin:30,
           }}>
             <TouchableOpacity onPress={()=>{AppActions.hideCheckmark()}}>
               <View>

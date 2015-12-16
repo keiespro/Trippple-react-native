@@ -110,9 +110,11 @@ var UserActions = {
   },
 
   selectPartner(partner){
-    var partnerPhone = partner.phone[0] == '1' ? partner.phone.substr(1,11) : partner.phone
-    const partner_phone = phoneParser(partnerPhone,'xxxxxxxxxx');
-    Api.joinCouple(partner_phone)
+    var partner_phone = partner.phone.replace(/[\. ,():+-]+/g, '').replace(/[A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/,'');
+    var partnerPhone = partner_phone[0] == '1' ? partner_phone.substr(1,11) : partner_phone
+
+    // partner_phone = partner_phone.substr(partner_phone.length - 10, partner_phone.length)
+    Api.joinCouple(partnerPhone)
       .then((res) => {
         this.dispatch({
           response: res,
