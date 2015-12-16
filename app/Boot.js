@@ -1,4 +1,4 @@
-import React, { AppRegistry } from 'react-native'
+import React from 'react-native'
 import App from './components/app'
 import LoadingOverlay from './components/LoadingOverlay'
 import Keychain from 'react-native-keychain'
@@ -26,9 +26,11 @@ export default class Boot extends React.Component{
       this.setBooted()
     })
   }
+
   setBooted(){
     this.setState({booted:true})
   }
+
   render(){
     return this.state.booted ? <App key="app"/> : <LoadingOverlay />
   }
