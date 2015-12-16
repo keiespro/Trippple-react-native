@@ -149,12 +149,12 @@ var PinScreen = React.createClass({
         style={[{flex: 1,
           justifyContent:'space-between',alignItems:'center',backgroundColor: colors.outerSpace, paddingBottom: this.state.keyboardSpace || 280}]}
         >
-         <View style={{width:100,height:50,left:20,alignSelf:'flex-start'}}>
+         <View style={{width:100,height:50,left:10,top:-10,alignSelf:'flex-start'}}>
           <BackButton navigator={this.props.navigator}/>
         </View>
 
 
-          <View style={[styles.middleTextWrap]}>
+          <View style={[styles.middleTextWrap,{marginTop:20}]}>
             <Text style={[styles.middleText]}>We've sent you a login pin</Text>
           </View>
 
@@ -191,7 +191,7 @@ var PinScreen = React.createClass({
                 </View>
             }
           </View>
-          
+
         </View>
           <Numpad backspace={this.backspace} onChangeText={this.onChangeText}/>
        </View>

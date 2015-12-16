@@ -150,7 +150,7 @@ class Carousel extends Component{
         <View key={i+'slide'+i} style={styles.slide}>
         <Image style={ {
             marginBottom:25,
-            height: DeviceHeight/3 + MagicNumbers.screenPadding,
+            height: MagicNumbers.is4s ? 150 : DeviceHeight/3 + MagicNumbers.screenPadding,
             paddingTop: 20,
             marginTop: i == 0 ? MagicNumbers.screenPadding*1.8 : MagicNumbers.screenPadding,
             width: i == 0 ? MagicNumbers.screenWidth : MagicNumbers.screenPadding*5
@@ -159,10 +159,13 @@ class Carousel extends Component{
           {
             fontFamily:'Montserrat',
             fontWeight:'700',
-            marginTop:15
+            marginTop:15,
+            fontSize: MagicNumbers.is4s ? 18 : 22,
           }
           ]}>{slide.title}</Text></View>
-          <View style={styles.textwrap}><Text style={[styles.textplain]}>{slide.content}</Text></View>
+          <View style={styles.textwrap}><Text style={[styles.textplain,{
+            fontSize: MagicNumbers.is4s ? 18 : 22,
+          }]}>{slide.content}</Text></View>
         </View>
       )
     })
