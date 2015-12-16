@@ -42,9 +42,6 @@ class AppRoutes extends Component{
     super()
 
   }
-  componentDidMount(){
-    AppActions.initApp()
-  }
 
   render(){
     var userStatus = this.props.user ? this.props.user.status : null;

@@ -1,6 +1,5 @@
 import alt from '../alt'
-import Api from '../../utils/api'
-import {PushNotificationIOS} from 'react-native'
+import UserActions from './UserActions'
 
 
 class AppActions {
@@ -8,9 +7,12 @@ class AppActions {
      this.dispatch()
   }
   gotCredentials(creds){
-     this.dispatch(creds)
+    UserActions.getUserInfo.defer()
+    this.dispatch(creds)
   }
   noCredentials(err){
+    UserActions.getUserInfo.defer()
+
     this.dispatch(err)
   }
   remoteFail(){

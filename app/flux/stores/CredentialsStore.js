@@ -1,6 +1,4 @@
 import alt from '../alt'
-import { datasource } from 'alt/utils/decorators'
-import CredentialsSource from '../dataSources/CredentialsSource'
 import UserActions from '../actions/UserActions'
 import Keychain from 'react-native-keychain'
 import AppActions from '../actions/AppActions'
@@ -11,7 +9,6 @@ import Device from 'react-native-device'
 
 import Log from '../../Log'
 
-@datasource(CredentialsSource)
 class CredentialsStore {
 
   constructor() {
@@ -32,12 +29,9 @@ class CredentialsStore {
         saveCredentials: this.saveCredentials.bind(this)
       })
 
-      this.registerAsync(CredentialsSource);
-
   }
   handleInitApp(){
     this.getInstance().init()
-
   }
   handleGotCredentials(creds){
     this.setState({ user_id: creds.username+'' , api_key: creds.password+'' })

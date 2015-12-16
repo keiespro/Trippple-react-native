@@ -1,9 +1,7 @@
 import alt from '../alt'
 import UserActions from '../actions/UserActions'
-import UserSource from '../dataSources/UserSource'
 import MatchActions from '../actions/MatchActions'
 import AppActions from '../actions/AppActions'
-import { datasource } from 'alt/utils/decorators'
 import Keychain from 'react-native-keychain'
 import CredentialsStore from './CredentialsStore'
 import AppState from './AppState'
@@ -21,8 +19,6 @@ class UserStore {
       user: {},
       userStub: {},
     }
-
-    this.registerAsync(UserSource);
 
     this.exportPublicMethods({
       getUser: this.getUser
@@ -52,7 +48,6 @@ class UserStore {
 
   handleInitialize(){
 
-    this.getInstance().initUser()
 
   }
 
@@ -95,7 +90,8 @@ class UserStore {
   }
 
   handleGetUserInfo(res){
-    if(res.error){
+    console.log(res)
+    if(res.error || !res.response || !res.response.user_info){
       return false;
     }
 
