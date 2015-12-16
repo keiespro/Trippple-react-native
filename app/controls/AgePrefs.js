@@ -276,7 +276,7 @@ class ActiveDot extends React.Component{
           //   friction: 10,
           // }).start((fin)=>{
           //   // if(fin.finished) {
-          //     this.props.toggleScroll('on');
+              this.props.toggleScroll('on');
           //   // }
           // })
 
