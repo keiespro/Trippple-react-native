@@ -64,32 +64,38 @@ class EditImage extends Component{
 
    }
 
-  accept(croppedImageURI){
-    // CameraRoll.getPhotos({first:1}, (imgdata)=> {
-      // const img = imgdata.edges[0].node.image
+   accept(croppedImageURI){
 
-      var localImages = { image_url: this.props.image, thumb_url: this.props.image }
-      if(this.props.image_type == 'couple_profile'){
-        localImages.couple = {...this.props.user.couple, ...localImages}
-        localImages.localCoupleImage = this.props.image
+     var localImages = { image_url: this.props.image }
+     if(this.props.image_type == 'couple_profile'){
+       localImages.couple = {...this.props.user.couple, ...localImages}
+       localImages.localCoupleImage = this.props.image
 
-      }else{
+     }else{
+       localImages.localSingleBigImage = {...this.props.user.couple, ...localImages}
 
-      }
-      UserActions.updateLocally(localImages)
-      UserActions.uploadImage.defer( this.props.image, this.props.image_type )    // },
-    // (errr)=> {
-    // } )
-    const nextRoute =  EditImageThumb
+     }
+     var alsoUpload = null;
+     if(this.props.navigator.getCurrentRoutes()[0].id != 'potentials'){
+       UserActions.updateLocally(localImages)
+       UserActions.uploadImage.defer( this.props.image, this.props.image_type )
+     }else{
+       alsoUpload = {
+         image: this.props.image,
+         image_type: this.props.image_type
+       };
+     }
+     const nextRoute =  EditImageThumb
 
-    this.props.navigator.push({
-        component:  nextRoute,
-        passProps: {
-          image:this.props.image,
-          // croppedImage: croppedImageURI,
-          image_type: this.props.image_type
-        }
-      })
+     this.props.navigator.push({
+       component:  nextRoute,
+       passProps: {
+         alsoUpload,
+         image:this.props.image,
+         // croppedImage: croppedImageURI,
+         image_type: this.props.image_type
+       }
+     })
 
   }
   retake =()=> {

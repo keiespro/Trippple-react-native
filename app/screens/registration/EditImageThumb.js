@@ -108,7 +108,11 @@ class EditImageThumb extends Component{
         const cropData = getCropDataForSending(transformData)
 
         UserActions.uploadImage.defer( dataUri ,'avatar', cropData)
+        if(this.props.alsoUpload){
+          UserActions.uploadImage.defer( this.props.alsoUpload.image,this.props.alsoUpload.image_type)
+          UserActions.updateLocally({image_url: this.props.alsoUpload.image.uri })
 
+        }
         this.proceed()
 
       }, (err) =>{ })
@@ -187,6 +191,7 @@ class EditImageThumb extends Component{
                   height: this.state.measuredSize.height,
                   isStored: true
                 }}
+                originalImage={this.props.image.hasOwnProperty('uri') ? this.props.image : null}
                 size={cropsize}
                 busy={this.state.busy}
                 style={[styles.imageCropper, cropsize]}
@@ -236,7 +241,6 @@ class EditImageThumb extends Component{
     this.setState({busy:true})
     const {image} = this.props
     const uri = image.uri || image;
-
     ImageEditingManager.cropImage( uri, this._transformData,
       (croppedImageURI) => {  this.accept(croppedImageURI,this._transformData)},
       (cropError) => { this.setState({cropError}) }
@@ -315,28 +319,53 @@ class ImageCropper extends React.Component {
     this._updateTransformData(
       event.nativeEvent.contentOffset,
       event.nativeEvent.contentSize,
-      event.nativeEvent.layoutMeasurement
+      event.nativeEvent.layoutMeasurement,
+      event.nativeEvent.zoomScale,
     );
   }
 
-  _updateTransformData(offset, scaledImageSize, croppedImageSize) {
-    const MN = 1.667; // perhaps not entirely correct
-
+  _updateTransformData(offset, scaledImageSize, croppedImageSize, scale) {
+    const MN = 1.667; // works for camera pics only, in place of originalratio
+    const zoomscale = scale || 1;
     const offsetRatioX = offset.x / scaledImageSize.width,
           offsetRatioY = offset.y / scaledImageSize.height,
           sizeRatioX = croppedImageSize.width / scaledImageSize.width,
           sizeRatioY = croppedImageSize.height / scaledImageSize.height;
 
-    this.props.onTransformDataChange && this.props.onTransformDataChange({
+    const { originalImage } = this.props;
+    const originalRatio = originalImage ? ( Math.min(originalImage.width,originalImage.height) / Math.max(originalImage.width,originalImage.height ) + 1) : MN;
+
+    const w = originalImage ? originalImage.width : this.props.image.width * MN;
+    const h = originalImage ? originalImage.height : this.props.image.height * MN;
+
+
+    const tData = {
       offset: {
-        x: this.props.image.width * offsetRatioX * MN,
-        y: this.props.image.height * offsetRatioY * MN,
+        x: w * offsetRatioX ,
+        y: h * offsetRatioY ,
       },
       size: {
-        width: this.props.image.width * sizeRatioX * MN,
-        height: this.props.image.height * sizeRatioY * MN,
+        width: w * sizeRatioX ,
+        height: h * sizeRatioY ,
       },
-    });
+    };
+
+    this.props.onTransformDataChange && this.props.onTransformDataChange(tData);
+
+    if(__DEV__ && __DEBUG__){
+      console.table([{
+        'originalRatio':originalRatio,
+        'SCALE':zoomscale,
+        'offset x':offset.x,
+        'offset y':offset.y,
+        'scaledImageSize height':scaledImageSize.height,
+        'scaledImageSize width':scaledImageSize.width,
+        'croppedImageSize height':croppedImageSize.height,
+        'croppedImageSize width':croppedImageSize.width,
+        'this.props.image.height': this.props.image.height,
+        'this.props.image.width':this.props.image.width
+      }])
+    }
   }
 
 

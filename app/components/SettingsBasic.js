@@ -342,7 +342,7 @@ class SettingsBasic extends React.Component{
         {!this.props.user.facebook_user_id ?
 
         <View style={[styles.paddedSpace,{width:DeviceWidth,marginBottom:25}]}>
-          <Text style={{color:colors.shuttleGray,textAlign:'center',fontSize:18}}>Don’t worry, we wont tell your friends or post on your wall.</Text>
+          <Text style={{color:colors.shuttleGray,textAlign:'center',fontSize:16}}>Don’t worry, we wont tell your friends or post on your wall.</Text>
         </View> : null }
           </View>
       </View>
