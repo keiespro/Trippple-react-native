@@ -16,15 +16,12 @@ export default class Boot extends React.Component{
   }
 
   getCredentials(){
-    console.log('getCredentials')
     Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
     .then((creds)=>{
-      console.log(creds);
       AppActions.gotCredentials(creds)
       this.setBooted()
     })
     .catch((err)=>{
-      console.log(err);
       AppActions.noCredentials(err)
       this.setBooted()
     })
