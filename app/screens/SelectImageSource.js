@@ -124,7 +124,7 @@ class SelectImageSource extends Component{
           return (
             <Text style={[styles.textTop,{marginTop:0}]}>
               <Text>Upload or snap a pic of </Text>
-              <Text style={{color:colors.sushi}}>you and your partner together</Text>
+              <Text style={{color:colors.sushi}}>you and your partner {MagicNumbers.is4s ? null : 'together'}</Text>
               <Text>.</Text>
             </Text>
           )
@@ -134,7 +134,7 @@ class SelectImageSource extends Component{
             <Text style={[styles.textTop,{marginTop:0}]}>
               <Text>Now upload or snap </Text>
               <Text style={{color:colors.sushi}}>a pic of just you</Text>
-              <Text>. This is the picture your matches will see during your chats.</Text>
+              {MagicNumbers.is4s ? null : <Text>. This is the picture your matches will see during your chats.</Text>}
             </Text>
           )
         }
@@ -249,7 +249,7 @@ var styles = StyleSheet.create({
   },
   textTop:{
     marginBottom: 0,
-    fontSize: 20,
+    fontSize: MagicNumbers.is4s ? 18 : 20,
     color: colors.rollingStone,
     fontFamily:'omnes',
     textAlign:'center'
@@ -260,7 +260,7 @@ var styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     marginTop:20,
-    marginBottom:40
+    marginBottom:MagicNumbers.is4s ? 20 : 40
   },
   imageInside:{
     width:MagicNumbers.is4s ? DeviceWidth/2 - 10 : DeviceWidth/2 + 20,

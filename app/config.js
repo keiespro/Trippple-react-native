@@ -1,19 +1,19 @@
-const APP_ENV = 'staging'
+const APP_ENV = 'production';
 
-global.__DEBUG__ = __DEV__;
+global.__DEBUG__ = false//__DEV__;
 
 const config = {
 
   production: {
-    SERVER_URL: 'https://api2.trippple.co/user',
-    WEBSOCKET_URL: 'https://api.trippple.co',
-    KEYCHAIN_NAMESPACE: 'trippple.co'
+    SERVER_URL: 'https://new-api2.trippple.co/user',
+    WEBSOCKET_URL: 'https://new-api.trippple.co',
+    KEYCHAIN_NAMESPACE: 'http://api2.trippple.co'
   },
 
   staging: {
     SERVER_URL: 'https://staging-api2.trippple.co/user',
     WEBSOCKET_URL: 'https://staging-api.trippple.co',
-    KEYCHAIN_NAMESPACE: 'staging.trippple.co'
+    KEYCHAIN_NAMESPACE: 'staging1.trippple.co'
   },
 
   dev: {
@@ -25,7 +25,7 @@ const config = {
   devAlex: {
     SERVER_URL: 'http://x.local:9999/user',
     WEBSOCKET_URL: 'http://x.local:9919',
-    KEYCHAIN_NAMESPACE: '6'
+    KEYCHAIN_NAMESPACE: 'dev.trippple.co'
   },
 
   devDante: {
