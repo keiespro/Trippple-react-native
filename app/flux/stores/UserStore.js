@@ -148,12 +148,9 @@ class UserStore {
 
   handleUpdateUser(res){
     const user = res.response.user_info;
-
     this.setState({
       user: {...this.state.user, ...user}
     })
-
-
   }
 
   handleUpload(response){

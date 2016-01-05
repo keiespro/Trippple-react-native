@@ -66,11 +66,11 @@ class Main extends Component{
     this.refs.nav.navigationContext.addListener('didfocus', (e)=>{
       AppActions.updateRoute.defer(this.refs.nav.state.presentedIndex)
     })
-
+    NotificationActions.scheduleNewPotentialsAlert()
   }
 
   componentWillReceiveProps(nProps){
-    console.log(this.refs)
+
     if(nProps.currentRoute){
       if(nProps.currentRoute != this.refs.nav.state.presentedIndex){
         if(this.props.currentRoute && nProps.currentRoute && this.props.currentRoute.match_id && nProps.currentRoute.match_id && nProps.currentRoute.match_id == this.props.currentRoute.match_id){
@@ -116,7 +116,6 @@ class Main extends Component{
     }
   }
 
-
   selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
     const RouteComponent = route.component;
     var navBar = route.navigationBar;
@@ -129,7 +128,7 @@ class Main extends Component{
         style: styles.navBar,
       });
     }
-    console.log('render nav',route.component)
+
     return (
       <View style={{ flex: 1,  width:DeviceWidth, height:DeviceHeight }}>
 
@@ -286,8 +285,7 @@ const ChatRoute = {
     <FakeNavBar
       hideNext={true}
       backgroundStyle={{backgroundColor:'transparent'}}
-          titleColor={colors.white}
-
+      titleColor={colors.white}
       blur={true}
       title={'Matches'} titleColor={colors.white}
       onPrev={(nav,route)=> nav.pop()}

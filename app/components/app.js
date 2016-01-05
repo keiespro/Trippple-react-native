@@ -78,12 +78,8 @@ class TopLevel extends Component{
       showOverlay: props.user ? false : true,
       showCheckmark: false,
     }
-
-
   }
-  componentDidMount(){
-    NotificationActions.scheduleNewPotentialsAlert()
-  }
+
   componentWillReceiveProps(nProps){
 
     if(this.props.user && nProps.user &&  nProps.user.status == 'verified' && this.props.user.status != 'verified'){

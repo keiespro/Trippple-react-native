@@ -108,7 +108,7 @@ class UserActions {
       Api.updateUser(payload)
         .then((res) => {
           dispatch({
-            response: res,
+            response: res.response,
             updates
           })
         })
