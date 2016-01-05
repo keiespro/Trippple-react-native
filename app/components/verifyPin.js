@@ -1,13 +1,12 @@
-var React = require('react-native');
-var {
+import React, {
   StyleSheet,
   Text,
   View,
   TextInput,
   TouchableHighlight
-} = React;
+} from 'react-native'
 
-var UserActions = require('../flux/actions/UserActions');
+import UserActions from '../flux/actions/UserActions'
 
 
 class VerifyPin extends Component{
@@ -83,7 +82,7 @@ class VerifyPin extends Component{
 };
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -118,4 +117,4 @@ var styles = StyleSheet.create({
 });
 
 
-module.exports = VerifyPin;
+export default VerifyPin;

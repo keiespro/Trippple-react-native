@@ -223,4 +223,4 @@ const styles = StyleSheet.create({
 });
 
 
-module.exports = CoupleCameraControl;
+export default CoupleCameraControl;

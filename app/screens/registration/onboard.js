@@ -1,5 +1,4 @@
-import React from 'react-native';
-import {
+import React, {
   Component,
   StyleSheet,
   Text,
@@ -14,7 +13,7 @@ import colors from '../../utils/colors'
 import CustomSceneConfigs from '../../utils/sceneConfigs'
 import OnboardingStore from '../../flux/stores/OnboardingStore'
 import OnboardingActions from '../../flux/actions/OnboardingActions'
-import AltContainer from 'alt-container';
+import AltContainer from 'alt-container'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width

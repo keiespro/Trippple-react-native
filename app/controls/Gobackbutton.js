@@ -33,7 +33,7 @@ class Gobackbutton extends Component{
   }
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   leftbutton:{
     width:80,
     alignSelf: 'flex-start',

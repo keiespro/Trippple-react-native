@@ -1,16 +1,15 @@
-var React = require('react-native');
-var {
+import React, {
   StyleSheet,
   Text,
   View,
   Navigator,
   TouchableHighlight
-} = React;
+} from 'react-native'
 
 
-var CameraControl = require('../controls/cameraControl');
+import CameraControl from '../controls/cameraControl'
 
-var Img = React.createClass({
+const Img = React.createClass({
   _getCameraRoll() {
 
   },
@@ -41,7 +40,7 @@ var Img = React.createClass({
   }
 })
 
-var ImageUpload = React.createClass({
+const ImageUpload = React.createClass({
   _renderScene(route: Navigator.route, navigator: Navigator) {
     return (<route.component {...route.passProps} navigator={navigator} user={this.props.user} />);
   },
@@ -70,7 +69,7 @@ var ImageUpload = React.createClass({
 });
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
 
@@ -91,4 +90,4 @@ var styles = StyleSheet.create({
 });
 
 
-module.exports = ImageUpload;
+export default ImageUpload

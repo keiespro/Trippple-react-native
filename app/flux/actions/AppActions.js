@@ -3,45 +3,51 @@ import UserActions from './UserActions'
 
 
 class AppActions {
-  gotCredentials(creds){
-    UserActions.getUserInfo.defer()
-    this.dispatch(creds)
+  gotCredentials(creds) {
+    return function(dispatch) {
+      UserActions.getUserInfo.defer()
+      dispatch(creds)
+    };
   }
-  noCredentials(err){
-    console.log(err)
-    this.dispatch(err)
+  noCredentials(err) {
+    return function(dispatch) {
+      console.log(err)
+      dispatch(err)
+    };
   }
   remoteFail(){
-    this.dispatch()
+    return;;
   }
   loadingUser(){
-    this.dispatch()
+    return;;
   }
   showCheckmark(copy){
-    this.dispatch(copy)
+    return copy;;
   }
   hideCheckmark(){
-    this.dispatch()
+    return;;
   }
   updateRoute(d){
-    this.dispatch(d)
+    return d;;
   }
   toggleOverlay(){
-    this.dispatch();
+    return;;
   }
   storeContactsToBlock(contacts){
-    this.dispatch(contacts)
+    return contacts;;
   }
   grantPermission(perm){
-    this.dispatch(perm)
+    return perm;;
   }
   denyPermission(perm){
-    this.dispatch(perm)
+    return perm;;
   }
-  saveStores(){
-    console.log('saveStores')
+  saveStores() {
+    return function(dispatch) {
+      console.log('saveStores')
 
-    this.dispatch();
+      dispatch();
+    };
   }
 
 }

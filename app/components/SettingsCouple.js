@@ -232,7 +232,7 @@ class SettingsCouple extends React.Component{
 
 export default SettingsCouple
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
 
  container: {

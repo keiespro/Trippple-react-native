@@ -133,7 +133,7 @@ componentWillMount(){
 export default Notification
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   notificationWrapper:{
     width: DeviceWidth,
     flex: 1,

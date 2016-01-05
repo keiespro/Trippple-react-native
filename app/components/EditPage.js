@@ -73,7 +73,7 @@ class EditPage extends Component{
 export default EditPage
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
   container: {
     flex: 1,

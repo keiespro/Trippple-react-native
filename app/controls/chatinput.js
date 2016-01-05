@@ -1,20 +1,10 @@
 /**
  * @flow
  */
- ;
 
-var React = require('react-native');
-var {
-  Text,
-  TextInput,
-  View,
-  TouchableHighlight,
-  StyleSheet,
-} = React;
+import React, { Text, TextInput, View, TouchableHighlight, StyleSheet, } from 'react-native'
 
-
-
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   well: {
     height: 60,
     bottom:0,
@@ -97,4 +87,4 @@ class ChatInput extends Component{
 }
 
 
-module.exports = ChatInput;
+export default ChatInput;

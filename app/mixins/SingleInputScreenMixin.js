@@ -1,5 +1,4 @@
-var React = require('react-native');
-var {
+import React, {
   StyleSheet,
   Text,
   TextInput,
@@ -10,16 +9,16 @@ var {
   ScrollView,
   TouchableOpacity,
   TouchableHighlight,
-  SegmentedControlIOS
-} = React;
+  SegmentedControlIOS,
+  Dimensions
+} from 'react-native'
 
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
-var colors = require('../utils/colors')
-
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
+import colors from '../utils/colors'
 import ContinueButton from '../controls/ContinueButton'
 
-module.exports =  {
+const SingleInputScreenMixin =  {
 
   getInitialState() {
     return {
@@ -97,9 +96,9 @@ module.exports =  {
 
 
 };
+export default SingleInputScreenMixin;
 
-
-var animations = {
+const animations = {
   layout: {
     spring: {
       duration: 500,
@@ -129,7 +128,7 @@ var animations = {
 
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
     container: {
       flex: 1,

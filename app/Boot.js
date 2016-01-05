@@ -2,7 +2,8 @@ import React from 'react-native'
 import App from './components/app'
 import LoadingOverlay from './components/LoadingOverlay'
 import Keychain from 'react-native-keychain'
-import {KEYCHAIN_NAMESPACE} from  './config'
+import config from './config'
+const {KEYCHAIN_NAMESPACE} = config
 import AppActions from './flux/actions/AppActions'
 
  class Boot extends React.Component{

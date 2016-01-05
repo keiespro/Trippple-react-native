@@ -359,7 +359,7 @@ export default SettingsBasic
 
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
 
  container: {

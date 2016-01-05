@@ -1,5 +1,4 @@
-var React = require('react-native');
-var {
+import React, {
   Component,
   StyleSheet,
   Text,
@@ -11,17 +10,18 @@ var {
   TouchableOpacity,
   TouchableHighlight,
   LayoutAnimation,
+  Dimensions,
   SegmentedControlIOS
-} = React;
+} from 'react-native'
 
-var UserActions = require('../../flux/actions/UserActions');
-var colors = require('../../utils/colors')
-var BoxyButton = require('../../controls/boxyButton')
+import UserActions from '../../flux/actions/UserActions'
+import colors from '../../utils/colors'
+import BoxyButton from '../../controls/boxyButton'
 import {MagicNumbers} from '../../DeviceConfig'
 import OnboardingActions from '../../flux/actions/OnboardingActions'
 
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 import SharedStyles from '../../SharedStyles'
 import Gobackbutton from '../../controls/Gobackbutton'
 import BackButton from './BackButton'
@@ -183,7 +183,7 @@ var animations = {
 };
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
   container: {
     flex: 1,
@@ -328,4 +328,4 @@ selectedbutton:{
 });
 
 
-module.exports = GenderScreen;
+export default GenderScreen;

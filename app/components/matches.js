@@ -40,7 +40,7 @@ import customSceneConfigs from '../utils/sceneConfigs'
 import SegmentedView from '../controls/SegmentedView'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin';
-import AltContainer from 'alt-container';
+import AltContainer from 'alt-container/native';
 import FakeNavBar from '../controls/FakeNavBar'
 import Mixpanel from '../utils/mixpanel'
 import FadeInContainer from './FadeInContainer'
@@ -48,13 +48,13 @@ import { BlurView,VibrancyView} from 'react-native-blur'
 
 import UserProfile from './UserProfile'
 
-@reactMixin.decorate(TimerMixin)
 class MatchList extends Component{
 
   static defaultProps = {}
 
   constructor(props) {
     super(props);
+    console.log('match list component')
 
     this.state = {
       index: 0,
@@ -105,14 +105,14 @@ class MatchList extends Component{
   _renderRow(rowData, sectionID, rowID){
     const myId = this.props.user.id,
         myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
-    var theirIds = Object.keys(rowData.users).filter( (u)=> u != this.props.user.id)
-    var them = theirIds.map((id)=> rowData.users[id])
+    var theirIds = Object.keys(rowData.users).filter( (u)=> u != this.props.user.id);
+    var them = theirIds.map((id)=> rowData.users[id]);
     var threadName = them.map( (user,i) => user.firstname.trim() ).join(' & ');
-    var modalVisible = this.state.isVisible
-    var self = this
-    var matchImage = ( them.couple && them.couple.thumb_url ) || them[0].thumb_url || them[1].thumb_url || null
+    var modalVisible = this.state.isVisible;
+    var self = this;
+    var matchImage = ( them.couple && them.couple.thumb_url ) || them[0].thumb_url || them[1].thumb_url || null;
 
-    var unreadCount = rowData.unreadCount || 0
+    var unreadCount = rowData.unreadCount || 0;
 
     return (
 
@@ -481,6 +481,7 @@ class NoFavorites extends Component{
     )
   }
 }
+
 class Matches extends Component{
 
   constructor(props) {
@@ -567,7 +568,7 @@ componentDidUpdate(){
 }
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   noop:{},
   container: {
     backgroundColor: colors.outerSpace,
@@ -721,7 +722,8 @@ class EmptyStarButton extends Component{
 
 
 
+reactMixin.onClass(Matches, TimerMixin)
 
 
 
-module.exports = Matches;
+export default Matches;

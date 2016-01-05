@@ -3,8 +3,8 @@ import UserActions from '../actions/UserActions'
 import Keychain from 'react-native-keychain'
 import AppActions from '../actions/AppActions'
 
-import {KEYCHAIN_NAMESPACE} from '../../config'
-
+import config from '../../config'
+const {KEYCHAIN_NAMESPACE} = config
 import Device from 'react-native-device'
 
 import Log from '../../Log'
@@ -15,7 +15,9 @@ class CredentialsStore {
     this.user_id = '';
     this.api_key = '';
 
-    this.on('init', () => {/*noop*/})
+    this.on('init', () => {
+      console.log('init credentials store', KEYCHAIN_NAMESPACE,config);
+    /*noop*/})
 
     this.on('error', (err, payload, currentState) => {
       Log(err, payload, currentState);
@@ -26,7 +28,8 @@ class CredentialsStore {
     });
 
     this.exportPublicMethods({
-      saveCredentials: this.saveCredentials.bind(this)
+      saveCredentials: this.saveCredentials.bind(this),
+      getCredentials: this.getCredentials.bind(this),
     })
 
   }
@@ -72,6 +75,11 @@ class CredentialsStore {
   }
   handleLogOut(){
 
+  }
+
+  getCredentials(){
+    const { user_id, api_key } = this
+    return { user_id, api_key }
   }
 }
 export default alt.createStore(CredentialsStore, 'CredentialsStore');

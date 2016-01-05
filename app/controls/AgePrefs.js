@@ -364,7 +364,7 @@ export default AgePrefs
 
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
 
  container: {

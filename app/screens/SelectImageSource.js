@@ -7,16 +7,15 @@ import React, {
   PropTypes,
   TouchableHighlight,
   Modal,
+  Dimensions
 } from 'react-native'
 
-
-const DeviceHeight = require('Dimensions').get('window').height
-const DeviceWidth = require('Dimensions').get('window').width
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
 
 
 import {MagicNumbers} from '../DeviceConfig'
 import OnboardingActions from '../flux/actions/OnboardingActions'
-
 import FBPhotoAlbums from '../components/fb.login'
 import FacebookButton from '../buttons/FacebookButton'
 import BoxyButton from '../controls/boxyButton'
@@ -205,7 +204,7 @@ class SelectImageSource extends Component{
 export default SelectImageSource
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection:'column',

@@ -231,7 +231,7 @@ var Welcome = React.createClass({
 });
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems:'center',
@@ -364,4 +364,4 @@ var styles = StyleSheet.create({
 });
 
 
-module.exports = Welcome;
+export default Welcome;

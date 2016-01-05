@@ -19,7 +19,7 @@
 // var PropTypes = require('ReactPropTypes');
 // var React = require('React');
 // var ReactChildren = require('ReactChildren');
-// var StyleSheet = require('StyleSheet');
+// const stylesheet = require('StyleSheet');
 // var Text = require('Text');
 // var TextInputState = require('TextInputState');
 // var TimerMixin = require('react-timer-mixin');
@@ -600,7 +600,7 @@
 //   },
 // });
 //
-// var styles = StyleSheet.create({
+// const styles = StyleSheet.create({
 //   input: {
 //     alignSelf: 'stretch',
 //   },
@@ -611,4 +611,4 @@
 //   uiViewClassName: 'AndroidTextInput',
 // });
 //
-// module.exports = MaskableTextInput;
+// export default MaskableTextInput;

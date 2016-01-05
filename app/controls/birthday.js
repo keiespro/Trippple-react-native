@@ -1,19 +1,12 @@
 /**
  * @flow
  */
- ;
 
-var React = require('react-native');
-var {
-  Text,
-  StyleSheet,
-  View,
-  PickerIOS
-} = React;
-var PickerItemIOS = PickerIOS.Item;
-var colors = require('../utils/colors')
+import React, { Text, StyleSheet, View, PickerIOS } from 'react-native'
+const PickerItemIOS = PickerIOS.Item
+import colors from '../utils/colors'
 
-var monthList = [
+const monthList = [
 'January',
 'February',
 'March',
@@ -27,18 +20,14 @@ var monthList = [
 'November',
 'December'
 ];
-var yearsList = [],
-    currentyear = new Date().getFullYear();
-;
+const yearsList = [],
+      currentyear = new Date().getFullYear();
+
 for(var i = currentyear - 18; i >= currentyear - 65; i--){
   yearsList.push(i);
 }
 
-var Birthday = React.createClass({
-  // propTypes: {
-  //   updateMonth: React.propTypes.function,
-  //   updateYear: React.propTypes.function
-  // },
+const Birthday = React.createClass({
   getInitialState() {
     return {
       bday_month: this.props.bdayMonth,
@@ -49,41 +38,37 @@ var Birthday = React.createClass({
     return (
       <View style={styles.bdaycontainer}>
         <Text style={styles.header}>Birthday </Text>
-          <Text style={styles.formLabel}>Month </Text>
+        <Text style={styles.formLabel}>Month </Text>
+        <PickerIOS
+          style={styles.picker}
+          selectedValue={this.props.bdayMonth}
+          onValueChange={(bday_month) => this.props.updateMonth(bday_month)}>
+          {monthList.map( (month, index) => (
+              <PickerItemIOS
+                key={'month_' + index}
+                value={index}
+                label={month}
+              />
+            ))
+          }
+        </PickerIOS>
 
-            <PickerIOS
-              style={styles.picker}
-              selectedValue={this.props.bdayMonth}
-              onValueChange={(bday_month) => this.props.updateMonth(bday_month)}>
-              {monthList.map( (month, index) => (
-                  <PickerItemIOS
-                    key={'month_' + index}
-                    value={index}
-                    label={month}
-                  />
-                ))
-              }
-            </PickerIOS>
+        <Text style={styles.formLabel}>Year </Text>
 
-            <Text style={styles.formLabel}>Year </Text>
-
-            <PickerIOS
-              key={'yearpicker'}
-              style={styles.picker}
-              selectedValue={this.props.bdayYear}
-              onValueChange={(bday_year) => this.props.updateYear(bday_year)}>
-              {yearsList.map( (year, index) => (
-                  <PickerItemIOS
-                    key={'y_' + index}
-                    value={year}
-                    label={year+''}
-                  />
-                ))
-              }
-            </PickerIOS>
-
-
-
+        <PickerIOS
+          key={'yearpicker'}
+          style={styles.picker}
+          selectedValue={this.props.bdayYear}
+          onValueChange={(bday_year) => this.props.updateYear(bday_year)}>
+          {yearsList.map( (year, index) => (
+              <PickerItemIOS
+                key={'y_' + index}
+                value={year}
+                label={year+''}
+              />
+            ))
+          }
+        </PickerIOS>
       </View>
     );
   }
@@ -91,7 +76,7 @@ var Birthday = React.createClass({
 
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
  formRow: {
    alignItems: 'center',
@@ -147,4 +132,4 @@ var styles = StyleSheet.create({
 });
 
 
-module.exports = Birthday;
+export default Birthday;

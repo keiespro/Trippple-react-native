@@ -1,16 +1,24 @@
-var React = require('react-native')
-var {PanResponder, TouchableHighlight,Image, InteractionManager, StyleSheet, Text, View, Animated, Dimensions, StyleSheet} = React
+import React, {
+  PanResponder,
+  TouchableHighlight,
+  Image,
+  InteractionManager,
+  Text,
+  View,
+  Animated,
+  Dimensions,
+  StyleSheet
+} from 'react-native'
 
-var DeviceWidth = Dimensions.get('window').width
-var DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
+const DeviceHeight = Dimensions.get('window').height
 import colors from '../utils/colors'
 import ThreeDots from '../buttons/ThreeDots'
-// var styles = require('./styles.js')
 const BTN_MAX = DeviceWidth/2
 const BTNWIDTH = 100
 const BTNTHRESHOLD = 150
 
-var SwipeoutBtn = React.createClass({
+const SwipeoutBtn = React.createClass({
   getDefaultProps: function() {
     return {
       backgroundColor: null,
@@ -116,7 +124,7 @@ var SwipeoutBtn = React.createClass({
   }
 })
 
-var Swipeout = React.createClass({
+const Swipeout = React.createClass({
   getDefaultProps() {
     return {
       onOpen: (sectionID, rowID) => { /* no op*/},
@@ -139,8 +147,8 @@ var Swipeout = React.createClass({
     }
   },
   componentWillMount() {
-    var width = DeviceWidth,
-        height = 100;
+    const width = DeviceWidth,
+          height = 100;
     // this.refs.swipeoutContent.measure((ox, oy, width, height) => {
       this.setState({
         btnWidth: (BTNWIDTH),
@@ -172,12 +180,11 @@ var Swipeout = React.createClass({
       onMoveShouldSetPanResponderCapture:(e,gestureState) =>  Math.abs(gestureState.dy) < 5,
       onPanResponderEnd: (e, gestureState) => {
 
-        var { contentWidth, btnsLeftWidth, btnsRightWidth} = this.state,
-            {action} = gestureState.dx > 0 ? this.props.left[0] : this.props.right[0],
-            toValue = 0;
+        const { contentWidth, btnsLeftWidth, btnsRightWidth} = this.state,
+              { action } = gestureState.dx > 0 ? this.props.left[0] : this.props.right[0],
+              toValue = 0;
 
         if(Math.abs(gestureState.dx) < BTNTHRESHOLD){
-
 
           Animated.spring(this.state.offsetX, {
             toValue,
@@ -185,10 +192,7 @@ var Swipeout = React.createClass({
             tension:50,
             friction: 8
           }).start(() => {
-
             this.props.scroll(true);
-
-
           }) // enable scrolling in parent scrollview when done
 
         }else{
@@ -215,19 +219,21 @@ var Swipeout = React.createClass({
         }
       }
     })
-
   },
 
   render(){
-    var {offsetX, contentWidth} = this.state
-    var {rowData} = this.props
+    const { offsetX, contentWidth } = this.state,
+          { rowData } = this.props;
     return (
-      <Animated.View style={{position:'relative',width:DeviceWidth,overflow:'hidden',
-      backgroundColor:   offsetX.interpolate({
-          inputRange:   [-BTN_MAX,  -BTNWIDTH/2,   0,        BTNWIDTH/2,         BTN_MAX   ],
-          outputRange:  [ colors.dark,colors.dark,colors.outerSpace,colors.dark, colors.dark,],
-        })}}>
-
+      <Animated.View style={{
+          position:'relative',
+          width:DeviceWidth,
+          overflow:'hidden',
+          backgroundColor:   offsetX.interpolate({
+            inputRange:   [-BTN_MAX,  -BTNWIDTH/2,   0,        BTNWIDTH/2,         BTN_MAX   ],
+            outputRange:  [ colors.dark,colors.dark,colors.outerSpace,colors.dark, colors.dark,],
+          })
+        }}>
         <View
           style={{
             width:DeviceWidth,
@@ -310,9 +316,9 @@ var Swipeout = React.createClass({
   }
 })
 
-module.exports = Swipeout
+export default Swipeout
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   swipeout: {
     backgroundColor: '#dbddde',
     flex: 1,

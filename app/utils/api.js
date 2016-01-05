@@ -2,7 +2,7 @@ import AppInfo from 'react-native-app-info'
 import Promise from 'bluebird'
 import {Platform, NativeModules} from 'react-native'
 const { FileTransfer, RNAppInfo } = NativeModules
-const CredentialsStore = require('../flux/stores/CredentialsStore')
+import CredentialsStore from '../flux/stores/CredentialsStore'
 const UploadFile = Promise.promisify(FileTransfer.upload)
 import config from '../config'
 const { SERVER_URL } = config
@@ -34,7 +34,8 @@ async function publicRequest(endpoint, payload){
 }
 
 async function authenticatedRequest(endpoint: '', payload: {}){
-  const credentials = CredentialsStore.getState()
+  console.log(CredentialsStore)
+  const credentials = CredentialsStore.getCredentials()
   const authPayload = {...payload, ...credentials}
 
   try{

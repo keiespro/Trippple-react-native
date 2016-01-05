@@ -1,18 +1,17 @@
 // forked from deep inside react native
 
 
- 'use strict';
+'use strict';
 
-var Dimensions = require('Dimensions');
-var PixelRatio = require('PixelRatio');
-var buildStyleInterpolator = require('buildStyleInterpolator');
+import {Dimensions,PixelRatio} from 'react-native';
+import buildStyleInterpolator from 'buildStyleInterpolator'
 
-var SCREEN_WIDTH = Dimensions.get('window').width;
-var SCREEN_HEIGHT = Dimensions.get('window').height;
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 //
 //
-// var FadeIn = {
+// const FadeIn = {
 //   opacity: {
 //     from: 0,
 //     to: 1,
@@ -24,7 +23,7 @@ var SCREEN_HEIGHT = Dimensions.get('window').height;
 //   },
 // };
 //
-// var FadeOut = {
+// const FadeOut = {
 //   opacity: {
 //     from: 1,
 //     to: 0,
@@ -36,7 +35,7 @@ var SCREEN_HEIGHT = Dimensions.get('window').height;
 //   },
 // };
 
-var ToTheLeft = {
+const ToTheLeft = {
   transformTranslate: {
     from: {x: 0, y: 0, z: 0},
     to: {x: -Dimensions.get('window').width, y: 0, z: 0},
@@ -64,7 +63,7 @@ var ToTheLeft = {
 
 
 
-var ToTheRight = {
+const ToTheRight = {
   transformTranslate: {
     from: {x: 0, y: 0, z: 0},
     to: {x: Dimensions.get('window').width, y: 0, z: 0},
@@ -88,7 +87,7 @@ var ToTheRight = {
 };
 
 
-var FromTheRight = {
+const FromTheRight = {
   opacity: {
     value: 1.0,
     type: 'constant',
@@ -124,7 +123,7 @@ var FromTheRight = {
   },
 };
 
-var FromTheLeft = {
+const FromTheLeft = {
   ...FromTheRight,
   transformTranslate: {
     from: {x: -SCREEN_WIDTH, y: 0, z: 0},
@@ -147,7 +146,7 @@ var FromTheLeft = {
 };
 
 
-var SlideToTheLeft = {
+const SlideToTheLeft = {
   // Rotate *requires* you to break out each individual component of
   // rotation (x, y, z, w)
   transformTranslate: {
@@ -217,7 +216,7 @@ var SlideToTheLeft = {
 
 
 
-var FromTheFront = {
+const FromTheFront = {
   // opacity: {
   //   value: 1.0,
   //   type: 'constant',
@@ -259,7 +258,7 @@ var FromTheFront = {
   },
 };
 
-var ToTheBack = {
+const ToTheBack = {
   // Rotate *requires* you to break out each individual component of
   // rotation (x, y, z, w)
   transformTranslate: {
@@ -301,7 +300,7 @@ var ToTheBack = {
   },
 };
 
-var SPRING_FRICTION = 26,
+const SPRING_FRICTION = 26,
     SPRING_TENSION = 200,
     GESTURE_DETECT_MOVEMENT = 2,
     NOT_MOVING = 0.5,
@@ -311,12 +310,12 @@ var SPRING_FRICTION = 26,
     STILL_COMPLETION_RATIO = (3/5);
 
 
-var BaseOverswipeConfig = {
+const BaseOverswipeConfig = {
   frictionConstant: 1,
   frictionByDistance: 1.5,
 };
 
-var BaseLeftToRightGesture = {
+const BaseLeftToRightGesture = {
 
   // If the gesture can end and restart during one continuous touch
   isDetachable: false,
@@ -345,7 +344,7 @@ var BaseLeftToRightGesture = {
 
 };
 
-var BaseRightToLeftGesture = {
+const BaseRightToLeftGesture = {
   ...BaseLeftToRightGesture,
   direction: 'right-to-left',
 };
@@ -353,7 +352,7 @@ var BaseRightToLeftGesture = {
 
 
 
-var CustomSceneConfigs = {
+const CustomSceneConfigs = {
   HorizontalSlide: {
     // Rebound spring parameters when transitioning FROM this scene
     springFriction: SPRING_FRICTION,
@@ -461,4 +460,4 @@ var CustomSceneConfigs = {
   }
 };
 
-module.exports = CustomSceneConfigs;
+export default CustomSceneConfigs;

@@ -1,6 +1,5 @@
 
-var React = require('react-native');
-var {
+import React, {
   Component,
   StyleSheet,
   Text,
@@ -11,17 +10,17 @@ var {
   TouchableHighlight,
   TouchableOpacity,
   LayoutAnimation,
-} = React;
+  Dimensions
+} from 'react-native'
 
-var UserActions = require('../../flux/actions/UserActions');
-var colors = require('../../utils/colors')
-var BoxyButton = require('../../controls/boxyButton')
+import UserActions from '../../flux/actions/UserActions'
+import colors from '../../utils/colors'
+import BoxyButton from '../../controls/boxyButton'
 
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
+
 import LoadingOverlay from '../../components/LoadingOverlay'
-
-
 
 class Limbo extends Component{
   componentWillMount(){
@@ -35,7 +34,7 @@ class Limbo extends Component{
 }
 export default Limbo
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
  buttonText: {
    fontSize: 18,
    color: '#111',

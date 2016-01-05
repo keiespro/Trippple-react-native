@@ -224,4 +224,4 @@ const styles = StyleSheet.create({
 });
 
 
-module.exports = CameraControl;
+export default CameraControl;

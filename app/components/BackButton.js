@@ -44,7 +44,7 @@ class BackButton extends Component{
 export default BackButton;
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
  bottomTextIcon:{
     fontSize: 14,
     flexDirection: 'column',

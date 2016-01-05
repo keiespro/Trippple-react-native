@@ -30,7 +30,7 @@ const { RNMessageComposer } = NativeModules ;
 import PurpleModal from './PurpleModal'
 
 var passProps = function(component,props) {
-  return React.addons.cloneWithProps(component, props);
+  return React.cloneElement(component, props);
 };
 
 class PartnerMissingModal extends Component{

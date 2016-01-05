@@ -6,98 +6,106 @@ class MatchActions {
 
 
   removeMatch(matchID){
-    this.dispatch(matchID)
+    return matchID;;
   }
 
-  getMatches(page){
-
-    Api.getMatches(page || 0)
-      .then((res) => {
-        this.dispatch({matches: res.response.length ? res.response : [], page: page || false});
-      })
-
+  getMatches(page) {
+    return (dispatch) => {
+      Api.getMatches(page || 0)
+        .then((res) => {
+          dispatch({matches: res.response.length ? res.response : [], page: page || false});
+        })
+    };
   }
 
   getFavorites(page){
 
   }
 
-  getMessages(matchID,page){
+  getMessages(matchID, page) {
+    return (dispatch) => {
+      if(!matchID) {
+        dispatch({messages: []});
+        
+      }
 
-    if(!matchID) {
-      this.dispatch({messages: []});
-      return false
-    }
-
-    Api.getMessages({match_id: matchID, page: page || false})
-    .then((res) => {
-      this.dispatch({messages: res.response || []});
-    })
+      Api.getMessages({match_id: matchID, page: page || false})
+      .then((res) => {
+        dispatch({messages: res.response || []});
+      })
+    };
   }
 
-  getPotentials(){
-
-    Api.getPotentials(  )
-    .then((res) => {
-      this.dispatch(res.response);
-    })
-    .catch((err) => {
-      this.dispatch(err);
-    })
-
+  getPotentials() {
+    return (dispatch) => {
+      Api.getPotentials(  )
+      .then((res) => {
+        dispatch(res.response);
+      })
+      .catch((err) => {
+        dispatch(err);
+      })
+    };
   }
 
   setAccessTime(payload){
-    this.dispatch(payload)
+    return payload;;
   }
 
   sendMessage(message, matchID,timestamp){
-    this.dispatch({message, matchID,timestamp});
+    return {message, matchID,timestamp};;
   }
-  sendMessageToServer(message, matchID){
-    Api.createMessage(message, matchID)
-    .then(()=>{
-      return Api.getMessages({match_id: matchID}).then((res) => {
-        const messages = res.response;
-        Api.getMatches(0)
-        .then((resMatches) => {
-          this.dispatch({messages, matchesData: {matches: resMatches.response, page: 0}});
+  sendMessageToServer(message, matchID) {
+    return (dispatch) => {
+      Api.createMessage(message, matchID)
+      .then(()=>{
+        return Api.getMessages({match_id: matchID}).then((res) => {
+          const messages = res.response;
+          Api.getMatches(0)
+          .then((resMatches) => {
+            dispatch({messages, matchesData: {matches: resMatches.response, page: 0}});
+          })
         })
       })
-    })
-    .catch((err) => {/*noop*/})
-
+      .catch((err) => {/*noop*/})
+    };
   }
 
-  toggleFavorite(matchID){
-
-    Api.toggleFavorite(matchID)
-    .then(()=>{
-      Api.getFavorites(0)
-      .then((res) => {
-        this.dispatch({matches: res.response, page: 0});
+  toggleFavorite(matchID) {
+    return (dispatch) => {
+      Api.toggleFavorite(matchID)
+      .then(()=>{
+        Api.getFavorites(0)
+        .then((res) => {
+          dispatch({matches: res.response, page: 0});
+        })
       })
-    })
+    };
   }
 
 
-  unMatch(matchID){
-    Api.unMatch(matchID)
-    .then(()=>{
-      this.dispatch(matchID);
-    })
+  unMatch(matchID) {
+    return (dispatch) => {
+      Api.unMatch(matchID)
+      .then(()=>{
+        dispatch(matchID);
+      })
+    };
   }
 
-  reportUser(user, reason){
-    Api.reportUser(user.id, user.relationship_status, reason)
-    this.dispatch({ user_id: user.id, reason});
+  reportUser(user, reason) {
+    return (dispatch) => {
+      Api.reportUser(user.id, user.relationship_status, reason)
+      dispatch({ user_id: user.id, reason});
+    };
   }
 
-  sendLike(likedUserID,likeStatus,likeUserType,rel_status){
-    Api.sendLike(likedUserID, likeStatus,likeUserType,rel_status)
+  sendLike(likedUserID, likeStatus, likeUserType, rel_status) {
+    return (dispatch) => {
+      Api.sendLike(likedUserID, likeStatus,likeUserType,rel_status)
 
-    this.dispatch({likedUserID,likeStatus});
-
+      dispatch({likedUserID,likeStatus});
+    };
   }
 }
 

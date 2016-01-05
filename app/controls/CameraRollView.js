@@ -332,7 +332,7 @@ class CameraRollView extends Component{
   }
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   item: {
     justifyContent: 'center',
     padding: 5,

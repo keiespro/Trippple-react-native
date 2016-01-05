@@ -1,24 +1,23 @@
 'use strict';
 
-var React = require('react-native');
-var {
+import React, {
   Dimensions,
   Text,
   View,
   ScrollView,
   TouchableOpacity,
   PanResponder,
-  Animated
-} = React;
+  Animated,
+} from 'react-native'
 
-var DefaultTabBar = require('./components/CustomTabBar');
-var deviceWidth = Dimensions.get('window').width;
+import DefaultTabBar from './components/CustomTabBar'
+const deviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from './DeviceConfig';
 
 
-var TAB_BAR_REF = 'TAB_BAR';
+const TAB_BAR_REF = 'TAB_BAR';
 
-var ScrollableTabView = React.createClass({
+const ScrollableTabView = React.createClass({
   getDefaultProps() {
     return {
       edgeHitWidth: 30,
@@ -95,4 +94,4 @@ var ScrollableTabView = React.createClass({
   }
 });
 
-module.exports = ScrollableTabView;
+export default ScrollableTabView;

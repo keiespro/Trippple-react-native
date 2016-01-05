@@ -6,11 +6,11 @@
 //   TouchableOpacity,
 // } = React;
 //
-// var deviceWidth = require('Dimensions').get('window').width;
+// var deviceWidth = Dimensions.get('window').width;
 // var precomputeStyle = require('precomputeStyle');
 // var TAB_UNDERLINE_REF = 'TAB_UNDERLINE';
 //
-// var styles = StyleSheet.create({
+// const styles = StyleSheet.create({
 //   tab: {
 //     flex: 1,
 //     alignItems: 'center',
@@ -74,4 +74,4 @@
 //   },
 // });
 //
-// module.exports = CustomTabBar;
+// export default CustomTabBar;

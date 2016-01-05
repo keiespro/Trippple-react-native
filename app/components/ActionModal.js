@@ -158,7 +158,8 @@ class ActualModal extends Component{
 
   }
   render(){
-    var {img_url,them,matchName,theirIds,isVisible,user} = this.props
+    const {img_url,them,matchName,theirIds,isVisible,user} = this.props
+    console.log('matchName',matchName)
 
         if(isVisible){
           return (
@@ -181,7 +182,7 @@ class ActualModal extends Component{
                   resizeMode={Image.resizeMode.cover}
                 />
                 <Text style={{color:colors.white,fontFamily:'Montserrat-Bold',fontSize:18}}>
-                  {`${matchName}`}
+                  {matchName}
                 </Text>
 
               </View>
@@ -269,7 +270,7 @@ class ActualModal extends Component{
 }
 export default ActionModal;
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   actionmodal:{
     width:DeviceWidth,
     backgroundColor: colors.outerSpace,

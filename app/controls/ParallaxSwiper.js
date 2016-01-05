@@ -1,15 +1,9 @@
 'use strict';
 
-import React from 'react-native';
-import {
-    StyleSheet,
-    View,
-    ScrollView,
-    Animated,
-} from 'react-native'
+import React, { StyleSheet, View, ScrollView, Animated, Dimensions } from 'react-native'
 
 import {VibrancyView} from 'react-native-blur';
-const screen = require('Dimensions').get('window');
+const screen = Dimensions.get('window');
 const ScrollViewPropTypes = ScrollView.propTypes;
 import scrollable from 'react-native-scrollable-decorator';
 
@@ -112,7 +106,7 @@ class ParallaxSwiper extends React.Component{
     }
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
@@ -141,4 +135,4 @@ var styles = StyleSheet.create({
     }
 });
 
-module.exports = ParallaxSwiper;
+export default ParallaxSwiper

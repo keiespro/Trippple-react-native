@@ -1,5 +1,4 @@
-var React = require('react-native');
-var {
+import React, {
   Component,
   StyleSheet,
   Text,
@@ -8,20 +7,19 @@ var {
   Image,
   Navigator,
   TouchableHighlight,
+  Dimensions,
   TouchableOpacity,
   LayoutAnimation,
-} = React;
+} from 'react-native'
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
-var UserActions = require('../../flux/actions/UserActions');
-var colors = require('../../utils/colors')
-var BoxyButton = require('../../controls/boxyButton')
+import UserActions from '../../flux/actions/UserActions'
+import colors from '../../utils/colors'
+import BoxyButton from '../../controls/boxyButton'
 import OnboardingActions from '../../flux/actions/OnboardingActions'
-
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
 import BackButton from './BackButton'
 import {MagicNumbers} from '../../DeviceConfig'
-
 import ContinueButton from '../../controls/ContinueButton'
 import PrivacyPermissionsModal from '../../modals/PrivacyPermissions'
 
@@ -80,7 +78,7 @@ class PrivacyScreen extends Component{
 
     return (
       <View style={[styles.container]}>
- <View style={{width:100,height:50,left:MagicNumbers.screenPadding/2,alignSelf:'flex-start'}}>
+        <View style={{width:100,height:50,left:MagicNumbers.screenPadding/2,alignSelf:'flex-start'}}>
         <BackButton/>
       </View>
 
@@ -88,28 +86,22 @@ class PrivacyScreen extends Component{
           <Text style={[styles.labelText,{fontSize:22,marginBottom:5,color:colors.white,fontFamily:'Montserrat-Bold'}]}>{"YOUR PRIVACY"} </Text>
 
           <Text style={[styles.labelText,{fontSize:20,marginBottom:MagicNumbers.screenPadding/2}]}>{"Select your perfered privacy setting"}</Text>
-
-
-
-
-            <TouchableHighlight
-              underlayColor={this.state.selection == 'public' ? colors.mediumPurple : colors.mediumPurple20}
+          <TouchableHighlight
+            underlayColor={this.state.selection == 'public' ? colors.mediumPurple : colors.mediumPurple20}
             style={{marginVertical:MagicNumbers.screenPadding/2}}
-              onPress={this._selectPublic.bind(this)}>
-              <View style={[styles.privacyWrap,
-                  (this.state.selection == 'public' ? styles.selectedbutton : null)]}>
-        <Image source={this.state.selection == 'public' ? require('../../../newimg/ovalSelected.png') : require('../../../newimg/ovalDashed.png')}
-                          resizeMode={Image.resizeMode.contain}
-                            style={styles.cornerDot}/>
-
+            onPress={this._selectPublic.bind(this)}>
+            <View style={[styles.privacyWrap,
+              (this.state.selection == 'public' ? styles.selectedbutton : null)]}>
+              <Image
+                source={this.state.selection == 'public' ? require('../../../newimg/ovalSelected.png') : require('../../../newimg/ovalDashed.png')}
+                resizeMode={Image.resizeMode.contain}
+                style={styles.cornerDot}
+              />
               <View style={{flexDirection:'column',alignItems:'flex-start',justifyContent:'space-around',flex:1,width:100}}>
                 <Text style={styles.boxTitle}>PUBLIC</Text>
                 <Text style={styles.boxP}>Your profile is visible to all Trippple members</Text>
               </View>
-
             </View>
-
-
           </TouchableHighlight>
 
           <TouchableHighlight
@@ -119,24 +111,19 @@ class PrivacyScreen extends Component{
             <View style={[styles.privacyWrap,
                 (this.state.selection == 'private' ? styles.selectedbutton : null)]}>
 
-              <Image source={this.state.selection == 'private' ? require('../../../newimg/ovalSelected.png') : require('../../../newimg/ovalDashed.png')}
-                        resizeMode={Image.resizeMode.contain}
-                            style={styles.cornerDot}/>
+              <Image
+                source={this.state.selection == 'private' ? require('../../../newimg/ovalSelected.png') : require('../../../newimg/ovalDashed.png')}
+                resizeMode={Image.resizeMode.contain}
+                style={styles.cornerDot}
+              />
               <View style={{flexDirection:'column',alignItems:'flex-start',justifyContent:'space-around',flex:1,width:100}}>
                 <Text style={styles.boxTitle}>PRIVATE</Text>
                 <Text style={styles.boxP}>Your profile is hidden from your facebook friends and phone contacts. Facebook required.</Text>
               </View>
-
-
             </View>
-
           </TouchableHighlight>
-
-
         </View>
-
         <ContinueButton canContinue={this.state.selection ? true : false} handlePress={this._continue.bind(this)} />
-
       </View>
     );
   }
@@ -145,7 +132,7 @@ class PrivacyScreen extends Component{
 }
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     height: DeviceHeight,
@@ -157,66 +144,25 @@ var styles = StyleSheet.create({
     alignSelf:'stretch',
     backgroundColor: colors.outerSpace
   },
-  // topWrap:{
-  //   justifyContent: 'center',
-  //   flex: 1,
-  //   flexDirection:'column',
-  //   alignItems: 'center',
-  //   alignSelf:'stretch',
+  selectedbutton:{
+    backgroundColor:colors.mediumPurple20,
+    borderWidth:2,
+    borderColor:colors.mediumPurple
+  },
 
-  // },
-  // privacyWrap:{
-  //   justifyContent: 'center',
-  //   flex: 1,
-  //   flexDirection:'column',
-  //   alignItems: 'flex-start',
-  //   alignSelf:'stretch',
-  //   width: DeviceWidth-40,
-  //   padding:10,
-  //   borderWidth:2,
-  //   borderColor:colors.shuttleGray,
-  //   height:90
-  // },
-
-
-
-selectedbutton:{
-  backgroundColor:colors.mediumPurple20,
-  borderWidth:2,
-  borderColor:colors.mediumPurple
-},
-
-
-
-//   cornerDot: {
-//     height:30,
-//     width:30,
-//     position:'absolute',
-//     top:-15,
-//     right:-15
-//   },
-
-
-boxTitle:{
-  marginVertical:5,
+  boxTitle:{
+    marginVertical:5,
     color: colors.white,
     fontSize:20,
     fontFamily:'Montserrat-Bold',
     textAlign: 'left',
   },
-
-
-    boxP:{
-      color: colors.white,
-      fontFamily: 'Omnes',
-      fontSize: 16,
-      textAlign: 'left'
-},
-
-
-
-
-
+  boxP:{
+    color: colors.white,
+    fontFamily: 'Omnes',
+    fontSize: 16,
+    textAlign: 'left'
+  },
   cornerDot: {
     height:30,
     width:30,
@@ -229,7 +175,6 @@ boxTitle:{
     flexDirection:'column',
     alignItems: 'center',
     alignSelf:'stretch',
-
   },
   privacyWrap:{
     justifyContent: 'flex-start',
@@ -244,59 +189,12 @@ boxTitle:{
     height:DeviceHeight > 568 ? 120 : 150,
     marginHorizontal:0
   },
-
   labelText:{
     color:colors.rollingStone,
     fontSize:18,
     fontFamily:'omnes',
     textAlign:'left',
-
   },
+});
 
-
- });
-
-
-module.exports = PrivacyScreen;
-
-
-
-
-
-/*
- *     {/*
-            <TouchableOpacity
-            style={{marginTop:50}}
-              onPress={this._selectPublic.bind(this)}>
-              <View style={[styles.privacyWrap,
-                  (this.state.selection == 'public' ? styles.selectedbutton : null)]}>
-
-                <Text style={styles.boxTitle}>Public</Text>
-                <Text style={styles.boxP}>Your profile is visible to all Trippple members</Text>
-
-                <Image source={this.state.selection == 'public' ? require('ovalSelected') : require('ovalDashed')}
-                          resizeMode={Image.resizeMode.contain}
-                            style={styles.cornerDot}/>
-
-              </View>
-
-
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={{marginTop:50}}
-            onPress={this._selectPrivate.bind(this)}>
-            <View style={[styles.privacyWrap,
-                (this.state.selection == 'private' ? styles.selectedbutton : null)]}>
-
-              <Text style={styles.boxTitle}>Private</Text>
-              <Text style={styles.boxP}>Your profile is hidden from your facebook friends and phone contacts.</Text>
-
-              <Image source={this.state.selection == 'private' ? require('ovalSelected') : require('ovalDashed')}
-                        resizeMode={Image.resizeMode.contain}
-                            style={styles.cornerDot}/>
-            </View>
-
-            </TouchableOpacity>
-
-            */
+export default PrivacyScreen;

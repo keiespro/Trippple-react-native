@@ -49,16 +49,16 @@ class UserProfile extends React.Component{
     render(){
 
       var {  potential, user } = this.props,
-      matchName = `${potential.user.firstname.trim()}`,// ${potential.user.age}
+          matchName = potential.user.firstname.trim();
           distance = potential.user.distance || 0,
           city = potential.user.city_state || '';
       const rel = this.props.rel || this.props.user.relationship_status;
 
       if(rel == 'couple') {
-        matchName += ` & ${potential.partner.firstname.trim()}`//${potential.partner.age}
+        matchName += ' & ' + potential.partner.firstname.trim()
       }
 
-
+      console.log('matchName',matchName)
     return (
         <View
           ref={'cardinside'}
@@ -69,7 +69,6 @@ class UserProfile extends React.Component{
             left:0,
             flex:1,
             width:DeviceWidth,
-
             backgroundColor:colors.outerSpace,
             transform:[ {scale: 1}, ]
           },styles.shadowCard]}>
@@ -167,9 +166,7 @@ class UserProfile extends React.Component{
 
             <View style={{ width: MagicNumbers.screenWidth , paddingVertical:20,marginLeft:MagicNumbers.screenPadding/2, }}>
               <Text style={[styles.cardBottomText,{color:colors.white,marginLeft:0,width:MagicNumbers.screenWidth}]}>
-              {
-                matchName
-              }
+              {matchName}
               </Text>
               <Text style={[styles.cardBottomOtherText,{color:colors.white,marginLeft:0,width:MagicNumbers.screenWidth}]}>
               {

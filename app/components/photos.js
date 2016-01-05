@@ -1,9 +1,7 @@
 /* @flow */
 'use strict';
 
-var React = require('react-native');
-
-var {
+import React, {
     AppRegistry,
     StyleSheet,
     Text,
@@ -12,11 +10,11 @@ var {
     Image,
     CameraRoll,
     TouchableHighlight,
-} = React;
+    NativeModules
+} from 'react-native'
 
-var NativeModules = require('NativeModules');
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F5FCFF',
@@ -34,7 +32,7 @@ var styles = StyleSheet.create({
     }
 });
 
-var ImageProject = React.createClass({
+const ImageProject = React.createClass({
     getInitialState() {
         return {
             images: [],
@@ -86,4 +84,4 @@ var ImageProject = React.createClass({
     }
 });
 
-module.exports = ImageProject;
+export default ImageProject

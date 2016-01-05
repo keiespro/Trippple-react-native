@@ -1,8 +1,7 @@
 /* @flow */
 
 
-import React from 'react-native';
-import {
+import React, {
   StyleSheet,
   Text,
   View,
@@ -20,12 +19,13 @@ import {
   AsyncStorage,
   Navigator
 } from  'react-native'
+
 import Mixpanel from '../utils/mixpanel';
 import FakeNavBar from '../controls/FakeNavBar';
 import alt from '../flux/alt'
-var Mailer = require('NativeModules').RNMail;
-var RNFS = require('react-native-fs');
-var {RNAppInfo} = NativeModules
+
+import RNFS from 'react-native-fs'
+const {RNAppInfo, RNMail} = NativeModules
 import {MagicNumbers} from '../DeviceConfig'
 import AppInfo from 'react-native-app-info'
 import DeviceInfo from 'react-native-device'
@@ -49,7 +49,7 @@ import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
 import EditPage from './EditPage'
 import CloseButton from './CloseButton'
 import Api from '../utils/api'
- import FieldModal from './FieldModal'
+import FieldModal from './FieldModal'
 
 
 class SettingsSettings extends React.Component{
@@ -304,7 +304,7 @@ class LogOutButton extends React.Component{
 }
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
   buttonText: {
     fontSize: 18,

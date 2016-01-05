@@ -1,16 +1,7 @@
 /* @flow */
 
 
-var React = require('react-native');
-var Settings = require('./settings');
-var Matches = require('./matches');
-var Potentials = require('./potentials');
-import CheckMarkScreen from '../screens/CheckMark'
-// var GearIcon = require('./svg/icon-gear');
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
-
-var {
+import React,{
   Component,
   PixelRatio,
   Navigator,
@@ -23,215 +14,212 @@ var {
   TouchableHighlight,
   AsyncStorage,
   TouchableOpacity,
+  Dimensions,
   View
-} = React;
-var CustomSceneConfigs = require('../utils/sceneConfigs')
+} from 'react-native'
 
-var colors = require('../utils/colors');
-var alt = require('../flux/alt');
-var cssVar = require('cssVar');
-var Chat = require('./chat');
-var MatchActions = require('../flux/actions/MatchActions');
+import Settings from './settings'
+import Matches from './matches'
+import Potentials from './potentials'
+import CheckMarkScreen from '../screens/CheckMark'
+import CustomSceneConfigs from '../utils/sceneConfigs'
+import colors from '../utils/colors'
+import alt from '../flux/alt'
+import Chat from './chat'
+import MatchActions from '../flux/actions/MatchActions'
 import MatchesStore from '../flux/stores/MatchesStore'
-
-import Mixpanel from '../utils/mixpanel';
-import FakeNavBar from '../controls/FakeNavBar';
+import Mixpanel from '../utils/mixpanel'
+import FakeNavBar from '../controls/FakeNavBar'
 import AppActions from '../flux/actions/AppActions'
 import NotificationActions from '../flux/actions/NotificationActions'
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
 
-  class Main extends Component{
-    static propTypes = { user: React.PropTypes.any }
 
-    static defaultProps = { user: null }
+class Main extends Component{
+  static propTypes = { user: React.PropTypes.any }
 
-    constructor(props){
-      super();
+  static defaultProps = { user: null }
 
-    }
-
-    componentWillMount(){
-      // bootstrap stores from asyncstorage
-      AsyncStorage.multiGet(['ChatStore','MatchesStore'])
-      .then((data) => {
-        if (data){
-          const savedMatches = JSON.parse(data[1][1]);
-          const savedChats = JSON.parse(data[0][1]);
-          const saved = {...JSON.parse(savedChats),...JSON.parse(savedMatches)}
-          __DEV__ && console.log(saved);
-          alt.bootstrap(JSON.stringify(saved));
-        }
-      })
-
-    }
-
-    componentDidMount(){
-      this.refs.nav.navigationContext.addListener('didfocus', (e)=>{
-        AppActions.updateRoute.defer(this.refs.nav.state.presentedIndex)
-      })
-
-    }
-
-    componentWillReceiveProps(nProps){
-      const routs = this.refs.nav.getCurrentRoutes()
-      if(nProps.currentRoute){
-        if(nProps.currentRoute != this.refs.nav.state.presentedIndex){
-          if(this.props.currentRoute && nProps.currentRoute && this.props.currentRoute.match_id && nProps.currentRoute.match_id && nProps.currentRoute.match_id == this.props.currentRoute.match_id){
-            return false
-          }else if(nProps.currentRoute.route && nProps.currentRoute.route == 'chat'){
-            if(routs[this.refs.nav.state.presentedIndex].id == 'chat'){
-              this.refs.nav.replace({
-                ...ChatRoute,
-                sceneConfig: Navigator.SceneConfigs.PushFromRight,
-                passProps:{
-                  match_id: nProps.currentRoute.match_id,
-                  currentMatch: nProps.currentMatch,
-                  currentRoute: nProps.currentRoute,
-                }
-              })
-            }else{
-             this.refs.nav.push({
-                ...ChatRoute,
-                sceneConfig: Navigator.SceneConfigs.PushFromRight,
-                passProps:{
-                  match_id: nProps.currentRoute.match_id,
-                  currentMatch: nProps.currentMatch,
-                  currentRoute: nProps.currentRoute,
-                }
-              })
-
-            }
-          }else if(nProps.currentRoute.route && nProps.currentRoute.route == 'checkmark'){
-            const nowRoute = this.refs.nav.navigationContext._currentRoute;
-            this.refs.nav.replace({
-              component: CheckMarkScreen,
-              passProps:{
-                continueAfter: 1000,
-                exitCheckMarkScreen: () => {
-                  this.refs.nav.replace(nowRoute)
-                }
-              }
-            })
-          }
-        }
-      }
-    }
-
-
-    selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
-      const RouteComponent = route.component;
-      var navBar = route.navigationBar;
-      Mixpanel.auth(this.props.user.username).track(`HO: On - ${route.id} Screen`);
-
-      if (navBar) {
-        navBar = React.addons.cloneWithProps(navBar, {
-          navigator: navigator,
-          route: route,
-          style: styles.navBar,
-        });
-      }
-
-      return (
-        <View style={{ flex: 1,  width:DeviceWidth,height:DeviceHeight}}>
-
-          {route.id == 'settings' && navBar}
-
-          <RouteComponent
-            navigator={navigator}
-            route={route}
-            navBar={navBar}
-            AppState={this.props.AppState}
-            {...route.passProps}
-            user={this.props.user}
-            pRoute={route.id == 'potentials' ? PotentialsRoute : null}
-          />
-
-          {route.id == 'potentials' || route.id == 'settings' || route.id == 'matches' ? null : navBar}
-
-        </View>
-      );
-    }
-
-    render() {
-
-      return (
-        <View style={styles.appContainer}>
-          <Navigator
-            ref={'nav'}
-            initialRoute={ROUTE_STACK[0]}
-            configureScene={route => route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromBottom}
-            navigator={this.props.navigator}
-            renderScene={this.selectScene.bind(this)}
-          />
-        </View>
-      );
-    }
+  constructor(props){
+    super();
 
   }
 
+  componentWillMount(){
+    // bootstrap stores from asyncstorage
+    AsyncStorage.multiGet(['ChatStore','MatchesStore'])
+    .then((data) => {
+      if (data){
+        const savedMatches = JSON.parse(data[1][1]);
+        const savedChats = JSON.parse(data[0][1]);
+        const saved = {...JSON.parse(savedChats),...JSON.parse(savedMatches)}
+        __DEV__ && console.log(saved);
+        alt.bootstrap(JSON.stringify(saved));
+      }
+    })
+
+  }
+
+  componentDidMount(){
+    this.refs.nav.navigationContext.addListener('didfocus', (e)=>{
+      AppActions.updateRoute.defer(this.refs.nav.state.presentedIndex)
+    })
+
+  }
+
+  componentWillReceiveProps(nProps){
+    console.log(this.refs)
+    if(nProps.currentRoute){
+      if(nProps.currentRoute != this.refs.nav.state.presentedIndex){
+        if(this.props.currentRoute && nProps.currentRoute && this.props.currentRoute.match_id && nProps.currentRoute.match_id && nProps.currentRoute.match_id == this.props.currentRoute.match_id){
+          return false
+        }else if(nProps.currentRoute.route && nProps.currentRoute.route == 'chat'){
+          const routs = this.refs.nav.getCurrentRoutes()
+
+          if(routs[this.refs.nav.state.presentedIndex].id == 'chat'){
+            this.refs.nav.replace({
+              ...ChatRoute,
+              sceneConfig: Navigator.SceneConfigs.PushFromRight,
+              passProps:{
+                match_id: nProps.currentRoute.match_id,
+                currentMatch: nProps.currentMatch,
+                currentRoute: nProps.currentRoute,
+              }
+            })
+          }else{
+           this.refs.nav.push({
+              ...ChatRoute,
+              sceneConfig: Navigator.SceneConfigs.PushFromRight,
+              passProps:{
+                match_id: nProps.currentRoute.match_id,
+                currentMatch: nProps.currentMatch,
+                currentRoute: nProps.currentRoute,
+              }
+            })
+
+          }
+        }else if(nProps.currentRoute.route && nProps.currentRoute.route == 'checkmark'){
+          const nowRoute = this.refs.nav.navigationContext._currentRoute;
+          this.refs.nav.replace({
+            component: CheckMarkScreen,
+            passProps:{
+              continueAfter: 1000,
+              exitCheckMarkScreen: () => {
+                this.refs.nav.replace(nowRoute)
+              }
+            }
+          })
+        }
+      }
+    }
+  }
 
 
-  var styles = StyleSheet.create({
+  selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
+    const RouteComponent = route.component;
+    var navBar = route.navigationBar;
+    Mixpanel.auth(this.props.user.username).track(`HO: On - ${route.id} Screen`);
+
+    if (navBar) {
+      navBar = React.cloneElement(navBar, {
+        navigator: navigator,
+        route: route,
+        style: styles.navBar,
+      });
+    }
+    console.log('render nav',route.component)
+    return (
+      <View style={{ flex: 1,  width:DeviceWidth, height:DeviceHeight }}>
+
+        {route.id == 'settings' ? navBar : null}
+
+        <RouteComponent
+          navigator={navigator}
+          route={route}
+          navBar={navBar}
+          AppState={this.props.AppState}
+          {...route.passProps}
+          user={this.props.user}
+          pRoute={route.id == 'potentials' ? PotentialsRoute : null}
+        />
+
+        {route.id == 'potentials' || route.id == 'settings' || route.id == 'matches' ? null : navBar}
+
+      </View>
+    );
+  }
+
+  render() {
+
+    return (
+      <View style={styles.appContainer}>
+        <Navigator
+          ref={'nav'}
+          initialRoute={ROUTE_STACK[0]}
+          configureScene={route => route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromBottom}
+          navigator={this.props.navigator}
+          renderScene={this.selectScene.bind(this)}
+        />
+      </View>
+    );
+  }
+
+}
+
+export default Main;
 
 
-    appContainer: {
-      backgroundColor: '#000',
-      flex: 1,
-      flexDirection:'column',
-      justifyContent:'space-between',
-      height:DeviceHeight,
-      width:DeviceWidth,
-    },
-    touchables:{
-      margin:0,
-      top:0,
-    },
+const styles = StyleSheet.create({
+  appContainer: {
+    backgroundColor: '#000',
+    flex: 1,
+    flexDirection:'column',
+    justifyContent:'space-between',
+    height:DeviceHeight,
+    width:DeviceWidth,
+  },
+  touchables:{
+    margin:0,
+    top:0,
+  },
+  navBar: {
+    backgroundColor: 'transparent',
+    height: 60,
+    justifyContent:'space-between',
+    alignSelf: 'flex-start',
+    alignItems:'flex-start',
+    flexDirection:'row',
+    flex:1,
+    top:-10,
+    padding:0,
+    overflow:'hidden',
+    margin:0,
+    borderColor:colors.shuttleGray,
+    borderBottomWidth:0
+  },
+  navBarText: {
+    fontSize: 16,
+  },
+  navBarLeftButton: {
+    paddingLeft:10
+  },
+  navBarRightButton: {
+    paddingRight:10,
+  },
+  navBarButtonText: {
+    color: colors.white,
+    fontFamily:'omnes'
+  },
+  scene: {
+    flex: 1,
+    paddingTop: 40,
+    backgroundColor: colors.outerSpace,
+    justifyContent: 'center'
+  },
+});
 
-    navBar: {
-      backgroundColor: 'transparent',
-      height: 60,
-      justifyContent:'space-between',
-      alignSelf: 'flex-start',
-      alignItems:'flex-start',
-      flexDirection:'row',
-      flex:1,
-      top:-10,
-      padding:0,
-      overflow:'hidden',
-      margin:0,
-      borderColor:colors.shuttleGray,
-      borderBottomWidth:0
-    },
-    navBarText: {
-      fontSize: 16,
-    },
-
-
-    navBarLeftButton: {
-
-      paddingLeft:10
-
-    },
-    navBarRightButton: {
-
-      paddingRight:10,
-
-
-    },
-    navBarButtonText: {
-      color: colors.white,
-      fontFamily:'omnes'
-    },
-    scene: {
-      flex: 1,
-      paddingTop: 40,
-      backgroundColor: colors.outerSpace,
-      justifyContent: 'center'
-    },
-  });
-
-
-module.exports = Main;
 
 
 const PotentialsRoute = {
@@ -260,13 +248,10 @@ const SettingsRoute = {
       blur={true}
       backgroundStyle={{backgroundColor:colors.shuttleGray}}
       hideNext={true}
-
       customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12}} source={require('../../newimg/close.png')}/>}
       onPrev={(nav,route)=> nav.pop()}
-          title={'SETTINGS'}
-          titleColor={colors.white}
-
-
+      title={'SETTINGS'}
+      titleColor={colors.white}
     />)
 }
 
@@ -281,7 +266,6 @@ const MatchesRoute = {
       hideNext={true}
       backgroundStyle={{backgroundColor:colors.shuttleGray}}
       titleColor={colors.white}
-
       title={'MESSAGES'} titleColor={colors.white}
       onPrev={(nav,route)=> nav.pop()}
       customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12}} source={require('../../newimg/close.png')} />
@@ -317,4 +301,4 @@ const ChatRoute = {
     // sceneConfig: Navigator.SceneConfigs.FloatFromRight
 }
 
-var ROUTE_STACK = [PotentialsRoute,SettingsRoute,MatchesRoute];
+const ROUTE_STACK = [PotentialsRoute,SettingsRoute,MatchesRoute];

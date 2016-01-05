@@ -8,10 +8,11 @@ import {
     TouchableHighlight,
     PropTypes,
     Easing,
-    Animated
+    Animated,
+    Dimensions
 } from 'react-native';
 
-const DeviceWidth = require('Dimensions').get('window').width;
+const DeviceWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
     container: {

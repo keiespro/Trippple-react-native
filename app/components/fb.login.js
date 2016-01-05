@@ -1,28 +1,28 @@
 'use strict';
 
-var React = require('react-native');
-
-var {
+import React, {
   StyleSheet,
   Image,
   Text,
   View,
   PixelRatio,
+  Dimensions,
   Navigator,
   ListView,
   ActivityIndicatorIOS,
   TouchableHighlight,
-} = React;
+  NativeModules
+} from 'react-native'
 
-var UserActions = require('../flux/actions/UserActions');
-var FBLogin = require('react-native-facebook-login');
-// var FBLoginMock = require('./facebook');
-var FBLoginManager = require('NativeModules').FBLoginManager;
+import UserActions from '../flux/actions/UserActions'
+import FBLogin from 'react-native-facebook-login'
+// import FBLoginMock from './facebook');
+const {FBLoginManager} = NativeModules;
 
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 import FakeNavBar from '../controls/FakeNavBar'
-var FB_PHOTO_WIDTH = 200;
+const FB_PHOTO_WIDTH = 200;
 
 
 import colors from '../utils/colors'
@@ -385,7 +385,7 @@ var PhotoAlbums = React.createClass({
 });
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   photo_list_item:{
     justifyContent: 'center',
     padding: 0,
@@ -429,4 +429,4 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = PhotoAlbums;
+export default PhotoAlbums;

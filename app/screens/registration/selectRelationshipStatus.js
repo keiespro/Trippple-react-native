@@ -1,5 +1,4 @@
-var React = require('react-native');
-var {
+import React, {
   Component,
   StyleSheet,
   Text,
@@ -9,18 +8,19 @@ var {
   Image,
   ScrollView,
   TouchableHighlight,
+  Dimensions,
   LayoutAnimation,
-} = React;
+} from 'react-native'
 
-var UserActions = require('../../flux/actions/UserActions');
-var colors = require('../../utils/colors')
-var BoxyButton = require('../../controls/boxyButton')
+import UserActions from '../../flux/actions/UserActions'
+import colors from '../../utils/colors'
+import BoxyButton from '../../controls/boxyButton'
 
 import CoupleInvitation from './CoupleInvitation'
 import OnboardingActions from '../../flux/actions/OnboardingActions'
 
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../../DeviceConfig'
 
 class SelectRelationshipStatus extends Component{
@@ -122,7 +122,7 @@ class SelectRelationshipStatus extends Component{
 }
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   dividerLine:{
     height:27,
     position:'absolute',

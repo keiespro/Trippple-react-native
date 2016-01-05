@@ -7,7 +7,8 @@ import CredentialsStore from './CredentialsStore'
 import AppState from './AppState'
 import Log from '../../Log'
 import {AsyncStorage} from 'react-native'
-import {KEYCHAIN_NAMESPACE} from '../../config'
+import config from '../../config'
+const {KEYCHAIN_NAMESPACE} = config
 
 class UserStore {
   constructor() {

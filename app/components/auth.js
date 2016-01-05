@@ -30,7 +30,7 @@ import Login from './login';
 import Register from './register';
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
   container: {
     flex: 1,
@@ -150,4 +150,4 @@ class Auth extends Component{
 
 
 
-module.exports = Auth;
+export default Auth;

@@ -1,5 +1,4 @@
-import React from 'react-native'
-import {
+import React, {
   Component,
   StyleSheet,
   Text,
@@ -9,7 +8,7 @@ import {
   LayoutAnimation,
 } from 'react-native'
 
-var colors = require('../utils/colors')
+import colors from '../utils/colors'
 import {MagicNumbers} from '../DeviceConfig'
 
 class BoxyButton extends Component{
@@ -44,7 +43,7 @@ class BoxyButton extends Component{
 export default BoxyButton
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
   iconButton:{
     height:70,

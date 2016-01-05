@@ -12,7 +12,7 @@ import React, {
 
 import alt from '../flux/alt';
 import Mixpanel from '../utils/mixpanel';
-import AltContainer from 'alt-container';
+import AltContainer from 'alt-container/native';
 import colors from '../utils/colors';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -58,13 +58,12 @@ class PotentialsPage extends React.Component{
   constructor(props){
     super()
     this.state = {
-      didShow:false,
-      profileVisible:false
+      didShow: false,
+      profileVisible: false
     }
   }
   toggleProfile(){
-    this.setState({profileVisible:!this.state.profileVisible})
-    // if(potential)
+    this.setState({profileVisible: !this.state.profileVisible})
   }
   componentDidMount(){
 
@@ -96,20 +95,19 @@ class PotentialsPage extends React.Component{
   getPotentialInfo(){
 
     if(!this.props.potentials[0]){ return false}
-    var potential = this.props.potentials[0]
-    var matchName = `${potential.user.firstname.trim()}`;
-    var distance = potential.user.distance
+    var potential = this.props.potentials[0];
+    var matchName = potential.user.firstname.trim();
+    var distance = potential.user.distance;
     if(this.props.user.relationship_status == 'single') {
-      matchName += ` & ${potential.partner.firstname.trim()}`
-      distance = Math.min(distance,potential.partner.distance)
+      matchName += ' & ' + potential.partner.firstname.trim();
+      distance = Math.min(distance,potential.partner.distance);
     }
+    console.log(matchName)
     return matchName
   }
   render(){
-
-
-    var { potentials, user } = this.props
-    var NavBar = React.addons.cloneWithProps(this.props.pRoute.navigationBar, {
+    const { potentials, user } = this.props
+    const NavBar = React.cloneElement(this.props.pRoute.navigationBar, {
       ...this.props
     })
 
@@ -123,7 +121,7 @@ class PotentialsPage extends React.Component{
           top:0
         }}>
 
-        {!this.state.profileVisible && NavBar}
+        {!this.state.profileVisible ? NavBar : null}
 
          <View style={[
            styles.cardStackContainer,
@@ -146,7 +144,7 @@ class PotentialsPage extends React.Component{
             null }
 
 
-          {!this.state.didShow && potentials.length < 1 &&
+          {!this.state.didShow && potentials.length < 1 ?
 
             <View
               style={[{
@@ -168,7 +166,7 @@ class PotentialsPage extends React.Component{
                 }]}
                 animating={true}
               />
-            </View>
+            </View> : null
           }
 
           { potentials.length < 1 &&

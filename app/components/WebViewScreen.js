@@ -49,7 +49,7 @@ class WebViewScreen extends Component{
 export default WebViewScreen
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
 
  container: {

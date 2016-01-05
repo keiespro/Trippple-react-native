@@ -1,11 +1,9 @@
 /* @flow */
 
- ;
 
-var PHONE_MASK_USA = "999 999-9999";
+const PHONE_MASK_USA = "999 999-9999";
 
-var React = require('react-native');
-var {
+import React, {
   StyleSheet,
   Text,
   View,
@@ -14,27 +12,19 @@ var {
   TouchableHighlight,
   LayoutAnimation,
   TextInput
-} = React;
+} from 'react-native'
 
-var TrackKeyboard = require('../mixins/keyboardMixin');
-var CustomSceneConfigs = require('../utils/sceneConfigs');
+import TrackKeyboard from '../mixins/keyboardMixin'
+import CustomSceneConfigs from '../utils/sceneConfigs'
+import colors from '../utils/colors'
+import UserActions from '../flux/actions/UserActions'
+import AuthErrorStore from '../flux/stores/AuthErrorStore'
+import Facebook from './facebook'
+import TopTabs from '../controls/topSignupSigninTabs'
+import PhoneNumberInput from '../controls/inputFieldNumberInput.js'
+import PinScreen from './pin'
 
-var colors = require('../utils/colors')
-
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
-
-var UserActions = require('../flux/actions/UserActions');
-
-var AuthErrorStore = require('../flux/stores/AuthErrorStore');
-
-var Facebook = require('./facebook');
-var TopTabs = require('../controls/topSignupSigninTabs');
-
-var PhoneNumberInput = require('../controls/inputFieldNumberInput.js');
-
-var PinScreen = require('./pin')
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
   container: {
     flex: 1,
@@ -161,7 +151,7 @@ var animations = {
 };
 
 
-var SingleInputPage = React.createClass({
+const SingleInputPage = React.createClass({
   mixins: [TrackKeyboard],
 
   getInitialState(){
@@ -265,4 +255,4 @@ var SingleInputPage = React.createClass({
 
 
 
-module.exports = SingleInputPage;
+export default SingleInputPage

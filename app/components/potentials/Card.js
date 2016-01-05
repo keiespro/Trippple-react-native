@@ -88,12 +88,12 @@ class Card extends React.Component{
   render(){
 
     var { rel, potential, profileVisible, isTopCard, isThirdCard, pan } = this.props,
-        matchName = `${potential.user.firstname.trim()} ${potential.user.age}`,
+        matchName = potential.user.firstname.trim() + ' ' + potential.user.age,
         distance = potential.user.distance,
         city = potential.user.city_state;
 
     if(rel == 'single') {
-      matchName += ` & ${potential.partner.firstname.trim()} ${potential.partner.age}`
+      matchName += ' & ' + potential.partner.firstname.trim() + ' ' + potential.partner.age
       distance = Math.min(distance,potential.partner.distance)
     }
 
@@ -309,7 +309,7 @@ class Card extends React.Component{
               top:0,}}>
                   <Text style={[styles.cardBottomText,{}]}
                     key={`${potential.id || potential.user.id}-names`}>{
-                      {matchName}
+                      matchName
                     }</Text>
                     <Text style={[styles.cardBottomOtherText,{flex:1}]}
                     key={`${potential.id || potential.user.id}-matchn`}>{
@@ -603,11 +603,7 @@ class Card extends React.Component{
                 <Text
                   key={`${potential.id || potential.user.id}-names`}
                   style={[styles.cardBottomText,{color:colors.white}]}
-                  >
-                {
-                  {matchName}
-                }
-                </Text>
+                  >{matchName}</Text>
                 <Text
                   key={`${potential.id || potential.user.id}-matchn`}
                   style={[styles.cardBottomOtherText,{color:colors.white}]}

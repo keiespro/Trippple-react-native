@@ -60,9 +60,7 @@ export default class ReportModal extends Component{
 
             <Text style={[styles.rowtext,styles.bigtext,{
                 fontFamily:'Montserrat',fontSize:20,marginVertical:10
-              }]}>
-              {`REPORT ${matchName}`}
-            </Text>
+              }]}>REPORT {matchName}</Text>
 
             <Text style={[styles.rowtext,styles.bigtext,{
                 fontSize:20,marginVertical:10,color: colors.shuttleGray,marginHorizontal:10
@@ -106,4 +104,3 @@ export default class ReportModal extends Component{
     )
   }
 }
-

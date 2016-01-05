@@ -392,7 +392,7 @@ class FieldModal extends React.Component{
 export default FieldModal
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
 
  container: {

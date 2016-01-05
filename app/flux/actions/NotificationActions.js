@@ -12,18 +12,19 @@ import { AsyncStorage, PushNotificationIOS } from 'react-native'
 class NotificationActions {
 
 
-  requestNotificationsPermission(){
-    PushNotificationIOS.addEventListener('register',(token) => {
-      __DEV__ && console.log('APN -> ',token);
-      Api.updatePushToken(token)
-      .then(()=> this.dispatch(token))
-    })
-    PushNotificationIOS.requestPermissions({alert:true,badge:true,sound:true})
-
+  requestNotificationsPermission() {
+    return function(dispatch) {
+      PushNotificationIOS.addEventListener('register',(token) => {
+        __DEV__ && console.log('APN -> ',token);
+        Api.updatePushToken(token)
+        .then(()=> dispatch(token))
+      })
+      PushNotificationIOS.requestPermissions({alert:true,badge:true,sound:true})
+    };
   }
 
   updateBadgeNumber(numberToAdd){
-    this.dispatch(numberToAdd)
+    return numberToAdd;;
   }
 
 
@@ -39,52 +40,56 @@ class NotificationActions {
   }
 
   dispatchNotification(payload){
-    this.dispatch(payload)
+    return payload;;
   }
 
-  receiveNewMessageNotification(payload,isBackground){
-    const { data } = payload
+  receiveNewMessageNotification(payload, isBackground) {
+    return function(dispatch) {
+      const { data } = payload
 
 
-    if(data.action === 'retrieve' && data.match_id) {
-      MatchActions.getMessages.defer(data.match_id)
-    }
-    if(!isBackground){
-      this.dispatch(payload)
-    }
+      if(data.action === 'retrieve' && data.match_id) {
+        MatchActions.getMessages.defer(data.match_id)
+      }
+      if(!isBackground){
+        dispatch(payload)
+      }
+    };
   }
-  receiveNewMatchNotification(payload,isBackground){
-
-    const { action } = payload
-    if(action === 'retrieve') {
-      MatchActions.getMatches.defer()
-    }
-    if(!isBackground){
-      this.dispatch(payload)
-    }
-
+  receiveNewMatchNotification(payload, isBackground) {
+    return function(dispatch) {
+      const { action } = payload
+      if(action === 'retrieve') {
+        MatchActions.getMatches.defer()
+      }
+      if(!isBackground){
+        dispatch(payload)
+      }
+    };
   }
   receiveMatchRemovedNotification(payload){
-    this.dispatch(payload.match_id)
+    return payload.match_id;;
   }
 
-  scheduleNewPotentialsAlert(time){
-    let t = time || false;
-    let fireDate = t ? moment(t).unix() : moment().endOf('day').unix();
+  scheduleNewPotentialsAlert(time) {
+    return function(dispatch) {
+      let t = time || false;
+      let fireDate = t ? moment(t).unix() : moment().endOf('day').unix();
 
-    const data = {
-            alert: {
-              title: 'New Matches!',
-              body: 'body',
-            },
-            action:'retrieve',
-            type: 'potentials',
-            sound: 'default',
-            category: 'TRIPPPLE',
-            badge: '+1'
-          };
-    PushNotificationIOS.scheduleLocalNotification({ fireDate, data })
-    this.dispatch()
+      const data = {
+              alert: {
+                title: 'New Matches!',
+                body: 'body',
+              },
+              action:'retrieve',
+              type: 'potentials',
+              sound: 'default',
+              category: 'TRIPPPLE',
+              badge: '+1'
+            };
+      PushNotificationIOS.scheduleLocalNotification({ fireDate, data })
+      dispatch()
+    };
   }
 }
 

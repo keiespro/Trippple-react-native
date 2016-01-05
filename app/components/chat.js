@@ -1,10 +1,21 @@
 /* @flow */
 
-
-
-import React from 'react-native'
-import  { Component, StyleSheet, Text, View, InteractionManager, Image, TextInput, TouchableHighlight, ListView,
-          LayoutAnimation, TouchableOpacity, ScrollView, PixelRatio, Dimensions } from 'react-native'
+import React, {
+  Component,
+  StyleSheet,
+  Text,
+  View,
+  InteractionManager,
+  Image,
+  TextInput,
+  TouchableHighlight,
+  ListView,
+  LayoutAnimation,
+  TouchableOpacity,
+  ScrollView,
+  PixelRatio,
+  Dimensions
+} from 'react-native'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -12,22 +23,17 @@ const DeviceWidth = Dimensions.get('window').width;
 import ActionModal from './ActionModal'
 import ThreeDots from '../buttons/ThreeDots'
 import FadeInContainer from './FadeInContainer'
-
 import colors from '../utils/colors'
 import MatchesStore from '../flux/stores/MatchesStore'
-
 import ChatStore from '../flux/stores/ChatStore'
 import MatchActions from '../flux/actions/MatchActions'
 import alt from '../flux/alt'
-import AltContainer from 'alt-container';
-
+import AltContainer from 'alt-container/native';
 import InvertibleScrollView from 'react-native-invertible-scroll-view'
 import TimeAgo from './Timeago'
 import FakeNavBar from '../controls/FakeNavBar'
-// import MaskableTextInput from '../RNMaskableTextInput.js'
 import moment from 'moment'
-
-import { BlurView,VibrancyView} from 'react-native-blur'
+import { BlurView, VibrancyView } from 'react-native-blur'
 import Log from '../Log'
 
 
@@ -182,68 +188,74 @@ const styles = StyleSheet.create({
     borderBottomWidth:1,
     overflow:'hidden',
   },
-  invertedContentContainer:{backgroundColor:colors.outerSpace,justifyContent:'flex-end',width:DeviceWidth,overflow:'hidden'}
+  invertedContentContainer:{
+    backgroundColor:colors.outerSpace,
+    justifyContent:'flex-end',
+    width:DeviceWidth,
+    overflow:'hidden'
+  }
 });
 
 class ChatMessage extends React.Component {
   constructor(props){
+    console.log('chat message component')
+
     super();
   }
-  shouldComponentUpdate(nProps,nState){
-    return true; //nProps.messageData.id != this.props.messageData.id
-  }
+
   render() {
-    var isMessageOurs = (this.props.messageData.from_user_info.id === this.props.user.id || this.props.messageData.from_user_info.id === this.props.user.partner_id);
+    const isMessageOurs = (this.props.messageData.from_user_info.id === this.props.user.id || this.props.messageData.from_user_info.id === this.props.user.partner_id);
 
     return (
       <View style={[styles.col]}>
+        <View style={[styles.row]}>
+          <View style={{flex:1,position:'relative',alignSelf:'stretch',alignItems:'center',flexDirection:'row', justifyContent:'center',backgroundColor: this.props.messageData.ephemeral && __DEV__ ? colors.sushi : 'transparent'}}>
 
-      <View style={[styles.row]}>
+          {!isMessageOurs ?
+            <View style={{backgroundColor:'transparent'}}>
+            <Image style={[styles.thumb,{backgroundColor:colors.dark}]}
+                source={this.props.messageData.from_user_info.image_url && this.props.messageData.from_user_info.image_url != '' ? {uri:this.props.messageData.from_user_info.image_url} : {uri:'../../newimg/placeholderUser.png'}}
+                resizeMode={Image.resizeMode.cover}
+                defaultSource={{uri:'../../newimg/placeholderUser.png'}}
 
-
-        <View style={{flex:1,position:'relative',alignSelf:'stretch',alignItems:'center',flexDirection:'row', justifyContent:'center',backgroundColor: this.props.messageData.ephemeral && __DEV__ ? colors.sushi : 'transparent'}}>
-
-        {!isMessageOurs &&
-          <View style={{backgroundColor:'transparent'}}>
-          <Image style={[styles.thumb,{backgroundColor:colors.dark}]}
-              source={this.props.messageData.from_user_info.image_url && this.props.messageData.from_user_info.image_url != '' ? {uri:this.props.messageData.from_user_info.image_url} : {uri:'../../newimg/placeholderUser.png'}}
-              resizeMode={Image.resizeMode.cover}
-              defaultSource={{uri:'../../newimg/placeholderUser.png'}}
-
-            />
-          </View>
-        }
-
-        { !isMessageOurs &&
-          <Image resizeMode={Image.resizeMode.contain} source={require('../../newimg/TrianglePurple.png')}
-                  style={{left:0,width:10,height:22}}/>
+              />
+          </View> : null
           }
 
-          <View style={[styles.bubble,(isMessageOurs ? styles.ourMessage : styles.theirMessage),{alignSelf:'stretch'}]}>
-
-            <Text style={[styles.messageText, styles.messageTitle,
-                  {color: isMessageOurs ? colors.shuttleGray : colors.lavender, fontFamily:'Montserrat'} ]}
-            >{
-                    this.props.messageData.from_user_info.name.toUpperCase()
-            }</Text>
-
-            <Text style={styles.messageText} >{
-              this.props.text
-            }</Text>
-
-          </View>
-
-          {isMessageOurs &&
-            <Image resizeMode={Image.resizeMode.contain} source={require('../../newimg/TriangleDark.png')}
-                  style={{right:0,width:10,height:22}}/>
+          { !isMessageOurs ?
+            <Image
+              resizeMode={Image.resizeMode.contain}
+              source={require('../../newimg/TrianglePurple.png')}
+              style={{left:0,width:10,height:22}}
+            /> : null
           }
 
+            <View style={[styles.bubble,(isMessageOurs ? styles.ourMessage : styles.theirMessage),{alignSelf:'stretch'}]}>
+
+              <Text style={[styles.messageText, styles.messageTitle,
+                    {color: isMessageOurs ? colors.shuttleGray : colors.lavender, fontFamily:'Montserrat'} ]}
+              >{ this.props.messageData.from_user_info.name.toUpperCase() }</Text>
+
+              <Text style={styles.messageText} >{
+                this.props.text
+              }</Text>
+
+            </View>
+
+            {isMessageOurs ?
+              <Image
+                resizeMode={Image.resizeMode.contain}
+                source={require('../../newimg/TriangleDark.png')}
+                style={{right:0,width:10,height:22}}
+              /> : null
+            }
+
+          </View>
         </View>
-      </View>
 
-      <View style={[{paddingHorizontal:20,marginBottom:10},{marginLeft: isMessageOurs ? 21 : 77}]}>
-        <TimeAgo showSent={true} style={{color:colors.shuttleGray,fontSize:10,fontFamily:'Montserrat'}} time={this.props.messageData.created_timestamp * 1000} />
-      </View>
+        <View style={[{paddingHorizontal:20,marginBottom:10},{marginLeft: isMessageOurs ? 21 : 77}]}>
+          <TimeAgo showSent={true} style={{color:colors.shuttleGray,fontSize:10,fontFamily:'Montserrat'}} time={this.props.messageData.created_timestamp * 1000} />
+        </View>
 
       </View>
     );
@@ -252,10 +264,9 @@ class ChatMessage extends React.Component {
 class ChatInside extends Component{
   constructor(props){
     super();
+    console.log('chatinside component')
 
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
-
     this.state = {
       dataSource: this.ds.cloneWithRows(props.messages || []),
       keyboardSpace: 0,
@@ -264,9 +275,7 @@ class ChatInside extends Component{
       fetching: false,
       lastPage: 0,
     }
-
   }
-
 
   updateKeyboardSpace(frames){
     // console.log(frames)
@@ -277,7 +286,7 @@ class ChatInside extends Component{
       isKeyboardOpened: true
     });
     if(frames.endCoordinates ){
-      var duration
+      var duration;
       if( frames.duration < 100){
         return false
       }else{
@@ -286,7 +295,6 @@ class ChatInside extends Component{
 
       LayoutAnimation.configureNext({
         duration: frames.duration/2,
-
         create: {
           delay: 0,
           type: LayoutAnimation.Types.keyboard,
@@ -303,7 +311,7 @@ class ChatInside extends Component{
   }
 
   resetKeyboardSpace(frames) {
-    var h = frames.startCoordinates && frames.startCoordinates.screenY - frames.endCoordinates.screenY || frames.end && frames.end.height
+    var h = frames.startCoordinates && frames.startCoordinates.screenY - frames.endCoordinates.screenY || frames.end && frames.end.height;
     if( h == this.state.keyboardSpace){ return false }
     LayoutAnimation.configureNext({
       duration: 250,
@@ -325,9 +333,6 @@ class ChatInside extends Component{
 
   }
 
-// shouldComponentUpdate(nextProps,nextState){
-//   return nextProps.messages.length == this.props.messages.length
-// }
   componentDidUpdate(prevProps){
     if(prevProps.messages.length !== this.props.messages.length){
     }
@@ -360,13 +365,11 @@ class ChatInside extends Component{
   }
 
   sendMessage(){
-
     if(this.state.textInputValue == ''){ return false }
-    const timestamp = moment().utc().unix()
+    const timestamp = moment().utc().unix();
     this._textInput.setNativeProps({text: ''});
     MatchActions.sendMessage(this.state.textInputValue, this.props.match_id, timestamp)
     MatchActions.sendMessageToServer.defer(this.state.textInputValue, this.props.match_id)
-
     this.setState({ textInputValue: '' })
   }
 
@@ -377,16 +380,16 @@ class ChatInside extends Component{
   }
 
   chatActionSheet(){
-    var isOpen = this.props.isVisible
+    const isOpen = this.props.isVisible;
     this._textInput && this._textInput.blur()
     this.props.toggleModal()
   }
 
   renderNoMessages(){
-    var matchInfo = this.props.currentMatch,
-        theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id),
-        them = theirIds.map((id)=> matchInfo.users[id]),
-        chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },'')
+    const matchInfo = this.props.currentMatch,
+          theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id),
+          them = theirIds.map((id)=> matchInfo.users[id]),
+          chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },'')
 
     return (
       <ScrollView
@@ -436,7 +439,7 @@ class ChatInside extends Component{
   }
 
   render(){
-    var matchInfo = this.props.currentMatch,
+    const matchInfo = this.props.currentMatch,
         theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id),
         them = theirIds.map((id)=> matchInfo.users[id]),
         chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },'');
@@ -494,8 +497,6 @@ class ChatInside extends Component{
             clearButtonMode={'never'}
             onFocus={(e)=>{this.setState({inputFocused:true})}}
             onBlur={(e)=>{this.setState({inputFocused:false})}}
-
-
             onChangeText={this.onTextInputChange.bind(this)}
             >
             <View style={{ }}>
@@ -536,13 +537,12 @@ class ChatInside extends Component{
             </View>
           }
         />
-
       </View>
     )
   }
 }
 
-var animations = {
+const animations = {
   layout: {
     spring: {
       duration: 250,
@@ -575,8 +575,9 @@ var animations = {
   }
 };
 
-var Chat = React.createClass({
+const Chat = React.createClass({
   getInitialState(){
+    console.log('chat component')
     return ({
       isVisible: false
     })
@@ -601,7 +602,7 @@ var Chat = React.createClass({
   },
 
   render(){
-    var storesForChat = {
+    const storesForChat = {
       messages: (props) => {
         return {
           store: ChatStore,
@@ -617,15 +618,13 @@ var Chat = React.createClass({
     }
 
     return (
-      <AltContainer
-        stores={storesForChat}>
+      <AltContainer stores={storesForChat}>
         <ChatInside
           navigator={this.props.navigator}
           user={this.props.user}
           closeChat={this.props.closeChat}
           match_id={this.props.match_id}
           toggleModal={this.toggleModal}
-
         />
         {this.state.isVisible ? <View
           style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]}>
@@ -644,15 +643,15 @@ var Chat = React.createClass({
          </View> : <View/>}
 
         <ActionModal
-                  user={this.props.user}
-                  toggleModal={this.toggleModal}
-                  navigator={this.props.navigator}
-                  isVisible={this.state.isVisible}
-                />
+          user={this.props.user}
+          toggleModal={this.toggleModal}
+          navigator={this.props.navigator}
+          isVisible={this.state.isVisible}
+        />
       </AltContainer>
     );
   }
 
 });
 
-module.exports = Chat;
+export default Chat;

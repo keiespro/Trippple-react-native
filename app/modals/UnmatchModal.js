@@ -40,13 +40,13 @@ export default class UnmatchModal extends Component{
   }
 
   render(){
-    var rowData = this.props.match
-    var theirIds = Object.keys(rowData.users).filter( (u)=> u != this.props.user.id)
-    var them = theirIds.map((id)=> rowData.users[id])
-    var matchName = them.map( (user,i) => user.firstname.trim().toUpperCase() ).join(' & ');
-    var modalVisible = this.state.isVisible
-    var self = this
-    var matchImage = them.couple && them.couple.thumb_url || them[0].thumb_url || them[1].thumb_url
+    var rowData = this.props.match,
+        theirIds = Object.keys(rowData.users).filter( (u)=> u != this.props.user.id),
+        them = theirIds.map((id)=> rowData.users[id]),
+        matchName = them.map( (user,i) => user.firstname.trim().toUpperCase() ).join(' & '),
+        modalVisible = this.state.isVisible,
+        self = this,
+        matchImage = them.couple && them.couple.thumb_url || them[0].thumb_url || them[1].thumb_url;
 
     return (
       <PurpleModal>
@@ -61,9 +61,7 @@ export default class UnmatchModal extends Component{
 
               <Text style={[styles.rowtext,styles.bigtext,{
                   fontFamily:'Montserrat',fontSize:20,marginVertical:10
-                }]}>
-                {`UNMATCH ${matchName}`}
-              </Text>
+                }]}>UNMATCH {matchName}</Text>
 
               <Text style={[styles.rowtext,styles.bigtext,{
                   fontSize:20,marginVertical:10,color: colors.shuttleGray,marginHorizontal:20

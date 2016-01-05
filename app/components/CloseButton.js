@@ -34,7 +34,7 @@ class CloseButton extends Component{
 
 export default CloseButton
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   navBarLeftButton:{
     position:'absolute',
     top:50,

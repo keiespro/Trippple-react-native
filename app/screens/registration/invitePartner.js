@@ -1,20 +1,16 @@
-import React from 'react-native'
-
-import {
+import React, {
   StyleSheet,
   Text,
   Image,
   View,
   TouchableHighlight,
   Dimensions
-}  from 'react-native'
+} from 'react-native'
 
-
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
 import OnboardingActions from '../../flux/actions/OnboardingActions'
-
 import colors from '../../utils/colors'
 import UserActions from '../../flux/actions/UserActions'
 import BoxyButton from '../../controls/boxyButton'
@@ -70,7 +66,7 @@ class InvitePartner extends React.Component{
   }
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',

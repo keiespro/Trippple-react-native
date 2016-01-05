@@ -1,5 +1,4 @@
-const React = require('react-native');
-const {
+import React, {
   PixelRatio,
   StatusBarIOS,
   StyleSheet,
@@ -8,7 +7,7 @@ const {
   TouchableHighlight,
   View,
   Dimensions
-} = React;
+} from 'react-native'
 import colors from '../utils/colors'
 import {BlurView,VibrancyView} from 'react-native-blur'
 
@@ -239,7 +238,7 @@ const NavigationBar = React.createClass({
   },
 });
 
-module.exports = NavigationBar;
+export default NavigationBar;
 
 const NAV_BAR_HEIGHT = 54;
 const STATUS_BAR_HEIGHT = 0;

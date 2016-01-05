@@ -1,8 +1,5 @@
 /* @flow */
-
-
-import React from 'react-native';
-const {
+import React, {
   StyleSheet,
   Text,
   View,
@@ -17,10 +14,11 @@ const {
   Image,
   AsyncStorage,
   Navigator
-} = React
+} from 'react-native'
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
+
 import PartnerMissingModal from '../modals/PartnerMissingModal'
-
-
 import Mixpanel from '../utils/mixpanel';
 import SegmentedView from '../controls/SegmentedView'
 import ScrollableTabView from '../scrollable-tab-view'
@@ -28,14 +26,9 @@ import FakeNavBar from '../controls/FakeNavBar';
 import UserProfile from './UserProfile'
 import dismissKeyboard from 'dismissKeyboard'
 import {MagicNumbers} from '../DeviceConfig'
-
 import scrollable from 'react-native-scrollable-decorator'
 import Dimensions from 'Dimensions'
 import ParallaxView from  '../controls/ParallaxScrollView'
-
-const DeviceHeight = Dimensions.get('window').height
-const DeviceWidth = Dimensions.get('window').width
-
 import DistanceSlider from '../controls/distanceSlider'
 import ToggleSwitch from '../controls/switches'
 import UserActions from '../flux/actions/UserActions'
@@ -43,9 +36,7 @@ import AppActions from '../flux/actions/AppActions'
 import EditImage from '../screens/registration/EditImage'
 import SelfImage from './loggedin/SelfImage'
 import CoupleImage from './loggedin/CoupleImage'
-
 import FacebookButton from '../buttons/FacebookButton'
-
 import Contacts from '../screens/contacts'
 import colors from '../utils/colors'
 import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
@@ -60,7 +51,7 @@ import SettingsPreferences from './SettingsPreferences'
 import SettingsCouple from './SettingsCouple'
 import SettingsDebug from './SettingsDebug'
 
-var PickerItemIOS = PickerIOS.Item;
+const PickerItemIOS = PickerIOS.Item;
 
 
 
@@ -426,7 +417,7 @@ export default Settings
 
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
 
  container: {
