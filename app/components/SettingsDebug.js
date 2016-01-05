@@ -19,7 +19,7 @@ import MatchActions from '../flux/actions/MatchActions'
 import AppActions from '../flux/actions/AppActions'
 import colors from '../utils/colors'
 import NotificationPermissions from '../modals/NotificationPermissions'
-import { MagicNumbers } from '../DeviceConfig'
+import {MagicNumbers} from '../DeviceConfig'
 
 class SettingsDebug extends React.Component{
   constructor(props){

@@ -11,7 +11,7 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
 import alt from '../flux/alt';
-import AltContainer from 'alt/AltNativeContainer';
+import AltContainer from 'alt-container/native';
 
 import Welcome from './welcome';
 import Main from './main';
@@ -35,12 +35,11 @@ import PurpleModal from '../modals/PurpleModal'
 
 import colors from '../utils/colors'
 
-@reactMixin.decorate(TimerMixin)
+
 class AppRoutes extends Component{
 
   constructor(props){
     super()
-
   }
 
   render(){
@@ -72,7 +71,6 @@ class AppRoutes extends Component{
   }
 }
 
-@reactMixin.decorate(TimerMixin)
 class TopLevel extends Component{
   constructor(props){
     super()
@@ -125,9 +123,16 @@ class TopLevel extends Component{
 }
 
 
+reactMixin(TopLevel.prototype, TimerMixin);
+
+
 
 class App extends Component{
+  constructor(props){
+    super()
+    console.log('A')
 
+  }
   render(){
     var TopLevelStores = {
       user: (props) => {

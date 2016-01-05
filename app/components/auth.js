@@ -1,31 +1,33 @@
 /* @flow */
-var React = require('react-native');
-
-
-var {
+import React, {
   Component,
   StyleSheet,
   Text,
   View,
-  ScrollView,
   Image,
-  LayoutAnimation,
-  TextInput
-} = require('react-native')
+  ScrollView,
+  Navigator,
+  Dimensions,
+  TouchableHighlight
+} from 'react-native'
 
-var TrackKeyboard = require('../mixins/keyboardMixin');
+import TimerMixin from 'react-timer-mixin'
 
-var colors = require('../utils/colors')
+import colors from '../utils/colors'
 
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
+import TrackKeyboard from '../mixins/keyboardMixin';
 
-var UserActions = require('../flux/actions/UserActions');
 
-var Facebook = require('../screens/registration/facebook');
-var TopTabs = require('../controls/topSignupSigninTabs');
-var Login = require('./login');
-var Register = require('./register');
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
+
+
+import UserActions from '../flux/actions/UserActions';
+
+import Facebook from '../screens/registration/facebook';
+import TopTabs from '../controls/topSignupSigninTabs';
+import Login from './login';
+import Register from './register';
 
 
 var styles = StyleSheet.create({

@@ -7,6 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC3DD3B71C3A2DED00D9E6D1 /* libEXURLHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FAD1C0502B600A63B9C /* libEXURLHandler.a */; };
+		AC3DD3B81C3A2DED00D9E6D1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
+		AC3DD3B91C3A2DED00D9E6D1 /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20441C050CF100A63B9C /* libRCTAddressBook.a */; };
+		AC3DD3BA1C3A2DED00D9E6D1 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20491C050CF100A63B9C /* libRCTCamera.a */; };
+		AC3DD3BB1C3A2DED00D9E6D1 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB204C1C050CF100A63B9C /* libRCTCameraRoll.a */; };
+		AC3DD3BC1C3A2DED00D9E6D1 /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FF91C0506F700A63B9C /* libRCTFBLogin.a */; };
+		AC3DD3BD1C3A2DED00D9E6D1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
+		AC3DD3BE1C3A2DED00D9E6D1 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
+		AC3DD3BF1C3A2DED00D9E6D1 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
+		AC3DD3C01C3A2DED00D9E6D1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
+		AC3DD3C11C3A2DED00D9E6D1 /* libRCTOSPermissions copy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FB61C0502B600A63B9C /* libRCTOSPermissions copy.a */; };
+		AC3DD3C21C3A2DED00D9E6D1 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FEC1C05064300A63B9C /* libRCTPushNotification.a */; };
+		AC3DD3C31C3A2DED00D9E6D1 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
+		AC3DD3C41C3A2DED00D9E6D1 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		AC3DD3C51C3A2DED00D9E6D1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
+		AC3DD3C61C3A2DED00D9E6D1 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
+		AC3DD3C71C3A2DED00D9E6D1 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		AC3DD3C81C3A2DED00D9E6D1 /* libRNAppInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20501C050CF100A63B9C /* libRNAppInfo.a */; };
+		AC3DD3C91C3A2DED00D9E6D1 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20551C050CF100A63B9C /* libRNFS.a */; };
+		AC3DD3CA1C3A2DED00D9E6D1 /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FB91C0502B600A63B9C /* libRNKeychain.a */; };
+		AC3DD3CB1C3A2DED00D9E6D1 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20591C050CF100A63B9C /* libRNMail.a */; };
+		AC3DD3CC1C3A2DED00D9E6D1 /* libRNMessageComposer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB205E1C050CF100A63B9C /* libRNMessageComposer.a */; };
+		AC3DD3CD1C3A2DED00D9E6D1 /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FBC1C0502B600A63B9C /* libRNOverlay.a */; };
 		ACBB1FD41C05041600A63B9C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		ACBB20271C050C1100A63B9C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		ACBB20281C050C1900A63B9C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -73,29 +96,6 @@
 		ACBB20BE1C051AE100A63B9C /* RNOverlayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F4A1C0502B600A63B9C /* RNOverlayManager.m */; };
 		ACBB20BF1C051AE100A63B9C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		ACBB20C01C051AE100A63B9C /* EXURLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F511C0502B600A63B9C /* EXURLHandler.m */; };
-		ACBB20C21C051AE100A63B9C /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20491C050CF100A63B9C /* libRCTCamera.a */; };
-		ACBB20C31C051AE100A63B9C /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FDD1C0505DF00A63B9C /* CoreFoundation.framework */; };
-		ACBB20C41C051AE100A63B9C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FDB1C0505D700A63B9C /* AssetsLibrary.framework */; };
-		ACBB20C51C051AE100A63B9C /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
-		ACBB20C61C051AE100A63B9C /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20441C050CF100A63B9C /* libRCTAddressBook.a */; };
-		ACBB20C71C051AE100A63B9C /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB204C1C050CF100A63B9C /* libRCTCameraRoll.a */; };
-		ACBB20C81C051AE100A63B9C /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1F111C0502B600A63B9C /* Bolts.framework */; };
-		ACBB20C91C051AE100A63B9C /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
-		ACBB20CA1C051AE100A63B9C /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
-		ACBB20CB1C051AE100A63B9C /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
-		ACBB20CC1C051AE100A63B9C /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
-		ACBB20CD1C051AE100A63B9C /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1F141C0502B600A63B9C /* FBSDKShareKit.framework */; };
-		ACBB20CE1C051AE100A63B9C /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
-		ACBB20CF1C051AE100A63B9C /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1F121C0502B600A63B9C /* FBSDKCoreKit.framework */; };
-		ACBB20D01C051AE100A63B9C /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		ACBB20D11C051AE100A63B9C /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1F131C0502B600A63B9C /* FBSDKLoginKit.framework */; };
-		ACBB20D21C051AE100A63B9C /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
-		ACBB20D31C051AE100A63B9C /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
-		ACBB20D41C051AE100A63B9C /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		ACBB20D51C051AE100A63B9C /* libRNAppInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20501C050CF100A63B9C /* libRNAppInfo.a */; };
-		ACBB20D61C051AE100A63B9C /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20551C050CF100A63B9C /* libRNFS.a */; };
-		ACBB20D71C051AE100A63B9C /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20591C050CF100A63B9C /* libRNMail.a */; };
-		ACBB20D81C051AE100A63B9C /* libRNMessageComposer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB205E1C050CF100A63B9C /* libRNMessageComposer.a */; };
 		ACBB20DA1C051AE100A63B9C /* omnes-bold-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACBB20A31C05113400A63B9C /* omnes-bold-webfont.ttf */; };
 		ACBB20DB1C051AE100A63B9C /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACBB20A11C05113400A63B9C /* Montserrat-Bold.ttf */; };
 		ACBB20DC1C051AE100A63B9C /* omnes-medium-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACBB20A51C05113400A63B9C /* omnes-medium-webfont.ttf */; };
@@ -421,29 +421,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACBB20C21C051AE100A63B9C /* libRCTCamera.a in Frameworks */,
-				ACBB20C31C051AE100A63B9C /* CoreFoundation.framework in Frameworks */,
-				ACBB20C41C051AE100A63B9C /* AssetsLibrary.framework in Frameworks */,
-				ACBB20C51C051AE100A63B9C /* libRCTActionSheet.a in Frameworks */,
-				ACBB20C61C051AE100A63B9C /* libRCTAddressBook.a in Frameworks */,
-				ACBB20C71C051AE100A63B9C /* libRCTCameraRoll.a in Frameworks */,
-				ACBB20C81C051AE100A63B9C /* Bolts.framework in Frameworks */,
-				ACBB20C91C051AE100A63B9C /* libRCTGeolocation.a in Frameworks */,
-				ACBB20CA1C051AE100A63B9C /* libRCTImage.a in Frameworks */,
-				ACBB20CB1C051AE100A63B9C /* libRCTLinking.a in Frameworks */,
-				ACBB20CC1C051AE100A63B9C /* libRCTNetwork.a in Frameworks */,
-				ACBB20CD1C051AE100A63B9C /* FBSDKShareKit.framework in Frameworks */,
-				ACBB20CE1C051AE100A63B9C /* libRCTSettings.a in Frameworks */,
-				ACBB20CF1C051AE100A63B9C /* FBSDKCoreKit.framework in Frameworks */,
-				ACBB20D01C051AE100A63B9C /* libRCTText.a in Frameworks */,
-				ACBB20D11C051AE100A63B9C /* FBSDKLoginKit.framework in Frameworks */,
-				ACBB20D21C051AE100A63B9C /* libRCTVibration.a in Frameworks */,
-				ACBB20D31C051AE100A63B9C /* libRCTWebSocket.a in Frameworks */,
-				ACBB20D41C051AE100A63B9C /* libReact.a in Frameworks */,
-				ACBB20D51C051AE100A63B9C /* libRNAppInfo.a in Frameworks */,
-				ACBB20D61C051AE100A63B9C /* libRNFS.a in Frameworks */,
-				ACBB20D71C051AE100A63B9C /* libRNMail.a in Frameworks */,
-				ACBB20D81C051AE100A63B9C /* libRNMessageComposer.a in Frameworks */,
+				AC3DD3B71C3A2DED00D9E6D1 /* libEXURLHandler.a in Frameworks */,
+				AC3DD3B81C3A2DED00D9E6D1 /* libRCTActionSheet.a in Frameworks */,
+				AC3DD3B91C3A2DED00D9E6D1 /* libRCTAddressBook.a in Frameworks */,
+				AC3DD3BA1C3A2DED00D9E6D1 /* libRCTCamera.a in Frameworks */,
+				AC3DD3BB1C3A2DED00D9E6D1 /* libRCTCameraRoll.a in Frameworks */,
+				AC3DD3BC1C3A2DED00D9E6D1 /* libRCTFBLogin.a in Frameworks */,
+				AC3DD3BD1C3A2DED00D9E6D1 /* libRCTGeolocation.a in Frameworks */,
+				AC3DD3BE1C3A2DED00D9E6D1 /* libRCTImage.a in Frameworks */,
+				AC3DD3BF1C3A2DED00D9E6D1 /* libRCTLinking.a in Frameworks */,
+				AC3DD3C01C3A2DED00D9E6D1 /* libRCTNetwork.a in Frameworks */,
+				AC3DD3C11C3A2DED00D9E6D1 /* libRCTOSPermissions copy.a in Frameworks */,
+				AC3DD3C21C3A2DED00D9E6D1 /* libRCTPushNotification.a in Frameworks */,
+				AC3DD3C31C3A2DED00D9E6D1 /* libRCTSettings.a in Frameworks */,
+				AC3DD3C41C3A2DED00D9E6D1 /* libRCTText.a in Frameworks */,
+				AC3DD3C51C3A2DED00D9E6D1 /* libRCTVibration.a in Frameworks */,
+				AC3DD3C61C3A2DED00D9E6D1 /* libRCTWebSocket.a in Frameworks */,
+				AC3DD3C71C3A2DED00D9E6D1 /* libReact.a in Frameworks */,
+				AC3DD3C81C3A2DED00D9E6D1 /* libRNAppInfo.a in Frameworks */,
+				AC3DD3C91C3A2DED00D9E6D1 /* libRNFS.a in Frameworks */,
+				AC3DD3CA1C3A2DED00D9E6D1 /* libRNKeychain.a in Frameworks */,
+				AC3DD3CB1C3A2DED00D9E6D1 /* libRNMail.a in Frameworks */,
+				AC3DD3CC1C3A2DED00D9E6D1 /* libRNMessageComposer.a in Frameworks */,
+				AC3DD3CD1C3A2DED00D9E6D1 /* libRNOverlay.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -968,7 +968,6 @@
 				ACBB20AE1C051AE100A63B9C /* Sources */,
 				ACBB20C11C051AE100A63B9C /* Frameworks */,
 				ACBB20D91C051AE100A63B9C /* Resources */,
-				ACBB20E11C051AE100A63B9C /* Bundle React Native code and images */,
 			);
 			buildRules = (
 			);
@@ -1338,20 +1337,6 @@
 /* Begin PBXShellScriptBuildPhase section */
 		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native code and images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "../node_modules/react-native/packager/react-native-xcode.sh";
-		};
-		ACBB20E11C051AE100A63B9C /* Bundle React Native code and images */ = {
-			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
 			files = (
 			);
@@ -1363,6 +1348,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "../node_modules/react-native/packager/react-native-xcode.sh";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1423,6 +1409,7 @@
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = NewAppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1447,13 +1434,14 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
 				PRODUCT_NAME = Trippple;
-				PROVISIONING_PROFILE = "9af9cf0e-6d10-458b-ac6e-19b205a64deb";
+				PROVISIONING_PROFILE = "9e6f9f81-33c6-4b25-b3c0-257fa7743062";
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = NewAppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1477,7 +1465,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
 				PRODUCT_NAME = Trippple;
-				PROVISIONING_PROFILE = "9af9cf0e-6d10-458b-ac6e-19b205a64deb";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

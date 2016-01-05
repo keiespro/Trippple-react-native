@@ -8,7 +8,7 @@ import React from 'react-native';
 import { Component, View, Navigator } from 'react-native';
 
 import alt from '../flux/alt';
-import AltContainer from 'alt/AltNativeContainer';
+import AltContainer from 'alt-container';
 
 import UserStore from '../flux/stores/UserStore';
 import CredentialsStore from '../flux/stores/CredentialsStore'
@@ -20,7 +20,7 @@ import NotificationDisplayer from '../utils/NotificationDisplayer';
 
 class Notifications extends Component{
   constructor(props){
-    super(props)
+    super()
   }
   componentDidMount(){
   }

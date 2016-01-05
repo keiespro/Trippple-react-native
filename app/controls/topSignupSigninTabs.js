@@ -1,20 +1,18 @@
 /**
 * @flow
 */
- ;
 
-var React = require('react-native');
-var {
+import React, {
   Text,
   StyleSheet,
   View,
   TouchableHighlight
-} = React;
+} from 'react-native';
 
-var colors = require('../utils/colors')
-var TimerMixin = require('react-timer-mixin');
+import colors from '../utils/colors'
+import TimerMixin from 'react-timer-mixin'
 
-var TopTabs = React.createClass({
+const TopTabs = React.createClass({
   mixins: [TimerMixin],
   getInitialState(){
     return ({
@@ -62,7 +60,7 @@ var TopTabs = React.createClass({
 });
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
   topButton: {
     height: 80,
@@ -105,4 +103,4 @@ activeButtontext:{
   },
 });
 
-module.exports = TopTabs;
+export default TopTabs

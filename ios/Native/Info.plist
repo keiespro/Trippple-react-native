@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.13</string>
+	<string>2.0.15</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -38,13 +38,13 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>3</string>
+	<string>5</string>
 	<key>FacebookAppID</key>
-	<string>520565374758791</string>
+	<string>367243980090932</string>
 	<key>FacebookDisplayName</key>
-	<string>trippple</string>
+	<string>Trippple</string>
 	<key>LSApplicationCategoryType</key>
-	<string></string>
+	<string>public.app-category.social-networking</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbauth2</string>
@@ -54,21 +54,19 @@
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<false/>
+		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>api.mixpanel.com</key>
-			<dict/>
-			<key>graph.facebook.com</key>
-			<dict/>
-			<key>localhost</key>
 			<dict>
-				<key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
-			<key>mbp-elrik-iii.local</key>
+			<key>facebook.com</key>
 			<dict>
-				<key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>
 			<key>trippple.co</key>
@@ -76,11 +74,6 @@
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<false/>
 				<key>NSIncludesSubdomains</key>
-				<true/>
-			</dict>
-			<key>x.local</key>
-			<dict>
-				<key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
 		</dict>

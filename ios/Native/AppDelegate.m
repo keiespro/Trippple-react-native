@@ -21,12 +21,12 @@
   //////// LOAD THE JS //////////
 
   // DEVELOPMENT
-  jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
+  jsCodeLocation = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
 
   ///////////////////////////
 
   // PRODUCTION
-  //jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+//  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
   /////////////////////////
 
@@ -43,15 +43,16 @@
                                                    launchOptions:launchOptions];
 
   rootView.backgroundColor = [UIColor tr_outerSpaceColor];
-  
+
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  UIViewController *rootViewController = [[UIViewController alloc] init];
+  UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
   return [[FBSDKApplicationDelegate sharedInstance] application:application
                                   didFinishLaunchingWithOptions:launchOptions];
+
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

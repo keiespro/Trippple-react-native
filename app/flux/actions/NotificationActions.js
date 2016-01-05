@@ -84,6 +84,7 @@ class NotificationActions {
             badge: '+1'
           };
     PushNotificationIOS.scheduleLocalNotification({ fireDate, data })
+    this.dispatch()
   }
 }
 

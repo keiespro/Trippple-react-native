@@ -2,22 +2,23 @@
  * @flow
  */
 
-var React = require('react-native');
-var {
+import React, {
   Text,
   TextInput,
   View,
   TouchableHighlight,
   StyleSheet,
   ActivityIndicatorIOS,
-  Component
-} = React;
+  Component,
+  Dimensions
+} from 'react-native'
+
 import {MagicNumbers} from '../DeviceConfig'
 
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
-var colors = require('../utils/colors');
+import colors from '../utils/colors'
 
 
 
@@ -67,7 +68,7 @@ class ContinueButton extends Component{
 
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   continueButtonWrap:{
     alignSelf: 'stretch',
     alignItems: 'stretch',
@@ -92,4 +93,4 @@ var styles = StyleSheet.create({
 });
 
 
-module.exports = ContinueButton;
+export default ContinueButton

@@ -129,7 +129,7 @@ class SelectImageSource extends Component{
             </Text>
           )
         },
-        singleSubtitle: ()=>{
+        singleSubtitle: () => {
           return (
             <Text style={[styles.textTop,{marginTop:0}]}>
               <Text>Now upload or snap </Text>

@@ -36,6 +36,7 @@ class AppStateStore {
 
     this.bindListeners({
       handleInitialize: AppActions.GOT_CREDENTIALS,
+      handleNewInitialize: AppActions.NO_CREDENTIALS,
       handleGetUserInfo: UserActions.GET_USER_INFO,
       handleUpdateUser: UserActions.UPDATE_USER,
       handleVerifyPin: UserActions.VERIFY_SECURITY_PIN,
@@ -68,6 +69,10 @@ class AppStateStore {
     // })
   }
 
+  handleNewInitialize(){
+
+
+  }
 
   handleInitialize(){
 

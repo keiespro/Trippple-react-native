@@ -12,7 +12,7 @@ import React, {
 
 import alt from '../flux/alt';
 import Mixpanel from '../utils/mixpanel';
-import AltContainer from 'alt/AltNativeContainer';
+import AltContainer from 'alt-container';
 import colors from '../utils/colors';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -187,5 +187,3 @@ class PotentialsPage extends React.Component{
 
 
 export default Potentials;
-
-

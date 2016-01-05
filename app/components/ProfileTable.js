@@ -21,7 +21,7 @@ import {
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-import { MagicNumbers } from '../DeviceConfig'
+import {MagicNumbers} from '../DeviceConfig'
 
 class ProfileTable extends Component{
 

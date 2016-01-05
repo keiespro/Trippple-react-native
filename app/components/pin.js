@@ -4,8 +4,7 @@
 
 const Pin_MASK_USA = '999 999-9999';
 
-var React = require('react-native');
-var {
+import React, {
   StyleSheet,
   Text,
   View,
@@ -14,28 +13,30 @@ var {
   TouchableOpacity,
   LayoutAnimation,
   TextInput,
+  Dimensions,
   AlertIOS,
+  NativeModules,
   ScrollView
-} = React;
+} from 'react-native';
 
-var CustomSceneConfigs = require('../utils/sceneConfigs');
-var Mailer = require('NativeModules').RNMail;
+import CustomSceneConfigs from '../utils/sceneConfigs'
+const {Mailer} = NativeModules.RNMail
 
-var colors = require('../utils/colors')
+import colors from '../utils/colors'
 
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 import Numpad from '../components/Numpad'
 
-var UserActions = require('../flux/actions/UserActions')
+import UserActions from '../flux/actions/UserActions'
 
-var AuthErrorStore = require('../flux/stores/AuthErrorStore')
+import AuthErrorStore from '../flux/stores/AuthErrorStore'
 import SingleInputScreenMixin from '../mixins/SingleInputScreenMixin'
 
 import BackButton from './BackButton'
 
 
-var PinScreen = React.createClass({
+const PinScreen = React.createClass({
   mixins: [SingleInputScreenMixin],
 
   getInitialState(){
@@ -206,10 +207,10 @@ var PinScreen = React.createClass({
 
 
 
-export default PinScreen;
+export default PinScreen
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
   container: {
     flex: 1,

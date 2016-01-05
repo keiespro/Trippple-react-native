@@ -10,7 +10,7 @@ function cleanNumber(p){
   return p.replace(/[\. ,():+-]+/g, '').replace(/[A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/,'');
 }
 
-var UserActions = {
+const UserActions = {
   initialize(){
     this.dispatch()
   },
@@ -25,6 +25,7 @@ var UserActions = {
          },
          (error) => {
            // Open native settings
+           this.dispatch()
 
          },
          {enableHighAccuracy: false, maximumAge: 1000}
@@ -43,25 +44,32 @@ var UserActions = {
 
   },
 
-  async verifySecurityPin(pin, phone){
+  verifySecurityPin(pin, phone){
+    console.log('verifySecurityPin',pin, phone)
+
     if( pin.length !== 4 ){ return false }
-    var res = await Api.verifyPin(pin, phone)
-    try{
-      this.dispatch(await res.json())
-    }
-    catch(err){
+    Api.verifyPin(pin, phone)
+    .then((res) => {
+      console.log('verifyPin ', res)
+
+      this.dispatch( res.json())
+    })
+    .catch((err) => {
+      console.log('verifyPin err', err)
+
       this.dispatch({error: err})
-    }
+    })
   },
 
-  async requestPinLogin(phone){
-    var res = await Api.requestPin(phone)
-    try{
-      this.dispatch(await res.json())
-    }
-    catch(err){
-      this.dispatch(err)
-    }
+  requestPinLogin(phone){
+    console.log('requestPinLogin')
+    Api.requestPin(phone)
+    .then((res) => {
+      console.log('try',res)
+
+      this.dispatch( res.json())
+    })
+
   },
 
   logOut(){

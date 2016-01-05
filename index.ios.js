@@ -5,10 +5,11 @@
 
 import React, { AppRegistry } from 'react-native'
 import Boot from './app/Boot'
+console.ignoredYellowBox = ['jsSchedulingOverhead'];
 
 if(__DEV__){ window.React = React }
 
-export default class trippple extends React.Component{
+class trippple extends React.Component{
   constructor(props){
     super()
   }
@@ -16,5 +17,5 @@ export default class trippple extends React.Component{
   render = () => <Boot/>
 
 }
-
+export default trippple
 AppRegistry.registerComponent('trippple', () => trippple)

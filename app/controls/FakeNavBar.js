@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
   },
   navBarTitleText: {
     color: colors.white,
-    fontSize:MagicNumbers.size18,
+    fontSize: MagicNumbers ? MagicNumbers.size18 : 18,
     fontFamily:'Montserrat-Bold',
     position: 'absolute',
     left: 0,

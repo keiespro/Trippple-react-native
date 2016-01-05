@@ -1,7 +1,5 @@
 /* @flow */
-var React = require('react-native');
-
-var {
+import React, {
   Component,
   StyleSheet,
   Text,
@@ -9,23 +7,25 @@ var {
   Image,
   ScrollView,
   Navigator,
+  Dimensions,
   TouchableHighlight
-} = React;
+} from 'react-native'
 
-var TimerMixin = require('react-timer-mixin');
+import TimerMixin from 'react-timer-mixin'
 
-var colors = require('../utils/colors')
-var Swiper = require('../controls/swiper');
-var DeviceHeight = require('Dimensions').get('window').height;
-var DeviceWidth = require('Dimensions').get('window').width;
-var CustomSceneConfigs = require('../utils/sceneConfigs');
-var Auth = require('./auth');
-var Facebook = require('../screens/registration/facebook');
+import colors from '../utils/colors'
+import Swiper from '../controls/swiper'
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
+
+import CustomSceneConfigs from '../utils/sceneConfigs'
+import Auth from './auth'
+import Facebook from '../screens/registration/facebook'
 
 
 
 const LOGIN   = 'login';
-const REGISTER= 'register'
+const REGISTER = 'register'
 import Mixpanel from '../utils/mixpanel';
 import {MagicNumbers} from '../DeviceConfig'
 
@@ -144,8 +144,12 @@ var IntroScreen = React.createClass({
 })
 
 class Carousel extends Component{
+  constructor(props){
+    super()
+    this.state =  {slides}
+  }
   render(){
-    var welcomeSlides = slides.map( (slide,i) => {
+    var welcomeSlides = this.state.slides.map( (slide,i) => {
       return (
         <View key={i+'slide'+i} style={styles.slide}>
         <Image style={ {

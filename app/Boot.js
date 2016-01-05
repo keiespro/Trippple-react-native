@@ -5,9 +5,11 @@ import Keychain from 'react-native-keychain'
 import {KEYCHAIN_NAMESPACE} from  './config'
 import AppActions from './flux/actions/AppActions'
 
-export default class Boot extends React.Component{
+ class Boot extends React.Component{
   constructor(props){
     super();
+    console.log('xo')
+
     this.state = { booted: false }
   }
 
@@ -16,18 +18,26 @@ export default class Boot extends React.Component{
   }
 
   getCredentials(){
+    console.log('getCredentials')
+
     Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
     .then((creds)=>{
+      console.log('gotCredentials')
+
       AppActions.gotCredentials(creds)
       this.setBooted()
     })
     .catch((err)=>{
-      AppActions.noCredentials(err)
+      console.log('noCredentials')
       this.setBooted()
+
+      AppActions.noCredentials(err)
     })
   }
 
   setBooted(){
+    console.log('booted')
+
     this.setState({booted:true})
   }
 
@@ -37,3 +47,4 @@ export default class Boot extends React.Component{
 
 }
 
+export default Boot

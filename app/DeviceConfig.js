@@ -18,18 +18,16 @@ const keyboardHeightMap =  {
   736: 271, //6 Plus
 }
 
-
-const DeviceConfig = {
-  MagicNumbers:{
-    keyboardHeight: keyboardHeightMapShort[screen.height],
+const keyboardHeight = keyboardHeightMapShort[screen.height];
+const MagicNumbers = {
+    keyboardHeight,
     is4s: screen.height <= 480,
     isSmallDevice: screen.width < 360,
     screenWidth: screen.width > 360 ? (screen.width - 50) : (screen.width - 25),
     screenPadding: screen.width > 360 ? 50 : 25,
     size18: screen.width > 360 ? 18 : 16,
     continueButtonHeight: screen.scale == 2 && screen.height <= 480 ? 60 : 80
-  }
+
 
 }
-
-export default DeviceConfig
+export {MagicNumbers}

@@ -8,6 +8,7 @@ class AppActions {
     this.dispatch(creds)
   }
   noCredentials(err){
+    console.log(err)
     this.dispatch(err)
   }
   remoteFail(){
@@ -38,6 +39,8 @@ class AppActions {
     this.dispatch(perm)
   }
   saveStores(){
+    console.log('saveStores')
+
     this.dispatch();
   }
 

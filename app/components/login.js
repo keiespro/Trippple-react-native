@@ -36,9 +36,7 @@ import SingleInputScreenMixin from '../mixins/SingleInputScreenMixin'
 import TrackKeyboardMixin from '../mixins/keyboardMixin'
 import Mixpanel from '../utils/mixpanel'
 
-@reactMixin.decorate(TimerMixin)
-@reactMixin.decorate(TrackKeyboardMixin)
-@reactMixin.decorate(SingleInputScreenMixin)
+
 class Login extends Component{
   constructor(props){
     super();
@@ -132,6 +130,10 @@ class Login extends Component{
 }
 
 
+
+reactMixin.onClass(Login, TimerMixin);
+reactMixin.onClass(Login, TrackKeyboardMixin);
+reactMixin.onClass(Login, SingleInputScreenMixin);
 
 
 export default Login;
