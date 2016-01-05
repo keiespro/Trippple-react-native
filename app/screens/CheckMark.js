@@ -33,7 +33,6 @@ var inviteText = (partnerName)=>{
           )
 }
 
-@reactMixin.decorate(TimerMixin)
 class CheckMarkScreen extends Component{
 
   constructor(props){
@@ -178,5 +177,7 @@ flexDirection:'column',
   }
 
 }
+
+reactMixin(CheckMarkScreen.prototype, TimerMixin)
 
 export default CheckMarkScreen

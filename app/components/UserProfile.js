@@ -32,7 +32,6 @@ const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../DeviceConfig'
 
 
-@reactMixin.decorate(TimerMixin)
 class UserProfile extends React.Component{
 
   static defaultProps = {

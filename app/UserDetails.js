@@ -15,27 +15,20 @@ import React, {
   PanResponder,
   Easing
 } from 'react-native';
-import styles from './components/potentials/styles'
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
+import styles from './components/potentials/styles'
 import FakeNavBar from './controls/FakeNavBar';
 import ScrollableTabView from './scrollable-tab-view'
 import SliderTabBar from './components/potentials/SliderTabBar'
-
 import alt from './flux/alt';
 import MatchActions from './flux/actions/MatchActions';
-
 import TimerMixin from 'react-timer-mixin';
 import colors from './utils/colors';
 import Swiper from './controls/swiper';
-
-import reactMixin from 'react-mixin';
-
 import ProfileTable from './components/ProfileTable'
-
-const DeviceHeight = Dimensions.get('window').height;
-const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from './DeviceConfig'
-
 
 class UserDetails extends React.Component{
 

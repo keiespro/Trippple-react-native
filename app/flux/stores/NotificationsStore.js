@@ -12,8 +12,6 @@ import reactMixin from 'react-mixin'
 import _ from 'underscore'
 import Log from '../../Log'
 
-
-@reactMixin.decorate(TimerMixin)
 class NotificationsStore {
 
   constructor() {
@@ -142,4 +140,6 @@ class NotificationsStore {
   }
 
 }
+reactMixin(NotificationsStore.prototype, TimerMixin)
+
 export default alt.createStore(NotificationsStore, 'NotificationsStore')

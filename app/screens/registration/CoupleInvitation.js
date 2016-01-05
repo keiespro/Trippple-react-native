@@ -23,14 +23,10 @@ const DeviceWidth = Dimensions.get('window').width
 import UserActions from '../../flux/actions/UserActions'
 import colors from '../../utils/colors'
 import _ from 'underscore'
-import TimerMixin from 'react-timer-mixin';
-import reactMixin from 'react-mixin'
-
 import OnboardingActions from '../../flux/actions/OnboardingActions'
 import styles from './contactStyles'
 import {MagicNumbers} from '../../DeviceConfig'
 
-@reactMixin.decorate(TimerMixin)
 class CoupleInvitation extends React.Component{
   constructor(props){
     super()
@@ -73,4 +69,3 @@ class CoupleInvitation extends React.Component{
 
 
 export default CoupleInvitation
-

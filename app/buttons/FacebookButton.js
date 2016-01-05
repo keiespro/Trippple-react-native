@@ -31,7 +31,6 @@ const DeviceWidth = Dimensions.get('window').width
 
 const FACEBOOK_LOCALSTORAGE_KEY = 'facebook'
 
-@reactMixin.decorate(NativeMethodsMixin)
 class FacebookButton extends React.Component{
 
 
@@ -190,6 +189,7 @@ class FacebookButton extends React.Component{
 
   }
 }
+reactMixin.onClass(FacebookButton, NativeMethodsMixin)
 
 export default FacebookButton
 

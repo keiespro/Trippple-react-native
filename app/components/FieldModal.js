@@ -52,7 +52,6 @@ function getMaxLength(fieldName){
   return len
 }
 
-@reactMixin.decorate(TrackKeyboardMixin)
 class FieldModal extends React.Component{
 
   constructor(props){
@@ -389,6 +388,9 @@ class FieldModal extends React.Component{
     )
   }
 }
+
+reactMixin(FieldModal.prototype, TrackKeyboardMixin)
+
 export default FieldModal
 
 

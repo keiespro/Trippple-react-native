@@ -10,10 +10,7 @@ import {BlurView} from 'react-native-blur';
 import Overlay from 'react-native-overlay'
 import NotificationActions from '../flux/actions/NotificationActions'
 import AppActions from '../flux/actions/AppActions'
-import TimerMixin from 'react-timer-mixin';
-import reactMixin from 'react-mixin'
 
-@reactMixin.decorate(TimerMixin)
 class Notification extends React.Component{
 
   constructor(props){
@@ -37,17 +34,8 @@ componentWillMount(){
       duration: 200,
     }).start((fin)=>{})
 
-    // this.setTimeout(()=>{
-    //   Animated.timing(this.state.yValue, {
-    //     toValue: -220,
-    //     duration: 200,
-    //   }).start()
-    // },3000)
-
   }
-  // componentDidUpdate(pProps,pState){
 
-  // }
   tapNotification(e){
 
     Animated.timing(this.state.yValue, {

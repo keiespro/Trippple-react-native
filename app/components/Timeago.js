@@ -9,7 +9,6 @@ import moment from 'moment'
 import TimerMixin from 'react-timer-mixin'
 import reactMixin from 'react-mixin'
 
-@reactMixin.decorate(TimerMixin)
 class TimeAgo extends Component{
 
   static propTypes: {
@@ -44,5 +43,6 @@ class TimeAgo extends Component{
     );
   }
 }
+reactMixin.onClass(TimeAgo, TimerMixin)
 
 export default TimeAgo

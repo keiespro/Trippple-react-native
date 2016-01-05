@@ -23,15 +23,13 @@ import styles from './styles'
 import animations from './LayoutAnimations'
 import MatchActions from '../../flux/actions/MatchActions';
 import Mixpanel from '../../utils/mixpanel';
-import TimerMixin from 'react-timer-mixin';
 import colors from '../../utils/colors';
-import reactMixin from 'react-mixin';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../../DeviceConfig'
 import Card from './Card'
 
-@reactMixin.decorate(TimerMixin)
+
 class CardStack extends React.Component{
 
   static displayName = 'CardStack'
@@ -111,7 +109,7 @@ class CardStack extends React.Component{
       },
 
       onStartShouldSetPanResponder: (e,gestureState) => {
-        // set a timeout to open profile, if no moves have happened
+
         return false
       },
       onPanResponderReject: (e, gestureState) => {

@@ -12,7 +12,6 @@ import {
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 
-@reactMixin.decorate(TimerMixin)
 class FadeInContainer extends Component{
   static defaultProps = {
     delayAmount: 0,
@@ -63,4 +62,7 @@ class FadeInContainer extends Component{
 
 
 }
+
+reactMixin.onClass(FadeInContainer, TimerMixin)
+
 export default FadeInContainer

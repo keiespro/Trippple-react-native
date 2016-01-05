@@ -22,8 +22,6 @@ import MatchActions from '../flux/actions/MatchActions'
 import colors from '../utils/colors'
 import _ from 'underscore'
 import BackButton from '../components/BackButton'
-import TimerMixin from 'react-timer-mixin';
-import reactMixin from 'react-mixin'
 import UserProfile from '../components/UserProfile'
 import FadeInContainer from './FadeInContainer'
 import ReportModal from '../modals/ReportModal'
@@ -31,7 +29,6 @@ import UnmatchModal from '../modals/UnmatchModal'
 
 import { BlurView,VibrancyView} from 'react-native-blur'
 
-@reactMixin.decorate(TimerMixin)
 class ActionModal extends Component{
 
   constructor(props){

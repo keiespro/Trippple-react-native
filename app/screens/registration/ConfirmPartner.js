@@ -38,7 +38,6 @@ import styles from './contactStyles'
 import InvitePartner from './invitePartner'
 import {MagicNumbers} from '../../DeviceConfig'
 
-@reactMixin.decorate(TimerMixin)
 class ConfirmPartner extends React.Component{
   _cancel(){
     this.props.navigator.pop()
@@ -58,12 +57,10 @@ class ConfirmPartner extends React.Component{
   }
   _selectNumber(number){
     this._confirm(number)
-}
-// componentDidMount(){
-// }
-render(){
-  const hasPhone = this.props.partner && this.props.partner.phoneNumbers && this.props.partner.phoneNumbers.length && this.props.partner.phoneNumbers.length > 0 && this.props.partner.phoneNumbers[0].number;
-  if(!this.props.partner || !hasPhone){ return false }
+  }
+  render(){
+    const hasPhone = this.props.partner && this.props.partner.phoneNumbers && this.props.partner.phoneNumbers.length && this.props.partner.phoneNumbers.length > 0 && this.props.partner.phoneNumbers[0].number;
+    if(!this.props.partner || !hasPhone){ return false }
 
     const invitedName = this.props.partner.firstName && this.props.partner.firstName.toUpperCase() || '',
           manyPhones = this.props.partner.phoneNumbers && this.props.partner.phoneNumbers.length;
@@ -156,6 +153,7 @@ render(){
     )
   }
 }
+reactMixin(ConfirmPartner.prototype, TimerMixin)
 
 
 export default ConfirmPartner

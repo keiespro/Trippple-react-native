@@ -29,7 +29,6 @@ const SliderWidth = MagicNumbers.isSmallDevice ? DeviceWidth - 40 : DeviceWidth 
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 
-@reactMixin.decorate(TimerMixin)
 class  AgePrefs extends React.Component{
   constructor(props){
     super(props)
@@ -358,6 +357,9 @@ class ActiveDot extends React.Component{
 
   }
 }
+
+reactMixin(AgePrefs.prototype, TimerMixin)
+
 
 export default AgePrefs
 

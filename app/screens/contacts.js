@@ -26,8 +26,6 @@ import colors from '../utils/colors'
 import _ from 'underscore'
 import Facebook from './registration/facebook'
 import BackButton from './registration/BackButton'
-import TimerMixin from 'react-timer-mixin';
-import reactMixin from 'react-mixin'
 import Api from '../utils/api'
 import ConfirmPartner from './registration/ConfirmPartner'
 import OnboardingActions from '../flux/actions/OnboardingActions'
@@ -177,7 +175,7 @@ class ContactList extends React.Component{
 }
 
 
-@reactMixin.decorate(TimerMixin)
+
 class Contacts extends React.Component{
 
   constructor(props){
@@ -364,4 +362,3 @@ class Contacts extends React.Component{
 }
 
 export default Contacts;
-
