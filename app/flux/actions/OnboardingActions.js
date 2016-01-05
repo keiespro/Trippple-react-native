@@ -6,36 +6,34 @@ import UserActions from './UserActions'
 class OnboardingActions {
 
   updateUserInfo(payload) {
-    return function(dispatch) {
+    return (dispatch) => {
       UserActions.updateUser.defer(payload)
       dispatch(payload)
-    };
+    }
   }
+
   acceptInvitation(phone) {
-    return function(dispatch) {
+    return (dispatch) => {
       Api.joinCouple(phone)
       dispatch()
-    };
+    }
   }
 
   updateRoute(newIndex){
-    return newIndex;;
-
-
+    return newIndex
   }
+
   proceedToNextScreen(payload) {
-    return function(dispatch) {
+    return (dispatch) => {
       if(payload && Object.keys(payload).length){
         UserActions.updateUser.defer(payload)
       }
       dispatch(payload)
-    };
+    }
   }
 
   proceedToPrevScreen(){
-
-      return;;
-
+    return true
   }
 
 }

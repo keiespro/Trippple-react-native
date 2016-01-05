@@ -4,8 +4,7 @@ const MIN_AGE = 18
 const MAX_AGE = 50
 const MIN_AGE_GROUP_DISTANCE = 4 ///years
 
-import React from 'react-native';
-import {
+import React, {
   StyleSheet,
   Text,
   View,
@@ -13,21 +12,19 @@ import {
   Animated,
   TouchableOpacity,
   PanResponder,
-  Easing
-
+  Easing,
+  Dimensions
 } from  'react-native'
 
-import Dimensions from 'Dimensions'
 import UserActions from '../flux/actions/UserActions'
-const DeviceHeight = Dimensions.get('window').height
-const DeviceWidth = Dimensions.get('window').width
 import colors from '../utils/colors'
 import {MagicNumbers} from '../DeviceConfig'
-const InsideWidth = MagicNumbers.isSmallDevice ? DeviceWidth - MagicNumbers.screenPadding : DeviceWidth - 62
-const SliderWidth = MagicNumbers.isSmallDevice ? DeviceWidth - 40 : DeviceWidth - 62
-
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
+const InsideWidth = MagicNumbers.isSmallDevice ? DeviceWidth - MagicNumbers.screenPadding : DeviceWidth - 62
+const SliderWidth = MagicNumbers.isSmallDevice ? DeviceWidth - 40 : DeviceWidth - 62
 
 class  AgePrefs extends React.Component{
   constructor(props){
@@ -50,6 +47,7 @@ class  AgePrefs extends React.Component{
       match_age_max: Math.min(props.user.match_age_max,MAX_AGE) || MAX_AGE
     }
   }
+
   componentDidUpdate(prevProps,prevState){
     // const {match_age_min,match_age_max} = this.state
     // if(prevState.match_age_min == match_age_min && prevState.match_age_max == match_age_max) return false
@@ -63,10 +61,6 @@ class  AgePrefs extends React.Component{
     UserActions.updateUser({match_age_min,match_age_max});
   }
 
-
-  componentWillReceiveProps(nProps){
-
-  }
   render(){
     const {match_age_max,match_age_min} = this.state
 
@@ -85,13 +79,19 @@ class  AgePrefs extends React.Component{
             paddingHorizontal:0,flexDirection:'row',height:90,alignItems:'flex-start',justifyContent:'center',alignSelf:'center'}}>
 
           {dots.map((dot,i) => {
-            var highlighted = i != dots.length  && match_age_min <= dot.start_age && match_age_max >= dot.start_age + MIN_AGE_GROUP_DISTANCE - 1 || Math.abs(match_age_max - dot.start_age) < MIN_AGE_GROUP_DISTANCE
+            const highlighted = i != dots.length  && match_age_min <= dot.start_age && match_age_max >= dot.start_age + MIN_AGE_GROUP_DISTANCE - 1 || Math.abs(match_age_max - dot.start_age) < MIN_AGE_GROUP_DISTANCE
 
-            var lineHighlighted = match_age_max <= dot.start_age   ? false : true
+            const lineHighlighted = match_age_max <= dot.start_age ? false : true
+
             return (
 
-
-              <View style={{marginLeft: i == 0 ? 45 : 0,width:dotWidth,height:80,alignSelf:'center',position:'relative'}} >
+              <View style={{
+                  marginLeft: i == 0 ? 45 : 0,
+                  width:dotWidth,
+                  height:80,
+                  alignSelf:'center',
+                  position:'relative'
+              }}>
 
               { dot.start_age >= MAX_AGE ? null : <View style={{
                     flex:1,backgroundColor:'transparent',
@@ -101,30 +101,25 @@ class  AgePrefs extends React.Component{
                    }}/>
                }
                <TouchableOpacity style={{position:'absolute',top:-10,left:-10}} onPress={(e)=>{
-                 if(this.props.user.status == 'pendingpartner'){
-                   this.props.showPartnerMissingModal();
-                   return false
-                 }
-                   var newState = {}
-                   if(Math.abs(this.state.match_age_max - dot.start_age) > Math.abs(this.state.match_age_min - dot.start_age) ){
-                     newState.match_age_min = dot.start_age
-                   }else{
-                     newState.match_age_max = dot.start_age
-
-                   }
-                      this.setState(newState)
-                    }} >
-                 <View style={{
+                  if(this.props.user.status == 'pendingpartner'){
+                    this.props.showPartnerMissingModal();
+                    return false
+                  }
+                  var newState = {};
+                  if(Math.abs(this.state.match_age_max - dot.start_age) > Math.abs(this.state.match_age_min - dot.start_age) ){
+                    newState.match_age_min = dot.start_age
+                  }else{
+                    newState.match_age_max = dot.start_age
+                  }
+                  this.setState(newState)
+                }}>
+                <View style={{
                   flex:1,backgroundColor:highlighted ? colors.mediumPurple : colors.white,height:20,width:20,borderRadius:10,
-               }}/>
-           </TouchableOpacity>
-
-
-               </View>
-
-
-            )
-          })}
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+          )})}
 
           </View>
         {this.props.user.status != 'pendingpartner' &&  <ActiveDot
@@ -159,32 +154,26 @@ class  AgePrefs extends React.Component{
               var newState = {
                 match_age_min:Math.min(this.state.match_age_min,Math.round(val)),
                 match_age_max:Math.max(Math.round(val),this.state.match_age_min)
-
               }
 
               this.setState(newState);
 
-                  this._timeout = this.setTimeout(()=>{
-                    this.updateAttributes()
-                  },2000)
+              this._timeout = this.setTimeout(()=>{
+                this.updateAttributes()
+              },2000)
             }}
             numberGroups={this.state.numberGroups}
             dots={this.state.dots}
             ageVal={Math.max(this.state.match_age_min,this.state.match_age_max) }
           />}
-
-
-
       </View>
-
-
-
     )
   }
 }
 
 
 class ActiveDot extends React.Component{
+
   constructor(props){
     super();
     this.state = {
@@ -192,17 +181,12 @@ class ActiveDot extends React.Component{
       ageVal: new Animated.Value(0),
     }
   }
-  componentWillMount(){
 
+  componentWillMount(){
     this.state.ageVal.setValue(SliderWidth * (this.props.ageVal-18) / 32)
     this.initializePanResponder();
-
   }
-  // componentDidMount(){
-  //   this.state.ageVal.addListener((val)=>{
-  //     this.setState({ ageValue: val })
-  //   })
-  // }
+
   componentWillReceiveProps(nProps){
     const nval = Math.round(SliderWidth * (nProps.ageVal-18) / 32)
     // if(Math.abs(this._animatedValueX - nval) >= SliderWidth/this.props.numberGroups){
@@ -215,6 +199,7 @@ class ActiveDot extends React.Component{
       }).start()
     // }
   }
+
   shouldComponentUpdate(nProps,nState){
     const nval = SliderWidth * (nProps.ageVal-18) / 32
     if(nProps.ageVal == this.props.ageVal ){
@@ -222,9 +207,11 @@ class ActiveDot extends React.Component{
     }
     return true
   }
+
   componentWillUnmount() {
     this.state.ageVal.removeAllListeners();
   }
+
   initializePanResponder(){
     this._animatedValueX = SliderWidth * (this.props.ageVal-18) / 32
 
@@ -318,7 +305,6 @@ class ActiveDot extends React.Component{
 
     var {ageVal} = this.state
     var dotWidthInterpolatedWidth = Math.round(SliderWidth / this.props.numberGroups)
-
 
 // Some arbitrary interpolations for making the handle drag nicelyer
 

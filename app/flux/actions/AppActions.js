@@ -4,48 +4,45 @@ import UserActions from './UserActions'
 
 class AppActions {
   gotCredentials(creds) {
-    return function(dispatch) {
+    return (dispatch) => {
       UserActions.getUserInfo.defer()
       dispatch(creds)
     };
   }
   noCredentials(err) {
-    return function(dispatch) {
-      console.log(err)
+    return (dispatch) => {
       dispatch(err)
     };
   }
   remoteFail(){
-    return;;
+    return true
   }
   loadingUser(){
-    return;;
+    return true
   }
   showCheckmark(copy){
-    return copy;;
+    return copy;
   }
   hideCheckmark(){
-    return;;
+    return true
   }
   updateRoute(d){
-    return d;;
+    return d;
   }
   toggleOverlay(){
-    return;;
+    return true
   }
   storeContactsToBlock(contacts){
-    return contacts;;
+    return contacts;
   }
   grantPermission(perm){
-    return perm;;
+    return perm;
   }
   denyPermission(perm){
-    return perm;;
+    return perm;
   }
   saveStores() {
-    return function(dispatch) {
-      console.log('saveStores')
-
+    return (dispatch) => {
       dispatch();
     };
   }

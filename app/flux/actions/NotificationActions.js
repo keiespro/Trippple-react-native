@@ -7,15 +7,12 @@ import MatchActions from '../actions/MatchActions'
 import AppActions from '../actions/AppActions'
 import { AsyncStorage, PushNotificationIOS } from 'react-native'
 
-
-
 class NotificationActions {
 
-
   requestNotificationsPermission() {
-    return function(dispatch) {
+    return (dispatch) => {
       PushNotificationIOS.addEventListener('register',(token) => {
-        __DEV__ && console.log('APN -> ',token);
+        __DEV__ && console.warn('APN -> ',token);
         Api.updatePushToken(token)
         .then(()=> dispatch(token))
       })
@@ -24,9 +21,8 @@ class NotificationActions {
   }
 
   updateBadgeNumber(numberToAdd){
-    return numberToAdd;;
+    return numberToAdd
   }
-
 
   sendFakeNotification() {
     require('RCTDeviceEventEmitter').emit('remoteNotificationReceived', {
@@ -36,61 +32,60 @@ class NotificationActions {
         sound: 'default',
         category: 'REACT_NATIVE'
       },
-    });
+    })
+
+    return true
   }
 
   dispatchNotification(payload){
-    return payload;;
+    return payload
   }
 
   receiveNewMessageNotification(payload, isBackground) {
-    return function(dispatch) {
-      const { data } = payload
-
-
+    return (dispatch) => {
+      const { data } = payload;
       if(data.action === 'retrieve' && data.match_id) {
         MatchActions.getMessages.defer(data.match_id)
       }
       if(!isBackground){
         dispatch(payload)
+      }else{
+        dispatch()
       }
-    };
+    }
   }
+
   receiveNewMatchNotification(payload, isBackground) {
-    return function(dispatch) {
-      const { action } = payload
+    return (dispatch) => {
+      const { action } = payload;
       if(action === 'retrieve') {
         MatchActions.getMatches.defer()
       }
       if(!isBackground){
         dispatch(payload)
+      }else{
+        dispatch()
       }
-    };
+    }
   }
+
   receiveMatchRemovedNotification(payload){
-    return payload.match_id;;
+    return payload.match_id
   }
 
   scheduleNewPotentialsAlert(time) {
-    return function(dispatch) {
+    return (dispatch) => {
       let t = time || false;
-      let fireDate = t ? moment(t).unix() : moment().endOf('day').unix();
-
-      const data = {
-              alert: {
-                title: 'New Matches!',
-                body: 'body',
-              },
-              action:'retrieve',
-              type: 'potentials',
-              sound: 'default',
-              category: 'TRIPPPLE',
-              badge: '+1'
-            };
-      PushNotificationIOS.scheduleLocalNotification({ fireDate, data })
+      let fireDate = t ? moment(t) : moment().endOf('day');
+      console.warn(`Scheduled local notification at ${fireDate.format()}`)
+      PushNotificationIOS.scheduleLocalNotification({
+        fireDate: fireDate.unix(),
+        alertBody: 'New Matches!'
+      })
       dispatch()
-    };
+    }
   }
+
 }
 
 export default alt.createActions(NotificationActions)

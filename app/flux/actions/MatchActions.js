@@ -1,12 +1,11 @@
 import alt from '../alt';
 import Api from '../../utils/api';
-
 import { AlertIOS } from 'react-native'
+
 class MatchActions {
 
-
   removeMatch(matchID){
-    return matchID;;
+    return matchID
   }
 
   getMatches(page) {
@@ -19,16 +18,14 @@ class MatchActions {
   }
 
   getFavorites(page){
-
+    return true
   }
 
   getMessages(matchID, page) {
     return (dispatch) => {
       if(!matchID) {
-        dispatch({messages: []});
-        
+        dispatch({messages: []})
       }
-
       Api.getMessages({match_id: matchID, page: page || false})
       .then((res) => {
         dispatch({messages: res.response || []});
@@ -49,12 +46,13 @@ class MatchActions {
   }
 
   setAccessTime(payload){
-    return payload;;
+    return payload;
   }
 
   sendMessage(message, matchID,timestamp){
-    return {message, matchID,timestamp};;
+    return {message, matchID,timestamp};
   }
+
   sendMessageToServer(message, matchID) {
     return (dispatch) => {
       Api.createMessage(message, matchID)
@@ -63,11 +61,13 @@ class MatchActions {
           const messages = res.response;
           Api.getMatches(0)
           .then((resMatches) => {
-            dispatch({messages, matchesData: {matches: resMatches.response, page: 0}});
+            dispatch({messages, matchesData: {matches: resMatches.response, page: 0}})
           })
         })
       })
-      .catch((err) => {/*noop*/})
+      .catch((err) => {
+        console.warn('Message failed to send',err)
+      })
     };
   }
 
@@ -82,7 +82,6 @@ class MatchActions {
       })
     };
   }
-
 
   unMatch(matchID) {
     return (dispatch) => {
@@ -107,6 +106,7 @@ class MatchActions {
       dispatch({likedUserID,likeStatus});
     };
   }
+
 }
 
 export default alt.createActions(MatchActions);

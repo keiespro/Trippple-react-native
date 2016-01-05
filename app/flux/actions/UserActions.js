@@ -10,10 +10,11 @@ function cleanNumber(p){
   return p.replace(/[\. ,():+-]+/g, '').replace(/[A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/,'');
 }
 
-const UserActions = {
+class UserActions {
+
   initialize(){
-    return;;
-  },
+    return true
+  }
 
   getLocation() {
     return (dispatch) => {
@@ -24,14 +25,13 @@ const UserActions = {
             dispatch(geo.coords);
           },
           (error) => {
-            // Open native settings
-            dispatch()
-
+            // Open native settings ??
+            dispatch(error)
           },
           {enableHighAccuracy: false, maximumAge: 1000}
         )
-    };
-  },
+    }
+  }
 
   getUserInfo() {
     return (dispatch) => {
@@ -42,47 +42,39 @@ const UserActions = {
         .catch((err) => {
           dispatch(err);
         })
-    };
-  },
+    }
+  }
 
   verifySecurityPin(pin, phone) {
     if( pin.length !== 4 ){ return false }
 
     return (dispatch) => {
-      console.log('verifySecurityPin',pin, phone)
-
       Api.verifyPin(pin, phone)
       .then((res) => {
-        console.log('verifyPin ', res)
         res.json().then((response) => dispatch(response))
       })
       .catch((err) => {
-        console.log('verifyPin err', err)
         dispatch({error: err})
       })
-    };
-  },
+    }
+  }
 
   requestPinLogin(phone) {
     return (dispatch) => {
-      console.log('requestPinLogin')
       Api.requestPin(phone)
       .then((res) => {
-        console.log('try',res)
-
         dispatch(res.json())
       })
-    };
-  },
+    }
+  }
 
   logOut(){
-    return;
-  },
+    return true
+  }
 
   updateUserStub(updateAttributes){
-    return updateAttributes;
-  },
-
+    return updateAttributes
+  }
 
   uploadImage(image, image_type, data = {}) {
     return (dispatch) => {
@@ -91,20 +83,20 @@ const UserActions = {
           this.getUserInfo.defer()
           dispatch(uploadRes)
         })
-    };
-  },
+    }
+  }
 
   updateUser(payload) {
     return (dispatch) => {
-      var updates = payload;
+      const updates = payload;
       //
       // async () => {
       //   try{
       //     var res = await Api.updateUser(payload)
-      //     this.dispatch({
-      //       response: res,
-      //       updates: updates
-      //     })
+          // this.dispatch({
+          //   response: res,
+          //   updates: updates
+          // })
       //   }
       //   catch(err){
       //     this.dispatch({
@@ -115,13 +107,16 @@ const UserActions = {
 
       Api.updateUser(payload)
         .then((res) => {
-          dispatch(res);
+          dispatch({
+            response: res,
+            updates
+          })
         })
         .catch((err) => {
-          dispatch({error: err});
+          dispatch({error: err})
         })
     };
-  },
+  }
 
   selectPartner(partner) {
     return (dispatch) => {
@@ -143,7 +138,7 @@ const UserActions = {
           });
         })
     };
-  },
+  }
 
   saveFacebookPicture(photo) {
     return (dispatch) => {
@@ -154,8 +149,8 @@ const UserActions = {
       .catch((err) => {
         dispatch(err);
       })
-    };
-  },
+    }
+  }
 
   handleContacts(contacts) {
     return (dispatch) => {
@@ -163,13 +158,13 @@ const UserActions = {
       var allNumbers = _.pluck( _.flatten( _.pluck( contacts, 'phoneNumbers') ), 'number' ).map(cleanNumber)
       Api.sendContactsToBlock( base64.encode( JSON.stringify(allNumbers)))
       dispatch();
-    };
-  },
-
+    }
+  }
 
   updateLocally(payload){
-    return payload;;
+    return payload
   }
+
 }
 
 export default alt.createActions(UserActions)
