@@ -156,110 +156,106 @@ class ActualModal extends Component{
   }
   render(){
     const {img_url,them,matchName,theirIds,isVisible,user} = this.props
-    console.log('matchName',matchName)
 
-        if(isVisible){
-          return (
-            <Modal
-            isVisible={isVisible || false}
-            animated={true}
-            transparent={true}
-            onDismiss={()=>{
-                this.props.toggleModal();
-            }}>
-
-
-            <View style={[styles.actionmodal]}>
-
-              <View  style={[styles.userimageContainer,styles.blur]}>
-                <Image
-                  style={styles.userimage}
-                  key={this.props.currentMatch.match_id}
-                  source={img_url ? {uri: img_url } : {uri:'../../newimg/placeholderUser.png'}}
-                  resizeMode={Image.resizeMode.cover}
-                />
-                <Text style={{color:colors.white,fontFamily:'Montserrat-Bold',fontSize:18}}>
-                  {matchName}
-                </Text>
-
-              </View>
-
-              <View>
-
-                <View style={{flexDirection:'row',justifyContent:'space-between',
-                marginHorizontal:10,
-                paddingHorizontal:0,
-                paddingBottom:10,
-                marginBottom:10,
-                borderBottomWidth:1,
-                borderBottomColor:colors.shuttleGray}}>
-
-                  <TouchableHighlight
-                    style={[styles.clearButton,styles.inlineButtons,{marginRight:10}]}
-                    underlayColor={colors.shuttleGray20}
-                    onPress={()=>{
-                      this.props.unMatchModal(this.props.currentMatch)
-                    }}>
-                    <View >
-                      <Text style={[styles.clearButtonText]}>
-                        UNMATCH
-                      </Text>
-                    </View>
-                  </TouchableHighlight>
-
-                  <TouchableHighlight
-                    style={[styles.clearButton,styles.inlineButtons,{marginLeft:10}]}
-                    underlayColor={colors.shuttleGray20}
-                    onPress={()=>{
-                      this.props.reportModal(this.props.currentMatch)
-                    }}>
-                    <View >
-                      <Text style={[styles.clearButtonText]}>
-                        REPORT
-                      </Text>
-                    </View>
-                  </TouchableHighlight>
-
-                </View>
-
-                <TouchableHighlight
-                  style={[styles.clearButton,styles.modalButton]}
-                  underlayColor={colors.mediumPurple}
-                  onPress={()=>{
-                    MatchActions.toggleFavorite(this.props.currentMatch.match_id.toString())
-                  }}>
-                  <View >
-                    <Text style={[styles.clearButtonText,styles.modalButtonText]}>
-                      {this.props.currentMatch.isFavourited ? 'UNFAVORITE' : 'FAVORITE'}
-                    </Text>
-                  </View>
-                </TouchableHighlight>
-
-                <TouchableHighlight
-                  style={[styles.clearButton,styles.modalButton,{borderColor:colors.mediumPurple,backgroundColor:colors.mediumPurple20}]}
-                  underlayColor={colors.mediumPurple}
-                  onPress={()=>{
-                      this.props.toggleModal()
-                    this.props.showProfile(this.props.currentMatch)
-                  }}>
-                  <View >
-                    <Text style={[styles.clearButtonText,styles.modalButtonText]}>
-                      VIEW PROFILE
-                    </Text>
-                  </View>
-                </TouchableHighlight>
-
-                <TouchableOpacity onPress={this.props.toggleModal}>
-                  <View style={{flex:1,paddingVertical:10}}>
-                    <Text style={{textAlign:'center',fontSize:16,color:colors.shuttleGray}}>CANCEL</Text>
-                  </View>
-                </TouchableOpacity>
-
-              </View>
+    if(isVisible){
+      return (
+        <Modal
+          isVisible={isVisible || false}
+          animated={true}
+          transparent={true}
+          onDismiss={()=>{
+              this.props.toggleModal();
+          }}>
+          <View style={[styles.actionmodal]}>
+            <View style={[styles.userimageContainer,styles.blur]}>
+              <Image
+                style={styles.userimage}
+                key={this.props.currentMatch.match_id}
+                source={img_url ? {uri: img_url } : {uri:'../../newimg/placeholderUser.png'}}
+                resizeMode={Image.resizeMode.cover}
+              />
+              <Text style={{color:colors.white,fontFamily:'Montserrat-Bold',fontSize:18}}>
+                {matchName}
+              </Text>
 
             </View>
-          </Modal>
-        )
+
+            <View>
+
+              <View style={{flexDirection:'row',justifyContent:'space-between',
+              marginHorizontal:10,
+              paddingHorizontal:0,
+              paddingBottom:10,
+              marginBottom:10,
+              borderBottomWidth:1,
+              borderBottomColor:colors.shuttleGray}}>
+
+                <TouchableHighlight
+                  style={[styles.clearButton,styles.inlineButtons,{marginRight:10}]}
+                  underlayColor={colors.shuttleGray20}
+                  onPress={()=>{
+                    this.props.unMatchModal(this.props.currentMatch)
+                  }}>
+                  <View >
+                    <Text style={[styles.clearButtonText]}>
+                      UNMATCH
+                    </Text>
+                  </View>
+                </TouchableHighlight>
+
+                <TouchableHighlight
+                  style={[styles.clearButton,styles.inlineButtons,{marginLeft:10}]}
+                  underlayColor={colors.shuttleGray20}
+                  onPress={()=>{
+                    this.props.reportModal(this.props.currentMatch)
+                  }}>
+                  <View >
+                    <Text style={[styles.clearButtonText]}>
+                      REPORT
+                    </Text>
+                  </View>
+                </TouchableHighlight>
+
+              </View>
+
+              <TouchableHighlight
+                style={[styles.clearButton,styles.modalButton]}
+                underlayColor={colors.mediumPurple}
+                onPress={()=>{
+                  MatchActions.toggleFavorite(this.props.currentMatch.match_id.toString())
+                }}>
+                <View >
+                  <Text style={[styles.clearButtonText,styles.modalButtonText]}>
+                    {this.props.currentMatch.isFavourited ? 'UNFAVORITE' : 'FAVORITE'}
+                  </Text>
+                </View>
+              </TouchableHighlight>
+
+              <TouchableHighlight
+                style={[styles.clearButton,styles.modalButton,{borderColor:colors.mediumPurple,backgroundColor:colors.mediumPurple20}]}
+                underlayColor={colors.mediumPurple}
+                onPress={()=>{
+                    this.props.toggleModal()
+                  this.props.showProfile(this.props.currentMatch)
+                }}>
+                <View >
+                  <Text style={[styles.clearButtonText,styles.modalButtonText]}>
+                    VIEW PROFILE
+                  </Text>
+                </View>
+              </TouchableHighlight>
+
+              <TouchableOpacity onPress={this.props.toggleModal}>
+                <View style={{flex:1,paddingVertical:10}}>
+                  <Text style={{textAlign:'center',fontSize:16,color:colors.shuttleGray}}>CANCEL</Text>
+                </View>
+              </TouchableOpacity>
+
+            </View>
+
+          </View>
+        </Modal>
+      )
     }else{
       return <View/>
     }

@@ -155,7 +155,6 @@ class CardStack extends React.Component{
           if (Math.abs(value.x) >= 600) {
             const likeStatus = value.x > 0 ? 'approve' : 'deny',
             likeUserId = this.props.potentials[0].user.id;
-            console.log(value.x,likeStatus)
 
             this.state.pan && this._actionlistener && this.state.pan._listeners[this._actionlistener] && this.state.pan.removeListener(this._actionlistener);
             // this.state.pan.x.removeAllListeners()

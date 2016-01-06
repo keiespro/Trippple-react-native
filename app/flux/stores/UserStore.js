@@ -89,7 +89,6 @@ class UserStore {
     }
 
     const {user_info} = res.response;
-    console.log(user_info)
 
     this.setState({
       user: {...this.state.user, ...user_info, status: user_info.ready ? 'onboarded' :  user_info.status }

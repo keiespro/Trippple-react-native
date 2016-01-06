@@ -54,7 +54,6 @@ class MatchList extends Component{
 
   constructor(props) {
     super(props);
-    console.log('match list component')
 
     this.state = {
       index: 0,

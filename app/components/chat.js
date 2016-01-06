@@ -198,7 +198,6 @@ const styles = StyleSheet.create({
 
 class ChatMessage extends React.Component {
   constructor(props){
-    console.log('chat message component')
 
     super();
   }
@@ -264,7 +263,6 @@ class ChatMessage extends React.Component {
 class ChatInside extends Component{
   constructor(props){
     super();
-    console.log('chatinside component')
 
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
@@ -278,7 +276,6 @@ class ChatInside extends Component{
   }
 
   updateKeyboardSpace(frames){
-    // console.log(frames)
     var h = frames.startCoordinates && frames.startCoordinates.screenY - frames.endCoordinates.screenY || frames.end && frames.end.height
     if( h == this.state.keyboardSpace){ return false }
     this.setState({
@@ -466,7 +463,6 @@ class ChatInside extends Component{
                   // if(e.nativeEvent.contentOffset.y > ){
 
                   // };
-                  // console.log(e)
                 // }}
                 scrollEventThrottle={64}
                 contentInset={{top:0,right:0,left:0,bottom:88}}
@@ -577,7 +573,6 @@ const animations = {
 
 const Chat = React.createClass({
   getInitialState(){
-    console.log('chat component')
     return ({
       isVisible: false
     })

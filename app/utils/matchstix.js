@@ -116,7 +116,6 @@ class MessageInfo extends MatchPayload{
 }
 
 MatchStix.prototype = new AsyncA(function (ts,a){ // when the loop was triggered
-  console.log("UNREAD:%d",this.unreadCount);
   true; //- for debugging
   a.cont();
 })

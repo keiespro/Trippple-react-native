@@ -37,28 +37,27 @@ class UserProfile extends React.Component{
   static defaultProps = {
     cardWidth: DeviceWidth
   }
- constructor(props){
+
+  constructor(props){
     super()
-    this.state = {
-      slideIndex: 0
-    }
+
+    this.state = { slideIndex: 0 }
   }
 
 
-    render(){
+  render(){
 
-      var {  potential, user } = this.props,
-          matchName = potential.user.firstname.trim();
-          distance = potential.user.distance || 0,
-          city = potential.user.city_state || '';
-      const rel = this.props.rel || this.props.user.relationship_status;
+  var {  potential, user } = this.props,
+      matchName = potential.user.firstname.trim();
+      distance = potential.user.distance || 0,
+      city = potential.user.city_state || '';
+  const rel = this.props.rel || this.props.user.relationship_status;
 
-      if(rel == 'couple') {
-        matchName += ' & ' + potential.partner.firstname.trim()
-      }
+  if(rel == 'couple') {
+    matchName += ' & ' + potential.partner.firstname.trim()
+  }
 
-      console.log('matchName',matchName)
-    return (
+  return (
         <View
           ref={'cardinside'}
           key={`${potential.id || potential.user.id}-inside`}

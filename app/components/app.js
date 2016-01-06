@@ -126,8 +126,6 @@ reactMixin(TopLevel.prototype, TimerMixin);
 class App extends Component{
   constructor(props){
     super()
-    console.log('A')
-
   }
   render(){
     var TopLevelStores = {

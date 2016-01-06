@@ -102,7 +102,6 @@ class PotentialsPage extends React.Component{
       matchName += ' & ' + potential.partner.firstname.trim();
       distance = Math.min(distance,potential.partner.distance);
     }
-    console.log(matchName)
     return matchName
   }
   render(){

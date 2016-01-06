@@ -255,7 +255,7 @@ class FieldModal extends React.Component{
               </View>
             </View>
             {this.renderButtons()}
-            <View style={{backgroundColor:colors.white, flex:1,flexDirection:'column',alignItems:'center', width:DeviceWidth,justifyContent:'center',padding:0}}>
+            <View style={{backgroundColor:colors.dark, flex:1,flexDirection:'column',alignItems:'center', width:DeviceWidth,justifyContent:'center',padding:0}}>
               {React.cloneElement(inputField,{
                 onValueChange: this.onChange.bind(this),
                 selectedValue: (selectedFieldValue || null),

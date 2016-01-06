@@ -93,7 +93,7 @@ class AppVisibility extends React.Component{
   }
 
   _handleAppStateChange =(appState)=> {
-    console.log(appState)
+
     if(appState === 'background'){
       AppActions.saveStores()
     }

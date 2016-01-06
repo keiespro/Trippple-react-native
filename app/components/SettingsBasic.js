@@ -44,7 +44,6 @@ import FacebookButton from '../buttons/FacebookButton'
 import Contacts from '../screens/contacts'
 import colors from '../utils/colors'
 import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
-import EditPage from './EditPage'
 import CloseButton from './CloseButton'
 import Api from '../utils/api'
 import TrackKeyboardMixin from '../mixins/keyboardMixin'
@@ -86,8 +85,9 @@ class ProfileField extends React.Component{
                 maxLength={10}
                 placeholderTextColor={colors.white}
                 autoCorrect={false}
-                returnKeyType={'go'}
+                returnKeyType={'done'}
                 autoFocus={true}
+                keyboardAppearance={'dark'}
                 ref={component => this._textInput = component}
                 clearButtonMode={'always'}
             />
@@ -104,7 +104,8 @@ class ProfileField extends React.Component{
 
           return (
             <PickerIOS
-              style={{alignSelf:'center',width:330,backgroundColor:colors.white,marginHorizontal:0,alignItems:'stretch'}}
+              style={{alignSelf:'center',width:330,backgroundColor:'transparent',marginHorizontal:0,alignItems:'stretch'}}
+              itemStyle={{fontSize: 25, color: colors.white, textAlign: 'center'}}
               selectedValue={this.state.selectedDropdown || field.values[0] || null}
               >
               {get_values.map((val) => (

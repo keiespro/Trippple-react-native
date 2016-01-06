@@ -6,7 +6,6 @@ import CredentialsStore from '../flux/stores/CredentialsStore'
 const UploadFile = Promise.promisify(FileTransfer.upload)
 import config from '../config'
 const { SERVER_URL } = config
-console.log(SERVER_URL)
 
 async function publicRequest(endpoint, payload){
   const req =  {
@@ -22,19 +21,16 @@ async function publicRequest(endpoint, payload){
       body: JSON.stringify(payload)
     };
   try{
-    console.log(req);
 
     return await fetch( `${SERVER_URL}/${endpoint}`, req)
   }
   catch(err){
-    console.log('catch publicrequest err',err);
 
     return err
   }
 }
 
 async function authenticatedRequest(endpoint: '', payload: {}){
-  console.log(CredentialsStore)
   const credentials = CredentialsStore.getCredentials()
   const authPayload = {...payload, ...credentials}
 
@@ -88,12 +84,10 @@ const api = {
   },
 
   async requestPin(phone){
-    console.log('requestPin')
     return await publicRequest('request_security_pin', { phone })
   },
 
   async verifyPin(pin,phone){
-    console.log('verifyPin')
 
     const platform = require('Platform');
 
@@ -101,7 +95,6 @@ const api = {
 
     var payload = { pin, phone, device: deviceInfo.default }
 
-    console.log('verifyPin',payload)
 
     return await publicRequest('verify_security_pin', payload);
   },
@@ -115,7 +108,6 @@ const api = {
   },
 
   getMatches(page){
-    __DEBUG__ &&    console.log('get messages')
 
     return authenticatedRequest('getMatches', {page})
     //v2 endpoint
@@ -141,7 +133,6 @@ const api = {
   },
 
   getMessages(payload){
-       __DEBUG__ &&  console.log('get messages')
     if(!payload.match_id){
       return false;
     }
