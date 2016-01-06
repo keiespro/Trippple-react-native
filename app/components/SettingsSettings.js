@@ -68,6 +68,19 @@ class SettingsSettings extends React.Component{
     Mixpanel.track('On - Setings Screen');
   }
 
+  disableAccount(){
+    AlertIOS.alert(
+      'Disable Your Account?',
+      'Are you sure you want to quit Trippple?',
+      [
+        {text: 'Yes', onPress: () => {
+          UserActions.disableAccount();
+        }},
+        {text: 'No', onPress: () => {return false}},
+      ]
+    )
+
+  }
 
   openWebview(page){
     var url, pageTitle;
@@ -106,19 +119,13 @@ class SettingsSettings extends React.Component{
 
     var appInfo = {}
 
-    for(var c in React.NativeModules.RNAppInfo){
 
-      if (typeof React.NativeModules.RNAppInfo[c] != 'function'){
-        appInfo[c] = React.NativeModules.RNAppInfo[c]
-      }
-    }
     var feedbackDebugInfo = {
           state: JSON.parse(snapshot),
-          appInfo: appInfo,
           DeviceInfo: DeviceInfo,
           osSettings: settings
         },
-        fileContents = unescape(encodeURIComponent(JSON.stringify(feedbackDebugInfo)))
+        fileContents = unescape(encodeURIComponent(JSON.stringify(feedbackDebugInfo)));
         // encodeURIComponent + unescape prevents "string to be encoded contains characters outside of the Latin1 range" error
 
 
@@ -260,7 +267,7 @@ class SettingsSettings extends React.Component{
         </TouchableHighlight>
         <View style={styles.paddedSpace}>
           <LogOutButton/>
-        <TouchableOpacity style={{alignItems:'center',marginVertical:10}} onPress={(f)=>{}}>
+        <TouchableOpacity style={{alignItems:'center',marginVertical:10}} onPress={this.disableAccount.bind(this)}>
           <Text style={{color:colors.shuttleGray,textAlign:'center'}}>Disable Your Account</Text>
         </TouchableOpacity>
 

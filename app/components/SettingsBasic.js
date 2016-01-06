@@ -87,6 +87,7 @@ class ProfileField extends React.Component{
                 autoCorrect={false}
                 returnKeyType={'done'}
                 autoFocus={true}
+                keyboardType={this.props.fieldName == 'email' ? 'email-address' : 'default'}
                 keyboardAppearance={'dark'}
                 ref={component => this._textInput = component}
                 clearButtonMode={'always'}
@@ -105,7 +106,7 @@ class ProfileField extends React.Component{
           return (
             <PickerIOS
               style={{alignSelf:'center',width:330,backgroundColor:'transparent',marginHorizontal:0,alignItems:'stretch'}}
-              itemStyle={{fontSize: 25, color: colors.white, textAlign: 'center'}}
+              itemStyle={{fontSize: 24, color: colors.white, textAlign: 'center'}}
               selectedValue={this.state.selectedDropdown || field.values[0] || null}
               >
               {get_values.map((val) => (

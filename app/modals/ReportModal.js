@@ -37,17 +37,20 @@ export default class ReportModal extends Component{
 
   report(them, reason){
 
-    for(var they of them){
-      MatchActions.reportUser(they, reason)
-    }
+    MatchActions.reportUser(them.id ? them : them.user, reason)
     this.props.goBack();
 
   }
 
   render(){
-    var {match} = this.props
-    var theirIds = Object.keys(match.users).filter( (u)=> u != this.props.user.id)
-    var them = theirIds.map((id)=> match.users[id])
+    if(this.props.match){
+      var {match} = this.props
+      var theirIds = Object.keys(match.users).filter( (u)=> u != this.props.user.id)
+      var them = theirIds.map((id)=> match.users[id])
+    }else{
+      var {potential} = this.props,
+          them = [potential.user,potential.partner]
+    }
     var matchName = them.map( (user,i) => user.firstname.trim().toUpperCase() ).join(' & ');
 
     return (
@@ -73,7 +76,7 @@ export default class ReportModal extends Component{
                 <TouchableHighlight
                   style={styles.modalButtonWrap}
                   underlayColor={colors.mediumPurple}
-                  onPress={this.report.bind(this,them,'offensive')}>
+                  onPress={this.report.bind(this,potential,'image')}>
                   <View style={styles.modalButton} >
                     <Text style={styles.modalButtonText}>OFFENSIVE BEHAVIOR</Text>
                   </View>
@@ -81,7 +84,7 @@ export default class ReportModal extends Component{
                 <TouchableHighlight
                   underlayColor={colors.mediumPurple}
                   style={styles.modalButtonWrap}
-                  onPress={this.report.bind(this,them,'fake')}>
+                  onPress={this.report.bind(this,potential,'fake')}>
                   <View style={[styles.modalButton]} >
                     <Text style={styles.modalButtonText}>FAKE USER</Text>
                   </View>

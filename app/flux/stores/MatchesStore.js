@@ -31,6 +31,7 @@ class MatchesStore {
     this.bindListeners({
       handleGetFavorites: MatchActions.GET_FAVORITES,
       handleGetMatches: MatchActions.GET_MATCHES,
+      handleReportUser: MatchActions.REPORT_USER,
       removeMatch: MatchActions.REMOVE_MATCH,
       toggleFavorite: MatchActions.TOGGLE_FAVORITE,
       sendMessage: MatchActions.SEND_MESSAGE_TO_SERVER,
@@ -80,7 +81,11 @@ class MatchesStore {
     });
 
   }
+  handleReportUser(payload){
+    const { user_id, reason } = payload
 
+    
+  }
   updateLastAccessed(payload){
     // save timestamp of last match view, reset unread counts
     const {match_id, timestamp} = payload;
@@ -187,7 +192,7 @@ class MatchesStore {
 
   handleGetFavorites(matchesData) {
     const favs = matchesData.matches
-
+    if(!favs){ return false }
     if(favs.length && this.state.matches.length){
       let matches = _.unique([ ...this.state.matches, ...favs], 'match_id'),
           favorites = _.unique([ ...this.state.favorites, ...favs], 'match_id')

@@ -24,7 +24,7 @@ import UserDetails from '../UserDetails'
 import TimerMixin from 'react-timer-mixin';
 import colors from '../utils/colors';
 import Swiper from '../controls/swiper';
-
+import ReportModal from '../modals/ReportModal';
 import reactMixin from 'react-mixin';
 
 const DeviceHeight = Dimensions.get('window').height;
@@ -43,8 +43,19 @@ class UserProfile extends React.Component{
 
     this.state = { slideIndex: 0 }
   }
+  reportModal(){
 
-
+     this.props.navigator.push({
+      component: ReportModal,
+      passProps: {
+        action: 'report',
+        them: [potential.user, potential.partner],
+        goBack: ()=> {
+          this.props.navigator.pop()
+        }
+      }
+    })
+  }
   render(){
 
   var {  potential, user } = this.props,
@@ -213,10 +224,12 @@ class UserProfile extends React.Component{
               <View style={{ paddingVertical:20,alignItems:'stretch' }}>
                 <UserDetails potential={potential} user={this.props.user} location={'card'} />
               </View>
-
-              <View style={{flex:1,marginTop:20}}>
-                <Text style={{color:colors.mandy,textAlign:'center'}}>Report or Block this user</Text>
-              </View>
+              {potential.user.id != this.props.user.id ?
+              <TouchableOpacity onPress={this.reportModal.bind(this)}>
+                <View style={{flex:1,marginTop:20}}>
+                  <Text style={{color:colors.mandy,textAlign:'center'}}>Report or Block this user</Text>
+                </View>
+              </TouchableOpacity> : null }
 
 
           </View>

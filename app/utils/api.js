@@ -8,7 +8,7 @@ import config from '../config'
 const { SERVER_URL } = config
 
 async function publicRequest(endpoint, payload){
-  const req =  {
+  const req = {
       method: 'post',
       headers: {
         'Accept':           'application/json',
@@ -21,11 +21,9 @@ async function publicRequest(endpoint, payload){
       body: JSON.stringify(payload)
     };
   try{
-
     return await fetch( `${SERVER_URL}/${endpoint}`, req)
   }
   catch(err){
-
     return err
   }
 }
@@ -35,8 +33,8 @@ async function authenticatedRequest(endpoint: '', payload: {}){
   const authPayload = {...payload, ...credentials}
 
   try{
-    var req = await publicRequest(endpoint, authPayload);
-    return await req.json()
+    const res = await publicRequest(endpoint, authPayload);
+    return await res.json()
   }
   catch(err){
     return err
@@ -70,19 +68,6 @@ async function authenticatedFileUpload(endpoint, image, image_type, cropData){
 
 const api = {
 
-  login(phone,password){
-    return publicRequest('login', {
-      phone: phone,
-      password1: password,
-    })
-  },
-
-  register(phone,password1,password2){
-    return publicRequest('register', {
-      phone, password1, password2,
-    })
-  },
-
   async requestPin(phone){
     return await publicRequest('request_security_pin', { phone })
   },
@@ -90,12 +75,8 @@ const api = {
   async verifyPin(pin,phone){
 
     const platform = require('Platform');
-
     const deviceInfo = require('./DeviceInfo')
-
-    var payload = { pin, phone, device: deviceInfo.default }
-
-
+    const payload = { pin, phone, device: deviceInfo.default }
     return await publicRequest('verify_security_pin', payload);
   },
 
@@ -128,21 +109,27 @@ const api = {
   },
 
   reportUser(to_user_id, to_user_type, reason){
-
-    return authenticatedRequest('report_user', { to_user_id, to_user_type, reason })
+    return authenticatedRequest('report_user', {
+      report_id: to_user_id,
+      report_object: to_user_type,
+      report_action: reason,
+      to_user_id, // legacy ?
+      to_user_type, // legacy ?
+      reason // legacy ?
+    })
   },
 
   getMessages(payload){
     if(!payload.match_id){
       return false;
     }
-    const outgoingPayload = payload
+    const outgoingPayload = payload;
     outgoingPayload.message_type = 'retrieve';
     return authenticatedRequest('messages', outgoingPayload)
   },
 
   createMessage(message, matchID){
-    var payload = {
+    const payload = {
       'message_type':'create',
       'match_id': matchID,
       'message_body': message,
@@ -167,7 +154,7 @@ const api = {
     if(!image_type){
        image_type = 'profile'
     }
-    return await authenticatedFileUpload('upload', image, image_type, cropData).then((response) => response.json())
+    return await authenticatedFileUpload('upload', image, image_type, cropData).then((res) => res.json())
   },
 
   joinCouple(partner_phone){
@@ -175,7 +162,7 @@ const api = {
   },
 
   async getProfileSettingsOptions(){
-    return await publicRequest('get_client_user_profile_options').then((response) => response.json())
+    return await publicRequest('get_client_user_profile_options').then((res) => res.json())
   },
 
   async sendContactsToBlock(data,start){
@@ -184,7 +171,12 @@ const api = {
 
   async updatePushToken(push_token){
     return await authenticatedRequest('update', { push_token })
+  },
+
+  async disableAccount(){
+    return await authenticatedRequest('disable')
   }
+
 
 }
 

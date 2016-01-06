@@ -106,18 +106,18 @@ class BdayScreen extends Component{
 
     var {bday_month,bday_year,birthday} = this.props.user
     if(birthday){
-      bdate = birthday
+      bdate = new Date(birthday)
     }else if(this.props.fb_bday_year){
       bdate = new Date(`${this.props.fb_bday_year}`)
     }else if(bday_month && bday_year){
       bdate = new Date()
       bdate.setYear(bday_year)
-      bdate.setMonth(bday_month -1)
-      bdate = new Date(bdate)
+      bdate.setMonth(bday_month - 1)
+    } else{
+      bdate = new Date()
     }
 
-
-       return (
+   return (
       <View style={[
           styles.container,
           {
@@ -126,9 +126,9 @@ class BdayScreen extends Component{
             paddingBottom: 226
           }
         ]}>
- <View style={{width:100,height:50,left:MagicNumbers.screenPadding/2,alignSelf:'flex-start'}}>
-        <BackButton navigator={this.props.navigator}/>
-      </View>
+        <View style={{width:100,height:50,left:MagicNumbers.screenPadding/2,alignSelf:'flex-start'}}>
+          <BackButton navigator={this.props.navigator}/>
+        </View>
 
         <SingleInputScreen
           shouldHide={(val) =>( !this.state.isLegal || !this.state.date || (this.state.date && this.state.error) ? 1 : 0)  }
@@ -162,8 +162,9 @@ class BdayScreen extends Component{
 
         <DatePickerIOS
             ref={'picker'}
+            itemStyle={{fontSize: 24, color: colors.white, textAlign: 'center'}}
             mode="date"
-            date={ this.state.date }
+            date={this.state.date }
             timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
             onDateChange={this.onDateChange.bind(this)}
           />

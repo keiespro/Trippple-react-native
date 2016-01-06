@@ -332,6 +332,7 @@ class CardStack extends React.Component{
           >
           <Card
             user={user}
+            navigator={this.props.navigator}
             key={`${potentials[0].id || potentials[0].user.id}-activecard`}
             rel={user.relationship_status}
             isTopCard={true}

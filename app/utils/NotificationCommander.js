@@ -70,9 +70,10 @@ class NotificationCommander extends Component{
 
   handlePushData(pushNotification){
     if(!pushNotification){ return false }
+    console.warn('Push notification 1',pushNotification)
 
     const data = pushNotification.getData();
-    console.warn('Push notification',data)
+    console.warn('Push notification 2',data)
     if(!data.action){ /* shot a blank */}
 
     if(data.action === 'retrieve' && data.type == 'potentials') {

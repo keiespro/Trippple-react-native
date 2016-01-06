@@ -94,8 +94,17 @@ class MatchActions {
 
   reportUser(user, reason) {
     return (dispatch) => {
-      Api.reportUser(user.id, user.relationship_status, reason)
-      dispatch({ user_id: user.id, reason});
+      Api.reportUser(user.id, (user.relationship_status ? 'single' : 'couple'), reason)
+      .then((res)=> {
+        if(res.status == 200){
+          AlertIOS.alert('User reported.')
+          dispatch({ user_id: user.id, reason, user})
+        }else{
+          AlertIOS.alert('Unable to report user','Please try again later.')
+          dispatch({})
+
+        }
+      })
     };
   }
 

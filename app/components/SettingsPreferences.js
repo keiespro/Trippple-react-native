@@ -81,8 +81,9 @@ class  SettingsPreferences extends React.Component{
             autoCapitalize={'sentences'}
             placeholderTextColor={colors.white}
             autoCorrect={true}
-            returnKeyType={'go'}
+            returnKeyType={'done'}
             multiline={true}
+            keyboardAppearance={'dark'}
             ref={'_textArea'}
             clearButtonMode={'always'}
             />

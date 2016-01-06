@@ -8,6 +8,7 @@ import React, {
   View,
   LayoutAnimation,
   Image,
+  TouchableOpacity,
   TouchableHighlight,
   TouchableWithoutFeedback,
   Animated,
@@ -18,6 +19,7 @@ import React, {
 import SliderTabBar from './SliderTabBar'
 import animations from './LayoutAnimations'
 import styles from './styles'
+import ReportModal from '../../modals/ReportModal';
 import FakeNavBar from '../../controls/FakeNavBar';
 import ScrollableTabView from '../../scrollable-tab-view'
 import Mixpanel from '../../utils/mixpanel';
@@ -29,12 +31,13 @@ const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../../DeviceConfig'
 import scrollable from 'react-native-scrollable-decorator'
 import UserDetails from '../../UserDetails'
+import reactMixin from 'react-mixin'
 
 const cardSizeMap = {
 
 }
 
-@scrollable
+// @scrollable
 class Card extends React.Component{
 
   static defaultProps = {
@@ -60,6 +63,7 @@ class Card extends React.Component{
   //   this.props.pan && this.props.isTopCard && this.valueListener()
   // }
   openProfileFromImage(e){
+    if(!this.props.animatedIn){ return }
     this.setState({activeIndex: this.state.activeIndex + 1})
     this.props.toggleProfile()
   }
@@ -72,6 +76,7 @@ class Card extends React.Component{
   }
 
   toggleCardHoverOn(){
+    if(!this.props.animatedIn){ return }
 
     this.refs.cardinside.setNativeProps({
       style: { shadowColor: colors.darkShadow, shadowRadius:30, shadowOpacity: 1 }
@@ -79,11 +84,26 @@ class Card extends React.Component{
 
   }
   toggleCardHoverOff(){
+    if(!this.props.animatedIn){ return }
+
     this.refs.cardinside.setNativeProps({
-      style: {   shadowColor: colors.darkShadow, shadowRadius:0, shadowOpacity: 0  }
+      style: { shadowColor: colors.darkShadow, shadowRadius:0, shadowOpacity: 0  }
     })
   }
 
+  reportModal(){
+
+     this.props.navigator.push({
+      component: ReportModal,
+      passProps: {
+        action: 'report',
+        potential: this.props.potential,
+        goBack: ()=> {
+          this.props.navigator.pop()
+        }
+      }
+    })
+  }
 
   render(){
 
@@ -128,18 +148,17 @@ class Card extends React.Component{
               left:0,
               right:0,
               flex:1,
-
-    }}
-    contentOffset={{x:0,y:0}}
+            }}
+            contentOffset={{x:0,y:0}}
             style={[styles.card,{
               margin:0,
               padding:0,
-                width:DeviceWidth-40,
-                left:0,right:0,
-                padding: 0,
-                paddingTop: 0,
-                height:DeviceHeight-80,
-                  position:'relative',
+              width:DeviceWidth-40,
+              left:0,right:0,
+              padding: 0,
+              paddingTop: 0,
+              height:DeviceHeight-80,
+              position:'relative',
               flex:1,
               backgroundColor: colors.white,
            }]} key={`${potential.id || potential.user.id}-view`}>
@@ -478,7 +497,7 @@ class Card extends React.Component{
                   paginationStyle={{position:'absolute',right:0,top:45,height:100}}
                   >
 
-                  <TouchableWithoutFeedback
+                  <TouchableOpacity
                     key={`${potential.user.id}-touchableimg`}
                     style={[styles.imagebg,{
                       width: DeviceWidth,
@@ -500,10 +519,10 @@ class Card extends React.Component{
                       }]}
                       resizeMode={Image.resizeMode.cover}
                     />
-                  </TouchableWithoutFeedback>
+                </TouchableOpacity>
 
                   { potential.partner &&
-                    <TouchableWithoutFeedback
+                    <TouchableOpacity
                       key={`${potential.partner.id}-touchableimg`}
                       style={[styles.imagebg,{ }]}
                       onPress={this.openProfileFromImage.bind(this)}
@@ -521,11 +540,11 @@ class Card extends React.Component{
                         }]}
                         resizeMode={Image.resizeMode.cover}
                       />
-                    </TouchableWithoutFeedback>
+                  </TouchableOpacity>
                   }
                   { potential.partner && potential.image && potential.image != null &&
 
-                    <TouchableWithoutFeedback
+                    <TouchableOpacity
                       key={`${potential.couple.id}-touchableimg`}
                       style={[styles.imagebg,{ }]}
                       onPress={this.openProfileFromImage.bind(this)}
@@ -544,11 +563,11 @@ class Card extends React.Component{
                         }]}
                         resizeMode={Image.resizeMode.cover}
                       />
-                    </TouchableWithoutFeedback>
+                  </TouchableOpacity>
                   }
 
                 </Swiper> :
-                <TouchableWithoutFeedback
+                <TouchableOpacity
                   key={`${potential.user.id}-touchableimg`}
                   style={[styles.imagebg,{ overflow:'hidden'}]}
                   onPressIn={this.toggleCardHoverOff.bind(this)}
@@ -570,7 +589,7 @@ class Card extends React.Component{
                     }]}
                     resizeMode={Image.resizeMode.cover}
                   />
-                </TouchableWithoutFeedback>
+              </TouchableOpacity>
               }
 
             <View
@@ -578,7 +597,7 @@ class Card extends React.Component{
               style={{
                 // height: 800,
                 top: 0,
-                marginTop: (DeviceHeight <= 568 ? -80 : -180),
+                marginTop: (DeviceHeight <= 568 ? -120 : -260),
                 backgroundColor:colors.outerSpace,
                 flex:1,
                 left:0,
@@ -673,9 +692,11 @@ class Card extends React.Component{
                 <UserDetails potential={potential} user={this.props.user} location={'card'} />
               </View>
 
-              <View style={{flex:1,marginTop:20,paddingBottom:50}}>
-                <Text style={{color:colors.mandy,textAlign:'center'}}>Report or Block this user</Text>
-              </View>
+              <TouchableOpacity onPress={this.reportModal.bind(this)}>
+                <View style={{flex:1,marginTop:20,paddingBottom:50}}>
+                  <Text style={{color:colors.mandy,textAlign:'center'}}>Report or Block this user</Text>
+                </View>
+              </TouchableOpacity>
 
             </View>
           </View>
@@ -730,4 +751,6 @@ class Card extends React.Component{
     }
   }
 }
+
+reactMixin.onClass(Card,scrollable)
 export default Card

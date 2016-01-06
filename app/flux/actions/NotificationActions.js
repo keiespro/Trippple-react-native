@@ -77,7 +77,6 @@ class NotificationActions {
     return (dispatch) => {
       let t = time || false;
       let fireDate = t ? moment(t) : moment().endOf('day');
-      console.warn(`Scheduled local notification at ${fireDate.format()}`)
       PushNotificationIOS.scheduleLocalNotification({
         fireDate: fireDate.unix(),
         alertBody: 'New Matches!'

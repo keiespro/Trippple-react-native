@@ -136,6 +136,7 @@ class PotentialsPage extends React.Component{
               user={user}
               rel={user.relationship_status}
               potentials={potentials}
+              navigator={this.props.navigator}
               profileVisible={this.state.profileVisible}
               toggleProfile={this.toggleProfile.bind(this)}
             /> :

@@ -94,6 +94,7 @@ class NotificationPermissions extends React.Component{
 
           if(permResult == 0){
             NotificationActions.requestNotificationsPermission({alert:true,badge:true,sound:true})
+            this.props.navigator.pop()
 
             //this.setState({failedState:true})
           }else{
@@ -198,4 +199,3 @@ class NotificationPermissions extends React.Component{
 
 
 export default NotificationPermissions
-

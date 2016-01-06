@@ -66,7 +66,7 @@ class Main extends Component{
     this.refs.nav.navigationContext.addListener('didfocus', (e)=>{
       AppActions.updateRoute.defer(this.refs.nav.state.presentedIndex)
     })
-    NotificationActions.scheduleNewPotentialsAlert()
+    NotificationActions.scheduleNewPotentialsAlert.defer()
   }
 
   componentWillReceiveProps(nProps){

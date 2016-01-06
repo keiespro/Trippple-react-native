@@ -163,6 +163,14 @@ class UserActions {
     return payload
   }
 
+  disableAccount(){
+    return (dispatch) => {
+      Api.disableAccount()
+      .then(()=>{
+        this.logOut.defer();
+      })
+    }
+  }
 }
 
 export default alt.createActions(UserActions)

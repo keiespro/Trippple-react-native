@@ -139,7 +139,7 @@ import AppActions from '../flux/actions/AppActions'
   handleSuccess(geo){
     const { latitude, longitude } = geo.coords
     UserActions.updateUser({ latitude, longitude });
-    this.props.successCallback && this.props.successCallback( geo.coords )
+    this.props.navigator.pop()
   }
 
   handleContinue(){
