@@ -4,10 +4,7 @@ import UserActions from './UserActions'
 
 class AppActions {
   gotCredentials(creds) {
-    return (dispatch) => {
-      UserActions.getUserInfo.defer()
-      dispatch(creds)
-    };
+    return creds
   }
   noCredentials(err) {
     return (dispatch) => {

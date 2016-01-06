@@ -84,12 +84,12 @@ class UserStore {
   }
 
   handleGetUserInfo(res){
-    console.log(res)
     if(res.error || !res.response || !res.response.user_info){
       return false;
     }
 
     const {user_info} = res.response;
+    console.log(user_info)
 
     this.setState({
       user: {...this.state.user, ...user_info, status: user_info.ready ? 'onboarded' :  user_info.status }
@@ -97,7 +97,7 @@ class UserStore {
 
     if( user_info.ready){
 
-      UserActions.updateUser({
+      UserActions.updateUser.defer({
         ...this.state.user,
         ...user_info,
         status: user_info.ready ? 'onboarded' :  user_info.status

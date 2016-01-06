@@ -76,6 +76,7 @@ class AppStateStore {
 
   handleInitialize(){
 
+    UserActions.getUserInfo.defer()
 
   }
   handleTogglePermission(permission,value){
@@ -130,19 +131,21 @@ class AppStateStore {
   }
 
   handleGetUserInfo(res){
-    if(res.error){
+    if(res.error || !res.response || !res.response.user_info){
       return false;
     }
+
     this.setState({
       userStatus: res.response.user_info.status
     })
   }
+
   forceCheckmarkRoute(){
     this.setState({
       currentRoute: {route:'checkmark'},
     })
-
   }
+
   handleShowCheckmark(cm){
     this.setState({
       showOverlay: false,
@@ -156,7 +159,6 @@ class AppStateStore {
         this.setState({showCheckmark:false,checkMarkCopy: {},checkmarkRequireButtonPress:false})
       },5000);
     }
-
   }
 
   handleHideCheckmark(){
@@ -178,7 +180,6 @@ class AppStateStore {
           copy:{
             title:'INVITATION SENT',
             partnerName: payload.partnerName
-
           },
           button: true
         })
@@ -188,12 +189,10 @@ class AppStateStore {
 
   handleUpdateRoute(payload){
     this.currentRoute = payload;
-
   }
 
   handleLogOut(){
     this.setState({ userStatus: null});
-
   }
   //
   // updateUserInfo(attributes){
@@ -210,6 +209,7 @@ class AppStateStore {
   getAppState(){
     return this.getState()
   }
+
 
 
 }

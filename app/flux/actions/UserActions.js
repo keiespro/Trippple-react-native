@@ -39,9 +39,7 @@ class UserActions {
         .then((res) => {
           dispatch(res);
         })
-        .catch((err) => {
-          dispatch(err);
-        })
+
     }
   }
 

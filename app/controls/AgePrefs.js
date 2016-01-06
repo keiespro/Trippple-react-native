@@ -85,7 +85,7 @@ class  AgePrefs extends React.Component{
 
             return (
 
-              <View style={{
+              <View key={'dot_'+i} style={{
                   marginLeft: i == 0 ? 45 : 0,
                   width:dotWidth,
                   height:80,

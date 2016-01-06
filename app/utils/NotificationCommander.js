@@ -31,11 +31,8 @@ class NotificationCommander extends Component{
   }
 
   componentDidMount(){
-    PushNotificationIOS.checkPermissions((permissions) => {
-      if(permissions){
-        PushNotificationIOS.addEventListener('notification', this._onPushNotification )
-      }
-    })
+    PushNotificationIOS.addEventListener('notification', this._onPushNotification )
+
     AppStateIOS.addEventListener('change', this._handleAppStateChange );
     if(this.props.api_key && this.props.user_id){
       this.connectSocket()
@@ -68,7 +65,6 @@ class NotificationCommander extends Component{
   }
 
   _onPushNotification =(pushNotification)=>{
-    VibrationIOS.vibrate()
     this.handlePushData(pushNotification)
   }
 
@@ -76,7 +72,7 @@ class NotificationCommander extends Component{
     if(!pushNotification){ return false }
 
     const data = pushNotification.getData();
-
+    console.warn('Push notification',data)
     if(!data.action){ /* shot a blank */}
 
     if(data.action === 'retrieve' && data.type == 'potentials') {
@@ -86,6 +82,7 @@ class NotificationCommander extends Component{
     }else if(data.action === 'retrieve' && data.match_id) {
 
       // NotificationActions.receiveNewMatchNotification(data,true)
+      VibrationIOS.vibrate()
 
       MatchActions.getMatches()
       AppActions.updateRoute({route:'chat',match_id: data.match_id,})
@@ -94,13 +91,13 @@ class NotificationCommander extends Component{
     }else if(data.action === 'chat' && data.match_id){
 
       // NotificationActions.receiveNewMessageNotification(data,true)
-
+      VibrationIOS.vibrate()
       MatchActions.getMessages(data.match_id)
       AppActions.updateRoute({route:'chat',match_id: data.match_id,})
       NotificationActions.updateBadgeNumber.defer(-1)
 
     }else if(data.action === 'notify') {
-
+      VibrationIOS.vibrate()
       AlertIOS.alert(data.title, JSON.stringify(data.body));
 
      }else if(data.action === 'match_removed'){
@@ -108,12 +105,13 @@ class NotificationCommander extends Component{
         NotificationActions.receiveMatchRemovedNotification(data)
 
       }else if(data.action && data.action == 'coupleready') {
-        UserActions.getUserInfo()
+        UserActions.getUserInfo.defer()
         AlertIOS.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
+        VibrationIOS.vibrate()
 
       }else if(data.action && data.action == 'statuschange') {
 
-        UserActions.getUserInfo()
+        UserActions.getUserInfo.defer()
 
       }else if(data.action == 'logout'){
 
@@ -163,10 +161,10 @@ class NotificationCommander extends Component{
 
       }else if(data.action && data.action == 'statuschange') {
 
-        UserActions.getUserInfo()
+        UserActions.getUserInfo.defer()
 
       }else if(data.action && data.action == 'coupleready') {
-        UserActions.getUserInfo()
+        UserActions.getUserInfo.defer()
         AlertIOS.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
 
       }else if(data.action && data.action === 'logout') {

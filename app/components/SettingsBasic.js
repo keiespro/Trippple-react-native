@@ -1,8 +1,7 @@
 /* @flow */
 
 
-import React from 'react-native';
-import {
+import React, {
   StyleSheet,
   Text,
   View,
@@ -231,13 +230,13 @@ class SettingsBasic extends React.Component{
               </View>
             </View>
 
-            {['firstname'].map((field) => {
-              return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
+            {['firstname'].map((field,i) => {
+              return <ProfileField key={field+'key'+(i*10)} user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
             })}
 
-            {['birthday','gender'].map((field) => {
+            {['birthday','gender'].map((field,i) => {
               return (
-                <View  style={styles.wrapperBirthdayGender}>
+                <View key={field+'key'+i} style={styles.wrapperBirthdayGender}>
                   <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ field.toUpperCase()}</Text>
                   <Text style={{
                     color:colors.shuttleGray,
@@ -263,9 +262,9 @@ class SettingsBasic extends React.Component{
               </View>
             </View>
             <View style={{}}>
-            {['phone'].map((field) => {
+            {['phone'].map((field,i) => {
               return (
-                <View  style={styles.wrapperBirthdayGender}>
+                <View key={field+'key'+(i*100)}  style={styles.wrapperBirthdayGender}>
                   <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ field.toUpperCase()}</Text>
                   <Text style={{
                     color:colors.shuttleGray,
@@ -286,8 +285,8 @@ class SettingsBasic extends React.Component{
               )
             })}
 
-            {['email'].map((field) => {
-              return <ProfileField user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
+            {['email'].map((field,i) => {
+              return <ProfileField key={field+'key'+(i*1000)}  user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
             })}
 
             </View>
@@ -300,9 +299,9 @@ class SettingsBasic extends React.Component{
             </View>
           </View>
           <View style={{alignSelf:'stretch',alignItems:'stretch',width:DeviceWidth}}>
-          {['height','body_type','ethnicity','eye_color','hair_color','smoke','drink'].map((field) => {
+          {['height','body_type','ethnicity','eye_color','hair_color','smoke','drink'].map((field,i) => {
             return (
-              <View style={{alignSelf:'stretch',alignItems:'stretch',width:DeviceWidth}}>
+              <View key={field+'key'+(i*10000)} style={{alignSelf:'stretch',alignItems:'stretch',width:DeviceWidth}}>
                 <ProfileField
                   user={this.props.user}
                   navigator={this.props.navigator}
@@ -537,7 +536,7 @@ var CustomTabBar = React.createClass({
     var isTabActive = this.props.pageNumber === page;
 
     return (
-      <TouchableOpacity key={name} onPress={() => {this.props.goToPage(page)}}>
+      <TouchableOpacity key={name+page} onPress={() => {this.props.goToPage(page)}}>
         <View style={[styles.tab]}>
           <Text style={{fontFamily:'Montserrat',textAlign:'center',fontSize:15,padding:0,color: isTabActive ? colors.white : colors.shuttleGray}}>{name}</Text>
         </View>

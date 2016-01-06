@@ -21,7 +21,7 @@ class NotificationsStore {
       oldNotifications:[],
       pendingNotifications: []
 
-  }
+    }
     this.timer = null;
 
     this.bindListeners({
@@ -34,7 +34,10 @@ class NotificationsStore {
       handleLogOut: UserActions.LOG_OUT
     })
 
-    this.on('init', () => {/*noop*/})
+    this.on('init', () => {
+      
+    })
+
     this.on('error', (err, payload, currentState) => {
       console.log(err, payload, currentState);
     })
