@@ -324,7 +324,9 @@ class Card extends React.Component{
               key={`${potential.id || potential.user.id}-infos`}
               style={{
                 padding: isTopCard ? 10 : 5,
-                paddingTop:15, paddingBottom:15, height:110,flex:1,
+                paddingTop:MagicNumbers.is4s ? 20 : 15,
+                paddingBottom:MagicNumbers.is4s ? 10 : 15,
+                height:110,flex:1,
               top:0,}}>
                   <Text style={[styles.cardBottomText,{}]}
                     key={`${potential.id || potential.user.id}-names`}>{
@@ -340,7 +342,7 @@ class Card extends React.Component{
 
               <View style={{
                 height:74,
-                top:-35,
+                top:MagicNumbers.is4s ? -45 : -35,
                 right:35,
                 alignSelf:'flex-end',
                 position:'absolute',

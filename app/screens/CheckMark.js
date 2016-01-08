@@ -9,6 +9,7 @@ import AppActions from '../flux/actions/AppActions'
 
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
+import {MagicNumbers} from '../DeviceConfig'
 
 
 const DeviceHeight = Dimensions.get('window').height;
@@ -124,7 +125,7 @@ flexDirection:'column',
         {!this.props.checkMarkCopy.partnerName && <Animated.View
           style={{
             opacity: this.state.textOpacityValue,
-            top: -120
+            top: MagicNumbers.is4s ? -80 : -120
           }}>
             <Text
               style={{

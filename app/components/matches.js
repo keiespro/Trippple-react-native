@@ -21,6 +21,7 @@ Component,
 
 import colors from '../utils/colors'
 import ThreeDots from '../buttons/ThreeDots'
+import {MagicNumbers} from '../DeviceConfig'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -391,16 +392,23 @@ class NoMatches extends Component{
             style={{flexDirection:'column',padding:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}
             >
             <Image
-              style={{width:300,height:100,marginBottom:0 }}
+              style={{width:300,
+                height:MagicNumbers.is4s ? 70 : 100,
+                marginBottom:0 }}
               source={require('../../newimg/listing.png')}
               resizeMode={Image.resizeMode.contain}
             />
             <Image
-              style={{width:300,height:100,marginBottom:20 }}
+              style={{width:300,
+                height:MagicNumbers.is4s ? 70 : 100,
+                marginBottom:20 }}
               source={require('../../newimg/listing.png')}
               resizeMode={Image.resizeMode.contain}
             />
-            <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',marginBottom:20}}>{
+            <Text style={{
+                color:colors.white,
+                fontSize: MagicNumbers.is4s ? 18 : 22,
+                fontFamily:'Montserrat-Bold',textAlign:'center',marginBottom:20}}>{
               `WAITING FOR MATCHES`
             }</Text>
             <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes',textAlign:'center'}}>{
@@ -444,7 +452,11 @@ class NoFavorites extends Component{
             >
 
             <Image
-              style={{width:175,height:180,marginBottom:40 }}
+              style={{
+                width:175,
+                height: MagicNumbers.is4s ? 150 : 180,
+                marginBottom: MagicNumbers.is4s ? 20 : 40
+              }}
               source={require('../../newimg/iconPlaceholderFavs.png')}
               resizeMode={Image.resizeMode.contain}
             />
@@ -452,7 +464,7 @@ class NoFavorites extends Component{
             <Text
               style={{
                 color:colors.white,
-                fontSize:22,
+                fontSize:MagicNumbers.is4s ? 18 : 22,
                 fontFamily:'Montserrat-Bold',
                 textAlign:'center',
                 marginBottom:20
@@ -464,7 +476,7 @@ class NoFavorites extends Component{
             <Text
               style={{
                 color:colors.shuttleGray,
-                fontSize:20,
+                fontSize: MagicNumbers.is4s ? 16 : 20,
                 fontFamily:'omnes',
                 textAlign:'center'
               }}

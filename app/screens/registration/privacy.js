@@ -83,9 +83,13 @@ class PrivacyScreen extends Component{
       </View>
 
         <View style={styles.topWrap}>
-          <Text style={[styles.labelText,{fontSize:22,marginBottom:5,color:colors.white,fontFamily:'Montserrat-Bold'}]}>{"YOUR PRIVACY"} </Text>
+          <Text style={[styles.labelText,{
+              fontSize:MagicNumbers.is4s ? 20 : 22,
+              marginBottom:5,color:colors.white,fontFamily:'Montserrat-Bold'}]}>{"YOUR PRIVACY"} </Text>
 
-          <Text style={[styles.labelText,{fontSize:20,marginBottom:MagicNumbers.screenPadding/2}]}>{"Select your perfered privacy setting"}</Text>
+          <Text style={[styles.labelText,{
+              fontSize:MagicNumbers.is4s ? 16 : 20,
+              marginBottom:MagicNumbers.screenPadding/2}]}>{"Select your perfered privacy setting"}</Text>
           <TouchableHighlight
             underlayColor={this.state.selection == 'public' ? colors.mediumPurple : colors.mediumPurple20}
             style={{marginVertical:MagicNumbers.screenPadding/2}}
@@ -97,7 +101,8 @@ class PrivacyScreen extends Component{
                 resizeMode={Image.resizeMode.contain}
                 style={styles.cornerDot}
               />
-              <View style={{flexDirection:'column',alignItems:'flex-start',justifyContent:'space-around',flex:1,width:100}}>
+              <View style={{flexDirection:'column',alignItems:'flex-start',justifyContent:'space-around',flex:1,
+                width:140}}>
                 <Text style={styles.boxTitle}>PUBLIC</Text>
                 <Text style={styles.boxP}>Your profile is visible to all Trippple members</Text>
               </View>
@@ -116,7 +121,9 @@ class PrivacyScreen extends Component{
                 resizeMode={Image.resizeMode.contain}
                 style={styles.cornerDot}
               />
-              <View style={{flexDirection:'column',alignItems:'flex-start',justifyContent:'space-around',flex:1,width:100}}>
+            <View style={{
+                flexDirection:'column',alignItems:'flex-start',
+                justifyContent:'space-around',flex:1,width:140}}>
                 <Text style={styles.boxTitle}>PRIVATE</Text>
                 <Text style={styles.boxP}>Your profile is hidden from your facebook friends and phone contacts. Facebook required.</Text>
               </View>
@@ -151,9 +158,10 @@ const styles = StyleSheet.create({
   },
 
   boxTitle:{
-    marginVertical:5,
+    marginVertical: MagicNumbers.is4s ? 0 : 5,
+    marginTop: 5,
     color: colors.white,
-    fontSize:20,
+    fontSize: MagicNumbers.is4s ? 18 : 20,
     fontFamily:'Montserrat-Bold',
     textAlign: 'left',
   },
@@ -166,8 +174,8 @@ const styles = StyleSheet.create({
   cornerDot: {
     height:30,
     width:30,
-    marginLeft:10,
-    marginRight:20
+    marginLeft:MagicNumbers.is4s ? 0 : 10,
+    marginRight:MagicNumbers.is4s ? 10 : 20
   },
   topWrap:{
     justifyContent: 'center',
@@ -183,11 +191,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf:'stretch',
     width: MagicNumbers.screenWidth,
-    padding:10,
+    padding: 10,
+    paddingVertical: MagicNumbers.is4s ? 0 : 10,
     borderWidth:2,
     borderColor:colors.shuttleGray,
-    height:DeviceHeight > 568 ? 120 : 150,
-    marginHorizontal:0
+    marginHorizontal:0,
+    height:DeviceHeight > 568 ? 120 : 120,
   },
   labelText:{
     color:colors.rollingStone,

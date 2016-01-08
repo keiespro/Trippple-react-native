@@ -28,6 +28,7 @@ import styles from './purpleModalStyles'
 import BoxyButton from '../controls/boxyButton'
 import UserActions from '../flux/actions/UserActions'
 import AppActions from '../flux/actions/AppActions'
+import {MagicNumbers} from '../DeviceConfig'
 
 export default class PrivacyPermissionsModal extends Component{
 
@@ -133,7 +134,10 @@ export default class PrivacyPermissionsModal extends Component{
             <View style={{alignItems:'center'}}>
               <Image
                 resizeMode={Image.resizeMode.contain}
-                style={[{width:150,height:150,marginBottom:30,marginTop:20}]}
+                style={[{width:150,
+                  height:MagicNumbers.is4s ? 100 : 150,
+                  marginBottom:MagicNumbers.is4s ? 15 : 30,
+                  marginTop:MagicNumbers.is4s ? 10 : 20}]}
                 source={require('../../newimg/iconModalPrivacy.png')}
               />
             </View>
@@ -194,14 +198,19 @@ export default class PrivacyPermissionsModal extends Component{
 
                 onPress={this.props.success}>
               <View style={[styles.cancelButton,{backgroundColor:'transparent',flex:1,alignItems:'stretch',alignSelf:'stretch',flex:1,flexDirection:'row'}]} >
-                <Text style={[{color:colors.shuttleGray,textAlign:'center',padding:10,paddingVertical:20,flex:1,alignSelf:'stretch'},styles.nothankstext]}>Continue</Text>
+                <Text style={[{color:colors.shuttleGray,textAlign:'center',
+                  padding:10,
+                  paddingVertical:MagicNumbers.is4s ? 0 : 20,
+                  flex:1,alignSelf:'stretch'},styles.nothankstext]}>Continue</Text>
                 </View>
               </TouchableOpacity>  :
             <TouchableOpacity
               style={{paddingHorizontal:10,marginVertical:10,alignSelf:'stretch',flex:1,alignItems:'stretch'}}
               onPress={this.props.cancel}>
               <View style={[styles.cancelButton,{backgroundColor:'transparent',flex:1,alignItems:'stretch',alignSelf:'stretch'}]} >
-                <Text style={[{color:colors.shuttleGray,textAlign:'center',padding:10,flex:1,alignSelf:'stretch'},styles.nothankstext]}>no thanks</Text>
+                <Text style={[{color:colors.shuttleGray,textAlign:'center',
+                  padding:MagicNumbers.is4s ? 0 : 10,
+                  flex:1,alignSelf:'stretch'},styles.nothankstext]}>no thanks</Text>
               </View>
             </TouchableOpacity>}
 

@@ -216,15 +216,15 @@ animatedIcon:{
     backgroundColor:colors.white,
     alignItems:'center',
     justifyContent:'center',
-    height:DeviceHeight > 568 ? 64 : 52,
-    width:DeviceHeight > 568 ? 64 : 52,
-    borderRadius: DeviceHeight > 568 ? 32 : 26
+    height:DeviceHeight > 568 ? 64 : 46,
+    width:DeviceHeight > 568 ? 64 : 46,
+    borderRadius: DeviceHeight > 568 ? 32 : 23
   },
   circleimageSmaller:{
     backgroundColor: colors.shuttleGray,
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     borderColor:colors.white,
     borderWidth: 0
   },
