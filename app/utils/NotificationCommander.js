@@ -12,7 +12,7 @@ import UserActions from '../flux/actions/UserActions'
 import Notification from './NotificationTop'
 import TimerMixin from 'react-timer-mixin'
 import colors from './colors'
-
+import Log from '../Log'
 import reactMixin from 'react-mixin'
 
 class NotificationCommander extends Component{
@@ -113,6 +113,10 @@ class NotificationCommander extends Component{
     }else if(data.action == 'logout'){
 
       UserActions.logOut()
+
+    }else if(data.action == 'report'){
+
+      AppActions.sendTelemetry()
 
     }
       // AlertIOS.alert('APN Push Notification',JSON.stringify(pushNotification.getData()));

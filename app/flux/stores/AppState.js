@@ -39,6 +39,7 @@ class AppStateStore {
       handleSelectPartner: UserActions.SELECT_PARTNER,
       handleUpdateRoute: AppActions.UPDATE_ROUTE,
       handleToggleOverlay: AppActions.TOGGLE_OVERLAY,
+      handleSentTelemetry: AppActions.SEND_TELEMETRY
     });
 
     this.exportPublicMethods({
@@ -81,7 +82,9 @@ class AppStateStore {
 //     this.saveToLocalStorage(permission,value)
 //     this.setState({permissions:perms})
   }
-
+  handleSentTelemetry(result){
+    console.warn(result)
+  }
   handleGrantPermission(permission){
     // this.handleTogglePermission(permission, true)
   }

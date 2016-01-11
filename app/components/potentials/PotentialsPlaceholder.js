@@ -12,21 +12,25 @@ const DeviceWidth = Dimensions.get('window').width;
 class PotentialsPlaceholder extends React.Component{
   constructor(props){
     super()
-   }
-  render(){
-    return (
-      <FadeInContainer
-        delayAmount={2000}
-        duration={300}
-        didShow={()=>{
+  }
+  onDidShow(){
           this.props.onDidShow(true)
-        }}
-        >
+
+  }
+  render(){
+
+    return (
+        <FadeInContainer
+          delayAmount={2000}
+          duration={300}
+          didShow={this.onDidShow.bind(this)}
+          >
         <View
           style={[
             styles.dashedBorderImage,
             {
               height: DeviceHeight,
+              width:DeviceWidth,
               flex: 10,
               position: 'relative',
             }]}

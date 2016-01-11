@@ -101,7 +101,7 @@ class NotificationsStore {
       pendingNotifications: [...this.state.pendingNotifications.slice(1,this.state.pendingNotifications.length)]
     })
     this.expireNotification()
-    this.updateBadgeCount(1)
+    this.updateBadgeCount(0)
 
   }
   handleNewMessageData(messagesData){
@@ -116,7 +116,7 @@ class NotificationsStore {
                 readyNotification = { ...pendingNotifications.shift(), ...messages.message_thread[0], type: 'message'}
 
     if(pendingNotifications.length){
-      this.updateBadgeCount(1)
+      this.updateBadgeCount(0)
     }
     this.expireNotification()
 

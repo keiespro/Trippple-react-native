@@ -73,8 +73,8 @@ class MatchList extends Component{
   }
 
 
-  _allowScroll(scrollEnabled,listindex){
-    var listref = listindex == 0 ? '_listView' : '_flistView'
+  _allowScroll(scrollEnabled){
+    var listref = this.state.index ? '_flistView' :  '_listView';
     this[listref] && this[listref].refs.listviewscroll.refs.ScrollView.setNativeProps({ scrollEnabled })
   }
 
@@ -110,7 +110,6 @@ class MatchList extends Component{
     var them = theirIds.map((id)=> rowData.users[id]);
     var threadName = them.map( (user,i) => user.firstname.trim() ).join(' & ');
     var modalVisible = this.state.isVisible;
-    var self = this;
     var matchImage = ( them.couple && them.couple.thumb_url ) || them[0].thumb_url || them[1].thumb_url || null;
 
     var unreadCount = rowData.unreadCount || 0;
@@ -121,7 +120,7 @@ class MatchList extends Component{
         left={
           [{
             threshold: 200,
-            action: self.actionModal.bind(self,rowData),
+            action: this.props.chatActionSheet.bind(this,rowData),
             backgroundColor: colors.dark,
           }]
         }
@@ -129,7 +128,7 @@ class MatchList extends Component{
           [{
             threshold: 200,
             component: true,
-            action: () => self.toggleFavorite(rowData),
+            action: this.toggleFavorite.bind(this,rowData),
             backgroundColor: rowData.isFavourited ? colors.dandelion : colors.dark,
           }]
         }
@@ -138,7 +137,7 @@ class MatchList extends Component{
         rowID={rowID}
         sectionID={sectionID}
         autoClose={false}
-        scroll={event => this._allowScroll.bind(this,event,this.state.index)}
+        scroll={this._allowScroll.bind(this)}
         onOpen={(sectionID_, rowID_) => {this._handleSwipeout(sectionID_, rowID_)}}
         >
 
@@ -210,9 +209,23 @@ class MatchList extends Component{
 
   }
 
+  onEndReached(e){
+    const nextPage = this.props.matches.length / 20 + 1;
+    if(this.state.fetching || nextPage === this.state.lastPage){ return false }
+
+    this.setState({lastPage: nextPage })
+    MatchActions.getMatches(nextPage);
+  }
+
+  segmentedViewPress(index){
+    this.setState({
+      index: index == 0 ? 0 : 1
+    })
+  }
+
+
   render(){
-    var self = this,
-        isVisible = this.state.isVisible;
+    var isVisible = this.state.isVisible;
 
     return (
       <View style={styles.container}>
@@ -220,21 +233,19 @@ class MatchList extends Component{
 
           <SegmentedView
             barPosition={'bottom'}
-            style={{backgroundColor:colors.dark}}
+            style={{backgroundColor: colors.dark}}
             barColor={colors.mediumPurple}
             titles={['ALL', 'FAVORITES']}
             index={this.state.index}
             titleStyle={{
-              fontFamily:'Montserrat',
+              fontFamily: 'Montserrat',
               fontSize:15,
               padding:5,
               color:colors.shuttleGray
             }}
             selectedTitleStyle={{color:colors.white}}
             stretch
-            onPress={(index) => {
-              this.setState({ index: index == 0 ? 0 : 1  })
-            }}
+            onPress={this.segmentedViewPress.bind(this)}
           />
         </View>
 
@@ -244,22 +255,15 @@ class MatchList extends Component{
             initialListSize={12}
             scrollEnabled={this.state.scrollEnabled}
             directionalLockEnabled={true}
+            removeClippedSubviews={true}
             vertical={true}
             chatActionSheet={this.props.chatActionSheet}
-            onEndReached={ (e) => {
-              const nextPage = this.props.matches.length / 20 + 1;
-              if(this.state.fetching || nextPage === this.state.lastPage){ return false }
-
-              this.setState({lastPage: nextPage })
-              MatchActions.getMatches(nextPage);
-            }}
+            onEndReached={this.onEndReached.bind(this)}
             ref={component => this._listView = component}
             dataSource={this.props.dataSource}
             renderRow={this._renderRow.bind(this)}
           /> :
-            <NoMatches/>
-            )
-            :
+            <NoMatches/> ) :
           (this.props.favorites.length > 0 ?
           <ListView
             initialListSize={12}
@@ -268,12 +272,6 @@ class MatchList extends Component{
             directionalLockEnabled={true}
             vertical={true}
             chatActionSheet={this.props.chatActionSheet}
-            onEndReached={ (e) => {
-             // const nextPage = this.props.favorites.length/20 + 1;
-              // if(this.state.fetching || nextPage === this.state.lastPage){ return false }
-              // this.setState({lastPage: nextPage })
-              // MatchActions.getFavorites(nextPage);
-            }}
             ref={component => this._flistView = component}
             dataSource={this.props.favDataSource}
             renderRow={this._renderRow.bind(this)}
@@ -484,7 +482,7 @@ class NoFavorites extends Component{
                 textAlign:'center'
               }}
               >{
-                `Tap on the star next to  to add matches to your favorites for easy access`
+                `Swipe left to add a match to your favorites for easy access`
               }
             </Text>
 
@@ -544,11 +542,12 @@ class Matches extends Component{
         }
       },
 
-    }
-    return (
-        <AltContainer stores={storesForMatches}>
+    };
 
-          <MatchesInside {...this.props} chatActionSheet={this.chatActionSheet.bind(this)} />
+    return (
+      <AltContainer stores={storesForMatches}>
+
+        <MatchesInside {...this.props} chatActionSheet={this.chatActionSheet.bind(this)} />
 
           {this.props.navBar}
 
@@ -725,7 +724,6 @@ class EmptyStarButton extends Component{
            <Image
              style={{alignSelf:'center',
              tintColor: this.props.activeLevel
-
            }}
              source={require('../../newimg/starOutline.png')}
              resizeMode={Image.resizeMode.cover}

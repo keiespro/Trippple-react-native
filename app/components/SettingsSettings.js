@@ -19,30 +19,25 @@ import React, {
   AsyncStorage,
   Navigator
 } from  'react-native'
-
+import base64 from 'base-64'
 import Mixpanel from '../utils/mixpanel';
 import FakeNavBar from '../controls/FakeNavBar';
 import alt from '../flux/alt'
-
+import Log from '../Log';
 import RNFS from 'react-native-fs'
 const {RNAppInfo, RNMail} = NativeModules
 import {MagicNumbers} from '../DeviceConfig'
 import AppInfo from 'react-native-app-info'
 import DeviceInfo from 'react-native-device'
-
 import dismissKeyboard from 'dismissKeyboard'
 import WebViewScreen from './WebViewScreen'
 import scrollable from 'react-native-scrollable-decorator'
 import Dimensions from 'Dimensions'
 import PrivacyPermissionsModal from '../modals/PrivacyPermissions'
-
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-
-
 import ToggleSwitch from '../controls/switches'
 import UserActions from '../flux/actions/UserActions'
-
 import Contacts from '../screens/contacts'
 import colors from '../utils/colors'
 import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
@@ -117,21 +112,28 @@ class SettingsSettings extends React.Component{
     var fileName = 'trippple-feedback'+ Date.now() +'.ttt'
     var path = RNFS.DocumentDirectoryPath + '/' + fileName
 
-    var appInfo = {}
 
-
-    var feedbackDebugInfo = {
-          state: JSON.parse(snapshot),
+    var appInfo = {
+          displayName,
+          bundleIdentifier,
+          getInfoDeviceName,
+          name,
+          shortVersion,
+          version
+        } = RNAppInfo,
+        feedbackDebugInfo = {
+          user: this.props.user,
           DeviceInfo: DeviceInfo,
-          osSettings: settings
+          osSettings: settings,
+          state: JSON.parse(snapshot),
+          AppInfo: appInfo
         },
-        fileContents = unescape(encodeURIComponent(JSON.stringify(feedbackDebugInfo)));
-        // encodeURIComponent + unescape prevents "string to be encoded contains characters outside of the Latin1 range" error
-
+        fileContents = base64.encode(unescape(encodeURIComponent(JSON.stringify(feedbackDebugInfo))));
+        // prevents "string to be encoded contains characters outside of the Latin1 range" error
 
     RNFS.writeFile(path, (fileContents))
       .then((success) => {
-        Mailer.mail({
+        RNMail.mail({
           subject: `I'm having an issue in the app`,
           recipients: ['hello@trippple.co'],
           body:  'Help!',
@@ -147,7 +149,7 @@ class SettingsSettings extends React.Component{
         });
       })
       .catch((err) => {
-
+            Log('cant send mail',err)
       });
 
   }

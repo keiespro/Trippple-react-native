@@ -1,9 +1,7 @@
 /*
  * @flow
  */
-import React from 'react-native'
-
-import {
+import React, {
   PropTypes,
   Component,
   ActivityIndicatorIOS,
@@ -19,7 +17,6 @@ import {
 } from 'react-native'
 import scrollable from 'react-native-scrollable-decorator';
 import OnboardingActions from '../flux/actions/OnboardingActions'
-
 import colors from '../utils/colors'
 import FakeNavBar from './FakeNavBar'
 const DeviceHeight = Dimensions.get('window').height
@@ -70,7 +67,7 @@ const propTypes = {
     'All',
   ]),
 
-}
+};
 
 
 class CameraRollView extends Component{
@@ -85,7 +82,6 @@ class CameraRollView extends Component{
   //  'PhotoStream',
   //  'SavedPhotos',
 
-
   static defaultProps = {
     groupTypes: 'All',
     batchSize: 30,
@@ -99,7 +95,7 @@ class CameraRollView extends Component{
     this.state = {
       assets: ([]),
       groupTypes: props.groupTypes,
-      lastCursor: (null : ?string),
+      lastCursor: null,
       assetType: props.assetType,
       noMore: false,
       loadingMore: false,
@@ -125,14 +121,15 @@ class CameraRollView extends Component{
       })
 
       return
+
     }else if(this.props.nextRoute){
-        this.props.navigator.push({
-          component:this.props.nextRoute,
-          passProps: {
-            ...this.props,
-            image_type: this.props.image_type || '',
-            image: imageFile,
-            nextRoute: EditImageThumb,
+      this.props.navigator.push({
+        component:this.props.nextRoute,
+        passProps: {
+          ...this.props,
+          image_type: this.props.image_type || '',
+          image: imageFile,
+          nextRoute: EditImageThumb,
           }
         })
 
@@ -140,22 +137,15 @@ class CameraRollView extends Component{
 
     }else{
       var lastindex = this.props.navigator.getCurrentRoutes().length;
-     var nextRoute = this.props.stack[lastindex];
+      var nextRoute = this.props.stack[lastindex];
 
       nextRoute.passProps = {
-           ...this.props,
-             image_type: this.props.image_type || '',
-             image: imageFile,
-
-
-       }
-       this.props.navigator.push(nextRoute)
-
+        ...this.props,
+        image_type: this.props.image_type || '',
+        image: imageFile,
+      }
+      this.props.navigator.push(nextRoute)
     }
-
-
-
-    // }
   }
 
   renderImage(asset){
@@ -207,7 +197,7 @@ class CameraRollView extends Component{
       return;
     }
 
-    var fetchParams: Object = {
+    var fetchParams = {
       first: this.props.batchSize,
       groupTypes: this.props.groupTypes,
       assetType: this.props.assetType,
@@ -216,7 +206,10 @@ class CameraRollView extends Component{
       fetchParams.after = this.state.lastCursor;
     }
 
-    CameraRoll.getPhotos(fetchParams, this._appendAssets.bind(this), (err) => { /* noop */});
+    CameraRoll.getPhotos(fetchParams, this._appendAssets.bind(this), (err) => {
+      Log(err)
+    /* noop */
+    });
   }
 
   /**
@@ -229,22 +222,23 @@ class CameraRollView extends Component{
     }
   }
 
-  render() {
-    const isOnboarding = !this.props.navigator.getCurrentRoutes()[0].id == 'potentials'
+  render(){
+    const isOnboarding = (this.props.navigator.getCurrentRoutes()[0].id != 'potentials');
+    var goNext;
+    if(isOnboarding){
+      goNext = OnboardingActions.proceedToPrevScreen
+    }else{
+      goNext = this.props.navigator.pop
+    }
+
     return (
       <View style={{flex:1}}>
         <FakeNavBar
           navigator={this.props.navigator}
           route={this.props.route}
           backgroundStyle={{backgroundColor:colors.shuttleGray}}
-          onPrev={(n,p)=>{
-            if(isOnboarding){
-              OnboardingActions.proceedToPrevScreen()
-            }else{
-              n.pop()
-            }
-          }}
-          blur={true}
+          onPrev={goNext}
+          blur={false}
           title={'YOUR PHOTOS'}
           titleColor={colors.white}
           customPrev={
@@ -283,7 +277,7 @@ class CameraRollView extends Component{
   }
 
   _renderFooterSpinner(){
-    if (!this.state.noMore) {
+    if (this.state && !this.state.noMore) {
       return (
           <View style={{flexDirection:'row',alignSelf:'stretch',alignItems:'center',justifyContent:'center',width:DeviceWidth,height:80,backgroundColor:colors.dark}}>
               <ActivityIndicatorIOS style={styles.spinner} />
@@ -310,7 +304,7 @@ class CameraRollView extends Component{
 
   _appendAssets(data){
     var assets = data.edges;
-    var newState: Object = { loadingMore: false };
+    var newState = { loadingMore: false };
 
     if (!data.page_info.has_next_page) {
       newState.noMore = true;

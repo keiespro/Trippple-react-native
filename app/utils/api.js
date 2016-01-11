@@ -170,6 +170,10 @@ const api = {
 
   disableAccount(){
     return authenticatedRequest('disable')
+  },
+
+  sendTelemetry(encodedTelemetryPayload){
+    return authenticatedRequest('telemetry',encodedTelemetryPayload)
   }
 
 

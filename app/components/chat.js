@@ -227,7 +227,7 @@ class ChatMessage extends React.Component {
             <Image
               resizeMode={Image.resizeMode.contain}
               source={require('../../newimg/TrianglePurple.png')}
-              style={{left:0,width:10,height:22}}
+              style={{left:1,width:10,height:22}}
             /> : null
           }
 

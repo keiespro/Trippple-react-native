@@ -102,24 +102,28 @@ class SegmentedView extends React.Component{
     }
 
     _renderTitle(title, i) {
-        return (
-            <View style={styles.title}>
-                <Text style={[this.props.titleStyle, i == this.props.index && this.props.selectedTitleStyle]}>{title}</Text>
-            </View>
-        );
+      return (
+        <View style={styles.title}>
+        <Text style={[this.props.titleStyle, i == this.props.index && this.props.selectedTitleStyle]}>{title}</Text>
+        </View>
+      );
+  }
+
+    onPress(i){
+      this.props.onPress(i)
     }
 
-    renderTitle(title, i) {
-        return (
-            <View key={`title-${i}`} ref={`title${i}`} style={{ flex: this.props.stretch ? 1 : 0 }}>
-            <TouchableOpacity underlayColor={this.props.underlayColor} onPress={() => this.props.onPress(i)}>
-                    {this.props.renderTitle ? this.props.renderTitle(title, i) : this._renderTitle(title, i)}
-                </TouchableOpacity>
-            </View>
-        );
+    renderTitle(title, i){
+      return (
+        <View key={`title-${i}`} ref={`title${i}`} style={{ flex: this.props.stretch ? 1 : 0 }}>
+            <TouchableOpacity underlayColor={this.props.underlayColor} onPress={this.onPress.bind(this,i)}>
+              {this.props.renderTitle ? this.props.renderTitle(title, i) : this._renderTitle(title, i)}
+            </TouchableOpacity>
+          </View>
+        )
     }
 
-    render() {
+    render(){
         let items = [];
         let titles = this.props.titles;
 

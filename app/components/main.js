@@ -115,13 +115,13 @@ class Main extends Component{
     }
   }
 
-  selectScene(route: Navigator.route, navigator: Navigator) : React.Component {
+  selectScene(route, navigator){
     const RouteComponent = route.component;
-    var navBar = route.navigationBar;
+    var navBar;
     Mixpanel.auth(this.props.user.username).track(`HO: On - ${route.id} Screen`);
 
-    if (navBar) {
-      navBar = React.cloneElement(navBar, {
+    if (route.navigationBar) {
+      navBar = React.cloneElement(route.navigationBar, {
         navigator: navigator,
         route: route,
         style: styles.navBar,
@@ -129,7 +129,7 @@ class Main extends Component{
     }
 
     return (
-      <View style={{ flex: 1,  width:DeviceWidth, height:DeviceHeight }}>
+      <View style={{ flex: 1,  width: DeviceWidth, height: DeviceHeight }}>
 
         {route.id == 'settings' ? navBar : null}
 
