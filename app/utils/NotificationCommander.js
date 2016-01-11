@@ -2,8 +2,8 @@
 // window.navigator = {}
 // window.navigator.userAgent = 'react-native' // socketio-client
 
-import {WEBSOCKET_URL} from '../config'
-
+import config from '../config'
+const {WEBSOCKET_URL}  = config;
 import React from 'react-native'
 import { Component, View, AlertIOS, AsyncStorage, AppStateIOS, PushNotificationIOS, VibrationIOS } from 'react-native'
 
@@ -28,13 +28,13 @@ class NotificationCommander extends Component{
       processing:false
     }
 
-    this.socket = io('ws://staging-api.trippple.co', {jsonp:false})
+    this.socket = io(WEBSOCKET_URL, {jsonp:false})
   }
 
   componentDidMount(){
-    PushNotificationIOS.addEventListener('notification', this._onPushNotification )
+    PushNotificationIOS.addEventListener('notification', this._onPushNotification.bind(this) )
 
-    AppStateIOS.addEventListener('change', this._handleAppStateChange );
+    AppStateIOS.addEventListener('change', this._handleAppStateChange.bind(this) );
     if(this.props.api_key && this.props.user_id){
       this.connectSocket()
     }
@@ -47,13 +47,13 @@ class NotificationCommander extends Component{
  }
 
   componentWillUnmount(){
-    PushNotificationIOS.removeEventListener('notification', this._onPushNotification)
+    PushNotificationIOS.removeEventListener('notification', this._onPushNotification.bind(this) )
 
-    AppStateIOS.removeEventListener('change', this._handleAppStateChange );
+    AppStateIOS.removeEventListener('change', this._handleAppStateChange.bind(this) );
   }
   componentDidUpdate(prevProps,prevState){
     if(!prevProps.api_key && this.props.api_key && !prevState.socketConnected){
-      // this.connectSocket()
+      this.connectSocket()
     }
 
     if(this.state.processing && !prevState.processing){
@@ -65,7 +65,7 @@ class NotificationCommander extends Component{
 
   }
 
-  _onPushNotification =(pushNotification)=>{
+  _onPushNotification(pushNotification){
     this.handlePushData(pushNotification)
   }
 
@@ -123,7 +123,7 @@ class NotificationCommander extends Component{
 
       // AlertIOS.alert('APN Push Notification',JSON.stringify(pushNotification.getData()));
   }
-  _handleAppStateChange =(appState)=> {
+  _handleAppStateChange(appState){
     if(appState === 'active'){
       const newNotification = PushNotificationIOS.popInitialNotification()
       if(newNotification){
@@ -133,7 +133,7 @@ class NotificationCommander extends Component{
     this.setState({ appState });
 
   }
-   connectSocket =()=> {
+   connectSocket(){
     this.socket.on('user.connect', (data) => {
       this.online_id = data.online_id;
       const myApikey = this.props.api_key
@@ -186,7 +186,7 @@ class NotificationCommander extends Component{
 
   }
 
-  disconnectSocket =( )=> {
+  disconnectSocket(){
     const {apikey,user_id} = this.props
 
     this.socket.emit('user.disconnect',{

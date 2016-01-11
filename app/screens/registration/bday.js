@@ -55,7 +55,7 @@ class BdayScreen extends Component{
     }
   }
 
-  _submit =()=>{
+  _submit(){
     var isLegal = moment(this.state.date).diff(moment(), 'years') < -18;
     if(!isLegal){return false}
     OnboardingActions.proceedToNextScreen({

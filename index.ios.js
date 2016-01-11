@@ -26,7 +26,7 @@ class trippple extends React.Component{
     super()
   }
 
-  render = () => <Boot/>
+  render(){ return <Boot/> }
 
 }
 export default trippple

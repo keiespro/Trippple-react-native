@@ -254,9 +254,6 @@ class EditImageThumb extends Component{
     })
   }
 
-  retake =()=> {
-    this.props.navigator.pop()
-  }
 
   render() {
     if (!this.state.measuredSize) {

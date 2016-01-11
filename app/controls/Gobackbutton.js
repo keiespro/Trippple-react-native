@@ -19,12 +19,12 @@ class Gobackbutton extends Component{
   constructor(props){
     super()
   }
-  _goBack =()=>{
+  _goBack(){
     this.props.navigator.pop()
   }
   render(){
     return (
-      <TouchableOpacity onPress={this._goBack} style={styles.leftbutton}>
+      <TouchableOpacity onPress={this._goBack.bind(this)} style={styles.leftbutton}>
         <View>
           <Text style={{color:colors.shuttleGray}}>Go Back</Text>
         </View>

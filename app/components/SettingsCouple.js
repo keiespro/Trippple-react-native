@@ -54,7 +54,7 @@ class ProfileField extends React.Component{
     }
   }
 
-  _editField=()=>{}
+  _editField(){}
   formattedPhone(){
     return formatPhone(this.props.user[this.props.fieldName])
   }

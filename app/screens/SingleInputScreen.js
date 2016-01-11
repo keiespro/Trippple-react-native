@@ -66,7 +66,7 @@ class SingleInputScreen extends Component{
       this.hideContinueButton();
     }
   }
-  updateKeyboardSpace =(frames)=> {
+  updateKeyboardSpace(frames){
     if(!frames.endCoordinates){return false}
     this.setState({
       keyboardSpace: frames.endCoordinates.height,
@@ -74,7 +74,7 @@ class SingleInputScreen extends Component{
     });
   }
 
-  resetKeyboardSpace =()=> {
+  resetKeyboardSpace(){
     this.setState({
       keyboardSpace: 0,
       isKeyboardOpened: false
@@ -110,7 +110,7 @@ class SingleInputScreen extends Component{
     })
   }
 
-  _submit =()=>{
+  _submit(){
     this.props.handleNext()
   }
  render(){
@@ -143,7 +143,7 @@ class SingleInputScreen extends Component{
 
         <ContinueButton
         canContinue={this.state.canContinue}
-        handlePress={this._submit} />
+        handlePress={this._submit.bind(this)} />
 
       </View>
 

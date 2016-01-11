@@ -42,7 +42,7 @@ class NameScreen extends Component{
   }
 
 
-  handleInputChange =(txt)=> {
+  handleInputChange(txt){
 
     this._textInput && this._textInput.setNativeProps({
       value: txt

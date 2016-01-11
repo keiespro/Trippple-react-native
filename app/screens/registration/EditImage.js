@@ -98,7 +98,7 @@ class EditImage extends Component{
      })
 
   }
-  retake =()=> {
+  retake(){
     this.props.navigator.getCurrentRoutes()[0].id == 'potentials' ? this.props.navigator.pop() :   OnboardingActions.proceedToPrevScreen()
   }
 
@@ -150,7 +150,7 @@ class EditImage extends Component{
               style={[styles.imageCropper,{borderRadius:5,overflow:'hidden',}]}
               onTransformDataChange={(data) => this._transformData = data}
               />
-            <TouchableOpacity onPress={this.retake} style={styles.bigbutton}>
+            <TouchableOpacity onPress={this.retake.bind(this)} style={styles.bigbutton}>
                <View style={[{height:80,width:80}]}>
                 <Image resizeMode={Image.resizeMode.cover} source={require('../../../newimg/redo.png')} style={{height:80,width:80}}/>
               </View>

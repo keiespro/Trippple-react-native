@@ -92,7 +92,7 @@ class AppVisibility extends React.Component{
     AppStateIOS.removeEventListener('change', this._handleAppStateChange.bind(this));
   }
 
-  _handleAppStateChange =(appState)=> {
+  _handleAppStateChange(appState){
 
     if(appState === 'background'){
       AppActions.saveStores()

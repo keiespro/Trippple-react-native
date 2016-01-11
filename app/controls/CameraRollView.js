@@ -107,7 +107,7 @@ class CameraRollView extends Component{
     }
   }
 
-  loadAsset = (asset) => {
+  loadAsset(asset){
     var imageFile = asset.node.image;
 
     if(this.props.getImage){
@@ -158,7 +158,7 @@ class CameraRollView extends Component{
     // }
   }
 
-  renderImage = (asset) => {
+  renderImage(asset){
     var imageSize = DeviceWidth / 3 - 20;
     var imageStyle = [styles.image, {width: imageSize, height: imageSize}];
     return (
@@ -174,7 +174,7 @@ class CameraRollView extends Component{
    * This should be called when the image renderer is changed to tell the
    * component to re-render its assets.
    */
-  rendererChanged = () => {
+  rendererChanged(){
     var ds = new ListView.DataSource({rowHasChanged: this._rowHasChanged});
     this.state.dataSource = ds.cloneWithRows(this.state.assets);
   }
@@ -189,7 +189,7 @@ class CameraRollView extends Component{
     }
   }
 
-  _fetch = (clear) => {
+  _fetch(clear){
     if (clear) {
       const ds = new ListView.DataSource({rowHasChanged: this._rowHasChanged.bind(this)});
 
@@ -223,7 +223,7 @@ class CameraRollView extends Component{
    * Fetches more images from the camera roll. If clear is set to true, it will
    * set the component to its initial state and re-fetch the images.
    */
-  fetch = (clear) => {
+  fetch(clear){
     if (!this.state.loadingMore) {
       this.setState({loadingMore: true}, () => { this._fetch(clear); });
     }
@@ -257,7 +257,7 @@ class CameraRollView extends Component{
         <ListView
           renderRow={this._renderRow.bind(this)}
           renderFooter={this._renderFooterSpinner}
-          onEndReached={this._onEndReached}
+          onEndReached={this._onEndReached.bind(this)}
           style={styles.container}
           contentContainerStyle={styles.scrollContent}
           dataSource={this.state.dataSource}
@@ -282,7 +282,7 @@ class CameraRollView extends Component{
     return false;
   }
 
-  _renderFooterSpinner = () => {
+  _renderFooterSpinner(){
     if (!this.state.noMore) {
       return (
           <View style={{flexDirection:'row',alignSelf:'stretch',alignItems:'center',justifyContent:'center',width:DeviceWidth,height:80,backgroundColor:colors.dark}}>
@@ -294,13 +294,13 @@ class CameraRollView extends Component{
   }
 
 
-  _renderRow = (rowData, sectionID, rowID) =>  {
+  _renderRow(rowData, sectionID, rowID){
     var images = rowData.length ? rowData.map((image) => {
       if (image === null) {
         return null;
       }
-      return this.renderImage(image)
-    }) : [ this.renderImage(rowData) ];
+      return this.renderImage.bind(this,image)
+    }) : [ this.renderImage.bind(this,rowData) ];
     return (
       <View style={styles.item} key={`${rowID}-row`}>
         {images}
@@ -308,7 +308,7 @@ class CameraRollView extends Component{
     );
   }
 
-  _appendAssets = (data) => {
+  _appendAssets(data){
     var assets = data.edges;
     var newState: Object = { loadingMore: false };
 
@@ -325,7 +325,7 @@ class CameraRollView extends Component{
     this.setState(newState);
   }
 
-  _onEndReached =()=> {
+  _onEndReached(){
     if (!this.state.noMore) {
       this.fetch();
     }

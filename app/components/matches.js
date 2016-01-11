@@ -41,7 +41,8 @@ import customSceneConfigs from '../utils/sceneConfigs'
 import SegmentedView from '../controls/SegmentedView'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin';
-import AltContainer from 'alt-container';
+import AltContainer from 'alt-container/native';
+
 import FakeNavBar from '../controls/FakeNavBar'
 import Mixpanel from '../utils/mixpanel'
 import FadeInContainer from './FadeInContainer'
@@ -72,7 +73,7 @@ class MatchList extends Component{
   }
 
 
-  _allowScroll = (scrollEnabled,listindex)=> {
+  _allowScroll(scrollEnabled,listindex){
     var listref = listindex == 0 ? '_listView' : '_flistView'
     this[listref] && this[listref].refs.listviewscroll.refs.ScrollView.setNativeProps({ scrollEnabled })
   }
@@ -137,7 +138,7 @@ class MatchList extends Component{
         rowID={rowID}
         sectionID={sectionID}
         autoClose={false}
-        scroll={event => this._allowScroll(event,this.state.index)}
+        scroll={event => this._allowScroll.bind(this,event,this.state.index)}
         onOpen={(sectionID_, rowID_) => {this._handleSwipeout(sectionID_, rowID_)}}
         >
 

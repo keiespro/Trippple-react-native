@@ -96,7 +96,7 @@ class SettingsInside extends React.Component{
   //   navigator.jumpForward();
   // }
 
-  _pressNewImage =()=>{
+  _pressNewImage(){
     this.props.navigator.push({
       component: this.props.user.relationship_status == 'single' ? SelfImage : CoupleImage,
       sceneConfig: Navigator.SceneConfigs.FloatFromRight,
@@ -115,7 +115,7 @@ class SettingsInside extends React.Component{
     })
   }
 
-  _openProfile=()=>{
+  _openProfile(){
 
     if(this.props.user.relationship_status == 'couple' && this.props.user.status != 'onboarded'){
       this.showPartnerMissingModal()
@@ -222,7 +222,7 @@ class SettingsInside extends React.Component{
               >
 
             <TouchableOpacity
-              onPress={this._pressNewImage}
+              onPress={this._pressNewImage.bind(this)}
               style={{marginTop:20,}}
               >
               <Image
@@ -241,7 +241,7 @@ class SettingsInside extends React.Component{
                 />
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={this._openProfile}  style={{alignSelf:'stretch',}} >
+            <TouchableOpacity onPress={this._openProfile.bind(this)}  style={{alignSelf:'stretch',}} >
               <View style={{flex:10,alignSelf:'stretch',flexDirection:'column',alignItems:'stretch',justifyContent:'center'}}>
               <Text style={{flex:10,textAlign:'center',alignSelf:'stretch',color:colors.white,fontSize:18,marginTop:20,fontFamily:'Montserrat-Bold'}}>{
                   this.props.user.firstname && this.props.user.firstname.toUpperCase()
@@ -394,14 +394,14 @@ class Settings extends React.Component{
     }
   }
 
-  openModal = (page: string) => { this.setState({isModalOpen: page}) }
+  openModal(page: string){ this.setState({isModalOpen: page}) }
 
-  closeModal = () => { this.setState({isModalOpen: false}) }
+  closeModal(){ this.setState({isModalOpen: false}) }
 
   render(){
     return (
       <View style={styles.container}>
-        <SettingsInside user={this.props.user} openModal={this.openModal} navigator={this.props.navigator}/>
+        <SettingsInside user={this.props.user} openModal={this.openModal.bind(this)} navigator={this.props.navigator}/>
           <FakeNavBar
                 blur={false}
                 backgroundStyle={{backgroundColor:colors.shuttleGray}}

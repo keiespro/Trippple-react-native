@@ -83,15 +83,15 @@ class SelectImageSource extends Component{
 
   }
 
-  gotImage =(imageFile)=>{
+  // gotImage(imageFile){
 
-    OnboardingActions.proceedToNextScreen({
-      image:imageFile,
-      image_type: this.props.image_type || this.props.imageType,
+  //   OnboardingActions.proceedToNextScreen({
+  //     image:imageFile,
+  //     image_type: this.props.image_type || this.props.imageType,
 
-    })
+  //   })
 
-  }
+  // }
 
   onPressFacebook(fbUser){
 

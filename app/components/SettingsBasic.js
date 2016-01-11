@@ -62,7 +62,6 @@ class ProfileField extends React.Component{
     }
   }
 
-  _editField=()=>{}
   formattedPhone(){
     return formatPhone(this.props.user[this.props.fieldName])
   }
@@ -172,7 +171,7 @@ class SettingsBasic extends React.Component{
   onPressFacebook(fbUser){
     this.setState({fbUser});
   }
-  _pressNewImage =()=>{
+  _pressNewImage(){
     this.props.navigator.push({
       component: SelfImage,
       sceneConfig: Navigator.SceneConfigs.FloatFromRight,
@@ -209,7 +208,7 @@ class SettingsBasic extends React.Component{
         <ScrollableTabView style={{overflow:'hidden',}} padded={false} renderTabBar={(props)=><CustomTabBar {...props}/>}>
           <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:MagicNumbers.screenPadding/2}}  tabLabel={'GENERAL'}>
           {user.relationship_status == 'single' ? null : <View style={{height:150,width:150,alignSelf:'center'}}>
-          <TouchableOpacity onPress={this._pressNewImage} style={{marginTop:20,}}>
+          <TouchableOpacity onPress={this._pressNewImage.bind(this)} style={{marginTop:20,}}>
             <Image
               style={styles.userimage}
               key={user.id+'thu'}

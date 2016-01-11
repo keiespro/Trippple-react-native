@@ -53,7 +53,7 @@ class Register extends Component{
     return this.state.inputFieldValue
   }
 
-  onError =(err)=>{
+  onError(err){
     if(!err || !err.phoneError){
         return;
     }
@@ -74,7 +74,7 @@ class Register extends Component{
   shouldHide(state) { return (state.phone.length != 10) }
   shouldShow(state) { return (state.phone.length == 10) }
 
-  handleInputChange =(newValues: any)=> {
+  handleInputChange(newValues: any){
     var {phone} = newValues;
     if(phone && phone.length < this.state.phone.length){
       newValues.phoneError = null
@@ -82,30 +82,30 @@ class Register extends Component{
     this.setState(newValues)
   }
 
-  _submit =()=> {
-    // if(!this.state.canContinue){
-    //   return false;
-    // }
-    const phoneNumber = this.state.phone;
+  // _submit(){
+  //   // if(!this.state.canContinue){
+  //   //   return false;
+  //   // }
+  //   const phoneNumber = this.state.phone;
 
-    UserActions.requestPinLogin(phoneNumber);
+  //   UserActions.requestPinLogin(phoneNumber);
 
-    this.setTimeout( () => {
-      if(this.state.phoneError){ return false; }
+  //   this.setTimeout( () => {
+  //     if(this.state.phoneError){ return false; }
 
-      this.props.navigator.push({
-        component: PinScreen,
-        title: '',
-        id:'pw',
-        sceneConfig: CustomSceneConfigs.HorizontalSlide,
-        passProps: {
-          phone: phoneNumber,
-          initialKeyboardSpace: this.state.keyboardSpace
-        }
-      })
-    },500);
+  //     this.props.navigator.push({
+  //       component: PinScreen,
+  //       title: '',
+  //       id:'pw',
+  //       sceneConfig: CustomSceneConfigs.HorizontalSlide,
+  //       passProps: {
+  //         phone: phoneNumber,
+  //         initialKeyboardSpace: this.state.keyboardSpace
+  //       }
+  //     })
+  //   },500);
 
-  }
+  // }
 
   render(){
 

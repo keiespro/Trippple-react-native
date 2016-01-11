@@ -29,17 +29,17 @@ class CoupleCameraControl extends Component{
       cameraType: Camera.constants.Type.front
     }
   }
-  _goBack =()=> {
-    this.setState({
-      image: null
-    })
-    if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
+  // _goBack(){
+  //   this.setState({
+  //     image: null
+  //   })
+  //   if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
 
-      this.props.navigator.pop()
-    }else{
-      OnboardingActions.proceedToPrevScreen()
-    }
-  }
+  //     this.props.navigator.pop()
+  //   }else{
+  //     OnboardingActions.proceedToPrevScreen()
+  //   }
+  // }
 
   render() {
 
@@ -51,7 +51,7 @@ class CoupleCameraControl extends Component{
         <View style={{marginBottom:10}}>
           {this.props.navigator.getCurrentRoutes()[0].id == 'potentials' ? <BackButton navigator={this.props.navigator}/> : <OnboardingBackButton/> }
         </View>
-          <TouchableOpacity  onPress={this._switchCamera} style={[{height:50,width:48},styles.rightbutton]}>
+          <TouchableOpacity  onPress={this._switchCamera.bind(this)} style={[{height:50,width:48},styles.rightbutton]}>
             <View>
               <Image
               resizeMode={Image.resizeMode.contain}
@@ -82,7 +82,7 @@ class CoupleCameraControl extends Component{
     );
   }
 
-  _switchCamera =()=> {
+  _switchCamera(){
     var state = {};
     state.cameraType = (this.state.cameraType === Camera.constants.Type.back ? Camera.constants.Type.front : Camera.constants.Type.back);
     this.setState(state);

@@ -15,16 +15,16 @@ class EditPage extends Component{
       editedValue: ''
     }
   }
-  handleCancel =()=> {
+  handleCancel(){
 
     this.props.navigator.pop();
   }
-  handleUpdate =()=>{
+  handleUpdate(){
     UserActions.updateUser({firstname: this.state.editedValue});
     // this.props.navigator.pop();
 
   }
-  _onTextChange = (text) => {
+  _onTextChange(text){
     this.setState({editedValue: text})
   }
   render(){
@@ -37,7 +37,7 @@ class EditPage extends Component{
             bounces={false}
             >
             <View style={[styles.inputWrap]}>
-              <TextInput onChangeText={this._onTextChange} autofocus={true} defaultValue={this.props.val} style={styles.input}/>
+              <TextInput onChangeText={this._onTextChange.bind(this)} autofocus={true} defaultValue={this.props.val} style={styles.input}/>
             </View>
 
           </ScrollView>
@@ -46,14 +46,14 @@ class EditPage extends Component{
               ]}>
             <TouchableHighlight
                style={[styles.continueButton]}
-               onPress={this.handleCancel}
+               onPress={this.handleCancel.bind(this)}
                underlayColor="black">
 
                <Text style={styles.continueButtonText}>Cancel</Text>
              </TouchableHighlight>
              <TouchableHighlight
                 style={[styles.continueButton]}
-                onPress={this.handleUpdate}
+                onPress={this.handleUpdate.bind(this)}
                 underlayColor="black">
 
                 <Text style={styles.continueButtonText}>Update</Text>
