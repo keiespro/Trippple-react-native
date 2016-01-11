@@ -60,24 +60,42 @@
   [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
 }
 
-// Add listener for notifications permissions grant from user
+// RN >= 0.18.0 SYNTAX //
+//
+// Required to register for notifications
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
+{
+  [RCTPushNotificationManager didRegisterUserNotificationSettings:notificationSettings];
+}
+// Required for the register event.
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-  [RCTPushNotificationManager application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+  [RCTPushNotificationManager didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
-
-// Add notification listener
+// Required for the notification event.
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)notification
 {
-  [RCTPushNotificationManager application:application didReceiveRemoteNotification:notification];
+  [RCTPushNotificationManager didReceiveRemoteNotification:notification];
 }
-
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-  [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
-
-  return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                        openURL:url
-                                              sourceApplication:sourceApplication
-                                                     annotation:annotation];
-}
+// RN < 0.17.0 SYNTAX //
+//// Add listener for notifications permissions grant from user
+//- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+//{
+//  [RCTPushNotificationManager application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+//}
+//
+//// Add notification listener
+//- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)notification
+//{
+//  [RCTPushNotificationManager application:application didReceiveRemoteNotification:notification];
+//}
+//
+//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+//  [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
+//
+//  return [[FBSDKApplicationDelegate sharedInstance] application:application
+//                                                        openURL:url
+//                                              sourceApplication:sourceApplication
+//                                                     annotation:annotation];
+//}
 @end

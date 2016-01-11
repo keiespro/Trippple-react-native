@@ -6,7 +6,7 @@ import config from './config'
 const {KEYCHAIN_NAMESPACE} = config
 import AppActions from './flux/actions/AppActions'
 
- class Boot extends React.Component{
+class Boot extends React.Component{
   constructor(props){
     super();
 
@@ -21,12 +21,12 @@ import AppActions from './flux/actions/AppActions'
 
     Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
     .then((creds)=>{
-      AppActions.gotCredentials(creds)
+      console.warn('got creds',creds);
+       AppActions.gotCredentials(creds)
+    }).then((creds)=>{
       this.setBooted()
-    })
-    .catch((err)=>{
-      this.setBooted()
-      AppActions.noCredentials(err)
+    }).catch((err)=>{
+      console.warn('KEYCHAIN ERR',err)
     })
   }
 
@@ -35,6 +35,7 @@ import AppActions from './flux/actions/AppActions'
   }
 
   render(){
+    console.warn('booted',this.state.booted);
     return this.state.booted ? <App key="app"/> : <LoadingOverlay />
   }
 

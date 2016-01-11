@@ -1,13 +1,14 @@
 import AppInfo from 'react-native-app-info'
-import Promise from 'bluebird'
 import {Platform, NativeModules} from 'react-native'
 const { FileTransfer, RNAppInfo } = NativeModules
 import CredentialsStore from '../flux/stores/CredentialsStore'
-const UploadFile = Promise.promisify(FileTransfer.upload)
+// const UploadFile = Promise.promisify(FileTransfer.upload)
 import config from '../config'
+
 const { SERVER_URL } = config
 
-async function publicRequest(endpoint, payload){
+
+function publicRequest(endpoint, payload){
   const req = {
       method: 'post',
       headers: {
@@ -20,25 +21,32 @@ async function publicRequest(endpoint, payload){
       },
       body: JSON.stringify(payload)
     };
-  try{
-    return await fetch( `${SERVER_URL}/${endpoint}`, req)
-  }
-  catch(err){
-    return err
-  }
+    return fetch( `${SERVER_URL}/${endpoint}`, req).then((res) => res).catch((err) => err)
 }
 
-async function authenticatedRequest(endpoint: '', payload: {}){
+ function authenticatedRequest(endpoint: '', payload: {}){
   const credentials = CredentialsStore.getCredentials()
   const authPayload = {...payload, ...credentials}
+  console.warn('auth request '+endpoint);
 
-  try{
-    const res = await publicRequest(endpoint, authPayload);
-    return await res.json()
-  }
-  catch(err){
-    return err
-  }
+  const req = {
+      method: 'post',
+      headers: {
+        'Accept':           'application/json',
+        'Content-Type':     'application/json',
+        'X-T3-Api-Version': 2,
+        'X-T3-App-Version': AppInfo.getInfoShortVersion(),
+        'X-T3-App-OS':      Platform.OS,
+        'X-T3-App-Name':    RNAppInfo.name
+      },
+      body: JSON.stringify(authPayload),
+    };
+    return fetch( `${SERVER_URL}/${endpoint}`, req).then((res)=>{
+
+      console.warn('RRREESSS',res);
+      return res.json()
+    })
+
 }
 
 async function authenticatedFileUpload(endpoint, image, image_type, cropData){
@@ -68,16 +76,16 @@ async function authenticatedFileUpload(endpoint, image, image_type, cropData){
 
 const api = {
 
-  async requestPin(phone){
-    return await publicRequest('request_security_pin', { phone })
+  requestPin(phone){
+    return publicRequest('request_security_pin', { phone })
   },
 
-  async verifyPin(pin,phone){
+  verifyPin(pin,phone){
 
     const platform = require('Platform');
     const deviceInfo = require('./DeviceInfo')
     const payload = { pin, phone, device: deviceInfo.default }
-    return await publicRequest('verify_security_pin', payload);
+    return publicRequest('verify_security_pin', payload);
   },
 
   updateUser(payload){
@@ -85,11 +93,13 @@ const api = {
   },
 
   getUserInfo(){
+
+    console.warn('api.getuserinfo');
     return authenticatedRequest('info')
   },
 
   getMatches(page){
-
+    console.warn('api.getmatches');
     return authenticatedRequest('getMatches', {page})
     //v2 endpoint
   },
@@ -137,44 +147,52 @@ const api = {
     return authenticatedRequest('messages', payload)
   },
 
-  async getPotentials(coordinates){
-    return await authenticatedRequest('potentials')
+  getPotentials(coordinates){
+    return authenticatedRequest('potentials')
   },
 
-  async sendLike(like_user_id,like_status,like_user_type,from_user_type){
+  sendLike(like_user_id,like_status,like_user_type,from_user_type){
   // fix
-    return await authenticatedRequest('likes', { like_status, like_user_id, like_user_type, from_user_type })
+    return authenticatedRequest('likes', { like_status, like_user_id, like_user_type, from_user_type })
   },
 
   saveFacebookPicture(photo) {
     return publicRequest('save_facebook_picture', photo);
   },
   //
-  async uploadImage(image, image_type, cropData){
+  uploadImage(image, image_type, cropData){
     if(!image_type){
        image_type = 'profile'
     }
-    return await authenticatedFileUpload('upload', image, image_type, cropData).then((res) => res.json())
+    return authenticatedFileUpload('upload', image, image_type, cropData)
+            .then((res) => res.json())
+            .catch((err) => {
+              console.warn('err',{error: err})
+            })
   },
 
   joinCouple(partner_phone){
     return authenticatedRequest('join_couple', { partner_phone })
   },
 
-  async getProfileSettingsOptions(){
-    return await publicRequest('get_client_user_profile_options').then((res) => res.json())
+  getProfileSettingsOptions(){
+    return publicRequest('get_client_user_profile_options')
+            .then((res)=> res.json().catch((err) => { return err }))
+            .catch((err) => {
+              console.warn('err',{error: err})
+            })
   },
 
-  async sendContactsToBlock(data,start){
-    return await authenticatedRequest('process_phone_contacts', {data})
+  sendContactsToBlock(data,start){
+    return authenticatedRequest('process_phone_contacts', {data})
   },
 
-  async updatePushToken(push_token){
-    return await authenticatedRequest('update', { push_token })
+  updatePushToken(push_token){
+    return authenticatedRequest('update', { push_token })
   },
 
-  async disableAccount(){
-    return await authenticatedRequest('disable')
+  disableAccount(){
+    return authenticatedRequest('disable')
   }
 
 

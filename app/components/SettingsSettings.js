@@ -147,6 +147,7 @@ class SettingsSettings extends React.Component{
         });
       })
       .catch((err) => {
+        console.warn(err);
       });
 
   }

@@ -32,7 +32,7 @@ import Card from './Card'
 
 class CardStack extends React.Component{
 
-  static displayName = 'CardStack'
+  static displayName = 'CardStack';
 
   constructor(props){
     super()
@@ -76,7 +76,7 @@ class CardStack extends React.Component{
     })
   }
   componentWillReceiveProps(nProps){
-    if(this.state.animatedIn && this.props.potentials[0].user.id != nProps.potentials[0].user.id ){
+    if(nProps && this.state.animatedIn && this.props.potentials[0].user.id != nProps.potentials[0].user.id ){
         this.state.pan.setValue({x: 0, y: 0});
         // this.initializePanResponder()
     }

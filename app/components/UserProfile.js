@@ -36,7 +36,7 @@ class UserProfile extends React.Component{
 
   static defaultProps = {
     cardWidth: DeviceWidth
-  }
+  };
 
   constructor(props){
     super()

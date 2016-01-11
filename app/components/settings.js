@@ -56,7 +56,6 @@ const PickerItemIOS = PickerIOS.Item;
 
 
 
-@scrollable
 class SettingsInside extends React.Component{
   constructor(props){
     super(props)
@@ -74,14 +73,18 @@ class SettingsInside extends React.Component{
   componentDidMount() {
 
 
-    Api.getProfileSettingsOptions().then((options) => {
+    Api.getProfileSettingsOptions()
+    .then((options) => {
       if (options.settings) {
         this.setState({
           settingOptions: options.settings
         });
       } else {
       }
-    });
+    })
+    .catch((err) => {
+      dispatch({error: err})
+    })
   }
 
   setNativeProps(props) {
@@ -400,7 +403,7 @@ class Settings extends React.Component{
       <View style={styles.container}>
         <SettingsInside user={this.props.user} openModal={this.openModal} navigator={this.props.navigator}/>
           <FakeNavBar
-                blur={true}
+                blur={false}
                 backgroundStyle={{backgroundColor:colors.shuttleGray}}
                 hideNext={true}
                 navigator={this.props.navigator}

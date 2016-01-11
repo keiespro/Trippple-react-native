@@ -45,6 +45,8 @@ class PermissionSwitches extends React.Component{
         locationSetting: parseInt(OSPermissions.location) > 2 && locationSetting ? true : false,
         notificationSetting: OSPermissions.notifications && notificationSetting ? true : false,
       })
+    }).catch((err) => {
+      console.warn('errpr',err)
     })
   }
   toggleLocation(){
@@ -74,7 +76,10 @@ class PermissionSwitches extends React.Component{
       })
     }else{
       const newValue = !this.state.locationSetting;
-      AsyncStorage.setItem('locationSetting', newValue + '');
+      AsyncStorage.setItem('locationSetting', newValue + '')
+      .catch((err) => {
+        dispatch({error: err})
+      });
       this.setState({ locationSetting: newValue })
     }
   }
@@ -100,7 +105,10 @@ class PermissionSwitches extends React.Component{
         }else{
           const newValue = !this.state.notificationSetting;
           this.setState({ notificationSetting: newValue });
-          AsyncStorage.setItem('notificationSetting', newValue + '');
+          AsyncStorage.setItem('notificationSetting', newValue + '')
+          .catch((err) => {
+            dispatch({error: err})
+          });
           NotificationActions.requestNotificationsPermission()
         }
       })

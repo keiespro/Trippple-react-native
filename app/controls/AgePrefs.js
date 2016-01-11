@@ -188,9 +188,9 @@ class ActiveDot extends React.Component{
   }
 
   componentWillReceiveProps(nProps){
-    const nval = Math.round(SliderWidth * (nProps.ageVal-18) / 32)
+    const nval = Math.round(SliderWidth * (nProps.ageVal-18) / 32);
     // if(Math.abs(this._animatedValueX - nval) >= SliderWidth/this.props.numberGroups){
-      this._animatedValueX = nval
+      this._animatedValueX = nval;
 
       Animated.spring(this.state.ageVal,{
         toValue:nval,

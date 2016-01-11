@@ -1,11 +1,13 @@
-window.navigator.userAgent = '' // socketio-client
+// var {navigator} = window
+// window.navigator = {}
+// window.navigator.userAgent = 'react-native' // socketio-client
 
 import {WEBSOCKET_URL} from '../config'
 
 import React from 'react-native'
 import { Component, View, AlertIOS, AsyncStorage, AppStateIOS, PushNotificationIOS, VibrationIOS } from 'react-native'
 
-import Promise from 'bluebird'
+import io from 'socket.io-client/socket.io'
 import NotificationActions from '../flux/actions/NotificationActions'
 import MatchActions from '../flux/actions/MatchActions'
 import UserActions from '../flux/actions/UserActions'
@@ -15,7 +17,6 @@ import colors from './colors'
 
 import reactMixin from 'react-mixin'
 
-@reactMixin.decorate(TimerMixin)
 class NotificationCommander extends Component{
   constructor(props){
     super()
@@ -27,7 +28,7 @@ class NotificationCommander extends Component{
       processing:false
     }
 
-    this.socket = require('socket.io-client/socket.io')(WEBSOCKET_URL, {jsonp:false})
+    this.socket = io('ws://staging-api.trippple.co', {jsonp:false})
   }
 
   componentDidMount(){
@@ -52,7 +53,7 @@ class NotificationCommander extends Component{
   }
   componentDidUpdate(prevProps,prevState){
     if(!prevProps.api_key && this.props.api_key && !prevState.socketConnected){
-      this.connectSocket()
+      // this.connectSocket()
     }
 
     if(this.state.processing && !prevState.processing){
@@ -226,6 +227,8 @@ class NotificationCommander extends Component{
   }
 
 }
+
+reactMixin(NotificationCommander.prototype,TimerMixin)
 
 
 export default NotificationCommander

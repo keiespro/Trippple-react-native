@@ -28,19 +28,19 @@ class ChatStore {
     this.on('init', () => {/*noop*/})
     this.on('error', (err, payload, currentState) => {
       if(__DEBUG__ && __DEV__){
-        console.log(err, payload, currentState);
+        console.warn(err, payload, currentState);
       }
     })
     this.on('bootstrap', (p) => {
       if(__DEBUG__ && __DEV__){
-        console.log('bootstrap',p);
+        console.warn('bootstrap',p);
       }
     })
 
 
     this.on('afterEach', ({payload,state}) =>{
       if(__DEBUG__ && __DEV__){
-        console.log('aftereach',state,payload)
+        console.warn('aftereach',state,payload)
       }
     })
 
@@ -53,7 +53,7 @@ class ChatStore {
   save(){
     var partialSnapshot = alt.takeSnapshot(this);
     if(__DEBUG__ && __DEV__){
-      console.log('partialSnapshot',partialSnapshot)
+      console.warn('partialSnapshot',partialSnapshot)
     }
     AsyncStorage.setItem('ChatStore',JSON.stringify(partialSnapshot));
 
@@ -95,7 +95,7 @@ class ChatStore {
   }
 
   handleReceiveMessages(payload) {
-    console.log(Object.keys(payload))
+    console.warn(Object.keys(payload))
     if(!payload || !payload.messages){return false}
 
     var {message_thread,match_id} = payload.messages;

@@ -54,7 +54,9 @@ var ProfilePhoto = React.createClass({
           },
         });
       })
-      .done();
+      .catch((err) => {
+        dispatch({error: err})
+      })
   },
 
   render(){
@@ -103,7 +105,9 @@ var ProfileInfo = React.createClass({
           },
         });
       })
-      .done();
+      .catch((err) => {
+        dispatch({error: err})
+      })
   },
 
   render(){
@@ -258,7 +262,9 @@ var PhotoAlbums = React.createClass({
           }
         }
       })
-      .done();
+      .catch((err) => {
+        dispatch({error: err})
+      })
   },
   openAlbum(album){
     this.fetchAlbumPhotos(album)
@@ -312,7 +318,9 @@ var PhotoAlbums = React.createClass({
             // view_loaded: 'list_album_photos',
           });
         })
-        .done();
+        .catch((err) => {
+          dispatch({error: err})
+        })
     }
   },
 

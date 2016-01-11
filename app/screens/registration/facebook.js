@@ -31,7 +31,7 @@ class Facebook extends Component{
     onPress: React.PropTypes.func,
     onLogin: React.PropTypes.func,
     onLogout: React.PropTypes.func,
-  }
+  };
 
   constructor(props){
     super()
@@ -78,6 +78,9 @@ class Facebook extends Component{
         // UserActions.updateUser({email,timezone})
 
 
+     })
+     .catch((err) => {
+       dispatch({error: err})
      })
   }
 

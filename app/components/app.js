@@ -11,7 +11,7 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
 import alt from '../flux/alt';
-import AltContainer from 'alt-container/native';
+import AltContainer from 'alt-container';
 
 import Welcome from './welcome';
 import Main from './main';
@@ -40,6 +40,8 @@ class AppRoutes extends Component{
 
   constructor(props){
     super()
+    console.warn('AppRoutes');
+
   }
 
   render(){
@@ -48,6 +50,7 @@ class AppRoutes extends Component{
     switch(userStatus){
 
       case 'verified':
+      console.warn('v');
         return <Onboarding
                 key="OnboardingScreen"
                 user={this.props.user}
@@ -66,7 +69,8 @@ class AppRoutes extends Component{
 
       case null:
       default:
-        return <Welcome AppState={this.props.AppState} key={'welcomescene'} />
+      console.warn('default');
+        return (<Welcome AppState={this.props.AppState} key={'welcomescene'} />)
       }
   }
 }
@@ -74,6 +78,7 @@ class AppRoutes extends Component{
 class TopLevel extends Component{
   constructor(props){
     super()
+    console.warn('toplevel');
     this.state = {
       showOverlay: props.user ? false : true,
       showCheckmark: false,
@@ -82,7 +87,7 @@ class TopLevel extends Component{
 
   componentWillReceiveProps(nProps){
 
-    if(this.props.user && nProps.user &&  nProps.user.status == 'verified' && this.props.user.status != 'verified'){
+    if(nProps && this.props.user && nProps.user &&  nProps.user.status == 'verified' && this.props.user.status != 'verified'){
 
       this.setState({showCheckmark:true,checkMarkCopy: {title: 'SUCCESS' }})
 
@@ -99,7 +104,11 @@ class TopLevel extends Component{
         <ReachabilitySubscription/>
         <AppVisibility/>
 
-        <AppRoutes user={this.props.user} AppState={this.props.AppState} currentRoute={this.props.AppState.currentRoute}/>
+        <AppRoutes
+          user={this.props.user}
+          AppState={this.props.AppState}
+          currentRoute={this.props.AppState.currentRoute}
+        />
 
         {(this.state.showCheckmark || this.props.AppState.showCheckmark) ?
           <CheckMarkScreen
@@ -107,7 +116,7 @@ class TopLevel extends Component{
             isVisible={true}
             checkMarkCopy={this.state.checkMarkCopy || this.props.AppState.checkMarkCopy || ''}
             checkmarkRequireButtonPress={this.props.AppState.checkmarkRequireButtonPress || false}
-          /> : null }
+          /> : <View/> }
 
         <LoadingOverlay key="LoadingOverlay" isVisible={this.props.AppState.showOverlay || this.state.showOverlay} />
         <Connectivity/>

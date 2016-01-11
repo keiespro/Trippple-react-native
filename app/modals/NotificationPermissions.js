@@ -39,7 +39,7 @@ const failedTitle = `ALERTS DISABLED`,
 class NotificationPermissions extends React.Component{
   static propTypes = {
     relevantUser: PropTypes.object //user
-  }
+  };
 
   static defaultProps = {
     buttonText: 'YES',
@@ -47,7 +47,7 @@ class NotificationPermissions extends React.Component{
       image_url: null,
       firstname: 'This user'
     }
-  }
+  };
 
   constructor(props){
       super()

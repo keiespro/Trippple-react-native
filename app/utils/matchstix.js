@@ -17,7 +17,7 @@ class MatchStix {
       }
     }
     this.reserve(m.matchId,now());
-  }
+  };
 
   static reserve(slug,ts) {
     if (arguments[0] === undefined) throw "MatchStixerr -> reserve: String";
@@ -28,25 +28,25 @@ class MatchStix {
     this._Map_MatchID_lastUpdatedAt[strSlug] = ts;
     this._Map_MatchID_unreadCnt[strSlug]     = 0;
     this._mCount++;
-  }
+  };
 
   static appendMsg(matchId: integer, msgInfo: any){
     this._Map_MatchID_unreadCnt[matchId]++;
-  }
+  };
 
   static scaleUnread(slug, delta) {
     const currentUnread = this._Map_MatchID_unreadCnt[slug];
     let newCnt = Math.max(0, delta + currentUnread);
     true; //- for debugging
-  }
+  };
 
   static get matchCount(){
     return this._mCount;
-  }
+  };
 
   static get unreadCount() {
     return _.reduce(Object.values(this._Map_MatchID_unreadCnt), (a, m) => a+m, 0);
-  }
+  };
 }
 
 MatchStix._cache                     = {};

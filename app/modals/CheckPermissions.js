@@ -48,7 +48,7 @@ import AppActions from '../flux/actions/AppActions'
 
   static defaultProps = {
     buttonText: 'YES'
-  }
+  };
 
   constructor(props) {
     super();
@@ -90,7 +90,7 @@ import AppActions from '../flux/actions/AppActions'
         this.handleSuccess(geo)
       },
       (error) => {
-        __DEV__ && console.log(error)
+        __DEV__ && console.warn(error)
         this.requestPermission()
 
         // this.setState({hasPermission: false, failedState: true})

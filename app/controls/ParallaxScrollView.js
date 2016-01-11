@@ -7,7 +7,7 @@ const ScrollViewPropTypes = ScrollView.propTypes;
 import scrollable from 'react-native-scrollable-decorator';
 import colors from '../utils/colors'
 
-@scrollable
+
 class ParallaxView extends React.Component{
 
     static propTypes = {
@@ -17,14 +17,14 @@ class ParallaxView extends React.Component{
         header: React.PropTypes.node,
         blur: React.PropTypes.string,
         contentInset: React.PropTypes.object,
-    }
+    };
 
     static getDefaultProps = {
       windowHeight: 300,
       contentInset: {
           top: -20 * screen.scale
       }
-    }
+    };
 
     constructor(props){
       super();

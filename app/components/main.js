@@ -38,12 +38,10 @@ const DeviceWidth = Dimensions.get('window').width;
 
 
 class Main extends Component{
-  static propTypes = { user: React.PropTypes.any }
-
-  static defaultProps = { user: null }
 
   constructor(props){
     super();
+    console.warn('main')
 
   }
 
@@ -55,9 +53,11 @@ class Main extends Component{
         const savedMatches = JSON.parse(data[1][1]);
         const savedChats = JSON.parse(data[0][1]);
         const saved = {...JSON.parse(savedChats),...JSON.parse(savedMatches)}
-        __DEV__ && console.log(saved);
+        __DEV__ && console.warn(saved);
         alt.bootstrap(JSON.stringify(saved));
       }
+    }).catch((err) => {
+      dispatch({error: err})
     })
 
   }
@@ -74,7 +74,7 @@ class Main extends Component{
     if(nProps.currentRoute){
       if(nProps.currentRoute != this.refs.nav.state.presentedIndex){
         if(this.props.currentRoute && nProps.currentRoute && this.props.currentRoute.match_id && nProps.currentRoute.match_id && nProps.currentRoute.match_id == this.props.currentRoute.match_id){
-          return false
+          return
         }else if(nProps.currentRoute.route && nProps.currentRoute.route == 'chat'){
           const routs = this.refs.nav.getCurrentRoutes()
 

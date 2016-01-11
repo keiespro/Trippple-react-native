@@ -4,9 +4,12 @@ import UserActions from './UserActions'
 
 class AppActions {
   gotCredentials(creds) {
-    return creds
+    return (dispatch) => {
+      dispatch(creds)
+    }
   }
   noCredentials(err) {
+    console.warn('NOCREDENTiALS',err);
     return (dispatch) => {
       dispatch(err)
     };
@@ -40,7 +43,7 @@ class AppActions {
   }
   saveStores() {
     return (dispatch) => {
-      dispatch();
+      dispatch(true);
     };
   }
 

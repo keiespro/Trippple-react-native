@@ -19,7 +19,7 @@ class PotentialsStore {
     this.on('init', () => {/*noop*/});
 
     this.on('error', (err, payload, currentState) => {
-      console.log(err, payload, currentState);
+      console.warn(err, payload, currentState);
     });
 
     this.exportPublicMethods({

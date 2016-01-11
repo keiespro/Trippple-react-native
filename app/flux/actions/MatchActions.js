@@ -14,6 +14,9 @@ class MatchActions {
         .then((res) => {
           dispatch({matches: res.response.length ? res.response : [], page: page || false});
         })
+        .catch((err) => {
+          dispatch({error: err})
+        })
     };
   }
 
@@ -29,6 +32,9 @@ class MatchActions {
       Api.getMessages({match_id: matchID, page: page || false})
       .then((res) => {
         dispatch({messages: res.response || []});
+      })
+      .catch((err) => {
+        dispatch({error: err})
       })
     };
   }
@@ -57,13 +63,20 @@ class MatchActions {
     return (dispatch) => {
       Api.createMessage(message, matchID)
       .then(()=>{
-        return Api.getMessages({match_id: matchID}).then((res) => {
-          const messages = res.response;
-          Api.getMatches(0)
-          .then((resMatches) => {
-            dispatch({messages, matchesData: {matches: resMatches.response, page: 0}})
-          })
-        })
+        return Api.getMessages({match_id: matchID})
+                .then((res) => {
+                  const messages = res.response;
+                  Api.getMatches(0)
+                  .then((resMatches) => {
+                    dispatch({messages, matchesData: {matches: resMatches.response, page: 0}})
+                  })
+                  .catch((err) => {
+                    dispatch({error: err})
+                  })
+                })
+                .catch((err) => {
+                  dispatch({error: err})
+                })
       })
       .catch((err) => {
         console.warn('Message failed to send',err)
@@ -79,6 +92,12 @@ class MatchActions {
         .then((res) => {
           dispatch({matches: res.response, page: 0});
         })
+        .catch((err) => {
+          dispatch({error: err})
+        })
+      })
+      .catch((err) => {
+        dispatch({error: err})
       })
     };
   }
@@ -88,6 +107,9 @@ class MatchActions {
       Api.unMatch(matchID)
       .then(()=>{
         dispatch(matchID);
+      })
+      .catch((err) => {
+        dispatch({error: err})
       })
     };
   }
@@ -104,6 +126,9 @@ class MatchActions {
           dispatch({})
 
         }
+      })
+      .catch((err) => {
+        dispatch({error: err})
       })
     };
   }

@@ -45,17 +45,17 @@ class MatchesStore {
     this.on('init', () => {/*noop*/});
     this.on('error', (err, payload, currentState) => {
       if(__DEBUG__ && __DEV__){
-        console.log('ERROR',err, payload, currentState);
+        console.warn('ERROR',err, payload, currentState);
       }
     });
     this.on('bootstrap', (p) => {
       if(__DEBUG__ && __DEV__){
-        console.log('bootstrap',p);
+        console.warn('bootstrap',p);
       }
     });
     this.on('afterEach', ({payload, state}) =>{
       if(__DEBUG__ && __DEV__){
-        console.log(payload,state);
+        console.warn(payload,state);
       }
     })
   }
@@ -65,7 +65,7 @@ class MatchesStore {
   save(){
     var partialSnapshot = alt.takeSnapshot(this);
 
-    __DEV__ && console.log('saving',partialSnapshot);
+    __DEV__ && console.warn('saving',partialSnapshot);
     AsyncStorage.setItem('MatchesStore',JSON.stringify(partialSnapshot));
 
   }

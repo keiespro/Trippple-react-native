@@ -7,7 +7,7 @@ const screen = Dimensions.get('window');
 const ScrollViewPropTypes = ScrollView.propTypes;
 import scrollable from 'react-native-scrollable-decorator';
 
-@scrollable
+
 class ParallaxSwiper extends React.Component{
 
     static propTypes = {

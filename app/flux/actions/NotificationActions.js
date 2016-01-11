@@ -2,7 +2,7 @@ import alt from '../alt'
 import Api from '../../utils/api'
 import Keychain from 'Keychain'
 import moment from 'moment'
-import Promise from 'bluebird'
+// import Promise from 'bluebird'
 import MatchActions from '../actions/MatchActions'
 import AppActions from '../actions/AppActions'
 import { AsyncStorage, PushNotificationIOS } from 'react-native'
@@ -15,6 +15,9 @@ class NotificationActions {
         __DEV__ && console.warn('APN -> ',token);
         Api.updatePushToken(token)
         .then(()=> dispatch(token))
+        .catch((err) => {
+          dispatch({error: err})
+        })
       })
       PushNotificationIOS.requestPermissions({alert:true,badge:true,sound:true})
     };

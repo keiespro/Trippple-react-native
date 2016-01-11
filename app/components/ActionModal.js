@@ -41,16 +41,6 @@ class ActionModal extends Component{
   }
 
 
-  componentDidMount(){
-
-
-  }
-  componentWillUnmount(){
-  }
-  componentWillReceiveProps(props){
-
-
-  }
   _continue(){
     this.toggleModal();
   }

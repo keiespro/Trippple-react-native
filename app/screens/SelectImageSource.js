@@ -35,11 +35,11 @@ class SelectImageSource extends Component{
   static propTypes = {
     imageType: PropTypes.oneOf(['profile','couple_profile','avatar']),
 
-  }
+  };
 
   static defaultProps = {
     imageType: 'profile'
-  }
+  };
 
   constructor(props){
     super();

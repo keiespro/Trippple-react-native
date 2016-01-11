@@ -1,29 +1,22 @@
-import React from 'react-native'
-import {
+import React, {
   StyleSheet,
   Text,
   View,
   ScrollView,
   TouchableOpacity,
-  Animated
+  Animated,
+  Dimensions
 } from 'react-native'
 import colors  from '../utils/colors'
-
-// Using bare setTimeout, setInterval, setImmediate
-// and requestAnimationFrame calls is very dangerous
-// because if you forget to cancel the request before
-// the component is unmounted, you risk the callback
-// throwing an exception.
 import TimerMixin from 'react-timer-mixin'
-import Dimensions from 'Dimensions'
 
-let { width, height } = Dimensions.get('window')
+const { width, height } = Dimensions.get('window')
 
 /**
  * Default styles
  * @type {StyleSheetPropType}
  */
-let styles = StyleSheet.create({
+const styles = StyleSheet.create({
   grayDot: {
     backgroundColor: colors.shuttleGray,
     width: 12,
@@ -100,7 +93,7 @@ let styles = StyleSheet.create({
   },
 })
 
-export default React.createClass({
+const Swiper = React.createClass({
 
   /**
    * Props Validation
@@ -190,9 +183,9 @@ export default React.createClass({
   // },
 
   componentDidMount() {
-    this.state.scroll.addListener((e)=>{
-    })
-
+    // this.state.scroll.addListener((e)=>{
+    // })
+    console.warn('swiper2')
   },
 
     /**
@@ -202,9 +195,9 @@ export default React.createClass({
   onScrollBegin(e) {
     // update scroll state
 
-    this.setImmediate(() => {
+    // this.setImmediate(() => {
       this.props.onScrollBeginDrag && this.props.onScrollBeginDrag(e, this.state, this)
-    })
+    // })
   },
 
   /**
@@ -219,12 +212,12 @@ export default React.createClass({
 
     // Note: `this.setState` is async, so I call the `onMomentumScrollEnd`
     // in setTimeout to ensure synchronous update `index`
-    this.setImmediate(() => {
+    // this.setImmediate(() => {
       // this.autoplay()
 
       // if `onMomentumScrollEnd` registered will be called here
       this.props.onMomentumScrollEnd && this.props.onMomentumScrollEnd(e, this.state, this)
-    })
+    // })
   },
 
   /**
@@ -304,18 +297,19 @@ export default React.createClass({
     )
   },
 
-
-  componentWillReceiveProps(nProps){
-    // if(nProps.activeIndex != this.props.activeIndex){
-    //   this.scrollTo(nProps.activeIndex+this.state.index);
-    // }
-  },
+  //
+  // componentWillReceiveProps(nProps){
+  //   // if(nProps.activeIndex != this.props.activeIndex){
+  //   //   this.scrollTo(nProps.activeIndex+this.state.index);
+  //   // }
+  // },
 
   /**
    * Default render
    * @return {object} react-dom
    */
   render() {
+    console.warn('swiper')
     let state = this.state
     let props = this.props
     let children = props.children
@@ -338,8 +332,11 @@ export default React.createClass({
         pages.push(0)
       }
 
-      pages = pages.map((page, i) =>
-        <View style={pageStyle} key={i+'slidepot'}>{children[page]}</View>
+      pages = pages.map((page, i) => {
+        console.warn('page')
+
+          return <View style={pageStyle} key={i+'slidepot'}>{children[page]}</View>
+        }
       )
     }
     else{
@@ -377,7 +374,8 @@ export default React.createClass({
         </ScrollView>
 
         <View pointerEvents={'box-none'} style={[styles['pagination_' + this.state.dir], this.props.paginationStyle,{backgroundColor:colors.spacegray20}]}>
-          {props.showsPagination && React.Children.map(this.props.children, (c,i) => {
+          {props.showsPagination ? React.Children.map(this.props.children, (c,i) => {
+            console.warn('pagina')
             return (
                 <View
                 style={ [(this.props.grayDots ?  styles.grayDot : styles.dot15),
@@ -385,7 +383,7 @@ export default React.createClass({
                     key={'swiperdot'+i}
                   />
             )
-          })}
+          }) : <View/>}
           {/* <Animated.View
               pointerEvents={'box-none'}
               style={[styles['pagination_' + this.state.dir], this.props.paginationStyle,
@@ -420,3 +418,4 @@ export default React.createClass({
     )
   }
 })
+export default Swiper

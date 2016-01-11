@@ -62,6 +62,7 @@ var slides = [
 
 var IntroScreen = React.createClass({
   getInitialState(){
+    console.warn('introscreen');
     return {
       isAnimating: false
     }
@@ -149,7 +150,7 @@ class Carousel extends Component{
     this.state =  {slides}
   }
   render(){
-    var welcomeSlides = this.state.slides.map( (slide,i) => {
+    const welcomeSlides = this.state.slides.map( (slide,i) => {
       return (
         <View key={i+'slide'+i} style={styles.slide}>
         <Image style={ {
@@ -188,7 +189,7 @@ class Carousel extends Component{
 }
 
 
-var Welcome = React.createClass({
+const Welcome = React.createClass({
 
   componentDidMount() {
       Mixpanel.track('On - Home Screen');
@@ -198,13 +199,14 @@ var Welcome = React.createClass({
   },
 
   renderScene(route: Navigator.route, navigator: Navigator) : React.Component {
+    console.warn('renderScene Welcome',route)
     return (<route.component {...route.passProps} key={route.id} navigator={navigator} />);
   },
 
   render() {
 
     return (
-      <FadeInContainer
+      <View><FadeInContainer
         delayAmount={800}
         duration={500}>
 
@@ -223,7 +225,7 @@ var Welcome = React.createClass({
             renderScene={this.renderScene}
           />
         </Image>
-      </FadeInContainer>
+      </FadeInContainer></View>
     );
   },
 

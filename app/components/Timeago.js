@@ -14,13 +14,11 @@ class TimeAgo extends Component{
   static propTypes: {
     time: PropTypes.string.isRequired,
     interval: PropTypes.number
-  }
+  };
 
-  static defaultProps =()=> {
-    return {
+  static defaultProps = {
       interval: 60000
-    }
-  }
+  };
 
   componentDidMount() {
     var {interval} = this.props;

@@ -8,12 +8,11 @@ import {BlurView} from 'react-native-blur';
 
 import { Component, View, ActivityIndicatorIOS, StyleSheet, } from 'react-native';
 
-type Props = {
-  isVisible: boolean;
-}
 
 class LoadingOverlay extends Component{
-
+  constructor(props){
+    super()
+  }
   render() {
     return (
       <Overlay isVisible={this.props.isVisible}>

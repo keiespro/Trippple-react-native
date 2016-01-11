@@ -17,11 +17,11 @@ class FadeInContainer extends Component{
     delayAmount: 0,
     duration: 500,
     delayRender: false
-  }
+  };
 
   constructor(props){
     super()
-
+    console.warn('fadein')
     this.state = {
       shouldRenderChildren: props.delayRender ? false : true,
       fadeAmount: new Animated.Value(0)
@@ -49,13 +49,13 @@ class FadeInContainer extends Component{
   }
   render(){
       return (
-        <Animated.View style={{flex:1,opacity:this.state.fadeAmount,...this.props.style,alignSelf:'stretch'}}>
+        <View><Animated.View style={{flex:1,opacity:this.state.fadeAmount,...this.props.style,alignSelf:'stretch'}}>
           {this.state.shouldRenderChildren ? React.Children.map(this.props.children, (child) =>{
             return (
-              React.cloneElement(child, this.props,)
+              React.cloneElement(child, {...this.props})
             )
-          })  : null}
-        </Animated.View>
+          })  : <View/>}
+        </Animated.View></View>
       )
   }
 

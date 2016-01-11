@@ -6,8 +6,7 @@ import MatchesStore from '../stores/MatchesStore'
 import ChatStore from '../stores/ChatStore'
 import { AsyncStorage, PushNotificationIOS, AlertIOS } from 'react-native'
 import moment from 'moment'
-import Promise from 'bluebird'
-import TimerMixin from 'react-timer-mixin'
+ import TimerMixin from 'react-timer-mixin'
 import reactMixin from 'react-mixin'
 import _ from 'underscore'
 import Log from '../../Log'
@@ -35,11 +34,11 @@ class NotificationsStore {
     })
 
     this.on('init', () => {
-      
+
     })
 
     this.on('error', (err, payload, currentState) => {
-      console.log(err, payload, currentState);
+      console.warn(err, payload, currentState);
     })
   }
 

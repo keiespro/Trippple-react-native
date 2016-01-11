@@ -12,10 +12,6 @@ import Log from '../../Log'
 
 class AppStateStore {
 
-  static config = {
-
-
-  }
   constructor() {
 
     this.userStatus = null
@@ -53,7 +49,7 @@ class AppStateStore {
     })
 
     this.on('error', (err, payload, currentState) => {
-      __DEV__ && __DEBUG__ &&  console.log(err, payload, currentState);
+      __DEV__ && __DEBUG__ &&  console.warn(err, payload, currentState);
     })
     // this.on('init', async () => {
 
@@ -94,11 +90,8 @@ class AppStateStore {
     // this.handleTogglePermission(permission, true)
   }
 
-  async saveToLocalStorage(permission, value){
-    try {
-      await AsyncStorage.setItem(`${permission}`, (value.toString()))
-    } catch (error) {
-    }
+  saveToLocalStorage(permission, value){
+    AsyncStorage.setItem(`${permission}`, (value.toString()))
   }
   handleToggleOverlay(){
     this.setState({

@@ -34,11 +34,20 @@ class UserActions {
   }
 
   getUserInfo() {
+    console.warn('get user info 1');
+
     return (dispatch) => {
+      console.warn('get user info 2');
       Api.getUserInfo()
         .then((res) => {
-          dispatch(res);
-        })
+          console.warn('res',res)
+          return res
+        }).then((res) => {
+            console.warn('res2',res)
+              return dispatch(res)
+
+        }).done()
+
 
     }
   }
@@ -63,6 +72,9 @@ class UserActions {
       .then((res) => {
         dispatch(res.json())
       })
+      .catch((err) => {
+        dispatch({error: err})
+      })
     }
   }
 
@@ -80,6 +92,9 @@ class UserActions {
         .then((uploadRes) => {
           this.getUserInfo.defer()
           dispatch(uploadRes)
+        })
+        .catch((err) => {
+          dispatch({error: err})
         })
     }
   }
@@ -152,7 +167,7 @@ class UserActions {
 
   handleContacts(contacts) {
     return (dispatch) => {
-      AppActions.grantPermission('contacts');
+      AppActions.grantPermission.defer('contacts');
       var allNumbers = _.pluck( _.flatten( _.pluck( contacts, 'phoneNumbers') ), 'number' ).map(cleanNumber)
       Api.sendContactsToBlock( base64.encode( JSON.stringify(allNumbers)))
       dispatch();
@@ -168,6 +183,9 @@ class UserActions {
       Api.disableAccount()
       .then(()=>{
         this.logOut.defer();
+      })
+      .catch((err) => {
+        dispatch({error: err})
       })
     }
   }

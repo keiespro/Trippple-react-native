@@ -93,6 +93,7 @@ class UserStore {
     this.setState({
       user: {...this.state.user, ...user_info, status: user_info.ready ? 'onboarded' :  user_info.status }
     })
+    console.warn('GET USER INFO ',res);
 
     if( user_info.ready){
 
@@ -131,6 +132,9 @@ class UserStore {
     .then(() => {
        Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE)
     })
+    .catch((err) => {
+      dispatch({error: err})
+    })
 
   }
 
@@ -164,7 +168,7 @@ class UserStore {
   }
 
   getUser(){
-
+    console.warn('getuser')
     return this.getState().user;
 
   }

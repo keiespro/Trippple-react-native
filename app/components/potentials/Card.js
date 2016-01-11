@@ -42,7 +42,7 @@ class Card extends React.Component{
 
   static defaultProps = {
     profileVisible: false
-  }
+  };
 
   constructor(props){
     super()
@@ -68,7 +68,7 @@ class Card extends React.Component{
     this.props.toggleProfile()
   }
   componentWillReceiveProps(nProps){
-    if(nProps.pan && this.props.profileVisible != nProps.profileVisible){
+    if(nProps && nProps.pan && this.props.profileVisible != nProps.profileVisible){
       LayoutAnimation.configureNext(animations.layout.spring);
       this.toggleCardHoverOff()
 

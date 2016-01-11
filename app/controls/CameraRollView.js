@@ -72,9 +72,9 @@ const propTypes = {
 
 }
 
-@scrollable
+
 class CameraRollView extends Component{
-  static propTypes = propTypes
+  static propTypes = propTypes;
 
   // iOS groupTypes =
   // 'Album',
@@ -91,7 +91,7 @@ class CameraRollView extends Component{
     batchSize: 30,
     imagesPerRow: 3,
     assetType: 'Photos'
-  }
+  };
 
   constructor(props){
     super()

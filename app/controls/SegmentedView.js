@@ -58,7 +58,7 @@ class SegmentedView extends React.Component{
         selectedTitleStyle: PropTypes.object,
         titleStyle: PropTypes.object,
 
-    }
+    };
 
     static defaultProps = {
       duration: 200,
@@ -72,7 +72,7 @@ class SegmentedView extends React.Component{
       stretch: false,
       selectedTextStyle: null,
       textStyle: null,
-    }
+    };
 
     constructor(props) {
       super()
@@ -88,6 +88,7 @@ class SegmentedView extends React.Component{
     }
 
     componentWillReceiveProps(nextProps) {
+      if(!nextProps.index){ return }
         this.moveTo(nextProps.index);
     }
 

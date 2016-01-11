@@ -26,7 +26,7 @@ class ContinueButton extends Component{
 
   static defaultProps = {
     canContinue: false
-  }
+  };
   constructor(props){
     super();
 

@@ -31,7 +31,7 @@ class BdayScreen extends Component{
   static defaultProps  = {
     date: null,
     timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
-  }
+  };
 
 
   constructor(props){
