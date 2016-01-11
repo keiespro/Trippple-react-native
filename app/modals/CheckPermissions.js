@@ -30,6 +30,8 @@ import styles from './purpleModalStyles'
 import BoxyButton from '../controls/boxyButton'
 import UserActions from '../flux/actions/UserActions'
 import AppActions from '../flux/actions/AppActions'
+import {MagicNumbers} from '../DeviceConfig'
+import Log from '../Log'
 
  export default class CheckPermissions extends React.Component{
 
@@ -90,7 +92,7 @@ import AppActions from '../flux/actions/AppActions'
         this.handleSuccess(geo)
       },
       (error) => {
-        __DEV__ && console.warn(error)
+        Log(error)
         this.requestPermission()
 
         // this.setState({hasPermission: false, failedState: true})
@@ -174,10 +176,10 @@ import AppActions from '../flux/actions/AppActions'
           <Image
             resizeMode={Image.resizeMode.contain}
             style={[{
-              width:150,
-              height:150,
+              width:MagicNumbers.is4s ? 100 : 150,
+              height:MagicNumbers.is4s ? 100 : 150,
               borderRadius:0,
-              marginVertical:20
+              marginVertical: MagicNumbers.is4s ? 0 : 20
             }]}
             source={
               this.state.failedState ? require('../../newimg/iconModalDenied.png') : require('../../newimg/iconModalDeck.png')
@@ -193,14 +195,15 @@ import AppActions from '../flux/actions/AppActions'
             </Text>
 
             <Text style={[styles.rowtext,styles.bigtext,{
-                fontSize:18,marginVertical:10,color: colors.shuttleGray,marginHorizontal:10,marginBottom:30
+              fontSize:18,marginVertical:10,color: colors.shuttleGray,marginHorizontal:10,
+              marginBottom: MagicNumbers.is4s ? 20 : 30
               }]}>{this.state.failedState ? this.props.failedSubtitle : this.props.subtitle || ''}
             </Text>
 
             {this.renderButton()}
           </View>
 
-          <View style={{marginTop:20}}>
+          <View style={{marginTop:MagicNumbers.is4s ? 5 : 20}}>
             <TouchableOpacity style={{padding:10}}
             onPress={()=>this.cancel(false)}>
               <View style={[styles.cancelButton,{ backgroundColor:'transparent'}]} >

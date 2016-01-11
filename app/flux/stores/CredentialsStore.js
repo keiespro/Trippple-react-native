@@ -16,12 +16,20 @@ class CredentialsStore {
     this.api_key = '';
 
     this.on('init', () => {
-      console.log('init credentials store', KEYCHAIN_NAMESPACE,config);
-    /*noop*/})
+      Log('INIT CredentialsStore');
+    });
 
     this.on('error', (err, payload, currentState) => {
-      Log(err, payload, currentState);
-    })
+      Log('ERROR CredentialsStore',err, payload, currentState);
+    });
+
+    this.on('bootstrap', (bootstrappedState) => {
+      Log('BOOTSTRAP CredentialsStore',bootstrappedState);
+    });
+
+    this.on('afterEach', ({payload, state}) => {
+      Log('AFTEREACH CredentialsStore', payload,state);
+    });
 
     this.bindListeners({
       handleGotCredentials: AppActions.GOT_CREDENTIALS,

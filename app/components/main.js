@@ -34,6 +34,7 @@ import AppActions from '../flux/actions/AppActions'
 import NotificationActions from '../flux/actions/NotificationActions'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
+import Log from '../Log'
 
 
 
@@ -41,8 +42,6 @@ class Main extends Component{
 
   constructor(props){
     super();
-    console.warn('main')
-
   }
 
   componentWillMount(){
@@ -53,7 +52,7 @@ class Main extends Component{
         const savedMatches = JSON.parse(data[1][1]);
         const savedChats = JSON.parse(data[0][1]);
         const saved = {...JSON.parse(savedChats),...JSON.parse(savedMatches)}
-        __DEV__ && console.warn(saved);
+        Log('Saved stores',saved);
         alt.bootstrap(JSON.stringify(saved));
       }
     }).catch((err) => {

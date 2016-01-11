@@ -147,7 +147,7 @@ class UserProfile extends React.Component{
             </Swiper> :
             <Image
                     source={{uri: potential.user.image_url}}
-                    key={`${potential.user.id}-cimg`}
+                    key={`${potential.user.id}-cimgx`}
                     style={[styles.imagebg, {
                       flex:1,
                       alignSelf:'stretch',
@@ -265,7 +265,7 @@ var CustomTabBar = React.createClass({
   renderTabOption(name, page) {
     var isTabActive = this.props.pageNumber === page;
     return (
-      <TouchableOpacity key={name} onPress={() => this.props.goToPage(page)}>
+      <TouchableOpacity key={name+page+' '+isTabActive} onPress={() => this.props.goToPage(page)}>
         <View style={[styles.tab]}>
           <Text style={{
               fontFamily:'Montserrat',fontSize:16,

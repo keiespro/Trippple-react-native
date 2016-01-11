@@ -255,7 +255,7 @@ class Card extends React.Component{
                     />
                   </TouchableWithoutFeedback>
                 }
-                { potential.partner && potential.image && potential.image != null &&
+                { potential.partner && potential.image && potential.image != null && potential.image != '' ?
                     <TouchableWithoutFeedback
                       key={`${potential.couple.id}-touchableimg`}
                       style={[styles.imagebg,{ }]}
@@ -274,7 +274,7 @@ class Card extends React.Component{
                         }]}
                         resizeMode={Image.resizeMode.cover}
                       />
-                    </TouchableWithoutFeedback>
+                    </TouchableWithoutFeedback> : null
                   }
 
                 </Swiper> :
@@ -544,7 +544,7 @@ class Card extends React.Component{
                       />
                   </TouchableOpacity>
                   }
-                  { potential.partner && potential.image && potential.image != null &&
+                  { potential.partner && potential.image && potential.image != null && potential.image != '' ?
 
                     <TouchableOpacity
                       key={`${potential.couple.id}-touchableimg`}
@@ -565,7 +565,7 @@ class Card extends React.Component{
                         }]}
                         resizeMode={Image.resizeMode.cover}
                       />
-                  </TouchableOpacity>
+                  </TouchableOpacity> : null
                   }
 
                 </Swiper> :

@@ -185,7 +185,6 @@ const Swiper = React.createClass({
   componentDidMount() {
     // this.state.scroll.addListener((e)=>{
     // })
-    console.warn('swiper2')
   },
 
     /**
@@ -309,7 +308,6 @@ const Swiper = React.createClass({
    * @return {object} react-dom
    */
   render() {
-    console.warn('swiper')
     let state = this.state
     let props = this.props
     let children = props.children
@@ -333,7 +331,6 @@ const Swiper = React.createClass({
       }
 
       pages = pages.map((page, i) => {
-        console.warn('page')
 
           return <View style={pageStyle} key={i+'slidepot'}>{children[page]}</View>
         }
@@ -375,7 +372,6 @@ const Swiper = React.createClass({
 
         <View pointerEvents={'box-none'} style={[styles['pagination_' + this.state.dir], this.props.paginationStyle,{backgroundColor:colors.spacegray20}]}>
           {props.showsPagination ? React.Children.map(this.props.children, (c,i) => {
-            console.warn('pagina')
             return (
                 <View
                 style={ [(this.props.grayDots ?  styles.grayDot : styles.dot15),

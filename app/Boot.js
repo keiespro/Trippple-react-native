@@ -9,7 +9,6 @@ import AppActions from './flux/actions/AppActions'
 class Boot extends React.Component{
   constructor(props){
     super();
-
     this.state = { booted: false }
   }
 
@@ -18,15 +17,13 @@ class Boot extends React.Component{
   }
 
   getCredentials(){
-
     Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
     .then((creds)=>{
-      console.warn('got creds',creds);
-       AppActions.gotCredentials(creds)
+      AppActions.gotCredentials(creds)
     }).then((creds)=>{
       this.setBooted()
     }).catch((err)=>{
-      console.warn('KEYCHAIN ERR',err)
+      this.setBooted()
     })
   }
 
@@ -35,7 +32,6 @@ class Boot extends React.Component{
   }
 
   render(){
-    console.warn('booted',this.state.booted);
     return this.state.booted ? <App key="app"/> : <LoadingOverlay />
   }
 

@@ -11,10 +11,21 @@ class AuthErrorStore {
       handleVerifyPinErrors: UserActions.VERIFY_SECURITY_PIN
     });
 
-    this.on('init', () => {/*noop*/})
+    this.on('init', () => {
+      Log('INIT AuthErrorStore');
+    });
+
     this.on('error', (err, payload, currentState) => {
-        Log(err, payload, currentState);
-    })
+      Log('ERROR AuthErrorStore',err, payload, currentState);
+    });
+
+    this.on('bootstrap', (bootstrappedState) => {
+      Log('BOOTSTRAP AuthErrorStore',bootstrappedState);
+    });
+
+    this.on('afterEach', ({payload, state}) => {
+      Log('AFTEREACH AuthErrorStore', payload,state);
+    });
 
   }
 

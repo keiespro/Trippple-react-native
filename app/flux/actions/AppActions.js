@@ -9,7 +9,6 @@ class AppActions {
     }
   }
   noCredentials(err) {
-    console.warn('NOCREDENTiALS',err);
     return (dispatch) => {
       dispatch(err)
     };

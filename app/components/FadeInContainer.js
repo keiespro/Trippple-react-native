@@ -21,12 +21,10 @@ class FadeInContainer extends Component{
 
   constructor(props){
     super()
-    console.warn('fadein')
     this.state = {
       shouldRenderChildren: props.delayRender ? false : true,
       fadeAmount: new Animated.Value(0)
     }
-
   }
   componentDidMount(){
 

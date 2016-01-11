@@ -26,16 +26,13 @@
   ///////////////////////////
 
   // PRODUCTION
-//  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
   /////////////////////////
 
   // GREAT!
   ////////////////////////
 
-
-
-  [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"trippple"
@@ -49,7 +46,7 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
+
   return [[FBSDKApplicationDelegate sharedInstance] application:application
                                   didFinishLaunchingWithOptions:launchOptions];
 
@@ -57,7 +54,6 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
   [FBSDKAppEvents activateApp];
-  [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
 }
 
 // RN >= 0.18.0 SYNTAX //

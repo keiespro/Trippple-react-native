@@ -124,7 +124,7 @@ bioText:{
      alignSelf: 'stretch',
      padding: 0,
      fontSize: MagicNumbers.size18 + 2,
-     height:200,
+     height:MagicNumbers.is4s ? 100 : 200,
      fontFamily:'omnes',
      color: colors.white,
 

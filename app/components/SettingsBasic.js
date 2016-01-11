@@ -189,7 +189,7 @@ class SettingsBasic extends React.Component{
     return (
       <View style={styles.inner}>
         <FakeNavBar
-          blur={true}
+          blur={false}
           backgroundStyle={{backgroundColor:colors.shuttleGray}}
           hideNext={true}
           navigator={this.props.navigator}

@@ -46,7 +46,7 @@ class PermissionSwitches extends React.Component{
         notificationSetting: OSPermissions.notifications && notificationSetting ? true : false,
       })
     }).catch((err) => {
-      console.warn('errpr',err)
+
     })
   }
   toggleLocation(){
@@ -55,7 +55,7 @@ class PermissionSwitches extends React.Component{
         component:CheckPermissions,
         passProps:{
           title:'PRIORITIZE LOCAL',
-          subtitle:'We’ve found 10 matches we think you might like. Should we prioritize the matches closest to you?',
+          subtitle:'Should we prioritize the matches closest to you?',
           failedTitle: 'LOCATION DISABLED',
           failCallback: (val)=>{
             this.props.navigator.pop();
@@ -77,9 +77,6 @@ class PermissionSwitches extends React.Component{
     }else{
       const newValue = !this.state.locationSetting;
       AsyncStorage.setItem('locationSetting', newValue + '')
-      .catch((err) => {
-        dispatch({error: err})
-      });
       this.setState({ locationSetting: newValue })
     }
   }
@@ -99,16 +96,17 @@ class PermissionSwitches extends React.Component{
               failCallback: (val)=>{
                 this.props.navigator.pop();
                 this.setState({ notificationSetting: val })
+              },
+              successCallback: (val)=>{
+                this.setState({ notificationSetting: val })
               }
+
             }
           })
         }else{
           const newValue = !this.state.notificationSetting;
           this.setState({ notificationSetting: newValue });
           AsyncStorage.setItem('notificationSetting', newValue + '')
-          .catch((err) => {
-            dispatch({error: err})
-          });
           NotificationActions.requestNotificationsPermission()
         }
       })
@@ -117,18 +115,19 @@ class PermissionSwitches extends React.Component{
       this.setState({ notificationSetting: false })
     }
   }
-  // componentDidUpdate(pProps,pState){
-    // if(this.state.nearMeToggled != pState.nearMeToggled && !pState.nearMeToggled){
-    //   OSPermissions.canUseLocation( (locPerm) => {
-    //     if(locPerm > 2){
-    //       this.setState({nearMeToggled:true})
-    //     }else{
-    //       this.setState({nearMeToggled:false})
-    //     }
-    //   })
-    // }
 
-  // }
+  componentDidUpdate(pProps,pState){
+    if(this.state.nearMeToggled != pState.nearMeToggled && !pState.nearMeToggled){
+      OSPermissions.canUseLocation( (locPerm) => {
+        if(locPerm > 2){
+          this.setState({nearMeToggled:true})
+        }else{
+          this.setState({nearMeToggled:false})
+        }
+      })
+    }
+
+  }
 
   render(){
     return (

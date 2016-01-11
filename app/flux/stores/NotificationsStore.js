@@ -30,16 +30,26 @@ class NotificationsStore {
       handleNewMatchData: MatchActions.GET_MATCHES,
       handleNewMessageData: MatchActions.GET_MESSAGES,
       handleUpdateBadgeNumber: NotificationActions.UPDATE_BADGE_NUMBER,
+      handleResetBadgeNumber: NotificationActions.RESET_BADGE_NUMBER,
       handleLogOut: UserActions.LOG_OUT
     })
 
-    this.on('init', () => {
 
-    })
+    this.on('init', () => {
+      Log('INIT NotificationsStore');
+    });
 
     this.on('error', (err, payload, currentState) => {
-      console.warn(err, payload, currentState);
-    })
+      Log('ERROR NotificationsStore',err, payload, currentState);
+    });
+
+    this.on('bootstrap', (bootstrappedState) => {
+      Log('BOOTSTRAP NotificationsStore',bootstrappedState);
+    });
+
+    this.on('afterEach', ({payload, state}) => {
+      Log('AFTEREACH NotificationsStore', payload,state);
+    });
   }
 
   handleLogOut(){
@@ -53,6 +63,10 @@ class NotificationsStore {
     React.NativeModules.PushNotificationManager.getApplicationIconBadgeNumber((result) => {
       React.NativeModules.PushNotificationManager.setApplicationIconBadgeNumber(result + newNotifications)
     })
+  }
+
+  handleResetBadgeNumber(){
+    React.NativeModules.PushNotificationManager.setApplicationIconBadgeNumber(0)
   }
 
   handleUpdateBadgeNumber(amount){

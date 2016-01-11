@@ -39,10 +39,23 @@ class UserStore {
       handleGetLocation: UserActions.GET_LOCATION
 
     });
-    this.on('init', () => {/*noop*/})
+
+    this.on('init', () => {
+      Log('INIT USER store');
+    });
+
     this.on('error', (err, payload, currentState) => {
-        Log(err, payload, currentState);
-    })
+      Log('ERROR USER store',err, payload, currentState);
+    });
+
+    this.on('bootstrap', (bootstrappedState) => {
+      Log('BOOTSTRAP USER store',bootstrappedState);
+    });
+
+    this.on('afterEach', ({payload, state}) => {
+      Log('AFTEREACH USER store', payload,state);
+    });
+
   }
 
   handleInitialize(){
@@ -93,7 +106,6 @@ class UserStore {
     this.setState({
       user: {...this.state.user, ...user_info, status: user_info.ready ? 'onboarded' :  user_info.status }
     })
-    console.warn('GET USER INFO ',res);
 
     if( user_info.ready){
 
@@ -168,7 +180,6 @@ class UserStore {
   }
 
   getUser(){
-    console.warn('getuser')
     return this.getState().user;
 
   }

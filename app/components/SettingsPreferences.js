@@ -129,7 +129,7 @@ class  SettingsPreferences extends React.Component{
           <View style={styles.inner}>
 
           <FakeNavBar
-            blur={true}
+            blur={false}
             backgroundStyle={{backgroundColor:colors.shuttleGray}}
             hideNext={true}
             navigator={this.props.navigator}
@@ -143,7 +143,9 @@ class  SettingsPreferences extends React.Component{
             titleColor={colors.white}
           />
           <ScrollView
-            style={{flex:1,marginTop:50,paddingVertical:20}}
+          style={{flex:1,
+            marginTop: 50,
+            paddingVertical:MagicNumbers.is4s ? 0 : 20}}
             scrollEnabled={this.state.scroll == 'on' ? true : false}
             >
             <View style={styles.paddedSpace}>

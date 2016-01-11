@@ -1,6 +1,6 @@
 const APP_ENV = 'production';
 
-global.__DEBUG__ = __DEV__;
+global.__DEBUG__ = false;
 
 const config = {
 

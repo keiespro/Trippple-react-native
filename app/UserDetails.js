@@ -36,6 +36,7 @@ class UserDetails extends React.Component{
     super()
 
   }
+
   render(){
     const {potential} = this.props;
     const rel = this.props.user.relationship_status;
@@ -46,7 +47,7 @@ class UserDetails extends React.Component{
       <View style={{width:MagicNumbers.screenWidth,overflow:'hidden',marginHorizontal:MagicNumbers.screenPadding/2}}>
 
         <ScrollableTabView tabs={['1','2']} renderTabBar={(props) => <SliderTabBar {...props}  /> }>
-              <ProfileTable
+          <ProfileTable
             index={0}
             profile={potential.user}
             tabLabel={`${potential.user.firstname}, ${potential.user.age}`}

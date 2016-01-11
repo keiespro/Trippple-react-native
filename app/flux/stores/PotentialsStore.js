@@ -3,6 +3,7 @@ import MatchActions from '../actions/MatchActions'
 import { AsyncStorage,AlertIOS } from 'react-native'
 import NotificationActions from '../actions/NotificationActions'
 import _ from 'underscore'
+import Log from '../../Log'
 
 class PotentialsStore {
 
@@ -16,10 +17,20 @@ class PotentialsStore {
       handleSentLike: MatchActions.SEND_LIKE
     });
 
-    this.on('init', () => {/*noop*/});
+    this.on('init', () => {
+      Log('INIT PotentialsStore');
+    });
 
     this.on('error', (err, payload, currentState) => {
-      console.warn(err, payload, currentState);
+      Log('ERROR PotentialsStore',err, payload, currentState);
+    });
+
+    this.on('bootstrap', (bootstrappedState) => {
+      Log('BOOTSTRAP PotentialsStore',bootstrappedState);
+    });
+
+    this.on('afterEach', ({payload, state}) => {
+      Log('AFTEREACH PotentialsStore', payload,state);
     });
 
     this.exportPublicMethods({

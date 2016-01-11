@@ -1,6 +1,4 @@
-// var {navigator} = window
-// window.navigator = {}
-// window.navigator.userAgent = 'react-native' // socketio-client
+window.navigator.userAgent = 'react-native' // socketio-client
 
 import config from '../config'
 const {WEBSOCKET_URL}  = config;
@@ -27,7 +25,6 @@ class NotificationCommander extends Component{
       notifications: [],
       processing:false
     }
-
     this.socket = io(WEBSOCKET_URL, {jsonp:false})
   }
 
@@ -42,15 +39,14 @@ class NotificationCommander extends Component{
     if(newNotification){
       this.handlePushData(newNotification)
     }
-
-
- }
+  }
 
   componentWillUnmount(){
     PushNotificationIOS.removeEventListener('notification', this._onPushNotification.bind(this) )
 
     AppStateIOS.removeEventListener('change', this._handleAppStateChange.bind(this) );
   }
+
   componentDidUpdate(prevProps,prevState){
     if(!prevProps.api_key && this.props.api_key && !prevState.socketConnected){
       this.connectSocket()
@@ -60,7 +56,6 @@ class NotificationCommander extends Component{
       this.setTimeout(()=>{
         this.setState({processing:false})
       },500)
-
     }
 
   }
@@ -71,10 +66,10 @@ class NotificationCommander extends Component{
 
   handlePushData(pushNotification){
     if(!pushNotification){ return false }
-    console.warn('Push notification 1',pushNotification)
+    Log('Push notification',pushNotification)
 
     const data = pushNotification.getData();
-    console.warn('Push notification 2',data)
+
     if(!data.action){ /* shot a blank */}
 
     if(data.action === 'retrieve' && data.type == 'potentials') {
@@ -85,7 +80,6 @@ class NotificationCommander extends Component{
 
       // NotificationActions.receiveNewMatchNotification(data,true)
       VibrationIOS.vibrate()
-
       MatchActions.getMatches()
       AppActions.updateRoute({route:'chat',match_id: data.match_id,})
       NotificationActions.updateBadgeNumber.defer(-1)
@@ -102,30 +96,30 @@ class NotificationCommander extends Component{
       VibrationIOS.vibrate()
       AlertIOS.alert(data.title, JSON.stringify(data.body));
 
-     }else if(data.action === 'match_removed'){
+    }else if(data.action === 'match_removed'){
 
-        NotificationActions.receiveMatchRemovedNotification(data)
+      NotificationActions.receiveMatchRemovedNotification(data)
 
-      }else if(data.action && data.action == 'coupleready') {
-        UserActions.getUserInfo.defer()
-        AlertIOS.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
-        VibrationIOS.vibrate()
+    }else if(data.action && data.action == 'coupleready') {
 
-      }else if(data.action && data.action == 'statuschange') {
+      UserActions.getUserInfo.defer()
+      AlertIOS.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
+      VibrationIOS.vibrate()
 
-        UserActions.getUserInfo.defer()
+    }else if(data.action && data.action == 'statuschange') {
 
-      }else if(data.action == 'logout'){
+      UserActions.getUserInfo.defer()
 
-        UserActions.logOut()
+    }else if(data.action == 'logout'){
 
-      }
+      UserActions.logOut()
 
+    }
       // AlertIOS.alert('APN Push Notification',JSON.stringify(pushNotification.getData()));
   }
   _handleAppStateChange(appState){
     if(appState === 'active'){
-      const newNotification = PushNotificationIOS.popInitialNotification()
+      const newNotification = PushNotificationIOS.popInitialNotification();
       if(newNotification){
         this.handlePushData(newNotification)
       }
@@ -133,25 +127,26 @@ class NotificationCommander extends Component{
     this.setState({ appState });
 
   }
-   connectSocket(){
+  connectSocket(){
     this.socket.on('user.connect', (data) => {
       this.online_id = data.online_id;
-      const myApikey = this.props.api_key
-      const myID = this.props.user_id
+
+      const myApikey = this.props.api_key,
+            myID = this.props.user_id;
 
       this.socket.emit('user.connect', {
         online_id: data.online_id,
         api_uid: (`${myApikey}:${myID}`)
-      })
-      this.setState({socketConnected:true})
+      });
 
+      this.setState({socketConnected:true})
     })
 
 
     this.socket.on('system', (payload) => {
 
-      this.setState({processing:true})
-      const { data } = payload
+      this.setState({processing:true});
+      const { data } = payload;
 
       if(data.action && data.action === 'retrieve' && data.match_id) {
 
@@ -178,7 +173,7 @@ class NotificationCommander extends Component{
 
     this.socket.on('chat', (payload) => {
 
-      this.setState({processing:true})
+      this.setState({processing:true});
 
       NotificationActions.receiveNewMessageNotification(payload)
 
@@ -193,6 +188,7 @@ class NotificationCommander extends Component{
       online_id: this.online_id,
       api_uid: `${apikey}:${user_id}`
     });
+
     this.socket.removeAllListeners()
     this.setState({socketConnected:false})
   }
@@ -215,15 +211,9 @@ class NotificationCommander extends Component{
       left:0,
       width:0,
       height:0,
-
     }
 
-    return (
-
-      <View
-        style={ __DEV__ ? devStyles : noStyles}
-      />
-    )
+    return <View style={ __DEV__ ? devStyles : noStyles} />
   }
 
 }

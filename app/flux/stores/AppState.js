@@ -5,10 +5,7 @@ import MatchActions from '../actions/MatchActions'
 import {AsyncStorage,PushNotificationIOS,NativeModules} from 'react-native'
 const {CameraManager,OSPermissions} = NativeModules
 import AddressBook from 'react-native-addressbook'
-
-
 import Log from '../../Log'
-
 
 class AppStateStore {
 
@@ -48,21 +45,23 @@ class AppStateStore {
       getAppState: this.getAppState
     })
 
+
+    this.on('init', () => {
+      Log('INIT App State Store');
+    });
+
     this.on('error', (err, payload, currentState) => {
-      __DEV__ && __DEBUG__ &&  console.warn(err, payload, currentState);
-    })
-    // this.on('init', async () => {
+      Log('ERROR App State Store',err, payload, currentState);
+    });
 
-      // var storedPermissions = Object.keys(this.permissions).reduce( async (aggregator, key)=>{
-      //   let val = await AsyncStorage.getItem(key)
-      //   aggregator[key] = await val == 'true'
-      //   return await aggregator
-      // },{})
-      // var updatedPermissions = await storedPermissions
-      // const newPermissions  = { ...this.permissions, ...updatedPermissions }
+    this.on('bootstrap', (bootstrappedState) => {
+      Log('BOOTSTRAP App State Store',bootstrappedState);
+    });
 
-      // this.setState({permissions:newPermissions})
-    // })
+    this.on('afterEach', ({payload, state}) => {
+      Log('AFTEREACH App State Store', payload,state);
+    });
+
   }
 
   handleNewInitialize(){

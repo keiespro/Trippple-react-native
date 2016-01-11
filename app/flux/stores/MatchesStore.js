@@ -42,50 +42,48 @@ class MatchesStore {
       handleSaveStores: AppActions.SAVE_STORES
     });
 
-    this.on('init', () => {/*noop*/});
+    this.on('init', () => {
+      Log('INIT matches store');
+    });
+
     this.on('error', (err, payload, currentState) => {
-      if(__DEBUG__ && __DEV__){
-        console.warn('ERROR',err, payload, currentState);
-      }
+      Log('ERROR matches store',err, payload, currentState);
     });
-    this.on('bootstrap', (p) => {
-      if(__DEBUG__ && __DEV__){
-        console.warn('bootstrap',p);
-      }
+
+    this.on('bootstrap', (bootstrappedState) => {
+      Log('BOOTSTRAP matches store',bootstrappedState);
     });
-    this.on('afterEach', ({payload, state}) =>{
-      if(__DEBUG__ && __DEV__){
-        console.warn(payload,state);
-      }
-    })
+
+    this.on('afterEach', ({payload, state}) => {
+      Log('AFTEREACH matches store', payload,state);
+    });
+
   }
+
   handleSaveStores(){
     this.save();
   }
+
   save(){
     var partialSnapshot = alt.takeSnapshot(this);
-
-    __DEV__ && console.warn('saving',partialSnapshot);
+    Log('saving',partialSnapshot);
     AsyncStorage.setItem('MatchesStore',JSON.stringify(partialSnapshot));
-
   }
+
   unMatch(matchID){
     this.removeMatch(matchID)
   }
 
   removeMatch(matchID){
-    const cleanMatches = _.reject(this.state.matches, match => match.match_id === matchID);
-
     this.setState({
-      matches: cleanMatches
+      matches: _.reject(this.state.matches, match => match.match_id === matchID)
     });
-
   }
+
   handleReportUser(payload){
     const { user_id, reason } = payload
-
-    
   }
+
   updateLastAccessed(payload){
     // save timestamp of last match view, reset unread counts
     const {match_id, timestamp} = payload;
@@ -97,6 +95,7 @@ class MatchesStore {
       unreadCounts: newCounts
     })
   }
+
   handleNewMessages(payload){
     if(!payload){return false}
     const { match_id, message_thread } = payload.messages;
@@ -122,29 +121,31 @@ class MatchesStore {
     })
 
   }
+
   handleResetUnreadCount(match_id){
     const newCounts = {...this.state.unreadCounts}
     newCounts[match_id] = 0
-
-
     this.setState({
       unreadCounts: newCounts
     })
     // React.NativeModules.PushNotificationManager.setApplicationIconBadgeNumber(currentCount+delta)
     // NotificationActions.changeAppIconBadgeNumber.defer(newCounts[match_id].length * -1)
     // result + newCounts[match_id]
-
   }
+
   sendMessage(payload){
     this.handleGetMatches(payload.matchesData)
   }
+
   toggleFavorite(matchesData) {
     this.handleGetFavorites(matchesData)
 
   }
+
   insertLocalMessage(payload){
     this.handleGetMatches(payload.matchesData)
   }
+
   handleGetMatches(matchesData){
     const {matches} = matchesData
 
@@ -206,15 +207,13 @@ class MatchesStore {
 
   // public methods
   getAnyUnread(){
-
     const unread = this.getState().unreadCounts
     return ~~_.find(unread,(c)=> c > 0)
   }
 
   getAllMatches(){
     const unread = this.getState().unreadCounts,
-          matches = this.getState().matches || []
-
+          matches = this.getState().matches || [];
     return matches.map((m,i) => {
       m.unreadCount = unread[m.match_id] || 0
       return m
@@ -223,28 +222,21 @@ class MatchesStore {
 
   getAllFavorites(){
     const unread = this.getState().unreadCounts,
-          matches = this.getState().matches || []
-
-    var f = matches.filter((match) => match.isFavourited).map((m,i) => {
+    matches = this.getState().matches || [];
+    return matches.filter((match) => match.isFavourited).map((m,i) => {
       m.unreadCount = unread[m.match_id] || 0
       return m
     })
-    return f
   }
 
-
-
   getMatchInfo(matchID){
-
-    let m = _.filter(this.getState().matches, (ma,i) => { return ma.match_id == matchID || ma.id == matchID || ma.matchID == matchID })
+    let m = _.filter(this.getState().matches, (ma,i) => {
+      return ma.match_id == matchID || ma.id == matchID || ma.matchID == matchID
+    });
     m[0].unreadCount = this.getState().unreadCounts[matchID] || 0
     return m[0]
   }
-
-
-
- }
-
+}
 
 // not used in this implementation:
 

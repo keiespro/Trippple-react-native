@@ -21,8 +21,8 @@ var Dots = React.createClass({
 
   render(){
     var dotWidth = 10,
-    dots = [1,2,3],
-            dotColor =  colors.shuttleGray;
+        dots = [1,2,3],
+        dotColor =  colors.outerSpace;
     return (
         <View style={{
             flexDirection:'row',
@@ -32,8 +32,8 @@ var Dots = React.createClass({
             width:dotWidth*4,
             height:34}}>
 
-            { dots.map(() =>
-                <View style={{ marginHorizontal:3, width:dotWidth, height:dotWidth, borderRadius:dotWidth/2, backgroundColor:dotColor}}/>
+            { dots.map((dot,i) =>
+                <View style={{ marginHorizontal:3, width:dotWidth, height:dotWidth, borderRadius:dotWidth/2, backgroundColor:dotColor}} key={'threedotsnumber'+i}/>
               )
             }
         </View>

@@ -232,11 +232,13 @@ class MatchList extends Component{
             }}
             selectedTitleStyle={{color:colors.white}}
             stretch
-            onPress={index => this.setState({ index })}
+            onPress={(index) => {
+              this.setState({ index: index == 0 ? 0 : 1  })
+            }}
           />
         </View>
 
-        {this.state.index === 0 ?
+        {this.state.index == 0 ?
           (this.props.matches.length > 0 ?
           <ListView
             initialListSize={12}
@@ -503,8 +505,8 @@ class Matches extends Component{
       currentMatch:null,
       isVisible:false
     }
-
   }
+
   chatActionSheet(match){
     this.setState({
       currentMatch: match,
@@ -519,10 +521,12 @@ class Matches extends Component{
         this.props.navigator.pop()
       }}
     })
-}
-componentDidUpdate(){
-        AppActions.saveStores.defer(2)
-}
+  }
+
+  componentDidUpdate(){
+    AppActions.saveStores.defer(2)
+  }
+
   render(){
 
     var storesForMatches = {

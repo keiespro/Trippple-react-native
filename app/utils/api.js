@@ -1,52 +1,44 @@
 import AppInfo from 'react-native-app-info'
-import {Platform, NativeModules} from 'react-native'
-const { FileTransfer, RNAppInfo } = NativeModules
+import { Platform, NativeModules } from 'react-native'
 import CredentialsStore from '../flux/stores/CredentialsStore'
-// const UploadFile = Promise.promisify(FileTransfer.upload)
+import Promise from 'bluebird'
 import config from '../config'
 
-const { SERVER_URL } = config
+const { FileTransfer, RNAppInfo } = NativeModules,
+      UploadFile = Promise.promisify(FileTransfer.upload),
+      { SERVER_URL } = config;
 
+async function baseRequest(endpoint: '', payload: {}){
+  const params = {
+    method: 'post',
+    headers: {
+      'Accept':           'application/json',
+      'Content-Type':     'application/json',
+      'X-T3-Api-Version': 2,
+      'X-T3-App-Version': AppInfo.getInfoShortVersion(),
+      'X-T3-App-OS':      Platform.OS,
+      'X-T3-App-Name':    RNAppInfo.name
+    },
+    body: JSON.stringify(payload)
+  }
 
-function publicRequest(endpoint, payload){
-  const req = {
-      method: 'post',
-      headers: {
-        'Accept':           'application/json',
-        'Content-Type':     'application/json',
-        'X-T3-Api-Version': 2,
-        'X-T3-App-Version': AppInfo.getInfoShortVersion(),
-        'X-T3-App-OS':      Platform.OS,
-        'X-T3-App-Name':    RNAppInfo.name
-      },
-      body: JSON.stringify(payload)
-    };
-    return fetch( `${SERVER_URL}/${endpoint}`, req).then((res) => res).catch((err) => err)
+  let res = await fetch( `${SERVER_URL}/${endpoint}`, params)
+
+  try{
+    return await res.json()
+  }catch(err){
+    return err
+  }
 }
 
- function authenticatedRequest(endpoint: '', payload: {}){
-  const credentials = CredentialsStore.getCredentials()
-  const authPayload = {...payload, ...credentials}
-  console.warn('auth request '+endpoint);
+function publicRequest(endpoint, payload){
+  return baseRequest(endpoint, payload)
+}
 
-  const req = {
-      method: 'post',
-      headers: {
-        'Accept':           'application/json',
-        'Content-Type':     'application/json',
-        'X-T3-Api-Version': 2,
-        'X-T3-App-Version': AppInfo.getInfoShortVersion(),
-        'X-T3-App-OS':      Platform.OS,
-        'X-T3-App-Name':    RNAppInfo.name
-      },
-      body: JSON.stringify(authPayload),
-    };
-    return fetch( `${SERVER_URL}/${endpoint}`, req).then((res)=>{
-
-      console.warn('RRREESSS',res);
-      return res.json()
-    })
-
+function authenticatedRequest(endpoint: '', payload: {}){
+  const credentials = CredentialsStore.getCredentials();
+  const authPayload = {...payload, ...credentials};
+  return baseRequest(endpoint, authPayload)
 }
 
 async function authenticatedFileUpload(endpoint, image, image_type, cropData){
@@ -68,11 +60,11 @@ async function authenticatedFileUpload(endpoint, image, image_type, cropData){
 
   try{
     return await imgUpload
-  }
-  catch(err){
+  }catch(err){
     return err
   }
 }
+
 
 const api = {
 
@@ -81,7 +73,6 @@ const api = {
   },
 
   verifyPin(pin,phone){
-
     const platform = require('Platform');
     const deviceInfo = require('./DeviceInfo')
     const payload = { pin, phone, device: deviceInfo.default }
@@ -93,25 +84,19 @@ const api = {
   },
 
   getUserInfo(){
-
-    console.warn('api.getuserinfo');
     return authenticatedRequest('info')
   },
 
-  getMatches(page){
-    console.warn('api.getmatches');
+  getMatches(page){ //v2 endpoint
     return authenticatedRequest('getMatches', {page})
-    //v2 endpoint
   },
 
-  getFavorites(page){
+  getFavorites(page){ //v2 endpoint
     return authenticatedRequest('getFavourites', {page})
-    //v2 endpoint
   },
 
-  toggleFavorite(match_id){
+  toggleFavorite(match_id){ //v2 endpoint
     return authenticatedRequest('toggleMatch', {match_id})
-    //v2 endpoint
   },
 
   unMatch(match_id){
@@ -130,12 +115,8 @@ const api = {
   },
 
   getMessages(payload){
-    if(!payload.match_id){
-      return false;
-    }
-    const outgoingPayload = payload;
-    outgoingPayload.message_type = 'retrieve';
-    return authenticatedRequest('messages', outgoingPayload)
+    if(!payload.match_id){ return false }
+    return authenticatedRequest('messages', {...payload, message_type: 'retrieve'})
   },
 
   createMessage(message, matchID){
@@ -159,7 +140,7 @@ const api = {
   saveFacebookPicture(photo) {
     return publicRequest('save_facebook_picture', photo);
   },
-  //
+
   uploadImage(image, image_type, cropData){
     if(!image_type){
        image_type = 'profile'
@@ -177,10 +158,6 @@ const api = {
 
   getProfileSettingsOptions(){
     return publicRequest('get_client_user_profile_options')
-            .then((res)=> res.json().catch((err) => { return err }))
-            .catch((err) => {
-              console.warn('err',{error: err})
-            })
   },
 
   sendContactsToBlock(data,start){

@@ -52,7 +52,7 @@ class Login extends Component{
     return this.state.inputFieldValue
   }
 
-  onErro(err){
+  onError(err){
     if(!err || !err.phoneError){
         return;
     }
@@ -82,30 +82,30 @@ class Login extends Component{
     this.setState(newValues)
   }
 
-  // _submit =()=> {
-  //   // if(!this.state.canContinue){
-  //   //   return false;
-  //   // }
-  //   const phoneNumber = this.state.phone;
+  _submit(){
+    if(!this.state.canContinue){
+      return false;
+    }
+    const phoneNumber = this.state.phone;
 
-  //   UserActions.requestPinLogin(phoneNumber);
+    UserActions.requestPinLogin(phoneNumber);
 
-  //   this.setTimeout( () => {
-  //     if(this.state.phoneError){ return false; }
+    this.setTimeout( () => {
+      if(this.state.phoneError){ return false; }
 
-  //     this.props.navigator.push({
-  //       component: PinScreen,
-  //       title: 'pin',
-  //       id:'pw',
-  //       sceneConfig: CustomSceneConfigs.HorizontalSlide,
-  //       passProps: {
-  //         phone: phoneNumber,
-  //         initialKeyboardSpace: this.state.keyboardSpace
-  //       }
-  //     })
-  //   },500);
+      this.props.navigator.push({
+        component: PinScreen,
+        title: 'pin',
+        id:'pw',
+        sceneConfig: CustomSceneConfigs.HorizontalSlide,
+        passProps: {
+          phone: phoneNumber,
+          initialKeyboardSpace: this.state.keyboardSpace
+        }
+      })
+    },500);
 
-  // }
+  }
 
   render(){
 

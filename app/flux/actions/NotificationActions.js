@@ -26,7 +26,9 @@ class NotificationActions {
   updateBadgeNumber(numberToAdd){
     return numberToAdd
   }
-
+  resetBadgeNumber(){
+    return 0
+  }
   sendFakeNotification() {
     require('RCTDeviceEventEmitter').emit('remoteNotificationReceived', {
       aps: {

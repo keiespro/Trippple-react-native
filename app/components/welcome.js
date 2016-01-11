@@ -62,7 +62,6 @@ var slides = [
 
 var IntroScreen = React.createClass({
   getInitialState(){
-    console.warn('introscreen');
     return {
       isAnimating: false
     }
@@ -199,7 +198,6 @@ const Welcome = React.createClass({
   },
 
   renderScene(route: Navigator.route, navigator: Navigator) : React.Component {
-    console.warn('renderScene Welcome',route)
     return (<route.component {...route.passProps} key={route.id} navigator={navigator} />);
   },
 

@@ -88,8 +88,7 @@ class SegmentedView extends React.Component{
     }
 
     componentWillReceiveProps(nextProps) {
-      if(!nextProps.index){ return }
-        this.moveTo(nextProps.index);
+      this.moveTo(nextProps.index);
     }
 
     moveTo(index) {
@@ -105,7 +104,7 @@ class SegmentedView extends React.Component{
     _renderTitle(title, i) {
         return (
             <View style={styles.title}>
-                <Text style={[this.props.titleStyle, i === this.props.index && this.props.selectedTitleStyle]}>{title}</Text>
+                <Text style={[this.props.titleStyle, i == this.props.index && this.props.selectedTitleStyle]}>{title}</Text>
             </View>
         );
     }
@@ -113,7 +112,7 @@ class SegmentedView extends React.Component{
     renderTitle(title, i) {
         return (
             <View key={`title-${i}`} ref={`title${i}`} style={{ flex: this.props.stretch ? 1 : 0 }}>
-                <TouchableOpacity underlayColor={this.props.underlayColor} onPress={() => this.props.onPress(i)}>
+            <TouchableOpacity underlayColor={this.props.underlayColor} onPress={() => this.props.onPress(i)}>
                     {this.props.renderTitle ? this.props.renderTitle(title, i) : this._renderTitle(title, i)}
                 </TouchableOpacity>
             </View>

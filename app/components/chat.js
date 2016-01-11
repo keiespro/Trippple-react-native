@@ -19,6 +19,7 @@ import React, {
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
+import {MagicNumbers} from '../DeviceConfig'
 
 import ActionModal from './ActionModal'
 import ThreeDots from '../buttons/ThreeDots'
@@ -28,7 +29,7 @@ import MatchesStore from '../flux/stores/MatchesStore'
 import ChatStore from '../flux/stores/ChatStore'
 import MatchActions from '../flux/actions/MatchActions'
 import alt from '../flux/alt'
-import AltContainer from 'alt-container';
+import AltContainer from 'alt-container/native';
 import InvertibleScrollView from 'react-native-invertible-scroll-view'
 import TimeAgo from './Timeago'
 import FakeNavBar from '../controls/FakeNavBar'
@@ -97,11 +98,11 @@ const styles = StyleSheet.create({
   },
   theirMessage:{
     backgroundColor: colors.mediumPurple,
-    marginRight: 10,
+    marginRight: MagicNumbers.is4s ? 0 : 10,
   },
   ourMessage:
   {
-    marginLeft: 10,
+    marginLeft: MagicNumbers.is4s ? 0 : 10,
     backgroundColor: colors.dark
   },
   messageTitle:
@@ -150,11 +151,12 @@ const styles = StyleSheet.create({
     color: colors.white
   },
   thumb: {
-    borderRadius: 24,
-    width: 48,
-    height: 48,
+    borderRadius:MagicNumbers.is4s ? 20 : 24,
+    width: MagicNumbers.is4s ? 40 : 48,
+    height:MagicNumbers.is4s ? 40 :  48,
     position:'relative',
-    marginHorizontal:5
+    marginHorizontal:MagicNumbers.is4s ?  0 : 5,
+    marginRight: 5
   },
   listview:{
     backgroundColor:colors.outerSpace,
@@ -519,12 +521,12 @@ class ChatInside extends Component{
           route={this.props.route}
           customNext={<ThreeDots/>}
           onNext={this.chatActionSheet.bind(this)}
-          backgroundStyle={{backgroundColor:'transparent'}}
+          backgroundStyle={{backgroundColor:colors.shuttleGray}}
           onPrev={(n,p)=>{
             MatchActions.getMatches();
             n.pop()
           }}
-          blur={true}
+          blur={false}
           title={chatTitle}
           titleColor={colors.white}
           customPrev={
@@ -625,8 +627,8 @@ const Chat = React.createClass({
           style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]}>
 
            <FadeInContainer duration={300} >
-           <TouchableOpacity activeOpacity={0.5} onPress={this.toggleModal}
-            style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]} >
+             <TouchableOpacity activeOpacity={0.5} onPress={this.toggleModal}
+              style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]} >
 
                <BlurView
                  blurType="light"

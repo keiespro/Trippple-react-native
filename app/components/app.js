@@ -40,8 +40,6 @@ class AppRoutes extends Component{
 
   constructor(props){
     super()
-    console.warn('AppRoutes');
-
   }
 
   render(){
@@ -50,14 +48,12 @@ class AppRoutes extends Component{
     switch(userStatus){
 
       case 'verified':
-      console.warn('v');
         return <Onboarding
                 key="OnboardingScreen"
                 user={this.props.user}
                 AppState={this.props.AppState}
                 currentRoute={this.props.AppState.currentRoute}
               />
-
       case 'pendingpartner':
       case 'onboarded':
         return <Main
@@ -66,10 +62,8 @@ class AppRoutes extends Component{
                 AppState={this.props.AppState}
                 currentRoute={this.props.AppState.currentRoute}
               />
-
       case null:
       default:
-      console.warn('default');
         return (<Welcome AppState={this.props.AppState} key={'welcomescene'} />)
       }
   }
@@ -78,7 +72,6 @@ class AppRoutes extends Component{
 class TopLevel extends Component{
   constructor(props){
     super()
-    console.warn('toplevel');
     this.state = {
       showOverlay: props.user ? false : true,
       showCheckmark: false,
@@ -86,11 +79,8 @@ class TopLevel extends Component{
   }
 
   componentWillReceiveProps(nProps){
-
     if(nProps && this.props.user && nProps.user &&  nProps.user.status == 'verified' && this.props.user.status != 'verified'){
-
       this.setState({showCheckmark:true,checkMarkCopy: {title: 'SUCCESS' }})
-
       this.setTimeout(()=>{
         this.setState({showCheckmark:false,checkMarkCopy:null})
       },3500);
@@ -135,6 +125,9 @@ reactMixin(TopLevel.prototype, TimerMixin);
 class App extends Component{
   constructor(props){
     super()
+  }
+  componentDidMount(){
+    NotificationActions.resetBadgeNumber()
   }
   render(){
     var TopLevelStores = {

@@ -18,37 +18,25 @@ class UserActions {
 
   getLocation() {
     return (dispatch) => {
-      navigator.geolocation.getCurrentPosition(
-          (geo) => {
-            var {latitude,longitude} = geo.coords;
-            this.updateUser.defer(geo.coords);
-            dispatch(geo.coords);
-          },
-          (error) => {
-            // Open native settings ??
-            dispatch(error)
-          },
-          {enableHighAccuracy: false, maximumAge: 1000}
-        )
+      const success = (geo) => {
+              this.updateUser.defer(geo.coords);
+              dispatch(geo.coords);
+            },
+            fail = (error) => { dispatch(error) },
+            options = {enableHighAccuracy: false, maximumAge: 1000};
+
+      navigator.geolocation.getCurrentPosition(success, fail, options)
     }
   }
 
   getUserInfo() {
-    console.warn('get user info 1');
-
     return (dispatch) => {
-      console.warn('get user info 2');
       Api.getUserInfo()
         .then((res) => {
-          console.warn('res',res)
-          return res
-        }).then((res) => {
-            console.warn('res2',res)
-              return dispatch(res)
-
-        }).done()
-
-
+          dispatch(res)
+        }).catch((err) => {
+          dispatch(err)
+        })
     }
   }
 
@@ -58,10 +46,12 @@ class UserActions {
     return (dispatch) => {
       Api.verifyPin(pin, phone)
       .then((res) => {
-        res.json().then((response) => dispatch(response))
+        dispatch(res)
       })
       .catch((err) => {
-        dispatch({error: err})
+        dispatch({
+          error: err
+        })
       })
     }
   }
@@ -70,10 +60,12 @@ class UserActions {
     return (dispatch) => {
       Api.requestPin(phone)
       .then((res) => {
-        dispatch(res.json())
+        dispatch(res)
       })
       .catch((err) => {
-        dispatch({error: err})
+        dispatch({
+          error: err
+        })
       })
     }
   }
@@ -94,30 +86,16 @@ class UserActions {
           dispatch(uploadRes)
         })
         .catch((err) => {
-          dispatch({error: err})
+          dispatch({
+            error: err
+          })
         })
     }
   }
 
   updateUser(payload) {
+    const updates = payload;
     return (dispatch) => {
-      const updates = payload;
-      //
-      // async () => {
-      //   try{
-      //     var res = await Api.updateUser(payload)
-          // this.dispatch({
-          //   response: res,
-          //   updates: updates
-          // })
-      //   }
-      //   catch(err){
-      //     this.dispatch({
-      //       err: err
-      //     })
-      //   }
-      // }
-
       Api.updateUser(payload)
         .then((res) => {
           dispatch({
@@ -126,15 +104,17 @@ class UserActions {
           })
         })
         .catch((err) => {
-          dispatch({error: err})
+          dispatch({
+            error: err
+          })
         })
     };
   }
 
   selectPartner(partner) {
     return (dispatch) => {
-      var partner_phone = partner.phone.replace(/[\. ,():+-]+/g, '').replace(/[A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/,'');
-      var partnerPhone = partner_phone[0] == '1' ? partner_phone.substr(1,11) : partner_phone
+      let partner_phone = partner.phone.replace(/[\. ,():+-]+/g, '').replace(/[A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/,'');
+      partnerPhone = partner_phone[0] == '1' ? partner_phone.substr(1,11) : partner_phone
 
       // partner_phone = partner_phone.substr(partner_phone.length - 10, partner_phone.length)
       Api.joinCouple(partnerPhone)

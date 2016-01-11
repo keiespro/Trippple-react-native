@@ -1,19 +1,20 @@
-var ENV = 'dev';
-
 class Logger {
 
-  log(){
-    console.warn(arguments)
-    if(ENV == 'dev'){
+  log(name, info){
+
+    if(__DEBUG__){
+      console.warn(name, {...info, ...arguments})
     }else{
-      // send to somewhere
+
     }
   }
 
   debug(){
+
   }
 
   error(){
+
   }
 
   track(){

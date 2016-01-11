@@ -31,6 +31,7 @@ import BoxyButton from '../controls/boxyButton'
 import UserActions from '../flux/actions/UserActions'
 import AppActions from '../flux/actions/AppActions'
 import NotificationActions from '../flux/actions/NotificationActions'
+import {MagicNumbers} from '../DeviceConfig'
 
 const failedTitle = `ALERTS DISABLED`,
       failedSubtitle = `Notification permissions have been disabled. You can enable them in Settings`,
@@ -58,6 +59,7 @@ class NotificationPermissions extends React.Component{
         hasPermission: null
       }
     }
+
     componentWillMount(){
       this.checkPermission()
     }
@@ -94,11 +96,10 @@ class NotificationPermissions extends React.Component{
 
           if(permResult == 0){
             NotificationActions.requestNotificationsPermission({alert:true,badge:true,sound:true})
-            this.props.navigator.pop()
-
+            // this.props.navigator.pop()
+            this.props.successCallback();
             //this.setState({failedState:true})
           }else{
-
             this.setState({permissions, hasPermission: permResult > 0})
           }
 
@@ -135,16 +136,16 @@ class NotificationPermissions extends React.Component{
     }
 
     render(){
-      const { relevantUser } = this.props
+      const { relevantUser } = this.props;
       return  (
         <PurpleModal>
           <View style={[styles.col,styles.fullWidth,{justifyContent:'space-between'}]}>
             <Image
               style={[{width:150,height:150,borderRadius:75,marginVertical:20}]}
               source={
-                this.state.failedState ?
-                  require('../../newimg/iconModalDenied.png') :
-                  {uri: relevantUser.image_url}
+                this.state.failedState ? require('../../newimg/iconModalDenied.png') :
+                relevantUser.image_url ? {uri: relevantUser.image_url} :
+                  require('../../newimg/placeholderUser@3x.png')
                 }
                 defaultSource={{uri: '../../newimg/placeholderUser.png'}}
 
@@ -165,7 +166,7 @@ class NotificationPermissions extends React.Component{
                   marginHorizontal:-5,
                   marginBottom:15
               }]}>
-               {`Great! You’ve liked ${this.props.relevantUser.firstname}. Would you like to be notified when they like you back?`}
+               {relevantUser.image_url ? `Great! You’ve liked ${this.props.relevantUser.firstname}. Would you like to be notified when they like you back?` : ` Would you like to be notified of new matches and messages?`}
               </Text>
               <View>
                 <TouchableHighlight
