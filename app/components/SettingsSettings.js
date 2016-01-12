@@ -25,10 +25,8 @@ import FakeNavBar from '../controls/FakeNavBar';
 import alt from '../flux/alt'
 import Log from '../Log';
 import RNFS from 'react-native-fs'
-const {RNAppInfo, RNMail} = NativeModules
+const {RNMail} = NativeModules
 import {MagicNumbers} from '../DeviceConfig'
-import AppInfo from 'react-native-app-info'
-import DeviceInfo from 'react-native-device'
 import dismissKeyboard from 'dismissKeyboard'
 import WebViewScreen from './WebViewScreen'
 import scrollable from 'react-native-scrollable-decorator'
@@ -41,10 +39,10 @@ import UserActions from '../flux/actions/UserActions'
 import Contacts from '../screens/contacts'
 import colors from '../utils/colors'
 import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
-import EditPage from './EditPage'
 import CloseButton from './CloseButton'
 import Api from '../utils/api'
 import FieldModal from './FieldModal'
+import AppTelemetry from '../AppTelemetry'
 
 
 class SettingsSettings extends React.Component{
@@ -106,32 +104,16 @@ class SettingsSettings extends React.Component{
     })
   }
 
-  handleFeedback() {
+  async handleFeedback() {
     var snapshot = alt.takeSnapshot();
     var {settings} = React.NativeModules.SettingsManager
     var fileName = 'trippple-feedback'+ Date.now() +'.ttt'
     var path = RNFS.DocumentDirectoryPath + '/' + fileName
 
+    try{
+    var fileContents = await AppTelemetry.getEncoded()
 
-    var appInfo = {
-          displayName,
-          bundleIdentifier,
-          getInfoDeviceName,
-          name,
-          shortVersion,
-          version
-        } = RNAppInfo,
-        feedbackDebugInfo = {
-          user: this.props.user,
-          DeviceInfo: DeviceInfo,
-          osSettings: settings,
-          state: JSON.parse(snapshot),
-          AppInfo: appInfo
-        },
-        fileContents = base64.encode(unescape(encodeURIComponent(JSON.stringify(feedbackDebugInfo))));
-        // prevents "string to be encoded contains characters outside of the Latin1 range" error
-
-    RNFS.writeFile(path, (fileContents))
+      RNFS.writeFile(path, (fileContents))
       .then((success) => {
         RNMail.mail({
           subject: `I'm having an issue in the app`,
@@ -151,7 +133,10 @@ class SettingsSettings extends React.Component{
       .catch((err) => {
             Log('cant send mail',err)
       });
+    }catch(err){
+            Log('cant send mail',err)
 
+    }
   }
   handleTapPrivacy(){
     if(this.state.privacy != 'private'){

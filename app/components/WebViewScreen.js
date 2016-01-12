@@ -24,10 +24,13 @@ class WebViewScreen extends Component{
            automaticallyAdjustContentInsets={false}
            style={styles.webview}
            url={this.props.url}
-           javaScriptEnabledAndroid={true}
            onNavigationStateChange={this.onNavigationStateChange.bind(this)}
            startInLoadingState={true}
+           injectedJavaScript="$('a').each(function(i,el){console.log($(i));var s = $('<span></span>',{html: $(el).html()});$(el).replaceWith(s)});$('button').remove();"
            scalesPageToFit={true}
+           bounces={true}
+           scrollEnabled={true}
+           onShouldStartLoadWithRequest={()=> false}
          />
         <FakeNavBar
           backgroundStyle={{backgroundColor:colors.shuttleGray}}

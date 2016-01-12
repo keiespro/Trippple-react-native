@@ -16,6 +16,7 @@ Component,
  ListView,
  Navigator,
  Dimensions,
+ RefreshControl,
  ScrollView
 } from 'react-native'
 
@@ -60,7 +61,9 @@ class MatchList extends Component{
     this.state = {
       index: 0,
       isVisible:false,
-      scrollEnabled: true
+      scrollEnabled: true,
+      isRefreshing: false,
+
     }
 
   }
@@ -188,7 +191,7 @@ class MatchList extends Component{
 
     InteractionManager.runAfterInteractions(() => {
       MatchActions.getMessages(match_id);
-   })
+    })
 
     this.props.navigator.push({
       component: Chat,
@@ -213,7 +216,9 @@ class MatchList extends Component{
     const nextPage = this.props.matches.length / 20 + 1;
     if(this.state.fetching || nextPage === this.state.lastPage){ return false }
 
-    this.setState({lastPage: nextPage })
+    this.setState({lastPage: nextPage,
+        isRefreshing: false,
+    })
     MatchActions.getMatches(nextPage);
   }
 
@@ -223,6 +228,16 @@ class MatchList extends Component{
     })
   }
 
+
+  _onRefresh() {
+    this.setState({isRefreshing: true});
+    this.onEndReached();
+    this.setTimeout(()=>{
+      this.setState({
+        isRefreshing:false
+      })
+    },3000);
+  }
 
   render(){
     var isVisible = this.state.isVisible;
@@ -252,7 +267,6 @@ class MatchList extends Component{
         {this.state.index == 0 ?
           (this.props.matches.length > 0 ?
           <ListView
-            initialListSize={12}
             scrollEnabled={this.state.scrollEnabled}
             directionalLockEnabled={true}
             removeClippedSubviews={true}
@@ -262,11 +276,22 @@ class MatchList extends Component{
             ref={component => this._listView = component}
             dataSource={this.props.dataSource}
             renderRow={this._renderRow.bind(this)}
+            renderScrollComponent={(props) => <ScrollView
+                  refreshControl={
+                    <RefreshControl
+                    refreshing={this.state.isRefreshing}
+                    onRefresh={this._onRefresh.bind(this)}
+                    tintColor={colors.sushi}
+                    colors={[colors.mediumPurple,colors.sushi]}
+                    progressBackgroundColor={colors.dark}
+                  />
+                }/>
+
+              }
           /> :
             <NoMatches/> ) :
           (this.props.favorites.length > 0 ?
           <ListView
-            initialListSize={12}
             scrollEnabled={this.state.scrollEnabled}
             removeClippedSubviews={true}
             directionalLockEnabled={true}
@@ -285,13 +310,19 @@ class MatchList extends Component{
   }
 }
 
+reactMixin.onClass(MatchList, TimerMixin)
+
+
+function rowHasChanged(r1, r2){
+  return r1.id != r2.id || r1.recentMessage != r2.recentMessage
+}
 
 
 class MatchesInside extends Component{
 
   constructor(props){
     super(props);
-    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.ds = new ListView.DataSource({rowHasChanged});
     this.fds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     this.state = {
@@ -732,7 +763,6 @@ class EmptyStarButton extends Component{
     )
   }
 }
-
 
 
 

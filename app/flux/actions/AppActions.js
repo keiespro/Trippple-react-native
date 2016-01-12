@@ -1,11 +1,10 @@
 import alt from '../alt'
 import UserActions from './UserActions'
-import { NativeModules } from  'react-native'
-import base64 from 'base-64'
 import Log from '../../Log'
-import AppInfo from 'react-native-app-info'
-import DeviceInfo from 'react-native-device'
-const { RNAppInfo,SettingsManager } = NativeModules
+import Promise from 'bluebird'
+import Api from '../../utils/api'
+
+import AppTelemetry from '../../AppTelemetry'
 
 class AppActions {
   gotCredentials(creds) {
@@ -50,35 +49,16 @@ class AppActions {
       dispatch(true);
     };
   }
-  sendTelemetry(){
-    return (dispatch) => {
-      var snapshot = alt.takeSnapshot(),
-          appInfo = {
-            displayName,
-            bundleIdentifier,
-            getInfoDeviceName,
-            name,
-            shortVersion,
-            version
-          } = RNAppInfo,
-          telemetryPayload = {
-            user: this.props.user,
-            DeviceInfo,
-            osSettings: SettingsManager.settings,
-            state: JSON.parse(snapshot),
-            appInfo
-          },
-          encodedTelemetryPayload = base64.encode(unescape(encodeURIComponent(JSON.stringify(telemetryPayload))));
+  async sendTelemetry(user){
 
-      Api.sendTelemetry(encodedTelemetryPayload)
-      .then((res) => {
-        Log(res);
-        dispatch(res);
-      }).catch((err) => {
-        Log(err);
-        dispatch(err);
-      });
+    try{
+      const Telemetry = await AppTelemetry.getEncoded();
+      return await Api.sendTelemetry(Telemetry)
+    }catch(error){
+      Log(error)
+      return (error)
     }
+
   }
 }
 

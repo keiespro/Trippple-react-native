@@ -36,6 +36,7 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import Log from '../Log'
 
+    window.doIt = AppActions.sendTelemetry
 
 
 class Main extends Component{
@@ -66,6 +67,7 @@ class Main extends Component{
       AppActions.updateRoute.defer(this.refs.nav.state.presentedIndex)
     })
     NotificationActions.scheduleNewPotentialsAlert.defer()
+      AppActions.sendTelemetry(this.props.user)
   }
 
   componentWillReceiveProps(nProps){

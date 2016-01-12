@@ -400,11 +400,12 @@ class ChatInside extends Component{
         removeClippedSubviews={true}
         onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
         onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
-        style={{ backgroundColor:colors.outerSpace, flex:1, alignSelf:'stretch', width:DeviceWidth ,height:DeviceHeight}}
+        style={{ backgroundColor:colors.outerSpace, flex:1, alignSelf:'stretch', width:DeviceWidth, height:DeviceHeight}}
         >
         <FadeInContainer delayRender={true} delayAmount={1200} >
-          <View style={{flexDirection:'column',justifyContent:'center',flex:1,alignItems:'center',alignSelf:'stretch'}}>
-            <Text style={{color:colors.white,fontSize:22,opacity:this.state.isKeyboardOpened ? 0 : 1,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{
+          <View style={{flexDirection:'column',justifyContent:'center',flex:1,height:DeviceHeight,alignItems:'center',alignSelf:'stretch'}}>
+          <View style={{width:DeviceWidth,alignSelf:'center',alignItems:'center',flexDirection:'column',justifyContent:'center',flex:1,}}>
+          <Text style={{color:colors.white,fontSize:22,opacity:this.state.isKeyboardOpened ? 0 : 1,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{
                 `YOU MATCHED WITH`
             }</Text>
             <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',
@@ -430,6 +431,7 @@ class ChatInside extends Component{
             <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes'}} >Say something. {
               (them.length == 2 ? 'They\'re' : them[0].gender == 'm' ? 'He\'s' : 'She\'s')
             } already into you.</Text>
+          </View>
 
           </View>
         </FadeInContainer>
@@ -461,11 +463,6 @@ class ChatInside extends Component{
                 scrollsToTop={true}
                 contentContainerStyle={styles.invertedContentContainer}
                 {...this.props}
-                // onScroll={(e) =>{
-                  // if(e.nativeEvent.contentOffset.y > ){
-
-                  // };
-                // }}
                 scrollEventThrottle={64}
                 contentInset={{top:0,right:0,left:0,bottom:88}}
                 automaticallyAdjustContentInsets={true}
