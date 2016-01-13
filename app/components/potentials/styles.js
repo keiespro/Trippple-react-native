@@ -161,8 +161,8 @@ animatedIcon:{
     flex: 1,
     alignSelf:'stretch',
      padding:0,
-    alignItems:'stretch',
-
+    alignItems:'center',
+  justifyContent:'center'
 
   },
 

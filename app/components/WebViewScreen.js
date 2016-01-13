@@ -1,4 +1,6 @@
+const helpScript = "jQuery(document).ready(function($){$('a').each(function(i,el){var s = $('<span></span>',{html: $(el).html()});$(el).replaceWith(s)});$('button').remove();})";
 
+const privacyScript = "jQuery().ready(function($){$('button').hide();window.setTimeout(function(){$('a').each(function(i,el){var s = $('<span></span>',{html: $(el).html()});$(el).replaceWith(s)});},1000)})";
 
 import React from 'react-native';
 import {
@@ -26,11 +28,10 @@ class WebViewScreen extends Component{
            url={this.props.url}
            onNavigationStateChange={this.onNavigationStateChange.bind(this)}
            startInLoadingState={true}
-           injectedJavaScript="$('a').each(function(i,el){console.log($(i));var s = $('<span></span>',{html: $(el).html()});$(el).replaceWith(s)});$('button').remove();"
+           injectedJavaScript={this.props.url.indexOf('help') >= 0 ? helpScript : privacyScript}
            scalesPageToFit={true}
            bounces={true}
            scrollEnabled={true}
-           onShouldStartLoadWithRequest={()=> false}
          />
         <FakeNavBar
           backgroundStyle={{backgroundColor:colors.shuttleGray}}

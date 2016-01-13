@@ -9,12 +9,14 @@ const colors = {
   darkPurple:         'rgb(105,57,200)',
 
   white:              'rgb(255,255,255)',
+  whiteAnimate:              'rgba(255,255,255,1)',
 
   white20:            'rgba(255,255,255,0.20)',
 
   offwhite:            'rgba(255,255,255,0.70)',
 
   shuttleGray:        'rgb(86,96,103)',
+  shuttleGrayAnimate:        'rgba(86,96,103,1)',
 
   shuttleGray20:        'rgba(86,96,103,.20)',
 

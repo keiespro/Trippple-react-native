@@ -13,7 +13,9 @@ import React, {
   LayoutAnimation,
   TouchableOpacity,
   ScrollView,
+  Animated,
   PixelRatio,
+  Easing,
   Dimensions
 } from 'react-native'
 
@@ -35,8 +37,8 @@ import TimeAgo from './Timeago'
 import FakeNavBar from '../controls/FakeNavBar'
 import moment from 'moment'
 import { BlurView, VibrancyView } from 'react-native-blur'
-import Log from '../Log'
-
+import Log from '../Log';
+const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
 const styles = StyleSheet.create({
   container: {
@@ -137,7 +139,7 @@ const styles = StyleSheet.create({
     flexDirection:'column',
     alignItems:'flex-end',
     alignSelf:'stretch',
-    backgroundColor: colors.outerSpace,
+    backgroundColor: colors.dark,
     flex:1,
     position:'relative',
     height:DeviceHeight,
@@ -274,6 +276,7 @@ class ChatInside extends Component{
       textInputValue: '',
       fetching: false,
       lastPage: 0,
+      bottomColor: new Animated.Value(0)
     }
   }
 
@@ -312,12 +315,16 @@ class ChatInside extends Component{
   resetKeyboardSpace(frames) {
     var h = frames.startCoordinates && frames.startCoordinates.screenY - frames.endCoordinates.screenY || frames.end && frames.end.height;
     if( h == this.state.keyboardSpace){ return false }
-    LayoutAnimation.configureNext({
-      duration: 250,
+    this.setState({
+      keyboardSpace: h,
+      isKeyboardOpened: false
+  });
+      LayoutAnimation.configureNext({
+      duration: 50,
       create: {
         delay: 0,
         type: LayoutAnimation.Types.keyboard,
-        property: LayoutAnimation.Properties.opacity
+        property: LayoutAnimation.Properties.paddingBottom
       },
       update: {
         delay: 0,
@@ -325,10 +332,7 @@ class ChatInside extends Component{
         property: LayoutAnimation.Properties.paddingBottom
       }
     });
-    this.setState({
-      keyboardSpace: h,
-      isKeyboardOpened: false
-    });
+
 
   }
 
@@ -380,7 +384,7 @@ class ChatInside extends Component{
 
   chatActionSheet(){
     const isOpen = this.props.isVisible;
-    this._textInput && this._textInput.blur()
+    this._textInput && this._textInput.blur && this._textInput.blur()
     this.props.toggleModal()
   }
 
@@ -466,8 +470,8 @@ class ChatInside extends Component{
                 scrollEventThrottle={64}
                 contentInset={{top:0,right:0,left:0,bottom:88}}
                 automaticallyAdjustContentInsets={true}
-                style={{ height:DeviceHeight}}
-                keyboardDismissMode={'on-drag'}
+                style={{ height:DeviceHeight,backgroundColor:colors.outerSpace}}
+                keyboardDismissMode={'interactive'}
               />
             )
           }}
@@ -476,12 +480,15 @@ class ChatInside extends Component{
 
         <View style={styles.messageComposer}>
 
-          <TextInput
+          <AnimatedTextInput
             multiline={true}
             autoGrow={true}
             ref={component => this._textInput = component}
             style={[styles.messageComposerInput,{
-              borderBottomColor: this.state.inputFocused ? colors.white : colors.shuttleGray,
+              borderBottomColor: this.state.bottomColor ? this.state.bottomColor.interpolate({
+                inputRange: [0, 100],
+                outputRange: [colors.shuttleGrayAnimate,colors.whiteAnimate],
+              }) : colors.shuttleGray,
             }]}
             returnKeyType={'default'}
             keyboardAppearance={'dark'}
@@ -490,16 +497,29 @@ class ChatInside extends Component{
             placeholderTextColor={colors.shuttleGray}
             autoFocus={false}
             clearButtonMode={'never'}
-            onFocus={(e)=>{this.setState({inputFocused:true})}}
-            onBlur={(e)=>{this.setState({inputFocused:false})}}
-            onChangeText={this.onTextInputChange.bind(this)}
-            >
+            onFocus={(e)=>{
+              Animated.timing(this.state.bottomColor, {
+                toValue: 100,
+                duration: 300
+              }).start()
+              this.setState({inputFocused:true})
+            }}
+           onBlur={(e)=>{
+                Animated.timing(this.state.bottomColor, {
+                  toValue: 0,
+                  duration: 300,
+                }).start()
+
+                this.setState({inputFocused:false})
+              }}
+              onChangeText={this.onTextInputChange.bind(this)}
+              >
             <View style={{ }}>
               <Text style={{ fontSize:17, padding:1, paddingBottom:7.5, color:colors.outerSpace, }} >{
                   this.state.textInputValue || ' '
               }</Text>
             </View>
-          </TextInput>
+          </AnimatedTextInput>
 
           <TouchableHighlight
             style={styles.sendButton}

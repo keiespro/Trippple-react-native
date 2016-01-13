@@ -150,7 +150,7 @@ class ActualModal extends Component{
     if(isVisible){
       return (
         <Modal
-          isVisible={isVisible || false}
+          isVisible={isVisible || true}
           animated={true}
           transparent={true}
           onDismiss={()=>{

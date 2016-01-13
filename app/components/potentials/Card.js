@@ -216,7 +216,7 @@ class Card extends React.Component{
                     defaultSource={{uri:'../../,,/newimg/defaultuser.png'}}
                     style={[styles.imagebg, {
                       backgroundColor: colors.white,
-                      width: DeviceWidth,
+                      width: DeviceWidth-40,
                       flex:1,
                       left:0,
                       right:0,
@@ -245,7 +245,8 @@ class Card extends React.Component{
                       style={[styles.imagebg,{
                         backgroundColor: colors.white,
                         flex:1,
-                        width: DeviceWidth,
+                      width: DeviceWidth-40,
+
                         opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                             inputRange:  [-300, -80, 0, 80, 300],
                             outputRange: [   0,   1, 1,  1,   0]
@@ -265,7 +266,8 @@ class Card extends React.Component{
                         source={{uri: potential.image}}
                         key={`${potential.partner.id}-cimg`}
                         style={[styles.imagebg,{
-                          width: DeviceWidth,
+                      width: DeviceWidth-40,
+
                           flex:1,
                           opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                             inputRange: [-300, -100, 0, 100, 300],

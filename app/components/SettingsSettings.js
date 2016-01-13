@@ -88,7 +88,7 @@ class SettingsSettings extends React.Component{
         break;
       case 'terms':
         url = 'http://trippple.co/privacy.html';
-        pageTitle = 'TERMS AND CONDITIONS';
+        pageTitle = 'TERMS OF USE';
         break;
     }
 

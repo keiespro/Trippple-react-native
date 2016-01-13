@@ -243,8 +243,11 @@ class MatchList extends Component{
     var isVisible = this.state.isVisible;
 
     return (
-      <View style={styles.container}>
-        <View style={{height:50}}>
+      <View style={[styles.container,{
+      }]}>
+      <View style={{height:50,
+
+      }}>
 
           <SegmentedView
             barPosition={'bottom'}
@@ -277,6 +280,7 @@ class MatchList extends Component{
             dataSource={this.props.dataSource}
             renderRow={this._renderRow.bind(this)}
             renderScrollComponent={(props) => <ScrollView
+              contentOffset={{x:0,y:this.state.isRefreshing ? -50 : 0}}
                   refreshControl={
                     <RefreshControl
                     refreshing={this.state.isRefreshing}
@@ -322,7 +326,7 @@ class MatchesInside extends Component{
 
   constructor(props){
     super(props);
-    this.ds = new ListView.DataSource({rowHasChanged});
+    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.fds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     this.state = {
@@ -617,7 +621,7 @@ class Matches extends Component{
 const styles = StyleSheet.create({
   noop:{},
   container: {
-    backgroundColor: colors.outerSpace,
+    backgroundColor: colors.dark,
     marginTop:50,
     flex: 1,
     overflow:'hidden',
