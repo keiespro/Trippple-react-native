@@ -155,7 +155,7 @@ class CameraRollView extends Component{
 
       <View style={styles.photo_list_item} key={`${asset.node.image.uri}-tap`}>
         <TouchableOpacity onPress={this.loadAsset.bind( this, asset )}>
-          <Image style={styles.pic} source={asset.node.image} />
+          <Image style={styles.pic} source={{uri: asset.node.image.uri}} />
         </TouchableOpacity>
       </View>
     );
@@ -208,7 +208,6 @@ class CameraRollView extends Component{
 
     CameraRoll.getPhotos(fetchParams, this._appendAssets.bind(this), (err) => {
       Log(err)
-    /* noop */
     });
   }
 
@@ -289,15 +288,15 @@ class CameraRollView extends Component{
 
 
   _renderRow(rowData, sectionID, rowID){
-    var images = rowData.length ? rowData.map((image) => {
-      if (image === null) {
-        return null;
-      }
-      return this.renderImage.bind(this,image)
-    }) : [ this.renderImage.bind(this,rowData) ];
+    // var images = rowData.length ? rowData.map((image) => {
+    //   if (image === null) {
+    //     return null;
+    //   }
+    //   return this.renderImage.bind(this,image)
+    // }) : [ ];
     return (
       <View style={styles.item} key={`${rowID}-row`}>
-        {images}
+        {this.renderImage(rowData)}
       </View>
     );
   }
@@ -312,7 +311,7 @@ class CameraRollView extends Component{
 
     if (assets.length > 0) {
       newState.lastCursor = data.page_info.end_cursor;
-      newState.assets = this.state.assets.concat(assets);
+      newState.assets = [...this.state.assets, ...assets];
       newState.dataSource = this.state.dataSource.cloneWithRows(newState.assets);
     }
 
@@ -347,12 +346,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   scrollContent:{
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems:'center',
     width: DeviceWidth,
-    paddingTop:7
+    paddingTop:7,
+    paddingHorizontal: 4
   },
   pic: {
     flex: 1,
