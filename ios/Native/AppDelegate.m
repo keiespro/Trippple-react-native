@@ -13,7 +13,11 @@
 #import "UIColor+TRColors.h"
 #import "ReactNativeAutoUpdater.h"
 
-#define JS_CODE_METADATA_URL @"https://trippple.co/update.json?raw=1"
+#define JS_CODE_METADATA_URL @"http://x.local:3333/update.json"
+
+@interface AppDelegate() <ReactNativeAutoUpdaterDelegate>
+
+@end
 
 @implementation AppDelegate
 
@@ -26,7 +30,7 @@
   //////// LOAD THE JS //////////
 
   // DEVELOPMENT
-  jsCodeLocation = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
+  defaultJSCodeLocation = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
 
   ///////////////////////////
 
@@ -43,61 +47,48 @@
   [updater setDelegate:self];
   [updater initializeWithUpdateMetadataUrl:[NSURL URLWithString:JS_CODE_METADATA_URL]
                      defaultJSCodeLocation:defaultJSCodeLocation];
-  [updater setHostnameForRelativeDownloadURLs:@"https://trippple.co"];
+  [updater setHostnameForRelativeDownloadURLs:@"http://trippple.co"];
+  [updater allowCellularDataUse: YES];
+  [updater downloadUpdatesForType: ReactNativeAutoUpdaterPatchUpdate];
   [updater checkUpdate];
   
   NSURL* latestJSCodeLocation = [updater latestJSCodeLocation];
-  
-  
-  
-
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-                                                      moduleName:@"trippple"
-                                               initialProperties:nil
-                                                   launchOptions:launchOptions];
-  
-  
-  rootView.backgroundColor = [UIColor tr_outerSpaceColor];
   
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   
   UIViewController *rootViewController = [UIViewController new];
   
-  rootViewController.view = rootView;
-  
   self.window.rootViewController = rootViewController;
   
-  self.window.rootViewController.view = rootView;
+  latestJSCodeLocation = defaultJSCodeLocation;
+  
+  [self createReactRootViewFromURL:latestJSCodeLocation];
 
   [self.window makeKeyAndVisible];
 
-  return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                  didFinishLaunchingWithOptions:launchOptions];
+  return YES;
 
 }
 
 - (void)createReactRootViewFromURL:(NSURL*)url {
   // Make sure this runs on main thread. Apple does not want you to change the UI from background thread.
   dispatch_async(dispatch_get_main_queue(), ^{
-    RCTBridge* bridge = [[RCTBridge alloc] initWithBundleURL:url moduleProvider:nil launchOptions:nil];
-    RCTRootView* rootView = [[RCTRootView alloc] initWithBridge:bridge moduleName:@"ReactNativeAutoUpdater" initialProperties:nil];
+    
+    RCTBridge* bridge = [[RCTBridge alloc] initWithBundleURL:url
+                                              moduleProvider:nil
+                                               launchOptions:nil];
+    
+    RCTRootView* rootView = [[RCTRootView alloc] initWithBridge:bridge
+                                                     moduleName:@"trippple"
+                                              initialProperties:nil];
+    
+    rootView.backgroundColor = [UIColor tr_outerSpaceColor];
+    
     self.window.rootViewController.view = rootView;
+    
   });
 }
 
-
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-  [FBSDKAppEvents activateApp];
-}
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-  [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
-  
-  return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                        openURL:url
-                                              sourceApplication:sourceApplication
-                                                     annotation:annotation];
-}
 
 // RN >= 0.18.0 SYNTAX //
 //
@@ -128,5 +119,58 @@
 //{
 //  [RCTPushNotificationManager application:application didReceiveRemoteNotification:notification];
 //}
+
+
+
+#pragma mark - ReactNativeAutoUpdaterDelegate methods
+
+- (void)ReactNativeAutoUpdater_updateDownloadedToURL:(NSURL *)url {
+  UIAlertController *alertController = [UIAlertController
+                                        alertControllerWithTitle:NSLocalizedString(@"Update Downloaded", nil)
+                                        message:NSLocalizedString(@"An update was downloaded. Do you want to apply the update now?", nil)
+                                        preferredStyle:UIAlertControllerStyleAlert];
+  
+  UIAlertAction *cancelAction = [UIAlertAction
+                                 actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel action")
+                                 style:UIAlertActionStyleCancel
+                                 handler:^(UIAlertAction *action)
+                                 {
+                                   NSLog(@"Cancel action");
+                                 }];
+  
+  UIAlertAction *okAction = [UIAlertAction
+                             actionWithTitle:NSLocalizedString(@"OK", @"OK action")
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction *action)
+                             {
+                               [self createReactRootViewFromURL: url];
+                             }];
+  
+  [alertController addAction:cancelAction];
+  [alertController addAction:okAction];
+  
+  // make sure this runs on main thread. Apple doesn't like if you change UI from background thread.
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
+  });
+  
+}
+
+- (void)ReactNativeAutoUpdater_updateDownloadFailed {
+  NSLog(@"Update failed to download");
+}
+
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+  [FBSDKAppEvents activateApp];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+  
+  return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                        openURL:url
+                                              sourceApplication:sourceApplication
+                                                     annotation:annotation];
+}
 
 @end
