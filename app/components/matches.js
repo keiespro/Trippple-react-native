@@ -270,16 +270,16 @@ class MatchList extends Component{
         {this.state.index == 0 ?
           (this.props.matches.length > 0 ?
           <ListView
-            scrollEnabled={this.state.scrollEnabled}
-            directionalLockEnabled={true}
-            removeClippedSubviews={true}
-            vertical={true}
             chatActionSheet={this.props.chatActionSheet}
             onEndReached={this.onEndReached.bind(this)}
             ref={component => this._listView = component}
             dataSource={this.props.dataSource}
             renderRow={this._renderRow.bind(this)}
             renderScrollComponent={(props) => <ScrollView
+              scrollEnabled={this.state.scrollEnabled}
+              directionalLockEnabled={true}
+              removeClippedSubviews={true}
+              vertical={true}
               contentOffset={{x:0,y:this.state.isRefreshing ? -50 : 0}}
                   refreshControl={
                     <RefreshControl
@@ -557,7 +557,12 @@ class Matches extends Component{
   }
 
   componentDidUpdate(){
-    AppActions.saveStores.defer(2)
+    // AppActions.saveStores.defer(2)
+  }
+  toggleModal(){
+    this.setState({
+      isVisible:!this.state.isVisible,
+    })
   }
 
   render(){
@@ -586,31 +591,29 @@ class Matches extends Component{
 
           {this.props.navBar}
 
-          {this.state.isVisible ?
-          <FadeInContainer
-            duration={300}
-            style={{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}}
-            >
-            <TouchableOpacity activeOpacity={0.5} onPress={(e)=>{ this.setState({isVisible:false}) }}>
-              <BlurView
-                blurType="light"
-                style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]}
-                >
-                <View style={[{}]}/>
-              </BlurView>
-            </TouchableOpacity>
-          </FadeInContainer> : <View/>
-          }
+        {this.state.isVisible ? <View
+          style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]}>
 
-          <View>
+           <FadeInContainer duration={300} >
+             <TouchableOpacity activeOpacity={0.5} onPress={this.toggleModal}
+              style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]} >
+
+               <BlurView
+                 blurType="light"
+                 style={[{width:DeviceWidth,height:DeviceHeight}]} >
+                 <View style={[{ }]}/>
+               </BlurView>
+             </TouchableOpacity>
+           </FadeInContainer>
+         </View> : <View/>}
+
             <ActionModal
               user={this.props.user}
               navigator={this.props.navigator}
-              toggleModal={(e)=>{ this.setState({isVisible:false}) }}
+              toggleModal={this.toggleModal.bind(this)}
               isVisible={this.state.isVisible}
               currentMatch={this.state.currentMatch}
             />
-          </View>
 
         </AltContainer>
     )

@@ -49,19 +49,6 @@ class AppTelemetry{
       console.warn(x)
       return x
     }
-    // .then((connection) => {
-      //       return {...telemetryPayload, netInfo: {connection} }
-  //     }).then((telemetryPayload) => {
-    //       return  Geo().then((geo) => {
-      //         return  {...telemetryPayload, geo}
-  //       })
-  //    }).then((telemetryPayload) => {
-    //       console.warn(telemetryPayload)
-
-    //       return base64.encode(unescape(encodeURIComponent(JSON.stringify(telemetryPayload))));
-  //     }).then((encodedTelemetryPayload) => {
-    //       console.warn(encodedTelemetryPayload)
-  //   }).catch((er)=>{console.warn(er)})
   }
 
   async getEncoded(){

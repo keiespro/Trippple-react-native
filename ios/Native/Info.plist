@@ -38,7 +38,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>5</string>
+	<string>7</string>
 	<key>FacebookAppID</key>
 	<string>367243980090932</string>
 	<key>FacebookDisplayName</key>
@@ -62,6 +62,8 @@
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
+			<key>doubleclick.net</key>
+			<dict/>
 			<key>facebook.com</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
@@ -69,10 +71,20 @@
 				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>
+			<key>google-analytics.com</key>
+			<dict/>
+			<key>googleapis.com</key>
+			<dict/>
+			<key>gstatic.com</key>
+			<dict/>
+			<key>iubenda.com</key>
+			<dict/>
+			<key>mxpnl.com</key>
+			<dict/>
 			<key>trippple.co</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<false/>
+				<true/>
 				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>

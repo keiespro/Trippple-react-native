@@ -187,8 +187,9 @@ class AppStateStore {
   }
 
   handleLogOut(){
-    this.setState({ userStatus: null});
+    AsyncStorage.clear().then( result => this.setState({ userStatus: null }));
   }
+
   //
   // updateUserInfo(attributes){
   //   const prevUser = this.state.user;

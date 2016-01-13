@@ -11,6 +11,9 @@
 #import "RCTRootView.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "UIColor+TRColors.h"
+#import "ReactNativeAutoUpdater.h"
+
+#define JS_CODE_METADATA_URL @"https://trippple.co/update.json?raw=1"
 
 @implementation AppDelegate
 
@@ -18,6 +21,8 @@
 {
 
   NSURL *jsCodeLocation;
+  NSURL *defaultJSCodeLocation;
+
   //////// LOAD THE JS //////////
 
   // DEVELOPMENT
@@ -26,31 +31,61 @@
   ///////////////////////////
 
   // PRODUCTION
-  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+//  defaultJSCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
   /////////////////////////
 
   // GREAT!
   ////////////////////////
 
+  
+  ReactNativeAutoUpdater* updater = [ReactNativeAutoUpdater sharedInstance];
+  [updater setDelegate:self];
+  [updater initializeWithUpdateMetadataUrl:[NSURL URLWithString:JS_CODE_METADATA_URL]
+                     defaultJSCodeLocation:defaultJSCodeLocation];
+  [updater setHostnameForRelativeDownloadURLs:@"https://trippple.co"];
+  [updater checkUpdate];
+  
+  NSURL* latestJSCodeLocation = [updater latestJSCodeLocation];
+  
+  
+  
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"trippple"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
-
+  
+  
   rootView.backgroundColor = [UIColor tr_outerSpaceColor];
-
+  
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  
   UIViewController *rootViewController = [UIViewController new];
+  
   rootViewController.view = rootView;
+  
   self.window.rootViewController = rootViewController;
+  
+  self.window.rootViewController.view = rootView;
+
   [self.window makeKeyAndVisible];
 
   return [[FBSDKApplicationDelegate sharedInstance] application:application
                                   didFinishLaunchingWithOptions:launchOptions];
 
 }
+
+- (void)createReactRootViewFromURL:(NSURL*)url {
+  // Make sure this runs on main thread. Apple does not want you to change the UI from background thread.
+  dispatch_async(dispatch_get_main_queue(), ^{
+    RCTBridge* bridge = [[RCTBridge alloc] initWithBundleURL:url moduleProvider:nil launchOptions:nil];
+    RCTRootView* rootView = [[RCTRootView alloc] initWithBridge:bridge moduleName:@"ReactNativeAutoUpdater" initialProperties:nil];
+    self.window.rootViewController.view = rootView;
+  });
+}
+
+
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
   [FBSDKAppEvents activateApp];
