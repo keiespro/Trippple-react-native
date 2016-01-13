@@ -374,6 +374,8 @@ class ChatInside extends Component{
     MatchActions.sendMessage(this.state.textInputValue, this.props.match_id, timestamp)
     MatchActions.sendMessageToServer.defer(this.state.textInputValue, this.props.match_id)
     this.setState({ textInputValue: '' })
+    this.refs.scroller && this.refs.scroller.refs.listviewscroll.scrollTo(0,0)
+
   }
 
   onTextInputChange(text){
@@ -386,6 +388,41 @@ class ChatInside extends Component{
     const isOpen = this.props.isVisible;
     this._textInput && this._textInput.blur && this._textInput.blur()
     this.props.toggleModal()
+  }
+  getThumbSize(){
+
+   const sizes = {
+      big:{
+        dimensions:{
+          closed: 200,
+          open: 140,
+        },
+        margin:{
+          closed: 40,
+          open: 20,
+        }
+
+      },
+      small: {
+        dimensions:{
+          closed: 100,
+          open: 50
+        },
+        margin:{
+          closed: 20,
+          open: 10,
+        }
+      }
+   };
+    let size =  MagicNumbers.is4s ? sizes.small : sizes.big
+
+    return  {
+                width:this.state.isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
+                height:this.state.isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
+                borderRadius:this.state.isKeyboardOpened ? size.dimensions.open/2 : size.dimensions.closed/2,
+                marginVertical:this.state.isKeyboardOpened ? size.margin.open : size.margin.closed,
+                backgroundColor:colors.dark
+              }
   }
 
   renderNoMessages(){
@@ -421,18 +458,14 @@ class ChatInside extends Component{
               <TimeAgo time={matchInfo.created_timestamp*1000} />
             </Text>
 
+
+
             <Image
               source={{uri:them[1].image_url}}
-              style={{
-                width:this.state.isKeyboardOpened ? 140 : 200,
-                height:this.state.isKeyboardOpened ? 140 : 200,
-                borderRadius:this.state.isKeyboardOpened ? 70 : 100,
-                marginVertical:this.state.isKeyboardOpened ? 20 : 40,
-                backgroundColor:colors.dark
-              }}
+              style={this.getThumbSize()}
               defaultSource={{uri:'../../newimg/placeholderUser.png'}}
             />
-            <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes'}} >Say something. {
+            <Text style={{color:colors.shuttleGray,fontSize:20,textAlign:'center',fontFamily:'omnes'}} >Say something. {
               (them.length == 2 ? 'They\'re' : them[0].gender == 'm' ? 'He\'s' : 'She\'s')
             } already into you.</Text>
           </View>
@@ -468,7 +501,7 @@ class ChatInside extends Component{
                 contentContainerStyle={styles.invertedContentContainer}
                 {...this.props}
                 scrollEventThrottle={64}
-                contentInset={{top:0,right:0,left:0,bottom:88}}
+                contentInset={{top:0,right:0,left:0,bottom:54}}
                 automaticallyAdjustContentInsets={true}
                 style={{ height:DeviceHeight,backgroundColor:colors.outerSpace}}
                 keyboardDismissMode={'interactive'}

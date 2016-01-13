@@ -144,7 +144,7 @@ class  SettingsPreferences extends React.Component{
           />
           <ScrollView
           style={{flex:1,
-            marginTop: 50,
+            marginTop: 54,
             paddingVertical:MagicNumbers.is4s ? 0 : 20}}
             scrollEnabled={this.state.scroll == 'on' ? true : false}
             >

@@ -177,7 +177,7 @@ class SettingsSettings extends React.Component{
             title={`SETTINGS`}
             titleColor={colors.white}
             />
-          <ScrollView style={{flex:1,marginTop:50}} contentContainerStyle={{   paddingHorizontal: 0}} centerContent={true} >
+          <ScrollView style={{flex:1,marginTop:54}} contentContainerStyle={{   paddingHorizontal: 0}} centerContent={true} >
             <View style={styles.paddedSpace}>
               <View style={styles.formHeader}>
                 <Text style={styles.formHeaderText}>Privacy</Text>

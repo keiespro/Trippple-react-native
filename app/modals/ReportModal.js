@@ -37,7 +37,7 @@ export default class ReportModal extends Component{
 
   report(them, reason){
 
-    MatchActions.reportUser(them.id ? them : them.user, reason)
+    MatchActions.reportUser(them && them.id ? them : them[0], reason)
     this.props.goBack();
 
   }
@@ -76,7 +76,7 @@ export default class ReportModal extends Component{
                 <TouchableHighlight
                   style={styles.modalButtonWrap}
                   underlayColor={colors.mediumPurple}
-                  onPress={this.report.bind(this,potential,'image')}>
+                  onPress={this.report.bind(this,them,'image')}>
                   <View style={styles.modalButton} >
                     <Text style={styles.modalButtonText}>OFFENSIVE BEHAVIOR</Text>
                   </View>
@@ -84,7 +84,7 @@ export default class ReportModal extends Component{
                 <TouchableHighlight
                   underlayColor={colors.mediumPurple}
                   style={styles.modalButtonWrap}
-                  onPress={this.report.bind(this,potential,'fake')}>
+                  onPress={this.report.bind(this,them,'fake')}>
                   <View style={[styles.modalButton]} >
                     <Text style={styles.modalButtonText}>FAKE USER</Text>
                   </View>
