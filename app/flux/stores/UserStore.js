@@ -139,13 +139,13 @@ class UserStore {
 
     AsyncStorage.clear()
     .then(() => {
-      this.setState({  api_key: null, user_id: null });
+       return Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE)
     })
     .then(() => {
-       Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE)
+      this.setState({  api_key: null, user_id: null });
     })
     .catch((err) => {
-      dispatch({error: err})
+
     })
 
   }

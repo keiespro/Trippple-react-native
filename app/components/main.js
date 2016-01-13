@@ -36,9 +36,6 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import Log from '../Log'
 
-    window.doIt = AppActions.sendTelemetry
-
-
 class Main extends Component{
 
   constructor(props){

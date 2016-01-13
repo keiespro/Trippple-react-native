@@ -187,7 +187,7 @@ class AppStateStore {
   }
 
   handleLogOut(){
-    AsyncStorage.clear().then( result => this.setState({ userStatus: null }));
+   this.setState({ userStatus: null });
   }
 
   //
