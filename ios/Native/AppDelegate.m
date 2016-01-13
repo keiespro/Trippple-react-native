@@ -55,6 +55,14 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
   [FBSDKAppEvents activateApp];
 }
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+  [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
+  
+  return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                        openURL:url
+                                              sourceApplication:sourceApplication
+                                                     annotation:annotation];
+}
 
 // RN >= 0.18.0 SYNTAX //
 //
@@ -85,13 +93,5 @@
 //{
 //  [RCTPushNotificationManager application:application didReceiveRemoteNotification:notification];
 //}
-//
-//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-//  [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
-//
-//  return [[FBSDKApplicationDelegate sharedInstance] application:application
-//                                                        openURL:url
-//                                              sourceApplication:sourceApplication
-//                                                     annotation:annotation];
-//}
+
 @end
