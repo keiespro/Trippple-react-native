@@ -24,18 +24,17 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 
-  NSURL *jsCodeLocation;
   NSURL *defaultJSCodeLocation;
 
   //////// LOAD THE JS //////////
 
   // DEVELOPMENT
-  defaultJSCodeLocation = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
+//  defaultJSCodeLocation = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
 
   ///////////////////////////
 
   // PRODUCTION
-//  defaultJSCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  defaultJSCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
   /////////////////////////
 
@@ -47,7 +46,6 @@
   [updater setDelegate:self];
   [updater initializeWithUpdateMetadataUrl:[NSURL URLWithString:JS_CODE_METADATA_URL]
                      defaultJSCodeLocation:defaultJSCodeLocation];
-  [updater setHostnameForRelativeDownloadURLs:@"http://trippple.co"];
   [updater allowCellularDataUse: YES];
   [updater downloadUpdatesForType: ReactNativeAutoUpdaterPatchUpdate];
   [updater checkUpdate];
@@ -125,35 +123,9 @@
 #pragma mark - ReactNativeAutoUpdaterDelegate methods
 
 - (void)ReactNativeAutoUpdater_updateDownloadedToURL:(NSURL *)url {
-  UIAlertController *alertController = [UIAlertController
-                                        alertControllerWithTitle:NSLocalizedString(@"Update Downloaded", nil)
-                                        message:NSLocalizedString(@"An update was downloaded. Do you want to apply the update now?", nil)
-                                        preferredStyle:UIAlertControllerStyleAlert];
-  
-  UIAlertAction *cancelAction = [UIAlertAction
-                                 actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel action")
-                                 style:UIAlertActionStyleCancel
-                                 handler:^(UIAlertAction *action)
-                                 {
-                                   NSLog(@"Cancel action");
-                                 }];
-  
-  UIAlertAction *okAction = [UIAlertAction
-                             actionWithTitle:NSLocalizedString(@"OK", @"OK action")
-                             style:UIAlertActionStyleDefault
-                             handler:^(UIAlertAction *action)
-                             {
-                               [self createReactRootViewFromURL: url];
-                             }];
-  
-  [alertController addAction:cancelAction];
-  [alertController addAction:okAction];
-  
-  // make sure this runs on main thread. Apple doesn't like if you change UI from background thread.
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
-  });
-  
+    NSLog(@"Update succeeded");
+    [self createReactRootViewFromURL: url];
+
 }
 
 - (void)ReactNativeAutoUpdater_updateDownloadFailed {

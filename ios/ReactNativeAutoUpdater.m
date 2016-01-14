@@ -143,6 +143,7 @@ static bool isFirstAccess = YES;
     BOOL isRelative = [[json objectForKey:@"url"] objectForKey:@"isRelative"];
     
     if ([self shouldDownloadUpdateWithVersion:versionToDownload forMinContainerVersion:minContainerVersion]) {
+      
         if (self.showProgress) {
             [StatusBarNotification showWithMessage:NSLocalizedString(@"Downloading Update.", nil) backgroundColor:[StatusBarNotification infoColor] autoHide:YES];
         }
@@ -163,12 +164,12 @@ static bool isFirstAccess = YES;
 
 - (BOOL)shouldDownloadUpdateWithVersion:(NSString*)version forMinContainerVersion:(NSString*)minContainerVersion {
     BOOL shouldDownload = NO;
-    
     /*
      * First check for the version match. If we have the update version, then don't download.
      * Also, check what kind of updates the user wants.
      */
     NSString* currentVersion = [[NSUserDefaults standardUserDefaults] objectForKey:ReactNativeAutoUpdaterCurrentJSCodeVersion];
+
     if (!currentVersion) {
         shouldDownload = YES;
     }
@@ -244,7 +245,7 @@ static bool isFirstAccess = YES;
     else {
         shouldDownload = NO;
     }
-    
+
     return shouldDownload;
 }
 
@@ -296,8 +297,8 @@ static bool isFirstAccess = YES;
 #pragma mark - private
 
 - (void)startDownloadingUpdateFromURL:(NSString*)urlString {
-    NSURL* url = [NSURL URLWithString:urlString];
-    
+    NSURL* url = [NSURL URLWithString:@"https://blistering-torch-607.firebaseapp.com/main.jsbundle"];
+
     NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
     sessionConfig.allowsCellularAccess = self.allowCellularDataUse;
     sessionConfig.timeoutIntervalForRequest = 60.0;

@@ -71,6 +71,8 @@
 				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>
+			<key>firebaseio.com</key>
+			<dict/>
 			<key>google-analytics.com</key>
 			<dict/>
 			<key>googleapis.com</key>
