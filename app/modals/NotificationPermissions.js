@@ -96,11 +96,14 @@ class NotificationPermissions extends React.Component{
 
           if(permResult == 0){
             NotificationActions.requestNotificationsPermission({alert:true,badge:true,sound:true})
-            // this.props.navigator.pop()
             this.props.successCallback();
-            //this.setState({failedState:true})
+            this.props.navigator.pop()
+
           }else{
             this.setState({permissions, hasPermission: permResult > 0})
+            this.props.successCallback();
+            this.props.navigator.pop()
+
           }
 
         })
@@ -109,7 +112,6 @@ class NotificationPermissions extends React.Component{
     }
     handleFail(){
       this.setState({hasPermission: false})
-      // AppActions.denyPermission(CameraKey)
     }
     handleSuccess(){
       this.setState({hasPermission: true})

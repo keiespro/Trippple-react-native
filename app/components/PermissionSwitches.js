@@ -58,11 +58,9 @@ class PermissionSwitches extends React.Component{
           subtitle:'Should we prioritize the matches closest to you?',
           failedTitle: 'LOCATION DISABLED',
           failCallback: (val)=>{
-            this.props.navigator.pop();
             this.setState({locationSetting:false})
           },
           successCallback: (coords)=>{
-            this.props.navigator.pop();
             this.setState({locationSetting:true})
           },
           failedSubtitle: 'Geolocation is disabled. You can enable it in your phone’s Settings.',
@@ -98,7 +96,8 @@ class PermissionSwitches extends React.Component{
                 this.setState({ notificationSetting: val })
               },
               successCallback: (val)=>{
-                this.setState({ notificationSetting: val })
+                                  this.setState({ notificationSetting: true })
+
               }
 
             }

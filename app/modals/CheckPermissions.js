@@ -93,7 +93,6 @@ import Log from '../Log'
       },
       (error) => {
         Log(error)
-        this.requestPermission()
 
         // this.setState({hasPermission: false, failedState: true})
         // this.handleFail()
@@ -123,7 +122,8 @@ import Log from '../Log'
       if(!this.state.hasPermission){
         this.requestPermission()
       }else{
-        this.getLocation()
+        this.props.successCallback()
+        this.props.navigator.pop()
 
       }
     }
@@ -135,12 +135,14 @@ import Log from '../Log'
   handleFail(){
     this.setState({hasPermission: false})
     this.props.failCallback(0)
+    this.props.navigator.pop()
 
   }
 
   handleSuccess(geo){
     const { latitude, longitude } = geo.coords
     UserActions.updateUser({ latitude, longitude });
+    this.props.successCallback()
     this.props.navigator.pop()
   }
 
