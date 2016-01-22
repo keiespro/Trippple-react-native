@@ -70,7 +70,7 @@ class Main extends Component{
   componentWillReceiveProps(nProps){
 
     if(nProps.currentRoute){
-      if(nProps.currentRoute != this.refs.nav.state.presentedIndex){
+      if(this.refs.nav && nProps.currentRoute != this.refs.nav.state.presentedIndex){
         if(this.props.currentRoute && nProps.currentRoute && this.props.currentRoute.match_id && nProps.currentRoute.match_id && nProps.currentRoute.match_id == this.props.currentRoute.match_id){
           return
         }else if(nProps.currentRoute.route && nProps.currentRoute.route == 'chat'){

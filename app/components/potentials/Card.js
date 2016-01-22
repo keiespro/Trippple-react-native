@@ -107,13 +107,20 @@ class Card extends React.Component{
 
   render(){
 
+    const potential = this.props.potential || {};
+    const names = [potential.user && potential.user.firstname ? potential.user.firstname.trim() : null]
+
+    if(potential.partner && potential.partner.firstname){
+      names.push(potential.partner.firstname.trim())
+    }
+
     var { rel, potential, profileVisible, isTopCard, isThirdCard, pan } = this.props,
-        matchName = potential.user.firstname.trim() + ' ' + potential.user.age,
-        distance = potential.user.distance,
-        city = potential.user.city_state;
+        matchName = names[0],
+        distance = potential.user.distance || ``,
+        city = potential.user.city_state || ``;
 
     if(rel == 'single') {
-      matchName += ' & ' + potential.partner.firstname.trim() + ' ' + potential.partner.age
+      matchName += ' & ' + names[1]
       distance = Math.min(distance,potential.partner.distance)
     }
 
