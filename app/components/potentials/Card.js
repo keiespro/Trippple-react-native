@@ -130,7 +130,7 @@ class Card extends React.Component{
           height:DeviceHeight-55,
           left:0,
           right:0,
-
+          backgroundColor:colors.dark
         } ]}>
 
           <ScrollView
@@ -246,7 +246,6 @@ class Card extends React.Component{
                         backgroundColor: colors.white,
                         flex:1,
                       width: DeviceWidth-40,
-
                         opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                             inputRange:  [-300, -80, 0, 80, 300],
                             outputRange: [   0,   1, 1,  1,   0]
@@ -267,7 +266,6 @@ class Card extends React.Component{
                         key={`${potential.partner.id}-cimg`}
                         style={[styles.imagebg,{
                       width: DeviceWidth-40,
-
                           flex:1,
                           opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                             inputRange: [-300, -100, 0, 100, 300],

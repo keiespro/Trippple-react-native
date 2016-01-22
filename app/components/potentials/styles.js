@@ -14,7 +14,8 @@ shadowCard:{
   shadowOffset: {
     width:0,
     height: 5
-  }
+  },
+  backgroundColor:colors.dark
 },
 tab: {
   flex: 1,

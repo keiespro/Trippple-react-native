@@ -89,7 +89,7 @@ class TopLevel extends Component{
 
   render(){
     return (
-      <View style={{flex:1,backgroundColor:colors.outerSpace, width:DeviceWidth,height:DeviceHeight}}>
+      <View style={{flex:10,backgroundColor:colors.outerSpace, width:DeviceWidth,height:DeviceHeight}}>
 
         <ReachabilitySubscription/>
         <AppVisibility/>

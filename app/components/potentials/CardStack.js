@@ -256,6 +256,7 @@ class CardStack extends React.Component{
             height: (DeviceHeight <= 568 ? (DeviceHeight - 75) : (DeviceHeight-65)),
             position: 'absolute',
             bottom:  (DeviceHeight <= 568 ? 80 : 40),
+  backgroundColor:'black',
                 shadowColor:colors.dark,
                 shadowRadius:3,
                 shadowOpacity:0.5,
