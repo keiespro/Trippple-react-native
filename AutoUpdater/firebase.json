@@ -4,6 +4,8 @@
   "ignore": [
     "firebase.json",
     "**/.*",
+    "bin",
+    "fbjs",
     "**/node_modules/**"
   ]
 }
