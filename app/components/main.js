@@ -245,7 +245,8 @@ const SettingsRoute = {
       blur={true}
       backgroundStyle={{backgroundColor:colors.shuttleGray}}
       hideNext={true}
-      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12}} source={require('../../newimg/close.png')}/>}
+      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12}}
+      source={require('../../newimg/close.png')}/>}
       onPrev={(nav,route)=> nav.pop()}
       title={'SETTINGS'}
       titleColor={colors.white}
