@@ -17,7 +17,7 @@
     "bluebird": "^3.1.1",
     "buffer": "^3.5.1",
     "eventemitter3": "^1.1.1",
-    "lodash": "^4.0.0",
+    "lodash": "^3.10.1",
     "moment": "^2.10.6",
     "phone-parser": "0.0.2",
     "react": "^0.14.6",
@@ -29,7 +29,7 @@
     "react-native-camera": "^0.3.8",
     "react-native-device": "GertjanReynaert/react-native-device#gr-improve-device-support",
     "react-native-fs": "latest",
-    "react-native-invertible-scroll-view": "^0.1.2",
+    "react-native-invertible-scroll-view": "^0.2.0",
     "react-native-mail": "latest",
     "react-native-message-composer": "0.0.4",
     "react-native-scrollable-decorator": "latest",
@@ -41,7 +41,7 @@
     "socket.io-client": "^1.4.4",
     "superagent": "^1.4.0",
     "underscore": "^1.8.3",
-    "underscore.string": "^3.2.2",
+    "underscore.string": "^3.2.3",
     "url": "^0.11.0"
   },
   "devDependencies": {
