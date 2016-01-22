@@ -148,7 +148,6 @@ class CardStack extends React.Component{
           }
         });
 
-
         this._actionlistener = this.state.pan.addListener((value) => {
           if(!value || !value.x){ return false }
           // when the card reaches the throw out threshold, send like
@@ -157,8 +156,8 @@ class CardStack extends React.Component{
             likeUserId = this.props.potentials[0].user.id;
 
             this.state.pan && this._actionlistener && this.state.pan._listeners[this._actionlistener] && this.state.pan.removeListener(this._actionlistener);
-            // this.state.pan.x.removeAllListeners()
-
+            this.state.pan.x.removeAllListeners()
+            this.state.pan.x.removeListener(this.state.pan._listeners[this._actionlistener]);
             MatchActions.sendLike(
               likeUserId,
               likeStatus,
