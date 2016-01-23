@@ -149,21 +149,31 @@ class CardStack extends React.Component{
         });
 
         this._actionlistener = this.state.pan.addListener((value) => {
-          if(!value || !value.x){ return false }
-          // when the card reaches the throw out threshold, send like
-          if (Math.abs(value.x) >= 600) {
-            const likeStatus = value.x > 0 ? 'approve' : 'deny',
-            likeUserId = this.props.potentials[0].user.id;
+          const likeUserId = this.props.potentials[0].user.id;
+          if(!value || !value.x ){ return false }
+            const likeStatus = value.x > 0 ? 'approve' : 'deny';
 
-            this.state.pan && this._actionlistener && this.state.pan._listeners[this._actionlistener] && this.state.pan.removeListener(this._actionlistener);
-            this.state.pan.x.removeAllListeners()
-            this.state.pan.x.removeListener(this.state.pan._listeners[this._actionlistener]);
-            MatchActions.sendLike(
+          // when the card reaches the throw out threshold, send like
+          if (Math.abs(value.x) >= 300) {
+
+            // if(this.state.pan && this._actionlistener && this.state.pan._listeners[this._actionlistener]){
+              // this.state.pan.removeListener(this._actionlistener);
+              //
+               // this.state.pan.x.removeListener(this.state.pan._listeners[this._actionlistener]);
+
+            // }
+            if(this.state.interactedWith != likeUserId ){
+              MatchActions.sendLike(
               likeUserId,
               likeStatus,
               (this.props.rel == 'single' ? 'couple' : 'single'),
               this.props.rel
             );
+
+            this.setState({interactedWith:likeUserId})
+            this.state.pan && this.state.pan.x &&  this.state.pan.x._listeners.length && this.state.pan.x.removeAllListeners()
+
+           }
           }
         })
       }

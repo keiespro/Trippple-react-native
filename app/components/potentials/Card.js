@@ -2,6 +2,7 @@
 // ISSUES:
 // setting centerContent=true on a scrollview changes the entire layout system
 // cards are scaled and can safely be left at dw/dh ?
+
 import React, {
   StyleSheet,
   Text,
@@ -107,21 +108,21 @@ class Card extends React.Component{
 
   render(){
 
-    const potential = this.props.potential || {};
+    const potential = this.props.potential || {user:{}};
     const names = [potential.user && potential.user.firstname ? potential.user.firstname.trim() : null]
 
     if(potential.partner && potential.partner.firstname){
       names.push(potential.partner.firstname.trim())
     }
 
-    var { rel, potential, profileVisible, isTopCard, isThirdCard, pan } = this.props,
+    var { rel,  profileVisible, isTopCard, isThirdCard, pan } = this.props,
         matchName = names[0],
         distance = potential.user.distance || ``,
         city = potential.user.city_state || ``;
 
     if(rel == 'single') {
       matchName += ' & ' + names[1]
-      distance = Math.min(distance,potential.partner.distance)
+      distance = Math.min(distance,potential.partner && potential.partner.distance || '666666666')
     }
 
     if(!profileVisible){
@@ -577,7 +578,7 @@ class Card extends React.Component{
 
                 </Swiper> :
                 <TouchableOpacity
-                  key={`${potential.user.id}-touchableimg`}
+                  key={/* TODO: Implement sanity */ `${potential.user.id}-touchableimg`}
                   style={[styles.imagebg,{ overflow:'hidden'}]}
                   onPressIn={this.toggleCardHoverOff.bind(this)}
                   onPressOut={this.toggleCardHoverOn.bind(this)}
@@ -585,7 +586,7 @@ class Card extends React.Component{
                   >
                   <Animated.Image
                     source={{uri: potential.user.image_url}}
-                    key={`${potential.user.id}-cimg`}
+                    key={/* TODO: Implement sanity */  `${potential.user.id}-cimg`}
                     style={[styles.imagebg, {
                       flex:1,
                       alignSelf:'stretch',
@@ -713,7 +714,7 @@ class Card extends React.Component{
         </Animated.View>
       </ScrollView>
       <View
-        key={'navbarholder'+potential.user.id}
+        key={/* TODO: Implement sanity */  'navbarholder'+potential.user.id}
         style={{
           backgroundColor:'black',
           width:DeviceWidth,

@@ -109,7 +109,7 @@ class PotentialsPage extends React.Component{
     const NavBar = React.cloneElement(this.props.pRoute.navigationBar, {
       ...this.props
     })
-
+    console.log(potentials)
     return (
       <View
         style={{
