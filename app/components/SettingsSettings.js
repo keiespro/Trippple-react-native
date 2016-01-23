@@ -19,7 +19,13 @@ import React, {
   AsyncStorage,
   Navigator
 } from  'react-native'
-import base64 from 'base-64'
+import base64 from 'base-64';
+
+// let VERSION2 = require('../../.versionfile');
+
+const VERSION = "2.0.20"
+console.log(VERSION)
+
 import Mixpanel from '../utils/mixpanel';
 import FakeNavBar from '../controls/FakeNavBar';
 import alt from '../flux/alt'
@@ -121,7 +127,7 @@ class SettingsSettings extends React.Component{
           body:  'Help!',
           attachment: {
             path,  // The absolute path of the file from which to read data.
-            type: 'html',   // Mime Type: jpg, png, doc, ppt, html, pdf
+            type: 'text',   // Mime Type: jpg, png, doc, ppt, html, pdf
             name: fileName
           }
         }, (error, event) => {
@@ -254,6 +260,13 @@ class SettingsSettings extends React.Component{
           </View>
         </TouchableHighlight>
         <View style={styles.paddedSpace}>
+
+            <Text style={{color:colors.white,textAlign:'center',fontSize:18,fontFamily:'omnes'}}>{VERSION}</Text>
+
+        </View>
+
+        <View style={styles.paddedSpace}>
+
           <LogOutButton/>
         <TouchableOpacity style={{alignItems:'center',marginVertical:10}} onPress={this.disableAccount.bind(this)}>
           <Text style={{color:colors.shuttleGray,textAlign:'center'}}>Disable Your Account</Text>

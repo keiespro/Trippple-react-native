@@ -13,7 +13,7 @@
 #import "UIColor+TRColors.h"
 #import "ReactNativeAutoUpdater.h"
 
-#define JS_CODE_METADATA_URL @"http://x.local:3333/update.json"
+#define JS_CODE_METADATA_URL @"https://blistering-torch-607.firebaseapp.com/update.json"
 
 @interface AppDelegate() <ReactNativeAutoUpdaterDelegate>
 
@@ -29,12 +29,12 @@
   //////// LOAD THE JS //////////
 
   // DEVELOPMENT
-//  defaultJSCodeLocation = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
+  defaultJSCodeLocation = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
 
   ///////////////////////////
 
   // PRODUCTION
-  defaultJSCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+//  defaultJSCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
   /////////////////////////
 

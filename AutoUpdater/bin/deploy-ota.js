@@ -17,6 +17,16 @@ const APP_VERSION = '2.0.17';
 
 program.version('0.0.1')
 
+var jsonfile = require('jsonfile')
+
+var util = require('util')
+
+var file = '/.versionfile.json'
+
+
+const VERSION =  jsonfile.readFileSync(file);
+console.dir(VERSION)
+
 const list = ['all', 'build', 'bump', 'deploy', 'exit'];
 term.bold.underline.red('Trippple\n');
 term.bold.underline.brightYellow('==============================================================\n');

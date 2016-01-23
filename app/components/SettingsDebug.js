@@ -1,6 +1,5 @@
 
-import React from 'react-native';
-const {
+import React, {
   StyleSheet,
   Text,
   View,
@@ -11,11 +10,10 @@ const {
   Image,ScrollView,
   AsyncStorage,
   Navigator
-} = React
+}  from 'react-native';
 
 import NotificationActions from '../flux/actions/NotificationActions'
 import MatchActions from '../flux/actions/MatchActions'
-
 import AppActions from '../flux/actions/AppActions'
 import colors from '../utils/colors'
 import NotificationPermissions from '../modals/NotificationPermissions'
@@ -94,7 +92,7 @@ class SettingsDebug extends React.Component{
                 MatchActions.getPotentials()
               }} >
               <View style={styles.wrapfield}>
-                <Text style={{color:colors.white,}}>Fetch potentials</Text>
+                <Text style={{color:colors.white}}>Fetch potentials</Text>
                 <Image source={require('../../newimg/nextArrow.png')} />
               </View>
             </TouchableHighlight>
@@ -121,19 +119,12 @@ class SettingsDebug extends React.Component{
             <TouchableHighlight
               onPress={()=>{ AppActions.toggleOverlay() }} >
               <View style={styles.wrapfield}>
-                <Text style={{color:colors.white,}}>Toggle Loading Overlay</Text>
+                <Text style={{color:colors.white}}>Toggle Loading Overlay</Text>
                 <Image source={require('../../newimg/nextArrow.png')} />
               </View>
             </TouchableHighlight>
 
-            <View>
-              <Text style={{color:colors.white}}>USER INFO:</Text>
-              {
-                Object.keys(this.props.user).map((k,i)=>{
-                  return <Text style={{color:colors.white}}>{k} : {this.props.user[k]}</Text>
 
-                }) }
-              </View>
 
           </ScrollView>
 

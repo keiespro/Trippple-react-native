@@ -136,8 +136,9 @@ class MatchActions {
   sendLike(likedUserID, likeStatus, likeUserType, rel_status) {
     return (dispatch) => {
       Api.sendLike(likedUserID, likeStatus,likeUserType,rel_status)
-
-      dispatch({likedUserID,likeStatus});
+      .then((res)=>{
+          dispatch({likedUserID,likeStatus});
+      }).catch((x)=>{ /*op?*/})
     };
   }
 
