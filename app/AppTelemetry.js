@@ -40,13 +40,9 @@ class AppTelemetry{
     };
 
     try{
-      var tele = await join( NetInfo.fetch(),AsyncStorage.getAllKeys()).done((results)=>{
-        return ({...telemetryPayload, netInfo: {connection: results[0]},storageKeys: results[1]});
-      });
-      return tele
-
+      return tele = {...telemetryPayload, netInfo: {connection: await NetInfo.fetch() } };
     }catch(x){
-      console.warn(x)
+      Log(x)
       return x
     }
   }
@@ -54,11 +50,11 @@ class AppTelemetry{
   async getEncoded(){
     try{
       const payload = await this.getPayload()
-      return base64.encode(unescape(encodeURIComponent(JSON.stringify(payload))));
+      return await base64.encode(unescape(encodeURIComponent(JSON.stringify(payload))));
 
     }catch(err){
-      console.warn(err)
-
+      Log(err)
+      return err
     }
 
 
