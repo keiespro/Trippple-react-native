@@ -1,11 +1,17 @@
-const {__DEBUG__} = global
+import logger from 'react-native-logger'
 
-const Log = () => {
-  if(__DEV__){
-    return console.log
-  }else if(__DEBUG__){
-    return console.warn
+const noop = () => {}
+
+const initLogger = () => {
+
+  // review this
+  if (__DEV__ && process.env.NODE_ENV !== 'production') {
+    Logger = new logger('x.local');
+    return Logger;
   }
+
+  return (__DEBUG__ ? console.warn : noop)
 }
 
-export default Log
+export default initLogger()
+

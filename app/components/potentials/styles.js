@@ -7,68 +7,68 @@ import {MagicNumbers} from '../../DeviceConfig'
 
 const styles = StyleSheet.create({
 
-shadowCard:{
-  shadowColor:colors.darkShadow,
-  shadowRadius:4,
-  shadowOpacity:50,
-  shadowOffset: {
-    width:0,
-    height: 5
+  shadowCard:{
+    shadowColor:colors.darkShadow,
+    shadowRadius:4,
+    shadowOpacity:50,
+    shadowOffset: {
+      width:0,
+      height: 5
+    },
+    backgroundColor:colors.dark
   },
-  backgroundColor:colors.dark
-},
-tab: {
-  flex: 1,
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: 0,
-  width:MagicNumbers.screenWidth/ 2,
+  tab: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 0,
+    width:MagicNumbers.screenWidth/ 2,
 
-},
-singleTab:{
-  flex: 1,
-  alignItems: 'center',
-  justifyContent: 'center',
-  marginHorizontal: MagicNumbers.screenPadding/2,
-  width:MagicNumbers.screenWidth,
+  },
+  singleTab:{
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: MagicNumbers.screenPadding/2,
+    width:MagicNumbers.screenWidth,
 
-},
-tabs: {
-  height: 60,
-  flexDirection: 'row',
-  marginTop: 0,
-  borderWidth: 1,
-  width:MagicNumbers.screenWidth,
-  flex:1,
-  marginHorizontal:0,
-  borderTopWidth: 1,
-  borderLeftWidth: 0,
-  borderRightWidth: 0,
-  borderBottomWidth:1,
-  overflow:'hidden',
-  justifyContent:'center',
-  alignItems:'center',
-  borderColor: colors.shuttleGray,
-},
-animatedIcon:{
-  height:60,
-  width:60,
-  borderRadius:30,
-  alignItems:'center',
-  justifyContent:'center',
-  top:DeviceHeight/2 - 80,
-  left:DeviceWidth/2 - 50,
-  position:'absolute',
-  // shadowColor:colors.darkShadow,
-  backgroundColor:'transparent',
-  // shadowRadius:5,
-  // shadowOpacity:50,
-  overflow:'hidden',
-  // shadowOffset: {
-  //   width:0,
-  //   height: 5
-  // }
-},
+  },
+  tabs: {
+    height: 60,
+    flexDirection: 'row',
+    marginTop: 0,
+    borderWidth: 1,
+    width:MagicNumbers.screenWidth,
+    flex:1,
+    marginHorizontal:0,
+    borderTopWidth: 1,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderBottomWidth:1,
+    overflow:'hidden',
+    justifyContent:'center',
+    alignItems:'center',
+    borderColor: colors.shuttleGray,
+  },
+  animatedIcon:{
+    height:60,
+    width:60,
+    borderRadius:30,
+    alignItems:'center',
+    justifyContent:'center',
+    top:DeviceHeight/2 - 80,
+    left:DeviceWidth/2 - 50,
+    position:'absolute',
+    // shadowColor:colors.darkShadow,
+    backgroundColor:'transparent',
+    // shadowRadius:5,
+    // shadowOpacity:50,
+    overflow:'hidden',
+    // shadowOffset: {
+    //   width:0,
+    //   height: 5
+    // }
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -92,38 +92,40 @@ animatedIcon:{
   basicCard:{
     borderRadius:8,
     backgroundColor: 'transparent',
-      overflow:'hidden',
+    overflow:'hidden',
 
-    },
-    bottomButtons: {
-      height: 80,
-      alignItems: 'center',
-      flexDirection: 'row',
-      top:-40,
-      justifyContent:'space-around',
-      alignSelf:'stretch',
-      width: undefined
-    },
-    topButton: {
-      height: 80,
-      flex:1,
-      flexDirection: 'row',
-      backgroundColor: 'transparent',
-      borderColor: colors.white,
-      borderWidth: 0,
-      borderRadius: 0,
-      marginBottom: 0,
-      marginTop: 0,
-      alignSelf: 'stretch',
-      alignItems:'center',
-      justifyContent: 'center'
-    },
+  },
+  bottomButtons: {
+    height: 80,
+    alignItems: 'center',
+    flexDirection: 'row',
+    top:-40,
+    justifyContent:'space-around',
+    alignSelf:'stretch',
+    width: undefined
+  },
+  topButton: {
+    height: 80,
+    flex:1,
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
+    borderColor: colors.white,
+    borderWidth: 0,
+    borderRadius: 0,
+    marginBottom: 0,
+    marginTop: 0,
+    alignSelf: 'stretch',
+    alignItems:'center',
+    justifyContent: 'center'
+  },
   card: {
     borderRadius:8,
     backgroundColor: 'transparent',
-    alignSelf: 'stretch',
+    alignSelf: 'center',
     flex: 1,
     borderWidth: 0,
+    position:'absolute',
+    marginHorizontal:40,
     borderColor:'rgba(0,0,0,.2)',
     overflow:'hidden'
 
@@ -160,10 +162,10 @@ animatedIcon:{
   },
   imagebg:{
     flex: 1,
-    alignSelf:'stretch',
-     padding:0,
+    // alignSelf:'stretch',
+    padding:0,
     alignItems:'center',
-  justifyContent:'center'
+    justifyContent:'center'
 
   },
 
@@ -234,9 +236,12 @@ animatedIcon:{
     width:DeviceWidth,
     height:DeviceHeight-55,
     flex:1,
+    top:0,
+    position:'absolute',
+    left:0,
+    flexDirection:'column',
     alignItems:'center',
     justifyContent:'center',
-    alignSelf:'stretch',
     backgroundColor:'transparent'
   },
 

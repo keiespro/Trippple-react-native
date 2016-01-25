@@ -3,7 +3,7 @@
 * @flow
 */
 
-import React, { View,AppRegistry } from 'react-native'
+import React, { View, AppRegistry } from 'react-native'
 import Boot from './app/Boot'
 import Log from './app/utils/logger'
 import alt from './app/flux/alt'
@@ -30,7 +30,7 @@ class trippple extends React.Component{
   }
 
   render(){
-    return <View style={{backgroundColor:'red'}}><Boot/></View>
+    return <Boot/>
   }
 }
 

@@ -26,7 +26,7 @@ import ScrollableTabView from '../../scrollable-tab-view'
 import Mixpanel from '../../utils/mixpanel';
 import colors from '../../utils/colors';
 import Swiper from '../../controls/swiper';
-import ProfileTable from '../ProfileTable'
+import ProfileTable from '../ProfileTable';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../../DeviceConfig'
@@ -133,11 +133,10 @@ class Card extends React.Component{
         style={ [{
           borderRadius: 8,
           flex:1,
-          width:DeviceWidth,
+          width:undefined,
           position:'relative',
-          height:DeviceHeight-55,
-          left:0,
-          right:0,
+          height:DeviceHeight-50,
+          overflow:'hidden',
           backgroundColor:colors.dark
         } ]}>
 
@@ -152,7 +151,9 @@ class Card extends React.Component{
           contentContainerStyle={{
             alignItems:'center',
               justifyContent:'center',
-              width:DeviceWidth,
+              position:'relative',
+              width:undefined,
+              height:undefined,
               left:0,
               right:0,
               flex:1,
@@ -161,11 +162,11 @@ class Card extends React.Component{
             style={[styles.card,{
               margin:0,
               padding:0,
-              width:DeviceWidth-40,
-              left:0,right:0,
+              width:undefined,
+              // left:0,right:0,
               padding: 0,
               paddingTop: 0,
-              height:DeviceHeight-80,
+              height:undefined,
               position:'relative',
               flex:1,
               backgroundColor: colors.white,
@@ -180,6 +181,7 @@ class Card extends React.Component{
                   justifyContent:'center',left:0,right:0,
                   marginHorizontal:0,
                   flexDirection:'column',
+          position:'relative',
                   backgroundColor: isTopCard ? this.props.pan && this.props.pan.x.interpolate({
                     inputRange: [-300,-50, -40, 0, 40,  50, 300],
                     outputRange: [
@@ -203,7 +205,8 @@ class Card extends React.Component{
                   style={{
                     alignSelf:'center',
                     marginLeft:0,
-                    overflow:'hidden',
+                    // overflow:'hidden',
+                    height:undefined,width:undefined,
                     marginRight:0,
                     left:0,
                   }}
@@ -213,7 +216,7 @@ class Card extends React.Component{
 
                   <TouchableWithoutFeedback
                     key={`${potential.user.id}-touchableimg`}
-                    style={[styles.imagebg,{ overflow:'hidden'}]}
+                    style={[styles.imagebg,{ overflow:'hidden',height:undefined, width: undefined,}]}
                     onPressIn={this.toggleCardHoverOn.bind(this)}
                     onPressOut={this.toggleCardHoverOff.bind(this)}
                     onPress={this.openProfileFromImage.bind(this)}
@@ -224,7 +227,8 @@ class Card extends React.Component{
                     defaultSource={{uri:'../../,,/newimg/defaultuser.png'}}
                     style={[styles.imagebg, {
                       backgroundColor: colors.white,
-                      width: DeviceWidth-40,
+                      width: undefined,
+                      height:undefined,
                       flex:1,
                       left:0,
                       right:0,
@@ -241,7 +245,7 @@ class Card extends React.Component{
 
                   <TouchableWithoutFeedback
                     key={`${potential.partner.id}-touchableimg`}
-                    style={[styles.imagebg,{}]}
+                    style={[styles.imagebg,{height:undefined, width: undefined,}]}
                     onPressIn={this.toggleCardHoverOn.bind(this)}
                     onPressOut={this.toggleCardHoverOff.bind(this)}
                     onPress={this.openProfileFromImage.bind(this)}
@@ -253,9 +257,10 @@ class Card extends React.Component{
                       style={[styles.imagebg,{
                         backgroundColor: colors.white,
                         flex:1,
-                      width: DeviceWidth-40,
+                        height:undefined,
+                        width: undefined,
                         opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
-                            inputRange:  [-300, -80, 0, 80, 300],
+                          inputRange:  [-300, -80, 0, 80, 300],
                             outputRange: [   0,   1, 1,  1,   0]
                         }) : 1
                       }]}
@@ -266,14 +271,15 @@ class Card extends React.Component{
                 { potential.partner && potential.image && potential.image != null && potential.image != '' ?
                     <TouchableWithoutFeedback
                       key={`${potential.couple.id}-touchableimg`}
-                      style={[styles.imagebg,{ }]}
+                      style={[styles.imagebg,{ height:undefined, width: undefined,}]}
                       onPress={this.openProfileFromImage.bind(this)}
                       >
                       <Animated.Image
                         source={{uri: potential.image}}
                         key={`${potential.partner.id}-cimg`}
                         style={[styles.imagebg,{
-                      width: DeviceWidth-40,
+                          width: undefined,
+                          height:undefined,
                           flex:1,
                           opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                             inputRange: [-300, -100, 0, 100, 300],
@@ -288,7 +294,7 @@ class Card extends React.Component{
                 </Swiper> :
                 <TouchableWithoutFeedback
                   key={`${potential.user.id}-touchableimg`}
-                  style={[styles.imagebg,{ overflow:'hidden'}]}
+                  style={[styles.imagebg,{height:undefined, width: undefined, overflow:'hidden'}]}
                   onPressIn={this.toggleCardHoverOn.bind(this)}
                   onPressOut={this.toggleCardHoverOff.bind(this)}
                   onPress={this.openProfileFromImage.bind(this)}
@@ -300,7 +306,7 @@ class Card extends React.Component{
                     style={[styles.imagebg,{
                       backgroundColor: colors.white,
                       flex:1,
-                      width: DeviceWidth,
+                      height:undefined, width: undefined,
                       opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                           inputRange:  [-300, -80, 0, 80, 300],
                           outputRange: [   0,   1, 1,  1,   0]
@@ -316,15 +322,16 @@ class Card extends React.Component{
               key={`${potential.id || potential.user.id}-bottomview`}
               style={{
                 height: isTopCard ? 120 : 105,
-                marginTop: isTopCard ? -110 : -105,
-                flexDirection:'row',
+                marginTop: isTopCard ? -150 : -125,
                 flex:1,
-                left:0,
-                bottom:isTopCard ? -40 : -110,
+                left:20,
+                marginBottom:isTopCard ? -40 : -110,
                 backgroundColor:colors.white,
-                width:DeviceWidth,
-                position:'absolute',
-                marginRight: this.props.profileVisible ? 0 : 50,
+                width:undefined,
+                flexDirection:'row',
+                position:'relative',
+                alignSelf:'stretch',alignItems:'stretch'
+                // marginRight: this.props.profileVisible ? 0 : 50,
               }}
               >
             {isTopCard ?
@@ -334,8 +341,10 @@ class Card extends React.Component{
                 padding: isTopCard ? 10 : 5,
                 paddingTop:MagicNumbers.is4s ? 20 : 15,
                 paddingBottom:MagicNumbers.is4s ? 10 : 15,
-                height:110,flex:1,
-              top:0,}}>
+                height:110,width:undefined,
+                minWidth:DeviceWidth-40,
+                alignSelf:'center',flexDirection:'column',
+              position:'relative',top:0,}}>
                   <Text style={[styles.cardBottomText,{}]}
                     key={`${potential.id || potential.user.id}-names`}>{
                       matchName
@@ -350,8 +359,8 @@ class Card extends React.Component{
 
               <View style={{
                 height:74,
-                top:MagicNumbers.is4s ? -45 : -35,
-                right:35,
+                top:MagicNumbers.is4s ? -55 : -45,
+                right:5,
                 alignSelf:'flex-end',
                 position:'absolute',
                 padding:5,
@@ -385,7 +394,7 @@ class Card extends React.Component{
               </View>
             </Animated.View>
 
-          {isTopCard && !profileVisible ?
+          {isTopCard ?
             <Animated.View key={'denyicon'} style={[styles.animatedIcon,{
               transform: [
                 {
@@ -408,7 +417,7 @@ class Card extends React.Component{
               }}/>
             </Animated.View> : null }
 
-          {isTopCard && !profileVisible  ?
+          {isTopCard  ?
               <Animated.View key={'approveicon'} style={[styles.animatedIcon,{
                 transform: [
                   {
@@ -555,7 +564,7 @@ class Card extends React.Component{
                   { potential.partner && potential.image && potential.image != null && potential.image != '' ?
 
                     <TouchableOpacity
-                      key={`${potential.couple.id}-touchableimg`}
+                      key={`${potential.id}-touchableimg`}
                       style={[styles.imagebg,{ }]}
                       onPress={this.openProfileFromImage.bind(this)}
                       >
@@ -605,7 +614,7 @@ class Card extends React.Component{
             <View
               key={`${potential.id || potential.user.id}-bottomview`}
               style={{
-                // height: 800,
+                height: undefined,
                 top: 0,
                 marginTop: (DeviceHeight <= 568 ? -120 : -260),
                 backgroundColor:colors.outerSpace,
@@ -613,7 +622,7 @@ class Card extends React.Component{
                 left:0,
                 right:0,
                 // bottom:-180,
-                width:DeviceWidth,
+                width:undefined,
               }}
               >
 
@@ -622,7 +631,7 @@ class Card extends React.Component{
                 style={{
                   // height:60,
                   // overflow:'hidden',
-                  width: DeviceWidth,
+                  width: undefined,
                   left:0,
                   height:150,
                   marginLeft: MagicNumbers.screenPadding/2,

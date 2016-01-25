@@ -30,6 +30,7 @@
     "react-native-device": "GertjanReynaert/react-native-device#gr-improve-device-support",
     "react-native-fs": "latest",
     "react-native-invertible-scroll-view": "^0.2.0",
+    "react-native-logger": "^0.3.3",
     "react-native-mail": "latest",
     "react-native-message-composer": "0.0.4",
     "react-native-scrollable-decorator": "latest",
