@@ -1,0 +1,8 @@
+[debug] ----------------------------------------------------------------------
+[debug] Command:      /Users/alexlopez/.nvm/versions/node/v5.0.0/bin/node /Users/alexlopez/.nvm/versions/node/v5.0.0/bin/firebase serve -o x.local
+[debug] Platform:     darwin
+[debug] Node Version: v5.0.0
+[debug] Time:         Tue Jan 26 2016 11:14:39 GMT-0500 (EST)
+[debug] ----------------------------------------------------------------------
+[debug] 
+[info] Listening at http://x.local:5000

@@ -1,8 +1,8 @@
 {
-  "version": "2.0.20",
-  "minContainerVersion": "0",
+  "version": "2.0.28",
+  "minContainerVersion": "2",
   "url": {
-    "url": "https://blistering-torch-607.firebaseapp.com/main.jsbundle",
+    "url": "http://x.local:5000/main-2.0.28-1-1453823656147.jsbundle",
     "isRelative": false
   }
 }
