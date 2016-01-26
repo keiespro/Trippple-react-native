@@ -39,8 +39,8 @@ class ChatStore {
       Log('BOOTSTRAP ChatStore',bootstrappedState);
     });
 
-    this.on('afterEach', ({payload, state}) => {
-      Log('AFTEREACH ChatStore', payload,state);
+    this.on('afterEach', (x) => {
+      Log('AFTEREACH Chat Store', {...x});
     });
 
   }

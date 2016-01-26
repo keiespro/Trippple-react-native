@@ -23,8 +23,8 @@ class AuthErrorStore {
       Log('BOOTSTRAP AuthErrorStore',bootstrappedState);
     });
 
-    this.on('afterEach', ({payload, state}) => {
-      Log('AFTEREACH AuthErrorStore', payload,state);
+    this.on('afterEach', ({x,y}) => {
+      Log('AFTEREACH AuthError Store ', {x,y});
     });
 
   }

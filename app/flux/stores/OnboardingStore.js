@@ -26,7 +26,7 @@ class OnboardingStore {
 
     this.on('init', () => {/*noop*/})
     this.on('error', (err, payload, currentState) => {
-        Log(err, payload, currentState);
+        Log('ERROR Onboarding', err, payload, currentState);
     })
 
   }

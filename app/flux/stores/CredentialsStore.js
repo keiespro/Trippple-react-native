@@ -28,7 +28,7 @@ class CredentialsStore {
     });
 
     this.on('afterEach', ({payload, state}) => {
-      Log('AFTEREACH CredentialsStore', payload,state);
+      Log('AFTEREACH Credentials store', {payload, state});
     });
 
     this.bindListeners({

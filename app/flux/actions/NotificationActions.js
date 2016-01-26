@@ -6,6 +6,9 @@ import moment from 'moment'
 import MatchActions from '../actions/MatchActions'
 import AppActions from '../actions/AppActions'
 import { AsyncStorage, PushNotificationIOS } from 'react-native'
+import Log from '../../Log'
+const LAST_SCHEDULED_DATE = 'LAST_SCHEDULED_DATE';
+
 
 class NotificationActions {
 
@@ -79,13 +82,21 @@ class NotificationActions {
   }
 
   scheduleNewPotentialsAlert(time) {
-    return (dispatch) => {
-      let t = time || false;
-      let fireDate = t ? moment(t) : moment().endOf('day');
-      PushNotificationIOS.scheduleLocalNotification({
-        fireDate: fireDate.unix(),
-        alertBody: 'New Matches!'
-      })
+
+
+
+    return async (dispatch) => {
+      let todayDate = new Date()
+      let lastDate = await AsyncStorage.getItem(LAST_SCHEDULED_DATE);
+      if( lastDate != todayDate.toDateString() ){
+        let fireDate =  moment( todayDate.getTime() ).endOf('day')
+        Log(`Scheduled Local Notification`,fireDate.format())
+        PushNotificationIOS.scheduleLocalNotification({
+          fireDate: fireDate.unix(),
+          alertBody: 'New Matches!'
+        })
+        AsyncStorage.setItem(LAST_SCHEDULED_DATE,todayDate.toDateString() )
+      }
       dispatch()
     }
   }

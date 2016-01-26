@@ -54,8 +54,9 @@ class MatchesStore {
       Log('BOOTSTRAP matches store',bootstrappedState);
     });
 
-    this.on('afterEach', ({payload, state}) => {
-      Log('AFTEREACH matches store', payload,state);
+    this.on('afterEach', (x) => {
+      Log('AFTEREACH Matches store', {...x});
+
     });
 
   }
@@ -147,6 +148,7 @@ class MatchesStore {
   }
 
   handleGetMatches(matchesData){
+    if(!matchesData) return false
     const {matches} = matchesData
 
     if(matches.length > 0){
@@ -192,6 +194,7 @@ class MatchesStore {
   }
 
   handleGetFavorites(matchesData) {
+    if(!matchesData) return false
     const favs = matchesData.matches
     if(!favs){ return false }
     if(favs.length && this.state.matches.length){

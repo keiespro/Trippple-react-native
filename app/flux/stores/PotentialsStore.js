@@ -29,8 +29,8 @@ class PotentialsStore {
       Log('BOOTSTRAP PotentialsStore',bootstrappedState);
     });
 
-    this.on('afterEach', ({payload, state}) => {
-      Log('AFTEREACH PotentialsStore', payload,state);
+    this.on('afterEach', (x) => {
+      Log('AFTEREACH Potentials Store', {...x});
     });
 
     this.exportPublicMethods({

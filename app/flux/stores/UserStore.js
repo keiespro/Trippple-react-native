@@ -52,8 +52,8 @@ class UserStore {
       Log('BOOTSTRAP USER store',bootstrappedState);
     });
 
-    this.on('afterEach', ({payload, state}) => {
-      Log('AFTEREACH USER store', payload,state);
+    this.on('afterEach', (x) => {
+      Log('AFTEREACH USER store', {...x});
     });
 
   }
@@ -97,10 +97,10 @@ class UserStore {
   }
 
   handleGetUserInfo(res){
+    console.log(res)
     if(res.error || !res.response || !res.response.user_info){
       return false;
     }
-
     const {user_info} = res.response;
 
     this.setState({

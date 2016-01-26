@@ -59,8 +59,8 @@ class AppStateStore {
       Log('BOOTSTRAP App State Store',bootstrappedState);
     });
 
-    this.on('afterEach', ({payload, state}) => {
-      Log('AFTEREACH App State Store', payload,state);
+    this.on('afterEach', (x) => {
+      Log('AFTEREACH App State store', {...x});
     });
 
   }
