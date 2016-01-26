@@ -68,6 +68,7 @@ class Card extends React.Component{
     this.setState({activeIndex: this.state.activeIndex + 1})
     this.props.toggleProfile()
   }
+
   componentWillReceiveProps(nProps){
     if(nProps && nProps.pan && this.props.profileVisible != nProps.profileVisible){
       LayoutAnimation.configureNext(animations.layout.spring);
@@ -292,9 +293,20 @@ class Card extends React.Component{
                   }
 
                 </Swiper> :
-                <TouchableWithoutFeedback
+                  <View style={{
+                    alignSelf:'center',
+                    marginLeft:0,
+                    // overflow:'hidden',
+                    height:undefined,width:undefined,
+                    marginRight:0,flex:1,
+                    left:0,alignItems:'stretch'
+                  }}>
+                  <TouchableWithoutFeedback
                   key={`${potential.user.id}-touchableimg`}
-                  style={[styles.imagebg,{height:undefined, width: undefined, overflow:'hidden'}]}
+                  style={[styles.imagebg,{
+                  width:undefined,
+                    minHeight:DeviceHeight-50
+                  }]}
                   onPressIn={this.toggleCardHoverOn.bind(this)}
                   onPressOut={this.toggleCardHoverOff.bind(this)}
                   onPress={this.openProfileFromImage.bind(this)}
@@ -305,8 +317,7 @@ class Card extends React.Component{
                     defaultSource={{uri:'../../newimg/defaultuser.png'}}
                     style={[styles.imagebg,{
                       backgroundColor: colors.white,
-                      flex:1,
-                      height:undefined, width: undefined,
+                      flex:1,minWidth:DeviceWidth, minHeight:DeviceHeight,
                       opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                           inputRange:  [-300, -80, 0, 80, 300],
                           outputRange: [   0,   1, 1,  1,   0]
@@ -315,34 +326,36 @@ class Card extends React.Component{
                     resizeMode={Image.resizeMode.cover}
                   />
                 </TouchableWithoutFeedback>
+              </View>
                 }
 
 
             <View
               key={`${potential.id || potential.user.id}-bottomview`}
               style={{
-                height: isTopCard ? 120 : 105,
-                marginTop: isTopCard ? -150 : -125,
+                height: isTopCard ? 80 : 65,
+                marginTop: isTopCard ? -10 : -25,
                 flex:1,
                 left:20,
-                marginBottom:isTopCard ? -40 : -110,
+                bottom:0,
                 backgroundColor:colors.white,
                 width:undefined,
+
                 flexDirection:'row',
-                position:'relative',
+                position:'absolute',
                 alignSelf:'stretch',alignItems:'stretch'
                 // marginRight: this.props.profileVisible ? 0 : 50,
               }}
               >
-            {isTopCard ?
-              <View
+            <View
               key={`${potential.id || potential.user.id}-infos`}
               style={{
                 padding: isTopCard ? 10 : 5,
                 paddingTop:MagicNumbers.is4s ? 20 : 15,
                 paddingBottom:MagicNumbers.is4s ? 10 : 15,
-                height:110,width:undefined,
+                height:80,width:undefined,
                 minWidth:DeviceWidth-40,
+                bottom:0,
                 alignSelf:'center',flexDirection:'column',
               position:'relative',top:0,}}>
                   <Text style={[styles.cardBottomText,{}]}
@@ -353,7 +366,7 @@ class Card extends React.Component{
                     key={`${potential.id || potential.user.id}-matchn`}>{
                       `${city} | ${distance} ${distance == 1 ? 'mile' : 'miles'} away`
                     }</Text>
-                </View> : null }
+                </View>
 
             {this.props.rel == 'single' && isTopCard ?
 

@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   },
   imagebg:{
     flex: 1,
-    // alignSelf:'stretch',
+    alignSelf:'stretch',
     padding:0,
     alignItems:'center',
     justifyContent:'center'
