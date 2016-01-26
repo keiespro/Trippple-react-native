@@ -208,7 +208,29 @@ class ChatMessage extends React.Component {
 
   render() {
     const isMessageOurs = (this.props.messageData.from_user_info.id === this.props.user.id || this.props.messageData.from_user_info.id === this.props.user.partner_id);
+    if(!isMessageOurs){
+      var {thumb_url,image_url} = this.props.messageData.from_user_info;
 
+      /*
+       * TODO:
+       * this deals with test bucket urls
+       * but not very maintainable
+       */
+
+      var thumb;
+      var img = (thumb_url && typeof thumb_url === 'string' ? thumb_url : image_url);
+      if(img && img.includes('test')){
+        var u = img;
+        var x = u.split('/test/')[0].split('uploads') + u.split('test')[1];
+        thumb = x.split('/images')[0] + x.split('/images')[1]
+      }else{
+        thumb = img+'';
+      }
+
+
+
+    }
+    console.info(thumb)
     return (
       <View style={[styles.col]}>
         <View style={[styles.row]}>
@@ -217,7 +239,7 @@ class ChatMessage extends React.Component {
           {!isMessageOurs ?
             <View style={{backgroundColor:'transparent'}}>
             <Image style={[styles.thumb,{backgroundColor:colors.dark}]}
-                source={this.props.messageData.from_user_info.image_url && this.props.messageData.from_user_info.image_url != '' ? {uri:this.props.messageData.from_user_info.image_url} : {uri:'../../newimg/placeholderUser.png'}}
+                source={{uri: thumb}}
                 resizeMode={Image.resizeMode.cover}
                 defaultSource={{uri:'../../newimg/placeholderUser.png'}}
 
