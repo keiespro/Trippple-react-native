@@ -6,10 +6,10 @@ import chalk from 'chalk';
 import jsonfile from 'jsonfile';
 import firebaseTool from 'firebase-tools';
 import fs from 'fs.extra';
-import {execSync} from 'child_process';
+import {exec} from 'child_process';
 
 const NPM_CONFIG_PREFIX = process.env.npm_config_prefix || '';
-const BUILD_NUMBER = '1';
+const BUILD_NUMBER = '2';
 const UPDATE_CHECK_FILE = 'AutoUpdater/public/update.json';
 const APP_VERSION = '2.0';
 const VERSION_FILE = '.versionfile.json';
@@ -18,6 +18,8 @@ const BASE_URLS = {
   development: 'http://x.local:5000',
   production: 'https://blistering-torch-607.firebaseapp.com'
 }
+const VERSION = jsonfile.readFileSync(VERSION_FILE);
+
 // coloring
 const error = chalk.bold.red;
 const bg = chalk.bgMagenta;
@@ -27,7 +29,7 @@ const success = chalk.green;
 class TripppleTools{
 
   constructor(){
-    this.VERSION =jsonfile.readFileSync(VERSION_FILE);
+    this.VERSION = VERSION;
     this.BUILD_NUMBER = BUILD_NUMBER;
   }
 
@@ -60,14 +62,13 @@ class TripppleTools{
 
       console.log(chalk.bgMagenta.bold('\n'+choiceList[i].toUpperCase()+'\n'));
 
-      this.timestamp = Date.now()
 
       if(choiceList[i] == 'exit'){
         console.log(chalk.yellow('GOOD BYE\n'));
         process.exit()
       }else{
         var choice = this[choiceList[i]];
-        choice();
+        choice.apply(this);
       }
 
     })
@@ -75,8 +76,9 @@ class TripppleTools{
 
   compile(opts={}) {
     console.log(bg('Compiling jsbundle'))
+    return new Promise((resolve, reject) => {
+      this.timestamp = Date.now()
 
-    return new Promise((resolve, reject)=> {
       const flags = `bundle --platform=ios --entry-file=index.ios.js --bundle-output=${this.getOutputFilename()} --verbose --assets-dest=./assets/ --project-root=./ --reset-cache=true`;
 
       const child = exec(`${NPM_CONFIG_PREFIX}/bin/react-native ${flags}`)
@@ -98,27 +100,27 @@ class TripppleTools{
         console.log(error('Failed to start child process.'));
         return reject(this.cleanUp())
       });
+    });
+    }
 
-    })
-  }
 
   bump(opts={}){
+
+
     return new Promise((resolve, reject) => {
 
       console.log(bg('Bump JS version and regenerate update.json'))
-      let {app} = this.versionInfo;
-      let V = this.VERSION;
+      let V = VERSION;
       let pieces =  V.split('.')
 
-      let bumped = parseInt(pieces.pop()) * (opts.rollback ? -1 : 1)
+      let bumped = parseInt(pieces.pop()) + (opts.rollback ? -1 : 1)
       let result = [...pieces,bumped].join('.')
-      console.log(result);
 
       /* UPDATE.JSON TEMPLATE ----------------------------------------------------  */
 
       let updateCheckPayload = {
         "version": result,
-        "minContainerVersion": app,
+        "minContainerVersion": APP_VERSION,
         "url": {
           "url": `${this.getEnvironmentBaseUrl()}/${this.getOutputFilename()}`,
           "isRelative": false
@@ -134,7 +136,7 @@ class TripppleTools{
         console.error(error(err))
       });
 
-      jsonfile.writeFileSync(VERSION_FILE, result, {spaces: 2}, (err) => {
+      jsonfile.writeFileSync(VERSION_FILE, result, {replace: true,spaces: 2}, (err) => {
         console.error(error('2'))
         console.error(error(err))
       });
@@ -169,7 +171,7 @@ class TripppleTools{
       }
 
     }else{
-      console.log(error(`local deploy ${this.VERSION} ${timestamp}`));
+      console.log(error(`local deploy ${this.VERSION} ${this.timestamp}`));
     }
 
     // Copy bundle to local firebase public dir
@@ -209,16 +211,15 @@ class TripppleTools{
 
     program.confirm('Compile -> Bump -> Deploy. Do all 3?', (ok) => {
       if(ok){
-        var run = {dist:true}
+        var run = {dist:true};
         this.compile(run).then((r)=> this.bump(run)).then((r2) => this.deploy(run) ).catch((err)=>{
-          console.error(error(err));
+          console.error('program failure',error(err));
         })
       }
     });
   }
 
   cleanUp(){
-    this.timestamp = Date.now();
     this.presentChoice()
   }
 }

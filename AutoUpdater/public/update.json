@@ -1,8 +1,8 @@
 {
-  "version": "2.0.28",
-  "minContainerVersion": "2",
+  "version": "2.0.16",
+  "minContainerVersion": "2.0",
   "url": {
-    "url": "http://x.local:5000/main-2.0.28-1-1453823656147.jsbundle",
+    "url": "http://x.local:5000/main.jsbundle",
     "isRelative": false
   }
 }
