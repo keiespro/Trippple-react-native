@@ -13,7 +13,11 @@
 #import "UIColor+TRColors.h"
 #import "ReactNativeAutoUpdater.h"
 
-#define JS_CODE_METADATA_URL @"https://blistering-torch-607.firebaseapp.com/update.json"
+//#ifdef DEBUG
+  #define JS_CODE_METADATA_URL @"http://x.local:5000/update.json"
+//#else
+//  #define JS_CODE_METADATA_URL @"https://blistering-torch-607.firebaseapp.com/update.json"
+//#endif
 
 @interface AppDelegate() <ReactNativeAutoUpdaterDelegate>
 
@@ -25,27 +29,25 @@
 {
 
   NSURL *defaultJSCodeLocation;
-
-  //////// LOAD THE JS //////////
-
-  // DEVELOPMENT
-  defaultJSCodeLocation = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
-
-  ///////////////////////////
-
-  // PRODUCTION
-//  defaultJSCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-
-  /////////////////////////
-
-  // GREAT!
-  ////////////////////////
-
   
   ReactNativeAutoUpdater* updater = [ReactNativeAutoUpdater sharedInstance];
   [updater setDelegate:self];
+
+  //////// LOAD THE JS //////////
+
+  defaultJSCodeLocation = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];   // DEVELOPMENT
+
+  ///////////////////////////
+
+  
+//  defaultJSCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"]; // PRODUCTION
+
+
+  
+  NSURL* defaultMetadataFileLocation = [[NSBundle mainBundle] URLForResource:@"metadata" withExtension:@"json"];
   [updater initializeWithUpdateMetadataUrl:[NSURL URLWithString:JS_CODE_METADATA_URL]
-                     defaultJSCodeLocation:defaultJSCodeLocation];
+                     defaultJSCodeLocation:defaultJSCodeLocation
+               defaultMetadataFileLocation:defaultMetadataFileLocation ];
   [updater allowCellularDataUse: YES];
   [updater downloadUpdatesForType: ReactNativeAutoUpdaterPatchUpdate];
   [updater checkUpdate];
@@ -57,8 +59,6 @@
   UIViewController *rootViewController = [UIViewController new];
   
   self.window.rootViewController = rootViewController;
-  
-  latestJSCodeLocation = defaultJSCodeLocation;
   
   [self createReactRootViewFromURL:latestJSCodeLocation];
 
@@ -105,19 +105,6 @@
 {
   [RCTPushNotificationManager didReceiveRemoteNotification:notification];
 }
-// RN < 0.17.0 SYNTAX //
-//// Add listener for notifications permissions grant from user
-//- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
-//{
-//  [RCTPushNotificationManager application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-//}
-//
-//// Add notification listener
-//- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)notification
-//{
-//  [RCTPushNotificationManager application:application didReceiveRemoteNotification:notification];
-//}
-
 
 
 #pragma mark - ReactNativeAutoUpdaterDelegate methods

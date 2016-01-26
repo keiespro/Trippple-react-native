@@ -1,0 +1,8 @@
+{
+  "version": "2.0.16",
+  "minContainerVersion": "2.0",
+  "url": {
+    "url": "http://x.local:5000/main.jsbundle",
+    "isRelative": false
+  }
+}
