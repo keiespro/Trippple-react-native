@@ -87,4 +87,4 @@ const invertedColors = Object.keys( colors ) .reduce( ( acc, el, i ) => {
 }, {} );
 
 
-export default ( invertColors ? colors : invertedColors )
+export default ( invertColors === true ? colors : invertedColors )

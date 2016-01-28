@@ -225,7 +225,7 @@ class Card extends React.Component{
                   <Animated.Image
                   source={potential.user.image_url ? {uri: potential.user.image_url} : {uri:'assets/defaultuser.png'}}
                     key={`${potential.user.id}-cimg`}
-                    defaultSource={{uri:'../assets/defaultuser.png'}}
+                    defaultSource={{uri:'assets/defaultuser.png'}}
                     style={[styles.imagebg, {
                       backgroundColor: colors.white,
                       width: undefined,
@@ -254,7 +254,7 @@ class Card extends React.Component{
                     <Animated.Image
                     source={potential.partner.image_url ? {uri: potential.partner.image_url} : {uri:'assets/defaultuser.png'}}
                       key={`${potential.partner.id}-cimg`}
-                      defaultSource={{uri:'../assets/defaultuser.png'}}
+                      defaultSource={{uri:'assets/defaultuser.png'}}
                       style={[styles.imagebg,{
                         backgroundColor: colors.white,
                         flex:1,
@@ -314,7 +314,7 @@ class Card extends React.Component{
                   <Animated.Image
                     source={{uri: potential.user.image_url}}
                     key={`${potential.user.id}-cimg`}
-                    defaultSource={{uri:'../assets/defaultuser.png'}}
+                    defaultSource={{uri:'assets/defaultuser.png'}}
                     style={[styles.imagebg,{
                       backgroundColor: colors.white,
                       flex:1,minWidth:DeviceWidth, minHeight:DeviceHeight,
