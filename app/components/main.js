@@ -18,6 +18,7 @@ import React,{
   View
 } from 'react-native'
 
+console.log(Image)
 import Settings from './settings'
 import Matches from './matches'
 import Potentials from './potentials'
@@ -227,11 +228,11 @@ const PotentialsRoute = {
   navigationBar: (
     <FakeNavBar
       backgroundStyle={{backgroundColor:'transparent'}}
-      customTitle={<Image resizeMode={Image.resizeMode.contain} style={{width:80}} source={{uri:'assets/tripppleLogoText.png'}} />}
+      customTitle={<Image resizeMode={Image.resizeMode.contain} style={{width:80,height:30}} source={{uri:'assets/tripppleLogoText@3x.png'}} />}
       onPrev={(navigator,route) => navigator.push(SettingsRoute)}
-      customPrev={<Image resizeMode={Image.resizeMode.contain}  style={{width:28,top:-10,height:30,alignSelf:'flex-start',tintColor:colors.white,opacity:1}} source={{uri:'assets/gear.png'}} />}
+      customPrev={<Image resizeMode={Image.resizeMode.contain}  style={{width:28,top:-10,height:30,alignSelf:'flex-start',tintColor:colors.white,opacity:1}} source={{uri:'assets/gear@3x.png'}} />}
       onNext={(navigator,route) => {navigator.push(MatchesRoute)}}
-      customNext={<Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30,alignSelf:'flex-end',tintColor:colors.white}} source={{uri:'assets/chat.png'}} />}
+      customNext={<Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30,alignSelf:'flex-end',tintColor:colors.white}} source={{uri:'assets/chat@3x.png'}} />}
     />)
 };
 
@@ -246,7 +247,7 @@ const SettingsRoute = {
       backgroundStyle={{backgroundColor:colors.shuttleGray}}
       hideNext={true}
       customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12}}
-      source={{uri:'assets/close.png'}}/>}
+      source={{uri:'assets/close@3x.png'}}/>}
       onPrev={(nav,route)=> nav.pop()}
       title={'SETTINGS'}
       titleColor={colors.white}
@@ -266,7 +267,7 @@ const MatchesRoute = {
       titleColor={colors.white}
       title={'MESSAGES'} titleColor={colors.white}
       onPrev={(nav,route)=> nav.pop()}
-      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12}} source={{uri:'assets/close.png'}} />
+      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12}} source={{uri:'assets/close@3x.png'}} />
       }
     />
   ),

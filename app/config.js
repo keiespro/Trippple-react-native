@@ -2,7 +2,7 @@ const APP_ENV = 'production';
 
 global.__DEBUG__ = false;
 
-const config = {
+const configurations = {
 
   production: {
     SERVER_URL: 'https://new-api2.trippple.co/user',
@@ -36,7 +36,10 @@ const config = {
 
 }
 
-export default config[APP_ENV]
+config = configurations[APP_ENV];
+config.invertColors = true;
+
+export default config
 
 
 // KEYCHAIN ERROR WHEN RUNNING APP FROM XCODE

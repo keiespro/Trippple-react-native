@@ -157,7 +157,10 @@ class SelectImageSource extends Component{
         <View style={styles.imageHolder}>
           <Image
             source={
-              isCoupleImage ? {uri:'assets/iconCouplePic.png') : {uri:'assets/iconSinglePic.png}            }
+              isCoupleImage ?
+               {uri: 'assets/iconCouplePic.png'} :
+                {uri: 'assets/iconSinglePic.png'} 
+              }
             resizeMode={Image.resizeMode.contain}
             style={styles.imageInside}
           />

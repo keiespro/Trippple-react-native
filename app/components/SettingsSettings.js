@@ -201,7 +201,7 @@ class SettingsSettings extends React.Component{
                   </Text>
                 </View>
                 <View style={{width:30,marginHorizontal:10}}>
-                  <Image style={{width:40,height:40}} source={privacy == 'public' ? {uri:'assets/ovalSelected.png') : {uri:'assets/ovalDashed.png}}/>
+                  <Image style={{width:40,height:40}} source={privacy == 'public' ? {uri:'assets/ovalSelected.png'} : {uri:'assets/ovalDashed.png'}}/>
                 </View>
                 </View>
               </TouchableHighlight>
@@ -217,7 +217,7 @@ class SettingsSettings extends React.Component{
         </Text>
       </View>
       <View style={{width:30,marginHorizontal:10}}>
-        <Image style={{width:40,height:40}} source={privacy == 'private' ? {uri:'assets/ovalSelected.png') : {uri:'assets/ovalDashed.png}}/>
+        <Image style={{width:40,height:40}} source={privacy == 'private' ? {uri:'assets/ovalSelected.png'} : {uri:'assets/ovalDashed.png'}}/>
       </View>
       </View>
     </TouchableHighlight>

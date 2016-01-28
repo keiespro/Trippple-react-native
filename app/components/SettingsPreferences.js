@@ -250,9 +250,8 @@ class Selectable extends React.Component{
             }}
           >{this.props.label}</Text>
           <Image
-            source={this.props.values[this.props.field] ?
-              {uri:'assets/ovalSelected.png'}:
-              {uri:'assets/ovalDashed.png'}}
+            style={{height:30,width:30}}
+            source={{ uri:this.props.values[this.props.field] ? 'assets/ovalSelected.png' : 'assets/ovalDashed.png'} }
           />
         </View>
       </TouchableHighlight>
