@@ -55,7 +55,7 @@ class InvitePartner extends React.Component{
             underlayColor={colors.mediumPurple20}
             _onPress={this.onPress.bind(this)}>
 
-            <Image source={require('../../../newimg/ovalInvite.png')}
+            <Image source={require('../../../assets/ovalInvite.png')}
                       resizeMode={Image.resizeMode.contain}
                           style={{height:30,width:101}} />
 

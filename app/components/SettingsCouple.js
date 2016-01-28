@@ -126,7 +126,7 @@ class ProfileField extends React.Component{
         paddingRight:20}}>{this.props.user[this.props.fieldName] ? this.props.user[this.props.fieldName].toString().toUpperCase() : ''}</Text>
           <Image
               style={{width:15,height:15,position:'absolute',right:0,top:15}}
-              source={require('../../newimg/icon-lock.png')}
+              source={require('../../assets/icon-lock.png')}
               resizeMode={Image.resizeMode.contain}/>
               </View>
 
@@ -170,7 +170,7 @@ class SettingsCouple extends React.Component{
                       style={styles.userimage}
                       key={partner.thumb_url}
                       source={{uri: partner.thumb_url}}
-                      defaultSource={{uri:'../../newimg/placeholderUser.png'}}
+                      defaultSource={{uri:'../../assets/placeholderUser.png'}}
                       resizeMode={Image.resizeMode.contain}/>
 
                     </View>
@@ -191,7 +191,7 @@ class SettingsCouple extends React.Component{
                             }</Text>
                             <Image
                                 style={{width:15,height:15,position:'absolute',right:0,top:23}}
-                                source={require('../../newimg/icon-lock.png')}
+                                source={require('../../assets/icon-lock.png')}
                                 resizeMode={Image.resizeMode.contain}/>
 
                           </View>
@@ -214,7 +214,7 @@ class SettingsCouple extends React.Component{
                             }</Text>
                             <Image
                                 style={{width:15,height:15,position:'absolute',right:0,top:23}}
-                                source={require('../../newimg/icon-lock.png')}
+                                source={require('../../assets/icon-lock.png')}
                                 resizeMode={Image.resizeMode.contain}/>
 
                           </View>

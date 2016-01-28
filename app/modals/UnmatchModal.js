@@ -56,7 +56,7 @@ export default class UnmatchModal extends Component{
              <Image
             style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginBottom:20}]}
             source={{uri:matchImage}}
-            defaultSource={{uri:'../../newimg/placeholderUserWhite.png'}} />
+            defaultSource={{uri:'../../assets/placeholderUserWhite.png'}} />
                 </View>
 
               <Text style={[styles.rowtext,styles.bigtext,{

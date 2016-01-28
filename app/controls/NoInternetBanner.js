@@ -14,7 +14,7 @@ class NoInternetBanner extends React.Component{
       <View style={{backgroundColor:colors.mandy,flexDirection:'row',height:80,width:DeviceWidth,position:'absolute',alignItems:'center',justifyContent:'space-around',top:0,left:0,right:0}}>
 
         <Image
-          source={require('../../newimg/iconWifi.png')}
+          source={require('../../assets/iconWifi.png')}
           resizeMode={Image.resizeMode.cover}
           style={{width:40,height:31,marginHorizontal: 30}}
         />

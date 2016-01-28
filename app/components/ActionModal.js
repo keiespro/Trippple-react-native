@@ -161,7 +161,7 @@ class ActualModal extends Component{
               <Image
                 style={styles.userimage}
                 key={this.props.currentMatch.match_id}
-                source={img_url ? {uri: img_url } : {uri:'../../newimg/placeholderUser.png'}}
+                source={img_url ? {uri: img_url } : {uri:'../../assets/placeholderUser.png'}}
                 resizeMode={Image.resizeMode.cover}
               />
               <Text style={{color:colors.white,fontFamily:'Montserrat-Bold',fontSize:18}}>

@@ -60,7 +60,7 @@ class AppStateStore {
     });
 
     this.on('afterEach', (x) => {
-      Log('AFTEREACH App State store', {...x});
+      Log('AFTEREACH App State store', ...{...x});
     });
 
   }

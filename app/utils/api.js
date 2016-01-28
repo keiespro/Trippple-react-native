@@ -23,11 +23,18 @@ async function baseRequest(endpoint: '', payload: {}){
   }
 
   let res = await fetch( `${SERVER_URL}/${endpoint}`, params)
-
+  console.log(res)
   try{
-    return await res.json()
+    if(!res.json && res.status == 401){
+        throw new Error()
+    }
+    let response = await res.json()
+    console.log(response)
+    return response
   }catch(err){
-    return err
+    console.error(err)
+
+    return {error: err,status:res.status}
   }
 }
 
@@ -84,7 +91,7 @@ const api = {
   },
 
   getUserInfo(){
-    return authenticatedRequest('info')
+    return authenticatedRequest('info',{})
   },
 
   getMatches(page){ //v2 endpoint

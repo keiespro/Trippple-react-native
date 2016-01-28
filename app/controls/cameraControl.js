@@ -56,7 +56,7 @@ class CameraControl extends Component{
             <View>
               <Image
               resizeMode={Image.resizeMode.contain}
-              source={require('../../newimg/flipCamera.png')}
+              source={require('../../assets/flipCamera.png')}
               style={{height:25,width:50}}/>
             </View>
           </TouchableOpacity>
@@ -74,7 +74,7 @@ class CameraControl extends Component{
           <TouchableOpacity style={styles.bigbutton} onPress={this._takePicture.bind(this)} >
             <View style={[{height:80,width:80}]}>
               <Image
-              resizeMode={Image.resizeMode.cover} source={require('../../newimg/snap.png')} style={{height:80,width:80}}/>
+              resizeMode={Image.resizeMode.cover} source={require('../../assets/snap.png')} style={{height:80,width:80}}/>
             </View>
           </TouchableOpacity>
         </Camera>

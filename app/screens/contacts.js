@@ -88,7 +88,7 @@ componentDidMount(){
             (this.props.highlightedRow && this.props.highlightedRow.sectionID === sectionID && this.props.highlightedRow.rowID === rowID ? styles.rowSelected : null)]}>
 
             <Image style={[styles.contactthumb,{backgroundColor:colors.shuttleGray20}]} resizeMode={Image.resizeMode.cover}
-               source={ (!this.state.uri || this.state.uri == null || this.state.uri == '' ? require('../../newimg/placeholderUser.png') : {uri: (this.state.uri)})}/>
+               source={ (!this.state.uri || this.state.uri == null || this.state.uri == '' ? require('../../assets/placeholderUser.png'): {uri: (this.state.uri)})}/>
 
             <View style={styles.rowtextwrapper}>
 
@@ -317,7 +317,7 @@ class Contacts extends React.Component{
         </View>
 
         <View style={styles.searchwrap}>
-          <Image source={require('../../newimg/search.png')} style={styles.searchicon}/>
+          <Image source={require('../../assets/search.png')} style={styles.searchicon}/>
           <TextInput
             ref="searchinput"
             style={styles.searchfield}

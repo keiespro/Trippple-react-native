@@ -32,7 +32,13 @@ class UserActions {
   getUserInfo() {
     return (dispatch) => {
       Api.getUserInfo()
-        .then((res) => {
+      .then((res) => {
+        if(res.error){
+        this.logOut.defer();
+
+
+        }
+        console.log(res);
           dispatch(res)
         }).catch((err) => {
           dispatch(err)

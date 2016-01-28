@@ -37,10 +37,12 @@ class BdayScreen extends Component{
   constructor(props){
     super();
     var savedBday = props.fb_bday_year || props.userInfo.birthday || props.userInfo.bday_month || props.userInfo.bday_year;
-     this.state = {
+    let date = new Date()
+    if(savedBday) date.setYear(savedBday)
+    this.state = {
       error: false,
       timeZoneOffsetInHours:props.timeZoneOffsetInHours,
-      date: (savedBday ? new Date(`${savedBday}`) : new Date())
+      date
     }
   }
 

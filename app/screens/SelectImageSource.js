@@ -157,8 +157,7 @@ class SelectImageSource extends Component{
         <View style={styles.imageHolder}>
           <Image
             source={
-              isCoupleImage ? require('../../newimg/iconCouplePic.png') : require('../../newimg/iconSinglePic.png')
-            }
+              isCoupleImage ? require('../../assets/iconCouplePic.png') : require('../../assets/iconSinglePic.png')            }
             resizeMode={Image.resizeMode.contain}
             style={styles.imageInside}
           />

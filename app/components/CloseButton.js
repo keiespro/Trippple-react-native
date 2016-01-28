@@ -21,7 +21,7 @@ class CloseButton extends Component{
           <Image
             resizeMode={Image.resizeMode.contain}
             style={{width:20,height:20,marginTop:15,alignItems:'flex-start'}}
-            source={require('../../newimg/close.png')}
+            source={require('../../assets/close.png')}
           />
         </TouchableOpacity>
      </View>

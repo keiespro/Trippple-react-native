@@ -114,8 +114,8 @@ export default class CameraPermissionsModal extends Component{
           <Image
             style={[{width:150,height:150,borderRadius:75,marginVertical:20}]}
             source={this.state.failedState ?
-                    require('../../newimg/iconModalDenied.png') :
-                    require('../../newimg/iconModalCamera.png') }
+                    require('../../assets/iconModalDenied.png'):
+                    require('../../assets/iconModalCamera.png')}
           />
           <View style={styles.insidemodalwrapper}>
             <Text style={[styles.rowtext,styles.bigtext,{

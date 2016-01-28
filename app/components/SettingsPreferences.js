@@ -251,8 +251,8 @@ class Selectable extends React.Component{
           >{this.props.label}</Text>
           <Image
             source={this.props.values[this.props.field] ?
-              require('../../newimg/ovalSelected.png') :
-              require('../../newimg/ovalDashed.png')}
+              require('../../assets/ovalSelected.png'):
+              require('../../assets/ovalDashed.png')}
           />
         </View>
       </TouchableHighlight>

@@ -57,6 +57,7 @@ class PermissionSwitches extends React.Component{
           title:'PRIORITIZE LOCAL',
           subtitle:'Should we prioritize the matches closest to you?',
           failedTitle: 'LOCATION DISABLED',
+          hideModal: () => {this.props.navigator.pop()},
           failCallback: (val)=>{
             this.setState({locationSetting:false})
           },

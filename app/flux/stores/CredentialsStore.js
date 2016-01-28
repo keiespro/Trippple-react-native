@@ -27,9 +27,9 @@ class CredentialsStore {
       Log('BOOTSTRAP CredentialsStore',bootstrappedState);
     });
 
-    this.on('afterEach', ({payload, state}) => {
-      Log('AFTEREACH Credentials store', {payload, state});
-    });
+    // this.on('afterEach', ({payload, state}) => {
+    //   Log('AFTEREACH Credentials store', {payload, state});
+    // });
 
     this.bindListeners({
       handleGotCredentials: AppActions.GOT_CREDENTIALS,

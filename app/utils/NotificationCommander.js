@@ -6,6 +6,8 @@ import React from 'react-native'
 import { Component, View, AlertIOS, AsyncStorage, AppStateIOS, PushNotificationIOS, VibrationIOS } from 'react-native'
 
 import io from 'socket.io-client/socket.io'
+
+import Firebase from 'firebase'
 import NotificationActions from '../flux/actions/NotificationActions'
 import MatchActions from '../flux/actions/MatchActions'
 import UserActions from '../flux/actions/UserActions'
@@ -15,6 +17,11 @@ import colors from './colors'
 import Log from '../Log'
 import reactMixin from 'react-mixin'
 
+
+const userListRef = new Firebase("https://blistering-torch-607.firebaseio.com");
+const myUserRef = userListRef.push();
+var connectedRef;
+
 class NotificationCommander extends Component{
   constructor(props){
     super()
@@ -23,12 +30,27 @@ class NotificationCommander extends Component{
       appState: AppStateIOS.currentState,
       socketConnected: false,
       notifications: [],
-      processing:false
+      processing:false,
     }
     this.socket = io(WEBSOCKET_URL, {jsonp:false})
   }
 
   componentDidMount(){
+
+    if(this.props.user_id){
+      myUserRef.set({ id: this.props.user_id });
+      connectedRef = new Firebase("https://blistering-torch-607.firebaseio.com//.info/connected");
+      // Get a reference to my own presence status.
+
+
+      this.connectedRef.on("value", (isOnline) => {
+        if (isOnline == false) {
+          // If we lose our internet connection, we want ourselves removed from the list.
+          myUserRef.onDisconnect().remove();
+        }
+      })
+    }
+
     PushNotificationIOS.addEventListener('notification', this._onPushNotification.bind(this) )
 
     AppStateIOS.addEventListener('change', this._handleAppStateChange.bind(this) );
@@ -118,8 +140,12 @@ class NotificationCommander extends Component{
 
       AppActions.sendTelemetry()
 
+    }else if(data.action === 'checkupdate'){
+
+      ReactNativeAutoUpdater.checkUpdate()
+
     }
-      // AlertIOS.alert('APN Push Notification',JSON.stringify(pushNotification.getData()));
+    // AlertIOS.alert('APN Push Notification',JSON.stringify(pushNotification.getData()));
   }
   _handleAppStateChange(appState){
     if(appState === 'active'){
@@ -136,14 +162,14 @@ class NotificationCommander extends Component{
       this.online_id = data.online_id;
 
       const myApikey = this.props.api_key,
-            myID = this.props.user_id;
+        myID = this.props.user_id;
 
-      this.socket.emit('user.connect', {
-        online_id: data.online_id,
-        api_uid: (`${myApikey}:${myID}`)
-      });
+        this.socket.emit('user.connect', {
+          online_id: data.online_id,
+          api_uid: (`${myApikey}:${myID}`)
+        });
 
-      this.setState({socketConnected:true})
+        this.setState({socketConnected:true})
     })
 
 
@@ -171,7 +197,12 @@ class NotificationCommander extends Component{
       }else if(data.action && data.action === 'logout') {
 
         UserActions.logOut()
+      }else if(data.action === 'checkupdate'){
+
+        ReactNativeAutoUpdater.checkUpdate()
+
       }
+
 
     })
 

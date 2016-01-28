@@ -1,6 +1,6 @@
 const APP_ENV = 'production';
 
-global.__DEBUG__ = true;
+global.__DEBUG__ = false;
 
 const config = {
 
@@ -24,7 +24,7 @@ const config = {
 
   devAlex: {
     SERVER_URL: 'http://x.local:9999/user',
-    WEBSOCKET_URL: 'http://x.local:9919',
+    WEBSOCKET_URL: "http://x.local:9919/",
     KEYCHAIN_NAMESPACE: 'dev.trippple.co'
   },
 

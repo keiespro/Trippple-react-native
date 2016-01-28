@@ -47,8 +47,8 @@ class NotificationsStore {
       Log('BOOTSTRAP NotificationsStore',bootstrappedState);
     });
 
-    this.on('afterEach', ({x,y}) => {
-      Log('AFTEREACH notifications store', {x,y});
+    this.on('afterEach', (x) => {
+      Log('AFTEREACH notifications store', {...x});
     });
   }
 

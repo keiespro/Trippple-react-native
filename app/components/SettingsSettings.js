@@ -20,24 +20,19 @@ import React, {
   Navigator
 } from  'react-native'
 import base64 from 'base-64';
-
-// let VERSION2 = require('../../.versionfile');
-
-const VERSION = "2.0.20"
-console.log(VERSION)
+import Log from '../Log';
 
 import Mixpanel from '../utils/mixpanel';
 import FakeNavBar from '../controls/FakeNavBar';
 import alt from '../flux/alt'
-import Log from '../Log';
 import RNFS from 'react-native-fs'
-const {RNMail} = NativeModules
+const {RNMail,ReactNativeAutoUpdater} = NativeModules
 import {MagicNumbers} from '../DeviceConfig'
 import dismissKeyboard from 'dismissKeyboard'
 import WebViewScreen from './WebViewScreen'
 import scrollable from 'react-native-scrollable-decorator'
 import Dimensions from 'Dimensions'
-import PrivacyPermissionsModal from '../modals/PrivacyPermissions'
+import PrivacyPermissionsModal from '../modals/PrivacyPermissions';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import ToggleSwitch from '../controls/switches'
@@ -49,6 +44,10 @@ import CloseButton from './CloseButton'
 import Api from '../utils/api'
 import FieldModal from './FieldModal'
 import AppTelemetry from '../AppTelemetry'
+
+let ACTUAL_VERSION = ReactNativeAutoUpdater.jsCodeVersion
+
+Log(ACTUAL_VERSION)
 
 
 class SettingsSettings extends React.Component{
@@ -202,7 +201,7 @@ class SettingsSettings extends React.Component{
                   </Text>
                 </View>
                 <View style={{width:30,marginHorizontal:10}}>
-                  <Image style={{width:40,height:40}} source={privacy == 'public' ? require('../../newimg/ovalSelected.png') : require('../../newimg/ovalDashed.png')}/>
+                  <Image style={{width:40,height:40}} source={privacy == 'public' ? require('../../assets/ovalSelected.png') : require('../../assets/ovalDashed.png')}/>
                 </View>
                 </View>
               </TouchableHighlight>
@@ -218,7 +217,7 @@ class SettingsSettings extends React.Component{
         </Text>
       </View>
       <View style={{width:30,marginHorizontal:10}}>
-        <Image style={{width:40,height:40}} source={privacy == 'private' ? require('../../newimg/ovalSelected.png') : require('../../newimg/ovalDashed.png')}/>
+        <Image style={{width:40,height:40}} source={privacy == 'private' ? require('../../assets/ovalSelected.png') : require('../../assets/ovalDashed.png')}/>
       </View>
       </View>
     </TouchableHighlight>
@@ -232,7 +231,7 @@ class SettingsSettings extends React.Component{
         <TouchableHighlight style={styles.paddedSpace} onPress={this.handleFeedback.bind(this)} underlayColor={colors.dark}>
           <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>FEEDBACK</Text>
-          <Image style={{width:10,height:17.5}} source={require('../../newimg/nextArrow.png')} />
+          <Image style={{width:10,height:17.5}} source={require('../../assets/nextArrow.png')} />
           </View>
         </TouchableHighlight>
         <TouchableHighlight style={styles.paddedSpace} onPress={(f)=>{
@@ -240,7 +239,7 @@ class SettingsSettings extends React.Component{
           }} underlayColor={colors.dark}>
           <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>HELP</Text>
-          <Image style={{width:10,height:17.5}} source={require('../../newimg/nextArrow.png')} />
+          <Image style={{width:10,height:17.5}} source={require('../../assets/nextArrow.png')} />
           </View>
         </TouchableHighlight>
         <TouchableHighlight style={styles.paddedSpace} onPress={(f)=>{
@@ -248,7 +247,7 @@ class SettingsSettings extends React.Component{
           }} underlayColor={colors.dark}>
           <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>PRIVACY POLICY</Text>
-          <Image style={{width:10,height:17.5}} source={require('../../newimg/nextArrow.png')} />
+          <Image style={{width:10,height:17.5}} source={require('../../assets/nextArrow.png')} />
           </View>
         </TouchableHighlight>
         <TouchableHighlight style={styles.paddedSpace} onPress={(f)=>{
@@ -256,12 +255,13 @@ class SettingsSettings extends React.Component{
           }} underlayColor={colors.dark}>
           <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>TERMS OF USE</Text>
-          <Image style={{width:10,height:17.5}} source={require('../../newimg/nextArrow.png')} />
+          <Image style={{width:10,height:17.5}} source={require('../../assets/nextArrow.png')} />
           </View>
         </TouchableHighlight>
-        <View style={styles.paddedSpace}>
 
-            <Text style={{color:colors.white,textAlign:'center',fontSize:18,fontFamily:'omnes'}}>{VERSION}</Text>
+        <View style={[styles.paddedSpace,{marginTop:20}]}>
+
+            <Text style={{color:colors.white,textAlign:'center',fontSize:15,fontFamily:'omnes'}}>Trippple {ACTUAL_VERSION}</Text>
 
         </View>
 

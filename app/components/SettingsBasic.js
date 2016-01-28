@@ -212,13 +212,13 @@ class SettingsBasic extends React.Component{
             <Image
               style={styles.userimage}
               key={user.id+'thu'}
-              defaultSource={ {uri: '../../newimg/placeholderUserWhite.png'}}
+              defaultSource={ {uri: '../../assets/placeholderUserWhite.png'}}
               source={singleImageThumb}
               resizeMode={Image.resizeMode.fill}/>
                 <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
                   <Image
                     style={{width:18,height:18}}
-                    source={require('../../newimg/cog.png')}
+                    source={require('../../assets/cog.png')}
                     resizeMode={Image.resizeMode.contain}
                   />
                 </View>
@@ -251,7 +251,7 @@ class SettingsBasic extends React.Component{
                   }</Text>
                   <Image
                     style={{width:15,height:15,position:'absolute',right:0,top:23}}
-                    source={require('../../newimg/icon-lock.png')}
+                    source={require('../../assets/icon-lock.png')}
                     resizeMode={Image.resizeMode.contain}
                   />
                 </View>
@@ -279,7 +279,7 @@ class SettingsBasic extends React.Component{
 
                   <Image
                     style={{width:15,height:15,position:'absolute',right:0,top:23}}
-                    source={require('../../newimg/icon-lock.png')}
+                    source={require('../../assets/icon-lock.png')}
                     resizeMode={Image.resizeMode.contain}
                   />
                 </View>

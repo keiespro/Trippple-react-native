@@ -106,7 +106,7 @@ import Log from '../Log'
 
     this.props.failCallback(val)
 
-    // this.props.hideModal ? this.props.hideModal() : this.props.navigator.pop()
+    this.props.hideModal()
   }
   openSettings(){
 
@@ -184,8 +184,7 @@ import Log from '../Log'
               marginVertical: MagicNumbers.is4s ? 0 : 20
             }]}
             source={
-              this.state.failedState ? require('../../newimg/iconModalDenied.png') : require('../../newimg/iconModalDeck.png')
-            }
+              this.state.failedState ? require('../../assets/iconModalDenied.png') : require('../../assets/iconModalDeck.png')            }
           />
 
         <View style={[styles.insidemodalwrapper,{justifyContent:'space-between'}]}>

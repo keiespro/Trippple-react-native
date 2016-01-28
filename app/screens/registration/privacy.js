@@ -97,7 +97,7 @@ class PrivacyScreen extends Component{
             <View style={[styles.privacyWrap,
               (this.state.selection == 'public' ? styles.selectedbutton : null)]}>
               <Image
-                source={this.state.selection == 'public' ? require('../../../newimg/ovalSelected.png') : require('../../../newimg/ovalDashed.png')}
+                source={this.state.selection == 'public' ? require('../../../assets/ovalSelected.png') : require('../../../assets/ovalDashed.png')}
                 resizeMode={Image.resizeMode.contain}
                 style={styles.cornerDot}
               />
@@ -117,7 +117,7 @@ class PrivacyScreen extends Component{
                 (this.state.selection == 'private' ? styles.selectedbutton : null)]}>
 
               <Image
-                source={this.state.selection == 'private' ? require('../../../newimg/ovalSelected.png') : require('../../../newimg/ovalDashed.png')}
+                source={this.state.selection == 'private' ? require('../../../assets/ovalSelected.png') : require('../../../assets/ovalDashed.png')}
                 resizeMode={Image.resizeMode.contain}
                 style={styles.cornerDot}
               />

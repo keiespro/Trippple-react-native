@@ -121,7 +121,7 @@ export default class CameraRollPermissionsModal extends Component{
         <Image
           resizeMode={Image.resizeMode.contain}
           style={[styles.contactthumb,{width:150,height:150,borderRadius:0,marginVertical:20}]}
-          source={this.state.failedState ? require('../../newimg/iconModalDenied.png') : require('../../newimg/iconModalAlbum.png')}
+          source={this.state.failedState ? require('../../assets/iconModalDenied.png') : require('../../assets/iconModalAlbum.png')}
         />
         <View style={styles.insidemodalwrapper}>
           <Text style={[styles.rowtext,styles.bigtext,{

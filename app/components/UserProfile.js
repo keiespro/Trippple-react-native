@@ -122,7 +122,7 @@ class UserProfile extends React.Component{
                 source={{uri: potential.user.image_url}}
                 key={`${potential.user.id}-cimg`}
 
-                 defaultSource={{uri:'../../newimg/defaultuser.png'}}
+                 defaultSource={{uri:'../../assets/defaultuser.png'}}
                 style={[styles.imagebg,{
                   height: DeviceHeight,
                   marginTop:-20,
@@ -136,7 +136,7 @@ class UserProfile extends React.Component{
                 resizeMode={Image.resizeMode.cover}
                 source={{uri: potential.partner.image_url}}
                 key={`${potential.partner.id}-cimg`}
-                defaultSource={{uri:'../../newimg/defaultuser.png'}}
+                defaultSource={{uri:'../../assets/defaultuser.png'}}
                 style={[styles.imagebg,{
                   height:DeviceHeight,
                   marginTop:-20,
@@ -243,7 +243,7 @@ class UserProfile extends React.Component{
           title={ matchName}
           titleColor={colors.white}
           onPrev={(nav,route)=> {this.props.navigator.pop()}}
-          customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12,marginTop:10}} source={require('../../newimg/close.png')} />
+          customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12,marginTop:10}} source={require('../../assets/close.png')} />
           }
         />
       </View>

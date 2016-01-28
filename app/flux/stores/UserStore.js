@@ -41,7 +41,7 @@ class UserStore {
     });
 
     this.on('init', () => {
-      Log('INIT USER store');
+      // Log('INIT USER store');
     });
 
     this.on('error', (err, payload, currentState) => {
@@ -49,11 +49,11 @@ class UserStore {
     });
 
     this.on('bootstrap', (bootstrappedState) => {
-      Log('BOOTSTRAP USER store',bootstrappedState);
+      // Log('BOOTSTRAP USER store',bootstrappedState);
     });
 
     this.on('afterEach', (x) => {
-      Log('AFTEREACH USER store', {...x});
+      // Log('AFTEREACH USER store', {...x});
     });
 
   }
@@ -96,11 +96,11 @@ class UserStore {
     }
   }
 
-  handleGetUserInfo(res){
-    console.log(res)
-    if(res.error || !res.response || !res.response.user_info){
-      return false;
-    }
+  handleGetUserInfo(res={}){
+    // console.log(res)
+    // if(res.error || !res.response || !res.response.user_info){
+    //   return false;
+    // }
     const {user_info} = res.response;
 
     this.setState({

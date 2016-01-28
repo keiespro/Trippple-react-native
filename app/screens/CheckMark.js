@@ -116,7 +116,7 @@ flexDirection:'column',
         }}
         >
         <Image
-          source={require('../../newimg/checkMark.png')}
+          source={require('../../assets/checkMark.png')}
           style={{width:200,height:200, }}
           resizeMode={Image.resizeMode.contain}
         />
