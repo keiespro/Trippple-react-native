@@ -212,13 +212,13 @@ class SettingsBasic extends React.Component{
             <Image
               style={styles.userimage}
               key={user.id+'thu'}
-              defaultSource={ {uri:'assets/placeholderUserWhite.png'}}
+              defaultSource={ {uri: 'assets/placeholderUserWhite@3x.png'}}
               source={singleImageThumb}
               resizeMode={Image.resizeMode.fill}/>
                 <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
                   <Image
                     style={{width:18,height:18}}
-                    source={{uri:'assets/cog.png'}}
+                    source={{uri: 'assets/cog@3x.png'}}
                     resizeMode={Image.resizeMode.contain}
                   />
                 </View>

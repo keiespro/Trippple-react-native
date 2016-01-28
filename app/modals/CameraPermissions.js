@@ -114,8 +114,8 @@ export default class CameraPermissionsModal extends Component{
           <Image
             style={[{width:150,height:150,borderRadius:75,marginVertical:20}]}
             source={this.state.failedState ?
-                    {uri:'assets/iconModalDenied.png'}:
-                    {uri:'assets/iconModalCamera.png'}}
+                    {uri: 'assets/iconModalDenied@3x.png'} :
+                    {uri: 'assets/iconModalCamera@3x.png'}}
           />
           <View style={styles.insidemodalwrapper}>
             <Text style={[styles.rowtext,styles.bigtext,{

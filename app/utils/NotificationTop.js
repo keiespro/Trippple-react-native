@@ -78,7 +78,7 @@ componentWillMount(){
                   <Image
                     resizeMode={Image.resizeMode.contain}
                     style={styles.notiImage}
-                    defaultSource={{uri:'assets/placeholderUserWhite.png'}}
+                    defaultSource={{uri: 'assets/placeholderUserWhite@3x.png'}}
                     source={{uri: payload.from_user_info.image_url}}
                   />
                 </View>
@@ -101,7 +101,7 @@ componentWillMount(){
                   <Image
                     resizeMode={Image.resizeMode.contain}
                     style={styles.notiImage}
-                    defaultSource={{uri:'assets/placeholderUserWhite.png'}}
+                    defaultSource={{uri: 'assets/placeholderUserWhite@3x.png'}}
                     source={{uri: null}}
                   />
                 </View>

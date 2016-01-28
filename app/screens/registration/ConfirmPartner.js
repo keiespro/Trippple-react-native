@@ -74,7 +74,7 @@ class ConfirmPartner extends React.Component{
           style={[{borderRadius:75,
             width:150,height:150,marginBottom:20,marginTop:40}]}
             resizeMode={Image.resizeMode.contain}
-            source={this.props.partner.image && this.props.partner.image != '' && this.props.partner.image != null ? {uri: this.props.partner.image} : {uri:'assets/placeholderUser.png'}}
+            source={this.props.partner.image && this.props.partner.image != '' && this.props.partner.image != null ?  {uri: this.props.partner.image} : {uri: 'assets/placeholderUser@3x.png'}}
               />
 
               <View style={{alignSelf:'center',flexDirection:'column', marginBottom:20,justifyContent:'center',alignItems:'center'}}>

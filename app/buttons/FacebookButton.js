@@ -180,7 +180,7 @@ class FacebookButton extends React.Component{
         underlayColor={colors.mediumPurple20}
         _onPress={this.onPress.bind(this)}>
 
-          <Image source={{uri:'assets/fBlogo.png'}}
+          <Image source={{uri: 'assets/fBlogo@3x.png'}}
                     resizeMode={Image.resizeMode.cover}
                         style={{height:40,width:20}} />
         </BoxyButton>

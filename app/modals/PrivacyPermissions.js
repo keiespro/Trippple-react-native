@@ -138,7 +138,7 @@ export default class PrivacyPermissionsModal extends Component{
                   height:MagicNumbers.is4s ? 100 : 150,
                   marginBottom:MagicNumbers.is4s ? 15 : 30,
                   marginTop:MagicNumbers.is4s ? 10 : 20}]}
-                source={{uri:'assets/iconModalPrivacy.png'}}
+                source={{uri: 'assets/iconModalPrivacy@3x.png'}}
               />
             </View>
             <Text style={[styles.rowtext,styles.bigtext,{
@@ -163,7 +163,7 @@ export default class PrivacyPermissionsModal extends Component{
               _onPress={this.handleTapFacebook.bind(this)}>
 
               {hasFacebookPermissions ?
-                      <Image source={{uri:'assets/checkmarkWhiteSmall.png'}}
+                      <Image source={{uri: 'assets/checkmarkWhiteSmall@3x.png'}}
                         resizeMode={Image.resizeMode.cover}
                             style={{height:21,width:30}} /> :
                             <View style={{backgroundColor:colors.darkGreenBlue,height:20,width:20,borderRadius:10,alignSelf:'center'}} /> }
@@ -180,7 +180,7 @@ export default class PrivacyPermissionsModal extends Component{
                 _onPress={this.handleTapContacts.bind(this)}>
 
               {hasContactsPermissions ?
-                <Image source={{uri:'assets/checkmarkWhiteSmall.png'}}
+                <Image source={{uri: 'assets/checkmarkWhiteSmall@3x.png'}}
                   resizeMode={Image.resizeMode.cover}
                       style={{height:21,width:30}} /> :
                       <View style={{backgroundColor:colors.darkGreenBlue,height:20,width:20,borderRadius:10,alignSelf:'center'}} /> }

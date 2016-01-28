@@ -37,7 +37,7 @@ class PotentialsPlaceholder extends React.Component{
           >
 
           <Image
-          source={{uri:'assets/placeholderDashed.png'}}
+          source={{uri: 'assets/placeholderDashed@3x.png'}}
             style={{
               alignSelf: 'stretch',
               flex: 10,
@@ -54,7 +54,7 @@ class PotentialsPlaceholder extends React.Component{
             resizeMode={MagicNumbers.is4s ? Image.resizeMode.stretch : Image.resizeMode.contain}
             >
             <Image
-              source={{uri:'assets/iconClock.png'}}
+              source={{uri: 'assets/iconClock@3x.png'}}
               style={{
                 height: MagicNumbers.is4s ? MagicNumbers.screenWidth/2 - 20 : MagicNumbers.screenWidth/2,
                 width: MagicNumbers.is4s ? MagicNumbers.screenWidth/2 - 20 : MagicNumbers.screenWidth/2,

@@ -170,7 +170,7 @@ class SettingsCouple extends React.Component{
                       style={styles.userimage}
                       key={partner.thumb_url}
                       source={{uri: partner.thumb_url}}
-                      defaultSource={{uri:'assets/placeholderUser.png'}}
+                      defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
                       resizeMode={Image.resizeMode.contain}/>
 
                     </View>

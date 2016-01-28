@@ -36,7 +36,7 @@ import FadeInContainer from '../components/FadeInContainer'
 var slides = [
   {
     title: '',
-    img: {uri:'assets/logo.png'},
+    img: {uri: 'assets/logo@3x.png'},
     content: ''
   },
   {

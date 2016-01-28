@@ -1,4 +1,6 @@
-import { invertColors } from '../config'
+import config from '../config'
+const { invertColors } = config
+
 
 function invert( rgb ){
   rgb = Array.prototype.join.call( arguments )
@@ -87,4 +89,4 @@ const invertedColors = Object.keys( colors ) .reduce( ( acc, el, i ) => {
 }, {} );
 
 
-export default ( invertColors === true ? colors : invertedColors )
+export default ( invertColors !== true ? colors : invertedColors )

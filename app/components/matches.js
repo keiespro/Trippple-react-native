@@ -171,9 +171,9 @@ var matchImage;
                <Image
                  key={'userimage'+rowID}
                  style={styles.thumb}
-                 source={matchImage ? {uri: matchImage} : {uri:'assets/placeholderUser.png'}}
+                 source={matchImage ? {uri: matchImage} : {uri: 'assets/placeholderUser@3x.png'}}
                  resizeMode={Image.resizeMode.cover}
-                  defaultSource={{uri:'assets/placeholderUser.png'}}
+                  defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
                />
              {unreadCount ?
                 <View style={styles.newMessageCount}>
@@ -446,14 +446,14 @@ class NoMatches extends Component{
               style={{width:300,
                 height:MagicNumbers.is4s ? 70 : 100,
                 marginBottom:0 }}
-              source={{uri:'assets/listing.png'}}
+              source={{uri: 'assets/listing@3x.png'}}
               resizeMode={Image.resizeMode.contain}
             />
             <Image
               style={{width:300,
                 height:MagicNumbers.is4s ? 70 : 100,
                 marginBottom:20 }}
-              source={{uri:'assets/listing.png'}}
+              source={{uri: 'assets/listing@3x.png'}}
               resizeMode={Image.resizeMode.contain}
             />
             <Text style={{
@@ -508,7 +508,7 @@ class NoFavorites extends Component{
                 height: MagicNumbers.is4s ? 150 : 180,
                 marginBottom: MagicNumbers.is4s ? 20 : 40
               }}
-              source={{uri:'assets/iconPlaceholderFavs.png'}}
+              source={{uri: 'assets/iconPlaceholderFavs@3x.png'}}
               resizeMode={Image.resizeMode.contain}
             />
 
@@ -758,7 +758,7 @@ class ActiveStarButton extends Component{
       <View style={styles.swipeButtons}>
            <Image
              style={{alignSelf:'center' }}
-             source={{uri:'assets/star.png'}}
+             source={{uri: 'assets/star@3x.png'}}
              resizeMode={Image.resizeMode.cover}
            />
        </View>
@@ -778,7 +778,7 @@ class EmptyStarButton extends Component{
              style={{alignSelf:'center',
              tintColor: this.props.activeLevel
            }}
-             source={{uri:'assets/starOutline.png'}}
+             source={{uri: 'assets/starOutline@3x.png'}}
              resizeMode={Image.resizeMode.cover}
            />
        </View>

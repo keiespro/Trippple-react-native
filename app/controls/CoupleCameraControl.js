@@ -55,7 +55,7 @@ class CoupleCameraControl extends Component{
             <View>
               <Image
               resizeMode={Image.resizeMode.contain}
-              source={{uri:'assets/flipCamera.png'}}
+              source={{uri: 'assets/flipCamera@3x.png'}}
               style={{height:25,width:50}}/>
             </View>
           </TouchableOpacity>
@@ -73,7 +73,7 @@ class CoupleCameraControl extends Component{
           <TouchableOpacity style={styles.bigbutton} onPress={this._takePicture.bind(this)} >
             <View style={[{height:80,width:80}]}>
               <Image
-              resizeMode={Image.resizeMode.cover} source={{uri:'assets/snap.png'}} style={{height:80,width:80}}/>
+              resizeMode={Image.resizeMode.cover} source={{uri: 'assets/snap@3x.png'}} style={{height:80,width:80}}/>
             </View>
           </TouchableOpacity>
         </Camera>

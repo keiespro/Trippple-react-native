@@ -241,7 +241,7 @@ class ChatMessage extends React.Component {
             <Image style={[styles.thumb,{backgroundColor:colors.dark}]}
                 source={{uri: thumb}}
                 resizeMode={Image.resizeMode.cover}
-                defaultSource={{uri:'assets/placeholderUser.png'}}
+                defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
 
               />
           </View> : null
@@ -250,7 +250,7 @@ class ChatMessage extends React.Component {
           { !isMessageOurs ?
             <Image
               resizeMode={Image.resizeMode.contain}
-              source={{uri:'assets/TrianglePurple.png'}}
+              source={{uri: 'assets/TrianglePurple@3x.png'}}
               style={{left:1,width:10,height:22}}
             /> : null
           }
@@ -270,7 +270,7 @@ class ChatMessage extends React.Component {
             {isMessageOurs ?
               <Image
                 resizeMode={Image.resizeMode.contain}
-                source={{uri:'assets/TriangleDark.png'}}
+                source={{uri: 'assets/TriangleDark@3x.png'}}
                 style={{right:0,width:10,height:22}}
               /> : null
             }
@@ -485,7 +485,7 @@ class ChatInside extends Component{
             <Image
               source={{uri:them[1].image_url}}
               style={this.getThumbSize()}
-              defaultSource={{uri:'assets/placeholderUser.png'}}
+              defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
             />
             <Text style={{color:colors.shuttleGray,fontSize:20,textAlign:'center',fontFamily:'omnes'}} >Say something. {
               (them.length == 2 ? 'They\'re' : them[0].gender == 'm' ? 'He\'s' : 'She\'s')
