@@ -2,7 +2,7 @@ const colors = {
 
   rollingStone:       'rgb(120,129,135)',
 
-  mediumPurple:       'rgb(132,89,218)',
+  mediumPurple:       'yellow',
 
   mediumPurple20:     'rgba(132,89,218,0.20)',
 

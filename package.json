@@ -1,11 +1,11 @@
 {
-  "name": "Native",
+  "name": "Trippple",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "react-native start",
     "autoupdate": "./AutoUpdater/bin/deploy-ota.js",
-    "dist": "react-native bundle --entry-file index.ios.js --platform ios --dev false --bundle-output ./main.jsbundle --assets-dest ./assets  --verbose"
+    "dist": "react-native bundle --entry-file index.ios.js --platform ios --dev false --bundle-output ./ios/Native/main.jsbundle --assets-dest ./assets  --verbose"
   },
   "dependencies": {
     "alt": "0.18.1",
@@ -26,7 +26,7 @@
     "react": "^0.14.6",
     "react-addons-linked-state-mixin": "^0.14.6",
     "react-mixin": "3.0.3",
-    "react-native": "^0.18.1",
+    "react-native": "^0.19.0-rc",
     "react-native-addressbook": "1.2.0",
     "react-native-app-info": "0.0.6",
     "react-native-auto-updater": "^0.1.1",

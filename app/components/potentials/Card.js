@@ -223,9 +223,9 @@ class Card extends React.Component{
                     onPress={this.openProfileFromImage.bind(this)}
                   >
                   <Animated.Image
-                  source={potential.user.image_url ? {uri: potential.user.image_url} : require('../../../assets/defaultuser.png')}
+                  source={potential.user.image_url ? {uri: potential.user.image_url} : {uri:'assets/defaultuser.png'}}
                     key={`${potential.user.id}-cimg`}
-                    defaultSource={{uri:'../../../assets/defaultuser.png'}}
+                    defaultSource={{uri:'../assets/defaultuser.png'}}
                     style={[styles.imagebg, {
                       backgroundColor: colors.white,
                       width: undefined,
@@ -252,9 +252,9 @@ class Card extends React.Component{
                     onPress={this.openProfileFromImage.bind(this)}
                     >
                     <Animated.Image
-                    source={potential.partner.image_url ? {uri: potential.partner.image_url} : require('../../../assets/defaultuser.png')}
+                    source={potential.partner.image_url ? {uri: potential.partner.image_url} : {uri:'assets/defaultuser.png'}}
                       key={`${potential.partner.id}-cimg`}
-                      defaultSource={{uri:'../../../assets/defaultuser.png'}}
+                      defaultSource={{uri:'../assets/defaultuser.png'}}
                       style={[styles.imagebg,{
                         backgroundColor: colors.white,
                         flex:1,
@@ -314,7 +314,7 @@ class Card extends React.Component{
                   <Animated.Image
                     source={{uri: potential.user.image_url}}
                     key={`${potential.user.id}-cimg`}
-                    defaultSource={{uri:'../../../assets/defaultuser.png'}}
+                    defaultSource={{uri:'../assets/defaultuser.png'}}
                     style={[styles.imagebg,{
                       backgroundColor: colors.white,
                       flex:1,minWidth:DeviceWidth, minHeight:DeviceHeight,
@@ -421,7 +421,7 @@ class Card extends React.Component{
 
             }]}>
               <Image
-              source={require('../../../assets/iconDeny.png')}
+              source={{uri:'assets/iconDeny.png'}}
               style={{
                 backgroundColor:'transparent',
                 width:60,
@@ -447,7 +447,7 @@ class Card extends React.Component{
 
               }]}>
               <Image
-              source={require('../../../assets/iconApprove.png')}
+              source={{uri:'assets/iconApprove.png'}}
               style={{backgroundColor:'transparent',width:60,height:60,
                 paddingRight:50,
               }}/>
@@ -538,7 +538,7 @@ class Card extends React.Component{
                     onPressIn={(e)=>{/* this.refs.cardinside.setNativeProps({style:{opacity:0.8}}) */}}
                     >
                     <Animated.Image
-                    source={potential.user.image_url ? {uri: potential.user.image_url} : require('../../../assets/defaultuser.png')}
+                    source={potential.user.image_url ? {uri: potential.user.image_url} : {uri:'assets/defaultuser.png'}}
 
                       key={`${potential.user.id}-cimg`}
                       style={[styles.imagebg, {
@@ -560,7 +560,7 @@ class Card extends React.Component{
                       onPress={this.openProfileFromImage.bind(this)}
                       >
                       <Animated.Image
-                      source={potential.partner.image_url ? {uri: potential.partner.image_url} : require('../../../assets/defaultuser.png')}
+                      source={potential.partner.image_url ? {uri: potential.partner.image_url} : {uri:'assets/defaultuser.png'}}
                         key={`${potential.partner.id}-cimg`}
                         style={[styles.imagebg,{
                           width: DeviceWidth,
@@ -582,7 +582,7 @@ class Card extends React.Component{
                       onPress={this.openProfileFromImage.bind(this)}
                       >
                       <Animated.Image
-                      source={potential.image ? {uri: potential.image} : require('../../../assets/defaultuser.png')}
+                      source={potential.image ? {uri: potential.image} : {uri:'assets/defaultuser.png'}}
 
                         key={`${potential.partner.id}-cimg`}
                         style={[styles.imagebg,{
@@ -771,7 +771,7 @@ class Card extends React.Component{
               <Image
               resizeMode={Image.resizeMode.contain}
               style={{margin:0,alignItems:'flex-start',height:12,width:12,marginTop:10}}
-              source={require('../../../assets/close.png')}
+              source={{uri:'assets/close.png'}}
               />
             }
           />

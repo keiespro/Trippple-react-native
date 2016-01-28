@@ -201,7 +201,7 @@ class SettingsSettings extends React.Component{
                   </Text>
                 </View>
                 <View style={{width:30,marginHorizontal:10}}>
-                  <Image style={{width:40,height:40}} source={privacy == 'public' ? require('../../assets/ovalSelected.png') : require('../../assets/ovalDashed.png')}/>
+                  <Image style={{width:40,height:40}} source={privacy == 'public' ? {uri:'assets/ovalSelected.png') : {uri:'assets/ovalDashed.png}}/>
                 </View>
                 </View>
               </TouchableHighlight>
@@ -217,7 +217,7 @@ class SettingsSettings extends React.Component{
         </Text>
       </View>
       <View style={{width:30,marginHorizontal:10}}>
-        <Image style={{width:40,height:40}} source={privacy == 'private' ? require('../../assets/ovalSelected.png') : require('../../assets/ovalDashed.png')}/>
+        <Image style={{width:40,height:40}} source={privacy == 'private' ? {uri:'assets/ovalSelected.png') : {uri:'assets/ovalDashed.png}}/>
       </View>
       </View>
     </TouchableHighlight>
@@ -231,7 +231,7 @@ class SettingsSettings extends React.Component{
         <TouchableHighlight style={styles.paddedSpace} onPress={this.handleFeedback.bind(this)} underlayColor={colors.dark}>
           <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>FEEDBACK</Text>
-          <Image style={{width:10,height:17.5}} source={require('../../assets/nextArrow.png')} />
+          <Image style={{width:10,height:17.5}} source={{uri:'assets/nextArrow.png'}} />
           </View>
         </TouchableHighlight>
         <TouchableHighlight style={styles.paddedSpace} onPress={(f)=>{
@@ -239,7 +239,7 @@ class SettingsSettings extends React.Component{
           }} underlayColor={colors.dark}>
           <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>HELP</Text>
-          <Image style={{width:10,height:17.5}} source={require('../../assets/nextArrow.png')} />
+          <Image style={{width:10,height:17.5}} source={{uri:'assets/nextArrow.png'}} />
           </View>
         </TouchableHighlight>
         <TouchableHighlight style={styles.paddedSpace} onPress={(f)=>{
@@ -247,7 +247,7 @@ class SettingsSettings extends React.Component{
           }} underlayColor={colors.dark}>
           <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>PRIVACY POLICY</Text>
-          <Image style={{width:10,height:17.5}} source={require('../../assets/nextArrow.png')} />
+          <Image style={{width:10,height:17.5}} source={{uri:'assets/nextArrow.png'}} />
           </View>
         </TouchableHighlight>
         <TouchableHighlight style={styles.paddedSpace} onPress={(f)=>{
@@ -255,7 +255,7 @@ class SettingsSettings extends React.Component{
           }} underlayColor={colors.dark}>
           <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>TERMS OF USE</Text>
-          <Image style={{width:10,height:17.5}} source={require('../../assets/nextArrow.png')} />
+          <Image style={{width:10,height:17.5}} source={{uri:'assets/nextArrow.png'}} />
           </View>
         </TouchableHighlight>
 

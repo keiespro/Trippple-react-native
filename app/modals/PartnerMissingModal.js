@@ -78,7 +78,7 @@ class PartnerMissingModal extends Component{
                   marginTop:20,
                     marginBottom:MagicNumbers.isSmallDevice ? 10 : 20
 }]}
-                source={require('../../assets/iconModalMissingPartner.png')}
+                source={{uri:'assets/iconModalMissingPartner.png'}}
                />
 
               <View style={styles.insidemodalwrapper}>

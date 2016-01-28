@@ -31,12 +31,6 @@
 		AC3DD3CC1C3A2DED00D9E6D1 /* libRNMessageComposer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB205E1C050CF100A63B9C /* libRNMessageComposer.a */; };
 		AC3DD3CD1C3A2DED00D9E6D1 /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FBC1C0502B600A63B9C /* libRNOverlay.a */; };
 		AC79172E1C58016200199BB4 /* libReactNativeAutoUpdater.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC79172D1C58014C00199BB4 /* libReactNativeAutoUpdater.a */; };
-		ACB93D191C58690800589999 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = ACB93D171C58690700589999 /* main.jsbundle */; };
-		ACB93D1A1C58690800589999 /* metadata.json in Resources */ = {isa = PBXBuildFile; fileRef = ACB93D181C58690700589999 /* metadata.json */; };
-		ACBB1FD41C05041600A63B9C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		ACBB20271C050C1100A63B9C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		ACBB20281C050C1900A63B9C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		ACBB202B1C050C6000A63B9C /* UIColor+TRColors.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB202A1C050C6000A63B9C /* UIColor+TRColors.m */; };
 		ACBB20711C050D3D00A63B9C /* DeviceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB206B1C050D3D00A63B9C /* DeviceUtil.m */; };
 		ACBB20741C050D5F00A63B9C /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F271C0502B600A63B9C /* RCTFileTransfer.m */; };
 		ACBB20751C050D6D00A63B9C /* ospermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1ECF1C0502B600A63B9C /* ospermissions.m */; };
@@ -75,37 +69,34 @@
 		ACBB209D1C050E9400A63B9C /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1F131C0502B600A63B9C /* FBSDKLoginKit.framework */; };
 		ACBB209E1C050E9400A63B9C /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1F141C0502B600A63B9C /* FBSDKShareKit.framework */; };
 		ACBB209F1C0510E200A63B9C /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20491C050CF100A63B9C /* libRCTCamera.a */; };
-		ACBB20A71C05113400A63B9C /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACBB20A11C05113400A63B9C /* Montserrat-Bold.ttf */; };
-		ACBB20A81C05113400A63B9C /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = ACBB20A21C05113400A63B9C /* Montserrat-Regular.otf */; };
-		ACBB20A91C05113400A63B9C /* omnes-bold-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACBB20A31C05113400A63B9C /* omnes-bold-webfont.ttf */; };
-		ACBB20AA1C05113400A63B9C /* omnes-light-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACBB20A41C05113400A63B9C /* omnes-light-webfont.ttf */; };
-		ACBB20AB1C05113400A63B9C /* omnes-medium-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACBB20A51C05113400A63B9C /* omnes-medium-webfont.ttf */; };
-		ACBB20AC1C05113400A63B9C /* omnes-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACBB20A61C05113400A63B9C /* omnes-regular-webfont.ttf */; };
 		ACBB20AF1C051AE100A63B9C /* RNClickThroughWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F431C0502B600A63B9C /* RNClickThroughWindow.m */; };
 		ACBB20B01C051AE100A63B9C /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F271C0502B600A63B9C /* RCTFileTransfer.m */; };
 		ACBB20B11C051AE100A63B9C /* RCTFBLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F1E1C0502B600A63B9C /* RCTFBLogin.m */; };
 		ACBB20B21C051AE100A63B9C /* BlurViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F041C0502B600A63B9C /* BlurViewManager.m */; };
 		ACBB20B31C051AE100A63B9C /* RNKeychainManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F3D1C0502B600A63B9C /* RNKeychainManager.m */; };
-		ACBB20B41C051AE100A63B9C /* UIColor+TRColors.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB202A1C050C6000A63B9C /* UIColor+TRColors.m */; };
 		ACBB20B51C051AE100A63B9C /* ospermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1ECF1C0502B600A63B9C /* ospermissions.m */; };
 		ACBB20B61C051AE100A63B9C /* VibrancyView.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F071C0502B600A63B9C /* VibrancyView.m */; };
 		ACBB20B71C051AE100A63B9C /* RNOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F451C0502B600A63B9C /* RNOverlay.m */; };
 		ACBB20B81C051AE100A63B9C /* VibrancyViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F091C0502B600A63B9C /* VibrancyViewManager.m */; };
 		ACBB20B91C051AE100A63B9C /* DeviceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB206B1C050D3D00A63B9C /* DeviceUtil.m */; };
-		ACBB20BA1C051AE100A63B9C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		ACBB20BB1C051AE100A63B9C /* RCTFBLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F201C0502B600A63B9C /* RCTFBLoginManager.m */; };
 		ACBB20BC1C051AE100A63B9C /* BlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F021C0502B600A63B9C /* BlurView.m */; };
 		ACBB20BD1C051AE100A63B9C /* RCTPushNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1FE71C05064300A63B9C /* RCTPushNotificationManager.m */; };
 		ACBB20BE1C051AE100A63B9C /* RNOverlayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F4A1C0502B600A63B9C /* RNOverlayManager.m */; };
-		ACBB20BF1C051AE100A63B9C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		ACBB20C01C051AE100A63B9C /* EXURLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F511C0502B600A63B9C /* EXURLHandler.m */; };
-		ACBB20DA1C051AE100A63B9C /* omnes-bold-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACBB20A31C05113400A63B9C /* omnes-bold-webfont.ttf */; };
-		ACBB20DB1C051AE100A63B9C /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACBB20A11C05113400A63B9C /* Montserrat-Bold.ttf */; };
-		ACBB20DC1C051AE100A63B9C /* omnes-medium-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACBB20A51C05113400A63B9C /* omnes-medium-webfont.ttf */; };
-		ACBB20DD1C051AE100A63B9C /* omnes-light-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACBB20A41C05113400A63B9C /* omnes-light-webfont.ttf */; };
-		ACBB20DE1C051AE100A63B9C /* omnes-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACBB20A61C05113400A63B9C /* omnes-regular-webfont.ttf */; };
-		ACBB20DF1C051AE100A63B9C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		ACBB20E01C051AE100A63B9C /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = ACBB20A21C05113400A63B9C /* Montserrat-Regular.otf */; };
+		ACC7DE991C5A41F30087476F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ACC7DE7F1C5A41F30087476F /* AppDelegate.m */; };
+		ACC7DEAE1C5A41F30087476F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ACC7DE951C5A41F30087476F /* main.m */; };
+		ACC7DEB01C5A41F30087476F /* UIColor+TRColors.m in Sources */ = {isa = PBXBuildFile; fileRef = ACC7DE981C5A41F30087476F /* UIColor+TRColors.m */; };
+		ACC7DEB11C5A426D0087476F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACC7DE801C5A41F30087476F /* Images.xcassets */; };
+		ACC7DEB21C5A426D0087476F /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = ACC7DE941C5A41F30087476F /* main.jsbundle */; };
+		ACC7DEB31C5A426D0087476F /* metadata.json in Resources */ = {isa = PBXBuildFile; fileRef = ACC7DE961C5A41F30087476F /* metadata.json */; };
+		ACC7DEBD1C5A43D90087476F /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACC7DEB71C5A43D90087476F /* Montserrat-Bold.ttf */; };
+		ACC7DEBE1C5A43D90087476F /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = ACC7DEB81C5A43D90087476F /* Montserrat-Regular.otf */; };
+		ACC7DEBF1C5A43D90087476F /* omnes-bold-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACC7DEB91C5A43D90087476F /* omnes-bold-webfont.ttf */; };
+		ACC7DEC01C5A43D90087476F /* omnes-light-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACC7DEBA1C5A43D90087476F /* omnes-light-webfont.ttf */; };
+		ACC7DEC11C5A43D90087476F /* omnes-medium-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACC7DEBB1C5A43D90087476F /* omnes-medium-webfont.ttf */; };
+		ACC7DEC21C5A43D90087476F /* omnes-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACC7DEBC1C5A43D90087476F /* omnes-regular-webfont.ttf */; };
+		ACC7E0461C5A584A0087476F /* assets in Resources */ = {isa = PBXBuildFile; fileRef = ACC7E0441C5A579A0087476F /* assets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -309,17 +300,10 @@
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Trippple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Trippple.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Native/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Native/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Native/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Native/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Native/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		AC7917281C58014B00199BB4 /* ReactNativeAutoUpdater.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeAutoUpdater.xcodeproj; path = "../node_modules/react-native-auto-updater/ios/ReactNativeAutoUpdater.xcodeproj"; sourceTree = "<group>"; };
-		ACB93D171C58690700589999 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ../main.jsbundle; sourceTree = "<group>"; };
-		ACB93D181C58690700589999 /* metadata.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = metadata.json; sourceTree = "<group>"; };
 		ACBB1ECB1C0502B600A63B9C /* ospermissions.android.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ospermissions.android.js; sourceTree = "<group>"; };
 		ACBB1ECD1C0502B600A63B9C /* ospermissions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ospermissions.h; sourceTree = "<group>"; };
 		ACBB1ECE1C0502B600A63B9C /* ospermissions.ios.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ospermissions.ios.js; sourceTree = "<group>"; };
@@ -377,8 +361,6 @@
 		ACBB1FE31C05064200A63B9C /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = RCTPushNotification.xcodeproj; sourceTree = "<group>"; };
 		ACBB1FE61C05064300A63B9C /* RCTPushNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTPushNotificationManager.h; sourceTree = "<group>"; };
 		ACBB1FE71C05064300A63B9C /* RCTPushNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTPushNotificationManager.m; sourceTree = "<group>"; };
-		ACBB20291C050C6000A63B9C /* UIColor+TRColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+TRColors.h"; path = "Native/UIColor+TRColors.h"; sourceTree = "<group>"; };
-		ACBB202A1C050C6000A63B9C /* UIColor+TRColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+TRColors.m"; path = "Native/UIColor+TRColors.m"; sourceTree = "<group>"; };
 		ACBB202C1C050CF000A63B9C /* RCTAddressBook.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAddressBook.xcodeproj; path = "../node_modules/react-native-addressbook/RCTAddressBook.xcodeproj"; sourceTree = "<group>"; };
 		ACBB202F1C050CF000A63B9C /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		ACBB20321C050CF000A63B9C /* RNAppInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNAppInfo.xcodeproj; path = "../node_modules/react-native-app-info/RNAppInfo.xcodeproj"; sourceTree = "<group>"; };
@@ -389,14 +371,23 @@
 		ACBB20691C050D3D00A63B9C /* Device.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Device.js; sourceTree = "<group>"; };
 		ACBB206A1C050D3D00A63B9C /* DeviceUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceUtil.h; sourceTree = "<group>"; };
 		ACBB206B1C050D3D00A63B9C /* DeviceUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceUtil.m; sourceTree = "<group>"; };
-		ACBB20A11C05113400A63B9C /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
-		ACBB20A21C05113400A63B9C /* Montserrat-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.otf"; sourceTree = "<group>"; };
-		ACBB20A31C05113400A63B9C /* omnes-bold-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "omnes-bold-webfont.ttf"; sourceTree = "<group>"; };
-		ACBB20A41C05113400A63B9C /* omnes-light-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "omnes-light-webfont.ttf"; sourceTree = "<group>"; };
-		ACBB20A51C05113400A63B9C /* omnes-medium-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "omnes-medium-webfont.ttf"; sourceTree = "<group>"; };
-		ACBB20A61C05113400A63B9C /* omnes-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "omnes-regular-webfont.ttf"; sourceTree = "<group>"; };
 		ACBB20E51C051AE100A63B9C /* Tripppletest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tripppletest.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		ACBB20E61C051AE100A63B9C /* Tripppletest.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Tripppletest.plist; path = /Users/alexlopez/code/Trippple/Native/ios/Tripppletest.plist; sourceTree = "<absolute>"; };
+		ACC7DE7E1C5A41F30087476F /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Trippple/AppDelegate.h; sourceTree = "<group>"; };
+		ACC7DE7F1C5A41F30087476F /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Trippple/AppDelegate.m; sourceTree = "<group>"; };
+		ACC7DE801C5A41F30087476F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Trippple/Images.xcassets; sourceTree = "<group>"; };
+		ACC7DE811C5A41F30087476F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Trippple/Info.plist; sourceTree = "<group>"; };
+		ACC7DE941C5A41F30087476F /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = Trippple/main.jsbundle; sourceTree = "<group>"; };
+		ACC7DE951C5A41F30087476F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Trippple/main.m; sourceTree = "<group>"; };
+		ACC7DE961C5A41F30087476F /* metadata.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = metadata.json; path = Trippple/metadata.json; sourceTree = "<group>"; };
+		ACC7DE971C5A41F30087476F /* UIColor+TRColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+TRColors.h"; path = "Trippple/UIColor+TRColors.h"; sourceTree = "<group>"; };
+		ACC7DE981C5A41F30087476F /* UIColor+TRColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+TRColors.m"; path = "Trippple/UIColor+TRColors.m"; sourceTree = "<group>"; };
+		ACC7DEB71C5A43D90087476F /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
+		ACC7DEB81C5A43D90087476F /* Montserrat-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.otf"; sourceTree = "<group>"; };
+		ACC7DEB91C5A43D90087476F /* omnes-bold-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "omnes-bold-webfont.ttf"; sourceTree = "<group>"; };
+		ACC7DEBA1C5A43D90087476F /* omnes-light-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "omnes-light-webfont.ttf"; sourceTree = "<group>"; };
+		ACC7DEBB1C5A43D90087476F /* omnes-medium-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "omnes-medium-webfont.ttf"; sourceTree = "<group>"; };
+		ACC7DEBC1C5A43D90087476F /* omnes-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "omnes-regular-webfont.ttf"; sourceTree = "<group>"; };
+		ACC7E0441C5A579A0087476F /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = Trippple/assets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -520,22 +511,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* Native */ = {
-			isa = PBXGroup;
-			children = (
-				ACBB20A01C05113400A63B9C /* fonts */,
-				ACBB20291C050C6000A63B9C /* UIColor+TRColors.h */,
-				ACBB202A1C050C6000A63B9C /* UIColor+TRColors.m */,
-				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				13B07FB01A68108700A75B9A /* AppDelegate.m */,
-				13B07FB51A68108700A75B9A /* Images.xcassets */,
-				13B07FB61A68108700A75B9A /* Info.plist */,
-				ACBB20E61C051AE100A63B9C /* Tripppletest.plist */,
-				13B07FB71A68108700A75B9A /* main.m */,
-			);
-			name = Native;
-			sourceTree = "<group>";
-		};
 		146834001AC3E56700842450 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -597,11 +572,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				ACB93D171C58690700589999 /* main.jsbundle */,
-				ACB93D181C58690700589999 /* metadata.json */,
+				ACC7DE7D1C5A41EA0087476F /* Trippple */,
 				ACBB1FDD1C0505DF00A63B9C /* CoreFoundation.framework */,
 				ACBB1FDB1C0505D700A63B9C /* AssetsLibrary.framework */,
-				13B07FAE1A68108700A75B9A /* Native */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 			);
@@ -951,18 +924,35 @@
 			path = "../lib/react-native-device";
 			sourceTree = "<group>";
 		};
-		ACBB20A01C05113400A63B9C /* fonts */ = {
+		ACC7DE7D1C5A41EA0087476F /* Trippple */ = {
 			isa = PBXGroup;
 			children = (
-				ACBB20A11C05113400A63B9C /* Montserrat-Bold.ttf */,
-				ACBB20A21C05113400A63B9C /* Montserrat-Regular.otf */,
-				ACBB20A31C05113400A63B9C /* omnes-bold-webfont.ttf */,
-				ACBB20A41C05113400A63B9C /* omnes-light-webfont.ttf */,
-				ACBB20A51C05113400A63B9C /* omnes-medium-webfont.ttf */,
-				ACBB20A61C05113400A63B9C /* omnes-regular-webfont.ttf */,
+				ACC7E0441C5A579A0087476F /* assets */,
+				ACC7DEB61C5A43D90087476F /* fonts */,
+				ACC7DE7E1C5A41F30087476F /* AppDelegate.h */,
+				ACC7DE7F1C5A41F30087476F /* AppDelegate.m */,
+				ACC7DE801C5A41F30087476F /* Images.xcassets */,
+				ACC7DE811C5A41F30087476F /* Info.plist */,
+				ACC7DE941C5A41F30087476F /* main.jsbundle */,
+				ACC7DE951C5A41F30087476F /* main.m */,
+				ACC7DE961C5A41F30087476F /* metadata.json */,
+				ACC7DE971C5A41F30087476F /* UIColor+TRColors.h */,
+				ACC7DE981C5A41F30087476F /* UIColor+TRColors.m */,
 			);
-			name = fonts;
-			path = ../fonts;
+			name = Trippple;
+			sourceTree = "<group>";
+		};
+		ACC7DEB61C5A43D90087476F /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				ACC7DEB71C5A43D90087476F /* Montserrat-Bold.ttf */,
+				ACC7DEB81C5A43D90087476F /* Montserrat-Regular.otf */,
+				ACC7DEB91C5A43D90087476F /* omnes-bold-webfont.ttf */,
+				ACC7DEBA1C5A43D90087476F /* omnes-light-webfont.ttf */,
+				ACC7DEBB1C5A43D90087476F /* omnes-medium-webfont.ttf */,
+				ACC7DEBC1C5A43D90087476F /* omnes-regular-webfont.ttf */,
+			);
+			path = fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -973,8 +963,8 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Trippple" */;
 			buildPhases = (
 				13B07F871A680F5B00A75B9A /* Sources */,
-				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
+				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				AC467EBA1C523398009F2FBD /* Run Script */,
 			);
 			buildRules = (
@@ -991,8 +981,8 @@
 			buildConfigurationList = ACBB20E21C051AE100A63B9C /* Build configuration list for PBXNativeTarget "Tripppletest" */;
 			buildPhases = (
 				ACBB20AE1C051AE100A63B9C /* Sources */,
-				ACBB20C11C051AE100A63B9C /* Frameworks */,
 				ACBB20D91C051AE100A63B9C /* Resources */,
+				ACBB20C11C051AE100A63B9C /* Frameworks */,
 				AC467EBB1C5233F0009F2FBD /* ShellScript */,
 			);
 			buildRules = (
@@ -1345,15 +1335,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACBB20A91C05113400A63B9C /* omnes-bold-webfont.ttf in Resources */,
-				ACB93D1A1C58690800589999 /* metadata.json in Resources */,
-				ACBB20A71C05113400A63B9C /* Montserrat-Bold.ttf in Resources */,
-				ACBB20AB1C05113400A63B9C /* omnes-medium-webfont.ttf in Resources */,
-				ACBB20AA1C05113400A63B9C /* omnes-light-webfont.ttf in Resources */,
-				ACBB20AC1C05113400A63B9C /* omnes-regular-webfont.ttf in Resources */,
-				ACBB1FD41C05041600A63B9C /* Images.xcassets in Resources */,
-				ACBB20A81C05113400A63B9C /* Montserrat-Regular.otf in Resources */,
-				ACB93D191C58690800589999 /* main.jsbundle in Resources */,
+				ACC7E0461C5A584A0087476F /* assets in Resources */,
+				ACC7DEBD1C5A43D90087476F /* Montserrat-Bold.ttf in Resources */,
+				ACC7DEB11C5A426D0087476F /* Images.xcassets in Resources */,
+				ACC7DEC21C5A43D90087476F /* omnes-regular-webfont.ttf in Resources */,
+				ACC7DEC11C5A43D90087476F /* omnes-medium-webfont.ttf in Resources */,
+				ACC7DEBF1C5A43D90087476F /* omnes-bold-webfont.ttf in Resources */,
+				ACC7DEC01C5A43D90087476F /* omnes-light-webfont.ttf in Resources */,
+				ACC7DEB21C5A426D0087476F /* main.jsbundle in Resources */,
+				ACC7DEB31C5A426D0087476F /* metadata.json in Resources */,
+				ACC7DEBE1C5A43D90087476F /* Montserrat-Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1361,13 +1352,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACBB20DA1C051AE100A63B9C /* omnes-bold-webfont.ttf in Resources */,
-				ACBB20DB1C051AE100A63B9C /* Montserrat-Bold.ttf in Resources */,
-				ACBB20DC1C051AE100A63B9C /* omnes-medium-webfont.ttf in Resources */,
-				ACBB20DD1C051AE100A63B9C /* omnes-light-webfont.ttf in Resources */,
-				ACBB20DE1C051AE100A63B9C /* omnes-regular-webfont.ttf in Resources */,
-				ACBB20DF1C051AE100A63B9C /* Images.xcassets in Resources */,
-				ACBB20E01C051AE100A63B9C /* Montserrat-Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1386,7 +1370,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "/Users/alexlopez/code/trippple/native/node_modules/react-native/packager/react-native-xcode.sh";
+			shellScript = "/Users/alexlopez/code/trippple/trippple/node_modules/react-native/packager/react-native-xcode.sh";
 		};
 		AC467EBB1C5233F0009F2FBD /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1412,19 +1396,19 @@
 				ACBB20741C050D5F00A63B9C /* RCTFileTransfer.m in Sources */,
 				ACBB207B1C050D9900A63B9C /* RCTFBLogin.m in Sources */,
 				ACBB20781C050D8F00A63B9C /* BlurViewManager.m in Sources */,
+				ACC7DE991C5A41F30087476F /* AppDelegate.m in Sources */,
 				ACBB207D1C050DA300A63B9C /* RNKeychainManager.m in Sources */,
-				ACBB202B1C050C6000A63B9C /* UIColor+TRColors.m in Sources */,
 				ACBB20751C050D6D00A63B9C /* ospermissions.m in Sources */,
 				ACBB20791C050D8F00A63B9C /* VibrancyView.m in Sources */,
 				ACBB207F1C050DAF00A63B9C /* RNOverlay.m in Sources */,
 				ACBB207A1C050D8F00A63B9C /* VibrancyViewManager.m in Sources */,
 				ACBB20711C050D3D00A63B9C /* DeviceUtil.m in Sources */,
-				ACBB20281C050C1900A63B9C /* main.m in Sources */,
 				ACBB207C1C050D9900A63B9C /* RCTFBLoginManager.m in Sources */,
+				ACC7DEAE1C5A41F30087476F /* main.m in Sources */,
 				ACBB20771C050D8F00A63B9C /* BlurView.m in Sources */,
 				ACBB20761C050D7400A63B9C /* RCTPushNotificationManager.m in Sources */,
+				ACC7DEB01C5A41F30087476F /* UIColor+TRColors.m in Sources */,
 				ACBB20801C050DAF00A63B9C /* RNOverlayManager.m in Sources */,
-				ACBB20271C050C1100A63B9C /* AppDelegate.m in Sources */,
 				ACBB20811C050DB600A63B9C /* EXURLHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1438,18 +1422,15 @@
 				ACBB20B11C051AE100A63B9C /* RCTFBLogin.m in Sources */,
 				ACBB20B21C051AE100A63B9C /* BlurViewManager.m in Sources */,
 				ACBB20B31C051AE100A63B9C /* RNKeychainManager.m in Sources */,
-				ACBB20B41C051AE100A63B9C /* UIColor+TRColors.m in Sources */,
 				ACBB20B51C051AE100A63B9C /* ospermissions.m in Sources */,
 				ACBB20B61C051AE100A63B9C /* VibrancyView.m in Sources */,
 				ACBB20B71C051AE100A63B9C /* RNOverlay.m in Sources */,
 				ACBB20B81C051AE100A63B9C /* VibrancyViewManager.m in Sources */,
 				ACBB20B91C051AE100A63B9C /* DeviceUtil.m in Sources */,
-				ACBB20BA1C051AE100A63B9C /* main.m in Sources */,
 				ACBB20BB1C051AE100A63B9C /* RCTFBLoginManager.m in Sources */,
 				ACBB20BC1C051AE100A63B9C /* BlurView.m in Sources */,
 				ACBB20BD1C051AE100A63B9C /* RCTPushNotificationManager.m in Sources */,
 				ACBB20BE1C051AE100A63B9C /* RNOverlayManager.m in Sources */,
-				ACBB20BF1C051AE100A63B9C /* AppDelegate.m in Sources */,
 				ACBB20C01C051AE100A63B9C /* EXURLHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1461,7 +1442,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_APPICON_NAME = NewAppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1477,7 +1458,7 @@
 					"$(SRCROOT)/../lib/**",
 					"$(SRCROOT)/../node_modules/react-native-auto-updater/**",
 				);
-				INFOPLIST_FILE = Native/Info.plist;
+				INFOPLIST_FILE = Trippple/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1494,7 +1475,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_APPICON_NAME = NewAppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1509,7 +1490,7 @@
 					"$(SRCROOT)/../lib/**",
 					"$(SRCROOT)/../node_modules/react-native-auto-updater/**",
 				);
-				INFOPLIST_FILE = Native/Info.plist;
+				INFOPLIST_FILE = Trippple/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

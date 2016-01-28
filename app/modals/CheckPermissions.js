@@ -184,7 +184,7 @@ import Log from '../Log'
               marginVertical: MagicNumbers.is4s ? 0 : 20
             }]}
             source={
-              this.state.failedState ? require('../../assets/iconModalDenied.png') : require('../../assets/iconModalDeck.png')            }
+              this.state.failedState ? {uri:'assets/iconModalDenied.png') : {uri:'assets/iconModalDeck.png}            }
           />
 
         <View style={[styles.insidemodalwrapper,{justifyContent:'space-between'}]}>

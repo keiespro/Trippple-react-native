@@ -89,7 +89,7 @@ class SelectRelationshipStatus extends Component{
               _onPress={this._selectCouple.bind(this)}
               buttonText={{fontSize:14}}>
 
-              <Image source={require('../../../assets/ovalCouple.png')}
+              <Image source={{uri:'assets/ovalCouple.png'}}
                         resizeMode={Image.resizeMode.contain}
                             style={{height:30,width:70}} />
 
@@ -111,7 +111,7 @@ class SelectRelationshipStatus extends Component{
               _onPress={this._selectSingle.bind(this)}
               buttonText={{fontSize:14}}>
 
-              <Image source={require('../../../assets/ovalSingle.png')}
+              <Image source={{uri:'assets/ovalSingle.png'}}
                         resizeMode={Image.resizeMode.contain}
                             style={{height:30,width:30}}/>
 

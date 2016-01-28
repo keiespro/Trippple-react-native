@@ -116,7 +116,7 @@ flexDirection:'column',
         }}
         >
         <Image
-          source={require('../../assets/checkMark.png')}
+          source={{uri:'assets/checkMark.png'}}
           style={{width:200,height:200, }}
           resizeMode={Image.resizeMode.contain}
         />

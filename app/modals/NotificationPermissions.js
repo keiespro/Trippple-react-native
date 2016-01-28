@@ -145,10 +145,10 @@ class NotificationPermissions extends React.Component{
             <Image
               style={[{width:150,height:150,borderRadius:75,marginVertical:20}]}
               source={
-                this.state.failedState ? require('../../assets/iconModalDenied.png'):
+                this.state.failedState ? {uri:'assets/iconModalDenied.png'}:
                 relevantUser.image_url ? {uri: relevantUser.image_url} :
-                  require('../../assets/placeholderUser@3x.png')                }
-                defaultSource={{uri: '../../assets/placeholderUser.png'}}
+                  {uri:'assets/placeholderUser@3x.png'}                }
+                defaultSource={{uri:'assets/placeholderUser.png'}}
 
             />
             <View style={styles.insidemodalwrapper}>

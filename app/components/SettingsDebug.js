@@ -33,7 +33,7 @@ class SettingsDebug extends React.Component{
               <View style={styles.wrapfield}>
 
                 <Text style={{color:colors.white}}>Checkmark</Text>
-                <Image source={require('../../assets/nextArrow.png')} />
+                <Image source={{uri:'assets/nextArrow.png'}} />
               </View>
             </TouchableHighlight>
 
@@ -64,7 +64,7 @@ class SettingsDebug extends React.Component{
               <View style={styles.wrapfield}>
 
                 <Text style={{color:colors.white}}>Local Notification</Text>
-                <Image source={require('../../assets/nextArrow.png')} />
+                <Image source={{uri:'assets/nextArrow.png'}} />
               </View>
             </TouchableHighlight>
 
@@ -81,7 +81,7 @@ class SettingsDebug extends React.Component{
               }} >
               <View style={styles.wrapfield}>
                 <Text style={{color:colors.white,}}>In-app New Message Notification</Text>
-                <Image source={require('../../assets/nextArrow.png')} />
+                <Image source={{uri:'assets/nextArrow.png'}} />
               </View>
               </TouchableHighlight>*/}
 
@@ -93,7 +93,7 @@ class SettingsDebug extends React.Component{
               }} >
               <View style={styles.wrapfield}>
                 <Text style={{color:colors.white}}>Fetch potentials</Text>
-                <Image source={require('../../assets/nextArrow.png')} />
+                <Image source={{uri:'assets/nextArrow.png'}} />
               </View>
             </TouchableHighlight>
 
@@ -112,7 +112,7 @@ class SettingsDebug extends React.Component{
               }} >
               <View style={styles.wrapfield}>
                 <Text style={{color:colors.white,}}>In-app New Match Notification</Text>
-                <Image source={require('../../assets/nextArrow.png')} />
+                <Image source={{uri:'assets/nextArrow.png'}} />
               </View>
               </TouchableHighlight>*/}
 
@@ -120,7 +120,7 @@ class SettingsDebug extends React.Component{
               onPress={()=>{ AppActions.toggleOverlay() }} >
               <View style={styles.wrapfield}>
                 <Text style={{color:colors.white}}>Toggle Loading Overlay</Text>
-                <Image source={require('../../assets/nextArrow.png')} />
+                <Image source={{uri:'assets/nextArrow.png'}} />
               </View>
             </TouchableHighlight>
 

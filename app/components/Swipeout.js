@@ -70,7 +70,7 @@ const SwipeoutBtn = React.createClass({
                         outputRange:  opacityOutputRange[~~!isFavourited],
                        })
                      }}
-                     source={require('../../assets/star.png')}
+                     source={{uri:'assets/star.png'}}
                      resizeMode={Image.resizeMode.contain}
                    />
                  </View>
@@ -97,7 +97,7 @@ const SwipeoutBtn = React.createClass({
                      })
                        }}
 
-                     source={require('../../assets/starOutline.png')}
+                     source={{uri:'assets/starOutline.png'}}
                      resizeMode={Image.resizeMode.contain}
                    />
                  </View>

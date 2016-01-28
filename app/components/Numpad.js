@@ -79,7 +79,7 @@ class Numpad extends React.Component{
               onPress={()=>this.props.backspace()}
               >
               <View style={[styles.bottomRowKeys]}>
-                <Image style={{width:33,height:20}} source={require('../../assets/btn-delete.png')} resizeMode={Image.resizeMode.contain}/>
+                <Image style={{width:33,height:20}} source={{uri:'assets/btn-delete.png'}} resizeMode={Image.resizeMode.contain}/>
               </View>
             </TouchableHighlight>
 

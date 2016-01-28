@@ -84,7 +84,7 @@ class GenderScreen extends Component{
               onPress={this._selectMale.bind(this)}>
               <View style={[styles.privacyWrap,
                   (this.state.selection == 'm' ? styles.selectedbutton : null)]}>
-        <Image source={this.state.selection == 'm' ? require('../../../assets/ovalSelected.png') : require('../../../assets/ovalDashed.png')}
+        <Image source={this.state.selection == 'm' ? {uri:'assets/ovalSelected.png') : {uri:'assets/ovalDashed.png}}
                           resizeMode={Image.resizeMode.contain}
                             style={styles.cornerDot}/>
 
@@ -102,7 +102,7 @@ class GenderScreen extends Component{
             <View style={[styles.privacyWrap,
                 (this.state.selection == 'f' ? styles.selectedbutton : null)]}>
 
-              <Image source={this.state.selection == 'f' ? require('../../../assets/ovalSelected.png') : require('../../../assets/ovalDashed.png')}
+              <Image source={this.state.selection == 'f' ? {uri:'assets/ovalSelected.png') : {uri:'assets/ovalDashed.png}}
                         resizeMode={Image.resizeMode.contain}
                             style={styles.cornerDot}/>
 

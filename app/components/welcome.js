@@ -23,8 +23,7 @@ import CustomSceneConfigs from '../utils/sceneConfigs'
 import Auth from './auth'
 import Facebook from '../screens/registration/facebook'
 
-const {ReactNativeAutoUpdater} = NativeModules
-console.log(ReactNativeAutoUpdater)
+
 const LOGIN   = 'login';
 const REGISTER = 'register'
 import Mixpanel from '../utils/mixpanel';
@@ -32,30 +31,32 @@ import {MagicNumbers} from '../DeviceConfig'
 
 import dismissKeyboard from 'dismissKeyboard'
 import FadeInContainer from '../components/FadeInContainer'
+
+
 var slides = [
   {
     title: '',
-    img: require('../../assets/logo.png'),
+    img: {uri:'assets/logo.png'},
     content: ''
   },
   {
     title: 'BROWSE',
-    img: require('../../assets/tour-browse.png'),
+    img: {uri:'assets/tour-browse.png'},
     content: 'Find like-minded Couples and Singles.'
   },
   {
     title: 'MATCH',
-    img: require('../../assets/tour-match.png'),
+    img: {uri: 'assets/tour-match.png'},
     content: 'If they like you too, we\'ll connect you.'
   },
   {
     title: 'CONNECT',
-    img: require('../../assets/tour-connect.png'),
+    img: {uri: 'assets/tour-connect.png'},
     content: 'Chat with real Couples or Singles who share your interests.'
   },
   {
     title: 'PRIVATE & DISCREET',
-    img: require('../../assets/tour-privacy.png'),
+    img: {uri: 'assets/tour-privacy.png'},
     content: 'Protect your identity. Easily block friends and family.'
   },
 
