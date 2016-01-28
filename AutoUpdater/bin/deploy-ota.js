@@ -92,7 +92,8 @@ class TripppleTools{
     return new Promise((resolve, reject) => {
       this.timestamp = Date.now()
 
-      const flags = `bundle --platform=ios --entry-file=index.ios.js --bundle-output=${this.getUniqueFilename()} --verbose --assets-dest=./assets/ --project-root=./ --reset-cache=true`;
+      const flags = `bundle --platform=ios --entry-file=index.ios.js --dev=${ENV == 'development'} --bundle-output=./${this.getUniqueFilename()} --verbose`;// --reset-cache=true`;
+
 
       const child = exec(`${NPM_CONFIG_PREFIX}/bin/react-native ${flags}`)
 
@@ -161,7 +162,7 @@ class TripppleTools{
         console.error(error('1'))
         console.error(error(err))
       });
-    this.updateJson = updateJson;
+      this.updateJson = updateJson;
       jsonfile.writeFileSync(VERSION_FILE, this.generateNewVersionFile(), {replace: true,spaces: 2}, (err) => {
         console.error(error('2'))
         console.error(error(err))
@@ -190,21 +191,38 @@ class TripppleTools{
     console.log(bg(`Deploy time! (${ENV})`));
 
     if(ENV == 'production'){
-      console.log(error(`firebase deploying:\n  ${bg(this.updateJson)}`));
+      var deploy = () => {
 
-      try {
+        const firechild = exec(`cd AutoUpdater && firebase deploy:hosting --non-interactive && cd ../`)
 
-        firebaseTool.deploy.hosting()
+        firechild.stdout.on('data', (data) => console.log(chalk.magenta('|> ') + data));
 
-      } catch(err) {
-        console.log(error(err))
-        throw err
+        firechild.stderr.on('data', (data) => console.log(chalk.white('|> ') + data));
+
+        firechild.on('close', (code) => {
+          console.log(chalk.yellow(`|> PACKAGER FINISHED`));
+
+          console.log(chalk.yellow(`|> firechild process exited with code ${code}`));
+          if(!opts.dist){
+            this.cleanUp()
+          }else{
+            console.log(success('△△△△△ DIST BUILD COMPLETE! △△△△△'));
+            this.cleanUp()
+            return
+          }
+        });
+
+        firechild.on('error', (err) => {
+          console.log(error('Failed to start firechild process.'));
+          console.log(error('firebase err',JSON.stringify(err),err))
+          throw err
+
+        });
       }
 
     }else{
       console.log(error(`local deploying:\n ${bg(this.updateJson)}`));
     }
-
     // Copy bundle to local firebase public dir
     fs.copy(this.getUniqueFilename(), this.getUpdateDotJsonPath(), { replace: false }, (err) => {
       if (err) { // i.e. file already exists or can't write to directory
@@ -222,8 +240,8 @@ class TripppleTools{
         }
         console.log(success(`Copied ${this.getUpdateDotJsonPath()} to ${this.getBackupPath()+this.getUniqueFilename()}`));
 
-        if(!opts.dist){
-          this.cleanUp()
+        if(deploy){
+          deploy();
         }else{
           console.log(success('△△△△△ DIST BUILD COMPLETE! △△△△△'));
           this.cleanUp()
@@ -232,43 +250,44 @@ class TripppleTools{
 
       })
     })
-  }
+}
 
-  rollback(){
-    this.compile({rollback:true})
-  }
+rollback(){
+  this.compile({rollback:true})
+}
 
-  dist(ask){
-    if(!ask){
-      this.bump(run).then((r)=> this.compile(run)).then((r2) => this.deploy(run) ).catch((err)=>{
-        console.error('program failure',error(err));
-      })
-    }else{
-      program.confirm('△△△△△ BUMP VERSION, COMPILE, AND DEPLOY? △△△△△', (ok) => {
-        if(ok){
-          var run = {dist:true};
-          this.bump(run).then((r)=> this.compile(run)).then((r2) => this.deploy(run) ).catch((err)=>{
-            console.error('program failure',error(err));
-          })
-        }
-      });
-    }
-  }
+dist(ask){
+  var run = {dist:true};
 
-  cleanUp(){
-    this.presentChoice()
+  if(!ask){
+    this.bump(run).then((r)=> this.compile(run)).then((r2) => this.deploy(run) ).catch((err)=>{
+      console.error('program failure',error(err));
+    })
+  }else{
+    program.confirm('△△△△△ BUMP VERSION, COMPILE, AND DEPLOY? △△△△△', (ok) => {
+      if(ok){
+        this.bump(run).then((r)=> this.compile(run)).then((r2) => this.deploy(run) ).catch((err)=>{
+          console.error('program failure',error(err));
+        })
+      }
+    });
   }
+}
+
+cleanUp(){
+  this.presentChoice()
+}
 }
 
 /*** do it ***/
 const T3 = new TripppleTools();
 
 {
-
-  console.log(bg(` App Version: ${APP_VERSION} △△△△△`));
-  console.log(bg(`JS Version: ${JS_VERSION} △△△△△`));
-  console.log(bg(`Last JS Build #: ${LAST_BUILD_NUMBER} △△△△△`));
-
+  chalk.bgMagenta(() =>{
+    console.log(bg(`App Version: ${APP_VERSION} △△△△△`));
+    console.log(bg(`JS Version: ${JS_VERSION} △△△△△`));
+    console.log(bg(`Last JS Build #: ${LAST_BUILD_NUMBER} △△△△△`));
+  })
   program.version(APP_VERSION)
 
 
