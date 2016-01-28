@@ -13,11 +13,8 @@
 #import "UIColor+TRColors.h"
 #import "ReactNativeAutoUpdater.h"
 
-//#ifdef DEBUG
-  #define JS_CODE_METADATA_URL @"http://x.local:5000/update.json"
-//#else
-//  #define JS_CODE_METADATA_URL @"https://blistering-torch-607.firebaseapp.com/update.json"
-//#endif
+//#define JS_CODE_METADATA_URL @"http://x.local/update"
+#define JS_CODE_METADATA_URL @"https://blistering-torch-607.firebaseapp.com/update.json"
 
 @interface AppDelegate() <ReactNativeAutoUpdaterDelegate>
 
@@ -32,40 +29,39 @@
   
   ReactNativeAutoUpdater* updater = [ReactNativeAutoUpdater sharedInstance];
   [updater setDelegate:self];
-
-  //////// LOAD THE JS //////////
-
-  defaultJSCodeLocation = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];   // DEVELOPMENT
-
-  ///////////////////////////
+  
+  
+  // DEVELOPMENT
+//  defaultJSCodeLocation = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
+//  NSString *rootUrl = @"http://x.local/"; // AutoUpdater won't accept a rootUrl with a port
 
   
-//  defaultJSCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"]; // PRODUCTION
+  // PRODUCTION
+   defaultJSCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+   NSString *rootUrl = @"https://blistering-torch-607.firebaseapp.com/";
 
-
+ 
   
   NSURL* defaultMetadataFileLocation = [[NSBundle mainBundle] URLForResource:@"metadata" withExtension:@"json"];
   [updater initializeWithUpdateMetadataUrl:[NSURL URLWithString:JS_CODE_METADATA_URL]
                      defaultJSCodeLocation:defaultJSCodeLocation
                defaultMetadataFileLocation:defaultMetadataFileLocation ];
   [updater allowCellularDataUse: YES];
+  [updater setHostnameForRelativeDownloadURLs:rootUrl];
   [updater downloadUpdatesForType: ReactNativeAutoUpdaterPatchUpdate];
   [updater checkUpdate];
   
   NSURL* latestJSCodeLocation = [updater latestJSCodeLocation];
   
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  
   UIViewController *rootViewController = [UIViewController new];
-  
   self.window.rootViewController = rootViewController;
-  
-  [self createReactRootViewFromURL:latestJSCodeLocation];
-
+  RCTBridge* bridge = [[RCTBridge alloc] initWithBundleURL:latestJSCodeLocation moduleProvider:nil launchOptions:nil];
+  RCTRootView* rootView = [[RCTRootView alloc] initWithBridge:bridge moduleName:@"trippple" initialProperties:nil];
+  rootView.backgroundColor = [UIColor tr_outerSpaceColor];
+  self.window.rootViewController.view = rootView;
   [self.window makeKeyAndVisible];
-
   return YES;
-
 }
 
 - (void)createReactRootViewFromURL:(NSURL*)url {
@@ -80,7 +76,6 @@
                                                      moduleName:@"trippple"
                                               initialProperties:nil];
     
-    rootView.backgroundColor = [UIColor tr_outerSpaceColor];
     
     self.window.rootViewController.view = rootView;
     

@@ -30,8 +30,9 @@
 		AC3DD3CB1C3A2DED00D9E6D1 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20591C050CF100A63B9C /* libRNMail.a */; };
 		AC3DD3CC1C3A2DED00D9E6D1 /* libRNMessageComposer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB205E1C050CF100A63B9C /* libRNMessageComposer.a */; };
 		AC3DD3CD1C3A2DED00D9E6D1 /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FBC1C0502B600A63B9C /* libRNOverlay.a */; };
-		AC5372BC1C45EF2B007F6E53 /* ReactNativeAutoUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = AC5372B91C45EF2B007F6E53 /* ReactNativeAutoUpdater.m */; };
-		AC5372BD1C45EF2B007F6E53 /* StatusBarNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = AC5372BB1C45EF2B007F6E53 /* StatusBarNotification.m */; };
+		AC79172E1C58016200199BB4 /* libReactNativeAutoUpdater.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC79172D1C58014C00199BB4 /* libReactNativeAutoUpdater.a */; };
+		ACB93D191C58690800589999 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = ACB93D171C58690700589999 /* main.jsbundle */; };
+		ACB93D1A1C58690800589999 /* metadata.json in Resources */ = {isa = PBXBuildFile; fileRef = ACB93D181C58690700589999 /* metadata.json */; };
 		ACBB1FD41C05041600A63B9C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		ACBB20271C050C1100A63B9C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		ACBB20281C050C1900A63B9C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -178,6 +179,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		AC79172C1C58014C00199BB4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC7917281C58014B00199BB4 /* ReactNativeAutoUpdater.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B781E74E1C52EC0100F23A25;
+			remoteInfo = ReactNativeAutoUpdater;
+		};
 		ACBB1FAC1C0502B600A63B9C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ACBB1F521C0502B600A63B9C /* EXURLHandler.xcodeproj */;
@@ -309,10 +317,9 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		AC5372B81C45EF2B007F6E53 /* ReactNativeAutoUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReactNativeAutoUpdater.h; sourceTree = "<group>"; };
-		AC5372B91C45EF2B007F6E53 /* ReactNativeAutoUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReactNativeAutoUpdater.m; sourceTree = "<group>"; };
-		AC5372BA1C45EF2B007F6E53 /* StatusBarNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusBarNotification.h; sourceTree = "<group>"; };
-		AC5372BB1C45EF2B007F6E53 /* StatusBarNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusBarNotification.m; sourceTree = "<group>"; };
+		AC7917281C58014B00199BB4 /* ReactNativeAutoUpdater.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeAutoUpdater.xcodeproj; path = "../node_modules/react-native-auto-updater/ios/ReactNativeAutoUpdater.xcodeproj"; sourceTree = "<group>"; };
+		ACB93D171C58690700589999 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ../main.jsbundle; sourceTree = "<group>"; };
+		ACB93D181C58690700589999 /* metadata.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = metadata.json; sourceTree = "<group>"; };
 		ACBB1ECB1C0502B600A63B9C /* ospermissions.android.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ospermissions.android.js; sourceTree = "<group>"; };
 		ACBB1ECD1C0502B600A63B9C /* ospermissions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ospermissions.h; sourceTree = "<group>"; };
 		ACBB1ECE1C0502B600A63B9C /* ospermissions.ios.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ospermissions.ios.js; sourceTree = "<group>"; };
@@ -397,6 +404,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC79172E1C58016200199BB4 /* libReactNativeAutoUpdater.a in Frameworks */,
 				ACBB209F1C0510E200A63B9C /* libRCTCamera.a in Frameworks */,
 				ACBB209A1C050E8A00A63B9C /* CoreFoundation.framework in Frameworks */,
 				ACBB20991C050E8400A63B9C /* AssetsLibrary.framework in Frameworks */,
@@ -547,7 +555,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				AC5372B71C45EF14007F6E53 /* ReactNativeAutoUpdate */,
+				AC7917281C58014B00199BB4 /* ReactNativeAutoUpdater.xcodeproj */,
 				ACBB20661C050D3D00A63B9C /* react-native-device */,
 				ACBB202C1C050CF000A63B9C /* RCTAddressBook.xcodeproj */,
 				ACBB202F1C050CF000A63B9C /* RCTCameraRoll.xcodeproj */,
@@ -589,6 +597,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				ACB93D171C58690700589999 /* main.jsbundle */,
+				ACB93D181C58690700589999 /* metadata.json */,
 				ACBB1FDD1C0505DF00A63B9C /* CoreFoundation.framework */,
 				ACBB1FDB1C0505D700A63B9C /* AssetsLibrary.framework */,
 				13B07FAE1A68108700A75B9A /* Native */,
@@ -608,15 +618,12 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AC5372B71C45EF14007F6E53 /* ReactNativeAutoUpdate */ = {
+		AC7917291C58014B00199BB4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AC5372B81C45EF2B007F6E53 /* ReactNativeAutoUpdater.h */,
-				AC5372B91C45EF2B007F6E53 /* ReactNativeAutoUpdater.m */,
-				AC5372BA1C45EF2B007F6E53 /* StatusBarNotification.h */,
-				AC5372BB1C45EF2B007F6E53 /* StatusBarNotification.m */,
+				AC79172D1C58014C00199BB4 /* libReactNativeAutoUpdater.a */,
 			);
-			name = ReactNativeAutoUpdate;
+			name = Products;
 			sourceTree = "<group>";
 		};
 		ACBB1EC91C0502B600A63B9C /* OSPermissions */ = {
@@ -1105,6 +1112,10 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
+					ProductGroup = AC7917291C58014B00199BB4 /* Products */;
+					ProjectRef = AC7917281C58014B00199BB4 /* ReactNativeAutoUpdater.xcodeproj */;
+				},
+				{
 					ProductGroup = ACBB20331C050CF000A63B9C /* Products */;
 					ProjectRef = ACBB20321C050CF000A63B9C /* RNAppInfo.xcodeproj */;
 				},
@@ -1206,6 +1217,13 @@
 			fileType = archive.ar;
 			path = libRCTText.a;
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AC79172D1C58014C00199BB4 /* libReactNativeAutoUpdater.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativeAutoUpdater.a;
+			remoteRef = AC79172C1C58014C00199BB4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		ACBB1FAD1C0502B600A63B9C /* libEXURLHandler.a */ = {
@@ -1328,12 +1346,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACBB20A91C05113400A63B9C /* omnes-bold-webfont.ttf in Resources */,
+				ACB93D1A1C58690800589999 /* metadata.json in Resources */,
 				ACBB20A71C05113400A63B9C /* Montserrat-Bold.ttf in Resources */,
 				ACBB20AB1C05113400A63B9C /* omnes-medium-webfont.ttf in Resources */,
 				ACBB20AA1C05113400A63B9C /* omnes-light-webfont.ttf in Resources */,
 				ACBB20AC1C05113400A63B9C /* omnes-regular-webfont.ttf in Resources */,
 				ACBB1FD41C05041600A63B9C /* Images.xcassets in Resources */,
 				ACBB20A81C05113400A63B9C /* Montserrat-Regular.otf in Resources */,
+				ACB93D191C58690800589999 /* main.jsbundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1390,7 +1410,6 @@
 			files = (
 				ACBB207E1C050DAF00A63B9C /* RNClickThroughWindow.m in Sources */,
 				ACBB20741C050D5F00A63B9C /* RCTFileTransfer.m in Sources */,
-				AC5372BD1C45EF2B007F6E53 /* StatusBarNotification.m in Sources */,
 				ACBB207B1C050D9900A63B9C /* RCTFBLogin.m in Sources */,
 				ACBB20781C050D8F00A63B9C /* BlurViewManager.m in Sources */,
 				ACBB207D1C050DA300A63B9C /* RNKeychainManager.m in Sources */,
@@ -1404,7 +1423,6 @@
 				ACBB207C1C050D9900A63B9C /* RCTFBLoginManager.m in Sources */,
 				ACBB20771C050D8F00A63B9C /* BlurView.m in Sources */,
 				ACBB20761C050D7400A63B9C /* RCTPushNotificationManager.m in Sources */,
-				AC5372BC1C45EF2B007F6E53 /* ReactNativeAutoUpdater.m in Sources */,
 				ACBB20801C050DAF00A63B9C /* RNOverlayManager.m in Sources */,
 				ACBB20271C050C1100A63B9C /* AppDelegate.m in Sources */,
 				ACBB20811C050DB600A63B9C /* EXURLHandler.m in Sources */,
@@ -1457,6 +1475,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../lib/**",
+					"$(SRCROOT)/../node_modules/react-native-auto-updater/**",
 				);
 				INFOPLIST_FILE = Native/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1488,6 +1507,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../lib/**",
+					"$(SRCROOT)/../node_modules/react-native-auto-updater/**",
 				);
 				INFOPLIST_FILE = Native/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

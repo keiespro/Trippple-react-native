@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "react-native start",
-    "autoupdate": "./AutoUpdater/bin/deploy-ota.js"
+    "autoupdate": "./AutoUpdater/bin/deploy-ota.js",
+    "dist": "react-native bundle --entry-file index.ios.js --platform ios --dev false --bundle-output ./main.jsbundle --assets-dest ./assets  --verbose"
   },
   "dependencies": {
     "alt": "0.18.1",
@@ -28,6 +29,7 @@
     "react-native": "^0.18.1",
     "react-native-addressbook": "1.2.0",
     "react-native-app-info": "0.0.6",
+    "react-native-auto-updater": "^0.1.1",
     "react-native-camera": "^0.3.8",
     "react-native-device": "GertjanReynaert/react-native-device#gr-improve-device-support",
     "react-native-fs": "latest",

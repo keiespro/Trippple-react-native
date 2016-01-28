@@ -11,11 +11,11 @@ import alt from './app/flux/alt'
 // delete window.Promise
 // import Promise from 'bluebird'
 // window.Promise = Promise
-  window.React = React;
-  window.alt = alt;
 
 if(__DEV__){
-  console.ignoredYellowBox = ['jsSchedulingOverhead'];
+  window.React = React;
+  window.alt = alt;
+  console.ignoredYellowBox = ['jsSchedulingOverhead','SocketRocket'];
   // window.onunhandledrejection = e => console.warn('unhandled', e);
   // window.onrejectionhandled = e => console.warn('handled', e );
 }
