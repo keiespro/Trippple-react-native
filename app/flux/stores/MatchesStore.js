@@ -2,6 +2,7 @@ import alt from '../alt'
 import MatchActions from '../actions/MatchActions'
 import Log from '../../Log'
 import AppActions from '../actions/AppActions'
+import UserActions from '../actions/UserActions'
 
 import NotificationActions from '../actions/NotificationActions'
 import {matchWasAdded, messageWasAdded} from '../../utils/matchstix'
@@ -39,7 +40,8 @@ class MatchesStore {
       updateLastAccessed: MatchActions.SET_ACCESS_TIME,
       unMatch: MatchActions.UN_MATCH,
       handleNewMessages: MatchActions.GET_MESSAGES,
-      handleSaveStores: AppActions.SAVE_STORES
+      handleSaveStores: AppActions.SAVE_STORES,
+      handleLogout: UserActions.LOG_OUT
     });
 
     this.on('init', () => {
@@ -61,6 +63,14 @@ class MatchesStore {
 
   }
 
+  handleLogout(){
+    this.setState({
+      matches: [],
+      favorites: [],
+      unreadCounts: {},
+      lastAccessed: null
+    })
+  }
   handleSaveStores(){
     this.save();
   }
@@ -240,6 +250,7 @@ class MatchesStore {
     return m[0]
   }
 }
+
 
 // not used in this implementation:
 

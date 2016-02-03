@@ -1,11 +1,9 @@
-window.navigator.userAgent = 'react-native' // socketio-client
-
 import config from '../config'
 const {WEBSOCKET_URL}  = config;
 import React from 'react-native'
 import { Component, View, AlertIOS, AsyncStorage, AppStateIOS, PushNotificationIOS, VibrationIOS } from 'react-native'
 
-import io from 'socket.io-client/socket.io'
+import io from '../socket.io'
 
 import Firebase from 'firebase'
 import NotificationActions from '../flux/actions/NotificationActions'
@@ -18,8 +16,8 @@ import Log from '../Log'
 import reactMixin from 'react-mixin'
 
 
-const userListRef = new Firebase("https://blistering-torch-607.firebaseio.com");
-const myUserRef = userListRef.push();
+// const userListRef = new Firebase("https://blistering-torch-607.firebaseio.com");
+// const myUserRef = userListRef.push();
 var connectedRef;
 
 class NotificationCommander extends Component{
@@ -33,22 +31,23 @@ class NotificationCommander extends Component{
       processing:false,
     }
     this.socket = io(WEBSOCKET_URL, {jsonp:false})
+    console.log(this.socket)
   }
 
   componentDidMount(){
 
     if(this.props.user_id){
-      myUserRef.set({ id: this.props.user_id });
-      connectedRef = new Firebase("https://blistering-torch-607.firebaseio.com//.info/connected");
+      // myUserRef.set({ id: this.props.user_id });
+      // connectedRef = new Firebase("https://blistering-torch-607.firebaseio.com//.info/connected");
       // Get a reference to my own presence status.
 
 
-      this.connectedRef.on("value", (isOnline) => {
-        if (isOnline == false) {
-          // If we lose our internet connection, we want ourselves removed from the list.
-          myUserRef.onDisconnect().remove();
-        }
-      })
+      // this.connectedRef.on("value", (isOnline) => {
+      //   if (isOnline == false) {
+      //     // If we lose our internet connection, we want ourselves removed from the list.
+      //     myUserRef.onDisconnect().remove();
+      //   }
+      // })
     }
 
     PushNotificationIOS.addEventListener('notification', this._onPushNotification.bind(this) )

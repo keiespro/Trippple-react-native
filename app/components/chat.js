@@ -230,7 +230,6 @@ class ChatMessage extends React.Component {
 
 
     }
-    console.info(thumb)
     return (
       <View style={[styles.col]}>
         <View style={[styles.row]}>
@@ -456,17 +455,17 @@ class ChatInside extends Component{
     return (
       <ScrollView
         {...this.props}
-        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight,flex:1}}
+        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight,paddingBottom:this.state.keyboardSpace,flex:1}}
         contentInset={{top:0,right:0,left:0,bottom:50}}
         automaticallyAdjustContentInsets={true}
         scrollEnabled={false}
         removeClippedSubviews={true}
         onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
         onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
-        style={{ backgroundColor:colors.outerSpace, flex:1, alignSelf:'stretch', width:DeviceWidth, height:DeviceHeight}}
+        style={{ backgroundColor:colors.outerSpace, flex:1, alignSelf:'stretch', width:DeviceWidth, height:DeviceHeight,paddingBottom:this.state.keyboardSpace}}
         >
         <FadeInContainer delayRender={true} delayAmount={1200} >
-          <View style={{flexDirection:'column',justifyContent:'center',flex:1,height:DeviceHeight,alignItems:'center',alignSelf:'stretch'}}>
+          <View style={{flexDirection:'column',justifyContent:'center',flex:1,height:DeviceHeight,paddingBottom:this.state.keyboardSpace,alignItems:'center',alignSelf:'stretch'}}>
           <View style={{width:DeviceWidth,alignSelf:'center',alignItems:'center',flexDirection:'column',justifyContent:'center',flex:1,}}>
           <Text style={{color:colors.white,fontSize:22,opacity:this.state.isKeyboardOpened ? 0 : 1,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{
                 `YOU MATCHED WITH`

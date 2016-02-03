@@ -1,6 +1,6 @@
 // import logger from 'react-native-logger'
 // import Firebase from 'firebase'
-
+import Logger from './utils/logger'
 // const fireLog = new Firebase('https://blistering-torch-607.firebaseio.com')
 const noop = () => {}
 
@@ -93,7 +93,7 @@ const initLogger = () => {
   //   Logger = new logger('x.local');
   //   return Logger;
   // }
-  // return (__DEBUG__ ? console.warn : noop)
+  return (__DEBUG__ ? console.warn : noop)
 }
 
 export default initLogger()

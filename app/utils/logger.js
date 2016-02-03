@@ -21,7 +21,9 @@ class Logger {
     // track stuff
   }
 
+  info(){
 
+  }
 }
 
 export default new Logger();

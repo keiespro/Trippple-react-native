@@ -2,8 +2,10 @@ import alt from '../alt'
 import MatchActions from '../actions/MatchActions'
 import { AsyncStorage,AlertIOS } from 'react-native'
 import NotificationActions from '../actions/NotificationActions'
+import UserActions from '../actions/UserActions'
 import _ from 'underscore'
 import Log from '../../Log'
+
 
 class PotentialsStore {
 
@@ -14,7 +16,8 @@ class PotentialsStore {
 
     this.bindListeners({
       handleGetPotentials: MatchActions.GET_POTENTIALS,
-      handleSentLike: MatchActions.SEND_LIKE
+      handleSentLike: MatchActions.SEND_LIKE,
+      handleLogout: UserActions.LOG_OUT
     });
 
     this.on('init', () => {
@@ -52,6 +55,13 @@ class PotentialsStore {
     }
   }
 
+
+  handleLogout(){
+    this.setState({
+      potentials: [],
+      hasSentAnyLikes: false
+    })
+  }
   handleSentLike(payload){
 
     if(payload.matches && payload.matches.length > 0){

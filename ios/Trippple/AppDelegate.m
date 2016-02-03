@@ -13,7 +13,6 @@
 #import "UIColor+TRColors.h"
 #import "ReactNativeAutoUpdater.h"
 
-//#define JS_CODE_METADATA_URL @"http://x.local/update"
 #define JS_CODE_METADATA_URL @"https://blistering-torch-607.firebaseapp.com/update.json"
 
 @interface AppDelegate() <ReactNativeAutoUpdaterDelegate>
@@ -31,18 +30,14 @@
   [updater setDelegate:self];
   
   // PRODUCTION
-     defaultJSCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-  NSLog(@"%@",defaultJSCodeLocation);
-  // DEVELOPMENT
-  defaultJSCodeLocation = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
-//  NSString *rootUrl = @"http://x.local/"; // AutoUpdater won't accept a rootUrl with a port
-
+//  defaultJSCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+//  NSString *rootUrl = @"https://blistering-torch-607.firebaseapp.com/";
   
-  // PRODUCTION
-//   defaultJSCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-   NSString *rootUrl = @"https://blistering-torch-607.firebaseapp.com/";
-
- 
+  // DEVELOPMENT
+    defaultJSCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
+    NSString *rootUrl = @"http://localhost/"; // AutoUpdater won't accept a rootUrl with a port
+  
+  
   
   NSURL* defaultMetadataFileLocation = [[NSBundle mainBundle] URLForResource:@"metadata" withExtension:@"json"];
   [updater initializeWithUpdateMetadataUrl:[NSURL URLWithString:JS_CODE_METADATA_URL]
@@ -52,8 +47,9 @@
   [updater setHostnameForRelativeDownloadURLs:rootUrl];
   [updater downloadUpdatesForType: ReactNativeAutoUpdaterPatchUpdate];
   [updater checkUpdate];
-  
-  NSURL* latestJSCodeLocation = [updater latestJSCodeLocation];
+
+//  NSURL* latestJSCodeLocation =  [updater latestJSCodeLocation]; //PRODUCTION
+  NSURL* latestJSCodeLocation = defaultJSCodeLocation; // DEVELOPMENT
   
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];

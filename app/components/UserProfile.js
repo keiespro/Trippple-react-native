@@ -122,7 +122,7 @@ class UserProfile extends React.Component{
                 source={{uri: potential.user.image_url}}
                 key={`${potential.user.id}-cimg`}
 
-                 defaultSource={{uri: 'assets/defaultuser@3x.png'}}
+                 defaultSource={{uri: 'assets/defaultuser.png'}}
                 style={[styles.imagebg,{
                   height: DeviceHeight,
                   marginTop:-20,
@@ -136,7 +136,7 @@ class UserProfile extends React.Component{
                 resizeMode={Image.resizeMode.cover}
                 source={{uri: potential.partner.image_url}}
                 key={`${potential.partner.id}-cimg`}
-                defaultSource={{uri: 'assets/defaultuser@3x.png'}}
+                defaultSource={{uri: 'assets/defaultuser.png'}}
                 style={[styles.imagebg,{
                   height:DeviceHeight,
                   marginTop:-20,

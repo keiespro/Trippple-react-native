@@ -18,7 +18,6 @@ import React,{
   View
 } from 'react-native'
 
-console.log(Image)
 import Settings from './settings'
 import Matches from './matches'
 import Potentials from './potentials'

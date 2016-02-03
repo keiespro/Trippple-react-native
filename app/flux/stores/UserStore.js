@@ -135,18 +135,25 @@ class UserStore {
   }
 
   handleLogOut(){
+    this.waitFor([NotificationsStore.dispatchToken, AppStateStore.dispatchToken])
+
     this.setState({ user:{}, userStub: null});
 
-    AsyncStorage.clear()
-    .then(() => {
-       return Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE)
-    })
-    .then(() => {
-      this.setState({  api_key: null, user_id: null });
-    })
-    .catch((err) => {
+    Log.info('Clearing asyncStorage')
 
-    })
+    AsyncStorage
+      .clear()
+      .then(() => {
+          Log.info('Clearing keychain credentials')
+         return Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE).done();
+
+      })
+      .then(() => {
+        this.setState({  api_key: null, user_id: null });
+      })
+      .catch((err) => {
+        Log.error(err);
+      })
 
   }
 
