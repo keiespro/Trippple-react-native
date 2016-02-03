@@ -30,7 +30,6 @@
 		AC3DD3CB1C3A2DED00D9E6D1 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20591C050CF100A63B9C /* libRNMail.a */; };
 		AC3DD3CC1C3A2DED00D9E6D1 /* libRNMessageComposer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB205E1C050CF100A63B9C /* libRNMessageComposer.a */; };
 		AC3DD3CD1C3A2DED00D9E6D1 /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FBC1C0502B600A63B9C /* libRNOverlay.a */; };
-		AC79172E1C58016200199BB4 /* libReactNativeAutoUpdater.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC79172D1C58014C00199BB4 /* libReactNativeAutoUpdater.a */; };
 		ACBB20711C050D3D00A63B9C /* DeviceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB206B1C050D3D00A63B9C /* DeviceUtil.m */; };
 		ACBB20741C050D5F00A63B9C /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F271C0502B600A63B9C /* RCTFileTransfer.m */; };
 		ACBB20751C050D6D00A63B9C /* ospermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1ECF1C0502B600A63B9C /* ospermissions.m */; };
@@ -97,6 +96,8 @@
 		ACC7DEC11C5A43D90087476F /* omnes-medium-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACC7DEBB1C5A43D90087476F /* omnes-medium-webfont.ttf */; };
 		ACC7DEC21C5A43D90087476F /* omnes-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACC7DEBC1C5A43D90087476F /* omnes-regular-webfont.ttf */; };
 		ACC7E0461C5A584A0087476F /* assets in Resources */ = {isa = PBXBuildFile; fileRef = ACC7E0441C5A579A0087476F /* assets */; };
+		ACFD4D431C5BC52400CAC7E7 /* ReactNativeAutoUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = ACFD4D401C5BC52400CAC7E7 /* ReactNativeAutoUpdater.m */; };
+		ACFD4D441C5BC52400CAC7E7 /* StatusBarNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = ACFD4D421C5BC52400CAC7E7 /* StatusBarNotification.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -169,13 +170,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
-		};
-		AC79172C1C58014C00199BB4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AC7917281C58014B00199BB4 /* ReactNativeAutoUpdater.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = B781E74E1C52EC0100F23A25;
-			remoteInfo = ReactNativeAutoUpdater;
 		};
 		ACBB1FAC1C0502B600A63B9C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -303,7 +297,6 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		AC7917281C58014B00199BB4 /* ReactNativeAutoUpdater.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeAutoUpdater.xcodeproj; path = "../node_modules/react-native-auto-updater/ios/ReactNativeAutoUpdater.xcodeproj"; sourceTree = "<group>"; };
 		ACBB1ECB1C0502B600A63B9C /* ospermissions.android.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ospermissions.android.js; sourceTree = "<group>"; };
 		ACBB1ECD1C0502B600A63B9C /* ospermissions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ospermissions.h; sourceTree = "<group>"; };
 		ACBB1ECE1C0502B600A63B9C /* ospermissions.ios.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ospermissions.ios.js; sourceTree = "<group>"; };
@@ -388,6 +381,10 @@
 		ACC7DEBB1C5A43D90087476F /* omnes-medium-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "omnes-medium-webfont.ttf"; sourceTree = "<group>"; };
 		ACC7DEBC1C5A43D90087476F /* omnes-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "omnes-regular-webfont.ttf"; sourceTree = "<group>"; };
 		ACC7E0441C5A579A0087476F /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = Trippple/assets; sourceTree = "<group>"; };
+		ACFD4D3F1C5BC52400CAC7E7 /* ReactNativeAutoUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReactNativeAutoUpdater.h; sourceTree = "<group>"; };
+		ACFD4D401C5BC52400CAC7E7 /* ReactNativeAutoUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReactNativeAutoUpdater.m; sourceTree = "<group>"; };
+		ACFD4D411C5BC52400CAC7E7 /* StatusBarNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusBarNotification.h; sourceTree = "<group>"; };
+		ACFD4D421C5BC52400CAC7E7 /* StatusBarNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusBarNotification.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -395,7 +392,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC79172E1C58016200199BB4 /* libReactNativeAutoUpdater.a in Frameworks */,
 				ACBB209F1C0510E200A63B9C /* libRCTCamera.a in Frameworks */,
 				ACBB209A1C050E8A00A63B9C /* CoreFoundation.framework in Frameworks */,
 				ACBB20991C050E8400A63B9C /* AssetsLibrary.framework in Frameworks */,
@@ -530,7 +526,6 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				AC7917281C58014B00199BB4 /* ReactNativeAutoUpdater.xcodeproj */,
 				ACBB20661C050D3D00A63B9C /* react-native-device */,
 				ACBB202C1C050CF000A63B9C /* RCTAddressBook.xcodeproj */,
 				ACBB202F1C050CF000A63B9C /* RCTCameraRoll.xcodeproj */,
@@ -587,14 +582,6 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* Trippple.app */,
 				ACBB20E51C051AE100A63B9C /* Tripppletest.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		AC7917291C58014B00199BB4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AC79172D1C58014C00199BB4 /* libReactNativeAutoUpdater.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -927,6 +914,10 @@
 		ACC7DE7D1C5A41EA0087476F /* Trippple */ = {
 			isa = PBXGroup;
 			children = (
+				ACFD4D3F1C5BC52400CAC7E7 /* ReactNativeAutoUpdater.h */,
+				ACFD4D401C5BC52400CAC7E7 /* ReactNativeAutoUpdater.m */,
+				ACFD4D411C5BC52400CAC7E7 /* StatusBarNotification.h */,
+				ACFD4D421C5BC52400CAC7E7 /* StatusBarNotification.m */,
 				ACC7E0441C5A579A0087476F /* assets */,
 				ACC7DEB61C5A43D90087476F /* fonts */,
 				ACC7DE7E1C5A41F30087476F /* AppDelegate.h */,
@@ -1102,10 +1093,6 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
-					ProductGroup = AC7917291C58014B00199BB4 /* Products */;
-					ProjectRef = AC7917281C58014B00199BB4 /* ReactNativeAutoUpdater.xcodeproj */;
-				},
-				{
 					ProductGroup = ACBB20331C050CF000A63B9C /* Products */;
 					ProjectRef = ACBB20321C050CF000A63B9C /* RNAppInfo.xcodeproj */;
 				},
@@ -1207,13 +1194,6 @@
 			fileType = archive.ar;
 			path = libRCTText.a;
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AC79172D1C58014C00199BB4 /* libReactNativeAutoUpdater.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libReactNativeAutoUpdater.a;
-			remoteRef = AC79172C1C58014C00199BB4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		ACBB1FAD1C0502B600A63B9C /* libEXURLHandler.a */ = {
@@ -1360,7 +1340,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		AC467EBA1C523398009F2FBD /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -1368,7 +1348,7 @@
 			name = "Run Script";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/Users/alexlopez/code/trippple/trippple/node_modules/react-native/packager/react-native-xcode.sh";
 		};
@@ -1394,6 +1374,7 @@
 			files = (
 				ACBB207E1C050DAF00A63B9C /* RNClickThroughWindow.m in Sources */,
 				ACBB20741C050D5F00A63B9C /* RCTFileTransfer.m in Sources */,
+				ACFD4D441C5BC52400CAC7E7 /* StatusBarNotification.m in Sources */,
 				ACBB207B1C050D9900A63B9C /* RCTFBLogin.m in Sources */,
 				ACBB20781C050D8F00A63B9C /* BlurViewManager.m in Sources */,
 				ACC7DE991C5A41F30087476F /* AppDelegate.m in Sources */,
@@ -1407,6 +1388,7 @@
 				ACC7DEAE1C5A41F30087476F /* main.m in Sources */,
 				ACBB20771C050D8F00A63B9C /* BlurView.m in Sources */,
 				ACBB20761C050D7400A63B9C /* RCTPushNotificationManager.m in Sources */,
+				ACFD4D431C5BC52400CAC7E7 /* ReactNativeAutoUpdater.m in Sources */,
 				ACC7DEB01C5A41F30087476F /* UIColor+TRColors.m in Sources */,
 				ACBB20801C050DAF00A63B9C /* RNOverlayManager.m in Sources */,
 				ACBB20811C050DB600A63B9C /* EXURLHandler.m in Sources */,
