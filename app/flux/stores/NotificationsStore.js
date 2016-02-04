@@ -54,6 +54,7 @@ class NotificationsStore {
 
   handleLogOut(){
     PushNotificationIOS.cancelAllLocalNotifications()
+    this.emitChange()
   }
 
   updateBadgeCount(delta){

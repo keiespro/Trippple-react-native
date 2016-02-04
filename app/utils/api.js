@@ -180,7 +180,7 @@ const api = {
   },
 
   sendTelemetry(encodedTelemetryPayload){
-    return authenticatedRequest('telemetry',encodedTelemetryPayload)
+    //  authenticatedRequest('telemetry',encodedTelemetryPayload).done()
   }
 
 
