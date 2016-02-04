@@ -133,7 +133,7 @@ class Card extends React.Component{
         style={ profileVisible ? cs.cardinsideOPEN : cs.cardinsideCLOSED }>
 
           <ScrollView
-          scrollEnabled={true}
+          scrollEnabled={profileVisible}
           ref={'scrollbox'}
           centerContent={false}
           alwaysBounceHorizontal={false}
@@ -273,6 +273,7 @@ class Card extends React.Component{
             <View
               key={`${potential.id || potential.user.id}-bottomview`}
               style={profileVisible ? [cs.bottomviewOPEN] : [cs.bottomviewCLOSED,{
+                height:80,
                 marginTop: isTopCard ? -10 : -25,
               }]}
               >
@@ -333,11 +334,9 @@ class Card extends React.Component{
                 </View> : null
               }
 
-              </View>
-            </Animated.View>
 
 
-          { profileVisible ? <View style={{top:50}}>
+          { profileVisible ? <View style={{top:0}}>
 
                   {potential.bio && potential.user.bio &&
                     <View style={{margin:MagicNumbers.screenPadding/2}}>
@@ -361,18 +360,21 @@ class Card extends React.Component{
                   </TouchableOpacity>
 
                 </View> : null}
+              </View>
+            </Animated.View>
+
           </ScrollView>
-          <View
-            key={'navbarholder'}
-            style={{
-              backgroundColor:'black',
-              flex:1,
-              width: DeviceWidth,
-              position:'absolute',
-              top:0,height:55,overflow:'hidden'
-            }}
-          >
-        {profileVisible ?   <View style={{backgroundColor:'#000',top:0,width:DeviceWidth,height:55,}}>
+
+        {profileVisible ?        <View
+                  key={'navbarholder'}
+                  style={{
+                    backgroundColor:'black',
+                    flex:1,
+                    width: DeviceWidth,
+                    position:'absolute',
+                    top:0,height:55,overflow:'hidden'
+                  }}
+                ><View style={{backgroundColor:'#000',top:0,width:DeviceWidth,height:55,}}>
             <FakeNavBar
               hideNext={true}
               backgroundStyle={{
@@ -399,9 +401,9 @@ class Card extends React.Component{
                 source={{uri: 'assets/close@3x.png'}}
                 />
               }
-            />
+            /></View>
+
         </View> : null}
-          </View>
         </View>
 
     )
@@ -419,7 +421,7 @@ const cs = StyleSheet.create({
       right:0,
       left:-20,
       alignItems:'flex-start',
-      backgroundColor:colors.sushi,
+
       top:0,
       alignSelf:'stretch',
       flex:1
@@ -488,8 +490,8 @@ const cs = StyleSheet.create({
   },
 swiperOPEN: {
     width: DeviceWidth,
-    flex:1
-
+    flex:1,
+top:0
   },
 
   swiperCLOSED: {
@@ -499,12 +501,15 @@ swiperOPEN: {
     height: undefined,
     width: undefined,
     marginRight: 0,
-    left: 0,
+    left: 0,    flex:1,
+    top:0
+
+
   },
 
   swiperPagination: {
     position: 'absolute',
-    paddingRight: 40,
+    paddingRight: 35,
     right: 0,
     top: 45,
     height: 100
@@ -547,9 +552,10 @@ swiperOPEN: {
   bottomviewCLOSED: {
     flex: 1,
     left: 20,
-    bottom: 0,
+    bottom: 80,
     backgroundColor: colors.white,
     width: undefined,
+
 
     flexDirection: 'row',
     position: 'absolute',
@@ -559,9 +565,9 @@ swiperOPEN: {
   },
 
   bottomviewOPEN: {
-    height: 400,
+    minHeight: 200,
     top: 0,
-    marginTop: ( DeviceHeight <= 568 ? -120 : -260 ),
+    marginTop: ( DeviceHeight <= 568 ? -120 : -320 ),
     backgroundColor: colors.outerSpace,
     flex: 1,
     left: 0,
