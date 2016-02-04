@@ -72,8 +72,6 @@ class SettingsInside extends React.Component{
 
   componentDidMount() {
 
-
-
   }
 
   setNativeProps(props) {

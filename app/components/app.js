@@ -19,7 +19,6 @@ import PendingPartner from './pendingpartner';
 
 import Onboarding from '../screens/registration/onboard'
 import UserStore from '../flux/stores/UserStore';
-
 import AppState from '../flux/stores/AppState';
 import CredentialsStore from '../flux/stores/CredentialsStore'
 import UserActions from '../flux/actions/UserActions';

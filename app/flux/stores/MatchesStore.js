@@ -98,16 +98,20 @@ class MatchesStore {
   updateLastAccessed(payload){
     // save timestamp of last match view, reset unread counts
     const {match_id, timestamp} = payload;
-    const newCounts = this.state.unreadCounts;
-    newCounts[match_id] = 0;
+    // const newCounts = this.state.unreadCounts;
+
+
+    console.log(newCounts,this.unreadCounts)
+    // newCounts[match_id] = 0;
     const lastAccessed = {...this.state.lastAccessed,  [match_id]: timestamp }
     this.setState({
       lastAccessed,
-      unreadCounts: newCounts
+      // unreadCounts: newCounts
     })
   }
 
   handleNewMessages(payload){
+    console.log('handleNewMessages',payload)
     if(!payload){return false}
     const { match_id, message_thread } = payload.messages;
     const user = UserStore.getUser()
@@ -115,15 +119,17 @@ class MatchesStore {
 
     var newCounts = this.state.unreadCounts,
         access = this.state.lastAccessed;
-
-    newCounts[match_id] = 0;
+    console.table(newCounts,access);
+    // newCounts[match_id] = 0;
     if( !access[match_id] ){
-      access[match_id] = this.state.mountedAt
+      access[match_id] = Date.now()
     }
     let count = 0;
+    console.log('>>>>>>>>>>>>>>>>',access[match_id])
     for(var msg of message_thread){
+      console.log(access[match_id], (msg.created_timestamp * 1000), access[match_id] < (msg.created_timestamp * 1000))
       if(msg.from_user_info.id != user.id && (msg.created_timestamp &&  (access[match_id] < (msg.created_timestamp * 1000)))){
-          count = count + 1
+          count++
       }
     }
     newCounts[match_id] = count;
@@ -168,32 +174,37 @@ class MatchesStore {
         // first batch of matches
         allmatches = orderMatches(matches)
         allunread = _.object( _.pluck(matches,'match_id'), matches.map(()=> 0))
-        allLastAccessed = _.object( _.pluck(matches,'match_id'), matches.map(()=> this.state.mountedAt))
+        allLastAccessed = _.object( _.pluck(matches,'match_id'), matches.map(()=> Date.now()))
 
         // allmatches.map(matchWasAdded);
       }else{
         // paged or refresh - deduplicate results, preserve unread counts and access times
         allmatches = orderMatches(_.unique([
-          ...matches,
           ...this.state.matches,
+          ...matches,
         ],'match_id'))
+        //
+        allunread = {
 
-//         allunread = {
-//           // ..._.object( _.pluck(allmatches,'match_id'), allmatches.map(()=> 0)),
-//           ...this.state.unreadCounts,
-//         }
+          ..._.object( _.pluck(allmatches,'match_id'), allmatches.map((match)=> {
+            return match.recent_message.created_timestamp*1000 > (this.state.lastAccessed[match.match_id] || this.state.mountedAt) ? 1 : 0
+          })),
+          ...this.state.unreadCounts,
 
-//         allLastAccessed = {
-//           // ..._.object( _.pluck(allmatches,'match_id'), allmatches.map(()=> this.state.mountedAt)),
-//           ...this.state.lastAccessed,
-//         }
+        }
+
+        allLastAccessed = {
+          ..._.object( _.pluck(allmatches,'match_id'), allmatches.map(()=> this.state.mountedAt)),
+          ...this.state.lastAccessed,
+        }
 
       }
 
+
       this.setState({
         matches: allmatches,
-        // unreadCounts: allunread,
-        // lastAccessed: allLastAccessed,
+        unreadCounts: allunread,
+        lastAccessed: allLastAccessed,
       });
 
     }else{

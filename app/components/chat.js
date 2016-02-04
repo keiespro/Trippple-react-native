@@ -464,7 +464,7 @@ class ChatInside extends Component{
         onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
         style={{ backgroundColor:colors.outerSpace, flex:1, alignSelf:'stretch', width:DeviceWidth, height:DeviceHeight,paddingBottom:this.state.keyboardSpace}}
         >
-        <FadeInContainer delayRender={true} delayAmount={1200} >
+        <FadeInContainer delayRender={true} delayAmount={2200} duration={1200} >
           <View style={{flexDirection:'column',justifyContent:'center',flex:1,height:DeviceHeight,paddingBottom:this.state.keyboardSpace,alignItems:'center',alignSelf:'stretch'}}>
           <View style={{width:DeviceWidth,alignSelf:'center',alignItems:'center',flexDirection:'column',justifyContent:'center',flex:1,}}>
           <Text style={{color:colors.white,fontSize:22,opacity:this.state.isKeyboardOpened ? 0 : 1,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{
@@ -651,7 +651,7 @@ const Chat = React.createClass({
     })
   },
   componentWillUnmount(){
-    MatchActions.setAccessTime.defer({match_id:this.props.match_id,timestamp: new Date().getTime()})
+    MatchActions.setAccessTime.defer({match_id:this.props.match_id,timestamp: Date.now()})
   },
   componentDidMount(){
     // MatchActions.getMessages(this.props.match_id)
@@ -659,7 +659,7 @@ const Chat = React.createClass({
     if(this.props.handle){
       InteractionManager.clearInteractionHandle(this.props.handle)
     }
-    MatchActions.setAccessTime.defer({match_id:this.props.match_id,timestamp: new Date().getTime()})
+    MatchActions.setAccessTime.defer({match_id:this.props.match_id,timestamp: Date.now()})
 
   },
 

@@ -70,7 +70,7 @@ class MatchList extends Component{
 
   componentDidMount() {
     MatchActions.getMatches();
-    MatchActions.getFavorites.defer();
+    // MatchActions.getFavorites.defer();
 
     Mixpanel.track('On - Matches Screen');
   }
