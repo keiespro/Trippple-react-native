@@ -39,11 +39,11 @@ class FadeInContainer extends Component{
       this.props.didShow && this.props.didShow()
     })
 
-    if(this.props.delayRender){
-      this.setTimeout(()=>{
-        this.setState({shouldRenderChildren:true})
-      }, (this.props.delayAmount/2));
-    }
+    // if(this.props.delayRender){
+    //   this.setTimeout(()=>{
+    //     this.setState({shouldRenderChildren:true})
+    //   }, (this.props.delayAmount/2));
+    // }
   }
   render(){
       return (
