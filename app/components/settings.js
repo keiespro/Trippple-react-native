@@ -50,7 +50,7 @@ import SettingsSettings from './SettingsSettings'
 import SettingsPreferences from './SettingsPreferences'
 import SettingsCouple from './SettingsCouple'
 import SettingsDebug from './SettingsDebug'
-
+import profileOptions from '../get_client_user_profile_options'
 const PickerItemIOS = PickerIOS.Item;
 
 
@@ -63,7 +63,7 @@ class SettingsInside extends React.Component{
     this.state = {
       index: 0,
       isModalOpen: true,
-      settingOptions: {},
+      settingOptions: profileOptions,
     }
   }
   getScrollResponder() {
@@ -73,18 +73,7 @@ class SettingsInside extends React.Component{
   componentDidMount() {
 
 
-    Api.getProfileSettingsOptions()
-    .then((options) => {
-      if (options.settings) {
-        this.setState({
-          settingOptions: options.settings
-        });
-      } else {
-      }
-    })
-    .catch((err) => {
-      dispatch({error: err})
-    })
+
   }
 
   setNativeProps(props) {
