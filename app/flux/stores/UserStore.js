@@ -49,15 +49,21 @@ class UserStore {
     });
 
     this.on('bootstrap', (bootstrappedState) => {
-      // Log('BOOTSTRAP USER store',bootstrappedState);
+      Log('BOOTSTRAP USER store',bootstrappedState);
     });
 
     this.on('afterEach', (x) => {
       // Log('AFTEREACH USER store', {...x});
+      this.save()
     });
 
   }
 
+  save(){
+    let partialSnapshot = alt.takeSnapshot(this);
+    Log('partialSnapshot',partialSnapshot)
+    AsyncStorage.setItem('UserStore',JSON.stringify(partialSnapshot));
+  }
   handleInitialize(){
 
     if(this.state.user && this.state.user.status && this.state.user.status == 'onboarded'){
@@ -139,15 +145,19 @@ class UserStore {
     this.setState({ user:{}, userStub: null});
     Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE)
     .then(() => {
+      Log.info('Clearing asyncStorage')
+
       return AsyncStorage.clear()
     })
     .catch((err) => {
+      Log.error(err);
       this.setState({  api_key: null, user_id: null });
+
     })
     .done()
 
-    //just in case?
-    this.setState({  api_key: null, user_id: null });
+
+      this.setState({  api_key: null, user_id: null });
 
   }
 

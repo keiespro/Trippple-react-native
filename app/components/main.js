@@ -44,7 +44,7 @@ class Main extends Component{
 
   componentWillMount(){
     // bootstrap stores from asyncstorage
-    AsyncStorage.multiGet(['ChatStore','MatchesStore'])
+    AsyncStorage.multiGet(['ChatStore','MatchesStore','UserStore'])
     .then((data) => {
       if (data){
         const savedMatches = JSON.parse(data[1][1]);
