@@ -153,10 +153,9 @@ class UserActions {
 
   handleContacts(contacts) {
     return (dispatch) => {
-      AppActions.grantPermission.defer('contacts');
-      var allNumbers = _.pluck( _.flatten( _.pluck( contacts, 'phoneNumbers') ), 'number' ).map(cleanNumber)
-      Api.sendContactsToBlock( base64.encode( JSON.stringify(allNumbers)))
-      dispatch();
+      // var allNumbers = _.pluck( _.flatten( _.pluck( contacts, 'phoneNumbers') ), 'number' ).map(cleanNumber)
+      // Api.sendContactsToBlock( base64.encode( JSON.stringify(allNumbers)))
+      dispatch(contacts);
     }
   }
 

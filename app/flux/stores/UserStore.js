@@ -74,7 +74,9 @@ class UserStore {
 
   }
 
-  handleBlockContacts(){
+  handleBlockContacts(contacts){
+    let blob = base64.encode( JSON.stringify(contacts) );
+    AsyncStorage.setItem('contacts-blob',JSON.stringify(contacts));
 
   }
 
