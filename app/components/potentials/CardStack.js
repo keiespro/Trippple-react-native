@@ -57,17 +57,17 @@ class CardStack extends React.Component{
       Animated.spring(this.state.offsetY.c,{
         toValue: 0,
         tension: 50,
-        friction: 7,
+        friction: 5,
       }),
       Animated.spring(this.state.offsetY.b,{
         toValue: 0,
         tension: 50,
-        friction: 7,
+        friction: 5,
       }),
       Animated.spring(this.state.offsetY.a,{
         toValue: 0,
         tension: 50,
-        friction: 7,
+        friction: 5,
       })
     ]).start((fin)=> {
       this.initializePanResponder()
@@ -151,7 +151,7 @@ class CardStack extends React.Component{
         this._actionlistener = this.state.pan.addListener((value) => {
           const likeUserId = this.props.potentials[0].user.id;
           if(!value || !value.x ){ return false }
-            const likeStatus = value.x > 0 ? 'approve' : 'deny';
+          const likeStatus = value.x > 0 ? 'approve' : 'deny';
 
           // when the card reaches the throw out threshold, send like
           if (Math.abs(value.x) >= 300) {
@@ -163,17 +163,22 @@ class CardStack extends React.Component{
 
             // }
             if(this.state.interactedWith != likeUserId ){
-              MatchActions.sendLike(
-              likeUserId,
-              likeStatus,
-              (this.props.rel == 'single' ? 'couple' : 'single'),
-              this.props.rel
-            );
+                MatchActions.sendLike(
+                likeUserId,
+                likeStatus,
+                (this.props.rel == 'single' ? 'couple' : 'single'),
+                this.props.rel
+              );
 
-            this.setState({interactedWith:likeUserId})
-            this.state.pan && this.state.pan.x &&  this.state.pan.x._listeners.length && this.state.pan.x.removeAllListeners()
+              this.setState({interactedWith:likeUserId})
+              this.state.pan && this.state.pan.x &&  this.state.pan.x._listeners.length && this.state.pan.x.removeAllListeners()
 
-           }
+            }else{
+              this.setState({interactedWith:likeUserId})
+              MatchActions.removePotential(likeUserId);
+              this.state.pan && this.state.pan.x &&  this.state.pan.x._listeners.length && this.state.pan.x.removeAllListeners()
+
+            }
           }
         })
       }

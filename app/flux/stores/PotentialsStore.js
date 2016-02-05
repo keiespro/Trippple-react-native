@@ -55,7 +55,14 @@ class PotentialsStore {
     }
   }
 
+  handleRemovePotential(id){
+    const p = this.state.potentials;
+    p.unshift();
+    this.setState({
+      potentials: p,
+    })
 
+  }
   handleLogout(){
     this.setState({
       potentials: [],
