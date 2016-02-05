@@ -4,9 +4,11 @@ import CredentialsStore from '../flux/stores/CredentialsStore'
 import Promise from 'bluebird'
 import config from '../config'
 
-const { FileTransfer, RNAppInfo } = NativeModules,
+const { FileTransfer, RNAppInfo, ReactNativeAutoUpdater } = NativeModules,
       UploadFile = Promise.promisify(FileTransfer.upload),
       { SERVER_URL } = config;
+const VERSION = ReactNativeAutoUpdater.jsCodeVersion,
+      iOSversion = RNAppInfo.getInfoiOS;
 
 async function baseRequest(endpoint: '', payload: {}){
   const params = {
@@ -14,10 +16,7 @@ async function baseRequest(endpoint: '', payload: {}){
     headers: {
       'Accept':           'application/json',
       'Content-Type':     'application/json',
-      'X-T3-Api-Version': 2,
-      'X-T3-App-Version': AppInfo.getInfoShortVersion(),
-      'X-T3-App-OS':      Platform.OS,
-      'X-T3-App-Name':    RNAppInfo.name
+      'X-T3P-Api-Version': `2/${VERSION}/${iOSversion}`,
     },
     body: JSON.stringify(payload)
   }
@@ -179,8 +178,34 @@ const api = {
     return authenticatedRequest('disable')
   },
 
-  sendTelemetry(encodedTelemetryPayload){
-    //  authenticatedRequest('telemetry',encodedTelemetryPayload).done()
+  async sendTelemetry(encodedTelemetryPayload){
+    const credentials = CredentialsStore.getCredentials();
+    const authPayload = {...payload, ...credentials};
+    const params = {
+      method: 'post',
+      headers: {
+        'Accept':           'application/json',
+        'Content-Type':     'application/x-www-form-urlencoded',
+        'X-T3P-Api-Version': `2/${VERSION}/${iOSversion}`,
+      },
+      body: encodedTelemetryPayload
+    }
+
+    let res = await fetch( `${SERVER_URL}/telemetry`, params)
+    console.log(res)
+    try{
+      if(!res.json && res.status == 401){
+          throw new Error()
+      }
+      let response = await res.json()
+      console.log(response)
+      return response
+    }catch(err){
+      console.error(err)
+
+      return {error: err,status:res.status}
+    }
+
   }
 
 

@@ -90,6 +90,26 @@ class SettingsDebug extends React.Component{
               </View>
             </TouchableHighlight>
 
+
+        {/*  clear local storage */}
+          <TouchableHighlight
+            onPress={(f)=>{
+              AsyncStorage.clear()
+              .then((res)=>{
+                console.log(res)
+
+              })
+              .catch((err)=>{
+                console.error(err)
+              })
+
+            }} >
+            <View style={styles.wrapfield}>
+              <Text style={{color:colors.white,}}>clear local storage</Text>
+              <Image source={{uri: 'assets/nextArrow@3x.png'}} />
+            </View>
+          </TouchableHighlight>
+
           {/*  Local Notification */}
             <TouchableHighlight
               onPress={(f)=>{
@@ -137,6 +157,17 @@ class SettingsDebug extends React.Component{
                 </View>
               </TouchableHighlight>
 
+              {/*  send telemetry */}
+                <TouchableHighlight
+                  onPress={(f)=>{
+                    AppActions.sendTelemetry()
+
+                  }} >
+                  <View style={styles.wrapfield}>
+                    <Text style={{color:colors.white,}}>send telemetry base64</Text>
+                    <Image source={{uri: 'assets/nextArrow@3x.png'}} />
+                  </View>
+                </TouchableHighlight>
             {/*  show checkmark */}
               <TouchableHighlight
                 onPress={()=>{ AppActions.showCheckmark() }}
