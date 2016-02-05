@@ -31,7 +31,7 @@ class NotificationCommander extends Component{
       processing:false,
     }
     this.socket = io(WEBSOCKET_URL, {jsonp:false})
-    console.log(this.socket)
+
   }
 
   componentDidMount(){
@@ -159,6 +159,7 @@ class NotificationCommander extends Component{
   connectSocket(){
     this.socket.on('user.connect', (data) => {
       this.online_id = data.online_id;
+      Log('user.connect',data)
 
       const myApikey = this.props.api_key,
         myID = this.props.user_id;

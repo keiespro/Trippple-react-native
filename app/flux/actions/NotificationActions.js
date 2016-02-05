@@ -81,23 +81,29 @@ class NotificationActions {
     return payload.match_id
   }
 
-  scheduleNewPotentialsAlert(time) {
-
-
-
+  scheduleNewPotentialsAlert() {
     return async (dispatch) => {
-      let todayDate = new Date()
-      let lastDate = await AsyncStorage.getItem(LAST_SCHEDULED_DATE);
-      if( lastDate != todayDate.toDateString() ){
-        let fireDate =  moment( todayDate.getTime() ).endOf('day')
-        Log(`Scheduled Local Notification`,fireDate.format())
-        PushNotificationIOS.scheduleLocalNotification({
-          fireDate: fireDate.unix(),
-          alertBody: 'New Matches!'
-        })
-        AsyncStorage.setItem(LAST_SCHEDULED_DATE,todayDate.toDateString() )
+      let todayDate = new Date(),
+          lastDate = await AsyncStorage.getItem(LAST_SCHEDULED_DATE);
+      try{
+        if( lastDate != todayDate.toDateString() ){
+
+          let fireDate =  moment().endOf('day')
+          Log(`Scheduled Local Notification`,fireDate.unix()*1000,fireDate.format())
+          PushNotificationIOS.scheduleLocalNotification({
+            fireDate: fireDate.unix()*1000,
+            alertBody: 'New Matches!',
+            soundName: 'default'
+          })
+          AsyncStorage.setItem(LAST_SCHEDULED_DATE,todayDate.toDateString() )
+        }
+        dispatch(true)
+
+      }catch(err){
+        console.log(err)
+        dispatch(err)
+
       }
-      dispatch()
     }
   }
 
