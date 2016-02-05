@@ -114,28 +114,17 @@ class MatchesStore {
     console.log('handleNewMessages',payload)
     if(!payload){return false}
     const { match_id, message_thread } = payload.messages;
-    const user = UserStore.getUser()
     if(!message_thread || !message_thread.length || (message_thread.length == 1 && !message_thread[0].message_body)) return false
 
-    var newCounts = this.state.unreadCounts,
-        access = this.state.lastAccessed;
-    console.table(newCounts,access);
-    // newCounts[match_id] = 0;
-    if( !access[match_id] ){
-      access[match_id] = Date.now()
+    let newState = this.refreshMatchesList( match_id, message_thread )
+    try{
+      this.setState({
+        newState
+      })
+    }catch(err){
+      console.error('error refreshing matches list')
+      console.error(err)
     }
-    let count = 0;
-    console.log('>>>>>>>>>>>>>>>>',access[match_id])
-    for(var msg of message_thread){
-      console.log(access[match_id], (msg.created_timestamp * 1000), access[match_id] < (msg.created_timestamp * 1000))
-      if(msg.from_user_info.id != user.id && (msg.created_timestamp &&  (access[match_id] < (msg.created_timestamp * 1000)))){
-          count++
-      }
-    }
-    newCounts[match_id] = count;
-    this.setState({
-      unreadCounts: newCounts
-    })
 
   }
 
@@ -163,6 +152,36 @@ class MatchesStore {
     this.handleGetMatches(payload.matchesData)
   }
 
+  async refreshMatchesList(match_id, message_thread){
+    const newCounts = this.state.unreadCounts,
+          access = this.state.lastAccessed,
+          user = UserStore.getUser();
+
+    console.table(newCounts,access);
+
+    if( !access[match_id] ){
+      access[match_id] = Date.now()
+    }
+    let count = 0;
+    console.log('>>>>>>>>>>>>>>>>',access[match_id])
+    for(var msg of message_thread){
+      console.log(access[match_id], (msg.created_timestamp * 1000), access[match_id] < (msg.created_timestamp * 1000))
+      if(msg.from_user_info.id != user.id && (msg.created_timestamp &&  access[match_id] < (msg.created_timestamp * 1000))){
+          count++
+      }
+    }
+    newCounts[match_id] = count;
+    let oldMatches = this.state.matches;
+    // _.unique([...oldMatches,
+    const matches = orderMatches({,})
+
+
+    return ({
+      unreadCounts: newCounts,
+      matches
+    })
+  }
+
   handleGetMatches(matchesData){
     if(!matchesData) return false
     const {matches} = matchesData
@@ -185,17 +204,17 @@ class MatchesStore {
         ],'match_id'))
         //
         allunread = {
+          ...this.state.unreadCounts,
 
           ..._.object( _.pluck(allmatches,'match_id'), allmatches.map((match)=> {
-            return match.recent_message.created_timestamp*1000 > (this.state.lastAccessed[match.match_id] || this.state.mountedAt) ? 1 : 0
+            return match.recent_message.created_timestamp*1000 > (this.state.lastAccessed[match.match_id] || Date.now() ) ? 1 : 0
           })),
-          ...this.state.unreadCounts,
 
         }
 
         allLastAccessed = {
-          ..._.object( _.pluck(allmatches,'match_id'), allmatches.map(()=> this.state.mountedAt)),
-          ...this.state.lastAccessed,
+          ..._.object( _.pluck(allmatches,'match_id'), allmatches.map(()=> Date.now())),
+
         }
 
       }
