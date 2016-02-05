@@ -107,6 +107,7 @@ class MatchList extends Component{
   }
 
   _renderRow(rowData, sectionID, rowID){
+    console.log(rowData)
     const myId = this.props.user.id,
         myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
     var theirIds = Object.keys(rowData.users).filter( (u)=> u != this.props.user.id);
@@ -130,7 +131,7 @@ var matchImage;
       }
 
 
-    var unreadCount = rowData.unreadCount || 0;
+    var unread = rowData.unread || 0;
 
     return (
 
@@ -175,10 +176,10 @@ var matchImage;
                  resizeMode={Image.resizeMode.cover}
                   defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
                />
-             {unreadCount ?
+             {unread ?
                 <View style={styles.newMessageCount}>
                  <Text style={{fontFamily:'Montserrat-Bold',color:colors.white,textAlign:'center',fontSize:14}}>{
-                   unreadCount
+                   unread
                  }</Text>
                </View>
                : null }
@@ -349,7 +350,7 @@ class MatchesInside extends Component{
       favorites: props.favorites,
       isVisible: false,
       dataSource: this.ds.cloneWithRows(props.matches),
-      favDataSource: this.fds.cloneWithRows(props.favorites)
+      favDataSource: this.fds.cloneWithRows(props.matches)
 
     }
   }
@@ -358,7 +359,7 @@ class MatchesInside extends Component{
     this.setState({
       matches: newProps.matches,
       dataSource: this.ds.cloneWithRows(newProps.matches),
-      favDataSource: this.ds.cloneWithRows(newProps.favorites),
+      favDataSource: this.ds.cloneWithRows(newProps.matches),
       favorites: newProps.favorites
     })
 
@@ -366,7 +367,7 @@ class MatchesInside extends Component{
       this._updateDataSource(newProps.matches,'matches')
     }
     if(newProps.favorites[0] ){
-      this._updateDataSource(newProps.favorites,'favorites')
+      this._updateDataSource(newProps.matches,'favorites')
     }
 
   }
@@ -376,8 +377,8 @@ class MatchesInside extends Component{
   //   var {matches,favorites} = this.state
 
 
-  //   var matchesDidUpdate = (matches && matches[0] && matches[0].unreadCount || nProps.matches && nProps.matches[0] && nProps.matches[0].unreadCount) || (matches.length != nProps.matches.length);
-  //   var favsDidUpdate = ((favorites && favorites[0] && favorites[0].unreadCount) || (nProps.favorites && nProps.favorites[0] && nProps.favorites[0].unreadCount)) || (nProps.favorites && favorites.length != nProps.favorites.length);
+  //   var matchesDidUpdate = (matches && matches[0] && matches[0].unread || nProps.matches && nProps.matches[0] && nProps.matches[0].unread) || (matches.length != nProps.matches.length);
+  //   var favsDidUpdate = ((favorites && favorites[0] && favorites[0].unread) || (nProps.favorites && nProps.favorites[0] && nProps.favorites[0].unread)) || (nProps.favorites && favorites.length != nProps.favorites.length);
 
   //   return matchesDidUpdate || favsDidUpdate
 

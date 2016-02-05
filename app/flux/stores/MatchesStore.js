@@ -5,8 +5,8 @@ import AppActions from '../actions/AppActions'
 import UserActions from '../actions/UserActions'
 
 import NotificationActions from '../actions/NotificationActions'
-import {matchWasAdded, messageWasAdded} from '../../utils/matchstix'
-import {AsyncStorage, AlertIOS} from 'react-native'
+import { matchWasAdded, messageWasAdded } from '../../utils/matchstix'
+import { AsyncStorage, AlertIOS } from 'react-native'
 import _ from 'underscore'
 import UserStore from './UserStore'
 
@@ -15,11 +15,9 @@ class MatchesStore {
 
   constructor() {
     this.state = {
-      matches: [],
+      matches: {},
       favorites: [],
-      unreadCounts: {},
-      lastAccessed: {},
-      mountedAt: new Date().getTime(),
+      mountedAt: Date.now() - 36600,
     }
 
     this.exportPublicMethods({
@@ -44,270 +42,227 @@ class MatchesStore {
       handleLogout: UserActions.LOG_OUT
     });
 
-    this.on('init', () => {
-      Log('INIT matches store');
+    this.on( 'init', () => {
+      Log( 'INIT matches store' );
     });
 
-    this.on('error', (err, payload, currentState) => {
-      Log('ERROR matches store',err, payload, currentState);
+    this.on( 'error', ( err, payload, currentState ) => {
+      Log( 'ERROR matches store', err, payload, currentState );
     });
 
-    this.on('bootstrap', (bootstrappedState) => {
-      Log('BOOTSTRAP matches store',bootstrappedState);
+    this.on( 'bootstrap', ( bootstrappedState ) => {
+      Log( 'BOOTSTRAP matches store', bootstrappedState );
     });
 
-    this.on('afterEach', (x) => {
-      Log('AFTEREACH Matches store', {...x});
-
+    this.on( 'afterEach', ( x ) => {
+      Log( 'AFTEREACH Matches store', {...x });
     });
 
   }
 
-  handleLogout(){
+  handleLogout() {
     this.setState({
       matches: [],
       favorites: [],
-      unreadCounts: {},
-      lastAccessed: null
     })
   }
-  handleSaveStores(){
+
+  handleSaveStores() {
     this.save();
   }
 
-  save(){
-    var partialSnapshot = alt.takeSnapshot(this);
-    Log('saving',partialSnapshot);
-    AsyncStorage.setItem('MatchesStore',JSON.stringify(partialSnapshot));
+  save() {
+    var partialSnapshot = alt.takeSnapshot( this );
+    Log( 'saving', partialSnapshot );
+    AsyncStorage.setItem( 'MatchesStore', JSON.stringify( partialSnapshot ) );
   }
 
-  unMatch(matchID){
-    this.removeMatch(matchID)
+  unMatch( matchID ) {
+    this.removeMatch( matchID )
   }
 
-  removeMatch(matchID){
+  removeMatch( matchID ) {
+    const {
+      matches
+    } = this.state
+    matches[ matchID ] = null
+    delete matches[ matchID ]
     this.setState({
-      matches: _.reject(this.state.matches, match => match.match_id === matchID)
+      matches
     });
   }
 
-  handleReportUser(payload){
+  handleReportUser( payload ) {
     const { user_id, reason } = payload
+
   }
 
-  updateLastAccessed(payload){
+  updateLastAccessed( payload ) {
     // save timestamp of last match view, reset unread counts
-    const {match_id, timestamp} = payload;
-    // const newCounts = this.state.unreadCounts;
+    const {
+      match_id,
+      timestamp
+    } = payload;
+    const m = this.state.matches[ match_id ]
+    m.lastAccessed = timestamp;//Date.now()
+    m.unread = 0
+    const matches = this.state.matches
+    matches[ match_id ] = m
 
-
-    console.log(newCounts,this.unreadCounts)
-    // newCounts[match_id] = 0;
-    const lastAccessed = {...this.state.lastAccessed,  [match_id]: timestamp }
     this.setState({
-      lastAccessed,
-      // unreadCounts: newCounts
+      matches
+
     })
   }
 
-  handleNewMessages(payload){
-    console.log('handleNewMessages',payload)
-    if(!payload){return false}
-    const { match_id, message_thread } = payload.messages;
-    if(!message_thread || !message_thread.length || (message_thread.length == 1 && !message_thread[0].message_body)) return false
 
-    let newState = this.refreshMatchesList( match_id, message_thread )
-    try{
-      this.setState({
-        newState
+
+  handleResetUnreadCount( match_id ) {
+    const m = this.state.matches[ match_id ];
+    m.unread = 0;
+    this.setState({
+        matches: {...this.state.matches, m }
       })
-    }catch(err){
-      console.error('error refreshing matches list')
-      console.error(err)
-    }
-
   }
 
-  handleResetUnreadCount(match_id){
-    const newCounts = {...this.state.unreadCounts}
-    newCounts[match_id] = 0
-    this.setState({
-      unreadCounts: newCounts
-    })
-    // React.NativeModules.PushNotificationManager.setApplicationIconBadgeNumber(currentCount+delta)
-    // NotificationActions.changeAppIconBadgeNumber.defer(newCounts[match_id].length * -1)
-    // result + newCounts[match_id]
+  sendMessage( payload ) {
+    this.handleGetMatches( payload.matchesData )
   }
 
-  sendMessage(payload){
-    this.handleGetMatches(payload.matchesData)
+  toggleFavorite( matchesData ) {
+    this.handleGetFavorites( matchesData )
   }
 
-  toggleFavorite(matchesData) {
-    this.handleGetFavorites(matchesData)
-
+  insertLocalMessage( payload ) {
+    this.handleGetMatches( payload.matchesData )
   }
 
-  insertLocalMessage(payload){
-    this.handleGetMatches(payload.matchesData)
-  }
-
-  async refreshMatchesList(match_id, message_thread){
-    const newCounts = this.state.unreadCounts,
-          access = this.state.lastAccessed,
+  handleGetMatches( matchesData ) {
+    if ( !matchesData ) return false
+    const { matches } = matchesData,
           user = UserStore.getUser();
 
-    console.table(newCounts,access);
+    if ( matches.length > 0 ) {
+      var allmatches;
 
-    if( !access[match_id] ){
-      access[match_id] = Date.now()
-    }
-    let count = 0;
-    console.log('>>>>>>>>>>>>>>>>',access[match_id])
-    for(var msg of message_thread){
-      console.log(access[match_id], (msg.created_timestamp * 1000), access[match_id] < (msg.created_timestamp * 1000))
-      if(msg.from_user_info.id != user.id && (msg.created_timestamp &&  access[match_id] < (msg.created_timestamp * 1000))){
-          count++
-      }
-    }
-    newCounts[match_id] = count;
-    let oldMatches = this.state.matches;
-    // _.unique([...oldMatches,
-    const matches = orderMatches({,})
-
-
-    return ({
-      unreadCounts: newCounts,
-      matches
-    })
-  }
-
-  handleGetMatches(matchesData){
-    if(!matchesData) return false
-    const {matches} = matchesData
-
-    if(matches.length > 0){
-      var allmatches, allunread, allLastAccessed;
-
-      if(!this.state.matches.length){
+      if ( !Object.keys( this.state.matches ).length ) {
         // first batch of matches
-        allmatches = orderMatches(matches)
-        allunread = _.object( _.pluck(matches,'match_id'), matches.map(()=> 0))
-        allLastAccessed = _.object( _.pluck(matches,'match_id'), matches.map(()=> Date.now()))
+        const matchesHash = matches.reduce( ( acc, el, i ) => {
+          el.lastAccessed = this.state.mountedAt//Date.now()
+          el.unread = 0; //el.recent_message.created_timestamp*1000 > el.lastAccessed ? 1 : 0;
+          acc[ el.match_id ] = el;
+          return acc
+        }, {})
+        allmatches = matchesHash;
+      } else {
+        const matchesHash = matches.reduce( ( acc, el, i ) => {
+          if(!this.state.matches[el.match_id]){
+            MatchActions.getMessages.defer(el.match_id);
+          }
+          el.lastAccessed = el.lastAccessed || this.state.mountedAt;
+          el.unread = 0;
+          if (el.recent_message && el.recent_message.from_user_info && (el.recent_message.from_user_info.id != user.id && ( el.recent_message.created_timestamp * 1000 > el.lastAccessed )) ){
+            el.unread = 1
+          }
+          acc[ el.match_id ] = el
+          return acc
+        }, {})
 
-        // allmatches.map(matchWasAdded);
-      }else{
-        // paged or refresh - deduplicate results, preserve unread counts and access times
-        allmatches = orderMatches(_.unique([
-          ...this.state.matches,
-          ...matches,
-        ],'match_id'))
-        //
-        allunread = {
-          ...this.state.unreadCounts,
-
-          ..._.object( _.pluck(allmatches,'match_id'), allmatches.map((match)=> {
-            return match.recent_message.created_timestamp*1000 > (this.state.lastAccessed[match.match_id] || Date.now() ) ? 1 : 0
-          })),
-
-        }
-
-        allLastAccessed = {
-          ..._.object( _.pluck(allmatches,'match_id'), allmatches.map(()=> Date.now())),
-
-        }
-
+        allmatches = matchesHash;
       }
-
-
       this.setState({
         matches: allmatches,
-        unreadCounts: allunread,
-        lastAccessed: allLastAccessed,
       });
-
-    }else{
-     // refresh but no update
-
+    } else {
       this.emitChange()
     }
   }
 
-  handleGetFavorites(matchesData) {
-    if(!matchesData) return false
-    const favs = matchesData.matches
-    if(!favs){ return false }
-    if(favs.length && this.state.matches.length){
-      let matches = _.unique([ ...this.state.matches, ...favs], 'match_id'),
-          favorites = _.unique([ ...this.state.favorites, ...favs], 'match_id')
-
-      this.setState({
-        matches, favorites
-      })
-      this.emitChange()
+  handleNewMessages( payload ) {
+    if ( !payload ) {
+      return false
     }
+    const { match_id, message_thread } = payload.messages;
+    if ( !message_thread || !message_thread.length || ( message_thread.length == 1 && !message_thread[ 0 ].message_body ) ) {return false}
+
+    const { matches } = this.state,
+          user = UserStore.getUser();
+
+    if ( !matches[ match_id ].lastAccessed ) {
+      matches[ match_id ].lastAccessed = this.state.mountedAt
+    }
+
+    let count = 0;
+    for ( var msg of message_thread ) {
+      if ( msg.from_user_info.id == user.id || !msg.created_timestamp ) {return false;}
+      if ( matches[ match_id ].lastAccessed < msg.created_timestamp * 1000 ) {
+        count++
+      }
+    }
+
+    if ( matches[ match_id ].recent_message.from_user_info.id != user.id && count == 0 && matches[ match_id ].lastAccessed < matches[ match_id ].recent_message.created_timestamp * 1000 ) {
+      count = 1
+    }
+    const thread = matches[ match_id ].message_thread || [];
+
+    const newThread = [ ...thread, ...message_thread ];
+
+    matches[ match_id ].message_thread = newThread;
+    matches[ match_id ].unread = ( matches[ match_id ].unread || 0 ) + count;
+
+    this.setState({ matches })
+  }
+
+  handleGetFavorites( matchesData ) {
+
+    this.emitChange()
+
   }
 
   // public methods
-  getAnyUnread(){
-    const unread = this.getState().unreadCounts
-    return ~~_.find(unread,(c)=> c > 0)
+  getAnyUnread() {
+    const matches = this.getState().matches || {};
+    return Object.keys( matches ).reduce( ( acc, el, i ) => {
+        return matches[ el ].unread > 0
+    }, false)
   }
 
-  getAllMatches(){
-    const unread = this.getState().unreadCounts,
-          matches = this.getState().matches || [];
-    return matches.map((m,i) => {
-      m.unreadCount = unread[m.match_id] || 0
-      return m
-    })
+  getAllMatches() {
+    const matches = this.getState().matches || {};
+
+    const matcharray = Object.keys( matches ).map( ( m, i ) => matches[ m ] )
+
+    return orderMatches( matcharray )
   }
 
-  getAllFavorites(){
-    const unread = this.getState().unreadCounts,
-    matches = this.getState().matches || [];
-    return matches.filter((match) => match.isFavourited).map((m,i) => {
-      m.unreadCount = unread[m.match_id] || 0
-      return m
-    })
+  getAllFavorites() {
+
+    return []
+
   }
 
-  getMatchInfo(matchID){
-    let m = _.filter(this.getState().matches, (ma,i) => {
-      return ma.match_id == matchID || ma.id == matchID || ma.matchID == matchID
-    });
-    m[0].unreadCount = this.getState().unreadCounts[matchID] || 0
-    return m[0]
+  getMatchInfo( matchID ) {
+
+    const m = this.getState().matches || {};
+    return m[ matchID ] || {};
   }
 }
 
+function orderMatches( matches ) {
 
-// not used in this implementation:
+  const sortableMatches = matches;
 
- function orderMatches(matches){
-   var _threads = matches;
-
-    var orderedThreads = [];
-
-    for (var id in _threads) {
-      var thread = _threads[id];
-      orderedThreads.push(thread);
+  return sortableMatches.sort( function( a, b ) {
+    const aTime = a.recent_message.created_timestamp || a.created_timestamp
+    const bTime = b.recent_message.created_timestamp || b.created_timestamp
+    if ( aTime < bTime ) {
+      return 1;
+    } else if ( aTime > bTime ) {
+      return -1;
     }
-    // wrong formatting, rensmr lastMessage
-    orderedThreads.sort(function(a, b) {
-      const aTime = a.recent_message.created_timestamp || a.created_timestamp
-      const bTime = b.recent_message.created_timestamp || b.created_timestamp
-      if (aTime < bTime) {
-        return 1;
-      } else if (aTime > bTime) {
-        return -1;
-      }
-      return 0;
-    });
+    return 0;
+  });
 
-    return orderedThreads;
+}
 
-
-  }
-
-export default alt.createStore(MatchesStore, 'MatchesStore')
+export default alt.createStore( MatchesStore, 'MatchesStore' )
