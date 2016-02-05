@@ -53,6 +53,8 @@ export default class PrivacyPermissionsModal extends Component{
      AddressBook.checkPermission((err, permission) => {
        if(!err && permission === AddressBook.PERMISSION_AUTHORIZED){
          this.setState({ hasContactsPermissions: true })
+       }else if( permission === AddressBook.PERMISSION_DENIED){
+         this.setState({ hasContactsPermissions: false,failedStateContacts:true })
        }else{
          this.setState({ hasContactsPermissions: false })
        }
@@ -60,44 +62,63 @@ export default class PrivacyPermissionsModal extends Component{
   }
 
   componentDidUpdate(pProps,pState){
-    if(!pState.hasFacebookPermissions && this.state.hasFacebookPermissions && !pState.hasContactsPermissions && this.state.hasContactsPermissions){
+    if(this.state.hasFacebookPermissions && this.state.hasContactsPermissions && (!pState.hasFacebookPermissions || !pState.hasContactsPermissions )){
+      UserActions.updateUser({privacy:'private'})
+
       this.props.success && this.props.success()
       // this.props.navigator.pop()
     }
   }
 
   handleTapContacts(){
+    if(this.state.hasContactsPermissions) {
+        this.getContacts();
+    }else{
 
-    AddressBook.checkPermission((err, permission) => {
-      if(err){
-       //TODO:  handle err;
-      }
+      AddressBook.checkPermission((err, permission) => {
+        if(err){
+         //TODO:  handle err;
+        }
 
-     // AddressBook.PERMISSION_AUTHORIZED || AddressBook.PERMISSION_UNDEFINED || AddressBook.PERMISSION_DENIED
-     if(permission === AddressBook.PERMISSION_UNDEFINED){
-       this.getContacts();
-     }
-     if(permission === AddressBook.PERMISSION_AUTHORIZED){
-        this.getContacts()
-      }
-      if(permission === AddressBook.PERMISSION_DENIED){
-        // AppActions.denyPermission('contacts')
-        this.setState({failedStateContacts:true})
-      }
+       // AddressBook.PERMISSION_AUTHORIZED || AddressBook.PERMISSION_UNDEFINED || AddressBook.PERMISSION_DENIED
+       if(permission === AddressBook.PERMISSION_UNDEFINED){
+         this.getContacts();
+       }
+       if(permission === AddressBook.PERMISSION_AUTHORIZED){
+          this.getContacts()
+        }
+        if(permission === AddressBook.PERMISSION_DENIED){
 
-    })
+          this.setState({failedStateContacts:true})
+        }
+
+      })
+    }
   }
 
   getContacts(){
-    AddressBook.getContacts((err, contacts) => {
-      if (!err) {
-        UserActions.updateUser({privacy:'private'})
-        // UserActions.handleContacts.defer(contacts)
+    AddressBook.requestPermission((err, permission) => {
+    // AddressBook.getContacts((err, contacts) => {
+      console.log(err, permission)
+      if (!err ) {
+      //   UserActions.handleContacts.defer(contacts)
+        if(permission === AddressBook.PERMISSION_UNDEFINED){
+
+        }
+        if(permission === AddressBook.PERMISSION_AUTHORIZED){
+          this.setState({hasContactsPermissions:true})
+         }
+         if(permission === AddressBook.PERMISSION_DENIED){
+
+           this.setState({failedStateContacts:true,hasContactsPermissions:false})
+         }
+
         this.setState({hasContactsPermissions:true})
-
+      //
       }else{
+      //
         this.setState({hasContactsPermissions:false})
-
+      //
       }
     })
   }
