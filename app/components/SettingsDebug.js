@@ -12,6 +12,7 @@ import React, {
   Navigator
 }  from 'react-native';
 
+import AppTelemetry from '../AppTelemetry'
 import NotificationActions from '../flux/actions/NotificationActions'
 import MatchActions from '../flux/actions/MatchActions'
 import AppActions from '../flux/actions/AppActions'
@@ -27,16 +28,8 @@ class SettingsDebug extends React.Component{
       return (
           <ScrollView>
 
-            <TouchableHighlight
-              onPress={()=>{ AppActions.showCheckmark() }}
-              >
-              <View style={styles.wrapfield}>
 
-                <Text style={{color:colors.white}}>Checkmark</Text>
-                <Image source={{uri: 'assets/nextArrow@3x.png'}} />
-              </View>
-            </TouchableHighlight>
-
+          {/*  Receive fake Notification */}
             <TouchableHighlight
             onPress={()=>{
                require('RCTDeviceEventEmitter').emit('remoteNotificationReceived', {
@@ -86,8 +79,8 @@ class SettingsDebug extends React.Component{
               </TouchableHighlight>*/}
 
 
-
-              <TouchableHighlight
+          {/*  Potentials */}
+            <TouchableHighlight
               onPress={(f)=>{
                 MatchActions.getPotentials()
               }} >
@@ -97,25 +90,22 @@ class SettingsDebug extends React.Component{
               </View>
             </TouchableHighlight>
 
-
-
-            {/* <TouchableHighlight
+          {/*  Local Notification */}
+            <TouchableHighlight
               onPress={(f)=>{
-                NotificationActions.receiveNewMatchNotification({
-                  data: {
-                    alert:'New match!',
-                    type:'retrieve',
-                    message:'(Not real)',
-                    match_id: 100
-                  }
+                PushNotificationIOS.scheduleLocalNotification({
+                  fireDate: Date.now()+10000,
+                  alertBody: 'New Matches!',
+                  soundName: 'default'
                 })
               }} >
               <View style={styles.wrapfield}>
-                <Text style={{color:colors.white,}}>In-app New Match Notification</Text>
+                <Text style={{color:colors.white,}}>Schedule local notification in 10 seconds</Text>
                 <Image source={{uri: 'assets/nextArrow@3x.png'}} />
               </View>
-              </TouchableHighlight>*/}
+              </TouchableHighlight>
 
+          {/*  loading overlay */}
             <TouchableHighlight
               onPress={()=>{ AppActions.toggleOverlay() }} >
               <View style={styles.wrapfield}>
@@ -124,6 +114,39 @@ class SettingsDebug extends React.Component{
               </View>
             </TouchableHighlight>
 
+            {/*  Show telemetry */}
+              <TouchableHighlight
+                onPress={(f)=>{
+                  AppTelemetry.getPayload()
+                  .then((telemetry)=>{
+                    this.props.navigator.push({
+                      component: EmptyPage,
+                      passProps: {
+                        renderProps: telemetry
+                      }
+                    })
+                  })
+                  .catch((err)=>{
+                    console.error(err)
+                  })
+
+                }} >
+                <View style={styles.wrapfield}>
+                  <Text style={{color:colors.white,}}>Show telemetry json</Text>
+                  <Image source={{uri: 'assets/nextArrow@3x.png'}} />
+                </View>
+              </TouchableHighlight>
+
+            {/*  show checkmark */}
+              <TouchableHighlight
+                onPress={()=>{ AppActions.showCheckmark() }}
+                >
+                <View style={styles.wrapfield}>
+
+                  <Text style={{color:colors.white}}>Checkmark</Text>
+                  <Image source={{uri: 'assets/nextArrow@3x.png'}} />
+                </View>
+              </TouchableHighlight>
 
 
           </ScrollView>
@@ -138,6 +161,30 @@ class SettingsDebug extends React.Component{
 }
 
 export default SettingsDebug
+
+
+class EmptyPage extends React.Component{
+  constructor(props){
+    super()
+  }
+  render(){
+    const {renderProps} = this.props
+    console.log(renderProps)
+    return (
+      <ScrollView>
+        {Object.keys(renderProps).map((prop,i)=>{
+            return (
+              <View key={`debug${i}`}>
+                <Text style={{color:colors.sushi,marginBottom:10}}>{prop}</Text>
+                <Text style={{color:colors.white,marginBottom:20}}>{
+                    JSON.stringify(renderProps[prop])
+                }</Text>
+              </View>)
+          })}
+      </ScrollView>
+    )
+  }
+}
 
 
 const styles = StyleSheet.create({
