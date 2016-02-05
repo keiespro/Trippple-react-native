@@ -7,6 +7,7 @@ import React, {
   Animated,
   ActivityIndicatorIOS,
   Dimensions,
+  AppStateIOS,
   NativeModules
 } from 'react-native';
 
@@ -24,6 +25,8 @@ import CardStack from './potentials/CardStack'
 import styles from './potentials/styles'
 import NotificationPermissions from '../modals/NotificationPermissions'
 import MatchActions from '../flux/actions/MatchActions'
+import TimerMixin from 'react-timer-mixin'
+import reactMixin from 'react-mixin'
 
 class Potentials extends React.Component{
   constructor(props){
@@ -59,13 +62,30 @@ class PotentialsPage extends React.Component{
     super()
     this.state = {
       didShow: false,
-      profileVisible: false
+      profileVisible: false,
+      showPotentials: true,
+      currentAppState: AppStateIOS.currentState
     }
   }
   toggleProfile(){
     this.setState({profileVisible: !this.state.profileVisible})
   }
+  _handleAppStateChange(currentAppState){
+    console.log('currentAppState',currentAppState)
+    if(currentAppState == 'active'){
+      this.setState({ currentAppState, showPotentials: false});
+      this.setTimeout(()=>{
+        this.setState({ showPotentials: true});
+
+      },1000);
+    }else{
+      this.setState({ currentAppState,showPotentials: false });
+
+    }
+
+  }
   componentDidMount(){
+    AppStateIOS.addEventListener('change', this._handleAppStateChange.bind(this));
 
     if(this.props.user.status == 'onboarded'){
       MatchActions.getPotentials.defer();
@@ -91,7 +111,10 @@ class PotentialsPage extends React.Component{
     }
 
   }
+  componentWillUnmount(){
+    AppStateIOS.removeEventListener('change', this._handleAppStateChange.bind(this));
 
+  }
   getPotentialInfo(){
 
     if(!this.props.potentials[0]){ return false}
@@ -129,12 +152,12 @@ class PotentialsPage extends React.Component{
              top: this.state.profileVisible ? 25 : 55
            }]}>
 
-           { potentials.length ?
+           { potentials.length && this.state.showPotentials ?
 
             <CardStack
               user={user}
               rel={user.relationship_status}
-              potentials={potentials}
+              potentials={ potentials}
               navigator={this.props.navigator}
               profileVisible={this.state.profileVisible}
               toggleProfile={this.toggleProfile.bind(this)}
@@ -180,6 +203,7 @@ class PotentialsPage extends React.Component{
     )
   }
 }
+reactMixin.onClass(PotentialsPage,TimerMixin)
 
 
 

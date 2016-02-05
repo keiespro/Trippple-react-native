@@ -161,14 +161,19 @@ class MatchesStore {
         allmatches = matchesHash;
       } else {
         const matchesHash = matches.reduce( ( acc, el, i ) => {
-          if(!this.state.matches[el.match_id]){
+          if(!this.state.matches[el.match_id] || this.state.matches[el.match_id].lastAccessed < this.state.matches[el.match_id].recent_message.created_timestamp * 1000){
+            console.log('DID NOT EXIST');
             MatchActions.getMessages.defer(el.match_id);
-            if (el.recent_message && el.recent_message.from_user_info && el.recent_message.from_user_info.id && (el.recent_message.from_user_info.id != user.id && ( el.recent_message.created_timestamp * 1000 > el.lastAccessed )) ){
+            if (el.unread == 0 && el.recent_message && el.recent_message.from_user_info && el.recent_message.from_user_info.id && (el.recent_message.from_user_info.id != user.id && ( el.recent_message.created_timestamp * 1000 > el.lastAccessed )) ){
+              el.unread = 1
+            }
+          }else{
+            el.unread = this.state.matches[el.match_id] ? this.state.matches[el.match_id].unread : 0;
+            if (el.unread == 0 && el.recent_message && el.recent_message.from_user_info && el.recent_message.from_user_info.id && (el.recent_message.from_user_info.id != user.id && ( el.recent_message.created_timestamp * 1000 > el.lastAccessed )) ){
               el.unread = 1
             }
           }
           el.lastAccessed = el.lastAccessed || this.state.mountedAt;
-          el.unread = this.state.matches[el.match_id] ? this.state.matches[el.match_id].unread : 0;
 
           acc[ el.match_id ] = el
           return acc
@@ -198,7 +203,7 @@ class MatchesStore {
       matches[ match_id ].lastAccessed = this.state.mountedAt
     }
 
-    let count = 0;
+    let count = matches[ match_id ].unread;
     for ( var msg of message_thread ) {
       if ( msg.from_user_info.id == user.id || !msg.created_timestamp ) {return false;}
       if ( matches[ match_id ].lastAccessed < msg.created_timestamp * 1000 ) {

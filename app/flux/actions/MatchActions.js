@@ -141,7 +141,13 @@ class MatchActions {
       Api.sendLike(likedUserID, likeStatus,likeUserType,rel_status)
       .then((res)=>{
           dispatch({likedUserID,likeStatus});
-      }).catch((x)=>{ /*op?*/})
+      })
+      .catch((x)=>{
+        console.log('like error',x,likedUserID, likeStatus, likeUserType, rel_status);
+        this.removePotential.defer();
+
+        dispatch(x)
+      })
     };
   }
 

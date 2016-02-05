@@ -11,6 +11,7 @@ import React, {
   StyleSheet,
   Text,
   View,
+  AppStateIOS,
   LayoutAnimation,
   TouchableHighlight,
   Image,
@@ -43,7 +44,8 @@ class CardStack extends React.Component{
         a:new Animated.Value(-DeviceHeight),
         b:new Animated.Value(-DeviceHeight),
         c:new Animated.Value(-DeviceHeight),
-      }
+      },
+      appState: AppStateIOS.currentState
     }
   }
   componentWillMount(){
@@ -51,7 +53,22 @@ class CardStack extends React.Component{
     Mixpanel.track('On - Potentials Screen');
 
   }
+  _handleAppStateChange(currentAppState){
+
+    if(currentAppState == 'active'){
+      // this.setState({ currentAppState, });
+      console.log(this._actionlistener)
+    }else{
+
+      AppStateIOS.removeEventListener('change', this._handleAppStateChange.bind(this));
+    }
+      // this.setState({ currentAppState, animatedIn:false});
+
+
+
+  }
   componentDidMount(){
+    AppStateIOS.addEventListener('change', this._handleAppStateChange.bind(this));
 
     Animated.stagger(300,[
       Animated.spring(this.state.offsetY.c,{
@@ -75,23 +92,37 @@ class CardStack extends React.Component{
 
     })
   }
+  componentWillUnmount(){
+    AppStateIOS.removeEventListener('change', this._handleAppStateChange.bind(this));
+
+  }
   componentWillReceiveProps(nProps){
-    if(nProps && this.state.animatedIn && this.props.potentials[0].user.id != nProps.potentials[0].user.id ){
+    if(nProps && this.state.animatedIn && this.props.potentials && this.props.potentials[0].user.id != nProps.potentials[0].user.id ){
         this.state.pan.setValue({x: 0, y: 0});
         // this.initializePanResponder()
     }
+    if(nProps && !this.state.animatedIn && !nProps.potentials.length ){
+        this.state.offsetY.a.setValue( -DeviceHeight);
+        this.state.offsetY.b.setValue( -DeviceHeight);
+        this.state.offsetY.c.setValue( -DeviceHeight);
+        // this.initializePanResponder()
+    }
+
+    this.setState({interactedWith:null})
 
 
   }
 
   componentDidUpdate(pProps,prevState){
-    if(!prevState.animatedIn && this.state.animatedIn){
+    if(!this.state.animatedIn && this.state.animatedIn){
       this.initializePanResponder()
+
     }
-    if( pProps.potentials[0].user.id != this.props.potentials[0].user.id){
+    if( pProps.potentials && pProps.potentials.length && pProps.potentials[0].user.id != this.props.potentials[0].user.id){
       LayoutAnimation.configureNext(animations.layout.spring);
 
     }
+
 
   }
 
@@ -129,58 +160,71 @@ class CardStack extends React.Component{
 
         // animate back to center or off screen left or off screen right
         if (dx > SWIPE_THRESHOLD_APPROVE || dx > THROW_THRESHOLD_APPROVE && Math.abs(vx) > THROW_SPEED_THRESHOLD){
-          toValue = 600;
-          velocity = {x: vx, y: vy}
+          toValue = 500;
+          velocity = {x: vx*2, y: vy}
         }else if(dx < SWIPE_THRESHOLD_DENY || dx < THROW_THRESHOLD_DENY && Math.abs(vx) > THROW_SPEED_THRESHOLD){
-          toValue = -600;
-          velocity = {x: vx, y: vy}
+          toValue = -500;
+          velocity = {x: vx*2, y: vy}
+        }else{
+          console.log('ELSE')
         }
 
 
-        Animated.spring(this.state.pan, {
-          toValue,
-          velocity,       // maintain gesture velocity
-          tension: 60,
-          friction: 4,
-        }).start((result)=>{
-          if(!result.finished){
 
-          }
-        });
-
-        this._actionlistener = this.state.pan.addListener((value) => {
+       this.state.pan.addListener((value) => {
           const likeUserId = this.props.potentials[0].user.id;
-          if(!value || !value.x ){ return false }
+
+          // if(!value || !value.x ){ return false }
           const likeStatus = value.x > 0 ? 'approve' : 'deny';
-
+          // console.log(value.x,Math.abs(Math.floor(value.x)))
           // when the card reaches the throw out threshold, send like
-          if (Math.abs(value.x) >= 420) {
+          // console.log('this.state.pan.xthis.state.pan.x',this.state.pan.x)
 
-            // if(this.state.pan && this._actionlistener && this.state.pan._listeners[this._actionlistener]){
-              // this.state.pan.removeListener(this._actionlistener);
-              //
-               // this.state.pan.x.removeListener(this.state.pan._listeners[this._actionlistener]);
+          let v = Math.abs(Math.ceil(value.x))
+          if ( v == 500) {
 
-            // }
-            if(this.state.interactedWith != likeUserId ){
+            MatchActions.removePotential(likeUserId);
+
+            if(this.state.interactedWith != likeUserId && this.state.interactedWith != `${likeUserId}settled`){
                 MatchActions.sendLike(
                 likeUserId,
                 likeStatus,
                 (this.props.rel == 'single' ? 'couple' : 'single'),
                 this.props.rel
               );
+              console.log('liked',
+              likeUserId,
+              likeStatus,
+              (this.props.rel == 'single' ? 'couple' : 'single'),
+              this.props.rel)
+
+              // this.setState({interactedWith:likeUserId,likedUsers:[...this.state.likedUsers,likedUserID]})
 
               this.setState({interactedWith:likeUserId})
-              this.state.pan && this.state.pan.x &&  this.state.pan.x._listeners.length && this.state.pan.x.removeAllListeners()
-
-            }else{
-              this.setState({interactedWith:likeUserId})
-              MatchActions.removePotential(likeUserId);
-              this.state.pan && this.state.pan.x &&  this.state.pan.x._listeners.length && this.state.pan.x.removeAllListeners()
+            }else if(this.state.interactedWith == likeUserId && this.state.interactedWith != `${likeUserId}settled`){
+                // MatchActions.removePotential(likeUserId);
+                this.setState({interactedWith:`${likeUserId}settled`})
+                console.log('remove')
 
             }
+              if(this.state.pan.x._listeners.length){
+                this.state.pan.x.removeAllListeners();
+                this.state.pan.x.removeListener(this._actionlistener)
+            }
+
           }
         })
+        Animated.spring(this.state.pan, {
+          toValue,
+          velocity,       // maintain gesture velocity
+          tension: 60,
+          friction: 3,
+        }).start((result)=>{
+          if(!result.finished){
+
+          }
+        });
+
       }
     })
   }

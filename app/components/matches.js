@@ -133,7 +133,7 @@ class MatchList extends Component{
        * this deals with test bucket urls
        * but not very maintainable
        */
-var matchImage;
+      var matchImage;
       var img = thumb;//(thumb_url && typeof thumb_url === 'string' ? thumb_url : image_url);
       if(img && img.includes('test')){
         var u = img;

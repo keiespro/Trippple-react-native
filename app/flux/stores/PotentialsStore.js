@@ -62,7 +62,7 @@ class PotentialsStore {
     p.unshift();
     this.setState({
       potentials: p,
-      blockedPotentials: [...this.state.blockedPotentials, p.id]
+      blockedPotentials: [...this.state.blockedPotentials, id]
     })
 
   }
