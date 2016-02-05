@@ -28,10 +28,10 @@ async function baseRequest(endpoint: '', payload: {}){
         throw new Error()
     }
     let response = await res.json()
-    console.log(response)
+    response.res = res
     return response
   }catch(err){
-    console.error(err)
+    // console.error(res,err)
 
     return {error: err,status:res.status}
   }
@@ -192,13 +192,13 @@ const api = {
     }
 
     let res = await fetch( `${SERVER_URL}/telemetry`, params)
-    console.log(res)
+    // console.log(res)
     try{
       if(!res.json && res.status == 401){
           throw new Error()
       }
       let response = await res.json()
-      console.log(response)
+      // console.log(response)
       return response
     }catch(err){
       console.error(err)
