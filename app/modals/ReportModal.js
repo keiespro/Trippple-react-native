@@ -38,71 +38,68 @@ export default class ReportModal extends Component{
   report(them, reason){
 
     MatchActions.reportUser(them && them.id ? them : them[0], reason)
-    MatchActions.removePotential.defer()
-    this.props.goBack();
+    this.props.goBack(them && them.id ? them : them[0]);
 
   }
 
   render(){
+    var them = [];
     if(this.props.match){
       const {match} = this.props
       const theirIds = Object.keys(match.users).filter( (u)=> u != this.props.user.id)
-      const them = theirIds.map((id)=> match.users[id])
+       them = theirIds.map((id)=> match.users[id])
     }else{
-      const {potential} = this.props,
-          them = [potential.user,potential.partner]
+      const {potential} = this.props;
+       them = [potential.user, potential.partner];
     }
     const matchName = them.map( (user,i) => user.firstname.trim().toUpperCase() ).join(' & ');
 
     return (
-      <PurpleModal>
+        <PurpleModal>
 
-        <View style={[styles.col,styles.fullWidth]}>
+            <View style={[styles.col,styles.fullWidth]}>
 
-          <View style={[styles.insidemodalwrapper,{justifyContent:'space-between'}]}>
+                <View style={[styles.insidemodalwrapper,{justifyContent:'space-between'}]}>
 
 
-            <Text style={[styles.rowtext,styles.bigtext,{
-                fontFamily:'Montserrat',fontSize:20,marginVertical:10
-              }]}>REPORT {matchName}</Text>
+                  <Text style={[styles.rowtext,styles.bigtext,{
+                  fontFamily:'Montserrat',fontSize:20,marginVertical:10
+                  }]}>REPORT {matchName}</Text>
 
-            <Text style={[styles.rowtext,styles.bigtext,{
-                fontSize:20,marginVertical:10,color: colors.shuttleGray,marginHorizontal:10
-              }]}>
-              Is this person bothering you?
-              Tell us what they did.
-            </Text>
+                  <Text style={[styles.rowtext,styles.bigtext,{
+                  fontSize:20,marginVertical:10,color: colors.shuttleGray,marginHorizontal:10
+                  }]}>Is this person bothering you? Tell us what they did.</Text>
 
-              <View style={{marginTop:30,alignSelf:'stretch'}}>
-                <TouchableHighlight
-                  style={styles.modalButtonWrap}
-                  underlayColor={colors.mediumPurple}
-                  onPress={this.report.bind(this,them,'image')}>
-                  <View style={styles.modalButton} >
-                    <Text style={styles.modalButtonText}>OFFENSIVE BEHAVIOR</Text>
+                  <View style={{marginTop:30,alignSelf:'stretch'}}>
+                      <TouchableHighlight
+                      style={styles.modalButtonWrap}
+                      underlayColor={colors.mediumPurple}
+                      onPress={()=>{this.report(them,'image')}}>
+                          <View style={styles.modalButton} >
+                              <Text style={styles.modalButtonText}>OFFENSIVE BEHAVIOR</Text>
+                          </View>
+                      </TouchableHighlight>
+                      <TouchableHighlight
+                      underlayColor={colors.mediumPurple}
+                      style={styles.modalButtonWrap}
+                      onPress={()=>{this.report(them,'fake')}}>
+                          <View style={[styles.modalButton]} >
+                              <Text style={styles.modalButtonText}>FAKE USER</Text>
+                          </View>
+                      </TouchableHighlight>
+                      <TouchableHighlight
+                      underlayColor={colors.mediumPurple}
+                      style={styles.modalButtonWrap}
+                      onPress={()=>{this.props.goBack()}}>
+                          <View style={[styles.modalButton,styles.cancelButton]} >
+                              <Text style={styles.modalButtonText}>CANCEL</Text>
+                          </View>
+                      </TouchableHighlight>
                   </View>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  underlayColor={colors.mediumPurple}
-                  style={styles.modalButtonWrap}
-                  onPress={this.report.bind(this,them,'fake')}>
-                  <View style={[styles.modalButton]} >
-                    <Text style={styles.modalButtonText}>FAKE USER</Text>
-                  </View>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  underlayColor={colors.mediumPurple}
-                  style={styles.modalButtonWrap}
-                  onPress={this.props.goBack}>
-                  <View style={[styles.modalButton,styles.cancelButton]} >
-                    <Text style={styles.modalButtonText}>CANCEL</Text>
-                  </View>
-                </TouchableHighlight>
+
               </View>
 
           </View>
-
-        </View>
       </PurpleModal>
 
     )

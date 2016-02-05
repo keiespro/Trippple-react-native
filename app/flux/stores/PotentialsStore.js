@@ -13,11 +13,13 @@ class PotentialsStore {
 
     this.potentials = []
     this.hasSentAnyLikes = false
+    this.blockedPotentials = []
 
     this.bindListeners({
       handleGetPotentials: MatchActions.GET_POTENTIALS,
       handleSentLike: MatchActions.SEND_LIKE,
-      handleLogout: UserActions.LOG_OUT
+      handleLogout: UserActions.LOG_OUT,
+      handleRemovePotential: MatchActions.REMOVE_POTENTIAL
     });
 
     this.on('init', () => {
@@ -60,6 +62,7 @@ class PotentialsStore {
     p.unshift();
     this.setState({
       potentials: p,
+      blockedPotentials: [...this.state.blockedPotentials, p.id]
     })
 
   }
@@ -88,7 +91,8 @@ class PotentialsStore {
   }
 
   getAll(){
-    return this.getState().potentials;
+    const {blockedPotentials, potentials} = this.getState()
+    return _.filter(potentials, (p)=> blockedPotentials.indexOf(p.id));
   }
 
 }

@@ -121,7 +121,7 @@ class MatchActions {
     return (dispatch) => {
       Api.reportUser(user.id, (user.relationship_status ? 'single' : 'couple'), reason)
       .then((res)=> {
-        if(res.status == true){
+        if(res.status == 200){
           AlertIOS.alert('User reported.')
           dispatch({ user_id: user.id, reason, user})
         }else{

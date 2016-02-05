@@ -33,7 +33,7 @@ import {MagicNumbers} from '../../DeviceConfig'
 import scrollable from 'react-native-scrollable-decorator'
 import UserDetails from '../../UserDetails'
 import reactMixin from 'react-mixin'
-
+import MatchActions from '../../flux/actions/MatchActions'
 const cardSizeMap = {
 
 }
@@ -100,9 +100,15 @@ class Card extends React.Component{
       passProps: {
         action: 'report',
         potential: this.props.potential,
-        goBack: ()=> {
-          this.props.navigator.pop()
-          this.props.toggleProfile()
+        goBack: (them)=> {
+          this.props.navigator.pop();
+          if(them){
+            MatchActions.removePotential.defer(them.id);
+            MatchActions.sendLike.defer(
+              them.id, 'deny', (this.props.rel == 'single' ? 'couple' : 'single'), this.props.rel
+            );
+            this.props.toggleProfile()
+          }
         }
       }
     })
