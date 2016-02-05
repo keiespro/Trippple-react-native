@@ -18,7 +18,7 @@ class MatchesStore {
       matches: {},
       favorites: [],
       removedMatches:[],
-      mountedAt: Date.now() ,
+      mountedAt: Date.now() - 36000 ,
     }
 
     this.exportPublicMethods({
@@ -107,7 +107,7 @@ class MatchesStore {
       timestamp
     } = payload;
     const m = this.state.matches[ match_id ]
-    m.lastAccessed = timestamp;//Date.now()
+    m.lastAccessed = timestamp - 6000;//Date.now()
     m.unread = 0
     const matches = this.state.matches
     matches[ match_id ] = m
@@ -151,7 +151,9 @@ class MatchesStore {
       if ( !Object.keys( this.state.matches ).length ) {
         // first batch of matches
         const matchesHash = matches.reduce( ( acc, el, i ) => {
-          el.lastAccessed = Date.now()
+          el.lastAccessed = 0
+          MatchActions.getMessages.defer(el.match_id);
+
           el.unread = 0; //el.recent_message.created_timestamp*1000 > el.lastAccessed ? 1 : 0;
 
 
@@ -164,6 +166,8 @@ class MatchesStore {
           if(!this.state.matches[el.match_id] || this.state.matches[el.match_id].lastAccessed < this.state.matches[el.match_id].recent_message.created_timestamp * 1000){
             console.log('DID NOT EXIST');
             MatchActions.getMessages.defer(el.match_id);
+            el.lastAccessed =   0;
+
             if (el.unread == 0 && el.recent_message && el.recent_message.from_user_info && el.recent_message.from_user_info.id && (el.recent_message.from_user_info.id != user.id && ( el.recent_message.created_timestamp * 1000 > el.lastAccessed )) ){
               el.unread = 1
             }
@@ -173,7 +177,7 @@ class MatchesStore {
               el.unread = 1
             }
           }
-          el.lastAccessed = el.lastAccessed || this.state.mountedAt;
+          el.lastAccessed = el.lastAccessed || 0;
 
           acc[ el.match_id ] = el
           return acc
@@ -200,10 +204,10 @@ class MatchesStore {
           user = UserStore.getUser();
 
     if ( !matches[ match_id ].lastAccessed ) {
-      matches[ match_id ].lastAccessed = this.state.mountedAt
+      matches[ match_id ].lastAccessed = 0
     }
 
-    let count = matches[ match_id ].unread;
+    let count = matches[ match_id ].unread || 0;
     for ( var msg of message_thread ) {
       if ( msg.from_user_info.id == user.id || !msg.created_timestamp ) {return false;}
       if ( matches[ match_id ].lastAccessed < msg.created_timestamp * 1000 ) {
@@ -211,15 +215,16 @@ class MatchesStore {
       }
     }
 
-    // if ( matches[ match_id ].recent_message.from_user_info.id != user.id && count == 0 && matches[ match_id ].lastAccessed < matches[ match_id ].recent_message.created_timestamp * 1000 ) {
-    //   count = 1
-    // }
+    if (count== 0 && matches[ match_id ].recent_message.from_user_info.id != user.id && count == 0 && matches[ match_id ].lastAccessed < matches[ match_id ].recent_message.created_timestamp * 1000 ) {
+      count = 1
+    }
     const thread = matches[ match_id ].message_thread || [];
 
     const newThread = [ ...thread, ...message_thread ];
 
     matches[ match_id ].message_thread = newThread;
-    matches[ match_id ].unread = ( matches[ match_id ].unread || 0 ) + count;
+    console.log(new Date(matches[ match_id ].lastAccessed),matches[ match_id ].unread,count)
+    matches[ match_id ].unread = parseInt( matches[ match_id ].unread || 0 ) + count;
 
     this.setState({ matches })
   }
