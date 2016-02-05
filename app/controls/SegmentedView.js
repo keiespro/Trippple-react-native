@@ -30,14 +30,10 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     barContainer: {
-        height: 4,
+        height: 0,
+        overflow:'hidden',
         position: 'relative',
     },
-    bar: {
-        backgroundColor: 'blue',
-        position: 'absolute',
-        height: 4,
-    }
 });
 
 

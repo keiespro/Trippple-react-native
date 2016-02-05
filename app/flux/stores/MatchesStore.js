@@ -17,6 +17,7 @@ class MatchesStore {
     this.state = {
       matches: {},
       favorites: [],
+      removedMatches:[],
       mountedAt: Date.now() - 36600,
     }
 
@@ -82,14 +83,16 @@ class MatchesStore {
   }
 
   removeMatch( matchID ) {
-    const {
-      matches
-    } = this.state
+    const { matches } = this.state
     matches[ matchID ] = null
     delete matches[ matchID ]
+
     this.setState({
-      matches
+      matches,
+      removedMatches: [...this.state.removedMatches, matchID]
     });
+    this.save();
+
   }
 
   handleReportUser( payload ) {
@@ -229,10 +232,10 @@ class MatchesStore {
 
   getAllMatches() {
     const matches = this.getState().matches || {};
-
+    const removedMatches = this.getState().removedMatches || [];
     const matcharray = Object.keys( matches ).map( ( m, i ) => matches[ m ] )
-
-    return orderMatches( matcharray )
+    const ma2 = _.reject(matcharray, (m) =>{ return removedMatches.indexOf(m.match_id) >= 0 })
+    return orderMatches( ma2 )
   }
 
   getAllFavorites() {

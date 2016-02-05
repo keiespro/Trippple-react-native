@@ -48,61 +48,32 @@ const SwipeoutBtn = React.createClass({
         alignSelf: btn.component ? 'flex-end': 'flex-start', flex:1 }}>
      {
                 btn.component ?
-              <View style={styles.swipeButtons}>
-                <View style={{height, width,
-                    alignItems:'center',top:0,left:0,bottom:0,position:'absolute',right:0, paddingVertical:40,backgroundColor: 'transparent'}}>
-                   <Animated.Image
-                     style={{
-                       alignSelf:'center',
-                      tintColor: colors.dandelion ,
-                      width:15,height:20,
-                      transform:[
-                        {
-                          scale: offsetX.interpolate({
-                            inputRange:   [-BTNTHRESHOLD, -BTNWIDTH, -25, 0.0],
-                            outputRange: scaleOutputRange[~~isFavourited],
-                          })
-                        },
-                        {rotate:'0deg'}
-                      ],
-                      opacity: offsetX.interpolate({
-                        inputRange:   [-BTNTHRESHOLD, -BTNWIDTH, 0, BTNWIDTH],
-                        outputRange:  opacityOutputRange[~~!isFavourited],
-                       })
-                     }}
-                     source={{uri: 'assets/star@3x.png'}}
-                     resizeMode={Image.resizeMode.contain}
-                   />
-                 </View>
-                 <View style={{height, width,
-                     alignItems:'center',top:0,left:0,bottom:0,position:'absolute',right:0, paddingVertical:40,backgroundColor:'transparent' }}>
-                   <Animated.Image
-                     style={{
-                      alignSelf:'center',
-                      width:15,height:20,
-                      tintColor: isFavourited ? colors.dandelion   : 'transparent',
-                      transform:[
-                        {
-                          scale: offsetX.interpolate({
-                            inputRange:   [-BTNTHRESHOLD, -BTNWIDTH, -25, 0.0],
-                            outputRange: scaleOutputRange[~~isFavourited],
-                          })
-                        },
-                        {rotate:'0deg'}
-                      ],
+                <View style={styles.swipeButtons}>
+                  <View style={{height, width, alignItems:'center',top:0,left:0,bottom:0,position:'absolute',right:0, paddingVertical:30,backgroundColor: 'transparent'}}>
+                    <Animated.Image
+                      source={{uri: 'assets/iconDeny@3x.png'}}
+                      resizeMode={Image.resizeMode.contain}
 
-                      opacity: offsetX.interpolate({
-                         inputRange:   [-BTNTHRESHOLD, -BTNWIDTH, 0, BTNWIDTH],
-                         outputRange:  opacityOutputRange[~~isFavourited],
-                     })
-                       }}
-
-                     source={{uri: 'assets/starOutline@3x.png'}}
-                     resizeMode={Image.resizeMode.contain}
-                   />
-                 </View>
-               </View>
-               :
+                      style={[ {
+                        tintColor:offsetX.interpolate({
+                          inputRange:  [-width,-60,0,50],
+                          outputRange:['rgba(232,74,107,1.0)','rgba(232,74,107,0.2)','rgba(232,74,107,0.1)','rgba(232,74,107,0.0)']
+                                      }),
+                        width:30,height:30,
+                       transform:[
+                          {
+                            translateX: offsetX.interpolate({
+                                            inputRange:  [-width,-60,-50,50],
+                                            outputRange: [-5,-10,-20, -20]
+                                          }),
+                            scale: offsetX.interpolate({
+                              inputRange:  [-width,-60,-50,50],
+                                              outputRange: [ 1.9, 1.25, 1.5,   1.5],
+                            })
+                          },
+                        ]
+                      }]}/></View>
+                  </View> :
                <View style={[styles.swipeButtons,{
                  alignItems:'center',justifyContent:'center',width,height
                }]}>
@@ -364,3 +335,63 @@ const styles = StyleSheet.create({
     backgroundColor: '#fd9427'
   },
 })
+
+
+
+
+
+//
+// <View style={styles.swipeButtons}>
+//   <View style={{height, width,
+//       alignItems:'center',top:0,left:0,bottom:0,position:'absolute',right:0, paddingVertical:40,backgroundColor: 'transparent'}}>
+//      <Animated.Image
+//        style={{
+//          alignSelf:'center',
+//         tintColor: colors.dandelion,
+//         width:15,height:20,
+//         transform:[
+//           {
+//             scale: offsetX.interpolate({
+//               inputRange:   [-BTNTHRESHOLD, -BTNWIDTH, -25, 0.0],
+//               outputRange: scaleOutputRange[~~isFavourited],
+//             })
+//           },
+//           {rotate:'0deg'}
+//         ],
+//         opacity: offsetX.interpolate({
+//           inputRange:   [-BTNTHRESHOLD, -BTNWIDTH, 0, BTNWIDTH],
+//           outputRange:  opacityOutputRange[~~!isFavourited],
+//          })
+//        }}
+//        source={{uri: 'assets/star@3x.png'}}
+//        resizeMode={Image.resizeMode.contain}
+//      />
+//    </View>
+//    <View style={{height, width,
+//        alignItems:'center',top:0,left:0,bottom:0,position:'absolute',right:0, paddingVertical:40,backgroundColor:'transparent' }}>
+//      <Animated.Image
+//        style={{
+//         alignSelf:'center',
+//         width:15,height:20,
+//         tintColor: isFavourited ? colors.dandelion   : 'transparent',
+//         transform:[
+//           {
+//             scale: offsetX.interpolate({
+//               inputRange:   [-BTNTHRESHOLD, -BTNWIDTH, -25, 0.0],
+//               outputRange: scaleOutputRange[~~isFavourited],
+//             })
+//           },
+//           {rotate:'0deg'}
+//         ],
+//
+//         opacity: offsetX.interpolate({
+//            inputRange:   [-BTNTHRESHOLD, -BTNWIDTH, 0, BTNWIDTH],
+//            outputRange:  opacityOutputRange[~~isFavourited],
+//        })
+//          }}
+//
+//        source={{uri: 'assets/starOutline@3x.png'}}
+//        resizeMode={Image.resizeMode.contain}
+//      />
+//    </View>
+//  </View>

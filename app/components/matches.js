@@ -17,6 +17,7 @@ Component,
  Navigator,
  Dimensions,
  RefreshControl,
+ Alert,
  ScrollView
 } from 'react-native'
 
@@ -105,7 +106,19 @@ class MatchList extends Component{
   actionModal(match){
       this.props.chatActionSheet(match)
   }
-
+  unmatch(rowData){
+    Alert.alert(
+      'Remove this match?',
+      'Do you want to remove this match?',
+      [
+        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: 'OK', onPress: () => {
+          MatchActions.unMatch(rowData.match_id);
+          MatchActions.removeMatch.defer(rowData.match_id);
+        } },
+      ],
+    );
+  }
   _renderRow(rowData, sectionID, rowID){
     console.log(rowData)
     const myId = this.props.user.id,
@@ -147,7 +160,7 @@ var matchImage;
           [{
             threshold: 200,
             component: true,
-            action: this.toggleFavorite.bind(this,rowData),
+            action: this.unmatch.bind(this,rowData),
             backgroundColor: rowData.isFavourited ? colors.dandelion : colors.dark,
           }]
         }
@@ -261,15 +274,14 @@ var matchImage;
     return (
       <View style={[styles.container,{
       }]}>
-      <View style={{height:50,
+      <View style={{height:0,
 
       }}>
 
           <SegmentedView
-            barPosition={'bottom'}
             style={{backgroundColor: colors.dark}}
             barColor={colors.mediumPurple}
-            titles={['ALL', 'FAVORITES']}
+            titles={['','']/*['ALL', 'FAVORITES']*/}
             index={this.state.index}
             titleStyle={{
               fontFamily: 'Montserrat',

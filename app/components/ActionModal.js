@@ -112,7 +112,7 @@ class ActionModal extends Component{
     var {isVisible} = this.props
     var theirIds = Object.keys(this.props.currentMatch.users).filter( (u)=> u != this.props.user.id)
     var them = theirIds.map((id)=> this.props.currentMatch.users[id])
-
+    console.warn('x',JSON.stringify(this.props.currentMatch));
     var img_url = them[0].image_url
     var matchName = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },'')
     return (
@@ -146,7 +146,15 @@ class ActualModal extends Component{
   }
   render(){
     const {img_url,them,matchName,theirIds,isVisible,user} = this.props
-
+    var matchImage;
+          var img = img_url;//(thumb_url && typeof thumb_url === 'string' ? thumb_url : image_url);
+          if(img && img.includes('test')){
+            var u = img;
+            var x = u.split('/test/')[0].split('uploads') + u.split('test')[1];
+            matchImage = x.split('/images')[0] + x.split('/images')[1]
+          }else{
+            matchImage = +'';
+          }
     if(isVisible){
       return (
         <Modal
@@ -161,7 +169,8 @@ class ActualModal extends Component{
               <Image
                 style={styles.userimage}
                 key={this.props.currentMatch.match_id}
-                source={img_url ? {uri: img_url} : {uri: 'assets/placeholderUser@3x.png'}}
+                source={ {uri: matchImage} }
+                defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
                 resizeMode={Image.resizeMode.cover}
               />
               <Text style={{color:colors.white,fontFamily:'Montserrat-Bold',fontSize:18}}>
@@ -208,7 +217,7 @@ class ActualModal extends Component{
 
               </View>
 
-              <TouchableHighlight
+      {/*        <TouchableHighlight
                 style={[styles.clearButton,styles.modalButton]}
                 underlayColor={colors.mediumPurple}
                 onPress={()=>{
@@ -220,7 +229,7 @@ class ActualModal extends Component{
                   </Text>
                 </View>
               </TouchableHighlight>
-
+*/}
               <TouchableHighlight
                 style={[styles.clearButton,styles.modalButton,{borderColor:colors.mediumPurple,backgroundColor:colors.mediumPurple20}]}
                 underlayColor={colors.mediumPurple}

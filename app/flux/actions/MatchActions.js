@@ -7,7 +7,10 @@ class MatchActions {
   removeMatch(matchID){
     return matchID
   }
+  removePotential(p){
+    return p || true
 
+  }
   getMatches(page) {
     return (dispatch) => {
       Api.getMatches(page || 0)
