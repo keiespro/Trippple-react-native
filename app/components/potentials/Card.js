@@ -64,7 +64,7 @@ class Card extends React.Component{
   //   this.props.pan && this.props.isTopCard && this.valueListener()
   // }
   openProfileFromImage(e){
-    if(!this.props.animatedIn){ return }
+    if(!this.props.animatedIn || !this.props.isTopCard){ return }
     this.setState({activeIndex: this.state.activeIndex + 1})
     this.props.toggleProfile()
   }
@@ -380,7 +380,7 @@ class Card extends React.Component{
             <View
               key={`${potential.id || potential.user.id}-infos`}
               style={{
-                padding: isTopCard ? 10 : 5,
+                padding: isTopCard ? 10 : 15,
                 paddingTop:MagicNumbers.is4s ? 20 : 15,
                 paddingBottom:MagicNumbers.is4s ? 10 : 15,
                 height:80,width:undefined,

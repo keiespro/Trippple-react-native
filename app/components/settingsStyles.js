@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
    alignSelf: 'stretch',
    paddingTop:0,
    flex:1,
-   borderBottomWidth: 1/PixelRatio.get(),
+   borderBottomWidth:StyleSheet.hairlineWidth,
    borderBottomColor: colors.rollingStone
 
  },
@@ -138,11 +138,10 @@ bioText:{
    alignItems:'center',
    justifyContent:'center',
    flexDirection:'column',
-    borderBottomWidth: 1/PixelRatio.get(),
+   borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor:colors.shuttleGray
   }
 
 });
 
 export default styles
-

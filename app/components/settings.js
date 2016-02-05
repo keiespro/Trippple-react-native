@@ -476,7 +476,7 @@ const styles = StyleSheet.create({
    paddingTop:0,
    height:50,
    flex:1,
-   borderBottomWidth: 2,
+   borderBottomWidth: StyleSheet.hairlineWidth,
    borderBottomColor: colors.rollingStone
 
  },
@@ -510,7 +510,7 @@ const styles = StyleSheet.create({
 
  },
  wrapfield:{
-   borderBottomWidth:1,
+   borderBottomWidth: StyleSheet.hairlineWidth,
    borderColor:colors.shuttleGray,
    height:80,
   //  backgroundColor:colors.outerSpace,
