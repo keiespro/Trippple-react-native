@@ -21,6 +21,7 @@ const keyboardHeightMap =  {
 const keyboardHeight = keyboardHeightMapShort[screen.height];
 const MagicNumbers = {
     keyboardHeight,
+    is5orless: screen.height <= 568,
     is4s: screen.height <= 480,
     isSmallDevice: screen.width < 360,
     screenWidth: screen.width > 360 ? (screen.width - 50) : (screen.width - 25),

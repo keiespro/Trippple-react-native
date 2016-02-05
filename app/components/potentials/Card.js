@@ -134,6 +134,28 @@ class Card extends React.Component{
     }
 
     if(!profileVisible){
+      const heights = {
+      smallest:{
+        top: -60,
+        second: -57,
+        third: -55
+      },
+      middle:{
+        top: -65,
+        second: -55,
+        third: -50
+      },
+        all:{
+          top: -50,
+          second: -57,
+          third: -60
+        }
+      };
+
+      var heightTable =  MagicNumbers.is4s ? heights.smallest : (MagicNumbers.is5orless ? heights.middle : heights.all);
+      var cardHeight = DeviceHeight + (isTopCard ? heightTable.top : (isThirdCard ? heightTable.third : heightTable.second));
+      // ? DeviceHeight- 40 : DeviceHeight -60
+
     return (
       <View
         shouldRasterizeIOS={!this.props.animatedIn}
@@ -143,7 +165,7 @@ class Card extends React.Component{
         flex:1,
         width:undefined,
         position:'relative',
-        height:DeviceHeight-50,
+        height: cardHeight,
         overflow:'hidden',
         backgroundColor:colors.dark
         } ]}>
@@ -219,7 +241,7 @@ class Card extends React.Component{
                 left:0,
                 }}
                 showsPagination={true}
-                paginationStyle={{position:'absolute',paddingRight:40,right:0,top:45,height:100}}
+                paginationStyle={{position:'absolute',paddingRight:30,right:0,top:45,height:100}}
                   >
 
                 <TouchableWithoutFeedback

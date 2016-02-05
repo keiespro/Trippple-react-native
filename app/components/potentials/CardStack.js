@@ -284,7 +284,7 @@ class CardStack extends React.Component{
             {scale: .85}],
             flex:1,
             backgroundColor:colors.white,
-            top:  (DeviceHeight <= 568 ? 55 : 35),
+            top:  (DeviceHeight <= 568 ? 20 : 35),
             // width: DeviceWidth - 40,
             // height:  DeviceHeight - 80,
             position: 'absolute',
@@ -306,77 +306,77 @@ class CardStack extends React.Component{
               isTopCard={false}
               isThirdCard={true}
               key={`${potentials[2].id || potentials[2].user.id}-activecard`}
-          />
-        </Animated.View>
-      }
+            />
+          </Animated.View>
+        }
 
-      {/*       Middle card       */}
-      { !this.props.profileVisible && potentials && potentials.length >= 1 && potentials[1] &&
+        {/*       Middle card       */}
+        { !this.props.profileVisible && potentials && potentials.length >= 1 && potentials[1] &&
 
-        <Animated.View
-          style={[{
-                transform:[
-                {
-                  translateY: this.state.offsetY.b
-                },{
-                  scale:0.925
-                }],
-                alignSelf:'flex-start',
-                flex:1,
-              marginHorizontal: this.props.profileVisible ? 0 : 20,
-              marginLeft:20,
+          <Animated.View
+            style={[{
+            transform:[
+            {
+            translateY: this.state.offsetY.b
+            },{
+            scale:0.925
+            }],
+            alignSelf:'flex-start',
+            flex:1,
+            marginHorizontal: this.props.profileVisible ? 0 : 20,
+            marginLeft:20,
             position: 'absolute',
-              left:0,right:0,
-              borderRadius:8,
+            left:0,right:0,
+            borderRadius:8,
 
-                // top:  (DeviceHeight <= 568 ? -5 : -30),
-                // // width: DeviceWidth - 40,
-                // // height: (DeviceHeight <= 568 ? (DeviceHeight - 75) : (DeviceHeight-65)),
-                // position: 'absolute',
-                marginBottom:  (DeviceHeight <= 568 ? 4 : 10),
-                backgroundColor:'black',
-                shadowColor:colors.dark,
-                shadowRadius:3,
-                shadowOpacity:0.5,
-                shadowOffset: {
-                  width:0,
-                  height: 5
-                },
+            // top:  (DeviceHeight <= 568 ? -5 : -30),
+            // // width: DeviceWidth - 40,
+            // // height: (DeviceHeight <= 568 ? (DeviceHeight - 75) : (DeviceHeight-65)),
+            // position: 'absolute',
+            marginBottom:  (DeviceHeight <= 568 ? 60 : 10),
+            backgroundColor:'black',
+            shadowColor:colors.dark,
+            shadowRadius:3,
+            shadowOpacity:0.5,
+            shadowOffset: {
+            width:0,
+            height: 5
+            },
 
-          }]}
-          key={`${potentials[1].id || potentials[1].user.id}-wrapper`}
-          ref={(card) => { this.nextcard = card }}
-        >
-          <Card
-            key={`${potentials[1].id || potentials[1].user.id}-activecard`}
-            user={user}
-            ref={"_secondCard"}
-            pan={this.state.pan}
-            profileVisible={this.props.profileVisible}
-          animatedIn={this.state.animatedIn}
+            }]}
+            key={`${potentials[1].id || potentials[1].user.id}-wrapper`}
+            ref={(card) => { this.nextcard = card }}
+          >
+            <Card
+              key={`${potentials[1].id || potentials[1].user.id}-activecard`}
+              user={user}
+              ref={"_secondCard"}
+              pan={this.state.pan}
+              profileVisible={this.props.profileVisible}
+              animatedIn={this.state.animatedIn}
 
-            potential={potentials[1]}
-            rel={user.relationship_status}
-          />
-        </Animated.View>
-      }
+              potential={potentials[1]}
+              rel={user.relationship_status}
+            />
+          </Animated.View>
+        }
 
-      {/*       Front card       */}
-      { potentials && potentials.length >= 1  && potentials[0] &&
-        <Animated.View
-          style={[styles.shadowCard,{
+        {/*       Front card       */}
+        { potentials && potentials.length >= 1  && potentials[0] &&
+          <Animated.View
+            style={[styles.shadowCard,{
             alignSelf:'center',
             top: this.props.profileVisible ? -30 :  0,
             // left:  this.props.profileVisible ? -DeviceWidth/2 : -DeviceWidth/2 + 20 ,
             // width: this.props.profileVisible ? DeviceWidth : DeviceWidth - 50,
             // height: this.props.profileVisible ? DeviceHeight : DeviceHeight - 120,
             // right:  this.props.profileVisible ? -DeviceWidth/2 : -DeviceWidth/2 + 20,
-              // marginHorizontal: this.props.profileVisible ? 0 : 20,
+            // marginHorizontal: this.props.profileVisible ? 0 : 20,
             // position: 'absolute',
-              left:20,right:this.props.profileVisible ? 0 : 20,
-              borderRadius:8,
-            bottom: this.props.profileVisible ? 0 : (DeviceHeight <= 568 ? 70 : 90),
-           position: 'absolute',
+            left:20,right:this.props.profileVisible ? 0 : 20,
+            borderRadius:8,
+            bottom: this.props.profileVisible ? 0 : (DeviceHeight <= 568 ? 80 : 90),
+            position: 'absolute',
 
           },
           {
