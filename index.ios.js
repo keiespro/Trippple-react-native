@@ -15,7 +15,7 @@ import alt from './app/flux/alt'
 if(__DEV__){
   window.React = React;
   window.alt = alt;
-  console.ignoredYellowBox = ['jsSchedulingOverhead','SocketRocket'];
+  console.ignoredYellowBox = ['jsSchedulingOverhead','SocketRocket','ScrollView'];
   // window.onunhandledrejection = e => console.warn('unhandled', e);
   // window.onrejectionhandled = e => console.warn('handled', e );
 }

@@ -1,21 +1,30 @@
 {
     "parser": "babel-eslint",
-    "env": {
-        "browser": true,
-        "node": true
+
+
+    "ecmaFeatures": {
+      "jsx": true
     },
+
     "settings": {
-        "ecmascript": 6,
+        "ecmascript": 7,
         "jsx": true
     },
     "plugins": [
-        "react"
+      "react",
+      "react-native"
     ],
     "rules": {
         "strict": 0,
         "quotes": 0,
         "no-unused-vars": 0,
         "camelcase": 0,
-        "no-underscore-dangle": 0
+        "no-underscore-dangle": 0,
+        "indent": 0,
+        "react/jsx-closing-bracket-location": 0,
+        "react/jsx-indent-props": [1, 2],
+        "react/jsx-indent": [1, 2],
+        "react-native/no-unused-styles": 0
+
     }
 }

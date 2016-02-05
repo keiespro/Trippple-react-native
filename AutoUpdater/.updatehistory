@@ -1,3 +1,10 @@
 {
-  "builds": [ ]
+  "builds": [
+    {
+      "timestamp": 1454665715578,
+      "jsVersion": "2.0.18",
+      "appVersion": "2.0.17",
+      "build": 5
+    }
+  ]
 }
