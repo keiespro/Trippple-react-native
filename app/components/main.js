@@ -118,7 +118,9 @@ class Main extends Component{
     const RouteComponent = route.component;
     var navBar;
     Mixpanel.auth(this.props.user.username).track(`HO: On - ${route.id} Screen`);
-
+    if(!route){
+      route = ROUTE_STACK[0]
+    }
     if (route.navigationBar) {
       navBar = React.cloneElement(route.navigationBar, {
         navigator: navigator,

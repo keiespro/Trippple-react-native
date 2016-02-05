@@ -83,7 +83,7 @@ class AppStateStore {
 //     this.setState({permissions:perms})
   }
   handleSentTelemetry(result){
-    console.warn(result)
+
   }
   handleGrantPermission(permission){
     // this.handleTogglePermission(permission, true)
