@@ -100,7 +100,7 @@ class NotificationActions {
         dispatch(true)
 
       }catch(err){
-        console.log(err)
+        // console.log(err)
         dispatch(err)
 
       }

@@ -45,7 +45,8 @@ class CardStack extends React.Component{
         b:new Animated.Value(-DeviceHeight),
         c:new Animated.Value(-DeviceHeight),
       },
-      appState: AppStateIOS.currentState
+      appState: AppStateIOS.currentState,
+      likedPotentials:[]
     }
   }
   componentWillMount(){
@@ -56,13 +57,11 @@ class CardStack extends React.Component{
   _handleAppStateChange(currentAppState){
 
     if(currentAppState == 'active'){
-      // this.setState({ currentAppState, });
-      console.log(this._actionlistener)
+
     }else{
 
       AppStateIOS.removeEventListener('change', this._handleAppStateChange.bind(this));
     }
-      // this.setState({ currentAppState, animatedIn:false});
 
 
 
@@ -154,65 +153,74 @@ class CardStack extends React.Component{
       onPanResponderRelease: (e, gestureState) => {
 
         var toValue = 0,
-            velocity = 1;
+            velocity = 1,
+            likeStatus;
 
         const {dx,dy,vx,vy} = gestureState;
+        const likeUserId = this.props.potentials[0].user.id;
 
         // animate back to center or off screen left or off screen right
-        if (dx > SWIPE_THRESHOLD_APPROVE || dx > THROW_THRESHOLD_APPROVE && Math.abs(vx) > THROW_SPEED_THRESHOLD){
-          toValue = 500;
-          velocity = {x: vx*2, y: vy}
-        }else if(dx < SWIPE_THRESHOLD_DENY || dx < THROW_THRESHOLD_DENY && Math.abs(vx) > THROW_SPEED_THRESHOLD){
-          toValue = -500;
-          velocity = {x: vx*2, y: vy}
+        if (dx > SWIPE_THRESHOLD_APPROVE || (dx > THROW_THRESHOLD_APPROVE && Math.abs(vx) > THROW_SPEED_THRESHOLD)){
+          toValue = 700;
+          velocity = {x: vx*2, y: vy*2}
+
+           likeStatus =   'approve';
+
+          // if(!this.state.likedPotentials.indexOf(likeUserId)){
+          // }
+
+        }else if(dx < SWIPE_THRESHOLD_DENY || (dx < THROW_THRESHOLD_DENY && Math.abs(vx) > THROW_SPEED_THRESHOLD)){
+          toValue = -700;
+          velocity = {x: vx*2, y: vy*2}
+           likeStatus =  'deny';
+
+
+
+
         }else{
-          console.log('ELSE')
+
+        }
+        if(likeStatus && likeStatus.length > 0){
+          MatchActions.removePotential(likeUserId);
+          MatchActions.sendLike( likeUserId, likeStatus, (this.props.rel == 'single' ? 'couple' : 'single'), this.props.rel );
+
+          this.setState({interactedWith:likeUserId,likedPotentials:[...this.state.likedPotentials, likeUserId]})
         }
 
 
-
        this.state.pan.addListener((value) => {
-          const likeUserId = this.props.potentials[0].user.id;
 
-          // if(!value || !value.x ){ return false }
-          const likeStatus = value.x > 0 ? 'approve' : 'deny';
-          // console.log(value.x,Math.abs(Math.floor(value.x)))
-          // when the card reaches the throw out threshold, send like
-          // console.log('this.state.pan.xthis.state.pan.x',this.state.pan.x)
-
-          let v = Math.abs(Math.ceil(value.x))
-          if ( v == 500) {
-
-            MatchActions.removePotential(likeUserId);
-
-            if(this.state.interactedWith != likeUserId && this.state.interactedWith != `${likeUserId}settled`){
-                MatchActions.sendLike(
-                likeUserId,
-                likeStatus,
-                (this.props.rel == 'single' ? 'couple' : 'single'),
-                this.props.rel
-              );
-              console.log('liked',
-              likeUserId,
-              likeStatus,
-              (this.props.rel == 'single' ? 'couple' : 'single'),
-              this.props.rel)
-
-              // this.setState({interactedWith:likeUserId,likedUsers:[...this.state.likedUsers,likedUserID]})
-
-              this.setState({interactedWith:likeUserId})
-            }else if(this.state.interactedWith == likeUserId && this.state.interactedWith != `${likeUserId}settled`){
-                // MatchActions.removePotential(likeUserId);
-                this.setState({interactedWith:`${likeUserId}settled`})
-                console.log('remove')
-
-            }
-              if(this.state.pan.x._listeners.length){
-                this.state.pan.x.removeAllListeners();
-                this.state.pan.x.removeListener(this._actionlistener)
-            }
-
-          }
+        //
+        //   // if(!value || !value.x ){ return false }
+        //   let likeStatus = value.x > 0 ? 'approve' : 'deny';
+        //   // console.log(value.x,Math.abs(Math.floor(value.x)))
+        //   // when the card reaches the throw out threshold, send like
+        //   // console.log('this.state.pan.xthis.state.pan.x',this.state.pan.x)
+        //
+        //   let v = Math.abs(Math.ceil(value.x))
+        //   if ( v == 500) {
+        //
+        //     MatchActions.removePotential(likeUserId);
+        //
+        //     if(this.state.interactedWith != likeUserId && this.state.interactedWith != `${likeUserId}settled`){
+        //       if(!this.state.likedPotentials.indexOf(likeUserId)){
+        //         MatchActions.sendLike(
+        //         likeUserId,
+        //         likeStatus,
+        //         (this.props.rel == 'single' ? 'couple' : 'single'),
+        //         this.props.rel
+        //       );
+        //     }
+        //       this.setState({interactedWith:likeUserId,likedPotentials:[...this.state.likedPotentials, likeUserId]})
+        //     }else if(this.state.interactedWith == likeUserId && this.state.interactedWith != `${likeUserId}settled`){
+        //         this.setState({interactedWith:`${likeUserId}settled`})
+        //     }
+        //       if(this.state.pan.x._listeners.length){
+        //         this.state.pan.x.removeAllListeners();
+        //         this.state.pan.x.removeListener(this._actionlistener)
+        //     }
+        //
+        //   }
         })
         Animated.spring(this.state.pan, {
           toValue,
@@ -253,51 +261,51 @@ class CardStack extends React.Component{
     var pan = this.state.pan || 0
     return (
       <View
-      style={{ position:'absolute',              // backgroundColor:colors.mediumPurple,
-              top: 0,
-              left:0,
-              width: undefined,
-              height:undefined,
-              flex:1,
-              alignSelf:'stretch',
-              right: 0,
-              bottom:0,
-              alignItems:'center'
-      }}>
+        style={{ position:'absolute',              // backgroundColor:colors.mediumPurple,
+        top: 0,
+        left:0,
+        width: undefined,
+        height:undefined,
+        flex:1,
+        alignSelf:'stretch',
+        right: 0,
+        bottom:0,
+        alignItems:'center'
+        }}>
 
-      {/*     last card      */}
-      { !this.props.profileVisible && potentials && potentials.length >= 1 && potentials[2] &&
-        <Animated.View
-          key={`${potentials[2].id || potentials[2].user.id}-wrapper`}
-          style={[
+        {/*     last card      */}
+        { !this.props.profileVisible && potentials && potentials.length >= 1 && potentials[2] &&
+          <Animated.View
+            key={`${potentials[2].id || potentials[2].user.id}-wrapper`}
+            style={[
             styles.basicCard,
             {
-              transform:[ { translateY: this.state.offsetY.c },
-              {scale: .85}],
-              flex:1,
-              backgroundColor:colors.white,
-              top:  (DeviceHeight <= 568 ? 55 : 35),
-              // width: DeviceWidth - 40,
-              // height:  DeviceHeight - 80,
-                position: 'absolute',
-              marginHorizontal: this.props.profileVisible ? 0 : 20,
-              marginLeft:20,
-              overflow:'hidden',
+            transform:[ { translateY: this.state.offsetY.c },
+            {scale: .85}],
+            flex:1,
+            backgroundColor:colors.white,
+            top:  (DeviceHeight <= 568 ? 55 : 35),
+            // width: DeviceWidth - 40,
+            // height:  DeviceHeight - 80,
             position: 'absolute',
-              left:0,right:0,
+            marginHorizontal: this.props.profileVisible ? 0 : 20,
+            marginLeft:20,
+            overflow:'hidden',
+            position: 'absolute',
+            left:0,right:0,
 
-              marginBottom:20
+            marginBottom:20
             }]
-          }>
-          <Card
-            user={user}
-            ref={"_thirdCard"}
-          animatedIn={this.state.animatedIn}
-            potential={potentials[2]}
-            rel={user.relationship_status}
-            isTopCard={false}
-            isThirdCard={true}
-            key={`${potentials[2].id || potentials[2].user.id}-activecard`}
+            }>
+            <Card
+              user={user}
+              ref={"_thirdCard"}
+              animatedIn={this.state.animatedIn}
+              potential={potentials[2]}
+              rel={user.relationship_status}
+              isTopCard={false}
+              isThirdCard={true}
+              key={`${potentials[2].id || potentials[2].user.id}-activecard`}
           />
         </Animated.View>
       }

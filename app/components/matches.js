@@ -106,12 +106,15 @@ class MatchList extends Component{
   actionModal(match){
       this.props.chatActionSheet(match)
   }
+  handleCancelUnmatch(rowData){
+    
+  }
   unmatch(rowData){
     Alert.alert(
       'Remove this match?',
       'Do you want to remove this match?',
       [
-        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: 'Cancel', onPress: () => this.handleCancelUnmatch(rowData), style: 'cancel'},
         {text: 'OK', onPress: () => {
           MatchActions.unMatch(rowData.match_id);
           MatchActions.removeMatch.defer(rowData.match_id);
@@ -120,7 +123,7 @@ class MatchList extends Component{
     );
   }
   _renderRow(rowData, sectionID, rowID){
-    console.log(rowData)
+
     const myId = this.props.user.id,
         myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
     var theirIds = Object.keys(rowData.users).filter( (u)=> u != this.props.user.id);

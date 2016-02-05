@@ -33,16 +33,13 @@ class UserActions {
     return (dispatch) => {
       Api.getUserInfo()
       .then((res) => {
-        if(res.error){
-        this.logOut.defer();
-
-
+        if(res.res.status == 401){
+          this.logOut.defer();
         }
-        console.log(res);
-          dispatch(res)
-        }).catch((err) => {
-          dispatch(err)
-        })
+        dispatch(res)
+      }).catch((err) => {
+        dispatch(err)
+      })
     }
   }
 

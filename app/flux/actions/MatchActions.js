@@ -143,7 +143,7 @@ class MatchActions {
           dispatch({likedUserID,likeStatus});
       })
       .catch((x)=>{
-        console.log('like error',x,likedUserID, likeStatus, likeUserType, rel_status);
+        Log('like error',x,likedUserID, likeStatus, likeUserType, rel_status);
         this.removePotential.defer();
 
         dispatch(x)

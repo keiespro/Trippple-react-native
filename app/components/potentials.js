@@ -71,7 +71,7 @@ class PotentialsPage extends React.Component{
     this.setState({profileVisible: !this.state.profileVisible})
   }
   _handleAppStateChange(currentAppState){
-    console.log('currentAppState',currentAppState)
+    // console.log('currentAppState',currentAppState)
     if(currentAppState == 'active'){
       this.setState({ currentAppState, showPotentials: false});
       this.setTimeout(()=>{

@@ -151,7 +151,7 @@ class MatchesStore {
       if ( !Object.keys( this.state.matches ).length ) {
         // first batch of matches
         const matchesHash = matches.reduce( ( acc, el, i ) => {
-          el.lastAccessed = 0
+          el.lastAccessed = this.state.mountedAt
           MatchActions.getMessages.defer(el.match_id);
 
           el.unread = 0; //el.recent_message.created_timestamp*1000 > el.lastAccessed ? 1 : 0;
@@ -164,9 +164,9 @@ class MatchesStore {
       } else {
         const matchesHash = matches.reduce( ( acc, el, i ) => {
           if(!this.state.matches[el.match_id] || this.state.matches[el.match_id].lastAccessed < this.state.matches[el.match_id].recent_message.created_timestamp * 1000){
-            console.log('DID NOT EXIST');
+
             MatchActions.getMessages.defer(el.match_id);
-            el.lastAccessed =   0;
+            el.lastAccessed =  this.state.mountedAt;
 
             if (el.unread == 0 && el.recent_message && el.recent_message.from_user_info && el.recent_message.from_user_info.id && (el.recent_message.from_user_info.id != user.id && ( el.recent_message.created_timestamp * 1000 > el.lastAccessed )) ){
               el.unread = 1
@@ -177,7 +177,7 @@ class MatchesStore {
               el.unread = 1
             }
           }
-          el.lastAccessed = el.lastAccessed || 0;
+          el.lastAccessed = el.lastAccessed || this.state.mountedAt;
 
           acc[ el.match_id ] = el
           return acc
@@ -223,8 +223,8 @@ class MatchesStore {
     const newThread = [ ...thread, ...message_thread ];
 
     matches[ match_id ].message_thread = newThread;
-    console.log(new Date(matches[ match_id ].lastAccessed),matches[ match_id ].unread,count)
-    matches[ match_id ].unread = parseInt( matches[ match_id ].unread || 0 ) + count;
+
+    matches[ match_id ].unread =  count;
 
     this.setState({ matches })
   }
