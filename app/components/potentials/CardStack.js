@@ -154,7 +154,7 @@ class CardStack extends React.Component{
           const likeStatus = value.x > 0 ? 'approve' : 'deny';
 
           // when the card reaches the throw out threshold, send like
-          if (Math.abs(value.x) >= 300) {
+          if (Math.abs(value.x) >= 420) {
 
             // if(this.state.pan && this._actionlistener && this.state.pan._listeners[this._actionlistener]){
               // this.state.pan.removeListener(this._actionlistener);
