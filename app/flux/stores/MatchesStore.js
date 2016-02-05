@@ -107,7 +107,7 @@ class MatchesStore {
       timestamp
     } = payload;
     const m = this.state.matches[ match_id ]
-    m.lastAccessed = timestamp - 6000;//Date.now()
+    m.lastAccessed = timestamp;//Date.now()
     m.unread = 0
     const matches = this.state.matches
     matches[ match_id ] = m
@@ -152,7 +152,7 @@ class MatchesStore {
         // first batch of matches
         const matchesHash = matches.reduce( ( acc, el, i ) => {
           el.lastAccessed = this.state.mountedAt
-          MatchActions.getMessages.defer(el.match_id);
+          if(i<4){MatchActions.getMessages.defer(el.match_id);}
 
           el.unread = 0; //el.recent_message.created_timestamp*1000 > el.lastAccessed ? 1 : 0;
 
@@ -166,7 +166,6 @@ class MatchesStore {
           if(!this.state.matches[el.match_id] || this.state.matches[el.match_id].lastAccessed < this.state.matches[el.match_id].recent_message.created_timestamp * 1000){
 
             MatchActions.getMessages.defer(el.match_id);
-            el.lastAccessed =  this.state.mountedAt;
 
             if (el.unread == 0 && el.recent_message && el.recent_message.from_user_info && el.recent_message.from_user_info.id && (el.recent_message.from_user_info.id != user.id && ( el.recent_message.created_timestamp * 1000 > el.lastAccessed )) ){
               el.unread = 1
@@ -177,7 +176,6 @@ class MatchesStore {
               el.unread = 1
             }
           }
-          el.lastAccessed = el.lastAccessed || this.state.mountedAt;
 
           acc[ el.match_id ] = el
           return acc
@@ -207,7 +205,7 @@ class MatchesStore {
       matches[ match_id ].lastAccessed = 0
     }
 
-    let count = matches[ match_id ].unread || 0;
+    let count =  0;
     for ( var msg of message_thread ) {
       if ( msg.from_user_info.id == user.id || !msg.created_timestamp ) {return false;}
       if ( matches[ match_id ].lastAccessed < msg.created_timestamp * 1000 ) {
