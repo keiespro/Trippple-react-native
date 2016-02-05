@@ -116,8 +116,8 @@ class Card extends React.Component{
       names.push(potential.partner.firstname.trim())
     }
 
-    const { rel,  profileVisible, isTopCard, isThirdCard, pan } = this.props;
-    let matchName = names[0],
+    var { rel,  profileVisible, isTopCard, isThirdCard, pan } = this.props,
+        matchName = names[0],
         distance = potential.user.distance || ``,
         city = potential.user.city_state || ``;
 
@@ -126,31 +126,63 @@ class Card extends React.Component{
       distance = Math.min(distance,potential.partner && potential.partner.distance || '666666666')
     }
 
+    if(!profileVisible){
     return (
       <View
         shouldRasterizeIOS={!this.props.animatedIn}
         ref={'cardinside'} key={`${potential.id || potential.user.id}-inside`}
-        style={ profileVisible ? cs.cardinsideOPEN : cs.cardinsideCLOSED }>
+        style={ [{
+          borderRadius: 8,
+          flex:1,
+          width:undefined,
+          position:'relative',
+          height:DeviceHeight-50,
+          overflow:'hidden',
+          backgroundColor:colors.dark
+        } ]}>
 
           <ScrollView
-          scrollEnabled={profileVisible}
+          scrollEnabled={false}
           ref={'scrollbox'}
           centerContent={false}
           alwaysBounceHorizontal={false}
           horizontal={false}
           removeClippedSubviews={true}
-
+          canCancelContentTouches={false}
+          contentContainerStyle={{
+            alignItems:'center',
+              justifyContent:'center',
+              position:'relative',
+              width:undefined,
+              height:undefined,
+              left:0,
+              right:0,
+              flex:1,
+            }}
             contentOffset={{x:0,y:0}}
-            style={[styles.card,
-             profileVisible ? cs.scrollboxOPEN : cs.scrollboxCLOSED
-           ]} key={`${potential.id || potential.user.id}-view`}>
+            style={[styles.card,{
+              margin:0,
+              padding:0,
+              width:undefined,
+              // left:0,right:0,
+              padding: 0,
+              paddingTop: 0,
+              height:undefined,
+              position:'relative',
+              flex:1,
+              backgroundColor: colors.white,
+           }]} key={`${potential.id || potential.user.id}-view`}>
 
               <Animated.View
                 key={`${potential.id || potential.user.id}bgopacity`}
                 ref={isTopCard ? 'incard' : null}
-                pointerEvents="box-none"
-                style={[profileVisible ? null : cs.bgopacityCLOSED, {
-
+                style={{
+                  flex:1,
+                  alignItems:'center',
+                  justifyContent:'center',left:0,right:0,
+                  marginHorizontal:0,
+                  flexDirection:'column',
+          position:'relative',
                   backgroundColor: isTopCard ? this.props.pan && this.props.pan.x.interpolate({
                     inputRange: [-300,-50, -40, 0, 40,  50, 300],
                     outputRange: [
@@ -162,7 +194,7 @@ class Card extends React.Component{
                       'rgb(66,181,125)',
                       'rgb(66,181,125)' ],
                   }) : colors.white,
-                }]}
+                }}
                 >
                 {this.props.user.relationship_status == 'single' ?
                 <Swiper
@@ -171,14 +203,21 @@ class Card extends React.Component{
                   horizontal={false}
                   activeIndex={this.state.activeIndex}
                   vertical={true}
-                  style={ profileVisible ? cs.swiperOPEN : cs.swiperCLOSED}
+                  style={{
+                    alignSelf:'center',
+                    marginLeft:0,
+                    // overflow:'hidden',
+                    height:undefined,width:undefined,
+                    marginRight:0,
+                    left:0,
+                  }}
                   showsPagination={true}
-                  paginationStyle={cs.swiperPagination}
+                  paginationStyle={{position:'absolute',paddingRight:40,right:0,top:45,height:100}}
                   >
 
-                  <TouchableOpacity
+                  <TouchableWithoutFeedback
                     key={`${potential.user.id}-touchableimg`}
-                    style={[styles.imagebg, profileVisible ? null : cs.touchableimgCLOSED]}
+                    style={[styles.imagebg,{ overflow:'hidden',height:undefined, width: undefined,}]}
                     onPressIn={this.toggleCardHoverOn.bind(this)}
                     onPressOut={this.toggleCardHoverOff.bind(this)}
                     onPress={this.openProfileFromImage.bind(this)}
@@ -187,8 +226,13 @@ class Card extends React.Component{
                   source={potential.user.image_url ? {uri:potential.user.image_url} : {uri: 'assets/defaultuser.png'}}
                     key={`${potential.user.id}-cimg`}
                     defaultSource={{uri: 'assets/defaultuser.png'}}
-                    style={[styles.imagebg, profileVisible ? cs.cimgOPEN : cs.cimgCLOSED, {
-
+                    style={[styles.imagebg, {
+                      backgroundColor: colors.white,
+                      width: undefined,
+                      height:undefined,
+                      flex:1,
+                      left:0,
+                      right:0,
                       opacity: isTopCard && pan ? pan.x.interpolate({
                           inputRange:  [-300, -80, 0, 80, 300],
                           outputRange: [   0,   1, 1,  1,   0]
@@ -196,11 +240,11 @@ class Card extends React.Component{
                     }]}
                     resizeMode={Image.resizeMode.cover}
                   />
-                  </TouchableOpacity>
+                  </TouchableWithoutFeedback>
 
                   {potential.partner &&
 
-                  <TouchableOpacity
+                  <TouchableWithoutFeedback
                     key={`${potential.partner.id}-touchableimg`}
                     style={[styles.imagebg,{height:undefined, width: undefined,}]}
                     onPressIn={this.toggleCardHoverOn.bind(this)}
@@ -211,7 +255,11 @@ class Card extends React.Component{
                     source={potential.partner.image_url ? {uri:potential.user.image_url} : {uri: 'assets/defaultuser.png'}}
                       key={`${potential.partner.id}-cimg`}
                       defaultSource={{uri: 'assets/defaultuser.png'}}
-                      style={[styles.imagebg, profileVisible ? cs.cimgOPEN : cs.cimgCLOSED, {
+                      style={[styles.imagebg,{
+                        backgroundColor: colors.white,
+                        flex:1,
+                        height:undefined,
+                        width: undefined,
                         opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                           inputRange:  [-300, -80, 0, 80, 300],
                             outputRange: [   0,   1, 1,  1,   0]
@@ -219,10 +267,10 @@ class Card extends React.Component{
                       }]}
                       resizeMode={Image.resizeMode.cover}
                     />
-                  </TouchableOpacity>
+                  </TouchableWithoutFeedback>
                 }
                 { potential.partner && potential.image && potential.image != null && potential.image != '' ?
-                    <TouchableOpacity
+                    <TouchableWithoutFeedback
                       key={`${potential.couple.id}-touchableimg`}
                       style={[styles.imagebg,{ height:undefined, width: undefined,}]}
                       onPress={this.openProfileFromImage.bind(this)}
@@ -230,7 +278,10 @@ class Card extends React.Component{
                       <Animated.Image
                         source={{uri: potential.image}}
                         key={`${potential.partner.id}-cimg`}
-                        style={[styles.imagebg, profileVisible ? cs.cimgOPEN : cs.cimgCLOSED, {
+                        style={[styles.imagebg,{
+                          width: undefined,
+                          height:undefined,
+                          flex:1,
                           opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                             inputRange: [-300, -100, 0, 100, 300],
                             outputRange: [0,1,1,1,0]
@@ -238,12 +289,19 @@ class Card extends React.Component{
                         }]}
                         resizeMode={Image.resizeMode.cover}
                       />
-                    </TouchableOpacity> : null
+                    </TouchableWithoutFeedback> : null
                   }
 
                 </Swiper> :
-                  <View style={swiperAlt}>
-                  <TouchableOpacity
+                  <View style={{
+                    alignSelf:'center',
+                    marginLeft:0,
+                    // overflow:'hidden',
+                    height:undefined,width:undefined,
+                    marginRight:0,flex:1,
+                    left:0,alignItems:'stretch'
+                  }}>
+                  <TouchableWithoutFeedback
                   key={`${potential.user.id}-touchableimg`}
                   style={[styles.imagebg,{
                   width:undefined,
@@ -257,7 +315,9 @@ class Card extends React.Component{
                     source={{uri: potential.user.image_url}}
                     key={`${potential.user.id}-cimg`}
                     defaultSource={{uri: 'assets/defaultuser.png'}}
-                    style={[styles.imagebg, profileVisible ? cs.cimgOPEN : cs.cimgCLOSED, {
+                    style={[styles.imagebg,{
+                      backgroundColor: colors.white,
+                      flex:1,minWidth:DeviceWidth, minHeight:DeviceHeight,
                       opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                           inputRange:  [-300, -80, 0, 80, 300],
                           outputRange: [   0,   1, 1,  1,   0]
@@ -265,17 +325,27 @@ class Card extends React.Component{
                     }]}
                     resizeMode={Image.resizeMode.cover}
                   />
-                </TouchableOpacity>
+                </TouchableWithoutFeedback>
               </View>
                 }
 
 
             <View
               key={`${potential.id || potential.user.id}-bottomview`}
-              style={profileVisible ? [cs.bottomviewOPEN] : [cs.bottomviewCLOSED,{
-                height:80,
+              style={{
+                height: isTopCard ? 80 : 65,
                 marginTop: isTopCard ? -10 : -25,
-              }]}
+                flex:1,
+                left:20,
+                bottom:0,
+                backgroundColor:colors.white,
+                width:undefined,
+
+                flexDirection:'row',
+                position:'absolute',
+                alignSelf:'stretch',alignItems:'stretch'
+                // marginRight: this.props.profileVisible ? 0 : 50,
+              }}
               >
             <View
               key={`${potential.id || potential.user.id}-infos`}
@@ -334,245 +404,384 @@ class Card extends React.Component{
                 </View> : null
               }
 
-
-
-          { profileVisible ? <View style={{top:0}}>
-
-                  {potential.bio && potential.user.bio &&
-                    <View style={{margin:MagicNumbers.screenPadding/2}}>
-                      <Text style={[styles.cardBottomOtherText,{color:colors.white,marginBottom:15,marginLeft:0}]}>{
-                          rel =='single' ? `About Me` : `About Us`
-                      }</Text>
-                      <Text style={{color:colors.white,fontSize:18,marginBottom:15}}>{
-                          potential.bio || potential.user.bio
-                      }</Text>
-                    </View>
-                  }
-
-                  <View style={{ paddingVertical:20,alignItems:'stretch' }}>
-                    <UserDetails potential={potential} user={this.props.user} location={'card'} />
-                  </View>
-
-                  <TouchableOpacity onPress={this.reportModal.bind(this)}>
-                    <View style={{flex:1,marginTop:20,paddingBottom:50}}>
-                      <Text style={{color:colors.mandy,textAlign:'center'}}>Report or Block this user</Text>
-                    </View>
-                  </TouchableOpacity>
-
-                </View> : null}
               </View>
             </Animated.View>
 
+          {isTopCard ?
+            <Animated.View key={'denyicon'} style={[styles.animatedIcon,{
+              transform: [
+                {
+                  scale: this.props.pan ? this.props.pan.x.interpolate({
+                    inputRange: [-DeviceWidth/2,-50,0], outputRange: [2,0,0]}) : 0
+                }
+            ],
+            // marginLeft: this.props.pan ? this.props.pan.x.interpolate({
+            //   inputRange: [-DeviceWidth/3,0],
+            //   outputRange: [50,0]}) : 0
+
+            }]}>
+              <Image
+              source={{uri: 'assets/iconDeny@3x.png'}}
+              style={{
+                backgroundColor:'transparent',
+                width:60,
+                height:60,
+                paddingLeft:50
+              }}/>
+            </Animated.View> : null }
+
+          {isTopCard  ?
+              <Animated.View key={'approveicon'} style={[styles.animatedIcon,{
+                transform: [
+                  {
+                    scale: this.props.pan ? this.props.pan.x.interpolate({
+                      inputRange: [0,50, DeviceWidth/2], outputRange: [0,0,2]
+                    }) : 0
+                  }
+              ],
+              // marginLeft: this.props.pan ? this.props.pan.x.interpolate({
+              //   inputRange: [0, DeviceWidth/3],
+              // outputRange: [0,-50]
+              // }) : 0
+
+
+              }]}>
+              <Image
+              source={{uri: 'assets/iconApprove@3x.png'}}
+              style={{backgroundColor:'transparent',width:60,height:60,
+                paddingRight:50,
+              }}/>
+              </Animated.View> : null
+          }
           </ScrollView>
-
-        {profileVisible ?        <View
-                  key={'navbarholder'}
-                  style={{
-                    backgroundColor:'black',
-                    flex:1,
-                    width: DeviceWidth,
-                    position:'absolute',
-                    top:0,height:55,overflow:'hidden'
-                  }}
-                ><View style={{backgroundColor:'#000',top:0,width:DeviceWidth,height:55,}}>
-            <FakeNavBar
-              hideNext={true}
-              backgroundStyle={{
-                backgroundColor:'black',
-                width:DeviceWidth,
-                height:55,
-              }}
-              insideStyle={{
-                flex:1,
-                width:DeviceWidth,
-                height:50,marginTop:5,
-                backgroundColor:colors.outerSpace,
-                borderTopLeftRadius:8,
-                borderTopRightRadius:8,
-                overflow:'hidden',
-              }}
-              titleColor={colors.white}
-              title={ matchName }
-              onPrev={(nav,route)=> {this.props.toggleProfile()}}
-              customPrev={
-                <Image
-                resizeMode={Image.resizeMode.contain}
-                style={{margin:0,alignItems:'flex-start',height:12,width:12,marginTop:10}}
-                source={{uri: 'assets/close@3x.png'}}
-                />
-              }
-            /></View>
-
-        </View> : null}
+          <View
+            key={'navbarholder'}
+            style={{
+              backgroundColor:'black',
+              flex:1,
+              width: DeviceWidth,
+              position:'absolute',
+              top:150
+            }}
+          />
         </View>
 
     )
+  }else{
+// ProfileVisible
+      return (
+        <View
+          ref={'cardinside'}
+          key={`${potential.id || potential.user.id}-inside`}
+          style={[ {
+              width:DeviceWidth,
+              position: 'absolute',
+              right:0,
+              left:-20,
+              alignItems:'flex-start',
+              height:DeviceHeight,
+              right:0,
+              alignSelf:'stretch',
+              flex:1
+          } ]}>
 
+          <ScrollView
+            style={[{
+              margin:0,
+              width:DeviceWidth,
+              paddingTop:55,
+              top:0,
+              left:0,
+              right:0,
+              backgroundColor:'black',
+              height:DeviceHeight,
+              flex:1,
+            }]}
 
+            canCancelContentTouches={true}
+            horizontal={false}
+            vertical={true}
+            ref={'scrollbox'}
+             alwaysBounceHorizontal={false}
+            scrollEnabled={true}
+            contentInset={{top: 0,left: 0, bottom: 0, right: 0}}
+            key={`${potential.id || potential.user.id}-view`}
+            >
+
+            <Animated.View
+              key={`${potential.id || potential.user.id}bgopacity`}
+              ref={"incard"}
+              >
+
+              {this.props.user.relationship_status == 'single' ?
+                <Swiper
+                  key={`${potential.id || potential.user.id}-swiper`}
+                  loop={true}
+                  horizontal={false}
+                  activeIndex={this.state.activeIndex}
+                  vertical={true}
+                  autoplay={false}
+                  showsPagination={true}
+                  showsButtons={false}
+                  width={DeviceWidth}
+                  height={DeviceHeight}
+                  style={{width:DeviceWidth,overflow: 'hidden',}}
+                  paginationStyle={{position:'absolute',right:0,top:45,height:100}}
+                  >
+
+                  <TouchableOpacity
+                    key={`${potential.user.id}-touchableimg`}
+                    style={[styles.imagebg,{
+                      width: DeviceWidth,
+                    }]}
+                    onPress={this.openProfileFromImage.bind(this)}
+                    onPressIn={(e)=>{/* this.refs.cardinside.setNativeProps({style:{opacity:0.8}}) */}}
+                    >
+                    <Animated.Image
+                    source={potential.user.image_url ? {uri: potential.user.image_url} : {uri: 'assets/defaultuser.png'}}
+
+                      key={`${potential.user.id}-cimg`}
+                      style={[styles.imagebg, {
+                        flex:1,
+                        width: DeviceWidth,
+                        opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
+                          inputRange: [-300, -80, 0, 80, 300],
+                          outputRange: [0,1,1,1,0]
+                        }) : 1
+                      }]}
+                      resizeMode={Image.resizeMode.cover}
+                    />
+                </TouchableOpacity>
+
+                  { potential.partner &&
+                    <TouchableOpacity
+                      key={`${potential.partner.id}-touchableimg`}
+                      style={[styles.imagebg,{ }]}
+                      onPress={this.openProfileFromImage.bind(this)}
+                      >
+                      <Animated.Image
+                      source={potential.partner.image_url ? {uri: potential.partner.image_url} : {uri: 'assets/defaultuser.png'}}
+                        key={`${potential.partner.id}-cimg`}
+                        style={[styles.imagebg,{
+                          width: DeviceWidth,
+                          flex:1,
+                          opacity: this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
+                            inputRange: [-300, -100, 0, 100, 300],
+                            outputRange: [0,1,1,1,0]
+                          }) : 1
+                        }]}
+                        resizeMode={Image.resizeMode.cover}
+                      />
+                  </TouchableOpacity>
+                  }
+                  { potential.partner && potential.image && potential.image != null && potential.image != '' ?
+
+                    <TouchableOpacity
+                      key={`${potential.id}-touchableimg`}
+                      style={[styles.imagebg,{ }]}
+                      onPress={this.openProfileFromImage.bind(this)}
+                      >
+                      <Animated.Image
+                      source={potential.image ? {uri: potential.image} : {uri: 'assets/defaultuser.png'}}
+                        key={`${potential.partner.id}-cimg`}
+                        style={[styles.imagebg,{
+                          width: DeviceWidth,
+                          flex:1,
+                          opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
+                            inputRange: [-300, -100, 0, 100, 300],
+                            outputRange: [0,1,1,1,0]
+                          }) : 1
+                        }]}
+                        resizeMode={Image.resizeMode.cover}
+                      />
+                  </TouchableOpacity> : null
+                  }
+
+                </Swiper> :
+                <TouchableOpacity
+                  key={/* TODO: Implement sanity */ `${potential.user.id}-touchableimg`}
+                  style={[styles.imagebg,{ overflow:'hidden'}]}
+                  onPressIn={this.toggleCardHoverOff.bind(this)}
+                  onPressOut={this.toggleCardHoverOn.bind(this)}
+                  onPress={this.openProfileFromImage.bind(this)}
+                  >
+                  <Animated.Image
+                    source={{uri: potential.user.image_url}}
+                    key={/* TODO: Implement sanity */  `${potential.user.id}-cimg`}
+                    style={[styles.imagebg, {
+                      flex:1,
+                      alignSelf:'stretch',
+                      height:500,
+                      width: DeviceWidth,
+                      opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
+                        inputRange: [-300, -80, 0, 80, 300],
+                        outputRange: [0,1,1,1,0]
+                      }) : 1
+                    }]}
+                    resizeMode={Image.resizeMode.cover}
+                  />
+              </TouchableOpacity>
+              }
+
+            <View
+              key={`${potential.id || potential.user.id}-bottomview`}
+              style={{
+                height: undefined,
+                top: 0,
+                marginTop: (DeviceHeight <= 568 ? -120 : -260),
+                backgroundColor:colors.outerSpace,
+                flex:1,
+                left:0,
+                right:0,
+                // bottom:-180,
+                width:undefined,
+              }}
+              >
+
+              <View
+                key={`${potential.id || potential.user.id}-infos`}
+                style={{
+                  // height:60,
+                  // overflow:'hidden',
+                  width: undefined,
+                  left:0,
+                  height:150,
+                  marginLeft: MagicNumbers.screenPadding/2,
+                  paddingVertical:20,
+                }}
+                >
+                <Text
+                  key={`${potential.id || potential.user.id}-names`}
+                  style={[styles.cardBottomText,{color:colors.white}]}
+                  >{matchName}</Text>
+                <Text
+                  key={`${potential.id || potential.user.id}-matchn`}
+                  style={[styles.cardBottomOtherText,{color:colors.white}]}
+                  >
+                {
+                  `${city} | ${distance} ${distance == 1 ? 'mile' : 'miles'} away`
+                }
+                </Text>
+              </View>
+
+            {this.props.rel == 'single' &&
+              <View style={{
+                height:60,
+                top:-30,
+                position:'absolute',
+                width:125,
+                right:0,
+                backgroundColor:'transparent',
+                flexDirection:'row'}}
+                >
+                <TouchableHighlight
+                onPress={(e)=>{ /*this.setState({activeIndex: 0}) */} }
+                  underlayColor={colors.mediumPurple}
+                  style={[styles.circleimagewrap,{ backgroundColor:colors.outerSpace }]}
+                  >
+                  <Image
+                    source={{uri: this.props.potential.user.image_url}}
+                    key={this.props.potential.user.id + 'img'}
+                    style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller), {
+                      marginRight:0,
+                      opacity: this.state.activeIndex == 1 ? 1 : 0.9
+                    }]}
+                  />
+                </TouchableHighlight>
+                <TouchableHighlight
+                onPress={(e)=>{ /*this.setState({activeIndex: 1}) */} }
+
+                  underlayColor={colors.mediumPurple}
+                  style={[styles.circleimagewrap, { backgroundColor:colors.outerSpace }]}
+                  >
+                  <Image
+                    source={{uri: this.props.potential.partner.image_url}}
+                    key={this.props.potential.partner.id + 'img'}
+                    style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller), {
+                      marginRight:0,
+                      opacity: this.state.activeIndex == 1 ? 1 : 0.9
+                    }]}
+                  />
+                </TouchableHighlight>
+              </View>
+            }
+
+            <View style={{top:-50}}>
+
+              {potential.bio && potential.user.bio &&
+                <View style={{margin:MagicNumbers.screenPadding/2}}>
+                  <Text style={[styles.cardBottomOtherText,{color:colors.white,marginBottom:15,marginLeft:0}]}>{
+                      rel =='single' ? `About Me` : `About Us`
+                  }</Text>
+                  <Text style={{color:colors.white,fontSize:18,marginBottom:15}}>{
+                      potential.bio || potential.user.bio
+                  }</Text>
+                </View>
+              }
+
+              <View style={{ paddingVertical:20,alignItems:'stretch' }}>
+                <UserDetails potential={potential} user={this.props.user} location={'card'} />
+              </View>
+
+              <TouchableOpacity onPress={this.reportModal.bind(this)}>
+                <View style={{flex:1,marginTop:20,paddingBottom:50}}>
+                  <Text style={{color:colors.mandy,textAlign:'center'}}>Report or Block this user</Text>
+                </View>
+              </TouchableOpacity>
+
+            </View>
+          </View>
+
+        </Animated.View>
+      </ScrollView>
+      <View
+        key={/* TODO: Implement sanity */  'navbarholder'+potential.user.id}
+        style={{
+          backgroundColor:'black',
+          width:DeviceWidth,
+          position:'absolute',
+          height:55,
+          top:0,
+          overflow:'visible',
+          borderRadius:0
+        }}
+        >
+        <View style={{backgroundColor:'#000'}}>
+          <FakeNavBar
+            hideNext={true}
+            backgroundStyle={{
+              backgroundColor:'black',
+              width:DeviceWidth,
+              height:55,
+            }}
+            insideStyle={{
+              flex:1,
+              width:DeviceWidth,
+              height:55,
+              backgroundColor:colors.outerSpace,
+              borderTopLeftRadius:8,
+              borderTopRightRadius:8,
+              overflow:'hidden',
+            }}
+            titleColor={colors.white}
+            title={ matchName }
+            onPrev={(nav,route)=> {this.props.toggleProfile()}}
+            customPrev={
+              <Image
+              resizeMode={Image.resizeMode.contain}
+              style={{margin:0,alignItems:'flex-start',height:12,width:12,marginTop:10}}
+              source={{uri: 'assets/close@3x.png'}}
+              />
+            }
+          />
+          </View>
+          </View>
+        </View>
+
+      )
+    }
   }
 }
 
 reactMixin.onClass(Card,scrollable)
 export default Card
-
-const cs = StyleSheet.create({
-  cardinsideOPEN: {
-      width:DeviceWidth,
-      right:0,
-      left:-20,
-      alignItems:'flex-start',
-
-      top:0,
-      alignSelf:'stretch',
-      flex:1
-  },
-
-  cardinsideCLOSED:{
-    borderRadius: 8,
-    flex:1,
-    width:undefined,
-    position:'relative',
-    height:DeviceHeight-50,
-    overflow:'hidden',
-    backgroundColor:colors.dark
-  },
-
-  scrollboxContainerCLOSED:{
-    alignItems:'center',
-      justifyContent:'center',
-      position:'relative',
-      width:undefined,
-      height:undefined,
-      left:0,
-      right:0,
-      flex:1,
-    },
-
-
-
-    scrollboxCLOSED:{
-      margin:0,
-      padding:0,
-      width:undefined,
-      // left:0,right:0,
-      padding: 0,
-      paddingTop: 0,
-      height:undefined,
-      position:'relative',
-      flex:1,
-      backgroundColor: colors.white,
-   },
-
-
-     scrollboxOPEN:{
-       margin:0,
-       width:DeviceWidth,
-       paddingTop:55,
-       top:0,
-       left:0,
-       bottom:0,
-       position:'relative',
-       right:0,
-       backgroundColor:'black',
-       height:DeviceHeight,
-       flex:1,
-     },
-
-
-
-  bgopacityCLOSED:   {
-    flex:1,
-    alignItems:'center',
-    justifyContent:'center',left:0,right:0,
-    marginHorizontal:0,
-    flexDirection:'column',
-    position:'relative',
-  },
-swiperOPEN: {
-    width: DeviceWidth,
-    flex:1,
-top:0
-  },
-
-  swiperCLOSED: {
-    alignSelf: 'center',
-    marginLeft: 0,
-    // overflow:'hidden',
-    height: undefined,
-    width: undefined,
-    marginRight: 0,
-    left: 0,    flex:1,
-    top:0
-
-
-  },
-
-  swiperPagination: {
-    position: 'absolute',
-    paddingRight: 35,
-    right: 0,
-    top: 45,
-    height: 100
-  },
-
-
-  touchableimgCLOSED: {
-    overflow: 'hidden',
-    height: undefined,
-    width: undefined,
-  },
-
-  cimgCLOSED: {
-    backgroundColor: colors.white,
-    width: undefined,
-    height: undefined,
-    flex: 1,
-    left: 0,
-    right: 0,
-    top:0
-  },
-
-  cimgOPEN: {
-    width: DeviceWidth,
-  },
-
-  swiperAltCLOSED: {
-    alignSelf: 'center',
-    marginLeft: 0,
-    // overflow:'hidden',
-    height: undefined,
-    width: undefined,
-    marginRight: 0,
-    flex: 1,
-    left: 0,
-    alignItems: 'stretch'
-  },
-
-
-  bottomviewCLOSED: {
-    flex: 1,
-    left: 20,
-    bottom: 80,
-    backgroundColor: colors.white,
-    width: undefined,
-
-
-    flexDirection: 'row',
-    position: 'absolute',
-    alignSelf: 'stretch',
-    alignItems: 'stretch'
-
-  },
-
-  bottomviewOPEN: {
-    minHeight: 200,
-    top: 0,
-    marginTop: ( DeviceHeight <= 568 ? -120 : -320 ),
-    backgroundColor: colors.outerSpace,
-    flex: 1,
-    left: 0,
-    right: 0,
-position:'relative',
-    width: undefined,
-  }
-} )
