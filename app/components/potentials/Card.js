@@ -102,6 +102,7 @@ class Card extends React.Component{
         potential: this.props.potential,
         goBack: ()=> {
           this.props.navigator.pop()
+          this.props.toggleProfile()
         }
       }
     })
@@ -223,7 +224,7 @@ class Card extends React.Component{
                     onPress={this.openProfileFromImage.bind(this)}
                   >
                   <Animated.Image
-                  source={potential.user.image_url ? {uri:potential.user.image_url} : {uri: 'assets/defaultuser.png'}}
+                  source={ {uri:potential.user.image_url}}
                     key={`${potential.user.id}-cimg`}
                     defaultSource={{uri: 'assets/defaultuser.png'}}
                     style={[styles.imagebg, {
@@ -277,6 +278,7 @@ class Card extends React.Component{
                       >
                       <Animated.Image
                         source={{uri: potential.image}}
+                        defaultSource={{uri: 'assets/defaultuser.png'}}
                         key={`${potential.partner.id}-cimg`}
                         style={[styles.imagebg,{
                           width: undefined,
@@ -479,7 +481,7 @@ class Card extends React.Component{
               right:0,
               left:-20,
               alignItems:'flex-start',
-              height:DeviceHeight,
+              height:DeviceHeight+20,
               right:0,
               alignSelf:'stretch',
               flex:1
@@ -493,7 +495,7 @@ class Card extends React.Component{
               top:0,
               left:0,
               right:0,
-              backgroundColor:'black',
+              backgroundColor:colors.outerSpace,
               height:DeviceHeight,
               flex:1,
             }]}
@@ -529,7 +531,7 @@ class Card extends React.Component{
                   paginationStyle={{position:'absolute',right:0,top:45,height:100}}
                   >
 
-                  <TouchableOpacity
+                  <TouchableWithoutFeedback
                     key={`${potential.user.id}-touchableimg`}
                     style={[styles.imagebg,{
                       width: DeviceWidth,
@@ -538,7 +540,8 @@ class Card extends React.Component{
                     onPressIn={(e)=>{/* this.refs.cardinside.setNativeProps({style:{opacity:0.8}}) */}}
                     >
                     <Animated.Image
-                    source={potential.user.image_url ? {uri: potential.user.image_url} : {uri: 'assets/defaultuser.png'}}
+                    source={ {uri: potential.user.image_url}}
+                    defaultSource={{uri: 'assets/defaultuser.png'}}
 
                       key={`${potential.user.id}-cimg`}
                       style={[styles.imagebg, {
@@ -551,16 +554,17 @@ class Card extends React.Component{
                       }]}
                       resizeMode={Image.resizeMode.cover}
                     />
-                </TouchableOpacity>
+                </TouchableWithoutFeedback>
 
                   { potential.partner &&
-                    <TouchableOpacity
+                    <TouchableWithoutFeedback
                       key={`${potential.partner.id}-touchableimg`}
                       style={[styles.imagebg,{ }]}
                       onPress={this.openProfileFromImage.bind(this)}
                       >
                       <Animated.Image
-                      source={potential.partner.image_url ? {uri: potential.partner.image_url} : {uri: 'assets/defaultuser.png'}}
+                      source={ {uri: potential.partner.image_url}}
+                      defaultSource={{uri: 'assets/defaultuser.png'}}
                         key={`${potential.partner.id}-cimg`}
                         style={[styles.imagebg,{
                           width: DeviceWidth,
@@ -572,17 +576,18 @@ class Card extends React.Component{
                         }]}
                         resizeMode={Image.resizeMode.cover}
                       />
-                  </TouchableOpacity>
+                  </TouchableWithoutFeedback>
                   }
                   { potential.partner && potential.image && potential.image != null && potential.image != '' ?
 
-                    <TouchableOpacity
+                    <TouchableWithoutFeedback
                       key={`${potential.id}-touchableimg`}
                       style={[styles.imagebg,{ }]}
                       onPress={this.openProfileFromImage.bind(this)}
                       >
                       <Animated.Image
-                      source={potential.image ? {uri: potential.image} : {uri: 'assets/defaultuser.png'}}
+                      source={ {uri: potential.image}}
+                      defaultSource={{uri: 'assets/defaultuser.png'}}
                         key={`${potential.partner.id}-cimg`}
                         style={[styles.imagebg,{
                           width: DeviceWidth,
@@ -594,11 +599,11 @@ class Card extends React.Component{
                         }]}
                         resizeMode={Image.resizeMode.cover}
                       />
-                  </TouchableOpacity> : null
+                  </TouchableWithoutFeedback> : null
                   }
 
                 </Swiper> :
-                <TouchableOpacity
+                <TouchableWithoutFeedback
                   key={/* TODO: Implement sanity */ `${potential.user.id}-touchableimg`}
                   style={[styles.imagebg,{ overflow:'hidden'}]}
                   onPressIn={this.toggleCardHoverOff.bind(this)}
@@ -620,7 +625,7 @@ class Card extends React.Component{
                     }]}
                     resizeMode={Image.resizeMode.cover}
                   />
-              </TouchableOpacity>
+              </TouchableWithoutFeedback>
               }
 
             <View
@@ -758,6 +763,7 @@ class Card extends React.Component{
               flex:1,
               width:DeviceWidth,
               height:55,
+              marginTop:5,
               backgroundColor:colors.outerSpace,
               borderTopLeftRadius:8,
               borderTopRightRadius:8,

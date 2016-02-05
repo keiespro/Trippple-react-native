@@ -112,7 +112,7 @@ class ActionModal extends Component{
     var {isVisible} = this.props
     var theirIds = Object.keys(this.props.currentMatch.users).filter( (u)=> u != this.props.user.id)
     var them = theirIds.map((id)=> this.props.currentMatch.users[id])
-    console.warn('x',JSON.stringify(this.props.currentMatch));
+    // console.warn('x',JSON.stringify(this.props.currentMatch));
     var img_url = them[0].image_url
     var matchName = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },'')
     return (

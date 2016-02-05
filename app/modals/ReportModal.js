@@ -38,20 +38,21 @@ export default class ReportModal extends Component{
   report(them, reason){
 
     MatchActions.reportUser(them && them.id ? them : them[0], reason)
+    MatchActions.removePotential.defer()
     this.props.goBack();
 
   }
 
   render(){
     if(this.props.match){
-      var {match} = this.props
-      var theirIds = Object.keys(match.users).filter( (u)=> u != this.props.user.id)
-      var them = theirIds.map((id)=> match.users[id])
+      const {match} = this.props
+      const theirIds = Object.keys(match.users).filter( (u)=> u != this.props.user.id)
+      const them = theirIds.map((id)=> match.users[id])
     }else{
-      var {potential} = this.props,
+      const {potential} = this.props,
           them = [potential.user,potential.partner]
     }
-    var matchName = them.map( (user,i) => user.firstname.trim().toUpperCase() ).join(' & ');
+    const matchName = them.map( (user,i) => user.firstname.trim().toUpperCase() ).join(' & ');
 
     return (
       <PurpleModal>

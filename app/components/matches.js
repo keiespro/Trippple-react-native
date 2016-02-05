@@ -653,10 +653,10 @@ const styles = StyleSheet.create({
   noop:{},
   container: {
     backgroundColor: colors.dark,
-    marginTop:50,
+    marginTop:54,
     flex: 1,
     overflow:'hidden',
-    height: DeviceHeight-50,
+    height: DeviceHeight-55,
 
   },
   navText: {

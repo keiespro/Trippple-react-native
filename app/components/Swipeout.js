@@ -66,9 +66,11 @@ const SwipeoutBtn = React.createClass({
                                             inputRange:  [-width,-60,-50,50],
                                             outputRange: [-5,-10,-20, -20]
                                           }),
+                                        },
+                                        {
                             scale: offsetX.interpolate({
                               inputRange:  [-width,-60,-50,50],
-                                              outputRange: [ 1.9, 1.25, 1.5,   1.5],
+                                              outputRange: [ 1.2, 1, 0.7, 0.5 ],
                             })
                           },
                         ]
