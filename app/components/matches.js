@@ -272,11 +272,8 @@ var matchImage;
     var isVisible = this.state.isVisible;
 
     return (
-      <View style={[styles.container,{
-      }]}>
-      <View style={{height:0,
-
-      }}>
+        <View style={[styles.container,{ }]}>
+          <View style={{height:0, }}>
 
           <SegmentedView
             style={{backgroundColor: colors.dark}}
@@ -302,6 +299,7 @@ var matchImage;
             onEndReached={this.onEndReached.bind(this)}
             ref={component => this._listView = component}
             dataSource={this.props.dataSource}
+            initialListSize={8}
             renderRow={this._renderRow.bind(this)}
             renderScrollComponent={(props) => <ScrollView
               scrollEnabled={this.state.scrollEnabled}

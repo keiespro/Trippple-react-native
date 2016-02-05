@@ -18,7 +18,7 @@ class MatchesStore {
       matches: {},
       favorites: [],
       removedMatches:[],
-      mountedAt: Date.now() - 36600,
+      mountedAt: Date.now() ,
     }
 
     this.exportPublicMethods({
@@ -151,8 +151,10 @@ class MatchesStore {
       if ( !Object.keys( this.state.matches ).length ) {
         // first batch of matches
         const matchesHash = matches.reduce( ( acc, el, i ) => {
-          el.lastAccessed = this.state.mountedAt//Date.now()
+          el.lastAccessed = Date.now()
           el.unread = 0; //el.recent_message.created_timestamp*1000 > el.lastAccessed ? 1 : 0;
+
+
           acc[ el.match_id ] = el;
           return acc
         }, {})
@@ -161,12 +163,13 @@ class MatchesStore {
         const matchesHash = matches.reduce( ( acc, el, i ) => {
           if(!this.state.matches[el.match_id]){
             MatchActions.getMessages.defer(el.match_id);
+            if (el.recent_message && el.recent_message.from_user_info && el.recent_message.from_user_info.id && (el.recent_message.from_user_info.id != user.id && ( el.recent_message.created_timestamp * 1000 > el.lastAccessed )) ){
+              el.unread = 1
+            }
           }
           el.lastAccessed = el.lastAccessed || this.state.mountedAt;
-          el.unread = 0;
-          if (el.recent_message && el.recent_message.from_user_info && (el.recent_message.from_user_info.id != user.id && ( el.recent_message.created_timestamp * 1000 > el.lastAccessed )) ){
-            el.unread = 1
-          }
+          el.unread = this.state.matches[el.match_id] ? this.state.matches[el.match_id].unread : 0;
+
           acc[ el.match_id ] = el
           return acc
         }, {})
@@ -203,9 +206,9 @@ class MatchesStore {
       }
     }
 
-    if ( matches[ match_id ].recent_message.from_user_info.id != user.id && count == 0 && matches[ match_id ].lastAccessed < matches[ match_id ].recent_message.created_timestamp * 1000 ) {
-      count = 1
-    }
+    // if ( matches[ match_id ].recent_message.from_user_info.id != user.id && count == 0 && matches[ match_id ].lastAccessed < matches[ match_id ].recent_message.created_timestamp * 1000 ) {
+    //   count = 1
+    // }
     const thread = matches[ match_id ].message_thread || [];
 
     const newThread = [ ...thread, ...message_thread ];
