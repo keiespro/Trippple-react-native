@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC0549F11C671AEF0072E9E7 /* libRCTGoogleAnalyticsBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0549F01C671AE10072E9E7 /* libRCTGoogleAnalyticsBridge.a */; };
 		AC3DD3B71C3A2DED00D9E6D1 /* libEXURLHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FAD1C0502B600A63B9C /* libEXURLHandler.a */; };
 		AC3DD3B81C3A2DED00D9E6D1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		AC3DD3B91C3A2DED00D9E6D1 /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20441C050CF100A63B9C /* libRCTAddressBook.a */; };
@@ -171,6 +172,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		AC0549EF1C671AE10072E9E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC0549EB1C671AE10072E9E7 /* RCTGoogleAnalyticsBridge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A79185C61C30694E001236A6;
+			remoteInfo = RCTGoogleAnalyticsBridge;
+		};
 		ACBB1FAC1C0502B600A63B9C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ACBB1F521C0502B600A63B9C /* EXURLHandler.xcodeproj */;
@@ -297,6 +305,7 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		AC0549EB1C671AE10072E9E7 /* RCTGoogleAnalyticsBridge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGoogleAnalyticsBridge.xcodeproj; path = "../node_modules/react-native-google-analytics-bridge/ios/RCTGoogleAnalyticsBridge/RCTGoogleAnalyticsBridge.xcodeproj"; sourceTree = "<group>"; };
 		ACBB1ECB1C0502B600A63B9C /* ospermissions.android.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ospermissions.android.js; sourceTree = "<group>"; };
 		ACBB1ECD1C0502B600A63B9C /* ospermissions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ospermissions.h; sourceTree = "<group>"; };
 		ACBB1ECE1C0502B600A63B9C /* ospermissions.ios.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ospermissions.ios.js; sourceTree = "<group>"; };
@@ -392,6 +401,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC0549F11C671AEF0072E9E7 /* libRCTGoogleAnalyticsBridge.a in Frameworks */,
 				ACBB209F1C0510E200A63B9C /* libRCTCamera.a in Frameworks */,
 				ACBB209A1C050E8A00A63B9C /* CoreFoundation.framework in Frameworks */,
 				ACBB20991C050E8400A63B9C /* AssetsLibrary.framework in Frameworks */,
@@ -526,6 +536,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				AC0549EB1C671AE10072E9E7 /* RCTGoogleAnalyticsBridge.xcodeproj */,
 				ACBB20661C050D3D00A63B9C /* react-native-device */,
 				ACBB202C1C050CF000A63B9C /* RCTAddressBook.xcodeproj */,
 				ACBB202F1C050CF000A63B9C /* RCTCameraRoll.xcodeproj */,
@@ -582,6 +593,14 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* Trippple.app */,
 				ACBB20E51C051AE100A63B9C /* Tripppletest.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AC0549EC1C671AE10072E9E7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC0549F01C671AE10072E9E7 /* libRCTGoogleAnalyticsBridge.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1053,6 +1072,10 @@
 					ProjectRef = 00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */;
 				},
 				{
+					ProductGroup = AC0549EC1C671AE10072E9E7 /* Products */;
+					ProjectRef = AC0549EB1C671AE10072E9E7 /* RCTGoogleAnalyticsBridge.xcodeproj */;
+				},
+				{
 					ProductGroup = 00C302BC1ABCB91800DB3ED1 /* Products */;
 					ProjectRef = 00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */;
 				},
@@ -1194,6 +1217,13 @@
 			fileType = archive.ar;
 			path = libRCTText.a;
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AC0549F01C671AE10072E9E7 /* libRCTGoogleAnalyticsBridge.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTGoogleAnalyticsBridge.a;
+			remoteRef = AC0549EF1C671AE10072E9E7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		ACBB1FAD1C0502B600A63B9C /* libEXURLHandler.a */ = {
@@ -1449,7 +1479,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
 				PRODUCT_NAME = Trippple;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "cc81d691-5bc7-45b2-8e38-2b1210664969";
 			};
 			name = Debug;
 		};
@@ -1459,8 +1489,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/../lib/**",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
@@ -1481,7 +1511,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
 				PRODUCT_NAME = Trippple;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "cc81d691-5bc7-45b2-8e38-2b1210664969";
 			};
 			name = Release;
 		};
@@ -1549,6 +1579,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Trippple LLC (3D5DY3UN4M)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Trippple LLC (3D5DY3UN4M)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;

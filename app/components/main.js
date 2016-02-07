@@ -43,19 +43,7 @@ class Main extends Component{
   }
 
   componentWillMount(){
-    // bootstrap stores from asyncstorage
-    AsyncStorage.multiGet(['ChatStore','MatchesStore','UserStore'])
-    .then((data) => {
-      if (data){
-        const savedMatches = JSON.parse(data[1][1]);
-        const savedChats = JSON.parse(data[0][1]);
-        const saved = {...JSON.parse(savedChats),...JSON.parse(savedMatches)}
-        Log('Saved stores',saved);
-        alt.bootstrap(JSON.stringify(saved));
-      }
-    }).catch((err) => {
-      dispatch({error: err})
-    })
+
 
   }
 
@@ -64,7 +52,6 @@ class Main extends Component{
       AppActions.updateRoute.defer(this.refs.nav.state.presentedIndex)
     })
     NotificationActions.scheduleNewPotentialsAlert.defer()
-      AppActions.sendTelemetry(this.props.user)
   }
 
   componentWillReceiveProps(nProps){

@@ -55,31 +55,31 @@ export default class ReportModal extends Component{
     const matchName = them.map( (user,i) => user.firstname.trim().toUpperCase() ).join(' & ');
 
     return (
-        <PurpleModal>
+      <PurpleModal>
 
-            <View style={[styles.col,styles.fullWidth]}>
+        <View style={[styles.col,styles.fullWidth]}>
 
-                <View style={[styles.insidemodalwrapper,{justifyContent:'space-between'}]}>
+          <View style={[styles.insidemodalwrapper,{justifyContent:'space-between'}]}>
 
 
-                  <Text style={[styles.rowtext,styles.bigtext,{
-                  fontFamily:'Montserrat',fontSize:20,marginVertical:10
-                  }]}>REPORT {matchName}</Text>
+            <Text style={[styles.rowtext,styles.bigtext,{
+              fontFamily:'Montserrat',fontSize:20,marginVertical:10
+              }]}>REPORT {matchName}</Text>
 
-                  <Text style={[styles.rowtext,styles.bigtext,{
-                  fontSize:20,marginVertical:10,color: colors.shuttleGray,marginHorizontal:10
-                  }]}>Is this person bothering you? Tell us what they did.</Text>
+            <Text style={[styles.rowtext,styles.bigtext,{
+              fontSize:20,marginVertical:10,color: colors.shuttleGray,marginHorizontal:10
+              }]}>Is this person bothering you? Tell us what they did.</Text>
 
-                  <View style={{marginTop:30,alignSelf:'stretch'}}>
-                      <TouchableHighlight
-                      style={styles.modalButtonWrap}
-                      underlayColor={colors.mediumPurple}
-                      onPress={()=>{this.report(them,'image')}}>
-                          <View style={styles.modalButton} >
-                              <Text style={styles.modalButtonText}>OFFENSIVE BEHAVIOR</Text>
-                          </View>
-                      </TouchableHighlight>
-                      <TouchableHighlight
+            <View style={{marginTop:30,alignSelf:'stretch'}}>
+              <TouchableHighlight
+                style={styles.modalButtonWrap}
+                underlayColor={colors.mediumPurple}
+                onPress={()=>{this.report(them,'image')}}>
+                <View style={styles.modalButton} >
+                  <Text style={styles.modalButtonText}>OFFENSIVE BEHAVIOR</Text>
+                </View>
+              </TouchableHighlight>
+              <TouchableHighlight
                       underlayColor={colors.mediumPurple}
                       style={styles.modalButtonWrap}
                       onPress={()=>{this.report(them,'fake')}}>

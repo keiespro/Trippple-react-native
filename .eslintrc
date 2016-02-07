@@ -20,9 +20,9 @@
         "no-unused-vars": 0,
         "camelcase": 0,
         "no-underscore-dangle": 0,
-        "indent": 0,
-        "react/jsx-closing-bracket-location": 0,
-        "react/jsx-indent-props": [1, 2],
+        "indent": [1,2],
+        "react/jsx-closing-bracket-location": 1,
+        "react/jsx-indent-props": [1,2],
         "react/jsx-indent": [1, 2],
         "react-native/no-unused-styles": 0
 

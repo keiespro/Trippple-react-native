@@ -30,12 +30,12 @@
   [updater setDelegate:self];
   
   // PRODUCTION
-//  defaultJSCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-//  NSString *rootUrl = @"https://blistering-torch-607.firebaseapp.com/";
+  defaultJSCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  NSString *rootUrl = @"https://blistering-torch-607.firebaseapp.com/";
   
   // DEVELOPMENT
-    defaultJSCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
-    NSString *rootUrl = @"http://localhost/"; // AutoUpdater won't accept a rootUrl with a port
+//    defaultJSCodeLocation = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
+//    NSString *rootUrl = @"http://localhost/"; // AutoUpdater won't accept a rootUrl with a port
   
   
   
@@ -48,8 +48,8 @@
   [updater downloadUpdatesForType: ReactNativeAutoUpdaterPatchUpdate];
   [updater checkUpdate];
 
-//  NSURL* latestJSCodeLocation =  [updater latestJSCodeLocation]; //PRODUCTION
-  NSURL* latestJSCodeLocation = defaultJSCodeLocation; // DEVELOPMENT
+  NSURL* latestJSCodeLocation =  [updater latestJSCodeLocation]; //PRODUCTION
+//  NSURL* latestJSCodeLocation = defaultJSCodeLocartion; // DEVELOPMENT
   
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];

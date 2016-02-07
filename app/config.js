@@ -6,7 +6,7 @@ const configurations = {
 
   production: {
     SERVER_URL: 'https://new-api2.trippple.co/user',
-    WEBSOCKET_URL: 'new-api.trippple.co',
+    WEBSOCKET_URL: 'https://new-api1.trippple.co',
     KEYCHAIN_NAMESPACE: 'http://api2.trippple.co'
   },
 

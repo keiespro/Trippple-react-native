@@ -1,5 +1,5 @@
 import config from '../config'
-const {WEBSOCKET_URL}  = config;
+const {WEBSOCKET_URL} = config;
 import React from 'react-native'
 import { Component, View, AlertIOS, AsyncStorage, AppStateIOS, PushNotificationIOS, VibrationIOS } from 'react-native'
 
