@@ -1,8 +1,8 @@
 {
-  "version": "2.0.17",
-  "minContainerVersion": "2.0.16",
+  "version": "2.1.0",
+  "minContainerVersion": "2.1.0",
   "url": {
-    "url": "main2.0.17.jsbundle",
+    "url": "main.jsbundle",
     "isRelative": true
   }
 }

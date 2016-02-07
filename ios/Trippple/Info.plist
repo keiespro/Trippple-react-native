@@ -8,10 +8,6 @@
 	<string>Trippple</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
-	<key>CFBundleIcons</key>
-	<dict/>
-	<key>CFBundleIcons~ipad</key>
-	<dict/>
 	<key>CFBundleIdentifier</key>
 	<string>co.trippple</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -49,6 +45,8 @@
 	<string>367243980090932</string>
 	<key>FacebookDisplayName</key>
 	<string>Trippple</string>
+	<key>GAITrackingId</key>
+	<string>UA-49096214-2</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.social-networking</string>
 	<key>LSApplicationQueriesSchemes</key>
