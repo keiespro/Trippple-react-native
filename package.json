@@ -29,7 +29,7 @@
     "re-base": "^1.5.1",
     "react-addons-linked-state-mixin": "^0.14.6",
     "react-mixin": "3.0.3",
-    "react-native": "^0.19.0",
+    "react-native": "^0.20.0-rc1",
     "react-native-addressbook": "1.2.0",
     "react-native-app-info": "0.0.6",
     "react-native-auto-updater": "^0.1.1",

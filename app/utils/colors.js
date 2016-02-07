@@ -44,7 +44,7 @@ const colors = {
 
   darkGreenBlue:      'rgb(25,105,66)',
 
-  darkGreenBlue40:    'rgba (25, 104, 65, 0.40)',
+  darkGreenBlue40:    'rgba(25, 104, 65, 0.40)',
 
   sushi:              'rgb(66,181,125)',
 

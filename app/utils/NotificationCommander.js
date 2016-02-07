@@ -5,7 +5,7 @@ import { Component, View, AlertIOS, AsyncStorage, AppStateIOS, PushNotificationI
 
 import io from '../socket.io'
 
-import Firebase from 'firebase'
+// import Firebase from 'firebase'
 import NotificationActions from '../flux/actions/NotificationActions'
 import MatchActions from '../flux/actions/MatchActions'
 import UserActions from '../flux/actions/UserActions'
