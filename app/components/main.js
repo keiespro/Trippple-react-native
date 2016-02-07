@@ -17,7 +17,7 @@ import React,{
   Dimensions,
   View
 } from 'react-native'
-
+import dismissKeyboard from 'dismissKeyboard'
 import Settings from './settings'
 import Matches from './matches'
 import Potentials from './potentials'
@@ -74,6 +74,7 @@ class Main extends Component{
               }
             })
           }else{
+            dismissKeyboard();
            this.refs.nav.push({
               ...ChatRoute,
               sceneConfig: Navigator.SceneConfigs.PushFromRight,

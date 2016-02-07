@@ -22,7 +22,7 @@ import React, {
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../DeviceConfig'
-
+import dismissKeyboard from 'dismissKeyboard'
 import ActionModal from './ActionModal'
 import ThreeDots from '../buttons/ThreeDots'
 import FadeInContainer from './FadeInContainer'
@@ -655,6 +655,7 @@ const Chat = React.createClass({
     })
   },
   componentWillUnmount(){
+    dismissKeyboard()
     // MatchActions.setAccessTime.defer({match_id:this.props.match_id,timestamp: Date.now()})
   },
   componentDidMount(){
@@ -668,6 +669,7 @@ const Chat = React.createClass({
   },
 
   toggleModal(){
+    dismissKeyboard();
     this.setState({
       isVisible:!this.state.isVisible,
     })

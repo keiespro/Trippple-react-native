@@ -372,10 +372,10 @@ class Card extends React.Component{
                   marginTop: isTopCard ? -10 : -25,
                   flex:1,
                   left:20,
+                  right:0,
                   bottom:0,
                   backgroundColor:colors.white,
-                  width:undefined,
-
+                  width:DeviceWidth-(MagicNumbers.screenPadding/2),
                   flexDirection:'row',
                   position:'absolute',
                   alignSelf:'stretch',alignItems:'stretch'
@@ -389,9 +389,10 @@ class Card extends React.Component{
                     paddingTop:MagicNumbers.is4s ? 20 : 15,
                     paddingBottom:MagicNumbers.is4s ? 10 : 15,
                     height:80,
-                    width:DeviceWidth-MagicNumbers.screenPadding-10,
+                    width:DeviceWidth-MagicNumbers.screenPadding/2,
                     bottom:0,flex:1,
-                    alignSelf:'stretch',flexDirection:'column',
+                    alignSelf:'stretch',
+                    flexDirection:'column',
                     position:'relative',top:0,
                   }}
                 >
@@ -412,7 +413,7 @@ class Card extends React.Component{
                 <View style={{
                   height:74,
                   top:MagicNumbers.is4s ? -55 : -45,
-                  right:5,
+                  right:15,
                   alignSelf:'flex-end',
                   position:'absolute',
                   padding:5,
@@ -519,17 +520,16 @@ class Card extends React.Component{
         <View
           ref={'cardinside'}
           key={`${potential.id || potential.user.id}-inside`}
-          style={[ {
+          style={ {
             width:DeviceWidth,
             position: 'absolute',
             right:0,
             left:-20,
             alignItems:'flex-start',
             height:DeviceHeight+20,
-            right:0,
             alignSelf:'stretch',
             flex:1
-          } ]}
+          }}
         >
 
           <ScrollView
@@ -573,7 +573,7 @@ class Card extends React.Component{
                   width={DeviceWidth}
                   height={DeviceHeight}
                   style={{width:DeviceWidth,overflow: 'hidden',}}
-                  paginationStyle={{position:'absolute',right:0,top:45,height:100}}
+                  paginationStyle={{position:'absolute',right:10,top:10,height:100}}
                 >
 
                   <TouchableWithoutFeedback
@@ -720,7 +720,7 @@ class Card extends React.Component{
                   top:-30,
                   position:'absolute',
                   width:125,
-                  right:-MagicNumbers.screenPadding,
+                  right:MagicNumbers.screenPadding/2,
                   backgroundColor:'transparent',
                   flexDirection:'row'}}
                 >
