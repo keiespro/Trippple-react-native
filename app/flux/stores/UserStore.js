@@ -8,6 +8,8 @@ import AppState from './AppState'
 import Log from '../../Log'
 import {AsyncStorage} from 'react-native'
 import config from '../../config'
+import Mixpanel from '../../utils/mixpanel'
+
 const {KEYCHAIN_NAMESPACE} = config
 
 class UserStore {

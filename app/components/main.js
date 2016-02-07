@@ -48,6 +48,7 @@ class Main extends Component{
   }
 
   componentDidMount(){
+    Mixpanel.auth(this.props.user.id+'');
     this.refs.nav.navigationContext.addListener('didfocus', (e)=>{
       AppActions.updateRoute.defer(this.refs.nav.state.presentedIndex)
     })
@@ -105,8 +106,8 @@ class Main extends Component{
   selectScene(route, navigator){
     const RouteComponent = route.component;
     var navBar;
-    Mixpanel.auth(this.props.user.username).track(`HO: On - ${route.id} Screen`);
-    if(!route){
+    Mixpanel.track(`HO: On - ${route.id || route.component.displayName} Screen`);
+    if(!route ){
       route = ROUTE_STACK[0]
     }
     if (route.navigationBar) {

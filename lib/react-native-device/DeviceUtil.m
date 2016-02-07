@@ -14,7 +14,7 @@ RCT_EXPORT_MODULE();
 - (instancetype)init
 {
   if (self = [super init]) {
-    UIDevice *device = [UIDevice currentDevice];
+//    UIDevice *device = [UIDevice currentDevice];
   }
   
   return self;
