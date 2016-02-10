@@ -24,7 +24,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 
-  NSString *env = [[NSProcessInfo processInfo] environment][@"ENV"];
+  NSString *env = @"production";//[[NSProcessInfo processInfo] environment][@"ENV"];
   NSLog(@"RUNNING IN %@",env);
   
   NSURL* defaultMetadataFileLocation = [[NSBundle mainBundle] URLForResource:@"metadata"
