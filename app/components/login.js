@@ -53,10 +53,9 @@ class Login extends Component{
   }
 
   onError(err){
-    console.log(typeof err.phoneError)
-    // if(!err || !err.phoneError){
-    //     return;
-    // }
+    if(!err || !err.phoneError){
+        return;
+    }
     let errorMessage;
 
     if(typeof err.phoneError === 'string'){
@@ -64,8 +63,7 @@ class Login extends Component{
     }else{
       errorMessage = 'We seem to be having some trouble right now. Please try again later.';
     }
-    console.log(typeof err.phoneError)
-
+    
     this.setState({
       phoneError: errorMessage,
       canContinue: false
@@ -117,7 +115,6 @@ class Login extends Component{
   }
 
   render(){
-    console.log(this.state)
     return (
       <View style={[{flex: 1, height:DeviceHeight,width:DeviceWidth}]}>
 

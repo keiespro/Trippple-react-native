@@ -31,7 +31,7 @@ import {Connectivity, ReachabilitySubscription, AppVisibility} from '../utils/Co
 import Notifications from '../utils/Notifications';
 import LoadingOverlay from '../components/LoadingOverlay'
 import PurpleModal from '../modals/PurpleModal'
-
+import MaintenanceScreen from '../screens/MaintenanceScreen'
 import colors from '../utils/colors'
 
 
@@ -114,11 +114,7 @@ class TopLevel extends Component{
 
 
         {this.props.AppState.showMaintenanceScreen ?
-          <Image
-            style={{width:DeviceWidth, height:DeviceHeight, position:'absolute', top:0, left:0, right:0, bottom:0 }}
-            source={{uri:'http://blistering-torch-607.firebaseapp.com/system-maintenance.png'}}
-            defaultSource={{uri:'http://x.local:5000/system-maintenance.png'}}
-           /> : <View/> }
+          <MaintenanceScreen /> : null }
       </View>
     )
   }

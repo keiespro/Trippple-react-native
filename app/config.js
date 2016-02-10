@@ -1,11 +1,11 @@
 const APP_ENV = 'production';
 
-__DEBUG__ = true;
-__DEV__ = true;
+__DEBUG__ = false;
+__DEV__ = false;
 const configurations = {
 
   production: {
-    SERVER_URL: 'https://new-api2.trippple.co/user',
+    SERVER_URL: 'http://new-api2.trippple.co/user',
     WEBSOCKET_URL: 'new-api.trippple.co',
     KEYCHAIN_NAMESPACE: 'http://api2.trippple.co'
   },

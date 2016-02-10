@@ -24,24 +24,28 @@ async function baseRequest(endpoint: '', payload: {}){
     body: JSON.stringify(payload)
   }
 
-  let res = await fetch( `${SERVER_URL}/${endpoint}`, params)
+  let res = await fetch( `${SERVER_URL}/${endpoint}`, params).catch((err)=>{
+    __DEBUG__ && console.log(err)
+    AppActions.showMaintenanceScreen();
+  })
 
   try{
-    // console.log(res)
+    __DEBUG__ && console.log(res)
 
-    // if(res.status == 504 || res.status == 502){
-    //   console.log('show maint')
-    //   AppActions.showMaintenanceScreen();
-    // }
+    if(res.status == 504 || res.status == 502 || res.status == 404){
+      __DEBUG__ && console.log('show maint')
+      AppActions.showMaintenanceScreen();
+      throw new Error('Server down')
 
-    if(!res.json && res.status == 401){
-      throw new Error()
+    }else if(!res.json && res.status == 401){
+      throw new Error('Unauthorized')
     }
     let response = await res.json()
     response.res = res
     return response
   }catch(err){
-    // console.error(res,err)
+    __DEBUG__ && console.log(res,err)
+
     return {error: err, status: res.status}
   }
 }
