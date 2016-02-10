@@ -106,45 +106,56 @@ class PhoneNumberInput extends React.Component{
   render(){
 
     return (
-    <View style={{height: DeviceHeight-80,paddingBottom:KEYBOARD_HEIGHT,position:'relative',flex:1}} >
-    <View style={{
-      alignSelf:'flex-start',
-      flexDirection:'column',
-      position:'relative',
-      alignItems:'center',
-      height: (DeviceHeight  - KEYBOARD_HEIGHT),
-      flex:1,
-      justifyContent:'center',}}>
-      <View style={[styles.phoneInputWrap,
-          (this.props.inputFieldFocused ? styles.phoneInputWrapSelected : null),
-          (this.props.phoneError ? styles.phoneInputWrapError : null)]}>
+      <View style={{height: DeviceHeight-80,paddingBottom:KEYBOARD_HEIGHT,position:'relative',flex:1}}>
+        <View style={{
+          alignSelf:'flex-start',
+          flexDirection:'column',
+          position:'relative',
+          alignItems:'center',
+          height: (DeviceHeight  - KEYBOARD_HEIGHT),
+          flex:1,
+          justifyContent:'center',}}
+        >
+          <View style={[styles.phoneInputWrap,
+            (this.props.inputFieldFocused ? styles.phoneInputWrapSelected : null),
+            (this.props.phoneError ? styles.phoneInputWrapError : null)]}>
 
-        <TextInput
-            editable={false}
-            ref={component => this._textInput = component}
-            style={[{
-              textAlign:'center',
-              fontSize: 26,color:'#fff',height:60,width:MagicNumbers.screenWidth,
-              fontFamily:'Montserrat'
-            }]}
-            maxLength={14}
-            keyboardType={'numeric'}
-            placeholderTextColor="#fff"
-            autoFocus={false}
-             autoCorrect={false}
-            placeholder={'PHONE NUMBER'}
+            <TextInput
+              editable={false}
+              ref={component => this._textInput = component}
+              style={[{
+                textAlign:'center',
+                fontSize: 26,color:'#fff',height:60,width:MagicNumbers.screenWidth,
+                fontFamily:'Montserrat'
+              }]}
+              maxLength={14}
+              keyboardType={'numeric'}
+              placeholderTextColor="#fff"
+              autoFocus={false}
+              autoCorrect={false}
+              placeholder={'PHONE NUMBER'}
+            />
+            {this.props.phoneError &&
+              <View style={{position:'absolute',bottom:-45}}>
+                <Text
+                  textAlign={'right'}
+                  style={[styles.bottomErrorText]}>
+                  {this.props.phoneError}
+                </Text>
+              </View>
+            }
+          {/*{this.props.phoneError && <View ><Text textAlign={'right'} style={[styles.bottomErrorText]}>Did you mean to register?</Text> </View>}*/}
+          </View>
 
-
-          />
-        {this.state.phoneError && <View ><Text textAlign={'right'} style={[styles.bottomErrorText]}>Did you mean to register?</Text> </View>}
-
+          {this.props.continueButton}
 
         </View>
 
-        {this.props.continueButton}
-      </View>
+        <Numpad
+          backspace={this.backspace.bind(this)}
+          onChangeText={this.onChangeText.bind(this)}
+        />
 
-        <Numpad backspace={this.backspace.bind(this)} onChangeText={this.onChangeText.bind(this)}/>
       </View>
     )
   }
