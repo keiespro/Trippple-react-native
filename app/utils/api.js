@@ -1,7 +1,10 @@
+/* @flow */
+
 import AppInfo from 'react-native-app-info'
 import { Platform, NativeModules } from 'react-native'
 import CredentialsStore from '../flux/stores/CredentialsStore'
 import Promise from 'bluebird'
+import AppActions from '../flux/actions/AppActions'
 import config from '../config'
 
 const { FileTransfer, RNAppInfo, ReactNativeAutoUpdater } = NativeModules,
@@ -22,18 +25,24 @@ async function baseRequest(endpoint: '', payload: {}){
   }
 
   let res = await fetch( `${SERVER_URL}/${endpoint}`, params)
-  console.log(res)
+
   try{
+    // console.log(res)
+
+    // if(res.status == 504 || res.status == 502){
+    //   console.log('show maint')
+    //   AppActions.showMaintenanceScreen();
+    // }
+
     if(!res.json && res.status == 401){
-        throw new Error()
+      throw new Error()
     }
     let response = await res.json()
     response.res = res
     return response
   }catch(err){
     // console.error(res,err)
-
-    return {error: err,status:res.status}
+    return {error: err, status: res.status}
   }
 }
 

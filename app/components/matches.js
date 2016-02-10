@@ -107,7 +107,7 @@ class MatchList extends Component{
       this.props.chatActionSheet(match)
   }
   handleCancelUnmatch(rowData){
-    
+
   }
   unmatch(rowData){
     Alert.alert(
@@ -123,28 +123,22 @@ class MatchList extends Component{
     );
   }
   _renderRow(rowData, sectionID, rowID){
+    // console.log(rowData)
 
     const myId = this.props.user.id,
         myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
-    var theirIds = Object.keys(rowData.users).filter( (u)=> u != this.props.user.id);
+    var theirIds = Object.keys(rowData.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id);
     var them = theirIds.map((id)=> rowData.users[id]);
     var threadName = them.map( (user,i) => user.firstname.trim() ).join(' & ');
     var modalVisible = this.state.isVisible;
-    var thumb = ( them.couple && them.couple.thumb_url ) || them[0].thumb_url || them[1].thumb_url || null;
+
+    var thumb = them[0].thumb_url;
       /*
        * TODO:
        * this deals with test bucket urls
        * but not very maintainable
        */
-      var matchImage;
-      var img = thumb;//(thumb_url && typeof thumb_url === 'string' ? thumb_url : image_url);
-      if(img && img.includes('test')){
-        var u = img;
-        var x = u.split('/test/')[0].split('uploads') + u.split('test')[1];
-        matchImage = x.split('/images')[0] + x.split('/images')[1]
-      }else{
-        matchImage = +'';
-      }
+       var matchImage = thumb
 
 
     var unread = rowData.unread || 0;
@@ -188,7 +182,7 @@ class MatchList extends Component{
                <Image
                  key={'userimage'+rowID}
                  style={styles.thumb}
-                 source={matchImage ? {uri: matchImage} : {uri: 'assets/placeholderUser@3x.png'}}
+                 source={ {uri: matchImage}}
                  resizeMode={Image.resizeMode.cover}
                   defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
                />

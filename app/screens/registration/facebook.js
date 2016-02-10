@@ -106,7 +106,7 @@ class Facebook extends Component{
           <FacebookButton buttonType={'onboard'} buttonText={'VERIFY WITH FB'} onLogin={this.handleCredentials.bind(this)} />
 
           <View style={styles.middleTextWrap}>
-            <Text style={[styles.middleText,{fontSize:16,marginTop:20,textAlign:'center',width:MagicNumbers.screenWidth}]}>Don’t worry, we wont tell ever your friends or post on your wall.</Text>
+            <Text style={[styles.middleText,{fontSize:16,marginTop:20,textAlign:'center',width:MagicNumbers.screenWidth}]}>Don’t worry, we won't ever tell your friends or post on your wall.</Text>
           </View>
 </View>
           <View style={[styles.middleTextWrap,styles.bottomwrap]}>

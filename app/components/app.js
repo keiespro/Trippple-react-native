@@ -5,7 +5,7 @@
 
 import React from 'react-native';
 import DeviceConfig from '../DeviceConfig'
-import { Component, View, Navigator, Dimensions } from 'react-native'
+import { Component, View, Navigator, Dimensions, Image } from 'react-native'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -111,6 +111,14 @@ class TopLevel extends Component{
         <Connectivity/>
 
         <Notifications user={this.props.user} AppState={this.props.AppState} />
+
+
+        {this.props.AppState.showMaintenanceScreen ?
+          <Image
+            style={{width:DeviceWidth, height:DeviceHeight, position:'absolute', top:0, left:0, right:0, bottom:0 }}
+            source={{uri:'http://blistering-torch-607.firebaseapp.com/system-maintenance.png'}}
+            defaultSource={{uri:'http://x.local:5000/system-maintenance.png'}}
+           /> : <View/> }
       </View>
     )
   }

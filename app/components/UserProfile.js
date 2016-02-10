@@ -177,11 +177,11 @@ class UserProfile extends React.Component{
               <Text style={[styles.cardBottomText,{color:colors.white,marginLeft:0,width:MagicNumbers.screenWidth}]}>
               {matchName}
               </Text>
-              <Text style={[styles.cardBottomOtherText,{color:colors.white,marginLeft:0,width:MagicNumbers.screenWidth}]}>
+              {/*<Text style={[styles.cardBottomOtherText,{color:colors.white,marginLeft:0,width:MagicNumbers.screenWidth}]}>
               {
                 distance ? `${city} | ${distance} ${distance == 1 ? 'mile' : 'miles'} away` : null
               }
-              </Text>
+              </Text>*/}
             </View>
 
           {rel == 'couple' &&

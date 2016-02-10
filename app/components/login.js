@@ -53,6 +53,7 @@ class Login extends Component{
   }
 
   onError(err){
+    console.log(err)
     if(!err || !err.phoneError){
         return;
     }
@@ -63,11 +64,11 @@ class Login extends Component{
     })
   }
   componentDidMount(){
-    AuthErrorStore.listen(this.onError);
+    AuthErrorStore.listen(this.onError.bind(this));
     Mixpanel.track('On - Login Screen');
   }
   componentWillUnmount(){
-    AuthErrorStore.unlisten(this.onError);
+    AuthErrorStore.unlisten(this.onError.bind(this));
   }
 
   shouldHide(state) { return (state.phone.length != 10) }

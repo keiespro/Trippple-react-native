@@ -392,10 +392,10 @@ class Card extends React.Component{
                     key={`${potential.id || potential.user.id}-names`}>{
                       matchName
                     }</Text>
-                    <Text style={[styles.cardBottomOtherText,{flex:1}]}
+                    {/*<Text style={[styles.cardBottomOtherText,{flex:1}]}
                     key={`${potential.id || potential.user.id}-matchn`}>{
                       `${city} | ${distance} ${distance == 1 ? 'mile' : 'miles'} away`
-                    }</Text>
+                    }</Text>*/}
                 </View>
 
             {this.props.rel == 'single' && isTopCard ?
@@ -687,14 +687,14 @@ class Card extends React.Component{
                   key={`${potential.id || potential.user.id}-names`}
                   style={[styles.cardBottomText,{color:colors.white}]}
                   >{matchName}</Text>
-                <Text
+                {/*<Text
                   key={`${potential.id || potential.user.id}-matchn`}
                   style={[styles.cardBottomOtherText,{color:colors.white}]}
                   >
                 {
                   `${city} | ${distance} ${distance == 1 ? 'mile' : 'miles'} away`
                 }
-                </Text>
+                </Text>*/}
               </View>
 
             {this.props.rel == 'single' &&

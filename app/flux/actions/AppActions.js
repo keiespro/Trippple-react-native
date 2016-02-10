@@ -35,6 +35,9 @@ class AppActions {
   toggleOverlay(){
     return true
   }
+  showMaintenanceScreen(){
+    return true
+  }
   storeContactsToBlock(contacts){
     return contacts;
   }
@@ -44,11 +47,13 @@ class AppActions {
   denyPermission(perm){
     return perm;
   }
+
   saveStores() {
     return (dispatch) => {
       dispatch(true);
     };
   }
+
   async sendTelemetry(user){
 
     try{
