@@ -5,7 +5,7 @@
 
 import React from 'react-native';
 import DeviceConfig from '../DeviceConfig'
-import { Component, View, Navigator, Dimensions } from 'react-native'
+import { Component, View, Navigator, Dimensions, Image } from 'react-native'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -31,7 +31,7 @@ import {Connectivity, ReachabilitySubscription, AppVisibility} from '../utils/Co
 import Notifications from '../utils/Notifications';
 import LoadingOverlay from '../components/LoadingOverlay'
 import PurpleModal from '../modals/PurpleModal'
-
+import MaintenanceScreen from '../screens/MaintenanceScreen'
 import colors from '../utils/colors'
 
 
@@ -111,6 +111,10 @@ class TopLevel extends Component{
         <Connectivity/>
 
         <Notifications user={this.props.user} AppState={this.props.AppState} />
+
+
+        {this.props.AppState.showMaintenanceScreen ?
+          <MaintenanceScreen /> : null }
       </View>
     )
   }

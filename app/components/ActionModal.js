@@ -53,7 +53,7 @@ class ActionModal extends Component{
           rel = user.relationship_status
 
 
-    var theirIds = Object.keys(match.users).filter( u => { return u != user.id})
+    var theirIds = Object.keys(match.users).filter( u => { return u != user.id && u != user.partner_id})
     var them = theirIds.map((id) => match.users[id])
 
     const MatchUserAsPotential = {
@@ -110,11 +110,17 @@ class ActionModal extends Component{
   render(){
     if(!this.props.currentMatch ){ return false;}
     var {isVisible} = this.props
-    var theirIds = Object.keys(this.props.currentMatch.users).filter( (u)=> u != this.props.user.id)
+    var theirIds = Object.keys(this.props.currentMatch.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id)
     var them = theirIds.map((id)=> this.props.currentMatch.users[id])
+    console.log(them)
     // console.warn('x',JSON.stringify(this.props.currentMatch));
-    var img_url = them[0].image_url
-    var matchName = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },'')
+    var img_url = them[0].thumb_url
+    var  matchName
+    if(this.props.user.relationship_status == 'couple'){
+      matchName = them[0].firstname
+    }else{
+      matchName = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },'') +''
+    }
     return (
 
       <ActualModal
@@ -147,14 +153,14 @@ class ActualModal extends Component{
   render(){
     const {img_url,them,matchName,theirIds,isVisible,user} = this.props
     var matchImage;
-          var img = img_url;//(thumb_url && typeof thumb_url === 'string' ? thumb_url : image_url);
-          if(img && img.includes('test')){
-            var u = img;
-            var x = u.split('/test/')[0].split('uploads') + u.split('test')[1];
-            matchImage = x.split('/images')[0] + x.split('/images')[1]
-          }else{
-            matchImage = +'';
-          }
+          // var img = img_url;//(thumb_url && typeof thumb_url === 'string' ? thumb_url : image_url);
+          // if(img && img.includes('test')){
+          //   var u = img;
+          //   var x = u.split('/test/')[0].split('uploads') + u.split('test')[1];
+          //   matchImage = x.split('/images')[0] + x.split('/images')[1]
+          // }else{
+          //   matchImage = +'';
+          // }
     if(isVisible){
       return (
         <Modal
@@ -169,7 +175,7 @@ class ActualModal extends Component{
               <Image
                 style={styles.userimage}
                 key={this.props.currentMatch.match_id}
-                source={ {uri: matchImage} }
+                source={ {uri: img_url} }
                 defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
                 resizeMode={Image.resizeMode.cover}
               />

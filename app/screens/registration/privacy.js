@@ -89,7 +89,7 @@ class PrivacyScreen extends Component{
 
           <Text style={[styles.labelText,{
               fontSize:MagicNumbers.is4s ? 16 : 20,
-              marginBottom:MagicNumbers.screenPadding/2}]}>{"Select your perfered privacy setting"}</Text>
+              marginBottom:MagicNumbers.screenPadding/2}]}>{"Select your preferred privacy setting"}</Text>
           <TouchableHighlight
             underlayColor={this.state.selection == 'public' ? colors.mediumPurple : colors.mediumPurple20}
             style={{marginVertical:MagicNumbers.screenPadding/2}}
@@ -125,7 +125,7 @@ class PrivacyScreen extends Component{
                 flexDirection:'column',alignItems:'flex-start',
                 justifyContent:'space-around',flex:1,width:140}}>
                 <Text style={styles.boxTitle}>PRIVATE</Text>
-                <Text style={styles.boxP}>Your profile is hidden from your facebook friends and phone contacts. Facebook required.</Text>
+                <Text style={styles.boxP}>Your profile is hidden from your facebook friends and phone contacts. (Facebook required)</Text>
               </View>
             </View>
           </TouchableHighlight>

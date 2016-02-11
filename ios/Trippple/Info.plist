@@ -40,7 +40,11 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
+<<<<<<< HEAD
 	<string>2.1.0.4</string>
+=======
+	<string>2.0.17.5</string>
+>>>>>>> release-2.0.23
 	<key>FacebookAppID</key>
 	<string>367243980090932</string>
 	<key>FacebookDisplayName</key>

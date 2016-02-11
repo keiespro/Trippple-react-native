@@ -56,18 +56,25 @@ class Login extends Component{
     if(!err || !err.phoneError){
         return;
     }
+    let errorMessage;
 
+    if(typeof err.phoneError === 'string'){
+      errorMessage = err.phoneError
+    }else{
+      errorMessage = 'We seem to be having some trouble right now. Please try again later.';
+    }
+    
     this.setState({
-      phoneError: err.phoneError,
+      phoneError: errorMessage,
       canContinue: false
     })
   }
   componentDidMount(){
-    AuthErrorStore.listen(this.onError);
+    AuthErrorStore.listen(this.onError.bind(this));
     Mixpanel.track('On - Login Screen');
   }
   componentWillUnmount(){
-    AuthErrorStore.unlisten(this.onError);
+    AuthErrorStore.unlisten(this.onError.bind(this));
   }
 
   shouldHide(state) { return (state.phone.length != 10) }
@@ -108,7 +115,6 @@ class Login extends Component{
   }
 
   render(){
-
     return (
       <View style={[{flex: 1, height:DeviceHeight,width:DeviceWidth}]}>
 
@@ -121,7 +127,6 @@ class Login extends Component{
               inputFieldFocused={this.state.inputFieldFocused}
               handleInputChange={this.handleInputChange.bind(this)}
             />
-
 
     </View>
 
@@ -174,7 +179,13 @@ const styles = StyleSheet.create({
   phoneInputWrapSelected:{
     borderBottomColor: colors.mediumPurple,
   },
-
+  underPinInput: {
+    marginTop: 10,
+    height: 30,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignSelf: 'stretch'
+  },
   middleTextWrap: {
     alignItems:'center',
     justifyContent:'center',

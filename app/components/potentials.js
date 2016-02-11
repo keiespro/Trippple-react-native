@@ -73,13 +73,13 @@ class PotentialsPage extends React.Component{
   _handleAppStateChange(currentAppState){
     // console.log('currentAppState',currentAppState)
     if(currentAppState == 'active'){
-      this.setState({ currentAppState, showPotentials: false});
+      this.setState({  currentAppState, showPotentials: false});
       this.setTimeout(()=>{
         this.setState({ showPotentials: true});
 
       },1000);
     }else{
-      this.setState({ currentAppState,showPotentials: false });
+      this.setState({ profileVisible: false, currentAppState, showPotentials: false });
 
     }
 
@@ -101,6 +101,7 @@ class PotentialsPage extends React.Component{
       this.setState({hasPushPermission: (pushPermission > 0) })
     })
   }
+
   componentDidUpdate(){
     if(true == false && !this.state.hasPushPermission && !this.state.requestingPushPermission ){
       this.setState({requestingPushPermission:true})

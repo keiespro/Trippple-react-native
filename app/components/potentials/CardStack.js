@@ -166,8 +166,10 @@ class CardStack extends React.Component{
 
            likeStatus =   'approve';
 
-          // if(!this.state.likedPotentials.indexOf(likeUserId)){
-          // }
+          if(!this.state.likedPotentials.indexOf(likeUserId)){
+            MatchActions.removePotential(likeUserId);
+            likestatus = null;
+          }
 
         }else if(dx < SWIPE_THRESHOLD_DENY || (dx < THROW_THRESHOLD_DENY && Math.abs(vx) > THROW_SPEED_THRESHOLD)){
           toValue = -700;
@@ -180,7 +182,9 @@ class CardStack extends React.Component{
         }else{
 
         }
-        if(likeStatus && likeStatus.length > 0){
+        if(!likeUserId){
+          MatchActions.removePotential(likeUserId);
+        }else if(likeStatus && likeStatus.length > 0){
           MatchActions.removePotential(likeUserId);
           MatchActions.sendLike( likeUserId, likeStatus, (this.props.rel == 'single' ? 'couple' : 'single'), this.props.rel );
 
@@ -188,7 +192,7 @@ class CardStack extends React.Component{
         }
 
 
-       this.state.pan.addListener((value) => {
+      //  this.state.pan.addListener((value) => {
 
         //
         //   // if(!value || !value.x ){ return false }
@@ -221,7 +225,7 @@ class CardStack extends React.Component{
         //     }
         //
         //   }
-        })
+        // })
         Animated.spring(this.state.pan, {
           toValue,
           velocity,       // maintain gesture velocity

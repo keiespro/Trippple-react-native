@@ -53,6 +53,7 @@ class Main extends Component{
       AppActions.updateRoute.defer(this.refs.nav.state.presentedIndex)
     })
     NotificationActions.scheduleNewPotentialsAlert.defer()
+      // AppActions.sendTelemetry(this.props.user)
   }
 
   componentWillReceiveProps(nProps){

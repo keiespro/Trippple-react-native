@@ -17,6 +17,7 @@ class AppStateStore {
     this.checkMarkCopy = {}
     this.currentRoute = null
     this.showOverlay = false
+    this.showMaintenanceScreen = false
     this.permissions = {
       camera: null,
       cameraRoll: null,
@@ -39,7 +40,8 @@ class AppStateStore {
       handleSelectPartner: UserActions.SELECT_PARTNER,
       handleUpdateRoute: AppActions.UPDATE_ROUTE,
       handleToggleOverlay: AppActions.TOGGLE_OVERLAY,
-      handleSentTelemetry: AppActions.SEND_TELEMETRY
+      handleSentTelemetry: AppActions.SEND_TELEMETRY,
+      handleShowMaintenanceScreen: AppActions.SHOW_MAINTENANCE_SCREEN
     });
 
     this.exportPublicMethods({
@@ -148,10 +150,10 @@ class AppStateStore {
       checkMarkCopy: cm ? cm.copy : {} ,
       checkmarkRequireButtonPress: cm  ? cm.button : false
     })
-    //
+
     if(!cm || !cm.button){
       setTimeout(()=>{
-        this.setState({showCheckmark:false,checkMarkCopy: {},checkmarkRequireButtonPress:false})
+        this.setState({showCheckmark:false, checkMarkCopy: {}, checkmarkRequireButtonPress:false})
       },5000);
     }
   }
@@ -181,6 +183,11 @@ class AppStateStore {
       }
   }
 
+  handleShowMaintenanceScreen(){
+    this.setState({
+      showMaintenanceScreen: true
+    })
+  }
 
   handleUpdateRoute(payload){
     this.currentRoute = payload;

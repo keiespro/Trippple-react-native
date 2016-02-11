@@ -1,7 +1,10 @@
+/* @flow */
+
 import AppInfo from 'react-native-app-info'
 import { Platform, NativeModules } from 'react-native'
 import CredentialsStore from '../flux/stores/CredentialsStore'
 import Promise from 'bluebird'
+import AppActions from '../flux/actions/AppActions'
 import config from '../config'
 
 const { FileTransfer, RNAppInfo, ReactNativeAutoUpdater } = NativeModules,
@@ -21,19 +24,29 @@ async function baseRequest(endpoint: '', payload: {}){
     body: JSON.stringify(payload)
   }
 
-  let res = await fetch( `${SERVER_URL}/${endpoint}`, params)
-  console.log(res)
+  let res = await fetch( `${SERVER_URL}/${endpoint}`, params).catch((err)=>{
+    __DEBUG__ && console.log(err)
+    AppActions.showMaintenanceScreen();
+  })
+
   try{
-    if(!res.json && res.status == 401){
-        throw new Error()
+    __DEBUG__ && console.log(res)
+
+    if(res.status == 504 || res.status == 502 || res.status == 404){
+      __DEBUG__ && console.log('show maint')
+      AppActions.showMaintenanceScreen();
+      throw new Error('Server down')
+
+    }else if(!res.json && res.status == 401){
+      throw new Error('Unauthorized')
     }
     let response = await res.json()
     response.res = res
     return response
   }catch(err){
-    // console.error(res,err)
+    __DEBUG__ && console.log(res,err)
 
-    return {error: err,status:res.status}
+    return {error: err, status: res.status}
   }
 }
 
