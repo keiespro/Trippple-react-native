@@ -12,6 +12,7 @@ import React, {
   StyleSheet,
   View,
   Text,
+  NativeModules,
   TouchableOpacity,
   Dimensions
 } from 'react-native'
@@ -24,6 +25,10 @@ const DeviceWidth = Dimensions.get('window').width
 const ScrollViewPropTypes = ScrollView.propTypes;
 import EditImageThumb from '../screens/registration/EditImageThumb'
 import EditImage from '../screens/registration/EditImage'
+
+
+const { RNAppInfo, ReactNativeAutoUpdater } = NativeModules;
+const VERSION = parseFloat(RNAppInfo.shortVersion);
 
 const propTypes = {
 
@@ -184,14 +189,14 @@ class CameraRollView extends Component{
       const ds = new ListView.DataSource({rowHasChanged: this._rowHasChanged.bind(this)});
 
       const newState = {
-            assets: [],
-            groupTypes: this.props.groupTypes,
-            lastCursor: null,
-            assetType: this.props.assetType,
-            noMore: false,
-            loadingMore: false,
-            dataSource: ds,
-          }
+        assets: [],
+        groupTypes: this.props.groupTypes,
+        lastCursor: null,
+        assetType: this.props.assetType,
+        noMore: false,
+        loadingMore: false,
+        dataSource: ds,
+      }
 
       this.setState(newState, this.fetch);
       return;
@@ -202,13 +207,23 @@ class CameraRollView extends Component{
       groupTypes: this.props.groupTypes,
       assetType: this.props.assetType,
     };
+
     if (this.state.lastCursor) {
       fetchParams.after = this.state.lastCursor;
     }
 
-    CameraRoll.getPhotos(fetchParams, this._appendAssets.bind(this), (err) => {
-      Log(err)
-    });
+    if(VERSION < 2.1){
+      CameraRoll.getPhotos(fetchParams, this._appendAssets.bind(this), (err) => {
+        __DEBUG__ && console.log(err)
+      });
+    }else{
+      CameraRoll.getPhotos(fetchParams)
+      .then((data) =>{
+        this._appendAssets(data)
+      }).catch((err) => {
+        __DEBUG__ && console.log(err)
+      });
+    }
   }
 
   /**
@@ -302,6 +317,7 @@ class CameraRollView extends Component{
   }
 
   _appendAssets(data){
+    console.log(data);
     var assets = data.edges;
     var newState = { loadingMore: false };
 

@@ -13,7 +13,7 @@ const { FileTransfer, RNAppInfo, ReactNativeAutoUpdater } = NativeModules,
 const VERSION = ReactNativeAutoUpdater.jsCodeVersion,
       iOSversion = RNAppInfo.getInfoiOS;
 
-async function baseRequest(endpoint: '', payload: {}){
+async function baseRequest(endpoint='': String, payload={}: Object){
   const params = {
     method: 'post',
     headers: {
@@ -24,10 +24,7 @@ async function baseRequest(endpoint: '', payload: {}){
     body: JSON.stringify(payload)
   }
 
-  let res = await fetch( `${SERVER_URL}/${endpoint}`, params).catch((err)=>{
-    __DEBUG__ && console.log(err)
-    AppActions.showMaintenanceScreen();
-  })
+  let res = await fetch( `${SERVER_URL}/${endpoint}`, params)
 
   try{
     __DEBUG__ && console.log(res)
@@ -40,11 +37,14 @@ async function baseRequest(endpoint: '', payload: {}){
     }else if(!res.json && res.status == 401){
       throw new Error('Unauthorized')
     }
+    if(!res.json){
+      __DEBUG__ && console.log('no res.json')
+    }
     let response = await res.json()
     response.res = res
     return response
   }catch(err){
-    __DEBUG__ && console.log(res,err)
+    __DEBUG__ && console.log('CAUGHT ERR',response,res,err)
 
     return {error: err, status: res.status}
   }
@@ -160,40 +160,43 @@ const api = {
     return publicRequest('save_facebook_picture', photo);
   },
 
-  uploadImage(image, image_type, cropData){
+  uploadImage(image, image_type, cropData): Promise{
     if(!image_type){
-       image_type = 'profile'
+      image_type = 'profile'
     }
     return authenticatedFileUpload('upload', image, image_type, cropData)
-            .then((res) => res.json())
+            .then((res) => {
+              console.log(res)
+                // res.json()
+            })
             .catch((err) => {
-              console.warn('err',{error: err})
+              console.warn('upload err',{error: err})
             })
   },
 
-  joinCouple(partner_phone){
+  joinCouple(partner_phone): Promise{
     return authenticatedRequest('join_couple', { partner_phone })
   },
 
-  getProfileSettingsOptions(){
+  getProfileSettingsOptions(): Promise{
     return publicRequest('get_client_user_profile_options')
   },
 
-  sendContactsToBlock(data,start){
+  sendContactsToBlock(data,start): Promise{
     return authenticatedRequest('process_phone_contacts', {data})
   },
 
-  updatePushToken(push_token){
+  updatePushToken(push_token): Promise{
     return authenticatedRequest('update', { push_token })
   },
 
-  disableAccount(){
+  disableAccount(): Promise{
     return authenticatedRequest('disable')
   },
 
-  async sendTelemetry(encodedTelemetryPayload){
+  async sendTelemetry(encodedTelemetryPayload: String): Promise{
     const credentials = CredentialsStore.getCredentials();
-    const authPayload = {...payload, ...credentials};
+    const authPayload = { ...credentials};
     const params = {
       method: 'post',
       headers: {
@@ -205,16 +208,16 @@ const api = {
     }
 
     let res = await fetch( `${SERVER_URL}/telemetry`, params)
-    // console.log(res)
+
     try{
       if(!res.json && res.status == 401){
-          throw new Error()
+        throw new Error('NO JSON')
       }
       let response = await res.json()
-      // console.log(response)
+      __DEBUG__ && console.log(response)
       return response
     }catch(err){
-      console.error(err)
+      __DEBUG__ && console.error(err)
 
       return {error: err,status:res.status}
     }
