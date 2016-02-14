@@ -285,7 +285,7 @@ class Card extends React.Component{
                       onPress={this.openProfileFromImage.bind(this)}
                     >
                       <Animated.Image
-                        source={potential.partner.image_url ? {uri:potential.user.image_url} : {uri: 'assets/defaultuser.png'}}
+                        source={{uri:potential.user.image_url}}
                         key={`${potential.partner.id}-cimg`}
                         defaultSource={{uri: 'assets/defaultuser.png'}}
                         style={[styles.imagebg,{
@@ -340,7 +340,7 @@ class Card extends React.Component{
                     key={`${potential.user.id}-touchableimg`}
                     style={[styles.imagebg,{
                       width:undefined,
-                      minHeight:DeviceHeight-50
+                      height:DeviceHeight-50
                     }]}
                     onPressIn={this.toggleCardHoverOn.bind(this)}
                     onPressOut={this.toggleCardHoverOff.bind(this)}
@@ -352,7 +352,7 @@ class Card extends React.Component{
                       defaultSource={{uri: 'assets/defaultuser.png'}}
                       style={[styles.imagebg,{
                         backgroundColor: colors.white,
-                        flex:1,minWidth:DeviceWidth, minHeight:DeviceHeight,
+                        flex:1,width:DeviceWidth, height:DeviceHeight,
                         opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                           inputRange:  [-300, -80, 0, 80, 300],
                           outputRange: [   0,   1, 1,  1,   0]
