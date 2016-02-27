@@ -26,5 +26,4 @@ class trippple extends React.Component{
   }
 }
 
-export default trippple
 AppRegistry.registerComponent('trippple', () => trippple)

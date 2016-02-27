@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2.1.0.4</string>
+	<string>2.1.0.46</string>
 	<key>FacebookAppID</key>
 	<string>367243980090932</string>
 	<key>FacebookDisplayName</key>
@@ -107,6 +107,8 @@
 		<string>Montserrat-Regular.otf</string>
 		<string>Montserrat-Bold.ttf</string>
 	</array>
+	<key>UIRequiresFullScreen</key>
+	<false/>
 	<key>UIStatusBarHidden</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>

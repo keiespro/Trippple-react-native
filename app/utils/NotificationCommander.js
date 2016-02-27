@@ -3,7 +3,7 @@ const {WEBSOCKET_URL} = config;
 import React from 'react-native'
 import { Component, View, AlertIOS, AsyncStorage, AppStateIOS, PushNotificationIOS, VibrationIOS } from 'react-native'
 
-import io from '../socket.io'
+import io from 'socket.io-client/socket.io'
 
 // import Firebase from 'firebase'
 import NotificationActions from '../flux/actions/NotificationActions'
@@ -18,7 +18,7 @@ import reactMixin from 'react-mixin'
 
 // const userListRef = new Firebase("https://blistering-torch-607.firebaseio.com");
 // const myUserRef = userListRef.push();
-var connectedRef;
+// var connectedRef;
 
 class NotificationCommander extends Component{
   constructor(props){
@@ -86,8 +86,8 @@ class NotificationCommander extends Component{
   }
 
   handlePushData(pushNotification){
+    console.log('Push notification',pushNotification)
     if(!pushNotification){ return false }
-    Log('Push notification',pushNotification)
 
     const data = pushNotification.getData();
 
@@ -159,7 +159,7 @@ class NotificationCommander extends Component{
   connectSocket(){
     this.socket.on('user.connect', (data) => {
       this.online_id = data.online_id;
-      Log('user.connect',data)
+      console.log('user.connect',data)
 
       const myApikey = this.props.api_key,
         myID = this.props.user_id;
@@ -175,8 +175,14 @@ class NotificationCommander extends Component{
 
     this.socket.on('system', (payload) => {
 
+
+      let tempData = JSON.parse(payload.data)
+      // console.log(tempData);
+
+      const data = tempData;
       this.setState({processing:true});
-      const { data } = payload;
+      // AlertIOS.alert('alert',JSON.stringify(data))
+
 
       if(data.action && data.action === 'retrieve' && data.match_id) {
 
@@ -207,6 +213,7 @@ class NotificationCommander extends Component{
     })
 
     this.socket.on('chat', (payload) => {
+      console.log('chat',payload)
 
       this.setState({processing:true});
 
