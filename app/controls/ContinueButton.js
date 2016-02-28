@@ -56,7 +56,7 @@ class ContinueButton extends Component{
            onPress={ this.handleContinue.bind(this)}
            underlayColor={colors.darkPurple}>
            <View>
-          <Text style={styles.continueButtonText}>CONTINUE</Text>
+          <Text style={styles.continueButtonText}>{this.props.customText || 'CONTINUE'}</Text>
 
         {/*this.state.submitting ? <ActivityIndicatorIOS style={{alignSelf:'center',alignItems:'center',flex:1,height:60,width:60,justifyContent:'center'}} animating={true} size={'large'}/> : <Text style={styles.continueButtonText}>CONTINUE</Text>*/}
           </View>

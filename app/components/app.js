@@ -12,7 +12,6 @@ const DeviceWidth = Dimensions.get('window').width
 
 import alt from '../flux/alt';
 import AltContainer from 'alt-container';
-
 import Welcome from './welcome';
 import Main from './main';
 import PendingPartner from './pendingpartner';
@@ -33,6 +32,7 @@ import LoadingOverlay from '../components/LoadingOverlay'
 import PurpleModal from '../modals/PurpleModal'
 import MaintenanceScreen from '../screens/MaintenanceScreen'
 import colors from '../utils/colors'
+import ImageFlagged from '../screens/ImageFlagged'
 
 
 class AppRoutes extends Component{
@@ -45,7 +45,6 @@ class AppRoutes extends Component{
     var userStatus = this.props.user ? this.props.user.status : null;
 
     switch(userStatus){
-
       case 'verified':
         return <Onboarding
                 key="OnboardingScreen"
@@ -115,6 +114,10 @@ class TopLevel extends Component{
 
         {this.props.AppState.showMaintenanceScreen ?
           <MaintenanceScreen /> : null }
+
+            {this.props.user.status == 'imageflagged' ?
+                      <ImageFlagged /> : null }
+
       </View>
     )
   }
