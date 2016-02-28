@@ -120,7 +120,7 @@ class Main extends Component{
     }
 
     return (
-      <View style={{ flex: 1,  width: DeviceWidth, height: DeviceHeight }}>
+      <View style={{ flex: 1,  width: DeviceWidth, height: DeviceHeight,  }} pointerEvents={'box-none'}>
 
         {route.id == 'settings' ? navBar : null}
 

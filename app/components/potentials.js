@@ -150,7 +150,7 @@ class PotentialsPage extends React.Component{
            {
              backgroundColor:this.state.profileVisible ? 'black' : 'transparent',
              position:'relative',
-             top: 0//this.state.profileVisible ? 25 : 55
+             top: 50//this.state.profileVisible ? 25 : 55
            }]}>
 
            { potentials.length && this.state.showPotentials ?

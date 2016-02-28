@@ -266,7 +266,6 @@ class CardStack extends React.Component{
           <Animated.View
             style={[styles.shadowCard,{
             alignSelf:'center',
-            top: 50,
             // left:  this.props.profileVisible ? -DeviceWidth/2 : -DeviceWidth/2 + 20 ,
             // width: this.props.profileVisible ? DeviceWidth : DeviceWidth - 50,
             // height: this.props.profileVisible ? DeviceHeight : DeviceHeight - 120,
@@ -275,7 +274,7 @@ class CardStack extends React.Component{
             // position: 'absolute',
             left:this.props.profileVisible ? 0 : 20,right:this.props.profileVisible ? 0 : 20,
             borderRadius:8,
-            bottom: this.props.profileVisible ? 0 : (DeviceHeight <= 568 ? 15 : 15),
+            bottom: this.props.profileVisible ? 0 : (DeviceHeight <= 568 ? 75 : 75),
             position: 'absolute',
             overflow:'hidden'
 
@@ -323,7 +322,7 @@ class CardStack extends React.Component{
           <Animated.View
             style={[styles.shadowCard,{
             alignSelf:'center',
-            top: this.props.profileVisible ? 0 :  50,
+            top: this.props.profileVisible ? -50 :  0,
             // left:  this.props.profileVisible ? -DeviceWidth/2 : -DeviceWidth/2 + 20 ,
             // width: this.props.profileVisible ? DeviceWidth : DeviceWidth - 50,
             // height: this.props.profileVisible ? DeviceHeight : DeviceHeight - 120,
@@ -332,7 +331,7 @@ class CardStack extends React.Component{
             // position: 'absolute',
             left:this.props.profileVisible ? 0 :20,right:this.props.profileVisible ? 0 : 20,
             borderRadius:8,
-            bottom: this.props.profileVisible ? 0 : (DeviceHeight <= 568 ? 80 : 20),
+            bottom: this.props.profileVisible ? 0 : (DeviceHeight <= 568 ? 80 : 70),
             position: 'absolute',
             overflow:'hidden'
 
