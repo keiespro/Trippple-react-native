@@ -69,7 +69,7 @@ class CardStack extends React.Component{
     Animated.timing(this.state.offsetY,{
       toValue: 1,
       duration: 300,
-      delay:300,
+      delay:150,
       easing: Easing.in(Easing.ease)
     }).start((fin)=> {
       this.initializePanResponder()
@@ -276,7 +276,8 @@ class CardStack extends React.Component{
             borderRadius:8,
             bottom: this.props.profileVisible ? 0 : (DeviceHeight <= 568 ? 75 : 75),
             position: 'absolute',
-            overflow:'hidden'
+            overflow:'hidden',
+            top:0
 
           },
           {
@@ -286,8 +287,8 @@ class CardStack extends React.Component{
 
               {
                 scale: this.state.animatedIn ? (this.props.profileVisible ? 1 : this.state.pan.x.interpolate({
-                  inputRange: [-250, -100, 0,  100, 250, ],
-                  outputRange:   [   .95,  0.9,  0.9,   0.9,  .95,  ],//[    0.98,  0.98,  1, 1, 1,  0.98, 0.98, ]
+                  inputRange: [ -300, -250, -100, 0,  100, 250, 300],
+                  outputRange:   [ 0.98, 0.97, 0.9, 0.9, 0.9, 0.97, 0.98 ],//[    0.98,  0.98,  1, 1, 1,  0.98, 0.98, ]
                   extrapolate: 'clamp',
 
                 }) ): this.state.offsetY

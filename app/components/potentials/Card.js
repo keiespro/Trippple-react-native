@@ -72,7 +72,7 @@ class Card extends React.Component{
   componentWillReceiveProps(nProps){
     if(nProps && nProps.pan && this.props.profileVisible != nProps.profileVisible){
       LayoutAnimation.configureNext(animations.layout.spring);
-      this.toggleCardHoverOff()
+      // this.toggleCardHoverOff()
 
     }
   }
@@ -287,7 +287,7 @@ class Card extends React.Component{
                       onPress={this.openProfileFromImage.bind(this)}
                     >
                       <Animated.Image
-                        source={{uri:potential.user.image_url}}
+                        source={{uri:potential.partner.image_url}}
                         key={`${potential.partner.id}-cimg`}
                         defaultSource={{uri: 'assets/defaultuser.png'}}
                         style={[styles.imagebg,{
@@ -304,16 +304,16 @@ class Card extends React.Component{
                       />
                     </TouchableWithoutFeedback>
                   }
-                  { potential.partner && potential.image && potential.image != null && potential.image != '' ?
+                  { false &&  potential.couple && potential.partner && potential.image && potential.image != null && potential.image != '' ?
                     <TouchableWithoutFeedback
-                      key={`${potential.couple.id}-touchableimg`}
+                      key={`${potential.id}-touchableimg`}
                       style={[styles.imagebg,{ height:undefined, width: undefined,}]}
                       onPress={this.openProfileFromImage.bind(this)}
                     >
                       <Animated.Image
                         source={{uri: potential.image}}
                         defaultSource={{uri: 'assets/defaultuser.png'}}
-                        key={`${potential.partner.id}-cimg`}
+                        key={`${potential.id}-cimg`}
                         style={[styles.imagebg,{
                           width: undefined,
                           height:undefined,
@@ -662,7 +662,7 @@ class Card extends React.Component{
                       />
                     </TouchableWithoutFeedback>
                   }
-                  { potential.partner && potential.image && potential.image != null && potential.image != '' ?
+                  { false && potential.partner && potential.image && potential.image != null && potential.image != '' ?
 
                     <TouchableWithoutFeedback
                       key={`${potential.id}-touchableimg`}
@@ -672,7 +672,7 @@ class Card extends React.Component{
                       <Animated.Image
                         source={ {uri: potential.image}}
                         defaultSource={{uri: 'assets/defaultuser.png'}}
-                        key={`${potential.partner.id}-cimg`}
+                        key={`${potential.id}-cimg`}
                         style={[styles.imagebg,{
                           width: undefined,
                           flex:1,
@@ -700,7 +700,6 @@ class Card extends React.Component{
                     style={[styles.imagebg, {
                       flex:1,
                       alignSelf:'stretch',
-                      height:500,
                       width: undefined,
                       opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                         inputRange: [-300, -80, 0, 80, 300],
