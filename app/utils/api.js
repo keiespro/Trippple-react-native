@@ -6,6 +6,8 @@ import CredentialsStore from '../flux/stores/CredentialsStore'
 import Promise from 'bluebird'
 import AppActions from '../flux/actions/AppActions'
 import config from '../config'
+import deviceInfo from './DeviceInfo'
+import platform from 'Platform'
 
 const { FileTransfer, RNAppInfo, ReactNativeAutoUpdater } = NativeModules,
       UploadFile = Promise.promisify(FileTransfer.upload),
@@ -23,6 +25,7 @@ async function baseRequest(endpoint='': String, payload={}: Object){
     },
     body: JSON.stringify(payload)
   }
+  __DEBUG__ && console.log(params)
 
   let res = await fetch( `${SERVER_URL}/${endpoint}`, params)
 
@@ -92,9 +95,7 @@ const api = {
   },
 
   verifyPin(pin,phone){
-    const platform = require('Platform');
-    const deviceInfo = require('./DeviceInfo')
-    const payload = { pin, phone, device: deviceInfo.default }
+    const payload = { pin, phone, device: deviceInfo, platform: platform.OS || 'iOS' }
     return publicRequest('verify_security_pin', payload);
   },
 
@@ -166,11 +167,11 @@ const api = {
     }
     return authenticatedFileUpload('upload', image, image_type, cropData)
             .then((res) => {
-              console.log(res)
+              __DEBUG__ && console.log(res)
                 // res.json()
             })
             .catch((err) => {
-              console.warn('upload err',{error: err})
+              __DEBUG__ && console.warn('upload err',{error: err})
             })
   },
 

@@ -101,7 +101,7 @@ class Login extends Component{
     let phoneNumber = phoneUtil.parse(this.state.phone, 'US');
 
     if(phoneUtil.isValidNumber(phoneNumber)){
-      UserActions.requestPinLogin(phoneNumber);
+      UserActions.requestPinLogin(this.state.phone);
 
       this.setTimeout( () => {
         if(this.state.phoneError){ return false; }
@@ -112,7 +112,7 @@ class Login extends Component{
           id:'pw',
           sceneConfig: CustomSceneConfigs.HorizontalSlide,
           passProps: {
-            phone: phoneNumber,
+            phone: this.state.phone,
             initialKeyboardSpace: this.state.keyboardSpace
           }
         })

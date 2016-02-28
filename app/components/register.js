@@ -96,7 +96,7 @@ class Register extends Component{
 
     if(phoneUtil.isValidNumber(phoneNumber)){
 
-      UserActions.requestPinLogin(phoneNumber);
+      UserActions.requestPinLogin(this.state.phone);
 
       this.setTimeout( () => {
         if(this.state.phoneError){ return false; }
@@ -107,7 +107,7 @@ class Register extends Component{
           id:'pw',
           sceneConfig: CustomSceneConfigs.HorizontalSlide,
           passProps: {
-            phone: phoneNumber,
+            phone: this.state.phone,
             initialKeyboardSpace: this.state.keyboardSpace
           }
         })
