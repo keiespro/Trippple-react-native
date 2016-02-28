@@ -36,6 +36,11 @@ import SingleInputScreenMixin from '../mixins/SingleInputScreenMixin'
 import TrackKeyboardMixin from '../mixins/keyboardMixin'
 import Mixpanel from '../utils/mixpanel'
 
+import libphonenumber from 'google-libphonenumber';
+
+const phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
+
+
 
 class Login extends Component{
   constructor(props){
@@ -63,7 +68,7 @@ class Login extends Component{
     }else{
       errorMessage = 'We seem to be having some trouble right now. Please try again later.';
     }
-    
+
     this.setState({
       phoneError: errorMessage,
       canContinue: false
@@ -93,24 +98,30 @@ class Login extends Component{
     if(!this.state.canContinue){
       return false;
     }
-    const phoneNumber = this.state.phone;
+    let phoneNumber = phoneUtil.parse(this.state.phone, 'US');
 
-    UserActions.requestPinLogin(phoneNumber);
+    if(phoneUtil.isValidNumber(phoneNumber)){
+      UserActions.requestPinLogin(phoneNumber);
 
-    this.setTimeout( () => {
-      if(this.state.phoneError){ return false; }
+      this.setTimeout( () => {
+        if(this.state.phoneError){ return false; }
 
-      this.props.navigator.push({
-        component: PinScreen,
-        title: 'pin',
-        id:'pw',
-        sceneConfig: CustomSceneConfigs.HorizontalSlide,
-        passProps: {
-          phone: phoneNumber,
-          initialKeyboardSpace: this.state.keyboardSpace
-        }
-      })
-    },500);
+        this.props.navigator.push({
+          component: PinScreen,
+          title: 'pin',
+          id:'pw',
+          sceneConfig: CustomSceneConfigs.HorizontalSlide,
+          passProps: {
+            phone: phoneNumber,
+            initialKeyboardSpace: this.state.keyboardSpace
+          }
+        })
+      },500);
+    }else{
+
+      this.onError({phoneError:"Phone number is invalid."})
+
+    }
 
   }
 
