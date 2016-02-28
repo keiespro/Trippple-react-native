@@ -20,7 +20,7 @@ import React, {
 } from 'react-native';
 
 import CustomSceneConfigs from '../utils/sceneConfigs'
-const {Mailer} = NativeModules.RNMail
+const {RNMail} = NativeModules;
 
 import colors from '../utils/colors'
 
@@ -116,7 +116,7 @@ const PinScreen = React.createClass({
         'Account disabled',
         'Your account has been deactivated. If you did not request this, please contact us.',
         [
-          {text: 'Contact us', onPress: () => Mailer.mail({
+          {text: 'Contact us', onPress: () => RNMail.mail({
                 subject: 'Help! My account is disabled.',
                 recipients: ['hello@trippple.co'],
                 body: 'Help!'
