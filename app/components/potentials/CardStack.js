@@ -12,6 +12,7 @@ import React, {
   Text,
   View,
   AppStateIOS,
+  Easing,
   LayoutAnimation,
   TouchableHighlight,
   Image,
@@ -40,11 +41,7 @@ class CardStack extends React.Component{
     this.state = {
       pan: new Animated.ValueXY(),
       animatedIn:false,
-      offsetY: {
-        a:new Animated.Value(-DeviceHeight),
-        b:new Animated.Value(-DeviceHeight),
-        c:new Animated.Value(-DeviceHeight),
-      },
+      offsetY: new Animated.Value(0),
       appState: AppStateIOS.currentState,
       likedPotentials:[]
     }
@@ -69,23 +66,12 @@ class CardStack extends React.Component{
   componentDidMount(){
     AppStateIOS.addEventListener('change', this._handleAppStateChange.bind(this));
 
-    Animated.stagger(300,[
-      Animated.spring(this.state.offsetY.c,{
-        toValue: 0,
-        tension: 50,
-        friction: 5,
-      }),
-      Animated.spring(this.state.offsetY.b,{
-        toValue: 0,
-        tension: 50,
-        friction: 5,
-      }),
-      Animated.spring(this.state.offsetY.a,{
-        toValue: 0,
-        tension: 50,
-        friction: 5,
-      })
-    ]).start((fin)=> {
+    Animated.timing(this.state.offsetY,{
+      toValue: 1,
+      duration: 300,
+      delay:300,
+      easing: Easing.in(Easing.ease)
+    }).start((fin)=> {
       this.initializePanResponder()
       this.setState({animatedIn:true});
 
@@ -101,9 +87,7 @@ class CardStack extends React.Component{
         // this.initializePanResponder()
     }
     if(nProps && !this.state.animatedIn && !nProps.potentials.length ){
-        this.state.offsetY.a.setValue( -DeviceHeight);
-        this.state.offsetY.b.setValue( -DeviceHeight);
-        this.state.offsetY.c.setValue( -DeviceHeight);
+          this.state.offsetY.setValue(0);
         // this.initializePanResponder()
     }
 
@@ -229,8 +213,8 @@ class CardStack extends React.Component{
         Animated.spring(this.state.pan, {
           toValue,
           velocity,       // maintain gesture velocity
-          tension: 60,
-          friction: 3,
+          tension: 40,
+          friction: 2,
         }).start((result)=>{
           if(!result.finished){
 
@@ -265,7 +249,7 @@ class CardStack extends React.Component{
     var pan = this.state.pan || 0
     return (
       <View
-        style={{ position:'absolute',              // backgroundColor:colors.mediumPurple,
+        style={{ position:'absolute',
         top: 0,
         left:0,
         width: undefined,
@@ -274,137 +258,116 @@ class CardStack extends React.Component{
         alignSelf:'stretch',
         right: 0,
         bottom:0,
+        backgroundColor: this.props.profileVisible ? 'black' : 'transparent',
         alignItems:'center'
         }}>
 
-        {/*     last card      */}
-        { !this.props.profileVisible && potentials && potentials.length >= 1 && potentials[2] &&
-          <Animated.View
-            key={`${potentials[2].id || potentials[2].user.id}-wrapper`}
-            style={[
-            styles.basicCard,
-            {
-            transform:[ { translateY: this.state.offsetY.c },
-            {scale: .85}],
-            flex:1,
-            backgroundColor:colors.white,
-            top:  (DeviceHeight <= 568 ? 20 : 35),
-            // width: DeviceWidth - 40,
-            // height:  DeviceHeight - 80,
-            position: 'absolute',
-            marginHorizontal: this.props.profileVisible ? 0 : 20,
-            marginLeft:20,
-            overflow:'hidden',
-            position: 'absolute',
-            left:0,right:0,
-
-            marginBottom:20
-            }]
-            }>
-            <Card
-              user={user}
-              ref={"_thirdCard"}
-              animatedIn={this.state.animatedIn}
-              potential={potentials[2]}
-              rel={user.relationship_status}
-              isTopCard={false}
-              isThirdCard={true}
-              key={`${potentials[2].id || potentials[2].user.id}-activecard`}
-            />
-          </Animated.View>
-        }
-
-        {/*       Middle card       */}
-        { !this.props.profileVisible && potentials && potentials.length >= 1 && potentials[1] &&
-
-          <Animated.View
-            style={[{
-            transform:[
-            {
-            translateY: this.state.offsetY.b
-            },{
-            scale:0.925
-            }],
-            alignSelf:'flex-start',
-            flex:1,
-            marginHorizontal: this.props.profileVisible ? 0 : 20,
-            marginLeft:20,
-            position: 'absolute',
-            left:0,right:0,
-            borderRadius:8,
-
-            // top:  (DeviceHeight <= 568 ? -5 : -30),
-            // // width: DeviceWidth - 40,
-            // // height: (DeviceHeight <= 568 ? (DeviceHeight - 75) : (DeviceHeight-65)),
-            // position: 'absolute',
-            marginBottom:  (DeviceHeight <= 568 ? 60 : 10),
-            backgroundColor:'black',
-            shadowColor:colors.dark,
-            shadowRadius:3,
-            shadowOpacity:0.5,
-            shadowOffset: {
-            width:0,
-            height: 5
-            },
-
-            }]}
-            key={`${potentials[1].id || potentials[1].user.id}-wrapper`}
-            ref={(card) => { this.nextcard = card }}
-          >
-            <Card
-              key={`${potentials[1].id || potentials[1].user.id}-activecard`}
-              user={user}
-              ref={"_secondCard"}
-              pan={this.state.pan}
-              profileVisible={this.props.profileVisible}
-              animatedIn={this.state.animatedIn}
-
-              potential={potentials[1]}
-              rel={user.relationship_status}
-            />
-          </Animated.View>
-        }
-
-        {/*       Front card       */}
-        { potentials && potentials.length >= 1  && potentials[0] &&
+        { potentials && potentials.length >= 1  && potentials[1] &&
           <Animated.View
             style={[styles.shadowCard,{
             alignSelf:'center',
-            top: this.props.profileVisible ? -30 :  0,
+            top: 50,
             // left:  this.props.profileVisible ? -DeviceWidth/2 : -DeviceWidth/2 + 20 ,
             // width: this.props.profileVisible ? DeviceWidth : DeviceWidth - 50,
             // height: this.props.profileVisible ? DeviceHeight : DeviceHeight - 120,
             // right:  this.props.profileVisible ? -DeviceWidth/2 : -DeviceWidth/2 + 20,
             // marginHorizontal: this.props.profileVisible ? 0 : 20,
             // position: 'absolute',
-            left:20,right:this.props.profileVisible ? 0 : 20,
+            left:this.props.profileVisible ? 0 : 20,right:this.props.profileVisible ? 0 : 20,
             borderRadius:8,
-            bottom: this.props.profileVisible ? 0 : (DeviceHeight <= 568 ? 80 : 90),
+            bottom: this.props.profileVisible ? 0 : (DeviceHeight <= 568 ? 15 : 15),
             position: 'absolute',
+            overflow:'hidden'
 
           },
           {
             transform: [
+
+
+
+              {
+                scale: this.state.animatedIn ? (this.props.profileVisible ? 1 : this.state.pan.x.interpolate({
+                  inputRange: [-250, -100, 0,  100, 250, ],
+                  outputRange:   [   .95,  0.9,  0.9,   0.9,  .95,  ],//[    0.98,  0.98,  1, 1, 1,  0.98, 0.98, ]
+                  extrapolate: 'clamp',
+
+                }) ): this.state.offsetY
+              }
+
+            ],
+            opacity: this.state.animatedIn ?  this.state.pan.x.interpolate({
+              inputRange: [-300,  -200, -50, 0, 50, 200, 300],
+              outputRange:   [  .77, .75, 0.05, 0.0,  0.05, .75,   .77],//[    0.98,  0.98,  1, 1, 1,  0.98, 0.98, ]
+              extrapolate: 'clamp',
+
+            }) : 0
+          }]}
+          key={`${potentials[1].id || potentials[1].user.id}-wrapper`}
+          ref={(card) => { this.card = card }}
+          >
+          <Card
+            user={user}
+            key={`${potentials[1].id || potentials[1].user.id}-activecard`}
+            rel={user.relationship_status}
+            isTopCard={false}
+            pan={this.state.pan}
+            animatedIn={this.state.animatedIn}
+            profileVisible={false}
+            potential={potentials[1]}
+          />
+          </Animated.View>
+
+        }
+
+        { potentials &&  potentials[0] &&
+          <Animated.View
+            style={[styles.shadowCard,{
+            alignSelf:'center',
+            top: this.props.profileVisible ? 0 :  50,
+            // left:  this.props.profileVisible ? -DeviceWidth/2 : -DeviceWidth/2 + 20 ,
+            // width: this.props.profileVisible ? DeviceWidth : DeviceWidth - 50,
+            // height: this.props.profileVisible ? DeviceHeight : DeviceHeight - 120,
+            // right:  this.props.profileVisible ? -DeviceWidth/2 : -DeviceWidth/2 + 20,
+            // marginHorizontal: this.props.profileVisible ? 0 : 20,
+            // position: 'absolute',
+            left:this.props.profileVisible ? 0 :20,right:this.props.profileVisible ? 0 : 20,
+            borderRadius:8,
+            bottom: this.props.profileVisible ? 0 : (DeviceHeight <= 568 ? 80 : 20),
+            position: 'absolute',
+            overflow:'hidden'
+
+          },
+          {
+            opacity:   this.state.offsetY,
+
+            transform: [
+
               {
                 translateX: this.state.pan ? this.state.pan.x : 0
               },
               {
-                rotate: this.state.pan.y.interpolate({
-                  inputRange: [-300,  300],
-                  outputRange: ['8deg','-8deg'],
-                  // /* extrapolate: 'clamp'*/
+                rotate: Animated.multiply(this.state.pan.x,Animated.add(this.state.pan.y,this.state.pan.y)).interpolate({
+                  // inputRange: [-DeviceWidth*2,-DeviceWidth*2, -DeviceWidth, -DeviceWidth, 0, DeviceWidth, DeviceWidth, DeviceWidth*2,DeviceWidth*2],
+                  // outputRange: ['-8deg','-8deg','-4deg','0deg','0deg','0deg', '4deg','8deg','8deg'],
+
+                                   extrapolate: 'clamp',
+                                  inputRange: [-DeviceWidth*1000,DeviceWidth*1000],
+                                  outputRange:["-0.5rad","0.5rad"]
                 })
               },
               {
                 translateY: this.state.animatedIn ?  this.state.pan.y.interpolate({
-                  inputRange: [-300, 0, 500],
+                  inputRange: [-300, 0, 300],
                   outputRange: [-150,0,150]
-                }) : this.state.offsetY.a
+                }) : this.state.offsetY
               },
               {
-                scale: this.props.profileVisible ? 1 : this.state.pan.x.interpolate({
+                scale:  this.state.animatedIn ?  (this.props.profileVisible ? 1 : this.state.pan.x.interpolate({
                   inputRange: [-300, -250, -90, 0,  90, 250, 300],
                   outputRange: [    0.98,  0.98,  1, 1, 1,  0.98, 0.98, ]
+                })) : this.state.offsetY.interpolate({
+                  inputRange: [0, 0.9, 1],
+                  outputRange: [.9, 1.0, .98]
                 })
               }
             ],

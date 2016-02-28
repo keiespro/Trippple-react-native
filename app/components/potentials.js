@@ -148,9 +148,9 @@ class PotentialsPage extends React.Component{
          <View style={[
            styles.cardStackContainer,
            {
-             backgroundColor:'transparent',
+             backgroundColor:this.state.profileVisible ? 'black' : 'transparent',
              position:'relative',
-             top: this.state.profileVisible ? 25 : 55
+             top: 0//this.state.profileVisible ? 25 : 55
            }]}>
 
            { potentials.length && this.state.showPotentials ?

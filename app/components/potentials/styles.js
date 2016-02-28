@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     backgroundColor:'transparent',
     // shadowRadius:5,
     // shadowOpacity:50,
-    overflow:'hidden',
+    // overflow:'hidden',
     // shadowOffset: {
     //   width:0,
     //   height: 5
