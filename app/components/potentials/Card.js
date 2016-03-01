@@ -344,12 +344,9 @@ class Card extends React.Component{
                       width:undefined,
                       height:DeviceHeight-50
                     }]}
-                    onPressIn={this.toggleCardHoverOn.bind(this)}
-                    onPressOut={this.toggleCardHoverOff.bind(this)}
-                    onPress={this.openProfileFromImage.bind(this)}
-                  >
+                    onPress={this.openProfileFromImage.bind(this)}>
                     <Animated.Image
-                      source={{uri: potential.user.image_url}}
+                      source={{uri: this.props.user.image_url}}
                       key={`${potential.user.id}-cimg`}
                       defaultSource={{uri: 'assets/defaultuser.png'}}
                       style={[styles.imagebg,{
@@ -687,20 +684,29 @@ class Card extends React.Component{
                   }
 
                 </Swiper> :
+                <View style={{
+                  alignSelf:'center',
+                  marginLeft:0,
+                  // overflow:'hidden',
+                  height:undefined,width:undefined,
+                  marginRight:0,flex:1,
+                  left:0,alignItems:'stretch'
+                }}
+                >
                 <TouchableWithoutFeedback
-                  key={/* TODO: Implement sanity */ `${potential.user.id}-touchableimg`}
-                  style={[styles.imagebg,{ overflow:'hidden'}]}
+                  key={`${potential.user.id}-touchableimg`}
+                  style={[styles.imagebg,{ overflow:'hidden',width:DeviceWidth,height:DeviceHeight}]}
                   onPressIn={this.toggleCardHoverOff.bind(this)}
                   onPressOut={this.toggleCardHoverOn.bind(this)}
                   onPress={this.openProfileFromImage.bind(this)}
                 >
                   <Animated.Image
-                    source={{uri: potential.user.image_url}}
-                    key={/* TODO: Implement sanity */  `${potential.user.id}-cimg`}
+                    source={{uri: potential.image_url || potential.image || potential.user.image_url}}
+                     key={/* TODO: Implement sanity */  `${potential.user.id}-cimg`}
                     style={[styles.imagebg, {
                       flex:1,
-                      alignSelf:'stretch',
-                      width: undefined,
+                      alignSelf:'stretch',height:DeviceHeight,
+                      width: DeviceWidth,
                       opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                         inputRange: [-300, -80, 0, 80, 300],
                         outputRange: [0,1,1,1,0]
@@ -709,6 +715,7 @@ class Card extends React.Component{
                     resizeMode={Image.resizeMode.cover}
                   />
                 </TouchableWithoutFeedback>
+              </View>
               }
 
               <View

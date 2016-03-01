@@ -32,6 +32,7 @@ class ImageFlagged extends Component{
           navigator={navigator}
           route={route}
           {...route.passProps}
+          user={this.props.user}
           AppState={this.props.AppState}
         />
       </View>
@@ -48,6 +49,7 @@ class ImageFlagged extends Component{
         }}
         configureScene={route => route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromBottom}
         renderScene={this.selectScene.bind(this)}
+        style={{position:'absolute',top:0, width: DeviceWidth, height: DeviceHeight,}}
       />
     )
   }
@@ -85,7 +87,7 @@ class WarningScreen extends Component{
       }}>
 
       <Image style={{height:260,width:200, marginBottom:20}} resizeMode={'contain'} source={{uri:'https://blistering-torch-607.firebaseapp.com/shield@2x.png'}}/>
-    <View>
+    <View style={{flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
        <Text   style={{
         fontSize:22,
         color:'#ffffff',
@@ -93,14 +95,14 @@ class WarningScreen extends Component{
         textAlign:'center',
         fontFamily:'Montserrat-Bold',
       }}>YOUR PIC HAS  BEEN FLAGGED</Text>
-    <Text style={{
+    <Text textAlign="center" style={{
                   fontSize:18,
                   textAlign:'center',
                   color:colors.white,
                   marginBottom:40
-                }}>This is the message that we type in to the Trippple admin.</Text>
+                }}>{this.props.user.flagged_reason || ''}</Text>
                 </View>
-            <View
+           <View
               style={{
                 width:DeviceWidth,
                 height:DeviceHeight,
@@ -109,7 +111,7 @@ class WarningScreen extends Component{
                 height:80,
                 backgroundColor:colors.mediumPurple
               }}>
-              <ContinueButton customText={'UPLOAD A NEW PIC'} canContinue={true} handlePress={this.handleContinue.bind(this)}/>
+            <ContinueButton customText={'UPLOAD A NEW PIC'} canContinue={true} handlePress={this.handleContinue.bind(this)}/>
 
             </View>
       </View>

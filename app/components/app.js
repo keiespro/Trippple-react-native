@@ -52,6 +52,11 @@ class AppRoutes extends Component{
                 AppState={this.props.AppState}
                 currentRoute={this.props.AppState.currentRoute}
               />
+      case 'imageflagged':
+        return <ImageFlagged
+                AppState={this.props.AppState}
+                user={this.props.user}
+                />
       case 'pendingpartner':
       case 'onboarded':
         return <Main
@@ -115,8 +120,7 @@ class TopLevel extends Component{
         {this.props.AppState.showMaintenanceScreen ?
           <MaintenanceScreen /> : null }
 
-            {this.props.user.status == 'imageflagged' ?
-                      <ImageFlagged /> : null }
+
 
       </View>
     )

@@ -127,7 +127,7 @@ class NotificationCommander extends Component{
       AlertIOS.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
       VibrationIOS.vibrate()
 
-    }else if(data.action && data.action == 'statuschange') {
+    }else if(data.action && data.action == 'statuschange' || data.action == 'imageflagged') {
 
       UserActions.getUserInfo.defer()
 
@@ -175,13 +175,18 @@ class NotificationCommander extends Component{
 
     this.socket.on('system', (payload) => {
 
+      // AlertIOS.alert('alert',typeof payload)
 
-      let tempData = JSON.parse(payload.data)
+      let tempData;
+      if(typeof payload == 'object'){
+        tempData = payload.data
+      }else{
+        tempData = JSON.parse(payload.data)
+      }
       // console.log(tempData);
 
-      const data = tempData;
+      let data = tempData;
       this.setState({processing:true});
-      // AlertIOS.alert('alert',JSON.stringify(data))
 
 
       if(data.action && data.action === 'retrieve' && data.match_id) {
@@ -192,7 +197,7 @@ class NotificationCommander extends Component{
 
         NotificationActions.receiveMatchRemovedNotification(data)
 
-      }else if(data.action && data.action == 'statuschange') {
+      }else if(data.action && data.action == 'statuschange' || data.action == 'imageflagged') {
 
         UserActions.getUserInfo.defer()
 
