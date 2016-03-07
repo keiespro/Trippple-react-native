@@ -346,7 +346,7 @@ class Card extends React.Component{
                     }]}
                     onPress={this.openProfileFromImage.bind(this)}>
                     <Animated.Image
-                      source={{uri: this.props.user.image_url}}
+                      source={{uri: this.props.potential.user.image_url}}
                       key={`${potential.user.id}-cimg`}
                       defaultSource={{uri: 'assets/defaultuser.png'}}
                       style={[styles.imagebg,{
