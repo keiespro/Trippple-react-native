@@ -161,15 +161,7 @@ class UserActions {
   }
 
   disableAccount(){
-    return (dispatch) => {
-      Api.disableAccount()
-      .then(()=>{
-        this.logOut.defer();
-      })
-      .catch((err) => {
-        dispatch({error: err})
-      })
-    }
+    return this.logOut.defer()
   }
 }
 

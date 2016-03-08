@@ -96,7 +96,6 @@ const PinScreen = React.createClass({
   setNativeProps(np) {
     var {text} = np
     this._inp && this._inp.setNativeProps({text });
-
   },
 
 
@@ -109,27 +108,33 @@ const PinScreen = React.createClass({
         verifyError: false
       })
     }
-    // Handle "Account Disabled" response
-    if(this.state.verifyError && this.state.verifyError.message === 'Account disabled' && !prevState.verifyError){
-
-      AlertIOS.alert(
-        'Account disabled',
-        'Your account has been deactivated. If you did not request this, please contact us.',
-        [
-          {text: 'Contact us', onPress: () => RNMail.mail({
-                subject: 'Help! My account is disabled.',
-                recipients: ['hello@trippple.co'],
-                body: 'Help!'
-              }, (error, event) => {
-                  if(error) {
-                    AlertIOS.alert('Error', 'Could not send mail. Please email feedback@trippple.co directly.');
-                  }
-              })
-            },
-          {text: 'OK', onPress: () => this.props.navigator.popToTop()},
-        ]
-      )
-    }
+//     // Handle "Account Disabled" response
+//     if(this.state.verifyError && this.state.verifyError.message === 'Account disabled' && !prevState.verifyError){
+//
+// //reactivate logged in users
+//
+//
+//       const env = NativeModules.RNAppInfo;
+//       const telemetry = {}
+//       Object.keys(env).forEach((k)=>{if(k!=''){telemetry[k] = env[k]}})
+//       AlertIOS.alert(
+//         'Account disabled',
+//         'Your account has been deactivated. If you did not request this, please contact us.',
+//         [
+//           {text: 'Contact us', onPress: () => RNMail.mail({
+//                 subject: 'Help! My account is disabled.',
+//                 recipients: ['hello@trippple.co'],
+//                 body: 'Help! '+JSON.stringify(telemetry)
+//               }, (error, event) => {
+//                   if(error) {
+//                     AlertIOS.alert('Error', 'Could not send mail. Please email feedback@trippple.co directly.');
+//                   }
+//               })
+//             },
+//           {text: 'OK', onPress: () => this.props.navigator.popToTop()},
+//         ]
+//       )
+//     }
 
   },
   backspace(){

@@ -69,7 +69,7 @@ class SettingsSettings extends React.Component{
   disableAccount(){
     AlertIOS.alert(
       'Disable Your Account?',
-      'Are you sure you want to quit Trippple?',
+      'Are you sure you want to disable your account? You will no longer be visible to any trippple users. To re-enable your account, log back in.',
       [
         {text: 'Yes', onPress: () => {
           UserActions.disableAccount();

@@ -6,10 +6,10 @@
 import React from 'react-native';
 import DeviceConfig from '../DeviceConfig'
 import { Component, View, Navigator, Dimensions, Image } from 'react-native'
-
+import Analytics from '../utils/Analytics'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-
+window.Analytics = Analytics
 import alt from '../flux/alt';
 import AltContainer from 'alt-container';
 import Welcome from './welcome';
