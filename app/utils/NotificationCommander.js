@@ -14,7 +14,7 @@ import TimerMixin from 'react-timer-mixin'
 import colors from './colors'
 import Log from '../Log'
 import reactMixin from 'react-mixin'
-
+import Analytics from './Analytics'
 
 // const userListRef = new Firebase("https://blistering-torch-607.firebaseio.com");
 // const myUserRef = userListRef.push();
@@ -86,8 +86,8 @@ class NotificationCommander extends Component{
   }
 
   handlePushData(pushNotification){
-    console.log('Push notification',pushNotification)
     if(!pushNotification){ return false }
+    Analytics.event('Handle push notification',pushNotification)
 
     const data = pushNotification.getData();
 
@@ -176,6 +176,7 @@ class NotificationCommander extends Component{
     this.socket.on('system', (payload) => {
 
       // AlertIOS.alert('alert',typeof payload)
+      Analytics.event('Webocket notification',{action: payload.data.action, label: 'system', value: JSON.stringify(payload)})
 
       let tempData;
       if(typeof payload == 'object'){
@@ -219,6 +220,7 @@ class NotificationCommander extends Component{
 
     this.socket.on('chat', (payload) => {
       console.log('chat',payload)
+      Analytics.event('Webocket notification',{action: 'New Message', label: 'chat', value: JSON.stringify(payload)})
 
       this.setState({processing:true});
 
