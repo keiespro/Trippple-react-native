@@ -42,7 +42,8 @@ class FacebookButton extends React.Component{
   };
 
   static defaultProps = {
-    buttonText: 'FACEBOOK'
+    buttonText: 'FACEBOOK',
+    shouldLogoutOnTap:false
   };
   // propTypes: {
   //  onPress:PropTypes.func,
@@ -67,13 +68,11 @@ class FacebookButton extends React.Component{
     }
   }
   componentDidMount(){
-    // AppActions.grantPermission(FACEBOOK_LOCALSTORAGE_KEY)
 
     FBLoginManager.getCredentials((error, data)=>{
       if (!error) {
         this.setState({ fbUser : data.credentials });
 
-        AppActions.grantPermission(FACEBOOK_LOCALSTORAGE_KEY)
       } else {
         this.setState({ fbUser : null });
 
@@ -105,21 +104,21 @@ class FacebookButton extends React.Component{
       });
     }else{
       if(this.props.shouldLogoutOnTap){
-          AlertIOS.alert(
-          'Log Out of Facebook',
-          'Are you sure you want to log out of Facebook?',
-          [
-            {text: 'Yes', onPress: () => {this.handleLogout()}},
-            {text: 'No', onPress: () => {return false}},
-          ]
-        )
-      }
+        AlertIOS.alert(
+            'Log Out of Facebook',
+            'Are you sure you want to log out of Facebook?',
+            [
+              {text: 'Yes', onPress: () => {this.handleLogout()}},
+              {text: 'No', onPress: () => {return false}},
+            ]
+          )
+        }
       this.props._onPress && this.props._onPress(this.state.fbUser);
     }
 
   }
   handleLogin(){
-    FBLoginManager.login( (error, data) => {
+    FBLoginManager.loginWithPermissions(["email","user_photos","user_friends"],  (error, data) => {
 
       if (!error && data) {
         this.setState({ fbUser : data.credentials});
@@ -127,8 +126,6 @@ class FacebookButton extends React.Component{
           facebook_user_id: data.credentials.userId,
           facebook_oauth_access_token: data.credentials.token
         });
-
-        AppActions.grantPermission(FACEBOOK_LOCALSTORAGE_KEY)
 
         this.props.onLogin && this.props.onLogin(data);
       } else {
@@ -143,8 +140,6 @@ class FacebookButton extends React.Component{
       if (!error) {
         this.setState({ fbUser : null});
         this.props.onLogout && this.props.onLogout();
-
-        AppActions.grantPermission(FACEBOOK_LOCALSTORAGE_KEY)
 
       } else {
 

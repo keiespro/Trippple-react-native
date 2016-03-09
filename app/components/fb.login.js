@@ -130,6 +130,7 @@ var AlbumView = React.createClass({
   selectPhoto(photo) {
     var {navigator,route,image_type,nextRoute,afterNextRoute} = this.props;
     if(nextRoute){
+
       navigator.push({
         component: nextRoute,
         passProps: {
@@ -182,7 +183,7 @@ var AlbumView = React.createClass({
           title={album.name.toUpperCase()}
           titleColor={colors.white}
           customPrev={
-            <View style={{flexDirection: 'row',opacity:0.5,top: DeviceHeight > 568 ? 7 : -3}}>
+            <View style={{flexDirection: 'row',opacity:0.5,top: DeviceHeight > 568 ? -4 : -3}}>
               <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
             </View>
           }
@@ -367,8 +368,7 @@ var PhotoAlbums = React.createClass({
       <View style={{flex:1,backgroundColor:colors.outerSpace,height:DeviceHeight,width:DeviceWidth}}>
 
     {this.state.view_loaded == 'list_albums' ?  <ListView
-        contentContainerStyle={styles.list_album_container}
-        style={{height:DeviceHeight,flex:1,marginTop:55}}
+        style={{flex:1,marginTop:55}}
         dataSource={this.state.albums}
         renderRow={this.renderAlbumCover}
       /> : <ActivityIndicatorIOS style={{alignSelf:'center',alignItems:'center',flex:1,height:200,width:200,justifyContent:'center'}} animating={true} size={'large'}/> }
@@ -405,10 +405,7 @@ const styles = StyleSheet.create({
   },
   list_album_container: {
     flex: 1,
-    flexDirection: 'column',
-    // flexWrap: 'wrap',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+
     backgroundColor: colors.outerSpace,
     marginBottom: 10,
   },
