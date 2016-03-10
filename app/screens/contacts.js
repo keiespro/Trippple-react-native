@@ -14,6 +14,7 @@ import {
   Easing,
   Dimensions,
   Navigator,
+  TouchableOpacity,
   ActivityIndicatorIOS
 } from 'react-native'
 
@@ -140,7 +141,7 @@ class ContactList extends React.Component{
 
         <ContactRow rowData={rowData} rowID={rowID} sectionID={sectionID} highlightRow={highlightRow}
           highlightedRow={this.props.highlightedRow}
-          imagePath={rowData.thumbnailPath}
+          imagePath={rowData.thumbnailPath || ''}
           onPress={this.props.onPress}
           key={'contactrowel'+rowID+rowData.firstName}
           execute={true
@@ -167,7 +168,7 @@ class ContactList extends React.Component{
           renderRow={this._renderRow.bind(this)}
           keyboardDismissMode={'on-drag'}
           renderSeparator={(sectionID, rowID, adjacentRowHighlighted)=>{
-                    return(<View style={styles.separator} />)
+                    return(<View key={"seperator"+rowID} style={styles.separator} />)
                   }}
         />
     );
@@ -203,11 +204,14 @@ class Contacts extends React.Component{
       component: ConfirmPartner,
       passProps: {
         partner: {...contact, image},
-        _continue: this._continue.bind(this)
+        _continue: this.props._continue  || this._continue.bind(this)
       },
       sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
 
     })
+  }
+  goBack(){
+    this.props.goBack ? this.props.goBack() : this.props.navigator.pop()
   }
 
   componentDidMount(){
@@ -217,19 +221,25 @@ class Contacts extends React.Component{
   storeContacts(){
 
     AddressBook.getContacts((err, contacts) => {
-      if(err){ return false; }
+      if(err){
+        Analytics.err(err);
+
+        return false;
+      }
+      console.log(contacts);
+
       this.setState({
         contacts: contacts,
         contactsLoaded: true,
         dataSource: this.state.dataSource.cloneWithRows(contacts)
       });
-      UserActions.handleContacts(contacts);
+      // UserActions.handleContacts(contacts);
     })
 
   }
 
   nevermind(){
-    this.props.navigator.popToTop()
+    this.props._continue ? this.props._continue() : this.props.navigator.popToTop()
     OnboardingActions.updateRoute(0)
   }
 
@@ -237,8 +247,9 @@ class Contacts extends React.Component{
   getContacts(){
      AddressBook.checkPermission((err, permission) => {
        if(err){
-        //TODO:  handle err;
+         Analytics.err(err)
       }
+      console.log(permission);
 
       // AddressBook.PERMISSION_AUTHORIZED || AddressBook.PERMISSION_UNDEFINED || AddressBook.PERMISSION_DENIED
       if(permission === AddressBook.PERMISSION_UNDEFINED){
@@ -265,8 +276,8 @@ class Contacts extends React.Component{
   askPermissions(){
     AddressBook.requestPermission((err, permission) => {
       if(err){
+        Analytics.err(err)
         return
-      //TODO:  handle err;
       }
       this.getContacts()
     })
@@ -311,13 +322,15 @@ class Contacts extends React.Component{
     return (
 
       <View style={styles.container} noScroll={true}>
-        <View style={{width:100,height:50,left:20}}>
-          <BackButton />
-        </View>
+
 
         <View style={styles.searchwrap}>
-          <Image source={{uri: 'assets/search@3x.png'}} style={styles.searchicon}/>
-          <TextInput
+          <TouchableOpacity
+          style={{marginLeft:0}}
+              onPress={this.goBack.bind(this)}>
+                <Image source={{uri: 'assets/close@3x.png'}} style={[{height:15,width:15,tintColor:colors.shuttleGray}]}/>
+            </TouchableOpacity>
+           <TextInput
             ref="searchinput"
             style={styles.searchfield}
             textAlign="center"
@@ -325,9 +338,12 @@ class Contacts extends React.Component{
             placeholder="SEARCH"
             autoCorrect={false}
             clearButtonMode="always"
+            keyboardAppearance={'dark'}
             placeholderTextColor={colors.shuttleGray}
             onChangeText={this._searchChange.bind(this)}
           />
+          <Image source={{uri: 'assets/search@3x.png'}} style={styles.searchicon}/>
+
         </View>
         {!this.state.contacts.length ? <View style={{width:DeviceWidth,height:DeviceHeight-60,flex:1,alignItems:'center',justifyContent:'center'}}>
         <ActivityIndicatorIOS

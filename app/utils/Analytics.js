@@ -5,15 +5,13 @@ import _ from 'lodash'
 const MIXPANEL_TOKEN = '39438c7679290b25ea2dbb0b2aa5714f'
 
 
-export default class Analytics{
+ class Analytics{
   constructor(){
 
 
     if(!Mixpanel || !GoogleAnalytics) return false;
 
     Mixpanel.sharedInstanceWithToken(MIXPANEL_TOKEN)
-    GoogleAnalytics.setTrackUncaughtExceptions(true);
-    //
     // Mixpanel.registerSuperProperties({
     //
     //
@@ -78,3 +76,5 @@ export default class Analytics{
   }
 
 }
+
+export default new Analytics()

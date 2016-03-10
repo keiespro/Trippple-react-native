@@ -37,6 +37,11 @@ import OnboardingActions from '../../flux/actions/OnboardingActions'
 import styles from './contactStyles'
 import InvitePartner from './invitePartner'
 import {MagicNumbers} from '../../DeviceConfig'
+import libphonenumber from 'google-libphonenumber';
+
+const phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
+
+
 
 class ConfirmPartner extends React.Component{
   _cancel(){
@@ -46,14 +51,37 @@ class ConfirmPartner extends React.Component{
   _confirm(number){
     var partner_phone = number || this.props.partner.phoneNumbers[0].number;
 
-    UserActions.selectPartner({
-      phone: partner_phone,
-      name: this.props.partner.firstName
-    })
-    const rs = this.props.navigator.getCurrentRoutes()
-    this.setTimeout(()=>{
-      this.props._continue();
-    },500);
+    var phoneNumber = phoneUtil.parse(partner_phone, 'US');
+
+    if(phoneUtil.isValidNumber(phoneNumber)){
+      let phone = phoneUtil.format(phoneNumber,'US');
+      UserActions.selectPartner({
+        phone,
+        name: this.props.partner.firstName || this.props.partner.displayName,
+      })
+      const rs = this.props.navigator.getCurrentRoutes()
+      this.setTimeout(()=>{
+        this.props._continue();
+      },500);
+    }else{
+            AlertIOS.alert(
+              'Error',
+              'This is not a valid phone number. If you\'re sure it is a valid number, please contact us.',
+              [
+                {text: 'Contact us', onPress: () => RNMail.mail({
+                      subject: 'Help! My partner\'s phone number is invalid.',
+                      recipients: ['hello@trippple.co'],
+                      body: 'Help! \n Phone: '+partner_phone+' \n User info:'+JSON.stringify(this.props.user)
+                    }, (error, event) => {
+                        if(error) {
+                          AlertIOS.alert('Error', 'Could not send mail. Please email hello@trippple.co directly.');
+                        }
+                    })
+                  },
+                {text: 'OK', onPress: () => this.props.navigator.pop()},
+              ]
+            )
+          }
   }
   _selectNumber(number){
     this._confirm(number)
@@ -89,7 +117,7 @@ class ConfirmPartner extends React.Component{
                     fontSize:22,marginVertical:10,color: colors.shuttleGray,flex:1,
                   }]}>{this.props.partner.phoneNumbers && this.props.partner.phoneNumbers.length > 1 ?
                 `What number should we use to invite ${this.props.partner.firstName}` :
-                `Invite ${this.props.partner.firstName} as your partner?`
+                `Invite ${this.props.partner.firstName} as your partner? \n ${this.props.partner.phoneNumbers[0].number}`
                   }
                 </Text>
 

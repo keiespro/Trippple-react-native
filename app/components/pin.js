@@ -21,20 +21,15 @@ import React, {
 
 import CustomSceneConfigs from '../utils/sceneConfigs'
 const {RNMail} = NativeModules;
-
 import colors from '../utils/colors'
-
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import Numpad from '../components/Numpad'
-
 import UserActions from '../flux/actions/UserActions'
-
 import AuthErrorStore from '../flux/stores/AuthErrorStore'
 import SingleInputScreenMixin from '../mixins/SingleInputScreenMixin'
-
 import BackButton from './BackButton'
-
+import Analytics from '../utils/Analytics'
 
 const PinScreen = React.createClass({
   mixins: [SingleInputScreenMixin],

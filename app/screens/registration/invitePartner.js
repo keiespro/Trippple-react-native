@@ -4,7 +4,8 @@ import React, {
   Image,
   View,
   TouchableHighlight,
-  Dimensions
+  Dimensions,
+  Navigator
 } from 'react-native'
 
 const DeviceHeight = Dimensions.get('window').height;
@@ -26,7 +27,8 @@ class InvitePartner extends React.Component{
   onPress(){
 
     this.props.navigator.push({
-      component: Contacts
+      component: Contacts,
+      sceneConfig: Navigator.SceneConfigs.FloatFromBottom
     })
   }
 

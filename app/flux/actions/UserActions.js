@@ -3,7 +3,7 @@ import Api from '../../utils/api'
 import phoneParser from 'phone-parser'
 import _ from 'underscore'
 import base64 from 'base-64'
-import Mixpanel from '../../utils/mixpanel';
+import Analytics from '../../utils/Analytics';
 import AppActions from './AppActions'
 
 function cleanNumber(p){
@@ -116,8 +116,8 @@ class UserActions {
 
   selectPartner(partner) {
     return (dispatch) => {
-      let partner_phone = partner.phone.replace(/[\. ,():+-]+/g, '').replace(/[A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/,'');
-      partnerPhone = partner_phone[0] == '1' ? partner_phone.substr(1,11) : partner_phone
+      Analytics.event('Invite Partner',{action:partner.phone,label:JSON.stringify(partner)})
+      let partnerPhone = partner.phone
 
       // partner_phone = partner_phone.substr(partner_phone.length - 10, partner_phone.length)
       Api.joinCouple(partnerPhone)

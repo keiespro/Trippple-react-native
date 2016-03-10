@@ -100,8 +100,9 @@ insidemodalwrapper:{
   },
   searchwrap:{
     flexDirection: 'row',
-    justifyContent: 'center',
+    // justifyContent: 'space-between',
     height:60,
+
     alignSelf:'stretch',
     alignItems:'center',
     borderBottomWidth: 2,
@@ -119,6 +120,21 @@ insidemodalwrapper:{
     backgroundColor: 'transparent',
 
   },
+  bottomTextIcon:{
+     fontSize: 14,
+     flexDirection: 'column',
+     alignSelf: 'flex-end',
+     color: colors.rollingStone,
+     marginTop:0
+   },
+  goBackButton:{
+    padding:20,
+    paddingLeft:0,
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
+    alignItems: 'flex-start',
+    justifyContent:'center'
+  },
   wrapper:{
     backgroundColor: colors.outerSpace,
 
@@ -130,9 +146,8 @@ insidemodalwrapper:{
     marginHorizontal:10
   },
   searchicon:{
-    top:20,
-    left:10,
-    position:'absolute',
+    // marginRight:20,
+    // position:'absolute',
     width:20,
     height:20
   },

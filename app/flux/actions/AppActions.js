@@ -3,11 +3,12 @@ import UserActions from './UserActions'
 import Log from '../../Log'
 import Promise from 'bluebird'
 import Api from '../../utils/api'
-
+import Analytics from '../../utils/Analytics'
 import AppTelemetry from '../../AppTelemetry'
 
 class AppActions {
   gotCredentials(creds) {
+    Analytics.identifyUser(creds.user_id)
     return (dispatch) => {
       dispatch(creds)
     }

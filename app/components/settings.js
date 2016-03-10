@@ -188,7 +188,7 @@ class SettingsInside extends React.Component{
     }
 
     return (
-      <View style={{flex:1}}>
+      <View style={{flex:1,}}>
 
           <ParallaxView
               showsVerticalScrollIndicator={false}
@@ -196,8 +196,7 @@ class SettingsInside extends React.Component{
               windowHeight={DeviceHeight*0.6}
               navigator={this.props.navigator}
               backgroundSource={{uri:src}}
-
-              style={{backgroundColor:colors.outerSpace,paddingTop:0}}
+              style={{backgroundColor:colors.outerSpace,paddingTop:0,}}
               header={(
               <View
                   style={[
@@ -243,7 +242,7 @@ class SettingsInside extends React.Component{
               </View>
           )}>
 
-          <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth}}>
+          <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,marginBottom:30}}>
               <TouchableHighlight onPress={(f)=>{
                   this.props.navigator.push({
                   component: SettingsBasic,

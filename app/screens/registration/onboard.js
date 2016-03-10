@@ -14,6 +14,7 @@ import CustomSceneConfigs from '../../utils/sceneConfigs'
 import OnboardingStore from '../../flux/stores/OnboardingStore'
 import OnboardingActions from '../../flux/actions/OnboardingActions'
 import AltContainer from 'alt-container';
+import Analytics from '../../utils/Analytics';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -114,6 +115,7 @@ class Onboard extends Component{
     })
   }
   selectScene (route: Navigator.route, navigator: Navigator) {
+    Analytics.screen(route.title)
 
     return (
       <route.component
@@ -153,6 +155,7 @@ class Onboard extends Component{
           navigationBar={false}
           ref={'onboardingNavigator'}
           initialRoute={RouteStackSingle[0]}
+
         />
       </View>
     )
