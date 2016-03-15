@@ -87,7 +87,7 @@ class NotificationCommander extends Component{
 
   handlePushData(pushNotification){
     if(!pushNotification){ return false }
-    Analytics.event('Handle push notification',pushNotification)
+    Analytics.event('Handle push notification',{action:JSON.stringify(pushNotification)})
 
     const data = pushNotification.getData();
 
@@ -176,7 +176,7 @@ class NotificationCommander extends Component{
     this.socket.on('system', (payload) => {
 
       // AlertIOS.alert('alert',typeof payload)
-      Analytics.event('Webocket notification',{action: payload.data.action, label: 'system', value: JSON.stringify(payload)})
+      Analytics.event('Webocket notification',{action: payload.data.action, label: 'system'})
 
       let tempData;
       if(typeof payload == 'object'){
@@ -220,7 +220,7 @@ class NotificationCommander extends Component{
 
     this.socket.on('chat', (payload) => {
       console.log('chat',payload)
-      Analytics.event('Webocket notification',{action: 'New Message', label: 'chat', value: JSON.stringify(payload)})
+      Analytics.event('Webocket notification',{action: 'New Message', label: 'chat'})
 
       this.setState({processing:true});
 

@@ -71,7 +71,7 @@ const MIXPANEL_TOKEN = '39438c7679290b25ea2dbb0b2aa5714f'
     if(!Mixpanel || !GoogleAnalytics) return false;
 
     __DEV__ && console.log(error)
-    GoogleAnalytics.trackException(error.message || error, false);
+    GoogleAnalytics.trackException(error.message || JSON.stringify(error), false);
 
   }
 

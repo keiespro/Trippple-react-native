@@ -28,6 +28,7 @@ class InvitePartner extends React.Component{
 
     this.props.navigator.push({
       component: Contacts,
+      title:'Contacts',
       sceneConfig: Navigator.SceneConfigs.FloatFromBottom
     })
   }

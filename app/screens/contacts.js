@@ -15,14 +15,16 @@ import {
   Dimensions,
   Navigator,
   TouchableOpacity,
-  ActivityIndicatorIOS
+  ActivityIndicatorIOS,
+  NativeModules
 } from 'react-native'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import UserActions from '../flux/actions/UserActions'
 import CoupleImage from './registration/CoupleImage'
-import { AddressBook } from 'NativeModules'
+const { AddressBook } = NativeModules;
+import Analytics from '../utils/Analytics'
 import colors from '../utils/colors'
 import _ from 'underscore'
 import Facebook from './registration/facebook'
@@ -219,14 +221,12 @@ class Contacts extends React.Component{
   }
 
   storeContacts(){
-
+    console.log('call store contacts')
     AddressBook.getContacts((err, contacts) => {
+      console.log(err,contacts)
       if(err){
         Analytics.err(err);
-
-        return false;
       }
-      console.log(contacts);
 
       this.setState({
         contacts: contacts,
@@ -246,30 +246,31 @@ class Contacts extends React.Component{
 
   getContacts(){
      AddressBook.checkPermission((err, permission) => {
+
        if(err){
          Analytics.err(err)
       }
-      console.log(permission);
+
 
       // AddressBook.PERMISSION_AUTHORIZED || AddressBook.PERMISSION_UNDEFINED || AddressBook.PERMISSION_DENIED
       if(permission === AddressBook.PERMISSION_UNDEFINED){
         this.askPermissions();
-      }
-      if(permission === AddressBook.PERMISSION_AUTHORIZED){
+      }else if(permission === AddressBook.PERMISSION_AUTHORIZED){
         this.storeContacts()
-      }
-      if(permission === AddressBook.PERMISSION_DENIED){
+      }else if(permission === AddressBook.PERMISSION_DENIED){
         //handle permission denied
 
         //TODO: test this!
         AlertIOS.alert(
-          '',
+          'Hey!',
           'We need access to your contacts so you can select your partner.',
           [
             {text: 'Try Again', onPress: () => this.askPermissions()},
             {text: 'Nevermind I\'m single.', onPress: () => this.nevermind()},
           ]
         )
+      }else{
+        console.log('ELSE')
       }
     })
   }
