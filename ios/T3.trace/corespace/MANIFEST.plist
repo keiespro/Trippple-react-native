@@ -4,10 +4,31 @@
 <dict>
 	<key>paths</key>
 	<array>
-		<string>currentRun/core/uniquing</string>
-		<string>run21/core/table-manager</string>
+		<string>run22/core/core-config</string>
 		<string>run21/core/core-config</string>
+		<string>run26/core/core-config</string>
+		<string>run21/core/table-manager</string>
+		<string>run23/core/uniquing</string>
+		<string>run27/core/core-config</string>
+		<string>run22/core/uniquing</string>
+		<string>run26/core/uniquing</string>
+		<string>run25/core/table-manager</string>
+		<string>run25/core/uniquing</string>
+		<string>run23/core/core-config</string>
+		<string>run24/core/table-manager</string>
+		<string>currentRun/core/uniquing</string>
+		<string>run28/core/table-manager</string>
+		<string>run23/core/table-manager</string>
+		<string>run28/core/core-config</string>
+		<string>run27/core/table-manager</string>
 		<string>run21/core/uniquing</string>
+		<string>run25/core/core-config</string>
+		<string>run24/core/core-config</string>
+		<string>run24/core/uniquing</string>
+		<string>run26/core/table-manager</string>
+		<string>run28/core/uniquing</string>
+		<string>run27/core/uniquing</string>
+		<string>run22/core/table-manager</string>
 	</array>
 </dict>
 </plist>

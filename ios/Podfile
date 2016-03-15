@@ -1,1 +1,4 @@
 pod 'Mixpanel'
+target "Tripppletest" do
+  pod 'FBSnapshotTestCase'
+end
