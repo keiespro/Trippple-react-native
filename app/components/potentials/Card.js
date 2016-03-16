@@ -11,7 +11,6 @@ import React, {
   Image,
   TouchableOpacity,
   TouchableHighlight,
-  TouchableWithoutFeedback,
   Animated,
   ScrollView,
   Dimensions
@@ -250,7 +249,8 @@ class Card extends React.Component{
                   paginationStyle={{position:'absolute',paddingRight:30,right:0,top:45,height:100}}
                 >
 
-                  <TouchableWithoutFeedback
+                  <TouchableHighlight
+                    underlayColor={colors.mediumPurple}
                     pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                     key={`${potential.user.id}-touchableimg`}
                     style={[styles.imagebg,{ overflow:'hidden',height:undefined, width: undefined,}]}
@@ -276,11 +276,12 @@ class Card extends React.Component{
                       }]}
                       resizeMode={Image.resizeMode.cover}
                     />
-                  </TouchableWithoutFeedback>
+                </TouchableHighlight>
 
                   {potential.partner &&
 
-                    <TouchableWithoutFeedback
+                    <TouchableHighlight
+                      underlayColor={colors.mediumPurple}
                       pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                       key={`${potential.partner.id}-touchableimg`}
                       style={[styles.imagebg,{height:undefined, width: undefined,}]}
@@ -304,10 +305,11 @@ class Card extends React.Component{
                         }]}
                         resizeMode={Image.resizeMode.cover}
                       />
-                    </TouchableWithoutFeedback>
+                  </TouchableHighlight>
                   }
                   {/*{ false &&  potential.couple && potential.partner && potential.image && potential.image != null && potential.image != '' ?
-                    <TouchableWithoutFeedback
+                    <TouchableHighlight
+                    underlayColor={colors.mediumPurple}
                     pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                       key={`${potential.id}-touchableimg`}
                       style={[styles.imagebg,{ height:undefined, width: undefined,}]}
@@ -328,7 +330,7 @@ class Card extends React.Component{
                         }]}
                         resizeMode={Image.resizeMode.cover}
                       />
-                    </TouchableWithoutFeedback> : null
+                    </TouchableHighlight> : null
                   }*/}
 
                 </Swiper> :
@@ -341,7 +343,8 @@ class Card extends React.Component{
                   left:0,alignItems:'stretch'
                 }}
                 >
-                  <TouchableWithoutFeedback
+                  <TouchableHighlight
+                    underlayColor={colors.mediumPurple}
                     pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                     key={`${potential.user.id}-touchableimg`}
                     style={[styles.imagebg,{
@@ -363,7 +366,7 @@ class Card extends React.Component{
                       }]}
                       resizeMode={Image.resizeMode.cover}
                     />
-                  </TouchableWithoutFeedback>
+                </TouchableHighlight>
                 </View>
                   }
 
@@ -386,7 +389,8 @@ class Card extends React.Component{
                   // marginRight: this.props.profileVisible ? 0 : 50,
                 }}
               >
-              <TouchableHighlight underlayColor={colors.warmGrey} onPress={this.openProfileFromImage.bind(this)}>
+              <TouchableHighlight
+                underlayColor={colors.mediumPurple} underlayColor={colors.warmGrey} onPress={this.openProfileFromImage.bind(this)}>
 
                 <View
                   key={`${potential.id || potential.user.id}-infos`}
@@ -426,7 +430,8 @@ class Card extends React.Component{
                   backgroundColor:'transparent',
                   flexDirection:'row'}}
                 >
-                  <TouchableHighlight onPress={this.openProfileFromImage.bind(this)}
+                  <TouchableHighlight
+                    underlayColor={colors.mediumPurple} onPress={this.openProfileFromImage.bind(this)}
                     underlayColor={colors.mediumPurple} style={styles.circleimagewrap}
                   >
                     <Image
@@ -438,7 +443,8 @@ class Card extends React.Component{
                       }]}
                     />
                   </TouchableHighlight>
-                  <TouchableHighlight onPress={this.openProfileFromImage.bind(this) }
+                  <TouchableHighlight
+                    underlayColor={colors.mediumPurple} onPress={this.openProfileFromImage.bind(this) }
                     underlayColor={colors.mediumPurple} style={styles.circleimagewrap}
                   >
                     <Image
@@ -616,7 +622,8 @@ class Card extends React.Component{
                   paginationStyle={{position:'absolute',right:10,top:10,height:100}}
                 >
 
-                  <TouchableWithoutFeedback
+                  <TouchableHighlight
+                    underlayColor={colors.mediumPurple}
                     pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                     key={`${potential.user.id}-touchableimg`}
                     style={[styles.imagebg,{
@@ -640,10 +647,11 @@ class Card extends React.Component{
                       }]}
                       resizeMode={Image.resizeMode.cover}
                     />
-                  </TouchableWithoutFeedback>
+                </TouchableHighlight>
 
                   { potential.partner &&
-                    <TouchableWithoutFeedback
+                    <TouchableHighlight
+                      underlayColor={colors.mediumPurple}
                       pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                       key={`${potential.partner.id}-touchableimg`}
                       style={[styles.imagebg,{ }]}
@@ -663,11 +671,12 @@ class Card extends React.Component{
                         }]}
                         resizeMode={Image.resizeMode.cover}
                       />
-                    </TouchableWithoutFeedback>
+                  </TouchableHighlight>
                   }
-                  { false && potential.partner && potential.image && potential.image != null && potential.image != '' ?
+                  {/*{ false && potential.partner && potential.image && potential.image != null && potential.image != '' ?
 
-                    <TouchableWithoutFeedback
+                    <TouchableHighlight
+                      underlayColor={colors.mediumPurple}
                       pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                       key={`${potential.id}-touchableimg`}
                       style={[styles.imagebg,{ }]}
@@ -687,8 +696,8 @@ class Card extends React.Component{
                         }]}
                         resizeMode={Image.resizeMode.cover}
                       />
-                    </TouchableWithoutFeedback> : null
-                  }
+                  </TouchableHighlight> : null
+                  }*/}
 
                 </Swiper> :
                 <View style={{
@@ -700,7 +709,8 @@ class Card extends React.Component{
                   left:0,alignItems:'stretch'
                 }}
                 >
-                <TouchableWithoutFeedback
+                <TouchableHighlight
+                  underlayColor={colors.mediumPurple}
                   pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                   key={`${potential.user.id}-touchableimg`}
                   style={[styles.imagebg,{ overflow:'hidden',width:DeviceWidth,height:DeviceHeight}]}
@@ -722,7 +732,7 @@ class Card extends React.Component{
                     }]}
                     resizeMode={Image.resizeMode.cover}
                   />
-                </TouchableWithoutFeedback>
+              </TouchableHighlight>
               </View>
               }
 
@@ -741,7 +751,8 @@ class Card extends React.Component{
                   width:DeviceWidth,
                 }}
               >
-              <TouchableHighlight onPress={() => { this.refs.scrollbox.scrollTo({y: DeviceHeight-200}); }} >
+              <TouchableHighlight
+                underlayColor={colors.mediumPurple} onPress={() => { this.refs.scrollbox.scrollTo({y: DeviceHeight-200}); }} >
 
                 <View
                   key={`${potential.id || potential.user.id}-infos`}
@@ -781,6 +792,7 @@ class Card extends React.Component{
                   flexDirection:'row'}}
                 >
                   <TouchableHighlight
+                    underlayColor={colors.mediumPurple}
                     onPress={(e)=>{ /*this.setState({activeIndex: 0}) */
                   this.refs.scrollbox.scrollTo({y: 0});
                 } }
@@ -797,6 +809,7 @@ class Card extends React.Component{
                     />
                   </TouchableHighlight>
                   <TouchableHighlight
+                    underlayColor={colors.mediumPurple}
                     onPress={(e)=>{ /*this.setState({activeIndex: 1}) */
                     this.refs.scrollbox.scrollTo({y: 0});
                   } }
