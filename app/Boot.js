@@ -1,9 +1,10 @@
-import React, {AsyncStorage} from 'react-native'
+import React, {AsyncStorage, Settings} from 'react-native'
 import App from './components/app'
 import LoadingOverlay from './components/LoadingOverlay'
 import Keychain from 'react-native-keychain'
 import config from './config'
 import alt from './flux/alt'
+import TouchID from 'react-native-touch-id'
 
 const {KEYCHAIN_NAMESPACE} = config
 import AppActions from './flux/actions/AppActions'
@@ -11,9 +12,16 @@ import AppActions from './flux/actions/AppActions'
 class Boot extends React.Component{
   constructor(props){
     super();
-    this.state = { booted: false }
+    this.state = {
+      booted: false,
+      isLocked: Settings._settings['LockedWithTouchID']
+    }
   }
-
+  componentWillMount(){
+    if(this.state.isLocked){
+      this.checkTouchId()
+    }
+  }
   componentDidMount(){
     this.getCredentials()
   }
@@ -29,6 +37,25 @@ class Boot extends React.Component{
     })
   }
 
+  checkTouchId(){
+
+    TouchID.authenticate('Access Trippple')
+      .then(success => {
+        console.log(success)
+        this.setState({
+          isLocked: false
+        })
+        // Success code
+      })
+      .catch(error => {
+        // Failure code
+        console.log(error)
+        this.setState({
+
+        })
+
+      });
+  }
   setBooted(){
     this.setState({booted:true})
 
@@ -51,7 +78,7 @@ class Boot extends React.Component{
     })
   }
   render(){
-    return this.state.booted ? <App key="app"/> : <LoadingOverlay />
+    return !this.state.isLocked && this.state.booted ? <App key="app"/> : <LoadingOverlay />
   }
 
 }

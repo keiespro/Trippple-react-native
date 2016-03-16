@@ -17,10 +17,12 @@ import React, {
   Image,
   NativeModules,
   AsyncStorage,
+  Settings,
   Navigator
 } from  'react-native'
 import base64 from 'base-64';
 import Analytics from '../utils/Analytics';
+import TouchID from 'react-native-touch-id'
 
 import Mixpanel from '../utils/mixpanel';
 import FakeNavBar from '../controls/FakeNavBar';
@@ -54,7 +56,8 @@ class SettingsSettings extends React.Component{
   constructor(props){
     super()
     this.state = {
-      privacy: props.user.privacy || 'public'
+      privacy: props.user.privacy || 'public',
+      isLocked: Settings._settings['LockedWithTouchID'] || null
     }
   }
   togglePrivacy(value){
@@ -64,6 +67,20 @@ class SettingsSettings extends React.Component{
   }
   componentDidMount() {
     Mixpanel.track('On - Setings Screen');
+
+    TouchID.isSupported()
+      .then(supported => {
+        // Success code
+        this.setState({
+          touchIDSupported: true
+        })
+        console.log('TouchID is supported.');
+      })
+      .catch(error => {
+        // Failure code
+        console.log(error);
+      });
+
   }
 
   disableAccount(){
@@ -161,6 +178,30 @@ class SettingsSettings extends React.Component{
         })
     }
   }
+
+  handleLockWithTouchID(){
+
+    TouchID.authenticate(this.state.isLocked ? 'Disable TouchID Lock' : 'Lock Trippple')
+      .then((success) => {
+        var shouldLock = this.state.isLocked ? 1 : null
+        console.log(this.state.isLocked,shouldLock)
+        this.setState({
+          isLocked: !shouldLock
+        })
+        Settings.set({LockedWithTouchID:this.state.isLocked})
+
+
+        console.log('shouldLock',shouldLock)
+        // Success code
+      })
+      .catch(error => {
+        // Failure code
+        console.log('err',error)
+        AlertIOS.alert('Sorry')
+
+      });
+  }
+
   render(){
     let u = this.props.user;
     let settingOptions = this.props.settingOptions || {};
@@ -223,12 +264,30 @@ class SettingsSettings extends React.Component{
       </View>
     </TouchableHighlight>
 
+    {this.state.touchIDSupported ?
+      <View>
+      <View style={styles.paddedSpace}>
+        <View style={styles.formHeader}>
+          <Text style={styles.formHeaderText}>TouchID</Text>
+        </View>
+    </View>
+
+    <TouchableHighlight style={styles.paddedSpace} onPress={this.handleLockWithTouchID.bind(this)} underlayColor={colors.dark}>
+      <View style={{borderBottomWidth:1 / PixelRatio.get(), borderColor:colors.shuttleGray,height:50,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
+        <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>Lock with TouchID</Text>
+        <Image style={{width:30,height:30}} source={this.state.isLocked ? {uri: 'assets/ovalSelected@3x.png'} :
+          {uri: 'assets/ovalDashed@3x.png'}} />
+      </View>
+    </TouchableHighlight>
+  </View> : null }
+
+
 
     <View style={styles.paddedSpace}>
         <View style={styles.formHeader}>
           <Text style={styles.formHeaderText}>Helpful Links</Text>
         </View>
-</View>
+      </View>
         <TouchableHighlight style={styles.paddedSpace} onPress={this.handleFeedback.bind(this)} underlayColor={colors.dark}>
           <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>FEEDBACK</Text>
