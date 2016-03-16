@@ -251,6 +251,7 @@ class Card extends React.Component{
                 >
 
                   <TouchableWithoutFeedback
+                    pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                     key={`${potential.user.id}-touchableimg`}
                     style={[styles.imagebg,{ overflow:'hidden',height:undefined, width: undefined,}]}
                     onPressIn={this.toggleCardHoverOn.bind(this)}
@@ -280,6 +281,7 @@ class Card extends React.Component{
                   {potential.partner &&
 
                     <TouchableWithoutFeedback
+                      pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                       key={`${potential.partner.id}-touchableimg`}
                       style={[styles.imagebg,{height:undefined, width: undefined,}]}
                       onPressIn={this.toggleCardHoverOn.bind(this)}
@@ -304,8 +306,9 @@ class Card extends React.Component{
                       />
                     </TouchableWithoutFeedback>
                   }
-                  { false &&  potential.couple && potential.partner && potential.image && potential.image != null && potential.image != '' ?
+                  {/*{ false &&  potential.couple && potential.partner && potential.image && potential.image != null && potential.image != '' ?
                     <TouchableWithoutFeedback
+                    pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                       key={`${potential.id}-touchableimg`}
                       style={[styles.imagebg,{ height:undefined, width: undefined,}]}
                       onPress={this.openProfileFromImage.bind(this)}
@@ -326,7 +329,7 @@ class Card extends React.Component{
                         resizeMode={Image.resizeMode.cover}
                       />
                     </TouchableWithoutFeedback> : null
-                  }
+                  }*/}
 
                 </Swiper> :
                 <View style={{
@@ -339,6 +342,7 @@ class Card extends React.Component{
                 }}
                 >
                   <TouchableWithoutFeedback
+                    pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                     key={`${potential.user.id}-touchableimg`}
                     style={[styles.imagebg,{
                       width:undefined,
@@ -613,6 +617,7 @@ class Card extends React.Component{
                 >
 
                   <TouchableWithoutFeedback
+                    pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                     key={`${potential.user.id}-touchableimg`}
                     style={[styles.imagebg,{
                       width: undefined,
@@ -639,6 +644,7 @@ class Card extends React.Component{
 
                   { potential.partner &&
                     <TouchableWithoutFeedback
+                      pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                       key={`${potential.partner.id}-touchableimg`}
                       style={[styles.imagebg,{ }]}
                       onPress={this.openProfileFromImage.bind(this)}
@@ -662,6 +668,7 @@ class Card extends React.Component{
                   { false && potential.partner && potential.image && potential.image != null && potential.image != '' ?
 
                     <TouchableWithoutFeedback
+                      pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                       key={`${potential.id}-touchableimg`}
                       style={[styles.imagebg,{ }]}
                       onPress={this.openProfileFromImage.bind(this)}
@@ -694,6 +701,7 @@ class Card extends React.Component{
                 }}
                 >
                 <TouchableWithoutFeedback
+                  pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                   key={`${potential.user.id}-touchableimg`}
                   style={[styles.imagebg,{ overflow:'hidden',width:DeviceWidth,height:DeviceHeight}]}
                   onPressIn={this.toggleCardHoverOff.bind(this)}

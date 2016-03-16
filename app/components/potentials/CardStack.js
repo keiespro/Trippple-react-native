@@ -1,11 +1,11 @@
 /* @flow */
 
 
-const THROW_THRESHOLD_DENY = -180,
-      THROW_THRESHOLD_APPROVE = 180,
-      SWIPE_THRESHOLD_APPROVE = 230,
-      SWIPE_THRESHOLD_DENY = -230,
-      THROW_SPEED_THRESHOLD = 2.5;
+const THROW_THRESHOLD_DENY = -110,
+      THROW_THRESHOLD_APPROVE = 110,
+      SWIPE_THRESHOLD_APPROVE = 200,
+      SWIPE_THRESHOLD_DENY = -200,
+      THROW_SPEED_THRESHOLD = 0;
 
 import React, {
   StyleSheet,
@@ -112,21 +112,40 @@ class CardStack extends React.Component{
   initializePanResponder(){
     delete this._panResponder
 
+    const isCouple = this.props.user.relationship_status == 'couple'
+
     this._panResponder = PanResponder.create({
 
       onMoveShouldSetPanResponderCapture: (e,gestureState) => {
+        console.log('onMoveShouldSetPanResponderCapture',gestureState)
+
         return false;
       },
 
       onMoveShouldSetPanResponder: (e,gestureState) => {
-        return !this.props.profileVisible && Math.abs(gestureState.dy) < 5
+        console.log('onMoveShouldSetPanResponder',gestureState)
+
+
+        return !this.props.profileVisible && isCouple ||  Math.abs(gestureState.dx) > 0 && Math.abs(gestureState.dy) < 5
+
+        // return !this.props.profileVisible && notInCone(gestureState)
       },
 
       onStartShouldSetPanResponder: (e,gestureState) => {
+        console.log('onStartShouldSetPanResponder',gestureState)
 
-        return false
+        return !this.props.profileVisible && isCouple ||  Math.abs(gestureState.dx) > 0 && Math.abs(gestureState.dy) < 5
       },
+      onStartShouldSetPanResponderCapture: (e,gestureState) => {
+        console.log('onStartShouldSetPanResponderCapture',gestureState)
+
+        return false;// !this.props.profileVisible && Math.abs(gestureState.dy) < 5
+
+      },
+
       onPanResponderReject: (e, gestureState) => {
+        console.log('onPanResponderReject',gestureState)
+
       },
 
       onPanResponderMove: Animated.event([null, {
@@ -134,8 +153,33 @@ class CardStack extends React.Component{
          dy: this.state.pan.y
       }]),
 
-      onPanResponderRelease: (e, gestureState) => {
+      onPanResponderTerminate: (e, gestureState) => {
+        console.log('onPanResponderTerminate',gestureState)
 
+      },
+      onPanResponderTerminationRequest: (e, gestureState) => {
+        console.log('onPanResponderTerminationRequest',gestureState)
+
+      },
+      onPanResponderReject: (e, gestureState) => {
+        console.log('onPanResponderReject',gestureState)
+
+      },
+      onPanResponderGrant: (e, gestureState) => {
+        console.log('onPanResponderGrant',gestureState)
+
+      },
+      onPanResponderStart: (e, gestureState) => {
+        console.log('onPanResponderStart',gestureState)
+
+      },
+      onPanResponderEnd: (e, gestureState) => {
+        console.log('onPanResponderEnd',gestureState)
+
+      },
+
+
+      onPanResponderRelease: (e, gestureState) => {
         var toValue = 0,
             velocity = 1,
             likeStatus;
@@ -146,9 +190,9 @@ class CardStack extends React.Component{
         // animate back to center or off screen left or off screen right
         if (dx > SWIPE_THRESHOLD_APPROVE || (dx > THROW_THRESHOLD_APPROVE && Math.abs(vx) > THROW_SPEED_THRESHOLD)){
           toValue = 700;
-          velocity = {x: vx*2, y: vy*2}
+          velocity = {x: vx, y: vy}
 
-           likeStatus =   'approve';
+          likeStatus =   'approve';
 
           if(!this.state.likedPotentials.indexOf(likeUserId)){
             MatchActions.removePotential(likeUserId);
@@ -157,8 +201,8 @@ class CardStack extends React.Component{
 
         }else if(dx < SWIPE_THRESHOLD_DENY || (dx < THROW_THRESHOLD_DENY && Math.abs(vx) > THROW_SPEED_THRESHOLD)){
           toValue = -700;
-          velocity = {x: vx*2, y: vy*2}
-           likeStatus =  'deny';
+          velocity = {x: vx, y: vy}
+          likeStatus =  'deny';
 
 
 
@@ -199,7 +243,7 @@ class CardStack extends React.Component{
         //         this.props.rel
         //       );
         //     }
-        //       this.setState({interactedWith:likeUserId,likedPotentials:[...this.state.likedPotentials, likeUserId]})
+              // this.setState({interactedWith:likeUserId,likedPotentials:[...this.state.likedPotentials, likeUserId]})
         //     }else if(this.state.interactedWith == likeUserId && this.state.interactedWith != `${likeUserId}settled`){
         //         this.setState({interactedWith:`${likeUserId}settled`})
         //     }
@@ -211,10 +255,10 @@ class CardStack extends React.Component{
         //   }
         // })
         Animated.spring(this.state.pan, {
-          toValue,
+          toValue:{x:toValue,y:0},
           velocity,       // maintain gesture velocity
-          tension: 40,
-          friction: 2,
+          tension: likeStatus  ? 20 : 20,
+          friction: likeStatus ? 2 : 7,//2
         }).start((result)=>{
           if(!result.finished){
 
