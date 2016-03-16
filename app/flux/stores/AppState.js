@@ -2,7 +2,7 @@ import alt from '../alt'
 import AppActions from '../actions/AppActions'
 import UserActions from '../actions/UserActions'
 import MatchActions from '../actions/MatchActions'
-import {AsyncStorage,PushNotificationIOS,NativeModules} from 'react-native'
+import {AsyncStorage,PushNotificationIOS,NativeModules,Settings} from 'react-native'
 const {CameraManager,OSPermissions} = NativeModules
 import AddressBook from 'react-native-addressbook'
 import Analytics from '../../utils/Analytics'
@@ -194,7 +194,9 @@ class AppStateStore {
   }
 
   handleLogOut(){
-   this.setState({ userStatus: null });
+    Settings.set({LockedWithTouchID:false})
+
+    this.setState({ userStatus: null });
   }
 
   //

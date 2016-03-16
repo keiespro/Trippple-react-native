@@ -5,7 +5,7 @@ import Keychain from 'react-native-keychain'
 import config from './config'
 import alt from './flux/alt'
 import TouchID from 'react-native-touch-id'
-
+import LockFailed from './LockFailed'
 const {KEYCHAIN_NAMESPACE} = config
 import AppActions from './flux/actions/AppActions'
 
@@ -43,6 +43,7 @@ class Boot extends React.Component{
       .then(success => {
         console.log(success)
         this.setState({
+          lockFailed: false,
           isLocked: false
         })
         // Success code
@@ -51,7 +52,7 @@ class Boot extends React.Component{
         // Failure code
         console.log(error)
         this.setState({
-
+          lockFailed: true
         })
 
       });
@@ -78,7 +79,9 @@ class Boot extends React.Component{
     })
   }
   render(){
-    return !this.state.isLocked && this.state.booted ? <App key="app"/> : <LoadingOverlay />
+    return this.state.lockFailed ? <LockFailed retry={this.checkTouchId.bind(this)}/> :
+      !this.state.isLocked && this.state.booted ? <App key="app"/> : <LoadingOverlay />
+
   }
 
 }

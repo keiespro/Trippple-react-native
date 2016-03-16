@@ -74,11 +74,11 @@ class SettingsSettings extends React.Component{
         this.setState({
           touchIDSupported: true
         })
-        console.log('TouchID is supported.');
+
       })
       .catch(error => {
         // Failure code
-        console.log(error);
+
       });
 
   }
@@ -184,20 +184,17 @@ class SettingsSettings extends React.Component{
     TouchID.authenticate(this.state.isLocked ? 'Disable TouchID Lock' : 'Lock Trippple')
       .then((success) => {
         var shouldLock = this.state.isLocked ? 1 : null
-        console.log(this.state.isLocked,shouldLock)
+
         this.setState({
           isLocked: !shouldLock
         })
         Settings.set({LockedWithTouchID:this.state.isLocked})
-
-
-        console.log('shouldLock',shouldLock)
-        // Success code
+                // Success code
       })
       .catch(error => {
         // Failure code
-        console.log('err',error)
-        AlertIOS.alert('Sorry')
+
+                // AlertIOS.alert('Sorry')
 
       });
   }
