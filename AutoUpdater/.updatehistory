@@ -1,6 +1,12 @@
 {
   "builds": [
     {
+      "timestamp": 1458119140131,
+      "jsVersion": "2.1.13",
+      "appVersion": "2.1.0",
+      "build": 21
+    },
+    {
       "timestamp": 1457576739517,
       "jsVersion": "2.1.12",
       "appVersion": "2.1.0",
