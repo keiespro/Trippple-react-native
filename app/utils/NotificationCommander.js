@@ -175,7 +175,7 @@ class NotificationCommander extends Component{
 
     this.socket.on('system', (payload) => {
 
-      // AlertIOS.alert('alert',typeof payload)
+      // AlertIOS.alert('alert',JSON.stringify(payload))
       Analytics.event('Webocket notification',{action: payload.data.action, label: 'system'})
 
       let tempData;
@@ -200,10 +200,10 @@ class NotificationCommander extends Component{
 
       }else if(data.action && data.action == 'statuschange' || data.action == 'imageflagged') {
 
-        UserActions.getUserInfo.defer()
+        UserActions.getUserInfo()
 
       }else if(data.action && data.action == 'coupleready') {
-        UserActions.getUserInfo.defer()
+        UserActions.getUserInfo()
         AlertIOS.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
 
       }else if(data.action && data.action === 'logout') {
@@ -219,7 +219,7 @@ class NotificationCommander extends Component{
     })
 
     this.socket.on('chat', (payload) => {
-      console.log('chat',payload)
+
       Analytics.event('Webocket notification',{action: 'New Message', label: 'chat'})
 
       this.setState({processing:true});
