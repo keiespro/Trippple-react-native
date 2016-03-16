@@ -4,7 +4,7 @@ import { AsyncStorage,AlertIOS } from 'react-native'
 import NotificationActions from '../actions/NotificationActions'
 import UserActions from '../actions/UserActions'
 import _ from 'underscore'
-import Log from '../../Log'
+import Analytics from '../../utils/Analytics'
 
 
 class PotentialsStore {
@@ -23,19 +23,19 @@ class PotentialsStore {
     });
 
     this.on('init', () => {
-      Log('INIT PotentialsStore');
+      Analytics.log('INIT PotentialsStore');
     });
 
     this.on('error', (err, payload, currentState) => {
-      Log('ERROR PotentialsStore',err, payload, currentState);
+      Analytics.log('ERROR PotentialsStore',err, payload, currentState);
     });
 
     this.on('bootstrap', (bootstrappedState) => {
-      Log('BOOTSTRAP PotentialsStore',bootstrappedState);
+      Analytics.log('BOOTSTRAP PotentialsStore',bootstrappedState);
     });
 
     this.on('afterEach', (x) => {
-      Log('AFTEREACH Potentials Store', {...x});
+      Analytics.log('AFTEREACH Potentials Store', {...x});
     });
 
     this.exportPublicMethods({

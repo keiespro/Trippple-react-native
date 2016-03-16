@@ -37,7 +37,7 @@ import TimeAgo from './Timeago'
 import FakeNavBar from '../controls/FakeNavBar'
 import moment from 'moment'
 import { BlurView, VibrancyView } from 'react-native-blur'
-import Log from '../Log';
+import Analytics from '../utils/Analytics';
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
 const styles = StyleSheet.create({
@@ -376,7 +376,7 @@ class ChatInside extends Component{
 
   saveToStorage(){
     AsyncStorage.setItem('ChatStore', alt.takeSnapshot(ChatStore))
-      .catch((error) => {Log('AsyncStorage error: ' + error.message)})
+      .catch((error) => {Analytics.log('AsyncStorage error: ' + error.message)})
       .done();
   }
 

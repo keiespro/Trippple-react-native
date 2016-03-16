@@ -31,7 +31,7 @@ import BoxyButton from '../controls/boxyButton'
 import UserActions from '../flux/actions/UserActions'
 import AppActions from '../flux/actions/AppActions'
 import {MagicNumbers} from '../DeviceConfig'
-import Log from '../Log'
+import Analytics from '../utils/Analytics'
 
  export default class CheckPermissions extends React.Component{
 
@@ -92,7 +92,7 @@ import Log from '../Log'
         this.handleSuccess(geo)
       },
       (error) => {
-        Log(error)
+        Analytics.log(error)
 
         // this.setState({hasPermission: false, failedState: true})
         // this.handleFail()

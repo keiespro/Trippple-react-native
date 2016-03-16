@@ -34,7 +34,7 @@ import AppActions from '../flux/actions/AppActions'
 import NotificationActions from '../flux/actions/NotificationActions'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-import Log from '../Log'
+import Analytics from '../utils/Analytics'
 
 class Main extends Component{
 

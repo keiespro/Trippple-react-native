@@ -1,6 +1,6 @@
 import alt from '../alt'
 import UserActions from '../actions/UserActions'
-import Log from '../../Log'
+import Analytics from '../../utils/Analytics'
 
 class AuthErrorStore {
 
@@ -12,19 +12,19 @@ class AuthErrorStore {
     });
 
     this.on('init', () => {
-      Log('INIT AuthErrorStore');
+      Analytics.log('INIT AuthErrorStore');
     });
 
     this.on('error', (err, payload, currentState) => {
-      Log('ERROR AuthErrorStore',err, payload, currentState);
+      Analytics.log('ERROR AuthErrorStore',err, payload, currentState);
     });
 
     this.on('bootstrap', (bootstrappedState) => {
-      Log('BOOTSTRAP AuthErrorStore',bootstrappedState);
+      Analytics.log('BOOTSTRAP AuthErrorStore',bootstrappedState);
     });
 
     this.on('afterEach', (x) => {
-      Log('AFTEREACH AuthError Store ', {...x});
+      Analytics.log('AFTEREACH AuthError Store ', {...x});
     });
 
   }

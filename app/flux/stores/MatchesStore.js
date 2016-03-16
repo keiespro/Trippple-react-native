@@ -1,6 +1,6 @@
 import alt from '../alt'
 import MatchActions from '../actions/MatchActions'
-import Log from '../../Log'
+import Analytics from '../../utils/Analytics'
 import AppActions from '../actions/AppActions'
 import UserActions from '../actions/UserActions'
 
@@ -44,19 +44,19 @@ class MatchesStore {
     });
 
     this.on( 'init', () => {
-      Log( 'INIT matches store' );
+      Analytics.log( 'INIT matches store' );
     });
 
     this.on( 'error', ( err, payload, currentState ) => {
-      Log( 'ERROR matches store', err, payload, currentState );
+      Analytics.log( 'ERROR matches store', err, payload, currentState );
     });
 
     this.on( 'bootstrap', ( bootstrappedState ) => {
-      Log( 'BOOTSTRAP matches store', bootstrappedState );
+      Analytics.log( 'BOOTSTRAP matches store', bootstrappedState );
     });
 
     this.on( 'afterEach', ( x ) => {
-      Log( 'AFTEREACH Matches store', {...x });
+      Analytics.log( 'AFTEREACH Matches store', {...x });
     });
 
   }
@@ -74,7 +74,7 @@ class MatchesStore {
 
   save() {
     var partialSnapshot = alt.takeSnapshot( this );
-    Log( 'saving', partialSnapshot );
+    Analytics.log( 'saving', partialSnapshot );
     AsyncStorage.setItem( 'MatchesStore', JSON.stringify( partialSnapshot ) );
   }
 

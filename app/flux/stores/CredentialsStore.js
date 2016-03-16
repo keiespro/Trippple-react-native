@@ -7,7 +7,7 @@ import config from '../../config'
 const {KEYCHAIN_NAMESPACE} = config
 import Device from 'react-native-device'
 
-import Log from '../../Log'
+import Analytics from '../../utils/Analytics'
 
 class CredentialsStore {
 
@@ -16,19 +16,19 @@ class CredentialsStore {
     this.api_key = '';
 
     this.on('init', () => {
-      Log('INIT CredentialsStore');
+      Analytics.log('INIT CredentialsStore');
     });
 
     this.on('error', (err, payload, currentState) => {
-      Log('ERROR CredentialsStore',err, payload, currentState);
+      Analytics.log('ERROR CredentialsStore',err, payload, currentState);
     });
 
     this.on('bootstrap', (bootstrappedState) => {
-      Log('BOOTSTRAP CredentialsStore',bootstrappedState);
+      Analytics.log('BOOTSTRAP CredentialsStore',bootstrappedState);
     });
 
     // this.on('afterEach', ({payload, state}) => {
-    //   Log('AFTEREACH Credentials store', {payload, state});
+    //   Analytics.log('AFTEREACH Credentials store', {payload, state});
     // });
 
     this.bindListeners({

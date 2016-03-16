@@ -3,7 +3,7 @@ import MatchActions from '../actions/MatchActions';
 import { AsyncStorage } from 'react-native';
 import {matchWasAdded, messageWasAdded} from '../../utils/matchstix'
 import _ from 'underscore'
-import Log from '../../Log'
+import Analytics from '../../utils/Analytics'
 import UserStore from './UserStore'
 import AppActions from '../actions/AppActions'
 
@@ -28,19 +28,19 @@ class ChatStore {
     }
 
     this.on('init', () => {
-      Log('INIT ChatStore');
+      Analytics.log('INIT ChatStore');
     });
 
     this.on('error', (err, payload, currentState) => {
-      Log('ERROR ChatStore',err, payload, currentState);
+      Analytics.log('ERROR ChatStore',err, payload, currentState);
     });
 
     this.on('bootstrap', (bootstrappedState) => {
-      Log('BOOTSTRAP ChatStore',bootstrappedState);
+      Analytics.log('BOOTSTRAP ChatStore',bootstrappedState);
     });
 
     this.on('afterEach', (x) => {
-      Log('AFTEREACH Chat Store', {...x});
+      Analytics.log('AFTEREACH Chat Store', {...x});
     });
 
   }
@@ -50,7 +50,7 @@ class ChatStore {
 
   save(){
     var partialSnapshot = alt.takeSnapshot(this);
-    Log('partialSnapshot',partialSnapshot)
+    Analytics.log('partialSnapshot',partialSnapshot)
     AsyncStorage.setItem('ChatStore',JSON.stringify(partialSnapshot));
 
 
@@ -91,7 +91,7 @@ class ChatStore {
   }
 
   handleReceiveMessages(payload) {
-    Log(Object.keys(payload))
+    Analytics.log(Object.keys(payload))
     if(!payload || !payload.messages){return false}
 
     var {message_thread,match_id} = payload.messages;

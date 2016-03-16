@@ -5,7 +5,7 @@ import MatchActions from '../actions/MatchActions'
 import {AsyncStorage,PushNotificationIOS,NativeModules} from 'react-native'
 const {CameraManager,OSPermissions} = NativeModules
 import AddressBook from 'react-native-addressbook'
-import Log from '../../Log'
+import Analytics from '../../utils/Analytics'
 
 class AppStateStore {
 
@@ -50,19 +50,19 @@ class AppStateStore {
 
 
     this.on('init', () => {
-      Log('INIT App State Store');
+      Analytics.log('INIT App State Store');
     });
 
     this.on('error', (err, payload, currentState) => {
-      Log('ERROR App State Store',err, payload, currentState);
+      Analytics.log('ERROR App State Store',err, payload, currentState);
     });
 
     this.on('bootstrap', (bootstrappedState) => {
-      Log('BOOTSTRAP App State Store',bootstrappedState);
+      Analytics.log('BOOTSTRAP App State Store',bootstrappedState);
     });
 
     this.on('afterEach', (x) => {
-      Log('AFTEREACH App State store', ...{...x});
+      Analytics.log('AFTEREACH App State store', ...{...x});
     });
 
   }

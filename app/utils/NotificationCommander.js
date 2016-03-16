@@ -12,7 +12,6 @@ import UserActions from '../flux/actions/UserActions'
 import Notification from './NotificationTop'
 import TimerMixin from 'react-timer-mixin'
 import colors from './colors'
-import Log from '../Log'
 import reactMixin from 'react-mixin'
 import Analytics from './Analytics'
 

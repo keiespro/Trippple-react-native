@@ -1,7 +1,7 @@
 import alt from './flux/alt'
 import { NativeModules, NetInfo, AsyncStorage } from  'react-native'
 import base64 from 'base-64'
-import Log from './Log'
+import Analytics from './utils/Analytics'
 import AppInfo from 'react-native-app-info'
 import DeviceInfo from 'react-native-device'
 import Promise from 'bluebird'
@@ -42,7 +42,7 @@ class AppTelemetry{
     try{
       return tele = {...telemetryPayload, netInfo: {connection: await NetInfo.fetch() } };
     }catch(x){
-      Log(x)
+      Analytics.log(x)
       return x
     }
   }
@@ -53,7 +53,7 @@ class AppTelemetry{
       return await base64.encode(unescape(encodeURIComponent(JSON.stringify(payload))));
 
     }catch(err){
-      Log(err)
+      Analytics.log(err)
       return err
     }
 

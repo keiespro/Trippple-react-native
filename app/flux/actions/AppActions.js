@@ -1,6 +1,5 @@
 import alt from '../alt'
 import UserActions from './UserActions'
-import Log from '../../Log'
 import Promise from 'bluebird'
 import Api from '../../utils/api'
 import Analytics from '../../utils/Analytics'
@@ -61,7 +60,7 @@ class AppActions {
       const Telemetry = await AppTelemetry.getEncoded();
       return await Api.sendTelemetry(Telemetry)
     }catch(error){
-      Log(error)
+      Analytics.log(error)
       return (error)
     }
 

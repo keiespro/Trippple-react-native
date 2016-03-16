@@ -20,7 +20,7 @@ import React, {
   Navigator
 } from  'react-native'
 import base64 from 'base-64';
-import Log from '../Log';
+import Analytics from '../utils/Analytics';
 
 import Mixpanel from '../utils/mixpanel';
 import FakeNavBar from '../controls/FakeNavBar';
@@ -47,7 +47,7 @@ import AppTelemetry from '../AppTelemetry'
 
 let ACTUAL_VERSION = ReactNativeAutoUpdater.jsCodeVersion
 
-Log(ACTUAL_VERSION)
+Analytics.log(ACTUAL_VERSION)
 
 
 class SettingsSettings extends React.Component{
@@ -136,10 +136,10 @@ class SettingsSettings extends React.Component{
         });
       })
       .catch((err) => {
-            Log('cant send mail',err)
+            Analytics.log('cant send mail',err)
       });
     }catch(err){
-            Log('cant send mail',err)
+            Analytics.log('cant send mail',err)
 
     }
   }

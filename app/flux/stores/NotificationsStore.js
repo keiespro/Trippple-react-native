@@ -9,7 +9,7 @@ import moment from 'moment'
  import TimerMixin from 'react-timer-mixin'
 import reactMixin from 'react-mixin'
 import _ from 'underscore'
-import Log from '../../Log'
+import Analytics from '../../utils/Analytics'
 
 class NotificationsStore {
 
@@ -36,19 +36,19 @@ class NotificationsStore {
 
 
     this.on('init', () => {
-      Log('INIT NotificationsStore');
+      Analytics.log('INIT NotificationsStore');
     });
 
     this.on('error', (err, payload, currentState) => {
-      Log('ERROR NotificationsStore',err, payload, currentState);
+      Analytics.log('ERROR NotificationsStore',err, payload, currentState);
     });
 
     this.on('bootstrap', (bootstrappedState) => {
-      Log('BOOTSTRAP NotificationsStore',bootstrappedState);
+      Analytics.log('BOOTSTRAP NotificationsStore',bootstrappedState);
     });
 
     this.on('afterEach', (x) => {
-      Log('AFTEREACH notifications store', {...x});
+      Analytics.log('AFTEREACH notifications store', {...x});
     });
   }
 

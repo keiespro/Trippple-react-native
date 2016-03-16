@@ -18,7 +18,7 @@ import EditImageThumb from '../screens/registration/EditImageThumb'
 import EditImage from '../screens/registration/EditImage'
 import OnboardingActions from '../flux/actions/OnboardingActions'
 import OnboardingBackButton from '../screens/registration/BackButton'
-import Log from '../Log'
+import Analytics from '../utils/Analytics'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -92,7 +92,7 @@ class CameraControl extends Component{
   _takePicture(){
 
     this.refs.cam.capture({},(err, data)=> {
-       if(err){ Log(err); return }
+       if(err){ Analytics.log(err); return }
       // CameraRoll.saveImageWithTag(data,
       //   (imageTag)=> {
       // CameraRoll.getPhotos({first:1}, (imgdata)=> {

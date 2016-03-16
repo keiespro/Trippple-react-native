@@ -2,7 +2,7 @@
 // import MatchActions from '../actions/MatchActions'
 // import { AsyncStorage } from 'react-native'
 // import _ from 'underscore'
-// import Log from '../../Log'
+// import Analytics from '../../utils/Analytics'
 //
 // class FavoritesStore {
 //
@@ -26,7 +26,7 @@
 //
 //    this.on('init', () => {/*noop*/})
 //    this.on('error', (err, payload, currentState) => {
-//       Log(err, payload, currentState);
+//       Analytics.log(err, payload, currentState);
 //     })
 //   }
 //   loadLocalData(){

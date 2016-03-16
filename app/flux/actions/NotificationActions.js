@@ -6,7 +6,7 @@ import moment from 'moment'
 import MatchActions from '../actions/MatchActions'
 import AppActions from '../actions/AppActions'
 import { AsyncStorage, PushNotificationIOS } from 'react-native'
-import Log from '../../Log'
+import Analytics from '../../utils/Analytics'
 const LAST_SCHEDULED_DATE = 'LAST_SCHEDULED_DATE';
 
 
@@ -89,7 +89,7 @@ class NotificationActions {
         if( lastDate != todayDate.toDateString() ){
 
           let fireDate =  moment().endOf('day')
-          Log(`Scheduled Local Notification`,fireDate.unix()*1000,fireDate.format())
+          Analytics.log(`Scheduled Local Notification`,fireDate.unix()*1000,fireDate.format())
           PushNotificationIOS.scheduleLocalNotification({
             fireDate: fireDate.unix()*1000,
             alertBody: 'New Matches!',

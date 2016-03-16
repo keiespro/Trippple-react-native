@@ -5,7 +5,7 @@ import AppActions from '../actions/AppActions'
 import Keychain from 'react-native-keychain'
 import CredentialsStore from './CredentialsStore'
 import AppState from './AppState'
-import Log from '../../Log'
+import Analytics from '../../utils/Analytics'
 import {AsyncStorage} from 'react-native'
 import config from '../../config'
 import Mixpanel from '../../utils/mixpanel'
@@ -43,19 +43,19 @@ class UserStore {
     });
 
     this.on('init', () => {
-      // Log('INIT USER store');
+      // Analytics.log('INIT USER store');
     });
 
     this.on('error', (err, payload, currentState) => {
-      Log('ERROR USER store',err, payload, currentState);
+      Analytics.log('ERROR USER store',err, payload, currentState);
     });
 
     this.on('bootstrap', (bootstrappedState) => {
-      Log('BOOTSTRAP USER store',bootstrappedState);
+      Analytics.log('BOOTSTRAP USER store',bootstrappedState);
     });
 
     this.on('afterEach', (x) => {
-      // Log('AFTEREACH USER store', {...x});
+      // Analytics.log('AFTEREACH USER store', {...x});
       this.save()
     });
 
@@ -63,7 +63,7 @@ class UserStore {
 
   save(){
     let partialSnapshot = alt.takeSnapshot(this);
-    Log('partialSnapshot',partialSnapshot)
+    Analytics.log('partialSnapshot',partialSnapshot)
     AsyncStorage.setItem('UserStore',JSON.stringify(partialSnapshot));
   }
   handleInitialize(){

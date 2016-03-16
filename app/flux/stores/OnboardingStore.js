@@ -1,7 +1,7 @@
 import alt from '../alt'
 import OnboardingActions from '../actions/OnboardingActions'
 import UserActions from '../actions/UserActions'
-import Log from '../../Log'
+import Analytics from '../../utils/Analytics'
 
 class OnboardingStore {
 
@@ -26,7 +26,7 @@ class OnboardingStore {
 
     this.on('init', () => {/*noop*/})
     this.on('error', (err, payload, currentState) => {
-        Log('ERROR Onboarding', err, payload, currentState);
+        Analytics.log('ERROR Onboarding', err, payload, currentState);
     })
 
   }
