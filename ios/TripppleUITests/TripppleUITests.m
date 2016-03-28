@@ -6,35 +6,70 @@
 //  Copyright © 2016 Facebook. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import "RCTBridgeModule.h"
+#import <RCTTest/RCTTestRunner.h>
+
+#import "RCTAssert.h"
+#import "RCTRedBox.h"
+#import "RCTRootView.h"
+
+#define RCT_TEST(name)                  \
+- (void)test##name                      \
+{                                       \
+  [_runner runTest:_cmd module:@#name]; \
+}
 
 @interface TripppleUITests : XCTestCase
-
+{
+  RCTTestRunner *_runner;
+}
 @end
 
 @implementation TripppleUITests
 
 - (void)setUp {
-    [super setUp];
-    
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-    
-    // In UI tests it is usually best to stop immediately when a failure occurs.
-    self.continueAfterFailure = NO;
-    // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-    [[[XCUIApplication alloc] init] launch];
-    
-    // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+#if __LP64__
+//  RCTAssert(NO, @"Tests should be run on 32-bit device simulators (e.g. iPhone 5)");
+#endif
+  
+  NSOperatingSystemVersion version = [NSProcessInfo processInfo].operatingSystemVersion;
+  RCTAssert((version.majorVersion == 8 && version.minorVersion >= 3) || version.majorVersion >= 9, @"Tests should be run on iOS 8.3+, found %zd.%zd.%zd", version.majorVersion, version.minorVersion, version.patchVersion);
+
+  _runner = RCTInitRunnerForApp(@"WelcomeTests", nil);
+  _runner.recordMode = NO;
+
+  
 }
 
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
+
+- (void)testWelcomes
+{
+  [_runner
+          runTest:_cmd
+            module:@"WelcomeTests"
+      initialProps:@{@"waitOneFrame": @YES}
+   configurationBlock:nil];
 }
 
-- (void)testExample {
-    // Use recording to get started writing UI tests.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+//
+//- (void)testTrippple
+//{
+//  [_runner
+//   runTest:_cmd
+//   module:@"Trippple"
+//   initialProps:@{@"waitOneFrame": @YES}
+//   configurationBlock:nil];
+//}
+//
+
+
+
+- (void)testNotInRecordMode
+{
+
+  XCTAssertFalse(_runner.recordMode, @"Don't forget to turn record mode back to off");
 }
 
 @end

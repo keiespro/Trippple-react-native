@@ -85,5 +85,6 @@ class Boot extends React.Component{
   }
 
 }
+Boot.displayName = 'Boot'
 
 export default Boot

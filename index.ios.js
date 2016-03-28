@@ -1,11 +1,11 @@
 /*
-* @providesModule trippple
+* @providesModule Trippple
 * @flow
 */
 
-import React, { View, AppRegistry } from 'react-native'
+import React, { View, AppRegistry, } from 'react-native'
 import Boot from './app/Boot'
-import Log from './app/utils/logger'
+
 import alt from './app/flux/alt'
 
 
@@ -16,7 +16,7 @@ if(__DEV__){
 }
 
 
-class trippple extends React.Component{
+class Trippple extends React.Component{
   constructor(props){
     super()
   }
@@ -26,4 +26,5 @@ class trippple extends React.Component{
   }
 }
 
-AppRegistry.registerComponent('trippple', () => trippple)
+Trippple.displayName = 'Trippple'
+AppRegistry.registerComponent('Trippple', () => Trippple)

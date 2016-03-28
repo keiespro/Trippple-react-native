@@ -5,7 +5,7 @@
 
 import React from 'react-native';
 import DeviceConfig from '../DeviceConfig'
-import { Component, View, Navigator, Dimensions, Image } from 'react-native'
+import { Component, AppRegistry, View, Navigator, Dimensions, Image, NativeModules} from 'react-native'
 import Analytics from '../utils/Analytics'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -32,7 +32,6 @@ import PurpleModal from '../modals/PurpleModal'
 import MaintenanceScreen from '../screens/MaintenanceScreen'
 import colors from '../utils/colors'
 import ImageFlagged from '../screens/ImageFlagged'
-
 
 class AppRoutes extends Component{
 
@@ -71,6 +70,8 @@ class AppRoutes extends Component{
   }
 }
 
+AppRoutes.displayName = 'AppRoutes'
+
 class TopLevel extends Component{
   constructor(props){
     super()
@@ -78,7 +79,9 @@ class TopLevel extends Component{
       showOverlay: props.user ? false : true,
       showCheckmark: false,
     }
+
   }
+
 
   componentWillReceiveProps(nProps){
     if(nProps && this.props.user && nProps.user &&  nProps.user.status == 'verified' && this.props.user.status != 'verified'){
@@ -125,6 +128,7 @@ class TopLevel extends Component{
     )
   }
 }
+TopLevel.displayName = 'TopLevel'
 
 
 reactMixin(TopLevel.prototype, TimerMixin);
@@ -155,12 +159,16 @@ class App extends Component{
     }
 
     return (
-      <AltContainer stores={TopLevelStores}>
-        <TopLevel />
-      </AltContainer>
+          <AltContainer stores={TopLevelStores}>
+            <TopLevel />
+          </AltContainer>
+
     );
   }
 
 }
+App.displayName = 'App'
+
+AppRegistry.registerComponent('App', () => App);
 
 export default App

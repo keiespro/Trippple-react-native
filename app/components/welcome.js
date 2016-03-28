@@ -1,4 +1,4 @@
-/* @flow */
+/* @noflow */
 import React, {
   Component,
   StyleSheet,
@@ -21,7 +21,6 @@ const DeviceWidth = Dimensions.get('window').width
 
 import CustomSceneConfigs from '../utils/sceneConfigs'
 import Auth from './auth'
-import Facebook from '../screens/registration/facebook'
 
 
 const LOGIN   = 'login';
@@ -35,9 +34,9 @@ import FadeInContainer from '../components/FadeInContainer'
 
 var slides = [
   {
-    title: '',
-    img: {uri: 'assets/logo@3x.png'},
-    content: ''
+    title: ' ',
+    img: {uri: 'assets/logo.png'},
+    content: ' '
   },
   {
     title: 'BROWSE',
@@ -105,17 +104,6 @@ var IntroScreen = React.createClass({
     })
   },
 
-  handleFacebookButton(){
-
-    this.props.navigator.push({
-      component: Facebook,
-      title: 'FB Login',
-      id:'fblogin',
-      sceneConfig:CustomSceneConfigs.HorizontalSlide,
-
-    })
-  },
-
   componentDidMount() {
       Mixpanel.track('On - Splash Screen');
   },
@@ -148,7 +136,9 @@ var IntroScreen = React.createClass({
 class Carousel extends Component{
   constructor(props){
     super()
-    this.state =  {slides}
+    this.state = {
+      slides
+    }
   }
   render(){
     const welcomeSlides = this.state.slides.map( (slide,i) => {
@@ -160,7 +150,7 @@ class Carousel extends Component{
             paddingTop: 20,
             marginTop: i == 0 ? MagicNumbers.screenPadding*1.8 : MagicNumbers.screenPadding,
             width: i == 0 ? MagicNumbers.screenWidth : MagicNumbers.screenPadding*5
-          } } source={slide.img} resizeMode={Image.resizeMode.contain}/>
+          } } source={slide.img} defaultSource={slide.img} resizeMode={Image.resizeMode.contain}/>
       <View style={[styles.textwrap,{marginBottom:5}]}><Text style={[styles.textplain,
           {
             fontFamily:'Montserrat',
@@ -176,6 +166,7 @@ class Carousel extends Component{
       )
     })
     return (
+        <View style={{backgroundColor:colors.outerSpace}}>
         <Swiper
           loop={true}
           style={styles.carousel}
@@ -183,8 +174,9 @@ class Carousel extends Component{
           grayDots={true}
           showsPagination={true}
         >
-          {welcomeSlides}
+        {welcomeSlides}
         </Swiper>
+        </View>
     )
   }
 }
@@ -193,7 +185,7 @@ class Carousel extends Component{
 const Welcome = React.createClass({
 
   componentDidMount() {
-      Mixpanel.track('On - Home Screen');
+      // Mixpanel.track('On - Home Screen');
       this.refs.nav.navigationContext.addListener('willfocus', (e)=>{
         dismissKeyboard();
       })
@@ -206,8 +198,9 @@ const Welcome = React.createClass({
   render() {
 
     return (
-      <View><FadeInContainer
-        delayAmount={800}
+      <View>
+      <FadeInContainer
+        delayAmount={__TEST__ ? 0 : 800}
         duration={500}>
 
         <Image resizeMode={Image.resizeMode.cover} style={styles.imagebg}>
@@ -225,7 +218,8 @@ const Welcome = React.createClass({
             renderScene={this.renderScene}
           />
         </Image>
-      </FadeInContainer></View>
+      </FadeInContainer>
+      </View>
     );
   },
 
