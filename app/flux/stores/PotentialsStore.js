@@ -17,6 +17,7 @@ class PotentialsStore {
 
     this.bindListeners({
       handleGetPotentials: MatchActions.GET_POTENTIALS,
+      handleGetFakePotentials: MatchActions.GET_FAKE_POTENTIALS,
       handleSentLike: MatchActions.SEND_LIKE,
       handleLogout: UserActions.LOG_OUT,
       handleRemovePotential: MatchActions.REMOVE_POTENTIAL
@@ -57,6 +58,19 @@ class PotentialsStore {
     }
   }
 
+  handleGetFakePotentials(data) {
+    if(data.matches.length){
+      var potentials;
+      if(!data.matches[0].user){
+        potentials = data.matches.map((pot,i)=>{
+          return {user: pot}
+        })
+      }else{
+        potentials = data.matches
+      }
+      this.potentials = data.matches
+    }
+  }
   handleRemovePotential(id){
     const p = this.state.potentials;
     p.unshift();

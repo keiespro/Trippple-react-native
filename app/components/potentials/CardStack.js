@@ -1,11 +1,11 @@
 /* @flow */
 
 
-const THROW_THRESHOLD_DENY = -110,
-      THROW_THRESHOLD_APPROVE = 110,
+const THROW_THRESHOLD_DENY = -50,
+      THROW_THRESHOLD_APPROVE = 50,
       SWIPE_THRESHOLD_APPROVE = 200,
       SWIPE_THRESHOLD_DENY = -200,
-      THROW_SPEED_THRESHOLD = 0;
+      THROW_SPEED_THRESHOLD = 0.07;
 
 import React, {
   StyleSheet,
@@ -102,7 +102,7 @@ class CardStack extends React.Component{
 
     }
     if( pProps.potentials && pProps.potentials.length && pProps.potentials[0].user.id != this.props.potentials[0].user.id){
-      LayoutAnimation.configureNext(animations.layout.spring);
+      // LayoutAnimation.configureNext(animations.layout.spring);
 
     }
 
@@ -113,38 +113,41 @@ class CardStack extends React.Component{
     delete this._panResponder
 
     const isCouple = this.props.user.relationship_status == 'couple'
-
+    function isVertical(g){
+      return Math.abs(g.dx) > 0 && Math.abs(g.dy) < 5
+    }
     this._panResponder = PanResponder.create({
 
       onMoveShouldSetPanResponderCapture: (e,gestureState) => {
-        console.log('onMoveShouldSetPanResponderCapture',gestureState)
+        // console.log('onMoveShouldSetPanResponderCapture',gestureState)
 
         return false;
       },
 
       onMoveShouldSetPanResponder: (e,gestureState) => {
-        console.log('onMoveShouldSetPanResponder',gestureState)
+        // console.log('onMoveShouldSetPanResponder',gestureState)
 
 
-        return !this.props.profileVisible && (isCouple ||  Math.abs(gestureState.dx) > 0 && Math.abs(gestureState.dy) < 5)
+        return !this.props.profileVisible && (isCouple ||  isVertical(gestureState))
 
         // return !this.props.profileVisible && notInCone(gestureState)
       },
 
       onStartShouldSetPanResponder: (e,gestureState) => {
-        console.log('onStartShouldSetPanResponder',gestureState)
+        // console.log('onStartShouldSetPanResponder',gestureState)
 
-        return !this.props.profileVisible && (isCouple ||  Math.abs(gestureState.dx) > 0 && Math.abs(gestureState.dy) < 5)
+        return !this.props.profileVisible && ( isCouple ? true :  isVertical(gestureState))
       },
-      onStartShouldSetPanResponderCapture: (e,gestureState) => {
-        console.log('onStartShouldSetPanResponderCapture',gestureState)
 
-        return false;// !this.props.profileVisible && Math.abs(gestureState.dy) < 5
+      onStartShouldSetPanResponderCapture: (e,gestureState) => {
+        // console.log('onStartShouldSetPanResponderCapture',gestureState)
+
+        return  0;//!this.props.profileVisible && (isCouple ? true : isVertical(gestureState))
 
       },
 
       onPanResponderReject: (e, gestureState) => {
-        console.log('onPanResponderReject',gestureState)
+        // console.log('onPanResponderReject',gestureState)
 
       },
 
@@ -166,15 +169,15 @@ class CardStack extends React.Component{
 
       },
       onPanResponderGrant: (e, gestureState) => {
-        console.log('onPanResponderGrant',gestureState)
+        // console.log('onPanResponderGrant',gestureState)
 
       },
       onPanResponderStart: (e, gestureState) => {
-        console.log('onPanResponderStart',gestureState)
+        // console.log('onPanResponderStart',gestureState)
 
       },
       onPanResponderEnd: (e, gestureState) => {
-        console.log('onPanResponderEnd',gestureState)
+        // console.log('onPanResponderEnd',gestureState)
 
       },
 
@@ -185,31 +188,32 @@ class CardStack extends React.Component{
             likeStatus;
 
         const {dx,dy,vx,vy} = gestureState;
+
+        console.table([gestureState])
         const likeUserId = this.props.potentials[0].user.id;
 
         // animate back to center or off screen left or off screen right
-        if (dx > SWIPE_THRESHOLD_APPROVE || (dx > THROW_THRESHOLD_APPROVE && Math.abs(vx) > THROW_SPEED_THRESHOLD)){
-          toValue = 700;
-          velocity = {x: vx, y: vy}
-
-          likeStatus =   'approve';
+        if (dx > SWIPE_THRESHOLD_APPROVE || (dx > (THROW_THRESHOLD_APPROVE - 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD)){
+          toValue = {x:DeviceWidth,y: dy*2};
+          velocity = {x: parseInt(vx), y: parseInt(vy)}
+          likeStatus = 'approve';
 
           if(!this.state.likedPotentials.indexOf(likeUserId)){
             MatchActions.removePotential(likeUserId);
             likestatus = null;
           }
 
-        }else if(dx < SWIPE_THRESHOLD_DENY || (dx < THROW_THRESHOLD_DENY && Math.abs(vx) > THROW_SPEED_THRESHOLD)){
-          toValue = -700;
-          velocity = {x: vx, y: vy}
+        }else if(dx < SWIPE_THRESHOLD_DENY || (dx < (THROW_THRESHOLD_DENY + 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD)){
+          toValue = {x:-DeviceWidth,y: dy*2};
+          velocity = {x: parseInt(vx), y: parseInt(vy)}
           likeStatus =  'deny';
 
-
-
-
         }else{
-
+          //nothing!
         }
+        // __DEV__ && console.table([{vx:(vx), vy:(vy), velocityThreshold: THROW_SPEED_THRESHOLD }])
+        // __DEV__ && console.table([{dx:(dx), dy:(dy), throwThreshold: THROW_THRESHOLD_APPROVE }])
+
         if(!likeUserId){
           MatchActions.removePotential(likeUserId);
         }else if(likeStatus && likeStatus.length > 0){
@@ -254,17 +258,34 @@ class CardStack extends React.Component{
         //
         //   }
         // })
-        Animated.spring(this.state.pan, {
-          toValue:{x:toValue,y:0},
-          velocity,       // maintain gesture velocity
-          tension: likeStatus  ? 20 : 20,
-          friction: likeStatus ? 2 : 7,//2
-        }).start((result)=>{
-          if(!result.finished){
+        if(likeStatus){
+          console.log('ANAIMTED TIMING')
+          Animated.timing(this.state.pan, {
+            toValue,
+            velocity:{x:parseInt(vx),y:parseInt(vy)},       // maintain gesture velocity
+            duration:200,
+            // tension: 20 ,
+            // friction:  2 ,//2
+          }).start((result)=>{
+            if(!result.finished){
 
-          }
-        });
+            }
+          });
+        }else{
+          console.log('ANAIMTED SPRING')
 
+          Animated.spring(this.state.pan, {
+            toValue,
+            velocity:{x:parseInt(vx),y:parseInt(vy)},       // maintain gesture velocity
+            tension:   20,
+            friction:   7,//2
+          }).start((result)=>{
+            if(!result.finished){
+
+            }
+          });
+
+        }
       }
     })
   }
@@ -310,40 +331,27 @@ class CardStack extends React.Component{
           <Animated.View
             style={[styles.shadowCard,{
             alignSelf:'center',
-            // left:  this.props.profileVisible ? -DeviceWidth/2 : -DeviceWidth/2 + 20 ,
-            // width: this.props.profileVisible ? DeviceWidth : DeviceWidth - 50,
-            // height: this.props.profileVisible ? DeviceHeight : DeviceHeight - 120,
-            // right:  this.props.profileVisible ? -DeviceWidth/2 : -DeviceWidth/2 + 20,
-            // marginHorizontal: this.props.profileVisible ? 0 : 20,
-            // position: 'absolute',
             left:this.props.profileVisible ? 0 : 20,right:this.props.profileVisible ? 0 : 20,
             borderRadius:8,
             bottom: this.props.profileVisible ? 0 : (DeviceHeight <= 568 ? 75 : 75),
             position: 'absolute',
             overflow:'hidden',
             top:0
-
           },
           {
             transform: [
-
-
-
               {
                 scale: this.state.animatedIn ? (this.props.profileVisible ? 1 : this.state.pan.x.interpolate({
                   inputRange: [ -300, -250, -100, 0,  100, 250, 300],
                   outputRange:   [ 0.98, 0.97, 0.9, 0.9, 0.9, 0.97, 0.98 ],//[    0.98,  0.98,  1, 1, 1,  0.98, 0.98, ]
                   extrapolate: 'clamp',
-
                 }) ): this.state.offsetY
               }
-
             ],
             opacity: this.state.animatedIn ?  this.state.pan.x.interpolate({
-              inputRange: [-300,  -200, -50, 0, 50, 200, 300],
+              inputRange: [-500,  -200, -50, 0, 50, 200, 500],
               outputRange:   [  .77, .75, 0.05, 0.0,  0.05, .75,   .77],//[    0.98,  0.98,  1, 1, 1,  0.98, 0.98, ]
               extrapolate: 'clamp',
-
             }) : 0
           }]}
           key={`${potentials[1].id || potentials[1].user.id}-wrapper`}
@@ -368,41 +376,33 @@ class CardStack extends React.Component{
             style={[styles.shadowCard,{
             alignSelf:'center',
             top: this.props.profileVisible ? -50 :  0,
-            // left:  this.props.profileVisible ? -DeviceWidth/2 : -DeviceWidth/2 + 20 ,
-            // width: this.props.profileVisible ? DeviceWidth : DeviceWidth - 50,
-            // height: this.props.profileVisible ? DeviceHeight : DeviceHeight - 120,
-            // right:  this.props.profileVisible ? -DeviceWidth/2 : -DeviceWidth/2 + 20,
-            // marginHorizontal: this.props.profileVisible ? 0 : 20,
-            // position: 'absolute',
             left:this.props.profileVisible ? 0 :20,right:this.props.profileVisible ? 0 : 20,
             borderRadius:8,
             bottom: this.props.profileVisible ? 0 : (DeviceHeight <= 568 ? 80 : 70),
             position: 'absolute',
             overflow:'hidden'
-
           },
           {
             opacity:   this.state.offsetY,
-
             transform: [
-
               {
                 translateX: this.state.pan ? this.state.pan.x : 0
               },
               {
-                rotate: Animated.multiply(this.state.pan.x,Animated.add(this.state.pan.y,this.state.pan.y)).interpolate({
+                rotate: this.state.pan.x.interpolate({
                   // inputRange: [-DeviceWidth*2,-DeviceWidth*2, -DeviceWidth, -DeviceWidth, 0, DeviceWidth, DeviceWidth, DeviceWidth*2,DeviceWidth*2],
                   // outputRange: ['-8deg','-8deg','-4deg','0deg','0deg','0deg', '4deg','8deg','8deg'],
-
                                    extrapolate: 'clamp',
-                                  inputRange: [-DeviceWidth*1000,DeviceWidth*1000],
-                                  outputRange:["-0.5rad","0.5rad"]
+                                  inputRange: [-DeviceWidth,-10,0,10,DeviceWidth],
+                                  outputRange:["-0.3rad","0rad","0rad","0rad","0.3rad"]
                 })
               },
               {
                 translateY: this.state.animatedIn ?  this.state.pan.y.interpolate({
                   inputRange: [-300, 0, 300],
-                  outputRange: [-150,0,150]
+                  outputRange: [-150,0,150],
+                  extrapolate: 'clamp',
+
                 }) : this.state.offsetY
               },
               {

@@ -41,7 +41,9 @@ class AppStateStore {
       handleUpdateRoute: AppActions.UPDATE_ROUTE,
       handleToggleOverlay: AppActions.TOGGLE_OVERLAY,
       handleSentTelemetry: AppActions.SEND_TELEMETRY,
-      handleShowMaintenanceScreen: AppActions.SHOW_MAINTENANCE_SCREEN
+      handleShowMaintenanceScreen: AppActions.SHOW_MAINTENANCE_SCREEN,
+      handleScreenshot: AppActions.SCREENSHOT
+
     });
 
     this.exportPublicMethods({
@@ -208,6 +210,10 @@ class AppStateStore {
   //
   handleUpdateUser(wrap){
 
+  }
+
+  handleScreenshot(path){
+    console.log('got screenshot at '+path)
   }
   //
 

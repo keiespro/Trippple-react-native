@@ -83,9 +83,21 @@ class SettingsDebug extends React.Component{
             <TouchableHighlight
               onPress={(f)=>{
                 MatchActions.getPotentials()
+                this.props.navigator.pop()
               }} >
               <View style={styles.wrapfield}>
                 <Text style={{color:colors.white}}>Fetch potentials</Text>
+                <Image source={{uri: 'assets/nextArrow@3x.png'}} />
+              </View>
+            </TouchableHighlight>
+
+            <TouchableHighlight
+              onPress={(f)=>{
+                MatchActions.getFakePotentials()
+                this.props.navigator.pop()
+              }} >
+              <View style={styles.wrapfield}>
+                <Text style={{color:colors.white}}>Get FAKE potentials</Text>
                 <Image source={{uri: 'assets/nextArrow@3x.png'}} />
               </View>
             </TouchableHighlight>

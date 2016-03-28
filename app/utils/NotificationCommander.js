@@ -29,7 +29,7 @@ class NotificationCommander extends Component{
       notifications: [],
       processing:false,
     }
-    this.socket = io(WEBSOCKET_URL, {jsonp:false})
+    this.socket = io(WEBSOCKET_URL, {jsonp:false,transport:'ws'})
 
   }
 

@@ -132,6 +132,9 @@ class Card extends React.Component{
       distance = Math.min(distance,potential.partner && potential.partner.distance || '666666666')
     }
 
+    __DEV__ && console.table(potential)
+
+
     if(!profileVisible){
       const heights = {
         smallest:{

@@ -4,6 +4,7 @@ import Promise from 'bluebird'
 import Api from '../../utils/api'
 import Analytics from '../../utils/Analytics'
 import AppTelemetry from '../../AppTelemetry'
+import {UIManager} from 'react-native'
 
 class AppActions {
   gotCredentials(creds) {
@@ -53,7 +54,12 @@ class AppActions {
       dispatch(true);
     };
   }
+  screenshot(){
 
+    return (dispatch) => {
+      UIManager.takeSnapshot('window', {format: 'jpeg', quality: 0.8}).then((x)=>{dispatch(x)})
+    };
+  }
   async sendTelemetry(user){
 
     try{

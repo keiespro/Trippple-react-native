@@ -10,7 +10,7 @@ import React, {
 } from 'react-native'
 import colors from '../utils/colors'
 import {BlurView,VibrancyView} from 'react-native-blur'
-
+import SettingsDebug from '../components/SettingsDebug'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../DeviceConfig'
@@ -123,12 +123,30 @@ const NavigationBar = React.createClass({
      * Return `customTitle` component if we have it
      */
     if (customTitle) {
-      el = React.cloneElement(customTitle, { navigator, route, })
-      return (
-        <View style={styles.customTitle}>
-          {el}
-        </View>
-      )
+      if(__DEV__){
+        let onPress = ()=>{
+          navigator.push({
+            component: SettingsDebug
+          })
+        }
+        el = React.cloneElement(customTitle, { navigator, route, })
+        return (
+            <View style={styles.customTitle}>
+              <TouchableOpacity underlayColor={'white'} onPress={onPress}>
+              {el}
+            </TouchableOpacity>
+            </View>
+        )
+      }else{
+
+        el = React.cloneElement(customTitle, { navigator, route, })
+        return (
+          <View style={styles.customTitle}>
+            {el}
+          </View>
+        )
+      }
+
     }
 
 

@@ -1,6 +1,7 @@
 import alt from '../alt';
 import Api from '../../utils/api';
 import { AlertIOS } from 'react-native'
+import fakePotentials from '../../potentialsStub'
 
 class MatchActions {
 
@@ -53,6 +54,14 @@ class MatchActions {
       })
     };
   }
+
+
+    getFakePotentials() {
+      return (dispatch) => {
+          dispatch(fakePotentials);
+      };
+    }
+
 
   setAccessTime(payload){
     return payload;

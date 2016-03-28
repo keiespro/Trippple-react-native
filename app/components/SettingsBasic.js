@@ -133,7 +133,7 @@ class ProfileField extends React.Component{
 
     var getValue = (this.props.user[this.props.fieldName] || '');
     getValue = (get_key_vals[getValue] || getValue);
-    displayValueText = (field.labelPrefix || '') + getValue.toString().toUpperCase() + (field.labelSuffix || '');
+    var displayValueText = (field.labelPrefix || '') + getValue.toString().toUpperCase() + (field.labelSuffix || '');
 
     if (field.field_type == 'phone_input') {
       displayValueText = this.formattedPhone();
