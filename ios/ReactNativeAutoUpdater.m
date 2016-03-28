@@ -119,13 +119,13 @@ RCT_EXPORT_METHOD(checkUpdate:(RCTResponseSenderBlock)callback)
   return @{
            @"lastUpdateCheckPerformedOnDate": lastCheck,
            @"jsCodeVersion": version,
-           @"defaultJSCodeLocation": defaultJSCodeLocation,
-           @"defaultMetadataFileLocation": defaultMetadataFileLocation,
-           @"metadataUrl": metadataUrl,
-           @"latestJSCodeLocation": latestJSCodeLocation,
+//           @"defaultJSCodeLocation": defaultJSCodeLocation,
+//           @"defaultMetadataFileLocation": defaultMetadataFileLocation,
+//           @"metadataUrl": metadataUrl,
+//           @"latestJSCodeLocation": latestJSCodeLocation,
            @"libraryDirectory": libraryDirectory,
            @"initializedOK": initializedOK
-           
+
            
            };
 }

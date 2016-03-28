@@ -19,7 +19,6 @@ module.exports.parser = _dereq_('engine.io-parser');
 /**
  * Module dependencies.
  */
-navigator.userAgent = 'react-native';
 
 var transports = _dereq_('./transports');
 var Emitter = _dereq_('component-emitter');
@@ -1410,11 +1409,11 @@ Request.prototype.create = function(){
         }
       }
     } catch (e) {}
-    if (this.supportsBinary) {
-      // This has to be done after open because Firefox is stupid
-      // http://stackoverflow.com/questions/13216903/get-binary-data-with-xmlhttprequest-in-a-firefox-extension
-      xhr.responseType = 'arraybuffer';
-    }
+    // if (this.supportsBinary) {
+    //   // This has to be done after open because Firefox is stupid
+    //   // http://stackoverflow.com/questions/13216903/get-binary-data-with-xmlhttprequest-in-a-firefox-extension
+    //   xhr.responseType = 'arraybuffer';
+    // }
 
     if ('POST' == this.method) {
       try {
@@ -2983,7 +2982,7 @@ var utf8 = _dereq_('utf8');
  * http://ghinda.net/jpeg-blob-ajax-android/
  */
 
-var isAndroid = navigator.userAgent.match(/Android/i);
+var isAndroid = false; //navigator.userAgent.match(/Android/i);
 
 /**
  * Check if we are running in PhantomJS.
@@ -3132,9 +3131,9 @@ function encodeBlob(packet, supportsBinary, callback) {
     return exports.encodeBase64Packet(packet, callback);
   }
 
-  if (dontSendBlobs) {
-    return encodeBlobAsArrayBuffer(packet, supportsBinary, callback);
-  }
+  // if (dontSendBlobs) {
+  //   return encodeBlobAsArrayBuffer(packet, supportsBinary, callback);
+  // }
 
   var length = new Uint8Array(1);
   length[0] = packets[packet.type];
@@ -3611,13 +3610,13 @@ function hasBinary(data) {
   function _hasBinary(obj) {
     if (!obj) return false;
 
-    if ( (global.Buffer && global.Buffer.isBuffer(obj)) ||
-         (global.ArrayBuffer && obj instanceof ArrayBuffer) ||
-         (global.Blob && obj instanceof Blob) ||
-         (global.File && obj instanceof File)
-        ) {
-      return true;
-    }
+    // if ( (global.Buffer && global.Buffer.isBuffer(obj)) ||
+    //      (global.ArrayBuffer && obj instanceof ArrayBuffer) ||
+    //      (global.Blob && obj instanceof Blob) ||
+    //      (global.File && obj instanceof File)
+    //     ) {
+    //   return true;
+    // }
 
     if (isArray(obj)) {
       for (var i = 0; i < obj.length; i++) {
@@ -5719,14 +5718,15 @@ function hasBinary(data) {
 
   function _hasBinary(obj) {
     if (!obj) return false;
+    return false;
 
-    if ( (global.Buffer && global.Buffer.isBuffer && global.Buffer.isBuffer(obj)) ||
-         (global.ArrayBuffer && obj instanceof ArrayBuffer) ||
-         (global.Blob && obj instanceof Blob) ||
-         (global.File && obj instanceof File)
-        ) {
-      return true;
-    }
+    // if ( (global.Buffer && global.Buffer.isBuffer && global.Buffer.isBuffer(obj)) ||
+    //      (global.ArrayBuffer && obj instanceof ArrayBuffer) ||
+    //      (global.Blob && obj instanceof Blob) ||
+    //      (global.File && obj instanceof File)
+    //     ) {
+    //   return true;
+    // }
 
     if (isArray(obj)) {
       for (var i = 0; i < obj.length; i++) {
@@ -6321,6 +6321,8 @@ module.exports = isBuf;
  */
 
 function isBuf(obj) {
+  return false;
+
   return (global.Buffer && global.Buffer.isBuffer(obj)) ||
          (global.ArrayBuffer && obj instanceof ArrayBuffer);
 }
