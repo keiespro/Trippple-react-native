@@ -44,7 +44,7 @@ var caps = {
   // autoLaunch: 'true',
 //  newCommandTimeout: UNLIMITED,
 app:"/Users/alexlopez/code/Trippple/Trippple/ios/Build/Build/Products/Debug-iphonesimulator/Trippple.app",
-  bundleId:"co.trippple"
+  // bundleId:"co.trippple"
   // app: "/Users/alexlopez/code/Trippple/Trippple/ios/Build/Products/Debug-iphoneos/Trippple.app"
 };
 
@@ -64,36 +64,47 @@ describe("Node Sample Automation Code", function() {
   after(()=> {
     // let driver = driver || wd.promiseChainRemote(serverConfig);
     return driver
-      // .sleep(3000)
-      .quit()
+      .sleep(3000)
+      // .quit()
       .finally(()=> {
 
       });
   });
 afterEach(()=> {
-    allPassed = allPassed || false;// && this.currentTest.state === 'passed';
+    allPassed =  false;// && this.currentTest.state === 'passed';
 });
 
-it("Should Click Login Button", ()=>{
-  return driver.sleep(5000).waitForElementById(" LOG IN",1500000).click();
+it("Should log in with phone number", ()=>{
+  // return driver.sleep(5000)
+    // driver.waitForElementById(" LOG IN",15000).click().sleep(500)
+    // var login =
+    return driver.elementById(" LOG IN")
+            .then( (el) => {
+
+                var touchit = new wd.TouchAction();
+                 touchit.tap({el: el});
+                 el.click()
+                 driver.sleep(5000)
+                 driver.elementById('  3').click().sleep(500)
+                 driver.elementById("  0").click().sleep(500)
+                 driver.elementById("  5").click().sleep(500)
+                 driver.elementById("  5").click().sleep(500)
+                 driver.elementById("  2").click().sleep(500)
+                 driver.elementById("  8").click().sleep(500)
+                 driver.elementById("  2").click().sleep(500)
+                 driver.elementById("  5").click().sleep(500)
+                 driver.elementById("  3").click().sleep(500)
+                 driver.elementById("  4").click().sleep(500)
+                 driver.elementById("  CONTINUE").click()
+
+                 return driver.sleep(10000)
+
+             })
+    // .fin(function() { return driver.sleep(1000).quit().nodeify(done); })
     // Use Appium inspector for inspecting elements
 
 });
 
-it("Should log in with phone number ", ()=> {
-
-  return driver.sleep(500).elementById('  3').click().sleep(500)
-    .elementById("  0").click().sleep(500)
-    .elementById("  5").click().sleep(500)
-    .elementById("  5").click().sleep(500)
-    .elementById("  2").click().sleep(500)
-    .elementById("  8").click().sleep(500)
-    .elementById("  2").click().sleep(500)
-    .elementById("  5").click().sleep(500)
-    .elementById("  3").click().sleep(500)
-    .elementById("  4").click().sleep(500)
-    .elementById("  CONTINUE").click();
-});
 
 });
 //

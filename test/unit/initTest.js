@@ -18,20 +18,20 @@ describe("<Welcome/>", () => {
 
 describe("<IntroScreen/>", () => {
 
-  it('renders <Carousel/>  button', () => {
+  it('renders <Carousel/>', () => {
     const wrapper = shallow(<IntroScreen />);
     setTimeout(()=>{
       expect(wrapper.find('Carousel')).to.have.length(1);
       // console.log(wrapper.debug());
     },500);
   });
-   it('renders <Login/>  button', () => {
+   it('renders <Login/> button', () => {
      const wrapper = shallow(<IntroScreen />);
      setTimeout(()=>{
        expect(wrapper.findWhere(n =>  n.node.ref == 'loginbtn')).to.have.length(1);
      },500);
    });
-   it('renders <Register/>  button', () => {
+   it('renders <Register/> button', () => {
      const wrapper = shallow(<IntroScreen />);
      setTimeout(()=>{
        expect(wrapper.findWhere(n =>  n.node.ref == 'registerbtn')).to.have.length(1);
