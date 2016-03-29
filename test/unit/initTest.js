@@ -3,8 +3,8 @@ import { shallow } from "enzyme";
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import Welcome from "../app/components/welcome";
-import IntroScreen from "../app/components/welcome";
+import Welcome from "../../app/components/welcome";
+import IntroScreen from "../../app/components/welcome";
 
 describe("<Welcome/>", () => {
 

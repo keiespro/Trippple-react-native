@@ -1,11 +1,8 @@
-// ios/node_modules/react-native/packager/packager.sh --port 9091
-// node /Users/brian/taskrabbit/tasker/ios/node_modules/react-native/packager/packager.js --port 9091
 
 var pwd  = process.cwd();
 var path = pwd + '/node_modules/react-native/packager/packager.sh'
-
-var child_process = require('child_process');
-var packager      = child_process.spawn(path, ['--port', '9091']);
+ var child_process = require('child_process');
+var packager      = child_process.spawn( path , ['--reset-cache']);
 
 var packagerReady = false;
 

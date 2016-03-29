@@ -1,37 +1,32 @@
-import it, {itOnly} from '../helpers/appium';
-import server from '../helpers/server';
+require("babel-polyfill");
 
 describe("Welcome", () => {
-  it("Should rock ", async function(driver, done) {
+  it("Should rock ",  function(driver, done) {
+    var d =  driver()
 
-    launch(await driver);
-    done();
+    // launch(d);
+    console.log(d)
+
   });
 
 });
 
 
 describe("Login", () => {
-  var app = UIATarget.localTarget().frontMostApp();
+  console.log('LOAD TESTS')
+  it("Should log in with phone number ", ()=> {
 
-  it("Should log in with phone number ", async function(driver, done) {
-
-    var CurrentScreen = app.mainWindow().images()[0].images()[0];
-
-    CurrentScreen[" LOG IN"].tap();
-    CurrentScreen.elements().firstWithName("  3").tap();
-    CurrentScreen.elements().firstWithName("  0").tap();
-    CurrentScreen.elements().firstWithName("  5").tap();
-    CurrentScreen.elements().firstWithName("  5").tap();
-    CurrentScreen.elements().firstWithName("  2").tap();
-    CurrentScreen.elements().firstWithName("  8").tap();
-    CurrentScreen.elements().firstWithName("  2").tap();
-    CurrentScreen.elements().firstWithName("  5").tap();
-    CurrentScreen.elements().firstWithName("  3").tap();
-    CurrentScreen.elements().firstWithName("  4").tap();
-    CurrentScreen.elements()["  CONTINUE"].tap();
-
-    done();
+    driver.elementById(" LOG IN").click();
+    driver.elementById("  3").click();
+    driver.elementById("  0").click();
+    driver.elementById("  5").click();
+    driver.elementById("  5").click();
+    driver.elementById("  2").click();
+    driver.elementById("  8").click();
+    driver.elementById("  2").click();
+    driver.elementById("  5").click();
+    driver.elementById("  3").click();
+    driver.elementById("  4").click();
+    return driver.elementById("  CONTINUE").click();
   });
-
 });
