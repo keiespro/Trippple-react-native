@@ -10,7 +10,7 @@ import React, {
 import colors  from '../utils/colors'
 import TimerMixin from 'react-timer-mixin'
 
-const { width, height } = Dimensions.get('window')
+const { width, height } = {height:7000,width:640}//Dimensions.get('window')
 
 /**
  * Default styles
@@ -95,30 +95,6 @@ const styles = StyleSheet.create({
 
 const Swiper = React.createClass({
 
-  /**
-   * Props Validation
-   * @type {Object}
-   */
-  propTypes: {
-    horizontal                       : React.PropTypes.bool,
-    children                         : React.PropTypes.node.isRequired,
-    style                            : View.propTypes.style,
-    pagingEnabled                    : React.PropTypes.bool,
-    showsHorizontalScrollIndicator   : React.PropTypes.bool,
-    showsVerticalScrollIndicator     : React.PropTypes.bool,
-    bounces                          : React.PropTypes.bool,
-    scrollsToTop                     : React.PropTypes.bool,
-    removeClippedSubviews            : React.PropTypes.bool,
-    automaticallyAdjustContentInsets : React.PropTypes.bool,
-    showsPagination                  : React.PropTypes.bool,
-    showsButtons                     : React.PropTypes.bool,
-    loop                             : React.PropTypes.bool,
-    autoplay                         : React.PropTypes.bool,
-    autoplayTimeout                  : React.PropTypes.number,
-    autoplayDirection                : React.PropTypes.bool,
-    index                            : React.PropTypes.number,
-    renderPagination                 : React.PropTypes.func,
-  },
 
   mixins: [TimerMixin],
 
@@ -357,14 +333,11 @@ const Swiper = React.createClass({
       }]}>
         <ScrollView ref="scrollView"
           {...props}
-          onScroll={Animated.event(
-            [{nativeEvent: {contentOffset: dir == 'y' ? {y: this.state.scroll} : {x: this.state.scroll} }}]
-            // scrollX = e.nativeEvent.contentOffset.x
-          )}
+          
           scrollEventThrottle={32}
           pagingEnabled={true}
           contentOffset={state.offset}
-          contentContainerStyle={[styles.wrapper, props.style]}
+          contentContainerStyle={[styles.wrapper, props && props.style]}
           onScrollBeginDrag={this.onScrollBegin}
           onMomentumScrollEnd={this.onScrollEnd}>
           {pages}

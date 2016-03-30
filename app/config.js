@@ -1,7 +1,15 @@
 const APP_ENV = 'production';
+const DEBUG = true
+const DEV = true
 
-__DEBUG__ = false;
-__DEV__ = false;
+if(typeof window != 'undefined'){
+  window.__DEBUG__ = DEBUG;
+  window.__TEST__ = DEV;
+}else{
+  global.__DEBUG__ = DEBUG;
+  global.__DEV__ = DEV;
+}
+
 const configurations = {
 
   production: {
@@ -35,8 +43,7 @@ const configurations = {
   }
 
 }
-
-config = configurations[APP_ENV];
+const config = configurations[APP_ENV];
 config.invertColors = false;
 
 export default config

@@ -1,39 +1,36 @@
-// forked from deep inside react native
 
 
-'use strict';
-
-import {Dimensions,PixelRatio} from 'react-native';
-import buildStyleInterpolator from 'buildStyleInterpolator'
+import {Dimensions,PixelRatio,Navigator} from 'react-native';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
-//
-//
-// const FadeIn = {
-//   opacity: {
-//     from: 0,
-//     to: 1,
-//     min: 0.5,
-//     max: 1,
-//     type: 'linear',
-//     extrapolate: false,
-//     round: 100,
-//   },
-// };
-//
-// const FadeOut = {
-//   opacity: {
-//     from: 1,
-//     to: 0,
-//     min: 0,
-//     max: 0.5,
-//     type: 'linear',
-//     extrapolate: false,
-//     round: 100,
-//   },
-// };
+
+if(!global.__TEST__){
+  var buildStyleInterpolator = require('buildStyleInterpolator')
+const FadeIn = {
+  opacity: {
+    from: 0,
+    to: 1,
+    min: 0.5,
+    max: 1,
+    type: 'linear',
+    extrapolate: false,
+    round: 100,
+  },
+};
+
+const FadeOut = {
+  opacity: {
+    from: 1,
+    to: 0,
+    min: 0,
+    max: 0.5,
+    type: 'linear',
+    extrapolate: false,
+    round: 100,
+  },
+};
 
 const ToTheLeft = {
   transformTranslate: {
@@ -352,7 +349,7 @@ const BaseRightToLeftGesture = {
 
 
 
-const CustomSceneConfigs = {
+var CustomSceneConfigs = {
   HorizontalSlide: {
     // Rebound spring parameters when transitioning FROM this scene
     springFriction: SPRING_FRICTION,
@@ -460,4 +457,8 @@ const CustomSceneConfigs = {
   }
 };
 
-export default CustomSceneConfigs;
+}else{
+  var CustomSceneConfigs =  Navigator.SceneConfigs;
+
+}
+export default CustomSceneConfigs

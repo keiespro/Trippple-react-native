@@ -3,14 +3,18 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=development node node_modules/react-native/local-cli/cli.js start --reset-cache --verbose",
+    "start": "NODE_ENV=development node node_modules/react-native/local-cli/cli.js start",
+    "startclear": "NODE_ENV=development node node_modules/react-native/local-cli/cli.js start --reset-cache",
     "autoupdate": "NODE_ENV=production ./AutoUpdater/bin/deploy-ota.js",
     "dist": "NODE_ENV=production node node_modules/react-native/local-cli/cli.js bundle --entry-file index.ios.js --platform ios --dev false --bundle-output ios/Trippple/main.jsbundle --assets-dest ./assets  --verbose",
-    "sim-dist": "npm run dist; xcodebuild -project ios/Trippple.xcodeproj -scheme Trippple -destination id=00A44CEC-3D20-4E71-8123-C1C659CDD0B0 -derivedDataPath build",
-    "sim": "NODE_ENV=development xcodebuild -project ios/Trippple.xcodeproj -scheme Trippple -destination id=00A44CEC-3D20-4E71-8123-C1C659CDD0B0 -derivedDataPath build",
+    "sim-dist": "npm run dist; xcodebuild -project ios/Trippple.xcodeproj -scheme Trippple -derivedDataPath build",
+    "sim": "NODE_ENV=development xcodebuild -project ios/Trippple.xcodeproj -scheme Trippple -derivedDataPath build",
     "unit-tests": "node_modules/mocha/bin/mocha --compilers js:./test/unit/compile.js ./test/unit/initTest.js",
     "unit-tests-watch": "node_modules/mocha/bin/mocha --compilers js:./test/unit/compile.js ./test/unit/initTest.js --watch",
-    "integration-tests": "node_modules/mocha/bin/mocha  ./test/helpers/driver.js"
+    "integration-tests": "node_modules/mocha/bin/mocha  ./test/helpers/driver.js",
+    "test": "mocha ./test",
+    "appium": "appium -p 4723",
+    "dev": "./dev.sh"
   },
   "dependencies": {
     "alt": "^0.18.2",
@@ -49,7 +53,6 @@
     "react-native-mail": "latest",
     "react-native-message-composer": "0.0.4",
     "react-native-mixpanel": "0.0.5",
-    "react-native-scrollable-decorator": "latest",
     "react-native-swiper": "latest",
     "react-native-touch-id": "^1.2.4",
     "react-redux": "^4.0.1",

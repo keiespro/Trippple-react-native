@@ -4,7 +4,7 @@ import React, { StyleSheet, View, ScrollView, Animated, Dimensions } from 'react
 import {VibrancyView} from 'react-native-blur';
 const screen = Dimensions.get('window');
 const ScrollViewPropTypes = ScrollView.propTypes;
-import scrollable from 'react-native-scrollable-decorator';
+
 import colors from '../utils/colors'
 
 

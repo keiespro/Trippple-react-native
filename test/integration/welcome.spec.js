@@ -1,19 +1,10 @@
 require("babel-polyfill");
 
 describe("Welcome", () => {
-  it("Should rock ",  function(driver, done) {
-    var d =  driver()
 
-    // launch(d);
-    console.log(d)
-
-  });
-
-});
 
 
 describe("Login", () => {
-  console.log('LOAD TESTS')
   it("Should log in with phone number ", ()=> {
 
     driver.elementById(" LOG IN").click();

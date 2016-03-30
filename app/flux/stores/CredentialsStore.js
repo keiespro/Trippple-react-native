@@ -1,6 +1,6 @@
 import alt from '../alt'
 import UserActions from '../actions/UserActions'
-import Keychain from 'react-native-keychain'
+import Keychain from '../../../lib/react-native-keychain'
 import AppActions from '../actions/AppActions'
 
 import config from '../../config'

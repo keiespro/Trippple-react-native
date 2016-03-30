@@ -5,17 +5,9 @@ var path = require('path');
 var babel = require('babel-core');
 var origJs = require.extensions['.js'];
 
+global.__TEST__ = true;
 
 require('react-native/packager/react-packager/src/Resolver/polyfills/babelHelpers.js');
-// global.__DEV__ = true;
-// global.__fbBatchedBridgeConfig = {
-//   remoteModuleConfig: [],
-//   localModulesConfig: [],
-// };
-
-// global.Promise = require('promise');
-// global.regeneratorRuntime = require('regenerator-runtime-only');
-
 
 require.extensions['.js'] = function (module, fileName) {
   var output;
@@ -33,6 +25,10 @@ require.extensions['.js'] = function (module, fileName) {
     fileName = path.resolve('test/unit/mocks/react-native.js');
   }
 
+  if (fileName.indexOf('buildStyleInterpolator') > -1) {
+    console.log('buildStyleInterpolatorbuildStyleInterpolator')
+    fileName = path.resolve('test/unit/mocks/react-native.js');
+  }
 
     // if (fileName.indexOf('test/integration') >= 0 || fileName.indexOf('test/unit') >= 0 ) {
     // return

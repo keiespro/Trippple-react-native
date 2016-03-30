@@ -3,7 +3,6 @@
 
 import React from 'react-native'
 import { Text,TextInput,View,StyleSheet,TouchableHighlight,Dimensions,PixelRatio,Image  } from 'react-native'
-import {BlurView,VibrancyView} from 'react-native-blur'
 import colors from '../utils/colors'
 import {MagicNumbers} from '../DeviceConfig'
 const DeviceHeight = Dimensions.get('window').height

@@ -25,7 +25,7 @@ import {MagicNumbers} from '../DeviceConfig'
 
 import dismissKeyboard from 'dismissKeyboard'
 import moment from 'moment'
-import scrollable from 'react-native-scrollable-decorator'
+
 import Dimensions from 'Dimensions'
 import ParallaxView from  '../controls/ParallaxScrollView'
 import PhoneNumberInput from '../controls/phoneNumberInput.js'

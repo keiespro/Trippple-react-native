@@ -27,7 +27,6 @@ import CustomSceneConfigs from '../utils/sceneConfigs'
 import dismissKeyboard from 'dismissKeyboard'
 import {MagicNumbers} from '../DeviceConfig'
 
-import scrollable from 'react-native-scrollable-decorator'
 import Dimensions from 'Dimensions'
 import moment from 'moment'
 const DeviceHeight = Dimensions.get('window').height

@@ -5,6 +5,7 @@ import sinon from 'sinon';
 
 import Welcome from "../../app/components/welcome";
 import IntroScreen from "../../app/components/welcome";
+import Carousel from "../../app/components/welcome";
 
 describe("<Welcome/>", () => {
 
@@ -42,4 +43,15 @@ describe("<IntroScreen/>", () => {
   //     const wrapper = shallow(<Welcome />);
   //     expect(wrapper.find(IntroScreen)).to.have.length(1);
   //   });
+
+  describe("<Carousel/>", () => {
+
+     it('renders a Navigator component', () => {
+       const wrapper = shallow(<Carousel />);
+
+       expect(wrapper.find('.slide')).to.have.length(5);
+     });
+
+  });
+
 });

@@ -7,7 +7,6 @@ import Promise from 'bluebird'
 import AppActions from '../flux/actions/AppActions'
 import config from '../config'
 import deviceInfo from './DeviceInfo'
-import platform from 'Platform'
 
 const { FileTransfer, RNAppInfo, ReactNativeAutoUpdater } = NativeModules,
       UploadFile = Promise.promisify(FileTransfer.upload),
@@ -95,7 +94,7 @@ const api = {
   },
 
   verifyPin(pin,phone){
-    const payload = { pin, phone, device: deviceInfo, platform: platform.OS || 'iOS' }
+    const payload = { pin, phone, device: deviceInfo, platform: Platform.OS || 'iOS' }
     return publicRequest('verify_security_pin', payload);
   },
 

@@ -32,7 +32,7 @@ const {RNMail,ReactNativeAutoUpdater} = NativeModules
 import {MagicNumbers} from '../DeviceConfig'
 import dismissKeyboard from 'dismissKeyboard'
 import WebViewScreen from './WebViewScreen'
-import scrollable from 'react-native-scrollable-decorator'
+
 import Dimensions from 'Dimensions'
 import PrivacyPermissionsModal from '../modals/PrivacyPermissions';
 const DeviceHeight = Dimensions.get('window').height

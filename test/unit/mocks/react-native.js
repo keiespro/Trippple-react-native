@@ -125,3 +125,4 @@ module.exports = ReactNative;
 
 exports.BlurView = mockComponent('View')
 exports.dismissKeyboard = function(){ return true}
+exports.buildStyleInterpolator = (function(){ return {}}())

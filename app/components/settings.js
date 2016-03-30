@@ -26,7 +26,7 @@ import FakeNavBar from '../controls/FakeNavBar';
 import UserProfile from './UserProfile'
 import dismissKeyboard from 'dismissKeyboard'
 import {MagicNumbers} from '../DeviceConfig'
-import scrollable from 'react-native-scrollable-decorator'
+
 import Dimensions from 'Dimensions'
 import ParallaxView from  '../controls/ParallaxScrollView'
 import DistanceSlider from '../controls/distanceSlider'

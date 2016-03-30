@@ -28,7 +28,7 @@ const REGISTER = 'register'
 import Mixpanel from '../utils/mixpanel';
 import {MagicNumbers} from '../DeviceConfig'
 
-import dismissKeyboard from 'dismissKeyboard'
+// import dismissKeyboard from 'dismissKeyboard'
 import FadeInContainer from '../components/FadeInContainer'
 
 
@@ -62,6 +62,7 @@ var slides = [
 ];
 
 var IntroScreen = React.createClass({
+  displayName:'IntroScreen',
   getInitialState(){
     return {
       isAnimating: false
@@ -116,12 +117,14 @@ var IntroScreen = React.createClass({
         </View>
         <View style={styles.bottomButtons}>
           <TouchableHighlight
+          ref="loginbtn"
             style={[styles.bottomButton,(this.state.isAnimating ? styles.activeButton : styles.loginButton )]}
             onPress={ () => this.handleNext(LOGIN)}
              underlayColor={colors.outerSpace}>
              <Text style={styles.buttonText}>LOG IN</Text>
           </TouchableHighlight>
           <TouchableHighlight
+          ref="registerbtn"
              style={[styles.bottomButton,(this.state.isAnimating ? styles.activeButton : styles.registerButton )]}
              onPress={ () => this.handleNext(REGISTER)}
              underlayColor={colors.outerSpace}>
@@ -143,7 +146,7 @@ class Carousel extends Component{
   render(){
     const welcomeSlides = this.state.slides.map( (slide,i) => {
       return (
-        <View key={i+'slide'+i} style={styles.slide}>
+        <View key={i+'slide'+i} style={styles.slide} >
         <Image style={ {
             marginBottom:25,
             height: MagicNumbers.is4s ? 150 : DeviceHeight/3 + MagicNumbers.screenPadding,
@@ -166,7 +169,6 @@ class Carousel extends Component{
       )
     })
     return (
-        <View style={{backgroundColor:colors.outerSpace}}>
         <Swiper
           loop={true}
           style={styles.carousel}
@@ -176,18 +178,18 @@ class Carousel extends Component{
         >
         {welcomeSlides}
         </Swiper>
-        </View>
     )
   }
 }
 
+Carousel.displayName = 'Carousel';
 
 const Welcome = React.createClass({
-
+  displayName:"Welcome",
   componentDidMount() {
-      // Mixpanel.track('On - Home Screen');
+      Mixpanel.track('On - Home Screen');
       this.refs.nav.navigationContext.addListener('willfocus', (e)=>{
-        dismissKeyboard();
+        // dismissKeyboard();
       })
   },
 
@@ -200,8 +202,8 @@ const Welcome = React.createClass({
     return (
       <View>
       <FadeInContainer
-        delayAmount={__TEST__ ? 0 : 800}
-        duration={500}>
+        delayAmount={global.__TEST__ ? 0 : 800}
+        duration={global.__TEST__ ? 0 : 500}>
 
         <Image resizeMode={Image.resizeMode.cover} style={styles.imagebg}>
           <Navigator
@@ -361,3 +363,4 @@ const styles = StyleSheet.create({
 
 
 export default Welcome;
+exports.IntroScreen = IntroScreen

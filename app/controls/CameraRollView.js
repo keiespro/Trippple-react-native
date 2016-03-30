@@ -16,7 +16,7 @@ import React, {
   TouchableOpacity,
   Dimensions
 } from 'react-native'
-import scrollable from 'react-native-scrollable-decorator';
+
 import OnboardingActions from '../flux/actions/OnboardingActions'
 import colors from '../utils/colors'
 import FakeNavBar from './FakeNavBar'

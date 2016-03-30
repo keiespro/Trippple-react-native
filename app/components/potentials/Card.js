@@ -29,7 +29,7 @@ import ProfileTable from '../ProfileTable';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../../DeviceConfig'
-import scrollable from 'react-native-scrollable-decorator'
+
 import UserDetails from '../../UserDetails'
 import reactMixin from 'react-mixin'
 import MatchActions from '../../flux/actions/MatchActions'
@@ -37,7 +37,7 @@ const cardSizeMap = {
 
 }
 
-// @scrollable
+
 class Card extends React.Component{
 
   static defaultProps = {
@@ -50,6 +50,19 @@ class Card extends React.Component{
       slideIndex: 0
     }
   }
+
+  getInnerViewNode(): any {
+    return this.getScrollResponder().getInnerViewNode();
+  }
+
+  scrollTo(destY?: number, destX?: number) {
+    this.getScrollResponder().scrollTo(destY, destX);
+  }
+
+  scrollWithoutAnimationTo(destY?: number, destX?: number) {
+    this.getScrollResponder().scrollWithoutAnimationTo(destY, destX);
+  }
+
   componentDidUpdate(pProps,pState){
     if(pProps.profileVisible != this.props.profileVisible ){
       this.refs.scrollbox && this.refs.scrollbox.setNativeProps({contentOffset:{x:0,y:0}})
@@ -909,5 +922,5 @@ class Card extends React.Component{
   }
 }
 
-reactMixin.onClass(Card,scrollable)
+// reactMixin.onClass(Card,scrollable)
 export default Card
