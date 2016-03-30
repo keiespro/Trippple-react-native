@@ -38,12 +38,12 @@
 
   _bridge = [[RCTBridge alloc] initWithDelegate:self
                                   launchOptions:launchOptions];
-  
+
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:_bridge
                                                    moduleName:@"Trippple"
                                             initialProperties:nil];
-  
-  
+
+
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
@@ -57,11 +57,11 @@
   NSURL *sourceURL;
   NSString *env = @"d";
   NSLog(@"RUNNING IN %@",env);
-  
+
   NSURL* defaultMetadataFileLocation = [[NSBundle mainBundle] URLForResource:@"metadata" withExtension:@"json"];
   NSURL *defaultJSCodeLocation;
   NSString *rootUrl;
-  
+
   ReactNativeAutoUpdater* updater = [ReactNativeAutoUpdater sharedInstance];
   [updater setDelegate:nil];
   [updater initializeWithUpdateMetadataUrl:[NSURL URLWithString:JS_CODE_METADATA_URL]
@@ -71,7 +71,7 @@
   [updater setHostnameForRelativeDownloadURLs:rootUrl];
   [updater downloadUpdatesForType: ReactNativeAutoUpdaterPatchUpdate];
   [updater checkUpdate];
-  
+
   if([env  isEqual: @"production"]){
     //PRODUCTION
     sourceURL = [updater latestJSCodeLocation];
@@ -79,11 +79,11 @@
     // DEVELOPMENT
     sourceURL = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
   }
-  
+
 #if RUNNING_ON_CI
   sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
-  
+
   return sourceURL;
 }
 
@@ -144,7 +144,7 @@
 //    rootUrl = @"https://blistering-torch-607.firebaseapp.com/";
 //  }else{
 //    // DEVELOPMENT
-//    defaultJSCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
+//    defaultJSCodeLocation = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
 //    rootUrl = @"http://localhost/"; // AutoUpdater won't accept a rootUrl with a port
 //  }
 //

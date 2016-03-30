@@ -37,32 +37,31 @@
   NSOperatingSystemVersion version = [NSProcessInfo processInfo].operatingSystemVersion;
   RCTAssert((version.majorVersion == 8 && version.minorVersion >= 3) || version.majorVersion >= 9, @"Tests should be run on iOS 8.3+, found %zd.%zd.%zd", version.majorVersion, version.minorVersion, version.patchVersion);
 
-  _runner = RCTInitRunnerForApp(@"WelcomeTests", nil);
+//  _runner = RCTInitRunnerForApp(@"test/snapshot/WelcomeTests", nil);
+    _runner = RCTInitRunnerForApp(@"test/snapshot/Settings", nil);
   _runner.recordMode = NO;
 
   
 }
 
 
-- (void)testWelcomes
-{
-  [_runner
-          runTest:_cmd
-            module:@"WelcomeTests"
-      initialProps:@{@"waitOneFrame": @YES}
-   configurationBlock:nil];
-}
-
-//
-//- (void)testTrippple
+//- (void)testWelcomes
 //{
 //  [_runner
-//   runTest:_cmd
-//   module:@"Trippple"
-//   initialProps:@{@"waitOneFrame": @YES}
+//          runTest:_cmd
+//            module:@"WelcomeTests"
+//      initialProps:@{@"waitOneFrame": @YES}
 //   configurationBlock:nil];
 //}
-//
+
+- (void)testSettings
+{
+  [_runner
+   runTest:_cmd
+   module:@"SettingsTests"
+   initialProps:@{@"waitOneFrame": @YES}
+   configurationBlock:nil];
+}
 
 
 
