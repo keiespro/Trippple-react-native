@@ -87,10 +87,8 @@ class EditImageThumb extends Component{
 
   }
 
+
   accept(cropped,transformData){
-    if(this.props.image_type == 'couple_profile'){
-      this.proceed()
-    }else{
 
       React.NativeModules.ImageStoreManager.getBase64ForTag( cropped, (uri) => {
 
@@ -98,9 +96,14 @@ class EditImageThumb extends Component{
           return false
         }
 
-        const dataUri = 'data:image/gif;base64,'+uri,
-        localImages = { localUserImage: {uri: dataUri}, localCoupleImage: {uri: dataUri } };
+        const dataUri = 'data:image/gif;base64,'+uri;
+        let localImages;
 
+        if(this.props.image_type == 'couple_profile'){
+          localImages = {   localCoupleImage: {uri: dataUri } };
+        }else{
+          localImages = { localUserImage: {uri: dataUri}  };
+        }
         this.setState({croppedImageURI:dataUri });
 
         UserActions.updateLocally(localImages)
@@ -115,11 +118,12 @@ class EditImageThumb extends Component{
         }
         this.proceed()
 
-      }, (err) =>{ })
+      }, (err) =>{
 
-    }
 
+       })
   }
+
 
   proceed(){
     const currentRoutes = this.props.navigator.getCurrentRoutes()
