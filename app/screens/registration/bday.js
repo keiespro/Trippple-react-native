@@ -24,7 +24,8 @@ import OnboardingActions from '../../flux/actions/OnboardingActions'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-
+const minDate = moment().subtract(80,'years').toDate();
+const maxDate = moment().subtract(18,'years').toDate();
 import SingleInputScreen from '../SingleInputScreen'
 
 class BdayScreen extends Component{
@@ -36,9 +37,20 @@ class BdayScreen extends Component{
 
   constructor(props){
     super();
-    var savedBday = props.fb_bday_year || props.userInfo.birthday || props.userInfo.bday_month || props.userInfo.bday_year;
-    let date = new Date()
-    if(savedBday) date.setYear(savedBday)
+    var savedBday = props.userInfo.birthday;
+    console.log(savedBday)
+    let date = moment().subtract(18,'years').toDate();
+    if(!savedBday && props.fb_bday_year){
+      date.setYear(props.fb_bday_year)
+    }else if(!savedBday && props.userInfo.bday_year){
+      date.setYear(props.userInfo.bday_year)
+    }
+    if(!savedBday && props.userInfo.bday_month){
+      date.setMonth(props.userInfo.bday_month+1)
+    }
+    if(savedBday){
+      date = moment(savedBday, "YYYY-MM-DD").toDate()
+    }
     this.state = {
       error: false,
       timeZoneOffsetInHours:props.timeZoneOffsetInHours,
@@ -104,20 +116,20 @@ class BdayScreen extends Component{
 
   render(){
 
-    var bdate;
-
-    var {bday_month,bday_year,birthday} = this.props.user
-    if(birthday){
-      bdate = new Date(birthday)
-    }else if(this.props.fb_bday_year){
-      bdate = new Date(`${this.props.fb_bday_year}`)
-    }else if(bday_month && bday_year){
-      bdate = new Date()
-      bdate.setYear(bday_year)
-      bdate.setMonth(bday_month - 1)
-    } else{
-      bdate = new Date()
-    }
+    // var bdate;
+    //
+    // var {bday_month,bday_year,birthday} = this.props.user
+    // if(birthday){
+    //   bdate = new Date(birthday)
+    // }else if(this.props.fb_bday_year){
+    //   bdate = new Date(`${this.props.fb_bday_year}`)
+    // }else if(bday_month && bday_year){
+    //   bdate = new Date()
+    //   bdate.setYear(bday_year)
+    //   bdate.setMonth(bday_month - 1)
+    // } else{
+    //   bdate = new Date()
+    // }
 
    return (
       <View style={[
