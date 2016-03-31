@@ -1,5 +1,6 @@
 
 import Mixpanel from 'react-native-mixpanel'
+import mixpanel from './mixpanel'
 import GoogleAnalytics from 'react-native-google-analytics-bridge'
 import _ from 'lodash'
 const MIXPANEL_TOKEN = '39438c7679290b25ea2dbb0b2aa5714f'
@@ -11,7 +12,6 @@ const MIXPANEL_TOKEN = '39438c7679290b25ea2dbb0b2aa5714f'
 
     if(!Mixpanel || !GoogleAnalytics) return false;
 
-    Mixpanel.sharedInstanceWithToken(MIXPANEL_TOKEN)
     // Mixpanel.registerSuperProperties({
     //
     //
@@ -23,7 +23,7 @@ const MIXPANEL_TOKEN = '39438c7679290b25ea2dbb0b2aa5714f'
     if(!Mixpanel || !GoogleAnalytics) return false;
 
     GoogleAnalytics.setUser(userid);
-    Mixpanel.identify(userid);
+    // Mixpanel.identify(userid);
 
   }
 
@@ -54,7 +54,7 @@ const MIXPANEL_TOKEN = '39438c7679290b25ea2dbb0b2aa5714f'
 
     GoogleAnalytics.trackEvent(eventName, action, {label, value});
 
-    Mixpanel.trackWithProperties(eventName, eventData)
+    // Mixpanel.trackWithProperties(eventName, eventData)
 
   }
 
