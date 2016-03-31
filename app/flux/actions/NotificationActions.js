@@ -67,7 +67,7 @@ class NotificationActions {
     return (dispatch) => {
       const { action } = payload;
       if(action === 'retrieve') {
-        MatchActions.getMatches.defer()
+        MatchActions.getMatches()
       }
       if(!isBackground){
         dispatch(payload)
