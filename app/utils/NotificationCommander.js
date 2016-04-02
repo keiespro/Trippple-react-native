@@ -158,7 +158,7 @@ class NotificationCommander extends Component{
   connectSocket(){
     this.socket.on('user.connect', (data) => {
       this.online_id = data.online_id;
-      console.log('user.connect',data)
+      // console.log('user.connect',data)
 
       const myApikey = this.props.api_key,
         myID = this.props.user_id;

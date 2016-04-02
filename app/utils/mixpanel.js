@@ -4,7 +4,7 @@ import Arrows from "./Arrows";
 import Mixpanel from 'react-native-mixpanel'
 
 function TrackEvt(name,event){
-  console.log(name,event)
+  __DEV__ && console.log(name,event)
   Mixpanel.trackWithProperties(name, event)
 }
 //-this is Production App

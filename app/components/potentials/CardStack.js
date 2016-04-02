@@ -117,13 +117,13 @@ class CardStack extends React.Component{
     this._panResponder = PanResponder.create({
 
       onMoveShouldSetPanResponderCapture: (e,gestureState) => {
-        console.log('onMoveShouldSetPanResponderCapture',gestureState)
+        // console.log('onMoveShouldSetPanResponderCapture',gestureState)
 
         return false;
       },
 
       onMoveShouldSetPanResponder: (e,gestureState) => {
-        console.log('onMoveShouldSetPanResponder',gestureState)
+        // console.log('onMoveShouldSetPanResponder',gestureState)
 
 
         return !this.props.profileVisible && (isCouple ||  Math.abs(gestureState.dx) > 0 && Math.abs(gestureState.dy) < 5)
@@ -132,19 +132,19 @@ class CardStack extends React.Component{
       },
 
       onStartShouldSetPanResponder: (e,gestureState) => {
-        console.log('onStartShouldSetPanResponder',gestureState)
+        // console.log('onStartShouldSetPanResponder',gestureState)
 
         return !this.props.profileVisible && (isCouple ||  Math.abs(gestureState.dx) > 0 && Math.abs(gestureState.dy) < 5)
       },
       onStartShouldSetPanResponderCapture: (e,gestureState) => {
-        console.log('onStartShouldSetPanResponderCapture',gestureState)
+        // console.log('onStartShouldSetPanResponderCapture',gestureState)
 
         return false;// !this.props.profileVisible && Math.abs(gestureState.dy) < 5
 
       },
 
       onPanResponderReject: (e, gestureState) => {
-        console.log('onPanResponderReject',gestureState)
+        // console.log('onPanResponderReject',gestureState)
 
       },
 
@@ -154,27 +154,27 @@ class CardStack extends React.Component{
       }]),
 
       onPanResponderTerminate: (e, gestureState) => {
-        console.log('onPanResponderTerminate',gestureState)
+        // console.log('onPanResponderTerminate',gestureState)
 
       },
       onPanResponderTerminationRequest: (e, gestureState) => {
-        console.log('onPanResponderTerminationRequest',gestureState)
+        // console.log('onPanResponderTerminationRequest',gestureState)
 
       },
       onPanResponderReject: (e, gestureState) => {
-        console.log('onPanResponderReject',gestureState)
+        // console.log('onPanResponderReject',gestureState)
 
       },
       onPanResponderGrant: (e, gestureState) => {
-        console.log('onPanResponderGrant',gestureState)
+        // console.log('onPanResponderGrant',gestureState)
 
       },
       onPanResponderStart: (e, gestureState) => {
-        console.log('onPanResponderStart',gestureState)
+        // console.log('onPanResponderStart',gestureState)
 
       },
       onPanResponderEnd: (e, gestureState) => {
-        console.log('onPanResponderEnd',gestureState)
+        // console.log('onPanResponderEnd',gestureState)
 
       },
 
@@ -225,7 +225,7 @@ class CardStack extends React.Component{
         //
         //   // if(!value || !value.x ){ return false }
         //   let likeStatus = value.x > 0 ? 'approve' : 'deny';
-        //   // console.log(value.x,Math.abs(Math.floor(value.x)))
+          // console.log(value.x,Math.abs(Math.floor(value.x)))
         //   // when the card reaches the throw out threshold, send like
         //   // console.log('this.state.pan.xthis.state.pan.x',this.state.pan.x)
         //
