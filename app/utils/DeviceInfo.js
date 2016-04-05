@@ -1,10 +1,9 @@
-import Device from 'react-native-device'
-
+import {NativeModules} from 'react-native'
+const {DeviceUtil} = NativeModules
 
 export default {
-  uuid: Device.identifierForVendor,
-  version: Device.systemVersion,
-  platform: Device.systemName,
-  model: Device.model
+  uuid: DeviceUtil.identifierForVendor,
+  version: DeviceUtil.systemVersion,
+  platform: DeviceUtil.systemName,
+  model: DeviceUtil.model
 }
-

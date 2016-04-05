@@ -1,6 +1,36 @@
 {
   "builds": [
     {
+      "timestamp": 1459871916182,
+      "jsVersion": "2.1.17",
+      "appVersion": "2.1.0",
+      "build": 26
+    },
+    {
+      "timestamp": 1459869331101,
+      "jsVersion": "2.1.16",
+      "appVersion": "2.1.0",
+      "build": 25
+    },
+    {
+      "timestamp": 1459866927306,
+      "jsVersion": "2.1.15",
+      "appVersion": "2.1.0",
+      "build": 24
+    },
+    {
+      "timestamp": 1459866869514,
+      "jsVersion": "2.1.15",
+      "appVersion": "2.1.0",
+      "build": 23
+    },
+    {
+      "timestamp": 1459865702363,
+      "jsVersion": "2.1.14",
+      "appVersion": "2.1.0",
+      "build": 22
+    },
+    {
       "timestamp": 1458119140131,
       "jsVersion": "2.1.13",
       "appVersion": "2.1.0",

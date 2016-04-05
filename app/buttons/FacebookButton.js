@@ -75,7 +75,6 @@ class FacebookButton extends React.Component{
 
       } else {
         this.setState({ fbUser : null });
-
       }
     });
   }
@@ -89,12 +88,14 @@ class FacebookButton extends React.Component{
 
   }
   onPress(e){
-    if(!this.state.fbUser){
+    // this.handleLogout();
+    // return
+    if( !this.state.fbUser){
       FBLoginManager.getCredentials((error, data)=>{
+
         if (!error) {
           this.setState({ fbUser : data.credentials });
           this.props._onPress && this.props._onPress(data.credentials);
-          this.handleLogin();
         } else {
           this.handleLogin();
 
@@ -118,20 +119,55 @@ class FacebookButton extends React.Component{
 
   }
   handleLogin(){
-    FBLoginManager.loginWithPermissions(["email","user_photos","user_friends"],  (error, data) => {
 
-      if (!error && data) {
-        this.setState({ fbUser : data.credentials});
-        UserActions.updateUser({
-          facebook_user_id: data.credentials.userId,
-          facebook_oauth_access_token: data.credentials.token
-        });
+    if(true){
+      // FBLoginManager.login(  (error, data) => {
+      try{
+            FBLoginManager.loginWithPermissions(["email","public_profile","user_friends","user_photos"],  (error, data) => {
+              if (!error && data) {
 
-        this.props.onLogin && this.props.onLogin(data);
-      } else {
-        this.setState({ fbUser : null });
+              this.setState({ fbUser : data.credentials});
+              UserActions.updateUser({
+                facebook_user_id: data.credentials.userId,
+                facebook_oauth_access_token: data.credentials.token
+              });
+
+              this.props.onLogin && this.props.onLogin(data);
+            }else {
+                      this.setState({ fbUser : null });
+                    }
+          })
+
+        // });
+      }catch(err){
+        Analytics.err(err)
+        AlertIOS.alert(
+            'Error',
+            'Error connecting to Facebook.',
+            [
+              {text: 'Yes', onPress: () => {this.handleLogout()}},
+              {text: 'No', onPress: () => {return false}},
+            ]
+          )
       }
-    });
+
+    }else{
+      FBLoginManager.login(  (error, data) => {
+        if (!error && data) {
+          this.setState({ fbUser : data.credentials});
+          UserActions.updateUser({
+            facebook_user_id: data.credentials.userId,
+            facebook_oauth_access_token: data.credentials.token
+          });
+
+          this.props.onLogin && this.props.onLogin(data);
+        } else {
+          this.setState({ fbUser : null });
+        }
+
+
+      });
+    }
   }
 
   handleLogout(){

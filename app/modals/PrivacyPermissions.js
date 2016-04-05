@@ -99,7 +99,7 @@ export default class PrivacyPermissionsModal extends Component{
   getContacts(){
     AddressBook.requestPermission((err, permission) => {
     // AddressBook.getContacts((err, contacts) => {
-      console.log(err, permission)
+      // console.log(err, permission)
       if (!err ) {
       //   UserActions.handleContacts.defer(contacts)
         if(permission === AddressBook.PERMISSION_UNDEFINED){

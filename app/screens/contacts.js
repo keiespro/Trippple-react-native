@@ -221,9 +221,9 @@ class Contacts extends React.Component{
   }
 
   storeContacts(){
-    console.log('call store contacts')
+    // console.log('call store contacts')
     AddressBook.getContacts((err, contacts) => {
-      console.log(err,contacts)
+      // console.log(err,contacts)
       if(err){
         Analytics.err(err);
       }
@@ -270,7 +270,7 @@ class Contacts extends React.Component{
           ]
         )
       }else{
-        console.log('ELSE')
+        // console.log('ELSE')
       }
     })
   }

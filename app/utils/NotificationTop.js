@@ -20,14 +20,12 @@ class Notification extends React.Component{
       yValue: new Animated.Value(-220)
     }
 
-}
-componentWillMount(){
-    VibrationIOS.vibrate()
-}
+  }
+  componentWillMount(){
+      VibrationIOS.vibrate()
+  }
 
   componentDidMount() {
-    this.state.yValue.setValue(0);
-
 
     Animated.timing(this.state.yValue, {
       toValue: 0,
@@ -40,26 +38,38 @@ componentWillMount(){
 
     Animated.timing(this.state.yValue, {
       toValue: -220,
-      duration: 200,
-    }).start()
+      duration: 100,
+    }).start(()=>{
+      AppActions.updateRoute({route:'chat',match_id:this.props.payload.match_id,})
+      this.setState({tapped:true})
 
-    AppActions.updateRoute({route:'chat',match_id:this.props.payload.match_id,})
+    })
+
     NotificationActions.updateBadgeNumber.defer(-1)
 
   }
 
   render(){
 
-    if(!this.props.payload) { return  }
+    if(!this.props.payload) { return false  }
 
-    const { payload,user } = this.props;
+    const { payload, user } = this.props;
+    if(!payload.users){ return false}
+    let myPartnerId;
+    let theirIds;
+    let them;
+    let threadName;
+    let matchName;
 
     if(payload.type =='match'){
-      const myPartnerId = user.relationship_status === 'couple' ? user.partner_id : null,
-          theirIds = Object.keys(payload.users).filter( (u)=> u != user.id),
-          them = theirIds.map((id)=> payload.users[id]),
-          threadName = them.map( (u,i) => u.firstname.trim() ).join(' & '),
-          matchName = threadName + (theirIds.length > 1 ? ' like ' : ' likes ');
+       myPartnerId = user.relationship_status === 'couple' ? user.partner_id : null;
+       theirIds = Object.keys(payload.users).filter( (u)=> u != user.id);
+       them = theirIds.map((id)=> payload.users[id]);
+       threadName = them.map( (u,i) => u.firstname.trim() ).join(' & ');
+       matchName = threadName + (theirIds.length > 1 ? ' like ' : ' likes ');
+    }
+    if(!matchName || this.state.tapped){
+      return false
     }
     return (
       <Animated.View style={[styles.notificationWrapper,
@@ -78,7 +88,7 @@ componentWillMount(){
                   <Image
                     resizeMode={Image.resizeMode.contain}
                     style={styles.notiImage}
-                    defaultSource={{uri: 'assets/placeholderUserWhite@3x.png'}}
+                    defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
                     source={{uri: payload.from_user_info.image_url}}
                   />
                 </View>
@@ -101,8 +111,8 @@ componentWillMount(){
                   <Image
                     resizeMode={Image.resizeMode.contain}
                     style={styles.notiImage}
-                    defaultSource={{uri: 'assets/placeholderUserWhite@3x.png'}}
-                    source={{uri: null}}
+                    defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+                    source={{uri: them[0].thumb_url}}
                   />
                 </View>
                 <View style={styles.notificationRight}>

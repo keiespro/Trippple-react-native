@@ -5,6 +5,8 @@ import Keychain from 'react-native-keychain'
 import config from './config'
 import alt from './flux/alt'
 import TouchID from 'react-native-touch-id'
+import Analytics from './utils/Analytics'
+
 import LockFailed from './LockFailed'
 const {KEYCHAIN_NAMESPACE} = config
 import AppActions from './flux/actions/AppActions'
@@ -33,6 +35,7 @@ class Boot extends React.Component{
     }).then((creds)=>{
       this.bootStrapData();
     }).catch((err)=>{
+      Analytics.err(err)
       this.setBooted()
     })
   }
@@ -41,7 +44,6 @@ class Boot extends React.Component{
 
     TouchID.authenticate('Access Trippple')
       .then(success => {
-        console.log(success)
         this.setState({
           lockFailed: false,
           isLocked: false
@@ -50,7 +52,8 @@ class Boot extends React.Component{
       })
       .catch(error => {
         // Failure code
-        console.log(error)
+        Analytics.err(err)
+
         this.setState({
           lockFailed: true
         })
@@ -75,6 +78,8 @@ class Boot extends React.Component{
         this.setBooted()
       }
     }).catch((err) => {
+      Analytics.err(err)
+
       this.setBooted()
     })
   }

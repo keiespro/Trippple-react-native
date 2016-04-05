@@ -36,19 +36,21 @@ class NotificationsStore {
 
 
     this.on('init', () => {
-      Analytics.log('INIT NotificationsStore');
+      Analytics.all('INIT NotificationsStore');
     });
 
     this.on('error', (err, payload, currentState) => {
-      Analytics.log('ERROR NotificationsStore',err, payload, currentState);
+      Analytics.all('ERROR NotificationsStore',err, payload, currentState);
+      Analytics.err({...err, payload})
+
     });
 
     this.on('bootstrap', (bootstrappedState) => {
-      Analytics.log('BOOTSTRAP NotificationsStore',bootstrappedState);
+      Analytics.all('BOOTSTRAP NotificationsStore',bootstrappedState);
     });
 
     this.on('afterEach', (x) => {
-      Analytics.log('AFTEREACH notifications store', {...x});
+      Analytics.all('AFTEREACH notifications store', {...x});
     });
   }
 
@@ -89,18 +91,26 @@ class NotificationsStore {
     },3500)
   }
   handleNewMatchData(matchData){
+    this.waitFor(MatchesStore)
 
     var {matches} = matchData
     var pendingNotification = this.state.pendingNotifications[0] || this.state.notifications[0]
+    if(!matches || !pendingNotification){ return false}
+    if(!pendingNotification){ return false };
+    // var newmatch = _.find(matches,function(ma) {
+    //   // AlertIOS.alert('m',m.match_id+' - ' +pendingNotification.match_id)
+    //
+    //   return ma.match_id == pendingNotification.match_id;
+    // });
+    var newmatch = matches[0]
+    var readyNotification = { ...pendingNotification, ...newmatch, type: 'match'}
+    // AlertIOS.alert('d',JSON.stringify(readyNotification))
+    setTimeout(()=>{
 
-    if(!pendingNotification){ return false }
-    var match = _.filter(matches,(m) => m.match_id == pendingNotification.match_id);
-    var readyNotification = { ...pendingNotification, ...match[0], type: 'match'}
-
-    this.setState({
-      notifications: [readyNotification],
-      pendingNotifications: [...this.state.pendingNotifications.slice(1,this.state.pendingNotifications.length)]
-    })
+      this.setState({
+        notifications: [readyNotification],
+      })
+    },100);
     this.expireNotification()
     this.updateBadgeCount(0)
 

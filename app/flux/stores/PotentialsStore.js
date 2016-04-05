@@ -24,19 +24,21 @@ class PotentialsStore {
     });
 
     this.on('init', () => {
-      Analytics.log('INIT PotentialsStore');
+      Analytics.all('INIT PotentialsStore');
     });
 
     this.on('error', (err, payload, currentState) => {
-      Analytics.log('ERROR PotentialsStore',err, payload, currentState);
+      Analytics.all('ERROR PotentialsStore',err, payload, currentState);
+      Analytics.err({...err, payload})
+
     });
 
     this.on('bootstrap', (bootstrappedState) => {
-      Analytics.log('BOOTSTRAP PotentialsStore',bootstrappedState);
+      Analytics.all('BOOTSTRAP PotentialsStore',bootstrappedState);
     });
 
     this.on('afterEach', (x) => {
-      Analytics.log('AFTEREACH Potentials Store', {...x});
+      Analytics.all('AFTEREACH Potentials Store', {...x});
     });
 
     this.exportPublicMethods({

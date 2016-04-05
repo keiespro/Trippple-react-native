@@ -19,6 +19,8 @@ class NotificationActions {
         Api.updatePushToken(token)
         .then(()=> dispatch(token))
         .catch((err) => {
+          Analytics.err(err)
+
           dispatch({error: err})
         })
       })
@@ -67,7 +69,7 @@ class NotificationActions {
     return (dispatch) => {
       const { action } = payload;
       if(action === 'retrieve') {
-        MatchActions.getMatches.defer()
+        MatchActions.getMatches()
       }
       if(!isBackground){
         dispatch(payload)
@@ -101,6 +103,7 @@ class NotificationActions {
 
       }catch(err){
         // console.log(err)
+
         dispatch(err)
 
       }

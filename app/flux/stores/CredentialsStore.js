@@ -16,20 +16,22 @@ class CredentialsStore {
     this.api_key = '';
 
     this.on('init', () => {
-      Analytics.log('INIT CredentialsStore');
+      Analytics.all('INIT CredentialsStore');
     });
 
     this.on('error', (err, payload, currentState) => {
-      Analytics.log('ERROR CredentialsStore',err, payload, currentState);
+      Analytics.all('ERROR CredentialsStore',err, payload, currentState);
+      Analytics.err({...err, payload})
+
     });
 
     this.on('bootstrap', (bootstrappedState) => {
-      Analytics.log('BOOTSTRAP CredentialsStore',bootstrappedState);
+      Analytics.all('BOOTSTRAP CredentialsStore',bootstrappedState);
     });
 
-    // this.on('afterEach', ({payload, state}) => {
-    //   Analytics.log('AFTEREACH Credentials store', {payload, state});
-    // });
+    this.on('afterEach', ({payload, state}) => {
+      Analytics.all('AFTEREACH Credentials store', {payload, state});
+    });
 
     this.bindListeners({
       handleGotCredentials: AppActions.GOT_CREDENTIALS,

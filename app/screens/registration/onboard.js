@@ -36,6 +36,7 @@ import EditImageThumb from './EditImageThumb'
 import SelfImage from './SelfImage'
 import Limbo from './Limbo'
 import CAMERA from '../../controls/cameraControl'
+import Mixpanel from '../../utils/mixpanel'
 
 var RouteStackCouple = [
     {component: SelectRelationshipStatus,id:'SelectRelationshipStatus',title:'SelectRelationshipStatus'},
@@ -101,7 +102,12 @@ class Onboard extends Component{
     }
   }
   componentDidMount(){
-    this.refs.onboardingNavigator.navigationContext.addListener('didfocus', (e)=>{
+    this.refs.onboardingNavigator.navigationContext.addListener('didfocus', (nav)=>{
+      var route = nav.target.currentRoute;
+
+      var routeName = route.id || route.name || (route.title && route.title.length ? route.title : false) || route.component.displayName;
+      Analytics.screen(routeName)
+      Mixpanel.track(`HO: On - ${routeName} Screen`);
 
       const navIndex = this.refs.onboardingNavigator.state.presentedIndex,
             storeIndex = this.props.onboardingState.routeIndex;
@@ -115,7 +121,6 @@ class Onboard extends Component{
     })
   }
   selectScene (route: Navigator.route, navigator: Navigator) {
-    Analytics.screen(route.title)
 
     return (
       <route.component
@@ -148,7 +153,7 @@ class Onboard extends Component{
         <Navigator
           configureScene={
             (route) => route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.SlideInFromRight || Navigator.SceneConfigs.HorizontalSwipeJump
-  }
+          }
           key={'obnav'}
           renderScene={this.selectScene.bind(this)}
           sceneStyle={styles.container}

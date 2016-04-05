@@ -157,15 +157,15 @@ class CardStack extends React.Component{
       }]),
 
       onPanResponderTerminate: (e, gestureState) => {
-        console.log('onPanResponderTerminate',gestureState)
+        // console.log('onPanResponderTerminate',gestureState)
 
       },
       onPanResponderTerminationRequest: (e, gestureState) => {
-        console.log('onPanResponderTerminationRequest',gestureState)
+        // console.log('onPanResponderTerminationRequest',gestureState)
 
       },
       onPanResponderReject: (e, gestureState) => {
-        console.log('onPanResponderReject',gestureState)
+        // console.log('onPanResponderReject',gestureState)
 
       },
       onPanResponderGrant: (e, gestureState) => {
@@ -229,7 +229,7 @@ class CardStack extends React.Component{
         //
         //   // if(!value || !value.x ){ return false }
         //   let likeStatus = value.x > 0 ? 'approve' : 'deny';
-        //   // console.log(value.x,Math.abs(Math.floor(value.x)))
+          // console.log(value.x,Math.abs(Math.floor(value.x)))
         //   // when the card reaches the throw out threshold, send like
         //   // console.log('this.state.pan.xthis.state.pan.x',this.state.pan.x)
         //
