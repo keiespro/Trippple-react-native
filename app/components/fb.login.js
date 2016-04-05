@@ -108,7 +108,7 @@ var ProfileInfo = React.createClass({
         });
       })
       .catch((err) => {
-        dispatch({error: err})
+
       })
   },
 
@@ -177,6 +177,7 @@ var AlbumView = React.createClass({
   render(){
 
     var album = this.props.album_details;
+    var isOnbboarding = this.props.navigator.getCurrentRoutes()[0].id != 'potentials'
 
     return (
       <View style={{flex:1,backgroundColor:colors.outerSpace,height:DeviceHeight,width:DeviceWidth}}>
@@ -220,7 +221,40 @@ var PhotoAlbums = React.createClass({
   propTypes: {
     fbUser: React.PropTypes.object.isRequired,
   },
+  selectPhoto(photo) {
+    console.log(photo)
+    var {navigator,route,image_type,nextRoute,afterNextRoute} = this.props;
+    if(nextRoute){
 
+      navigator.push({
+        component: nextRoute,
+        name: 'Edit Image',
+        passProps: {
+          ...this.props,
+          image: {uri:(photo.images && photo.images[0] && photo.images[0].source) || photo.source},
+          image_type: image_type || '',
+          nextRoute: afterNextRoute,
+          isFB:true
+        }
+      })
+      return
+
+    }else{
+      var lastindex = this.props.navigator.getCurrentRoutes().length;
+      var nextRoute = this.props.stack[lastindex];
+
+      nextRoute.passProps = {
+        ...this.props,
+        image: {uri:(photo.images && photo.images[0] && photo.images[0].source) || photo.source},
+        image_type: image_type || '',
+        isFB:true
+
+      }
+
+      navigator.push(nextRoute)
+    }
+
+  },
   getInitialState(){
     var aDS = new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
     var pDS = new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
@@ -248,7 +282,7 @@ var PhotoAlbums = React.createClass({
         var total_found = albums.length;
         var count = 0;
         console.log(responseData)
-        if (albums) {
+        if (albums && albums.length) {
           for (var i in albums) {
             ((x) => {
               var url = 'https://graph.facebook.com/v2.3/' + albums[x].id + '/picture?type=album&redirect=false&access_token=' + fbUser.token;
@@ -271,10 +305,25 @@ var PhotoAlbums = React.createClass({
               });
             })(i);
           }
+        }else{
+          var endpoint = 'https://graph.facebook.com/v2.3/' + fbUser.userId + '/picture?width=800&redirect=false&access_token=' + fbUser.token;
+          fetch(endpoint)
+          .then((response) => response.json())
+          .then((responseData) => {
+            console.log(responseData)
+            this.selectPhoto({source:responseData.data.url})
+
+          })
+          .catch((err) => {
+
+
+           });
+
+
         }
       })
       .catch((err) => {
-        console.warn('err',JSON.stringify(err))
+        // console.warn('err',JSON.stringify(err))
         dispatch({error: err})
       })
   },
@@ -376,6 +425,7 @@ var PhotoAlbums = React.createClass({
 
     var fbUser = this.props.fbUser;
     var albums = this.state.albums;
+    var isOnbboarding = this.props.navigator.getCurrentRoutes()[0].id != 'potentials'
 
 
     return (
@@ -396,7 +446,7 @@ var PhotoAlbums = React.createClass({
         title={'ALBUMS'}
         titleColor={colors.white}
         customPrev={
-          <View style={{flexDirection: 'row',opacity:0.5,top:-4}}>
+          <View style={{flexDirection: 'row',opacity:0.5,top:isOnbboarding ? 7  : -4}}>
             <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>▼ </Text>
           </View>
         }
