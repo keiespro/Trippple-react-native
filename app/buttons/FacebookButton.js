@@ -121,9 +121,9 @@ class FacebookButton extends React.Component{
   handleLogin(){
 
     if(true){
-      // FBLoginManager.login(  (error, data) => {
-      try{
-            FBLoginManager.loginWithPermissions(["email","public_profile","user_friends","user_photos"],  (error, data) => {
+      FBLoginManager.login(  (error, data) => {
+      // try{
+      //       FBLoginManager.loginWithPermissions(["email","public_profile","user_friends","user_photos"],  (error, data) => {
               if (!error && data) {
 
               this.setState({ fbUser : data.credentials});
@@ -136,20 +136,20 @@ class FacebookButton extends React.Component{
             }else {
                       this.setState({ fbUser : null });
                     }
-          })
 
-        // });
-      }catch(err){
-        Analytics.err(err)
-        AlertIOS.alert(
-            'Error',
-            'Error connecting to Facebook.',
-            [
-              {text: 'Yes', onPress: () => {this.handleLogout()}},
-              {text: 'No', onPress: () => {return false}},
-            ]
-          )
-      }
+
+        });
+      // }catch(err){
+      //   Analytics.err(err)
+      //   AlertIOS.alert(
+      //       'Error',
+      //       'Error connecting to Facebook.',
+      //       [
+      //         {text: 'Yes', onPress: () => {this.handleLogout()}},
+      //         {text: 'No', onPress: () => {return false}},
+      //       ]
+      //     )
+      // }
 
     }else{
       FBLoginManager.login(  (error, data) => {
