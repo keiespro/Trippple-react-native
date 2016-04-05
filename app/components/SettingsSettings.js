@@ -26,9 +26,9 @@ import TouchID from 'react-native-touch-id'
 
 import Mixpanel from '../utils/mixpanel';
 import FakeNavBar from '../controls/FakeNavBar';
-import alt from '../flux/alt'
-import RNFS from 'react-native-fs'
-const {RNMail,ReactNativeAutoUpdater} = NativeModules
+
+
+const {ReactNativeAutoUpdater} = NativeModules
 import {MagicNumbers} from '../DeviceConfig'
 import dismissKeyboard from 'dismissKeyboard'
 import WebViewScreen from './WebViewScreen'
@@ -45,7 +45,7 @@ import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
 import CloseButton from './CloseButton'
 import Api from '../utils/api'
 import FieldModal from './FieldModal'
-import AppTelemetry from '../AppTelemetry'
+import AppActions from '../flux/actions/AppActions'
 
 let ACTUAL_VERSION = ReactNativeAutoUpdater.jsCodeVersion
 
@@ -78,7 +78,7 @@ class SettingsSettings extends React.Component{
       })
       .catch(error => {
         // Failure code
-
+        Analytics.err(error)
       });
 
   }
@@ -89,9 +89,15 @@ class SettingsSettings extends React.Component{
       'Are you sure you want to disable your account? You will no longer be visible to any trippple users. To re-enable your account, log back in.',
       [
         {text: 'Yes', onPress: () => {
+          // Analytics.event('',{action:'',label:'',eventData:{}})
+
           UserActions.disableAccount();
         }},
-        {text: 'No', onPress: () => {return false}},
+        {text: 'No', onPress: () => {
+          // Analytics.event('',{action:'',label:'',eventData:{}})
+
+          return false
+        }},
       ]
     )
 
@@ -117,6 +123,7 @@ class SettingsSettings extends React.Component{
     this.props.navigator.push({
       component: WebViewScreen,
       title: '',
+      name:pageTitle,
       id:'webview',
       sceneConfig: NavigatorSceneConfigs.FloatFromRight,
       passProps: {
@@ -126,45 +133,16 @@ class SettingsSettings extends React.Component{
     })
   }
 
-  async handleFeedback() {
-    var snapshot = alt.takeSnapshot();
-    var {settings} = React.NativeModules.SettingsManager
-    var fileName = 'trippple-feedback'+ Date.now() +'.ttt'
-    var path = RNFS.DocumentDirectoryPath + '/' + fileName
+  handleFeedback() {
+    AppActions.sendFeedback('Settings',`Feedback`)
 
-    try{
-    var fileContents = await AppTelemetry.getEncoded()
-
-      RNFS.writeFile(path, (fileContents))
-      .then((success) => {
-        RNMail.mail({
-          subject: `I'm having an issue in the app`,
-          recipients: ['hello@trippple.co'],
-          body:  'Help!',
-          attachment: {
-            path,  // The absolute path of the file from which to read data.
-            type: 'text',   // Mime Type: jpg, png, doc, ppt, html, pdf
-            name: fileName
-          }
-        }, (error, event) => {
-            if(error) {
-              AlertIOS.alert('Error', 'Could not send mail. Please email feedback@trippple.co directly.');
-            }
-        });
-      })
-      .catch((err) => {
-            Analytics.log('cant send mail',err)
-      });
-    }catch(err){
-            Analytics.log('cant send mail',err)
-
-    }
   }
   handleTapPrivacy(){
     if(this.state.privacy != 'private'){
         this.props.navigator.push({
           component: PrivacyPermissionsModal,
           title: '',
+          name: 'PrivacyPermissionsModal',
           id:'privacymodal',
           sceneConfig: NavigatorSceneConfigs.FloatFromBottom,
           passProps: {

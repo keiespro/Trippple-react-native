@@ -40,6 +40,7 @@ var ProfilePhoto = React.createClass({
 
   componentDidMount(){
     var {fbUser} = this.props;
+    console.log(fbUser)
     var api = `https://graph.facebook.com/v2.3/${fbUser.userId}/picture?width=${FB_PHOTO_WIDTH}&redirect=false&access_token=${fbUser.token}`;
 
 
@@ -92,6 +93,7 @@ var ProfileInfo = React.createClass({
 
   componentWillMount(){
     var fbUser = this.props.fbUser;
+    console.log(fbUser)
     var api = `https://graph.facebook.com/v2.3/${fbUser.userId}?fields=name,email&access_token=${fbUser.token}`;
 
 
@@ -128,16 +130,19 @@ var AlbumView = React.createClass({
 
 
   selectPhoto(photo) {
+    console.log(photo)
     var {navigator,route,image_type,nextRoute,afterNextRoute} = this.props;
     if(nextRoute){
 
       navigator.push({
         component: nextRoute,
+        name: 'Edit Image',
         passProps: {
           ...this.props,
           image: {uri:photo.images && photo.images[0] && photo.images[0].source || photo.source},
           image_type: image_type || '',
-          nextRoute: afterNextRoute
+          nextRoute: afterNextRoute,
+          isFB:true
         }
       })
       return
@@ -150,6 +155,7 @@ var AlbumView = React.createClass({
         ...this.props,
         image: {uri:photo.images[0].source},
         image_type: image_type || '',
+        isFB:true
 
       }
     }
@@ -159,7 +165,7 @@ var AlbumView = React.createClass({
     var img = photo.images && photo.images.length > 4 && photo.images[4].source || photo.images && photo.images[0] && photo.images[0].source || photo.source;
 
     return (
-      <View style={styles.photo_list_item}>
+      <View  key={photo+''} style={styles.photo_list_item}>
         <TouchableHighlight onPress={(e) => { this.selectPhoto(photo) }}>
           <Image style={styles.pic} source={{uri: img}} />
         </TouchableHighlight>
@@ -173,33 +179,36 @@ var AlbumView = React.createClass({
     var album = this.props.album_details;
 
     return (
-      <View style={{flex:1}}>
-        <FakeNavBar
-          navigator={this.props.navigator}
-          route={this.props.route}
-          backgroundStyle={{backgroundColor:'transparent'}}
-          onPrev={(n,p)=>(this.props.navigator.pop())}
-          blur={true}
-          title={album.name.toUpperCase()}
-          titleColor={colors.white}
-          customPrev={
-            <View style={{flexDirection: 'row',opacity:0.5,top: DeviceHeight > 568 ? -4 : -3}}>
-              <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
-            </View>
-          }
-        />
-      <View style={{marginTop:50,flex:1,width:DeviceWidth,backgroundColor:colors.outerSpace}}>
-
+      <View style={{flex:1,backgroundColor:colors.outerSpace,height:DeviceHeight,width:DeviceWidth}}>
 
 
           <ListView
-            contentContainerStyle={{width:DeviceWidth,height:DeviceHeight,padding:5,flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start'}}
+          style={{marginTop:60,padding:4.5}}
+          contentContainerStyle={{flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start',flexWrap:'wrap'}}
             dataSource={this.props.album_photos}
+           horizontal={false}
+           vertical={true}
             renderRow={this.renderSinglePhotos}
           />
+
+          <FakeNavBar
+            navigator={this.props.navigator}
+            route={this.props.route}
+            backgroundStyle={{backgroundColor:'transparent'}}
+            onPrev={(n,p)=>(this.props.navigator.pop())}
+            blur={true}
+            title={album.name.toUpperCase()}
+            titleColor={colors.white}
+            customPrev={
+              <View style={{flexDirection: 'row',opacity:0.5,top: DeviceHeight > 568 ? -4 : -3}}>
+                <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
+              </View>
+            }
+          />
+
+
         </View>
-      </View>
-    );
+     );
 
   }
 
@@ -228,6 +237,7 @@ var PhotoAlbums = React.createClass({
 
   fetchAlbums() {
     var fbUser = this.props.fbUser;
+    console.log(fbUser)
     var api = `https://graph.facebook.com/v2.3/${fbUser.userId}/albums?redirect=false&access_token=${fbUser.token}`;
 
 
@@ -237,7 +247,7 @@ var PhotoAlbums = React.createClass({
         var albums = responseData.data;
         var total_found = albums.length;
         var count = 0;
-
+        console.log(responseData)
         if (albums) {
           for (var i in albums) {
             ((x) => {
@@ -264,6 +274,7 @@ var PhotoAlbums = React.createClass({
         }
       })
       .catch((err) => {
+        console.warn('err',JSON.stringify(err))
         dispatch({error: err})
       })
   },
@@ -272,6 +283,7 @@ var PhotoAlbums = React.createClass({
   },
   fetchAlbumPhotos(album) {
     var fbUser = this.props.fbUser;
+    console.log(fbUser)
     var api = 'https://graph.facebook.com/v2.3/' + album.id + '/photos?redirect=false&access_token=' + fbUser.token;
 
 
@@ -284,6 +296,7 @@ var PhotoAlbums = React.createClass({
 
                 this.props.navigator.push({
                   component: AlbumView,
+                  name: 'FB Album View',
                   sceneConfig: Navigator.SceneConfigs.FloatFromRight,
                   passProps:{
                     ...this.props,
@@ -305,6 +318,7 @@ var PhotoAlbums = React.createClass({
           this.props.navigator.push({
             component: AlbumView,
             sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+            name: 'FB Album View',
             passProps:{
               ...this.props,
               photos: photos,

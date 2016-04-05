@@ -194,6 +194,7 @@ class UserStore {
   handleUpdateLocally(payload){
     const updatedUser = {...this.state.user, ...payload};
     this.setState({user:updatedUser})
+    this.save()
   }
 
   getUser(){

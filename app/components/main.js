@@ -49,8 +49,14 @@ class Main extends Component{
 
   componentDidMount(){
     Mixpanel.auth(this.props.user.id+'');
-    this.refs.nav.navigationContext.addListener('didfocus', (e)=>{
+    this.refs.nav.navigationContext.addListener('didfocus', (nav)=>{
+      console.log(nav.target.currentRoute)
+      var route = nav.target.currentRoute;
       AppActions.updateRoute.defer(this.refs.nav.state.presentedIndex)
+      var routeName = route.id || route.name || (route.title && route.title.length ? route.title : false) || route.component.displayName;
+      Analytics.screen(routeName)
+      Mixpanel.track(`HO: On - ${routeName} Screen`);
+
     })
     // NotificationActions.scheduleNewPotentialsAlert.defer()
       // AppActions.sendTelemetry(this.props.user)
@@ -107,7 +113,6 @@ class Main extends Component{
   selectScene(route, navigator){
     const RouteComponent = route.component;
     var navBar;
-    Mixpanel.track(`HO: On - ${route.id || route.component.displayName} Screen`);
     if(!route ){
       route = ROUTE_STACK[0]
     }

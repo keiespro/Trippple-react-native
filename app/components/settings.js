@@ -86,6 +86,7 @@ class SettingsInside extends React.Component{
   _pressNewImage(){
     this.props.navigator.push({
       component: this.props.user.relationship_status == 'single' ? SelfImage : CoupleImage,
+      name: this.props.user.relationship_status == 'single' ? 'SelfImage' : 'CoupleImage',
       sceneConfig: Navigator.SceneConfigs.FloatFromRight,
       passProps: {
         user: this.props.user,
@@ -95,6 +96,7 @@ class SettingsInside extends React.Component{
   showPartnerMissingModal(){
     this.props.navigator.push({
       component: PartnerMissingModal,
+      name: 'PartnerMissingModal',
       passProps: {
         nameOfDeniedAction: `view your couple profile `,
         goBack: () => {this.props.navigator.pop() },
@@ -133,6 +135,7 @@ class SettingsInside extends React.Component{
 
       this.props.navigator.push({
         component: UserProfile,
+        name: 'User Profile',
         sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
         passProps: {
           potential
@@ -166,6 +169,8 @@ class SettingsInside extends React.Component{
       thumbSrc = user.thumb_url;
     }
 
+    thumbSrc = user.thumb_url;
+    src = thumbSrc;// temp
 
 
     if(user.relationship_status == 'couple'){
