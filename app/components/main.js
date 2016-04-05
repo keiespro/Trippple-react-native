@@ -50,7 +50,6 @@ class Main extends Component{
   componentDidMount(){
     Mixpanel.auth(this.props.user.id+'');
     this.refs.nav.navigationContext.addListener('didfocus', (nav)=>{
-      console.log(nav.target.currentRoute)
       var route = nav.target.currentRoute;
       AppActions.updateRoute.defer(this.refs.nav.state.presentedIndex)
       var routeName = route.id || route.name || (route.title && route.title.length ? route.title : false) || route.component.displayName;

@@ -38,7 +38,7 @@ class BdayScreen extends Component{
   constructor(props){
     super();
     var savedBday = props.userInfo.birthday;
-    console.log(savedBday)
+    // console.log(savedBday)
     let date = moment().subtract(18,'years').toDate();
     if(!savedBday && props.fb_bday_year){
       date.setYear(props.fb_bday_year)

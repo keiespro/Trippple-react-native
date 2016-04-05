@@ -317,7 +317,6 @@ class CameraRollView extends Component{
   }
 
   _appendAssets(data){
-    console.log(data);
     var assets = data.edges;
     var newState = { loadingMore: false };
 

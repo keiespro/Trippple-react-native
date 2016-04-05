@@ -118,19 +118,9 @@ class EditImageThumb extends Component{
 
           if(this.props.alsoUpload.isFB){
 
-
-
-
-              console.log(this.props.alsoUpload.image)
               UserActions.updateLocally({image_url:  this.props.alsoUpload.image,localUserImage: {uri: this.props.alsoUpload.image} })
               UserActions.uploadImage(this.props.alsoUpload.image,( this.props.alsoUpload.image_type == 'couple_profile' ? 'couple_profile' : 'profile'))
-            //
-            //
-            // }, (err) =>{
-            //   console.log("ERR",err);
               this.proceed()
-            //
-            // })
          }else{
            var itype = 'profile';
            if(this.props.alsoUpload.image_type && this.props.alsoUpload.image_type.length > 0){
@@ -152,7 +142,7 @@ class EditImageThumb extends Component{
 
       }, (err) =>{
 
-console.log("ERR",err);
+
        })
   }
 

@@ -44,7 +44,6 @@ class Boot extends React.Component{
 
     TouchID.authenticate('Access Trippple')
       .then(success => {
-        console.log(success)
         this.setState({
           lockFailed: false,
           isLocked: false

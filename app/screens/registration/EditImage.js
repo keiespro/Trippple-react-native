@@ -96,7 +96,6 @@ class EditImage extends Component{
 
       RNFS.downloadFile(this.props.image.uri,RNFS.DocumentDirectoryPath+'/x.jpg').then((f,g)=>{
 
-        console.log(f,g)
         this.props.navigator.push({
          component:  nextRoute,
          name:'EditImageThumb',
@@ -106,7 +105,10 @@ class EditImage extends Component{
            image_type: this.props.image_type
          }
        })
-     }).catch((errr)=>{console.log(errr)})
+     }).catch((err)=>{
+       //console.log(err)
+       Analytics.err(err)
+     })
    }else if(alsoUpload && this.props.image.uri && (!this.props.image.uri.indexOf('http') || this.props.image.uri.indexOf('http') < 0)){
 
        this.props.navigator.push({

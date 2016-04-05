@@ -92,7 +92,6 @@ class FacebookButton extends React.Component{
     // return
     if( !this.state.fbUser){
       FBLoginManager.getCredentials((error, data)=>{
-        console.log(error,data)
 
         if (!error) {
           this.setState({ fbUser : data.credentials });
@@ -123,10 +122,8 @@ class FacebookButton extends React.Component{
 
     if(true){
       // FBLoginManager.login(  (error, data) => {
-      //   console.log(error,data)
       try{
             FBLoginManager.loginWithPermissions(["email","public_profile","user_friends","user_photos"],  (error, data) => {
-              console.log(error,data)
               if (!error && data) {
 
               this.setState({ fbUser : data.credentials});
@@ -143,7 +140,6 @@ class FacebookButton extends React.Component{
 
         // });
       }catch(err){
-        console.log(err)
         Analytics.err(err)
         AlertIOS.alert(
             'Error',
@@ -157,7 +153,6 @@ class FacebookButton extends React.Component{
 
     }else{
       FBLoginManager.login(  (error, data) => {
-        console.log(error,data)
         if (!error && data) {
           this.setState({ fbUser : data.credentials});
           UserActions.updateUser({

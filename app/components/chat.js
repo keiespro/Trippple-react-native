@@ -337,7 +337,7 @@ class ChatInside extends Component{
   }
 
   resetKeyboardSpace(frames) {
-    console.log(frames);
+    // console.log(frames);
     var h = frames.startCoordinates && frames.startCoordinates.screenY - frames.endCoordinates.screenY || frames.end && frames.end.height;
     if( h == this.state.keyboardSpace){ return false }
     this.setState({

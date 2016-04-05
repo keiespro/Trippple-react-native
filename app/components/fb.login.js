@@ -40,7 +40,7 @@ var ProfilePhoto = React.createClass({
 
   componentDidMount(){
     var {fbUser} = this.props;
-    console.log(fbUser)
+    // console.log(fbUser)
     var api = `https://graph.facebook.com/v2.3/${fbUser.userId}/picture?width=${FB_PHOTO_WIDTH}&redirect=false&access_token=${fbUser.token}`;
 
 
@@ -93,7 +93,7 @@ var ProfileInfo = React.createClass({
 
   componentWillMount(){
     var fbUser = this.props.fbUser;
-    console.log(fbUser)
+    // console.log(fbUser)
     var api = `https://graph.facebook.com/v2.3/${fbUser.userId}?fields=name,email&access_token=${fbUser.token}`;
 
 
@@ -130,7 +130,7 @@ var AlbumView = React.createClass({
 
 
   selectPhoto(photo) {
-    console.log(photo)
+    // console.log(photo)
     var {navigator,route,image_type,nextRoute,afterNextRoute} = this.props;
     if(nextRoute){
 
@@ -222,7 +222,7 @@ var PhotoAlbums = React.createClass({
     fbUser: React.PropTypes.object.isRequired,
   },
   selectPhoto(photo) {
-    console.log(photo)
+    // console.log(photo)
     var {navigator,route,image_type,nextRoute,afterNextRoute} = this.props;
     if(nextRoute){
 
@@ -271,7 +271,7 @@ var PhotoAlbums = React.createClass({
 
   fetchAlbums() {
     var fbUser = this.props.fbUser;
-    console.log(fbUser)
+    // console.log(fbUser)
     var api = `https://graph.facebook.com/v2.3/${fbUser.userId}/albums?redirect=false&access_token=${fbUser.token}`;
 
 
@@ -281,7 +281,7 @@ var PhotoAlbums = React.createClass({
         var albums = responseData.data;
         var total_found = albums.length;
         var count = 0;
-        console.log(responseData)
+        // console.log(responseData)
         if (albums && albums.length) {
           for (var i in albums) {
             ((x) => {
@@ -310,7 +310,7 @@ var PhotoAlbums = React.createClass({
           fetch(endpoint)
           .then((response) => response.json())
           .then((responseData) => {
-            console.log(responseData)
+            // console.log(responseData)
             this.selectPhoto({source:responseData.data.url})
 
           })
@@ -332,7 +332,7 @@ var PhotoAlbums = React.createClass({
   },
   fetchAlbumPhotos(album) {
     var fbUser = this.props.fbUser;
-    console.log(fbUser)
+    // console.log(fbUser)
     var api = 'https://graph.facebook.com/v2.3/' + album.id + '/photos?redirect=false&access_token=' + fbUser.token;
 
 
