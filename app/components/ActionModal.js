@@ -58,7 +58,7 @@ class ActionModal extends Component{
 
     const MatchUserAsPotential = {
       user: them[0],
-      partner: them[1] || null
+      partner: them[1] || {}
     }
 
     this.props.navigator.push({

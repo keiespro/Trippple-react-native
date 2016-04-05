@@ -64,7 +64,7 @@ class UserProfile extends React.Component{
       city = potential.user.city_state || '';
   const rel = this.props.rel || this.props.user.relationship_status;
 
-  if(rel == 'couple') {
+  if(rel == 'single') {
     matchName += ' & ' + potential.partner.firstname.trim()
   }
 
@@ -103,7 +103,7 @@ class UserProfile extends React.Component{
               position:'relative',
             }} ref={"incard"}>
 
-            {rel == 'couple' ? <Swiper
+            {rel == 'single' ? <Swiper
             _key={`${potential.id || potential.user.id}-swiper`}
             loop={true}
             width={DeviceWidth}
@@ -131,7 +131,7 @@ class UserProfile extends React.Component{
                   }]}
                   />
 
-            {rel == 'couple' && potential.partner &&
+                {rel == 'single' && potential.partner &&
               <Image
                 resizeMode={Image.resizeMode.cover}
                 source={{uri: potential.partner.image_url}}
@@ -184,7 +184,7 @@ class UserProfile extends React.Component{
               </Text>*/}
             </View>
 
-          {rel == 'couple' &&
+          {rel == 'single' &&
             <View style={{
               height:60,
               top:-30,
