@@ -166,7 +166,7 @@ class UserProfile extends React.Component{
               flex:1,
               alignSelf:'stretch',
               width:DeviceWidth,
-              top:-250,
+              top:-100,
               alignItems:'stretch',
               left:0,
               right:0,
@@ -214,7 +214,7 @@ class UserProfile extends React.Component{
             {potential.bio || potential.user.bio ?
               <View style={{padding:0,margin:0,alignSelf:'flex-start'}}>
                 <Text style={[styles.cardBottomOtherText,{color:colors.white,marginBottom:15,marginLeft:0}]}>{
-                    rel =='single' ? `About Me` : `About Us`
+                    rel =='couple' ? `About Me` : `About Us`
                 }</Text>
                 <Text style={{color:colors.white,fontSize:18,marginBottom:15}}>{
                     potential.bio || potential.user.bio
@@ -222,14 +222,14 @@ class UserProfile extends React.Component{
               </View> : null}
               </View>
               <View style={{ paddingVertical:20,alignItems:'stretch' }}>
-                <UserDetails potential={potential} user={this.props.user} location={'card'} />
+                <UserDetails potential={potential} user={this.props.user} location={'card'}  rel={this.props.rel}/>
               </View>
-              {potential.user.id != this.props.user.id ?
+              {/*potential.user.id != this.props.user.id ?
               <TouchableOpacity onPress={this.reportModal.bind(this)}>
                 <View style={{flex:1,marginTop:20}}>
                   <Text style={{color:colors.mandy,textAlign:'center'}}>Report or Block this user</Text>
                 </View>
-              </TouchableOpacity> : null }
+              </TouchableOpacity> : null */ }
 
 
           </View>

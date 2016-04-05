@@ -138,7 +138,8 @@ class SettingsInside extends React.Component{
         name: 'User Profile',
         sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
         passProps: {
-          potential
+          potential,
+          rel:this.props.user.relationship_status == 'couple' ? 'single' : 'couple'
         }
       });
     }

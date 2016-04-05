@@ -39,7 +39,7 @@ class UserDetails extends React.Component{
 
   render(){
     const {potential} = this.props;
-    const rel = this.props.user.relationship_status;
+    const rel = this.props.rel || this.props.user.relationship_status;
 
     return (
       <View>

@@ -46,7 +46,7 @@ export default class ReportModal extends Component{
     var them = [];
     if(this.props.match){
       const {match} = this.props
-      const theirIds = Object.keys(match.users).filter( (u)=> u != this.props.user.id)
+      const theirIds = Object.keys(match.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id)
        them = theirIds.map((id)=> match.users[id])
     }else{
       const {potential} = this.props;
