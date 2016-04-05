@@ -8,6 +8,7 @@ import React, {
   CameraRoll,
   Image,
   ListView,
+  AlertIOS,
   ScrollView,
   StyleSheet,
   View,
@@ -25,10 +26,11 @@ const DeviceWidth = Dimensions.get('window').width
 const ScrollViewPropTypes = ScrollView.propTypes;
 import EditImageThumb from '../screens/registration/EditImageThumb'
 import EditImage from '../screens/registration/EditImage'
+import Analytics from '../utils/Analytics'
+import AppInfo from 'react-native-app-info'
 
 
-const { RNAppInfo, ReactNativeAutoUpdater } = NativeModules;
-const VERSION = parseFloat(RNAppInfo.shortVersion);
+const {  ReactNativeAutoUpdater } = NativeModules;
 
 const propTypes = {
 
@@ -211,19 +213,23 @@ class CameraRollView extends Component{
     if (this.state.lastCursor) {
       fetchParams.after = this.state.lastCursor;
     }
-
-    if(VERSION < 2.1){
+    //
+    const VERSION = parseFloat(AppInfo.getInfoVersion());
+    if(AppInfo.getInfoVersion() == '2.1.0.4' || VERSION < 2.2){
       CameraRoll.getPhotos(fetchParams, this._appendAssets.bind(this), (err) => {
+        Analytics.err(err)
+
         __DEBUG__ && console.log(err)
       });
     }else{
       CameraRoll.getPhotos(fetchParams)
-      .then((data) =>{
-        this._appendAssets(data)
-      }).catch((err) => {
-        __DEBUG__ && console.log(err)
-      });
-    }
+        .then((data) =>{
+          this._appendAssets(data)
+        }).catch((err) => {
+          Analytics.err(err)
+          __DEBUG__ && console.log(err)
+        });
+      }
   }
 
   /**

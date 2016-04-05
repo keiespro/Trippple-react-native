@@ -63,15 +63,17 @@ const MIXPANEL_TOKEN = '39438c7679290b25ea2dbb0b2aa5714f'
 
     __DEV__ && console.log(`Screen: ${screen}`)
     GoogleAnalytics.trackScreenView(screen);
-    Mixpanel.track(screen);
+    // Mixpanel.track(screen);
 
   }
 
   err(error){
     if(!Mixpanel || !GoogleAnalytics) return false;
-
+    if(!error || (error && error.error && !Object.keys(error.error).length) ||  (error && !Object.keys(error).length) ){
+      return;
+    }
     __DEV__ && console.log(error)
-    GoogleAnalytics.trackException(error.message || JSON.stringify(error), false);
+    GoogleAnalytics.trackException( JSON.stringify(error), false);
 
   }
   log(){
