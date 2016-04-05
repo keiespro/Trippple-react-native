@@ -59,7 +59,7 @@ export default class ReportModal extends Component{
 
         <View style={[styles.col,styles.fullWidth]}>
 
-          <View style={[styles.insidemodalwrapper,{justifyContent:'space-between'}]}>
+          <View style={[styles.insidemodalwrapper,{justifyContent:'space-between',flex:1}]}>
 
 
             <Text style={[styles.rowtext,styles.bigtext,{
@@ -67,7 +67,7 @@ export default class ReportModal extends Component{
               }]}>REPORT {matchName}</Text>
 
             <Text style={[styles.rowtext,styles.bigtext,{
-              fontSize:20,marginVertical:10,color: colors.shuttleGray,marginHorizontal:10
+              fontSize:20,marginVertical:10,color: colors.shuttleGray,marginHorizontal:0
               }]}>Is this person bothering you? Tell us what they did.</Text>
 
             <View style={{marginTop:30,alignSelf:'stretch'}}>

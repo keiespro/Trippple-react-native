@@ -8,7 +8,6 @@ import React, {
   CameraRoll,
   Image,
   ListView,
-  AlertIOS,
   ScrollView,
   StyleSheet,
   View,
@@ -20,17 +19,17 @@ import React, {
 import scrollable from 'react-native-scrollable-decorator';
 import OnboardingActions from '../flux/actions/OnboardingActions'
 import colors from '../utils/colors'
+import Analytics from '../utils/Analytics'
 import FakeNavBar from './FakeNavBar'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 const ScrollViewPropTypes = ScrollView.propTypes;
 import EditImageThumb from '../screens/registration/EditImageThumb'
 import EditImage from '../screens/registration/EditImage'
-import Analytics from '../utils/Analytics'
-import AppInfo from 'react-native-app-info'
 
 
-const {  ReactNativeAutoUpdater } = NativeModules;
+const { RNAppInfo, ReactNativeAutoUpdater } = NativeModules;
+const VERSION = parseFloat(RNAppInfo.shortVersion);
 
 const propTypes = {
 
@@ -213,23 +212,28 @@ class CameraRollView extends Component{
     if (this.state.lastCursor) {
       fetchParams.after = this.state.lastCursor;
     }
-    //
-    const VERSION = parseFloat(AppInfo.getInfoVersion());
-    if(AppInfo.getInfoVersion() == '2.1.0.4' || VERSION < 2.2){
-      CameraRoll.getPhotos(fetchParams, this._appendAssets.bind(this), (err) => {
-        Analytics.err(err)
+
+    if(VERSION < 2.2){
+      CameraRoll.getPhotos(fetchParams, (data)=> {this._appendAssets(data)}, (err) => {
 
         __DEBUG__ && console.log(err)
       });
     }else{
-      CameraRoll.getPhotos(fetchParams)
-        .then((data) =>{
+      var c = CameraRoll.getPhotos(fetchParams,(data)=> {this._appendAssets(data)}, (err) => {
+
+        __DEBUG__ && console.log(err)
+      })
+
+      if(c && typeof c.then == 'function'){
+
+        c.then((data) =>{
           this._appendAssets(data)
         }).catch((err) => {
-          Analytics.err(err)
+
           __DEBUG__ && console.log(err)
         });
       }
+    }
   }
 
   /**

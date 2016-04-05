@@ -171,7 +171,7 @@ class SettingsInside extends React.Component{
     }
 
     thumbSrc = user.thumb_url;
-    src = thumbSrc;// temp
+    src = user.image_url;// temp
 
 
     if(user.relationship_status == 'couple'){

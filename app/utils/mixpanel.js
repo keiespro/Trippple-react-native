@@ -1,11 +1,18 @@
-// import TrackEvt from
 import Arrows from "./Arrows";
 
-import Mixpanel from 'react-native-mixpanel'
+var Mixpanel = require('react-native-mixpanel')
+if(!Mixpanel){
+  Mixpanel = require('rn-redux-mixpanel')
+  var {TrackEvt} = Mixpanel;
+}else{
 
-function TrackEvt(name,event){
+}
+function Track(name,event){
   __DEV__ && console.log(name,event)
   Mixpanel.trackWithProperties(name, event)
+}
+if(!TrackEvt){
+  TrackEvt = Track;
 }
 //-this is Production App
 const TOKEN = 'f50df064bf21092e7394129ede26935b';

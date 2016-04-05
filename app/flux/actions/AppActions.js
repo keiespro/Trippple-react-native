@@ -28,6 +28,7 @@ class AppActions {
 
         RNFS.writeFile(path, (
 `FROM: [${screen}]
+JS_V: ${ACTUAL_VERSION}
 DATA:
 --------------${fileContents}`
         ))
@@ -102,10 +103,10 @@ DATA:
     };
   }
   screenshot(){
-
-    return (dispatch) => {
-      UIManager.takeSnapshot('window', {format: 'jpeg', quality: 0.8}).then((x)=>{dispatch(x)})
-    };
+    return {}
+    // return (dispatch) => {
+    //   // UIManager.takeSnapshot('window', {format: 'jpeg', quality: 0.8}).then((x)=>{dispatch(x)})
+    // };
   }
   async sendTelemetry(user){
 

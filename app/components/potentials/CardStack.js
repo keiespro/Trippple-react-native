@@ -114,6 +114,7 @@ class CardStack extends React.Component{
 
     const isCouple = this.props.user.relationship_status == 'couple'
     function isVertical(g){
+      console.log(g)
       return Math.abs(g.dx) > 0 && Math.abs(g.dy) < 5
     }
     this._panResponder = PanResponder.create({
@@ -259,7 +260,7 @@ class CardStack extends React.Component{
         //   }
         // })
         if(likeStatus){
-          console.log('ANAIMTED TIMING')
+
           Animated.timing(this.state.pan, {
             toValue,
             velocity:{x:parseInt(vx),y:parseInt(vy)},       // maintain gesture velocity

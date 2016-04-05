@@ -45,7 +45,7 @@ class PurpleModal extends Component{
     return (
       <View style={[{padding:0,backgroundColor: 'transparent',flex:1,position:'relative',justifyContent:'center',alignItems:'center',}]}>
 
-      <View style={[styles.col,{justifyContent:'center',alignItems:'center',backgroundColor: 'transparent',
+      <View style={[styles.col,{justifyContent:'center',alignItems:'stretch',backgroundColor: 'transparent',
       }]}>
 
         <View style={[styles.modalcontainer,{
@@ -62,4 +62,3 @@ class PurpleModal extends Component{
 }
 
 export default PurpleModal
-
