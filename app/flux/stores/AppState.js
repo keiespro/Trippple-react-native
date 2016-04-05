@@ -50,19 +50,21 @@ class AppStateStore {
 
 
     this.on('init', () => {
-      Analytics.log('INIT App State Store');
+      Analytics.all('INIT App State Store');
     });
 
     this.on('error', (err, payload, currentState) => {
-      Analytics.log('ERROR App State Store',err, payload, currentState);
+      Analytics.all('ERROR App State Store',err, payload, currentState);
+      Analytics.err({...err, payload})
+
     });
 
     this.on('bootstrap', (bootstrappedState) => {
-      Analytics.log('BOOTSTRAP App State Store',bootstrappedState);
+      Analytics.all('BOOTSTRAP App State Store',bootstrappedState);
     });
 
     this.on('afterEach', (x) => {
-      Analytics.log('AFTEREACH App State store', ...{...x});
+      Analytics.all('AFTEREACH App State store', ...{...x});
     });
 
   }

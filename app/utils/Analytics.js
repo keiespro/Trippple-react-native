@@ -77,6 +77,10 @@ const MIXPANEL_TOKEN = '39438c7679290b25ea2dbb0b2aa5714f'
   log(){
     __DEV__ && console.log({...arguments})
   }
+  all(){
+    __DEV__ && __DEBUG__ && console.log({...arguments})
+
+  }
 }
 
 export default new Analytics()

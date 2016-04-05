@@ -19,6 +19,8 @@ class NotificationActions {
         Api.updatePushToken(token)
         .then(()=> dispatch(token))
         .catch((err) => {
+          Analytics.err(err)
+
           dispatch({error: err})
         })
       })
@@ -101,6 +103,7 @@ class NotificationActions {
 
       }catch(err){
         // console.log(err)
+
         dispatch(err)
 
       }

@@ -43,19 +43,21 @@ class UserStore {
     });
 
     this.on('init', () => {
-      // Analytics.log('INIT USER store');
+      Analytics.all('INIT USER store');
     });
 
     this.on('error', (err, payload, currentState) => {
-      Analytics.log('ERROR USER store',err, payload, currentState);
+      Analytics.all('ERROR USER store',err, payload, currentState);
+      Analytics.err({...err, payload})
+
     });
 
     this.on('bootstrap', (bootstrappedState) => {
-      Analytics.log('BOOTSTRAP USER store',bootstrappedState);
+      Analytics.all('BOOTSTRAP USER store',bootstrappedState);
     });
 
     this.on('afterEach', (x) => {
-      // Analytics.log('AFTEREACH USER store', {...x});
+      Analytics.all('AFTEREACH USER store', {...x});
       this.save()
     });
 

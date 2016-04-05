@@ -59,9 +59,8 @@ class AppActions {
     try{
       const Telemetry = await AppTelemetry.getEncoded();
       return await Api.sendTelemetry(Telemetry)
-    }catch(error){
-      Analytics.log(error)
-      return (error)
+    }catch(err){
+      return (err)
     }
 
   }

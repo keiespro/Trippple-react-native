@@ -44,19 +44,21 @@ class MatchesStore {
     });
 
     this.on( 'init', () => {
-      Analytics.log( 'INIT matches store' );
+      Analytics.all( 'INIT matches store' );
     });
 
     this.on( 'error', ( err, payload, currentState ) => {
-      Analytics.log( 'ERROR matches store', err, payload, currentState );
+      Analytics.all( 'ERROR matches store', err, payload, currentState );
+      Analytics.err({...err, payload})
+
     });
 
     this.on( 'bootstrap', ( bootstrappedState ) => {
-      Analytics.log( 'BOOTSTRAP matches store', bootstrappedState );
+      Analytics.all( 'BOOTSTRAP matches store', bootstrappedState );
     });
 
     this.on( 'afterEach', ( x ) => {
-      Analytics.log( 'AFTEREACH Matches store', {...x });
+      Analytics.all( 'AFTEREACH Matches store', {...x });
     });
 
   }

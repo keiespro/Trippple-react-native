@@ -26,7 +26,9 @@ class OnboardingStore {
 
     this.on('init', () => {/*noop*/})
     this.on('error', (err, payload, currentState) => {
-        Analytics.log('ERROR Onboarding', err, payload, currentState);
+        Analytics.all('ERROR Onboarding', err, payload, currentState);
+        Analytics.err({...err, payload})
+
     })
 
   }

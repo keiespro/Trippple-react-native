@@ -36,19 +36,21 @@ class NotificationsStore {
 
 
     this.on('init', () => {
-      Analytics.log('INIT NotificationsStore');
+      Analytics.all('INIT NotificationsStore');
     });
 
     this.on('error', (err, payload, currentState) => {
-      Analytics.log('ERROR NotificationsStore',err, payload, currentState);
+      Analytics.all('ERROR NotificationsStore',err, payload, currentState);
+      Analytics.err({...err, payload})
+
     });
 
     this.on('bootstrap', (bootstrappedState) => {
-      Analytics.log('BOOTSTRAP NotificationsStore',bootstrappedState);
+      Analytics.all('BOOTSTRAP NotificationsStore',bootstrappedState);
     });
 
     this.on('afterEach', (x) => {
-      Analytics.log('AFTEREACH notifications store', {...x});
+      Analytics.all('AFTEREACH notifications store', {...x});
     });
   }
 

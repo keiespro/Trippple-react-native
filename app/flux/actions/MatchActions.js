@@ -1,6 +1,7 @@
 import alt from '../alt';
 import Api from '../../utils/api';
 import { AlertIOS } from 'react-native'
+import Analytics from '../../utils/Analytics'
 
 class MatchActions {
 
@@ -142,11 +143,9 @@ class MatchActions {
       .then((res)=>{
           dispatch({likedUserID,likeStatus});
       })
-      .catch((x)=>{
-        Analytics.log('like error',x,likedUserID, likeStatus, likeUserType, rel_status);
+      .catch((err)=>{
         this.removePotential.defer();
-
-        dispatch(x)
+        dispatch(err)
       })
     };
   }
