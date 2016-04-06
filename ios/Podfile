@@ -1,4 +1,3 @@
-pod 'Mixpanel'
-target "Tripppletest" do
-  pod 'FBSnapshotTestCase'
+target 'Trippple' do
+  pod 'Mixpanel'
 end
