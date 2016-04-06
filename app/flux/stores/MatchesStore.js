@@ -170,7 +170,9 @@ class MatchesStore {
 
       if ( !Object.keys( this.state.matches ).length ) {
         // first batch of matches
-        const matchesHash = matches.reduce( ( acc, el, i ) => {
+
+        var m = orderMatches( matches )
+        const matchesHash = m.reduce( ( acc, el, i ) => {
           el.lastAccessed = this.state.mountedAt
           if(i<4){MatchActions.getMessages.defer(el.match_id);}
 
@@ -189,7 +191,7 @@ class MatchesStore {
 
             if (el.unread == 0 && el.recent_message && el.recent_message.from_user_info && el.recent_message.from_user_info.id && (el.recent_message.from_user_info.id != user.id && ( el.recent_message.created_timestamp * 1000 > el.lastAccessed )) ){
               el.unread = 1;
-              console.log('UNREAD - ',el.recent_message.created_timestamp * 1000,el.lastAccessed)
+              // console.log('UNREAD - ',el.recent_message.created_timestamp * 1000,el.lastAccessed)
 
             }
           }else{
@@ -197,7 +199,7 @@ class MatchesStore {
             if (el.unread == 0 && el.recent_message && el.recent_message.from_user_info && el.recent_message.from_user_info.id && (el.recent_message.from_user_info.id != user.id && ( el.recent_message.created_timestamp * 1000 > el.lastAccessed )) ){
               el.unread = 1;
 
-              console.log('UNREAD - ',el.recent_message.created_timestamp * 1000,el.lastAccessed)
+              // console.log('UNREAD - ',el.recent_message.created_timestamp * 1000,el.lastAccessed)
             }
           }
 
@@ -290,27 +292,24 @@ class MatchesStore {
     const {matches,newMatches} = s
     const m = matches[matchID] || newMatches[matchID]
 
-    console.log(matchID,matches,newMatches)
-
     return m
   }
 }
 
 function orderMatches( matches ) {
 
-  return matches.reverse()
-  // const sortableMatches = matches;
-  //
-  // return sortableMatches.sort( function( a, b ) {
-  //   const aTime = a.recent_message ? a.recent_message.created_timestamp : a.created_timestamp
-  //   const bTime = b.recent_message ? b.recent_message.created_timestamp : b.created_timestamp
-  //   if ( aTime < bTime ) {
-  //     return 1;
-  //   } else if ( aTime >= bTime ) {
-  //     return -1;
-  //   }
-  //   return 0;
-  // });
+  const sortableMatches = matches;
+
+  return sortableMatches.sort( function( a, b ) {
+    const aTime = a.recent_message && a.recent_message.created_timestamp
+    const bTime = b.recent_message && b.recent_message.created_timestamp
+    if ( aTime < bTime ) {
+      return 1;
+    } else if ( aTime >= bTime ) {
+      return -1;
+    }
+    return 0;
+  });
 
 }
 

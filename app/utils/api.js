@@ -31,7 +31,7 @@ async function baseRequest(endpoint='': String, payload={}: Object){
   try{
     __DEBUG__ && console.log(res)
 
-    if(res.status == 504 || res.status == 502 || res.status == 404){
+    if(res.status == 504 || res.status == 502){
       __DEBUG__ && console.log('show maint')
       AppActions.showMaintenanceScreen();
       throw new Error('Server down')

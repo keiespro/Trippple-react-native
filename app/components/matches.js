@@ -197,7 +197,7 @@ class MatchList extends Component{
             </View>
             <View style={styles.textwrap}>
               <Text style={[styles.text,styles.title]}>
-                {threadName}
+                {threadName /* + rowData.match_id */}
               </Text>
               <Text style={styles.text}>
                 {rowData.recent_message.message_body || 'New Match'}
@@ -240,7 +240,7 @@ class MatchList extends Component{
   }
 
   onEndReached(e){
-    console.log('END REACHED')
+    // console.log('END REACHED')
     const nextPage = this.props.matches.length / 20 + 1;
     if(this.state.fetching || nextPage === this.state.lastPage){ return false }
 
@@ -278,14 +278,13 @@ class MatchList extends Component{
 
             chatActionSheet={this.props.chatActionSheet}
             onEndReached={(e)=>{
-              console.log('END REACHED')
-              this.onEndReached()
+              this.onEndReached(e)
             }}
             onEndReachedThreshold={200}
             ref={component => this._listView = component}
             dataSource={this.props.dataSource}
             initialListSize={2}
-            style={{height:DeviceHeight-55,marginTop:55,overflow:'hidden'}}
+            style={{height:DeviceHeight-55,marginTop:55,overflow:'hidden',backgroundColor:colors.outerSpace}}
             scrollEnabled={this.state.scrollEnabled}
             directionalLockEnabled={true}
             removeClippedSubviews={true}
@@ -304,11 +303,15 @@ class MatchList extends Component{
               }
             renderRow={this._renderRow.bind(this)}
             renderHeader={()=>{
-              return <NewMatches
+              if(!this.props.newMatches || !Object.keys(this.props.newMatches).length){
+                return false;
+              }else{
+                return <NewMatches
                       user={this.props.user}
                       navigator={this.props.navigator}
                       newMatches={this.props.newMatches}
                       />
+              }
             }}
 
           />
@@ -461,76 +464,6 @@ class NoMatches extends Component{
   }
 }
 
-//
-// class NoFavorites extends Component{
-//
-//   render(){
-//     return (
-//
-//       <ScrollView
-//         contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth}}
-//         scrollEnabled={false}
-//         centerContent={true}
-//         style={{
-//         backgroundColor:colors.outerSpace,
-//         flex:1,
-//         alignSelf:'stretch',
-//         width:DeviceWidth}}
-//         >
-//         <FadeInContainer>
-//
-//           <View
-//             style={{
-//               flexDirection:'column',
-//               padding:20,
-//               justifyContent:'space-between',
-//               alignItems:'center',
-//               alignSelf:'stretch',
-//               paddingBottom:80,
-//             }}
-//             >
-//
-//             <Image
-//               style={{
-//                 width:175,
-//                 height: MagicNumbers.is4s ? 150 : 180,
-//                 marginBottom: MagicNumbers.is4s ? 20 : 40
-//               }}
-//               source={{uri: 'assets/iconPlaceholderFavs@3x.png'}}
-//               resizeMode={Image.resizeMode.contain}
-//             />
-//
-//             <Text
-//               style={{
-//                 color:colors.white,
-//                 fontSize:MagicNumbers.is4s ? 18 : 22,
-//                 fontFamily:'Montserrat-Bold',
-//                 textAlign:'center',
-//                 marginBottom:20
-//               }}
-//               >{
-//                 `YOUR FAVORITE PEOPLE`
-//               }
-//             </Text>
-//             <Text
-//               style={{
-//                 color:colors.shuttleGray,
-//                 fontSize: MagicNumbers.is4s ? 16 : 20,
-//                 fontFamily:'omnes',
-//                 textAlign:'center'
-//               }}
-//               >{
-//                 `Swipe left to add a match to your favorites for easy access`
-//               }
-//             </Text>
-//
-//           </View>
-//         </FadeInContainer>
-//
-//       </ScrollView>
-//     )
-//   }
-// }
 
 class NewMatches extends Component{
 
@@ -543,16 +476,15 @@ class NewMatches extends Component{
   render(){
     return (
       <View style={{height:120,backgroundColor:colors.dark,overflow:'hidden'}}>
-        <Text style={{color:colors.white,fontFamily:'omnes',marginLeft:10}}>NEW MATCHES</Text>
+        {/*<Text style={{color:colors.white,fontFamily:'omnes',marginLeft:10}}>NEW MATCHES</Text>*/}
 
       <ScrollView
-      contentContainerStyle={{backgroundColor:colors.dark}}
+      contentContainerStyle={{backgroundColor:colors.dark, height:120,alignItems:'center',justifyContent:'center'}}
       horizontal={true}
       vertical={false}
       style={{
         backgroundColor:colors.dark,
         flex:1,
-
         alignSelf:'stretch'
       }}
         >
