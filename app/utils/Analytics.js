@@ -7,13 +7,8 @@ import _ from 'lodash'
 const MIXPANEL_TOKEN = '39438c7679290b25ea2dbb0b2aa5714f'
 var GoogleAnalytics
 const VERSION = parseFloat(AppInfo.getInfoShortVersion());
-console.log('VERSION',VERSION)
-// if(VERSION > 42.1){
-//   GoogleAnalytics = require('react-native-google-analytics-bridge')
-//   GoogleAnalytics.setTrackerId('UA-49096214-2')
-// }else{
-//   GoogleAnalytics = null
-// }
+
+GoogleAnalytics = require('react-native-google-analytics-bridge')
 
 class Analytics{
   constructor(){

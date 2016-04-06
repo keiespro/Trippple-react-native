@@ -213,29 +213,20 @@ class CameraRollView extends Component{
       fetchParams.after = this.state.lastCursor;
     }
 
-    if(VERSION < 2.2){
 
-
-      CameraRoll.getPhotos(fetchParams, (data)=> {this._appendAssets(data)}, (err) => {
-
+    if(VERSION < 2.1){
+      CameraRoll.getPhotos(fetchParams, this._appendAssets.bind(this), (err) => {
         __DEBUG__ && console.log(err)
       });
     }else{
-      var c = CameraRoll.getPhotos(fetchParams,(data)=> {this._appendAssets(data)}, (err) => {
-
+      CameraRoll.getPhotos(fetchParams)
+      .then((data) =>{
+        this._appendAssets(data)
+      }).catch((err) => {
         __DEBUG__ && console.log(err)
-      })
-
-      if(c && typeof c.then == 'function'){
-
-        c.then((data) =>{
-          this._appendAssets(data)
-        }).catch((err) => {
-
-          __DEBUG__ && console.log(err)
-        });
-      }
+      });
     }
+    
   }
 
   /**

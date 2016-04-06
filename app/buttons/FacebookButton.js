@@ -121,7 +121,7 @@ class FacebookButton extends React.Component{
   handleLogin(){
 
     // if(true){
-      FBLoginManager.login(  (error, data) => {
+      FBLoginManager.loginWithPermissions(["email","user_photos","user_friends"],  (error, data) => {
               if (!error && data) {
 
               this.setState({ fbUser : data.credentials});

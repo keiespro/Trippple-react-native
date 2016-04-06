@@ -8,7 +8,6 @@ import Promise from 'bluebird'
 import Api from './utils/api'
 const { join, all } = Promise;
 
-const Geo = Promise.promisifyAll(navigator.geolocation)
 
 const { RNAppInfo,SettingsManager } = NativeModules
 

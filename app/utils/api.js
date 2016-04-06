@@ -9,7 +9,6 @@ import config from '../config'
 import deviceInfo from './DeviceInfo'
 
 const { FileTransfer, RNAppInfo, ReactNativeAutoUpdater } = NativeModules,
-      UploadFile = Promise.promisify(FileTransfer.upload),
       { SERVER_URL } = config;
 const VERSION = ReactNativeAutoUpdater.jsCodeVersion,
       iOSversion = RNAppInfo.getInfoiOS;
@@ -62,7 +61,7 @@ function authenticatedRequest(endpoint: '', payload: {}){
   return baseRequest(endpoint, authPayload)
 }
 
-async function authenticatedFileUpload(endpoint, image, image_type, cropData){
+ function authenticatedFileUpload(endpoint, image, image_type, cropData){
 
   const credentials = CredentialsStore.getState()
   const uploadUrl = `${SERVER_URL}/${endpoint}`
@@ -71,19 +70,33 @@ async function authenticatedFileUpload(endpoint, image, image_type, cropData){
   if(!image_type){
     image_type = 'avatar'
   }
-  const imgUpload = await UploadFile({
+  // const imgUpload = await UploadFile({
+  //   uri: uri,
+  //   uploadUrl: uploadUrl,
+  //   fileName: 'file.jpg',
+  //   mimeType:'jpeg',
+  //   data: { ...credentials, image_type, ...cropData }
+  // })
+  //
+  // try{
+  //   return await imgUpload
+  // }catch(err){
+  //   return err
+  // }
+
+  FileTransfer.upload({
     uri: uri,
     uploadUrl: uploadUrl,
     fileName: 'file.jpg',
     mimeType:'jpeg',
     data: { ...credentials, image_type, ...cropData }
-  })
-
-  try{
-    return await imgUpload
-  }catch(err){
+  },(imgUpload)=>{
+    return  imgUpload
+  },(err)=>{
     return err
-  }
+  });
+
+
 }
 
 

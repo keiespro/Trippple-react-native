@@ -1,7 +1,7 @@
 const APP_ENV = 'production';
 
-__DEBUG__ = true;
-__DEV__ = true;
+__DEBUG__ = false;
+__DEV__ = false;
 
 const configurations = {
 

@@ -3,7 +3,7 @@ const {WEBSOCKET_URL} = config;
 import React from 'react-native'
 import { Component, View, AlertIOS, AsyncStorage, AppStateIOS, PushNotificationIOS, VibrationIOS } from 'react-native'
 
-import io from 'socket.io-client/socket.io'
+import io from '../socket.io'
 
 // import Firebase from 'firebase'
 import NotificationActions from '../flux/actions/NotificationActions'
@@ -29,7 +29,8 @@ class NotificationCommander extends Component{
       notifications: [],
       processing:false,
     }
-    this.socket = io(WEBSOCKET_URL, {jsonp:false,transport:'ws'})
+    console.log('socket')
+    this.socket = io(WEBSOCKET_URL, {jsonp:false})
 
   }
 

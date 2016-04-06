@@ -207,7 +207,7 @@ class MatchesStore {
           return acc
         }, {})
 
-        allmatches = matchesHash;
+        allmatches = {...this.state.matches,...matchesHash};
       }
       this.setState({
         matches: allmatches,
