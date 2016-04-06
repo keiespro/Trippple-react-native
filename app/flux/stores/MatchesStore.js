@@ -16,6 +16,7 @@ class MatchesStore {
   constructor() {
     this.state = {
       matches: {},
+      newMatches:{},
       favorites: [],
       removedMatches:[],
       mountedAt: Date.now() - 36000 ,
@@ -23,6 +24,7 @@ class MatchesStore {
 
     this.exportPublicMethods({
       getAllMatches: this.getAllMatches,
+      getNewMatches: this.getNewMatches,
       getAllFavorites: this.getAllFavorites,
       getMatchInfo: this.getMatchInfo,
       getAnyUnread: this.getAnyUnread
@@ -31,6 +33,7 @@ class MatchesStore {
     this.bindListeners({
       handleGetFavorites: MatchActions.GET_FAVORITES,
       handleGetMatches: MatchActions.GET_MATCHES,
+      handleGetNewMatches: MatchActions.GET_NEW_MATCHES,
       handleReportUser: MatchActions.REPORT_USER,
       removeMatch: MatchActions.REMOVE_MATCH,
       toggleFavorite: MatchActions.TOGGLE_FAVORITE,
@@ -126,8 +129,8 @@ class MatchesStore {
     const m = this.state.matches[ match_id ];
     m.unread = 0;
     this.setState({
-        matches: {...this.state.matches, m }
-      })
+      matches: {...this.state.matches, m }
+    })
   }
 
   sendMessage( payload ) {
@@ -141,7 +144,22 @@ class MatchesStore {
   insertLocalMessage( payload ) {
     this.handleGetMatches( payload.matchesData )
   }
+  handleGetNewMatches(matchesData ) {
+    console.log('handleGetNewMatches',matchesData)
+    if ( !matchesData ) return false;
+    const {matches} = matchesData
+    const matchesHash = matches.reduce( ( acc, el, i ) => {
+      acc[ el.match_id ] = el;
+      return acc
+    }, {})
 
+
+    this.setState({
+      newMatches: matchesHash,
+    });
+
+
+  }
   handleGetMatches( matchesData ) {
     if ( !matchesData ) return false
     const { matches } = matchesData,
@@ -167,15 +185,19 @@ class MatchesStore {
         const matchesHash = matches.reduce( ( acc, el, i ) => {
           if(!this.state.matches[el.match_id] || this.state.matches[el.match_id].lastAccessed < this.state.matches[el.match_id].recent_message.created_timestamp * 1000){
 
-            MatchActions.getMessages.defer(el.match_id);
+            // MatchActions.getMessages.defer(el.match_id);
 
             if (el.unread == 0 && el.recent_message && el.recent_message.from_user_info && el.recent_message.from_user_info.id && (el.recent_message.from_user_info.id != user.id && ( el.recent_message.created_timestamp * 1000 > el.lastAccessed )) ){
-              el.unread = 1
+              el.unread = 1;
+              console.log('UNREAD - ',el.recent_message.created_timestamp * 1000,el.lastAccessed)
+
             }
           }else{
             el.unread = this.state.matches[el.match_id] ? this.state.matches[el.match_id].unread : 0;
             if (el.unread == 0 && el.recent_message && el.recent_message.from_user_info && el.recent_message.from_user_info.id && (el.recent_message.from_user_info.id != user.id && ( el.recent_message.created_timestamp * 1000 > el.lastAccessed )) ){
-              el.unread = 1
+              el.unread = 1;
+
+              console.log('UNREAD - ',el.recent_message.created_timestamp * 1000,el.lastAccessed)
             }
           }
 
@@ -207,7 +229,7 @@ class MatchesStore {
       matches[ match_id ].lastAccessed = 0
     }
 
-    let count =  0;
+    var count =  0;
     for ( var msg of message_thread ) {
       if ( msg.from_user_info.id == user.id || !msg.created_timestamp ) {return false;}
       if ( matches[ match_id ].lastAccessed < msg.created_timestamp * 1000 ) {
@@ -250,7 +272,13 @@ class MatchesStore {
     const ma2 = _.reject(matcharray, (m) =>{ return removedMatches.indexOf(m.match_id) >= 0 })
     return orderMatches( ma2 )
   }
+  getNewMatches(){
+    const matches = this.getState().newMatches || {};
+    // const matcharray = Object.keys( matches ).map( ( m, i ) => matches[ m ] )
+    // console.log(matcharray)
+    return matches
 
+  }
   getAllFavorites() {
 
     return []
@@ -258,26 +286,31 @@ class MatchesStore {
   }
 
   getMatchInfo( matchID ) {
+    const s = this.getState()
+    const {matches,newMatches} = s
+    const m = matches[matchID] || newMatches[matchID]
 
-    const m = this.getState().matches || {};
-    return m[ matchID ] || {};
+    console.log(matchID,matches,newMatches)
+
+    return m
   }
 }
 
 function orderMatches( matches ) {
 
-  const sortableMatches = matches;
-
-  return sortableMatches.sort( function( a, b ) {
-    const aTime = a.recent_message.created_timestamp || a.created_timestamp
-    const bTime = b.recent_message.created_timestamp || b.created_timestamp
-    if ( aTime < bTime ) {
-      return 1;
-    } else if ( aTime > bTime ) {
-      return -1;
-    }
-    return 0;
-  });
+  return matches.reverse()
+  // const sortableMatches = matches;
+  //
+  // return sortableMatches.sort( function( a, b ) {
+  //   const aTime = a.recent_message ? a.recent_message.created_timestamp : a.created_timestamp
+  //   const bTime = b.recent_message ? b.recent_message.created_timestamp : b.created_timestamp
+  //   if ( aTime < bTime ) {
+  //     return 1;
+  //   } else if ( aTime >= bTime ) {
+  //     return -1;
+  //   }
+  //   return 0;
+  // });
 
 }
 

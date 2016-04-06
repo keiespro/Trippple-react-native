@@ -110,6 +110,11 @@ const api = {
     return authenticatedRequest('getMatches', {page})
   },
 
+
+  getNewMatches(page){ //v2 endpoint
+    return authenticatedRequest('getNewMatches', {page})
+  },
+
   getFavorites(page){ //v2 endpoint
     return authenticatedRequest('getFavourites', {page})
   },

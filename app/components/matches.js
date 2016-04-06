@@ -78,7 +78,7 @@ class MatchList extends Component{
 
 
   _allowScroll(scrollEnabled){
-    var listref = this.state.index ? '_flistView' :  '_listView';
+    var listref =  '_listView';
     this[listref] && this[listref].refs.listviewscroll.refs.ScrollView.setNativeProps({ scrollEnabled })
   }
 
@@ -97,6 +97,7 @@ class MatchList extends Component{
     //   else {rows[i].active = true}
     // }
     // this._updateDataSource(rows)
+
   }
 
   toggleFavorite(rowData){
@@ -165,7 +166,7 @@ class MatchList extends Component{
         backgroundColor={colors.dark}
         rowID={rowID}
         sectionID={sectionID}
-        autoClose={false}
+        autoClose={true}
         scroll={this._allowScroll.bind(this)}
         onOpen={(sectionID_, rowID_) => {this._handleSwipeout(sectionID_, rowID_)}}
         >
@@ -239,11 +240,13 @@ class MatchList extends Component{
   }
 
   onEndReached(e){
+    console.log('END REACHED')
     const nextPage = this.props.matches.length / 20 + 1;
     if(this.state.fetching || nextPage === this.state.lastPage){ return false }
 
-    this.setState({lastPage: nextPage,
-        isRefreshing: false,
+    this.setState({
+      lastPage: nextPage,
+      isRefreshing: false,
     })
     MatchActions.getMatches(nextPage);
   }
@@ -268,72 +271,53 @@ class MatchList extends Component{
   render(){
     var isVisible = this.state.isVisible;
 
-    return (
-        <View style={[styles.container,{ }]}>
-          <View style={{height:0, }}>
 
-          <SegmentedView
-            style={{backgroundColor: colors.dark}}
-            barColor={colors.mediumPurple}
-            titles={['','']/*['ALL', 'FAVORITES']*/}
-            index={this.state.index}
-            titleStyle={{
-              fontFamily: 'Montserrat',
-              fontSize:15,
-              padding:5,
-              color:colors.shuttleGray
-            }}
-            selectedTitleStyle={{color:colors.white}}
-            stretch
-            onPress={this.segmentedViewPress.bind(this)}
-          />
-        </View>
-
-        {this.state.index == 0 ?
-          (this.props.matches.length > 0 ?
+    if(this.props.matches.length > 0){
+          return (
           <ListView
+
             chatActionSheet={this.props.chatActionSheet}
-            onEndReached={this.onEndReached.bind(this)}
+            onEndReached={(e)=>{
+              console.log('END REACHED')
+              this.onEndReached()
+            }}
+            onEndReachedThreshold={200}
             ref={component => this._listView = component}
             dataSource={this.props.dataSource}
-            initialListSize={8}
-            renderRow={this._renderRow.bind(this)}
-            renderScrollComponent={(props) => <ScrollView
-              scrollEnabled={this.state.scrollEnabled}
-              directionalLockEnabled={true}
-              removeClippedSubviews={true}
-              vertical={true}
-              contentOffset={{x:0,y:this.state.isRefreshing ? -50 : 0}}
-                  refreshControl={
-                    <RefreshControl
-                    refreshing={this.state.isRefreshing}
-                    onRefresh={this._onRefresh.bind(this)}
-                    tintColor={colors.sushi}
-                    colors={[colors.mediumPurple,colors.sushi]}
-                    progressBackgroundColor={colors.dark}
-                  />
-                }/>
-
-              }
-          /> :
-            <NoMatches/> ) :
-          (this.props.favorites.length > 0 ?
-          <ListView
+            initialListSize={2}
+            style={{height:DeviceHeight-55,marginTop:55,overflow:'hidden'}}
             scrollEnabled={this.state.scrollEnabled}
-            removeClippedSubviews={true}
             directionalLockEnabled={true}
+            removeClippedSubviews={true}
             vertical={true}
-            chatActionSheet={this.props.chatActionSheet}
-            ref={component => this._flistView = component}
-            dataSource={this.props.favDataSource}
+            scrollsToTop={true}
+
+            contentOffset={{x:0,y:this.state.isRefreshing ? -50 : 0}}
+                refreshControl={
+                  <RefreshControl
+                  refreshing={this.state.isRefreshing}
+                  onRefresh={this._onRefresh.bind(this)}
+                  tintColor={colors.sushi}
+                  colors={[colors.mediumPurple,colors.sushi]}
+                  progressBackgroundColor={colors.dark}
+                />
+              }
             renderRow={this._renderRow.bind(this)}
+            renderHeader={()=>{
+              return <NewMatches
+                      user={this.props.user}
+                      navigator={this.props.navigator}
+                      newMatches={this.props.newMatches}
+                      />
+            }}
 
-            /> :
-            <NoFavorites/>
-        )}
+          />
+      )
+      }else{
+        return <NoMatches/>
 
-        </View>
-    );
+      }
+
   }
 }
 
@@ -350,14 +334,14 @@ class MatchesInside extends Component{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    this.fds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    // this.fds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     this.state = {
       matches: props.matches,
       favorites: props.favorites,
       isVisible: false,
       dataSource: this.ds.cloneWithRows(props.matches),
-      favDataSource: this.fds.cloneWithRows(props.matches)
+      // favDataSource: this.fds.cloneWithRows(props.matches)
 
     }
   }
@@ -366,16 +350,16 @@ class MatchesInside extends Component{
     this.setState({
       matches: newProps.matches,
       dataSource: this.ds.cloneWithRows(newProps.matches),
-      favDataSource: this.ds.cloneWithRows(newProps.matches),
+      // favDataSource: this.ds.cloneWithRows(newProps.matches),
       favorites: newProps.favorites
     })
 
     if(newProps.matches[0]){
       this._updateDataSource(newProps.matches,'matches')
     }
-    if(newProps.favorites[0] ){
-      this._updateDataSource(newProps.matches,'favorites')
-    }
+    // if(newProps.favorites[0] ){
+    //   this._updateDataSource(newProps.matches,'favorites')
+    // }
 
   }
 
@@ -394,12 +378,9 @@ class MatchesInside extends Component{
   _updateDataSource(data,whichList) {
     // var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.match_id !== r2.match_id});
     if(data.length > 1){
-      const newState = (whichList == 'matches') ? {
+      const newState =  {
         matches: data,
         dataSource: this.ds.cloneWithRows(data || []),
-      } : {
-        favorites: data,
-        favDataSource: this.fds.cloneWithRows(data || []),
       };
       this.setState(newState)
     }
@@ -410,16 +391,15 @@ class MatchesInside extends Component{
       <MatchList
         user={this.props.user}
         dataSource={this.state.dataSource}
-        favDataSource={this.state.favDataSource}
         matches={this.state.matches || this.props.matches}
-        favorites={this.state.favorites || this.props.favorites}
+        newMatches={this.props.newMatches}
         updateDataSource={this._updateDataSource.bind(this)}
         id={"matcheslist"}
         chatActionSheet={this.props.chatActionSheet}
         navigator={this.props.navigator}
         route={{
           component: Matches,
-          title:'matches',
+          title:'Matches',
           id:'matcheslist',
         }}
         title={"matchlist"}
@@ -454,14 +434,14 @@ class NoMatches extends Component{
               style={{width:300,
                 height:MagicNumbers.is4s ? 70 : 100,
                 marginBottom:0 }}
-              source={{uri: 'assets/listing@3x.png'}}
+              source={{uri: 'listing@3x.png'}}
               resizeMode={Image.resizeMode.contain}
             />
             <Image
               style={{width:300,
                 height:MagicNumbers.is4s ? 70 : 100,
                 marginBottom:20 }}
-              source={{uri: 'assets/listing@3x.png'}}
+              source={{uri: 'listing@3x.png'}}
               resizeMode={Image.resizeMode.contain}
             />
             <Text style={{
@@ -481,77 +461,137 @@ class NoMatches extends Component{
   }
 }
 
+//
+// class NoFavorites extends Component{
+//
+//   render(){
+//     return (
+//
+//       <ScrollView
+//         contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth}}
+//         scrollEnabled={false}
+//         centerContent={true}
+//         style={{
+//         backgroundColor:colors.outerSpace,
+//         flex:1,
+//         alignSelf:'stretch',
+//         width:DeviceWidth}}
+//         >
+//         <FadeInContainer>
+//
+//           <View
+//             style={{
+//               flexDirection:'column',
+//               padding:20,
+//               justifyContent:'space-between',
+//               alignItems:'center',
+//               alignSelf:'stretch',
+//               paddingBottom:80,
+//             }}
+//             >
+//
+//             <Image
+//               style={{
+//                 width:175,
+//                 height: MagicNumbers.is4s ? 150 : 180,
+//                 marginBottom: MagicNumbers.is4s ? 20 : 40
+//               }}
+//               source={{uri: 'assets/iconPlaceholderFavs@3x.png'}}
+//               resizeMode={Image.resizeMode.contain}
+//             />
+//
+//             <Text
+//               style={{
+//                 color:colors.white,
+//                 fontSize:MagicNumbers.is4s ? 18 : 22,
+//                 fontFamily:'Montserrat-Bold',
+//                 textAlign:'center',
+//                 marginBottom:20
+//               }}
+//               >{
+//                 `YOUR FAVORITE PEOPLE`
+//               }
+//             </Text>
+//             <Text
+//               style={{
+//                 color:colors.shuttleGray,
+//                 fontSize: MagicNumbers.is4s ? 16 : 20,
+//                 fontFamily:'omnes',
+//                 textAlign:'center'
+//               }}
+//               >{
+//                 `Swipe left to add a match to your favorites for easy access`
+//               }
+//             </Text>
+//
+//           </View>
+//         </FadeInContainer>
+//
+//       </ScrollView>
+//     )
+//   }
+// }
 
-class NoFavorites extends Component{
+class NewMatches extends Component{
 
+  constructor(props) {
+    super();
+
+    this.state = {
+    }
+  }
   render(){
     return (
+      <View style={{height:120,backgroundColor:colors.dark,overflow:'hidden'}}>
+        <Text style={{color:colors.white,fontFamily:'omnes',marginLeft:10}}>NEW MATCHES</Text>
 
       <ScrollView
-        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth}}
-        scrollEnabled={false}
-        centerContent={true}
-        style={{
-        backgroundColor:colors.outerSpace,
+      contentContainerStyle={{backgroundColor:colors.dark}}
+      horizontal={true}
+      vertical={false}
+      style={{
+        backgroundColor:colors.dark,
         flex:1,
-        alignSelf:'stretch',
-        width:DeviceWidth}}
+
+        alignSelf:'stretch'
+      }}
         >
-        <FadeInContainer>
+        {Object.keys(this.props.newMatches).map((nm,i)=>{
+          let img = this.props.newMatches[nm].users[Object.keys(this.props.newMatches[nm].users)[2]].image_url;
+          return (
+            <View key={'newmatch'+i+nm} style={{height:80,width:80,margin:7}}>
+            <TouchableOpacity style={{borderRadius:45}}
+              onPress={(e) => {
+              this.props.navigator.push({
+                component: Chat,
+                id:'chat',
+                index: 3,
+                title: 'CHAT',
+                passProps:{
+                  index: 3,
+                  user:this.props.user,
+                  match_id: nm,
+                  navigator: this.props.navigator,
+                  matchInfo: this.props.newMatches[nm],
+                  currentMatch: this.props.newMatches[nm]
+                },
+                sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+              });
 
-          <View
-            style={{
-              flexDirection:'column',
-              padding:20,
-              justifyContent:'space-between',
-              alignItems:'center',
-              alignSelf:'stretch',
-              paddingBottom:80,
-            }}
-            >
-
-            <Image
-              style={{
-                width:175,
-                height: MagicNumbers.is4s ? 150 : 180,
-                marginBottom: MagicNumbers.is4s ? 20 : 40
-              }}
-              source={{uri: 'assets/iconPlaceholderFavs@3x.png'}}
-              resizeMode={Image.resizeMode.contain}
-            />
-
-            <Text
-              style={{
-                color:colors.white,
-                fontSize:MagicNumbers.is4s ? 18 : 22,
-                fontFamily:'Montserrat-Bold',
-                textAlign:'center',
-                marginBottom:20
-              }}
-              >{
-                `YOUR FAVORITE PEOPLE`
-              }
-            </Text>
-            <Text
-              style={{
-                color:colors.shuttleGray,
-                fontSize: MagicNumbers.is4s ? 16 : 20,
-                fontFamily:'omnes',
-                textAlign:'center'
-              }}
-              >{
-                `Swipe left to add a match to your favorites for easy access`
-              }
-            </Text>
-
-          </View>
-        </FadeInContainer>
-
+                }}>
+                <Image source={{uri:img}} defaultSource={{uri: 'assets/placeholderUser@3x.png'}} style={{height:80,width:80,borderRadius:40}}/>
+              </TouchableOpacity>
+            </View>
+          )
+        })}
       </ScrollView>
-    )
-  }
-}
+    </View>
 
+    )
+
+  }
+
+}
 class Matches extends Component{
 
   constructor(props) {
@@ -580,7 +620,7 @@ class Matches extends Component{
   }
 
   componentDidUpdate(){
-    // AppActions.saveStores.defer(2)
+    AppActions.saveStores.defer()
   }
   toggleModal(){
     this.setState({
@@ -597,11 +637,10 @@ class Matches extends Component{
           value: MatchesStore.getAllMatches()
         }
       },
-
-      favorites: (props) => {
+      newMatches: (props) => {
         return {
           store: MatchesStore,
-          value: MatchesStore.getAllFavorites()
+          value: MatchesStore.getNewMatches()
         }
       },
 
@@ -609,7 +648,6 @@ class Matches extends Component{
 
     return (
       <AltContainer stores={storesForMatches}>
-
         <MatchesInside {...this.props} chatActionSheet={this.chatActionSheet.bind(this)} />
 
           {this.props.navBar}
@@ -650,7 +688,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.dark,
     marginTop:54,
     flex: 1,
-    overflow:'hidden',
     height: DeviceHeight-55,
 
   },

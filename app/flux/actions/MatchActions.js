@@ -18,6 +18,22 @@ class MatchActions {
       Api.getMatches(page || 0)
         .then((res) => {
           dispatch({matches: res.response.length ? res.response : [], page: page || false});
+          this.getNewMatches.defer()
+
+        })
+        .catch((err) => {
+          dispatch({error: err})
+          this.getNewMatches.defer()
+
+        })
+    };
+
+  }
+  getNewMatches() {
+    return (dispatch) => {
+      Api.getNewMatches()
+        .then((res) => {
+          dispatch({matches: res.response.length ? res.response : []});
         })
         .catch((err) => {
           dispatch({error: err})

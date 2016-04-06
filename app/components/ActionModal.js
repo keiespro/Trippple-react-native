@@ -112,8 +112,6 @@ class ActionModal extends Component{
     var {isVisible} = this.props
     var theirIds = Object.keys(this.props.currentMatch.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id)
     var them = theirIds.map((id)=> this.props.currentMatch.users[id])
-    // console.log(them)
-    // console.warn('x',JSON.stringify(this.props.currentMatch));
     var img_url = them[0].thumb_url
     var  matchName
     if(this.props.user.relationship_status == 'couple'){

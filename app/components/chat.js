@@ -659,6 +659,7 @@ const Chat = React.createClass({
     // MatchActions.setAccessTime.defer({match_id:this.props.match_id,timestamp: Date.now()})
   },
   componentDidMount(){
+    console.log(this.props.match_id)
     MatchActions.getMessages(this.props.match_id)
 
     if(this.props.handle){

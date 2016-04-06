@@ -16,7 +16,7 @@ import React, {
   TouchableOpacity,
   Dimensions
 } from 'react-native'
-import scrollable from 'react-native-scrollable-decorator';
+
 import OnboardingActions from '../flux/actions/OnboardingActions'
 import colors from '../utils/colors'
 import Analytics from '../utils/Analytics'
@@ -214,6 +214,8 @@ class CameraRollView extends Component{
     }
 
     if(VERSION < 2.2){
+
+
       CameraRoll.getPhotos(fetchParams, (data)=> {this._appendAssets(data)}, (err) => {
 
         __DEBUG__ && console.log(err)
@@ -277,6 +279,7 @@ class CameraRollView extends Component{
           renderFooter={this._renderFooterSpinner}
           onEndReached={this._onEndReached.bind(this)}
           style={styles.container}
+          pageSize={12}
           contentContainerStyle={styles.scrollContent}
           dataSource={this.state.dataSource}
           />

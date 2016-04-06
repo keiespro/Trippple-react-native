@@ -1,16 +1,25 @@
 
 import Mixpanel from 'react-native-mixpanel'
 import mixpanel from './mixpanel'
-import GoogleAnalytics from 'react-native-google-analytics-bridge'
+import AppInfo from 'react-native-app-info'
+
 import _ from 'lodash'
 const MIXPANEL_TOKEN = '39438c7679290b25ea2dbb0b2aa5714f'
+var GoogleAnalytics
+const VERSION = parseFloat(AppInfo.getInfoShortVersion());
+console.log('VERSION',VERSION)
+// if(VERSION > 42.1){
+//   GoogleAnalytics = require('react-native-google-analytics-bridge')
+//   GoogleAnalytics.setTrackerId('UA-49096214-2')
+// }else{
+//   GoogleAnalytics = null
+// }
 
-
- class Analytics{
+class Analytics{
   constructor(){
 
 
-    if(!Mixpanel || !GoogleAnalytics) return false;
+    // if(!Mixpanel || !GoogleAnalytics) return false;
 
     // Mixpanel.registerSuperProperties({
     //
