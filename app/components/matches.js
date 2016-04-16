@@ -124,7 +124,7 @@ class MatchList extends Component{
     );
   }
   _renderRow(rowData, sectionID, rowID){
-    // console.log(rowData)
+    console.log(rowData)
 
     const myId = this.props.user.id,
         myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
@@ -147,45 +147,45 @@ class MatchList extends Component{
     return (
 
       <Swipeout
-        left={
-          [{
-            threshold: 200,
-            action: this.props.chatActionSheet.bind(this,rowData),
-            backgroundColor: colors.dark,
-          }]
-        }
-        right={
-          [{
-            threshold: 200,
-            component: true,
-            action: this.unmatch.bind(this,rowData),
-            backgroundColor: rowData.isFavourited ? colors.dandelion : colors.dark,
-          }]
-        }
-        rowData={rowData}
-        backgroundColor={colors.dark}
-        rowID={rowID}
-        sectionID={sectionID}
-        autoClose={true}
-        scroll={this._allowScroll.bind(this)}
-        onOpen={(sectionID_, rowID_) => {this._handleSwipeout(sectionID_, rowID_)}}
+      left={
+      [{
+        threshold: 200,
+        action: this.props.chatActionSheet.bind(this,rowData),
+        backgroundColor: colors.dark,
+      }]
+      }
+      right={
+      [{
+        threshold: 200,
+        component: true,
+        action: this.unmatch.bind(this,rowData),
+        backgroundColor: rowData.isFavourited ? colors.dandelion : colors.dark,
+      }]
+      }
+      rowData={rowData}
+      backgroundColor={colors.dark}
+      rowID={rowID}
+      sectionID={sectionID}
+      autoClose={true}
+      scroll={this._allowScroll.bind(this)}
+      onOpen={(sectionID_, rowID_) => {this._handleSwipeout(sectionID_, rowID_)}}
         >
 
-        <TouchableHighlight onPress={(e) => {
-            if(this.state.isVisible || !this.state.scrollEnabled){ return false}
-            this._pressRow(rowData.match_id);
-          }}
-            key={rowData.match_id+'match'}>
+      <TouchableHighlight onPress={(e) => {
+        if(this.state.isVisible || !this.state.scrollEnabled){ return false}
+        this._pressRow(rowData.match_id);
+      }}
+      key={rowData.match_id+'match'}>
 
-        <View>
-          <View style={styles.row}>
-            <View style={styles.thumbswrap}>
-               <Image
-                 key={'userimage'+rowID}
-                 style={styles.thumb}
-                 source={ {uri: matchImage}}
-                 resizeMode={Image.resizeMode.cover}
-                  defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+      <View>
+      <View style={styles.row}>
+      <View style={styles.thumbswrap}>
+      <Image
+      key={'userimage'+rowID}
+      style={styles.thumb}
+      source={ {uri: matchImage}}
+      resizeMode={Image.resizeMode.cover}
+      defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
                />
              {unread ?
                 <View style={styles.newMessageCount}>
@@ -283,7 +283,8 @@ class MatchList extends Component{
             onEndReachedThreshold={200}
             ref={component => this._listView = component}
             dataSource={this.props.dataSource}
-            initialListSize={2}
+            initialListSize={10}
+            pageSize={10}
             style={{height:DeviceHeight-55,marginTop:55,overflow:'hidden',backgroundColor:colors.outerSpace}}
             scrollEnabled={this.state.scrollEnabled}
             directionalLockEnabled={true}
@@ -419,7 +420,7 @@ class NoMatches extends Component{
   render(){
     return (
       <ScrollView
-        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth}}
+        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth, height:DeviceHeight}}
         scrollEnabled={false}
         centerContent={true}
         style={{
@@ -431,20 +432,20 @@ class NoMatches extends Component{
         >
         <FadeInContainer>
           <View
-            style={{flexDirection:'column',padding:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}
+            style={{          flex:1,flexDirection:'column',padding:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}
             >
             <Image
               style={{width:300,
                 height:MagicNumbers.is4s ? 70 : 100,
                 marginBottom:0 }}
-              source={{uri: 'listing@3x.png'}}
+              source={{uri: 'assets/listing@3x.png'}}
               resizeMode={Image.resizeMode.contain}
             />
             <Image
               style={{width:300,
                 height:MagicNumbers.is4s ? 70 : 100,
                 marginBottom:20 }}
-              source={{uri: 'listing@3x.png'}}
+              source={{uri: 'assets/listing@3x.png'}}
               resizeMode={Image.resizeMode.contain}
             />
             <Text style={{

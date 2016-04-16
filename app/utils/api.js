@@ -61,7 +61,7 @@ function authenticatedRequest(endpoint: '', payload: {}){
   return baseRequest(endpoint, authPayload)
 }
 
- function authenticatedFileUpload(endpoint, image, image_type, cropData){
+ function authenticatedFileUpload(endpoint, image, image_type, cropData,callback){
 
   const credentials = CredentialsStore.getState()
   const uploadUrl = `${SERVER_URL}/${endpoint}`
@@ -90,10 +90,9 @@ function authenticatedRequest(endpoint: '', payload: {}){
     fileName: 'file.jpg',
     mimeType:'jpeg',
     data: { ...credentials, image_type, ...cropData }
-  },(imgUpload)=>{
-    return  imgUpload
-  },(err)=>{
-    return err
+  },(err,imgUpload)=>{
+    console.log(err,imgUpload)
+    callback(err,imgUpload)
   });
 
 
@@ -120,6 +119,7 @@ const api = {
   },
 
   getMatches(page){ //v2 endpoint
+    console.log('get matches',page)
     return authenticatedRequest('getMatches', {page})
   },
 
@@ -178,18 +178,11 @@ const api = {
     return publicRequest('save_facebook_picture', photo);
   },
 
-  uploadImage(image, image_type, cropData): Promise{
+  uploadImage(image, image_type, cropData,callback){
     if(!image_type){
       image_type = 'profile'
     }
-    return authenticatedFileUpload('upload', image, image_type, cropData)
-            .then((res) => {
-              __DEBUG__ && console.log(res)
-                // res.json()
-            })
-            .catch((err) => {
-              __DEBUG__ && console.warn('upload err',{error: err})
-            })
+    return authenticatedFileUpload('upload', image, image_type, cropData,callback)
   },
 
   joinCouple(partner_phone): Promise{

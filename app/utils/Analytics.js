@@ -5,10 +5,10 @@ import AppInfo from 'react-native-app-info'
 
 import _ from 'lodash'
 const MIXPANEL_TOKEN = '39438c7679290b25ea2dbb0b2aa5714f'
-var GoogleAnalytics
+var GoogleAnalytics = require('react-native-google-analytics-bridge')
+
 const VERSION = parseFloat(AppInfo.getInfoShortVersion());
 
-GoogleAnalytics = require('react-native-google-analytics-bridge')
 
 class Analytics{
   constructor(){
@@ -27,7 +27,7 @@ class Analytics{
     if(!Mixpanel || !GoogleAnalytics) return false;
 
     GoogleAnalytics.setUser(userid);
-    // Mixpanel.identify(userid);
+    Mixpanel.identify(userid);
 
   }
 
@@ -58,7 +58,7 @@ class Analytics{
 
     GoogleAnalytics.trackEvent(eventName, action, {label, value});
 
-    // Mixpanel.trackWithProperties(eventName, eventData)
+    mixpanel.track(eventName, eventData)
 
   }
 
@@ -67,7 +67,7 @@ class Analytics{
 
     __DEV__ && console.log(`Screen: ${screen}`)
     GoogleAnalytics.trackScreenView(screen);
-    // Mixpanel.track(screen);
+    mixpanel.track(screen);
 
   }
 

@@ -17,13 +17,15 @@ class MatchActions {
     return (dispatch) => {
       Api.getMatches(page || 0)
         .then((res) => {
+          console.log(res)
           dispatch({matches: res.response.length ? res.response : [], page: page || false});
-          this.getNewMatches.defer()
+          // this.getNewMatches.defer()
 
         })
         .catch((err) => {
+          console.log(err)
           dispatch({error: err})
-          this.getNewMatches.defer()
+          // this.getNewMatches.defer()
 
         })
     };

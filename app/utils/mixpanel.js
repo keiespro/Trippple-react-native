@@ -1,19 +1,12 @@
 import Arrows from "./Arrows";
 
-var Mixpanel = require('react-native-mixpanel')
-if(!Mixpanel){
-  Mixpanel = require('rn-redux-mixpanel')
-  var {TrackEvt} = Mixpanel;
-}else{
+import Mixpanel from 'react-native-mixpanel'
 
-}
-function Track(name,event){
-  __DEV__ && console.log(name,event)
+function TrackEvt(name,event){
+  __DEV__ && console.log('Mixpanel - track', name,event)
   Mixpanel.trackWithProperties(name, event)
 }
-if(!TrackEvt){
-  TrackEvt = Track;
-}
+
 //-this is Production App
 const TOKEN = 'f50df064bf21092e7394129ede26935b';
 
@@ -93,14 +86,6 @@ export default {
     Mixpanel.identify(distinctId);
     _distinctId = distinctId;
     return this;
-    }
-     // track(eventName, eventData={}) {
-  //   //
-  //   // Object.keys(eventData).length ?
-  //   //   Mixpanel.trackWithProperties(eventName, eventData) :
-  //   //     Mixpanel.track(eventName);
-  // },
-  // auth(distinctId) {
-  //   // Mixpanel.identify(distinctId)
-  // }
+  }
+
 }

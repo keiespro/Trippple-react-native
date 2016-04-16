@@ -161,6 +161,7 @@ class MatchesStore {
 
   }
   handleGetMatches( matchesData ) {
+    console.log(matchesData)
     if ( !matchesData ) return false
     const { matches } = matchesData,
           user = UserStore.getUser();
@@ -268,6 +269,7 @@ class MatchesStore {
   }
 
   getAllMatches() {
+    console.log(this.getState().matches)
     const matches = this.getState().matches || {};
     const removedMatches = this.getState().removedMatches || [];
     const matcharray = Object.keys( matches ).map( ( m, i ) => matches[ m ] )
