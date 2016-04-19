@@ -23,17 +23,16 @@ class FadeInContainer extends Component{
     super()
     this.state = {
       shouldRenderChildren: props.delayRender ? false : true,
-      fadeAmount: new Animated.Value(0)
+      fadeAmount: new Animated.Value(0.0)
     }
   }
   componentDidMount(){
-
     Animated.timing( this.state.fadeAmount,
       {
-        toValue: 1,
-        duration: this.props.duration,
+        toValue: 1.0,
+        duration: this.props.duration || 500,
         delay: this.props.delayAmount || 0,
-        easing: Easing.in(Easing.ease)
+        // easing: Easing.in(Easing.ease)
       }
     ).start( () => {
       this.props.didShow && this.props.didShow()
@@ -47,13 +46,14 @@ class FadeInContainer extends Component{
   }
   render(){
       return (
-        <View><Animated.View style={{flex:1,opacity:this.state.fadeAmount,...this.props.style,alignSelf:'stretch'}}>
+
+      <Animated.View style={{flex:1,opacity:this.state.fadeAmount,...this.props.style,alignSelf:'stretch'}}>
           {this.state.shouldRenderChildren ? React.Children.map(this.props.children, (child) =>{
             return (
               React.cloneElement(child, {...this.props})
             )
           })  : <View/>}
-        </Animated.View></View>
+        </Animated.View>
       )
   }
 

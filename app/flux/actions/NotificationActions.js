@@ -5,7 +5,7 @@ import moment from 'moment'
 // import Promise from 'bluebird'
 import MatchActions from '../actions/MatchActions'
 import AppActions from '../actions/AppActions'
-import { AsyncStorage, PushNotificationIOS } from 'react-native'
+import { AsyncStorage, PushNotificationIOS, AlertIOS } from 'react-native'
 import Analytics from '../../utils/Analytics'
 const LAST_SCHEDULED_DATE = 'LAST_SCHEDULED_DATE';
 
@@ -52,10 +52,13 @@ class NotificationActions {
   }
 
   receiveNewMessageNotification(payload, isBackground) {
+
     return (dispatch) => {
       const { data } = payload;
       if(data.action === 'retrieve' && data.match_id) {
-        MatchActions.getMessages.defer(data.match_id)
+        MatchActions.getMatches.defer()
+        MatchActions.getMessages(data.match_id)
+
       }
       if(!isBackground){
         dispatch(payload)
@@ -69,7 +72,7 @@ class NotificationActions {
     return (dispatch) => {
       const { action } = payload;
       if(action === 'retrieve') {
-        MatchActions.getMatches()
+        MatchActions.getNewMatches()
       }
       if(!isBackground){
         dispatch(payload)

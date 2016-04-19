@@ -209,7 +209,9 @@ class ChatMessage extends React.Component {
   render() {
     const isMessageOurs = (this.props.messageData.from_user_info.id === this.props.user.id || this.props.messageData.from_user_info.id === this.props.user.partner_id);
     if(!isMessageOurs){
-      var {thumb_url,image_url} = this.props.messageData.from_user_info;
+      const {from_user_info} = this.props.messageData;
+
+      var {thumb_url,image_url} = from_user_info;
 
       /*
        * TODO:
@@ -452,9 +454,9 @@ class ChatInside extends Component{
 
   renderNoMessages(){
     const matchInfo = this.props.currentMatch,
-          theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id),
+          theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
           them = theirIds.map((id)=> matchInfo.users[id]),
-          chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },'')
+          chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '')  },'')
 
     return (
       <ScrollView
@@ -468,7 +470,7 @@ class ChatInside extends Component{
         onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
         style={{ backgroundColor:colors.outerSpace, flex:1, alignSelf:'stretch', width:DeviceWidth, height:DeviceHeight,paddingBottom:this.state.keyboardSpace}}
         >
-        <FadeInContainer delayRender={true} delayAmount={500} duration={1200} >
+
           <View style={{flexDirection:'column',justifyContent:'center',flex:1,height:DeviceHeight,paddingBottom:this.state.keyboardSpace,alignItems:'center',alignSelf:'stretch'}}>
           <View style={{width:DeviceWidth,alignSelf:'center',alignItems:'center',flexDirection:'column',justifyContent:'center',flex:1,}}>
           <Text style={{color:colors.white,fontSize:22,opacity:this.state.isKeyboardOpened ? 0 : 1,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{
@@ -486,7 +488,7 @@ class ChatInside extends Component{
 
 
             <Image
-              source={{uri:them[1].image_url}}
+              source={{uri:them[0].image_url}}
               style={this.getThumbSize()}
               defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
             />
@@ -496,16 +498,16 @@ class ChatInside extends Component{
           </View>
 
           </View>
-        </FadeInContainer>
+
       </ScrollView>
     )
   }
 
   render(){
     const matchInfo = this.props.currentMatch,
-        theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id),
+        theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
         them = theirIds.map((id)=> matchInfo.users[id]),
-        chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },'');
+        chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '')  },'');
 
     return (
       <View ref={'chatscroll'} style={[styles.chatInsideWrap,{paddingBottom:this.state.keyboardSpace}]}>
@@ -656,11 +658,10 @@ const Chat = React.createClass({
   },
   componentWillUnmount(){
     dismissKeyboard()
-    // MatchActions.setAccessTime.defer({match_id:this.props.match_id,timestamp: Date.now()})
+    MatchActions.setAccessTime({match_id:this.props.match_id,timestamp: Date.now()})
   },
   componentDidMount(){
-    console.log(this.props.match_id)
-    MatchActions.getMessages(this.props.match_id)
+
 
     if(this.props.handle){
       InteractionManager.clearInteractionHandle(this.props.handle)

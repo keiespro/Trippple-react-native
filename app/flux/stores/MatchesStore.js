@@ -112,14 +112,14 @@ class MatchesStore {
       timestamp
     } = payload;
     const m = this.state.matches[ match_id ]
-    m.lastAccessed = timestamp;//Date.now()
+    m.lastAccessed = timestamp || Date.now()
     m.unread = 0
     const matches = this.state.matches
     matches[ match_id ] = m
+    m.unread = 0;
 
     this.setState({
       matches
-
     })
   }
 
@@ -153,11 +153,9 @@ class MatchesStore {
       return acc
     }, {})
 
-
     this.setState({
       newMatches: matchesHash,
     });
-
 
   }
   handleGetMatches( matchesData ) {
@@ -175,7 +173,7 @@ class MatchesStore {
         var m = orderMatches( matches )
         const matchesHash = m.reduce( ( acc, el, i ) => {
           el.lastAccessed = this.state.mountedAt
-          if(i<4){MatchActions.getMessages.defer(el.match_id);}
+
 
           el.unread = 0; //el.recent_message.created_timestamp*1000 > el.lastAccessed ? 1 : 0;
 
@@ -235,12 +233,12 @@ class MatchesStore {
     var count =  0;
     for ( var msg of message_thread ) {
       if ( msg.from_user_info.id == user.id || !msg.created_timestamp ) {return false;}
-      if ( matches[ match_id ].lastAccessed < msg.created_timestamp * 1000 ) {
+      if ( matches[ match_id ].lastAccessed && matches[ match_id ].lastAccessed < msg.created_timestamp * 1000 ) {
         count++
       }
     }
 
-    if (count== 0 && matches[ match_id ].recent_message.from_user_info.id != user.id && count == 0 && matches[ match_id ].lastAccessed < matches[ match_id ].recent_message.created_timestamp * 1000 ) {
+    if (count== 0 && matches[ match_id ].recent_message.from_user_info.id != user.id && count == 0 &&  matches[ match_id ].lastAccessed && matches[ match_id ].lastAccessed < (matches[ match_id ].recent_message.created_timestamp * 1000) ) {
       count = 1
     }
     const thread = matches[ match_id ].message_thread || [];
@@ -256,7 +254,7 @@ class MatchesStore {
 
   handleGetFavorites( matchesData ) {
 
-    this.emitChange()
+    // this.emitChange()
 
   }
 
@@ -299,7 +297,6 @@ class MatchesStore {
 }
 
 function orderMatches( matches ) {
-
   const sortableMatches = matches;
 
   return sortableMatches.sort( function( a, b ) {

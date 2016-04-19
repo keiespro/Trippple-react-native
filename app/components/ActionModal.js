@@ -108,6 +108,7 @@ class ActionModal extends Component{
 
 
   render(){
+    console.log(this.props.currentMatch,'actionmodal')
     if(!this.props.currentMatch ){ return false;}
     var {isVisible} = this.props
     var theirIds = Object.keys(this.props.currentMatch.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id)
@@ -168,7 +169,14 @@ class ActualModal extends Component{
           onDismiss={()=>{
               this.props.toggleModal();
           }}>
+
           <View style={[styles.actionmodal]}>
+            <TouchableOpacity activeOpacity={0.5} onPress={this.props.toggleModal}
+             style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight,backgroundColor:'transparent'}]} >
+             <View/>
+           </TouchableOpacity>
+            <View style={[styles.insideactionmodal]}>
+
             <View style={[styles.userimageContainer,styles.blur]}>
               <Image
                 style={styles.userimage}
@@ -255,7 +263,7 @@ class ActualModal extends Component{
               </TouchableOpacity>
 
             </View>
-
+          </View>
           </View>
         </Modal>
       )
@@ -269,13 +277,22 @@ export default ActionModal;
 const styles = StyleSheet.create({
   actionmodal:{
     width:DeviceWidth,
-    backgroundColor: colors.outerSpace,
+    backgroundColor: 'transparent',
+    height:DeviceHeight,
     justifyContent:'flex-start',
     margin:0,
     position:'absolute',
     bottom:0,
-    padding:10,
+    top:0,
     overflow:'hidden'
+
+  },
+  insideactionmodal:{
+    backgroundColor: colors.outerSpace,
+    padding:10,
+    bottom:0,
+    position:'absolute',
+    width:DeviceWidth,
 
   },
   clearButton:{

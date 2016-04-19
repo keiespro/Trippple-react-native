@@ -175,7 +175,7 @@ class NotificationCommander extends Component{
 
     this.socket.on('system', (payload) => {
 
-      // AlertIOS.alert('alert',JSON.stringify(payload))
+
       Analytics.event('Webocket notification',{action: payload.data.action, label: 'system'})
 
       let tempData;
@@ -219,6 +219,7 @@ class NotificationCommander extends Component{
     })
 
     this.socket.on('chat', (payload) => {
+
 
       Analytics.event('Webocket notification',{action: 'New Message', label: 'chat'})
 

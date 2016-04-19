@@ -1,4 +1,6 @@
-import React, {AsyncStorage, Settings} from 'react-native'
+import React, {AsyncStorage, Settings, NativeModules} from 'react-native'
+const {ReactNativeAutoUpdater} = NativeModules
+
 import App from './components/app'
 import LoadingOverlay from './components/LoadingOverlay'
 import Keychain from 'react-native-keychain'
@@ -10,6 +12,7 @@ import Analytics from './utils/Analytics'
 import LockFailed from './LockFailed'
 const {KEYCHAIN_NAMESPACE} = config
 import AppActions from './flux/actions/AppActions'
+
 
 class Boot extends React.Component{
   constructor(props){
@@ -33,7 +36,7 @@ class Boot extends React.Component{
     .then((creds)=>{
       AppActions.gotCredentials(creds)
     }).then((creds)=>{
-      this.bootStrapData();
+      this.checkSettings();
     }).catch((err)=>{
       Analytics.err(err)
       this.setBooted()
@@ -63,6 +66,27 @@ class Boot extends React.Component{
   setBooted(){
     this.setState({booted:true})
 
+  }
+  checkSettings(){
+
+    const savedJSVersion = Settings.get('TeepyVersion');
+    const currentJSVersion = ReactNativeAutoUpdater.jsCodeVersion;
+
+    if(!savedJSVersion){
+      // Delete local storage data for matches to prepare app for distinct matches / new matches endpoint change
+      // and saved Settings.TeepyVersion for the first time
+
+      AsyncStorage.setItem('MatchesStore','{}')
+      .then(()=>{
+        Settings.set('TeepyVersion',currentJSVersion);
+        this.bootStrapData()
+      })
+      .catch((err)=>{
+        Analytics.err(err)
+        this.setBooted()
+
+      })
+    }
   }
   bootStrapData(){
 

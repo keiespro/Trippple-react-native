@@ -19,13 +19,13 @@ class MatchActions {
         .then((res) => {
           console.log(res)
           dispatch({matches: res.response.length ? res.response : [], page: page || false});
-          // this.getNewMatches.defer()
+          this.getNewMatches()
 
         })
         .catch((err) => {
           console.log(err)
           dispatch({error: err})
-          // this.getNewMatches.defer()
+          this.getNewMatches.defer()
 
         })
     };
@@ -48,6 +48,8 @@ class MatchActions {
   }
 
   getMessages(matchID, page) {
+
+
     return (dispatch) => {
       if(!matchID) {
         dispatch({messages: []})

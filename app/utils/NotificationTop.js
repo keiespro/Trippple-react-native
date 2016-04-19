@@ -31,46 +31,56 @@ class Notification extends React.Component{
       toValue: 0,
       duration: 200,
     }).start((fin)=>{})
+    // AlertIOS.alert('alert',JSON.stringify(this.props))
 
   }
 
   tapNotification(e){
 
+
     Animated.timing(this.state.yValue, {
       toValue: -220,
       duration: 100,
     }).start(()=>{
-      AppActions.updateRoute({route:'chat',match_id:this.props.payload.match_id,})
-      this.setState({tapped:true})
+      AppActions.updateRoute({notification:true,route:'chat',match_id:this.props.payload.match_id,})
+      // this.setState({tapped:true})
 
     })
 
-    NotificationActions.updateBadgeNumber.defer(-1)
+    // NotificationActions.updateBadgeNumber.defer(-1)
 
   }
 
   render(){
 
-    if(!this.props.payload) { return false  }
+
+    if(!this.props.payload) {
+
+       return false
+   }
 
     const { payload, user } = this.props;
-    if(!payload.users){ return false}
+
+
+    payload.data = payload['0'] ? payload['0'].data ? payload['0'].data : payload['0'] : null
+    if(!payload.users && (payload.data && !payload.data.users)){ return false}
     let myPartnerId;
     let theirIds;
     let them;
     let threadName;
     let matchName;
 
-    if(payload.type =='match'){
+
+    if(payload.type == 'match'){
        myPartnerId = user.relationship_status === 'couple' ? user.partner_id : null;
-       theirIds = Object.keys(payload.users).filter( (u)=> u != user.id);
+       theirIds = Object.keys(payload.users).filter( (u)=> u != user.id && u != user.partner_id);
        them = theirIds.map((id)=> payload.users[id]);
        threadName = them.map( (u,i) => u.firstname.trim() ).join(' & ');
        matchName = threadName + (theirIds.length > 1 ? ' like ' : ' likes ');
     }
-    if(!matchName || this.state.tapped){
-      return false
-    }
+    // if(!matchName || this.state.tapped){
+    //   return false
+    // }
     return (
       <Animated.View style={[styles.notificationWrapper,
         {
