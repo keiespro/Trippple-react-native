@@ -28,9 +28,10 @@ class OnboardingStore {
     this.on('error', (err, payload, currentState) => {
         Analytics.all('ERROR Onboarding', err, payload, currentState);
         Analytics.err({...err, payload})
-
     })
-
+    this.on('afterEach', (x) => {
+      Analytics.all('UPDATE Onboarding store', {...x});
+    });
   }
 
   handleGetUserInfo(res){

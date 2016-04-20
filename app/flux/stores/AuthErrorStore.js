@@ -21,13 +21,9 @@ class AuthErrorStore {
 
     });
 
-    this.on('bootstrap', (bootstrappedState) => {
-      Analytics.all('BOOTSTRAP AuthErrorStore',bootstrappedState);
-    });
+    // this.on('bootstrap', (bootstrappedState) => {    });
 
-    this.on('afterEach', (x) => {
-      Analytics.all('AFTEREACH AuthError Store ', {...x});
-    });
+    // this.on('afterEach', (x) => {    });
 
   }
 

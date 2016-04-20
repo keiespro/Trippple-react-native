@@ -23,15 +23,16 @@ async function baseRequest(endpoint='': String, payload={}: Object){
     },
     body: JSON.stringify(payload)
   }
-  __DEBUG__ && console.log(params)
+  __DEV__ && console.log(params)
 
   let res = await fetch( `${SERVER_URL}/${endpoint}`, params)
+  __DEV__ && console.log(res)
 
   try{
-    __DEBUG__ && console.log(res)
+    __DEV__ && console.log(res)
 
     if(res.status == 504 || res.status == 502){
-      __DEBUG__ && console.log('show maint')
+      __DEV__ && console.log('show maint')
       AppActions.showMaintenanceScreen();
       throw new Error('Server down')
 
@@ -39,13 +40,15 @@ async function baseRequest(endpoint='': String, payload={}: Object){
       throw new Error('Unauthorized')
     }
     if(!res.json){
-      __DEBUG__ && console.log('no res.json')
+      __DEV__ && console.log('no res.json')
     }
     let response = await res.json()
+    __DEV__ && console.log(response)
+
     response.res = res
     return response
   }catch(err){
-    __DEBUG__ && console.log('CAUGHT ERR',response,res,err)
+    __DEV__ && console.log('CAUGHT ERR',response,res,err)
 
     return {error: err, status: res.status}
   }
@@ -225,10 +228,10 @@ const api = {
         throw new Error('NO JSON')
       }
       let response = await res.json()
-      __DEBUG__ && console.log(response)
+      __DEV__ && console.log(response)
       return response
     }catch(err){
-      __DEBUG__ && console.error(err)
+      __DEV__ && console.error(err)
 
       return {error: err,status:res.status}
     }

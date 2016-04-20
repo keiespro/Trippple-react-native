@@ -62,11 +62,11 @@ class AppStateStore {
     });
 
     this.on('bootstrap', (bootstrappedState) => {
-      Analytics.all('BOOTSTRAP App State Store',bootstrappedState);
+      // Analytics.all('BOOTSTRAP App State Store',bootstrappedState);
     });
 
     this.on('afterEach', (x) => {
-      Analytics.all('AFTEREACH App State store', ...{...x});
+      Analytics.all('UPDATE App State store', {...x});
     });
 
   }

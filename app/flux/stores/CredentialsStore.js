@@ -30,7 +30,7 @@ class CredentialsStore {
     });
 
     this.on('afterEach', ({payload, state}) => {
-      Analytics.all('AFTEREACH Credentials store', {payload, state});
+      Analytics.all('UPDATE Credentials store', {payload, state});
     });
 
     this.bindListeners({

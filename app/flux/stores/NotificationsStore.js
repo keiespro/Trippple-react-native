@@ -47,12 +47,12 @@ class NotificationsStore {
 
     });
 
-    this.on('bootstrap', (bootstrappedState) => {
-      Analytics.all('BOOTSTRAP NotificationsStore',bootstrappedState);
-    });
+    // this.on('bootstrap', (bootstrappedState) => {
+    //   Analytics.all('BOOTSTRAP NotificationsStore',bootstrappedState);
+    // });
 
     this.on('afterEach', (x) => {
-      Analytics.all('AFTEREACH notifications store', {...x});
+      Analytics.all('UPDATE notifications store', {...x});
     });
   }
 

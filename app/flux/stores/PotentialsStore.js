@@ -38,7 +38,7 @@ class PotentialsStore {
     });
 
     this.on('afterEach', (x) => {
-      Analytics.all('AFTEREACH Potentials Store', {...x});
+      Analytics.all('UPDATE Potentials Store', {...x});
     });
 
     this.exportPublicMethods({

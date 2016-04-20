@@ -57,7 +57,7 @@ class UserStore {
     });
 
     this.on('afterEach', (x) => {
-      Analytics.all('AFTEREACH USER store', {...x});
+      Analytics.all('UPDATE USER store', {...x});
       this.save()
     });
 

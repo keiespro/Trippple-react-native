@@ -42,7 +42,7 @@ class ChatStore {
     });
 
     this.on('afterEach', (x) => {
-      Analytics.all('AFTEREACH Chat Store', {...x});
+      Analytics.all('UPDATE Chat Store', {...x});
     });
 
   }
