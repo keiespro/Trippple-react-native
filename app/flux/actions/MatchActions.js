@@ -1,6 +1,6 @@
 import alt from '../alt';
 import Api from '../../utils/api';
-import { AlertIOS } from 'react-native'
+import { AlertIOS, Alert } from 'react-native'
 import fakePotentials from '../../potentialsStub'
 import Analytics from '../../utils/Analytics'
 
@@ -17,13 +17,13 @@ class MatchActions {
     return (dispatch) => {
       Api.getMatches(page || 0)
         .then((res) => {
-          console.log(res)
+          __DEV__ && console.log(res)
           dispatch({matches: res.response.length ? res.response : [], page: page || false});
-          this.getNewMatches()
+          this.getNewMatches.defer()
 
         })
         .catch((err) => {
-          console.log(err)
+          __DEV__ && console.log(err)
           dispatch({error: err})
           this.getNewMatches.defer()
 
@@ -35,6 +35,7 @@ class MatchActions {
     return (dispatch) => {
       Api.getNewMatches()
         .then((res) => {
+          //console.log('newMatches ', res.response);
           dispatch({matches: res.response.length ? res.response : []});
         })
         .catch((err) => {

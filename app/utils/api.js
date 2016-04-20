@@ -91,7 +91,7 @@ function authenticatedRequest(endpoint: '', payload: {}){
     mimeType:'jpeg',
     data: { ...credentials, image_type, ...cropData }
   },(err,imgUpload)=>{
-    console.log(err,imgUpload)
+    __DEV__ && console.log(err,imgUpload)
     callback(err,imgUpload)
   });
 
@@ -119,7 +119,7 @@ const api = {
   },
 
   getMatches(page){ //v2 endpoint
-    console.log('get matches',page)
+    __DEV__ && console.log('get matches',page)
     return authenticatedRequest('getMatches', {page})
   },
 

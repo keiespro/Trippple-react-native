@@ -1,56 +1,51 @@
 /* @flow */
 
-
-import React from 'react-native'
-import {
-Component,
- StyleSheet,
- Text,
- Image,
- TouchableOpacity,
- View,
- TouchableHighlight,
- TextInput,
- PixelRatio,
- InteractionManager,
- ListView,
- Navigator,
- Dimensions,
- RefreshControl,
- Alert,
- ScrollView
+import React, {
+  Component,
+  StyleSheet,
+  Text,
+  Image,
+  TouchableOpacity,
+  View,
+  TouchableHighlight,
+  TextInput,
+  PixelRatio,
+  InteractionManager,
+  ListView,
+  Navigator,
+  Dimensions,
+  RefreshControl,
+  Alert,
+  ScrollView,
+  ActivityIndicatorIOS
 } from 'react-native'
 
 import colors from '../utils/colors'
 import ThreeDots from '../buttons/ThreeDots'
 import {MagicNumbers} from '../DeviceConfig'
-
-const DeviceHeight = Dimensions.get('window').height;
-const DeviceWidth = Dimensions.get('window').width;
-
 import ActionModal from './ActionModal'
-
 import _ from 'underscore'
 import alt from '../flux/alt'
 import Chat from './chat'
 import AppActions from '../flux/actions/AppActions'
 import MatchActions from '../flux/actions/MatchActions'
 import MatchesStore from '../flux/stores/MatchesStore'
-// import FavoritesStore from '../flux/stores/FavoritesStore'
 import Swipeout from './Swipeout'
-import Logger from '../utils/logger'
 import customSceneConfigs from '../utils/sceneConfigs'
 import SegmentedView from '../controls/SegmentedView'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin';
 import AltContainer from 'alt-container/native';
-
 import FakeNavBar from '../controls/FakeNavBar'
 import Mixpanel from '../utils/mixpanel'
 import FadeInContainer from './FadeInContainer'
 import { BlurView,VibrancyView} from 'react-native-blur'
-
 import UserProfile from './UserProfile'
+import NewMatches from './matches/NewMatches'
+import NoMatches from './matches/NoMatches'
+
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
 class MatchList extends Component{
 
@@ -64,40 +59,33 @@ class MatchList extends Component{
       isVisible:false,
       scrollEnabled: true,
       isRefreshing: false,
-
+      lastPage:0
     }
-
   }
 
   componentDidMount() {
     MatchActions.getMatches();
-    // MatchActions.getFavorites.defer();
-
     Mixpanel.track('On - Matches Screen');
   }
-
 
   _allowScroll(scrollEnabled){
     var listref =  '_listView';
     this[listref] && this[listref].refs.listviewscroll.refs.ScrollView.setNativeProps({ scrollEnabled })
   }
 
-  // shouldComponentUpdate =(nProps,nState)=> nProps.matches.length > this.props.matches.length
-
   _updateDataSource(data) {
     this.props.updateDataSource(data)
   }
 
-
-  //  set active swipeout item
   _handleSwipeout(sectionID, rowID) {
+
+    //TODO:
     // const rows = this.props.matches;
     // for (var i = 0; i < rows.length; i++) {
     //   if (i != rowID) { rows[i].active = false }
     //   else {rows[i].active = true}
     // }
     // this._updateDataSource(rows)
-
   }
 
   toggleFavorite(rowData){
@@ -105,11 +93,13 @@ class MatchList extends Component{
   }
 
   actionModal(match){
-      this.props.chatActionSheet(match)
+    this.props.chatActionSheet(match)
   }
+
   handleCancelUnmatch(rowData){
 
   }
+
   unmatch(rowData){
     Alert.alert(
       'Remove this match?',
@@ -123,105 +113,14 @@ class MatchList extends Component{
       ],
     );
   }
-  _renderRow(rowData, sectionID, rowID){
 
-
-    const myId = this.props.user.id,
-        myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
-    var theirIds = Object.keys(rowData.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id);
-    var them = theirIds.map((id)=> rowData.users[id]);
-    var threadName = them.map( (user,i) => user.firstname.trim() ).join(' & ');
-    var modalVisible = this.state.isVisible;
-
-    var thumb = them[0].thumb_url;
-      /*
-       * TODO:
-       * this deals with test bucket urls
-       * but not very maintainable
-       */
-       var matchImage = thumb
-
-
-    var unread = rowData.unread || 0;
-
-    return (
-
-      <Swipeout
-        left={
-          [{
-            threshold: 200,
-            action: ()=> this.props.chatActionSheet(rowData),
-            backgroundColor: colors.dark,
-          }]
-        }
-        right={
-          [{
-            threshold: 200,
-            component: true,
-            action: this.unmatch.bind(this,rowData),
-            backgroundColor: rowData.isFavourited ? colors.dandelion : colors.dark,
-          }]
-        }
-        rowData={rowData}
-        backgroundColor={colors.dark}
-        rowID={rowID}
-        sectionID={sectionID}
-        autoClose={true}
-        scroll={()=>{}}
-        onOpen={(sectionID_, rowID_) => {this._handleSwipeout(sectionID_, rowID_)}}
-        >
-      <TouchableHighlight
-        onPress={(e) => {
-          if(this.state.isVisible || !this.state.scrollEnabled){ return false}
-          this._pressRow(rowData.match_id);
-        }}
-        key={rowData.match_id+'match'}
-      >
-
-      <View>
-      <View style={styles.row}>
-        {/*<Text style={{color:'#fff'}}>{rowID  + ' - ' + rowData.match_id}</Text> DEBUG*/}
-     <View style={styles.thumbswrap}>
-      <Image
-      key={'userimage'+rowID}
-      style={styles.thumb}
-      source={ {uri: matchImage}}
-      resizeMode={Image.resizeMode.cover}
-      defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
-               />
-             {unread ?
-                <View style={styles.newMessageCount}>
-                 <Text style={{fontFamily:'Montserrat-Bold',color:colors.white,textAlign:'center',fontSize:14}}>{
-                   unread
-                 }</Text>
-               </View>
-               : null }
-            </View>
-            <View style={styles.textwrap}>
-              <Text style={[styles.text,styles.title]}>
-                {threadName}
-              </Text>
-              <Text style={styles.text}>
-                {rowData.recent_message.message_body || 'New Match'}
-              </Text>
-            </View>
-
-
-
-          </View>
-        </View>
-      </TouchableHighlight>
-    </Swipeout>
-
-    );
-  }
   _pressRow(match_id: number) {
-    // get messages from server and open chat view
-    // var handle = InteractionManager.createInteractionHandle();
-    //
-    // InteractionManager.runAfterInteractions(() => {
+    // TODO: test this InteractionManager out again
+    var handle = InteractionManager.createInteractionHandle();
+
+    InteractionManager.runAfterInteractions(() => {
       MatchActions.getMessages(match_id);
-    // })
+    })
 
     this.props.navigator.push({
       component: Chat,
@@ -229,27 +128,30 @@ class MatchList extends Component{
       index: 3,
       title: 'CHAT',
       passProps:{
-        // handle,
+        handle,
         index: 3,
         match_id: match_id,
         matchInfo: this.props.matches[0]
       },
       sceneConfig: Navigator.SceneConfigs.FloatFromRight,
     });
-
-
-
   }
 
   onEndReached(e){
-    // console.log('END REACHED')
     const nextPage = parseInt(this.props.matches.length / 20) + 1;
-    if(this.state.fetching || nextPage === this.state.lastPage){ return false }
+    if(this.state.fetching || nextPage == this.state.lastPage){ return false }
 
     this.setState({
       lastPage: nextPage,
       isRefreshing: false,
+      loadingMoreMatches: true
     })
+    this.setTimeout(()=>{
+      this.setState({
+        loadingMoreMatches:false
+      })
+    },3000);
+
     MatchActions.getMatches(nextPage);
   }
 
@@ -258,7 +160,6 @@ class MatchList extends Component{
       index: index == 0 ? 0 : 1
     })
   }
-
 
   _onRefresh() {
     this.setState({isRefreshing: true});
@@ -270,93 +171,137 @@ class MatchList extends Component{
     },3000);
   }
 
+  _renderRow(rowData, sectionID, rowID){
+    const myId = this.props.user.id;
+    const  myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
+    const  theirIds = Object.keys(rowData.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id);
+    const  them = theirIds.map((id)=> rowData.users[id]);
+    const  threadName = them.map( (user,i) => user.firstname.trim() ).join(' & ');
+    const  modalVisible = this.state.isVisible;
+    const  thumb = them[0].thumb_url;
+    const  matchImage = thumb
+    const  unread = rowData.unread || 0;
+    return (
+      <Swipeout
+        left={
+          [{
+            threshold: 150,
+            action: ()=> this.props.chatActionSheet(rowData),
+            backgroundColor: colors.dark,
+          }]
+          }
+          right={
+          [{
+            threshold: 150,
+            component: true,
+            action: this.unmatch.bind(this,rowData),
+            backgroundColor: rowData.isFavourited ? colors.dandelion : colors.dark,
+          }]
+        }
+        rowData={rowData}
+        backgroundColor={colors.dark}
+        rowID={rowID}
+        sectionID={sectionID}
+        autoClose={true}
+        scroll={(e)=>{console.log('swipeout scroll',e)}}
+        onOpen={(sectionID_, rowID_) => {this._handleSwipeout(sectionID_, rowID_)}}
+      >
+        <TouchableHighlight
+          onPress={(e) => {
+            if(this.state.isVisible || !this.state.scrollEnabled){ return false}
+            this._pressRow(rowData.match_id);
+          }}
+          key={rowData.match_id+'match'}
+        >
+          <View>
+            {__DEBUG__ && <Text style={{color:'#fff'}}>{
+              new Date(rowData.recent_message.created_timestamp*1000).toLocaleString()  + ' | match_id: ' + rowData.match_id
+            }</Text>}
+
+            <View style={styles.row}>
+              <View style={styles.thumbswrap}>
+                <Image
+                  key={'userimage'+rowID}
+                  style={styles.thumb}
+                  source={ {uri: matchImage}}
+                  resizeMode={Image.resizeMode.cover}
+                  defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+                />
+               {unread ?
+                  <View style={styles.newMessageCount}>
+                   <Text style={{fontFamily:'Montserrat-Bold',color:colors.white,textAlign:'center',fontSize:14}}>{
+                     unread
+                   }</Text>
+                 </View>
+                : null }
+              </View>
+              <View style={styles.textwrap}>
+                <Text style={[styles.text,styles.title]}>
+                  {threadName}
+                </Text>
+                <Text style={styles.text}>
+                  {rowData.recent_message.message_body || 'New Match'}
+                </Text>
+              </View>
+            </View>
+          </View>
+        </TouchableHighlight>
+      </Swipeout>
+
+    );
+  }
+
   render(){
     var isVisible = this.state.isVisible;
-    //
+    if(!this.props.matches.length && !this.props.newMatches.length){
+      return <NoMatches/>
+    }
     return (
-      <ListView
-        dataSource={this.props.dataSource}
-        chatActionSheet={this.props.chatActionSheet}
-        onEndReached={(e)=>{
-          this.onEndReached(e)
-        }}
-        onEndReachedThreshold={200}
-        ref={component => this._listView = component}
-
-        renderRow={this._renderRow.bind(this)}
-        style={{height:DeviceHeight-55,marginTop:55,overflow:'hidden',backgroundColor:colors.outerSpace}}
-        scrollEnabled={this.state.scrollEnabled}
-        directionalLockEnabled={true}
-        removeClippedSubviews={true}
-        vertical={true}
-        scrollsToTop={true}
-        contentOffset={{x:0,y:this.state.isRefreshing ? -50 : 0}}
-        renderHeader={()=>{
-          if(!this.props.newMatches || !Object.keys(this.props.newMatches).length){
-            return false;
-          }else{
-            return <NewMatches
+      <View>
+        <ListView
+          dataSource={this.props.dataSource}
+          chatActionSheet={this.props.chatActionSheet}
+          onEndReached={this.onEndReached.bind(this)}
+          onEndReachedThreshold={200}
+          ref={component => this._listView = component}
+          renderRow={this._renderRow.bind(this)}
+          style={{height:DeviceHeight-53,marginTop:53,overflow:'hidden',backgroundColor:colors.outerSpace}}
+          scrollEnabled={this.state.scrollEnabled}
+          directionalLockEnabled={true}
+          removeClippedSubviews={true}
+          vertical={true}
+          scrollsToTop={true}
+          contentOffset={{x:0,y:this.state.isRefreshing ? -50 : 0}}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.isRefreshing}
+              onRefresh={this._onRefresh.bind(this)}
+              tintColor={colors.sushi}
+              colors={[colors.mediumPurple,colors.sushi]}
+              progressBackgroundColor={colors.dark}
+            />
+          }
+          renderHeader={()=>{
+            if(!this.props.newMatches || !Object.keys(this.props.newMatches).length){
+              return false;
+            }else{
+              return (
+                <NewMatches
                   user={this.props.user}
                   navigator={this.props.navigator}
                   newMatches={this.props.newMatches}
-                  />
-          }
-        }}
-
-     />
-    )
-
-
-    if(this.props.matches.length > 0){
-          return (
-          <ListView
-
-            chatActionSheet={this.props.chatActionSheet}
-            onEndReached={(e)=>{
-              this.onEndReached(e)
-            }}
-            onEndReachedThreshold={200}
-            ref={component => this._listView = component}
-            dataSource={this.props.dataSource}
-            initialListSize={10}
-            pageSize={10}
-            style={{height:DeviceHeight-55,marginTop:55,overflow:'hidden',backgroundColor:colors.outerSpace}}
-            scrollEnabled={this.state.scrollEnabled}
-            directionalLockEnabled={true}
-            removeClippedSubviews={true}
-            vertical={true}
-            scrollsToTop={true}
-
-            contentOffset={{x:0,y:this.state.isRefreshing ? -50 : 0}}
-                refreshControl={
-                  <RefreshControl
-                  refreshing={this.state.isRefreshing}
-                  onRefresh={this._onRefresh.bind(this)}
-                  tintColor={colors.sushi}
-                  colors={[colors.mediumPurple,colors.sushi]}
-                  progressBackgroundColor={colors.dark}
                 />
-              }
-            renderRow={this._renderRow.bind(this)}
-            renderHeader={()=>{
-              if(!this.props.newMatches || !Object.keys(this.props.newMatches).length){
-                return false;
-              }else{
-                return <NewMatches
-                      user={this.props.user}
-                      navigator={this.props.navigator}
-                      newMatches={this.props.newMatches}
-                      />
-              }
-            }}
-
-          />
-      )
-      }else{
-        return <NoMatches/>
-
-      }
-
+              )
+            }
+          }}
+         />
+        {this.state.loadingMoreMatches && false ?
+          <View style={{position:'absolute',bottom:0,width:DeviceWidth,height:30}}>
+            <ActivityIndicatorIOS style={{alignSelf:'center',alignItems:'center',flex:1,height:60,width:60,justifyContent:'center'}} animating={true} />
+          </View> :
+        null}
+      </View>
+    )
   }
 }
 
@@ -439,134 +384,6 @@ class MatchesInside extends Component{
 
 }
 
-class NoMatches extends Component{
-
-  render(){
-    return (
-      <ScrollView
-        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth, height:DeviceHeight}}
-        scrollEnabled={false}
-        centerContent={true}
-        style={{
-          backgroundColor:colors.outerSpace,
-          flex:1,
-          alignSelf:'stretch',
-          width:DeviceWidth
-        }}
-        >
-        <FadeInContainer>
-          <View
-            style={{          flex:1,flexDirection:'column',padding:20,justifyContent:'space-between',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}
-            >
-            <Image
-              style={{width:300,
-                height:MagicNumbers.is4s ? 70 : 100,
-                marginBottom:0 }}
-              source={{uri: 'assets/listing@3x.png'}}
-              resizeMode={Image.resizeMode.contain}
-            />
-            <Image
-              style={{width:300,
-                height:MagicNumbers.is4s ? 70 : 100,
-                marginBottom:20 }}
-              source={{uri: 'assets/listing@3x.png'}}
-              resizeMode={Image.resizeMode.contain}
-            />
-            <Text style={{
-                color:colors.white,
-                fontSize: MagicNumbers.is4s ? 18 : 22,
-                fontFamily:'Montserrat-Bold',textAlign:'center',marginBottom:20}}>{
-              `WAITING FOR MATCHES`
-            }</Text>
-            <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes',textAlign:'center'}}>{
-              `Your conversations with your matches will appear in this screen`
-            }</Text>
-          </View>
-        </FadeInContainer>
-
-      </ScrollView>
-    )
-  }
-}
-
-class SectionHeader extends Component{
-  render(){
-    return (
-      <View
-        style={{
-          height:25,
-          paddingHorizontal:10,
-          paddingVertical:2,
-          backgroundColor:colors.dark,
-          width:DeviceWidth,
-          overflow:'hidden',
-          alignItems:'flex-start',
-          justifyContent:'center'}}>
-        <Text style={{ fontFamily:'omnes',
-           fontSize:14,
-            color:colors.white,
-            fontWeight:'500',
-            fontFamily:'Montserrat'}}>{this.props.content.toUpperCase()}</Text>
-      </View>
-    )
-  }
-}
-
-class NewMatches extends Component{
-
-  constructor(props) {
-    super();
-
-    this.state = {
-    }
-  }
-  render(){
-    return (
-      <View style={{height:170, backgroundColor:colors.outerSpace,overflow:'hidden',flexDirection:'column'}}>
-        <SectionHeader content={`NEW MATCHES`}/>
-        <ScrollView
-        contentContainerStyle={{backgroundColor:colors.outerSpace, height:120,alignItems:'center',justifyContent:'center'}}
-        horizontal={true}
-        vertical={false}
-        showsHorizontalScrollIndicator={false}
-        style={{ backgroundColor:colors.outerSpace, flex:1, }} >
-          {Object.keys(this.props.newMatches).reverse().map((nm,i)=>{
-            let img = this.props.newMatches[nm].users[Object.keys(this.props.newMatches[nm].users)[2]].image_url;
-            return (
-              <View key={'newmatch'+i+nm} style={{height:80,width:80,margin:7}}>
-              <TouchableOpacity style={{borderRadius:45}}
-                onPress={(e) => {
-                this.props.navigator.push({
-                  component: Chat,
-                  id:'chat',
-                  index: 3,
-                  title: 'CHAT',
-                  passProps:{
-                    index: 3,
-                    user:this.props.user,
-                    match_id: nm,
-                    matchInfo: this.props.newMatches[nm],
-                    currentMatch: this.props.newMatches[nm]
-                  },
-                  sceneConfig: Navigator.SceneConfigs.FloatFromRight,
-                });
-
-                  }}>
-                  <Image source={{uri:img}} defaultSource={{uri: 'assets/placeholderUser@3x.png'}} style={{height:80,width:80,borderRadius:40}}/>
-                </TouchableOpacity>
-              </View>
-            )
-          })}
-        </ScrollView>
-        <SectionHeader content={`MESSAGES`}/>
-
-      </View>
-
-    )
-
-  }
-
-}
 class Matches extends Component{
 
   constructor(props) {
@@ -631,8 +448,6 @@ class Matches extends Component{
       },
 
     };
-
-
 
     return (
       <AltContainer stores={storesForMatches}>

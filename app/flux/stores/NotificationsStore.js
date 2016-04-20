@@ -133,9 +133,9 @@ class NotificationsStore {
     if(!messages || !pendingNotification){ return false}
     if(pendingNotification.type != 'message'){ return false };
     const readyNotification = { ...pendingNotification, ...messages.message_thread[0]}
-    this.clearTimeout(this.timer);
 
-    setTimeout(()=>{
+
+    this.setTimeout(()=>{
       this.setState({
         notifications: [readyNotification],
       })

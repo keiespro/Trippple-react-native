@@ -304,7 +304,7 @@ class ChatInside extends Component{
   }
 
   updateKeyboardSpace(frames){
-    console.log(frames);
+
 
     var h = frames.endCoordinates.height//frames.startCoordinates.screenY - frames.endCoordinates.screenY;
 
@@ -469,7 +469,8 @@ class ChatInside extends Component{
         onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
         onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
         style={{ backgroundColor:colors.outerSpace, flex:1, alignSelf:'stretch', width:DeviceWidth, height:DeviceHeight,paddingBottom:this.state.keyboardSpace}}
-        >
+      >
+        <FadeInContainer delayAmount={1000} duration={1000}>
 
           <View style={{flexDirection:'column',justifyContent:'center',flex:1,height:DeviceHeight,paddingBottom:this.state.keyboardSpace,alignItems:'center',alignSelf:'stretch'}}>
           <View style={{width:DeviceWidth,alignSelf:'center',alignItems:'center',flexDirection:'column',justifyContent:'center',flex:1,}}>
@@ -498,12 +499,13 @@ class ChatInside extends Component{
           </View>
 
           </View>
-
+        </FadeInContainer>
       </ScrollView>
     )
   }
 
   render(){
+
     const matchInfo = this.props.currentMatch,
         theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
         them = theirIds.map((id)=> matchInfo.users[id]),
@@ -511,7 +513,7 @@ class ChatInside extends Component{
 
     return (
       <View ref={'chatscroll'} style={[styles.chatInsideWrap,{paddingBottom:this.state.keyboardSpace}]}>
-        {this.props.messages.length > 0 ?
+        {this.props.messages.length > 0 || this.props.currentMatch.recent_message ?
         <ListView
           ref={'scroller'}
           dataSource={this.state.dataSource}

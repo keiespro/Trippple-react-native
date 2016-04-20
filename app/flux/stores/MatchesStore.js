@@ -145,7 +145,6 @@ class MatchesStore {
     this.handleGetMatches( payload.matchesData )
   }
   handleGetNewMatches(matchesData ) {
-    console.log('handleGetNewMatches',matchesData)
     if ( !matchesData ) return false;
     const {matches} = matchesData
     const matchesHash = matches.reduce( ( acc, el, i ) => {
@@ -159,7 +158,6 @@ class MatchesStore {
 
   }
   handleGetMatches( matchesData ) {
-    console.log(matchesData)
     if ( !matchesData ) return false
     const { matches } = matchesData,
           user = UserStore.getUser();
@@ -232,13 +230,14 @@ class MatchesStore {
 
     var count =  0;
     for ( var msg of message_thread ) {
+
       if ( msg.from_user_info.id == user.id || !msg.created_timestamp ) {return false;}
-      if ( matches[ match_id ].lastAccessed && matches[ match_id ].lastAccessed < msg.created_timestamp * 1000 ) {
+      if (  matches[ match_id ].lastAccessed < msg.created_timestamp * 1000 ) {
         count++
       }
     }
 
-    if (count== 0 && matches[ match_id ].recent_message.from_user_info.id != user.id && count == 0 &&  matches[ match_id ].lastAccessed && matches[ match_id ].lastAccessed < (matches[ match_id ].recent_message.created_timestamp * 1000) ) {
+    if (count== 0 && matches[ match_id ].recent_message.from_user_info.id != user.id && count == 0 &&  matches[ match_id ].lastAccessed < (matches[ match_id ].recent_message.created_timestamp * 1000) ) {
       count = 1
     }
     const thread = matches[ match_id ].message_thread || [];
@@ -267,18 +266,22 @@ class MatchesStore {
   }
 
   getAllMatches() {
-    console.log(this.getState().matches)
+
     const matches = this.getState().matches || {};
     const removedMatches = this.getState().removedMatches || [];
     const matcharray = Object.keys( matches ).map( ( m, i ) => matches[ m ] )
     const ma2 = _.reject(matcharray, (m) =>{ return removedMatches.indexOf(m.match_id) >= 0 })
     return orderMatches( ma2 )
   }
+
   getNewMatches(){
     const matches = this.getState().newMatches || {};
-    // const matcharray = Object.keys( matches ).map( ( m, i ) => matches[ m ] )
-    // console.log(matcharray)
-    return matches
+    const matcharray = Object.keys( matches ).map( ( m, i ) => matches[ m ] )
+    console.log('matcharray',matcharray)
+    const orderedMatches = orderNewMatches(matcharray)
+    console.log('orderedMatches',orderedMatches)
+
+    return orderedMatches
 
   }
   getAllFavorites() {
@@ -310,6 +313,21 @@ function orderMatches( matches ) {
     return 0;
   });
 
+}
+
+
+function orderNewMatches( matches ) {
+  const sortableMatches = matches;
+  return sortableMatches.sort( function( a, b ) {
+    const aTime = a.match_id
+    const bTime = b.match_id
+    if ( aTime < bTime ) {
+      return 1;
+    } else if ( aTime >= bTime ) {
+      return -1;
+    }
+    return 0;
+  });
 }
 
 export default alt.createStore( MatchesStore, 'MatchesStore' )
