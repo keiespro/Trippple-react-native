@@ -69,16 +69,16 @@ class Boot extends React.Component{
   }
   checkSettings(){
 
-    const savedJSVersion = Settings.get('TeepyVersion');
+    const savedJSVersion = Settings.get('TripppleVersion');
     const currentJSVersion = ReactNativeAutoUpdater.jsCodeVersion;
-
+    console.log(savedJSVersion,savedJSVersion,savedJSVersion,savedJSVersion,savedJSVersion,savedJSVersion,savedJSVersion,savedJSVersion,savedJSVersion)
     if(!savedJSVersion){
       // Delete local storage data for matches to prepare app for distinct matches / new matches endpoint change
-      // and saved Settings.TeepyVersion for the first time
+      // and saved Settings.TripppleVersion for the first time
 
       AsyncStorage.setItem('MatchesStore','{}')
       .then(()=>{
-        Settings.set('TeepyVersion',currentJSVersion);
+        Settings.set({TripppleVersion:currentJSVersion})
         this.bootStrapData()
       })
       .catch((err)=>{
@@ -86,6 +86,9 @@ class Boot extends React.Component{
         this.setBooted()
 
       })
+    }else{
+      this.bootStrapData()
+
     }
   }
   bootStrapData(){
