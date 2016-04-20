@@ -1,6 +1,5 @@
 /* @flow */
 
-
 import React from 'react-native'
 import {
 Component,
@@ -199,7 +198,7 @@ class MatchList extends Component{
             </View>
             <View style={styles.textwrap}>
               <Text style={[styles.text,styles.title]}>
-                {threadName}
+                {threadName.toUpperCase()}
               </Text>
               <Text style={styles.text}>
                 {rowData.recent_message.message_body || 'New Match'}
@@ -496,15 +495,15 @@ class SectionHeader extends Component{
         style={{
           height:25,
           paddingHorizontal:10,
-          paddingVertical:2,
+          paddingVertical:15,
           backgroundColor:colors.dark,
           width:DeviceWidth,
           overflow:'hidden',
           alignItems:'flex-start',
           justifyContent:'center'}}>
-        <Text style={{ fontFamily:'omnes',
-           fontSize:14,
-            color:colors.white,
+        <Text style={{
+           	fontSize:14,
+            color:colors.offwhite,
             fontWeight:'500',
             fontFamily:'Montserrat'}}>{this.props.content.toUpperCase()}</Text>
       </View>
@@ -522,7 +521,7 @@ class NewMatches extends Component{
   }
   render(){
     return (
-      <View style={{height:170, backgroundColor:colors.outerSpace,overflow:'hidden',flexDirection:'column'}}>
+      <View style={{height:180, backgroundColor:colors.outerSpace,overflow:'hidden',flexDirection:'column'}}>
         <SectionHeader content={`NEW MATCHES`}/>
         <ScrollView
         contentContainerStyle={{backgroundColor:colors.outerSpace, height:120,alignItems:'center',justifyContent:'center'}}
@@ -704,7 +703,6 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     borderColor: 'transparent',
-
     backgroundColor: 'transparent',
   },
   thumbswrap: {
@@ -727,10 +725,11 @@ const styles = StyleSheet.create({
   text: {
     color:colors.rollingStone,
     fontFamily:'omnes',
-    fontSize:16
+    fontSize:17
   },
   title:{
-    fontSize:20,
+    fontSize:16,
+		fontFamily: 'Montserrat-Bold',
     color:colors.white,
     fontWeight:'500'
   },
@@ -749,7 +748,6 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     height:100,
-
     marginLeft:0
   },
   newMessageCount:{
