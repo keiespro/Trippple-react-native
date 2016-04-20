@@ -209,8 +209,24 @@ swipeListener(v){
       onStartShouldSetPanResponderCapture:(e,gestureState) =>  false,
       onMoveShouldSetPanResponderCapture:(e,gestureState) =>  Math.abs(gestureState.dy) < 5,
       onPanResponderEnd: (e, gestureState) => {
-      this.setTimeout(()=>{
-        const toValue = 0;
+        this.setTimeout(()=>{
+          const toValue = 0;
+            this.state.offsetX.removeListener(this.swipeListener);
+            this.props.scroll(true);
+            Animated.spring(this.state.offsetX, {
+             toValue,
+             velocity: 2,
+             tension:5,
+             friction: 5
+            }).start(()=>{
+             this.setState({isOpen:false,isFullyOpen:false})
+           })
+        },500)
+      },
+      onPanResponderTerminate:(e, gestureState) => {
+        this.setTimeout(()=>{
+
+          const toValue = 0;
           this.state.offsetX.removeListener(this.swipeListener);
           this.props.scroll(true);
           Animated.spring(this.state.offsetX, {
@@ -219,27 +235,11 @@ swipeListener(v){
            tension:5,
            friction: 5
           }).start(()=>{
-           this.setState({isOpen:false,isFullyOpen:false})
+            this.setState({isOpen:false,isFullyOpen:false})
          })
-      },500)
-
+       },500)
       },
-      onPanResponderTerminate:(e, gestureState) => {
-        const toValue = 0;
-        this.state.offsetX.removeListener(this.swipeListener);
-        this.props.scroll(true);
-        Animated.spring(this.state.offsetX, {
-         toValue,
-         velocity: 2,
-         tension:5,
-         friction: 5
-        }).start(()=>{
-          this.setState({isOpen:false,isFullyOpen:false})
-       })
-      },
-
    })
-
   },
 
   render(){
