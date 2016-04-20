@@ -25,7 +25,6 @@ import ScrollableTabView from '../../scrollable-tab-view'
 import Mixpanel from '../../utils/mixpanel';
 import colors from '../../utils/colors';
 import Swiper from '../../controls/swiper';
-import ProfileTable from '../ProfileTable';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../../DeviceConfig'
@@ -33,9 +32,6 @@ import scrollable from 'react-native-scrollable-decorator'
 import UserDetails from '../../UserDetails'
 import reactMixin from 'react-mixin'
 import MatchActions from '../../flux/actions/MatchActions'
-const cardSizeMap = {
-
-}
 
 // @scrollable
 class Card extends React.Component{
@@ -49,6 +45,8 @@ class Card extends React.Component{
     this.state = {
       slideIndex: 0
     }
+    __DEV__ && props.isTopCard && console.table(props.potential)
+
   }
   componentDidUpdate(pProps,pState){
     if(pProps.profileVisible != this.props.profileVisible ){
@@ -72,7 +70,9 @@ class Card extends React.Component{
     if(nProps && nProps.pan && this.props.profileVisible != nProps.profileVisible){
       LayoutAnimation.configureNext(animations.layout.spring);
       // this.toggleCardHoverOff()
-
+    }
+    if(nProps.potential.user.id != this.props.potential.user.id){
+      __DEV__ && nProps.isTopCard && console.table(nProps.potential)
     }
   }
 
@@ -132,7 +132,6 @@ class Card extends React.Component{
       distance = Math.min(distance,potential.partner && potential.partner.distance || '666666666')
     }
 
-    __DEV__ && console.table(potential)
 
 
     if(!profileVisible){

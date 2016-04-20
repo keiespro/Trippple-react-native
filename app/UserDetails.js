@@ -63,7 +63,7 @@ class UserDetails extends React.Component{
           <View style={[styles.tabs,{ marginHorizontal:MagicNumbers.screenPadding/2,marginBottom:20}]}>
             <Text style={{fontFamily:'Montserrat',fontSize:16,textAlign:'center', color:  colors.white }} >
             {
-              `${potential.user.firstname} ${potential.user.age}`
+              `${potential.user.firstname}, ${potential.user.age}`
             }
             </Text>
           </View>
