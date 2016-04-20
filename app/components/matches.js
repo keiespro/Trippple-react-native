@@ -494,12 +494,10 @@ const styles = StyleSheet.create({
     marginTop:55,
     flex: 1,
     height: DeviceHeight-55,
-
   },
   navText: {
     color:colors.black,
     fontFamily:'omnes'
-
   },
   button: {
     backgroundColor: colors.white,
@@ -519,7 +517,6 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     borderColor: 'transparent',
-
     backgroundColor: 'transparent',
   },
   thumbswrap: {
@@ -542,10 +539,11 @@ const styles = StyleSheet.create({
   text: {
     color:colors.rollingStone,
     fontFamily:'omnes',
-    fontSize:16
+    fontSize:17
   },
   title:{
-    fontSize:20,
+    fontSize:16,
+		fontFamily: 'Montserrat-Bold',
     color:colors.white,
     fontWeight:'500'
   },
@@ -564,7 +562,6 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     height:100,
-
     marginLeft:0
   },
   newMessageCount:{
@@ -575,13 +572,13 @@ const styles = StyleSheet.create({
     borderRadius:15,
     overflow:'hidden',
     borderColor:colors.outerSpace,
-     borderWidth:4,
-     width:30,
-     height:30,
-     padding:0,
-     alignItems:'center',
-     justifyContent:'center',
-     flexDirection:'row'
+    borderWidth:4,
+    width:30,
+    height:30,
+    padding:0,
+    alignItems:'center',
+    justifyContent:'center',
+    flexDirection:'row'
   }
 });
 

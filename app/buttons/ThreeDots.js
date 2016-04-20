@@ -20,7 +20,7 @@ var Dots = React.createClass({
   },
 
   render(){
-    var dotWidth = 10,
+    var dotWidth = 7,
         dots = [1,2,3],
         dotColor =  colors.outerSpace;
     return (

@@ -32,7 +32,7 @@ class NoMatches extends Component{
           width:DeviceWidth
         }}
         >
-        <FadeInContainer delayAmount={1000} delayRender={true} duration={1000}>
+        <FadeInContainer delayAmount={1000} duration={1000}>
           <View
             style={{flex:1,flexDirection:'column',padding:20,justifyContent:'center',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}
             >
