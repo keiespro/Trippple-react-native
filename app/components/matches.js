@@ -92,10 +92,6 @@ class MatchList extends Component{
     MatchActions.toggleFavorite(rowData.match_id.toString());
   }
 
-  actionModal(match){
-    this.props.chatActionSheet(match)
-  }
-
   handleCancelUnmatch(rowData){
 
   }
@@ -116,11 +112,12 @@ class MatchList extends Component{
 
   _pressRow(match_id: number) {
     // TODO: test this InteractionManager out again
-    var handle = InteractionManager.createInteractionHandle();
-
-    InteractionManager.runAfterInteractions(() => {
+    // var handle = InteractionManager.createInteractionHandle();
+    //
+    // InteractionManager.runAfterInteractions(() => {
       MatchActions.getMessages(match_id);
-    })
+    // })
+    this.props.chatActionSheet()
 
     this.props.navigator.push({
       component: Chat,
@@ -128,7 +125,7 @@ class MatchList extends Component{
       index: 3,
       title: 'CHAT',
       passProps:{
-        handle,
+        // handle,
         index: 3,
         match_id: match_id,
         matchInfo: this.props.matches[0]
@@ -186,7 +183,7 @@ class MatchList extends Component{
         left={
           [{
             threshold: 150,
-            action: ()=> this.props.chatActionSheet(rowData),
+            action: this.props.chatActionSheet.bind(this,rowData),
             backgroundColor: colors.dark,
           }]
           }
@@ -203,7 +200,7 @@ class MatchList extends Component{
         rowID={rowID}
         sectionID={sectionID}
         autoClose={true}
-        scroll={(e)=>{console.log('swipeout scroll',e)}}
+        scroll={this._allowScroll.bind(this)}
         onOpen={(sectionID_, rowID_) => {this._handleSwipeout(sectionID_, rowID_)}}
       >
         <TouchableHighlight
@@ -271,6 +268,14 @@ class MatchList extends Component{
           removeClippedSubviews={true}
           vertical={true}
           scrollsToTop={true}
+          onScroll={(e)=>{
+            // if(this.state.forceCloseSwipeouts) return;
+            // this.setState({forceCloseSwipeouts:true})
+            // this.setTimeout(()=>{
+            //   this.setState({forceCloseSwipeouts:false})
+            //
+            // },100)
+          }}
           contentOffset={{x:0,y:this.state.isRefreshing ? -50 : 0}}
           refreshControl={
             <RefreshControl
@@ -300,6 +305,9 @@ class MatchList extends Component{
             <ActivityIndicatorIOS style={{alignSelf:'center',alignItems:'center',flex:1,height:60,width:60,justifyContent:'center'}} animating={true} />
           </View> :
         null}
+
+
+
       </View>
     )
   }
@@ -326,10 +334,40 @@ class MatchesInside extends Component{
       isVisible: false,
       dataSource: this.ds.cloneWithRows(props.matches),
       // favDataSource: this.fds.cloneWithRows(props.matches)
-
     }
   }
 
+  chatActionSheet(match){
+    if(match){
+      this.setState({
+        isVisible:!this.state.isVisible
+      })
+      this.setTimeout(()=>{
+        this.setState({
+          currentMatch: match
+        })
+      },10)
+    }else{
+      this.setState({
+        isVisible:false
+      })
+    }
+  }
+
+  showProfile(match){
+    this.props.navigator.push({
+      component: UserProfile,
+      passProps:{match, hideProfile: ()=> {
+        this.props.navigator.pop()
+      }}
+    })
+  }
+  toggleModal(){
+    this.setState({
+      isVisible:!this.state.isVisible,
+      currentMatch:null
+    })
+  }
   componentWillReceiveProps(newProps) {
     this.setState({
       matches: newProps.matches,
@@ -344,9 +382,7 @@ class MatchesInside extends Component{
     // if(newProps.favorites[0] ){
     //   this._updateDataSource(newProps.matches,'favorites')
     // }
-
   }
-
 
   _updateDataSource(data,whichList) {
     // var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.match_id !== r2.match_id});
@@ -361,28 +397,59 @@ class MatchesInside extends Component{
 
   render(){
     return (
-      <MatchList
-        user={this.props.user}
-        dataSource={this.state.dataSource}
-        matches={this.state.matches || this.props.matches}
-        newMatches={this.props.newMatches}
-        updateDataSource={this._updateDataSource.bind(this)}
-        id={"matcheslist"}
-        chatActionSheet={this.props.chatActionSheet}
-        navigator={this.props.navigator}
-        route={{
-          component: Matches,
-          title:'Matches',
-          id:'matcheslist',
-        }}
-        title={"matchlist"}
-      />
+      <View>
+
+        <MatchList
+          user={this.props.user}
+          dataSource={this.state.dataSource}
+          matches={this.state.matches || this.props.matches}
+          newMatches={this.props.newMatches}
+          updateDataSource={this._updateDataSource.bind(this)}
+          id={"matcheslist"}
+          chatActionSheet={this.chatActionSheet.bind(this)}
+          navigator={this.props.navigator}
+          route={{
+            component: Matches,
+            title:'Matches',
+            id:'matcheslist',
+          }}
+          title={"matchlist"}
+        />
+
+        {this.props.navBar}
+
+        {this.state.isVisible ? <View
+            style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]}>
+            <FadeInContainer duration={500}>
+                  <View   style={[{width:DeviceWidth,position:'absolute',top:0,left:0,height:DeviceHeight}]}>
+              <VibrancyView
+                    blurType="light"
+                    style={[{width:DeviceWidth,position:'absolute',top:0,left:0,height:DeviceHeight}]} />
+                </View>
+              </FadeInContainer>
+
+
+           </View> : <View/>}
+
+          <ActionModal
+            user={this.props.user}
+            navigator={this.props.navigator}
+            toggleModal={this.toggleModal.bind(this)}
+            isVisible={this.state.isVisible && this.state.currentMatch != null}
+            currentMatch={this.state.currentMatch}
+          />
+
+      </View>
+
 
     )
 
   }
 
 }
+
+reactMixin.onClass(MatchesInside, TimerMixin)
+
 
 class Matches extends Component{
 
@@ -397,15 +464,21 @@ class Matches extends Component{
 
   chatActionSheet(match){
 
-    this.setState({
-      isVisible:!this.state.isVisible
-    })
 
-    this.setTimeout(()=>{
+    if(match){
       this.setState({
-        currentMatch: match
+        isVisible:!this.state.isVisible
       })
-    },100)
+      this.setTimeout(()=>{
+        this.setState({
+          currentMatch: match
+        })
+      },10)
+    }else{
+      this.setState({
+        isVisible:false
+      })
+    }
   }
 
   showProfile(match){
@@ -418,7 +491,7 @@ class Matches extends Component{
   }
 
   componentDidUpdate(){
-    AppActions.saveStores.defer()
+    // AppActions.saveStores.defer()
   }
   toggleModal(){
     this.setState({
@@ -452,34 +525,6 @@ class Matches extends Component{
     return (
       <AltContainer stores={storesForMatches}>
         <MatchesInside {...this.props} chatActionSheet={this.chatActionSheet.bind(this)} />
-
-          {this.props.navBar}
-
-
-          {this.state.isVisible ? <View
-              style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]}>
-              <FadeInContainer duration={600} delayAmount={0} delayRender={false} >
-                  <TouchableOpacity activeOpacity={0.5} onPress={this.props.toggleModal}
-                   style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]} >
-
-                    <VibrancyView
-                      blurType="light"
-                      style={[{width:DeviceWidth,height:DeviceHeight}]} >
-                      <View style={[{ }]}/>
-                    </VibrancyView>
-                  </TouchableOpacity>
-                </FadeInContainer>
-
-
-             </View> : <View/>}
-
-            <ActionModal
-              user={this.props.user}
-              navigator={this.props.navigator}
-              toggleModal={this.toggleModal.bind(this)}
-              isVisible={this.state.isVisible && this.state.currentMatch != null}
-              currentMatch={this.state.currentMatch}
-            />
 
         </AltContainer>
     )

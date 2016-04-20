@@ -68,7 +68,11 @@ class NewMatches extends Component{
         >
           {this.props.newMatches.map((nm,i)=>{
 
-            let img = nm.users[Object.keys(nm.users)[2]].image_url;
+            const matchInfo = nm,
+                  theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
+                  them = theirIds.map((id)=> matchInfo.users[id]);
+
+            let img = them[0].image_url;
 
             return (
               <View key={'newmatch'+i+nm.match_id} style={styles.listItem}>

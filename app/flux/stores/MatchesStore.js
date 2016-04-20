@@ -61,7 +61,7 @@ class MatchesStore {
     });
 
     this.on( 'afterEach', ( x ) => {
-      Analytics.all( 'AFTEREACH Matches store', {...x });
+      Analytics.all( 'UPDATE Matches store', {...x });
     });
 
   }
@@ -270,18 +270,16 @@ class MatchesStore {
     const matches = this.getState().matches || {};
     const removedMatches = this.getState().removedMatches || [];
     const matcharray = Object.keys( matches ).map( ( m, i ) => matches[ m ] )
-    const ma2 = _.reject(matcharray, (m) =>{ return removedMatches.indexOf(m.match_id) >= 0 })
-    return orderMatches( ma2 )
+    const filteredMatches = _.reject(matcharray, (m) =>{ return removedMatches.indexOf(m.match_id) >= 0 })
+    return orderMatches( filteredMatches )
   }
 
   getNewMatches(){
     const matches = this.getState().newMatches || {};
+    const removedMatches = this.getState().removedMatches || [];
     const matcharray = Object.keys( matches ).map( ( m, i ) => matches[ m ] )
-    console.log('matcharray',matcharray)
-    const orderedMatches = orderNewMatches(matcharray)
-    console.log('orderedMatches',orderedMatches)
-
-    return orderedMatches
+    const filteredMatches = _.reject(matcharray, (m) =>{ return removedMatches.indexOf(m.match_id) >= 0 })
+    return orderNewMatches( filteredMatches )
 
   }
   getAllFavorites() {
