@@ -114,7 +114,6 @@ class CardStack extends React.Component{
 
     const isCouple = this.props.user.relationship_status == 'couple'
     function isVertical(g){
-      console.log(g)
       return Math.abs(g.dx) > 0 && Math.abs(g.dy) < 5
     }
     this._panResponder = PanResponder.create({
@@ -190,7 +189,7 @@ class CardStack extends React.Component{
 
         const {dx,dy,vx,vy} = gestureState;
 
-        console.table([gestureState])
+        __DEV__ && console.table([gestureState])
         const likeUserId = this.props.potentials[0].user.id;
 
         // animate back to center or off screen left or off screen right

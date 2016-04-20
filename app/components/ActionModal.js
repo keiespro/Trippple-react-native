@@ -108,7 +108,7 @@ class ActionModal extends Component{
 
 
   render(){
-    console.log(this.props.currentMatch,'actionmodal')
+
     if(!this.props.currentMatch ){ return false;}
     var {isVisible} = this.props
     var theirIds = Object.keys(this.props.currentMatch.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id)

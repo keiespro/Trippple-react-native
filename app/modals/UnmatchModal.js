@@ -36,7 +36,6 @@ export default class UnmatchModal extends Component{
   }
   unMatch(){
     MatchActions.unMatch(this.props.match)
-    AlertIOS.alert('m',JSON.stringify(this.props.match))
     this.props.goBack();
   }
 
@@ -69,7 +68,7 @@ export default class UnmatchModal extends Component{
                 }]}>
                 Are you sure?
               </Text>
-              <View  style={[{marginTop:20}]}>
+              <View style={[{marginTop:20}]}>
                 <TouchableHighlight
                   underlayColor={colors.mediumPurple}
                   style={styles.modalButtonWrap}

@@ -71,7 +71,6 @@ class Boot extends React.Component{
 
     const savedJSVersion = Settings.get('TripppleVersion');
     const currentJSVersion = ReactNativeAutoUpdater.jsCodeVersion;
-    console.log(savedJSVersion,savedJSVersion,savedJSVersion,savedJSVersion,savedJSVersion,savedJSVersion,savedJSVersion,savedJSVersion,savedJSVersion)
     if(!savedJSVersion){
       // Delete local storage data for matches to prepare app for distinct matches / new matches endpoint change
       // and saved Settings.TripppleVersion for the first time

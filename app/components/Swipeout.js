@@ -16,7 +16,7 @@ import colors from '../utils/colors'
 import ThreeDots from '../buttons/ThreeDots'
 const BTN_MAX = DeviceWidth/2
 const BTNWIDTH = 100
-const BTNTHRESHOLD = 150
+const BTNTHRESHOLD = 100
 
 const SwipeoutBtn = React.createClass({
   getDefaultProps: function() {
@@ -32,6 +32,9 @@ const SwipeoutBtn = React.createClass({
       type: '',
       width: 0,
     }
+  },
+  forceClose(){
+    this.state.offsetX.setValue(0)
   },
   render: function() {
     var {btn,offsetX,width,height,isFavourited,rowData} = this.props,
@@ -70,7 +73,7 @@ const SwipeoutBtn = React.createClass({
                                         {
                             scale: offsetX.interpolate({
                               inputRange:  [-width,-60,-50,50],
-                                              outputRange: [ 1.2, 1, 0.7, 0.5 ],
+                              outputRange: [ 1.2, 1, 0.7, 0.5 ],
                             })
                           },
                         ]
