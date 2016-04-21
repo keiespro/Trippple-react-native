@@ -234,7 +234,7 @@ class MatchList extends Component{
               </View>
               <View style={styles.textwrap}>
                 <Text style={[styles.text,styles.title]}>
-                  {threadName}
+                  {threadName.toUpperCase()}
                 </Text>
                 <Text style={styles.text}>
                   {rowData.recent_message.message_body || 'New Match'}

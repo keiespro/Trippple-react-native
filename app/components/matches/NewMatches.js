@@ -104,7 +104,7 @@ export default NewMatches;
 
 const styles = StyleSheet.create({
   newMatchesContainer:{
-    height:170,
+    height:180,
     backgroundColor:colors.outerSpace,
     overflow:'hidden',
     flexDirection:'column'
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   sectionHeader:{
     height:25,
     paddingHorizontal:10,
-    paddingVertical:2,
+    paddingVertical:15,
     backgroundColor:colors.dark,
     width:DeviceWidth,
     overflow:'hidden',
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   sectionHeaderText:{
     fontFamily:'omnes',
     fontSize:14,
-    color:colors.white,
+    color:colors.offwhite,
     fontWeight:'500',
     fontFamily:'Montserrat'
   }
