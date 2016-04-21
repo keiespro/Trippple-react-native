@@ -224,8 +224,7 @@ swipeListener(v){
         },500)
       },
       onPanResponderTerminate:(e, gestureState) => {
-        this.setTimeout(()=>{
-
+        if(this.state.isOpen){
           const toValue = 0;
           this.state.offsetX.removeListener(this.swipeListener);
           this.props.scroll(true);
@@ -237,7 +236,7 @@ swipeListener(v){
           }).start(()=>{
             this.setState({isOpen:false,isFullyOpen:false})
          })
-       },500)
+        }
       },
    })
   },
