@@ -1,15 +1,15 @@
 import Arrows from "./Arrows";
 
-import Mixpanel from 'react-native-mixpanel'
+import Mixpanels from 'react-native-mixpanel'
+// import TrackEvt from "rn-redux-mixpanel/lib/api/trackEvent";
 
 function TrackEvt(name,event){
   __DEV__ && console.log('Mixpanel - track', name,event)
-  Mixpanel.trackWithProperties(name, event)
+  Mixpanels.trackWithProperties(name, event)
 }
 
 //-this is Production App
-const TOKEN = 'f50df064bf21092e7394129ede26935b';
-
+const TOKEN = '18b301fab3deb8a70729d6407210391c';
 //-this is Trippple-V2
 // const TOKEN = 'eb728e735ea988864ae8b6f7b7f3841f';
 
@@ -25,7 +25,7 @@ const {
 
 var _distinctId;
 
-Mixpanel.sharedInstanceWithToken(TOKEN)
+Mixpanels.sharedInstanceWithToken(TOKEN)
 
 function now() {
     let now = new Date();
@@ -78,14 +78,14 @@ TrackA.prototype = new AsyncA(function (Evtparams, p,k ) {
 });
 
 var MixA = TrackA();
-export default {
+const Mixpanel = {
   track (eventName, eventData={}) {
     MixA.run({token: TOKEN, eventName, eventData, distinctId: _distinctId});
   },
   auth (distinctId) {
-    Mixpanel.identify(distinctId);
     _distinctId = distinctId;
     return this;
   }
 
 }
+export default Mixpanel

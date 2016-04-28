@@ -7,6 +7,7 @@ import Promise from 'bluebird'
 import AppActions from '../flux/actions/AppActions'
 import config from '../config'
 import deviceInfo from './DeviceInfo'
+import Analytics from './Analytics'
 
 const { FileTransfer, RNAppInfo, ReactNativeAutoUpdater } = NativeModules,
       { SERVER_URL } = config;
@@ -24,12 +25,14 @@ async function baseRequest(endpoint='': String, payload={}: Object){
     body: JSON.stringify(payload)
   }
   __DEV__ && console.log(params)
-
-  let res = await fetch( `${SERVER_URL}/${endpoint}`, params)
-  __DEV__ && console.log(res)
+  const url = `${SERVER_URL}/${endpoint}`;
+  var timeStarted = new Date();
+  let res = await fetch(url, params)
 
   try{
     __DEV__ && console.log(res)
+    var secondsAgo = ((new Date).getTime() - timeStarted.getTime()) / 1000;
+    Analytics.timeEnd(`Endpoint Perf - ${endpoint} ${secondsAgo}`)
 
     if(res.status == 504 || res.status == 502){
       __DEV__ && console.log('show maint')
