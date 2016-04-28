@@ -113,7 +113,7 @@ class MatchList extends Component{
   _pressRow(match_id: number) {
     // TODO: test this InteractionManager out again
     // var handle = InteractionManager.createInteractionHandle();
-    //
+
     // InteractionManager.runAfterInteractions(() => {
       MatchActions.getMessages(match_id);
     // })
@@ -268,14 +268,6 @@ class MatchList extends Component{
           removeClippedSubviews={true}
           vertical={true}
           scrollsToTop={true}
-          onScroll={(e)=>{
-            // if(this.state.forceCloseSwipeouts) return;
-            // this.setState({forceCloseSwipeouts:true})
-            // this.setTimeout(()=>{
-            //   this.setState({forceCloseSwipeouts:false})
-            //
-            // },100)
-          }}
           contentOffset={{x:0,y:this.state.isRefreshing ? -50 : 0}}
           refreshControl={
             <RefreshControl
@@ -295,6 +287,7 @@ class MatchList extends Component{
                   user={this.props.user}
                   navigator={this.props.navigator}
                   newMatches={this.props.newMatches}
+                  matchesCount={this.props.matches.length}
                 />
               )
             }

@@ -7,6 +7,7 @@ import React, {
   Image,
   TouchableOpacity,
   View,
+  ListView,
   Dimensions,
   ScrollView,
   Navigator,
@@ -36,6 +37,13 @@ class SectionHeader extends Component{
 }
 
 class NewMatches extends Component{
+  constructor(props){
+    super()
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.state = {
+      dataSource: ds.cloneWithRows(props.newMatches),
+    }
+  }
   openChat(nm,e){
     console.log(e,nm)
     this.props.navigator.push({
@@ -53,46 +61,57 @@ class NewMatches extends Component{
       sceneConfig: Navigator.SceneConfigs.FloatFromRight,
     });
   }
+  componentWillReceiveProps(nProps){
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.setState({
+      dataSource: ds.cloneWithRows(nProps.newMatches),
+    })
+  }
+  shouldComponentUpdate(nProps,nState){
+    return nProps.newMatches.length != this.props.newMatches.length
+
+  }
+  renderRow(rowData,sectionID, rowID, highlightRow){
+    const matchInfo = rowData,
+          theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
+          them = theirIds.map((id)=> matchInfo.users[id]);
+
+    let img = them[0].image_url;
+
+    return (
+      <View key={'newmatch'+rowID+rowData.match_id} style={styles.listItem}>
+        <TouchableOpacity
+          style={{borderRadius:45}}
+          onPress={this.openChat.bind(this,rowData)}
+        >
+          <Image
+            source={{uri:img}}
+            defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+            style={styles.listItemImage}
+          />
+          {__DEBUG__ && <Text>{rowData.match_id}</Text>}
+        </TouchableOpacity>
+      </View>
+    )
+  }
   render(){
     return (
       <View style={styles.newMatchesContainer}>
 
-        <SectionHeader content={`NEW MATCHES`}/>
+      <SectionHeader content={`NEW MATCHES` + (__DEBUG__ ? ` (${this.props.newMatches.length})` : '')}/>
 
-        <ScrollView
+      <ListView
           contentContainerStyle={styles.contentContainer}
           horizontal={true}
           vertical={false}
+          pageSize={10}
           showsHorizontalScrollIndicator={false}
           style={styles.scrollView}
-        >
-          {this.props.newMatches.map((nm,i)=>{
+            dataSource={this.state.dataSource}
+            renderRow={this.renderRow.bind(this)}
+          />
 
-            const matchInfo = nm,
-                  theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
-                  them = theirIds.map((id)=> matchInfo.users[id]);
-
-            let img = them[0].image_url;
-
-            return (
-              <View key={'newmatch'+i+nm.match_id} style={styles.listItem}>
-                <TouchableOpacity
-                  style={{borderRadius:45}}
-                  onPress={this.openChat.bind(this,nm)}
-                >
-                  <Image
-                    source={{uri:img}}
-                    defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
-                    style={styles.listItemImage}
-                  />
-                  {__DEBUG__ && <Text>{nm.match_id}</Text>}
-                </TouchableOpacity>
-              </View>
-            )
-          })}
-        </ScrollView>
-
-        <SectionHeader content={`MESSAGES`}/>
+        <SectionHeader content={`MESSAGES` + (__DEBUG__ ? ` (${this.props.matchesCounts})` : '')}/>
 
       </View>
     )
