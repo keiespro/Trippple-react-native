@@ -51,7 +51,8 @@ class Main extends Component{
     Mixpanel.auth(this.props.user.id+'');
     this.refs.nav.navigationContext.addListener('didfocus', (nav)=>{
       var route = nav.target.currentRoute;
-      AppActions.updateRoute.defer(this.refs.nav.state.presentedIndex)
+      console.log(nav,route,this.refs.nav.state.presentedIndex)
+      AppActions.updateRoute.defer({title: route.title, route: route.title, match_id: route.passProps && route.passProps.match_id || null})
       var routeName = route.id || route.name || (route.title && route.title.length ? route.title : false) || route.component.displayName;
       Analytics.screen(routeName)
       Mixpanel.track(`HO: On - ${routeName} Screen`);

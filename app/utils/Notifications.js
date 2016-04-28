@@ -28,7 +28,7 @@ class Notifications extends Component{
     return (
         <View style={{position:'absolute',top:0}}>
           <AltContainer store={NotificationsStore}>
-            <NotificationDisplayer user={this.props.user} />
+            <NotificationDisplayer AppState={this.props.AppState}   user={this.props.user} />
           </AltContainer>
 
           <AltContainer store={CredentialsStore}>

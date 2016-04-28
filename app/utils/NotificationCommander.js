@@ -148,10 +148,14 @@ class NotificationCommander extends Component{
   }
   _handleAppStateChange(appState){
     if(appState === 'active'){
+      this.connectSocket()
       const newNotification = PushNotificationIOS.popInitialNotification();
       if(newNotification){
         this.handlePushData(newNotification)
       }
+    }else{
+      this.disconnectSocket()
+
     }
     this.setState({ appState });
 

@@ -61,17 +61,12 @@ class NotificationsStore {
     this.emitChange()
   }
 
-  updateBadgeCount(delta){
-
-    const newNotifications = delta || 0;
-
-    React.NativeModules.PushNotificationManager.getApplicationIconBadgeNumber((result) => {
-      React.NativeModules.PushNotificationManager.setApplicationIconBadgeNumber(result + newNotifications)
-    })
+  updateBadgeCount(total){
+    PushNotificationIOS.setApplicationIconBadgeNumber(total)
   }
 
   handleResetBadgeNumber(){
-    React.NativeModules.PushNotificationManager.setApplicationIconBadgeNumber(0)
+    this.updateBadgeCount(0)
   }
 
   handleUpdateBadgeNumber(amount){
@@ -139,11 +134,12 @@ class NotificationsStore {
       this.setState({
         notifications: [readyNotification],
       })
+
+      this.expireNotification()
+      this.updateBadgeCount(0)
     },100);
 
-    this.updateBadgeCount(0)
 
-    this.expireNotification()
 
 
   }
