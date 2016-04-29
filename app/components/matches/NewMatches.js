@@ -111,7 +111,7 @@ class NewMatches extends Component{
             renderRow={this.renderRow.bind(this)}
           />
 
-        <SectionHeader content={`MESSAGES` + (__DEBUG__ ? ` (${this.props.matchesCounts})` : '')}/>
+        <SectionHeader content={`MESSAGES` + (__DEBUG__ ? ` (${this.props.matchesCount})` : '')}/>
 
       </View>
     )
