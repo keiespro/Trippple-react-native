@@ -10,6 +10,7 @@ import React, {
   PushNotificationIOS,
   NativeModules,
   AsyncStorage,
+  Settings,
   Dimensions
 } from  'react-native'
 
@@ -36,18 +37,19 @@ class PermissionSwitches extends React.Component{
     }
   }
   componentWillMount(){
-    AsyncStorage.multiGet(['locationSetting','notificationSetting'])
-    .then((settings) => {
-      const locationSetting = settings[0][1] ? JSON.parse(settings[0][1]) : false;
-      const notificationSetting = settings[1][1] ? JSON.parse(settings[1][1]) : false;
+    // AsyncStorage.multiGet(['locationSetting','notificationSetting'])
+    // .then((settings) => {
+      // console.log(settings);
+      const locationSetting = Settings.get('LocationSetting')// settings[0][1] ? JSON.parse(settings[0][1]) : false;
+      const notificationSetting = Settings.get('NotificationSetting')//settings[1][1] ? JSON.parse(settings[1][1]) : false;
 
       this.setState({
         locationSetting: parseInt(OSPermissions.location) > 2 && locationSetting ? true : false,
         notificationSetting: OSPermissions.notifications && notificationSetting ? true : false,
       })
-    }).catch((err) => {
-
-    })
+    // }).catch((err) => {
+    //
+    // })
   }
   toggleLocation(){
     if(!OSPermissions.location || OSPermissions.location && !parseInt(OSPermissions.location)){
@@ -75,7 +77,7 @@ class PermissionSwitches extends React.Component{
       })
     }else{
       const newValue = !this.state.locationSetting;
-      AsyncStorage.setItem('locationSetting', newValue + '')
+      Settings.set({LocationSetting: newValue })
       this.setState({ locationSetting: newValue })
     }
   }
@@ -106,7 +108,7 @@ class PermissionSwitches extends React.Component{
         }else{
           const newValue = !this.state.notificationSetting;
           this.setState({ notificationSetting: newValue });
-          AsyncStorage.setItem('notificationSetting', newValue + '')
+          Settings.set({NotificationSetting:newValue})
           NotificationActions.requestNotificationsPermission()
         }
       })

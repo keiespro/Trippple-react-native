@@ -27,6 +27,7 @@ import NotificationPermissions from '../modals/NotificationPermissions'
 import MatchActions from '../flux/actions/MatchActions'
 import TimerMixin from 'react-timer-mixin'
 import reactMixin from 'react-mixin'
+import TaskManager  from '../TaskManager'
 
 class Potentials extends React.Component{
   constructor(props){
@@ -40,6 +41,12 @@ class Potentials extends React.Component{
               return {
                 store: PotentialsStore,
                 value: PotentialsStore.getAll()
+              }
+            },
+            potentialsMeta: (props) => {
+              return {
+                store: PotentialsStore,
+                value: PotentialsStore.getMeta()
               }
             },
             unread: (props) => {
@@ -90,7 +97,7 @@ class PotentialsPage extends React.Component{
     if(this.props.user.status == 'onboarded'){
       MatchActions.getPotentials.defer();
       MatchActions.getMatches.defer();
-      MatchActions.getFavorites.defer();
+      // MatchActions.getFavorites.defer();
     }
 
     NativeModules.PushNotificationManager.checkPermissions((result)=>{
@@ -142,6 +149,7 @@ class PotentialsPage extends React.Component{
           height:DeviceHeight,
           top:0
         }}>
+        <TaskManager navigator={this.props.navigator} triggers={this.props.potentialsMeta} />
 
         {!this.state.profileVisible ? NavBar : null}
 

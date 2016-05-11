@@ -1,6 +1,6 @@
 import alt from '../alt'
 import MatchActions from '../actions/MatchActions'
-import { AsyncStorage,AlertIOS } from 'react-native'
+import { AsyncStorage,AlertIOS,Settings } from 'react-native'
 import NotificationActions from '../actions/NotificationActions'
 import UserActions from '../actions/UserActions'
 import _ from 'underscore'
@@ -42,7 +42,8 @@ class PotentialsStore {
     });
 
     this.exportPublicMethods({
-      getAll: this.getAll
+      getAll: this.getAll,
+      getMeta: this.getMeta
     });
   }
 
@@ -74,11 +75,11 @@ class PotentialsStore {
     }
   }
   handleRemovePotential(id){
-    const p = this.state.potentials;
+    const p = this.potentials;
     p.unshift();
     this.setState({
       potentials: p,
-      blockedPotentials: [...this.state.blockedPotentials, id]
+      blockedPotentials: [...this.blockedPotentials, id]
     })
 
   }
@@ -89,15 +90,19 @@ class PotentialsStore {
     })
   }
   handleSentLike(payload){
-
+    
     if(payload.matches && payload.matches.length > 0){
       this.handleGetPotentials(payload)
     }else{
       var {likedUserID,likeStatus} = payload
-      if(likeStatus == 'approve' && !this.hasSentAnyLikes){
+      if(likeStatus == 'approve' && !Settings.get('HasSeenNotificationRequest')){
         const relevantUser = _.findWhere(this.potentials,(el,i)=>{
           return el.user.id == likedUserID
         })
+
+        console.log(relevantUser);
+        this.setState({potentials:newPotentials, requestNotificationsPermission:true, relevantUser})
+
       }
       const newPotentials = this.potentials.filter((el,i)=>{
         return el.user.id != likedUserID
@@ -109,6 +114,9 @@ class PotentialsStore {
   getAll(){
     const {blockedPotentials, potentials} = this.getState()
     return _.filter(potentials, (p)=> blockedPotentials.indexOf(p.id));
+  }
+  getMeta(){
+    return {relevantUser: this.getState().relevantUser, requestNotificationsPermission: this.getState().requestNotificationsPermission}
   }
 
 }

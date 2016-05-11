@@ -146,7 +146,7 @@ class Main extends Component{
   }
 
   render() {
-
+    console.log(this.refs,this.props.navigator)
     return (
       <View style={styles.appContainer}>
         <Navigator
@@ -156,6 +156,7 @@ class Main extends Component{
           navigator={this.props.navigator}
           renderScene={this.selectScene.bind(this)}
         />
+
       </View>
     );
   }
