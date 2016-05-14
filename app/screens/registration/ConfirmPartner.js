@@ -56,6 +56,14 @@ class ConfirmPartner extends React.Component{
 
     if(phoneUtil.isValidNumber(phoneNumber)){
       let phone = phoneUtil.format(phoneNumber,'US');
+      if(phone == this.props.user.phone){
+        AlertIOS.alert(
+          'Error',
+          `You can\'t choose yourself.`,
+          [ {text: 'OK', onPress: () => this.props.navigator.pop()}, ]
+        )
+        return false
+      }
       UserActions.selectPartner({
         phone,
         name: this.props.partner.firstName || this.props.partner.displayName,
