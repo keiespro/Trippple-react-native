@@ -24,8 +24,8 @@ const configurations = {
   },
 
   devAlex: {
-    SERVER_URL: 'http://x.local:9999/user',
-    WEBSOCKET_URL: "http://x.local:9919/",
+    SERVER_URL: 'http://api2.trippple.local/user',
+    WEBSOCKET_URL: "http://api.trippple.local",
     KEYCHAIN_NAMESPACE: 'http://api2.trippple.co'
   },
 

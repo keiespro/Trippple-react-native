@@ -245,7 +245,6 @@ class Card extends React.Component{
                     height:undefined,width:undefined,
                     marginRight:0,
                     left:0,
-
                   }}
                   showsPagination={true}
                   paginationStyle={{position:'absolute',paddingRight:30,right:0,top:45,height:100}}
@@ -412,10 +411,10 @@ class Card extends React.Component{
                     key={`${potential.id || potential.user.id}-names`}>{
                       matchName
                     }</Text>
-                    {/*<Text style={[styles.cardBottomOtherText,{flex:1}]}
+                    <Text style={[styles.cardBottomOtherText,{flex:1}]}
                     key={`${potential.id || potential.user.id}-matchn`}>{
                       `${city} | ${distance} ${distance == 1 ? 'mile' : 'miles'} away`
-                    }</Text>*/}
+                    }</Text>
                 </View>
                 </TouchableHighlight>
 
