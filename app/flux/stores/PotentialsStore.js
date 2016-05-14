@@ -3,9 +3,10 @@ import MatchActions from '../actions/MatchActions'
 import { AsyncStorage,AlertIOS,Settings } from 'react-native'
 import NotificationActions from '../actions/NotificationActions'
 import UserActions from '../actions/UserActions'
+import AppActions from '../actions/AppActions'
 import _ from 'underscore'
 import Analytics from '../../utils/Analytics'
-
+console.log(alt);
 
 class PotentialsStore {
 
@@ -20,7 +21,9 @@ class PotentialsStore {
       handleGetFakePotentials: MatchActions.GET_FAKE_POTENTIALS,
       handleSentLike: MatchActions.SEND_LIKE,
       handleLogout: UserActions.LOG_OUT,
-      handleRemovePotential: MatchActions.REMOVE_POTENTIAL
+      handleRemovePotential: MatchActions.REMOVE_POTENTIAL,
+      handleShowNotificationModalWithLikedUser: AppActions.SHOW_NOTIFICATION_MODAL_WITH_LIKED_USER,
+      handleDisableNotificationModal: AppActions.DISABLE_NOTIFICATION_MODAL
     });
 
     this.on('init', () => {
@@ -89,22 +92,33 @@ class PotentialsStore {
       hasSentAnyLikes: false
     })
   }
+  handleShowNotificationModalWithLikedUser(likedUser){
+    this.setState({ requestNotificationsPermission:true, relevantUser: likedUser})
+    this.emitChange()
+
+  }
+  handleDisableNotificationModal(){
+
+    this.setState({ requestNotificationsPermission:false, relevantUser: null})
+
+  }
   handleSentLike(payload){
-    
+
     if(payload.matches && payload.matches.length > 0){
       this.handleGetPotentials(payload)
     }else{
       var {likedUserID,likeStatus} = payload
       if(likeStatus == 'approve' && !Settings.get('HasSeenNotificationRequest')){
-        const relevantUser = _.findWhere(this.potentials,(el,i)=>{
+        const likedUser = _.findWhere(this.potentials,(el,i)=>{
           return el.user.id == likedUserID
         })
-
-        console.log(relevantUser);
-        this.setState({potentials:newPotentials, requestNotificationsPermission:true, relevantUser})
+        const stringifiedLikedUser = JSON.stringify(likedUser);
+        Settings.set({HasSeenNotificationRequest: stringifiedLikedUser})
+        this.setState({potentials:newPotentials, requestNotificationsPermission:true, relevantUser: likedUser})
 
       }
-      const newPotentials = this.potentials.filter((el,i)=>{
+      const potentials = this.potentials || []
+      const newPotentials = [...potentials].filter((el,i)=>{
         return el.user.id != likedUserID
       })
       this.setState({potentials:newPotentials, hasSentAnyLikes:true})

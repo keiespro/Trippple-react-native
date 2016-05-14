@@ -3,6 +3,7 @@ import LocationPermissions from './modals/CheckPermissions'
 import NotificationPermissions from './modals/NotificationPermissions'
 const {OSPermissions} = NativeModules
 
+import AppActions from './flux/actions/AppActions'
 
 export default class TaskManager extends React.Component{
   constructor(props){
@@ -21,11 +22,12 @@ export default class TaskManager extends React.Component{
   }
   checkNotificationsSetting(){
     OSPermissions.canUseNotifications((hasPermission)=>{
-      console.log(parseInt(hasPermission));
+
       if(hasPermission){
         const hasSeenNotificationRequest = Settings.get('HasSeenNotificationRequest');
-        console.log(hasSeenNotificationRequest);
-        if(!hasSeenNotificationRequest){
+
+        if(!hasSeenNotificationRequest && this.props.triggers.relevantUser){
+          this.showNotificationRequest(this.props.triggers.relevantUser)
 
         }
       }
@@ -39,26 +41,22 @@ export default class TaskManager extends React.Component{
     if(nProps.triggers.relevantUser && !this.props.triggers.relevantUser && nProps.triggers.requestNotificationsPermission && !this.props.triggers.requestNotificationsPermission){
       this.showNotificationRequest(nProps.triggers.relevantUser)
     }
+
+    // this.showNotificationRequest(nProps.triggers.relevantUser)
+
   }
   showNotificationRequest(relevantUser){
-    console.log(this.props);
 
-    this.props.navigator.push({
-      component: NotificationPermissions,
-      passProps:{
-        relevantUser,
-        successCallback:()=>{
-          this.setHasSeenNotificationRequest()
-        },
-        failCallback:()=>{
-          this.setHasSeenNotificationRequest()
-        }
-      },
-    })
+    AppActions.showNotificationModalWithLikedUser(relevantUser)
+          // .then(()=>this.setHasSeenNotificationRequest())
+          // .catch((err)=>{console.log(err);})
+
   }
 
-  setHasSeenNotificationRequest(){
-    Settings.set({HasSeenNotificationRequest:true})
+  setHasSeenNotificationRequest(u){
+    Settings.set({HasSeenNotificationRequest: u ? u : true})
+    AppActions.disableNotificationModal()
+
   }
 
   render(){

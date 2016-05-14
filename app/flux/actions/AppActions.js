@@ -96,6 +96,17 @@ DATA:
   denyPermission(perm){
     return perm;
   }
+  showNotificationModalWithLikedUser(relevantUser){
+    return (dispatch) => {
+      dispatch(relevantUser);
+    };
+
+  }
+  disableNotificationModal(){
+    return (dispatch) => {
+      dispatch({});
+    };
+  }
 
   saveStores() {
     return (dispatch) => {

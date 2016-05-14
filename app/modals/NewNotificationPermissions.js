@@ -14,6 +14,7 @@ import {
   TouchableHighlight,
   Dimensions,
   PixelRatio,
+  ScrollView,
   PushNotificationIOS,
   TouchableOpacity
 } from 'react-native'
@@ -32,6 +33,10 @@ import UserActions from '../flux/actions/UserActions'
 import AppActions from '../flux/actions/AppActions'
 import NotificationActions from '../flux/actions/NotificationActions'
 import {MagicNumbers} from '../DeviceConfig'
+import { BlurView,VibrancyView} from 'react-native-blur'
+import {} from 'react-native'
+
+
 
 const failedTitle = `ALERTS DISABLED`,
       failedSubtitle = `Notification permissions have been disabled. You can enable them in Settings`,
@@ -45,8 +50,6 @@ class NotificationPermissions extends React.Component{
   static defaultProps = {
     buttonText: 'YES',
     relevantUser: {
-      image_url: null,
-      firstname: 'This user'
     }
   };
 
@@ -77,11 +80,11 @@ class NotificationPermissions extends React.Component{
     }
     componentDidUpdate(prevProps,prevState){
       if(!prevState.hasPermission && this.state.hasPermission ){
-        this.props.failCallback(true)
+        // this.props.failCallback(true)
       }
     }
     cancel(){
-      this.props.navigator.pop()
+      this.props.close()
     }
     handleTapYes(){
       if(this.state.failedState){
@@ -98,8 +101,12 @@ class NotificationPermissions extends React.Component{
             NotificationActions.requestNotificationsPermission({alert:true,badge:true,sound:true})
             this.props.successCallback();
             this.props.navigator.pop()
+            AppActions.disableNotificationModal()
 
           }else{
+
+            AppActions.disableNotificationModal()
+
             this.setState({permissions, hasPermission: permResult > 0})
             this.props.successCallback();
             this.props.navigator.pop()
@@ -139,43 +146,63 @@ class NotificationPermissions extends React.Component{
 
     render(){
       const { relevantUser } = this.props;
+
+
       return  (
-        <PurpleModal>
-          <View style={[styles.col,styles.fullWidth,{justifyContent:'space-between'}]}>
-            <Image
-              style={[{width:150,height:150,borderRadius:75,marginVertical:20}]}
+          <View>
+            <BlurView blurType="dark" style={[{position:'absolute',top:0,width:DeviceWidth,height:DeviceHeight,justifyContent:'center',alignItems:'center',flexDirection:'column'}]}/>
+          <ScrollView style={[{padding:0,width:DeviceWidth,height:DeviceHeight,backgroundColor: 'transparent',paddingTop:50,flex:1,position:'relative'}]} contentContainerStyle={{justifyContent:'center',alignItems:'center',}}>
+
+          <View style={{width:160,height:160,marginVertical:30}}>
+          <Image
+              style={[{width:160,height:160,borderRadius:80}]}
               source={
                 this.state.failedState ? {uri: 'assets/iconModalDenied@3x.png'} :
-                  relevantUser.image_url ? {uri: relevantUser.image_url} : {uri:'assets/placeholderUser@3x.png'}
+                  relevantUser && relevantUser.image_url ? {uri: relevantUser.thumb_url} : {uri:'assets/placeholderUser@3x.png'}
               }
                 defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
 
             />
-            <View style={styles.insidemodalwrapper}>
-              <Text style={[styles.rowtext,styles.bigtext,{
-                  fontFamily:'Montserrat-Bold',fontSize:22,marginVertical:10
-               }]}>  {
+          <View style={{width:32,height:32,borderRadius:16,overflow:'hidden',backgroundColor:colors.mandy,position:'absolute',top:6,right:6,justifyContent:'center',alignItems:'center'}}>
+                        <Text
+                          style={[{
+                            fontSize:20,
+                            width:32,
+                            fontFamily:'Montserrat',
+                            textAlign:'center',
+                            color:'#fff',
+                        }]}>1</Text>
+
+            </View>
+          </View>
+          <View style={[{width:DeviceWidth,
+              paddingHorizontal:MagicNumbers.screenPadding/2 }]}>
+              <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'Montserrat-Bold',fontSize:22,color:'#fff',marginVertical:10
+               }]}>{
                 this.state.failedState ? failedTitle : `GET NOTIFIED`
                 }
               </Text>
 
-              <Text
-                style={[styles.rowtext,styles.bigtext,{
-                  fontSize:20,
-                  marginVertical:10,
-                  color: colors.shuttleGray,
-                  marginHorizontal:-5,
-                  marginBottom:15
-              }]}>
-               {relevantUser.image_url ? `Great! You’ve liked ${this.props.relevantUser.firstname}. Would you like to be notified when they like you back?` : ` Would you like to be notified of new matches and messages?`}
-              </Text>
+              <View style={{flexDirection:'column' }} >
+               {relevantUser && relevantUser.image_url && <Text style={[styles.rowtext,styles.bigtext,{
+                   fontSize:22,
+                   marginVertical:10,
+                   color:'#fff',
+               }]}>Great! You’ve liked {relevantUser && relevantUser.firstname && relevantUser.firstname.length ? relevantUser.firstname : "them" }.</Text> }
+               <Text   style={[styles.rowtext,styles.bigtext,{
+                   fontSize:22,
+                   marginVertical:10,
+                   color:'#fff',
+                   marginBottom:15,
+                   flexDirection:'column'
+               }]}>{relevantUser && relevantUser.image_url ? `Would you like to be notified \nwhen they like you back?` : ` Would you like to be notified of new matches and messages?`}</Text>
+             </View>
               <View>
                 <TouchableHighlight
-                  underlayColor={colors.darkGreenBlue}
-                  style={styles.modalButtonWrap}
+                  style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:10,marginTop:20,marginBottom:15}}
                   onPress={this.handleTapYes.bind(this)}>
-                  <View style={[styles.modalButton]} >
-                  <Text style={styles.modalButtonText}>{
+                  <View style={{paddingVertical:20}} >
+                  <Text style={[styles.modalButtonText,{fontFamily:'Montserrat-Bold'}]}>{
                     this.state.failedState ? 'GO TO SETTINGS' : `YES, ALERT ME`
 
                   }</Text>
@@ -183,16 +210,17 @@ class NotificationPermissions extends React.Component{
                 </TouchableHighlight>
               </View>
 
-            <View >
+            <View style={{marginBottom:20}}>
               <TouchableOpacity onPress={this.cancel.bind(this)}>
                 <View>
-                  <Text style={styles.nothankstext}>no thanks</Text>
+                  <Text style={[styles.nothankstext,{color:colors.warmGreyTwo,fontFamily:'Omnes-Regular'}]}>No Thanks</Text>
                 </View>
               </TouchableOpacity>
             </View>
-          </View>
-        </View>
-      </PurpleModal>
+    </View>
+    </ScrollView>
+    </View>
+
     )
   }
 

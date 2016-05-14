@@ -9,7 +9,8 @@ import React, {
   PushNotificationIOS,
   Image,ScrollView,
   AsyncStorage,
-  Navigator
+  Navigator,
+  Settings
 }  from 'react-native';
 
 import AppTelemetry from '../AppTelemetry'
@@ -17,8 +18,16 @@ import NotificationActions from '../flux/actions/NotificationActions'
 import MatchActions from '../flux/actions/MatchActions'
 import AppActions from '../flux/actions/AppActions'
 import colors from '../utils/colors'
-import NotificationPermissions from '../modals/NotificationPermissions'
+import NotificationPermissions from '../modals/NewNotificationPermissions'
 import {MagicNumbers} from '../DeviceConfig'
+
+const TripppleSettingsKeys = [
+  'HasSeenNotificationRequest',
+  'ShouldSeeNotificationRequest',
+  'LocationSetting',
+  'NotificationSetting',
+  'HasSeenStarterPack'
+]
 
 class SettingsDebug extends React.Component{
   constructor(props){
@@ -60,6 +69,62 @@ class SettingsDebug extends React.Component{
                 <Image source={{uri: 'assets/nextArrow@3x.png'}} />
               </View>
             </TouchableHighlight>
+             <TouchableHighlight
+             onPress={()=>{
+
+           const coupleRelevantUser = {
+             couple: {
+               "distance": "",
+               "id": "NONE",
+               "image_url": ""
+             },
+             partner: {
+               "distance": "",
+               "firstname": "",
+               "id": "NONE",
+               "image_url": ""
+             },
+             user: {
+               "age": 18,
+               "distance": "1 Swipe Away",
+               "firstname": "",
+               "id": 23762,
+               "image_url": "https://trippple-user.s3.amazonaws.com/uploads/23762/be4f51816-original.jpg",
+               "is_couple": false,
+               "is_starter": false,
+               "master_id": 23762,
+               "master_type": "User",
+               "thumb_url": "https://trippple-user.s3.amazonaws.com/uploads/23762/be4f51816-original.jpg"
+             }
+           };
+           const relevantUser = {
+             "age": 18,
+             "distance": "1 Swipe Away",
+             "firstname": "",
+             "id": 23762,
+             "image_url": "https://trippple-user.s3.amazonaws.com/uploads/23762/be4f51816-original.jpg",
+             "is_couple": false,
+             "is_starter": false,
+             "master_id": 23762,
+             "master_type": "User",
+             "thumb_url": "https://trippple-user.s3.amazonaws.com/uploads/23762/be4f51816-original.jpg"
+           }
+
+           AppActions.showNotificationModalWithLikedUser(relevantUser)
+          //  this.props.navigator.pop()
+
+              //  this.props.navigator.push({
+              //    component:NotificationPermissions,
+              //    passProps:{
+              //      relevantUser:relevantUser
+              //    }
+              //  })
+             }} >
+             <View style={styles.wrapfield}>
+               <Text style={{color:colors.white,}}>Notification permisson modal</Text>
+               <Image source={{uri: 'assets/nextArrow@3x.png'}} />
+             </View>
+             </TouchableHighlight>
 
              {/* <TouchableHighlight
               onPress={()=>{
@@ -109,7 +174,9 @@ class SettingsDebug extends React.Component{
               AsyncStorage.clear()
               .then((res)=>{
                 console.log(res)
-
+                TripppleSettingsKeys.map((k,i)=>{
+                  Settings.set({[k]: null})
+                })
               })
               .catch((err)=>{
                 console.error(err)

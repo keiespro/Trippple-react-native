@@ -10,6 +10,7 @@ import React,{
   InteractionManager,
   Text,
   Image,
+  Modal,
   AlertIOS,
   TouchableHighlight,
   AsyncStorage,
@@ -28,32 +29,41 @@ import alt from '../flux/alt'
 import Chat from './chat'
 import MatchActions from '../flux/actions/MatchActions'
 import MatchesStore from '../flux/stores/MatchesStore'
+import PotentialsStore from '../flux/stores/PotentialsStore'
 import Mixpanel from '../utils/mixpanel'
 import FakeNavBar from '../controls/FakeNavBar'
 import AppActions from '../flux/actions/AppActions'
 import NotificationActions from '../flux/actions/NotificationActions'
+import AltContainer from 'alt-container';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import Analytics from '../utils/Analytics'
+import NotificationPermissions from '../modals/NewNotificationPermissions'
 
 class Main extends Component{
 
   constructor(props){
     super();
+
+    this.state = {
+      modalVisible: false
+    }
   }
 
   componentWillMount(){
-
+    const { relevantUser } = this.props;
 
   }
-
   componentDidMount(){
+
+
+
     Mixpanel.auth(this.props.user.id+'');
     this.refs.nav.navigationContext.addListener('didfocus', (nav)=>{
       var route = nav.target.currentRoute;
-      console.log(nav,route,this.refs.nav.state.presentedIndex)
+      // console.log(nav,route,this.refs.nav.state.presentedIndex)
       AppActions.updateRoute.defer({title: route.title, route: route.title, match_id: route.passProps && route.passProps.match_id || null})
-      var routeName = route.id || route.name || (route.title && route.title.length ? route.title : false) || route.component.displayName;
+      var routeName = route.id || route.name || (route.title && route.title.length ? route.title : false) || route.component && route.component.displayName;
       Analytics.screen(routeName)
       Mixpanel.track(`HO: On - ${routeName} Screen`);
 
@@ -63,6 +73,12 @@ class Main extends Component{
   }
 
   componentWillReceiveProps(nProps){
+
+
+
+
+
+
 
     if(nProps.currentRoute){
       if(this.refs.nav && nProps.currentRoute != this.refs.nav.state.presentedIndex){
@@ -144,10 +160,27 @@ class Main extends Component{
       </View>
     );
   }
+  _setModalVisible(s){
+    const relevantUser = {
+      "age": 18,
+      "distance": "1 Swipe Away",
+      "firstname": "Xxxxxx",
+      "id": 23762,
+      "image_url": "https://trippple-user.s3.amazonaws.com/uploads/23762/be4f51816-original.jpg",
+      "is_couple": false,
+      "is_starter": false,
+      "master_id": 23762,
+      "master_type": "User",
+      "thumb_url": "https://trippple-user.s3.amazonaws.com/uploads/23762/be4f51816-original.jpg"
+    }
+    // AppActions.showNotificationModalWithLikedUser(relevantUser)
+
+  }
 
   render() {
-    console.log(this.refs,this.props.navigator)
-    return (
+
+
+     return (
       <View style={styles.appContainer}>
         <Navigator
           ref={'nav'}
@@ -155,8 +188,11 @@ class Main extends Component{
           configureScene={route => route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromBottom}
           navigator={this.props.navigator}
           renderScene={this.selectScene.bind(this)}
+          modalVisible={this.state.modalVisible}
+          setModalVisible={this._setModalVisible.bind(this)}
         />
-
+        <OverlayModalOuter
+        />
       </View>
     );
   }
@@ -165,6 +201,60 @@ class Main extends Component{
 
 export default Main;
 
+class OverlayModalOuter extends Component{
+  constructor(props){
+    super()
+    this.state = {}
+  }
+  render(){
+    function storeFetcher(props) { // props is the property of AltContainer
+      return {
+        store: PotentialsStore,
+        value: PotentialsStore.getMeta()
+      };
+    }
+
+    return (
+      <AltContainer store={storeFetcher}>
+          <OverlayModalInner/>
+       </AltContainer>
+    )
+  }
+}
+class OverlayModalInner extends Component{
+  constructor(props){
+    super()
+    this.state = {
+      modalVisible: false
+    }
+  }
+  componentWillReceiveProps(nProps){
+    if(nProps.relevantUser && !this.props.relevantUser){
+      this.setModalVisible(true)
+    }else if(!nProps.relevantUser && this.props.relevantUser){
+      this.setModalVisible(true)
+
+    }
+
+  }
+  setModalVisible(v){
+    this.setState({modalVisible:v})
+
+  }
+  render(){
+    return (
+
+      <Modal
+        animated={true}
+        transparent={true}
+        visible={this.state.modalVisible}
+        onRequestClose={() => {this.setModalVisible(false)}}
+      >
+        <NotificationPermissions relevantUser={this.props.relevantUser} close={() => {this.setModalVisible(false)}}/>
+      </Modal>
+    )
+  }
+}
 
 const styles = StyleSheet.create({
   appContainer: {
