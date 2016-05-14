@@ -160,8 +160,7 @@ class NotificationPermissions extends React.Component{
                 this.state.failedState ? {uri: 'assets/iconModalDenied@3x.png'} :
                   relevantUser && relevantUser.image_url ? {uri: relevantUser.thumb_url} : {uri:'assets/placeholderUser@3x.png'}
               }
-                defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
-
+              defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
             />
           <View style={{width:32,height:32,borderRadius:16,overflow:'hidden',backgroundColor:colors.mandy,position:'absolute',top:6,right:6,justifyContent:'center',alignItems:'center'}}>
                         <Text
@@ -203,7 +202,7 @@ class NotificationPermissions extends React.Component{
                   onPress={this.handleTapYes.bind(this)}>
                   <View style={{paddingVertical:20}} >
                   <Text style={[styles.modalButtonText,{fontFamily:'Montserrat-Bold'}]}>{
-                    this.state.failedState ? 'GO TO SETTINGS' : `YES, ALERT ME`
+                    this.state.failedState ? 'GO TO SETTINGS' : `YES, ALERT ME!`
 
                   }</Text>
                   </View>
@@ -213,7 +212,7 @@ class NotificationPermissions extends React.Component{
             <View style={{marginBottom:20}}>
               <TouchableOpacity onPress={this.cancel.bind(this)}>
                 <View>
-                  <Text style={[styles.nothankstext,{color:colors.warmGreyTwo,fontFamily:'Omnes-Regular'}]}>No Thanks</Text>
+                  <Text style={[styles.nothankstext,{color:colors.warmGreyTwo,fontFamily:'Omnes-Regular'}]}>No thanks, ask me later</Text>
                 </View>
               </TouchableOpacity>
             </View>
