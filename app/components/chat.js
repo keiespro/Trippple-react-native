@@ -469,30 +469,28 @@ class ChatInside extends Component{
         <FadeInContainer delayAmount={1000} duration={1000}>
 
           <View style={{flexDirection:'column',justifyContent:'center',flex:1,alignItems:'center',alignSelf:'stretch'}}>
-          <View style={{width:DeviceWidth,alignSelf:'center',alignItems:'center',flexDirection:'column',justifyContent:'center',flex:1,}}>
-          <Text style={{color:colors.white,fontSize:20,opacity:this.state.isKeyboardOpened ? 0 : 1,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{
-                `YOU MATCHED WITH`
-            }</Text>
-					<Text style={{color:colors.white,fontSize:20,fontFamily:'Montserrat-Bold',textAlign:'center',
-            opacity:this.state.isKeyboardOpened ? 0 : 1}} >{
-                `${chatTitle}`
-            }</Text>
-            <Text style={{color:colors.shuttleGray,
-              fontSize:16,fontFamily:'omnes',opacity:this.state.isKeyboardOpened ? 0 : 1}} >
-              <TimeAgo time={matchInfo.created_timestamp*1000} />
-            </Text>
+            <View style={{width:DeviceWidth,alignSelf:'center',alignItems:'center',flexDirection:'column',justifyContent:'center',flex:1,}}>
+              <Text style={{color:colors.white,fontSize:20,opacity:this.state.isKeyboardOpened ? 0 : 1,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{
+                    `YOU MATCHED WITH`
+                }</Text>
+    					<Text style={{color:colors.white,fontSize:20,fontFamily:'Montserrat-Bold',textAlign:'center',
+                opacity:this.state.isKeyboardOpened ? 0 : 1}} >{
+                    `${chatTitle}`
+                }</Text>
+              <Text style={{color:colors.shuttleGray,
+                fontSize:16,fontFamily:'omnes',opacity:this.state.isKeyboardOpened ? 0 : 1}} >
+                <TimeAgo time={matchInfo.created_timestamp*1000} />
+              </Text>
 
-
-
-            <Image
-              source={{uri:them[0].image_url}}
-              style={this.getThumbSize()}
-              defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
-            />
-					<Text style={{color:colors.shuttleGray,fontSize:20,textAlign:'center',fontFamily:'omnes', backgroundColor: 'transparent',opacity:this.state.isKeyboardOpened ? 0:1}} >Say something. {
-              (them.length == 2 ? 'They\'re' : them[0].gender == 'm' ? 'He\'s' : 'She\'s')
-            } already into you.</Text>
-          </View>
+              <Image
+                source={{uri:them[0].image_url}}
+                style={this.getThumbSize()}
+                defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+              />
+    					<Text style={{color:colors.shuttleGray,fontSize:20,textAlign:'center',fontFamily:'omnes', backgroundColor: 'transparent',opacity:this.state.isKeyboardOpened ? 0:1}} >Say something. {
+                  (them.length == 2 ? 'They\'re' : them[0].gender == 'm' ? 'He\'s' : 'She\'s')
+                } already into you.</Text>
+            </View>
 
           </View>
         </FadeInContainer>
