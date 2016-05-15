@@ -151,7 +151,7 @@ class SettingsCouple extends React.Component{
           component: Contacts,
           passProps:{
             _continue: ()=>{
-              console.log(this.props.navigator)
+              // console.log(this.props.navigator)
               let routes = this.props.navigator.getCurrentRoutes()
               let thisRoute = routes[routes.length-3]
               this.props.navigator.popToRoute(thisRoute);

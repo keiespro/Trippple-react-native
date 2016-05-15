@@ -3,6 +3,7 @@ import React, {Component} from "react";
 import {View, Dimensions, NativeModules, Image, Animated, Text, TouchableOpacity} from "react-native";
 
 import colors from '../utils/colors'
+import Analytics from '../utils/Analytics'
 
 import AppActions from '../flux/actions/AppActions'
 
@@ -30,7 +31,7 @@ class MaintenanceScreen extends Component{
 
   }
   componentDidMount() {
-
+    Analytics.event('Maintenance Screen',{label:'',action:'',eventData:{}})
 
       Animated.timing(
         this.state.buttonOpacity,
@@ -43,15 +44,8 @@ class MaintenanceScreen extends Component{
 
   }
   handleFeedback(){
-    RNMail.mail({
-      subject: `I'm so angry!`,
-      recipients: ['hello@trippple.co'],
-      body:  '',
-    }, (error, event) => {
-        if(error) {
-          AlertIOS.alert('Error', 'Could not send mail. Please email hello@trippple.co directly.');
-        }
-    });
+    AppActions.sendFeedback('MaintenanceScreen')
+
   }
 
   render(){

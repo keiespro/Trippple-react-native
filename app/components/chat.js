@@ -59,7 +59,6 @@ const styles = StyleSheet.create({
   bubble: {
     borderRadius:10,
     padding: 10,
-
     paddingHorizontal: 20,
     paddingVertical:15,
     marginTop:10,
@@ -116,9 +115,6 @@ const styles = StyleSheet.create({
     fontFamily:'omnes',
     fontSize:18,
     color:colors.white
-  },
-  chatmessage:{
-
   },
   chatInsideWrap:{
     flexDirection:'column',
@@ -194,7 +190,9 @@ class ChatMessage extends React.Component {
   render() {
     const isMessageOurs = (this.props.messageData.from_user_info.id === this.props.user.id || this.props.messageData.from_user_info.id === this.props.user.partner_id);
     if(!isMessageOurs){
-      var {thumb_url,image_url} = this.props.messageData.from_user_info;
+      const {from_user_info} = this.props.messageData;
+
+      var {thumb_url,image_url} = from_user_info;
 
       /*
        * TODO:
@@ -287,7 +285,7 @@ class ChatInside extends Component{
   }
 
   updateKeyboardSpace(frames){
-    console.log(frames);
+
 
     var h = frames.endCoordinates.height//frames.startCoordinates.screenY - frames.endCoordinates.screenY;
 
@@ -322,7 +320,7 @@ class ChatInside extends Component{
   }
 
   resetKeyboardSpace(frames) {
-    console.log(frames);
+    // console.log(frames);
     var h = frames.startCoordinates && frames.startCoordinates.screenY - frames.endCoordinates.screenY || frames.end && frames.end.height;
     if( h == this.state.keyboardSpace){ return false }
     this.setState({
@@ -437,48 +435,47 @@ class ChatInside extends Component{
 
   renderNoMessages(){
     const matchInfo = this.props.currentMatch,
-          theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id),
+          theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
           them = theirIds.map((id)=> matchInfo.users[id]),
-          chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },'')
+          chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '')  },'')
 
     return (
       <ScrollView
         {...this.props}
-        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight,paddingBottom:this.state.keyboardSpace,flex:1}}
+        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight,flex:1}}
         contentInset={{top:0,right:0,left:0,bottom:50}}
         automaticallyAdjustContentInsets={true}
         scrollEnabled={false}
         removeClippedSubviews={true}
         onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
         onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
-        style={{ backgroundColor:colors.outerSpace, flex:1, alignSelf:'stretch', width:DeviceWidth, height:DeviceHeight,paddingBottom:this.state.keyboardSpace}}
-        >
-        <FadeInContainer delayRender={true} delayAmount={500} duration={1200} >
-          <View style={{flexDirection:'column',justifyContent:'center',flex:1,height:DeviceHeight,paddingBottom:this.state.keyboardSpace,alignItems:'center',alignSelf:'stretch'}}>
-          <View style={{width:DeviceWidth,alignSelf:'center',alignItems:'center',flexDirection:'column',justifyContent:'center',flex:1,}}>
-          <Text style={{color:colors.white,fontSize:22,opacity:this.state.isKeyboardOpened ? 0 : 1,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{
-                `YOU MATCHED WITH`
-            }</Text>
-            <Text style={{color:colors.white,fontSize:22,fontFamily:'Montserrat-Bold',textAlign:'center',
-            opacity:this.state.isKeyboardOpened ? 0 : 1}} >{
-                `${chatTitle}`
-            }</Text>
-            <Text style={{color:colors.shuttleGray,
-              fontSize:20,fontFamily:'omnes',opacity:this.state.isKeyboardOpened ? 0 : 1}} >
-              <TimeAgo time={matchInfo.created_timestamp*1000} />
-            </Text>
+        style={{ backgroundColor:colors.outerSpace, flex:1, alignSelf:'stretch', width:DeviceWidth,}}
+      >
+        <FadeInContainer delayAmount={1000} duration={1000}>
 
+          <View style={{flexDirection:'column',justifyContent:'center',flex:1,alignItems:'center',alignSelf:'stretch'}}>
+            <View style={{width:DeviceWidth,alignSelf:'center',alignItems:'center',flexDirection:'column',justifyContent:'center',flex:1,}}>
+              <Text style={{color:colors.white,fontSize:20,opacity:this.state.isKeyboardOpened ? 0 : 1,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{
+                    `YOU MATCHED WITH`
+                }</Text>
+    					<Text style={{color:colors.white,fontSize:20,fontFamily:'Montserrat-Bold',textAlign:'center',
+                opacity:this.state.isKeyboardOpened ? 0 : 1}} >{
+                    `${chatTitle}`
+                }</Text>
+              <Text style={{color:colors.shuttleGray,
+                fontSize:16,fontFamily:'omnes',opacity:this.state.isKeyboardOpened ? 0 : 1}} >
+                <TimeAgo time={matchInfo.created_timestamp*1000} />
+              </Text>
 
-
-            <Image
-              source={{uri:them[1].image_url}}
-              style={this.getThumbSize()}
-              defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
-            />
-            <Text style={{color:colors.shuttleGray,fontSize:20,textAlign:'center',fontFamily:'omnes'}} >Say something. {
-              (them.length == 2 ? 'They\'re' : them[0].gender == 'm' ? 'He\'s' : 'She\'s')
-            } already into you.</Text>
-          </View>
+              <Image
+                source={{uri:them[0].image_url}}
+                style={this.getThumbSize()}
+                defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+              />
+    					<Text style={{color:colors.shuttleGray,fontSize:20,textAlign:'center',fontFamily:'omnes', backgroundColor: 'transparent',opacity:this.state.isKeyboardOpened ? 0:1}} >Say something. {
+                  (them.length == 2 ? 'They\'re' : them[0].gender == 'm' ? 'He\'s' : 'She\'s')
+                } already into you.</Text>
+            </View>
 
           </View>
         </FadeInContainer>
@@ -487,14 +484,15 @@ class ChatInside extends Component{
   }
 
   render(){
+
     const matchInfo = this.props.currentMatch,
-        theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id),
+        theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
         them = theirIds.map((id)=> matchInfo.users[id]),
-        chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },'');
+        chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '')  },'');
 
     return (
       <View ref={'chatscroll'} style={[styles.chatInsideWrap,{paddingBottom:this.state.keyboardSpace}]}>
-        {this.props.messages.length > 0 ?
+        {this.props.messages.length > 0 || this.props.currentMatch.recent_message ?
         <ListView
           ref={'scroller'}
           dataSource={this.state.dataSource}
@@ -641,10 +639,10 @@ const Chat = React.createClass({
   },
   componentWillUnmount(){
     dismissKeyboard()
-    // MatchActions.setAccessTime.defer({match_id:this.props.match_id,timestamp: Date.now()})
+    MatchActions.setAccessTime({match_id:this.props.match_id,timestamp: Date.now()})
   },
   componentDidMount(){
-    MatchActions.getMessages(this.props.match_id)
+
 
     if(this.props.handle){
       InteractionManager.clearInteractionHandle(this.props.handle)

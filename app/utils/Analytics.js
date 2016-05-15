@@ -1,26 +1,21 @@
 
 import Mixpanel from 'react-native-mixpanel'
-import GoogleAnalytics from 'react-native-google-analytics-bridge'
+import mixpanel from './mixpanel'
+import AppInfo from 'react-native-app-info'
+
 import _ from 'lodash'
-const MIXPANEL_TOKEN = '39438c7679290b25ea2dbb0b2aa5714f'
+const MIXPANEL_TOKEN = '18b301fab3deb8a70729d6407210391c'
+var GoogleAnalytics = require('react-native-google-analytics-bridge')
+
+const VERSION = parseFloat(AppInfo.getInfoShortVersion());
 
 
- class Analytics{
+class Analytics{
   constructor(){
-
-
-    if(!Mixpanel || !GoogleAnalytics) return false;
-
-    Mixpanel.sharedInstanceWithToken(MIXPANEL_TOKEN)
-    // Mixpanel.registerSuperProperties({
-    //
-    //
-    // });
-
 
   }
   identifyUser(userid){
-    if(!Mixpanel || !GoogleAnalytics) return false;
+    if(!Mixpanel || !GoogleAnalytics || !userid) return false;
 
     GoogleAnalytics.setUser(userid);
     Mixpanel.identify(userid);
@@ -28,25 +23,25 @@ const MIXPANEL_TOKEN = '39438c7679290b25ea2dbb0b2aa5714f'
   }
 
   tagUser(propsToTag){    // MIXPANEL: assign user extra properties which can help identify them
-    if(!Mixpanel || !GoogleAnalytics) return false;
+    if(!GoogleAnalytics) return false;
 
     if(!propsToTag || typeof propsToTag != 'object' || !Object.keys(propsToTag).length ){ return false }
 
-    Mixpanel.set(propsToTag);
+    // Mixpanel.set(propsToTag);
 
   }
 
   bumpUserProp(prop,val){    // MIXPANEL: track numeric values which are associated with a user
-    if(!Mixpanel || !GoogleAnalytics) return false;
+    if(!GoogleAnalytics) return false;
 
     if( !props || !val ){ return false }
 
-    Mixpanel.people.increment({[prop]: val});
+    // Mixpanel.people.increment({[prop]: val});
 
   }
 
   event(eventName, eventData={}){
-    if(!Mixpanel || !GoogleAnalytics) return false;
+    if(!GoogleAnalytics) return false;
 
     let { action, label, value } = eventData;
 
@@ -54,28 +49,46 @@ const MIXPANEL_TOKEN = '39438c7679290b25ea2dbb0b2aa5714f'
 
     GoogleAnalytics.trackEvent(eventName, action, {label, value});
 
-    Mixpanel.trackWithProperties(eventName, eventData)
+    // mixpanel.track(eventName, eventData)
+
+    // Mixpanel.trackWithProperties(eventName, eventData)
 
   }
 
   screen(screen){
-    if(!Mixpanel || !GoogleAnalytics) return false;
+    if(!GoogleAnalytics) return false;
 
     __DEV__ && console.log(`Screen: ${screen}`)
     GoogleAnalytics.trackScreenView(screen);
-    Mixpanel.track(screen);
 
   }
 
   err(error){
-    if(!Mixpanel || !GoogleAnalytics) return false;
-
+    if(!GoogleAnalytics) return false;
+    if(!error || (error && error.error && !Object.keys(error.error).length) ||  (error && !Object.keys(error).length) ){
+      return;
+    }
     __DEV__ && console.log(error)
-    GoogleAnalytics.trackException(error.message || JSON.stringify(error), false);
+    GoogleAnalytics.trackException( JSON.stringify(error), false);
 
   }
   log(){
     __DEV__ && console.log({...arguments})
+  }
+  all(){
+    __DEV__ && __DEBUG__ && [...arguments].map((arg,i)=>{
+      console.log(arg)
+    })
+
+  }
+  timeEvent(event){
+    Mixpanel.timeEvent(event);
+    // console.log(event,Date.now())
+  }
+  timeEnd(event){
+    Mixpanel.track(event);
+    // console.log(event, Date.now())
+
   }
 }
 

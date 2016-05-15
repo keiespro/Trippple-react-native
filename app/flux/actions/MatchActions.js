@@ -1,7 +1,8 @@
 import alt from '../alt';
 import Api from '../../utils/api';
-import { AlertIOS } from 'react-native'
+import { AlertIOS, Alert } from 'react-native'
 import fakePotentials from '../../potentialsStub'
+import Analytics from '../../utils/Analytics'
 
 class MatchActions {
 
@@ -16,7 +17,26 @@ class MatchActions {
     return (dispatch) => {
       Api.getMatches(page || 0)
         .then((res) => {
+          __DEV__ && console.log(res)
           dispatch({matches: res.response.length ? res.response : [], page: page || false});
+          this.getNewMatches.defer()
+
+        })
+        .catch((err) => {
+          __DEV__ && console.log(err)
+          dispatch({error: err})
+          this.getNewMatches.defer()
+
+        })
+    };
+
+  }
+  getNewMatches() {
+    return (dispatch) => {
+      Api.getNewMatches()
+        .then((res) => {
+          //console.log('newMatches ', res.response);
+          dispatch({matches: res.response.length ? res.response : []});
         })
         .catch((err) => {
           dispatch({error: err})
@@ -29,6 +49,8 @@ class MatchActions {
   }
 
   getMessages(matchID, page) {
+
+
     return (dispatch) => {
       if(!matchID) {
         dispatch({messages: []})
@@ -151,11 +173,9 @@ class MatchActions {
       .then((res)=>{
           dispatch({likedUserID,likeStatus});
       })
-      .catch((x)=>{
-        Analytics.log('like error',x,likedUserID, likeStatus, likeUserType, rel_status);
+      .catch((err)=>{
         this.removePotential.defer();
-
-        dispatch(x)
+        dispatch(err)
       })
     };
   }

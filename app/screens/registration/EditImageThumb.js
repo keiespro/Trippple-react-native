@@ -77,10 +77,8 @@ class EditImageThumb extends Component{
 
   }
 
+
   accept(cropped,transformData){
-    if(this.props.image_type == 'couple_profile'){
-      this.proceed()
-    }else{
 
       NativeModules.ImageStoreManager.getBase64ForTag( cropped, (uri) => {
 
@@ -88,28 +86,54 @@ class EditImageThumb extends Component{
           return false
         }
 
-        const dataUri = 'data:image/gif;base64,'+uri,
-        localImages = { localUserImage: {uri: dataUri}, localCoupleImage: {uri: dataUri } };
+        const dataUri = 'data:image/gif;base64,'+uri;
+        let localImages;
 
-        this.setState({croppedImageURI:dataUri });
+        if(this.props.image_type == 'couple_profile'){
+          localImages = {   localCoupleImage: {uri: dataUri } };
+        }else{
+          localImages = { thumb_url: dataUri,image_url: dataUri,localUserImage: {uri: dataUri}  };
+        }
+        this.setState({croppedImageURI:dataUri,busy:false });
 
         UserActions.updateLocally(localImages)
 
         const cropData = getCropDataForSending(transformData)
 
-        UserActions.uploadImage.defer( dataUri ,'avatar', cropData)
+        UserActions.uploadImage( dataUri,( this.props.image_type == 'couple_profile' ? 'couple_profile' : 'avatar'))
+
         if(this.props.alsoUpload){
-          UserActions.uploadImage.defer( this.props.alsoUpload.image,this.props.alsoUpload.image_type)
-          UserActions.updateLocally({image_url: this.props.alsoUpload.image.uri })
+
+          if(this.props.alsoUpload.isFB){
+
+              UserActions.updateLocally({image_url:  this.props.alsoUpload.image,localUserImage: {uri: this.props.alsoUpload.image} })
+              UserActions.uploadImage(this.props.alsoUpload.image,( this.props.alsoUpload.image_type == 'couple_profile' ? 'couple_profile' : 'profile'))
+              this.proceed()
+         }else{
+           var itype = 'profile';
+           if(this.props.alsoUpload.image_type && this.props.alsoUpload.image_type.length > 0){
+             itype = this.props.alsoUpload.image_type;
+           }
+           UserActions.updateLocally({image_url: this.props.image })
+
+           UserActions.uploadImage(this.props.alsoUpload.image, ( this.props.alsoUpload.image_type == 'couple_profile' ? 'couple_profile' : 'profile') )
+
+
+           this.proceed()
+
+
+         }
+        }else{
+          this.proceed()
 
         }
-        this.proceed()
 
-      }, (err) =>{ })
+      }, (err) =>{
 
-    }
 
+       })
   }
+
 
   proceed(){
     const currentRoutes = this.props.navigator.getCurrentRoutes()
@@ -128,6 +152,7 @@ class EditImageThumb extends Component{
 
       this.props.navigator.push({
         component: SelfImage,
+        name:'SelfImage',
         passProps: {
           image_type: 'profile'
         }
@@ -195,6 +220,7 @@ class EditImageThumb extends Component{
 
           <ContinueButton
             canContinue={true}
+            loading={this.state.busy}
             handlePress={this._crop.bind(this)}
           />
 
@@ -228,6 +254,9 @@ class EditImageThumb extends Component{
   }
 
   _crop() {
+    if(this.state.busy){
+      return false
+    }
     this.setState({busy:true})
     const {image} = this.props
     const uri = image.uri || image;

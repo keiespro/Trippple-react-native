@@ -19,6 +19,7 @@ import reactMixin from 'react-mixin'
 import Api from '../../utils/api'
 import PurpleModal from '../../modals/PurpleModal'
 import OnboardingActions from '../../flux/actions/OnboardingActions'
+import AppActions from '../../flux/actions/AppActions'
 import styles from './contactStyles'
 import InvitePartner from './invitePartner'
 import {MagicNumbers} from '../../DeviceConfig'
@@ -40,6 +41,14 @@ class ConfirmPartner extends React.Component{
 
     if(phoneUtil.isValidNumber(phoneNumber)){
       let phone = phoneUtil.format(phoneNumber,'US');
+      if(phone == this.props.user.phone){
+        AlertIOS.alert(
+          'Error',
+          `You can\'t choose yourself.`,
+          [ {text: 'OK', onPress: () => this.props.navigator.pop()}, ]
+        )
+        return false
+      }
       UserActions.selectPartner({
         phone,
         name: this.props.partner.firstName || this.props.partner.displayName,
@@ -53,16 +62,7 @@ class ConfirmPartner extends React.Component{
               'Error',
               'This is not a valid phone number. If you\'re sure it is a valid number, please contact us.',
               [
-                {text: 'Contact us', onPress: () => RNMail.mail({
-                      subject: 'Help! My partner\'s phone number is invalid.',
-                      recipients: ['hello@trippple.co'],
-                      body: 'Help! \n Phone: '+partner_phone+' \n User info:'+JSON.stringify(this.props.user)
-                    }, (error, event) => {
-                        if(error) {
-                          AlertIOS.alert('Error', 'Could not send mail. Please email hello@trippple.co directly.');
-                        }
-                    })
-                  },
+                {text: 'Contact us', onPress: () => AppActions.sendFeedback('ConfirmPartner','Help! My partner\'s phone number is invalid.', 'Partner Phone: '+partner_phone)},
                 {text: 'OK', onPress: () => this.props.navigator.pop()},
               ]
             )

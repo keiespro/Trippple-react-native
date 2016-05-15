@@ -28,19 +28,21 @@ class ChatStore {
     }
 
     this.on('init', () => {
-      Analytics.log('INIT ChatStore');
+      Analytics.all('INIT ChatStore');
     });
 
     this.on('error', (err, payload, currentState) => {
-      Analytics.log('ERROR ChatStore',err, payload, currentState);
+      Analytics.all('ERROR ChatStore',err, payload, currentState);
+      Analytics.err({...err, payload})
+
     });
 
     this.on('bootstrap', (bootstrappedState) => {
-      Analytics.log('BOOTSTRAP ChatStore',bootstrappedState);
+      Analytics.all('BOOTSTRAP ChatStore',bootstrappedState);
     });
 
     this.on('afterEach', (x) => {
-      Analytics.log('AFTEREACH Chat Store', {...x});
+      Analytics.all('UPDATE Chat Store', {...x});
     });
 
   }

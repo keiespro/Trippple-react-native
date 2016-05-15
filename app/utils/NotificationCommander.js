@@ -1,7 +1,7 @@
 import config from '../config'
 const {WEBSOCKET_URL} = config;
-import React from "react";
-import {Component} from "react";
+import React,{Component} from "react";
+
 import {View, AlertIOS, AsyncStorage, AppStateIOS, PushNotificationIOS, VibrationIOS} from "react-native";
 
 import io from '../socket.io'
@@ -25,34 +25,27 @@ class NotificationCommander extends Component{
     super()
 
     this.state = {
-      appState: AppStateIOS.currentState,
+      appState: AppState.currentState,
       socketConnected: false,
       notifications: [],
       processing:false,
     }
-    this.socket = io(WEBSOCKET_URL, {jsonp:false,transport:'ws'})
+    __DEV__ && console.log('socket')
+    this.socket = io(WEBSOCKET_URL, {jsonp:false})
 
   }
+  componentWillMount(){
+    AppState.addEventListener('change', this._handleAppStateChange.bind(this) );
 
+  }
   componentDidMount(){
 
     if(this.props.user_id){
-      // myUserRef.set({ id: this.props.user_id });
-      // connectedRef = new Firebase("https://blistering-torch-607.firebaseio.com//.info/connected");
-      // Get a reference to my own presence status.
 
-
-      // this.connectedRef.on("value", (isOnline) => {
-      //   if (isOnline == false) {
-      //     // If we lose our internet connection, we want ourselves removed from the list.
-      //     myUserRef.onDisconnect().remove();
-      //   }
-      // })
     }
 
     PushNotificationIOS.addEventListener('notification', this._onPushNotification.bind(this) )
 
-    AppStateIOS.addEventListener('change', this._handleAppStateChange.bind(this) );
     if(this.props.api_key && this.props.user_id){
       this.connectSocket()
     }
@@ -65,12 +58,12 @@ class NotificationCommander extends Component{
   componentWillUnmount(){
     PushNotificationIOS.removeEventListener('notification', this._onPushNotification.bind(this) )
 
-    AppStateIOS.removeEventListener('change', this._handleAppStateChange.bind(this) );
+    AppState.removeEventListener('change', this._handleAppStateChange.bind(this) );
   }
 
   componentDidUpdate(prevProps,prevState){
-    if(!prevProps.api_key && this.props.api_key && !prevState.socketConnected){
-      this.connectSocket()
+    if(!prevProps.api_key && this.props.api_key && !prevState.socketConnected && !this.state.socketConnected){
+
     }
 
     if(this.state.processing && !prevState.processing){
@@ -147,11 +140,14 @@ class NotificationCommander extends Component{
     // AlertIOS.alert('APN Push Notification',JSON.stringify(pushNotification.getData()));
   }
   _handleAppStateChange(appState){
-    if(appState === 'active'){
+    if(appState == 'active'){
+       this.socket.connect()
       const newNotification = PushNotificationIOS.popInitialNotification();
       if(newNotification){
         this.handlePushData(newNotification)
       }
+    }else{
+      this.socket.disconnect()
     }
     this.setState({ appState });
 
@@ -159,7 +155,6 @@ class NotificationCommander extends Component{
   connectSocket(){
     this.socket.on('user.connect', (data) => {
       this.online_id = data.online_id;
-      console.log('user.connect',data)
 
       const myApikey = this.props.api_key,
         myID = this.props.user_id;
@@ -175,7 +170,7 @@ class NotificationCommander extends Component{
 
     this.socket.on('system', (payload) => {
 
-      // AlertIOS.alert('alert',JSON.stringify(payload))
+
       Analytics.event('Webocket notification',{action: payload.data.action, label: 'system'})
 
       let tempData;
@@ -219,6 +214,7 @@ class NotificationCommander extends Component{
     })
 
     this.socket.on('chat', (payload) => {
+
 
       Analytics.event('Webocket notification',{action: 'New Message', label: 'chat'})
 

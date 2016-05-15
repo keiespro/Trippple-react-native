@@ -24,13 +24,13 @@ export default class UnmatchModal extends Component{
     this.state = {}
   }
   unMatch(){
-    MatchActions.unMatch(this.props.match.id)
+    MatchActions.unMatch(this.props.match)
     this.props.goBack();
   }
 
   render(){
     var rowData = this.props.match,
-        theirIds = Object.keys(rowData.users).filter( (u)=> u != this.props.user.id),
+        theirIds = Object.keys(rowData.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
         them = theirIds.map((id)=> rowData.users[id]),
         matchName = them.map( (user,i) => user.firstname.trim().toUpperCase() ).join(' & '),
         modalVisible = this.state.isVisible,
@@ -57,7 +57,7 @@ export default class UnmatchModal extends Component{
                 }]}>
                 Are you sure?
               </Text>
-              <View  style={[{marginTop:20}]}>
+              <View style={[{marginTop:20}]}>
                 <TouchableHighlight
                   underlayColor={colors.mediumPurple}
                   style={styles.modalButtonWrap}

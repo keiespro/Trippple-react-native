@@ -10,6 +10,12 @@ if(typeof window != 'undefined'){
   global.__DEV__ = DEV;
 }
 
+<<<<<<< HEAD
+=======
+__DEBUG__ = false;
+__DEV__ = false;
+
+>>>>>>> 2.2.0-alpha
 const configurations = {
 
   production: {
@@ -31,9 +37,9 @@ const configurations = {
   },
 
   devAlex: {
-    SERVER_URL: 'http://x.local:9999/user',
-    WEBSOCKET_URL: "http://x.local:9919/",
-    KEYCHAIN_NAMESPACE: 'dev.trippple.co'
+    SERVER_URL: 'http://api2.trippple.local/user',
+    WEBSOCKET_URL: "http://api.trippple.local",
+    KEYCHAIN_NAMESPACE: 'http://api2.trippple.co'
   },
 
   devDante: {

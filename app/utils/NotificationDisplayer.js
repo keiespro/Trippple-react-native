@@ -15,7 +15,6 @@ import reactMixin from 'react-mixin'
 class NotificationDisplayer extends Component{
   constructor(props){
     super()
-
     this.state = {
     }
 
@@ -25,9 +24,13 @@ class NotificationDisplayer extends Component{
   // }
 
   render(){
+    var {AppState} = this.props
+    var check = AppState.currentRoute && AppState.currentRoute.title && AppState.currentRoute.title.toUpperCase() && this.props.notifications[0] || null;
+    var isCurrentMatch = check && (AppState.currentRoute.title == 'CHAT' && AppState.currentRoute.match_id && AppState.currentRoute.match_id == this.props.notifications[0].match_id);
+
     return (
       <View>
-      {this.props.notifications[0] && <Notification
+      {this.props.notifications[0] && !isCurrentMatch && <Notification
           user={this.props.user}
           key={'noti'+this.props.notifications[0].match_id}
           payload={this.props.notifications[0]}

@@ -3,10 +3,10 @@
 import React from "react";
 
 import {Component} from "react";
-import {StyleSheet, Text, View, LayoutAnimation, TouchableHighlight, Image, TouchableOpacity, Animated, ScrollView, PanResponder, Easing} from "react-native";
+import {StyleSheet, Text, Dimensions, View, LayoutAnimation, TouchableHighlight, Image, TouchableOpacity, Animated, ScrollView, PanResponder, Easing} from "react-native";
 
 import colors from '../utils/colors';
-import Dimensions from 'Dimensions';
+import profileOptions from '../get_client_user_profile_options'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -24,7 +24,11 @@ class ProfileTable extends Component{
   }
   render(){
     var { profile } = this.props
-
+    var {body_type,height,age} = profile
+    if(Number.isInteger(parseInt(body_type))){
+      body_type = profileOptions.body_type.values[body_type] || ''
+    }
+    height = profileOptions.height.values[height] || ''
     return (
         <View
         style={{
@@ -44,12 +48,16 @@ class ProfileTable extends Component{
             }</Text>
         </View>
         <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15}}>
+          <Text style={{color:colors.rollingStone,fontSize:18}}>Age</Text>
+          <Text style={{color:colors.white,fontSize:18}} textAlign={'right'}>{age}</Text>
+        </View>
+        <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15}}>
           <Text style={{color:colors.rollingStone,fontSize:18}}>Height</Text>
-          <Text style={{color:colors.white,fontSize:18}} textAlign={'right'}>{profile.height}</Text>
+          <Text style={{color:colors.white,fontSize:18}} textAlign={'right'}>{height}</Text>
         </View>
         <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:0}}>
           <Text style={{color:colors.rollingStone,fontSize:18}}>Body Type</Text>
-          <Text style={{color:colors.white,fontSize:18}} textAlign={'right'}>{profile.body_type}</Text>
+          <Text style={{color:colors.white,fontSize:18}} textAlign={'right'}>{body_type}</Text>
         </View>
 
         <View style={{borderBottomWidth:1,borderBottomColor:colors.shuttleGray,marginVertical:20}}/>

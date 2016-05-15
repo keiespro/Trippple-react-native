@@ -5,9 +5,9 @@ const DeviceWidth = Dimensions.get('window').width
 const DeviceHeight = Dimensions.get('window').height
 import colors from '../utils/colors'
 import ThreeDots from '../buttons/ThreeDots'
-const BTN_MAX = DeviceWidth/2
-const BTNWIDTH = 100
-const BTNTHRESHOLD = 150
+const BTN_MAX = 100
+const BTNWIDTH = 80
+const BTNTHRESHOLD = 100
 
 const SwipeoutBtn = React.createClass({
   getDefaultProps: function() {
@@ -24,6 +24,7 @@ const SwipeoutBtn = React.createClass({
       width: 0,
     }
   },
+
   render: function() {
     var {btn,offsetX,width,height,isFavourited,rowData} = this.props,
         {isFavourited} = rowData,
@@ -61,7 +62,7 @@ const SwipeoutBtn = React.createClass({
                                         {
                             scale: offsetX.interpolate({
                               inputRange:  [-width,-60,-50,50],
-                                              outputRange: [ 1.2, 1, 0.7, 0.5 ],
+                              outputRange: [ 1.2, 1, 0.7, 0.5 ],
                             })
                           },
                         ]
@@ -96,6 +97,7 @@ const Swipeout = React.createClass({
       sectionID: -1,
     }
   },
+mixins:[TimerMixin],
   getInitialState() {
     return {
       autoClose: this.props.autoClose || false,
@@ -107,6 +109,7 @@ const Swipeout = React.createClass({
       contentWidth: DeviceWidth,
       openedLeft: false,
       openedRight: false,
+      isOpen:false,
       swiping: false,
     }
   },
@@ -116,8 +119,8 @@ const Swipeout = React.createClass({
     // this.refs.swipeoutContent.measure((ox, oy, width, height) => {
       this.setState({
         btnWidth: (BTNWIDTH),
-        btnsLeftWidth: this.props.left ? 75 : 0,
-        btnsRightWidth: this.props.right ? 75 : 0,
+        btnsLeftWidth: this.props.left ? 100 : 0,
+        btnsRightWidth: this.props.right ? 100 : 0,
         contentHeight: height,
         contentWidth: width,
       })
@@ -125,16 +128,69 @@ const Swipeout = React.createClass({
     this.initializePanResponder()
 
   },
-  // shouldComponentUpdate(nextProps,nextState){
-  //   return nextProps.rowData.unreadCount ? true : false
-  // },
-  initializePanResponder(){
+  forceClose(){
+    this.state.offsetX.stopAnimation()
+    this.state.offsetX.setValue(0)
+    this.state.offsetX.removeAllListeners();
+  },
+  componentWillReceiveProps(nProps){
+    if(nProps.forceClose){
+      this.forceClose()
+    }
+  },
+  shouldComponentUpdate(nextProps,nextState){
+    return nextState.isOpen != this.state.isOpen ? false : true
+  },
+swipeListener(v){
+    const toValue = 0;
+    console.log(v,BTNTHRESHOLD)
 
+  if(!this.state.isFullyOpen && Math.abs(v.value) > BTNTHRESHOLD){
+    this.state.offsetX.removeListener(this.swipeListener);
+
+       this.setState({isFullyOpen:true})
+        console.log('ACTION')
+       const activatedButton = (v.value > 0 ? this.props.left[0] : this.props.right[0]);
+      // handle = InteractionManager.createInteractionHandle();
+
+
+
+       //
+      //  InteractionManager.runAfterInteractions(()=>{
+
+        // })
+
+       activatedButton.action()
+      // this.setState({isOpen:false})
+
+      //  Animated.spring(this.state.offsetX, {
+      //   toValue,
+      //   velocity: 2,
+      //   tension:5,
+      //   friction: 5
+      //
+      //  }).start(()=>{
+      // this.props.scroll(true);
+
+      //   // });
+      //   this.setState({isOpen:false})
+      //
+      // })
+     }
+
+
+
+
+},
+  initializePanResponder(){
+    var handle;
     this._panResponder = PanResponder.create({
       onMoveShouldSetPanResponder: (e,gestureState) => Math.abs(gestureState.dy) < 5,
       onStartShouldSetPanResponder: (e,gestureState) => false,
       onPanResponderGrant: () => {
+        this.state.offsetX.addListener(this.swipeListener)
         this.props.scroll(false);
+        this.setState({isOpen:true})
 
       },
       onPanResponderMove: Animated.event( [null, {
@@ -143,46 +199,36 @@ const Swipeout = React.createClass({
       onStartShouldSetPanResponderCapture:(e,gestureState) =>  false,
       onMoveShouldSetPanResponderCapture:(e,gestureState) =>  Math.abs(gestureState.dy) < 5,
       onPanResponderEnd: (e, gestureState) => {
-
-        const { contentWidth, btnsLeftWidth, btnsRightWidth} = this.state,
-              { action } = gestureState.dx > 0 ? this.props.left[0] : this.props.right[0],
-              toValue = 0;
-
-        if(Math.abs(gestureState.dx) < BTNTHRESHOLD){
-
-          Animated.spring(this.state.offsetX, {
-            toValue,
-            velocity: gestureState.vx,
-            tension:90,
-            friction: 3
-          }).start(() => {
+        this.setTimeout(()=>{
+          const toValue = 0;
+            this.state.offsetX.removeListener(this.swipeListener);
             this.props.scroll(true);
-          }) // enable scrolling in parent scrollview when done
-
-        }else{
-          action()
-
-          Animated.sequence([
-            Animated.timing(this.state.offsetX,{
-              toValue: gestureState.dx,
-              duration:0
-            }),
-            Animated.delay( gestureState.dx > 0 ? 200 :  600 ),
             Animated.spring(this.state.offsetX, {
-              toValue,
-              friction:7,
-              tension:85,
-              velocity: gestureState.vx,
-            })
-          ]).start(()=>{
-
-            // InteractionManager.runAfterInteractions(()=>{
-              this.props.scroll(true);
-            // });
-          })
+             toValue,
+             velocity: 2,
+             tension:5,
+             friction: 5
+            }).start(()=>{
+             this.setState({isOpen:false,isFullyOpen:false})
+           })
+        },500)
+      },
+      onPanResponderTerminate:(e, gestureState) => {
+        if(this.state.isOpen){
+          const toValue = 0;
+          this.state.offsetX.removeListener(this.swipeListener);
+          this.props.scroll(true);
+          Animated.spring(this.state.offsetX, {
+           toValue,
+           velocity: 2,
+           tension:5,
+           friction: 5
+          }).start(()=>{
+            this.setState({isOpen:false,isFullyOpen:false})
+         })
         }
-      }
-    })
+      },
+   })
   },
 
   render(){
@@ -225,7 +271,7 @@ const Swipeout = React.createClass({
                   offsetX={this.state.offsetX}
                     height={100}
                     rowData={rowData}
-                    key={i}
+                    key={i+'l'}
                     text={btn.text}
                     type={btn.type}
                     btn={btn}
@@ -253,8 +299,7 @@ const Swipeout = React.createClass({
                     rowData={rowData}
                     component={btn.component}
                     height={100}
-                    key={i}
-                    onPress={() => this._autoClose(this.props.right[i])}
+                    key={i+'r'}
                     text={btn.text}
                     btn={btn}
                     type={btn.type}

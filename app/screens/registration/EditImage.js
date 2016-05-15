@@ -9,6 +9,7 @@ import {Component} from "react";
 import {StyleSheet, ScrollView, Text, Image, CameraRoll, View, NativeModules, ActivityIndicatorIOS, AlertIOS, TouchableHighlight, TouchableOpacity} from "react-native";
 
 import colors from '../../utils/colors';
+import Analytics from '../../utils/Analytics';
 import UserActions from '../../flux/actions/UserActions';
 import SharedStyles from '../../SharedStyles'
 import Privacy from './privacy';
@@ -19,6 +20,7 @@ import Dimensions from 'Dimensions';
 
 const {ImageEditingManager,ImageStoreManager} = NativeModules;
 const RCTScrollViewConsts = NativeModules.UIManager.RCTScrollView.Constants;
+import RNFS from 'react-native-fs'
 
 
 const DeviceHeight = Dimensions.get('window').height;
@@ -70,21 +72,57 @@ class EditImage extends Component{
      }else{
        alsoUpload = {
          image: this.props.image,
-         image_type: this.props.image_type
+         image_type: this.props.image_type,
        };
+       if(this.props.isFB){
+         alsoUpload.isFB = true
+       }
      }
      const nextRoute =  EditImageThumb
 
-     this.props.navigator.push({
-       component:  nextRoute,
-       passProps: {
-         alsoUpload,
-         image:this.props.image,
-         // croppedImage: croppedImageURI,
-         image_type: this.props.image_type
-       }
-     })
+  if(alsoUpload && this.props.image.uri && this.props.image.uri.indexOf('http')>-1){
 
+      RNFS.downloadFile(this.props.image.uri,RNFS.DocumentDirectoryPath+'/x.jpg').then((f,g)=>{
+
+        this.props.navigator.push({
+         component:  nextRoute,
+         name:'EditImageThumb',
+         passProps: {
+           alsoUpload: {...alsoUpload,image:RNFS.DocumentDirectoryPath+'/x.jpg'},
+           image:this.props.image,
+           image_type: this.props.image_type
+         }
+       })
+     }).catch((err)=>{
+       //console.log(err)
+       Analytics.err(err)
+     })
+   }else if(alsoUpload && this.props.image.uri && (!this.props.image.uri.indexOf('http') || this.props.image.uri.indexOf('http') < 0)){
+
+       this.props.navigator.push({
+        component:  nextRoute,
+        name:'EditImageThumb',
+        passProps: {
+          image:this.props.image,
+          alsoUpload,
+          // croppedImage: croppedImageURI,
+          image_type: this.props.image_type
+        }
+      })
+
+   }else{
+     this.props.navigator.push({
+      component:  nextRoute,
+      name:'EditImageThumb',
+      passProps: {
+        image:this.props.image,
+        alsoUpload,
+
+        // croppedImage: croppedImageURI,
+        image_type: this.props.image_type
+      }
+    })
+   }
   }
   retake(){
     this.props.navigator.getCurrentRoutes()[0].id == 'potentials' ? this.props.navigator.pop() :   OnboardingActions.proceedToPrevScreen()
@@ -171,7 +209,7 @@ class EditImage extends Component{
     // ImageEditingManager.cropImage(
     //   uri,
     //   this._transformData,
-    //   (croppedImageURI) => {   this.setState({croppedImageURI}); this.accept(croppedImageURI); },
+    //   (croppedImageURI) => {  console.log(croppedImageURI); this.setState({croppedImageURI}); this.accept(croppedImageURI); },
     //   (cropError) => { this.setState({cropError}) }
     // );
   }

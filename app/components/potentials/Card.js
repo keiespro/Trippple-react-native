@@ -16,7 +16,6 @@ import ScrollableTabView from '../../scrollable-tab-view'
 import Mixpanel from '../../utils/mixpanel';
 import colors from '../../utils/colors';
 import Swiper from '../../controls/swiper';
-import ProfileTable from '../ProfileTable';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../../DeviceConfig'
@@ -24,9 +23,6 @@ import {MagicNumbers} from '../../DeviceConfig'
 import UserDetails from '../../UserDetails'
 import reactMixin from 'react-mixin'
 import MatchActions from '../../flux/actions/MatchActions'
-const cardSizeMap = {
-
-}
 
 
 class Card extends React.Component{
@@ -40,6 +36,8 @@ class Card extends React.Component{
     this.state = {
       slideIndex: 0
     }
+    __DEV__ && props.isTopCard && console.table(props.potential)
+
   }
 
   getInnerViewNode(): any {
@@ -76,7 +74,9 @@ class Card extends React.Component{
     if(nProps && nProps.pan && this.props.profileVisible != nProps.profileVisible){
       LayoutAnimation.configureNext(animations.layout.spring);
       // this.toggleCardHoverOff()
-
+    }
+    if(nProps.potential.user.id != this.props.potential.user.id){
+      __DEV__ && nProps.isTopCard && console.table(nProps.potential)
     }
   }
 
@@ -136,7 +136,6 @@ class Card extends React.Component{
       distance = Math.min(distance,potential.partner && potential.partner.distance || '666666666')
     }
 
-    __DEV__ && console.table(potential)
 
 
     if(!profileVisible){
@@ -250,7 +249,6 @@ class Card extends React.Component{
                     height:undefined,width:undefined,
                     marginRight:0,
                     left:0,
-
                   }}
                   showsPagination={true}
                   paginationStyle={{position:'absolute',paddingRight:30,right:0,top:45,height:100}}
@@ -417,10 +415,10 @@ class Card extends React.Component{
                     key={`${potential.id || potential.user.id}-names`}>{
                       matchName
                     }</Text>
-                    {/*<Text style={[styles.cardBottomOtherText,{flex:1}]}
+                    <Text style={[styles.cardBottomOtherText,{flex:1}]}
                     key={`${potential.id || potential.user.id}-matchn`}>{
                       `${city} | ${distance} ${distance == 1 ? 'mile' : 'miles'} away`
-                    }</Text>*/}
+                    }</Text>
                 </View>
                 </TouchableHighlight>
 
@@ -759,7 +757,7 @@ class Card extends React.Component{
                 }}
               >
               <TouchableHighlight
-                underlayColor={colors.mediumPurple} onPress={() => { this.refs.scrollbox.scrollTo({y: DeviceHeight-200}); }} >
+                underlayColor={colors.mediumPurple} onPress={() => { this.refs.scrollbox.scrollTo(DeviceHeight-200,0); }} >
 
                 <View
                   key={`${potential.id || potential.user.id}-infos`}
@@ -801,7 +799,7 @@ class Card extends React.Component{
                   <TouchableHighlight
                     underlayColor={colors.mediumPurple}
                     onPress={(e)=>{ /*this.setState({activeIndex: 0}) */
-                  this.refs.scrollbox.scrollTo({y: 0});
+                    this.refs.scrollbox.scrollTo(0,0);
                 } }
                     underlayColor={colors.mediumPurple}
                     style={[styles.circleimagewrap,{ backgroundColor:colors.outerSpace }]}
@@ -818,7 +816,7 @@ class Card extends React.Component{
                   <TouchableHighlight
                     underlayColor={colors.mediumPurple}
                     onPress={(e)=>{ /*this.setState({activeIndex: 1}) */
-                    this.refs.scrollbox.scrollTo({y: 0});
+                    this.refs.scrollbox.scrollTo(0,0);
                   } }
 
                     underlayColor={colors.mediumPurple}

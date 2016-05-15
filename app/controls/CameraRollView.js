@@ -7,6 +7,7 @@ import {ActivityIndicatorIOS, CameraRoll, Image, ListView, ScrollView, StyleShee
 
 import OnboardingActions from '../flux/actions/OnboardingActions'
 import colors from '../utils/colors'
+import Analytics from '../utils/Analytics'
 import FakeNavBar from './FakeNavBar'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -200,6 +201,7 @@ class CameraRollView extends Component{
       fetchParams.after = this.state.lastCursor;
     }
 
+
     if(VERSION < 2.1){
       CameraRoll.getPhotos(fetchParams, this._appendAssets.bind(this), (err) => {
         __DEBUG__ && console.log(err)
@@ -212,6 +214,7 @@ class CameraRollView extends Component{
         __DEBUG__ && console.log(err)
       });
     }
+
   }
 
   /**
@@ -255,6 +258,7 @@ class CameraRollView extends Component{
           renderFooter={this._renderFooterSpinner}
           onEndReached={this._onEndReached.bind(this)}
           style={styles.container}
+          pageSize={12}
           contentContainerStyle={styles.scrollContent}
           dataSource={this.state.dataSource}
           />
@@ -305,7 +309,6 @@ class CameraRollView extends Component{
   }
 
   _appendAssets(data){
-    console.log(data);
     var assets = data.edges;
     var newState = { loadingMore: false };
 

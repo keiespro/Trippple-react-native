@@ -83,16 +83,18 @@ class UserActions {
 
   uploadImage(image, image_type, data = {}) {
     return (dispatch) => {
-      Api.uploadImage(image, image_type, data)
-        .then((uploadRes) => {
-          this.getUserInfo.defer()
-          dispatch(uploadRes)
-        })
-        .catch((err) => {
+      Api.uploadImage(image, image_type, data,(err,uploadRes)=>{
+        if(err){
           dispatch({
             error: err
           })
-        })
+        }else{
+          this.getUserInfo.defer()
+          dispatch(uploadRes)
+
+        }
+      })
+  
     }
   }
 

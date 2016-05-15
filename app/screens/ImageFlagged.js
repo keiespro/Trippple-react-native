@@ -3,6 +3,7 @@ import React, {Component} from "react";
 import {View, Dimensions, Navigator, Image, Text, TouchableOpacity} from "react-native";
 
 import colors from '../utils/colors'
+import Analytics from '../utils/Analytics'
 
 import AppActions from '../flux/actions/AppActions'
 
@@ -22,6 +23,9 @@ class ImageFlagged extends Component{
     super();
     this.state = {
      }
+  }
+  componentDidMount(){
+    Analytics.screen('ImageFlagged')
   }
 
   selectScene(route, navigator){

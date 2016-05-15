@@ -44,7 +44,8 @@ class SelectImageSource extends Component{
   getCameraRollPermission(){
 
      var nextRoute =  {
-      component:  (this.props.AppState.OSPermissions && parseInt(this.props.AppState.OSPermissions.cameraRoll) > 2 ? CameraRollView : CameraRollPermissionsModal)
+      component:  (this.props.AppState.OSPermissions && parseInt(this.props.AppState.OSPermissions.cameraRoll) > 2 ? CameraRollView : CameraRollPermissionsModal),
+      name: (this.props.AppState.OSPermissions && parseInt(this.props.AppState.OSPermissions.cameraRoll) > 2 ? 'CameraRollView' : 'CameraRollPermissionsModal')
     };
 
     nextRoute.passProps = {
@@ -60,7 +61,8 @@ class SelectImageSource extends Component{
   getCameraPermission(){
     var lastindex = this.props.navigator.getCurrentRoutes().length;
     var nextRoute = {
-      component: CameraPermissionsModal
+      component: CameraPermissionsModal,
+      name: 'CameraPermissionsModal'
     }
 
     nextRoute.passProps = {
@@ -86,7 +88,7 @@ class SelectImageSource extends Component{
 
   onPressFacebook(fbUser){
 
-    var nextRoute = {}
+    var nextRoute = {name:'FBPhotoAlbums'}
     nextRoute.component = FBPhotoAlbums
     nextRoute.passProps = {
       ...this.props,
@@ -150,7 +152,7 @@ class SelectImageSource extends Component{
             source={
               isCoupleImage ?
                {uri: 'assets/iconCouplePic@3x.png'} :
-                {uri: 'assets/iconSinglePic@3x.png'} 
+                {uri: 'assets/iconSinglePic@3x.png'}
               }
             resizeMode={Image.resizeMode.contain}
             style={styles.imageInside}

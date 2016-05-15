@@ -25,7 +25,7 @@ class UserDetails extends React.Component{
 
   render(){
     const {potential} = this.props;
-    const rel = this.props.user.relationship_status;
+    const rel = this.props.rel || this.props.user.relationship_status;
 
     return (
       <View>
@@ -49,7 +49,7 @@ class UserDetails extends React.Component{
           <View style={[styles.tabs,{ marginHorizontal:MagicNumbers.screenPadding/2,marginBottom:20}]}>
             <Text style={{fontFamily:'Montserrat',fontSize:16,textAlign:'center', color:  colors.white }} >
             {
-              `${potential.user.firstname} ${potential.user.age}`
+              `${potential.user.firstname}, ${potential.user.age}`
             }
             </Text>
           </View>

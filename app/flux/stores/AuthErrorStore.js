@@ -12,20 +12,18 @@ class AuthErrorStore {
     });
 
     this.on('init', () => {
-      Analytics.log('INIT AuthErrorStore');
+      Analytics.all('INIT AuthErrorStore');
     });
 
     this.on('error', (err, payload, currentState) => {
-      Analytics.log('ERROR AuthErrorStore',err, payload, currentState);
+      Analytics.all('ERROR AuthErrorStore',err, payload, currentState);
+      Analytics.err({...err, payload})
+
     });
 
-    this.on('bootstrap', (bootstrappedState) => {
-      Analytics.log('BOOTSTRAP AuthErrorStore',bootstrappedState);
-    });
+    // this.on('bootstrap', (bootstrappedState) => {    });
 
-    this.on('afterEach', (x) => {
-      Analytics.log('AFTEREACH AuthError Store ', {...x});
-    });
+    // this.on('afterEach', (x) => {    });
 
   }
 

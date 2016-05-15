@@ -7,9 +7,9 @@ import Promise from 'bluebird'
 import AppActions from '../flux/actions/AppActions'
 import config from '../config'
 import deviceInfo from './DeviceInfo'
+import Analytics from './Analytics'
 
 const { FileTransfer, RNAppInfo, ReactNativeAutoUpdater } = NativeModules,
-      UploadFile = Promise.promisify(FileTransfer.upload),
       { SERVER_URL } = config;
 const VERSION = ReactNativeAutoUpdater.jsCodeVersion,
       iOSversion = RNAppInfo.getInfoiOS;
@@ -24,15 +24,18 @@ async function baseRequest(endpoint='': String, payload={}: Object){
     },
     body: JSON.stringify(payload)
   }
-  __DEBUG__ && console.log(params)
-
-  let res = await fetch( `${SERVER_URL}/${endpoint}`, params)
+  __DEV__ && console.log(params)
+  const url = `${SERVER_URL}/${endpoint}`;
+  var timeStarted = new Date();
+  let res = await fetch(url, params)
 
   try{
-    __DEBUG__ && console.log(res)
+    __DEV__ && console.log(res)
+    var secondsAgo = ((new Date).getTime() - timeStarted.getTime()) / 1000;
+    Analytics.timeEnd(`Endpoint Perf - ${endpoint} ${secondsAgo}`)
 
-    if(res.status == 504 || res.status == 502 || res.status == 404){
-      __DEBUG__ && console.log('show maint')
+    if(res.status == 504 || res.status == 502){
+      __DEV__ && console.log('show maint')
       AppActions.showMaintenanceScreen();
       throw new Error('Server down')
 
@@ -40,13 +43,15 @@ async function baseRequest(endpoint='': String, payload={}: Object){
       throw new Error('Unauthorized')
     }
     if(!res.json){
-      __DEBUG__ && console.log('no res.json')
+      __DEV__ && console.log('no res.json')
     }
     let response = await res.json()
+    __DEV__ && console.log(response)
+
     response.res = res
     return response
   }catch(err){
-    __DEBUG__ && console.log('CAUGHT ERR',response,res,err)
+    __DEV__ && console.log('CAUGHT ERR',response,res,err)
 
     return {error: err, status: res.status}
   }
@@ -62,7 +67,7 @@ function authenticatedRequest(endpoint: '', payload: {}){
   return baseRequest(endpoint, authPayload)
 }
 
-async function authenticatedFileUpload(endpoint, image, image_type, cropData){
+ function authenticatedFileUpload(endpoint, image, image_type, cropData,callback){
 
   const credentials = CredentialsStore.getState()
   const uploadUrl = `${SERVER_URL}/${endpoint}`
@@ -71,19 +76,32 @@ async function authenticatedFileUpload(endpoint, image, image_type, cropData){
   if(!image_type){
     image_type = 'avatar'
   }
-  const imgUpload = await UploadFile({
+  // const imgUpload = await UploadFile({
+  //   uri: uri,
+  //   uploadUrl: uploadUrl,
+  //   fileName: 'file.jpg',
+  //   mimeType:'jpeg',
+  //   data: { ...credentials, image_type, ...cropData }
+  // })
+  //
+  // try{
+  //   return await imgUpload
+  // }catch(err){
+  //   return err
+  // }
+
+  FileTransfer.upload({
     uri: uri,
     uploadUrl: uploadUrl,
     fileName: 'file.jpg',
     mimeType:'jpeg',
     data: { ...credentials, image_type, ...cropData }
-  })
+  },(err,imgUpload)=>{
+    __DEV__ && console.log(err,imgUpload)
+    callback(err,imgUpload)
+  });
 
-  try{
-    return await imgUpload
-  }catch(err){
-    return err
-  }
+
 }
 
 
@@ -107,7 +125,13 @@ const api = {
   },
 
   getMatches(page){ //v2 endpoint
+    __DEV__ && console.log('get matches',page)
     return authenticatedRequest('getMatches', {page})
+  },
+
+
+  getNewMatches(page){ //v2 endpoint
+    return authenticatedRequest('getNewMatches', {page})
   },
 
   getFavorites(page){ //v2 endpoint
@@ -160,18 +184,11 @@ const api = {
     return publicRequest('save_facebook_picture', photo);
   },
 
-  uploadImage(image, image_type, cropData): Promise{
+  uploadImage(image, image_type, cropData,callback){
     if(!image_type){
       image_type = 'profile'
     }
-    return authenticatedFileUpload('upload', image, image_type, cropData)
-            .then((res) => {
-              __DEBUG__ && console.log(res)
-                // res.json()
-            })
-            .catch((err) => {
-              __DEBUG__ && console.warn('upload err',{error: err})
-            })
+    return authenticatedFileUpload('upload', image, image_type, cropData,callback)
   },
 
   joinCouple(partner_phone): Promise{
@@ -214,10 +231,10 @@ const api = {
         throw new Error('NO JSON')
       }
       let response = await res.json()
-      __DEBUG__ && console.log(response)
+      __DEV__ && console.log(response)
       return response
     }catch(err){
-      __DEBUG__ && console.error(err)
+      __DEV__ && console.error(err)
 
       return {error: err,status:res.status}
     }

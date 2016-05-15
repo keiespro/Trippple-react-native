@@ -11,7 +11,8 @@ const purpleModalStyles = StyleSheet.create({
     borderRadius:4,
     justifyContent:'center',
     flex:1,
-    margin: 5,
+    marginVertical: 5,
+    flexDirection:'row',
     alignSelf:'stretch',
   },
 
@@ -56,7 +57,7 @@ const purpleModalStyles = StyleSheet.create({
   modalcontainer:{
     borderRadius:4,
     backgroundColor: 'transparent',
-    margin:MagicNumbers.isSmallDevice ? 0 : 20
+    marginVertical:MagicNumbers.isSmallDevice ? 0 : 20
   },
   fullWidth:{
     width: MagicNumbers.screenWidth,

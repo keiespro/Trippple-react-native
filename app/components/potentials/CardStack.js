@@ -146,15 +146,15 @@ class CardStack extends React.Component{
       }]),
 
       onPanResponderTerminate: (e, gestureState) => {
-        console.log('onPanResponderTerminate',gestureState)
+        // console.log('onPanResponderTerminate',gestureState)
 
       },
       onPanResponderTerminationRequest: (e, gestureState) => {
-        console.log('onPanResponderTerminationRequest',gestureState)
+        // console.log('onPanResponderTerminationRequest',gestureState)
 
       },
       onPanResponderReject: (e, gestureState) => {
-        console.log('onPanResponderReject',gestureState)
+        // console.log('onPanResponderReject',gestureState)
 
       },
       onPanResponderGrant: (e, gestureState) => {
@@ -178,7 +178,7 @@ class CardStack extends React.Component{
 
         const {dx,dy,vx,vy} = gestureState;
 
-        console.table([gestureState])
+        __DEV__ && console.table([gestureState])
         const likeUserId = this.props.potentials[0].user.id;
 
         // animate back to center or off screen left or off screen right
@@ -218,7 +218,7 @@ class CardStack extends React.Component{
         //
         //   // if(!value || !value.x ){ return false }
         //   let likeStatus = value.x > 0 ? 'approve' : 'deny';
-        //   // console.log(value.x,Math.abs(Math.floor(value.x)))
+          // console.log(value.x,Math.abs(Math.floor(value.x)))
         //   // when the card reaches the throw out threshold, send like
         //   // console.log('this.state.pan.xthis.state.pan.x',this.state.pan.x)
         //
@@ -248,7 +248,7 @@ class CardStack extends React.Component{
         //   }
         // })
         if(likeStatus){
-          console.log('ANAIMTED TIMING')
+
           Animated.timing(this.state.pan, {
             toValue,
             velocity:{x:parseInt(vx),y:parseInt(vy)},       // maintain gesture velocity
