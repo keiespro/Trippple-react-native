@@ -6,7 +6,7 @@ import {StyleSheet, Text, View, Image, ScrollView, Navigator, Dimensions, Toucha
 import TimerMixin from 'react-timer-mixin'
 
 import colors from '../utils/colors'
-import Swiper from '../controls/swiper'
+import Swiper from 'react-native-swiper'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
@@ -26,27 +26,27 @@ import FadeInContainer from '../components/FadeInContainer'
 var slides = [
   {
     title: ' ',
-    img: {uri: 'assets/logo.png'},
+    img: {uri: 'assets/logo@3x.png'},
     content: ' '
   },
   {
     title: 'BROWSE',
-    img: {uri:'assets/tour-browse.png'},
+    img: {uri:'assets/tour-browse@3x.png'},
     content: 'Find like-minded Couples and Singles.'
   },
   {
     title: 'MATCH',
-    img: {uri: 'assets/tour-match.png'},
+    img: {uri: 'assets/tour-match@3x.png'},
     content: 'If they like you too, we\'ll connect you.'
   },
   {
     title: 'CONNECT',
-    img: {uri: 'assets/tour-connect.png'},
+    img: {uri: 'assets/tour-connect@3x.png'},
     content: 'Chat with real Couples or Singles who share your interests.'
   },
   {
     title: 'PRIVATE & DISCREET',
-    img: {uri: 'assets/tour-privacy.png'},
+    img: {uri: 'assets/tour-privacy@3x.png'},
     content: 'Protect your identity. Easily block friends and family.'
   },
 
@@ -137,7 +137,7 @@ class Carousel extends Component{
   render(){
     const welcomeSlides = this.state.slides.map( (slide,i) => {
       return (
-        <View key={i+'slide'+i} style={styles.slide} >
+        <View key={i+'slide'+i} style={[styles.slide,]} >
         <Image style={ {
             marginBottom:25,
             height: MagicNumbers.is4s ? 150 : DeviceHeight/3 + MagicNumbers.screenPadding,
@@ -162,7 +162,7 @@ class Carousel extends Component{
     return (
         <Swiper
           loop={true}
-          style={styles.carousel}
+          style={[styles.carousel]}
           horizontal={true}
           grayDots={true}
           showsPagination={true}
@@ -252,6 +252,7 @@ const styles = StyleSheet.create({
   slide:{
     width: DeviceWidth,
     flexDirection:'column',
+    height:400,
     alignItems:'center',
     justifyContent:'center',
     flexWrap:'nowrap',
