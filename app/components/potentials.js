@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import {Text, View, Image, Animated, ActivityIndicatorIOS, Dimensions, AppStateIOS, NativeModules} from "react-native";
+import {Text, View, Image, Animated, ActivityIndicatorIOS, Dimensions, AppState, NativeModules} from "react-native";
 
 
 import alt from '../flux/alt';
@@ -65,7 +65,7 @@ class PotentialsPage extends React.Component{
       didShow: false,
       profileVisible: false,
       showPotentials: true,
-      currentAppState: AppStateIOS.currentState
+      currentAppState: AppState.currentState
     }
   }
   toggleProfile(){
@@ -86,7 +86,7 @@ class PotentialsPage extends React.Component{
 
   }
   componentDidMount(){
-    AppStateIOS.addEventListener('change', this._handleAppStateChange.bind(this));
+    AppState.addEventListener('change', this._handleAppStateChange.bind(this));
 
     if(this.props.user.status == 'onboarded'){
       MatchActions.getPotentials.defer();
@@ -114,7 +114,7 @@ class PotentialsPage extends React.Component{
 
   }
   componentWillUnmount(){
-    AppStateIOS.removeEventListener('change', this._handleAppStateChange.bind(this));
+    AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
 
   }
   getPotentialInfo(){

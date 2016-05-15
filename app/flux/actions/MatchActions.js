@@ -1,6 +1,6 @@
 import alt from '../alt';
 import Api from '../../utils/api';
-import { AlertIOS, Alert } from 'react-native'
+import { Alert } from 'react-native'
 import fakePotentials from '../../potentialsStub'
 import Analytics from '../../utils/Analytics'
 
@@ -153,10 +153,10 @@ class MatchActions {
       Api.reportUser(user.id, (user.relationship_status ? 'single' : 'couple'), reason)
       .then((res)=> {
         if(res.status == 200){
-          AlertIOS.alert('User reported.')
+          Alert.alert('User reported.')
           dispatch({ user_id: user.id, reason, user})
         }else{
-          AlertIOS.alert('Unable to report user','Please try again later.')
+          Alert.alert('Unable to report user','Please try again later.')
           dispatch({})
 
         }

@@ -5,7 +5,7 @@ import AppActions from '../actions/AppActions'
 import NotificationActions from '../actions/NotificationActions'
 import MatchesStore from '../stores/MatchesStore'
 import ChatStore from '../stores/ChatStore'
-import { AsyncStorage, PushNotificationIOS, AlertIOS } from 'react-native'
+import { AsyncStorage, PushNotificationIOS, Alert } from 'react-native'
 import moment from 'moment'
  import TimerMixin from 'react-timer-mixin'
 import reactMixin from 'react-mixin'
@@ -96,7 +96,7 @@ class NotificationsStore {
     if(!matches || !pendingNotification){ return false}
     if(pendingNotification.type != 'match'){ return false };
     // var newmatch = _.find(matches,function(ma) {
-    //   // AlertIOS.alert('m',m.match_id+' - ' +pendingNotification.match_id)
+    //   // Alert.alert('m',m.match_id+' - ' +pendingNotification.match_id)
     //
     //   return ma.match_id == pendingNotification.match_id;
     // });

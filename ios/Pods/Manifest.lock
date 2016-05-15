@@ -1,0 +1,27 @@
+PODS:
+  - FBSnapshotTestCase (2.1.0):
+    - FBSnapshotTestCase/SwiftSupport (= 2.1.0)
+  - FBSnapshotTestCase/Core (2.1.0)
+  - FBSnapshotTestCase/SwiftSupport (2.1.0):
+    - FBSnapshotTestCase/Core
+  - HotlineSDK (1.0.8)
+  - Mixpanel (2.9.7):
+    - Mixpanel/Mixpanel (= 2.9.7)
+  - Mixpanel/Mixpanel (2.9.7)
+  - NewRelicAgent (5.4.1)
+
+DEPENDENCIES:
+  - FBSnapshotTestCase
+  - HotlineSDK
+  - Mixpanel
+  - NewRelicAgent
+
+SPEC CHECKSUMS:
+  FBSnapshotTestCase: 366ecd378511d7716c79991cd8067d1eed23578d
+  HotlineSDK: c707415e5fbd43653fcd258d5482e9d1e5617d53
+  Mixpanel: 511b829df757acc1c15d54e50342e85e6023d64d
+  NewRelicAgent: c85f94358d6e02761cae6707364c4402a352a08f
+
+PODFILE CHECKSUM: 9ee93328f4cb809767c5cbe2eac1c729426c3bd4
+
+COCOAPODS: 1.0.0

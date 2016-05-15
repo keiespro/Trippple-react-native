@@ -5,7 +5,7 @@ import moment from 'moment'
 // import Promise from 'bluebird'
 import MatchActions from '../actions/MatchActions'
 import AppActions from '../actions/AppActions'
-import { AsyncStorage, PushNotificationIOS, AlertIOS } from 'react-native'
+import { AsyncStorage, PushNotificationIOS, Alert } from 'react-native'
 import Analytics from '../../utils/Analytics'
 const LAST_SCHEDULED_DATE = 'LAST_SCHEDULED_DATE';
 

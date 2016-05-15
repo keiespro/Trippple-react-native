@@ -97,9 +97,9 @@ class SettingsDebug extends React.Component{
              "master_type": "User",
              "thumb_url": "https://trippple-user.s3.amazonaws.com/uploads/23762/be4f51816-original.jpg"
            }
+            this.props.navigator.pop()
 
-           AppActions.showNotificationModalWithLikedUser(relevantUser)
-          //  this.props.navigator.pop()
+           AppActions.showNotificationModalWithLikedUser.defer(relevantUser)
 
               //  this.props.navigator.push({
               //    component:NotificationPermissions,

@@ -3,7 +3,7 @@
 
 import React from "react";
 
-import {StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, TextInput, ScrollView, SwitchIOS, PixelRatio, AlertIOS, Animated, PickerIOS, Image, NativeModules, AsyncStorage, Settings, Navigator} from "react-native";
+import {StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, TextInput, ScrollView, SwitchIOS, PixelRatio, Alert, Animated, PickerIOS, Image, NativeModules, AsyncStorage, Settings, Navigator} from "react-native";
 import base64 from 'base-64';
 import Analytics from '../utils/Analytics';
 import TouchID from 'react-native-touch-id'
@@ -68,7 +68,7 @@ class SettingsSettings extends React.Component{
   }
 
   disableAccount(){
-    AlertIOS.alert(
+    Alert.alert(
       'Disable Your Account?',
       'Are you sure you want to disable your account? You will no longer be visible to any trippple users. To re-enable your account, log back in.',
       [
@@ -156,7 +156,7 @@ class SettingsSettings extends React.Component{
       .catch(error => {
         // Failure code
 
-                // AlertIOS.alert('Sorry')
+                // Alert.alert('Sorry')
 
       });
   }
@@ -306,7 +306,7 @@ export default SettingsSettings
 
 class LogOutButton extends React.Component{
   _doLogOut(){
-    AlertIOS.alert(
+    Alert.alert(
       'Log Out of Trippple',
       'Are you sure you want to log out?',
       [

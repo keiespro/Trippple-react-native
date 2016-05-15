@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import {Image, TouchableOpacity, PushNotificationIOS, View, StyleSheet, Text, Animated, Dimensions, VibrationIOS, AlertIOS} from "react-native";
+import {Image, TouchableOpacity, PushNotificationIOS, View, StyleSheet, Text, Animated, Dimensions, VibrationIOS, Alert} from "react-native";
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -33,7 +33,7 @@ class Notification extends React.Component{
       toValue: 0,
       duration: 200,
     }).start((fin)=>{})
-    // AlertIOS.alert('alert',JSON.stringify(this.props))
+    // Alert.alert('alert',JSON.stringify(this.props))
 
   }
 

@@ -1,17 +1,8 @@
 /* @flow */
 
-import React, {
-  Component,
-  StyleSheet,
-  Text,
-  Image,
-  TouchableOpacity,
-  View,
-  ListView,
-  Dimensions,
-  ScrollView,
-  Navigator,
-} from 'react-native'
+import React, {Component} from "react";
+
+import {StyleSheet, Text, Image, TouchableOpacity, View, ListView, Dimensions, ScrollView, Navigator} from "react-native";
 
 import colors from '../../utils/colors'
 import ThreeDots from '../../buttons/ThreeDots'

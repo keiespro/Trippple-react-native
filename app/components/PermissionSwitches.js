@@ -3,7 +3,7 @@
 
 import React from "react";
 
-import {StyleSheet, Text, View, SwitchIOS, PixelRatio, PushNotificationIOS, NativeModules, AsyncStorage, Dimensions} from "react-native";
+import {StyleSheet, Text, View, SwitchIOS,Settings, PixelRatio, PushNotificationIOS, NativeModules, AsyncStorage, Dimensions} from "react-native";
 
 import NotificationActions from '../flux/actions/NotificationActions'
 import colors from '../utils/colors'

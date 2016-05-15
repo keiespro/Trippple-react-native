@@ -29,6 +29,11 @@
 
 - (BOOL)application:( UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  
+  [Fabric with:@[[Crashlytics class],[Answers class]]];
+  
+  [NewRelicAgent startWithApplicationToken:@"AAe71824253eeeff92e1794a97883d2e0c5928816f"];
+  
 
   NSString *env = @"d";
   NSURL* defaultMetadataFileLocation = [[NSBundle mainBundle] URLForResource:@"metadata" withExtension:@"json"];
@@ -62,11 +67,6 @@
                                                    launchOptions:launchOptions];
   
   rootView.backgroundColor = [UIColor tr_outerSpaceColor];
-
-  [Fabric with:@[[Crashlytics class],[Answers class]]];
-  
-  [NewRelicAgent startWithApplicationToken:@"AAe71824253eeeff92e1794a97883d2e0c5928816f"];
-
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;

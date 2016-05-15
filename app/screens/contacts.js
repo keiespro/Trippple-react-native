@@ -6,7 +6,7 @@ import {
   Text,
   Image,
   View,
-  AlertIOS,
+  Alert,
   TextInput,
   ListView,
   TouchableHighlight,
@@ -81,7 +81,7 @@ componentDidMount(){
           underlayColor={colors.mediumPurple20}
           onPress={()=>{
             if(!hasPhone){
-              AlertIOS.alert('No phone number','Unfortunately, this contact doesn\'t have a phone number we can recognize. Please selet another contact.');
+              Alert.alert('No phone number','Unfortunately, this contact doesn\'t have a phone number we can recognize. Please selet another contact.');
             }else{
               this.props.onPress(sectionID,rowID,rowData,this.state.uri);
               this.props.highlightRow(sectionID,rowID)
@@ -261,7 +261,7 @@ class Contacts extends React.Component{
         //handle permission denied
 
         //TODO: test this!
-        AlertIOS.alert(
+        Alert.alert(
           'Hey!',
           'We need access to your contacts so you can select your partner.',
           [

@@ -3,7 +3,7 @@
 
 import React, {Component} from "react";
 
-import {PixelRatio, Navigator, ScrollView, StyleSheet, InteractionManager, Text, Image, AlertIOS, TouchableHighlight, AsyncStorage, TouchableOpacity, Dimensions, View} from "react-native";
+import {PixelRatio, Navigator, ScrollView, StyleSheet, InteractionManager, Text, Image, Alert, TouchableHighlight, AsyncStorage, TouchableOpacity, Dimensions, View,Modal} from "react-native";
 import dismissKeyboard from 'dismissKeyboard'
 import Settings from './settings'
 import Matches from './matches'
@@ -20,7 +20,7 @@ import Mixpanel from '../utils/mixpanel'
 import FakeNavBar from '../controls/FakeNavBar'
 import AppActions from '../flux/actions/AppActions'
 import NotificationActions from '../flux/actions/NotificationActions'
-import AltContainer from 'alt-container';
+import AltContainer from 'alt-container/native';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import Analytics from '../utils/Analytics'

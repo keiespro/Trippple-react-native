@@ -8,6 +8,7 @@ import ThreeDots from '../buttons/ThreeDots'
 const BTN_MAX = 100
 const BTNWIDTH = 80
 const BTNTHRESHOLD = 100
+import TimerMixin from 'react-timer-mixin'
 
 const SwipeoutBtn = React.createClass({
   getDefaultProps: function() {

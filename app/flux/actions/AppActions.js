@@ -44,7 +44,7 @@ DATA:
             }
           }, (error, event) => {
               if(error) {
-                AlertIOS.alert('Error', 'Could not send mail. Please email feedback@trippple.co directly.');
+                Alert.alert('Error', 'Could not send mail. Please email feedback@trippple.co directly.');
               }
               dispatch({error,event})
           });

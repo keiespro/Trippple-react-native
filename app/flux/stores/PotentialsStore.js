@@ -1,6 +1,6 @@
 import alt from '../alt'
 import MatchActions from '../actions/MatchActions'
-import { AsyncStorage,AlertIOS,Settings } from 'react-native'
+import { AsyncStorage,Alert,Settings } from 'react-native'
 import NotificationActions from '../actions/NotificationActions'
 import UserActions from '../actions/UserActions'
 import AppActions from '../actions/AppActions'

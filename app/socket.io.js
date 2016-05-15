@@ -2982,12 +2982,7 @@ var utf8 = _dereq_('utf8');
  * http://ghinda.net/jpeg-blob-ajax-android/
  */
 
-<<<<<<< HEAD
 var isAndroid = false; //navigator.userAgent.match(/Android/i);
-=======
-var isAndroid = false// navigator.userAgent.match(/Android/i);
->>>>>>> 2.2.0-alpha
-
 /**
  * Check if we are running in PhantomJS.
  * Uploading a Blob with PhantomJS does not work correctly, as reported here:

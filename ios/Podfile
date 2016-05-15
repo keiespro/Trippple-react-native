@@ -2,6 +2,8 @@ target "Trippple" do
   pod 'HotlineSDK'
   pod 'Mixpanel'
   pod 'NewRelicAgent'
+  pod 'FBSnapshotTestCase'
+  use_frameworks!
 end
 
 

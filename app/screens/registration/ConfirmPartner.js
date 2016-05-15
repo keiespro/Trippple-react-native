@@ -3,7 +3,7 @@
 import React from "react";
 
 import {Component} from "react";
-import {StyleSheet, Text, Image, View, AlertIOS, TextInput, ListView, Modal, TouchableHighlight, TouchableOpacity, Animated, Easing, Dimensions, TouchableWithoutFeedback, ActivityIndicatorIOS} from "react-native";
+import {StyleSheet, Text, Image, View, Alert, TextInput, ListView, Modal, TouchableHighlight, TouchableOpacity, Animated, Easing, Dimensions, TouchableWithoutFeedback, ActivityIndicatorIOS} from "react-native";
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -42,7 +42,7 @@ class ConfirmPartner extends React.Component{
     if(phoneUtil.isValidNumber(phoneNumber)){
       let phone = phoneUtil.format(phoneNumber,'US');
       if(phone == this.props.user.phone){
-        AlertIOS.alert(
+        Alert.alert(
           'Error',
           `You can\'t choose yourself.`,
           [ {text: 'OK', onPress: () => this.props.navigator.pop()}, ]
@@ -58,7 +58,7 @@ class ConfirmPartner extends React.Component{
         this.props._continue();
       },500);
     }else{
-            AlertIOS.alert(
+            Alert.alert(
               'Error',
               'This is not a valid phone number. If you\'re sure it is a valid number, please contact us.',
               [

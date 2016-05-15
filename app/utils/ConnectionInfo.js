@@ -1,5 +1,5 @@
 import React from "react";
-import { NetInfo, AppStateIOS, Text, View } from 'react-native'
+import { NetInfo, AppState, Text, View } from 'react-native'
 import AppActions from '../flux/actions/AppActions'
 import NoInternetBanner from '../controls/NoInternetBanner'
 /////////////////////////////////////////////////////////////////////////
@@ -70,7 +70,7 @@ exports.Connectivity = Connectivity
 ///////////////////////////////////////////////////////////////////////////////////
 //
 //
-//  AppStateIOS
+//  AppState
 //  Listens for foreground background transition events
 //
 
@@ -80,16 +80,16 @@ class AppVisibility extends React.Component{
     super()
 
     this.state = {
-      appState: AppStateIOS.currentState,
+      appState: AppState.currentState,
     }
   }
 
   componentDidMount(){
-    AppStateIOS.addEventListener('change', this._handleAppStateChange.bind(this));
+    AppState.addEventListener('change', this._handleAppStateChange.bind(this));
   }
 
   componentWillUnmount(){
-    AppStateIOS.removeEventListener('change', this._handleAppStateChange.bind(this));
+    AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
   }
 
   _handleAppStateChange(appState){

@@ -1,4 +1,5 @@
-import React, {Settings,Navigator,View,NativeModules} from 'react-native'
+import React from "react";
+import {Settings, Navigator, View, NativeModules} from "react-native";
 import LocationPermissions from './modals/CheckPermissions'
 import NotificationPermissions from './modals/NotificationPermissions'
 const {OSPermissions} = NativeModules

@@ -3,7 +3,7 @@
 import React from "react";
 
 import {Component, PropTypes} from "react";
-import {StyleSheet, Text, Image, NativeModules, Settings, View, AppStateIOS, TouchableHighlight, Dimensions, PixelRatio, PushNotificationIOS, TouchableOpacity} from "react-native";
+import {StyleSheet, Text, Image, NativeModules, Settings, View, AppState, TouchableHighlight, Dimensions, PixelRatio, PushNotificationIOS, TouchableOpacity} from "react-native";
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -105,10 +105,10 @@ class NotificationPermissions extends React.Component{
 
     }
     componentDidMount() {
-      AppStateIOS.addEventListener('change', this._handleAppStateChange.bind(this));
+      AppState.addEventListener('change', this._handleAppStateChange.bind(this));
     }
     componentWillUnmount() {
-      AppStateIOS.removeEventListener('change', this._handleAppStateChange);
+      AppState.removeEventListener('change', this._handleAppStateChange);
     }
     _handleAppStateChange(currentAppState) {
       if(currentAppState == 'active'){
@@ -119,7 +119,7 @@ class NotificationPermissions extends React.Component{
           },0);
 
           this.setState({ hasPermission: (permResult > 0), failedState: false });
-          AppStateIOS.removeEventListener('change', this._handleAppStateChange);
+          AppState.removeEventListener('change', this._handleAppStateChange);
         })
       }
     }

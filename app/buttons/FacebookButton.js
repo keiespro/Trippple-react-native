@@ -1,6 +1,6 @@
 import React from "react";
 import {Component, PropTypes} from "react";
-import {StyleSheet, Text, Image, Dimensions, View, NativeModules, requireNativeComponent, TouchableHighlight, AlertIOS, TouchableOpacity} from "react-native";
+import {StyleSheet, Text, Image, Dimensions, View, NativeModules, requireNativeComponent, TouchableHighlight, Alert, TouchableOpacity} from "react-native";
 
 import { FBLoginManager } from 'NativeModules'
 import colors from '../utils/colors'
@@ -92,7 +92,7 @@ class FacebookButton extends React.Component{
       });
     }else{
       if(this.props.shouldLogoutOnTap){
-        AlertIOS.alert(
+        Alert.alert(
             'Log Out of Facebook',
             'Are you sure you want to log out of Facebook?',
             [

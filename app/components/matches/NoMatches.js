@@ -1,14 +1,8 @@
 /* @flow */
 
-import React, {
-  Component,
-  StyleSheet,
-  Text,
-  Image,
-  View,
-  Dimensions,
-  ScrollView,
-} from 'react-native'
+import React, {Component} from "react";
+
+import {StyleSheet, Text, Image, View, Dimensions, ScrollView} from "react-native";
 
 import colors from '../../utils/colors'
 import FadeInContainer from '../FadeInContainer'

@@ -1,7 +1,8 @@
 const APP_ENV = 'production';
 const DEBUG = true
 const DEV = true
-
+__DEBUG__ = DEBUG
+__DEV__ = DEV
 if(typeof window != 'undefined'){
   window.__DEBUG__ = DEBUG;
   window.__TEST__ = DEV;
@@ -10,12 +11,6 @@ if(typeof window != 'undefined'){
   global.__DEV__ = DEV;
 }
 
-<<<<<<< HEAD
-=======
-__DEBUG__ = false;
-__DEV__ = false;
-
->>>>>>> 2.2.0-alpha
 const configurations = {
 
   production: {

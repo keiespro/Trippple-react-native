@@ -2,7 +2,7 @@ import config from '../config'
 const {WEBSOCKET_URL} = config;
 import React,{Component} from "react";
 
-import {View, AlertIOS, AsyncStorage, AppStateIOS, PushNotificationIOS, VibrationIOS} from "react-native";
+import {View, Alert, AsyncStorage, AppState, PushNotificationIOS, VibrationIOS} from "react-native";
 
 import io from '../socket.io'
 
@@ -108,7 +108,7 @@ class NotificationCommander extends Component{
 
     }else if(data.action === 'notify') {
       VibrationIOS.vibrate()
-      AlertIOS.alert(data.title, JSON.stringify(data.body));
+      Alert.alert(data.title, JSON.stringify(data.body));
 
     }else if(data.action === 'match_removed'){
 
@@ -117,7 +117,7 @@ class NotificationCommander extends Component{
     }else if(data.action && data.action == 'coupleready') {
 
       UserActions.getUserInfo.defer()
-      AlertIOS.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
+      Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
       VibrationIOS.vibrate()
 
     }else if(data.action && data.action == 'statuschange' || data.action == 'imageflagged') {
@@ -137,7 +137,7 @@ class NotificationCommander extends Component{
       ReactNativeAutoUpdater.checkUpdate()
 
     }
-    // AlertIOS.alert('APN Push Notification',JSON.stringify(pushNotification.getData()));
+    // Alert.alert('APN Push Notification',JSON.stringify(pushNotification.getData()));
   }
   _handleAppStateChange(appState){
     if(appState == 'active'){
@@ -199,7 +199,7 @@ class NotificationCommander extends Component{
 
       }else if(data.action && data.action == 'coupleready') {
         UserActions.getUserInfo()
-        AlertIOS.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
+        Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
 
       }else if(data.action && data.action === 'logout') {
 

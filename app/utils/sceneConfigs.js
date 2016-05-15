@@ -499,14 +499,14 @@ var CustomSceneConfigs = {
 
       pop: {
         ...BaseDownUpGesture,
-        edgeHitWidth: 150,
+        edgeHitWidth: null,
         fullDistance: SCREEN_HEIGHT,
         overswipe: BaseOverswipeConfig,
 
       },
       push: {
         ...BaseUpDownGesture,
-        edgeHitWidth: 150,
+        edgeHitWidth: null,
         fullDistance: SCREEN_HEIGHT,
         overswipe: BaseOverswipeConfig,
 

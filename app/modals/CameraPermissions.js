@@ -3,7 +3,7 @@
 import React from "react";
 
 import {Component, PropTypes} from "react";
-import {StyleSheet, Text, Image, CameraRoll, View, AsyncStorage, TouchableOpacity, TouchableHighlight, Dimensions, NativeModules, AppStateIOS, PixelRatio} from "react-native";
+import {StyleSheet, Text, Image, CameraRoll, View, AsyncStorage, TouchableOpacity, TouchableHighlight, Dimensions, NativeModules, AppState, PixelRatio} from "react-native";
 import Camera from 'react-native-camera';
 import CoupleCameraControl from '../controls/CoupleCameraControl'
 
@@ -80,16 +80,16 @@ export default class CameraPermissionsModal extends Component{
 
   }
   componentDidMount() {
-    AppStateIOS.addEventListener('change', this._handleAppStateChange.bind(this));
+    AppState.addEventListener('change', this._handleAppStateChange.bind(this));
   }
   componentWillUnmount() {
-    AppStateIOS.removeEventListener('change', this._handleAppStateChange);
+    AppState.removeEventListener('change', this._handleAppStateChange);
   }
   _handleAppStateChange(currentAppState) {
     if(currentAppState == 'active'){
       OSPermissions.canUseCamera( (permission) => {
         this.setState({ hasPermission: (parseInt(permission) > 2), failedState: false });
-        AppStateIOS.removeEventListener('change', this._handleAppStateChange);
+        AppState.removeEventListener('change', this._handleAppStateChange);
       })
     }
   }

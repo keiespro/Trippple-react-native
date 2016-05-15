@@ -13,7 +13,7 @@ const TopTabs = React.createClass({
   mixins: [TimerMixin],
   getInitialState(){
     return ({
-      ready: false
+      ready: true
     })
   },
   componentDidMount(){
@@ -37,7 +37,10 @@ const TopTabs = React.createClass({
         <TouchableHighlight
           key={'toptablogin'}
           style={[styles.topButton,(this.props.active == 'login' ? styles.activeButton : styles.otherButton)]}
-          onPress={()=>this.toggleTab('login')}
+          onPress={(e)=>{
+            console.log(e);
+            this.toggleTab('login')
+          }}
           underlayColor={this.props.active == 'login' ? colors.outerSpace : colors.rollingStone}
           >
           <Text style={[styles.buttonText, styles.activeButtonText]}>LOG IN</Text>

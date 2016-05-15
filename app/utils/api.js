@@ -45,11 +45,12 @@ async function baseRequest(endpoint='': String, payload={}: Object){
     if(!res.json){
       __DEV__ && console.log('no res.json')
     }
+    console.log(res);
     let response = await res.json()
-    __DEV__ && console.log(response)
-
-    response.res = res
-    return response
+    __DEV__ && console.log(response.response)
+    returnResponse =  {...response, res: response}
+    console.log(returnResponse);
+    return returnResponse
   }catch(err){
     __DEV__ && console.log('CAUGHT ERR',response,res,err)
 

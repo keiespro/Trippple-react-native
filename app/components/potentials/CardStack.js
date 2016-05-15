@@ -8,7 +8,7 @@ const THROW_THRESHOLD_DENY = -50,
       THROW_SPEED_THRESHOLD = 0.07;
 
 import React from "react";
-import {StyleSheet, Text, View, AppStateIOS, Easing, LayoutAnimation, TouchableHighlight, Image, Animated, PanResponder, Dimensions} from "react-native";
+import {StyleSheet, Text, View, AppState, Easing, LayoutAnimation, TouchableHighlight, Image, Animated, PanResponder, Dimensions} from "react-native";
 
 import styles from './styles'
 import animations from './LayoutAnimations'
@@ -31,7 +31,7 @@ class CardStack extends React.Component{
       pan: new Animated.ValueXY(),
       animatedIn:false,
       offsetY: new Animated.Value(0),
-      appState: AppStateIOS.currentState,
+      appState: AppState.currentState,
       likedPotentials:[]
     }
   }
@@ -46,14 +46,14 @@ class CardStack extends React.Component{
 
     }else{
 
-      AppStateIOS.removeEventListener('change', this._handleAppStateChange.bind(this));
+      AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
     }
 
 
 
   }
   componentDidMount(){
-    AppStateIOS.addEventListener('change', this._handleAppStateChange.bind(this));
+    AppState.addEventListener('change', this._handleAppStateChange.bind(this));
 
     Animated.timing(this.state.offsetY,{
       toValue: 1,
@@ -67,7 +67,7 @@ class CardStack extends React.Component{
     })
   }
   componentWillUnmount(){
-    AppStateIOS.removeEventListener('change', this._handleAppStateChange.bind(this));
+    AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
 
   }
   componentWillReceiveProps(nProps){

@@ -5,7 +5,7 @@
 const Pin_MASK_USA = '999 999-9999';
 
 import React from "react";
-import {StyleSheet, Text, View, Image, TouchableHighlight, TouchableOpacity, LayoutAnimation, TextInput, Dimensions, AlertIOS, NativeModules, ScrollView} from "react-native";
+import {StyleSheet, Text, View, Image, TouchableHighlight, TouchableOpacity, LayoutAnimation, TextInput, Dimensions, Alert, NativeModules, ScrollView} from "react-native";
 
 import CustomSceneConfigs from '../utils/sceneConfigs'
 const {RNMail} = NativeModules;
@@ -100,7 +100,7 @@ const PinScreen = React.createClass({
 //       const env = NativeModules.RNAppInfo;
 //       const telemetry = {}
 //       Object.keys(env).forEach((k)=>{if(k!=''){telemetry[k] = env[k]}})
-//       AlertIOS.alert(
+//       Alert.alert(
 //         'Account disabled',
 //         'Your account has been deactivated. If you did not request this, please contact us.',
 //         [
@@ -110,7 +110,7 @@ const PinScreen = React.createClass({
 //                 body: 'Help! '+JSON.stringify(telemetry)
 //               }, (error, event) => {
 //                   if(error) {
-//                     AlertIOS.alert('Error', 'Could not send mail. Please email feedback@trippple.co directly.');
+//                     Alert.alert('Error', 'Could not send mail. Please email feedback@trippple.co directly.');
 //                   }
 //               })
 //             },

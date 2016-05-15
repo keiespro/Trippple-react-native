@@ -2,7 +2,7 @@
 
 import React, {Component} from "react";
 
-import {StyleSheet, Text, Image, View, AlertIOS, TextInput, ListView, TouchableOpacity, TouchableHighlight, Dimensions, PixelRatio, Modal, NativeModules} from "react-native";
+import {StyleSheet, Text, Image, View, Alert, TextInput, ListView, TouchableOpacity, TouchableHighlight, Dimensions, PixelRatio, Modal, NativeModules} from "react-native";
 
 
 const DeviceHeight = Dimensions.get('window').height

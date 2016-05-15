@@ -5,14 +5,14 @@
 
 import React from "react";
 
-import {View, AppRegistry} from "react-native";
+import ReactNative, {View, AppRegistry, NativeModules} from "react-native";
 import Boot from './app/Boot'
 import alt from './app/flux/alt'
 
 
 if(typeof window !== 'undefined' && __DEV__){
   global = window;
-  window.React = React;
+  window.ReactNative = ReactNative;
   window.alt = alt;
   console.ignoredYellowBox = ['jsSchedulingOverhead','SocketRocket','ScrollView'];
 }

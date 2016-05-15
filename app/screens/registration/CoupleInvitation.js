@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import {StyleSheet, Text, Image, View, AlertIOS, TextInput, ListView, Modal, TouchableHighlight, Animated, Easing, Dimensions, TouchableWithoutFeedback, ActivityIndicatorIOS} from "react-native";
+import {StyleSheet, Text, Image, View, Alert, TextInput, ListView, Modal, TouchableHighlight, Animated, Easing, Dimensions, TouchableWithoutFeedback, ActivityIndicatorIOS} from "react-native";
 import ContinueButton from '../../controls/ContinueButton'
 
 const DeviceHeight = Dimensions.get('window').height

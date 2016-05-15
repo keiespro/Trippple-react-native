@@ -55,6 +55,8 @@ class MatchList extends Component{
 
   _allowScroll(scrollEnabled){
     var listref =  '_listView';
+
+    console.log(this[listref],this.refs);
     this[listref] && this[listref].refs.listviewscroll.refs.ScrollView.setNativeProps({ scrollEnabled })
   }
 
@@ -185,7 +187,7 @@ class MatchList extends Component{
         rowID={rowID}
         sectionID={sectionID}
         autoClose={true}
-        scroll={this._allowScroll.bind(this)}
+        scroll={()=>{}}
         onOpen={(sectionID_, rowID_) => {this._handleSwipeout(sectionID_, rowID_)}}
       >
         <TouchableHighlight

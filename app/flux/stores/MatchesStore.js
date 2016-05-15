@@ -6,7 +6,7 @@ import UserActions from '../actions/UserActions'
 
 import NotificationActions from '../actions/NotificationActions'
 import { matchWasAdded, messageWasAdded } from '../../utils/matchstix'
-import { AsyncStorage, AlertIOS } from 'react-native'
+import { AsyncStorage, Alert } from 'react-native'
 import _ from 'underscore'
 import UserStore from './UserStore'
 

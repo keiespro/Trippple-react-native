@@ -3,7 +3,7 @@
 import React from "react";
 
 import {Component} from "react";
-import {StyleSheet, Text, Image, CameraRoll, View, AsyncStorage, TouchableHighlight, TouchableOpacity, Dimensions, NativeModules, PixelRatio, AppStateIOS} from "react-native";
+import {StyleSheet, Text, Image, CameraRoll, View, AsyncStorage, TouchableHighlight, TouchableOpacity, Dimensions, NativeModules, PixelRatio, AppState} from "react-native";
 
 const permissionsKey = 'cameraRoll'
 import UrlHandler from 'react-native-url-handler'
@@ -36,7 +36,7 @@ export default class CameraRollPermissionsModal extends Component{
     if(currentAppState == 'active'){
       OSPermissions.canUseCamera( (permission) => {
         this.setState({ hasPermission: parseInt(permission > 2) ? true : false, failedState: false });
-        AppStateIOS.removeEventListener('change', this._handleAppStateChange);
+        AppState.removeEventListener('change', this._handleAppStateChange);
       })
     }
   }
@@ -52,11 +52,11 @@ export default class CameraRollPermissionsModal extends Component{
 
        })
      }else{
-      AppStateIOS.addEventListener('change', this._handleAppStateChange.bind(this));
+      AppState.addEventListener('change', this._handleAppStateChange.bind(this));
     }
   }
   componentWillUnmount() {
-    AppStateIOS.removeEventListener('change', this._handleAppStateChange);
+    AppState.removeEventListener('change', this._handleAppStateChange);
   }
 
   componentDidUpdate(prevProps,prevState){
