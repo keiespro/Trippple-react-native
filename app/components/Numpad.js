@@ -1,7 +1,7 @@
 /* @flow */
 
 
-import React from 'react-native'
+import React from "react";
 import { Text,TextInput,View,StyleSheet,TouchableHighlight,Dimensions,PixelRatio,Image  } from 'react-native'
 import colors from '../utils/colors'
 import {MagicNumbers} from '../DeviceConfig'

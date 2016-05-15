@@ -2,13 +2,9 @@
 
 
 
-import React, {
-  StyleSheet,
-  Text,
-  View,
-  Navigator,
-  TouchableHighlight
-} from 'react-native'
+import React from "react";
+
+import {StyleSheet, Text, View, Navigator, TouchableHighlight} from "react-native";
 
 
 

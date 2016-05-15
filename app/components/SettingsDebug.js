@@ -1,16 +1,6 @@
 
-import React, {
-  StyleSheet,
-  Text,
-  View,
-  TouchableHighlight,
-  TouchableOpacity,
-  Animated,
-  PushNotificationIOS,
-  Image,ScrollView,
-  AsyncStorage,
-  Navigator
-}  from 'react-native';
+import React from "react";
+import {StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, Animated, PushNotificationIOS, Image, ScrollView, AsyncStorage, Navigator} from "react-native";
 
 import AppTelemetry from '../AppTelemetry'
 import NotificationActions from '../flux/actions/NotificationActions'

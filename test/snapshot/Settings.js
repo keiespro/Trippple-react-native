@@ -9,7 +9,8 @@ const MOCK_CREDENTIALS = {
 
 const KEYCHAIN_NAMESPACE = 'http://api2.trippple.co'
 
-import React, { View, AppRegistry,NativeModules,SnapshotViewIOS,Dimensions,AlertIOS } from 'react-native'
+import React from "react";
+import {View, AppRegistry, NativeModules, SnapshotViewIOS, Dimensions, AlertIOS} from "react-native";
 import Keychain from 'react-native-keychain'
 const {TestModule} = NativeModules
 import Settings from '../../app/components/settings'

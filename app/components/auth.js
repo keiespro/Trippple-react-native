@@ -1,15 +1,7 @@
 /* @flow */
-import React, {
-  Component,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ScrollView,
-  Navigator,
-  Dimensions,
-  TouchableHighlight
-} from 'react-native'
+import React, {Component} from "react";
+
+import {StyleSheet, Text, View, Image, ScrollView, Navigator, Dimensions, TouchableHighlight} from "react-native";
 
 import TimerMixin from 'react-timer-mixin'
 

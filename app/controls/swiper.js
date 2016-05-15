@@ -1,12 +1,5 @@
-import React, {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-  Animated,
-  Dimensions
-} from 'react-native'
+import React from "react";
+import {StyleSheet, Text, View, ScrollView, TouchableOpacity, Animated, Dimensions} from "react-native";
 import colors  from '../utils/colors'
 import TimerMixin from 'react-timer-mixin'
 

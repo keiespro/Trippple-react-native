@@ -1,6 +1,7 @@
 'use strict';
 
-import React, { StyleSheet, View, ScrollView, Animated, Dimensions } from 'react-native'
+import React from "react";
+import {StyleSheet, View, ScrollView, Animated, Dimensions} from "react-native";
 
 import {VibrancyView} from 'react-native-blur';
 const screen = Dimensions.get('window');

@@ -1,21 +1,9 @@
 /* @flow */
 
-import React from 'react-native'
-import {
-  Component,
-  StyleSheet,
-  Text,
-  Image,
-  CameraRoll,
-  View,
-  AsyncStorage,
-  TouchableHighlight,
-  TouchableOpacity,
-  Dimensions,
-  NativeModules,
-  PixelRatio,
-  AppStateIOS
-} from 'react-native'
+import React from "react";
+
+import {Component} from "react";
+import {StyleSheet, Text, Image, CameraRoll, View, AsyncStorage, TouchableHighlight, TouchableOpacity, Dimensions, NativeModules, PixelRatio, AppStateIOS} from "react-native";
 
 const permissionsKey = 'cameraRoll'
 import UrlHandler from 'react-native-url-handler'

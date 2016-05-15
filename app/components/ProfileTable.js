@@ -1,23 +1,12 @@
 /* @flow */
 
-import React from 'react-native';
-import {
-  Component,
-  StyleSheet,
-  Text,
-  View,
-  LayoutAnimation,
-  TouchableHighlight,
-  Image,
-  TouchableOpacity,
-  Animated,
-  ScrollView,
-  PanResponder,
-  Easing
-} from 'react-native';
+import React from "react";
 
- import colors from '../utils/colors';
- import Dimensions from 'Dimensions';
+import {Component} from "react";
+import {StyleSheet, Text, View, LayoutAnimation, TouchableHighlight, Image, TouchableOpacity, Animated, ScrollView, PanResponder, Easing} from "react-native";
+
+import colors from '../utils/colors';
+import Dimensions from 'Dimensions';
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;

@@ -3,18 +3,9 @@
 // setting centerContent=true on a scrollview changes the entire layout system
 // cards are scaled and can safely be left at dw/dh ?
 
-import React, {
-  StyleSheet,
-  Text,
-  View,
-  LayoutAnimation,
-  Image,
-  TouchableOpacity,
-  TouchableHighlight,
-  Animated,
-  ScrollView,
-  Dimensions
-} from 'react-native'
+import React from "react";
+
+import {StyleSheet, Text, View, LayoutAnimation, Image, TouchableOpacity, TouchableHighlight, Animated, ScrollView, Dimensions} from "react-native";
 
 import SliderTabBar from './SliderTabBar'
 import animations from './LayoutAnimations'

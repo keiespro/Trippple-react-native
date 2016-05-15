@@ -23,7 +23,7 @@ const mask = '(999) 999-9999',
     maskArr= ['(',')',' ','-'];
 
 
-import React from 'react-native'
+import React from "react";
 import { Text,TextInput,View,StyleSheet,TouchableHighlight,Dimensions,PixelRatio  } from 'react-native'
 import TimerMixin from 'react-timer-mixin';
 import s from 'underscore.string'

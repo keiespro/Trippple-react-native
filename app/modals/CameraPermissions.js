@@ -1,22 +1,9 @@
 /* @flow */
 
-import React from 'react-native'
-import {
-  Component,
-  StyleSheet,
-  Text,
-  Image,
-  CameraRoll,
-  View,
-  AsyncStorage,
-  TouchableOpacity,
-  TouchableHighlight,
-  Dimensions,
-  NativeModules,
-  PropTypes,
-  AppStateIOS,
-  PixelRatio
-} from 'react-native'
+import React from "react";
+
+import {Component, PropTypes} from "react";
+import {StyleSheet, Text, Image, CameraRoll, View, AsyncStorage, TouchableOpacity, TouchableHighlight, Dimensions, NativeModules, AppStateIOS, PixelRatio} from "react-native";
 import Camera from 'react-native-camera';
 import CoupleCameraControl from '../controls/CoupleCameraControl'
 

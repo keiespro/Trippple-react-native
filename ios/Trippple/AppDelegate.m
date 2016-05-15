@@ -13,8 +13,6 @@
  */
 
 #import "AppDelegate.h"
-#import "RCTBridge.h"
-#import "RCTJavaScriptLoader.h"
 #import "RCTLinkingManager.h"
 #import "RCTRootView.h"
 #import "RCTPushNotificationManager.h"
@@ -27,25 +25,47 @@
 #define JS_CODE_METADATA_URL @"https://blistering-torch-607.firebaseapp.com/update.json"
 
 
-@interface AppDelegate() <RCTBridgeDelegate>
-
-@end
-
 @implementation AppDelegate
 
 - (BOOL)application:( UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+
+  NSString *env = @"d";
+  NSURL* defaultMetadataFileLocation = [[NSBundle mainBundle] URLForResource:@"metadata" withExtension:@"json"];
+  NSURL* defaultJSCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  NSURL* latestJSCodeLocation;
+
+  NSLog(@"RUNNING IN %@",env);
+//
+  ReactNativeAutoUpdater* updater = [ReactNativeAutoUpdater sharedInstance];
+  [updater setDelegate:nil];
+  [updater initializeWithUpdateMetadataUrl:[NSURL URLWithString:JS_CODE_METADATA_URL]
+                     defaultJSCodeLocation:defaultJSCodeLocation
+               defaultMetadataFileLocation:defaultMetadataFileLocation ];
+  [updater allowCellularDataUse: YES];
+  [updater setHostnameForRelativeDownloadURLs:@"hello.trippple.co"];
+  [updater downloadUpdatesForType: ReactNativeAutoUpdaterPatchUpdate];
+  [updater checkUpdate];
+  
+  
+  if([env  isEqual: @"production"]){
+//    PRODUCTION
+    latestJSCodeLocation = [updater latestJSCodeLocation];
+  }else{
+//     DEVELOPMENT
+    latestJSCodeLocation = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
+  }
+
+  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:latestJSCodeLocation
+                                                      moduleName:@"Trippple"
+                                               initialProperties:nil
+                                                   launchOptions:launchOptions];
+  
+  rootView.backgroundColor = [UIColor tr_outerSpaceColor];
+
   [Fabric with:@[[Crashlytics class],[Answers class]]];
-
+  
   [NewRelicAgent startWithApplicationToken:@"AAe71824253eeeff92e1794a97883d2e0c5928816f"];
-
-  _bridge = [[RCTBridge alloc] initWithDelegate:self
-                                  launchOptions:launchOptions];
-
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:_bridge
-                                                   moduleName:@"Trippple"
-                                            initialProperties:nil];
-
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
@@ -53,41 +73,6 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   return YES;
-}
-
-- (NSURL *)sourceURLForBridge:(__unused RCTBridge *)bridge
-{
-  NSURL *sourceURL;
-  NSString *env = @"d";
-  NSLog(@"RUNNING IN %@",env);
-
-  NSURL* defaultMetadataFileLocation = [[NSBundle mainBundle] URLForResource:@"metadata" withExtension:@"json"];
-  NSURL *defaultJSCodeLocation;
-  NSString *rootUrl;
-
-  ReactNativeAutoUpdater* updater = [ReactNativeAutoUpdater sharedInstance];
-  [updater setDelegate:nil];
-  [updater initializeWithUpdateMetadataUrl:[NSURL URLWithString:JS_CODE_METADATA_URL]
-                     defaultJSCodeLocation:defaultJSCodeLocation
-               defaultMetadataFileLocation:defaultMetadataFileLocation ];
-  [updater allowCellularDataUse: YES];
-  [updater setHostnameForRelativeDownloadURLs:rootUrl];
-  [updater downloadUpdatesForType: ReactNativeAutoUpdaterPatchUpdate];
-  [updater checkUpdate];
-
-  if([env  isEqual: @"production"]){
-    //PRODUCTION
-    sourceURL = [updater latestJSCodeLocation];
-  }else{
-    // DEVELOPMENT
-    sourceURL = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
-  }
-
-#if RUNNING_ON_CI
-  sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-#endif
-
-  return sourceURL;
 }
 
 
@@ -98,12 +83,6 @@
                       sourceApplication:sourceApplication annotation:annotation];
 }
 
-- (void)loadSourceForBridge:(RCTBridge *)bridge
-                  withBlock:(RCTSourceLoadBlock)loadCallback
-{
-  [RCTJavaScriptLoader loadBundleAtURL:[self sourceURLForBridge:bridge]
-                            onComplete:loadCallback];
-}
 
 @end
 ///**

@@ -1,17 +1,6 @@
-import React from 'react-native'
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Navigator,
-  Image,
-  LayoutAnimation,
-  ScrollView,
-  Dimensions,
-  Component,
-  TouchableHighlight,
-} from 'react-native'
+import React from "react";
+import {Component} from "react";
+import {StyleSheet, Text, TextInput, View, Navigator, Image, LayoutAnimation, ScrollView, Dimensions, TouchableHighlight} from "react-native";
 
 import UserActions from '../../flux/actions/UserActions'
 import colors from '../../utils/colors'

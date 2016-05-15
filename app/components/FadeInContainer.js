@@ -1,14 +1,7 @@
-import React, {
-  Component,
-  StyleSheet,
-  Text,
-  View,
-  Easing,
-  Animated,
-} from 'react-native';
+import React, {Component,Children} from "react";
+import {StyleSheet, Text, View, Easing, Animated} from "react-native";
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
-import Children from 'react'
 class FadeInContainer extends Component{
   static defaultProps = {
     delayAmount: 0,

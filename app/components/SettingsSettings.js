@@ -1,25 +1,9 @@
 /* @flow */
 
 
-import React, {
-  StyleSheet,
-  Text,
-  View,
-  TouchableHighlight,
-  TouchableOpacity,
-  TextInput,
-  ScrollView,
-  SwitchIOS,
-  PixelRatio,
-  AlertIOS,
-  Animated,
-  PickerIOS,
-  Image,
-  NativeModules,
-  AsyncStorage,
-  Settings,
-  Navigator
-} from  'react-native'
+import React from "react";
+
+import {StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, TextInput, ScrollView, SwitchIOS, PixelRatio, AlertIOS, Animated, PickerIOS, Image, NativeModules, AsyncStorage, Settings, Navigator} from "react-native";
 import base64 from 'base-64';
 import Analytics from '../utils/Analytics';
 import TouchID from 'react-native-touch-id'

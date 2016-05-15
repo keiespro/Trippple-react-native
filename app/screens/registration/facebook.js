@@ -1,15 +1,5 @@
-import React from 'react-native'
-
-import {
-  StyleSheet,
-  Text,
-  Image,
-  Dimensions,
-  View,
-  Component,
-  TouchableHighlight,
-  TouchableOpacity
-} from 'react-native'
+import React, {Component} from "react";
+import {StyleSheet, Text, Image, Dimensions, View, TouchableHighlight, TouchableOpacity} from "react-native";
 
 import colors from '../../utils/colors'
 import UserActions from '../../flux/actions/UserActions'
@@ -91,31 +81,31 @@ class Facebook extends Component{
 
   render() {
     return (
-     <View style={{width:DeviceWidth,height:DeviceHeight,position:'relative',backgroundColor:colors.outerSpace}}>
+      <View style={{width:DeviceWidth,height:DeviceHeight,position:'relative',backgroundColor:colors.outerSpace}}>
 
-         <View style={{width:100,height:50,left:(MagicNumbers.screenPadding/2)}}>
+        <View style={{width:100,height:50,left:(MagicNumbers.screenPadding/2)}}>
           <BackButton/>
         </View>
 
-      <View style={[styles.container,{}]}>
+        <View style={[styles.container,{}]}>
 
           <View style={styles.middleTextWrap}>
             <Text style={styles.middleText}>Save time. Get more matches.</Text>
           </View>
           <View style={{alignSelf:'stretch'}}>
-          <FacebookButton buttonType={'onboard'} buttonText={'VERIFY WITH FB'} onLogin={this.handleCredentials.bind(this)} />
+            <FacebookButton buttonType={'onboard'} buttonText={'VERIFY WITH FB'} onLogin={this.handleCredentials.bind(this)} />
 
-          <View style={styles.middleTextWrap}>
-            <Text style={[styles.middleText,{fontSize:16,marginTop:20,textAlign:'center',width:MagicNumbers.screenWidth}]}>Don’t worry, we won't ever tell your friends or post on your wall.</Text>
+            <View style={styles.middleTextWrap}>
+              <Text style={[styles.middleText,{fontSize:16,marginTop:20,textAlign:'center',width:MagicNumbers.screenWidth}]}>Don’t worry, we won't ever tell your friends or post on your wall.</Text>
+            </View>
           </View>
-</View>
           <View style={[styles.middleTextWrap,styles.bottomwrap]}>
             <TouchableOpacity
               onPress={this.skipFacebook.bind(this)}
             ><Text style={styles.middleText}>No thanks</Text>
             </TouchableOpacity>
           </View>
-      </View>
+        </View>
       </View>
     );
   }
@@ -164,5 +154,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export { FacebookButton }
-export default Facebook
+export default Facebook;

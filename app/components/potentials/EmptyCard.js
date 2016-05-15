@@ -1,9 +1,5 @@
-import React, {
-  StyleSheet,
-  Text,
-  View,
-  LayoutAnimation,
-} from 'react-native'
+import React from "react";
+import {StyleSheet, Text, View, LayoutAnimation} from "react-native";
 
 class EmptyCard extends React.Component{
   constructor(props){

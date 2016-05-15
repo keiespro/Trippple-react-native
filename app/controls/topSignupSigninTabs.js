@@ -2,12 +2,9 @@
 * @flow
 */
 
-import React, {
-  Text,
-  StyleSheet,
-  View,
-  TouchableHighlight
-} from 'react-native';
+import React from "react";
+
+import {Text, StyleSheet, View, TouchableHighlight} from "react-native";
 
 import colors from '../utils/colors'
 import TimerMixin from 'react-timer-mixin'

@@ -1,14 +1,6 @@
-import React from 'react-native'
-import {
-  Component,
-  StyleSheet,
-  CameraRoll,
-  Text,
-  Image,
-  View,
-  TouchableOpacity,
-  TouchableHighlight
-} from 'react-native';
+import React from "react";
+import {Component} from "react";
+import {StyleSheet, CameraRoll, Text, Image, View, TouchableOpacity, TouchableHighlight} from "react-native";
 
 import Camera from 'react-native-camera';
 import colors from '../utils/colors'

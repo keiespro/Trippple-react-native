@@ -1,14 +1,7 @@
 'use strict';
 
-import React, {
-  Dimensions,
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-  PanResponder,
-  Animated,
-} from 'react-native'
+import React from "react";
+import {Dimensions, Text, View, ScrollView, TouchableOpacity, PanResponder, Animated} from "react-native";
 
 import DefaultTabBar from './components/CustomTabBar'
 const deviceWidth = Dimensions.get('window').width;

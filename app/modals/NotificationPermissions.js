@@ -1,22 +1,9 @@
 /* @flow */
 
-import React from 'react-native'
-import {
-  Component,
-  StyleSheet,
-  Text,
-  Image,
-  NativeModules,
-  Settings,
-  View,
-  AppStateIOS,
-  PropTypes,
-  TouchableHighlight,
-  Dimensions,
-  PixelRatio,
-  PushNotificationIOS,
-  TouchableOpacity
-} from 'react-native'
+import React from "react";
+
+import {Component, PropTypes} from "react";
+import {StyleSheet, Text, Image, NativeModules, Settings, View, AppStateIOS, TouchableHighlight, Dimensions, PixelRatio, PushNotificationIOS, TouchableOpacity} from "react-native";
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width

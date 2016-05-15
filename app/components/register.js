@@ -3,20 +3,9 @@
 
 const PHONE_MASK_USA = '(999) 999-9999'
 
-import React from 'react-native'
-
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  Image,
-  TouchableHighlight,
-  LayoutAnimation,
-  Dimensions,
-  TextInput,
-  Component
-} from 'react-native'
+import React from "react";
+import {Component} from "react";
+import {StyleSheet, Text, View, ScrollView, Image, TouchableHighlight, LayoutAnimation, Dimensions, TextInput} from "react-native";
 
 import CustomSceneConfigs from '../utils/sceneConfigs'
 import colors from '../utils/colors'

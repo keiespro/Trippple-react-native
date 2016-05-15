@@ -1,5 +1,6 @@
-import React from 'react-native'
-import { Component, View, StyleSheet, Text, TextInput, ScrollView, TouchableHighlight } from 'react-native'
+import React from "react";
+import {Component} from "react";
+import {View, StyleSheet, Text, TextInput, ScrollView, TouchableHighlight} from "react-native";
 import colors from '../utils/colors'
 import Dimensions from 'Dimensions';
 import UserActions from '../flux/actions/UserActions'

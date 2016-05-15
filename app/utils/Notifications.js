@@ -3,12 +3,13 @@
 */
 
 
-import React from 'react-native';
+import React from "react";
 
-import { Component, View, Navigator } from 'react-native';
+import {Component} from "react";
+import {View, Navigator} from "react-native";
 
 import alt from '../flux/alt';
-import AltContainer from 'alt-container';
+import AltContainer from 'alt-container/native';
 
 import UserStore from '../flux/stores/UserStore';
 import CredentialsStore from '../flux/stores/CredentialsStore'

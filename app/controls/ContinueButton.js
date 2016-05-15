@@ -2,16 +2,9 @@
  * @flow
  */
 
-import React, {
-  Text,
-  TextInput,
-  View,
-  TouchableHighlight,
-  StyleSheet,
-  ActivityIndicatorIOS,
-  Component,
-  Dimensions
-} from 'react-native'
+import React, {Component} from "react";
+
+import {Text, TextInput, View, TouchableHighlight, StyleSheet, ActivityIndicatorIOS, Dimensions} from "react-native";
 
 import {MagicNumbers} from '../DeviceConfig'
 

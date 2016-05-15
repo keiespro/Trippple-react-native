@@ -1,13 +1,5 @@
-import React, {
-  PixelRatio,
-  StatusBarIOS,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TouchableHighlight,
-  View,
-  Dimensions
-} from 'react-native'
+import React from "react";
+import {PixelRatio, StatusBarIOS, StyleSheet, Text, TouchableOpacity, TouchableHighlight, View, Dimensions} from "react-native";
 import colors from '../utils/colors'
 import {BlurView,VibrancyView} from 'react-native-blur'
 import SettingsDebug from '../components/SettingsDebug'
@@ -275,7 +267,7 @@ const styles = StyleSheet.create({
   },
   navBarContainerBorder:{
     borderBottomColor: 'rgba(0, 0, 0, 0.5)',
-    borderBottomWidth: 1 / React.PixelRatio.get(),
+    borderBottomWidth: 1 / PixelRatio.get(),
   },
   navBar: {
     height: NAV_HEIGHT,

@@ -1,16 +1,5 @@
-import React, {
-  Component,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Image,
-  Navigator,
-  TouchableHighlight,
-  Dimensions,
-  TouchableOpacity,
-  LayoutAnimation,
-} from 'react-native'
+import React, {Component} from "react";
+import {StyleSheet, Text, TextInput, View, Image, Navigator, TouchableHighlight, Dimensions, TouchableOpacity, LayoutAnimation} from "react-native";
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 

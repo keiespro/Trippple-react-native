@@ -1,17 +1,8 @@
 /* @flow */
 'use strict';
 
-import React, {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View,
-    ScrollView,
-    Image,
-    CameraRoll,
-    TouchableHighlight,
-    NativeModules
-} from 'react-native'
+import React from "react";
+import {AppRegistry, StyleSheet, Text, View, ScrollView, Image, CameraRoll, TouchableHighlight, NativeModules} from "react-native";
 
 
 const styles = StyleSheet.create({

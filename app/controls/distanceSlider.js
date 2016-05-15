@@ -2,7 +2,9 @@
  * @flow
  */
 
-import React, { SliderIOS, Text, StyleSheet, View, } from 'react-native'
+import React from "react";
+
+import {SliderIOS, Text, StyleSheet, View} from "react-native";
 
 const DistanceSlider = React.createClass({
   getInitialState() {

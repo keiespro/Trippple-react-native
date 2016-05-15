@@ -1,5 +1,6 @@
 
-import React, { Component, View, Dimensions,NativeModules, Image, Animated, Text, TouchableOpacity } from 'react-native'
+import React, {Component} from "react";
+import {View, Dimensions, NativeModules, Image, Animated, Text, TouchableOpacity} from "react-native";
 
 import colors from '../utils/colors'
 

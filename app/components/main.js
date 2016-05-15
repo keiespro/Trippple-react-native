@@ -1,22 +1,9 @@
 /* @flow */
 
 
-import React,{
-  Component,
-  PixelRatio,
-  Navigator,
-  ScrollView,
-  StyleSheet,
-  InteractionManager,
-  Text,
-  Image,
-  AlertIOS,
-  TouchableHighlight,
-  AsyncStorage,
-  TouchableOpacity,
-  Dimensions,
-  View
-} from 'react-native'
+import React, {Component} from "react";
+
+import {PixelRatio, Navigator, ScrollView, StyleSheet, InteractionManager, Text, Image, AlertIOS, TouchableHighlight, AsyncStorage, TouchableOpacity, Dimensions, View} from "react-native";
 import dismissKeyboard from 'dismissKeyboard'
 import Settings from './settings'
 import Matches from './matches'

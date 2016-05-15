@@ -1,18 +1,7 @@
 'use strict';
 
-import React, {
-  StyleSheet,
-  Image,
-  Text,
-  View,
-  PixelRatio,
-  Dimensions,
-  Navigator,
-  ListView,
-  ActivityIndicatorIOS,
-  TouchableHighlight,
-  NativeModules
-} from 'react-native'
+import React from "react";
+import {StyleSheet, Image, Text, View, PixelRatio, Dimensions, Navigator, ListView, ActivityIndicatorIOS, TouchableHighlight, NativeModules} from "react-native";
 
 import UserActions from '../flux/actions/UserActions'
 import FBLogin from 'react-native-facebook-login'

@@ -2,7 +2,9 @@
  * @flow
  */
 
-import React, { Text, StyleSheet, View, PickerIOS } from 'react-native'
+import React from "react";
+
+import {Text, StyleSheet, View, PickerIOS} from "react-native";
 const PickerItemIOS = PickerIOS.Item
 import colors from '../utils/colors'
 

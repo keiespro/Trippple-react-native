@@ -4,17 +4,8 @@ const MIN_AGE = 18
 const MAX_AGE = 50
 const MIN_AGE_GROUP_DISTANCE = 4 ///years
 
-import React, {
-  StyleSheet,
-  Text,
-  View,
-  TouchableHighlight,
-  Animated,
-  TouchableOpacity,
-  PanResponder,
-  Easing,
-  Dimensions
-} from  'react-native'
+import React from "react";
+import {StyleSheet, Text, View, TouchableHighlight, Animated, TouchableOpacity, PanResponder, Easing, Dimensions} from "react-native";
 
 import UserActions from '../flux/actions/UserActions'
 import colors from '../utils/colors'

@@ -3,22 +3,10 @@
 // https://github.com/facebook/react-native/blob/62e8ddc20561a39c3c839ab9f83c95493df117c0/Libraries/Image/RCTImageEditingManager.m
 
 
-import React from 'react-native'
+import React from "react";
 
-import {
-  Component,
-  StyleSheet,
-  ScrollView,
-  Text,
-  Image,
-  CameraRoll,
-  View,
-  NativeModules,
-  ActivityIndicatorIOS,
-  AlertIOS,
-  TouchableHighlight,
-  TouchableOpacity
-} from 'react-native';
+import {Component} from "react";
+import {StyleSheet, ScrollView, Text, Image, CameraRoll, View, NativeModules, ActivityIndicatorIOS, AlertIOS, TouchableHighlight, TouchableOpacity} from "react-native";
 
 import colors from '../../utils/colors';
 import UserActions from '../../flux/actions/UserActions';

@@ -2,7 +2,9 @@
 * @providesModule WelcomeTests
 */
 
-import React, { View, AppRegistry,NativeModules,SnapshotViewIOS,Dimensions,AlertIOS } from 'react-native'
+import React from "react";
+
+import {View, AppRegistry, NativeModules, SnapshotViewIOS, Dimensions, AlertIOS} from "react-native";
 const {TestModule} = NativeModules
 import Welcome from '../../app/components/welcome'
 

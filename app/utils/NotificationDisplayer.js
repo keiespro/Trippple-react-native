@@ -1,6 +1,7 @@
 
-import React from 'react-native'
-import { Component, View, AlertIOS, AsyncStorage, AppStateIOS, PushNotificationIOS, VibrationIOS } from 'react-native'
+import React from "react";
+import {Component} from "react";
+import {View, AlertIOS, AsyncStorage, AppStateIOS, PushNotificationIOS, VibrationIOS} from "react-native";
 
 // import Promise from 'bluebird'
 import NotificationActions from '../flux/actions/NotificationActions'

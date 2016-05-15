@@ -1,22 +1,9 @@
 /* @flow */
 
 
-import React, {
-  StyleSheet,
-  Text,
-  View,
-  TouchableHighlight,
-  TouchableOpacity,
-  TextInput,
-  ScrollView,
-  SwitchIOS,
-  Animated,
-  PickerIOS,
-  PixelRatio,
-  Image,
-  AsyncStorage,
-  Navigator
-} from  'react-native'
+import React from "react";
+
+import {StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, TextInput, ScrollView, SwitchIOS, Animated, PickerIOS, PixelRatio, Image, AsyncStorage, Navigator} from "react-native";
 import Mixpanel from '../utils/mixpanel';
 import SegmentedView from '../controls/SegmentedView'
 import ScrollableTabView from '../scrollable-tab-view'

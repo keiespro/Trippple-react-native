@@ -21,9 +21,9 @@ var caps = {
   deviceName: "iPhone 5s",//"[B84045D3-3987-43AD-B645-4614B2AC5C7A]",// 'iPhone 5',
   // autoLaunch: 'true',
   newCommandTimeout: UNLIMITED,
-  app:"/Users/alexlopez/code/Trippple/Trippple/ios/Build/Build/Products/Debug-iphonesimulator/Trippple.app",
+  app:"/Users/alexlopez/code/Trippple/TripppleApp/ios/Build/Build/Products/Debug-iphonesimulator/Trippple.app",
   // bundleId:"co.trippple"
-  // app: "/Users/alexlopez/code/Trippple/Trippple/ios/Build/Products/Debug-iphoneos/Trippple.app"
+  // app: "/Users/alexlopez/code/Trippple/TripppleApp/ios/Build/Products/Debug-iphoneos/Trippple.app"
 };
 
 describe("Welcome and login", function() {

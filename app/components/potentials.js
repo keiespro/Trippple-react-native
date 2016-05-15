@@ -1,20 +1,13 @@
 /* @flow */
 
-import React, {
-  Text,
-  View,
-  Image,
-  Animated,
-  ActivityIndicatorIOS,
-  Dimensions,
-  AppStateIOS,
-  NativeModules
-} from 'react-native';
+import React from "react";
+
+import {Text, View, Image, Animated, ActivityIndicatorIOS, Dimensions, AppStateIOS, NativeModules} from "react-native";
 
 
 import alt from '../flux/alt';
 import Mixpanel from '../utils/mixpanel';
-import AltContainer from 'alt-container';
+import AltContainer from 'alt-container/native';
 import colors from '../utils/colors';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;

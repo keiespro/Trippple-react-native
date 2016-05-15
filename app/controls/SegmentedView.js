@@ -1,16 +1,6 @@
-import React from 'react-native';
-import {
-    StyleSheet,
-    Text,
-    Image,
-    View,
-    TouchableOpacity,
-    TouchableHighlight,
-    PropTypes,
-    Easing,
-    Animated,
-    Dimensions
-} from 'react-native';
+import React from "react";
+import {PropTypes} from "react";
+import {StyleSheet, Text, Image, View, TouchableOpacity, TouchableHighlight, Easing, Animated, Dimensions} from "react-native";
 
 const DeviceWidth = Dimensions.get('window').width;
 

@@ -3,14 +3,16 @@
 */
 
 
-import React from 'react-native';
+import React from "react";
+
 import DeviceConfig from '../DeviceConfig'
-import { Component, AppRegistry, View, Navigator, Dimensions, Image, NativeModules} from 'react-native'
+import {Component} from "react";
+import {AppRegistry, View, Navigator, Dimensions, Image, NativeModules} from "react-native";
 import Analytics from '../utils/Analytics'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import alt from '../flux/alt';
-import AltContainer from 'alt-container';
+import AltContainer from 'alt-container/native';
 import Welcome from './welcome';
 import Main from './main';
 import PendingPartner from './pendingpartner';

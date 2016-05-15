@@ -3,16 +3,8 @@
 
 const PHONE_MASK_USA = "999 999-9999";
 
-import React, {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  Image,
-  TouchableHighlight,
-  LayoutAnimation,
-  TextInput
-} from 'react-native'
+import React from "react";
+import {StyleSheet, Text, View, ScrollView, Image, TouchableHighlight, LayoutAnimation, TextInput} from "react-native";
 
 import TrackKeyboard from '../mixins/keyboardMixin'
 import CustomSceneConfigs from '../utils/sceneConfigs'

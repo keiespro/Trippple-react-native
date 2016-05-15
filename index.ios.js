@@ -3,7 +3,9 @@
 * @flow
 */
 
-import React, { View, AppRegistry, } from 'react-native'
+import React from "react";
+
+import {View, AppRegistry} from "react-native";
 import Boot from './app/Boot'
 import alt from './app/flux/alt'
 

@@ -1,19 +1,6 @@
-import React from 'react-native'
-
-import {
-  StyleSheet,
-  Text,
-  Image,
-  Dimensions,
-  View,
-  Component,
-  PropTypes,
-  NativeModules,
-  requireNativeComponent,
-  TouchableHighlight,
-  AlertIOS,
-  TouchableOpacity
-} from 'react-native'
+import React from "react";
+import {Component, PropTypes} from "react";
+import {StyleSheet, Text, Image, Dimensions, View, NativeModules, requireNativeComponent, TouchableHighlight, AlertIOS, TouchableOpacity} from "react-native";
 
 import { FBLoginManager } from 'NativeModules'
 import colors from '../utils/colors'

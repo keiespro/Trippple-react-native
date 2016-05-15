@@ -1,4 +1,5 @@
-import React, { StyleSheet,Dimensions,PixelRatio } from 'react-native'
+import React from "react";
+import {StyleSheet, Dimensions, PixelRatio} from "react-native";
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import colors from '../../utils/colors'

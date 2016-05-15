@@ -2,11 +2,13 @@
  * @flow
  */
 
-import React from 'react-native';
+import React from "react";
+
 import Overlay from 'react-native-overlay';
 import {BlurView} from 'react-native-blur';
 
-import { Component, View, ActivityIndicatorIOS, StyleSheet, } from 'react-native';
+import {Component} from "react";
+import {View, ActivityIndicatorIOS, StyleSheet} from "react-native";
 
 
 class LoadingOverlay extends Component{

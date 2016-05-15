@@ -1,14 +1,15 @@
 
-import React from 'react-native'
-var {
+import React,{
   Component,
-
+} from "react";
+import {
+  NativeModules,
   StyleSheet,
   View,
   InteractionManager,
   PixelRatio,
   Dimensions
-} = React;
+} from "react-native";
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;

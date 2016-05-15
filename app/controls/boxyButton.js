@@ -1,12 +1,5 @@
-import React, {
-  Component,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableHighlight,
-  LayoutAnimation,
-} from 'react-native'
+import React, {Component} from "react";
+import {StyleSheet, Text, View, Image, TouchableHighlight, LayoutAnimation} from "react-native";
 
 import colors from '../utils/colors'
 import {MagicNumbers} from '../DeviceConfig'

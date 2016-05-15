@@ -2,7 +2,9 @@
  * @flow
  */
 
-import React, { Text, TextInput, View, TouchableHighlight, StyleSheet, } from 'react-native'
+import React from "react";
+
+import {Text, TextInput, View, TouchableHighlight, StyleSheet} from "react-native";
 
 const styles = StyleSheet.create({
   well: {

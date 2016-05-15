@@ -1,6 +1,8 @@
 /* @flow */
 
-import React, {  StyleSheet, Text, View, Image, Dimensions } from 'react-native'
+import React from "react";
+
+import {StyleSheet, Text, View, Image, Dimensions} from "react-native";
 import {MagicNumbers} from '../../DeviceConfig'
 import FadeInContainer from '../FadeInContainer'
 import colors from '../../utils/colors';

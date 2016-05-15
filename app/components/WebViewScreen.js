@@ -2,14 +2,9 @@ const helpScript = "jQuery(document).ready(function($){$('a').each(function(i,el
 
 const privacyScript = "jQuery().ready(function($){$('button').hide();window.setTimeout(function(){$('a').each(function(i,el){var s = $('<span></span>',{html: $(el).html()});$(el).replaceWith(s)});},1000)})";
 
-import React from 'react-native';
-import {
-  StyleSheet,
-  View,
-  WebView,
-  Text,
-  Component
-} from  'react-native'
+import React from "react";
+import {Component} from "react";
+import {StyleSheet, View, WebView, Text} from "react-native";
 
 import colors from '../utils/colors'
 import FakeNavBar from '../controls/FakeNavBar';

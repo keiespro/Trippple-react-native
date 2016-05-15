@@ -7,19 +7,8 @@ const THROW_THRESHOLD_DENY = -50,
       SWIPE_THRESHOLD_DENY = -200,
       THROW_SPEED_THRESHOLD = 0.07;
 
-import React, {
-  StyleSheet,
-  Text,
-  View,
-  AppStateIOS,
-  Easing,
-  LayoutAnimation,
-  TouchableHighlight,
-  Image,
-  Animated,
-  PanResponder,
-  Dimensions
-} from 'react-native';
+import React from "react";
+import {StyleSheet, Text, View, AppStateIOS, Easing, LayoutAnimation, TouchableHighlight, Image, Animated, PanResponder, Dimensions} from "react-native";
 
 import styles from './styles'
 import animations from './LayoutAnimations'

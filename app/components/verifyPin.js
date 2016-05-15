@@ -1,10 +1,5 @@
-import React, {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableHighlight
-} from 'react-native'
+import React from "react";
+import {StyleSheet, Text, View, TextInput, TouchableHighlight} from "react-native";
 
 import UserActions from '../flux/actions/UserActions'
 
@@ -79,7 +74,7 @@ class VerifyPin extends Component{
   }
 
 
-};
+}
 
 
 const styles = StyleSheet.create({

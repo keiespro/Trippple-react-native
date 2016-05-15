@@ -1,4 +1,5 @@
-import React, {Component,View,Text,TouchableHighlight,Dimensions} from 'react-native'
+import React, {Component} from "react";
+import {View, Text, TouchableHighlight, Dimensions} from "react-native";
 import colors from './utils/colors'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width

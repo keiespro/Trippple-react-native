@@ -1,21 +1,9 @@
 /*
  * @flow
  */
-import React, {
-  PropTypes,
-  Component,
-  ActivityIndicatorIOS,
-  CameraRoll,
-  Image,
-  ListView,
-  ScrollView,
-  StyleSheet,
-  View,
-  Text,
-  NativeModules,
-  TouchableOpacity,
-  Dimensions
-} from 'react-native'
+import React, {Component, PropTypes} from "react";
+
+import {ActivityIndicatorIOS, CameraRoll, Image, ListView, ScrollView, StyleSheet, View, Text, NativeModules, TouchableOpacity, Dimensions} from "react-native";
 
 import OnboardingActions from '../flux/actions/OnboardingActions'
 import colors from '../utils/colors'

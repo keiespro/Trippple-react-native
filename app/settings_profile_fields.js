@@ -1,4 +1,4 @@
-{
+export default {
     "firstname": {
         "label": "First Name",
         "field_type": "input",

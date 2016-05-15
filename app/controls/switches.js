@@ -1,5 +1,6 @@
 
-import React, { SwitchIOS, Text, View } from 'react-native'
+import React from "react";
+import {SwitchIOS, Text, View} from "react-native";
 
 const ToggleSwitch = React.createClass({
   getInitialState() {

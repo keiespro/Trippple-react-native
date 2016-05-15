@@ -1,19 +1,9 @@
 // mostly taken from  https://github.com/facebook/react-native/blob/master/Examples/UIExplorer/ImageEditingExample.js
 
-import React from 'react-native'
+import React from "react";
 
-import {
-  Component,
-  StyleSheet,
-  Text,
-  Image,
-  CameraRoll,
-  View,
-  PixelRatio,
-  TouchableHighlight,
-  NativeModules,
-  ScrollView
-} from 'react-native';
+import {Component} from "react";
+import {StyleSheet, Text, Image, CameraRoll, View, PixelRatio, TouchableHighlight, NativeModules, ScrollView} from "react-native";
 
 const ImageEditingManager = NativeModules.ImageEditingManager;
 const RCTScrollViewConsts = NativeModules.UIManager.RCTScrollView.Constants;
@@ -92,7 +82,7 @@ class EditImageThumb extends Component{
       this.proceed()
     }else{
 
-      React.NativeModules.ImageStoreManager.getBase64ForTag( cropped, (uri) => {
+      NativeModules.ImageStoreManager.getBase64ForTag( cropped, (uri) => {
 
         if(!uri || uri == ''){
           return false

@@ -1,13 +1,7 @@
 
-import React from 'react-native';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  Component
-} from  'react-native';
+import React from "react";
+import {Component} from "react";
+import {StyleSheet, Text, View, TouchableOpacity, Image} from "react-native";
 
 
 class CloseButton extends Component{

@@ -4,20 +4,8 @@
 
 const Pin_MASK_USA = '999 999-9999';
 
-import React, {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableHighlight,
-  TouchableOpacity,
-  LayoutAnimation,
-  TextInput,
-  Dimensions,
-  AlertIOS,
-  NativeModules,
-  ScrollView
-} from 'react-native';
+import React from "react";
+import {StyleSheet, Text, View, Image, TouchableHighlight, TouchableOpacity, LayoutAnimation, TextInput, Dimensions, AlertIOS, NativeModules, ScrollView} from "react-native";
 
 import CustomSceneConfigs from '../utils/sceneConfigs'
 const {RNMail} = NativeModules;

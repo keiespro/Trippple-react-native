@@ -1,4 +1,4 @@
-import React from 'react-native'
+import React from "react";
 import { NetInfo, AppStateIOS, Text, View } from 'react-native'
 import AppActions from '../flux/actions/AppActions'
 import NoInternetBanner from '../controls/NoInternetBanner'

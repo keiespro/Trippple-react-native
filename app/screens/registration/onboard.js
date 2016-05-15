@@ -1,19 +1,12 @@
-import React, {
-  Component,
-  StyleSheet,
-  Text,
-  View,
-  Navigator,
-  Dimensions
-  // InteractionManager,
-} from 'react-native'
+import React, {Component} from "react";
+import {StyleSheet, Text, View, Navigator, Dimensions} from "react-native";
 
 import UserActions from '../../flux/actions/UserActions'
 import colors from '../../utils/colors'
 import CustomSceneConfigs from '../../utils/sceneConfigs'
 import OnboardingStore from '../../flux/stores/OnboardingStore'
 import OnboardingActions from '../../flux/actions/OnboardingActions'
-import AltContainer from 'alt-container';
+import AltContainer from 'alt-container/native';
 import Analytics from '../../utils/Analytics';
 
 const DeviceHeight = Dimensions.get('window').height

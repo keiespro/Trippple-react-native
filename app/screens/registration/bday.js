@@ -2,17 +2,10 @@
  * @flow
  */
 
-import React from 'react-native'
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-   Image,
-    Dimensions,
-  Component,
-  DatePickerIOS,
-} from 'react-native'
+import React from "react";
+
+import {Component} from "react";
+import {StyleSheet, Text, TextInput, View, Image, Dimensions, DatePickerIOS} from "react-native";
 import {MagicNumbers} from '../../DeviceConfig'
 
 
