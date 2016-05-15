@@ -1,0 +1,58 @@
+apple_resource(
+  name = 'TripppleResources',
+  files = glob(['*.png']),
+  dirs = ['./'],
+)
+
+apple_bundle(
+  name = 'Trippple',
+  binary = ':TripppleBinary',
+  extension = 'app',
+  info_plist = 'Info.plist',
+  tests = [],
+)
+
+apple_binary(
+  name = 'TripppleBinary',
+  deps = [':TripppleResources'],
+  preprocessor_flags = ['-fobjc-arc'],
+  compiler_flags = ['-Wno-objc-designated-initializers'],
+  headers = glob([
+    '*.h',
+  ]),
+  srcs = glob([
+    '*.m',
+  ]),
+  frameworks = [
+    '$SDKROOT/System/Library/Frameworks/UIKit.framework',
+    '$SDKROOT/System/Library/Frameworks/Foundation.framework',
+    '$SDKROOT/System/Library/Frameworks/CoreData.framework',
+    '$SDKROOT/System/Library/Frameworks/CoreFoundation.framework',
+    '$SDKROOT/System/Library/Frameworks/AssetsLibrary.framework',
+  ],
+)
+
+apple_asset_catalog(
+  name = 'Images',
+  dirs = [
+    'Trippple/Images.xcassets',
+  ],
+)
+
+apple_package(
+  name = 'TrippplePackage',
+  bundle = ':Trippple',
+)
+# #
+# apple_test(
+#   name = 'TripppleTest',
+#   extension = 'xctest',
+#   test_host_app = ':Trippple',
+#   srcs = ['tests/TripppleTest.m'],
+#   info_plist = 'tests/Test.plist',
+#   frameworks = [
+#     '$SDKROOT/System/Library/Frameworks/Foundation.framework',
+#     '$PLATFORM_DIR/Developer/Library/Frameworks/XCTest.framework',
+#     '$SDKROOT/System/Library/Frameworks/UIKit.framework',
+#   ],
+# )

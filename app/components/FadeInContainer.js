@@ -1,5 +1,4 @@
-import React from 'react-native';
-import {
+import React, {
   Component,
   StyleSheet,
   Text,
@@ -7,11 +6,9 @@ import {
   Easing,
   Animated,
 } from 'react-native';
-
-
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
-
+import Children from 'react'
 class FadeInContainer extends Component{
   static defaultProps = {
     delayAmount: 0,
@@ -48,9 +45,9 @@ class FadeInContainer extends Component{
   render(){
       return (
         <View><Animated.View style={{flex:1,opacity:this.state.fadeAmount,...this.props.style,alignSelf:'stretch'}}>
-          {this.state.shouldRenderChildren ? React.Children.map(this.props.children, (child) =>{
+          {this.state.shouldRenderChildren ? Children.map(this.props.children, (child) =>{
             return (
-              React.cloneElement(child, {...this.props})
+            React.cloneElement(child, {...this.props})
             )
           })  : <View/>}
         </Animated.View></View>

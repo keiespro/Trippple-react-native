@@ -1,12 +1,24 @@
 PODS:
+  - FBSnapshotTestCase (2.1.0):
+    - FBSnapshotTestCase/SwiftSupport (= 2.1.0)
+  - FBSnapshotTestCase/Core (2.1.0)
+  - FBSnapshotTestCase/SwiftSupport (2.1.0):
+    - FBSnapshotTestCase/Core
   - Mixpanel (2.9.3):
     - Mixpanel/Mixpanel (= 2.9.3)
   - Mixpanel/Mixpanel (2.9.3)
+  - NewRelicAgent (5.4.1)
 
 DEPENDENCIES:
+  - FBSnapshotTestCase
   - Mixpanel
+  - NewRelicAgent
 
 SPEC CHECKSUMS:
+  FBSnapshotTestCase: 366ecd378511d7716c79991cd8067d1eed23578d
   Mixpanel: b9ff1c5d41fc07037d4b813bf2799c050ee3e49b
+  NewRelicAgent: c85f94358d6e02761cae6707364c4402a352a08f
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 6ebb2a1bfff8775011e346b327f7f781a1b57162
+
+COCOAPODS: 1.0.0

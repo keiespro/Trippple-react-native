@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B73744B2FDD7E1F8FDDFF03 /* Pods_Tripppletest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5895D685C5CCE27DA1AADB8D /* Pods_Tripppletest.framework */; };
 		AC0549F11C671AEF0072E9E7 /* libRCTGoogleAnalyticsBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0549F01C671AE10072E9E7 /* libRCTGoogleAnalyticsBridge.a */; };
 		AC0549F31C671C730072E9E7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0549F21C671C730072E9E7 /* CoreData.framework */; };
 		AC0549F51C671C8B0072E9E7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0549F41C671C8B0072E9E7 /* SystemConfiguration.framework */; };
@@ -20,6 +21,8 @@
 		AC054A051C673F8A0072E9E7 /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FB91C0502B600A63B9C /* libRNKeychain.a */; };
 		AC054A061C673F8A0072E9E7 /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FBC1C0502B600A63B9C /* libRNOverlay.a */; };
 		AC054A181C67485F0072E9E7 /* libRNMixpanel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC054A171C6748420072E9E7 /* libRNMixpanel.a */; settings = {ATTRIBUTES = (Required, ); }; };
+		AC11ABBB1CE7C58C001B6FB3 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC11ABB91CE7C58C001B6FB3 /* Fabric.framework */; };
+		AC11ABBC1CE7C58C001B6FB3 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC11ABBA1CE7C58C001B6FB3 /* Crashlytics.framework */; };
 		AC3DD3B71C3A2DED00D9E6D1 /* libEXURLHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FAD1C0502B600A63B9C /* libEXURLHandler.a */; };
 		AC3DD3B81C3A2DED00D9E6D1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		AC3DD3B91C3A2DED00D9E6D1 /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20441C050CF100A63B9C /* libRCTAddressBook.a */; };
@@ -105,7 +108,7 @@
 		ACC7DEC21C5A43D90087476F /* omnes-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACC7DEBC1C5A43D90087476F /* omnes-regular-webfont.ttf */; };
 		ACC7E0461C5A584A0087476F /* assets in Resources */ = {isa = PBXBuildFile; fileRef = ACC7E0441C5A579A0087476F /* assets */; };
 		ACFD4D431C5BC52400CAC7E7 /* ReactNativeAutoUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = ACFD4D401C5BC52400CAC7E7 /* ReactNativeAutoUpdater.m */; };
-		CC74B02A8C9EC2AD7F49A636 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66154039267BFAAB57E02CBF /* libPods.a */; };
+		C1BEBDD6112F691C6C9EF13F /* libPods-Trippple.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 096D4C5CA8FBE49828F3AD1C /* libPods-Trippple.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -334,14 +337,14 @@
 		00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImage.xcodeproj; path = "../node_modules/react-native/Libraries/Image/RCTImage.xcodeproj"; sourceTree = "<group>"; };
 		00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = "<group>"; };
 		00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVibration.xcodeproj; path = "../node_modules/react-native/Libraries/Vibration/RCTVibration.xcodeproj"; sourceTree = "<group>"; };
-		078D9D6B01D91AAB2F005709 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		096D4C5CA8FBE49828F3AD1C /* libPods-Trippple.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Trippple.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Trippple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Trippple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
-		2744A9E35B0ADC43D8D245D4 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		66154039267BFAAB57E02CBF /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5895D685C5CCE27DA1AADB8D /* Pods_Tripppletest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tripppletest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
+		80BD031CBED2E5CC6629CAC7 /* Pods-Tripppletest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tripppletest.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tripppletest/Pods-Tripppletest.release.xcconfig"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		AC0549EB1C671AE10072E9E7 /* RCTGoogleAnalyticsBridge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGoogleAnalyticsBridge.xcodeproj; path = "../node_modules/react-native-google-analytics-bridge/ios/RCTGoogleAnalyticsBridge/RCTGoogleAnalyticsBridge.xcodeproj"; sourceTree = "<group>"; };
 		AC0549F21C671C730072E9E7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -350,6 +353,9 @@
 		AC0549F81C671CAD0072E9E7 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		AC0549FA1C673EFC0072E9E7 /* TouchID.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TouchID.xcodeproj; path = "../node_modules/react-native-touch-id/TouchID.xcodeproj"; sourceTree = "<group>"; };
 		AC054A121C6748420072E9E7 /* RNMixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMixpanel.xcodeproj; path = "../node_modules/react-native-mixpanel/RNMixpanel.xcodeproj"; sourceTree = "<group>"; };
+		AC11ABB91CE7C58C001B6FB3 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		AC11ABBA1CE7C58C001B6FB3 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		AC11AC821CE7CE7B001B6FB3 /* Trippple-PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Trippple-PrefixHeader.pch"; sourceTree = "<group>"; };
 		AC47AA801CA9393F002AA2E7 /* RCTLinkingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTLinkingManager.h; sourceTree = "<group>"; };
 		AC47AA811CA9393F002AA2E7 /* RCTLinkingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTLinkingManager.m; sourceTree = "<group>"; };
 		AC47AA831CA93A3F002AA2E7 /* StatusBarNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusBarNotification.h; sourceTree = "<group>"; };
@@ -452,6 +458,9 @@
 		ACEB23C41CA32702007C426B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		ACFD4D3F1C5BC52400CAC7E7 /* ReactNativeAutoUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReactNativeAutoUpdater.h; sourceTree = "<group>"; };
 		ACFD4D401C5BC52400CAC7E7 /* ReactNativeAutoUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReactNativeAutoUpdater.m; sourceTree = "<group>"; };
+		B83482D9865E98EDABE507F7 /* Pods-Trippple.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trippple.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trippple/Pods-Trippple.debug.xcconfig"; sourceTree = "<group>"; };
+		B8C7661343EE48E93F8540CB /* Pods-Trippple.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trippple.release.xcconfig"; path = "Pods/Target Support Files/Pods-Trippple/Pods-Trippple.release.xcconfig"; sourceTree = "<group>"; };
+		E0A9799E2702CA443FB1DD9D /* Pods-Tripppletest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tripppletest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tripppletest/Pods-Tripppletest.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -462,6 +471,7 @@
 				AC68C9DE1C675DE8006AE0AC /* libMixpanel.a in Frameworks */,
 				AC054A181C67485F0072E9E7 /* libRNMixpanel.a in Frameworks */,
 				AC054A011C673F8A0072E9E7 /* libEXURLHandler.a in Frameworks */,
+				AC11ABBB1CE7C58C001B6FB3 /* Fabric.framework in Frameworks */,
 				AC054A021C673F8A0072E9E7 /* libRCTFBLogin.a in Frameworks */,
 				AC054A031C673F8A0072E9E7 /* libRCTOSPermissions copy.a in Frameworks */,
 				AC054A041C673F8A0072E9E7 /* libRCTPushNotification.a in Frameworks */,
@@ -486,6 +496,7 @@
 				ACBB209E1C050E9400A63B9C /* FBSDKShareKit.framework in Frameworks */,
 				ACBB208E1C050E7C00A63B9C /* libRCTSettings.a in Frameworks */,
 				ACBB209C1C050E9400A63B9C /* FBSDKCoreKit.framework in Frameworks */,
+				AC11ABBC1CE7C58C001B6FB3 /* Crashlytics.framework in Frameworks */,
 				ACBB208F1C050E7C00A63B9C /* libRCTText.a in Frameworks */,
 				ACBB209D1C050E9400A63B9C /* FBSDKLoginKit.framework in Frameworks */,
 				ACBB20901C050E7C00A63B9C /* libRCTVibration.a in Frameworks */,
@@ -495,7 +506,7 @@
 				ACBB20941C050E7C00A63B9C /* libRNFS.a in Frameworks */,
 				ACBB20961C050E7C00A63B9C /* libRNMail.a in Frameworks */,
 				ACBB20971C050E7C00A63B9C /* libRNMessageComposer.a in Frameworks */,
-				CC74B02A8C9EC2AD7F49A636 /* libPods.a in Frameworks */,
+				C1BEBDD6112F691C6C9EF13F /* libPods-Trippple.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -534,6 +545,7 @@
 				AC3DD3CB1C3A2DED00D9E6D1 /* libRNMail.a in Frameworks */,
 				AC3DD3CC1C3A2DED00D9E6D1 /* libRNMessageComposer.a in Frameworks */,
 				AC3DD3CD1C3A2DED00D9E6D1 /* libRNOverlay.a in Frameworks */,
+				2B73744B2FDD7E1F8FDDFF03 /* Pods_Tripppletest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -604,15 +616,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		3D6B8D170BF15236B11D3F71 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				078D9D6B01D91AAB2F005709 /* Pods.debug.xcconfig */,
-				2744A9E35B0ADC43D8D245D4 /* Pods.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -675,14 +678,15 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				AC11ABB81CE7C57F001B6FB3 /* Fabric */,
 				AC47AA801CA9393F002AA2E7 /* RCTLinkingManager.h */,
 				AC47AA811CA9393F002AA2E7 /* RCTLinkingManager.m */,
 				ACC7DE7D1C5A41EA0087476F /* Trippple */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				ACA5214D1CA297C5007B9F71 /* TripppleUITests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
-				3D6B8D170BF15236B11D3F71 /* Pods */,
 				A999B3CF69585EF60C549767 /* Frameworks */,
+				DC0D38993442B623194FB39C /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -709,7 +713,8 @@
 				ACA521731CA2981E007B9F71 /* libMixpanel.a */,
 				ACA521741CA2981E007B9F71 /* libPods.a */,
 				AC68C9DD1C675DE8006AE0AC /* libMixpanel.a */,
-				66154039267BFAAB57E02CBF /* libPods.a */,
+				5895D685C5CCE27DA1AADB8D /* Pods_Tripppletest.framework */,
+				096D4C5CA8FBE49828F3AD1C /* libPods-Trippple.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -736,6 +741,15 @@
 				AC054A171C6748420072E9E7 /* libRNMixpanel.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AC11ABB81CE7C57F001B6FB3 /* Fabric */ = {
+			isa = PBXGroup;
+			children = (
+				AC11ABB91CE7C58C001B6FB3 /* Fabric.framework */,
+				AC11ABBA1CE7C58C001B6FB3 /* Crashlytics.framework */,
+			);
+			name = Fabric;
 			sourceTree = "<group>";
 		};
 		ACA521251CA2979F007B9F71 /* Products */ = {
@@ -1084,6 +1098,7 @@
 			isa = PBXGroup;
 			children = (
 				AC47AA831CA93A3F002AA2E7 /* StatusBarNotification.h */,
+				AC11AC821CE7CE7B001B6FB3 /* Trippple-PrefixHeader.pch */,
 				AC47AA841CA93A3F002AA2E7 /* StatusBarNotification.m */,
 				ACFD4D3F1C5BC52400CAC7E7 /* ReactNativeAutoUpdater.h */,
 				ACFD4D401C5BC52400CAC7E7 /* ReactNativeAutoUpdater.m */,
@@ -1115,6 +1130,17 @@
 			path = fonts;
 			sourceTree = "<group>";
 		};
+		DC0D38993442B623194FB39C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E0A9799E2702CA443FB1DD9D /* Pods-Tripppletest.debug.xcconfig */,
+				80BD031CBED2E5CC6629CAC7 /* Pods-Tripppletest.release.xcconfig */,
+				B83482D9865E98EDABE507F7 /* Pods-Trippple.debug.xcconfig */,
+				B8C7661343EE48E93F8540CB /* Pods-Trippple.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1122,13 +1148,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Trippple" */;
 			buildPhases = (
-				1DFA49915348C96F2AC7EC62 /* Check Pods Manifest.lock */,
+				B56EE7C99E93D58334594B7F /* 📦 Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				AC467EBA1C523398009F2FBD /* Run Script */,
-				8032580CD97BBDF76CE368E3 /* Embed Pods Frameworks */,
-				D7C6BD7B9DBE4D101D7850A5 /* Copy Pods Resources */,
+				AC11AB991CE7C529001B6FB3 /* ShellScript */,
+				AC11AC0E1CE7C8FF001B6FB3 /* ShellScript */,
+				75F9CF2A6E110BF770E34A73 /* 📦 Embed Pods Frameworks */,
+				B62C94D23E932D118A2E5D30 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1161,10 +1189,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ACBB20E21C051AE100A63B9C /* Build configuration list for PBXNativeTarget "Tripppletest" */;
 			buildPhases = (
+				550E0025E41CACA311B613C1 /* 📦 Check Pods Manifest.lock */,
 				ACBB20AE1C051AE100A63B9C /* Sources */,
 				ACBB20D91C051AE100A63B9C /* Resources */,
 				ACBB20C11C051AE100A63B9C /* Frameworks */,
 				AC467EBB1C5233F0009F2FBD /* ShellScript */,
+				72A6672E2C83F01C25D2E45E /* 📦 Embed Pods Frameworks */,
+				94D3C97BB12C7B2F4B14C6A3 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1585,14 +1616,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1DFA49915348C96F2AC7EC62 /* Check Pods Manifest.lock */ = {
+		550E0025E41CACA311B613C1 /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1600,20 +1631,76 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		8032580CD97BBDF76CE368E3 /* Embed Pods Frameworks */ = {
+		72A6672E2C83F01C25D2E45E /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "📦 Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tripppletest/Pods-Tripppletest-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		75F9CF2A6E110BF770E34A73 /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Trippple/Pods-Trippple-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		94D3C97BB12C7B2F4B14C6A3 /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tripppletest/Pods-Tripppletest-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AC11AB991CE7C529001B6FB3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 9f3360a634ff36e817a34ba898a19118cc1391ff eaa5ad5f554fac730663183c7152d183a31d7ab7bb6dc46714db68da63b2376b";
+		};
+		AC11AC0E1CE7C8FF001B6FB3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n\n/bin/sh \"${SCRIPT}\" \"AAe71824253eeeff92e1794a97883d2e0c5928816f\"\n";
 		};
 		AC467EBA1C523398009F2FBD /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1642,19 +1729,34 @@
 			shellPath = /bin/sh;
 			shellScript = "/Users/alexlopez/code/trippple/native/node_modules/react-native/packager/react-native-xcode.sh";
 		};
-		D7C6BD7B9DBE4D101D7850A5 /* Copy Pods Resources */ = {
+		B56EE7C99E93D58334594B7F /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		B62C94D23E932D118A2E5D30 /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Trippple/Pods-Trippple-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1722,7 +1824,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 078D9D6B01D91AAB2F005709 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = B83482D9865E98EDABE507F7 /* Pods-Trippple.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1734,7 +1836,11 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/../lib/**",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(PROJECT_DIR)",
+					"$(inherited)",
 				);
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Trippple-PrefixHeader.pch";
+				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -1759,7 +1865,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2744A9E35B0ADC43D8D245D4 /* Pods.release.xcconfig */;
+			baseConfigurationReference = B8C7661343EE48E93F8540CB /* Pods-Trippple.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1770,7 +1876,11 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/../lib/**",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(PROJECT_DIR)",
+					"$(inherited)",
 				);
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Trippple-PrefixHeader.pch";
+				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -1986,6 +2096,7 @@
 		};
 		ACBB20E31C051AE100A63B9C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E0A9799E2702CA443FB1DD9D /* Pods-Tripppletest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon2;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -2017,6 +2128,7 @@
 		};
 		ACBB20E41C051AE100A63B9C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 80BD031CBED2E5CC6629CAC7 /* Pods-Tripppletest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon2;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

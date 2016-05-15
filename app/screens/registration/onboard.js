@@ -147,7 +147,7 @@ class Onboard extends Component{
       <View style={{backgroundColor:'#000000',height:DeviceHeight,width:DeviceWidth}}>
         <Navigator
           configureScene={
-            (route) => route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.SlideInFromRight || Navigator.SceneConfigs.HorizontalSwipeJump
+            (route) => route.sceneConfig ? route.sceneConfig : CustomSceneConfigs && CustomSceneConfigs.SlideInFromRight || Navigator.SceneConfigs.HorizontalSwipeJump
   }
           key={'obnav'}
           renderScene={this.selectScene.bind(this)}

@@ -36,6 +36,7 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import Analytics from '../utils/Analytics'
 
+
 class Main extends Component{
 
   constructor(props){

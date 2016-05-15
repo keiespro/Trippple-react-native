@@ -1,0 +1,16 @@
+//
+//  Trippple-PrefixHeader.pch
+//  Trippple
+//
+//  Created by Alex Lopez on 5/14/16.
+//  Copyright © 2016 Facebook. All rights reserved.
+//
+
+#ifndef Trippple_PrefixHeader_pch
+#define Trippple_PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#import <NewRelicAgent/NewRelic.h>
+
+#endif /* Trippple_PrefixHeader_pch */

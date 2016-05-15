@@ -1,7 +1,6 @@
 /* @flow */
 
-import React from 'react-native'
-import {
+import React, {
   Component,
   StyleSheet,
   Text,
@@ -17,6 +16,7 @@ import {
   Modal,
   NativeModules
 } from 'react-native'
+
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width

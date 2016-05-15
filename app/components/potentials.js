@@ -11,6 +11,7 @@ import React, {
   NativeModules
 } from 'react-native';
 
+
 import alt from '../flux/alt';
 import Mixpanel from '../utils/mixpanel';
 import AltContainer from 'alt-container';

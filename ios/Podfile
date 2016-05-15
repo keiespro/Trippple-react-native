@@ -1,4 +1,14 @@
-pod 'Mixpanel'
+target "Trippple" do
+  pod 'HotlineSDK'
+  pod 'Mixpanel'
+  pod 'NewRelicAgent'
+end
+
+
 target "Tripppletest" do
+  pod 'HotlineSDK'
+  pod 'Mixpanel'
+  pod 'NewRelicAgent'
   pod 'FBSnapshotTestCase'
+  use_frameworks!
 end

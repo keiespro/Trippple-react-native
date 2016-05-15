@@ -6,7 +6,138 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 
-if(!global.__TEST__){
+const FromTheRight = {
+  opacity: {
+    value: 1.0,
+    type: 'constant',
+  },
+
+  transformTranslate: {
+    from: {x: Dimensions.get('window').width, y: 0, z: 0},
+    to: {x: 0, y: 0, z: 0},
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true,
+    round: PixelRatio.get(),
+  },
+
+  translateX: {
+    from: Dimensions.get('window').width,
+    to: 0,
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true,
+    round: PixelRatio.get(),
+  },
+
+  scaleX: {
+    value: 1,
+    type: 'constant',
+  },
+  scaleY: {
+    value: 1,
+    type: 'constant',
+  },
+};
+var FromTheDown = {
+  ...FromTheRight,
+  transformTranslate: {
+    from: {y: SCREEN_HEIGHT, x: 0, z: 0},
+    to: {x: 0, y: 0, z: 0},
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true,
+    round: PixelRatio.get(),
+  },
+  translateY: {
+    from: SCREEN_HEIGHT,
+    to: 0,
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true,
+    round: PixelRatio.get(),
+  },
+};
+
+var FromTheTop = {
+  ...FromTheRight,
+  transformTranslate: {
+    from: {y: -SCREEN_HEIGHT, x: 0, z: 0},
+    to: {x: 0, y: 0, z: 0},
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true,
+    round: PixelRatio.get(),
+  },
+  translateY: {
+    from: -SCREEN_HEIGHT,
+    to: 0,
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true,
+    round: PixelRatio.get(),
+  },
+};
+
+
+var ToTheUp = {
+  transformTranslate: {
+    from: {x: 0, y: 0, z: 0},
+    to: {x: 0, y: -Dimensions.get('window').height, z: 0},
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true,
+    round: PixelRatio.get(),
+  },
+  opacity: {
+    value: 1.0,
+    type: 'constant',
+  },
+  translateY: {
+    from: 0,
+    to: -Dimensions.get('window').height,
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true,
+    round: PixelRatio.get(),
+  },
+};
+
+var ToTheDown = {
+  transformTranslate: {
+    from: {x: 0, y: 0, z: 0},
+    to: {x: 0, y: Dimensions.get('window').height, z: 0},
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true,
+    round: PixelRatio.get(),
+  },
+  opacity: {
+    value: 1.0,
+    type: 'constant',
+  },
+  translateY: {
+    from: 0,
+    to: Dimensions.get('window').height,
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true,
+    round: PixelRatio.get(),
+  },
+};
+
+
+// if(!global.__TEST__){
   var buildStyleInterpolator = require('buildStyleInterpolator')
 const FadeIn = {
   opacity: {
@@ -84,41 +215,6 @@ const ToTheRight = {
 };
 
 
-const FromTheRight = {
-  opacity: {
-    value: 1.0,
-    type: 'constant',
-  },
-
-  transformTranslate: {
-    from: {x: Dimensions.get('window').width, y: 0, z: 0},
-    to: {x: 0, y: 0, z: 0},
-    min: 0,
-    max: 1,
-    type: 'linear',
-    extrapolate: true,
-    round: PixelRatio.get(),
-  },
-
-  translateX: {
-    from: Dimensions.get('window').width,
-    to: 0,
-    min: 0,
-    max: 1,
-    type: 'linear',
-    extrapolate: true,
-    round: PixelRatio.get(),
-  },
-
-  scaleX: {
-    value: 1,
-    type: 'constant',
-  },
-  scaleY: {
-    value: 1,
-    type: 'constant',
-  },
-};
 
 const FromTheLeft = {
   ...FromTheRight,
@@ -349,6 +445,18 @@ const BaseRightToLeftGesture = {
 
 
 
+var BaseDownUpGesture = {
+  ...BaseLeftToRightGesture,
+  fullDistance: SCREEN_HEIGHT,
+  direction: 'down-to-up',
+};
+
+var BaseUpDownGesture = {
+  ...BaseLeftToRightGesture,
+  fullDistance: SCREEN_HEIGHT,
+  direction: 'up-to-down',
+};
+
 var CustomSceneConfigs = {
   HorizontalSlide: {
     // Rebound spring parameters when transitioning FROM this scene
@@ -390,22 +498,23 @@ var CustomSceneConfigs = {
 
 
       pop: {
-        ...BaseLeftToRightGesture,
+        ...BaseDownUpGesture,
         edgeHitWidth: 150,
-        direction: 'top-to-bottom',
         fullDistance: SCREEN_HEIGHT,
+        overswipe: BaseOverswipeConfig,
+
       },
       push: {
-        ...BaseRightToLeftGesture,
+        ...BaseUpDownGesture,
         edgeHitWidth: 150,
-        direction: 'top-to-bottom',
         fullDistance: SCREEN_HEIGHT,
+        overswipe: BaseOverswipeConfig,
 
       },
     },
     animationInterpolators: {
-      into: buildStyleInterpolator(FromTheFront),
-      out: buildStyleInterpolator(ToTheBack),
+      into: buildStyleInterpolator(FromTheDown),
+      out: buildStyleInterpolator(ToTheUp),
     },
 
   },
@@ -457,8 +566,8 @@ var CustomSceneConfigs = {
   }
 };
 
-}else{
-  var CustomSceneConfigs =  Navigator.SceneConfigs;
-
-}
+// }else{
+//   var CustomSceneConfigs =  Navigator.SceneConfigs;
+//
+// }
 export default CustomSceneConfigs

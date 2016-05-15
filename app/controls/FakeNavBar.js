@@ -15,6 +15,7 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../DeviceConfig'
 
+
 const NavigationBar = React.createClass({
 
   propTypes: {

@@ -13,7 +13,6 @@
  */
 
 #import "AppDelegate.h"
-
 #import "RCTBridge.h"
 #import "RCTJavaScriptLoader.h"
 #import "RCTLinkingManager.h"
@@ -22,6 +21,8 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "UIColor+TRColors.h"
 #import "ReactNativeAutoUpdater.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 #define JS_CODE_METADATA_URL @"https://blistering-torch-607.firebaseapp.com/update.json"
 
@@ -32,9 +33,11 @@
 
 @implementation AppDelegate
 
-- (BOOL)application:(__unused UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (BOOL)application:( UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [Fabric with:@[[Crashlytics class],[Answers class]]];
 
+  [NewRelicAgent startWithApplicationToken:@"AAe71824253eeeff92e1794a97883d2e0c5928816f"];
 
   _bridge = [[RCTBridge alloc] initWithDelegate:self
                                   launchOptions:launchOptions];
