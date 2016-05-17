@@ -99,10 +99,10 @@ RCT_EXPORT_METHOD(checkUpdate:(RCTResponseSenderBlock)callback)
 - (NSDictionary *)constantsToExport {
   NSDictionary* metadata = [[NSUserDefaults standardUserDefaults] objectForKey:ReactNativeAutoUpdaterCurrentJSCodeMetadata];
   NSDate* lastUpdateCheckPerformedOnDate = self.lastUpdateCheckPerformedOnDate;
-  NSString* defaultJSCodeLocation = [self.defaultJSCodeLocation absoluteString];
-  NSString* defaultMetadataFileLocation = [self.defaultMetadataFileLocation absoluteString];
-  NSString* latestJSCodeLocation  = [self.latestJSCodeLocation absoluteString];
-  NSString* metadataUrl = [self.metadataUrl absoluteString];
+//  NSString* defaultJSCodeLocation = [self.defaultJSCodeLocation absoluteString];
+//  NSString* defaultMetadataFileLocation = [self.defaultMetadataFileLocation absoluteString];
+//  NSString* latestJSCodeLocation  = [self.latestJSCodeLocation absoluteString];
+//  NSString* metadataUrl = [self.metadataUrl absoluteString];
   NSString* libraryDirectory = self.libraryDirectory;
   NSString* lastCheck = @"";
   NSString * initializedOK = self.initializationOK ? @";YES" : @";NO"; // Will be YES or NO
