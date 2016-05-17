@@ -109,7 +109,7 @@ class FacebookButton extends React.Component{
 
     // if(true){
       FBLoginManager.loginWithPermissions(["email","user_photos","user_friends"],  (error, data) => {
-              if (!error && data) {
+              if (!error && data && data.credentials) {
 
               this.setState({ fbUser : data.credentials});
               UserActions.updateUser({
@@ -119,7 +119,8 @@ class FacebookButton extends React.Component{
 
               this.props.onLogin && this.props.onLogin(data);
             }else {
-                      this.setState({ fbUser : null });
+              console.log(error,data);
+              this.setState({ fbUser : null });
             }
 
 

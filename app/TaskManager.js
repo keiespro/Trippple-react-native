@@ -48,7 +48,7 @@ export default class TaskManager extends React.Component{
   }
   showNotificationRequest(relevantUser){
 
-    AppActions.showNotificationModalWithLikedUser(relevantUser)
+    AppActions.showNotificationModalWithLikedUser.defer(relevantUser)
           // .then(()=>this.setHasSeenNotificationRequest())
           // .catch((err)=>{console.log(err);})
 

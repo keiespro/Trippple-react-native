@@ -15,7 +15,7 @@ import FakeNavBar from '../../controls/FakeNavBar';
 import ScrollableTabView from '../../scrollable-tab-view'
 import Mixpanel from '../../utils/mixpanel';
 import colors from '../../utils/colors';
-import Swiper from '../../controls/swiper';
+import Swiper from 'react-native-swiper';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../../DeviceConfig'
@@ -45,7 +45,7 @@ class Card extends React.Component{
   }
 
   scrollTo(destY?: number, destX?: number) {
-    this.getScrollResponder().scrollTo(destY, destX);
+    this.getScrollResponder().scrollTo({y:destY, x:destX});
   }
 
   scrollWithoutAnimationTo(destY?: number, destX?: number) {
@@ -251,6 +251,9 @@ class Card extends React.Component{
                     left:0,
                   }}
                   showsPagination={true}
+                  dot={<View style={styles.dot} />}
+                  activeDot={<View style={[styles.dot,styles.activeDot]} />}
+
                   paginationStyle={{position:'absolute',paddingRight:30,right:0,top:45,height:100}}
                 >
 
@@ -387,7 +390,7 @@ class Card extends React.Component{
                   left:0,
                   bottom:0,
                   backgroundColor:colors.white,
-                  width:undefined,
+                  width:DeviceWidth-MagicNumbers.screenPadding/2,
                   flexDirection:'row',
                   position:'absolute',
                   alignSelf:'stretch',alignItems:'stretch'
@@ -415,10 +418,10 @@ class Card extends React.Component{
                     key={`${potential.id || potential.user.id}-names`}>{
                       matchName
                     }</Text>
-                    <Text style={[styles.cardBottomOtherText,{flex:1}]}
+                    {/*<Text style={[styles.cardBottomOtherText,{flex:1}]}
                     key={`${potential.id || potential.user.id}-matchn`}>{
                       `${city} | ${distance} ${distance == 1 ? 'mile' : 'miles'} away`
-                    }</Text>
+                    }</Text>*/}
                 </View>
                 </TouchableHighlight>
 
@@ -625,6 +628,9 @@ class Card extends React.Component{
                   height={DeviceHeight}
                   style={{width:undefined, overflow: 'hidden',}}
                   paginationStyle={{position:'absolute',right:10,top:10,height:100}}
+                  dot={<View style={styles.dot} />}
+                  activeDot={<View style={[styles.dot,styles.activeDot]} />}
+
                 >
 
                   <TouchableHighlight

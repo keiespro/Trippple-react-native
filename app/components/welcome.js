@@ -166,6 +166,8 @@ class Carousel extends Component{
           horizontal={true}
           grayDots={true}
           showsPagination={true}
+          dot={<View style={styles.dot} />}
+          activeDot={<View style={[styles.dot,styles.activeDot]} />}
         >
         {welcomeSlides}
         </Swiper>
@@ -221,6 +223,26 @@ const Welcome = React.createClass({
 
 
 const styles = StyleSheet.create({
+  dot: {
+    backgroundColor: colors.shuttleGray,
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    marginLeft: 4,
+    marginRight: 4,
+    marginTop: 2,
+    marginBottom: 2,
+    borderColor: colors.shuttleGray
+  },
+  activeDot: {
+    backgroundColor: colors.mediumPurple,
+    marginLeft: 4,
+    marginRight: 4,
+    marginTop: 2,
+    marginBottom: 2,
+    borderWidth: 1,
+    borderColor: colors.mediumPurple
+  },
   container: {
     flex: 1,
     alignItems:'center',
@@ -252,7 +274,7 @@ const styles = StyleSheet.create({
   slide:{
     width: DeviceWidth,
     flexDirection:'column',
-    height:400,
+    height:DeviceHeight-150,
     alignItems:'center',
     justifyContent:'center',
     flexWrap:'nowrap',
@@ -328,29 +350,29 @@ const styles = StyleSheet.create({
     alignSelf:'stretch',
     width: undefined
   },
-  dot: {
-    backgroundColor: colors.shuttleGray,
-    width: 16,
-    height: 16,
-    borderRadius: 8,
-    marginLeft: 8,
-    marginRight: 8,
-    marginTop: 3,
-    marginBottom: 3,
-    borderColor: colors.shuttleGray
-  },
-  activeDot: {
-    backgroundColor: colors.mediumPurple20,
-    width: 16,
-    height: 16,
-    borderRadius: 8,
-    marginLeft: 8,
-    marginRight: 8,
-    marginTop: 3,
-    marginBottom: 3,
-    borderWidth: 2,
-    borderColor: colors.mediumPurple
-  }
+  // dot: {
+  //   backgroundColor: colors.shuttleGray,
+  //   width: 16,
+  //   height: 16,
+  //   borderRadius: 8,
+  //   marginLeft: 8,
+  //   marginRight: 8,
+  //   marginTop: 3,
+  //   marginBottom: 3,
+  //   borderColor: colors.shuttleGray
+  // },
+  // activeDot: {
+  //   backgroundColor: colors.mediumPurple20,
+  //   width: 16,
+  //   height: 16,
+  //   borderRadius: 8,
+  //   marginLeft: 8,
+  //   marginRight: 8,
+  //   marginTop: 3,
+  //   marginBottom: 3,
+  //   borderWidth: 2,
+  //   borderColor: colors.mediumPurple
+  // }
 });
 
 

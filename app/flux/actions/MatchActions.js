@@ -171,8 +171,11 @@ class MatchActions {
     return (dispatch) => {
       Api.sendLike(likedUserID, likeStatus,likeUserType,rel_status)
       .then((res)=>{
+        this.removePotential.defer();
+
           dispatch({likedUserID,likeStatus});
       })
+
       .catch((err)=>{
         this.removePotential.defer();
         dispatch(err)

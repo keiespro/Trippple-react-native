@@ -52,6 +52,10 @@ class NotificationPermissions extends React.Component{
     componentWillMount(){
       this.checkPermission()
     }
+    componentDidMount(){
+      Settings.set({'co.trippple.HasSeenNotificationRequest': true,'co.trippple.LastNotificationsPermissionRequestTimestamp':Date.now()})
+
+    }
 
     checkPermission(){
       PushNotificationIOS.checkPermissions((permissions) => {
@@ -67,6 +71,7 @@ class NotificationPermissions extends React.Component{
     componentDidUpdate(prevProps,prevState){
       if(!prevState.hasPermission && this.state.hasPermission ){
         // this.props.failCallback(true)
+
       }
     }
     cancel(){
@@ -84,18 +89,25 @@ class NotificationPermissions extends React.Component{
           },0);
 
           if(permResult == 0){
-            NotificationActions.requestNotificationsPermission({alert:true,badge:true,sound:true})
-            this.props.successCallback();
-            this.props.navigator.pop()
-            AppActions.disableNotificationModal()
+            PushNotificationIOS.addEventListener('register',(token) => {
+              __DEV__ && console.warn('APN -> ',token);
+                NotificationActions.receiveAPNtoken(token)
+                AppActions.disableNotificationModal()
+
+                this.setState({permissions, hasPermission: true})
+                // this.props.successCallback && this.props.successCallback();
+                this.props.close()
+            })
+            PushNotificationIOS.requestPermissions({alert:true,badge:true,sound:true})
+
 
           }else{
 
             AppActions.disableNotificationModal()
 
-            this.setState({permissions, hasPermission: permResult > 0})
-            this.props.successCallback();
-            this.props.navigator.pop()
+            this.setState({permissions, hasPermission: true})
+            // this.props.successCallback && this.props.successCallback();
+            this.props.close()
 
           }
 
@@ -131,8 +143,9 @@ class NotificationPermissions extends React.Component{
     }
 
     render(){
-      const { relevantUser } = this.props;
-
+      const {relevantUser}  = this.props;
+      console.log(relevantUser);
+      const featuredUser = relevantUser && relevantUser.user ? relevantUser.user : relevantUser || {};
 
       return  (
           <View>
@@ -144,7 +157,7 @@ class NotificationPermissions extends React.Component{
               style={[{width:160,height:160,borderRadius:80}]}
               source={
                 this.state.failedState ? {uri: 'assets/iconModalDenied@3x.png'} :
-                  relevantUser && relevantUser.image_url ? {uri: relevantUser.thumb_url} : {uri:'assets/placeholderUser@3x.png'}
+                  featuredUser && featuredUser.image_url ? {uri: featuredUser.thumb_url} : {uri:'assets/placeholderUser@3x.png'}
               }
               defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
             />
@@ -169,18 +182,18 @@ class NotificationPermissions extends React.Component{
               </Text>
 
               <View style={{flexDirection:'column' }} >
-               {relevantUser && relevantUser.image_url && <Text style={[styles.rowtext,styles.bigtext,{
+               {featuredUser && featuredUser.image_url && <Text style={[styles.rowtext,styles.bigtext,{
                    fontSize:22,
                    marginVertical:10,
                    color:'#fff',
-               }]}>Great! You’ve liked {relevantUser && relevantUser.firstname && relevantUser.firstname.length ? relevantUser.firstname : "them" }.</Text> }
+               }]}>Great! You’ve liked {featuredUser && featuredUser.firstname && featuredUser.firstname.length ? featuredUser.firstname : "them" }.</Text> }
                <Text   style={[styles.rowtext,styles.bigtext,{
                    fontSize:22,
                    marginVertical:10,
                    color:'#fff',
                    marginBottom:15,
                    flexDirection:'column'
-               }]}>{relevantUser && relevantUser.image_url ? `Would you like to be notified \nwhen they like you back?` : ` Would you like to be notified of new matches and messages?`}</Text>
+               }]}>{featuredUser && featuredUser.image_url ? `Would you like to be notified \nwhen they like you back?` : ` Would you like to be notified of new matches and messages?`}</Text>
              </View>
               <View>
                 <TouchableHighlight

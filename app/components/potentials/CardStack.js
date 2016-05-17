@@ -183,7 +183,7 @@ class CardStack extends React.Component{
 
         // animate back to center or off screen left or off screen right
         if (dx > SWIPE_THRESHOLD_APPROVE || (dx > (THROW_THRESHOLD_APPROVE - 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD)){
-          toValue = {x:DeviceWidth,y: dy*2};
+          toValue = {x:DeviceWidth+100,y: dy*2};
           velocity = {x: parseInt(vx), y: parseInt(vy)}
           likeStatus = 'approve';
 
@@ -193,7 +193,7 @@ class CardStack extends React.Component{
           }
 
         }else if(dx < SWIPE_THRESHOLD_DENY || (dx < (THROW_THRESHOLD_DENY + 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD)){
-          toValue = {x:-DeviceWidth,y: dy*2};
+          toValue = {x:-DeviceWidth-100,y: dy*2};
           velocity = {x: parseInt(vx), y: parseInt(vy)}
           likeStatus =  'deny';
 
@@ -206,9 +206,7 @@ class CardStack extends React.Component{
         if(!likeUserId){
           MatchActions.removePotential(likeUserId);
         }else if(likeStatus && likeStatus.length > 0){
-          MatchActions.removePotential(likeUserId);
-          MatchActions.sendLike( likeUserId, likeStatus, (this.props.rel == 'single' ? 'couple' : 'single'), this.props.rel );
-
+          //
           this.setState({interactedWith:likeUserId,likedPotentials:[...this.state.likedPotentials, likeUserId]})
         }
 
@@ -253,12 +251,17 @@ class CardStack extends React.Component{
             toValue,
             velocity:{x:parseInt(vx),y:parseInt(vy)},       // maintain gesture velocity
             duration:200,
-            // tension: 20 ,
-            // friction:  2 ,//2
+            tension: 20 ,
+            friction:  2 ,//2
           }).start((result)=>{
             if(!result.finished){
 
             }
+            // MatchActions.removePotential(likeUserId);
+
+            MatchActions.sendLike( likeUserId, likeStatus, (this.props.rel == 'single' ? 'couple' : 'single'), this.props.rel );
+
+
           });
         }else{
           console.log('ANAIMTED SPRING')

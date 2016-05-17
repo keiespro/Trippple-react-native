@@ -5,13 +5,14 @@ import AppInfo from 'react-native-app-info'
 
 import _ from 'lodash'
 const MIXPANEL_TOKEN = '18b301fab3deb8a70729d6407210391c'
-var GoogleAnalytics = require('react-native-google-analytics-bridge')
+import GoogleAnalytics from 'react-native-google-analytics-bridge'
 
 const VERSION = parseFloat(AppInfo.getInfoShortVersion());
 
 
 class Analytics{
   constructor(){
+    GoogleAnalytics.setTrackerId('UA-49096214-2');
 
   }
   identifyUser(userid){

@@ -148,18 +148,8 @@ class Main extends Component{
     );
   }
   _setModalVisible(s){
-    const relevantUser = {
-      "age": 18,
-      "distance": "1 Swipe Away",
-      "firstname": "Xxxxxx",
-      "id": 23762,
-      "image_url": "https://trippple-user.s3.amazonaws.com/uploads/23762/be4f51816-original.jpg",
-      "is_couple": false,
-      "is_starter": false,
-      "master_id": 23762,
-      "master_type": "User",
-      "thumb_url": "https://trippple-user.s3.amazonaws.com/uploads/23762/be4f51816-original.jpg"
-    }
+
+
     // AppActions.showNotificationModalWithLikedUser(relevantUser)
 
   }
@@ -216,13 +206,15 @@ class OverlayModalInner extends Component{
     }
   }
   componentWillReceiveProps(nProps){
-    if(nProps.relevantUser && !this.props.relevantUser){
+    console.log(nProps);
+    if(nProps.hasSeenNotificationPermission){
+      this.setModalVisible(false)
+
+    } else if(!nProps.hasSeenNotificationPermission && nProps.relevantUser && !this.props.relevantUser){
       this.setModalVisible(true)
-    }else if(!nProps.relevantUser && this.props.relevantUser){
-      this.setModalVisible(true)
+    }else{
 
     }
-
   }
   setModalVisible(v){
     this.setState({modalVisible:v})

@@ -1,6 +1,6 @@
 
 import React from "react";
-import {StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, Animated, PushNotificationIOS, Image, ScrollView, AsyncStorage, Navigator} from "react-native";
+import {StyleSheet, Text, View, TouchableHighlight, Settings, TouchableOpacity, Animated, PushNotificationIOS, Image, ScrollView, AsyncStorage, Navigator} from "react-native";
 import AppTelemetry from '../AppTelemetry'
 import NotificationActions from '../flux/actions/NotificationActions'
 import MatchActions from '../flux/actions/MatchActions'
@@ -113,6 +113,21 @@ class SettingsDebug extends React.Component{
                <Image source={{uri: 'assets/nextArrow@3x.png'}} />
              </View>
              </TouchableHighlight>
+
+             <TouchableHighlight
+             onPress={()=>{
+               Settings.set({
+                  'co.trippple.HasSeenNotificationRequest':null,
+                  'co.trippple.LastNotificationsPermissionRequestTimestamp': null
+                })
+
+             }} >
+             <View style={styles.wrapfield}>
+               <Text style={{color:colors.white,}}>Reset New Notification permisson</Text>
+               <Image source={{uri: 'assets/nextArrow@3x.png'}} />
+             </View>
+             </TouchableHighlight>
+
 
              {/* <TouchableHighlight
               onPress={()=>{
@@ -290,7 +305,7 @@ const styles = StyleSheet.create({
   wrapfield:{
    borderBottomWidth:1,
    borderColor:colors.shuttleGray,
-   height:80,
+   height:50,
   //  backgroundColor:colors.outerSpace,
    alignItems:'center',
    justifyContent:'space-between',

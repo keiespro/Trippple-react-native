@@ -1,0 +1,14 @@
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "3D5DY3UN4M.co.trippple",
+                "paths": [
+                  "/invite",
+                  "/couple"
+                ]
+            }
+        ]
+    }
+}

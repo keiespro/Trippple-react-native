@@ -27,7 +27,7 @@ async function baseRequest(endpoint='': String, payload={}: Object){
   __DEV__ && console.log(params)
   const url = `${SERVER_URL}/${endpoint}`;
   var timeStarted = new Date();
-  let res = await fetch(url, params)
+  const res = await fetch(url, params)
 
   try{
     __DEV__ && console.log(res)
@@ -47,10 +47,18 @@ async function baseRequest(endpoint='': String, payload={}: Object){
     }
     console.log(res);
     let response = await res.json()
-    __DEV__ && console.log(response.response)
-    returnResponse =  {...response, res: response}
-    console.log(returnResponse);
-    return returnResponse
+
+    return Promise.try(() => {
+
+
+      __DEV__ && console.log(response.response)
+      returnResponse =  {...response, res: response}
+      console.log(returnResponse);
+      return returnResponse
+    }).catch((err)=>{
+      throw new Error({error:err})
+    })
+
   }catch(err){
     __DEV__ && console.log('CAUGHT ERR',response,res,err)
 

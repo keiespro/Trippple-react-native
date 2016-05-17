@@ -1,15 +1,17 @@
 const APP_ENV = 'production';
-const DEBUG = true
-const DEV = true
-__DEBUG__ = DEBUG
-__DEV__ = DEV
-if(typeof window != 'undefined'){
+const DEBUG = false;
+const DEV = false;
+
+if(typeof window !== 'undefined'){
   window.__DEBUG__ = DEBUG;
-  window.__TEST__ = DEV;
+  window.__DEV__ = DEV;
 }else{
   global.__DEBUG__ = DEBUG;
   global.__DEV__ = DEV;
 }
+__DEBUG__ = false;
+__DEV__ = false;
+
 
 const configurations = {
 

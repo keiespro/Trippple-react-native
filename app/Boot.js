@@ -1,5 +1,5 @@
 import React from "react";
-import {AsyncStorage, Settings} from "react-native";
+import {AsyncStorage, Settings,NativeModules} from "react-native";
 import App from './components/app'
 import LoadingOverlay from './components/LoadingOverlay'
 import Keychain from 'react-native-keychain'
@@ -7,7 +7,7 @@ import config from './config'
 import alt from './flux/alt'
 import TouchID from 'react-native-touch-id'
 import Analytics from './utils/Analytics'
-
+const {ReactNativeAutoUpdater} = NativeModules
 import LockFailed from './LockFailed'
 const {KEYCHAIN_NAMESPACE} = config
 import AppActions from './flux/actions/AppActions'

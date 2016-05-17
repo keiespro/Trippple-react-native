@@ -6,7 +6,23 @@ import colors from '../../utils/colors';
 import {MagicNumbers} from '../../DeviceConfig'
 
 const styles = StyleSheet.create({
+  dot: {
+    backgroundColor: 'transparent',
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    marginLeft: 6,
+    marginRight: 6,
+    marginTop: 5,
+    marginBottom: 5,
+    borderWidth: 2,
+    borderColor: colors.white
+  },
+  activeDot:{
+      borderColor: colors.mediumPurple,
+    backgroundColor: colors.mediumPurple,
 
+  },
   shadowCard:{
     shadowColor:colors.darkShadow,
     shadowRadius:4,

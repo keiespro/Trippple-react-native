@@ -2,15 +2,13 @@ target "Trippple" do
   pod 'HotlineSDK'
   pod 'Mixpanel'
   pod 'NewRelicAgent'
-  pod 'FBSnapshotTestCase'
-  use_frameworks!
+  # pod 'FBSnapshotTestCase'
 end
 
-
-target "Tripppletest" do
-  pod 'HotlineSDK'
-  pod 'Mixpanel'
-  pod 'NewRelicAgent'
-  pod 'FBSnapshotTestCase'
-  use_frameworks!
-end
+#
+# target "Tripppletest" do
+#   pod 'HotlineSDK'
+#   pod 'Mixpanel'
+#   pod 'NewRelicAgent'
+#   pod 'FBSnapshotTestCase'
+# end

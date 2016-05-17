@@ -23,20 +23,20 @@ class PermissionSwitches extends React.Component{
     super()
 
     this.state = {
-      locationSetting: false,
-      notificationSetting: false
+      LocationSetting: false,
+      NotificationSetting: false
     }
   }
   componentWillMount(){
-    // AsyncStorage.multiGet(['locationSetting','notificationSetting'])
+    // AsyncStorage.multiGet(['LocationSetting','NotificationSetting'])
     // .then((settings) => {
       // console.log(settings);
-      const locationSetting = Settings.get('LocationSetting')// settings[0][1] ? JSON.parse(settings[0][1]) : false;
-      const notificationSetting = Settings.get('NotificationSetting')//settings[1][1] ? JSON.parse(settings[1][1]) : false;
+      const LocationSetting = Settings.get('LocationSetting')// settings[0][1] ? JSON.parse(settings[0][1]) : false;
+      const NotificationSetting = Settings.get('NotificationSetting')//settings[1][1] ? JSON.parse(settings[1][1]) : false;
 
       this.setState({
-        locationSetting: parseInt(OSPermissions.location) > 2 && locationSetting ? true : false,
-        notificationSetting: OSPermissions.notifications && notificationSetting ? true : false,
+        LocationSetting: parseInt(OSPermissions.location) > 2 && LocationSetting ? true : false,
+        NotificationSetting: OSPermissions.notifications && NotificationSetting ? true : false,
       })
     // }).catch((err) => {
     //
@@ -52,10 +52,10 @@ class PermissionSwitches extends React.Component{
           failedTitle: 'LOCATION DISABLED',
           hideModal: () => {this.props.navigator.pop()},
           failCallback: (val)=>{
-            this.setState({locationSetting:false})
+            this.setState({LocationSetting:false})
           },
           successCallback: (coords)=>{
-            this.setState({locationSetting:true})
+            this.setState({LocationSetting:true})
           },
           failedSubtitle: 'Geolocation is disabled. You can enable it in your phone’s Settings.',
           failedState: (parseInt(OSPermissions.location) < 3 ? true : false),
@@ -67,13 +67,13 @@ class PermissionSwitches extends React.Component{
         }
       })
     }else{
-      const newValue = !this.state.locationSetting;
+      const newValue = !this.state.LocationSetting;
       Settings.set({LocationSetting: newValue })
-      this.setState({ locationSetting: newValue })
+      this.setState({ LocationSetting: newValue })
     }
   }
   toggleNotification(){
-    if(this.state.notificationSetting == false){
+    if(this.state.NotificationSetting == false){
 
       PushNotificationIOS.checkPermissions( (permissions) => {
         const permResult = Object.keys(permissions).reduce((acc,el,i) =>{
@@ -87,25 +87,25 @@ class PermissionSwitches extends React.Component{
             passProps:{
               failCallback: (val)=>{
                 this.props.navigator.pop();
-                this.setState({ notificationSetting: val })
+                this.setState({ NotificationSetting: val })
               },
               successCallback: (val)=>{
-                                  this.setState({ notificationSetting: true })
+                                  this.setState({ NotificationSetting: true })
 
               }
 
             }
           })
         }else{
-          const newValue = !this.state.notificationSetting;
-          this.setState({ notificationSetting: newValue });
+          const newValue = !this.state.NotificationSetting;
+          this.setState({ NotificationSetting: newValue });
           Settings.set({NotificationSetting:newValue})
           NotificationActions.requestNotificationsPermission()
         }
       })
 
     }else{
-      this.setState({ notificationSetting: false })
+      this.setState({ NotificationSetting: false })
     }
   }
 
@@ -133,9 +133,9 @@ class PermissionSwitches extends React.Component{
             <Text style={{color: colors.white, fontSize:18}}>Prioritize Users Near Me</Text>
             <SwitchIOS
               onValueChange={this.toggleLocation.bind(this)}
-              value={this.state.locationSetting}
+              value={this.state.LocationSetting}
               onTintColor={colors.dark}
-              thumbTintColor={this.state.locationSetting ? colors.mediumPurple : colors.shuttleGray}
+              thumbTintColor={this.state.LocationSetting ? colors.mediumPurple : colors.shuttleGray}
               tintColor={colors.dark}
             />
           </View>
@@ -148,9 +148,9 @@ class PermissionSwitches extends React.Component{
             <Text style={{color:  colors.white, fontSize:18}}>Get notifications</Text>
             <SwitchIOS
               onValueChange={this.toggleNotification.bind(this)}
-              value={this.state.notificationSetting > 0 ? true : false}
+              value={this.state.NotificationSetting > 0 ? true : false}
               onTintColor={colors.dark}
-              thumbTintColor={this.state.notificationSetting ? colors.mediumPurple : colors.shuttleGray}
+              thumbTintColor={this.state.NotificationSetting ? colors.mediumPurple : colors.shuttleGray}
               tintColor={colors.dark}
             />
           </View>

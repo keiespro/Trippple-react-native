@@ -27,6 +27,18 @@ class NotificationActions {
       PushNotificationIOS.requestPermissions({alert:true,badge:true,sound:true})
     };
   }
+  receiveAPNtoken(token) {
+
+    return (dispatch) => {
+        Api.updatePushToken(token)
+        .then(()=> dispatch(token))
+        .catch((err) => {
+          Analytics.err(err)
+
+          dispatch({error: err})
+        })
+    }
+  }
 
   updateBadgeNumber(numberToAdd){
     return numberToAdd
