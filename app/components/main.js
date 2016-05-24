@@ -206,7 +206,6 @@ class OverlayModalInner extends Component{
     }
   }
   componentWillReceiveProps(nProps){
-    console.log(nProps);
     if(nProps.hasSeenNotificationPermission){
       this.setModalVisible(false)
 
@@ -219,6 +218,9 @@ class OverlayModalInner extends Component{
   setModalVisible(v){
     this.setState({modalVisible:v})
 
+  }
+  shouldComponentUpdate(nProps,nState){
+    return nState.modalVisible != this.state.modalVisible || nProps.relevantUser != this.props.relevantUser
   }
   render(){
     return (

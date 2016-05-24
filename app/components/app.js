@@ -34,12 +34,8 @@ import PurpleModal from '../modals/PurpleModal'
 import MaintenanceScreen from '../screens/MaintenanceScreen'
 import colors from '../utils/colors'
 import ImageFlagged from '../screens/ImageFlagged'
-import {whyDidYouUpdate} from 'why-did-you-update'
 
 
-if (process.env.NODE_ENV !== 'production') {
-  whyDidYouUpdate(React, { exclude: /^YellowBox/ });
-}
 
 class AppRoutes extends Component{
 

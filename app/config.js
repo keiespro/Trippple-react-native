@@ -4,7 +4,7 @@ __DEBUG__ = true;
 __DEV__ = true;
 
 
-const __SHOW_ALL__ = window.__SHOW_ALL__ = true;
+const __SHOW_ALL__ = window.__SHOW_ALL__ = false;
 
 
 const configurations = {

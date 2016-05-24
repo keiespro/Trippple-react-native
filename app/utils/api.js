@@ -49,12 +49,9 @@ async function baseRequest(endpoint='': String, payload={}: Object){
     }
     console.log(res);
     let response = await res.json()
-    __DEV__ && console.log(`API RESPONSE <<<<<<---- ${endpoint} | `,response)
 
     return Promise.try(() => {
-
-
-      __DEV__ && console.log(response.response)
+      __DEV__ && console.log(`API RESPONSE <<<<<<---- ${endpoint} | `,response)
       returnResponse =  {...response, res: response}
       console.log(returnResponse);
       return returnResponse

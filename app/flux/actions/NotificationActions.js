@@ -30,6 +30,8 @@ class NotificationActions {
   receiveAPNtoken(token) {
 
     return (dispatch) => {
+      Analytics.setUserProperties({ios_devices: [token]} )
+
         Api.updatePushToken(token)
         .then(()=> dispatch(token))
         .catch((err) => {

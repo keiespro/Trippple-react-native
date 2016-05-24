@@ -15,7 +15,7 @@ const VERSION = parseFloat(AppInfo.getInfoShortVersion());
 
 
 class Analytics{
-  
+
   constructor(){
     GoogleAnalytics.setTrackerId('UA-49096214-2');
   }
@@ -41,13 +41,23 @@ class Analytics{
   }
 
   setFullIdentityOnce(user){
-    this.setUserProperties({
+    const mxProps = {
       "$phone": user.phone,
+      "$area_code": user.phone.slice(0,3),
       "$name": user.firstname,
-      "image": user.image_url,
-      "relationship_status": user.relationship_status,
-      "account_status": user.status
-    });
+      "$gender": user.gender,
+      "$image": user.image_url,
+      "$relationship_status": user.relationship_status,
+      "$user_type": user.relationship_status,
+      "$account_status": user.status,
+      "$year-of-birth": user.birth_year,
+      "$privacy": user.privacy
+    };
+    __DEV__ && console.table(mxProps);
+
+    this.setUserProperties(mxProps);
+
+
     Settings.set({[HAS_IDENTITY]:true});
     this.userid = user.id;
   }

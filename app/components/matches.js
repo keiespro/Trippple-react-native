@@ -337,7 +337,7 @@ class MatchesInside extends Component{
   }
 
   showProfile(match){
-    Analytics.event('Interaction',{name: 'View user profile', match_id: match.match_id, match })
+    Analytics.event('Interaction',{type:'tap',name: 'View user profile', match_id: match.match_id, match })
 
     this.props.navigator.push({
       component: UserProfile,

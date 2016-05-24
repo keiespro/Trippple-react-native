@@ -1,7 +1,7 @@
 import alt from '../alt'
 import Api from '../../utils/api'
 import UserActions from './UserActions'
-
+import Analytics from '../../utils/Analytics'
 
 class OnboardingActions {
 
@@ -14,6 +14,9 @@ class OnboardingActions {
 
   acceptInvitation(phone) {
     return (dispatch) => {
+
+      Analytics.event('Onboarding',{name:'Accept Partner Invitation', type:'Inferred Invite', phone })
+
       Api.joinCouple(phone)
       dispatch()
     }

@@ -56,8 +56,6 @@ const PinScreen = React.createClass({
     if(!event && typeof event != 'object'){ return false}
     var pin =   event.nativeEvent ?  event.nativeEvent.text : event.pin;
 
-
-
     // Submit pin automatically when 4 digits have been entered
     if(!this.state.verifyError && !this.state.submitting && pin.length === 4) {
       UserActions.verifySecurityPin(pin,this.props.phone);
@@ -167,8 +165,8 @@ const PinScreen = React.createClass({
               autoCapitalize={'none'}
               placeholder={'ENTER PIN'}
               placeholderTextColor={'#fff'}
-               autoCorrect={false}
-               textAlign={'center'}
+              autoCorrect={false}
+              textAlign={'center'}
              />
           </View>
 
