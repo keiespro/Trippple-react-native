@@ -19,6 +19,8 @@ class AppActions {
     }
   }
    sendFeedback(screen='', defaultSubject='',defaultBody='') {
+
+
     return async (dispatch) => {
       var fileName = 'trippple-feedback'+ Date.now() +'.ttt'
       var path = RNFS.DocumentDirectoryPath + '/' + fileName;
@@ -46,6 +48,13 @@ DATA:
               if(error) {
                 Alert.alert('Error', 'Could not send mail. Please email feedback@trippple.co directly.');
               }
+
+              Analytics.event('Support',{
+                name: 'Send Feedback',
+                type: 'tap',
+                file: JSON.stringify(fileContents)
+              })
+
               dispatch({error,event})
           });
         })
@@ -90,12 +99,12 @@ DATA:
   storeContactsToBlock(contacts){
     return contacts;
   }
-  grantPermission(perm){
-    return perm;
-  }
-  denyPermission(perm){
-    return perm;
-  }
+  // grantPermission(perm){
+  //   return perm;
+  // }
+  // denyPermission(perm){
+  //   return perm;
+  // }
   showNotificationModalWithLikedUser(relevantUser){
     return (dispatch) => {
       dispatch(relevantUser);
@@ -114,10 +123,9 @@ DATA:
     };
   }
   screenshot(){
-    return {}
-    // return (dispatch) => {
-    //   // UIManager.takeSnapshot('window', {format: 'jpeg', quality: 0.8}).then((x)=>{dispatch(x)})
-    // };
+    return (dispatch) => {
+      UIManager.takeSnapshot('window', {format: 'jpeg', quality: 0.8}).then((x)=>{dispatch(x)})
+    };
   }
   async sendTelemetry(user){
 

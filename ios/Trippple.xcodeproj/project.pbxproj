@@ -42,6 +42,7 @@
 		AC3DD3CC1C3A2DED00D9E6D1 /* libRNMessageComposer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB205E1C050CF100A63B9C /* libRNMessageComposer.a */; };
 		AC3DD3CD1C3A2DED00D9E6D1 /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FBC1C0502B600A63B9C /* libRNOverlay.a */; };
 		AC47AA851CA93A3F002AA2E7 /* StatusBarNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = AC47AA841CA93A3F002AA2E7 /* StatusBarNotification.m */; };
+		AC8422901CF504F800882DEC /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC3320C1CE90AE600DCC3CC /* libRCTFBLogin.a */; };
 		AC9F83081CE86F230050ED02 /* TripppleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA5214E1CA297C5007B9F71 /* TripppleUITests.m */; };
 		AC9F830A1CE86FB30050ED02 /* libRCTTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA80C761CE862CF0081A99F /* libRCTTest.a */; };
 		AC9F83281CE870BF0050ED02 /* libRCTGoogleAnalyticsBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0549F01C671AE10072E9E7 /* libRCTGoogleAnalyticsBridge.a */; };
@@ -88,7 +89,6 @@
 		ACBB20C01C051AE100A63B9C /* EXURLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F511C0502B600A63B9C /* EXURLHandler.m */; };
 		ACC331EC1CE8EE5D00DCC3CC /* libMixpanel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACDF39161CE80BC000DE839B /* libMixpanel.a */; };
 		ACC331EE1CE8EEF300DCC3CC /* libRNMixpanel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC054A171C6748420072E9E7 /* libRNMixpanel.a */; };
-		ACC332141CE90B0600DCC3CC /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC3320C1CE90AE600DCC3CC /* libRCTFBLogin.a */; };
 		ACC4C5641CE90E7B003A2716 /* libPods-Trippple.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D6AB9D8B0F719557605BCE7 /* libPods-Trippple.a */; };
 		ACC4C5AC1CE90FDC003A2716 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC332171CE90DB700DCC3CC /* FBSDKCoreKit.framework */; };
 		ACC4C5AD1CE90FDC003A2716 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC332181CE90DB700DCC3CC /* FBSDKLoginKit.framework */; };
@@ -479,8 +479,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC8422901CF504F800882DEC /* libRCTFBLogin.a in Frameworks */,
 				ACC4C5641CE90E7B003A2716 /* libPods-Trippple.a in Frameworks */,
-				ACC332141CE90B0600DCC3CC /* libRCTFBLogin.a in Frameworks */,
 				ACC331EE1CE8EEF300DCC3CC /* libRNMixpanel.a in Frameworks */,
 				ACC4C5AC1CE90FDC003A2716 /* FBSDKCoreKit.framework in Frameworks */,
 				ACC4C5AD1CE90FDC003A2716 /* FBSDKLoginKit.framework in Frameworks */,
@@ -691,10 +691,10 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				ACC7DE7D1C5A41EA0087476F /* Trippple */,
 				ACC332171CE90DB700DCC3CC /* FBSDKCoreKit.framework */,
 				ACC332181CE90DB700DCC3CC /* FBSDKLoginKit.framework */,
 				ACC332191CE90DB700DCC3CC /* FBSDKShareKit.framework */,
-				ACC7DE7D1C5A41EA0087476F /* Trippple */,
 				AC11ABB81CE7C57F001B6FB3 /* Fabric */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				ACA5214D1CA297C5007B9F71 /* TripppleUITests */,
@@ -1141,7 +1141,6 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				AC467EBA1C523398009F2FBD /* Bundle RN images and code */,
-				AC11AB991CE7C529001B6FB3 /* Fabric task */,
 				AC11AC0E1CE7C8FF001B6FB3 /* New Relic task */,
 				75F9CF2A6E110BF770E34A73 /* 📦 Embed Pods Frameworks */,
 				B62C94D23E932D118A2E5D30 /* 📦 Copy Pods Resources */,
@@ -1619,20 +1618,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Trippple/Pods-Trippple-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		AC11AB991CE7C529001B6FB3 /* Fabric task */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Fabric task";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run 9f3360a634ff36e817a34ba898a19118cc1391ff eaa5ad5f554fac730663183c7152d183a31d7ab7bb6dc46714db68da63b2376b";
 		};
 		AC11AC0E1CE7C8FF001B6FB3 /* New Relic task */ = {
 			isa = PBXShellScriptBuildPhase;

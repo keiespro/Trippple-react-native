@@ -7,9 +7,25 @@ import Analytics from '../../utils/Analytics'
 class MatchActions {
 
   removeMatch(matchID){
+
+    Analytics.event('Social',{
+      type: 'negative',
+      name:'Remove Match',
+      target: matchID
+    })
+    Analytics.increment('RemovedMatches',1)
+
     return matchID
   }
   removePotential(p){
+
+    Analytics.event('Social',{
+      type: 'negative',
+      name:'Remove Potential',
+      target: matchID
+    })
+    Analytics.increment('RemovedPotentials',1)
+
     return p || true
 
   }
@@ -90,7 +106,10 @@ class MatchActions {
 
   sendMessage(message, matchID,timestamp){
     Analytics.event('Social',{
-      type: 'Send message',
+      type:'positive',
+      name: 'Send message',
+      message,
+
     })
 
     Analytics.increment('messages_sent',1)
@@ -145,6 +164,13 @@ class MatchActions {
     return (dispatch) => {
       Api.unMatch(matchID)
       .then(()=>{
+        Analytics.event('Social',{
+          type: 'negative',
+          name:'Remove Match',
+          target: matchID
+        })
+        Analytics.increment('RemovedMatches',1)
+
         dispatch(matchID);
       })
       .catch((err) => {
@@ -157,6 +183,15 @@ class MatchActions {
     return (dispatch) => {
       Api.reportUser(user.id, (user.relationship_status ? 'single' : 'couple'), reason)
       .then((res)=> {
+
+        Analytics.event('Social',{
+          type: 'negative',
+          name: 'Report User',
+          target: user.id,
+          reason
+        })
+        Analytics.increment('ReportedUsers',1)
+
         if(res.status == 200){
           Alert.alert('User reported.')
           dispatch({ user_id: user.id, reason, user})
@@ -179,7 +214,7 @@ class MatchActions {
         this.removePotential.defer();
 
         Analytics.event('Social',{
-          type: 'Swipe',
+          type: likeStatus == 'approve' ? 'positive' : 'negative',
           name: (likeStatus == 'approve' ? 'Like' : 'Dislike'),
           target: likedUserID
         })

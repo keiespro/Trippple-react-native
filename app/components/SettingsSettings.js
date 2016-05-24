@@ -67,17 +67,27 @@ class SettingsSettings extends React.Component{
   }
 
   disableAccount(){
+
+
+    Analytics.event('Interaction',{
+      name: 'Disable Account',
+      type: 'tap',
+    })
+
     Alert.alert(
       'Disable Your Account?',
       'Are you sure you want to disable your account? You will no longer be visible to any trippple users. To re-enable your account, log back in.',
       [
         {text: 'Yes', onPress: () => {
-          // Analytics.event('',{action:'',label:'',eventData:{}})
 
+          Analytics.event('Support',{
+            name: 'Disabled Account',
+            type: this.props.user.id,
+            user:this.props.user
+          })
           UserActions.disableAccount();
         }},
         {text: 'No', onPress: () => {
-          // Analytics.event('',{action:'',label:'',eventData:{}})
 
           return false
         }},
@@ -88,6 +98,7 @@ class SettingsSettings extends React.Component{
 
   openWebview(page){
     var url, pageTitle;
+
     switch (page){
       case 'help':
         url = 'http://trippple.co/help.html';
@@ -103,6 +114,11 @@ class SettingsSettings extends React.Component{
         break;
     }
 
+    Analytics.event('Interaction',{
+      name: `${pageTitle}`,
+      type: 'tap',
+    })
+
     this.props.navigator.push({
       component: WebViewScreen,
       title: '',
@@ -110,7 +126,7 @@ class SettingsSettings extends React.Component{
       id:'webview',
       sceneConfig: NavigatorSceneConfigs.FloatFromRight,
       passProps: {
-        url,
+        source:{uri:url},
         pageTitle
       }
     })
@@ -121,6 +137,13 @@ class SettingsSettings extends React.Component{
 
   }
   handleTapPrivacy(){
+
+
+    Analytics.event('Interaction',{
+      name: `Privacy - Private`,
+      type: 'tap',
+    })
+
     if(this.state.privacy != 'private'){
         this.props.navigator.push({
           component: PrivacyPermissionsModal,
@@ -142,6 +165,12 @@ class SettingsSettings extends React.Component{
 
   handleLockWithTouchID(){
 
+    Analytics.event('Interaction',{
+      name: `Touch Id`,
+      type: 'tap',
+      value: !this.state.isLocked
+    })
+
     TouchID.authenticate(this.state.isLocked ? 'Disable TouchID Lock' : 'Lock Trippple')
       .then((success) => {
         var shouldLock = this.state.isLocked ? 1 : null
@@ -150,7 +179,13 @@ class SettingsSettings extends React.Component{
           isLocked: !shouldLock
         })
         Settings.set({LockedWithTouchID:this.state.isLocked})
-                // Success code
+
+          Analytics.event('Usage',{
+            name: (shouldLock ? `Enable` : `Disable`) + 'Touch ID lock',
+            type: 'tap',
+          })
+        }
+        // Success code
       })
       .catch(error => {
         // Failure code
