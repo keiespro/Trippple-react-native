@@ -6,6 +6,7 @@ import {Dimensions, Text, View, ScrollView, TouchableOpacity, PanResponder, Anim
 import DefaultTabBar from './components/CustomTabBar'
 const deviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from './DeviceConfig';
+import Analytics from './utils/Analytics'
 
 
 const TAB_BAR_REF = 'TAB_BAR';
@@ -37,6 +38,8 @@ const ScrollableTabView = React.createClass({
       tension: 70,
     }).start()
     this.setState({pageNumber})
+
+
   },
 
   renderTabBar(props) {

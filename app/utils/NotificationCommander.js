@@ -30,7 +30,6 @@ class NotificationCommander extends Component{
       notifications: [],
       processing:false,
     }
-    __DEV__ && console.log('socket')
     this.socket = io(WEBSOCKET_URL, {jsonp:false})
 
   }
@@ -163,6 +162,7 @@ class NotificationCommander extends Component{
           online_id: data.online_id,
           api_uid: (`${myApikey}:${myID}`)
         });
+        __DEV__ && console.log('WEBSOCKET CONNECTED')
 
         this.setState({socketConnected:true})
     })
@@ -233,6 +233,7 @@ class NotificationCommander extends Component{
       online_id: this.online_id,
       api_uid: `${apikey}:${user_id}`
     });
+    __DEV__ && console.log('WEBSOCKET DISCONNECTED')
 
     this.socket.removeAllListeners()
     this.setState({socketConnected:false})

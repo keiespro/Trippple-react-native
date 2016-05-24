@@ -24,22 +24,24 @@ async function baseRequest(endpoint='': String, payload={}: Object){
     },
     body: JSON.stringify(payload)
   }
-  __DEV__ && console.log(params)
+  if(__DEBUG__ && window && window.__SHOW_ALL__) console.log(`API REQUEST ---->>>>> ${endpoint} | `,params);
   const url = `${SERVER_URL}/${endpoint}`;
   var timeStarted = new Date();
   const res = await fetch(url, params)
 
   try{
-    __DEV__ && console.log(res)
     var secondsAgo = ((new Date).getTime() - timeStarted.getTime()) / 1000;
     Analytics.timeEnd(`Endpoint Perf - ${endpoint} ${secondsAgo}`)
 
     if(res.status == 504 || res.status == 502){
-      __DEV__ && console.log('show maint')
+      __DEV__ && console.log('show maintenance screen')
       AppActions.showMaintenanceScreen();
+      Analytics.err(res)
       throw new Error('Server down')
 
     }else if(!res.json && res.status == 401){
+      Analytics.err(res)
+
       throw new Error('Unauthorized')
     }
     if(!res.json){
@@ -47,6 +49,7 @@ async function baseRequest(endpoint='': String, payload={}: Object){
     }
     console.log(res);
     let response = await res.json()
+    __DEV__ && console.log(`API RESPONSE <<<<<<---- ${endpoint} | `,response)
 
     return Promise.try(() => {
 
@@ -134,7 +137,6 @@ const api = {
   },
 
   getMatches(page){ //v2 endpoint
-    __DEV__ && console.log('get matches',page)
     return authenticatedRequest('getMatches', {page})
   },
 

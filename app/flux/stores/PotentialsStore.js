@@ -29,7 +29,7 @@ class PotentialsStore {
     });
 
     this.on('init', () => {
-      Analytics.all('INIT PotentialsStore');
+      // Analytics.all('INIT PotentialsStore');
     });
 
     this.on('error', (err, payload, currentState) => {
@@ -43,7 +43,9 @@ class PotentialsStore {
     });
 
     this.on('afterEach', (x) => {
-      Analytics.all('UPDATE Potentials Store', {...x});
+      if( x.payload.payload.matches && x.payload.payload.matches.length){
+        Analytics.all('UPDATE Potentials Store', {...x});
+      }
     });
 
     this.exportPublicMethods({
@@ -55,6 +57,14 @@ class PotentialsStore {
   handleGetPotentials(data) {
     if(data.matches.length){
       var potentials;
+
+
+      Analytics.event('Sanity Check',{
+        type: 'API response',
+        name: 'Receive New Potentials',
+        value: data.matches.length
+      })
+
       if(!data.matches[0].user){
         potentials = data.matches.map((pot,i)=>{
           return {user: pot}
@@ -63,6 +73,12 @@ class PotentialsStore {
         potentials = data.matches
       }
       this.potentials = data.matches
+    }else{
+      Analytics.event('Sanity Check',{
+        type: 'API response',
+        name: 'Receive New Potentials',
+        value: 0
+      })
     }
   }
 
@@ -89,6 +105,13 @@ class PotentialsStore {
 
   }
   handleLogout(){
+
+    Analytics.event('Interaction',{
+      type: 'User',
+      name: 'Log out',
+    })
+
+
     this.setState({
       potentials: [],
       LastNotificationsPermissionRequestTimestamp: false

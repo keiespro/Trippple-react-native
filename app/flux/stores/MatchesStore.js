@@ -47,7 +47,7 @@ class MatchesStore {
     });
 
     this.on( 'init', () => {
-      Analytics.all( 'INIT matches store' );
+      // Analytics.all( 'INIT matches store' );
     });
 
     this.on( 'error', ( err, payload, currentState ) => {
@@ -61,8 +61,10 @@ class MatchesStore {
     });
 
     this.on( 'afterEach', ( x ) => {
-      Analytics.all( 'UPDATE Matches store', {...x });
-    });
+      if(x.payload.payload.matches && x.payload.payload.matches.length && x.payload.details.name != 'getPotentials'){
+        Analytics.all( 'UPDATE Matches store', {...x });
+      }
+    })
 
   }
 

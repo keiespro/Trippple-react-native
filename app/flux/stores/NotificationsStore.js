@@ -38,7 +38,7 @@ class NotificationsStore {
 
 
     this.on('init', () => {
-      Analytics.all('INIT NotificationsStore');
+      // Analytics.all('INIT NotificationsStore');
     });
 
     this.on('error', (err, payload, currentState) => {
@@ -52,7 +52,9 @@ class NotificationsStore {
     // });
 
     this.on('afterEach', (x) => {
-      Analytics.all('UPDATE notifications store', {...x});
+      if(x.payload.payload.notifications){
+        Analytics.all('UPDATE notifications store', {...x});
+      }
     });
   }
 

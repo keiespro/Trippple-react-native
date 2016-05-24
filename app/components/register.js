@@ -59,7 +59,6 @@ class Register extends Component{
   }
   componentDidMount(){
     AuthErrorStore.listen(this.onError);
-    Mixpanel.track('On - Register Screen');
   }
   componentWillUnmount(){
     AuthErrorStore.unlisten(this.onError);

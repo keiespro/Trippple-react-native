@@ -35,6 +35,7 @@ import CloseButton from './CloseButton'
 import Api from '../utils/api'
 import TrackKeyboardMixin from '../mixins/keyboardMixin'
 import reactMixin from 'react-mixin'
+import Analytics from '../utils/Analytics'
 
 import FieldModal from './FieldModal'
 import formatPhone from '../utils/formatPhone'
@@ -133,6 +134,7 @@ class ProfileField extends React.Component{
             //trigger modal
             this.props.navigator.push({
               component: FieldModal,
+              name: `Edit ${fieldLabel}`,
               passProps: {
                 inputField: displayField(field),
                 field,
@@ -192,7 +194,10 @@ class SettingsBasic extends React.Component{
         <ScrollView style={{flex:1,marginTop:55,backgroundColor:colors.dark}} contentContainerStyle={{alignItems:'flex-start'}} >
       <View style={{backgroundColor:colors.outerSpace}}>
 
-        <ScrollableTabView style={{overflow:'hidden',}} padded={false} renderTabBar={(props)=><CustomTabBar {...props}/>}>
+        <ScrollableTabView style={{overflow:'hidden',}} onChangeTab={(tab)=>{
+            console.log(tab);
+          Analytics.screen(`SettingsBasic`+ [' GENERAL',' DETAILS'][tab.i]);
+          }} padded={false} renderTabBar={(props)=><CustomTabBar {...props}/>}>
           <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:MagicNumbers.screenPadding/2}}  tabLabel={'GENERAL'}>
           {user.relationship_status == 'single' ? null : <View style={{height:150,width:150,alignSelf:'center'}}>
           <TouchableOpacity onPress={this._pressNewImage.bind(this)} style={{marginTop:20,}}>

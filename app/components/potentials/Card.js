@@ -23,6 +23,8 @@ import {MagicNumbers} from '../../DeviceConfig'
 import UserDetails from '../../UserDetails'
 import reactMixin from 'react-mixin'
 import MatchActions from '../../flux/actions/MatchActions'
+import Analytics from '../../utils/Analytics'
+
 
 
 class Card extends React.Component{
@@ -36,7 +38,9 @@ class Card extends React.Component{
     this.state = {
       slideIndex: 0
     }
-    __DEV__ && props.isTopCard && console.table(props.potential)
+
+    __DEV__ && props.isTopCard && console.log('POTENTIAL CARD:');
+    __DEV__ && props.isTopCard && console.table(props.potential);
 
   }
 
@@ -61,13 +65,18 @@ class Card extends React.Component{
   setNativeProps(np){
     this.refs.incard && this.refs.incard.setNativeProps(np)
   }
-  // componentWillMount(){
-  //   this.props.pan && this.props.isTopCard && this.valueListener()
-  // }
+  componentDidMount(){
+    this.checkPotentialSuitability();
+  }
   openProfileFromImage(e){
     if(!this.props.animatedIn || !this.props.isTopCard){ return }
     this.setState({activeIndex: this.state.activeIndex + 1})
-    this.props.toggleProfile()
+    if(this.props.profileVisible){
+      this.props.toggleProfile(this.props.potential)
+
+    }else{
+      this.props.showProfile(this.props.potential)
+    }
   }
 
   componentWillReceiveProps(nProps){
@@ -77,6 +86,8 @@ class Card extends React.Component{
     }
     if(nProps.potential.user.id != this.props.potential.user.id){
       __DEV__ && nProps.isTopCard && console.table(nProps.potential)
+      this.checkPotentialSuitability();
+
     }
   }
 
@@ -117,6 +128,15 @@ class Card extends React.Component{
     })
   }
 
+  checkPotentialSuitability(){
+    if(this.props.user && this.props.user.relationship_status == 'single' && this.props.potential && this.props.potential.partner && this.props.potential.partner.id == ""){
+
+        Analytics.warning(`CHECK POTENTIALS RESPONSE!`, `Your relationship_status is ${this.props.user.relationship_status}, but potential card is not a couple.`);
+
+      // Analytics.err({message: `Possibly broken potential card delivered to user ${this.props.user.id}`})
+
+    }
+  }
   render(){
 
     const potential = this.props.potential || {user:{}};
@@ -135,7 +155,6 @@ class Card extends React.Component{
       matchName += ' & ' + names[1]
       distance = Math.min(distance,potential.partner && potential.partner.distance || '666666666')
     }
-
 
 
     if(!profileVisible){

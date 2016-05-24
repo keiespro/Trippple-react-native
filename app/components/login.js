@@ -65,7 +65,6 @@ class Login extends Component{
   }
   componentDidMount(){
     AuthErrorStore.listen(this.onError.bind(this));
-    Mixpanel.track('On - Login Screen');
   }
   componentWillUnmount(){
     AuthErrorStore.unlisten(this.onError.bind(this));

@@ -151,7 +151,7 @@ const NavigationBar = React.createClass({
 
     if (title && title.length){
       return (
-        <View style={styles.customTitle}>
+        <View style={[styles.customTitle,this.props.backgroundStyle]}>
           <Text style={titleStyle}> {this.props.title} </Text>
         </View>
       )

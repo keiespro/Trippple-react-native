@@ -1,16 +1,10 @@
 const APP_ENV = 'production';
-// const DEBUG = false;
-// const DEV = false;
-//
-// if(typeof window !== 'undefined'){
-//   window.__DEBUG__ = DEBUG;
-//   window.__DEV__ = DEV;
-// }else{
-//   global.__DEBUG__ = DEBUG;
-//   global.__DEV__ = DEV;
-// }
-// __DEBUG__ = false;
-// __DEV__ = false;
+
+__DEBUG__ = true;
+__DEV__ = true;
+
+
+const __SHOW_ALL__ = window.__SHOW_ALL__ = true;
 
 
 const configurations = {

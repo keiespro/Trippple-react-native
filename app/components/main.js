@@ -16,7 +16,6 @@ import Chat from './chat'
 import MatchActions from '../flux/actions/MatchActions'
 import MatchesStore from '../flux/stores/MatchesStore'
 import PotentialsStore from '../flux/stores/PotentialsStore'
-import Mixpanel from '../utils/mixpanel'
 import FakeNavBar from '../controls/FakeNavBar'
 import AppActions from '../flux/actions/AppActions'
 import NotificationActions from '../flux/actions/NotificationActions'
@@ -43,20 +42,21 @@ class Main extends Component{
   }
   componentDidMount(){
 
+    Analytics.screen('Potentials')
 
-
-    Mixpanel.auth(this.props.user.id+'');
     this.refs.nav.navigationContext.addListener('didfocus', (nav)=>{
       var route = nav.target.currentRoute;
       // console.log(nav,route,this.refs.nav.state.presentedIndex)
       AppActions.updateRoute.defer({title: route.title, route: route.title, match_id: route.passProps && route.passProps.match_id || null})
-      var routeName = route.id || route.name || (route.title && route.title.length ? route.title : false) || route.component && route.component.displayName;
+      var routeName = route.name || route.id || (route.title && route.title.length ? route.title : false) || route.component && route.component.displayName;
       Analytics.screen(routeName)
-      Mixpanel.track(`HO: On - ${routeName} Screen`);
 
     })
     // NotificationActions.scheduleNewPotentialsAlert.defer()
       // AppActions.sendTelemetry(this.props.user)
+    if(this.props.user.id){
+      Analytics.identifyUser(this.props.user);
+    }
   }
 
   componentWillReceiveProps(nProps){
@@ -291,6 +291,7 @@ const PotentialsRoute = {
   index: 0,
   title: 'Trippple',
   id: 'potentials',
+  name: 'Potentials',
   navigationBar: (
     <FakeNavBar
       backgroundStyle={{backgroundColor:'transparent'}}
@@ -306,11 +307,11 @@ const SettingsRoute = {
   component: Settings,
   index: 1,
   title: 'Settings',
-  id: 'settings',
+  id: 'Settings',
   navigationBar: (
     <FakeNavBar
       blur={true}
-      backgroundStyle={{backgroundColor:colors.shuttleGray}}
+      backgroundStyle={{backgroundColor:colors.shuttleGray,top:0}}
       hideNext={true}
       customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12}}
       source={{uri:'assets/close@3x.png'}}/>}
@@ -326,6 +327,7 @@ const MatchesRoute = {
   index: 2,
   title: 'MESSAGES',
   id: 'matches',
+  name: 'Matches',
   navigationBar: (
     <FakeNavBar
       hideNext={true}
@@ -347,6 +349,7 @@ const ChatRoute = {
   index: 2,
   title: 'Matches',
   id: 'matches',
+  name: 'Chat',
   navigationBar: (
     <FakeNavBar
       hideNext={true}

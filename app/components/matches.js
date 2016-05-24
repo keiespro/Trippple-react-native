@@ -22,7 +22,7 @@ import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin';
 import AltContainer from 'alt-container/native';
 import FakeNavBar from '../controls/FakeNavBar'
-import Mixpanel from '../utils/mixpanel'
+import Analytics from '../utils/Analytics'
 import FadeInContainer from './FadeInContainer'
 import { BlurView,VibrancyView} from 'react-native-blur'
 import UserProfile from './UserProfile'
@@ -50,7 +50,6 @@ class MatchList extends Component{
 
   componentDidMount() {
     MatchActions.getMatches();
-    Mixpanel.track('On - Matches Screen');
   }
 
   _allowScroll(scrollEnabled){
@@ -90,6 +89,7 @@ class MatchList extends Component{
       [
         {text: 'Cancel', onPress: () => this.handleCancelUnmatch(rowData), style: 'cancel'},
         {text: 'OK', onPress: () => {
+          Analytics.event('Matching',{name: 'Unmatch', match_id: rowData.match_id, match: rowData})
           MatchActions.unMatch(rowData.match_id);
           MatchActions.removeMatch.defer(rowData.match_id);
         } },
@@ -135,6 +135,8 @@ class MatchList extends Component{
         loadingMoreMatches:false
       })
     },3000);
+
+    Analytics.event('Interaction',{type: 'scroll', name: 'Load more matches', page: nextPage})
 
     MatchActions.getMatches(nextPage);
   }
@@ -335,13 +337,17 @@ class MatchesInside extends Component{
   }
 
   showProfile(match){
+    Analytics.event('Interaction',{name: 'View user profile', match_id: match.match_id, match })
+
     this.props.navigator.push({
       component: UserProfile,
       passProps:{match, hideProfile: ()=> {
         this.props.navigator.pop()
-      }}
+      }},
+      name: `User Profile`
     })
   }
+
   toggleModal(){
     this.setState({
       isVisible:!this.state.isVisible,

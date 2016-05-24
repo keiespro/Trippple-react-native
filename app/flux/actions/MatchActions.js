@@ -17,13 +17,11 @@ class MatchActions {
     return (dispatch) => {
       Api.getMatches(page || 0)
         .then((res) => {
-          __DEV__ && console.log(res)
           dispatch({matches: res.response.length ? res.response : [], page: page || false});
           this.getNewMatches.defer()
 
         })
         .catch((err) => {
-          __DEV__ && console.log(err)
           dispatch({error: err})
           this.getNewMatches.defer()
 
@@ -69,6 +67,7 @@ class MatchActions {
     return (dispatch) => {
       Api.getPotentials(  )
       .then((res) => {
+
         dispatch(res.response);
       })
       .catch((err) => {
@@ -90,6 +89,12 @@ class MatchActions {
   }
 
   sendMessage(message, matchID,timestamp){
+    Analytics.event('Social',{
+      type: 'Send message',
+    })
+
+    Analytics.increment('messages_sent',1)
+
     return {message, matchID,timestamp};
   }
 
@@ -173,7 +178,16 @@ class MatchActions {
       .then((res)=>{
         this.removePotential.defer();
 
-          dispatch({likedUserID,likeStatus});
+        Analytics.event('Social',{
+          type: 'Swipe',
+          name: (likeStatus == 'approve' ? 'Like' : 'Dislike'),
+          target: likedUserID
+        })
+        Analytics.increment('Swipes',1)
+        Analytics.increment(likeStatus == 'approve' ? 'Likes' : 'Dislikes',1)
+
+
+        dispatch({likedUserID,likeStatus});
       })
 
       .catch((err)=>{

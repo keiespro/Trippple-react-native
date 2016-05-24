@@ -16,7 +16,7 @@ class CredentialsStore {
     this.api_key = '';
 
     this.on('init', () => {
-      Analytics.all('INIT CredentialsStore');
+      // Analytics.all('INIT CredentialsStore');
     });
 
     this.on('error', (err, payload, currentState) => {
@@ -30,7 +30,7 @@ class CredentialsStore {
     });
 
     this.on('afterEach', ({payload, state}) => {
-      Analytics.all('UPDATE Credentials store', {payload, state});
+      // Analytics.all('UPDATE Credentials store', {payload, state});
     });
 
     this.bindListeners({

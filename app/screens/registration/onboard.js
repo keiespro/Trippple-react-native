@@ -100,7 +100,7 @@ class Onboard extends Component{
 
       var routeName = route.id || route.name || (route.title && route.title.length ? route.title : false) || route.component.displayName;
       Analytics.screen(routeName)
-      Mixpanel.track(`HO: On - ${routeName} Screen`);
+
 
       const navIndex = this.refs.onboardingNavigator.state.presentedIndex,
             storeIndex = this.props.onboardingState.routeIndex;

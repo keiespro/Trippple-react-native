@@ -19,6 +19,7 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../../DeviceConfig'
 import Card from './Card'
+import Analytics from '../../utils/Analytics'
 
 
 class CardStack extends React.Component{
@@ -37,7 +38,6 @@ class CardStack extends React.Component{
   }
   componentWillMount(){
     this._panResponder = {}
-    Mixpanel.track('On - Potentials Screen');
 
   }
   _handleAppStateChange(currentAppState){
@@ -264,7 +264,6 @@ class CardStack extends React.Component{
 
           });
         }else{
-          console.log('ANAIMTED SPRING')
 
           Animated.spring(this.state.pan, {
             toValue,
@@ -283,6 +282,7 @@ class CardStack extends React.Component{
   }
 
   _showProfile(potential){
+    Analytics.event('Interaction',{type:'tap', name: 'Open card profile', potential});
     this.props.toggleProfile(potential);
   }
 

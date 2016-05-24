@@ -43,7 +43,7 @@ class UserStore {
     });
 
     this.on('init', () => {
-      Analytics.all('INIT USER store');
+      // Analytics.all('INIT USER store');
     });
 
     this.on('error', (err, payload, currentState) => {
@@ -57,8 +57,10 @@ class UserStore {
     });
 
     this.on('afterEach', (x) => {
-      Analytics.all('UPDATE USER store', {...x});
-      this.save()
+      if(x.payload.payload.response && x.payload.payload.response.user_info || x.payload.payload.updates){
+        Analytics.all('UPDATE USER store', {...x});
+        this.save()
+      }
     });
 
   }
@@ -114,7 +116,6 @@ class UserStore {
     //   return false;
     // }
     const {user_info} = res.response;
-
     this.setState({
       user: {...this.state.user, ...user_info, status: user_info.ready ? 'onboarded' :  user_info.status }
     })

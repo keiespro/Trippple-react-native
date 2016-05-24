@@ -17,7 +17,7 @@ class FadeInContainer extends Component{
     }
   }
   componentDidMount(){
-    console.log(this.props)
+    // console.log(this.props)
     this.fadeIn()
   }
   componentWillReceiveProps(nProps){
@@ -26,7 +26,9 @@ class FadeInContainer extends Component{
     }
   }
   cancelFadeIn(){
-    this.state.fadeAmount.stopAnimation(()=>{console.log('animation stopped')})
+    this.state.fadeAmount.stopAnimation(()=>{
+      //console.log('animation stopped')
+    })
   }
   fadeIn(){
     Animated.timing( this.state.fadeAmount,

@@ -50,7 +50,6 @@ class SettingsSettings extends React.Component{
     this.setState(payload)
   }
   componentDidMount() {
-    Mixpanel.track('On - Setings Screen');
 
     TouchID.isSupported()
       .then(supported => {

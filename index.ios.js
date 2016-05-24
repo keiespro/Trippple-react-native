@@ -8,13 +8,17 @@ import React from "react";
 import ReactNative, {View, AppRegistry, NativeModules} from "react-native";
 import Boot from './app/Boot'
 import alt from './app/flux/alt'
+import {whyDidYouUpdate} from 'why-did-you-update'
 
 
-if(typeof window !== 'undefined' && __DEV__){
+
+if(typeof window !== 'undefined' && __DEV__ && process.env.NODE_ENV !== 'production'){
   global = window;
   window.ReactNative = ReactNative;
   window.alt = alt;
-  console.ignoredYellowBox = ['jsSchedulingOverhead','SocketRocket','ScrollView'];
+  console.ignoredYellowBox = ['jsSchedulingOverhead','SocketRocket','ScrollView','Value did not change','Value is a function','%cfont-weight'];
+  __SHOW_ALL__ && whyDidYouUpdate(React, { exclude: [/^YellowBox/,/^onChangeText/] });
+
 }
 
 

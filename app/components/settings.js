@@ -39,6 +39,7 @@ import SettingsCouple from './SettingsCouple'
 import SettingsDebug from './SettingsDebug'
 import profileOptions from '../get_client_user_profile_options'
 const PickerItemIOS = PickerIOS.Item;
+import Analytics from '../utils/Analytics'
 
 
 
@@ -92,6 +93,7 @@ class SettingsInside extends React.Component{
   }
 
   _openProfile(){
+    Analytics.event('Interaction',{type:'tap', name: 'Preview self profile' });
 
     if(this.props.user.relationship_status == 'couple' && this.props.user.status != 'onboarded'){
       this.showPartnerMissingModal()
@@ -242,6 +244,7 @@ class SettingsInside extends React.Component{
                   sceneConfig:NavigatorSceneConfigs.FloatFromRight,
                   user:this.props.user,
                   id:'settingsbasic',
+                  name: 'SettingsBasic GENERAL',
                   passProps: {
                   style:styles.container,
                   settingOptions:this.state.settingOptions,
@@ -290,6 +293,7 @@ class SettingsInside extends React.Component{
 
               <TouchableHighlight onPress={(f)=>{
                   this.props.navigator.push({
+                  name: 'SettingsPreferences',
                   component: SettingsPreferences,
                   sceneConfig:NavigatorSceneConfigs.FloatFromRight,
                   passProps: {
@@ -313,6 +317,7 @@ class SettingsInside extends React.Component{
               <TouchableHighlight onPress={(f)=>{
                   this.props.navigator.push({
                   component: SettingsSettings,
+                  name: 'Settings-Settings',
                   sceneConfig:NavigatorSceneConfigs.FloatFromRight,
                   passProps: {
                   style:styles.container,

@@ -28,7 +28,7 @@ class ChatStore {
     }
 
     this.on('init', () => {
-      Analytics.all('INIT ChatStore');
+      // Analytics.all('INIT ChatStore');
     });
 
     this.on('error', (err, payload, currentState) => {
@@ -42,7 +42,9 @@ class ChatStore {
     });
 
     this.on('afterEach', (x) => {
-      Analytics.all('UPDATE Chat Store', {...x});
+      if(x.payload.payload.messages && x.payload.payload.messages.length ){
+        Analytics.all('UPDATE Chat Store', {...x});
+      }
     });
 
   }

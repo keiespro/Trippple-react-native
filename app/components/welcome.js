@@ -12,6 +12,8 @@ const DeviceWidth = Dimensions.get('window').width
 
 import CustomSceneConfigs from '../utils/sceneConfigs'
 import Auth from './auth'
+import Facebook from '../screens/registration/facebook'
+import Analytics from '../utils/Analytics'
 
 
 const LOGIN   = 'login';
@@ -76,11 +78,11 @@ var IntroScreen = React.createClass({
       switch(selectedTab) {
 
       case LOGIN:
-          Mixpanel.track ("CTA - Login");
+          Analytics.event("Interaction",{type: 'tap', target: "Login"});
           break;
 
       case REGISTER:
-          Mixpanel.track ("CTA - Sign Up");
+          Analytics.event("Interaction",{type: 'tap', target: "Register"});
           break;
       }
 
@@ -97,7 +99,12 @@ var IntroScreen = React.createClass({
   },
 
   componentDidMount() {
-      Mixpanel.track('On - Splash Screen');
+      setTimeout(()=> {
+        if(this.isMounted()){
+          Analytics.screen('Welcome Screen')
+        }
+      }, 1000);
+
   },
 
   render(){
@@ -180,7 +187,6 @@ Carousel.displayName = 'Carousel';
 const Welcome = React.createClass({
   displayName:"Welcome",
   componentDidMount() {
-      Mixpanel.track('On - Home Screen');
       this.refs.nav.navigationContext.addListener('willfocus', (e)=>{
         // dismissKeyboard();
       })

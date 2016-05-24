@@ -165,8 +165,10 @@ class NotificationPermissions extends React.Component{
                         <Text
                           style={[{
                             fontSize:20,
+                            marginLeft:2,
+                            marginTop:-2,
                             width:32,
-                            fontFamily:'Montserrat',
+                            fontFamily:'Montserrat-Bold',
                             textAlign:'center',
                             color:'#fff',
                         }]}>1</Text>

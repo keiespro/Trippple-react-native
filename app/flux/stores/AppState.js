@@ -52,7 +52,7 @@ class AppStateStore {
 
 
     this.on('init', () => {
-      Analytics.all('INIT App State Store');
+      // Analytics.all('INIT App State Store');
     });
 
     this.on('error', (err, payload, currentState) => {
@@ -66,8 +66,8 @@ class AppStateStore {
     });
 
     this.on('afterEach', (x) => {
-      Analytics.all('UPDATE App State store', {...x});
-    });
+
+     });
 
   }
 

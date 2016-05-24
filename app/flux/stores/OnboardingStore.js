@@ -30,7 +30,9 @@ class OnboardingStore {
         Analytics.err({...err, payload})
     })
     this.on('afterEach', (x) => {
-      Analytics.all('UPDATE Onboarding store', {...x});
+      if(x.payload.payload.userStub){
+        Analytics.all('UPDATE Onboarding store', {...x});
+      }
     });
   }
 

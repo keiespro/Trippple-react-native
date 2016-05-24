@@ -12,10 +12,11 @@ class AuthErrorStore {
     });
 
     this.on('init', () => {
-      Analytics.all('INIT AuthErrorStore');
+      // Analytics.all('INIT AuthErrorStore');
     });
 
     this.on('error', (err, payload, currentState) => {
+      
       Analytics.all('ERROR AuthErrorStore',err, payload, currentState);
       Analytics.err({...err, payload})
 

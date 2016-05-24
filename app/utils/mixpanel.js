@@ -1,11 +1,12 @@
 import Arrows from "./Arrows";
 
-import Mixpanels from 'react-native-mixpanel'
+import Mixpanel from 'react-native-mixpanel'
 // import TrackEvt from "rn-redux-mixpanel/lib/api/trackEvent";
 
-function TrackEvt(name,event){
-  __DEV__ && console.log('Mixpanel - track', name,event)
-  Mixpanels.trackWithProperties(name, event)
+function TrackEvt(name,e){
+  let event = Object.keys(e).length ? e : null;
+  __DEV__ && console.log('Mixpanel: ', name , event ?  ' ---> '+ "| " +  event.name + " | <---" :  " <---")
+  event ? Mixpanel.trackWithProperties(name, event) : Mixpanel.track(name)
 }
 
 //-this is Production App
@@ -25,7 +26,7 @@ const {
 
 var _distinctId;
 
-Mixpanels.sharedInstanceWithToken(TOKEN)
+Mixpanel.sharedInstanceWithToken(TOKEN)
 
 function now() {
     let now = new Date();
@@ -44,7 +45,7 @@ function TrackA() {
     var TrackingA = function (tracker) {
         var e,es = tracker.eventQueue;
         for(;e=es.pop();)
-            TrackEvt(e.eventName, e);
+            TrackEvt(e.eventName, e.eventData);
         tracker.lastFlushAt = now();
         return tracker;
     }.AsyncA().next(Repeat);
@@ -64,7 +65,7 @@ TrackA.prototype = new AsyncA(function (Evtparams, p,k ) {
 
     ++this.eventCount;
 
-    this.eventQueue.push({ createdAt: _now,eventName, eventData, distinctId});
+    this.eventQueue.push({ createdAt: _now, eventName, eventData, distinctId});
 
     var {
         lastFlushAt,
@@ -78,14 +79,14 @@ TrackA.prototype = new AsyncA(function (Evtparams, p,k ) {
 });
 
 var MixA = TrackA();
-const Mixpanel = {
-  track (eventName, eventData={}) {
-    MixA.run({token: TOKEN, eventName, eventData, distinctId: _distinctId});
-  },
-  auth (distinctId) {
-    _distinctId = distinctId;
-    return this;
-  }
 
+export default {
+  track (eventName, eventData={}) {
+    TrackEvt(eventName, eventData);
+  },
+  identify(distinctId) {
+    _distinctId = distinctId;
+    Mixpanel.identify(distinctId)
+    // return this;
+  }
 }
-export default Mixpanel

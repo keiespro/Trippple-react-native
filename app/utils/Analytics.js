@@ -1,94 +1,139 @@
 
-import Mixpanel from 'react-native-mixpanel'
-import mixpanel from './mixpanel'
+import RNMixpanel from 'react-native-mixpanel'
+import Mixpanel from './mixpanel'
 import AppInfo from 'react-native-app-info'
-
+import {Settings} from 'react-native'
 import _ from 'lodash'
 const MIXPANEL_TOKEN = '18b301fab3deb8a70729d6407210391c'
 import GoogleAnalytics from 'react-native-google-analytics-bridge'
+
+import SETTINGS_CONSTANTS from './SettingsConstants'
+const {HAS_IDENTITY} = SETTINGS_CONSTANTS
+
 
 const VERSION = parseFloat(AppInfo.getInfoShortVersion());
 
 
 class Analytics{
+  
   constructor(){
     GoogleAnalytics.setTrackerId('UA-49096214-2');
-
-  }
-  identifyUser(userid){
-    if(!Mixpanel || !GoogleAnalytics || !userid) return false;
-
-    GoogleAnalytics.setUser(userid);
-    Mixpanel.identify(userid);
-
   }
 
-  tagUser(propsToTag){    // MIXPANEL: assign user extra properties which can help identify them
-    if(!GoogleAnalytics) return false;
+  prepareInitializeIdentity(){
+    this.readyToInitialize = true;
+  }
+
+  identifyUser(user){
+    if(!user || !user.id) return false;
+
+    if(!this.userid){
+       if(!Settings.get(HAS_IDENTITY)){
+        this.setFullIdentityOnce(user)
+      }
+    }
+    __DEV__ && console.log(`Analytics -> Indentified user #${user.id}`);
+
+    GoogleAnalytics.setUser(`${user.id}`);
+    Mixpanel.identify(`${user.id}`);
+    RNMixpanel.registerSuperProperties({"Gender": user.gender, "User Type": user.relationship_status});
+
+  }
+
+  setFullIdentityOnce(user){
+    this.setUserProperties({
+      "$phone": user.phone,
+      "$name": user.firstname,
+      "image": user.image_url,
+      "relationship_status": user.relationship_status,
+      "account_status": user.status
+    });
+    Settings.set({[HAS_IDENTITY]:true});
+    this.userid = user.id;
+  }
+
+  setUserProperties(propsToTag){    // MIXPANEL: assign user extra properties which can help identify them
 
     if(!propsToTag || typeof propsToTag != 'object' || !Object.keys(propsToTag).length ){ return false }
 
-    // Mixpanel.set(propsToTag);
+    Object.keys(propsToTag).map(k => RNMixpanel.set(k,propsToTag[k]));
 
   }
 
-  bumpUserProp(prop,val){    // MIXPANEL: track numeric values which are associated with a user
-    if(!GoogleAnalytics) return false;
+  increment(prop,amount){    // MIXPANEL: track numeric values which are associated with a user
 
-    if( !props || !val ){ return false }
+    if( !props || !amount ){ return false }
 
-    // Mixpanel.people.increment({[prop]: val});
+    Mixpanel.increment(prop, amount);
 
   }
 
   event(eventName, eventData={}){
     if(!GoogleAnalytics) return false;
 
-    let { action, label, value } = eventData;
+    let action = eventData.action || eventData.type || undefined;
+    let label = eventData.label || eventData.name || undefined;
+    let value = eventData.value || eventData.val || undefined;
 
     __DEV__ && console.log(`Event: ${eventName}`, 'EventData:', ...eventData)
 
     GoogleAnalytics.trackEvent(eventName, action, {label, value});
 
-    // mixpanel.track(eventName, eventData)
-
-    // Mixpanel.trackWithProperties(eventName, eventData)
+    Mixpanel.track(eventName, eventData)
 
   }
 
   screen(screen){
     if(!GoogleAnalytics) return false;
 
-    __DEV__ && console.log(`Screen: ${screen}`)
+    // __DEV__ && console.log(`Screen: ${screen}`)
     GoogleAnalytics.trackScreenView(screen);
+    Mixpanel.track('Screen', {name: screen});
 
   }
 
   err(error){
-    if(!GoogleAnalytics) return false;
-    if(!error || (error && error.error && !Object.keys(error.error).length) ||  (error && !Object.keys(error).length) ){
+    const warningSigns = `\n ❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌\n  \n ❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌\n`;
+
+     if(!error || (error && error.error && !Object.keys(error.error).length) ||  (error && !Object.keys(error).length) ){
       return;
     }
-    __DEV__ && console.log(error)
+    __DEV__ && console.log(`ERROR:`, error)
     GoogleAnalytics.trackException( JSON.stringify(error), false);
 
   }
+
   log(){
-    __DEV__ && console.log({...arguments})
+    __DEV__ && console.log(`LOG:`,{...arguments})
   }
+
   all(){
-    __DEV__ && __DEBUG__ && [...arguments].map((arg,i)=>{
-      console.log(arg)
+    // console.log('<Log>')
+
+    window && window.__SHOW_ALL && __DEV__ && __DEBUG__ && [...arguments].map((arg,i)=>{
+      console.log('<Log> ', arg)
     })
+    // console.log('</Log>')
 
   }
-  timeEvent(event){
+
+  timeEvent(event, data){
+    __DEV__ && console.log(`Event: ${event}`, 'EventData:', ...eventData)
+
     Mixpanel.timeEvent(event);
-    // console.log(event,Date.now())
+
   }
+
   timeEnd(event){
     Mixpanel.track(event);
-    // console.log(event, Date.now())
+
+  }
+
+  warning(title,body){
+
+    const warningSigns = `\n\n⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️\n\n`;
+
+    __DEV__ && console.warn(`WARNING - ${title}`, warningSigns + body + warningSigns);
 
   }
 }
