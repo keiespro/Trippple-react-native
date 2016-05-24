@@ -35,7 +35,7 @@ class PermissionSwitches extends React.Component{
       const NotificationSetting = Settings.get('NotificationSetting')//settings[1][1] ? JSON.parse(settings[1][1]) : false;
 
       this.setState({
-        LocationSetting: parseInt(OSPermissions.location) > 2 && LocationSetting ? true : false,
+        LocationSetting: JSON.parse(OSPermissions.location) > 2 && LocationSetting ? true : false,
         NotificationSetting: OSPermissions.notifications && NotificationSetting ? true : false,
       })
     // }).catch((err) => {
@@ -43,7 +43,7 @@ class PermissionSwitches extends React.Component{
     // })
   }
   toggleLocation(){
-    if(!OSPermissions.location || OSPermissions.location && !parseInt(OSPermissions.location)){
+    if(!OSPermissions.location || OSPermissions.location && !JSON.parse(OSPermissions.location)){
       this.props.navigator.push({
         component:CheckPermissions,
         passProps:{
@@ -56,9 +56,12 @@ class PermissionSwitches extends React.Component{
           },
           successCallback: (coords)=>{
             this.setState({LocationSetting:true})
+            Settings.set({LocationSetting: true })
+
+
           },
           failedSubtitle: 'Geolocation is disabled. You can enable it in your phone’s Settings.',
-          failedState: (parseInt(OSPermissions.location) < 3 ? true : false),
+          failedState: (JSON.parse(OSPermissions.location) < 3 ? true : false),
           headerImageSource:'iconDeck',
           permissionKey:'location',
           renderNextMethod: 'pop',
@@ -133,7 +136,7 @@ class PermissionSwitches extends React.Component{
             <Text style={{color: colors.white, fontSize:18}}>Prioritize Users Near Me</Text>
             <SwitchIOS
               onValueChange={this.toggleLocation.bind(this)}
-              value={this.state.LocationSetting}
+              value={this.state.LocationSetting > 0 ? true : false}
               onTintColor={colors.dark}
               thumbTintColor={this.state.LocationSetting ? colors.mediumPurple : colors.shuttleGray}
               tintColor={colors.dark}

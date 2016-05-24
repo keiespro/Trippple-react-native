@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <XCTest/XCTest.h>
 #import "RCTBridgeModule.h"
 #import <RCTTest/RCTTestRunner.h>
+#import <RCTTest/FBSnapshotTestCase.h>
+#import <RCTTest/RCTSnapshotManager.h>
+#import <FBSnapshotTestCase/FBSnapshotTestController.h>
 
 #import "RCTAssert.h"
 #import "RCTRedBox.h"
@@ -21,7 +23,7 @@
   [_runner runTest:_cmd module:@#name]; \
 }
 
-@interface TripppleUITests : XCTestCase
+@interface TripppleUITests : FBSnapshotTestCase
 {
   RCTTestRunner *_runner;
 }
@@ -37,25 +39,28 @@
   NSOperatingSystemVersion version = [NSProcessInfo processInfo].operatingSystemVersion;
   RCTAssert((version.majorVersion == 8 && version.minorVersion >= 3) || version.majorVersion >= 9, @"Tests should be run on iOS 8.3+, found %zd.%zd.%zd", version.majorVersion, version.minorVersion, version.patchVersion);
 
-//  _runner = RCTInitRunnerForApp(@"test/snapshot/WelcomeTests", nil);
-    _runner = RCTInitRunnerForApp(@"test/snapshot/Settings", nil);
-  _runner.recordMode = NO;
+  _runner = RCTInitRunnerForApp(@"test/snapshot/Settings", nil);
+  _runner.recordMode = YES;
 
-  
+  [super setUp];
 }
 
 
-//- (void)testWelcomes
-//{
-//  [_runner
-//          runTest:_cmd
-//            module:@"WelcomeTests"
-//      initialProps:@{@"waitOneFrame": @YES}
-//   configurationBlock:nil];
-//}
+- (void)testWelcomes
+{
+  _runner = RCTInitRunnerForApp(@"test/snapshot/WelcomeTests", nil);
+
+  [_runner
+          runTest:_cmd
+            module:@"WelcomeTests"
+      initialProps:@{@"waitOneFrame": @YES}
+   configurationBlock:nil];
+}
 
 - (void)testSettings
 {
+  _runner = RCTInitRunnerForApp(@"test/snapshot/Settings", nil);
+
   [_runner
    runTest:_cmd
    module:@"SettingsTests"

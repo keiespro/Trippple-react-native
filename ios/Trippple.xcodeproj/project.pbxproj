@@ -13,22 +13,17 @@
 		AC0549F71C671C970072E9E7 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0549F61C671C970072E9E7 /* libz.tbd */; };
 		AC0549F91C671CAD0072E9E7 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0549F81C671CAD0072E9E7 /* libsqlite3.0.tbd */; };
 		AC054A001C673F0E0072E9E7 /* libTouchID.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0549FF1C673EFD0072E9E7 /* libTouchID.a */; };
-		AC054A011C673F8A0072E9E7 /* libEXURLHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FAD1C0502B600A63B9C /* libEXURLHandler.a */; };
-		AC054A021C673F8A0072E9E7 /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FF91C0506F700A63B9C /* libRCTFBLogin.a */; };
 		AC054A031C673F8A0072E9E7 /* libRCTOSPermissions copy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FB61C0502B600A63B9C /* libRCTOSPermissions copy.a */; };
 		AC054A041C673F8A0072E9E7 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FEC1C05064300A63B9C /* libRCTPushNotification.a */; };
 		AC054A051C673F8A0072E9E7 /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FB91C0502B600A63B9C /* libRNKeychain.a */; };
 		AC054A061C673F8A0072E9E7 /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FBC1C0502B600A63B9C /* libRNOverlay.a */; };
-		AC054A181C67485F0072E9E7 /* libRNMixpanel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC054A171C6748420072E9E7 /* libRNMixpanel.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		AC11ABBB1CE7C58C001B6FB3 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC11ABB91CE7C58C001B6FB3 /* Fabric.framework */; };
 		AC11ABBC1CE7C58C001B6FB3 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC11ABBA1CE7C58C001B6FB3 /* Crashlytics.framework */; };
-		AC301D841CE8175F00478AA7 /* libPods-Trippple.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACDF39141CE80BB700DE839B /* libPods-Trippple.a */; };
 		AC3DD3B71C3A2DED00D9E6D1 /* libEXURLHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FAD1C0502B600A63B9C /* libEXURLHandler.a */; };
 		AC3DD3B81C3A2DED00D9E6D1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		AC3DD3B91C3A2DED00D9E6D1 /* libRCTAddressBook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20441C050CF100A63B9C /* libRCTAddressBook.a */; };
 		AC3DD3BA1C3A2DED00D9E6D1 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20491C050CF100A63B9C /* libRCTCamera.a */; };
 		AC3DD3BB1C3A2DED00D9E6D1 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB204C1C050CF100A63B9C /* libRCTCameraRoll.a */; };
-		AC3DD3BC1C3A2DED00D9E6D1 /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FF91C0506F700A63B9C /* libRCTFBLogin.a */; };
 		AC3DD3BD1C3A2DED00D9E6D1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
 		AC3DD3BE1C3A2DED00D9E6D1 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
 		AC3DD3BF1C3A2DED00D9E6D1 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
@@ -47,9 +42,14 @@
 		AC3DD3CC1C3A2DED00D9E6D1 /* libRNMessageComposer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB205E1C050CF100A63B9C /* libRNMessageComposer.a */; };
 		AC3DD3CD1C3A2DED00D9E6D1 /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FBC1C0502B600A63B9C /* libRNOverlay.a */; };
 		AC47AA851CA93A3F002AA2E7 /* StatusBarNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = AC47AA841CA93A3F002AA2E7 /* StatusBarNotification.m */; };
-		AC7896EE1CA95F2B00502CC4 /* libRCTTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA521381CA2979F007B9F71 /* libRCTTest.a */; };
-		AC90C89B1CA2C23F00231824 /* TripppleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA5214E1CA297C5007B9F71 /* TripppleUITests.m */; };
-		AC9B241E1CE808950070248F /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
+		AC9F83081CE86F230050ED02 /* TripppleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA5214E1CA297C5007B9F71 /* TripppleUITests.m */; };
+		AC9F830A1CE86FB30050ED02 /* libRCTTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA80C761CE862CF0081A99F /* libRCTTest.a */; };
+		AC9F83281CE870BF0050ED02 /* libRCTGoogleAnalyticsBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0549F01C671AE10072E9E7 /* libRCTGoogleAnalyticsBridge.a */; };
+		AC9F83291CE870BF0050ED02 /* libRCTTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA80C761CE862CF0081A99F /* libRCTTest.a */; };
+		AC9F832A1CE870BF0050ED02 /* libRNMixpanel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC054A171C6748420072E9E7 /* libRNMixpanel.a */; };
+		AC9F832B1CE870BF0050ED02 /* libTouchID.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0549FF1C673EFD0072E9E7 /* libTouchID.a */; };
+		ACA80C0A1CE83F650081A99F /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
+		ACA80C311CE849830081A99F /* libEXURLHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FAD1C0502B600A63B9C /* libEXURLHandler.a */; };
 		ACBB20711C050D3D00A63B9C /* DeviceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB206B1C050D3D00A63B9C /* DeviceUtil.m */; };
 		ACBB20741C050D5F00A63B9C /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F271C0502B600A63B9C /* RCTFileTransfer.m */; };
 		ACBB20771C050D8F00A63B9C /* BlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F021C0502B600A63B9C /* BlurView.m */; };
@@ -72,14 +72,9 @@
 		ACBB20971C050E7C00A63B9C /* libRNMessageComposer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB205E1C050CF100A63B9C /* libRNMessageComposer.a */; };
 		ACBB20991C050E8400A63B9C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FDB1C0505D700A63B9C /* AssetsLibrary.framework */; };
 		ACBB209A1C050E8A00A63B9C /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FDD1C0505DF00A63B9C /* CoreFoundation.framework */; };
-		ACBB209B1C050E9400A63B9C /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1F111C0502B600A63B9C /* Bolts.framework */; };
-		ACBB209C1C050E9400A63B9C /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1F121C0502B600A63B9C /* FBSDKCoreKit.framework */; };
-		ACBB209D1C050E9400A63B9C /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1F131C0502B600A63B9C /* FBSDKLoginKit.framework */; };
-		ACBB209E1C050E9400A63B9C /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1F141C0502B600A63B9C /* FBSDKShareKit.framework */; };
 		ACBB209F1C0510E200A63B9C /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20491C050CF100A63B9C /* libRCTCamera.a */; };
 		ACBB20AF1C051AE100A63B9C /* RNClickThroughWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F431C0502B600A63B9C /* RNClickThroughWindow.m */; };
 		ACBB20B01C051AE100A63B9C /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F271C0502B600A63B9C /* RCTFileTransfer.m */; };
-		ACBB20B11C051AE100A63B9C /* RCTFBLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F1E1C0502B600A63B9C /* RCTFBLogin.m */; };
 		ACBB20B21C051AE100A63B9C /* BlurViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F041C0502B600A63B9C /* BlurViewManager.m */; };
 		ACBB20B31C051AE100A63B9C /* RNKeychainManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F3D1C0502B600A63B9C /* RNKeychainManager.m */; };
 		ACBB20B51C051AE100A63B9C /* ospermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1ECF1C0502B600A63B9C /* ospermissions.m */; };
@@ -87,11 +82,17 @@
 		ACBB20B71C051AE100A63B9C /* RNOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F451C0502B600A63B9C /* RNOverlay.m */; };
 		ACBB20B81C051AE100A63B9C /* VibrancyViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F091C0502B600A63B9C /* VibrancyViewManager.m */; };
 		ACBB20B91C051AE100A63B9C /* DeviceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB206B1C050D3D00A63B9C /* DeviceUtil.m */; };
-		ACBB20BB1C051AE100A63B9C /* RCTFBLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F201C0502B600A63B9C /* RCTFBLoginManager.m */; };
 		ACBB20BC1C051AE100A63B9C /* BlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F021C0502B600A63B9C /* BlurView.m */; };
 		ACBB20BD1C051AE100A63B9C /* RCTPushNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1FE71C05064300A63B9C /* RCTPushNotificationManager.m */; };
 		ACBB20BE1C051AE100A63B9C /* RNOverlayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F4A1C0502B600A63B9C /* RNOverlayManager.m */; };
 		ACBB20C01C051AE100A63B9C /* EXURLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F511C0502B600A63B9C /* EXURLHandler.m */; };
+		ACC331EC1CE8EE5D00DCC3CC /* libMixpanel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACDF39161CE80BC000DE839B /* libMixpanel.a */; };
+		ACC331EE1CE8EEF300DCC3CC /* libRNMixpanel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC054A171C6748420072E9E7 /* libRNMixpanel.a */; };
+		ACC332141CE90B0600DCC3CC /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC3320C1CE90AE600DCC3CC /* libRCTFBLogin.a */; };
+		ACC4C5641CE90E7B003A2716 /* libPods-Trippple.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D6AB9D8B0F719557605BCE7 /* libPods-Trippple.a */; };
+		ACC4C5AC1CE90FDC003A2716 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC332171CE90DB700DCC3CC /* FBSDKCoreKit.framework */; };
+		ACC4C5AD1CE90FDC003A2716 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC332181CE90DB700DCC3CC /* FBSDKLoginKit.framework */; };
+		ACC4C5AE1CE90FDC003A2716 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC332191CE90DB700DCC3CC /* FBSDKShareKit.framework */; };
 		ACC7DE991C5A41F30087476F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ACC7DE7F1C5A41F30087476F /* AppDelegate.m */; };
 		ACC7DEAE1C5A41F30087476F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ACC7DE951C5A41F30087476F /* main.m */; };
 		ACC7DEB01C5A41F30087476F /* UIColor+TRColors.m in Sources */ = {isa = PBXBuildFile; fileRef = ACC7DE981C5A41F30087476F /* UIColor+TRColors.m */; };
@@ -201,19 +202,19 @@
 			remoteGlobalIDString = FDC64AF01BF1690D0044C1B4;
 			remoteInfo = RNMixpanel;
 		};
-		ACA521371CA2979F007B9F71 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ACA521241CA2979F007B9F71 /* RCTTest.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 580C376F1AB104AF0015E709;
-			remoteInfo = RCTTest;
-		};
-		ACA521511CA297C5007B9F71 /* PBXContainerItemProxy */ = {
+		ACA80C111CE847F20081A99F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = Trippple;
+		};
+		ACA80C751CE862CF0081A99F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ACA80C711CE862CF0081A99F /* RCTTest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 580C376F1AB104AF0015E709;
+			remoteInfo = RCTTest;
 		};
 		ACBB1FAC1C0502B600A63B9C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -249,13 +250,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RCTPushNotification;
-		};
-		ACBB1FF81C0506F700A63B9C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ACBB1F211C0502B600A63B9C /* RCTFBLogin.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4F3A6B5B1ACFBCC500CA65F7;
-			remoteInfo = RCTFBLogin;
 		};
 		ACBB20431C050CF100A63B9C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -327,7 +321,26 @@
 			remoteGlobalIDString = C23F08041AFAB5C100312C72;
 			remoteInfo = RNMessageComposer;
 		};
+		ACC3320B1CE90AE600DCC3CC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ACC332071CE90AE500DCC3CC /* RCTFBLogin.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4F3A6B5B1ACFBCC500CA65F7;
+			remoteInfo = RCTFBLogin;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		ACC331F41CE8F0DD00DCC3CC /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 7;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTActionSheet.xcodeproj; path = "../node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj"; sourceTree = "<group>"; };
@@ -339,9 +352,11 @@
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Trippple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Trippple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		36F22C2D328EFFBE504CFC5B /* Pods_Tripppletest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tripppletest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
-		80BD031CBED2E5CC6629CAC7 /* Pods-Tripppletest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tripppletest.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tripppletest/Pods-Tripppletest.release.xcconfig"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		8D3F59FF6026FB5BFCFBE0D3 /* Pods-Trippple.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trippple.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trippple/Pods-Trippple.debug.xcconfig"; sourceTree = "<group>"; };
+		8D6AB9D8B0F719557605BCE7 /* libPods-Trippple.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Trippple.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC0549EB1C671AE10072E9E7 /* RCTGoogleAnalyticsBridge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGoogleAnalyticsBridge.xcodeproj; path = "../node_modules/react-native-google-analytics-bridge/ios/RCTGoogleAnalyticsBridge/RCTGoogleAnalyticsBridge.xcodeproj"; sourceTree = "<group>"; };
 		AC0549F21C671C730072E9E7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		AC0549F41C671C8B0072E9E7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -354,15 +369,23 @@
 		AC11AC821CE7CE7B001B6FB3 /* Trippple-PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Trippple-PrefixHeader.pch"; sourceTree = "<group>"; };
 		AC47AA831CA93A3F002AA2E7 /* StatusBarNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusBarNotification.h; sourceTree = "<group>"; };
 		AC47AA841CA93A3F002AA2E7 /* StatusBarNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusBarNotification.m; sourceTree = "<group>"; };
+		AC553FEB1CEA9F1B00B25587 /* Trippple.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Trippple.entitlements; path = Trippple/Trippple.entitlements; sourceTree = "<group>"; };
 		AC7896EC1CA95EED00502CC4 /* dylib1.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; name = dylib1.o; path = usr/lib/dylib1.o; sourceTree = SDKROOT; };
 		AC7896F11CA9625D00502CC4 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		AC7897011CA962FE00502CC4 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		AC7897021CA962FE00502CC4 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		ACA521241CA2979F007B9F71 /* RCTTest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTTest.xcodeproj; path = "../node_modules/react-native/Libraries/RCTTest/RCTTest.xcodeproj"; sourceTree = "<group>"; };
+		AC9F834E1CE8762B0050ED02 /* libPods-Trippple.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-Trippple.a"; path = "Pods/../build/Release-iphoneos/libPods-Trippple.a"; sourceTree = "<group>"; };
+		AC9F83501CE8766D0050ED02 /* libMixpanel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMixpanel.a; path = "Pods/../build/Release-iphoneos/Mixpanel/libMixpanel.a"; sourceTree = "<group>"; };
+		AC9F83551CE878130050ED02 /* libPods-Trippple.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-Trippple.a"; path = "Pods/../build/Release-iphoneos/libPods-Trippple.a"; sourceTree = "<group>"; };
 		ACA5214C1CA297C5007B9F71 /* TripppleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripppleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACA5214E1CA297C5007B9F71 /* TripppleUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TripppleUITests.m; sourceTree = "<group>"; };
 		ACA521501CA297C5007B9F71 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACA521741CA2981E007B9F71 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Build/Products/Debug-iphonesimulator/libPods.a"; sourceTree = "<group>"; };
+		ACA80C041CE83ECF0081A99F /* Pods_Tripppletest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_Tripppletest.framework; path = "Pods/../build/Debug-iphoneos/Pods_Tripppletest.framework"; sourceTree = "<group>"; };
+		ACA80C061CE83F190081A99F /* libPods-Trippple.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-Trippple.a"; path = "Pods/../build/Debug-iphoneos/libPods-Trippple.a"; sourceTree = "<group>"; };
+		ACA80C081CE83F210081A99F /* libPods-Trippple.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-Trippple.a"; path = "Pods/../build/Debug-iphoneos/libPods-Trippple.a"; sourceTree = "<group>"; };
+		ACA80C711CE862CF0081A99F /* RCTTest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTTest.xcodeproj; path = "../node_modules/react-native/Libraries/RCTTest/RCTTest.xcodeproj"; sourceTree = "<group>"; };
+		ACB1387F1CE83BFB00351B23 /* FBSnapshotTestCase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSnapshotTestCase.framework; path = "Build/Products/Debug-iphonesimulator/FBSnapshotTestCase/FBSnapshotTestCase.framework"; sourceTree = "<group>"; };
 		ACBB1ECB1C0502B600A63B9C /* ospermissions.android.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ospermissions.android.js; sourceTree = "<group>"; };
 		ACBB1ECD1C0502B600A63B9C /* ospermissions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ospermissions.h; sourceTree = "<group>"; };
 		ACBB1ECE1C0502B600A63B9C /* ospermissions.ios.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ospermissions.ios.js; sourceTree = "<group>"; };
@@ -380,16 +403,6 @@
 		ACBB1F091C0502B600A63B9C /* VibrancyViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VibrancyViewManager.m; sourceTree = "<group>"; };
 		ACBB1F0B1C0502B600A63B9C /* BlurView.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = BlurView.js; sourceTree = "<group>"; };
 		ACBB1F0C1C0502B600A63B9C /* VibrancyView.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = VibrancyView.js; sourceTree = "<group>"; };
-		ACBB1F111C0502B600A63B9C /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
-		ACBB1F121C0502B600A63B9C /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
-		ACBB1F131C0502B600A63B9C /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
-		ACBB1F141C0502B600A63B9C /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
-		ACBB1F151C0502B600A63B9C /* FBLogin.ios.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = FBLogin.ios.js; sourceTree = "<group>"; };
-		ACBB1F1D1C0502B600A63B9C /* RCTFBLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTFBLogin.h; sourceTree = "<group>"; };
-		ACBB1F1E1C0502B600A63B9C /* RCTFBLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTFBLogin.m; sourceTree = "<group>"; };
-		ACBB1F1F1C0502B600A63B9C /* RCTFBLoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTFBLoginManager.h; sourceTree = "<group>"; };
-		ACBB1F201C0502B600A63B9C /* RCTFBLoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTFBLoginManager.m; sourceTree = "<group>"; };
-		ACBB1F211C0502B600A63B9C /* RCTFBLogin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = RCTFBLogin.xcodeproj; sourceTree = "<group>"; };
 		ACBB1F271C0502B600A63B9C /* RCTFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTFileTransfer.m; sourceTree = "<group>"; };
 		ACBB1F2D1C0502B600A63B9C /* Accessibility.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Accessibility.js; sourceTree = "<group>"; };
 		ACBB1F2E1C0502B600A63B9C /* AuthenticationTypes.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = AuthenticationTypes.js; sourceTree = "<group>"; };
@@ -431,6 +444,12 @@
 		ACBB206A1C050D3D00A63B9C /* DeviceUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceUtil.h; sourceTree = "<group>"; };
 		ACBB206B1C050D3D00A63B9C /* DeviceUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceUtil.m; sourceTree = "<group>"; };
 		ACBB20E51C051AE100A63B9C /* Tripppletest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tripppletest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACC331EF1CE8EFC200DCC3CC /* FBSnapshotTestCase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSnapshotTestCase.framework; path = "Build/Products/Debug-iphonesimulator/FBSnapshotTestCase-iOS8.0/FBSnapshotTestCase.framework"; sourceTree = "<group>"; };
+		ACC332071CE90AE500DCC3CC /* RCTFBLogin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBLogin.xcodeproj; path = "../node_modules/react-native-facebook-login/RCTFBLogin.xcodeproj"; sourceTree = "<group>"; };
+		ACC332151CE90B9A00DCC3CC /* libPods-Trippple.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-Trippple.a"; path = "Pods/../build/Release-iphoneos/libPods-Trippple.a"; sourceTree = "<group>"; };
+		ACC332171CE90DB700DCC3CC /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		ACC332181CE90DB700DCC3CC /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		ACC332191CE90DB700DCC3CC /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		ACC7DE7E1C5A41F30087476F /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Trippple/AppDelegate.h; sourceTree = "<group>"; };
 		ACC7DE7F1C5A41F30087476F /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Trippple/AppDelegate.m; sourceTree = "<group>"; };
 		ACC7DE801C5A41F30087476F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Trippple/Images.xcassets; sourceTree = "<group>"; };
@@ -452,9 +471,7 @@
 		ACEB23C41CA32702007C426B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		ACFD4D3F1C5BC52400CAC7E7 /* ReactNativeAutoUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReactNativeAutoUpdater.h; sourceTree = "<group>"; };
 		ACFD4D401C5BC52400CAC7E7 /* ReactNativeAutoUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReactNativeAutoUpdater.m; sourceTree = "<group>"; };
-		B83482D9865E98EDABE507F7 /* Pods-Trippple.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trippple.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trippple/Pods-Trippple.debug.xcconfig"; sourceTree = "<group>"; };
 		B8C7661343EE48E93F8540CB /* Pods-Trippple.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trippple.release.xcconfig"; path = "Pods/Target Support Files/Pods-Trippple/Pods-Trippple.release.xcconfig"; sourceTree = "<group>"; };
-		E0A9799E2702CA443FB1DD9D /* Pods-Tripppletest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tripppletest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tripppletest/Pods-Tripppletest.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -462,13 +479,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC301D841CE8175F00478AA7 /* libPods-Trippple.a in Frameworks */,
+				ACC4C5641CE90E7B003A2716 /* libPods-Trippple.a in Frameworks */,
+				ACC332141CE90B0600DCC3CC /* libRCTFBLogin.a in Frameworks */,
+				ACC331EE1CE8EEF300DCC3CC /* libRNMixpanel.a in Frameworks */,
+				ACC4C5AC1CE90FDC003A2716 /* FBSDKCoreKit.framework in Frameworks */,
+				ACC4C5AD1CE90FDC003A2716 /* FBSDKLoginKit.framework in Frameworks */,
+				ACC4C5AE1CE90FDC003A2716 /* FBSDKShareKit.framework in Frameworks */,
+				ACC331EC1CE8EE5D00DCC3CC /* libMixpanel.a in Frameworks */,
+				ACA80C311CE849830081A99F /* libEXURLHandler.a in Frameworks */,
+				ACA80C0A1CE83F650081A99F /* libRCTLinking.a in Frameworks */,
 				ACDF39131CE80BB100DE839B /* libReact.a in Frameworks */,
-				AC9B241E1CE808950070248F /* libRCTLinking.a in Frameworks */,
-				AC054A181C67485F0072E9E7 /* libRNMixpanel.a in Frameworks */,
-				AC054A011C673F8A0072E9E7 /* libEXURLHandler.a in Frameworks */,
 				AC11ABBB1CE7C58C001B6FB3 /* Fabric.framework in Frameworks */,
-				AC054A021C673F8A0072E9E7 /* libRCTFBLogin.a in Frameworks */,
 				AC054A031C673F8A0072E9E7 /* libRCTOSPermissions copy.a in Frameworks */,
 				AC054A041C673F8A0072E9E7 /* libRCTPushNotification.a in Frameworks */,
 				AC054A051C673F8A0072E9E7 /* libRNKeychain.a in Frameworks */,
@@ -485,16 +506,12 @@
 				ACBB20831C050E7C00A63B9C /* libRCTActionSheet.a in Frameworks */,
 				ACBB20841C050E7C00A63B9C /* libRCTAddressBook.a in Frameworks */,
 				ACBB20861C050E7C00A63B9C /* libRCTCameraRoll.a in Frameworks */,
-				ACBB209B1C050E9400A63B9C /* Bolts.framework in Frameworks */,
 				ACBB20881C050E7C00A63B9C /* libRCTGeolocation.a in Frameworks */,
 				ACBB20891C050E7C00A63B9C /* libRCTImage.a in Frameworks */,
 				ACBB208B1C050E7C00A63B9C /* libRCTNetwork.a in Frameworks */,
-				ACBB209E1C050E9400A63B9C /* FBSDKShareKit.framework in Frameworks */,
 				ACBB208E1C050E7C00A63B9C /* libRCTSettings.a in Frameworks */,
-				ACBB209C1C050E9400A63B9C /* FBSDKCoreKit.framework in Frameworks */,
 				AC11ABBC1CE7C58C001B6FB3 /* Crashlytics.framework in Frameworks */,
 				ACBB208F1C050E7C00A63B9C /* libRCTText.a in Frameworks */,
-				ACBB209D1C050E9400A63B9C /* FBSDKLoginKit.framework in Frameworks */,
 				ACBB20901C050E7C00A63B9C /* libRCTVibration.a in Frameworks */,
 				ACBB20911C050E7C00A63B9C /* libRCTWebSocket.a in Frameworks */,
 				ACBB20931C050E7C00A63B9C /* libRNAppInfo.a in Frameworks */,
@@ -508,7 +525,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC7896EE1CA95F2B00502CC4 /* libRCTTest.a in Frameworks */,
+				AC9F830A1CE86FB30050ED02 /* libRCTTest.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,12 +533,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC9F83281CE870BF0050ED02 /* libRCTGoogleAnalyticsBridge.a in Frameworks */,
+				AC9F83291CE870BF0050ED02 /* libRCTTest.a in Frameworks */,
+				AC9F832A1CE870BF0050ED02 /* libRNMixpanel.a in Frameworks */,
+				AC9F832B1CE870BF0050ED02 /* libTouchID.a in Frameworks */,
 				AC3DD3B71C3A2DED00D9E6D1 /* libEXURLHandler.a in Frameworks */,
 				AC3DD3B81C3A2DED00D9E6D1 /* libRCTActionSheet.a in Frameworks */,
 				AC3DD3B91C3A2DED00D9E6D1 /* libRCTAddressBook.a in Frameworks */,
 				AC3DD3BA1C3A2DED00D9E6D1 /* libRCTCamera.a in Frameworks */,
 				AC3DD3BB1C3A2DED00D9E6D1 /* libRCTCameraRoll.a in Frameworks */,
-				AC3DD3BC1C3A2DED00D9E6D1 /* libRCTFBLogin.a in Frameworks */,
 				AC3DD3BD1C3A2DED00D9E6D1 /* libRCTGeolocation.a in Frameworks */,
 				AC3DD3BE1C3A2DED00D9E6D1 /* libRCTImage.a in Frameworks */,
 				AC3DD3BF1C3A2DED00D9E6D1 /* libRCTLinking.a in Frameworks */,
@@ -620,7 +640,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				ACA521241CA2979F007B9F71 /* RCTTest.xcodeproj */,
+				ACC332071CE90AE500DCC3CC /* RCTFBLogin.xcodeproj */,
+				ACA80C711CE862CF0081A99F /* RCTTest.xcodeproj */,
 				AC054A121C6748420072E9E7 /* RNMixpanel.xcodeproj */,
 				AC0549FA1C673EFC0072E9E7 /* TouchID.xcodeproj */,
 				ACBB1FDD1C0505DF00A63B9C /* CoreFoundation.framework */,
@@ -641,7 +662,6 @@
 				ACBB1FE11C05064200A63B9C /* PushNotificationIOS */,
 				ACBB1EC91C0502B600A63B9C /* OSPermissions */,
 				ACBB1EFA1C0502B600A63B9C /* react-native-blur */,
-				ACBB1F0D1C0502B600A63B9C /* react-native-facebook-login */,
 				ACBB1F251C0502B600A63B9C /* react-native-file-transfer */,
 				ACBB1F281C0502B600A63B9C /* react-native-keychain */,
 				ACBB1F3E1C0502B600A63B9C /* react-native-overlay */,
@@ -671,6 +691,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				ACC332171CE90DB700DCC3CC /* FBSDKCoreKit.framework */,
+				ACC332181CE90DB700DCC3CC /* FBSDKLoginKit.framework */,
+				ACC332191CE90DB700DCC3CC /* FBSDKShareKit.framework */,
 				ACC7DE7D1C5A41EA0087476F /* Trippple */,
 				AC11ABB81CE7C57F001B6FB3 /* Fabric */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -696,6 +719,15 @@
 		A999B3CF69585EF60C549767 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ACC332151CE90B9A00DCC3CC /* libPods-Trippple.a */,
+				ACC331EF1CE8EFC200DCC3CC /* FBSnapshotTestCase.framework */,
+				AC9F83551CE878130050ED02 /* libPods-Trippple.a */,
+				AC9F83501CE8766D0050ED02 /* libMixpanel.a */,
+				AC9F834E1CE8762B0050ED02 /* libPods-Trippple.a */,
+				ACA80C081CE83F210081A99F /* libPods-Trippple.a */,
+				ACA80C061CE83F190081A99F /* libPods-Trippple.a */,
+				ACA80C041CE83ECF0081A99F /* Pods_Tripppletest.framework */,
+				ACB1387F1CE83BFB00351B23 /* FBSnapshotTestCase.framework */,
 				ACDF39161CE80BC000DE839B /* libMixpanel.a */,
 				ACDF39141CE80BB700DE839B /* libPods-Trippple.a */,
 				AC7897011CA962FE00502CC4 /* CoreImage.framework */,
@@ -704,6 +736,8 @@
 				AC7896EC1CA95EED00502CC4 /* dylib1.o */,
 				ACEB23C41CA32702007C426B /* Foundation.framework */,
 				ACA521741CA2981E007B9F71 /* libPods.a */,
+				36F22C2D328EFFBE504CFC5B /* Pods_Tripppletest.framework */,
+				8D6AB9D8B0F719557605BCE7 /* libPods-Trippple.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -741,14 +775,6 @@
 			name = Fabric;
 			sourceTree = "<group>";
 		};
-		ACA521251CA2979F007B9F71 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				ACA521381CA2979F007B9F71 /* libRCTTest.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		ACA5214D1CA297C5007B9F71 /* TripppleUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -756,6 +782,14 @@
 				ACA521501CA297C5007B9F71 /* Info.plist */,
 			);
 			path = TripppleUITests;
+			sourceTree = "<group>";
+		};
+		ACA80C721CE862CF0081A99F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ACA80C761CE862CF0081A99F /* libRCTTest.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		ACBB1EC91C0502B600A63B9C /* OSPermissions */ = {
@@ -837,40 +871,6 @@
 				ACBB1F0C1C0502B600A63B9C /* VibrancyView.js */,
 			);
 			path = src;
-			sourceTree = "<group>";
-		};
-		ACBB1F0D1C0502B600A63B9C /* react-native-facebook-login */ = {
-			isa = PBXGroup;
-			children = (
-				ACBB1F211C0502B600A63B9C /* RCTFBLogin.xcodeproj */,
-				ACBB1F101C0502B600A63B9C /* FacebookSDK */,
-				ACBB1F151C0502B600A63B9C /* FBLogin.ios.js */,
-				ACBB1F1C1C0502B600A63B9C /* RCTFBLogin */,
-			);
-			name = "react-native-facebook-login";
-			path = "../lib/react-native-facebook-login";
-			sourceTree = "<group>";
-		};
-		ACBB1F101C0502B600A63B9C /* FacebookSDK */ = {
-			isa = PBXGroup;
-			children = (
-				ACBB1F111C0502B600A63B9C /* Bolts.framework */,
-				ACBB1F121C0502B600A63B9C /* FBSDKCoreKit.framework */,
-				ACBB1F131C0502B600A63B9C /* FBSDKLoginKit.framework */,
-				ACBB1F141C0502B600A63B9C /* FBSDKShareKit.framework */,
-			);
-			path = FacebookSDK;
-			sourceTree = "<group>";
-		};
-		ACBB1F1C1C0502B600A63B9C /* RCTFBLogin */ = {
-			isa = PBXGroup;
-			children = (
-				ACBB1F1D1C0502B600A63B9C /* RCTFBLogin.h */,
-				ACBB1F1E1C0502B600A63B9C /* RCTFBLogin.m */,
-				ACBB1F1F1C0502B600A63B9C /* RCTFBLoginManager.h */,
-				ACBB1F201C0502B600A63B9C /* RCTFBLoginManager.m */,
-			);
-			path = RCTFBLogin;
 			sourceTree = "<group>";
 		};
 		ACBB1F251C0502B600A63B9C /* react-native-file-transfer */ = {
@@ -1005,14 +1005,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		ACBB1FF51C0506F700A63B9C /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				ACBB1FF91C0506F700A63B9C /* libRCTFBLogin.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		ACBB202D1C050CF000A63B9C /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1083,14 +1075,18 @@
 			path = "../lib/react-native-device";
 			sourceTree = "<group>";
 		};
+		ACC332081CE90AE500DCC3CC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ACC3320C1CE90AE600DCC3CC /* libRCTFBLogin.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		ACC7DE7D1C5A41EA0087476F /* Trippple */ = {
 			isa = PBXGroup;
 			children = (
-				AC47AA831CA93A3F002AA2E7 /* StatusBarNotification.h */,
-				AC11AC821CE7CE7B001B6FB3 /* Trippple-PrefixHeader.pch */,
-				AC47AA841CA93A3F002AA2E7 /* StatusBarNotification.m */,
-				ACFD4D3F1C5BC52400CAC7E7 /* ReactNativeAutoUpdater.h */,
-				ACFD4D401C5BC52400CAC7E7 /* ReactNativeAutoUpdater.m */,
+				AC553FEB1CEA9F1B00B25587 /* Trippple.entitlements */,
 				ACC7E0441C5A579A0087476F /* assets */,
 				ACC7DEB61C5A43D90087476F /* fonts */,
 				ACC7DE7E1C5A41F30087476F /* AppDelegate.h */,
@@ -1102,6 +1098,11 @@
 				ACC7DE961C5A41F30087476F /* metadata.json */,
 				ACC7DE971C5A41F30087476F /* UIColor+TRColors.h */,
 				ACC7DE981C5A41F30087476F /* UIColor+TRColors.m */,
+				AC47AA831CA93A3F002AA2E7 /* StatusBarNotification.h */,
+				AC11AC821CE7CE7B001B6FB3 /* Trippple-PrefixHeader.pch */,
+				AC47AA841CA93A3F002AA2E7 /* StatusBarNotification.m */,
+				ACFD4D3F1C5BC52400CAC7E7 /* ReactNativeAutoUpdater.h */,
+				ACFD4D401C5BC52400CAC7E7 /* ReactNativeAutoUpdater.m */,
 			);
 			name = Trippple;
 			sourceTree = "<group>";
@@ -1122,10 +1123,8 @@
 		DC0D38993442B623194FB39C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E0A9799E2702CA443FB1DD9D /* Pods-Tripppletest.debug.xcconfig */,
-				80BD031CBED2E5CC6629CAC7 /* Pods-Tripppletest.release.xcconfig */,
-				B83482D9865E98EDABE507F7 /* Pods-Trippple.debug.xcconfig */,
 				B8C7661343EE48E93F8540CB /* Pods-Trippple.release.xcconfig */,
+				8D3F59FF6026FB5BFCFBE0D3 /* Pods-Trippple.debug.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1141,9 +1140,9 @@
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
-				AC467EBA1C523398009F2FBD /* Run Script */,
-				AC11AB991CE7C529001B6FB3 /* ShellScript */,
-				AC11AC0E1CE7C8FF001B6FB3 /* ShellScript */,
+				AC467EBA1C523398009F2FBD /* Bundle RN images and code */,
+				AC11AB991CE7C529001B6FB3 /* Fabric task */,
+				AC11AC0E1CE7C8FF001B6FB3 /* New Relic task */,
 				75F9CF2A6E110BF770E34A73 /* 📦 Embed Pods Frameworks */,
 				B62C94D23E932D118A2E5D30 /* 📦 Copy Pods Resources */,
 			);
@@ -1163,11 +1162,12 @@
 				ACA521491CA297C5007B9F71 /* Frameworks */,
 				ACA521481CA297C5007B9F71 /* Sources */,
 				ACA5214A1CA297C5007B9F71 /* Resources */,
+				ACC331F41CE8F0DD00DCC3CC /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				ACA521521CA297C5007B9F71 /* PBXTargetDependency */,
+				ACA80C121CE847F20081A99F /* PBXTargetDependency */,
 			);
 			name = TripppleUITests;
 			productName = TripppleUITests;
@@ -1178,13 +1178,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ACBB20E21C051AE100A63B9C /* Build configuration list for PBXNativeTarget "Tripppletest" */;
 			buildPhases = (
-				550E0025E41CACA311B613C1 /* 📦 Check Pods Manifest.lock */,
 				ACBB20AE1C051AE100A63B9C /* Sources */,
 				ACBB20D91C051AE100A63B9C /* Resources */,
 				ACBB20C11C051AE100A63B9C /* Frameworks */,
 				AC467EBB1C5233F0009F2FBD /* ShellScript */,
-				72A6672E2C83F01C25D2E45E /* 📦 Embed Pods Frameworks */,
-				94D3C97BB12C7B2F4B14C6A3 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1208,6 +1205,9 @@
 						DevelopmentTeam = 3D5DY3UN4M;
 						SystemCapabilities = {
 							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.SafariKeychain = {
 								enabled = 1;
 							};
 						};
@@ -1260,8 +1260,8 @@
 					ProjectRef = ACBB202F1C050CF000A63B9C /* RCTCameraRoll.xcodeproj */;
 				},
 				{
-					ProductGroup = ACBB1FF51C0506F700A63B9C /* Products */;
-					ProjectRef = ACBB1F211C0502B600A63B9C /* RCTFBLogin.xcodeproj */;
+					ProductGroup = ACC332081CE90AE500DCC3CC /* Products */;
+					ProjectRef = ACC332071CE90AE500DCC3CC /* RCTFBLogin.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302B61ABCB90400DB3ED1 /* Products */;
@@ -1296,8 +1296,8 @@
 					ProjectRef = 139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */;
 				},
 				{
-					ProductGroup = ACA521251CA2979F007B9F71 /* Products */;
-					ProjectRef = ACA521241CA2979F007B9F71 /* RCTTest.xcodeproj */;
+					ProductGroup = ACA80C721CE862CF0081A99F /* Products */;
+					ProjectRef = ACA80C711CE862CF0081A99F /* RCTTest.xcodeproj */;
 				},
 				{
 					ProductGroup = 832341B11AAA6A8300B99B32 /* Products */;
@@ -1449,11 +1449,11 @@
 			remoteRef = AC054A161C6748420072E9E7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		ACA521381CA2979F007B9F71 /* libRCTTest.a */ = {
+		ACA80C761CE862CF0081A99F /* libRCTTest.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRCTTest.a;
-			remoteRef = ACA521371CA2979F007B9F71 /* PBXContainerItemProxy */;
+			remoteRef = ACA80C751CE862CF0081A99F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		ACBB1FAD1C0502B600A63B9C /* libEXURLHandler.a */ = {
@@ -1489,13 +1489,6 @@
 			fileType = archive.ar;
 			path = libRCTPushNotification.a;
 			remoteRef = ACBB1FEB1C05064300A63B9C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		ACBB1FF91C0506F700A63B9C /* libRCTFBLogin.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTFBLogin.a;
-			remoteRef = ACBB1FF81C0506F700A63B9C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		ACBB20441C050CF100A63B9C /* libRCTAddressBook.a */ = {
@@ -1568,6 +1561,13 @@
 			remoteRef = ACBB205D1C050CF100A63B9C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		ACC3320C1CE90AE600DCC3CC /* libRCTFBLogin.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTFBLogin.a;
+			remoteRef = ACC3320B1CE90AE600DCC3CC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1605,36 +1605,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		550E0025E41CACA311B613C1 /* 📦 Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		72A6672E2C83F01C25D2E45E /* 📦 Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tripppletest/Pods-Tripppletest-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		75F9CF2A6E110BF770E34A73 /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1650,60 +1620,48 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Trippple/Pods-Trippple-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		94D3C97BB12C7B2F4B14C6A3 /* 📦 Copy Pods Resources */ = {
+		AC11AB991CE7C529001B6FB3 /* Fabric task */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tripppletest/Pods-Tripppletest-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AC11AB991CE7C529001B6FB3 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
+			name = "Fabric task";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "./Fabric.framework/run 9f3360a634ff36e817a34ba898a19118cc1391ff eaa5ad5f554fac730663183c7152d183a31d7ab7bb6dc46714db68da63b2376b";
 		};
-		AC11AC0E1CE7C8FF001B6FB3 /* ShellScript */ = {
+		AC11AC0E1CE7C8FF001B6FB3 /* New Relic task */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "New Relic task";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n\n/bin/sh \"${SCRIPT}\" \"AAe71824253eeeff92e1794a97883d2e0c5928816f\"\n";
 		};
-		AC467EBA1C523398009F2FBD /* Run Script */ = {
+		AC467EBA1C523398009F2FBD /* Bundle RN images and code */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Run Script";
+			name = "Bundle RN images and code";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/Users/alexlopez/code/trippple/TripppleApp/node_modules/react-native/packager/react-native-xcode.sh";
+			shellScript = "../node_modules/react-native/packager/react-native-xcode.sh";
+			showEnvVarsInLog = 0;
 		};
 		AC467EBB1C5233F0009F2FBD /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1716,7 +1674,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/Users/alexlopez/code/trippple/native/node_modules/react-native/packager/react-native-xcode.sh";
+			shellScript = " ../node_modules/react-native/packager/react-native-xcode.sh";
 		};
 		B56EE7C99E93D58334594B7F /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1773,7 +1731,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC90C89B1CA2C23F00231824 /* TripppleUITests.m in Sources */,
+				AC9F83081CE86F230050ED02 /* TripppleUITests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1783,7 +1741,6 @@
 			files = (
 				ACBB20AF1C051AE100A63B9C /* RNClickThroughWindow.m in Sources */,
 				ACBB20B01C051AE100A63B9C /* RCTFileTransfer.m in Sources */,
-				ACBB20B11C051AE100A63B9C /* RCTFBLogin.m in Sources */,
 				ACBB20B21C051AE100A63B9C /* BlurViewManager.m in Sources */,
 				ACBB20B31C051AE100A63B9C /* RNKeychainManager.m in Sources */,
 				ACBB20B51C051AE100A63B9C /* ospermissions.m in Sources */,
@@ -1791,7 +1748,6 @@
 				ACBB20B71C051AE100A63B9C /* RNOverlay.m in Sources */,
 				ACBB20B81C051AE100A63B9C /* VibrancyViewManager.m in Sources */,
 				ACBB20B91C051AE100A63B9C /* DeviceUtil.m in Sources */,
-				ACBB20BB1C051AE100A63B9C /* RCTFBLoginManager.m in Sources */,
 				ACBB20BC1C051AE100A63B9C /* BlurView.m in Sources */,
 				ACBB20BD1C051AE100A63B9C /* RCTPushNotificationManager.m in Sources */,
 				ACBB20BE1C051AE100A63B9C /* RNOverlayManager.m in Sources */,
@@ -1802,19 +1758,19 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		ACA521521CA297C5007B9F71 /* PBXTargetDependency */ = {
+		ACA80C121CE847F20081A99F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 13B07F861A680F5B00A75B9A /* Trippple */;
-			targetProxy = ACA521511CA297C5007B9F71 /* PBXContainerItemProxy */;
+			targetProxy = ACA80C111CE847F20081A99F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B83482D9865E98EDABE507F7 /* Pods-Trippple.debug.xcconfig */;
+			baseConfigurationReference = 8D3F59FF6026FB5BFCFBE0D3 /* Pods-Trippple.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1846,6 +1802,8 @@
 					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator",
 					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator/Mixpanel",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/Mixpanel-library",
+					"$(PROJECT_DIR)/build/Release-iphoneos",
+					"$(PROJECT_DIR)/build/Release-iphoneos/Mixpanel",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1854,6 +1812,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
 				PRODUCT_NAME = Trippple;
 				PROVISIONING_PROFILE = "";
+				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 			};
 			name = Debug;
 		};
@@ -1861,11 +1820,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B8C7661343EE48E93F8540CB /* Pods-Trippple.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/../lib/**",
@@ -1892,6 +1851,8 @@
 					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator",
 					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator/Mixpanel",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/Mixpanel-library",
+					"$(PROJECT_DIR)/build/Release-iphoneos",
+					"$(PROJECT_DIR)/build/Release-iphoneos/Mixpanel",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -1901,6 +1862,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
 				PRODUCT_NAME = Trippple;
 				PROVISIONING_PROFILE = "";
+				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 			};
 			name = Release;
 		};
@@ -1921,9 +1883,11 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Trippple LLC (3D5DY3UN4M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Trippple LLC (3D5DY3UN4M)";
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1953,7 +1917,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
-				PROVISIONING_PROFILE = "ba5643e9-00ca-438b-912f-8856beae583e";
+				PROVISIONING_PROFILE = "a23ecc10-effe-4f33-8bf6-9cfcfb42d053";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1975,9 +1939,11 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Trippple LLC (3D5DY3UN4M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Trippple LLC (3D5DY3UN4M)";
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1999,7 +1965,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
-				PROVISIONING_PROFILE = "ba5643e9-00ca-438b-912f-8856beae583e";
+				PROVISIONING_PROFILE = "a23ecc10-effe-4f33-8bf6-9cfcfb42d053";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2008,16 +1974,21 @@
 		ACA521541CA297C5007B9F71 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/FBSnapshotTestCase",
+					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator/FBSnapshotTestCase",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator/FBSnapshotTestCase-iOS8.0",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2037,6 +2008,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator/Mixpanel",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -2047,7 +2019,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = trippple.TripppleUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "a23ecc10-effe-4f33-8bf6-9cfcfb42d053";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Trippple.app/Trippple";
 				TEST_TARGET_NAME = Trippple;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
@@ -2057,17 +2029,24 @@
 		ACA521551CA297C5007B9F71 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/Trippple/Trippple/entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Trippple LLC (3D5DY3UN4M)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Trippple LLC (3D5DY3UN4M)";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/FBSnapshotTestCase",
+					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator/FBSnapshotTestCase",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator/FBSnapshotTestCase-iOS8.0",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
@@ -2083,6 +2062,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator/Mixpanel",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -2093,7 +2073,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = trippple.TripppleUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "a23ecc10-effe-4f33-8bf6-9cfcfb42d053";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Trippple.app/Trippple";
 				TEST_TARGET_NAME = Trippple;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
@@ -2102,7 +2082,6 @@
 		};
 		ACBB20E31C051AE100A63B9C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E0A9799E2702CA443FB1DD9D /* Pods-Tripppletest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon2;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -2112,6 +2091,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/../lib/**",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator/FBSnapshotTestCase",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2124,6 +2104,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Build/Products/Debug-iphoneos",
+					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = tripppletest;
@@ -2134,7 +2115,6 @@
 		};
 		ACBB20E41C051AE100A63B9C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 80BD031CBED2E5CC6629CAC7 /* Pods-Tripppletest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon2;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -2143,6 +2123,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/../lib/**",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator/FBSnapshotTestCase",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2155,6 +2136,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Build/Products/Debug-iphoneos",
+					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = tripppletest;

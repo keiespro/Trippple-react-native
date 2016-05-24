@@ -1,9 +1,9 @@
 FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/NewRelicAgent/NewRelicAgent"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/HotlineSDK" "${PODS_ROOT}/Headers/Public/Mixpanel" "${PODS_ROOT}/Headers/Public/NewRelicAgent"
-LIBRARY_SEARCH_PATHS = $(inherited) "$(PODS_ROOT)/HotlineSDK" "$PODS_CONFIGURATION_BUILD_DIR/Mixpanel-library" $(inherited) "${PODS_ROOT}/HotlineSDK/HotlineSDK"
+LIBRARY_SEARCH_PATHS = $(inherited) "$(PODS_ROOT)/HotlineSDK" "$PODS_CONFIGURATION_BUILD_DIR/Mixpanel" $(inherited) "${PODS_ROOT}/HotlineSDK/HotlineSDK"
 OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/HotlineSDK" -isystem "${PODS_ROOT}/Headers/Public/Mixpanel" -isystem "${PODS_ROOT}/Headers/Public/NewRelicAgent"
-OTHER_LDFLAGS = $(inherited) -ObjC -l"FDHotlineSDK" -l"Mixpanel-library" -l"c++" -l"icucore" -l"z" -framework "AVFoundation" -framework "Accelerate" -framework "AdSupport" -framework "AudioToolbox" -framework "CoreData" -framework "CoreGraphics" -framework "CoreMedia" -framework "CoreTelephony" -framework "Foundation" -framework "ImageIO" -framework "NewRelicAgent" -framework "QuartzCore" -framework "SystemConfiguration" -framework "UIKit"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"FDHotlineSDK" -l"Mixpanel" -l"c++" -l"icucore" -l"z" -framework "AVFoundation" -framework "Accelerate" -framework "AdSupport" -framework "AudioToolbox" -framework "CoreData" -framework "CoreGraphics" -framework "CoreMedia" -framework "CoreTelephony" -framework "Foundation" -framework "ImageIO" -framework "NewRelicAgent" -framework "QuartzCore" -framework "SystemConfiguration" -framework "UIKit"
 PODS_BUILD_DIR = $BUILD_DIR
 PODS_CONFIGURATION_BUILD_DIR = $PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_ROOT = ${SRCROOT}/Pods

@@ -13,29 +13,31 @@
  */
 
 #import "AppDelegate.h"
-#import "RCTLinkingManager.h"
 #import "RCTRootView.h"
 #import "RCTPushNotificationManager.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import "UIColor+TRColors.h"
 #import "ReactNativeAutoUpdater.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
-#define JS_CODE_METADATA_URL @"https://blistering-torch-607.firebaseapp.com/update.json"
+#define JS_CODE_METADATA_URL @"https://hello.trippple.co/update-2.3.0.json"
 
 
 @implementation AppDelegate
 
 - (BOOL)application:( UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  
-  [Fabric with:@[[Crashlytics class],[Answers class]]];
-  
+  [NRLogger setLogLevels:NRLogLevelError];
+  [NewRelicAgent disableFeatures:NRFeatureFlag_CrashReporting];
+  //https://docs.newrelic.com/docs/mobile-monitoring/new-relic-mobile-ios/install-configure/ios-agent-crash-reporting
   [NewRelicAgent startWithApplicationToken:@"AAe71824253eeeff92e1794a97883d2e0c5928816f"];
-  
 
-  NSString *env = @"d";
+  [Fabric with:@[[Crashlytics class],[Answers class]]];
+
+
+  NSString *env = @"production";
   NSURL* defaultMetadataFileLocation = [[NSBundle mainBundle] URLForResource:@"metadata" withExtension:@"json"];
   NSURL* defaultJSCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
   NSURL* latestJSCodeLocation;
@@ -51,8 +53,8 @@
   [updater setHostnameForRelativeDownloadURLs:@"hello.trippple.co"];
   [updater downloadUpdatesForType: ReactNativeAutoUpdaterPatchUpdate];
   [updater checkUpdate];
-  
-  
+
+
   if([env  isEqual: @"production"]){
 //    PRODUCTION
     latestJSCodeLocation = [updater latestJSCodeLocation];
@@ -65,6 +67,44 @@
                                                       moduleName:@"Trippple"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
+
+  rootView.backgroundColor = [UIColor tr_outerSpaceColor];
+  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  UIViewController *rootViewController = [UIViewController new];
+  rootViewController.view = rootView;
+  self.window.rootViewController = rootViewController;
+  [self.window makeKeyAndVisible];
+  return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                    didFinishLaunchingWithOptions:launchOptions];
+}
+
+
+
+
+
+// Required to register for notifications
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
+{
+ [RCTPushNotificationManager didRegisterUserNotificationSettings:notificationSettings];
+}
+// Required for the register event.
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+ [RCTPushNotificationManager didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+// Required for the notification event.
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)notification
+{
+ [RCTPushNotificationManager didReceiveRemoteNotification:notification];
+}
+
+
+- (void)createReactRootViewFromURL:(NSURL*)url
+{
+  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:url
+                                                      moduleName:@"Trippple"
+                                               initialProperties:nil
+                                                   launchOptions:nil];
   
   rootView.backgroundColor = [UIColor tr_outerSpaceColor];
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -72,19 +112,37 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  return YES;
+  
+}
+
+#pragma mark - ReactNativeAutoUpdaterDelegate methods
+
+- (void)ReactNativeAutoUpdater_updateDownloadedToURL:(NSURL *)url {
+   NSLog(@"Update succeeded");
+   [self createReactRootViewFromURL: url];
+
+}
+
+- (void)ReactNativeAutoUpdater_updateDownloadFailed {
+ NSLog(@"Update failed to download");
 }
 
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-  return [RCTLinkingManager application:application openURL:url
-                      sourceApplication:sourceApplication annotation:annotation];
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+ [FBSDKAppEvents activateApp];
 }
 
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+
+ return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                       openURL:url
+                                             sourceApplication:sourceApplication
+                                                    annotation:annotation];
+}
 
 @end
+
+
 ///**
 // * Copyright (c) 2015-present, Facebook, Inc.
 // * All rights reserved.
@@ -225,4 +283,3 @@
 //                                                     annotation:annotation];
 //}
 //
-//@end
