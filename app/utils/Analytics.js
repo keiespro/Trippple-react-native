@@ -29,7 +29,6 @@ class Analytics{
 
     // if(!this.userid){
       //  if(!Settings.get(HAS_IDENTITY)){
-    this.setFullIdentityOnce(user)
       // }
     // }
     __DEV__ && console.log(`Analytics -> Indentified user #${user.id}`);
@@ -37,6 +36,7 @@ class Analytics{
     GoogleAnalytics.setUser(`${user.id}`);
     Mixpanel.identify(`${user.id}`);
     RNMixpanel.registerSuperProperties({"Gender": user.gender, "User Type": user.relationship_status});
+    this.setFullIdentityOnce(user)
 
   }
 
