@@ -9,6 +9,8 @@ import Analytics from '../../utils/Analytics'
 import {AsyncStorage} from 'react-native'
 import config from '../../config'
 import Mixpanel from '../../utils/mixpanel'
+import SettingsConstants from '../../utils/SettingsConstants'
+import {Settings} from 'react-native'
 
 const {KEYCHAIN_NAMESPACE} = config
 
@@ -57,7 +59,7 @@ class UserStore {
     });
 
     this.on('afterEach', (x) => {
-      if(x.payload.payload.response && x.payload.payload.response.user_info || x.payload.payload.updates){
+      if(x.payload.payload && x.payload.payload.response && x.payload.payload.response.user_info || x.payload.payload.updates){
         Analytics.all('UPDATE USER store', {...x});
         this.save()
       }
@@ -115,7 +117,9 @@ class UserStore {
     // if(res.error || !res.response || !res.response.user_info){
     //   return false;
     // }
-    const {user_info} = res.response;
+    const {user_info,client_ip} = res.response;
+    Analytics.setUserProperties({"$ip": client_ip})
+
     this.setState({
       user: {...this.state.user, ...user_info, status: user_info.ready ? 'onboarded' :  user_info.status }
     })
@@ -156,6 +160,15 @@ class UserStore {
 
       return AsyncStorage.clear()
     })
+    .then(()=>{
+      const settingsEraser = {};
+
+      for(let i of SettingsConstants){
+        settingsEraser[i] = null
+      }
+
+      return Settings.set(settingsEraser)
+    })
     .catch((err) => {
       // Log.error(err);
       this.setState({  api_key: null, user_id: null });
@@ -164,7 +177,7 @@ class UserStore {
     .done()
 
 
-      this.setState({  api_key: null, user_id: null });
+    this.setState({  api_key: null, user_id: null });
 
   }
 

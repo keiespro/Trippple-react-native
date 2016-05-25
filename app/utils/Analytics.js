@@ -27,11 +27,11 @@ class Analytics{
   identifyUser(user){
     if(!user || !user.id) return false;
 
-    if(!this.userid){
-       if(!Settings.get(HAS_IDENTITY)){
-        this.setFullIdentityOnce(user)
-      }
-    }
+    // if(!this.userid){
+      //  if(!Settings.get(HAS_IDENTITY)){
+    this.setFullIdentityOnce(user)
+      // }
+    // }
     __DEV__ && console.log(`Analytics -> Indentified user #${user.id}`);
 
     GoogleAnalytics.setUser(`${user.id}`);
@@ -41,11 +41,13 @@ class Analytics{
   }
 
   setFullIdentityOnce(user){
+    console.log('setFullIdentityOnce',user);
     const mxProps = {
       "$phone": user.phone,
       "$area_code": user.phone.slice(0,3),
       "$name": user.firstname,
       "$gender": user.gender,
+      "$email": user.email,
       "$image": user.image_url,
       "$relationship_status": user.relationship_status,
       "$user_type": user.relationship_status,
@@ -66,8 +68,8 @@ class Analytics{
 
     if(!propsToTag || typeof propsToTag != 'object' || !Object.keys(propsToTag).length ){ return false }
 
-    Object.keys(propsToTag).map(k => RNMixpanel.set(k,propsToTag[k]));
-
+    // Object.keys(propsToTag).map(k => RNMixpanel.set(k,propsToTag[k]));
+    RNMixpanel.set(propsToTag)
   }
 
   increment(prop,amount){    // MIXPANEL: track numeric values which are associated with a user

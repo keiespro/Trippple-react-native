@@ -136,8 +136,6 @@ class ContactList extends React.Component{
 
   }
 
-  componentDidMount(){
-    }
   _renderRow(rowData, sectionID: number, rowID: number, highlightRow) {
     return (
 
@@ -197,6 +195,11 @@ class Contacts extends React.Component{
     }
   }
   _pressRow(sectionID,contactID,contact,image){
+
+    if(contact.phone == this.props.user.phone){
+      Alert.alert('You can\'t pick yourself.')
+      return false;
+    }
     this.refs.searchinput.blur();
     // this.setState({
     //   highlightedRow: contact,

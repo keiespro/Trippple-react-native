@@ -100,9 +100,7 @@ var IntroScreen = React.createClass({
 
   componentDidMount() {
       setTimeout(()=> {
-        if(this.isMounted()){
           Analytics.screen('Welcome Screen')
-        }
       }, 1000);
 
   },

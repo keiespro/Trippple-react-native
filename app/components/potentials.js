@@ -72,7 +72,7 @@ class PotentialsPage extends React.Component{
     this.setState({profileVisible: !this.state.profileVisible})
   }
   _handleAppStateChange(currentAppState){
-    // console.log('currentAppState',currentAppState)
+
     if(currentAppState == 'active'){
       this.setState({  currentAppState, showPotentials: false});
       this.setTimeout(()=>{
@@ -89,9 +89,9 @@ class PotentialsPage extends React.Component{
     AppState.addEventListener('change', this._handleAppStateChange.bind(this));
 
     if(this.props.user.status == 'onboarded'){
-      MatchActions.getPotentials.defer();
+      MatchActions.getPotentials.defer(this.props.user.relationship_status);
       MatchActions.getMatches.defer();
-      // MatchActions.getFavorites.defer();
+
     }
 
     NativeModules.PushNotificationManager.checkPermissions((result)=>{

@@ -45,12 +45,12 @@ class UserActions {
 
   verifySecurityPin(pin, phone) {
     if( pin.length !== 4 ){ return false }
+    Analytics.event('Interaction',{ type:'tap', name: 'Verify security pin', phone, pin })
 
 
     return (dispatch) => {
       Api.verifyPin(pin, phone)
       .then((res) => {
-        Analytics.event('Login',{ type:'Pin', name: 'Verify security pin', phone, pin })
 
         dispatch(res)
       })
@@ -63,10 +63,11 @@ class UserActions {
   }
 
   requestPinLogin(phone) {
+    Analytics.event('Interaction', { type:'tap', name: 'Request Security Pin', phone })
+
     return (dispatch) => {
       Api.requestPin(phone)
       .then((res) => {
-        Analytics.event('Login', { type:'Phone', name: 'Request Security Pin', phone })
 
         dispatch(res)
       })
@@ -124,6 +125,7 @@ class UserActions {
   selectPartner(partner) {
     return (dispatch) => {
       Analytics.event('Onboarding',{name: 'Select Partner', type: 'Invite', partner_phone: partner.phone, })
+
       let partnerPhone = partner.phone
 
       // partner_phone = partner_phone.substr(partner_phone.length - 10, partner_phone.length)

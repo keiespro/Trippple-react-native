@@ -26,12 +26,12 @@ async function baseRequest(endpoint='': String, payload={}: Object){
   }
   if(__DEBUG__ && window && window.__SHOW_ALL__) console.log(`API REQUEST ---->>>>> ${endpoint} | `,params);
   const url = `${SERVER_URL}/${endpoint}`;
-  var timeStarted = new Date();
+  // var timeStarted = new Date();
   const res = await fetch(url, params)
 
   try{
-    var secondsAgo = ((new Date).getTime() - timeStarted.getTime()) / 1000;
-    Analytics.timeEnd(`Endpoint Perf`, {name:`${endpoint} ${secondsAgo}`})
+    // var secondsAgo = ((new Date).getTime() - timeStarted.getTime()) / 1000;
+    // Analytics.timeEnd(`Endpoint Perf`, {name:`${endpoint} ${secondsAgo}`})
 
     if(res.status == 504 || res.status == 502){
       __DEV__ && console.log('show maintenance screen')
@@ -60,7 +60,7 @@ async function baseRequest(endpoint='': String, payload={}: Object){
     })
 
   }catch(err){
-    __DEV__ && console.log('CAUGHT ERR',response,res,err)
+    __DEV__ && console.log('CAUGHT ERR',res,err)
 
     return {error: err, status: res.status}
   }

@@ -3,12 +3,17 @@ import Api from '../../utils/api';
 import { Alert } from 'react-native'
 import fakePotentials from '../../potentialsStub'
 import Analytics from '../../utils/Analytics'
+import StarterDecks from '../../StarterDecks'
+import SettingsConstants from '../../utils/SettingsConstants'
+import {Settings} from 'react-native'
+const {HAS_SEEN_STARTER_DECK} = SettingsConstants
+
 
 class MatchActions {
 
   removeMatch(matchID){
 
-    analytics.extra('Social',{
+    Analytics.extra('Social',{
       type: 'negative',
       name:'Remove Match',
       target: matchID
@@ -19,7 +24,7 @@ class MatchActions {
   }
   removePotential(p){
     if(p){
-      analytics.extra('Social',{
+      Analytics.extra('Social',{
         type: 'negative',
         name:'Remove Potential',
         target: p.id
@@ -80,25 +85,38 @@ class MatchActions {
     };
   }
 
-  getPotentials() {
+  getPotentials(relationship_status) {
     return (dispatch) => {
-      Api.getPotentials(  )
-      .then((res) => {
+      if(!Settings.get(HAS_SEEN_STARTER_DECK)){
+        __DEV__ && console.log('Using Starter Deck');
+        dispatch({matches: StarterDecks[relationship_status],is_starter:true})
+        Settings.set({[HAS_SEEN_STARTER_DECK]:true})
+      }else{
+        Api.getPotentials(  )
+        .then((res) => {
 
-        dispatch(res.response);
-      })
-      .catch((err) => {
-        dispatch(err);
-      })
+          dispatch(res.response);
+        })
+        .catch((err) => {
+          dispatch(err);
+        })
+      }
     };
   }
 
 
-    getFakePotentials() {
-      return (dispatch) => {
-          dispatch(fakePotentials);
-      };
-    }
+  getFakePotentials() {
+    return (dispatch) => {
+        dispatch(fakePotentials);
+    };
+  }
+
+  // getStarterDeck(relationship_status) {
+  //   return (dispatch) => {
+  //       dispatch();
+  //   };
+  // }
+
 
 
   setAccessTime(payload){
@@ -106,7 +124,7 @@ class MatchActions {
   }
 
   sendMessage(message, matchID,timestamp){
-    analytics.extra('Social',{
+    Analytics.extra('Social',{
       type:'positive',
       name: 'Send message',
       message,
@@ -165,7 +183,7 @@ class MatchActions {
     return (dispatch) => {
       Api.unMatch(matchID)
       .then(()=>{
-        analytics.extra('Social',{
+        Analytics.extra('Social',{
           type: 'negative',
           name:'Remove Match',
           target: matchID
@@ -185,7 +203,7 @@ class MatchActions {
       Api.reportUser(user.id, (user.relationship_status ? 'single' : 'couple'), reason)
       .then((res)=> {
 
-        analytics.extra('Social',{
+        Analytics.extra('Social',{
           type: 'negative',
           name: 'Report User',
           target: user.id,
@@ -214,7 +232,7 @@ class MatchActions {
       .then((res)=>{
         this.removePotential.defer();
 
-        analytics.extra('Social',{
+        Analytics.extra('Social',{
           type: likeStatus == 'approve' ? 'positive' : 'negative',
           name: (likeStatus == 'approve' ? 'Like' : 'Dislike'),
           target: likedUserID

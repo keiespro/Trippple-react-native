@@ -111,6 +111,7 @@ class Card extends React.Component{
 
     this.props.navigator.push({
       component: ReportModal,
+      name:'Report User Modal',
       passProps: {
         action: 'report',
         potential: this.props.potential,

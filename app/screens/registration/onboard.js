@@ -32,54 +32,93 @@ import CAMERA from '../../controls/cameraControl'
 import Mixpanel from '../../utils/mixpanel'
 
 var RouteStackCouple = [
-    {component: SelectRelationshipStatus,id:'SelectRelationshipStatus',title:'SelectRelationshipStatus'},
-
-    /*
-     *
-     * DEV MODE: PUT THE SCREEN CURRENTLY BEING WORKED ON HERE.
-     *
-     * MAKE SURE TO REMOVE
-     *
-    */
-
-    /*
-     *
-     * MAKE SURE TO REMOVE
-     *
-     */
-
-    {component: InvitePartner,  id: 'InvitePartner', title: 'InvitePartner'},
-    {component: Contacts, title: 'Contacts'},
-    {component: Facebook, title: 'Facebook'},
-    {component: name, title: 'name'},
-    {component: bday,  title: 'bday'},
-    {component: gender, title: 'gender'},
-    {component: PrivacyScreen, title: 'PrivacyScreen'},
-    {component: CoupleImage,  title: 'CoupleImage'},
-    {component: CAMERA, title: 'CAMERA', passProps:{image_type:'couple_profile'}},
-    {component: EditImage, title: 'EditImage', id:'editimage'},
-    {component: EditImageThumb, title: 'EditImageThumb'},
-    {component: SelfImage,  title: 'SelfImage'},
-    {component: CAMERA, title: 'CAMERA2', passProps:{image_type:'profile'}},
-    {component: EditImage, title: 'EditImage', id:'editimage2'},
-    {component: EditImageThumb, title: 'EditImageThumb'},
-    {component: Limbo,  title: 'Limbo'},
+    {component: SelectRelationshipStatus,id:'SelectRelationshipStatus',title:'SelectRelationshipStatus',
+      name:'SelectRelationshipStatus'
+    },
+    {component: InvitePartner,  id: 'InvitePartner', title: 'InvitePartner',
+      name: 'InvitePartner'
+    },
+    {component: Contacts, title: 'Contacts',
+      name: 'Contacts'
+    },
+    {component: Facebook, title: 'Facebook',
+      name: 'Facebook'
+    },
+    {component: name, title: 'name',
+      name: 'Onboarding name'
+    },
+    {component: bday,  title: 'bday',
+      name: 'Onboarding bday'
+    },
+    {component: gender, title: 'gender',
+      name: 'Gender'
+    },
+    {component: PrivacyScreen, title: 'PrivacyScreen',
+      name: 'PrivacyScreen'
+    },
+    {component: CoupleImage,  title: 'CoupleImage',
+      name: 'CoupleImage'
+    },
+    {component: CAMERA, title: 'CAMERA', passProps:{image_type:'couple_profile'},
+      name: 'CAMERA'
+    },
+    {component: EditImage, title: 'EditImage', id:'editimage',
+      name: 'EditImage'
+    },
+    {component: EditImageThumb, title: 'EditImageThumb',
+      name: 'EditImageThumb'
+    },
+    {component: SelfImage,  title: 'SelfImage',
+      name: 'SelfImage'
+    },
+    {component: CAMERA, title: 'CAMERA2', passProps:{image_type:'profile'},
+      name: 'CAMERA'
+    },
+    {component: EditImage, title: 'EditImage', id:'editimage2',
+      name: 'EditImage'
+    },
+    {component: EditImageThumb, title: 'EditImageThumb',
+      name: 'EditImageThumb'
+    },
+    {component: Limbo,  title: 'Limbo',
+      name: 'Limbo'
+    },
 
   ];
 
 var RouteStackSingle = [
-    {component: SelectRelationshipStatus,title:'SelectRelationshipStatus'},
+    {component: SelectRelationshipStatus,title:'SelectRelationshipStatus',title:'SelectRelationshipStatus'},
 
-    {component: Facebook,title:'Facebook'},
-    {component: name,title: 'name'},
-    {component: bday,title: 'bday'},
-    {component: gender,  title: 'gender'},
-    {component: PrivacyScreen, title: 'PrivacyScreen'},
-    {component: SelfImage, title: 'SelfImage'},
-    {component: CAMERA, title: 'CAMERA'},
-    {component: EditImage,  title: 'EditImage'},
-    {component: EditImageThumb,  title: 'EditImageThumb'},
-    {component: Limbo,  title: 'Limbo'},
+    {component: Facebook,title:'Facebook',
+       name:'Facebook'
+     },
+    {component: name,title: 'name',
+       name: 'Onboarding name'
+     },
+    {component: bday,title: 'bday',
+       name: 'Onboarding bday'
+     },
+    {component: gender,  title: 'gender',
+      name: 'Gender'
+    },
+    {component: PrivacyScreen, title: 'PrivacyScreen',
+      name: 'PrivacyScreen'
+    },
+    {component: SelfImage, title: 'SelfImage',
+      name: 'SelfImage'
+    },
+    {component: CAMERA, title: 'CAMERA',
+      name: 'CAMERA'
+    },
+    {component: EditImage,  title: 'EditImage',
+      name: 'EditImage'
+    },
+    {component: EditImageThumb,  title: 'EditImageThumb',
+      name: 'EditImageThumb'
+    },
+    {component: Limbo,  title: 'Limbo',
+      name: 'Limbo'
+    },
   ];
 
 const stacks = {
@@ -98,7 +137,7 @@ class Onboard extends Component{
     this.refs.onboardingNavigator.navigationContext.addListener('didfocus', (nav)=>{
       var route = nav.target.currentRoute;
 
-      var routeName = route.id || route.name || (route.title && route.title.length ? route.title : false) || route.component.displayName;
+      var routeName =  route.name || route.id || (route.title && route.title.length ? route.title : false) || route.component.displayName;
       Analytics.screen(routeName)
 
 
@@ -112,6 +151,10 @@ class Onboard extends Component{
         OnboardingActions.updateRoute(this.props.onboardingState.routeIndex-1)
       }
     })
+
+    if(this.props.user.partner_id){
+
+    }
   }
   selectScene (route: Navigator.route, navigator: Navigator) {
 
@@ -152,7 +195,7 @@ class Onboard extends Component{
           sceneStyle={styles.container}
           navigationBar={false}
           ref={'onboardingNavigator'}
-          initialRoute={RouteStackSingle[0]}
+          initialRoute={this.props.user.partner_id ? RouteStackCouple[3] : RouteStackSingle[0]}
 
         />
       </View>

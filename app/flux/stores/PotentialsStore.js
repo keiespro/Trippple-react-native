@@ -59,7 +59,7 @@ class PotentialsStore {
       var potentials;
 
 
-      Analytics.event('Sanity Check',{
+      Analytics.extra('Sanity Check',{
         type: 'API response',
         name: 'Receive New Potentials',
         value: data.matches.length
@@ -74,7 +74,7 @@ class PotentialsStore {
       }
       this.potentials = data.matches
     }else{
-      Analytics.event('Sanity Check',{
+      Analytics.extra('Sanity Check',{
         type: 'API response',
         name: 'Receive New Potentials',
         value: 0
@@ -95,6 +95,7 @@ class PotentialsStore {
       this.potentials = data.matches
     }
   }
+
   handleRemovePotential(id){
     const p = this.potentials;
     p.unshift();
@@ -133,7 +134,6 @@ class PotentialsStore {
 
   }
   handleSentLike(payload){
-    console.log(payload);
 
     if(payload.matches && payload.matches.length > 0){
       this.handleGetPotentials(payload)
