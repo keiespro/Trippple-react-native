@@ -8,7 +8,7 @@ class MatchActions {
 
   removeMatch(matchID){
 
-    Analytics.event('Social',{
+    analytics.extra('Social',{
       type: 'negative',
       name:'Remove Match',
       target: matchID
@@ -18,14 +18,15 @@ class MatchActions {
     return matchID
   }
   removePotential(p){
-
-    Analytics.event('Social',{
-      type: 'negative',
-      name:'Remove Potential',
-      target: matchID
-    })
-    Analytics.increment('RemovedPotentials',1)
-
+    if(p){
+      analytics.extra('Social',{
+        type: 'negative',
+        name:'Remove Potential',
+        target: p.id
+      })
+      Analytics.increment('RemovedPotentials',1)
+    }
+    // else just cleanup
     return p || true
 
   }
@@ -105,7 +106,7 @@ class MatchActions {
   }
 
   sendMessage(message, matchID,timestamp){
-    Analytics.event('Social',{
+    analytics.extra('Social',{
       type:'positive',
       name: 'Send message',
       message,
@@ -164,7 +165,7 @@ class MatchActions {
     return (dispatch) => {
       Api.unMatch(matchID)
       .then(()=>{
-        Analytics.event('Social',{
+        analytics.extra('Social',{
           type: 'negative',
           name:'Remove Match',
           target: matchID
@@ -184,7 +185,7 @@ class MatchActions {
       Api.reportUser(user.id, (user.relationship_status ? 'single' : 'couple'), reason)
       .then((res)=> {
 
-        Analytics.event('Social',{
+        analytics.extra('Social',{
           type: 'negative',
           name: 'Report User',
           target: user.id,
@@ -213,7 +214,7 @@ class MatchActions {
       .then((res)=>{
         this.removePotential.defer();
 
-        Analytics.event('Social',{
+        analytics.extra('Social',{
           type: likeStatus == 'approve' ? 'positive' : 'negative',
           name: (likeStatus == 'approve' ? 'Like' : 'Dislike'),
           target: likedUserID

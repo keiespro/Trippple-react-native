@@ -41,7 +41,6 @@ class NotificationPermissions extends React.Component{
 
   constructor(props){
       super()
-      console.log(props.relevantUser)
       this.state = {
         failedState: false,
         permissions: null,
@@ -136,7 +135,7 @@ class NotificationPermissions extends React.Component{
             return acc
           },0);
 
-          this.setState({ hasPermission: (permResult > 0), failedState: false });
+          this.isMounted() && this.setState({ hasPermission: (permResult > 0), failedState: false });
           AppState.removeEventListener('change', this._handleAppStateChange);
         })
       }
@@ -144,84 +143,98 @@ class NotificationPermissions extends React.Component{
 
     render(){
       const {relevantUser}  = this.props;
-      console.log(relevantUser);
       const featuredUser = relevantUser && relevantUser.user ? relevantUser.user : relevantUser || {};
 
       return  (
-          <View>
-            <BlurView blurType="dark" style={[{position:'absolute',top:0,width:DeviceWidth,height:DeviceHeight,justifyContent:'center',alignItems:'center',flexDirection:'column'}]}/>
-          <ScrollView style={[{padding:0,width:DeviceWidth,height:DeviceHeight,backgroundColor: 'transparent',paddingTop:50,flex:1,position:'relative'}]} contentContainerStyle={{justifyContent:'center',alignItems:'center',}}>
-
-          <View style={{width:160,height:160,marginVertical:30}}>
-          <Image
-              style={[{width:160,height:160,borderRadius:80}]}
-              source={
-                this.state.failedState ? {uri: 'assets/iconModalDenied@3x.png'} :
+        <View>
+          <BlurView
+            blurType="dark"
+            style={[{position:'absolute',top:0,width:DeviceWidth,height:DeviceHeight,justifyContent:'center',alignItems:'center',flexDirection:'column'}]}
+          />
+          <ScrollView
+            style={[{padding:0,width:DeviceWidth,height:DeviceHeight,backgroundColor: 'transparent',paddingTop:50,flex:1,position:'relative'}]}
+            contentContainerStyle={{justifyContent:'center',alignItems:'center',}}
+          >
+            <View style={{width:160,height:160,marginVertical:30}}>
+              <Image
+                style={[{width:160,height:160,borderRadius:80}]}
+                source={
+                  this.state.failedState ? {uri: 'assets/iconModalDenied@3x.png'} :
                   featuredUser && featuredUser.image_url ? {uri: featuredUser.thumb_url} : {uri:'assets/placeholderUser@3x.png'}
-              }
-              defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
-            />
-          <View style={{width:32,height:32,borderRadius:16,overflow:'hidden',backgroundColor:colors.mandy,position:'absolute',top:6,right:6,justifyContent:'center',alignItems:'center'}}>
-                        <Text
-                          style={[{
-                            fontSize:20,
-                            marginLeft:2,
-                            marginTop:-2,
-                            width:32,
-                            fontFamily:'Montserrat-Bold',
-                            textAlign:'center',
-                            color:'#fff',
-                        }]}>1</Text>
-
-            </View>
-          </View>
-          <View style={[{width:DeviceWidth,
-              paddingHorizontal:MagicNumbers.screenPadding/2 }]}>
-              <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'Montserrat-Bold',fontSize:22,color:'#fff',marginVertical:10
-               }]}>{
-                this.state.failedState ? failedTitle : `GET NOTIFIED`
                 }
-              </Text>
+                defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+                />
+                <View style={{width:32,height:32,borderRadius:16,overflow:'hidden',backgroundColor:colors.mandy,position:'absolute',top:6,right:6,justifyContent:'center',alignItems:'center'}}>
+                  <Text
+                    style={[{
+                      fontSize:20,
+                      marginLeft:2,
+                      marginTop:-2,
+                      width:32,
+                      fontFamily:'Montserrat-Bold',
+                      textAlign:'center',
+                      color:'#fff',
+                    }]}>1</Text>
 
-              <View style={{flexDirection:'column' }} >
-               {featuredUser && featuredUser.image_url && <Text style={[styles.rowtext,styles.bigtext,{
-                   fontSize:22,
-                   marginVertical:10,
-                   color:'#fff',
-               }]}>Great! You’ve liked {featuredUser && featuredUser.firstname && featuredUser.firstname.length ? featuredUser.firstname : "them" }.</Text> }
-               <Text   style={[styles.rowtext,styles.bigtext,{
-                   fontSize:22,
-                   marginVertical:10,
-                   color:'#fff',
-                   marginBottom:15,
-                   flexDirection:'column'
-               }]}>{featuredUser && featuredUser.image_url ? `Would you like to be notified \nwhen they like you back?` : ` Would you like to be notified of new matches and messages?`}</Text>
-             </View>
-              <View>
-                <TouchableHighlight
-                  style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:10,marginTop:20,marginBottom:15}}
-                  onPress={this.handleTapYes.bind(this)}>
-                  <View style={{paddingVertical:20}} >
-                  <Text style={[styles.modalButtonText,{fontFamily:'Montserrat-Bold'}]}>{
-                    this.state.failedState ? 'GO TO SETTINGS' : `YES, ALERT ME!`
-
-                  }</Text>
                   </View>
-                </TouchableHighlight>
-              </View>
-
-            <View style={{marginBottom:20}}>
-              <TouchableOpacity onPress={this.cancel.bind(this)}>
-                <View>
-                  <Text style={[styles.nothankstext,{color:colors.warmGreyTwo,fontFamily:'Omnes-Regular'}]}>No thanks, ask me later</Text>
                 </View>
-              </TouchableOpacity>
-            </View>
-    </View>
-    </ScrollView>
-    </View>
+                <View style={[{width:DeviceWidth,
+                  paddingHorizontal:MagicNumbers.screenPadding/2 }]}
+                >
+                  <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'Montserrat-Bold',fontSize:22,color:'#fff',marginVertical:10
+                  }]}>
+                  {
+                    this.state.failedState ? failedTitle : `GET NOTIFIED`
+                  }
+                  </Text>
 
-    )
+                  <View style={{flexDirection:'column' }} >
+                  {featuredUser && featuredUser.image_url &&
+                    <Text style={[styles.rowtext,styles.bigtext,{
+                        fontSize:22,
+                        marginVertical:10,
+                        color:'#fff',
+                      }]}>Great! You’ve liked {featuredUser && featuredUser.firstname && featuredUser.firstname.length ? featuredUser.firstname : "them" }.</Text>
+                    }
+                    <Text style={[styles.rowtext,styles.bigtext,{
+                        fontSize:22,
+                        marginVertical:10,
+                        color:'#fff',
+                        marginBottom:15,
+                        flexDirection:'column'
+                      }]}>
+                      {featuredUser && featuredUser.image_url ? `Would you like to be notified \nwhen they like you back?` : ` Would you like to be notified of new matches and messages?`}
+                    </Text>
+                  </View>
+                  <View>
+                    <TouchableHighlight
+                      style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:10,marginTop:20,marginBottom:15}}
+                      onPress={this.handleTapYes.bind(this)}>
+                      <View style={{paddingVertical:20}} >
+                        <Text style={[styles.modalButtonText,{fontFamily:'Montserrat-Bold'}]}>
+                          {
+                            this.state.failedState ? 'GO TO SETTINGS' : `YES, ALERT ME!`
+
+                          }
+                        </Text>
+                      </View>
+                    </TouchableHighlight>
+                  </View>
+
+                  <View style={{marginBottom:20}}>
+                    <TouchableOpacity onPress={this.cancel.bind(this)}>
+                      <View>
+                        <Text style={[styles.nothankstext,{color:colors.warmGreyTwo,fontFamily:'Omnes-Regular'}]}>
+                          No thanks, ask me later
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </ScrollView>
+            </View>
+
+          )
   }
 
 }

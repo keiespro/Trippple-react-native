@@ -180,11 +180,11 @@ class SettingsSettings extends React.Component{
         })
         Settings.set({LockedWithTouchID:this.state.isLocked})
 
-          Analytics.event('Usage',{
+          Analytics.extra('Permission',{
             name: (shouldLock ? `Enable` : `Disable`) + 'Touch ID lock',
-            type: 'tap',
+            action: 'tap',
           })
-        }
+
         // Success code
       })
       .catch(error => {

@@ -31,7 +31,7 @@ async function baseRequest(endpoint='': String, payload={}: Object){
 
   try{
     var secondsAgo = ((new Date).getTime() - timeStarted.getTime()) / 1000;
-    Analytics.timeEnd(`Endpoint Perf - ${endpoint} ${secondsAgo}`)
+    Analytics.timeEnd(`Endpoint Perf`, {name:`${endpoint} ${secondsAgo}`})
 
     if(res.status == 504 || res.status == 502){
       __DEV__ && console.log('show maintenance screen')

@@ -89,7 +89,7 @@ class MatchList extends Component{
       [
         {text: 'Cancel', onPress: () => this.handleCancelUnmatch(rowData), style: 'cancel'},
         {text: 'OK', onPress: () => {
-          Analytics.event('Matching',{name: 'Unmatch', match_id: rowData.match_id, match: rowData})
+          Analytics.extra('Social',{name: 'Unmatch', match_id: rowData.match_id, match: rowData})
           MatchActions.unMatch(rowData.match_id);
           MatchActions.removeMatch.defer(rowData.match_id);
         } },

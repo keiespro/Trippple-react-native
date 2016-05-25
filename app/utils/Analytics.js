@@ -72,9 +72,9 @@ class Analytics{
 
   increment(prop,amount){    // MIXPANEL: track numeric values which are associated with a user
 
-    if( !props || !amount ){ return false }
+    if( !prop || !amount ){ return false }
 
-    Mixpanel.increment(prop, amount);
+    RNMixpanel.increment(prop, amount);
 
   }
 
@@ -100,6 +100,18 @@ class Analytics{
     GoogleAnalytics.trackScreenView(screen);
     Mixpanel.track('Screen', {name: screen});
 
+  }
+
+  extra(eventName, eventData={}){
+    if(!GoogleAnalytics) return false;
+
+    let action = eventData.action || eventData.type || undefined;
+    let label = eventData.label || eventData.name || undefined;
+    let value = eventData.value || eventData.val || undefined;
+
+    __DEV__ && console.log(`Event: ${eventName}`, 'EventData:', ...eventData)
+
+    GoogleAnalytics.trackEvent(eventName, action, {label, value});
   }
 
   err(error){
@@ -130,7 +142,7 @@ class Analytics{
   timeEvent(event, data){
     __DEV__ && console.log(`Event: ${event}`, 'EventData:', ...eventData)
 
-    Mixpanel.timeEvent(event);
+    RNMixpanel.timeEvent(event);
 
   }
 

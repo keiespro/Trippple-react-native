@@ -9,10 +9,7 @@ function TrackEvt(name,e){
   event ? Mixpanel.trackWithProperties(name, event) : Mixpanel.track(name)
 }
 
-//-this is Production App
-const TOKEN = '18b301fab3deb8a70729d6407210391c';
-//-this is Trippple-V2
-// const TOKEN = 'eb728e735ea988864ae8b6f7b7f3841f';
+const TOKEN = 'c829c0dc2c5cf14f573f72bf58ef3600';
 
 const THREE_SECONDS = 5000;
 const {

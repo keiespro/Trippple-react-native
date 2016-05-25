@@ -14,6 +14,7 @@ import NotificationPermissions from '../modals/NotificationPermissions'
 import styles from './settingsStyles'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
+import Analytics from '../utils/Analytics'
 
 var {OSPermissions} = NativeModules
 
@@ -43,9 +44,17 @@ class PermissionSwitches extends React.Component{
     // })
   }
   toggleLocation(){
+    Analytics.event('Interaction',{
+      name: `Toggle location permission`,
+      type: 'tap',
+      value: JSON.parse(OSPermissions.location)
+    })
+
     if(!OSPermissions.location || OSPermissions.location && !JSON.parse(OSPermissions.location)){
+
       this.props.navigator.push({
         component:CheckPermissions,
+        name:'LocationPermissionModal',
         passProps:{
           title:'PRIORITIZE LOCAL',
           subtitle:'Should we prioritize the matches closest to you?',
@@ -58,7 +67,11 @@ class PermissionSwitches extends React.Component{
             this.setState({LocationSetting:true})
             Settings.set({LocationSetting: true })
 
-
+            Analytics.extra('Permission', {
+              name: `got location`,
+              type: 'tap',
+              value: coords
+            })
           },
           failedSubtitle: 'Geolocation is disabled. You can enable it in your phone’s Settings.',
           failedState: (JSON.parse(OSPermissions.location) < 3 ? true : false),
