@@ -4,7 +4,6 @@ import Mixpanel from './mixpanel'
 import AppInfo from 'react-native-app-info'
 import {Settings} from 'react-native'
 import _ from 'lodash'
-const MIXPANEL_TOKEN = '18b301fab3deb8a70729d6407210391c'
 import GoogleAnalytics from 'react-native-google-analytics-bridge'
 
 import SETTINGS_CONSTANTS from './SettingsConstants'
@@ -18,6 +17,8 @@ class Analytics{
 
   constructor(){
     GoogleAnalytics.setTrackerId('UA-49096214-2');
+    GoogleAnalytics.allowIDFA(false);
+
   }
 
   prepareInitializeIdentity(){
@@ -26,15 +27,15 @@ class Analytics{
 
   identifyUser(user){
     if(!user || !user.id) return false;
-
+    console.log(user)
     // if(!this.userid){
       //  if(!Settings.get(HAS_IDENTITY)){
       // }
     // }
     __DEV__ && console.log(`Analytics -> Indentified user #${user.id}`);
 
-    GoogleAnalytics.setUser(`${user.id}`);
-    Mixpanel.identify(`${user.id}`);
+    GoogleAnalytics.setUser(user.id+'');
+    RNMixpanel.identify(user.id+'');
     RNMixpanel.registerSuperProperties({"Gender": user.gender, "User Type": user.relationship_status});
     this.setFullIdentityOnce(user)
 
@@ -55,7 +56,7 @@ class Analytics{
       "$year-of-birth": user.birth_year,
       "$privacy": user.privacy
     };
-    __DEV__ && console.table(mxProps);
+    __DEV__ && console.log(mxProps);
 
     this.setUserProperties(mxProps);
 
@@ -123,7 +124,7 @@ class Analytics{
       return;
     }
     __DEV__ && console.log(`ERROR:`, error)
-    GoogleAnalytics.trackException( JSON.stringify(error), false);
+    // GoogleAnalytics.trackException( JSON.stringify(error), false);
 
   }
 
@@ -134,9 +135,9 @@ class Analytics{
   all(){
     // console.log('<Log>')
 
-    window && window.__SHOW_ALL && __DEV__ && __DEBUG__ && [...arguments].map((arg,i)=>{
-      console.log('<Log> ', arg)
-    })
+//     window && window.__SHOW_ALL && __DEV__ && __DEBUG__ && [...arguments].map((arg,i)=>{
+//       console.log('<Log> ', arg)
+//     })
     // console.log('</Log>')
 
   }

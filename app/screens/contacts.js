@@ -24,6 +24,9 @@ const DeviceWidth = Dimensions.get('window').width
 import UserActions from '../flux/actions/UserActions'
 import CoupleImage from './registration/CoupleImage'
 const { AddressBook } = NativeModules;
+
+import ContactGetter from 'react-native-contacts'
+
 import Analytics from '../utils/Analytics'
 import colors from '../utils/colors'
 import _ from 'underscore'
@@ -45,17 +48,17 @@ class ContactRow extends React.Component{
   //   return nState.uri != this.state.uri
   // }
 componentDidMount(){
-  //
-  if(this.props.imagePath && this.props.imagePath.length && this.props.imagePath.length != ''){
-    React.NativeModules.RNFSManager.readFile(this.props.imagePath, (err,uri)=>{
-      if(!uri || uri == ''){
-      }else{
-      this.setState({
-        uri: 'data:image/gif;base64,'+uri
-      })
-    }
-    })
-  }
+  // //
+  // if(this.props.imagePath && this.props.imagePath.length && this.props.imagePath.length != ''){
+  //   React.NativeModules.RNFSManager.readFile(this.props.imagePath, (err,uri)=>{
+  //     if(!uri || uri == ''){
+  //     }else{
+  //     this.setState({
+  //       uri: 'data:image/gif;base64,'+uri
+  //     })
+  //   }
+  //   })
+  // }
 }
   // componentWillReceiveProps(nProps){
   //   if(nProps.execute){
@@ -75,6 +78,7 @@ componentDidMount(){
     if(this.props.highlightedRow && this.props.highlightedRow.rowID === rowID){
     }
 
+
   const hasPhone = rowData.phoneNumbers && rowData.phoneNumbers.length && rowData.phoneNumbers.length > 0 && rowData.phoneNumbers[0].number;
     return (
       <TouchableHighlight key={'contactrow'+rowID}
@@ -91,12 +95,14 @@ componentDidMount(){
             (this.props.highlightedRow && this.props.highlightedRow.sectionID === sectionID && this.props.highlightedRow.rowID === rowID ? styles.rowSelected : null)]}>
 
             <Image style={[styles.contactthumb,{backgroundColor:colors.shuttleGray20}]} resizeMode={Image.resizeMode.cover}
-               source={ (!this.state.uri || this.state.uri == null || this.state.uri == '' ? {uri: 'assets/placeholderUser@3x.png'} : {uri: (this.state.uri)})}/>
+            source={{uri: imagePath || rowData.thumbnailPath}} defaultSource={{uri: 'assets/placeholderUser@3x.png'}}/>
+
+               {/*source={ (!this.state.uri || this.state.uri == null || this.state.uri == '' ? {uri: 'assets/placeholderUser@3x.png'} : {uri: (this.state.uri)})}/>*/}
 
             <View style={styles.rowtextwrapper}>
 
               <Text style={styles.rowtext}>
-                {`${rowData.firstName || ''} ${rowData.lastName || ''}`}
+                {`${rowData.givenName || rowData.firstName || ''} ${rowData.familyName || rowData.lastName || ''}`}
               </Text>
               <Text style={styles.text}>
                 {`${phoneNumber || ''}`}
@@ -159,10 +165,10 @@ class ContactList extends React.Component{
     return (
         <ListView
           removeClippedSubviews={true}
-          initialListSize={100}
+          initialListSize={12}
           ref={'thelist'}
-          pageSize={50}
-          scrollRenderAheadDistance={2500}
+          pageSize={20}
+          scrollRenderAheadDistance={1500}
           contentContainerStyle={styles.fullwidth}
           dataSource={this.props.dataSource}
           renderRow={this._renderRow.bind(this)}
@@ -225,8 +231,8 @@ class Contacts extends React.Component{
 
   storeContacts(){
     // console.log('call store contacts')
-    AddressBook.getContacts((err, contacts) => {
-      // console.log(err,contacts)
+    ContactGetter.getAll( (err,contacts)=>{   // AddressBook.getContacts((err, contacts) => {
+      console.log(err,contacts)
       if(err){
         Analytics.err(err);
       }
@@ -298,7 +304,7 @@ class Contacts extends React.Component{
     this.setState({
       searchText: text,
       dataSource: ds.cloneWithRows(_.filter(this.state.contacts, (contact)=>{
-        const name = `${contact.firstName || ''}` +' '+ `${contact.lastName || ''}`;
+        const name = `${contact.firstName || contact.givenName || ''}` +' '+ `${contact.lastName || contact.familyName || ''}`;
 
         return name.toLowerCase().indexOf(text.toLowerCase()) >= 0
       }))

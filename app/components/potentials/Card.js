@@ -783,7 +783,7 @@ class Card extends React.Component{
                 }}
               >
               <TouchableHighlight
-                underlayColor={colors.mediumPurple} onPress={() => { this.refs.scrollbox.scrollTo(DeviceHeight-200,0); }} >
+                underlayColor={colors.mediumPurple} onPress={() => { this.refs.scrollbox.scrollTo({y: DeviceHeight-200,x:0}) }} >
 
                 <View
                   key={`${potential.id || potential.user.id}-infos`}
@@ -825,7 +825,7 @@ class Card extends React.Component{
                   <TouchableHighlight
                     underlayColor={colors.mediumPurple}
                     onPress={(e)=>{ /*this.setState({activeIndex: 0}) */
-                    this.refs.scrollbox.scrollTo(0,0);
+                    this.refs.scrollbox.scrollTo({x:0,y:0});
                 } }
                     underlayColor={colors.mediumPurple}
                     style={[styles.circleimagewrap,{ backgroundColor:colors.outerSpace }]}
@@ -842,7 +842,7 @@ class Card extends React.Component{
                   <TouchableHighlight
                     underlayColor={colors.mediumPurple}
                     onPress={(e)=>{ /*this.setState({activeIndex: 1}) */
-                    this.refs.scrollbox.scrollTo(0,0);
+                    this.refs.scrollbox.scrollTo({x:0,y:0});
                   } }
 
                     underlayColor={colors.mediumPurple}

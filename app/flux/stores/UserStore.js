@@ -59,7 +59,7 @@ class UserStore {
     });
 
     this.on('afterEach', (x) => {
-      if(x.payload.payload && x.payload.payload.response && x.payload.payload.response.user_info || x.payload.payload.updates){
+      if(x.payload.payload && (x.payload.payload.response && x.payload.payload.response.user_info || x.payload.payload.updates)){
         Analytics.all('UPDATE USER store', {...x});
         this.save()
       }

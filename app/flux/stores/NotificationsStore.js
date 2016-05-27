@@ -52,7 +52,7 @@ class NotificationsStore {
     // });
 
     this.on('afterEach', (x) => {
-      if(x.payload.payload.notifications){
+      if(x.payload && x.payload.payload && x.payload.payload.notifications){
         Analytics.all('UPDATE notifications store', {...x});
       }
     });

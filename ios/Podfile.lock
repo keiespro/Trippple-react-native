@@ -1,4 +1,7 @@
 PODS:
+  - Crashlytics (3.7.0):
+    - Fabric (~> 1.6.3)
+  - Fabric (1.6.7)
   - HotlineSDK (1.0.8)
   - Mixpanel (2.9.7):
     - Mixpanel/Mixpanel (= 2.9.7)
@@ -6,15 +9,19 @@ PODS:
   - NewRelicAgent (5.4.1)
 
 DEPENDENCIES:
+  - Crashlytics
+  - Fabric
   - HotlineSDK
   - Mixpanel
   - NewRelicAgent
 
 SPEC CHECKSUMS:
+  Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
+  Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   HotlineSDK: c707415e5fbd43653fcd258d5482e9d1e5617d53
   Mixpanel: 511b829df757acc1c15d54e50342e85e6023d64d
   NewRelicAgent: c85f94358d6e02761cae6707364c4402a352a08f
 
-PODFILE CHECKSUM: 974b9844fc459766b3f0d82f759ad319a97b856a
+PODFILE CHECKSUM: 638eb88664ad5fccb067c0efa001cef982e87aa7
 
 COCOAPODS: 1.0.0

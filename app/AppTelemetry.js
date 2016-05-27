@@ -3,13 +3,12 @@ import { NativeModules, NetInfo, AsyncStorage } from  'react-native'
 import base64 from 'base-64'
 import Analytics from './utils/Analytics'
 import AppInfo from 'react-native-app-info'
-import DeviceInfo from 'react-native-device'
-import Promise from 'bluebird'
+ import Promise from 'bluebird'
 import Api from './utils/api'
 const { join, all } = Promise;
 
 
-const { RNAppInfo,SettingsManager } = NativeModules
+const { RNAppInfo,SettingsManager, RNDeviceInfo } = NativeModules
 
 class AppTelemetry{
   async getPayload(){
@@ -25,7 +24,7 @@ class AppTelemetry{
     } = RNAppInfo;
 
     const telemetryPayload = {
-            DeviceInfo,
+            DeviceInfo:RNDeviceInfo,
             osSettings: SettingsManager.settings,
             state: JSON.parse(snapshot),
             appInfo: {

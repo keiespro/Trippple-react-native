@@ -382,7 +382,7 @@ class ChatInside extends Component{
     MatchActions.sendMessage(this.state.textInputValue, this.props.match_id, timestamp)
     MatchActions.sendMessageToServer.defer(this.state.textInputValue, this.props.match_id)
     this.setState({ textInputValue: '' })
-    this.refs.scroller && this.refs.scroller.refs.listviewscroll.scrollTo(0,0)
+    this.refs.scroller && this.refs.scroller.scrollTo({x:0,y:0})
 
   }
 

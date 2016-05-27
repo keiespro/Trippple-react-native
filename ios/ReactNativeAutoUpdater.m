@@ -506,6 +506,8 @@ RCT_EXPORT_METHOD(checkUpdate:(RCTResponseSenderBlock)callback)
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
   if (error) {
+    NSLog(@"[FAIL]: %@", error.localizedDescription);
+
     NSLog(@"[ReactNativeAutoUpdater]: %@", error.localizedDescription);
   }
 }

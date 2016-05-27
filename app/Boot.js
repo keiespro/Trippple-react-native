@@ -1,5 +1,7 @@
 import React from "react";
-import {AsyncStorage, Settings,NativeModules} from "react-native";
+import {
+  NativeModules,Settings
+} from "react-native"
 import App from './components/app'
 import LoadingOverlay from './components/LoadingOverlay'
 import Keychain from 'react-native-keychain'

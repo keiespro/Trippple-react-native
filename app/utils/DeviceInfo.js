@@ -1,12 +1,13 @@
 import {NativeModules} from 'react-native'
-const {DeviceUtil} = NativeModules
+const {RNDeviceInfo} = NativeModules
 
 const DeviceInfo = {
-  uuid: DeviceUtil.identifierForVendor,
-  version: DeviceUtil.systemVersion,
-  platform: DeviceUtil.systemName,
-  model: DeviceUtil.model
+  uuid: RNDeviceInfo.uniqueId,
+  version: RNDeviceInfo.systemVersion,
+  platform: RNDeviceInfo.systemName,
+  name: RNDeviceInfo.deviceName,
+  locale: RNDeviceInfo.deviceLocale,
+  country: RNDeviceInfo.deviceCountry
 }
 
-__DEV__ && console.table && console.table(...DeviceInfo);
 export default DeviceInfo

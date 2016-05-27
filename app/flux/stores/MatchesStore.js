@@ -61,7 +61,7 @@ class MatchesStore {
     });
 
     this.on( 'afterEach', ( x ) => {
-      if(x.payload.payload.matches && x.payload.payload.matches.length && x.payload.details.name != 'getPotentials'){
+      if(x.payload && x.payload.payload && x.payload.payload.matches && x.payload.payload.matches.length && x.payload.details.name != 'getPotentials'){
         Analytics.all( 'UPDATE Matches store', {...x });
       }
     })

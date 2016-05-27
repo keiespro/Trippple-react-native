@@ -42,7 +42,7 @@ class ChatStore {
     });
 
     this.on('afterEach', (x) => {
-      if(x.payload.payload.messages && x.payload.payload.messages.length ){
+      if(x.payload && x.payload.payload && x.payload.payload.messages && x.payload.payload.messages.length ){
         Analytics.all('UPDATE Chat Store', {...x});
       }
     });

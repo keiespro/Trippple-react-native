@@ -5,7 +5,6 @@ import AppActions from '../actions/AppActions'
 
 import config from '../../config'
 const {KEYCHAIN_NAMESPACE} = config
-import Device from 'react-native-device'
 
 import Analytics from '../../utils/Analytics'
 

@@ -195,7 +195,7 @@ class Onboard extends Component{
           sceneStyle={styles.container}
           navigationBar={false}
           ref={'onboardingNavigator'}
-          initialRoute={this.props.user.partner_id ? RouteStackCouple[3] : RouteStackSingle[0]}
+          initialRoute={ RouteStackSingle[0]}
 
         />
       </View>

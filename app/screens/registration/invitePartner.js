@@ -20,6 +20,7 @@ class InvitePartner extends React.Component{
   onPress(){
 
     this.props.navigator.push({
+      name: 'Select Parnter from Contacts',
       component: Contacts,
       title:'Contacts',
       sceneConfig: Navigator.SceneConfigs.FloatFromBottom

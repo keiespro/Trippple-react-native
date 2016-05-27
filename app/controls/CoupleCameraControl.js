@@ -2,7 +2,7 @@ import React from "react";
 import {Component} from "react";
 import {StyleSheet, CameraRoll, Text, Image, View, TouchableOpacity, TouchableHighlight} from "react-native";
 
-import Camera from 'react-native-camera';
+import Camera from '../RNCamera-FIX';
 import colors from '../utils/colors'
 import Dimensions from 'Dimensions';
 import BackButton from '../components/BackButton'
@@ -21,17 +21,17 @@ class CoupleCameraControl extends Component{
       cameraType: Camera.constants.Type.front
     }
   }
-  // _goBack(){
-  //   this.setState({
-  //     image: null
-  //   })
-  //   if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
+  _goBack(){
+    this.setState({
+      image: null
+    })
+    if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
 
-  //     this.props.navigator.pop()
-  //   }else{
-  //     OnboardingActions.proceedToPrevScreen()
-  //   }
-  // }
+      this.props.navigator.pop()
+    }else{
+      OnboardingActions.proceedToPrevScreen()
+    }
+  }
 
   render() {
 

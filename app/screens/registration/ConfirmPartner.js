@@ -51,7 +51,7 @@ class ConfirmPartner extends React.Component{
       }
       UserActions.selectPartner({
         phone,
-        name: this.props.partner.firstName || this.props.partner.displayName,
+        name: this.props.partner.firstName || this.props.partner.givenName  ,
       })
       const rs = this.props.navigator.getCurrentRoutes()
       this.setTimeout(()=>{
@@ -75,7 +75,7 @@ class ConfirmPartner extends React.Component{
     const hasPhone = this.props.partner && this.props.partner.phoneNumbers && this.props.partner.phoneNumbers.length && this.props.partner.phoneNumbers.length > 0 && this.props.partner.phoneNumbers[0].number;
     if(!this.props.partner || !hasPhone){ return false }
 
-    const invitedName = this.props.partner.firstName && this.props.partner.firstName.toUpperCase() || '',
+    const invitedName = this.props.partner.firstName && this.props.partner.firstName.toUpperCase() || (this.props.partner.givenName && this.props.partner.givenName.toUpperCase() ) || '',
           manyPhones = this.props.partner.phoneNumbers && this.props.partner.phoneNumbers.length;
 
     return (
@@ -102,7 +102,7 @@ class ConfirmPartner extends React.Component{
                     fontSize:22,marginVertical:10,color: colors.shuttleGray,flex:1,
                   }]}>{this.props.partner.phoneNumbers && this.props.partner.phoneNumbers.length > 1 ?
                 `What number should we use to invite ${this.props.partner.firstName}` :
-                `Invite ${this.props.partner.firstName} as your partner? \n ${this.props.partner.phoneNumbers[0].number}`
+                `Invite ${this.props.partner.firstName || 'them'} as your partner? \n ${this.props.partner.phoneNumbers[0].number}`
                   }
                 </Text>
 

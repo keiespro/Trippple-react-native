@@ -43,7 +43,7 @@ class PotentialsStore {
     });
 
     this.on('afterEach', (x) => {
-      if( x.payload.payload.matches && x.payload.payload.matches.length){
+      if(x.payload && x.payload.payload && x.payload.payload.matches && x.payload.payload.matches.length){
         Analytics.all('UPDATE Potentials Store', {...x});
       }
     });
@@ -55,7 +55,7 @@ class PotentialsStore {
   }
 
   handleGetPotentials(data) {
-    if(data.matches.length){
+    if(data && data.matches.length){
       var potentials;
 
 
@@ -83,7 +83,7 @@ class PotentialsStore {
   }
 
   handleGetFakePotentials(data) {
-    if(data.matches.length){
+    if(data && data.matches.length){
       var potentials;
       if(!data.matches[0].user){
         potentials = data.matches.map((pot,i)=>{

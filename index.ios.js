@@ -8,7 +8,7 @@ import React from "react";
 import ReactNative, {View, AppRegistry, NativeModules} from "react-native";
 import Boot from './app/Boot'
 import alt from './app/flux/alt'
-import {whyDidYouUpdate} from 'why-did-you-update'
+// import {whyDidYouUpdate} from 'why-did-you-update'
 
 
 

@@ -5,7 +5,7 @@ import Mixpanel from 'react-native-mixpanel'
 
 function TrackEvt(name,e){
   let event = Object.keys(e).length ? e : null;
-  __DEV__ && console.log('Mixpanel: ', name , event ?  ' ---> '+ "| " +  event.name + " | <---" :  " <---")
+  // __DEV__ && console.log('Mixpanel: ', name , event ?  ' ---> '+ "| " +  event.name + " | <---" :  " <---")
   event ? Mixpanel.trackWithProperties(name, event) : Mixpanel.track(name)
 }
 
