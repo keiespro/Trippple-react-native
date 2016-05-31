@@ -21,6 +21,8 @@
 #import "ReactNativeAutoUpdater.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+#import "Hotline.h"
+//#import <Crashlytics/Answers.h>
 
 #define JS_CODE_METADATA_URL @"https://hello.trippple.co/update-2.3.0.json"
 
@@ -29,40 +31,69 @@
 
 - (BOOL)application:( UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [NRLogger setLogLevels:NRLogLevelError];
-  [NewRelicAgent disableFeatures:NRFeatureFlag_CrashReporting];
-  //https://docs.newrelic.com/docs/mobile-monitoring/new-relic-mobile-ios/install-configure/ios-agent-crash-reporting
-  [NewRelicAgent startWithApplicationToken:@"AAe71824253eeeff92e1794a97883d2e0c5928816f"];
-
-  [Fabric with:@[[Crashlytics class],[Answers class]]];
 
 
-  NSString *env = @"production";
-  NSURL* defaultMetadataFileLocation = [[NSBundle mainBundle] URLForResource:@"metadata" withExtension:@"json"];
-  NSURL* defaultJSCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  NSString *env = @"d";
+  
+  NSURL* defaultMetadataFileLocation = [[NSBundle mainBundle] URLForResource:@"metadata"
+                                                               withExtension:@"json"];
+ 
   NSURL* latestJSCodeLocation;
+  NSURL *defaultJSCodeLocation;
 
   NSLog(@"RUNNING IN %@",env);
-//
+  
+  [Fabric with:@[[Crashlytics class],[Answers class]]];
+  [NRLogger setLogLevels:NRLogLevelError];
+  [NewRelicAgent disableFeatures:NRFeatureFlag_CrashReporting];
+  [NewRelicAgent startWithApplicationToken:@"AAe71824253eeeff92e1794a97883d2e0c5928816f"];
+  
+  HotlineConfig *config = [[HotlineConfig alloc]initWithAppID:@"<App ID>"  andAppKey:@"<App Key>"];
+  
+  config.displayFAQsAsGrid = NO; // set to NO for List View
+  config.voiceMessagingEnabled = NO; // set NO to disable voice messaging
+  config.pictureMessagingEnabled = YES; // set NO to disable picture messaging (pictures from gallery/new images from camera)
+  config.cameraCaptureEnabled = YES; // set to NO for only pictures from the gallery (turn off the camera capture option)
+  config.agentAvatarEnabled = YES; // set to NO to turn of showing an avatar for agents. to customize the avatar shown, use the theme file
+  config.showNotificationBanner = YES; // set to NO if you don't want to show the in-app notification banner upon receiving a new message while the app is open
+  
+  [[Hotline sharedInstance] initWithConfig:config];
+  
+
+
+
+  
+  if([env isEqual: @"production"]){
+    //    PRODUCTION
+        defaultJSCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+
+  }else{
+    //     DEVELOPMENT
+        defaultJSCodeLocation = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
+
+  }
+  
   ReactNativeAutoUpdater* updater = [ReactNativeAutoUpdater sharedInstance];
-  [updater setDelegate:nil];
-  [updater initializeWithUpdateMetadataUrl:[NSURL URLWithString:JS_CODE_METADATA_URL]
-                     defaultJSCodeLocation:defaultJSCodeLocation
-               defaultMetadataFileLocation:defaultMetadataFileLocation ];
+    [updater setDelegate:nil];
+    [updater initializeWithUpdateMetadataUrl:[NSURL URLWithString:JS_CODE_METADATA_URL]
+                       defaultJSCodeLocation:defaultJSCodeLocation
+                 defaultMetadataFileLocation:defaultMetadataFileLocation ];
+
   [updater allowCellularDataUse: YES];
-  [updater setHostnameForRelativeDownloadURLs:@"hello.trippple.co"];
   [updater downloadUpdatesForType: ReactNativeAutoUpdaterPatchUpdate];
   [updater checkUpdate];
 
 
-  if([env  isEqual: @"production"]){
-//    PRODUCTION
-    latestJSCodeLocation = [updater latestJSCodeLocation];
-  }else{
-//     DEVELOPMENT
-    latestJSCodeLocation = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
-  }
+  
+    if([env  isEqual: @"production"]){
+      //PRODUCTION
+      latestJSCodeLocation = [updater latestJSCodeLocation];
+    }else{
+      // DEVELOPMENT
+      latestJSCodeLocation = defaultJSCodeLocation;
+    }
 
+  
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:latestJSCodeLocation
                                                       moduleName:@"Trippple"
                                                initialProperties:nil
