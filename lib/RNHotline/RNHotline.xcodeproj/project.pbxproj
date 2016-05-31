@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AC8958E01CFD28F2009AB211 /* RNHotline.m in Sources */ = {isa = PBXBuildFile; fileRef = 13BE3DED1AC21097009241FE /* RNHotline.m */; };
-		AC8958E21CFD2AF2009AB211 /* RNHotlineManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC8958E11CFD2AF2009AB211 /* RNHotlineManager.m */; };
+		AC8958EB1CFD44FF009AB211 /* RNHotlineController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC8958EA1CFD44FF009AB211 /* RNHotlineController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,11 +24,9 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNHotline.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNHotline.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		13BE3DEC1AC21097009241FE /* RNHotline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNHotline.h; sourceTree = SOURCE_ROOT; };
-		13BE3DED1AC21097009241FE /* RNHotline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNHotline.m; sourceTree = "<group>"; };
 		AC8958DD1CFD1B13009AB211 /* Hotline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hotline.h; sourceTree = "<group>"; };
-		AC8958E11CFD2AF2009AB211 /* RNHotlineManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNHotlineManager.m; sourceTree = "<group>"; };
-		AC8958E31CFD2B0F009AB211 /* RNHotlineManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNHotlineManager.h; sourceTree = "<group>"; };
+		AC8958EA1CFD44FF009AB211 /* RNHotlineController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNHotlineController.m; sourceTree = "<group>"; };
+		AC8958EC1CFD4685009AB211 /* RNHotlineController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNHotlineController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,11 +51,9 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				AC8958EA1CFD44FF009AB211 /* RNHotlineController.m */,
+				AC8958EC1CFD4685009AB211 /* RNHotlineController.h */,
 				AC8958DD1CFD1B13009AB211 /* Hotline.h */,
-				13BE3DEC1AC21097009241FE /* RNHotline.h */,
-				13BE3DED1AC21097009241FE /* RNHotline.m */,
-				AC8958E11CFD2AF2009AB211 /* RNHotlineManager.m */,
-				AC8958E31CFD2B0F009AB211 /* RNHotlineManager.h */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -119,8 +114,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC8958E01CFD28F2009AB211 /* RNHotline.m in Sources */,
-				AC8958E21CFD2AF2009AB211 /* RNHotlineManager.m in Sources */,
+				AC8958EB1CFD44FF009AB211 /* RNHotlineController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,14 +201,15 @@
 		58B511F01A9E6C8500147676 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../../React/**",
 					"$(SRCROOT)/../../node_modules/react-native/React/**/**",
 					"$(SRCROOT)/node_modules/react-native/React/**/**",
-					"../../node_modules/react-native/React/**/**",
+					"../node_modules/react-native/React/**/**",
+					"$(SRCROOT)/ios/Trippple/**",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -223,6 +218,7 @@
 					"$(SRCROOT)/../../node_modules/react-native/React/**/**",
 					"$(SRCROOT)/node_modules/react-native/React/**/**",
 					"../node_modules/react-native/React/**/**",
+					"$(SRCROOT)/ios/Trippple/**",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -234,20 +230,22 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = RNHotline;
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../react-native/React/**";
 			};
 			name = Debug;
 		};
 		58B511F11A9E6C8500147676 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../../React/**",
 					"$(SRCROOT)/../../node_modules/react-native/React/**/**",
 					"$(SRCROOT)/node_modules/react-native/React/**/**",
-					"../../node_modules/react-native/React/**/**",
+					"../node_modules/react-native/React/**/**",
+					"$(SRCROOT)/ios/Trippple/**",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -256,6 +254,7 @@
 					"$(SRCROOT)/../../node_modules/react-native/React/**/**",
 					"$(SRCROOT)/node_modules/react-native/React/**/**",
 					"../node_modules/react-native/React/**/**",
+					"$(SRCROOT)/ios/Trippple/**",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -267,6 +266,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = RNHotline;
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../react-native/React/**";
 			};
 			name = Release;
 		};
