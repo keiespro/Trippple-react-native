@@ -1,5 +1,5 @@
 target "Trippple" do
-  pod 'HotlineSDK'
+  pod 'HotlineSDK' => '1.0.13'
   pod 'Mixpanel'
   pod 'NewRelicAgent'
   pod 'Fabric'

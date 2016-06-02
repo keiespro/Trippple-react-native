@@ -24,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNHotline.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNHotline.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC55AD8F1CFE766400326ED9 /* RNHotlineViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNHotlineViewManager.m; sourceTree = "<group>"; };
 		AC8958DD1CFD1B13009AB211 /* Hotline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hotline.h; sourceTree = "<group>"; };
 		AC8958EA1CFD44FF009AB211 /* RNHotlineController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNHotlineController.m; sourceTree = "<group>"; };
 		AC8958EC1CFD4685009AB211 /* RNHotlineController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNHotlineController.h; sourceTree = "<group>"; };
@@ -51,6 +52,7 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				AC55AD8F1CFE766400326ED9 /* RNHotlineViewManager.m */,
 				AC8958EA1CFD44FF009AB211 /* RNHotlineController.m */,
 				AC8958EC1CFD4685009AB211 /* RNHotlineController.h */,
 				AC8958DD1CFD1B13009AB211 /* Hotline.h */,

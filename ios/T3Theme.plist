@@ -15,7 +15,7 @@
 		<key>ChatBubbleTimeFontName</key>
 		<string>HelveticaNeue</string>
 		<key>ChatBubbleTimeFontSize</key>
-		<string>11.0f</string>
+		<string>15.0f</string>
 		<key>ConversationUIFontName</key>
 		<string>HelveticaNeue</string>
 		<key>ActionButtonTextColor</key>
@@ -166,7 +166,7 @@
 	<key>NavigationBar</key>
 	<dict>
 		<key>BackgroundColor</key>
-		<string>F8F8F8</string>
+		<string>FFFFFF</string>
 		<key>ButtonColor</key>
 		<string>0079FF</string>
 		<key>ButtonFontName</key>
@@ -183,7 +183,7 @@
 	<key>OverallSettings</key>
 	<dict>
 		<key>BackgroundColor</key>
-		<string>EFEFF4</string>
+		<string>FFFFFF</string>
 		<key>TalkToUsButtonFontColor</key>
 		<string>FFFFFF</string>
 		<key>TalkToUsButtonBackgroundColor</key>
@@ -219,11 +219,11 @@
 	<key>TableView</key>
 	<dict>
 		<key>CellBackgroundColor</key>
-		<string>FFFFFF</string>
+		<string>ffffff</string>
 		<key>CellSeparatorColor</key>
 		<string>F2F2F2</string>
 		<key>TitleFontColor</key>
-		<string>222222</string>
+		<string>111111</string>
 		<key>TitleFontName</key>
 		<string>HelveticaNeue</string>
 		<key>TitleFontSize</key>

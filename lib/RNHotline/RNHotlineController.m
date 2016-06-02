@@ -32,20 +32,81 @@ RCT_EXPORT_MODULE();
 
 
 RCT_EXPORT_METHOD(showConvos) {
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        [delegate.rootViewController presentViewController:[[Hotline sharedInstance] getConversationsControllerForEmbed] animated:YES completion:nil];
-//    });
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    UIViewController *v = [[Hotline sharedInstance] getConversationsControllerForEmbed];
+//    UIViewController *vc =
+//    [v.childViewControllers enumerateObjectsUsingBlock:^( UIViewController *obj, NSUInteger idx, BOOL *stop) {
+//        NSLog(@"%@",NSStringFromClass(obj.class));
+//
+//    }];
+//    v.removeFromParentViewController;
+    
+//        [v.childViewControllers enumerateObjectsUsingBlock:^( UIViewController *obj, NSUInteger idx, BOOL *stop) {
+//            NSLog(@"%@",NSStringFromClass(obj.class));
+//    
+//        }];
+
+//    UIView *vi = v.view;
+//    NSLog(@"%@",v.class);
+//    NSLog(@"%@",vi.class);
+////HLCategoriesListController
+//    UIViewController *x = vi.inputViewController;
+////    x.
+//    NSLog(@"%@",x.class);
+//    NSLog(@"%@",[v.childViewControllers objectAtIndex: 1].class);
+//    NSLog(@"%@",[v.childViewControllers objectAtIndex: 2].class);
+//    NSLog(@"%@",[v.childViewControllers objectAtIndex: 3].class);
+//    NSLog(@"%@",[v.childViewControllers objectAtIndex: 4].class);
+
+//    NSLog(@"%@",NSStringFromClass(x.class));
+
+//    [UIViewController alloc];
+//    vc.removeFromParentViewController;
+
+    UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:v];
+    [delegate.rootViewController presentViewController:n animated:YES completion:nil];
+}
+
+RCT_EXPORT_METHOD(showChat) {
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    UIViewController *v = [[Hotline sharedInstance] getConversationsControllerForEmbed];
+    UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:v];
+//    [n pushViewController:v animated:YES];
+
+    [delegate.rootViewController presentViewController:n animated:YES completion:nil];
 }
 
 RCT_EXPORT_METHOD(showFaqs) {
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        [delegate.rootViewController presentViewController:[[Hotline sharedInstance] getFAQsControllerForEmbed] animated:YES completion:nil];
-//    });
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    UIViewController *v = [[Hotline sharedInstance] getFAQsControllerForEmbed];
+        UIView *vi = v.view;
+//[    v 
+        NSLog(@"%@",v.class);
+     NSLog(@"N %@", [v.view.subviews objectAtIndex:1]);
+        NSLog(@"%@",vi.class);
+    NSLog(@"%@",vi.class);
+//    
+//            [vi.subviews enumerateObjectsUsingBlock:^( UIView *obj, NSUInteger idx, BOOL *stop) {
+//                NSLog(@"%@",NSStringFromClass(obj.class));
+//                
+//            }];
+        NSLog(@"%@",[[vi.subviews objectAtIndex: 0].subviews objectAtIndex:0].class);
+    NSLog(@"%@",[[vi.subviews objectAtIndex: 1].subviews objectAtIndex:0].class);
+
+    UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:v];
+    [delegate.rootViewController presentViewController:n animated:YES completion:nil];
 }
 
-RCT_EXPORT_METHOD(hideEmbed) {
+RCT_EXPORT_METHOD(showFaqsForMainCategory) {
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+//    UIViewController *v = [[Hotline sharedInstance] getFAQsControllerForEmbed];
+//    UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:v];
+//    [ presentViewController:n animated:YES completion:nil];
+    [[Hotline sharedInstance] showFAQs:delegate.rootViewController];
+
+}
+
+RCT_EXPORT_METHOD(hideView) {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [delegate.rootViewController dismissViewControllerAnimated:YES completion:nil];
 }

@@ -22,7 +22,7 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #import "Hotline.h"
-//#import <Crashlytics/Answers.h>
+#import <Crashlytics/Answers.h>
 
 #define JS_CODE_METADATA_URL @"https://hello.trippple.co/update-2.3.0.json"
 
@@ -44,24 +44,23 @@
   NSLog(@"RUNNING IN %@",env);
   
   [Fabric with:@[[Crashlytics class],[Answers class]]];
+
   [NRLogger setLogLevels:NRLogLevelError];
   [NewRelicAgent disableFeatures:NRFeatureFlag_CrashReporting];
   [NewRelicAgent startWithApplicationToken:@"AAe71824253eeeff92e1794a97883d2e0c5928816f"];
   
-  HotlineConfig *config = [[HotlineConfig alloc]initWithAppID:@"<App ID>"  andAppKey:@"<App Key>"];
+  HotlineConfig *config = [[HotlineConfig alloc]initWithAppID:@"f54bba2a-84fa-43c8-afa9-098f3c1aefae"  andAppKey:@"fba1b915-fa8b-4c24-bdda-8bac99fcf92a"];
   
   config.displayFAQsAsGrid = NO; // set to NO for List View
   config.voiceMessagingEnabled = NO; // set NO to disable voice messaging
   config.pictureMessagingEnabled = YES; // set NO to disable picture messaging (pictures from gallery/new images from camera)
-  config.cameraCaptureEnabled = YES; // set to NO for only pictures from the gallery (turn off the camera capture option)
+  config.cameraCaptureEnabled = NO; // set to NO for only pictures from the gallery (turn off the camera capture option)
   config.agentAvatarEnabled = YES; // set to NO to turn of showing an avatar for agents. to customize the avatar shown, use the theme file
   config.showNotificationBanner = YES; // set to NO if you don't want to show the in-app notification banner upon receiving a new message while the app is open
+  config.themeName = @"T3Theme";
   
   [[Hotline sharedInstance] initWithConfig:config];
   
-
-
-
   
   if([env isEqual: @"production"]){
     //    PRODUCTION
@@ -104,30 +103,38 @@
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
+  self.rootViewController = rootViewController;
+
   [self.window makeKeyAndVisible];
   return [[FBSDKApplicationDelegate sharedInstance] application:application
                                     didFinishLaunchingWithOptions:launchOptions];
 }
 
 
-
-
-
-// Required to register for notifications
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {
  [RCTPushNotificationManager didRegisterUserNotificationSettings:notificationSettings];
+  // Required to register for notifications
 }
-// Required for the register event.
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
  [RCTPushNotificationManager didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+  // Required for the register event.
 }
-// Required for the notification event.
+
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)notification
 {
  [RCTPushNotificationManager didReceiveRemoteNotification:notification];
+  // Required for the notification event.
 }
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
+  [RCTPushNotificationManager didReceiveLocalNotification:notification];
+  // Required for the localNotification event.
+}
+
 
 
 - (void)createReactRootViewFromURL:(NSURL*)url

@@ -8,8 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "../../node_modules/react-native/React/Views/RCTViewManager.h"
-@import "RCTViewManager.h"
+#import "RCTViewManager.h"
 #import "hotline.h"
 
 @interface RNHotlineViewManager : RCTViewManager
@@ -21,9 +20,9 @@ RCT_EXPORT_MODULE();
 
 - (UIView *)view
 {
-    UIViewController *v = [[Hotline sharedInstance] getFAQsControllerForEmbed];
+    UIViewController *v = [[Hotline sharedInstance] getConversationsControllerForEmbed];
+    UINavigationController *n = [UINavigationController alloc];
     UIView *x = v.view;
-    
     return x;
 }
 
