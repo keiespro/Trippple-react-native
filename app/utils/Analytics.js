@@ -27,7 +27,6 @@ class Analytics{
 
   identifyUser(user){
     if(!user || !user.id) return false;
-    console.log(user)
     // if(!this.userid){
       //  if(!Settings.get(HAS_IDENTITY)){
       // }
@@ -42,7 +41,7 @@ class Analytics{
   }
 
   setFullIdentityOnce(user){
-    console.log('setFullIdentityOnce',user);
+    __DEV__ && console.log('setFullIdentityOnce',user);
     const mxProps = {
       "$phone": user.phone,
       "$area_code": user.phone.slice(0,3),
@@ -101,7 +100,7 @@ class Analytics{
 
     // __DEV__ && console.log(`Screen: ${screen}`)
     GoogleAnalytics.trackScreenView(screen);
-    Mixpanel.track('Screen', {name: screen});
+    Mixpanel.track('Screen ' +screen);
 
   }
 

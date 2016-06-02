@@ -47,14 +47,12 @@ async function baseRequest(endpoint='': String, payload={}: Object){
     if(!res.json){
       __DEV__ && console.log('no res.json')
     }
-    console.log(res);
+    __DEV__ && console.log(res);
     let response = await res.json()
 
     return Promise.try(() => {
       __DEV__ && console.log(`API RESPONSE <<<<<<---- ${endpoint} | `,response)
-      returnResponse =  {...response, res: response}
-      console.log(returnResponse);
-      return returnResponse
+      return  {...response, res: response}
     }).catch((err)=>{
       throw new Error({error:err})
     })
