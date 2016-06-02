@@ -27,7 +27,7 @@ class NotificationActions {
       PushNotificationIOS.requestPermissions({alert:true,badge:true,sound:true})
     };
   }
-  receiveAPNtoken(token) {
+  receiveApnToken(token) {
 
     return (dispatch) => {
       Analytics.setUserProperties({ios_devices: [token]} )
@@ -77,7 +77,7 @@ class NotificationActions {
       if(!isBackground){
         dispatch(payload)
       }else{
-        dispatch()
+        dispatch({})
       }
     }
   }
@@ -91,7 +91,7 @@ class NotificationActions {
       if(!isBackground){
         dispatch(payload)
       }else{
-        dispatch()
+        dispatch({})
       }
     }
   }

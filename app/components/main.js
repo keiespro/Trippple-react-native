@@ -149,7 +149,7 @@ class Main extends Component{
   }
   _setModalVisible(s){
 
-
+    this.setState({modalVisible:false})
     // AppActions.showNotificationModalWithLikedUser(relevantUser)
 
   }
@@ -168,8 +168,7 @@ class Main extends Component{
           modalVisible={this.state.modalVisible}
           setModalVisible={this._setModalVisible.bind(this)}
         />
-        <OverlayModalOuter
-        />
+        <OverlayModalOuter modalVisible={this.state.modalVisible}/>
       </View>
     );
   }
@@ -193,7 +192,7 @@ class OverlayModalOuter extends Component{
 
     return (
       <AltContainer store={storeFetcher}>
-          <OverlayModalInner/>
+          <OverlayModalInner modalVisible={this.state.modalVisible}/>
        </AltContainer>
     )
   }
@@ -206,21 +205,27 @@ class OverlayModalInner extends Component{
     }
   }
   componentWillReceiveProps(nProps){
+
+    if(nProps.modalVisible && !this.props.modalVisible){
+      this.setModalVisible(false)
+
+    }
     if(nProps.hasSeenNotificationPermission){
       this.setModalVisible(false)
 
-    } else if(!nProps.hasSeenNotificationPermission && nProps.relevantUser && !this.props.relevantUser){
+    } else if(!nProps.hasSeenNotificationPermission && nProps.relevantUser ){
       this.setModalVisible(true)
     }else{
-
+      if(nProps.relevantUser ){
+        this.setModalVisible(true)
+      }
     }
   }
   setModalVisible(v){
     this.setState({modalVisible:v})
-
   }
   shouldComponentUpdate(nProps,nState){
-    return nState.modalVisible != this.state.modalVisible || nProps.relevantUser != this.props.relevantUser
+    return  (nState.modalVisible != this.state.modalVisible) || (nProps.relevantUser != this.props.relevantUser)
   }
   render(){
     return (
@@ -229,9 +234,9 @@ class OverlayModalInner extends Component{
         animated={true}
         transparent={true}
         visible={this.state.modalVisible}
-        onRequestClose={() => {this.setModalVisible(false)}}
+        onRequestClose={this.setModalVisible.bind(this,false)}
       >
-        <NotificationPermissions relevantUser={this.props.relevantUser} close={() => {this.setModalVisible(false)}}/>
+        <NotificationPermissions relevantUser={this.props.relevantUser} close={this.setModalVisible.bind(this,false)}/>
       </Modal>
     )
   }

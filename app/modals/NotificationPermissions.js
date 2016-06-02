@@ -82,9 +82,9 @@ class NotificationPermissions extends React.Component{
           },0);
 
           if(permResult == 0){
-            NotificationActions.requestNotificationsPermission({alert:true,badge:true,sound:true})
-            this.props.successCallback();
-            this.props.navigator.pop()
+            PushNotificationIOS.addEventListener('register', this.handleNotificationPermission.bind(this));
+            PushNotificationIOS.requestPermissions({alert:true,badge:true,sound:true})
+
 
           }else{
             this.setState({permissions, hasPermission: permResult > 0})
@@ -104,11 +104,18 @@ class NotificationPermissions extends React.Component{
       this.setState({hasPermission: true})
 
     }
+    handleNotificationPermission(token){
+      NotificationActions.rceiveApnToken(token)
+      this.props.successCallback();
+      this.props.navigator.pop()
+
+    }
     componentDidMount() {
       AppState.addEventListener('change', this._handleAppStateChange.bind(this));
     }
     componentWillUnmount() {
       AppState.removeEventListener('change', this._handleAppStateChange);
+      PushNotificationIOS.removeEventListener('register', this.handleNotificationPermission.bind(this));
     }
     _handleAppStateChange(currentAppState) {
       if(currentAppState == 'active'){
@@ -133,9 +140,9 @@ class NotificationPermissions extends React.Component{
               style={[{width:150,height:150,borderRadius:75,marginVertical:20}]}
               source={
                 this.state.failedState ? {uri: 'assets/iconModalDenied@3x.png'} :
-                  relevantUser.image_url ? {uri: relevantUser.image_url} : {uri:'assets/placeholderUser@3x.png'}
+                  relevantUser.image_url ? {uri: relevantUser.image_url} : {uri:'assets/iconModalDenied@3x.png'}
               }
-                defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+                defaultSource={{uri: 'assets/iconModalDenied@3x.png'}}
 
             />
             <View style={styles.insidemodalwrapper}>

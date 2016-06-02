@@ -6,16 +6,16 @@ import NotificationActions from '../flux/actions/NotificationActions'
 import MatchActions from '../flux/actions/MatchActions'
 import AppActions from '../flux/actions/AppActions'
 import colors from '../utils/colors'
+
 import NotificationPermissions from '../modals/NewNotificationPermissions'
 import {MagicNumbers} from '../DeviceConfig'
 
 const TripppleSettingsKeys = [
-  'HasSeenNotificationRequest',
-  'ShouldSeeNotificationRequest',
+  ...SettingsConstants,
   'LocationSetting',
-  'NotificationSetting',
-  'HasSeenStarterPack'
-]
+];
+import SettingsConstants, { HAS_SEEN_NOTIFICATION_REQUEST, LAST_ASKED_NOTIFICATION_PERMISSION, NOTIFICATION_SETTING } from '../utils/SettingsConstants'
+
 
 class SettingsDebug extends React.Component{
   constructor(props){
@@ -117,9 +117,9 @@ class SettingsDebug extends React.Component{
              <TouchableHighlight
              onPress={()=>{
                Settings.set({
-                  'co.trippple.HasSeenNotificationRequest':null,
-                  'co.trippple.LastNotificationsPermissionRequestTimestamp': null
-                })
+                  HAS_SEEN_NOTIFICATION_REQUEST:null, LAST_ASKED_NOTIFICATION_PERMISSION:null, NOTIFICATION_SETTING:null,
+                });
+                PushNotificationIOS.abandonPermissions()
 
              }} >
              <View style={styles.wrapfield}>

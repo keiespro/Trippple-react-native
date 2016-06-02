@@ -3,7 +3,7 @@
 
 import React from "react";
 
-import {StyleSheet, Text, View, SwitchIOS,Settings, PixelRatio, PushNotificationIOS, NativeModules, AsyncStorage, Dimensions} from "react-native";
+import {StyleSheet, Text, View, SwitchIOS, Settings, PixelRatio, PushNotificationIOS, NativeModules, AsyncStorage, Dimensions} from "react-native";
 
 import NotificationActions from '../flux/actions/NotificationActions'
 import colors from '../utils/colors'
@@ -17,7 +17,7 @@ const DeviceWidth = Dimensions.get('window').width
 import Analytics from '../utils/Analytics'
 
 var {OSPermissions} = NativeModules
-
+import { HAS_SEEN_NOTIFICATION_REQUEST, LAST_ASKED_NOTIFICATION_PERMISSION, NOTIFICATION_SETTING } from '../utils/SettingsConstants'
 
 class PermissionSwitches extends React.Component{
   constructor(props){
@@ -29,19 +29,13 @@ class PermissionSwitches extends React.Component{
     }
   }
   componentWillMount(){
-    // AsyncStorage.multiGet(['LocationSetting','NotificationSetting'])
-    // .then((settings) => {
-      // console.log(settings);
-      const LocationSetting = Settings.get('LocationSetting')// settings[0][1] ? JSON.parse(settings[0][1]) : false;
-      const NotificationSetting = Settings.get('NotificationSetting')//settings[1][1] ? JSON.parse(settings[1][1]) : false;
+      const LocationSetting = Settings.get('LocationSetting') || "null";// settings[0][1] ? JSON.parse(settings[0][1]) : false;
+      const NotificationSetting = Settings.get(NOTIFICATION_SETTING) || Settings.get(NOTIFICATION_SETTING) ||  null;//settings[1][1] ? JSON.parse(settings[1][1]) : false;
 
       this.setState({
-        LocationSetting: JSON.parse(OSPermissions.location) > 2 && LocationSetting ? true : false,
-        NotificationSetting: OSPermissions.notifications && NotificationSetting ? true : false,
+        LocationSetting: JSON.parse(OSPermissions.location) > 2 || JSON.parse(LocationSetting) ? true : false,
+        NotificationSetting: NotificationSetting ? true : false,
       })
-    // }).catch((err) => {
-    //
-    // })
   }
   toggleLocation(){
     Analytics.event('Interaction',{
@@ -114,8 +108,8 @@ class PermissionSwitches extends React.Component{
           })
         }else{
           const newValue = !this.state.NotificationSetting;
-          this.setState({ NotificationSetting: newValue });
-          Settings.set({NotificationSetting:newValue})
+          this.setState({ [NOTIFICATION_SETTING]: newValue });
+          Settings.set({ [NOTIFICATION_SETTING]:newValue})
           NotificationActions.requestNotificationsPermission()
         }
       })

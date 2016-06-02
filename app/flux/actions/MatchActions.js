@@ -73,7 +73,7 @@ class MatchActions {
 
     return (dispatch) => {
       if(!matchID) {
-        dispatch({messages: []})
+        // dispatch({messages: []})
       }
       Api.getMessages({match_id: matchID, page: page || false})
       .then((res) => {
@@ -228,22 +228,21 @@ class MatchActions {
 
   sendLike(likedUserID, likeStatus, likeUserType, rel_status) {
     return (dispatch) => {
+
+              Analytics.extra('Social',{
+                type: likeStatus == 'approve' ? 'positive' : 'negative',
+                name: (likeStatus == 'approve' ? 'Like' : 'Dislike'),
+                target: likedUserID
+              })
+              Analytics.increment('Swipes',1)
+              Analytics.increment(likeStatus == 'approve' ? 'Likes' : 'Dislikes',1)
+
       Api.sendLike(likedUserID, likeStatus,likeUserType,rel_status)
       .then((res)=>{
         this.removePotential.defer();
 
-        Analytics.extra('Social',{
-          type: likeStatus == 'approve' ? 'positive' : 'negative',
-          name: (likeStatus == 'approve' ? 'Like' : 'Dislike'),
-          target: likedUserID
-        })
-        Analytics.increment('Swipes',1)
-        Analytics.increment(likeStatus == 'approve' ? 'Likes' : 'Dislikes',1)
-
-
         dispatch({likedUserID,likeStatus});
       })
-
       .catch((err)=>{
         this.removePotential.defer();
         dispatch(err)

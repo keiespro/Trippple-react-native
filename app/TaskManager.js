@@ -45,7 +45,7 @@ export default class TaskManager extends React.Component{
 
   componentWillReceiveProps(nProps){
     if(nProps.triggers.relevantUser && !this.props.triggers.relevantUser && nProps.triggers.requestNotificationsPermission && !this.props.triggers.requestNotificationsPermission){
-      this.showNotificationRequest(nProps.triggers.relevantUser)
+      // this.showNotificationRequest(nProps.triggers.relevantUser)
     }
 
     // this.showNotificationRequest(nProps.triggers.relevantUser)
@@ -53,9 +53,10 @@ export default class TaskManager extends React.Component{
   }
   showNotificationRequest(relevantUser){
 
-    AppActions.showNotificationModalWithLikedUser.defer(relevantUser)
-          .then(()=>this.setHasSeenNotificationRequest())
-          .catch((err)=>{console.log(err);})
+    // AppActions.showNotificationModalWithLikedUser.defer(relevantUser)
+
+          // .then(()=>this.setHasSeenNotificationRequest())
+          // .catch((err)=>{console.log(err);})
 
   }
 

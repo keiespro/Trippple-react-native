@@ -1,22 +1,26 @@
 import alt from '../alt'
 import MatchActions from '../actions/MatchActions'
-import { AsyncStorage,Alert,Settings,NativeModules } from 'react-native'
+import { AsyncStorage,Alert,Settings,NativeModules,PushNotificationIOS } from 'react-native'
 import NotificationActions from '../actions/NotificationActions'
 import UserActions from '../actions/UserActions'
 import AppActions from '../actions/AppActions'
 import _ from 'underscore'
 import Analytics from '../../utils/Analytics'
-var {OSPermissions} = NativeModules
+
+import { HAS_SEEN_NOTIFICATION_REQUEST, LAST_ASKED_NOTIFICATION_PERMISSION, NOTIFICATION_SETTING, LEGACY_NOTIFICATION_SETTING } from '../../utils/SettingsConstants'
+
+const {OSPermissions} = NativeModules
 
 
 class PotentialsStore {
 
   constructor() {
 
-    this.potentials = []
-    this.hasSeenNotificationPermission = JSON.parse(OSPermissions.notifications) ||  Settings.get('co.trippple.HasSeenNotificationRequest')
-    this.LastNotificationsPermissionRequestTimestamp = Settings.get('co.trippple.LastNotificationsPermissionRequestTimestamp') || null,
-    this.blockedPotentials = []
+    this.potentials = [];
+    this.hasSeenNotificationPermission = Settings.get(HAS_SEEN_NOTIFICATION_REQUEST) || Settings.get(NOTIFICATION_SETTING) || Settings.get(LEGACY_NOTIFICATION_SETTING) || JSON.parse(OSPermissions.notifications);
+    this.LastNotificationsPermissionRequestTimestamp = Settings.get(LAST_ASKED_NOTIFICATION_PERMISSION) || null;
+
+    this.blockedPotentials = [];
 
     this.bindListeners({
       handleGetPotentials: MatchActions.GET_POTENTIALS,
@@ -25,7 +29,8 @@ class PotentialsStore {
       handleLogout: UserActions.LOG_OUT,
       handleRemovePotential: MatchActions.REMOVE_POTENTIAL,
       handleShowNotificationModalWithLikedUser: AppActions.SHOW_NOTIFICATION_MODAL_WITH_LIKED_USER,
-      handleDisableNotificationModal: AppActions.DISABLE_NOTIFICATION_MODAL
+      handleDisableNotificationModal: AppActions.DISABLE_NOTIFICATION_MODAL,
+      handleGotNotificationPermissionFromLike: NotificationActions.RECEIVE_APN_TOKEN
     });
 
     this.on('init', () => {
@@ -45,7 +50,12 @@ class PotentialsStore {
     this.on('afterEach', (x) => {
       if(x.payload && x.payload.payload && x.payload.payload.matches && x.payload.payload.matches.length){
         Analytics.all('UPDATE Potentials Store', {...x});
+
+        // const partialSnapshot = alt.takeSnapshot( this );
+        // Analytics.log( 'saving', partialSnapshot );
+        // AsyncStorage.setItem( 'PotentialsStore', JSON.stringify( partialSnapshot ) );
       }
+
     });
 
     this.exportPublicMethods({
@@ -121,24 +131,42 @@ class PotentialsStore {
   handleShowNotificationModalWithLikedUser(likedUser){
     // this.setState({ requestNotificationsPermission:true, relevantUser: likedUser})
     // this.emitChange()
+    // console.log(likedUser);
 
   }
   handleDisableNotificationModal(){
 
     this.setState({
       LastNotificationsPermissionRequestTimestamp: Date.now(),
-      requestNotificationsPermission:false,
+      requestNotificationsPermission: false,
       hasSeenNotificationPermission: true,
       relevantUser: null
     })
 
-  }
-  handleSentLike(payload){
 
+  }
+
+  handleGotNotificationPermissionFromLike(){
+    Settings.set({
+      [HAS_SEEN_NOTIFICATION_REQUEST]: true,
+      [LAST_ASKED_NOTIFICATION_PERMISSION]: nowTimestamp,
+      [NOTIFICATION_SETTING]: true
+    })
+
+    this.setState({
+      relevantUser: null,
+      hasSeenNotificationPermission: true
+    })
+
+  }
+
+  handleSentLike(payload){
     if(payload.matches && payload.matches.length > 0){
       this.handleGetPotentials(payload)
     }else{
       var {likedUserID,likeStatus} = payload
+
+      if(likeStatus != 'approve' && likeStatus != 'deny') return false;
 
       const potentials = this.potentials || []
       const newPotentials = [...potentials].filter((el,i)=>{
@@ -148,24 +176,24 @@ class PotentialsStore {
         return el.user.id == likedUserID || el.user.partner_id == likedUserID
       })
 
-      if(likeStatus == 'approve' && !this.hasSeenNotificationPermission && !this.LastNotificationsPermissionRequestTimestamp ){
+      if(likeStatus == 'approve' && !this.hasSeenNotificationPermission && !Settings.get(NOTIFICATION_SETTING)){
 
-        const stringifiedLikedUser = JSON.stringify(this.relevantUser);
+
         const nowTimestamp = Date.now();
 
-        Settings.set({
-          'co.trippple.HasSeenNotificationRequest': true,
-          'co.trippple.LastNotificationsPermissionRequestTimestamp':nowTimestamp,
-          NotificationSetting: true
-        })
         this.setState({
-          potentials:newPotentials, relevantUser: likedUser,
-          LastNotificationsPermissionRequestTimestamp:nowTimestamp
+          potentials: newPotentials,
+          relevantUser: likedUser,
+          LastNotificationsPermissionRequestTimestamp: nowTimestamp
         })
+
         AppActions.showNotificationModalWithLikedUser(likedUser);
 
       }else{
-        this.setState({ ...this.state, potentials:newPotentials, relevantUser: likedUser })
+        this.setState({ ...this.state,
+          potentials:newPotentials,
+          relevantUser: null
+        })
 
       }
 
@@ -177,11 +205,12 @@ class PotentialsStore {
     return _.filter(potentials, (p)=> blockedPotentials.indexOf(p.id));
   }
   getMeta(){
+    const s = this.getState()
     return {
-      LastNotificationsPermissionRequestTimestamp: this.getState().LastNotificationsPermissionRequestTimestamp,
-      relevantUser: this.getState().relevantUser,
-      requestNotificationsPermission: this.getState().requestNotificationsPermission,
-      hasSeenNotificationPermission: this.getState().hasSeenNotificationPermission
+      LastNotificationsPermissionRequestTimestamp: s.LastNotificationsPermissionRequestTimestamp,
+      relevantUser: s.relevantUser,
+      requestNotificationsPermission: s.requestNotificationsPermission,
+      hasSeenNotificationPermission: s.hasSeenNotificationPermission
     }
   }
 
