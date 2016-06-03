@@ -112,7 +112,6 @@ MockComponents.Image = Image;
 exports.MockComponents = MockComponents
 
 var ReactNative = {
-  ...React,
   ...MockComponents,
   StyleSheet: {
     create: (ss) => ss,

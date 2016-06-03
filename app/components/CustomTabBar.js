@@ -1,10 +1,10 @@
-// var React = require('react-native');
+// var React = require('react');
 // var {
 //   StyleSheet,
 //   Text,
 //   View,
 //   TouchableOpacity,
-// } = React;
+// } = require('react-native');
 //
 // var deviceWidth = Dimensions.get('window').width;
 // var precomputeStyle = require('precomputeStyle');

@@ -19,7 +19,7 @@ the background. Notice that all we need to do is wrap the content that
 we want to bring to the front in an `Overlay` element!
 
 ```javascript
-var React = require('react-native');
+var React = require('react');
 var Overlay = require('react-native-overlay');
 var BlurView = require('react-native-blur').BlurView;
 
@@ -27,7 +27,7 @@ var {
   View,
   ActivityIndicatorIOS,
   StyleSheet,
-} = React;
+} = require('react-native');
 
 var LoadingOverlay = React.createClass({
   getDefaultProps(): StateObject {

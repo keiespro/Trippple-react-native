@@ -18,7 +18,7 @@ class OnboardingActions {
       Analytics.event('Onboarding',{name:'Accept Partner Invitation', type:'Inferred Invite', phone })
 
       Api.joinCouple(phone)
-      dispatch()
+      dispatch({phone})
     }
   }
 

@@ -144,13 +144,11 @@ mixins:[TimerMixin],
   },
 swipeListener(v){
     const toValue = 0;
-    console.log(v,BTNTHRESHOLD)
 
   if(!this.state.isFullyOpen && Math.abs(v.value) > BTNTHRESHOLD){
     this.state.offsetX.removeListener(this.swipeListener);
 
        this.setState({isFullyOpen:true})
-        console.log('ACTION')
        const activatedButton = (v.value > 0 ? this.props.left[0] : this.props.right[0]);
       // handle = InteractionManager.createInteractionHandle();
 

@@ -24,6 +24,8 @@ import moment from 'moment'
 import { BlurView, VibrancyView } from 'react-native-blur'
 import Analytics from '../utils/Analytics';
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
+// import TimerMixin from 'react-timer-mixin';
+// import reactMixin from 'react-mixin'
 
 const styles = StyleSheet.create({
   container: {
@@ -181,18 +183,13 @@ const styles = StyleSheet.create({
   }
 });
 
-class ChatMessage extends React.Component {
-  constructor(props){
-
-    super();
-  }
-
-  render() {
+class ChatMessage extends React.Component{
+  render(){
     const isMessageOurs = (this.props.messageData.from_user_info.id === this.props.user.id || this.props.messageData.from_user_info.id === this.props.user.partner_id);
+
     if(!isMessageOurs){
       const {from_user_info} = this.props.messageData;
-
-      var {thumb_url,image_url} = from_user_info;
+      const {thumb_url,image_url} = from_user_info;
 
       /*
        * TODO:
@@ -209,9 +206,7 @@ class ChatMessage extends React.Component {
       }else{
         thumb = img+'';
       }
-
-
-
+      const thumb = img+'';
     }
     return (
       <View style={[styles.col]}>
@@ -224,11 +219,9 @@ class ChatMessage extends React.Component {
                 source={{uri: thumb}}
                 resizeMode={Image.resizeMode.cover}
                 defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
-
               />
-          </View> : null
+            </View> : null
           }
-
           { !isMessageOurs ?
             <Image
               resizeMode={Image.resizeMode.contain}
@@ -236,26 +229,25 @@ class ChatMessage extends React.Component {
               style={{left:1,width:10,height:22}}
             /> : null
           }
+          <View style={[styles.bubble,(isMessageOurs ? styles.ourMessage : styles.theirMessage),{alignSelf:'stretch'}]}>
 
-            <View style={[styles.bubble,(isMessageOurs ? styles.ourMessage : styles.theirMessage),{alignSelf:'stretch'}]}>
+            <Text style={[styles.messageText, styles.messageTitle,
+                  {color: isMessageOurs ? colors.shuttleGray : colors.lavender, fontFamily:'Montserrat'} ]}
+            >{ this.props.messageData.from_user_info.name.toUpperCase() }</Text>
 
-              <Text style={[styles.messageText, styles.messageTitle,
-                    {color: isMessageOurs ? colors.shuttleGray : colors.lavender, fontFamily:'Montserrat'} ]}
-              >{ this.props.messageData.from_user_info.name.toUpperCase() }</Text>
+            <Text style={styles.messageText} >{
+              this.props.text
+            }</Text>
 
-              <Text style={styles.messageText} >{
-                this.props.text
-              }</Text>
+          </View>
 
-            </View>
-
-            {isMessageOurs ?
-              <Image
-                resizeMode={Image.resizeMode.contain}
-                source={{uri: 'assets/TriangleDark@3x.png'}}
-                style={{right:0,width:10,height:22}}
-              /> : null
-            }
+          {isMessageOurs ?
+            <Image
+              resizeMode={Image.resizeMode.contain}
+              source={{uri: 'assets/TriangleDark@3x.png'}}
+              style={{right:0,width:10,height:22}}
+            /> : null
+          }
 
           </View>
         </View>
@@ -266,8 +258,13 @@ class ChatMessage extends React.Component {
 
       </View>
     );
-  }
+
 }
+}
+
+
+
+
 class ChatInside extends Component{
   constructor(props){
     super();
@@ -346,7 +343,9 @@ class ChatInside extends Component{
 
   componentDidUpdate(prevProps){
     if(prevProps.messages.length !== this.props.messages.length){
+
     }
+    console.log(this.refs);
     // this.refs.scroller && this.refs.scroller.refs.listviewscroll.scrollTo(0,0)
   }
 
@@ -399,38 +398,35 @@ class ChatInside extends Component{
   }
   getThumbSize(){
 
-   const sizes = {
-      big:{
-        dimensions:{
-          closed: 200,
-          open: 140,
-        },
-        margin:{
-          closed: 40,
-          open: 20,
-        }
-
-      },
-      small: {
-        dimensions:{
-          closed: 100,
-          open: 50
-        },
-        margin:{
-          closed: 20,
-          open: 10,
-        }
-      }
-   };
-    let size =  MagicNumbers.is4s ? sizes.small : sizes.big
-
+    let size =  MagicNumbers.is4s ? SIZES.small : SIZES.big
     return  {
-                width:this.state.isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
-                height:this.state.isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
-                borderRadius:this.state.isKeyboardOpened ? size.dimensions.open/2 : size.dimensions.closed/2,
-                marginVertical:this.state.isKeyboardOpened ? size.margin.open : size.margin.closed,
-                backgroundColor:colors.dark
+                width: this.state.isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
+                height: this.state.isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
+                borderRadius: this.state.isKeyboardOpened ? size.dimensions.open/2 : size.dimensions.closed/2,
+                marginVertical: this.state.isKeyboardOpened ? size.margin.open : size.margin.closed,
+                backgroundColor: colors.dark
               }
+  }
+  onEndReached(e){
+    console.log('END');
+    const nextPage = parseInt(this.props.messages.length / 20) + 1;
+    if(this.state.fetching || nextPage == this.state.lastPage){ return false }
+
+    this.setState({
+      lastPage: nextPage,
+      isRefreshing: false,
+      loadingMore: true
+    })
+
+    // this.setTimeout(()=>{
+    //   this.setState({
+    //     loadingMore:false
+    //   })
+    // },3000);
+
+    Analytics.event('Interaction',{type: 'scroll', name: 'Load more messages', page: nextPage})
+
+    MatchActions.getMessages(this.props.match_id, nextPage);
   }
 
   renderNoMessages(){
@@ -446,6 +442,7 @@ class ChatInside extends Component{
         contentInset={{top:0,right:0,left:0,bottom:50}}
         automaticallyAdjustContentInsets={true}
         scrollEnabled={false}
+        key={'scrollnomsgs'+this.props.user.id}
         removeClippedSubviews={true}
         onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
         onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
@@ -455,13 +452,16 @@ class ChatInside extends Component{
 
           <View style={{flexDirection:'column',justifyContent:'center',flex:1,alignItems:'center',alignSelf:'stretch'}}>
             <View style={{width:DeviceWidth,alignSelf:'center',alignItems:'center',flexDirection:'column',justifyContent:'center',flex:1,}}>
+
               <Text style={{color:colors.white,fontSize:20,opacity:this.state.isKeyboardOpened ? 0 : 1,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{
                     `YOU MATCHED WITH`
-                }</Text>
+              }</Text>
+
     					<Text style={{color:colors.white,fontSize:20,fontFamily:'Montserrat-Bold',textAlign:'center',
                 opacity:this.state.isKeyboardOpened ? 0 : 1}} >{
                     `${chatTitle}`
-                }</Text>
+              }</Text>
+
               <Text style={{color:colors.shuttleGray,
                 fontSize:16,fontFamily:'omnes',opacity:this.state.isKeyboardOpened ? 0 : 1}} >
                 <TimeAgo time={matchInfo.created_timestamp*1000} />
@@ -483,6 +483,7 @@ class ChatInside extends Component{
     )
   }
 
+
   render(){
 
     const matchInfo = this.props.currentMatch,
@@ -491,32 +492,30 @@ class ChatInside extends Component{
         chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '')  },'');
 
     return (
-      <View ref={'chatscroll'} style={[styles.chatInsideWrap,{paddingBottom:this.state.keyboardSpace}]}>
+      <View  style={[styles.chatInsideWrap,{paddingBottom:this.state.keyboardSpace}]}>
         {this.props.messages.length > 0 || this.props.currentMatch.recent_message ?
-        <ListView
-          ref={'scroller'}
+        (<ListView
           dataSource={this.state.dataSource}
           renderRow={this._renderRow.bind(this)}
           messages={this.props.messages || []}
-          style={styles.listview}
-          renderScrollComponent={(props) =>{
-            return (
-              <InvertibleScrollView
-                inverted={true}
-                onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
-                onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
-                scrollsToTop={true}
-                contentContainerStyle={styles.invertedContentContainer}
-                {...this.props}
-                scrollEventThrottle={64}
-                contentInset={{top:0,right:0,left:0,bottom:54}}
-                automaticallyAdjustContentInsets={true}
-                style={{ height:DeviceHeight,backgroundColor:colors.outerSpace}}
-                keyboardDismissMode={'interactive'}
-              />
-            )
-          }}
-        />
+          style={[styles.listview,{ height:DeviceHeight,backgroundColor:colors.outerSpace}]}
+          renderScrollComponent={props => (
+            <InvertibleScrollView inverted={true}
+              onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
+              onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
+              scrollsToTop={true}
+              contentContainerStyle={styles.invertedContentContainer}
+              scrollEventThrottle={64}
+              ref={c => {this.scroller = c}}
+              key={`${this.props.match_id}x`}
+              keyboardDismissMode={'interactive'}
+              contentInset={{top:0,right:0,left:0,bottom:54}}
+              automaticallyAdjustContentInsets={true}
+              {...props}
+            />
+          )}
+
+        />)
         : this.renderNoMessages()}
 
         <View style={styles.messageComposer}>
@@ -598,6 +597,8 @@ class ChatInside extends Component{
   }
 }
 
+
+
 const animations = {
   layout: {
     spring: {
@@ -644,10 +645,10 @@ const Chat = React.createClass({
   componentDidMount(){
 
 
-    if(this.props.handle){
-      InteractionManager.clearInteractionHandle(this.props.handle)
-    }
-    MatchActions.setAccessTime.defer({match_id:this.props.match_id,timestamp: Date.now()})
+    // if(this.props.handle){
+      // InteractionManager.clearInteractionHandle(this.props.handle)
+    // }
+    // MatchActions.setAccessTime.defer({match_id:this.props.match_id,timestamp: Date.now()})
 
   },
 
@@ -681,6 +682,7 @@ const Chat = React.createClass({
           user={this.props.user}
           closeChat={this.props.closeChat}
           match_id={this.props.match_id}
+          key={`chat-${this.props.user}-${this.props.match_id}`}
           toggleModal={this.toggleModal}
         />
         {this.state.isVisible ? <View
@@ -712,3 +714,27 @@ const Chat = React.createClass({
 });
 
 export default Chat;
+
+
+const SIZES = {
+      big:{
+        dimensions:{
+          closed: 200,
+          open: 140,
+        },
+        margin:{
+          closed: 40,
+          open: 20,
+        }
+      },
+      small: {
+        dimensions:{
+          closed: 100,
+          open: 50
+        },
+        margin:{
+          closed: 20,
+          open: 10,
+        }
+      }
+   };

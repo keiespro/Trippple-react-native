@@ -1,8 +1,7 @@
 /* @flow */
 
-import React from "react";
+import React,{Component} from "react";
 
-import {Component} from "react";
 import {StyleSheet, Text, Image, TouchableOpacity, View, TouchableHighlight, TextInput, PixelRatio, InteractionManager, ListView, Navigator, Dimensions, RefreshControl, Alert, ScrollView} from "react-native";
 
 import colors from '../utils/colors'
@@ -150,11 +149,11 @@ class MatchList extends Component{
   _onRefresh() {
     this.setState({isRefreshing: true});
     this.onEndReached();
-    this.setTimeout(()=>{
-      this.setState({
-        isRefreshing:false
-      })
-    },3000);
+    // this.setTimeout(()=>{
+    //   this.setState({
+    //     isRefreshing:false
+    //   })
+    // },3000);
   }
 
   _renderRow(rowData, sectionID, rowID){
@@ -167,6 +166,7 @@ class MatchList extends Component{
     const  thumb = them[0].thumb_url;
     const  matchImage = thumb
     const  unread = rowData.unread || 0;
+
     return (
       <Swipeout
         left={
@@ -242,6 +242,8 @@ class MatchList extends Component{
     if(!this.props.matches.length && !this.props.newMatches.length){
       return <NoMatches/>
     }
+    console.log(this)
+
     return (
       <View>
         <ListView
@@ -324,11 +326,11 @@ class MatchesInside extends Component{
       this.setState({
         isVisible:!this.state.isVisible
       })
-      this.setTimeout(()=>{
-        this.setState({
-          currentMatch: match
-        })
-      },10)
+      // this.setTimeout(()=>{
+      //   this.setState({
+      //     currentMatch: match
+      //   })
+      // },10)
     }else{
       this.setState({
         isVisible:false
@@ -455,11 +457,11 @@ class Matches extends Component{
       this.setState({
         isVisible:!this.state.isVisible
       })
-      this.setTimeout(()=>{
-        this.setState({
-          currentMatch: match
-        })
-      },10)
+      // this.setTimeout(()=>{
+      //   this.setState({
+      //     currentMatch: match
+      //   })
+      // },10)
     }else{
       this.setState({
         isVisible:false

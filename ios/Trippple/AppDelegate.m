@@ -13,7 +13,12 @@
  */
 
 #import "AppDelegate.h"
+
+#import "RCTBridge.h"
+#import "RCTJavaScriptLoader.h"
+#import "RCTLinkingManager.h"
 #import "RCTRootView.h"
+
 #import "RCTPushNotificationManager.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
@@ -29,28 +34,30 @@
 
 @implementation AppDelegate
 
-- (BOOL)application:( UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (BOOL)application:(__unused UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  _bridge = [[RCTBridge alloc] initWithDelegate:self
+                                  launchOptions:launchOptions];
 
 
   NSString *env = @"d";
-  
+
   NSURL* defaultMetadataFileLocation = [[NSBundle mainBundle] URLForResource:@"metadata"
                                                                withExtension:@"json"];
- 
+
   NSURL* latestJSCodeLocation;
   NSURL *defaultJSCodeLocation;
 
   NSLog(@"RUNNING IN %@",env);
-  
+
   [Fabric with:@[[Crashlytics class],[Answers class]]];
 
   [NRLogger setLogLevels:NRLogLevelError];
   [NewRelicAgent disableFeatures:NRFeatureFlag_CrashReporting];
   [NewRelicAgent startWithApplicationToken:@"AAe71824253eeeff92e1794a97883d2e0c5928816f"];
-  
+
   HotlineConfig *config = [[HotlineConfig alloc]initWithAppID:@"f54bba2a-84fa-43c8-afa9-098f3c1aefae"  andAppKey:@"fba1b915-fa8b-4c24-bdda-8bac99fcf92a"];
-  
+
   config.displayFAQsAsGrid = NO; // set to NO for List View
   config.voiceMessagingEnabled = NO; // set NO to disable voice messaging
   config.pictureMessagingEnabled = YES; // set NO to disable picture messaging (pictures from gallery/new images from camera)
@@ -58,45 +65,45 @@
   config.agentAvatarEnabled = YES; // set to NO to turn of showing an avatar for agents. to customize the avatar shown, use the theme file
   config.showNotificationBanner = YES; // set to NO if you don't want to show the in-app notification banner upon receiving a new message while the app is open
   config.themeName = @"T3Theme";
-  
+
   [[Hotline sharedInstance] initWithConfig:config];
-  
-  
+
+
   if([env isEqual: @"production"]){
     //    PRODUCTION
-        defaultJSCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+    defaultJSCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
   }else{
     //     DEVELOPMENT
-        defaultJSCodeLocation = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
+    defaultJSCodeLocation = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
 
   }
-  
+
   ReactNativeAutoUpdater* updater = [ReactNativeAutoUpdater sharedInstance];
-    [updater setDelegate:nil];
-    [updater initializeWithUpdateMetadataUrl:[NSURL URLWithString:JS_CODE_METADATA_URL]
-                       defaultJSCodeLocation:defaultJSCodeLocation
-                 defaultMetadataFileLocation:defaultMetadataFileLocation ];
+  [updater setDelegate:nil];
+  [updater initializeWithUpdateMetadataUrl:[NSURL URLWithString:JS_CODE_METADATA_URL]
+                     defaultJSCodeLocation:defaultJSCodeLocation
+               defaultMetadataFileLocation:defaultMetadataFileLocation ];
 
   [updater allowCellularDataUse: YES];
   [updater downloadUpdatesForType: ReactNativeAutoUpdaterPatchUpdate];
   [updater checkUpdate];
 
 
-  
-    if([env  isEqual: @"production"]){
-      //PRODUCTION
-      latestJSCodeLocation = [updater latestJSCodeLocation];
-    }else{
-      // DEVELOPMENT
-      latestJSCodeLocation = defaultJSCodeLocation;
-    }
 
-  
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:latestJSCodeLocation
+  if([env  isEqual: @"production"]){
+    //PRODUCTION
+    latestJSCodeLocation = [updater latestJSCodeLocation];
+  }else{
+    // DEVELOPMENT
+    latestJSCodeLocation = defaultJSCodeLocation;
+  }
+
+
+  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:_bridge
                                                       moduleName:@"Trippple"
-                                               initialProperties:nil
-                                                   launchOptions:launchOptions];
+                                               initialProperties:nil];
+
 
   rootView.backgroundColor = [UIColor tr_outerSpaceColor];
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -106,26 +113,37 @@
   self.rootViewController = rootViewController;
 
   [self.window makeKeyAndVisible];
+
   return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                    didFinishLaunchingWithOptions:launchOptions];
+                                  didFinishLaunchingWithOptions:launchOptions];
 }
 
 
+- (NSURL *)sourceURLForBridge:(__unused RCTBridge *)bridge
+{
+  NSURL *sourceURL;
+
+
+  sourceURL = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
+
+  return sourceURL;
+}
+
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {
- [RCTPushNotificationManager didRegisterUserNotificationSettings:notificationSettings];
+  [RCTPushNotificationManager didRegisterUserNotificationSettings:notificationSettings];
   // Required to register for notifications
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
- [RCTPushNotificationManager didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+  [RCTPushNotificationManager didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
   // Required for the register event.
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)notification
 {
- [RCTPushNotificationManager didReceiveRemoteNotification:notification];
+  [RCTPushNotificationManager didReceiveRemoteNotification:notification];
   // Required for the notification event.
 }
 
@@ -137,49 +155,77 @@
 
 
 
-- (void)createReactRootViewFromURL:(NSURL*)url
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:url
-                                                      moduleName:@"Trippple"
-                                               initialProperties:nil
-                                                   launchOptions:nil];
-  
-  rootView.backgroundColor = [UIColor tr_outerSpaceColor];
-  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  UIViewController *rootViewController = [UIViewController new];
-  rootViewController.view = rootView;
-  self.window.rootViewController = rootViewController;
-  [self.window makeKeyAndVisible];
-  
+  return [RCTLinkingManager application:application openURL:url
+                      sourceApplication:sourceApplication annotation:annotation];
 }
+
+
+- (void)loadSourceForBridge:(RCTBridge *)bridge
+                  withBlock:(RCTSourceLoadBlock)loadCallback
+{
+  [RCTJavaScriptLoader loadBundleAtURL:[self sourceURLForBridge:bridge]
+                            onComplete:loadCallback];
+}
+
+
+
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+  [FBSDKAppEvents activateApp];
+}
+
 
 #pragma mark - ReactNativeAutoUpdaterDelegate methods
 
 - (void)ReactNativeAutoUpdater_updateDownloadedToURL:(NSURL *)url {
-   NSLog(@"Update succeeded");
-   [self createReactRootViewFromURL: url];
+  NSLog(@"Update succeeded");
+  // [self createReactRootViewFromURL: url];
 
 }
 
 - (void)ReactNativeAutoUpdater_updateDownloadFailed {
- NSLog(@"Update failed to download");
+  NSLog(@"Update failed to download");
 }
 
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
- [FBSDKAppEvents activateApp];
-}
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-
- return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                       openURL:url
-                                             sourceApplication:sourceApplication
-                                                    annotation:annotation];
-}
+//
+// - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+//
+//   return [[FBSDKApplicationDelegate sharedInstance] application:application
+//                                                         openURL:url
+//                                               sourceApplication:sourceApplication
+//                                                      annotation:annotation];
+// }
 
 @end
 
+
+//
+//
+//
+//
+//
+//
+//
+// - (void)createReactRootViewFromURL:(NSURL*)url
+// {
+//   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:url
+//                                                       moduleName:@"Trippple"
+//                                                initialProperties:nil
+//                                                    launchOptions:nil];
+//
+//   rootView.backgroundColor = [UIColor tr_outerSpaceColor];
+//   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+//   UIViewController *rootViewController = [UIViewController new];
+//   rootViewController.view = rootView;
+//   self.window.rootViewController = rootViewController;
+//   [self.window makeKeyAndVisible];
+//
+// }
 
 ///**
 // * Copyright (c) 2015-present, Facebook, Inc.
