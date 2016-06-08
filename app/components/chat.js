@@ -466,9 +466,8 @@ class ChatInside extends Component{
                     `${chatTitle}`
               }</Text>
 
-            <View style={{color:colors.shuttleGray,
-                fontSize:16,fontFamily:'omnes',opacity:this.state.isKeyboardOpened ? 0 : 1}} >
-                <TimeAgo time={matchInfo.created_timestamp*1000} />
+            <View style={{opacity:this.state.isKeyboardOpened ? 0 : 1}} >
+                <TimeAgo style={{color:colors.shuttleGray, fontSize:16,fontFamily:'omnes',}} time={matchInfo.created_timestamp*1000} />
               </View>
 
               <Image
@@ -503,7 +502,7 @@ class ChatInside extends Component{
           renderRow={this._renderRow.bind(this)}
           onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
           onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
-
+onEndReached={this.onEndReached.bind(this)}
           messages={this.props.messages || []}
           style={[styles.listview,{ height:DeviceHeight,backgroundColor:colors.outerSpace}]}
           renderScrollComponent={props => (
@@ -562,7 +561,7 @@ class ChatInside extends Component{
               onChangeText={this.onTextInputChange.bind(this)}
               >
               <Text style={{ fontSize:17, padding:1, paddingBottom:7.5, color:colors.white, }} >{
-                  this.state.textInputValue || ' '
+                  this.state.textInputValue || ''
               }</Text>
           </AnimatedTextInput>
 

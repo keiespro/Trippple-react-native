@@ -153,7 +153,7 @@ class Onboard extends Component{
     })
 
     if(this.props.user.partner_id){
-
+      this.setState({selection: 'couple'})
     }
   }
   selectScene (route: Navigator.route, navigator: Navigator) {

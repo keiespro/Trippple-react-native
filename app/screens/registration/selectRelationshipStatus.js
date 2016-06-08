@@ -29,6 +29,7 @@ class SelectRelationshipStatus extends Component{
         component:CoupleInvitation,
         id:'coupleinvite',
         passProps:{
+          user:this.props.user,
           invitation,
           acceptInvitation: this._acceptInvitation.bind(this),
           denyInvitation: this._denyInvitation.bind(this)

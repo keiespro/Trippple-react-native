@@ -339,30 +339,7 @@ class SettingsInside extends React.Component{
                   </View>
               </TouchableHighlight>
 
-              <TouchableHighlight onPress={(f)=>{
-                  this.props.navigator.push({
-                  component: RNHotlineView,
-                  name: 'Hotline',
-                  sceneConfig:NavigatorSceneConfigs.FloatFromRight,
-                  passProps: {
-                  style:styles.container,
-                  settingOptions:this.state.settingOptions,
-                  user:this.props.user,
-                  navigator:this.props.navigator
-                  }
-                  })
-                  }} underlayColor={colors.dark}>
-                  <View  style={styles.wrapfield}>
-                      <View>
-                          <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>HOTLINETEST</Text>
-                          <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
-                          test
-                          </Text>
-                      </View>
-                      <Image source={{uri: 'assets/nextArrow@3x.png'}} />
-                  </View>
-              </TouchableHighlight>
-
+        
 
               <TouchableHighlight onPress={(f)=>{
                     RNHotlineController.showFaqs()

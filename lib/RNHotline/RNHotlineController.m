@@ -76,7 +76,7 @@ RCT_EXPORT_METHOD(showConvos) {
 
     UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(hideView)];
     v.navigationItem.leftBarButtonItem = anotherButton;
-//    v.view.backgroundColor = [UIColor tr_outerSpaceColor];
+    v.view.backgroundColor = [UIColor tr_outerSpaceColor];
 
     NSLog(@"%@",    v.view.superview);
     UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:v];

@@ -154,7 +154,7 @@ class ActualModal extends Component{
       return (
         <Modal
           isVisible={isVisible || true}
-          animated={true}
+          animationType={'slide'}
           transparent={true}
           onDismiss={()=>{
               this.props.toggleModal();
