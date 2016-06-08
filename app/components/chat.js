@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
 class ChatMessage extends React.Component{
   render(){
     const isMessageOurs = (this.props.messageData.from_user_info.id === this.props.user.id || this.props.messageData.from_user_info.id === this.props.user.partner_id);
-
+    var thumb = ''
     if(!isMessageOurs){
       const {from_user_info} = this.props.messageData;
       const {thumb_url,image_url} = from_user_info;
@@ -197,17 +197,21 @@ class ChatMessage extends React.Component{
        * but not very maintainable
        */
 
-      var thumb;
-      var img = (thumb_url && typeof thumb_url === 'string' ? thumb_url : image_url);
-      if(img && img.includes('test')){
-        var u = img;
-        var x = u.split('/test/')[0].split('uploads') + u.split('test')[1];
-        thumb = x.split('/images')[0] + x.split('/images')[1]
-      }else{
-        thumb = img+'';
-      }
-      const thumb = img+'';
+      // var thumb = '';
+      // var img = (thumb_url && typeof thumb_url === 'string' ? thumb_url : image_url);
+      // if(img && img.includes('test')){
+      //   var u = img;
+      //   var x = u.split('/test/')[0].split('uploads') + u.split('test')[1];
+      //   thumb = x.split('/images')[0] + x.split('/images')[1]
+      // }else{
+      //   thumb = img+'';
+      // }
+       thumb = image_url+'';
+    }else{
+       thumb = '';
+
     }
+
     return (
       <View style={[styles.col]}>
         <View style={[styles.row]}>
@@ -462,10 +466,10 @@ class ChatInside extends Component{
                     `${chatTitle}`
               }</Text>
 
-              <Text style={{color:colors.shuttleGray,
+            <View style={{color:colors.shuttleGray,
                 fontSize:16,fontFamily:'omnes',opacity:this.state.isKeyboardOpened ? 0 : 1}} >
                 <TimeAgo time={matchInfo.created_timestamp*1000} />
-              </Text>
+              </View>
 
               <Image
                 source={{uri:them[0].image_url}}
@@ -497,6 +501,9 @@ class ChatInside extends Component{
         (<ListView
           dataSource={this.state.dataSource}
           renderRow={this._renderRow.bind(this)}
+          onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
+          onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
+
           messages={this.props.messages || []}
           style={[styles.listview,{ height:DeviceHeight,backgroundColor:colors.outerSpace}]}
           renderScrollComponent={props => (
@@ -554,11 +561,9 @@ class ChatInside extends Component{
               }}
               onChangeText={this.onTextInputChange.bind(this)}
               >
-            <View style={{ }}>
-              <Text style={{ fontSize:17, padding:1, paddingBottom:7.5, color:colors.outerSpace, }} >{
+              <Text style={{ fontSize:17, padding:1, paddingBottom:7.5, color:colors.white, }} >{
                   this.state.textInputValue || ' '
               }</Text>
-            </View>
           </AnimatedTextInput>
 
           <TouchableHighlight

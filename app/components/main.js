@@ -231,7 +231,7 @@ class OverlayModalInner extends Component{
     return (
 
       <Modal
-        animated={true}
+        animationType={'slide'}
         transparent={true}
         visible={this.state.modalVisible}
         onRequestClose={this.setModalVisible.bind(this,false)}

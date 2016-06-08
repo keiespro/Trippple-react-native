@@ -38,6 +38,7 @@
 {
   _bridge = [[RCTBridge alloc] initWithDelegate:self
                                   launchOptions:launchOptions];
+  [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceAlert];
 
 
   NSString *env = @"d";
@@ -62,10 +63,10 @@
   config.voiceMessagingEnabled = NO; // set NO to disable voice messaging
   config.pictureMessagingEnabled = YES; // set NO to disable picture messaging (pictures from gallery/new images from camera)
   config.cameraCaptureEnabled = NO; // set to NO for only pictures from the gallery (turn off the camera capture option)
-  config.agentAvatarEnabled = YES; // set to NO to turn of showing an avatar for agents. to customize the avatar shown, use the theme file
-  config.showNotificationBanner = YES; // set to NO if you don't want to show the in-app notification banner upon receiving a new message while the app is open
+  config.agentAvatarEnabled = NO; // set to NO to turn of showing an avatar for agents. to customize the avatar shown, use the theme file
+  config.showNotificationBanner = NO; // set to NO if you don't want to show the in-app notification banner upon receiving a new message while the app is open
   config.themeName = @"T3Theme";
-
+  config.notificationSoundEnabled = NO;
   [[Hotline sharedInstance] initWithConfig:config];
 
 
@@ -77,28 +78,29 @@
     //     DEVELOPMENT
     defaultJSCodeLocation = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
 
+
   }
 
-  ReactNativeAutoUpdater* updater = [ReactNativeAutoUpdater sharedInstance];
-  [updater setDelegate:nil];
-  [updater initializeWithUpdateMetadataUrl:[NSURL URLWithString:JS_CODE_METADATA_URL]
-                     defaultJSCodeLocation:defaultJSCodeLocation
-               defaultMetadataFileLocation:defaultMetadataFileLocation ];
-
-  [updater allowCellularDataUse: YES];
-  [updater downloadUpdatesForType: ReactNativeAutoUpdaterPatchUpdate];
-  [updater checkUpdate];
-
-
-
+//  ReactNativeAutoUpdater* updater = [ReactNativeAutoUpdater sharedInstance];
+//  [updater setDelegate:nil];
+//  [updater initializeWithUpdateMetadataUrl:[NSURL URLWithString:JS_CODE_METADATA_URL]
+//                     defaultJSCodeLocation:defaultJSCodeLocation
+//               defaultMetadataFileLocation:defaultMetadataFileLocation ];
+//  [updater setHostnameForRelativeDownloadURLs:@"hello.teepy.co"];
+//
+//  [updater allowCellularDataUse: YES];
+//  [updater downloadUpdatesForType: ReactNativeAutoUpdaterPatchUpdate];
+//  [updater checkUpdate];
+//
+//
+//
   if([env  isEqual: @"production"]){
     //PRODUCTION
-    latestJSCodeLocation = [updater latestJSCodeLocation];
+//    latestJSCodeLocation = [updater latestJSCodeLocation];
   }else{
     // DEVELOPMENT
     latestJSCodeLocation = defaultJSCodeLocation;
   }
-
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:_bridge
                                                       moduleName:@"Trippple"

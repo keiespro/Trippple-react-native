@@ -1,10 +1,11 @@
 /* @flow */
 import React from "react";
 
-import {StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, Alert, TextInput, ScrollView, SwitchIOS, Animated, PickerIOS, Image, AsyncStorage, Navigator} from "react-native";
+import ReactNative, {StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, Alert, TextInput, ScrollView, SwitchIOS, Animated, PickerIOS, Image, AsyncStorage, Navigator, NativeModules} from "react-native";
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-
+const {RNHotlineController} = NativeModules;
+const RNHotlineView = ReactNative.requireNativeComponent('RNHotlineView')
 import PartnerMissingModal from '../modals/PartnerMissingModal'
 import Mixpanel from '../utils/mixpanel';
 import SegmentedView from '../controls/SegmentedView'
@@ -332,6 +333,59 @@ class SettingsInside extends React.Component{
                           <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>SETTINGS</Text>
                           <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
                           Privacy and more
+                          </Text>
+                      </View>
+                      <Image source={{uri: 'assets/nextArrow@3x.png'}} />
+                  </View>
+              </TouchableHighlight>
+
+              <TouchableHighlight onPress={(f)=>{
+                  this.props.navigator.push({
+                  component: RNHotlineView,
+                  name: 'Hotline',
+                  sceneConfig:NavigatorSceneConfigs.FloatFromRight,
+                  passProps: {
+                  style:styles.container,
+                  settingOptions:this.state.settingOptions,
+                  user:this.props.user,
+                  navigator:this.props.navigator
+                  }
+                  })
+                  }} underlayColor={colors.dark}>
+                  <View  style={styles.wrapfield}>
+                      <View>
+                          <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>HOTLINETEST</Text>
+                          <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
+                          test
+                          </Text>
+                      </View>
+                      <Image source={{uri: 'assets/nextArrow@3x.png'}} />
+                  </View>
+              </TouchableHighlight>
+
+
+              <TouchableHighlight onPress={(f)=>{
+                    RNHotlineController.showFaqs()
+                  }} underlayColor={colors.dark}>
+                  <View  style={styles.wrapfield}>
+                      <View>
+                          <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>FREQUENTLY ASKED QUESTIONS</Text>
+                          <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
+                          Answers to our most frequently asked questions
+                          </Text>
+                      </View>
+                      <Image source={{uri: 'assets/nextArrow@3x.png'}} />
+                  </View>
+              </TouchableHighlight>
+
+              <TouchableHighlight onPress={(f)=>{
+                    RNHotlineController.showConvos()
+                  }} underlayColor={colors.dark}>
+                  <View  style={styles.wrapfield}>
+                      <View>
+                          <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>HELP & FEEDBACK</Text>
+                          <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
+                          Chat with us
                           </Text>
                       </View>
                       <Image source={{uri: 'assets/nextArrow@3x.png'}} />

@@ -14,9 +14,9 @@ function invert( rgb ){
 
 const colors = {
 
-  rollingStone:       'rgb(120,129,135)',
+  rollingStone:       'rgb(120,129,135)', // #788187
 
-  mediumPurple:       'rgb(132, 89, 218)',
+  mediumPurple:       'rgb(132, 89, 218)', //#8459DA
 
   mediumPurple20:     'rgba(132,89,218,0.20)',
 
@@ -38,7 +38,7 @@ const colors = {
 
   steelGrey20:        'rgba(120,129,135,0.20)',
 
-  outerSpace:         'rgb(44,57,65)',
+  outerSpace:         'rgb(44,57,65)', // #2C3941
 
   outerSpace50:       'rgba(44,57,65,0.5)',
 
@@ -52,7 +52,7 @@ const colors = {
 
   atlantis:           'rgb(129,209,53)',
 
-  mandy:              'rgb(232,74,107)',
+  mandy:              'rgb(232,74,107)', //#E84A6B
 
   darkishPink20:      'rgba(232,73,107,0.20)',
 

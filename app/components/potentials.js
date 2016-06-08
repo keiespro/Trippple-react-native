@@ -143,7 +143,7 @@ class PotentialsPage extends React.Component{
           height:DeviceHeight,
           top:0
         }}>
-        <TaskManager navigator={this.props.navigator} triggers={this.props.potentialsMeta} />
+        <TaskManager navigator={this.props.navigator} user={user} triggers={this.props.potentialsMeta} />
 
         {!this.state.profileVisible ? NavBar : null}
 

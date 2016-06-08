@@ -1,13 +1,13 @@
 import React from "react";
 import {Settings, Navigator, View, NativeModules} from "react-native";
-import LocationPermissions from './modals/CheckPermissions'
+import LocationPermissions from './modals/LocationPermission'
 import NotificationPermissions from './modals/NotificationPermissions'
 const {OSPermissions} = NativeModules
 import Analytics from './utils/Analytics'
 import SETTINGS_CONSTANTS from './utils/SettingsConstants'
 import AppActions from './flux/actions/AppActions'
 
-const {HAS_SEEN_NOTIFICATION_REQUEST} = SETTINGS_CONSTANTS
+const {HAS_SEEN_NOTIFICATION_REQUEST,LAST_ASKED_LOCATION_PERMISSION} = SETTINGS_CONSTANTS
 
 export default class TaskManager extends React.Component{
   constructor(props){
@@ -39,7 +39,41 @@ export default class TaskManager extends React.Component{
     })
   }
   checkLocationSetting(){
-    // const hasSeenLocationRequest = Settings.get('HasSeenLocationRequest');
+    const hasSeenLocationRequest = Settings.get(LAST_ASKED_LOCATION_PERMISSION);
+    console.log(hasSeenLocationRequest);
+    OSPermissions.canUseLocation((hasPermission)=>{
+      console.log(hasPermission);
+
+      if(!parseInt(hasPermission)){
+        // pop location modal
+
+        this.props.navigator.push({
+          component: LocationPermissions,
+          name:'Location Permission Modal',
+          title:'Location Permission Modal',
+          passProps:{
+            x: 2,
+            title:'Prioritze Local',
+            user:this.props.user,
+            failedTitle:'Location',
+            failCallback: ()=>{ this.props.navigator.pop() },
+            hideModal: ()=>{ this.props.navigator.pop() }
+
+          }
+        })
+
+
+
+      }
+    })
+    // const success = (geo) => {
+    //         this.updateUser.defer(geo.coords);
+    //         dispatch(geo.coords);
+    //       },
+    //       fail = (error) => { dispatch(error) },
+    //       options = {enableHighAccuracy: false, maximumAge: 10};
+    //
+    // navigator.geolocation.getCurrentPosition(success, fail, options)
 
   }
 

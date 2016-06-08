@@ -5,45 +5,47 @@
 	<key>ConversationsUI</key>
 	<dict>
 		<key>ChatBubbleMessageFontName</key>
-		<string>HelveticaNeue</string>
+		<string>Omnes</string>
 		<key>ChatBubbleMessageFontSize</key>
-		<string>14.0f</string>
+		<string>18.0f</string>
 		<key>AgentMessageTextColor</key>
-		<string>000000</string>
+		<string>111111</string>
 		<key>UserMessageTextColor</key>
-		<string>000000</string>
+		<string>111111</string>
 		<key>ChatBubbleTimeFontName</key>
-		<string>HelveticaNeue</string>
+		<string>Omnes-Regular</string>
 		<key>ChatBubbleTimeFontSize</key>
-		<string>15.0f</string>
+		<string>13.0f</string>
 		<key>ConversationUIFontName</key>
-		<string>HelveticaNeue</string>
+		<string>Omnes-Light</string>
 		<key>ActionButtonTextColor</key>
-		<string>000000</string>
+		<string>FFFFFF</string>
 		<key>ActionButtonSelectedTextColor</key>
-		<string>000000</string>
+		<string>FFFFFF</string>
 		<key>ActionButtonColor</key>
-		<string>F5F5F5</string>
+		<string>FFFFFF</string>
 		<key>ActionButtonBorderColor</key>
-		<string>F1F1F1</string>
+		<string>FFFFFF</string>
 		<key>HyperlinkColor</key>
-		<string>2701A0</string>
+		<string>FFFFFF</string>
 		<key>InputTextFontColor</key>
-		<string>000000</string>
+		<string>111111</string>
 		<key>InputTextFontName</key>
-		<string>HelveticaNeue</string>
+		<string>Omnes-Light</string>
 		<key>InputTextFontSize</key>
 		<string>14.0f</string>
 		<key>SendButtonColor</key>
-		<string>000000</string>
+		<string>2C3941</string>
+		<key>InputBackgroundColor</key>
+		<string>333333</string>
 		<key>Banner</key>
 		<dict>
 			<key>BackgroundColor</key>
-			<string>34AADC</string>
+			<string>8459DA</string>
 			<key>MessageFontName</key>
-			<string>HelveticaNeue</string>
+			<string>Montserrat-Regular</string>
 			<key>MessageFontSize</key>
-			<string>14.0f</string>
+			<string>16.0f</string>
 			<key>MessageTextColor</key>
 			<string>FFFFFF</string>
 		</dict>
@@ -72,113 +74,113 @@
 		<key>YesButtonFontColor</key>
 		<string>FFFFFF</string>
 		<key>YesButtonFontName</key>
-		<string>HelveticaNeue</string>
+		<string>Montserrat-Regular</string>
 		<key>YesButtonFontSize</key>
 		<string>14</string>
 		<key>YesButtonBackgroundColor</key>
-		<string>007AFF</string>
+		<string>8459DA</string>
 		<key>NoButtonFontColor</key>
-		<string>535353</string>
+		<string>FFFFFF</string>
 		<key>NoButtonFontName</key>
-		<string>HelveticaNeue</string>
+		<string>Montserrat-Regular</string>
 		<key>NoButtonFontSize</key>
 		<string>14</string>
 		<key>NoButtonBackgroundColor</key>
-		<string>F6F6F5</string>
+		<string>2C3941</string>
 		<key>NoButtonBorderColor</key>
-		<string>C1C1BF</string>
+		<string>FFFFFF</string>
 		<key>YesButtonBorderColor</key>
-		<string>D8D8D8</string>
+		<string>8459DA</string>
 		<key>ButtonColor</key>
-		<string>007AFF</string>
+		<string>FFFFFF</string>
 		<key>BackgroundColor</key>
-		<string>F6F6F5</string>
+		<string>2C3941</string>
 		<key>LabelFontColor</key>
-		<string>535353</string>
+		<string>FFFFFF</string>
 		<key>LabelFontName</key>
-		<string>HelveticaNeue</string>
+		<string>Montserrat-Regular</string>
 		<key>LabelFontSize</key>
 		<string>15</string>
 	</dict>
 	<key>Notification</key>
 	<dict>
 		<key>ChannelTitleFontName</key>
-		<string>HelveticaNeue-Bold</string>
+		<string>Montserrat-Bold</string>
 		<key>ChannelTitleFontSize</key>
 		<string>14</string>
 		<key>ChannelTitleFontColor</key>
 		<string>EFEFEF</string>
 		<key>ChannelIconBorderColor</key>
-		<string>FFFFFF</string>
+		<string>2C3941</string>
 		<key>MessageFontName</key>
-		<string>HelveticaNeue</string>
+		<string>Omnes-Light</string>
 		<key>MessageFontSize</key>
 		<string>14</string>
 		<key>MessageFontColor</key>
 		<string>EFEFEF</string>
 		<key>BackgroundColor</key>
-		<string>525454</string>
+		<string>2C3941</string>
 	</dict>
 	<key>ChannelListView</key>
 	<dict>
 		<key>ChannelTitleFontColor</key>
-		<string>222222</string>
+		<string>FFFFFF</string>
 		<key>ChannelTitleFontName</key>
-		<string>HelveticaNeue-Medium</string>
+		<string>Montserrat-Bold</string>
 		<key>ChannelTitleFontSize</key>
-		<string>15.0f</string>
+		<string>18.0f</string>
 		<key>ChannelDescriptionFontColor</key>
-		<string>ABABAB</string>
+		<string>FFFFFF</string>
 		<key>ChannelDescriptionFontName</key>
-		<string>HelveticaNeue</string>
+		<string>Omnes-Light</string>
 		<key>ChannelDescriptionFontSize</key>
 		<string>14.0f</string>
 		<key>LastUpdatedTimeFontColor</key>
-		<string>ABABAB</string>
+		<string>FFFFFF</string>
 		<key>LastUpdatedTimeFontName</key>
-		<string>HelveticaNeue</string>
+		<string>Omnes-Light</string>
 		<key>LastUpdatedTimeFontSize</key>
 		<string>12.0f</string>
 		<key>UnreadBadgeColor</key>
-		<string>3399FF</string>
+		<string>E84A6B</string>
 		<key>UnreadBadgeTitleColor</key>
 		<string>FFFFFF</string>
 		<key>UnreadBadgeFontName</key>
-		<string>HelveticaNeue</string>
+		<string>Montserrat-Regular</string>
 		<key>UnreadBadgeFontSize</key>
 		<string>13f</string>
 		<key>ChannelIconPlaceholderBackgroundColor</key>
-		<string>555555</string>
+		<string>2C3941</string>
 		<key>ChannelIconPlaceholderCharFontSize</key>
-		<string>20.0f</string>
+		<string>16.0f</string>
 		<key>ChannelIconPlaceholderCharFontName</key>
-		<string>HelveticaNeue</string>
+		<string>Montserrat-Regular</string>
 	</dict>
 	<key>EmptyResultView</key>
 	<dict>
 		<key>MessageFontName</key>
-		<string>HelveticaNeue</string>
+		<string>Montserrat-Regular</string>
 		<key>MessageTextColor</key>
-		<string>525454</string>
+		<string>FFFFFF</string>
 		<key>MessageFontSize</key>
 		<string>15.0f</string>
 	</dict>
 	<key>NavigationBar</key>
 	<dict>
 		<key>BackgroundColor</key>
-		<string>FFFFFF</string>
+		<string>566067</string>
 		<key>ButtonColor</key>
-		<string>0079FF</string>
+		<string>FFFFFF</string>
 		<key>ButtonFontName</key>
-		<string>HelveticaNeue</string>
+		<string>Omnes</string>
 		<key>ButtonFontSize</key>
 		<string>16.0f</string>
 		<key>TitleColor</key>
-		<string>000000</string>
+		<string>FFFFFF</string>
 		<key>TitleFontName</key>
-		<string>HelveticaNeue</string>
+		<string>Montserrat-Bold</string>
 		<key>TitleFontSize</key>
-		<string>17.0f</string>
+		<string>16.0f</string>
 	</dict>
 	<key>OverallSettings</key>
 	<dict>
@@ -187,75 +189,75 @@
 		<key>TalkToUsButtonFontColor</key>
 		<string>FFFFFF</string>
 		<key>TalkToUsButtonBackgroundColor</key>
-		<string>4D90E9</string>
+		<string>8459DA</string>
 		<key>TalkToUsButtonFontName</key>
-		<string>Helvetica</string>
+		<string>Montserrat-Bold</string>
 		<key>TalkToUsButtonFontSize</key>
 		<string>14.0f</string>
 		<key>StatusBarStyle</key>
-		<string>UIStatusBarStyleDefault</string>
+		<string>UIStatusBarHidden</string>
 	</dict>
 	<key>SearchBar</key>
 	<dict>
 		<key>CancelButtonColor</key>
-		<string>0079FF</string>
+		<string>FFFFFF</string>
 		<key>CancelButtonFontName</key>
-		<string>Helvetica</string>
+		<string>Omnes-Light</string>
 		<key>CancelButtonFontSize</key>
 		<string>14.0f</string>
 		<key>FontColor</key>
-		<string>000000</string>
+		<string>FFFFFF</string>
 		<key>FontName</key>
-		<string>HelveticaNeue</string>
+		<string>Omnes-Light</string>
 		<key>FontSize</key>
 		<string>13.0f</string>
 		<key>InnerBackgroundColor</key>
-		<string>FFFFFF</string>
+		<string>788187</string>
 		<key>OuterBackgroundColor</key>
-		<string>F8F8F8</string>
+		<string>2C3941</string>
 		<key>CursorColor</key>
-		<string>0079FF</string>
+		<string>FFFFFF</string>
 	</dict>
 	<key>TableView</key>
 	<dict>
 		<key>CellBackgroundColor</key>
-		<string>ffffff</string>
+		<string>FFFFFF</string>
 		<key>CellSeparatorColor</key>
-		<string>F2F2F2</string>
+		<string>243138</string>
 		<key>TitleFontColor</key>
-		<string>111111</string>
+		<string>2C3941</string>
 		<key>TitleFontName</key>
-		<string>HelveticaNeue</string>
+		<string>Montserrat-Regular</string>
 		<key>TitleFontSize</key>
-		<string>14.0f</string>
+		<string>17.0f</string>
 		<key>DetailFontColor</key>
-		<string>ACACAC</string>
+		<string>2C3941</string>
 		<key>DetailFontName</key>
-		<string>HelveticaNeue</string>
+		<string>Omnes-Regular</string>
 		<key>DetailFontSize</key>
 		<string>14.0f</string>
 	</dict>
 	<key>ArticlesList</key>
 	<dict>
 		<key>TitleFontColor</key>
-		<string>525252</string>
+		<string>2C3941</string>
 		<key>TitleFontName</key>
-		<string>HelveticaNeue</string>
+		<string>Montserrat-Bold</string>
 		<key>TitleFontSize</key>
 		<string>14.0f</string>
 	</dict>
 	<key>GridViewCell</key>
 	<dict>
 		<key>TitleFontColor</key>
-		<string>222222</string>
+		<string>2C3941</string>
 		<key>TitleFontName</key>
-		<string>HelveticaNeue</string>
+		<string>Montserrat-Bold</string>
 		<key>TitleFontSize</key>
 		<string>14.0f</string>
 		<key>ImageViewBackgroundColor</key>
-		<string>FFFFFF</string>
+		<string>2C3941</string>
 		<key>BorderColor</key>
-		<string>F2F2F2</string>
+		<string>FFFFFF</string>
 	</dict>
 	<key>Images</key>
 	<dict>

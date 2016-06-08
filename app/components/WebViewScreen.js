@@ -20,10 +20,11 @@ class WebViewScreen extends Component{
            ref={'webviewref'}
            automaticallyAdjustContentInsets={false}
            style={styles.webview}
-           url={this.props.url}
+           source={this.props.source }
+           decelerationRate="normal"
            onNavigationStateChange={this.onNavigationStateChange.bind(this)}
            startInLoadingState={true}
-           injectedJavaScript={this.props.url.indexOf('help') >= 0 ? helpScript : privacyScript}
+           injectedJavaScript={this.props.source.uri.indexOf('help') >= 0 ? helpScript : privacyScript}
            scalesPageToFit={true}
            bounces={true}
            scrollEnabled={true}
