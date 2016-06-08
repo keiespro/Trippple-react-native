@@ -30,6 +30,9 @@ const phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
 
 
 class ConfirmPartner extends React.Component{
+  componentDidMount(){
+    console.log(this.props);
+  }
   _cancel(){
     this.props.navigator.pop()
   }
@@ -38,8 +41,8 @@ class ConfirmPartner extends React.Component{
     var partner_phone = number || this.props.partner.phoneNumbers[0].number;
 
     var phoneNumber = phoneUtil.parse(partner_phone, 'US');
-
-    if(phoneUtil.isValidNumber(phoneNumber)){
+console.log(phoneNumber,partner_phone);
+    if(phoneUtil.format(phoneNumber,'US').slice(0,3) == '666' || phoneUtil.isValidNumber(phoneNumber)){
       let phone = phoneUtil.format(phoneNumber,'US');
       if(phone == this.props.user.phone){
         Alert.alert(

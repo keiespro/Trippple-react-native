@@ -24,6 +24,7 @@ class SelectRelationshipStatus extends Component{
   }
 
   componentWillMount(){
+    console.log(this.props.user);
     if(this.props.user.invitation && !this.state.declinedInvitation){
       this.props.navigator.push({
         component:CoupleInvitation,

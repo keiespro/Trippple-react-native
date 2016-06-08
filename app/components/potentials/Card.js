@@ -40,7 +40,7 @@ class Card extends React.Component{
     }
 
     __DEV__ && props.isTopCard && console.log('POTENTIAL CARD:');
-    __DEV__ && props.isTopCard && console.table(props.potential);
+    // __DEV__ && props.isTopCard && console.table && console.table(props.potential);
 
   }
 
@@ -85,7 +85,7 @@ class Card extends React.Component{
       // this.toggleCardHoverOff()
     }
     if(nProps.potential.user.id != this.props.potential.user.id){
-      __DEV__ && nProps.isTopCard && console.table(nProps.potential)
+      // __DEV__ && nProps.isTopCard && console.table && console.table(nProps.potential)
       this.checkPotentialSuitability();
 
     }

@@ -1,11 +1,11 @@
 const APP_ENV = 'production';
 
-global.__DEBUG__ = true;
-
-global.__DEV__ = true;
+global.__DEBUG__ = false;
+//
+global.__DEV__ = false;
 // //
 // __DEBUG__ = true;
-__DEV__ = true;
+// __DEV__ = true;
 
 //
 // const __SHOW_ALL__ = false;

@@ -38,7 +38,6 @@ const TopTabs = React.createClass({
           key={'toptablogin'}
           style={[styles.topButton,(this.props.active == 'login' ? styles.activeButton : styles.otherButton)]}
           onPress={(e)=>{
-            console.log(e);
             this.toggleTab('login')
           }}
           underlayColor={this.props.active == 'login' ? colors.outerSpace : colors.rollingStone}

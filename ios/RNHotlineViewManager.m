@@ -20,7 +20,7 @@ RCT_EXPORT_MODULE();
 
 - (UIView *)view
 {
-    UIViewController *v = [[Hotline sharedInstance] getFAQsControllerForEmbed];
+    UIViewController *v = [[Hotline sharedInstance] getConversationsControllerForEmbed];
     UIView *x = v.view;
     return x;
 }

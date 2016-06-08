@@ -131,11 +131,14 @@ class UserActions {
       // partner_phone = partner_phone.substr(partner_phone.length - 10, partner_phone.length)
       Api.joinCouple(partnerPhone)
         .then((res) => {
-          dispatch({
-            response: res,
-            showCheckmark:true,
-            partnerName: partner.name
-          });
+          Api.joinCouple(partnerPhone)
+            .then((ress) => {
+              dispatch({
+                response: ress,
+                showCheckmark:true,
+                partnerName: partner.name
+              });
+            })
         })
         .catch((err) => {
           dispatch({

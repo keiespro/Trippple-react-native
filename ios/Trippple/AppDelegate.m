@@ -23,7 +23,7 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import "UIColor+TRColors.h"
-#import "ReactNativeAutoUpdater.h"
+#import <ReactNativeAutoUpdater/ReactNativeAutoUpdater.h>
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #import "Hotline.h"
@@ -31,6 +31,7 @@
 
 #define JS_CODE_METADATA_URL @"https://hello.trippple.co/update-2.3.0.json"
 
+#define ENV @"production"
 
 @implementation AppDelegate
 
@@ -41,15 +42,8 @@
   [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceAlert];
 
 
-  NSString *env = @"d";
 
-  NSURL* defaultMetadataFileLocation = [[NSBundle mainBundle] URLForResource:@"metadata"
-                                                               withExtension:@"json"];
-
-  NSURL* latestJSCodeLocation;
-  NSURL *defaultJSCodeLocation;
-
-  NSLog(@"RUNNING IN %@",env);
+  NSLog(@"RUNNING IN %@",ENV);
 
   [Fabric with:@[[Crashlytics class],[Answers class]]];
 
@@ -57,7 +51,7 @@
   [NewRelicAgent disableFeatures:NRFeatureFlag_CrashReporting];
   [NewRelicAgent startWithApplicationToken:@"AAe71824253eeeff92e1794a97883d2e0c5928816f"];
 
-  HotlineConfig *config = [[HotlineConfig alloc]initWithAppID:@"f54bba2a-84fa-43c8-afa9-098f3c1aefae"  andAppKey:@"fba1b915-fa8b-4c24-bdda-8bac99fcf92a"];
+  HotlineConfig *config = [[HotlineConfig alloc] initWithAppID:@"f54bba2a-84fa-43c8-afa9-098f3c1aefae"  andAppKey:@"fba1b915-fa8b-4c24-bdda-8bac99fcf92a"];
 
   config.displayFAQsAsGrid = NO; // set to NO for List View
   config.voiceMessagingEnabled = NO; // set NO to disable voice messaging
@@ -69,43 +63,9 @@
   config.notificationSoundEnabled = NO;
   [[Hotline sharedInstance] initWithConfig:config];
 
-
-  if([env isEqual: @"production"]){
-    //    PRODUCTION
-    defaultJSCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-
-  }else{
-    //     DEVELOPMENT
-    defaultJSCodeLocation = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
-
-
-  }
-
-//  ReactNativeAutoUpdater* updater = [ReactNativeAutoUpdater sharedInstance];
-//  [updater setDelegate:nil];
-//  [updater initializeWithUpdateMetadataUrl:[NSURL URLWithString:JS_CODE_METADATA_URL]
-//                     defaultJSCodeLocation:defaultJSCodeLocation
-//               defaultMetadataFileLocation:defaultMetadataFileLocation ];
-//  [updater setHostnameForRelativeDownloadURLs:@"hello.teepy.co"];
-//
-//  [updater allowCellularDataUse: YES];
-//  [updater downloadUpdatesForType: ReactNativeAutoUpdaterPatchUpdate];
-//  [updater checkUpdate];
-//
-//
-//
-  if([env  isEqual: @"production"]){
-    //PRODUCTION
-//    latestJSCodeLocation = [updater latestJSCodeLocation];
-  }else{
-    // DEVELOPMENT
-    latestJSCodeLocation = defaultJSCodeLocation;
-  }
-
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:_bridge
                                                       moduleName:@"Trippple"
                                                initialProperties:nil];
-
 
   rootView.backgroundColor = [UIColor tr_outerSpaceColor];
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -124,9 +84,31 @@
 - (NSURL *)sourceURLForBridge:(__unused RCTBridge *)bridge
 {
   NSURL *sourceURL;
+  
+  NSURL* defaultMetadataFileLocation = [[NSBundle mainBundle] URLForResource:@"metadata"
+                                                               withExtension:@"json"];
+  
+  if([ENV isEqual:@"production"]){
+//    ReactNativeAutoUpdater* updater = [ReactNativeAutoUpdater sharedInstance];
+//    [updater setDelegate:nil];
+//    [updater initializeWithUpdateMetadataUrl:[NSURL URLWithString:JS_CODE_METADATA_URL]
+//                       defaultJSCodeLocation:[[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"]
+//                 defaultMetadataFileLocation:defaultMetadataFileLocation ];
+////    [updater setHostnameForRelativeDownloadURLs:@"trippple.co"];
+//    
+//    [updater allowCellularDataUse: YES];
+//    [updater downloadUpdatesForType: ReactNativeAutoUpdaterPatchUpdate];
+//    [updater checkUpdate];
+//    
+    //
+    //
+//    sourceURL = [updater latestJSCodeLocation];
+    sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
+  }else{
+    sourceURL = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
+  }
 
-  sourceURL = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
 
   return sourceURL;
 }
@@ -160,8 +142,17 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
+  NSLog(@"%@",url);
+  if(url.path){
+  
+  return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                        openURL:url
+                                              sourceApplication:sourceApplication
+                                               annotation:annotation];
+ }else{
   return [RCTLinkingManager application:application openURL:url
                       sourceApplication:sourceApplication annotation:annotation];
+ }
 }
 
 

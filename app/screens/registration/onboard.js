@@ -145,16 +145,31 @@ class Onboard extends Component{
             storeIndex = this.props.onboardingState.routeIndex;
       //if the current route changed by a route, update the store
       if(storeIndex < navIndex ){
-        OnboardingActions.updateRoute(this.props.onboardingState.routeIndex + 1)
       }
       if( storeIndex > navIndex ){
-        OnboardingActions.updateRoute(this.props.onboardingState.routeIndex-1)
       }
     })
 
     if(this.props.user.partner_id){
       this.setState({selection: 'couple'})
     }
+
+        if(this.props.user.relationship_status){
+          console.log('status');
+          this.setState({selection: this.props.user.relationship_status})
+
+
+
+          this.refs.onboardingNavigator.replace(
+            stacks[this.props.user.relationship_status][this.props.user.partner_id ?
+              this.props.user.facebook_user_id ? 4 : 3 :
+                1]
+          )
+          OnboardingActions.updateRoute(this.props.user.partner_id ?
+                        this.props.user.facebook_user_id ? 4 : 3 :
+                          1);
+
+        }
   }
   selectScene (route: Navigator.route, navigator: Navigator) {
 
@@ -169,6 +184,15 @@ class Onboard extends Component{
     );
   }
   componentWillReceiveProps(nProps){
+    if(nProps.user.partner_id && nProps.onboardingState.routeIndex == 0){
+      console.log('status');
+      this.setState({selection: 'couple'})
+
+      this.refs.onboardingNavigator.replace( stacks['couple'][ nProps.user.facebook_user_id ? 4 : 3 ] )
+      OnboardingActions.updateRoute(nProps.user.facebook_user_id ? 4 : 3);
+
+    }
+
     if(this.props.onboardingState.routeIndex > nProps.onboardingState.routeIndex &&  nProps.onboardingState.popped){
       this.refs.onboardingNavigator.pop()
 

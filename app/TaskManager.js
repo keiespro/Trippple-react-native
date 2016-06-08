@@ -2,14 +2,15 @@ import React from "react";
 import {Settings, Navigator, View, NativeModules} from "react-native";
 import LocationPermissions from './modals/LocationPermission'
 import NotificationPermissions from './modals/NotificationPermissions'
-const {OSPermissions} = NativeModules
+const {OSPermissions,RNHotlineController} = NativeModules
 import Analytics from './utils/Analytics'
 import SETTINGS_CONSTANTS from './utils/SettingsConstants'
 import AppActions from './flux/actions/AppActions'
-
+import TimerMixin from 'react-timer-mixin';
+import reactMixin from 'react-mixin'
 const {HAS_SEEN_NOTIFICATION_REQUEST,LAST_ASKED_LOCATION_PERMISSION} = SETTINGS_CONSTANTS
 
-export default class TaskManager extends React.Component{
+ class TaskManager extends React.Component{
   constructor(props){
     super()
 
@@ -19,10 +20,20 @@ export default class TaskManager extends React.Component{
   }
   componentDidMount(){
     this.checkRunOnceSettings();
+    // RCT_EXPORT_METHOD(setUser:(NSString *)user_id name:(NSString *)name phone:(NSString *)phone relStatus:(NSString *)relStatus image:(NSString *)image thumb:(NSString *)thumb partner_id:(NSString *)partner_id ){
+
+    const {id, firstname, phone, relationship_status, gender, image_url,  thumb_url, partner_id} = this.props.user;
+    RNHotlineController.setUser(`${id}`, firstname, phone, relationship_status, gender, image_url, thumb_url, `${partner_id}` )
+  }
+  componentWillUnmount(){
+    this.clearTimeout();
   }
   checkRunOnceSettings(){
-    this.checkNotificationsSetting()
-    this.checkLocationSetting()
+    this.setTimeout(()=>{
+      this.checkNotificationsSetting()
+
+      this.checkLocationSetting()
+    },2000);
   }
 
   checkNotificationsSetting(){
@@ -57,7 +68,8 @@ export default class TaskManager extends React.Component{
             user:this.props.user,
             failedTitle:'Location',
             failCallback: ()=>{ this.props.navigator.pop() },
-            hideModal: ()=>{ this.props.navigator.pop() }
+            hideModal: ()=>{ this.props.navigator.pop() },
+            closeModal: ()=>{ this.props.navigator.pop() }
 
           }
         })
@@ -78,22 +90,8 @@ export default class TaskManager extends React.Component{
   }
 
   componentWillReceiveProps(nProps){
-    if(nProps.triggers.relevantUser && !this.props.triggers.relevantUser && nProps.triggers.requestNotificationsPermission && !this.props.triggers.requestNotificationsPermission){
-      // this.showNotificationRequest(nProps.triggers.relevantUser)
-    }
-
-    // this.showNotificationRequest(nProps.triggers.relevantUser)
 
   }
-  showNotificationRequest(relevantUser){
-
-    // AppActions.showNotificationModalWithLikedUser.defer(relevantUser)
-
-          // .then(()=>this.setHasSeenNotificationRequest())
-          // .catch((err)=>{console.log(err);})
-
-  }
-
   setHasSeenNotificationRequest(u){
     Settings.set({
       [HAS_SEEN_NOTIFICATION_REQUEST]: u ? u : true
@@ -107,3 +105,6 @@ export default class TaskManager extends React.Component{
     return (<View/>)
   }
 }
+
+reactMixin(TaskManager.prototype, TimerMixin);
+export default TaskManager

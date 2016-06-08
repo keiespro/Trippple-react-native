@@ -208,7 +208,7 @@
 		<key>FontColor</key>
 		<string>FFFFFF</string>
 		<key>FontName</key>
-		<string>Omnes-Light</string>
+		<string>Omnes</string>
 		<key>FontSize</key>
 		<string>13.0f</string>
 		<key>InnerBackgroundColor</key>
@@ -223,7 +223,7 @@
 		<key>CellBackgroundColor</key>
 		<string>FFFFFF</string>
 		<key>CellSeparatorColor</key>
-		<string>243138</string>
+		<string>FFFFFF</string>
 		<key>TitleFontColor</key>
 		<string>2C3941</string>
 		<key>TitleFontName</key>
@@ -242,7 +242,7 @@
 		<key>TitleFontColor</key>
 		<string>2C3941</string>
 		<key>TitleFontName</key>
-		<string>Montserrat-Bold</string>
+		<string>Montserrat</string>
 		<key>TitleFontSize</key>
 		<string>14.0f</string>
 	</dict>

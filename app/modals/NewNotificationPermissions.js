@@ -113,6 +113,7 @@ class NewNotificationPermissions extends React.Component{
 
             PushNotificationIOS.addEventListener('register', this.handleNotificationPermission.bind(this))
             PushNotificationIOS.requestPermissions({alert:true,badge:true,sound:true})
+            AppActions.disableNotificationModal()
 
           }else{
             AppActions.disableNotificationModal()
@@ -126,6 +127,8 @@ class NewNotificationPermissions extends React.Component{
       }
     }
     handleFail(){
+      AppActions.disableNotificationModal()
+
       this.setState({hasPermission: false})
     }
     handleSuccess(){
@@ -143,6 +146,7 @@ class NewNotificationPermissions extends React.Component{
 
           // AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
           this.setState({ hasPermission: (permResult > 0), failedState: false });
+          AppActions.disableNotificationModal()
 
         })
       }
