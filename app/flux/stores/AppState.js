@@ -18,14 +18,6 @@ class AppStateStore {
     this.currentRoute = null
     this.showOverlay = false
     this.showMaintenanceScreen = false
-    this.permissions = {
-      camera: null,
-      cameraRoll: null,
-      contacts: null,
-      location: null,
-      notifications: null,
-
-    }
     this.OSPermissions = {...OSPermissions }
 
     this.bindListeners({
@@ -65,9 +57,7 @@ class AppStateStore {
       // Analytics.all('BOOTSTRAP App State Store',bootstrappedState);
     });
 
-    this.on('afterEach', (x) => {
 
-     });
 
   }
 
@@ -81,21 +71,9 @@ class AppStateStore {
     UserActions.getUserInfo.defer()
 
   }
-  handleTogglePermission(permission,value){
 
-//     const perms = this.permissions
-//     perms[permission] = value
-//     this.saveToLocalStorage(permission,value)
-//     this.setState({permissions:perms})
-  }
   handleSentTelemetry(result){
 
-  }
-  handleGrantPermission(permission){
-    // this.handleTogglePermission(permission, true)
-  }
-  handleDenyPermission(permission){
-    // this.handleTogglePermission(permission, true)
   }
 
   saveToLocalStorage(permission, value){

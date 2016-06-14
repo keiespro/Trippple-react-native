@@ -114,15 +114,30 @@ class MatchesStore {
       timestamp
     } = payload;
     const m = this.state.matches[ match_id ]
-    m.lastAccessed = timestamp || Date.now()
-    m.unread = 0
-    const matches = this.state.matches
-    matches[ match_id ] = m
-    m.unread = 0;
+    if(m){
+      m.lastAccessed = timestamp || Date.now()
+      m.unread = 0
+      const matches = this.state.matches
+      matches[ match_id ] = m
+      m.unread = 0;
 
-    this.setState({
-      matches
-    })
+      this.setState({
+        matches
+      })
+    }else{
+      const nm = this.state.newMatches[ match_id ]
+      if(nm){
+        nm.lastAccessed = timestamp || Date.now()
+        nm.unread = 0
+        const newMatches = this.state.newMatches
+        newMatches[ match_id ] = nm
+        nm.unread = 0;
+
+        this.setState({
+          newMatches
+        })
+      }
+    }
   }
 
 

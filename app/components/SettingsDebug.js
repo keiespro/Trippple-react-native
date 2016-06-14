@@ -1,11 +1,16 @@
 
 import React from "react";
-import {StyleSheet, Text, View, TouchableHighlight, Settings, TouchableOpacity, Animated, PushNotificationIOS, Image, ScrollView, AsyncStorage, Navigator} from "react-native";
+import {StyleSheet, UIManager, Text, View, TouchableHighlight, Settings, TouchableOpacity,Dimensions, Animated, PushNotificationIOS, Image, ScrollView, AsyncStorage, Navigator, ListView,AlertIOS} from "react-native";
 import AppTelemetry from '../AppTelemetry'
 import NotificationActions from '../flux/actions/NotificationActions'
 import MatchActions from '../flux/actions/MatchActions'
 import AppActions from '../flux/actions/AppActions'
 import colors from '../utils/colors'
+import FakeNavBar from '../controls/FakeNavBar'
+
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
+
 
 import NotificationPermissions from '../modals/NewNotificationPermissions'
 import {MagicNumbers} from '../DeviceConfig'
@@ -23,7 +28,54 @@ class SettingsDebug extends React.Component{
   }
   render(){
       return (
-          <ScrollView>
+        <View style={{flex:1}}>
+
+      <ScrollView contentContainerStyle={{height:DeviceHeight-55,top:55}} style={{flex:1}}>
+            {/*  Show telemetry */}
+              <TouchableHighlight
+                onPress={(f)=>{
+                  AppTelemetry.getPayload()
+                  .then((telemetry)=>{
+                    this.props.navigator.push({
+                      component: TelemetryPage,
+                      passProps: {
+                        renderProps: telemetry
+                      }
+                    })
+                  })
+                  .catch((err)=>{
+                    console.error(err)
+                  })
+
+                }} >
+                <View style={styles.wrapfield}>
+                  <Text style={{color:colors.white,}}>User & session info</Text>
+                <Image source={{uri: 'assets/nextArrow@3x.png'}} style={{height:10,width:10,tintColor:colors.white}} />
+                </View>
+              </TouchableHighlight>
+
+              {/*  send like */}
+                <TouchableHighlight
+                  onPress={(f)=>{
+                    AlertIOS.prompt(
+                      'Like User',
+                     'Enter their id',
+                     [
+                        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                        {text: 'OK', onPress: (likeUserId) => {
+                          console.log('liking user: ' + likeUserId);
+                          MatchActions.sendLike( likeUserId, 'approve', (this.props.user.relationship_status == 'single' ? 'couple' : 'single'), this.props.user.relationship_status );
+                        }, style: 'default'}
+                      ],
+                      'plain-text'
+                    )
+                  }} >
+                  <View style={styles.wrapfield}>
+                    <Text style={{color:colors.white,}}>Send like to user</Text>
+                    <Image source={{uri: 'assets/nextArrow@3x.png'}} style={{height:10,width:10,tintColor:colors.white}} />
+
+                  </View>
+                </TouchableHighlight>
 
 
           {/*  Receive fake Notification */}
@@ -124,8 +176,7 @@ class SettingsDebug extends React.Component{
              }} >
              <View style={styles.wrapfield}>
                <Text style={{color:colors.white,}}>Reset New Notification permisson</Text>
-               <Image source={{uri: 'assets/nextArrow@3x.png'}} />
-             </View>
+              </View>
              </TouchableHighlight>
 
 
@@ -166,17 +217,47 @@ class SettingsDebug extends React.Component{
               }} >
               <View style={styles.wrapfield}>
                 <Text style={{color:colors.white}}>Get FAKE potentials</Text>
-                <Image source={{uri: 'assets/nextArrow@3x.png'}} />
-              </View>
+               </View>
             </TouchableHighlight>
 
+          {/*  toggle DEV */}
+            <TouchableHighlight
+              onPress={(f)=>{
+                __DEV__ = false;
+                __DEBUG__ = false;
+
+
+              }} >
+              <View style={styles.wrapfield}>
+                <Text style={{color:colors.white,}}>toggle __DEV__ (DON'T) </Text>
+               </View>
+            </TouchableHighlight>
+
+            {/*  screenshot */}
+              <TouchableHighlight
+                onPress={(f)=>{
+                  UIManager.takeSnapshot('window', {format: 'jpeg', quality: 0.8}).then(screenshot=>{
+
+                     this.props.navigator.push({
+                       component:  EmptyPage,
+                       passProps:{
+                         screenshot
+                       }
+                     })
+                })
+
+                }} >
+                <View style={styles.wrapfield}>
+                  <Text style={{color:colors.white,}}>screenshot </Text>
+                 </View>
+              </TouchableHighlight>
 
         {/*  clear local storage */}
           <TouchableHighlight
             onPress={(f)=>{
               AsyncStorage.clear()
               .then((res)=>{
-                console.log(res)
+                // console.log(res)
                 TripppleSettingsKeys.map((k,i)=>{
                   Settings.set({[k]: null})
                 })
@@ -188,8 +269,7 @@ class SettingsDebug extends React.Component{
             }} >
             <View style={styles.wrapfield}>
               <Text style={{color:colors.white,}}>clear local storage</Text>
-              <Image source={{uri: 'assets/nextArrow@3x.png'}} />
-            </View>
+             </View>
           </TouchableHighlight>
 
           {/*  Local Notification */}
@@ -197,14 +277,13 @@ class SettingsDebug extends React.Component{
               onPress={(f)=>{
                 PushNotificationIOS.scheduleLocalNotification({
                   fireDate: Date.now()+10000,
-                  alertBody: 'New Matches!',
+                  alertBody: 'local notification in 10 seconds!',
                   soundName: 'default'
                 })
               }} >
               <View style={styles.wrapfield}>
                 <Text style={{color:colors.white,}}>Schedule local notification in 10 seconds</Text>
-                <Image source={{uri: 'assets/nextArrow@3x.png'}} />
-              </View>
+               </View>
               </TouchableHighlight>
 
           {/*  loading overlay */}
@@ -212,32 +291,9 @@ class SettingsDebug extends React.Component{
               onPress={()=>{ AppActions.toggleOverlay() }} >
               <View style={styles.wrapfield}>
                 <Text style={{color:colors.white}}>Toggle Loading Overlay</Text>
-                <Image source={{uri: 'assets/nextArrow@3x.png'}} />
-              </View>
+               </View>
             </TouchableHighlight>
 
-            {/*  Show telemetry */}
-              <TouchableHighlight
-                onPress={(f)=>{
-                  AppTelemetry.getPayload()
-                  .then((telemetry)=>{
-                    this.props.navigator.push({
-                      component: EmptyPage,
-                      passProps: {
-                        renderProps: telemetry
-                      }
-                    })
-                  })
-                  .catch((err)=>{
-                    console.error(err)
-                  })
-
-                }} >
-                <View style={styles.wrapfield}>
-                  <Text style={{color:colors.white,}}>Show telemetry json</Text>
-                  <Image source={{uri: 'assets/nextArrow@3x.png'}} />
-                </View>
-              </TouchableHighlight>
 
               {/*  send telemetry */}
                 <TouchableHighlight
@@ -247,8 +303,7 @@ class SettingsDebug extends React.Component{
                   }} >
                   <View style={styles.wrapfield}>
                     <Text style={{color:colors.white,}}>send telemetry base64</Text>
-                    <Image source={{uri: 'assets/nextArrow@3x.png'}} />
-                  </View>
+                   </View>
                 </TouchableHighlight>
             {/*  show checkmark */}
               <TouchableHighlight
@@ -257,14 +312,24 @@ class SettingsDebug extends React.Component{
                 <View style={styles.wrapfield}>
 
                   <Text style={{color:colors.white}}>Checkmark</Text>
-                  <Image source={{uri: 'assets/nextArrow@3x.png'}} />
-                </View>
+                 </View>
               </TouchableHighlight>
 
 
           </ScrollView>
+          <FakeNavBar
+            blur={true}
+            navigator={this.props.navigator}
+            backgroundStyle={{backgroundColor:colors.sushi,top:0}}
+            hideNext={true}
+            customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{marginVertical:10,alignSelf:'center',height:12,width:12}}
+            source={{uri:'assets/close@3x.png'}}/>}
+            onPrev={(nav,route)=> nav.pop()}
+            title={'DEBUG SETTINGS'}
+            titleColor={colors.white}
+          />
 
-
+</View>
       )
 
   }
@@ -281,22 +346,109 @@ class EmptyPage extends React.Component{
     super()
   }
   render(){
-    const {renderProps} = this.props
-    console.log(renderProps)
+    const {data,screenshot} = this.props
+    // console.log(data)
     return (
-      <ScrollView>
-        {Object.keys(renderProps).map((prop,i)=>{
-            return (
-              <View key={`debug${i}`}>
-                <Text style={{color:colors.sushi,marginBottom:10}}>{prop}</Text>
-                <Text style={{color:colors.white,marginBottom:20}}>{
-                    JSON.stringify(renderProps[prop])
-                }</Text>
-              </View>)
-          })}
-      </ScrollView>
+      <View style={{flex:1}}>
+
+      <ScrollView horizontal={true} vertical={true} contentContainerStyle={{top:55}} style={{flex:1}} >
+          {screenshot ?
+            <Image resizeMode={'cover'} source={{uri: screenshot}} style={{width:DeviceWidth*.75,height:DeviceHeight*.75}}/>
+           : <Text style={{color:colors.white,marginBottom:20}}>{
+              JSON.stringify(data.data, null, 2)
+          }</Text>}
+        </ScrollView>
+        <FakeNavBar
+          blur={true}
+          navigator={this.props.navigator}
+          backgroundStyle={{backgroundColor:colors.sushi,top:0}}
+          hideNext={true}
+          customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{marginVertical:10,alignSelf:'center',height:12,width:12}}
+          source={{uri:'assets/close@3x.png'}}/>}
+          onPrev={(nav,route)=> nav.pop()}
+          title={data.name}
+          titleColor={colors.white}
+        />
+
+      </View>
+
     )
   }
+}
+
+
+
+class TelemetryPage extends React.Component{
+
+  constructor(props){
+    super()
+
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    const {renderProps} = props
+    console.log(props,'<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
+    const data = Object.keys(renderProps).map((prop,i)=>{ return {name: prop, data: renderProps[prop] }})
+    this.state = {
+      dataSource: ds.cloneWithRows(data),
+    };
+  }
+  renderRow(rowData){
+    return  (
+      <TouchableOpacity onPress={()=>{
+          if(rowData.name == 'state'){
+            this.props.navigator.push({
+              component: TelemetryPage,
+              passProps:{
+                renderProps: rowData.data,
+              },
+              name: `debug - ${rowData.name}`
+            })
+
+          }else{
+            this.props.navigator.push({
+              component: EmptyPage,
+              passProps:{
+                data: rowData,
+              },
+              name: `debug - ${rowData.name}`
+            })
+          }
+
+        }}>
+        <View style={styles.wrapfield}>
+          <Text style={{color:colors.white,}}>{rowData.name}</Text>
+          <Image source={{uri: 'assets/nextArrow@3x.png'}} style={{height:10,width:10,tintColor:colors.white}} />
+
+        </View>
+      </TouchableOpacity>
+    )
+  }
+  render(){
+    const {renderProps} = this.props
+    return (
+      <View style={{flex:1}}>
+
+        <ListView
+         contentContainerStyle={{height:DeviceHeight-55,top:55}} style={{flex:1}}
+
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow.bind(this)}
+          />
+          <FakeNavBar
+            blur={true}
+            backgroundStyle={{backgroundColor:colors.sushi,top:0}}
+            hideNext={true}
+            customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{marginVertical:10,alignSelf:'center',height:12,width:12}}
+            source={{uri:'assets/close@3x.png'}}/>}
+            onPrev={(nav,route)=> nav.pop()}
+            title={renderProps ? renderProps.name : 'x'}
+            titleColor={colors.white}
+            navigator={this.props.navigator}
+
+          />
+
+      </View>
+      )
+    }
 }
 
 

@@ -15,9 +15,16 @@ import styles from './settingsStyles'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import Analytics from '../utils/Analytics'
+const {OSPermissions} = NativeModules
 
-var {OSPermissions} = NativeModules
-import { HAS_SEEN_NOTIFICATION_REQUEST, LAST_ASKED_NOTIFICATION_PERMISSION, NOTIFICATION_SETTING } from '../utils/SettingsConstants'
+import {
+  HAS_SEEN_NOTIFICATION_REQUEST,
+  LAST_ASKED_NOTIFICATION_PERMISSION,
+  NOTIFICATION_SETTING,
+  LEGACY_NOTIFICATION_SETTING,
+  LOCATION_SETTING,
+  LEGACY_LOCATION_SETTING
+} from '../utils/SettingsConstants'
 
 class PermissionSwitches extends React.Component{
   constructor(props){
@@ -28,23 +35,32 @@ class PermissionSwitches extends React.Component{
       NotificationSetting: false
     }
   }
-  componentWillMount(){
-      const LocationSetting = Settings.get('LocationSetting') || "null";// settings[0][1] ? JSON.parse(settings[0][1]) : false;
-      const NotificationSetting = Settings.get(NOTIFICATION_SETTING) || Settings.get(NOTIFICATION_SETTING) ||  null;//settings[1][1] ? JSON.parse(settings[1][1]) : false;
+  componentDidMount(){
+      const LocationSetting = Settings.get(LOCATION_SETTING) || Settings.get(LEGACY_LOCATION_SETTING) || null;
+      const NotificationSetting = Settings.get(NOTIFICATION_SETTING) || Settings.get(LEGACY_NOTIFICATION_SETTING) || null;
 
-      this.setState({
-        LocationSetting: JSON.parse(OSPermissions.location) > 2 || JSON.parse(LocationSetting) ? true : false,
-        NotificationSetting: NotificationSetting ? true : false,
+      OSPermissions.canUseNotifications(OSNotifications => {
+        OSPermissions.canUseLocation(OSLocation => {
+          this.setState({
+            LocationSetting: OSLocation > 2 || JSON.parse(LocationSetting) ? true : false,
+            NotificationSetting: OSNotifications > 2 || JSON.parse(NotificationSetting) ? true : false,
+            OSNotifications,
+            OSLocation
+          })
+        })
       })
+
   }
   toggleLocation(){
+    const {OSLocation} = this.state;
+
     Analytics.event('Interaction',{
       name: `Toggle location permission`,
       type: 'tap',
-      value: JSON.parse(OSPermissions.location)
+      value: parseInt(OSLocation)
     })
 
-    if(!OSPermissions.location || OSPermissions.location && !JSON.parse(OSPermissions.location)){
+    if(!this.state.LocationSetting && !OSLocation){
 
       this.props.navigator.push({
         component:CheckPermissions,
@@ -64,11 +80,11 @@ class PermissionSwitches extends React.Component{
             Analytics.extra('Permission', {
               name: `got location`,
               type: 'tap',
-              value: coords
+              value: coords+''
             })
           },
           failedSubtitle: 'Geolocation is disabled. You can enable it in your phone’s Settings.',
-          failedState: (JSON.parse(OSPermissions.location) < 3 ? true : false),
+          failedState: OSLocation < 3 ? true : false,
           headerImageSource:'iconDeck',
           permissionKey:'location',
           renderNextMethod: 'pop',
@@ -78,12 +94,13 @@ class PermissionSwitches extends React.Component{
       })
     }else{
       const newValue = !this.state.LocationSetting;
-      Settings.set({LocationSetting: newValue })
+      Settings.set({[LOCATION_SETTING]: newValue })
       this.setState({ LocationSetting: newValue })
     }
   }
   toggleNotification(){
-    if(this.state.NotificationSetting == false){
+    const {NotificationSetting, OSNotifications} = this.state
+    if(this.state.NotificationSetting == false || !OSNotifications){
 
       PushNotificationIOS.checkPermissions( (permissions) => {
         const permResult = Object.keys(permissions).reduce((acc,el,i) =>{
@@ -100,16 +117,14 @@ class PermissionSwitches extends React.Component{
                 this.setState({ NotificationSetting: val })
               },
               successCallback: (val)=>{
-                                  this.setState({ NotificationSetting: true })
-
+                this.setState({ NotificationSetting: true })
               }
-
             }
           })
         }else{
           const newValue = !this.state.NotificationSetting;
-          this.setState({ [NOTIFICATION_SETTING]: newValue });
-          Settings.set({ [NOTIFICATION_SETTING]:newValue})
+          this.setState({ NotificationSetting: newValue });
+          Settings.set({ [NOTIFICATION_SETTING]: newValue})
           NotificationActions.requestNotificationsPermission()
         }
       })
@@ -117,19 +132,6 @@ class PermissionSwitches extends React.Component{
     }else{
       this.setState({ NotificationSetting: false })
     }
-  }
-
-  componentDidUpdate(pProps,pState){
-    if(this.state.nearMeToggled != pState.nearMeToggled && !pState.nearMeToggled){
-      OSPermissions.canUseLocation( (locPerm) => {
-        if(locPerm > 2){
-          this.setState({nearMeToggled:true})
-        }else{
-          this.setState({nearMeToggled:false})
-        }
-      })
-    }
-
   }
 
   render(){

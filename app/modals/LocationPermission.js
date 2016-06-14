@@ -162,13 +162,14 @@ export default class CheckPermissions extends React.Component{
          style={[{padding:0,width:DeviceWidth,height:DeviceHeight,backgroundColor: 'transparent',paddingTop:20,flex:1,position:'relative',paddingHorizontal:MagicNumbers.screenPadding/2}]}
          contentContainerStyle={{justifyContent:'center',alignItems:'center',}}
        >
-       <Image style={{width:240,height:240,marginVertical:10,padding:50}}            resizeMode="cover"
- source={ {uri: 'assets/localIcon@3x.png' }}>
-         <Image style={[{width:140,height:140,borderRadius:80}]} source={
-             {uri: this.props.user.image_url }}
+       <View style={{width:240,height:240,marginVertical:10,flex:1,position:'relative',alignItems:'center',justifyContent:'center'}}>
+       <Image style={[{width:140,height:140,borderRadius:70,top:0,left:0,margin:50,position:'absolute'}]} source={ {uri: this.props.user.image_url }} />
+       <Image
+         style={{width:240,height:240,marginVertical:0,top:0,left:0,padding:50,padding:0,position:'absolute'}}
+         resizeMode="cover"
+         source={ {uri: 'assets/localIcon@3x.png' }}
          />
-       </Image>
-
+     </View>
        <View style={[styles.insidemodalwrapper,{justifyContent:'space-between'}]}>
 
            <Text style={[styles.rowtext,styles.bigtext,{

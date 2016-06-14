@@ -41,6 +41,12 @@ class Card extends React.Component{
 
     __DEV__ && props.isTopCard && console.log('POTENTIAL CARD:');
     // __DEV__ && props.isTopCard && console.table && console.table(props.potential);
+    if(!props.isTopCard && props.potential && props.potential.user && props.potential.user.image_url){
+      Image.prefetch(props.potential.user.image_url)
+    }
+    if(!props.isTopCard && props.potential && props.potential.partner && props.potential.partner.image_url){
+      Image.prefetch(props.potential.partner.image_url)
+    }
 
   }
 

@@ -91,7 +91,7 @@ componentDidMount(){
               this.props.highlightRow(sectionID,rowID)
             }
           }}>
-          <View style={[styles.fullwidth,styles.row,
+          <View style={[styles.fullwidth,styles.row,{overflow:'hidden'},
             (this.props.highlightedRow && this.props.highlightedRow.sectionID === sectionID && this.props.highlightedRow.rowID === rowID ? styles.rowSelected : null)]}>
 
             <Image style={[styles.contactthumb,{backgroundColor:colors.shuttleGray20}]} resizeMode={Image.resizeMode.cover}

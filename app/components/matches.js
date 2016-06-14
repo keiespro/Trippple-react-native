@@ -258,6 +258,7 @@ class MatchList extends Component{
           directionalLockEnabled={true}
           removeClippedSubviews={true}
           vertical={true}
+          initialListSize={5}
           scrollsToTop={true}
           contentOffset={{x:0,y:this.state.isRefreshing ? -50 : 0}}
           refreshControl={

@@ -44,7 +44,7 @@
     "phone-parser": "0.0.2",
     "re-base": "^1.5.1",
     "react": "^15.1.0",
-    "react-addons-test-utils": "^0.14.5",
+    "react-addons-test-utils": "^15.1.0",
     "react-mixin": "^3.0.3",
     "react-native": "^0.27.0",
     "react-native-addressbook": "^1.2.0",

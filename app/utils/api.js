@@ -45,7 +45,7 @@ async function baseRequest(endpoint='': String, payload={}: Object){
       throw new Error('Unauthorized')
     }
     if(!res.json){
-      __DEV__ && console.log('no res.json')
+      __DEV__ && console.warn('no res.json')
     }
     __DEV__ && console.log(res);
     let response = await res.json()
@@ -58,7 +58,7 @@ async function baseRequest(endpoint='': String, payload={}: Object){
     })
 
   }catch(err){
-    __DEV__ && console.log('CAUGHT ERR',res,err)
+    __DEV__ && console.warn('CAUGHT ERR',JSON.stringify(err, null, 2))
 
     return {error: err, status: res.status}
   }

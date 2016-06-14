@@ -201,131 +201,174 @@ class SettingsSettings extends React.Component{
 
     var {privacy} = this.state
 
-     return (
+    return (
       <View style={styles.inner}>
-          <FakeNavBar
-            backgroundStyle={{backgroundColor:colors.shuttleGray}}
-            hideNext={true}
-            navigator={this.props.navigator}
-            customPrev={
-              <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
-                <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
+        <FakeNavBar
+          backgroundStyle={{backgroundColor:colors.shuttleGray}}
+          hideNext={true}
+          navigator={this.props.navigator}
+          customPrev={
+            <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
+              <Text
+                textAlign={'left'}
+                style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
+            </View>
+          }
+          onPrev={(nav,route)=> nav.pop()}
+          title={`SETTINGS`}
+          titleColor={colors.white}
+        />
+        <ScrollView
+          style={{flex:1,marginTop:54}}
+          contentContainerStyle={{   paddingHorizontal: 0}}
+          centerContent={true}
+        >
+          <View style={styles.paddedSpace}>
+            <View style={styles.formHeader}>
+              <Text style={styles.formHeaderText}>Privacy</Text>
+            </View>
+          </View>
+
+          <TouchableHighlight
+            underlayColor={colors.dark}
+            style={styles.paddedSpace}
+            onPress={()=>{this.togglePrivacy('public')}}
+          >
+            <View style={[{
+              borderBottomWidth: 1 / PixelRatio.get(),
+              borderColor:colors.rollingStone,flex:1,height:130,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}]}
+            >
+              <View
+                style={{flexWrap:'wrap',alignSelf:'stretch',flex:1,alignItems:'flex-start',justifyContent:'center',width:DeviceWidth-120,flexDirection:'column',paddingRight:20}}
+              >
+                <Text style={{color: privacy == 'public' ? colors.white : colors.rollingStone, fontSize:20,fontFamily:'Montserrat-Bold'}}>PUBLIC</Text>
+                <Text style={{
+                  color: privacy == 'public' ? colors.white : colors.rollingStone,fontSize:18,
+                  fontFamily:'omnes',marginTop:5}}>
+                  Your profile is visible to all Trippple members.
+                </Text>
               </View>
-            }
-            onPrev={(nav,route)=> nav.pop()}
-            title={`SETTINGS`}
-            titleColor={colors.white}
-            />
-          <ScrollView style={{flex:1,marginTop:54}} contentContainerStyle={{   paddingHorizontal: 0}} centerContent={true} >
-            <View style={styles.paddedSpace}>
-              <View style={styles.formHeader}>
-                <Text style={styles.formHeaderText}>Privacy</Text>
+              <View style={{width:30,marginHorizontal:10}}>
+                <Image
+                  style={{width:40,height:40}}
+                  source={privacy == 'public' ? {uri: 'assets/ovalSelected@3x.png'} : {uri: 'assets/ovalDashed@3x.png'}}/>
               </View>
             </View>
-        <TouchableHighlight underlayColor={colors.dark} style={styles.paddedSpace} onPress={()=>{this.togglePrivacy('public')}}>
-          <View  style={[{
+          </TouchableHighlight>
+
+          <TouchableHighlight
+            underlayColor={colors.dark}
+            style={styles.paddedSpace}
+            onPress={this.handleTapPrivacy.bind(this)}
+          >
+            <View style={[{
               borderBottomWidth: 1 / PixelRatio.get(),
-              borderColor:colors.rollingStone,flex:1,height:130,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}]}>
-          <View style={{flexWrap:'wrap',alignSelf:'stretch',flex:1,alignItems:'flex-start',justifyContent:'center',width:DeviceWidth-120,flexDirection:'column',paddingRight:20}}>
-            <Text style={{color: privacy == 'public' ? colors.white : colors.rollingStone, fontSize:20,fontFamily:'Montserrat-Bold'}}>PUBLIC</Text>
-          <Text style={{
-              color: privacy == 'public' ? colors.white : colors.rollingStone,fontSize:18,
-              fontFamily:'omnes',marginTop:5}}>
-                Your profile is visible to all Trippple members.
-                  </Text>
-                </View>
-                <View style={{width:30,marginHorizontal:10}}>
-                  <Image style={{width:40,height:40}} source={privacy == 'public' ? {uri: 'assets/ovalSelected@3x.png'} : {uri: 'assets/ovalDashed@3x.png'}}/>
-                </View>
-                </View>
-              </TouchableHighlight>
+              borderColor:colors.rollingStone,flex:1,height:130,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}]}
+            >
+              <View
+                style={{flexWrap:'wrap',alignSelf:'stretch',flex:1,alignItems:'flex-start',justifyContent:'center',width:DeviceWidth-120,flexDirection:'column',paddingRight:20}}>
+                <Text style={{color: privacy == 'private' ? colors.white : colors.rollingStone, fontSize:20,fontFamily:'Montserrat-Bold'}}>PRIVATE</Text>
+                <Text style={{color: privacy == 'private' ? colors.white : colors.rollingStone,fontSize:18,fontFamily:'omnes',marginTop:5}}>
+                  Your profile is hidden from your facebook friends and phone contacts.
+                </Text>
+              </View>
+              <View style={{width:30,marginHorizontal:10}}>
+                <Image
+                  style={{width:40,height:40}}
+                  source={privacy == 'private' ? {uri: 'assets/ovalSelected@3x.png'} : {uri:
+                  'assets/ovalDashed@3x.png'}}/>
+              </View>
+            </View>
+          </TouchableHighlight>
 
-    <TouchableHighlight underlayColor={colors.dark} style={styles.paddedSpace} onPress={this.handleTapPrivacy.bind(this)}>
-      <View  style={[{
-          borderBottomWidth: 1 / PixelRatio.get(),
-          borderColor:colors.rollingStone,flex:1,height:130,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}]}>
-      <View style={{flexWrap:'wrap',alignSelf:'stretch',flex:1,alignItems:'flex-start',justifyContent:'center',width:DeviceWidth-120,flexDirection:'column',paddingRight:20}}>
-        <Text style={{color: privacy == 'private' ? colors.white : colors.rollingStone, fontSize:20,fontFamily:'Montserrat-Bold'}}>PRIVATE</Text>
-      <Text style={{color: privacy == 'private' ? colors.white : colors.rollingStone,fontSize:18,fontFamily:'omnes',marginTop:5}}>
-          Your profile is hidden from your facebook friends and phone contacts.
-        </Text>
-      </View>
-      <View style={{width:30,marginHorizontal:10}}>
-        <Image style={{width:40,height:40}} source={privacy == 'private' ? {uri: 'assets/ovalSelected@3x.png'} : {uri:
-          'assets/ovalDashed@3x.png'}}/>
-      </View>
-      </View>
-    </TouchableHighlight>
+          {this.state.touchIDSupported ?
+          <View>
+            <View style={styles.paddedSpace}>
+              <View style={styles.formHeader}>
+                <Text style={styles.formHeaderText}>TouchID</Text>
+              </View>
+            </View>
 
-    {this.state.touchIDSupported ?
-      <View>
-      <View style={styles.paddedSpace}>
-        <View style={styles.formHeader}>
-          <Text style={styles.formHeaderText}>TouchID</Text>
-        </View>
-    </View>
-
-    <TouchableHighlight style={styles.paddedSpace} onPress={this.handleLockWithTouchID.bind(this)} underlayColor={colors.dark}>
-      <View style={{borderBottomWidth:1 / PixelRatio.get(), borderColor:colors.shuttleGray,height:50,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
-        <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>Lock with TouchID</Text>
-        <Image style={{width:30,height:30}} source={this.state.isLocked ? {uri: 'assets/ovalSelected@3x.png'} :
-          {uri: 'assets/ovalDashed@3x.png'}} />
-      </View>
-    </TouchableHighlight>
-  </View> : null }
-
-
-
-    <View style={styles.paddedSpace}>
-        <View style={styles.formHeader}>
-          <Text style={styles.formHeaderText}>Helpful Links</Text>
-        </View>
-      </View>
-        <TouchableHighlight style={styles.paddedSpace} onPress={this.handleFeedback.bind(this)} underlayColor={colors.dark}>
-          <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
-            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>FEEDBACK</Text>
-          <Image style={{width:10,height:17.5}} source={{uri: 'assets/nextArrow@3x.png'}} />
+            <TouchableHighlight
+              style={styles.paddedSpace}
+              onPress={this.handleLockWithTouchID.bind(this)}
+              underlayColor={colors.dark}>
+              <View style={{borderBottomWidth:1 / PixelRatio.get(), borderColor:colors.shuttleGray,height:50,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
+                <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>
+                  Lock with TouchID
+                </Text>
+                <Image
+                  style={{width:30,height:30}}
+                  source={this.state.isLocked ? {uri: 'assets/ovalSelected@3x.png'} :
+                  {uri: 'assets/ovalDashed@3x.png'}} />
+              </View>
+            </TouchableHighlight>
           </View>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.paddedSpace} onPress={(f)=>{
-            this.openWebview('help')
-          }} underlayColor={colors.dark}>
-          <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
-            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>HELP</Text>
-          <Image style={{width:10,height:17.5}} source={{uri: 'assets/nextArrow@3x.png'}} />
+          : null }
+
+
+
+          <View style={styles.paddedSpace}>
+            <View style={styles.formHeader}>
+              <Text style={styles.formHeaderText}>
+                Helpful Links
+              </Text>
+            </View>
           </View>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.paddedSpace} onPress={(f)=>{
-            this.openWebview('privacy')
-          }} underlayColor={colors.dark}>
-          <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
-            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>PRIVACY POLICY</Text>
-          <Image style={{width:10,height:17.5}} source={{uri: 'assets/nextArrow@3x.png'}} />
+                    
+          <TouchableHighlight
+            style={styles.paddedSpace}
+            onPress={(f)=>{
+              this.openWebview('privacy')
+            }}
+            underlayColor={colors.dark}>
+            <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
+              <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>
+                PRIVACY POLICY
+              </Text>
+              <Image
+                style={{width:10,height:17.5}}
+                source={{uri: 'assets/nextArrow@3x.png'}} />
+            </View>
+          </TouchableHighlight>
+
+          <TouchableHighlight
+            style={styles.paddedSpace}
+            onPress={(f)=>{
+              this.openWebview('terms')
+            }}
+            underlayColor={colors.dark}>
+            <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
+              <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>
+                TERMS OF USE
+              </Text>
+              <Image
+                style={{width:10,height:17.5}}
+                source={{uri: 'assets/nextArrow@3x.png'}} />
+            </View>
+          </TouchableHighlight>
+
+          <View style={[styles.paddedSpace,{marginTop:20}]}>
+
+            <Text style={{color:colors.white,textAlign:'center',fontSize:15,fontFamily:'omnes'}}>
+              Trippple {ACTUAL_VERSION}
+            </Text>
+
           </View>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.paddedSpace} onPress={(f)=>{
-            this.openWebview('terms')
-          }} underlayColor={colors.dark}>
-          <View  style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
-            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>TERMS OF USE</Text>
-          <Image style={{width:10,height:17.5}} source={{uri: 'assets/nextArrow@3x.png'}} />
+
+          <View style={styles.paddedSpace}>
+
+            <LogOutButton/>
+
+            <TouchableOpacity
+              style={{alignItems:'center',marginVertical:10}}
+              onPress={this.disableAccount.bind(this)}>
+              <Text style={{color:colors.shuttleGray,textAlign:'center'}}>
+                Disable Your Account
+              </Text>
+            </TouchableOpacity>
+
           </View>
-        </TouchableHighlight>
-
-        <View style={[styles.paddedSpace,{marginTop:20}]}>
-
-            <Text style={{color:colors.white,textAlign:'center',fontSize:15,fontFamily:'omnes'}}>Trippple {ACTUAL_VERSION}</Text>
-
-        </View>
-
-        <View style={styles.paddedSpace}>
-
-          <LogOutButton/>
-        <TouchableOpacity style={{alignItems:'center',marginVertical:10}} onPress={this.disableAccount.bind(this)}>
-          <Text style={{color:colors.shuttleGray,textAlign:'center'}}>Disable Your Account</Text>
-        </TouchableOpacity>
-
-        </View>
         </ScrollView>
       </View>
 

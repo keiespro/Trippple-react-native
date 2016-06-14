@@ -302,11 +302,29 @@ const PotentialsRoute = {
   navigationBar: (
     <FakeNavBar
       backgroundStyle={{backgroundColor:'transparent'}}
-      customTitle={<Image resizeMode={Image.resizeMode.contain} style={{width:80,height:30}} source={{uri:'assets/tripppleLogoText@3x.png'}} />}
+      customTitle={
+        <Image
+          resizeMode={Image.resizeMode.contain}
+          style={{width:80,height:30,tintColor: __DEV__ ? colors.sushi : colors.white}}
+          source={{uri:'assets/tripppleLogoText@3x.png'}}
+        />
+      }
       onPrev={(navigator,route) => navigator.push(SettingsRoute)}
-      customPrev={<Image resizeMode={Image.resizeMode.contain}  style={{width:28,top:-10,height:30,alignSelf:'flex-start',tintColor:colors.white,opacity:1}} source={{uri:'assets/gear@3x.png'}} />}
+      customPrev={
+        <Image
+          resizeMode={Image.resizeMode.contain}
+          style={{width:28,top:-10,height:30,alignSelf:'flex-start',tintColor:colors.white,opacity:1}}
+          source={{uri:'assets/gear@3x.png'}}
+        />
+      }
       onNext={(navigator,route) => {navigator.push(MatchesRoute)}}
-      customNext={<Image resizeMode={Image.resizeMode.contain} style={{width:30,top:0,height:30,alignSelf:'flex-end',tintColor:colors.white}} source={{uri:'assets/chat@3x.png'}} />}
+      customNext={
+        <Image
+          resizeMode={Image.resizeMode.contain}
+          style={{width:30,top:0,height:30,alignSelf:'flex-end',tintColor:colors.white}}
+          source={{uri:'assets/chat@3x.png'}}
+        />
+      }
     />)
 };
 

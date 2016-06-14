@@ -41,10 +41,10 @@ class ConfirmPartner extends React.Component{
     var partner_phone = number || this.props.partner.phoneNumbers[0].number;
 
     var phoneNumber = phoneUtil.parse(partner_phone, 'US');
-console.log(phoneNumber,partner_phone);
+
     if(phoneUtil.format(phoneNumber,'US').slice(0,3) == '666' || phoneUtil.isValidNumber(phoneNumber)){
       let phone = phoneUtil.format(phoneNumber,'US');
-      if(phone == this.props.user.phone){
+      if(phone == this.props.user.phone){ //userstub?
         Alert.alert(
           'Error',
           `You can\'t choose yourself.`,
@@ -52,6 +52,7 @@ console.log(phoneNumber,partner_phone);
         )
         return false
       }
+
       UserActions.selectPartner({
         phone,
         name: this.props.partner.firstName || this.props.partner.givenName  ,

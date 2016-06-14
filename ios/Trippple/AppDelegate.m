@@ -18,7 +18,6 @@
 #import "RCTJavaScriptLoader.h"
 #import "RCTLinkingManager.h"
 #import "RCTRootView.h"
-
 #import "RCTPushNotificationManager.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
@@ -29,9 +28,12 @@
 #import "Hotline.h"
 #import <Crashlytics/Answers.h>
 
-#define JS_CODE_METADATA_URL @"https://hello.trippple.co/update-2.3.0.json"
+#define JS_CODE_METADATA_URL @"https://hello.trippple.co/update-2.4.0.json"
 
-#define ENV @"production"
+#ifdef T3DEV
+//#define ENV @"production"
+#endif
+#define ENV @"d"
 
 @implementation AppDelegate
 
@@ -39,30 +41,39 @@
 {
   _bridge = [[RCTBridge alloc] initWithDelegate:self
                                   launchOptions:launchOptions];
+  
   [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceAlert];
-
-
 
   NSLog(@"RUNNING IN %@",ENV);
 
-  [Fabric with:@[[Crashlytics class],[Answers class]]];
-
+  // BEGIN NEWRELIC
   [NRLogger setLogLevels:NRLogLevelError];
   [NewRelicAgent disableFeatures:NRFeatureFlag_CrashReporting];
   [NewRelicAgent startWithApplicationToken:@"AAe71824253eeeff92e1794a97883d2e0c5928816f"];
+  // END NEWRELIC
 
-  HotlineConfig *config = [[HotlineConfig alloc] initWithAppID:@"f54bba2a-84fa-43c8-afa9-098f3c1aefae"  andAppKey:@"fba1b915-fa8b-4c24-bdda-8bac99fcf92a"];
-
-  config.displayFAQsAsGrid = NO; // set to NO for List View
-  config.voiceMessagingEnabled = NO; // set NO to disable voice messaging
-  config.pictureMessagingEnabled = YES; // set NO to disable picture messaging (pictures from gallery/new images from camera)
-  config.cameraCaptureEnabled = NO; // set to NO for only pictures from the gallery (turn off the camera capture option)
-  config.agentAvatarEnabled = NO; // set to NO to turn of showing an avatar for agents. to customize the avatar shown, use the theme file
-  config.showNotificationBanner = NO; // set to NO if you don't want to show the in-app notification banner upon receiving a new message while the app is open
+  // BEGIN HOTLINE
+  HotlineConfig *config = [[HotlineConfig alloc]
+                           initWithAppID:@"f54bba2a-84fa-43c8-afa9-098f3c1aefae"
+                           andAppKey:@"fba1b915-fa8b-4c24-bdda-8bac99fcf92a"];
+  config.displayFAQsAsGrid = NO;
+  config.voiceMessagingEnabled = NO;
+  config.pictureMessagingEnabled = YES;
+  config.cameraCaptureEnabled = NO;
+  config.agentAvatarEnabled = YES;
+  config.showNotificationBanner = YES;
   config.themeName = @"T3Theme";
-  config.notificationSoundEnabled = NO;
+  config.notificationSoundEnabled = YES;
+  
   [[Hotline sharedInstance] initWithConfig:config];
 
+  // END HOTLINE
+  
+  // BEGIN FABRIC
+  [Fabric with:@[[Crashlytics class],[Answers class]]];
+  // END FABRIC
+
+  
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:_bridge
                                                       moduleName:@"Trippple"
                                                initialProperties:nil];
@@ -76,6 +87,14 @@
 
   [self.window makeKeyAndVisible];
 
+    // NEEDED?
+  
+  if ([[Hotline sharedInstance]isHotlineNotification:launchOptions]) {
+    [[Hotline sharedInstance]handleRemoteNotification:launchOptions
+                                          andAppstate:application.applicationState];
+  }
+
+  
   return [[FBSDKApplicationDelegate sharedInstance] application:application
                                   didFinishLaunchingWithOptions:launchOptions];
 }
@@ -85,12 +104,12 @@
 {
   NSURL *sourceURL;
   
-  NSURL* defaultMetadataFileLocation = [[NSBundle mainBundle] URLForResource:@"metadata"
-                                                               withExtension:@"json"];
   
   if([ENV isEqual:@"production"]){
+    //  NSURL* defaultMetadataFileLocation = [[NSBundle mainBundle] URLForResource:@"metadata"
+    //                                                               withExtension:@"json"];
 //    ReactNativeAutoUpdater* updater = [ReactNativeAutoUpdater sharedInstance];
-//    [updater setDelegate:nil];
+//    [updater setDelegate:self];
 //    [updater initializeWithUpdateMetadataUrl:[NSURL URLWithString:JS_CODE_METADATA_URL]
 //                       defaultJSCodeLocation:[[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"]
 //                 defaultMetadataFileLocation:defaultMetadataFileLocation ];
@@ -100,8 +119,8 @@
 //    [updater downloadUpdatesForType: ReactNativeAutoUpdaterPatchUpdate];
 //    [updater checkUpdate];
 //    
-    //
-    //
+    
+    
 //    sourceURL = [updater latestJSCodeLocation];
     sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
@@ -122,11 +141,16 @@
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
   [RCTPushNotificationManager didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+  [[Hotline sharedInstance] updateDeviceToken:deviceToken];
+
   // Required for the register event.
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)notification
 {
+  if ([[Hotline sharedInstance]isHotlineNotification:notification]) {
+    [[Hotline sharedInstance]handleRemoteNotification:notification andAppstate:application.applicationState];
+  }
   [RCTPushNotificationManager didReceiveRemoteNotification:notification];
   // Required for the notification event.
 }
@@ -167,6 +191,7 @@
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+  [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
   [FBSDKAppEvents activateApp];
 }
 
@@ -182,17 +207,6 @@
 - (void)ReactNativeAutoUpdater_updateDownloadFailed {
   NSLog(@"Update failed to download");
 }
-
-
-
-//
-// - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-//
-//   return [[FBSDKApplicationDelegate sharedInstance] application:application
-//                                                         openURL:url
-//                                               sourceApplication:sourceApplication
-//                                                      annotation:annotation];
-// }
 
 @end
 

@@ -16,11 +16,13 @@ if(typeof window !== 'undefined' && __DEV__ && process.env.NODE_ENV !== 'product
   global = window;
   window.ReactNative = ReactNative;
   window.alt = alt;
-  console.ignoredYellowBox = ['jsSchedulingOverhead','SocketRocket','ScrollView','WARNING','Value did not change','Value is a function','%cfont-weight'];
   // window.__SHOW_ALL__ && whyDidYouUpdate(React, { exclude: [/^YellowBox/,/^onChangeText/] });
 
 }
+if(__DEV__){
+  console.ignoredYellowBox = [`{"line":`, 'jsSchedulingOverhead','SocketRocket','ScrollView','WARNING','Value did not change','Value is a function','%cfont-weight','Warning'];
 
+}
 
 class Trippple extends React.Component{
   constructor(props){

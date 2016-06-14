@@ -82,7 +82,12 @@ class PotentialsStore {
       }else{
         potentials = data.matches
       }
-      this.potentials = data.matches
+      const got = {};
+
+      this.potentials = data.matches.filter(p => got.hasOwnProperty(p) ? false : (got[p] = true) );
+
+
+
     }else{
       Analytics.extra('Sanity Check',{
         type: 'API response',
