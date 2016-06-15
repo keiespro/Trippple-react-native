@@ -29,11 +29,31 @@
 #import <Crashlytics/Answers.h>
 
 #define JS_CODE_METADATA_URL @"https://hello.trippple.co/update-2.4.0.json"
+//#define TRIPPPLE_PRODUCTION
 
-#ifdef T3DEV
+
+//#ifdef TRIPPPLE_DEBUG_BUILD
 //#define ENV @"production"
-#endif
-#define ENV @"d"
+//#define RCT_DEV YES
+//#endif
+//
+//#ifdef TRIPPPLE_PRODUCTION
+//#define ENV @"production"
+//#define RCT_DEV NO
+//#endif
+//
+
+//#ifdef TRIPPPLE_DEV
+//#define ENV @"d"
+//#define RCT_DEV YES
+//#endif
+
+////#ifndef ENV
+//#define ENV @"production"
+////#endif
+
+#define ENV @"production"
+
 
 @implementation AppDelegate
 
@@ -66,7 +86,6 @@
   config.notificationSoundEnabled = YES;
   
   [[Hotline sharedInstance] initWithConfig:config];
-
   // END HOTLINE
   
   // BEGIN FABRIC

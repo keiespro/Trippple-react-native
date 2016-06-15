@@ -98,7 +98,7 @@ class Boot extends React.Component{
         const savedMatches = JSON.parse(data[1][1]);
         const savedChats = JSON.parse(data[0][1]);
         const saved = {...JSON.parse(savedChats),...JSON.parse(savedMatches)}
-        Analytics.log('Saved stores',saved);
+        // Analytics.log('Saved stores',saved);
         alt.bootstrap(JSON.stringify(saved));
         this.setBooted()
       }

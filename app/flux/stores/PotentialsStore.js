@@ -82,11 +82,11 @@ class PotentialsStore {
       }else{
         potentials = data.matches
       }
-      const got = {};
+      // const got = {};
+      //
+      // this.potentials = data.matches.filter(p => got.hasOwnProperty(p) ? false : (got[p] = true) );
 
-      this.potentials = data.matches.filter(p => got.hasOwnProperty(p) ? false : (got[p] = true) );
-
-
+      this.potentials = potentials;
 
     }else{
       Analytics.extra('Sanity Check',{

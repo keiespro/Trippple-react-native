@@ -44,11 +44,11 @@
 		AC55AD921CFE7B0700326ED9 /* RNHotlineViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC55AD911CFE7B0700326ED9 /* RNHotlineViewManager.m */; };
 		AC6C26711D01201800806BB2 /* libMixpanel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6C26701D01201800806BB2 /* libMixpanel.a */; };
 		AC758A7B1CF6AC2400A6A9C0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC758A7A1CF6AC2400A6A9C0 /* GoogleService-Info.plist */; };
-		AC758A9D1CF6B89E00A6A9C0 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = AC758A9C1CF6B89E00A6A9C0 /* main.jsbundle */; };
 		AC758AB71CF6C03900A6A9C0 /* libPods-Trippple.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACDF39141CE80BB700DE839B /* libPods-Trippple.a */; };
 		AC758B2A1CF853E600A6A9C0 /* libRCTContacts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC758B291CF853D800A6A9C0 /* libRCTContacts.a */; };
 		AC8422901CF504F800882DEC /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC3320C1CE90AE600DCC3CC /* libRCTFBLogin.a */; };
 		AC8958ED1CFD4A35009AB211 /* libRNHotline.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC8958E91CFD3467009AB211 /* libRNHotline.a */; };
+		AC9A87DF1D10F79B00DF3156 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = AC758A9C1CF6B89E00A6A9C0 /* main.jsbundle */; };
 		AC9F83081CE86F230050ED02 /* TripppleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA5214E1CA297C5007B9F71 /* TripppleUITests.m */; };
 		AC9F830A1CE86FB30050ED02 /* libRCTTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA80C761CE862CF0081A99F /* libRCTTest.a */; };
 		AC9F83281CE870BF0050ED02 /* libRCTGoogleAnalyticsBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0549F01C671AE10072E9E7 /* libRCTGoogleAnalyticsBridge.a */; };
@@ -1152,14 +1152,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Trippple" */;
 			buildPhases = (
-				B56EE7C99E93D58334594B7F /* 📦 Check Pods Manifest.lock */,
+				B56EE7C99E93D58334594B7F /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				AC467EBA1C523398009F2FBD /* Bundle RN images and code */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				AC11AC0E1CE7C8FF001B6FB3 /* New Relic task */,
-				75F9CF2A6E110BF770E34A73 /* 📦 Embed Pods Frameworks */,
-				B62C94D23E932D118A2E5D30 /* 📦 Copy Pods Resources */,
+				75F9CF2A6E110BF770E34A73 /* [CP] Embed Pods Frameworks */,
+				B62C94D23E932D118A2E5D30 /* [CP] Copy Pods Resources */,
 				AC9F1CF91CFFE20B002C62CA /* ShellScript */,
 			);
 			buildRules = (
@@ -1644,9 +1644,9 @@
 				AC55AD6D1CFE73B600326ED9 /* T3Theme.plist in Resources */,
 				ACC7DEC01C5A43D90087476F /* omnes-light-webfont.ttf in Resources */,
 				AC758A7B1CF6AC2400A6A9C0 /* GoogleService-Info.plist in Resources */,
-				AC758A9D1CF6B89E00A6A9C0 /* main.jsbundle in Resources */,
 				ACC7DEB31C5A426D0087476F /* metadata.json in Resources */,
 				ACC7DEBE1C5A43D90087476F /* Montserrat-Regular.otf in Resources */,
+				AC9A87DF1D10F79B00DF3156 /* main.jsbundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1667,14 +1667,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		75F9CF2A6E110BF770E34A73 /* 📦 Embed Pods Frameworks */ = {
+		75F9CF2A6E110BF770E34A73 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1698,7 +1698,7 @@
 		};
 		AC467EBA1C523398009F2FBD /* Bundle RN images and code */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -1706,7 +1706,7 @@
 			name = "Bundle RN images and code";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "../node_modules/react-native/packager/react-native-xcode.sh";
 			showEnvVarsInLog = 0;
@@ -1737,14 +1737,14 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 9f3360a634ff36e817a34ba898a19118cc1391ff eaa5ad5f554fac730663183c7152d183a31d7ab7bb6dc46714db68da63b2376b";
 		};
-		B56EE7C99E93D58334594B7F /* 📦 Check Pods Manifest.lock */ = {
+		B56EE7C99E93D58334594B7F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1752,14 +1752,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		B62C94D23E932D118A2E5D30 /* 📦 Copy Pods Resources */ = {
+		B62C94D23E932D118A2E5D30 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1833,6 +1833,7 @@
 				CODE_SIGN_ENTITLEMENTS = Trippple/Trippple.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 2.4;
 				DEAD_CODE_STRIPPING = NO;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1845,8 +1846,6 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
-					"RCTDEV=YES",
-					T3DEV,
 				);
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
 				HEADER_SEARCH_PATHS = (
@@ -1872,6 +1871,7 @@
 				PRODUCT_NAME = Trippple;
 				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -1885,6 +1885,7 @@
 				CODE_SIGN_ENTITLEMENTS = Trippple/Trippple.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CURRENT_PROJECT_VERSION = 2.4;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/../lib/**",
@@ -1922,6 +1923,7 @@
 				PRODUCT_NAME = Trippple;
 				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
@@ -1946,6 +1948,7 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 3;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -1978,6 +1981,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
 				PROVISIONING_PROFILE = "a23ecc10-effe-4f33-8bf6-9cfcfb42d053";
 				SDKROOT = iphoneos;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -2002,6 +2006,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 3;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2027,6 +2032,7 @@
 				PROVISIONING_PROFILE = "a23ecc10-effe-4f33-8bf6-9cfcfb42d053";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};

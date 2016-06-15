@@ -54,7 +54,6 @@ class MatchList extends Component{
   _allowScroll(scrollEnabled){
     var listref =  '_listView';
 
-    console.log(this[listref],this.refs);
     this[listref] && this[listref].refs.listviewscroll.refs.ScrollView.setNativeProps({ scrollEnabled })
   }
 
@@ -242,7 +241,6 @@ class MatchList extends Component{
     if(!this.props.matches.length && !this.props.newMatches.length){
       return <NoMatches/>
     }
-    console.log(this)
 
     return (
       <View>

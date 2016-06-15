@@ -223,8 +223,8 @@ class SettingsDebug extends React.Component{
           {/*  toggle DEV */}
             <TouchableHighlight
               onPress={(f)=>{
-                __DEV__ = false;
-                __DEBUG__ = false;
+                // __DEV__ = false;
+                // __DEBUG__ = false;
 
 
               }} >
@@ -366,7 +366,7 @@ class EmptyPage extends React.Component{
           customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{marginVertical:10,alignSelf:'center',height:12,width:12}}
           source={{uri:'assets/close@3x.png'}}/>}
           onPrev={(nav,route)=> nav.pop()}
-          title={data.name}
+          title={screenshot ? 'SCREENSHOT' : data.name}
           titleColor={colors.white}
         />
 

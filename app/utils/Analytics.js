@@ -12,7 +12,10 @@ const {HAS_IDENTITY} = SETTINGS_CONSTANTS
 
 const VERSION = parseFloat(AppInfo.getInfoShortVersion());
 
-
+if(!__DEV__){
+  console.log = ()=>{}
+  console.warn = ()=>{}
+}
 class Analytics{
 
   constructor(){

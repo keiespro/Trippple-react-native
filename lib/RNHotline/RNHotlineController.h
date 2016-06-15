@@ -14,9 +14,4 @@
 @interface RNHotlineController : NSObject<RCTBridgeModule>
 
 @property (nonatomic, retain) UIViewController *embed;
-
-- (void) showFaqs;
-- (void) setUser;
-- (void) showConvos;
-- (void) hideView;
 @end

@@ -349,7 +349,7 @@ class ChatInside extends Component{
     if(prevProps.messages.length !== this.props.messages.length){
 
     }
-    console.log(this.refs);
+
     // this.refs.scroller && this.refs.scroller.refs.listviewscroll.scrollTo(0,0)
   }
 
@@ -412,7 +412,6 @@ class ChatInside extends Component{
               }
   }
   onEndReached(e){
-    console.log('END');
     const nextPage = parseInt(this.props.messages.length / 20) + 1;
     if(this.state.fetching || nextPage == this.state.lastPage){ return false }
 

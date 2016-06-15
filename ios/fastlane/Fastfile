@@ -24,8 +24,12 @@ platform :ios do
   desc "This will also make sure the profile is up to date"
   lane :beta do
     # match(type: "appstore") # more information: https://codesigning.guide
+    cert
+    sigh
     gym(scheme: "Trippple") # Build your app - more options available
-    pilot
+    pilot(
+      # skip_waiting_for_build_processing: true
+    )
 
     # sh "your_script.sh"
     # You can also use other beta testing services here (run `fastlane actions`)
@@ -35,13 +39,13 @@ platform :ios do
 
   desc "Deploy a new version to the App Store"
   lane :appstore do
-    # match(type: "appstore")
+    match(type: "appstore")
     ensure_git_status_clean
     ensure_git_branch(branch: 'master')
     push_to_git_remote
     cert
     sigh
-    changelog = prompt(text: "Enter the change log: ", multi_line_end_keyword: "END")
+    # changelog = prompt(text: "Enter the change log: ", multi_line_end_keyword: "END")
     version = increment_version_number(bump_type: "patch")
     gym(scheme: "Trippple") # Build your app - more options available
     deliver(force: true)
@@ -50,29 +54,39 @@ platform :ios do
  lane :debug do
     cert
     sigh
-    changelog = prompt(text: "Enter the change log: ", multi_line_end_keyword: "END")
-    gym(scheme: "TripppleDebug") # Build your app - more options available
+    gym(scheme: "TripppleDebug")
     crashlytics(
-      notes: "Automatic iOS Debug Build"
+      groups: 'team',
+      build_secret: 'eaa5ad5f554fac730663183c7152d183a31d7ab7bb6dc46714db68da63b2376b',
+      api_token: '9f3360a634ff36e817a34ba898a19118cc1391ff',
+      notes: "Automatic iOS DEBUG Build"
+    )
+    slack(
+      message: "Successfully deployed new DEBUG build to Crashlytics beta. Download at https://apps-ios.crashlytics.com/projects/57378de5785c7f4dd100001b",
+      slack_url: 'https://hooks.slack.com/services/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'
     )
   end
+
+
 
   # You can define as many lanes as you want
 
   after_all do |lane|
     # This block is called, only if the executed lane was successful
-
+    #
     # slack(
-    #   message: "Successfully deployed new App Update."
+    #   message: "Successfully deployed new App Update.",
+    #   slack_url: 'https://hooks.slack.com/services/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'
     # )
   end
 
   error do |lane, exception|
     puts exception.inspect
-    slack(
-      message: exception.message,
-      success: false
-    )
+    # slack(
+    #   message: exception.message,
+    #   success: false,
+    #   slack_url: 'https://hooks.slack.com/services/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'
+    # )
   end
 end
 
