@@ -100,6 +100,10 @@ class NotificationActions {
     return payload.match_id
   }
 
+  receiveGenericNotification(payload){
+    return payload
+  }
+
   scheduleNewPotentialsAlert() {
     return async (dispatch) => {
       let todayDate = new Date(),

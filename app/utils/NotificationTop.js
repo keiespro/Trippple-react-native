@@ -135,6 +135,31 @@ class Notification extends React.Component{
             </TouchableOpacity>
           </View> : null
         }
+
+
+        {payload.type == 'generic' ?
+          <View style={[styles.notificationOverlay,styles.notificationNewMessage]}>
+            <TouchableOpacity >
+              <View style={styles.notificationInside}>
+                <View style={styles.notificationLeft}>
+                  <Image
+                    resizeMode={Image.resizeMode.contain}
+                    style={styles.notiImage}
+                    defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+                    source={{uri: payload.image_url}}
+                  />
+                </View>
+                <View style={styles.notificationRight}>
+                  <Text style={[styles.notiTitle,styles.titleNewMessage]}>{
+                    payload.title
+                  }</Text>
+                  <Text style={styles.notiText} numberOfLines={2}>{ payload.body}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View> : null
+        }
+        
       </Animated.View>
     )
   }

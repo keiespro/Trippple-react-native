@@ -204,9 +204,14 @@ class NotificationCommander extends Component{
       }else if(data.action && data.action === 'logout') {
 
         UserActions.logOut()
+
       }else if(data.action === 'checkupdate'){
 
         // ReactNativeAutoUpdater.checkUpdate()
+
+      }else if(data.action && data.action === 'display') {
+
+        NotificationActions.receiveGenericNotification(data)
 
       }
 

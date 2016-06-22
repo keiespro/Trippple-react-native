@@ -33,7 +33,8 @@ class NotificationsStore {
       handleUpdateBadgeNumber: NotificationActions.UPDATE_BADGE_NUMBER,
       handleResetBadgeNumber: NotificationActions.RESET_BADGE_NUMBER,
       handleLogOut: UserActions.LOG_OUT,
-      clearNotifications: AppActions.UPDATE_ROUTE
+      clearNotifications: AppActions.UPDATE_ROUTE,
+      handleGenericNotification: NotificationActions.RECEIVE_GENERIC_NOTIFICATION
     })
 
 
@@ -90,6 +91,20 @@ class NotificationsStore {
       })
     },3500)
   }
+
+  handleGenericNotification(payload){
+    const notification = { alert: 'HELLO', type: 'match'}
+
+    setTimeout(()=>{
+
+      this.setState({
+        notifications: [notification],
+      })
+    },100);
+    this.expireNotification()
+    this.updateBadgeCount(0)
+  }    
+
   handleNewMatchData(matchData){
     this.waitFor(MatchesStore)
 
@@ -105,7 +120,7 @@ class NotificationsStore {
     this.clearTimeout(this.timer);
 
     var newmatch = matches[0]
-    var readyNotification = { ...pendingNotification, ...newmatch, type: 'match'}
+    var readyNotification = { ...pendingNotification, ...newmatch, type: 'generic'}
 
     setTimeout(()=>{
 
