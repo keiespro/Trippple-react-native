@@ -137,12 +137,9 @@ class EnterCouplePin extends React.Component{
         <ContinueButton canContinue={this.state.inputFieldValue.length > 0} handlePress={this.handleSubmit.bind(this)}/>
 
         <View style={{position:'relative',height:MagicNumbers.keyboardHeight}}>
-
-      <Numpad numpadstyles={{backgroundColor:'transparent'}} backspace={this.backspace.bind(this)} onChangeText={this.onChangeText.bind(this)}/>
-      </View>
+          <Numpad numpadstyles={{backgroundColor:'transparent'}} backspace={this.backspace.bind(this)} onChangeText={this.onChangeText.bind(this)}/>
+        </View>
       </BlurModal>
-
-
     )
   }
 }

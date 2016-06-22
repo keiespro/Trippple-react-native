@@ -68,7 +68,7 @@ Let's get started.`}
 
                   }
                 })
-              }} underlayColor={colors.dark}>
+              }} underlayColor={colors.outerSpace50}>
                 <View style={{
                    borderBottomWidth: StyleSheet.hairlineWidth,
                    borderColor:colors.shuttleGray,
@@ -97,8 +97,9 @@ Let's get started.`}
                     navigator:this.props.navigator
                   }
                 })
-              }} underlayColor={colors.dark}>
-                <View style={{
+              }} underlayColor={colors.white20}>
+
+              <View style={{
                    borderBottomWidth: StyleSheet.hairlineWidth,
                    borderColor:colors.shuttleGray,
                    height:80,
