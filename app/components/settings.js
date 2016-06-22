@@ -39,6 +39,7 @@ import SettingsPreferences from './SettingsPreferences'
 import SettingsCouple from './SettingsCouple'
 import SettingsDebug from './SettingsDebug'
 import profileOptions from '../get_client_user_profile_options'
+import JoinCouple from '../coupling/JoinCouple'
 const PickerItemIOS = PickerIOS.Item;
 import Analytics from '../utils/Analytics'
 
@@ -74,8 +75,8 @@ class SettingsInside extends React.Component{
 
   _pressNewImage(){
     this.props.navigator.push({
-      component: this.props.user.relationship_status == 'single' ? SelfImage : CoupleImage,
-      name: this.props.user.relationship_status == 'single' ? 'SelfImage' : 'CoupleImage',
+      component: SelfImage,
+      name: 'SelfImage',
       sceneConfig: Navigator.SceneConfigs.FloatFromRight,
       passProps: {
         user: this.props.user,
@@ -163,25 +164,25 @@ class SettingsInside extends React.Component{
     thumbSrc = user.thumb_url;
     src = user.image_url;// temp
 
-
-    if(user.relationship_status == 'couple'){
-
-
-      if(user.localCoupleImage && user.localCoupleImage.uri){
-        src = user.localCoupleImage.uri;
-        thumbSrc = user.localCoupleImage.uri;
-      }else if(user.localCoupleImage && !user.localCoupleImage.uri){
-        src = user.localCoupleImage;
-        thumbSrc = user.localCoupleImage;
-      }else if(!user.localCoupleImage && user.couple && user.couple.image_url && user.couple.image_url.uri){
-        src = user.couple.image_url.uri;
-        thumbSrc = user.couple.thumb_url.uri;
-      }else if(!user.localCoupleImage && user.couple && user.couple.image_url && !user.couple.image_url.uri){
-        src = user.couple.image_url;
-        thumbSrc = user.couple.thumb_url;
-      }
-
-    }
+    //
+    // if(user.relationship_status == 'couple'){
+    //
+    //
+    //   if(user.localCoupleImage && user.localCoupleImage.uri){
+    //     src = user.localCoupleImage.uri;
+    //     thumbSrc = user.localCoupleImage.uri;
+    //   }else if(user.localCoupleImage && !user.localCoupleImage.uri){
+    //     src = user.localCoupleImage;
+    //     thumbSrc = user.localCoupleImage;
+    //   }else if(!user.localCoupleImage && user.couple && user.couple.image_url && user.couple.image_url.uri){
+    //     src = user.couple.image_url.uri;
+    //     thumbSrc = user.couple.thumb_url.uri;
+    //   }else if(!user.localCoupleImage && user.couple && user.couple.image_url && !user.couple.image_url.uri){
+    //     src = user.couple.image_url;
+    //     thumbSrc = user.couple.thumb_url;
+    //   }
+    //
+    // }
 
     return (
       <View style={{flex:1,}}>
@@ -241,18 +242,18 @@ class SettingsInside extends React.Component{
           <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,marginBottom:30}}>
               <TouchableHighlight onPress={(f)=>{
                   this.props.navigator.push({
-                  component: SettingsBasic,
-                  sceneConfig:NavigatorSceneConfigs.FloatFromRight,
-                  user:this.props.user,
-                  id:'settingsbasic',
-                  name: 'SettingsBasic GENERAL',
-                  passProps: {
-                  style:styles.container,
-                  settingOptions:this.state.settingOptions,
-                  user:this.props.user
-                  }
+                    component: SettingsBasic,
+                    sceneConfig:NavigatorSceneConfigs.FloatFromRight,
+                    user:this.props.user,
+                    id:'settingsbasic',
+                    name: 'SettingsBasic GENERAL',
+                    passProps: {
+                      style:styles.container,
+                      settingOptions:this.state.settingOptions,
+                      user:this.props.user
+                    }
                   })
-                  }} underlayColor={colors.dark}>
+                }} underlayColor={colors.dark}>
                   <View  style={styles.wrapfield}>
                       <View>
                           <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>BASIC</Text>
@@ -290,6 +291,30 @@ class SettingsInside extends React.Component{
                   </TouchableHighlight>
               : null }
 
+              {this.props.user.relationship_status == 'single' ?
+                  <TouchableHighlight onPress={(f)=>{
+                      this.props.navigator.push({
+                        component: JoinCouple,
+                        // sceneConfig:NavigatorSceneConfigs.FloatFromRight,
+                        passProps: {
+                          style:styles.container,
+                          settingOptions:this.state.settingOptions,
+                          user:this.props.user,
+                          navigator:this.props.navigator
+                        }
+                      })
+                    }} underlayColor={colors.dark}>
+                      <View  style={styles.wrapfield}>
+                          <View>
+                              <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>JOIN COUPLE</Text>
+                              <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
+                              Connect with your partner
+                              </Text>
+                          </View>
+                          <Image source={{uri: 'assets/nextArrow@3x.png'}} />
+                      </View>
+                  </TouchableHighlight>
+              : null }
 
 
               <TouchableHighlight onPress={(f)=>{
@@ -339,7 +364,7 @@ class SettingsInside extends React.Component{
                   </View>
               </TouchableHighlight>
 
-        
+
 
               <TouchableHighlight onPress={(f)=>{
                     RNHotlineController.showFaqs()

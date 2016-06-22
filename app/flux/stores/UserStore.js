@@ -22,10 +22,12 @@ class UserStore {
     this.state = {
       user: {},
       userStub: {},
+      couplingData: {}
     }
 
     this.exportPublicMethods({
-      getUser: this.getUser
+      getUser: this.getUser,
+      getCouplingData: this.getCouplingData
     })
 
     this.bindListeners({
@@ -40,7 +42,9 @@ class UserStore {
       handleLogOut: UserActions.LOG_OUT,
       handlePartner: UserActions.SELECT_PARTNER,
       handleUpdateLocally: UserActions.UPDATE_LOCALLY,
-      handleGetLocation: UserActions.GET_LOCATION
+      handleGetLocation: UserActions.GET_LOCATION,
+      handleVerifyCouplePin: UserActions.VERIFY_COUPLE_PIN,
+      handleRequestCouplePin: UserActions.GET_COUPLE_PIN,
 
     });
 
@@ -134,7 +138,20 @@ class UserStore {
 
     }
   }
+  handleRequestCouplePin(res){
+    console.log(res);
+    // this.couplingData = res.response.response
+    this.setState({couplingData: res.response.response});
 
+  }
+
+  handleVerifyCouplePin(res){
+    console.log(res);
+    this.setState({couplingData: res.response.response});
+
+    UserActions.getUserInfo.defer();
+
+  }
 
   handleUpdateUserStub(attributes = {}){
 
@@ -214,6 +231,10 @@ class UserStore {
   getUser(){
     return this.getState().user;
 
+  }
+
+  getCouplingData(){
+    return this.getState().couplingData
   }
 }
 export default alt.createStore(UserStore, 'UserStore');

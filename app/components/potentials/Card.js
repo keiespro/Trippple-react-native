@@ -162,6 +162,7 @@ class Card extends React.Component{
       matchName += ' & ' + names[1]
       distance = Math.min(distance,potential.partner && potential.partner.distance || '666666666')
     }
+    const seperator = distance.length && city.length ? ' | ' : '';
 
 
     if(!profileVisible){
@@ -186,6 +187,7 @@ class Card extends React.Component{
       var heightTable =  MagicNumbers.is4s ? heights.smallest : (MagicNumbers.is5orless ? heights.middle : heights.all);
       var cardHeight = DeviceHeight + (isTopCard ? heightTable.top : (isThirdCard ? heightTable.third : heightTable.second));
       // ? DeviceHeight- 40 : DeviceHeight -60
+
 
       return (
         <View
@@ -446,7 +448,7 @@ class Card extends React.Component{
                     }</Text>
                     <Text style={[styles.cardBottomOtherText,{flex:1}]}
                     key={`${potential.id || potential.user.id}-matchn`}>{
-                      city + (distance.length ? ` | ${distance} ${distance == 1 ? 'mile' : 'miles'} away` : ``)
+                      (city) + seperator + (distance.length ? `${distance} ${distance == 1 ? 'mile' : 'miles'} away` : ``)
                     }</Text>
                 </View>
                 </TouchableHighlight>
@@ -812,7 +814,7 @@ class Card extends React.Component{
                   style={[styles.cardBottomOtherText,{color:colors.white}]}
                   >
                 {
-                city + (distance.length ? ` | ${distance} ${distance == 1 ? 'mile' : 'miles'} away` : ``)
+                city + seperator + (distance.length ? `${distance} ${distance == 1 ? 'mile' : 'miles'} away` : ``)
                 }
                 </Text>
               </View>

@@ -137,8 +137,7 @@ class EditImageThumb extends Component{
 
   proceed(){
     const currentRoutes = this.props.navigator.getCurrentRoutes()
-
-    if(currentRoutes[1].id == 'settings'){
+     if(currentRoutes[1].id == 'Settings'){
 
       if(currentRoutes[2] && currentRoutes[2].id == 'settingsbasic'){
         lastRoute = currentRoutes[2]

@@ -105,7 +105,7 @@ class NotificationPermissions extends React.Component{
 
     }
     handleNotificationPermission(token){
-      NotificationActions.rceiveApnToken(token)
+      NotificationActions.receiveApnToken(token)
       this.props.successCallback();
       this.props.navigator.pop()
 

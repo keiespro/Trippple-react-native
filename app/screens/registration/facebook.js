@@ -83,10 +83,6 @@ class Facebook extends Component{
     return (
       <View style={{width:DeviceWidth,height:DeviceHeight,position:'relative',backgroundColor:colors.outerSpace}}>
 
-        <View style={{width:100,height:50,left:(MagicNumbers.screenPadding/2)}}>
-          <BackButton/>
-        </View>
-
         <View style={[styles.container,{}]}>
 
           <View style={styles.middleTextWrap}>

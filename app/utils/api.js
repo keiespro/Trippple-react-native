@@ -201,6 +201,14 @@ const api = {
     return authenticatedRequest('join_couple', { partner_phone })
   },
 
+  getCouplePin(): Promise{
+    return authenticatedRequest('couple_pin', { "pin_action": "request" })
+  },
+
+  verifyCouplePin(partner_pin): Promise{
+    return authenticatedRequest('couple_pin', { "pin_action": "verify", pin: partner_pin })
+  },
+
   getProfileSettingsOptions(): Promise{
     return publicRequest('get_client_user_profile_options')
   },

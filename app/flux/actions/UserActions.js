@@ -148,6 +148,37 @@ class UserActions {
     };
   }
 
+  getCouplePin() {
+    return (dispatch) => {
+      // Analytics.event('Onboarding',{name: 'Select Partner', type: 'Invite', partner_phone: partner.phone, })
+      Api.getCouplePin()
+        .then((response) => {
+          dispatch({ response });
+        })
+        .catch((err) => {
+          dispatch({
+            err: err
+          });
+        })
+    };
+  }
+
+  verifyCouplePin(partner_pin) {
+    return (dispatch) => {
+      // Analytics.event('Onboarding',{name: 'Select Partner', type: 'Invite', partner_phone: partner.phone, })
+      Api.verifyCouplePin(partner_pin)
+        .then((response) => {
+          dispatch({ response });
+        })
+        .catch((err) => {
+          dispatch({
+            err: err
+          });
+        })
+    };
+  }
+
+
   saveFacebookPicture(photo) {
     return (dispatch) => {
       Api.saveFacebookPicture(photo)

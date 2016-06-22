@@ -23,7 +23,7 @@ class Numpad extends React.Component{
 
     return (
         <View
-          style={styles.numberPadWrap}
+          style={[styles.numberPadWrap,this.props.numpadstyles]}
 
           >
           <View style={styles.keyWrapper}>
@@ -63,6 +63,7 @@ class Numpad extends React.Component{
               >
               <View style={[styles.bottomRowKeys,{
                 borderColor:colors.outerSpace,
+                backgroundColor:colors.dark,
                 borderRightWidth:1/PixelRatio.get(),
                 borderLeftWidth: 1/PixelRatio.get()
               }]}>
@@ -114,8 +115,8 @@ height:KEYBOARD_HEIGHT/4,
     justifyContent:'center',
     alignItems:'center',
     alignSelf:'stretch',
-    borderColor:colors.outerSpace
-
+    borderColor:colors.outerSpace,
+    backgroundColor:colors.dark
   },
 
   bottomRowKeys: {
@@ -126,7 +127,9 @@ height:KEYBOARD_HEIGHT/4,
     alignItems:'center',
     alignSelf:'stretch',
     borderTopWidth:1/PixelRatio.get(),
-    borderTopColor:colors.outerSpace
+    borderTopColor:colors.outerSpace,
+    backgroundColor:'#313D44'
+
   },
   whiteText:{
     fontSize:30,

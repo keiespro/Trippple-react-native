@@ -87,7 +87,7 @@ var RouteStackCouple = [
   ];
 
 var RouteStackSingle = [
-    {component: SelectRelationshipStatus,title:'SelectRelationshipStatus',title:'SelectRelationshipStatus'},
+    // {component: SelectRelationshipStatus,title:'SelectRelationshipStatus',title:'SelectRelationshipStatus'},
 
     {component: Facebook,title:'Facebook',
        name:'Facebook'
@@ -150,21 +150,21 @@ class Onboard extends Component{
       }
     })
 
-    if(this.props.user.partner_id){
-      this.setState({selection: 'couple'})
-    }
+    // if(this.props.user.partner_id){
+    //   this.setState({selection: 'couple'})
+    // }
 
         if(this.props.user.relationship_status){
-          console.log('status');
+
           this.setState({selection: this.props.user.relationship_status})
 
 
-
-          this.refs.onboardingNavigator.replace(
-            stacks[this.props.user.relationship_status][this.props.user.partner_id ?
-              this.props.user.facebook_user_id ? 4 : 3 :
-                1]
-          )
+          //
+          // this.refs.onboardingNavigator.replace(
+          //   stacks[this.props.user.relationship_status][this.props.user.partner_id ?
+          //     this.props.user.facebook_user_id ? 4 : 3 :
+          //       1]
+          // )
           OnboardingActions.updateRoute(this.props.user.partner_id ?
                         this.props.user.facebook_user_id ? 4 : 3 :
                           1);
@@ -184,14 +184,14 @@ class Onboard extends Component{
     );
   }
   componentWillReceiveProps(nProps){
-    if(nProps.user.partner_id && nProps.onboardingState.routeIndex == 0){
-      console.log('status');
-      this.setState({selection: 'couple'})
-
-      this.refs.onboardingNavigator.replace( stacks['couple'][ nProps.user.facebook_user_id ? 4 : 3 ] )
-      OnboardingActions.updateRoute(nProps.user.facebook_user_id ? 4 : 3);
-
-    }
+    // if(nProps.user.partner_id && nProps.onboardingState.routeIndex == 0){
+    //   console.log('status');
+    //   // this.setState({selection: 'couple'})
+    //
+    //   this.refs.onboardingNavigator.replace( stacks['couple'][ nProps.user.facebook_user_id ? 4 : 3 ] )
+    //   OnboardingActions.updateRoute(nProps.user.facebook_user_id ? 4 : 3);
+    //
+    // }
 
     if(this.props.onboardingState.routeIndex > nProps.onboardingState.routeIndex &&  nProps.onboardingState.popped){
       this.refs.onboardingNavigator.pop()
@@ -234,10 +234,10 @@ class Onboarding extends Component{
 
   render(){
 
-        return (
-            <AltContainer stores={{onboardingState: OnboardingStore}}>
-              <Onboard user={this.props.user} AppState={this.props.AppState} />
-            </AltContainer>
+    return (
+      <AltContainer stores={{onboardingState: OnboardingStore}}>
+        <Onboard user={this.props.user} AppState={this.props.AppState} />
+      </AltContainer>
     )
 
   }

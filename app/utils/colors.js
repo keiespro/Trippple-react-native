@@ -42,6 +42,8 @@ const colors = {
 
   outerSpace50:       'rgba(44,57,65,0.5)',
 
+  outerSpace20:       'rgba(44,57,65,0.2)',
+
   darkGreenBlue:      'rgb(25,105,66)',
 
   darkGreenBlue40:    'rgba(25, 104, 65, 0.40)',
