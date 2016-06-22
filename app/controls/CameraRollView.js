@@ -78,7 +78,7 @@ class CameraRollView extends Component{
 
   static defaultProps = {
     groupTypes: 'All',
-    batchSize: 30,
+    batchSize: 18,
     imagesPerRow: 3,
     assetType: 'Photos'
   };
@@ -93,6 +93,7 @@ class CameraRollView extends Component{
       assetType: props.assetType,
       noMore: false,
       loadingMore: false,
+      loadedImages: {},
       dataSource: new ListView.DataSource({rowHasChanged: this._rowHasChanged.bind(this)}),
     }
   }
@@ -142,18 +143,24 @@ class CameraRollView extends Component{
     }
   }
 
-  renderImage(asset){
+  renderImage(asset,id){
+    console.log(asset);
     var imageSize = DeviceWidth / 3 - 20;
     var imageStyle = [styles.image, {width: imageSize, height: imageSize}];
+    const location = asset.node.location.longitude ?
+      JSON.stringify(asset.node.location) : 'Unknown location';
     return (
-
       <View style={styles.photo_list_item} key={`${asset.node.image.uri}-tap`}>
         <TouchableOpacity onPress={this.loadAsset.bind( this, asset )}>
-          <Image style={styles.pic} source={{uri: asset.node.image.uri}} />
+          <Image onLoadEnd={this.imageLoad.bind(this,id)}  style={styles.pic} source={{uri: asset.node.image.uri}} />
         </TouchableOpacity>
       </View>
     );
   }
+  imageLoad(id){
+    this.setState({loadedImages: {...this.state.loadedImages, id: true }})
+  }
+  
   /**
    * This should be called when the image renderer is changed to tell the
    * component to re-render its assets.
@@ -223,7 +230,8 @@ class CameraRollView extends Component{
    */
   fetch(clear){
     if (!this.state.loadingMore) {
-      this.setState({loadingMore: true}, () => { this._fetch(clear); });
+      this.setState({loadingMore: true});
+     this._fetch(clear);
     }
   }
 
@@ -252,13 +260,28 @@ class CameraRollView extends Component{
             </View>
           }
         />
-      <View style={{marginTop:54,flex:1,width:DeviceWidth,backgroundColor:colors.outerSpace}}>
+        <View style={{marginTop:54,flex:1,width:DeviceWidth,backgroundColor:colors.outerSpace,height:DeviceHeight-54}}>
+
+          {Object.keys(this.state.loadedImages).length == 0 ? 
+            <View style={{alignItems:'center',justifyContent:'center',flex:10,flexDirection:'column'}}>
+              <ActivityIndicatorIOS style={{height:50,width:50,}} color={colors.white20} animating={true} size={'large'}/>
+              <Text
+              style={{
+              fontSize:20,
+              color:colors.white20,
+              marginTop: 0,
+              fontFamily:'Omnes',
+            }}>LOADING ALBUMS</Text>
+
+              
+            </View>: <View/>}
+            
         <ListView
           renderRow={this._renderRow.bind(this)}
-          renderFooter={this._renderFooterSpinner}
+          renderFooter={this._renderFooterSpinner.bind(this)}
           onEndReached={this._onEndReached.bind(this)}
           style={styles.container}
-          pageSize={12}
+          pageSize={15}
           contentContainerStyle={styles.scrollContent}
           dataSource={this.state.dataSource}
           />
@@ -283,9 +306,12 @@ class CameraRollView extends Component{
   }
 
   _renderFooterSpinner(){
+    if(Object.keys(this.state.loadedImages).length == 0){
+      return <View/>
+    }
     if (this.state && !this.state.noMore) {
       return (
-          <View style={{flexDirection:'row',alignSelf:'stretch',alignItems:'center',justifyContent:'center',width:DeviceWidth,height:80,backgroundColor:colors.dark}}>
+          <View style={{flexDirection:'row',alignSelf:'stretch',alignItems:'center',justifyContent:'center',width:DeviceWidth,height:80}}>
               <ActivityIndicatorIOS style={styles.spinner} />
             </View>
           )
@@ -303,7 +329,7 @@ class CameraRollView extends Component{
     // }) : [ ];
     return (
       <View style={styles.item} key={`${rowID}-row`}>
-        {this.renderImage(rowData)}
+        {this.renderImage(rowData,rowID)}
       </View>
     );
   }
@@ -326,6 +352,7 @@ class CameraRollView extends Component{
   }
 
   _onEndReached(){
+    console.log('end reached')
     if (!this.state.noMore) {
       this.fetch();
     }
@@ -366,6 +393,7 @@ const styles = StyleSheet.create({
     // flexWrap: 'nowrap',
     width: DeviceWidth/3 - 15,
     height: DeviceWidth/3 - 15,
+    backgroundColor:colors.dark,
     borderRadius:6,
   },
   container: {

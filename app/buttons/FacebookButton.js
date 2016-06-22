@@ -116,6 +116,7 @@ class FacebookButton extends React.Component{
                 facebook_user_id: data.credentials.userId,
                 facebook_oauth_access_token: data.credentials.token
               });
+              this.props._onPress && this.props._onPress(this.state.fbUser);
 
               this.props.onLogin && this.props.onLogin(data);
             }else {
