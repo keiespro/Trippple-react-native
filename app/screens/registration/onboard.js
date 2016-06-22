@@ -87,7 +87,7 @@ var RouteStackCouple = [
   ];
 
 var RouteStackSingle = [
-    // {component: SelectRelationshipStatus,title:'SelectRelationshipStatus',title:'SelectRelationshipStatus'},
+    {component: SelectRelationshipStatus,title:'SelectRelationshipStatus',title:'SelectRelationshipStatus'},
 
     {component: Facebook,title:'Facebook',
        name:'Facebook'
@@ -156,7 +156,7 @@ class Onboard extends Component{
 
         if(this.props.user.relationship_status){
 
-          this.setState({selection: this.props.user.relationship_status})
+          // this.setState({selection: this.props.user.relationship_status})
 
 
           //
@@ -165,9 +165,7 @@ class Onboard extends Component{
           //     this.props.user.facebook_user_id ? 4 : 3 :
           //       1]
           // )
-          OnboardingActions.updateRoute(this.props.user.partner_id ?
-                        this.props.user.facebook_user_id ? 4 : 3 :
-                          1);
+          // OnboardingActions.updateRoute( 1);
 
         }
   }
@@ -199,7 +197,7 @@ class Onboard extends Component{
     }else if( nProps.onboardingState.routeIndex > this.props.onboardingState.routeIndex && nProps.onboardingState.pushed){
 
       this.refs.onboardingNavigator.push(
-        stacks[nProps.onboardingState.currentStack][nProps.onboardingState.routeIndex]
+        stacks['single'][nProps.onboardingState.routeIndex]
       )
     }
 

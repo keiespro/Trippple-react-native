@@ -19,6 +19,7 @@ class AppStateStore {
     this.showOverlay = false
     this.showMaintenanceScreen = false
     this.OSPermissions = {...OSPermissions }
+    this.showCoupling = false;
 
     this.bindListeners({
       handleInitialize: AppActions.GOT_CREDENTIALS,
@@ -189,7 +190,18 @@ class AppStateStore {
   // }
   //
   handleUpdateUser(wrap){
+    console.log(wrap);
 
+    if(wrap.setWantCouple){
+      this.setState({
+        showCoupling: true
+      })
+    }else if(wrap.generatedCoupleCode){
+      this.setState({
+        showCoupling: false
+      })
+
+    }
   }
 
   handleScreenshot(path){

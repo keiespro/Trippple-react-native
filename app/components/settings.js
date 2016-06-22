@@ -371,7 +371,7 @@ class SettingsInside extends React.Component{
                   }} underlayColor={colors.dark}>
                   <View  style={styles.wrapfield}>
                       <View>
-                          <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>FREQUENTLY ASKED QUESTIONS</Text>
+                          <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>FAQS</Text>
                           <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
                           Answers to our most frequently asked questions
                           </Text>

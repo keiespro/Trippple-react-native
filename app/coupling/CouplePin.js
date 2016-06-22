@@ -2,7 +2,7 @@
 
 
 import React, {Component, PropTypes} from "react";
-import { StyleSheet, Image, Text, Animated, ActivityIndicatorIOS, Alert, View, TouchableHighlight, NativeModules, Dimensions, PixelRatio, TouchableOpacity} from "react-native";
+import { StyleSheet, Image, Text, Settings, Animated, ActivityIndicatorIOS, Alert, View, TouchableHighlight, NativeModules, Dimensions, PixelRatio, TouchableOpacity} from "react-native";
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -12,6 +12,7 @@ import {MagicNumbers} from '../DeviceConfig'
 import styles from '../modals/purpleModalStyles'
 import BlurModal from '../modals/BlurModal'
 import BackButton from '../components/BackButton'
+import UserActions from '../flux/actions/UserActions'
 
 const { RNMessageComposer } = NativeModules;
 
@@ -34,7 +35,7 @@ class CouplePin extends React.Component{
     
     RNMessageComposer.composeMessageWithArgs(
       {
-      'messageText':'Join me on Trippple! My couple code is '+pin,
+      'messageText':'Join me on Trippple! My couple code is '+pin+'. trippple://join.couple/'+pin,
       'recipients':[]
     },
     (result) => {
@@ -59,6 +60,9 @@ class CouplePin extends React.Component{
 
   }
   componentDidMount(){
+    UserActions.updateUser.defer({generatedCoupleCode:true});
+    
+    Settings.set({'co.trippple.showCoupling':false})
   }    
   componentDidUpdate(pProps,pState){
     if(!pState.success && this.state.success){

@@ -69,7 +69,21 @@ class EnterCouplePin extends React.Component{
       })
     }
   }
-  
+  componentWillReceiveProps(nProps){
+    if(nProps.pin){
+
+      this.handleInputChange({pin:nProps.pin})
+    }
+  }
+  popToTop(){
+    const currentRoutes = this.props.navigator.getCurrentRoutes();
+    if(currentRoutes[1].id == 'Settings'){
+      this.props.navigator.popToRoute(currentRoutes[1]);
+    }else{
+      this.props.navigator.popToRoute(currentRoutes[0]);
+    }    
+  }
+
   setNativeProps(np) {
     var {text} = np
     this._inp && this._inp.setNativeProps({text });
@@ -86,7 +100,46 @@ class EnterCouplePin extends React.Component{
 
     return (
       <BlurModal noscroll={true} user={this.props.user}>
-        <ScrollView contentContainerStyle={[{width:DeviceWidth,flex:1,top:0 }]} >
+        {couple && couple.verified ? 
+          <ScrollView contentContainerStyle={[{width:DeviceWidth,height:DeviceHeight,flexDirection:'column',justifyContent:'center',flex:1,top:0 }]} >
+
+              <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'Montserrat-Bold',fontSize:20,color:'#fff',marginVertical:10 }]}>
+               SUCCESS
+             </Text>
+             {this.props.user.partner ?  <View style={{height:120,marginVertical:30,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+                  <Image style={[{width:120,height:120,borderRadius:60,marginRight:-100}]}
+                  source={ {uri: this.props.user.partner.image_url} }
+                  defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+                  />
+                  
+                  <Image style={[{width:120,height:120,borderRadius:60,marginLeft:-100}]}
+                  source={ {uri: this.props.user.image_url} }
+                  defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+                  />
+                </View> : <View>
+
+              <Text style={[styles.rowtext,styles.bigtext,{
+                fontSize:18,
+                marginVertical:10,
+                color:'#fff',
+                marginBottom:15,textAlign:'center',
+                flexDirection:'column'
+              }]}>Your couple will be set up shortly.</Text></View>}
+
+            <TouchableHighlight
+            underlayColor={colors.white20}
+            style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:MagicNumbers.screenPadding,marginTop:50,marginBottom:15}}
+            onPress={this.popToTop.bind(this)}>
+            <View style={{paddingVertical:20,paddingHorizontal:20}} >
+              <Text style={{fontFamily:'Montserrat-Bold', fontSize:18,textAlign:'center', color:'#fff',}}>
+                CONTINUE
+              </Text>
+            </View>
+          </TouchableHighlight>
+              
+          </ScrollView>
+          :
+          <ScrollView contentContainerStyle={[{width:DeviceWidth,flex:1,top:0 }]} >
           <View style={{width:100,height:50,left:10,top:-10,alignSelf:'flex-start'}}>
             <BackButton navigator={this.props.navigator}/>
           </View>
@@ -102,17 +155,17 @@ class EnterCouplePin extends React.Component{
                 color:'#fff',
                 marginBottom:15,textAlign:'center',
                 flexDirection:'column'
-              }]}>What is your partner’s  “couple code”?</Text>
+              }]}>What is your partner’s “couple code”?</Text>
           </View>
-          <View style={[ styles.pinInputWrap,{marginHorizontal:MagicNumbers.screenPadding/2}, (this.state.verifyError  ? styles.pinInputWrapError : null), ]} >
+          <View style={[ styles.pinInputWrap,{marginHorizontal:MagicNumbers.screenPadding/2,borderBottomColor:colors.mediumPurple}, (this.state.verifyError  ? styles.pinInputWrapError : null), ]} >
             <TextInput
               maxLength={10}
               style={[styles.pinInput,{
-                fontSize: 26
+                fontSize: 26,
               }]}
               ref={(inp) => this._inp = inp}
               editable={false}
-              keyboardAppearance={'dark'/*doesnt work*/}
+              keyboardAppearance={'dark'}
               keyboardType={'phone-pad'}
               autoCapitalize={'none'}
               placeholder={'ENTER PIN'}
@@ -123,22 +176,25 @@ class EnterCouplePin extends React.Component{
           </View>
 
           <View style={[styles.middleTextWrap,styles.underPinInput]}>
-            {this.state.verifyError && this.state.inputFieldValue.length == 4 &&
+            {this.state.verifyError &&
               <View style={styles.bottomErrorTextWrap}>
                 <Text textAlign={'right'} style={[styles.bottomErrorText]}>Nope. Try again</Text>
               </View>
             }
-            </View>
           </View>
-
+        </View>
         </ScrollView>
+        }
 
+        {!couple || !couple.verified && 
         <ContinueButton canContinue={this.state.inputFieldValue.length > 0} handlePress={this.handleSubmit.bind(this)}/>
-
+        }
+        
+        {!couple || !couple.verified && 
         <View style={{position:'relative',height:MagicNumbers.keyboardHeight}}>
           <Numpad numpadstyles={{backgroundColor:'transparent'}} backspace={this.backspace.bind(this)} onChangeText={this.onChangeText.bind(this)}/>
-        </View>
-        
+        </View>        
+        }
       </BlurModal>
     )
   }

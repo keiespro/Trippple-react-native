@@ -31,8 +31,7 @@ class Facebook extends Component{
   }
 
   handleCredentials(fbUserData){
-
-    if(!fbUserData || fbUserData && !fbUserData.credentials ) { return false}
+    // if(!fbUserData || fbUserData && !fbUserData.credentials ) { return false}
 
     var fbUser = fbUserData.credentials;
     this.setState({fbUser})
@@ -98,7 +97,7 @@ class Facebook extends Component{
           <View style={[styles.middleTextWrap,styles.bottomwrap]}>
             <TouchableOpacity
               onPress={this.skipFacebook.bind(this)}
-            ><Text style={styles.middleText}>No thanks</Text>
+              ><Text style={styles.middleText}>{this.state.fbUser ? 'Continue' : 'No thanks'}</Text>
             </TouchableOpacity>
           </View>
         </View>

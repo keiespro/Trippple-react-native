@@ -139,18 +139,15 @@ class UserStore {
     }
   }
   handleRequestCouplePin(res){
-    console.log(res);
-    // this.couplingData = res.response.response
     this.setState({couplingData: res.response.response});
 
   }
 
   handleVerifyCouplePin(res){
-    console.log(res);
     this.setState({couplingData: res.response.response});
 
-    UserActions.getUserInfo.defer();
-
+    UserActions.getUserInfo();
+    this.forceUpdate()
   }
 
   handleUpdateUserStub(attributes = {}){

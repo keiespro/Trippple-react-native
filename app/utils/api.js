@@ -124,6 +124,7 @@ const api = {
   },
 
   updateUser(payload){
+    payload.relationship_status = 'single'
     return authenticatedRequest('update', payload)
   },
 

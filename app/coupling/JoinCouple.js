@@ -22,8 +22,10 @@ class InsideJoinCouple extends React.Component{
 
   render(){
     const couple = this.props.couple;
-    console.log(couple);
-    return (
+    return (this.props.initialScreen  ? 
+           ( this.props.initialScreen == 'CouplePin' ? 
+            <CouplePin {...this.props} /> :
+            <EnterCouplePin {...this.props} /> ) :
       <View>
         <View style={{width:100,height:50,left:10,top:-10,alignSelf:'flex-start'}}>
            <BackButton navigator={this.props.navigator}/>
@@ -68,7 +70,7 @@ Let's get started.`}
 
                   }
                 })
-              }} underlayColor={colors.outerSpace50}>
+              }} underlayColor={colors.white20}>
                 <View style={{
                    borderBottomWidth: StyleSheet.hairlineWidth,
                    borderColor:colors.shuttleGray,
@@ -94,6 +96,7 @@ Let's get started.`}
                   component: EnterCouplePin,
                    passProps: {
                      user:this.props.user,
+                     couple: this.props.couple,
                     navigator:this.props.navigator
                   }
                 })
@@ -154,9 +157,7 @@ class JoinCouple extends React.Component{
       <BlurModal user={this.props.user}>
         <AltContainer stores={couplingData}>
           {
-            this.props.initialScreen && this.props.initialScreen == 'CouplePin' ? 
-            <CouplePin user={this.props.user} navigator={this.props.navigator}/> :
-            <InsideJoinCouple user={this.props.user} navigator={this.props.navigator}/>
+            <InsideJoinCouple {...this.props} />
           }
         </AltContainer>
       </BlurModal>

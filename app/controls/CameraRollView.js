@@ -144,7 +144,6 @@ class CameraRollView extends Component{
   }
 
   renderImage(asset,id){
-    console.log(asset);
     var imageSize = DeviceWidth / 3 - 20;
     var imageStyle = [styles.image, {width: imageSize, height: imageSize}];
     const location = asset.node.location.longitude ?
@@ -352,7 +351,6 @@ class CameraRollView extends Component{
   }
 
   _onEndReached(){
-    console.log('end reached')
     if (!this.state.noMore) {
       this.fetch();
     }

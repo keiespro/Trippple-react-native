@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {StyleSheet, Text, TextInput, View, Navigator, Image, ScrollView, TouchableHighlight, Dimensions, LayoutAnimation} from "react-native";
+import {StyleSheet, Text, TextInput, View, Navigator, Settings, Image, ScrollView, TouchableHighlight, Dimensions, LayoutAnimation} from "react-native";
 
 import UserActions from '../../flux/actions/UserActions'
 import colors from '../../utils/colors'
@@ -24,7 +24,6 @@ class SelectRelationshipStatus extends Component{
   }
 
   componentWillMount(){
-    console.log(this.props.user);
     if(this.props.user.invitation && !this.state.declinedInvitation){
       this.props.navigator.push({
         component:CoupleInvitation,
@@ -38,27 +37,29 @@ class SelectRelationshipStatus extends Component{
       })
   }
   }
-  _acceptInvitation(){
-    OnboardingActions.acceptInvitation(this.props.user.invitation.inviter_phone);
-    UserActions.updateUser.defer({relationship_status:'couple'});
+  // _acceptInvitation(){
+  //   OnboardingActions.acceptInvitation(this.props.user.invitation.inviter_phone);
+  //   UserActions.updateUser.defer({relationship_status:'couple'});
 
-  }
-  _denyInvitation(){
-    this.props.navigator.pop()
-    this.setState({declinedInvitation:true})
-  }
+  // }
+  // _denyInvitation(){
+  //   this.props.navigator.pop()
+  //   this.setState({declinedInvitation:true})
+  // }
   _selectSingle(){
     this.setState({
       selection: 'single'
     })
-    this._continue('single');
+    this._continue('notsingle');
   }
 
   _selectCouple(){
-    this.setState({
-      selection: 'couple'
+    UserActions.updateUser.defer({setWantCouple:true});
+    Settings.set({'co.trippple.showCoupling':true})
+    this.setState({///hack
+      selection: 'single'
     })
-    this._continue('couple');
+    this._continue('notsingle');
   }
 
   _continue(selection){

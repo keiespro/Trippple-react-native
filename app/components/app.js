@@ -7,7 +7,7 @@ import React from "react";
 
 import DeviceConfig from '../DeviceConfig'
 import {Component} from "react";
-import {AppRegistry, View, Navigator, Dimensions, Image, NativeModules} from "react-native";
+import {AppRegistry, View, Navigator, Dimensions, Image, NativeModules,Settings} from "react-native";
 import Analytics from '../utils/Analytics'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -34,6 +34,7 @@ import PurpleModal from '../modals/PurpleModal'
 import MaintenanceScreen from '../screens/MaintenanceScreen'
 import colors from '../utils/colors'
 import ImageFlagged from '../screens/ImageFlagged'
+import JoinCouple from '../coupling/JoinCouple'
 
 
 
@@ -61,7 +62,7 @@ class AppRoutes extends Component{
                 />
       case 'pendingpartner':
       case 'onboarded':
-        return <Main
+      return Settings.get('showCoupling') ? <JoinCouple user={ this.props.user}  />  : <Main
                 key="MainScreen"
                 user={this.props.user}
                 AppState={this.props.AppState}

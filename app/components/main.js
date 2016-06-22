@@ -47,7 +47,6 @@ class Main extends Component{
 
     this.refs.nav.navigationContext.addListener('didfocus', (nav)=>{
       var route = nav.target.currentRoute;
-      // console.log(nav,route,this.refs.nav.state.presentedIndex)
       AppActions.updateRoute.defer({title: route.title, route: route.title, match_id: route.passProps && route.passProps.match_id || null})
       var routeName = route.name || route.id || (route.title && route.title.length ? route.title : false) || route.component && route.component.displayName;
       Analytics.screen(routeName)
@@ -58,12 +57,9 @@ class Main extends Component{
     if(this.props.user.id){
       Analytics.identifyUser(this.props.user);
     }
-      console.log(Linking.getInitialURL(),'LINKINGEVENT');
 
     Linking.addEventListener('url', (event)=>{
-      console.log(event,'LINKINGEVENT');
       const deeplink = url.parse(event.url);
-      console.log(deeplink)
       if(deeplink.host.indexOf('couplecode') > -1){
         this.refs.nav.push({
           component: JoinCouple,
@@ -72,7 +68,25 @@ class Main extends Component{
           }
         })
       }
+      if(deeplink.host == 'join.couple'){
+        const pin = deeplink.path.substring(1,deeplink.path.length);
+        this.refs.nav.push({
+          component:JoinCouple,
+          passProps:{
+            pin,
+           initialScreen: 'EnterCouplePin' 
+          }
+        })
+      }
     })
+    
+    if(Settings.get('co.trippple.showCoupling')){
+      this.refs.nav.push({
+        component: JoinCouple,
+        passProps:{ }
+      })
+
+    }
   }
 
   componentWillReceiveProps(nProps){

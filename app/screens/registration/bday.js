@@ -23,7 +23,7 @@ import SingleInputScreen from '../SingleInputScreen'
 
 class BdayScreen extends Component{
   static defaultProps  = {
-    date: null,
+    date: Date.now(),
     timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
   };
 
