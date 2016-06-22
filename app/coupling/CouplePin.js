@@ -2,7 +2,7 @@
 
 
 import React, {Component, PropTypes} from "react";
-import { StyleSheet, Image, Text, Animated, ActivityIndicator, View, TouchableHighlight, NativeModules, Dimensions, PixelRatio, TouchableOpacity} from "react-native";
+import { StyleSheet, Image, Text, Animated, ActivityIndicatorIOS, Alert, View, TouchableHighlight, NativeModules, Dimensions, PixelRatio, TouchableOpacity} from "react-native";
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -24,6 +24,10 @@ class CouplePin extends React.Component{
     }
   }
   handleSendMessage(){
+        // this.setState({ success:true });
+    // return
+    this.setState({ submitting:true });
+    // 
     const couple = this.props.couple || {};
 
     const pin = couple.pin;
@@ -34,6 +38,8 @@ class CouplePin extends React.Component{
       'recipients':[]
     },
     (result) => {
+      this.setState({ submitting:false });
+      
       switch(result) {
         case RNMessageComposer.Sent:
           this.setState({ success:true });
@@ -41,7 +47,7 @@ class CouplePin extends React.Component{
         case RNMessageComposer.Cancelled:
           break;
         case RNMessageComposer.Failed:
-
+          Alert.alert('Whoops','Try that again')
           break;
         case RNMessageComposer.NotSupported:
           break;
@@ -56,14 +62,19 @@ class CouplePin extends React.Component{
   }    
   componentDidUpdate(pProps,pState){
     if(!pState.success && this.state.success){
-      Animated.spring(
-        this.state.bounceValue,
-        {
-          toValue: 1.0,
-          tension: 10,
-          friction: 5,
-        }
-      ).start(()=>{
+      Animated.sequence([
+          Animated.delay(700),
+
+          Animated.spring(
+            this.state.bounceValue,
+            {
+              toValue: 1.0,
+              tension: 0,
+              velocity: 3,  // Velocity makes it move          
+              friction: 1,
+            }
+          )
+      ]).start(()=>{
         // this.setState({ success:false });
       })  // Start the animation
 
@@ -72,7 +83,7 @@ class CouplePin extends React.Component{
   renderSuccess(){
     return (
       <View style={{height:DeviceHeight,flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
-     
+
         <Animated.View
           style={{
             width:DeviceWidth,
@@ -175,18 +186,21 @@ class CouplePin extends React.Component{
         {couple.pin}
         </Text>
 
-        <View style={{}}>
+        <View style={{alignItems:'center',justifyContent:'center'}}>
 
-          <TouchableHighlight
+          {this.state.submitting ? 
+              <ActivityIndicatorIOS style={[ {width:80,height: 80}]} size="large" animating={true}/> :
+            <TouchableHighlight
             underlayColor={colors.white20}
             style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:10,marginTop:20,marginBottom:15}}
             onPress={this.handleSendMessage.bind(this)}>
-            <View style={{paddingVertical:20,}} >
+            <View style={{paddingVertical:20,paddingHorizontal:20}} >
               <Text style={{fontFamily:'Montserrat-Bold', fontSize:18,textAlign:'center', color:'#fff',}}>
                 TEXT CODE TO MY PARTNER
               </Text>
             </View>
           </TouchableHighlight>
+          }
         </View>
         <TouchableOpacity onPress={this.popToTop.bind(this)}>
           <Text style={{ fontSize:16,textAlign:'center', marginTop:40,color:colors.rollingStone,}}>

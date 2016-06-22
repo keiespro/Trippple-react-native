@@ -3,7 +3,7 @@
 
 import React, {Component} from "react";
 
-import {PixelRatio, Navigator, ScrollView, StyleSheet, InteractionManager, Text, Image, Alert, TouchableHighlight, AsyncStorage, TouchableOpacity, Dimensions, View,Modal} from "react-native";
+import {PixelRatio, Navigator, ScrollView, StyleSheet, Linking, InteractionManager, Text, Image, Alert, TouchableHighlight, AsyncStorage, TouchableOpacity, Dimensions, View,Modal} from "react-native";
 import dismissKeyboard from 'dismissKeyboard'
 import Settings from './settings'
 import Matches from './matches'
@@ -24,7 +24,8 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import Analytics from '../utils/Analytics'
 import NotificationPermissions from '../modals/NewNotificationPermissions'
-
+import JoinCouple from '../coupling/JoinCouple'
+import url from 'url'
 
 class Main extends Component{
 
@@ -57,15 +58,24 @@ class Main extends Component{
     if(this.props.user.id){
       Analytics.identifyUser(this.props.user);
     }
+      console.log(Linking.getInitialURL(),'LINKINGEVENT');
+
+    Linking.addEventListener('url', (event)=>{
+      console.log(event,'LINKINGEVENT');
+      const deeplink = url.parse(event.url);
+      console.log(deeplink)
+      if(deeplink.host.indexOf('couplecode') > -1){
+        this.refs.nav.push({
+          component: JoinCouple,
+          passProps:{
+           initialScreen: 'CouplePin' 
+          }
+        })
+      }
+    })
   }
 
   componentWillReceiveProps(nProps){
-
-
-
-
-
-
 
     if(nProps.currentRoute){
       if(this.refs.nav && nProps.currentRoute != this.refs.nav.state.presentedIndex){

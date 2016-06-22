@@ -147,12 +147,17 @@ class JoinCouple extends React.Component{
           store: UserStore,
           value: UserStore.getCouplingData()
         }
-      },
+      }
     };
+    
     return  (
       <BlurModal user={this.props.user}>
         <AltContainer stores={couplingData}>
-          <InsideJoinCouple user={this.props.user} navigator={this.props.navigator}/>
+          {
+            this.props.initialScreen && this.props.initialScreen == 'CouplePin' ? 
+            <CouplePin user={this.props.user} navigator={this.props.navigator}/> :
+            <InsideJoinCouple user={this.props.user} navigator={this.props.navigator}/>
+          }
         </AltContainer>
       </BlurModal>
     )

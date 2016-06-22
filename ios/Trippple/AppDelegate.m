@@ -52,7 +52,7 @@
 //#define ENV @"production"
 ////#endif
 
-#define ENV @"production"
+#define ENV @"d"
 
 
 @implementation AppDelegate
@@ -61,7 +61,7 @@
 {
   _bridge = [[RCTBridge alloc] initWithDelegate:self
                                   launchOptions:launchOptions];
-  
+
   [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceAlert];
 
   NSLog(@"RUNNING IN %@",ENV);
@@ -84,15 +84,15 @@
   config.showNotificationBanner = YES;
   config.themeName = @"T3Theme";
   config.notificationSoundEnabled = YES;
-  
+
   [[Hotline sharedInstance] initWithConfig:config];
   // END HOTLINE
-  
+
   // BEGIN FABRIC
   [Fabric with:@[[Crashlytics class],[Answers class]]];
   // END FABRIC
 
-  
+
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:_bridge
                                                       moduleName:@"Trippple"
                                                initialProperties:nil];
@@ -107,13 +107,13 @@
   [self.window makeKeyAndVisible];
 
     // NEEDED?
-  
+
   if ([[Hotline sharedInstance]isHotlineNotification:launchOptions]) {
     [[Hotline sharedInstance]handleRemoteNotification:launchOptions
                                           andAppstate:application.applicationState];
   }
 
-  
+
   return [[FBSDKApplicationDelegate sharedInstance] application:application
                                   didFinishLaunchingWithOptions:launchOptions];
 }
@@ -122,8 +122,8 @@
 - (NSURL *)sourceURLForBridge:(__unused RCTBridge *)bridge
 {
   NSURL *sourceURL;
-  
-  
+
+
   if([ENV isEqual:@"production"]){
     //  NSURL* defaultMetadataFileLocation = [[NSBundle mainBundle] URLForResource:@"metadata"
     //                                                               withExtension:@"json"];
@@ -133,13 +133,13 @@
 //                       defaultJSCodeLocation:[[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"]
 //                 defaultMetadataFileLocation:defaultMetadataFileLocation ];
 ////    [updater setHostnameForRelativeDownloadURLs:@"trippple.co"];
-//    
+//
 //    [updater allowCellularDataUse: YES];
 //    [updater downloadUpdatesForType: ReactNativeAutoUpdaterPatchUpdate];
 //    [updater checkUpdate];
-//    
-    
-    
+//
+
+
 //    sourceURL = [updater latestJSCodeLocation];
     sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
@@ -161,7 +161,6 @@
 {
   [RCTPushNotificationManager didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
   [[Hotline sharedInstance] updateDeviceToken:deviceToken];
-
   // Required for the register event.
 }
 
@@ -185,17 +184,26 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-  NSLog(@"%@",url);
-  if(url.path){
-  
+  if([url.scheme isEqualToString:@"trippple"]){
+      NSLog(@"Not fb, %@",url);
+      NSLog(@"Not fb, %@",url.scheme);
+    
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [delegate.rootViewController dismissViewControllerAnimated:YES completion:nil];
+
+    return [RCTLinkingManager application:application openURL:url
+                          sourceApplication:sourceApplication annotation:annotation];
+  } else {
+
+    NSLog(@"fb, %@",url);
+    NSLog(@"fb, %@",url.scheme);
+
+
   return [[FBSDKApplicationDelegate sharedInstance] application:application
                                                         openURL:url
                                               sourceApplication:sourceApplication
                                                annotation:annotation];
- }else{
-  return [RCTLinkingManager application:application openURL:url
-                      sourceApplication:sourceApplication annotation:annotation];
- }
+  }
 }
 
 

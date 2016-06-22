@@ -9,9 +9,9 @@
 		<key>ChatBubbleMessageFontSize</key>
 		<string>18.0f</string>
 		<key>AgentMessageTextColor</key>
-		<string>111111</string>
+		<string>233138</string>
 		<key>UserMessageTextColor</key>
-		<string>111111</string>
+		<string>233138</string>
 		<key>ChatBubbleTimeFontName</key>
 		<string>Omnes-Regular</string>
 		<key>ChatBubbleTimeFontSize</key>
@@ -23,13 +23,13 @@
 		<key>ActionButtonSelectedTextColor</key>
 		<string>FFFFFF</string>
 		<key>ActionButtonColor</key>
-		<string>FFFFFF</string>
+		<string>233138</string>
 		<key>ActionButtonBorderColor</key>
 		<string>FFFFFF</string>
 		<key>HyperlinkColor</key>
-		<string>FFFFFF</string>
+		<string>233138</string>
 		<key>InputTextFontColor</key>
-		<string>111111</string>
+		<string>233138</string>
 		<key>InputTextFontName</key>
 		<string>Omnes-Light</string>
 		<key>InputTextFontSize</key>
@@ -86,15 +86,15 @@
 		<key>NoButtonFontSize</key>
 		<string>14</string>
 		<key>NoButtonBackgroundColor</key>
-		<string>2C3941</string>
+		<string>233138</string>
 		<key>NoButtonBorderColor</key>
 		<string>FFFFFF</string>
 		<key>YesButtonBorderColor</key>
 		<string>8459DA</string>
 		<key>ButtonColor</key>
-		<string>FFFFFF</string>
+		<string>8459DA</string>
 		<key>BackgroundColor</key>
-		<string>2C3941</string>
+		<string>233138</string>
 		<key>LabelFontColor</key>
 		<string>FFFFFF</string>
 		<key>LabelFontName</key>
@@ -109,17 +109,17 @@
 		<key>ChannelTitleFontSize</key>
 		<string>14</string>
 		<key>ChannelTitleFontColor</key>
-		<string>EFEFEF</string>
+		<string>FFFFFF</string>
 		<key>ChannelIconBorderColor</key>
-		<string>2C3941</string>
+		<string>FFFFFF</string>
 		<key>MessageFontName</key>
 		<string>Omnes-Light</string>
 		<key>MessageFontSize</key>
 		<string>14</string>
 		<key>MessageFontColor</key>
-		<string>EFEFEF</string>
+		<string>FFFFFF</string>
 		<key>BackgroundColor</key>
-		<string>2C3941</string>
+		<string>E64C6D</string>
 	</dict>
 	<key>ChannelListView</key>
 	<dict>

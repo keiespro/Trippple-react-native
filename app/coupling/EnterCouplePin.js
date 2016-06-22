@@ -28,9 +28,9 @@ class EnterCouplePin extends React.Component{
       inputFieldValue:''
     }
   }
+
   backspace(){
     this.handleInputChange({pin: this.state.inputFieldValue.substring(0,this.state.inputFieldValue.length-1)  })
-
   }
 
   onChangeText(digit){
@@ -40,10 +40,7 @@ class EnterCouplePin extends React.Component{
 
   handleInputChange(event: any){
     if(!event && typeof event != 'object'){ return false}
-    var pin =   event.nativeEvent ?  event.nativeEvent.text : event.pin;
-
-    // Submit pin automatically when 4 digits have been entered
-
+    const pin =   event.nativeEvent ?  event.nativeEvent.text : event.pin;
 
     this.setNativeProps({text:pin})
     this.setState({
@@ -54,25 +51,35 @@ class EnterCouplePin extends React.Component{
   handleSubmit(){
     if(!this.state.verifyError && !this.state.submitting && this.state.inputFieldValue.length >= 6) {
       UserActions.verifyCouplePin(this.state.inputFieldValue);
-
       this.setState({
         submitting: true
       })
-
-
     }
   }
+
+  componentDidUpdate(pProps,pState){
+
+    if(pProps.couple && !pProps.couple.verified && this.props.couple && this.props.couple.verified){
+      this.setState({
+        success: true
+      })
+    }else if(pProps.couple && !pProps.couple.verifyError  && this.props.couple && this.props.couple.verifyError){
+      this.setState({
+        error: this.props.couple.verifyError
+      })
+    }
+  }
+  
   setNativeProps(np) {
     var {text} = np
     this._inp && this._inp.setNativeProps({text });
   }
-  componentWillUpdate(props, state) {
 
+  componentWillUpdate(props, state) {
      if(state.inputFieldValue.length > 0 && this.state.inputFieldValue.length == 0 || state.inputFieldValue.length == 0 && this.state.inputFieldValue.length > 0) {
        LayoutAnimation.configureNext(animations.layout.spring);
      }
-
-   }
+  }
 
   render(){
     const couple = this.props.couple;
@@ -81,64 +88,57 @@ class EnterCouplePin extends React.Component{
       <BlurModal noscroll={true} user={this.props.user}>
         <ScrollView contentContainerStyle={[{width:DeviceWidth,flex:1,top:0 }]} >
           <View style={{width:100,height:50,left:10,top:-10,alignSelf:'flex-start'}}>
-             <BackButton navigator={this.props.navigator}/>
-           </View>
-
-
-         <View style={[{marginBottom:50, flex:1, marginHorizontal:MagicNumbers.screenPadding/2,   flexDirection:'column',alignItems:'center',justifyContent:'center'}]}>
-           <View style={{marginBottom:50,}}>
-             <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'Montserrat-Bold',fontSize:20,color:'#fff',marginVertical:10 }]}>
-               CONNECT WITH YOUR PARTNER
-             </Text>
-             <Text style={[styles.rowtext,styles.bigtext,{
-               fontSize:18,
-               marginVertical:10,
-               color:'#fff',
-               marginBottom:15,textAlign:'center',
-               flexDirection:'column'
-             }]}>What is your partner’s  “couple code”?</Text>
-           </View>
-           <View
-             style={[
-               styles.pinInputWrap,{marginHorizontal:MagicNumbers.screenPadding/2},
-               (this.state.verifyError  ? styles.pinInputWrapError : null),
-               ]}
-             >
-             <TextInput
-               maxLength={10}
-               style={[styles.pinInput,{
-                 fontSize: 26
-               }]}
-               ref={(inp) => this._inp = inp}
-               editable={false}
-               keyboardAppearance={'dark'/*doesnt work*/}
-               keyboardType={'phone-pad'}
-               autoCapitalize={'none'}
-               placeholder={'ENTER PIN'}
-               placeholderTextColor={'#fff'}
-               autoCorrect={false}
-               textAlign={'center'}
-              />
-           </View>
-
-           <View style={[styles.middleTextWrap,styles.underPinInput]}>
-
-             {this.state.verifyError && this.state.inputFieldValue.length == 4 &&
-                 <View style={styles.bottomErrorTextWrap}>
-                   <Text textAlign={'right'} style={[styles.bottomErrorText]}>Nope. Try again</Text>
-                 </View>
-             }
-            </View>
-
+            <BackButton navigator={this.props.navigator}/>
           </View>
 
+          <View style={[{marginBottom:50, flex:1, marginHorizontal:MagicNumbers.screenPadding/2,   flexDirection:'column',alignItems:'center',justifyContent:'center'}]}>
+            <View style={{marginBottom:50,}}>
+              <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'Montserrat-Bold',fontSize:20,color:'#fff',marginVertical:10 }]}>
+                CONNECT WITH YOUR PARTNER
+              </Text>
+              <Text style={[styles.rowtext,styles.bigtext,{
+                fontSize:18,
+                marginVertical:10,
+                color:'#fff',
+                marginBottom:15,textAlign:'center',
+                flexDirection:'column'
+              }]}>What is your partner’s  “couple code”?</Text>
+          </View>
+          <View style={[ styles.pinInputWrap,{marginHorizontal:MagicNumbers.screenPadding/2}, (this.state.verifyError  ? styles.pinInputWrapError : null), ]} >
+            <TextInput
+              maxLength={10}
+              style={[styles.pinInput,{
+                fontSize: 26
+              }]}
+              ref={(inp) => this._inp = inp}
+              editable={false}
+              keyboardAppearance={'dark'/*doesnt work*/}
+              keyboardType={'phone-pad'}
+              autoCapitalize={'none'}
+              placeholder={'ENTER PIN'}
+              placeholderTextColor={'#fff'}
+              autoCorrect={false}
+              textAlign={'center'}
+            />
+          </View>
+
+          <View style={[styles.middleTextWrap,styles.underPinInput]}>
+            {this.state.verifyError && this.state.inputFieldValue.length == 4 &&
+              <View style={styles.bottomErrorTextWrap}>
+                <Text textAlign={'right'} style={[styles.bottomErrorText]}>Nope. Try again</Text>
+              </View>
+            }
+            </View>
+          </View>
 
         </ScrollView>
+
         <ContinueButton canContinue={this.state.inputFieldValue.length > 0} handlePress={this.handleSubmit.bind(this)}/>
 
         <View style={{position:'relative',height:MagicNumbers.keyboardHeight}}>
           <Numpad numpadstyles={{backgroundColor:'transparent'}} backspace={this.backspace.bind(this)} onChangeText={this.onChangeText.bind(this)}/>
         </View>
+        
       </BlurModal>
     )
   }
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: colors.rollingStone,
     height: 62,
-     alignSelf: 'stretch',
+    alignSelf: 'stretch',
     marginBottom:0
   },
   pinInputWrapSelected:{

@@ -246,20 +246,22 @@ class CardStack extends React.Component{
         //   }
         // })
         if(likeStatus){
+            MatchActions.sendLike( likeUserId, likeStatus, (this.props.rel == 'single' ? 'couple' : 'single'), this.props.rel );
 
           Animated.timing(this.state.pan, {
             toValue,
-            velocity:{x:parseInt(vx),y:parseInt(vy)},       // maintain gesture velocity
-            duration:200,
-            tension: 20 ,
-            friction:  2 ,//2
+            velocity:{x:parseInt(vx)/2,y:parseInt(vy)/2},       // maintain gesture velocity
+            duration:300,
+            easing:    Easing.inOut(Easing.quad), // Symmetric            
+            // tension: 20,
+            // friction:  2 ,//2
           }).start((result)=>{
             if(!result.finished){
 
             }
             // MatchActions.removePotential(likeUserId);
 
-            MatchActions.sendLike( likeUserId, likeStatus, (this.props.rel == 'single' ? 'couple' : 'single'), this.props.rel );
+            // MatchActions.sendLike( likeUserId, likeStatus, (this.props.rel == 'single' ? 'couple' : 'single'), this.props.rel );
 
 
           });
