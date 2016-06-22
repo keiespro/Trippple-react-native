@@ -48,7 +48,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>9</string>
+	<string>14</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -76,6 +76,7 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbauth2</string>
+		<string>trippple</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -132,7 +133,7 @@
 		<string>Montserrat-Bold.ttf</string>
 	</array>
 	<key>UIRequiresFullScreen</key>
-	<false/>
+	<true/>
 	<key>UIStatusBarHidden</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>

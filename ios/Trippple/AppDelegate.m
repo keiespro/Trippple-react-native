@@ -52,7 +52,7 @@
 //#define ENV @"production"
 ////#endif
 
-#define ENV @"d"
+#define ENV @"production"
 
 
 @implementation AppDelegate

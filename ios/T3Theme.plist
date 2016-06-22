@@ -150,7 +150,7 @@
 		<key>UnreadBadgeFontSize</key>
 		<string>13f</string>
 		<key>ChannelIconPlaceholderBackgroundColor</key>
-		<string>2C3941</string>
+		<string>8459da</string>
 		<key>ChannelIconPlaceholderCharFontSize</key>
 		<string>16.0f</string>
 		<key>ChannelIconPlaceholderCharFontName</key>
@@ -161,7 +161,7 @@
 		<key>MessageFontName</key>
 		<string>Montserrat-Regular</string>
 		<key>MessageTextColor</key>
-		<string>FFFFFF</string>
+		<string>8459da</string>
 		<key>MessageFontSize</key>
 		<string>15.0f</string>
 	</dict>
@@ -185,7 +185,7 @@
 	<key>OverallSettings</key>
 	<dict>
 		<key>BackgroundColor</key>
-		<string>FFFFFF</string>
+		<string>8459da</string>
 		<key>TalkToUsButtonFontColor</key>
 		<string>FFFFFF</string>
 		<key>TalkToUsButtonBackgroundColor</key>
@@ -223,7 +223,7 @@
 		<key>CellBackgroundColor</key>
 		<string>FFFFFF</string>
 		<key>CellSeparatorColor</key>
-		<string>FFFFFF</string>
+		<string>d8d8d8</string>
 		<key>TitleFontColor</key>
 		<string>2C3941</string>
 		<key>TitleFontName</key>
@@ -257,7 +257,7 @@
 		<key>ImageViewBackgroundColor</key>
 		<string>2C3941</string>
 		<key>BorderColor</key>
-		<string>FFFFFF</string>
+		<string>788187</string>
 	</dict>
 	<key>Images</key>
 	<dict>
