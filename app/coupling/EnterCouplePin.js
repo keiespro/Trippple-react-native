@@ -64,7 +64,7 @@ class EnterCouplePin extends React.Component{
       })
     }else if(pProps.couple && !pProps.couple.verifyError  && this.props.couple && this.props.couple.verifyError){
       this.setState({
-        error: this.props.couple.verifyError
+       verifyError: this.props.couple.verifyError
       })
     }
   }
@@ -98,7 +98,7 @@ class EnterCouplePin extends React.Component{
     const couple = this.props.couple;
 
     return (
-      <BlurModal noscroll={true} user={this.props.user}>
+      <BlurModal navigator={this.props.navigator} noscroll={true} user={this.props.user}>
           <View style={{width:DeviceWidth,height:DeviceHeight-MagicNumbers.keyboardHeight,position:'relative'}}>
             <ScrollView style={{width:DeviceWidth,top:0}} contentContainerStyle={[{height:DeviceHeight-MagicNumbers.keyboardHeight,width:DeviceWidth,flex:1,top:0,left:0}]} >
        
@@ -139,14 +139,10 @@ class EnterCouplePin extends React.Component{
             }
           </View>
         </View>
-          <ContinueButton canContinue={this.state.inputFieldValue.length > 0} absoluteContinue={true} handlePress={this.handleSubmit.bind(this)}/>
-   
-          <View style={{width:100,height:20,left:10,top:-10,flex:1,position:'absolute',alignSelf:'flex-start'}}>
-            <BackButton navigator={this.props.navigator}/>
-          </View>
-        
+               
         </ScrollView>
-        
+   <ContinueButton canContinue={this.state.inputFieldValue.length > 0} absoluteContinue={true} handlePress={this.handleSubmit.bind(this)}/>
+           
         </View>
 
        

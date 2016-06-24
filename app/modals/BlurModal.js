@@ -3,6 +3,7 @@
 
 import React, {Component, PropTypes} from "react";
 import {StyleSheet, Text, Image, NativeModules, View, TouchableHighlight, Dimensions, PixelRatio, ScrollView, TouchableOpacity} from "react-native";
+import BackButton from '../components/BackButton'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -37,7 +38,11 @@ class BlurModal extends React.Component{
           <ScrollView style={localstyles.modalscroll} contentContainerStyle={localstyles.modalscrollcontainer}>
           {this.props.children}
         </ScrollView>
-      }
+        }
+        <View style={{width:100,height:20,left:10,top:-10,position:'absolute',alignSelf:'flex-start'}}>
+          <BackButton navigator={this.props.navigator}/>
+        </View>
+        
       </Image>
 
     )

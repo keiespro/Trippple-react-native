@@ -131,9 +131,6 @@ class InsideJoinCouple extends React.Component{
                     <Image source={{uri: 'assets/nextArrow@3x.png'}} />
                 </View>
             </TouchableHighlight>
-        <View style={{width:100,height:20,position:'absolute',left:10,top:-10,alignSelf:'flex-start'}}>
-           <BackButton navigator={this.props.navigator}/>
-         </View>
 
       </View>
     )
@@ -167,7 +164,7 @@ class JoinCouple extends React.Component{
     };
     
     return  (
-      <BlurModal user={this.props.user}>
+      <BlurModal navigator={this.props.navigator} user={this.props.user}>
         <AltContainer stores={couplingData}>
           {
             <InsideJoinCouple {...this.props} />

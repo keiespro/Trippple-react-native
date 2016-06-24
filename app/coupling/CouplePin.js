@@ -153,9 +153,6 @@ class CouplePin extends React.Component{
     
     return (
       <View>
-        <View style={{width:100,height:20,left:10,top:-10,alignSelf:'flex-start'}}>
-          <BackButton navigator={this.props.navigator}/>
-        </View>
         <View style={[{width:DeviceWidth, paddingTop:50,paddingHorizontal:MagicNumbers.screenPadding/2 }]} >
 
           <View style={{height:120,marginVertical:30,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
@@ -214,13 +211,14 @@ class CouplePin extends React.Component{
           </Text>
         </TouchableOpacity>
       </View>
+      
     </View>
     )
   }
   render(){
 
     return (
-      <BlurModal user={this.props.user}>
+      <BlurModal navigator={this.props.navigator} user={this.props.user}>
         {this.state.success ? this.renderSuccess() : this.renderMain()}
       </BlurModal>
     )
