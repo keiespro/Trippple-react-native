@@ -300,8 +300,6 @@ class Card extends React.Component{
                       defaultSource={{uri: 'assets/defaultuser.png'}}
                       style={[styles.imagebg, {
                         backgroundColor: colors.white,
-                        width: undefined,
-                        height:undefined,
                         flex:1,
                         left:0,
                         right:0,
@@ -314,7 +312,7 @@ class Card extends React.Component{
                     />
                 </TouchableHighlight>
 
-                  {potential.partner && potential.partner.image_url ?
+                  {potential.partner && potential.partner.image_url && potential.partner.image_url.length ?
 
                     <TouchableHighlight
                       underlayColor={colors.mediumPurple}

@@ -4,7 +4,7 @@ import React,{Component} from "react";
 
 import {View, Alert, AsyncStorage, AppState, PushNotificationIOS, VibrationIOS} from "react-native";
 
-import io from '../socket.io'
+const io = require('../socket.io')
 
 // import Firebase from 'firebase'
 import NotificationActions from '../flux/actions/NotificationActions'
@@ -30,7 +30,11 @@ class NotificationCommander extends Component{
       notifications: [],
       processing:false,
     }
-    this.socket = io(WEBSOCKET_URL, {jsonp:false})
+    this.socket = io(WEBSOCKET_URL, {
+      jsonp:false,
+      transports: ['websocket'],
+      ['force new connection']: true
+    })
 
   }
   componentWillMount(){
@@ -152,7 +156,23 @@ class NotificationCommander extends Component{
 
   }
   connectSocket(){
+    __DEV__ && console.log('WEBSOCKET TRY /')
+    this.socket.on('connect_error', (err) => {
+      console.log('SOCKETIO CONNECT ERR');
+      console.log(err);
+    });
+    this.socket.on('error', (err) => {
+      console.log('SOCKETIO ERR');
+      console.log(err);
+    });
+    
+    
+
+
+    
     this.socket.on('user.connect', (data) => {
+    __DEV__ && console.log('WEBSOCKET CONNECTED /')
+      
       this.online_id = data.online_id;
 
       const myApikey = this.props.api_key,

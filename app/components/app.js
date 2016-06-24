@@ -89,7 +89,7 @@ class TopLevel extends Component{
 
 
   componentWillReceiveProps(nProps){
-    if(nProps && this.props.user && nProps.user &&  nProps.user.status == 'verified' && this.props.user.status != 'verified'){
+    if(nProps && this.props.user && nProps.user &&  nProps.user.status == 'verified' && this.props.user.status != 'verified' && this.props.user.status != 'onboarded'){
       this.setState({showCheckmark:true,checkMarkCopy: {title: 'SUCCESS' }})
       this.setTimeout(()=>{
         this.setState({showCheckmark:false,checkMarkCopy:null})

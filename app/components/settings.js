@@ -373,7 +373,7 @@ class SettingsInside extends React.Component{
                       <View>
                           <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>FAQS</Text>
                           <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
-                          Answers to our most frequently asked questions
+                          Answers to frequently asked questions
                           </Text>
                       </View>
                       <Image source={{uri: 'assets/nextArrow@3x.png'}} />

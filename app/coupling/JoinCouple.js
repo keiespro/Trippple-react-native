@@ -22,11 +22,14 @@ import BackButton from '../components/BackButton'
 class InsideJoinCouple extends React.Component{
   
   componentWillReceiveProps(nProps){
-    if(this.props.couple && !this.props.couple.verified && this.props.couple && nProps.couple.verified){
+    if(this.props.couple && !this.props.couple.verified && nProps.couple && nProps.couple.verified){
+      console.log('succes,replace screen',this.props.navigator);
+      // this.props.navigator.pop();
       this.props.navigator.replace({
         component: CoupleSuccess,
-        passProps: { ...this.nProps }
+        passProps: { ...nProps }
       })
+      
     }
   }
   
@@ -38,12 +41,9 @@ class InsideJoinCouple extends React.Component{
             <CouplePin {...this.props} /> :
             <EnterCouplePin  {...this.props} /> ) :
       <View>
-        <View style={{width:100,height:50,left:10,top:-10,alignSelf:'flex-start'}}>
-           <BackButton navigator={this.props.navigator}/>
-         </View>
-        <View style={[{width:DeviceWidth,paddingTop:50, paddingHorizontal:MagicNumbers.screenPadding/2 }]} >
+        <View style={[{width:DeviceWidth,paddingTop:MagicNumbers.is5orless ? 20 : 50, paddingHorizontal:MagicNumbers.screenPadding/2 }]} >
 
-          <View style={{height:160,marginVertical:30,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+          <View style={{height:160,marginVertical:30,transform:[{scale:MagicNumbers.is5orless ? .8 : 1 }],flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
             <View
               style={{width:156,height:156,borderRadius:80,marginRight:-145,borderColor:colors.white,borderWidth:3,borderStyle:'dashed'}} />
             <Image style={[{width:160,height:160,borderRadius:80,marginLeft:-145}]}
@@ -58,14 +58,13 @@ class InsideJoinCouple extends React.Component{
 
           <View style={{flexDirection:'column',marginBottom:30 }} >
             <Text style={[styles.rowtext,styles.bigtext,{
-                fontSize:20,
+                fontSize: MagicNumbers.is5orless ? 18 : 20,
                 marginVertical:10,
                 color:'#fff',
                 marginBottom:15,
                 flexDirection:'column'
               }]}>
-              {`Connecting with your partner is easy.
-Let's get started.`}
+              {`Connecting with your partner is easy. Let's get started.`}
             </Text>
           </View>
         </View>
@@ -132,6 +131,9 @@ Let's get started.`}
                     <Image source={{uri: 'assets/nextArrow@3x.png'}} />
                 </View>
             </TouchableHighlight>
+        <View style={{width:100,height:20,position:'absolute',left:10,top:-10,alignSelf:'flex-start'}}>
+           <BackButton navigator={this.props.navigator}/>
+         </View>
 
       </View>
     )

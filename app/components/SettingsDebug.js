@@ -77,7 +77,6 @@ class SettingsDebug extends React.Component{
                   </View>
                 </TouchableHighlight>
 
-
           {/*  Receive fake Notification */}
             <TouchableHighlight
             onPress={()=>{
@@ -219,6 +218,21 @@ class SettingsDebug extends React.Component{
                 <Text style={{color:colors.white}}>Get FAKE potentials</Text>
                </View>
             </TouchableHighlight>
+
+
+              {/*   */}
+                <TouchableHighlight
+                  onPress={(f)=>{
+               Settings.set({['co.trippple.showCoupling']:true})
+  
+                  }} >
+                  <View style={styles.wrapfield}>
+                    <Text style={{color:colors.white,}}>reset showCoupling</Text>
+
+                  </View>
+                </TouchableHighlight>
+
+
 
           {/*  toggle DEV */}
             <TouchableHighlight

@@ -58,7 +58,6 @@ class EnterCouplePin extends React.Component{
   }
 
   componentDidUpdate(pProps,pState){
-
     if(pProps.couple && !pProps.couple.verified && this.props.couple && this.props.couple.verified){
       this.setState({
         success: true
@@ -100,24 +99,20 @@ class EnterCouplePin extends React.Component{
 
     return (
       <BlurModal noscroll={true} user={this.props.user}>
-        <ScrollView contentContainerStyle={[{width:DeviceWidth,flex:1,top:0 }]} >
-          <View style={{width:100,height:50,left:10,top:-10,alignSelf:'flex-start'}}>
-            <BackButton navigator={this.props.navigator}/>
-          </View>
-
-          <View style={[{marginBottom:50, flex:1, marginHorizontal:MagicNumbers.screenPadding/2,   flexDirection:'column',alignItems:'center',justifyContent:'center'}]}>
-            <View style={{marginBottom:50,}}>
-              <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'Montserrat-Bold',fontSize:20,color:'#fff',marginVertical:10 }]}>
+          <View style={{width:DeviceWidth,height:DeviceHeight-MagicNumbers.keyboardHeight,position:'relative'}}>
+            <ScrollView style={{width:DeviceWidth,top:0}} contentContainerStyle={[{height:DeviceHeight-MagicNumbers.keyboardHeight,width:DeviceWidth,flex:1,top:0,left:0}]} >
+       
+          <View style={[{top:0,marginBottom:MagicNumbers.is5orless ? 0 : 50, flexDirection:'column',alignItems:'center',justifyContent:'center',  height:DeviceHeight-MagicNumbers.keyboardHeight,marginHorizontal:MagicNumbers.screenPadding/2,flex:1 }]}>
+              <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'Montserrat-Bold',fontSize:MagicNumbers.is5orless ? 17 : 20,color:'#fff',marginVertical:10 }]}>
                 CONNECT WITH YOUR PARTNER
               </Text>
               <Text style={[styles.rowtext,styles.bigtext,{
-                fontSize:18,
+                fontSize: MagicNumbers.is5orless ? 16 : 18,
                 marginVertical:10,
                 color:'#fff',
                 marginBottom:15,textAlign:'center',
                 flexDirection:'column'
               }]}>What is your partner’s “couple code”?</Text>
-          </View>
           <View style={[ styles.pinInputWrap,{marginHorizontal:MagicNumbers.screenPadding/2,borderBottomColor:colors.mediumPurple}, (this.state.verifyError  ? styles.pinInputWrapError : null), ]} >
             <TextInput
               maxLength={10}
@@ -144,10 +139,17 @@ class EnterCouplePin extends React.Component{
             }
           </View>
         </View>
+          <ContinueButton canContinue={this.state.inputFieldValue.length > 0} absoluteContinue={true} handlePress={this.handleSubmit.bind(this)}/>
+   
+          <View style={{width:100,height:20,left:10,top:-10,flex:1,position:'absolute',alignSelf:'flex-start'}}>
+            <BackButton navigator={this.props.navigator}/>
+          </View>
+        
         </ScrollView>
+        
+        </View>
 
        
-        <ContinueButton canContinue={this.state.inputFieldValue.length > 0} handlePress={this.handleSubmit.bind(this)}/>
         
         <View style={{position:'relative',height:MagicNumbers.keyboardHeight}}>
           <Numpad numpadstyles={{backgroundColor:'transparent'}} backspace={this.backspace.bind(this)} onChangeText={this.onChangeText.bind(this)}/>

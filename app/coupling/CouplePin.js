@@ -105,7 +105,7 @@ class CouplePin extends React.Component{
           />
         </Animated.View>
 
-        <View style={{flex:1,height:DeviceHeight*0.75,paddingHorizontal:30,width:DeviceWidth,flexDirection:'column'}}>
+        <View style={{flex:1,height:DeviceHeight*0.75,paddingHorizontal:MagicNumbers.screenPadding/2,width:DeviceWidth,flexDirection:'column'}}>
 
 
          <Text
@@ -149,11 +149,11 @@ class CouplePin extends React.Component{
   }    
   renderMain(){
 
-    const {couple} = this.props;
+    const couple = this.props.couple || {};
     
     return (
       <View>
-        <View style={{width:100,height:50,left:10,top:-10,alignSelf:'flex-start'}}>
+        <View style={{width:100,height:20,left:10,top:-10,alignSelf:'flex-start'}}>
           <BackButton navigator={this.props.navigator}/>
         </View>
         <View style={[{width:DeviceWidth, paddingTop:50,paddingHorizontal:MagicNumbers.screenPadding/2 }]} >
@@ -173,7 +173,7 @@ class CouplePin extends React.Component{
 
           <View style={{flexDirection:'column' }} >
             <Text style={[styles.rowtext,styles.bigtext,{
-              fontSize:20,
+              fontSize:MagicNumbers.is5orless ? 17 : 20,
               marginVertical:10,
               color:'#fff',
               marginBottom:15,
@@ -185,7 +185,7 @@ class CouplePin extends React.Component{
 
         <Text style={[styles.rowtext,styles.bigtext,{
           fontSize:50,
-          marginVertical:30,
+          marginVertical:MagicNumbers.is5orless ? 10 : 30,
           color:'#fff',
           fontFamily:'Montserrat-Bold',
         }]}>
@@ -198,10 +198,10 @@ class CouplePin extends React.Component{
               <ActivityIndicatorIOS style={[ {width:80,height: 80}]} size="large" animating={true}/> :
             <TouchableHighlight
             underlayColor={colors.white20}
-            style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:10,marginTop:20,marginBottom:15}}
+            style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:MagicNumbers.is5orless ? 0 : 10,marginTop:20,marginBottom:15}}
             onPress={this.handleSendMessage.bind(this)}>
-            <View style={{paddingVertical:20,paddingHorizontal:20}} >
-              <Text style={{fontFamily:'Montserrat-Bold', fontSize:18,textAlign:'center', color:'#fff',}}>
+            <View style={{paddingVertical:20,paddingHorizontal:MagicNumbers.screenPadding/(MagicNumbers.is5orless ?  2 : 2)}} >
+              <Text style={{fontFamily:'Montserrat-Bold', fontSize:MagicNumbers.is5orless ? 16 : 18,textAlign:'center', color:'#fff',}}>
                 TEXT CODE TO MY PARTNER
               </Text>
             </View>
@@ -209,7 +209,7 @@ class CouplePin extends React.Component{
           }
         </View>
         <TouchableOpacity onPress={this.popToTop.bind(this)}>
-          <Text style={{ fontSize:16,textAlign:'center', marginTop:40,color:colors.rollingStone,}}>
+          <Text style={{ fontSize:16,textAlign:'center', marginVertical:MagicNumbers.is5orless ? 20 : 40,color:colors.rollingStone,}}>
             Skip
           </Text>
         </TouchableOpacity>

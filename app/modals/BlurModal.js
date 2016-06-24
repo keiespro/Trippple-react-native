@@ -24,11 +24,14 @@ class BlurModal extends React.Component{
   render(){
 
     return  (
-      <Image source={{uri:this.props.user.image_url}} style={{}}>
+      <Image source={{uri:this.props.user.image_url}} style={{height:DeviceHeight,width:DeviceWidth}}>
         <VibrancyView blurType="dark" style={localstyles.blurstyle} />
 
         {this.props.noscroll ?
-          <View style={localstyles.modalscroll}>
+          <View style={{
+    width:DeviceWidth,
+    height:DeviceHeight,
+        }}>
           {this.props.children}
         </View> :
           <ScrollView style={localstyles.modalscroll} contentContainerStyle={localstyles.modalscrollcontainer}>

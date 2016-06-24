@@ -124,6 +124,7 @@ class Analytics{
     if(!error || (error && error.error && !Object.keys(error.error).length) ||  (error && !Object.keys(error).length) ){
      return;
    }
+    __DEV__ && console.log(`ERROR:`,error)
 
     __DEV__ && console.warn(`ERROR:`, JSON.stringify(error || {error: '?'}, null, 2))
     // __DEV__ && console.log(`ERROR:`, error)
