@@ -26,7 +26,11 @@ import MatchActions from '../../flux/actions/MatchActions'
 import Analytics from '../../utils/Analytics'
 
 
-
+const medals = {
+  bronze: 'goldenrod',
+  silver: 'silver',
+  gold:'gold'
+};
 class Card extends React.Component{
 
   static defaultProps = {
@@ -74,7 +78,7 @@ class Card extends React.Component{
   componentDidMount(){
     this.checkPotentialSuitability();
   }
-  openProfileFromImage(e){
+  openProfileFromImage(e,scroll){
     if(!this.props.animatedIn || !this.props.isTopCard){ return }
     this.setState({activeIndex: this.state.activeIndex + 1})
     if(this.props.profileVisible){
@@ -82,6 +86,9 @@ class Card extends React.Component{
 
     }else{
       this.props.showProfile(this.props.potential)
+    }
+    if(scroll){
+      this.refs.scrollbox.scrollTo({y: DeviceHeight-200,x:0}) 
     }
   }
 
@@ -155,12 +162,12 @@ class Card extends React.Component{
 
     var { rel,  profileVisible, isTopCard, isThirdCard, pan } = this.props,
       matchName = names[0],
-      distance = potential.user.distance || ``,
+      distance = potential.user.distance && potential.user.distance != '1 Swipe Away' ? potential.user.distance : ``,
       city = potential.user.city_state || ``;
 
     if(rel == 'single') {
       matchName += ' & ' + names[1]
-      distance = Math.min(distance,potential.partner && potential.partner.distance || '')
+      distance = Math.min(distance,potential.partner && potential.partner.distance != '1 Swipe Away' ? potential.partner.distane : 0)
     }
     const seperator = distance.length && city.length ? ' | ' : '';
 
@@ -187,7 +194,7 @@ class Card extends React.Component{
       var heightTable =  MagicNumbers.is4s ? heights.smallest : (MagicNumbers.is5orless ? heights.middle : heights.all);
       var cardHeight = DeviceHeight + (isTopCard ? heightTable.top : (isThirdCard ? heightTable.third : heightTable.second));
       // ? DeviceHeight- 40 : DeviceHeight -60
-
+  console.log( medals[potential.rating],potential.rating);
 
       return (
         <View
@@ -422,38 +429,43 @@ class Card extends React.Component{
                   alignSelf:'stretch',alignItems:'stretch'
                   // marginRight: this.props.profileVisible ? 0 : 50,
                 }}
-              >
-              <TouchableHighlight
-                underlayColor={colors.mediumPurple} underlayColor={colors.warmGrey} onPress={this.openProfileFromImage.bind(this)}>
-
-                <View
-                  key={`${potential.id || potential.user.id}-infos`}
-                  style={{
-                    padding: isTopCard ? 10 : 15,
-                    paddingTop:MagicNumbers.is4s ? 20 : 15,
-                    paddingBottom:MagicNumbers.is4s ? 10 : 15,
-                    height:80,
-                    width:DeviceWidth-MagicNumbers.screenPadding/2,
-                    bottom:0,flex:1,
-                    alignSelf:'stretch',
-                    flexDirection:'column',
-                    position:'relative',top:0,
-                  }}
                 >
-                  <Text style={[styles.cardBottomText,{}]}
-                    key={`${potential.id || potential.user.id}-names`}>{
-                      matchName
-                    }</Text>
-                    <Text style={[styles.cardBottomOtherText,{flex:1}]}
-                    key={`${potential.id || potential.user.id}-matchn`}>{
-                      (city) + seperator + (distance.length ? `${distance} ${distance == 1 ? 'mile' : 'miles'} away` : ``)
-                    }</Text>
-                </View>
+                  <TouchableHighlight
+                    underlayColor={colors.mediumPurple} underlayColor={colors.warmGrey} onPress={this.openProfileFromImage.bind(this,true)}>
+                    <View style={{flexDirection:'row'}}>
+                      <View
+                        key={`${potential.id || potential.user.id}-infos`}
+                        style={{
+                          padding: isTopCard ? 10 : 15,
+                          paddingTop:MagicNumbers.is4s ? 20 : 15,
+                          paddingBottom:MagicNumbers.is4s ? 10 : 15,
+                          height:80,
+                          width:DeviceWidth-MagicNumbers.screenPadding/2,
+                          bottom:0,flex:1,
+                          alignSelf:'stretch',
+                          flexDirection:'column',
+                          position:'relative',top:0,
+                        }}
+                        >
+                          <Text style={[styles.cardBottomText,{}]}
+                          key={`${potential.id || potential.user.id}-names`}>{
+                            matchName
+                          }</Text>
+                        <Text style={[styles.cardBottomOtherText,{flex:1}]}
+                        key={`${potential.id || potential.user.id}-matchn`}>{
+                          (city) + seperator + (distance.length ? `${distance} ${distance == 1 ? 'mile' : 'miles'} away` : ``)
+                        }</Text>
+                    </View>
+                    </View>
                 </TouchableHighlight>
+                <View style={{position:'absolute',opacity:0.5,bottom:5,right:20,borderRadius:8,height:16,width:16,alignItems:'center',justifyContent:'center',
+                  backgroundColor: medals[potential.rating],borderColor:colors.dark,borderWidth:StyleSheet.hairlineWidth }}>
+                      <Text style={{color:colors.dark,textAlign:'center',fontSize:18}}></Text>
+                    </View>
+                  
+                {this.props.rel == 'single'  ?
 
-              {this.props.rel == 'single'  ?
-
-                <View style={{
+                  <View style={{
                   height:74,
                   top:MagicNumbers.is4s ? -55 : -45,
                   right:15,
@@ -463,40 +475,40 @@ class Card extends React.Component{
                   alignItems:'flex-end',
                   backgroundColor:'transparent',
                   flexDirection:'row'}}
-                >
-                  <TouchableHighlight
-                    underlayColor={colors.mediumPurple} onPress={this.openProfileFromImage.bind(this)}
-                    underlayColor={colors.mediumPurple} style={styles.circleimagewrap}
                   >
-                    <Image
-                      source={{uri: this.props.potential.user.image_url}}
-                      key={this.props.potential.user.id + 'img'}
-                      style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller), {
-                        marginRight:0,
-                        opacity: this.state.activeIndex == 1 ? 1 : 0.9
-                      }]}
-                    />
-                  </TouchableHighlight>
-                  <TouchableHighlight
-                    underlayColor={colors.mediumPurple} onPress={this.openProfileFromImage.bind(this) }
-                    underlayColor={colors.mediumPurple} style={styles.circleimagewrap}
-                  >
-                    <Image
-                      source={{uri: this.props.potential.partner.image_url}}
-                      key={this.props.potential.partner.id + 'img'}
-                      style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller),{
-                        opacity: this.state.activeIndex == 1 ? 1 : 0.9
-                      }]}
-                    />
-                  </TouchableHighlight>
-                </View> : null
-              }
+                    <TouchableHighlight
+                      underlayColor={colors.mediumPurple} onPress={this.openProfileFromImage.bind(this)}
+                      underlayColor={colors.mediumPurple} style={styles.circleimagewrap}
+                      >
+                        <Image
+                          source={{uri: this.props.potential.user.image_url}}
+                          key={this.props.potential.user.id + 'img'}
+                          style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller), {
+                            marginRight:0,
+                            opacity: this.state.activeIndex == 1 ? 1 : 0.9
+                          }]}
+                          />
+                        </TouchableHighlight>
+                        <TouchableHighlight
+                          underlayColor={colors.mediumPurple} onPress={this.openProfileFromImage.bind(this) }
+                          underlayColor={colors.mediumPurple} style={styles.circleimagewrap}
+                          >
+                            <Image
+                              source={{uri: this.props.potential.partner.image_url}}
+                              key={this.props.potential.partner.id + 'img'}
+                              style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller),{
+                                opacity: this.state.activeIndex == 1 ? 1 : 0.9
+                              }]}
+                              />
+                            </TouchableHighlight>
+                          </View> : null
+                }
 
-              </View>
-            </Animated.View>
+                </View>
+              </Animated.View>
 
-            {isTopCard ? // DENY ICON
-              <Animated.View key={'denyicon'} style={[styles.animatedIcon,{
+                {isTopCard ? // DENY ICON
+                  <Animated.View key={'denyicon'} style={[styles.animatedIcon,{
 
                 transform: [
                   {
@@ -790,7 +802,8 @@ class Card extends React.Component{
               >
               <TouchableHighlight
                 underlayColor={colors.mediumPurple} onPress={() => { this.refs.scrollbox.scrollTo({y: DeviceHeight-200,x:0}) }} >
-
+                <View style={{flexDirection:'row',position:'relative'}}>
+                    
                 <View
                   key={`${potential.id || potential.user.id}-infos`}
                   style={{
@@ -816,7 +829,13 @@ class Card extends React.Component{
                 }
                 </Text>
               </View>
-            </TouchableHighlight>
+              <View style={{position:'absolute',opacity:0.5,top:20,right:20,borderRadius:8,height:16,width:16,alignItems:'center',justifyContent:'center',
+                backgroundColor: medals[potential.rating],borderColor:colors.dark,borderWidth:StyleSheet.hairlineWidth }}>
+                <Text style={{color:colors.dark,textAlign:'center',fontSize:18}}></Text>
+              </View>
+
+            </View>
+          </TouchableHighlight>
 
               {this.props.rel == 'single' &&
                 <View style={{

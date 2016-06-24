@@ -252,7 +252,7 @@ class CardStack extends React.Component{
             toValue,
             velocity:{x:parseInt(vx)/2,y:parseInt(vy)/2},       // maintain gesture velocity
             duration:300,
-            easing:    Easing.inOut(Easing.quad), // Symmetric            
+            easing:    Easing.out(Easing.quad), // Symmetric            
             // tension: 20,
             // friction:  2 ,//2
           }).start((result)=>{
@@ -387,14 +387,14 @@ class CardStack extends React.Component{
                   // inputRange: [-DeviceWidth*2,-DeviceWidth*2, -DeviceWidth, -DeviceWidth, 0, DeviceWidth, DeviceWidth, DeviceWidth*2,DeviceWidth*2],
                   // outputRange: ['-8deg','-8deg','-4deg','0deg','0deg','0deg', '4deg','8deg','8deg'],
                                    extrapolate: 'clamp',
-                                  inputRange: [-DeviceWidth,-10,0,10,DeviceWidth],
+                                  inputRange: [-DeviceWidth,-100,0,100,DeviceWidth],
                                   outputRange:["-0.3rad","0rad","0rad","0rad","0.3rad"]
                 })
               },
               {
                 translateY: this.state.animatedIn ?  this.state.pan.y.interpolate({
                   inputRange: [-300, 0, 300],
-                  outputRange: [-150,0,150],
+                  outputRange: [-100,0,150],
                   extrapolate: 'clamp',
 
                 }) : this.state.offsetY
