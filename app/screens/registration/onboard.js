@@ -204,13 +204,11 @@ class Onboard extends Component{
   }
 
   render() {
-
-    return (
-
+    return(
       <View style={{backgroundColor:'#000000',height:DeviceHeight,width:DeviceWidth}}>
         <Navigator
           configureScene={
-            (route) => route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.SlideInFromRight || Navigator.SceneConfigs.HorizontalSwipeJump
+            (route) => route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.HorizontalSlide || Navigator.SceneConfigs.HorizontalSwipeJump
           }
           key={'obnav'}
           renderScene={this.selectScene.bind(this)}
@@ -218,11 +216,9 @@ class Onboard extends Component{
           navigationBar={false}
           ref={'onboardingNavigator'}
           initialRoute={ RouteStackSingle[0]}
-
         />
       </View>
     )
-
   }
 
 }

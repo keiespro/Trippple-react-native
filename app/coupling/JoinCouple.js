@@ -15,17 +15,28 @@ import UserStore from '../flux/stores/UserStore'
 import AltContainer from 'alt-container/native';
 import styles from '../modals/purpleModalStyles'
 import CouplePin from './CouplePin'
+import CoupleSuccess from './CoupleSuccess'
 import EnterCouplePin from './EnterCouplePin'
 import BackButton from '../components/BackButton'
 
 class InsideJoinCouple extends React.Component{
-
+  
+  componentWillReceiveProps(nProps){
+    if(this.props.couple && !this.props.couple.verified && this.props.couple && nProps.couple.verified){
+      this.props.navigator.replace({
+        component: CoupleSuccess,
+        passProps: { ...this.nProps }
+      })
+    }
+  }
+  
   render(){
     const couple = this.props.couple;
+    console.log(couple);
     return (this.props.initialScreen  ? 
            ( this.props.initialScreen == 'CouplePin' ? 
             <CouplePin {...this.props} /> :
-            <EnterCouplePin {...this.props} /> ) :
+            <EnterCouplePin  {...this.props} /> ) :
       <View>
         <View style={{width:100,height:50,left:10,top:-10,alignSelf:'flex-start'}}>
            <BackButton navigator={this.props.navigator}/>

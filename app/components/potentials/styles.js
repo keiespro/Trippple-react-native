@@ -274,7 +274,6 @@ const styles = StyleSheet.create({
     color: colors.rollingStone,
     fontSize:16,
     marginTop:0,
-    opacity:0.5
   }
 });
 export default styles

@@ -20,7 +20,6 @@ const {HAS_SEEN_NOTIFICATION_REQUEST,LAST_ASKED_LOCATION_PERMISSION} = SETTINGS_
   }
   componentDidMount(){
     this.checkRunOnceSettings();
-    // RCT_EXPORT_METHOD(setUser:(NSString *)user_id name:(NSString *)name phone:(NSString *)phone relStatus:(NSString *)relStatus image:(NSString *)image thumb:(NSString *)thumb partner_id:(NSString *)partner_id ){
 
     const {id, firstname, phone, relationship_status, gender, image_url,  thumb_url, partner_id} = this.props.user;
     RNHotlineController.setUser(`${id}`, firstname, phone, relationship_status, gender, image_url, thumb_url, `${partner_id}` )

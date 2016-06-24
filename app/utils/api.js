@@ -124,7 +124,7 @@ const api = {
   },
 
   updateUser(payload){
-    payload.relationship_status = 'single'
+    payload.relationship_status = 'single'// HACK!
     return authenticatedRequest('update', payload)
   },
 

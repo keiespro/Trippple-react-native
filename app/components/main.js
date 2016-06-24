@@ -3,9 +3,9 @@
 
 import React, {Component} from "react";
 
-import {PixelRatio, Navigator, ScrollView, StyleSheet, Linking, InteractionManager, Text, Image, Alert, TouchableHighlight, AsyncStorage, TouchableOpacity, Dimensions, View,Modal} from "react-native";
+import {PixelRatio, Navigator, ScrollView, StyleSheet, Settings, Linking, InteractionManager, Text, Image, Alert, TouchableHighlight, AsyncStorage, TouchableOpacity, Dimensions, View,Modal} from "react-native";
 import dismissKeyboard from 'dismissKeyboard'
-import Settings from './settings'
+import SettingsView from './settings'
 import Matches from './matches'
 import Potentials from './potentials'
 import CheckMarkScreen from '../screens/CheckMark'
@@ -353,7 +353,7 @@ const PotentialsRoute = {
 };
 
 const SettingsRoute = {
-  component: Settings,
+  component: SettingsView,
   index: 1,
   title: 'Settings',
   id: 'Settings',

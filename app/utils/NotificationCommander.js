@@ -215,7 +215,19 @@ class NotificationCommander extends Component{
 
       }
 
+//       payload: {
+//         data: {
+//           action: 'display',
+//           title: 'HI',
+//           body:'body',
+//           data: {
+//             action: 'display',
+//             title: 'HI',
+//             body:'body'
+//           }
 
+//         }
+//       }
     })
 
     this.socket.on('chat', (payload) => {

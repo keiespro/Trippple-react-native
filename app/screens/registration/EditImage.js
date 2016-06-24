@@ -256,6 +256,7 @@ class ImageCropper extends React.Component {
   }
 
   _onScroll(event) {
+    return;
     this._updateTransformData(
       event.nativeEvent.contentOffset,
       event.nativeEvent.contentSize,
@@ -292,24 +293,27 @@ class ImageCropper extends React.Component {
         0;
 
     return (
-      <ScrollView style={{height:DeviceHeight,width:DeviceWidth}}
-      alwaysBounceVertical={true}
-      automaticallyAdjustContentInsets={false}
-      contentOffset={this._contentOffset}
-      horizontal={true}
-      vertical={true}
-      minimumZoomScale={1.0}
-      maximumZoomScale={10.0}
-      onMomentumScrollEnd={this._onScroll.bind(this)}
-      onScrollEndDrag={this._onScroll.bind(this)}
-      showsHorizontalScrollIndicator={false}
-      showsVerticalScrollIndicator={false}
-      style={this.props.style}
-      scrollEventThrottle={16}
-      >
+      <ScrollView 
+        style={{height:DeviceHeight,width:DeviceWidth}}
+        alwaysBounceVertical={false}
+        automaticallyAdjustContentInsets={false}
+        contentOffset={this._contentOffset}
+        horizontal={false}
+        scrollEnabled={false}
+        vertical={false}
+        minimumZoomScale={1.0}
+        maximumZoomScale={1.0}
+        onMomentumScrollEnd={this._onScroll.bind(this)}
+        onScrollEndDrag={this._onScroll.bind(this)}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        style={this.props.style}
+        scrollEventThrottle={16}
+       >
         <Image source={this.props.image}
           resizeMode={Image.resizeMode.cover}
-              style={this._scaledImageSize} />
+          style={this._scaledImageSize} 
+        />
       </ScrollView>
     );
   }

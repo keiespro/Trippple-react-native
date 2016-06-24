@@ -31,7 +31,7 @@ import Api from '../utils/api'
 import FieldModal from './FieldModal'
 import AppActions from '../flux/actions/AppActions'
 
-let ACTUAL_VERSION = ReactNativeAutoUpdater.jsCodeVersion
+const ACTUAL_VERSION = '2.4.0'  //ReactNativeAutoUpdater.jsCodeVersion
 
 Analytics.log(ACTUAL_VERSION)
 

@@ -160,7 +160,7 @@ class Card extends React.Component{
 
     if(rel == 'single') {
       matchName += ' & ' + names[1]
-      distance = Math.min(distance,potential.partner && potential.partner.distance || '666666666')
+      distance = Math.min(distance,potential.partner && potential.partner.distance || '')
     }
     const seperator = distance.length && city.length ? ' | ' : '';
 
@@ -314,7 +314,7 @@ class Card extends React.Component{
                     />
                 </TouchableHighlight>
 
-                  {potential.partner &&
+                  {potential.partner && potential.partner.image_url ?
 
                     <TouchableHighlight
                       underlayColor={colors.mediumPurple}
@@ -341,9 +341,9 @@ class Card extends React.Component{
                         }]}
                         resizeMode={Image.resizeMode.cover}
                       />
-                  </TouchableHighlight>
+                  </TouchableHighlight> : null
                   }
-                  {/*{ false &&  potential.couple && potential.partner && potential.image && potential.image != null && potential.image != '' ?
+                  { potential.couple && potential.partner && potential.couple.image && potential.couple.image.length && potential.couple.image != '' ?
                     <TouchableHighlight
                     underlayColor={colors.mediumPurple}
                     pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
@@ -352,7 +352,7 @@ class Card extends React.Component{
                       onPress={this.openProfileFromImage.bind(this)}
                     >
                       <Animated.Image
-                        source={{uri: potential.image}}
+                        source={{uri: potential.couple.image}}
                         defaultSource={{uri: 'assets/defaultuser.png'}}
                         key={`${potential.id}-cimg`}
                         style={[styles.imagebg,{
@@ -367,7 +367,7 @@ class Card extends React.Component{
                         resizeMode={Image.resizeMode.cover}
                       />
                     </TouchableHighlight> : null
-                  }*/}
+                  }
 
                 </Swiper> :
                 <View style={{

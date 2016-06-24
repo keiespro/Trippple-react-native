@@ -143,6 +143,8 @@ class CouplePin extends React.Component{
     const currentRoutes = this.props.navigator.getCurrentRoutes();
     if(currentRoutes[1].id == 'Settings'){
       this.props.navigator.popToRoute(currentRoutes[1]);
+    }else{
+      this.props.navigator.popToRoute(currentRoutes[0]);
     }
   }    
   renderMain(){
