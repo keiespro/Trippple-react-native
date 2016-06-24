@@ -223,9 +223,8 @@ class SettingsDebug extends React.Component{
               {/*   */}
                 <TouchableHighlight
                   onPress={(f)=>{
-               Settings.set({['co.trippple.showCoupling']:true})
-  
-                  }} >
+                    Settings.set({['co.trippple.showCoupling']:true})
+                  }}>
                   <View style={styles.wrapfield}>
                     <Text style={{color:colors.white,}}>reset showCoupling</Text>
 

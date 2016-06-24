@@ -136,12 +136,12 @@ class SelectImageSource extends Component{
     return (
       <View style={styles.container}>
 
-        <View style={{width:100,left:0,alignSelf:'flex-start',top:-10}}>
+        <View style={{width:100,left:10,position:'absolute',alignSelf:'flex-start',top:-10}}>
           {
             isOnboarding ? <OnboardingBackButton/> : <BackButton navigator={this.props.navigator}/>
           }
         </View>
-
+        <View style={{justifyContent:'space-around',alignItems:'center',flex:1,marginTop:MagicNumbers.is5orless ? 30 : 50,marginBottom:MagicNumbers.is5orless ? 10 : 0}}>
         <Text style={styles.textTop}>{ isCoupleImage ? copy.coupleTitle : copy.singleTitle }</Text>
 
         {isCoupleImage ? copy.coupleSubtitle() : copy.singleSubtitle()}
@@ -189,6 +189,7 @@ class SelectImageSource extends Component{
             </TouchableHighlight>
 
           </View>
+          </View>
         </View>
       </View>
     )
@@ -215,7 +216,7 @@ const styles = StyleSheet.create({
   },
   twoButtons:{
     flexDirection:'row',
-    height:70,
+    height:MagicNumbers.is5orless  ? 50 : 70,
     alignItems:'center',
     alignSelf:'stretch',
     justifyContent:'space-between',
@@ -243,22 +244,22 @@ const styles = StyleSheet.create({
   },
   textTop:{
     marginBottom: 0,
-    fontSize: MagicNumbers.is4s ? 18 : 20,
+    fontSize: MagicNumbers.is5orless ? 16 : 20,
     color: colors.rollingStone,
     fontFamily:'omnes',
     textAlign:'center'
   },
   imageHolder:{
-    width:MagicNumbers.is4s ? DeviceWidth/2 - 10 : DeviceWidth/2 + 20,
-    height:MagicNumbers.is4s ? DeviceWidth/2 - 30 : DeviceWidth/2 ,
+    width:MagicNumbers.is5orless ? DeviceWidth/2 - 10 : DeviceWidth/2 + 20,
+    height:MagicNumbers.is5orless ? DeviceWidth/2 - 30 : DeviceWidth/2 ,
     alignItems:'center',
     justifyContent:'center',
     marginTop:20,
-    marginBottom:MagicNumbers.is4s ? 20 : 40
+    marginBottom:MagicNumbers.is5orless  ? 20 : 40
   },
   imageInside:{
-    width:MagicNumbers.is4s ? DeviceWidth/2 - 10 : DeviceWidth/2 + 20,
-    height:MagicNumbers.is4s ? DeviceWidth/2 - 30 : DeviceWidth/2 ,
+    width:MagicNumbers.is5orless ? DeviceWidth/2 - 10 : DeviceWidth/2 + 20,
+    height:MagicNumbers.is5orless ? DeviceWidth/2 - 30 : DeviceWidth/2 ,
   },
   fbButton:{
     alignItems:'stretch',

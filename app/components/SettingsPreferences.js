@@ -90,7 +90,7 @@ class  SettingsPreferences extends React.Component{
           )
         },
         field:{
-          label: `About ${this.props.user.relationship_status == 'single' ? 'My' : 'Our'} Match`,
+          label: `What are you looking for in a Match?`,
           field_type:'textarea'
         },
         fieldName:'bio',
@@ -151,7 +151,7 @@ class  SettingsPreferences extends React.Component{
             <View style={styles.paddedSpace}>
               <View style={styles.formHeader}>
                 <Text style={styles.formHeaderText}>
-                  {`About ${this.props.user.relationship_status == 'single' ? 'My' : 'Our'} Match`}
+                 What are you looking for in a Match? 
                 </Text>
               </View>
             </View>

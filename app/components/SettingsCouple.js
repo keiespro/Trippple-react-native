@@ -217,7 +217,7 @@ class SettingsCouple extends React.Component{
                       key={partner.thumb_url}
                       source={{uri: partner.thumb_url}}
                       defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
-                      resizeMode={Image.resizeMode.contain}/>
+                      resizeMode={Image.resizeMode.cover}/>
 
                     </View>
                     <View style={{paddingHorizontal: 25,}}>

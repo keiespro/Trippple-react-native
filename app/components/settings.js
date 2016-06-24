@@ -204,36 +204,35 @@ class SettingsInside extends React.Component{
                   }]}
               >
 
-                  <TouchableOpacity
-                      onPress={this._pressNewImage.bind(this)}
-                      style={{marginTop:20,}}
-                  >
-                      <Image
-                          style={[ styles.userimage, { backgroundColor:colors.dark}]}
-                          key={this.props.user.id+'thumb'}
-                          defaultSource={{uri: 'assets/placeholderUserWhite@3x.png'}}
-                          resizeMode={Image.resizeMode.cover}
-                          source={{uri:thumbSrc}}
-
+              <TouchableOpacity
+                onPress={this._pressNewImage.bind(this)}
+                style={{marginTop:20,}}
+              >
+                <Image
+                  style={[ styles.userimage, { backgroundColor:colors.dark}]}
+                  key={this.props.user.id+'thumb'}
+                  defaultSource={{uri: 'assets/placeholderUserWhite@3x.png'}}
+                  resizeMode={Image.resizeMode.cover}
+                  source={{uri:thumbSrc}}
+                />
+                  <View style={styles.circle}>
+                    <Image
+                      style={{width:18,height:18}}
+                      source={{uri: 'assets/cog@3x.png'}}
+                      resizeMode={Image.resizeMode.contain}
                       />
-                      <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
-                          <Image
-                              style={{width:18,height:18}}
-                              source={{uri: 'assets/cog@3x.png'}}
-                              resizeMode={Image.resizeMode.contain}
-                          />
-                      </View>
+                    </View>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={this._openProfile.bind(this)}  style={{alignSelf:'stretch',}} >
-                      <View style={{flex:10,alignSelf:'stretch',flexDirection:'column',alignItems:'stretch',justifyContent:'center'}}>
-                          <Text style={{flex:10,textAlign:'center',alignSelf:'stretch',color:colors.white,fontSize:18,marginTop:20,fontFamily:'Montserrat-Bold'}}>{
-                          this.props.user.firstname && this.props.user.firstname.toUpperCase()
-                          }</Text>
-                      </View>
-                      <View style={{flex:1,alignSelf:'stretch',flexDirection:'column',alignItems:'stretch',justifyContent:'center'}}>
-                          <Text style={{flex:1,alignSelf:'stretch',textAlign:'center',color:colors.white,fontSize:16,marginTop:0,fontFamily:'omnes'}}>View Profile</Text>
-                      </View>
-                  </TouchableOpacity>
+                    <View style={{flex:10,alignSelf:'stretch',flexDirection:'column',alignItems:'stretch',justifyContent:'center'}}>
+                      <Text style={{flex:10,textAlign:'center',alignSelf:'stretch',color:colors.white,fontSize:18,marginTop:20,fontFamily:'Montserrat-Bold'}}>{
+                        this.props.user.firstname && this.props.user.firstname.toUpperCase()
+                      }</Text>
+                  </View>
+                  <View style={{flex:1,alignSelf:'stretch',flexDirection:'column',alignItems:'stretch',justifyContent:'center'}}>
+                    <Text style={{flex:1,alignSelf:'stretch',textAlign:'center',color:colors.white,fontSize:16,marginTop:0,fontFamily:'omnes'}}>View Profile</Text>
+                  </View>
+                </TouchableOpacity>
 
 
               </View>
@@ -256,12 +255,13 @@ class SettingsInside extends React.Component{
                 }} underlayColor={colors.dark}>
                   <View  style={styles.wrapfield}>
                       <View>
-                          <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>BASIC</Text>
+                          <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>UPDATE PROFILE <Text style={{color:colors.sushi}}>✔︎</Text></Text>
                           <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
-                          Your personal information and details
+                          Edit your profile
                           </Text>
                       </View>
-                      <Image source={{uri: 'assets/nextArrow@3x.png'}} />
+                          <Image source={{uri: 'assets/nextArrow@3x.png'}} resizeMode={'contain'} style={styles.arrowStyle}  />
+
                   </View>
               </TouchableHighlight>
 
@@ -281,12 +281,12 @@ class SettingsInside extends React.Component{
                       }} underlayColor={colors.dark}>
                       <View  style={styles.wrapfield}>
                           <View>
-                              <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>COUPLE</Text>
+                            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>IN A COUPLE <Text style={{color:colors.sushi}}>✔︎</Text></Text>
                               <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
-                              You and your partner
+                              You and your partner, {this.props.user.partner.firstname}
                               </Text>
                           </View>
-                          <Image source={{uri: 'assets/nextArrow@3x.png'}} />
+                          <Image source={{uri: 'assets/nextArrow@3x.png'}} resizeMode={'contain'} style={styles.arrowStyle}  />
                       </View>
                   </TouchableHighlight>
               : null }
@@ -311,7 +311,7 @@ class SettingsInside extends React.Component{
                               Connect with your partner
                               </Text>
                           </View>
-                          <Image source={{uri: 'assets/nextArrow@3x.png'}} />
+                          <Image source={{uri: 'assets/nextArrow@3x.png'}} resizeMode={'contain'} style={styles.arrowStyle}  />
                       </View>
                   </TouchableHighlight>
               : null }
@@ -332,12 +332,14 @@ class SettingsInside extends React.Component{
                   }} underlayColor={colors.dark} >
                   <View  style={styles.wrapfield}>
                       <View>
-                          <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>PREFERENCES</Text>
+                          <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>PREFERENCES <Text style={{color:colors.sushi}}>✔︎</Text></Text>
                           <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
                           What you're looking for
                           </Text>
                       </View>
-                      <Image source={{uri: 'assets/nextArrow@3x.png'}} />
+                          <Image source={{uri: 'assets/nextArrow@3x.png'}} resizeMode={'contain'} style={styles.arrowStyle}  />
+
+
                   </View>
               </TouchableHighlight>
               <TouchableHighlight onPress={(f)=>{
@@ -360,7 +362,9 @@ class SettingsInside extends React.Component{
                           Privacy and more
                           </Text>
                       </View>
-                      <Image source={{uri: 'assets/nextArrow@3x.png'}} />
+                          <Image source={{uri: 'assets/nextArrow@3x.png'}} resizeMode={'contain'} style={styles.arrowStyle}  />
+
+
                   </View>
               </TouchableHighlight>
 
@@ -376,7 +380,9 @@ class SettingsInside extends React.Component{
                           Answers to frequently asked questions
                           </Text>
                       </View>
-                      <Image source={{uri: 'assets/nextArrow@3x.png'}} />
+                          <Image source={{uri: 'assets/nextArrow@3x.png'}} resizeMode={'contain'} style={styles.arrowStyle}  />
+
+
                   </View>
               </TouchableHighlight>
 
@@ -390,7 +396,7 @@ class SettingsInside extends React.Component{
                           Chat with us
                           </Text>
                       </View>
-                      <Image source={{uri: 'assets/nextArrow@3x.png'}} />
+                      <Image source={{uri: 'assets/nextArrow@3x.png'}} resizeMode={'contain'} style={styles.arrowStyle}  />
                   </View>
               </TouchableHighlight>
 
@@ -413,7 +419,9 @@ class SettingsInside extends React.Component{
                           stuff
                           </Text>
                       </View>
-                      <Image source={{uri: 'assets/nextArrow@3x.png'}} />
+                          <Image source={{uri: 'assets/nextArrow@3x.png'}} resizeMode={'contain'} style={styles.arrowStyle}  />
+
+
                   </View>
               </TouchableHighlight>
               }
@@ -562,6 +570,12 @@ const styles = StyleSheet.create({
 
 
  },
+ arrowStyle:{
+   tintColor:colors.shuttleGray,
+   opacity:0.4,
+   width:12,
+   height:12
+ },
  wrapfield:{
    borderBottomWidth: StyleSheet.hairlineWidth,
    borderColor:colors.shuttleGray,
@@ -570,7 +584,7 @@ const styles = StyleSheet.create({
    alignItems:'center',
    justifyContent:'space-between',
    flexDirection:'row',
-   paddingRight:MagicNumbers.screenPadding/1.5,
+   paddingRight:MagicNumbers.screenPadding/2,
    marginLeft:MagicNumbers.screenPadding/1.5
  },
  privacy:{
@@ -662,5 +676,16 @@ segmentTitles:{
     borderRightWidth: 0,
     borderBottomColor: colors.dark,
   },
+  circle:{
+    width:35,
+    height:35,
+    borderRadius:17.5,
+    backgroundColor:colors.mediumPurple,
+    position:'absolute',
+    top:8,
+    left:8,
+    justifyContent:'center',
+    alignItems:'center'
+  }
 
 });
