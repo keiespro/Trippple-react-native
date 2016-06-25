@@ -2,7 +2,7 @@
 
 
 import React, {Component, PropTypes} from "react";
-import { StyleSheet, Image, Text, Settings, Animated, ActivityIndicatorIOS, Alert, View, TouchableHighlight, NativeModules, Dimensions, PixelRatio, TouchableOpacity} from "react-native";
+import { StyleSheet, Image, Text, Settings, ScrollView, Animated, ActivityIndicatorIOS, Alert, View, TouchableHighlight, NativeModules, Dimensions, PixelRatio, TouchableOpacity} from "react-native";
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -13,6 +13,8 @@ import styles from '../modals/purpleModalStyles'
 import BlurModal from '../modals/BlurModal'
 import BackButton from '../components/BackButton'
 import UserActions from '../flux/actions/UserActions'
+
+import {SHOW_COUPLING} from '../utils/SettingsConstants'
 
 const { RNMessageComposer } = NativeModules;
 
@@ -25,45 +27,32 @@ class CouplePin extends React.Component{
     }
   }
   handleSendMessage(){
-        // this.setState({ success:true });
-    // return
     this.setState({ submitting:true });
-    // 
     const couple = this.props.couple || {};
-
     const pin = couple.pin;
-    
-    RNMessageComposer.composeMessageWithArgs(
-      {
-      'messageText':'Join me on Trippple! My couple code is '+pin+'. trippple://join.couple/'+pin,
-      'recipients':[]
-    },
-    (result) => {
+    const messageText = `Join me on Trippple! My couple code is ${pin}. trippple://join.couple/${pin}`;
+
+    RNMessageComposer.composeMessageWithArgs({ messageText }, (result) => {
       this.setState({ submitting:false });
-      
       switch(result) {
         case RNMessageComposer.Sent:
           this.setState({ success:true });
-          break;
-        case RNMessageComposer.Cancelled:
           break;
         case RNMessageComposer.Failed:
           Alert.alert('Whoops','Try that again')
           break;
         case RNMessageComposer.NotSupported:
-          break;
+        case RNMessageComposer.Cancelled:
         default:
           break;
       }
-    }
-    );
-
+    })
   }
   componentDidMount(){
+    UserActions.getCouplePin();
     UserActions.updateUser.defer({generatedCoupleCode:true});
-    
-    Settings.set({'co.trippple.showCoupling':false})
-  }    
+    Settings.set({['SHOW_COUPLING']:false})
+  }
   componentDidUpdate(pProps,pState){
     if(!pState.success && this.state.success){
       Animated.sequence([
@@ -74,7 +63,7 @@ class CouplePin extends React.Component{
             {
               toValue: 1.0,
               tension: 0,
-              velocity: 3,  // Velocity makes it move          
+              velocity: 3,  // Velocity makes it move
               friction: 1,
             }
           )
@@ -110,7 +99,7 @@ class CouplePin extends React.Component{
 
          <Text
           style={[styles.rowtext,styles.bigtext,{
-
+            backgroundColor:'transparent',
             fontSize:24,
             color:'#ffffff',
             marginTop: 0,
@@ -119,6 +108,7 @@ class CouplePin extends React.Component{
 
           <Text style={[styles.rowtext,styles.bigtext,{
             fontSize:20,
+            backgroundColor:'transparent',
             marginVertical:10,
             color:'#fff',
             marginBottom:15,
@@ -126,36 +116,32 @@ class CouplePin extends React.Component{
           }]}>You can access your couple code at any time in your Trippple settings screen.</Text>
 
         <TouchableHighlight
-                  underlayColor={colors.white20}          
+                  underlayColor={colors.white20}
             style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:10,marginTop:30,marginBottom:15}}
             onPress={this.popToTop.bind(this)}>
             <View style={{paddingVertical:20,}} >
-              <Text style={{fontFamily:'Montserrat-Bold', fontSize:18,textAlign:'center', color:'#fff',}}>
+              <Text style={{fontFamily:'Montserrat-Bold', backgroundColor:'transparent',fontSize:18,textAlign:'center', color:'#fff',}}>
               THANKS</Text>
             </View>
           </TouchableHighlight>
-        
+
       </View>
     </View>
     )
   }
   popToTop(){
-    const currentRoutes = this.props.navigator.getCurrentRoutes();
-    if(currentRoutes[1].id == 'Settings'){
-      this.props.navigator.popToRoute(currentRoutes[1]);
-    }else{
-      this.props.navigator.popToRoute(currentRoutes[0]);
-    }
-  }    
+    this.props.exit()
+  }
+
   renderMain(){
 
     const couple = this.props.couple || {};
-    
-    return (
-      <View>
-        <View style={[{width:DeviceWidth, paddingTop:50,paddingHorizontal:MagicNumbers.screenPadding/2 }]} >
 
-          <View style={{height:120,marginVertical:30,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+    return (
+      <View style={{left:0}}>
+        <View style={[{width:DeviceWidth, paddingTop:MagicNumbers.is5orless ? 30 : 50,paddingHorizontal:MagicNumbers.screenPadding/2 }]} >
+
+          <View style={{height:120,marginVertical:MagicNumbers.is5orless ? 10 : 30,flexDirection:'row',alignItems:'center',justifyContent:'center',transform:[{scale:MagicNumbers.is5orless ? .8 : 1 }]}}>
             <View
               style={{width:116,height:116,borderRadius:60,marginRight:-100,borderColor:colors.white,borderWidth:3,borderStyle:'dashed'}} ></View>
             <Image style={[{width:120,height:120,borderRadius:60,marginLeft:-100}]}
@@ -164,7 +150,7 @@ class CouplePin extends React.Component{
             />
           </View>
 
-          <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'Montserrat-Bold',fontSize:22,color:'#fff',marginVertical:10 }]}>
+          <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', backgroundColor:'transparent', fontFamily:'Montserrat-Bold',fontSize:22,color:'#fff',marginVertical:10 }]}>
             YOUR COUPLE CODE
           </Text>
 
@@ -174,6 +160,7 @@ class CouplePin extends React.Component{
               marginVertical:10,
               color:'#fff',
               marginBottom:15,
+              backgroundColor:'transparent',
               flexDirection:'column'
             }]}>
             Share this number with your partner to help them connect with you on trippple.
@@ -184,6 +171,7 @@ class CouplePin extends React.Component{
           fontSize:50,
           marginVertical:MagicNumbers.is5orless ? 10 : 30,
           color:'#fff',
+          backgroundColor:'transparent',
           fontFamily:'Montserrat-Bold',
         }]}>
         {couple.pin}
@@ -191,14 +179,14 @@ class CouplePin extends React.Component{
 
         <View style={{alignItems:'center',justifyContent:'center'}}>
 
-          {this.state.submitting ? 
+          {this.state.submitting ?
               <ActivityIndicatorIOS style={[ {width:80,height: 80}]} size="large" animating={true}/> :
             <TouchableHighlight
             underlayColor={colors.white20}
             style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:MagicNumbers.is5orless ? 0 : 10,marginTop:20,marginBottom:15}}
             onPress={this.handleSendMessage.bind(this)}>
             <View style={{paddingVertical:20,paddingHorizontal:MagicNumbers.screenPadding/(MagicNumbers.is5orless ?  2 : 2)}} >
-              <Text style={{fontFamily:'Montserrat-Bold', fontSize:MagicNumbers.is5orless ? 16 : 18,textAlign:'center', color:'#fff',}}>
+              <Text style={{fontFamily:'Montserrat-Bold', backgroundColor:'transparent', fontSize:MagicNumbers.is5orless ? 16 : 18,textAlign:'center', color:'#fff',}}>
                 TEXT CODE TO MY PARTNER
               </Text>
             </View>
@@ -206,21 +194,20 @@ class CouplePin extends React.Component{
           }
         </View>
         <TouchableOpacity onPress={this.popToTop.bind(this)}>
-          <Text style={{ fontSize:16,textAlign:'center', marginVertical:MagicNumbers.is5orless ? 20 : 40,color:colors.rollingStone,}}>
-            Skip
+          <Text style={{backgroundColor:'transparent', fontSize:16,textAlign:'center', marginVertical:MagicNumbers.is5orless ? 5 : 40,color:colors.rollingStone,}}>
+            Skip for now
           </Text>
         </TouchableOpacity>
       </View>
-      
+
     </View>
     )
   }
   render(){
-
     return (
-      <BlurModal navigator={this.props.navigator} user={this.props.user}>
-        {this.state.success ? this.renderSuccess() : this.renderMain()}
-      </BlurModal>
+      <ScrollView>
+      { this.state.success ? this.renderSuccess() : this.renderMain() }
+      </ScrollView>
     )
   }
 }

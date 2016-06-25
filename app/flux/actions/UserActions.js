@@ -156,9 +156,7 @@ class UserActions {
           dispatch({ response });
         })
         .catch((err) => {
-          dispatch({
-            err: err
-          });
+          dispatch({ err });
         })
     };
   }
@@ -171,9 +169,7 @@ class UserActions {
           dispatch({ response });
         })
         .catch((err) => {
-          dispatch({
-            err: err
-          });
+          dispatch({ err });
         })
     };
   }

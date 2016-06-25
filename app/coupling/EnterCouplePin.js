@@ -29,58 +29,89 @@ class EnterCouplePin extends React.Component{
     }
   }
 
-  backspace(){
-    this.handleInputChange({pin: this.state.inputFieldValue.substring(0,this.state.inputFieldValue.length-1)  })
-  }
+  // backspace(){
+  //   this.handleInputChange({pin: this.state.inputFieldValue.substring(0,this.state.inputFieldValue.length-1)  })
+  // }
 
-  onChangeText(digit){
-    if(this.state.inputFieldValue.length >= 14){ return false}
-    this.handleInputChange({pin: this.state.inputFieldValue + digit  })
-  }
+  // onChangeText(digit){
+  //   if(this.state.inputFieldValue.length >= 14){ return false}
+  //   this.handleInputChange({pin: this.state.inputFieldValue + digit  })
+  // }
 
   handleInputChange(event: any){
+    if(this.state.submitting){ return false }
+
     if(!event && typeof event != 'object'){ return false}
-    const pin =   event.nativeEvent ?  event.nativeEvent.text : event.pin;
+
+    const pin = event.nativeEvent ? event.nativeEvent.text : event.pin;
 
     this.setNativeProps({text:pin})
-    this.setState({
+
+    const newState = {
       inputFieldValue: pin
-    })
+    }
+
+    if(pin.length < this.state.inputFieldValue.length){
+      newState['verifyError'] = false
+    }
+    this.setState(newState)
 
   }
   handleSubmit(){
+    if(this.state.submitting){ return false }
+    this.setState({
+      submitting: true,
+    });
+
     if(!this.state.verifyError && !this.state.submitting && this.state.inputFieldValue.length >= 6) {
-      UserActions.verifyCouplePin(this.state.inputFieldValue);
       this.setState({
-        submitting: true
+        verifyError: false,
+        submitting: false
+      })
+      UserActions.verifyCouplePin(this.state.inputFieldValue);
+
+    }else{
+      this.setState({
+       verifyError: true,
+       submitting: false
       })
     }
   }
 
   componentDidUpdate(pProps,pState){
-    if(pProps.couple && !pProps.couple.verified && this.props.couple && this.props.couple.verified){
-      this.setState({
-        success: true
-      })
-    }else if(pProps.couple && !pProps.couple.verifyError  && this.props.couple && this.props.couple.verifyError){
-      this.setState({
-       verifyError: this.props.couple.verifyError
-      })
-    }
+    // if(pProps.couple && !pProps.couple.verified && this.props.couple && this.props.couple.verified){
+    //   this.setState({
+    //     success: true
+    //   })
+    // }else if(pProps.couple && !pProps.couple.verifyError  && this.props.couple && this.props.couple.hasOwnProperty('verified') && this.props.couple.verified == false ){
+    //   this.setState({
+    //    verifyError: this.props.couple.verifyError
+    //   })
+    // }
   }
   componentWillReceiveProps(nProps){
+    console.log(nProps);
     if(nProps.pin){
-
       this.handleInputChange({pin:nProps.pin})
     }
+    if(this.props.couple && !this.state.verifyError && nProps.couple && nProps.couple.verified){
+      this.setState({
+        success: true,
+        // submitting: false
+
+      })
+    }else if(this.props.couple  && nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified == false ){
+      console.log('VERIFY ERR');
+      this.setState({
+        verifyError: true,
+      //  submitting: false
+
+      })
+    }
+
   }
   popToTop(){
-    const currentRoutes = this.props.navigator.getCurrentRoutes();
-    if(currentRoutes[1].id == 'Settings'){
-      this.props.navigator.popToRoute(currentRoutes[1]);
-    }else{
-      this.props.navigator.popToRoute(currentRoutes[0]);
-    }    
+    this.props.exit()
   }
 
   setNativeProps(np) {
@@ -98,19 +129,19 @@ class EnterCouplePin extends React.Component{
     const couple = this.props.couple;
 
     return (
-      <BlurModal navigator={this.props.navigator} noscroll={true} user={this.props.user}>
-          <View style={{width:DeviceWidth,height:DeviceHeight-MagicNumbers.keyboardHeight,position:'relative'}}>
-            <ScrollView style={{width:DeviceWidth,top:0}} contentContainerStyle={[{height:DeviceHeight-MagicNumbers.keyboardHeight,width:DeviceWidth,flex:1,top:0,left:0}]} >
-       
+      <View >
+        <View style={{width:DeviceWidth,height:DeviceHeight-MagicNumbers.keyboardHeight,position:'relative'}}>
+            <ScrollView style={{width:DeviceWidth,top:0,flex:1}} contentContainerStyle={[{height:DeviceHeight-MagicNumbers.keyboardHeight,width:DeviceWidth,flex:1,top:0,left:0}]} >
+
           <View style={[{top:0,marginBottom:MagicNumbers.is5orless ? 0 : 50, flexDirection:'column',alignItems:'center',justifyContent:'center',  height:DeviceHeight-MagicNumbers.keyboardHeight,marginHorizontal:MagicNumbers.screenPadding/2,flex:1 }]}>
-              <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'Montserrat-Bold',fontSize:MagicNumbers.is5orless ? 17 : 20,color:'#fff',marginVertical:10 }]}>
+              <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'Montserrat-Bold',fontSize:MagicNumbers.is5orless ? 17 : 20,color:'#fff',marginVertical:MagicNumbers.is5orless ? 5 : 10,backgroundColor:'transparent' }]}>
                 CONNECT WITH YOUR PARTNER
               </Text>
               <Text style={[styles.rowtext,styles.bigtext,{
                 fontSize: MagicNumbers.is5orless ? 16 : 18,
-                marginVertical:10,
+                marginVertical:MagicNumbers.is5orless ? 0 : 10,
                 color:'#fff',
-                marginBottom:15,textAlign:'center',
+                marginBottom:MagicNumbers.is5orless ? 5 : 15,textAlign:'center',backgroundColor:'transparent',
                 flexDirection:'column'
               }]}>What is your partner’s “couple code”?</Text>
           <View style={[ styles.pinInputWrap,{marginHorizontal:MagicNumbers.screenPadding/2,borderBottomColor:colors.mediumPurple}, (this.state.verifyError  ? styles.pinInputWrapError : null), ]} >
@@ -118,9 +149,10 @@ class EnterCouplePin extends React.Component{
               maxLength={10}
               style={[styles.pinInput,{
                 fontSize: 26,
+                color: this.state.verifyError ? colors.mandy : colors.white
               }]}
               ref={(inp) => this._inp = inp}
-              editable={false}
+              editable={true}
               keyboardAppearance={'dark'}
               keyboardType={'phone-pad'}
               autoCapitalize={'none'}
@@ -128,29 +160,40 @@ class EnterCouplePin extends React.Component{
               placeholderTextColor={'#fff'}
               autoCorrect={false}
               textAlign={'center'}
+              clearButtonMode={'while-editing'}
+              autoFocus={true}
+              selectionColor={colors.mediumPurple}
+              onChange={this.handleInputChange.bind(this)}
             />
           </View>
 
           <View style={[styles.middleTextWrap,styles.underPinInput]}>
             {this.state.verifyError &&
               <View style={styles.bottomErrorTextWrap}>
-                <Text textAlign={'right'} style={[styles.bottomErrorText]}>Nope. Try again</Text>
+                <Text  style={[styles.bottomErrorText,{backgroundColor:'transparent',textAlign:'right'}]}>Nope. Try again</Text>
               </View>
             }
           </View>
         </View>
-               
-        </ScrollView>
-   <ContinueButton canContinue={this.state.inputFieldValue.length > 0} absoluteContinue={true} handlePress={this.handleSubmit.bind(this)}/>
-           
-        </View>
 
-       
+        </ScrollView>
+
+        </View>
         
+        <ContinueButton
+          canContinue={this.state.inputFieldValue.length > 0 }
+          loading={this.state.submitting}
+          absoluteContinue={true}
+          handlePress={this.handleSubmit.bind(this)}
+        />
+
+
+{/*
         <View style={{position:'relative',height:MagicNumbers.keyboardHeight}}>
           <Numpad numpadstyles={{backgroundColor:'transparent'}} backspace={this.backspace.bind(this)} onChangeText={this.onChangeText.bind(this)}/>
-        </View>        
-      </BlurModal>
+        </View>
+        */}
+      </View>
     )
   }
 }

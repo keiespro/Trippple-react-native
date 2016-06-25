@@ -4,14 +4,14 @@ import AppInfo from 'react-native-app-info'
 const screen = Dimensions.get('window')
 
 const keyboardHeightMapShort =  {
-  480: 224, //4S
+  480: 216, //4S
   568: 224, //5
   667: 225, //6
   736: 236, //6 Plus
 }
 
 const keyboardHeightMap =  {
-  480: 253, //4S
+  480: 224, //4S
   568: 253, //5
   667: 258, //6
   736: 271, //6 Plus

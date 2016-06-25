@@ -96,6 +96,12 @@ class NotificationActions {
     }
   }
 
+
+  receiveCoupleCreatedNotification(payload){
+    return payload
+  }
+
+
   receiveMatchRemovedNotification(payload){
     return payload.match_id
   }

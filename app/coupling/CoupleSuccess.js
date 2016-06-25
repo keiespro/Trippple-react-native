@@ -15,6 +15,7 @@ import BackButton from '../components/BackButton'
 import ContinueButton from '../controls/ContinueButton'
 
 import UserActions from '../flux/actions/UserActions'
+import styles from '../modals/purpleModalStyles'
 import { BlurView, VibrancyView } from 'react-native-blur'
 
 export default class CoupleSuccess extends React.Component{
@@ -27,6 +28,9 @@ export default class CoupleSuccess extends React.Component{
       verifyError: null,
       inputFieldValue:''
     }
+  }
+  popToTop(){
+  
   }
   
   render(){
