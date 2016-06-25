@@ -17,7 +17,7 @@ import MatchesStore from '../flux/stores/MatchesStore'
 import PotentialsPlaceholder from './potentials/PotentialsPlaceholder'
 import CardStack from './potentials/CardStack'
 import styles from './potentials/styles'
-import NotificationPermissions from '../modals/NotificationPermissions'
+import NotificationPermissions from '../modals/NewNotificationPermissions'
 import MatchActions from '../flux/actions/MatchActions'
 import TimerMixin from 'react-timer-mixin'
 import reactMixin from 'react-mixin'
@@ -112,6 +112,32 @@ class PotentialsPage extends React.Component{
       })
     }
 
+
+    if(this.props.potentials[1]){
+      const potential = this.props.potentials[1]
+      if(potential.user.image_url && potential.user.image_url.indexOf('http') >= 0){
+        // Image.prefetch(potential.partner.thumb_url)
+        Image.prefetch(potential.user.image_url)
+      }
+      if(potential.partner && potential.partner.image_url && potential.partner.image_url.indexOf('http') >= 0){
+        // Image.prefetch(potential.partner.thumb_url)
+        Image.prefetch(potential.partner.image_url)
+      }
+    }
+    if(this.props.potentials[2]){
+      const thirdpotential = this.props.potentials[2]
+      if(thirdpotential.user.image_url && thirdpotential.user.image_url.indexOf('http') >= 0){
+        // Image.prefetch(thirdpotential.user.thumb_url)
+        Image.prefetch(thirdpotential.user.image_url)
+      }
+      if(thirdpotential.partner && thirdpotential.partner.image_url && thirdpotential.partner.image_url.indexOf('http') >= 0){
+
+        // Image.prefetch(thirdpotential.partner.thumb_url)
+        Image.prefetch(thirdpotential.partner.image_url)
+      }
+    }
+
+
   }
   componentWillUnmount(){
     AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
@@ -120,6 +146,8 @@ class PotentialsPage extends React.Component{
   getPotentialInfo(){
 
     if(!this.props.potentials[0]){ return false}
+
+
     var potential = this.props.potentials[0];
     var matchName = potential.user.firstname.trim();
     var distance = potential.user.distance;

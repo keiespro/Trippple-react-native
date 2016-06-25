@@ -66,35 +66,6 @@ class SettingsSettings extends React.Component{
 
   }
 
-  disableAccount(){
-
-
-    Analytics.event('Interaction',{
-      name: 'Disable Account',
-      type: 'tap',
-    })
-
-    Alert.alert(
-      'Disable Your Account?',
-      'Are you sure you want to disable your account? You will no longer be visible to any trippple users. To re-enable your account, log back in.',
-      [
-        {text: 'Yes', onPress: () => {
-
-          Analytics.event('Support',{
-            name: 'Disabled Account',
-            type: this.props.user.id,
-            user:this.props.user
-          })
-          UserActions.disableAccount();
-        }},
-        {text: 'No', onPress: () => {
-
-          return false
-        }},
-      ]
-    )
-
-  }
 
   openWebview(page){
     var url, pageTitle;
@@ -315,7 +286,7 @@ class SettingsSettings extends React.Component{
               </Text>
             </View>
           </View>
-                    
+
           <TouchableHighlight
             style={styles.paddedSpace}
             onPress={(f)=>{
@@ -356,19 +327,7 @@ class SettingsSettings extends React.Component{
 
           </View>
 
-          <View style={styles.paddedSpace}>
 
-            <LogOutButton/>
-
-            <TouchableOpacity
-              style={{alignItems:'center',marginVertical:10}}
-              onPress={this.disableAccount.bind(this)}>
-              <Text style={{color:colors.shuttleGray,textAlign:'center'}}>
-                Disable Your Account
-              </Text>
-            </TouchableOpacity>
-
-          </View>
         </ScrollView>
       </View>
 
@@ -379,33 +338,6 @@ class SettingsSettings extends React.Component{
 
 export default SettingsSettings
 
-
-
-class LogOutButton extends React.Component{
-  _doLogOut(){
-    Alert.alert(
-      'Log Out of Trippple',
-      'Are you sure you want to log out?',
-      [
-        {text: 'Yes', onPress: () => {
-          UserActions.logOut()
-        }},
-        {text: 'No', onPress: () => {return false}},
-      ]
-    )
-
-  }
-  render(){
-
-    return (
-      <TouchableHighlight underlayColor={colors.shuttleGray20} onPress={this._doLogOut} style={{marginVertical:20,marginTop:70}}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>LOG OUT OF TRIPPPLE</Text>
-        </View>
-      </TouchableHighlight>
-    )
-  }
-}
 
 
 const styles = StyleSheet.create({

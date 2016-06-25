@@ -250,9 +250,9 @@ class CardStack extends React.Component{
 
           Animated.timing(this.state.pan, {
             toValue,
-            velocity:{x:parseInt(vx)/2,y:parseInt(vy)/2},       // maintain gesture velocity
-            duration:300,
-            easing:    Easing.out(Easing.quad), // Symmetric            
+            velocity:{x:0,y:0},//{x:parseInt(vx),y:parseInt(vy)},       // maintain gesture velocity
+            duration:700,
+            easing: Easing.out(Easing.exp), // Symmetric            
             // tension: 20,
             // friction:  2 ,//2
           }).start((result)=>{
@@ -336,15 +336,15 @@ class CardStack extends React.Component{
             transform: [
               {
                 scale: this.state.animatedIn ? (this.props.profileVisible ? 1 : this.state.pan.x.interpolate({
-                  inputRange: [ -300, -250, -100, 0,  100, 250, 300],
-                  outputRange:   [ 0.98, 0.97, 0.9, 0.9, 0.9, 0.97, 0.98 ],//[    0.98,  0.98,  1, 1, 1,  0.98, 0.98, ]
+                  inputRange: [ -400, -250, -100, 0,  100, 250, 400],
+                  outputRange:   [ 1.00, 0.97, 0.9, 0.9, 0.9, 0.97, 1.00 ],//[    0.98,  0.98,  1, 1, 1,  0.98, 0.98, ]
                   extrapolate: 'clamp',
                 }) ): this.state.offsetY
               }
             ],
             opacity: this.state.animatedIn ?  this.state.pan.x.interpolate({
               inputRange: [-500,  -200, -50, 0, 50, 200, 500],
-              outputRange:   [  .77, .75, 0.05, 0.0,  0.05, .75,   .77],//[    0.98,  0.98,  1, 1, 1,  0.98, 0.98, ]
+              outputRange:   [  .99, .55, 0.05, 0.1,  0.05, .55,   .99],//[    0.98,  0.98,  1, 1, 1,  0.98, 0.98, ]
               extrapolate: 'clamp',
             }) : 0
           }]}
@@ -372,7 +372,7 @@ class CardStack extends React.Component{
             top: this.props.profileVisible ? -50 :  0,
             left:this.props.profileVisible ? 0 :20,right:this.props.profileVisible ? 0 : 20,
             borderRadius:8,
-            bottom: this.props.profileVisible ? 0 : (DeviceHeight <= 568 ? 80 : 70),
+            bottom: this.props.profileVisible ? 0 : (DeviceHeight <= 568 ? 75 : 75),
             position: 'absolute',
             overflow:'hidden'
           },
@@ -387,8 +387,8 @@ class CardStack extends React.Component{
                   // inputRange: [-DeviceWidth*2,-DeviceWidth*2, -DeviceWidth, -DeviceWidth, 0, DeviceWidth, DeviceWidth, DeviceWidth*2,DeviceWidth*2],
                   // outputRange: ['-8deg','-8deg','-4deg','0deg','0deg','0deg', '4deg','8deg','8deg'],
                                    extrapolate: 'clamp',
-                                  inputRange: [-DeviceWidth,-100,0,100,DeviceWidth],
-                                  outputRange:["-0.3rad","0rad","0rad","0rad","0.3rad"]
+                                   inputRange: [-DeviceWidth,-100,0,100,DeviceWidth/2,DeviceWidth],
+                                  outputRange: ["-0.1rad","0rad","0rad","0rad","0.1rad","0.0rad"]
                 })
               },
               {

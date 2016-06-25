@@ -48,7 +48,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>14</string>
+	<string>15</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -131,6 +131,7 @@
 		<string>omnes-regular-webfont.ttf</string>
 		<string>Montserrat-Regular.otf</string>
 		<string>Montserrat-Bold.ttf</string>
+		<string>poetsenone-regular-webfont.ttf</string>
 	</array>
 	<key>UIRequiresFullScreen</key>
 	<true/>
@@ -143,5 +144,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Upload pics</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Profile image</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Private mode hides you from your contacts</string>
 </dict>
 </plist>

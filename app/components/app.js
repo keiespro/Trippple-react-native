@@ -16,7 +16,7 @@ import AltContainer from 'alt-container/native';
 import Welcome from './welcome';
 import Main from './main';
 import PendingPartner from './pendingpartner';
-
+import ModalDirector from '../modals/ModalDirector'
 import Onboarding from '../screens/registration/onboard'
 import UserStore from '../flux/stores/UserStore';
 import AppState from '../flux/stores/AppState';
@@ -29,12 +29,11 @@ import reactMixin from 'react-mixin'
 import NotificationActions from '../flux/actions/NotificationActions'
 import {Connectivity, ReachabilitySubscription, AppVisibility} from '../utils/ConnectionInfo'
 import Notifications from '../utils/Notifications';
-import LoadingOverlay from '../components/LoadingOverlay'
+import LoadingOverlay from './LoadingOverlay'
 import PurpleModal from '../modals/PurpleModal'
 import MaintenanceScreen from '../screens/MaintenanceScreen'
 import colors from '../utils/colors'
 import ImageFlagged from '../screens/ImageFlagged'
-import JoinCouple from '../coupling/JoinCouple'
 
 
 
@@ -62,16 +61,17 @@ class AppRoutes extends Component{
                 />
       case 'pendingpartner':
       case 'onboarded':
-      return Settings.get('showCoupling') ? <JoinCouple user={ this.props.user}  />  : <Main
+        return <Main
                 key="MainScreen"
                 user={this.props.user}
                 AppState={this.props.AppState}
                 currentRoute={this.props.AppState.currentRoute}
               />
+      case 'unknown':
       case null:
       default:
         return (<Welcome AppState={this.props.AppState} key={'welcomescene'} />)
-      }
+    }
   }
 }
 
@@ -98,16 +98,24 @@ class TopLevel extends Component{
   }
 
   render(){
+    const user = this.props.user || {status:'unknown'}
     return (
       <View style={{flex:10,backgroundColor:colors.outerSpace, width:DeviceWidth,height:DeviceHeight}}>
 
         <ReachabilitySubscription/>
         <AppVisibility/>
+        <Connectivity/>
 
         <AppRoutes
-          user={this.props.user}
+          user={user}
           AppState={this.props.AppState}
           currentRoute={this.props.AppState.currentRoute}
+        />
+
+        <ModalDirector
+          user={user}
+
+          AppState={this.props.AppState}
         />
 
         {(this.state.showCheckmark || this.props.AppState.showCheckmark) ?
@@ -119,14 +127,10 @@ class TopLevel extends Component{
           /> : <View/> }
 
         <LoadingOverlay key="LoadingOverlay" isVisible={this.props.AppState.showOverlay || this.state.showOverlay} />
-        <Connectivity/>
 
         <Notifications user={this.props.user} AppState={this.props.AppState} />
 
-
-        {this.props.AppState.showMaintenanceScreen ?
-          <MaintenanceScreen /> : null }
-
+        {this.props.AppState.showMaintenanceScreen ? <MaintenanceScreen /> : null }
 
 
       </View>
@@ -148,7 +152,7 @@ class App extends Component{
     NotificationActions.resetBadgeNumber()
   }
   render(){
-    var TopLevelStores = {
+    const TopLevelStores = {
       user: (props) => {
         return {
           store: UserStore,

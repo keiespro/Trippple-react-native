@@ -208,18 +208,37 @@ class CameraRollView extends Component{
     }
 
 
-    if(VERSION < 2.1){
-      CameraRoll.getPhotos(fetchParams, this._appendAssets.bind(this), (err) => {
-        __DEBUG__ && console.log(err)
-      });
-    }else{
+//     if(VERSION < 2.1){
+//       CameraRoll.getPhotos(fetchParams).then( data => {
+
+//         const assets = data.edges;
+//         const newState = { loadingMore: false };
+
+//         if (!data.page_info.has_next_page) {
+//           newState.noMore = true;
+//         }
+
+//         if (assets.length > 0) {
+//           newState.lastCursor = data.page_info.end_cursor;
+//           newState.assets = [...this.state.assets, ...assets];
+//           newState.dataSource = this.state.dataSource.cloneWithRows(newState.assets);
+//         }
+
+//         this.setState(newState);
+//       }
+
+//     }).catch(err => {
+//         __DEBUG__ && console.log(err)
+//       });
+//     }else{
       CameraRoll.getPhotos(fetchParams)
-      .then((data) =>{
-        this._appendAssets(data)
-      }).catch((err) => {
-        __DEBUG__ && console.log(err)
-      });
-    }
+        .then(data => {
+          this._appendAssets(data)
+        })
+        .catch(err => {
+          __DEBUG__ && console.log(err)
+        })
+    // }
 
   }
 
@@ -262,11 +281,11 @@ class CameraRollView extends Component{
         <View style={{marginTop:54,flex:1,width:DeviceWidth,backgroundColor:colors.outerSpace,height:DeviceHeight-54}}>
 
           {Object.keys(this.state.loadedImages).length == 0 ? 
-            <View style={{alignItems:'center',justifyContent:'center',flex:10,flexDirection:'column'}}>
-              <ActivityIndicatorIOS style={{height:50,width:50,}} color={colors.white20} animating={true} size={'large'}/>
+            <View style={{alignItems:'center',position:'absolute',justifyContent:'center',width:DeviceWidth,height:DeviceHeight-54,flex:10,flexDirection:'column'}}>
+              <ActivityIndicatorIOS style={{top:0,height:50,width:50,}} color={colors.white20} animating={true} size={'large'}/>
               <Text
-              style={{
-              fontSize:20,
+                style={{
+                  textAlign:'center',fontSize:20,
               color:colors.white20,
               marginTop: 0,
               fontFamily:'Omnes',

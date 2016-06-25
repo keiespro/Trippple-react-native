@@ -43,14 +43,14 @@ class Card extends React.Component{
       slideIndex: 0
     }
 
-    __DEV__ && props.isTopCard && console.log('POTENTIAL CARD:');
-    // __DEV__ && props.isTopCard && console.table && console.table(props.potential);
-    if(!props.isTopCard && props.potential && props.potential.user && props.potential.user.image_url){
-      Image.prefetch(props.potential.user.image_url)
-    }
-    if(!props.isTopCard && props.potential && props.potential.partner && props.potential.partner.image_url){
-      Image.prefetch(props.potential.partner.image_url)
-    }
+    // __DEV__ && props.isTopCard && console.log('POTENTIAL CARD:');
+    // // __DEV__ && props.isTopCard && console.table && console.table(props.potential);
+    // if(!props.isTopCard && props.potential && props.potential.user && props.potential.user.image_url){
+    //   Image.prefetch(props.potential.user.image_url)
+    // }
+    // if(!props.isTopCard && props.potential && props.potential.partner && props.potential.partner.image_url){
+    //   Image.prefetch(props.potential.partner.image_url)
+    // }
 
   }
 
@@ -88,7 +88,7 @@ class Card extends React.Component{
       this.props.showProfile(this.props.potential)
     }
     if(scroll){
-      this.refs.scrollbox.scrollTo({y: DeviceHeight-200,x:0}) 
+      this.refs.scrollbox.scrollTo({y: DeviceHeight-200,x:0})
     }
   }
 
@@ -194,7 +194,6 @@ class Card extends React.Component{
       var heightTable =  MagicNumbers.is4s ? heights.smallest : (MagicNumbers.is5orless ? heights.middle : heights.all);
       var cardHeight = DeviceHeight + (isTopCard ? heightTable.top : (isThirdCard ? heightTable.third : heightTable.second));
       // ? DeviceHeight- 40 : DeviceHeight -60
-  console.log( medals[potential.rating],potential.rating);
 
       return (
         <View
@@ -318,8 +317,8 @@ class Card extends React.Component{
                       resizeMode={Image.resizeMode.cover}
                     />
                 </TouchableHighlight>
-
-                  {potential.partner && potential.partner.image_url && potential.partner.image_url.length ?
+{/*
+                { potential.partner && potential.partner.image_url && potential.partner.image_url.indexOf('http') >= 0 ?
 
                     <TouchableHighlight
                       underlayColor={colors.mediumPurple}
@@ -347,7 +346,9 @@ class Card extends React.Component{
                         resizeMode={Image.resizeMode.cover}
                       />
                   </TouchableHighlight> : null
-                  }
+
+              }*/}
+{/*
                   { potential.couple && potential.partner && potential.couple.image && potential.couple.image.length && potential.couple.image != '' ?
                     <TouchableHighlight
                     underlayColor={colors.mediumPurple}
@@ -372,7 +373,7 @@ class Card extends React.Component{
                         resizeMode={Image.resizeMode.cover}
                       />
                     </TouchableHighlight> : null
-                  }
+                  }*/}
 
                 </Swiper> :
                 <View style={{
@@ -415,8 +416,8 @@ class Card extends React.Component{
               <View
                 key={`${potential.id || potential.user.id}-bottomview`}
                 style={{
-                  height: isTopCard ? 80 : 70,
-                  marginTop: isTopCard ? -10 : -30,
+                  height: isTopCard ? 80 : 80,
+                  marginTop: isTopCard ? -30 : -30,
                   flex:1,
                   marginLeft:20,
                   right:0,
@@ -436,7 +437,7 @@ class Card extends React.Component{
                       <View
                         key={`${potential.id || potential.user.id}-infos`}
                         style={{
-                          padding: isTopCard ? 10 : 15,
+                          padding: isTopCard ? 15 : 15,
                           paddingTop:MagicNumbers.is4s ? 20 : 15,
                           paddingBottom:MagicNumbers.is4s ? 10 : 15,
                           height:80,
@@ -458,12 +459,12 @@ class Card extends React.Component{
                     </View>
                     </View>
                 </TouchableHighlight>
-                <View style={{position:'absolute',opacity:0.5,bottom:5,right:20,borderRadius:8,height:16,width:16,alignItems:'center',justifyContent:'center',
+                {__DEV__ &&  <View style={{position:'absolute',opacity:0.5,bottom:5,right:20,borderRadius:8,height:16,width:16,alignItems:'center',justifyContent:'center',
                   backgroundColor: medals[potential.rating],borderColor:colors.dark,borderWidth:StyleSheet.hairlineWidth }}>
                       <Text style={{color:colors.dark,textAlign:'center',fontSize:18}}></Text>
-                    </View>
-                  
-                {this.props.rel == 'single'  ?
+                      </View>}
+
+                {/*{this.props.rel == 'single'  ?
 
                   <View style={{
                   height:74,
@@ -502,7 +503,7 @@ class Card extends React.Component{
                               />
                             </TouchableHighlight>
                           </View> : null
-                }
+                }*/}
 
                 </View>
               </Animated.View>
@@ -698,7 +699,7 @@ class Card extends React.Component{
                     />
                 </TouchableHighlight>
 
-                  { potential.partner &&
+                  {/*{ potential.partner &&
                     <TouchableHighlight
                       underlayColor={colors.mediumPurple}
                       pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
@@ -721,7 +722,7 @@ class Card extends React.Component{
                         resizeMode={Image.resizeMode.cover}
                       />
                   </TouchableHighlight>
-                  }
+                  }*/}
                   {/*{ false && potential.partner && potential.image && potential.image != null && potential.image != '' ?
 
                     <TouchableHighlight
@@ -803,7 +804,7 @@ class Card extends React.Component{
               <TouchableHighlight
                 underlayColor={colors.mediumPurple} onPress={() => { this.refs.scrollbox.scrollTo({y: DeviceHeight-200,x:0}) }} >
                 <View style={{flexDirection:'row',position:'relative'}}>
-                    
+
                 <View
                   key={`${potential.id || potential.user.id}-infos`}
                   style={{
@@ -811,7 +812,7 @@ class Card extends React.Component{
                     // overflow:'hidden',
                     width: undefined,
                     left:0,
-                   height:180,
+                    height:180,
                     marginLeft: MagicNumbers.screenPadding/2,
                     paddingVertical:20,
                   }}
@@ -829,15 +830,15 @@ class Card extends React.Component{
                 }
                 </Text>
               </View>
-              <View style={{position:'absolute',opacity:0.5,top:20,right:20,borderRadius:8,height:16,width:16,alignItems:'center',justifyContent:'center',
+              {__DEV__ && <View style={{position:'absolute',opacity:0.5,top:20,right:20,borderRadius:8,height:16,width:16,alignItems:'center',justifyContent:'center',
                 backgroundColor: medals[potential.rating],borderColor:colors.dark,borderWidth:StyleSheet.hairlineWidth }}>
                 <Text style={{color:colors.dark,textAlign:'center',fontSize:18}}></Text>
-              </View>
+                </View>}
 
             </View>
           </TouchableHighlight>
 
-              {this.props.rel == 'single' &&
+              {/*{this.props.rel == 'single' &&
                 <View style={{
                   height:60,
                   top:-30,
@@ -849,8 +850,8 @@ class Card extends React.Component{
                 >
                   <TouchableHighlight
                     underlayColor={colors.mediumPurple}
-                    onPress={(e)=>{ /*this.setState({activeIndex: 0}) */
-                    this.refs.scrollbox.scrollTo({x:0,y:0});
+
+                                        this.refs.scrollbox.scrollTo({x:0,y:0});
                 } }
                     underlayColor={colors.mediumPurple}
                     style={[styles.circleimagewrap,{ backgroundColor:colors.outerSpace }]}
@@ -866,8 +867,8 @@ class Card extends React.Component{
                   </TouchableHighlight>
                   <TouchableHighlight
                     underlayColor={colors.mediumPurple}
-                    onPress={(e)=>{ /*this.setState({activeIndex: 1}) */
-                    this.refs.scrollbox.scrollTo({x:0,y:0});
+
+                                        this.refs.scrollbox.scrollTo({x:0,y:0});
                   } }
 
                     underlayColor={colors.mediumPurple}
@@ -883,7 +884,7 @@ class Card extends React.Component{
                     />
                   </TouchableHighlight>
                 </View>
-              }
+              }*/}
 
                 <View style={{top:-50,backgroundColor:colors.outerSpace}}>
 

@@ -14,7 +14,7 @@ import FakeNavBar from '../controls/FakeNavBar';
 import UserProfile from './UserProfile'
 import dismissKeyboard from 'dismissKeyboard'
 import {MagicNumbers} from '../DeviceConfig'
-
+import LogoutButton from '../buttons/LogoutButton'
 import Dimensions from 'Dimensions'
 import ParallaxView from  '../controls/ParallaxScrollView'
 import DistanceSlider from '../controls/distanceSlider'
@@ -39,7 +39,7 @@ import SettingsPreferences from './SettingsPreferences'
 import SettingsCouple from './SettingsCouple'
 import SettingsDebug from './SettingsDebug'
 import profileOptions from '../get_client_user_profile_options'
-import JoinCouple from '../coupling/JoinCouple'
+import Coupling from '../coupling'
 const PickerItemIOS = PickerIOS.Item;
 import Analytics from '../utils/Analytics'
 
@@ -136,6 +136,36 @@ class SettingsInside extends React.Component{
     }
   }
 
+  disableAccount(){
+
+
+    Analytics.event('Interaction',{
+      name: 'Disable Account',
+      type: 'tap',
+    })
+
+    Alert.alert(
+      'Disable Your Account?',
+      'Are you sure you want to disable your account? You will no longer be visible to any trippple users. To re-enable your account, log back in.',
+      [
+        {text: 'Yes', onPress: () => {
+
+          Analytics.event('Support',{
+            name: 'Disabled Account',
+            type: this.props.user.id,
+            user:this.props.user
+          })
+          UserActions.disableAccount();
+        }},
+        {text: 'No', onPress: () => {
+
+          return false
+        }},
+      ]
+    )
+
+  }
+
 
   _updateAttr(updatedAttribute){
     this.setState(()=>{return updatedAttribute});
@@ -190,10 +220,10 @@ class SettingsInside extends React.Component{
           <ParallaxView
               showsVerticalScrollIndicator={false}
               key={this.props.user.id}
-              windowHeight={DeviceHeight*0.6}
+              windowHeight={DeviceHeight*0.5}
               navigator={this.props.navigator}
               backgroundSource={{uri:src}}
-              style={{backgroundColor:colors.outerSpace,paddingTop:0,}}
+              style={{backgroundColor:colors.outerSpace,paddingTop:10,}}
               header={(
               <View
                   style={[
@@ -255,12 +285,13 @@ class SettingsInside extends React.Component{
                 }} underlayColor={colors.dark}>
                   <View  style={styles.wrapfield}>
                       <View>
-                          <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>UPDATE PROFILE <Text style={{color:colors.sushi}}>✔︎</Text></Text>
+                        <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>PROFILE</Text>
+                        {/*  <Text style={{color:colors.sushi}}>✔︎</Text> */}
                           <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
-                          Edit your profile
+                          Edit your information
                           </Text>
                       </View>
-                          <Image source={{uri: 'assets/nextArrow@3x.png'}} resizeMode={'contain'} style={styles.arrowStyle}  />
+                      <Image source={{uri: 'assets/nextArrow@3x.png'}} resizeMode={'contain'} style={styles.arrowStyle}  />
 
                   </View>
               </TouchableHighlight>
@@ -269,19 +300,19 @@ class SettingsInside extends React.Component{
               {this.props.user.relationship_status == 'couple' ?
                   <TouchableHighlight onPress={(f)=>{
                       this.props.navigator.push({
-                      component: SettingsCouple,
-                      sceneConfig:NavigatorSceneConfigs.FloatFromRight,
-                      passProps: {
-                      style:styles.container,
-                      settingOptions:this.state.settingOptions,
-                      user:this.props.user,
-                      navigator:this.props.navigator
-                      }
+                        component: SettingsCouple,
+                        sceneConfig:NavigatorSceneConfigs.FloatFromRight,
+                        passProps: {
+                          style:styles.container,
+                          settingOptions:this.state.settingOptions,
+                          user:this.props.user,
+                          navigator:this.props.navigator
+                        }
                       })
                       }} underlayColor={colors.dark}>
                       <View  style={styles.wrapfield}>
                           <View>
-                            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>IN A COUPLE <Text style={{color:colors.sushi}}>✔︎</Text></Text>
+                            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>COUPLE</Text>
                               <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
                               You and your partner, {this.props.user.partner.firstname}
                               </Text>
@@ -293,15 +324,20 @@ class SettingsInside extends React.Component{
 
               {this.props.user.relationship_status == 'single' ?
                   <TouchableHighlight onPress={(f)=>{
-                      this.props.navigator.push({
-                        component: JoinCouple,
-                        // sceneConfig:NavigatorSceneConfigs.FloatFromRight,
-                        passProps: {
-                          style:styles.container,
-                          settingOptions:this.state.settingOptions,
-                          user:this.props.user,
-                          navigator:this.props.navigator
-                        }
+                      // this.props.navigator.push({
+                      //   component: Coupling,
+                      //   // sceneConfig:NavigatorSceneConfigs.FloatFromRight,
+                      //   passProps: {
+                      //     style:styles.container,
+                      //     settingOptions:this.state.settingOptions,
+                      //     user:this.props.user,
+                      //     navigator:this.props.navigator
+                      //   }
+                      // })
+
+                      AppActions.showInModal({
+                        component: Coupling,
+                        passProps: {},
                       })
                     }} underlayColor={colors.dark}>
                       <View  style={styles.wrapfield}>
@@ -332,7 +368,7 @@ class SettingsInside extends React.Component{
                   }} underlayColor={colors.dark} >
                   <View  style={styles.wrapfield}>
                       <View>
-                          <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>PREFERENCES <Text style={{color:colors.sushi}}>✔︎</Text></Text>
+                          <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>PREFERENCES</Text>
                           <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
                           What you're looking for
                           </Text>
@@ -425,7 +461,22 @@ class SettingsInside extends React.Component{
                   </View>
               </TouchableHighlight>
               }
+
+              <View style={styles.paddedSpace}>
+
+                <LogoutButton/>
+
+                <TouchableOpacity
+                  style={{alignItems:'center',marginVertical:10}}
+                  onPress={this.disableAccount.bind(this)}>
+                  <Text style={{color:colors.shuttleGray,textAlign:'center'}}>
+                    Disable Your Account
+                  </Text>
+                </TouchableOpacity>
+
+              </View>
           </View>
+
       </ParallaxView>
       </View>
     )
@@ -631,6 +682,10 @@ const styles = StyleSheet.create({
    alignSelf: 'stretch',
    justifyContent: 'center'
  },
+ paddedSpace:{
+   paddingHorizontal:MagicNumbers.screenPadding/1.5
+ },
+
  modal:{
    padding:0,
    height:DeviceHeight - 100,

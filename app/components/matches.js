@@ -165,7 +165,7 @@ class MatchList extends Component{
     const  thumb = them[0].thumb_url;
     const  matchImage = thumb
     const  unread = rowData.unread || 0;
-
+    const message_body = rowData.recent_message.message_body.replace(/(\r\n|\n|\r)/gm," ");
     return (
       <Swipeout
         left={
@@ -225,7 +225,7 @@ class MatchList extends Component{
                   {threadName.toUpperCase()}
                 </Text>
                 <Text style={styles.text}>
-                  {rowData.recent_message.message_body || 'New Match'}
+                  {message_body || 'New Match'}
                 </Text>
               </View>
             </View>
@@ -259,15 +259,6 @@ class MatchList extends Component{
           initialListSize={5}
           scrollsToTop={true}
           contentOffset={{x:0,y:this.state.isRefreshing ? -50 : 0}}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.isRefreshing}
-              onRefresh={this._onRefresh.bind(this)}
-              tintColor={colors.sushi}
-              colors={[colors.mediumPurple,colors.sushi]}
-              progressBackgroundColor={colors.dark}
-            />
-          }
           renderHeader={()=>{
             if(!this.props.newMatches || !Object.keys(this.props.newMatches).length){
               return false;
@@ -325,11 +316,11 @@ class MatchesInside extends Component{
       this.setState({
         isVisible:!this.state.isVisible
       })
-      // this.setTimeout(()=>{
-      //   this.setState({
-      //     currentMatch: match
-      //   })
-      // },10)
+      this.setTimeout(()=>{
+        this.setState({
+          currentMatch: match
+        })
+      },10)
     }else{
       this.setState({
         isVisible:false
@@ -407,7 +398,7 @@ class MatchesInside extends Component{
 
         {this.state.isVisible ? <View
             style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]}>
-            <FadeInContainer duration={500}>
+            <FadeInContainer duration={1000}>
                   <View   style={[{width:DeviceWidth,position:'absolute',top:0,left:0,height:DeviceHeight}]}>
               <VibrancyView
                     blurType="light"
@@ -422,7 +413,7 @@ class MatchesInside extends Component{
             user={this.props.user}
             navigator={this.props.navigator}
             toggleModal={this.toggleModal.bind(this)}
-            isVisible={this.state.isVisible && this.state.currentMatch != null}
+            isVisible={true /*this.state.isVisible && this.state.currentMatch != null*/}
             currentMatch={this.state.currentMatch}
           />
 
@@ -456,11 +447,11 @@ class Matches extends Component{
       this.setState({
         isVisible:!this.state.isVisible
       })
-      // this.setTimeout(()=>{
-      //   this.setState({
-      //     currentMatch: match
-      //   })
-      // },10)
+      this.setTimeout(()=>{
+        this.setState({
+          currentMatch: match
+        })
+      },10)
     }else{
       this.setState({
         isVisible:false
@@ -487,8 +478,8 @@ class Matches extends Component{
     })
   }
   shouldComponentUpdate(nProps,nState){
-
-    return this.state.isVisible != nState.isVisible || this.state.currentMatch != nState.currentMatch
+    return true
+    // return this.state.isVisible != nState.isVisible || this.state.currentMatch != nState.currentMatch
   }
 
   render(){

@@ -139,6 +139,9 @@ class NotificationCommander extends Component{
 
       // ReactNativeAutoUpdater.checkUpdate()
 
+    }else if(data.action && data.action == 'couplecreated') {
+        NotificationActions.receiveCoupleCreatedNotification(data); 
+
     }
     // Alert.alert('APN Push Notification',JSON.stringify(pushNotification.getData()));
   }
@@ -233,6 +236,8 @@ class NotificationCommander extends Component{
 
         NotificationActions.receiveGenericNotification(data)
 
+      }else if(data.action && data.action == 'couplecreated') {
+        NotificationActions.receiveCoupleCreatedNotification(data); 
       }
 
 //       payload: {

@@ -28,30 +28,38 @@ class NoMatches extends Component{
         >
         <FadeInContainer delayAmount={1000} duration={1000}>
           <View
-            style={{flex:1,flexDirection:'column',padding:20,justifyContent:'center',alignItems:'center',alignSelf:'stretch',paddingBottom:80,}}
+            style={{flex:1,flexDirection:'column',padding:MagicNumbers.screenPadding/2,justifyContent:'center',alignItems:'center',alignSelf:'stretch',paddingBottom:0,}}
             >
             <Image
-              style={{width:300,
-                height:MagicNumbers.is4s ? 70 : 100,
-                marginBottom:0 }}
-              source={{uri: 'assets/listing@3x.png'}}
-              resizeMode={Image.resizeMode.contain}
-            />
-            <Image
-              style={{width:300,
-                height:MagicNumbers.is4s ? 70 : 100,
+              style={{width:DeviceWidth-MagicNumbers.screenPadding,
+                height:MagicNumbers.is5orless ? 70 : 100,
                 marginBottom:20 }}
               source={{uri: 'assets/listing@3x.png'}}
               resizeMode={Image.resizeMode.contain}
             />
+            <Image
+              style={{width:DeviceWidth-MagicNumbers.screenPadding,
+                height:MagicNumbers.is5orless ? 70 : 100,
+                marginBottom:20 }}
+              source={{uri: 'assets/listing@3x.png'}}
+              resizeMode={Image.resizeMode.contain}
+              />
+           <Image
+              style={{width:DeviceWidth-MagicNumbers.screenPadding,
+                height:MagicNumbers.is5orless ? 70 : 100,
+                marginBottom:50 }}
+              source={{uri: 'assets/listing@3x.png'}}
+              resizeMode={Image.resizeMode.contain}
+            />
+              
             <Text style={{
                 color:colors.white,
-                fontSize: MagicNumbers.is4s ? 18 : 22,
+                fontSize: MagicNumbers.is5orless ? 18 : 22,
                 fontFamily:'Montserrat-Bold',textAlign:'center',marginBottom:20}}>{
               `WAITING FOR MATCHES`
             }</Text>
-            <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'omnes',textAlign:'center'}}>{
-              `Your conversations with your matches will appear in this screen`
+            <Text style={{color:colors.shuttleGray,fontSize:MagicNumbers.is5orless ? 18 : 20,fontFamily:'omnes',textAlign:'center'}}>{
+              `Your conversations with your matches will appear in this screen.`
             }</Text>
           </View>
         </FadeInContainer>

@@ -11,8 +11,9 @@ import FakeNavBar from '../controls/FakeNavBar'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-
+import Coupling from '../coupling'
 import NotificationPermissions from '../modals/NewNotificationPermissions'
+import LocationPermissions from '../modals/LocationPermission'
 import {MagicNumbers} from '../DeviceConfig'
 
 const TripppleSettingsKeys = [
@@ -148,9 +149,16 @@ class SettingsDebug extends React.Component{
              "master_type": "User",
              "thumb_url": "https://trippple-user.s3.amazonaws.com/uploads/23762/be4f51816-original.jpg"
            }
-            this.props.navigator.pop()
 
-           AppActions.showNotificationModalWithLikedUser.defer(relevantUser)
+           AppActions.showInModal({
+             component:NotificationPermissions,
+             passProps:{
+               relevantUser
+             }
+           })
+
+           this.props.navigator.pop()
+
 
               //  this.props.navigator.push({
               //    component:NotificationPermissions,
@@ -223,13 +231,45 @@ class SettingsDebug extends React.Component{
               {/*   */}
                 <TouchableHighlight
                   onPress={(f)=>{
-                    Settings.set({['co.trippple.showCoupling']:true})
+                    AppActions.showInModal({
+                      component:Coupling,
+                      passProps:{
+
+                      }
+                    })
                   }}>
                   <View style={styles.wrapfield}>
-                    <Text style={{color:colors.white,}}>reset showCoupling</Text>
+                    <Text style={{color:colors.white,}}>coupling</Text>
 
                   </View>
                 </TouchableHighlight>
+
+                {/*   */}
+                  <TouchableHighlight
+                    onPress={(f)=>{
+                      AppActions.showInModal({
+                        component:LocationPermissions,
+                          name:'Location Permission Modal',
+                          title:'Location Permission Modal',
+                          passProps:{
+                            title:'Prioritze Local',
+                            user:this.props.user,
+                            failedTitle:'Location',
+                            successCallback: ()=>{ this.props.navigator.pop() },
+
+                            failCallback: ()=>{ this.props.navigator.pop() },
+                            hideModal: ()=>{ this.props.navigator.pop() },
+                            closeModal: ()=>{ this.props.close() }
+
+                          }
+
+                      })
+                    }}>
+                    <View style={styles.wrapfield}>
+                      <Text style={{color:colors.white,}}>location modal</Text>
+
+                    </View>
+                  </TouchableHighlight>
 
 
 
@@ -436,32 +476,32 @@ class TelemetryPage extends React.Component{
     )
   }
   render(){
-    const {renderProps} = this.props
+    const {renderProps} = this.props;
+    console.log(DeviceHeight,'DeviceHeight');
+
     return (
-      <View style={{flex:1}}>
+      <View style={{flex:1}} >
 
         <ListView
-         contentContainerStyle={{height:DeviceHeight-55,top:55}} style={{flex:1}}
-
+          style={{flex:1}}
           dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)}
-          />
-          <FakeNavBar
-            blur={true}
-            backgroundStyle={{backgroundColor:colors.sushi,top:0}}
-            hideNext={true}
-            customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{marginVertical:10,alignSelf:'center',height:12,width:12}}
-            source={{uri:'assets/close@3x.png'}}/>}
-            onPrev={(nav,route)=> nav.pop()}
-            title={renderProps ? renderProps.name : 'x'}
-            titleColor={colors.white}
-            navigator={this.props.navigator}
+        />
 
-          />
-
+        <FakeNavBar
+          blur={true}
+          backgroundStyle={{backgroundColor:colors.sushi,top:0}}
+          hideNext={true}
+          customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{marginVertical:10,alignSelf:'center',height:12,width:12}}
+          source={{uri:'assets/close@3x.png'}}/>}
+          onPrev={(nav,route)=> nav.pop()}
+          title={renderProps ? renderProps.name : 'x'}
+          titleColor={colors.white}
+          navigator={this.props.navigator}
+        />
       </View>
-      )
-    }
+    )
+  }
 }
 
 

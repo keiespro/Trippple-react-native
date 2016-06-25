@@ -188,9 +188,8 @@ class SettingsCouple extends React.Component{
     let u = this.props.user;
     let settingOptions = this.props.settingOptions || {};
 
-    var {partner} = this.props.user
+    var {partner} = this.props.user;
 
-    // if(!partner) {return false}
     return (
       <View style={styles.inner}>
       <FakeNavBar
@@ -329,7 +328,7 @@ class SettingsCouple extends React.Component{
                       </View>
                   }
 
-                  {!partner.phone &&
+                  {/*!partner.phone &&
                     <View>
                     <View style={{height:120,width:120,alignItems:'center',alignSelf:'center',marginBottom:20}}>
                       <Image
@@ -360,7 +359,7 @@ class SettingsCouple extends React.Component{
 
                     </BoxyButton>
                     </View>
-                  }
+                    */ }
 
       </ScrollView>
       </View>
