@@ -56,20 +56,20 @@ export default class ReportModal extends Component{
               }]}>REPORT {matchName}</Text>
 
             <Text style={[styles.rowtext,styles.bigtext,{
-              fontSize:20,marginVertical:10,color: colors.shuttleGray,marginHorizontal:0
+              fontSize:20,marginVertical:10,color: colors.white,marginHorizontal:0
               }]}>Is this person bothering you? Tell us what they did.</Text>
 
             <View style={{marginTop:30,alignSelf:'stretch'}}>
               <TouchableHighlight
                 style={styles.modalButtonWrap}
-                underlayColor={colors.mediumPurple}
+                underlayColor={colors.sushi}
                 onPress={()=>{this.report(them,'image')}}>
                 <View style={styles.modalButton} >
                   <Text style={styles.modalButtonText}>OFFENSIVE BEHAVIOR</Text>
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
-                      underlayColor={colors.mediumPurple}
+                      underlayColor={colors.sushi}
                       style={styles.modalButtonWrap}
                       onPress={()=>{this.report(them,'fake')}}>
                           <View style={[styles.modalButton]} >

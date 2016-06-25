@@ -6,6 +6,7 @@ import {AsyncStorage,PushNotificationIOS,NativeModules,Settings} from 'react-nat
 const {CameraManager,OSPermissions} = NativeModules
 import AddressBook from 'react-native-addressbook'
 import Analytics from '../../utils/Analytics'
+import CoupleSuccess from '../../coupling/CoupleSuccess'
 
 class AppStateStore {
 
@@ -20,6 +21,7 @@ class AppStateStore {
     this.showMaintenanceScreen = false
     this.OSPermissions = {...OSPermissions }
     this.showCoupling = false;
+    this.modals = [];
 
     this.bindListeners({
       handleInitialize: AppActions.GOT_CREDENTIALS,
@@ -35,7 +37,9 @@ class AppStateStore {
       handleToggleOverlay: AppActions.TOGGLE_OVERLAY,
       handleSentTelemetry: AppActions.SEND_TELEMETRY,
       handleShowMaintenanceScreen: AppActions.SHOW_MAINTENANCE_SCREEN,
-      handleScreenshot: AppActions.SCREENSHOT
+      handleScreenshot: AppActions.SCREENSHOT,
+      handleShowInModal: AppActions.SHOW_IN_MODAL,
+      handleCoupleCreatedEvent: NotificationActions.RECEIVE_COUPLE_CREATED_NOTIFICATION
 
     });
 
@@ -57,25 +61,28 @@ class AppStateStore {
     this.on('bootstrap', (bootstrappedState) => {
       // Analytics.all('BOOTSTRAP App State Store',bootstrappedState);
     });
-
-
-
   }
 
-  handleNewInitialize(){
 
 
+  handleShowInModal(route){
+    console.log(route)
+    this.setState({
+      modals: [ route ]
+    })
+    this.emitChange()
   }
+
+
+
+
+  handleNewInitialize(){ }
 
   handleInitialize(){
-
     UserActions.getUserInfo.defer()
-
   }
 
-  handleSentTelemetry(result){
-
-  }
+  handleSentTelemetry(result){ }
 
   saveToLocalStorage(permission, value){
     AsyncStorage.setItem(`${permission}`, (value.toString()))
@@ -208,6 +215,19 @@ class AppStateStore {
     console.log('got screenshot at '+path)
   }
   //
+
+  handleCoupleCreatedEvent(payload){
+
+    const route = {
+      component: CoupleSuccess,
+      passProps:{
+        payload
+      }
+
+    };
+    this.handleShowInModal(route)
+
+  }
 
   getAppState(){
     return this.getState()

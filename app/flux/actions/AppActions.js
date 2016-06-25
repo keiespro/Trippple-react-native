@@ -8,7 +8,7 @@ import {UIManager} from 'react-native'
 import {NativeModules} from 'react-native'
 import RNFS from 'react-native-fs'
 const {RNMail,ReactNativeAutoUpdater} = NativeModules
-const ACTUAL_VERSION = ReactNativeAutoUpdater.jsCodeVersion
+const ACTUAL_VERSION = '2.4.0'// ReactNativeAutoUpdater.jsCodeVersion
 
 
 class AppActions {
@@ -99,12 +99,13 @@ DATA:
   storeContactsToBlock(contacts){
     return contacts;
   }
-  // grantPermission(perm){
-  //   return perm;
-  // }
-  // denyPermission(perm){
-  //   return perm;
-  // }
+
+
+  showInModal(route){
+    console.log(route)
+    return route;
+  }
+
   showNotificationModalWithLikedUser(relevantUser){
     return (dispatch) => {
       dispatch(relevantUser);
@@ -122,11 +123,13 @@ DATA:
       dispatch(true);
     };
   }
+
   screenshot(){
     return (dispatch) => {
       UIManager.takeSnapshot('window', {format: 'jpeg', quality: 0.8}).then((x)=>{dispatch(x)})
     };
   }
+
   async sendTelemetry(user){
 
     try{

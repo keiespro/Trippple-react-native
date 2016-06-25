@@ -35,7 +35,7 @@ import FieldModal from './FieldModal'
 import {MagicNumbers} from '../DeviceConfig'
 import CheckPermissions from '../modals/CheckPermissions'
 import PartnerMissingModal from '../modals/PartnerMissingModal'
-import NotificationPermissions from '../modals/NotificationPermissions'
+import NotificationPermissions from '../modals/NewNotificationPermissions'
 import styles from './settingsStyles'
 
 const DeviceHeight = Dimensions.get('window').height
@@ -151,7 +151,7 @@ class  SettingsPreferences extends React.Component{
             <View style={styles.paddedSpace}>
               <View style={styles.formHeader}>
                 <Text style={styles.formHeaderText}>
-                 What are you looking for in a Match? 
+                 What are you looking for in a Match?
                 </Text>
               </View>
             </View>

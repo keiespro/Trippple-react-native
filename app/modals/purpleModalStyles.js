@@ -19,21 +19,21 @@ const purpleModalStyles = StyleSheet.create({
   modalButton:{
     alignSelf:'stretch',
     height:60,
-    backgroundColor:colors.sushi,
+    // backgroundColor:colors.sushi,
     alignItems:'center',
     margin: 0,
-    borderRadius:4,
-    borderWidth:1 / PixelRatio.get(),
-    borderColor:colors.darkGreenBlue,
+    borderRadius:5,
+    borderWidth: 1,
+    borderColor:colors.sushi,
+
 
     justifyContent:'center',
     flex:1,
   },
   modalButtonText:{
     color:colors.white,
-    fontFamily:'Montserrat',
+    fontFamily:'Montserrat-Bold',
     fontSize:18,
-
     textAlign:'center'
   },
   nothankstext:{
@@ -83,17 +83,17 @@ const purpleModalStyles = StyleSheet.create({
 
   },
   text:{
-    color: colors.shuttleGray,
+    color: colors.white,
     fontFamily:'omnes'
   },
   rowtext:{
-    color: colors.shuttleGray,
+    color: colors.white,
     fontSize:18,
     fontFamily:'omnes'
   },
   bigtext: {
     textAlign:'center',
-    color: colors.shuttleGray,
+    color: colors.white,
 
   },
   separator: {
@@ -185,7 +185,7 @@ fullContainer:{
   width:MagicNumbers.screenWidth,
   marginHorizontal:MagicNumbers.screenPadding/2,
   padding:MagicNumbers.screenPadding/2,
-          backgroundColor:colors.white,
+          backgroundColor:'transparent',
           height:DeviceHeight-MagicNumbers.screenPadding*2,
           marginTop:MagicNumbers.screenPadding
 }

@@ -7,5 +7,6 @@ export default {
   LOCATION_SETTING: 'co.trippple.LocationPermissionSetting',
   LEGACY_LOCATION_SETTING: 'LocationSetting',
   LEGACY_NOTIFICATION_SETTING: 'NotificationSetting',
-  LAST_ASKED_LOCATION_PERMISSION: 'co.trippple.LastLocationPermissionRequest'
+  LAST_ASKED_LOCATION_PERMISSION: 'co.trippple.LastLocationPermissionRequest',
+  SHOW_COUPLING: 'co.trippple.showCoupling'
 }

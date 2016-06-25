@@ -16,6 +16,7 @@ import Chat from './chat'
 import MatchActions from '../flux/actions/MatchActions'
 import MatchesStore from '../flux/stores/MatchesStore'
 import PotentialsStore from '../flux/stores/PotentialsStore'
+import CouplingStore from '../flux/stores/CouplingStore'
 import FakeNavBar from '../controls/FakeNavBar'
 import AppActions from '../flux/actions/AppActions'
 import NotificationActions from '../flux/actions/NotificationActions'
@@ -24,7 +25,7 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import Analytics from '../utils/Analytics'
 import NotificationPermissions from '../modals/NewNotificationPermissions'
-import JoinCouple from '../coupling/JoinCouple'
+import Coupling from '../coupling/'
 import url from 'url'
 
 class Main extends Component{
@@ -64,7 +65,7 @@ class Main extends Component{
         this.refs.nav.push({
           component: JoinCouple,
           passProps:{
-           initialScreen: 'CouplePin' 
+           initialScreen: 'CouplePin'
           }
         })
       }
@@ -74,19 +75,20 @@ class Main extends Component{
           component:JoinCouple,
           passProps:{
             pin,
-           initialScreen: 'EnterCouplePin' 
+           initialScreen: 'EnterCouplePin'
           }
         })
       }
     })
-    
-    if(Settings.get('co.trippple.showCoupling')){
-      this.refs.nav.push({
-        component: JoinCouple,
-        passProps:{ }
-      })
 
+    if(this.refs.nav && Settings.get('co.trippple.showCoupling')){
+
+      AppActions.showInModal({
+        component: Coupling,
+        passProps: {},
+      })
     }
+
   }
 
   componentWillReceiveProps(nProps){
@@ -192,7 +194,6 @@ class Main extends Component{
           modalVisible={this.state.modalVisible}
           setModalVisible={this._setModalVisible.bind(this)}
         />
-        <OverlayModalOuter modalVisible={this.state.modalVisible}/>
       </View>
     );
   }
@@ -201,70 +202,6 @@ class Main extends Component{
 
 export default Main;
 
-class OverlayModalOuter extends Component{
-  constructor(props){
-    super()
-    this.state = {}
-  }
-  render(){
-    function storeFetcher(props) { // props is the property of AltContainer
-      return {
-        store: PotentialsStore,
-        value: PotentialsStore.getMeta()
-      };
-    }
-
-    return (
-      <AltContainer store={storeFetcher}>
-          <OverlayModalInner modalVisible={this.state.modalVisible}/>
-       </AltContainer>
-    )
-  }
-}
-class OverlayModalInner extends Component{
-  constructor(props){
-    super()
-    this.state = {
-      modalVisible: false
-    }
-  }
-  componentWillReceiveProps(nProps){
-
-    if(nProps.modalVisible && !this.props.modalVisible){
-      this.setModalVisible(false)
-
-    }
-    if(nProps.hasSeenNotificationPermission){
-      this.setModalVisible(false)
-
-    } else if(!nProps.hasSeenNotificationPermission && nProps.relevantUser ){
-      this.setModalVisible(true)
-    }else{
-      if(nProps.relevantUser ){
-        this.setModalVisible(true)
-      }
-    }
-  }
-  setModalVisible(v){
-    this.setState({modalVisible:v})
-  }
-  shouldComponentUpdate(nProps,nState){
-    return  (nState.modalVisible != this.state.modalVisible) || (nProps.relevantUser != this.props.relevantUser)
-  }
-  render(){
-    return (
-
-      <Modal
-        animationType={'slide'}
-        transparent={true}
-        visible={this.state.modalVisible}
-        onRequestClose={this.setModalVisible.bind(this,false)}
-      >
-        <NotificationPermissions relevantUser={this.props.relevantUser} close={this.setModalVisible.bind(this,false)}/>
-      </Modal>
-    )
-  }
-}
 
 const styles = StyleSheet.create({
   appContainer: {
@@ -329,7 +266,7 @@ const PotentialsRoute = {
       customTitle={
         <Image
           resizeMode={Image.resizeMode.contain}
-          style={{width:80,height:30,tintColor: __DEV__ ? colors.sushi : colors.white}}
+          style={{width:80,height:30,tintColor: __DEV__ ? colors.mandy : colors.white}}
           source={{uri:'assets/tripppleLogoText@3x.png'}}
         />
       }
@@ -337,7 +274,7 @@ const PotentialsRoute = {
       customPrev={
         <Image
           resizeMode={Image.resizeMode.contain}
-          style={{width:28,top:-10,height:30,alignSelf:'flex-start',tintColor:colors.white,opacity:1}}
+          style={{width:28,top:-10,height:30,alignSelf:'flex-start',tintColor:colors.mandy}}
           source={{uri:'assets/gear@3x.png'}}
         />
       }
@@ -345,7 +282,7 @@ const PotentialsRoute = {
       customNext={
         <Image
           resizeMode={Image.resizeMode.contain}
-          style={{width:30,top:0,height:30,alignSelf:'flex-end',tintColor:colors.white}}
+          style={{opacity:0.6,width:30,top:0,height:30,alignSelf:'flex-end',tintColor:colors.mandy}}
           source={{uri:'assets/chat@3x.png'}}
         />
       }

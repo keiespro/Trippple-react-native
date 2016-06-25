@@ -42,7 +42,7 @@ const {HAS_SEEN_NOTIFICATION_REQUEST,LAST_ASKED_LOCATION_PERMISSION} = SETTINGS_
         const hasSeenNotificationRequest = Settings.get(HAS_SEEN_NOTIFICATION_REQUEST);
 
         if(!hasSeenNotificationRequest && this.props.triggers.relevantUser){
-          this.showNotificationRequest(this.props.triggers.relevantUser)
+          // this.showNotificationRequest(this.props.triggers.relevantUser)
 
         }
       }
@@ -57,20 +57,35 @@ const {HAS_SEEN_NOTIFICATION_REQUEST,LAST_ASKED_LOCATION_PERMISSION} = SETTINGS_
       if(!parseInt(hasPermission)){
         // pop location modal
 
-        this.props.navigator.push({
-          component: LocationPermissions,
-          name:'Location Permission Modal',
-          title:'Location Permission Modal',
-          passProps:{
-            x: 2,
-            title:'Prioritze Local',
-            user:this.props.user,
-            failedTitle:'Location',
-            failCallback: ()=>{ this.props.navigator.pop() },
-            hideModal: ()=>{ this.props.navigator.pop() },
-            closeModal: ()=>{ this.props.navigator.pop() }
+        // this.props.navigator.push({
+        //   component: LocationPermissions,
+        //   name:'Location Permission Modal',
+        //   title:'Location Permission Modal',
+        //   passProps:{
+        //     x: 2,
+        //     title:'Prioritze Local',
+        //     user:this.props.user,
+        //     failedTitle:'Location',
+        //     failCallback: ()=>{ this.props.navigator.pop() },
+        //     hideModal: ()=>{ this.props.navigator.pop() },
+        //     closeModal: ()=>{ this.props.navigator.pop() }
+        //
+        //   }
+        // })
 
-          }
+        AppActions.showInModal({
+          component: LocationPermissions,
+            name:'Location Permission Modal',
+            title:'Location Permission Modal',
+            passProps:{
+              title:'Prioritze Local',
+              user:this.props.user,
+              failedTitle:'Location',
+              failCallback: ()=>{ this.props.close() },
+              hideModal: ()=>{ this.props.close() },
+              closeModal: ()=>{ this.props.close() }
+
+            }
         })
 
 

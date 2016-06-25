@@ -59,7 +59,7 @@ export default class UnmatchModal extends Component{
               </Text>
               <View style={[{marginTop:20}]}>
                 <TouchableHighlight
-                  underlayColor={colors.mediumPurple}
+                  underlayColor={colors.sushi}
                   style={styles.modalButtonWrap}
                   onPress={this.unMatch.bind(this)}>
                   <View style={[styles.modalButton]} >
@@ -70,7 +70,7 @@ export default class UnmatchModal extends Component{
 
             <View >
               <TouchableHighlight
-                underlayColor={colors.mediumPurple}
+                underlayColor={'transparent'}
                 style={styles.modalButtonWrap}
                 onPress={this.props.goBack}>
                 <View style={[styles.modalButton,styles.cancelButton]} >

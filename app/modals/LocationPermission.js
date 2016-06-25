@@ -22,7 +22,7 @@ import {MagicNumbers} from '../DeviceConfig'
 import Analytics from '../utils/Analytics'
 import { BlurView,VibrancyView} from 'react-native-blur'
 
-export default class CheckPermissions extends React.Component{
+export default class LocationPermission extends React.Component{
 
  static propTypes = {
    nextRoute:PropTypes.object,
@@ -66,8 +66,9 @@ export default class CheckPermissions extends React.Component{
  }
  getLocation(){
      navigator.geolocation.getCurrentPosition( (geo) => {
-       this.handleSuccess(geo)
-       this.props.closeModal()
+       this.handleSuccess && this.handleSuccess(geo)
+       this.props.closeModal && this.props.closeModal()
+       this.props.close && this.props.close()
      },
      (error) => {
        Analytics.log(error)
@@ -154,10 +155,10 @@ export default class CheckPermissions extends React.Component{
  renderModal(){
     return (
      <View>
-       <BlurView
+       {/*<BlurView
          blurType="dark"
          style={[{position:'absolute',top:0,width:DeviceWidth,height:DeviceHeight,justifyContent:'center',alignItems:'center',flexDirection:'column'}]}
-       />
+       />*/}
        <ScrollView
          style={[{padding:0,width:DeviceWidth,height:DeviceHeight,backgroundColor: 'transparent',paddingTop:20,flex:1,position:'relative',paddingHorizontal:MagicNumbers.screenPadding/2}]}
          contentContainerStyle={{justifyContent:'center',alignItems:'center',}}
@@ -180,17 +181,17 @@ export default class CheckPermissions extends React.Component{
 
            <Text style={[styles.rowtext,styles.bigtext,{
              fontSize:18,color: colors.white,marginHorizontal:MagicNumbers.screenPadding,
-             marginBottom: MagicNumbers.is4s ? 10 : 20
+             marginBottom: MagicNumbers.is5orless ? 10 : 20
            }]}>We’ve found 10 matches we think you might like.</Text>
              <Text style={[styles.rowtext,styles.bigtext,{
                fontSize:18,color: colors.white,marginHorizontal:MagicNumbers.screenPadding,
-               marginBottom: MagicNumbers.is4s ? 10 : 20
+               marginBottom: MagicNumbers.is5orless ? 10 : 20
                }]}>Should we prioritize the matches closets to you?</Text>
 
            {this.renderButton()}
          </View>
 
-         <View style={{marginTop:MagicNumbers.is4s ? 5 : 10}}>
+         <View style={{marginTop:MagicNumbers.is5orless ? 5 : 10}}>
            <TouchableOpacity style={{padding:10}}
            onPress={()=>this.cancel(false)}>
              <View style={[styles.cancelButton,{ backgroundColor:'transparent'}]} >

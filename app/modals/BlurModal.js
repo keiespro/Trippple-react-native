@@ -25,25 +25,22 @@ class BlurModal extends React.Component{
   render(){
 
     return  (
-      <Image source={{uri:this.props.user.image_url}} style={{height:DeviceHeight,width:DeviceWidth}}>
-        <VibrancyView blurType="dark" style={localstyles.blurstyle} />
+      <Image source={{uri:this.props.user.image_url}} resizeMode="cover">
+        <VibrancyView blurType="light" style={localstyles.blurstyle} />
 
         {this.props.noscroll ?
           <View style={{
-    width:DeviceWidth,
-    height:DeviceHeight,
+          width:DeviceWidth,
+          height:DeviceHeight,
         }}>
-          {this.props.children}
+        {this.props.children}
         </View> :
           <ScrollView style={localstyles.modalscroll} contentContainerStyle={localstyles.modalscrollcontainer}>
-          {this.props.children}
-        </ScrollView>
+            {this.props.children}
+          </ScrollView>
         }
-        <View style={{width:100,height:20,left:10,top:-10,position:'absolute',alignSelf:'flex-start'}}>
-          <BackButton navigator={this.props.navigator}/>
-        </View>
-        
-      </Image>
+
+        </Image>
 
     )
   }
@@ -67,13 +64,15 @@ const localstyles = StyleSheet.create({
   modalscroll:{
     padding:0,
     width:DeviceWidth,
-    height:DeviceHeight,
-    backgroundColor: 'transparent',
+    // height:DeviceHeight,
+
     flex:1,
-    position:'relative'
+    position:'absolute'
   },
   modalscrollcontainer:{
-    justifyContent:'center',
-    alignItems:'center'
+    // justifyContent:'center',
+    flex:1
+    // alignItems:'center',
+    // height:DeviceHeight,width:DeviceWidth
   }
 })

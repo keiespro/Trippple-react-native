@@ -32,16 +32,15 @@ class PurpleModal extends Component{
 
 
     return (
-      <View style={[{padding:0,backgroundColor: 'transparent',flex:1,position:'relative',justifyContent:'center',alignItems:'center',}]}>
+      <View style={[{padding:0,backgroundColor: 'transparent',flex:1,position:'absolute',height:DeviceHeight,width:DeviceWidth,justifyContent:'center',top:0,alignItems:'center',}]}>
+        <VibrancyView blurType="dark" style={{position:'absolute',height:DeviceHeight,width:DeviceWidth,top:0,}} />
 
-      <View style={[styles.col,{justifyContent:'center',alignItems:'stretch',backgroundColor: 'transparent',
+      <View style={[styles.col,{
+          justifyContent:'center',alignItems:'stretch',backgroundColor: 'transparent',
       }]}>
 
-        <View style={[styles.modalcontainer,{
-          backgroundColor:colors.white,
-          flex:1,
-        }]}  >
-            {this.props.children}
+        <View style={[styles.modalcontainer,{ flex:1, }]}>
+           {this.props.children}
           </View>
         </View>
       </View>

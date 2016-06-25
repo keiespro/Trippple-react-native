@@ -19,6 +19,8 @@ import AppActions from '../flux/actions/AppActions'
 import NotificationActions from '../flux/actions/NotificationActions'
 import {MagicNumbers} from '../DeviceConfig'
 import { BlurView,VibrancyView} from 'react-native-blur'
+import PotentialsStore from '../flux/stores/PotentialsStore'
+import AltContainer from 'alt-container/native';
 
 import { HAS_SEEN_NOTIFICATION_REQUEST, LAST_ASKED_NOTIFICATION_PERMISSION, NOTIFICATION_SETTING, LEGACY_NOTIFICATION_SETTING } from '../utils/SettingsConstants'
 
@@ -27,7 +29,7 @@ const failedTitle = `ALERTS DISABLED`,
       failedSubtitle = `Notification permissions have been disabled. You can enable them in Settings`,
       buttonText = `YES, ALERT ME`;
 
-class NewNotificationPermissions extends React.Component{
+class NewNotificationPermissionsInside extends React.Component{
   static propTypes = {
     relevantUser: PropTypes.object //user
   };
@@ -81,7 +83,7 @@ class NewNotificationPermissions extends React.Component{
     //   }
     // }
     cancel(){
-      this.props.close()
+      this.props.close && this.props.close()
     }
 
     handleNotificationPermission(token){
@@ -90,7 +92,7 @@ class NewNotificationPermissions extends React.Component{
       NotificationActions.receiveApnToken(token)
       // this.setState({ hasPermission: true})
       AppActions.disableNotificationModal()
-      this.props.close(false)
+      this.props.close && this.props.close(false)
       Settings.set({
         [HAS_SEEN_NOTIFICATION_REQUEST]: true,
         [NOTIFICATION_SETTING]: true
@@ -161,13 +163,9 @@ class NewNotificationPermissions extends React.Component{
 
       return  (
         <View>
-          <BlurView
-            blurType="dark"
-            style={[{position:'absolute',top:0,width:DeviceWidth,height:DeviceHeight,justifyContent:'center',alignItems:'center',flexDirection:'column'}]}
-          />
           <ScrollView
-            style={[{padding:0,width:DeviceWidth,height:DeviceHeight,backgroundColor: 'transparent',paddingTop:50,flex:1,position:'relative'}]}
-            contentContainerStyle={{justifyContent:'center',alignItems:'center',}}
+            style={[{padding:0,width:DeviceWidth,height:DeviceHeight,backgroundColor: 'transparent',paddingTop:0,flex:1,position:'absolute'}]}
+            contentContainerStyle={{justifyContent:'center',alignItems:'center',flexDirection:'column',flex:1}}
           >
             <View style={{width:160,height:160,marginVertical:30}}>
               <Image style={[{width:160,height:160,borderRadius:80}]} source={
@@ -211,11 +209,13 @@ class NewNotificationPermissions extends React.Component{
                       {featuredImage ? `Would you like to be notified \nwhen they like you back?` : ` Would you like to be notified of new matches and messages?`}
                     </Text>
                   </View>
+                </View>
+
                   <View>
                     <TouchableHighlight
-                      style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:10,marginTop:20,marginBottom:15}}
+                      style={{backgroundColor:'transparent',width:DeviceWidth-MagicNumbers.screenPadding*2,borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:0,marginTop:20,marginBottom:15}}
                       onPress={this.handleTapYes.bind(this)}>
-                      <View style={{paddingVertical:20}} >
+                      <View style={{paddingVertical:20,paddingHorizontal:10,alignSelf:'stretch'}} >
                         <Text style={[styles.modalButtonText,{fontFamily:'Montserrat-Bold'}]}>
                           {
                             this.state.failedState ? 'GO TO SETTINGS' : `YES, ALERT ME!`
@@ -235,7 +235,6 @@ class NewNotificationPermissions extends React.Component{
                       </View>
                     </TouchableOpacity>
                   </View>
-                </View>
               </ScrollView>
             </View>
 
@@ -244,6 +243,22 @@ class NewNotificationPermissions extends React.Component{
 
 }
 
+class NewNotificationPermissions extends Component{
+  render(){
+    const storeFetcher = function(props){
+      return {
+        store: PotentialsStore,
+        value: PotentialsStore.getMeta()
+      }
+    }
+
+    return (
+      <AltContainer store={storeFetcher}>
+        <NewNotificationPermissionsInside {...this.props} close={this.props.close} />
+      </AltContainer>
+    )
+  }
+}
 
 
 export default NewNotificationPermissions

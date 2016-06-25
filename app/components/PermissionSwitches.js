@@ -10,7 +10,7 @@ import colors from '../utils/colors'
 import reactMixin from 'react-mixin'
 import {MagicNumbers} from '../DeviceConfig'
 import CheckPermissions from '../modals/CheckPermissions'
-import NotificationPermissions from '../modals/NotificationPermissions'
+import NotificationPermissions from '../modals/NewNotificationPermissions'
 import styles from './settingsStyles'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
