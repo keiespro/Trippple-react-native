@@ -26,6 +26,20 @@ class CouplePin extends React.Component{
       bounceValue: new Animated.Value(0)
     }
   }
+
+  componentWillReceiveProps(nProps){
+    console.log(nProps);
+    if( nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified ){
+      this.setState({
+        success: true,
+      })
+      this.props.goCoupleReady();
+      this.props.exit();
+
+    }
+
+  }
+
   handleSendMessage(){
     this.setState({ submitting:true });
     const couple = this.props.couple || {};
@@ -33,6 +47,7 @@ class CouplePin extends React.Component{
     const messageText = `Join me on Trippple! My couple code is ${pin}. trippple://join.couple/${pin}`;
 
     RNMessageComposer.composeMessageWithArgs({ messageText }, (result) => {
+      console.log('RNMessageComposer results',result);
       this.setState({ submitting:false });
       switch(result) {
         case RNMessageComposer.Sent:
@@ -47,11 +62,12 @@ class CouplePin extends React.Component{
           break;
       }
     })
+
   }
   componentDidMount(){
     UserActions.getCouplePin();
     UserActions.updateUser.defer({generatedCoupleCode:true});
-    Settings.set({['SHOW_COUPLING']:false})
+    Settings.set({[SHOW_COUPLING]:false})
   }
   componentDidUpdate(pProps,pState){
     if(!pState.success && this.state.success){
@@ -116,7 +132,7 @@ class CouplePin extends React.Component{
           }]}>You can access your couple code at any time in your Trippple settings screen.</Text>
 
         <TouchableHighlight
-                  underlayColor={colors.white20}
+            underlayColor={colors.white20}
             style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:10,marginTop:30,marginBottom:15}}
             onPress={this.popToTop.bind(this)}>
             <View style={{paddingVertical:20,}} >
@@ -136,6 +152,7 @@ class CouplePin extends React.Component{
   renderMain(){
 
     const couple = this.props.couple || {};
+      // kist figure out how to bail fi need bethis
 
     return (
       <View style={{left:0}}>

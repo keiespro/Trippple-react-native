@@ -78,34 +78,28 @@ class EnterCouplePin extends React.Component{
     }
   }
 
-  componentDidUpdate(pProps,pState){
-    // if(pProps.couple && !pProps.couple.verified && this.props.couple && this.props.couple.verified){
-    //   this.setState({
-    //     success: true
-    //   })
-    // }else if(pProps.couple && !pProps.couple.verifyError  && this.props.couple && this.props.couple.hasOwnProperty('verified') && this.props.couple.verified == false ){
-    //   this.setState({
-    //    verifyError: this.props.couple.verifyError
-    //   })
-    // }
-  }
+
   componentWillReceiveProps(nProps){
     console.log(nProps);
     if(nProps.pin){
       this.handleInputChange({pin:nProps.pin})
     }
-    if(this.props.couple && !this.state.verifyError && nProps.couple && nProps.couple.verified){
+    if(this.props.couple &&  nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified ){
+
+      console.log('goCoupleReady');
       this.setState({
         success: true,
         // submitting: false
-
       })
+
+      this.props.goCoupleReady();
+      this.props.exit();
+
     }else if(this.props.couple  && nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified == false ){
       console.log('VERIFY ERR');
       this.setState({
         verifyError: true,
       //  submitting: false
-
       })
     }
 
@@ -179,7 +173,7 @@ class EnterCouplePin extends React.Component{
         </ScrollView>
 
         </View>
-        
+
         <ContinueButton
           canContinue={this.state.inputFieldValue.length > 0 }
           loading={this.state.submitting}

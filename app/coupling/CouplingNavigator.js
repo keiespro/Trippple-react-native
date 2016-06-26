@@ -24,10 +24,12 @@ import { BlurView, VibrancyView } from 'react-native-blur'
 import JoinCouple from './JoinCouple'
 import CouplePin from './CouplePin'
 import CoupleSuccess from './CoupleSuccess'
+import CoupleReady from './CoupleReady'
 import EnterCouplePin from './EnterCouplePin'
 import BackButton from '../components/BackButton'
 import colors from '../utils/colors'
 import BlurModal from '../modals/BlurModal'
+import UserStore from '../flux/stores/UserStore'
 
 import CouplingStore from '../flux/stores/CouplingStore'
 import AltContainer from 'alt-container/native';
@@ -53,7 +55,7 @@ const NavReducer = createReducer({
 })
 
 const couplingRoutes = {
-  JoinCouple, CoupleSuccess, CouplePin, EnterCouplePin,
+  JoinCouple, CouplePin, EnterCouplePin, CoupleSuccess
 }
 
 class CouplingNavigator extends Component {
@@ -85,42 +87,7 @@ class CouplingNavigator extends Component {
     return this._handleAction({ type: 'pop' });
   }
 
-  _renderRoute (key) {
-    if (key == 'JoinCouple') {
-      return <JoinCouple
-        goCouplePin={this._handleAction.bind(this, { type: 'push', key: 'CouplePin' })}
-        goEnterCouplePin={this._handleAction.bind(this, { type: 'push', key: 'EnterCouplePin' })}
-        couple={this.props.couple}
-        goBack={ this.handleBackAction.bind(this)}
-        user={this.props.user}
-      />
-    }
-    if (key == 'CouplePin') {
-      return <CouplePin
-        goBack={this.handleBackAction.bind(this)}
-        exit={this.props.goBack}
-        couple={this.props.couple}
-        user={this.props.user}
-      />
-    }
-    if (key == 'EnterCouplePin') {
-      return <EnterCouplePin
-        goCoupleSuccess={this._handleAction.bind(this, { type: 'push', key: 'CoupleSuccess' })}
-        goBack={ this.handleBackAction.bind(this)}
-        couple={this.props.couple}
-        user={this.props.user}
-        exit={this.props.goBack}
-      />
-    }
-    if (key == 'CoupleSuccess') {
-      return <CoupleSuccess
-        couple={this.props.couple}
-        goBack={ this.handleBackAction.bind(this)}
-        user={this.props.user}
-        exit={this.props.goBack}
-      />
-    }
-  }
+
   _renderOverlay(sceneProps) {
 
     return (
@@ -140,9 +107,15 @@ class CouplingNavigator extends Component {
             store: CouplingStore,
             value: CouplingStore.getCouplingData()
           }
-        }
+        },
+        user: (props) => {
+           return {
+             store: UserStore,
+             value: UserStore.getUser()
+           }
+         }
       };
-    const RouteComponent = couplingRoutes[sceneProps.scene.navigationState.key];
+    const RouteComponent = sceneProps.scene.navigationState.key == 'CoupleReady' ? CoupleReady : couplingRoutes[sceneProps.scene.navigationState.key];
 
     return (
       <View style={{height:DeviceHeight,width:DeviceWidth, }}>
@@ -152,13 +125,14 @@ class CouplingNavigator extends Component {
         <AltContainer stores={couplingData}>
 
           <RouteComponent
+
             couple={this.props.couple}
             goBack={ this.handleBackAction.bind(this)}
             user={this.props.user}
             exit={this.props.goBack}
             goCouplePin={this._handleAction.bind(this, { type: 'push', key: 'CouplePin' })}
             goEnterCouplePin={this._handleAction.bind(this, { type: 'push', key: 'EnterCouplePin' })}
-            goCoupleSuccess={this._handleAction.bind(this, { type: 'push', key: 'CoupleSuccess' })}
+            goCoupleReady={this._handleAction.bind(this, { type: 'push', key: 'CoupleReady' })}
           />
         </AltContainer>
 

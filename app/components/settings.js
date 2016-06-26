@@ -220,7 +220,7 @@ class SettingsInside extends React.Component{
           <ParallaxView
               showsVerticalScrollIndicator={false}
               key={this.props.user.id}
-              windowHeight={DeviceHeight*0.5}
+              windowHeight={DeviceHeight* (MagicNumbers.is5orless ? 0.7 : 0.5)}
               navigator={this.props.navigator}
               backgroundSource={{uri:src}}
               style={{backgroundColor:colors.outerSpace,paddingTop:10,}}

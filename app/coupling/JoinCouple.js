@@ -11,21 +11,29 @@ import colors from '../utils/colors'
 import BlurModal from '../modals/BlurModal'
 import {MagicNumbers} from '../DeviceConfig'
 import UserActions from '../flux/actions/UserActions'
+import AppActions from '../flux/actions/AppActions'
 
 import AltContainer from 'alt-container/native';
 import styles from '../modals/purpleModalStyles'
-import CouplePin from './CouplePin'
-import CoupleSuccess from './CoupleSuccess'
-import EnterCouplePin from './EnterCouplePin'
+// import CouplePin from './CouplePin'
+// import CoupleSuccess from './CoupleSuccess'
+// import EnterCouplePin from './EnterCouplePin'
 import BackButton from '../components/BackButton'
 
 class JoinCouple extends Component{
 
   componentWillReceiveProps(nProps){
-    // if(this.props.couple && !this.props.couple.verified && nProps.couple && nProps.couple.verified){
+    console.log(nProps);
+    if(  nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified ){
+      // AppActions.showInModal({
+      //   component:  CoupleSuccess,
+      //   passProps:{
+      //       user: nProps.user
+      //   }
+      // })
 
-      console.log(nProps,'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-    // }
+      nProps.exit()
+    }
   }
   componentDidMount(){
     UserActions.getCouplePin();

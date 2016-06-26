@@ -2,11 +2,12 @@ import alt from '../alt'
 import AppActions from '../actions/AppActions'
 import UserActions from '../actions/UserActions'
 import MatchActions from '../actions/MatchActions'
+import NotificationActions from '../actions/NotificationActions'
 import {AsyncStorage,PushNotificationIOS,NativeModules,Settings} from 'react-native'
 const {CameraManager,OSPermissions} = NativeModules
 import AddressBook from 'react-native-addressbook'
 import Analytics from '../../utils/Analytics'
-import CoupleSuccess from '../../coupling/CoupleSuccess'
+import CoupleReady from '../../coupling/CoupleReady'
 
 class AppStateStore {
 
@@ -39,7 +40,8 @@ class AppStateStore {
       handleShowMaintenanceScreen: AppActions.SHOW_MAINTENANCE_SCREEN,
       handleScreenshot: AppActions.SCREENSHOT,
       handleShowInModal: AppActions.SHOW_IN_MODAL,
-      handleCoupleCreatedEvent: NotificationActions.RECEIVE_COUPLE_CREATED_NOTIFICATION
+      // handleCoupleCreatedEvent: NotificationActions.RECEIVE_COUPLE_CREATED_NOTIFICATION,
+      handleCoupleCreatedEvent: UserActions.VERIFY_COUPLE_PIN
 
     });
 
@@ -197,18 +199,21 @@ class AppStateStore {
   // }
   //
   handleUpdateUser(wrap){
-    console.log(wrap);
+    console.log('wrap',wrap);
 
-    if(wrap.setWantCouple){
-      this.setState({
-        showCoupling: true
-      })
-    }else if(wrap.generatedCoupleCode){
-      this.setState({
-        showCoupling: false
-      })
 
-    }
+    // if(wrap.setWantCouple){
+    //   this.setState({
+    //     showCoupling: true
+    //   })
+    // }else if(wrap.generatedCoupleCode){
+    //   this.setState({
+    //     showCoupling: false
+    //   })
+    //
+    // }
+
+
   }
 
   handleScreenshot(path){
@@ -217,16 +222,23 @@ class AppStateStore {
   //
 
   handleCoupleCreatedEvent(payload){
+    console.log(payload);
+    // const route = {
+    //   component: CoupleSuccess,
+    //   passProps:{
+    //     payload
+    //   }
+    //
+    // };
+    // console.log(route)
+    // this.setState({
+    //   modals: [ route ]
+    // })
+    this.setState({ modals: [] });
+    setTimeout(()=>{
+      this.setState({ modals: [{component:CoupleReady,passProps:{goBack:()=>{this.setState({ modals: [payload] })}}}] });
 
-    const route = {
-      component: CoupleSuccess,
-      passProps:{
-        payload
-      }
-
-    };
-    this.handleShowInModal(route)
-
+    },100)
   }
 
   getAppState(){

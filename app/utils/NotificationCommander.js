@@ -118,10 +118,11 @@ class NotificationCommander extends Component{
       NotificationActions.receiveMatchRemovedNotification(data)
 
     }else if(data.action && data.action == 'coupleready') {
-
-      UserActions.getUserInfo.defer()
-      Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
       VibrationIOS.vibrate()
+
+      // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
+      NotificationActions.receiveCoupleCreatedNotification(data);
+
 
     }else if(data.action && data.action == 'statuschange' || data.action == 'imageflagged') {
 
@@ -138,9 +139,6 @@ class NotificationCommander extends Component{
     }else if(data.action === 'checkupdate'){
 
       // ReactNativeAutoUpdater.checkUpdate()
-
-    }else if(data.action && data.action == 'couplecreated') {
-        NotificationActions.receiveCoupleCreatedNotification(data); 
 
     }
     // Alert.alert('APN Push Notification',JSON.stringify(pushNotification.getData()));
@@ -168,14 +166,14 @@ class NotificationCommander extends Component{
       console.log('SOCKETIO ERR');
       console.log(err);
     });
-    
-    
 
 
-    
+
+
+
     this.socket.on('user.connect', (data) => {
     __DEV__ && console.log('WEBSOCKET CONNECTED /')
-      
+
       this.online_id = data.online_id;
 
       const myApikey = this.props.api_key,
@@ -221,8 +219,11 @@ class NotificationCommander extends Component{
         UserActions.getUserInfo()
 
       }else if(data.action && data.action == 'coupleready') {
-        UserActions.getUserInfo()
-        Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
+        VibrationIOS.vibrate()
+
+        // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
+        NotificationActions.receiveCoupleCreatedNotification(data);
+
 
       }else if(data.action && data.action === 'logout') {
 
@@ -236,8 +237,6 @@ class NotificationCommander extends Component{
 
         NotificationActions.receiveGenericNotification(data)
 
-      }else if(data.action && data.action == 'couplecreated') {
-        NotificationActions.receiveCoupleCreatedNotification(data); 
       }
 
 //       payload: {

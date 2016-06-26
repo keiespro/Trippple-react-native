@@ -274,7 +274,7 @@ const PotentialsRoute = {
       customPrev={
         <Image
           resizeMode={Image.resizeMode.contain}
-          style={{width:28,top:-10,height:30,alignSelf:'flex-start',tintColor:colors.mandy}}
+          style={{width:28,top:-10,height:30,alignSelf:'flex-start',tintColor: __DEV__ ? colors.mandy : colors.white}}
           source={{uri:'assets/gear@3x.png'}}
         />
       }
@@ -282,7 +282,7 @@ const PotentialsRoute = {
       customNext={
         <Image
           resizeMode={Image.resizeMode.contain}
-          style={{opacity:0.6,width:30,top:0,height:30,alignSelf:'flex-end',tintColor:colors.mandy}}
+          style={{opacity:0.6,width:30,top:0,height:30,alignSelf:'flex-end',tintColor: __DEV__ ? colors.mandy : colors.white}}
           source={{uri:'assets/chat@3x.png'}}
         />
       }

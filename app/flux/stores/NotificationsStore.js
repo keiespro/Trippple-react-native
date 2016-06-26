@@ -34,7 +34,8 @@ class NotificationsStore {
       handleResetBadgeNumber: NotificationActions.RESET_BADGE_NUMBER,
       handleLogOut: UserActions.LOG_OUT,
       clearNotifications: AppActions.UPDATE_ROUTE,
-      handleGenericNotification: NotificationActions.RECEIVE_GENERIC_NOTIFICATION
+      handleGenericNotification: NotificationActions.RECEIVE_GENERIC_NOTIFICATION,
+      handleCoupleCreatedEvent: NotificationActions.RECEIVE_COUPLE_CREATED_NOTIFICATION
     })
 
 
@@ -57,6 +58,26 @@ class NotificationsStore {
         Analytics.all('UPDATE notifications store', {...x});
       }
     });
+  }
+
+
+  handleCoupleCreatedEvent(){
+    const notification = { alert: 'HELLO', type: 'generic'}
+
+    this.setState({
+      notifications: [notification],
+    })
+    setTimeout(()=>{
+
+      this.setState({
+        notifications: [notification],
+      })
+      this.expireNotification()
+
+    },100);
+    this.expireNotification()
+    this.updateBadgeCount(0)
+
   }
 
   handleLogOut(){
@@ -93,7 +114,7 @@ class NotificationsStore {
   }
 
   handleGenericNotification(payload){
-    const notification = { alert: 'HELLO', type: 'match'}
+    const notification = { alert: 'HELLO', type: 'generic'}
 
     setTimeout(()=>{
 
@@ -103,7 +124,7 @@ class NotificationsStore {
     },100);
     this.expireNotification()
     this.updateBadgeCount(0)
-  }    
+  }
 
   handleNewMatchData(matchData){
     this.waitFor(MatchesStore)
@@ -120,7 +141,7 @@ class NotificationsStore {
     this.clearTimeout(this.timer);
 
     var newmatch = matches[0]
-    var readyNotification = { ...pendingNotification, ...newmatch, type: 'generic'}
+    var readyNotification = { ...pendingNotification, ...newmatch, type: 'match'}
 
     setTimeout(()=>{
 

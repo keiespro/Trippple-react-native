@@ -8,7 +8,8 @@ class CouplingStore {
   constructor() {
 
    this.state = {
-      couple: {}
+      couple: {},
+      readyToCouple: false
     }
 
     this.exportPublicMethods({
@@ -19,7 +20,9 @@ class CouplingStore {
     this.bindListeners({
       handleVerifyCouplePin: UserActions.VERIFY_COUPLE_PIN,
       handleRequestCouplePin: UserActions.GET_COUPLE_PIN,
-      handleCoupleCreatedEvent: NotificationActions.RECEIVE_COUPLE_CREATED_NOTIFICATION
+      handleCoupleCreatedEvent: NotificationActions.RECEIVE_COUPLE_CREATED_NOTIFICATION,
+      handleGetUserInfo: UserActions.GET_USER_INFO,
+
     });
 
     this.on('init', () => {
@@ -47,12 +50,26 @@ class CouplingStore {
   handleVerifyCouplePin(res){
     console.log(res);
     this.setState({couple: res.response.response});
-    // UserActions.getUserInfo();
     // this.forceUpdate()
   }
 
   handleCoupleCreatedEvent(payload){
     console.log('event',payload)
+    this.setState({readyToCouple: true})
+  }
+
+  handleGetUserInfo(res){
+    if(!this.readyToCouple){return false}
+    console.log(res.response);
+    const {user_info,client_ip} = res.response;
+
+    if(user_info.partner_id){
+
+      this.setState({readyToCouple: false, couple: {...this.couple, success: true, partner: user_info.partner}})
+
+    }
+
+
   }
 
   getCouplingData(){

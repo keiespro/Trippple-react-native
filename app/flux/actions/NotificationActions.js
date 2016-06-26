@@ -98,7 +98,9 @@ class NotificationActions {
 
 
   receiveCoupleCreatedNotification(payload){
-    return payload
+    return (dispatch) => {
+      dispatch({  payload })
+    }
   }
 
 
@@ -107,35 +109,38 @@ class NotificationActions {
   }
 
   receiveGenericNotification(payload){
-    return payload
-  }
-
-  scheduleNewPotentialsAlert() {
-    return async (dispatch) => {
-      let todayDate = new Date(),
-          lastDate = await AsyncStorage.getItem(LAST_SCHEDULED_DATE);
-      try{
-        if( lastDate != todayDate.toDateString() ){
-
-          let fireDate =  moment().endOf('day')
-          Analytics.log(`Scheduled Local Notification`,fireDate.unix()*1000,fireDate.format())
-          PushNotificationIOS.scheduleLocalNotification({
-            fireDate: fireDate.unix()*1000,
-            alertBody: 'New Matches!',
-            soundName: 'default'
-          })
-          AsyncStorage.setItem(LAST_SCHEDULED_DATE,todayDate.toDateString() )
-        }
-        dispatch(true)
-
-      }catch(err){
-        // console.log(err)
-
-        dispatch(err)
-
-      }
+    console.log(payload);
+    return (dispatch) => {
+      dispatch({ payload })
     }
   }
+
+  // scheduleNewPotentialsAlert() {
+  //   return async (dispatch) => {
+  //     let todayDate = new Date(),
+  //         lastDate = await AsyncStorage.getItem(LAST_SCHEDULED_DATE);
+  //     try{
+  //       if( lastDate != todayDate.toDateString() ){
+  //
+  //         let fireDate =  moment().endOf('day')
+  //         Analytics.log(`Scheduled Local Notification`,fireDate.unix()*1000,fireDate.format())
+  //         PushNotificationIOS.scheduleLocalNotification({
+  //           fireDate: fireDate.unix()*1000,
+  //           alertBody: 'New Matches!',
+  //           soundName: 'default'
+  //         })
+  //         AsyncStorage.setItem(LAST_SCHEDULED_DATE,todayDate.toDateString() )
+  //       }
+  //       dispatch(true)
+  //
+  //     }catch(err){
+  //       // console.log(err)
+  //
+  //       dispatch(err)
+  //
+  //     }
+  //   }
+  // }
 
 }
 
