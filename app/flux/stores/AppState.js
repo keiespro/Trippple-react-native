@@ -89,7 +89,7 @@ handleOtherCoupleCreatedEvent(){
 }
 
   handleShowInModal(route){
-    console.log(route)
+
     this.setState({
       showModal: route,
       lastModal: this.showModal
@@ -228,8 +228,6 @@ handleKillModal(){
   // }
   //
   handleUpdateUser(wrap){
-    console.log('wrap',wrap);
-
 
     // if(wrap.setWantCouple){
     //   this.setState({
@@ -251,27 +249,9 @@ handleKillModal(){
   //
 
   handleCoupleCreatedEvent(payload){
-    console.log(payload);
-    // const route = {
-    //   component: CoupleSuccess,
-    //   passProps:{
-    //     payload
-    //   }
-    //
-    // };
-    // console.log(route)
-    // this.setState({
-    //   modals: [ route ]
-    // })
-    // this.setState({
-    //   showModal: {
-    //     component: this.lastModal.component,
-    //     passProps: { ...this.lastModal.passProps, initialScreen:'CoupleReady'}},
-    // });
-    // setTimeout(()=>{
-    //   this.setState({ modals: [{component:CoupleReady,passProps:{goBack:()=>{this.setState({ modals: [payload] })}}}] });
-    //
-    // },100)
+
+    UserActions.getUserInfo.defer()
+
     if(this.showModal.passProps && !this.showModal.passProps.initialScreen == 'CoupleReady'){
       this.setState({
         showModal: {
@@ -279,7 +259,6 @@ handleKillModal(){
           passProps:{
             initialScreen:'CoupleReady'
           }
-
         },
         lastModal: this.showModal
       })

@@ -109,9 +109,8 @@ DATA:
   }
   sendMessageScreen(payload){
     return (dispatch) => {
-      console.log(payload);
-    const {pin,messageText} = payload;
-    const {RNMessageComposer} = NativeModules
+      const {pin,messageText} = payload;
+      const {RNMessageComposer} = NativeModules
         RNMessageComposer.composeMessageWithArgs({ messageText: messageText, recipients: [] }, (result) => {
 
           switch(result) {
