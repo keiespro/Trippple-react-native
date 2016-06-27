@@ -48,7 +48,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>15</string>
+	<string>20</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -121,8 +121,14 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Profile image</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Private mode hides you from your contacts</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Prioritize users nearby?</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Upload pics</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>omnes-bold-webfont.ttf</string>
@@ -144,11 +150,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Upload pics</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Profile image</string>
-	<key>NSContactsUsageDescription</key>
-	<string>Private mode hides you from your contacts</string>
 </dict>
 </plist>
