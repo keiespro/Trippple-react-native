@@ -27,6 +27,7 @@ import Analytics from '../utils/Analytics'
 import NotificationPermissions from '../modals/NewNotificationPermissions'
 import Coupling from '../coupling/'
 import url from 'url'
+import {SHOW_COUPLING} from '../utils/SettingsConstants'
 
 class Main extends Component{
 
@@ -81,7 +82,7 @@ class Main extends Component{
       }
     })
 
-    if(this.refs.nav && Settings.get('co.trippple.showCoupling')){
+    if( Settings.get([SHOW_COUPLING])){
 
       AppActions.showInModal({
         component: Coupling,

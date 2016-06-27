@@ -324,17 +324,6 @@ class SettingsInside extends React.Component{
 
               {this.props.user.relationship_status == 'single' ?
                   <TouchableHighlight onPress={(f)=>{
-                      // this.props.navigator.push({
-                      //   component: Coupling,
-                      //   // sceneConfig:NavigatorSceneConfigs.FloatFromRight,
-                      //   passProps: {
-                      //     style:styles.container,
-                      //     settingOptions:this.state.settingOptions,
-                      //     user:this.props.user,
-                      //     navigator:this.props.navigator
-                      //   }
-                      // })
-
                       AppActions.showInModal({
                         component: Coupling,
                         passProps: {},
@@ -355,15 +344,15 @@ class SettingsInside extends React.Component{
 
               <TouchableHighlight onPress={(f)=>{
                   this.props.navigator.push({
-                  name: 'SettingsPreferences',
-                  component: SettingsPreferences,
-                  sceneConfig:NavigatorSceneConfigs.FloatFromRight,
-                  passProps: {
-                  style:styles.container,
-                  settingOptions:this.state.settingOptions,
-                  user:this.props.user,
-                  navigator:this.props.navigator
-                  }
+                    name: 'SettingsPreferences',
+                    component: SettingsPreferences,
+                    sceneConfig:NavigatorSceneConfigs.FloatFromRight,
+                    passProps: {
+                      style:styles.container,
+                      settingOptions:this.state.settingOptions,
+                      user:this.props.user,
+                      navigator:this.props.navigator
+                    }
                   })
                   }} underlayColor={colors.dark} >
                   <View  style={styles.wrapfield}>

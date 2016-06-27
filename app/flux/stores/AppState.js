@@ -40,8 +40,10 @@ class AppStateStore {
       handleShowMaintenanceScreen: AppActions.SHOW_MAINTENANCE_SCREEN,
       handleScreenshot: AppActions.SCREENSHOT,
       handleShowInModal: AppActions.SHOW_IN_MODAL,
-      // handleCoupleCreatedEvent: NotificationActions.RECEIVE_COUPLE_CREATED_NOTIFICATION,
-      handleCoupleCreatedEvent: UserActions.VERIFY_COUPLE_PIN
+      handleKillModal: AppActions.KILL_MODAL,
+      handleOtherCoupleCreatedEvent: NotificationActions.RECEIVE_COUPLE_CREATED_NOTIFICATION,
+      handleCoupleCreatedEvent: UserActions.VERIFY_COUPLE_PIN,
+      handleSendCoupleInviteMessage: AppActions.SEND_MESSAGE_SCREEN
 
     });
 
@@ -65,18 +67,37 @@ class AppStateStore {
     });
   }
 
+handleSendCoupleInviteMessage(payload){
+  const {result} = payload
+  this.setState({
+    showModal: this.lastModal,
+    lastModal: null
+  })
 
+
+}
+handleOtherCoupleCreatedEvent(){
+
+}
 
   handleShowInModal(route){
     console.log(route)
     this.setState({
-      modals: [ route ]
+      showModal: route,
+      lastModal: this.showModal
     })
-    this.emitChange()
+    // this.emitChange()
   }
 
 
+handleKillModal(){
+  this.setState({
+    showModal: null,
+    lastModal: this.showModal
+  })
+  // this.emitChange()
 
+}
 
   handleNewInitialize(){ }
 

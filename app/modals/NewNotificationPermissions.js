@@ -83,7 +83,18 @@ class NewNotificationPermissionsInside extends React.Component{
     //   }
     // }
     cancel(){
-      this.props.close && this.props.close()
+      this.close()
+    }
+    close(){
+      if(this.props.navigator){
+        this.props.navigator.pop()
+      }
+      if(this.props.hideModal){
+        this.props.hideModal()
+      }
+      if(this.props.close){
+        this.props.close()
+      }
     }
 
     handleNotificationPermission(token){
@@ -120,7 +131,7 @@ class NewNotificationPermissionsInside extends React.Component{
           }else{
             AppActions.disableNotificationModal()
 
-            this.props.close(false)
+            this.close(false)
             this.props.successCallback && this.props.successCallback();
           }
 
@@ -254,7 +265,7 @@ class NewNotificationPermissions extends Component{
 
     return (
       <AltContainer store={storeFetcher}>
-        <NewNotificationPermissionsInside {...this.props} close={this.props.close} />
+        <NewNotificationPermissionsInside {...this.props} />
       </AltContainer>
     )
   }

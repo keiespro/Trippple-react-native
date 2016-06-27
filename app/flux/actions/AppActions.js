@@ -4,8 +4,8 @@ import Promise from 'bluebird'
 import Api from '../../utils/api'
 import Analytics from '../../utils/Analytics'
 import AppTelemetry from '../../AppTelemetry'
-import {UIManager} from 'react-native'
-import {NativeModules} from 'react-native'
+
+import {NativeModules,UIManager,Alert} from 'react-native'
 import RNFS from 'react-native-fs'
 const {RNMail,ReactNativeAutoUpdater} = NativeModules
 const ACTUAL_VERSION = '2.4.0'// ReactNativeAutoUpdater.jsCodeVersion
@@ -102,10 +102,39 @@ DATA:
 
 
   showInModal(route){
-    console.log(route)
     return route;
   }
+  killModal(){
+    return {success:true}
+  }
+  sendMessageScreen(payload){
+    return (dispatch) => {
 
+    const {pin,messageText} = payload;
+    const {RNMessageComposer} = NativeModules
+        RNMessageComposer.composeMessageWithArgs({ messageText: messageText, recipients: [] }, (result) => {
+
+          switch(result) {
+            case RNMessageComposer.Sent:
+            // this.setState({ success:true });
+              Alert.alert('Invitation code sent.','We\'ll let you know as soon as they confirm')
+              dispatch({result})
+
+              break;
+            case RNMessageComposer.Failed:
+              Alert.alert('Whoops','Try that again')
+              // AppActions.showM
+              dispatch({result})
+              break;
+            case RNMessageComposer.NotSupported:
+            case RNMessageComposer.Cancelled:
+            default:
+              dispatch({result})
+              break;
+          }
+        })
+      }
+  }
   showNotificationModalWithLikedUser(relevantUser){
     return (dispatch) => {
       dispatch(relevantUser);

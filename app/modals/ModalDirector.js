@@ -12,7 +12,7 @@ import colors from '../utils/colors'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-
+import AppActions from '../flux/actions/AppActions'
 import Analytics from '../utils/Analytics'
 // import NotificationPermissions from './NewNotificationPermissions'
 // import Coupling from '../coupling/'
@@ -52,52 +52,48 @@ class ModalDirector extends Component{
     super()
     this.state = {
       modalVisible: true,
-      modalQueue: [ ]
+      activeModal: null
     }
   }
   componentWillReceiveProps(nProps){
-    console.log('componentWillReceiveProps',nProps.AppState,this.props.AppState,this.state.modalVisible)
-    if(!this.props.AppState.modals.length > 0 && nProps.AppState.modals.length > 0){
-      this.setState({
-        modalQueue: [...this.state.modalQueue, ...nProps.AppState.modals],
-        modalVisible:true
-      })
-    }else{
-      this.setState({
-        modalVisible:true
-      })
 
-    }
+       this.setState({
+        activeModal: nProps.AppState.showModal,
+        modalVisible: nProps.AppState.showModal ? true : false
+      })
+   
   }
   setModalVisible(v){
     if(v){
       this.setState({modalVisible:v})
     }else{
-      const modalQueue = this.state.modalQueue.slice(1,this.state.modalQueue.length);
       this.setState({
         modalVisible:false,
-        modalQueue
       })
+      AppActions.killModal();
+
     }
   }
   render(){
-    if(!this.props.user.id || !this.state.modalQueue.length){ return null }
+    if(!this.props.user.id || !this.state.activeModal){ return null }
 
-    const liveModal = this.state.modalQueue[0];
-    const ActiveModal = liveModal.component;
+    const activeModal = this.state.activeModal;
+    const ActiveModal = activeModal ? activeModal.component : null;
+    console.log(activeModal)
 
     return (
       <View style={{backgroundColor:'transparent'}}>
 
-        {liveModal ?
+        {activeModal ?
           <OverlayModalInner
             user={this.props.user}
+            setModalVisible={this.setModalVisible.bind(this)}
             modalVisible={this.state.modalVisible}
           >
             <ActiveModal
               user={this.props.user}
               close={this.setModalVisible.bind(this,false)}
-              {...liveModal.passProps}
+              {...activeModal.passProps}
             />
 
           </OverlayModalInner> : null

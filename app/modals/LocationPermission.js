@@ -66,9 +66,8 @@ export default class LocationPermission extends React.Component{
  }
  getLocation(){
      navigator.geolocation.getCurrentPosition( (geo) => {
-       this.handleSuccess && this.handleSuccess(geo)
-       this.props.closeModal && this.props.closeModal()
-       this.props.close && this.props.close()
+       this.handleSuccess(geo)
+
      },
      (error) => {
        Analytics.log(error)
@@ -83,9 +82,8 @@ export default class LocationPermission extends React.Component{
 
  cancel(val){
 
-   this.props.failCallback(val)
-
-   this.props.hideModal()
+  //  this.props.failCallback && this.props.failCallback(val)
+   this.close()
  }
  openSettings(){
 
@@ -102,7 +100,7 @@ export default class LocationPermission extends React.Component{
        this.requestPermission()
      }else{
        this.props.successCallback()
-       this.props.navigator.pop()
+       this.close()
 
      }
    }
@@ -110,18 +108,28 @@ export default class LocationPermission extends React.Component{
 
 
  }
+ close(){
+   if(this.props.navigator){
+     this.props.navigator.pop()
+   }
+   if(this.props.hideModal){
+     this.props.hideModal()
+   }
+   if(this.props.close){
+     this.props.close()
+   }
+ }
 
  handleFail(){
    this.setState({hasPermission: false})
-   this.props.failCallback(0)
-   this.props.navigator.pop()
-
+   this.props.failCallback && this.props.failCallback(0)
+   this.close()
  }
 
  handleSuccess(geo){
    const { latitude, longitude } = geo.coords
    UserActions.updateUser({ latitude, longitude });
-   this.props.closeModal()
+   this.close()
   //  this.props.navigator.pop()
  }
 
@@ -186,7 +194,7 @@ export default class LocationPermission extends React.Component{
              <Text style={[styles.rowtext,styles.bigtext,{
                fontSize:18,color: colors.white,marginHorizontal:MagicNumbers.screenPadding,
                marginBottom: MagicNumbers.is5orless ? 10 : 20
-               }]}>Should we prioritize the matches closets to you?</Text>
+             }]}>Should we prioritize the matches nearest to you?</Text>
 
            {this.renderButton()}
          </View>

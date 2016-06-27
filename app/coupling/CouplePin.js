@@ -2,7 +2,7 @@
 
 
 import React, {Component, PropTypes} from "react";
-import { StyleSheet, Image, Text, Settings, ScrollView, Animated, ActivityIndicatorIOS, Alert, View, TouchableHighlight, NativeModules, Dimensions, PixelRatio, TouchableOpacity} from "react-native";
+import { StyleSheet, Image, Text, Settings, ScrollView, Animated, ActivityIndicatorIOS, Alert, View, TouchableHighlight, Dimensions, PixelRatio, TouchableOpacity} from "react-native";
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -13,10 +13,10 @@ import styles from '../modals/purpleModalStyles'
 import BlurModal from '../modals/BlurModal'
 import BackButton from '../components/BackButton'
 import UserActions from '../flux/actions/UserActions'
+import AppActions from '../flux/actions/AppActions'
 
 import {SHOW_COUPLING} from '../utils/SettingsConstants'
 
-const { RNMessageComposer } = NativeModules;
 
 class CouplePin extends React.Component{
   constructor(props){
@@ -45,28 +45,16 @@ class CouplePin extends React.Component{
     const couple = this.props.couple || {};
     const pin = couple.pin;
     const messageText = `Join me on Trippple! My couple code is ${pin}. trippple://join.couple/${pin}`;
+    this.props.exit()
 
-    RNMessageComposer.composeMessageWithArgs({ messageText }, (result) => {
-      console.log('RNMessageComposer results',result);
-      this.setState({ submitting:false });
-      switch(result) {
-        case RNMessageComposer.Sent:
-          this.setState({ success:true });
-          break;
-        case RNMessageComposer.Failed:
-          Alert.alert('Whoops','Try that again')
-          break;
-        case RNMessageComposer.NotSupported:
-        case RNMessageComposer.Cancelled:
-        default:
-          break;
-      }
-    })
+    AppActions.sendMessageScreen({ pin, messageText })
+
+    // setTimeout(()=>{
+    // },10)
 
   }
   componentDidMount(){
-    UserActions.getCouplePin();
-    UserActions.updateUser.defer({generatedCoupleCode:true});
+    // UserActions.updateUser.defer({generatedCoupleCode:true});
     Settings.set({[SHOW_COUPLING]:false})
   }
   componentDidUpdate(pProps,pState){
@@ -152,7 +140,6 @@ class CouplePin extends React.Component{
   renderMain(){
 
     const couple = this.props.couple || {};
-      // kist figure out how to bail fi need bethis
 
     return (
       <View style={{left:0}}>

@@ -23,6 +23,10 @@ export default class Coupling extends Component{
   cancel(){
     this.props.close()
   }
+  componentDidMount(){
+    UserActions.getCouplePin();
+
+  }
 
   render(){
 

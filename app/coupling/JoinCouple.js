@@ -13,11 +13,8 @@ import {MagicNumbers} from '../DeviceConfig'
 import UserActions from '../flux/actions/UserActions'
 import AppActions from '../flux/actions/AppActions'
 
-import AltContainer from 'alt-container/native';
+import AltContainer from 'alt-container/native'
 import styles from '../modals/purpleModalStyles'
-// import CouplePin from './CouplePin'
-// import CoupleSuccess from './CoupleSuccess'
-// import EnterCouplePin from './EnterCouplePin'
 import BackButton from '../components/BackButton'
 
 class JoinCouple extends Component{
@@ -25,14 +22,8 @@ class JoinCouple extends Component{
   componentWillReceiveProps(nProps){
     console.log(nProps);
     if(  nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified ){
-      // AppActions.showInModal({
-      //   component:  CoupleSuccess,
-      //   passProps:{
-      //       user: nProps.user
-      //   }
-      // })
 
-      nProps.exit()
+      nProps.exit({success:true})
     }
   }
   componentDidMount(){
@@ -79,16 +70,6 @@ class JoinCouple extends Component{
 
             <TouchableHighlight onPress={(f)=>{
                  this.props.goCouplePin()
-              // this.props.navigator.push({
-                //   component: CouplePin,
-                //   // sceneConfig:NavigatorSceneConfigs.FloatFromRight,
-                //   passProps: {
-                //     user:this.props.user,
-                //     couple:this.props.couple,
-                //     navigator:this.props.navigator,
-
-                //   }
-                // })
               }} underlayColor={colors.white20}>
                 <View style={{
                    borderBottomWidth: StyleSheet.hairlineWidth,
@@ -111,15 +92,6 @@ class JoinCouple extends Component{
             </TouchableHighlight>
 
             <TouchableHighlight onPress={(f)=>{
-                // this.props.navigator.push({
-                //   component: EnterCouplePin,
-                //    passProps: {
-                //      user:this.props.user,
-                //      couple: this.props.couple,
-                //     navigator:this.props.navigator
-                //   }
-                // })
-
               this.props.goEnterCouplePin();
             }} underlayColor={colors.white20}>
 

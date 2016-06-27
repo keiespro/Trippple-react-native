@@ -30,7 +30,17 @@ export default class CoupleReady extends React.Component{
     }
   }
   popToTop(){
-    this.props.goBack()
+    this.props.goBack && this.props.goBack()
+
+    if(this.props.navigator){
+      this.props.navigator.pop()
+    }
+    if(this.props.hideModal){
+      this.props.hideModal()
+    }
+    if(this.props.close){
+      this.props.close()
+    }
   }
 
   render(){

@@ -119,13 +119,12 @@ class CouplingNavigator extends Component {
 
     return (
       <View style={{height:DeviceHeight,width:DeviceWidth, }}>
-        <FadeInContainer style={{position:'absolute',width:DeviceWidth,height:DeviceHeight}} delayAmount={600} duration={300}>
+        <FadeInContainer style={{position:'absolute',width:DeviceWidth,height:DeviceHeight}} delayAmount={0} duration={200}>
           <VibrancyView blurType="dark" style={styles.blurstyle} />
         </FadeInContainer>
         <AltContainer stores={couplingData}>
 
           <RouteComponent
-
             couple={this.props.couple}
             goBack={ this.handleBackAction.bind(this)}
             user={this.props.user}
@@ -138,10 +137,12 @@ class CouplingNavigator extends Component {
 
         <View style={{width:100,height:20,left:10,top:-10,flex:1,position:'absolute',alignSelf:'flex-start'}}>
           <TouchableOpacity onPress={this.handleBackAction.bind(this)}>
-            <View style={btnstyles.goBackButton}>
+            {this.state.navState.index ? <View style={btnstyles.goBackButton}>
               <Text textAlign={'left'} style={[btnstyles.bottomTextIcon]}>◀︎ </Text>
               <Text textAlign={'left'} style={[btnstyles.bottomText]}>Go back</Text>
-            </View>
+            </View> : <View style={[btnstyles.goBackButton,{left:-20,top:15,}]}>
+              <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:13,width:13}} source={{uri:'assets/close@3x.png'}} />
+            </View>}
           </TouchableOpacity>
         </View>
       </View>

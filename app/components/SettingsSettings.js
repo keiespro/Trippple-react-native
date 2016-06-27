@@ -191,8 +191,8 @@ class SettingsSettings extends React.Component{
         />
         <ScrollView
           style={{flex:1,marginTop:54}}
-          contentContainerStyle={{   paddingHorizontal: 0}}
-          centerContent={true}
+          contentContainerStyle={{paddingHorizontal: 0}}
+          alwaysBounceVertical={true}
         >
           <View style={styles.paddedSpace}>
             <View style={styles.formHeader}>
@@ -319,7 +319,7 @@ class SettingsSettings extends React.Component{
             </View>
           </TouchableHighlight>
 
-          <View style={[styles.paddedSpace,{marginTop:20}]}>
+          <View style={[styles.paddedSpace,{marginTop:20,paddingVertical:20}]}>
 
             <Text style={{color:colors.white,textAlign:'center',fontSize:15,fontFamily:'omnes'}}>
               Trippple {ACTUAL_VERSION}

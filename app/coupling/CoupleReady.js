@@ -31,6 +31,16 @@ export default class CoupleReady extends React.Component{
   }
   popToTop(){
     console.log(this.props)
+    if(this.props.navigator){
+      this.props.navigator.pop()
+    }
+    if(this.props.hideModal){
+      this.props.hideModal()
+    }
+    if(this.props.close){
+      this.props.close()
+    }
+
     this.props.goBack && this.props.goBack()
     this.props.exit && this.props.exit()
   }
@@ -40,8 +50,17 @@ export default class CoupleReady extends React.Component{
       <ScrollView contentContainerStyle={[{width:DeviceWidth,height:DeviceHeight,flexDirection:'column',justifyContent:'center',flex:1,top:0 }]} >
 
         <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'Montserrat-Bold',fontSize:40,color:'#fff',marginVertical:10 }]}>
-          SUCCESS
+          SUCCESS!
         </Text>
+
+        <Text style={[styles.rowtext,styles.bigtext,{
+          fontSize:18,
+          marginVertical:10,
+          color:'#fff',
+          marginBottom:15,textAlign:'center',
+          flexDirection:'column'
+        }]}>You're now connected to your partner</Text>
+
         {this.props.user.partner ?  <View style={{height:120,marginVertical:30,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
           <Image style={[{width:120,height:120,borderRadius:60,marginRight:-100}]}
           source={ {uri: this.props.user.partner.image_url} }

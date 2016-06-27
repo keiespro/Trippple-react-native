@@ -26,7 +26,8 @@ class PurpleModal extends Component{
     this.state = {}
   }
   cancel(){
-    this.props.goBack();
+    this.props.goBack && this.props.goBack();
+    this.props.navigator && this.props.navigator.pop()
   }
   render(){
 
