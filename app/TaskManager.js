@@ -41,7 +41,7 @@ const {HAS_SEEN_NOTIFICATION_REQUEST,LAST_ASKED_LOCATION_PERMISSION} = SETTINGS_
 
       if(parseInt(hasPermission) > 2){
         const hasSeenNotificationRequest = Settings.get(HAS_SEEN_NOTIFICATION_REQUEST);
-        NotificationActions.requestNotificationsPermission()
+        // NotificationActions.requestNotificationsPermission()
 //         if(!hasSeenNotificationRequest && this.props.triggers.relevantUser){
 //           this.showNotificationRequest(this.props.triggers.relevantUser)
 //         }
