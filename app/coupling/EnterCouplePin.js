@@ -12,6 +12,7 @@ import {MagicNumbers} from '../DeviceConfig'
 import Numpad from '../components/Numpad'
 import BlurModal from '../modals/BlurModal'
 import BackButton from '../components/BackButton'
+import Coupling from './index'
 import ContinueButton from '../controls/ContinueButton'
 
 import UserActions from '../flux/actions/UserActions'
@@ -92,9 +93,14 @@ class EnterCouplePin extends React.Component{
         // submitting: false
       })
 
-      this.props.goCoupleReady();
+      // this.props.goCoupleReady();
       this.props.exit();
-
+      AppActions.showInModal({
+        component:Coupling,
+        passProps:{
+          initialScreen:'CoupleReady'
+        }
+      })
     }else if(this.props.couple  && nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified == false ){
       console.log('VERIFY ERR');
       this.setState({
@@ -161,7 +167,7 @@ class EnterCouplePin extends React.Component{
             />
           </View>
 
-          <View style={[styles.middleTextWrap,styles.underPinInput]}>
+          <View style={[styles.middleTextWrap,styles.underPinInput,{marginHorizontal:MagicNumbers.screenPadding/2}]}>
             {this.state.verifyError &&
               <View style={styles.bottomErrorTextWrap}>
                 <Text  style={[styles.bottomErrorText,{backgroundColor:'transparent',textAlign:'right'}]}>Nope. Try again</Text>

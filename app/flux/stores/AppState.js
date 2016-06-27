@@ -8,6 +8,7 @@ const {CameraManager,OSPermissions} = NativeModules
 import AddressBook from 'react-native-addressbook'
 import Analytics from '../../utils/Analytics'
 import CoupleReady from '../../coupling/CoupleReady'
+import Coupling from '../../coupling'
 
 class AppStateStore {
 
@@ -70,7 +71,14 @@ class AppStateStore {
 handleSendCoupleInviteMessage(payload){
   const {result} = payload
   this.setState({
-    showModal: this.lastModal,
+    showModal: {
+      component: this.lastModal.component,
+      passProps: {
+        ...this.lastModal.passProps,
+        initialScreen:'CouplePin',
+        startState: {success: result == 'sent' ? true : false}
+      }
+    },
     lastModal: null
   })
 
@@ -255,12 +263,29 @@ handleKillModal(){
     // this.setState({
     //   modals: [ route ]
     // })
-    this.setState({ modals: [] });
-    setTimeout(()=>{
-      this.setState({ modals: [{component:CoupleReady,passProps:{goBack:()=>{this.setState({ modals: [payload] })}}}] });
+    // this.setState({
+    //   showModal: {
+    //     component: this.lastModal.component,
+    //     passProps: { ...this.lastModal.passProps, initialScreen:'CoupleReady'}},
+    // });
+    // setTimeout(()=>{
+    //   this.setState({ modals: [{component:CoupleReady,passProps:{goBack:()=>{this.setState({ modals: [payload] })}}}] });
+    //
+    // },100)
+    if(this.showModal.passProps && !this.showModal.passProps.initialScreen == 'CoupleReady'){
+      this.setState({
+        showModal: {
+          component: Coupling,
+          passProps:{
+            initialScreen:'CoupleReady'
+          }
 
-    },100)
+        },
+        lastModal: this.showModal
+      })
+    }
   }
+
 
   getAppState(){
     return this.getState()

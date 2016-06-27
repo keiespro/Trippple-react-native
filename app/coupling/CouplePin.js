@@ -21,9 +21,13 @@ import {SHOW_COUPLING} from '../utils/SettingsConstants'
 class CouplePin extends React.Component{
   constructor(props){
     super()
+    const startState = props.startState || {}
+
+    console.log(props);
     this.state = {
       success:false,
-      bounceValue: new Animated.Value(0)
+      bounceValue: new Animated.Value(0),
+      ...startState
     }
   }
 
@@ -56,25 +60,30 @@ class CouplePin extends React.Component{
   componentDidMount(){
     // UserActions.updateUser.defer({generatedCoupleCode:true});
     Settings.set({[SHOW_COUPLING]:false})
+    if(this.state.success){
+      this.animateSuccess()
+    }
+  }
+  animateSuccess(){
+    Animated.sequence([
+        Animated.delay(700),
+
+        Animated.spring(
+          this.state.bounceValue,
+          {
+            toValue: 1.0,
+            tension: 0,
+            velocity: 3,  // Velocity makes it move
+            friction: 1,
+          }
+        )
+    ]).start(()=>{
+      // this.setState({ success:false });
+    })
   }
   componentDidUpdate(pProps,pState){
     if(!pState.success && this.state.success){
-      Animated.sequence([
-          Animated.delay(700),
-
-          Animated.spring(
-            this.state.bounceValue,
-            {
-              toValue: 1.0,
-              tension: 0,
-              velocity: 3,  // Velocity makes it move
-              friction: 1,
-            }
-          )
-      ]).start(()=>{
-        // this.setState({ success:false });
-      })  // Start the animation
-
+      this.animateSuccess()
     }
   }
   renderSuccess(){

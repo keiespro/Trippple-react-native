@@ -109,7 +109,7 @@ DATA:
   }
   sendMessageScreen(payload){
     return (dispatch) => {
-
+      console.log(payload);
     const {pin,messageText} = payload;
     const {RNMessageComposer} = NativeModules
         RNMessageComposer.composeMessageWithArgs({ messageText: messageText, recipients: [] }, (result) => {
@@ -117,13 +117,11 @@ DATA:
           switch(result) {
             case RNMessageComposer.Sent:
             // this.setState({ success:true });
-              Alert.alert('Invitation code sent.','We\'ll let you know as soon as they confirm')
               dispatch({result})
 
               break;
             case RNMessageComposer.Failed:
               Alert.alert('Whoops','Try that again')
-              // AppActions.showM
               dispatch({result})
               break;
             case RNMessageComposer.NotSupported:

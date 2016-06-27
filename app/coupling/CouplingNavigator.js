@@ -115,11 +115,12 @@ class CouplingNavigator extends Component {
            }
          }
       };
-    const RouteComponent = sceneProps.scene.navigationState.key == 'CoupleReady' ? CoupleReady : couplingRoutes[sceneProps.scene.navigationState.key];
+    const initialRoute = this.props.initialScreen || sceneProps.scene.navigationState.key
+    const RouteComponent = initialRoute == 'CoupleReady' ? CoupleReady : couplingRoutes[initialRoute];
 
     return (
       <View style={{height:DeviceHeight,width:DeviceWidth, }}>
-        <FadeInContainer style={{position:'absolute',width:DeviceWidth,height:DeviceHeight}} delayAmount={0} duration={200}>
+        <FadeInContainer style={{position:'absolute',width:DeviceWidth,height:DeviceHeight}} delayAmount={0} duration={300}>
           <VibrancyView blurType="dark" style={styles.blurstyle} />
         </FadeInContainer>
         <AltContainer stores={couplingData}>
@@ -129,6 +130,7 @@ class CouplingNavigator extends Component {
             goBack={ this.handleBackAction.bind(this)}
             user={this.props.user}
             exit={this.props.goBack}
+            startState={this.props.startState}
             goCouplePin={this._handleAction.bind(this, { type: 'push', key: 'CouplePin' })}
             goEnterCouplePin={this._handleAction.bind(this, { type: 'push', key: 'EnterCouplePin' })}
             goCoupleReady={this._handleAction.bind(this, { type: 'push', key: 'CoupleReady' })}

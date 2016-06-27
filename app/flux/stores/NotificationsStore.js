@@ -62,21 +62,21 @@ class NotificationsStore {
 
 
   handleCoupleCreatedEvent(){
-    const notification = { alert: 'HELLO', type: 'generic'}
-
-    this.setState({
-      notifications: [notification],
-    })
-    setTimeout(()=>{
-
-      this.setState({
-        notifications: [notification],
-      })
-      this.expireNotification()
-
-    },100);
-    this.expireNotification()
-    this.updateBadgeCount(0)
+    // const notification = { alert: 'HELLO', type: 'generic'}
+    //
+    // this.setState({
+    //   notifications: [notification],
+    // })
+    // setTimeout(()=>{
+    //
+    //   this.setState({
+    //     notifications: [notification],
+    //   })
+    //   this.expireNotification()
+    //
+    // },100);
+    // this.expireNotification()
+    // this.updateBadgeCount(0)
 
   }
 
