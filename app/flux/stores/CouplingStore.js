@@ -26,7 +26,7 @@ class CouplingStore {
     });
 
     this.on('init', () => {
-      console.log('INIT COUPLING STORE');
+
     });
 
     this.on('error', (err, payload, currentState) => {
@@ -36,40 +36,29 @@ class CouplingStore {
 
     });
     this.on('afterEach', (payload, currentState) => {
-      console.log(payload, currentState);
+
     })
 
   }
 
   handleRequestCouplePin(res){
-    console.log(res);
     this.setState({couple: res.response.response});
-
   }
 
   handleVerifyCouplePin(res){
-    console.log(res);
     this.setState({couple: res.response.response});
-    // this.forceUpdate()
   }
 
   handleCoupleCreatedEvent(payload){
-    console.log('event',payload)
     this.setState({readyToCouple: true})
   }
 
   handleGetUserInfo(res){
     if(!this.readyToCouple){return false}
-    console.log(res.response);
     const {user_info,client_ip} = res.response;
-
     if(user_info.partner_id){
-
       this.setState({readyToCouple: false, couple: {...this.couple, success: true, partner: user_info.partner}})
-
     }
-
-
   }
 
   getCouplingData(){

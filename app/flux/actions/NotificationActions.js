@@ -109,7 +109,7 @@ class NotificationActions {
   }
 
   receiveGenericNotification(payload){
-    console.log(payload);
+
     return (dispatch) => {
       dispatch({ payload })
     }

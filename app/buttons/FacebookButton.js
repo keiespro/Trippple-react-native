@@ -120,7 +120,7 @@ class FacebookButton extends React.Component{
 
               this.props.onLogin && this.props.onLogin(data);
             }else {
-              console.log(error,data);
+              // console.log(error,data);
               this.setState({ fbUser : null });
             }
 

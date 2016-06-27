@@ -20,9 +20,8 @@ import BackButton from '../components/BackButton'
 class JoinCouple extends Component{
 
   componentWillReceiveProps(nProps){
-    console.log(nProps);
-    if(  nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified ){
 
+    if( nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified ){
       nProps.exit({success:true})
     }
   }
@@ -33,7 +32,6 @@ class JoinCouple extends Component{
 
   render(){
     const couple = this.props.couple;
-    console.log(this.props);
 
     const imgWidth = MagicNumbers.is5orless ? 120 : 160
     return (

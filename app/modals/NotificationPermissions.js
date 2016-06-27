@@ -39,7 +39,7 @@ class NotificationPermissions extends React.Component{
 
   constructor(props){
       super()
-      console.log(props.relevantUser)
+
       this.state = {
         failedState: false,
         permissions: null,

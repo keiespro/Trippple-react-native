@@ -50,9 +50,8 @@ const {HAS_SEEN_NOTIFICATION_REQUEST,LAST_ASKED_LOCATION_PERMISSION} = SETTINGS_
   }
   checkLocationSetting(){
     const hasSeenLocationRequest = Settings.get(LAST_ASKED_LOCATION_PERMISSION);
-    console.log(hasSeenLocationRequest);
+
     OSPermissions.canUseLocation((hasPermission)=>{
-      console.log(hasPermission);
 
       if(!parseInt(hasPermission)){
         // pop location modal

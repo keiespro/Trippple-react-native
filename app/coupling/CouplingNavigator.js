@@ -79,7 +79,7 @@ class CouplingNavigator extends Component {
   }
 
   handleBackAction() {
-    console.log(this.state.navState.index);
+
     if(this.state.navState.index == 0){
       this.props.goBack();
       return
@@ -99,7 +99,6 @@ class CouplingNavigator extends Component {
   }
 
   _renderScene(sceneProps) {
-    console.log(sceneProps);
 
     const couplingData = {
        couple: (props) => {

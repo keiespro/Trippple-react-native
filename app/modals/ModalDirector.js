@@ -61,7 +61,7 @@ class ModalDirector extends Component{
         activeModal: nProps.AppState.showModal,
         modalVisible: nProps.AppState.showModal ? true : false
       })
-   
+
   }
   setModalVisible(v){
     if(v){
@@ -79,7 +79,7 @@ class ModalDirector extends Component{
 
     const activeModal = this.state.activeModal;
     const ActiveModal = activeModal ? activeModal.component : null;
-    console.log(activeModal)
+
 
     return (
       <View style={{backgroundColor:'transparent'}}>

@@ -232,7 +232,7 @@ class Contacts extends React.Component{
   storeContacts(){
     // console.log('call store contacts')
     ContactGetter.getAll( (err,contacts)=>{   // AddressBook.getContacts((err, contacts) => {
-      console.log(err,contacts)
+
       if(err){
         Analytics.err(err);
       }

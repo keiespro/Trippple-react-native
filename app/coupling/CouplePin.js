@@ -23,7 +23,6 @@ class CouplePin extends React.Component{
     super()
     const startState = props.startState || {}
 
-    console.log(props);
     this.state = {
       success:false,
       bounceValue: new Animated.Value(0),
@@ -32,7 +31,6 @@ class CouplePin extends React.Component{
   }
 
   componentWillReceiveProps(nProps){
-    console.log(nProps);
     if( nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified ){
       this.setState({
         success: true,

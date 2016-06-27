@@ -16,7 +16,7 @@ export default class Coupling extends Component{
 
   constructor(props){
     super()
-    console.log(props);
+
     this.state = { }
   }
 

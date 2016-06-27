@@ -36,7 +36,7 @@ class NewMatches extends Component{
     }
   }
   openChat(nm,e){
-    console.log(e,nm)
+
     this.props.navigator.push({
       component: Chat,
       id:'chat',

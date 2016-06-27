@@ -81,13 +81,13 @@ class EnterCouplePin extends React.Component{
 
 
   componentWillReceiveProps(nProps){
-    console.log(nProps);
+
     if(nProps.pin){
       this.handleInputChange({pin:nProps.pin})
     }
     if(this.props.couple &&  nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified ){
 
-      console.log('goCoupleReady');
+
       this.setState({
         success: true,
         // submitting: false
@@ -101,8 +101,8 @@ class EnterCouplePin extends React.Component{
           initialScreen:'CoupleReady'
         }
       })
-    }else if(this.props.couple  && nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified == false ){
-      console.log('VERIFY ERR');
+    }else if(this.props.couple && nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified == false ){
+
       this.setState({
         verifyError: true,
       //  submitting: false

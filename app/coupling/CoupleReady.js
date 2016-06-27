@@ -30,7 +30,6 @@ export default class CoupleReady extends React.Component{
     }
   }
   popToTop(){
-    console.log(this.props)
     if(this.props.navigator){
       this.props.navigator.pop()
     }

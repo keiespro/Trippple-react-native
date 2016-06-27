@@ -438,7 +438,7 @@ class TelemetryPage extends React.Component{
 
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     const {renderProps} = props
-    console.log(props,'<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
+    // console.log(props,'<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
     const data = Object.keys(renderProps).map((prop,i)=>{ return {name: prop, data: renderProps[prop] }})
     this.state = {
       dataSource: ds.cloneWithRows(data),
@@ -477,7 +477,7 @@ class TelemetryPage extends React.Component{
   }
   render(){
     const {renderProps} = this.props;
-    console.log(DeviceHeight,'DeviceHeight');
+
 
     return (
       <View style={{flex:1}} >

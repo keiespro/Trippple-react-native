@@ -44,8 +44,7 @@ export default class CoupleReady extends React.Component{
   }
 
   render(){
-    console.log(this.props.user)
-    return (
+     return (
       <ScrollView contentContainerStyle={[{width:DeviceWidth,height:DeviceHeight,flexDirection:'column',justifyContent:'center',flex:1,top:0 }]} >
 
         <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'Montserrat-Bold',fontSize:20,color:'#fff',marginVertical:10 }]}>

@@ -195,8 +195,8 @@ class SettingsBasic extends React.Component{
       <View style={{backgroundColor:colors.outerSpace}}>
 
         <ScrollableTabView style={{overflow:'hidden',}} onChangeTab={(tab)=>{
-            console.log(tab);
-          Analytics.screen(`SettingsBasic`+ [' GENERAL',' DETAILS'][tab.i]);
+
+            Analytics.screen(`SettingsBasic`+ [' GENERAL',' DETAILS'][tab.i]);
           }} padded={false} renderTabBar={(props)=><CustomTabBar {...props}/>}>
           <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:MagicNumbers.screenPadding/2}}  tabLabel={'GENERAL'}>
           {user.relationship_status == 'single' ? null : <View style={{height:150,width:150,alignSelf:'center'}}>

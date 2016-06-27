@@ -31,7 +31,7 @@ const phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
 
 class ConfirmPartner extends React.Component{
   componentDidMount(){
-    console.log(this.props);
+
   }
   _cancel(){
     this.props.navigator.pop()
