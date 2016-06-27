@@ -31,8 +31,6 @@ platform :ios do
       # skip_waiting_for_build_processing: true
     )
 
-    # sh "your_script.sh"
-    # You can also use other beta testing services here (run `fastlane actions`)
   end
 
 
@@ -56,7 +54,8 @@ platform :ios do
     sigh
     gym(scheme: "TripppleDebug")
     crashlytics(
-      groups: 'team',
+      # groups: 'team',
+      emails: "alehlopeh@gmail.com", 
       build_secret: 'eaa5ad5f554fac730663183c7152d183a31d7ab7bb6dc46714db68da63b2376b',
       api_token: '9f3360a634ff36e817a34ba898a19118cc1391ff',
       notes: "Automatic iOS DEBUG Build"
@@ -69,30 +68,12 @@ platform :ios do
 
 
 
-  # You can define as many lanes as you want
-
   after_all do |lane|
-    # This block is called, only if the executed lane was successful
-    #
-    # slack(
-    #   message: "Successfully deployed new App Update.",
-    #   slack_url: 'https://hooks.slack.com/services/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'
-    # )
+
   end
 
   error do |lane, exception|
     puts exception.inspect
-    # slack(
-    #   message: exception.message,
-    #   success: false,
-    #   slack_url: 'https://hooks.slack.com/services/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'
-    # )
   end
 end
 
-
-# More information about multiple platforms in fastlane: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Platforms.md
-# All available actions: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Actions.md
-
-# fastlane reports which actions are used
-# No personal data is recorded. Learn more at https://github.com/fastlane/enhancer

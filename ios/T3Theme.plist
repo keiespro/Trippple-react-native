@@ -107,7 +107,7 @@
 		<key>ChannelTitleFontName</key>
 		<string>Montserrat-Bold</string>
 		<key>ChannelTitleFontSize</key>
-		<string>14</string>
+		<string>16</string>
 		<key>ChannelTitleFontColor</key>
 		<string>FFFFFF</string>
 		<key>ChannelIconBorderColor</key>
@@ -136,7 +136,7 @@
 		<key>ChannelDescriptionFontSize</key>
 		<string>14.0f</string>
 		<key>LastUpdatedTimeFontColor</key>
-		<string>FFFFFF</string>
+		<string>566067</string>
 		<key>LastUpdatedTimeFontName</key>
 		<string>Omnes-Light</string>
 		<key>LastUpdatedTimeFontSize</key>
@@ -150,7 +150,7 @@
 		<key>UnreadBadgeFontSize</key>
 		<string>13f</string>
 		<key>ChannelIconPlaceholderBackgroundColor</key>
-		<string>8459da</string>
+		<string>2C3941</string>
 		<key>ChannelIconPlaceholderCharFontSize</key>
 		<string>16.0f</string>
 		<key>ChannelIconPlaceholderCharFontName</key>

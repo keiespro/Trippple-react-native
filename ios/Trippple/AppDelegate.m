@@ -29,28 +29,29 @@
 #import <Crashlytics/Answers.h>
 
 #define JS_CODE_METADATA_URL @"https://hello.trippple.co/update-2.4.0.json"
-//#define TRIPPPLE_PRODUCTION
+//#define TRIPPPLE_DEV
+//#define TRIPPPLE_PROD YES
 
 
 //#ifdef TRIPPPLE_DEBUG_BUILD
 //#define ENV @"production"
 //#define RCT_DEV YES
 //#endif
-//
-//#ifdef TRIPPPLE_PRODUCTION
+
+//#ifdef TRIPPPLE_PROD
 //#define ENV @"production"
 //#define RCT_DEV NO
 //#endif
+
 //
-
 //#ifdef TRIPPPLE_DEV
-//#define ENV @"d"
-//#define RCT_DEV YES
+//#define ENV @"d"s//#define RCT_DEV YES
 //#endif
-
-////#ifndef ENV
+//
+//#ifndef ENV
 //#define ENV @"production"
-////#endif
+//#define RCT_DEV NO
+//#endif
 
 #define ENV @"production"
 

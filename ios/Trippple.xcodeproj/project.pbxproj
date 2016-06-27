@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AB9E1851ECD7F223DAFA5FEC /* libPods-Trippple.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEBD2793650FFAB2B68F47A /* libPods-Trippple.a */; };
+		3D17582E4B1F7F14F4C1505F /* libPods-Trippple.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D62B1BBA6E77BCA8E6D76D0 /* libPods-Trippple.a */; };
 		AC0549F11C671AEF0072E9E7 /* libRCTGoogleAnalyticsBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0549F01C671AE10072E9E7 /* libRCTGoogleAnalyticsBridge.a */; };
 		AC0549F31C671C730072E9E7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0549F21C671C730072E9E7 /* CoreData.framework */; };
 		AC0549F51C671C8B0072E9E7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0549F41C671C8B0072E9E7 /* SystemConfiguration.framework */; };
@@ -23,7 +23,6 @@
 		AC55AD921CFE7B0700326ED9 /* RNHotlineViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC55AD911CFE7B0700326ED9 /* RNHotlineViewManager.m */; };
 		AC6C26711D01201800806BB2 /* libMixpanel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6C26701D01201800806BB2 /* libMixpanel.a */; };
 		AC758A7B1CF6AC2400A6A9C0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC758A7A1CF6AC2400A6A9C0 /* GoogleService-Info.plist */; };
-		AC758AB71CF6C03900A6A9C0 /* libPods-Trippple.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACDF39141CE80BB700DE839B /* libPods-Trippple.a */; };
 		AC758B2A1CF853E600A6A9C0 /* libRCTContacts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC758B291CF853D800A6A9C0 /* libRCTContacts.a */; };
 		AC8422901CF504F800882DEC /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC3320C1CE90AE600DCC3CC /* libRCTFBLogin.a */; };
 		AC8958ED1CFD4A35009AB211 /* libRNHotline.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC8958E91CFD3467009AB211 /* libRNHotline.a */; };
@@ -33,6 +32,7 @@
 		ACA80C311CE849830081A99F /* libEXURLHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FAD1C0502B600A63B9C /* libEXURLHandler.a */; };
 		ACB0702F1D0898D300B8E4A9 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC758A811CF6B07B00A6A9C0 /* libRCTPushNotification.a */; };
 		ACB070321D08991900B8E4A9 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
+		ACB30CD01D1EBADA00171A18 /* poetsenone-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACB30CCF1D1EBAD900171A18 /* poetsenone-regular-webfont.ttf */; };
 		ACBB20741C050D5F00A63B9C /* RCTFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F271C0502B600A63B9C /* RCTFileTransfer.m */; };
 		ACBB20771C050D8F00A63B9C /* BlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F021C0502B600A63B9C /* BlurView.m */; };
 		ACBB20781C050D8F00A63B9C /* BlurViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBB1F041C0502B600A63B9C /* BlurViewManager.m */; };
@@ -340,13 +340,14 @@
 		00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImage.xcodeproj; path = "../node_modules/react-native/Libraries/Image/RCTImage.xcodeproj"; sourceTree = "<group>"; };
 		00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = "<group>"; };
 		00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVibration.xcodeproj; path = "../node_modules/react-native/Libraries/Vibration/RCTVibration.xcodeproj"; sourceTree = "<group>"; };
+		047E0A35175544B655D0D3BF /* Pods-Trippple.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trippple.release.xcconfig"; path = "Pods/Target Support Files/Pods-Trippple/Pods-Trippple.release.xcconfig"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Trippple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Trippple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		3D62B1BBA6E77BCA8E6D76D0 /* libPods-Trippple.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Trippple.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		8D3F59FF6026FB5BFCFBE0D3 /* Pods-Trippple.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trippple.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trippple/Pods-Trippple.debug.xcconfig"; sourceTree = "<group>"; };
 		AC0549EB1C671AE10072E9E7 /* RCTGoogleAnalyticsBridge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGoogleAnalyticsBridge.xcodeproj; path = "../node_modules/react-native-google-analytics-bridge/ios/RCTGoogleAnalyticsBridge/RCTGoogleAnalyticsBridge.xcodeproj"; sourceTree = "<group>"; };
 		AC0549F21C671C730072E9E7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		AC0549F41C671C8B0072E9E7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -369,7 +370,6 @@
 		AC7896F11CA9625D00502CC4 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		AC7897011CA962FE00502CC4 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		AC7897021CA962FE00502CC4 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		AC84248A1CF6997E00882DEC /* Pods_Trippple.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_Trippple.framework; path = "Build/Products/Release-iphonesimulator/Pods_Trippple.framework"; sourceTree = "<group>"; };
 		AC8958E41CFD3467009AB211 /* RNHotline.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNHotline.xcodeproj; path = ../lib/RNHotline/RNHotline.xcodeproj; sourceTree = "<group>"; };
 		ACA5214C1CA297C5007B9F71 /* TripppleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripppleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACA5214E1CA297C5007B9F71 /* TripppleUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TripppleUITests.m; sourceTree = "<group>"; };
@@ -379,6 +379,7 @@
 		ACB070371D08998A00B8E4A9 /* RCTPushNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTPushNotificationManager.h; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotificationManager.h"; sourceTree = "<group>"; };
 		ACB070381D08998A00B8E4A9 /* RCTLinkingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTLinkingManager.h; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinkingManager.h"; sourceTree = "<group>"; };
 		ACB1387F1CE83BFB00351B23 /* FBSnapshotTestCase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSnapshotTestCase.framework; path = "Build/Products/Debug-iphonesimulator/FBSnapshotTestCase/FBSnapshotTestCase.framework"; sourceTree = "<group>"; };
+		ACB30CCF1D1EBAD900171A18 /* poetsenone-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "poetsenone-regular-webfont.ttf"; sourceTree = "<group>"; };
 		ACBB1ECB1C0502B600A63B9C /* ospermissions.android.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ospermissions.android.js; sourceTree = "<group>"; };
 		ACBB1ECD1C0502B600A63B9C /* ospermissions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ospermissions.h; sourceTree = "<group>"; };
 		ACBB1ECE1C0502B600A63B9C /* ospermissions.ios.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ospermissions.ios.js; sourceTree = "<group>"; };
@@ -451,8 +452,7 @@
 		ACC7E0441C5A579A0087476F /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = Trippple/assets; sourceTree = "<group>"; };
 		ACDF39141CE80BB700DE839B /* libPods-Trippple.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-Trippple.a"; path = "Build/Products/Debug-iphonesimulator/libPods-Trippple.a"; sourceTree = "<group>"; };
 		ACEB23C41CA32702007C426B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		B8C7661343EE48E93F8540CB /* Pods-Trippple.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trippple.release.xcconfig"; path = "Pods/Target Support Files/Pods-Trippple/Pods-Trippple.release.xcconfig"; sourceTree = "<group>"; };
-		CEEBD2793650FFAB2B68F47A /* libPods-Trippple.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Trippple.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC0B0860A2C01DA7CDE0FEB0 /* Pods-Trippple.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trippple.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trippple/Pods-Trippple.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -466,7 +466,6 @@
 				AC6C26711D01201800806BB2 /* libMixpanel.a in Frameworks */,
 				AC8958ED1CFD4A35009AB211 /* libRNHotline.a in Frameworks */,
 				AC758B2A1CF853E600A6A9C0 /* libRCTContacts.a in Frameworks */,
-				AC758AB71CF6C03900A6A9C0 /* libPods-Trippple.a in Frameworks */,
 				AC21F3C91CF6A20A0058CDAD /* libRNDeviceInfo.a in Frameworks */,
 				AC8422901CF504F800882DEC /* libRCTFBLogin.a in Frameworks */,
 				ACC331EE1CE8EEF300DCC3CC /* libRNMixpanel.a in Frameworks */,
@@ -501,7 +500,7 @@
 				ACBB20961C050E7C00A63B9C /* libRNMail.a in Frameworks */,
 				ACBB20971C050E7C00A63B9C /* libRNMessageComposer.a in Frameworks */,
 				AC0549F11C671AEF0072E9E7 /* libRCTGoogleAnalyticsBridge.a in Frameworks */,
-				AB9E1851ECD7F223DAFA5FEC /* libPods-Trippple.a in Frameworks */,
+				3D17582E4B1F7F14F4C1505F /* libPods-Trippple.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -580,6 +579,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		396058258815DBDCB5543CCA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FC0B0860A2C01DA7CDE0FEB0 /* Pods-Trippple.debug.xcconfig */,
+				047E0A35175544B655D0D3BF /* Pods-Trippple.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -654,7 +662,7 @@
 				ACA5214D1CA297C5007B9F71 /* TripppleUITests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				A999B3CF69585EF60C549767 /* Frameworks */,
-				DC0D38993442B623194FB39C /* Pods */,
+				396058258815DBDCB5543CCA /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -673,7 +681,6 @@
 			isa = PBXGroup;
 			children = (
 				AC6C26701D01201800806BB2 /* libMixpanel.a */,
-				AC84248A1CF6997E00882DEC /* Pods_Trippple.framework */,
 				ACC331EF1CE8EFC200DCC3CC /* FBSnapshotTestCase.framework */,
 				ACB1387F1CE83BFB00351B23 /* FBSnapshotTestCase.framework */,
 				ACDF39141CE80BB700DE839B /* libPods-Trippple.a */,
@@ -683,7 +690,7 @@
 				AC7896EC1CA95EED00502CC4 /* dylib1.o */,
 				ACEB23C41CA32702007C426B /* Foundation.framework */,
 				ACA521741CA2981E007B9F71 /* libPods.a */,
-				CEEBD2793650FFAB2B68F47A /* libPods-Trippple.a */,
+				3D62B1BBA6E77BCA8E6D76D0 /* libPods-Trippple.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1056,6 +1063,7 @@
 		ACC7DEB61C5A43D90087476F /* fonts */ = {
 			isa = PBXGroup;
 			children = (
+				ACB30CCF1D1EBAD900171A18 /* poetsenone-regular-webfont.ttf */,
 				ACC7DEB71C5A43D90087476F /* Montserrat-Bold.ttf */,
 				ACC7DEB81C5A43D90087476F /* Montserrat-Regular.otf */,
 				ACC7DEB91C5A43D90087476F /* omnes-bold-webfont.ttf */,
@@ -1064,15 +1072,6 @@
 				ACC7DEBC1C5A43D90087476F /* omnes-regular-webfont.ttf */,
 			);
 			path = fonts;
-			sourceTree = "<group>";
-		};
-		DC0D38993442B623194FB39C /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				B8C7661343EE48E93F8540CB /* Pods-Trippple.release.xcconfig */,
-				8D3F59FF6026FB5BFCFBE0D3 /* Pods-Trippple.debug.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1132,7 +1131,7 @@
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 3D5DY3UN4M;
 						DevelopmentTeamName = "Trippple LLC";
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -1546,6 +1545,7 @@
 				ACC7DEC21C5A43D90087476F /* omnes-regular-webfont.ttf in Resources */,
 				ACC7DEC11C5A43D90087476F /* omnes-medium-webfont.ttf in Resources */,
 				ACC7DEBF1C5A43D90087476F /* omnes-bold-webfont.ttf in Resources */,
+				ACB30CD01D1EBADA00171A18 /* poetsenone-regular-webfont.ttf in Resources */,
 				AC55AD6D1CFE73B600326ED9 /* T3Theme.plist in Resources */,
 				ACC7DEC01C5A43D90087476F /* omnes-light-webfont.ttf in Resources */,
 				AC758A7B1CF6AC2400A6A9C0 /* GoogleService-Info.plist in Resources */,
@@ -1596,7 +1596,7 @@
 		};
 		AC467EBA1C523398009F2FBD /* Bundle RN images and code */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -1604,7 +1604,7 @@
 			name = "Bundle RN images and code";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "../node_modules/react-native/packager/react-native-xcode.sh";
 			showEnvVarsInLog = 0;
@@ -1692,14 +1692,13 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8D3F59FF6026FB5BFCFBE0D3 /* Pods-Trippple.debug.xcconfig */;
+			baseConfigurationReference = FC0B0860A2C01DA7CDE0FEB0 /* Pods-Trippple.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Trippple/Trippple.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Trippple LLC (3D5DY3UN4M)";
 				CURRENT_PROJECT_VERSION = 2.4;
 				DEAD_CODE_STRIPPING = NO;
 				ENABLE_BITCODE = YES;
@@ -1736,8 +1735,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
 				PRODUCT_NAME = Trippple;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "17a7a11f-2734-4dbd-896b-e13b732e9bce";
+				PROVISIONING_PROFILE_SPECIFIER = "3D5DY3UN4M/XC Ad Hoc: co.trippple";
+				SDKROOT = iphoneos9.3;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1745,14 +1745,14 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B8C7661343EE48E93F8540CB /* Pods-Trippple.release.xcconfig */;
+			baseConfigurationReference = 047E0A35175544B655D0D3BF /* Pods-Trippple.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Trippple/Trippple.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Trippple LLC (3D5DY3UN4M)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Trippple LLC (3D5DY3UN4M)";
 				CURRENT_PROJECT_VERSION = 2.4;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1789,8 +1789,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
 				PRODUCT_NAME = Trippple;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "17a7a11f-2734-4dbd-896b-e13b732e9bce";
+				PROVISIONING_PROFILE_SPECIFIER = 3D5DY3UN4M/prod;
+				SDKROOT = iphoneos9.3;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1850,7 +1851,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
 				PROVISIONING_PROFILE = "";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos9.3;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1901,7 +1902,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
 				PROVISIONING_PROFILE = "";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos9.3;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1915,7 +1916,6 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1968,9 +1968,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
-				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/Trippple/Trippple/entitlements";
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
