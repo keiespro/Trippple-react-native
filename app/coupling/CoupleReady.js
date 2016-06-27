@@ -48,14 +48,14 @@ export default class CoupleReady extends React.Component{
     return (
       <ScrollView contentContainerStyle={[{width:DeviceWidth,height:DeviceHeight,flexDirection:'column',justifyContent:'center',flex:1,top:0 }]} >
 
-        <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'Montserrat-Bold',fontSize:40,color:'#fff',marginVertical:10 }]}>
+        <Text style={[styles.rowtext,styles.bigtext,{ backgroundColor:'transparent',textAlign:'center', fontFamily:'Montserrat-Bold',fontSize:40,color:'#fff',marginVertical:10 }]}>
           SUCCESS!
         </Text>
 
         <Text style={[styles.rowtext,styles.bigtext,{
           fontSize:18,
           marginVertical:10,
-          color:'#fff',
+          color:'#fff',backgroundColor:'transparent',
           marginBottom:15,textAlign:'center',
           flexDirection:'column'
         }]}>You're now connected to your partner</Text>

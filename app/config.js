@@ -3,11 +3,11 @@ const APP_ENV = 'production';
 global.__DEBUG__ = false;
 global.__DEV__ = false;
 // //
-// global.__DEBUG__ = true;
-// global.__DEV__ = true;
-// // // //
-// __DEBUG__ = true;
-// __DEV__ = true;
+global.__DEBUG__ = true;
+global.__DEV__ = true;
+// // //
+__DEBUG__ = true;
+__DEV__ = true;
 
 const configurations = {
 

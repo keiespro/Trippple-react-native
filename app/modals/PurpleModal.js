@@ -3,7 +3,7 @@
 import React from "react";
 
 import {Component} from "react";
-import {StyleSheet, Text, Image, View, Alert, TextInput, ListView, TouchableHighlight, Dimensions, PixelRatio, Modal} from "react-native";
+import {StyleSheet, Text, Image, View,ScrollView, Alert, TextInput, ListView, TouchableHighlight, Dimensions, PixelRatio, Modal} from "react-native";
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -34,16 +34,16 @@ class PurpleModal extends Component{
 
     return (
       <View style={[{padding:0,backgroundColor: 'transparent',flex:1,position:'absolute',height:DeviceHeight,width:DeviceWidth,justifyContent:'center',top:0,alignItems:'center',}]}>
-        <VibrancyView blurType="dark" style={{position:'absolute',height:DeviceHeight,width:DeviceWidth,top:0,}} />
+        <BlurView blurType="dark" style={{position:'absolute',height:DeviceHeight,width:DeviceWidth,top:0,}} />
 
-      <View style={[styles.col,{
-          justifyContent:'center',alignItems:'stretch',backgroundColor: 'transparent',
-      }]}>
 
-        <View style={[styles.modalcontainer,{ flex:1, }]}>
+
+        <ScrollView contentContainerStyle={[styles.modalcontainer,styles.fullWidth,{height:DeviceHeight,
+              justifyContent:'center',alignItems:'stretch',backgroundColor: 'transparent',
+          }]} style={[{ flex:1, }]}>
            {this.props.children}
-          </View>
-        </View>
+          </ScrollView>
+
       </View>
 
     )

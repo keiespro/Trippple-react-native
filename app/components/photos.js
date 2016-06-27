@@ -35,7 +35,9 @@ const ImageProject = React.createClass({
         const fetchParams = {
             first: 25,
         };
-        CameraRoll.getPhotos(fetchParams, this.storeImages, this.logImageError);
+        CameraRoll.getPhotos(fetchParams)
+          .then(this.storeImages)
+          .catch(this.logImageError);
     },
 
     storeImages(data) {

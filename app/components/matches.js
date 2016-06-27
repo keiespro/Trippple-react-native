@@ -53,8 +53,8 @@ class MatchList extends Component{
 
   _allowScroll(scrollEnabled){
     var listref =  '_listView';
-
-    this[listref] && this[listref].refs.listviewscroll.refs.ScrollView.setNativeProps({ scrollEnabled })
+this.setState({ scrollEnabled })
+    // this[listref] && this[listref].refs.listviewscroll.refs.ScrollView.setNativeProps({ scrollEnabled })
   }
 
   _updateDataSource(data) {
@@ -62,6 +62,7 @@ class MatchList extends Component{
   }
 
   _handleSwipeout(sectionID, rowID) {
+    this.setState(({unmatchOpen:true}))
 
     //TODO:
     // const rows = this.props.matches;
@@ -77,10 +78,16 @@ class MatchList extends Component{
   }
 
   handleCancelUnmatch(rowData){
+    this.setTimeout(()=>{
+      this.setState(({unmatchOpen:false}))
+    },350);
 
   }
 
   unmatch(rowData){
+    if(this.state.unmatchOpen){return false}
+    this.setState({unmatchOpen:true})
+
     Alert.alert(
       'Remove this match?',
       'Do you want to remove this match?',
@@ -90,6 +97,7 @@ class MatchList extends Component{
           Analytics.extra('Social',{name: 'Unmatch', match_id: rowData.match_id, match: rowData})
           MatchActions.unMatch(rowData.match_id);
           MatchActions.removeMatch.defer(rowData.match_id);
+          this.handleCancelUnmatch();
         } },
       ],
     );
@@ -154,7 +162,9 @@ class MatchList extends Component{
     //   })
     // },3000);
   }
-
+  chatActionSheet(row){
+    this.props.chatActionSheet(row)
+  }
   _renderRow(rowData, sectionID, rowID){
     const myId = this.props.user.id;
     const  myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
@@ -171,7 +181,7 @@ class MatchList extends Component{
         left={
           [{
             threshold: 150,
-            action: this.props.chatActionSheet.bind(this,rowData),
+            action: this.chatActionSheet.bind(this,rowData),
             backgroundColor: colors.dark,
           }]
           }
@@ -188,12 +198,12 @@ class MatchList extends Component{
         rowID={rowID}
         sectionID={sectionID}
         autoClose={true}
-        scroll={()=>{}}
+        scroll={this._allowScroll.bind(this)}
         onOpen={(sectionID_, rowID_) => {this._handleSwipeout(sectionID_, rowID_)}}
       >
         <TouchableHighlight
           onPress={(e) => {
-            if(this.state.isVisible || !this.state.scrollEnabled){ return false}
+            // if(this.state.isVisible || !this.state.scrollEnabled){ return false}
             this._pressRow(rowData.match_id);
           }}
           key={rowData.match_id+'match'}
@@ -314,13 +324,11 @@ class MatchesInside extends Component{
   chatActionSheet(match){
     if(match){
       this.setState({
-        isVisible:!this.state.isVisible
-      })
-      this.setTimeout(()=>{
-        this.setState({
+        isVisible:true,
+
           currentMatch: match
         })
-      },10)
+      // },10)
     }else{
       this.setState({
         isVisible:false
@@ -343,7 +351,7 @@ class MatchesInside extends Component{
   toggleModal(){
     this.setState({
       isVisible:!this.state.isVisible,
-      currentMatch:null
+
     })
   }
   componentWillReceiveProps(newProps) {
@@ -351,7 +359,7 @@ class MatchesInside extends Component{
       matches: newProps.matches,
       dataSource: this.ds.cloneWithRows(newProps.matches),
       // favDataSource: this.ds.cloneWithRows(newProps.matches),
-      favorites: newProps.favorites
+      // favorites: newProps.favorites
     })
 
     if(newProps.matches[0]){
@@ -396,9 +404,9 @@ class MatchesInside extends Component{
 
         {this.props.navBar}
 
-        {this.state.isVisible ? <View
+        {this.state.isVisible && this.state.currentMatch ? <View
             style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]}>
-            <FadeInContainer duration={1000}>
+            <FadeInContainer delayAmount={1} duration={200}>
                   <View   style={[{width:DeviceWidth,position:'absolute',top:0,left:0,height:DeviceHeight}]}>
               <VibrancyView
                     blurType="light"
@@ -409,13 +417,13 @@ class MatchesInside extends Component{
 
            </View> : <View/>}
 
-          <ActionModal
-            user={this.props.user}
-            navigator={this.props.navigator}
-            toggleModal={this.toggleModal.bind(this)}
-            isVisible={true /*this.state.isVisible && this.state.currentMatch != null*/}
-            currentMatch={this.state.currentMatch}
-          />
+           <ActionModal
+             user={this.props.user}
+             navigator={this.props.navigator}
+             toggleModal={this.toggleModal.bind(this)}
+             isVisible={this.state.isVisible }
+             currentMatch={this.state.currentMatch}
+           />
 
       </View>
 
@@ -444,14 +452,15 @@ class Matches extends Component{
 
 
     if(match){
-      this.setState({
-        isVisible:!this.state.isVisible
-      })
-      this.setTimeout(()=>{
+      // this.setState({
+      //   isVisible:!this.state.isVisible
+      // })
+      // this.setTimeout(()=>{
         this.setState({
-          currentMatch: match
+          isVisible:true,
+        currentMatch: match
         })
-      },10)
+      // },10)
     }else{
       this.setState({
         isVisible:false
@@ -474,7 +483,7 @@ class Matches extends Component{
   toggleModal(){
     this.setState({
       isVisible:!this.state.isVisible,
-      currentMatch:null
+      // currentMatch:null
     })
   }
   shouldComponentUpdate(nProps,nState){

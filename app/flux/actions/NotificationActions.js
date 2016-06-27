@@ -16,6 +16,8 @@ class NotificationActions {
     return (dispatch) => {
       PushNotificationIOS.addEventListener('register',(token) => {
         __DEV__ && console.warn('APN -> ',token);
+        Analytics.setUserProperties({ios_devices: [token]} )
+
         Api.updatePushToken(token)
         .then(()=> dispatch(token))
         .catch((err) => {

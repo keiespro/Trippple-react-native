@@ -35,7 +35,6 @@ class CouplePin extends React.Component{
       this.setState({
         success: true,
       })
-      this.props.goCoupleReady();
       this.props.exit();
 
     }
@@ -194,9 +193,9 @@ class CouplePin extends React.Component{
               <ActivityIndicatorIOS style={[ {width:80,height: 80}]} size="large" animating={true}/> :
             <TouchableHighlight
             underlayColor={colors.white20}
-            style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:MagicNumbers.is5orless ? 0 : 10,marginTop:20,marginBottom:15}}
+            style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:0,marginTop:20,marginBottom:15}}
             onPress={this.handleSendMessage.bind(this)}>
-            <View style={{paddingVertical:20,paddingHorizontal:MagicNumbers.screenPadding/(MagicNumbers.is5orless ?  2 : 2)}} >
+            <View style={{paddingVertical:20,paddingHorizontal:MagicNumbers.is5orless ? 10 : 20}} >
               <Text style={{fontFamily:'Montserrat-Bold', backgroundColor:'transparent', fontSize:MagicNumbers.is5orless ? 16 : 18,textAlign:'center', color:'#fff',}}>
                 TEXT CODE TO MY PARTNER
               </Text>

@@ -116,21 +116,37 @@ class SettingsSettings extends React.Component{
     })
 
     if(this.state.privacy != 'private'){
-        this.props.navigator.push({
-          component: PrivacyPermissionsModal,
-          title: '',
-          name: 'PrivacyPermissionsModal',
-          id:'privacymodal',
-          sceneConfig: NavigatorSceneConfigs.FloatFromBottom,
-          passProps: {
-            cancel: ()=> {this.props.navigator.pop()},
-            success: (privacy) => {
-              this.props.navigator.pop();
-              this.togglePrivacy('private');
-            },
-            user: this.props.user,
-          }
-        })
+        AppActions.showInModal({
+            component:PrivacyPermissionsModal,
+            name: 'PrivacyPermissionsModal',
+            id:'privacymodal',
+            passProps:{
+              initialScreen:'CoupleReady',
+              cancel: ()=>{AppActions.killModal()},
+              success: (privacy) => {
+                this.togglePrivacy('private')
+              },
+              user: this.props.user,
+
+            }
+          })
+
+        //
+        // this.props.navigator.push({
+        //   component: PrivacyPermissionsModal,
+        //   title: '',
+        //   name: 'PrivacyPermissionsModal',
+        //   id:'privacymodal',
+        //   sceneConfig: NavigatorSceneConfigs.FloatFromBottom,
+        //   passProps: {
+        //     cancel: ()=> {this.props.navigator.pop()},
+        //     success: (privacy) => {
+        //       this.props.navigator.pop();
+        //       this.togglePrivacy('private');
+        //     },
+        //     user: this.props.user,
+        //   }
+        // })
     }
   }
 

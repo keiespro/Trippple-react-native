@@ -38,7 +38,11 @@ class EnterCouplePin extends React.Component{
   //   if(this.state.inputFieldValue.length >= 14){ return false}
   //   this.handleInputChange({pin: this.state.inputFieldValue + digit  })
   // }
-
+  componentDidMount(){
+    if(this.props.pin){
+      this.handleInputChange({pin:nProps.pin})
+    }
+  }
   handleInputChange(event: any){
     if(this.state.submitting){ return false }
 
@@ -95,12 +99,7 @@ class EnterCouplePin extends React.Component{
 
       // this.props.goCoupleReady();
       this.props.exit();
-      AppActions.showInModal({
-        component:Coupling,
-        passProps:{
-          initialScreen:'CoupleReady'
-        }
-      })
+
     }else if(this.props.couple && nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified == false ){
 
       this.setState({
@@ -187,12 +186,6 @@ class EnterCouplePin extends React.Component{
           handlePress={this.handleSubmit.bind(this)}
         />
 
-
-{/*
-        <View style={{position:'relative',height:MagicNumbers.keyboardHeight}}>
-          <Numpad numpadstyles={{backgroundColor:'transparent'}} backspace={this.backspace.bind(this)} onChangeText={this.onChangeText.bind(this)}/>
-        </View>
-        */}
       </View>
     )
   }

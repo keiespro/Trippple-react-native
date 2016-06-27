@@ -38,9 +38,9 @@ const {HAS_SEEN_NOTIFICATION_REQUEST,LAST_ASKED_LOCATION_PERMISSION} = SETTINGS_
   checkNotificationsSetting(){
     OSPermissions.canUseNotifications((hasPermission)=>{
 
-      if(hasPermission){
+      if(parseInt(hasPermission) > 2){
         const hasSeenNotificationRequest = Settings.get(HAS_SEEN_NOTIFICATION_REQUEST);
-
+        NotificationActions.requestNotificationsPermission()
         if(!hasSeenNotificationRequest && this.props.triggers.relevantUser){
           // this.showNotificationRequest(this.props.triggers.relevantUser)
 
@@ -52,8 +52,8 @@ const {HAS_SEEN_NOTIFICATION_REQUEST,LAST_ASKED_LOCATION_PERMISSION} = SETTINGS_
     const hasSeenLocationRequest = Settings.get(LAST_ASKED_LOCATION_PERMISSION);
 
     OSPermissions.canUseLocation((hasPermission)=>{
-
-      if(!parseInt(hasPermission)){
+console.log(hasPermission);
+      if(parseInt(hasPermission) <= 2){
         // pop location modal
 
         // this.props.navigator.push({
@@ -80,9 +80,9 @@ const {HAS_SEEN_NOTIFICATION_REQUEST,LAST_ASKED_LOCATION_PERMISSION} = SETTINGS_
               title:'Prioritze Local',
               user:this.props.user,
               failedTitle:'Location',
-              failCallback: ()=>{ this.props.close() },
-              hideModal: ()=>{ this.props.close() },
-              closeModal: ()=>{ this.props.close() }
+              // failCallback: ()=>{ this.props.close() },
+              // hideModal: ()=>{ this.props.close() },
+              // closeModal: ()=>{ this.props.close() }
 
             }
         })

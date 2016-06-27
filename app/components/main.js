@@ -62,6 +62,9 @@ class Main extends Component{
 
     Linking.addEventListener('url', (event)=>{
       const deeplink = url.parse(event.url);
+
+      Analytics.event('Interaction',{type: 'deeplink', name: deeplink})
+
       if(deeplink.host.indexOf('couplecode') > -1){
         AppActions.showInModal({
           component: Coupling,
@@ -72,6 +75,8 @@ class Main extends Component{
       }
       if(deeplink.host == 'join.couple'){
         const pin = deeplink.path.substring(1,deeplink.path.length);
+        Settings.set({'co.trippple.deeplinkCouplePin': pin});
+
         AppActions.showInModal({
           component: Coupling,
           passProps:{
@@ -83,7 +88,7 @@ class Main extends Component{
     })
 
     if( Settings.get([SHOW_COUPLING])){
-
+      
       AppActions.showInModal({
         component: Coupling,
         passProps: {},

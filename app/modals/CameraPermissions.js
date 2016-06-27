@@ -28,17 +28,18 @@ export default class CameraPermissionsModal extends Component{
     super()
     this.state = {
       image_type: props.image_type,
-      failedState: OSPermissions.camera && parseInt(OSPermissions.camera) && parseInt(OSPermissions.camera) < 3,
-      hasPermission: OSPermissions.camera && parseInt(OSPermissions.camera) && OSPermissions.camera > 2
+      failedState: (OSPermissions.camera && parseInt(OSPermissions.camera) && parseInt(OSPermissions.camera) < 3),
+      hasPermission: (OSPermissions.camera && parseInt(OSPermissions.camera) && OSPermissions.camera > 2)
     }
   }
   componentWillMount(){
-    if(OSPermissions[CameraKey] && parseInt(OSPermissions[CameraKey]) > 2 ){
-      this.props.navigator.push({
-        component: (this.props.image_type == 'couple_profile' ? CoupleCameraControl : CameraControl),
-        id: 'cc',
-      })
-    }else if(!OSPermissions[CameraKey]){
+    // if(OSPermissions[CameraKey] && parseInt(OSPermissions[CameraKey]) > 2 ){
+    //   this.props.navigator.push({
+    //     component: (this.props.image_type == 'couple_profile' ? CoupleCameraControl : CameraControl),
+    //     id: 'cc',
+    //   })
+    // }else
+    if(!OSPermissions[CameraKey]){
       this.setState({failedState:false})
     }
 
@@ -99,7 +100,7 @@ export default class CameraPermissionsModal extends Component{
       <PurpleModal>
         <View style={[styles.col,styles.fullWidth,{justifyContent:'space-between'}]}>
           <Image
-            style={[{width:150,height:150,borderRadius:75,marginVertical:20}]}
+            style={[{width:150,height:150, marginVertical:20}]}
             resizeMode="contain"
             source={this.state.failedState ?
                 {uri: 'assets/iconModalDenied@3x.png'} :

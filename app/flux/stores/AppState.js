@@ -42,8 +42,8 @@ class AppStateStore {
       handleScreenshot: AppActions.SCREENSHOT,
       handleShowInModal: AppActions.SHOW_IN_MODAL,
       handleKillModal: AppActions.KILL_MODAL,
-      handleOtherCoupleCreatedEvent: NotificationActions.RECEIVE_COUPLE_CREATED_NOTIFICATION,
-      handleCoupleCreatedEvent: UserActions.VERIFY_COUPLE_PIN,
+      handleCoupleCreatedEvent: NotificationActions.RECEIVE_COUPLE_CREATED_NOTIFICATION,
+      handleOtherCoupleCreatedEvent: UserActions.VERIFY_COUPLE_PIN,
       handleSendCoupleInviteMessage: AppActions.SEND_MESSAGE_SCREEN
 
     });
@@ -251,8 +251,9 @@ handleKillModal(){
   handleCoupleCreatedEvent(payload){
 
     UserActions.getUserInfo.defer()
+    MatchActions.getPotentials.defer()
 
-    if(this.showModal.passProps && !this.showModal.passProps.initialScreen == 'CoupleReady'){
+    // if(this.showModal.passProps && !this.showModal.passProps.initialScreen == 'CoupleReady'){
       this.setState({
         showModal: {
           component: Coupling,
@@ -262,7 +263,9 @@ handleKillModal(){
         },
         lastModal: this.showModal
       })
-    }
+    // }
+
+
   }
 
 

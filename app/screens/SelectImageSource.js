@@ -1,9 +1,10 @@
 import React, {Component, PropTypes} from "react";
-import {StyleSheet, Text, Image, View, TouchableHighlight, Modal, Dimensions} from "react-native";
+import {StyleSheet, Text, Image, View, TouchableHighlight, Modal, Dimensions,NativeModules} from "react-native";
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
+const {OSPermissions} = NativeModules
 
 import {MagicNumbers} from '../DeviceConfig'
 import OnboardingActions from '../flux/actions/OnboardingActions'
@@ -43,36 +44,41 @@ class SelectImageSource extends Component{
 
   getCameraRollPermission(){
 
-     var nextRoute =  {
-      component:  (this.props.AppState.OSPermissions && parseInt(this.props.AppState.OSPermissions.cameraRoll) > 2 ? CameraRollView : CameraRollPermissionsModal),
-      name: (this.props.AppState.OSPermissions && parseInt(this.props.AppState.OSPermissions.cameraRoll) > 2 ? 'CameraRollView' : 'CameraRollPermissionsModal')
-    };
+    OSPermissions.canUseCameraRoll( res => {
+      console.log(res);
+      const perm = (res > 2);
 
-    nextRoute.passProps = {
-      image_type: this.props.image_type || this.props.imageType,
+      const nextRoute =  {
+        component:  perm ? CameraRollView : CameraRollPermissionsModal,
+        name: perm ? 'CameraRollView' : 'CameraRollPermissionsModal'
+      };
 
-    }
-    nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
-    this.props.navigator.push(nextRoute)
+      nextRoute.passProps = {
+        image_type: this.props.image_type || this.props.imageType,
+      }
+      nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
+      this.props.navigator.push(nextRoute)
 
-
-
+    })
   }
   getCameraPermission(){
-    var lastindex = this.props.navigator.getCurrentRoutes().length;
-    var nextRoute = {
-      component: CameraPermissionsModal,
-      name: 'CameraPermissionsModal'
-    }
 
-    nextRoute.passProps = {
-      image_type: this.props.image_type || this.props.imageType,
+      OSPermissions.canUseCamera( res => {
+        console.log(res);
+        const perm = (res > 2);
 
-      nextRoute: CameraControl
+        const nextRoute =  {
+          component:  perm ? CameraControl : CameraPermissionsModal,
+          name: perm ? 'CameraControl' : 'CameraPermissionsModal'
+        };
 
-    }
-    nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
-    this.props.navigator.push(nextRoute)
+        nextRoute.passProps = {
+          image_type: this.props.image_type || this.props.imageType,
+        }
+        nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
+        this.props.navigator.push(nextRoute)
+
+      })
 
   }
 

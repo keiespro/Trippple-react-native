@@ -57,11 +57,13 @@ const purpleModalStyles = StyleSheet.create({
   modalcontainer:{
     borderRadius:4,
     backgroundColor: 'transparent',
-    marginVertical:MagicNumbers.isSmallDevice ? 0 : 20
+    width: MagicNumbers.screenWidth,
+
+    // marginVertical:MagicNumbers.isSmallDevice ? 0 : 20
   },
   fullWidth:{
-    width: MagicNumbers.screenWidth,
-    padding:MagicNumbers.screenPadding
+    width: MagicNumbers.screenWidth-MagicNumbers.screenPadding/2,
+    // padding:MagicNumbers.screenPadding/2
 
   },
   row: {
@@ -78,7 +80,7 @@ const purpleModalStyles = StyleSheet.create({
     flexDirection: 'column',
     padding: 0,
     alignItems:'center',
-    justifyContent:'space-around',
+    justifyContent:'center',
     backgroundColor: 'transparent',
 
   },

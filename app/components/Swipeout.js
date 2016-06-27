@@ -130,36 +130,46 @@ mixins:[TimerMixin],
 
   },
   forceClose(){
-    this.state.offsetX.stopAnimation()
-    this.state.offsetX.setValue(0)
-    this.state.offsetX.removeAllListeners();
+    // this.state.offsetX._listeners && Object.keys(this.state.offsetX._listeners) &&  this.state.offsetX.stopAnimation();
+
+    // this.state.offsetX._listeners && Object.keys(this.state.offsetX._listeners) && this.state.offsetX.setValue(0);
+    // this.state.offsetX._listeners && Object.keys(this.state.offsetX._listeners) && this.state.offsetX.removeAllListeners();
+    // this.state.offsetX.addListener(this.swipeListener)
+    const toValue = 0;
+    // this.state.offsetX.removeListener(this.swipeListener);
+    //   Animated.spring(this.state.offsetX, {
+    //    toValue,
+    //    velocity: 2,
+    //    tension:5,
+    //    friction: 5
+    //   }).start(()=>{
+        this.setState({isFullyOpen:false})
+        this.props.scroll(true);
+     //
+    //  })
+
   },
   componentWillReceiveProps(nProps){
     if(nProps.forceClose){
-      this.forceClose()
+      // this.forceClose()
+
     }
   },
   shouldComponentUpdate(nextProps,nextState){
-    return nextState.isOpen != this.state.isOpen ? false : true
+    return nextState.isOpen != this.state.isOpen || nextState.isFullyOpen != this.state.isFullyOpen
   },
 swipeListener(v){
     const toValue = 0;
 
-  if(!this.state.isFullyOpen && Math.abs(v.value) > BTNTHRESHOLD){
-    this.state.offsetX.removeListener(this.swipeListener);
+  if(!this.state.isFullyOpen && Math.abs(v.value) >= BTNTHRESHOLD){
+    this.setState({isFullyOpen:true})
+    // this.state.offsetX._listeners && Object.keys(this.state.offsetX._listeners) && this.state.offsetX.removeListener(this.swipeListener);
 
-       this.setState({isFullyOpen:true})
        const activatedButton = (v.value > 0 ? this.props.left[0] : this.props.right[0]);
-      // handle = InteractionManager.createInteractionHandle();
 
-
-
-       //
-      //  InteractionManager.runAfterInteractions(()=>{
-
-        // })
 
        activatedButton.action()
+
       // this.setState({isOpen:false})
 
       //  Animated.spring(this.state.offsetX, {
@@ -183,15 +193,25 @@ swipeListener(v){
 },
   initializePanResponder(){
     var handle;
+    this.state.offsetX.addListener(this.swipeListener)
+
     this._panResponder = PanResponder.create({
       onMoveShouldSetPanResponder: (e,gestureState) => Math.abs(gestureState.dy) < 5,
       onStartShouldSetPanResponder: (e,gestureState) => false,
       onPanResponderGrant: () => {
-        this.state.offsetX.addListener(this.swipeListener)
         this.props.scroll(false);
         this.setState({isOpen:true})
+        // this.state.offsetX.addListener(this.swipeListener)
+
 
       },
+      // onPanResponderStart: () => {
+      //   this.props.scroll(false);
+      //   this.setState({isOpen:true})
+      //   // this.state.offsetX.addListener(this.swipeListener)
+      //
+      // },
+
       onPanResponderMove: Animated.event( [null, {
         dx: this.state.offsetX
       }] ),
@@ -200,7 +220,8 @@ swipeListener(v){
       onPanResponderEnd: (e, gestureState) => {
         this.setTimeout(()=>{
           const toValue = 0;
-            this.state.offsetX.removeListener(this.swipeListener);
+          // this.state.offsetX.removeListener(this.swipeListener)
+
             this.props.scroll(true);
             Animated.spring(this.state.offsetX, {
              toValue,
@@ -208,14 +229,17 @@ swipeListener(v){
              tension:5,
              friction: 5
             }).start(()=>{
-             this.setState({isOpen:false,isFullyOpen:false})
+            //  this.setState({isOpen:false})
+            // this.state.offsetX.addListener(this.swipeListener)
+            this.setState({isFullyOpen:false})
+
            })
         },500)
       },
       onPanResponderTerminate:(e, gestureState) => {
-        if(this.state.isOpen){
+        this.setTimeout(()=>{
           const toValue = 0;
-          this.state.offsetX.removeListener(this.swipeListener);
+
           this.props.scroll(true);
           Animated.spring(this.state.offsetX, {
            toValue,
@@ -223,9 +247,14 @@ swipeListener(v){
            tension:5,
            friction: 5
           }).start(()=>{
-            this.setState({isOpen:false,isFullyOpen:false})
+            // this.setState({isOpen:false,})
+            // this.state.offsetX.addListener(this.swipeListener)
+            this.setState({isFullyOpen:false})
+
          })
-        }
+        // }
+      },500)
+
       },
    })
   },

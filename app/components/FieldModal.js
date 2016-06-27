@@ -233,7 +233,10 @@ class FieldModal extends React.Component{
         case 'dropdown':
         return (
           <View style={{ alignSelf:'stretch',flex:1}}>
-            <View style={{ alignSelf:'stretch',flex:1,height:DeviceHeight-170,alignItems:'center',justifyContent:'center',flexDirection:'column'}}>
+            <View style={{ alignSelf:'stretch',
+              width:MagicNumbers.screenWidth - MagicNumbers.screenPadding,
+              marginHorizontal:MagicNumbers.screenPadding,
+              flex:1,height:DeviceHeight-170,alignItems:'center',justifyContent:'center',flexDirection:'column'}}>
               <View style={{ borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,alignItems:'center',justifyContent:'center',alignSelf:'stretch' }}>
                 <Text style={{
                     color: colors.rollingStone,
@@ -246,7 +249,8 @@ class FieldModal extends React.Component{
                 <Text style={{
                     padding: 8,
                   fontSize: 30,
-                  width:MagicNumbers.screenWidth,
+                  width:MagicNumbers.screenWidth - MagicNumbers.screenPadding,
+                  marginHorizontal:MagicNumbers.screenPadding/2,
                   borderBottomWidth: 1,
                   borderBottomColor: colors.rollingStone,
                   textAlign:'center',
@@ -270,7 +274,9 @@ class FieldModal extends React.Component{
     case 'input':
       return (
         <View style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between'}}>
-          <View style={{ alignSelf:'stretch',flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',padding:20}}>
+          <View style={{    width:MagicNumbers.screenWidth - MagicNumbers.screenPadding,
+                            marginHorizontal:MagicNumbers.screenPadding,
+                            alignSelf:'stretch',flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',padding:20}}>
             <Text style={{
                 color: colors.rollingStone,
                 fontSize: 20,textAlign:'center',
@@ -313,7 +319,10 @@ class FieldModal extends React.Component{
     case 'phone_input':
       return (
         <View style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between'}}>
-          <View style={{ alignSelf:'stretch',flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',padding:20}}>
+          <View style={{ alignSelf:'stretch',
+                            width:MagicNumbers.screenWidth - MagicNumbers.screenPadding,
+                            marginHorizontal:MagicNumbers.screenPadding,
+                            flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',padding:20}}>
             <Text style={{
                 color: colors.rollingStone,
                 fontSize: 20,textAlign:'center',

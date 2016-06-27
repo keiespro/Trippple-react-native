@@ -133,11 +133,11 @@ class OverlayModalInner extends Component{
         visible={this.props.modalVisible}
         onRequestClose={this.setModalVisible.bind(this,false)}
       >
-        <Image source={{uri:this.props.imageUrl || ''}} resizeMode="cover" style={{height:DeviceHeight,width:DeviceWidth}}>
+        {/*<Image source={{uri:this.props.imageUrl || ''}} resizeMode="cover" style={{height:DeviceHeight,width:DeviceWidth}}>*/}
           <VibrancyView blurType="dark" style={{height:DeviceHeight,width:DeviceWidth,position:'absolute'}} />
 
           {this.props.children}
-        </Image>
+        {/*</Image>*/}
 
       </Modal>
     )
