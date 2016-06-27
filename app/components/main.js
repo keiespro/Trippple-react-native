@@ -63,8 +63,8 @@ class Main extends Component{
     Linking.addEventListener('url', (event)=>{
       const deeplink = url.parse(event.url);
       if(deeplink.host.indexOf('couplecode') > -1){
-        this.refs.nav.push({
-          component: JoinCouple,
+        AppActions.showInModal({
+          component: Coupling,
           passProps:{
            initialScreen: 'CouplePin'
           }
@@ -72,14 +72,14 @@ class Main extends Component{
       }
       if(deeplink.host == 'join.couple'){
         const pin = deeplink.path.substring(1,deeplink.path.length);
-        this.refs.nav.push({
-          component:JoinCouple,
+        AppActions.showInModal({
+          component: Coupling,
           passProps:{
             pin,
-           initialScreen: 'EnterCouplePin'
+            initialScreen: 'EnterCouplePin'
           }
         })
-      }
+       }
     })
 
     if( Settings.get([SHOW_COUPLING])){
