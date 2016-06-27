@@ -237,7 +237,7 @@ class MatchActions {
               Analytics.increment('Swipes',1)
               Analytics.increment(likeStatus == 'approve' ? 'Likes' : 'Dislikes',1)
 
-      Api.sendLike(likedUserID, likeStatus,likeUserType,rel_status)
+      return Api.sendLike(likedUserID, likeStatus,likeUserType,rel_status)
       .then((res)=>{
         this.removePotential.defer();
 

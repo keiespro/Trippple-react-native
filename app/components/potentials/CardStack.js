@@ -252,7 +252,7 @@ class CardStack extends React.Component{
             toValue,
             velocity:{x:0,y:0},//{x:parseInt(vx),y:parseInt(vy)},       // maintain gesture velocity
             duration:700,
-            easing: Easing.out(Easing.exp), // Symmetric            
+            easing: Easing.out(Easing.exp), // Symmetric
             // tension: 20,
             // friction:  2 ,//2
           }).start((result)=>{

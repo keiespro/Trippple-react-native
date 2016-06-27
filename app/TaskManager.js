@@ -1,7 +1,7 @@
 import React from "react";
 import {Settings, Navigator, View, NativeModules} from "react-native";
 import LocationPermissions from './modals/LocationPermission'
-import NotificationPermissions from './modals/NotificationPermissions'
+import NotificationPermissions from './modals/NewNotificationPermissions'
 const {OSPermissions,RNHotlineController} = NativeModules
 import Analytics from './utils/Analytics'
 import SETTINGS_CONSTANTS from './utils/SettingsConstants'
@@ -38,13 +38,18 @@ const {HAS_SEEN_NOTIFICATION_REQUEST,LAST_ASKED_LOCATION_PERMISSION} = SETTINGS_
   checkNotificationsSetting(){
     OSPermissions.canUseNotifications((hasPermission)=>{
 
+
       if(parseInt(hasPermission) > 2){
         const hasSeenNotificationRequest = Settings.get(HAS_SEEN_NOTIFICATION_REQUEST);
         NotificationActions.requestNotificationsPermission()
-        if(!hasSeenNotificationRequest && this.props.triggers.relevantUser){
-          // this.showNotificationRequest(this.props.triggers.relevantUser)
-
-        }
+//         if(!hasSeenNotificationRequest && this.props.triggers.relevantUser){
+//           this.showNotificationRequest(this.props.triggers.relevantUser)
+//         }
+      }else{
+        // AppActions.showInModal({
+        //   component: NotificationPermissions,
+        //   passProps:{}
+        // })
       }
     })
   }
@@ -52,8 +57,7 @@ const {HAS_SEEN_NOTIFICATION_REQUEST,LAST_ASKED_LOCATION_PERMISSION} = SETTINGS_
     const hasSeenLocationRequest = Settings.get(LAST_ASKED_LOCATION_PERMISSION);
 
     OSPermissions.canUseLocation((hasPermission)=>{
-console.log(hasPermission);
-      if(parseInt(hasPermission) <= 2){
+       if(parseInt(hasPermission) <= 2){
         // pop location modal
 
         // this.props.navigator.push({

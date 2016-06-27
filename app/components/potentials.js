@@ -104,7 +104,7 @@ class PotentialsPage extends React.Component{
   }
 
   componentDidUpdate(){
-    if(true == false && !this.state.hasPushPermission && !this.state.requestingPushPermission ){
+    if( !this.state.hasPushPermission && !this.state.requestingPushPermission && this.props.potentialsMeta.relevantUser ){
       this.setState({requestingPushPermission:true})
       this.props.navigator.push({
         component: NotificationPermissions,

@@ -159,12 +159,12 @@ class NotificationCommander extends Component{
   connectSocket(){
     __DEV__ && console.log('WEBSOCKET TRY /')
     this.socket.on('connect_error', (err) => {
-      console.log('SOCKETIO CONNECT ERR');
-      console.log(err);
+      __DEV__ && console.log('SOCKETIO CONNECT ERR');
+      __DEV__ && console.log(err);
     });
     this.socket.on('error', (err) => {
-      console.log('SOCKETIO ERR');
-      console.log(err);
+      __DEV__ && console.log('SOCKETIO ERR');
+      __DEV__ && console.log(err);
     });
 
 

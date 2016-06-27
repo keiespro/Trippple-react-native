@@ -17,7 +17,7 @@ class PotentialsStore {
   constructor() {
 
     this.potentials = [];
-    this.hasSeenNotificationPermission = Settings.get(HAS_SEEN_NOTIFICATION_REQUEST) || Settings.get(NOTIFICATION_SETTING) || Settings.get(LEGACY_NOTIFICATION_SETTING) || JSON.parse(OSPermissions.notifications);
+    this.hasSeenNotificationPermission = Settings.get(HAS_SEEN_NOTIFICATION_REQUEST) || Settings.get(NOTIFICATION_SETTING) || Settings.get(LEGACY_NOTIFICATION_SETTING);
     this.LastNotificationsPermissionRequestTimestamp = Settings.get(LAST_ASKED_NOTIFICATION_PERMISSION) || null;
 
     this.blockedPotentials = [];
@@ -134,7 +134,7 @@ class PotentialsStore {
     })
   }
   handleShowNotificationModalWithLikedUser(likedUser){
-    // this.setState({ requestNotificationsPermission:true, relevantUser: likedUser})
+    this.setState({ requestNotificationsPermission:true, relevantUser: likedUser})
     // this.emitChange()
     // console.log(likedUser);
 
@@ -145,7 +145,7 @@ class PotentialsStore {
       LastNotificationsPermissionRequestTimestamp: Date.now(),
       requestNotificationsPermission: false,
       hasSeenNotificationPermission: true,
-      relevantUser: null
+      // relevantUser: null
     })
 
 
@@ -159,7 +159,7 @@ class PotentialsStore {
     })
 
     this.setState({
-      relevantUser: null,
+      // relevantUser: null,
       hasSeenNotificationPermission: true
     })
 
@@ -189,15 +189,16 @@ class PotentialsStore {
         this.setState({
           potentials: newPotentials,
           relevantUser: likedUser,
+          requestNotificationsPermission: true,
           LastNotificationsPermissionRequestTimestamp: nowTimestamp
         })
 
-        AppActions.showNotificationModalWithLikedUser(likedUser);
+        // AppActions.showNotificationModalWithLikedUser(likedUser)
 
       }else{
         this.setState({ ...this.state,
           potentials:newPotentials,
-          relevantUser: null
+          // relevantUser: null
         })
 
       }

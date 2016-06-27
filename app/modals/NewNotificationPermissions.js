@@ -103,12 +103,13 @@ class NewNotificationPermissionsInside extends React.Component{
       NotificationActions.receiveApnToken(token)
       // this.setState({ hasPermission: true})
       AppActions.disableNotificationModal()
-      this.props.close && this.props.close(false)
       Settings.set({
         [HAS_SEEN_NOTIFICATION_REQUEST]: true,
         [NOTIFICATION_SETTING]: true
       })
 
+      this.props.successCallback && this.props.successCallback();
+    this.close(false)
 
     }
     handleTapYes(){

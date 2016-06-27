@@ -88,7 +88,7 @@ class Main extends Component{
     })
 
     if( Settings.get([SHOW_COUPLING])){
-      
+
       AppActions.showInModal({
         component: Coupling,
         passProps: {},
