@@ -13,6 +13,7 @@ import {
   SwitchIOS,
   Animated,
   PickerIOS,
+  Alert,
   Image,
   NativeModules,
   AsyncStorage,
@@ -170,6 +171,7 @@ class SettingsCouple extends React.Component{
       [
         {text: 'Yes', onPress: () => {
           UserActions.decouple()
+          this.props.navigator.pop()
         }},
         {text: 'No', onPress: () => {return false}},
       ]
@@ -324,20 +326,27 @@ class SettingsCouple extends React.Component{
                   }
 
                   <TouchableHighlight
-
                     style={{
                       alignSelf:'stretch',
+                      marginVertical:50,
+                      borderRadius:5,
                       flexDirection:'row',
                       marginHorizontal:MagicNumbers.screenPadding/2,
                       backgroundColor:'transparent',
                       borderColor:colors.mandy,
                       borderWidth:2
                     }}
-                    underlayColor={colors.mandy}
-                    _onPress={this.decouple.bind(this)}
+                    underlayColor={colors.darkShadow}
+                    onPress={this.decouple.bind(this)}
                   >
-                    <View>
-                      <Text>LEAVE COUPLE</Text>
+                    <View style={{padding:20,flex:1}}>
+                      <Text style={{
+                          backgroundColor:'transparent',
+                          color:colors.mandy,
+                          fontSize:18,
+                          textAlign:'center',
+                          fontFamily:'Montserrat'
+                        }}>LEAVE COUPLE</Text>
                     </View>
                 </TouchableHighlight>
 
