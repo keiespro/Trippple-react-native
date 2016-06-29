@@ -99,6 +99,10 @@ DATA:
   storeContactsToBlock(contacts){
     return contacts;
   }
+  
+  clearMatchesData(){
+    return {}
+  }
 
 
   showInModal(route){
@@ -115,7 +119,6 @@ DATA:
 
           switch(result) {
             case RNMessageComposer.Sent:
-            // this.setState({ success:true });
               dispatch({result})
 
               break;

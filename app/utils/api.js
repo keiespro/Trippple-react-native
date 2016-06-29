@@ -201,8 +201,9 @@ const api = {
   joinCouple(partner_phone): Promise{
     return authenticatedRequest('join_couple', { partner_phone })
   },
+
   decouple(): Promise{
-    return authenticatedRequest('decouple')
+    return authenticatedRequest('decouple', {})
   },
 
   getCouplePin(): Promise{

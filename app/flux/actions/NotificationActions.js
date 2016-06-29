@@ -101,11 +101,15 @@ class NotificationActions {
 
   receiveCoupleCreatedNotification(payload){
     return (dispatch) => {
+      AppActions.clearMatchesData.defer()
+      MatchActions.getPotentials.defer()
       dispatch({  payload })
     }
   }
 
   receiveDecoupleNotification(payload){
+    AppActions.clearMatchesData.defer()
+    MatchActions.getPotentials.defer()
     return (dispatch) => {
       dispatch({  payload })
     }

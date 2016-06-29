@@ -43,7 +43,9 @@ class MatchesStore {
       unMatch: MatchActions.UN_MATCH,
       handleNewMessages: MatchActions.GET_MESSAGES,
       handleSaveStores: AppActions.SAVE_STORES,
-      handleLogout: UserActions.LOG_OUT
+      handleLogout: UserActions.LOG_OUT,
+      clearMatches: AppActions.CLEAR_MATCHES_DATA,
+
     });
 
     this.on( 'init', () => {
@@ -75,8 +77,14 @@ class MatchesStore {
     })
   }
 
-  handleSaveStores() {
+  clearMatches(){
+    this.setState({
+      matches: [],
+    })
     this.save();
+
+  }
+  handleSaveStores() {
   }
 
   save() {

@@ -17,9 +17,13 @@ class UserActions {
   }
   decouple(){
     return (dispatch) => {
-      Api.decouple
+      Api.decouple()
         .then(res => {
-           dispatch(res)
+          if(!res.saved){
+            dispatch({ error: "Please try again" })
+          }
+          AppActions.clearMatchesData.defer()
+          dispatch(res)
         })
         .catch(error => {
           dispatch({ error })

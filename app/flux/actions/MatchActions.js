@@ -22,6 +22,7 @@ class MatchActions {
 
     return matchID
   }
+  
   removePotential(p){
     if(p){
       Analytics.extra('Social',{
@@ -35,6 +36,7 @@ class MatchActions {
     return p || true
 
   }
+
   getMatches(page) {
     return (dispatch) => {
       Api.getMatches(page || 0)
