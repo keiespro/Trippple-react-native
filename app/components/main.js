@@ -13,6 +13,8 @@ import CustomSceneConfigs from '../utils/sceneConfigs'
 import colors from '../utils/colors'
 import alt from '../flux/alt'
 import Chat from './chat'
+import TimerMixin from 'react-timer-mixin';
+import reactMixin from 'react-mixin'
 import MatchActions from '../flux/actions/MatchActions'
 import MatchesStore from '../flux/stores/MatchesStore'
 import PotentialsStore from '../flux/stores/PotentialsStore'
@@ -43,8 +45,11 @@ class Main extends Component{
     const { relevantUser } = this.props;
 
   }
+  componentWillUnmount(){
+    Linking.removeEventListener('url',this.handleDeeplinks.bind(this))
+  }
   componentDidMount(){
-
+    const initCouplePin = Settings.get('co.trippple.deeplinkCouplePin');
     Analytics.screen('Potentials')
 
     this.refs.nav.navigationContext.addListener('didfocus', (nav)=>{
@@ -54,47 +59,59 @@ class Main extends Component{
       Analytics.screen(routeName)
 
     })
-    // NotificationActions.scheduleNewPotentialsAlert.defer()
-      // AppActions.sendTelemetry(this.props.user)
+
     if(this.props.user.id){
       Analytics.identifyUser(this.props.user);
     }
 
-    Linking.addEventListener('url', (event)=>{
-      const deeplink = url.parse(event.url);
-
-      Analytics.event('Interaction',{type: 'deeplink', name: deeplink})
-
-      if(deeplink.host.indexOf('couplecode') > -1){
-        AppActions.showInModal({
-          component: Coupling,
-          passProps:{
-           initialScreen: 'CouplePin'
-          }
-        })
-      }
-      if(deeplink.host == 'join.couple'){
-        const pin = deeplink.path.substring(1,deeplink.path.length);
-        Settings.set({'co.trippple.deeplinkCouplePin': pin});
-
-        AppActions.showInModal({
-          component: Coupling,
-          passProps:{
-            pin,
-            initialScreen: 'EnterCouplePin'
-          }
-        })
-       }
-    })
+    Linking.addEventListener('url',this.handleDeeplinks.bind(this))
 
     if( Settings.get([SHOW_COUPLING])){
-
       AppActions.showInModal({
         component: Coupling,
         passProps: {},
       })
     }
+    //
+    if( initCouplePin ){
+      this.setTimeout(()=>{
+        AppActions.showInModal({
+          component: Coupling,
+          passProps: {
+            pin: initCouplePin,
+            initialScreen:'EnterCouplePin'
+          },
+        })
+      },2000)
+    }
 
+  }
+
+  handleDeeplinks(event){
+    const deeplink = url.parse(event.url);
+
+    Analytics.event('Interaction',{type: 'deeplink', name: deeplink.href})
+
+    if(deeplink.host.indexOf('couplecode') > -1){
+      AppActions.showInModal({
+        component: Coupling,
+        passProps:{
+         initialScreen: 'CouplePin'
+        }
+      })
+    }
+    if(deeplink.host == 'join.couple'){
+      const pin = deeplink.path.substring(1,deeplink.path.length);
+      Settings.set({'co.trippple.deeplinkCouplePin': pin});
+
+      AppActions.showInModal({
+        component: Coupling,
+        passProps:{
+          pin,
+          initialScreen: 'EnterCouplePin'
+        }
+      })
+     }
   }
 
   componentWillReceiveProps(nProps){
@@ -205,6 +222,8 @@ class Main extends Component{
   }
 
 }
+
+reactMixin(Main.prototype, TimerMixin);
 
 export default Main;
 

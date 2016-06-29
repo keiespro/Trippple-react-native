@@ -2,7 +2,7 @@
 
 
 import React, {Component, PropTypes} from "react";
-import { StyleSheet, Image, ScrollView, TextInput, Text, LayoutAnimation, ActivityIndicator, View, TouchableHighlight, NativeModules, Dimensions, PixelRatio, TouchableOpacity} from "react-native";
+import { StyleSheet, Image, ScrollView, Settings, TextInput, Text, LayoutAnimation, ActivityIndicator, View, TouchableHighlight, NativeModules, Dimensions, PixelRatio, TouchableOpacity} from "react-native";
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -39,9 +39,14 @@ class EnterCouplePin extends React.Component{
   //   this.handleInputChange({pin: this.state.inputFieldValue + digit  })
   // }
   componentDidMount(){
-    if(this.props.pin){
-      this.handleInputChange({pin:nProps.pin})
+
+    const pin = this.props.pin || Settings.get('co.trippple.deeplinkCouplePin');
+
+    if(pin && `${pin}`.length){
+      this.handleInputChange({pin:`${pin}`})
     }
+    Settings.set({'co.trippple.deeplinkCouplePin': null});
+
   }
   handleInputChange(event: any){
     if(this.state.submitting){ return false }

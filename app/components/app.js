@@ -7,7 +7,7 @@ import React from "react";
 
 import DeviceConfig from '../DeviceConfig'
 import {Component} from "react";
-import {AppRegistry, View, Navigator, Dimensions, Image, NativeModules,Settings} from "react-native";
+import {AppRegistry, View, Navigator, Dimensions, Image, NativeModules,Settings,Linking} from "react-native";
 import Analytics from '../utils/Analytics'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -34,6 +34,7 @@ import PurpleModal from '../modals/PurpleModal'
 import MaintenanceScreen from '../screens/MaintenanceScreen'
 import colors from '../utils/colors'
 import ImageFlagged from '../screens/ImageFlagged'
+import url from 'url'
 
 
 
@@ -86,14 +87,31 @@ class TopLevel extends Component{
     }
 
   }
+  componentDidMount(){
+    if(!this.props.user.status == 'onboarded'){
+      Linking.addEventListener('url', this.handleCoupleDeepLink.bind(this))
+    }
+  }
+  handleCoupleDeepLink(event){
+    const deeplink = url.parse(event.url);
 
+    Analytics.event('Interaction',{type: 'deeplink', name: deeplink.href})
 
+    if(deeplink.host == 'join.couple'){
+      const pin = deeplink.path.substring(1,deeplink.path.length);
+      Settings.set({'co.trippple.deeplinkCouplePin': pin});
+    }
+  }
   componentWillReceiveProps(nProps){
     if(nProps && this.props.user && nProps.user &&  nProps.user.status == 'verified' && this.props.user.status != 'verified' && this.props.user.status != 'onboarded'){
       this.setState({showCheckmark:true,checkMarkCopy: {title: 'SUCCESS' }})
       this.setTimeout(()=>{
         this.setState({showCheckmark:false,checkMarkCopy:null})
       },3500);
+    }
+
+    if(nProps && this.props.user && nProps.user && nProps.user.status == 'onboarded' && this.props.user.status != 'onboarded'){
+      Linking.removeEventListener('url', this.handleCoupleDeepLink.bind(this))
     }
   }
 

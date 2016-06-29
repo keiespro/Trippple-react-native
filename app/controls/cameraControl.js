@@ -1,7 +1,7 @@
 import React, {Component,PropTypes} from "react";
 import {Dimensions,StyleSheet, CameraRoll, Text, Image, View, TouchableOpacity, TouchableHighlight} from "react-native";
 
-import Camera from '../RNCamera-FIX';
+import Camera from 'react-native-camera';
 import colors from '../utils/colors'
 import BackButton from '../components/BackButton'
 import EditImageThumb from '../screens/registration/EditImageThumb'
