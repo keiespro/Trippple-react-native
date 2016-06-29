@@ -124,6 +124,13 @@ class NotificationCommander extends Component{
       NotificationActions.receiveCoupleCreatedNotification(data);
 
 
+    }else if(data.action && data.action == 'decouple') {
+      VibrationIOS.vibrate()
+
+      // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
+      NotificationActions.receiveDecoupleNotification(data);
+
+
     }else if(data.action && data.action == 'statuschange' || data.action == 'imageflagged') {
 
       UserActions.getUserInfo.defer()
@@ -223,6 +230,13 @@ class NotificationCommander extends Component{
 
         // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
         NotificationActions.receiveCoupleCreatedNotification(data);
+
+
+      }else if(data.action && data.action == 'decouple') {
+        VibrationIOS.vibrate()
+
+        // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
+        NotificationActions.receiveDecoupleNotification(data);
 
 
       }else if(data.action && data.action === 'logout') {

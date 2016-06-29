@@ -15,7 +15,17 @@ class UserActions {
   initialize(){
     return true
   }
-
+  decouple(){
+    return (dispatch) => {
+      Api.decouple
+        .then(res => {
+          dispatch(res)
+        })
+        .catch(error => {
+          dispatch({ error })
+        })
+    }
+  }
   getLocation() {
     return (dispatch) => {
       const success = (geo) => {

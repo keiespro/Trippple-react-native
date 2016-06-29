@@ -162,28 +162,23 @@ class SettingsCouple extends React.Component{
         })
 
   }
-    handleSendMessage(){
-      RNMessageComposer.composeMessageWithArgs(
-        {
-          'messageText':'Come join me on Trippple! http://appstore.com/trippple',
-          'recipients':[this.props.user.partner.phone]
-        },
-        (result) => {
-          switch(result) {
-            case RNMessageComposer.Sent:
-              break;
-            case RNMessageComposer.Cancelled:
-              break;
-            case RNMessageComposer.Failed:
-              break;
-            case RNMessageComposer.NotSupported:
-              break;
-            default:
-              break;
-          }
-        }
-      );
-    }
+
+  decouple(){
+    Alert.alert(
+      `Leave ${this.props.user.partner.firstname}?`,
+      'Are you sure you want to leave this couple?',
+      [
+        {text: 'Yes', onPress: () => {
+          UserActions.decouple()
+        }},
+        {text: 'No', onPress: () => {return false}},
+      ]
+    )
+
+
+
+  }
+
   render(){
     let u = this.props.user;
     let settingOptions = this.props.settingOptions || {};
@@ -327,6 +322,24 @@ class SettingsCouple extends React.Component{
                       })}
                       </View>
                   }
+
+                  <TouchableHighlight
+
+                    style={{
+                      alignSelf:'stretch',
+                      flexDirection:'row',
+                      marginHorizontal:MagicNumbers.screenPadding/2,
+                      backgroundColor:'transparent',
+                      borderColor:colors.mandy,
+                      borderWidth:2
+                    }}
+                    underlayColor={colors.mandy}
+                    _onPress={this.decouple.bind(this)}
+                  >
+                    <View>
+                      <Text>LEAVE COUPLE</Text>
+                    </View>
+                </TouchableHighlight>
 
                   {/*!partner.phone &&
                     <View>

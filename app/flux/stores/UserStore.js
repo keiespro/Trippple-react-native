@@ -214,8 +214,6 @@ class UserStore {
   }
 
   handleUpload(response){
-    // const updatedUser = {...this.state.user, ...response.user_info};
-    // this.setState({user:updatedUser});
 
   }
 

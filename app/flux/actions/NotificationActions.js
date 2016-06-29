@@ -105,6 +105,11 @@ class NotificationActions {
     }
   }
 
+  receiveDecoupleNotification(payload){
+    return (dispatch) => {
+      dispatch({  payload })
+    }
+  }
 
   receiveMatchRemovedNotification(payload){
     return payload.match_id
