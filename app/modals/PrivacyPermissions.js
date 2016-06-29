@@ -8,7 +8,8 @@ import {StyleSheet, Text, Image, NativeModules, CameraRoll, View, TouchableHighl
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-var {FBLoginManager,AddressBook, OSPermissions} = NativeModules
+var {FBLoginManager, OSPermissions} = NativeModules
+import ContactGetter from 'react-native-contacts'
 
 import colors from '../utils/colors'
 import _ from 'underscore'
@@ -40,10 +41,10 @@ export default class PrivacyPermissionsModal extends Component{
       }
     });
 
-     AddressBook.checkPermission((err, permission) => {
-       if(!err && permission === AddressBook.PERMISSION_AUTHORIZED){
+     ContactGetter.checkPermission((err, permission) => {
+       if(!err && permission === ContactGetter.PERMISSION_AUTHORIZED){
          this.setState({ hasContactsPermissions: true })
-       }else if( permission === AddressBook.PERMISSION_DENIED){
+       }else if( permission === ContactGetter.PERMISSION_DENIED){
          this.setState({ hasContactsPermissions: false,failedStateContacts:true })
        }else{
          this.setState({ hasContactsPermissions: false })
@@ -65,19 +66,19 @@ export default class PrivacyPermissionsModal extends Component{
         this.getContacts();
     }else{
 
-      AddressBook.checkPermission((err, permission) => {
+      ContactGetter.checkPermission((err, permission) => {
         if(err){
          //TODO:  handle err;
         }
 
-       // AddressBook.PERMISSION_AUTHORIZED || AddressBook.PERMISSION_UNDEFINED || AddressBook.PERMISSION_DENIED
-       if(permission === AddressBook.PERMISSION_UNDEFINED){
+       // ContactGetter.PERMISSION_AUTHORIZED || ContactGetter.PERMISSION_UNDEFINED || ContactGetter.PERMISSION_DENIED
+       if(permission === ContactGetter.PERMISSION_UNDEFINED){
          this.getContacts();
        }
-       if(permission === AddressBook.PERMISSION_AUTHORIZED){
+       if(permission === ContactGetter.PERMISSION_AUTHORIZED){
           this.getContacts()
         }
-        if(permission === AddressBook.PERMISSION_DENIED){
+        if(permission === ContactGetter.PERMISSION_DENIED){
 
           this.setState({failedStateContacts:true})
         }
@@ -87,18 +88,18 @@ export default class PrivacyPermissionsModal extends Component{
   }
 
   getContacts(){
-    AddressBook.requestPermission((err, permission) => {
-    // AddressBook.getContacts((err, contacts) => {
+    ContactGetter.requestPermission((err, permission) => {
+    // ContactGetter.getContacts((err, contacts) => {
       // console.log(err, permission)
       if (!err ) {
       //   UserActions.handleContacts.defer(contacts)
-        if(permission === AddressBook.PERMISSION_UNDEFINED){
+        if(permission === ContactGetter.PERMISSION_UNDEFINED){
 
         }
-        if(permission === AddressBook.PERMISSION_AUTHORIZED){
+        if(permission === ContactGetter.PERMISSION_AUTHORIZED){
           this.setState({hasContactsPermissions:true})
          }
-         if(permission === AddressBook.PERMISSION_DENIED){
+         if(permission === ContactGetter.PERMISSION_DENIED){
 
            this.setState({failedStateContacts:true,hasContactsPermissions:false})
          }

@@ -8,7 +8,7 @@ import {StyleSheet, Text, Image, NativeModules, Settings, CameraRoll, View, Touc
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-var {FBLoginManager,AddressBook,OSPermissions} = NativeModules
+var {FBLoginManager,OSPermissions} = NativeModules
 import UrlHandler from 'react-native-url-handler'
 import colors from '../utils/colors'
 import _ from 'underscore'

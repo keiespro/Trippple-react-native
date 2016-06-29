@@ -9,7 +9,6 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import UserActions from '../../flux/actions/UserActions'
 import CoupleImage from './CoupleImage'
-import { AddressBook } from 'NativeModules'
 import colors from '../../utils/colors'
 import _ from 'underscore'
 import Facebook from './facebook'

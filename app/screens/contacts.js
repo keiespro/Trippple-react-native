@@ -23,7 +23,7 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import UserActions from '../flux/actions/UserActions'
 import CoupleImage from './registration/CoupleImage'
-const { AddressBook } = NativeModules;
+
 
 import ContactGetter from 'react-native-contacts'
 
@@ -231,7 +231,7 @@ class Contacts extends React.Component{
 
   storeContacts(){
     // console.log('call store contacts')
-    ContactGetter.getAll( (err,contacts)=>{   // AddressBook.getContacts((err, contacts) => {
+    ContactGetter.getAll( (err,contacts)=>{   // ContactGetter.getContacts((err, contacts) => {
 
       if(err){
         Analytics.err(err);
@@ -254,19 +254,19 @@ class Contacts extends React.Component{
 
 
   getContacts(){
-     AddressBook.checkPermission((err, permission) => {
+     ContactGetter.checkPermission((err, permission) => {
 
        if(err){
          Analytics.err(err)
       }
 
 
-      // AddressBook.PERMISSION_AUTHORIZED || AddressBook.PERMISSION_UNDEFINED || AddressBook.PERMISSION_DENIED
-      if(permission === AddressBook.PERMISSION_UNDEFINED){
+      // ContactGetter.PERMISSION_AUTHORIZED || ContactGetter.PERMISSION_UNDEFINED || ContactGetter.PERMISSION_DENIED
+      if(permission === ContactGetter.PERMISSION_UNDEFINED){
         this.askPermissions();
-      }else if(permission === AddressBook.PERMISSION_AUTHORIZED){
+      }else if(permission === ContactGetter.PERMISSION_AUTHORIZED){
         this.storeContacts()
-      }else if(permission === AddressBook.PERMISSION_DENIED){
+      }else if(permission === ContactGetter.PERMISSION_DENIED){
         //handle permission denied
 
         //TODO: test this!
@@ -284,7 +284,7 @@ class Contacts extends React.Component{
     })
   }
   askPermissions(){
-    AddressBook.requestPermission((err, permission) => {
+    ContactGetter.requestPermission((err, permission) => {
       if(err){
         Analytics.err(err)
         return

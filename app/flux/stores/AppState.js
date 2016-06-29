@@ -5,7 +5,6 @@ import MatchActions from '../actions/MatchActions'
 import NotificationActions from '../actions/NotificationActions'
 import {AsyncStorage,PushNotificationIOS,NativeModules,Settings} from 'react-native'
 const {CameraManager,OSPermissions} = NativeModules
-import AddressBook from 'react-native-addressbook'
 import Analytics from '../../utils/Analytics'
 import CoupleReady from '../../coupling/CoupleReady'
 import Coupling from '../../coupling'
