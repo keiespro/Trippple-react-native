@@ -19,7 +19,7 @@ class UserActions {
     return (dispatch) => {
       Api.decouple
         .then(res => {
-          dispatch(res)
+           dispatch(res)
         })
         .catch(error => {
           dispatch({ error })

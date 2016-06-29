@@ -45,6 +45,7 @@ class UserStore {
       handleGetLocation: UserActions.GET_LOCATION,
       handleVerifyCouplePin: UserActions.VERIFY_COUPLE_PIN,
       handleRequestCouplePin: UserActions.GET_COUPLE_PIN,
+      handleDecouple: UserActions.DECOUPLE
 
     });
 
@@ -99,7 +100,10 @@ class UserStore {
   handleGetLocation(coords){
 
   }
-
+  handleDecouple(){
+    AsyncStorage.clear();
+    UserActions.getUserInfo();
+  }
   handleVerifyPin(res){
     const {user_info} = res.response;
     this.waitFor(AppState)

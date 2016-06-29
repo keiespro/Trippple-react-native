@@ -202,7 +202,7 @@ const api = {
     return authenticatedRequest('join_couple', { partner_phone })
   },
   decouple(): Promise{
-    return authenticatedRequest('leave_couple')
+    return authenticatedRequest('decouple')
   },
 
   getCouplePin(): Promise{
