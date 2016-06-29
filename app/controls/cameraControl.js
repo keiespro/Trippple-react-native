@@ -1,5 +1,5 @@
 import React, {Component,PropTypes} from "react";
-import {Dimensions,StyleSheet, CameraRoll, Text, Image, View, TouchableOpacity, TouchableHighlight} from "react-native";
+import {Dimensions,StyleSheet, CameraRoll, NativeModules, Text, Image, View, TouchableOpacity, TouchableHighlight} from "react-native";
 
 import Camera from 'react-native-camera';
 import colors from '../utils/colors'
@@ -9,7 +9,7 @@ import EditImage from '../screens/registration/EditImage'
 import OnboardingActions from '../flux/actions/OnboardingActions'
 import OnboardingBackButton from '../screens/registration/BackButton'
 import Analytics from '../utils/Analytics'
-
+const {ImageStoreManager} = NativeModules
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
@@ -59,7 +59,11 @@ class CameraControl extends Component{
           aspect={Camera.constants.Aspect.fill}
           flashMode={Camera.constants.FlashMode.auto}
           orientation={Camera.constants.Orientation.portrait}
-          captureTarget={Camera.constants.CaptureTarget.disk}
+          captureAudio={false}
+          captureMode={Camera.constants.CaptureMode.still}
+          mirrorImage={true}
+          playSoundOnCapture={true}
+          captureTarget={Camera.constants.CaptureTarget.memory}
           >
           <TouchableOpacity style={styles.bigbutton} onPress={this._takePicture.bind(this)} >
             <View style={[{height:80,width:80}]}>
@@ -81,12 +85,9 @@ class CameraControl extends Component{
 
   _takePicture(){
 
-    this.refs.cam.capture({},(err, data)=> {
-       if(err){ Analytics.log(err); return }
-      // CameraRoll.saveImageWithTag(data,
-      //   (imageTag)=> {
-      // CameraRoll.getPhotos({first:1}, (imgdata)=> {
-        //     const imageFile = imgdata.edges[0].node.image
+    this.refs.cam.capture({})
+    .then(img => {
+      const data = 'data:image/gif;base64,'+img.data;
       const imageFile = {uri: data}
       if(this.props.navigator.getCurrentRoutes()[0].id == 'potentials'){
         this.props.navigator.push({
@@ -124,6 +125,10 @@ class CameraControl extends Component{
           })
         }
       }
+    })
+    .catch(err=>{
+      Analytics.err(err)
+
     })
   }
 }

@@ -92,9 +92,9 @@ class EditImageThumb extends Component{
         if(this.props.image_type == 'couple_profile'){
           localImages = {   localCoupleImage: {uri: dataUri } };
         }else{
-          localImages = { thumb_url: dataUri,image_url: dataUri,localUserImage: {uri: dataUri}  };
+          localImages = { thumb_url: dataUri, image_url: dataUri, localUserImage: {uri: dataUri}  };
         }
-        this.setState({croppedImageURI:dataUri,busy:false });
+        this.setState({croppedImageURI:dataUri, busy:false });
 
         UserActions.updateLocally(localImages)
 
@@ -114,7 +114,7 @@ class EditImageThumb extends Component{
            if(this.props.alsoUpload.image_type && this.props.alsoUpload.image_type.length > 0){
              itype = this.props.alsoUpload.image_type;
            }
-           UserActions.updateLocally({image_url: this.props.image })
+           UserActions.updateLocally({image_url: this.props.image.uri || this.props.image })
 
            UserActions.uploadImage(this.props.alsoUpload.image, ( this.props.alsoUpload.image_type == 'couple_profile' ? 'couple_profile' : 'profile') )
 
