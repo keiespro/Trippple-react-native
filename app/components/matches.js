@@ -123,7 +123,7 @@ this.setState({ scrollEnabled })
         match_id: match_id,
         matchInfo: this.props.matches[0]
       },
-      sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+      sceneConfig: Navigator.SceneConfigs.PushFromRight,
     });
   }
 

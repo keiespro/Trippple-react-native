@@ -151,6 +151,39 @@ class Card extends React.Component{
 
     }
   }
+  partnerImage(showPartnerImage){
+    return  showPartnerImage ?
+
+        (  <TouchableHighlight
+            underlayColor={colors.mediumPurple}
+            pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
+            key={`${potential.partner.id}-touchableimg`}
+            style={[styles.imagebg,{height:undefined, width: undefined,}]}
+            onPressIn={this.toggleCardHoverOn.bind(this)}
+            onPressOut={this.toggleCardHoverOff.bind(this)}
+            onPress={this.openProfileFromImage.bind(this)}
+          >
+            <Animated.Image
+              source={{uri:potential.partner.image_url}}
+              key={`${potential.partner.id}-cimg`}
+              defaultSource={{uri: 'assets/defaultuser.png'}}
+              style={[styles.imagebg,{
+                backgroundColor: colors.white,
+                flex:1,
+                height:undefined,
+                width: undefined,
+                opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
+                  inputRange:  [-300, -80, 0, 80, 300],
+                  outputRange: [   0,   1, 1,  1,   0]
+                }) : 1
+              }]}
+              resizeMode={Image.resizeMode.cover}
+            />
+        </TouchableHighlight> ) : null
+
+
+
+  }
   render(){
 
     const potential = this.props.potential || {user:{}};
@@ -171,6 +204,9 @@ class Card extends React.Component{
     }
     const seperator = distance.length && city.length ? ' | ' : '';
 
+    const showPartnerImage = (potential.partner && potential.partner.image_url && potential.partner.image_url.indexOf('http') >= 0 ? true : false);
+
+    console.log(showPartnerImage);
 
     if(!profileVisible){
       const heights = {
@@ -317,37 +353,8 @@ class Card extends React.Component{
                       resizeMode={Image.resizeMode.cover}
                     />
                 </TouchableHighlight>
-{/*
-                { potential.partner && potential.partner.image_url && potential.partner.image_url.indexOf('http') >= 0 ?
 
-                    <TouchableHighlight
-                      underlayColor={colors.mediumPurple}
-                      pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
-                      key={`${potential.partner.id}-touchableimg`}
-                      style={[styles.imagebg,{height:undefined, width: undefined,}]}
-                      onPressIn={this.toggleCardHoverOn.bind(this)}
-                      onPressOut={this.toggleCardHoverOff.bind(this)}
-                      onPress={this.openProfileFromImage.bind(this)}
-                    >
-                      <Animated.Image
-                        source={{uri:potential.partner.image_url}}
-                        key={`${potential.partner.id}-cimg`}
-                        defaultSource={{uri: 'assets/defaultuser.png'}}
-                        style={[styles.imagebg,{
-                          backgroundColor: colors.white,
-                          flex:1,
-                          height:undefined,
-                          width: undefined,
-                          opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
-                            inputRange:  [-300, -80, 0, 80, 300],
-                            outputRange: [   0,   1, 1,  1,   0]
-                          }) : 1
-                        }]}
-                        resizeMode={Image.resizeMode.cover}
-                      />
-                  </TouchableHighlight> : null
-
-              }*/}
+                {this.partnerImage(showPartnerImage)}
 {/*
                   { potential.couple && potential.partner && potential.couple.image && potential.couple.image.length && potential.couple.image != '' ?
                     <TouchableHighlight

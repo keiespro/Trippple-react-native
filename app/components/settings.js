@@ -77,7 +77,7 @@ class SettingsInside extends React.Component{
     this.props.navigator.push({
       component: SelfImage,
       name: 'SelfImage',
-      sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+      sceneConfig: Navigator.SceneConfigs.PushFromRight,
       passProps: {
         user: this.props.user,
       }
@@ -272,7 +272,7 @@ class SettingsInside extends React.Component{
               <TouchableHighlight onPress={(f)=>{
                   this.props.navigator.push({
                     component: SettingsBasic,
-                    sceneConfig:NavigatorSceneConfigs.FloatFromRight,
+                    sceneConfig:Navigator.SceneConfigs.PushFromRight,
                     user:this.props.user,
                     id:'settingsbasic',
                     name: 'SettingsBasic GENERAL',
@@ -301,7 +301,7 @@ class SettingsInside extends React.Component{
                   <TouchableHighlight onPress={(f)=>{
                       this.props.navigator.push({
                         component: SettingsCouple,
-                        sceneConfig:NavigatorSceneConfigs.FloatFromRight,
+                        sceneConfig:Navigator.SceneConfigs.PushFromRight,
                         passProps: {
                           style:styles.container,
                           settingOptions:this.state.settingOptions,
@@ -346,7 +346,7 @@ class SettingsInside extends React.Component{
                   this.props.navigator.push({
                     name: 'SettingsPreferences',
                     component: SettingsPreferences,
-                    sceneConfig:NavigatorSceneConfigs.FloatFromRight,
+                    sceneConfig:Navigator.SceneConfigs.PushFromRight,
                     passProps: {
                       style:styles.container,
                       settingOptions:this.state.settingOptions,
@@ -371,7 +371,7 @@ class SettingsInside extends React.Component{
                   this.props.navigator.push({
                   component: SettingsSettings,
                   name: 'Settings-Settings',
-                  sceneConfig:NavigatorSceneConfigs.FloatFromRight,
+                  sceneConfig:Navigator.SceneConfigs.PushFromRight,
                   passProps: {
                   style:styles.container,
                   settingOptions:this.state.settingOptions,
