@@ -17,7 +17,6 @@ import {MagicNumbers} from '../DeviceConfig'
 import LogoutButton from '../buttons/LogoutButton'
 import Dimensions from 'Dimensions'
 import ParallaxView from  '../controls/ParallaxScrollView'
-import DistanceSlider from '../controls/distanceSlider'
 import ToggleSwitch from '../controls/switches'
 import UserActions from '../flux/actions/UserActions'
 import AppActions from '../flux/actions/AppActions'
@@ -83,24 +82,24 @@ class SettingsInside extends React.Component{
       }
     });
   }
-  showPartnerMissingModal(){
-    this.props.navigator.push({
-      component: PartnerMissingModal,
-      name: 'PartnerMissingModal',
-      passProps: {
-        nameOfDeniedAction: `view your couple profile `,
-        goBack: () => {this.props.navigator.pop() },
-      }
-    })
-  }
+  // showPartnerMissingModal(){
+  //   this.props.navigator.push({
+  //     component: PartnerMissingModal,
+  //     name: 'PartnerMissingModal',
+  //     passProps: {
+  //       nameOfDeniedAction: `view your couple profile `,
+  //       goBack: () => {this.props.navigator.pop() },
+  //     }
+  //   })
+  // }
 
   _openProfile(){
     Analytics.event('Interaction',{type:'tap', name: 'Preview self profile' });
 
-    if(this.props.user.relationship_status == 'couple' && this.props.user.status != 'onboarded'){
-      this.showPartnerMissingModal()
-      return
-    }else{
+    // if(this.props.user.relationship_status == 'couple' && this.props.user.status != 'onboarded'){
+    //   this.showPartnerMissingModal()
+    //   return
+    // }else{
       var thisYear = new Date().getFullYear()
 
       const selfAsPotential = {
@@ -133,7 +132,7 @@ class SettingsInside extends React.Component{
           rel:this.props.user.relationship_status == 'couple' ? 'single' : 'couple'
         }
       });
-    }
+    // }
   }
 
   disableAccount(){

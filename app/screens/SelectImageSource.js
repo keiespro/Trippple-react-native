@@ -64,7 +64,6 @@ class SelectImageSource extends Component{
   getCameraPermission(){
 
       OSPermissions.canUseCamera( res => {
-        console.log(res);
         const perm = (res > 2);
 
         const nextRoute =  {

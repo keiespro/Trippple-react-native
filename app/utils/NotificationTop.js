@@ -62,7 +62,6 @@ class Notification extends React.Component{
    }
 
     const { payload, user } = this.props;
-    console.log(payload);
 
     payload.data = payload['0'] ? payload['0'].data ? payload['0'].data : payload['0'] : null
     if(!payload.users && (payload.data && !payload.data.users)){ return false}

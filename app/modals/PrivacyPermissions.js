@@ -57,7 +57,7 @@ export default class PrivacyPermissionsModal extends Component{
       UserActions.updateUser({privacy:'private'})
 
       this.props.success && this.props.success()
-      // this.props.navigator.pop()
+      this.props.navigator && this.props.navigator.pop()
     }
   }
 

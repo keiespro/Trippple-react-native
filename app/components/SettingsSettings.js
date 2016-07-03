@@ -95,7 +95,7 @@ class SettingsSettings extends React.Component{
       title: '',
       name:pageTitle,
       id:'webview',
-      sceneConfig: NavigatorSceneConfigs.FloatFromRight,
+      sceneConfig: NavigatorSceneConfigs.PushFromRight,
       passProps: {
         source:{uri:url},
         pageTitle

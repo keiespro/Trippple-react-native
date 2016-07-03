@@ -73,7 +73,7 @@ class Main extends Component{
       })
     }
     //
-    if( initCouplePin ){
+    if( initCouplePin && this.props.user.relationship_status == 'single'){
       this.setTimeout(()=>{
         AppActions.showInModal({
           component: Coupling,
@@ -100,7 +100,7 @@ class Main extends Component{
         }
       })
     }
-    if(deeplink.host == 'join.couple'){
+    if(deeplink.host == 'join.couple' && this.props.user.relationship_status == 'single'){
       const pin = deeplink.path.substring(1,deeplink.path.length);
       Settings.set({'co.trippple.deeplinkCouplePin': pin});
 
@@ -199,7 +199,6 @@ class Main extends Component{
   _setModalVisible(s){
 
     this.setState({modalVisible:false})
-    // AppActions.showNotificationModalWithLikedUser(relevantUser)
 
   }
 
@@ -350,7 +349,7 @@ const MatchesRoute = {
       }
     />
   ),
-    // sceneConfig: Navigator.SceneConfigs.FloatFromRight
+    // sceneConfig: Navigator.SceneConfigs.PushFromRight
 }
 
 
@@ -376,7 +375,7 @@ const ChatRoute = {
       }
     />
   ),
-    // sceneConfig: Navigator.SceneConfigs.FloatFromRight
+    // sceneConfig: Navigator.SceneConfigs.PushFromRight
 }
 
 const ROUTE_STACK = [PotentialsRoute,SettingsRoute,MatchesRoute];

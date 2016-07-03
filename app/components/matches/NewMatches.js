@@ -49,7 +49,7 @@ class NewMatches extends Component{
         matchInfo: nm,
         currentMatch: nm
       },
-      sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+      sceneConfig: Navigator.SceneConfigs.PushFromRight,
     });
   }
   componentWillReceiveProps(nProps){

@@ -163,7 +163,7 @@ class SettingsBasic extends React.Component{
   _pressNewImage(){
     this.props.navigator.push({
       component: SelfImage,
-      sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+      sceneConfig: Navigator.SceneConfigs.PushFromRight,
       passProps: {
         user: this.props.user,
       }

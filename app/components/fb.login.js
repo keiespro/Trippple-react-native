@@ -335,7 +335,7 @@ var PhotoAlbums = React.createClass({
                 this.props.navigator.push({
                   component: AlbumView,
                   name: 'FB Album View',
-                  sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+                  sceneConfig: Navigator.SceneConfigs.PushFromRight,
                   passProps:{
                     ...this.props,
                     photos: album.photos,
@@ -355,7 +355,7 @@ var PhotoAlbums = React.createClass({
 
           this.props.navigator.push({
             component: AlbumView,
-            sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+            sceneConfig: Navigator.SceneConfigs.PushFromRight,
             name: 'FB Album View',
             passProps:{
               ...this.props,
