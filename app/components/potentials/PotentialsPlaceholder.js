@@ -105,7 +105,7 @@ class PotentialsPlaceholder extends React.Component{
             <Text
               style={{
                 color: colors.rollingStone,
-                fontSize: MagicNumbers.size18+2,
+                fontSize: MagicNumbers.size18,
                 marginHorizontal: MagicNumbers.is5orless ? 30 : 70,
                 marginBottom: 180,
                 textAlign: 'center'
@@ -131,7 +131,7 @@ class PotentialsPlaceholder extends React.Component{
                 <TouchableHighlight
                 onPress={this.openProfileEditor.bind(this)}
                 underlayColor={colors.mediumPurple}
-                 style={{justifyContent:'center',alignItems:'center',borderRadius:5,borderWidth:1,paddingVertical:15,borderColor:colors.white,marginVertical:20,
+                 style={{justifyContent:'center',alignItems:'center',borderRadius:5,borderWidth:1,paddingVertical:15,borderColor:colors.white,marginVertical:10,
                 marginHorizontal:MagicNumbers.screenPadding}}>
                   <View>
                     <Text
