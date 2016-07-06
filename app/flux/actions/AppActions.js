@@ -7,7 +7,7 @@ import AppTelemetry from '../../AppTelemetry'
 
 import {NativeModules,UIManager,Alert} from 'react-native'
 import RNFS from 'react-native-fs'
-const {RNMail,ReactNativeAutoUpdater} = NativeModules
+const {RNMail,ReactNativeAutoUpdater,RNMessageComposer} = NativeModules
 const ACTUAL_VERSION = '2.4.0'// ReactNativeAutoUpdater.jsCodeVersion
 
 
@@ -99,7 +99,7 @@ DATA:
   storeContactsToBlock(contacts){
     return contacts;
   }
-  
+
   clearMatchesData(){
     return {}
   }
@@ -114,13 +114,11 @@ DATA:
   sendMessageScreen(payload){
     return (dispatch) => {
       const {pin,messageText} = payload;
-      const {RNMessageComposer} = NativeModules
-        RNMessageComposer.composeMessageWithArgs({ messageText: messageText, recipients: [] }, (result) => {
+        RNMessageComposer.composeMessageWithArgs({ messageText }, (result) => {
 
           switch(result) {
             case RNMessageComposer.Sent:
               dispatch({result})
-
               break;
             case RNMessageComposer.Failed:
               Alert.alert('Whoops','Try that again')
@@ -129,6 +127,8 @@ DATA:
             case RNMessageComposer.NotSupported:
             case RNMessageComposer.Cancelled:
             default:
+              Alert.alert('result',result)
+
               dispatch({result})
               break;
           }
