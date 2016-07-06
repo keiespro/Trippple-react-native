@@ -50,7 +50,7 @@ class SelectRelationshipStatus extends Component{
     this.setState({
       selection: 'single'
     })
-    this._continue('notsingle');
+    this._continue('single');
   }
 
   _selectCouple(){
@@ -59,7 +59,7 @@ class SelectRelationshipStatus extends Component{
     this.setState({///hack
       selection: 'single'
     })
-    this._continue('notsingle');
+    this._continue('single');
   }
 
   _continue(selection){
