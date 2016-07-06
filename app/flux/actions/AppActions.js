@@ -125,10 +125,11 @@ DATA:
               dispatch({result})
               break;
             case RNMessageComposer.NotSupported:
+              Alert.alert('Error','Unable to send messages')
+              dispatch({result})
+              break;
             case RNMessageComposer.Cancelled:
             default:
-              Alert.alert('result',result)
-
               dispatch({result})
               break;
           }
