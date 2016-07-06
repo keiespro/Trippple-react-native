@@ -20,7 +20,7 @@ const ScrollableTabView = React.createClass({
   },
 
   getInitialState() {
-    var w = (this.props.padded ? MagicNumbers.screenWidth : deviceWidth) / this.props.children.length
+    var w = this.props.startPage ? (this.props.padded ? MagicNumbers.screenWidth : deviceWidth) / this.props.children.length : 0
 
     return {
       currentPage: new Animated.Value(w),

@@ -131,7 +131,7 @@ class PotentialsPlaceholder extends React.Component{
                 <TouchableHighlight
                 onPress={this.openProfileEditor.bind(this)}
                 underlayColor={colors.mediumPurple}
-                 style={{justifyContent:'center',alignItems:'center',borderRadius:5,borderWidth:1,paddingVertical:15,borderColor:colors.white,marginVertical:10,
+                 style={{justifyContent:'center',alignItems:'center',borderRadius:5,borderWidth:1,paddingVertical:15,borderColor:colors.white,marginTop:15,marginBottom:20,
                 marginHorizontal:MagicNumbers.screenPadding}}>
                   <View>
                     <Text
