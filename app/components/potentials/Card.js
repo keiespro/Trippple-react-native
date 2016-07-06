@@ -151,7 +151,7 @@ class Card extends React.Component{
 
     }
   }
-  
+
   render(){
 
     const potential = this.props.potential || {user:{}};
@@ -291,7 +291,7 @@ class Card extends React.Component{
                   paginationStyle={{position:'absolute',paddingRight:30,right:0,top:45,height:100}}
                 >
 
-                  <TouchableHighlight
+                  <View
                     underlayColor={colors.mediumPurple}
                     pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                     key={`${potential.user.id}-touchableimg`}
@@ -314,11 +314,11 @@ class Card extends React.Component{
                       }]}
                       resizeMode={Image.resizeMode.cover}
                     />
-                </TouchableHighlight>
+                  </View>
 
 {/*
                   { potential.couple && potential.partner && potential.couple.image && potential.couple.image.length && potential.couple.image != '' ?
-                    <TouchableHighlight
+                    <View
                     underlayColor={colors.mediumPurple}
                     pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                       key={`${potential.id}-touchableimg`}
@@ -340,7 +340,7 @@ class Card extends React.Component{
                         }]}
                         resizeMode={Image.resizeMode.cover}
                       />
-                    </TouchableHighlight> : null
+                    </View> : null
                   }*/}
 
                 </Swiper> :
@@ -353,7 +353,7 @@ class Card extends React.Component{
                   left:0,alignItems:'stretch'
                 }}
                 >
-                  <TouchableHighlight
+                  <View
                     underlayColor={colors.mediumPurple}
                     pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                     key={`${potential.user.id}-touchableimg`}
@@ -376,7 +376,7 @@ class Card extends React.Component{
                       }]}
                       resizeMode={Image.resizeMode.cover}
                     />
-                </TouchableHighlight>
+                  </View>
                 </View>
                   }
 
@@ -640,7 +640,7 @@ class Card extends React.Component{
 
                 >
 
-                  <TouchableHighlight
+                  <View
                     underlayColor={colors.mediumPurple}
                     pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                     key={`${potential.user.id}-touchableimg`}
@@ -664,10 +664,10 @@ class Card extends React.Component{
                       }]}
                       resizeMode={Image.resizeMode.cover}
                     />
-                </TouchableHighlight>
+                  </View>
 
                   {/*{ potential.partner &&
-                    <TouchableHighlight
+                    <View
                       underlayColor={colors.mediumPurple}
                       pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                       key={`${potential.partner.id}-touchableimg`}
@@ -688,11 +688,11 @@ class Card extends React.Component{
                         }]}
                         resizeMode={Image.resizeMode.cover}
                       />
-                  </TouchableHighlight>
+                  </View>
                   }*/}
                   {/*{ false && potential.partner && potential.image && potential.image != null && potential.image != '' ?
 
-                    <TouchableHighlight
+                    <View
                       underlayColor={colors.mediumPurple}
                       pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                       key={`${potential.id}-touchableimg`}
@@ -713,7 +713,7 @@ class Card extends React.Component{
                         }]}
                         resizeMode={Image.resizeMode.cover}
                       />
-                  </TouchableHighlight> : null
+                  </View> : null
                   }*/}
 
                 </Swiper> :
@@ -726,7 +726,7 @@ class Card extends React.Component{
                   left:0,alignItems:'stretch'
                 }}
                 >
-                <TouchableHighlight
+                <View
                   underlayColor={colors.mediumPurple}
                   pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                   key={`${potential.user.id}-touchableimg`}
@@ -747,7 +747,7 @@ class Card extends React.Component{
                     }]}
                     resizeMode={Image.resizeMode.cover}
                   />
-              </TouchableHighlight>
+                </View>
               </View>
               }
 
