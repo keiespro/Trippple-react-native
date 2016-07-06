@@ -194,7 +194,7 @@ class SettingsBasic extends React.Component{
         <ScrollView style={{flex:1,marginTop:55,backgroundColor:colors.dark}} contentContainerStyle={{alignItems:'flex-start'}} >
       <View style={{backgroundColor:colors.outerSpace}}>
 
-        <ScrollableTabView style={{overflow:'hidden',}} onChangeTab={(tab)=>{
+        <ScrollableTabView startPage={this.props.startPage} style={{overflow:'hidden',}} onChangeTab={(tab)=>{
 
             Analytics.screen(`SettingsBasic`+ [' GENERAL',' DETAILS'][tab.i]);
           }} padded={false} renderTabBar={(props)=><CustomTabBar {...props}/>}>

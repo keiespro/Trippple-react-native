@@ -224,6 +224,8 @@ class PotentialsPage extends React.Component{
 
           { potentials.length < 1 &&
             <PotentialsPlaceholder
+              navigator={this.props.navigator}
+              user={this.props.user}
               didShow={this.state.didShow}
               onDidShow={()=>{ this.setState({didShow:true});}}
             />

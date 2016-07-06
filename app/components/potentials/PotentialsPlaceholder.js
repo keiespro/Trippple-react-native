@@ -2,11 +2,13 @@
 
 import React from "react";
 
-import {StyleSheet, Text, View, Image, Dimensions} from "react-native";
+import {StyleSheet, Text, View, Image, Dimensions, TouchableHighlight,Navigator} from "react-native";
 import {MagicNumbers} from '../../DeviceConfig'
 import FadeInContainer from '../FadeInContainer'
 import colors from '../../utils/colors';
 import styles from './styles'
+import SettingsBasic from '../SettingsBasic'
+import profileOptions from '../../get_client_user_profile_options'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -19,7 +21,24 @@ class PotentialsPlaceholder extends React.Component{
           this.props.onDidShow(true)
 
   }
+  openProfileEditor(){
+
+    this.props.navigator.push({
+      component: SettingsBasic,
+      sceneConfig:Navigator.SceneConfigs.PushFromBottom,
+      user:this.props.user,
+      id:'settingsbasic',
+      name: 'SettingsBasic GENERAL',
+      passProps: {
+        style:styles.container,
+        settingOptions:profileOptions,
+        user:this.props.user,
+        startPage:1
+      }
+    })
+  }
   render(){
+    userProfileIncomplete = true;
 
     return (
         <FadeInContainer
@@ -78,13 +97,48 @@ class PotentialsPlaceholder extends React.Component{
               style={{
                 color: colors.rollingStone,
                 fontSize: MagicNumbers.size18+2,
-                marginHorizontal: MagicNumbers.is4s ? 30 : 70,
+                marginHorizontal: MagicNumbers.is5orless ? 30 : 70,
                 marginBottom: 180,
                 textAlign: 'center'
               }}
             >
               You’re all out of potential matches for today.
             </Text>
+
+            {userProfileIncomplete &&
+              <View style={{position:'absolute',bottom:0,alignSelf:'stretch',
+              width: MagicNumbers.is4s ? DeviceWidth - MagicNumbers.screenPadding*2 : DeviceWidth-30,
+            }}>
+                <Text
+                  style={{
+                    color: colors.rollingStone,
+                    fontSize: MagicNumbers.size18-2,
+                    textAlign: 'center'
+                  }}
+                >
+                  Get better matches...
+                </Text>
+
+                <TouchableHighlight
+                onPress={this.openProfileEditor.bind(this)}
+                underlayColor={colors.mediumPurple}
+                 style={{justifyContent:'center',alignItems:'center',borderRadius:5,borderWidth:1,paddingVertical:15,borderColor:colors.white,marginVertical:20,
+                marginHorizontal:MagicNumbers.screenPadding}}>
+                  <View>
+                    <Text
+                      style={{
+                        color: colors.white,
+                        textAlign: 'center',
+                        fontFamily:'Montserrat-Bold'
+                      }}
+                    >
+                      COMPLETE YOUR PROFILE
+                    </Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
+
+            }
           </Image>
         </View>
       </FadeInContainer>
