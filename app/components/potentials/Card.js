@@ -641,13 +641,10 @@ class Card extends React.Component{
                 >
 
                   <View
-                    underlayColor={colors.mediumPurple}
-                    pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                     key={`${potential.user.id}-touchableimg`}
                     style={[styles.imagebg,{
                       width: undefined,
                     }]}
-                    onPress={this.openProfileFromImage.bind(this)}
                   >
                     <Animated.Image
                       source={ {uri: potential.user.image_url}}

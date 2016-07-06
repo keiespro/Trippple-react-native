@@ -117,7 +117,7 @@ class CardStack extends React.Component{
         // console.log('onMoveShouldSetPanResponder',gestureState)
 
 
-        return !this.props.profileVisible && (isCouple ||  isVertical(gestureState))
+        return !this.props.profileVisible && (isCouple ||  true)//isVertical(gestureState))
 
         // return !this.props.profileVisible && notInCone(gestureState)
       },
@@ -125,7 +125,7 @@ class CardStack extends React.Component{
       onStartShouldSetPanResponder: (e,gestureState) => {
         // console.log('onStartShouldSetPanResponder',gestureState)
 
-        return !this.props.profileVisible && ( isCouple ? true :  isVertical(gestureState))
+        return !this.props.profileVisible && ( isCouple ? true :  true)//isVertical(gestureState))
       },
 
       onStartShouldSetPanResponderCapture: (e,gestureState) => {
