@@ -38,7 +38,16 @@ class PotentialsPlaceholder extends React.Component{
     })
   }
   render(){
-    userProfileIncomplete = true;
+    const {user} = this.props;
+    const attrs = ['drink', 'smoke', 'height', 'body', 'ethnicity', 'eye_color', 'hair_color'];
+
+    const userProfileIncomplete = attrs.reduce((acc,el)=>{
+      if(!user[el]){
+        return true
+      }else{
+        return false
+      }
+    },false);
 
     return (
         <FadeInContainer
