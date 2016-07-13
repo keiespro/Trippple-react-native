@@ -59,10 +59,10 @@ class  AgePrefs extends React.Component{
     const dotWidth = SliderWidth / this.state.numberGroups
 
         return (
-          <View style={{ flexDirection:'column',alignSelf:'center',alignItems:'center',justifyContent:'center',height:100,width:MagicNumbers.screenWidth,backgroundColor:'red'}}>
+          <View style={{ flexDirection:'column',alignSelf:'center',alignItems:'center',justifyContent:'center',height:100,width:MagicNumbers.screenWidth,backgroundColor:'transparent'}}>
 
         <View style={{paddingHorizontal:0,flexDirection:'row',width:MagicNumbers.screenWidth,justifyContent:'space-between'}}>
-                <Text style={[{alignSelf:'flex-start',color: colors.rollingStone,textAlign:'left'}]}>{`Age Range`}</Text>
+                <Text style={[{alignSelf:'flex-start',color: colors.rollingStone,textAlign:'left',   fontFamily: 'omnes'}]}>{`Age Range`}</Text>
 
                 <Text style={{alignSelf:'flex-end',color:colors.white,textAlign:'right',marginRight:0,marginBottom:20}}>{`${this.state.match_age_min} - ${this.state.match_age_max == 50 ? '50+' : this.state.match_age_max}`}</Text>
           </View>

@@ -244,7 +244,9 @@ const buttonStyles = StyleSheet.create({
     borderColor: colors.darkGreenBlue,
     borderWidth: 1,
     borderRadius:8,
+    width:MagicNumbers.screenWidth,
     overflow:'hidden',
+
     backgroundColor:colors.sushi
   },
 

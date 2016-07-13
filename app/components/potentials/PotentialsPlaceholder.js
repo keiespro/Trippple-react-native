@@ -61,7 +61,7 @@ class PotentialsPlaceholder extends React.Component{
             {
               height: DeviceHeight,
               width:DeviceWidth,
-              flex: 10,
+
               position: 'relative',
             }]}
           >
@@ -70,9 +70,10 @@ class PotentialsPlaceholder extends React.Component{
           source={{uri: 'assets/placeholderDashed@3x.png'}}
             style={{
               alignSelf: 'stretch',
-              flex: 10,
+
               height: MagicNumbers.is4s ? DeviceHeight-70 : DeviceHeight-55-MagicNumbers.screenPadding/2,
               marginHorizontal: MagicNumbers.is4s ? MagicNumbers.screenPadding : 15,
+              marginVertical: MagicNumbers.is4s ? MagicNumbers.screenPadding : 15,
               width: MagicNumbers.is4s ? DeviceWidth - MagicNumbers.screenPadding*2 : DeviceWidth-30,
               alignItems: 'center',
               justifyContent: 'center',

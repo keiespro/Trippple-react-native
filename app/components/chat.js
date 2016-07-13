@@ -29,13 +29,13 @@ const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+
     backgroundColor: colors.white,
     paddingTop:50,
     paddingBottom:50
   },
   chatContainer: {
-    flex: 1,
+
     margin: 0,
     flexDirection: 'column',
     // alignItems: 'stretch',
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     // top:60
   },
   messageList: {
-    flex: 1,
+
     flexDirection: 'column',
     alignSelf: 'stretch',
    },
@@ -65,20 +65,18 @@ const styles = StyleSheet.create({
     paddingVertical:15,
     marginTop:10,
     marginBottom:5,
-    flex:1,
+    flex:1
   },
   row:{
     flexDirection: 'row',
-    flex: 1,
-    alignSelf:'stretch',
-    alignItems:'stretch',
+    alignItems:'center',
     justifyContent:'space-between',
     marginHorizontal: 10,
 
   },
   col:{
     flexDirection: 'column',
-    flex: 1,
+
     alignSelf:'stretch',
     alignItems:'stretch',
     justifyContent:'space-around',
@@ -87,11 +85,14 @@ const styles = StyleSheet.create({
   theirMessage:{
     backgroundColor: colors.mediumPurple,
     marginRight: MagicNumbers.is4s ? 0 : 10,
+    alignSelf:'flex-start',
+
   },
   ourMessage:
   {
     marginLeft: MagicNumbers.is4s ? 0 : 10,
-    backgroundColor: colors.dark
+    backgroundColor: colors.dark,
+    alignSelf:'flex-end',
   },
   messageTitle:
   {
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
     alignItems:'flex-end',
     alignSelf:'stretch',
     backgroundColor: colors.dark,
-    flex:1,
+
     position:'relative',
     height:DeviceHeight,
     width:DeviceWidth,
@@ -145,10 +146,10 @@ const styles = StyleSheet.create({
   },
   listview:{
     backgroundColor:colors.outerSpace,
-    flex:1,
+
     alignSelf:'stretch',
     width:DeviceWidth,
-    height:DeviceHeight,
+    // height:DeviceHeight,
   },
   messageComposer: {
     flexDirection:'row',
@@ -157,6 +158,7 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     width:DeviceWidth,
     margin:0,
+    height:80,
     paddingLeft:20,
     paddingVertical:15,
     paddingRight:10,
@@ -168,7 +170,6 @@ const styles = StyleSheet.create({
     paddingHorizontal:3,
     paddingTop:0,
     paddingBottom:10,
-    flexWrap:'wrap',
     fontSize:17,
     color:colors.white,
     borderBottomColor:colors.white,
@@ -215,44 +216,44 @@ class ChatMessage extends React.Component{
     return (
       <View style={[styles.col]}>
         <View style={[styles.row]}>
-          <View style={{flex:1,position:'relative',alignSelf:'stretch',alignItems:'center',flexDirection:'row', justifyContent:'center',backgroundColor: this.props.messageData.ephemeral && __DEV__ ? colors.sushi : 'transparent'}}>
+          <View style={{flexDirection:'column', alignItems:isMessageOurs ? 'flex-end' : 'flex-start', alignSelf: 'stretch', flex:1, justifyContent:'center',backgroundColor: this.props.messageData.ephemeral && __DEV__ ? colors.sushi : 'transparent'}}>
+          <View style={{alignSelf: isMessageOurs ? 'flex-end' : 'flex-start',justifyContent:'center',alignItems:'center',maxWidth:MagicNumbers.screenWidth,backgroundColor:'transparent',flexDirection:'row'}}>
+            {!isMessageOurs ?
+              <View style={{backgroundColor:'transparent'}}>
+              <Image style={[styles.thumb,{backgroundColor:colors.dark}]}
+                  source={{uri: thumb}}
+                  resizeMode={Image.resizeMode.cover}
+                  defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+                />
+              </View> : null
+            }
+            { !isMessageOurs ?
+              <Image
+                resizeMode={Image.resizeMode.contain}
+                source={{uri: 'assets/TrianglePurple@3x.png'}}
+                style={{left:1,width:10,height:22,opacity:1}}
+              /> : null
+            }
+            <View style={[styles.bubble,(isMessageOurs ? styles.ourMessage : styles.theirMessage),{}]}>
 
-          {!isMessageOurs ?
-            <View style={{backgroundColor:'transparent'}}>
-            <Image style={[styles.thumb,{backgroundColor:colors.dark}]}
-                source={{uri: thumb}}
-                resizeMode={Image.resizeMode.cover}
-                defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
-              />
-            </View> : null
-          }
-          { !isMessageOurs ?
-            <Image
-              resizeMode={Image.resizeMode.contain}
-              source={{uri: 'assets/TrianglePurple@3x.png'}}
-              style={{left:1,width:10,height:22}}
-            /> : null
-          }
-          <View style={[styles.bubble,(isMessageOurs ? styles.ourMessage : styles.theirMessage),{alignSelf:'stretch'}]}>
+              <Text style={[styles.messageText, styles.messageTitle,
+                    {color: isMessageOurs ? colors.shuttleGray : colors.lavender, fontFamily:'Montserrat'} ]}
+              >{ this.props.messageData.from_user_info.name.toUpperCase() }</Text>
 
-            <Text style={[styles.messageText, styles.messageTitle,
-                  {color: isMessageOurs ? colors.shuttleGray : colors.lavender, fontFamily:'Montserrat'} ]}
-            >{ this.props.messageData.from_user_info.name.toUpperCase() }</Text>
+              <Text style={styles.messageText} >{
+                this.props.text
+              }</Text>
 
-            <Text style={styles.messageText} >{
-              this.props.text
-            }</Text>
+            </View>
 
-          </View>
-
-          {isMessageOurs ?
-            <Image
-              resizeMode={Image.resizeMode.contain}
-              source={{uri: 'assets/TriangleDark@3x.png'}}
-              style={{right:0,width:10,height:22}}
-            /> : null
-          }
-
+            {isMessageOurs ?
+              <Image
+                resizeMode={Image.resizeMode.contain}
+                source={{uri: 'assets/TriangleDark@3x.png'}}
+                style={{right:0,width:10,height:22,tintColor:colors.darks,opacity:1}}
+              /> : null
+            }
+            </View>
           </View>
         </View>
 
@@ -441,7 +442,7 @@ class ChatInside extends Component{
     return (
       <ScrollView
         {...this.props}
-        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight,flex:1}}
+        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight}}
         contentInset={{top:0,right:0,left:0,bottom:50}}
         automaticallyAdjustContentInsets={true}
         scrollEnabled={false}
@@ -449,23 +450,23 @@ class ChatInside extends Component{
         removeClippedSubviews={true}
         onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
         onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
-        style={{ backgroundColor:colors.outerSpace, flex:1, alignSelf:'stretch', width:DeviceWidth,}}
+        style={{  alignSelf:'stretch',width:DeviceWidth,}}
       >
         <FadeInContainer delayAmount={1000} duration={1000}>
 
-          <View style={{flexDirection:'column',justifyContent:'center',flex:1,alignItems:'center',alignSelf:'stretch'}}>
-            <View style={{width:DeviceWidth,alignSelf:'center',alignItems:'center',flexDirection:'column',justifyContent:'center',flex:1,}}>
+          <View style={{flexDirection:'column',justifyContent:this.state.isKeyboardOpened ? 'flex-start' : 'center',top:this.state.isKeyboardOpened ? 40 : 0,alignItems:this.state.isKeyboardOpened ? 'flex-start' : 'center',alignSelf:'stretch',flex: 1  }}>
+            <View style={{width:DeviceWidth,alignSelf:this.state.isKeyboardOpened ? 'flex-start' : 'center',alignItems:'center',flexDirection:'column',justifyContent:'center' }}>
 
-              <Text style={{color:colors.white,fontSize:20,opacity:this.state.isKeyboardOpened ? 0 : 1,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{
+              <Text style={{color:colors.white,fontSize:20,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{
                     `YOU MATCHED WITH`
               }</Text>
 
     					<Text style={{color:colors.white,fontSize:20,fontFamily:'Montserrat-Bold',textAlign:'center',
-                opacity:this.state.isKeyboardOpened ? 0 : 1}} >{
+                }} >{
                     `${chatTitle}`
               }</Text>
 
-            <View style={{opacity:this.state.isKeyboardOpened ? 0 : 1}} >
+            <View style={{}} >
                 <TimeAgo style={{color:colors.shuttleGray, fontSize:16,fontFamily:'omnes',}} time={matchInfo.created_timestamp*1000} />
               </View>
 
@@ -474,7 +475,7 @@ class ChatInside extends Component{
                 style={this.getThumbSize()}
                 defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
               />
-    					<Text style={{color:colors.shuttleGray,fontSize:20,textAlign:'center',fontFamily:'omnes', backgroundColor: 'transparent',opacity:this.state.isKeyboardOpened ? 0:1}} >Say something. {
+    					<Text style={{color:colors.shuttleGray,fontSize:20,textAlign:'center',fontFamily:'omnes', backgroundColor: 'transparent'}} >Say something. {
                   (them.length == 2 ? 'They\'re' : them[0].gender == 'm' ? 'He\'s' : 'She\'s')
                 } already into you.</Text>
             </View>
@@ -503,7 +504,7 @@ class ChatInside extends Component{
           onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
 onEndReached={this.onEndReached.bind(this)}
           messages={this.props.messages || []}
-          style={[styles.listview,{ height:DeviceHeight,backgroundColor:colors.outerSpace}]}
+          style={[styles.listview,{ backgroundColor:colors.outerSpace}]}
           renderScrollComponent={props => (
             <InvertibleScrollView inverted={true}
               onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
