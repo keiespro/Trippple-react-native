@@ -13,7 +13,7 @@ const ACTUAL_VERSION =  "2.4.2"
 
 class AppActions {
   gotCredentials(creds) {
-    Analytics.identifyUser(creds.user_id)
+    Analytics.identifyUser(creds.user_id || creds.username)
     return (dispatch) => {
       dispatch(creds)
     }

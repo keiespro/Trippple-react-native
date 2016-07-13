@@ -15,7 +15,7 @@ import {
   Dimensions,
   Navigator,
   TouchableOpacity,
-  ActivityIndicatorIOS,
+  ActivityIndicator,
   NativeModules
 } from 'react-native'
 
@@ -356,7 +356,7 @@ class Contacts extends React.Component{
 
         </View>
         {!this.state.contacts.length ? <View style={{width:DeviceWidth,height:DeviceHeight-60,flex:1,alignItems:'center',justifyContent:'center'}}>
-        <ActivityIndicatorIOS
+        <ActivityIndicator
             animating={true}
             color={colors.white}
             size={'large'}

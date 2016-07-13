@@ -6,7 +6,7 @@
 import React from "react";
 
 import {Component} from "react";
-import {StyleSheet, ScrollView, Text, Image, CameraRoll, View, NativeModules, ActivityIndicatorIOS, Alert, TouchableHighlight, TouchableOpacity} from "react-native";
+import {StyleSheet, ScrollView, Text, Image, CameraRoll, View, NativeModules, ActivityIndicator, Alert, TouchableHighlight, TouchableOpacity} from "react-native";
 
 import colors from '../../utils/colors';
 import Analytics from '../../utils/Analytics';

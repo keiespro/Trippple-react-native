@@ -9,7 +9,9 @@ import ReactNative, {View, AppRegistry, NativeModules} from "react-native";
 import Boot from './app/Boot'
 import alt from './app/flux/alt'
 // import {whyDidYouUpdate} from 'why-did-you-update'
-
+if(__TEST__){
+  const AppTest = require('./app/components/app-test')
+}
 
 
 if(typeof window !== 'undefined' && __DEV__ && process.env.NODE_ENV !== 'production'){

@@ -3,7 +3,7 @@
  */
 import React, {Component, PropTypes} from "react";
 
-import {ActivityIndicatorIOS, CameraRoll, Image, ListView, ScrollView, StyleSheet, View, Text, NativeModules, TouchableOpacity, Dimensions} from "react-native";
+import {ActivityIndicator, CameraRoll, Image, ListView, ScrollView, StyleSheet, View, Text, NativeModules, TouchableOpacity, Dimensions} from "react-native";
 
 import OnboardingActions from '../flux/actions/OnboardingActions'
 import colors from '../utils/colors'
@@ -282,7 +282,7 @@ class CameraRollView extends Component{
 
           {Object.keys(this.state.loadedImages).length == 0 ?
             <View style={{alignItems:'center',position:'absolute',justifyContent:'center',width:DeviceWidth,height:DeviceHeight-54,flex:10,flexDirection:'column'}}>
-              <ActivityIndicatorIOS style={{top:0,height:50,width:50,}} color={colors.white20} animating={true} size={'large'}/>
+              <ActivityIndicator style={{top:0,height:50,width:50,}} color={colors.white20} animating={true} size={'large'}/>
               <Text
                 style={{
                   textAlign:'center',fontSize:20,
@@ -330,7 +330,7 @@ class CameraRollView extends Component{
     if (this.state && !this.state.noMore) {
       return (
           <View style={{flexDirection:'row',alignSelf:'stretch',alignItems:'center',justifyContent:'center',width:DeviceWidth,height:80}}>
-              <ActivityIndicatorIOS style={styles.spinner} />
+              <ActivityIndicator style={styles.spinner} />
             </View>
           )
     }

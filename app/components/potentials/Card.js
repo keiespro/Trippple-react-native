@@ -194,7 +194,7 @@ class Card extends React.Component{
       const heightTable =  MagicNumbers.is4s ? heights.smallest : (MagicNumbers.is5orless ? heights.middle : heights.all);
       const cardHeight = DeviceHeight + (isTopCard ? heightTable.top : (isThirdCard ? heightTable.third : heightTable.second));
       // ? DeviceHeight- 40 : DeviceHeight -60
-      const cardWidth = MagicNumbers.screenWidth+20;
+      const cardWidth = DeviceWidth;
 
       return (
         <View
@@ -224,7 +224,7 @@ class Card extends React.Component{
               alignItems:'center',
               justifyContent:'center',
               position:'relative',
-              height:undefined,
+              height:cardHeight,
               left:0,
               right:0,
               width:cardWidth,
@@ -384,10 +384,10 @@ class Card extends React.Component{
               <View
                 key={`${potential.id || potential.user.id}-bottomview`}
                 style={{
-                  height: isTopCard ? 80 : 80,
+                  height: isTopCard ? 130 : 130,
                   marginTop: isTopCard ? -30 : -30,
 
-                  marginLeft:0,
+                  marginLeft:20,
                   right:0,
                   left:0,
                   bottom:0,
@@ -619,6 +619,14 @@ class Card extends React.Component{
             <Animated.View
               key={`${potential.id || potential.user.id}bgopacity`}
               ref={"incard"}
+              style={{
+                              alignItems:'center',
+                              justifyContent:'center',
+                              left:0,
+                              right:0,
+                              marginHorizontal:0,
+                              flexDirection:'column',
+                              position:'relative',width:DeviceWidth,}}
             >
 
               {this.props.user.relationship_status == 'single' ?
@@ -718,8 +726,8 @@ class Card extends React.Component{
                   alignSelf:'center',
                   marginLeft:0,
                   // overflow:'hidden',
-                  height:undefined,
-                  marginRight:0,
+flexDirection:'column',alignItems:'center',justifyContent:'center',
+                    marginRight:0,
                   left:0,alignItems:'stretch'
                 }}
                 >
@@ -751,31 +759,31 @@ class Card extends React.Component{
               <View
                 key={`${potential.id || potential.user.id}-bottomview`}
                 style={{
-                  height: undefined,
-                  top: 0,
+                   top: 0,
                   marginTop: (DeviceHeight <= 568 ? -120 : -120),
                   backgroundColor:colors.outerSpace,
-
+flexDirection:'column',alignItems:'center',justifyContent:'center',
                   left:0,
                   right:0,
                   marginLeft:0,
                   // bottom:-180,
                   width:DeviceWidth,
+                  position:'relative'
                 }}
               >
               <TouchableHighlight
-                underlayColor={colors.mediumPurple} onPress={() => { this.refs.scrollbox.scrollTo({y: DeviceHeight-200,x:0}) }} >
-                <View style={{flexDirection:'row',position:'relative'}}>
+                underlayColor={colors.outerSpace} onPress={() => {}} >
+                <View style={{flexDirection:'column',alignItems:'center',width:DeviceWidth,justifyContent:'center',position:'relative'}}>
 
                 <View
                   key={`${potential.id || potential.user.id}-infos`}
                   style={{
                     // height:60,
                     // overflow:'hidden',
-                    width: undefined,
+                    width:DeviceWidth,
                     left:0,
                     height:180,
-                    marginLeft: MagicNumbers.screenPadding/2,
+                    marginLeft: MagicNumbers.screenPadding,
                     paddingVertical:20,
                   }}
                 >
@@ -848,10 +856,10 @@ class Card extends React.Component{
                 </View>
               }*/}
 
-                <View style={{top:-50,backgroundColor:colors.outerSpace}}>
+                <View style={{top:-50,flexDirection:'column',alignItems:'center',left:0,justifyContent:'center',backgroundColor:colors.outerSpace,width:DeviceWidth,}}>
 
                 {potential.bio && potential.user.bio &&
-                  <View style={{margin:MagicNumbers.screenPadding/2}}>
+                  <View style={{margin:MagicNumbers.screenPadding/2,width:DeviceWidth,}}>
                     <Text style={[styles.cardBottomOtherText,{color:colors.white,marginBottom:15,marginLeft:0}]}>{
                         rel =='single' ? `About Me` : `About Us`
                     }</Text>
@@ -861,7 +869,7 @@ class Card extends React.Component{
                   </View>
                 }
 
-                  <View style={{ paddingVertical:20,alignItems:'stretch' }}>
+                  <View style={{ paddingVertical:20,width:DeviceWidth,alignItems:'stretch' }}>
                     <UserDetails potential={potential} user={this.props.user} location={'card'} />
                   </View>
 

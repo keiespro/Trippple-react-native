@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import {Text, View, Image, Animated, ActivityIndicatorIOS, Dimensions, AppState, NativeModules} from "react-native";
+import {Text, View, Image, Animated, ActivityIndicator, Dimensions, AppState, NativeModules} from "react-native";
 
 
 import alt from '../flux/alt';
@@ -209,7 +209,7 @@ class PotentialsPage extends React.Component{
                 top:0,
                 left:0
               }]}>
-              <ActivityIndicatorIOS
+              <ActivityIndicator
                 size={'large'}
                 style={[{
                   alignItems: 'center',

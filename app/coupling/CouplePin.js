@@ -2,7 +2,7 @@
 
 
 import React, {Component, PropTypes} from "react";
-import { StyleSheet, Image, Text, Settings, ScrollView, Animated, ActivityIndicatorIOS, Alert, View, TouchableHighlight, Dimensions, PixelRatio, TouchableOpacity} from "react-native";
+import { StyleSheet, Image, Text, Settings, ScrollView, Animated, ActivityIndicator, Alert, View, TouchableHighlight, Dimensions, PixelRatio, TouchableOpacity} from "react-native";
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -190,7 +190,7 @@ class CouplePin extends React.Component{
         <View style={{alignItems:'center',justifyContent:'center'}}>
 
           {this.state.submitting ?
-              <ActivityIndicatorIOS style={[ {width:80,height: 80}]} size="large" animating={true}/> :
+              <ActivityIndicator style={[ {width:80,height: 80}]} size="large" animating={true}/> :
             <TouchableHighlight
             underlayColor={colors.white20}
             style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:0,marginTop:20,marginBottom:15}}

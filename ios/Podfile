@@ -4,13 +4,8 @@ target "Trippple" do
   pod 'NewRelicAgent'
   pod 'Fabric'
   pod 'Crashlytics'
-  # pod 'FBSnapshotTestCase'
 end
 
-#
-# target "Tripppletest" do
-#   pod 'HotlineSDK'
-#   pod 'Mixpanel'
-#   pod 'NewRelicAgent'
-#   pod 'FBSnapshotTestCase'
-# end
+target "TripppleUITests" do
+  pod 'Mixpanel'
+end

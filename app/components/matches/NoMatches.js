@@ -28,30 +28,30 @@ class NoMatches extends Component{
         >
         <FadeInContainer delayAmount={1000} duration={1000}>
           <View
-            style={{flex:1,flexDirection:'column',padding:MagicNumbers.screenPadding/2,justifyContent:'center',alignItems:'center',alignSelf:'stretch',paddingBottom:0,}}
+            style={{flex:1,flexDirection:'column',padding:MagicNumbers.screenPadding/2,justifyContent:'flex-start',alignItems:'center',alignSelf:'stretch',paddingBottom:0,paddingTop:50}}
             >
             <Image
               style={{width:DeviceWidth-MagicNumbers.screenPadding,
-                height:MagicNumbers.is5orless ? 70 : 100,
+                height:MagicNumbers.is5orless ? 70 : 80,
                 marginBottom:20 }}
               source={{uri: 'assets/listing@3x.png'}}
               resizeMode={Image.resizeMode.contain}
             />
             <Image
               style={{width:DeviceWidth-MagicNumbers.screenPadding,
-                height:MagicNumbers.is5orless ? 70 : 100,
+                height:MagicNumbers.is5orless ? 70 : 80,
                 marginBottom:20 }}
               source={{uri: 'assets/listing@3x.png'}}
               resizeMode={Image.resizeMode.contain}
               />
            <Image
               style={{width:DeviceWidth-MagicNumbers.screenPadding,
-                height:MagicNumbers.is5orless ? 70 : 100,
+                height:MagicNumbers.is5orless ? 70 : 80,
                 marginBottom:50 }}
               source={{uri: 'assets/listing@3x.png'}}
               resizeMode={Image.resizeMode.contain}
             />
-              
+
             <Text style={{
                 color:colors.white,
                 fontSize: MagicNumbers.is5orless ? 18 : 22,

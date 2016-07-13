@@ -1,7 +1,7 @@
 'use strict';
 
 import React from "react";
-import {StyleSheet, Image, Text, View, PixelRatio, Dimensions, Navigator, ListView, ActivityIndicatorIOS, TouchableHighlight, NativeModules} from "react-native";
+import {StyleSheet, Image, Text, View, PixelRatio, Dimensions, Navigator, ListView, ActivityIndicator, TouchableHighlight, NativeModules} from "react-native";
 
 import UserActions from '../flux/actions/UserActions'
 import FBLogin from 'react-native-facebook-login'
@@ -424,7 +424,7 @@ var PhotoAlbums = React.createClass({
         style={{flex:1,marginTop:55}}
         dataSource={this.state.albums}
         renderRow={this.renderAlbumCover}
-      /> : <ActivityIndicatorIOS style={{alignSelf:'center',alignItems:'center',flex:1,height:200,width:200,justifyContent:'center'}} animating={true} size={'large'}/> }
+      /> : <ActivityIndicator style={{alignSelf:'center',alignItems:'center',flex:1,height:200,width:200,justifyContent:'center'}} animating={true} size={'large'}/> }
 
       <FakeNavBar
         navigator={this.props.navigator}

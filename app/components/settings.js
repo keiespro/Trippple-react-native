@@ -1,7 +1,9 @@
-/* @flow */
+/*
+* @providesModule Settings
+*/
 import React from "react";
 
-import ReactNative, {StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, Alert, TextInput, ScrollView, SwitchIOS, Animated, PickerIOS, Image, AsyncStorage, Navigator, NativeModules} from "react-native";
+import ReactNative, {StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, Alert, TextInput, ScrollView, SwitchIOS, Animated, PickerIOS, Image, AsyncStorage, Navigator, NativeModules, Dimensions} from "react-native";
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 const {RNHotlineController} = NativeModules;
@@ -15,7 +17,7 @@ import UserProfile from './UserProfile'
 import dismissKeyboard from 'dismissKeyboard'
 import {MagicNumbers} from '../DeviceConfig'
 import LogoutButton from '../buttons/LogoutButton'
-import Dimensions from 'Dimensions'
+
 import ParallaxView from  '../controls/ParallaxScrollView'
 import ToggleSwitch from '../controls/switches'
 import UserActions from '../flux/actions/UserActions'
@@ -503,6 +505,8 @@ class Settings extends React.Component{
     )
   }
 }
+
+Settings.displayName = "Settings"
 export default Settings
 
 

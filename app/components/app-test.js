@@ -1,6 +1,6 @@
 /*
 * @flow
-* @providesModule App
+* @providesModule AppTest
 */
 
 
@@ -8,7 +8,7 @@ import React from "react";
 
 import DeviceConfig from '../DeviceConfig'
 import {Component} from "react";
-import {AppRegistry, View, Navigator, Dimensions, Image, NativeModules,Settings,Linking} from "react-native";
+import {AppRegistry, View, SnapshotViewIOS, Navigator, Dimensions, Image, NativeModules,Settings,Linking} from "react-native";
 import Analytics from '../utils/Analytics'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -28,7 +28,7 @@ import CheckMarkScreen from '../screens/CheckMark'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 import NotificationActions from '../flux/actions/NotificationActions'
-import {Connectivity, ReachabilitySubscription, AppVisibility} from '../utils/ConnectionInfo'
+
 import Notifications from '../utils/Notifications';
 import LoadingOverlay from './LoadingOverlay'
 import PurpleModal from '../modals/PurpleModal'
@@ -163,7 +163,7 @@ reactMixin(TopLevel.prototype, TimerMixin);
 
 
 
-class App extends Component{
+class AppTest extends Component{
   constructor(props){
     super()
   }
@@ -195,9 +195,19 @@ class App extends Component{
   }
 
 }
-App.displayName = 'App'
-
-AppRegistry.registerComponent('App', () => App);
+AppTest.displayName = 'AppTest'
 
 
-export default App
+
+const Snapshotter = (props) => (
+  <SnapshotViewIOS>
+    <AppTest {...props} />
+  </SnapshotViewIOS>
+);
+
+/**
+ * Register every component by its displayName we will refer from the test
+ * suite
+ */
+AppRegistry.registerComponent("AppTest", () => Snapshotter);
+export default AppTest

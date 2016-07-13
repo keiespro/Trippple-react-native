@@ -232,11 +232,11 @@ class FieldModal extends React.Component{
       switch(field.field_type ){
         case 'dropdown':
         return (
-          <View style={{ alignSelf:'stretch',flex:1}}>
+          <View style={{ alignSelf:'stretch'}}>
             <View style={{ alignSelf:'stretch',
               width:MagicNumbers.screenWidth - MagicNumbers.screenPadding,
               marginHorizontal:MagicNumbers.screenPadding,
-              flex:1,height:DeviceHeight-170,alignItems:'center',justifyContent:'center',flexDirection:'column'}}>
+           height:DeviceHeight-260,alignItems:'center',justifyContent:'center',flexDirection:'column'}}>
               <View style={{ borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,alignItems:'center',justifyContent:'center',alignSelf:'stretch' }}>
                 <Text style={{
                     color: colors.rollingStone,
@@ -259,7 +259,7 @@ class FieldModal extends React.Component{
               </View>
             </View>
             {this.renderButtons()}
-            <View style={{backgroundColor:colors.dark, flex:1,flexDirection:'column',alignItems:'center', width:DeviceWidth,justifyContent:'center',padding:0}}>
+            <View style={{backgroundColor:colors.dark,flexDirection:'column',alignItems:'center',height:240, width:DeviceWidth,justifyContent:'center',padding:0,paddingBottom:20}}>
               {React.cloneElement(inputField,{
                 onValueChange: this.onChange.bind(this),
                 selectedValue: (selectedFieldValue || null),

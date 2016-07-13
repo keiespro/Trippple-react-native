@@ -1,12 +1,13 @@
 
 import React from "react";
-import {StyleSheet, UIManager, Text, View, TouchableHighlight, Settings, TouchableOpacity,Dimensions, Animated, PushNotificationIOS, Image, ScrollView, AsyncStorage, Navigator, ListView,AlertIOS} from "react-native";
+import {StyleSheet, UIManager, Text, View, TouchableHighlight, Settings, TouchableOpacity,Dimensions, Animated, PushNotificationIOS, Image, ScrollView, AsyncStorage, Navigator, ListView,Alert} from "react-native";
 import AppTelemetry from '../AppTelemetry'
 import NotificationActions from '../flux/actions/NotificationActions'
 import MatchActions from '../flux/actions/MatchActions'
 import AppActions from '../flux/actions/AppActions'
 import colors from '../utils/colors'
 import FakeNavBar from '../controls/FakeNavBar'
+import CredentialsStore from '../flux/stores/CredentialsStore'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -29,9 +30,9 @@ class SettingsDebug extends React.Component{
   }
   render(){
       return (
-        <View style={{flex:1}}>
+        <View  style={{ }}>
 
-      <ScrollView contentContainerStyle={{height:DeviceHeight-55,top:55}} style={{flex:1}}>
+      <ScrollView style={{flex:1,paddingTop:55,overflow:'visible'}}    >
             {/*  Show telemetry */}
               <TouchableHighlight
                 onPress={(f)=>{
@@ -55,10 +56,40 @@ class SettingsDebug extends React.Component{
                 </View>
               </TouchableHighlight>
 
+
+
+
+{/*  login */}
+  <TouchableHighlight
+    onPress={(f)=>{
+
+         this.props.navigator.push({
+           component:  TelemetryPage,
+           passProps:{
+             data: [{
+                 user_id: 62,
+                 api_key: "247aba58-e3cb-49c9-a418-24b3f1dac7ef"
+               },{
+
+                 user_id: 28826,
+                 api_key: "84eecb4f-c777-4419-b385-94b83ea9af44"
+               }
+             ]
+             },
+
+           name: "login"
+         })
+
+    }} >
+    <View style={styles.wrapfield}>
+      <Text style={{color:colors.white,}}>Login As </Text>
+     </View>
+  </TouchableHighlight>
+
               {/*  send like */}
                 <TouchableHighlight
                   onPress={(f)=>{
-                    AlertIOS.prompt(
+                    Alert.prompt(
                       'Like User',
                      'Enter their id',
                      [
@@ -402,14 +433,20 @@ class EmptyPage extends React.Component{
     const {data,screenshot} = this.props
     // console.log(data)
     return (
-      <View style={{flex:1}}>
+      <View>
 
-      <ScrollView horizontal={true} vertical={true} contentContainerStyle={{top:55}} style={{flex:1}} >
+      <ScrollView horizontal={true}
+              scrollEnabled={true}
+ vertical={true}
+ alwaysBounceVertical={true}
+ style={{flex:1,paddingTop:55,overflow:'visible'}}
+ contentContainerStyle={{}}
+ >
           {screenshot ?
             <Image resizeMode={'cover'} source={{uri: screenshot}} style={{width:DeviceWidth*.75,height:DeviceHeight*.75}}/>
-           : <Text style={{color:colors.white,marginBottom:20}}>{
+           : <View style={{ overflow:'visible',}}><Text style={{color:colors.white,marginBottom:20, overflow:'visible' }}>{
               JSON.stringify(data.data, null, 2)
-          }</Text>}
+          }</Text></View>}
         </ScrollView>
         <FakeNavBar
           blur={true}
@@ -439,12 +476,13 @@ class TelemetryPage extends React.Component{
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     const {renderProps} = props
     // console.log(props,'<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
-    const data = Object.keys(renderProps).map((prop,i)=>{ return {name: prop, data: renderProps[prop] }})
+    const data = props.data || Object.keys(renderProps).map((prop,i)=>{ return {name: prop, data: renderProps[prop] }})
     this.state = {
       dataSource: ds.cloneWithRows(data),
     };
   }
   renderRow(rowData){
+    console.log(rowData)
     return  (
       <TouchableOpacity onPress={()=>{
           if(rowData.name == 'state'){
@@ -456,6 +494,10 @@ class TelemetryPage extends React.Component{
               name: `debug - ${rowData.name}`
             })
 
+          }else if(rowData.user_id){
+            console.log('saved creds');
+            CredentialsStore.saveCredentials(rowData)
+            Alert.alert('logged in as '+rowData.user_id,'Now shake and reload')
           }else{
             this.props.navigator.push({
               component: EmptyPage,
@@ -468,7 +510,7 @@ class TelemetryPage extends React.Component{
 
         }}>
         <View style={styles.wrapfield}>
-          <Text style={{color:colors.white,}}>{rowData.name}</Text>
+          <Text style={{color:colors.white,}}>{rowData.name || rowData.user_id}</Text>
           <Image source={{uri: 'assets/nextArrow@3x.png'}} style={{height:10,width:10,tintColor:colors.white}} />
 
         </View>
@@ -480,10 +522,12 @@ class TelemetryPage extends React.Component{
 
 
     return (
-      <View style={{flex:1}} >
+      <View  >
 
         <ListView
           style={{flex:1}}
+                  contentContainerStyle={{flex:1,paddingTop:55,height:DeviceHeight}}
+
           dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)}
         />

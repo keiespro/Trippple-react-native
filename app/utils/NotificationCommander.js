@@ -52,7 +52,7 @@ class NotificationCommander extends Component{
     if(this.props.api_key && this.props.user_id){
       this.connectSocket()
     }
-    const newNotification = PushNotificationIOS.popInitialNotification()
+    const newNotification = PushNotificationIOS.getInitialNotification()
     if(newNotification){
       this.handlePushData(newNotification)
     }
@@ -82,7 +82,7 @@ class NotificationCommander extends Component{
   }
 
   handlePushData(pushNotification){
-    if(!pushNotification){ return false }
+    if(!pushNotification || !pushNotification.getData){ return false }
     Analytics.event('Handle push notification',{action:JSON.stringify(pushNotification)})
 
     const data = pushNotification.getData();
@@ -153,7 +153,7 @@ class NotificationCommander extends Component{
   _handleAppStateChange(appState){
     if(appState == 'active'){
        this.socket.connect()
-      const newNotification = PushNotificationIOS.popInitialNotification();
+      const newNotification = PushNotificationIOS.getInitialNotification();
       if(newNotification){
         this.handlePushData(newNotification)
       }

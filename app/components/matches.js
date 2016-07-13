@@ -286,7 +286,7 @@ this.setState({ scrollEnabled })
          />
         {this.state.loadingMoreMatches && false ?
           <View style={{position:'absolute',bottom:0,width:DeviceWidth,height:30}}>
-            <ActivityIndicatorIOS style={{alignSelf:'center',alignItems:'center',flex:1,height:60,width:60,justifyContent:'center'}} animating={true} />
+            <ActivityIndicator style={{alignSelf:'center',alignItems:'center',flex:1,height:60,width:60,justifyContent:'center'}} animating={true} />
           </View> :
         null}
 

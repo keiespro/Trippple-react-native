@@ -4,7 +4,7 @@
 
 import React, {Component} from "react";
 
-import {Text, TextInput, View, TouchableHighlight, StyleSheet, ActivityIndicatorIOS, Dimensions} from "react-native";
+import {Text, TextInput, View, TouchableHighlight, StyleSheet, ActivityIndicator, Dimensions} from "react-native";
 
 import {MagicNumbers} from '../DeviceConfig'
 
@@ -49,9 +49,9 @@ class ContinueButton extends Component{
            onPress={ this.handleContinue.bind(this)}
            underlayColor={colors.darkPurple}>
            <View>
-        {this.props.loading ?  <ActivityIndicatorIOS style={{alignSelf:'center',alignItems:'center',flex:1,height:60,width:60,justifyContent:'center'}}  animating={true}/> : <Text style={styles.continueButtonText}>{this.props.customText || 'CONTINUE'}</Text>}
+        {this.props.loading ?  <ActivityIndicator style={{alignSelf:'center',alignItems:'center',flex:1,height:60,width:60,justifyContent:'center'}}  animating={true}/> : <Text style={styles.continueButtonText}>{this.props.customText || 'CONTINUE'}</Text>}
 
-        {/*this.state.submitting ? <ActivityIndicatorIOS style={{alignSelf:'center',alignItems:'center',flex:1,height:60,width:60,justifyContent:'center'}} animating={true} size={'large'}/> : <Text style={styles.continueButtonText}>CONTINUE</Text>*/}
+        {/*this.state.submitting ? <ActivityIndicator style={{alignSelf:'center',alignItems:'center',flex:1,height:60,width:60,justifyContent:'center'}} animating={true} size={'large'}/> : <Text style={styles.continueButtonText}>CONTINUE</Text>*/}
           </View>
          </TouchableHighlight>
       </View>

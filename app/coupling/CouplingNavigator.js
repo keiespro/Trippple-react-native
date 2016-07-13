@@ -51,7 +51,7 @@ function createReducer(initialState) {
 const NavReducer = createReducer({
   index: 0,
   key: 'Coupling',
-  children: [{key: 'JoinCouple'}]
+  routes: [{key: 'JoinCouple'}]
 })
 
 const couplingRoutes = {
@@ -114,7 +114,7 @@ class CouplingNavigator extends Component {
            }
          }
       };
-    const initialRoute = this.props.initialScreen || sceneProps.scene.navigationState.key
+    const initialRoute = this.props.initialScreen || sceneProps.scene.route.key
     const RouteComponent = initialRoute == 'CoupleReady' ? CoupleReady : couplingRoutes[initialRoute];
 
     return (
@@ -160,7 +160,7 @@ class CouplingNavigator extends Component {
         <NavigationCardStack
           style={styles.navigator}
           navigationState={this.state.navState}
-          onNavigate={this.handleBackAction.bind(this)}
+          onNavigateBack={this.handleBackAction.bind(this)}
           renderScene={this._renderScene.bind(this)}
           direction={'horizontal'}
         />

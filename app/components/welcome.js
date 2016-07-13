@@ -1,4 +1,8 @@
-/* @noflow */
+/*
+* @providesModule Welcome
+* @noflow
+*/
+
 import React, {Component} from "react";
 
 import {StyleSheet, Text, View, Image, ScrollView, Navigator, Dimensions, TouchableHighlight, NativeModules} from "react-native";
@@ -18,7 +22,7 @@ import Analytics from '../utils/Analytics'
 
 const LOGIN   = 'login';
 const REGISTER = 'register'
-import Mixpanel from '../utils/mixpanel';
+
 import {MagicNumbers} from '../DeviceConfig'
 
 // import dismissKeyboard from 'dismissKeyboard'
@@ -185,9 +189,9 @@ Carousel.displayName = 'Carousel';
 const Welcome = React.createClass({
   displayName:"Welcome",
   componentDidMount() {
-      this.refs.nav.navigationContext.addListener('willfocus', (e)=>{
-        // dismissKeyboard();
-      })
+      // this.refs.nav.navigationContext.addListener('willfocus', (e)=>{
+      //   // dismissKeyboard();
+      // })
   },
 
   renderScene(route: Navigator.route, navigator: Navigator) : React.Component {
@@ -225,6 +229,7 @@ const Welcome = React.createClass({
 
 });
 
+Welcome.displayName = "Welcome"
 
 const styles = StyleSheet.create({
   dot: {

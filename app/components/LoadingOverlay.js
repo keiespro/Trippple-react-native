@@ -8,7 +8,7 @@ import Overlay from 'react-native-overlay';
 import {BlurView} from 'react-native-blur';
 
 import {Component} from "react";
-import {View, ActivityIndicatorIOS, StyleSheet} from "react-native";
+import {View, ActivityIndicator, StyleSheet} from "react-native";
 
 
 class LoadingOverlay extends Component{
@@ -19,7 +19,7 @@ class LoadingOverlay extends Component{
     return (
       <Overlay isVisible={this.props.isVisible}>
         <BlurView style={styles.background} blurType="dark">
-          <ActivityIndicatorIOS
+          <ActivityIndicator
             size="large"
             animating={true}
             style={styles.spinner} />
