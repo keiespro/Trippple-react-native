@@ -145,7 +145,7 @@ class NotificationCommander extends Component{
 
     }else if(data.action === 'checkupdate'){
 
-      // ReactNativeAutoUpdater.checkUpdate()
+
 
     }
     // Alert.alert('APN Push Notification',JSON.stringify(pushNotification.getData()));
@@ -245,7 +245,7 @@ class NotificationCommander extends Component{
 
       }else if(data.action === 'checkupdate'){
 
-        // ReactNativeAutoUpdater.checkUpdate()
+
 
       }else if(data.action && data.action === 'display') {
 

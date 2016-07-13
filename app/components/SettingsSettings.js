@@ -12,7 +12,7 @@ import Mixpanel from '../utils/mixpanel';
 import FakeNavBar from '../controls/FakeNavBar';
 
 
-const {ReactNativeAutoUpdater} = NativeModules
+
 import {MagicNumbers} from '../DeviceConfig'
 import dismissKeyboard from 'dismissKeyboard'
 import WebViewScreen from './WebViewScreen'
@@ -31,7 +31,7 @@ import Api from '../utils/api'
 import FieldModal from './FieldModal'
 import AppActions from '../flux/actions/AppActions'
 
-const ACTUAL_VERSION = '2.4.0'  //ReactNativeAutoUpdater.jsCodeVersion
+const ACTUAL_VERSION = '2.4.0'  //"2.4.2"
 
 Analytics.log(ACTUAL_VERSION)
 

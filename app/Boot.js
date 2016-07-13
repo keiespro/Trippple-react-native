@@ -7,7 +7,6 @@ import config from './config'
 import alt from './flux/alt'
 import TouchID from 'react-native-touch-id'
 import Analytics from './utils/Analytics'
-const {ReactNativeAutoUpdater} = NativeModules
 import LockFailed from './LockFailed'
 const {KEYCHAIN_NAMESPACE} = config
 import AppActions from './flux/actions/AppActions'
@@ -69,7 +68,7 @@ class Boot extends React.Component{
   checkSettings(){
 
     const savedJSVersion = Settings.get('TripppleVersion');
-    const currentJSVersion = ReactNativeAutoUpdater.jsCodeVersion;
+    const currentJSVersion = "2.4.2";
     if(!savedJSVersion){
       // Delete local storage data for matches to prepare app for distinct matches / new matches endpoint change
       // and saved Settings.TripppleVersion for the first time

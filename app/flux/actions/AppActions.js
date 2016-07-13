@@ -7,8 +7,8 @@ import AppTelemetry from '../../AppTelemetry'
 
 import {NativeModules,UIManager,Alert} from 'react-native'
 import RNFS from 'react-native-fs'
-const {RNMail,ReactNativeAutoUpdater,RNMessageComposer} = NativeModules
-const ACTUAL_VERSION = '2.4.0'// ReactNativeAutoUpdater.jsCodeVersion
+const {RNMail,RNMessageComposer} = NativeModules
+const ACTUAL_VERSION =  "2.4.2"
 
 
 class AppActions {

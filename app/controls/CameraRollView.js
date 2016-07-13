@@ -16,7 +16,7 @@ import EditImageThumb from '../screens/registration/EditImageThumb'
 import EditImage from '../screens/registration/EditImage'
 
 
-const { RNAppInfo, ReactNativeAutoUpdater } = NativeModules;
+const { RNAppInfo, } = NativeModules;
 const VERSION = parseFloat(RNAppInfo.shortVersion);
 
 const propTypes = {
@@ -159,7 +159,7 @@ class CameraRollView extends Component{
   imageLoad(id){
     this.setState({loadedImages: {...this.state.loadedImages, id: true }})
   }
-  
+
   /**
    * This should be called when the image renderer is changed to tell the
    * component to re-render its assets.
@@ -280,7 +280,7 @@ class CameraRollView extends Component{
         />
         <View style={{marginTop:54,flex:1,width:DeviceWidth,backgroundColor:colors.outerSpace,height:DeviceHeight-54}}>
 
-          {Object.keys(this.state.loadedImages).length == 0 ? 
+          {Object.keys(this.state.loadedImages).length == 0 ?
             <View style={{alignItems:'center',position:'absolute',justifyContent:'center',width:DeviceWidth,height:DeviceHeight-54,flex:10,flexDirection:'column'}}>
               <ActivityIndicatorIOS style={{top:0,height:50,width:50,}} color={colors.white20} animating={true} size={'large'}/>
               <Text
@@ -291,9 +291,9 @@ class CameraRollView extends Component{
               fontFamily:'Omnes',
             }}>LOADING ALBUMS</Text>
 
-              
+
             </View>: <View/>}
-            
+
         <ListView
           renderRow={this._renderRow.bind(this)}
           renderFooter={this._renderFooterSpinner.bind(this)}

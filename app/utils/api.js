@@ -9,9 +9,9 @@ import config from '../config'
 import deviceInfo from './DeviceInfo'
 import Analytics from './Analytics'
 
-const { FileTransfer, RNAppInfo, ReactNativeAutoUpdater } = NativeModules,
+const { FileTransfer, RNAppInfo } = NativeModules,
       { SERVER_URL } = config;
-const VERSION = ReactNativeAutoUpdater.jsCodeVersion,
+const VERSION = "2.4.2",
       iOSversion = RNAppInfo.getInfoiOS;
 
 async function baseRequest(endpoint='': String, payload={}: Object){
