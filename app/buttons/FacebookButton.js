@@ -1,6 +1,6 @@
 import React from "react";
 import {Component, PropTypes} from "react";
-import {StyleSheet, Text, Image, Dimensions, View, NativeModules, requireNativeComponent, TouchableHighlight, Alert, TouchableOpacity} from "react-native";
+import {StyleSheet, Text, Image, Dimensions,NativeMethodsMixin, View, NativeModules, requireNativeComponent, TouchableHighlight, Alert, TouchableOpacity} from "react-native";
 
 import { FBLoginManager } from 'NativeModules'
 import colors from '../utils/colors'
@@ -10,7 +10,7 @@ import BackButton from '../components/BackButton'
 import FBLogin from '../components/fb.login'
 import reactMixin from 'react-mixin'
 import AppActions from '../flux/actions/AppActions'
-import NativeMethodsMixin from 'NativeMethodsMixin'
+
 import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
 
 const DeviceHeight = Dimensions.get('window').height

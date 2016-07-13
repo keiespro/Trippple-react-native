@@ -191,7 +191,7 @@ class SettingsBasic extends React.Component{
           title={`BASIC`}
           titleColor={colors.white}
           />
-        <ScrollView style={{flex:1,marginTop:55,backgroundColor:colors.dark}} contentContainerStyle={{alignItems:'flex-start'}} >
+        <ScrollView style={{marginTop:55,backgroundColor:colors.dark}} contentContainerStyle={{alignItems:'flex-start'}} >
       <View style={{backgroundColor:colors.outerSpace}}>
 
         <ScrollableTabView startPage={this.props.startPage} style={{overflow:'hidden',}} onChangeTab={(tab)=>{

@@ -59,9 +59,9 @@ class  AgePrefs extends React.Component{
     const dotWidth = SliderWidth / this.state.numberGroups
 
         return (
-          <View style={{ flexDirection:'column',alignItems:'center',justifyContent:'center',height:100}}>
+          <View style={{ flexDirection:'column',alignSelf:'center',alignItems:'center',justifyContent:'center',height:100,width:MagicNumbers.screenWidth,backgroundColor:'red'}}>
 
-        <View style={{paddingHorizontal:0,flexDirection:'row',width:InsideWidth,justifyContent:'space-between'}}>
+        <View style={{paddingHorizontal:0,flexDirection:'row',width:MagicNumbers.screenWidth,justifyContent:'space-between'}}>
                 <Text style={[{alignSelf:'flex-start',color: colors.rollingStone,textAlign:'left'}]}>{`Age Range`}</Text>
 
                 <Text style={{alignSelf:'flex-end',color:colors.white,textAlign:'right',marginRight:0,marginBottom:20}}>{`${this.state.match_age_min} - ${this.state.match_age_max == 50 ? '50+' : this.state.match_age_max}`}</Text>
@@ -77,15 +77,16 @@ class  AgePrefs extends React.Component{
             return (
 
               <View key={'dot_'+i} style={{
-                  marginLeft: i == 0 ? 45 : 0,
+                  // marginLeft: i == 0 ? 45 : 0,
                   width:dotWidth,
                   height:80,
+                  left:6,
                   alignSelf:'center',
                   position:'relative'
               }}>
 
               { dot.start_age >= MAX_AGE ? null : <View style={{
-                    flex:1,backgroundColor:'transparent',
+                    backgroundColor:'transparent',
                     borderTopWidth:1,height:45,width:dotWidth,
                     // marginLeft:dotWidth / 2 * -1,
                     borderTopColor: highlighted && lineHighlighted ? colors.mediumPurple : colors.white
@@ -105,7 +106,7 @@ class  AgePrefs extends React.Component{
                   this.setState(newState)
                 }}>
                 <View style={{
-                  flex:1,backgroundColor:highlighted ? colors.mediumPurple : colors.white,height:20,width:20,borderRadius:10,
+                  backgroundColor:highlighted ? colors.mediumPurple : colors.white,height:20,width:20,borderRadius:10,
                   }}
                 />
               </TouchableOpacity>
@@ -323,7 +324,7 @@ class ActiveDot extends React.Component{
           transform: [ {translateX: ageVal} ],
           backgroundColor:'transparent',alignItems:'center',justifyContent:'center',
           height:42,width:36,position:'absolute',bottom:10,
-          left:MagicNumbers.isSmallDevice ? 2 : 12,
+          left:MagicNumbers.isSmallDevice ? 2 : -12,
         }} source={{uri: 'assets/sliderHandle@3x.png'}}>
         <Text style={{backgroundColor:'transparent',textAlign:'center',color:colors.white,fontSize:12}}>{
             this.props.ageVal == 50 ? '50+' : this.props.ageVal

@@ -77,7 +77,6 @@ class  SettingsPreferences extends React.Component{
             style={styles.autogrowTextinput}
             placeholder={''}
             autoGrow={true}
-            maxHeight={MagicNumbers.isSmallDevice ? 230 : 300}
             autoCapitalize={'sentences'}
             placeholderTextColor={colors.white}
             autoCorrect={true}
@@ -211,13 +210,11 @@ class  SettingsPreferences extends React.Component{
 
       <View style={{paddingTop:50}}>
 
-        <View>
           <AgePrefs
             toggleScroll={this.toggleScroll.bind(this)}
             user={this.props.user}
             showPartnerMissingModal={this.showPartnerMissingModal.bind(this)}
           />
-        </View>
 
         <PermissionSwitches {...this.props} />
         </View>

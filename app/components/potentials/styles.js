@@ -34,15 +34,13 @@ const styles = StyleSheet.create({
     backgroundColor:colors.dark
   },
   tab: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 0,
     width:MagicNumbers.screenWidth/ 2,
-
   },
   singleTab:{
-    flex: 1,
+
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: MagicNumbers.screenPadding/2,

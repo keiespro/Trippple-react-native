@@ -191,9 +191,10 @@ class Card extends React.Component{
         }
       };
 
-      var heightTable =  MagicNumbers.is4s ? heights.smallest : (MagicNumbers.is5orless ? heights.middle : heights.all);
-      var cardHeight = DeviceHeight + (isTopCard ? heightTable.top : (isThirdCard ? heightTable.third : heightTable.second));
+      const heightTable =  MagicNumbers.is4s ? heights.smallest : (MagicNumbers.is5orless ? heights.middle : heights.all);
+      const cardHeight = DeviceHeight + (isTopCard ? heightTable.top : (isThirdCard ? heightTable.third : heightTable.second));
       // ? DeviceHeight- 40 : DeviceHeight -60
+      const cardWidth = MagicNumbers.screenWidth+20;
 
       return (
         <View
@@ -202,8 +203,8 @@ class Card extends React.Component{
           key={`${potential.id || potential.user.id}-inside`}
           style={ [{
             borderRadius: 8,
-            flex:1,
-            width:undefined,
+
+
             position:'relative',
             height: cardHeight,
             overflow:'hidden',
@@ -223,11 +224,10 @@ class Card extends React.Component{
               alignItems:'center',
               justifyContent:'center',
               position:'relative',
-              width:undefined,
               height:undefined,
               left:0,
               right:0,
-              flex:1,
+              width:cardWidth,
               overflow:'hidden',
 
             }}
@@ -235,10 +235,10 @@ class Card extends React.Component{
             style={[styles.card, {
               margin:0,
               padding:0,
-              width: undefined,
               height: undefined,
               position: 'relative',
-              flex:1,
+              width:cardWidth,
+
               backgroundColor: colors.white
             }]}
             key={`${potential.id || potential.user.id}-view`}
@@ -248,7 +248,7 @@ class Card extends React.Component{
               key={`${potential.id || potential.user.id}bgopacity`}
               ref={isTopCard ? 'incard' : null}
               style={{
-                flex:1,
+
                 alignItems:'center',
                 justifyContent:'center',
                 left:0,
@@ -280,7 +280,7 @@ class Card extends React.Component{
                   style={{
                     alignSelf:'center',
                     marginLeft:0,
-                    height:undefined,width:undefined,
+                    height:undefined,
                     marginRight:0,
                     left:0,
                   }}
@@ -304,7 +304,7 @@ class Card extends React.Component{
                       defaultSource={{uri: 'assets/defaultuser.png'}}
                       style={[styles.imagebg, {
                         backgroundColor: colors.white,
-                        flex:1,
+
                         left:0,
                         right:0,
                         opacity: isTopCard && pan ? pan.x.interpolate({
@@ -332,7 +332,7 @@ class Card extends React.Component{
                         style={[styles.imagebg,{
                           width: undefined,
                           height:undefined,
-                          flex:1,
+
                           opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                             inputRange: [-300, -100, 0, 100, 300],
                             outputRange: [0,1,1,1,0]
@@ -348,8 +348,8 @@ class Card extends React.Component{
                   alignSelf:'center',
                   marginLeft:0,
                   // overflow:'hidden',
-                  height:undefined,width:undefined,
-                  marginRight:0,flex:1,
+                  height:undefined,
+                  marginRight:0,
                   left:0,alignItems:'stretch'
                 }}
                 >
@@ -358,7 +358,7 @@ class Card extends React.Component{
                     pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                     key={`${potential.user.id}-touchableimg`}
                     style={[styles.imagebg,{
-                      width:undefined,
+
                       height:DeviceHeight-50
                     }]}
                     onPress={this.openProfileFromImage.bind(this)}>
@@ -368,7 +368,7 @@ class Card extends React.Component{
                       defaultSource={{uri: 'assets/defaultuser.png'}}
                       style={[styles.imagebg,{
                         backgroundColor: colors.white,
-                        flex:1,width:DeviceWidth, height:DeviceHeight,
+                        width:DeviceWidth, height:DeviceHeight,
                         opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                           inputRange:  [-300, -80, 0, 80, 300],
                           outputRange: [   0,   1, 1,  1,   0]
@@ -386,8 +386,8 @@ class Card extends React.Component{
                 style={{
                   height: isTopCard ? 80 : 80,
                   marginTop: isTopCard ? -30 : -30,
-                  flex:1,
-                  marginLeft:20,
+
+                  marginLeft:0,
                   right:0,
                   left:0,
                   bottom:0,
@@ -409,8 +409,8 @@ class Card extends React.Component{
                           paddingTop:MagicNumbers.is4s ? 20 : 15,
                           paddingBottom:MagicNumbers.is4s ? 10 : 15,
                           height:80,
-                          width:DeviceWidth-MagicNumbers.screenPadding/2,
-                          bottom:0,flex:1,
+                          width:cardWidth,
+                          bottom:0,
                           alignSelf:'stretch',
                           flexDirection:'column',
                           position:'relative',top:0,
@@ -420,7 +420,7 @@ class Card extends React.Component{
                           key={`${potential.id || potential.user.id}-names`}>{
                             matchName
                           }</Text>
-                        <Text style={[styles.cardBottomOtherText,{flex:1}]}
+                        <Text style={[styles.cardBottomOtherText,{}]}
                         key={`${potential.id || potential.user.id}-matchn`}>{
                           (city) + seperator + (distance.length ? `${distance} ${distance == 1 ? 'mile' : 'miles'} away` : ``)
                         }</Text>
@@ -566,7 +566,7 @@ class Card extends React.Component{
             key={'navbarholder'}
             style={{
               backgroundColor:'black',
-              flex:1,
+
               width: DeviceWidth,
               position:'absolute',
               top:150
@@ -582,28 +582,28 @@ class Card extends React.Component{
           ref={'cardinside'}
           key={`${potential.id || potential.user.id}-inside`}
           style={ {
-            width:undefined,
+
             position: 'absolute',
             right:0,
             left:0,
             alignItems:'flex-start',
             height:DeviceHeight,
             alignSelf:'stretch',
-            flex:1
+
           }}
         >
 
           <ScrollView
             style={[{
               margin:0,
-              width:undefined,
+
               paddingTop:0,
               top:0,
               left:0,
               right:0,borderTopLeftRadius:8,borderTopRightRadius:8, overflow:'hidden',
               backgroundColor:'black',
               height:DeviceHeight,
-              flex:1,
+
 
             }]}
             canCancelContentTouches={true}
@@ -633,7 +633,7 @@ class Card extends React.Component{
                   showsButtons={false}
                   width={undefined}
                   height={DeviceHeight}
-                  style={{width:undefined, overflow: 'hidden',}}
+                  style={{ overflow: 'hidden',}}
                   paginationStyle={{position:'absolute',right:10,top:10,height:100}}
                   dot={<View style={styles.dot} />}
                   activeDot={<View style={[styles.dot,styles.activeDot]} />}
@@ -652,7 +652,7 @@ class Card extends React.Component{
 
                       key={`${potential.user.id}-cimg`}
                       style={[styles.imagebg, {
-                        flex:1,
+
                         width: undefined,
                         opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                           inputRange: [-300, -80, 0, 80, 300],
@@ -677,7 +677,7 @@ class Card extends React.Component{
                         key={`${potential.partner.id}-cimg`}
                         style={[styles.imagebg,{
                           width: undefined,
-                          flex:1,
+
                           opacity: this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                             inputRange: [-300, -100, 0, 100, 300],
                             outputRange: [0,1,1,1,0]
@@ -702,7 +702,7 @@ class Card extends React.Component{
                         key={`${potential.id}-cimg`}
                         style={[styles.imagebg,{
                           width: undefined,
-                          flex:1,
+
                           opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
                             inputRange: [-300, -100, 0, 100, 300],
                             outputRange: [0,1,1,1,0]
@@ -718,8 +718,8 @@ class Card extends React.Component{
                   alignSelf:'center',
                   marginLeft:0,
                   // overflow:'hidden',
-                  height:undefined,width:undefined,
-                  marginRight:0,flex:1,
+                  height:undefined,
+                  marginRight:0,
                   left:0,alignItems:'stretch'
                 }}
                 >
@@ -734,7 +734,7 @@ class Card extends React.Component{
                     source={{uri: potential.image_url || potential.image || potential.user.image_url}}
                      key={/* TODO: Implement sanity */  `${potential.user.id}-cimg`}
                     style={[styles.imagebg, {
-                      flex:1,
+
                       alignSelf:'stretch',height:DeviceHeight,
                       width: DeviceWidth,
                       opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
@@ -755,7 +755,7 @@ class Card extends React.Component{
                   top: 0,
                   marginTop: (DeviceHeight <= 568 ? -120 : -120),
                   backgroundColor:colors.outerSpace,
-                  flex:1,
+
                   left:0,
                   right:0,
                   marginLeft:0,
@@ -866,7 +866,7 @@ class Card extends React.Component{
                   </View>
 
                   <TouchableOpacity onPress={this.reportModal.bind(this)}>
-                    <View style={{flex:1,marginTop:20,paddingBottom:50}}>
+                    <View style={{marginTop:20,paddingBottom:50}}>
                       <Text style={{color:colors.mandy,textAlign:'center'}}>Report or Block this user</Text>
                     </View>
                   </TouchableOpacity>
@@ -897,7 +897,7 @@ class Card extends React.Component{
                   height:55,
                 }}
                 insideStyle={{
-                  flex:1,
+
                   width:DeviceWidth,
                   height:55,
                   marginTop:5,

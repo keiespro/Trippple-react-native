@@ -58,7 +58,7 @@ const ScrollableTabView = React.createClass({
     var w = this.state.width / this.props.children.length
     var sceneContainerStyle = {
       width: this.state.width * this.props.children.length,
-      flex: 1,
+
       left:0,
       // paddingHorizontal:MagicNumbers.screenPadding/2,
       flexDirection: 'row',
@@ -74,7 +74,7 @@ const ScrollableTabView = React.createClass({
     };
 
     return (
-      <View style={{flex: 1}}>
+      <View style={{ }}>
       {this.renderTabBar({
         goToPage: this.goToPage,
         tabs: this.props.children.map((child) => child.props.tabLabel),
