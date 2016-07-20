@@ -39,8 +39,18 @@
 //HOME
 
 RCT_TEST(Welcome)
-RCT_TEST(Login)
-RCT_TEST(Register)
+- (void)testLogin {
+  [_runner runTest:_cmd module:@"Auth" initialProps:@{@"initialTab": @"login"}
+    configurationBlock:^(RCTRootView *view) {
+      view.frame = CGRectMake(0, 0, 414, 736);
+    }];
+}
+- (void)testRegister {
+  [_runner runTest:_cmd module:@"Auth" initialProps:@{@"initialTab": @"register"}
+      configurationBlock:^(RCTRootView *view) {
+        view.frame = CGRectMake(0, 0, 414, 736);
+      }];
+}
 RCT_TEST(PinScreen)
 
 //ONBOARDING

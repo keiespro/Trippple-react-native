@@ -22,9 +22,8 @@ import ReactNative, {View, AppRegistry, NativeModules,SnapshotViewIOS} from "rea
 
 import path from 'path'
 const ScreensList = [
+require('./app/components/auth'),
 require('./app/components/welcome'),
-require('./app/components/login'),
-require('./app/components/register'),
 require('./app/components/pin'),
 require('./app/components/settings'),
 require('./app/components/SettingsBasic'),
