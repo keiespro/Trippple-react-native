@@ -45,13 +45,10 @@ class CouplePin extends React.Component{
     this.setState({ submitting:true });
     const couple = this.props.couple || {};
     const pin = couple.pin;
-    const messageText = `Join me on Trippple! My couple code is ${pin}. trippple://join.couple/${pin}`;
-    this.props.exit()
+    const messageText = `Join me on Trippple! My couple code is ${pin}. If you already have the app, tap here: trippple://join.couple/${pin}`;
 
+    AppActions.killModal() // try this.props.exit() if this doesnt work well
     AppActions.sendMessageScreen({ pin, messageText })
-
-    // setTimeout(()=>{
-    // },10)
 
   }
   componentDidMount(){
