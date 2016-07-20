@@ -37,6 +37,9 @@ var inviteText = (partnerName)=>{
 
 class CheckMarkScreen extends Component{
 
+  static defaultProps = {
+    checkMarkCopy: {}
+  };
   constructor(props){
     super();
     this.state = {
@@ -181,5 +184,5 @@ flexDirection:'column',
 }
 
 reactMixin(CheckMarkScreen.prototype, TimerMixin)
-
-export default CheckMarkScreen
+CheckMarkScreen.displayName = 'CheckMark'
+module.exports = CheckMarkScreen

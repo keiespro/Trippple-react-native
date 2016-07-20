@@ -112,7 +112,8 @@ class SelectImageSource extends Component{
   render(){
 
     const isCoupleImage = this.props.image_type == 'couple_profile' || this.props.imageType == 'couple_profile',
-    isOnboarding = this.props.navigator.getCurrentRoutes()[0].id != 'potentials';
+          currentRoutes = this.props.navigator.getCurrentRoutes(),
+          isOnboarding = !currentRoutes.length || (currentRoutes[0] && currentRoutes[0].id != 'potentials');
 
     const copy = {
         coupleTitle: `You and your Partner`,
@@ -201,7 +202,7 @@ class SelectImageSource extends Component{
   }
 }
 
-
+SelectImageSource.displayName = 'SelectImageSource'
 export default SelectImageSource
 
 

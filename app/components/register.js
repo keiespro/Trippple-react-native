@@ -111,7 +111,7 @@ class Register extends Component{
   render(){
 
     return (
-      <View style={[{flex: 1, height:DeviceHeight,width:DeviceWidth}]}>
+      <View style={[{ height:DeviceHeight,width:DeviceWidth}]}>
 
             <PhoneNumberInput
               key={'loginphone'}
@@ -136,6 +136,8 @@ reactMixin.onClass(Register, TimerMixin);
 reactMixin.onClass(Register, TrackKeyboardMixin);
 reactMixin.onClass(Register, SingleInputScreenMixin);
 
+
+Register.displayName = "Register"
 
 export default Register;
 

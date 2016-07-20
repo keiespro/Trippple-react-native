@@ -1,6 +1,5 @@
 /*
 * @flow
-* @providesModule AppTest
 */
 
 
@@ -36,9 +35,9 @@ import MaintenanceScreen from '../screens/MaintenanceScreen'
 import colors from '../utils/colors'
 import ImageFlagged from '../screens/ImageFlagged'
 import url from 'url'
+import TEST_ACCOUNTS from '../../TEST_ACCOUNTS.js'
 
-
-
+CredentialsStore.saveCredentials(TEST_ACCOUNTS[0])
 class AppRoutes extends Component{
 
   constructor(props){
@@ -164,12 +163,14 @@ reactMixin(TopLevel.prototype, TimerMixin);
 
 
 class AppTest extends Component{
-  constructor(props){
-    super()
-  }
-  componentDidMount(){
-    NotificationActions.resetBadgeNumber()
-  }
+  static displayName = 'AppTest';
+
+  // constructor(props){
+  //   super()
+  // }
+  // componentDidMount(){
+  //   NotificationActions.resetBadgeNumber()
+  // }
   render(){
     const TopLevelStores = {
       user: (props) => {
@@ -195,19 +196,6 @@ class AppTest extends Component{
   }
 
 }
-AppTest.displayName = 'AppTest'
 
 
-
-const Snapshotter = (props) => (
-  <SnapshotViewIOS>
-    <AppTest {...props} />
-  </SnapshotViewIOS>
-);
-
-/**
- * Register every component by its displayName we will refer from the test
- * suite
- */
-AppRegistry.registerComponent("AppTest", () => Snapshotter);
-export default AppTest
+module.exports = AppTest

@@ -121,5 +121,6 @@ class MaintenanceScreen extends Component{
 }
 
 reactMixin(MaintenanceScreen.prototype, TimerMixin)
+MaintenanceScreen.displayName = 'MaintenanceScreen'
 
 export default MaintenanceScreen

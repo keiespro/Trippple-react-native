@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0800"
+   LastUpgradeVersion = "0730"
    version = "2.0">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -24,12 +24,12 @@
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
-      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      selectedDebuggerIdentifier = ""
+      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
       shouldUseLaunchSchemeArgsEnv = "NO">
       <Testables>
          <TestableReference
-            skipped = "NO">
+            skipped = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "ACA5214B1CA297C5007B9F71"
@@ -38,17 +38,27 @@
                ReferencedContainer = "container:Trippple.xcodeproj">
             </BuildableReference>
             <LocationScenarioReference
-               identifier = "Honolulu, HI, USA"
+               identifier = "New York, NY, USA"
                referenceType = "1">
             </LocationScenarioReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AC9D8D301D3F34FF009D4C78"
+               BuildableName = "TripppleSnapshotTests.xctest"
+               BlueprintName = "TripppleSnapshotTests"
+               ReferencedContainer = "container:Trippple.xcodeproj">
+            </BuildableReference>
          </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Trippple.app"
-            BlueprintName = "Trippple"
+            BlueprintIdentifier = "AC9D8D301D3F34FF009D4C78"
+            BuildableName = "TripppleSnapshotTests.xctest"
+            BlueprintName = "TripppleSnapshotTests"
             ReferencedContainer = "container:Trippple.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -60,23 +70,8 @@
       </CommandLineArguments>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = "referenceImagesDirectory"
-            value = "snapshots"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "IMAGE_DIFF_DIR"
-            value = "snapshots"
-            isEnabled = "NO">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "CG_CONTEXT_SHOW_BACKTRACE"
-            value = "true"
-            isEnabled = "NO">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "FB_REFERENCE_IMAGE_DIR"
-            value = "snapshots"
+            key = "CI_USE_PACKAGER"
+            value = "YES"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
@@ -94,7 +89,7 @@
       debugXPCServices = "NO"
       debugServiceExtension = "internal"
       enableGPUValidationMode = "1"
-      allowLocationSimulation = "YES"
+      allowLocationSimulation = "NO"
       queueDebuggingEnabled = "No">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">

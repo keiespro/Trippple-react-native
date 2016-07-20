@@ -17,6 +17,7 @@ import NotificationPermissions from '../modals/NewNotificationPermissions'
 import LocationPermissions from '../modals/LocationPermission'
 import {MagicNumbers} from '../DeviceConfig'
 
+import TEST_ACCOUNTS from '../../TEST_ACCOUNTS.js'
 const TripppleSettingsKeys = [
   ...SettingsConstants,
   'LocationSetting',
@@ -66,15 +67,7 @@ class SettingsDebug extends React.Component{
          this.props.navigator.push({
            component:  TelemetryPage,
            passProps:{
-             data: [{
-                 user_id: 62,
-                 api_key: "247aba58-e3cb-49c9-a418-24b3f1dac7ef"
-               },{
-
-                 user_id: 28826,
-                 api_key: "84eecb4f-c777-4419-b385-94b83ea9af44"
-               }
-             ]
+             data: TEST_ACCOUNTS
              },
 
            name: "login"
@@ -305,7 +298,7 @@ class SettingsDebug extends React.Component{
 
 
           {/*  toggle DEV */}
-            <TouchableHighlight
+            {/*<TouchableHighlight
               onPress={(f)=>{
                 // __DEV__ = false;
                 // __DEBUG__ = false;
@@ -313,9 +306,9 @@ class SettingsDebug extends React.Component{
 
               }} >
               <View style={styles.wrapfield}>
-                <Text style={{color:colors.white,}}>toggle __DEV__ (DON'T) </Text>
+                <Text style={{color:colors.white,}}>toggle __DEV__  </Text>
                </View>
-            </TouchableHighlight>
+            </TouchableHighlight>*/}
 
             {/*  screenshot */}
               <TouchableHighlight
@@ -433,21 +426,20 @@ class EmptyPage extends React.Component{
     const {data,screenshot} = this.props
     // console.log(data)
     return (
-      <View>
+      <View style={{flex: 1,overflow:'hidden'}}>
 
       <ScrollView horizontal={true}
               scrollEnabled={true}
  vertical={true}
- alwaysBounceVertical={true}
- style={{flex:1,paddingTop:55,overflow:'visible'}}
- contentContainerStyle={{}}
- >
-          {screenshot ?
+contentContainerStyle={{height:9000,position:'relative',paddingTop:55}}
+      removeClippedSubviews={false}
+      directionalLockEnabled={true}
+ ><View style={{position:'relative'}}>{screenshot ?
             <Image resizeMode={'cover'} source={{uri: screenshot}} style={{width:DeviceWidth*.75,height:DeviceHeight*.75}}/>
-           : <View style={{ overflow:'visible',}}><Text style={{color:colors.white,marginBottom:20, overflow:'visible' }}>{
+           : <Text style={{color:colors.white,marginBottom:20, overflow:'visible' }}>{
               JSON.stringify(data.data, null, 2)
-          }</Text></View>}
-        </ScrollView>
+          }</Text>}
+      </View></ScrollView>
         <FakeNavBar
           blur={true}
           navigator={this.props.navigator}
@@ -482,9 +474,9 @@ class TelemetryPage extends React.Component{
     };
   }
   renderRow(rowData){
-    console.log(rowData)
+
     return  (
-      <TouchableOpacity onPress={()=>{
+      <View style={[styles.wrapfield,{}]}><TouchableOpacity onPress={()=>{
           if(rowData.name == 'state'){
             this.props.navigator.push({
               component: TelemetryPage,
@@ -508,13 +500,14 @@ class TelemetryPage extends React.Component{
             })
           }
 
-        }}>
+        }} style={{alignSelf:'stretch',width:DeviceWidth}}>
         <View style={styles.wrapfield}>
           <Text style={{color:colors.white,}}>{rowData.name || rowData.user_id}</Text>
           <Image source={{uri: 'assets/nextArrow@3x.png'}} style={{height:10,width:10,tintColor:colors.white}} />
 
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity></View>
+
     )
   }
   render(){
@@ -522,11 +515,16 @@ class TelemetryPage extends React.Component{
 
 
     return (
-      <View  >
+      <View style={{flex: 1,overflow:'hidden'}}>
 
         <ListView
-          style={{flex:1}}
-                  contentContainerStyle={{flex:1,paddingTop:55,height:DeviceHeight}}
+          contentContainerStyle={{flex: 1,paddingTop:55,position:'relative'}}
+          scrollEnabled={true}
+          vertical={true}
+ style={{flex: 1}}
+  removeClippedSubviews={false}
+
+
 
           dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)}
@@ -554,7 +552,7 @@ const styles = StyleSheet.create({
   wrapfield:{
    borderBottomWidth:1,
    borderColor:colors.shuttleGray,
-   height:50,
+   height:35,
   //  backgroundColor:colors.outerSpace,
    alignItems:'center',
    justifyContent:'space-between',

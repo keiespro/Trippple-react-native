@@ -1,4 +1,4 @@
-/**
+  /**
  * The examples provided by Facebook are for non-commercial testing and
  * evaluation purposes only.
  *
@@ -16,6 +16,8 @@
 
 #import "RCTBridge.h"
 #import "RCTJavaScriptLoader.h"
+#import "RCTBundleURLProvider.h"
+
 #import "RCTLinkingManager.h"
 #import "RCTRootView.h"
 #import "RCTPushNotificationManager.h"
@@ -28,8 +30,7 @@
 #import "Hotline.h"
 #import <Crashlytics/Answers.h>
 
-#define JS_CODE_METADATA_URL @"https://hello.trippple.co/update-2.4.0.json"
-//#define TRIPPPLE_DEV
+ //#define TRIPPPLE_DEV
 //#define TRIPPPLE_PROD YES
 
 
@@ -53,8 +54,10 @@
 //#define RCT_DEV NO
 //#endif
 
-#define ENV @"production"
+#define ENV @"d"
 
+@interface AppDelegate() <RCTBridgeDelegate>
+@end
 
 @implementation AppDelegate
 
@@ -113,7 +116,7 @@
     [[Hotline sharedInstance]handleRemoteNotification:launchOptions
                                           andAppstate:application.applicationState];
   }
-
+  
 
   return [[FBSDKApplicationDelegate sharedInstance] application:application
                                   didFinishLaunchingWithOptions:launchOptions];
@@ -125,31 +128,18 @@
   NSURL *sourceURL;
 
 
-  if([ENV isEqual:@"production"]){
-    //  NSURL* defaultMetadataFileLocation = [[NSBundle mainBundle] URLForResource:@"metadata"
-    //                                                               withExtension:@"json"];
-//    ReactNativeAutoUpdater* updater = [ReactNativeAutoUpdater sharedInstance];
-//    [updater setDelegate:self];
-//    [updater initializeWithUpdateMetadataUrl:[NSURL URLWithString:JS_CODE_METADATA_URL]
-//                       defaultJSCodeLocation:[[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"]
-//                 defaultMetadataFileLocation:defaultMetadataFileLocation ];
-////    [updater setHostnameForRelativeDownloadURLs:@"trippple.co"];
-//
-//    [updater allowCellularDataUse: YES];
-//    [updater downloadUpdatesForType: ReactNativeAutoUpdaterPatchUpdate];
-//    [updater checkUpdate];
-//
-
-
-//    sourceURL = [updater latestJSCodeLocation];
+//  if([ENV isEqual:@"production"]){
     sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+//  }else{
+    NSURL *devURL = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
+//  }
+//  NSURL *jsCodeLocation = [[RCTBundleURLProvider sharedSettings] packagerHost:@"localhost:8081"
+//                                                                          jsBundleURLForBundleRoot:@"index.ios"
+//                                                                         fallbackResource:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
 
-  }else{
-    sourceURL = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
-  }
 
 
-  return sourceURL;
+  return devURL;
 }
 
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
@@ -186,9 +176,6 @@
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
   if([url.scheme isEqualToString:@"trippple"]){
-      NSLog(@"Not fb, %@",url);
-      NSLog(@"Not fb, %@",url.scheme);
-    
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [delegate.rootViewController dismissViewControllerAnimated:YES completion:nil];
 
@@ -196,11 +183,7 @@
                           sourceApplication:sourceApplication annotation:annotation];
   } else {
 
-    NSLog(@"fb, %@",url);
-    NSLog(@"fb, %@",url.scheme);
-
-
-  return [[FBSDKApplicationDelegate sharedInstance] application:application
+    return [[FBSDKApplicationDelegate sharedInstance] application:application
                                                         openURL:url
                                               sourceApplication:sourceApplication
                                                annotation:annotation];
@@ -221,19 +204,6 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
   [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
   [FBSDKAppEvents activateApp];
-}
-
-
-#pragma mark - ReactNativeAutoUpdaterDelegate methods
-
-- (void)ReactNativeAutoUpdater_updateDownloadedToURL:(NSURL *)url {
-  NSLog(@"Update succeeded");
-  // [self createReactRootViewFromURL: url];
-
-}
-
-- (void)ReactNativeAutoUpdater_updateDownloadFailed {
-  NSLog(@"Update failed to download");
 }
 
 @end

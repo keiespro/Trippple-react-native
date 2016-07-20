@@ -148,5 +148,6 @@ const styles = StyleSheet.create({
   bottomwrap:{
   }
 });
+Facebook.displayName = 'Facebook'
 
 export default Facebook;

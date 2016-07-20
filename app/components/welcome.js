@@ -1,5 +1,4 @@
 /*
-* @providesModule Welcome
 * @noflow
 */
 
@@ -385,5 +384,5 @@ const styles = StyleSheet.create({
 });
 
 
-export default Welcome;
+module.exports = Welcome;
 exports.IntroScreen = IntroScreen

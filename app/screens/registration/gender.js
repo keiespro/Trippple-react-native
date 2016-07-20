@@ -313,6 +313,7 @@ selectedbutton:{
     },
 
 });
+GenderScreen.displayName = 'Gender'
 
 
 export default GenderScreen;

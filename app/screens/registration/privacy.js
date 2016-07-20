@@ -195,4 +195,5 @@ const styles = StyleSheet.create({
   },
 });
 
+PrivacyScreen.displayName = 'Privacy'
 export default PrivacyScreen;

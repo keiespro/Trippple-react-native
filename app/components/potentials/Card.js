@@ -59,7 +59,7 @@ class Card extends React.Component{
   }
 
   scrollTo(destY?: number, destX?: number) {
-    this.getScrollResponder().scrollTo({y:destY, x:destX});
+    this.getScrollResponder().scrollTo({y:destY, x:destX},true);
   }
 
   scrollWithoutAnimationTo(destY?: number, destX?: number) {
@@ -88,7 +88,7 @@ class Card extends React.Component{
       this.props.showProfile(this.props.potential)
     }
     if(scroll){
-      this.refs.scrollbox.scrollTo({y: DeviceHeight-200,x:0})
+      this.refs.scrollbox.scrollTo({y: DeviceHeight-200,x:0},true)
     }
   }
 
@@ -209,7 +209,7 @@ class Card extends React.Component{
             height: cardHeight,
             overflow:'hidden',
             backgroundColor:'black',
-          } ]}
+          }]}
         >
 
           <ScrollView
@@ -229,7 +229,6 @@ class Card extends React.Component{
               right:0,
               width:cardWidth,
               overflow:'hidden',
-
             }}
             contentOffset={{x:0,y:0}}
             style={[styles.card, {
@@ -602,7 +601,6 @@ class Card extends React.Component{
               left:0,
               right:0,borderTopLeftRadius:8,borderTopRightRadius:8, overflow:'hidden',
               backgroundColor:'black',
-              height:DeviceHeight,
 
 
             }]}

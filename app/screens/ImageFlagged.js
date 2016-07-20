@@ -19,6 +19,10 @@ import ContinueButton from '../controls/ContinueButton'
 
 class ImageFlagged extends Component{
 
+  static defaultProps = {
+    user: {}
+  };
+
   constructor(props){
     super();
     this.state = {
@@ -126,4 +130,5 @@ class WarningScreen extends Component{
 
 reactMixin(ImageFlagged.prototype, TimerMixin)
 
+ImageFlagged.displayName = 'ImageFlagged'
 export default ImageFlagged

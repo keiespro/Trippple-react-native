@@ -19,7 +19,7 @@ import SingleInputScreenMixin from '../mixins/SingleInputScreenMixin'
 import BackButton from './BackButton'
 import Analytics from '../utils/Analytics'
 
-const PinScreen = React.createClass({
+const Pin = React.createClass({
   mixins: [SingleInputScreenMixin],
 
   getInitialState(){
@@ -191,9 +191,10 @@ const PinScreen = React.createClass({
 
 
 
+Pin.displayName = "PinScreen"
 
 
-export default PinScreen
+module.exports = Pin
 
 
 const styles = StyleSheet.create({

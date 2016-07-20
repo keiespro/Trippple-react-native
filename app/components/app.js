@@ -1,6 +1,5 @@
 /*
 * @flow
-* @providesModule App
 */
 
 
@@ -195,9 +194,9 @@ class App extends Component{
   }
 
 }
+//
 App.displayName = 'App'
 
-AppRegistry.registerComponent('App', () => App);
 
 
-export default App
+module.exports = App

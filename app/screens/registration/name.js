@@ -14,7 +14,9 @@ const DeviceWidth = Dimensions.get('window').width;
 import SingleInputScreen from '../SingleInputScreen'
 
 class NameScreen extends Component{
-
+  static defaultProps = {
+    user: {}
+  };
 
   constructor(props){
     super(props);
@@ -95,7 +97,7 @@ class NameScreen extends Component{
     )
   }
 }
-
+NameScreen.displayName = "Name"
 export default NameScreen
 
 

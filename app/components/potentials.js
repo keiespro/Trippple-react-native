@@ -4,7 +4,6 @@ import React from "react";
 
 import {Text, View, Image, Animated, ActivityIndicator, Dimensions, AppState, NativeModules} from "react-native";
 
-
 import alt from '../flux/alt';
 import Mixpanel from '../utils/mixpanel';
 import AltContainer from 'alt-container/native';
@@ -22,6 +21,9 @@ import MatchActions from '../flux/actions/MatchActions'
 import TimerMixin from 'react-timer-mixin'
 import reactMixin from 'react-mixin'
 import TaskManager  from '../TaskManager'
+import MainRoutes from './MainRoutes'
+
+const  { PotentialsRoute } = MainRoutes
 
 class Potentials extends React.Component{
   constructor(props){
@@ -59,6 +61,11 @@ class Potentials extends React.Component{
 
 
 class PotentialsPage extends React.Component{
+
+  static defaultProps = {
+    user: {}
+  };
+  
   constructor(props){
     super()
     this.state = {
@@ -131,13 +138,10 @@ class PotentialsPage extends React.Component{
         Image.prefetch(thirdpotential.user.image_url)
       }
       if(thirdpotential.partner && thirdpotential.partner.image_url && thirdpotential.partner.image_url.indexOf('http') >= 0){
-
         // Image.prefetch(thirdpotential.partner.thumb_url)
         Image.prefetch(thirdpotential.partner.image_url)
       }
     }
-
-
   }
   componentWillUnmount(){
     AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
@@ -159,14 +163,13 @@ class PotentialsPage extends React.Component{
   }
   render(){
     const { potentials, user } = this.props
-    const NavBar = React.cloneElement(this.props.pRoute.navigationBar, {
+    const NavBar = React.cloneElement(PotentialsRoute.navigationBar, {
       ...this.props
     })
     return (
       <View
         style={{
           backgroundColor:this.state.profileVisible ? 'black' : colors.outerSpace,
-          flex:1,
           width:DeviceWidth,
           height:DeviceHeight,
           top:0
@@ -238,6 +241,6 @@ class PotentialsPage extends React.Component{
 }
 reactMixin.onClass(PotentialsPage,TimerMixin)
 
-
+Potentials.displayName = "Potentials"
 
 export default Potentials;

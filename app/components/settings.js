@@ -1,5 +1,4 @@
 /*
-* @providesModule Settings
 */
 import React from "react";
 
@@ -175,7 +174,7 @@ class SettingsInside extends React.Component{
   }
 
   render(){
-    const { user } = this.props
+    const user = this.props.user || {}
     var src;
     var thumbSrc;
     if(user.localUserImage && user.localUserImage.uri){
@@ -475,6 +474,7 @@ class SettingsInside extends React.Component{
 
 
 class Settings extends React.Component{
+  static displayName = "Settings";
 
   constructor(props){
     super(props);
@@ -507,7 +507,7 @@ class Settings extends React.Component{
 }
 
 Settings.displayName = "Settings"
-export default Settings
+module.exports = Settings
 
 
 
