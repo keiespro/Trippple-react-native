@@ -72,7 +72,7 @@ export default class LocationPermission extends React.Component{
      (error) => {
        Analytics.log(error)
 
-       // this.setState({hasPermission: false, failedState: true})
+       this.setState({hasPermission: false})
        // this.handleFail()
        // this.props.navigator[this.props.renderPrevMethod]()
 
@@ -81,6 +81,7 @@ export default class LocationPermission extends React.Component{
  }
 
  cancel(val){
+   this.setState({hasPermission: false})
 
   //  this.props.failCallback && this.props.failCallback(val)
    this.close()
@@ -93,17 +94,17 @@ export default class LocationPermission extends React.Component{
  }
 
  handleTapYes(){
-   if(this.state.failedState){
-     this.openSettings()
-   }else{
-     if(!this.state.hasPermission){
+  //  if(this.state.failedState == "12312"){
+  //    this.openSettings()
+  //  }else{
+  //    if(!this.state.hasPermission){
        this.requestPermission()
-     }else{
-       this.props.successCallback()
-       this.close()
-
-     }
-   }
+    //  }else{
+    //    this.props.successCallback()
+    //    this.close()
+     //
+    //  }
+  //  }
 
 
 
@@ -162,24 +163,25 @@ export default class LocationPermission extends React.Component{
 
  renderModal(){
     return (
-     <View>
+     <View style={{padding:0,width:DeviceWidth,height:DeviceHeight}}>
+
        {/*<BlurView
          blurType="dark"
          style={[{position:'absolute',top:0,width:DeviceWidth,height:DeviceHeight,justifyContent:'center',alignItems:'center',flexDirection:'column'}]}
        />*/}
        <ScrollView
-         style={[{padding:0,width:DeviceWidth,height:DeviceHeight,backgroundColor: 'transparent',paddingTop:20,flex:1,position:'relative',paddingHorizontal:MagicNumbers.screenPadding/2}]}
-         contentContainerStyle={{justifyContent:'center',alignItems:'center',}}
+         style={[{padding:0,width:DeviceWidth,height:DeviceHeight,backgroundColor: 'transparent',paddingTop:20,position:'relative',paddingHorizontal:MagicNumbers.screenPadding/2}]}
+         contentContainerStyle={{flexDirection:'column',justifyContent:'center',alignItems:'center',}}
        >
-       <View style={{width:240,height:240,marginVertical:10,flex:1,position:'relative',alignItems:'center',justifyContent:'center'}}>
-       <Image style={[{width:140,height:140,borderRadius:70,top:0,left:0,margin:50,position:'absolute'}]} source={ {uri: this.props.user.image_url }} />
-       <Image
-         style={{width:240,height:240,marginVertical:0,top:0,left:0,padding:50,padding:0,position:'absolute'}}
-         resizeMode="cover"
-         source={ {uri: 'assets/localIcon@3x.png' }}
-         />
-     </View>
-       <View style={[styles.insidemodalwrapper,{justifyContent:'space-between'}]}>
+         <View style={{width:240,height:240,marginVertical:10,position:'relative',alignItems:'center',justifyContent:'center'}}>
+          <Image style={[{width:140,height:140,borderRadius:70,top:0,left:0,margin:50,position:'absolute'}]} source={ {uri: this.props.user.image_url }} />
+          <Image
+           style={{width:240,height:240,marginVertical:0,top:0,left:0,padding:50,padding:0,position:'absolute'}}
+           resizeMode="cover"
+           source={ {uri: 'assets/localIcon@3x.png' }}
+           />
+         </View>
+         <View style={[styles.insidemodalwrapper,{justifyContent:'center'}]}>
 
            <Text style={[styles.rowtext,styles.bigtext,{
                fontFamily:'Montserrat-Bold',fontSize:22,marginVertical:10,color: colors.white
@@ -190,16 +192,16 @@ export default class LocationPermission extends React.Component{
            <Text style={[styles.rowtext,styles.bigtext,{
              fontSize:18,color: colors.white,marginHorizontal:MagicNumbers.screenPadding,
              marginBottom: MagicNumbers.is5orless ? 10 : 20
-           }]}>We’ve found 10 matches we think you might like.</Text>
+           }]}>We’ve found some matches we think you might like.</Text>
              <Text style={[styles.rowtext,styles.bigtext,{
-               fontSize:18,color: colors.white,marginHorizontal:MagicNumbers.screenPadding,
+               fontSize:18,color: colors.white,marginHorizontal:MagicNumbers.screenPadding/2,
                marginBottom: MagicNumbers.is5orless ? 10 : 20
              }]}>Should we prioritize the matches nearest to you?</Text>
 
            {this.renderButton()}
          </View>
 
-         <View style={{marginTop:MagicNumbers.is5orless ? 5 : 10}}>
+         <View style={{marginTop:MagicNumbers.is5orless ? 0 : 10}}>
            <TouchableOpacity style={{padding:10}}
            onPress={()=>this.cancel(false)}>
              <View style={[styles.cancelButton,{ backgroundColor:'transparent'}]} >

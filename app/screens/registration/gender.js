@@ -173,7 +173,6 @@ var animations = {
 const styles = StyleSheet.create({
 
   container: {
-    flex: 1,
     height: DeviceHeight,
     width: DeviceWidth,
     padding:0,
@@ -185,12 +184,11 @@ const styles = StyleSheet.create({
   },
   genderWrap:{
     justifyContent: 'center',
-    flex: 1,
     flexDirection:'column',
     alignItems: 'center',
     alignSelf:'stretch',
-    width: DeviceWidth,
-    paddingHorizontal:50
+    // width: DeviceWidth,
+    // paddingHorizontal:
   },
   //
   // labelText:{
@@ -261,7 +259,6 @@ const styles = StyleSheet.create({
   },
   topWrap:{
     justifyContent: 'center',
-    flex: 1,
     flexDirection:'column',
     alignItems: 'center',
     alignSelf:'stretch',
@@ -269,7 +266,6 @@ const styles = StyleSheet.create({
   },
   privacyWrap:{
     justifyContent: 'flex-start',
-    flex: 1,
     flexDirection:'row',
     alignItems: 'center',
     width: MagicNumbers.screenWidth,

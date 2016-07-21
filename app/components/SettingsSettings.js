@@ -351,6 +351,7 @@ class SettingsSettings extends React.Component{
 
   }
 }
+SettingsSettings.displayName = "SettingsSettings"
 
 export default SettingsSettings
 

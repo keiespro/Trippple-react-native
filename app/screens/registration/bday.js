@@ -47,6 +47,7 @@ class BdayScreen extends Component{
     }
     this.state = {
       error: false,
+      keyboardSpace:266,
       timeZoneOffsetInHours:props.timeZoneOffsetInHours,
       date
     }
@@ -129,7 +130,6 @@ class BdayScreen extends Component{
       <View style={[
           styles.container,
           {
-            flex: 1,
             height:DeviceHeight,
             paddingBottom: 226
           }
@@ -166,7 +166,7 @@ class BdayScreen extends Component{
           </View>
 
         </SingleInputScreen>
-        <View ref={component => this._root = component} style={[{flex: 1, height: this.state.keyboardSpace},styles.bdayKeyboard]}>
+        <View ref={component => this._root = component} style={[{ height: this.state.keyboardSpace},styles.bdayKeyboard]}>
 
         <DatePickerIOS
             ref={'picker'}
@@ -190,8 +190,7 @@ export default BdayScreen
 const styles = StyleSheet.create({
     bdayKeyboard:{
       height: 226,
-      backgroundColor: colors.white,
-      flex:1,
+      backgroundColor: colors.outerSpace,
       position:'absolute',
       bottom:0,
       alignSelf: 'center',
@@ -200,7 +199,6 @@ const styles = StyleSheet.create({
       justifyContent:'center'
     },
     container: {
-      flex: 1,
       justifyContent:'space-between',
       alignItems: 'center',
       alignSelf: 'stretch',
@@ -211,7 +209,6 @@ const styles = StyleSheet.create({
       backgroundColor: colors.outerSpace
     },
     wrap: {
-      flex: 2,
       alignItems:'center',
       justifyContent:'center',
       alignSelf:'stretch',
@@ -254,7 +251,6 @@ const styles = StyleSheet.create({
     },
 
     imagebg:{
-      flex: 1,
       alignSelf:'stretch',
       width: DeviceWidth,
       height: DeviceHeight,

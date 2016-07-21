@@ -1,29 +1,12 @@
 import React from "react";
 import ReactNative, {View, AppRegistry, NativeModules,SnapshotViewIOS} from "react-native";
-// const ScreensList = [
-//   require('./app/components/pin'),
-//   require('./app/screens/CheckMark'),
-//   require('./app/components/welcome')
-// ]
-//
-// console.log(ScreensList);
-//
-//
-// ScreensList.forEach(Screen => {
-//
-//   console.log(Screen);
-//   if(Screen.displayName) {
-//     console.log(Screen.displayName);
-//     const Snapshotter = (props => <SnapshotViewIOS><Screen {...props}/></SnapshotViewIOS>)
-//     AppRegistry.registerComponent(Screen.displayName, () => Snapshotter);
-//   }
-// });
-
-
 import path from 'path'
+import Donnie from './test/mockData/Donnie.js'
+import Danny from './test/mockData/Danny.js'
+
 const ScreensList = [
-require('./app/components/auth'),
-require('./app/components/welcome'),
+require('./app/components/welcome/intro'),
+require('./app/components/welcome/auth'),
 require('./app/components/pin'),
 require('./app/components/settings'),
 require('./app/components/SettingsBasic'),
@@ -32,6 +15,8 @@ require('./app/components/SettingsSettings'),
 require('./app/components/SettingsCouple'),
 require('./app/components/potentials'),
 require('./app/components/potentials/PotentialsPlaceholder'),
+require('./app/components/matches'),
+require('./app/components/chat'),
 require('./app/screens/CheckMark'),
 require('./app/screens/ImageFlagged'),
 require('./app/screens/SelectImageSource'),
@@ -41,18 +26,7 @@ require('./app/screens/registration/bday'),
 require('./app/screens/registration/gender'),
 require('./app/screens/registration/name'),
 require('./app/screens/registration/privacy'),
-
-  // require('./components/pin'),
-  // require('./screens/CheckMark'),
-  // require('./components/welcome')
 ]
-
-
-
-
-
-
-console.log(ScreensList);
 
 
 ScreensList.forEach(s => {
@@ -70,6 +44,7 @@ ScreensList.forEach(s => {
         <SnapshotViewIOS>
           <Screen
             {...props}
+            user={Donnie.userInfo}
             navigator={{
               getCurrentRoutes:()=>{return {}},
               pop:()=>{}
@@ -87,7 +62,6 @@ console.log(AppRegistry.getAppKeys());
 class TestHarness extends React.Component{
 
   render(){
-    console.log(this.props.children);
     return (
       <View>
         {this.props.children}

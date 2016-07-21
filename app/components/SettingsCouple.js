@@ -381,7 +381,7 @@ class SettingsCouple extends React.Component{
 
                     </BoxyButton>
                     </View>
-                    */ }
+                    */}
 
       </ScrollView>
       </View>
@@ -389,6 +389,7 @@ class SettingsCouple extends React.Component{
     )
   }
 }
+SettingsCouple.displayName = "SettingsCouple"
 
 export default SettingsCouple
 

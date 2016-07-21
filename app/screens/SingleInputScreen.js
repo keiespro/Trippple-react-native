@@ -104,7 +104,7 @@ class SingleInputScreen extends Component{
   }
  render(){
     return(
-      <View style={[{flex: 1, height:DeviceHeight, paddingBottom: this.state.keyboardSpace, backgroundColor: colors.outerSpace}]}>
+      <View style={[{ height:DeviceHeight, paddingBottom: this.state.keyboardSpace, backgroundColor: colors.outerSpace}]}>
         <ScrollView
           keyboardDismissMode={'on-drag'}
           contentContainerStyle={[styles.wrap]}
@@ -175,7 +175,7 @@ var animations = {
 const styles = StyleSheet.create({
 
     container: {
-      flex: 1,
+
       alignItems:'center',
       justifyContent:'center',
       alignSelf:'stretch',
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
 
     },
     wrap: {
-      flex: 1,
+
       alignItems:'center',
       justifyContent:'center',
       alignSelf:'stretch',
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     },
 
     imagebg:{
-      flex: 1,
+
       alignSelf:'stretch',
       width: DeviceWidth,
       height: DeviceHeight,

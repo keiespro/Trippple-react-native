@@ -717,6 +717,7 @@ const Chat = React.createClass({
 
 });
 
+Chat.displayName = "Chat"
 export default Chat;
 
 

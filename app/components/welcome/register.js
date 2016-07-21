@@ -7,24 +7,24 @@ import React from "react";
 import {Component} from "react";
 import {StyleSheet, Text, View, ScrollView, Image, TouchableHighlight, LayoutAnimation, Dimensions, TextInput} from "react-native";
 
-import CustomSceneConfigs from '../utils/sceneConfigs'
-import colors from '../utils/colors'
+import CustomSceneConfigs from '../../utils/sceneConfigs'
+import colors from '../../utils/colors'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-import UserActions from '../flux/actions/UserActions'
-import AuthErrorStore from '../flux/stores/AuthErrorStore'
-import {MagicNumbers} from '../DeviceConfig.js'
+import UserActions from '../../flux/actions/UserActions'
+import AuthErrorStore from '../../flux/stores/AuthErrorStore'
+import {MagicNumbers} from '../../DeviceConfig.js'
 
-import TopTabs from '../controls/topSignupSigninTabs'
-import PhoneNumberInput from '../controls/phoneNumberInput.js'
-import PinScreen from './pin'
+import TopTabs from '../../controls/topSignupSigninTabs'
+import PhoneNumberInput from '../../controls/phoneNumberInput.js'
+import PinScreen from '../pin'
 
 import reactMixin from 'react-mixin'
 import TimerMixin from 'react-timer-mixin'
-import SingleInputScreenMixin from '../mixins/SingleInputScreenMixin'
-import TrackKeyboardMixin from '../mixins/keyboardMixin'
-import Mixpanel from '../utils/mixpanel';
+import SingleInputScreenMixin from '../../mixins/SingleInputScreenMixin'
+import TrackKeyboardMixin from '../../mixins/keyboardMixin'
+import Mixpanel from '../../utils/mixpanel';
 
 import libphonenumber from 'google-libphonenumber';
 
@@ -111,7 +111,7 @@ class Register extends Component{
   render(){
 
     return (
-      <View style={[{ height:DeviceHeight,width:DeviceWidth}]}>
+      <View style={[{ height:DeviceHeight-80, backgroundColor: colors.outerSpace, width:DeviceWidth}]}>
 
             <PhoneNumberInput
               key={'loginphone'}
@@ -146,7 +146,6 @@ export default Register;
 const styles = StyleSheet.create({
 
   container: {
-    flex: 1,
     alignItems:'center',
     justifyContent:'center',
     alignSelf:'stretch',
@@ -157,7 +156,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   wrap: {
-    flex: 1,
     alignItems:'center',
     justifyContent:'center',
     alignSelf:'stretch',
@@ -201,7 +199,6 @@ const styles = StyleSheet.create({
     fontFamily:'omnes'
   },
   imagebg:{
-    flex: 1,
     alignSelf:'stretch',
     width: DeviceWidth,
     height: DeviceHeight,

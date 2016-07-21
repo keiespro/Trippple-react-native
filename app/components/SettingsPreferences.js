@@ -226,6 +226,7 @@ class  SettingsPreferences extends React.Component{
   }
 }
 
+SettingsPreferences.displayName = "SettingsPreferences"
 
 export default SettingsPreferences
 

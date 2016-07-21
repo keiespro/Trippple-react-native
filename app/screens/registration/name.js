@@ -61,9 +61,7 @@ class NameScreen extends Component{
  render(){
    return(
     <View style={{width:DeviceWidth,height:DeviceHeight,position:'relative',backgroundColor:colors.outerSpace}}>
-      <View style={{width:100,height:50,left:(MagicNumbers.screenPadding/2)}}>
-        <BackButton/>
-      </View>
+
       <SingleInputScreen
         shouldHide={(val) => { return (val.length <= 0) ? true : false }}
         shouldShow={(val) => { return (val.length > 0)  ? true : false }}
@@ -83,7 +81,7 @@ class NameScreen extends Component{
             placeholderTextColor={colors.white}
             autoCorrect={false}
             returnKeyType={'next'}
-            autoFocus={false }
+            autoFocus={__TEST__ ? true : false }
             maxLength={10}
             ref={component => this._textInput = component}
             clearButtonMode={'never'}
@@ -93,6 +91,9 @@ class NameScreen extends Component{
             onChangeText={this.handleInputChange.bind(this)}
           />
         </SingleInputScreen>
+        <View style={{width:100,height:50,position:'absolute',top:0,left:(MagicNumbers.screenPadding/2)}}>
+          <BackButton/>
+        </View>
       </View>
     )
   }

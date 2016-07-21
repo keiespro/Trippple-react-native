@@ -20,25 +20,23 @@
 
 - (void)setUp {
   _runner = RCTInitRunnerForApp(@"index.test", nil);
-  _runner.recordMode = YES;
+  _runner.recordMode = NO;
   [NSThread sleepForTimeInterval:2.0];
-
 }
 
 #define RCT_TEST(name)                   \
 - (void)test##name                        \
 {                                          \
-  [NSThread sleepForTimeInterval:1.0];      \
 [_runner runTest:_cmd module:@#name          \
     initialProps:@{@"data": @[]}              \
     configurationBlock:^(RCTRootView *view) {  \
-      view.frame = CGRectMake(0, 0, 414, 736); \
+      view.frame = CGRectMake(0, 0, 414, 736);  \
     }];                                          \
 }
 
 //HOME
 
-RCT_TEST(Welcome)
+RCT_TEST(Intro)
 - (void)testLogin {
   [_runner runTest:_cmd module:@"Auth" initialProps:@{@"initialTab": @"login"}
     configurationBlock:^(RCTRootView *view) {
@@ -66,6 +64,11 @@ RCT_TEST(Name)
 RCT_TEST(Potentials)
 RCT_TEST(PotentialsPlaceholder)
 
+
+//MATCHES/CHAT
+RCT_TEST(Matches)
+RCT_TEST(Chat)
+
 //SETTINGS
 RCT_TEST(Settings)
 RCT_TEST(SettingsBasic)
@@ -73,6 +76,13 @@ RCT_TEST(SettingsPreferences)
 RCT_TEST(SettingsSettings)
 RCT_TEST(SettingsCouple)
 
+
+
+////MODALS
+//
+//RCT_TEST()
+//RCT_TEST()
+//RCT_TEST()
 
 //MISC
 

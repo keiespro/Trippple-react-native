@@ -54,41 +54,46 @@ class CheckMarkScreen extends Component{
   }
   componentDidMount() {
     // if(!this.props.isVisible){ return false}
+    if(__TEST__){
+      console.log('just show the damn thing')
+      this.state.buttonOpacity.setValue(1.0);
+      this.state.bounceValue.setValue(1.0);
+      this.state.textOpacityValue.setValue(1.0);
+    }else{
+      Animated.sequence([
+        Animated.spring(
+          this.state.bounceValue,
+          {
+            toValue: 1.0,
+            tension:10,
+            friction: 3,
+          }
+        ),
+        Animated.timing(
+          this.state.textOpacityValue,
+          {
+            toValue: 1.0,
+            duration:1000
 
-    Animated.sequence([
-      Animated.spring(
-        this.state.bounceValue,
-        {
-          toValue: 1.0,
-          tension:10,
-          friction: 3,
+          }
+        ),
+        Animated.timing(
+          this.state.buttonOpacity,
+          {
+            toValue: 1.0,
+            delay: 2000,
+            duration:1000
+          }
+        )
+      ]
+    ).start(()=>{
+        if(this.props.continueAfter){
+          this.setTimeout(()=>{
+            this.props.exitCheckMarkScreen()
+          },this.props.continueAfter)
         }
-      ),
-      Animated.timing(
-        this.state.textOpacityValue,
-        {
-          toValue: 1.0,
-          duration:1000
-
-        }
-      ),
-      Animated.timing(
-        this.state.buttonOpacity,
-        {
-          toValue: 1.0,
-          delay: 2000,
-          duration:1000
-        }
-      )
-    ]
-  ).start(()=>{
-      if(this.props.continueAfter){
-        this.setTimeout(()=>{
-          this.props.exitCheckMarkScreen()
-        },this.props.continueAfter)
-      }
-    })  // Start the animation
-
+      })  // Start the animation
+    }
   }
   render(){
     // if(!this.props.isVisible){ return false}
@@ -113,7 +118,6 @@ flexDirection:'column',
           height:200,
           alignItems:'center',
           justifyContent:'center',
-          flex:1,
           transform: [
             {scale: this.state.bounceValue ? this.state.bounceValue : 1},
           ],

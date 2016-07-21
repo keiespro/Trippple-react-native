@@ -61,7 +61,7 @@ class PotentialsPlaceholder extends React.Component{
             {
               height: DeviceHeight,
               width:DeviceWidth,
-
+              backgroundColor:colors.outerSpace,
               position: 'relative',
             }]}
           >
@@ -155,4 +155,6 @@ class PotentialsPlaceholder extends React.Component{
     )
   }
 }
+
+PotentialsPlaceholder.displayName = "PotentialsPlaceholder"
 export default PotentialsPlaceholder

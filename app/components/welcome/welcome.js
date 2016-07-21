@@ -8,185 +8,28 @@ import {StyleSheet, Text, View, Image, ScrollView, Navigator, Dimensions, Toucha
 
 import TimerMixin from 'react-timer-mixin'
 
-import colors from '../utils/colors'
+import colors from '../../utils/colors'
 import Swiper from 'react-native-swiper'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-import CustomSceneConfigs from '../utils/sceneConfigs'
+import CustomSceneConfigs from '../../utils/sceneConfigs'
 import Auth from './auth'
-import Facebook from '../screens/registration/facebook'
-import Analytics from '../utils/Analytics'
+import Facebook from '../../screens/registration/facebook'
+import Analytics from '../../utils/Analytics'
+import IntroScreen from './intro'
 
-
-const LOGIN   = 'login';
+const LOGIN = 'login';
 const REGISTER = 'register'
 
-import {MagicNumbers} from '../DeviceConfig'
+import {MagicNumbers} from '../../DeviceConfig'
 
 // import dismissKeyboard from 'dismissKeyboard'
-import FadeInContainer from '../components/FadeInContainer'
+import FadeInContainer from '../FadeInContainer'
 
-
-var slides = [
-  {
-    title: ' ',
-    img: {uri: 'assets/logo@3x.png'},
-    content: ' '
-  },
-  {
-    title: 'BROWSE',
-    img: {uri:'assets/tour-browse@3x.png'},
-    content: 'Find like-minded Couples and Singles.'
-  },
-  {
-    title: 'MATCH',
-    img: {uri: 'assets/tour-match@3x.png'},
-    content: 'If they like you too, we\'ll connect you.'
-  },
-  {
-    title: 'CONNECT',
-    img: {uri: 'assets/tour-connect@3x.png'},
-    content: 'Chat with real Couples or Singles who share your interests.'
-  },
-  {
-    title: 'PRIVATE & DISCREET',
-    img: {uri: 'assets/tour-privacy@3x.png'},
-    content: 'Protect your identity. Easily block friends and family.'
-  },
-
-];
-
-var IntroScreen = React.createClass({
-  displayName:'IntroScreen',
-  getInitialState(){
-    return {
-      isAnimating: false
-    }
-  },
-
-  mixins: [TimerMixin],
-
-  activateAnimatingState(){
-    this.setState({isAnimating:true})
-
-    this.setTimeout(
-     () => { this.setState({isAnimating:false}) },
-     500
-   );
-  },
-
-  handleNext(selectedTab){
-
-      switch(selectedTab) {
-
-      case LOGIN:
-          Analytics.event("Interaction",{type: 'tap', target: "Login"});
-          break;
-
-      case REGISTER:
-          Analytics.event("Interaction",{type: 'tap', target: "Register"});
-          break;
-      }
-
-    this.activateAnimatingState();
-    this.props.navigator.push({
-      component: Auth,
-      title: 'Log in or Sign up',
-      id:'auth',
-      passProps: {
-        initialTab: selectedTab,
-        navigator: this.props.navigator
-      }
-    })
-  },
-
-  componentDidMount() {
-      setTimeout(()=> {
-          Analytics.screen('Welcome Screen')
-      }, 1000);
-
-  },
-
-  render(){
-    return(
-      <View style={[styles.container]}>
-        <View style={styles.wrap}>
-          <Carousel/>
-        </View>
-        <View style={styles.bottomButtons}>
-          <TouchableHighlight
-          ref="loginbtn"
-            style={[styles.bottomButton,(this.state.isAnimating ? styles.activeButton : styles.loginButton )]}
-            onPress={ () => this.handleNext(LOGIN)}
-             underlayColor={colors.outerSpace}>
-             <Text style={styles.buttonText}>LOG IN</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-          ref="registerbtn"
-             style={[styles.bottomButton,(this.state.isAnimating ? styles.activeButton : styles.registerButton )]}
-             onPress={ () => this.handleNext(REGISTER)}
-             underlayColor={colors.outerSpace}>
-             <Text style={styles.buttonText}>SIGN UP</Text>
-          </TouchableHighlight>
-        </View>
-      </View>
-    )
-  }
-})
-
-class Carousel extends Component{
-  constructor(props){
-    super()
-    this.state = {
-      slides
-    }
-  }
-  render(){
-    const welcomeSlides = this.state.slides.map( (slide,i) => {
-      return (
-        <View key={i+'slide'+i} style={[styles.slide,]} >
-        <Image style={ {
-            marginBottom:25,
-            height: MagicNumbers.is4s ? 150 : DeviceHeight/3 + MagicNumbers.screenPadding,
-            paddingTop: 20,
-            marginTop: i == 0 ? MagicNumbers.screenPadding*1.8 : MagicNumbers.screenPadding,
-            width: i == 0 ? MagicNumbers.screenWidth : MagicNumbers.screenPadding*5
-          } } source={slide.img} defaultSource={slide.img} resizeMode={Image.resizeMode.contain}/>
-      <View style={[styles.textwrap,{marginBottom:5}]}><Text style={[styles.textplain,
-          {
-            fontFamily:'Montserrat',
-            fontWeight:'700',
-            marginTop:15,
-            fontSize: MagicNumbers.is4s ? 18 : 22,
-          }
-          ]}>{slide.title}</Text></View>
-          <View style={styles.textwrap}><Text style={[styles.textplain,{
-            fontSize: MagicNumbers.is4s ? 18 : 22,
-          }]}>{slide.content}</Text></View>
-        </View>
-      )
-    })
-    return (
-        <Swiper
-          loop={true}
-          style={[styles.carousel]}
-          horizontal={true}
-          grayDots={true}
-          showsPagination={true}
-          dot={<View style={styles.dot} />}
-          activeDot={<View style={[styles.dot,styles.activeDot]} />}
-        >
-        {welcomeSlides}
-        </Swiper>
-    )
-  }
-}
-
-Carousel.displayName = 'Carousel';
 
 const Welcome = React.createClass({
-  displayName:"Welcome",
+
   componentDidMount() {
       // this.refs.nav.navigationContext.addListener('willfocus', (e)=>{
       //   // dismissKeyboard();
@@ -385,4 +228,3 @@ const styles = StyleSheet.create({
 
 
 module.exports = Welcome;
-exports.IntroScreen = IntroScreen

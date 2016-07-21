@@ -30,7 +30,9 @@ import NotificationPermissions from '../modals/NewNotificationPermissions'
 import Coupling from '../coupling/'
 import url from 'url'
 import {SHOW_COUPLING} from '../utils/SettingsConstants'
-import { PotentialsRoute, SettingsRoute, MatchesRoute, ChatRoute } from './MainRoutes'
+import MainRoutes from './MainRoutes'
+const { PotentialsRoute, SettingsRoute, MatchesRoute, ChatRoute } = MainRoutes;
+const ROUTE_STACK = [PotentialsRoute,SettingsRoute,MatchesRoute];
 
 class Main extends Component{
 
@@ -164,11 +166,14 @@ class Main extends Component{
   }
 
   selectScene(route, navigator){
-    const RouteComponent = route.component;
+    console.log(route,navigator);
     var navBar;
-    if(!route ){
-      route = ROUTE_STACK[0]
+    if(!route.component ){
+      console.log(Potentials);
+      route.component = Potentials
     }
+    const RouteComponent = route.component;
+
     if (route.navigationBar) {
       navBar = React.cloneElement(route.navigationBar, {
         navigator: navigator,
@@ -203,6 +208,7 @@ class Main extends Component{
   }
 
   render() {
+    console.log(ROUTE_STACK,ROUTE_STACK[0]);
 
 
      return (
@@ -210,7 +216,7 @@ class Main extends Component{
         <Navigator
           ref={'nav'}
           initialRoute={ROUTE_STACK[0]}
-          configureScene={route => route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromBottom}
+          configureScene={route => (route && route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromBottom)}
           navigator={this.props.navigator}
           renderScene={this.selectScene.bind(this)}
           modalVisible={this.state.modalVisible}
@@ -277,8 +283,3 @@ const styles = StyleSheet.create({
 reactMixin(Main.prototype, TimerMixin);
 
 module.exports = Main;
-
-
-
-
-const ROUTE_STACK = [PotentialsRoute,SettingsRoute,MatchesRoute];

@@ -5,19 +5,19 @@ import {StyleSheet, Text, View, Image, ScrollView, Navigator, Dimensions, Toucha
 
 import TimerMixin from 'react-timer-mixin'
 
-import colors from '../utils/colors'
+import colors from '../../utils/colors'
 
-import TrackKeyboard from '../mixins/keyboardMixin';
+import TrackKeyboard from '../../mixins/keyboardMixin';
 
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
 
-import UserActions from '../flux/actions/UserActions';
+import UserActions from '../../flux/actions/UserActions';
 
-import Facebook from '../screens/registration/facebook';
-import TopTabs from '../controls/topSignupSigninTabs';
+import Facebook from '../../screens/registration/facebook';
+import TopTabs from '../../controls/topSignupSigninTabs';
 import Login from './login';
 import Register from './register';
 
@@ -25,10 +25,14 @@ import Register from './register';
 const styles = StyleSheet.create({
 
   container: {
-    flex: 1,
     alignItems:'center',
     justifyContent:'center',
     alignSelf:'stretch',
+    top:0,
+    left:0,
+    position:'absolute',
+    bottom:0,
+    right:0,
     width: DeviceWidth,
     margin:0,
     padding:0,
@@ -36,7 +40,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   wrap: {
-    flex: 1,
     alignItems:'center',
     justifyContent:'center',
     alignSelf:'stretch',
@@ -83,7 +86,6 @@ const styles = StyleSheet.create({
     fontFamily:'omnes'
   },
   imagebg:{
-    flex: 1,
     alignSelf:'stretch',
     width: DeviceWidth,
     height: DeviceHeight,
@@ -140,6 +142,6 @@ class Auth extends Component{
   }
 }
 
-
+Auth.displayName = "Auth"
 
 export default Auth;

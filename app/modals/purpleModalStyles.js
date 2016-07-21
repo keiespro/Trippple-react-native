@@ -10,7 +10,7 @@ const purpleModalStyles = StyleSheet.create({
   modalButtonWrap:{
     borderRadius:4,
     justifyContent:'center',
-    flex:1,
+
     marginVertical: 5,
     flexDirection:'row',
     alignSelf:'stretch',
@@ -28,7 +28,7 @@ const purpleModalStyles = StyleSheet.create({
 
 
     justifyContent:'center',
-    flex:1,
+
   },
   modalButtonText:{
     color:colors.white,
@@ -46,7 +46,7 @@ const purpleModalStyles = StyleSheet.create({
 
   },
   container: {
-    flex:1,
+
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     alignSelf:'stretch',
@@ -108,9 +108,9 @@ const purpleModalStyles = StyleSheet.create({
   },
   insidemodalwrapper:{
     flexDirection:'column',
-    justifyContent:'space-around',
+    justifyContent:'space-between',
     alignItems:'stretch',
-    flex:1,
+
     marginTop:MagicNumbers.isSmallDevice ? 0 : 20,
     alignSelf:'stretch',
   },
@@ -133,7 +133,7 @@ const purpleModalStyles = StyleSheet.create({
     color:colors.white,
     fontSize:22,
     alignItems: 'stretch',
-    flex:1,
+
     paddingHorizontal:10,
     fontFamily:'Montserrat',
     height:60,

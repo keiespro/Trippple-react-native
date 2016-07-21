@@ -29,6 +29,7 @@ class Potentials extends React.Component{
   constructor(props){
     super()
   }
+
   render(){
     return (
       <AltContainer
@@ -62,10 +63,6 @@ class Potentials extends React.Component{
 
 class PotentialsPage extends React.Component{
 
-  static defaultProps = {
-    user: {}
-  };
-  
   constructor(props){
     super()
     this.state = {
@@ -93,6 +90,7 @@ class PotentialsPage extends React.Component{
 
   }
   componentDidMount(){
+    console.log('mount potentials route');
     AppState.addEventListener('change', this._handleAppStateChange.bind(this));
 
     if(this.props.user.status == 'onboarded'){
@@ -120,7 +118,7 @@ class PotentialsPage extends React.Component{
     }
 
 
-    if(this.props.potentials[1]){
+    if(this.props.potentials && this.props.potentials[1]){
       const potential = this.props.potentials[1]
       if(potential.user.image_url && potential.user.image_url.indexOf('http') >= 0){
         // Image.prefetch(potential.partner.thumb_url)
@@ -131,7 +129,7 @@ class PotentialsPage extends React.Component{
         Image.prefetch(potential.partner.image_url)
       }
     }
-    if(this.props.potentials[2]){
+    if(this.props.potentials && this.props.potentials[2]){
       const thirdpotential = this.props.potentials[2]
       if(thirdpotential.user.image_url && thirdpotential.user.image_url.indexOf('http') >= 0){
         // Image.prefetch(thirdpotential.user.thumb_url)
@@ -149,7 +147,7 @@ class PotentialsPage extends React.Component{
   }
   getPotentialInfo(){
 
-    if(!this.props.potentials[0]){ return false}
+    if(!this.props.potentials || !this.props.potentials.length){ return false}
 
 
     var potential = this.props.potentials[0];
@@ -225,7 +223,7 @@ class PotentialsPage extends React.Component{
             </View> : null
           }
 
-          { potentials.length < 1 &&
+          { !potentials || (potentials && potentials.length < 1) &&
             <PotentialsPlaceholder
               navigator={this.props.navigator}
               user={this.props.user}
@@ -240,7 +238,7 @@ class PotentialsPage extends React.Component{
   }
 }
 reactMixin.onClass(PotentialsPage,TimerMixin)
-
+console.log(Potentials);
 Potentials.displayName = "Potentials"
 
 export default Potentials;

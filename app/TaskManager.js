@@ -10,6 +10,10 @@ import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 const {HAS_SEEN_NOTIFICATION_REQUEST,LAST_ASKED_LOCATION_PERMISSION} = SETTINGS_CONSTANTS
 
+
+//TODO: the correct thing seems to have DID_DENY_LOCATION to avoid the request entirely if they denied it outright. currently it pops up every single time you open the app (doh)
+
+
  class TaskManager extends React.Component{
   constructor(props){
     super()

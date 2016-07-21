@@ -9,9 +9,10 @@ import Boot from './app/Boot'
 
 console.log('index.IOS.js');
 
-if(typeof window !== 'undefined' && __DEV__ && process.env.NODE_ENV !== 'production'){
+if(typeof window !== 'undefined' && (__DEV__ ) && process.env.NODE_ENV !== 'production'){
   global = window;
   window.ReactNative = ReactNative;
+  window.React = React;
   // window.__SHOW_ALL__ && whyDidYouUpdate(React, { exclude: [/^YellowBox/,/^onChangeText/] });
 
 }

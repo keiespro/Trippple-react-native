@@ -82,40 +82,6 @@ const styles = StyleSheet.create({
 
 
 
-const PotentialsRoute = {
-  component: Potentials,
-  index: 0,
-  title: 'Trippple',
-  id: 'potentials',
-  name: 'Potentials',
-  navigationBar: (
-    <FakeNavBar
-      backgroundStyle={{backgroundColor:'transparent'}}
-      customTitle={
-        <Image
-          resizeMode={Image.resizeMode.contain}
-          style={{width:80,height:30,tintColor: __DEV__ ? colors.mandy : colors.white}}
-          source={{uri:'assets/tripppleLogoText@3x.png'}}
-        />
-      }
-      onPrev={(navigator,route) => navigator.push(SettingsRoute)}
-      customPrev={
-        <Image
-          resizeMode={Image.resizeMode.contain}
-          style={{width:28,top:-10,height:30,alignSelf:'flex-start',tintColor: __DEV__ ? colors.mandy : colors.white}}
-          source={{uri:'assets/gear@3x.png'}}
-        />
-      }
-      onNext={(navigator,route) => {navigator.push(MatchesRoute)}}
-      customNext={
-        <Image
-          resizeMode={Image.resizeMode.contain}
-          style={{opacity:0.6,width:30,top:0,height:30,alignSelf:'flex-end',tintColor: __DEV__ ? colors.mandy : colors.white}}
-          source={{uri:'assets/chat@3x.png'}}
-        />
-      }
-    />)
-};
 
 const SettingsRoute = {
   component: SettingsView,
@@ -182,4 +148,43 @@ const ChatRoute = {
     // sceneConfig: Navigator.SceneConfigs.PushFromRight
 }
 
-export default { PotentialsRoute, SettingsRoute, MatchesRoute, ChatRoute }
+
+const PotentialsRoute = {
+  index: 0,
+  title: 'Trippple',
+  id: 'potentials',
+  name: 'Potentials',
+  component: Potentials,
+  navigationBar: (
+    <FakeNavBar
+      backgroundStyle={{backgroundColor:'transparent'}}
+      customTitle={
+        <Image
+          resizeMode={Image.resizeMode.contain}
+          style={{width:80,height:30,tintColor: __DEV__ ? colors.mandy : colors.white}}
+          source={{uri:'assets/tripppleLogoText@3x.png'}}
+        />
+      }
+      onPrev={(navigator,route) => navigator.push(SettingsRoute)}
+      customPrev={
+        <Image
+          resizeMode={Image.resizeMode.contain}
+          style={{width:28,top:-10,height:30,alignSelf:'flex-start',tintColor: __DEV__ ? colors.mandy : colors.white}}
+          source={{uri:'assets/gear@3x.png'}}
+        />
+      }
+      onNext={(navigator,route) => {navigator.push(MatchesRoute)}}
+      customNext={
+        <Image
+          resizeMode={Image.resizeMode.contain}
+          style={{opacity:0.6,width:30,top:0,height:30,alignSelf:'flex-end',tintColor: __DEV__ ? colors.mandy : colors.white}}
+          source={{uri:'assets/chat@3x.png'}}
+        />
+      }
+    />)
+};
+
+
+const MainRoutes = { PotentialsRoute, SettingsRoute, MatchesRoute, ChatRoute }
+console.log(PotentialsRoute.component);
+export default MainRoutes

@@ -5,7 +5,7 @@ import reactMixin from 'react-mixin'
 class FadeInContainer extends Component{
   static defaultProps = {
     delayAmount: 0,
-    duration: 500,
+    duration: __TEST__ ? 0 : 500,
     delayRender: false
   };
 

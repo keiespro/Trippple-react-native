@@ -346,7 +346,7 @@ class SettingsBasic extends React.Component{
     )
   }
 }
-
+SettingsBasic.displayName = "SettingsBasic"
 export default SettingsBasic
 
 

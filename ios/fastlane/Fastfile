@@ -17,7 +17,11 @@ platform :ios do
 
   desc "Runs all the tests"
   lane :test do
-    scan
+    scan(
+      scheme: "Trippple",
+      devices: ["iPhone 6 Plus", "iPhone 6s", "iPhone 5s"],
+      output_types: "html"
+    )
   end
 
   desc "Submit a new Beta Build to Apple TestFlight"
@@ -26,26 +30,27 @@ platform :ios do
     # match(type: "appstore") # more information: https://codesigning.guide
     cert
     sigh
-    gym(scheme: "Trippple") # Build your app - more options available
+    gym(scheme: "Trippple", suppress_xcode_output: true) # Build your app - more options available
     pilot(
       # skip_waiting_for_build_processing: true
     )
 
   end
 
+  # ensure_git_status_clean
+  # ensure_git_branch(branch: 'master')
+  # push_to_git_remote
 
 
   desc "Deploy a new version to the App Store"
   lane :appstore do
     match(type: "appstore")
-    ensure_git_status_clean
-    ensure_git_branch(branch: 'master')
-    push_to_git_remote
     cert
     sigh
     # changelog = prompt(text: "Enter the change log: ", multi_line_end_keyword: "END")
-    version = increment_version_number(bump_type: "patch")
-    gym(scheme: "Trippple") # Build your app - more options available
+    # version = increment_version_number(bump_type: "patch")
+    gym(scheme: "Trippple")
+    pilot()
     deliver(force: true)
   end
 
@@ -55,7 +60,7 @@ platform :ios do
     gym(scheme: "TripppleDebug")
     crashlytics(
       # groups: 'team',
-      emails: "alehlopeh@gmail.com", 
+      emails: "alehlopeh@gmail.com",
       build_secret: 'eaa5ad5f554fac730663183c7152d183a31d7ab7bb6dc46714db68da63b2376b',
       api_token: '9f3360a634ff36e817a34ba898a19118cc1391ff',
       notes: "Automatic iOS DEBUG Build"
@@ -76,4 +81,3 @@ platform :ios do
     puts exception.inspect
   end
 end
-

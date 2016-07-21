@@ -7,23 +7,23 @@ import React from "react";
 import {Component} from "react";
 import {StyleSheet, Text, View, ScrollView, Image, TouchableHighlight, LayoutAnimation, Dimensions, TextInput} from "react-native";
 
-import CustomSceneConfigs from '../utils/sceneConfigs'
-import colors from '../utils/colors'
+import CustomSceneConfigs from '../../utils/sceneConfigs'
+import colors from '../../utils/colors'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-import UserActions from '../flux/actions/UserActions'
-import AuthErrorStore from '../flux/stores/AuthErrorStore'
+import UserActions from '../../flux/actions/UserActions'
+import AuthErrorStore from '../../flux/stores/AuthErrorStore'
 
-import TopTabs from '../controls/topSignupSigninTabs'
-import PhoneNumberInput from '../controls/phoneNumberInput'
-import PinScreen from './pin'
-import {MagicNumbers} from '../DeviceConfig'
+import TopTabs from '../../controls/topSignupSigninTabs'
+import PhoneNumberInput from '../../controls/phoneNumberInput'
+import PinScreen from '../pin'
+import {MagicNumbers} from '../../DeviceConfig'
 import reactMixin from 'react-mixin'
 import TimerMixin from 'react-timer-mixin'
-import SingleInputScreenMixin from '../mixins/SingleInputScreenMixin'
-import TrackKeyboardMixin from '../mixins/keyboardMixin'
-import Mixpanel from '../utils/mixpanel'
+import SingleInputScreenMixin from '../../mixins/SingleInputScreenMixin'
+import TrackKeyboardMixin from '../../mixins/keyboardMixin'
+import Mixpanel from '../../utils/mixpanel'
 
 import libphonenumber from 'google-libphonenumber';
 
@@ -115,7 +115,7 @@ class Login extends Component{
 
   render(){
     return (
-      <View style={[{flex: 1, height:DeviceHeight,width:DeviceWidth}]}>
+      <View style={[{ height:DeviceHeight-80, backgroundColor: colors.outerSpace, width:DeviceWidth}]}>
 
             <PhoneNumberInput
               key={'loginphone'}

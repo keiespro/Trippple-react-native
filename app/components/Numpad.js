@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
   numberPadWrap: {
     height: KEYBOARD_HEIGHT,
     paddingVertical:0,
-    flex:1,
     width:DeviceWidth,
     alignSelf:'flex-end',
     position:'absolute',
@@ -111,7 +110,6 @@ const styles = StyleSheet.create({
   gridKeys: {
     width:DeviceWidth/3,
 height:KEYBOARD_HEIGHT/4,
-    flex:1,
     justifyContent:'center',
     alignItems:'center',
     alignSelf:'stretch',
@@ -122,7 +120,6 @@ height:KEYBOARD_HEIGHT/4,
   bottomRowKeys: {
     width:DeviceWidth/3,
     height:KEYBOARD_HEIGHT/4,
-    flex:1,
     justifyContent:'center',
     alignItems:'center',
     alignSelf:'stretch',
