@@ -29,20 +29,6 @@
       shouldUseLaunchSchemeArgsEnv = "NO">
       <Testables>
          <TestableReference
-            skipped = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ACA5214B1CA297C5007B9F71"
-               BuildableName = "TripppleUITests.xctest"
-               BlueprintName = "TripppleUITests"
-               ReferencedContainer = "container:Trippple.xcodeproj">
-            </BuildableReference>
-            <LocationScenarioReference
-               identifier = "New York, NY, USA"
-               referenceType = "1">
-            </LocationScenarioReference>
-         </TestableReference>
-         <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
@@ -51,6 +37,11 @@
                BlueprintName = "TripppleSnapshotTests"
                ReferencedContainer = "container:Trippple.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "TripppleSnapshotTest">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>
