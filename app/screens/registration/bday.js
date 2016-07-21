@@ -175,6 +175,7 @@ class BdayScreen extends Component{
             date={this.state.date }
             timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
             onDateChange={this.onDateChange.bind(this)}
+            style={{minWidth: 320}}
           />
 
         </View>

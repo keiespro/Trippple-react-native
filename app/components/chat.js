@@ -496,7 +496,7 @@ class ChatInside extends Component{
 
     return (
       <View  style={[styles.chatInsideWrap,{paddingBottom:this.state.keyboardSpace}]}>
-        {this.props.messages.length > 0 || this.props.currentMatch.recent_message ?
+        {this.props.messages.length > 0  ?
         (<ListView
           dataSource={this.state.dataSource}
           renderRow={this._renderRow.bind(this)}
@@ -677,11 +677,13 @@ const Chat = React.createClass({
           value: MatchesStore.getMatchInfo( this.props.match_id )
         }
       }
-    }
+    };
 
-    return (
-      <AltContainer stores={storesForChat}>
+    const inside = () => {
+      return (
+        <View>
         <ChatInside
+          {...this.props}
           navigator={this.props.navigator}
           user={this.props.user}
           closeChat={this.props.closeChat}
@@ -711,6 +713,13 @@ const Chat = React.createClass({
           navigator={this.props.navigator}
           isVisible={this.state.isVisible}
         />
+        </View>
+      )
+    };
+
+    return __TEST__ ? inside() : (
+      <AltContainer stores={storesForChat}>
+        {inside()}
       </AltContainer>
     );
   }

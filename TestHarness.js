@@ -1,8 +1,10 @@
 import React from "react";
 import ReactNative, {View, AppRegistry, NativeModules,SnapshotViewIOS} from "react-native";
 import path from 'path'
-import Donnie from './test/mockData/Donnie.js'
-import Danny from './test/mockData/Danny.js'
+import colors from './app/utils/colors'
+
+global.__TEST__ = true;
+__TEST__ = true;
 
 const ScreensList = [
 require('./app/components/welcome/intro'),
@@ -26,6 +28,10 @@ require('./app/screens/registration/bday'),
 require('./app/screens/registration/gender'),
 require('./app/screens/registration/name'),
 require('./app/screens/registration/privacy'),
+require('./app/modals/ModalDirector'),
+require('./app/modals/LocationPermission'),
+require('./app/modals/PrivacyPermissions'),
+require('./app/modals/NewNotificationPermissions'),
 ]
 
 
@@ -41,10 +47,10 @@ ScreensList.forEach(s => {
 
     console.log("Screen: "+name);
     const Snapshotter = (props => (
-        <SnapshotViewIOS>
+        <SnapshotViewIOS style={{backgroundColor:colors.outerSpace}}>
           <Screen
             {...props}
-            user={Donnie.userInfo}
+
             navigator={{
               getCurrentRoutes:()=>{return {}},
               pop:()=>{}
@@ -56,8 +62,6 @@ ScreensList.forEach(s => {
 
   }
 });
-
-console.log(AppRegistry.getAppKeys());
 
 class TestHarness extends React.Component{
 

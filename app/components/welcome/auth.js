@@ -109,6 +109,7 @@ class Auth extends Component{
 
   constructor(props){
     super(props);
+    console.log("AUTHPROPS",props);
     this.state = {
       activeTab: props.initialTab
     }

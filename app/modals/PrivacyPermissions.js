@@ -21,7 +21,7 @@ import UserActions from '../flux/actions/UserActions'
 import AppActions from '../flux/actions/AppActions'
 import {MagicNumbers} from '../DeviceConfig'
 
-export default class PrivacyPermissionsModal extends Component{
+class PrivacyPermissionsModal extends Component{
 
   constructor(props) {
     super();
@@ -234,6 +234,8 @@ export default class PrivacyPermissionsModal extends Component{
   }
 }
 
+PrivacyPermissionsModal.displayName = "PrivacyPermissions"
+export default PrivacyPermissionsModal
 
 const buttonStyles = StyleSheet.create({
 

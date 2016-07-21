@@ -509,11 +509,10 @@ class Matches extends Component{
 
     };
 
-    return (
+    return __TEST__ ?  <MatchesInside {...this.props} chatActionSheet={this.chatActionSheet.bind(this)} /> : (
       <AltContainer stores={storesForMatches}>
         <MatchesInside {...this.props} chatActionSheet={this.chatActionSheet.bind(this)} />
-
-        </AltContainer>
+      </AltContainer>
     )
   }
 }
@@ -669,6 +668,7 @@ class EmptyStarButton extends Component{
 
 reactMixin.onClass(Matches, TimerMixin)
 
+Matches.displayName = "Matches"
 
 
 export default Matches;

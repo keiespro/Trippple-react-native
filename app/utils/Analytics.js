@@ -1,4 +1,3 @@
-
 import RNMixpanel from 'react-native-mixpanel'
 import Mixpanel from './mixpanel'
 import AppInfo from 'react-native-app-info'
@@ -9,19 +8,22 @@ import GoogleAnalytics from 'react-native-google-analytics-bridge'
 import SETTINGS_CONSTANTS from './SettingsConstants'
 const {HAS_IDENTITY} = SETTINGS_CONSTANTS
 
-
 const VERSION = parseFloat(AppInfo.getInfoShortVersion());
 
-if(!__DEV__){
+const __TEST__ = global.__TEST__ || false;
+
+if(!__DEV__ ){
   console.log = ()=>{}
   console.warn = ()=>{}
 }
+
 class Analytics{
 
   constructor(){
-    GoogleAnalytics.setTrackerId('UA-49096214-2');
-    GoogleAnalytics.allowIDFA(false);
-
+    if(!__TEST__){
+      GoogleAnalytics.setTrackerId('UA-49096214-2');
+      GoogleAnalytics.allowIDFA(false);
+    }
   }
 
   prepareInitializeIdentity(){
@@ -36,11 +38,13 @@ class Analytics{
     // }
     __DEV__ && console.log(`Analytics -> Indentified user #${user.id}`);
 
-    GoogleAnalytics.setUser(user.id+'');
-    RNMixpanel.identify(user.id+'');
-    RNMixpanel.registerSuperProperties({"Gender": user.gender, "User Type": user.relationship_status});
-    this.setFullIdentityOnce(user)
+    if(!__TEST__){
 
+      GoogleAnalytics.setUser(user.id+'');
+      RNMixpanel.identify(user.id+'');
+      RNMixpanel.registerSuperProperties({"Gender": user.gender, "User Type": user.relationship_status});
+      this.setFullIdentityOnce(user)
+    }
   }
 
   setFullIdentityOnce(user){
@@ -84,7 +88,7 @@ class Analytics{
   }
 
   event(eventName, eventData={}){
-    if(!GoogleAnalytics) return false;
+    if(__TEST__ || !GoogleAnalytics) return false;
 
     let action = eventData.action || eventData.type || undefined;
     let label = eventData.label || eventData.name || undefined;
@@ -99,7 +103,7 @@ class Analytics{
   }
 
   screen(screen){
-    if(!GoogleAnalytics) return false;
+    if(__TEST__ || !GoogleAnalytics) return false;
 
     // __DEV__ && console.log(`Screen: ${screen}`)
     GoogleAnalytics.trackScreenView(screen);
@@ -108,7 +112,7 @@ class Analytics{
   }
 
   extra(eventName, eventData={}){
-    if(!GoogleAnalytics) return false;
+    if(__TEST__ || !GoogleAnalytics) return false;
 
     let action = eventData.action || eventData.type || undefined;
     let label = eventData.label || eventData.name || undefined;

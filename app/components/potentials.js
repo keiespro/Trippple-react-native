@@ -31,7 +31,7 @@ class Potentials extends React.Component{
   }
 
   render(){
-    return (
+    return __TEST__ ? <PotentialsPage {...this.props}/> : (
       <AltContainer
        stores={{
             potentials: (props) => {
@@ -172,7 +172,7 @@ class PotentialsPage extends React.Component{
           height:DeviceHeight,
           top:0
         }}>
-        <TaskManager navigator={this.props.navigator} user={user} triggers={this.props.potentialsMeta} />
+        {!__TEST__ && <TaskManager navigator={this.props.navigator} user={user} triggers={this.props.potentialsMeta} />}
 
         {!this.state.profileVisible ? NavBar : null}
 

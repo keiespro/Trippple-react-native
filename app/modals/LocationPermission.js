@@ -22,7 +22,7 @@ import {MagicNumbers} from '../DeviceConfig'
 import Analytics from '../utils/Analytics'
 import { BlurView,VibrancyView} from 'react-native-blur'
 
-export default class LocationPermission extends React.Component{
+class LocationPermission extends React.Component{
 
  static propTypes = {
    nextRoute:PropTypes.object,
@@ -217,3 +217,6 @@ export default class LocationPermission extends React.Component{
 
 
 }
+
+LocationPermission.displayName = "LocationPermission"
+export default LocationPermission

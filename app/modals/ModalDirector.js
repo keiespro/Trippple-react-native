@@ -105,7 +105,7 @@ class ModalDirector extends Component{
 }
 /////////////////// MODAL DIRECTOR
 ///////////////////
-
+ModalDirector.displayName = "ModalDirector"
 export default ModalDirector
 
 //

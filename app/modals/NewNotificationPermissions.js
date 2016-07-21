@@ -272,5 +272,5 @@ class NewNotificationPermissions extends Component{
   }
 }
 
-
+NewNotificationPermissions.displayName = "NewNotificationPermissions"
 export default NewNotificationPermissions
