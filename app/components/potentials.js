@@ -90,7 +90,6 @@ class PotentialsPage extends React.Component{
 
   }
   componentDidMount(){
-    console.log('mount potentials route');
     AppState.addEventListener('change', this._handleAppStateChange.bind(this));
 
     if(this.props.user.status == 'onboarded'){
@@ -238,7 +237,6 @@ class PotentialsPage extends React.Component{
   }
 }
 reactMixin.onClass(PotentialsPage,TimerMixin)
-console.log(Potentials);
 Potentials.displayName = "Potentials"
 
 export default Potentials;

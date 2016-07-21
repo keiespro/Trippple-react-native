@@ -91,6 +91,41 @@ const Danny = {
       "thumb_url": "https://trippple-user.s3.amazonaws.com/uploads/couples/4921/e49efb99-b726-468d-a5ef-b47726013c95.jpg"
     }
   },
+  messages: [
+    {
+      "created_timestamp": 1467683387,
+      "from_user_info": {
+        "id": 28826,
+        "image_url": "https://trippple-user.s3.amazonaws.com/uploads/users/28826/ddffc733-88b3-4feb-b050-d9bbce8a1205-a.jpg",
+        "name": "DONNIE",
+        "role": ""
+      },
+      "message_id": 9499,
+      "message_body": "Hi Jessica :). Glad we matched"
+    },
+    {
+      "created_timestamp": 1467683487,
+      "from_user_info": {
+        "id": 61,
+        "image_url": "https://trippple-user.s3.amazonaws.com/uploads/users/28153/de1cd9d0-b99c-4be1-8803-a38076df0c8d-a.jpg",
+        "name": "DANNY",
+        "role": ""
+      },
+      "message_id": 9489,
+      "message_body": "Heres some emojiies 😦 😧 😢 😥 😪 😓 😭 😵 😲 🤐 😷 🤒 🤕 😴 💤 💩 😈 👿 "
+    },
+    {
+      "created_timestamp": 1467681487,
+      "from_user_info": {
+        "id": 62,
+        "image_url": "https://trippple-user.s3.amazonaws.com/uploads/62/thumb_8f681fa98-original.jpeg",
+        "name": "ASHLEE",
+        "role": ""
+      },
+      "message_id": 9403,
+      "message_body": "How are y'all?"
+    },
+  ],
   potentials: [
     {
       "couple": {

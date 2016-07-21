@@ -166,10 +166,8 @@ class Main extends Component{
   }
 
   selectScene(route, navigator){
-    console.log(route,navigator);
     var navBar;
     if(!route.component ){
-      console.log(Potentials);
       route.component = Potentials
     }
     const RouteComponent = route.component;
@@ -208,8 +206,6 @@ class Main extends Component{
   }
 
   render() {
-    console.log(ROUTE_STACK,ROUTE_STACK[0]);
-
 
      return (
       <View style={styles.appContainer}>

@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
     paddingVertical:15,
     marginTop:10,
     marginBottom:5,
-    flex:1
+    flexDirection: 'column',
+    maxWidth:DeviceWidth-100,
   },
   row:{
     flexDirection: 'row',
@@ -90,9 +91,10 @@ const styles = StyleSheet.create({
   },
   ourMessage:
   {
-    marginLeft: MagicNumbers.is4s ? 0 : 10,
+    // marginLeft: MagicNumbers.is4s ? 0 : 10,
     backgroundColor: colors.dark,
     alignSelf:'flex-end',
+
   },
   messageTitle:
   {
@@ -133,7 +135,7 @@ const styles = StyleSheet.create({
   messageText: {
     fontSize: 16,
     fontWeight: '200',
-    flexWrap: 'wrap',
+    // flexWrap: 'wrap',
     color: colors.white
   },
   thumb: {
@@ -234,13 +236,13 @@ class ChatMessage extends React.Component{
                 style={{left:1,width:10,height:22,opacity:1}}
               /> : null
             }
-            <View style={[styles.bubble,(isMessageOurs ? styles.ourMessage : styles.theirMessage),{}]}>
+            <View style={[styles.bubble,(isMessageOurs ? styles.ourMessage : styles.theirMessage),{flexWrap:'wrap',flexDirection:'column' },]}>
 
               <Text style={[styles.messageText, styles.messageTitle,
                     {color: isMessageOurs ? colors.shuttleGray : colors.lavender, fontFamily:'Montserrat'} ]}
               >{ this.props.messageData.from_user_info.name.toUpperCase() }</Text>
 
-              <Text style={styles.messageText} >{
+              <Text style={[styles.messageText,{flex:1}]} >{
                 this.props.text
               }</Text>
 
@@ -257,7 +259,7 @@ class ChatMessage extends React.Component{
           </View>
         </View>
 
-        <View style={[{paddingHorizontal:20,marginBottom:10},{marginLeft: isMessageOurs ? 21 : 77}]}>
+        <View style={[{paddingHorizontal:20,marginBottom:10},{marginLeft: isMessageOurs ? 2 : 62,alignSelf: isMessageOurs ? 'flex-end' : 'flex-start' }]}>
           <TimeAgo showSent={true} style={{color:colors.shuttleGray,fontSize:10,fontFamily:'Montserrat'}} time={this.props.messageData.created_timestamp * 1000} />
         </View>
 
@@ -347,7 +349,7 @@ class ChatInside extends Component{
   }
 
   componentDidUpdate(prevProps){
-    if(prevProps.messages.length !== this.props.messages.length){
+    if(this.props.messages && prevProps.messages && prevProps.messages.length !== this.props.messages.length){
 
     }
 
@@ -355,7 +357,7 @@ class ChatInside extends Component{
   }
 
   componentWillReceiveProps(newProps){
-    if(!this.ds) {return }
+    if(!this.ds || !newProps.messages) {return }
     this.setState({
       dataSource: this.ds.cloneWithRows(newProps.messages)
     })
@@ -413,6 +415,7 @@ class ChatInside extends Component{
               }
   }
   onEndReached(e){
+    if(!this.props.messages){ return false}
     const nextPage = parseInt(this.props.messages.length / 20) + 1;
     if(this.state.fetching || nextPage == this.state.lastPage){ return false }
 
@@ -488,15 +491,15 @@ class ChatInside extends Component{
 
 
   render(){
-
+    console.log(this.props.currentMatch);
     const matchInfo = this.props.currentMatch,
         theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
         them = theirIds.map((id)=> matchInfo.users[id]),
         chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '')  },'');
-
+console.log(matchInfo);
     return (
       <View  style={[styles.chatInsideWrap,{paddingBottom:this.state.keyboardSpace}]}>
-        {this.props.messages.length > 0  ?
+        {this.props.messages && this.props.messages.length > 0  ?
         (<ListView
           dataSource={this.state.dataSource}
           renderRow={this._renderRow.bind(this)}
@@ -591,8 +594,8 @@ onEndReached={this.onEndReached.bind(this)}
           title={chatTitle}
           titleColor={colors.white}
           customPrev={
-            <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
-              <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
+            <View style={{flexDirection: 'row',opacity:0.5,alignItems:'center',justifyContent:'center',bottom:3,}}>
+              <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white,backgroundColor:'transparent'}]}>◀︎</Text>
             </View>
           }
         />
@@ -637,6 +640,7 @@ const animations = {
 };
 
 const Chat = React.createClass({
+  displayName:"Chat",
   getInitialState(){
     return ({
       isVisible: false
@@ -678,12 +682,13 @@ const Chat = React.createClass({
         }
       }
     };
+    const inside = (props) => {
 
-    const inside = () => {
       return (
         <View>
         <ChatInside
           {...this.props}
+
           navigator={this.props.navigator}
           user={this.props.user}
           closeChat={this.props.closeChat}
@@ -716,17 +721,47 @@ const Chat = React.createClass({
         </View>
       )
     };
-
-    return __TEST__ ? inside() : (
+    return __TEST__ ? inside(this.props) : (
       <AltContainer stores={storesForChat}>
-        {inside()}
+      <ChatInside
+        {...this.props}
+
+        navigator={this.props.navigator}
+        user={this.props.user}
+        closeChat={this.props.closeChat}
+        match_id={this.props.match_id}
+        key={`chat-${this.props.user}-${this.props.match_id}`}
+        toggleModal={this.toggleModal}
+      />
+      {this.state.isVisible ? <View
+        style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]}>
+
+         <FadeInContainer duration={300} >
+           <TouchableOpacity activeOpacity={0.5} onPress={this.toggleModal}
+            style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]} >
+
+             <BlurView
+               blurType="light"
+               style={[{width:DeviceWidth,height:DeviceHeight}]} >
+               <View style={[{ }]}/>
+             </BlurView>
+           </TouchableOpacity>
+         </FadeInContainer>
+       </View> : <View/>}
+
+      <ActionModal
+        user={this.props.user}
+        toggleModal={this.toggleModal}
+        navigator={this.props.navigator}
+        isVisible={this.state.isVisible}
+      />
       </AltContainer>
     );
   }
 
 });
 
-Chat.displayName = "Chat"
+
 export default Chat;
 
 

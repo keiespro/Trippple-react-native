@@ -174,10 +174,10 @@ class NewNotificationPermissionsInside extends React.Component{
       const featuredImage = (relevantUser && relevantUser.image_url) || (featuredUser && featuredUser.image_url) || null;
 
       return  (
-        <View>
+        <View style={{backgroundColor: __TEST__ ? colors.outerSpace : 'transparent'}}>
           <ScrollView
-            style={[{padding:0,width:DeviceWidth,height:DeviceHeight,backgroundColor: 'transparent',paddingTop:0,flex:1,position:'absolute'}]}
-            contentContainerStyle={{justifyContent:'center',alignItems:'center',flexDirection:'column',flex:1}}
+            style={[{padding:0,width:DeviceWidth,height:DeviceHeight,backgroundColor: __TEST__ ? colors.outerSpace : 'transparent',paddingTop:0,flex:1,position:'absolute'}]}
+            contentContainerStyle={{justifyContent:'center',alignItems:'center',flexDirection:'column',backgroundColor: __TEST__ ? colors.outerSpace : 'transparent'}}
           >
             <View style={{width:160,height:160,marginVertical:30}}>
               <Image style={[{width:160,height:160,borderRadius:80}]} source={
@@ -264,7 +264,7 @@ class NewNotificationPermissions extends Component{
       }
     }
 
-    return (
+    return __TEST__ ? <NewNotificationPermissionsInside {...this.props} /> : (
       <AltContainer store={storeFetcher}>
         <NewNotificationPermissionsInside {...this.props} />
       </AltContainer>

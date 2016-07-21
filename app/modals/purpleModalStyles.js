@@ -12,7 +12,6 @@ const purpleModalStyles = StyleSheet.create({
     justifyContent:'center',
 
     marginVertical: 5,
-    flexDirection:'row',
     alignSelf:'stretch',
   },
 

@@ -254,13 +254,13 @@ class SettingsInside extends React.Component{
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={this._openProfile.bind(this)}  style={{alignSelf:'stretch',}} >
-                    <View style={{flex:10,alignSelf:'stretch',flexDirection:'column',alignItems:'stretch',justifyContent:'center'}}>
-                      <Text style={{flex:10,textAlign:'center',alignSelf:'stretch',color:colors.white,fontSize:18,marginTop:20,fontFamily:'Montserrat-Bold'}}>{
+                    <View style={{alignSelf:'stretch',flexDirection:'column',alignItems:'stretch',justifyContent:'center'}}>
+                      <Text style={{textAlign:'center',alignSelf:'stretch',color:colors.white,fontSize:18,marginTop:20,fontFamily:'Montserrat-Bold'}}>{
                         this.props.user.firstname && this.props.user.firstname.toUpperCase()
                       }</Text>
                   </View>
-                  <View style={{flex:1,alignSelf:'stretch',flexDirection:'column',alignItems:'stretch',justifyContent:'center'}}>
-                    <Text style={{flex:1,alignSelf:'stretch',textAlign:'center',color:colors.white,fontSize:16,marginTop:0,fontFamily:'omnes'}}>View Profile</Text>
+                  <View style={{alignSelf:'stretch',flexDirection:'column',alignItems:'stretch',justifyContent:'center'}}>
+                    <Text style={{alignSelf:'stretch',textAlign:'center',color:colors.white,fontSize:16,marginTop:0,fontFamily:'omnes'}}>View Profile</Text>
                   </View>
                 </TouchableOpacity>
 

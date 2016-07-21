@@ -262,6 +262,8 @@ class ActualModal extends Component{
     }
   }
 }
+ActionModal.displayName = "ActionModal"
+
 export default ActionModal;
 
 const styles = StyleSheet.create({

@@ -9,11 +9,10 @@ import {StyleSheet, Text, View, Image, ScrollView, Navigator, Dimensions, Toucha
 import TimerMixin from 'react-timer-mixin'
 
 import colors from '../../utils/colors'
-import Swiper from 'react-native-swiper'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
+import Carousel from './carousel'
 
-import CustomSceneConfigs from '../../utils/sceneConfigs'
 import Auth from './auth'
 import Facebook from '../../screens/registration/facebook'
 import Analytics from '../../utils/Analytics'
@@ -24,38 +23,6 @@ const REGISTER = 'register'
 
 import {MagicNumbers} from '../../DeviceConfig'
 
-// import dismissKeysboard from 'dismissKeyboard'
-import FadeInContainer from '../FadeInContainer'
-
-
-var slides = [
-  {
-    title: ' ',
-    img: {uri: 'assets/logo@3x.png'},
-    content: ' '
-  },
-  {
-    title: 'BROWSE',
-    img: {uri:'assets/tour-browse@3x.png'},
-    content: 'Find like-minded Couples and Singles.'
-  },
-  {
-    title: 'MATCH',
-    img: {uri: 'assets/tour-match@3x.png'},
-    content: 'If they like you too, we\'ll connect you.'
-  },
-  {
-    title: 'CONNECT',
-    img: {uri: 'assets/tour-connect@3x.png'},
-    content: 'Chat with real Couples or Singles who share your interests.'
-  },
-  {
-    title: 'PRIVATE & DISCREET',
-    img: {uri: 'assets/tour-privacy@3x.png'},
-    content: 'Protect your identity. Easily block friends and family.'
-  },
-
-];
 
 const IntroScreen = React.createClass({
   displayName:'Intro',
@@ -136,55 +103,6 @@ const IntroScreen = React.createClass({
   }
 })
 
-class Carousel extends Component{
-  constructor(props){
-    super()
-    this.state = {
-      slides
-    }
-  }
-  render(){
-    const welcomeSlides = this.state.slides.map( (slide,i) => {
-      return (
-        <View key={i+'slide'+i} style={[styles.slide,]} >
-        <Image style={ {
-            marginBottom:25,
-            height: MagicNumbers.is4s ? 150 : DeviceHeight/3 + MagicNumbers.screenPadding,
-            paddingTop: 20,
-            marginTop: i == 0 ? MagicNumbers.screenPadding*1.8 : MagicNumbers.screenPadding,
-            width: i == 0 ? MagicNumbers.screenWidth : MagicNumbers.screenPadding*5
-          } } source={slide.img} defaultSource={slide.img} resizeMode={Image.resizeMode.contain}/>
-      <View style={[styles.textwrap,{marginBottom:5}]}><Text style={[styles.textplain,
-          {
-            fontFamily:'Montserrat',
-            fontWeight:'700',
-            marginTop:15,
-            fontSize: MagicNumbers.is4s ? 18 : 22,
-          }
-          ]}>{slide.title}</Text></View>
-          <View style={styles.textwrap}><Text style={[styles.textplain,{
-            fontSize: MagicNumbers.is4s ? 18 : 22,
-          }]}>{slide.content}</Text></View>
-        </View>
-      )
-    })
-    return (
-        <Swiper
-          loop={true}
-          style={[styles.carousel]}
-          horizontal={true}
-          grayDots={true}
-          showsPagination={true}
-          dot={<View style={styles.dot} />}
-          activeDot={<View style={[styles.dot,styles.activeDot]} />}
-        >
-        {welcomeSlides}
-        </Swiper>
-    )
-  }
-}
-
-Carousel.displayName = 'Carousel';
 
 export default IntroScreen
 
@@ -195,6 +113,8 @@ const styles = StyleSheet.create({
     height: 12,
     borderRadius: 6,
     marginLeft: 4,
+    borderWidth: 2,
+
     marginRight: 4,
     marginTop: 2,
     marginBottom: 2,
@@ -206,18 +126,21 @@ const styles = StyleSheet.create({
     marginRight: 4,
     marginTop: 2,
     marginBottom: 2,
-    borderWidth: 1,
+    width: 12,
+    height: 12,
+    borderWidth: 2,
     borderColor: colors.mediumPurple
   },
   container: {
-    alignItems:'center',
-    justifyContent:'center',
-    alignSelf:'stretch',
     width: DeviceWidth,
     margin:0,
     padding:0,
     height: DeviceHeight,
     backgroundColor: colors.outerSpace,
+    alignItems:'center',
+justifyContent:'center',
+alignSelf:'stretch',
+
   },
   textplain:{
     color: colors.white,
@@ -233,16 +156,17 @@ const styles = StyleSheet.create({
     fontFamily:'Montserrat'
   },
   carousel:{
-    flex:1,
     marginTop:50,
+    width: DeviceWidth,
+    height:DeviceHeight-150,
+
   },
   slide:{
     width: DeviceWidth,
     flexDirection:'column',
     height:DeviceHeight-150,
+    justifyContent:'flex-start',
     alignItems:'center',
-    justifyContent:'center',
-    flexWrap:'nowrap',
     padding:MagicNumbers.screenPadding/2
   },
 
@@ -255,6 +179,7 @@ const styles = StyleSheet.create({
   },
   textwrap:{
     alignItems:'center',
+    height:50,
     justifyContent:'center',
   },
   imagebg:{

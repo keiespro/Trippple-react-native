@@ -22,7 +22,7 @@ import PurpleModal from './PurpleModal'
 import styles from './purpleModalStyles'
 import CameraControl from '../controls/cameraControl'
 
-export default class CameraPermissionsModal extends Component{
+class CameraPermissionsModal extends Component{
 
   constructor(props) {
     super()
@@ -144,3 +144,7 @@ export default class CameraPermissionsModal extends Component{
     )
   }
 }
+
+
+CameraPermissionsModal.displayName = "CameraPermissions"
+export default CameraPermissionsModal

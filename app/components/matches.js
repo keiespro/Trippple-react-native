@@ -664,11 +664,11 @@ class EmptyStarButton extends Component{
   }
 }
 
+Matches.displayName = "Matches";
 
 
 reactMixin.onClass(Matches, TimerMixin)
 
-Matches.displayName = "Matches"
 
 
 export default Matches;

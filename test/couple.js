@@ -1,6 +1,6 @@
-import {AppRegistry} from "react-native";
+import {AppRegistry,View} from "react-native";
 import TestHarness from '../TestHarness'
-import Danny from './test/mockData/Danny.js'
+import Danny from './mockData/Danny.js'
 
 __TEST__ = true;
 
@@ -9,11 +9,11 @@ global.__TEST__ = true;
 const coupleProps =  {
   user:Danny.userInfo,
   currentMatch:Danny.matches[0],
-  messages:[],
+  messages:Danny.messages,
   newMatches:Danny.newMatches,
   matches:Danny.matches,
   potentials:Danny.potentials,
-  potentialsMeta:,
+  potentialsMeta:{
     LastNotificationsPermissionRequestTimestamp: null,
     relevantUser: null,
     requestNotificationsPermission: null,
@@ -21,8 +21,9 @@ const coupleProps =  {
   }
 }
 
-const Trippple = (props => <TestHarness {...coupleProps} {...props}/>)
+
+const Trippple = (props => <View {...props} />)
 
 AppRegistry.registerComponent('Trippple', () => Trippple)
 
-console.log("Registered Testable Components:", AppRegistry.getAppKeys());
+TestHarness(coupleProps)

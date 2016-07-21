@@ -19,8 +19,13 @@ RCT_TEST(PinScreen)
 
 //MODALS
 RCT_TEST(NewNotificationPermissions)
-RCT_TEST_W_PROPS(LocationPermission,LocationPermission,{@"title": @"loc"})
+RCT_TEST_W_PROPS(LocationPermission,LocationPermission,{@"title": @"PRIORITIZE LOCAL?"})
 RCT_TEST(PrivacyPermissions)
+RCT_TEST(ReportModal)
+RCT_TEST(UnmatchModal)
+RCT_TEST(CameraPermissions)
+RCT_TEST(CameraRollPermissions)
+
 
 //MISC
 RCT_TEST(MaintenanceScreen)

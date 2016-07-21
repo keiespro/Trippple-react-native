@@ -186,5 +186,4 @@ const PotentialsRoute = {
 
 
 const MainRoutes = { PotentialsRoute, SettingsRoute, MatchesRoute, ChatRoute }
-console.log(PotentialsRoute.component);
 export default MainRoutes

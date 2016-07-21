@@ -1,6 +1,10 @@
 import React from "react";
-import ReactNative, {View, AppRegistry, NativeModules,SnapshotViewIOS} from "react-native";
+import ReactNative, {View, AppRegistry,SnapshotViewIOS, Dimensions} from "react-native";
 import path from 'path'
+
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
+
 import colors from './app/utils/colors'
 
 global.__TEST__ = true;
@@ -32,46 +36,46 @@ require('./app/modals/ModalDirector'),
 require('./app/modals/LocationPermission'),
 require('./app/modals/PrivacyPermissions'),
 require('./app/modals/NewNotificationPermissions'),
+require('./app/modals/ReportModal'),
+require('./app/modals/UnmatchModal'),
+require('./app/modals/CameraPermissions'),
+require('./app/modals/CameraRollPermissions'),
 ]
 
+function TestHarness(initialProps){
+  ScreensList.forEach(s => {
+    let Screen = s.default ? s.default : s
+    let name = Screen.displayName || null;
+    console.log(Screen);
+    if(!name){
 
-ScreensList.forEach(s => {
-  let Screen = s.default ? s.default : s
-  let name = Screen.displayName || null;
-  console.log(Screen);
-  if(!name){
+      console.log('missing displayName for ',Screen);
 
-    console.log('missing displayName for ',Screen);
+    }else{
 
-  }else{
+      console.log("Screen: "+name);
+      const Snapshotter = (props => (
+          <SnapshotViewIOS style={{backgroundColor:colors.outerSpace,height:DeviceHeight,width:DeviceWidth}}>
+            <Screen
+              {...initialProps}
+              {...props}
+              navigator={{
+                getCurrentRoutes:()=>{return {}},
+                pop:()=>{},
+                replace:()=>{}
+              }}
+            />
+          </SnapshotViewIOS>
+      ));
+      AppRegistry.registerComponent(name, () => Snapshotter);
 
-    console.log("Screen: "+name);
-    const Snapshotter = (props => (
-        <SnapshotViewIOS style={{backgroundColor:colors.outerSpace}}>
-          <Screen
-            {...props}
+    }
+  });
 
-            navigator={{
-              getCurrentRoutes:()=>{return {}},
-              pop:()=>{}
-            }}
-          />
-        </SnapshotViewIOS>
-    ));
-    AppRegistry.registerComponent(name, () => Snapshotter);
+  console.log("Registered Testable Components:", AppRegistry.getAppKeys());
 
-  }
-});
-
-class TestHarness extends React.Component{
-
-  render(){
-    return (
-      <View>
-        {this.props.children}
-      </View>
-    )
-  }
 }
+
+
 
 export default TestHarness

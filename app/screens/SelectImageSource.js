@@ -45,7 +45,6 @@ class SelectImageSource extends Component{
   getCameraRollPermission(){
 
     OSPermissions.canUseCameraRoll( res => {
-      console.log(res);
       const perm = (res > 2);
 
       const nextRoute =  {

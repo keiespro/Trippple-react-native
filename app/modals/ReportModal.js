@@ -17,7 +17,7 @@ import {MagicNumbers} from '../DeviceConfig'
 
 import PurpleModal from './PurpleModal'
 
-export default class ReportModal extends Component{
+ class ReportModal extends Component{
 
   constructor(props) {
     super();
@@ -39,9 +39,12 @@ export default class ReportModal extends Component{
        them = theirIds.map((id)=> match.users[id])
     }else{
       const {potential} = this.props;
-       them = [potential.user, potential.partner];
+       them = [potential.user];
+       if( potential.partner && potential.partner.id != "NONE"){
+         them.push(potential.partner)
+       }
     }
-    const matchName = them.map( (user,i) => user.firstname.trim().toUpperCase() ).join(' & ');
+    const matchName = them.length > 1 ? them.map( (user,i) => user.firstname.trim().toUpperCase() ).join(' & ') : them[0].firstname.trim().toUpperCase()
 
     return (
       <PurpleModal>
@@ -94,3 +97,5 @@ export default class ReportModal extends Component{
     )
   }
 }
+ReportModal.displayName = "ReportModal"
+export default ReportModal

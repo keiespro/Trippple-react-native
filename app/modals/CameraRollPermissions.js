@@ -20,7 +20,7 @@ import AppActions from '../flux/actions/AppActions'
 import PurpleModal from './PurpleModal'
 import styles from './purpleModalStyles'
 
-export default class CameraRollPermissionsModal extends Component{
+class CameraRollPermissionsModal extends Component{
 
   constructor(props) {
     super();
@@ -146,3 +146,6 @@ export default class CameraRollPermissionsModal extends Component{
     )
   }
 }
+
+CameraRollPermissionsModal.displayName = "CameraRollPermissions"
+export default CameraRollPermissionsModal

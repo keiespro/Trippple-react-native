@@ -22,7 +22,6 @@ RCT_TEST(Settings)
 RCT_TEST(SettingsBasic)
 RCT_TEST(SettingsPreferences)
 RCT_TEST(SettingsSettings)
-RCT_TEST(SettingsCouple)
 
 
 @end

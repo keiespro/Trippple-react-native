@@ -17,7 +17,7 @@ import {MagicNumbers} from '../DeviceConfig'
 
 import PurpleModal from './PurpleModal'
 
-export default class UnmatchModal extends Component{
+class UnmatchModal extends Component{
 
   constructor(props) {
     super();
@@ -85,3 +85,5 @@ export default class UnmatchModal extends Component{
     )
   }
 }
+UnmatchModal.displayName = "UnmatchModal"
+export default UnmatchModal
