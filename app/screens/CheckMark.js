@@ -50,15 +50,17 @@ class CheckMarkScreen extends Component{
   }
   componentWillMount(){
     this.state.bounceValue.setValue(0.0);
+    if(global.__TEST__){
+      this.state.buttonOpacity.setValue(1.0);
+      this.state.bounceValue.setValue(1.0);
+      this.state.textOpacityValue.setValue(1.0);
 
+    }
   }
   componentDidMount() {
     // if(!this.props.isVisible){ return false}
     if(__TEST__){
-      console.log('just show the damn thing')
-      this.state.buttonOpacity.setValue(1.0);
-      this.state.bounceValue.setValue(1.0);
-      this.state.textOpacityValue.setValue(1.0);
+
     }else{
       Animated.sequence([
         Animated.spring(
@@ -104,14 +106,17 @@ class CheckMarkScreen extends Component{
         height:DeviceHeight,
         backgroundColor:colors.outerSpace,
         alignItems:'center',
-flexDirection:'column',
+flexDirection:'column',flex:1,
         top:0,
         left:0,
         position:'absolute',
         justifyContent:'center',
-        flex:1
       }}>
-
+      <View style={{
+        flexDirection:'column',
+        alignItems:'center',
+        justifyContent:'space-around',
+      }}>
       <Animated.View
         style={{
           width:DeviceWidth,
@@ -133,7 +138,9 @@ flexDirection:'column',
         {!this.props.checkMarkCopy.partnerName && <Animated.View
           style={{
             opacity: this.state.textOpacityValue,
-            top: MagicNumbers.is4s ? -80 : -120
+            marginTop: 40,
+
+            // top: MagicNumbers.is4s ? -80 : -120
           }}>
             <Text
               style={{
@@ -179,6 +186,7 @@ flexDirection:'column',
           </Animated.View>
           }
 
+          </View>
 
         </View>
       )
