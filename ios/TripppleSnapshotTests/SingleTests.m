@@ -16,6 +16,8 @@ RCT_TEST(PotentialsPlaceholder)
 //MATCHES & CHAT
 RCT_TEST(Matches)
 RCT_TEST(Chat)
+RCT_TEST_W_PROPS(ChatActionModal,Chat,{@"isVisible": @"true"})
+
 
 //SETTINGS
 RCT_TEST(Settings)

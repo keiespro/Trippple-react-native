@@ -47,7 +47,7 @@ class BdayScreen extends Component{
     }
     this.state = {
       error: false,
-      keyboardSpace:266,
+      keyboardSpace:MagicNumbers.keyboardHeight,
       timeZoneOffsetInHours:props.timeZoneOffsetInHours,
       date
     }
@@ -131,18 +131,17 @@ class BdayScreen extends Component{
           styles.container,
           {
             height:DeviceHeight,
-            paddingBottom: 226
           }
         ]}>
-        <View style={{width:100,height:50,left:MagicNumbers.screenPadding/2,alignSelf:'flex-start'}}>
-          <BackButton navigator={this.props.navigator}/>
-        </View>
 
         <SingleInputScreen
           shouldHide={(val) =>( !this.state.isLegal || !this.state.date || (this.state.date && this.state.error) ? 1 : 0)  }
           shouldShow={(val) => this.state.isLegal && this.state.date && !this.state.error  ? 1 : 0 }
           inputFieldValue={this.state.inputFieldValue}
           handleNext={this._submit.bind(this)}
+          inputFieldFocused={true}
+           forceKeyboardOpen={true}
+           kbStyle={{      height:DeviceHeight - MagicNumbers.keyboardHeight,}}
           toptext={`What's your date of birth`}
           bottomtext={` `}
 
@@ -166,7 +165,11 @@ class BdayScreen extends Component{
           </View>
 
         </SingleInputScreen>
-        <View ref={component => this._root = component} style={[{ height: this.state.keyboardSpace},styles.bdayKeyboard]}>
+        <View style={{width:100,height:50,left:20,top:0,alignSelf:'flex-start',position:'absolute'}}>
+          <BackButton navigator={this.props.navigator}/>
+        </View>
+
+        <View ref={component => this._root = component} style={[{ height: 400},styles.bdayKeyboard]}>
 
         <DatePickerIOS
             ref={'picker'}
@@ -190,10 +193,11 @@ export default BdayScreen
 
 const styles = StyleSheet.create({
     bdayKeyboard:{
-      height: 226,
-      backgroundColor: colors.outerSpace,
+      height: MagicNumbers.keyboardHeight,
+      backgroundColor: colors.white,
       position:'absolute',
       bottom:0,
+      left:0,
       alignSelf: 'center',
       width: DeviceWidth,
       alignItems:'center',
@@ -206,7 +210,7 @@ const styles = StyleSheet.create({
       width: DeviceWidth,
       margin: 0,
       padding: 0,
-      height: DeviceHeight,
+      // height: DeviceHeight,
       backgroundColor: colors.outerSpace
     },
     wrap: {

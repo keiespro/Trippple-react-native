@@ -30,6 +30,6 @@ RCT_TEST(CameraRollPermissions)
 //MISC
 RCT_TEST(MaintenanceScreen)
 RCT_TEST(ImageFlagged)
-RCT_TEST(CheckMark)
+RCT_TEST_W_PROPS(CheckMark,CheckMark,{@"checkMarkCopy":@"checkmark"})
 
 @end

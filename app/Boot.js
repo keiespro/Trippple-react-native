@@ -33,10 +33,9 @@ class Boot extends React.Component{
     Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
     .then((creds)=>{
       AppActions.gotCredentials(creds)
-    }).then((creds)=>{
       this.checkSettings();
     }).catch((err)=>{
-      Analytics.err(err)
+      Analytics.log(err)
       this.setBooted()
     })
   }
@@ -67,26 +66,10 @@ class Boot extends React.Component{
   }
   checkSettings(){
 
-    const savedJSVersion = Settings.get('TripppleVersion');
-    const currentJSVersion = "2.4.2";
-    if(!savedJSVersion){
-      // Delete local storage data for matches to prepare app for distinct matches / new matches endpoint change
-      // and saved Settings.TripppleVersion for the first time
 
-      AsyncStorage.setItem('MatchesStore','{}')
-      .then(()=>{
-        Settings.set({TripppleVersion:currentJSVersion})
-        this.bootStrapData()
-      })
-      .catch((err)=>{
-        Analytics.err(err)
-        this.setBooted()
 
-      })
-    }else{
       this.bootStrapData()
 
-    }
   }
   bootStrapData(){
 

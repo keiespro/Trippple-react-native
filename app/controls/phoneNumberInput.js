@@ -112,12 +112,13 @@ class PhoneNumberInput extends React.Component{
           flexDirection:'column',
           position:'relative',
           alignItems:'center',
-          height: (DeviceHeight  - KEYBOARD_HEIGHT),
-          justifyContent:'center',}}
+          justifyContent:'center',
+          height:DeviceHeight-80-KEYBOARD_HEIGHT,
+        marginBottom:KEYBOARD_HEIGHT}}
         >
           <View style={[styles.phoneInputWrap,
             (this.props.inputFieldFocused ? styles.phoneInputWrapSelected : null),
-            (this.props.phoneError ? styles.phoneInputWrapError : null)]}>
+            (this.props.phoneError ? styles.phoneInputWrapError : null),{ }]}>
 
             <TextInput
               editable={false}
@@ -146,7 +147,10 @@ class PhoneNumberInput extends React.Component{
           {/*{this.props.phoneError && <View ><Text textAlign={'right'} style={[styles.bottomErrorText]}>Did you mean to register?</Text> </View>}*/}
           </View>
 
+
+
           {this.props.continueButton}
+
 
         </View>
 
@@ -243,28 +247,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center'
   },
-  continueButtonWrap:{
-    alignSelf: 'stretch',
-    alignItems: 'stretch',
-    justifyContent: 'center',
-    height: 80,
-    backgroundColor: colors.mediumPurple,
 
-    width:DeviceWidth
-  },
-  continueButton: {
-    height: 80,
-    alignSelf: 'stretch',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  continueButtonText: {
-    padding: 4,
-    fontSize: 30,
-    fontFamily:'Montserrat',
-    color: colors.white,
-    textAlign:'center'
-  },
   bottomErrorText:{
     marginTop: 0,
     color: colors.mandy,

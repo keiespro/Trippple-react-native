@@ -119,7 +119,6 @@ const animations = {
 const styles = StyleSheet.create({
 
     container: {
-      flex: 1,
       alignItems:'center',
       justifyContent:'center',
       alignSelf:'stretch',
@@ -130,7 +129,6 @@ const styles = StyleSheet.create({
       backgroundColor: 'transparent',
     },
     wrap: {
-      flex: 1,
       alignItems:'center',
       justifyContent:'center',
       alignSelf:'stretch',
@@ -172,7 +170,6 @@ const styles = StyleSheet.create({
     },
 
     imagebg:{
-      flex: 1,
       alignSelf:'stretch',
       width: DeviceWidth,
       height: DeviceHeight,

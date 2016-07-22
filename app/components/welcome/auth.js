@@ -6,6 +6,7 @@ import {StyleSheet, Text, View, Image, ScrollView, Navigator, Dimensions, Toucha
 import TimerMixin from 'react-timer-mixin'
 
 import colors from '../../utils/colors'
+import FadeInContainer from '../FadeInContainer'
 
 import TrackKeyboard from '../../mixins/keyboardMixin';
 
@@ -124,19 +125,20 @@ class Auth extends Component{
     })
   }
   render(){
-    var activeTab = () => {
-      switch(this.state.activeTab){
-        case 'login':
-          return ( <Login navigator={this.props.navigator} handleBack={this.handleBack.bind(this)} /> );
-        case 'register':
-          return ( <Register navigator={this.props.navigator} handleBack={this.handleBack.bind(this)} /> );
-      }
 
-    }
     return (
       <View style={styles.container}>
         <TopTabs toggleTab={this.toggleTab.bind(this)} active={this.state.activeTab}/>
-        { activeTab() }
+        { this.state.activeTab == 'login' &&
+          <FadeInContainer delayAmount={0} duration={300}>
+            <Login navigator={this.props.navigator} handleBack={this.handleBack.bind(this)} />
+          </FadeInContainer>
+        }
+        { this.state.activeTab == 'register' &&
+           <FadeInContainer delayAmount={0} duration={300}>
+             <Register navigator={this.props.navigator} handleBack={this.handleBack.bind(this)} />
+           </FadeInContainer>
+        }
       </View>
     );
   }

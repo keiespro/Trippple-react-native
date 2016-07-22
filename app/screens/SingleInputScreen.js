@@ -1,6 +1,6 @@
 import React from "react";
 import {Component} from "react";
-import {StyleSheet, Text, TextInput, View, Navigator, Image, LayoutAnimation, ScrollView, Dimensions, TouchableHighlight} from "react-native";
+import {StyleSheet, Text, TextInput, View, Navigator, Image, KeyboardAvoidingView, LayoutAnimation, ScrollView, Dimensions, TouchableHighlight} from "react-native";
 
 import UserActions from '../flux/actions/UserActions'
 import colors from '../utils/colors'
@@ -56,6 +56,8 @@ class SingleInputScreen extends Component{
     }
   }
   updateKeyboardSpace(frames){
+    console.warn('resetkbs');
+
     if(!frames.endCoordinates){return false}
     this.setState({
       keyboardSpace: frames.endCoordinates.height,
@@ -64,6 +66,7 @@ class SingleInputScreen extends Component{
   }
 
   resetKeyboardSpace(){
+    console.warn('resetkbs');
     this.setState({
       keyboardSpace: 0,
       isKeyboardOpened: false
@@ -105,13 +108,12 @@ class SingleInputScreen extends Component{
  render(){
     return(
       <View style={[{ height:DeviceHeight, paddingBottom: this.state.keyboardSpace, backgroundColor: colors.outerSpace}]}>
-        <ScrollView
-          keyboardDismissMode={'on-drag'}
-          contentContainerStyle={[styles.wrap]}
-          onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
-          onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
-          bounces={false}
-          >
+      <KeyboardAvoidingView behavior={"padding"} style={[styles.container,this.props.kbStyle]}>
+      <ScrollView
+        keyboardDismissMode={'on-drag'}
+        contentContainerStyle={[styles.wrap]}
+        bounces={false}
+        >
           <View style={styles.middleTextWrap}>
             <Text style={styles.middleText}>{this.props.toptext || 'What should we call you?'}</Text>
           </View>
@@ -128,11 +130,13 @@ class SingleInputScreen extends Component{
           </View>
 
 
-        </ScrollView>
-
         <ContinueButton
+        absoluteContinue={true}
         canContinue={this.state.canContinue}
-        handlePress={this._submit.bind(this)} />
+        handlePress={this._submit.bind(this)}
+         />
+        </ScrollView>
+      </KeyboardAvoidingView>
 
       </View>
 
@@ -193,9 +197,10 @@ const styles = StyleSheet.create({
       alignSelf:'stretch',
       width: DeviceWidth,
       margin:0,
-      height: DeviceHeight,
       backgroundColor: 'transparent',
-      padding:20
+      padding:20,
+      flex:1,
+      flexDirection:'column'
 
     },
     pinInputWrap: {

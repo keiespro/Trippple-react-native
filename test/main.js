@@ -8,6 +8,7 @@ global.__TEST__ = true;
 
 const mainProps =  {
   user:Donnie.userInfo,
+  isVisible:true,
   match: Donnie.matches[0],
 }
 
