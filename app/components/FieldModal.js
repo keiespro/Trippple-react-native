@@ -34,7 +34,7 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
 import UserActions from '../flux/actions/UserActions'
-import PinScreen from './pin'
+// import PinScreen from './pin'
 
 import colors from '../utils/colors'
 import CloseButton from './CloseButton'
@@ -149,17 +149,17 @@ class FieldModal extends React.Component{
     if(!this.state.canContinue){return false}
 
     if(this.props.field.field_type == 'phone_input'){
-      this.props.navigator.push({
-        component: PinScreen,
-        title: '',
-        id:'pinupdate',
-        sceneConfig: CustomSceneConfigs.HorizontalSlide,
-        passProps: {
-          goBack: this.props.cancel,
-          phone: this.state.phoneValue,
-          initialKeyboardSpace: this.state.keyboardSpace
-        }
-      })
+      // this.props.navigator.push({
+      //   component: PinScreen,
+      //   title: '',
+      //   id:'pinupdate',
+      //   sceneConfig: CustomSceneConfigs.HorizontalSlide,
+      //   passProps: {
+      //     goBack: this.props.cancel,
+      //     phone: this.state.phoneValue,
+      //     initialKeyboardSpace: this.state.keyboardSpace
+      //   }
+      // })
     }else{
       var payload = {}
       payload[`${this.props.fieldName}`] = this.state.value;
@@ -351,7 +351,7 @@ class FieldModal extends React.Component{
             <View style={{ alignSelf:'stretch',flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',paddingHorizontal:MagicNumbers.screenPadding/2,paddingVertical:5,margin:0}}>
               <Text  style={{
                   color: colors.rollingStone,
-                  fontSize: 20,textAlign:'center',
+                  fontSize: MagicNumbers.is5orless ? 18 : 20,textAlign:'center',
                   fontFamily:'Omnes-Regular',
                   marginBottom:MagicNumbers.screenPadding/2,
                 }}>{field.long_label ? field.long_label : field.label}</Text>

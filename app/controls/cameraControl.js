@@ -39,10 +39,10 @@ class CameraControl extends Component{
 
         <View style={styles.paddedTop} pointerEvents={'box-none'}>
 
-        <View style={{marginBottom:10}}>
-          {this.props.navigator.getCurrentRoutes()[0].id == 'potentials' ? <BackButton navigator={this.props.navigator}/> : <OnboardingBackButton/> }
-        </View>
-          <TouchableOpacity  onPress={this._switchCamera.bind(this)} style={[{height:50,width:48},styles.rightbutton]}>
+          <View style={{marginBottom:10,height:40}}>
+            {this.props.navigator.getCurrentRoutes()[0].id == 'potentials' ? <BackButton navigator={this.props.navigator}/> : <OnboardingBackButton/> }
+          </View>
+          <TouchableOpacity  onPress={this._switchCamera.bind(this)} style={[{height:30,width:50},styles.rightbutton]}>
             <View>
               <Image
               resizeMode={Image.resizeMode.contain}
@@ -151,8 +151,8 @@ const styles = StyleSheet.create({
     alignItems:'flex-end',
     alignSelf:'stretch',
     justifyContent:'space-between',
-    height:60,
-    top:10,
+    height:40,
+    top:0,
     padding:0,
     width:DeviceWidth - 40,
 

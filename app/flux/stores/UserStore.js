@@ -106,7 +106,7 @@ class UserStore {
   }
   handleVerifyPin(res){
     const {user_info} = res.response;
-    this.waitFor(AppState)
+    // this.waitFor(AppState)
     CredentialsStore.saveCredentials(res.response)
 
     this.setState({
@@ -114,9 +114,9 @@ class UserStore {
     })
 
     if(user_info.status == 'onboarded'){
-      MatchActions.getPotentials.defer();
+      MatchActions.getPotentials();
       MatchActions.getMatches.defer();
-      MatchActions.getFavorites.defer();
+      // MatchActions.getFavorites.defer();
     }
   }
 

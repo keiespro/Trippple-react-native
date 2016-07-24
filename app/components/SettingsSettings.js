@@ -190,25 +190,12 @@ class SettingsSettings extends React.Component{
 
     return (
       <View style={styles.inner}>
-        <FakeNavBar
-          backgroundStyle={{backgroundColor:colors.shuttleGray}}
-          hideNext={true}
-          navigator={this.props.navigator}
-          customPrev={
-            <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
-              <Text
-                textAlign={'left'}
-                style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
-            </View>
-          }
-          onPrev={(nav,route)=> nav.pop()}
-          title={`SETTINGS`}
-          titleColor={colors.white}
-        />
+
         <ScrollView
           style={{flex:1,marginTop:54}}
           contentContainerStyle={{paddingHorizontal: 0}}
           alwaysBounceVertical={true}
+          showsVerticalScrollIndicator={false}
         >
           <View style={styles.paddedSpace}>
             <View style={styles.formHeader}>
@@ -345,6 +332,21 @@ class SettingsSettings extends React.Component{
 
 
         </ScrollView>
+        <FakeNavBar
+          backgroundStyle={{backgroundColor:colors.shuttleGray}}
+          hideNext={true}
+          navigator={this.props.navigator}
+          customPrev={
+            <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
+              <Text
+                textAlign={'left'}
+                style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
+            </View>
+          }
+          onPrev={(nav,route)=> nav.pop()}
+          title={`SETTINGS`}
+          titleColor={colors.white}
+        />
       </View>
 
     )

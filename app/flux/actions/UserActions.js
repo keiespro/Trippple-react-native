@@ -61,18 +61,10 @@ class UserActions {
     if( pin.length !== 4 ){ return false }
     Analytics.event('Interaction',{ type:'tap', name: 'Verify security pin', phone, pin })
 
-
     return (dispatch) => {
       Api.verifyPin(pin, phone)
-      .then((res) => {
-
-        dispatch(res)
-      })
-      .catch((err) => {
-        dispatch({
-          error: err
-        })
-      })
+      .then(res => dispatch(res))
+      .catch(error => dispatch({error}))
     }
   }
 
@@ -217,5 +209,4 @@ class UserActions {
     return this.logOut.defer()
   }
 }
-
 export default alt.createActions(UserActions)

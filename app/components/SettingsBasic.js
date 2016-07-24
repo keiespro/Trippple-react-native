@@ -177,21 +177,11 @@ class SettingsBasic extends React.Component{
 
     return (
       <View style={styles.inner}>
-        <FakeNavBar
-          blur={false}
-          backgroundStyle={{backgroundColor:colors.shuttleGray}}
-          hideNext={true}
-          navigator={this.props.navigator}
-          customPrev={
-            <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
-              <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
-            </View>
-          }
-          onPrev={(nav,route)=> nav.pop()}
-          title={`BASIC`}
-          titleColor={colors.white}
-          />
-        <ScrollView style={{marginTop:55,backgroundColor:colors.dark}} contentContainerStyle={{alignItems:'flex-start'}} >
+
+        <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{marginTop:55,backgroundColor:colors.dark}}
+        contentContainerStyle={{alignItems:'flex-start'}} >
       <View style={{backgroundColor:colors.outerSpace}}>
 
         <ScrollableTabView startPage={this.props.startPage} style={{overflow:'hidden',}} onChangeTab={(tab)=>{
@@ -341,6 +331,20 @@ class SettingsBasic extends React.Component{
       </View>
 
       </ScrollView>
+      <FakeNavBar
+        blur={false}
+        backgroundStyle={{backgroundColor:colors.shuttleGray}}
+        hideNext={true}
+        navigator={this.props.navigator}
+        customPrev={
+          <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
+            <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
+          </View>
+        }
+        onPrev={(nav,route)=> nav.pop()}
+        title={`BASIC`}
+        titleColor={colors.white}
+        />
       </View>
 
     )

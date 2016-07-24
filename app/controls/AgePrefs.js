@@ -66,7 +66,7 @@ class  AgePrefs extends React.Component{
 
                 <Text style={{alignSelf:'flex-end',color:colors.white,textAlign:'right',marginRight:0,marginBottom:20}}>{`${this.state.match_age_min} - ${this.state.match_age_max == 50 ? '50+' : this.state.match_age_max}`}</Text>
           </View>
-        <View style={{left: MagicNumbers.isSmallDevice ? -5 : 0,
+        <View style={{left: MagicNumbers.isSmallDevice ? 2 : 0,
             paddingHorizontal:0,flexDirection:'row',height:90,alignItems:'flex-start',justifyContent:'center',alignSelf:'center'}}>
 
           {dots.map((dot,i) => {
@@ -212,9 +212,9 @@ class ActiveDot extends React.Component{
     })
 
     this._panResponder = PanResponder.create({
-        onStartShouldSetResponderCapture: () => { this.props.toggleScroll('off'); return true},
-        onStartShouldSetPanResponderCapture: () =>  { this.props.toggleScroll('off'); return true},
-        onStartShouldSetPanResponder: () => true,
+        onStartShouldSetResponderCapture: () => { this.props.toggleScroll('off'); return false},
+        onStartShouldSetPanResponderCapture: () =>  { this.props.toggleScroll('off'); return false},
+        onStartShouldSetPanResponder: () => false,
         onMoveShouldSetPanResponder: () => true,
         onMoveShouldSetPanResponderCapture: () => true,
         onMoveShouldSetResponderCapture: () => true,
@@ -324,7 +324,7 @@ class ActiveDot extends React.Component{
           transform: [ {translateX: ageVal} ],
           backgroundColor:'transparent',alignItems:'center',justifyContent:'center',
           height:42,width:36,position:'absolute',bottom:10,
-          left:MagicNumbers.isSmallDevice ? 2 : -12,
+          left:MagicNumbers.isSmallDevice ? -10 : -12,
         }} source={{uri: 'assets/sliderHandle@3x.png'}}>
         <Text style={{backgroundColor:'transparent',textAlign:'center',color:colors.white,fontSize:12}}>{
             this.props.ageVal == 50 ? '50+' : this.props.ageVal

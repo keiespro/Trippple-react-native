@@ -1,5 +1,8 @@
 import Alt from 'alt'
 
 const alt = new Alt();
-__DEV__ && Alt.debug('alt', alt);
+if(__DEV__){
+  window.alt = alt;
+  Alt.debug('alt', alt);
+}
 export default alt

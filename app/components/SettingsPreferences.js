@@ -127,24 +127,12 @@ class  SettingsPreferences extends React.Component{
         return (
           <View style={styles.inner}>
 
-          <FakeNavBar
-            blur={false}
-            backgroundStyle={{backgroundColor:colors.shuttleGray}}
-            hideNext={true}
-            navigator={this.props.navigator}
-            customPrev={
-              <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
-                <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
-              </View>
-            }
-            onPrev={(nav,route)=> nav.pop()}
-            title={`PREFERENCES`}
-            titleColor={colors.white}
-          />
+
           <ScrollView
-          style={{flex:1,
-            marginTop: 54,
-            paddingVertical:MagicNumbers.is4s ? 0 : 20}}
+          showsVerticalScrollIndicator={false}
+          style={{
+            marginTop: MagicNumbers.is5orless ? 30 : 54,
+            paddingVertical:MagicNumbers.is5orless ? 0 : 20}}
             scrollEnabled={this.state.scroll == 'on' ? true : false}
             >
             <View style={styles.paddedSpace}>
@@ -220,7 +208,20 @@ class  SettingsPreferences extends React.Component{
         </View>
 
         </ScrollView>
-
+        <FakeNavBar
+          blur={false}
+          backgroundStyle={{backgroundColor:colors.shuttleGray}}
+          hideNext={true}
+          navigator={this.props.navigator}
+          customPrev={
+            <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
+              <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
+            </View>
+          }
+          onPrev={(nav,route)=> nav.pop()}
+          title={`PREFERENCES`}
+          titleColor={colors.white}
+        />
       </View>
     )
   }

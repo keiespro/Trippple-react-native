@@ -11,6 +11,7 @@ import BackButton from './BackButton'
 import {MagicNumbers} from '../../DeviceConfig'
 import ContinueButton from '../../controls/ContinueButton'
 import PrivacyPermissionsModal from '../../modals/PrivacyPermissions'
+import AppActions from '../../flux/actions/AppActions'
 
 class PrivacyScreen extends Component{
 
@@ -32,7 +33,7 @@ class PrivacyScreen extends Component{
 
   _selectPrivate(){
     if(this.state.selection != 'private'){
-      this.props.navigator.push({
+      AppActions.showInModal({
         component: PrivacyPermissionsModal,
         passProps:{
           ...this.props,
@@ -40,21 +41,13 @@ class PrivacyScreen extends Component{
             this.setState({
               selection: 'private'
             })
-            // this.props.navigator.pop()
-            OnboardingActions.proceedToPrevScreen()
-
+            AppActions.killModal()
           },
           cancel: ()=>{
-            // this.props.navigator.pop()
-            OnboardingActions.proceedToPrevScreen()
-
-
+            AppActions.killModal()
           }
-        },
-        sceneConfig: Navigator.SceneConfigs.FloatFromBottom
-      }
-
-      )
+        }
+      })
     }
 
   }
@@ -114,7 +107,7 @@ class PrivacyScreen extends Component{
                 flexDirection:'column',alignItems:'flex-start',
                 justifyContent:'space-around',flex:1,width:140}}>
                 <Text style={styles.boxTitle}>PRIVATE</Text>
-                <Text style={styles.boxP}>Your profile is hidden from your facebook friends and phone contacts. (Facebook required)</Text>
+                <Text style={styles.boxP}>Your profile is hidden from your facebook friends and phone contacts. {MagicNumbers.is5orless ? '' : `(Facebook required)`}</Text>
               </View>
             </View>
           </TouchableHighlight>
@@ -150,7 +143,7 @@ const styles = StyleSheet.create({
     marginVertical: MagicNumbers.is4s ? 0 : 5,
     marginTop: 5,
     color: colors.white,
-    fontSize: MagicNumbers.is4s ? 18 : 20,
+    fontSize: MagicNumbers.is5orless ? 18 : 20,
     fontFamily:'Montserrat-Bold',
     textAlign: 'left',
   },
