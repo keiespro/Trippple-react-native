@@ -76,8 +76,6 @@ class MaintenanceScreen extends Component{
             justifyContent:'center',
             flex:1,
           }}
-          source={{uri:'https://blistering-torch-607.firebaseapp.com/system-maintenance.png'}}
-
           defaultSource={{uri:'assets/system-maintenance.png'}}
         >
           <View style={{

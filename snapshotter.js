@@ -7,10 +7,13 @@ const { TestModule } = NativeModules
 import TimerMixin from 'react-timer-mixin'
 const requireNativeComponent = require('requireNativeComponent');
 
+
 const DelayedSnapshotViewIOS = React.createClass({
   mixins: [TimerMixin],
   onDefaultAction(event: Object) {
-    this.setTimeout(() => TestModule.verifySnapshot(TestModule.markTestPassed), 3000);
+    const delay = this.props.delay || 1000;
+
+    this.setTimeout(() => TestModule.verifySnapshot(TestModule.markTestPassed), delay);
   },
 
   render() {

@@ -49,6 +49,14 @@ require('./app/modals/CameraPermissions'),
 require('./app/modals/CameraRollPermissions'),
 ]
 
+const DelayMap = {
+  'potentialsplaceholder': 3000,
+  'potentials': 3000,
+  'intro': 3000,
+  'register': 3000,
+  'maintenancescreen': 3000
+}
+
 function TestHarness(initialProps){
   ScreensList.forEach(s => {
     const Screen = s.default || s;
@@ -63,8 +71,6 @@ function TestHarness(initialProps){
 
         <Navigator
           renderScene={(route, navigator)=>{
-            console.log(route);
-            console.log(navigator);
             var navBar;
             const RouteComponent = route.component;
 
@@ -79,6 +85,7 @@ function TestHarness(initialProps){
               <Snapshotter
                 testIdentifier={name}
                 style={styles.frame}
+                delay={route.delay}
               >
 
                 {route.id == 'settings' ? navBar : null}
@@ -97,6 +104,7 @@ function TestHarness(initialProps){
           initialRoute={{
             component: Screen,
             id: name.toLowerCase(),
+            delay: DelayMap[name.toLowerCase()] || null,
             passProps: {
               ...initialProps,
               ...props,
