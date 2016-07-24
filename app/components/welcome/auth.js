@@ -17,7 +17,7 @@ const DeviceWidth = Dimensions.get('window').width
 
 import UserActions from '../../flux/actions/UserActions';
 
-import Facebook from '../../screens/registration/facebook';
+import FacebookLogin from './FacebookLogin';
 import TopTabs from '../../controls/topSignupSigninTabs';
 import Login from './login';
 import Register from './register';
@@ -129,16 +129,9 @@ class Auth extends Component{
     return (
       <View style={styles.container}>
         <TopTabs toggleTab={this.toggleTab.bind(this)} active={this.state.activeTab}/>
-        { this.state.activeTab == 'login' &&
           <FadeInContainer delayAmount={0} duration={300}>
-            <Login navigator={this.props.navigator} handleBack={this.handleBack.bind(this)} />
+            <FacebookLogin />
           </FadeInContainer>
-        }
-        { this.state.activeTab == 'register' &&
-           <FadeInContainer delayAmount={0} duration={300}>
-             <Register navigator={this.props.navigator} handleBack={this.handleBack.bind(this)} />
-           </FadeInContainer>
-        }
       </View>
     );
   }

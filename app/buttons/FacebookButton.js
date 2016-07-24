@@ -171,6 +171,9 @@ class FacebookButton extends React.Component{
       case 'onboard':
         buttonText = this.state.fbUser ? `VERIFIED` : `VERIFY WITH FB`
       break;
+      case 'login':
+        buttonText =  `LOG IN`
+      break;
       case 'settings':
         buttonText = this.state.fbUser ? `VERIFY NOW` : `VERIFY NOW`
       break;
