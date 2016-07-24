@@ -9,6 +9,7 @@ import { matchWasAdded, messageWasAdded } from '../../utils/matchstix'
 import { AsyncStorage, Alert } from 'react-native'
 import _ from 'underscore'
 import UserStore from './UserStore'
+import ChatStore from './ChatStore'
 
 class MatchesStore {
 
@@ -45,6 +46,7 @@ class MatchesStore {
       handleSaveStores: AppActions.SAVE_STORES,
       handleLogout: UserActions.LOG_OUT,
       clearMatches: AppActions.CLEAR_MATCHES_DATA,
+      handleResetUnreadCount: MatchActions.RESET_UNREAD_COUNT
 
     });
 
@@ -53,19 +55,19 @@ class MatchesStore {
     });
 
     this.on( 'error', ( err, payload, currentState ) => {
-      Analytics.all( 'ERROR matches store', err, payload, currentState );
-      Analytics.err({...err, payload})
+      // Analytics.all( 'ERROR matches store', err, payload, currentState );
+      // Analytics.err({...err, payload})
 
     });
 
     this.on( 'bootstrap', ( bootstrappedState ) => {
-      Analytics.all( 'BOOTSTRAP matches store', bootstrappedState );
+      // Analytics.all( 'BOOTSTRAP matches store', bootstrappedState );
     });
 
     this.on( 'afterEach', ( x ) => {
-      if(x.payload && x.payload.payload && x.payload.payload.matches && x.payload.payload.matches.length && x.payload.details.name != 'getPotentials'){
-        Analytics.all( 'UPDATE Matches store', {...x });
-      }
+      // if(x.payload && x.payload.payload && x.payload.payload.matches && x.payload.payload.matches.length && x.payload.details.name != 'getPotentials'){
+      //   Analytics.all( 'UPDATE Matches store', {...x });
+      // }
     })
 
   }
@@ -209,17 +211,17 @@ class MatchesStore {
         const matchesHash = matches.reduce( ( acc, el, i ) => {
           if(!this.state.matches[el.match_id] || this.state.matches[el.match_id].lastAccessed < this.state.matches[el.match_id].recent_message.created_timestamp * 1000){
 
-            // MatchActions.getMessages.defer(el.match_id);
+            MatchActions.getMessages.defer(el.match_id);
 
             if (el.unread == 0 && el.recent_message && el.recent_message.from_user_info && el.recent_message.from_user_info.id && (el.recent_message.from_user_info.id != user.id && ( el.recent_message.created_timestamp * 1000 > el.lastAccessed )) ){
-              el.unread = 1;
+              // el.unread = 1;
               // console.log('UNREAD - ',el.recent_message.created_timestamp * 1000,el.lastAccessed)
 
             }
           }else{
             el.unread = this.state.matches[el.match_id] ? this.state.matches[el.match_id].unread : 0;
             if (el.unread == 0 && el.recent_message && el.recent_message.from_user_info && el.recent_message.from_user_info.id && (el.recent_message.from_user_info.id != user.id && ( el.recent_message.created_timestamp * 1000 > el.lastAccessed )) ){
-              el.unread = 1;
+              // el.unread = 1;
 
               // console.log('UNREAD - ',el.recent_message.created_timestamp * 1000,el.lastAccessed)
             }
@@ -244,38 +246,31 @@ class MatchesStore {
       return false
     }
     const { match_id, message_thread } = payload.messages;
-    if ( !message_thread || !message_thread.length || ( message_thread.length == 1 && !message_thread[ 0 ].message_body ) ) {return false}
 
-    const { matches } = this.state,
-          user = UserStore.getUser();
+    // if ( !message_thread || !message_thread.length || ( message_thread.length == 1 && !message_thread[ 0 ].message_body ) ) {return false}
 
-    if ( !matches[ match_id ].lastAccessed ) {
-      matches[ match_id ].lastAccessed = 0
-    }
+    const { matches } = this.state;
 
-    var count =  0;
-    for ( var msg of message_thread ) {
+    this.waitFor(ChatStore)
+    const unreadCount = ChatStore.getUnreadForMatch(match_id);
+    matches[ match_id ].unread = unreadCount;
 
-      if ( msg.from_user_info.id == user.id || !msg.created_timestamp ) {return false;}
-      if (  matches[ match_id ].lastAccessed < msg.created_timestamp * 1000 ) {
-        count++
-      }
-    }
+    this.setState({ matches: {...matches} })
+    this.emitChange()
+    this.save()
 
-    if (count== 0 && matches[ match_id ].recent_message.from_user_info.id != user.id && count == 0 &&  matches[ match_id ].lastAccessed < (matches[ match_id ].recent_message.created_timestamp * 1000) ) {
-      count = 1
-    }
-    const thread = matches[ match_id ].message_thread || [];
-
-    const newThread = [ ...thread, ...message_thread ];
-
-    matches[ match_id ].message_thread = newThread;
-
-    matches[ match_id ].unread =  count;
-
-    this.setState({ matches })
   }
 
+  handleResetUnreadCount(match_id){
+
+    const { matches } = this.state;
+
+    matches[ match_id ].unread = 0;
+
+    console.log(match_id + ' unreadCount reset',unreadCount);
+    this.setState({ matches: {...matches} })
+
+  }
   handleGetFavorites( matchesData ) {
 
     // this.emitChange()

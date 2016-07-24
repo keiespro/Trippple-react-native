@@ -2,7 +2,7 @@
 
 import React, {Component} from "react";
 
-import {StyleSheet, Text, View, InteractionManager, Image, TextInput, TouchableHighlight, ListView, LayoutAnimation, TouchableOpacity, ScrollView, Animated, PixelRatio, Easing, Dimensions} from "react-native";
+import {StyleSheet, Text, View, InteractionManager, Image, TextInput, TouchableHighlight, ListView, LayoutAnimation, TouchableOpacity, ScrollView, Animated, PixelRatio, Easing, Dimensions, KeyboardAvoidingView} from "react-native";
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -24,192 +24,16 @@ import moment from 'moment'
 import { BlurView, VibrancyView } from 'react-native-blur'
 import Analytics from '../utils/Analytics';
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
-// import TimerMixin from 'react-timer-mixin';
-// import reactMixin from 'react-mixin'
+import MessageComposer from './chat/MessageComposer'
 
-const styles = StyleSheet.create({
-  container: {
 
-    backgroundColor: colors.white,
-    paddingTop:50,
-    paddingBottom:50
-  },
-  chatContainer: {
-
-    margin: 0,
-    flexDirection: 'column',
-    // alignItems: 'stretch',
-    alignSelf: 'stretch',
-    backgroundColor:colors.dark,
-
-    // bottom: 50,
-    // top:60
-  },
-  messageList: {
-
-    flexDirection: 'column',
-    alignSelf: 'stretch',
-   },
-
-  inputField: {
-    height: 50,
-    backgroundColor:colors.dark,
-    margin:0,
-    bottom:0
-  },
-
-  bubble: {
-    borderRadius:10,
-    padding: 10,
-    paddingHorizontal: 20,
-    paddingVertical:15,
-    marginTop:10,
-    marginBottom:5,
-    flexDirection: 'column',
-    maxWidth:DeviceWidth-100,
-  },
-  row:{
-    flexDirection: 'row',
-    alignItems:'center',
-    justifyContent:'space-between',
-    marginHorizontal: 10,
-
-  },
-  col:{
-    flexDirection: 'column',
-
-    alignSelf:'stretch',
-    alignItems:'stretch',
-    justifyContent:'space-around',
-
-  },
-  theirMessage:{
-    backgroundColor: colors.mediumPurple,
-    marginRight: MagicNumbers.is4s ? 0 : 10,
-    alignSelf:'flex-start',
-
-  },
-  ourMessage:
-  {
-    // marginLeft: MagicNumbers.is4s ? 0 : 10,
-    backgroundColor: colors.dark,
-    alignSelf:'flex-end',
-
-  },
-  messageTitle:
-  {
-    fontFamily: 'Montserrat',
-    color: colors.shuttleGray,
-    fontSize: 12,
-    marginBottom: 5
-  },
-  sendButton:
-  {
-    margin: 0,
-    padding: 5,
-    marginLeft: 5,
-    borderRadius: 5,
-    paddingVertical: 10,
-    backgroundColor: colors.dark,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  sendButtonText:{
-    textAlign:'center',
-    fontFamily:'omnes',
-    fontSize:18,
-    color:colors.white
-  },
-  chatInsideWrap:{
-    flexDirection:'column',
-    alignItems:'flex-end',
-    alignSelf:'stretch',
-    backgroundColor: colors.dark,
-
-    position:'relative',
-    height:DeviceHeight,
-    width:DeviceWidth,
-    overflow:'hidden'
-  },
-  messageText: {
-    fontSize: 16,
-    fontWeight: '200',
-    // flexWrap: 'wrap',
-    color: colors.white
-  },
-  thumb: {
-    borderRadius:MagicNumbers.is4s ? 20 : 24,
-    width: MagicNumbers.is4s ? 40 : 48,
-    height:MagicNumbers.is4s ? 40 :  48,
-    position:'relative',
-    marginHorizontal:MagicNumbers.is4s ?  0 : 5,
-    marginRight: 5
-  },
-  listview:{
-    backgroundColor:colors.outerSpace,
-
-    alignSelf:'stretch',
-    width:DeviceWidth,
-    // height:DeviceHeight,
-  },
-  messageComposer: {
-    flexDirection:'row',
-    backgroundColor:colors.dark,
-    alignItems:'center',
-    justifyContent:'center',
-    width:DeviceWidth,
-    margin:0,
-    height:80,
-    paddingLeft:20,
-    paddingVertical:15,
-    paddingRight:10,
-    borderTopWidth: 1 / PixelRatio.get() ,
-    borderTopColor:'#000'
-  },
-  messageComposerInput:{
-    flex:1,
-    paddingHorizontal:3,
-    paddingTop:0,
-    paddingBottom:10,
-    fontSize:17,
-    color:colors.white,
-    borderBottomColor:colors.white,
-    borderBottomWidth:1,
-    overflow:'hidden',
-  },
-  invertedContentContainer:{
-    backgroundColor:colors.outerSpace,
-    justifyContent:'flex-end',
-    width:DeviceWidth,
-    overflow:'hidden'
-  }
-});
-
-class ChatMessage extends React.Component{
-  render(){
-    const isMessageOurs = (this.props.messageData.from_user_info.id === this.props.user.id || this.props.messageData.from_user_info.id === this.props.user.partner_id);
+const ChatMessage = (props) => {
+    const isMessageOurs = (props.messageData.from_user_info.id === props.user.id || props.messageData.from_user_info.id === props.user.partner_id);
     var thumb = ''
     if(!isMessageOurs){
-      const {from_user_info} = this.props.messageData;
+      const {from_user_info} = props.messageData;
       const {thumb_url,image_url} = from_user_info;
-
-      /*
-       * TODO:
-       * this deals with test bucket urls
-       * but not very maintainable
-       */
-
-      // var thumb = '';
-      // var img = (thumb_url && typeof thumb_url === 'string' ? thumb_url : image_url);
-      // if(img && img.includes('test')){
-      //   var u = img;
-      //   var x = u.split('/test/')[0].split('uploads') + u.split('test')[1];
-      //   thumb = x.split('/images')[0] + x.split('/images')[1]
-      // }else{
-      //   thumb = img+'';
-      // }
-       thumb = image_url+'';
+       thumb = (image_url)+'';
     }else{
        thumb = '';
 
@@ -218,7 +42,7 @@ class ChatMessage extends React.Component{
     return (
       <View style={[styles.col]}>
         <View style={[styles.row]}>
-          <View style={{flexDirection:'column', alignItems:isMessageOurs ? 'flex-end' : 'flex-start', alignSelf: 'stretch', flex:1, justifyContent:'center',backgroundColor: this.props.messageData.ephemeral && __DEV__ ? colors.sushi : 'transparent'}}>
+          <View style={{flexDirection:'column', alignItems:isMessageOurs ? 'flex-end' : 'flex-start', alignSelf: 'stretch', flex:1, justifyContent:'center',backgroundColor: props.messageData.ephemeral && __DEV__ ? colors.sushi : 'transparent'}}>
           <View style={{alignSelf: isMessageOurs ? 'flex-end' : 'flex-start',justifyContent:'center',alignItems:'center',maxWidth:MagicNumbers.screenWidth,backgroundColor:'transparent',flexDirection:'row'}}>
             {!isMessageOurs ?
               <View style={{backgroundColor:'transparent'}}>
@@ -240,10 +64,10 @@ class ChatMessage extends React.Component{
 
               <Text style={[styles.messageText, styles.messageTitle,
                     {color: isMessageOurs ? colors.shuttleGray : colors.lavender, fontFamily:'Montserrat'} ]}
-              >{ this.props.messageData.from_user_info.name.toUpperCase() }</Text>
+              >{ props.messageData.from_user_info.name.toUpperCase() }</Text>
 
               <Text style={[styles.messageText,{flex:1}]} >{
-                this.props.text
+                props.text
               }</Text>
 
             </View>
@@ -260,14 +84,14 @@ class ChatMessage extends React.Component{
         </View>
 
         <View style={[{paddingHorizontal:20,marginBottom:10},{marginLeft: isMessageOurs ? 2 : 62,alignSelf: isMessageOurs ? 'flex-end' : 'flex-start' }]}>
-          <TimeAgo showSent={true} style={{color:colors.shuttleGray,fontSize:10,fontFamily:'Montserrat'}} time={this.props.messageData.created_timestamp * 1000} />
+          <TimeAgo showSent={true} style={{color:colors.shuttleGray,fontSize:10,fontFamily:'Montserrat'}} time={props.messageData.created_timestamp * 1000} />
         </View>
 
       </View>
     );
 
 }
-}
+
 
 
 
@@ -279,81 +103,17 @@ class ChatInside extends Component{
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       dataSource: this.ds.cloneWithRows(props.messages || []),
-      keyboardSpace: 0,
       isKeyboardOpened: false,
       textInputValue: '',
       fetching: false,
       lastPage: 0,
-      bottomColor: new Animated.Value(0)
     }
   }
 
-  updateKeyboardSpace(frames){
-
-
-    var h = frames.endCoordinates.height//frames.startCoordinates.screenY - frames.endCoordinates.screenY;
-
-    if( h == this.state.keyboardSpace){ return false }
-    this.setState({
-      keyboardSpace: h,
-      isKeyboardOpened: true
-    });
-    if(frames.endCoordinates ){
-      var duration;
-      if( frames.duration < 100){
-        return false
-      }else{
-        duration = frames.duration
-      }
-
-      LayoutAnimation.configureNext({
-        duration: frames.duration/2,
-        create: {
-          delay: 0,
-          type: LayoutAnimation.Types.keyboard,
-          property: LayoutAnimation.Properties.opacity
-        },
-        update: {
-          delay: 0,
-          type: LayoutAnimation.Types.keyboard,
-          property: LayoutAnimation.Properties.paddingBottom
-        }
-      });
-    }
-
-  }
-
-  resetKeyboardSpace(frames) {
-    // console.log(frames);
-    var h = frames.startCoordinates && frames.startCoordinates.screenY - frames.endCoordinates.screenY || frames.end && frames.end.height;
-    if( h == this.state.keyboardSpace){ return false }
-    this.setState({
-      keyboardSpace: h,
-      isKeyboardOpened: false
-  });
-      LayoutAnimation.configureNext({
-      duration: 50,
-      create: {
-        delay: 0,
-        type: LayoutAnimation.Types.keyboard,
-        property: LayoutAnimation.Properties.paddingBottom
-      },
-      update: {
-        delay: 0,
-        type: LayoutAnimation.Types.keyboard,
-        property: LayoutAnimation.Properties.paddingBottom
-      }
-    });
-
-
-  }
-
-  componentDidUpdate(prevProps){
-    if(this.props.messages && prevProps.messages && prevProps.messages.length !== this.props.messages.length){
-
-    }
-
-    // this.refs.scroller && this.refs.scroller.refs.listviewscroll.scrollTo(0,0)
+  shouldComponentUpdate(nProps,nState){
+    const should = this.state.isVisible != nState.isVisible || this.state.textInputValue != nState.textInputValue || (this.state.isKeyboardOpened != nState.isKeyboardOpened) || !this.props.messages || !nProps.messages || nProps.messages.length > this.props.messages.length || nProps.messages[0].created_timestamp > this.props.messages[0].created_timestamp;
+    console.log('Update chat? ',should);
+    return should
   }
 
   componentWillReceiveProps(newProps){
@@ -384,7 +144,6 @@ class ChatInside extends Component{
   sendMessage(){
     if(this.state.textInputValue == ''){ return false }
     const timestamp = moment().utc().unix();
-    this._textInput.setNativeProps({text: ''});
     MatchActions.sendMessage(this.state.textInputValue, this.props.match_id, timestamp)
     MatchActions.sendMessageToServer.defer(this.state.textInputValue, this.props.match_id)
     this.setState({ textInputValue: '' })
@@ -433,7 +192,6 @@ class ChatInside extends Component{
 
     Analytics.event('Interaction',{type: 'scroll', name: 'Load more messages', page: nextPage})
 
-    MatchActions.getMessages(this.props.match_id, nextPage);
   }
 
   renderNoMessages(){
@@ -491,95 +249,49 @@ class ChatInside extends Component{
 
 
   render(){
-    console.log(this.props.currentMatch);
-    const matchInfo = this.props.currentMatch,
-        theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
+    const matchInfo = this.props.currentMatch;
+    if(!matchInfo){
+      console.log('no matchInfo');
+      return <View/>
+    }
+    const theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
         them = theirIds.map((id)=> matchInfo.users[id]),
         chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '')  },'');
-console.log(matchInfo);
-    return (
-      <View  style={[styles.chatInsideWrap,{paddingBottom:this.state.keyboardSpace}]}>
-        {this.props.messages && this.props.messages.length > 0  ?
-        (<ListView
-          dataSource={this.state.dataSource}
-          renderRow={this._renderRow.bind(this)}
-          onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
-          onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
-onEndReached={this.onEndReached.bind(this)}
-          messages={this.props.messages || []}
-          style={[styles.listview,{ backgroundColor:colors.outerSpace}]}
-          renderScrollComponent={props => (
-            <InvertibleScrollView inverted={true}
-              onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
-              onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
-              scrollsToTop={true}
-              contentContainerStyle={styles.invertedContentContainer}
-              scrollEventThrottle={64}
-              ref={c => {this.scroller = c}}
-              key={`${this.props.match_id}x`}
-              keyboardDismissMode={'interactive'}
-              contentInset={{top:0,right:0,left:0,bottom:54}}
-              automaticallyAdjustContentInsets={true}
-              {...props}
-            />
-          )}
 
-        />)
+    return (
+      <KeyboardAvoidingView  style={{flex:1,width:DeviceWidth,height:DeviceHeight}} behavior={'padding'}>
+
+        {this.props.messages && this.props.messages.length > 0  ?
+        (<View style={{flex:1,justifyContent:'center',alignItems:'center',flexDirection:'column'}}>
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={this._renderRow.bind(this)}
+            onEndReached={this.onEndReached.bind(this)}
+            messages={this.props.messages || []}
+            style={[styles.listview,{ backgroundColor:colors.outerSpace}]}
+            renderScrollComponent={props => (
+              <InvertibleScrollView inverted={true}
+                scrollsToTop={true}
+                contentContainerStyle={styles.invertedContentContainer}
+                scrollEventThrottle={64}
+                ref={c => {this.scroller = c}}
+                key={`${this.props.match_id}x`}
+                keyboardDismissMode={'interactive'}
+                contentInset={{top:0,right:0,left:0,bottom:54}}
+                automaticallyAdjustContentInsets={true}
+                {...props}
+              />
+            )}
+          />
+          <MessageComposer
+            textInputValue={this.state.textInputValue}
+            onTextInputChange={this.onTextInputChange.bind(this)}
+            sendMessage={this.sendMessage.bind(this)}
+          />
+        </View>)
         : this.renderNoMessages()}
 
-        <View style={styles.messageComposer}>
 
-          <AnimatedTextInput
-            multiline={true}
-            autoGrow={true}
-            ref={component => this._textInput = component}
-            style={[styles.messageComposerInput,{
-              borderBottomColor: this.state.bottomColor ? this.state.bottomColor.interpolate({
-                inputRange: [0, 100],
-                outputRange: [colors.shuttleGrayAnimate,colors.whiteAnimate],
-              }) : colors.shuttleGray,
-            }]}
-            returnKeyType={'default'}
-            keyboardAppearance={'dark'}
-            autoCorrect={true}
-            placeholder={'Type Message...'}
-            placeholderTextColor={colors.shuttleGray}
-            autoFocus={false}
-            clearButtonMode={'never'}
-            onFocus={(e)=>{
-              Animated.timing(this.state.bottomColor, {
-                toValue: 100,
-                duration: 300
-              }).start()
-              this.setState({inputFocused:true})
-            }}
-           onBlur={(e)=>{
-                Animated.timing(this.state.bottomColor, {
-                  toValue: 0,
-                  duration: 300,
-                }).start()
-
-                this.setState({inputFocused:false})
-              }}
-              onChangeText={this.onTextInputChange.bind(this)}
-              >
-              <Text style={{ fontSize:17, padding:1, paddingBottom:7.5, color:colors.white, }} >{
-                  this.state.textInputValue || ''
-              }</Text>
-          </AnimatedTextInput>
-
-          <TouchableHighlight
-            style={styles.sendButton}
-            underlayColor={colors.outerSpace}
-            onPress={this.state.textInputValue.length ? this.sendMessage.bind(this) : null}
-            >
-            <Text style={[styles.sendButtonText,{
-                color: this.state.textInputValue.length ? colors.white : colors.shuttleGray,
-                fontFamily:'Montserrat',
-                textAlign:'center'
-              }]}>SEND</Text>
-          </TouchableHighlight>
-        </View>
         <FakeNavBar
           navigator={this.props.navigator}
           route={this.props.route}
@@ -599,45 +311,13 @@ onEndReached={this.onEndReached.bind(this)}
             </View>
           }
         />
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }
 
 
 
-const animations = {
-  layout: {
-    spring: {
-      duration: 250,
-
-      create: {
-        duration: 250,
-        delay: 0,
-        type: LayoutAnimation.Types.keyboard,
-        property: LayoutAnimation.Properties.opacity
-      },
-      update: {
-        delay: 0,
-        type: LayoutAnimation.Types.keyboard,
-        property: LayoutAnimation.Properties.paddingBottom
-      }
-    },
-    easeInEaseOut: {
-      duration: 250,
-      create: {
-        delay: 0,
-        type: LayoutAnimation.Types.keyboard,
-        property: LayoutAnimation.Properties.scaleXY
-      },
-      update: {
-        delay: 0,
-        type: LayoutAnimation.Types.keyboard,
-        property: LayoutAnimation.Properties.paddingBottom
-      }
-    }
-  }
-};
 
 const Chat = React.createClass({
   displayName:"Chat",
@@ -648,16 +328,10 @@ const Chat = React.createClass({
   },
   componentWillUnmount(){
     dismissKeyboard()
-    MatchActions.setAccessTime({match_id:this.props.match_id,timestamp: Date.now()})
   },
   componentDidMount(){
-
-
-    // if(this.props.handle){
-      // InteractionManager.clearInteractionHandle(this.props.handle)
-    // }
-    // MatchActions.setAccessTime.defer({match_id:this.props.match_id,timestamp: Date.now()})
-
+    MatchActions.resetUnreadCount(this.props.match_id);
+    MatchActions.getMessages.defer(this.props.match_id);
   },
 
   toggleModal(){
@@ -787,3 +461,111 @@ const SIZES = {
         }
       }
    };
+
+   const styles = StyleSheet.create({
+     container: {
+
+       backgroundColor: colors.white,
+       paddingTop:50,
+       paddingBottom:50
+     },
+     chatContainer: {
+
+       margin: 0,
+       flexDirection: 'column',
+       // alignItems: '  stretch',
+       alignSelf: 'stretch',
+       backgroundColor:colors.dark,
+
+       // bottom: 50,
+       // top:60
+     },
+     messageList: {
+
+       flexDirection: 'column',
+       alignSelf: 'stretch',
+      },
+
+     bubble: {
+       borderRadius:10,
+       padding: 10,
+       paddingHorizontal: 20,
+       paddingVertical:15,
+       marginTop:10,
+       marginBottom:5,
+       flexDirection: 'column',
+       maxWidth:DeviceWidth-100,
+     },
+     row:{
+       flexDirection: 'row',
+       alignItems:'center',
+       justifyContent:'space-between',
+       marginHorizontal: 10,
+
+     },
+     col:{
+       flexDirection: 'column',
+
+       alignSelf:'stretch',
+       alignItems:'stretch',
+       justifyContent:'space-around',
+
+     },
+     theirMessage:{
+       backgroundColor: colors.mediumPurple,
+       marginRight: MagicNumbers.is4s ? 0 : 10,
+       alignSelf:'flex-start',
+
+     },
+     ourMessage:
+     {
+       // marginLeft: MagicNumbers.is4s ? 0 : 10,
+       backgroundColor: colors.dark,
+       alignSelf:'flex-end',
+
+     },
+     messageTitle: {
+       fontFamily: 'Montserrat',
+       color: colors.shuttleGray,
+       fontSize: 12,
+       marginBottom: 5
+     },
+
+     chatInsideWrap:{
+       flexDirection:'column',
+       alignItems:'flex-end',
+       alignSelf:'stretch',
+       flex:1,
+       backgroundColor: colors.dark,
+
+       position:'relative',
+       height:DeviceHeight,
+         width:DeviceWidth,
+     },
+     messageText: {
+       fontSize: 16,
+       fontWeight: '200',
+       // flexWrap: 'wrap',
+       color: colors.white
+     },
+     thumb: {
+       borderRadius:MagicNumbers.is4s ? 20 : 24,
+       width: MagicNumbers.is4s ? 40 : 48,
+       height:MagicNumbers.is4s ? 40 :  48,
+       position:'relative',
+       marginHorizontal:MagicNumbers.is4s ?  0 : 5,
+       marginRight: 5
+     },
+     listview:{
+       backgroundColor:colors.outerSpace,
+       // alignSelf:'stretch',
+       // bottom:80,
+       flex:1,
+       width:DeviceWidth,
+     },
+     invertedContentContainer:{
+       backgroundColor:colors.outerSpace,
+       justifyContent:'flex-end',
+       width:DeviceWidth,
+     }
+   });

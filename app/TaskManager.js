@@ -6,6 +6,7 @@ const {OSPermissions,RNHotlineController} = NativeModules
 import Analytics from './utils/Analytics'
 import SETTINGS_CONSTANTS from './utils/SettingsConstants'
 import AppActions from './flux/actions/AppActions'
+import UserActions from './flux/actions/UserActions'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 const {HAS_SEEN_NOTIFICATION_REQUEST,LAST_ASKED_LOCATION_PERMISSION} = SETTINGS_CONSTANTS
@@ -61,24 +62,7 @@ const {HAS_SEEN_NOTIFICATION_REQUEST,LAST_ASKED_LOCATION_PERMISSION} = SETTINGS_
     const hasSeenLocationRequest = Settings.get(LAST_ASKED_LOCATION_PERMISSION);
 
     OSPermissions.canUseLocation((hasPermission)=>{
-       if(parseInt(hasPermission) <= 2){
-        // pop location modal
-
-        // this.props.navigator.push({
-        //   component: LocationPermissions,
-        //   name:'Location Permission Modal',
-        //   title:'Location Permission Modal',
-        //   passProps:{
-        //     x: 2,
-        //     title:'Prioritze Local',
-        //     user:this.props.user,
-        //     failedTitle:'Location',
-        //     failCallback: ()=>{ this.props.navigator.pop() },
-        //     hideModal: ()=>{ this.props.navigator.pop() },
-        //     closeModal: ()=>{ this.props.navigator.pop() }
-        //
-        //   }
-        // })
+       if(parseInt(hasPermission) <= 2 || hasSeenLocationRequest){
 
         AppActions.showInModal({
           component: LocationPermissions,
@@ -97,16 +81,18 @@ const {HAS_SEEN_NOTIFICATION_REQUEST,LAST_ASKED_LOCATION_PERMISSION} = SETTINGS_
 
 
 
+      }else if(parseInt(hasPermission) > 2){
+        __DEV__ && console.log('have location permission, getting current location');
+        const success = (geo => {
+          __DEV__ && console.log(...geo.coords);
+          UserActions.updateUser(geo.coords);
+        })
+        const fail = (error => console.log(error));
+        const options = {enableHighAccuracy: false, maximumAge: 10};
+
+        navigator.geolocation.getCurrentPosition(success, fail, options)
       }
     })
-    // const success = (geo) => {
-    //         this.updateUser.defer(geo.coords);
-    //         dispatch(geo.coords);
-    //       },
-    //       fail = (error) => { dispatch(error) },
-    //       options = {enableHighAccuracy: false, maximumAge: 10};
-    //
-    // navigator.geolocation.getCurrentPosition(success, fail, options)
 
   }
 

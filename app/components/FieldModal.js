@@ -273,19 +273,21 @@ class FieldModal extends React.Component{
 
     case 'input':
       return (
-        <View style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between'}}>
-          <View style={{    width:MagicNumbers.screenWidth - MagicNumbers.screenPadding,
+        <View style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between',flexDirection:'column'}}>
+          <View style={{
                             marginHorizontal:MagicNumbers.screenPadding,
-                            alignSelf:'stretch',flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',padding:20}}>
+                            alignSelf:'stretch',flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',paddingVertical:20}}>
             <Text style={{
                 color: colors.rollingStone,
-                fontSize: 20,textAlign:'center',
+                fontSize: 20,
                 fontFamily:'Omnes-Regular',
+                textAlign:'center',
                 marginBottom:40,
               }}>{field.long_label ? field.long_label : field.label}</Text>
-            <View style={{ borderBottomWidth: 1, borderBottomColor: borderColor }}>
+            <View style={{ borderBottomWidth: 1, borderBottomColor: borderColor,width:MagicNumbers.screenWidth }}>
               {React.cloneElement(inputField,{
               maxLength: getMaxLength(this.props.fieldName),
+              selectionColor:colors.mediumPurple,
               defaultValue: this.props.fieldName == 'firstname' ? fieldValue ? fieldValue.slice(0,10) : '' : fieldValue,
               onChangeText:(value) => {
                 this.onChange(value.trim())

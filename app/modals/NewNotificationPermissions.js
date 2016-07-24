@@ -174,10 +174,12 @@ class NewNotificationPermissionsInside extends React.Component{
       const featuredImage = (relevantUser && relevantUser.image_url) || (featuredUser && featuredUser.image_url) || null;
 
       return  (
-        <View style={{backgroundColor: __TEST__ ? colors.outerSpace : 'transparent'}}>
+        <View style={{width:DeviceWidth,height:DeviceHeight,justifyContent:'center',alignItems:'center',}}>
           <ScrollView
-            style={[{padding:0,width:DeviceWidth,height:DeviceHeight,backgroundColor: __TEST__ ? colors.outerSpace : 'transparent',paddingTop:0,flex:1,position:'absolute'}]}
-            contentContainerStyle={{justifyContent:'center',alignItems:'center',flexDirection:'column',backgroundColor: __TEST__ ? colors.outerSpace : 'transparent'}}
+          scrollEnabled={true}
+          bounces={true}
+            style={[{ }]}
+            contentContainerStyle={{justifyContent:'center',alignItems:'center', width:DeviceWidth,height:DeviceHeight, }}
           >
             <View style={{width:160,height:160,marginVertical:30}}>
               <Image style={[{width:160,height:160,borderRadius:80}]} source={
@@ -225,7 +227,8 @@ class NewNotificationPermissionsInside extends React.Component{
 
                   <View>
                     <TouchableHighlight
-                      style={{backgroundColor:'transparent',width:DeviceWidth-MagicNumbers.screenPadding*2,borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:0,marginTop:20,marginBottom:15}}
+                      underlayColor={colors.mediumPurple20}
+                      style={{backgroundColor:'transparent',width:DeviceWidth-MagicNumbers.screenPadding*2,borderColor:colors.offwhite,borderWidth:1,borderRadius:5,marginHorizontal:0,marginTop:20,marginBottom:15}}
                       onPress={this.handleTapYes.bind(this)}>
                       <View style={{paddingVertical:20,paddingHorizontal:10,alignSelf:'stretch'}} >
                         <Text style={[styles.modalButtonText,{fontFamily:'Montserrat-Bold'}]}>

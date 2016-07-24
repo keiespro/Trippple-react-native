@@ -22,7 +22,7 @@ class MatchActions {
 
     return matchID
   }
-  
+
   removePotential(p){
     if(p){
       Analytics.extra('Social',{
@@ -85,6 +85,10 @@ class MatchActions {
         dispatch({error: err})
       })
     };
+  }
+
+  resetUnreadCount(match_id){
+    return match_id
   }
 
   getPotentials(relationship_status) {

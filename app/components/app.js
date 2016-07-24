@@ -187,7 +187,7 @@ class App extends Component{
 
     return (
           <AltContainer stores={TopLevelStores}>
-            <TopLevel />
+            <TopLevel startScreen={this.props.startScreen}/>
           </AltContainer>
 
     );
