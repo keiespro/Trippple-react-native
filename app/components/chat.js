@@ -643,7 +643,7 @@ const Chat = React.createClass({
   displayName:"Chat",
   getInitialState(){
     return ({
-      isVisible: false
+      isVisible: this.props.isVisible ? JSON.parse(this.props.isVisible) : false
     })
   },
   componentWillUnmount(){

@@ -38,6 +38,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 0,
     width:MagicNumbers.screenWidth/ 2,
+    alignSelf:'stretch',
+    height:60
   },
   singleTab:{
 

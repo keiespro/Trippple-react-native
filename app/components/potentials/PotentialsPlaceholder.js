@@ -18,7 +18,7 @@ class PotentialsPlaceholder extends React.Component{
     super()
   }
   onDidShow(){
-          this.props.onDidShow(true)
+          this.props.onDidShow && this.props.onDidShow(true)
 
   }
   openProfileEditor(){

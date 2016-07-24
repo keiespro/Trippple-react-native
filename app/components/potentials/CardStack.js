@@ -317,7 +317,6 @@ class CardStack extends React.Component{
         alignSelf:'stretch',
         right: 0,
         bottom:0,
-        backgroundColor: this.props.profileVisible ? 'black' : 'transparent',
         alignItems:'center'
         }}>
 
@@ -326,7 +325,7 @@ class CardStack extends React.Component{
             style={[styles.shadowCard,{
             alignSelf:'center',
             left:this.props.profileVisible ? 0 : 20,right:this.props.profileVisible ? 0 : 20,
-            borderRadius:8,
+            borderRadius: this.props.profileVisible ? 0 : 8,
             bottom: this.props.profileVisible ? 0 : (DeviceHeight <= 568 ? 75 : 75),
             position: 'absolute',
             overflow:'hidden',

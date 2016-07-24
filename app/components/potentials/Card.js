@@ -88,7 +88,7 @@ class Card extends React.Component{
       this.props.showProfile(this.props.potential)
     }
     if(scroll){
-      this.refs.scrollbox.scrollTo({y: DeviceHeight-200,x:0},true)
+      this.refs.scrollbox.scrollTo({y: DeviceHeight*0.2,x:0},true)
     }
   }
 
@@ -208,7 +208,6 @@ class Card extends React.Component{
             position:'relative',
             height: cardHeight,
             overflow:'hidden',
-            backgroundColor:'black',
           }]}
         >
 
@@ -219,6 +218,7 @@ class Card extends React.Component{
             alwaysBounceHorizontal={false}
             horizontal={false}
             removeClippedSubviews={true}
+            showsVerticalScrollIndicator={false}
             canCancelContentTouches={false}
             contentContainerStyle={{
               alignItems:'center',
@@ -564,7 +564,6 @@ class Card extends React.Component{
           <View
             key={'navbarholder'}
             style={{
-              backgroundColor:'black',
 
               width: DeviceWidth,
               position:'absolute',
@@ -595,19 +594,20 @@ class Card extends React.Component{
           <ScrollView
             style={[{
               margin:0,
-
               paddingTop:0,
               top:0,
               left:0,
-              right:0,borderTopLeftRadius:8,borderTopRightRadius:8, overflow:'hidden',
-              backgroundColor:'black',
-
-
+              backgroundColor:colors.dark,
+              right:0,
             }]}
             canCancelContentTouches={true}
             horizontal={false}
             vertical={true}
             ref={'scrollbox'}
+            contentContainerStyle={{
+              borderRadius:8, overflow:'hidden',
+            }}
+            showsVerticalScrollIndicator={false}
             alwaysBounceHorizontal={false}
             scrollEnabled={true}
             contentInset={{top: 0,left: 0, bottom: 0, right: 0}}
@@ -876,11 +876,21 @@ flexDirection:'column',alignItems:'center',justifyContent:'center',
                       <Text style={{color:colors.mandy,textAlign:'center'}}>Report or Block this user</Text>
                     </View>
                   </TouchableOpacity>
-
+                  <TouchableOpacity  style={{flexDirection:'column',alignItems:'center',
+  justifyContent:'center',}} onPress={this.props.toggleProfile}>
+                    <Image
+                      resizeMode={Image.resizeMode.contain}
+                      style={{height:12,width:12,marginTop:10}}
+                      source={{uri: 'assets/close@3x.png'}}
+                    />
+                  </TouchableOpacity>
                 </View>
               </View>
 
             </Animated.View>
+
+
+
           </ScrollView>
           <View
             key={/* TODO: Implement sanity */  'navbarholder'+potential.user.id}
@@ -908,8 +918,8 @@ flexDirection:'column',alignItems:'center',justifyContent:'center',
                   height:55,
                   marginTop:5,
                   backgroundColor:'transparent',
-                  borderTopLeftRadius:8,
-                  borderTopRightRadius:8,
+                  // borderTopLeftRadius:8,
+                  // borderTopRightRadius:8,
                   overflow:'hidden',
                 }}
                 titleColor={colors.white}

@@ -185,5 +185,4 @@ const PotentialsRoute = {
 };
 
 
-const MainRoutes = { PotentialsRoute, SettingsRoute, MatchesRoute, ChatRoute }
-export default MainRoutes
+ module.exports = { PotentialsRoute, SettingsRoute, MatchesRoute, ChatRoute }

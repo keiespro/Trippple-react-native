@@ -384,7 +384,15 @@ class MatchesInside extends Component{
   render(){
     return (
       <View>
-
+      {__TEST__ && <FakeNavBar
+        hideNext={true}
+        backgroundStyle={{backgroundColor:colors.shuttleGray}}
+        titleColor={colors.white}
+        title={'MESSAGES'} titleColor={colors.white}
+        onPrev={(nav,route)=> nav.pop()}
+        customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12}} source={{uri:'assets/close@3x.png'}} />
+        }
+      />}
         <MatchList
           user={this.props.user}
           dataSource={this.state.dataSource}

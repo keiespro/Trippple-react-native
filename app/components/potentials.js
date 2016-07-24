@@ -21,8 +21,9 @@ import MatchActions from '../flux/actions/MatchActions'
 import TimerMixin from 'react-timer-mixin'
 import reactMixin from 'react-mixin'
 import TaskManager  from '../TaskManager'
-import MainRoutes from './MainRoutes'
+var MainRoutes = require('./MainRoutes')
 
+console.log(MainRoutes);
 const  { PotentialsRoute } = MainRoutes
 
 class Potentials extends React.Component{
@@ -92,8 +93,8 @@ class PotentialsPage extends React.Component{
   componentDidMount(){
     AppState.addEventListener('change', this._handleAppStateChange.bind(this));
 
-    if(this.props.user.status == 'onboarded'){
-      MatchActions.getPotentials.defer(this.props.user.relationship_status);
+    if(this.props.user.status){
+      MatchActions.getPotentials(this.props.user.relationship_status);
       MatchActions.getMatches.defer();
 
     }
@@ -166,19 +167,19 @@ class PotentialsPage extends React.Component{
     return (
       <View
         style={{
-          backgroundColor:this.state.profileVisible ? 'black' : colors.outerSpace,
+          backgroundColor: this.state.profileVisible ? colors.dark : colors.outerSpace,
           width:DeviceWidth,
           height:DeviceHeight,
           top:0
         }}>
-        {!__TEST__ && <TaskManager navigator={this.props.navigator} user={user} triggers={this.props.potentialsMeta} />}
+        {!global.__TEST__ && <TaskManager navigator={this.props.navigator} user={user} triggers={this.props.potentialsMeta} />}
 
         {!this.state.profileVisible ? NavBar : null}
 
          <View style={[
            styles.cardStackContainer,
            {
-             backgroundColor:this.state.profileVisible ? 'black' : 'transparent',
+             backgroundColor: 'transparent',
              position:'relative',
              top: 50//this.state.profileVisible ? 25 : 55
            }]}>
