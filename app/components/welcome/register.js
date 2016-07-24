@@ -18,7 +18,7 @@ import {MagicNumbers} from '../../DeviceConfig.js'
 
 import TopTabs from '../../controls/topSignupSigninTabs'
 import PhoneNumberInput from '../../controls/phoneNumberInput.js'
-import PinScreen from '../pin'
+import PinScreen from './pin'
 
 import reactMixin from 'react-mixin'
 import TimerMixin from 'react-timer-mixin'

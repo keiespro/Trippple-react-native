@@ -81,7 +81,7 @@ class Carousel extends Component{
             marginTop: i%l == 0 ? MagicNumbers.screenPadding*1.8 : MagicNumbers.screenPadding,
             width: i%l == 0 ? MagicNumbers.screenWidth : MagicNumbers.screenPadding*5
           } } source={slide.img} defaultSource={slide.img} resizeMode={Image.resizeMode.contain}/>
-    <View style={[styles.textwrap,{marginBottom:5}]}><Text style={[styles.textplain,
+          <View style={[styles.textwrap,{marginBottom:5}]}><Text style={[styles.textplain,
           {
             fontFamily:'Montserrat',
             fontWeight:'700',
@@ -91,7 +91,7 @@ class Carousel extends Component{
           ]}>{slide.title}</Text></View>
 
         {slide.content &&  <View style={styles.textwrap}><Text style={[styles.textplain,{
-            fontSize: MagicNumbers.is4s ? 18 : 22,
+            fontSize: MagicNumbers.is5orless ? 18 : 22,
           }]}>{slide.content}</Text></View>}
         </View>
       )
@@ -101,7 +101,7 @@ class Carousel extends Component{
               // activeDot={<View style={[styles.dot,styles.activeDot]} />}
 
     return (
-        <View>
+        <View collapsable={true}>
         <ScrollView
           onScroll={(e)=>{
             let off = e.nativeEvent.contentOffset.x;
@@ -126,21 +126,25 @@ class Carousel extends Component{
           scrollEventThrottle={DeviceWidth*5}
           showsHorizontalScrollIndicator={ false}
           showsVerticalScrollIndicator={ false}
-          scrollsToTop={ false}
+          scrollsToTop={false}
           contentOffset={{x:this.state.offset,y:0}}
-          removeClippedSubviews={ true}
+          removeClippedSubviews={true}
           grayDots={true}
-          contentContainerStyle={{    alignItems:'center',
-              justifyContent:'center',
-              alignSelf:'stretch',position:'absolute',top:0,left:0
-}}
+          contentContainerStyle={{
+            alignItems:'center',
+            justifyContent:'center',
+            alignSelf:'stretch',
+          }}
+          style={{
+            height:DeviceHeight-80
+          }}
          >
         {welcomeSlides}
       </ScrollView>
 
       <View pointerEvents='none' style={{
           position: 'absolute',
-          bottom: 25,
+          bottom: MagicNumbers.screenPadding/2,
           left: 0,
           right: 0,
           flexDirection: 'row',

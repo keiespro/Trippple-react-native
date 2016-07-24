@@ -17,7 +17,7 @@ import Auth from './auth'
 import Facebook from '../../screens/registration/facebook'
 import Analytics from '../../utils/Analytics'
 
-
+import SettingsDebug from '../SettingsDebug'
 const LOGIN   = 'login';
 const REGISTER = 'register'
 
@@ -79,9 +79,15 @@ const IntroScreen = React.createClass({
   render(){
     return(
       <View style={[styles.container]}>
-        <View style={styles.wrap}>
-          <Carousel/>
-        </View>
+        <Carousel/>
+        {__DEV__ &&
+          <TouchableHighlight
+            style={{position:'absolute',top:0,left:0}}
+            onPress={ () => {this.props.navigator.push({component:SettingsDebug}) }}
+             underlayColor={colors.outerSpace}>
+             <Text style={styles.buttonText}>DEV</Text>
+          </TouchableHighlight>
+        }
         <View style={styles.bottomButtons}>
           <TouchableHighlight
           ref="loginbtn"
@@ -137,9 +143,9 @@ const styles = StyleSheet.create({
     padding:0,
     height: DeviceHeight,
     backgroundColor: colors.outerSpace,
-    alignItems:'center',
-justifyContent:'center',
-alignSelf:'stretch',
+    alignItems:'stretch',
+    justifyContent:'space-between',
+    alignSelf:'stretch',
 
   },
   textplain:{
@@ -224,13 +230,11 @@ alignSelf:'stretch',
     backgroundColor: colors.mediumPurple,
   },
   wrap:{
-    marginTop:20,
+    marginTop:0,
     alignItems: 'center',
-    flex:1,
     justifyContent:'center',
     alignSelf: 'stretch',
-    height:undefined,
-    paddingBottom: 100
+    paddingBottom: 0
   },
   bottomButtons: {
     height: 80,

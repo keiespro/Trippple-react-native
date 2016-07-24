@@ -17,7 +17,7 @@ import AuthErrorStore from '../../flux/stores/AuthErrorStore'
 
 import TopTabs from '../../controls/topSignupSigninTabs'
 import PhoneNumberInput from '../../controls/phoneNumberInput'
-import PinScreen from '../pin'
+import PinScreen from './pin'
 import {MagicNumbers} from '../../DeviceConfig'
 import reactMixin from 'react-mixin'
 import TimerMixin from 'react-timer-mixin'
