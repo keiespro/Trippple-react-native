@@ -1,7 +1,7 @@
 import React from "react";
-import ReactNative, {View, AppRegistry,SnapshotViewIOS, Dimensions} from "react-native";
+import ReactNative, {View, AppRegistry, Dimensions, StyleSheet,Navigator} from "react-native";
 import path from 'path'
-
+import Snapshotter from './snapshotter'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
@@ -10,10 +10,17 @@ import colors from './app/utils/colors'
 global.__TEST__ = true;
 __TEST__ = true;
 
+global.__DEV__ = false;
+__DEV__ = false;
+
+global.__DEBUG__ = false;
+__DEBUG__ = false;
+
+
 const ScreensList = [
 require('./app/components/welcome/intro'),
 require('./app/components/welcome/auth'),
-require('./app/components/pin'),
+require('./app/components/welcome/pin'),
 require('./app/components/settings'),
 require('./app/components/SettingsBasic'),
 require('./app/components/SettingsPreferences'),
@@ -44,38 +51,74 @@ require('./app/modals/CameraRollPermissions'),
 
 function TestHarness(initialProps){
   ScreensList.forEach(s => {
-    let Screen = s.default ? s.default : s
-    let name = Screen.displayName || null;
-    console.log(Screen);
+    const Screen = s.default || s;
+    const name = Screen.displayName || null;
+
     if(!name){
-
-      console.log('missing displayName for ',Screen);
-
-    }else{
-
-      console.log("Screen: "+name);
-      const Snapshotter = (props => (
-          <SnapshotViewIOS style={{backgroundColor:colors.outerSpace,height:DeviceHeight,width:DeviceWidth}}>
-            <Screen
-              {...initialProps}
-              {...props}
-              navigator={{
-                getCurrentRoutes:()=>{return {}},
-                pop:()=>{},
-                replace:()=>{}
-              }}
-            />
-          </SnapshotViewIOS>
-      ));
-      AppRegistry.registerComponent(name, () => Snapshotter);
-
+      console.log('Missing displayName for ', Screen);
+      return
     }
-  });
+
+    const Snapshot = (props => (
+
+        <Navigator
+          renderScene={(route, navigator)=>{
+            console.log(route);
+            console.log(navigator);
+            var navBar;
+            const RouteComponent = route.component;
+
+            if (route.navigationBar) {
+              navBar = React.cloneElement(route.navigationBar, {
+                navigator: navigator,
+                route: route,
+              });
+            }
+
+            return (
+              <Snapshotter
+                testIdentifier={name}
+                style={styles.frame}
+              >
+
+                {route.id == 'settings' ? navBar : null}
+                <RouteComponent
+                  navigator={navigator}
+                  route={route}
+                  navBar={navBar}
+                  {...route.passProps}
+                />
+
+                {route.id == 'potentials' || route.id == 'settings' || route.id == 'matches' ? null : navBar}
+              </Snapshotter>
+            )
+          }}
+          configureScene={route => (route && route.sceneConfig ? route.sceneConfig : Navigator.SceneConfigs.FloatFromBottom)}
+          initialRoute={{
+            component: Screen,
+            id: name.toLowerCase(),
+            passProps: {
+              ...initialProps,
+              ...props,
+
+            }
+          }}
+        />
+    ));
+
+    AppRegistry.registerComponent(name, () => Snapshot);
+
+  })
 
   console.log("Registered Testable Components:", AppRegistry.getAppKeys());
-
 }
 
-
+const styles = StyleSheet.create({
+  frame:{
+    backgroundColor:colors.outerSpace,
+    height:DeviceHeight,
+    width:DeviceWidth
+  }
+})
 
 export default TestHarness
