@@ -16,6 +16,7 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import Analytics from '../utils/Analytics'
 const {OSPermissions} = NativeModules
+import AppActions from '../flux/actions/AppActions'
 
 import {
   HAS_SEEN_NOTIFICATION_REQUEST,
@@ -62,21 +63,22 @@ class PermissionSwitches extends React.Component{
 
     if(!this.state.LocationSetting && !OSLocation){
 
-      this.props.navigator.push({
+      AppActions.showInModal({
         component:CheckPermissions,
         name:'LocationPermissionModal',
         passProps:{
           title:'PRIORITIZE LOCAL',
           subtitle:'Should we prioritize the matches closest to you?',
           failedTitle: 'LOCATION DISABLED',
-          hideModal: () => {this.props.navigator.pop()},
+          hideModal: () => {AppActions.killModal()},
           failCallback: (val)=>{
             this.setState({LocationSetting:false})
+            AppActions.killModal()
           },
           successCallback: (coords)=>{
             this.setState({LocationSetting:true})
             Settings.set({LocationSetting: true })
-
+            AppActions.killModal()
             Analytics.extra('Permission', {
               name: `got location`,
               type: 'tap',
@@ -109,14 +111,16 @@ class PermissionSwitches extends React.Component{
         },0);
 
         if(!permResult){
-          this.props.navigator.push({
+          AppActions.showInModal({
             component:NotificationPermissions,
             passProps:{
+              hideModal: () => {AppActions.killModal()},
               failCallback: (val)=>{
-                this.props.navigator.pop();
+                AppActions.killModal()
                 this.setState({ NotificationSetting: val })
               },
               successCallback: (val)=>{
+                AppActions.killModal()
                 this.setState({ NotificationSetting: true })
               }
             }

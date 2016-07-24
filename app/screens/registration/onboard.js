@@ -239,7 +239,6 @@ class Onboarding extends Component{
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     height:DeviceHeight,
     width:DeviceWidth,
     padding:0,

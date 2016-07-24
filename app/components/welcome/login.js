@@ -136,7 +136,6 @@ class Login extends Component{
 
 
 reactMixin.onClass(Login, TimerMixin);
-reactMixin.onClass(Login, TrackKeyboardMixin);
 reactMixin.onClass(Login, SingleInputScreenMixin);
 
 Login.displayName = "Login"

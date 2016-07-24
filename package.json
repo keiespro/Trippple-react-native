@@ -1,13 +1,10 @@
 {
   "name": "Trippple",
-  "version": "0.0.1",
+  "version": "2.4.3",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=development node node_modules/react-native/local-cli/cli.js start",
-    "startclear": "NODE_ENV=development node node_modules/react-native/local-cli/cli.js start --reset-cache",
-    "autoupdate": "NODE_ENV=production ./AutoUpdater/bin/deploy-ota.js",
-    "bundle": "NODE_ENV=production react-native bundle --reset-cache --entry-file index.ios.js  --platform ios —dev false --bundle-output ios/trippple/main.jsbundle --assets-dest ./assets",
-    "sim-dist": "npm run dist; xcodebuild -project ios/Trippple.xcodeproj -scheme Trippple -derivedDataPath build",
+    "start": "NODE_ENV=development react-native start --reset-cache",
+    "bundle": "NODE_ENV=production react-native bundle  --entry-file index.ios.js --verbose --reset-cache  --platform ios —-dev false --assets-dest assets --minify true --bundle-output main.jsbundle",
     "sim": "NODE_ENV=development xcodebuild -project ios/Trippple.xcodeproj -scheme Trippple -derivedDataPath build",
     "unit-tests": "node_modules/mocha/bin/mocha --compilers js:./test/unit/compile.js ./test/unit/initTest.js",
     "unit-tests-watch": "node_modules/mocha/bin/mocha --compilers js:./test/unit/compile.js ./test/unit/initTest.js --watch",

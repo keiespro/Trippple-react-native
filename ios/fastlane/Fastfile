@@ -19,7 +19,7 @@ platform :ios do
   lane :test do
     scan(
       scheme: "Trippple",
-      devices: ["iPhone 6 Plus", "iPhone 6s", "iPhone 5s"],
+      devices: ["iPhone 6 Plus", "iPhone 5s"],
       output_types: "html"
     )
   end

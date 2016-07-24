@@ -116,7 +116,7 @@ class TopLevel extends Component{
   }
 
   render(){
-    const user = this.props.user || {status:'unknown'}
+    const user = this.props.user || {}
     return (
       <View style={{flex:10,backgroundColor:colors.outerSpace, width:DeviceWidth,height:DeviceHeight}}>
 
@@ -143,8 +143,6 @@ class TopLevel extends Component{
             checkMarkCopy={this.state.checkMarkCopy || this.props.AppState.checkMarkCopy || ''}
             checkmarkRequireButtonPress={this.props.AppState.checkmarkRequireButtonPress || false}
           /> : <View/> }
-
-        <LoadingOverlay key="LoadingOverlay" isVisible={this.props.AppState.showOverlay || this.state.showOverlay} />
 
         <Notifications user={this.props.user} AppState={this.props.AppState} />
 
@@ -187,7 +185,7 @@ class App extends Component{
 
     return (
           <AltContainer stores={TopLevelStores}>
-            <TopLevel startScreen={this.props.startScreen}/>
+            <TopLevel />
           </AltContainer>
 
     );

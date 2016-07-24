@@ -1,3 +1,4 @@
+
 /* @flow */
 // ISSUES:
 // setting centerContent=true on a scrollview changes the entire layout system
@@ -315,32 +316,6 @@ class Card extends React.Component{
                     />
                   </View>
 
-{/*
-                  { potential.couple && potential.partner && potential.couple.image && potential.couple.image.length && potential.couple.image != '' ?
-                    <View
-                    underlayColor={colors.mediumPurple}
-                    pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
-                      key={`${potential.id}-touchableimg`}
-                      style={[styles.imagebg,{ height:undefined, width: undefined,}]}
-                      onPress={this.openProfileFromImage.bind(this)}
-                    >
-                      <Animated.Image
-                        source={{uri: potential.couple.image}}
-                        defaultSource={{uri: 'assets/defaultuser.png'}}
-                        key={`${potential.id}-cimg`}
-                        style={[styles.imagebg,{
-                          width: undefined,
-                          height:undefined,
-
-                          opacity:  this.props.isTopCard && this.props.pan ? this.props.pan.x.interpolate({
-                            inputRange: [-300, -100, 0, 100, 300],
-                            outputRange: [0,1,1,1,0]
-                          }) : 1
-                        }]}
-                        resizeMode={Image.resizeMode.cover}
-                      />
-                    </View> : null
-                  }*/}
 
                 </Swiper> :
                 <View style={{
@@ -383,9 +358,8 @@ class Card extends React.Component{
               <View
                 key={`${potential.id || potential.user.id}-bottomview`}
                 style={{
-                  height: isTopCard ? 130 : 130,
-                  marginTop: isTopCard ? -30 : -30,
-
+                  height: isTopCard ? 120 : 120,
+                  marginTop: isTopCard ? -20 : -20,
                   marginLeft:20,
                   right:0,
                   left:0,
@@ -431,47 +405,6 @@ class Card extends React.Component{
                       <Text style={{color:colors.dark,textAlign:'center',fontSize:18}}></Text>
                       </View>}
 
-                {/*{this.props.rel == 'single'  ?
-
-                  <View style={{
-                  height:74,
-                  top:MagicNumbers.is4s ? -55 : -45,
-                  right:15,
-                  alignSelf:'flex-end',
-                  position:'absolute',
-                  padding:5,
-                  alignItems:'flex-end',
-                  backgroundColor:'transparent',
-                  flexDirection:'row'}}
-                  >
-                    <TouchableHighlight
-                      underlayColor={colors.mediumPurple} onPress={this.openProfileFromImage.bind(this)}
-                      underlayColor={colors.mediumPurple} style={styles.circleimagewrap}
-                      >
-                        <Image
-                          source={{uri: this.props.potential.user.image_url}}
-                          key={this.props.potential.user.id + 'img'}
-                          style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller), {
-                            marginRight:0,
-                            opacity: this.state.activeIndex == 1 ? 1 : 0.9
-                          }]}
-                          />
-                        </TouchableHighlight>
-                        <TouchableHighlight
-                          underlayColor={colors.mediumPurple} onPress={this.openProfileFromImage.bind(this) }
-                          underlayColor={colors.mediumPurple} style={styles.circleimagewrap}
-                          >
-                            <Image
-                              source={{uri: this.props.potential.partner.image_url}}
-                              key={this.props.potential.partner.id + 'img'}
-                              style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller),{
-                                opacity: this.state.activeIndex == 1 ? 1 : 0.9
-                              }]}
-                              />
-                            </TouchableHighlight>
-                          </View> : null
-                }*/}
-
                 </View>
               </Animated.View>
 
@@ -497,24 +430,7 @@ class Card extends React.Component{
                   }
                 ],
 
-                      // transform: [
-                //   {
-                //     scale: this.props.pan ? this.props.pan.x.interpolate({
-                //       inputRange: [-DeviceWidth/2,-50,0], outputRange: [2,0.5,0]}) : 0
-                //   },
-                //   {
-                //     translateX: this.props.pan ? this.props.pan.x.interpolate({
-                //       inputRange: [-DeviceWidth/3,0],
-                //       outputRange: [50,40]
-                //     }) : 0
-                //   },
-                //   {
-                //     translateY: this.props.pan ? this.props.pan.y.interpolate({
-                //       inputRange: [0,0,DeviceHeight,DeviceHeight],
-                //       outputRange: [(DeviceHeight/2)-10,(DeviceHeight/2),DeviceHeight/2+10,DeviceHeight/2+100]
-                //     }) : 0
-                //   }
-                // ],
+
               marginLeft: 0
 
               }]}
@@ -806,53 +722,6 @@ flexDirection:'column',alignItems:'center',justifyContent:'center',
             </View>
           </TouchableHighlight>
 
-              {/*{this.props.rel == 'single' &&
-                <View style={{
-                  height:60,
-                  top:-30,
-                  position:'absolute',
-                  width:125,
-                  right:MagicNumbers.screenPadding/2,
-                  backgroundColor:'transparent',
-                  flexDirection:'row'}}
-                >
-                  <TouchableHighlight
-                    underlayColor={colors.mediumPurple}
-
-                                        this.refs.scrollbox.scrollTo({x:0,y:0});
-                } }
-                    underlayColor={colors.mediumPurple}
-                    style={[styles.circleimagewrap,{ backgroundColor:colors.outerSpace }]}
-                  >
-                    <Image
-                      source={{uri: this.props.potential.user.image_url}}
-                      key={this.props.potential.user.id + 'img'}
-                      style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller), {
-                        marginRight:0,
-                        opacity: this.state.activeIndex == 1 ? 1 : 0.9
-                      }]}
-                    />
-                  </TouchableHighlight>
-                  <TouchableHighlight
-                    underlayColor={colors.mediumPurple}
-
-                                        this.refs.scrollbox.scrollTo({x:0,y:0});
-                  } }
-
-                    underlayColor={colors.mediumPurple}
-                    style={[styles.circleimagewrap, { backgroundColor:colors.outerSpace }]}
-                  >
-                    <Image
-                      source={{uri: this.props.potential.partner.image_url}}
-                      key={this.props.potential.partner.id + 'img'}
-                      style={[(DeviceHeight > 568 ? styles.circleimage : styles.circleimageSmaller), {
-                        marginRight:0,
-                        opacity: this.state.activeIndex == 1 ? 1 : 0.9
-                      }]}
-                    />
-                  </TouchableHighlight>
-                </View>
-              }*/}
 
                 <View style={{top:-50,flexDirection:'column',alignItems:'center',left:0,justifyContent:'center',backgroundColor:colors.outerSpace,width:DeviceWidth,}}>
 

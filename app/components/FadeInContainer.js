@@ -13,7 +13,7 @@ class FadeInContainer extends Component{
     super()
     this.state = {
       shouldRenderChildren: true,// !props.delayRender,
-      fadeAmount: new Animated.Value(0.0)
+      fadeAmount: new Animated.Value(props.fadeOut ? 1.0 : 0.0)
     }
   }
   componentDidMount(){
@@ -33,7 +33,7 @@ class FadeInContainer extends Component{
   fadeIn(){
     Animated.timing( this.state.fadeAmount,
       {
-        toValue: 1.0,
+        toValue: this.props.fadeOut ? 0.0 : 1.0,
         duration: this.props.duration || 500,
         delay: this.props.delayAmount || 0,
         // easing: Easing.in(Easing.ease)
