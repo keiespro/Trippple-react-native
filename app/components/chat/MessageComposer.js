@@ -25,6 +25,7 @@ class MessageComposer extends React.Component{
     super()
     this.state = {
       inputFocused: false,
+      height:0,
       bottomColor: new Animated.Value(0)
 
     }
@@ -35,10 +36,10 @@ class MessageComposer extends React.Component{
 
     this._textInput.setNativeProps({text: ''});
     this.props.sendMessage(message)
+    this.setState({height:0})
   }
 
   render(){
-    console.log(this.props.textInputValue.length);
     return (
 
       <View style={styles.messageComposer}>
@@ -52,6 +53,7 @@ class MessageComposer extends React.Component{
               inputRange: [0, 100],
               outputRange: [colors.shuttleGrayAnimate,colors.whiteAnimate],
             }) : colors.shuttleGray,
+            height: Math.max(40, this.state.height)+6
           }]}
           returnKeyType={'default'}
           keyboardAppearance={'dark'}
@@ -78,24 +80,29 @@ class MessageComposer extends React.Component{
               }))
 
             }}
-            onChangeText={this.props.onTextInputChange}
+            onChange={(event)=>{
+              this.setState({
+                height: event.nativeEvent.contentSize.height,
+              });
+              this.props.onTextInputChange(event.nativeEvent.text)
+            }}
             >
-            <Text style={{ fontSize:17, padding:1, paddingBottom:7.5, color:colors.white, }} >{
+            <Text style={{ fontSize:18, padding:1, height: Math.max(40, this.state.height+6), flex:1,color:colors.white, }} >{
                 this.props.textInputValue || ''
             }</Text>
         </AnimatedTextInput>
 
-        <TouchableHighlight
-          style={styles.sendButton}
-          underlayColor={colors.outerSpace}
+        <TouchableOpacity
+          style={[styles.sendButton,{backgroundColor:colors.dark}]}
           onPress={this.props.textInputValue.length ? this.sendMessage.bind(this) : null}
           >
           <Text style={[styles.sendButtonText,{
-              color: this.props.textInputValue.length ? colors.white : colors.shuttleGray,
+            backgroundColor:'transparent',
+              color: this.props.textInputValue.length ? colors.white : colors.white20,
               fontFamily:'Montserrat',
               textAlign:'center'
             }]}>SEND</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
 
 
@@ -122,10 +129,11 @@ const styles = StyleSheet.create({
     padding: 5,
     marginLeft: 5,
     borderRadius: 5,
-    paddingVertical: 10,
-    backgroundColor: colors.dark,
+    // paddingVertical: 0,
+    marginBottom:10,
+    // backgroundColor: colors.dark,
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'center'
   },
   sendButtonText:{
@@ -139,9 +147,11 @@ const styles = StyleSheet.create({
     backgroundColor:colors.dark,
     alignItems:'center',
     justifyContent:'center',
+    alignSelf:'flex-end',
     width:DeviceWidth,
     margin:0,
-    height:80,
+    minHeight:80,
+    bottom:0,
     paddingLeft:20,
     paddingVertical:15,
     paddingRight:10,
@@ -150,10 +160,11 @@ const styles = StyleSheet.create({
   },
   messageComposerInput:{
     flex:1,
-    paddingHorizontal:3,
+    paddingHorizontal:0,
     paddingTop:0,
-    paddingBottom:10,
-    fontSize:17,
+    paddingBottom:0,
+
+    fontSize:18,
     color:colors.white,
     borderBottomColor:colors.white,
     borderBottomWidth:1,

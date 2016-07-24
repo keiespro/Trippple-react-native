@@ -54,7 +54,6 @@
 //#define RCT_DEV NO
 //#endif
 
-#define ENV @"d"
 
 @interface AppDelegate() <RCTBridgeDelegate>
 @end
@@ -68,7 +67,6 @@
 
   [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceAlert];
 
-  NSLog(@"RUNNING IN %@",ENV);
 
   // BEGIN NEWRELIC
   [NRLogger setLogLevels:NRLogLevelError];
@@ -125,21 +123,18 @@
 
 - (NSURL *)sourceURLForBridge:(__unused RCTBridge *)bridge
 {
+
   NSURL *sourceURL;
-
-
-//  if([ENV isEqual:@"production"]){
+  NSLog(@"%s",getenv("RELEASE"));
+  if(getenv("RELEASE")){
     sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-//  }else{
-    NSURL *devURL = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
-//  }
-//  NSURL *jsCodeLocation = [[RCTBundleURLProvider sharedSettings] packagerHost:@"localhost:8081"
-//                                                                          jsBundleURLForBundleRoot:@"index.ios"
-//                                                                         fallbackResource:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
-
-
-
-  return devURL;
+  }else{
+    [[RCTBundleURLProvider sharedSettings] setEnableDev:YES];
+    [[RCTBundleURLProvider sharedSettings] setJsLocation:@"x.local"];
+    sourceURL = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios"
+                                                                 fallbackResource:@"main"];
+  }
+  return sourceURL;
 }
 
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings

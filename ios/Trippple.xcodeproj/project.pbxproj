@@ -368,8 +368,6 @@
 		AC8958E41CFD3467009AB211 /* RNHotline.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNHotline.xcodeproj; path = ../lib/RNHotline/RNHotline.xcodeproj; sourceTree = "<group>"; };
 		AC9D8D311D3F34FF009D4C78 /* TripppleSnapshotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripppleSnapshotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC9D8D351D3F34FF009D4C78 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ACA5214E1CA297C5007B9F71 /* TripppleUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TripppleUITests.m; sourceTree = "<group>"; };
-		ACA521501CA297C5007B9F71 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACA521741CA2981E007B9F71 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Build/Products/Debug-iphonesimulator/libPods.a"; sourceTree = "<group>"; };
 		ACA80C711CE862CF0081A99F /* RCTTest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTTest.xcodeproj; path = "../node_modules/react-native/Libraries/RCTTest/RCTTest.xcodeproj"; sourceTree = "<group>"; };
 		ACB070371D08998A00B8E4A9 /* RCTPushNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTPushNotificationManager.h; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotificationManager.h"; sourceTree = "<group>"; };
@@ -651,7 +649,6 @@
 				ACC332181CE90DB700DCC3CC /* FBSDKLoginKit.framework */,
 				ACC332191CE90DB700DCC3CC /* FBSDKShareKit.framework */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				ACA5214D1CA297C5007B9F71 /* TripppleUITests */,
 				AC9D8D321D3F34FF009D4C78 /* TripppleSnapshotTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				A999B3CF69585EF60C549767 /* Frameworks */,
@@ -778,15 +775,6 @@
 				AC04A5801D41130000E00362 /* TripppleSnapshotTest.m */,
 			);
 			path = TripppleSnapshotTests;
-			sourceTree = "<group>";
-		};
-		ACA5214D1CA297C5007B9F71 /* TripppleUITests */ = {
-			isa = PBXGroup;
-			children = (
-				ACA5214E1CA297C5007B9F71 /* TripppleUITests.m */,
-				ACA521501CA297C5007B9F71 /* Info.plist */,
-			);
-			path = TripppleUITests;
 			sourceTree = "<group>";
 		};
 		ACA80C721CE862CF0081A99F /* Products */ = {
@@ -1577,7 +1565,7 @@
 		};
 		AC467EBA1C523398009F2FBD /* Bundle RN images and code */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -1585,7 +1573,7 @@
 			name = "Bundle RN images and code";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "../node_modules/react-native/packager/react-native-xcode.sh";
 			showEnvVarsInLog = 0;
@@ -1725,8 +1713,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
 				PRODUCT_NAME = Trippple;
-				PROVISIONING_PROFILE = "ec76765b-f8ac-4f59-8e08-28cee05ed45d";
-				PROVISIONING_PROFILE_SPECIFIER = 3D5DY3UN4M/1;
+				PROVISIONING_PROFILE = "d81bd077-9ac0-4dca-aeed-67bb71883b94";
+				PROVISIONING_PROFILE_SPECIFIER = "3D5DY3UN4M/XC Ad Hoc: co.trippple";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1784,8 +1772,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
 				PRODUCT_NAME = Trippple;
-				PROVISIONING_PROFILE = "ec76765b-f8ac-4f59-8e08-28cee05ed45d";
-				PROVISIONING_PROFILE_SPECIFIER = 3D5DY3UN4M/1;
+				PROVISIONING_PROFILE = "d81bd077-9ac0-4dca-aeed-67bb71883b94";
+				PROVISIONING_PROFILE_SPECIFIER = "3D5DY3UN4M/XC Ad Hoc: co.trippple";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1844,7 +1832,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
-				PROVISIONING_PROFILE = "ec76765b-f8ac-4f59-8e08-28cee05ed45d";
+				PROVISIONING_PROFILE = "b06ef6cb-bb1c-458d-b61d-64e24d7b443f";
 				SDKROOT = iphoneos9.3;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1894,7 +1882,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
-				PROVISIONING_PROFILE = "ec76765b-f8ac-4f59-8e08-28cee05ed45d";
+				PROVISIONING_PROFILE = "b06ef6cb-bb1c-458d-b61d-64e24d7b443f";
 				SDKROOT = iphoneos9.3;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1924,7 +1912,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = trippple.TripppleSnapshotTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "b06ef6cb-bb1c-458d-b61d-64e24d7b443f";
 				SDKROOT = iphoneos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Trippple.app/Trippple";
 			};
@@ -1949,7 +1937,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = trippple.TripppleSnapshotTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "b06ef6cb-bb1c-458d-b61d-64e24d7b443f";
 				SDKROOT = iphoneos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Trippple.app/Trippple";
 			};

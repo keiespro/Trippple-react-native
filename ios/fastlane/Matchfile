@@ -1,0 +1,8 @@
+git_url "https://github.com/trippple/certificates.git"
+
+#  can be: appstore, adhoc or development
+type "development"
+# type "appstore"
+
+app_identifier "co.trippple"
+# username "team@trippple.co" # Your Apple Developer Portal username

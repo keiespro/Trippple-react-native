@@ -5,7 +5,3 @@ target "Trippple" do
   pod 'Fabric'
   pod 'Crashlytics'
 end
-
-target "TripppleUITests" do
-  pod 'Mixpanel'
-end

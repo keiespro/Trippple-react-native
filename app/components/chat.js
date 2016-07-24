@@ -2,7 +2,7 @@
 
 import React, {Component} from "react";
 
-import {StyleSheet, Text, View, InteractionManager, Image, TextInput, TouchableHighlight, ListView, LayoutAnimation, TouchableOpacity, ScrollView, Animated, PixelRatio, Easing, Dimensions, KeyboardAvoidingView} from "react-native";
+import {StyleSheet, Text, View, InteractionManager, Image, TextInput, TouchableHighlight, ListView, LayoutAnimation, Keyboard, TouchableOpacity, ScrollView, Animated, PixelRatio, Easing, Dimensions, KeyboardAvoidingView} from "react-native";
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -109,20 +109,34 @@ class ChatInside extends Component{
       lastPage: 0,
     }
   }
-
-  shouldComponentUpdate(nProps,nState){
-    const should = this.state.isVisible != nState.isVisible || this.state.textInputValue != nState.textInputValue || (this.state.isKeyboardOpened != nState.isKeyboardOpened) || !this.props.messages || !nProps.messages || nProps.messages.length > this.props.messages.length || nProps.messages[0].created_timestamp > this.props.messages[0].created_timestamp;
-    console.log('Update chat? ',should);
-    return should
+  //
+  // shouldComponentUpdate(nProps,nState){
+  //   const maybe = (this.state.isVisible != nState.isVisible || this.state.textInputValue != nState.textInputValue || (this.state.isKeyboardOpened != nState.isKeyboardOpened));
+  //
+  //   const kinda =  maybe || nProps && nProps.messages && nProps.messages[0] && nProps.messages[0].created_timestamp && this.props && this.props.messages && this.props.messages[0] && this.props.messages[0].created_timestamp;
+  //
+  //   const should =  (kinda && nProps.messages.length > this.props.messages.length) || (kinda && nProps.messages[0].created_timestamp > this.props.messages[0].created_timestamp);
+  //   console.log('Update chat? ',should);
+  //   return this.state.isKeyboardOpened != nState.isKeyboardOpened || typeof should == 'undefined' ?  true : false
+  // }
+  componentDidMount(){
+    Keyboard.addListener('keyboardWillChangeFrame', this.onKeyboardChange.bind(this));
   }
-
+  componentWillUnmount(){
+    Keyboard.removeListener('keyboardWillChangeFrame', this.onKeyboardChange.bind(this));
+  }
   componentWillReceiveProps(newProps){
     if(!this.ds || !newProps.messages) {return }
     this.setState({
       dataSource: this.ds.cloneWithRows(newProps.messages)
     })
   }
-
+onKeyboardChange(event){
+  const {duration, easing, endCoordinates,startCoordinates} = event;
+  this.setState({
+    isKeyboardOpened: startCoordinates.screenY == DeviceHeight
+  })
+}
   saveToStorage(){
     AsyncStorage.setItem('ChatStore', alt.takeSnapshot(ChatStore))
       .catch((error) => {Analytics.log('AsyncStorage error: ' + error.message)})
@@ -203,16 +217,16 @@ class ChatInside extends Component{
     return (
       <ScrollView
         {...this.props}
-        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight}}
+        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth,}}
         contentInset={{top:0,right:0,left:0,bottom:50}}
         automaticallyAdjustContentInsets={true}
         scrollEnabled={false}
         key={'scrollnomsgs'+this.props.user.id}
         removeClippedSubviews={true}
-        onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
-        onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
         style={{  alignSelf:'stretch',width:DeviceWidth,}}
       >
+      <KeyboardAvoidingView  style={{flex:1,width:DeviceWidth,height:DeviceHeight,backgroundColor:colors.outerSpace}} behavior={'padding'}>
+
         <FadeInContainer delayAmount={1000} duration={1000}>
 
           <View style={{flexDirection:'column',justifyContent:this.state.isKeyboardOpened ? 'flex-start' : 'center',top:this.state.isKeyboardOpened ? 40 : 0,alignItems:this.state.isKeyboardOpened ? 'flex-start' : 'center',alignSelf:'stretch',flex: 1  }}>
@@ -240,9 +254,14 @@ class ChatInside extends Component{
                   (them.length == 2 ? 'They\'re' : them[0].gender == 'm' ? 'He\'s' : 'She\'s')
                 } already into you.</Text>
             </View>
-
           </View>
         </FadeInContainer>
+        <MessageComposer
+          textInputValue={this.state.textInputValue}
+          onTextInputChange={this.onTextInputChange.bind(this)}
+          sendMessage={this.sendMessage.bind(this)}
+        />
+      </KeyboardAvoidingView>
       </ScrollView>
     )
   }
@@ -250,10 +269,10 @@ class ChatInside extends Component{
 
   render(){
     const matchInfo = this.props.currentMatch;
-    if(!matchInfo){
-      console.log('no matchInfo');
-      return <View/>
-    }
+    // if(!matchInfo){
+    //   console.log('no matchInfo');
+    //   return <View/>
+    // }
     const theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
         them = theirIds.map((id)=> matchInfo.users[id]),
         chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '')  },'');
@@ -395,7 +414,7 @@ const Chat = React.createClass({
         </View>
       )
     };
-    return __TEST__ ? inside(this.props) : (
+    return  (
       <AltContainer stores={storesForChat}>
       <ChatInside
         {...this.props}

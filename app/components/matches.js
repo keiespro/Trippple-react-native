@@ -166,7 +166,6 @@ this.setState({ scrollEnabled })
     this.props.chatActionSheet(row)
   }
   _renderRow(rowData, sectionID, rowID){
-    console.log(rowData);
     const myId = this.props.user.id;
     const  myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
     const  theirIds = Object.keys(rowData.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id);
@@ -370,9 +369,9 @@ class MatchesInside extends Component{
     //   this._updateDataSource(newProps.matches,'favorites')
     // }
   }
-  shouldComponentUpdate(nProps,nState){
-    return this.state.isVisible != nState.isVisible ||  !this.props.matches || !nProps.matches || nProps.matches.length > this.props.matches.length || nProps.matches[0].recent_message.created_timestamp > this.props.matches[0].recent_message.created_timestamp
-  }
+  // shouldComponentUpdate(nProps,nState){
+  //   return this.state.isVisible != nState.isVisible ||  !this.props.matches || !nProps.matches || (nProps.matches && this.props.matches && nProps.matches.length > this.props.matches.length )  || (nProps.matches && this.props.matches && nProps.matches[0] && this.props.matches[0] && this.props.matches[0].recent_message && nProps.matches[0].recent_message.created_timestamp && nProps.matches[0].recent_message.created_timestamp > this.props.matches[0].recent_message.created_timestamp)
+  // }
   _updateDataSource(data,whichList) {
     // var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.match_id !== r2.match_id});
     if(data.length > 1){

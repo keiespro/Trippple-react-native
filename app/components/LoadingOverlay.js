@@ -4,27 +4,35 @@
 
 import React from "react";
 
-import Overlay from 'react-native-overlay';
-import {BlurView} from 'react-native-blur';
-
-import {Component} from "react";
-import {View, ActivityIndicator, StyleSheet} from "react-native";
+ import {BlurView} from 'react-native-blur';
 
 
-class LoadingOverlay extends Component{
+import {View, ActivityIndicator, StyleSheet,Dimensions} from "react-native";
+import FadeInContainer from './FadeInContainer'
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
+
+import Welcome from './welcome/welcome'
+
+class LoadingOverlay extends React.Component{
   constructor(props){
     super()
+    this.state = {}
   }
   render() {
     return (
-      <Overlay isVisible={this.props.isVisible}>
-        <BlurView style={styles.background} blurType="dark">
+      <View>
+      {!this.state.welcome && <FadeInContainer onShow={()=>this.setState({welcome:true})} fadeOut={true} duration={500} delay={500}>
+      <BlurView style={styles.background} blurType="dark">
           <ActivityIndicator
             size="large"
             animating={true}
             style={styles.spinner} />
         </BlurView>
-      </Overlay>
+        </FadeInContainer> }
+        <Welcome  key={'welcomescene'} />
+
+      </View>
     );
   }
 }
@@ -34,6 +42,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    width:DeviceWidth,
+    height:DeviceHeight
   },
 })
 
