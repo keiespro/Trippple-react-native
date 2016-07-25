@@ -40,7 +40,7 @@ const ChatMessage = (props) => {
     }
 
     return (
-      <View style={[styles.col]}>
+      <View style={[styles.col]} shouldRasterizeIOS={true}>
         <View style={[styles.row]}>
           <View style={{flexDirection:'column', alignItems:isMessageOurs ? 'flex-end' : 'flex-start', alignSelf: 'stretch', flex:1, justifyContent:'center',backgroundColor: props.messageData.ephemeral && __DEV__ ? colors.sushi : 'transparent'}}>
           <View style={{alignSelf: isMessageOurs ? 'flex-end' : 'flex-start',justifyContent:'center',alignItems:'center',maxWidth:MagicNumbers.screenWidth,backgroundColor:'transparent',flexDirection:'row'}}>
@@ -109,18 +109,10 @@ class ChatInside extends Component{
       lastPage: 0,
     }
   }
-  //
-  // shouldComponentUpdate(nProps,nState){
-  //   const maybe = (this.state.isVisible != nState.isVisible || this.state.textInputValue != nState.textInputValue || (this.state.isKeyboardOpened != nState.isKeyboardOpened));
-  //
-  //   const kinda =  maybe || nProps && nProps.messages && nProps.messages[0] && nProps.messages[0].created_timestamp && this.props && this.props.messages && this.props.messages[0] && this.props.messages[0].created_timestamp;
-  //
-  //   const should =  (kinda && nProps.messages.length > this.props.messages.length) || (kinda && nProps.messages[0].created_timestamp > this.props.messages[0].created_timestamp);
-  //   console.log('Update chat? ',should);
-  //   return this.state.isKeyboardOpened != nState.isKeyboardOpened || typeof should == 'undefined' ?  true : false
-  // }
+
   componentDidMount(){
     Keyboard.addListener('keyboardWillChangeFrame', this.onKeyboardChange.bind(this));
+
   }
   componentWillUnmount(){
     Keyboard.removeListener('keyboardWillChangeFrame', this.onKeyboardChange.bind(this));
@@ -209,8 +201,9 @@ onKeyboardChange(event){
   }
 
   renderNoMessages(){
+
     const matchInfo = this.props.currentMatch,
-          theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
+          theirIds = Object.keys(matchInfo.users).filter(u => u != this.props.user.id && u != this.props.user.partner_id),
           them = theirIds.map((id)=> matchInfo.users[id]),
           chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '')  },'')
 
@@ -227,7 +220,7 @@ onKeyboardChange(event){
       >
       <KeyboardAvoidingView  style={{flex:1,width:DeviceWidth,height:DeviceHeight,backgroundColor:colors.outerSpace}} behavior={'padding'}>
 
-        <FadeInContainer delayAmount={1000} duration={1000}>
+        <FadeInContainer delayAmount={1300} duration={1000}>
 
           <View style={{flexDirection:'column',justifyContent:this.state.isKeyboardOpened ? 'flex-start' : 'center',top:this.state.isKeyboardOpened ? 40 : 0,alignItems:this.state.isKeyboardOpened ? 'flex-start' : 'center',alignSelf:'stretch',flex: 1  }}>
             <View style={{width:DeviceWidth,alignSelf:this.state.isKeyboardOpened ? 'flex-start' : 'center',alignItems:'center',flexDirection:'column',justifyContent:'center' }}>
@@ -269,10 +262,10 @@ onKeyboardChange(event){
 
   render(){
     const matchInfo = this.props.currentMatch;
-    // if(!matchInfo){
-    //   console.log('no matchInfo');
-    //   return <View/>
-    // }
+    if(!matchInfo){
+      console.log('no matchInfo');
+      return <View/>
+    }
     const theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
         them = theirIds.map((id)=> matchInfo.users[id]),
         chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '')  },'');
@@ -289,7 +282,8 @@ onKeyboardChange(event){
             messages={this.props.messages || []}
             style={[styles.listview,{ backgroundColor:colors.outerSpace}]}
             renderScrollComponent={props => (
-              <InvertibleScrollView inverted={true}
+              <InvertibleScrollView
+                inverted={true}
                 scrollsToTop={true}
                 contentContainerStyle={styles.invertedContentContainer}
                 scrollEventThrottle={64}
@@ -347,10 +341,10 @@ const Chat = React.createClass({
   },
   componentWillUnmount(){
     dismissKeyboard()
+    MatchActions.resetUnreadCount(this.props.match_id);
+
   },
   componentDidMount(){
-    MatchActions.resetUnreadCount(this.props.match_id);
-    MatchActions.getMessages.defer(this.props.match_id);
   },
 
   toggleModal(){
@@ -375,45 +369,45 @@ const Chat = React.createClass({
         }
       }
     };
-    const inside = (props) => {
-
-      return (
-        <View>
-        <ChatInside
-          {...this.props}
-
-          navigator={this.props.navigator}
-          user={this.props.user}
-          closeChat={this.props.closeChat}
-          match_id={this.props.match_id}
-          key={`chat-${this.props.user}-${this.props.match_id}`}
-          toggleModal={this.toggleModal}
-        />
-        {this.state.isVisible ? <View
-          style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]}>
-
-           <FadeInContainer duration={300} >
-             <TouchableOpacity activeOpacity={0.5} onPress={this.toggleModal}
-              style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]} >
-
-               <BlurView
-                 blurType="light"
-                 style={[{width:DeviceWidth,height:DeviceHeight}]} >
-                 <View style={[{ }]}/>
-               </BlurView>
-             </TouchableOpacity>
-           </FadeInContainer>
-         </View> : <View/>}
-
-        <ActionModal
-          user={this.props.user}
-          toggleModal={this.toggleModal}
-          navigator={this.props.navigator}
-          isVisible={this.state.isVisible}
-        />
-        </View>
-      )
-    };
+    // const inside = (props) => {
+    //
+    //   return (
+    //     <View>
+    //     <ChatInside
+    //       {...this.props}
+    //
+    //       navigator={this.props.navigator}
+    //       user={this.props.user}
+    //       closeChat={this.props.closeChat}
+    //       match_id={this.props.match_id}
+    //       key={`chat-${this.props.user}-${this.props.match_id}`}
+    //       toggleModal={this.toggleModal}
+    //     />
+    //     {this.state.isVisible ? <View
+    //       style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]}>
+    //
+    //        <FadeInContainer duration={300} >
+    //          <TouchableOpacity activeOpacity={0.5} onPress={this.toggleModal}
+    //           style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]} >
+    //
+    //            <BlurView
+    //              blurType="light"
+    //              style={[{width:DeviceWidth,height:DeviceHeight}]} >
+    //              <View style={[{ }]}/>
+    //            </BlurView>
+    //          </TouchableOpacity>
+    //        </FadeInContainer>
+    //      </View> : <View/>}
+    //
+    //     <ActionModal
+    //       user={this.props.user}
+    //       toggleModal={this.toggleModal}
+    //       navigator={this.props.navigator}
+    //       isVisible={this.state.isVisible}
+    //     />
+    //     </View>
+    //   )
+    // };
     return  (
       <AltContainer stores={storesForChat}>
       <ChatInside

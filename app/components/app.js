@@ -84,6 +84,7 @@ class TopLevel extends Component{
     this.state = {
       showOverlay: props.user ? false : true,
       showCheckmark: false,
+      overlaid:true
     }
 
   }
@@ -91,6 +92,12 @@ class TopLevel extends Component{
     if(!this.props.user.status == 'onboarded'){
       Linking.addEventListener('url', this.handleCoupleDeepLink.bind(this))
     }
+
+    this.setTimeout(()=>{
+      this.setState({
+        overlaid: false
+      })
+    },1000)
   }
   handleCoupleDeepLink(event){
     const deeplink = url.parse(event.url);
@@ -148,6 +155,7 @@ class TopLevel extends Component{
 
         {this.props.AppState.showMaintenanceScreen ? <MaintenanceScreen /> : null }
 
+        {this.state.overlaid && <LoadingOverlay />}
 
       </View>
     )

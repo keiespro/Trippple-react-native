@@ -48,7 +48,10 @@ class MatchList extends Component{
   }
 
   componentDidMount() {
-    MatchActions.getMatches();
+    this.setTimeout(()=>{
+
+      MatchActions.getMatches();
+    },500)
   }
 
   _allowScroll(scrollEnabled){
@@ -108,9 +111,14 @@ this.setState({ scrollEnabled })
     // var handle = InteractionManager.createInteractionHandle();
 
     // InteractionManager.runAfterInteractions(() => {
-      // MatchActions.getMessages(match_id);
+    //   MatchActions.getMessages(match_id);
     // })
-    this.props.chatActionSheet()
+    // this.props.chatActionSheet()
+    this.setTimeout(()=>{
+          MatchActions.resetUnreadCount.defer(match_id);
+          MatchActions.getMessages.defer(match_id);
+
+    },1000)
 
     this.props.navigator.push({
       component: Chat,
@@ -125,6 +133,7 @@ this.setState({ scrollEnabled })
       },
       sceneConfig: Navigator.SceneConfigs.PushFromRight,
     });
+
   }
 
   onEndReached(e){
@@ -222,6 +231,7 @@ this.setState({ scrollEnabled })
                   resizeMode={Image.resizeMode.cover}
                   defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
                 />
+
                {unread ?
                   <View style={styles.newMessageCount}>
                    <Text style={{fontFamily:'Montserrat-Bold',color:colors.white,textAlign:'center',fontSize:14}}>{
@@ -229,6 +239,7 @@ this.setState({ scrollEnabled })
                    }</Text>
                  </View>
                 : null }
+
               </View>
               <View style={styles.textwrap}>
                 <Text style={[styles.text,styles.title]}>
@@ -301,7 +312,7 @@ reactMixin.onClass(MatchList, TimerMixin)
 
 
 function rowHasChanged(r1, r2){
-  return r1.id != r2.id || r1.recentMessage != r2.recentMessage
+  return r1.match_id !== r2.match_id || r1.unread != r2.unread || r1.recentMessage.message_id != r2.recentMessage.message_id
 }
 
 
@@ -309,7 +320,7 @@ class MatchesInside extends Component{
 
   constructor(props){
     super(props);
-    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.ds = new ListView.DataSource({rowHasChanged});
     // this.fds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     this.state = {

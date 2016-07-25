@@ -1,5 +1,5 @@
 import React from "react";
-import { NativeModules,Settings,AsyncStorage } from "react-native"
+import {View, NativeModules,Settings,AsyncStorage } from "react-native"
 import App from './components/app'
 import LoadingOverlay from './components/LoadingOverlay'
 import Keychain from 'react-native-keychain'
@@ -33,6 +33,7 @@ class Boot extends React.Component{
     Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
     .then((creds)=>{
       AppActions.gotCredentials(creds)
+    }).then((creds)=>{
       this.checkSettings();
     }).catch((err)=>{
       Analytics.log(err)
@@ -92,7 +93,7 @@ class Boot extends React.Component{
   }
   render(){
     return this.state.lockFailed ? <LockFailed retry={this.checkTouchId.bind(this)}/> :
-      !this.state.isLocked && this.state.booted ? <App key="app"/> : <LoadingOverlay />
+      !this.state.isLocked && this.state.booted ? <View><App key="app"/></View> : <View />
 
   }
 
