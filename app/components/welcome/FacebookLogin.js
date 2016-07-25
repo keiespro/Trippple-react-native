@@ -10,7 +10,8 @@ import {MagicNumbers} from '../../DeviceConfig'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import OnboardingActions from '../../flux/actions/OnboardingActions'
-
+import FBSDK from 'react-native-fbsdk'
+const { GraphRequest, GraphRequestManager } = FBSDK
 import FacebookButton from '../../buttons/FacebookButton'
 
 
@@ -29,47 +30,34 @@ class Facebook extends Component{
     }
   }
 
-  handleCredentials(fbUserData){
-    // if(!fbUserData || fbUserData && !fbUserData.credentials ) { return false}
-
-    var fbUser = fbUserData.credentials;
+  handleUserInfo(fbUserData){
+    console.log(fbUserData);
+    this.setState({fbUserData})
+  }
+  handleCredentials(fbUserAuth){
+    console.log(fbUserAuth);
+    const fbUser = fbUserAuth.credentials;
     this.setState({fbUser})
-    var api = `https://graph.facebook.com/v2.3/${fbUser.userId}?fields=name,first_name,email,age_range,gender,timezone,locale,verified,updated_time&access_token=${fbUser.token}`;
 
 
-    fetch(api)
-      .then((response) => response.json())
-      .then((responseData) => {
 
-        var {
-          email,
-          first_name,
-          gender,
-          facebook_id,
-          verified,
-          locale,
-          age_range,
-          timezone,
-          updated_time
-        } = responseData;
+    const infoRequest = new GraphRequest(
+      `/${fbUser.userId}`,
+      [
+        'email',
+        'public_profile',
+        'user_birthday',
+        'user_friends',
+        'user_likes',
+        'user_location',
+        'user_photos'
+      ],
+      this.handleUserInfo.bind(this),
+    );
+    // Start the graph request.
+    new GraphRequestManager().addRequest(infoRequest).start();
 
-        const fbData = {
-          fb_name: first_name,
-          fb_gender: gender == 'male' ? 'm' : 'f',
-          facebook_id,
-          fb_verified:verified,
-          fb_timezone: timezone,
-          fb_updated_time:updated_time,
-          fb_bday_year: new Date().getFullYear() - age_range.min
-        }
-        OnboardingActions.proceedToNextScreen(fbData);
-        // UserActions.updateUser({email,timezone})
-
-
-     })
-     .catch((err) => {
-       dispatch({error: err})
-     })
+    console.log(infoRequest)
   }
 
 

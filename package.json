@@ -56,6 +56,7 @@
     "react-native-contacts": "^0.2.8",
     "react-native-device-info": "latest",
     "react-native-facebook-login": "^1.2.0",
+    "react-native-fbsdk": "^0.3.0",
     "react-native-fs": "latest",
     "react-native-google-analytics-bridge": "^2.1.0",
     "react-native-invertible-scroll-view": "^1.0.0",
