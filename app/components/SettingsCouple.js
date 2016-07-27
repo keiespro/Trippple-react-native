@@ -189,21 +189,10 @@ class SettingsCouple extends React.Component{
 
     return (
       <View style={styles.inner}>
-      <FakeNavBar
-          blur={false}
-          backgroundStyle={{backgroundColor:colors.shuttleGray}}
-          hideNext={true}
-          navigator={this.props.navigator}
-          customPrev={
-            <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
-              <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
-            </View>
-          }
-          onPrev={(nav,route)=> nav.pop()}
-          title={`${partner.firstname || `YOUR PARTNER` }`}
-          titleColor={colors.white}
-          />
-        <ScrollView style={{flex:1,marginTop:50}} contentContainerStyle={{   paddingTop:50}} >
+
+        <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{flex:1,marginTop:50}} contentContainerStyle={{   paddingTop:50}} >
 
         { partner.phone && (partner.user_id || partner.id) &&
           <View>
@@ -384,6 +373,20 @@ class SettingsCouple extends React.Component{
                     */}
 
       </ScrollView>
+      <FakeNavBar
+          blur={false}
+          backgroundStyle={{backgroundColor:colors.shuttleGray}}
+          hideNext={true}
+          navigator={this.props.navigator}
+          customPrev={
+            <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
+              <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
+            </View>
+          }
+          onPrev={(nav,route)=> nav.pop()}
+          title={`${partner.firstname || `YOUR PARTNER` }`}
+          titleColor={colors.white}
+          />
       </View>
 
     )

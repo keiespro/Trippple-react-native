@@ -23,6 +23,7 @@ import {MagicNumbers} from '../../DeviceConfig'
 
 import UserDetails from '../../UserDetails'
 import reactMixin from 'react-mixin'
+import AppActions from '../../flux/actions/AppActions'
 import MatchActions from '../../flux/actions/MatchActions'
 import Analytics from '../../utils/Analytics'
 
@@ -54,12 +55,14 @@ class Card extends React.Component{
     }
 
   }
-
+  getScrollResponder(){
+    return this.refs.scrollbox
+  }
   getInnerViewNode(): any {
     return this.getScrollResponder().getInnerViewNode();
   }
 
-  scrollTo(destY?: number, destX?: number) {
+  scrollTo({destY, destX}) {
     this.getScrollResponder().scrollTo({y:destY, x:destX},true);
   }
 
@@ -89,7 +92,7 @@ class Card extends React.Component{
       this.props.showProfile(this.props.potential)
     }
     if(scroll){
-      this.refs.scrollbox.scrollTo({y: DeviceHeight*0.2,x:0},true)
+      this.scrollTo({y: DeviceHeight*0.2,x:0},true)
     }
   }
 
@@ -123,14 +126,14 @@ class Card extends React.Component{
 
   reportModal(){
 
-    this.props.navigator.push({
+    AppActions.showInModal({
       component: ReportModal,
       name:'Report User Modal',
       passProps: {
         action: 'report',
         potential: this.props.potential,
         goBack: (them)=> {
-          this.props.navigator.pop();
+          AppActions.killModal()
           if(them){
             MatchActions.removePotential.defer(them.id);
             MatchActions.sendLike.defer(
@@ -358,7 +361,7 @@ class Card extends React.Component{
               <View
                 key={`${potential.id || potential.user.id}-bottomview`}
                 style={{
-                  height: isTopCard ? 120 : 120,
+                  height: isTopCard ? 120 : 118,
                   marginTop: isTopCard ? -20 : -20,
                   marginLeft:20,
                   right:0,

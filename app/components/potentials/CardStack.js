@@ -178,7 +178,7 @@ class CardStack extends React.Component{
 
         const {dx,dy,vx,vy} = gestureState;
 
-        __DEV__ && console.table([gestureState])
+        // __DEV__ && console.table([gestureState])
         const likeUserId = this.props.potentials[0].user.id;
 
         // animate back to center or off screen left or off screen right
