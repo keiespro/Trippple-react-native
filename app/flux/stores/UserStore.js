@@ -11,7 +11,8 @@ import config from '../../config'
 import Mixpanel from '../../utils/mixpanel'
 import SettingsConstants from '../../utils/SettingsConstants'
 import {Settings} from 'react-native'
-
+import FBSDK from 'react-native-fbsdk'
+const {LoginManager} = FBSDK
 const {KEYCHAIN_NAMESPACE} = config
 
 class UserStore {
@@ -20,7 +21,10 @@ class UserStore {
     this.user = {}
     this.userStub = {}
     this.state = {
-      user: {},
+      user: {
+        relationship_status: 'single',
+
+      },
       userStub: {},
       couplingData: {}
     }
@@ -45,7 +49,8 @@ class UserStore {
       handleGetLocation: UserActions.GET_LOCATION,
       handleVerifyCouplePin: UserActions.VERIFY_COUPLE_PIN,
       handleRequestCouplePin: UserActions.GET_COUPLE_PIN,
-      handleDecouple: UserActions.DECOUPLE
+      handleDecouple: UserActions.DECOUPLE,
+      handleFBLogin: UserActions.FB_LOGIN
 
     });
 
@@ -100,9 +105,26 @@ class UserStore {
   handleGetLocation(coords){
 
   }
+
   handleDecouple(){
     AsyncStorage.clear();
     UserActions.getUserInfo();
+  }
+
+  handleFBLogin(login){
+
+    console.log('handleFBLogin',login);
+    const {userInfo,userAuth} = login;
+
+    CredentialsStore.saveCredentials(userAuth)
+    const user =  {  ...this.user, ...userInfo }
+    this.setState({ user })
+
+    // if(user_info.status == 'onboarded'){
+    //   MatchActions.getPotentials();
+    //   MatchActions.getMatches.defer();
+    // }
+
   }
   handleVerifyPin(res){
     const {user_info} = res.response;
@@ -170,8 +192,9 @@ class UserStore {
   }
 
   handleLogOut(){
-
+    console.log(LoginManager);
     this.setState({ user:{}, userStub: null});
+    LoginManager.logOut()
     Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE)
     .then(() => {
       // Log.info('Clearing asyncStorage')

@@ -15,7 +15,6 @@ const DeviceWidth = Dimensions.get('window').width
 
 import CustomSceneConfigs from '../../utils/sceneConfigs'
 import Auth from './auth'
-import Facebook from '../../screens/registration/facebook'
 import Analytics from '../../utils/Analytics'
 import IntroScreen from './intro'
 

@@ -6,10 +6,9 @@ import Camera from 'react-native-camera';
 import colors from '../utils/colors'
 import Dimensions from 'Dimensions';
 import BackButton from '../components/BackButton'
-import EditImageThumb from '../screens/registration/EditImageThumb'
-import EditImage from '../screens/registration/EditImage'
+import EditImageThumb from '../screens/EditImageThumb'
+import EditImage from '../screens/EditImage'
 import OnboardingActions from '../flux/actions/OnboardingActions'
-import OnboardingBackButton from '../screens/registration/BackButton'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -41,7 +40,7 @@ class CoupleCameraControl extends Component{
         <View style={styles.paddedTop} pointerEvents={'box-none'}>
 
         <View style={{marginBottom:10}}>
-          {this.props.navigator.getCurrentRoutes()[0].id == 'potentials' ? <BackButton navigator={this.props.navigator}/> : <OnboardingBackButton/> }
+          <BackButton navigator={this.props.navigator}/>
         </View>
           <TouchableOpacity  onPress={this._switchCamera.bind(this)} style={[{height:50,width:48},styles.rightbutton]}>
             <View>

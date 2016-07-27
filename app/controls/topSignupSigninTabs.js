@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.shuttleGray,
   },
   buttonText: {
-    fontSize: 24,
+    fontSize: 20,
     color: colors.white,
     alignSelf: 'center',
     fontFamily:'Montserrat'

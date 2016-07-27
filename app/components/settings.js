@@ -7,10 +7,8 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 const {RNHotlineController} = NativeModules;
 const RNHotlineView = ReactNative.requireNativeComponent('RNHotlineView')
-import PartnerMissingModal from '../modals/PartnerMissingModal'
-import Mixpanel from '../utils/mixpanel';
-import SegmentedView from '../controls/SegmentedView'
-import ScrollableTabView from '../scrollable-tab-view'
+
+
 import FakeNavBar from '../controls/FakeNavBar';
 import UserProfile from './UserProfile'
 import dismissKeyboard from 'dismissKeyboard'
@@ -21,17 +19,13 @@ import ParallaxView from  '../controls/ParallaxScrollView'
 import ToggleSwitch from '../controls/switches'
 import UserActions from '../flux/actions/UserActions'
 import AppActions from '../flux/actions/AppActions'
-import EditImage from '../screens/registration/EditImage'
+
 import SelfImage from './loggedin/SelfImage'
 import CoupleImage from './loggedin/CoupleImage'
 import FacebookButton from '../buttons/FacebookButton'
 import Contacts from '../screens/contacts'
 import colors from '../utils/colors'
 import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
-import EditPage from './EditPage'
-import CloseButton from './CloseButton'
-import Api from '../utils/api'
-import TrackKeyboardMixin from '../mixins/keyboardMixin'
 import reactMixin from 'react-mixin'
 import SettingsBasic from './SettingsBasic'
 import SettingsSettings from './SettingsSettings'
@@ -49,7 +43,7 @@ import Analytics from '../utils/Analytics'
 class SettingsInside extends React.Component{
   constructor(props){
     super(props)
-
+    console.log(props);
     this.state = {
       index: 0,
       isModalOpen: true,
@@ -102,12 +96,10 @@ class SettingsInside extends React.Component{
     //   return
     // }else{
       var thisYear = new Date().getFullYear()
-
+      const {bday_year} = this.props.user
+      const age = (thisYear - bday_year)
       const selfAsPotential = {
-        user: {
-          ...this.props.user,
-          age: (thisYear - this.props.user.bday_year)
-        },
+        user: { ...this.props.user, age },
       }
       if(this.props.user.relationship_status == 'couple'){
         // delete selfAsPotential.coupleImage;
@@ -175,25 +167,25 @@ class SettingsInside extends React.Component{
 
   render(){
     const user = this.props.user || {}
-    var src;
-    var thumbSrc;
-    if(user.localUserImage && user.localUserImage.uri){
-      src = user.localUserImage.uri;
-      thumbSrc = user.localUserImage.uri;
-    }else if(user.localUserImage && !user.localUserImage.uri){
-      src = user.localUserImage;
-      thumbSrc = user.localUserImage.uri;
-    }else if(!user.localUserImage && user.image_url && user.image_url.uri){
-      src = user.image_url.uri;
-      thumbSrc = user.thumb_url.uri;
-    }else if(!user.localUserImage && user.image_url && !user.image_url.uri){
-      src = user.image_url;
-      thumbSrc = user.thumb_url;
-    }
+    // var src;
+    // var thumbSrc;
+    // if(user.localUserImage && user.localUserImage.uri){
+    //   src = user.localUserImage.uri;
+    //   thumbSrc = user.localUserImage.uri;
+    // }else if(user.localUserImage && !user.localUserImage.uri){
+    //   src = user.localUserImage;
+    //   thumbSrc = user.localUserImage.uri;
+    // }else if(!user.localUserImage && user.image_url && user.image_url.uri){
+    //   src = user.image_url.uri;
+    //   thumbSrc = user.thumb_url.uri;
+    // }else if(!user.localUserImage && user.image_url && !user.image_url.uri){
+    //   src = user.image_url;
+    //   thumbSrc = user.thumb_url;
+    // }
 
-    thumbSrc = user.thumb_url;
-    src = user.image_url;// temp
-
+    const thumbSrc = user.thumb_url || '';
+    const src = user.image_url || '';// temp
+    console.log(thumbSrc,src);
     //
     // if(user.relationship_status == 'couple'){
     //
@@ -222,15 +214,13 @@ class SettingsInside extends React.Component{
               key={this.props.user.id}
               windowHeight={DeviceHeight* (MagicNumbers.is5orless ? 0.7 : 0.5)}
               navigator={this.props.navigator}
-              backgroundSource={{uri:src}}
+              backgroundSource={{uri:src || 'assets/defaultuser.png'}}
               style={{backgroundColor:colors.outerSpace,paddingTop:10,}}
               header={(
               <View
-                  style={[
-                  styles.userimageContainer,styles.blur,
-                  {
-                  justifyContent:'center',
-                  flexDirection:'column'
+                  style={[ styles.userimageContainer,styles.blur, {
+                    justifyContent:'center',
+                    flexDirection:'column'
                   }]}
               >
 
@@ -241,9 +231,9 @@ class SettingsInside extends React.Component{
                 <Image
                   style={[ styles.userimage, { backgroundColor:colors.dark}]}
                   key={this.props.user.id+'thumb'}
-                  defaultSource={{uri: 'assets/placeholderUserWhite@3x.png'}}
+                  defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
                   resizeMode={Image.resizeMode.cover}
-                  source={{uri:thumbSrc}}
+                  source={{uri:thumbSrc || 'assets/placeholderUser@3x.png'}}
                 />
                   <View style={styles.circle}>
                     <Image
@@ -314,7 +304,7 @@ class SettingsInside extends React.Component{
                           <View>
                             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>COUPLE</Text>
                               <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
-                              You and your partner, {this.props.user.partner.firstname}
+                              You and your partner, {this.props.user.partner ? this.props.user.partner.firstname : ''}
                               </Text>
                           </View>
                           <Image source={{uri: 'assets/nextArrow@3x.png'}} resizeMode={'contain'} style={styles.arrowStyle}  />
@@ -411,9 +401,7 @@ class SettingsInside extends React.Component{
                   </View>
               </TouchableHighlight>
 
-              <TouchableHighlight onPress={(f)=>{
-                    RNHotlineController.showConvos()
-                  }} underlayColor={colors.dark}>
+              <TouchableHighlight onPress={(f)=>{ RNHotlineController.showConvos() }} underlayColor={colors.dark}>
                   <View  style={styles.wrapfield}>
                       <View>
                           <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>HELP & FEEDBACK</Text>

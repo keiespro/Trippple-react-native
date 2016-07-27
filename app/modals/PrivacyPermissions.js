@@ -8,7 +8,7 @@ import {StyleSheet, Text, Image, NativeModules, CameraRoll, View, TouchableHighl
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-var {FBLoginManager, OSPermissions} = NativeModules
+const {OSPermissions} = NativeModules
 import ContactGetter from 'react-native-contacts'
 
 import colors from '../utils/colors'
@@ -26,20 +26,12 @@ class PrivacyPermissionsModal extends Component{
   constructor(props) {
     super();
     this.state = {
-      hasFacebookPermissions: null,
       failedStateContacts: OSPermissions.contacts && parseInt(OSPermissions.contacts) && OSPermissions.contacts < 3,
       hasContactsPermissions: OSPermissions.contacts && parseInt(OSPermissions.contacts) && OSPermissions.contacts > 2
     }
   }
 
   componentDidMount(){
-    FBLoginManager.getCredentials((error, data)=>{
-      if (!error) {
-        this.setState({ hasFacebookPermissions: true })
-      } else {
-        this.setState({ hasFacebookPermissions: false })
-      }
-    });
 
      ContactGetter.checkPermission((err, permission) => {
        if(!err && permission === ContactGetter.PERMISSION_AUTHORIZED){
@@ -55,7 +47,7 @@ class PrivacyPermissionsModal extends Component{
   componentDidUpdate(pProps,pState){
     if(this.state.hasFacebookPermissions && this.state.hasContactsPermissions && (!pState.hasFacebookPermissions || !pState.hasContactsPermissions )){
       UserActions.updateUser({privacy:'private'})
-
+      AppActions.killModal()
       this.props.success && this.props.success()
       this.props.navigator && this.props.navigator.pop()
     }
@@ -114,31 +106,9 @@ class PrivacyPermissionsModal extends Component{
     })
   }
 
-  handleTapFacebook(){
-    FBLoginManager.login( (err, data) => {
-
-      if (!err) {
-        UserActions.updateUser({
-          facebook_user_id: data.credentials.userId,
-          facebook_oauth_access_token: data.credentials.token
-        })
-
-        this.setState({ hasFacebookPermissions: true })
-
-      } else {
-        this.setState({ hasFacebookPermissions: false })
-
-      }
-    }
-  )
-
-
-
-  }
-
   render(){
 
-    const {hasFacebookPermissions,hasContactsPermissions} = this.state
+    const {hasContactsPermissions} = this.state
 
     return (
         <PurpleModal>
@@ -165,22 +135,7 @@ class PrivacyPermissionsModal extends Component{
             </Text>
 
             <View style={{marginTop:20}}>
-            <View style={{overflow:'hidden',borderRadius:4}}>
-            <BoxyButton
-              text={"BLOCK FACEBOOK"}
-              buttonText={buttonStyles.buttonText}
-              underlayColor={colors.darkGreenBlue}
-              innerWrapStyles={[buttonStyles.innerWrapStyles,{overflow:'hidden',borderRadius:4}]}
-              leftBoxStyles={  buttonStyles.grayIconbuttonLeftBox}
-              _onPress={this.handleTapFacebook.bind(this)}>
 
-              {hasFacebookPermissions ?
-                      <Image source={{uri: 'assets/checkmarkWhiteSmall@3x.png'}}
-                        resizeMode={Image.resizeMode.cover}
-                            style={{height:21,width:30}} /> :
-                            <View style={{backgroundColor:colors.darkGreenBlue,height:20,width:20,borderRadius:10,alignSelf:'center'}} /> }
-            </BoxyButton>
-            </View>
             <View style={{overflow:'hidden',borderRadius:4,marginTop:20}}>
             <BoxyButton
                 text={"BLOCK CONTACTS"}
@@ -204,16 +159,16 @@ class PrivacyPermissionsModal extends Component{
             <View
             style={{
                        }} >
-          {this.state.hasFacebookPermissions && this.state.hasContactsPermissions ?
+          { this.state.hasContactsPermissions ?
               <TouchableOpacity
               style={{width:undefined,paddingHorizontal:10,marginVertical:10,flexDirection:'row',alignSelf:'stretch',flex:1,alignItems:'stretch'}}
 
-                onPress={this.props.success}>
-              <View style={[styles.cancelButton,{backgroundColor:'transparent',flex:1,alignItems:'stretch',alignSelf:'stretch',flex:1,flexDirection:'row'}]} >
+                onPress={()=>{AppActions.killModal(); this.props.success && this.props.success()}}>
+              <View style={[styles.cancelButton,{backgroundColor:'transparent',alignItems:'stretch',alignSelf:'stretch',flexDirection:'row'}]} >
                 <Text style={[{color:colors.shuttleGray,textAlign:'center',
                   padding:10,
                   paddingVertical:MagicNumbers.is4s ? 0 : 20,
-                  flex:1,alignSelf:'stretch'},styles.nothankstext]}>Continue</Text>
+                  alignSelf:'stretch'},styles.nothankstext]}>Continue</Text>
                 </View>
               </TouchableOpacity>  :
             <TouchableOpacity
@@ -222,7 +177,7 @@ class PrivacyPermissionsModal extends Component{
               <View style={[styles.cancelButton,{backgroundColor:'transparent',flex:1,alignItems:'stretch',alignSelf:'stretch'}]} >
                 <Text style={[{color:colors.shuttleGray,textAlign:'center',
                   padding:MagicNumbers.is4s ? 0 : 10,
-                  flex:1,alignSelf:'stretch'},styles.nothankstext]}>no thanks</Text>
+                  alignSelf:'stretch'},styles.nothankstext]}>no thanks</Text>
               </View>
             </TouchableOpacity>}
 

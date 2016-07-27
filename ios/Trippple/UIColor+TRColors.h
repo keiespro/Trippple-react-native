@@ -40,5 +40,5 @@
 + (UIColor *)tr_purpleColor;
 + (UIColor *)tr_dandelionColor;
 + (UIColor *)tr_purpley40Color;
-
++ (UIColor *)tr_cornflowerBlueColor;
 @end

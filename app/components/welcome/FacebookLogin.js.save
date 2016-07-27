@@ -1,17 +1,17 @@
-import React, {Component} from "react";
+Aimport React, {Component} from "react";
 import {StyleSheet, Text, Image, Dimensions, View, TouchableHighlight, TouchableOpacity} from "react-native";
 
 import colors from '../../utils/colors'
 import UserActions from '../../flux/actions/UserActions'
 import BoxyButton from '../../controls/boxyButton'
-import BackButton from './BackButton'
-import FBPhotoAlbums from '../../components/fb.login'
+import FBPhotoAlbums from '../fb.login'
 import {MagicNumbers} from '../../DeviceConfig'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import OnboardingActions from '../../flux/actions/OnboardingActions'
-
+import FBSDK from 'react-native-fbsdk'
+const { GraphRequest, GraphRequestManager } = FBSDK
 import FacebookButton from '../../buttons/FacebookButton'
 
 
@@ -30,47 +30,34 @@ class Facebook extends Component{
     }
   }
 
-  handleCredentials(fbUserData){
-    // if(!fbUserData || fbUserData && !fbUserData.credentials ) { return false}
-
-    var fbUser = fbUserData.credentials;
+  handleUserInfo(fbUserData){
+    console.log(fbUserData);
+    this.setState({fbUserData})
+  }
+  handleCredentials(fbUserAuth){
+    console.log(fbUserAuth);
+    const fbUser = fbUserAuth.credentials;
     this.setState({fbUser})
-    var api = `https://graph.facebook.com/v2.3/${fbUser.userId}?fields=name,first_name,email,age_range,gender,timezone,locale,verified,updated_time&access_token=${fbUser.token}`;
 
 
-    fetch(api)
-      .then((response) => response.json())
-      .then((responseData) => {
 
-        var {
-          email,
-          first_name,
-          gender,
-          facebook_id,
-          verified,
-          locale,
-          age_range,
-          timezone,
-          updated_time
-        } = responseData;
+    const infoRequest = new GraphRequest(
+      `/${fbUser.userId}`,
+      [
+        'email',
+        'public_profile',
+        'user_birthday',
+        'user_friends',
+        'user_likes',
+        'user_location',
+        'user_photos'
+      ],
+      this.handleUserInfo.bind(this),
+    );
+    // Start the graph request.
+    new GraphRequestManager().addRequest(infoRequest).start();
 
-        const fbData = {
-          fb_name: first_name,
-          fb_gender: gender == 'male' ? 'm' : 'f',
-          facebook_id,
-          fb_verified:verified,
-          fb_timezone: timezone,
-          fb_updated_time:updated_time,
-          fb_bday_year: new Date().getFullYear() - age_range.min
-        }
-        OnboardingActions.proceedToNextScreen(fbData);
-        // UserActions.updateUser({email,timezone})
-
-
-     })
-     .catch((err) => {
-       dispatch({error: err})
-     })
+    console.log(infoRequest)
   }
 
 
@@ -85,20 +72,20 @@ class Facebook extends Component{
         <View style={[styles.container,{}]}>
 
           <View style={styles.middleTextWrap}>
-            <Text style={styles.middleText}>Save time. Get more matches.</Text>
+            {/*<Text style={styles.middleText}>Save time. Get more matches.</Text>*/}
           </View>
           <View style={{alignSelf:'stretch'}}>
-            <FacebookButton buttonType={'onboard'} buttonText={'VERIFY WITH FB'} onLogin={this.handleCredentials.bind(this)} />
+            <FacebookButton buttonType={'login'} buttonText={'LOG IN'} onLogin={this.handleCredentials.bind(this)} />
 
             <View style={styles.middleTextWrap}>
               <Text style={[styles.middleText,{fontSize:16,marginTop:20,textAlign:'center',width:MagicNumbers.screenWidth}]}>Don’t worry, we won't ever tell your friends or post on your wall.</Text>
             </View>
           </View>
           <View style={[styles.middleTextWrap,styles.bottomwrap]}>
-            <TouchableOpacity
+            {/*<TouchableOpacity
               onPress={this.skipFacebook.bind(this)}
               ><Text style={styles.middleText}>{this.state.fbUser ? 'Continue' : 'No thanks'}</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>*/}
           </View>
         </View>
       </View>

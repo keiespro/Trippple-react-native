@@ -22,13 +22,13 @@ class LoadingOverlay extends React.Component{
   render() {
     return (
       <View style={{position:'absolute',top:0,left:0}}>
-      <FadeInContainer onShow={()=>this.setState({welcome:true})} fadeOut={true} duration={1000} delay={1000}>
-      <BlurView style={styles.background} blurType="dark">
-          <ActivityIndicator
-            size="large"
-            animating={true}
-            style={styles.spinner} />
-        </BlurView>
+        <FadeInContainer onShow={()=>this.setState({welcome:true})} fadeOut={true} duration={800} delay={3000}>
+          <BlurView style={styles.background} blurType="dark">
+            <ActivityIndicator
+              size="large"
+              animating={true}
+              style={styles.spinner} />
+          </BlurView>
         </FadeInContainer>
 
       </View>

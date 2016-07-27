@@ -22,7 +22,6 @@ import {
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import UserActions from '../flux/actions/UserActions'
-import CoupleImage from './registration/CoupleImage'
 
 
 import ContactGetter from 'react-native-contacts'
@@ -30,12 +29,10 @@ import ContactGetter from 'react-native-contacts'
 import Analytics from '../utils/Analytics'
 import colors from '../utils/colors'
 import _ from 'underscore'
-import Facebook from './registration/facebook'
-import BackButton from './registration/BackButton'
+import BackButton from '../components/BackButton'
 import Api from '../utils/api'
-import ConfirmPartner from './registration/ConfirmPartner'
 import OnboardingActions from '../flux/actions/OnboardingActions'
-import styles from './registration/contactStyles'
+import styles from './contactStyles'
 
 class ContactRow extends React.Component{
   constructor(props){

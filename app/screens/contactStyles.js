@@ -2,8 +2,8 @@ import React from "react";
 import {StyleSheet, Dimensions, PixelRatio} from "react-native";
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-import colors from '../../utils/colors'
-import {MagicNumbers} from '../../DeviceConfig'
+import colors from '../utils/colors'
+import {MagicNumbers} from '../DeviceConfig'
 
 const styles = StyleSheet.create({
   modalButton:{

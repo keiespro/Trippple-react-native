@@ -6,17 +6,13 @@
 import React from "react";
 
 import {Component} from "react";
-import {StyleSheet, ScrollView, Text, Image, CameraRoll, View, NativeModules, ActivityIndicator, Alert, TouchableHighlight, TouchableOpacity} from "react-native";
+import {StyleSheet, ScrollView, Text, Image, CameraRoll, View, NativeModules, ActivityIndicator, Alert, TouchableHighlight, TouchableOpacity,Dimensions} from "react-native";
 
-import colors from '../../utils/colors';
-import Analytics from '../../utils/Analytics';
-import UserActions from '../../flux/actions/UserActions';
-import SharedStyles from '../../SharedStyles'
-import Privacy from './privacy';
+import colors from '../utils/colors';
+import Analytics from '../utils/Analytics';
+import UserActions from '../flux/actions/UserActions';
+import SharedStyles from '../SharedStyles'
 import EditImageThumb from './EditImageThumb'
-import OnboardingActions from '../../flux/actions/OnboardingActions'
-import SelfImage from './SelfImage'
-import Dimensions from 'Dimensions';
 
 const {ImageEditingManager,ImageStoreManager} = NativeModules;
 const RCTScrollViewConsts = NativeModules.UIManager.RCTScrollView.Constants;
@@ -125,7 +121,7 @@ class EditImage extends Component{
    }
   }
   retake(){
-    this.props.navigator.getCurrentRoutes()[0].id == 'potentials' ? this.props.navigator.pop() :   OnboardingActions.proceedToPrevScreen()
+    this.props.navigator.pop()
   }
 
 
@@ -293,7 +289,7 @@ class ImageCropper extends React.Component {
         0;
 
     return (
-      <ScrollView 
+      <ScrollView
         style={{height:DeviceHeight,width:DeviceWidth}}
         alwaysBounceVertical={false}
         automaticallyAdjustContentInsets={false}
@@ -312,7 +308,7 @@ class ImageCropper extends React.Component {
        >
         <Image source={this.props.image}
           resizeMode={Image.resizeMode.cover}
-          style={this._scaledImageSize} 
+          style={this._scaledImageSize}
         />
       </ScrollView>
     );

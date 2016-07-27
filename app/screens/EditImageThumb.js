@@ -3,24 +3,22 @@
 import React from "react";
 
 import {Component} from "react";
-import {StyleSheet, Text, Image, CameraRoll, View, PixelRatio, TouchableHighlight, NativeModules, ScrollView} from "react-native";
+import {StyleSheet, Text, Image, CameraRoll, View, PixelRatio, TouchableHighlight, NativeModules, ScrollView,Dimensions} from "react-native";
 
 const ImageEditingManager = NativeModules.ImageEditingManager;
 const RCTScrollViewConsts = NativeModules.UIManager.RCTScrollView.Constants;
-import OnboardingActions from '../../flux/actions/OnboardingActions'
-import OtherBackButton from '../../components/BackButton'
+import OnboardingActions from '../flux/actions/OnboardingActions'
+import OtherBackButton from '../components/BackButton'
 
-import SharedStyles from '../../SharedStyles'
-import colors from '../../utils/colors';
-import SelfImage from './SelfImage';
-import PrivacyScreen from './privacy';
-import UserActions from '../../flux/actions/UserActions';
-import AppActions from '../../flux/actions/AppActions';
+import SharedStyles from '../SharedStyles'
+import colors from '../utils/colors';
+import UserActions from '../flux/actions/UserActions';
+import AppActions from '../flux/actions/AppActions';
 
-import Dimensions from 'Dimensions';
+
 import {BlurView,VibrancyView} from 'react-native-blur'
-import ContinueButton from '../../controls/ContinueButton'
-import BackButton from './BackButton'
+import ContinueButton from '../controls/ContinueButton'
+import BackButton from '../components/BackButton'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -149,13 +147,8 @@ class EditImageThumb extends Component{
 
     }else if(this.props.image_type == 'couple_profile'){
 
-      this.props.navigator.push({
-        component: SelfImage,
-        name:'SelfImage',
-        passProps: {
-          image_type: 'profile'
-        }
-      })
+
+
 
     }else{
       UserActions.updateLocally({status:'pendingpartner'})

@@ -69,21 +69,23 @@ class UserProfile extends React.Component{
           },styles.shadowCard]}>
 
           <ScrollView
-          style={[{
-            margin:0,
-            width:DeviceWidth,
-            height:DeviceHeight,
-            padding:0,
-            position:'relative',
-            flex:1,
-          }]}
-          canCancelContentTouches={true}
-          horizontal={false}
-          vertical={true}
-          alwaysBounceHorizontal={false}
-          scrollEnabled={true}
-          contentInset={{top: 55, left: 0, bottom: 0, right: 0}}
-          key={`${potential.id || potential.user.id}-view`}>
+            style={[{
+              margin:0,
+              width:DeviceWidth,
+              height:DeviceHeight,
+              padding:0,
+              position:'relative',
+              flex:1,
+            }]}
+            canCancelContentTouches={true}
+            horizontal={false}
+            vertical={true}
+            alwaysBounceHorizontal={false}
+            showsVerticalScrollIndicator={false}
+            scrollEnabled={true}
+            contentInset={{top: 55, left: 0, bottom: 0, right: 0}}
+            key={`${potential.id || potential.user.id}-view`}
+          >
 
           <View key={`${potential.id || potential.user.id}bgopacity`} style={{
               position:'relative',
@@ -105,7 +107,7 @@ class UserProfile extends React.Component{
             activeDot={ <View style={styles.activeDot} /> }>
 
               <Image
-                source={{uri: potential.user.image_url}}
+                source={{uri: potential.user.image_url || 'assets/defaultuser.png'}}
                 key={`${potential.user.id}-cimg`}
 
                  defaultSource={{uri: 'assets/defaultuser.png'}}
@@ -120,7 +122,7 @@ class UserProfile extends React.Component{
                 {rel == 'single' && potential.partner &&
               <Image
                 resizeMode={Image.resizeMode.cover}
-                source={{uri: potential.partner.image_url}}
+                source={{uri: potential.partner.image_url || 'assets/defaultuser.png'}}
                 key={`${potential.partner.id}-cimg`}
                 defaultSource={{uri: 'assets/defaultuser.png'}}
                 style={[styles.imagebg,{
@@ -132,7 +134,7 @@ class UserProfile extends React.Component{
             }
             </Swiper> :
             <Image
-                    source={{uri: potential.user.image_url}}
+                    source={{uri: potential.user.image_url || 'assets/defaultuser.png'}}
                     key={`${potential.user.id}-cimgx`}
                     style={[styles.imagebg, {
                       flex:1,
@@ -140,6 +142,7 @@ class UserProfile extends React.Component{
                       height:DeviceHeight,
                       width: DeviceWidth,
                     }]}
+                    defaultSource={{uri: 'assets/defaultuser.png'}}
                     resizeMode={Image.resizeMode.cover}
                    />
               }

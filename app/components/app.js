@@ -15,9 +15,7 @@ import alt from '../flux/alt';
 import AltContainer from 'alt-container/native';
 import Welcome from './welcome/welcome';
 import Main from './main';
-import PendingPartner from './pendingpartner';
 import ModalDirector from '../modals/ModalDirector'
-import Onboarding from '../screens/registration/onboard'
 import UserStore from '../flux/stores/UserStore';
 import AppState from '../flux/stores/AppState';
 import CredentialsStore from '../flux/stores/CredentialsStore'
@@ -38,53 +36,13 @@ import url from 'url'
 
 
 
-class AppRoutes extends Component{
-
-  constructor(props){
-    super()
-  }
-
-  render(){
-    var userStatus = this.props.user ? this.props.user.status : null;
-
-    switch(userStatus){
-      case 'verified':
-        return <Onboarding
-                key="OnboardingScreen"
-                user={this.props.user}
-                AppState={this.props.AppState}
-                currentRoute={this.props.AppState.currentRoute}
-              />
-      case 'imageflagged':
-        return <ImageFlagged
-                AppState={this.props.AppState}
-                user={this.props.user}
-                />
-      case 'pendingpartner':
-      case 'onboarded':
-        return <Main
-                key="MainScreen"
-                user={this.props.user}
-                AppState={this.props.AppState}
-                currentRoute={this.props.AppState.currentRoute}
-              />
-      case 'unknown':
-      case null:
-      default:
-        return (<Welcome AppState={this.props.AppState} key={'welcomescene'} />)
-    }
-  }
-}
-
-AppRoutes.displayName = 'AppRoutes'
-
 class TopLevel extends Component{
   constructor(props){
     super()
     this.state = {
-      showOverlay: props.user ? false : true,
-      showCheckmark: false,
-      overlaid:true
+      loading: true,
+      overlaid: true,
+      authStatus: !!props.user.status
     }
 
   }
@@ -95,10 +53,12 @@ class TopLevel extends Component{
 
     this.setTimeout(()=>{
       this.setState({
-        overlaid: false
+        overlaid: false,
+        loading:false
       })
-    },1000)
+    },2000)
   }
+
   handleCoupleDeepLink(event){
     const deeplink = url.parse(event.url);
 
@@ -110,16 +70,13 @@ class TopLevel extends Component{
     }
   }
   componentWillReceiveProps(nProps){
-    if(nProps && this.props.user && nProps.user &&  nProps.user.status == 'verified' && this.props.user.status != 'verified' && this.props.user.status != 'onboarded'){
-      this.setState({showCheckmark:true,checkMarkCopy: {title: 'SUCCESS' }})
-      this.setTimeout(()=>{
-        this.setState({showCheckmark:false,checkMarkCopy:null})
-      },3500);
+    if(this.state.authStatus != nProps.user.status){
+      this.setState({authStatus: !!nProps.user.status})
     }
 
-    if(nProps && this.props.user && nProps.user && nProps.user.status == 'onboarded' && this.props.user.status != 'onboarded'){
-      Linking.removeEventListener('url', this.handleCoupleDeepLink.bind(this))
-    }
+    // if(nProps && this.props.user && nProps.user && nProps.user.status == 'onboarded' && this.props.user.status != 'onboarded'){
+    //   Linking.removeEventListener('url', this.handleCoupleDeepLink.bind(this))
+    // }
   }
 
   render(){
@@ -129,13 +86,18 @@ class TopLevel extends Component{
 
         <ReachabilitySubscription/>
         <AppVisibility/>
-        <Connectivity/>
+        {!this.state.loading && <Connectivity/>}
 
-        <AppRoutes
-          user={user}
-          AppState={this.props.AppState}
-          currentRoute={this.props.AppState.currentRoute}
-        />
+        {this.state.authStatus ? (
+          <Main
+            key="MainScreen"
+            user={this.props.user}
+            AppState={this.props.AppState}
+            currentRoute={this.props.AppState.currentRoute}
+          />
+        ) : <Welcome AppState={this.props.AppState} key={'welcomescene'} />
+        }
+
 
         <ModalDirector
           user={user}
@@ -155,7 +117,7 @@ class TopLevel extends Component{
 
         {this.props.AppState.showMaintenanceScreen ? <MaintenanceScreen /> : null }
 
-        {this.state.overlaid && <LoadingOverlay />}
+        {this.state.overlaid  && <LoadingOverlay />}
 
       </View>
     )

@@ -4,10 +4,9 @@ import {Dimensions,StyleSheet, CameraRoll, NativeModules, Text, Image, View, Tou
 import Camera from 'react-native-camera';
 import colors from '../utils/colors'
 import BackButton from '../components/BackButton'
-import EditImageThumb from '../screens/registration/EditImageThumb'
-import EditImage from '../screens/registration/EditImage'
+import EditImageThumb from '../screens/EditImageThumb'
+import EditImage from '../screens/EditImage'
 import OnboardingActions from '../flux/actions/OnboardingActions'
-import OnboardingBackButton from '../screens/registration/BackButton'
 import Analytics from '../utils/Analytics'
 const {ImageStoreManager} = NativeModules
 const DeviceHeight = Dimensions.get('window').height;

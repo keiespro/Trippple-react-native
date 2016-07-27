@@ -12,8 +12,8 @@ import FakeNavBar from './FakeNavBar'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 const ScrollViewPropTypes = ScrollView.propTypes;
-import EditImageThumb from '../screens/registration/EditImageThumb'
-import EditImage from '../screens/registration/EditImage'
+import EditImageThumb from '../screens/EditImageThumb'
+import EditImage from '../screens/EditImage'
 
 
 const { RNAppInfo, } = NativeModules;

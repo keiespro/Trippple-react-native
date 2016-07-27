@@ -14,7 +14,6 @@ const DeviceWidth = Dimensions.get('window').width
 import Carousel from './carousel'
 
 import Auth from './auth'
-import Facebook from '../../screens/registration/facebook'
 import Analytics from '../../utils/Analytics'
 
 import SettingsDebug from '../SettingsDebug'

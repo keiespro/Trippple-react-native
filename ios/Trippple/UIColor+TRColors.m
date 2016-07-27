@@ -134,4 +134,10 @@
     return [UIColor colorWithRed:132.0f / 255.0f green:89.0f / 255.0f blue:218.0f / 255.0f alpha:0.4f];
 }
 
+
++ (UIColor *)tr_cornflowerBlueColor {
+  return [UIColor colorWithRed:63.0f / 255.0f green:115.0f / 255.0f blue:219.0f / 255.0f alpha:1.0f];
+}
+
+
 @end

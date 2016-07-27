@@ -6,13 +6,12 @@ import UserActions from '../../flux/actions/UserActions'
 import BoxyButton from '../../controls/boxyButton'
 import FBPhotoAlbums from '../fb.login'
 import {MagicNumbers} from '../../DeviceConfig'
-
+import FacebookButton from '../../buttons/FacebookButton'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import OnboardingActions from '../../flux/actions/OnboardingActions'
 import FBSDK from 'react-native-fbsdk'
-const { GraphRequest, GraphRequestManager } = FBSDK
-import FacebookButton from '../../buttons/FacebookButton'
+const { LoginManager, AccessToken, GraphRequest, GraphRequestManager } = FBSDK
 
 
 class Facebook extends Component{
@@ -29,56 +28,77 @@ class Facebook extends Component{
       user: null,
     }
   }
-
-  handleUserInfo(fbUserData){
-    console.log(fbUserData);
+  componentDidMount(){
+  }
+  handleUserInfo(err, fbUserData){
+    if(err){
+      console.log('ERR',err);
+      return
+    }
     this.setState({fbUserData})
+
+    UserActions.fbLogin(this.state.fbUser,fbUserData)
   }
   handleCredentials(fbUserAuth){
     console.log(fbUserAuth);
-    const fbUser = fbUserAuth.credentials;
+    const fbUser = fbUserAuth;
     this.setState({fbUser})
 
 
 
     const infoRequest = new GraphRequest(
-      `/${fbUser.userId}`,
-      [
-        'email',
-        'public_profile',
-        'user_birthday',
-        'user_friends',
-        'user_likes',
-        'user_location',
-        'user_photos'
-      ],
+      `/${fbUser.userID}/`,
+      {
+        parameters:{
+          fields: {
+            string: 'email,albums,birthday,name,location,friends,photos,likes,about,cover,devices,gender,interested_in,relationship_status,significant_other,timezone,picture'
+          }
+        },
+        accessToken: fbUserAuth.accessToken
+     },
       this.handleUserInfo.bind(this),
     );
     // Start the graph request.
-    new GraphRequestManager().addRequest(infoRequest).start();
+    const FBG = new GraphRequestManager();
+    console.log(FBG);
+    const REQ = FBG.addRequest(infoRequest)
+    console.log(REQ);
+    REQ.start();
+
 
     console.log(infoRequest)
   }
 
+  login(){
+    console.log(LoginManager);
+    LoginManager.logInWithReadPermissions([  'email', 'public_profile', 'user_birthday', 'user_friends', 'user_likes', 'user_location', 'user_photos']).then(fb => {
+      console.log(fb);
+      AccessToken.getCurrentAccessToken().then(data => {
+        console.log(data);
+        this.handleCredentials(data)
+      })
+    }).catch(err =>{
+      console.log(err);
+    })
 
-  skipFacebook(){
-    OnboardingActions.proceedToNextScreen({});
   }
+
+
+
 
   render() {
     return (
-      <View style={{width:DeviceWidth,height:DeviceHeight,position:'relative',backgroundColor:colors.outerSpace}}>
+      <View style={{width:DeviceWidth,height:DeviceHeight,backgroundColor:colors.outerSpace}}>
 
         <View style={[styles.container,{}]}>
 
-          <View style={styles.middleTextWrap}>
-            {/*<Text style={styles.middleText}>Save time. Get more matches.</Text>*/}
-          </View>
+
           <View style={{alignSelf:'stretch'}}>
-            <FacebookButton buttonType={'login'} buttonText={'LOG IN'} onLogin={this.handleCredentials.bind(this)} />
+
+            <FacebookButton onPress={this.login.bind(this)}/>
 
             <View style={styles.middleTextWrap}>
-              <Text style={[styles.middleText,{fontSize:16,marginTop:20,textAlign:'center',width:MagicNumbers.screenWidth}]}>Don’t worry, we won't ever tell your friends or post on your wall.</Text>
+              <Text style={[styles.middleText,{fontSize:16,marginTop:20,textAlign:'center',width:MagicNumbers.screenWidth}]}>We will never post without your permission</Text>
             </View>
           </View>
           <View style={[styles.middleTextWrap,styles.bottomwrap]}>

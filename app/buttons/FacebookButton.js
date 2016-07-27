@@ -1,8 +1,11 @@
 import React from "react";
 import {Component, PropTypes} from "react";
 import {StyleSheet, Text, Image, Dimensions,NativeMethodsMixin, View, NativeModules, requireNativeComponent, TouchableHighlight, Alert, TouchableOpacity} from "react-native";
+import {MagicNumbers} from '../DeviceConfig'
 
-import { FBLoginManager } from 'NativeModules'
+import FBSDK from 'react-native-fbsdk'
+const { LoginManager, GraphRequest, GraphRequestManager } = FBSDK
+
 import colors from '../utils/colors'
 import UserActions from '../flux/actions/UserActions'
 import BoxyButton from '../controls/boxyButton'
@@ -21,11 +24,11 @@ const FACEBOOK_LOCALSTORAGE_KEY = 'facebook'
 class FacebookButton extends React.Component{
 
 
-  static Events = FBLoginManager.Events;
+  static Events = LoginManager.Events;
 
   static propTypes = {
     buttonText:PropTypes.string,
-    buttonType: PropTypes.oneOf(['upload','connectionStatus','onboard','settings'])
+    buttonType: PropTypes.oneOf(['login','upload','connectionStatus','onboard','settings'])
   };
 
   static defaultProps = {
@@ -55,15 +58,15 @@ class FacebookButton extends React.Component{
     }
   }
   componentDidMount(){
-
-    FBLoginManager.getCredentials((error, data)=>{
-      if (!error) {
-        this.setState({ fbUser : data.credentials });
-
-      } else {
-        this.setState({ fbUser : null });
-      }
-    });
+    LoginManager.setLoginBehavior(2)
+    // LoginManager.getCredentials((error, data)=>{
+    //   if (!error) {
+    //     this.setState({ fbUser : data.credentials });
+    //
+    //   } else {
+    //     this.setState({ fbUser : null });
+    //   }
+    // });
   }
   componentWillUnmount(){
     var {subscriptions} = this.state;
@@ -74,91 +77,37 @@ class FacebookButton extends React.Component{
   componentDidUpdate(){
 
   }
-  onPress(e){
-    // this.handleLogout();
-    // return
-    if( !this.state.fbUser){
-      FBLoginManager.getCredentials((error, data)=>{
-
-        if (!error) {
-          this.setState({ fbUser : data.credentials });
-          this.props._onPress && this.props._onPress(data.credentials);
-        } else {
-          this.handleLogin();
-
-          this.setState({ fbUser : null });
-
-        }
-      });
-    }else{
-      if(this.props.shouldLogoutOnTap){
-        Alert.alert(
-            'Log Out of Facebook',
-            'Are you sure you want to log out of Facebook?',
-            [
-              {text: 'Yes', onPress: () => {this.handleLogout()}},
-              {text: 'No', onPress: () => {return false}},
-            ]
-          )
-        }
-      this.props._onPress && this.props._onPress(this.state.fbUser);
-    }
-
-  }
-  handleLogin(){
-
-    // if(true){
-      FBLoginManager.loginWithPermissions(["email","user_photos","user_friends"],  (error, data) => {
-              if (!error && data && data.credentials) {
-
-              this.setState({ fbUser : data.credentials});
-              UserActions.updateUser({
-                facebook_user_id: data.credentials.userId,
-                facebook_oauth_access_token: data.credentials.token
-              });
-              this.props._onPress && this.props._onPress(this.state.fbUser);
-
-              this.props.onLogin && this.props.onLogin(data);
-            }else {
-              // console.log(error,data);
-              this.setState({ fbUser : null });
-            }
-
-
-        });
-
-
-    // }else{
-    //   FBLoginManager.login(  (error, data) => {
-    //     if (!error && data) {
-    //       this.setState({ fbUser : data.credentials});
-    //       UserActions.updateUser({
-    //         facebook_user_id: data.credentials.userId,
-    //         facebook_oauth_access_token: data.credentials.token
-    //       });
-    //
-    //       this.props.onLogin && this.props.onLogin(data);
-    //     } else {
-    //       this.setState({ fbUser : null });
-    //     }
-    //
-    //
-    //   });
-    // }
-  }
-
-  handleLogout(){
-
-    FBLoginManager.logout((error, data)=>{
-      if (!error) {
-        this.setState({ fbUser : null});
-        this.props.onLogout && this.props.onLogout();
-
-      } else {
-
-      }
-    });
-  }
+  // onPress(e){
+  //   // this.handleLogout();
+  //   // return
+  //   if( !this.state.fbUser){
+  //     LoginManager.getCredentials((error, data)=>{
+  //
+  //       if (!error) {
+  //         this.setState({ fbUser : data.credentials });
+  //         this.props._onPress && this.props._onPress(data.credentials);
+  //       } else {
+  //         this.handleLogin();
+  //
+  //         this.setState({ fbUser : null });
+  //
+  //       }
+  //     });
+  //   }else{
+  //     if(this.props.shouldLogoutOnTap){
+  //       Alert.alert(
+  //           'Log Out of Facebook',
+  //           'Are you sure you want to log out of Facebook?',
+  //           [
+  //             {text: 'Yes', onPress: () => {this.handleLogout()}},
+  //             {text: 'No', onPress: () => {return false}},
+  //           ]
+  //         )
+  //       }
+  //     this.props._onPress && this.props._onPress(this.state.fbUser);
+  //   }
+  //
+  //
   render(){
     var buttonText = this.props.buttonText;
     switch(this.props.buttonType){
@@ -172,7 +121,7 @@ class FacebookButton extends React.Component{
         buttonText = this.state.fbUser ? `VERIFIED` : `VERIFY WITH FB`
       break;
       case 'login':
-        buttonText =  `LOG IN`
+        buttonText =  `LOG IN WITH FACEBOOK`
       break;
       case 'settings':
         buttonText = this.state.fbUser ? `VERIFY NOW` : `VERIFY NOW`
@@ -183,17 +132,17 @@ class FacebookButton extends React.Component{
     return(
 
       <BoxyButton
-        text={buttonText}
+        text={`LOG IN WITH FACEBOOK`}
         buttonText={this.props.buttonTextStyle}
         outerButtonStyle={styles.iconButtonOuter}
         leftBoxStyles={styles.buttonIcon}
         innerWrapStyles={styles.button}
-        underlayColor={colors.mediumPurple20}
-        _onPress={this.onPress.bind(this)}>
+        underlayColor={colors.cornFlower}
+        _onPress={this.props.onPress}>
 
           <Image source={{uri: 'assets/fBlogo@3x.png'}}
-                    resizeMode={Image.resizeMode.cover}
-                        style={{height:40,width:20}} />
+                    resizeMode={Image.resizeMode.contain}
+                        style={{height:30,width:20,}} />
         </BoxyButton>
 
     )
@@ -206,14 +155,14 @@ export default FacebookButton
 
 const styles = StyleSheet.create({
   LogoBox: {
-    width: 40
   },
   iconButtonOuter:{
     alignSelf:'stretch',
     flex:1,
     alignItems:'stretch',
     flexDirection:'row',
-    marginVertical:15
+    height:MagicNumbers.is5orless ? 50 : 60,
+    marginVertical:15,
   },
   middleTextWrap: {
     alignItems:'center',
@@ -222,12 +171,16 @@ const styles = StyleSheet.create({
   },
 
   button:{
-    borderColor: colors.mediumPurple,
-    borderWidth: 1
+    borderColor: colors.cornFlower,
+    borderWidth: 1,
+    height:MagicNumbers.is5orless ? 50 : 60,
+
   },
   buttonIcon: {
-    backgroundColor: colors.mediumPurple20,
-    borderRightColor: colors.mediumPurple,
-    borderRightWidth: 1
+    width:60,
+    borderRightColor: colors.cornFlower,
+    borderRightWidth: 1,
+    backgroundColor: colors.cornFlower20,
+
   },
 })

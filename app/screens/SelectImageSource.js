@@ -14,9 +14,8 @@ import BoxyButton from '../controls/boxyButton'
 import colors from '../utils/colors'
 import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
 import BackButton from '../components/BackButton'
-import OnboardingBackButton from './registration/BackButton'
-import EditImage from './registration/EditImage'
-import EditImageThumb from './registration/EditImageThumb'
+import EditImage from './EditImage'
+import EditImageThumb from './EditImageThumb'
 import CameraControl from '../controls/cameraControl'
 import CameraRollView from '../controls/CameraRollView'
 import CameraRollPermissionsModal from '../modals/CameraRollPermissions'
@@ -111,8 +110,7 @@ class SelectImageSource extends Component{
   render(){
 
     const isCoupleImage = this.props.image_type == 'couple_profile' || this.props.imageType == 'couple_profile',
-          currentRoutes = this.props.navigator.getCurrentRoutes(),
-          isOnboarding = !currentRoutes.length || (currentRoutes[0] && currentRoutes[0].id != 'potentials');
+          currentRoutes = this.props.navigator.getCurrentRoutes();
 
     const copy = {
         coupleTitle: `You and your Partner`,
@@ -142,9 +140,7 @@ class SelectImageSource extends Component{
       <View style={styles.container}>
 
         <View style={{width:100,left:10,position:'absolute',alignSelf:'flex-start',top:-10}}>
-          {
-            isOnboarding ? <OnboardingBackButton/> : <BackButton navigator={this.props.navigator}/>
-          }
+          <BackButton navigator={this.props.navigator}/>
         </View>
         <View style={{justifyContent:'space-around',alignItems:'center',flex:1,marginTop:MagicNumbers.is5orless ? 30 : 50,marginBottom:MagicNumbers.is5orless ? 10 : 0}}>
         <Text style={styles.textTop}>{ isCoupleImage ? copy.coupleTitle : copy.singleTitle }</Text>

@@ -23,7 +23,7 @@ const DeviceWidth = Dimensions.get('window').width
 import DistanceSlider from '../controls/distanceSlider'
 import ToggleSwitch from '../controls/switches'
 import UserActions from '../flux/actions/UserActions'
-import EditImage from '../screens/registration/EditImage'
+import EditImage from '../screens/EditImage'
 import SelfImage from './loggedin/SelfImage'
 
 import FacebookButton from '../buttons/FacebookButton'
@@ -191,12 +191,14 @@ class SettingsBasic extends React.Component{
           <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:MagicNumbers.screenPadding/2}}  tabLabel={'GENERAL'}>
           {user.relationship_status == 'single' ? null : <View style={{height:150,width:150,alignSelf:'center'}}>
           <TouchableOpacity onPress={this._pressNewImage.bind(this)} style={{marginTop:20,}}>
-            <Image
-              style={styles.userimage}
-              key={user.id+'thu'}
-              defaultSource={ {uri: 'assets/placeholderUserWhite@3x.png'}}
-              source={singleImageThumb}
-              resizeMode={Image.resizeMode.fill}/>
+          <Image
+            style={[ styles.userimage, { backgroundColor:colors.dark}]}
+            key={this.props.user.id+'thumb'}
+            defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+            resizeMode={Image.resizeMode.cover}
+            source={{uri:singleImageThumb.uri || 'assets/placeholderUser@3x.png'}}
+          />
+
                 <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
                   <Image
                     style={{width:18,height:18}}

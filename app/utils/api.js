@@ -68,8 +68,8 @@ function publicRequest(endpoint, payload){
   return baseRequest(endpoint, payload)
 }
 
-function authenticatedRequest(endpoint: '', payload: {}){
-  const credentials = CredentialsStore.getCredentials();
+function authenticatedRequest(endpoint: '', payload: {}, forceCredentials){
+  const credentials = forceCredentials || CredentialsStore.getCredentials();
   const authPayload = {...payload, ...credentials};
   return baseRequest(endpoint, authPayload)
 }
@@ -123,13 +123,24 @@ const api = {
     return publicRequest('verify_security_pin', payload);
   },
 
+  fbLogin(fbAuth,fbUser){
+    const payload = {
+      fb_oauth_code: fbAuth.accessToken,
+      fb_user_id: fbAuth.userID,
+      device: deviceInfo,
+      platform: Platform.OS || 'iOS',
+      fbUserData: fbUser
+    }
+    return publicRequest('fb_login', payload);
+  },
+
   updateUser(payload){
     // payload.relationship_status = 'single'// HACK!
     return authenticatedRequest('update', payload)
   },
 
-  getUserInfo(){
-    return authenticatedRequest('info',{})
+  getUserInfo(creds){
+    return authenticatedRequest('info',{},creds)
   },
 
   getMatches(page){ //v2 endpoint

@@ -42,7 +42,30 @@ class UserActions {
       navigator.geolocation.getCurrentPosition(success, fail, options)
     }
   }
+  fbLogin(fbAuth,fbUser){
+    return (dispatch) => {
+      Api.fbLogin(fbAuth,fbUser)
+      .then(authResponse => {
+        const {api_key,user_id} = authResponse;
+        return Api.getUserInfo({api_key, user_id})
+                .then(res => {
+                  const {user_info} = res.response;
+                  return dispatch({
+                    userInfo: user_info,
+                    userAuth: {
+                      api_key,
+                      user_id
+                    }
+                  })
+                })
 
+      })
+      .catch(err => {
+        console.log('ERR',err);
+        dispatch(err)
+      })
+    }
+  }
   getUserInfo() {
     return (dispatch) => {
       Api.getUserInfo()

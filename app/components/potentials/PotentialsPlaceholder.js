@@ -84,39 +84,11 @@ class PotentialsPlaceholder extends React.Component{
             }}
             resizeMode={MagicNumbers.is4s ? Image.resizeMode.stretch : Image.resizeMode.contain}
             >
-            <Image
-              source={{uri: 'assets/iconClock@3x.png'}}
-              style={{
-                height: MagicNumbers.is4s ? MagicNumbers.screenWidth/2 - 20 : MagicNumbers.screenWidth/2,
-                width: MagicNumbers.is4s ? MagicNumbers.screenWidth/2 - 20 : MagicNumbers.screenWidth/2,
-                marginBottom: MagicNumbers.is4s ? 0 : MagicNumbers.screenPadding,
-                marginTop: MagicNumbers.is4s ? 40 : MagicNumbers.screenPadding*2
-              }}
-            />
-            <Text
-              style={{
-                color: colors.white,
-                fontFamily: 'Montserrat-Bold',
-                fontSize:  (MagicNumbers.size18+2),
-                marginVertical: 10
-              }}
-            >
-            COME BACK AT MIDNIGHT
-            </Text>
-            <Text
-              style={{
-                color: colors.rollingStone,
-                fontSize: MagicNumbers.size18,
-                marginHorizontal: MagicNumbers.is5orless ? 30 : 70,
-                marginBottom: 180,
-                textAlign: 'center'
-              }}
-            >
-              You’re all out of potential matches for today.
-            </Text>
+
+
 
             {userProfileIncomplete &&
-              <View style={{position:'absolute',bottom:0,alignSelf:'stretch',
+              <View style={{alignSelf:'stretch',
               width: MagicNumbers.is4s ? DeviceWidth - MagicNumbers.screenPadding*2 : DeviceWidth-30,
             }}>
                 <Text
@@ -125,9 +97,7 @@ class PotentialsPlaceholder extends React.Component{
                     fontSize: MagicNumbers.size18-2,
                     textAlign: 'center'
                   }}
-                >
-                  Get better matches...
-                </Text>
+                >Get better matches... </Text>
 
                 <TouchableHighlight
                 onPress={this.openProfileEditor.bind(this)}

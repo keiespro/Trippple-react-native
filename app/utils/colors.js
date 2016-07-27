@@ -80,7 +80,9 @@ const colors = {
 
   dandelion0:         'rgba(255,233,0,0.00)',
 
-  dandelion100:       'rgba(255,233,0,1.00)'
+  dandelion100:       'rgba(255,233,0,1.00)',
+  cornFlower:         'rgba(63, 115, 219, 1.00)',
+  cornFlower20:  'rgba(63, 115, 219, 0.20)',
 }
 
 
