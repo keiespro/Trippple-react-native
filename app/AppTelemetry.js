@@ -8,8 +8,8 @@ import Api from './utils/api'
 const { join, all } = Promise;
 
 
-const { RNAppInfo,SettingsManager, RNDeviceInfo } = NativeModules
-
+const { RNAppInfo,SettingsManager } = NativeModules
+import DeviceInfo from './utils/DeviceInfo'
 class AppTelemetry{
   async getPayload(){
     var snapshot = alt.takeSnapshot();
@@ -24,7 +24,7 @@ class AppTelemetry{
     } = RNAppInfo;
 
     const telemetryPayload = {
-            DeviceInfo:RNDeviceInfo,
+            DeviceInfo: DeviceInfo.get(),
             osSettings: SettingsManager.settings,
             state: JSON.parse(snapshot),
             appInfo: {

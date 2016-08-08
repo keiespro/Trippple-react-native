@@ -6,7 +6,7 @@ import CredentialsStore from '../flux/stores/CredentialsStore'
 import Promise from 'bluebird'
 import AppActions from '../flux/actions/AppActions'
 import config from '../config'
-import deviceInfo from './DeviceInfo'
+import DeviceInfo from './DeviceInfo'
 import Analytics from './Analytics'
 
 const { FileTransfer, RNAppInfo } = NativeModules,
@@ -119,7 +119,7 @@ const api = {
   },
 
   verifyPin(pin,phone){
-    const payload = { pin, phone, device: deviceInfo, platform: Platform.OS || 'iOS' }
+    const payload = { pin, phone, device: DeviceInfo.get(), platform: Platform.OS || 'iOS' }
     return publicRequest('verify_security_pin', payload);
   },
 
@@ -127,7 +127,7 @@ const api = {
     const payload = {
       fb_oauth_code: fbAuth.accessToken,
       fb_user_id: fbAuth.userID,
-      device: deviceInfo,
+      device: DeviceInfo.get(),
       platform: Platform.OS || 'iOS',
       fbUserData: fbUser
     }
@@ -135,7 +135,6 @@ const api = {
   },
 
   updateUser(payload){
-    // payload.relationship_status = 'single'// HACK!
     return authenticatedRequest('update', payload)
   },
 
@@ -190,7 +189,7 @@ const api = {
   },
 
   getPotentials(coordinates){
-    return authenticatedRequest('potentials')
+    return authenticatedRequest('potentials',{...coordinates})
   },
 
   sendLike(like_user_id,like_status,like_user_type,from_user_type){
@@ -202,10 +201,7 @@ const api = {
     return publicRequest('save_facebook_picture', photo);
   },
 
-  uploadImage(image, image_type, cropData,callback){
-    if(!image_type){
-      image_type = 'profile'
-    }
+  uploadImage(image, image_type: 'profile', cropData, callback){
     return authenticatedFileUpload('upload', image, image_type, cropData,callback)
   },
 
@@ -229,7 +225,7 @@ const api = {
     return publicRequest('get_client_user_profile_options')
   },
 
-  sendContactsToBlock(data,start): Promise{
+  sendContactsToBlock(data): Promise{
     return authenticatedRequest('process_phone_contacts', {data})
   },
 
