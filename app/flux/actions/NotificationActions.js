@@ -15,7 +15,7 @@ class NotificationActions {
   requestNotificationsPermission() {
     return (dispatch) => {
       PushNotificationIOS.addEventListener('register',(token) => {
-        __DEV__ && console.warn('APN -> ',token);
+        __DEV__ && console.log('APN -> ',token);
         Analytics.setUserProperties({ios_devices: [token]} )
 
         Api.updatePushToken(token)

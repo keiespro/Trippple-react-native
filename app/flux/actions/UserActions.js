@@ -133,8 +133,32 @@ class UserActions {
     }
   }
 
+  getNotificationCount(){
+
+    return (dispatch) => {
+      Api.getNotificationCount()
+        .then((res) => {
+          console.log('getNotificationCount',res);
+          dispatch({
+            response: res.response,
+          })
+        })
+        .catch((err) => {
+          console.log(err);
+          dispatch({
+            error: err
+          })
+        })
+    };
+
+  }
+
   updateUser(payload) {
     const updates = payload;
+
+    console.log(updates);
+
+
     return (dispatch) => {
       Api.updateUser(payload)
         .then((res) => {

@@ -33,7 +33,7 @@ class NotificationCommander extends Component{
     this.socket = io(WEBSOCKET_URL, {
       jsonp:false,
       transports: ['websocket'],
-      ['force new connection']: true
+      // ['force new connection']: true
     })
 
   }
@@ -42,6 +42,7 @@ class NotificationCommander extends Component{
 
   }
   componentDidMount(){
+    UserActions.getNotificationCount()
 
     if(this.props.user_id){
 
@@ -87,67 +88,7 @@ class NotificationCommander extends Component{
 
     const data = pushNotification.getData();
 
-    if(!data.action){ /* shot a blank */}
-
-    if(data.action === 'retrieve' && data.type == 'potentials') {
-
-      MatchActions.getPotentials()
-
-    }else if(data.action === 'retrieve' && data.match_id) {
-
-      // NotificationActions.receiveNewMatchNotification(data,true)
-      VibrationIOS.vibrate()
-      MatchActions.getMatches()
-      AppActions.updateRoute({route:'chat',match_id: data.match_id,})
-      NotificationActions.updateBadgeNumber.defer(-1)
-
-    }else if(data.action === 'chat' && data.match_id){
-
-      // NotificationActions.receiveNewMessageNotification(data,true)
-      VibrationIOS.vibrate()
-      MatchActions.getMessages(data.match_id)
-      AppActions.updateRoute({route:'chat',match_id: data.match_id,})
-      NotificationActions.updateBadgeNumber.defer(-1)
-
-    }else if(data.action === 'notify') {
-      VibrationIOS.vibrate()
-      Alert.alert(data.title, JSON.stringify(data.body));
-
-    }else if(data.action === 'match_removed'){
-
-      NotificationActions.receiveMatchRemovedNotification(data)
-
-    }else if(data.action && data.action == 'coupleready') {
-      VibrationIOS.vibrate()
-
-      // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
-      NotificationActions.receiveCoupleCreatedNotification(data);
-
-
-    }else if(data.action && data.action == 'decouple') {
-      VibrationIOS.vibrate()
-
-      // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
-      NotificationActions.receiveDecoupleNotification(data);
-
-
-    }else if(data.action && data.action == 'statuschange' || data.action == 'imageflagged') {
-
-      UserActions.getUserInfo.defer()
-
-    }else if(data.action == 'logout'){
-
-      UserActions.logOut()
-
-    }else if(data.action == 'report'){
-
-      AppActions.sendTelemetry()
-
-    }else if(data.action === 'checkupdate'){
-
-
-
-    }
+    this.this.handleAction(data)
     // Alert.alert('APN Push Notification',JSON.stringify(pushNotification.getData()));
   }
   _handleAppStateChange(appState){
@@ -212,46 +153,7 @@ class NotificationCommander extends Component{
       let data = tempData;
       this.setState({processing:true});
 
-
-      if(data.action && data.action === 'retrieve' && data.match_id) {
-
-        NotificationActions.receiveNewMatchNotification(data)
-
-      }else if(data.action === 'match_removed'){
-
-        NotificationActions.receiveMatchRemovedNotification(data)
-
-      }else if(data.action && data.action == 'statuschange' || data.action == 'imageflagged') {
-
-        UserActions.getUserInfo()
-
-      }else if(data.action && data.action == 'coupleready') {
-        VibrationIOS.vibrate()
-
-        // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
-        NotificationActions.receiveCoupleCreatedNotification(data);
-
-
-      }else if(data.action && data.action == 'decouple') {
-        VibrationIOS.vibrate()
-
-        // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
-        NotificationActions.receiveDecoupleNotification(data);
-
-
-      }else if(data.action && data.action === 'logout') {
-
-        UserActions.logOut()
-
-      }else if(data.action === 'checkupdate'){
-
-
-
-      }else if(data.action && data.action === 'display') {
-
-        NotificationActions.receiveGenericNotification(data)
-
-      }
+      this.handleAction(data)
 
 //       payload: {
 //         data: {
@@ -280,7 +182,112 @@ class NotificationCommander extends Component{
     })
 
   }
+  handleAction(data){
 
+        if(!data || !data.action){
+          return
+        }
+
+        if(data.action === 'retrieve' && data.type == 'potentials') {
+
+          MatchActions.getPotentials()
+
+        }else if(data.action === 'retrieve' && data.match_id) {
+
+          NotificationActions.receiveNewMatchNotification(data,true)
+          VibrationIOS.vibrate()
+          MatchActions.getMatches()
+          AppActions.updateRoute({route:'chat',match_id: data.match_id,})
+          NotificationActions.updateBadgeNumber.defer(-1)
+
+        }else if(data.action === 'chat' && data.match_id){
+
+          NotificationActions.receiveNewMessageNotification(data,true)
+          VibrationIOS.vibrate()
+          MatchActions.getMessages(data.match_id)
+          AppActions.updateRoute({route:'chat',match_id: data.match_id,})
+          NotificationActions.updateBadgeNumber.defer(-1)
+
+        }else if(data.action === 'notify') {
+          VibrationIOS.vibrate()
+          Alert.alert(data.title, JSON.stringify(data.body));
+
+        }else if(data.action === 'match_removed'){
+
+          NotificationActions.receiveMatchRemovedNotification(data)
+
+        }else if(data.action == 'coupleready') {
+          VibrationIOS.vibrate()
+
+          // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
+          NotificationActions.receiveCoupleCreatedNotification(data);
+
+
+        }else if(data.action == 'decouple') {
+          VibrationIOS.vibrate()
+
+          // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
+          NotificationActions.receiveDecoupleNotification(data);
+
+
+        }else if(data.action == 'statuschange' || data.action == 'imageflagged') {
+
+          UserActions.getUserInfo.defer()
+
+        }else if(data.action == 'logout'){
+
+          UserActions.logOut()
+
+        }else if(data.action == 'report'){
+
+          AppActions.sendTelemetry()
+
+        }else if(data.action === 'display') {
+
+          NotificationActions.receiveGenericNotification(data)
+
+        }
+      //
+      // if(data.action && data.action === 'retrieve' && data.match_id) {
+      //
+      //   NotificationActions.receiveNewMatchNotification(data)
+      //
+      // }else if(data.action === 'match_removed'){
+      //
+      //   NotificationActions.receiveMatchRemovedNotification(data)
+      //
+      // }else if(data.action && data.action == 'statuschange' || data.action == 'imageflagged') {
+      //
+      //   UserActions.getUserInfo()
+      //
+      // }else if(data.action && data.action == 'coupleready') {
+      //   VibrationIOS.vibrate()
+      //
+      //   // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
+      //   NotificationActions.receiveCoupleCreatedNotification(data);
+      //
+      //
+      // }else if(data.action && data.action == 'decouple') {
+      //   VibrationIOS.vibrate()
+      //
+      //   // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
+      //   NotificationActions.receiveDecoupleNotification(data);
+      //
+      //
+      // }else if(data.action && data.action === 'logout') {
+      //
+      //   UserActions.logOut()
+      //
+      // }else if(data.action === 'checkupdate'){
+      //
+      //
+      //
+      // }else if(data.action && data.action === 'display') {
+      //
+      //   NotificationActions.receiveGenericNotification(data)
+      //
+      // }
+  }
   disconnectSocket(){
     const {apikey,user_id} = this.props
 

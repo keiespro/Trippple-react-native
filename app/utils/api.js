@@ -174,6 +174,10 @@ const api = {
     })
   },
 
+  getNotificationCount(){
+    return authenticatedRequest('notification_totals', {})
+  },
+
   getMessages(payload){
     if(!payload.match_id){ return false }
     return authenticatedRequest('messages', {...payload, message_type: 'retrieve'})
