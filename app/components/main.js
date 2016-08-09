@@ -75,7 +75,9 @@ class Main extends Component{
         passProps: {},
       })
     }
-    //
+
+    MatchActions.getPotentials()
+
     if( initCouplePin && this.props.user.relationship_status == 'single'){
       this.setTimeout(()=>{
         AppActions.showInModal({
