@@ -2,7 +2,7 @@ import RNDeviceInfo from 'react-native-device-info'
 
 class DeviceInfo {
 
-  get(){
+  static get = ()=> {
     return {
       uuid: RNDeviceInfo.getUniqueID(),
       version: RNDeviceInfo.getSystemVersion(),

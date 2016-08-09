@@ -1,7 +1,7 @@
 /* @flow */
 import React, {Component} from "react";
 
-import {StyleSheet, Text, View, Image, ScrollView, Navigator, Dimensions, TouchableHighlight} from "react-native";
+import {StyleSheet, Text, View, Image, ScrollView, Navigator, Dimensions, TouchableHighlight,TouchableOpacity} from "react-native";
 
 import TimerMixin from 'react-timer-mixin'
 
@@ -124,14 +124,28 @@ class Auth extends Component{
       activeTab:newTab
     })
   }
+  triggerPhoneLogin(){
+    this.props.navigator.push({
+      component:Login,
+      title: 'Log in ',
+      id:'login',
+      passProps: {
+
+      }
+    });
+
+  }
   render(){
 
     return (
       <View style={styles.container}>
         <TopTabs toggleTab={this.toggleTab.bind(this)} active={this.state.activeTab}/>
-          <FadeInContainer delayAmount={0} duration={300}>
-            <FacebookLogin />
-          </FadeInContainer>
+        <FadeInContainer delayAmount={0} duration={300}>
+          <View>
+            <FacebookLogin navigator={this.props.navigator} tab={this.state.activeTab} />
+
+          </View>
+        </FadeInContainer>
       </View>
     );
   }

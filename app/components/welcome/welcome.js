@@ -43,26 +43,26 @@ const Welcome = React.createClass({
 
     return (
       <View>
-      <FadeInContainer
-        delayAmount={global.__TEST__ ? 0 : 800}
-        duration={global.__TEST__ ? 0 : 500}>
+        <FadeInContainer
+          delayAmount={global.__TEST__ ? 0 : 800}
+          duration={global.__TEST__ ? 0 : 500}>
 
-        <Image resizeMode={Image.resizeMode.cover} style={styles.imagebg}>
-          <Navigator
-            initialRoute={{
-              component: IntroScreen,
-              title: 'intro',
-              id:'intro',
-            }}
-            ref={'nav'}
-            key={'innerNav'}
-            configureScene={ (route) => {
-              return route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.VerticalSlide
-            }}
-            renderScene={this.renderScene}
-          />
-        </Image>
-      </FadeInContainer>
+          <Image resizeMode={Image.resizeMode.cover} style={styles.imagebg}>
+            <Navigator
+              initialRoute={{
+                component: IntroScreen,
+                title: 'intro',
+                id:'intro',
+              }}
+              ref={'nav'}
+              key={'innerNav'}
+              configureScene={ (route) => {
+                return route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.VerticalSlide
+              }}
+              renderScene={this.renderScene}
+            />
+          </Image>
+        </FadeInContainer>
       </View>
     );
   },

@@ -13,6 +13,7 @@ import OnboardingActions from '../../flux/actions/OnboardingActions'
 import FBSDK from 'react-native-fbsdk'
 const { LoginManager, AccessToken, GraphRequest, GraphRequestManager } = FBSDK
 
+import Login from './login';
 
 class Facebook extends Component{
   static propTypes = {
@@ -84,7 +85,17 @@ class Facebook extends Component{
   }
 
 
+  triggerPhoneLogin(){
+    this.props.navigator.push({
+      component:Login,
+      title: 'Log in ',
+      id:'login',
+      passProps: {
 
+      }
+    });
+
+  }
 
   render() {
     return (
@@ -106,6 +117,9 @@ class Facebook extends Component{
               onPress={this.skipFacebook.bind(this)}
               ><Text style={styles.middleText}>{this.state.fbUser ? 'Continue' : 'No thanks'}</Text>
             </TouchableOpacity>*/}
+            {this.props.tab == 'login' && <TouchableOpacity onPress={this.triggerPhoneLogin.bind(this)}>
+              <Text>Login</Text>
+            </TouchableOpacity>}
           </View>
         </View>
       </View>

@@ -47,6 +47,7 @@ class Login extends Component{
   }
 
   onError(err){
+    console.log(err);
     if(!err || !err.phoneError){
         return;
     }
@@ -98,7 +99,7 @@ class Login extends Component{
           component: PinScreen,
           title: 'pin',
           id:'pw',
-          sceneConfig: CustomSceneConfigs.HorizontalSlide,
+          // sceneConfig: CustomSceneConfigs.HorizontalSlide,
           passProps: {
             phone: this.state.phone,
             initialKeyboardSpace: this.state.keyboardSpace
