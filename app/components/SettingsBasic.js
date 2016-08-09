@@ -3,8 +3,7 @@
 
 import React from "react";
 
-import {StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, TextInput, ScrollView, SwitchIOS, Animated, PickerIOS, PixelRatio, Image, AsyncStorage, Navigator} from "react-native";
-import Mixpanel from '../utils/mixpanel';
+import {StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, TextInput, ScrollView, Switch, Animated, Picker, PixelRatio, Image, AsyncStorage, Navigator} from "react-native";
 import SegmentedView from '../controls/SegmentedView'
 import ScrollableTabView from '../scrollable-tab-view'
 import FakeNavBar from '../controls/FakeNavBar';
@@ -15,7 +14,7 @@ import moment from 'moment'
 
 import Dimensions from 'Dimensions'
 import ParallaxView from  '../controls/ParallaxScrollView'
-import PhoneNumberInput from '../controls/phoneNumberInput.js'
+import PhoneNumberInput from '../controls/phoneNumberInput'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -32,7 +31,7 @@ import Contacts from '../screens/contacts'
 import colors from '../utils/colors'
 import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
 import CloseButton from './CloseButton'
-import Api from '../utils/api'
+
 import TrackKeyboardMixin from '../mixins/keyboardMixin'
 import reactMixin from 'react-mixin'
 import Analytics from '../utils/Analytics'
@@ -40,13 +39,14 @@ import Analytics from '../utils/Analytics'
 import FieldModal from './FieldModal'
 import formatPhone from '../utils/formatPhone'
 
-var PickerItemIOS = PickerIOS.Item;
+var PickerItem = Picker.Item;
 
 class ProfileField extends React.Component{
   constructor(props){
     super(props)
+
     this.state = {
-      selectedDropdown: '',
+      selectedDropdown: props.user[props.fieldName] || '',
     }
   }
 
@@ -91,20 +91,22 @@ class ProfileField extends React.Component{
           // always add an empty option at the beginning of the array
 
           return (
-            <PickerIOS
+            <Picker
               style={{alignSelf:'center',width:330,backgroundColor:'transparent',marginHorizontal:0,alignItems:'stretch'}}
               itemStyle={{fontSize: 24, color: colors.white, textAlign: 'center'}}
-              selectedValue={this.state.selectedDropdown || field.values[0] || null}
+              selectedValue={this.state.selectedDropdown || field.values[this.state.selectedDropdown] || null}
               >
-              {get_values.map((val) => (
-                <PickerItemIOS
+              {get_values.map((val) => {
+
+                return ( <PickerItem
                   key={val}
-                  value={val}
+                  value={get_key_vals[val] || val}
                   label={(field.labelPrefix || '') + (get_key_vals[val] || val) + (field.labelSuffix || '')}
                   />
                 )
+              }
               )}
-            </PickerIOS>
+            </Picker>
           );
 
         default:

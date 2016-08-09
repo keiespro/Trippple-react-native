@@ -219,7 +219,7 @@ class FieldModal extends React.Component{
     fieldValue = fieldValue ? fieldValue.toString().toUpperCase() : '';
 
     var selectedFieldLabel = (this.state.value || fieldLabel || '');
-    var selectedFieldValue = (this.state.value || fieldValue || '');
+    var selectedFieldValue = (this.state.value || fieldValue || this.props.fieldValue);
 
     if (typeof field.values == 'object' && selectedFieldValue) {
       selectedFieldLabel = this.getValueFromKey(field.values, selectedFieldValue).value || selectedFieldLabel;
