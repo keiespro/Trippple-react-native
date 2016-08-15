@@ -22,7 +22,7 @@ class LoadingOverlay extends React.Component{
   render() {
     return (
       <View style={{position:'absolute',top:0,left:0}}>
-        <FadeInContainer onShow={()=>this.setState({welcome:true})} fadeOut={true} duration={800} delay={3000}>
+        <FadeInContainer onShow={()=>this.setState({welcome:true})} fadeOut={true} duration={800} delay={2600}>
           <BlurView style={styles.background} blurType="dark">
             <ActivityIndicator
               size="large"
@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width:DeviceWidth,
-    height:DeviceHeight
+    height:DeviceHeight,
+    paddingTop:10
   },
 })
 

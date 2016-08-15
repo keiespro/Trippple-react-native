@@ -31,7 +31,7 @@ import Api from '../utils/api'
 import FieldModal from './FieldModal'
 import AppActions from '../flux/actions/AppActions'
 
-const ACTUAL_VERSION = '2.4.0'  //"2.4.2"
+const ACTUAL_VERSION = '2.5'
 
 Analytics.log(ACTUAL_VERSION)
 

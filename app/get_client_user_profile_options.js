@@ -7,12 +7,12 @@ export default {
   },
   "birthday": {
     "label": "Birthday",
-    "field_type": "birthday"
+    "field_type": "date"
   },
   "gender": {
     "label": "Gender",
     "field_type": "dropdown",
-    "values": ["Male", "Female"]
+    "values": ["M","F","MF","MM","FF"]
   },
   "email": {
     "label": "Email",
@@ -33,7 +33,7 @@ export default {
     "label": "Height",
     "field_type": "dropdown",
     "values": {
-      "5.0": "5'",
+      "5.0": "5' 0\"",
       "5.1": "5' 1\"",
       "5.2": "5' 2\"",
       "5.3": "5' 3\"",
@@ -45,7 +45,7 @@ export default {
       "5.9": "5' 9\"",
       "5.10": "5' 10\"",
       "5.11": "5' 11\"",
-      "6.0": "6'",
+      "6.0": "6' 0\"",
       "6.1": "6' 1\"",
       "6.2": "6' 2\"",
       "6.3": "6' 3\"",
@@ -57,7 +57,6 @@ export default {
       "6.9": "6' 9\"",
       "6.10": "6' 10\"",
       "6.11": "6' 11\"",
-      "7.0": "7'"
     }
   },
   "eye_color": {

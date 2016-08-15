@@ -5,10 +5,10 @@ const ScreensList = [
 './components/pin',
 './screens/CheckMark',
 './screens/imageFlagged',
-'./screens/selectImageSource',
-'./screens/registration/facebook',
-'./screens/registration/bday',
-'./screens/registration/gender'
+'./screens/FacebookImageSource',
+// './screens/registration/facebook',
+// './screens/registration/bday',
+// './screens/registration/gender'
   // require('./components/pin'),
   // require('./screens/CheckMark'),
   // require('./components/welcome')

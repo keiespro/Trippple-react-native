@@ -101,7 +101,6 @@ class TopLevel extends Component{
 
         <ModalDirector
           user={user}
-
           AppState={this.props.AppState}
         />
 
@@ -123,6 +122,7 @@ class TopLevel extends Component{
     )
   }
 }
+
 TopLevel.displayName = 'TopLevel'
 
 

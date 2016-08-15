@@ -67,16 +67,16 @@ const styles = StyleSheet.create({
     borderColor: colors.shuttleGray,
   },
   animatedIcon:{
-    height:60,
-    width:60,
-    borderRadius:30,
+    height:100,
+    width:100,
+    borderRadius:50,
     alignItems:'center',
     justifyContent:'center',
     top:DeviceHeight/2 - 80,
     left:DeviceWidth/2 - 50,
     position:'absolute',
     // shadowColor:colors.darkShadow,
-    backgroundColor:'transparent',
+    backgroundColor:'black',
     // shadowRadius:5,
     // shadowOpacity:50,
     // overflow:'hidden',
@@ -180,6 +180,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf:'stretch',
     padding:0,
+    // position:'absolute',
     alignItems:'center',
     justifyContent:'center'
 

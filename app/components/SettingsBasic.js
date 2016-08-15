@@ -221,7 +221,7 @@ class SettingsBasic extends React.Component{
               return <ProfileField key={field+'key'+(i*10)} user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
             })}
 
-            {['birthday','gender'].map((field,i) => {
+            {['birthday'].map((field,i) => {
               return (
                 <View key={field+'key'+i} style={styles.wrapperBirthdayGender}>
                   <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ field.toUpperCase()}</Text>
@@ -243,6 +243,12 @@ class SettingsBasic extends React.Component{
                 </View>
               )
             })}
+           {['gender'].map((field,i) => {
+            return (
+
+              <ProfileField key={field+'key'+(i*1000)}  user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
+            )
+          })}
             <View style={styles.paddedSpace}>
               <View style={styles.formHeader}>
                 <Text style={styles.formHeaderText}>Contact Info</Text>
@@ -302,36 +308,7 @@ class SettingsBasic extends React.Component{
 
           </View>
         </ScrollableTabView>
-        <View style={[{
-
-    backgroundColor:colors.outerSpace,
-    alignItems:'stretch',
-    alignItems:'stretch',flex:1,
-    width:DeviceWidth-40
-          }]}>
-
-        {!this.props.user.facebook_user_id ?
-
-        <View style={styles.paddedSpace}>
-          <View style={styles.formHeader}>
-            <Text style={styles.formHeaderText}>Get More Matches</Text>
-          </View>
-        </View> : null }
-
-        {!this.props.user.facebook_user_id ?
-          <View style={[styles.paddedSpace,{width:DeviceWidth,marginTop:10,flex:1,alignItems:'stretch',alignSelf:'stretch'}]}>
-          <FacebookButton shouldLogoutOnTap={true} _onPress={this.onPressFacebook.bind(this)} buttonType={'settings'} buttonTextStyle={{fontSize:20,fontFamily:'Montserrat-Bold'}} wrapperStyle={{height:100,padding:0}}/>
-
-          </View>
-          :  <View style={[styles.paddedSpace,{height:MagicNumbers.is4s ? 100 : 150,width:DeviceWidth,marginTop:10,flex:1,alignItems:'stretch',alignSelf:'stretch'}]}/>
-}
-
-        {!this.props.user.facebook_user_id ?
-
-        <View style={[styles.paddedSpace,{width:DeviceWidth,marginBottom:25}]}>
-          <Text style={{color:colors.shuttleGray,textAlign:'center',fontSize:16}}>Don’t worry, we wont tell your friends or post on your wall.</Text>
-        </View> : null }
-          </View>
+      
       </View>
 
       </ScrollView>

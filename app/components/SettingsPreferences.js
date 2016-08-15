@@ -20,7 +20,7 @@ import {
   Navigator
 } from  'react-native'
 
-import Mixpanel from '../utils/mixpanel';
+
 import FakeNavBar from '../controls/FakeNavBar';
 import dismissKeyboard from 'dismissKeyboard'
 import Dimensions from 'Dimensions'
@@ -159,42 +159,36 @@ class  SettingsPreferences extends React.Component{
               </View>
             </View>
 
-      {this.props.user.relationship_status == 'single' ?
         <Selectable
           field={'looking_for_mf'}
           onPress={this.onPressSelectable.bind(this)}
           label={'MALE + FEMALE COUPLES'}
           values={values}
-        /> : null }
-      {this.props.user.relationship_status == 'single' ?
+        />
         <Selectable
           field={'looking_for_mm'}
           onPress={this.onPressSelectable.bind(this)}
           label={'MALE + MALE COUPLES'}
           values={values}
-        /> : null }
-      {this.props.user.relationship_status == 'single' ?
+        />
         <Selectable
           field={'looking_for_ff'}
           onPress={this.onPressSelectable.bind(this)}
           label={'FEMALE + FEMALE COUPLES'}
           values={values}
-        /> : null }
-
-      {this.props.user.relationship_status == 'couple' ?
+        />
         <Selectable
           field={'looking_for_f'}
           onPress={this.onPressSelectable.bind(this)}
           label={'FEMALE SINGLES'}
           values={values}
-        /> : null }
-      {this.props.user.relationship_status == 'couple' ?
+        />
         <Selectable
           field={'looking_for_m'}
           onPress={this.onPressSelectable.bind(this)}
           label={'MALE SINGLES'}
           values={values}
-        /> : null }
+        />
 
       <View style={{paddingTop:50}}>
 

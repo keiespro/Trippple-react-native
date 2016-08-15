@@ -42,7 +42,7 @@ const {HAS_SEEN_NOTIFICATION_REQUEST,LAST_ASKED_LOCATION_PERMISSION} = SETTINGS_
 
   checkNotificationsSetting(){
     OSPermissions.canUseNotifications((hasPermission)=>{
-
+      console.log('hasPermission notifications',hasPermission)
 
       if(parseInt(hasPermission) > 2){
         const hasSeenNotificationRequest = Settings.get(HAS_SEEN_NOTIFICATION_REQUEST);
@@ -50,6 +50,7 @@ const {HAS_SEEN_NOTIFICATION_REQUEST,LAST_ASKED_LOCATION_PERMISSION} = SETTINGS_
 //         if(!hasSeenNotificationRequest && this.props.triggers.relevantUser){
 //           this.showNotificationRequest(this.props.triggers.relevantUser)
 //         }
+        NotificationActions.requestNotificationsPermission()
       }else{
         // AppActions.showInModal({
         //   component: NotificationPermissions,

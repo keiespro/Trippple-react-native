@@ -109,35 +109,31 @@ class PotentialsPage extends React.Component{
   }
 
   componentDidUpdate(){
-    if( !this.state.hasPushPermission && !this.state.requestingPushPermission && this.props.potentialsMeta && this.props.potentialsMeta.relevantUser ){
-      this.setState({requestingPushPermission:true})
-      this.props.navigator.push({
-        component: NotificationPermissions,
-        passProps:{}
-      })
-    }
+    // if( !this.state.hasPushPermission && !this.state.requestingPushPermission && this.props.potentialsMeta && this.props.potentialsMeta.relevantUser ){
+    //   this.setState({requestingPushPermission:true})
+    //   this.props.navigator.push({
+    //     component: NotificationPermissions,
+    //     passProps:{}
+    //   })
+    // }
 
 
     if(this.props.potentials && this.props.potentials[1]){
       const potential = this.props.potentials[1]
       if(potential.user.image_url && potential.user.image_url.indexOf('http') >= 0){
-        // Image.prefetch(potential.partner.thumb_url)
-        Image.prefetch(potential.user.image_url)
+        // Image.prefetch(potential.user.image_url)
       }
       if(potential.partner && potential.partner.image_url && potential.partner.image_url.indexOf('http') >= 0){
-        // Image.prefetch(potential.partner.thumb_url)
-        Image.prefetch(potential.partner.image_url)
+        // Image.prefetch(potential.partner.image_url)
       }
     }
     if(this.props.potentials && this.props.potentials[2]){
       const thirdpotential = this.props.potentials[2]
       if(thirdpotential.user.image_url && thirdpotential.user.image_url.indexOf('http') >= 0){
-        // Image.prefetch(thirdpotential.user.thumb_url)
-        Image.prefetch(thirdpotential.user.image_url)
+        // Image.prefetch(thirdpotential.user.image_url)
       }
       if(thirdpotential.partner && thirdpotential.partner.image_url && thirdpotential.partner.image_url.indexOf('http') >= 0){
-        // Image.prefetch(thirdpotential.partner.thumb_url)
-        Image.prefetch(thirdpotential.partner.image_url)
+        // Image.prefetch(thirdpotential.partner.image_url)
       }
     }
   }

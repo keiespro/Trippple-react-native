@@ -46,6 +46,7 @@ class UserActions {
     return (dispatch) => {
       Api.fbLogin(fbAuth,fbUser)
       .then(authResponse => {
+        console.log(authResponse);
         const {api_key,user_id} = authResponse;
         return Api.getUserInfo({api_key, user_id})
                 .then(res => {

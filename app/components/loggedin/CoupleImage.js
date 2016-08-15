@@ -1,13 +1,13 @@
 import React from "react";
 
-import SelectImageSource from '../../screens/SelectImageSource'
+import FacebookImageSource from '../../screens/FacebookImageSource'
 
 class CoupleImage extends React.Component{
   constructor(props){
     super()
   }
   render(){
-    return <SelectImageSource {...this.props} imageType={'couple_profile'} />
+    return <FacebookImageSource {...this.props} imageType={'couple_profile'} />
   }
 }
 

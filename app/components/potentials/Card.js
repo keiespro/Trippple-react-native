@@ -47,12 +47,16 @@ class Card extends React.Component{
 
     // __DEV__ && props.isTopCard && console.log('POTENTIAL CARD:');
     // // __DEV__ && props.isTopCard && console.table && console.table(props.potential);
-    if( props.potential && props.potential.user && props.potential.user.image_url){
-      Image.prefetch(props.potential.user.image_url)
-    }
-    if( props.potential && props.potential.partner && props.potential.partner.image_url){
-      Image.prefetch(props.potential.partner.image_url)
-    }
+    // if( props.potential && props.potential.user && props.potential.user.image_url && props.potential.user.image_url != ''){
+    //   const img = props.potential.user.image_url;
+    //   console.log(img);
+    //   if(img && img.length > 1) Image.prefetch(img)
+    // }
+    // if( props.potential && props.potential.partner && props.potential.partner.image_url && props.potential.partner.image_url != ''){
+    //   const img2 = props.potential.partner.image_url;
+    //   console.log(img2);
+    //   if(img2 && img2.length > 1) Image.prefetch(img2)
+    // }
 
   }
   getScrollResponder(){
@@ -83,7 +87,8 @@ class Card extends React.Component{
     this.checkPotentialSuitability();
   }
   openProfileFromImage(e,scroll){
-    if(!this.props.animatedIn || !this.props.isTopCard){ return }
+    console.log(e,scroll);
+    // if(!this.props.animatedIn || !this.props.isTopCard){ return }
     this.setState({activeIndex: this.state.activeIndex + 1})
     if(this.props.profileVisible){
       this.props.toggleProfile(this.props.potential)
@@ -238,10 +243,8 @@ class Card extends React.Component{
             style={[styles.card, {
               margin:0,
               padding:0,
-              height: undefined,
               position: 'relative',
               width:cardWidth,
-
               backgroundColor: colors.white
             }]}
             key={`${potential.id || potential.user.id}-view`}
@@ -273,7 +276,7 @@ class Card extends React.Component{
                 }) : colors.white,
               }}
             >
-              {this.props.user.relationship_status == 'single' ?
+              {potential.user.partner_id ?
                 <Swiper
                   key={`${potential.id || potential.user.id}-swiper`}
                   loop={true}
@@ -299,10 +302,9 @@ class Card extends React.Component{
                     pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                     key={`${potential.user.id}-touchableimg`}
                     style={[styles.imagebg,{ overflow:'hidden',height:undefined, width: undefined,}]}
-                    onPress={this.openProfileFromImage.bind(this)}
                   >
                     <Animated.Image
-                      source={ {uri:potential.user.image_url}}
+                    source={ potential.user.image_url ? {uri: potential.user.image_url} : null}
                       key={`${potential.user.id}-cimg`}
                       defaultSource={{uri: 'assets/defaultuser.png'}}
                       style={[styles.imagebg, {
@@ -338,7 +340,7 @@ class Card extends React.Component{
 
                       height:DeviceHeight-50
                     }]}
-                    onPress={this.openProfileFromImage.bind(this)}>
+                    onPress={this.openProfileFromImage.bind(this,true)}>
                     <Animated.Image
                       source={{uri: this.props.potential.user.image_url}}
                       key={`${potential.user.id}-cimg`}
@@ -367,6 +369,7 @@ class Card extends React.Component{
                   right:0,
                   left:0,
                   bottom:0,
+                  zIndex:100,
                   backgroundColor:colors.white,
                   width:DeviceWidth-MagicNumbers.screenPadding/2,
                   flexDirection:'row',
@@ -473,7 +476,7 @@ class Card extends React.Component{
               >
                 <Image
                   source={{uri: 'assets/iconApprove@3x.png'}}
-                  style={{backgroundColor:'transparent',width:100,height:100,
+                  style={{backgroundColor:'black',width:100,height:100,
                     paddingRight:50,
                   }}
                 />
@@ -546,13 +549,13 @@ class Card extends React.Component{
                               position:'relative',width:DeviceWidth,}}
             >
 
-              {this.props.user.relationship_status == 'single' ?
+              {potential.partner_id ?
                 <Swiper
                   key={`${potential.id || potential.user.id}-swiper`}
                   loop={true}
-                  horizontal={false}
+                  horizontal={true}
                   activeIndex={this.state.activeIndex}
-                  vertical={true}
+                  vertical={false}
                   autoplay={false}
                   showsPagination={true}
                   showsButtons={false}
@@ -572,7 +575,7 @@ class Card extends React.Component{
                     }]}
                   >
                     <Animated.Image
-                      source={ {uri: potential.user.image_url}}
+                      source={ potential.user.image_url ? {uri: potential.user.image_url} : null}
                       defaultSource={{uri: 'assets/defaultuser.png'}}
 
                       key={`${potential.user.id}-cimg`}
@@ -588,7 +591,7 @@ class Card extends React.Component{
                     />
                   </View>
 
-                  {/*{ potential.partner &&
+                  { potential.partner &&
                     <View
                       underlayColor={colors.mediumPurple}
                       pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
@@ -597,7 +600,7 @@ class Card extends React.Component{
                       onPress={this.openProfileFromImage.bind(this)}
                     >
                       <Animated.Image
-                        source={ {uri: potential.partner.image_url}}
+                        source={ potential.partner.image_url ? {uri: potential.partner.image_url} : null}
                         defaultSource={{uri: 'assets/defaultuser.png'}}
                         key={`${potential.partner.id}-cimg`}
                         style={[styles.imagebg,{
@@ -611,7 +614,7 @@ class Card extends React.Component{
                         resizeMode={Image.resizeMode.cover}
                       />
                   </View>
-                  }*/}
+                  }
                   {/*{ false && potential.partner && potential.image && potential.image != null && potential.image != '' ?
 
                     <View

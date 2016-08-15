@@ -32,16 +32,18 @@ class Facebook extends Component{
   componentDidMount(){
   }
   handleUserInfo(err, fbUserData){
+    console.log('handleUserInfo',err, fbUserData);
+
     if(err){
       console.log('ERR',err);
       return
     }
     this.setState({fbUserData})
-
+    console.log(this.state.fbUser,fbUserData);
     UserActions.fbLogin(this.state.fbUser,fbUserData)
   }
   handleCredentials(fbUserAuth){
-    console.log(fbUserAuth);
+    console.log('handleCredentials',fbUserAuth);
     const fbUser = fbUserAuth;
     this.setState({fbUser})
 
@@ -71,7 +73,6 @@ class Facebook extends Component{
   }
 
   login(){
-    console.log(LoginManager);
     LoginManager.logInWithReadPermissions([  'email', 'public_profile', 'user_birthday', 'user_friends', 'user_likes', 'user_location', 'user_photos']).then(fb => {
       console.log(fb);
       AccessToken.getCurrentAccessToken().then(data => {
@@ -106,7 +107,7 @@ class Facebook extends Component{
 
           <View style={{alignSelf:'stretch'}}>
 
-            <FacebookButton onPress={this.login.bind(this)}/>
+            <FacebookButton shouldAuthenticate={true} onPress={this.login.bind(this)}/>
 
             <View style={styles.middleTextWrap}>
               <Text style={[styles.middleText,{fontSize:16,marginTop:20,textAlign:'center',width:MagicNumbers.screenWidth}]}>We will never post without your permission</Text>

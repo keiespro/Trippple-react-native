@@ -4,7 +4,7 @@ import {StyleSheet, Text, Image, Dimensions,NativeMethodsMixin, View, NativeModu
 import {MagicNumbers} from '../DeviceConfig'
 
 import FBSDK from 'react-native-fbsdk'
-const { LoginManager, GraphRequest, GraphRequestManager } = FBSDK
+const { LoginManager, AccessToken, GraphRequest, GraphRequestManager } = FBSDK
 
 import colors from '../utils/colors'
 import UserActions from '../flux/actions/UserActions'
@@ -24,7 +24,7 @@ const FACEBOOK_LOCALSTORAGE_KEY = 'facebook'
 class FacebookButton extends React.Component{
 
 
-  static Events = LoginManager.Events;
+  // static Events = LoginManager.Events;
 
   static propTypes = {
     buttonText:PropTypes.string,
@@ -54,11 +54,11 @@ class FacebookButton extends React.Component{
 
     this.state = {
       subscriptions: [],
-      fbUser: null
+      fbUser: props.fbUser
     }
   }
   componentDidMount(){
-    LoginManager.setLoginBehavior(2)
+    // LoginManager.setLoginBehavior(2)
     // LoginManager.getCredentials((error, data)=>{
     //   if (!error) {
     //     this.setState({ fbUser : data.credentials });
@@ -70,44 +70,45 @@ class FacebookButton extends React.Component{
   }
   componentWillUnmount(){
     var {subscriptions} = this.state;
-    subscriptions && subscriptions.forEach(function(subscription){
-      subscription.remove();
-    });
+    // subscriptions && subscriptions.forEach(function(subscription){
+    //   subscription.remove();
+    // });
   }
   componentDidUpdate(){
 
   }
-  // onPress(e){
-  //   // this.handleLogout();
-  //   // return
-  //   if( !this.state.fbUser){
-  //     LoginManager.getCredentials((error, data)=>{
-  //
-  //       if (!error) {
-  //         this.setState({ fbUser : data.credentials });
-  //         this.props._onPress && this.props._onPress(data.credentials);
-  //       } else {
-  //         this.handleLogin();
-  //
-  //         this.setState({ fbUser : null });
-  //
-  //       }
-  //     });
-  //   }else{
-  //     if(this.props.shouldLogoutOnTap){
-  //       Alert.alert(
-  //           'Log Out of Facebook',
-  //           'Are you sure you want to log out of Facebook?',
-  //           [
-  //             {text: 'Yes', onPress: () => {this.handleLogout()}},
-  //             {text: 'No', onPress: () => {return false}},
-  //           ]
-  //         )
-  //       }
-  //     this.props._onPress && this.props._onPress(this.state.fbUser);
-  //   }
-  //
-  //
+  onPress(e){
+
+
+    const superPress = this.props.onPress || this.props._onPress;
+    console.log(this.state.fbUser);
+      if(this.props.shouldAuthenticate){
+
+        LoginManager.logInWithReadPermissions([  'email', 'public_profile', 'user_birthday', 'user_friends', 'user_likes', 'user_location', 'user_photos']).then(fb => {
+          console.log(fb);
+
+            AccessToken.getCurrentAccessToken().then(data => {
+              console.log(data);
+              this.setState({ fbUser : data });
+              superPress(data);
+            })
+
+        }).catch(err =>{
+          console.log(err);
+        })
+
+      }else{
+        superPress();
+      }
+    if( !this.state.fbUser){
+
+
+    }else{
+      superPress(this.state.fbUser);
+
+    }
+  }
+
   render(){
     var buttonText = this.props.buttonText;
     switch(this.props.buttonType){
@@ -138,7 +139,7 @@ class FacebookButton extends React.Component{
         leftBoxStyles={styles.buttonIcon}
         innerWrapStyles={styles.button}
         underlayColor={colors.cornFlower}
-        _onPress={this.props.onPress}>
+        _onPress={this.onPress.bind(this)}>
 
           <Image source={{uri: 'assets/fBlogo@3x.png'}}
                     resizeMode={Image.resizeMode.contain}

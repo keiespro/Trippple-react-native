@@ -1,6 +1,6 @@
 import React from "react";
 
-import SelectImageSource from '../../screens/SelectImageSource'
+import FacebookImageSource from '../../screens/FacebookImageSource'
 
 class SelfImage extends React.Component{
   constructor(props){
@@ -8,9 +8,8 @@ class SelfImage extends React.Component{
   }
 
   render(){
-    return <SelectImageSource {...this.props} imageType={'profile'} />
+    return <FacebookImageSource {...this.props} imageType={'profile'} />
   }
 }
 
 export default SelfImage
-

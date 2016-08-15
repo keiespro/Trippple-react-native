@@ -42,9 +42,9 @@ class NotificationCommander extends Component{
 
   }
   componentDidMount(){
-    UserActions.getNotificationCount()
 
     if(this.props.user_id){
+      UserActions.getNotificationCount()
 
     }
 

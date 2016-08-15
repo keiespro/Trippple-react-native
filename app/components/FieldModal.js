@@ -347,6 +347,36 @@ class FieldModal extends React.Component{
 
         </View>
       )
+
+      case 'date':
+        return (
+          <View style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between'}}>
+            <View style={{ alignSelf:'stretch',
+                              width:MagicNumbers.screenWidth - MagicNumbers.screenPadding,
+                              marginHorizontal:MagicNumbers.screenPadding,
+                              flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',padding:20}}>
+              <Text style={{
+                  color: colors.rollingStone,
+                  fontSize: 20,textAlign:'center',
+                  fontFamily:'Omnes-Regular',
+                  marginBottom:40,alignSelf:'stretch'
+
+                }}>{field.long_label ? field.long_label : field.label}</Text>
+              <View style={{ borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone }}>
+                {React.cloneElement(inputField,{
+                handleChange:(value) => {
+                  this.onChange(value)
+                },
+                ref: (phoneField) => { this.phoneField = phoneField }
+              }
+            )}
+            </View>
+
+            </View>
+            {this.renderButtons()}
+
+          </View>
+        )
     case 'textarea':
         return (
           <View style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between'}}>
