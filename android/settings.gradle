@@ -1,0 +1,21 @@
+rootProject.name = 'Trippple'
+
+include ':app'
+include ':react-native-mixpanel'
+project(':react-native-mixpanel').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-mixpanel/android')
+include ':react-native-mail'
+project(':react-native-mail').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-mail/android')
+include ':react-native-google-analytics-bridge'
+project(':react-native-google-analytics-bridge').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-google-analytics-bridge/android')
+include ':react-native-fs'
+project(':react-native-fs').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fs/android')
+include ':react-native-fbsdk'
+project(':react-native-fbsdk').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fbsdk/android')
+include ':react-native-device-info'
+project(':react-native-device-info').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-device-info/android')
+include ':react-native-contacts'
+project(':react-native-contacts').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-contacts/android')
+include ':react-native-camera'
+project(':react-native-camera').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-camera/android')
+include ':react-native-auto-updater'
+project(':react-native-auto-updater').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-auto-updater/android')
