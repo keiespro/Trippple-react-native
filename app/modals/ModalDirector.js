@@ -2,14 +2,9 @@
 
 import React, {Component} from "react";
 
-import {PixelRatio, Navigator, ScrollView, StyleSheet, Settings, Linking, InteractionManager, Text, Image, Alert, TouchableHighlight, AsyncStorage, TouchableOpacity, Dimensions, View,Modal} from "react-native";
-
+import {PixelRatio, Navigator, ScrollView, StyleSheet, Settings, Text, Image, Alert, TouchableHighlight, TouchableOpacity, Dimensions, View,Modal} from "react-native";
 import { BlurView, VibrancyView } from 'react-native-blur'
-
-
 import colors from '../utils/colors'
-
-
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import AppActions from '../flux/actions/AppActions'
@@ -18,6 +13,7 @@ import Analytics from '../utils/Analytics'
 // import Coupling from '../coupling/'
 import url from 'url'
 
+import { connect } from 'react-redux';
 
 // class PermissionRequester extends Component{
 //   componentWillReceiveProps(nProps){
@@ -51,18 +47,20 @@ class ModalDirector extends Component{
   constructor(props){
     super()
     this.state = {
-      modalVisible: true,
-      activeModal: null
+      modalVisible: false,
+      activeModal: props.activeModal
     }
   }
+
   componentWillReceiveProps(nProps){
 
-       this.setState({
-        activeModal: nProps.AppState.showModal,
-        modalVisible: nProps.AppState.showModal ? true : false
-      })
+    this.setState({
+      activeModal: nProps.activeModal,
+      modalVisible: nProps.activeModal ? true : false
+    })
 
   }
+
   setModalVisible(v){
     if(v){
       this.setState({modalVisible:v})
@@ -106,7 +104,23 @@ class ModalDirector extends Component{
 /////////////////// MODAL DIRECTOR
 ///////////////////
 ModalDirector.displayName = "ModalDirector"
-export default ModalDirector
+
+const mapStateToProps = (state, ownProps) => {
+  console.log(state); // state
+  console.log(ownProps); // ownProps
+
+  return {
+    ...state.ui,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ModalDirector);
 
 //
 // class OverlayModalOuter extends Component{

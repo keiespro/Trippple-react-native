@@ -24,7 +24,7 @@ class NotificationDisplayer extends Component{
   // }
 
   render(){
-    var {AppState} = this.props
+    var AppState = this.props.AppState || {currentRoute: {}};
     var check = AppState.currentRoute && AppState.currentRoute.title && AppState.currentRoute.title.toUpperCase() && this.props.notifications[0] || null;
     var isCurrentMatch = check && (AppState.currentRoute.title == 'CHAT' && AppState.currentRoute.match_id && AppState.currentRoute.match_id == this.props.notifications[0].match_id);
 

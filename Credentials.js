@@ -1,22 +1,31 @@
-import {Platform} from 'react-native'
+import {Platform,AsyncStorage} from 'react-native'
 import Keychain from 'react-native-keychain'
 import config from './app/config'
 import Promise from 'bluebird'
 const {KEYCHAIN_NAMESPACE} = config
 
-
-
-function loadSavedCredentials(){
+export default async function loadSavedCredentials(){
 
   if(Platform.OS == 'ios'){
-    return Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
+    try{
+      const creds = await Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
+      global.creds = {
+        api_key: creds.password,
+        user_id: creds.username
+      };
+      return {status: true, creds}
+    }catch(error){
+
+      return {status: false, error}
+    }
   }else{
-    return new Promise((reject,resolve)=>{
-      resolve()
-    })
+    try{
+      const creds = await AsyncStorage.getItem(`${KEYCHAIN_NAMESPACE}-info`)
+      global.creds = creds
+      return {status: true, creds}
+    }catch(error){
+
+      return {status: false, error}
+    }
   }
-
 }
-
-
-export default loadSavedCredentials

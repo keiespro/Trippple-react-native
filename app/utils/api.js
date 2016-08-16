@@ -9,10 +9,11 @@ import config from '../config'
 import DeviceInfo from './DeviceInfo'
 import Analytics from './Analytics'
 
-const { FileTransfer, RNAppInfo } = NativeModules,
+const { FileTransfer } = NativeModules,
       { SERVER_URL } = config;
+
 const VERSION = "2.5",
-      iOSversion = RNAppInfo ? RNAppInfo.getInfoiOS : null;
+      iOSversion = DeviceInfo.version;
 
 async function baseRequest(endpoint='': String, payload={}: Object){
   const params = {
@@ -41,7 +42,6 @@ async function baseRequest(endpoint='': String, payload={}: Object){
 
     }else if(!res.json && res.status == 401){
       Analytics.err(res)
-
       throw new Error('Unauthorized')
     }
     if(!res.json){
@@ -69,7 +69,7 @@ function publicRequest(endpoint, payload){
 }
 
 function authenticatedRequest(endpoint: '', payload: {}, forceCredentials){
-  const credentials = forceCredentials || CredentialsStore.getCredentials();
+  const credentials =  global.creds;
   const authPayload = {...payload, ...credentials};
   return baseRequest(endpoint, authPayload)
 }

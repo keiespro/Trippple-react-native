@@ -1,58 +1,47 @@
-
 import { createStore, compose, applyMiddleware } from 'redux';
-// import { fromJS } from 'immutable';
 import createReducer from '../reducers';
 import devTools from 'remote-redux-devtools';
 import thunkMiddleware from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
 import createLogger from 'redux-logger';
+import {persistStore, autoRehydrate} from 'redux-persist'
 
-const logger = createLogger({
-  // stateTransformer: (state) => {
-  //   let newState = {};
-  //
-  //   for (var i of Object.keys(state)) {
-  //     if (Immutable.Iterable.isIterable(state[i])) {
-  //       newState[i] = state[i].toJS();
-  //     } else {
-  //       newState[i] = state[i];
-  //     }
-  //   };
-  //
-  //   return newState;
-  // }
 
-});
-// const middlewares = []
-// middlewares.push(promiseMiddleware);
-// middlewares.push(logger);
-// middlewares.push(thunk);
+const logger = createLogger();
+const middlewares = [thunkMiddleware, logger, promiseMiddleware()]
 
 function configureStore(initialState = ({})) {
   if (__DEV__) {
-    // const createStoreWithMiddleware = applyMiddleware(devTools(),thunkMiddleware, promiseMiddleware())(createStore);
-    // const store = createStoreWithMiddleware(createReducer(), initialState );
 
     const store = createStore(
       createReducer(),
       initialState,
       compose(
-        applyMiddleware(thunkMiddleware, logger, promiseMiddleware()),
-        devTools()
+        applyMiddleware(...middlewares),
+        devTools(),
+        autoRehydrate()
       )
-    )
+    );
     if (module.hot) {
-      // Enable Webpack hot module replacement for reducers
       module.hot.accept(() => {
-        const nextRootReducer = require('../reducers/index').default;
+        const nextRootReducer = require('../reducers/').default;
         store.replaceReducer(nextRootReducer);
       });
     }
+
     return store
+
   } else {
-    return createStore(createReducer(), initialState, compose(
-      applyMiddleware(thunkMiddleware,promiseMiddleware())
-    ));
+
+    return createStore(
+      createReducer(),
+      initialState,
+      compose(
+        applyMiddleware(...middlewares),
+        autoRehydrate()
+      )
+    );
+
   }
 }
 

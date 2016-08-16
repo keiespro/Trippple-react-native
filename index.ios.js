@@ -5,6 +5,7 @@
 import React from "react";
 import ReactNative, {View, AppRegistry, NativeModules} from "react-native";
 import Boot from './app/Boot'
+import NewBoot from './app/NewBoot'
 // import {whyDidYouUpdate} from 'why-did-you-update'
 
 console.log('index.IOS.js');
@@ -21,6 +22,6 @@ if(__DEV__){
 
 }
 
-const Trippple = (props => <Boot {...props}/>)
+const Trippple = (props => <NewBoot {...props}/>)
 
 AppRegistry.registerComponent('Trippple', () => Trippple)
