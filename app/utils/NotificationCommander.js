@@ -48,19 +48,19 @@ class NotificationCommander extends Component{
 
     }
 
-    PushNotificationIOS.addEventListener('notification', this._onPushNotification.bind(this) )
+    PushNotificationIOS && PushNotificationIOS.addEventListener('notification', this._onPushNotification.bind(this) )
 
     if(this.props.api_key && this.props.user_id){
       this.connectSocket()
     }
-    const newNotification = PushNotificationIOS.getInitialNotification()
+    const newNotification = PushNotificationIOS ? PushNotificationIOS.getInitialNotification() : null
     if(newNotification){
       this.handlePushData(newNotification)
     }
   }
 
   componentWillUnmount(){
-    PushNotificationIOS.removeEventListener('notification', this._onPushNotification.bind(this) )
+    PushNotificationIOS && PushNotificationIOS.removeEventListener('notification', this._onPushNotification.bind(this) )
 
     AppState.removeEventListener('change', this._handleAppStateChange.bind(this) );
   }
@@ -94,7 +94,7 @@ class NotificationCommander extends Component{
   _handleAppStateChange(appState){
     if(appState == 'active'){
        this.socket.connect()
-      const newNotification = PushNotificationIOS.getInitialNotification();
+      const newNotification = PushNotificationIOS ? PushNotificationIOS.getInitialNotification() : null;
       if(newNotification){
         this.handlePushData(newNotification)
       }

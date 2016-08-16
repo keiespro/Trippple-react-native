@@ -39,9 +39,10 @@ Analytics.log(ACTUAL_VERSION)
 class SettingsSettings extends React.Component{
   constructor(props){
     super()
+    const settings = Settings._settings || {}
     this.state = {
       privacy: props.user.privacy || 'public',
-      isLocked: Settings._settings['LockedWithTouchID'] || null
+      isLocked: settings['LockedWithTouchID'] || null
     }
   }
   togglePrivacy(value){

@@ -15,9 +15,10 @@ import AppActions from './flux/actions/AppActions'
 class Boot extends React.Component{
   constructor(props){
     super();
+    const settings = Settings._settings || {}
     this.state = {
       booted: false,
-      isLocked: Settings._settings['LockedWithTouchID']
+      isLocked: settings['LockedWithTouchID']
     }
   }
   componentWillMount(){

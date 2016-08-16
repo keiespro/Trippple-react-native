@@ -82,26 +82,26 @@ class FacebookButton extends React.Component{
 
     const superPress = this.props.onPress || this.props._onPress;
     console.log(this.state.fbUser);
-      if(this.props.shouldAuthenticate){
+    if(this.props.shouldAuthenticate){
 
-        LoginManager.logInWithReadPermissions([  'email', 'public_profile', 'user_birthday', 'user_friends', 'user_likes', 'user_location', 'user_photos']).then(fb => {
-          console.log(fb);
+      LoginManager.logInWithReadPermissions([  'email', 'public_profile', 'user_birthday', 'user_friends', 'user_likes', 'user_location', 'user_photos']).then(fb => {
+        console.log(fb);
 
-            AccessToken.getCurrentAccessToken().then(data => {
-              console.log(data);
-              this.setState({ fbUser : data });
-              superPress(data);
-            })
+          AccessToken.getCurrentAccessToken().then(data => {
+            console.log(data);
+            this.setState({ fbUser : data });
+            superPress(data);
+          })
 
-        }).catch(err =>{
-          console.log(err);
-        })
+      }).catch(err =>{
+        console.log(err);
+      })
 
-      }else{
-        superPress();
-      }
+    }else{
+      superPress();
+    }
     if( !this.state.fbUser){
-
+      
 
     }else{
       superPress(this.state.fbUser);

@@ -36,17 +36,6 @@ class FacebookImageSource extends Component{
 
   }
 
-
-  // gotImage(imageFile){
-
-  //   OnboardingActions.proceedToNextScreen({
-  //     image:imageFile,
-  //     image_type: this.props.image_type || this.props.imageType,
-
-  //   })
-
-  // }
-
   onPressFacebook(fbUser){
 
     var nextRoute = {name:'FBPhotoAlbums'}
@@ -125,6 +114,7 @@ class FacebookImageSource extends Component{
               _onPress={this.onPressFacebook.bind(this)}
               key={'notthesamelement'}
               buttonText="UPLOAD FROM FB"
+              shouldAuthenticate={true}
             />
           </View>
 

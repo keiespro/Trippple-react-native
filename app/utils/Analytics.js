@@ -8,7 +8,7 @@ import GoogleAnalytics from 'react-native-google-analytics-bridge'
 import SETTINGS_CONSTANTS from './SettingsConstants'
 const {HAS_IDENTITY} = SETTINGS_CONSTANTS
 
-const VERSION = parseFloat(AppInfo.getInfoShortVersion());
+const VERSION = 2.5 // parseFloat(AppInfo.getInfoShortVersion());
 
 const __TEST__ = global.__TEST__ || false;
 
@@ -93,7 +93,15 @@ class Analytics{
     let action = eventData.action || eventData.type || undefined;
     let label = eventData.label || eventData.name || undefined;
     let value = eventData.value || eventData.val || undefined;
-
+    if(!label){
+      console.log('LABEL NULL');
+    }
+    if(!action ){
+      console.log('action NULL');
+    }
+    if(!value ){
+      console.log('VALUE NULL');
+    }
     __DEV__ && console.log(`Event: ${eventName}`, 'EventData:', ...eventData)
 
     GoogleAnalytics.trackEvent(eventName, action, {label, value});
@@ -103,7 +111,7 @@ class Analytics{
   }
 
   screen(screen){
-    if(__TEST__ || !GoogleAnalytics) return false;
+    if(__TEST__ || !GoogleAnalytics || !screen) return false;
 
     // __DEV__ && console.log(`Screen: ${screen}`)
     GoogleAnalytics.trackScreenView(screen);
@@ -117,7 +125,15 @@ class Analytics{
     let action = eventData.action || eventData.type || undefined;
     let label = eventData.label || eventData.name || undefined;
     let value = eventData.value || eventData.val || undefined;
-
+    if(!label){
+      console.log('LABEL NULL');
+    }
+    if(!action ){
+      console.log('action NULL');
+    }
+    if(!value ){
+      console.log('VALUE NULL');
+    }
     __DEV__ && console.log(`Event: ${eventName}`, 'EventData:', ...eventData)
 
     GoogleAnalytics.trackEvent(eventName, action, {label, value});

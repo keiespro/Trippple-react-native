@@ -11,8 +11,8 @@ import Analytics from './Analytics'
 
 const { FileTransfer, RNAppInfo } = NativeModules,
       { SERVER_URL } = config;
-const VERSION = "2.4.2",
-      iOSversion = RNAppInfo.getInfoiOS;
+const VERSION = "2.5",
+      iOSversion = RNAppInfo ? RNAppInfo.getInfoiOS : null;
 
 async function baseRequest(endpoint='': String, payload={}: Object){
   const params = {

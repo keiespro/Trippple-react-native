@@ -4,8 +4,8 @@
 
 import React from "react";
 
-import {Text, StyleSheet, View, PickerIOS} from "react-native";
-const PickerItemIOS = PickerIOS.Item
+import {Text, StyleSheet, View, Picker} from "react-native";
+const PickerItemIOS = Picker.Item
 import colors from '../utils/colors'
 
 const monthList = [
@@ -29,22 +29,35 @@ for(var i = currentyear - 18; i >= currentyear - 65; i--){
   yearsList.push(i);
 }
 
-const Birthday = React.createClass({
-  getInitialState() {
-    return {
-      bday_month: this.props.bdayMonth,
-      bday_year: this.props.bdayYear,
+class Birthday extends React.Component{
+  constructor(props) {
+    super()
+    this.state = {
+      bday_month: props.bdayMonth,
+      bday_year: props.bdayYear,
     };
-  },
+  }
+  updateMonth(m){
+      this.setState({
+        bdayMonth: m
+      })
+      this.props.handleChange()
+  }
+  updateYear(y){
+    this.setState({
+      bdayYear: y
+    })
+    this.props.handleChange()
+  }
   render() {
     return (
       <View style={styles.bdaycontainer}>
         <Text style={styles.header}>Birthday </Text>
         <Text style={styles.formLabel}>Month </Text>
-        <PickerIOS
+        <Picker
           style={styles.picker}
-          selectedValue={this.props.bdayMonth}
-          onValueChange={(bday_month) => this.props.updateMonth(bday_month)}>
+          selectedValue={this.state.bdayMonth}
+          onValueChange={(bday_month) => this.updateMonth(bday_month)}>
           {monthList.map( (month, index) => (
               <PickerItemIOS
                 key={'month_' + index}
@@ -53,15 +66,15 @@ const Birthday = React.createClass({
               />
             ))
           }
-        </PickerIOS>
+        </Picker>
 
         <Text style={styles.formLabel}>Year </Text>
 
-        <PickerIOS
+        <Picker
           key={'yearpicker'}
           style={styles.picker}
-          selectedValue={this.props.bdayYear}
-          onValueChange={(bday_year) => this.props.updateYear(bday_year)}>
+          selectedValue={this.state.bdayYear}
+          onValueChange={(bday_year) => this.updateYear(bday_year)}>
           {yearsList.map( (year, index) => (
               <PickerItemIOS
                 key={'y_' + index}
@@ -70,11 +83,11 @@ const Birthday = React.createClass({
               />
             ))
           }
-        </PickerIOS>
+        </Picker>
       </View>
     );
   }
-});
+}
 
 
 

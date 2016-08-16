@@ -6,8 +6,6 @@ import {StyleSheet, Text, View, TouchableHighlight,Dimensions,Alert} from "react
 import Analytics from '../utils/Analytics';
 
 
-
-
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 

@@ -5,7 +5,8 @@ import _ from 'underscore'
 import base64 from 'base-64'
 import Analytics from '../../utils/Analytics';
 import AppActions from './AppActions'
-
+import FBSDK from 'react-native-fbsdk'
+console.log(FBSDK);
 function cleanNumber(p){
   return p.replace(/[\. ,():+-]+/g, '').replace(/[A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/,'');
 }
@@ -110,6 +111,8 @@ class UserActions {
   }
 
   logOut(){
+    FBSDK.LoginManager.logOut()
+
     return true
   }
 

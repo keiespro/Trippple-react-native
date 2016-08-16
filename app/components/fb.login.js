@@ -4,9 +4,10 @@ import React from "react";
 import {StyleSheet, Image, Text, View, PixelRatio, Dimensions, Navigator, ListView, ActivityIndicator, TouchableHighlight, NativeModules} from "react-native";
 
 import UserActions from '../flux/actions/UserActions'
-import FBLogin from 'react-native-facebook-login'
-// import FBLoginMock from './facebook');
-const {FBLoginManager} = NativeModules;
+
+import FBSDK from 'react-native-fbsdk'
+const { LoginManager, AccessToken, GraphRequest, GraphRequestManager } = FBSDK
+
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -29,23 +30,16 @@ var ProfilePhoto = React.createClass({
 
   componentDidMount(){
     var {fbUser} = this.props;
-    // console.log(fbUser)
-    var api = `https://graph.facebook.com/v2.3/${fbUser.userId}/picture?width=${FB_PHOTO_WIDTH}&redirect=false&access_token=${fbUser.token}`;
+    console.log(fbUser)
 
 
     fetch(api)
       .then((response) => response.json())
       .then((responseData) => {
-        this.setState({
-          photo : {
-            url : responseData.data.url,
-            height: responseData.data.height,
-            width: responseData.data.width,
-          },
-        });
+
       })
       .catch((err) => {
-        dispatch({error: err})
+        console.log(err);
       })
   },
 
@@ -82,7 +76,7 @@ var ProfileInfo = React.createClass({
 
   componentWillMount(){
     var fbUser = this.props.fbUser;
-    // console.log(fbUser)
+    console.log(fbUser)
     var api = `https://graph.facebook.com/v2.3/${fbUser.userId}?fields=name,email&access_token=${fbUser.token}`;
 
 
@@ -248,74 +242,151 @@ var PhotoAlbums = React.createClass({
     var aDS = new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
     var pDS = new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
     return {
-      albums: aDS.cloneWithRows([]) ,
+      albumSource: aDS.cloneWithRows([]) ,
       album_photos: pDS.cloneWithRows([]),
       view_loaded: null,
     };
   },
 
   componentDidMount(){
-    this.fetchAlbums();
+    this.getAlbums();
   },
 
-  fetchAlbums() {
-    var fbUser = this.props.fbUser;
-    // console.log(fbUser)
-    var api = `https://graph.facebook.com/v2.3/${fbUser.userId}/albums?redirect=false&access_token=${fbUser.token}`;
+handlePhotos(err,album){
+  console.log(err,album);
 
 
-    fetch(api)
-      .then((response) => response.json())
-      .then((responseData) => {
-        var albums = responseData.data;
-        var total_found = albums.length;
-        var count = 0;
-        // console.log(responseData)
-        if (albums && albums.length) {
-          for (var i in albums) {
-            ((x) => {
-              var url = 'https://graph.facebook.com/v2.3/' + albums[x].id + '/picture?type=album&redirect=false&access_token=' + fbUser.token;
 
-              fetch(url)
-              .then((response) => response.json())
-              .then((responseData) => {
-                albums[x].cover_photo_image_url = responseData.data.url
-                return x;
-              })
-              .done((index) => {
-                count++;
+  this.setState({
+    albums: [...this.state.albums, album],
+    albumSource: this.state.albumSource.cloneWithRows([album]),
+    view_loaded: 'list_albums',
+  });
+},
+    handleAlbums(err,responseData){
+      console.log('handleAlbums',responseData);
 
-                if (total_found == count) {
-                  this.setState({
-                    albums : this.state.albums.cloneWithRows(albums),
-                    view_loaded: 'list_albums',
-                  });
-                }
-              });
-            })(i);
-          }
-        }else{
-          var endpoint = 'https://graph.facebook.com/v2.3/' + fbUser.userId + '/picture?width=800&redirect=false&access_token=' + fbUser.token;
-          fetch(endpoint)
-          .then((response) => response.json())
-          .then((responseData) => {
-            // console.log(responseData)
-            this.selectPhoto({source:responseData.data.url})
+      if(err){
+        console.log('ERR',err);
+        return
+      }
 
-          })
-          .catch((err) => {
+      const albums = responseData.data
+      const fbUser = this.props.fbUser
+      this.setState({
+        albums
+      });
 
 
-           });
+      for (let album of albums) {
+          console.log(album);
+
+          const infoRequest = new GraphRequest( `/${album.id}/`, {
+            parameters:{
+              fields: {
+                string:'photos,name,id,count'
+              }
+            },
+            accessToken: fbUser.accessToken,
+            },
+            this.handlePhotos
+          );
+          const FBG = new GraphRequestManager();
+          const REQ = FBG.addRequest(infoRequest)
+          REQ.start();
 
 
-        }
-      })
-      .catch((err) => {
-        // console.warn('err',JSON.stringify(err))
-        dispatch({error: err})
-      })
-  },
+      }
+
+      // this.setState({
+      //   photo : {
+      //     url : responseData.data.url,
+      //     height: responseData.data.height,
+      //     width: responseData.data.width,
+      //   },
+      // });
+    },
+    getAlbums(){
+      console.log('get albums',this.props.fbUser);
+      const fbUser = this.props.fbUser;
+      this.setState({fbUser})
+
+
+
+      const infoRequest = new GraphRequest(
+        `/${this.props.user.facebook_user_id}/albums`,
+        {
+          accessToken: fbUser.accessToken
+
+        },
+        this.handleAlbums,
+      );
+      const FBG = new GraphRequestManager();
+      const REQ = FBG.addRequest(infoRequest)
+      REQ.start();
+
+
+      console.log(infoRequest)
+
+    },
+  // getAlbums() {
+  //   var fbUser = this.props.fbUser;
+  //   // console.log(fbUser)
+  //   var api = `https://graph.facebook.com/v2.3/${fbUser.userId}/albums?redirect=false&access_token=${fbUser.token}`;
+  //
+  //
+  //   fetch(api)
+  //     .then((response) => response.json())
+  //     .then((responseData) => {
+  //       var albums = responseData.data;
+  //       var total_found = albums.length;
+  //       var count = 0;
+  //       // console.log(responseData)
+  //       if (albums && albums.length) {
+  //         for (var i in albums) {
+  //           ((x) => {
+  //             var url = 'https://graph.facebook.com/v2.3/' + albums[x].id + '/picture?type=album&redirect=false&access_token=' + fbUser.token;
+  //
+  //             fetch(url)
+  //             .then((response) => response.json())
+  //             .then((responseData) => {
+  //               albums[x].cover_photo_image_url = responseData.data.url
+  //               return x;
+  //             })
+  //             .done((index) => {
+  //               count++;
+  //
+  //               if (total_found == count) {
+  //                 this.setState({
+  //                   albums : this.state.albums.cloneWithRows(albums),
+  //                   view_loaded: 'list_albums',
+  //                 });
+  //               }
+  //             });
+  //           })(i);
+  //         }
+  //       }else{
+  //         var endpoint = 'https://graph.facebook.com/v2.3/' + fbUser.userId + '/picture?width=800&redirect=false&access_token=' + fbUser.token;
+  //         fetch(endpoint)
+  //         .then((response) => response.json())
+  //         .then((responseData) => {
+  //           // console.log(responseData)
+  //           this.selectPhoto({source:responseData.data.url})
+  //
+  //         })
+  //         .catch((err) => {
+  //
+  //
+  //          });
+  //
+  //
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       // console.warn('err',JSON.stringify(err))
+  //       dispatch({error: err})
+  //     })
+  // },
   openAlbum(album){
     this.fetchAlbumPhotos(album)
   },
@@ -372,7 +443,7 @@ var PhotoAlbums = React.createClass({
           });
         })
         .catch((err) => {
-          dispatch({error: err})
+
         })
     }
   },
@@ -422,7 +493,7 @@ var PhotoAlbums = React.createClass({
 
     {this.state.view_loaded == 'list_albums' ?  <ListView
         style={{flex:1,marginTop:55}}
-        dataSource={this.state.albums}
+        dataSource={this.state.albumSource}
         renderRow={this.renderAlbumCover}
       /> : <ActivityIndicator style={{alignSelf:'center',alignItems:'center',flex:1,height:200,width:200,justifyContent:'center'}} animating={true} size={'large'}/> }
 
