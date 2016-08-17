@@ -33,26 +33,26 @@ class UserStore {
       getUser: this.getUser,
       getCouplingData: this.getCouplingData
     })
-
-    this.bindListeners({
-      handleBlockContacts: AppActions.STORE_CONTACTS_TO_BLOCK,
-      handleInitialize: AppActions.GOT_CREDENTIALS,
-      handleGetUserInfo: UserActions.GET_USER_INFO,
-      handleVerifyPin: UserActions.VERIFY_SECURITY_PIN,
-      handleRequestPin: UserActions.REQUEST_PIN_LOGIN,
-      handleUpdateUser: UserActions.UPDATE_USER,
-      handleUpload: UserActions.UPLOAD_IMAGE,
-      handleUpdateUserStub: UserActions.UPDATE_USER_STUB,
-      handleLogOut: UserActions.LOG_OUT,
-      handlePartner: UserActions.SELECT_PARTNER,
-      handleUpdateLocally: UserActions.UPDATE_LOCALLY,
-      handleGetLocation: UserActions.GET_LOCATION,
-      handleVerifyCouplePin: UserActions.VERIFY_COUPLE_PIN,
-      handleRequestCouplePin: UserActions.GET_COUPLE_PIN,
-      handleDecouple: UserActions.DECOUPLE,
-      handleFBLogin: UserActions.FB_LOGIN
-
-    });
+    //
+    // this.bindListeners({
+    //   handleBlockContacts: AppActions.STORE_CONTACTS_TO_BLOCK,
+    //   handleInitialize: AppActions.GOT_CREDENTIALS,
+    //   handleGetUserInfo: UserActions.GET_USER_INFO,
+    //   handleVerifyPin: UserActions.VERIFY_SECURITY_PIN,
+    //   handleRequestPin: UserActions.REQUEST_PIN_LOGIN,
+    //   handleUpdateUser: UserActions.UPDATE_USER,
+    //   handleUpload: UserActions.UPLOAD_IMAGE,
+    //   handleUpdateUserStub: UserActions.UPDATE_USER_STUB,
+    //   handleLogOut: UserActions.LOG_OUT,
+    //   handlePartner: UserActions.SELECT_PARTNER,
+    //   handleUpdateLocally: UserActions.UPDATE_LOCALLY,
+    //   handleGetLocation: UserActions.GET_LOCATION,
+    //   handleVerifyCouplePin: UserActions.VERIFY_COUPLE_PIN,
+    //   handleRequestCouplePin: UserActions.GET_COUPLE_PIN,
+    //   handleDecouple: UserActions.DECOUPLE,
+    //   handleFBLogin: UserActions.FB_LOGIN
+    //
+    // });
 
     this.on('init', () => {
       // Analytics.all('INIT USER store');

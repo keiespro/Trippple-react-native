@@ -27,10 +27,6 @@ class GlobalNavigation extends Component {
 	constructor(props) {
 		super(props);
 
-		// this._renderOverlay = this._renderOverlay.bind(this);
-    //        renderOverlay={this._renderOverlay}
-
-
 	}
 
   _handleAction (action) {
@@ -70,7 +66,7 @@ class GlobalNavigation extends Component {
         direction={'vertical'}
         navigationState={this.props.navigation}
         renderScene={this._renderScene.bind(this)}
-        renderOverlay={this._renderHeader.bind(this)}
+        renderHeader={this._renderHeader.bind(this)}
 
       />
 		);
@@ -82,7 +78,7 @@ class GlobalNavigation extends Component {
 		// if (showHeader) {
 			return props.navigationState.index == 0 ? (
 				<NavigationHeader
-          style={{backgroundColor:'transparent',flexDirection:'row',height:30, alignItems:'center',justifyContent:'flex-start',}}
+          style={{backgroundColor:colors.outerSpace,flexDirection:'row',height:30, alignItems:'center',justifyContent:'flex-start',}}
   				{...props}
   				renderTitleComponent={() => <TouchableOpacity onPress={()=>{this._handleAction({route: {component:SettingsDebug,key:'leftb',index:1},type:'push'})}}>
               <Image
@@ -110,7 +106,7 @@ class GlobalNavigation extends Component {
         }
         />
         ) : ( <NavigationHeader
-                style={{backgroundColor: (props.scene.route.noHeader ? 'transparent' : colors.shuttleGray)}}
+                style={{backgroundColor: (props.scene.route.noHeader ? colors.outerSpace : colors.shuttleGray)}}
         				{...props}
         				renderTitleComponent={this._renderTitleComponent.bind(this)}
         				renderLeftComponent={this._renderLeftComponent.bind(this)}
@@ -242,6 +238,6 @@ const styles =  StyleSheet.create({
 	tabContent: {
 		flex: 1,
 		alignItems: 'center',
-		paddingTop: 60
+		paddingTop: 0
 	}
 });

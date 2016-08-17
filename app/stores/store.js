@@ -6,7 +6,6 @@ import promiseMiddleware from 'redux-promise-middleware';
 import createLogger from 'redux-logger';
 import {persistStore, autoRehydrate} from 'redux-persist'
 
-
 const logger = createLogger();
 const middlewares = [thunkMiddleware, logger, promiseMiddleware()]
 
@@ -25,7 +24,7 @@ function configureStore(initialState = ({})) {
     if (module.hot) {
       module.hot.accept(() => {
         const nextRootReducer = require('../reducers/').default;
-        store.replaceReducer(nextRootReducer);
+        store.replaceReducer(nextRootReducer());
       });
     }
 

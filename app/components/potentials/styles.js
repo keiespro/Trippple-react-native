@@ -251,9 +251,9 @@ const styles = StyleSheet.create({
 
   cardStackContainer:{
     width:DeviceWidth,
-    height:DeviceHeight-55,
+    height:DeviceHeight-60,
     flex:1,
-    top:0,
+    top:30,
     position:'absolute',
     left:0,
     flexDirection:'column',

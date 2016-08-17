@@ -1,12 +1,10 @@
-const REQUIRED_PERMISSIONS = ['user_location','user_birthday','user_photos','public_profile','email','user_friends','user_likes','contact_email'];
-
 export default function facebookReducer(state = initialState, action) {
 
   switch (action.type) {
 
     case 'GET_FACEBOOK_INFO':
-    console.log(action.payload);
-      const fbUser = action.payload.fbUser || {}
+
+      const fbUser = action.payload || {}
       return {...state, ...fbUser};
 
     default:

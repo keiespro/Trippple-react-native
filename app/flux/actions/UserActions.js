@@ -69,17 +69,17 @@ class UserActions {
     }
   }
   getUserInfo() {
-    return (dispatch) => {
-      Api.getUserInfo()
-      .then((res) => {
-        if(res.res.status == 401){
-          this.logOut.defer();
-        }
-        dispatch(res)
-      }).catch((err) => {
-        dispatch(err)
-      })
-    }
+    // return (dispatch) => {
+    //   Api.getUserInfo()
+    //   .then((res) => {
+    //     if(res.res.status == 401){
+    //       this.logOut.defer();
+    //     }
+    //     dispatch(res)
+    //   }).catch((err) => {
+    //     dispatch(err)
+    //   })
+    // }
   }
 
   verifySecurityPin(pin, phone) {
@@ -160,9 +160,6 @@ class UserActions {
   updateUser(payload) {
     const updates = payload;
 
-    console.log(updates);
-
-
     return (dispatch) => {
       Api.updateUser(payload)
         .then((res) => {
@@ -179,31 +176,6 @@ class UserActions {
     };
   }
 
-  selectPartner(partner) {
-    return (dispatch) => {
-      Analytics.event('Onboarding',{name: 'Select Partner', type: 'Invite', partner_phone: partner.phone, })
-
-      let partnerPhone = partner.phone
-
-      // partner_phone = partner_phone.substr(partner_phone.length - 10, partner_phone.length)
-      Api.joinCouple(partnerPhone)
-        .then((res) => {
-          return Api.joinCouple(partnerPhone)
-            .then((ress) => {
-              dispatch({
-                response: ress,
-                showCheckmark:true,
-                partnerName: partner.name
-              });
-            })
-        })
-        .catch((err) => {
-          dispatch({
-            err: err
-          });
-        })
-    };
-  }
 
   getCouplePin() {
     return (dispatch) => {

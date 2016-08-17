@@ -76,22 +76,22 @@ class PotentialsPage extends React.Component{
   toggleProfile(){
     this.setState({profileVisible: !this.state.profileVisible})
   }
-  _handleAppStateChange(currentAppState){
-
-    if(currentAppState == 'active'){
-      this.setState({  currentAppState, showPotentials: false});
-      this.setTimeout(()=>{
-        this.setState({ showPotentials: true});
-
-      },1000);
-    }else{
-      this.setState({ profileVisible: false, currentAppState, showPotentials: false });
-
-    }
-
-  }
+  // _handleAppStateChange(currentAppState){
+  //
+  //   if(currentAppState == 'active'){
+  //     this.setState({  currentAppState, showPotentials: false});
+  //     this.setTimeout(()=>{
+  //       this.setState({ showPotentials: true});
+  //
+  //     },1000);
+  //   }else{
+  //     this.setState({ profileVisible: false, currentAppState, showPotentials: false });
+  //
+  //   }
+  //
+  // }
   componentDidMount(){
-    AppState.addEventListener('change', this._handleAppStateChange.bind(this));
+    // AppState.addEventListener('change', this._handleAppStateChange.bind(this));
 
     if(this.props.user.status){
       MatchActions.getPotentials(this.props.user.relationship_status);
@@ -138,7 +138,7 @@ class PotentialsPage extends React.Component{
     }
   }
   componentWillUnmount(){
-    AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
+    // AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
 
   }
   getPotentialInfo(){
@@ -175,9 +175,8 @@ class PotentialsPage extends React.Component{
          <View style={[
            styles.cardStackContainer,
            {
-             backgroundColor: 'transparent',
+
              position:'relative',
-             top: 50//this.state.profileVisible ? 25 : 55
            }]}>
 
            { potentials.length && this.state.showPotentials ?

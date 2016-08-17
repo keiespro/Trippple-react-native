@@ -54,7 +54,8 @@ const NavigationBar = React.createClass({
      * it's clone with additional attributes
      */
     if (customPrev) {
-      el = React.cloneElement(customPrev, { navigator, route });
+      el = React.cloneElement(customPrev, { navigator, route});
+
       return (
         <TouchableOpacity underlayColor={'white'} onPress={() => onPrev( navigator,route )}>
           <View style={[

@@ -1,4 +1,5 @@
 import DeviceInfo from '../utils/DeviceInfo'
+const Device = DeviceInfo.get()
 
 export default function deviceReducer(state = initialState, action) {
 
@@ -17,13 +18,13 @@ export default function deviceReducer(state = initialState, action) {
 
 const initialState = {
   push_token: null,
-  
-  uuid: DeviceInfo.uuid,
-  version: DeviceInfo.version,
-  platform: DeviceInfo.platform,
-  name: DeviceInfo.name,
-  locale: DeviceInfo.locale,
-  country: DeviceInfo.country,
-  model: DeviceInfo.model,
-  manufacturer: DeviceInfo.manufacturer,
+
+  uuid: Device.uuid,
+  version: Device.version,
+  platform: Device.platform,
+  name: Device.name,
+  locale: Device.locale,
+  country: Device.country,
+  model: Device.model,
+  manufacturer: Device.manufacturer,
 };

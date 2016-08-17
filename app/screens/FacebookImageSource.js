@@ -83,9 +83,9 @@ console.log(this.props);
     return (
       <View style={styles.container}>
 
-        <View style={{width:100,left:10,position:'absolute',alignSelf:'flex-start',top:-10}}>
+        {/* <View style={{width:100,left:10,position:'absolute',alignSelf:'flex-start',top:-10}}>
           <BackButton navigator={this.props.navigator}/>
-        </View>
+        </View> */}
         <View style={{justifyContent:'space-around',alignItems:'center',flex:1,marginTop:MagicNumbers.is5orless ? 30 : 50,marginBottom:MagicNumbers.is5orless ? 10 : 0}}>
         <Text style={styles.textTop}>{ isCoupleImage ? copy.coupleTitle : copy.singleTitle }</Text>
 
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     margin:0,
     backgroundColor: colors.outerSpace,
     // padding:0,
-    height: DeviceHeight,
+    height: DeviceHeight-60,
     padding:MagicNumbers.screenPadding/2
   },
   twoButtons:{

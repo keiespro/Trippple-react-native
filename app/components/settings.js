@@ -528,7 +528,7 @@ const styles = StyleSheet.create({
    flex:1,
    alignSelf:'stretch',
    alignItems:'center',
-   paddingTop: 60,
+   paddingTop: 0,
    paddingBottom: 20,
 
  },

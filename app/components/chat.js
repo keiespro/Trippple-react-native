@@ -271,7 +271,8 @@ onKeyboardChange(event){
         chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '')  },'');
 
     return (
-      <KeyboardAvoidingView  style={{flex:1,width:DeviceWidth,height:DeviceHeight}} behavior={'padding'}>
+      <View  style={{flex:1,width:DeviceWidth,height:DeviceHeight,position:'relative',top:0}}>
+      <KeyboardAvoidingView  style={{flex:1}} behavior={'padding'}>
 
         {this.props.messages && this.props.messages.length > 0  ?
         (<View style={{flex:1,justifyContent:'center',alignItems:'center',flexDirection:'column'}}>
@@ -280,7 +281,7 @@ onKeyboardChange(event){
             renderRow={this._renderRow.bind(this)}
             onEndReached={this.onEndReached.bind(this)}
             messages={this.props.messages || []}
-            style={[styles.listview,{ backgroundColor:colors.outerSpace}]}
+            style={[styles.listview,{ backgroundColor:colors.outerSpace,marginBottom:60}]}
             renderScrollComponent={props => (
               <InvertibleScrollView
                 inverted={true}
@@ -304,7 +305,7 @@ onKeyboardChange(event){
         </View>)
         : this.renderNoMessages()}
 
-
+{/*
         <FakeNavBar
           navigator={this.props.navigator}
           route={this.props.route}
@@ -323,8 +324,8 @@ onKeyboardChange(event){
               <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white,backgroundColor:'transparent'}]}>◀︎</Text>
             </View>
           }
-        />
-      </KeyboardAvoidingView>
+        /> */}
+      </KeyboardAvoidingView></View>
     )
   }
 }
@@ -479,7 +480,7 @@ const SIZES = {
      container: {
 
        backgroundColor: colors.white,
-       paddingTop:50,
+       paddingTop: 0,
        paddingBottom:50
      },
      chatContainer: {

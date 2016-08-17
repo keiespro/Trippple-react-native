@@ -192,7 +192,7 @@ class SettingsCouple extends React.Component{
 
         <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{flex:1,marginTop:50}} contentContainerStyle={{   paddingTop:50}} >
+        style={{flex:1,marginTop:50}} contentContainerStyle={{   paddingTop: 0}} >
 
         { partner.phone && (partner.user_id || partner.id) &&
           <View>
@@ -428,7 +428,7 @@ const styles = StyleSheet.create({
    flex:1,
    alignSelf:'stretch',
    alignItems:'center',
-   paddingTop: 60,
+   paddingTop: 0,
    paddingBottom: 40,
 
  },

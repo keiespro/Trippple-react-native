@@ -2,7 +2,7 @@
 
 import React,{Component} from "react";
 
-import {StyleSheet, Text, Image, TouchableOpacity, View, TouchableHighlight, TextInput, PixelRatio, InteractionManager, ListView, Navigator, Dimensions, RefreshControl, Alert, ScrollView} from "react-native";
+import {StyleSheet, Text, Image,   View, TouchableHighlight, TextInput, PixelRatio, InteractionManager, ListView, SwipeableListView, Navigator, Dimensions, RefreshControl, Alert, ScrollView} from "react-native";
 
 import colors from '../utils/colors'
 import ThreeDots from '../buttons/ThreeDots'
@@ -14,7 +14,7 @@ import Chat from './chat'
 import AppActions from '../flux/actions/AppActions'
 import MatchActions from '../flux/actions/MatchActions'
 import MatchesStore from '../flux/stores/MatchesStore'
-import Swipeout from './Swipeout'
+import Swipeout, {SwipeoutBtn} from './Swipeout'
 import customSceneConfigs from '../utils/sceneConfigs'
 import SegmentedView from '../controls/SegmentedView'
 import TimerMixin from 'react-timer-mixin';
@@ -175,6 +175,7 @@ this.setState({ scrollEnabled })
     this.props.chatActionSheet(row)
   }
   _renderRow(rowData, sectionID, rowID){
+    console.log(arguments);
     const myId = this.props.user.id;
     const  myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
     const  theirIds = Object.keys(rowData.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id);
@@ -186,30 +187,7 @@ this.setState({ scrollEnabled })
     const  unread = rowData.unread || 0;
     const message_body = rowData.recent_message.message_body.replace(/(\r\n|\n|\r)/gm," ");
     return (
-      <Swipeout
-        left={
-          [{
-            threshold: 150,
-            action: this.chatActionSheet.bind(this,rowData),
-            backgroundColor: colors.dark,
-          }]
-          }
-          right={
-          [{
-            threshold: 150,
-            component: true,
-            action: this.unmatch.bind(this,rowData),
-            backgroundColor: rowData.isFavourited ? colors.dandelion : colors.dark,
-          }]
-        }
-        rowData={rowData}
-        backgroundColor={colors.dark}
-        rowID={rowID}
-        sectionID={sectionID}
-        autoClose={true}
-        scroll={this._allowScroll.bind(this)}
-        onOpen={(sectionID_, rowID_) => {this._handleSwipeout(sectionID_, rowID_)}}
-      >
+
         <TouchableHighlight
           onPress={(e) => {
             // if(this.state.isVisible || !this.state.scrollEnabled){ return false}
@@ -252,7 +230,6 @@ this.setState({ scrollEnabled })
             </View>
           </View>
         </TouchableHighlight>
-      </Swipeout>
 
     );
   }
@@ -265,14 +242,23 @@ this.setState({ scrollEnabled })
 
     return (
       <View>
-        <ListView
+        <SwipeableListView
           dataSource={this.props.dataSource}
+          maxSwipeDistance={200}
+          renderQuickActions={()=>{
+            return <SwipeoutBtn component={true} btn={{
+                  threshold: 150,
+                  action: this.chatActionSheet.bind(this),
+                  backgroundColor: colors.dark,
+                }}/>
+          }}
+          bounceFirstRowOnMount={true}
           chatActionSheet={this.props.chatActionSheet}
           onEndReached={this.onEndReached.bind(this)}
           onEndReachedThreshold={200}
           ref={component => this._listView = component}
           renderRow={this._renderRow.bind(this)}
-          style={{height:DeviceHeight-53,marginTop:53,overflow:'hidden',backgroundColor:colors.outerSpace}}
+          style={{height:DeviceHeight,marginTop:0,overflow:'hidden',backgroundColor:colors.outerSpace}}
           scrollEnabled={this.state.scrollEnabled}
           directionalLockEnabled={true}
           removeClippedSubviews={true}
@@ -320,15 +306,13 @@ class MatchesInside extends Component{
 
   constructor(props){
     super(props);
-    this.ds = new ListView.DataSource({rowHasChanged});
-    // this.fds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
+    this.ds = SwipeableListView.getNewDataSource();
     this.state = {
       matches: props.matches,
       favorites: props.favorites,
       isVisible: false,
-      dataSource: this.ds.cloneWithRows(props.matches),
-      // favDataSource: this.fds.cloneWithRows(props.matches)
+      dataSource: this.ds.cloneWithRowsAndSections(props.matches.map(d=>{return {match:d}}))
+      // favDataSource: this.fds.cloneWithRowsAndSections(props.matches)
     }
   }
 
@@ -366,16 +350,19 @@ class MatchesInside extends Component{
     })
   }
   componentWillReceiveProps(newProps) {
+    console.log(newProps.matches);
+
     this.setState({
       matches: newProps.matches,
-      dataSource: this.ds.cloneWithRows(newProps.matches),
-      // favDataSource: this.ds.cloneWithRows(newProps.matches),
+      // dataSource: this.ds.cloneWithRowsAndSections(newProps.matches, ['s1', 's2'] ),
+      // favDataSource: this.ds.cloneWithRowsAndSections(newProps.matches),
       // favorites: newProps.favorites
     })
-
+    //
     if(newProps.matches[0]){
       this._updateDataSource(newProps.matches,'matches')
     }
+
     // if(newProps.favorites[0] ){
     //   this._updateDataSource(newProps.matches,'favorites')
     // }
@@ -388,7 +375,7 @@ class MatchesInside extends Component{
     if(data.length > 1){
       const newState =  {
         matches: data,
-        dataSource: this.ds.cloneWithRows(data || []),
+        dataSource: this.ds.cloneWithRowsAndSections(data.map(d=>{return {match:d}}) || [], ['s1', 's2']),
       };
       this.setState(newState)
     }
@@ -397,15 +384,7 @@ class MatchesInside extends Component{
   render(){
     return (
       <View>
-      {__TEST__ && <FakeNavBar
-        hideNext={true}
-        backgroundStyle={{backgroundColor:colors.shuttleGray}}
-        titleColor={colors.white}
-        title={'MESSAGES'} titleColor={colors.white}
-        onPrev={(nav,route)=> nav.pop()}
-        customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12}} source={{uri:'assets/close@3x.png'}} />
-        }
-      />}
+
         <MatchList
           user={this.props.user}
           dataSource={this.state.dataSource}
@@ -543,7 +522,7 @@ const styles = StyleSheet.create({
   noop:{},
   container: {
     backgroundColor: colors.dark,
-    marginTop:60,
+    marginTop: 0,
     flex: 1,
     height: DeviceHeight-60,
   },

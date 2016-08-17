@@ -193,7 +193,7 @@ class SettingsSettings extends React.Component{
       <View style={styles.inner}>
 
         <ScrollView
-          style={{height:DeviceHeight,marginTop:54}}
+          style={{height:DeviceHeight,marginTop: 0}}
           contentContainerStyle={{paddingHorizontal: 0}}
           alwaysBounceVertical={true}
           showsVerticalScrollIndicator={false}
@@ -401,7 +401,7 @@ const styles = StyleSheet.create({
    flex:1,
    alignSelf:'stretch',
    alignItems:'center',
-   paddingTop: 60,
+   paddingTop: 0,
    paddingBottom: 40,
 
  },

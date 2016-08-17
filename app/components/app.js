@@ -1,5 +1,5 @@
 import React from "react";
-import {AppRegistry, View, Navigator, Dimensions, Image, NativeModules,Settings,Linking} from "react-native";
+import {AppRegistry,StatusBar, View, Navigator, Dimensions, Image, NativeModules,Settings,Linking} from "react-native";
 import Analytics from '../utils/Analytics'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -78,11 +78,12 @@ class App extends React.Component{
     const user = this.props.userInfo || {}
     return (
       <View style={{flex:10,backgroundColor:colors.outerSpace, width:DeviceWidth,height:DeviceHeight}}>
+        <StatusBar animated="true" barStyle="light-content" />
 
         <ReachabilitySubscription/>
         <AppVisibility/>
         {!this.state.loading && <Connectivity/>}
-{/* 
+{/*
         {this.props.userInfo && this.props.userInfo.id ? (
           <Main
             key="MainScreen"

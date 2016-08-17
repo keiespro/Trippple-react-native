@@ -4,7 +4,7 @@
 
 import React, {Component} from "react";
 
-import {StyleSheet, Text, View, Image, ScrollView, Navigator, Dimensions, TouchableHighlight, NativeModules} from "react-native";
+import {StyleSheet, Text, View, Image, ScrollView, StatusBar,Navigator, Dimensions, TouchableHighlight, NativeModules} from "react-native";
 
 import TimerMixin from 'react-timer-mixin'
 
@@ -43,6 +43,8 @@ const Welcome = React.createClass({
 
     return (
       <View>
+        <StatusBar animated={true} barStyle="light-content" hidden={true} />
+
         <FadeInContainer
           delayAmount={global.__TEST__ ? 0 : 800}
           duration={global.__TEST__ ? 0 : 500}>

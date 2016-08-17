@@ -10,7 +10,7 @@ const BTNWIDTH = 80
 const BTNTHRESHOLD = 100
 import TimerMixin from 'react-timer-mixin'
 
-const SwipeoutBtn = React.createClass({
+export const SwipeoutBtn = React.createClass({
   getDefaultProps: function() {
     return {
       backgroundColor: null,
@@ -27,8 +27,7 @@ const SwipeoutBtn = React.createClass({
   },
 
   render: function() {
-    var {btn,offsetX,width,height,isFavourited,rowData} = this.props,
-        {isFavourited} = rowData,
+    var {btn,offsetX,width,height,rowData} = this.props,
         opacityOutputRange = [
           [ 0, 1, 1, 1 ],[1, 0, 0, 0]
         ],
@@ -48,40 +47,15 @@ const SwipeoutBtn = React.createClass({
                       resizeMode={Image.resizeMode.contain}
 
                       style={[ {
-                        tintColor:offsetX.interpolate({
-                          inputRange:  [-width,-60,0,50],
-                          outputRange:['rgba(232,74,107,1.0)','rgba(232,74,107,0.2)','rgba(232,74,107,0.1)','rgba(232,74,107,0.0)']
-                                      }),
                         width:30,height:30,
-                       transform:[
-                          {
-                            translateX: offsetX.interpolate({
-                                            inputRange:  [-width,-60,-50,50],
-                                            outputRange: [-5,-10,-20, -20]
-                                          }),
-                                        },
-                                        {
-                            scale: offsetX.interpolate({
-                              inputRange:  [-width,-60,-50,50],
-                              outputRange: [ 1.2, 1, 0.7, 0.5 ],
-                            })
-                          },
-                        ]
+
                       }]}/></View>
                   </View> :
                <View style={[styles.swipeButtons,{
                  alignItems:'center',justifyContent:'center',width,height
                }]}>
                <Animated.View style={[ {
-                  transform:[
-                     {
-                       scale: offsetX.interpolate({
-                         inputRange:   [0.0,  25,  BTNWIDTH, BTNTHRESHOLD, 500],
-                         outputRange:  [0,    0,   0.5,      1,          1.5  ],
-                       })
-                     },
-                     {rotate:'0deg'}
-                   ]
+                
                  }]}><ThreeDots /></Animated.View></View>
 
            }
@@ -354,6 +328,7 @@ swipeListener(v){
 })
 
 export default Swipeout
+
 
 const styles = StyleSheet.create({
   swipeout: {

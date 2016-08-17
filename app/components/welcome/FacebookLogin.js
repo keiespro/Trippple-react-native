@@ -31,58 +31,12 @@ class Facebook extends Component{
   }
   componentDidMount(){
   }
-  handleUserInfo(err, fbUserData){
-    console.log('handleUserInfo',err, fbUserData);
 
-    if(err){
-      console.log('ERR',err);
-      return
-    }
-    this.setState({fbUserData})
-    console.log(this.state.fbUser,fbUserData);
-    UserActions.fbLogin(this.state.fbUser,fbUserData)
-  }
-  handleCredentials(fbUserAuth){
-    console.log('handleCredentials',fbUserAuth);
-    const fbUser = fbUserAuth;
-    this.setState({fbUser})
-
-
-
-    const infoRequest = new GraphRequest(
-      `/${fbUser.userID}/`,
-      {
-        parameters:{
-          fields: {
-            string: 'email,albums,birthday,name,location,friends,photos,likes,about,cover,devices,gender,interested_in,relationship_status,significant_other,timezone,picture'
-          }
-        },
-        accessToken: fbUserAuth.accessToken
-     },
-      this.handleUserInfo.bind(this),
-    );
-    // Start the graph request.
-    const FBG = new GraphRequestManager();
-    console.log(FBG);
-    const REQ = FBG.addRequest(infoRequest)
-    console.log(REQ);
-    REQ.start();
-
-
-    console.log(infoRequest)
-  }
+ 
 
   login(){
-    LoginManager.logInWithReadPermissions([  'email', 'public_profile', 'user_birthday', 'user_friends', 'user_likes', 'user_location', 'user_photos']).then(fb => {
-      console.log(fb);
-      AccessToken.getCurrentAccessToken().then(data => {
-        console.log(data);
-        this.handleCredentials(data)
-      })
-    }).catch(err =>{
-      console.log(err);
-    })
 
+    this.props.dispatch(ActionMan.facebookAuth())
   }
 
 

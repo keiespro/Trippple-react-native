@@ -24,28 +24,28 @@ class AppStateStore {
     this.showCoupling = false;
     this.modals = [];
 
-    this.bindListeners({
-      handleInitialize: AppActions.GOT_CREDENTIALS,
-      handleNewInitialize: AppActions.NO_CREDENTIALS,
-      handleGetUserInfo: UserActions.GET_USER_INFO,
-      handleUpdateUser: UserActions.UPDATE_USER,
-      handleVerifyPin: UserActions.VERIFY_SECURITY_PIN,
-      handleLogOut: UserActions.LOG_OUT,
-      handleHideCheckmark: AppActions.HIDE_CHECKMARK,
-      handleShowCheckmark: AppActions.SHOW_CHECKMARK,
-      handleSelectPartner: UserActions.SELECT_PARTNER,
-      handleUpdateRoute: AppActions.UPDATE_ROUTE,
-      handleToggleOverlay: AppActions.TOGGLE_OVERLAY,
-      handleSentTelemetry: AppActions.SEND_TELEMETRY,
-      handleShowMaintenanceScreen: AppActions.SHOW_MAINTENANCE_SCREEN,
-      handleScreenshot: AppActions.SCREENSHOT,
-      handleShowInModal: AppActions.SHOW_IN_MODAL,
-      handleKillModal: AppActions.KILL_MODAL,
-      handleCoupleCreatedEvent: NotificationActions.RECEIVE_COUPLE_CREATED_NOTIFICATION,
-      handleOtherCoupleCreatedEvent: UserActions.VERIFY_COUPLE_PIN,
-      handleSendCoupleInviteMessage: AppActions.SEND_MESSAGE_SCREEN
-
-    });
+    // this.bindListeners({
+    //   handleInitialize: AppActions.GOT_CREDENTIALS,
+    //   handleNewInitialize: AppActions.NO_CREDENTIALS,
+    //   handleGetUserInfo: UserActions.GET_USER_INFO,
+    //   handleUpdateUser: UserActions.UPDATE_USER,
+    //   handleVerifyPin: UserActions.VERIFY_SECURITY_PIN,
+    //   handleLogOut: UserActions.LOG_OUT,
+    //   handleHideCheckmark: AppActions.HIDE_CHECKMARK,
+    //   handleShowCheckmark: AppActions.SHOW_CHECKMARK,
+    //   handleSelectPartner: UserActions.SELECT_PARTNER,
+    //   handleUpdateRoute: AppActions.UPDATE_ROUTE,
+    //   handleToggleOverlay: AppActions.TOGGLE_OVERLAY,
+    //   handleSentTelemetry: AppActions.SEND_TELEMETRY,
+    //   handleShowMaintenanceScreen: AppActions.SHOW_MAINTENANCE_SCREEN,
+    //   handleScreenshot: AppActions.SCREENSHOT,
+    //   handleShowInModal: AppActions.SHOW_IN_MODAL,
+    //   handleKillModal: AppActions.KILL_MODAL,
+    //   handleCoupleCreatedEvent: NotificationActions.RECEIVE_COUPLE_CREATED_NOTIFICATION,
+    //   handleOtherCoupleCreatedEvent: UserActions.VERIFY_COUPLE_PIN,
+    //   handleSendCoupleInviteMessage: AppActions.SEND_MESSAGE_SCREEN
+    //
+    // });
 
     this.exportPublicMethods({
       getAppState: this.getAppState

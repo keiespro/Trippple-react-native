@@ -1,7 +1,7 @@
 import api from '../utils/api'
 import { createAction, handleAction, handleActions } from 'redux-actions';
-import FBSDK from 'react-native-fbsdk'
-const x = [
+import fbActions from './facebook'
+const apiActions = [
   'requestPin',
   'verifyPin',
   'fbLogin',
@@ -23,13 +23,12 @@ const x = [
   'getPotentials'
 ];
 
-const d = x.map(call => {
+const endpointMap = apiActions.map(call => {
   let action = call.replace(/([A-Z])/g, function($1){return "_"+$1.toLowerCase()}).toUpperCase();
   return { action, call }
 })
 
-const ActionMan = d.reduce((obj,endpoint) => {
-
+const ActionMan = endpointMap.reduce((obj,endpoint) => {
   obj[endpoint.call] = c => (dispatch => dispatch({
     type: endpoint.action,
     payload: {
@@ -39,41 +38,19 @@ const ActionMan = d.reduce((obj,endpoint) => {
     }
   }))
   return obj
-},{})
+}, {
+  ...fbActions
+})
 
 ActionMan.logOut = createAction('LOG_OUT');
 
 ActionMan.showInModal = route => dispatch => dispatch({ type: 'SHOW_IN_MODAL', payload: { route } });
 
-ActionMan.killModal = d => dispatch => dispatch({ type: 'KILL_MODAL' });
+ActionMan.killModal = () => dispatch => dispatch({ type: 'KILL_MODAL' });
 
-///// ASYNC ACTIONS ////////
-ActionMan.getFacebookInfo = d => dispatch => {
 
-  FBSDK.AccessToken.getCurrentAccessToken().then(response => {
-    console.log(response);
-    if (response) {
-      // the user is logged in and has authenticated your
-      // app, and response.authResponse supplies
-      // the user's ID, a valid access token, a signed
-      // request, and the time the access token
-      // and signed request each expire
 
-      dispatch({
-        type: 'GET_FACEBOOK_INFO',
-        payload: {fbUser: response}
-      });
-
-    } else if (response.status === 'not_authorized') {
-      // the user is logged in to Facebook,
-      // but has not authenticated your app
-    } else {
-      // the user isn't logged in to Facebook.
-    }
- });
-}
-
-ActionMan.getPushToken = d => dispatch => dispatch({ type: 'GET_PUSH_TOKEN' });
+ActionMan.getPushToken = () => dispatch => dispatch({ type: 'GET_PUSH_TOKEN' });
 
 ActionMan.checkLocation = l => dispatch => dispatch({ type: 'CHECK_LOCATION',
   payload: {
@@ -90,25 +67,6 @@ ActionMan.checkLocation = l => dispatch => dispatch({ type: 'CHECK_LOCATION',
   }
 });
 
-// export const getUserInfo = c => dispatch => dispatch({ type: 'GET_USER_INFO',
-//   payload: {
-//     promise: new Promise((resolve, reject) => {
-//       api.getUserInfo().then(x => resolve(x)).catch(x => reject(x))
-//     })
-//   }
-// });
-//
-// export const getPotentials = c => dispatch => dispatch({ type: 'GET_POTENTIALS',
-//   payload: {
-//     promise: new Promise((resolve, reject) => {
-//       api.getPotentials().then(x => resolve(x)).catch(x => reject(x))
-//     })
-//   }
-// });
-//
-
-export default ActionMan
-
 ActionMan.saveCredentials = c => dispatch => dispatch({ type: 'SAVE_CREDENTIALS',
   payload: {
     promise: new Promise((resolve, reject) => {
@@ -120,6 +78,8 @@ ActionMan.saveCredentials = c => dispatch => dispatch({ type: 'SAVE_CREDENTIALS'
 
 
 
+
+export default ActionMan
 
 
 // export const receiveUserInfo = createAction('GET_USER_INFO', async (cr) => {

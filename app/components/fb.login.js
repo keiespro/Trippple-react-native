@@ -176,7 +176,7 @@ var AlbumView = React.createClass({
 
 
           <ListView
-          style={{marginTop:60,padding:4.5}}
+          style={{marginTop: 0,padding:4.5}}
           contentContainerStyle={{flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start',flexWrap:'wrap'}}
           dataSource={albums}
            horizontal={false}
@@ -363,7 +363,7 @@ var PhotoAlbums = React.createClass({
       <View style={{flex:1,backgroundColor:colors.outerSpace,height:DeviceHeight,width:DeviceWidth}}>
 
     {this.state.view_loaded == 'list_albums' ?  <ListView
-        style={{flex:1,marginTop:60}}
+        style={{flex:1,marginTop: 0}}
         dataSource={this.state.albumSource}
         renderRow={this.renderAlbumCover}
       /> : <ActivityIndicator style={{alignSelf:'center',alignItems:'center',flex:1,height:200,width:200,justifyContent:'center'}} animating={true} size={'large'}/> }

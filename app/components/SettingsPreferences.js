@@ -131,7 +131,7 @@ class  SettingsPreferences extends React.Component{
           <ScrollView
           showsVerticalScrollIndicator={false}
           style={{
-            marginTop: MagicNumbers.is5orless ? 30 : 54,
+            // marginTop: MagicNumbers.is5orless ? 30 : 54,
             paddingVertical:MagicNumbers.is5orless ? 0 : 20}}
             scrollEnabled={this.state.scroll == 'on' ? true : false}
             >
@@ -190,7 +190,7 @@ class  SettingsPreferences extends React.Component{
           values={values}
         />
 
-      <View style={{paddingTop:50}}>
+      <View style={{paddingTop: 50}}>
 
           <AgePrefs
             toggleScroll={this.toggleScroll.bind(this)}
@@ -202,20 +202,7 @@ class  SettingsPreferences extends React.Component{
         </View>
 
         </ScrollView>
-        {/* <FakeNavBar
-          blur={false}
-          backgroundStyle={{backgroundColor:colors.shuttleGray}}
-          hideNext={true}
-          navigator={this.props.navigator}
-          customPrev={
-            <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
-              <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
-            </View>
-          }
-          onPrev={(nav,route)=> nav.pop()}
-          title={`PREFERENCES`}
-          titleColor={colors.white}
-        /> */}
+
       </View>
     )
   }

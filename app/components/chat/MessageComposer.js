@@ -35,8 +35,9 @@ class MessageComposer extends React.Component{
     if(this.state.textInputValue == ''){ return false }
 
     this._textInput.setNativeProps({text: ''});
-    this.props.sendMessage(message)
     this.setState({height:0})
+
+    this.props.sendMessage(message)
   }
 
   render(){
@@ -155,6 +156,8 @@ const styles = StyleSheet.create({
     paddingLeft:20,
     paddingVertical:15,
     paddingRight:10,
+    bottom:60,
+    position:'relative',
     borderTopWidth: 1 / PixelRatio.get() ,
     borderTopColor:'#000'
   },

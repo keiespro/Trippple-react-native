@@ -183,7 +183,7 @@ class SettingsBasic extends React.Component{
 
         <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{marginTop:60,backgroundColor:colors.dark}}
+        style={{marginTop: 0,backgroundColor:colors.dark}}
         contentContainerStyle={{alignItems:'flex-start',height:DeviceHeight}} >
       <View style={{backgroundColor:colors.outerSpace}}>
 
@@ -363,7 +363,7 @@ const styles = StyleSheet.create({
 
    alignSelf:'stretch',
    alignItems:'center',
-   paddingTop: 60,
+   paddingTop: 0,
    paddingBottom: 40,
 
  },

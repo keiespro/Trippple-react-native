@@ -4,7 +4,7 @@ import {AsyncStorage} from 'react-native'
 import {Provider} from 'react-redux';
 import configureStore from './stores/store';
 import {persistStore} from 'redux-persist'
-import ActionMan from  './reducers/actions';
+import ActionMan from  './actions/';
 import loadSavedCredentials from '../Credentials'
 
 const store = configureStore();

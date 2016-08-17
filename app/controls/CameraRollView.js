@@ -278,7 +278,7 @@ class CameraRollView extends Component{
             </View>
           }
         />
-        <View style={{marginTop:54,flex:1,width:DeviceWidth,backgroundColor:colors.outerSpace,height:DeviceHeight-54}}>
+        <View style={{marginTop: 0,flex:1,width:DeviceWidth,backgroundColor:colors.outerSpace,height:DeviceHeight-54}}>
 
           {Object.keys(this.state.loadedImages).length == 0 ?
             <View style={{alignItems:'center',position:'absolute',justifyContent:'center',width:DeviceWidth,height:DeviceHeight-54,flex:10,flexDirection:'column'}}>

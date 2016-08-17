@@ -1,5 +1,4 @@
-import React from "react";
-import {Component, PropTypes} from "react";
+import React, {Component, PropTypes} from "react";
 import {StyleSheet, Text, Image, Dimensions,NativeMethodsMixin, View, NativeModules, requireNativeComponent, TouchableHighlight, Alert, TouchableOpacity} from "react-native";
 import {MagicNumbers} from '../DeviceConfig'
 
@@ -7,29 +6,20 @@ import FBSDK from 'react-native-fbsdk'
 const { LoginManager, AccessToken, GraphRequest, GraphRequestManager } = FBSDK
 
 import colors from '../utils/colors'
-import UserActions from '../flux/actions/UserActions'
 import BoxyButton from '../controls/boxyButton'
 import BackButton from '../components/BackButton'
 import FBLogin from '../components/fb.login'
 import reactMixin from 'react-mixin'
-import AppActions from '../flux/actions/AppActions'
-
-import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-import ActionMan from  '../reducers/actions';
+import ActionMan from  '../actions/';
 
 import { connect } from 'react-redux';
 
 
-const FACEBOOK_LOCALSTORAGE_KEY = 'facebook'
-
 class FacebookButton extends React.Component{
-
-
-  // static Events = LoginManager.Events;
 
   static propTypes = {
     buttonText:PropTypes.string,
@@ -55,66 +45,17 @@ class FacebookButton extends React.Component{
 
   constructor(props){
     super()
-
-
+    console.log(props);
     this.state = {
-      subscriptions: [],
       fbUser: props.fbUser
     }
   }
-  componentDidMount(){
-    // LoginManager.setLoginBehavior(2)
-    // LoginManager.getCredentials((error, data)=>{
-    //   if (!error) {
-    //     this.setState({ fbUser : data.credentials });
-    //
-    //   } else {
-    //     this.setState({ fbUser : null });
-    //   }
-    // });
-  }
-  componentWillUnmount(){
-    var {subscriptions} = this.state;
-    // subscriptions && subscriptions.forEach(function(subscription){
-    //   subscription.remove();
-    // });
-  }
-  componentDidUpdate(){
 
-  }
   onPress(e){
-    console.log(this.props);
 
-    const superPress = this.props.onPress || this.props._onPress;
-    console.log(this.props.fbUser,this.state.fbUser);
-    const fb_id = this.props.fbUser && this.props.fbUser.userID;
-
-    if(!fb_id && this.props.shouldAuthenticate){
-
-      LoginManager.logInWithReadPermissions([  'email', 'public_profile', 'user_birthday', 'user_friends', 'user_likes', 'user_location', 'user_photos']).then(fb => {
-        console.log(fb);
-          AccessToken.getCurrentAccessToken().then(data => {
-            console.log(data);
-            this.props.dispatch(ActionMan.getFacebookInfo(data))
-
-            this.setState({ fbUser : data });
-            superPress(data);
-          })
-
-      }).catch(err =>{
-        console.log(err);
-      })
-
-    }else{
-      superPress();
-    }
-    if( !this.state.fbUser){
+      this.props.dispatch(ActionMan.facebookAuth())
 
 
-    }else{
-      superPress(this.state.fbUser);
-
-    }
   }
 
   render(){
