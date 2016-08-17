@@ -20,9 +20,7 @@ import url from 'url'
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-import {getUserInfo} from  '../reducers/actions';
-import loadSavedCredentials from '../../Credentials'
-
+import AppNavigation from '../../AppNavigation'
 
 
 class App extends React.Component{
@@ -39,10 +37,6 @@ class App extends React.Component{
 
   componentDidMount(){
 
-    loadSavedCredentials().then(creds => {
-      this.props.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: creds})
-      this.props.dispatch(getUserInfo(creds))
-    })
 
 
 
@@ -88,7 +82,7 @@ class App extends React.Component{
         <ReachabilitySubscription/>
         <AppVisibility/>
         {!this.state.loading && <Connectivity/>}
-
+{/* 
         {this.props.userInfo && this.props.userInfo.id ? (
           <Main
             key="MainScreen"
@@ -97,8 +91,10 @@ class App extends React.Component{
             currentRoute={{}}
           />
         ) : <Welcome AppState={this.props.AppState} key={'welcomescene'} />
-        }
+        } */}
 
+        {this.props.userInfo && this.props.userInfo.id ? ( <AppNavigation/> ) :
+          <Welcome AppState={this.props.AppState} key={'welcomescene'} /> }
 
         <ModalDirector
           user={user}

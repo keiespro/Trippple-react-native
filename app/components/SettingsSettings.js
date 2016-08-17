@@ -193,7 +193,7 @@ class SettingsSettings extends React.Component{
       <View style={styles.inner}>
 
         <ScrollView
-          style={{flex:1,marginTop:54}}
+          style={{height:DeviceHeight,marginTop:54}}
           contentContainerStyle={{paddingHorizontal: 0}}
           alwaysBounceVertical={true}
           showsVerticalScrollIndicator={false}
@@ -333,7 +333,7 @@ class SettingsSettings extends React.Component{
 
 
         </ScrollView>
-        <FakeNavBar
+        {/* <FakeNavBar
           backgroundStyle={{backgroundColor:colors.shuttleGray}}
           hideNext={true}
           navigator={this.props.navigator}
@@ -347,7 +347,7 @@ class SettingsSettings extends React.Component{
           onPrev={(nav,route)=> nav.pop()}
           title={`SETTINGS`}
           titleColor={colors.white}
-        />
+        /> */}
       </View>
 
     )

@@ -137,6 +137,7 @@ class ProfileField extends React.Component{
             this.props.navigator.push({
               component: FieldModal,
               name: `Edit ${fieldLabel}`,
+              key:`edit${fieldLabel}`,
               passProps: {
                 inputField: displayField(field),
                 field,
@@ -182,15 +183,15 @@ class SettingsBasic extends React.Component{
 
         <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{marginTop:55,backgroundColor:colors.dark}}
-        contentContainerStyle={{alignItems:'flex-start'}} >
+        style={{marginTop:60,backgroundColor:colors.dark}}
+        contentContainerStyle={{alignItems:'flex-start',height:DeviceHeight}} >
       <View style={{backgroundColor:colors.outerSpace}}>
 
         <ScrollableTabView startPage={this.props.startPage} style={{overflow:'hidden',}} onChangeTab={(tab)=>{
 
             Analytics.screen(`SettingsBasic`+ [' GENERAL',' DETAILS'][tab.i]);
           }} padded={false} renderTabBar={(props)=><CustomTabBar {...props}/>}>
-          <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:MagicNumbers.screenPadding/2}}  tabLabel={'GENERAL'}>
+          <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight,paddingVertical:MagicNumbers.screenPadding/2}}  tabLabel={'GENERAL'}>
           {user.relationship_status == 'single' ? null : <View style={{height:150,width:150,alignSelf:'center'}}>
           <TouchableOpacity onPress={this._pressNewImage.bind(this)} style={{marginTop:20,}}>
           <Image
@@ -285,7 +286,7 @@ class SettingsBasic extends React.Component{
             </View>
                 </View>
 
-                <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth, paddingBottom:0 }}  tabLabel={'DETAILS'}>
+                <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth, paddingBottom:40,height:DeviceHeight }}  tabLabel={'DETAILS'}>
           <View style={styles.paddedSpace}>
             <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>Details</Text>
@@ -308,11 +309,11 @@ class SettingsBasic extends React.Component{
 
           </View>
         </ScrollableTabView>
-      
+
       </View>
 
       </ScrollView>
-      <FakeNavBar
+      {/* <FakeNavBar
         blur={false}
         backgroundStyle={{backgroundColor:colors.shuttleGray}}
         hideNext={true}
@@ -325,7 +326,7 @@ class SettingsBasic extends React.Component{
         onPrev={(nav,route)=> nav.pop()}
         title={`BASIC`}
         titleColor={colors.white}
-        />
+        /> */}
       </View>
 
     )
@@ -341,24 +342,25 @@ const styles = StyleSheet.create({
 
 
  container: {
-   flex: 1,
    justifyContent: 'center',
    alignItems: 'stretch',
    position:'relative',
    alignSelf: 'stretch',
-   backgroundColor:colors.outerSpace
+   backgroundColor:colors.outerSpace,
+   height:DeviceHeight+100,
+
   //  overflow:'hidden'
  },
  inner:{
-   flex: 1,
    alignItems: 'stretch',
    backgroundColor:colors.dark,
    flexDirection:'column',
+   height:DeviceHeight,
    justifyContent:'flex-start'
  },
 
  blur:{
-   flex:1,
+
    alignSelf:'stretch',
    alignItems:'center',
    paddingTop: 60,

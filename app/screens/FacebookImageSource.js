@@ -31,15 +31,13 @@ class FacebookImageSource extends Component{
   constructor(props){
     super();
     this.state = {
-
     }
 
   }
 
   onPressFacebook(fbUser){
-
-    var nextRoute = {name:'FBPhotoAlbums'}
-    nextRoute.component = FBPhotoAlbums
+     var nextRoute = {name:'FBPhotoAlbums',key:'fba'+Math.random(1)}
+     nextRoute.component = FBPhotoAlbums
     nextRoute.passProps = {
       ...this.props,
       image_type: this.props.image_type || this.props.imageType,
@@ -55,9 +53,7 @@ class FacebookImageSource extends Component{
 
   render(){
 
-    const isCoupleImage = this.props.image_type == 'couple_profile' || this.props.imageType == 'couple_profile',
-          currentRoutes = this.props.navigator.getCurrentRoutes();
-
+    const isCoupleImage = this.props.image_type == 'couple_profile' || this.props.imageType == 'couple_profile';
     const copy = {
         coupleTitle: `YOUR PIC`,
         singleTitle: `YOUR PIC`,
@@ -82,6 +78,8 @@ class FacebookImageSource extends Component{
 
     }
 
+
+console.log(this.props);
     return (
       <View style={styles.container}>
 
@@ -109,13 +107,28 @@ class FacebookImageSource extends Component{
         <View>
 
           <View style={styles.fbButton}>
-            <FacebookButton
+            {/* <FacebookButton
               buttonType={'upload'}
               _onPress={this.onPressFacebook.bind(this)}
               key={'notthesamelement'}
               buttonText="UPLOAD FROM FB"
               shouldAuthenticate={true}
-            />
+            /> */}
+
+            <BoxyButton
+              text={`LOG IN WITH FACEBOOK`}
+              buttonText={this.props.buttonTextStyle}
+              outerButtonStyle={styles.iconButtonOuter}
+              leftBoxStyles={styles.buttonIcon}
+              innerWrapStyles={styles.button}
+              underlayColor={colors.cornFlower}
+              _onPress={this.onPressFacebook.bind(this)}>
+
+                <Image source={{uri: 'assets/fBlogo@3x.png'}}
+                          resizeMode={Image.resizeMode.contain}
+                              style={{height:30,width:20,}} />
+              </BoxyButton>
+
           </View>
 
           {/* <View style={styles.twoButtons}>
@@ -145,6 +158,7 @@ class FacebookImageSource extends Component{
 }
 
 FacebookImageSource.displayName = 'FacebookImageSource'
+
 export default FacebookImageSource
 
 
@@ -225,5 +239,33 @@ const styles = StyleSheet.create({
     borderRightColor: colors.mediumPurple,
     borderRightWidth: 1
   },
+   LogoBox: {
+  },
+  iconButtonOuter:{
+    alignSelf:'stretch',
+    flex:1,
+    alignItems:'stretch',
+    flexDirection:'row',
+    height:MagicNumbers.is5orless ? 50 : 60,
+    marginVertical:15,
+  },
+  middleTextWrap: {
+    alignItems:'center',
+    justifyContent:'center',
+    height: 60
+  },
 
-});
+  button:{
+    borderColor: colors.cornFlower,
+    borderWidth: 1,
+    height:MagicNumbers.is5orless ? 50 : 60,
+
+  },
+  buttonIcon: {
+    width:60,
+    borderRightColor: colors.cornFlower,
+    borderRightWidth: 1,
+    backgroundColor: colors.cornFlower20,
+
+  },
+})

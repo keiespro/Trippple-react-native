@@ -1,5 +1,5 @@
 
-export default function appReducer(state = initialState, action) {
+export default function potentialsReducer(state = initialState, action) {
 
   switch (action.type) {
 
@@ -15,6 +15,5 @@ const initialState = {
 
   visibility: null,
   version: null,
-  network: null,
-  
+
 };

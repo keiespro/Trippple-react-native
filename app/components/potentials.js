@@ -157,9 +157,9 @@ class PotentialsPage extends React.Component{
   }
   render(){
     const { potentials, user } = this.props
-    const NavBar = React.cloneElement(PotentialsRoute.navigationBar, {
-      ...this.props
-    })
+    // const NavBar = React.cloneElement(PotentialsRoute.navigationBar, {
+    //   ...this.props
+    // })
     return (
       <View
         style={{
@@ -170,7 +170,7 @@ class PotentialsPage extends React.Component{
         }}>
         {!global.__TEST__ && <TaskManager navigator={this.props.navigator} user={user} triggers={this.props.potentialsMeta} />}
 
-        {!this.state.profileVisible ? NavBar : null}
+        {/* {!this.state.profileVisible ? NavBar : null} */}
 
          <View style={[
            styles.cardStackContainer,

@@ -191,7 +191,7 @@ class Main extends Component{
           navigator={navigator}
           route={route}
           navBar={navBar}
-          AppState={this.props.AppState}
+
           {...route.passProps}
           user={this.props.user}
         />

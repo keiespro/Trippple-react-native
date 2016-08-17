@@ -207,7 +207,7 @@ class SettingsInside extends React.Component{
     // }
 
     return (
-      <View style={{flex:1,}}>
+      <View style={{}}>
 
           <ParallaxView
               showsVerticalScrollIndicator={false}
@@ -215,7 +215,7 @@ class SettingsInside extends React.Component{
               windowHeight={DeviceHeight* (MagicNumbers.is5orless ? 0.7 : 0.5)}
               navigator={this.props.navigator}
               backgroundSource={{uri:src || 'assets/defaultuser.png'}}
-              style={{backgroundColor:colors.outerSpace,paddingTop:10,}}
+              style={{backgroundColor:colors.outerSpace,paddingTop:10,height:DeviceHeight}}
               header={(
               <View
                   style={[ styles.userimageContainer,styles.blur, {
@@ -479,7 +479,7 @@ class Settings extends React.Component{
     return (
       <View style={styles.container}>
           <SettingsInside user={this.props.user} openModal={this.openModal.bind(this)} navigator={this.props.navigator}/>
-          <FakeNavBar
+          {/* <FakeNavBar
               blur={false}
               backgroundStyle={{backgroundColor:colors.shuttleGray}}
               hideNext={true}
@@ -488,7 +488,7 @@ class Settings extends React.Component{
           onPrev={(nav,route)=> nav.pop()}
           title={'MANAGE YOUR ACCOUNT'}
           titleColor={colors.white}
-      />
+      /> */}
       </View>
     )
   }

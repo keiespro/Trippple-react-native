@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
   //  overflow:'hidden'
  },
  inner:{
-   flex: 1,
    alignItems: 'stretch',
+   height:DeviceHeight,
    backgroundColor:colors.outerSpace,
    flexDirection:'column',
    justifyContent:'flex-start'

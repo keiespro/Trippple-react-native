@@ -202,7 +202,7 @@ class  SettingsPreferences extends React.Component{
         </View>
 
         </ScrollView>
-        <FakeNavBar
+        {/* <FakeNavBar
           blur={false}
           backgroundStyle={{backgroundColor:colors.shuttleGray}}
           hideNext={true}
@@ -215,7 +215,7 @@ class  SettingsPreferences extends React.Component{
           onPrev={(nav,route)=> nav.pop()}
           title={`PREFERENCES`}
           titleColor={colors.white}
-        />
+        /> */}
       </View>
     )
   }

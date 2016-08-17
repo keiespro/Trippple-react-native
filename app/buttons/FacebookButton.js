@@ -19,6 +19,11 @@ import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
+import ActionMan from  '../reducers/actions';
+
+import { connect } from 'react-redux';
+
+
 const FACEBOOK_LOCALSTORAGE_KEY = 'facebook'
 
 class FacebookButton extends React.Component{
@@ -78,17 +83,20 @@ class FacebookButton extends React.Component{
 
   }
   onPress(e){
-
+    console.log(this.props);
 
     const superPress = this.props.onPress || this.props._onPress;
-    console.log(this.state.fbUser);
-    if(this.props.shouldAuthenticate){
+    console.log(this.props.fbUser,this.state.fbUser);
+    const fb_id = this.props.fbUser && this.props.fbUser.userID;
+
+    if(!fb_id && this.props.shouldAuthenticate){
 
       LoginManager.logInWithReadPermissions([  'email', 'public_profile', 'user_birthday', 'user_friends', 'user_likes', 'user_location', 'user_photos']).then(fb => {
         console.log(fb);
-
           AccessToken.getCurrentAccessToken().then(data => {
             console.log(data);
+            this.props.dispatch(ActionMan.getFacebookInfo(data))
+
             this.setState({ fbUser : data });
             superPress(data);
           })
@@ -101,7 +109,7 @@ class FacebookButton extends React.Component{
       superPress();
     }
     if( !this.state.fbUser){
-      
+
 
     }else{
       superPress(this.state.fbUser);
@@ -150,9 +158,21 @@ class FacebookButton extends React.Component{
 
   }
 }
-reactMixin.onClass(FacebookButton, NativeMethodsMixin)
+// reactMixin.onClass(FacebookButton, NativeMethodsMixin)
 
-export default FacebookButton
+
+const mapStateToProps = (state, ownProps) => {
+  console.log('state fbUser',state.fbUser,'ownProps',ownProps,state); // state
+  return { fbUser: state.fbUser }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FacebookButton);
+
+
 
 const styles = StyleSheet.create({
   LogoBox: {

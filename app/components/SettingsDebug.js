@@ -33,7 +33,7 @@ class SettingsDebug extends React.Component{
       return (
         <View  style={{ }}>
 
-      <ScrollView style={{flex:1,paddingTop:55,overflow:'visible'}}    >
+      <ScrollView style={{flex:1,paddingTop:60,overflow:'visible'}}    >
             {/*  Show telemetry */}
               <TouchableHighlight
                 onPress={(f)=>{
@@ -394,7 +394,7 @@ class SettingsDebug extends React.Component{
 
 
           </ScrollView>
-          <FakeNavBar
+          {/* <FakeNavBar
             blur={true}
             navigator={this.props.navigator}
             backgroundStyle={{backgroundColor:colors.sushi,top:0}}
@@ -404,7 +404,7 @@ class SettingsDebug extends React.Component{
             onPrev={(nav,route)=> nav.pop()}
             title={'DEBUG SETTINGS'}
             titleColor={colors.white}
-          />
+          /> */}
 
 </View>
       )
@@ -431,7 +431,7 @@ class EmptyPage extends React.Component{
       <ScrollView horizontal={true}
               scrollEnabled={true}
  vertical={true}
-contentContainerStyle={{height:9000,position:'relative',paddingTop:55}}
+contentContainerStyle={{height:9000,position:'relative',paddingTop:60}}
       removeClippedSubviews={false}
       directionalLockEnabled={true}
  ><View style={{position:'relative'}}>{screenshot ?
@@ -518,7 +518,7 @@ class TelemetryPage extends React.Component{
       <View style={{flex: 1,overflow:'hidden'}}>
 
         <ListView
-          contentContainerStyle={{flex: 1,paddingTop:55,position:'relative'}}
+          contentContainerStyle={{flex: 1,paddingTop:60,position:'relative'}}
           scrollEnabled={true}
           vertical={true}
  style={{flex: 1}}

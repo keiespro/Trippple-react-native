@@ -1,45 +1,128 @@
 import api from '../utils/api'
 import { createAction, handleAction, handleActions } from 'redux-actions';
+import FBSDK from 'react-native-fbsdk'
+const x = [
+  'requestPin',
+  'verifyPin',
+  'fbLogin',
+  'updateUser',
+  'getMatches',
+  'getNewMatches',
+  'unMatch',
+  'reportUser',
+  'getNotificationCount',
+  'getMessages',
+  'createMessage',
+  'sendLike',
+  'decouple',
+  'getCouplePin',
+  'verifyCouplePin',
+  'updatePushToken',
+  'disableAccount',
+  'getUserInfo',
+  'getPotentials'
+];
 
+const d = x.map(call => {
+  let action = call.replace(/([A-Z])/g, function($1){return "_"+$1.toLowerCase()}).toUpperCase();
+  return { action, call }
+})
 
-export const logOut = createAction('LOG_OUT');
+const ActionMan = d.reduce((obj,endpoint) => {
 
-export const showInModal = route => dispatch({ type: 'SHOW_IN_MODAL',
-  payload: { route }
-}).then(logIt);
+  obj[endpoint.call] = c => (dispatch => dispatch({
+    type: endpoint.action,
+    payload: {
+      promise: new Promise((resolve, reject) => {
+        api[endpoint.call]().then(x => resolve(x)).catch(x => reject(x))
+      })
+    }
+  }))
+  return obj
+},{})
 
-export const killModal = x => dispatch({ type: 'KILL_MODAL' }).then(logIt);
+ActionMan.logOut = createAction('LOG_OUT');
 
+ActionMan.showInModal = route => dispatch => dispatch({ type: 'SHOW_IN_MODAL', payload: { route } });
+
+ActionMan.killModal = d => dispatch => dispatch({ type: 'KILL_MODAL' });
 
 ///// ASYNC ACTIONS ////////
+ActionMan.getFacebookInfo = d => dispatch => {
 
-export const getUserInfo = c => dispatch => dispatch({ type: 'FETCH_USER_INFO',
+  FBSDK.AccessToken.getCurrentAccessToken().then(response => {
+    console.log(response);
+    if (response) {
+      // the user is logged in and has authenticated your
+      // app, and response.authResponse supplies
+      // the user's ID, a valid access token, a signed
+      // request, and the time the access token
+      // and signed request each expire
+
+      dispatch({
+        type: 'GET_FACEBOOK_INFO',
+        payload: {fbUser: response}
+      });
+
+    } else if (response.status === 'not_authorized') {
+      // the user is logged in to Facebook,
+      // but has not authenticated your app
+    } else {
+      // the user isn't logged in to Facebook.
+    }
+ });
+}
+
+ActionMan.getPushToken = d => dispatch => dispatch({ type: 'GET_PUSH_TOKEN' });
+
+ActionMan.checkLocation = l => dispatch => dispatch({ type: 'CHECK_LOCATION',
   payload: {
     promise: new Promise((resolve, reject) => {
-      api.getUserInfo().then(x => resolve(x)).catch(x => reject(x))
+      navigator.geolocation.getCurrentPosition(
+        geo => resolve(geo),
+        error => reject(error),
+        {
+          enableHighAccuracy: false,
+          maximumAge: 1
+        }
+      );
     })
   }
-}).then(logIt);
+});
 
-export const fetchPotentials = c => dispatch => dispatch({ type: 'FETCH_POTENTIALS',
+// export const getUserInfo = c => dispatch => dispatch({ type: 'GET_USER_INFO',
+//   payload: {
+//     promise: new Promise((resolve, reject) => {
+//       api.getUserInfo().then(x => resolve(x)).catch(x => reject(x))
+//     })
+//   }
+// });
+//
+// export const getPotentials = c => dispatch => dispatch({ type: 'GET_POTENTIALS',
+//   payload: {
+//     promise: new Promise((resolve, reject) => {
+//       api.getPotentials().then(x => resolve(x)).catch(x => reject(x))
+//     })
+//   }
+// });
+//
+
+export default ActionMan
+
+ActionMan.saveCredentials = c => dispatch => dispatch({ type: 'SAVE_CREDENTIALS',
   payload: {
     promise: new Promise((resolve, reject) => {
-      api.getPotentials().then(x => resolve(x)).catch(x => reject(x))
+      Keychain.setInternetCredentials(KEYCHAIN_NAMESPACE, c.user_id+'' , c.api_key)
+        .then(x => resolve(x)).catch(x => reject(x))
     })
   }
-}).then(logIt);
-
-
-export default {getUserInfo,logOut}
+});
 
 
 
-const logIt = ({ value, action }) => {
-  console.log(action.type, value, action);
-};
 
 
-// export const receiveUserInfo = createAction('FETCH_USER_INFO', async (cr) => {
+// export const receiveUserInfo = createAction('GET_USER_INFO', async (cr) => {
 //   const ui = await api.getUserInfo(cr)
 //   return Promise.resolve(ui)
   // return Promise.resolve(api.getUserInfo(cr).then(x => {

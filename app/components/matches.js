@@ -543,9 +543,9 @@ const styles = StyleSheet.create({
   noop:{},
   container: {
     backgroundColor: colors.dark,
-    marginTop:55,
+    marginTop:60,
     flex: 1,
-    height: DeviceHeight-55,
+    height: DeviceHeight-60,
   },
   navText: {
     color:colors.black,

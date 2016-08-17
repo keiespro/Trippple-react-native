@@ -85,41 +85,45 @@ const styles = StyleSheet.create({
 
 const SettingsRoute = {
   component: SettingsView,
-  index: 1,
+  // index: 1,
   title: 'Settings',
   id: 'Settings',
-  navigationBar: (
-    <FakeNavBar
-      blur={true}
-      backgroundStyle={{backgroundColor:colors.shuttleGray,top:0}}
-      hideNext={true}
-      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12}}
-      source={{uri:'assets/close@3x.png'}}/>}
-      onPrev={(nav,route)=> nav.pop()}
-      title={'SETTINGS'}
-      titleColor={colors.white}
-    />)
+  key: 'Settings',
+  navigationBar: null // (
+//     <FakeNavBar
+//       blur={true}
+//       backgroundStyle={{backgroundColor:colors.shuttleGray,top:0}}
+//       hideNext={true}
+//       customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12}}
+//       source={{uri:'assets/close@3x.png'}}/>}
+//       onPrev={(nav,route)=> nav.pop()}
+//       title={'SETTINGS'}
+//       titleColor={colors.white}
+//     />)
 }
 
 const MatchesRoute = {
 
   component: Matches,
-  index: 2,
+  // index: 1,
   title: 'MESSAGES',
   id: 'matches',
+  key: 'matches',
   name: 'Matches',
-  navigationBar: (
-    <FakeNavBar
-      hideNext={true}
-      backgroundStyle={{backgroundColor:colors.shuttleGray}}
-      titleColor={colors.white}
-      title={'MESSAGES'} titleColor={colors.white}
-      onPrev={(nav,route)=> nav.pop()}
-      customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12}} source={{uri:'assets/close@3x.png'}} />
-      }
-    />
-  ),
-    // sceneConfig: Navigator.SceneConfigs.PushFromRight
+  navigationBar: null,// (
+    // <FakeNavBar
+    //   hideNext={true}
+    //   backgroundStyle={{backgroundColor:colors.shuttleGray}}
+    //   titleColor={colors.white}
+    //   title={'MESSAGES'}
+    //   blur={true}
+    //   titleColor={colors.white}
+    //   onPrev={(nav,route)=>{console.log(nav,route); nav.pop && nav.pop()}}
+    //   customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12}} source={{uri:'assets/close@3x.png'}} />
+    //   }
+    // />
+  // ),
+    sceneConfig: Navigator.SceneConfigs.PushFromRight
 }
 
 
@@ -129,23 +133,24 @@ const ChatRoute = {
   index: 2,
   title: 'Matches',
   id: 'matches',
+  key: 'matches',
   name: 'Chat',
-  navigationBar: (
-    <FakeNavBar
-      hideNext={true}
-      backgroundStyle={{backgroundColor:'transparent'}}
-      titleColor={colors.white}
-      blur={true}
-      title={'Matches'} titleColor={colors.white}
-      onPrev={(nav,route)=> nav.pop()}
-      customPrev={   <View style={[styles.navBarLeftButton,{marginTop:10}]}>
-          <Text textAlign={'left'} style={[styles.bottomTextIcon]}>◀︎ </Text>
-          <Text textAlign={'left'} style={[styles.bottomText]}>Go back</Text>
-        </View>
-      }
-    />
-  ),
-    // sceneConfig: Navigator.SceneConfigs.PushFromRight
+  navigationBar: null, // (
+    // <FakeNavBar
+    //   hideNext={true}
+    //   backgroundStyle={{backgroundColor:'transparent'}}
+    //   titleColor={colors.white}
+    //   blur={true}
+    //   title={'Matches'} titleColor={colors.white}
+    //   onPrev={(nav,route)=> nav.pop()}
+    //   customPrev={   <View style={[styles.navBarLeftButton,{marginTop:10}]}>
+    //       <Text textAlign={'left'} style={[styles.bottomTextIcon]}>◀︎ </Text>
+    //       <Text textAlign={'left'} style={[styles.bottomText]}>Go back</Text>
+    //     </View>
+    //   }
+    // />
+  // ),
+    sceneConfig: Navigator.SceneConfigs.PushFromRight
 }
 
 
@@ -155,33 +160,33 @@ const PotentialsRoute = {
   id: 'potentials',
   name: 'Potentials',
   component: Potentials,
-  navigationBar: (
-    <FakeNavBar
-      backgroundStyle={{backgroundColor:'transparent'}}
-      customTitle={
-        <Image
-          resizeMode={Image.resizeMode.contain}
-          style={{width:80,height:30,tintColor: __DEV__ ? colors.mandy : colors.white}}
-          source={{uri:'assets/tripppleLogoText@3x.png'}}
-        />
-      }
-      onPrev={(navigator,route) => navigator.push(SettingsRoute)}
-      customPrev={
-        <Image
-          resizeMode={Image.resizeMode.contain}
-          style={{width:28,top:-10,height:30,alignSelf:'flex-start',tintColor: __DEV__ ? colors.mandy : colors.white}}
-          source={{uri:'assets/gear@3x.png'}}
-        />
-      }
-      onNext={(navigator,route) => {navigator.push(MatchesRoute)}}
-      customNext={
-        <Image
-          resizeMode={Image.resizeMode.contain}
-          style={{opacity:0.6,width:30,top:0,height:30,alignSelf:'flex-end',tintColor: __DEV__ ? colors.mandy : colors.white}}
-          source={{uri:'assets/chat@3x.png'}}
-        />
-      }
-    />)
+  navigationBar: null // (
+    // <FakeNavBar
+    //   backgroundStyle={{backgroundColor:'transparent'}}
+    //   customTitle={
+    //     <Image
+    //       resizeMode={Image.resizeMode.contain}
+    //       style={{width:80,height:30,tintColor: __DEV__ ? colors.mandy : colors.white}}
+    //       source={{uri:'assets/tripppleLogoText@3x.png'}}
+    //     />
+    //   }
+    //   onPrev={(navigator,route) => navigator.push(SettingsRoute)}
+    //   customPrev={
+    //     <Image
+    //       resizeMode={Image.resizeMode.contain}
+    //       style={{width:28,top:-10,height:30,alignSelf:'flex-start',tintColor: __DEV__ ? colors.mandy : colors.white}}
+    //       source={{uri:'assets/gear@3x.png'}}
+    //     />
+    //   }
+    //   onNext={(navigator,route) => {navigator.push(MatchesRoute)}}
+    //   customNext={
+    //     <Image
+    //       resizeMode={Image.resizeMode.contain}
+    //       style={{opacity:0.6,width:30,top:0,height:30,alignSelf:'flex-end',tintColor: __DEV__ ? colors.mandy : colors.white}}
+    //       source={{uri:'assets/chat@3x.png'}}
+    //     />
+    //   }
+    // />)
 };
 
 

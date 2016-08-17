@@ -16,6 +16,8 @@ const FB_PHOTO_WIDTH = 200;
 
 
 import colors from '../utils/colors'
+import { connect } from 'react-redux';
+
 
 var ProfilePhoto = React.createClass({
   propTypes: {
@@ -111,45 +113,50 @@ var ProfileInfo = React.createClass({
 
 var AlbumView = React.createClass({
 
-
+  componentDidMount(){
+    console.log(this.props);
+  },
   selectPhoto(photo) {
     // console.log(photo)
-    var {navigator,route,image_type,nextRoute,afterNextRoute} = this.props;
-    if(nextRoute){
-
-      navigator.push({
-        component: nextRoute,
-        name: 'Edit Image',
-        passProps: {
-          ...this.props,
-          image: {uri:photo.images && photo.images[0] && photo.images[0].source || photo.source},
-          image_type: image_type || '',
-          nextRoute: afterNextRoute,
-          isFB:true
-        }
-      })
+    // var {navigator,route,image_type,nextRoute,afterNextRoute} = this.props;
+    // if(nextRoute){
+      //
+      // navigator.push({
+      //   component: nextRoute,
+      //   name: 'Edit Image',
+      //   key:'editimg',
+      //   passProps: {
+      //     ...this.props,
+      //     image: {uri:photo.images && photo.images[0] && photo.images[0].source || photo.source},
+      //     image_type: image_type || '',
+      //     nextRoute: afterNextRoute,
+      //     isFB:true
+      //   }
+      // })
       return
-
-    }else{
-      var lastindex = this.props.navigator.getCurrentRoutes().length;
-      var nextRoute = this.props.stack[lastindex];
-
-      nextRoute.passProps = {
-        ...this.props,
-        image: {uri:photo.images[0].source},
-        image_type: image_type || '',
-        isFB:true
-
-      }
-    }
+    //
+    // }else{
+    //   // var lastindex = this.props.navigator.getCurrentRoutes().length;
+    //   // var nextRoute = this.props.stack[lastindex];
+    //
+    //   // nextRoute.passProps = {
+    //   //   ...this.props,
+    //   //   image: {uri:photo.images[0].source},
+    //   //   image_type: image_type || '',
+    //   //   isFB:true
+    //   //
+    //   // }
+    // }
 
   },
-  renderSinglePhotos(photo) {
-    var img = photo.images && photo.images.length > 4 && photo.images[4].source || photo.images && photo.images[0] && photo.images[0].source || photo.source;
+  renderSinglePhotos(img,id) {
+     // var img = photo.images[0].source//photo.images && photo.images.length > 4 && photo.images[4].source || photo.images && photo.images[0] && photo.images[0].source || photo.source;
+
+    console.log(img,id);
 
     return (
-      <View  key={photo+''} style={styles.photo_list_item}>
-        <TouchableHighlight onPress={(e) => { this.selectPhoto(photo) }}>
+      <View  key={ id+''} style={styles.photo_list_item}>
+        <TouchableHighlight onPress={(e) => { this.selectPhoto(img) }}>
           <Image style={styles.pic} source={{uri: img}} />
         </TouchableHighlight>
       </View>
@@ -160,8 +167,10 @@ var AlbumView = React.createClass({
   render(){
 
     var album = this.props.album_details;
-    var isOnbboarding = this.props.navigator.getCurrentRoutes()[0].id != 'potentials'
+    var isOnboarding = false;// this.props.navigator.getCurrentRoutes()[0].id != 'potentials'
+    var ds = new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
 
+    const albums = ds.cloneWithRows(this.props.photos.map(p => p.images[0].source))
     return (
       <View style={{flex:1,backgroundColor:colors.outerSpace,height:DeviceHeight,width:DeviceWidth}}>
 
@@ -169,26 +178,13 @@ var AlbumView = React.createClass({
           <ListView
           style={{marginTop:60,padding:4.5}}
           contentContainerStyle={{flexDirection:'row',justifyContent:'flex-start',alignItems:'flex-start',flexWrap:'wrap'}}
-            dataSource={this.props.album_photos}
+          dataSource={albums}
            horizontal={false}
            vertical={true}
             renderRow={this.renderSinglePhotos}
           />
 
-          <FakeNavBar
-            navigator={this.props.navigator}
-            route={this.props.route}
-            backgroundStyle={{backgroundColor:'transparent'}}
-            onPrev={(n,p)=>(this.props.navigator.pop())}
-            blur={true}
-            title={album.name.toUpperCase()}
-            titleColor={colors.white}
-            customPrev={
-              <View style={{flexDirection: 'row',opacity:0.5,top: DeviceHeight > 568 ? -4 : -3}}>
-                <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
-              </View>
-            }
-          />
+
 
 
         </View>
@@ -204,40 +200,7 @@ var PhotoAlbums = React.createClass({
   propTypes: {
     fbUser: React.PropTypes.object.isRequired,
   },
-  selectPhoto(photo) {
-    // console.log(photo)
-    var {navigator,route,image_type,nextRoute,afterNextRoute} = this.props;
-    if(nextRoute){
 
-      navigator.push({
-        component: nextRoute,
-        name: 'Edit Image',
-        passProps: {
-          ...this.props,
-          image: {uri:(photo.images && photo.images[0] && photo.images[0].source) || photo.source},
-          image_type: image_type || '',
-          nextRoute: afterNextRoute,
-          isFB:true
-        }
-      })
-      return
-
-    }else{
-      var lastindex = this.props.navigator.getCurrentRoutes().length;
-      var nextRoute = this.props.stack[lastindex];
-
-      nextRoute.passProps = {
-        ...this.props,
-        image: {uri:(photo.images && photo.images[0] && photo.images[0].source) || photo.source},
-        image_type: image_type || '',
-        isFB:true
-
-      }
-
-      navigator.push(nextRoute)
-    }
-
-  },
   getInitialState(){
     var aDS = new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
     var pDS = new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
@@ -245,6 +208,7 @@ var PhotoAlbums = React.createClass({
       albumSource: aDS.cloneWithRows([]) ,
       album_photos: pDS.cloneWithRows([]),
       view_loaded: null,
+      albums:[]
     };
   },
 
@@ -252,19 +216,7 @@ var PhotoAlbums = React.createClass({
     this.getAlbums();
   },
 
-handlePhotos(err,album){
-  console.log(err,album);
-
-
-
-  this.setState({
-    albums: [...this.state.albums, album],
-    albumSource: this.state.albumSource.cloneWithRows([album]),
-    view_loaded: 'list_albums',
-  });
-},
     handleAlbums(err,responseData){
-      console.log('handleAlbums',responseData);
 
       if(err){
         console.log('ERR',err);
@@ -272,50 +224,31 @@ handlePhotos(err,album){
       }
 
       const albums = responseData.data
-      const fbUser = this.props.fbUser
+      console.log('handleAlbums',albums);
+
       this.setState({
-        albums
+        albums: [...this.state.albums, ...albums],
+        albumSource: this.state.albumSource.cloneWithRows(albums),
+        view_loaded: 'list_albums',
+
       });
 
-
-      for (let album of albums) {
-          console.log(album);
-
-          const infoRequest = new GraphRequest( `/${album.id}/`, {
-            parameters:{
-              fields: {
-                string:'photos,name,id,count'
-              }
-            },
-            accessToken: fbUser.accessToken,
-            },
-            this.handlePhotos
-          );
-          const FBG = new GraphRequestManager();
-          const REQ = FBG.addRequest(infoRequest)
-          REQ.start();
-
-
-      }
-
-      // this.setState({
-      //   photo : {
-      //     url : responseData.data.url,
-      //     height: responseData.data.height,
-      //     width: responseData.data.width,
-      //   },
-      // });
     },
     getAlbums(){
-      console.log('get albums',this.props.fbUser);
+      console.log('get albums',this.props);
       const fbUser = this.props.fbUser;
-      this.setState({fbUser})
+      console.log(fbUser);
 
-
+      const fb_id = fbUser.userID
 
       const infoRequest = new GraphRequest(
-        `/${this.props.user.facebook_user_id}/albums`,
+        `/${fb_id}/albums`,
         {
+          parameters:{
+            fields: {
+              string:'id,photos{images},name,link,picture{url},count'
+            }
+          },
           accessToken: fbUser.accessToken
 
         },
@@ -326,126 +259,63 @@ handlePhotos(err,album){
       REQ.start();
 
 
-      console.log(infoRequest)
 
     },
-  // getAlbums() {
-  //   var fbUser = this.props.fbUser;
-  //   // console.log(fbUser)
-  //   var api = `https://graph.facebook.com/v2.3/${fbUser.userId}/albums?redirect=false&access_token=${fbUser.token}`;
-  //
-  //
-  //   fetch(api)
-  //     .then((response) => response.json())
-  //     .then((responseData) => {
-  //       var albums = responseData.data;
-  //       var total_found = albums.length;
-  //       var count = 0;
-  //       // console.log(responseData)
-  //       if (albums && albums.length) {
-  //         for (var i in albums) {
-  //           ((x) => {
-  //             var url = 'https://graph.facebook.com/v2.3/' + albums[x].id + '/picture?type=album&redirect=false&access_token=' + fbUser.token;
-  //
-  //             fetch(url)
-  //             .then((response) => response.json())
-  //             .then((responseData) => {
-  //               albums[x].cover_photo_image_url = responseData.data.url
-  //               return x;
-  //             })
-  //             .done((index) => {
-  //               count++;
-  //
-  //               if (total_found == count) {
-  //                 this.setState({
-  //                   albums : this.state.albums.cloneWithRows(albums),
-  //                   view_loaded: 'list_albums',
-  //                 });
-  //               }
-  //             });
-  //           })(i);
-  //         }
-  //       }else{
-  //         var endpoint = 'https://graph.facebook.com/v2.3/' + fbUser.userId + '/picture?width=800&redirect=false&access_token=' + fbUser.token;
-  //         fetch(endpoint)
-  //         .then((response) => response.json())
-  //         .then((responseData) => {
-  //           // console.log(responseData)
-  //           this.selectPhoto({source:responseData.data.url})
-  //
-  //         })
-  //         .catch((err) => {
-  //
-  //
-  //          });
-  //
-  //
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       // console.warn('err',JSON.stringify(err))
-  //       dispatch({error: err})
-  //     })
-  // },
+
   openAlbum(album){
     this.fetchAlbumPhotos(album)
   },
   fetchAlbumPhotos(album) {
     var fbUser = this.props.fbUser;
-    // console.log(fbUser)
-    var api = 'https://graph.facebook.com/v2.3/' + album.id + '/photos?redirect=false&access_token=' + fbUser.token;
-
-
-    if (this.state.album_photos && album.photos) {
-      // this.setState({
-      //   album_details: album,
-      //   album_photos : this.state.album_photos.cloneWithRows(album.photos),
-      //   view_loaded: 'list_album_photos',
-      // });
 
                 this.props.navigator.push({
                   component: AlbumView,
-                  name: 'FB Album View',
-                  sceneConfig: Navigator.SceneConfigs.PushFromRight,
+                  name: 'FB Photos View',
+                  key:'fbalbumsz',
+                  // sceneConfig: Navigator.SceneConfigs.PushFromRight,
                   passProps:{
-                    ...this.props,
-                    photos: album.photos,
+                    photos: album.photos.data,
+                    album: album,
+                    // album_photos: ds.cloneWithRows(album.photos.data),
+                    view_loaded: 'list_album_photos',
                     album_details: album,
-                    album_photos : this.state.album_photos.cloneWithRows(album.photos),
-                    // view_loaded: 'list_album_photos',
+
                   }
                 });
-    } else {
-      // fetch pictures
-      fetch(api)
-        .then((response) => response.json())
-        .then((responseData) => {
-          var photos = responseData.data;
-          var total_found = photos.length;
-          var count = 0;
 
-          this.props.navigator.push({
-            component: AlbumView,
-            sceneConfig: Navigator.SceneConfigs.PushFromRight,
-            name: 'FB Album View',
-            passProps:{
-              ...this.props,
-              photos: photos,
-              album_details: album,
-              album_photos : this.state.album_photos.cloneWithRows(photos),
-              // view_loaded: 'list_album_photos',
-            }
-          });
-          this.setState({
-            album_details: album,
-            album_photos : this.state.album_photos.cloneWithRows(photos),
-            // view_loaded: 'list_album_photos',
-          });
-        })
-        .catch((err) => {
-
-        })
-    }
+                console.log('pushed');
+    // } else {
+    //   // fetch pictures
+    //   fetch(api)
+    //     .then((response) => response.json())
+    //     .then((responseData) => {
+    //       var photos = responseData.data;
+    //       var total_found = photos.length;
+    //       var count = 0;
+    //
+    //       this.props.navigator.push({
+    //         component: AlbumView,
+    //         sceneConfig: Navigator.SceneConfigs.PushFromRight,
+    //         name: 'FB Album View',
+    //         key:'fbalbumspics',
+    //         passProps:{
+    //           ...this.props,
+    //           photos: photos,
+    //           album_details: album,
+    //           album_photos : this.state.album_photos.cloneWithRows(photos),
+    //           // view_loaded: 'list_album_photos',
+    //         }
+    //       });
+    //       this.setState({
+    //         album_details: album,
+    //         album_photos : this.state.album_photos.cloneWithRows(photos),
+    //         // view_loaded: 'list_album_photos',
+    //       });
+    //     })
+    //     .catch((err) => {
+    //
+    //     })
+    // }
   },
 
 
@@ -461,11 +331,12 @@ handlePhotos(err,album){
 
 
   renderAlbumCover(album) {
+    console.log(album);
     return (
       <View style={[{width:DeviceWidth}]}>
         <TouchableHighlight underlayColor={colors.shuttleGray} onPress={()=>this.openAlbum(album)}>
           <View style={[styles.album_list_row,{borderBottomWidth:1/PixelRatio.get(),borderColor:colors.shuttleGray,height:80,alignItems:'center',justifyContent:'flex-start',flexDirection:'row',paddingRight:25,marginLeft:25}]}>
-            <Image style={styles.album_cover_thumbnail} source={{uri: album.cover_photo_image_url}} />
+            <Image style={styles.album_cover_thumbnail} source={{uri: album.picture.data.url}} />
             <View style={{flexDirection:'column'}}>
               <Text style={{color:colors.white,fontSize:16,fontFamily:'Montserrat-Bold'}}>{ album.name.toUpperCase()}</Text>
               <Text style={{color:colors.shuttleGray,fontSize:14}}>{`${album.count} photos`}</Text>
@@ -485,19 +356,19 @@ handlePhotos(err,album){
 
     var fbUser = this.props.fbUser;
     var albums = this.state.albums;
-    var isOnbboarding = this.props.navigator.getCurrentRoutes()[0].id != 'potentials'
+    var isOnboarding = false//this.props.navigator.getCurrentRoutes()[0].id != 'potentials'
 
 
     return (
       <View style={{flex:1,backgroundColor:colors.outerSpace,height:DeviceHeight,width:DeviceWidth}}>
 
     {this.state.view_loaded == 'list_albums' ?  <ListView
-        style={{flex:1,marginTop:55}}
+        style={{flex:1,marginTop:60}}
         dataSource={this.state.albumSource}
         renderRow={this.renderAlbumCover}
       /> : <ActivityIndicator style={{alignSelf:'center',alignItems:'center',flex:1,height:200,width:200,justifyContent:'center'}} animating={true} size={'large'}/> }
 
-      <FakeNavBar
+      {/* <FakeNavBar
         navigator={this.props.navigator}
         route={this.props.route}
         backgroundStyle={{backgroundColor:'transparent'}}
@@ -506,11 +377,11 @@ handlePhotos(err,album){
         title={'ALBUMS'}
         titleColor={colors.white}
         customPrev={
-          <View style={{flexDirection: 'row',opacity:0.5,top:isOnbboarding ? 7  : -4}}>
+          <View style={{flexDirection: 'row',opacity:0.5,top:isOnboarding ? 7  : -4}}>
             <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>▼ </Text>
           </View>
         }
-      />
+      /> */}
     </View>
     );
   }
@@ -558,4 +429,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PhotoAlbums;
+
+
+const mapStateToProps = (state, ownProps) => {
+  // console.log('state',state,'ownProps',ownProps); // state
+  return { fbUser: state.fbUser }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PhotoAlbums);

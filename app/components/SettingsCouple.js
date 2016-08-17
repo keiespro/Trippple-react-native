@@ -373,7 +373,7 @@ class SettingsCouple extends React.Component{
                     */}
 
       </ScrollView>
-      <FakeNavBar
+      {/* <FakeNavBar
           blur={false}
           backgroundStyle={{backgroundColor:colors.shuttleGray}}
           hideNext={true}
@@ -386,7 +386,7 @@ class SettingsCouple extends React.Component{
           onPrev={(nav,route)=> nav.pop()}
           title={`${partner.firstname || `YOUR PARTNER` }`}
           titleColor={colors.white}
-          />
+          /> */}
       </View>
 
     )

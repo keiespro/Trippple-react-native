@@ -2,19 +2,16 @@
 export default function userReducer(state = initialState, action) {
 
   switch (action.type) {
-    case 'CONNECT_FACEBOOK':
-
-       return {...state, fbUser: action.payload.fbUser};
-
-    case 'FETCH_USER_INFO_PENDING':
+  
+    case 'GET_USER_INFO_PENDING':
 
       return state;
 
-    case 'FETCH_USER_INFO_REJECTED':
+    case 'GET_USER_INFO_REJECTED':
 
       return { ...state, err: action.payload };
 
-    case 'FETCH_USER_INFO_FULFILLED':
+    case 'GET_USER_INFO_FULFILLED':
 
       return {...state, userInfo: action.payload.response.user_info}
 

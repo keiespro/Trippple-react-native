@@ -83,7 +83,7 @@ class UserProfile extends React.Component{
             alwaysBounceHorizontal={false}
             showsVerticalScrollIndicator={false}
             scrollEnabled={true}
-            contentInset={{top: 55, left: 0, bottom: 0, right: 0}}
+            contentInset={{top: 60, left: 0, bottom: 0, right: 0}}
             key={`${potential.id || potential.user.id}-view`}
           >
 
