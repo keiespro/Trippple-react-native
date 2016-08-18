@@ -12,7 +12,7 @@ import alt from '../flux/alt';
 import AltContainer from 'alt-container/native';
 
 import UserStore from '../flux/stores/UserStore';
-import CredentialsStore from '../flux/stores/CredentialsStore'
+
 
 import NotificationsStore from '../flux/stores/NotificationsStore';
 import NotificationCommander from '../utils/NotificationCommander';
@@ -32,10 +32,8 @@ class Notifications extends Component{
             <NotificationDisplayer AppState={this.props.AppState}   user={this.props.user} />
           </AltContainer>
 
-          <AltContainer store={CredentialsStore}>
-            <NotificationCommander user={this.props.user}/>
-          </AltContainer>
-        </View>
+             <NotificationCommander user={this.props.user}/>
+         </View>
     )
    }
 }

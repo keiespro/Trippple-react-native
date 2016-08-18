@@ -36,7 +36,7 @@ const Welcome = React.createClass({
   },
 
   renderScene(route: Navigator.route, navigator: Navigator) : React.Component {
-    return (<route.component {...route.passProps} key={route.id} navigator={navigator} />);
+    return (<route.component {...route.passProps} dispatch={this.props.dispatch} key={route.id} navigator={navigator} />);
   },
 
   render() {

@@ -95,7 +95,9 @@ class NewMatches extends Component{
           contentContainerStyle={styles.contentContainer}
           horizontal={true}
           vertical={false}
-          pageSize={10}
+          removeClippedSubviews={true}
+          initialListSize={4}
+          pageSize={4}
           showsHorizontalScrollIndicator={false}
           style={styles.scrollView}
             dataSource={this.state.dataSource}

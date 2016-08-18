@@ -212,10 +212,10 @@ class SettingsInside extends React.Component{
           <ParallaxView
               showsVerticalScrollIndicator={false}
               key={this.props.user.id}
-              windowHeight={DeviceHeight* (MagicNumbers.is5orless ? 0.7 : 0.5)}
+              windowHeight={DeviceHeight* (MagicNumbers.is5orless ? 0.5 : 0.5)}
               navigator={this.props.navigator}
               backgroundSource={{uri:src || 'assets/defaultuser.png'}}
-              style={{backgroundColor:colors.outerSpace,paddingTop:10,height:DeviceHeight}}
+              style={{backgroundColor:colors.outerSpace,paddingTop:0,height:DeviceHeight}}
               header={(
               <View
                   style={[ styles.userimageContainer,styles.blur, {
@@ -258,7 +258,7 @@ class SettingsInside extends React.Component{
               </View>
           )}>
 
-          <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,marginBottom:30}}>
+          <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,marginBottom:100}}>
               <TouchableHighlight onPress={(f)=>{
                   this.props.navigator.push({
                     component: SettingsBasic,

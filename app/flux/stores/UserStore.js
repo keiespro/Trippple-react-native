@@ -3,7 +3,7 @@ import UserActions from '../actions/UserActions'
 import MatchActions from '../actions/MatchActions'
 import AppActions from '../actions/AppActions'
 import Keychain from 'react-native-keychain'
-import CredentialsStore from './CredentialsStore'
+
 import AppState from './AppState'
 import Analytics from '../../utils/Analytics'
 import {AsyncStorage} from 'react-native'
@@ -116,7 +116,7 @@ class UserStore {
     console.log('handleFBLogin',login);
     const {userInfo,userAuth} = login;
 
-    CredentialsStore.saveCredentials(userAuth)
+
     const user =  {  ...this.user, ...userInfo }
     this.setState({ user })
 
@@ -129,7 +129,7 @@ class UserStore {
   handleVerifyPin(res){
     const {user_info} = res.response;
     // this.waitFor(AppState)
-    CredentialsStore.saveCredentials(res.response)
+
 
     this.setState({
       user: {  ...this.user, ...user_info },

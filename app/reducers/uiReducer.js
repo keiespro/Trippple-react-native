@@ -2,6 +2,10 @@
 export default function uiReducer(state = initialState, action) {
 
   switch (action.type) {
+    case 'OPEN_PROFILE':
+        return {...state, profileVisible: true };
+   case 'CLOSE_PROFILE':
+        return {...state, profileVisible: false };
 
     case 'KILL_MODAL':
 
@@ -20,6 +24,6 @@ export default function uiReducer(state = initialState, action) {
 
 const initialState = {
 
-  activeModal: null
-
+  activeModal: null,
+  profileVisible: false
 };

@@ -6,18 +6,22 @@ const {KEYCHAIN_NAMESPACE} = config
 
 export default async function loadSavedCredentials(){
 
+  if(global.creds ){
+    return global.creds
+  }
   if(Platform.OS == 'ios'){
+
+
     try{
       const creds = await Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
-      global.creds = {
-        api_key: creds.password,
-        user_id: creds.username
-      };
-      return {status: true, creds}
-    }catch(error){
+      return creds
+     }catch(error){
 
-      return {status: false, error}
+      return null
     }
+
+
+
   }else{
     try{
       const creds = await AsyncStorage.getItem(`${KEYCHAIN_NAMESPACE}-info`)

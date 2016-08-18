@@ -28,6 +28,9 @@ import MatchActions from '../../flux/actions/MatchActions'
 import Analytics from '../../utils/Analytics'
 
 
+import ActionMan from  '../../actions/';
+
+
 const medals = {
   bronze: 'goldenrod',
   silver: 'silver',
@@ -88,6 +91,7 @@ class Card extends React.Component{
   }
   openProfileFromImage(e,scroll){
     console.log(e,scroll);
+    this.props.dispatch({type:'OPEN_PROFILE'})
     // if(!this.props.animatedIn || !this.props.isTopCard){ return }
     this.setState({activeIndex: this.state.activeIndex + 1})
     if(this.props.profileVisible){
@@ -159,6 +163,12 @@ class Card extends React.Component{
       // Analytics.err({message: `Possibly broken potential card delivered to user ${this.props.user.id}`})
 
     }
+  }
+
+  closeProfile(){
+    this.props.dispatch({type:'CLOSE_PROFILE'})
+
+    this.props.toggleProfile()
   }
 
   render(){
@@ -752,7 +762,7 @@ flexDirection:'column',alignItems:'center',justifyContent:'center',
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity  style={{flexDirection:'column',alignItems:'center',
-  justifyContent:'center',}} onPress={this.props.toggleProfile}>
+  justifyContent:'center',}} onPress={this.closeProfile.bind(this)}>
                     <Image
                       resizeMode={Image.resizeMode.contain}
                       style={{height:12,width:12,marginTop:10}}
@@ -798,7 +808,7 @@ flexDirection:'column',alignItems:'center',justifyContent:'center',
                   overflow:'hidden',
                 }}
                 titleColor={colors.white}
-                onPrev={(nav,route)=> {this.props.toggleProfile()}}
+                onPrev={(nav,route)=> {this.closeProfile.bind(this)}}
                 customPrev={
                   <Image
                     resizeMode={Image.resizeMode.contain}

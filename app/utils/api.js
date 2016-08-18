@@ -2,7 +2,7 @@
 
 import AppInfo from 'react-native-app-info'
 import { Platform, NativeModules } from 'react-native'
-import CredentialsStore from '../flux/stores/CredentialsStore'
+
 import Promise from 'bluebird'
 import AppActions from '../flux/actions/AppActions'
 import config from '../config'
@@ -29,7 +29,6 @@ async function baseRequest(endpoint='': String, payload={}: Object){
   const url = `${SERVER_URL}/${endpoint}`;
   // var timeStarted = new Date();
   const res = await fetch(url, params)
-
   try{
     // var secondsAgo = ((new Date).getTime() - timeStarted.getTime()) / 1000;
     // Analytics.timeEnd(`Endpoint Perf`, {name:`${endpoint} ${secondsAgo}`})
@@ -52,13 +51,13 @@ async function baseRequest(endpoint='': String, payload={}: Object){
 
     return Promise.try(() => {
       __DEV__ && console.log(`API RESPONSE <<<<<<---- ${endpoint} | `,response)
-      return  {...response, res: response}
+      return {...response}
     }).catch((err)=>{
       throw new Error({error:err})
     })
 
   }catch(err){
-    __DEV__ && console.warn('CAUGHT ERR',JSON.stringify(err, null, 2))
+    __DEV__ && console.warn('CAUGHT ERR',err);
 
     return {error: err, status: res.status}
   }
@@ -76,7 +75,7 @@ function authenticatedRequest(endpoint: '', payload: {}, forceCredentials){
 
  function authenticatedFileUpload(endpoint, image, image_type, cropData,callback){
 
-  const credentials = CredentialsStore.getState()
+
   const uploadUrl = `${SERVER_URL}/${endpoint}`
   const uri =  image.hasOwnProperty('uri') ? image.uri : image
 
@@ -123,7 +122,7 @@ const api = {
     return publicRequest('verify_security_pin', payload);
   },
 
-  fbLogin(fbAuth,fbUser){
+  fbLogin(fbAuth,fbUser={}){
     const payload = {
       fb_oauth_code: fbAuth.accessToken,
       fb_user_id: fbAuth.userID,
@@ -242,7 +241,8 @@ const api = {
   },
 
   async sendTelemetry(encodedTelemetryPayload: String): Promise{
-    const credentials = CredentialsStore.getCredentials();
+
+
     const authPayload = { ...credentials};
     const params = {
       method: 'post',

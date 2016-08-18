@@ -20,6 +20,7 @@ const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../../DeviceConfig'
 import Card from './Card'
 import Analytics from '../../utils/Analytics'
+import ActionMan from  '../../actions/';
 
 
 class CardStack extends React.Component{
@@ -204,7 +205,7 @@ class CardStack extends React.Component{
         // __DEV__ && console.table([{dx:(dx), dy:(dy), throwThreshold: THROW_THRESHOLD_APPROVE }])
 
         if(!likeUserId){
-          MatchActions.removePotential(likeUserId);
+          // MatchActions.removePotential(likeUserId);
         }else if(likeStatus && likeStatus.length > 0){
           //
           this.setState({interactedWith:likeUserId,likedPotentials:[...this.state.likedPotentials, likeUserId]})
@@ -246,7 +247,7 @@ class CardStack extends React.Component{
         //   }
         // })
         if(likeStatus){
-            MatchActions.sendLike( likeUserId, likeStatus, (this.props.rel == 'single' ? 'couple' : 'single'), this.props.rel );
+          this.props.dispatch(ActionMan.sendLike( likeUserId, likeStatus, (this.props.rel == 'single' ? 'couple' : 'single'), this.props.rel ));
 
           Animated.timing(this.state.pan, {
             toValue,
@@ -426,6 +427,8 @@ class CardStack extends React.Component{
             toggleProfile={this._toggleProfile.bind(this)}
             showProfile={this._showProfile.bind(this)}
             potential={potentials[0]}
+            dispatch={this.props.dispatch}
+
           />
           </Animated.View>
 

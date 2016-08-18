@@ -142,7 +142,7 @@ class Auth extends Component{
         <TopTabs toggleTab={this.toggleTab.bind(this)} active={this.state.activeTab}/>
         <FadeInContainer delayAmount={0} duration={300}>
           <View>
-            <FacebookLogin navigator={this.props.navigator} tab={this.state.activeTab} />
+            <FacebookLogin dispatch={this.props.dispatch} navigator={this.props.navigator} tab={this.state.activeTab} />
 
           </View>
         </FadeInContainer>

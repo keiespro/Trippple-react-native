@@ -28,7 +28,7 @@ class NoMatches extends Component{
         >
         <FadeInContainer delayAmount={1000} duration={1000}>
           <View
-            style={{flex:1,flexDirection:'column',padding:MagicNumbers.screenPadding/2,justifyContent:'flex-start',alignItems:'center',alignSelf:'stretch',paddingBottom:0,paddingTop: 0}}
+            style={{flex:1,flexDirection:'column',padding:MagicNumbers.screenPadding/2,justifyContent:'flex-start',alignItems:'center',alignSelf:'stretch',paddingBottom:0,paddingTop: 20}}
             >
             <Image
               style={{width:DeviceWidth-MagicNumbers.screenPadding,

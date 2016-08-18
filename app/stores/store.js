@@ -2,12 +2,14 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import createReducer from '../reducers';
 import devTools from 'remote-redux-devtools';
 import thunkMiddleware from 'redux-thunk';
+import {AsyncStorage} from 'react-native'
+
 import promiseMiddleware from 'redux-promise-middleware';
 import createLogger from 'redux-logger';
 import {persistStore, autoRehydrate} from 'redux-persist'
 
 const logger = createLogger();
-const middlewares = [thunkMiddleware, logger, promiseMiddleware()]
+const middlewares = [thunkMiddleware, promiseMiddleware()]
 
 function configureStore(initialState = ({})) {
   if (__DEV__) {
@@ -16,11 +18,13 @@ function configureStore(initialState = ({})) {
       createReducer(),
       initialState,
       compose(
-        applyMiddleware(...middlewares),
+        autoRehydrate(),
+        applyMiddleware(...middlewares, logger),
         devTools(),
-        autoRehydrate()
       )
     );
+    persistStore(store, {storage: AsyncStorage})
+
     if (module.hot) {
       module.hot.accept(() => {
         const nextRootReducer = require('../reducers/').default;
@@ -32,14 +36,15 @@ function configureStore(initialState = ({})) {
 
   } else {
 
-    return createStore(
+    const store = createStore(
       createReducer(),
       initialState,
       compose(
+        autoRehydrate(),
         applyMiddleware(...middlewares),
-        autoRehydrate()
       )
     );
+    persistStore(store, {storage: AsyncStorage})
 
   }
 }

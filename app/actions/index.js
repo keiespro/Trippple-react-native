@@ -1,6 +1,7 @@
 import api from '../utils/api'
 import { createAction, handleAction, handleActions } from 'redux-actions';
 import fbActions from './facebook'
+
 const apiActions = [
   'requestPin',
   'verifyPin',
@@ -24,31 +25,30 @@ const apiActions = [
 ];
 
 const endpointMap = apiActions.map(call => {
-  let action = call.replace(/([A-Z])/g, function($1){return "_"+$1.toLowerCase()}).toUpperCase();
+  let action = call.replace(/([A-Z])/g, function($1){return ("_"+$1).toLowerCase()}).toUpperCase();
   return { action, call }
 })
 
 const ActionMan = endpointMap.reduce((obj,endpoint) => {
-  obj[endpoint.call] = c => (dispatch => dispatch({
+  obj[endpoint.call] = (...params) => (dispatch => dispatch({
     type: endpoint.action,
     payload: {
       promise: new Promise((resolve, reject) => {
-        api[endpoint.call]().then(x => resolve(x)).catch(x => reject(x))
+        api[endpoint.call](...params).then(x => resolve(x)).catch(x => {
+          console.log(x); reject(x)
+        })
       })
     }
   }))
   return obj
-}, {
-  ...fbActions
-})
+
+}, fbActions)
 
 ActionMan.logOut = createAction('LOG_OUT');
 
 ActionMan.showInModal = route => dispatch => dispatch({ type: 'SHOW_IN_MODAL', payload: { route } });
 
 ActionMan.killModal = () => dispatch => dispatch({ type: 'KILL_MODAL' });
-
-
 
 ActionMan.getPushToken = () => dispatch => dispatch({ type: 'GET_PUSH_TOKEN' });
 

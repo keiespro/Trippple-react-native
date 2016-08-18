@@ -73,20 +73,18 @@ class GlobalNavigation extends Component {
 	}
 
 	_renderHeader(props) {
-		const showHeader = props.scene.route.title && (Platform.OS === 'ios')
-      console.log(props);
-		// if (showHeader) {
-			return props.navigationState.index == 0 ? (
+		const showHeader = !this.props.profileOpen;
+      const label = props.scene.route.key || props.scene.route.title || props.scene.route.name || props.scene.route.id ||  '';
+		if (showHeader) {
+			return  label.toLowerCase() == 'potentials' || label == 'p' || label == 'leftb' ? (
 				<NavigationHeader
           style={{backgroundColor:colors.outerSpace,flexDirection:'row',height:30, alignItems:'center',justifyContent:'flex-start',}}
   				{...props}
-  				renderTitleComponent={() => <TouchableOpacity onPress={()=>{this._handleAction({route: {component:SettingsDebug,key:'leftb',index:1},type:'push'})}}>
-              <Image
+  				renderTitleComponent={() => <Image
                 resizeMode={Image.resizeMode.contain}
                 style={{width:80,height:30,tintColor: __DEV__ ? colors.daisy : colors.white,alignSelf:'center'}}
                 source={{uri:'assets/tripppleLogoText@3x.png'}}
               />
-            </TouchableOpacity>
           }
   				renderLeftComponent={() => <TouchableOpacity onPress={()=>{this._handleAction({route: {component:Settings,noHeader:true,key:'rightb',index:1}, type:'push'})}}>
             <Image
@@ -113,9 +111,9 @@ class GlobalNavigation extends Component {
         				renderRightComponent={this._renderRightComponent.bind(this)}
       				/>
             );
-		// }
+		}
 
-		// return null;
+		return null;
 	}
 
 	_renderTitleComponent(props) {
@@ -123,10 +121,8 @@ class GlobalNavigation extends Component {
 
 		return (
 			<NavigationHeader.Title>
-        <Text style={{fontSize:14,color:'#fff',fontFamily:'Montserrat'}}>
-				    {props.scene.route.title}
-        </Text>
-			</NavigationHeader.Title>
+			  {props.scene.route.title || ''}
+      </NavigationHeader.Title>
 		);
 	}
 
@@ -228,7 +224,8 @@ function mapStateToProps(state,ownProps) {
 	return {
 		navigation: state.appNav,
     ...ownProps,
-    user: state.user
+    user: state.user,
+    profileOpen: state.ui.profileVisible
 	};
 }
 

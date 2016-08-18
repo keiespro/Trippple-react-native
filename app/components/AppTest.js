@@ -20,7 +20,7 @@ import ModalDirector from '../modals/ModalDirector'
 import Onboarding from '../screens/registration/onboard'
 import UserStore from '../flux/stores/UserStore';
 import AppState from '../flux/stores/AppState';
-import CredentialsStore from '../flux/stores/CredentialsStore'
+
 import UserActions from '../flux/actions/UserActions';
 import AppActions from '../flux/actions/AppActions';
 import CheckMarkScreen from '../screens/CheckMark'
@@ -37,7 +37,7 @@ import ImageFlagged from '../screens/ImageFlagged'
 import url from 'url'
 import TEST_ACCOUNTS from '../../TEST_ACCOUNTS.js'
 
-CredentialsStore.saveCredentials(TEST_ACCOUNTS[0])
+
 class AppRoutes extends Component{
 
   constructor(props){

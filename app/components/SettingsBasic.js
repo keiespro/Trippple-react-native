@@ -181,17 +181,20 @@ class SettingsBasic extends React.Component{
     return (
       <View style={styles.inner}>
 
-        <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{marginTop: 0,backgroundColor:colors.dark}}
-        contentContainerStyle={{alignItems:'flex-start',height:DeviceHeight}} >
-      <View style={{backgroundColor:colors.outerSpace}}>
 
-        <ScrollableTabView startPage={this.props.startPage} style={{overflow:'hidden',}} onChangeTab={(tab)=>{
+      <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight}}>
 
-            Analytics.screen(`SettingsBasic`+ [' GENERAL',' DETAILS'][tab.i]);
-          }} padded={false} renderTabBar={(props)=><CustomTabBar {...props}/>}>
-          <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight,paddingVertical:MagicNumbers.screenPadding/2}}  tabLabel={'GENERAL'}>
+      <ScrollableTabView startPage={this.props.startPage} style={{overflow:'hidden',}} onChangeTab={(tab)=>{
+
+      Analytics.screen(`SettingsBasic`+ [' GENERAL',' DETAILS'][tab.i]);
+      }} padded={false} renderTabBar={(props)=><CustomTabBar {...props}/>}>
+      <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth, flex:1,paddingVertical:MagicNumbers.screenPadding/2,height:DeviceHeight}}  tabLabel={'GENERAL'}>
+      <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{marginTop: 0,flex:1 }}
+          contentContainerStyle={{alignItems:'flex-start', width:DeviceWidth,minHeight:DeviceHeight,height:DeviceHeight*1.25}} >
+          <View style={[styles.paddedSpace,{flex:1}]}>
+
           {user.relationship_status == 'single' ? null : <View style={{height:150,width:150,alignSelf:'center'}}>
           <TouchableOpacity onPress={this._pressNewImage.bind(this)} style={{marginTop:20,}}>
           <Image
@@ -284,10 +287,16 @@ class SettingsBasic extends React.Component{
             })}
 
             </View>
+            </View>
+            </ScrollView>
                 </View>
 
                 <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth, paddingBottom:40,height:DeviceHeight }}  tabLabel={'DETAILS'}>
-          <View style={styles.paddedSpace}>
+                <ScrollView
+                showsVerticalScrollIndicator={false}
+                style={{marginTop: 0,}}
+                contentContainerStyle={{alignItems:'flex-start',height:DeviceHeight*1.05}} >
+                <View style={styles.paddedSpace}>
             <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>Details</Text>
             </View>
@@ -306,13 +315,12 @@ class SettingsBasic extends React.Component{
             )
           })}
           </View>
-
+          </ScrollView>
           </View>
         </ScrollableTabView>
 
       </View>
 
-      </ScrollView>
       {/* <FakeNavBar
         blur={false}
         backgroundStyle={{backgroundColor:colors.shuttleGray}}

@@ -1,0 +1,4 @@
+{
+  declarationKeyword: 'import',
+  useRelativePaths: true
+}

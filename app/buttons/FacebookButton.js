@@ -52,8 +52,9 @@ class FacebookButton extends React.Component{
   }
 
   onPress(e){
+    this.props.onPress && this.props.onPress(e) ||     this.props._onPress && this.props._onPress(e)
 
-      this.props.dispatch(ActionMan.facebookAuth())
+      // this.props.dispatch(ActionMan.facebookAuth())
 
 
   }
@@ -101,19 +102,20 @@ class FacebookButton extends React.Component{
 }
 // reactMixin.onClass(FacebookButton, NativeMethodsMixin)
 
+//
+// const mapStateToProps = (state, ownProps) => {
+//   console.log('state fbUser',state.fbUser,'ownProps',ownProps,state); // state
+//   return { fbUser: state.fbUser }
+// }
+//
+// const mapDispatchToProps = (dispatch) => {
+//   return { dispatch };
+// }
+//
+// export default connect(mapStateToProps, mapDispatchToProps)(FacebookButton);
+//
 
-const mapStateToProps = (state, ownProps) => {
-  console.log('state fbUser',state.fbUser,'ownProps',ownProps,state); // state
-  return { fbUser: state.fbUser }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return { dispatch };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(FacebookButton);
-
-
+export default FacebookButton
 
 const styles = StyleSheet.create({
   LogoBox: {

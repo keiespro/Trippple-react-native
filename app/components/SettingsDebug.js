@@ -7,7 +7,7 @@ import MatchActions from '../flux/actions/MatchActions'
 import AppActions from '../flux/actions/AppActions'
 import colors from '../utils/colors'
 import FakeNavBar from '../controls/FakeNavBar'
-import CredentialsStore from '../flux/stores/CredentialsStore'
+
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -488,7 +488,7 @@ class TelemetryPage extends React.Component{
 
           }else if(rowData.user_id){
             console.log('saved creds');
-            CredentialsStore.saveCredentials(rowData)
+
             Alert.alert('logged in as '+rowData.user_id,'Now shake and reload')
           }else{
             this.props.navigator.push({

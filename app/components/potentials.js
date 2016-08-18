@@ -21,48 +21,13 @@ import MatchActions from '../flux/actions/MatchActions'
 import TimerMixin from 'react-timer-mixin'
 import reactMixin from 'react-mixin'
 import TaskManager  from '../TaskManager'
-var MainRoutes = require('./MainRoutes')
 
-console.log(MainRoutes);
-const  { PotentialsRoute } = MainRoutes
+
+import ActionMan from '../actions/'
+import { connect } from 'react-redux';
+
 
 class Potentials extends React.Component{
-  constructor(props){
-    super()
-  }
-
-  render(){
-    return __TEST__ ? <PotentialsPage {...this.props}/> : (
-      <AltContainer
-       stores={{
-            potentials: (props) => {
-              return {
-                store: PotentialsStore,
-                value: PotentialsStore.getAll()
-              }
-            },
-            potentialsMeta: (props) => {
-              return {
-                store: PotentialsStore,
-                value: PotentialsStore.getMeta()
-              }
-            },
-            unread: (props) => {
-              return {
-                store: MatchesStore,
-                value: MatchesStore.getAnyUnread()
-              }
-        }}}>
-
-          <PotentialsPage {...this.props}/>
-
-      </AltContainer>
-    )
-  }
-}
-
-
-class PotentialsPage extends React.Component{
 
   constructor(props){
     super()
@@ -94,8 +59,8 @@ class PotentialsPage extends React.Component{
     // AppState.addEventListener('change', this._handleAppStateChange.bind(this));
 
     if(this.props.user.status){
-      MatchActions.getPotentials(this.props.user.relationship_status);
-      MatchActions.getMatches.defer();
+      this.props.dispatch(ActionMan.getPotentials());
+      this.props.dispatch(ActionMan.getMatches());
 
     }
 
@@ -157,9 +122,7 @@ class PotentialsPage extends React.Component{
   }
   render(){
     const { potentials, user } = this.props
-    // const NavBar = React.cloneElement(PotentialsRoute.navigationBar, {
-    //   ...this.props
-    // })
+
     return (
       <View
         style={{
@@ -168,9 +131,8 @@ class PotentialsPage extends React.Component{
           height:DeviceHeight,
           top:0
         }}>
-        {!global.__TEST__ && <TaskManager navigator={this.props.navigator} user={user} triggers={this.props.potentialsMeta} />}
+        {/* {!global.__TEST__ && <TaskManager navigator={this.props.navigator} user={user} triggers={this.props.potentialsMeta} />} */}
 
-        {/* {!this.state.profileVisible ? NavBar : null} */}
 
          <View style={[
            styles.cardStackContainer,
@@ -183,6 +145,7 @@ class PotentialsPage extends React.Component{
 
             <CardStack
               user={user}
+              dispatch={this.props.dispatch}
               rel={user.relationship_status}
               potentials={ potentials}
               navigator={this.props.navigator}
@@ -232,7 +195,20 @@ class PotentialsPage extends React.Component{
     )
   }
 }
-reactMixin.onClass(PotentialsPage,TimerMixin)
+// reactMixin.onClass(Potentials,TimerMixin)
 Potentials.displayName = "Potentials"
 
-export default Potentials;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps,
+    user: state.user,
+    potentials: state.potentials,
+    unread: state.unread,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Potentials);

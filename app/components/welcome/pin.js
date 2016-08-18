@@ -13,7 +13,7 @@ import colors from '../../utils/colors'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import Numpad from '../../components/Numpad'
-import UserActions from '../../flux/actions/UserActions'
+import ActionMan from '../../actions/'
 import AuthErrorStore from '../../flux/stores/AuthErrorStore'
 import SingleInputScreenMixin from '../../mixins/SingleInputScreenMixin'
 import BackButton from '../BackButton'
@@ -57,21 +57,21 @@ const Pin = React.createClass({
     var pin =   event.nativeEvent ?  event.nativeEvent.text : event.pin;
 
     // Submit pin automatically when 4 digits have been entered
-    if(!this.state.verifyError && !this.state.submitting && pin.length === 4) {
-      UserActions.verifySecurityPin(pin,this.props.phone);
-
+    if(!this.state.verifyError && !this.state.submitting && pin.length >= 4) {
       this.setState({
         submitting: true
       })
+      this.props.dispatch(ActionMan.verifyPin(pin,this.props.phone))
 
 
+
+    }else{
+
+      // this.setNativeProps({text:pin})
+      this.setState({
+        inputFieldValue: pin
+      })
     }
-
-    this.setNativeProps({text:pin})
-    this.setState({
-      inputFieldValue: pin
-    })
-
   },
 
   setNativeProps(np) {
@@ -83,7 +83,7 @@ const Pin = React.createClass({
   componentDidUpdate(prevProps, prevState){
 
     // Reset error state
-    if(prevState.inputFieldValue.length === 4 && this.state.inputFieldValue.length === 3) {
+    if(prevState.verifyError && prevState.inputFieldValue.length > this.state.inputFieldValue.length ) {
       this.setState({
         submitting: false,
         verifyError: false
@@ -122,9 +122,13 @@ const Pin = React.createClass({
     this.handleInputChange({pin: this.state.inputFieldValue.substring(0,this.state.inputFieldValue.length-1)  })
 
   },
-  onChangeText(digit){
-    if(this.state.inputFieldValue.length >= 4){ return false}
-    this.handleInputChange({pin: this.state.inputFieldValue + digit  })
+  onChangeText(input){
+    // const digits = [...input]
+    // const ints = digits.map(digit => !Number.isInteger(parseInt(digit)))
+    // if(ints.indexOf(true) > -1 ) return false;
+    //
+    // if( this.state.inputFieldValue.length >= 4 ){ return false}
+    // this.handleInputChange({pin: input.slice(0,4)  })
   },
 
   goBack(){
@@ -154,20 +158,26 @@ const Pin = React.createClass({
               ]}
             >
             <TextInput
-              maxLength={4}
+              maxLength={10}
               style={[styles.pinInput,{
-                fontSize: 26
+                fontSize: 26,
+                color: this.state.verifyError ? colors.mandy : colors.white
               }]}
               ref={(inp) => this._inp = inp}
-              editable={false}
-              keyboardAppearance={'dark'/*doesnt work*/}
-              keyboardType={'phone-pad'}
+              editable={true}
+              keyboardAppearance={'dark'}
+              keyboardType={'number-pad'}
               autoCapitalize={'none'}
               placeholder={'ENTER PIN'}
               placeholderTextColor={'#fff'}
               autoCorrect={false}
               textAlign={'center'}
-             />
+              clearButtonMode={'while-editing'}
+              autoFocus={true}
+              selectionColor={colors.mediumPurple}
+              onChangeText={this.onChangeText}
+              onChange={this.handleInputChange}
+            />
           </View>
 
           <View style={[styles.middleTextWrap,styles.underPinInput]}>
@@ -180,7 +190,7 @@ const Pin = React.createClass({
           </View>
 
         </View>
-          <Numpad backspace={this.backspace} onChangeText={this.onChangeText}/>
+          {/* <Numpad backspace={this.backspace} onChangeText={this.onChangeText}/> */}
        </View>
     )
 

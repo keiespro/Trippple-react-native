@@ -1,5 +1,6 @@
 import FBSDK from 'react-native-fbsdk'
 const {LoginManager, AccessToken, GraphRequestManager, GraphRequest} = FBSDK
+import api from '../utils/api'
 
 const FACEBOOK_PERMISSIONS = [
   'email',
@@ -31,6 +32,26 @@ const FACEBOOK_PROFILE_FIELDS = [
   'picture'
 ];
 
+const parameters = { fields: { string: FACEBOOK_PROFILE_FIELDS.join(',') } }
+
+
+
+/* loginWithFacebook | LOGIN_WITH_FACEBOOK */
+export const loginWithFacebook = () => async dispatch => {
+  try{
+    const fbUser = await AccessToken.getCurrentAccessToken()
+    dispatch({
+      type: 'LOGIN_WITH_FACEBOOK',
+      payload: api.fbLogin(fbUser)
+    })
+  }catch(err){
+    __DEV__ && console.log('fb login failed',err)
+  }
+}
+
+
+
+/* getFacebookInfo | GET_FACEBOOK_INFO */
 export const getFacebookInfo = () => async dispatch => {
   try{
     const fbUser = await AccessToken.getCurrentAccessToken()
@@ -41,7 +62,7 @@ export const getFacebookInfo = () => async dispatch => {
   }
 }
 
-
+/* facebookAuth | FACEBOOK_AUTH */
 export const facebookAuth = () => async dispatch => {
   try{
     const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
@@ -52,27 +73,22 @@ export const facebookAuth = () => async dispatch => {
   }
 }
 
-
+/* getFacebookProfile | GET_FACEBOOK_PROFILE */
 export const getFacebookProfile = fbUser => dispatch => {
-  const graphParams = {
-    parameters:{
-      fields: {
-        string: FACEBOOK_PROFILE_FIELDS.join(',')
-      }
-    },
-    accessToken: fbUser.accessToken
-  };
+  const {accessToken} = fbUser;
 
-  const infoRequest = new GraphRequest(`/${fbUser.userID}/`, graphParams, (err,fbProfile) => {
+  const infoRequest = new GraphRequest('me', {parameters, accessToken}, (err, fbProfile) => {
+    if(err){
+      __DEV__ && console.log('error getting fb profile',err);
+      return
+    }
     dispatch({ type: 'GET_FACEBOOK_PROFILE', payload: fbProfile })
-
   });
 
-  const FBG = new GraphRequestManager();
-  const REQ = FBG.addRequest(infoRequest)
+  const REQ = new GraphRequestManager().addRequest(infoRequest)
   REQ.start();
 }
 
 export default {
-  facebookAuth, getFacebookInfo, getFacebookProfile
+  facebookAuth, getFacebookInfo, getFacebookProfile, loginWithFacebook
 }

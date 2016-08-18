@@ -1,11 +1,14 @@
-import React from "react";
 import {AppRegistry,StatusBar, View, Navigator, Dimensions, Image, NativeModules,Settings,Linking} from "react-native";
+import React from "react";
+
+import ModalDirector from '../modals/ModalDirector';
+
 import Analytics from '../utils/Analytics'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import Welcome from './welcome/welcome';
 import Main from './main';
-import ModalDirector from '../modals/ModalDirector'
+
 // import CheckMarkScreen from '../screens/CheckMark'
 // import TimerMixin from 'react-timer-mixin';
 // import reactMixin from 'react-mixin'
@@ -15,6 +18,10 @@ import LoadingOverlay from './LoadingOverlay'
 import MaintenanceScreen from '../screens/MaintenanceScreen'
 import colors from '../utils/colors'
 import url from 'url'
+
+import {persistStore} from 'redux-persist'
+import ActionMan from  '../actions/';
+import loadSavedCredentials from '../../Credentials'
 
 
 
@@ -34,6 +41,20 @@ class App extends React.Component{
     }
 
   }
+
+  performInitActions(){
+
+    const initActions = [
+      'getUserInfo',
+      'getPushToken',
+    ];
+
+    initActions.forEach(ac => {
+      this.props.dispatch(ActionMan[ac]())
+    })
+  }
+
+
 
   componentDidMount(){
 
@@ -72,48 +93,51 @@ class App extends React.Component{
     // if(nProps && this.props.user && nProps.user && nProps.user.status == 'onboarded' && this.props.user.status != 'onboarded'){
     //   Linking.removeEventListener('url', this.handleCoupleDeepLink.bind(this))
     // }
+
+    if(!this.props.loggedIn && nProps.loggedIn){
+      this.performInitActions()
+    }
   }
 
   render(){
-    const user = this.props.userInfo || {}
+    const user = this.props.user || {}
     return (
       <View style={{flex:10,backgroundColor:colors.outerSpace, width:DeviceWidth,height:DeviceHeight}}>
-        <StatusBar animated="true" barStyle="light-content" />
+      <StatusBar animated={true} barStyle="default" />
 
-        <ReachabilitySubscription/>
-        <AppVisibility/>
-        {!this.state.loading && <Connectivity/>}
-{/*
-        {this.props.userInfo && this.props.userInfo.id ? (
-          <Main
-            key="MainScreen"
-            user={user}
-            AppState={this.props.AppState}
-            currentRoute={{}}
-          />
-        ) : <Welcome AppState={this.props.AppState} key={'welcomescene'} />
-        } */}
-
-        {this.props.userInfo && this.props.userInfo.id ? ( <AppNavigation/> ) :
-          <Welcome AppState={this.props.AppState} key={'welcomescene'} /> }
-
-        <ModalDirector
-          user={user}
+      <ReachabilitySubscription/>
+      <AppVisibility/>
+      {!this.state.loading && <Connectivity/>}
+      {/*
+        {user && user.id ? (
+        <Main
+        key="MainScreen"
+        user={user}
+        AppState={this.props.AppState}
+        currentRoute={{}}
         />
+      ) : <Welcome AppState={this.props.AppState} key={'welcomescene'} />
+    } */}
 
-        {/* {(this.state.showCheckmark || this.props.AppState.showCheckmark) ?
-          <CheckMarkScreen
-            key="toplevelcheckmark"
-            isVisible={true}
-            checkMarkCopy={this.state.checkMarkCopy || this.props.AppState.checkMarkCopy || ''}
-            checkmarkRequireButtonPress={this.props.AppState.checkmarkRequireButtonPress || false}
-          /> : <View/> } */}
+    {this.props.loggedIn ? ( <AppNavigation/> ) : <Welcome dispatch={this.props.dispatch} key={'welcomescene'} /> }
 
-        <Notifications user={user} AppState={this.props.AppState} />
+    <ModalDirector
+    user={user}
+    />
 
-        {/* {this.props.AppState.showMaintenanceScreen ? <MaintenanceScreen /> : null } */}
+    {/* {(this.state.showCheckmark || this.props.AppState.showCheckmark) ?
+      <CheckMarkScreen
+      key="toplevelcheckmark"
+      isVisible={true}
+      checkMarkCopy={this.state.checkMarkCopy || this.props.AppState.checkMarkCopy || ''}
+      checkmarkRequireButtonPress={this.props.AppState.checkmarkRequireButtonPress || false}
+      /> : <View/> } */}
 
-        {/* {this.state.overlaid  && <LoadingOverlay />} */}
+      <Notifications user={user} AppState={this.props.AppState} />
+
+      {/* {this.props.AppState.showMaintenanceScreen ? <MaintenanceScreen /> : null } */}
+
+      {/* {this.state.overlaid  && <LoadingOverlay />} */}
 
       </View>
     )
@@ -125,7 +149,12 @@ class App extends React.Component{
 
 const mapStateToProps = (state, ownProps) => {
   // console.log('state',state,'ownProps',ownProps); // state
-  return { ...state.user }
+  return {
+    user: state.user,
+    fbUser: state.fbUser,
+    auth: state.auth,
+    loggedIn: state.auth.api_key && state.auth.user_id
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {

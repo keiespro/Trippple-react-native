@@ -7,6 +7,10 @@ import uiReducer from './uiReducer'
 import appNavReducer from './appNavReducer'
 import facebookReducer from './facebookReducer'
 
+import potentialsReducer from './potentialsReducer'
+import matchesReducer from './matchesReducer'
+import unreadReducer from './unreadReducer'
+
 const applicationReducers = {
   user:       userReducer,
   device:     deviceReducer,
@@ -14,8 +18,10 @@ const applicationReducers = {
   auth:       authReducer,
   ui:         uiReducer,
   appNav:     appNavReducer,
-  fbUser:     facebookReducer
-
+  fbUser:     facebookReducer,
+  unread:     unreadReducer,
+  matches:    matchesReducer,
+  potentials: potentialsReducer
 
 };
 

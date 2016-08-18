@@ -15,6 +15,9 @@ const { LoginManager, AccessToken, GraphRequest, GraphRequestManager } = FBSDK
 
 import Login from './login';
 
+import ActionMan from  '../../actions/';
+
+
 class Facebook extends Component{
   static propTypes = {
     style: View.propTypes.style,
@@ -32,11 +35,10 @@ class Facebook extends Component{
   componentDidMount(){
   }
 
- 
+
 
   login(){
-
-    this.props.dispatch(ActionMan.facebookAuth())
+    this.props.dispatch(ActionMan.loginWithFacebook())
   }
 
 
@@ -46,7 +48,6 @@ class Facebook extends Component{
       title: 'Log in ',
       id:'login',
       passProps: {
-
       }
     });
 
