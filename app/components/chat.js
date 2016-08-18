@@ -1,8 +1,20 @@
 /* @flow */
 
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TextInput,
+  ListView,
+  Keyboard,
+  TouchableOpacity,
+  ScrollView,
+  Animated,
+  Dimensions,
+  KeyboardAvoidingView,
+} from 'react-native';
 import React, {Component} from "react";
-
-import {StyleSheet, Text, View, InteractionManager, Image, TextInput, TouchableHighlight, ListView, LayoutAnimation, Keyboard, TouchableOpacity, ScrollView, Animated, PixelRatio, Easing, Dimensions, KeyboardAvoidingView} from "react-native";
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -12,20 +24,20 @@ import ActionModal from './ActionModal'
 import ThreeDots from '../buttons/ThreeDots'
 import FadeInContainer from './FadeInContainer'
 import colors from '../utils/colors'
-import MatchesStore from '../flux/stores/MatchesStore'
-import ChatStore from '../flux/stores/ChatStore'
+
 import MatchActions from '../flux/actions/MatchActions'
-import alt from '../flux/alt'
-import AltContainer from 'alt-container/native';
+
 import InvertibleScrollView from 'react-native-invertible-scroll-view'
 import TimeAgo from './Timeago'
-import FakeNavBar from '../controls/FakeNavBar'
+
 import moment from 'moment'
 import { BlurView, VibrancyView } from 'react-native-blur'
 import Analytics from '../utils/Analytics';
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 import MessageComposer from './chat/MessageComposer'
+import { connect } from 'react-redux';
 
+import ActionMan from  '../actions/';
 
 const ChatMessage = (props) => {
     const isMessageOurs = (props.messageData.from_user_info.id === props.user.id || props.messageData.from_user_info.id === props.user.partner_id);
@@ -129,11 +141,6 @@ onKeyboardChange(event){
     isKeyboardOpened: startCoordinates.screenY == DeviceHeight
   })
 }
-  saveToStorage(){
-    AsyncStorage.setItem('ChatStore', alt.takeSnapshot(ChatStore))
-      .catch((error) => {Analytics.log('AsyncStorage error: ' + error.message)})
-      .done();
-  }
 
   _renderRow(rowData, sectionID: number, rowID: number) {
     return (
@@ -150,8 +157,11 @@ onKeyboardChange(event){
   sendMessage(){
     if(this.state.textInputValue == ''){ return false }
     const timestamp = moment().utc().unix();
-    MatchActions.sendMessage(this.state.textInputValue, this.props.match_id, timestamp)
-    MatchActions.sendMessageToServer.defer(this.state.textInputValue, this.props.match_id)
+    this.props.dispatch(ActionMan.createMessage(this.state.textInputValue, this.props.match_id, timestamp))
+    // TODO : REPLACE WITH NEW
+    // this.props.dispatch(ActionMan.sendMessage(this.state.textInputValue, this.props.match_id, timestamp))
+
+    // MatchActions.sendMessageToServer.defer(this.state.textInputValue, this.props.match_id)
     this.setState({ textInputValue: '' })
     this.refs.scroller && this.refs.scroller.scrollTo({x:0,y:0})
 
@@ -342,7 +352,8 @@ const Chat = React.createClass({
   },
   componentWillUnmount(){
     dismissKeyboard()
-    MatchActions.resetUnreadCount(this.props.match_id);
+    // MatchActions.resetUnreadCount(this.props.match_id);
+    // TODO : REPLACE WITH NEW
 
   },
   componentDidMount(){
@@ -356,68 +367,12 @@ const Chat = React.createClass({
   },
 
   render(){
-    const storesForChat = {
-      messages: (props) => {
-        return {
-          store: ChatStore,
-          value: ChatStore.getMessagesForMatch( this.props.match_id )
-        }
-      },
-      currentMatch: (props) => {
-        return {
-          store: MatchesStore,
-          value: MatchesStore.getMatchInfo( this.props.match_id )
-        }
-      }
-    };
-    // const inside = (props) => {
-    //
-    //   return (
-    //     <View>
-    //     <ChatInside
-    //       {...this.props}
-    //
-    //       navigator={this.props.navigator}
-    //       user={this.props.user}
-    //       closeChat={this.props.closeChat}
-    //       match_id={this.props.match_id}
-    //       key={`chat-${this.props.user}-${this.props.match_id}`}
-    //       toggleModal={this.toggleModal}
-    //     />
-    //     {this.state.isVisible ? <View
-    //       style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]}>
-    //
-    //        <FadeInContainer duration={300} >
-    //          <TouchableOpacity activeOpacity={0.5} onPress={this.toggleModal}
-    //           style={[{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}]} >
-    //
-    //            <BlurView
-    //              blurType="light"
-    //              style={[{width:DeviceWidth,height:DeviceHeight}]} >
-    //              <View style={[{ }]}/>
-    //            </BlurView>
-    //          </TouchableOpacity>
-    //        </FadeInContainer>
-    //      </View> : <View/>}
-    //
-    //     <ActionModal
-    //       user={this.props.user}
-    //       toggleModal={this.toggleModal}
-    //       navigator={this.props.navigator}
-    //       isVisible={this.state.isVisible}
-    //     />
-    //     </View>
-    //   )
-    // };
+
     return  (
-      <AltContainer stores={storesForChat}>
+      <View>
       <ChatInside
         {...this.props}
 
-        navigator={this.props.navigator}
-        user={this.props.user}
-        closeChat={this.props.closeChat}
-        match_id={this.props.match_id}
         key={`chat-${this.props.user}-${this.props.match_id}`}
         toggleModal={this.toggleModal}
       />
@@ -443,14 +398,29 @@ const Chat = React.createClass({
         navigator={this.props.navigator}
         isVisible={this.state.isVisible}
       />
-      </AltContainer>
+      </View>
     );
   }
 
 });
 
 
-export default Chat;
+ const mapStateToProps = (state, ownProps) => {
+  console.log('state',state,'ownProps',ownProps); // state
+  return {
+    ...ownProps,
+    user: state.user,
+    messages: state.messages[ownProps.match_id],
+    currentMatch: state.matches[ownProps.match_id]
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Chat);
+
 
 
 const SIZES = {

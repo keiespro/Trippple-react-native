@@ -9,7 +9,10 @@ import facebookReducer from './facebookReducer'
 
 import potentialsReducer from './potentialsReducer'
 import matchesReducer from './matchesReducer'
+import matchesListReducer from './matchesListReducer'
+import newMatchesReducer from './newMatchesReducer'
 import unreadReducer from './unreadReducer'
+import chatReducer from './chatReducer'
 
 const applicationReducers = {
   user:       userReducer,
@@ -21,7 +24,10 @@ const applicationReducers = {
   fbUser:     facebookReducer,
   unread:     unreadReducer,
   matches:    matchesReducer,
-  potentials: potentialsReducer
+  newMatches: newMatchesReducer,
+  matchesList: matchesListReducer,
+  potentials: potentialsReducer,
+  messages: chatReducer
 
 };
 

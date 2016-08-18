@@ -46,7 +46,7 @@ async function baseRequest(endpoint='': String, payload={}: Object){
     if(!res.json){
       __DEV__ && console.warn('no res.json')
     }
-    __DEV__ && console.log(res);
+    __DEBUG__ && console.log(res);
     let response = await res.json()
 
     return Promise.try(() => {

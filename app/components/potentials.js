@@ -59,8 +59,6 @@ class Potentials extends React.Component{
     // AppState.addEventListener('change', this._handleAppStateChange.bind(this));
 
     if(this.props.user.status){
-      this.props.dispatch(ActionMan.getPotentials());
-      this.props.dispatch(ActionMan.getMatches());
 
     }
 

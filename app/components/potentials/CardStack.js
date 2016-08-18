@@ -201,8 +201,6 @@ class CardStack extends React.Component{
         }else{
           //nothing!
         }
-        // __DEV__ && console.table([{vx:(vx), vy:(vy), velocityThreshold: THROW_SPEED_THRESHOLD }])
-        // __DEV__ && console.table([{dx:(dx), dy:(dy), throwThreshold: THROW_THRESHOLD_APPROVE }])
 
         if(!likeUserId){
           // MatchActions.removePotential(likeUserId);
@@ -212,40 +210,7 @@ class CardStack extends React.Component{
         }
 
 
-      //  this.state.pan.addListener((value) => {
 
-        //
-        //   // if(!value || !value.x ){ return false }
-        //   let likeStatus = value.x > 0 ? 'approve' : 'deny';
-          // console.log(value.x,Math.abs(Math.floor(value.x)))
-        //   // when the card reaches the throw out threshold, send like
-        //   // console.log('this.state.pan.xthis.state.pan.x',this.state.pan.x)
-        //
-        //   let v = Math.abs(Math.ceil(value.x))
-        //   if ( v == 500) {
-        //
-        //     MatchActions.removePotential(likeUserId);
-        //
-        //     if(this.state.interactedWith != likeUserId && this.state.interactedWith != `${likeUserId}settled`){
-        //       if(!this.state.likedPotentials.indexOf(likeUserId)){
-        //         MatchActions.sendLike(
-        //         likeUserId,
-        //         likeStatus,
-        //         (this.props.rel == 'single' ? 'couple' : 'single'),
-        //         this.props.rel
-        //       );
-        //     }
-              // this.setState({interactedWith:likeUserId,likedPotentials:[...this.state.likedPotentials, likeUserId]})
-        //     }else if(this.state.interactedWith == likeUserId && this.state.interactedWith != `${likeUserId}settled`){
-        //         this.setState({interactedWith:`${likeUserId}settled`})
-        //     }
-        //       if(this.state.pan.x._listeners.length){
-        //         this.state.pan.x.removeAllListeners();
-        //         this.state.pan.x.removeListener(this._actionlistener)
-        //     }
-        //
-        //   }
-        // })
         if(likeStatus){
           this.props.dispatch(ActionMan.sendLike( likeUserId, likeStatus, (this.props.rel == 'single' ? 'couple' : 'single'), this.props.rel ));
 
@@ -260,11 +225,6 @@ class CardStack extends React.Component{
             if(!result.finished){
 
             }
-            // MatchActions.removePotential(likeUserId);
-
-            // MatchActions.sendLike( likeUserId, likeStatus, (this.props.rel == 'single' ? 'couple' : 'single'), this.props.rel );
-
-
           });
         }else{
 

@@ -46,6 +46,9 @@ class App extends React.Component{
 
     const initActions = [
       'getUserInfo',
+      'getPotentials',
+      'getMatches',
+      'getNewMatches',
       'getPushToken',
     ];
 

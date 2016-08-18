@@ -8,7 +8,9 @@ import promiseMiddleware from 'redux-promise-middleware';
 import createLogger from 'redux-logger';
 import {persistStore, autoRehydrate} from 'redux-persist'
 
-const logger = createLogger();
+const logger = createLogger({
+  collapsed: (s,action) => (!global.__DEBUG__ || action.type.indexOf('PENDING') > -1)
+});
 const middlewares = [thunkMiddleware, promiseMiddleware()]
 
 function configureStore(initialState = ({})) {
@@ -23,7 +25,7 @@ function configureStore(initialState = ({})) {
         devTools(),
       )
     );
-    persistStore(store, {storage: AsyncStorage})
+    persistStore(store, {storage: AsyncStorage,blacklist:['AppNav']})
 
     if (module.hot) {
       module.hot.accept(() => {
@@ -44,7 +46,7 @@ function configureStore(initialState = ({})) {
         applyMiddleware(...middlewares),
       )
     );
-    persistStore(store, {storage: AsyncStorage})
+    persistStore(store, {storage: AsyncStorage,blacklist:['AppNav']})
 
   }
 }

@@ -223,4 +223,8 @@ class NotificationsStore {
 }
 reactMixin(NotificationsStore.prototype, TimerMixin)
 
-export default alt.createStore(NotificationsStore, 'NotificationsStore')
+export default {
+  getState(){
+    return {}
+  }
+}// alt.createStore(NotificationsStore, 'NotificationsStore')

@@ -15,7 +15,7 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
 
-import UserActions from '../../flux/actions/UserActions';
+
 
 import FacebookLogin from './FacebookLogin';
 import TopTabs from '../../controls/topSignupSigninTabs';

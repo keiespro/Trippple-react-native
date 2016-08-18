@@ -91,7 +91,6 @@ class Card extends React.Component{
   }
   openProfileFromImage(e,scroll){
     console.log(e,scroll);
-    this.props.dispatch({type:'OPEN_PROFILE'})
     // if(!this.props.animatedIn || !this.props.isTopCard){ return }
     this.setState({activeIndex: this.state.activeIndex + 1})
     if(this.props.profileVisible){
@@ -99,6 +98,8 @@ class Card extends React.Component{
 
     }else{
       this.props.showProfile(this.props.potential)
+      this.props.dispatch({type:'OPEN_PROFILE'})
+
     }
     if(scroll){
       this.scrollTo({y: DeviceHeight*0.2,x:0},true)
@@ -135,24 +136,24 @@ class Card extends React.Component{
 
   reportModal(){
 
-    AppActions.showInModal({
+    this.props.dispatch(ActionMan.showInModal({
       component: ReportModal,
       name:'Report User Modal',
       passProps: {
         action: 'report',
         potential: this.props.potential,
         goBack: (them)=> {
-          AppActions.killModal()
+          this.props.dispatch(ActionMan.killModal())
           if(them){
-            MatchActions.removePotential.defer(them.id);
-            MatchActions.sendLike.defer(
-              them.id, 'deny', (this.props.rel == 'single' ? 'couple' : 'single'), this.props.rel
-            );
+            // // MatchActions.removePotential.defer(them.id);
+            // // MatchActions.sendLike.defer(
+            //   them.id, 'deny', (this.props.rel == 'single' ? 'couple' : 'single'), this.props.rel
+            // );
             this.props.toggleProfile()
           }
         }
       }
-    })
+    }))
   }
 
   checkPotentialSuitability(){

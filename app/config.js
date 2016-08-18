@@ -1,13 +1,16 @@
-const APP_ENV = 'production';
+const APP_ENV = 'dev';
 
 global.__DEBUG__ = false;
 global.__DEV__ = false;
+global.__TEST__ = false
+
+// // // // // //
+global.__DEBUG__ = false;
+global.__DEV__ = true;
+// // // // //
+__DEBUG__ = false;
+__DEV__ = true;
 // // //
-// global.__DEBUG__ = true;
-// global.__DEV__ = true;
-// // // //
-// __DEBUG__ = true;
-// __DEV__ = true;
 
 const configurations = {
 
@@ -24,9 +27,9 @@ const configurations = {
   },
 
   dev: {
-    SERVER_URL: 'https://dev-api2.trippple.co/user',
-    WEBSOCKET_URL: 'https://dev-api.trippple.co',
-    KEYCHAIN_NAMESPACE: 'dev.trippple.co'
+    SERVER_URL: 'http://x.local:9920/user',
+    WEBSOCKET_URL: 'http://x.local:9920',
+    KEYCHAIN_NAMESPACE: 'http://api2.trippple.co'
   },
 
   devAlex: {

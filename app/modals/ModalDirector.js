@@ -106,10 +106,8 @@ class ModalDirector extends Component{
 ModalDirector.displayName = "ModalDirector"
 
 const mapStateToProps = (state, ownProps) => {
-  // console.log(state); // state
-  // console.log(ownProps); // ownProps
-
   return {
+    ...ownProps,
     ...state.ui,
   }
 }

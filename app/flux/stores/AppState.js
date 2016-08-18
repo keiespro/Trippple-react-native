@@ -275,4 +275,4 @@ handleKillModal(){
 
 
 }
-export default alt.createStore(AppStateStore, 'AppStateStore');
+export default {}// alt.createStore(AppStateStore, 'AppStateStore');

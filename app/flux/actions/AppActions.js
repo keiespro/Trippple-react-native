@@ -1,5 +1,5 @@
 import alt from '../alt'
-import UserActions from './UserActions'
+// import UserActions from './UserActions'
 import Promise from 'bluebird'
 import Api from '../../utils/api'
 import Analytics from '../../utils/Analytics'

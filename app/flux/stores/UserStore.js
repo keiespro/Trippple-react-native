@@ -259,4 +259,4 @@ class UserStore {
     return this.getState().couplingData
   }
 }
-export default alt.createStore(UserStore, 'UserStore');
+export default {}// alt.createStore(UserStore, 'UserStore');

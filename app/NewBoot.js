@@ -28,27 +28,25 @@ function initialize(){
   const s = store.getState();
   loadSavedCredentials().then(creds => {
 
-    console.log(creds);
     const a = s.auth
     const f = s.fbUser
 
     if(!creds){
       if(a.api_key){
-        console.log(a);
-        this.performInitActions()
 
-        s.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: a})
+
+        store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: a})
 
         return a
       }else if(f.userID){
-            s.dispatch(ActionMan.loginWithFacebook())
+            store.dispatch(ActionMan.loginWithFacebook())
           return
         }else{
           return false
         }
     }else{
-      s.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: creds})
-      this.performInitActions()
+      store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: creds})
+
 
     }
     return creds
@@ -58,7 +56,7 @@ function initialize(){
     console.log('err',err);
 
     if(s.fbUser.userID){
-      s.dispatch(ActionMan.loginWithFacebook())
+      store.dispatch(ActionMan.loginWithFacebook())
     }
   })
 }

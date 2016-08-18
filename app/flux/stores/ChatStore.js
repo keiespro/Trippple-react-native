@@ -158,4 +158,4 @@ class ChatStore {
 
 }
 
-export default alt.createStore(ChatStore, 'ChatStore')
+export default {} // alt.createStore(ChatStore, 'ChatStore')

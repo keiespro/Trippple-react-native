@@ -117,7 +117,6 @@ class GlobalNavigation extends Component {
 	}
 
 	_renderTitleComponent(props) {
-    console.log('titleComponent',props.scene.route);
 
 		return (
 			<NavigationHeader.Title>
@@ -179,7 +178,6 @@ class GlobalNavigation extends Component {
         <RouteComponent
           navigator={{
             push: (route) => {
-              console.log(route);
               const label = route.title || route.name || route.key || route.id
               this.props.dispatch(pushRoute({
           			title:  label,
@@ -206,7 +204,6 @@ function mapDispatchToProps(dispatch) {
 	return {
 		dispatch,
 		onNavigate: function(action) {
-			console.log('@@ onNavigate', action.route);
       const r = action.route
       r.key = r.key || r.id || r.title || r.displayName || 'fwdf';
       if(action.type == 'push'){
@@ -220,7 +217,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state,ownProps) {
-  console.log(  state);
 	return {
 		navigation: state.appNav,
     ...ownProps,

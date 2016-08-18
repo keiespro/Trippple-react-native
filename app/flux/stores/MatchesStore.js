@@ -348,4 +348,4 @@ function orderNewMatches( matches ) {
   });
 }
 
-export default alt.createStore( MatchesStore, 'MatchesStore' )
+export default {}//alt.createStore( MatchesStore, 'MatchesStore' )
