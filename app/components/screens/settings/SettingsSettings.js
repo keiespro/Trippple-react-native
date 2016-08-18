@@ -19,7 +19,7 @@ import colors from '../../../utils/colors';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../../../utils/DeviceConfig'
-
+import TouchID from 'react-native-touch-id'
 
 const ACTUAL_VERSION = '2.5';
 

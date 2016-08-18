@@ -789,7 +789,7 @@ flexDirection:'column',alignItems:'center',justifyContent:'center',
               borderRadius:0
             }}
           >
-            <View style={{backgroundColor:'transparent'}}>
+            {/* <View style={{backgroundColor:'transparent'}}>
               <FakeNavBar
                 hideNext={true}
                 backgroundStyle={{
@@ -817,7 +817,7 @@ flexDirection:'column',alignItems:'center',justifyContent:'center',
                   />
                 }
               />
-            </View>
+            </View> */}
           </View>
         </View>
 

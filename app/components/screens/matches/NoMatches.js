@@ -6,6 +6,7 @@ import React, {Component} from "react";
 import FadeInContainer from '../../FadeInContainer';
 import colors from '../../../utils/colors';
 
+import {MagicNumbers} from '../../../utils/DeviceConfig'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;

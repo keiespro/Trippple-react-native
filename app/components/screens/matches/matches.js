@@ -132,7 +132,7 @@ class MatchList extends Component {
     );
   }
 
-  _pressRow(match_id: number) {
+  _pressRow(match_id) {
     // TODO: test this InteractionManager out again
     // var handle = InteractionManager.createInteractionHandle();
 
@@ -141,16 +141,17 @@ class MatchList extends Component {
     // })
     // this.props.chatActionSheet()
 
-    console.log(match_id);
-    this.props.dispatch(ActionMan.getMessages({'match_id':match_id}))
+    // console.log(this.props.dispatch, this.props,match_id);
     //
     //
-    // this.setTimeout(() => {
+    this.setTimeout(() => {
     //   // MatchActions.resetUnreadCount.defer(match_id);
     //   // MatchActions.getMessages.defer(match_id);
     //   // TODO : REPLACE WITH NEW
     //
-    // }, 1000)
+    this.props.dispatch(ActionMan.getMessages({'match_id':match_id}))
+
+  }, 200)
 
     this.props.navigator.push({
       component: Chat,
@@ -170,30 +171,30 @@ class MatchList extends Component {
   }
 
   onEndReached(e) {
-    const nextPage = parseInt(this.props.matches.length / 20) + 1;
-    if (this.state.fetching || nextPage == this.state.lastPage) {
-      return false
-    }
+    // const nextPage = parseInt(this.props.matches.length / 20) + 1;
+    // if (this.state.fetching || nextPage == this.state.lastPage) {
+    //   return false
+    // }
+    //
+    // this.setState({
+    //   lastPage: nextPage,
+    //   isRefreshing: false,
+    //   loadingMoreMatches: true
+    // })
+    // this.setTimeout(() => {
+    //   this.setState({
+    //     loadingMoreMatches: false
+    //   })
+    // }, 3000);
+    //
+    // Analytics.event('Interaction', {
+    //   type: 'scroll',
+    //   name: 'Load more matches',
+    //   page: nextPage
+    // })
 
-    this.setState({
-      lastPage: nextPage,
-      isRefreshing: false,
-      loadingMoreMatches: true
-    })
-    this.setTimeout(() => {
-      this.setState({
-        loadingMoreMatches: false
-      })
-    }, 3000);
 
-    Analytics.event('Interaction', {
-      type: 'scroll',
-      name: 'Load more matches',
-      page: nextPage
-    })
-
-
-    this.props.dispatch(ActionMan.getMatches(nextPage))
+    // this.props.dispatch(ActionMan.getMatches(nextPage))
   }
 
   segmentedViewPress(index) {
@@ -217,7 +218,7 @@ class MatchList extends Component {
     this.props.chatActionSheet(row)
   }
   _renderRow(rowData, sectionID, rowID) {
-    console.log(rowData.match_id);
+    console.log(rowData,sectionID, rowID);
 
     const myId = this.props.user.id;
     const myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
@@ -304,6 +305,7 @@ class MatchList extends Component {
                                            } else {
                                              return (
                                                <NewMatches
+                                               dispatch={this.props.dispatch}
                                                            user={this.props.user}
                                                            navigator={this.props.navigator}
                                                            newMatches={this.props.newMatches}
@@ -333,10 +335,10 @@ class MatchesInside extends Component {
 
   constructor(props) {
     super(props);
+    // console.log(props);
     this.ds = SwipeableListView.getNewDataSource();
     this.state = {
       matches: props.matches,
-      favorites: props.favorites,
       isVisible: false,
       dataSource: this.ds.cloneWithRowsAndSections(props.matches.map(d => {
         return {
@@ -389,16 +391,16 @@ class MatchesInside extends Component {
     })
   }
   componentWillReceiveProps(newProps) {
-    console.log(newProps.matches);
-
-    this.setState({
-      matches: newProps.matches,
-    // dataSource: this.ds.cloneWithRowsAndSections(newProps.matches, ['s1', 's2'] ),
-    // favDataSource: this.ds.cloneWithRowsAndSections(newProps.matches),
-    // favorites: newProps.favorites
-    })
+    // console.log(newProps);
     //
-    if (newProps.matches[0]) {
+    // this.setState({
+    //   matches: newProps.matches,
+    // // dataSource: this.ds.cloneWithRowsAndSections(newProps.matches, ['s1', 's2'] ),
+    // // favDataSource: this.ds.cloneWithRowsAndSections(newProps.matches),
+    // // favorites: newProps.favorites
+    // })
+    //
+    if (newProps.matches && newProps.matches[0]) {
       this._updateDataSource(newProps.matches, 'matches')
     }
 
@@ -414,11 +416,7 @@ class MatchesInside extends Component {
     if (data.length > 1) {
       const newState = {
         matches: data,
-        dataSource: this.ds.cloneWithRowsAndSections(data.map(d => {
-            return {
-              match: d
-            }
-          }) || [], ['s1', 's2']),
+        dataSource: this.ds.cloneWithRowsAndSections(data.map(d => { return { match: d } })),
       };
       this.setState(newState)
     }
@@ -439,7 +437,7 @@ class MatchesInside extends Component {
                    navigator={this.props.navigator}
                    route={{ component: Matches, title: 'Matches', id: 'matcheslist', }}
                    title={"matchlist"} />
-        {this.props.navBar}
+
         {this.state.isVisible && this.state.currentMatch ?
          <View style={[{ position: 'absolute', top: 0, left: 0, width: DeviceWidth, height: DeviceHeight }]}>
            <FadeInContainer delayAmount={1} duration={200}>
@@ -527,7 +525,7 @@ class Matches extends Component {
 
 
 const mapStateToProps = (state, ownProps) => {
-  // console.log('state',state,'ownProps',ownProps); // state
+  console.log('state',state,'ownProps',ownProps); // state
   return {
     ...ownProps,
     matches: state.matchesList.matches,
@@ -538,7 +536,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
+    dispatch,
+    getMessages: (mid) => dispatch => dispatch(ActionMan.getMessages(mid))
   };
 }
 

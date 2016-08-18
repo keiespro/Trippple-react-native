@@ -15,6 +15,7 @@ import SettingsBasic from '../settings/SettingsBasic';
 import colors from '../../../utils/colors';
 import styles from './styles';
 import profileOptions from '../../../data/get_client_user_profile_options'
+import {MagicNumbers} from '../../../utils/DeviceConfig'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;

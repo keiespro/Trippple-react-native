@@ -39,6 +39,10 @@ const ApiActionCreators = endpointMap.reduce((obj,endpoint) => {
         api[endpoint.call](...params).then(x => resolve(x)).catch(x => {
           console.log(x); reject(x)
         })
+      }).catch(error => {
+        console.log('API ERROR',error)
+        throw new Error({error:error})
+        return false
       })
     }
   }))

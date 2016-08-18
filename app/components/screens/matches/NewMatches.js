@@ -42,12 +42,10 @@ class NewMatches extends Component{
     this.props.navigator.push({
       component: Chat,
       id:'chat',
-      index: 3,
-      title: 'CHAT',
+key:'newchat',
+       title: 'CHAT',
       passProps:{
-        index: 3,
-        user:this.props.user,
-        match_id: nm.match_id,
+         match_id: nm.match_id,
         matchInfo: nm,
         currentMatch: nm
       },
@@ -70,7 +68,7 @@ class NewMatches extends Component{
           them = theirIds.map((id)=> matchInfo.users[id]);
 
     let img = them[0].image_url;
-
+    console.log(rowData);
     return (
       <View key={'newmatch'+rowID+rowData.match_id} style={styles.listItem}>
         <TouchableOpacity

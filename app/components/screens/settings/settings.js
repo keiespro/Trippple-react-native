@@ -38,6 +38,7 @@ const RNHotlineView = ReactNative.requireNativeComponent('RNHotlineView')
 import ParallaxView from '../../controls/ParallaxScrollView'
 import dismissKeyboard from 'dismissKeyboard'
 
+import { connect } from 'react-redux';
 
 class SettingsInside extends React.Component{
   constructor(props){
@@ -436,21 +437,36 @@ class Settings extends React.Component{
     }
   }
 
-  openModal(page: string){ this.setState({isModalOpen: page}) }
+  openModal(page){ this.setState({isModalOpen: page}) }
 
   closeModal(){ this.setState({isModalOpen: false}) }
 
   render(){
     return (
       <View style={styles.container}>
-          <SettingsInside user={this.props.user} openModal={this.openModal.bind(this)} dispatch={this.props.dispatch}  navigator={this.props.navigator}/>
+          <SettingsInside
+            openModal={this.openModal.bind(this)}
+            dispatch={this.props.dispatch}
+            navigator={this.props.navigator}
+            {...this.props}
+          />
       </View>
     )
   }
 }
 
 Settings.displayName = "Settings"
-module.exports = Settings
+
+const mapStateToProps = ({user,ui}, ownProps) => {
+  // console.log('state',state,'ownProps',ownProps); // state
+  return { user, ui }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);
 
 
 
