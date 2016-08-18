@@ -33,13 +33,11 @@ import moment from 'moment'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-import UserActions from '../flux/actions/UserActions'
-// import PinScreen from './pin'
-
 import colors from '../utils/colors'
 import CloseButton from './CloseButton'
 import TrackKeyboardMixin from '../mixins/keyboardMixin'
 import reactMixin from 'react-mixin'
+import ActionMan from '../actions/'
 
 function getMaxLength(fieldName){
   let len = 20
@@ -163,7 +161,7 @@ class FieldModal extends React.Component{
     }else{
       var payload = {}
       payload[`${this.props.fieldName}`] = this.state.value;
-      UserActions.updateUser(payload)
+      this.props.dispatch(ActionMan.updateUser(payload))
       this.props.cancel()
     }
   }

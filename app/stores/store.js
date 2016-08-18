@@ -1,17 +1,23 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import createReducer from '../reducers';
 import devTools from 'remote-redux-devtools';
-import thunkMiddleware from 'redux-thunk';
+import thunk from 'redux-thunk';
 import {AsyncStorage} from 'react-native'
+import createActionBuffer from 'redux-action-buffer'
+import {REHYDRATE} from 'redux-persist/constants'
 
 import promiseMiddleware from 'redux-promise-middleware';
 import createLogger from 'redux-logger';
 import {persistStore, autoRehydrate} from 'redux-persist'
+import throttleActions from 'redux-throttle-actions'
 
 const logger = createLogger({
+  diff: true,
+  level: 'log',
   collapsed: (s,action) => (!global.__DEBUG__ || action.type.indexOf('PENDING') > -1)
 });
-const middlewares = [thunkMiddleware, promiseMiddleware()]
+const throttle = throttleActions(['GET_POTENTIALS','UPDATE'], 5000)
+const middlewares = [thunk, promiseMiddleware(), createActionBuffer(REHYDRATE), throttle ]
 
 function configureStore(initialState = ({})) {
   if (__DEV__) {
@@ -25,7 +31,7 @@ function configureStore(initialState = ({})) {
         devTools(),
       )
     );
-    persistStore(store, {storage: AsyncStorage,blacklist:['AppNav']})
+    persistStore(store, {storage: AsyncStorage,blacklist:['appNav']}).purge(['appNav'])
 
     if (module.hot) {
       module.hot.accept(() => {

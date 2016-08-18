@@ -549,7 +549,7 @@ const SIZES = {
      },
      invertedContentContainer:{
        backgroundColor:colors.outerSpace,
-       justifyContent:'flex-end',
+       justifyContent:'center',
        width:DeviceWidth,
      }
    });

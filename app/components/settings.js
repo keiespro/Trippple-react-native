@@ -167,44 +167,10 @@ class SettingsInside extends React.Component{
 
   render(){
     const user = this.props.user || {}
-    // var src;
-    // var thumbSrc;
-    // if(user.localUserImage && user.localUserImage.uri){
-    //   src = user.localUserImage.uri;
-    //   thumbSrc = user.localUserImage.uri;
-    // }else if(user.localUserImage && !user.localUserImage.uri){
-    //   src = user.localUserImage;
-    //   thumbSrc = user.localUserImage.uri;
-    // }else if(!user.localUserImage && user.image_url && user.image_url.uri){
-    //   src = user.image_url.uri;
-    //   thumbSrc = user.thumb_url.uri;
-    // }else if(!user.localUserImage && user.image_url && !user.image_url.uri){
-    //   src = user.image_url;
-    //   thumbSrc = user.thumb_url;
-    // }
+
 
     const thumbSrc = user.thumb_url || '';
     const src = user.image_url || '';// temp
-    console.log(thumbSrc,src);
-    //
-    // if(user.relationship_status == 'couple'){
-    //
-    //
-    //   if(user.localCoupleImage && user.localCoupleImage.uri){
-    //     src = user.localCoupleImage.uri;
-    //     thumbSrc = user.localCoupleImage.uri;
-    //   }else if(user.localCoupleImage && !user.localCoupleImage.uri){
-    //     src = user.localCoupleImage;
-    //     thumbSrc = user.localCoupleImage;
-    //   }else if(!user.localCoupleImage && user.couple && user.couple.image_url && user.couple.image_url.uri){
-    //     src = user.couple.image_url.uri;
-    //     thumbSrc = user.couple.thumb_url.uri;
-    //   }else if(!user.localCoupleImage && user.couple && user.couple.image_url && !user.couple.image_url.uri){
-    //     src = user.couple.image_url;
-    //     thumbSrc = user.couple.thumb_url;
-    //   }
-    //
-    // }
 
     return (
       <View style={{}}>
@@ -314,10 +280,10 @@ class SettingsInside extends React.Component{
 
               {this.props.user.relationship_status == 'single' ?
                   <TouchableHighlight onPress={(f)=>{
-                      AppActions.showInModal({
+                      this.props.dispatch(ActionMan.showInModal({
                         component: Coupling,
                         passProps: {},
-                      })
+                      }))
                     }} underlayColor={colors.dark}>
                       <View  style={styles.wrapfield}>
                           <View>
@@ -359,16 +325,16 @@ class SettingsInside extends React.Component{
               </TouchableHighlight>
               <TouchableHighlight onPress={(f)=>{
                   this.props.navigator.push({
-                  component: SettingsSettings,
-                  name: 'Settings-Settings',
-                  sceneConfig:Navigator.SceneConfigs.PushFromRight,
-                  passProps: {
-                  style:styles.container,
-                  settingOptions:this.state.settingOptions,
-                  user:this.props.user,
-                  navigator:this.props.navigator
-                  }
-                  })
+                    component: SettingsSettings,
+                    name: 'Settings-Settings',
+                    sceneConfig:Navigator.SceneConfigs.PushFromRight,
+                    passProps: {
+                      style:styles.container,
+                      settingOptions:this.state.settingOptions,
+                      user:this.props.user,
+                      navigator:this.props.navigator
+                      }
+                    })
                   }} underlayColor={colors.dark}>
                   <View  style={styles.wrapfield}>
                       <View>
@@ -415,14 +381,14 @@ class SettingsInside extends React.Component{
 
               { __DEV__ && <TouchableHighlight onPress={(f)=>{
                   this.props.navigator.push({
-                  component: SettingsDebug,
-                  sceneConfig:NavigatorSceneConfigs.FloatFromBottom,
-                  passProps: {
-                  style:styles.container,
-                  settingOptions:this.state.settingOptions,
-                  user:this.props.user,
-                  navigator:this.props.navigator
-                  }
+                    component: SettingsDebug,
+                    sceneConfig:NavigatorSceneConfigs.FloatFromBottom,
+                    passProps: {
+                      style:styles.container,
+                      settingOptions:this.state.settingOptions,
+                      user:this.props.user,
+                      navigator:this.props.navigator
+                    }
                   })
                   }} underlayColor={colors.dark} >
                   <View  style={styles.wrapfield}>
@@ -478,7 +444,7 @@ class Settings extends React.Component{
   render(){
     return (
       <View style={styles.container}>
-          <SettingsInside user={this.props.user} openModal={this.openModal.bind(this)} navigator={this.props.navigator}/>
+          <SettingsInside user={this.props.user} openModal={this.openModal.bind(this)} dispatch={this.props.dispatch}  navigator={this.props.navigator}/>
           {/* <FakeNavBar
               blur={false}
               backgroundStyle={{backgroundColor:colors.shuttleGray}}

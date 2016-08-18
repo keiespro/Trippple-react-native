@@ -1,6 +1,6 @@
 import api from '../utils/api'
 import { createAction, handleAction, handleActions } from 'redux-actions';
-import fbActions from './facebook'
+import * as fbActions from './facebook'
 import apiActions from './ApiActionCreators'
 
 const ActionMan = {

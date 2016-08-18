@@ -88,7 +88,3 @@ export const getFacebookProfile = fbUser => dispatch => {
   const REQ = new GraphRequestManager().addRequest(infoRequest)
   REQ.start();
 }
-
-export default {
-  facebookAuth, getFacebookInfo, getFacebookProfile, loginWithFacebook
-}

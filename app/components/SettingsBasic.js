@@ -143,7 +143,8 @@ class ProfileField extends React.Component{
                 field,
                 fieldName:this.props.fieldName,
                 cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
-                fieldValue: this.props.user[this.props.fieldName] || (field.values && field.values.length > 0 && field.values[0]) || ''
+                fieldValue: this.props.user[this.props.fieldName] || (field.values && field.values.length > 0 && field.values[0]) || '',
+                dispatch:this.props.dispatch
               }
             })
           }} underlayColor={colors.dark} style={styles.paddedSpace}>
@@ -222,7 +223,7 @@ class SettingsBasic extends React.Component{
             </View>
 
             {['firstname'].map((field,i) => {
-              return <ProfileField key={field+'key'+(i*10)} user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
+              return <ProfileField key={field+'key'+(i*10)} user={this.props.user} dispatch={this.props.dispatch} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
             })}
 
             {['birthday'].map((field,i) => {
@@ -250,7 +251,7 @@ class SettingsBasic extends React.Component{
            {['gender'].map((field,i) => {
             return (
 
-              <ProfileField key={field+'key'+(i*1000)}  user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
+              <ProfileField dispatch={this.props.dispatch}  key={field+'key'+(i*1000)}  user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
             )
           })}
             <View style={styles.paddedSpace}>
@@ -283,7 +284,7 @@ class SettingsBasic extends React.Component{
             })}
 
             {['email'].map((field,i) => {
-              return <ProfileField key={field+'key'+(i*1000)}  user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
+              return <ProfileField dispatch={this.props.dispatch}  key={field+'key'+(i*1000)}  user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
             })}
 
             </View>
@@ -306,6 +307,7 @@ class SettingsBasic extends React.Component{
             return (
               <View key={field+'key'+(i*10000)} style={{alignSelf:'stretch',alignItems:'stretch',width:DeviceWidth}}>
                 <ProfileField
+                dispatch={this.props.dispatch}
                   user={this.props.user}
                   navigator={this.props.navigator}
                   fieldName={field}
