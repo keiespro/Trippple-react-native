@@ -1,7 +1,9 @@
 import React from "react";
+
+import NoInternetBanner from '../components/controls/NoInternetBanner';
+
 import { NetInfo, AppState, Text, View } from 'react-native'
-import AppActions from '../flux/actions/AppActions'
-import NoInternetBanner from '../controls/NoInternetBanner'
+
 /////////////////////////////////////////////////////////////////////////
 //
 //  ReachabilitySubscription
@@ -95,7 +97,7 @@ class AppVisibility extends React.Component{
   _handleAppStateChange(appState){
 
     if(appState === 'background'){
-      AppActions.saveStores()
+
     }
     this.setState({ appState })
   }

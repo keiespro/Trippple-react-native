@@ -2,17 +2,16 @@
  * @flow
  */
 
+import {View, ActivityIndicator, StyleSheet,Dimensions} from "react-native";
 import React from "react";
 
- import {BlurView} from 'react-native-blur';
+import {BlurView} from 'react-native-blur';
 
+import FadeInContainer from './FadeInContainer';
 
-import {View, ActivityIndicator, StyleSheet,Dimensions} from "react-native";
-import FadeInContainer from './FadeInContainer'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-import Welcome from './welcome/welcome'
 
 class LoadingOverlay extends React.Component{
   constructor(props){

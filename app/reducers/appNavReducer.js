@@ -1,5 +1,6 @@
 import { cardStackReducer } from 'react-native-navigation-redux-helpers';
-import Potentials from '../components/potentials'
+
+import Potentials from '../components/screens/potentials/potentials';
 
 const initialState = {
 	key: 'global',

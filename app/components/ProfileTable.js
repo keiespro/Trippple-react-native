@@ -6,11 +6,11 @@ import {Component} from "react";
 import {StyleSheet, Text, Dimensions, View, LayoutAnimation, TouchableHighlight, Image, TouchableOpacity, Animated, ScrollView, PanResponder, Easing} from "react-native";
 
 import colors from '../utils/colors';
-import profileOptions from '../get_client_user_profile_options'
+import profileOptions from '../data/get_client_user_profile_options'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-import {MagicNumbers} from '../DeviceConfig'
+import {MagicNumbers} from '../utils/DeviceConfig'
 
 class ProfileTable extends Component{
 

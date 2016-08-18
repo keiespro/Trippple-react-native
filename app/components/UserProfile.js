@@ -1,21 +1,26 @@
-
+import {
+  StyleSheet,
+  Text,
+  View,
+  LayoutAnimation,
+  Image,
+  TouchableOpacity,
+  Animated,
+  ScrollView,
+  PixelRatio,
+  Dimensions,
+} from 'react-native';
 import React from "react";
-import {StyleSheet, Text, View, LayoutAnimation, TouchableHighlight, Image, TouchableOpacity, Animated, ActivityIndicator, ScrollView, PixelRatio, Dimensions, PanResponder, Easing} from "react-native";
 
-import FakeNavBar from '../controls/FakeNavBar';
-
-import alt from '../flux/alt';
-import MatchActions from '../flux/actions/MatchActions';
-import UserDetails from '../UserDetails'
-import TimerMixin from 'react-timer-mixin';
+;
+import ReportModal from './modals/ReportModal';
+import Swiper from './controls/swiper';
+import UserDetails from './UserDetails';
 import colors from '../utils/colors';
-import Swiper from '../controls/swiper';
-import ReportModal from '../modals/ReportModal';
-import reactMixin from 'react-mixin';
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-import {MagicNumbers} from '../DeviceConfig'
+import {MagicNumbers} from '../utils/DeviceConfig'
 
 
 class UserProfile extends React.Component{

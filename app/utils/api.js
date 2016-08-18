@@ -5,7 +5,7 @@ import { Platform, NativeModules } from 'react-native'
 
 import Promise from 'bluebird'
 import AppActions from '../flux/actions/AppActions'
-import config from '../config'
+import config from '../../config'
 import DeviceInfo from './DeviceInfo'
 import Analytics from './Analytics'
 

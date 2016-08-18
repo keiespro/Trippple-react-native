@@ -1,15 +1,15 @@
-import config from '../config'
+import config from '../../config'
 const {WEBSOCKET_URL} = config;
 import React,{Component} from "react";
 
 import {View, Alert, AsyncStorage, AppState, PushNotificationIOS, VibrationIOS} from "react-native";
 
-const io = require('../socket.io')
+const io = require('./socket.io')
 
 // import Firebase from 'firebase'
-import NotificationActions from '../flux/actions/NotificationActions'
-import MatchActions from '../flux/actions/MatchActions'
-import UserActions from '../flux/actions/UserActions'
+// import NotificationActions from '../flux/actions/NotificationActions'
+// import MatchActions from '../flux/actions/MatchActions'
+// import UserActions from '../flux/actions/UserActions'
 import Notification from './NotificationTop'
 import TimerMixin from 'react-timer-mixin'
 import colors from './colors'
@@ -44,7 +44,7 @@ class NotificationCommander extends Component{
   componentDidMount(){
 
     if(this.props.user_id){
-      UserActions.getNotificationCount()
+      // UserActions.getNotificationCount()
 
     }
 
@@ -88,7 +88,7 @@ class NotificationCommander extends Component{
 
     const data = pushNotification.getData();
 
-    this.this.handleAction(data)
+    this.handleAction(data)
     // Alert.alert('APN Push Notification',JSON.stringify(pushNotification.getData()));
   }
   _handleAppStateChange(appState){
@@ -177,7 +177,7 @@ class NotificationCommander extends Component{
 
       this.setState({processing:true});
 
-      NotificationActions.receiveNewMessageNotification(payload)
+      // NotificationActions.receiveNewMessageNotification(payload)
 
     })
 
@@ -190,23 +190,27 @@ class NotificationCommander extends Component{
 
         if(data.action === 'retrieve' && data.type == 'potentials') {
 
-          MatchActions.getPotentials()
+          // MatchActions.getPotentials()
 
         }else if(data.action === 'retrieve' && data.match_id) {
 
-          NotificationActions.receiveNewMatchNotification(data,true)
+          // NotificationActions.receiveNewMatchNotification(data,true)
           VibrationIOS.vibrate()
-          MatchActions.getMatches()
+          // MatchActions.getMatches()
           AppActions.updateRoute({route:'chat',match_id: data.match_id,})
-          NotificationActions.updateBadgeNumber.defer(-1)
+          // NotificationActions.updateBadgeNumber.defer(-1)
 
         }else if(data.action === 'chat' && data.match_id){
 
-          NotificationActions.receiveNewMessageNotification(data,true)
+          // NotificationActions.receiveNewMessageNotification(data,true)
+          // TODO: update to new
           VibrationIOS.vibrate()
-          MatchActions.getMessages(data.match_id)
-          AppActions.updateRoute({route:'chat',match_id: data.match_id,})
-          NotificationActions.updateBadgeNumber.defer(-1)
+          // MatchActions.getMessages(data.match_id)
+          // TODO: update to new
+          // AppActions.updateRoute({route:'chat',match_id: data.match_id,})
+          // TODO: update to new
+          // NotificationActions.updateBadgeNumber.defer(-1)
+          // TODO: update to new
 
         }else if(data.action === 'notify') {
           VibrationIOS.vibrate()
@@ -214,37 +218,43 @@ class NotificationCommander extends Component{
 
         }else if(data.action === 'match_removed'){
 
-          NotificationActions.receiveMatchRemovedNotification(data)
+          // NotificationActions.receiveMatchRemovedNotification(data)
+          // TODO: update to new
 
         }else if(data.action == 'coupleready') {
           VibrationIOS.vibrate()
 
           // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
-          NotificationActions.receiveCoupleCreatedNotification(data);
+          // NotificationActions.receiveCoupleCreatedNotification(data);
+          // TODO: update to new
 
 
         }else if(data.action == 'decouple') {
           VibrationIOS.vibrate()
 
           // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
-          NotificationActions.receiveDecoupleNotification(data);
+          // NotificationActions.receiveDecoupleNotification(data);
+          // TODO: update to new
 
 
         }else if(data.action == 'statuschange' || data.action == 'imageflagged') {
 
-          UserActions.getUserInfo.defer()
+          // UserActions.getUserInfo.defer()
+          // TODO: update to new
 
         }else if(data.action == 'logout'){
 
-          UserActions.logOut()
+          // UserActions.logOut()
+          // TODO: update to new
 
         }else if(data.action == 'report'){
 
-          AppActions.sendTelemetry()
+          // AppActions.sendTelemetry()
 
         }else if(data.action === 'display') {
 
-          NotificationActions.receiveGenericNotification(data)
+          // NotificationActions.receiveGenericNotification(data)
+          // TODO: update to new
 
         }
       //

@@ -3,7 +3,7 @@
 // import Keychain from '../../../lib/react-native-keychain'
 // import AppActions from '../actions/AppActions'
 //
-// import config from '../../config'
+// import config from '../..../../config'
 // const {KEYCHAIN_NAMESPACE} = config
 //
 // import Analytics from '../../utils/Analytics'

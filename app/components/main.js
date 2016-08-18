@@ -19,7 +19,7 @@
 // import MatchesStore from '../flux/stores/MatchesStore'
 // import PotentialsStore from '../flux/stores/PotentialsStore'
 // import CouplingStore from '../flux/stores/CouplingStore'
-// import FakeNavBar from '../controls/FakeNavBar'
+// 
 // import AppActions from '../flux/actions/AppActions'
 // import NotificationActions from '../flux/actions/NotificationActions'
 // import AltContainer from 'alt-container/native';

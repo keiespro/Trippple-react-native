@@ -11,7 +11,7 @@ const { LoginManager, AccessToken, GraphRequest, GraphRequestManager } = FBSDK
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-import FakeNavBar from '../controls/FakeNavBar'
+
 const FB_PHOTO_WIDTH = 200;
 
 

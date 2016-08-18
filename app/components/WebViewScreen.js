@@ -7,7 +7,7 @@ import {Component} from "react";
 import {StyleSheet, View, WebView, Text} from "react-native";
 
 import colors from '../utils/colors'
-import FakeNavBar from '../controls/FakeNavBar';
+;
 
 class WebViewScreen extends Component{
   onNavigationStateChange(){

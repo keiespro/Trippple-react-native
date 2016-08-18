@@ -1,33 +1,27 @@
-import {AppRegistry,StatusBar, View, Navigator, Dimensions, Image, NativeModules,Settings,Linking} from "react-native";
+import { StatusBar, View, Dimensions, Settings } from 'react-native';
 import React from "react";
 
-import ModalDirector from '../modals/ModalDirector';
+import AppNavigation from './AppNavigation';
+import ModalDirector from './modals/ModalDirector';
+import Welcome from './screens/welcome/welcome';
 
 import Analytics from '../utils/Analytics'
-const DeviceHeight = Dimensions.get('window').height
-const DeviceWidth = Dimensions.get('window').width
-import Welcome from './welcome/welcome';
-import Main from './main';
-
-// import CheckMarkScreen from '../screens/CheckMark'
-// import TimerMixin from 'react-timer-mixin';
-// import reactMixin from 'react-mixin'
 import {Connectivity, ReachabilitySubscription, AppVisibility} from '../utils/ConnectionInfo'
 import Notifications from '../utils/Notifications';
 import LoadingOverlay from './LoadingOverlay'
-import MaintenanceScreen from '../screens/MaintenanceScreen'
 import colors from '../utils/colors'
 import url from 'url'
 
 import {persistStore} from 'redux-persist'
 import ActionMan from  '../actions/';
-import loadSavedCredentials from '../../Credentials'
 
 
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-import AppNavigation from '../../AppNavigation'
+
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
 
 
 class App extends React.Component{
