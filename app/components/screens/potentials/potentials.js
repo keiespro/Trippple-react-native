@@ -6,6 +6,8 @@ import {
   Dimensions,
   AppState,
   NativeModules,
+  TouchableOpacity,
+  Image
 } from 'react-native';
 import React from "react";
 
@@ -19,9 +21,71 @@ const DeviceWidth = Dimensions.get('window').width;
 
 import ActionMan from '../../../actions/'
 import { connect } from 'react-redux';
+import { withNavigation } from '@exponent/ex-navigation';
+
+@withNavigation
+class SettingsButton extends React.Component{
+  render(){
+     return (
+      <TouchableOpacity onPress={() => this.props.navigator.push(this.props.navigation.router.getRoute('Settings')) }>
+        <Image
+          resizeMode={Image.resizeMode.contain}
+          style={{width:28,top:0,height:30,marginLeft:15,tintColor: __DEV__ ? colors.daisy : colors.white}}
+          source={{uri:'assets/gear@3x.png'}}
+        />
+      </TouchableOpacity>
+    )
+  }
+}
+
+
+@withNavigation
+class MatchesButton extends React.Component{
+  render(){
+    return (
+      <TouchableOpacity onPress={() => this.props.navigator.push(this.props.navigation.router.getRoute('Matches'))}>
+        <Image
+          resizeMode={Image.resizeMode.contain}
+          style={{width:28,top:0,height:30,marginRight:15,tintColor: __DEV__ ? colors.daisy : colors.white}}
+          source={{uri:'assets/chat@3x.png'}}
+        />
+      </TouchableOpacity>
+    )
+  }
+}
 
 
 class Potentials extends React.Component{
+  static route = {
+    styles: {zIndex:-10, height:0,position:'relative'},
+    navigationBar: {
+      visible: true,
+      backgroundColor:colors.outerSpace,
+      renderTitle(route, props){
+        return route.params.show ? (
+          <View><Image
+            resizeMode={Image.resizeMode.contain}
+            style={{width:80,height:30,tintColor: __DEV__ ? colors.daisy : colors.white,alignSelf:'center'}}
+            source={{uri:'assets/tripppleLogoText@3x.png'}}
+          /></View>
+        ) : false
+      },
+      renderLeft(route, props){
+        return  route.params.show ? <SettingsButton  /> : (
+          <TouchableOpacity style={{position:'absolute'}} onPress={()=>route.params.dispatch({type:'CLOSE_PROFILE'})}>
+            <Image
+              resizeMode={Image.resizeMode.contain}
+              style={{width:20,height:20,margin:15,alignItems:'flex-start'}}
+              source={{uri: 'assets/close@3x.png'}}
+            />
+          </TouchableOpacity>
+        )
+      },
+      renderRight(route, props){
+        return  route.params.show ? <MatchesButton /> : false
+      }
+    }
+  };
 
   constructor(props){
     super()
@@ -32,6 +96,7 @@ class Potentials extends React.Component{
       currentAppState: AppState.currentState
     }
   }
+
   toggleProfile(){
     this.setState({profileVisible: !this.state.profileVisible})
   }
@@ -51,6 +116,10 @@ class Potentials extends React.Component{
   // }
   componentDidMount(){
     // AppState.addEventListener('change', this._handleAppStateChange.bind(this));
+    // this.props.navigator.showLocalAlert('Hello!', {
+    //   text: {color: '#fff'},
+    //   container: {backgroundColor: 'red'}
+    // });
 
     if(this.props.user.status){
 
@@ -65,6 +134,24 @@ class Potentials extends React.Component{
     })
   }
 
+  componentWillReceiveProps(nProps){
+    console.log(nProps);
+    const nui = nProps.ui;
+    const ui = this.props.ui;
+    if( !nui.profileVisible && ui.profileVisible){
+      this.setState({profileVisible: false})
+
+      this.props.navigator.updateCurrentRouteParams({
+        visible: false,show:true,dispatch: this.props.dispatch,backgroundColor:'black'
+      })
+    }else{
+      if(  nui.profileVisible && !ui.profileVisible){
+        this.props.navigator.updateCurrentRouteParams({show: false, visible: false, dispatch: this.props.dispatch })
+      }
+
+    }
+  }
+
   componentDidUpdate(){
     // if( !this.state.hasPushPermission && !this.state.requestingPushPermission && this.props.potentialsMeta && this.props.potentialsMeta.relevantUser ){
     //   this.setState({requestingPushPermission:true})
@@ -74,25 +161,25 @@ class Potentials extends React.Component{
     //   })
     // }
 
-
-    if(this.props.potentials && this.props.potentials[1]){
-      const potential = this.props.potentials[1]
-      if(potential.user.image_url && potential.user.image_url.indexOf('http') >= 0){
-        // Image.prefetch(potential.user.image_url)
-      }
-      if(potential.partner && potential.partner.image_url && potential.partner.image_url.indexOf('http') >= 0){
-        // Image.prefetch(potential.partner.image_url)
-      }
-    }
-    if(this.props.potentials && this.props.potentials[2]){
-      const thirdpotential = this.props.potentials[2]
-      if(thirdpotential.user.image_url && thirdpotential.user.image_url.indexOf('http') >= 0){
-        // Image.prefetch(thirdpotential.user.image_url)
-      }
-      if(thirdpotential.partner && thirdpotential.partner.image_url && thirdpotential.partner.image_url.indexOf('http') >= 0){
-        // Image.prefetch(thirdpotential.partner.image_url)
-      }
-    }
+    //
+    // if(this.props.potentials && this.props.potentials[1]){
+    //   const potential = this.props.potentials[1]
+    //   if(potential.user.image_url && potential.user.image_url.indexOf('http') >= 0){
+    //     // Image.prefetch(potential.user.image_url)
+    //   }
+    //   if(potential.partner && potential.partner.image_url && potential.partner.image_url.indexOf('http') >= 0){
+    //     // Image.prefetch(potential.partner.image_url)
+    //   }
+    // }
+    // if(this.props.potentials && this.props.potentials[2]){
+    //   const thirdpotential = this.props.potentials[2]
+    //   if(thirdpotential.user.image_url && thirdpotential.user.image_url.indexOf('http') >= 0){
+    //     // Image.prefetch(thirdpotential.user.image_url)
+    //   }
+    //   if(thirdpotential.partner && thirdpotential.partner.image_url && thirdpotential.partner.image_url.indexOf('http') >= 0){
+    //     // Image.prefetch(thirdpotential.partner.image_url)
+    //   }
+    // }
   }
   componentWillUnmount(){
     // AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
@@ -121,7 +208,10 @@ class Potentials extends React.Component{
           backgroundColor: this.state.profileVisible ? colors.dark : colors.outerSpace,
           width:DeviceWidth,
           height:DeviceHeight,
-          top:0
+          zIndex:9999,
+          top:-64,
+
+          position:'relative',
         }}>
         {/* {!global.__TEST__ && <TaskManager navigator={this.props.navigator} user={user} triggers={this.props.potentialsMeta} />} */}
 
@@ -129,7 +219,7 @@ class Potentials extends React.Component{
          <View style={[
            styles.cardStackContainer,
            {
-
+             top: this.props.ui.profileVisible ? 70 : 60,
              position:'relative',
            }]}>
 
@@ -196,6 +286,7 @@ const mapStateToProps = (state, ownProps) => {
     user: state.user,
     potentials: state.potentials,
     unread: state.unread,
+    ui: state.ui
   }
 }
 

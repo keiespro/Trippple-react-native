@@ -2,14 +2,13 @@
 import { StyleSheet, Dimensions, PixelRatio } from 'react-native'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-import colors from '../utils/colors';
-import {MagicNumbers} from '../DeviceConfig'
+import colors from '../../../utils/colors';
+import {MagicNumbers} from '../../../utils/DeviceConfig'
 
 
 
 const styles = StyleSheet.create({
  container: {
-   flex: 1,
    justifyContent: 'center',
    alignItems: 'stretch',
    position:'relative',
@@ -19,7 +18,7 @@ const styles = StyleSheet.create({
  },
  inner:{
    alignItems: 'stretch',
-   height:DeviceHeight,
+  //  height:DeviceHeight,
    backgroundColor:colors.outerSpace,
    flexDirection:'column',
    justifyContent:'flex-start'

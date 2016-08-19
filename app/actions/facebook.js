@@ -46,6 +46,16 @@ export const loginWithFacebook = () => async dispatch => {
     })
   }catch(err){
     __DEV__ && console.log('fb login failed',err)
+    try{
+      const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
+      dispatch({ type: 'FACEBOOK_AUTH', payload: fb })
+      dispatch({
+        type: 'LOGIN_WITH_FACEBOOK',
+        payload: api.fbLogin(fbUser)
+      })
+    }catch(err){
+      __DEV__ && console.log('fb login failed twice',err)
+    }
   }
 }
 

@@ -14,14 +14,24 @@ import colors from '../../utils/colors';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-
+import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
 const {OSPermissions} = NativeModules
-
+import FBPhotoAlbums from '../FBPhotoAlbums'
 import {MagicNumbers} from '../../utils/DeviceConfig'
 
+import ActionMan from  '../../actions/';
+import {
+  NavigationStyles,
+} from '@exponent/ex-navigation';
 
 class FacebookImageSource extends Component{
 
+    static route = {
+      navigationBar: {
+        backgroundColor:colors.outerSpace,
+
+      }
+    };
   static propTypes = {
     imageType: PropTypes.oneOf(['profile','couple_profile','avatar']),
 
@@ -37,10 +47,12 @@ class FacebookImageSource extends Component{
     }
 
   }
-
+  componentWillReceiveProps(nProps){
+    console.log(nProps);
+  }
   onPressFacebook(fbUser){
-     var nextRoute = {name:'FBPhotoAlbums',key:'fba'+Math.random(1)}
-     nextRoute.component = FBPhotoAlbums
+    var nextRoute = {name:'FBPhotoAlbums',key:'fba'+Math.random(1)}
+    nextRoute.component = FBPhotoAlbums
     nextRoute.passProps = {
       ...this.props,
       image_type: this.props.image_type || this.props.imageType,
@@ -48,8 +60,16 @@ class FacebookImageSource extends Component{
       fbUser
     }
     nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
-    this.props.navigator.push(nextRoute)
 
+
+    if(fbUser.accessToken){
+      this.props.navigator.push(nextRoute)
+    }else{
+      console.log('no fb auth');
+      this.props.dispatch(ActionMan.facebookAuth())
+      this.props.navigator.push(nextRoute)
+
+    }
   }
 
 

@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     top:DeviceHeight/2 - 80,
     left:DeviceWidth/2 - 50,
+    zIndex:9999,
     position:'absolute',
     // shadowColor:colors.darkShadow,
     backgroundColor:'black',
@@ -89,9 +90,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
-    overflow:'hidden',
-    top:50
+    // backgroundColor: '#fff',
+    backgroundColor:colors.dark,
+    // overflow:'hidden',
+    top:0
   },
   absoluteText:{
     position:'absolute',
@@ -253,9 +255,11 @@ const styles = StyleSheet.create({
     width:DeviceWidth,
     height:DeviceHeight-60,
     flex:1,
-    top:30,
+    top:0,
     position:'absolute',
     left:0,
+    zIndex:9999,
+
     flexDirection:'column',
     alignItems:'center',
     justifyContent:'center',

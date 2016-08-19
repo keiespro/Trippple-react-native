@@ -23,7 +23,7 @@ class ParallaxView extends React.Component{
     static getDefaultProps = {
       windowHeight: 300,
       contentInset: {
-          top: -20 * screen.scale
+          // top: -20 * screen.scale
       }
     };
 
@@ -108,7 +108,7 @@ class ParallaxView extends React.Component{
                     onScroll={Animated.event(
                       [{ nativeEvent: { contentOffset: { y: this.state.scrollY }}}]
                     )}
-                    scrollEventThrottle={16}>
+                    scrollEventThrottle={64}>
                     {this.renderHeader()}
                         {this.props.children}
 
@@ -120,14 +120,14 @@ class ParallaxView extends React.Component{
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        // flex: 1,
     },
     scrollView: {
         backgroundColor: 'transparent',
     },
     background: {
         position: 'absolute',
-        backgroundColor: '#2e2f31',
+        // backgroundColor: '#2e2f31',
         width: screen.width,
         resizeMode: 'cover'
     },
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
         shadowColor: '#222',
         shadowOpacity: 0.3,
         shadowRadius: 2,
-        backgroundColor: '#fff',
+        // backgroundColor: '#fff',
         flex: 1,
         flexDirection: 'column'
     }

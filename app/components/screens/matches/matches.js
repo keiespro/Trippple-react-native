@@ -15,10 +15,12 @@ import React, { Component } from "react";
 
 import ActionModal from '../../modals/ActionModal';
 import Analytics from '../../../utils/Analytics';
+import BackButton from '../../buttons/BackButton';
 import Chat from '../chat/chat';
 import FadeInContainer from '../../FadeInContainer';
 import NewMatches from './NewMatches';
 import NoMatches from './NoMatches';
+import ThreeDots from '../../buttons/ThreeDots';
 import UserProfile from '../../UserProfile';
 import colors from '../../../utils/colors';
 
@@ -27,13 +29,13 @@ import {SwipeoutBtn} from '../../controls/Swipeout'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin';
 
-
 import { BlurView, VibrancyView } from 'react-native-blur'
 import { connect } from 'react-redux';
 import ActionMan from  '../../../actions/';
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
+const SwipeableQuickActions = require('SwipeableQuickActions');
 
 class MatchList extends Component {
 
@@ -50,43 +52,40 @@ class MatchList extends Component {
       lastPage: 0
     }
   }
+  //
+  // componentDidMount() {
+  //   this.setTimeout(() => {
+  //
+  //
+  //   }, 500)
+  // }
 
-  componentDidMount() {
-    this.setTimeout(() => {
-
-
-    }, 500)
-  }
-
-  _allowScroll(scrollEnabled) {
-    var listref = '_listView';
-    this.setState({
-      scrollEnabled
-    })
-  // this[listref] && this[listref].refs.listviewscroll.refs.ScrollView.setNativeProps({ scrollEnabled })
-  }
+  // _allowScroll(scrollEnabled) {
+  //   var listref = '_listView';
+  //   this.setState({
+  //     scrollEnabled
+  //   })
+  // // this[listref] && this[listref].refs.listviewscroll.refs.ScrollView.setNativeProps({ scrollEnabled })
+  // }
 
   _updateDataSource(data) {
     this.props.updateDataSource(data)
   }
-
-  _handleSwipeout(sectionID, rowID) {
-    this.setState(({
-      unmatchOpen: true
-    }))
-
-  //TODO:
-  // const rows = this.props.matches;
-  // for (var i = 0; i < rows.length; i++) {
-  //   if (i != rowID) { rows[i].active = false }
-  //   else {rows[i].active = true}
+  //
+  // _handleSwipeout(sectionID, rowID) {
+  //   this.setState(({
+  //     unmatchOpen: true
+  //   }))
+  //
+  // //TODO:
+  // // const rows = this.props.matches;
+  // // for (var i = 0; i < rows.length; i++) {
+  // //   if (i != rowID) { rows[i].active = false }
+  // //   else {rows[i].active = true}
+  // // }
+  // // this._updateDataSource(rows)
   // }
-  // this._updateDataSource(rows)
-  }
 
-  // toggleFavorite(rowData) {
-  //   MatchActions.toggleFavorite(rowData.match_id.toString());
-  // }
 
   handleCancelUnmatch(rowData) {
     this.setTimeout(() => {
@@ -132,69 +131,44 @@ class MatchList extends Component {
     );
   }
 
-  _pressRow(match_id) {
-    // TODO: test this InteractionManager out again
-    // var handle = InteractionManager.createInteractionHandle();
-
-    // InteractionManager.runAfterInteractions(() => {
-    //   MatchActions.getMessages(match_id);
-    // })
-    // this.props.chatActionSheet()
-
-    // console.log(this.props.dispatch, this.props,match_id);
-    //
-    //
-    this.setTimeout(() => {
+  _pressRow(rowData,title) {
+    // this.setTimeout(() => {
     //   // MatchActions.resetUnreadCount.defer(match_id);
     //   // MatchActions.getMessages.defer(match_id);
     //   // TODO : REPLACE WITH NEW
-    //
-    this.props.dispatch(ActionMan.getMessages({'match_id':match_id}))
+      this.props.dispatch(ActionMan.getMessages({'match_id':rowData.match_id}))
+    // }, 200)
 
-  }, 200)
-
-    this.props.navigator.push({
-      component: Chat,
-      id: 'chat',
-      key:'chatt',
-      index: 3,
-      title: 'CHAT',
-      passProps: {
-        // handle,
-        index: 3,
-        match_id,
-        matchInfo: this.props.matches[0]
-      },
-      sceneConfig: Navigator.SceneConfigs.PushFromRight,
-    });
+      const payload = {title, match_id: rowData.match_id, matchInfo: rowData }
+      this.props.navigator.push(this.props.navigator.navigationContext.router.getRoute('Chat',payload));
 
   }
 
   onEndReached(e) {
-    // const nextPage = parseInt(this.props.matches.length / 20) + 1;
-    // if (this.state.fetching || nextPage == this.state.lastPage) {
-    //   return false
-    // }
-    //
-    // this.setState({
-    //   lastPage: nextPage,
-    //   isRefreshing: false,
-    //   loadingMoreMatches: true
-    // })
-    // this.setTimeout(() => {
-    //   this.setState({
-    //     loadingMoreMatches: false
-    //   })
-    // }, 3000);
-    //
-    // Analytics.event('Interaction', {
-    //   type: 'scroll',
-    //   name: 'Load more matches',
-    //   page: nextPage
-    // })
+    const nextPage = parseInt(this.props.matches.length / 20) + 1;
+    if (this.state.fetching || nextPage == this.state.lastPage) {
+      return false
+    }
+
+    this.setState({
+      lastPage: nextPage,
+      isRefreshing: false,
+      loadingMoreMatches: true
+    })
+    this.setTimeout(() => {
+      this.setState({
+        loadingMoreMatches: false
+      })
+    }, 3000);
+
+    Analytics.event('Interaction', {
+      type: 'scroll',
+      name: 'Load more matches',
+      page: nextPage
+    })
 
 
-    // this.props.dispatch(ActionMan.getMatches(nextPage))
+    this.props.dispatch(ActionMan.getMatches(nextPage))
   }
 
   segmentedViewPress(index) {
@@ -218,7 +192,7 @@ class MatchList extends Component {
     this.props.chatActionSheet(row)
   }
   _renderRow(rowData, sectionID, rowID) {
-    console.log(rowData,sectionID, rowID);
+    // console.log(rowData,sectionID, rowID);
 
     const myId = this.props.user.id;
     const myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
@@ -232,22 +206,19 @@ class MatchList extends Component {
     const message_body = rowData.recent_message.message_body.replace(/(\r\n|\n|\r)/gm, " ");
     return (
 
-      <TouchableHighlight onPress={(e) => {
-                               // if(this.state.isVisible || !this.state.scrollEnabled){ return false}
-                               this._pressRow(rowData.match_id);
-                             }} key={rowData.match_id + 'match'}>
+      <TouchableHighlight onPress={(e) => { this._pressRow(rowData,threadName.toUpperCase()) }} key={rowData.match_id + 'match'}>
         <View>
           {__DEBUG__ && <Text style={{ color: '#fff' }}>
-                          {new Date(rowData.recent_message.created_timestamp * 1000).toLocaleString() + ' | match_id: ' + rowData.match_id}
-                        </Text>}
+            {new Date(rowData.recent_message.created_timestamp * 1000).toLocaleString() + ' | match_id: ' + rowData.match_id}
+          </Text>}
           <View style={styles.row}>
             <View style={styles.thumbswrap}>
               <Image
-                     key={'userimage' + rowID}
-                     style={styles.thumb}
-                     source={{ uri: matchImage }}
-                     resizeMode={Image.resizeMode.cover}
-                     defaultSource={{ uri: 'assets/placeholderUser@3x.png' }} />
+                 key={'userimage' + rowID}
+                 style={styles.thumb}
+                 source={{ uri: matchImage }}
+                 resizeMode={Image.resizeMode.cover}
+                 defaultSource={{ uri: 'assets/placeholderUser@3x.png' }} />
               {unread ?
                <View style={styles.newMessageCount}>
                  <Text style={{ fontFamily: 'Montserrat-Bold', color: colors.white, textAlign: 'center', fontSize: 14 }}>
@@ -267,52 +238,52 @@ class MatchList extends Component {
           </View>
         </View>
       </TouchableHighlight>
-
-      );
+    );
   }
 
   render() {
     var isVisible = this.state.isVisible;
-    if (!this.props.matches.length && !this.props.newMatches.length) {
-      return <NoMatches/>
-    }
-
-    return (
+    return (!this.props.matches.length && !this.props.newMatches.length) ?  <NoMatches/> : (
       <View>
         <SwipeableListView
-                           dataSource={this.props.dataSource}
-                           maxSwipeDistance={200}
-                           renderQuickActions={() => {
-                                                 return <SwipeoutBtn component={true} btn={{ threshold: 150, action: this.chatActionSheet.bind(this), backgroundColor: colors.dark, }} />
-                                               }}
-                           bounceFirstRowOnMount={true}
-                           chatActionSheet={this.props.chatActionSheet}
-                           onEndReached={this.onEndReached.bind(this)}
-                           onEndReachedThreshold={200}
-                           ref={component => this._listView = component}
-                           renderRow={this._renderRow.bind(this)}
-                           style={{ height: DeviceHeight, marginTop: 0, overflow: 'hidden', backgroundColor: colors.outerSpace }}
-                           scrollEnabled={this.state.scrollEnabled}
-                           directionalLockEnabled={true}
-                           removeClippedSubviews={true}
-                           vertical={true}
-                           initialListSize={5}
-                           scrollsToTop={true}
-                           contentOffset={{ x: 0, y: this.state.isRefreshing ? -50 : 0 }}
-                           renderHeader={() => {
-                                           if (!this.props.newMatches || !Object.keys(this.props.newMatches).length) {
-                                             return false;
-                                           } else {
-                                             return (
-                                               <NewMatches
-                                               dispatch={this.props.dispatch}
-                                                           user={this.props.user}
-                                                           navigator={this.props.navigator}
-                                                           newMatches={this.props.newMatches}
-                                                           matchesCount={this.props.matches.length} />
-                                             )
-                                           }
-                                         }} />
+          dataSource={this.props.dataSource}
+          maxSwipeDistance={100}
+          renderQuickActions={(rowData, sectionID, rowID) =>  (
+             <SwipeableQuickActions style={{backgroundColor:'black'}}>
+               <TouchableHighlight
+                onPress={this.chatActionSheet.bind(this,rowData)}
+                 underlayColor="black">
+                <View style={{backgroundColor:'transparent',width:50, justifyContent:'center',alignItems:'center',height:100}}>
+                  <ThreeDots dotColor={colors.white}/>
+                </View>
+              </TouchableHighlight>
+             </SwipeableQuickActions>
+           )
+          }
+          bounceFirstRowOnMount={true}
+          chatActionSheet={this.props.chatActionSheet}
+          onEndReached={this.onEndReached.bind(this)}
+          onEndReachedThreshold={200}
+          ref={component => this._listView = component}
+          renderRow={this._renderRow.bind(this)}
+          style={{ height: DeviceHeight, marginTop: 0, overflow: 'hidden', backgroundColor: colors.outerSpace }}
+          scrollEnabled={this.state.scrollEnabled}
+          directionalLockEnabled={true}
+          removeClippedSubviews={true}
+          vertical={true}
+          initialListSize={5}
+          scrollsToTop={true}
+          contentOffset={{ x: 0, y: this.state.isRefreshing ? -50 : 0 }}
+          renderHeader={() => (!this.props.newMatches || !this.props.newMatches.length) ? false : (
+            <NewMatches
+              dispatch={this.props.dispatch}
+              user={this.props.user}
+              navigator={this.props.navigator}
+              newMatches={this.props.newMatches}
+              matchesCount={this.props.matches.length}
+            />
+          )}
+        />
         {this.state.loadingMoreMatches && false ?
          <View style={{ position: 'absolute', bottom: 0, width: DeviceWidth, height: 30 }}>
            <ActivityIndicator style={{ alignSelf: 'center', alignItems: 'center', flex: 1, height: 60, width: 60, justifyContent: 'center' }} animating={true} />
@@ -335,7 +306,6 @@ class MatchesInside extends Component {
 
   constructor(props) {
     super(props);
-    // console.log(props);
     this.ds = SwipeableListView.getNewDataSource();
     this.state = {
       matches: props.matches,
@@ -345,7 +315,6 @@ class MatchesInside extends Component {
           match: d
         }
       }))
-    // favDataSource: this.fds.cloneWithRowsAndSections(props.matches)
     }
   }
 
@@ -353,10 +322,8 @@ class MatchesInside extends Component {
     if (match) {
       this.setState({
         isVisible: true,
-
         currentMatch: match
       })
-    // },10)
     } else {
       this.setState({
         isVisible: false
@@ -391,28 +358,12 @@ class MatchesInside extends Component {
     })
   }
   componentWillReceiveProps(newProps) {
-    // console.log(newProps);
-    //
-    // this.setState({
-    //   matches: newProps.matches,
-    // // dataSource: this.ds.cloneWithRowsAndSections(newProps.matches, ['s1', 's2'] ),
-    // // favDataSource: this.ds.cloneWithRowsAndSections(newProps.matches),
-    // // favorites: newProps.favorites
-    // })
-    //
     if (newProps.matches && newProps.matches[0]) {
       this._updateDataSource(newProps.matches, 'matches')
     }
-
-  // if(newProps.favorites[0] ){
-  //   this._updateDataSource(newProps.matches,'favorites')
-  // }
   }
-  // shouldComponentUpdate(nProps,nState){
-  //   return this.state.isVisible != nState.isVisible ||  !this.props.matches || !nProps.matches || (nProps.matches && this.props.matches && nProps.matches.length > this.props.matches.length )  || (nProps.matches && this.props.matches && nProps.matches[0] && this.props.matches[0] && this.props.matches[0].recent_message && nProps.matches[0].recent_message.created_timestamp && nProps.matches[0].recent_message.created_timestamp > this.props.matches[0].recent_message.created_timestamp)
-  // }
+
   _updateDataSource(data, whichList) {
-    // var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.match_id !== r2.match_id});
     if (data.length > 1) {
       const newState = {
         matches: data,
@@ -426,17 +377,18 @@ class MatchesInside extends Component {
     return (
       <View>
         <MatchList
-                  dispatch={this.props.dispatch}
-                   user={this.props.user}
-                   dataSource={this.state.dataSource}
-                   matches={this.state.matches || this.props.matches}
-                   newMatches={this.props.newMatches}
-                   updateDataSource={this._updateDataSource.bind(this)}
-                   id={"matcheslist"}
-                   chatActionSheet={this.chatActionSheet.bind(this)}
-                   navigator={this.props.navigator}
-                   route={{ component: Matches, title: 'Matches', id: 'matcheslist', }}
-                   title={"matchlist"} />
+          dispatch={this.props.dispatch}
+           user={this.props.user}
+           dataSource={this.state.dataSource}
+           matches={this.state.matches || this.props.matches}
+           newMatches={this.props.newMatches}
+           updateDataSource={this._updateDataSource.bind(this)}
+           id={"matcheslist"}
+           chatActionSheet={this.chatActionSheet.bind(this)}
+           navigator={this.props.navigator}
+           route={{ component: Matches, title: 'Matches', id: 'matcheslist', }}
+           title={"matchlist"}
+        />
 
         {this.state.isVisible && this.state.currentMatch ?
          <View style={[{ position: 'absolute', top: 0, left: 0, width: DeviceWidth, height: DeviceHeight }]}>
@@ -447,26 +399,34 @@ class MatchesInside extends Component {
            </FadeInContainer>
          </View> : <View/>}
         <ActionModal
-                     user={this.props.user}
-                     navigator={this.props.navigator}
-                     dispatch={this.props.dispatch}
-
-                     toggleModal={this.toggleModal.bind(this)}
-                     isVisible={this.state.isVisible}
-                     currentMatch={this.state.currentMatch} />
+         user={this.props.user}
+         navigator={this.props.navigator}
+         dispatch={this.props.dispatch}
+         toggleModal={this.toggleModal.bind(this)}
+         isVisible={this.state.isVisible}
+         currentMatch={this.state.currentMatch}
+         />
       </View>
-
-
     )
-
   }
-
 }
 
 reactMixin.onClass(MatchesInside, TimerMixin)
 
 
 class Matches extends Component {
+  static route = {
+    navigationBar: {
+      backgroundColor: colors.shuttleGray,
+      title(params){
+        return `MESSAGES`
+      },
+      style: {height:0},
+      renderRight(route, props){
+        return false
+      }
+    }
+  };
 
   constructor(props) {
     super();
@@ -525,7 +485,7 @@ class Matches extends Component {
 
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('state',state,'ownProps',ownProps); // state
+  // console.log('state',state,'ownProps',ownProps); // state
   return {
     ...ownProps,
     matches: state.matchesList.matches,

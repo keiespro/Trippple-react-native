@@ -10,8 +10,11 @@ import PartnerMissingModal from '../../modals/PartnerMissingModal';
 import PermissionSwitches from '../../controls/PermissionSwitches';
 import UserActions from '../../../flux/actions/UserActions';
 import colors from '../../../utils/colors';
-import styles from '../potentials/styles';
+import styles from './settingsStyles';
 import {MagicNumbers} from '../../../utils/DeviceConfig'
+import {
+  NavigationStyles,
+} from '@exponent/ex-navigation';
 
 import {
   StyleSheet,
@@ -39,6 +42,16 @@ var PickerItemIOS = PickerIOS.Item
 var {OSPermissions} = NativeModules
 
 class  SettingsPreferences extends React.Component{
+
+    static route = {
+      styles: NavigationStyles.FloatHorizontal,
+      navigationBar: {
+        backgroundColor: colors.shuttleGray,
+        title(params){
+          return `BASIC`
+        }
+      }
+    };
   constructor(props){
     super()
     this.state = {
@@ -124,7 +137,7 @@ class  SettingsPreferences extends React.Component{
 
           <ScrollView
           showsVerticalScrollIndicator={false}
-          style={{
+          style={{flex:1,
             // marginTop: MagicNumbers.is5orless ? 30 : 54,
             paddingVertical:MagicNumbers.is5orless ? 0 : 20}}
             scrollEnabled={this.state.scroll == 'on' ? true : false}

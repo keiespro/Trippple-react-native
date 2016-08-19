@@ -316,7 +316,6 @@ class Card extends React.Component{
                     <Animated.Image
                     source={ potential.user.image_url ? {uri: potential.user.image_url} : null}
                       key={`${potential.user.id}-cimg`}
-                      defaultSource={{uri: 'assets/defaultuser.png'}}
                       style={[styles.imagebg, {
                         backgroundColor: colors.white,
 
@@ -354,7 +353,6 @@ class Card extends React.Component{
                     <Animated.Image
                       source={{uri: this.props.potential.user.image_url}}
                       key={`${potential.user.id}-cimg`}
-                      defaultSource={{uri: 'assets/defaultuser.png'}}
                       style={[styles.imagebg,{
                         backgroundColor: colors.white,
                         width:DeviceWidth, height:DeviceHeight,
@@ -586,7 +584,6 @@ class Card extends React.Component{
                   >
                     <Animated.Image
                       source={ potential.user.image_url ? {uri: potential.user.image_url} : null}
-                      defaultSource={{uri: 'assets/defaultuser.png'}}
 
                       key={`${potential.user.id}-cimg`}
                       style={[styles.imagebg, {
@@ -611,7 +608,6 @@ class Card extends React.Component{
                     >
                       <Animated.Image
                         source={ potential.partner.image_url ? {uri: potential.partner.image_url} : null}
-                        defaultSource={{uri: 'assets/defaultuser.png'}}
                         key={`${potential.partner.id}-cimg`}
                         style={[styles.imagebg,{
                           width: undefined,
@@ -636,7 +632,6 @@ class Card extends React.Component{
                     >
                       <Animated.Image
                         source={ {uri: potential.image}}
-                        defaultSource={{uri: 'assets/defaultuser.png'}}
                         key={`${potential.id}-cimg`}
                         style={[styles.imagebg,{
                           width: undefined,
@@ -777,48 +772,9 @@ flexDirection:'column',alignItems:'center',justifyContent:'center',
 
 
           </ScrollView>
-          <View
-            key={/* TODO: Implement sanity */  'navbarholder'+potential.user.id}
-            style={{
-              backgroundColor:'transparent',
-              width:DeviceWidth,
-              position:'absolute',
-              height:55,
-              top:0,
-              overflow:'visible',
-              borderRadius:0
-            }}
-          >
-            {/* <View style={{backgroundColor:'transparent'}}>
-              <FakeNavBar
-                hideNext={true}
-                backgroundStyle={{
-                  backgroundColor:'transparent',
-                  width:DeviceWidth,
-                  height:55,
-                }}
-                insideStyle={{
 
-                  width:DeviceWidth,
-                  height:55,
-                  marginTop:5,
-                  backgroundColor:'transparent',
-                  // borderTopLeftRadius:8,
-                  // borderTopRightRadius:8,
-                  overflow:'hidden',
-                }}
-                titleColor={colors.white}
-                onPrev={(nav,route)=> {this.closeProfile.bind(this)}}
-                customPrev={
-                  <Image
-                    resizeMode={Image.resizeMode.contain}
-                    style={{margin:0,alignItems:'flex-start',height:12,width:12,marginTop:10}}
-                    source={{uri: 'assets/close@3x.png'}}
-                  />
-                }
-              />
-            </View> */}
-          </View>
+
+       
         </View>
 
       )

@@ -15,7 +15,7 @@ const { FileTransfer } = NativeModules,
 const VERSION = "2.5",
       iOSversion = DeviceInfo.version;
 
-async function baseRequest(endpoint='': String, payload={}: Object){
+async function baseRequest(endpoint='', payload={}, resource='user'){
   const params = {
     method: 'post',
     headers: {
@@ -26,7 +26,8 @@ async function baseRequest(endpoint='': String, payload={}: Object){
     body: JSON.stringify(payload)
   }
   if(__DEBUG__ && window && window.__SHOW_ALL__) console.log(`API REQUEST ---->>>>> ${endpoint} | `,params);
-  const url = `${SERVER_URL}/${endpoint}`;
+
+  const url = `${SERVER_URL}/${resource}/${endpoint}`;
   // var timeStarted = new Date();
   const res = await fetch(url, params)
   try{
@@ -67,10 +68,10 @@ function publicRequest(endpoint, payload){
   return baseRequest(endpoint, payload)
 }
 
-function authenticatedRequest(endpoint: '', payload: {}, forceCredentials){
+function authenticatedRequest(endpoint: '', payload: {}, resource, forceCredentials){
   const credentials =  global.creds;
   const authPayload = {...payload, ...credentials};
-  return baseRequest(endpoint, authPayload)
+  return baseRequest(endpoint, authPayload,resource)
 }
 
  function authenticatedFileUpload(endpoint, image, image_type, cropData,callback){
@@ -132,6 +133,8 @@ const api = {
     }
     return publicRequest('fb_login', payload);
   },
+
+
 
   updateUser(payload){
     return authenticatedRequest('update', payload)
@@ -202,6 +205,10 @@ const api = {
 
   saveFacebookPicture(photo) {
     return publicRequest('save_facebook_picture', photo);
+  },
+
+  uploadFacebookPic(imgUrl){
+    return authenticatedRequest('', {photo_url:imgUrl}, 'uploads')
   },
 
   uploadImage(image, image_type: 'profile', cropData, callback){

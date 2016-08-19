@@ -17,6 +17,7 @@ const FB_PHOTO_WIDTH = 200;
 
 import colors from '../utils/colors'
 import { connect } from 'react-redux';
+import ActionMan from  '../actions/';
 
 
 var ProfilePhoto = React.createClass({
@@ -117,7 +118,10 @@ var AlbumView = React.createClass({
     console.log(this.props);
   },
   selectPhoto(photo) {
-    // console.log(photo)
+    console.log(photo)
+
+    this.props.dispatch(ActionMan.uploadFacebookPic(photo.img))
+
     // var {navigator,route,image_type,nextRoute,afterNextRoute} = this.props;
     // if(nextRoute){
       //
@@ -156,7 +160,7 @@ var AlbumView = React.createClass({
 
     return (
       <View  key={ id+''} style={styles.photo_list_item}>
-        <TouchableHighlight onPress={(e) => { this.selectPhoto(img) }}>
+        <TouchableHighlight onPress={ this.selectPhoto.bind(this,{img,id}) }>
           <Image style={styles.pic} source={{uri: img}} />
         </TouchableHighlight>
       </View>

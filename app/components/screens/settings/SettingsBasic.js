@@ -29,6 +29,9 @@ import formatPhone from '../../../utils/formatPhone';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import {MagicNumbers} from '../../../utils/DeviceConfig'
+import {
+  NavigationStyles,
+} from '@exponent/ex-navigation';
 
 var PickerItem = Picker.Item;
 
@@ -149,6 +152,16 @@ class ProfileField extends React.Component{
 }
 
 class SettingsBasic extends React.Component{
+
+  static route = {
+    styles: NavigationStyles.FloatHorizontal,
+    navigationBar: {
+      backgroundColor: colors.shuttleGray,
+      title(params){
+        return `BASIC`
+      }
+    }
+  };
   constructor(props){
     super(props)
   }

@@ -37,20 +37,11 @@ class NewMatches extends Component{
       dataSource: ds.cloneWithRows(props.newMatches),
     }
   }
-  openChat(nm,e){
+  openChat(rowData,title){
 
-    this.props.navigator.push({
-      component: Chat,
-      id:'chat',
-key:'newchat',
-       title: 'CHAT',
-      passProps:{
-         match_id: nm.match_id,
-        matchInfo: nm,
-        currentMatch: nm
-      },
-      sceneConfig: Navigator.SceneConfigs.PushFromRight,
-    });
+    const payload = {title, match_id: rowData.match_id, matchInfo: rowData }
+    this.props.navigator.push(this.props.navigator.navigationContext.router.getRoute('Chat',payload));
+
   }
   componentWillReceiveProps(nProps){
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -66,14 +57,14 @@ key:'newchat',
     const matchInfo = rowData,
           theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
           them = theirIds.map((id)=> matchInfo.users[id]);
+          const threadName = them.map((user, i) => user.firstname.trim()).join(' & ');
 
     let img = them[0].image_url;
-    console.log(rowData);
-    return (
+     return (
       <View key={'newmatch'+rowID+rowData.match_id} style={styles.listItem}>
         <TouchableOpacity
           style={{borderRadius:45}}
-          onPress={this.openChat.bind(this,rowData)}
+          onPress={this.openChat.bind(this,rowData,threadName)}
         >
           <Image
             source={{uri:img}}

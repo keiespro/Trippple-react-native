@@ -25,6 +25,15 @@ import {MagicNumbers} from '../utils/DeviceConfig'
 
 class UserProfile extends React.Component{
 
+  static route = {
+    navigationBar: {
+      backgroundColor: colors.shuttleGray,
+      title(params){
+        return `PROFILE`
+      }
+    }
+  };
+
   static defaultProps = {
     cardWidth: DeviceWidth
   };

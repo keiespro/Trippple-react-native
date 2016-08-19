@@ -2,6 +2,7 @@ import { StatusBar, View, Dimensions, Settings } from 'react-native';
 import React from "react";
 
 import AppNavigation from './AppNavigation';
+import AppNav from '../AppNav';
 import ModalDirector from './modals/ModalDirector';
 import Welcome from './screens/welcome/welcome';
 
@@ -116,11 +117,11 @@ class App extends React.Component{
       ) : <Welcome AppState={this.props.AppState} key={'welcomescene'} />
     } */}
 
-    {this.props.loggedIn ? ( <AppNavigation/> ) : <Welcome dispatch={this.props.dispatch} key={'welcomescene'} /> }
+    {this.props.loggedIn ? ( <AppNav/> ) : <Welcome dispatch={this.props.dispatch} key={'welcomescene'} /> }
 
-    <ModalDirector
+    {/* <ModalDirector
     user={user}
-    />
+    /> */}
 
     {/* {(this.state.showCheckmark || this.props.AppState.showCheckmark) ?
       <CheckMarkScreen

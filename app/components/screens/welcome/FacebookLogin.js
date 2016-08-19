@@ -12,7 +12,7 @@ import FacebookButton from '../../buttons/FacebookButton';
 import colors from '../../../utils/colors'
 
 import BoxyButton from '../../controls/boxyButton'
-import FBPhotoAlbums from '../../fb.login'
+import FBPhotoAlbums from '../../FBPhotoAlbums'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -46,6 +46,7 @@ class Facebook extends Component{
 
   login(){
     this.props.dispatch(ActionMan.loginWithFacebook())
+    
   }
 
 

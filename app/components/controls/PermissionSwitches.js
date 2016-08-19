@@ -11,7 +11,7 @@ import React from "react";
 
 import CheckPermissions from '../modals/CheckPermissions';
 import NotificationPermissions from '../modals/NotificationPermissions';
-import styles from '../screens/potentials/styles';
+import styles from '../screens/settings/settingsStyles';
 import colors from '../../utils/colors'
 import reactMixin from 'react-mixin'
 import {MagicNumbers} from '../../utils/DeviceConfig'

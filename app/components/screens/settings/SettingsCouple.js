@@ -10,6 +10,9 @@ import UserActions from '../../../flux/actions/UserActions';
 import colors from '../../../utils/colors';
 import formatPhone from '../../../utils/formatPhone';
 import {MagicNumbers} from '../../../utils/DeviceConfig'
+import {
+  NavigationStyles,
+} from '@exponent/ex-navigation';
 
 import {
   StyleSheet,
@@ -132,6 +135,17 @@ class ProfileField extends React.Component{
 }
 
 class SettingsCouple extends React.Component{
+
+
+  static route = {
+    styles: NavigationStyles.FloatHorizontal,
+    navigationBar: {
+      backgroundColor: colors.shuttleGray,
+      title(params){
+        return `COUPLE`
+      }
+    }
+  };
   constructor(props){
     super(props)
   }

@@ -10,6 +10,9 @@ import {
   Settings,
 } from 'react-native';
 import React from "react";
+import {
+  NavigationStyles,
+} from '@exponent/ex-navigation';
 
 import Analytics from '../../../utils/Analytics';
 import ActionMan from '../../../actions';
@@ -25,6 +28,16 @@ const ACTUAL_VERSION = '2.5';
 
 
 class SettingsSettings extends React.Component{
+
+    static route = {
+      styles: NavigationStyles.FloatHorizontal,
+      navigationBar: {
+        backgroundColor: colors.shuttleGray,
+        title(params){
+          return `BASIC`
+        }
+      }
+    };
   constructor(props){
     super()
     const settings = Settings._settings || {}

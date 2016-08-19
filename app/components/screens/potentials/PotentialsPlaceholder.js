@@ -6,14 +6,15 @@ import {
   Image,
   Dimensions,
   TouchableHighlight,
-  Navigator,
 } from 'react-native';
 import React from "react";
 
 import FadeInContainer from '../../FadeInContainer';
+// import Route from '../../../utils/Route';
 import SettingsBasic from '../settings/SettingsBasic';
 import colors from '../../../utils/colors';
 import styles from './styles';
+
 import profileOptions from '../../../data/get_client_user_profile_options'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 
@@ -30,19 +31,20 @@ class PotentialsPlaceholder extends React.Component{
   }
   openProfileEditor(){
 
-    this.props.navigator.push({
-      component: SettingsBasic,
-      sceneConfig:Navigator.SceneConfigs.PushFromBottom,
-      user:this.props.user,
-      id:'settingsbasic',
-      name: 'SettingsBasic GENERAL',
-      passProps: {
-        style:styles.container,
-        settingOptions:profileOptions,
-        user:this.props.user,
-        startPage:1
-      }
-    })
+    // this.props.navigator.push(new Route({
+    //   component: SettingsBasic,
+    //   config:{
+    //     in: 'fromBottom',
+    //     backButton: null,
+    //   },
+    //   name: 'BASIC',
+    //   passProps: {
+    //     style:styles.container,
+    //     settingOptions:profileOptions,
+    //     user:this.props.user,
+    //     startPage:1
+    //   }
+    // }))
   }
   render(){
     const {user} = this.props;

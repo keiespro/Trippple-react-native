@@ -9,7 +9,7 @@ const { LoginManager, AccessToken, GraphRequest, GraphRequestManager } = FBSDK
 import colors from '../../utils/colors'
 import BoxyButton from '../controls/boxyButton'
 
-import FBLogin from '../fb.login'
+
 import reactMixin from 'react-mixin'
 
 const DeviceHeight = Dimensions.get('window').height

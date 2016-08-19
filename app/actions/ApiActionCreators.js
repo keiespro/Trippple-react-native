@@ -20,7 +20,8 @@ const apiActions = [
   'updatePushToken',
   'disableAccount',
   'getUserInfo',
-  'getPotentials'
+  'getPotentials',
+  'uploadFacebookPic'
 ];
 
 const endpointMap = apiActions.map(call => {
@@ -32,17 +33,13 @@ const ApiActionCreators = endpointMap.reduce((obj,endpoint) => {
   obj[endpoint.call] = (...params) => (dispatch => dispatch({
     type: endpoint.action,
     meta: {
-      ...params.map(p => p)
+      ...(params.map(p => p))
     },
     payload: {
       promise: new Promise((resolve, reject) => {
         api[endpoint.call](...params).then(x => resolve(x)).catch(x => {
           console.log(x); reject(x)
         })
-      }).catch(error => {
-        console.log('API ERROR',error)
-        throw new Error({error:error})
-        return false
       })
     }
   }))

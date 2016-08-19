@@ -1,5 +1,4 @@
 import {
-  StyleSheet,
   View,
   TextInput,
   TouchableOpacity,
@@ -7,6 +6,8 @@ import {
   Dimensions,
 } from 'react-native';
 import React from 'react';
+
+import ThreeDots from '../../buttons/ThreeDots';
 
 import dismissKeyboard from 'dismissKeyboard'
 import NoMessages from './NoMessages'
@@ -29,31 +30,48 @@ import ActionMan from  '../../../actions/';
 import ChatBubble from './ChatBubble'
 import ChatInside from './ChatInside'
 
+class Chat extends React.Component{
+
+  static route = {
+    navigationBar: {
+      backgroundColor: colors.shuttleGray,
+      title(params){
+        return `${params.title}`
+      },
+      renderRight(route, props){
+        const toggleModal = route.params.toggleModal;
+        return (
+          <TouchableOpacity onPress={()=>{toggleModal && toggleModal()}}>
+            <ThreeDots />
+          </TouchableOpacity>
+        )
+      }
+    }
+  };
+
+  constructor(props){
+    super()
+    this.state = {
+      isVisible: props.isVisible ? JSON.parse(props.isVisible) : false
+    }
+  }
+  componentDidMount(){
 
 
-
-const Chat = React.createClass({
-  displayName:"Chat",
-  getInitialState(){
-    return ({
-      isVisible: this.props.isVisible ? JSON.parse(this.props.isVisible) : false
-    })
-  },
+  }
   componentWillUnmount(){
     dismissKeyboard()
     // MatchActions.resetUnreadCount(this.props.match_id);
     // TODO : REPLACE WITH NEW
 
-  },
-  componentDidMount(){
-  },
+  }
 
   toggleModal(){
     dismissKeyboard();
     this.setState({
       isVisible:!this.state.isVisible,
     })
-  },
+  }
 
   render(){
 
@@ -90,11 +108,11 @@ const Chat = React.createClass({
     );
   }
 
-});
+}
 
 
  const mapStateToProps = (state, ownProps) => {
-  console.log('state',state,'ownProps',ownProps); // state
+  // console.log('state',state,'ownProps',ownProps); // state
   return {
     ...ownProps,
     user: state.user,

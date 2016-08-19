@@ -21,7 +21,7 @@ var Dots = React.createClass({
   render(){
     var dotWidth = 7,
         dots = [1,2,3],
-        dotColor =  colors.outerSpace;
+        dotColor = this.props.dotColor || colors.outerSpace;
     return (
         <View style={{
             flexDirection:'row',

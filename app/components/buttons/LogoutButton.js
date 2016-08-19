@@ -3,6 +3,7 @@ import React from "react";
 
 
 import colors from '../../utils/colors';
+import ActionMan from  '../../actions/';
 
 
 
@@ -13,12 +14,13 @@ const DeviceWidth = Dimensions.get('window').width
 
 export default class LogOutButton extends React.Component{
   _doLogOut(){
-    Alert.alert(
+     Alert.alert(
       'Log Out of Trippple',
       'Are you sure you want to log out?',
       [
         {text: 'Yes', onPress: () => {
-          // UserActions.logOut() //TODO:udpate
+          this.props.dispatch(ActionMan.logOut())
+
         }},
         {text: 'No', onPress: () => {return false}},
       ]
@@ -28,7 +30,7 @@ export default class LogOutButton extends React.Component{
   render(){
 
     return (
-      <TouchableHighlight underlayColor={colors.shuttleGray20} onPress={this._doLogOut} style={{marginVertical:20,marginTop:70}}>
+      <TouchableHighlight underlayColor={colors.shuttleGray20} onPress={this._doLogOut.bind(this)} style={{marginVertical:20,marginTop:70}}>
         <View style={styles.button}>
           <Text style={styles.buttonText}>LOG OUT OF TRIPPPLE</Text>
         </View>
