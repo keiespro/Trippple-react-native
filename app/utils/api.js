@@ -4,7 +4,6 @@ import AppInfo from 'react-native-app-info'
 import { Platform, NativeModules } from 'react-native'
 
 import Promise from 'bluebird'
-import AppActions from '../flux/actions/AppActions'
 import config from '../../config'
 import DeviceInfo from './DeviceInfo'
 import Analytics from './Analytics'
@@ -36,7 +35,6 @@ async function baseRequest(endpoint='', payload={}, resource='user'){
 
     if(res.status == 504 || res.status == 502){
       __DEV__ && console.log('show maintenance screen')
-      AppActions.showMaintenanceScreen();
       Analytics.err(res)
       throw new Error('Server down')
 
@@ -134,7 +132,9 @@ const api = {
     return publicRequest('fb_login', payload);
   },
 
-
+  onboard(payload){
+    return authenticatedRequest('onboarded', payload)
+  },
 
   updateUser(payload){
     return authenticatedRequest('update', payload)

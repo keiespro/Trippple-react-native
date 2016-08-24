@@ -151,13 +151,13 @@ onKeyboardChange(event){
       <KeyboardAvoidingView  style={{flex:1}} behavior={'padding'}>
 
         {this.props.messages && this.props.messages.length > 0  ?
-        (<View style={{flex:1,justifyContent:'center',alignItems:'center',flexDirection:'column'}}>
+        (<View style={{flex:1,justifyContent:'space-between',alignItems:'center',flexDirection:'column'}}>
           <ListView
             dataSource={this.state.dataSource}
             renderRow={this._renderRow.bind(this)}
             onEndReached={this.onEndReached.bind(this)}
             messages={this.props.messages || []}
-            style={[styles.listview,{ backgroundColor:colors.outerSpace,marginBottom:60}]}
+            style={[styles.listview,{ backgroundColor:colors.outerSpace,marginBottom:0}]}
             renderScrollComponent={props => (
               <InvertibleScrollView
                 inverted={true}
@@ -167,7 +167,7 @@ onKeyboardChange(event){
                 ref={c => {this.scroller = c}}
                 key={`${this.props.match_id}x`}
                 keyboardDismissMode={'interactive'}
-                contentInset={{top:0,right:0,left:0,bottom:54}}
+                contentInset={{top:0,right:0,left:0,bottom:60}}
                 automaticallyAdjustContentInsets={true}
                 {...props}
               />

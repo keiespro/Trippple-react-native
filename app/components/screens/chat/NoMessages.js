@@ -1,18 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TextInput,
-  ListView,
-  Keyboard,
-  TouchableOpacity,
-  ScrollView,
-  Animated,
-  Dimensions,
-  KeyboardAvoidingView,
-} from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, ListView, Keyboard, TouchableOpacity,LayoutAnimation, ScrollView, Animated, Dimensions, KeyboardAvoidingView } from 'react-native';
 import FadeInContainer from '../../FadeInContainer';
 import MessageComposer from './MessageComposer';
 import TimeAgo from '../../controls/Timeago';
@@ -27,19 +14,39 @@ export default class NoMessages extends React.Component{
     super()
     this.state = {}
   }
+  componentDidMount(){
+    Keyboard.addListener('keyboardWillHide', this.hideKeyboard.bind(this))
+    Keyboard.addListener('keyboardWillShow', this.showKeyboard.bind(this))
+  }
+  componentWillUnmount(){
+    Keyboard.removeListener('keyboardWillHide', this.hideKeyboard.bind(this))
+    Keyboard.removeListener('keyboardWillShow', this.showKeyboard.bind(this))
+
+  }
+  hideKeyboard(k){
+    LayoutAnimation.easeInEaseOut()
+    this.setState({isKeyboardOpened: false})
+  }
+  showKeyboard(k){
+    this.setState({isKeyboardOpened: true})
+
+  }
   getThumbSize(){
 
-    let size =  MagicNumbers.is4s ? SIZES.small : SIZES.big
+    let size =  MagicNumbers.is4s ? SIZES.small : SIZES.big;
+    let isKeyboardOpened = this.props.isKeyboardOpened ||  this.state.isKeyboardOpened;
+
     return  {
-                width: this.props.isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
-                height: this.props.isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
-                borderRadius: this.props.isKeyboardOpened ? size.dimensions.open/2 : size.dimensions.closed/2,
-                marginVertical: this.props.isKeyboardOpened ? size.margin.open : size.margin.closed,
+                width: isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
+                height: isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
+                borderRadius: isKeyboardOpened ? size.dimensions.open/2 : size.dimensions.closed/2,
+                marginVertical: isKeyboardOpened ? size.margin.open : size.margin.closed,
                 backgroundColor: colors.dark
               }
   }
 
   render(){
+    let isKeyboardOpened = this.props.isKeyboardOpened ||  this.state.isKeyboardOpened;
 
     const matchInfo = this.props.currentMatch,
           theirIds = Object.keys(matchInfo.users).filter(u => u != this.props.user.id && u != this.props.user.partner_id),
@@ -57,12 +64,13 @@ export default class NoMessages extends React.Component{
         removeClippedSubviews={true}
         style={{  alignSelf:'stretch',width:DeviceWidth,}}
       >
-      <KeyboardAvoidingView  style={{flex:1,width:DeviceWidth,height:DeviceHeight,backgroundColor:colors.outerSpace}} behavior={'padding'}>
+      <KeyboardAvoidingView  style={{flex:1,width:DeviceWidth,height:DeviceHeight-64,backgroundColor:colors.outerSpace,marginTop:64}} behavior={'padding'}>
 
-        <FadeInContainer delayAmount={1300} duration={1000}>
+        <FadeInContainer delayAmount={500} duration={1000}>
 
-          <View style={{flexDirection:'column',justifyContent:this.state.isKeyboardOpened ? 'flex-start' : 'center',top:this.state.isKeyboardOpened ? 40 : 0,alignItems:this.state.isKeyboardOpened ? 'flex-start' : 'center',alignSelf:'stretch',flex: 1  }}>
-            <View style={{width:DeviceWidth,alignSelf:this.state.isKeyboardOpened ? 'flex-start' : 'center',alignItems:'center',flexDirection:'column',justifyContent:'center' }}>
+          <View style={{flexDirection:'column',justifyContent: 'center', top: 10, alignItems: 'center',alignSelf:'stretch',flex: 1 ,paddingBottom:30 }}>
+
+            <View style={{width:DeviceWidth,alignSelf: 'center',alignItems:'center',flexDirection:'column', justifyContent:'center' }}>
 
               <Text style={{color:colors.white,fontSize:20,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{
                     `YOU MATCHED WITH`

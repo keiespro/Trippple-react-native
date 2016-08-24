@@ -15,31 +15,31 @@ __DEV__ = true;
 const configurations = {
 
   production: {
-    SERVER_URL: 'https://api2.trippple.co/user',
+    SERVER_URL: 'https://api2.trippple.co',
     WEBSOCKET_URL: 'ws://api.trippple.co',
     KEYCHAIN_NAMESPACE: 'http://api2.trippple.co'
   },
 
   staging: {
-    SERVER_URL: 'https://staging-api2.trippple.co/user',
+    SERVER_URL: 'https://staging-api2.trippple.co',
     WEBSOCKET_URL: 'https://staging-api.trippple.co',
     KEYCHAIN_NAMESPACE: 'staging1.trippple.co'
   },
 
   dev: {
-    SERVER_URL: 'http://x.local:9920/user',
+    SERVER_URL: 'http://x.local:9920',
     WEBSOCKET_URL: 'http://x.local:9920',
     KEYCHAIN_NAMESPACE: 'http://api2.trippple.co'
   },
 
   devAlex: {
-    SERVER_URL: 'http://api2.trippple.local/user',
+    SERVER_URL: 'http://api2.trippple.local',
     WEBSOCKET_URL: "http://api.trippple.local",
     KEYCHAIN_NAMESPACE: 'http://api2.trippple.co'
   },
 
   devDante: {
-    SERVER_URL: 'http://mbp-elrik-iii.local:9999/user',
+    SERVER_URL: 'http://mbp-elrik-iii.local:9999',
     WEBSOCKET_URL: 'http://mbp-elrik-iii.local:9919',
     KEYCHAIN_NAMESPACE: 'dev.trippple.co'
   }

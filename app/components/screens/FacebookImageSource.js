@@ -18,6 +18,7 @@ import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
 const {OSPermissions} = NativeModules
 import FBPhotoAlbums from '../FBPhotoAlbums'
 import {MagicNumbers} from '../../utils/DeviceConfig'
+import { connect } from 'react-redux'
 
 import ActionMan from  '../../actions/';
 import {
@@ -27,9 +28,10 @@ import {
 class FacebookImageSource extends Component{
 
     static route = {
+      styles: NavigationStyles.FloatVertical,
       navigationBar: {
-        backgroundColor:colors.outerSpace,
-
+        backgroundColor:colors.transparent,
+        visible:false
       }
     };
   static propTypes = {
@@ -49,25 +51,34 @@ class FacebookImageSource extends Component{
   }
   componentWillReceiveProps(nProps){
     console.log(nProps);
+    if(!this.props.fbUser && nProps.fbUser){
+      this.onPressFacebook(nProps.fbUser)
+    }
+  }
+  componentDidMount(){
+    this.onPressFacebook(this.props.fbUser)
   }
   onPressFacebook(fbUser){
-    var nextRoute = {name:'FBPhotoAlbums',key:'fba'+Math.random(1)}
-    nextRoute.component = FBPhotoAlbums
-    nextRoute.passProps = {
-      ...this.props,
-      image_type: this.props.image_type || this.props.imageType,
-      nextRoute: EditImage,
-      fbUser
-    }
-    nextRoute.sceneConfig = NavigatorSceneConfigs.FloatFromBottom
+    console.log(fbUser);
+
 
 
     if(fbUser.accessToken){
-      this.props.navigator.push(nextRoute)
+      this.props.navigator.replace(this.props.navigator.navigationContext.router.getRoute('FBPhotoAlbums'),{
+        ...this.props,
+        image_type: this.props.image_type || this.props.imageType,
+        nextRoute: EditImage,
+        fbUser
+      })
     }else{
       console.log('no fb auth');
       this.props.dispatch(ActionMan.facebookAuth())
-      this.props.navigator.push(nextRoute)
+      this.props.navigator.replace(this.props.navigator.navigationContext.router.getRoute('FBPhotoAlbums'),{
+        ...this.props,
+        image_type: this.props.image_type || this.props.imageType,
+        nextRoute: EditImage,
+        fbUser
+      })
 
     }
   }
@@ -180,9 +191,23 @@ console.log(this.props);
   }
 }
 
+
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps,
+    user: state.user,
+    fbUser: state.fbUser,
+    loggedIn: state.auth.api_key && state.auth.user_id
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
 FacebookImageSource.displayName = 'FacebookImageSource'
 
-export default FacebookImageSource
+export default connect(mapStateToProps, mapDispatchToProps)(FacebookImageSource);
 
 
 const styles = StyleSheet.create({

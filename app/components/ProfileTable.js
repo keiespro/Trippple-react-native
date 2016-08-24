@@ -33,7 +33,7 @@ class ProfileTable extends Component{
         <View
         style={{
           backgroundColor:colors.outerSpace,
-          flex:1,
+          // flex:1,
           width:MagicNumbers.screenWidth,
           flexDirection:'column',
           alignItems:'stretch'
@@ -41,50 +41,50 @@ class ProfileTable extends Component{
         >
         <View style={{flexDirection:'row',
           alignSelf:'stretch',
-          justifyContent:'space-between',marginBottom:15,flex:1,}}>
+          justifyContent:'space-between',marginBottom:15,}}>
           <Text style={{color:colors.rollingStone,fontSize:18}}>Gender</Text>
           <Text style={{color:colors.white,fontSize:18}} textAlign={'right'}>{
               profile.gender && profile.gender == 'm' ? 'Male' : 'Female'
             }</Text>
         </View>
-        <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15}}>
+        {profile.age && <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15}}>
           <Text style={{color:colors.rollingStone,fontSize:18}}>Age</Text>
           <Text style={{color:colors.white,fontSize:18}} textAlign={'right'}>{age}</Text>
-        </View>
-        <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15}}>
+        </View>}
+        {profile.height && <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15}}>
           <Text style={{color:colors.rollingStone,fontSize:18}}>Height</Text>
           <Text style={{color:colors.white,fontSize:18}} textAlign={'right'}>{height}</Text>
-        </View>
-        <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:0}}>
+        </View>}
+        {profile.body_type && <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15}}>
           <Text style={{color:colors.rollingStone,fontSize:18}}>Body Type</Text>
           <Text style={{color:colors.white,fontSize:18}} textAlign={'right'}>{body_type}</Text>
-        </View>
+        </View>}
 
-        <View style={{borderBottomWidth:1,borderBottomColor:colors.shuttleGray,marginVertical:20}}/>
+        {/* <View style={{borderBottomWidth:1,borderBottomColor:colors.shuttleGray,marginVertical:20}}/> */}
 
-        <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15}}>
+        {profile.eye_color && <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15}}>
           <Text style={{color:colors.rollingStone,fontSize:18}}>Eye Color</Text>
           <Text style={{color:colors.white,fontSize:18}} textAlign={'right'}>{profile.eye_color}</Text>
-        </View>
-        <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:0}}>
+        </View>}
+        {profile.hair_color && <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15}}>
           <Text style={{color:colors.rollingStone,fontSize:18}}>Hair Color</Text>
           <Text style={{color:colors.white,fontSize:18}} textAlign={'right'}>{profile.hair_color}</Text>
-        </View>
+        </View>}
 
-        <View style={{borderBottomWidth:1,borderBottomColor:colors.shuttleGray,marginVertical:20}}/>
+        {/* <View style={{borderBottomWidth:1,borderBottomColor:colors.shuttleGray,marginVertical:20}}/> */}
 
-        <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15}}>
+        {profile.ethnicity && <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15}}>
           <Text style={{color:colors.rollingStone,fontSize:18}}>Ethnicity</Text>
           <Text style={{color:colors.white,fontSize:18}} textAlign={'right'}>{profile.ethnicity}</Text>
-        </View>
-        <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15}}>
+        </View>}
+        {profile.smoke && <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15}}>
           <Text style={{color:colors.rollingStone,fontSize:18}}>Smoke</Text>
           <Text style={{color:colors.white,fontSize:18}} textAlign={'right'}>{profile.smoke}</Text>
-        </View>
-        <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:0}}>
+        </View>}
+        {profile.drink && <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:15}}>
           <Text style={{color:colors.rollingStone,fontSize:18}}>Drink</Text>
           <Text style={{color:colors.white,fontSize:18}} textAlign={'right'}>{profile.drink}</Text>
-        </View>
+        </View>}
       </View>
 
     )

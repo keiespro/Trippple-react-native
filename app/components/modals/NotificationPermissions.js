@@ -74,7 +74,7 @@ class NotificationPermissions extends React.Component{
       }
     }
     cancel(){
-      this.props.navigator.pop()
+      this.props.cancel && this.props.cancel() || this.props.navigator && this.props.navigator.pop()
     }
     handleTapYes(){
       if(this.state.failedState){

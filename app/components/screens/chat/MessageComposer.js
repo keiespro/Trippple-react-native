@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     paddingLeft:20,
     paddingVertical:15,
     paddingRight:10,
-    bottom:60,
+    bottom:0,
     position:'relative',
     borderTopWidth: 1 / PixelRatio.get() ,
     borderTopColor:'#000'

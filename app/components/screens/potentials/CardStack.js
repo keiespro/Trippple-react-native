@@ -29,7 +29,7 @@ class CardStack extends React.Component{
       pan: new Animated.ValueXY(),
       animatedIn:false,
       offsetY: new Animated.Value(0),
-      appState: AppState.currentState,
+
       likedPotentials:[]
     }
   }
@@ -37,20 +37,11 @@ class CardStack extends React.Component{
     this._panResponder = {}
 
   }
-  _handleAppStateChange(currentAppState){
-
-    if(currentAppState == 'active'){
-
-    }else{
-
-      AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
-    }
 
 
 
-  }
+
   componentDidMount(){
-    AppState.addEventListener('change', this._handleAppStateChange.bind(this));
 
     Animated.timing(this.state.offsetY,{
       toValue: 1,
@@ -63,10 +54,8 @@ class CardStack extends React.Component{
 
     })
   }
-  componentWillUnmount(){
-    AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
 
-  }
+
   componentWillReceiveProps(nProps){
     if(nProps && this.state.animatedIn && this.props.potentials && this.props.potentials[0].user.id != nProps.potentials[0].user.id ){
         this.state.pan.setValue({x: 0, y: 0});
@@ -208,7 +197,7 @@ class CardStack extends React.Component{
 
 
         if(likeStatus){
-          this.props.dispatch(ActionMan.sendLike( likeUserId, likeStatus, (this.props.rel == 'single' ? 'couple' : 'single'), this.props.rel ));
+          this.props.dispatch(ActionMan.sendLike( likeUserId, likeStatus, (this.props.rel == 'single' ? 'couple' : 'single'), this.props.rel, {relevantUser: this.props.potentials[0]} ));
 
           Animated.timing(this.state.pan, {
             toValue,

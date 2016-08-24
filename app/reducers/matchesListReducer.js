@@ -1,3 +1,4 @@
+import _ from 'underscore'
 
 export default function matchesListReducer(state = initialState, action) {
 
@@ -12,7 +13,7 @@ export default function matchesListReducer(state = initialState, action) {
       if ( !action.payload  ) return state;
 
 
-        return {...state, matches: orderMatches(action.payload.response)}
+        return {...state, matches:  orderMatches( dedupe([...state.matches, ...action.payload.response]))}
 
 
     default:
@@ -27,7 +28,9 @@ const initialState = {
   matches: []
 };
 
-
+function dedupe(matches){
+  return _.uniq(matches,m => m.match_id)
+}
 function orderMatches( matches ) {
   const sortableMatches = matches;
 

@@ -1,9 +1,16 @@
 /* @flow */
 
-import React from "react";
-
-import {Component, PropTypes} from "react";
-import {StyleSheet, Text, Image, NativeModules, Settings,ScrollView, CameraRoll, View, TouchableHighlight, Dimensions, PixelRatio, TouchableOpacity} from "react-native";
+import {
+  Text,
+  Image,
+  NativeModules,
+  ScrollView,
+  View,
+  TouchableHighlight,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
+import React, { PropTypes } from 'react';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -12,15 +19,13 @@ var {OSPermissions} = NativeModules
 import UrlHandler from 'react-native-url-handler'
 import colors from '../../utils/colors'
 import _ from 'underscore'
-import MatchActions from '../flux/actions/MatchActions'
 import PurpleModal from './PurpleModal'
 import styles from './purpleModalStyles'
 import BoxyButton from '../controls/boxyButton'
-import UserActions from '../flux/actions/UserActions'
-import AppActions from '../flux/actions/AppActions'
 import {MagicNumbers} from '../../utils/DeviceConfig'
-import Analytics from '../utils/Analytics'
+import Analytics from '../../utils/Analytics'
 import { BlurView,VibrancyView} from 'react-native-blur'
+import { connect } from 'react-redux';
 
 class LocationPermission extends React.Component{
 
@@ -129,7 +134,9 @@ class LocationPermission extends React.Component{
 
  handleSuccess(geo){
    const { latitude, longitude } = geo.coords
-   UserActions.updateUser({ latitude, longitude });
+  //  UserActions.updateUser({ latitude, longitude });
+
+
    this.close()
   //  this.props.navigator.pop()
  }
@@ -163,12 +170,11 @@ class LocationPermission extends React.Component{
 
  renderModal(){
     return (
-     <View style={{padding:0,width:DeviceWidth,height:DeviceHeight}}>
 
-       {/*<BlurView
+      <BlurView
          blurType="dark"
          style={[{position:'absolute',top:0,width:DeviceWidth,height:DeviceHeight,justifyContent:'center',alignItems:'center',flexDirection:'column'}]}
-       />*/}
+       >
        <ScrollView
          style={[{padding:0,width:DeviceWidth,height:DeviceHeight,backgroundColor: 'transparent',paddingTop:20,position:'relative',paddingHorizontal:MagicNumbers.screenPadding/2}]}
          contentContainerStyle={{flexDirection:'column',justifyContent:'center',alignItems:'center',}}
@@ -210,7 +216,7 @@ class LocationPermission extends React.Component{
            </TouchableOpacity>
          </View>
        </ScrollView>
-       </View>
+       </BlurView>
 
    )
  }

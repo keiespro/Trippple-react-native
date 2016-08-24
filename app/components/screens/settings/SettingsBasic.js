@@ -18,6 +18,7 @@ import {
 import React from "react";
 import moment from 'moment';
 import dismissKeyboard from 'dismissKeyboard'
+import { connect } from 'react-redux'
 
 import Analytics from '../../../utils/Analytics';
 import FieldModal from '../../modals/FieldModal';
@@ -124,23 +125,19 @@ class ProfileField extends React.Component{
     }
 
     displayFieldText = fieldLabel ? fieldLabel.toUpperCase() : '';
-
-    return (
+     return (
         <TouchableHighlight onPress={(f)=>{
             //trigger modal
-            this.props.navigator.push({
-              component: FieldModal,
-              name: `Edit ${fieldLabel}`,
+            this.props.navigator.push(this.props.navigation.router.getRoute('FieldModal',{
               key:`edit${fieldLabel}`,
-              passProps: {
                 inputField: displayField(field),
                 field,
                 fieldName:this.props.fieldName,
+                title:'PROFILE',
                 cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
                 fieldValue: this.props.user[this.props.fieldName] || (field.values && field.values.length > 0 && field.values[0]) || '',
                 dispatch:this.props.dispatch
-              }
-            })
+            }))
           }} underlayColor={colors.dark} style={styles.paddedSpace}>
           <View  style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray,alignItems:'center',justifyContent:'space-between',flexDirection:'row',alignSelf:'stretch'}}>
             <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ displayFieldText }</Text>
@@ -156,9 +153,9 @@ class SettingsBasic extends React.Component{
   static route = {
     styles: NavigationStyles.FloatHorizontal,
     navigationBar: {
-      backgroundColor: colors.shuttleGray,
+      backgroundColor: colors.shuttleGrayAnimate,
       title(params){
-        return `BASIC`
+        return `PROFILE`
       }
     }
   };
@@ -184,50 +181,26 @@ class SettingsBasic extends React.Component{
           singleImageThumb = this.props.user.localUserImage || {uri: this.props.user.thumb_url };
 
     return (
-      <View style={styles.inner}>
 
 
-      <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight}}>
 
-      <ScrollableTabView startPage={this.props.startPage} style={{overflow:'hidden',}} onChangeTab={(tab)=>{
+      <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight,overflow:'hidden',paddingTop:60}}>
+
+      <ScrollableTabView startPage={this.props.startPage} onChangeTab={(tab)=>{
 
       Analytics.screen(`SettingsBasic`+ [' GENERAL',' DETAILS'][tab.i]);
       }} padded={false} renderTabBar={(props)=><CustomTabBar {...props}/>}>
-      <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth, flex:1,paddingVertical:MagicNumbers.screenPadding/2,height:DeviceHeight}}  tabLabel={'GENERAL'}>
       <ScrollView
           showsVerticalScrollIndicator={false}
-          style={{marginTop: 0,flex:1 }}
-          contentContainerStyle={{alignItems:'flex-start', width:DeviceWidth,minHeight:DeviceHeight,height:DeviceHeight*1.25}} >
-          <View style={[styles.paddedSpace,{flex:1}]}>
+          style={{  height:DeviceHeight-60 }}  tabLabel={'GENERAL'}>
+          <View style={[{  }]}>
 
-          {user.relationship_status == 'single' ? null : <View style={{height:150,width:150,alignSelf:'center'}}>
-          <TouchableOpacity onPress={this._pressNewImage.bind(this)} style={{marginTop:20,}}>
-          <Image
-            style={[ styles.userimage, { backgroundColor:colors.dark}]}
-            key={this.props.user.id+'thumb'}
-            defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
-            resizeMode={Image.resizeMode.cover}
-            source={{uri:singleImageThumb.uri || 'assets/placeholderUser@3x.png'}}
-          />
-
-                <View style={{width:35,height:35,borderRadius:17.5,backgroundColor:colors.mediumPurple,position:'absolute',top:8,left:8,justifyContent:'center',alignItems:'center'}}>
-                  <Image
-                    style={{width:18,height:18}}
-                    source={{uri: 'assets/cog@3x.png'}}
-                    resizeMode={Image.resizeMode.contain}
-                  />
-                </View>
-              </TouchableOpacity>
-            </View>
-          }
-            <View style={styles.paddedSpace}>
               <View style={styles.formHeader}>
                 <Text style={styles.formHeaderText}>Personal Info</Text>
               </View>
-            </View>
 
             {['firstname'].map((field,i) => {
-              return <ProfileField key={field+'key'+(i*10)} user={this.props.user} dispatch={this.props.dispatch} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
+              return <ProfileField  navigation={this.props.navigation}  key={field+'key'+(i*10)} user={this.props.user} dispatch={this.props.dispatch} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
             })}
 
             {['birthday'].map((field,i) => {
@@ -255,14 +228,12 @@ class SettingsBasic extends React.Component{
            {['gender'].map((field,i) => {
             return (
 
-              <ProfileField dispatch={this.props.dispatch}  key={field+'key'+(i*1000)}  user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
+              <ProfileField dispatch={this.props.dispatch}  key={field+'key'+(i*1000)}  user={this.props.user} navigator={this.props.navigator} navigation={this.props.navigation} fieldName={field} field={settingOptions[field]} />
             )
           })}
-            <View style={styles.paddedSpace}>
               <View style={styles.formHeader}>
                 <Text style={styles.formHeaderText}>Contact Info</Text>
               </View>
-            </View>
             <View style={{}}>
             {['phone'].map((field,i) => {
               return (
@@ -288,20 +259,17 @@ class SettingsBasic extends React.Component{
             })}
 
             {['email'].map((field,i) => {
-              return <ProfileField dispatch={this.props.dispatch}  key={field+'key'+(i*1000)}  user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
+              return <ProfileField   navigation={this.props.navigation}  dispatch={this.props.dispatch}  key={field+'key'+(i*1000)}  user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
             })}
 
             </View>
             </View>
             </ScrollView>
-                </View>
 
-                <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth, paddingBottom:40,height:DeviceHeight }}  tabLabel={'DETAILS'}>
-                <ScrollView
+              <ScrollView
                 showsVerticalScrollIndicator={false}
-                style={{marginTop: 0,}}
-                contentContainerStyle={{alignItems:'flex-start',height:DeviceHeight*1.05}} >
-                <View style={styles.paddedSpace}>
+                style={{marginTop: 0,flex:1}}  tabLabel={'DETAILS'}>
+                <View style={{}}>
             <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>Details</Text>
             </View>
@@ -311,10 +279,11 @@ class SettingsBasic extends React.Component{
             return (
               <View key={field+'key'+(i*10000)} style={{alignSelf:'stretch',alignItems:'stretch',width:DeviceWidth}}>
                 <ProfileField
-                dispatch={this.props.dispatch}
+                  dispatch={this.props.dispatch}
                   user={this.props.user}
                   navigator={this.props.navigator}
                   fieldName={field}
+                  navigation={this.props.navigation}
                   field={settingOptions[field]}
                 />
               </View>
@@ -322,33 +291,29 @@ class SettingsBasic extends React.Component{
           })}
           </View>
           </ScrollView>
-          </View>
+
         </ScrollableTabView>
 
       </View>
 
-      {/* <FakeNavBar
-        blur={false}
-        backgroundStyle={{backgroundColor:colors.shuttleGray}}
-        hideNext={true}
-        navigator={this.props.navigator}
-        customPrev={
-          <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
-            <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
-          </View>
-        }
-        onPrev={(nav,route)=> nav.pop()}
-        title={`BASIC`}
-        titleColor={colors.white}
-        /> */}
-      </View>
 
     )
   }
 }
-SettingsBasic.displayName = "SettingsBasic"
-export default SettingsBasic
 
+SettingsBasic.displayName = "SettingsBasic"
+
+
+
+const mapStateToProps = (state, ownProps) => {
+  return { ...ownProps, user: state.user }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsBasic);
 
 
 
@@ -394,7 +359,8 @@ const styles = StyleSheet.create({
  },
 
  formHeader:{
-   marginTop:40
+   marginTop:40,
+   marginHorizontal:MagicNumbers.screenPadding/2
  },
  formHeaderText:{
    color: colors.rollingStone,

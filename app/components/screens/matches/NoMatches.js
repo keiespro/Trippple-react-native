@@ -1,4 +1,4 @@
-/* @flow */
+'user strict';
 
 import { Text, Image, View, Dimensions, ScrollView } from 'react-native';
 import React, {Component} from "react";
@@ -16,9 +16,10 @@ class NoMatches extends Component{
   render(){
     return (
       <ScrollView
-        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth, height:DeviceHeight}}
-        scrollEnabled={false}
-        centerContent={true}
+        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth, height:DeviceHeight,paddingTop:60}}
+        contentInset={{top:60,left:0,right:0,bottom:0}}
+       automaticallyAdjustContentInsets={true}
+
         style={{
           backgroundColor:colors.outerSpace,
           flex:1,

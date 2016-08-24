@@ -4,9 +4,6 @@ import { Component } from "react";
 import { View, Alert, AsyncStorage, AppState, PushNotificationIOS, VibrationIOS } from "react-native";
 
 // import Promise from 'bluebird'
-import NotificationActions from '../flux/actions/NotificationActions'
-import MatchActions from '../flux/actions/MatchActions'
-import UserActions from '../flux/actions/UserActions'
 import Notification from './NotificationTop'
 import TimerMixin from 'react-timer-mixin'
 

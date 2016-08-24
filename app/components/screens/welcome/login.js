@@ -1,5 +1,6 @@
-/* @flow */
+'use strict';
 
+import BackButton from '../../buttons/BackButton';
 
 const PHONE_MASK_USA = '(999) 999-9999'
 
@@ -11,9 +12,6 @@ import CustomSceneConfigs from '../../../utils/sceneConfigs'
 import colors from '../../../utils/colors'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-
-
-import AuthErrorStore from '../../../flux/stores/AuthErrorStore'
 
 import TopTabs from '../../controls/topSignupSigninTabs'
 import PhoneNumberInput from '../../controls/phoneNumberInput'
@@ -64,12 +62,6 @@ class Login extends Component{
       canContinue: false
     })
   }
-  componentDidMount(){
-    AuthErrorStore.listen(this.onError.bind(this));
-  }
-  componentWillUnmount(){
-    AuthErrorStore.unlisten(this.onError.bind(this));
-  }
 
   shouldHide(state) { return (state.phone.length != 10) }
   shouldShow(state) { return (state.phone.length == 10) }
@@ -116,8 +108,7 @@ class Login extends Component{
 
   render(){
     return (
-      <View style={[{ height:DeviceHeight-80, backgroundColor: colors.outerSpace, width:DeviceWidth}]}>
-
+      <View style={[{ height:DeviceHeight, backgroundColor: colors.outerSpace, width:DeviceWidth}]}>
             <PhoneNumberInput
               key={'loginphone'}
               keyboardHeight={this.state.keyboardSpace}
@@ -127,6 +118,9 @@ class Login extends Component{
               inputFieldFocused={this.state.inputFieldFocused}
               handleInputChange={this.handleInputChange.bind(this)}
             />
+            <View style={{width:100,left:10,position:'absolute',alignSelf:'flex-start',top:-10}}>
+              <BackButton navigator={this.props.navigator}/>
+            </View>
 
     </View>
 

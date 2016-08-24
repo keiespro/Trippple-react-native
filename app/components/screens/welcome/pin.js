@@ -1,6 +1,4 @@
-/* @flow */
-
-
+'use strict';
 
 const Pin_MASK_USA = '999 999-9999';
 
@@ -13,7 +11,7 @@ import colors from '../../../utils/colors'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import ActionMan from '../../../actions/'
-import AuthErrorStore from '../../../flux/stores/AuthErrorStore'
+// import AuthErrorStore from '../../../flux/stores/AuthErrorStore'
 import SingleInputScreenMixin from '../../mixins/SingleInputScreenMixin'
 import BackButton from '../../buttons/BackButton'
 import Analytics from '../../../utils/Analytics'

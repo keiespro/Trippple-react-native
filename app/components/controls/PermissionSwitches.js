@@ -10,12 +10,12 @@ import {
 import React from "react";
 
 import CheckPermissions from '../modals/CheckPermissions';
-import NotificationPermissions from '../modals/NotificationPermissions';
+import NotificationPermissions from '../modals/NewNotificationPermissions';
 import styles from '../screens/settings/settingsStyles';
 import colors from '../../utils/colors'
 import reactMixin from 'react-mixin'
 import {MagicNumbers} from '../../utils/DeviceConfig'
-
+import ActionMan from '../../actions/'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import Analytics from '../../utils/Analytics'
@@ -75,6 +75,7 @@ class PermissionSwitches extends React.Component{
           subtitle:'Should we prioritize the matches closest to you?',
           failedTitle: 'LOCATION DISABLED',
           hideModal: () => { this.props.dispatch(ActionMan.killModal())},
+          cancel: () => { this.props.dispatch(ActionMan.killModal())},
           failCallback: (val)=>{
             this.setState({LocationSetting:false})
             this.props.dispatch(ActionMan.killModal())
@@ -119,6 +120,7 @@ class PermissionSwitches extends React.Component{
             component:NotificationPermissions,
             passProps:{
               hideModal: () => { this.props.dispatch(ActionMan.killModal())},
+              cancel: () => { this.props.dispatch(ActionMan.killModal())},
               failCallback: (val)=>{
                 this.props.dispatch(ActionMan.killModal())
                 this.setState({ NotificationSetting: val })

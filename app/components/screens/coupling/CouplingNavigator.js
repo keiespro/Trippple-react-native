@@ -4,6 +4,7 @@ import CoupleSuccess from './CoupleSuccess';
 import EnterCouplePin from './EnterCouplePin';
 import FadeInContainer from '../../FadeInContainer';
 import JoinCouple from './JoinCouple';
+import { connect} from 'react-redux'
 import colors from '../../../utils/colors';
 
 import React,{Component} from 'react'
@@ -109,6 +110,7 @@ class CouplingNavigator extends Component {
             couple={this.props.couple}
             goBack={ this.handleBackAction.bind(this)}
             user={this.props.user}
+            dispatch={this.props.dispatch}
             exit={this.props.goBack}
             startState={this.props.startState}
             goCouplePin={this._handleAction.bind(this, { type: 'push', key: 'CouplePin' })}
@@ -177,7 +179,16 @@ const btnstyles = StyleSheet.create({
 });
 
 
-export default CouplingNavigator
+
+const mapStateToProps = (state, ownProps) => {
+  return { ...ownProps, user: state.user }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CouplingNavigator);
 
 
 

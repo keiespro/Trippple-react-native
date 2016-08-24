@@ -8,7 +8,6 @@ import ReactNative, {
   TouchableHighlight,
   TouchableOpacity,
   Alert,
-  ScrollView,
   PickerIOS,
   Image,
   NativeModules,
@@ -20,25 +19,25 @@ const PickerItemIOS = PickerIOS.Item;
 import Analytics from '../../../utils/Analytics';
 import Coupling from '../coupling';
 import LogoutButton from '../../buttons/LogoutButton';
+import XButton from '../../buttons/XButton';
 import FacebookImageSource from '../FacebookImageSource';
 import SettingsBasic from './SettingsBasic';
 import SettingsCouple from './SettingsCouple';
 import SettingsDebug from './SettingsDebug';
 import SettingsPreferences from './SettingsPreferences';
 import SettingsSettings from './SettingsSettings';
-import UserActions from '../../../flux/actions/UserActions';
 import UserProfile from '../../UserProfile';
 import colors from '../../../utils/colors';
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import profileOptions from '../../../data/get_client_user_profile_options'
-
+import FBPhotoAlbums from '../../FBPhotoAlbums'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 const {RNHotlineController} = NativeModules;
 const RNHotlineView = ReactNative.requireNativeComponent('RNHotlineView')
 import ParallaxView from '../../controls/ParallaxScrollView'
 import dismissKeyboard from 'dismissKeyboard'
-
+import ActionMan from '../../../actions/'
 import { connect } from 'react-redux';
 
 import {
@@ -52,9 +51,9 @@ class Settings extends React.Component{
   static route = {
     styles: NavigationStyles.FloatVertical,
     navigationBar: {
-      visible:true,
-      backgroundColor: colors.outerSpace,
-    }
+      visible:false,
+      backgroundColor: colors.transparent,
+     }
   };
 
   getScrollResponder() {
@@ -96,8 +95,8 @@ class Settings extends React.Component{
               type: this.props.user.id,
               user:this.props.user
             })
-            // UserActions.disableAccount();
-            // this.props.dispatch(ActionMan.disableAccount())
+
+            this.props.dispatch(ActionMan.disableAccount())
           }},
           {text: 'No', onPress: () => {
 
@@ -131,10 +130,11 @@ class Settings extends React.Component{
             potential = selfAsPotential
           }
 
-          this.props.navigator.push(this.props.navigation.router.getRoute('UserProfile',{potential}));
+          this.props.navigator.push(this.props.navigation.router.getRoute('UserProfile',{potential,user:this.props.user}));
         }
+
       _pressNewImage(){
-        this.props.navigator.push(this.props.navigation.router.getRoute('FacebookImageSource'));
+        this.props.navigator.push(this.props.navigation.router.getRoute('FBPhotoAlbums',{}));
       }
 
     _updateAttr(updatedAttribute){
@@ -143,7 +143,7 @@ class Settings extends React.Component{
   render(){
     const wh = DeviceHeight/2;
     return (
-      <View style={{backgroundColor:colors.outerSpace}}>
+      <View style={{backgroundColor:colors.outerSpace,paddingTop:0}}>
 
              <ParallaxView
                 showsVerticalScrollIndicator={false}
@@ -163,6 +163,9 @@ class Settings extends React.Component{
                       flexDirection:'column'
                     }]}
                 >
+
+                <XButton navigator={this.props.navigator}/>
+
 
                 <TouchableOpacity
                   onPress={this._pressNewImage.bind(this)}
@@ -204,8 +207,10 @@ class Settings extends React.Component{
                   this.props.navigator.push(this.props.navigation.router.getRoute('SettingsBasic',{
                     style:styles.container,
                     settingOptions:profileOptions,
-                    user:this.props.user,
-                    startPage:1
+                    startPage:0,
+                    navigation: this.props.navigation,
+                    navigator: this.props.navigator
+
                   }));
 
 
@@ -232,7 +237,10 @@ class Settings extends React.Component{
                         style:styles.container,
                         settingOptions:this.state.settingOptions,
                         user:this.props.user,
-                        navigator:this.props.navigator
+                        navigator:this.props.navigator,
+                        dispatch: this.props.dispatch,
+                        navigation: this.props.navigation
+
                       }));
 
 
@@ -276,7 +284,10 @@ class Settings extends React.Component{
                     style:styles.container,
                     settingOptions:this.state.settingOptions,
                     user:this.props.user,
-                    navigator:this.props.navigator
+                    navigator:this.props.navigator,
+                    dispatch: this.props.dispatch,
+                    navigation: this.props.navigation
+
                   }));
 
                     }} underlayColor={colors.dark} >
@@ -297,7 +308,10 @@ class Settings extends React.Component{
                     style:styles.container,
                     settingOptions:this.state.settingOptions,
                     user:this.props.user,
-                    navigator:this.props.navigator
+                    navigator:this.props.navigator,
+                    dispatch: this.props.dispatch,
+                    navigation: this.props.navigation
+
                     }));
 
 
@@ -346,16 +360,15 @@ class Settings extends React.Component{
                 </TouchableHighlight>
 
                 { __DEV__ && <TouchableHighlight onPress={(f)=>{
-                    this.props.navigator.push({
-                      component: SettingsDebug,
-                      sceneConfig:NavigatorSceneConfigs.FloatFromBottom,
-                      passProps: {
+                  this.props.navigator.push(this.props.navigation.router.getRoute('SettingsDebug', {
                         style:styles.container,
                         settingOptions:this.state.settingOptions,
                         user:this.props.user,
+                        dispatch: this.props.dispatch,
+                        navigation: this.props.navigation,
                         navigator:this.props.navigator
-                      }
-                    })
+                      }))
+
                     }} underlayColor={colors.dark} >
                     <View  style={styles.wrapfield}>
                         <View>

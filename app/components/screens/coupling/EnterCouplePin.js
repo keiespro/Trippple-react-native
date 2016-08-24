@@ -83,7 +83,7 @@ class EnterCouplePin extends React.Component{
         verifyError: false,
         submitting: false
       })
-      // UserActions.verifyCouplePin(this.state.inputFieldValue); //TODO: update
+      this.props.dispatch(ActionMan.verifyCouplePin(this.state.inputFieldValue));  
 
     }else{
       this.setState({

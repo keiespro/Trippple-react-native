@@ -31,20 +31,13 @@ class PotentialsPlaceholder extends React.Component{
   }
   openProfileEditor(){
 
-    // this.props.navigator.push(new Route({
-    //   component: SettingsBasic,
-    //   config:{
-    //     in: 'fromBottom',
-    //     backButton: null,
-    //   },
-    //   name: 'BASIC',
-    //   passProps: {
-    //     style:styles.container,
-    //     settingOptions:profileOptions,
-    //     user:this.props.user,
-    //     startPage:1
-    //   }
-    // }))
+    this.props.navigator.push(this.props.navigator.navigationContext.router.getRoute('SettingsBasic',{
+        style:styles.container,
+        settingOptions:profileOptions,
+        startPage:1,
+        navigation: this.props.navigation,
+        navigator: this.props.navigator
+    }))
   }
   render(){
     const {user} = this.props;

@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import React from "react";
 
-;
+
 import ReportModal from './modals/ReportModal';
 import Swiper from './controls/swiper';
 import UserDetails from './UserDetails';
@@ -27,10 +27,11 @@ class UserProfile extends React.Component{
 
   static route = {
     navigationBar: {
-      backgroundColor: colors.shuttleGray,
-      title(params){
-        return `PROFILE`
-      }
+      // backgroundColor: colors.shuttleGrayAnimate,
+      // title(params){
+      //   return params.title || 'PROFILE'
+      // }
+      visible:false
     }
   };
 
@@ -44,17 +45,17 @@ class UserProfile extends React.Component{
     this.state = { slideIndex: 0 }
   }
   reportModal(){
-
-     this.props.navigator.push({
-      component: ReportModal,
-      passProps: {
-        action: 'report',
-        them: [potential.user, potential.partner],
-        goBack: ()=> {
-          this.props.navigator.pop()
-        }
-      }
-    })
+    //
+    //  this.props.navigator.push({
+    //   component: ReportModal,
+    //   passProps: {
+    //     action: 'report',
+    //     them: [potential.user, potential.partner],
+    //     goBack: ()=> {
+    //       this.props.navigator.pop()
+    //     }
+    //   }
+    // })
   }
   render(){
 
@@ -64,7 +65,7 @@ class UserProfile extends React.Component{
       city = potential.user.city_state || '';
   const rel = this.props.rel || this.props.user.relationship_status;
 
-  if(rel == 'single') {
+  if(potential.partner) {
     matchName += ' & ' + potential.partner.firstname.trim()
   }
 
@@ -105,7 +106,7 @@ class UserProfile extends React.Component{
               position:'relative',
             }} ref={"incard"}>
 
-            {rel == 'single' ? <Swiper
+            {potential.partner ? <Swiper
             _key={`${potential.id || potential.user.id}-swiper`}
             loop={true}
             width={DeviceWidth}
@@ -187,7 +188,7 @@ class UserProfile extends React.Component{
               </Text>*/}
             </View>
 
-          {rel == 'single' &&
+        {potential.partner  &&
             <View style={{
               height:60,
               top:-30,
@@ -201,7 +202,7 @@ class UserProfile extends React.Component{
                   key={potential.user.id + 'img'}
                   style={[styles.circleimage, {marginRight:5,borderColor:colors.outerSpace}]}
                 />
-                <Image
+               <Image
                   source={{uri: potential.partner.image_url}}
                   key={potential.partner.id + 'img'}
                   style={[styles.circleimage,{borderColor:colors.outerSpace}]}
@@ -217,7 +218,7 @@ class UserProfile extends React.Component{
             {potential.bio || potential.user.bio ?
               <View style={{padding:0,margin:0,alignSelf:'flex-start'}}>
                 <Text style={[styles.cardBottomOtherText,{color:colors.white,marginBottom:15,marginLeft:0}]}>{
-                    rel =='couple' ? `About Me` : `About Us`
+                    potential.partner ? `About Us` : `About Me`
                 }</Text>
                 <Text style={{color:colors.white,fontSize:18,marginBottom:15}}>{
                     potential.bio || potential.user.bio
@@ -227,7 +228,7 @@ class UserProfile extends React.Component{
               <View style={{ paddingVertical:20,alignItems:'stretch' }}>
                 <UserDetails potential={potential} user={this.props.user} location={'card'}  rel={this.props.rel}/>
               </View>
-              {/*potential.user.id != this.props.user.id ?
+              { /* potential.user.id != this.props.user.id ?
               <TouchableOpacity onPress={this.reportModal.bind(this)}>
                 <View style={{flex:1,marginTop:20}}>
                   <Text style={{color:colors.mandy,textAlign:'center'}}>Report or Block this user</Text>
@@ -239,7 +240,7 @@ class UserProfile extends React.Component{
 
           </View>
         </ScrollView>
-        <FakeNavBar
+        {/* <FakeNavBar
           hideNext={true}
           backgroundStyle={{backgroundColor:colors.outerSpace}}
           titleColor={colors.white}
@@ -248,7 +249,7 @@ class UserProfile extends React.Component{
           onPrev={(nav,route)=> {this.props.navigator.pop()}}
           customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12,marginTop:10}} source={{uri: 'assets/close@3x.png'}} />
           }
-        />
+        /> */}
       </View>
 
     )

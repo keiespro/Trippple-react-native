@@ -11,13 +11,17 @@ export default function userReducer(state = initialState, action) {
 
       return { ...state, err: action.payload };
 
+    case 'UPDATE_USER_PENDING':
+      let updates = _.values(action.meta)
+       return { ...state, ...updates[0]};
+
     case 'GET_USER_INFO_FULFILLED':
     case 'VERIFY_PIN_FULFILLED':
     case 'LOGIN_WITH_FACEBOOK_FULFILLED':
-      const {user_info} = action.payload.response || action.payload
-      return {...state, ...user_info}
+      const {user_info, existed } = action.payload.response || action.payload
+      return {...state, ...user_info, isNewUser: !existed }
 
-    case 'LOG_OUT':
+    case 'LOG_OUT_FULFILLED':
 
       return initialState;
 
@@ -29,6 +33,7 @@ export default function userReducer(state = initialState, action) {
 
 
 const initialState = {
+  isNewUser:true
     // id: null,
     // active: null,
     // status: null,

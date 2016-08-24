@@ -1,15 +1,17 @@
 import api from '../utils/api'
 import { createAction, handleAction, handleActions } from 'redux-actions';
 import * as fbActions from './facebook'
+import * as appActions from './appActions'
 import apiActions from './ApiActionCreators'
 
 const ActionMan = {
   ...apiActions,
-  ...fbActions
+  ...fbActions,
+  ...appActions
 }
 
 
-ActionMan.logOut = createAction('LOG_OUT');
+ActionMan.ActionModal = match => dispatch => dispatch({ type: 'SHOW_ACTION_MODAL', payload: { match } });
 
 ActionMan.showInModal = route => dispatch => dispatch({ type: 'SHOW_IN_MODAL', payload: { route } });
 
@@ -32,14 +34,7 @@ ActionMan.checkLocation = l => dispatch => dispatch({ type: 'CHECK_LOCATION',
   }
 });
 
-ActionMan.saveCredentials = c => dispatch => dispatch({ type: 'SAVE_CREDENTIALS',
-  payload: {
-    promise: new Promise((resolve, reject) => {
-      Keychain.setInternetCredentials(KEYCHAIN_NAMESPACE, c.user_id+'' , c.api_key)
-        .then(x => resolve(x)).catch(x => reject(x))
-    })
-  }
-});
+
 
 
 

@@ -2,13 +2,22 @@ import { View, Dimensions } from 'react-native';
 import React, { Component } from 'react';
 
 import CouplingNavigator from './CouplingNavigator';
-import UserActions from '../../../flux/actions/UserActions';
+import colors from '../../../utils/colors';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
 
 export default class Coupling extends Component{
+
+  static route = {
+    navigationBar: {
+      backgroundColor: colors.transparent,
+      title(params){
+        return ``
+      }
+    }
+  };
 
   constructor(props){
     super()
@@ -20,7 +29,7 @@ export default class Coupling extends Component{
     this.props.close()
   }
   componentDidMount(){
-    UserActions.getCouplePin();
+    // UserActions.getCouplePin();
 
   }
 

@@ -18,6 +18,7 @@ import React from 'react';
 import ActionMan from '../../../actions';
 import colors from '../../../utils/colors';
 import styles from '../potentials/styles';
+import {MagicNumbers} from '../../../utils/DeviceConfig';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width

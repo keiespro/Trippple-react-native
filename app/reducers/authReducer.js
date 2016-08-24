@@ -36,7 +36,7 @@ export default function authReducer(state = initialState, action) {
 
 
     case 'CLEAR_CREDENTIALS':
-    case 'LOG_OUT':
+    case 'LOG_OUT_FULFILLED':
 
       return initialState;
 

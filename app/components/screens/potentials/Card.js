@@ -1,9 +1,3 @@
-
-/* @flow */
-// ISSUES:
-// setting centerContent=true on a scrollview changes the entire layout system
-// cards are scaled and can safely be left at dw/dh ?
-
 import React from "react";
 
 import {StyleSheet, Text, View, LayoutAnimation, Image, TouchableOpacity, TouchableHighlight, Animated, ScrollView, Dimensions} from "react-native";
@@ -12,7 +6,7 @@ import SliderTabBar from './SliderTabBar'
 import animations from './LayoutAnimations'
 import styles from './styles'
 import ReportModal from '../../modals/ReportModal';
-;
+
 import ScrollableTabView from '../../scrollable-tab-view'
 
 import colors from '../../../utils/colors';
@@ -424,25 +418,30 @@ class Card extends React.Component{
 
                 {isTopCard ? // DENY ICON
                   <Animated.View key={'denyicon'} style={[styles.animatedIcon,{
-
-                transform: [
-                  {
-                    scale: this.props.pan ? this.props.pan.x.interpolate({
-                      inputRange: [-DeviceWidth,-DeviceWidth/3,-50,0],
-                      outputRange: [2.4,2.4,0,0]
-                    }) : 0
-                  },{
-                    translateY: this.props.pan ? this.props.pan.y.interpolate({
-                      inputRange: [0, DeviceWidth/3],
-                      outputRange: [0,10]
-                    }) : 0
-                  },{
-                    translateX: this.props.pan ? this.props.pan.x.interpolate({
-                      inputRange: [-DeviceWidth,-DeviceWidth/3, 50],
-                      outputRange: [0,(20),100]
-                    }) : 0
-                  }
-                ],
+                  opacity: this.props.pan ? this.props.pan.x.interpolate({
+                    inputRange: [-DeviceWidth,-100,0],
+                    outputRange: [1,1,0],
+                  }) : 0,
+                  transform: [
+                    {
+                      scale: this.props.pan ? this.props.pan.x.interpolate({
+                        inputRange: [-DeviceWidth,0,1],
+                        outputRange: [8,0.1,0.1],
+                        extrapolate: 'clamp',
+                      }) : 0
+                    },
+                    {
+                      translateY: this.props.pan ? this.props.pan.y.interpolate({
+                        inputRange: [0, DeviceWidth/3],
+                        outputRange: [0,10]
+                      }) : 0
+                    },{
+                      translateX: this.props.pan ? this.props.pan.x.interpolate({
+                        inputRange: [-DeviceWidth,-DeviceWidth/3, 50],
+                        outputRange: [0,(20),100]
+                      }) : 0
+                    }
+                  ],
 
 
               marginLeft: 0
@@ -453,8 +452,8 @@ class Card extends React.Component{
                   source={{uri: 'assets/iconDeny@3x.png'}}
                   style={{
                     backgroundColor:'transparent',
-                    width:60,
-                    height:60,
+                    width:100,
+                    height:100,
                     paddingLeft:0
                   }}
                 />
@@ -462,30 +461,40 @@ class Card extends React.Component{
 
             {isTopCard  ? // APPROVE ICON
               <Animated.View key={'approveicon'} style={[styles.animatedIcon,{
-                transform: [
-                  {
-                    scale: this.props.pan ? this.props.pan.x.interpolate({
-                      inputRange:   [0,0,50,DeviceWidth/2,DeviceWidth],
-                      outputRange:  [0,0,0,1.7,1.7]
-                    }) : 0
-                  },{
-                    translateY: this.props.pan ? this.props.pan.y.interpolate({
-                      inputRange: [0, DeviceWidth/3],
-                    outputRange: [0,10]
-                    }) : 0
-                  },{
+                  opacity: this.props.pan ? this.props.pan.x.interpolate({
+                    inputRange: [0,100,DeviceWidth],
+                    outputRange: [0,1,1],
+                  }) : 0,
+                  transform: [
+
+                    {
+                      scale: this.props.pan ? this.props.pan.x.interpolate({
+                        inputRange: [0,1,DeviceWidth],
+                        outputRange: [0.1,0.1,8],
+                        extrapolate: 'clamp',
+                      }) : 0
+                    },
+                    {
+                      translateY: this.props.pan ? this.props.pan.y.interpolate({
+                        inputRange: [0, DeviceWidth/3],
+                        outputRange: [0,10]
+                      }) : 0
+                    },{
                     translateX: this.props.pan ? this.props.pan.x.interpolate({
                       inputRange: [0, 50, DeviceWidth/3],
-                    outputRange: [0,0,0]
+                      outputRange: [0,0,0]
                     }) : 0
                   }
                 ],
+
               }]}
               >
                 <Image
                   source={{uri: 'assets/iconApprove@3x.png'}}
-                  style={{backgroundColor:'black',width:100,height:100,
-                    paddingRight:50,
+                  style={{width:100,height:100,
+                    paddingRight:0,
+                    backgroundColor:'transparent',
+
                   }}
                 />
               </Animated.View> : null
@@ -660,7 +669,7 @@ flexDirection:'column',alignItems:'center',justifyContent:'center',
                   underlayColor={colors.mediumPurple}
                   pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                   key={`${potential.user.id}-touchableimg`}
-                  style={[styles.imagebg,{ overflow:'hidden',width:DeviceWidth,height:DeviceHeight}]}
+                  style={[styles.imagebg,{ overflow:'hidden',width:DeviceWidth}]}
                   onPress={this.openProfileFromImage.bind(this)}
                 >
                   <Animated.Image
@@ -774,7 +783,7 @@ flexDirection:'column',alignItems:'center',justifyContent:'center',
           </ScrollView>
 
 
-       
+
         </View>
 
       )

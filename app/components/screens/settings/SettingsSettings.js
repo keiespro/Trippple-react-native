@@ -10,15 +10,15 @@ import {
   Settings,
 } from 'react-native';
 import React from "react";
+
 import {
   NavigationStyles,
 } from '@exponent/ex-navigation';
 
-import Analytics from '../../../utils/Analytics';
 import ActionMan from '../../../actions';
-import WebViewScreen from '../../WebViewScreen';
+import Analytics from '../../../utils/Analytics';
 import colors from '../../../utils/colors';
-
+import PrivacyPermissionsModal from '../../modals/PrivacyPermissions'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../../../utils/DeviceConfig'
@@ -32,9 +32,9 @@ class SettingsSettings extends React.Component{
     static route = {
       styles: NavigationStyles.FloatHorizontal,
       navigationBar: {
-        backgroundColor: colors.shuttleGray,
+        backgroundColor: colors.shuttleGrayAnimate,
         title(params){
-          return `BASIC`
+          return `SETTINGS`
         }
       }
     };
@@ -48,7 +48,7 @@ class SettingsSettings extends React.Component{
   }
   togglePrivacy(value){
     var payload = {privacy: value}
-    this.props.store.dispatch(ActionMan.updateUser(payload))
+    this.props.dispatch(ActionMan.updateUser(payload))
     this.setState(payload)
   }
   componentDidMount() {
@@ -92,17 +92,11 @@ class SettingsSettings extends React.Component{
       type: 'tap',
     })
 
-    this.props.navigator.push({
-      component: WebViewScreen,
-      title: '',
-      name:pageTitle,
-      id:'webview',
-      sceneConfig: NavigatorSceneConfigs.PushFromRight,
-      passProps: {
+    this.props.navigator.push(this.props.navigation.router.getRoute('WebViewScreen',{
+      key: pageTitle,
         source:{uri:url},
         pageTitle
-      }
-    })
+    }))
   }
 
   handleFeedback() {
@@ -118,16 +112,17 @@ class SettingsSettings extends React.Component{
     })
 
     if(this.state.privacy != 'private'){
-      this.props.store.dispatch(ActionMan.showInModal({
+      this.props.dispatch(ActionMan.showInModal({
             component:PrivacyPermissionsModal,
             name: 'PrivacyPermissionsModal',
             id:'privacymodal',
             passProps:{
               initialScreen:'CoupleReady',
-              cancel: ()=>{this.props.store.dispatch(ActionMan.killModal())},
               success: (privacy) => {
-                this.togglePrivacy('private')
+                this.togglePrivacy('private');
+                this.props.dispatch(ActionMan.killModal());
               },
+              cancel: () => {this.props.dispatch(ActionMan.killModal())},
               user: this.props.user,
 
             }
@@ -191,15 +186,16 @@ class SettingsSettings extends React.Component{
     var {privacy} = this.state
 
     return (
-      <View style={styles.inner}>
 
         <ScrollView
-          style={{height:DeviceHeight,marginTop: 0}}
-          contentContainerStyle={{paddingHorizontal: 0}}
+          style={{height:DeviceHeight,marginTop: 0,}}
+          contentContainerStyle={{paddingHorizontal: 0,paddingBottom:60}}
           alwaysBounceVertical={true}
+          automaticallyAdjustContentInsets={true}
+
           showsVerticalScrollIndicator={false}
         >
-          <View style={styles.paddedSpace}>
+          <View style={[styles.paddedSpace,{marginTop:60}]}>
             <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>Privacy</Text>
             </View>
@@ -334,22 +330,8 @@ class SettingsSettings extends React.Component{
 
 
         </ScrollView>
-        {/* <FakeNavBar
-          backgroundStyle={{backgroundColor:colors.shuttleGray}}
-          hideNext={true}
-          navigator={this.props.navigator}
-          customPrev={
-            <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
-              <Text
-                textAlign={'left'}
-                style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
-            </View>
-          }
-          onPrev={(nav,route)=> nav.pop()}
-          title={`SETTINGS`}
-          titleColor={colors.white}
-        /> */}
-      </View>
+
+
 
     )
 

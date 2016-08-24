@@ -24,17 +24,24 @@ var Dots = React.createClass({
         dotColor = this.props.dotColor || colors.outerSpace;
     return (
         <View style={{
+          width:dotWidth*4,
+          height:46,
+          justifyContent:'center',
+          alignItems:'center',
+}}>
+          <View style={{
             flexDirection:'row',
-            flex:1,
             justifyContent:'center',
             alignItems:'center',
-            width:dotWidth*4,
-            height:34}}>
+            right:10,
+
+          }}>
 
             { dots.map((dot,i) =>
-                <View style={{ marginHorizontal:3, width:dotWidth, height:dotWidth, borderRadius:dotWidth/2, backgroundColor:dotColor}} key={'threedotsnumber'+i}/>
+                <View style={{ marginHorizontal:2, width:dotWidth, height:dotWidth, borderRadius:dotWidth/2, backgroundColor:dotColor}} key={'threedotsnumber'+i}/>
               )
             }
+        </View>
         </View>
     )
   }

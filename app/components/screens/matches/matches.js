@@ -7,17 +7,13 @@ import {
   View,
   TouchableHighlight,
   SwipeableListView,
-  Navigator,
   Dimensions,
   Alert,
 } from 'react-native';
 import React, { Component } from "react";
 
-import ActionModal from '../../modals/ActionModal';
+import Action from '../../modals/Action';
 import Analytics from '../../../utils/Analytics';
-import BackButton from '../../buttons/BackButton';
-import Chat from '../chat/chat';
-import FadeInContainer from '../../FadeInContainer';
 import NewMatches from './NewMatches';
 import NoMatches from './NoMatches';
 import ThreeDots from '../../buttons/ThreeDots';
@@ -25,7 +21,6 @@ import UserProfile from '../../UserProfile';
 import colors from '../../../utils/colors';
 
 import _ from 'underscore'
-import {SwipeoutBtn} from '../../controls/Swipeout'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin';
 
@@ -132,12 +127,12 @@ class MatchList extends Component {
   }
 
   _pressRow(rowData,title) {
-    // this.setTimeout(() => {
+    this.setTimeout(() => {
     //   // MatchActions.resetUnreadCount.defer(match_id);
     //   // MatchActions.getMessages.defer(match_id);
     //   // TODO : REPLACE WITH NEW
       this.props.dispatch(ActionMan.getMessages({'match_id':rowData.match_id}))
-    // }, 200)
+    }, 500)
 
       const payload = {title, match_id: rowData.match_id, matchInfo: rowData }
       this.props.navigator.push(this.props.navigator.navigationContext.router.getRoute('Chat',payload));
@@ -189,7 +184,9 @@ class MatchList extends Component {
   // },3000);
   }
   chatActionSheet(row) {
-    this.props.chatActionSheet(row)
+    this.props.dispatch(ActionMan.ActionModal({match:row}))
+
+
   }
   _renderRow(rowData, sectionID, rowID) {
     // console.log(rowData,sectionID, rowID);
@@ -206,8 +203,17 @@ class MatchList extends Component {
     const message_body = rowData.recent_message.message_body.replace(/(\r\n|\n|\r)/gm, " ");
     return (
 
-      <TouchableHighlight onPress={(e) => { this._pressRow(rowData,threadName.toUpperCase()) }} key={rowData.match_id + 'match'}>
-        <View>
+      <TouchableHighlight style={{}} onPress={(e) => { this._pressRow(rowData,threadName.toUpperCase()) }} key={rowData.match_id + 'match'}>
+        <View style={{
+          backgroundColor:colors.outerSpace,
+          shadowColor:colors.darkShadow,
+          shadowRadius:1,
+          shadowOpacity:10,
+          shadowOffset: {
+              width:1,
+              height: 0
+          }
+        }}>
           {__DEBUG__ && <Text style={{ color: '#fff' }}>
             {new Date(rowData.recent_message.created_timestamp * 1000).toLocaleString() + ' | match_id: ' + rowData.match_id}
           </Text>}
@@ -244,16 +250,27 @@ class MatchList extends Component {
   render() {
     var isVisible = this.state.isVisible;
     return (!this.props.matches.length && !this.props.newMatches.length) ?  <NoMatches/> : (
-      <View>
+      <View >
         <SwipeableListView
           dataSource={this.props.dataSource}
-          maxSwipeDistance={100}
+          maxSwipeDistance={150}
           renderQuickActions={(rowData, sectionID, rowID) =>  (
-             <SwipeableQuickActions style={{backgroundColor:'black'}}>
-               <TouchableHighlight
+             <SwipeableQuickActions style={{backgroundColor:colors.dark,alignItems:'stretch',overflow:'hidden' }}>
+             <TouchableHighlight
+              onPress={this.unmatch.bind(this,rowData)}
+               underlayColor={colors.shuttleGray}>
+              <View style={{backgroundColor:colors.mandy,width:75,margin:0,right:-5, flex:1,justifyContent:'center',alignItems:'center',alignSelf:'stretch',flexDirection:'column',}}>
+                <Image
+                  resizeMode={Image.resizeMode.contain}
+                  style={{width:20,height:20,alignItems:'flex-start'}}
+                  source={{uri: 'assets/close@3x.png'}}
+                />
+              </View>
+            </TouchableHighlight>
+            <TouchableHighlight
                 onPress={this.chatActionSheet.bind(this,rowData)}
-                 underlayColor="black">
-                <View style={{backgroundColor:'transparent',width:50, justifyContent:'center',alignItems:'center',height:100}}>
+                 underlayColor={colors.dark}>
+                <View style={{backgroundColor:colors.shuttleGray,width:75,margin:0, flex:1,justifyContent:'center',alignItems:'center',alignSelf:'stretch',flexDirection:'column'}}>
                   <ThreeDots dotColor={colors.white}/>
                 </View>
               </TouchableHighlight>
@@ -266,10 +283,11 @@ class MatchList extends Component {
           onEndReachedThreshold={200}
           ref={component => this._listView = component}
           renderRow={this._renderRow.bind(this)}
-          style={{ height: DeviceHeight, marginTop: 0, overflow: 'hidden', backgroundColor: colors.outerSpace }}
+          style={{ height: DeviceHeight, marginTop: 64, overflow: 'hidden', backgroundColor: colors.outerSpace }}
           scrollEnabled={this.state.scrollEnabled}
           directionalLockEnabled={true}
           removeClippedSubviews={true}
+          contentInset={{top:0,left:0,right:0,bottom:0}}
           vertical={true}
           initialListSize={5}
           scrollsToTop={true}
@@ -319,16 +337,9 @@ class MatchesInside extends Component {
   }
 
   chatActionSheet(match) {
-    if (match) {
-      this.setState({
-        isVisible: true,
-        currentMatch: match
-      })
-    } else {
-      this.setState({
-        isVisible: false
-      })
-    }
+    console.log(match,'chatActionSheet');
+
+
   }
 
   showProfile(match) {
@@ -389,23 +400,6 @@ class MatchesInside extends Component {
            route={{ component: Matches, title: 'Matches', id: 'matcheslist', }}
            title={"matchlist"}
         />
-
-        {this.state.isVisible && this.state.currentMatch ?
-         <View style={[{ position: 'absolute', top: 0, left: 0, width: DeviceWidth, height: DeviceHeight }]}>
-           <FadeInContainer delayAmount={1} duration={200}>
-             <View style={[{ width: DeviceWidth, position: 'absolute', top: 0, left: 0, height: DeviceHeight }]}>
-               <VibrancyView blurType="light" style={[{ width: DeviceWidth, position: 'absolute', top: 0, left: 0, height: DeviceHeight }]} />
-             </View>
-           </FadeInContainer>
-         </View> : <View/>}
-        <ActionModal
-         user={this.props.user}
-         navigator={this.props.navigator}
-         dispatch={this.props.dispatch}
-         toggleModal={this.toggleModal.bind(this)}
-         isVisible={this.state.isVisible}
-         currentMatch={this.state.currentMatch}
-         />
       </View>
     )
   }
@@ -417,7 +411,7 @@ reactMixin.onClass(MatchesInside, TimerMixin)
 class Matches extends Component {
   static route = {
     navigationBar: {
-      backgroundColor: colors.shuttleGray,
+      backgroundColor: colors.shuttleGrayAnimate,
       title(params){
         return `MESSAGES`
       },
@@ -446,14 +440,13 @@ class Matches extends Component {
       // })
       // this.setTimeout(()=>{
       this.setState({
-        isVisible: true,
+
         currentMatch: match
       })
     // },10)
     } else {
-      this.setState({
-        isVisible: false
-      })
+
+
     }
   }
 

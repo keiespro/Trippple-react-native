@@ -11,7 +11,8 @@
     "integration-tests": "node_modules/mocha/bin/mocha  ./test/helpers/driver.js",
     "test": "mocha ./test",
     "appium": "appium -p 4723",
-    "dev": "./dev.sh"
+    "dev": "./dev.sh",
+    "postinstall": "rndebugger-open"
   },
   "dependencies": {
     "@exponent/ex-navigation": "^1.5.8",
@@ -33,6 +34,7 @@
     "bluebird": "^3.4.1",
     "chai-as-promised": "^5.3.0",
     "enzyme": "^2.4.1",
+    "esformatter-use-strict": "^3.0.0",
     "eslint-plugin-react": "^6.1.1",
     "eslint-plugin-react-native": "^2.0.0",
     "eventemitter3": "^1.2.0",
@@ -64,10 +66,13 @@
     "react-native-message-composer": "git+https://github.com/trippple/react-native-message-composer.git",
     "react-native-mixpanel": "0.0.10",
     "react-native-navigation-redux-helpers": "^0.3.0",
+    "react-native-push-notification": "^2.0.2",
     "react-native-swiper": "latest",
     "react-native-touch-id": "^1.2.4",
+    "react-native-workers": "^0.3.1",
     "react-redux": "^4.4.5",
     "react-timer-mixin": "^0.13.3",
+    "recompose": "^0.20.2",
     "redux": "^3.5.2",
     "redux-action-buffer": "^1.0.1",
     "redux-actions": "^0.10.1",
@@ -104,10 +109,27 @@
     "mocha": "^2.4.5",
     "react-addons-test-utils": "^15.0.2",
     "react-dom": "^15.0.2",
+    "react-native-debugger-open": "^0.3.1",
+    "reactotron-react-native": "^1.0.0",
     "redux-devtools": "^3.3.1",
     "remote-redux-devtools": "^0.4.2",
+    "remote-redux-devtools-on-debugger": "^0.6.2",
+    "remotedev-server": "^0.1.8",
     "sinon": "^1.17.3",
     "wd": "^0.4.0",
     "yiewd": "^0.6.0"
+  },
+  "esformatter": {
+    "plugins": [
+      "esformatter-jsx",
+      "esformatter-use-strict"
+    ],
+    "jsx": {
+      "formatJSXExpressions": true,
+      "formatJSX": true,
+      "maxAttrsOnTag": 30,
+      "firstAttributeOnSameLine": false,
+      "alignWithFirstAttribute": true
+    }
   }
 }

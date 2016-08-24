@@ -6,7 +6,6 @@ import moment from 'moment';
 
 import BoxyButton from '../../controls/boxyButton';
 import Contacts from '../contacts';
-import UserActions from '../../../flux/actions/UserActions';
 import colors from '../../../utils/colors';
 import formatPhone from '../../../utils/formatPhone';
 import {MagicNumbers} from '../../../utils/DeviceConfig'
@@ -140,7 +139,7 @@ class SettingsCouple extends React.Component{
   static route = {
     styles: NavigationStyles.FloatHorizontal,
     navigationBar: {
-      backgroundColor: colors.shuttleGray,
+      backgroundColor: colors.shuttleGrayAnimate,
       title(params){
         return `COUPLE`
       }
@@ -159,7 +158,7 @@ class SettingsCouple extends React.Component{
               let routes = this.props.navigator.getCurrentRoutes()
               let thisRoute = routes[routes.length-3]
               this.props.navigator.popToRoute(thisRoute);
-              UserActions.getUserInfo()
+              this.props.dispatch(ActionMan.getUserInfo())
             }
           }
 
@@ -173,7 +172,7 @@ class SettingsCouple extends React.Component{
       'Are you sure you want to leave this couple?',
       [
         {text: 'Yes', onPress: () => {
-          UserActions.decouple()
+          this.props.dispatch(ActionMan.decouple())
           this.props.navigator.pop()
         }},
         {text: 'No', onPress: () => {return false}},
@@ -191,11 +190,10 @@ class SettingsCouple extends React.Component{
     var {partner} = this.props.user;
 
     return (
-      <View style={styles.inner}>
 
         <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{flex:1,marginTop:50}} contentContainerStyle={{   paddingTop: 0}} >
+        style={{flex:1,paddingTop:50}} contentContainerStyle={{   paddingTop: 0}} >
 
         { partner.phone && (partner.user_id || partner.id) &&
           <View>
@@ -376,21 +374,7 @@ class SettingsCouple extends React.Component{
                     */}
 
       </ScrollView>
-      {/* <FakeNavBar
-          blur={false}
-          backgroundStyle={{backgroundColor:colors.shuttleGray}}
-          hideNext={true}
-          navigator={this.props.navigator}
-          customPrev={
-            <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
-              <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
-            </View>
-          }
-          onPrev={(nav,route)=> nav.pop()}
-          title={`${partner.firstname || `YOUR PARTNER` }`}
-          titleColor={colors.white}
-          /> */}
-      </View>
+
 
     )
   }

@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 
 
 import colors from '../../utils/colors';
-import styles from '../screens/potentials/styles';
+import styles from './purpleModalStyles';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width

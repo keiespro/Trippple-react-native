@@ -10,9 +10,15 @@ import SettingsBasic from './components/screens/settings/SettingsBasic'
 import SettingsPreferences from './components/screens/settings/SettingsPreferences'
 import SettingsSettings from './components/screens/settings/SettingsSettings'
 import SettingsCouple from './components/screens/settings/SettingsCouple'
+import SettingsDebug from './components/screens/settings/SettingsDebug'
 import Chat from './components/screens/chat/chat'
 import Matches from './components/screens/matches/matches'
-
+import WebViewScreen from './components/screens/WebViewScreen'
+import FieldModal from './components/modals/FieldModal'
+import FBPhotoAlbums from './components/FBPhotoAlbums'
+import FBAlbumView from './components/FBAlbumView'
+import GenericScreen from './components/screens/Generic'
+import Coupling from './components/screens/coupling'
 
 import {
   createRouter,
@@ -22,6 +28,7 @@ import {
 
 
 const Router = createRouter(() => ({
+  SettingsDebug: () => __DEV__ ? SettingsDebug : false,
   Potentials: () => Potentials,
   Settings: () => Settings,
   SettingsBasic: () => SettingsBasic,
@@ -31,7 +38,14 @@ const Router = createRouter(() => ({
   Matches: () => Matches,
   Chat: () => Chat,
   UserProfile: () => UserProfile,
-  FacebookImageSource: () => FacebookImageSource
+  FacebookImageSource: () => FacebookImageSource,
+  WebViewScreen: () => WebViewScreen,
+  FieldModal: () => FieldModal,
+  FBPhotoAlbums: () => FBPhotoAlbums,
+  FBAlbumView: () => FBAlbumView,
+  Generic: ()=> GenericScreen,
+  Coupling: () => Coupling
+
 }))
 
 
@@ -41,24 +55,16 @@ export default class AppNav extends React.Component {
       <NavigationProvider style={{zIndex:0}} router={Router}>
         <StackNavigation
             defaultRouteConfig={{
-              styles:{
-                zIndex:0,
-                backgroundColor:colors.outerSpace,
-
-              },
               navigationBar: {
                 visible: true,
                 borderBottomWidth: 0,
-                style:{
-                  borderBottomWidth: 0,
-                },
+                translucent:true,
                 tintColor:'#fff',
-                backgroundColor:colors.outerSpace,
+                backgroundColor:colors.outerSpaceAnimate,
                 titleStyle:{
                   color:'#fff',
                   fontFamily:'Montserrat',
                   borderBottomWidth: 0,
-                  elevation: 0
                 }
 
               },

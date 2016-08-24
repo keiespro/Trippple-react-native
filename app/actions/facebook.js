@@ -39,7 +39,10 @@ const parameters = { fields: { string: FACEBOOK_PROFILE_FIELDS.join(',') } }
 /* loginWithFacebook | LOGIN_WITH_FACEBOOK */
 export const loginWithFacebook = () => async dispatch => {
   try{
+    const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
     const fbUser = await AccessToken.getCurrentAccessToken()
+    dispatch({ type: 'FACEBOOK_AUTH', payload: {...fb,...fbUser} })
+
     dispatch({
       type: 'LOGIN_WITH_FACEBOOK',
       payload: api.fbLogin(fbUser)
@@ -48,7 +51,8 @@ export const loginWithFacebook = () => async dispatch => {
     __DEV__ && console.log('fb login failed',err)
     try{
       const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
-      dispatch({ type: 'FACEBOOK_AUTH', payload: fb })
+      const fbUser = await AccessToken.getCurrentAccessToken()
+      dispatch({ type: 'FACEBOOK_AUTH', payload: {...fb,...fbUser} })
       dispatch({
         type: 'LOGIN_WITH_FACEBOOK',
         payload: api.fbLogin(fbUser)
@@ -76,8 +80,9 @@ export const getFacebookInfo = () => async dispatch => {
 export const facebookAuth = () => async dispatch => {
   try{
     const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
-    dispatch({ type: 'FACEBOOK_AUTH', payload: fb })
-    dispatch(getFacebookInfo())
+    const fbUser = await AccessToken.getCurrentAccessToken()
+
+    dispatch({ type: 'FACEBOOK_AUTH', payload: {...fb,...fbUser} })
   }catch(err){
     __DEV__ && console.log('fb login failed',err)
   }

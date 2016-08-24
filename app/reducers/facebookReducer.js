@@ -2,10 +2,18 @@ export default function facebookReducer(state = initialState, action) {
 
   switch (action.type) {
 
-    case 'GET_FACEBOOK_INFO':
+    case 'FACEBOOK_AUTH':
 
-      const fbUser = action.payload || {}
-      return {...state, ...fbUser};
+    return {...state, ...action.payload};
+
+
+  case 'GET_FACEBOOK_INFO':
+
+      return {...state, ...action.payload};
+
+    case 'LOG_OUT':
+
+      return initialState;
 
     default:
 

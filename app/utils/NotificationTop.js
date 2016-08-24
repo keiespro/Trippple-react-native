@@ -10,8 +10,6 @@ const DeviceWidth = Dimensions.get('window').width;
 import colors from '../utils/colors'
 import {BlurView} from 'react-native-blur';
 import Overlay from 'react-native-overlay'
-import NotificationActions from '../flux/actions/NotificationActions'
-import AppActions from '../flux/actions/AppActions'
 
 class Notification extends React.Component{
 
@@ -44,7 +42,7 @@ class Notification extends React.Component{
       toValue: -220,
       duration: 100,
     }).start(()=>{
-      AppActions.updateRoute({notification:true,route:'chat',match_id:this.props.payload.match_id,})
+      // AppActions.updateRoute({notification:true,route:'chat',match_id:this.props.payload.match_id,})
       // this.setState({tapped:true})
 
     })

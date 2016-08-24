@@ -5,6 +5,7 @@ import React from "react";
 
 import DefaultTabBar from './controls/CustomTabBar'
 const deviceWidth = Dimensions.get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
 import {MagicNumbers} from '../utils/DeviceConfig';
 import Analytics from '../utils/Analytics'
 
@@ -58,8 +59,9 @@ const ScrollableTabView = React.createClass({
     var w = this.state.width / this.props.children.length
     var sceneContainerStyle = {
       width: this.state.width * this.props.children.length,
-
       left:0,
+      bottom:0,
+      marginBottom: 30,
       // paddingHorizontal:MagicNumbers.screenPadding/2,
       flexDirection: 'row',
       overflow:'hidden',

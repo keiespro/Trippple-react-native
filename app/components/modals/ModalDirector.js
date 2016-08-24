@@ -7,7 +7,8 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
 import url from 'url'
-
+import Action from './Action'
+import ActionMan from '../../actions'
 import { connect } from 'react-redux';
 
 
@@ -16,15 +17,15 @@ class ModalDirector extends Component{
     super()
     this.state = {
       modalVisible: false,
-      activeModal: props.activeModal
+      activeModal: props.ui.activeModal
     }
   }
 
   componentWillReceiveProps(nProps){
 
     this.setState({
-      activeModal: nProps.activeModal,
-      modalVisible: nProps.activeModal ? true : false
+      activeModal: nProps.ui.activeModal || {component:Action, passProps: nProps.ui.actionModal},
+      modalVisible: nProps.ui.activeModal || nProps.ui.actionModal ? true : false
     })
 
   }
@@ -43,26 +44,30 @@ class ModalDirector extends Component{
   render(){
     if(!this.props.user.id || !this.state.activeModal){ return null }
 
-    const activeModal = this.state.activeModal;
-    const ActiveModal = activeModal ? activeModal.component : null;
-
-
+    const {  activeModal} = this.state;
+    const ActiveModal =   activeModal.component || null;
+    const ActiveModalProps =  activeModal.passProps;
+    console.log(activeModal);
     return (
       <View style={{backgroundColor:'transparent'}}>
 
-        {activeModal ?
+        {ActiveModal ?
           <OverlayModalInner
             user={this.props.user}
             setModalVisible={this.setModalVisible.bind(this)}
             modalVisible={this.state.modalVisible}
+            navigator={this.props.navigator}
+            dispatch={this.props.dispatch}
           >
             <ActiveModal
               user={this.props.user}
               close={this.setModalVisible.bind(this,false)}
-              {...activeModal.passProps}
+              {...ActiveModalProps}
+              navigator={this.props.navigator}
+              dispatch={this.props.dispatch}
             />
 
-          </OverlayModalInner> : null
+          </OverlayModalInner> : <View/>
         }
       </View>
 
@@ -76,7 +81,8 @@ ModalDirector.displayName = "ModalDirector"
 const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
-    ...state.ui,
+    ui: state.ui,
+    user: state.user
   }
 }
 
@@ -112,9 +118,11 @@ class OverlayModalInner extends Component{
         transparent={true}
         visible={this.props.modalVisible}
         onRequestClose={this.setModalVisible.bind(this,false)}
+        navigator={this.props.navigator}
+        dispatch={this.props.dispatch}
       >
         {/*<Image source={{uri:this.props.imageUrl || ''}} resizeMode="cover" style={{height:DeviceHeight,width:DeviceWidth}}>*/}
-          <VibrancyView blurType="dark" style={{height:DeviceHeight,width:DeviceWidth,position:'absolute'}} />
+          {/* <VibrancyView blurType="dark" style={{height:DeviceHeight,width:DeviceWidth,position:'absolute'}} /> */}
 
           {this.props.children}
         {/*</Image>*/}

@@ -1,3 +1,7 @@
+
+import ActionMan from  '../actions/';
+import { connect } from 'react-redux';
+
 import config from '../../config'
 const {WEBSOCKET_URL} = config;
 import React,{Component} from "react";
@@ -5,20 +9,13 @@ import React,{Component} from "react";
 import {View, Alert, AsyncStorage, AppState, PushNotificationIOS, VibrationIOS} from "react-native";
 
 const io = require('./socket.io')
-
-// import Firebase from 'firebase'
-// import NotificationActions from '../flux/actions/NotificationActions'
-// import MatchActions from '../flux/actions/MatchActions'
-// import UserActions from '../flux/actions/UserActions'
 import Notification from './NotificationTop'
 import TimerMixin from 'react-timer-mixin'
 import colors from './colors'
 import reactMixin from 'react-mixin'
 import Analytics from './Analytics'
 
-// const userListRef = new Firebase("https://blistering-torch-607.firebaseio.com");
-// const myUserRef = userListRef.push();
-// var connectedRef;
+import PushNotification from 'react-native-push-notification'
 
 class NotificationCommander extends Component{
   constructor(props){
@@ -37,108 +34,64 @@ class NotificationCommander extends Component{
     })
 
   }
-  componentWillMount(){
-    AppState.addEventListener('change', this._handleAppStateChange.bind(this) );
-
-  }
   componentDidMount(){
 
-    if(this.props.user_id){
-      // UserActions.getNotificationCount()
+    PushNotification.configure({
+      onRegister(token) {
+        console.log( 'TOKEN:', token );
+      },
+      onNotification(notification) {
+        // {
+        //   foreground: false, // BOOLEAN: If the notification was received in foreground or not
+        //   userInteraction: false, // BOOLEAN: If the notification was opened by the user from the notification area or not
+        //   message: 'My Notification Message', // STRING: The notification message
+        //   data: {}, // OBJECT: The push data
+        // }
+        Analytics.event('Handle push notification',{action:JSON.stringify(pushNotification)})
 
-    }
+        console.log( 'NOTIFICATION:', notification );
+        this.handleAction(notification.data)
+      },
+      // senderID: "YOUR GCM SENDER ID", // ANDROID ONLY: (optional) GCM Sender ID.
+      popInitialNotification: true,
+      requestPermissions: false,
+    });
 
-    PushNotificationIOS && PushNotificationIOS.addEventListener('notification', this._onPushNotification.bind(this) )
 
     if(this.props.api_key && this.props.user_id){
       this.connectSocket()
     }
-    const newNotification = PushNotificationIOS ? PushNotificationIOS.getInitialNotification() : null
-    if(newNotification){
-      this.handlePushData(newNotification)
-    }
   }
 
-  componentWillUnmount(){
-    PushNotificationIOS && PushNotificationIOS.removeEventListener('notification', this._onPushNotification.bind(this) )
-
-    AppState.removeEventListener('change', this._handleAppStateChange.bind(this) );
-  }
-
-  componentDidUpdate(prevProps,prevState){
-    if(!prevProps.api_key && this.props.api_key && !prevState.socketConnected && !this.state.socketConnected){
-
-    }
-
-    if(this.state.processing && !prevState.processing){
-      this.setTimeout(()=>{
-        this.setState({processing:false})
-      },500)
-    }
-
-  }
-
-  _onPushNotification(pushNotification){
-    this.handlePushData(pushNotification)
-  }
-
-  handlePushData(pushNotification){
-    if(!pushNotification || !pushNotification.getData){ return false }
-    Analytics.event('Handle push notification',{action:JSON.stringify(pushNotification)})
-
-    const data = pushNotification.getData();
-
-    this.handleAction(data)
-    // Alert.alert('APN Push Notification',JSON.stringify(pushNotification.getData()));
-  }
-  _handleAppStateChange(appState){
-    if(appState == 'active'){
-       this.socket.connect()
-      const newNotification = PushNotificationIOS ? PushNotificationIOS.getInitialNotification() : null;
-      if(newNotification){
-        this.handlePushData(newNotification)
-      }
-    }else{
-      this.socket.disconnect()
-    }
-    this.setState({ appState });
-
-  }
   connectSocket(){
-    __DEV__ && console.log('WEBSOCKET TRY /')
+    __DEV__ && console.log('WEBSOCKET CONNECT ->');
+
     this.socket.on('connect_error', (err) => {
-      __DEV__ && console.log('SOCKETIO CONNECT ERR');
-      __DEV__ && console.log(err);
+      __DEV__ && console.log('SOCKETIO CONNECT ERR',err);
     });
+
     this.socket.on('error', (err) => {
-      __DEV__ && console.log('SOCKETIO ERR');
-      __DEV__ && console.log(err);
+      __DEV__ && console.log('SOCKETIO ERR',err);
     });
-
-
-
-
 
     this.socket.on('user.connect', (data) => {
-    __DEV__ && console.log('WEBSOCKET CONNECTED /')
+      __DEV__ && console.log('WEBSOCKET CONNECTED !')
 
       this.online_id = data.online_id;
 
       const myApikey = this.props.api_key,
-        myID = this.props.user_id;
+      myID = this.props.user_id;
 
-        this.socket.emit('user.connect', {
-          online_id: data.online_id,
-          api_uid: (`${myApikey}:${myID}`)
-        });
-        __DEV__ && console.log('WEBSOCKET CONNECTED')
+      this.socket.emit('user.connect', {
+        online_id: data.online_id,
+        api_uid: (`${myApikey}:${myID}`)
+      });
+      __DEV__ && console.log('WEBSOCKET CONNECTED')
 
-        this.setState({socketConnected:true})
+      this.setState({socketConnected:true})
     })
 
-
     this.socket.on('system', (payload) => {
-
 
       Analytics.event('Webocket notification',{action: payload.data.action, label: 'system'})
 
@@ -148,156 +101,99 @@ class NotificationCommander extends Component{
       }else{
         tempData = JSON.parse(payload.data)
       }
-      // console.log(tempData);
 
       let data = tempData;
       this.setState({processing:true});
 
       this.handleAction(data)
 
-//       payload: {
-//         data: {
-//           action: 'display',
-//           title: 'HI',
-//           body:'body',
-//           data: {
-//             action: 'display',
-//             title: 'HI',
-//             body:'body'
-//           }
-
-//         }
-//       }
     })
 
     this.socket.on('chat', (payload) => {
-
-
+      console.log('chat weboscket',payload);
       Analytics.event('Webocket notification',{action: 'New Message', label: 'chat'})
 
       this.setState({processing:true});
-
-      // NotificationActions.receiveNewMessageNotification(payload)
+      this.handleAction(payload.data)
 
     })
 
   }
   handleAction(data){
 
-        if(!data || !data.action){
-          return
-        }
+      if(!data || !data.action){ return }
 
-        if(data.action === 'retrieve' && data.type == 'potentials') {
+      if(data.action === 'retrieve' && data.type == 'potentials') {
 
-          // MatchActions.getPotentials()
+        this.props.getPotentials()
 
-        }else if(data.action === 'retrieve' && data.match_id) {
+      }else if(data.action === 'retrieve' && data.match_id) {
 
-          // NotificationActions.receiveNewMatchNotification(data,true)
-          VibrationIOS.vibrate()
-          // MatchActions.getMatches()
-          AppActions.updateRoute({route:'chat',match_id: data.match_id,})
-          // NotificationActions.updateBadgeNumber.defer(-1)
-
-        }else if(data.action === 'chat' && data.match_id){
-
-          // NotificationActions.receiveNewMessageNotification(data,true)
-          // TODO: update to new
-          VibrationIOS.vibrate()
-          // MatchActions.getMessages(data.match_id)
-          // TODO: update to new
-          // AppActions.updateRoute({route:'chat',match_id: data.match_id,})
-          // TODO: update to new
-          // NotificationActions.updateBadgeNumber.defer(-1)
-          // TODO: update to new
-
-        }else if(data.action === 'notify') {
-          VibrationIOS.vibrate()
-          Alert.alert(data.title, JSON.stringify(data.body));
-
-        }else if(data.action === 'match_removed'){
-
-          // NotificationActions.receiveMatchRemovedNotification(data)
-          // TODO: update to new
-
-        }else if(data.action == 'coupleready') {
-          VibrationIOS.vibrate()
-
-          // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
-          // NotificationActions.receiveCoupleCreatedNotification(data);
-          // TODO: update to new
+        this.props.receiveNewMatchNotification(data,true)
+        VibrationIOS.vibrate()
+        this.props.getMatches()
+        // AppActions.updateRoute({route:'chat',match_id: data.match_id,})
 
 
-        }else if(data.action == 'decouple') {
-          VibrationIOS.vibrate()
+        this.props.updateBadgeNumber(-1)
 
-          // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
-          // NotificationActions.receiveDecoupleNotification(data);
-          // TODO: update to new
+      }else if(data.action === 'chat' && data.match_id){
+
+        this.props.receiveNewMessageNotification(data,true)
+
+        VibrationIOS.vibrate()
+        this.props.getMessages(data.match_id)
+        // TODO: update to new
+        // AppActions.updateRoute({route:'chat',match_id: data.match_id,})
+
+        this.props.updateBadgeNumber(-1)
+      }else if(data.action === 'notify') {
+        VibrationIOS.vibrate()
+        Alert.alert(data.title, JSON.stringify(data.body));
+
+      }else if(data.action === 'match_removed'){
+
+        this.props.receiveMatchRemovedNotification(data)
+        // TODO: update to new
+
+      }else if(data.action == 'coupleready') {
+        VibrationIOS.vibrate()
+
+        // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
+        this.props.receiveCoupleCreatedNotification(data);
+        // TODO: update to new
 
 
-        }else if(data.action == 'statuschange' || data.action == 'imageflagged') {
+      }else if(data.action == 'decouple') {
+        VibrationIOS.vibrate()
 
-          // UserActions.getUserInfo.defer()
-          // TODO: update to new
+        // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
+        this.props.receiveDecoupleNotification(data);
+        // TODO: update to new
 
-        }else if(data.action == 'logout'){
 
-          // UserActions.logOut()
-          // TODO: update to new
+      }else if(data.action == 'statuschange' || data.action == 'imageflagged') {
 
-        }else if(data.action == 'report'){
+        this.props.getUserInfo()
 
-          // AppActions.sendTelemetry()
+      }else if(data.action == 'logout'){
 
-        }else if(data.action === 'display') {
+        this.props.logOut()
 
-          // NotificationActions.receiveGenericNotification(data)
-          // TODO: update to new
+      }else if(data.action == 'report'){
 
-        }
-      //
-      // if(data.action && data.action === 'retrieve' && data.match_id) {
-      //
-      //   NotificationActions.receiveNewMatchNotification(data)
-      //
-      // }else if(data.action === 'match_removed'){
-      //
-      //   NotificationActions.receiveMatchRemovedNotification(data)
-      //
-      // }else if(data.action && data.action == 'statuschange' || data.action == 'imageflagged') {
-      //
-      //   UserActions.getUserInfo()
-      //
-      // }else if(data.action && data.action == 'coupleready') {
-      //   VibrationIOS.vibrate()
-      //
-      //   // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
-      //   NotificationActions.receiveCoupleCreatedNotification(data);
-      //
-      //
-      // }else if(data.action && data.action == 'decouple') {
-      //   VibrationIOS.vibrate()
-      //
-      //   // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
-      //   NotificationActions.receiveDecoupleNotification(data);
-      //
-      //
-      // }else if(data.action && data.action === 'logout') {
-      //
-      //   UserActions.logOut()
-      //
-      // }else if(data.action === 'checkupdate'){
-      //
-      //
-      //
-      // }else if(data.action && data.action === 'display') {
-      //
-      //   NotificationActions.receiveGenericNotification(data)
-      //
-      // }
-  }
+        // AppActions.sendTelemetry()
+
+      }else if(data.action === 'display') {
+
+        this.props.receiveGenericNotification(data)
+        // TODO: update to new
+
+      }
+
+    }
+
+
   disconnectSocket(){
     const {apikey,user_id} = this.props
 
@@ -310,8 +206,6 @@ class NotificationCommander extends Component{
     this.socket.removeAllListeners()
     this.setState({socketConnected:false})
   }
-
-
 
   render(){
     const devStyles =  {
@@ -336,7 +230,34 @@ class NotificationCommander extends Component{
 
 }
 
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps,
+    user: state.user,
+    auth: state.auth,
+    notifications: state.notifications
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getPotentials:                                          (p) => dispatch(ActionMan.getPotentials()),
+    receiveNewMatchNotification:                            (p) => dispatch(ActionMan.receiveNewMatchNotification(p)),
+    getMatches:                                             (p) => dispatch(ActionMan.getMatches()),
+    receiveNewMessageNotification:                          (p) => dispatch(ActionMan.receiveNewMessageNotification(p)),
+    getMessages:                                            (p) => dispatch(ActionMan.getMessages()),
+    updateRoute:                                            (p) => dispatch(ActionMan.updateRoute(p)),
+    updateBadgeNumber:                                      (p) => dispatch(ActionMan.updateBadgeNumber(p)),
+    receiveMatchRemovedNotification:                        (p) => dispatch(ActionMan.receiveMatchRemovedNotification(p)),
+    receiveCoupleCreatedNotification:                       (p) => dispatch(ActionMan.receiveCoupleCreatedNotification(p)),
+    receiveDecoupleNotification:                            (p) => dispatch(ActionMan.receiveDecoupleNotification(p)),
+    getUserInfo:                                            (p) => dispatch(ActionMan.getUserInfo()),
+    logOut:                                                 (p) => dispatch(ActionMan.logOut()),
+    sendTelemetry:                                          (p) => dispatch(ActionMan.sendTelemetry()),
+    receiveGenericNotification:                             (p) => dispatch(ActionMan.receiveGenericNotification(p)),
+  };
+}
 reactMixin(NotificationCommander.prototype,TimerMixin)
 
-
-export default NotificationCommander
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationCommander);

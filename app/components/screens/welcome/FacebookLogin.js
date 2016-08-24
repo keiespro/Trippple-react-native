@@ -3,6 +3,7 @@ import {
   Text,
   Dimensions,
   View,
+  Navigator,
   TouchableOpacity,
 } from 'react-native';
 import React, {Component} from "react";
@@ -16,7 +17,7 @@ import FBPhotoAlbums from '../../FBPhotoAlbums'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-
+import WhyFacebook from './WhyFacebook'
 import FBSDK from 'react-native-fbsdk'
 const { LoginManager, AccessToken, GraphRequest, GraphRequestManager } = FBSDK
 
@@ -46,19 +47,33 @@ class Facebook extends Component{
 
   login(){
     this.props.dispatch(ActionMan.loginWithFacebook())
-    
+
   }
 
 
   triggerPhoneLogin(){
     this.props.navigator.push({
       component:Login,
+      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
       title: 'Log in ',
       id:'login',
       passProps: {
+        navigator:this.props.navigator
       }
     });
 
+  }
+  whyFacebookModal(){
+
+    this.props.navigator.push({
+      component: WhyFacebook,
+      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+      title: 'Why Facebook?',
+      id:'whyfb',
+      passProps: {
+        navigator:this.props.navigator
+      }
+    });
   }
 
   render() {
@@ -73,7 +88,7 @@ class Facebook extends Component{
             <FacebookButton shouldAuthenticate={true} onPress={this.login.bind(this)}/>
 
             <View style={styles.middleTextWrap}>
-              <Text style={[styles.middleText,{fontSize:16,marginTop:20,textAlign:'center',width:MagicNumbers.screenWidth}]}>We will never post without your permission</Text>
+              <Text style={[styles.middleText,{fontSize:17,marginTop:20,textAlign:'center',width:MagicNumbers.screenWidth}]}>We will never post without your permission.</Text>
             </View>
           </View>
           <View style={[styles.middleTextWrap,styles.bottomwrap]}>
@@ -81,8 +96,10 @@ class Facebook extends Component{
               onPress={this.skipFacebook.bind(this)}
               ><Text style={styles.middleText}>{this.state.fbUser ? 'Continue' : 'No thanks'}</Text>
             </TouchableOpacity>*/}
-            {this.props.tab == 'login' && <TouchableOpacity onPress={this.triggerPhoneLogin.bind(this)}>
-              <Text>Login</Text>
+            {this.props.tab == 'login' ? <TouchableOpacity onPress={this.triggerPhoneLogin.bind(this)}>
+              <Text style={{color:colors.rollingStone,fontSize:16,textDecorationLine:'underline'}}>Or use your phone number</Text>
+            </TouchableOpacity> : <TouchableOpacity onPress={this.whyFacebookModal.bind(this)}>
+              <Text style={{color:colors.rollingStone,fontSize:16,textDecorationLine:'underline'}}>Why Facebook?</Text>
             </TouchableOpacity>}
           </View>
         </View>

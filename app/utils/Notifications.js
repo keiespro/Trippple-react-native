@@ -1,8 +1,3 @@
-/*
-* @flow
-*/
-
-
 import React, {Component} from "react";
 import {View, Navigator} from "react-native";
 
@@ -15,15 +10,14 @@ class Notifications extends Component{
   constructor(props){
     super()
   }
-  componentDidMount(){
-  }
+
   render(){
     return (
-        <View style={{position:'absolute',top:0}}>
-          <NotificationDisplayer AppState={this.props.AppState}   user={this.props.user} />
-          <NotificationCommander user={this.props.user} />
-        </View>
+      <View style={{position:'absolute',top:0}}>
+        <NotificationDisplayer  />
+        <NotificationCommander />
+      </View>
     )
-   }
+  }
 }
 export default Notifications

@@ -1,5 +1,4 @@
-/* @flow */
-
+'use strict';
 
 import React from "react";
 import dismissKeyboard from 'dismissKeyboard'
@@ -8,10 +7,12 @@ import AgePrefs from '../../controls/AgePrefs';
 import FieldModal from '../../modals/FieldModal';
 import PartnerMissingModal from '../../modals/PartnerMissingModal';
 import PermissionSwitches from '../../controls/PermissionSwitches';
-import UserActions from '../../../flux/actions/UserActions';
 import colors from '../../../utils/colors';
 import styles from './settingsStyles';
 import {MagicNumbers} from '../../../utils/DeviceConfig'
+import ActionMan from '../../../actions'
+import Selectable from '../../controls/Selectable'
+
 import {
   NavigationStyles,
 } from '@exponent/ex-navigation';
@@ -46,9 +47,9 @@ class  SettingsPreferences extends React.Component{
     static route = {
       styles: NavigationStyles.FloatHorizontal,
       navigationBar: {
-        backgroundColor: colors.shuttleGray,
+        backgroundColor: colors.shuttleGrayAnimate,
         title(params){
-          return `BASIC`
+          return `PREFERENCES`
         }
       }
     };
@@ -67,16 +68,15 @@ class  SettingsPreferences extends React.Component{
   toggleField(field){
     var newState = {}
     newState[field] = !this.state[field]
-    UserActions.updateUser(newState)
+    this.props.dispatch(ActionMan.updateUser(newState))
     this.setState(newState)
   }
   toggleScroll(direction){
     this.setState({scroll:direction})
   }
    editBio(){
-    this.props.navigator.push({
+     this.props.navigator.push(this.props.navigation.router.getRoute('FieldModal', {
       component: FieldModal,
-      passProps: {
         inputField: ()=>{
           return(
             <TextInput
@@ -99,11 +99,12 @@ class  SettingsPreferences extends React.Component{
           label: `What are you looking for in a Match?`,
           field_type:'textarea'
         },
+        title:'PREFERENCES',
         fieldName:'bio',
         cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
-        fieldValue: this.props.user.bio || ''
-      }
-    })
+        fieldValue: this.props.user.bio || '',
+        dispatch:this.props.dispatch
+    }))
 
   }
   onPressSelectable(field){
@@ -132,17 +133,17 @@ class  SettingsPreferences extends React.Component{
     const {looking_for_mf,looking_for_mm,looking_for_ff, looking_for_f, looking_for_m} = this.state
     const values = {looking_for_mf,looking_for_mm,looking_for_ff, looking_for_f, looking_for_m}
         return (
-          <View style={styles.inner}>
 
 
           <ScrollView
           showsVerticalScrollIndicator={false}
+           automaticallyAdjustContentInsets={true}
           style={{flex:1,
             // marginTop: MagicNumbers.is5orless ? 30 : 54,
             paddingVertical:MagicNumbers.is5orless ? 0 : 20}}
             scrollEnabled={this.state.scroll == 'on' ? true : false}
             >
-            <View style={styles.paddedSpace}>
+            <View style={[styles.paddedSpace,{marginTop:60}]}>
               <View style={styles.formHeader}>
                 <Text style={styles.formHeaderText}>
                  What are you looking for in a Match?
@@ -210,7 +211,6 @@ class  SettingsPreferences extends React.Component{
 
         </ScrollView>
 
-      </View>
     )
   }
 }
@@ -218,30 +218,3 @@ class  SettingsPreferences extends React.Component{
 SettingsPreferences.displayName = "SettingsPreferences"
 
 export default SettingsPreferences
-
-class Selectable extends React.Component{
-  constructor(props){
-    super()
-  }
-  render(){
-    return (
-      <TouchableHighlight
-        underlayColor={colors.dark}
-        style={styles.paddedSpace}
-        onPress={() => this.props.onPress(this.props.field) }
-        >
-        <View style={[styles.insideSelectable,styles.formRow]}>
-          <Text
-            style={{color: this.props.values[this.props.field] ? colors.white : colors.rollingStone,
-              fontSize:MagicNumbers.size18,fontFamily:'Montserrat'
-            }}
-          >{this.props.label}</Text>
-          <Image
-            style={{height:30,width:30}}
-            source={{ uri:this.props.values[this.props.field] ? 'assets/ovalSelected@3x.png' : 'assets/ovalDashed@3x.png'} }
-          />
-        </View>
-      </TouchableHighlight>
-    )
-  }
-}

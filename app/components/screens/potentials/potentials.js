@@ -27,8 +27,9 @@ import { withNavigation } from '@exponent/ex-navigation';
 class SettingsButton extends React.Component{
   render(){
      return (
-      <TouchableOpacity onPress={() => this.props.navigator.push(this.props.navigation.router.getRoute('Settings')) }>
+      <TouchableOpacity style={{paddingTop:5}} onPress={() => this.props.navigator.push(this.props.navigation.router.getRoute('Settings')) }>
         <Image
+        tintColor={colors.white}
           resizeMode={Image.resizeMode.contain}
           style={{width:28,top:0,height:30,marginLeft:15,tintColor: __DEV__ ? colors.daisy : colors.white}}
           source={{uri:'assets/gear@3x.png'}}
@@ -43,9 +44,10 @@ class SettingsButton extends React.Component{
 class MatchesButton extends React.Component{
   render(){
     return (
-      <TouchableOpacity onPress={() => this.props.navigator.push(this.props.navigation.router.getRoute('Matches'))}>
+      <TouchableOpacity style={{paddingTop:5}} onPress={() => this.props.navigator.push(this.props.navigation.router.getRoute('Matches'))}>
         <Image
           resizeMode={Image.resizeMode.contain}
+          tintColor={colors.white}
           style={{width:28,top:0,height:30,marginRight:15,tintColor: __DEV__ ? colors.daisy : colors.white}}
           source={{uri:'assets/chat@3x.png'}}
         />
@@ -57,28 +59,34 @@ class MatchesButton extends React.Component{
 
 class Potentials extends React.Component{
   static route = {
-    styles: {zIndex:-10, height:0,position:'relative'},
+    styles: {zIndex:-10,  position:'relative'},
     navigationBar: {
       visible: true,
-      backgroundColor:colors.outerSpace,
+      translucent:false,
+      backgroundColor:colors.transparent,
       renderTitle(route, props){
         return route.params.show ? (
-          <View><Image
-            resizeMode={Image.resizeMode.contain}
-            style={{width:80,height:30,tintColor: __DEV__ ? colors.daisy : colors.white,alignSelf:'center'}}
-            source={{uri:'assets/tripppleLogoText@3x.png'}}
-          /></View>
+          <View style={{paddingTop:5}}>
+            <Image
+              resizeMode={Image.resizeMode.contain}
+              style={{width:80,height:30,tintColor: __DEV__ ? colors.daisy : colors.white,alignSelf:'center'}}
+              source={{uri:'assets/tripppleLogoText@3x.png'}}
+            />
+          </View>
         ) : false
       },
       renderLeft(route, props){
         return  route.params.show ? <SettingsButton  /> : (
-          <TouchableOpacity style={{position:'absolute'}} onPress={()=>route.params.dispatch({type:'CLOSE_PROFILE'})}>
-            <Image
-              resizeMode={Image.resizeMode.contain}
-              style={{width:20,height:20,margin:15,alignItems:'flex-start'}}
-              source={{uri: 'assets/close@3x.png'}}
-            />
-          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={()=>route.params.dispatch({type:'CLOSE_PROFILE'})}
+            style={{padding:20,position:'absolute',top:12,zIndex:999}}
+          >
+          <Image
+            resizeMode={Image.resizeMode.contain}
+            style={{width:15,height:15,marginTop:0,alignItems:'flex-start'}}
+            source={{uri: 'assets/close@3x.png'}}
+          />
+        </TouchableOpacity>
         )
       },
       renderRight(route, props){
@@ -91,35 +99,18 @@ class Potentials extends React.Component{
     super()
     this.state = {
       didShow: false,
-      profileVisible: false,
+      profileVisible: props.ui.profileVisible,
       showPotentials: true,
-      currentAppState: AppState.currentState
     }
   }
 
   toggleProfile(){
     this.setState({profileVisible: !this.state.profileVisible})
   }
-  // _handleAppStateChange(currentAppState){
-  //
-  //   if(currentAppState == 'active'){
-  //     this.setState({  currentAppState, showPotentials: false});
-  //     this.setTimeout(()=>{
-  //       this.setState({ showPotentials: true});
-  //
-  //     },1000);
-  //   }else{
-  //     this.setState({ profileVisible: false, currentAppState, showPotentials: false });
-  //
-  //   }
-  //
-  // }
+
+
   componentDidMount(){
-    // AppState.addEventListener('change', this._handleAppStateChange.bind(this));
-    // this.props.navigator.showLocalAlert('Hello!', {
-    //   text: {color: '#fff'},
-    //   container: {backgroundColor: 'red'}
-    // });
+
 
     if(this.props.user.status){
 
@@ -153,13 +144,6 @@ class Potentials extends React.Component{
   }
 
   componentDidUpdate(){
-    // if( !this.state.hasPushPermission && !this.state.requestingPushPermission && this.props.potentialsMeta && this.props.potentialsMeta.relevantUser ){
-    //   this.setState({requestingPushPermission:true})
-    //   this.props.navigator.push({
-    //     component: NotificationPermissions,
-    //     passProps:{}
-    //   })
-    // }
 
     //
     // if(this.props.potentials && this.props.potentials[1]){

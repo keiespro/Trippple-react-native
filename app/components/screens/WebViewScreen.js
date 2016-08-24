@@ -2,14 +2,23 @@ const helpScript = "jQuery(document).ready(function($){$('a').each(function(i,el
 
 const privacyScript = "jQuery().ready(function($){$('button').hide();window.setTimeout(function(){$('a').each(function(i,el){var s = $('<span></span>',{html: $(el).html()});$(el).replaceWith(s)});},1000)})";
 
-import React from "react";
-import {Component} from "react";
+import React, {Component} from "react";
 import {StyleSheet, View, WebView, Text} from "react-native";
 
-import colors from '../utils/colors'
-;
+import colors from '../../utils/colors';
 
 class WebViewScreen extends Component{
+
+
+  static route = {
+    navigationBar: {
+      backgroundColor: colors.shuttleGrayAnimate,
+      title(params){
+        return params.pageTitle
+      }
+    }
+  };
+
   onNavigationStateChange(){
 
   }
@@ -27,21 +36,10 @@ class WebViewScreen extends Component{
            injectedJavaScript={this.props.source.uri.indexOf('help') >= 0 ? helpScript : privacyScript}
            scalesPageToFit={true}
            bounces={true}
+           dataDetectorTypes={'none'}
            scrollEnabled={true}
          />
-        <FakeNavBar
-          backgroundStyle={{backgroundColor:colors.shuttleGray}}
-          hideNext={true}
-          navigator={this.props.navigator}
-          customPrev={
-            <View style={{flexDirection: 'row',opacity:0.5,top:7}}>
-              <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white}]}>◀︎ </Text>
-            </View>
-          }
-          onPrev={(nav,route)=> nav.pop()}
-          title={this.props.pageTitle}
-          titleColor={colors.white}
-        />
+
      </View>
     )
   }
@@ -64,7 +62,6 @@ const styles = StyleSheet.create({
    flex: 1,
    justifyContent: 'center',
    alignItems: 'stretch',
-   marginTop: 50,
    position:'relative',
    alignSelf: 'stretch',
  }

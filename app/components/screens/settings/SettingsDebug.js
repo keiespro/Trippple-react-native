@@ -5,17 +5,20 @@ import {
   View,
   TouchableHighlight,
   Settings,
+  Clipboard,
   TouchableOpacity,
   Dimensions,
+  TextInput,
   PushNotificationIOS,
   Image,
   ScrollView,
   AsyncStorage,
   ListView,
   Alert,
+  AlertIOS,
 } from 'react-native';
 import React from "react";
-
+import FBUSERS from '../../../../fb_test_users'
 import ActionMan from '../../../actions';
 import AppTelemetry from '../../../utils/AppTelemetry';
 import Coupling from '../coupling';
@@ -37,6 +40,16 @@ const TripppleSettingsKeys = [
 ];
 
 class SettingsDebug extends React.Component{
+
+
+  static route = {
+    navigationBar: {
+      backgroundColor: colors.shuttleGrayAnimate,
+      title(params){
+        return `DEBUG`
+      }
+    }
+  };
   constructor(props){
     super()
   }
@@ -46,7 +59,7 @@ class SettingsDebug extends React.Component{
 
       <ScrollView style={{flex:1,paddingTop:60,overflow:'visible'}}    >
             {/*  Show telemetry */}
-              <TouchableHighlight
+              {/* <TouchableHighlight
                 onPress={(f)=>{
                   AppTelemetry.getPayload()
                   .then((telemetry)=>{
@@ -66,7 +79,7 @@ class SettingsDebug extends React.Component{
                   <Text style={{color:colors.white,}}>User & session info</Text>
                 <Image source={{uri: 'assets/nextArrow@3x.png'}} style={{height:10,width:10,tintColor:colors.white}} />
                 </View>
-              </TouchableHighlight>
+              </TouchableHighlight> */}
 
 
 
@@ -75,25 +88,31 @@ class SettingsDebug extends React.Component{
   <TouchableHighlight
     onPress={(f)=>{
 
-         this.props.navigator.push({
-           component:  TelemetryPage,
-           passProps:{
-             data: TEST_ACCOUNTS
-             },
-
-           name: "login"
-         })
+         this.props.navigator.push(this.props.navigation.router.getRoute('Generic',{
+           component: View,
+           passProps: {
+            inside: (<ScrollView><Text style={{padding:10,marginBottom:10}}>Tap to copy. Password is the same as email. Paste into white box if you want to check email.</Text>
+              <TextInput defaultValue={' '} style={{width:DeviceWidth,height:60,backgroundColor:colors.white,padding:10}}/>
+              {FBUSERS.map(fbu => {
+                return (
+                  <TouchableOpacity onPress={()=>{Clipboard.setString(fbu.email);}} style={{padding:10,borderBottomWidth:0.3,borderColor:colors.white}}>
+                    <Text style={{color:colors.white}}>{fbu.email}</Text>
+                  </TouchableOpacity>
+                )})}
+                </ScrollView>)
+           }
+         }))
 
     }} >
     <View style={styles.wrapfield}>
-      <Text style={{color:colors.white,}}>Login As </Text>
+      <Text style={{color:colors.white,}}>Facebook Test Users </Text>
      </View>
   </TouchableHighlight>
 
               {/*  send like */}
                 <TouchableHighlight
                   onPress={(f)=>{
-                    Alert.prompt(
+                    AlertIOS.prompt(
                       'Like User',
                      'Enter their id',
                      [
@@ -195,12 +214,6 @@ class SettingsDebug extends React.Component{
            this.props.navigator.pop()
 
 
-              //  this.props.navigator.push({
-              //    component:NotificationPermissions,
-              //    passProps:{
-              //      relevantUser:relevantUser
-              //    }
-              //  })
              }} >
              <View style={styles.wrapfield}>
                <Text style={{color:colors.white,}}>Notification permisson modal</Text>
@@ -375,18 +388,18 @@ class SettingsDebug extends React.Component{
               </TouchableHighlight>
 
           {/*  loading overlay */}
-            <TouchableHighlight
+            {/* <TouchableHighlight
               onPress={()=>{
                 //AppActions.toggleOverlay()
               }} >
               <View style={styles.wrapfield}>
                 <Text style={{color:colors.white}}>Toggle Loading Overlay</Text>
                </View>
-            </TouchableHighlight>
+            </TouchableHighlight> */}
 
 
               {/*  send telemetry */}
-                <TouchableHighlight
+                {/* <TouchableHighlight
                   onPress={(f)=>{
                     // AppActions.sendTelemetry()
 
@@ -394,9 +407,9 @@ class SettingsDebug extends React.Component{
                   <View style={styles.wrapfield}>
                     <Text style={{color:colors.white,}}>send telemetry base64</Text>
                    </View>
-                </TouchableHighlight>
+                </TouchableHighlight> */}
             {/*  show checkmark */}
-              <TouchableHighlight
+              {/* <TouchableHighlight
                 onPress={()=>{
                   // AppActions.showCheckmark()
                 }}
@@ -405,21 +418,11 @@ class SettingsDebug extends React.Component{
 
                   <Text style={{color:colors.white}}>Checkmark</Text>
                  </View>
-              </TouchableHighlight>
+              </TouchableHighlight> */}
 
 
           </ScrollView>
-          {/* <FakeNavBar
-            blur={true}
-            navigator={this.props.navigator}
-            backgroundStyle={{backgroundColor:colors.sushi,top:0}}
-            hideNext={true}
-            customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{marginVertical:10,alignSelf:'center',height:12,width:12}}
-            source={{uri:'assets/close@3x.png'}}/>}
-            onPrev={(nav,route)=> nav.pop()}
-            title={'DEBUG SETTINGS'}
-            titleColor={colors.white}
-          /> */}
+
 
 </View>
       )

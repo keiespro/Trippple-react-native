@@ -7,7 +7,8 @@ import ModalDirector from './modals/ModalDirector';
 import Welcome from './screens/welcome/welcome';
 
 import Analytics from '../utils/Analytics'
-import {Connectivity, ReachabilitySubscription, AppVisibility} from '../utils/ConnectionInfo'
+import AppState from '../utils/AppState'
+import ConnectionInfo from '../utils/ConnectionInfo'
 import Notifications from '../utils/Notifications';
 import LoadingOverlay from './LoadingOverlay'
 import colors from '../utils/colors'
@@ -16,7 +17,7 @@ import url from 'url'
 import {persistStore} from 'redux-persist'
 import ActionMan from  '../actions/';
 
-
+import NagManager from '../NagManager'
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
@@ -101,41 +102,22 @@ class App extends React.Component{
     const user = this.props.user || {}
     return (
       <View style={{flex:10,backgroundColor:colors.outerSpace, width:DeviceWidth,height:DeviceHeight}}>
-      <StatusBar animated={true} barStyle="default" />
 
-      <ReachabilitySubscription/>
-      <AppVisibility/>
-      {!this.state.loading && <Connectivity/>}
-      {/*
-        {user && user.id ? (
-        <Main
-        key="MainScreen"
-        user={user}
-        AppState={this.props.AppState}
-        currentRoute={{}}
-        />
-      ) : <Welcome AppState={this.props.AppState} key={'welcomescene'} />
-    } */}
+        <StatusBar animated={true} barStyle="default" />
 
-    {this.props.loggedIn ? ( <AppNav/> ) : <Welcome dispatch={this.props.dispatch} key={'welcomescene'} /> }
+        <ConnectionInfo dispatch={this.props.dispatch}/>
 
-    {/* <ModalDirector
-    user={user}
-    /> */}
+        <AppState dispatch={this.props.dispatch}/>
 
-    {/* {(this.state.showCheckmark || this.props.AppState.showCheckmark) ?
-      <CheckMarkScreen
-      key="toplevelcheckmark"
-      isVisible={true}
-      checkMarkCopy={this.state.checkMarkCopy || this.props.AppState.checkMarkCopy || ''}
-      checkmarkRequireButtonPress={this.props.AppState.checkmarkRequireButtonPress || false}
-      /> : <View/> } */}
+        <NagManager/>
 
-      <Notifications user={user} AppState={this.props.AppState} />
+        {this.props.loggedIn ?
+          <AppNav/> : <Welcome dispatch={this.props.dispatch} key={'welcomescene'} />
+        }
 
-      {/* {this.props.AppState.showMaintenanceScreen ? <MaintenanceScreen /> : null } */}
+        <ModalDirector />
 
-      {/* {this.state.overlaid  && <LoadingOverlay />} */}
+        <Notifications dispatch={this.props.dispatch} />
 
       </View>
     )

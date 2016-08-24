@@ -13,12 +13,11 @@ import ContactGetter from 'react-native-contacts'
 
 import colors from '../../utils/colors'
 import _ from 'underscore'
-import MatchActions from '../flux/actions/MatchActions'
+
 import PurpleModal from './PurpleModal'
 import styles from './purpleModalStyles'
 import BoxyButton from '../controls/boxyButton'
-import UserActions from '../flux/actions/UserActions'
-import AppActions from '../flux/actions/AppActions'
+
 import {MagicNumbers} from '../../utils/DeviceConfig'
 
 class PrivacyPermissionsModal extends Component{
@@ -45,9 +44,8 @@ class PrivacyPermissionsModal extends Component{
   }
 
   componentDidUpdate(pProps,pState){
-    if(this.state.hasFacebookPermissions && this.state.hasContactsPermissions && (!pState.hasFacebookPermissions || !pState.hasContactsPermissions )){
-      UserActions.updateUser({privacy:'private'})
-      AppActions.killModal()
+    if(  this.state.hasContactsPermissions ){
+      this.props.dispatch(ActionMan.updateUser({privacy:'private'}))
       this.props.success && this.props.success()
       this.props.navigator && this.props.navigator.pop()
     }
@@ -163,7 +161,7 @@ class PrivacyPermissionsModal extends Component{
               <TouchableOpacity
               style={{width:undefined,paddingHorizontal:10,marginVertical:10,flexDirection:'row',alignSelf:'stretch',flex:1,alignItems:'stretch'}}
 
-                onPress={()=>{AppActions.killModal(); this.props.success && this.props.success()}}>
+                onPress={()=> { this.props.success && this.props.success()}}>
               <View style={[styles.cancelButton,{backgroundColor:'transparent',alignItems:'stretch',alignSelf:'stretch',flexDirection:'row'}]} >
                 <Text style={[{color:colors.shuttleGray,textAlign:'center',
                   padding:10,

@@ -1,8 +1,19 @@
 /* @flow */
 
 
-import React, {Component, PropTypes} from "react";
-import {StyleSheet, Text, Image, NativeModules, Settings, View, AppState, TouchableHighlight, Dimensions, PixelRatio, ScrollView, PushNotificationIOS, TouchableOpacity} from "react-native";
+import {
+  Text,
+  Image,
+  Settings,
+  View,
+  TouchableHighlight,
+  Dimensions,
+  ScrollView,
+  PushNotificationIOS,
+  TouchableOpacity,
+} from 'react-native';
+import React, { PropTypes } from 'react';
+
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -10,26 +21,21 @@ const DeviceWidth = Dimensions.get('window').width
 import UrlHandler from 'react-native-url-handler'
 import colors from '../../utils/colors'
 import _ from 'underscore'
-import MatchActions from '../flux/actions/MatchActions'
-import PurpleModal from './PurpleModal'
+ import PurpleModal from './PurpleModal'
 import styles from './purpleModalStyles'
 import BoxyButton from '../controls/boxyButton'
-import UserActions from '../flux/actions/UserActions'
-import AppActions from '../flux/actions/AppActions'
-import NotificationActions from '../flux/actions/NotificationActions'
-import {MagicNumbers} from '../../utils/DeviceConfig'
+ import {MagicNumbers} from '../../utils/DeviceConfig'
 import { BlurView,VibrancyView} from 'react-native-blur'
-import PotentialsStore from '../flux/stores/PotentialsStore'
-import AltContainer from 'alt-container/native';
+import { connect } from 'react-redux';
 
-import { HAS_SEEN_NOTIFICATION_REQUEST, LAST_ASKED_NOTIFICATION_PERMISSION, NOTIFICATION_SETTING, LEGACY_NOTIFICATION_SETTING } from '../utils/SettingsConstants'
+import { HAS_SEEN_NOTIFICATION_REQUEST, LAST_ASKED_NOTIFICATION_PERMISSION, NOTIFICATION_SETTING, LEGACY_NOTIFICATION_SETTING } from '../../utils/SettingsConstants'
 
 
 const failedTitle = `ALERTS DISABLED`,
       failedSubtitle = `Notification permissions have been disabled. You can enable them in Settings`,
       buttonText = `YES, ALERT ME`;
 
-class NewNotificationPermissionsInside extends React.Component{
+class NewNotificationPermissions extends React.Component{
   static propTypes = {
     relevantUser: PropTypes.object //user
   };
@@ -100,9 +106,12 @@ class NewNotificationPermissionsInside extends React.Component{
     handleNotificationPermission(token){
 
       __DEV__ && console.log('APN -> ',token);
-      NotificationActions.receiveApnToken(token)
+
+
+
+      // NotificationActions.receiveApnToken(token)
       // this.setState({ hasPermission: true})
-      AppActions.disableNotificationModal()
+
       Settings.set({
         [HAS_SEEN_NOTIFICATION_REQUEST]: true,
         [NOTIFICATION_SETTING]: true
@@ -127,10 +136,10 @@ class NewNotificationPermissionsInside extends React.Component{
 
             PushNotificationIOS.addEventListener('register', this.handleNotificationPermission.bind(this))
             PushNotificationIOS.requestPermissions({alert:true,badge:true,sound:true})
-            AppActions.disableNotificationModal()
+            // AppActions.disableNotificationModal()
 
           }else{
-            AppActions.disableNotificationModal()
+            // AppActions.disableNotificationModal()
 
             this.close(false)
             this.props.successCallback && this.props.successCallback();
@@ -141,7 +150,6 @@ class NewNotificationPermissionsInside extends React.Component{
       }
     }
     handleFail(){
-      AppActions.disableNotificationModal()
 
       this.setState({hasPermission: false})
     }
@@ -150,21 +158,6 @@ class NewNotificationPermissionsInside extends React.Component{
 
     }
 
-    _handleAppStateChange(currentAppState) {
-      if(currentAppState == 'active'){
-        PushNotificationIOS.checkPermissions( (permissions) => {
-          const permResult = Object.keys(permissions).reduce((acc,el,i) =>{
-            acc = acc + permissions[el];
-            return acc
-          },0);
-
-          // AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
-          this.setState({ hasPermission: (permResult > 0), failedState: false });
-          AppActions.disableNotificationModal()
-
-        })
-      }
-    }
 
     render(){
       const {relevantUser} = this.props;
@@ -174,7 +167,7 @@ class NewNotificationPermissionsInside extends React.Component{
       const featuredImage = (relevantUser && relevantUser.image_url) || (featuredUser && featuredUser.image_url) || null;
 
       return  (
-        <View style={{width:DeviceWidth,height:DeviceHeight,justifyContent:'center',alignItems:'center',}}>
+        <BlurView blurType="dark" style={{width:DeviceWidth,height:DeviceHeight,justifyContent:'center',alignItems:'center',}}>
           <ScrollView
           scrollEnabled={true}
           bounces={true}
@@ -251,29 +244,26 @@ class NewNotificationPermissionsInside extends React.Component{
                     </TouchableOpacity>
                   </View>
               </ScrollView>
-            </View>
+            </BlurView>
 
           )
   }
 
 }
 
-class NewNotificationPermissions extends Component{
-  render(){
-    const storeFetcher = function(props){
-      return {
-        store: PotentialsStore,
-        value: PotentialsStore.getMeta()
-      }
-    }
 
-    return __TEST__ ? <NewNotificationPermissionsInside {...this.props} /> : (
-      <AltContainer store={storeFetcher}>
-        <NewNotificationPermissionsInside {...this.props} />
-      </AltContainer>
-    )
+const mapStateToProps = (state, ownProps) => {
+
+  return {
+    ui: state.ui,
+    relevantUser: state.likes.relevantUser
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewNotificationPermissions);
+
 NewNotificationPermissions.displayName = "NewNotificationPermissions"
-export default NewNotificationPermissions

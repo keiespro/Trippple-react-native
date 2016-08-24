@@ -7,6 +7,11 @@ import reactMixin from 'react-mixin';
 import colors from '../../utils/colors';
 
 import {
+  NavigationStyles,
+} from '@exponent/ex-navigation';
+
+
+import {
   StyleSheet,
   Text,
   View,
@@ -46,6 +51,17 @@ function getMaxLength(fieldName){
 }
 
 class FieldModal extends React.Component{
+
+  static route = {
+    styles: NavigationStyles.FloatVertical,
+    navigationBar: {
+      backgroundColor: colors.shuttleGrayAnimate,
+      title(params){
+        const fieldLabel = params.title || params.field && params.field.label || ''
+        return fieldLabel.toUpperCase()
+      }
+    }
+  };
 
   constructor(props){
     super(props);

@@ -34,7 +34,7 @@ class JoinCouple extends Component{
     }
   }
   componentDidMount(){
-    // UserActions.getCouplePin();
+    this.props.dispatch(ActionMan.getCouplePin());
   }
 
 
