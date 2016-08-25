@@ -21,7 +21,7 @@ import colors from '../../../utils/colors'
 import BlurModal from '../../modals/BlurModal'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 
-
+import ActionMan from '../../../actions'
 
 import styles from '../../modals/purpleModalStyles'
 

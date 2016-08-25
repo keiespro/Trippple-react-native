@@ -18,7 +18,7 @@ import {persistStore} from 'redux-persist'
 import ActionMan from  '../actions/';
 
 import NagManager from '../NagManager'
-
+import DeepLinkHandler from '../utils/DeepLinkHandler'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 
@@ -46,6 +46,7 @@ class App extends React.Component{
       'getMatches',
       'getNewMatches',
       'getPushToken',
+      'checkLocation'
     ];
 
     initActions.forEach(ac => {
@@ -58,40 +59,9 @@ class App extends React.Component{
   componentDidMount(){
 
 
-
-
-    // if(!this.props.user.status == 'onboarded'){
-    //   Linking.addEventListener('url', this.handleCoupleDeepLink.bind(this))
-    // }
-
-    // this.setTimeout(()=>{
-    //   this.setState({
-    //     overlaid: false,
-    //     loading:false
-    //   })
-    // },2000)
   }
 
-  handleCoupleDeepLink(event){
-    const deeplink = url.parse(event.url);
-
-    Analytics.event('Interaction',{type: 'deeplink', name: deeplink.href})
-
-    if(deeplink.host == 'join.couple'){
-      const pin = deeplink.path.substring(1,deeplink.path.length);
-      Settings.set({'co.trippple.deeplinkCouplePin': pin});
-    }
-  }
   componentWillReceiveProps(nProps){
-
-    //
-    // if(this.state.authStatus != nProps.user.status){
-    //   this.setState({authStatus: !!nProps.user.status})
-    // }
-
-    // if(nProps && this.props.user && nProps.user && nProps.user.status == 'onboarded' && this.props.user.status != 'onboarded'){
-    //   Linking.removeEventListener('url', this.handleCoupleDeepLink.bind(this))
-    // }
 
     if(!this.props.loggedIn && nProps.loggedIn){
       this.performInitActions()
@@ -110,6 +80,8 @@ class App extends React.Component{
         <AppState dispatch={this.props.dispatch}/>
 
         <NagManager/>
+
+        <DeepLinkHandler />
 
         {this.props.loggedIn ?
           <AppNav/> : <Welcome dispatch={this.props.dispatch} key={'welcomescene'} />

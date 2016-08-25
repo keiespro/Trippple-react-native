@@ -1,3 +1,4 @@
+'use strict';
 
 import ActionMan from  '../actions/';
 import { connect } from 'react-redux';
@@ -22,7 +23,6 @@ class NotificationCommander extends Component{
     super()
 
     this.state = {
-      appState: AppState.currentState,
       socketConnected: false,
       notifications: [],
       processing:false,
@@ -35,10 +35,13 @@ class NotificationCommander extends Component{
 
   }
   componentDidMount(){
+    const dispatch = this.props.dispatch;
+    const handleAction = this.handleAction;
 
     PushNotification.configure({
       onRegister(token) {
         console.log( 'TOKEN:', token );
+        dispatch(ActionMan.updateUser({push_token: token.token}))
       },
       onNotification(notification) {
         // {
@@ -47,10 +50,10 @@ class NotificationCommander extends Component{
         //   message: 'My Notification Message', // STRING: The notification message
         //   data: {}, // OBJECT: The push data
         // }
-        Analytics.event('Handle push notification',{action:JSON.stringify(pushNotification)})
+        Analytics.event('Handle push notification',{action:JSON.stringify(notification)})
 
         console.log( 'NOTIFICATION:', notification );
-        this.handleAction(notification.data)
+        handleAction(notification.data)
       },
       // senderID: "YOUR GCM SENDER ID", // ANDROID ONLY: (optional) GCM Sender ID.
       popInitialNotification: true,
@@ -61,6 +64,11 @@ class NotificationCommander extends Component{
     if(this.props.api_key && this.props.user_id){
       this.connectSocket()
     }
+    PushNotification.checkPermissions((perms) => {
+      if(perms.alert){
+        PushNotificationIOS.requestPermissions().then(x => console.log(x))
+      }
+    })
   }
 
   connectSocket(){
@@ -110,13 +118,17 @@ class NotificationCommander extends Component{
     })
 
     this.socket.on('chat', (payload) => {
-      console.log('chat weboscket',payload);
+      __DEV__ && console.log('chat weboscket',payload);
       Analytics.event('Webocket notification',{action: 'New Message', label: 'chat'})
 
       this.setState({processing:true});
       this.handleAction(payload.data)
 
     })
+
+  }
+  openChat(match_id){
+    this.props.navigator.push(this.props.navigator.navigationContext.router.getRoute('Chat', {match_id}))
 
   }
   handleAction(data){
@@ -132,9 +144,7 @@ class NotificationCommander extends Component{
         this.props.receiveNewMatchNotification(data,true)
         VibrationIOS.vibrate()
         this.props.getMatches()
-        // AppActions.updateRoute({route:'chat',match_id: data.match_id,})
-
-
+        this.openChat()
         this.props.updateBadgeNumber(-1)
 
       }else if(data.action === 'chat' && data.match_id){
@@ -143,9 +153,8 @@ class NotificationCommander extends Component{
 
         VibrationIOS.vibrate()
         this.props.getMessages(data.match_id)
-        // TODO: update to new
-        // AppActions.updateRoute({route:'chat',match_id: data.match_id,})
 
+        this.openChat()
         this.props.updateBadgeNumber(-1)
       }else if(data.action === 'notify') {
         VibrationIOS.vibrate()
@@ -256,6 +265,7 @@ const mapDispatchToProps = (dispatch) => {
     logOut:                                                 (p) => dispatch(ActionMan.logOut()),
     sendTelemetry:                                          (p) => dispatch(ActionMan.sendTelemetry()),
     receiveGenericNotification:                             (p) => dispatch(ActionMan.receiveGenericNotification(p)),
+    dispatch
   };
 }
 reactMixin(NotificationCommander.prototype,TimerMixin)

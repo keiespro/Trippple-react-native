@@ -31,12 +31,10 @@ class PotentialsPlaceholder extends React.Component{
   }
   openProfileEditor(){
 
-    this.props.navigator.push(this.props.navigator.navigationContext.router.getRoute('SettingsBasic',{
+    this.props.navigator.push(this.props.navigation.router.getRoute('SettingsBasic',{
         style:styles.container,
         settingOptions:profileOptions,
         startPage:1,
-        navigation: this.props.navigation,
-        navigator: this.props.navigator
     }))
   }
   render(){
@@ -88,9 +86,29 @@ class PotentialsPlaceholder extends React.Component{
             >
 
 
+                      <Image
+                      source={{uri: 'assets/tripppleLogoCopy@3x.png'}}
+                        style={{
+                          alignSelf: 'center',
+                          height: 160,
+                          width: MagicNumbers.is4s ? DeviceWidth - MagicNumbers.screenPadding*2 : DeviceWidth-30,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          marginBottom:50
+                        }}
+                        resizeMode={Image.resizeMode.contain}
+                        />
+                        <Text
+                          style={{
+                            color: colors.white,
+                            fontSize: MagicNumbers.size18+2,
+                            textAlign: 'center',
+                            fontFamily:'Montserrat-Bold',
+                          }}>YOU'RE OUT OF MATCHES</Text>
 
             {userProfileIncomplete &&
               <View style={{alignSelf:'stretch',
+              marginTop:30,
               width: MagicNumbers.is4s ? DeviceWidth - MagicNumbers.screenPadding*2 : DeviceWidth-30,
             }}>
                 <Text

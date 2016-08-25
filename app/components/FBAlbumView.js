@@ -79,7 +79,7 @@ class AlbumView extends React.Component{
            contentInset={{top:60,left:0,right:0,bottom:0}}
            automaticallyAdjustContentInsets={true}
            vertical={true}
-            renderRow={this.renderSinglePhotos}
+            renderRow={this.renderSinglePhotos.bind(this)}
           />
 
 

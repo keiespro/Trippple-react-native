@@ -20,7 +20,7 @@ class NagManager extends React.Component{
   componentWillReceiveProps(nProps){
 
     // relationship_status modal
-    if(!this.props.loggedIn && nProps.loggedIn && !nProps.user.relationship_status && !this.props.nag.askedRelationshipStatus){
+    if(!this.props.loggedIn && nProps.loggedIn && !nProps.user.relationship_status && !this.props.user.relationship_status && !this.props.nag.askedRelationshipStatus){
       this.props.dispatch(ActionMan.showInModal({
         component: OnboardModal,
         passProps:{

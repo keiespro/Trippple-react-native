@@ -250,6 +250,7 @@ class Potentials extends React.Component{
           { !potentials || (potentials && potentials.length < 1) &&
             <PotentialsPlaceholder
               navigator={this.props.navigator}
+              navigation={this.props.navigation}
               user={this.props.user}
               didShow={this.state.didShow}
               onDidShow={()=>{ this.setState({didShow:true});}}

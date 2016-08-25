@@ -38,16 +38,13 @@ const ApiActionCreators = endpointMap.reduce((obj,endpoint) => {
 
     type: endpoint.action,
     meta: endpoint.call == 'sendLike' ? {...(_.object(['like_user_id', 'like_status','like_user_type','from_user_type',],params)),
-      relevantUser:  (params.filter(p => typeof p == 'object')[0]['relevantUser'])
+      relevantUser:  (params[params.length-1]['relevantUser'])
     } : params.map(p => p),
     payload: {
       promise: new Promise((resolve, reject) => {
 
         if(endpoint.call == 'onboard'){
           dispatch({type:'KILL_MODAL',payload:true})
-        }
-        if(endpoint.call == 'sendLike'){
-          const relevantUser = params.filter(p => typeof p == 'object');
         }
 
         api[endpoint.call](...params).then(x => resolve(x)).catch(x => {

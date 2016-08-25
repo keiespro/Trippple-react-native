@@ -11,6 +11,8 @@ export default function nagReducer(state = initialState, action) {
     case 'ASKED_RELATIONSHIP_STATUS':
         return {...state, askedRelationshipStatus: true };
 
+    case 'GET_USER_INFO':
+        return {...state, askedRelationshipStatus: action.payload.relationship_status ? true : false }
 
     case 'SEND_LIKE_FULFILLED':
         return state
@@ -26,5 +28,6 @@ const initialState = {
   askedPartner: false,
   askedNotification: false,
   askedLocation: false,
+  askedRelationshipStatus: false
 
 };

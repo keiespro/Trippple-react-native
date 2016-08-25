@@ -6,7 +6,7 @@ export default function potentialsReducer(state = initialState, action) {
     case 'GET_POTENTIALS_FULFILLED':
       const data = action.payload.response;
       let pots;
-      if(!data.matches || !data.matches.length){
+      if(!data || !data.matches || !data.matches.length){
         return state
       }
       if(!data.matches[0].user){

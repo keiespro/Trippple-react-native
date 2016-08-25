@@ -167,42 +167,44 @@ class  SettingsPreferences extends React.Component{
               </View>
             </View>
 
-        <Selectable
+        {this.props.user.relationship_status == 'single' && <Selectable
           field={'looking_for_mf'}
           onPress={this.onPressSelectable.bind(this)}
           label={'MALE + FEMALE COUPLES'}
           values={values}
-        />
-        <Selectable
+        />}
+        {this.props.user.relationship_status == 'single' && <Selectable
           field={'looking_for_mm'}
           onPress={this.onPressSelectable.bind(this)}
           label={'MALE + MALE COUPLES'}
           values={values}
-        />
-        <Selectable
+        />}
+        {this.props.user.relationship_status == 'single' && <Selectable
           field={'looking_for_ff'}
           onPress={this.onPressSelectable.bind(this)}
           label={'FEMALE + FEMALE COUPLES'}
           values={values}
-        />
-        <Selectable
+        />}
+        {this.props.user.relationship_status == 'couple' && <Selectable
           field={'looking_for_f'}
           onPress={this.onPressSelectable.bind(this)}
           label={'FEMALE SINGLES'}
           values={values}
-        />
-        <Selectable
+        />}
+      {this.props.user.relationship_status == 'couple' &&  <Selectable
           field={'looking_for_m'}
           onPress={this.onPressSelectable.bind(this)}
           label={'MALE SINGLES'}
           values={values}
         />
+      }
 
       <View style={{paddingTop: 50}}>
 
           <AgePrefs
             toggleScroll={this.toggleScroll.bind(this)}
             user={this.props.user}
+            dispatch={this.props.dispatch}
             showPartnerMissingModal={this.showPartnerMissingModal.bind(this)}
           />
 

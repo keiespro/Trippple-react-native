@@ -58,6 +58,7 @@ function configureStore(initialState = ({})) {
       )
     );
     persistStore(store, {storage: AsyncStorage,blacklist:['AppNav']})
+    return store
 
   }
 }

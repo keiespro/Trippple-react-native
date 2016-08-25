@@ -16,6 +16,7 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 const InsideWidth = MagicNumbers.isSmallDevice ? DeviceWidth - MagicNumbers.screenPadding : DeviceWidth - 62
 const SliderWidth = MagicNumbers.isSmallDevice ? DeviceWidth - 40 : DeviceWidth - 62
+import ActionMn from '../../actions'
 
 class  AgePrefs extends React.Component{
   constructor(props){
@@ -49,7 +50,7 @@ class  AgePrefs extends React.Component{
 
   updateAttributes(){
     const {match_age_min,match_age_max} = this.state;
-    // ActionMan.updateUser({match_age_min,match_age_max});//todo fix
+    this.props.dispatch(ActionMan.updateUser({match_age_min,match_age_max}));//todo fix
   }
 
   render(){
