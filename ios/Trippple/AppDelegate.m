@@ -23,6 +23,7 @@
 #import "RCTPushNotificationManager.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "UIColor+TRColors.h"
 #import <ReactNativeAutoUpdater/ReactNativeAutoUpdater.h>
 #import <Fabric/Fabric.h>
@@ -72,7 +73,7 @@
   [NRLogger setLogLevels:NRLogLevelError];
   [NewRelicAgent disableFeatures:NRFeatureFlag_CrashReporting];
   [NewRelicAgent startWithApplicationToken:@"AAe71824253eeeff92e1794a97883d2e0c5928816f"];
-  // END NEWRELIC
+//   END NEWRELIC
 
   // BEGIN HOTLINE
   HotlineConfig *config = [[HotlineConfig alloc]
@@ -126,14 +127,14 @@
 
   NSURL *sourceURL;
   NSLog(@"%s",getenv("RELEASE"));
-  if(getenv("RELEASE")){
+//xs  if(getenv("RELEASE")){
     sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-  }else{
-    [[RCTBundleURLProvider sharedSettings] setEnableDev:YES];
-    [[RCTBundleURLProvider sharedSettings] setJsLocation:@"x.local"];
-    sourceURL = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios"
-                                                                 fallbackResource:@"main"];
-  }
+//  }else{
+//    [[RCTBundleURLProvider sharedSettings] setEnableDev:YES];
+//    [[RCTBundleURLProvider sharedSettings] setJsLocation:@"x.local"];
+//    sourceURL = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios"
+//                                                                 fallbackResource:@"main"];
+////  }
   return sourceURL;
 }
 

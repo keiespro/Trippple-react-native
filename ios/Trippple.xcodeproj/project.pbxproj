@@ -23,12 +23,21 @@
 		AC054A051C673F8A0072E9E7 /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FB91C0502B600A63B9C /* libRNKeychain.a */; };
 		AC054A061C673F8A0072E9E7 /* libRNOverlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FBC1C0502B600A63B9C /* libRNOverlay.a */; };
 		AC21F3C91CF6A20A0058CDAD /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC21F3C81CF6A2050058CDAD /* libRNDeviceInfo.a */; };
+		AC3C4BD81D48482000A1EC73 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3C4BBE1D48481B00A1EC73 /* libRCTFBSDK.a */; };
+		AC3C4BE01D48493A00A1EC73 /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3C4BD91D48493A00A1EC73 /* AccountKit.framework */; };
+		AC3C4BE21D48493A00A1EC73 /* FBNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3C4BDB1D48493A00A1EC73 /* FBNotifications.framework */; };
+		AC3C4BE31D48493A00A1EC73 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3C4BDC1D48493A00A1EC73 /* FBSDKCoreKit.framework */; };
+		AC3C4BE41D48493A00A1EC73 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3C4BDD1D48493A00A1EC73 /* FBSDKLoginKit.framework */; };
+		AC3C4BE51D48493A00A1EC73 /* FBSDKMessengerShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3C4BDE1D48493A00A1EC73 /* FBSDKMessengerShareKit.framework */; };
+		AC3C4BE81D4849D300A1EC73 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3C4BE71D4849D300A1EC73 /* Bolts.framework */; };
+		AC3C4BEC1D484BC000A1EC73 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3C4BDF1D48493A00A1EC73 /* FBSDKShareKit.framework */; };
+		AC3C4BEF1D484BC000A1EC73 /* AccountKitStrings.bundle in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3C4BED1D484BC000A1EC73 /* AccountKitStrings.bundle */; };
+		AC3C4BF01D484BC000A1EC73 /* FacebookSDKStrings.bundle in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3C4BEE1D484BC000A1EC73 /* FacebookSDKStrings.bundle */; };
 		AC55AD6D1CFE73B600326ED9 /* T3Theme.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC55AD6C1CFE73B600326ED9 /* T3Theme.plist */; };
 		AC55AD921CFE7B0700326ED9 /* RNHotlineViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AC55AD911CFE7B0700326ED9 /* RNHotlineViewManager.m */; };
 		AC758A7B1CF6AC2400A6A9C0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC758A7A1CF6AC2400A6A9C0 /* GoogleService-Info.plist */; };
 		AC758B2A1CF853E600A6A9C0 /* libRCTContacts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC758B291CF853D800A6A9C0 /* libRCTContacts.a */; };
 		AC7F1DAB1D3608AA00D3B511 /* libRNMixpanel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC054A171C6748420072E9E7 /* libRNMixpanel.a */; };
-		AC8422901CF504F800882DEC /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC3320C1CE90AE600DCC3CC /* libRCTFBLogin.a */; };
 		AC8958ED1CFD4A35009AB211 /* libRNHotline.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC8958E91CFD3467009AB211 /* libRNHotline.a */; };
 		AC9A87DF1D10F79B00DF3156 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = AC758A9C1CF6B89E00A6A9C0 /* main.jsbundle */; };
 		AC9D8D3B1D3F351F009D4C78 /* libRCTTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA80C761CE862CF0081A99F /* libRCTTest.a */; };
@@ -59,9 +68,6 @@
 		ACBB20991C050E8400A63B9C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FDB1C0505D700A63B9C /* AssetsLibrary.framework */; };
 		ACBB209A1C050E8A00A63B9C /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FDD1C0505DF00A63B9C /* CoreFoundation.framework */; };
 		ACBB209F1C0510E200A63B9C /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20491C050CF100A63B9C /* libRCTCamera.a */; };
-		ACC4C5AC1CE90FDC003A2716 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC332171CE90DB700DCC3CC /* FBSDKCoreKit.framework */; };
-		ACC4C5AD1CE90FDC003A2716 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC332181CE90DB700DCC3CC /* FBSDKLoginKit.framework */; };
-		ACC4C5AE1CE90FDC003A2716 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC332191CE90DB700DCC3CC /* FBSDKShareKit.framework */; };
 		ACC7DE991C5A41F30087476F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ACC7DE7F1C5A41F30087476F /* AppDelegate.m */; };
 		ACC7DEAE1C5A41F30087476F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ACC7DE951C5A41F30087476F /* main.m */; };
 		ACC7DEB01C5A41F30087476F /* UIColor+TRColors.m in Sources */ = {isa = PBXBuildFile; fileRef = ACC7DE981C5A41F30087476F /* UIColor+TRColors.m */; };
@@ -172,6 +178,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = DA5891D81BA9A9FC002B4DB2;
 			remoteInfo = RNDeviceInfo;
+		};
+		AC3C4BBD1D48481B00A1EC73 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC3C4BB31D48481A00A1EC73 /* RCTFBSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9350E0F11CE3B0920041D815;
+			remoteInfo = RCTFBSDK;
 		};
 		AC758A801CF6B07B00A6A9C0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -292,13 +305,6 @@
 			remoteGlobalIDString = C23F08041AFAB5C100312C72;
 			remoteInfo = RNMessageComposer;
 		};
-		ACC3320B1CE90AE600DCC3CC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ACC332071CE90AE500DCC3CC /* RCTFBLogin.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4F3A6B5B1ACFBCC500CA65F7;
-			remoteInfo = RCTFBLogin;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -334,6 +340,17 @@
 		AC054A121C6748420072E9E7 /* RNMixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMixpanel.xcodeproj; path = "../node_modules/react-native-mixpanel/RNMixpanel.xcodeproj"; sourceTree = "<group>"; };
 		AC11AC821CE7CE7B001B6FB3 /* Trippple-PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Trippple-PrefixHeader.pch"; sourceTree = "<group>"; };
 		AC21F3C31CF6A2050058CDAD /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
+		AC3C4BB31D48481A00A1EC73 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
+		AC3C4BD91D48493A00A1EC73 /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AccountKit.framework; path = ../../../../Documents/FacebookSDK/AccountKit.framework; sourceTree = "<group>"; };
+		AC3C4BDA1D48493A00A1EC73 /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBAudienceNetwork.framework; path = ../../../../Documents/FacebookSDK/FBAudienceNetwork.framework; sourceTree = "<group>"; };
+		AC3C4BDB1D48493A00A1EC73 /* FBNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBNotifications.framework; path = ../../../../Documents/FacebookSDK/FBNotifications.framework; sourceTree = "<group>"; };
+		AC3C4BDC1D48493A00A1EC73 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		AC3C4BDD1D48493A00A1EC73 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		AC3C4BDE1D48493A00A1EC73 /* FBSDKMessengerShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKMessengerShareKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKMessengerShareKit.framework; sourceTree = "<group>"; };
+		AC3C4BDF1D48493A00A1EC73 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
+		AC3C4BE71D4849D300A1EC73 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ../../../../Documents/FacebookSDK/Bolts.framework; sourceTree = "<group>"; };
+		AC3C4BED1D484BC000A1EC73 /* AccountKitStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AccountKitStrings.bundle; path = ../../../../Documents/FacebookSDK/AccountKitStrings.bundle; sourceTree = "<group>"; };
+		AC3C4BEE1D484BC000A1EC73 /* FacebookSDKStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FacebookSDKStrings.bundle; path = ../../../../Documents/FacebookSDK/FacebookSDKStrings.bundle; sourceTree = "<group>"; };
 		AC4B58AF1D35D58D00489B1E /* libMixpanel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMixpanel.a; path = "Pods/../build/Debug-iphoneos/Mixpanel/libMixpanel.a"; sourceTree = "<group>"; };
 		AC4B58B01D35D58D00489B1E /* libPods-Trippple.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-Trippple.a"; path = "Pods/../build/Debug-iphoneos/libPods-Trippple.a"; sourceTree = "<group>"; };
 		AC4B58B91D35D62C00489B1E /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -424,7 +441,6 @@
 		ACBB203B1C050CF000A63B9C /* RNMail.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMail.xcodeproj; path = "../node_modules/react-native-mail/RNMail.xcodeproj"; sourceTree = "<group>"; };
 		ACBB203E1C050CF000A63B9C /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
 		ACC331EF1CE8EFC200DCC3CC /* FBSnapshotTestCase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSnapshotTestCase.framework; path = "Build/Products/Debug-iphonesimulator/FBSnapshotTestCase-iOS8.0/FBSnapshotTestCase.framework"; sourceTree = "<group>"; };
-		ACC332071CE90AE500DCC3CC /* RCTFBLogin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBLogin.xcodeproj; path = "../node_modules/react-native-facebook-login/RCTFBLogin.xcodeproj"; sourceTree = "<group>"; };
 		ACC332171CE90DB700DCC3CC /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		ACC332181CE90DB700DCC3CC /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		ACC332191CE90DB700DCC3CC /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
@@ -453,16 +469,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC3C4BD81D48482000A1EC73 /* libRCTFBSDK.a in Frameworks */,
 				AC7F1DAB1D3608AA00D3B511 /* libRNMixpanel.a in Frameworks */,
 				ACB070321D08991900B8E4A9 /* libRCTLinking.a in Frameworks */,
 				ACB0702F1D0898D300B8E4A9 /* libRCTPushNotification.a in Frameworks */,
 				AC8958ED1CFD4A35009AB211 /* libRNHotline.a in Frameworks */,
 				AC758B2A1CF853E600A6A9C0 /* libRCTContacts.a in Frameworks */,
 				AC21F3C91CF6A20A0058CDAD /* libRNDeviceInfo.a in Frameworks */,
-				AC8422901CF504F800882DEC /* libRCTFBLogin.a in Frameworks */,
-				ACC4C5AC1CE90FDC003A2716 /* FBSDKCoreKit.framework in Frameworks */,
-				ACC4C5AD1CE90FDC003A2716 /* FBSDKLoginKit.framework in Frameworks */,
-				ACC4C5AE1CE90FDC003A2716 /* FBSDKShareKit.framework in Frameworks */,
 				ACA80C311CE849830081A99F /* libEXURLHandler.a in Frameworks */,
 				ACDF39131CE80BB100DE839B /* libReact.a in Frameworks */,
 				AC054A031C673F8A0072E9E7 /* libRCTOSPermissions copy.a in Frameworks */,
@@ -473,8 +486,17 @@
 				AC0549F71C671C970072E9E7 /* libz.tbd in Frameworks */,
 				AC0549F51C671C8B0072E9E7 /* SystemConfiguration.framework in Frameworks */,
 				AC0549F31C671C730072E9E7 /* CoreData.framework in Frameworks */,
+				AC3C4BE81D4849D300A1EC73 /* Bolts.framework in Frameworks */,
+				AC3C4BEF1D484BC000A1EC73 /* AccountKitStrings.bundle in Frameworks */,
+				AC3C4BF01D484BC000A1EC73 /* FacebookSDKStrings.bundle in Frameworks */,
+				AC3C4BEC1D484BC000A1EC73 /* FBSDKShareKit.framework in Frameworks */,
 				ACBB209F1C0510E200A63B9C /* libRCTCamera.a in Frameworks */,
 				ACBB209A1C050E8A00A63B9C /* CoreFoundation.framework in Frameworks */,
+				AC3C4BE01D48493A00A1EC73 /* AccountKit.framework in Frameworks */,
+				AC3C4BE21D48493A00A1EC73 /* FBNotifications.framework in Frameworks */,
+				AC3C4BE31D48493A00A1EC73 /* FBSDKCoreKit.framework in Frameworks */,
+				AC3C4BE41D48493A00A1EC73 /* FBSDKLoginKit.framework in Frameworks */,
+				AC3C4BE51D48493A00A1EC73 /* FBSDKMessengerShareKit.framework in Frameworks */,
 				ACBB20991C050E8400A63B9C /* AssetsLibrary.framework in Frameworks */,
 				ACBB20831C050E7C00A63B9C /* libRCTActionSheet.a in Frameworks */,
 				ACBB20861C050E7C00A63B9C /* libRCTCameraRoll.a in Frameworks */,
@@ -591,10 +613,10 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				AC3C4BB31D48481A00A1EC73 /* RCTFBSDK.xcodeproj */,
 				AC8958E41CFD3467009AB211 /* RNHotline.xcodeproj */,
 				AC758B241CF853D800A6A9C0 /* RCTContacts.xcodeproj */,
 				AC21F3C31CF6A2050058CDAD /* RNDeviceInfo.xcodeproj */,
-				ACC332071CE90AE500DCC3CC /* RCTFBLogin.xcodeproj */,
 				ACA80C711CE862CF0081A99F /* RCTTest.xcodeproj */,
 				AC054A121C6748420072E9E7 /* RNMixpanel.xcodeproj */,
 				AC0549FA1C673EFC0072E9E7 /* TouchID.xcodeproj */,
@@ -670,6 +692,16 @@
 		A999B3CF69585EF60C549767 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AC3C4BED1D484BC000A1EC73 /* AccountKitStrings.bundle */,
+				AC3C4BEE1D484BC000A1EC73 /* FacebookSDKStrings.bundle */,
+				AC3C4BE71D4849D300A1EC73 /* Bolts.framework */,
+				AC3C4BD91D48493A00A1EC73 /* AccountKit.framework */,
+				AC3C4BDA1D48493A00A1EC73 /* FBAudienceNetwork.framework */,
+				AC3C4BDB1D48493A00A1EC73 /* FBNotifications.framework */,
+				AC3C4BDC1D48493A00A1EC73 /* FBSDKCoreKit.framework */,
+				AC3C4BDD1D48493A00A1EC73 /* FBSDKLoginKit.framework */,
+				AC3C4BDE1D48493A00A1EC73 /* FBSDKMessengerShareKit.framework */,
+				AC3C4BDF1D48493A00A1EC73 /* FBSDKShareKit.framework */,
 				AC029D801D362D6D008A3F35 /* libMixpanel-iOS8.3.a */,
 				AC029D7E1D362D6A008A3F35 /* libMixpanel-iOS8.0.a */,
 				AC7F1CEF1D35FD1400D3B511 /* libPods-TripppleUITests.a */,
@@ -735,6 +767,14 @@
 			isa = PBXGroup;
 			children = (
 				AC21F3C81CF6A2050058CDAD /* libRNDeviceInfo.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AC3C4BB41D48481A00A1EC73 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC3C4BBE1D48481B00A1EC73 /* libRCTFBSDK.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1028,14 +1068,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		ACC332081CE90AE500DCC3CC /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				ACC3320C1CE90AE600DCC3CC /* libRCTFBLogin.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		ACC7DE7D1C5A41EA0087476F /* Trippple */ = {
 			isa = PBXGroup;
 			children = (
@@ -1132,7 +1164,7 @@
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 3D5DY3UN4M;
 						DevelopmentTeamName = "Trippple LLC";
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -1181,8 +1213,8 @@
 					ProjectRef = AC758B241CF853D800A6A9C0 /* RCTContacts.xcodeproj */;
 				},
 				{
-					ProductGroup = ACC332081CE90AE500DCC3CC /* Products */;
-					ProjectRef = ACC332071CE90AE500DCC3CC /* RCTFBLogin.xcodeproj */;
+					ProductGroup = AC3C4BB41D48481A00A1EC73 /* Products */;
+					ProjectRef = AC3C4BB31D48481A00A1EC73 /* RCTFBSDK.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302B61ABCB90400DB3ED1 /* Products */;
@@ -1384,6 +1416,13 @@
 			remoteRef = AC21F3C71CF6A2050058CDAD /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		AC3C4BBE1D48481B00A1EC73 /* libRCTFBSDK.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTFBSDK.a;
+			remoteRef = AC3C4BBD1D48481B00A1EC73 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		AC758A811CF6B07B00A6A9C0 /* libRCTPushNotification.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1496,13 +1535,6 @@
 			remoteRef = ACBB205D1C050CF100A63B9C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		ACC3320C1CE90AE600DCC3CC /* libRCTFBLogin.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTFBLogin.a;
-			remoteRef = ACC3320B1CE90AE600DCC3CC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1575,7 +1607,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "../node_modules/react-native/packager/react-native-xcode.sh";
+			shellScript = "#../node_modules/react-native/packager/react-native-xcode.sh";
 			showEnvVarsInLog = 0;
 		};
 		AC9F1CF91CFFE20B002C62CA /* ShellScript */ = {
@@ -1671,14 +1703,17 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Trippple/Trippple.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Trippple LLC (3D5DY3UN4M)";
-				CURRENT_PROJECT_VERSION = 2.4;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 2.5;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = "";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_BITCODE = NO;
 				ENABLE_ON_DEMAND_RESOURCES = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/../lib/**",
+					"~/Documents/FacebookSDK",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(PROJECT_DIR)",
 					"$(inherited)",
@@ -1697,7 +1732,7 @@
 					"$(SRCROOT)/../node_modules/react-native-auto-updater/**",
 				);
 				INFOPLIST_FILE = Trippple/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1713,8 +1748,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
 				PRODUCT_NAME = Trippple;
-				PROVISIONING_PROFILE = "d81bd077-9ac0-4dca-aeed-67bb71883b94";
-				PROVISIONING_PROFILE_SPECIFIER = "3D5DY3UN4M/XC Ad Hoc: co.trippple";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1731,13 +1766,16 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Trippple/Trippple.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Trippple LLC (3D5DY3UN4M)";
-				CURRENT_PROJECT_VERSION = 2.4;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 2.5;
+				DEVELOPMENT_TEAM = "";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_BITCODE = NO;
 				ENABLE_ON_DEMAND_RESOURCES = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/../lib/**",
+					"~/Documents/FacebookSDK",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(PROJECT_DIR)",
 					"$(inherited)",
@@ -1756,7 +1794,7 @@
 					"$(SRCROOT)/../node_modules/react-native-auto-updater/**",
 				);
 				INFOPLIST_FILE = Trippple/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1772,8 +1810,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
 				PRODUCT_NAME = Trippple;
-				PROVISIONING_PROFILE = "d81bd077-9ac0-4dca-aeed-67bb71883b94";
-				PROVISIONING_PROFILE_SPECIFIER = "3D5DY3UN4M/XC Ad Hoc: co.trippple";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1804,6 +1842,7 @@
 				CURRENT_PROJECT_VERSION = 3;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "~/Documents/FacebookSDK";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1824,7 +1863,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -1862,6 +1901,7 @@
 				CURRENT_PROJECT_VERSION = 3;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "~/Documents/FacebookSDK";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1875,7 +1915,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

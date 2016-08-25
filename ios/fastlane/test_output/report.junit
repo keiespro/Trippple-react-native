@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites tests='38' failures='1'>
+  <testsuite name='CoupleTests' tests='9' failures='1'>
+    <testcase classname='CoupleTests' name='testChat' time='3.651'/>
+    <testcase classname='CoupleTests' name='testMatches'>
+      <failure message='failed: caught &quot;NSInternalInconsistencyException&quot;, &quot;RedBox error: Unhandled JS Exception: Attempted to update component `TaskManager` that has already been unmounted (or failed to mount).&quot;'>
+        /Users/alexlopez/code/Trippple/TripppleApp/node_modules/react-native/Libraries/RCTTest/RCTTestRunner.m:155
+      </failure>
+    </testcase>
+    <testcase classname='CoupleTests' name='testPotentials' time='3.281'/>
+    <testcase classname='CoupleTests' name='testPotentialsPlaceholder' time='0.834'/>
+    <testcase classname='CoupleTests' name='testSettings' time='1.039'/>
+    <testcase classname='CoupleTests' name='testSettingsBasic' time='0.988'/>
+    <testcase classname='CoupleTests' name='testSettingsCouple' time='0.867'/>
+    <testcase classname='CoupleTests' name='testSettingsPreferences' time='0.971'/>
+    <testcase classname='CoupleTests' name='testSettingsSettings' time='0.896'/>
+  </testsuite>
+  <testsuite name='MainTests' tests='14' failures='0'>
+    <testcase classname='MainTests' name='testCameraPermissions' time='1.652'/>
+    <testcase classname='MainTests' name='testCameraRollPermissions' time='0.872'/>
+    <testcase classname='MainTests' name='testCheckMark' time='0.824'/>
+    <testcase classname='MainTests' name='testImageFlagged' time='0.791'/>
+    <testcase classname='MainTests' name='testIntro' time='1.188'/>
+    <testcase classname='MainTests' name='testLocationPermission' time='0.850'/>
+    <testcase classname='MainTests' name='testLogin' time='0.892'/>
+    <testcase classname='MainTests' name='testMaintenanceScreen' time='1.016'/>
+    <testcase classname='MainTests' name='testNewNotificationPermissions' time='0.856'/>
+    <testcase classname='MainTests' name='testPinScreen' time='0.877'/>
+    <testcase classname='MainTests' name='testPrivacyPermissions' time='0.897'/>
+    <testcase classname='MainTests' name='testRegister' time='0.946'/>
+    <testcase classname='MainTests' name='testReportModal' time='0.778'/>
+    <testcase classname='MainTests' name='testUnmatchModal' time='0.722'/>
+  </testsuite>
+  <testsuite name='OnboardingTests' tests='6' failures='0'>
+    <testcase classname='OnboardingTests' name='testBday' time='1.670'/>
+    <testcase classname='OnboardingTests' name='testFacebook' time='0.722'/>
+    <testcase classname='OnboardingTests' name='testGender' time='0.734'/>
+    <testcase classname='OnboardingTests' name='testName' time='0.743'/>
+    <testcase classname='OnboardingTests' name='testPrivacy' time='0.756'/>
+    <testcase classname='OnboardingTests' name='testSelectImageSource' time='0.647'/>
+  </testsuite>
+  <testsuite name='SingleTests' tests='9' failures='0'>
+    <testcase classname='SingleTests' name='testChat' time='1.425'/>
+    <testcase classname='SingleTests' name='testChatActionModal' time='0.887'/>
+    <testcase classname='SingleTests' name='testMatches' time='0.921'/>
+    <testcase classname='SingleTests' name='testPotentials' time='0.783'/>
+    <testcase classname='SingleTests' name='testPotentialsPlaceholder' time='0.758'/>
+    <testcase classname='SingleTests' name='testSettings' time='1.003'/>
+    <testcase classname='SingleTests' name='testSettingsBasic' time='0.793'/>
+    <testcase classname='SingleTests' name='testSettingsPreferences' time='0.871'/>
+    <testcase classname='SingleTests' name='testSettingsSettings' time='0.818'/>
+  </testsuite>
+</testsuites>

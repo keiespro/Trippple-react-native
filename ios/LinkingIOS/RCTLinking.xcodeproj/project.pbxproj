@@ -5,9 +5,23 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		148699CF1ABD045300480536 /* RCTLinkingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 148699CE1ABD045300480536 /* RCTLinkingManager.m */; };
+		65AAC3B1A41A4D1BB7E4E0EE /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BD3FC84660C840DD9F8389C0 /* libRCTFBSDK.a */; };
+		F7B04DC35B604B6E90A81725 /* libRNAppInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADFB61FF9EFD4EFC8DED689F /* libRNAppInfo.a */; };
+		6BDD31B753AE4870AD75E31E /* libReactNativeAutoUpdater.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5F3605134A4422D8D98F24A /* libReactNativeAutoUpdater.a */; };
+		07F1D18709FF423FB7E58333 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3146035075824331AE47D8BE /* libRCTCamera.a */; };
+		D88CBE2C1E12495C989D89A6 /* libRCTContacts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B550466612E45D9817A84F6 /* libRCTContacts.a */; };
+		E9BBEAA882194B82B2E385A4 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC603281043B4BA29A9445C7 /* libRNDeviceInfo.a */; };
+		5FF6C548DEB649EAAF1D0082 /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 190A47DFB8544C59949C3DB3 /* libRCTFBLogin.a */; };
+		76C01D9D34F74D80A9FADA71 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A8B12E492C6B415E88EDD9AA /* libRNFS.a */; };
+		60C5B0ADB0014E918680B204 /* libRCTGoogleAnalyticsBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 529067A6B1CB477CA46555C0 /* libRCTGoogleAnalyticsBridge.a */; };
+		136392C678B949A882449984 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A4D3886656034FBAB21379F7 /* libRNMail.a */; };
+		6E08A3439F9D4305A76A475D /* libRNMessageComposer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF32C234CC0745BB836482F7 /* libRNMessageComposer.a */; };
+		25374D3C89314042A27BEA9D /* libRNMixpanel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 89BE04FB9F0442EA96953BFD /* libRNMixpanel.a */; };
+		6FE093396D6F4172BAB4958A /* libTouchID.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 05B83C3A1D184BA3BDEF4DA6 /* libTouchID.a */; };
+		CDED3A1147994DA4B8E0EFAF /* libWorkers.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AF454CE225D94B3DB9B19F74 /* libWorkers.a */; };
+		E1700EA6890546ACAF75A235 /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0674FA8AC4F54BF08B499E26 /* libRNBlur.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,6 +40,36 @@
 		134814201AA4EA6300B7C361 /* libRCTLinking.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTLinking.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		148699CD1ABD045300480536 /* RCTLinkingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTLinkingManager.h; sourceTree = "<group>"; };
 		148699CE1ABD045300480536 /* RCTLinkingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTLinkingManager.m; sourceTree = "<group>"; };
+		FAFBE1F4E0234F28B483BBD3 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; name = "RCTFBSDK.xcodeproj"; path = "../../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		BD3FC84660C840DD9F8389C0 /* libRCTFBSDK.a */ = {isa = PBXFileReference; name = "libRCTFBSDK.a"; path = "libRCTFBSDK.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		108FE3886B1E4441B95514B2 /* RNAppInfo.xcodeproj */ = {isa = PBXFileReference; name = "RNAppInfo.xcodeproj"; path = "../../node_modules/react-native-app-info/RNAppInfo.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		ADFB61FF9EFD4EFC8DED689F /* libRNAppInfo.a */ = {isa = PBXFileReference; name = "libRNAppInfo.a"; path = "libRNAppInfo.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		8DB967B64F66430C80DBFFB5 /* ReactNativeAutoUpdater.xcodeproj */ = {isa = PBXFileReference; name = "ReactNativeAutoUpdater.xcodeproj"; path = "../../node_modules/react-native-auto-updater/ios/ReactNativeAutoUpdater.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		D5F3605134A4422D8D98F24A /* libReactNativeAutoUpdater.a */ = {isa = PBXFileReference; name = "libReactNativeAutoUpdater.a"; path = "libReactNativeAutoUpdater.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		97AB25D62665408F805366CD /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; name = "RCTCamera.xcodeproj"; path = "../../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		3146035075824331AE47D8BE /* libRCTCamera.a */ = {isa = PBXFileReference; name = "libRCTCamera.a"; path = "libRCTCamera.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		39BDF40F2D634B8291FE29EB /* RCTContacts.xcodeproj */ = {isa = PBXFileReference; name = "RCTContacts.xcodeproj"; path = "../../node_modules/react-native-contacts/ios/RCTContacts.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		7B550466612E45D9817A84F6 /* libRCTContacts.a */ = {isa = PBXFileReference; name = "libRCTContacts.a"; path = "libRCTContacts.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		5A24C44026D54F269E43DFC1 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; name = "RNDeviceInfo.xcodeproj"; path = "../../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		AC603281043B4BA29A9445C7 /* libRNDeviceInfo.a */ = {isa = PBXFileReference; name = "libRNDeviceInfo.a"; path = "libRNDeviceInfo.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		B08A3DE8635E44D4B02B4A53 /* RCTFBLogin.xcodeproj */ = {isa = PBXFileReference; name = "RCTFBLogin.xcodeproj"; path = "../../node_modules/react-native-facebook-login/RCTFBLogin.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		190A47DFB8544C59949C3DB3 /* libRCTFBLogin.a */ = {isa = PBXFileReference; name = "libRCTFBLogin.a"; path = "libRCTFBLogin.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		4B29E1848C4E4DA584D9754D /* RNFS.xcodeproj */ = {isa = PBXFileReference; name = "RNFS.xcodeproj"; path = "../../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		A8B12E492C6B415E88EDD9AA /* libRNFS.a */ = {isa = PBXFileReference; name = "libRNFS.a"; path = "libRNFS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		6D55DB11C39E404D94CDA5AC /* RCTGoogleAnalyticsBridge.xcodeproj */ = {isa = PBXFileReference; name = "RCTGoogleAnalyticsBridge.xcodeproj"; path = "../../node_modules/react-native-google-analytics-bridge/ios/RCTGoogleAnalyticsBridge/RCTGoogleAnalyticsBridge.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		529067A6B1CB477CA46555C0 /* libRCTGoogleAnalyticsBridge.a */ = {isa = PBXFileReference; name = "libRCTGoogleAnalyticsBridge.a"; path = "libRCTGoogleAnalyticsBridge.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		61D7BD3B09E8494981BCBC1A /* RNMail.xcodeproj */ = {isa = PBXFileReference; name = "RNMail.xcodeproj"; path = "../../node_modules/react-native-mail/RNMail.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		A4D3886656034FBAB21379F7 /* libRNMail.a */ = {isa = PBXFileReference; name = "libRNMail.a"; path = "libRNMail.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		1C9A33984A0B4A618DAA3049 /* RNMessageComposer.xcodeproj */ = {isa = PBXFileReference; name = "RNMessageComposer.xcodeproj"; path = "../../node_modules/react-native-message-composer/RNMessageComposer.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		DF32C234CC0745BB836482F7 /* libRNMessageComposer.a */ = {isa = PBXFileReference; name = "libRNMessageComposer.a"; path = "libRNMessageComposer.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		6C07FDDC69E640AEB8F3335C /* RNMixpanel.xcodeproj */ = {isa = PBXFileReference; name = "RNMixpanel.xcodeproj"; path = "../../node_modules/react-native-mixpanel/RNMixpanel.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		89BE04FB9F0442EA96953BFD /* libRNMixpanel.a */ = {isa = PBXFileReference; name = "libRNMixpanel.a"; path = "libRNMixpanel.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		999CD1D670BC46BB83B03FE2 /* TouchID.xcodeproj */ = {isa = PBXFileReference; name = "TouchID.xcodeproj"; path = "../../node_modules/react-native-touch-id/TouchID.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		05B83C3A1D184BA3BDEF4DA6 /* libTouchID.a */ = {isa = PBXFileReference; name = "libTouchID.a"; path = "libTouchID.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		2A7619D701ED49548B5AAE38 /* Workers.xcodeproj */ = {isa = PBXFileReference; name = "Workers.xcodeproj"; path = "../../node_modules/react-native-workers/ios/Workers.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		AF454CE225D94B3DB9B19F74 /* libWorkers.a */ = {isa = PBXFileReference; name = "libWorkers.a"; path = "libWorkers.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		37F6AA2DAEB84B0CB8B65742 /* RNBlur.xcodeproj */ = {isa = PBXFileReference; name = "RNBlur.xcodeproj"; path = "../../node_modules/react-native-blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		0674FA8AC4F54BF08B499E26 /* libRNBlur.a */ = {isa = PBXFileReference; name = "libRNBlur.a"; path = "libRNBlur.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +77,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65AAC3B1A41A4D1BB7E4E0EE /* libRCTFBSDK.a in Frameworks */,
+				F7B04DC35B604B6E90A81725 /* libRNAppInfo.a in Frameworks */,
+				6BDD31B753AE4870AD75E31E /* libReactNativeAutoUpdater.a in Frameworks */,
+				07F1D18709FF423FB7E58333 /* libRCTCamera.a in Frameworks */,
+				D88CBE2C1E12495C989D89A6 /* libRCTContacts.a in Frameworks */,
+				E9BBEAA882194B82B2E385A4 /* libRNDeviceInfo.a in Frameworks */,
+				5FF6C548DEB649EAAF1D0082 /* libRCTFBLogin.a in Frameworks */,
+				76C01D9D34F74D80A9FADA71 /* libRNFS.a in Frameworks */,
+				60C5B0ADB0014E918680B204 /* libRCTGoogleAnalyticsBridge.a in Frameworks */,
+				136392C678B949A882449984 /* libRNMail.a in Frameworks */,
+				6E08A3439F9D4305A76A475D /* libRNMessageComposer.a in Frameworks */,
+				25374D3C89314042A27BEA9D /* libRNMixpanel.a in Frameworks */,
+				6FE093396D6F4172BAB4958A /* libTouchID.a in Frameworks */,
+				CDED3A1147994DA4B8E0EFAF /* libWorkers.a in Frameworks */,
+				E1700EA6890546ACAF75A235 /* libRNBlur.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,7 +112,31 @@
 				148699CD1ABD045300480536 /* RCTLinkingManager.h */,
 				148699CE1ABD045300480536 /* RCTLinkingManager.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
+				F4B8C2530E9146B2A5793F77 /* Libraries */,
 			);
+			sourceTree = "<group>";
+		};
+		F4B8C2530E9146B2A5793F77 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				FAFBE1F4E0234F28B483BBD3 /* RCTFBSDK.xcodeproj */,
+				108FE3886B1E4441B95514B2 /* RNAppInfo.xcodeproj */,
+				8DB967B64F66430C80DBFFB5 /* ReactNativeAutoUpdater.xcodeproj */,
+				97AB25D62665408F805366CD /* RCTCamera.xcodeproj */,
+				39BDF40F2D634B8291FE29EB /* RCTContacts.xcodeproj */,
+				5A24C44026D54F269E43DFC1 /* RNDeviceInfo.xcodeproj */,
+				B08A3DE8635E44D4B02B4A53 /* RCTFBLogin.xcodeproj */,
+				4B29E1848C4E4DA584D9754D /* RNFS.xcodeproj */,
+				6D55DB11C39E404D94CDA5AC /* RCTGoogleAnalyticsBridge.xcodeproj */,
+				61D7BD3B09E8494981BCBC1A /* RNMail.xcodeproj */,
+				1C9A33984A0B4A618DAA3049 /* RNMessageComposer.xcodeproj */,
+				6C07FDDC69E640AEB8F3335C /* RNMixpanel.xcodeproj */,
+				999CD1D670BC46BB83B03FE2 /* TouchID.xcodeproj */,
+				2A7619D701ED49548B5AAE38 /* Workers.xcodeproj */,
+				37F6AA2DAEB84B0CB8B65742 /* RNBlur.xcodeproj */,
+			);
+			name = Libraries;
+			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -82,7 +165,7 @@
 		58B511D31A9E6C8500147676 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 610;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					58B511DA1A9E6C8500147676 = {
@@ -202,8 +285,40 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../../React/**",
+					"$(SRCROOT)/../../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+					"$(SRCROOT)/../../node_modules/react-native-app-info/RNAppInfo",
+					"$(SRCROOT)/../../node_modules/react-native-auto-updater/ios/ReactNativeAutoUpdater",
+					"$(SRCROOT)/../../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../../node_modules/react-native-contacts/ios/RCTContacts",
+					"$(SRCROOT)/../../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../../node_modules/react-native-facebook-login/RCTFBLogin/**",
+					"$(SRCROOT)/../../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../../node_modules/react-native-google-analytics-bridge/ios/RCTGoogleAnalyticsBridge/**",
+					"$(SRCROOT)/../../node_modules/react-native-mail/RNMail",
+					"$(SRCROOT)/../../node_modules/react-native-message-composer/RNMessageComposer",
+					"$(SRCROOT)/../../node_modules/react-native-mixpanel/RNMixpanel",
+					"$(SRCROOT)/../../node_modules/react-native-touch-id",
+					"$(SRCROOT)/../../node_modules/react-native-workers/ios/Workers",
+					"$(SRCROOT)/../../node_modules/react-native-blur/ios",
 				);
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = RCTLinking;
 				SKIP_INSTALL = YES;
@@ -217,8 +332,40 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../../React/**",
+					"$(SRCROOT)/../../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+					"$(SRCROOT)/../../node_modules/react-native-app-info/RNAppInfo",
+					"$(SRCROOT)/../../node_modules/react-native-auto-updater/ios/ReactNativeAutoUpdater",
+					"$(SRCROOT)/../../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../../node_modules/react-native-contacts/ios/RCTContacts",
+					"$(SRCROOT)/../../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../../node_modules/react-native-facebook-login/RCTFBLogin/**",
+					"$(SRCROOT)/../../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../../node_modules/react-native-google-analytics-bridge/ios/RCTGoogleAnalyticsBridge/**",
+					"$(SRCROOT)/../../node_modules/react-native-mail/RNMail",
+					"$(SRCROOT)/../../node_modules/react-native-message-composer/RNMessageComposer",
+					"$(SRCROOT)/../../node_modules/react-native-mixpanel/RNMixpanel",
+					"$(SRCROOT)/../../node_modules/react-native-touch-id",
+					"$(SRCROOT)/../../node_modules/react-native-workers/ios/Workers",
+					"$(SRCROOT)/../../node_modules/react-native-blur/ios",
 				);
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = RCTLinking;
 				SKIP_INSTALL = YES;
