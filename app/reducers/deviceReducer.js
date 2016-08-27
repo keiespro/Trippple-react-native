@@ -5,7 +5,13 @@ export default function deviceReducer(state = initialState, action) {
 
   switch (action.type) {
 
+    case 'UPDATE_USER_FULFILLED':
+      console.log(action.meta[0]['push_token']);
+
+      return {...state, push_token: action.meta[0]['push_token']}
+
     case 'LOG_OUT':
+    case 'LOG_OUT_FULFILLED':
 
       return initialState;
 

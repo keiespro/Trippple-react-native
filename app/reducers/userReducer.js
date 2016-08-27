@@ -20,6 +20,8 @@ export default function userReducer(state = initialState, action) {
     case 'VERIFY_PIN_FULFILLED':
       return {...state, ...user_info, isNewUser: false }
 
+    case 'ONBOARD_FULFILLED':
+      return {...state, ...user_info, }
 
     case 'LOGIN_WITH_FACEBOOK_FULFILLED':
       return {...state, ...user_info, isNewUser: !existed }

@@ -134,7 +134,9 @@ class NotificationCommander extends Component{
   handleAction(data){
       console.log(data);
       if(!data || !data.action){ return }
+      if(data.vibrate){
 
+      }
       if(data.action === 'retrieve' && data.type == 'potentials') {
 
         this.props.getPotentials()
@@ -241,19 +243,19 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getPotentials:                                          (p) => dispatch(ActionMan.getPotentials()),
-    receiveNewMatchNotification:                            (p) => dispatch(ActionMan.receiveNewMatchNotification(p)),
+    receiveNewMatchNotification:                            (p) => dispatch(ActionMan.receiveNotification({type:'NewMatch',payload: p})),
     getMatches:                                             (p) => dispatch(ActionMan.getMatches()),
-    receiveNewMessageNotification:                          (p) => dispatch(ActionMan.receiveNewMessageNotification(p)),
+    receiveNewMessageNotification:                          (p) => dispatch(ActionMan.receiveNotification({type:'NewMessage',payload: p})),
     getMessages:                                            (p) => dispatch(ActionMan.getMessages()),
     updateRoute:                                            (p) => dispatch(ActionMan.updateRoute(p)),
     updateBadgeNumber:                                      (p) => dispatch(ActionMan.updateBadgeNumber(p)),
-    receiveMatchRemovedNotification:                        (p) => dispatch(ActionMan.receiveMatchRemovedNotification(p)),
-    receiveCoupleCreatedNotification:                       (p) => dispatch(ActionMan.receiveCoupleCreatedNotification(p)),
-    receiveDecoupleNotification:                            (p) => dispatch(ActionMan.receiveDecoupleNotification(p)),
+    receiveMatchRemovedNotification:                        (p) => dispatch(ActionMan.receiveNotification({type:'MatchRemoved',payload: p})),
+    receiveCoupleCreatedNotification:                       (p) => dispatch(ActionMan.receiveNotification({type:'CoupleCreated',payload: p})),
+    receiveDecoupleNotification:                            (p) => dispatch(ActionMan.receiveNotification({type:'Decouple',payload: p})),
     getUserInfo:                                            (p) => dispatch(ActionMan.getUserInfo()),
     logOut:                                                 (p) => dispatch(ActionMan.logOut()),
     sendTelemetry:                                          (p) => dispatch(ActionMan.sendTelemetry()),
-    receiveGenericNotification:                             (p) => dispatch(ActionMan.receiveGenericNotification(p)),
+    receiveGenericNotification:                             (p) => dispatch(ActionMan.receiveNotification({type:'Generic',payload: p})),
     dispatch
   };
 }

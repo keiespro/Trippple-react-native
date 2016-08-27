@@ -1,6 +1,6 @@
 import React from "react";
 
-import {StyleSheet, Text, View, LayoutAnimation, Image, TouchableOpacity, TouchableHighlight, Animated, ScrollView, Dimensions} from "react-native";
+import {StyleSheet, Text, View, StatusBar, LayoutAnimation, Image, TouchableOpacity, TouchableHighlight, Animated, ScrollView, Dimensions} from "react-native";
 
 import SliderTabBar from './SliderTabBar'
 import animations from './LayoutAnimations'
@@ -189,7 +189,7 @@ class Card extends React.Component{
       const heights = {
         smallest:{
           top: -60,
-          second: -57,
+          second: -60,
           third: -55
         },
         middle:{
@@ -205,22 +205,21 @@ class Card extends React.Component{
       };
 
       const heightTable =  MagicNumbers.is4s ? heights.smallest : (MagicNumbers.is5orless ? heights.middle : heights.all);
-      const cardHeight = DeviceHeight + (isTopCard ? heightTable.top : (isThirdCard ? heightTable.third : heightTable.second));
+      const cardHeight = DeviceHeight + (isTopCard ? heightTable.top : heightTable.second);
       // ? DeviceHeight- 40 : DeviceHeight -60
       const cardWidth = DeviceWidth;
 
       return (
         <View
-          shouldRasterizeIOS={!this.props.animatedIn}
           ref={'cardinside'}
           key={`${potential.id || potential.user.id}-inside`}
           style={ [{
-            borderRadius: 8,
+            // borderRadius: 8,
+            // backgroundColor:'red',
 
 
-            position:'relative',
             height: cardHeight,
-            overflow:'hidden',
+            // overflow:'hidden',
           }]}
         >
 
@@ -267,7 +266,7 @@ class Card extends React.Component{
                 flexDirection:'column',
                 position:'relative',
                 backgroundColor: isTopCard ? this.props.pan && this.props.pan.x.interpolate({
-                  inputRange: [-300,-30, -10, 0, 10,  30, 300],
+                  inputRange: [-300,-80, -10, 0, 10,  80, 300],
                   outputRange: [
                     'rgb(232,74,107)',
                     'rgb(232,74,107)',
@@ -294,11 +293,11 @@ class Card extends React.Component{
                     marginRight:0,
                     left:0,
                   }}
-                  showsPagination={true}
+                  showsPagination={false}
                   dot={<View style={styles.dot} />}
                   activeDot={<View style={[styles.dot,styles.activeDot]} />}
 
-                  paginationStyle={{position:'absolute',paddingRight:30,right:0,bottom:0,height:100}}
+                  paginationStyle={{position:'absolute',paddingRight:30,right:0,bottom:0,height:25}}
                 >
 
                   <View
@@ -307,8 +306,9 @@ class Card extends React.Component{
                     style={[styles.imagebg,{ overflow:'hidden',height:undefined, width: undefined,}]}
                   >
                     <Animated.Image
-                    source={ potential.user.image_url ? {uri: potential.user.image_url} : null}
+                    source={ potential.user.image_url ? {uri: potential.user.image_url} : {uri: 'assets/defaultuser@3x.png'}}
                       key={`${potential.user.id}-cimg`}
+                      defaultSource={{uri: 'assets/defaultuser@3x.png'}}
                       style={[styles.imagebg, {
                         backgroundColor: colors.white,
 
@@ -322,7 +322,28 @@ class Card extends React.Component{
                       resizeMode={Image.resizeMode.cover}
                     />
                   </View>
+                {potential.partner.id &&  <View
+                    pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
+                    key={`${potential.partner.id}-touchableimg`}
+                    style={[styles.imagebg,{ overflow:'hidden',height:undefined, width: undefined,}]}
+                  >
+                    <Animated.Image
+                    source={ potential.partner.image_url ? {uri: potential.partner.image_url} : {uri: 'assets/defaultuser@3x.png'}}
+                      key={`${potential.partner.id}-cimg`}
+                      defaultSource={{uri: 'assets/defaultuser@3x.png'}}
+                      style={[styles.imagebg, {
+                        backgroundColor: colors.white,
 
+                        left:0,
+                        right:0,
+                        opacity: isTopCard && pan ? pan.x.interpolate({
+                          inputRange:  [-300, -80, 0, 80, 300],
+                          outputRange: [   0,   1, 1,  1,   0]
+                        }) : 1
+                      }]}
+                      resizeMode={Image.resizeMode.cover}
+                    />
+                  </View>}
 
                 </Swiper> :
                 <View style={{
@@ -344,7 +365,8 @@ class Card extends React.Component{
                     }]}
                     onPress={this.openProfileFromImage.bind(this,true)}>
                     <Animated.Image
-                      source={{uri: this.props.potential.user.image_url}}
+                      source={{uri: potential.user.image_url}}
+                      defaultSource={{uri: 'assets/defaultuser@3x.png'}}
                       key={`${potential.user.id}-cimg`}
                       style={[styles.imagebg,{
                         backgroundColor: colors.white,
@@ -364,7 +386,7 @@ class Card extends React.Component{
               <View
                 key={`${potential.id || potential.user.id}-bottomview`}
                 style={{
-                  height: isTopCard ? 120 : 118,
+                  height: 120+ MagicNumbers.screenPadding/2,
                   marginTop: isTopCard ? -20 : -20,
                   marginLeft:20,
                   right:0,
@@ -380,7 +402,7 @@ class Card extends React.Component{
                 }}
                 >
                   <TouchableHighlight
-                    underlayColor={colors.outerSpace} onPress={this.openProfileFromImage.bind(this,true)}>
+                    underlayColor={colors.mediumPurple20} onPress={this.openProfileFromImage.bind(this,true)}>
                     <View style={{flexDirection:'row'}}>
                       <View
                         key={`${potential.id || potential.user.id}-infos`}
@@ -518,7 +540,8 @@ class Card extends React.Component{
           ref={'cardinside'}
           key={`${potential.id || potential.user.id}-inside`}
           style={ {
-
+            backgroundColor:'#000',
+top:0,
             position: 'absolute',
             right:0,
             left:0,
@@ -528,7 +551,7 @@ class Card extends React.Component{
 
           }}
         >
-
+        <StatusBar animated={true} barStyle="light-content"   />
           <ScrollView
             style={[{
               margin:0,
@@ -544,6 +567,8 @@ class Card extends React.Component{
             ref={'scrollbox'}
             contentContainerStyle={{
               borderRadius:8, overflow:'hidden',
+              // backgroundColor:'red',
+
             }}
             showsVerticalScrollIndicator={false}
             alwaysBounceHorizontal={false}
@@ -578,7 +603,7 @@ class Card extends React.Component{
                   width={undefined}
                   height={DeviceHeight}
                   style={{ overflow: 'hidden',}}
-                  paginationStyle={{position:'absolute',right:10,top:10,height:100}}
+                  paginationStyle={{position:'absolute',right:10,bottom:100,height:100}}
                   dot={<View style={styles.dot} />}
                   activeDot={<View style={[styles.dot,styles.activeDot]} />}
 

@@ -18,7 +18,7 @@ ActionMan.ActionModal = match => dispatch => dispatch({ type: 'SHOW_ACTION_MODAL
 
 ActionMan.showInModal = route => dispatch => dispatch({ type: 'SHOW_IN_MODAL', payload: { route } });
 
-ActionMan.killModal = () => dispatch => dispatch({ type: 'KILL_MODAL' });
+ActionMan.killModal = (t) => dispatch => dispatch({ type: 'KILL_MODAL', payload: { t } });
 
 ActionMan.getPushToken = () => dispatch => dispatch({ type: 'GET_PUSH_TOKEN' });
 
@@ -84,7 +84,7 @@ ActionMan.checkLocation = l => dispatch => dispatch({ type: 'CHECK_LOCATION',
           if(perm){
             resolve(ActionMan.getLocation())
           }else{
-            reject(0)
+            reject(new Error('nopermission'))
           }
       });
     })

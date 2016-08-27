@@ -22,9 +22,9 @@ import FBUSERS from '../../../../fb_test_users'
 import ActionMan from '../../../actions';
 import AppTelemetry from '../../../utils/AppTelemetry';
 import Coupling from '../coupling';
-import FakeNavBar from '../../controls/FakeNavBar';
 
 import NotificationPermissions from '../../modals/NotificationPermissions';
+import LocationPermissions from '../../modals/LocationPermission';
 import colors from '../../../utils/colors';
 
 const DeviceHeight = Dimensions.get('window').height
@@ -34,11 +34,16 @@ import {MagicNumbers} from '../../../utils/DeviceConfig'
 import TEST_ACCOUNTS from '../../../../TEST_ACCOUNTS.js'
 import SettingsConstants, { HAS_SEEN_NOTIFICATION_REQUEST, LAST_ASKED_NOTIFICATION_PERMISSION, NOTIFICATION_SETTING } from '../../../utils/SettingsConstants'
 
+import {
+  withNavigation,
+} from '@exponent/ex-navigation';
+
 const TripppleSettingsKeys = [
   ...SettingsConstants,
   'LocationSetting',
 ];
 
+@withNavigation
 class SettingsDebug extends React.Component{
 
 
@@ -58,28 +63,6 @@ class SettingsDebug extends React.Component{
         <View  style={{ }}>
 
       <ScrollView style={{flex:1,paddingTop:60,overflow:'visible'}}    >
-            {/*  Show telemetry */}
-              {/* <TouchableHighlight
-                onPress={(f)=>{
-                  AppTelemetry.getPayload()
-                  .then((telemetry)=>{
-                    this.props.navigator.push({
-                      component: TelemetryPage,
-                      passProps: {
-                        renderProps: telemetry
-                      }
-                    })
-                  })
-                  .catch((err)=>{
-                    console.error(err)
-                  })
-
-                }} >
-                <View style={styles.wrapfield}>
-                  <Text style={{color:colors.white,}}>User & session info</Text>
-                <Image source={{uri: 'assets/nextArrow@3x.png'}} style={{height:10,width:10,tintColor:colors.white}} />
-                </View>
-              </TouchableHighlight> */}
 
 
 
@@ -87,21 +70,13 @@ class SettingsDebug extends React.Component{
 {/*  login */}
   <TouchableHighlight
     onPress={(f)=>{
+         this.props.dispatch(ActionMan.showInModal({
 
-         this.props.navigator.push(this.props.navigation.router.getRoute('Generic',{
-           component: View,
-           passProps: {
-            inside: (<ScrollView><Text style={{padding:10,marginBottom:10}}>Tap to copy. Password is the same as email. Paste into white box if you want to check email.</Text>
-              <TextInput defaultValue={' '} style={{width:DeviceWidth,height:60,backgroundColor:colors.white,padding:10}}/>
-              {FBUSERS.map(fbu => {
-                return (
-                  <TouchableOpacity onPress={()=>{Clipboard.setString(fbu.email);}} style={{padding:10,borderBottomWidth:0.3,borderColor:colors.white}}>
-                    <Text style={{color:colors.white}}>{fbu.email}</Text>
-                  </TouchableOpacity>
-                )})}
-                </ScrollView>)
-           }
-         }))
+          component: EmptyPage,
+          passProps: {
+            fbUsers:true
+          }
+        }))
 
     }} >
     <View style={styles.wrapfield}>
@@ -441,9 +416,20 @@ class EmptyPage extends React.Component{
     super()
   }
   render(){
-    const {data,screenshot} = this.props
+    const {data,screenshot,fbUsers} = this.props
     // console.log(data)
-    return (
+    return fbUsers ? (
+
+      <ScrollView><Text style={{padding:10,marginBottom:10}}>Tap to copy. Password is the same as email. Paste into white box if you want to check email.</Text>
+        <TextInput defaultValue={' '} style={{width:DeviceWidth,height:60,backgroundColor:colors.white,padding:10}}/>
+        {FBUSERS.map(fbu => {
+          return (
+            <TouchableOpacity onPress={()=>{Clipboard.setString(fbu.email);}} style={{padding:10,borderBottomWidth:0.3,borderColor:colors.white}}>
+              <Text style={{color:colors.white}}>{fbu.email}</Text>
+            </TouchableOpacity>
+          )})}
+        </ScrollView>
+    ) : (
       <View style={{flex: 1,overflow:'hidden'}}>
 
       <ScrollView horizontal={true}
@@ -458,17 +444,7 @@ contentContainerStyle={{height:9000,position:'relative',paddingTop:60}}
               JSON.stringify(data.data, null, 2)
           }</Text>}
       </View></ScrollView>
-        <FakeNavBar
-          blur={true}
-          navigator={this.props.navigator}
-          backgroundStyle={{backgroundColor:colors.sushi,top:0}}
-          hideNext={true}
-          customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{marginVertical:10,alignSelf:'center',height:12,width:12}}
-          source={{uri:'assets/close@3x.png'}}/>}
-          onPrev={(nav,route)=> nav.pop()}
-          title={screenshot ? 'SCREENSHOT' : data.name}
-          titleColor={colors.white}
-        />
+
 
       </View>
 
@@ -548,17 +524,6 @@ class TelemetryPage extends React.Component{
           renderRow={this.renderRow.bind(this)}
         />
 
-        <FakeNavBar
-          blur={true}
-          backgroundStyle={{backgroundColor:colors.sushi,top:0}}
-          hideNext={true}
-          customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{marginVertical:10,alignSelf:'center',height:12,width:12}}
-          source={{uri:'assets/close@3x.png'}}/>}
-          onPrev={(nav,route)=> nav.pop()}
-          title={renderProps ? renderProps.name : 'x'}
-          titleColor={colors.white}
-          navigator={this.props.navigator}
-        />
       </View>
     )
   }

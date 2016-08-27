@@ -359,8 +359,6 @@ class Settings extends React.Component{
                         settingOptions:this.state.settingOptions,
                         user:this.props.user,
                         dispatch: this.props.dispatch,
-                        navigation: this.props.navigation,
-                        navigator:this.props.navigator
                       }))
 
                     }} underlayColor={colors.dark} >

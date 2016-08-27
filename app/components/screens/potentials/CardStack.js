@@ -262,6 +262,7 @@ class CardStack extends React.Component{
         flex:1,
         alignSelf:'stretch',
         right: 0,
+        // backgroundColor:'red',
         bottom:0,
         alignItems:'center'
         }}>
@@ -314,8 +315,9 @@ class CardStack extends React.Component{
           <Animated.View
             style={[styles.shadowCard,{
             alignSelf:'center',
+
             top: this.props.profileVisible ? -50 :  0,
-            left:this.props.profileVisible ? 0 :20,right:this.props.profileVisible ? 0 : 20,
+            left:this.props.profileVisible ? 0 : 20,right:this.props.profileVisible ? 0 : 20,
             borderRadius:8,
             bottom: this.props.profileVisible ? 0 : (DeviceHeight <= 568 ? 75 : 75),
             position: 'absolute',

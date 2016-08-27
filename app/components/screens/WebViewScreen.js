@@ -50,19 +50,19 @@ export default WebViewScreen
 const styles = StyleSheet.create({
 
 
- container: {
-   flex: 1,
-   justifyContent: 'center',
-   alignItems: 'stretch',
-   position:'relative',
-   alignSelf: 'stretch',
-   backgroundColor:colors.outerSpace
- },
- webview:{
-   flex: 1,
-   justifyContent: 'center',
-   alignItems: 'stretch',
-   position:'relative',
-   alignSelf: 'stretch',
- }
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    position:'relative',
+    alignSelf: 'stretch',
+    backgroundColor:colors.outerSpace
+  },
+  webview:{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    position:'relative',
+    alignSelf: 'stretch',
+  }
 });
