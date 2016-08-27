@@ -46,7 +46,8 @@ class ProfileField extends React.Component{
   }
 
   formattedPhone(){
-    return formatPhone(this.props.user[this.props.fieldName])
+    if(!this.props.user.phone) return '';
+    return formatPhone(this.props.user.phone)
   }
   render(){
     var field = this.props.field || {};
@@ -174,6 +175,10 @@ class SettingsBasic extends React.Component{
       }
     });
   }
+  formattedPhone(){
+    if(!this.props.user.phone) return '';
+    return formatPhone(this.props.user.phone)
+  }
   render(){
     let user = this.props.user;
     let settingOptions = this.props.settingOptions || {};
@@ -184,7 +189,7 @@ class SettingsBasic extends React.Component{
 
 
 
-      <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight,overflow:'hidden',paddingTop:60}}>
+      <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight,overflow:'hidden',flex:1,paddingTop:60}}>
 
       <ScrollableTabView startPage={this.props.startPage} onChangeTab={(tab)=>{
 
@@ -237,24 +242,9 @@ class SettingsBasic extends React.Component{
             <View style={{}}>
             {['phone'].map((field,i) => {
               return (
-                <View key={field+'key'+(i*100)}  style={styles.wrapperBirthdayGender}>
-                  <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ field.toUpperCase()}</Text>
-                  <Text style={{
-                    color:colors.shuttleGray,
-                    fontSize:18,
-                    fontFamily:'Montserrat',
-                    textAlign:'right',
-                    paddingRight:30
-                  }}>
-                  { formatPhone(this.props.user[field]) }
-                  </Text>
 
-                  <Image
-                    style={{width:15,height:15,position:'absolute',right:0,top:23}}
-                    source={{uri:'assets/icon-lock.png'}}
-                    resizeMode={Image.resizeMode.contain}
-                  />
-                </View>
+                 <ProfileField navigation={this.props.navigation} dispatch={this.props.dispatch} key={field+'key'+(i*1000)} user={this.props.user} navigator={this.props.navigator} fieldName={field} field={{...settingOptions[field], label:'PHONE'}} />
+
               )
             })}
 
@@ -268,13 +258,12 @@ class SettingsBasic extends React.Component{
 
               <ScrollView
                 showsVerticalScrollIndicator={false}
-                style={{marginTop: 0,flex:1}}  tabLabel={'DETAILS'}>
-                <View style={{}}>
-            <View style={styles.formHeader}>
+                style={{height:DeviceHeight-110}}
+                tabLabel={'DETAILS'}>
+             <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>Details</Text>
-            </View>
-          </View>
-          <View style={{alignSelf:'stretch',alignItems:'stretch',width:DeviceWidth}}>
+           </View>
+          <View style={{alignSelf:'stretch',alignItems:'stretch',flex:1,width:DeviceWidth,paddingBottom:30}}>
           {['height','body_type','ethnicity','eye_color','hair_color','smoke','drink'].map((field,i) => {
             return (
               <View key={field+'key'+(i*10000)} style={{alignSelf:'stretch',alignItems:'stretch',width:DeviceWidth}}>

@@ -2,6 +2,8 @@
 export default function newMatchesReducer(state = initialState, action) {
 
   switch (action.type) {
+    case 'REMOVE_MATCH':
+      return {...state, [action.payload.matchID]: null }
 
     case 'GET_NEW_MATCHES_FULFILLED':
       if ( !action.payload ) return state;

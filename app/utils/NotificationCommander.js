@@ -40,7 +40,7 @@ class NotificationCommander extends Component{
 
     PushNotification.configure({
       onRegister(token) {
-        console.log( 'TOKEN:', token );
+        __DEV__ && console.log( 'TOKEN:', token );
         dispatch(ActionMan.updateUser({push_token: token.token}))
       },
       onNotification(notification) {
@@ -53,7 +53,7 @@ class NotificationCommander extends Component{
         Analytics.event('Handle push notification',{action:JSON.stringify(notification)})
 
         console.log( 'NOTIFICATION:', notification );
-        handleAction(notification.data)
+        notification.data && handleAction(notification.data)
       },
       // senderID: "YOUR GCM SENDER ID", // ANDROID ONLY: (optional) GCM Sender ID.
       popInitialNotification: true,
@@ -132,7 +132,7 @@ class NotificationCommander extends Component{
 
   }
   handleAction(data){
-
+      console.log(data);
       if(!data || !data.action){ return }
 
       if(data.action === 'retrieve' && data.type == 'potentials') {
@@ -142,7 +142,6 @@ class NotificationCommander extends Component{
       }else if(data.action === 'retrieve' && data.match_id) {
 
         this.props.receiveNewMatchNotification(data,true)
-        VibrationIOS.vibrate()
         this.props.getMatches()
         this.openChat()
         this.props.updateBadgeNumber(-1)
@@ -150,10 +149,7 @@ class NotificationCommander extends Component{
       }else if(data.action === 'chat' && data.match_id){
 
         this.props.receiveNewMessageNotification(data,true)
-
-        VibrationIOS.vibrate()
         this.props.getMessages(data.match_id)
-
         this.openChat()
         this.props.updateBadgeNumber(-1)
       }else if(data.action === 'notify') {
@@ -166,20 +162,13 @@ class NotificationCommander extends Component{
         // TODO: update to new
 
       }else if(data.action == 'coupleready') {
-        VibrationIOS.vibrate()
-
         // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
         this.props.receiveCoupleCreatedNotification(data);
-        // TODO: update to new
-
 
       }else if(data.action == 'decouple') {
-        VibrationIOS.vibrate()
 
         // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
         this.props.receiveDecoupleNotification(data);
-        // TODO: update to new
-
 
       }else if(data.action == 'statuschange' || data.action == 'imageflagged') {
 
@@ -191,7 +180,7 @@ class NotificationCommander extends Component{
 
       }else if(data.action == 'report'){
 
-        // AppActions.sendTelemetry()
+        this.props.sendTelemetry()
 
       }else if(data.action === 'display') {
 

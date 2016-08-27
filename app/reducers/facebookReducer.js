@@ -2,16 +2,29 @@ export default function facebookReducer(state = initialState, action) {
 
   switch (action.type) {
 
-    case 'FACEBOOK_AUTH':
+  case 'FACEBOOK_AUTH':
+  case 'ADD_FACEBOOK_PERMISSIONS':
+  case 'FACEBOOK_AUTH_FULFILLED':
+  case 'ADD_FACEBOOK_PERMISSIONS_FULFILLED':
 
     return {...state, ...action.payload};
 
+  case 'LOGIN_WITH_FACEBOOK':
+  case 'LOGIN_WITH_FACEBOOK_FULFILLED':
+    console.log(action.payload);
+    return {...state, ...action.payload};
+
+  case 'GET_FACEBOOK_PROFILE':
+  case 'GET_FACEBOOK_PROFILE_FULFILLED':
+    return {...state, profile: action.payload};
 
   case 'GET_FACEBOOK_INFO':
+  case 'GET_FACEBOOK_INFO_FULFILLED':
 
       return {...state, ...action.payload};
 
-    case 'LOG_OUT':
+  case 'LOG_OUT':
+  case 'LOG_OUT_FULFILLED':
 
       return initialState;
 

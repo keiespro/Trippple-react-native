@@ -6,7 +6,7 @@ import colors from '../../../utils/colors';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-
+import ActionMan from '../../../actions'
 
 export default class Coupling extends Component{
 
@@ -29,8 +29,7 @@ export default class Coupling extends Component{
     this.props.close()
   }
   componentDidMount(){
-    // UserActions.getCouplePin();
-
+    this.props.dispatch(ActionMan.getCouplePin());
   }
 
   render(){

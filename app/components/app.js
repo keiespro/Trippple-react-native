@@ -12,7 +12,6 @@ import ConnectionInfo from '../utils/ConnectionInfo'
 import Notifications from '../utils/Notifications';
 import LoadingOverlay from './LoadingOverlay'
 import colors from '../utils/colors'
-import url from 'url'
 
 import {persistStore} from 'redux-persist'
 import ActionMan from  '../actions/';
@@ -41,6 +40,7 @@ class App extends React.Component{
   performInitActions(){
 
     const initActions = [
+      'getNotificationCount',
       'getUserInfo',
       'getPotentials',
       'getMatches',
@@ -79,7 +79,7 @@ class App extends React.Component{
 
         <AppState dispatch={this.props.dispatch}/>
 
-        <NagManager/>
+        {this.props.nag && <NagManager/>}
 
         <DeepLinkHandler />
 
@@ -102,6 +102,8 @@ class App extends React.Component{
 const mapStateToProps = (state, ownProps) => {
   // console.log('state',state,'ownProps',ownProps); // state
   return {
+    ...ownProps,
+    nag: state.nag,
     user: state.user,
     fbUser: state.fbUser,
     auth: state.auth,

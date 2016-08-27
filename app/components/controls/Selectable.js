@@ -14,7 +14,7 @@ class Selectable extends React.Component{
 
     return (
       <TouchableHighlight
-        underlayColor={colors.dark}
+        underlayColor={this.props.underlayColor || colors.dark}
         style={styles.paddedSpace}
         onPress={() => this.props.onPress(this.props.field) }
         >
@@ -24,10 +24,19 @@ class Selectable extends React.Component{
               fontSize:MagicNumbers.size18,fontFamily:'Montserrat'
             }}
           >{this.props.label}</Text>
-          <Image
+      {selected ?    <Image
             style={{height:30,width:30}}
-            source={{ uri:selected ? 'assets/ovalSelected@3x.png' : 'assets/ovalDashed@3x.png'} }
-          />
+            source={{ uri: 'assets/ovalSelected@3x.png'} }
+          /> :
+          <View
+            style={{height:30,width:30,
+              borderWidth:2,
+              borderColor:colors.shuttleGray,
+              borderStyle:'dashed',
+              borderRadius:15
+            }}/>
+          }
+
         </View>
       </TouchableHighlight>
     )

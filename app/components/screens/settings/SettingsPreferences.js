@@ -24,6 +24,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   TextInput,
+  LayoutAnimation,
   ScrollView,
   Dimensions,
   SwitchIOS,
@@ -42,6 +43,41 @@ const DeviceWidth = Dimensions.get('window').width
 var PickerItemIOS = PickerIOS.Item
 var {OSPermissions} = NativeModules
 
+
+class MultiLineInput extends React.Component{
+  constructor(props){
+    super()
+    this.state = {
+      bioHeight: 65,
+    }
+  }
+  sizeChange(e){
+    LayoutAnimation.linear()
+    this.setState({bioHeight: e.nativeEvent.contentSize.height})
+  }
+
+  render(){
+    return (
+      <TextInput
+      {...this.props}
+        autofocus={true}
+        style={[styles.autogrowTextinput,{paddingVertical:5,height: this.state.bioHeight}]}
+        placeholder={''}
+        autoGrow={true}
+        autoCapitalize={'sentences'}
+        placeholderTextColor={colors.white}
+        maxLength={300}
+        autoCorrect={true}
+        returnKeyType={'done'}
+        multiline={true}
+        keyboardAppearance={'dark'}
+        ref={'_textArea'}
+        clearButtonMode={'always'}
+        onContentSizeChange={this.sizeChange.bind(this)}
+      />
+    )
+  }
+}
 class  SettingsPreferences extends React.Component{
 
     static route = {
@@ -56,6 +92,7 @@ class  SettingsPreferences extends React.Component{
   constructor(props){
     super()
     this.state = {
+      bio: null,
       scroll: 'on',
       nearMeToggled: OSPermissions.location && parseInt(OSPermissions.location) > 2,
       looking_for_mf: props.user.looking_for_mf || false,
@@ -77,35 +114,28 @@ class  SettingsPreferences extends React.Component{
    editBio(){
      this.props.navigator.push(this.props.navigation.router.getRoute('FieldModal', {
       component: FieldModal,
-        inputField: ()=>{
+      inputField: ()=>{
           return(
-            <TextInput
-            autofocus={true}
-            style={styles.autogrowTextinput}
-            placeholder={''}
-            autoGrow={true}
-            autoCapitalize={'sentences'}
-            placeholderTextColor={colors.white}
-            autoCorrect={true}
-            returnKeyType={'done'}
-            multiline={true}
-            keyboardAppearance={'dark'}
-            ref={'_textArea'}
-            clearButtonMode={'always'}
+            <MultiLineInput
             />
           )
-        },
-        field:{
-          label: `What are you looking for in a Match?`,
-          field_type:'textarea'
-        },
-        title:'PREFERENCES',
-        fieldName:'bio',
-        cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
-        fieldValue: this.props.user.bio || '',
-        dispatch:this.props.dispatch
+      },
+      field:{
+        label: `What are you looking for in a Match?`,
+        field_type:'textarea'
+      },
+      updateOutside:this.updateBio.bind(this),
+      title:'PREFERENCES',
+      fieldName:'bio',
+      cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
+      fieldValue: this.state.bio || this.props.user.bio || '',
+      dispatch:this.props.dispatch
     }))
 
+  }
+  updateBio(v){
+    console.log('update outside',v);
+    this.setState({bio:v})
   }
   onPressSelectable(field){
     if(this.props.user.relationship_status == 'couple' && this.props.user.status == 'onboarded'){
@@ -118,15 +148,6 @@ class  SettingsPreferences extends React.Component{
     }
   }
 
-  showPartnerMissingModal(){
-    // if permission has been denied, show the modal in failedState mode (show settings link)
-    this.props.navigator.push({
-      component:PartnerMissingModal,
-      passProps:{
-        goBack:()=>{this.props.navigator.pop(); },
-      }
-    })
-  }
   render(){
     let u = this.props.user;
 
@@ -155,7 +176,7 @@ class  SettingsPreferences extends React.Component{
               <TouchableHighlight underlayColor={colors.dark} onPress={this.editBio.bind(this)}>
                 <View style={styles.textareaWrap}>
                   <Text numberOfLines={2} style={styles.bioText}>
-                    {this.props.user.bio ? this.props.user.bio : ''}
+                    {this.state.bio ? this.state.bio : this.props.user.bio ? this.props.user.bio : ''}
                   </Text>
                 </View>
               </TouchableHighlight>
@@ -205,7 +226,6 @@ class  SettingsPreferences extends React.Component{
             toggleScroll={this.toggleScroll.bind(this)}
             user={this.props.user}
             dispatch={this.props.dispatch}
-            showPartnerMissingModal={this.showPartnerMissingModal.bind(this)}
           />
 
         <PermissionSwitches {...this.props} />

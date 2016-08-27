@@ -280,7 +280,7 @@ class Card extends React.Component{
                 }) : colors.white,
               }}
             >
-              {potential.user.partner_id ?
+              {potential.partner.id ?
                 <Swiper
                   key={`${potential.id || potential.user.id}-swiper`}
                   loop={true}
@@ -298,11 +298,10 @@ class Card extends React.Component{
                   dot={<View style={styles.dot} />}
                   activeDot={<View style={[styles.dot,styles.activeDot]} />}
 
-                  paginationStyle={{position:'absolute',paddingRight:30,right:0,top:45,height:100}}
+                  paginationStyle={{position:'absolute',paddingRight:30,right:0,bottom:0,height:100}}
                 >
 
                   <View
-                    underlayColor={colors.mediumPurple}
                     pressRetentionOffset={{top:0,left:0,right:0,bottom:0}}
                     key={`${potential.user.id}-touchableimg`}
                     style={[styles.imagebg,{ overflow:'hidden',height:undefined, width: undefined,}]}
@@ -381,7 +380,7 @@ class Card extends React.Component{
                 }}
                 >
                   <TouchableHighlight
-                    underlayColor={colors.mediumPurple} underlayColor={colors.warmGrey} onPress={this.openProfileFromImage.bind(this,true)}>
+                    underlayColor={colors.outerSpace} onPress={this.openProfileFromImage.bind(this,true)}>
                     <View style={{flexDirection:'row'}}>
                       <View
                         key={`${potential.id || potential.user.id}-infos`}
@@ -566,7 +565,7 @@ class Card extends React.Component{
                               position:'relative',width:DeviceWidth,}}
             >
 
-              {potential.partner_id ?
+              {potential.partner.id ?
                 <Swiper
                   key={`${potential.id || potential.user.id}-swiper`}
                   loop={true}

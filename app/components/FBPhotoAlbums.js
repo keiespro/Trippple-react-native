@@ -58,10 +58,28 @@ class PhotoAlbums extends React.Component{
     };
   }
 
+  componentWillMount(){
+
+    if(!this.props.user.facebook_user_id){
+      this.props.dispatch(ActionMan.facebookAuth())
+
+    }else if(!this.props.fbUser.accessToken){
+      this.props.dispatch(ActionMan.facebookAuth())
+
+    }else if(this.props.fbUser.permissions.indexOf('user_photos') < 0){
+      this.props.dispatch(ActionMan.addFacebookPermissions())
+    }
+
+  }
+
   componentDidMount(){
     this.getAlbums();
   }
-
+  componentWillReceiveProps(nProps){
+    if((!this.props.fbUser.accessToken && nProps.fbUser.accessToken) || (this.props.fbUser.permissions.indexOf('user_photos') < 0 && nProps.fbUser.permissions.indexOf('user_photos') < 0)){
+      this.getAlbums();
+    }
+  }
     handleAlbums(err,responseData){
 
       if(err){
@@ -84,7 +102,7 @@ class PhotoAlbums extends React.Component{
       console.log('get albums',this.props);
       const fbUser = this.props.fbUser;
       console.log(fbUser);
-
+      if(!fbUser.accessToken) return false;
       const fb_id = fbUser.userID
 
       const infoRequest = new GraphRequest(
@@ -121,6 +139,7 @@ class PhotoAlbums extends React.Component{
         album: album,
         view_loaded: 'list_album_photos',
         album_details: album,
+        albumTitle: album.name
 
     }))
 
@@ -170,7 +189,7 @@ class PhotoAlbums extends React.Component{
     return (
       <View style={{ backgroundColor:colors.outerSpace,height:DeviceHeight,width:DeviceWidth}}>
       {this.state.albums.length ? <ListView
-        style={{flex:1,marginTop: 0,paddingTop:60}}
+        style={{flex:1,marginTop: 0,paddingTop:65}}
         dataSource={this.state.albumSource}
         renderRow={this.renderAlbumCover.bind(this)}
         contentInset={{left:0,right:0,bottom:0}}
@@ -227,7 +246,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state, ownProps) => {
   // console.log('state',state,'ownProps',ownProps); // state
-  return { ...ownProps,fbUser: state.fbUser }
+  return { ...ownProps,fbUser: state.fbUser,user:state.user }
 }
 
 const mapDispatchToProps = (dispatch) => {

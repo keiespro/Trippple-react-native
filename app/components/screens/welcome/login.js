@@ -105,6 +105,13 @@ class Login extends Component{
     }
 
   }
+  renderLowerContinueButton(){
+    return (
+      <View style={{bottom:-80,left:0,position:'absolute'}}>
+        {this.renderContinueButton()}
+      </View>
+    )
+  }
 
   render(){
     return (
@@ -113,7 +120,7 @@ class Login extends Component{
               key={'loginphone'}
               keyboardHeight={this.state.keyboardSpace}
               style={styles.phoneInput}
-              continueButton={this.renderContinueButton()}
+              continueButton={this.renderLowerContinueButton()}
               phoneError={this.state.phoneError}
               inputFieldFocused={this.state.inputFieldFocused}
               handleInputChange={this.handleInputChange.bind(this)}

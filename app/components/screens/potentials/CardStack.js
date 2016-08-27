@@ -339,7 +339,7 @@ class CardStack extends React.Component{
               {
                 translateY: this.state.animatedIn ?  this.state.pan.y.interpolate({
                   inputRange: [-300, 0, 300],
-                  outputRange: [-100,0,150],
+                  outputRange: [-300,0,300],
                   extrapolate: 'clamp',
 
                 }) : this.state.offsetY

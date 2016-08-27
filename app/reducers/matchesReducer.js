@@ -4,7 +4,8 @@ export default function matchesReducer(state = initialState, action) {
 
   switch (action.type) {
 
-
+    case 'REMOVE_MATCH':
+      return {...state, [action.payload.matchID]: null }
 
     case 'GET_MATCHES_FULFILLED':
       const matches = action.payload.response;

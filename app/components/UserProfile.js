@@ -12,25 +12,27 @@ import {
 } from 'react-native';
 import React from "react";
 
-
 import ReportModal from './modals/ReportModal';
 import Swiper from './controls/swiper';
 import UserDetails from './UserDetails';
+import XButton from './buttons/XButton';
 import colors from '../utils/colors';
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../utils/DeviceConfig'
 
+import {
+  NavigationStyles,
+} from '@exponent/ex-navigation';
+
+
 
 class UserProfile extends React.Component{
 
   static route = {
+    styles: NavigationStyles.FloatVertical,
     navigationBar: {
-      // backgroundColor: colors.shuttleGrayAnimate,
-      // title(params){
-      //   return params.title || 'PROFILE'
-      // }
       visible:false
     }
   };
@@ -45,17 +47,17 @@ class UserProfile extends React.Component{
     this.state = { slideIndex: 0 }
   }
   reportModal(){
-    //
-    //  this.props.navigator.push({
-    //   component: ReportModal,
-    //   passProps: {
-    //     action: 'report',
-    //     them: [potential.user, potential.partner],
-    //     goBack: ()=> {
-    //       this.props.navigator.pop()
-    //     }
-    //   }
-    // })
+
+     this.props.navigator.push({
+      component: ReportModal,
+      passProps: {
+        action: 'report',
+        them: [potential.user, potential.partner],
+        goBack: ()=> {
+          this.props.navigator.pop()
+        }
+      }
+    })
   }
   render(){
 
@@ -98,7 +100,6 @@ class UserProfile extends React.Component{
             alwaysBounceHorizontal={false}
             showsVerticalScrollIndicator={false}
             scrollEnabled={true}
-            contentInset={{top: 60, left: 0, bottom: 0, right: 0}}
             key={`${potential.id || potential.user.id}-view`}
           >
 
@@ -240,16 +241,8 @@ class UserProfile extends React.Component{
 
           </View>
         </ScrollView>
-        {/* <FakeNavBar
-          hideNext={true}
-          backgroundStyle={{backgroundColor:colors.outerSpace}}
-          titleColor={colors.white}
-          title={ matchName}
-          titleColor={colors.white}
-          onPrev={(nav,route)=> {this.props.navigator.pop()}}
-          customPrev={ <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:12,width:12,marginTop:10}} source={{uri: 'assets/close@3x.png'}} />
-          }
-        /> */}
+        <XButton navigator={this.props.navigator}/>
+
       </View>
 
     )

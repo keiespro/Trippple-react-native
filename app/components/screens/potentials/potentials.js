@@ -1,4 +1,4 @@
-/* @flow */
+'use strict';
 
 import {
   View,
@@ -22,6 +22,7 @@ const DeviceWidth = Dimensions.get('window').width;
 import ActionMan from '../../../actions/'
 import { connect } from 'react-redux';
 import { withNavigation } from '@exponent/ex-navigation';
+import MatchesButton from './MatchesButtonIcon'
 
 @withNavigation
 class SettingsButton extends React.Component{
@@ -33,23 +34,6 @@ class SettingsButton extends React.Component{
           resizeMode={Image.resizeMode.contain}
           style={{width:28,top:0,height:30,marginLeft:15,tintColor: __DEV__ ? colors.daisy : colors.white}}
           source={{uri:'assets/gear@3x.png'}}
-        />
-      </TouchableOpacity>
-    )
-  }
-}
-
-
-@withNavigation
-class MatchesButton extends React.Component{
-  render(){
-    return (
-      <TouchableOpacity style={{paddingTop:5}} onPress={() => this.props.navigator.push(this.props.navigation.router.getRoute('Matches'))}>
-        <Image
-          resizeMode={Image.resizeMode.contain}
-          tintColor={colors.white}
-          style={{width:28,top:0,height:30,marginRight:15,tintColor: __DEV__ ? colors.daisy : colors.white}}
-          source={{uri:'assets/chat@3x.png'}}
         />
       </TouchableOpacity>
     )

@@ -4,7 +4,7 @@
 
 import React, {Component} from "react";
 
-import {Text, TextInput, View, TouchableHighlight, StyleSheet, ActivityIndicator, Dimensions} from "react-native";
+import {Text, Easing, Animated, TextInput, View, TouchableHighlight, StyleSheet, ActivityIndicator, Dimensions} from "react-native";
 
 import {MagicNumbers} from '../../utils/DeviceConfig'
 
@@ -24,11 +24,20 @@ class ContinueButton extends Component{
     super();
 
     this.state = {
-      submitting: false
+      submitting: false,
+      yVal: new Animated.Value(0)
     }
 
   }
-
+  componentWillReceiveProps(nProps){
+    if(nProps.canContinue != this.props.canContinue){
+      Animated.timing(this.state.yVal,{
+        toValue: nProps.canContinue ? 1 : 0,
+        duration:  200,
+        // easing: Easing.in(Easing.easeInEase)
+      }).start()
+    }
+  }
 
   handleContinue(){
     // if(this.state.submitting) { return false }
@@ -38,23 +47,35 @@ class ContinueButton extends Component{
   nothing(){}
   render(){
     return (
-      <View style={[styles.continueButtonWrap,
+      <Animated.View style={[styles.continueButtonWrap,
           {
-            bottom: this.props.canContinue ? 0 : -80,
-            backgroundColor: this.props.canContinue ? colors.mediumPurple : 'transparent'
-          },{position:this.props.absoluteContinue ? 'absolute' : null,left:0,
-          opacity: (this.props.canContinue ? 1 : this.props.absoluteContinue ? 0 : 1 )}]}>
+            bottom: 0,
+            backgroundColor: this.props.canContinue ? colors.mediumPurple : 'transparent',
+          position:this.props.absoluteContinue ? 'absolute' : null,
+          left:0,
+          transform: [
+            {
+              translateY: this.state.yVal.interpolate({
+                inputRange: [0, 1],
+                outputRange: [80,0]
+              })
+            }
+          ]
+        }]}>
         <TouchableHighlight
            style={[styles.continueButton]}
            onPress={ this.handleContinue.bind(this)}
            underlayColor={colors.darkPurple}>
            <View>
-        {this.props.loading ?  <ActivityIndicator style={{alignSelf:'center',alignItems:'center',flex:1,height:60,width:60,justifyContent:'center'}}  animating={true}/> : <Text style={styles.continueButtonText}>{this.props.customText || 'CONTINUE'}</Text>}
+        {this.props.loading ?  <ActivityIndicator style={{alignSelf:'center',alignItems:'center',flex:1,height:60,width:60,justifyContent:'center'}}  animating={true}/> :
+        <Text style={[styles.continueButtonText,{
+          color: this.props.canContinue ? colors.white : 'transparent'
+        } ]}>{this.props.customText || 'CONTINUE'}</Text>}
 
         {/*this.state.submitting ? <ActivityIndicator style={{alignSelf:'center',alignItems:'center',flex:1,height:60,width:60,justifyContent:'center'}} animating={true} size={'large'}/> : <Text style={styles.continueButtonText}>CONTINUE</Text>*/}
           </View>
          </TouchableHighlight>
-      </View>
+      </Animated.View>
     )
   }
 }

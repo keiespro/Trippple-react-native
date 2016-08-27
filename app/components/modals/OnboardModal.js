@@ -37,9 +37,14 @@ class OnboardModal extends Component {
     };
   }
   onboardUser(){
+    let gender = this.state.selected_ours.slice(this.state.selected_ours.length-2,this.state.selected_ours.length).trim();
+
     this.props.dispatch(ActionMan.onboard({
       relationship_status: this.state.selected_relationship_status,
-      gender: this.state.selected_ours.slice(this.state.selected_ours.length-2,this.state.selected_ours.length)
+      name: this.props.user.firstname,
+      email: this.props.user.email,
+      facebook_user_id: this.props.user.facebook_user_id,
+      gender
     }))
   }
 
@@ -71,7 +76,7 @@ class OnboardModal extends Component {
 
 
   render() {
-    const has_theirs = Object.keys(this.state.selected_theirs).reduce((acc,el)=>{
+    const has_theirs =  Object.keys(this.state.selected_theirs).reduce((acc,el)=>{
       if(this.state.selected_theirs[el]){
         acc = true
       }
@@ -102,28 +107,40 @@ class OnboardModal extends Component {
                       fontSize: 16,
                     }}>Let's get started</Text>
 
-            <View style={[ {alignItems: 'flex-start',justifyContent:'space-between'}]}>
+            <View style={[ {marginTop:20,alignItems: 'flex-start',justifyContent:'space-between'}]}>
               <TouchableOpacity
               style={{
-                width: DeviceWidth,
+                width: DeviceWidth-20,
                 marginLeft: 20,
                 paddingLeft: 20,
                 height: 80,
+                paddingRight:20,
                 justifyContent: 'center',
-                backgroundColor: this.state.step == 1 ? colors.dark : colors.transparent,
+                backgroundColor:  colors.transparent,
+                borderBottomWidth:1,
+                borderBottomColor: this.state.step == 1 ? colors.mediumPurple : colors.rollingStone
               }}
               onPress={() => {
                 LayoutAnimation.spring()
                 this.setState({step: 1});
               }}>
+              <View style={[styles.rowtext, styles.bigtext, {
 
-                <Text style={[styles.rowtext, styles.bigtext, {
+                marginVertical: 10,
+                flexDirection:'row',
+                justifyContent:'space-between'
+              }]}>
+                <Text style={{
                   fontFamily: 'Montserrat',
                   fontSize: 20,
-                  marginVertical: 10,
-                  textAlign: 'left',
-                }]}>I'm a...</Text>
-
+                  color: this.state.step == 1 ? colors.white : colors.rollingStone,
+                  textAlign: 'left'
+                }}>I'M A...</Text>
+                {this.state.selected_ours && <Text style={{
+                  fontFamily: 'Montserrat',
+                  fontSize: 20,
+                  color: this.state.step == 1 ? colors.white : colors.rollingStone, }}>{this.state.selected_ours.toUpperCase()}</Text>}
+                </View>
             </TouchableOpacity>
 
               <TouchableOpacity
@@ -133,7 +150,9 @@ class OnboardModal extends Component {
                 paddingLeft: 20,
                 height: 80,
                 justifyContent: 'center',
-                backgroundColor: this.state.step == 2 ? colors.dark : colors.transparent,
+                backgroundColor: colors.transparent,
+                borderBottomWidth:1,
+                borderBottomColor: this.state.step == 2 ? colors.mediumPurple : colors.rollingStone
               }}
               onPress={() => {
                 if (this.state.selected_ours) {
@@ -146,25 +165,30 @@ class OnboardModal extends Component {
                 fontSize: 20,
                 marginVertical: 10,
                 textAlign: 'left',
-              }]}>Looking for a...</Text>
+                color: this.state.step == 2 ? colors.white : colors.rollingStone
+              }]}>LOOKING FOR...</Text>
             </TouchableOpacity>
           </View>
 
         </View>
         </ScrollView>
 
-      { this.state.step > 0 &&   <View
+      { this.state.step > 0 && <View
             style={{
               backgroundColor: 'rgba(0,0,0,.5)',
               width: DeviceWidth,
               height:200,
               position:'absolute',
-              bottom:0,alignSelf:'flex-end'
+              bottom:0,
+              // alignSelf:'flex-end'
             }}>
-            <View style={{height:80,position:'absolute',top:-80,left:0,width:DeviceWidth}}>
-             <ContinueButton customText={this.state.selected_ours && has_theirs ? 'CONTINUE' : ' '} handlePress={this.handleContinue.bind(this)} canContinue={this.state.selected_ours && has_theirs}/>
-
-                   </View>
+            <View style={{height:80,position:'absolute',top:-80,left:0,right:0,width:DeviceWidth,overflow:'hidden'}}>
+              <ContinueButton
+                customText={ 'CONTINUE' }
+                handlePress={this.handleContinue.bind(this)}
+                canContinue={this.state.selected_ours && has_theirs}
+              />
+           </View>
            {   this.state.step == 1 &&
                   <Picker
                   onValueChange={(v, i) => {
@@ -213,18 +237,19 @@ class OnboardModal extends Component {
                     this.state.selected_ours &&
                     them_choices[this.state.selected_relationship_status].map((val) => {
                       const selected = this.state.selected_theirs[val.toLowerCase()]
-                      console.log(selected);
+
                       return (
                         <Selectable
-                        selected={selected}
-                        key={val+'k'}
-                        value={this.state.selected_theirs[val.toLowerCase()]}
-                              onPress={this.togglePref.bind(this,val)}
-                              field={val}
-                              label={val}
-                              values={them_choices[this.state.selected_relationship_status]}
-                            />
-                          )
+                          selected={selected}
+                          key={val+'k'}
+                          underlayColor={colors.mediumPurple20}
+                          value={this.state.selected_theirs[val.toLowerCase()]}
+                          onPress={this.togglePref.bind(this,val)}
+                          field={val}
+                          label={val}
+                          values={them_choices[this.state.selected_relationship_status]}
+                        />
+                      )
                     })
                   }
 

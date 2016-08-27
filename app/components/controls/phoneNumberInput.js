@@ -150,9 +150,13 @@ class PhoneNumberInput extends React.Component{
 
 
           {this.props.continueButton}
-
+            {this.props.renderButtons && (
+              <View style={{position:'absolute',bottom:-80}}>
+              {this.props.renderButtons()}
+          </View>)}
 
         </View>
+
 
         <Numpad
           backspace={this.backspace.bind(this)}

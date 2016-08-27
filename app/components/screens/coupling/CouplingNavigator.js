@@ -102,9 +102,7 @@ class CouplingNavigator extends Component {
 
     return (
       <View style={{height:DeviceHeight,width:DeviceWidth, }}>
-        <FadeInContainer style={{position:'absolute',width:DeviceWidth,height:DeviceHeight}} delayAmount={0} duration={300}>
-          <VibrancyView blurType="dark" style={styles.blurstyle} />
-        </FadeInContainer>
+          {/* <BlurView blurType="dark" style={styles.blurstyle} /> */}
 
           <RouteComponent
             couple={this.props.couple}
@@ -118,7 +116,7 @@ class CouplingNavigator extends Component {
             goCoupleReady={this._handleAction.bind(this, { type: 'push', key: 'CoupleReady' })}
           />
 
-        <View style={{width:100,height:20,left:10,top:-10,flex:1,position:'absolute',alignSelf:'flex-start'}}>
+        <View style={{width:100,height:20,left:10,top:0,flex:1,position:'absolute',alignSelf:'flex-start'}}>
           <TouchableOpacity onPress={this.handleBackAction.bind(this)}>
             {this.state.navState.index ? <View style={btnstyles.goBackButton}>
               <Text textAlign={'left'} style={[btnstyles.bottomTextIcon]}>◀︎ </Text>
@@ -139,13 +137,14 @@ class CouplingNavigator extends Component {
 
   render() {
     return (
+      <BlurView blurType="dark" >
         <NavigationCardStack
           style={styles.navigator}
           navigationState={this.state.navState}
           onNavigateBack={this.handleBackAction.bind(this)}
           renderScene={this._renderScene.bind(this)}
-          direction={'horizontal'}
         />
+        </BlurView>
 
     )
   }
@@ -196,7 +195,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(CouplingNavigator);
 const styles = StyleSheet.create({
   navigator: {
     flex: 1,
-    backgroundColor:colors.dark
+    // backgroundColor:colors.dark
   },
   scrollView: {
     marginTop: 64,

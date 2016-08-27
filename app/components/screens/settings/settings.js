@@ -49,7 +49,7 @@ import {
 
 class Settings extends React.Component{
   static route = {
-    styles: NavigationStyles.FloatVertical,
+    styles: NavigationStyles.Fade,
     navigationBar: {
       visible:false,
       backgroundColor: colors.transparent,
@@ -66,15 +66,10 @@ class Settings extends React.Component{
     super(props);
     this.state = {
       index: 0,
-      isModalOpen: true,
       settingOptions: profileOptions,
     }
 
   }
-
-  openModal(page){ this.setState({isModalOpen: page}) }
-
-  closeModal(){ this.setState({isModalOpen: false}) }
 
     disableAccount(){
 
@@ -134,7 +129,10 @@ class Settings extends React.Component{
         }
 
       _pressNewImage(){
-        this.props.navigator.push(this.props.navigation.router.getRoute('FBPhotoAlbums',{}));
+
+          this.props.navigator.push(this.props.navigation.router.getRoute('FBPhotoAlbums',{}));
+
+
       }
 
     _updateAttr(updatedAttribute){
@@ -143,7 +141,7 @@ class Settings extends React.Component{
   render(){
     const wh = DeviceHeight/2;
     return (
-      <View style={{backgroundColor:colors.outerSpace,paddingTop:0}}>
+      <View style={{backgroundColor:colors.outerSpace,paddingTop:0,flex:1}} pointerActions={'box-none'}>
 
              <ParallaxView
                 showsVerticalScrollIndicator={false}
@@ -153,7 +151,7 @@ class Settings extends React.Component{
                 automaticallyAdjustContentInsets={true}
                 scrollsToTop={true}
                 backgroundSource={{uri:this.props.user.image_url || 'assets/defaultuser.png'}}
-                style={{backgroundColor:colors.outerSpace, zIndex:100,paddingTop:0,height:DeviceHeight}}
+                style={{backgroundColor:colors.outerSpace, zIndex:100,flex:1,paddingTop:0,height:DeviceHeight}}
                 header={(
                 <View
                     style={[ styles.userimageContainer,styles.blur, {
@@ -163,10 +161,6 @@ class Settings extends React.Component{
                       flexDirection:'column'
                     }]}
                 >
-
-                <XButton navigator={this.props.navigator}/>
-
-
                 <TouchableOpacity
                   onPress={this._pressNewImage.bind(this)}
                   style={{marginTop:0,}}
@@ -401,6 +395,8 @@ class Settings extends React.Component{
 
         </ParallaxView>
 
+        <XButton navigator={this.props.navigator}/>
+
 
 </View>
 
@@ -412,8 +408,7 @@ class Settings extends React.Component{
 Settings.displayName = "Settings"
 
 const mapStateToProps = ({user,ui}, ownProps) => {
-  // console.log('state',state,'ownProps',ownProps); // state
-  return { user, ui }
+  return {...ownProps, user, ui }
 }
 
 const mapDispatchToProps = (dispatch) => {

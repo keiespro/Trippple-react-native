@@ -3,6 +3,11 @@ export default function potentialsReducer(state = initialState, action) {
 
   switch (action.type) {
 
+    case 'REMOVE_POTENTIAL':
+      let targetID = actions.payload.id;
+      const newPotentials = [...state].reject(m => m.user.id == targetID || m.partner.id == targetID || m.couple.id == targetID)
+      return [...newPotentials]
+
     case 'GET_POTENTIALS_FULFILLED':
       const data = action.payload.response;
       let pots;

@@ -2,7 +2,13 @@ import _ from 'underscore'
 
 export default function matchesListReducer(state = initialState, action) {
 
-   switch (action.type) {
+  switch (action.type) {
+
+    case 'REMOVE_MATCH':
+      let matchId = action.payload.matchId;
+      const newNewMatches = state.newMatches.reject(m => m.match_id == matchId)
+      const newRegularMatches = state.matches.reject(m => m.match_id == matchId)
+      return {matches: newRegularMatches, newMatches: newNewMatches }
 
     case 'GET_NEW_MATCHES_FULFILLED':
       if ( !action.payload ) return state;

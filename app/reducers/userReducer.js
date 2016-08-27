@@ -1,5 +1,6 @@
 import _ from 'underscore'
 export default function userReducer(state = initialState, action) {
+  let {user_info, existed } = action && action.payload ? action.payload.response || action.payload : {};
 
   switch (action.type) {
 
@@ -17,8 +18,10 @@ export default function userReducer(state = initialState, action) {
 
     case 'GET_USER_INFO_FULFILLED':
     case 'VERIFY_PIN_FULFILLED':
+      return {...state, ...user_info, isNewUser: false }
+
+
     case 'LOGIN_WITH_FACEBOOK_FULFILLED':
-      const {user_info, existed } = action.payload.response || action.payload
       return {...state, ...user_info, isNewUser: !existed }
 
     case 'LOG_OUT_FULFILLED':
@@ -33,7 +36,6 @@ export default function userReducer(state = initialState, action) {
 
 
 const initialState = {
-  isNewUser:true
     // id: null,
     // active: null,
     // status: null,

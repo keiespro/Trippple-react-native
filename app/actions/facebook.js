@@ -79,7 +79,7 @@ export const getFacebookInfo = () => async dispatch => {
 /* facebookAuth | FACEBOOK_AUTH */
 export const facebookAuth = () => async dispatch => {
   try{
-    const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
+    // const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
     const fbUser = await AccessToken.getCurrentAccessToken()
 
     dispatch({ type: 'FACEBOOK_AUTH', payload: {...fb,...fbUser} })
@@ -102,4 +102,16 @@ export const getFacebookProfile = fbUser => dispatch => {
 
   const REQ = new GraphRequestManager().addRequest(infoRequest)
   REQ.start();
+}
+
+
+export const addFacebookPermissions = () => async dispatch => {
+  try{
+    const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
+    const fbUser = await AccessToken.getCurrentAccessToken()
+
+    dispatch({ type: 'ADD_FACEBOOK_PERMISSIONS', payload: {...fb,...fbUser} })
+  }catch(err){
+    __DEV__ && console.log('fb login failed',err)
+  }
 }

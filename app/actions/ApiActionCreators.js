@@ -23,7 +23,7 @@ const apiActions = [
   'getUserInfo',
   'getPotentials',
   'uploadFacebookPic',
-  'onboard'
+  'onboard',
 ];
 
 const endpointMap = apiActions.map(call => {

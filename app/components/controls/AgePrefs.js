@@ -1,4 +1,4 @@
-/* @flow */
+'use strict';
 
 const MIN_AGE = 18
 const MAX_AGE = 50
@@ -16,7 +16,7 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 const InsideWidth = MagicNumbers.isSmallDevice ? DeviceWidth - MagicNumbers.screenPadding : DeviceWidth - 62
 const SliderWidth = MagicNumbers.isSmallDevice ? DeviceWidth - 40 : DeviceWidth - 62
-import ActionMn from '../../actions'
+import ActionMan from '../../actions'
 
 class  AgePrefs extends React.Component{
   constructor(props){

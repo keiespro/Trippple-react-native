@@ -33,11 +33,6 @@ class JoinCouple extends Component{
       nProps.exit({success:true})
     }
   }
-  componentDidMount(){
-    this.props.dispatch(ActionMan.getCouplePin());
-  }
-
-
   render(){
     const couple = this.props.couple;
 

@@ -179,10 +179,10 @@ class LocationPermission extends React.Component{
          style={[{padding:0,width:DeviceWidth,height:DeviceHeight,backgroundColor: 'transparent',paddingTop:20,position:'relative',paddingHorizontal:MagicNumbers.screenPadding/2}]}
          contentContainerStyle={{flexDirection:'column',justifyContent:'center',alignItems:'center',}}
        >
-         <View style={{width:240,height:240,marginVertical:10,position:'relative',alignItems:'center',justifyContent:'center'}}>
-          <Image style={[{width:140,height:140,borderRadius:70,top:0,left:0,margin:50,position:'absolute'}]} source={ {uri: this.props.user.image_url }} />
+         <View style={{width:200,height:200,marginVertical:10,position:'relative',alignItems:'center',justifyContent:'center'}}>
+          <Image style={[{width:100,height:100,borderRadius:50,top:0,left:0,margin:50,position:'absolute'}]} source={ {uri: this.props.user.image_url }} />
           <Image
-           style={{width:240,height:240,marginVertical:0,top:0,left:0,padding:50,padding:0,position:'absolute'}}
+           style={{width:200,height:200,marginVertical:0,top:0,left:0,padding:50,padding:0,position:'absolute'}}
            resizeMode="cover"
            source={ {uri: 'assets/localIcon@3x.png' }}
            />

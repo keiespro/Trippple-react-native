@@ -23,7 +23,7 @@ import {MagicNumbers} from '../../../utils/DeviceConfig';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-
+import { connect } from 'react-redux';
 import {SHOW_COUPLING} from '../../../utils/SettingsConstants'
 
 
@@ -52,17 +52,15 @@ class CouplePin extends React.Component{
 
   handleSendMessage(){
     this.setState({ submitting:true });
-    const couple = this.props.couple || {};
-    const pin = couple.pin;
+    const pin = this.props.pin;
     const messageText = `Join me on Trippple! My couple code is ${pin}. If you already have the app, tap here: trippple://join.couple/${pin}`;
 
-//TODO: update
-    // AppActions.killModal() // try this.props.exit() if this doesnt work well
-    // AppActions.sendMessageScreen({ pin, messageText })
-
+    // this.props.dispatch(ActionMan.killModal())
+    this.props.dispatch(ActionMan.sendText({ pin, messageText }))
   }
   componentDidMount(){
-    // UserActions.updateUser.defer({generatedCoupleCode:true});
+    this.props.dispatch(ActionMan.getCouplePin());
+
     Settings.set({[SHOW_COUPLING]:false})
     if(this.state.success){
       this.animateSuccess()
@@ -189,9 +187,10 @@ class CouplePin extends React.Component{
           marginVertical:MagicNumbers.is5orless ? 10 : 30,
           color:'#fff',
           backgroundColor:'transparent',
+          textAlign:'center',
           fontFamily:'Montserrat-Bold',
         }]}>
-        {couple.pin}
+        {this.props.pin}
         </Text>
 
         <View style={{alignItems:'center',justifyContent:'center'}}>
@@ -230,4 +229,12 @@ class CouplePin extends React.Component{
 }
 
 
-export default CouplePin
+const mapStateToProps = (state, ownProps) => {
+  return { ...ownProps, pin: state.app.couplePin }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CouplePin);

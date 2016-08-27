@@ -10,7 +10,7 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
 class WhyFacebook extends Component {
-  
+
   static propTypes = {
     style: View.propTypes.style,
     onPress: React.PropTypes.func,
@@ -34,8 +34,8 @@ class WhyFacebook extends Component {
               <Text style={[styles.allText,{}]}>By singing up with Facebook, we can block your profile from you Facebook friends.</Text>
             </View>
             <View>
-              <Text style={[styles.allText,styles.titleText,{}]}>USER PRIVACY</Text>
-              <Text style={[styles.allText,{}]}>By singing up with Facebook, we can block your profile from you Facebook friends.</Text>
+              <Text style={[styles.allText,styles.titleText,{}]}>NO FAKE USERS</Text>
+              <Text style={[styles.allText,{}]}>Facebook does a pretty good job at purging fake users. Signing up with Facebook lowers the chances of fake users joining trippple.</Text>
             </View>
             <TouchableOpacity style={{backgroundColor:colors.shuttleGray,padding:10,alignSelf:'center',borderRadius:50}} onPress={(x)=>{ this.props.navigator.pop()}}>
               <Image source={{uri: 'assets/close.png'}} style={{width:15,height:15}}/>

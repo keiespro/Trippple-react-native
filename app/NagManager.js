@@ -20,20 +20,21 @@ class NagManager extends React.Component{
   componentWillReceiveProps(nProps){
 
     // relationship_status modal
-    if(!this.props.loggedIn && nProps.loggedIn && !nProps.user.relationship_status && !this.props.user.relationship_status && !this.props.nag.askedRelationshipStatus){
-      this.props.dispatch(ActionMan.showInModal({
+    if(!this.props.loggedIn && nProps.loggedIn && !nProps.user.relationship_status && !this.props.user.relationship_status && !this.props.nag.askedRelationshipStatus  ){
+      nProps.dispatch(ActionMan.showInModal({
         component: OnboardModal,
         passProps:{
           title:'Onboard',
+          dispatch: nProps.dispatch,
           navigator:this.props.navigator,
           navigation:this.props.navigation,
-          user:this.props.user,
+          user:nProps.user,
         }
       }))
     }
 
     // location permission modal
-    if(!nProps.nag.askedLocation && nProps.isNewUser){
+    if(!this.props.nag.askedLocation && !nProps.nag.askedLocation && nProps.isNewUser){
       this.setTimeout(()=>{
         this.locationModal();
         this.props.dispatch({type:'ASKED_LOCATION',payload:true})
@@ -59,7 +60,7 @@ class NagManager extends React.Component{
       console.log('hasPermission notifications',parseInt(hasPermission))
 
       if(parseInt(hasPermission) > 2){
-
+        
 
       }else{
 
@@ -120,6 +121,7 @@ reactMixin.onClass(NagManager, TimerMixin);
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    ...ownProps,
     user: state.user,
     fbUser: state.fbUser,
     auth: state.auth,

@@ -123,10 +123,8 @@ bioText:{
      alignSelf: 'stretch',
      padding: 0,
      fontSize: MagicNumbers.size18 + 2,
-     height:MagicNumbers.is5orless ? 160 : 200,
      fontFamily:'omnes',
      color: colors.white,
-
      width:DeviceWidth - MagicNumbers.screenPadding
  },
  textareaWrap:{

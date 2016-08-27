@@ -20,10 +20,9 @@ import ActionMan from  '../actions/';
 
 
 
-import {
-  NavigationStyles,
-} from '@exponent/ex-navigation';
+import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
 
+@withNavigation
 class AlbumView extends React.Component{
 
   static route = {
@@ -42,6 +41,11 @@ class AlbumView extends React.Component{
     console.log(photo)
 
     this.props.dispatch(ActionMan.uploadFacebookPic(photo.img))
+
+        this.props.navigator.immediatelyResetStack([
+          this.props.navigation.router.getRoute('Settings'),
+      			this.props.navigation.router.getRoute('Potentials',{show:true}),
+      	])
 
 
   }
@@ -72,11 +76,10 @@ class AlbumView extends React.Component{
 
 
           <ListView
-          style={{paddingTop: 60}}
+          style={{paddingTop: 65}}
           contentContainerStyle={{flexDirection:'row',justifyContent:'center',alignItems:'center',flexWrap:'wrap',width:DeviceWidth}}
           dataSource={albums}
            horizontal={false}
-           contentInset={{top:60,left:0,right:0,bottom:0}}
            automaticallyAdjustContentInsets={true}
            vertical={true}
             renderRow={this.renderSinglePhotos.bind(this)}

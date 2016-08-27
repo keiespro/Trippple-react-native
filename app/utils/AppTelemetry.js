@@ -1,19 +1,18 @@
 
-import { NativeModules, NetInfo, AsyncStorage } from  'react-native'
+import { NativeModules, AsyncStorage } from  'react-native'
 import base64 from 'base-64'
 import Analytics from './Analytics'
 import AppInfo from 'react-native-app-info'
- import Promise from 'bluebird'
-import Api from './api'
-const { join, all } = Promise;
+import Promise from 'bluebird'
 
+const { join, all } = Promise;
+import { connect } from 'react-redux';
 
 const { RNAppInfo,SettingsManager } = NativeModules
 import DeviceInfo from './DeviceInfo'
+
 class AppTelemetry{
   async getPayload(){
-
-
     var {
       displayName,
       bundleIdentifier,
@@ -26,7 +25,7 @@ class AppTelemetry{
     const telemetryPayload = {
             DeviceInfo: DeviceInfo.get(),
             osSettings: SettingsManager.settings,
-
+            state: this.props.appState,
             appInfo: {
               displayName,
               bundleIdentifier,
@@ -38,10 +37,10 @@ class AppTelemetry{
     };
 
     try{
-      return tele = {...telemetryPayload, netInfo: {connection: await NetInfo.fetch() } };
-    }catch(x){
-      Analytics.log(x)
-      return x
+      return telemetryPayload;
+    }catch(err){
+      Analytics.log(err)
+      return err
     }
   }
 
@@ -59,4 +58,15 @@ class AppTelemetry{
   }
 }
 
-export default new AppTelemetry
+
+
+const mapStateToProps = (state, ownProps) => {
+  // console.log('state',state,'ownProps',ownProps); // state
+  return { ...ownProps, appState: state }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default new connect(mapStateToProps, mapDispatchToProps)(AppTelemetry);

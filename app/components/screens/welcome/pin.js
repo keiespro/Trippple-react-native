@@ -11,10 +11,10 @@ import colors from '../../../utils/colors'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import ActionMan from '../../../actions/'
-// import AuthErrorStore from '../../../flux/stores/AuthErrorStore'
 import SingleInputScreenMixin from '../../mixins/SingleInputScreenMixin'
 import BackButton from '../../buttons/BackButton'
 import Analytics from '../../../utils/Analytics'
+import { connect } from 'react-redux';
 
 const Pin = React.createClass({
   mixins: [SingleInputScreenMixin],
@@ -40,10 +40,6 @@ const Pin = React.createClass({
       verifyError: err.verifyError
     })
   },
-  componentDidMount(){ AuthErrorStore.listen(this.onError) },
-  componentWillUnmount(){ AuthErrorStore.unlisten(this.onError) },
-
-
 
   shouldHide(val) { return false},
   shouldShow(val) { return false},
@@ -51,10 +47,10 @@ const Pin = React.createClass({
 
   handleInputChange(event: any){
     if(!event && typeof event != 'object'){ return false}
-    var pin =   event.nativeEvent ?  event.nativeEvent.text : event.pin;
+    const pin = event.nativeEvent ?  event.nativeEvent.text : event.pin;
 
     // Submit pin automatically when 4 digits have been entered
-    if(!this.state.verifyError && !this.state.submitting && pin.length >= 4) {
+    if(!this.props.authError && !this.state.submitting && pin.length >= 4) {
       this.setState({
         submitting: true
       })
@@ -80,14 +76,13 @@ const Pin = React.createClass({
   componentDidUpdate(prevProps, prevState){
 
     // Reset error state
-    if(prevState.verifyError && prevState.inputFieldValue.length > this.state.inputFieldValue.length ) {
+    if(prevState.submitting && prevState.inputFieldValue.length > this.state.inputFieldValue.length ) {
       this.setState({
         submitting: false,
-        verifyError: false
       })
     }
 //     // Handle "Account Disabled" response
-//     if(this.state.verifyError && this.state.verifyError.message === 'Account disabled' && !prevState.verifyError){
+//     if(this.props.authError && this.props.authError.message === 'Account disabled' && !prevState.verifyError){
 //
 // //reactivate logged in users
 //
@@ -115,10 +110,7 @@ const Pin = React.createClass({
 //     }
 
   },
-  backspace(){
-    this.handleInputChange({pin: this.state.inputFieldValue.substring(0,this.state.inputFieldValue.length-1)  })
 
-  },
   onChangeText(input){
     // const digits = [...input]
     // const ints = digits.map(digit => !Number.isInteger(parseInt(digit)))
@@ -151,14 +143,14 @@ const Pin = React.createClass({
             style={[
               styles.pinInputWrap,
               (this.state.inputFieldFocused ? styles.pinInputWrapSelected : null),
-              (this.state.verifyError && this.state.inputFieldValue.length == 4 ? styles.pinInputWrapError : null),
+              (this.props.authError && this.state.inputFieldValue.length == 4 ? styles.pinInputWrapError : null),
               ]}
             >
             <TextInput
               maxLength={10}
               style={[styles.pinInput,{
                 fontSize: 26,
-                color: this.state.verifyError ? colors.mandy : colors.white
+                color: this.props.authError ? colors.mandy : colors.white
               }]}
               ref={(inp) => this._inp = inp}
               editable={true}
@@ -179,7 +171,7 @@ const Pin = React.createClass({
 
           <View style={[styles.middleTextWrap,styles.underPinInput]}>
 
-            {this.state.verifyError && this.state.inputFieldValue.length == 4 &&
+            {this.props.authError && this.state.inputFieldValue.length == 4 &&
                 <View style={styles.bottomErrorTextWrap}>
                   <Text textAlign={'right'} style={[styles.bottomErrorText]}>Nope. Try again</Text>
                 </View>
@@ -199,6 +191,18 @@ const Pin = React.createClass({
 
 
 Pin.displayName = "PinScreen"
+
+
+const mapStateToProps = (state, ownProps) => {
+  // console.log('state',state,'ownProps',ownProps); // state
+  return { ...ownProps, authError: state.auth.error }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Pin);
 
 
 module.exports = Pin

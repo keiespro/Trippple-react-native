@@ -32,7 +32,7 @@ async function baseRequest(endpoint='', payload={}, resource='user'){
   try{
     // var secondsAgo = ((new Date).getTime() - timeStarted.getTime()) / 1000;
     // Analytics.timeEnd(`Endpoint Perf`, {name:`${endpoint} ${secondsAgo}`})
-
+    __DEV__ && console.log(res);
     if(res.status == 504 || res.status == 502){
       __DEV__ && console.log('show maintenance screen')
       Analytics.err(res)
@@ -176,8 +176,12 @@ const api = {
     })
   },
 
-  getNotificationCount(){
-    return authenticatedRequest('notification_totals', {})
+  getNotificationCount(shouldReset){
+    const payload = {};
+    if(shouldReset){
+      payload.clearall =  1;
+    }
+    return authenticatedRequest('notification_totals', payload)
   },
 
   getMessages(payload){

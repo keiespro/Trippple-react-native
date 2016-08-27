@@ -10,13 +10,20 @@ export default function authReducer(state = initialState, action) {
         global.creds = { api_key, user_id }
       }
       return { ...state, ...auth }
-    case 'INITIALIZE_CREDENTIALS':
-    var {username,password} =  action.payload.response || action.payload;
 
-      const c = {
-        api_key: password,
-        user_id: username
-      }
+    case 'VERIFY_PIN_REJECTED':
+    case 'REQUEST_PIN_REJECTED':
+    case 'LOGIN_WITH_FACEBOOK_REJECTED':
+      console.log(action.payload.response);
+      return { ...state, error: action.payload.response }
+
+    case 'INITIALIZE_CREDENTIALS':
+      let {username,password} =  action.payload.response || action.payload;
+
+        const c = {
+          api_key: password,
+          user_id: username
+        }
     case 'SAVE_CREDENTIALS':
     case 'VERIFY_PIN_FULFILLED':
     case 'LOGIN_WITH_FACEBOOK_FULFILLED':

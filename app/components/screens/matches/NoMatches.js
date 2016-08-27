@@ -16,8 +16,7 @@ class NoMatches extends Component{
   render(){
     return (
       <ScrollView
-        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth, height:DeviceHeight,paddingTop:60}}
-        contentInset={{top:60,left:0,right:0,bottom:0}}
+        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:60}}
        automaticallyAdjustContentInsets={true}
 
         style={{
