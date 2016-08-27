@@ -1,5 +1,3 @@
-'use strict';
-
 import { StyleSheet, Text, Dimensions, View, TouchableOpacity,ScrollView,Image } from 'react-native';
 import React, { Component } from "react";
 import {BlurView} from 'react-native-blur'
@@ -31,11 +29,11 @@ class WhyFacebook extends Component {
             <Text style={[styles.allText,styles.titleText,{textAlign:'center',marginTop:20}]}>WHY FACEBOOK?</Text>
             <View>
               <Text style={[styles.allText,styles.titleText,{}]}>USER PRIVACY</Text>
-              <Text style={[styles.allText,{}]}>By singing up with Facebook, we can block your profile from you Facebook friends.</Text>
+              <Text style={[styles.allText,{}]}>By singing up with Facebook, we can block your profile from your Facebook friends.</Text>
             </View>
             <View>
               <Text style={[styles.allText,styles.titleText,{}]}>NO FAKE USERS</Text>
-              <Text style={[styles.allText,{}]}>Facebook does a pretty good job at purging fake users. Signing up with Facebook lowers the chances of fake users joining trippple.</Text>
+              <Text style={[styles.allText,{}]}>Facebook does a pretty good job at purging fake users. Signing up with Facebook lowers the chances of fake users joining Trippple.</Text>
             </View>
             <TouchableOpacity style={{backgroundColor:colors.shuttleGray,padding:10,alignSelf:'center',borderRadius:50}} onPress={(x)=>{ this.props.navigator.pop()}}>
               <Image source={{uri: 'assets/close.png'}} style={{width:15,height:15}}/>

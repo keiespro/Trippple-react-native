@@ -17,13 +17,9 @@ class NotificationDisplayer extends Component {
     }
 
   }
-  // shouldComponentUpdate(nextProps){
-  //   return nextProps.notifications.length < 1 || this.props.notifications.length > 0 || this.props.notifications[0] && this.props.notifications[0].match_id != nextProps.notifications[0].match_id
-  // }
 
   render() {
     const {notifications} = this.props
-    console.log(notifications);
     if (!notifications) return <View/>
     // AppState.currentRoute && AppState.currentRoute.title && AppState.currentRoute.title.toUpperCase() &&
     var check =  this.props.notifications[0] || null;
@@ -31,7 +27,14 @@ class NotificationDisplayer extends Component {
 //!isCurrentMatch &&
     return (
       <View>
-        {notifications[0] && <Notification user={this.props.user} key={'noti'} payload={notifications[0]} />}
+        {notifications[0] &&
+          <Notification
+            user={this.props.user}
+            key={'noti'}
+            notification={notifications[0]}
+            dispatch={this.props.dispatch}
+          />
+        }
       </View>
 
     )
@@ -55,7 +58,7 @@ reactMixin(NotificationDisplayer.prototype, TimerMixin)
 
 const mapStateToProps = (state, ownProps) => {
   // console.log('state',state,'ownProps',ownProps); // state
-  return { notifications: state.notifications }
+  return { notifications: state.notifications, user: state.user}
 }
 
 const mapDispatchToProps = (dispatch) => {

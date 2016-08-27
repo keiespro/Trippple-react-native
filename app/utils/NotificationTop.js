@@ -1,8 +1,18 @@
-'use strict';
-
+import {
+  Image,
+  TouchableHighlight,
+  TouchableOpacity,
+  PanResponder,
+  Easing,
+  StatusBar,
+  View,
+  StyleSheet,
+  Text,
+  Animated,
+  Dimensions,
+  VibrationIOS,
+} from 'react-native';
 import React from "react";
-
-import {Image, TouchableHighlight,TouchableOpacity,PanResponder, Easing,StatusBar,PushNotificationIOS, View, StyleSheet, Text, Animated, Dimensions, VibrationIOS, Alert} from "react-native";
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -10,6 +20,7 @@ const DeviceWidth = Dimensions.get('window').width;
 import colors from '../utils/colors'
 import {BlurView} from 'react-native-blur';
 import Overlay from 'react-native-overlay'
+import ActionMan from '../actions'
 
 class Notification extends React.Component{
 
@@ -32,16 +43,32 @@ class Notification extends React.Component{
 
     Animated.timing(this.state.pan, {
       toValue: 0,
-      duration: 200,
+      easing: Easing.in(Easing.exp),
+      duration: 300,
     }).start((fin)=>{
       this.initializePanResponder();
       this.setState({inPlace:true})
 
     })
-    // Alert.alert('alert',JSON.stringify(this.props))
 
   }
+  componentWillReceiveProps(nProps){
 
+    if(nProps.notification.uuid != this.props.notification.uuid){
+      this.state.pan.setValue({x: 0, y: -80});
+
+      Animated.timing(this.state.pan, {
+        toValue: 0,
+        easing: Easing.in(Easing.exp),
+        duration: 300,
+      }).start((fin)=>{
+        this.initializePanResponder();
+        this.setState({inPlace:true})
+
+      })
+    }
+
+  }
 
   initializePanResponder(){
     delete this._panResponder
@@ -92,25 +119,28 @@ class Notification extends React.Component{
       },
       onPanResponderRelease: (e, gestureState) => {
         const {dx,dy,vx,vy} = gestureState;
-        console.log(dx,dy,vx,vy);
+
+        let toValue = vy > 0 && dy > 10 ? 0 : -200;
         Animated.timing(this.state.pan.y, {
-          toValue: vy > 0 && dy > 10 ? 0 : -200,
+          toValue,
           easing: Easing.out(Easing.exp),
           duration: 150,
-        }).start((fin)=>{
-
+        })
+        .start(fin =>{
+          if(toValue != 0){
+            this.props.dispatch({type:'DISMISS_NOTIFICATION',payload:{}})
+          }
         })
       }
     })
   }
   tapNotification(e){
-    console.log('tap');
 
     Animated.timing(this.state.yValue, {
       toValue: -220,
       duration: 100,
     }).start(()=>{
-      // AppActions.updateRoute({notification:true,route:'chat',match_id:this.props.payload.match_id,})
+      // AppActions.updateRoute({notification:true,route:'chat',match_id:this.props.notification.match_id,})
       // this.setState({tapped:true})
 
     })
@@ -118,18 +148,27 @@ class Notification extends React.Component{
     // NotificationActions.updateBadgeNumber.defer(-1)
 
   }
+  killNotification(){
+
+    Animated.timing(this.state.yValue, {
+      toValue: -220,
+      duration: 100,
+    }).start(()=>{
+      this.props.dispatch({type:'DISMISS_NOTIFICATION',payload:{}})
+    })
+  }
 
   render(){
-    console.log(this.props.payload);
+    console.log(this.props.notification);
 
-    if(!this.props.payload) {
+    if(!this.props.notification) {
 
       return false
     }
 
-    const { payload, user } = this.props;
+    const { notification, user } = this.props;
 
-    payload.data = payload['0'] ? payload['0'].data ? payload['0'].data : payload['0'] : payload.data
+    notification.data = notification['0'] ? notification['0'].data ? notification['0'].data : notification['0'] : notification.data
     let myPartnerId;
     let theirIds;
     let them;
@@ -137,12 +176,12 @@ class Notification extends React.Component{
     let matchName;
 
 
-    if(payload.type == 'match'){
-      // if(!payload.users && (payload.data && !payload.data.users)){ return false}
+    if(notification.type == 'match'){
+      // if(!notification.users && (notification.data && !notification.data.users)){ return false}
 
       myPartnerId = user.relationship_status === 'couple' ? user.partner_id : null;
-      theirIds = Object.keys(payload.users).filter( (u)=> u != user.id && u != user.partner_id);
-      them = theirIds.map((id)=> payload.users[id]);
+      theirIds = Object.keys(notification.users).filter( (u)=> u != user.id && u != user.partner_id);
+      them = theirIds.map((id)=> notification.users[id]);
       threadName = them.map( (u,i) => u.firstname.trim() ).join(' & ');
       matchName = threadName + (theirIds.length > 1 ? ' like ' : ' likes ');
     }
@@ -168,11 +207,11 @@ class Notification extends React.Component{
             justifyContent:'flex-end'
 
           },
-          styles[payload.type]
+          styles[notification.type]
         ]}>
         <StatusBar animated={true} barStyle="light-content" hidden={true} />
 
-        {payload.type == 'message' ?
+        {notification.type == 'message' ?
           <View style={[styles.notificationOverlay,styles.notificationNewMessage]}>
             <TouchableOpacity onPress={this.tapNotification.bind(this)}>
               <View style={styles.notificationInside}>
@@ -181,21 +220,21 @@ class Notification extends React.Component{
                     resizeMode={Image.resizeMode.contain}
                     style={styles.notiImage}
                     defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
-                    source={{uri: payload.from_user_info.image_url}}
+                    source={{uri: notification.from_user_info.image_url}}
                   />
                 </View>
                 <View style={styles.notificationRight}>
                   <Text style={[styles.notiTitle,styles.titleNewMessage]}>{
-                    payload.from_user_info.name.toUpperCase()
+                    notification.from_user_info.name.toUpperCase()
                   }</Text>
-                  <Text style={styles.notiText} numberOfLines={2}>{ payload.message_body}</Text>
+                  <Text style={styles.notiText} numberOfLines={2}>{ notification.message_body}</Text>
                 </View>
               </View>
             </TouchableOpacity>
           </View> : null
         }
 
-        {payload.type == 'match' ?
+        {notification.type == 'match' ?
           <View style={[styles.notificationOverlay,styles.notificationNewMatch]}>
             <TouchableOpacity onPress={this.tapNotification.bind(this)}>
               <View style={styles.notificationInside}>
@@ -217,26 +256,33 @@ class Notification extends React.Component{
         }
 
 
-        {payload.type == 'display' ?
+        {notification.type == 'display' ?
              <TouchableHighlight style={[styles.notificationOverlay]} onPress={this.tapNotification.bind(this)}>
               <View style={styles.notificationInside}>
-              {payload.image_url &&  <View style={styles.notificationLeft}>
+              {notification.image_url &&  <View style={styles.notificationLeft}>
                   <Image
                     resizeMode={Image.resizeMode.contain}
                     style={styles.notiImage}
                     defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
-                    source={{uri: payload.image_url}}
+                    source={{uri: notification.image_url}}
                   />
                 </View>}
                 <View style={styles.notificationRight}>
                   <Text style={[styles.notiTitle,styles.titleNewMessage]}>{
-                    payload.title
+                    notification.title
                   }</Text>
-                  <Text style={styles.notiText} numberOfLines={2}>{ payload.body}</Text>
+                  <Text style={styles.notiText} numberOfLines={2}>{ notification.body}</Text>
+                </View>
+                <View style={{position:'absolute',right:5,top:5}}>
+                  <TinyClose
+                    killNotification={this.killNotification.bind(this)}
+                    notification={notification}
+                    buttonUnderlay={colors.mediumPurple}
+                  />
                 </View>
               </View>
-            </TouchableHighlight>  : null
-        }
+            </TouchableHighlight>
+          : null }
 
       </Animated.View>
     )
@@ -245,13 +291,27 @@ class Notification extends React.Component{
 
 export default Notification
 
-
+const TinyClose = props => {
+  return (
+    <TouchableHighlight
+      style={[{alignItems:'center',justifyContent:'center',height:20,top:0,width:20,backgroundColor:colors.rollingStone,borderRadius:10}]}
+      onPress={props.killNotification}
+      underlayColor={props.buttonUnderlay || colors.mediumPurple20}
+    >
+      <Image
+        resizeMode={Image.resizeMode.contain}
+        style={{width:10,height:10,zIndex:1000,tintColor:colors.shuttleGray}}
+        source={{uri: 'assets/close@3x.png'}}
+      />
+    </TouchableHighlight>
+  )
+}
 const styles = StyleSheet.create({
   notificationWrapper:{
     width: DeviceWidth-14,
     flex: 1,
     position: 'absolute',
-    borderRadius:8,
+    borderRadius:9,
     top: 7,
     left: 7,
     right: 7,
@@ -316,8 +376,8 @@ const styles = StyleSheet.create({
   notificationInside:{
     flex:1,
     flexDirection:'row',
-    width:DeviceWidth,
-    padding:15
+    padding:15,
+    position:'relative'
   },
   notiImage:{
     width:50,

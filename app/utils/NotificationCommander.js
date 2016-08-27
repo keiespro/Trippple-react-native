@@ -1,5 +1,3 @@
-'use strict';
-
 import ActionMan from  '../actions/';
 import { connect } from 'react-redux';
 

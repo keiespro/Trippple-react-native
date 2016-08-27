@@ -1,5 +1,3 @@
-'use strict';
-
 import {
   View,
   ActivityIndicator,
@@ -27,7 +25,7 @@ import MatchesButton from './MatchesButtonIcon'
 @withNavigation
 class SettingsButton extends React.Component{
   render(){
-     return (
+    return (
       <TouchableOpacity style={{paddingTop:5,paddingRight:25,paddingBottom:5,}} onPress={() => this.props.navigator.push(this.props.navigation.router.getRoute('Settings')) }>
         <Image
         tintColor={colors.white}

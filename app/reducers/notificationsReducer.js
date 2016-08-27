@@ -1,13 +1,23 @@
+import uuid from 'uuid'
 
 export default function notificationsReducer(state = initialState, action) {
 
   switch (action.type) {
-
+  case 'DISMISS_NOTIFICATION':
+    return state.slice(1,state.length)
   case 'CLEAR_ALL_NOTIFICATIONS':
     return initialState;
   case 'RECEIVE_NOTIFICATION_FULFILLED':
     console.log('xxx',action);
-    return [...state, action.payload]
+
+    const moreNotificationAttributes = {
+      uuid: uuid.v4(),
+      receivedAt: Date.now(),
+      viewedAt: null,
+      interactedWith: false,
+    }
+    const newNotification = {...action.payload, ...moreNotificationAttributes }
+    return [newNotification, ...state]
 
   default:
 

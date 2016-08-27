@@ -131,21 +131,13 @@ const NOTIFICATION_TYPES = {
 //
 ActionMan.receiveNotification = act => dispatch => dispatch({ type: 'RECEIVE_NOTIFICATION',
   payload: new Promise((resolve, reject) => {
-    console.log(act.type,'receive noti');
-    console.log(act.payload,'act.payload');
     const actName = NOTIFICATION_TYPES[act.type]
-    console.log(actName);
     const func = ActionMan[actName];
     dispatch(func());
     resolve(act.payload)
-    // .then(resolve).catch(reject)
   })
-}).then(({ value, action }) => {
-  console.log(value,action); // => 'foo'
-  dispatch({...action, payload: value});
-
-  return act.payload
-});
+})
+.then(() => act.payload).catch(console.log);
 
 
 
