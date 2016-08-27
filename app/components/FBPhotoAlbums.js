@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state, ownProps) => {
-  // console.log('state',state,'ownProps',ownProps); // state
+
   return {
     ...ownProps,
     fbUser: state.fbUser,

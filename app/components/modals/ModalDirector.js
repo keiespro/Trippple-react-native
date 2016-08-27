@@ -44,25 +44,25 @@ class ModalDirector extends Component{
   render(){
     if(!this.props.user.id || !this.state.activeModal){ return null }
 
-    const {  activeModal} = this.state;
-    const ActiveModal =   activeModal.component || null;
+    const { activeModal} = this.state;
+    const ActiveModal = activeModal.component || null;
     const ActiveModalProps =  activeModal.passProps;
-    console.log(activeModal);
     return (
       <View style={{backgroundColor:'transparent'}}>
 
-        {ActiveModal ?
-          <OverlayModalInner
+        {ActiveModal ? <OverlayModalInner
             user={this.props.user}
             setModalVisible={this.setModalVisible.bind(this)}
             modalVisible={this.state.modalVisible}
             navigator={this.props.navigator}
+            navigation={this.props.navigation}
             dispatch={this.props.dispatch}
           >
             <ActiveModal
               user={this.props.user}
               close={this.setModalVisible.bind(this,false)}
               {...ActiveModalProps}
+              navigation={this.props.navigation}
               navigator={this.props.navigator}
               dispatch={this.props.dispatch}
             />
@@ -94,17 +94,6 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalDirector);
 
-//
-// class OverlayModalOuter extends Component{
-//
-//   render(){
-//     return (
-//       <OverlayModalInner  modalVisible={this.props.modalVisible}>
-//         {this.props.children}
-//       </OverlayModalInner>
-//     )
-//   }
-// }
 
 
 class OverlayModalInner extends Component{

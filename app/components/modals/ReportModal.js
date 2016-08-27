@@ -1,4 +1,4 @@
-/* @flow */
+'use strict';
 
 import { Text, View, TouchableHighlight, Dimensions } from 'react-native';
 import React, { Component } from 'react';

@@ -19,7 +19,7 @@ import { withNavigation } from '@exponent/ex-navigation';
 class MatchesButton extends React.Component{
   render(){
     return (
-      <TouchableOpacity style={{paddingTop:5}} onPress={() => this.props.navigator.push(this.props.navigation.router.getRoute('Matches'))}>
+      <TouchableOpacity style={{paddingTop:5,paddingLeft:25,paddingBottom:5,}} onPress={() => this.props.navigator.push(this.props.navigation.router.getRoute('Matches'))}>
         <Image
           resizeMode={Image.resizeMode.contain}
           tintColor={colors.white}
@@ -34,7 +34,7 @@ class MatchesButton extends React.Component{
 
 
 const mapStateToProps = ({notifications, unread}, ownProps) => {
-  // console.log('state',state,'ownProps',ownProps); // state
+
   return { ...ownProps, notifications, unread }
 }
 

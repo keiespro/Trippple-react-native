@@ -789,8 +789,7 @@ flexDirection:'column',alignItems:'center',justifyContent:'center',
                       <Text style={{color:colors.mandy,textAlign:'center'}}>Report or Block this user</Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity  style={{flexDirection:'column',alignItems:'center',
-  justifyContent:'center',}} onPress={this.closeProfile.bind(this)}>
+                  <TouchableOpacity  style={{flexDirection:'column',height:50,alignItems:'center',width:50, justifyContent:'center',}} onPress={this.closeProfile.bind(this)}>
                     <Image
                       resizeMode={Image.resizeMode.contain}
                       style={{height:12,width:12,marginTop:10}}

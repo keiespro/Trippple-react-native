@@ -28,7 +28,7 @@ import MatchesButton from './MatchesButtonIcon'
 class SettingsButton extends React.Component{
   render(){
      return (
-      <TouchableOpacity style={{paddingTop:5}} onPress={() => this.props.navigator.push(this.props.navigation.router.getRoute('Settings')) }>
+      <TouchableOpacity style={{paddingTop:5,paddingRight:25,paddingBottom:5,}} onPress={() => this.props.navigator.push(this.props.navigation.router.getRoute('Settings')) }>
         <Image
         tintColor={colors.white}
           resizeMode={Image.resizeMode.contain}

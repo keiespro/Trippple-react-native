@@ -1,4 +1,4 @@
-/* @flow */
+'use strict';
 
 
 import Analytics from '../../../utils/Analytics';
@@ -6,10 +6,10 @@ import Card from './Card';
 import styles from './styles';
 
 const THROW_THRESHOLD_DENY = -50,
-      THROW_THRESHOLD_APPROVE = 50,
-      SWIPE_THRESHOLD_APPROVE = 200,
-      SWIPE_THRESHOLD_DENY = -200,
-      THROW_SPEED_THRESHOLD = 0.07;
+  THROW_THRESHOLD_APPROVE = 50,
+  SWIPE_THRESHOLD_APPROVE = 200,
+  SWIPE_THRESHOLD_DENY = -200,
+  THROW_SPEED_THRESHOLD = 0.07;
 
 import React from "react";
 import {StyleSheet, Text, View, AppState, Easing, LayoutAnimation, TouchableHighlight, Image, Animated, PanResponder, Dimensions} from "react-native";
@@ -58,11 +58,11 @@ class CardStack extends React.Component{
 
   componentWillReceiveProps(nProps){
     if(nProps && this.state.animatedIn && this.props.potentials && this.props.potentials[0].user.id != nProps.potentials[0].user.id ){
-        this.state.pan.setValue({x: 0, y: 0});
+      this.state.pan.setValue({x: 0, y: 0});
         // this.initializePanResponder()
     }
     if(nProps && !this.state.animatedIn && !nProps.potentials.length ){
-          this.state.offsetY.setValue(0);
+      this.state.offsetY.setValue(0);
         // this.initializePanResponder()
     }
 
@@ -127,8 +127,8 @@ class CardStack extends React.Component{
       },
 
       onPanResponderMove: Animated.event([null, {
-         dx: this.state.pan.x, // x,y are Animated.Value
-         dy: this.state.pan.y
+        dx: this.state.pan.x, // x,y are Animated.Value
+        dy: this.state.pan.y
       }]),
 
       onPanResponderTerminate: (e, gestureState) => {
@@ -159,8 +159,8 @@ class CardStack extends React.Component{
 
       onPanResponderRelease: (e, gestureState) => {
         var toValue = 0,
-            velocity = 1,
-            likeStatus;
+          velocity = 1,
+          likeStatus;
 
         const {dx,dy,vx,vy} = gestureState;
 
@@ -249,7 +249,7 @@ class CardStack extends React.Component{
     var {potentials,user} = this.props
 
     if(this.state.animatedIn && !this._panResponder.panHandlers){
-       this.initializePanResponder()
+      this.initializePanResponder()
     }
     var pan = this.state.pan || 0
     return (
@@ -270,30 +270,30 @@ class CardStack extends React.Component{
         { potentials && potentials.length >= 1  && potentials[1] &&
           <Animated.View
             style={[styles.shadowCard,{
-            alignSelf:'center',
-            left:this.props.profileVisible ? 0 : 20,right:this.props.profileVisible ? 0 : 20,
-            borderRadius: this.props.profileVisible ? 0 : 8,
-            bottom: this.props.profileVisible ? 0 : (DeviceHeight <= 568 ? 75 : 75),
-            position: 'absolute',
-            overflow:'hidden',
-            top:0
-          },
-          {
-            transform: [
+              alignSelf:'center',
+              left:this.props.profileVisible ? 0 : 20,right:this.props.profileVisible ? 0 : 20,
+              borderRadius: this.props.profileVisible ? 0 : 8,
+              bottom: this.props.profileVisible ? 0 : (DeviceHeight <= 568 ? 75 : 75),
+              position: 'absolute',
+              overflow:'hidden',
+              top:0
+            },
               {
-                scale: this.state.animatedIn ? (this.props.profileVisible ? 1 : this.state.pan.x.interpolate({
-                  inputRange: [ -400, -250, -100, 0,  100, 250, 400],
-                  outputRange:   [ 1.00, 0.97, 0.9, 0.9, 0.9, 0.97, 1.00 ],//[    0.98,  0.98,  1, 1, 1,  0.98, 0.98, ]
+                transform: [
+                  {
+                    scale: this.state.animatedIn ? (this.props.profileVisible ? 1 : this.state.pan.x.interpolate({
+                      inputRange: [ -400, -250, -100, 0,  100, 250, 400],
+                      outputRange:   [ 1.00, 0.97, 0.9, 0.9, 0.9, 0.97, 1.00 ],//[    0.98,  0.98,  1, 1, 1,  0.98, 0.98, ]
+                      extrapolate: 'clamp',
+                    }) ): this.state.offsetY
+                  }
+                ],
+                opacity: this.state.animatedIn ?  this.state.pan.x.interpolate({
+                  inputRange: [-500,  -200, -50, 0, 50, 200, 500],
+                  outputRange:   [  .99, .55, 0.05, 0.1,  0.05, .55,   .99],//[    0.98,  0.98,  1, 1, 1,  0.98, 0.98, ]
                   extrapolate: 'clamp',
-                }) ): this.state.offsetY
-              }
-            ],
-            opacity: this.state.animatedIn ?  this.state.pan.x.interpolate({
-              inputRange: [-500,  -200, -50, 0, 50, 200, 500],
-              outputRange:   [  .99, .55, 0.05, 0.1,  0.05, .55,   .99],//[    0.98,  0.98,  1, 1, 1,  0.98, 0.98, ]
-              extrapolate: 'clamp',
-            }) : 0
-          }]}
+                }) : 0
+              }]}
           key={`${potentials[1].id || potentials[1].user.id}-wrapper`}
           ref={(card) => { this.card = card }}
           >
@@ -314,49 +314,49 @@ class CardStack extends React.Component{
         { potentials &&  potentials[0] &&
           <Animated.View
             style={[styles.shadowCard,{
-            alignSelf:'center',
+              alignSelf:'center',
 
-            top: this.props.profileVisible ? -50 :  0,
-            left:this.props.profileVisible ? 0 : 20,right:this.props.profileVisible ? 0 : 20,
-            borderRadius:8,
-            bottom: this.props.profileVisible ? 0 : (DeviceHeight <= 568 ? 75 : 75),
-            position: 'absolute',
-            overflow:'hidden'
-          },
-          {
-            opacity:   this.state.offsetY,
-            transform: [
+              top: this.props.profileVisible ? -50 :  0,
+              left:this.props.profileVisible ? 0 : 20,right:this.props.profileVisible ? 0 : 20,
+              borderRadius:8,
+              bottom: this.props.profileVisible ? 0 : (DeviceHeight <= 568 ? 75 : 75),
+              position: 'absolute',
+              overflow:'hidden'
+            },
               {
-                translateX: this.state.pan ? this.state.pan.x : 0
-              },
-              {
-                rotate: this.state.pan.x.interpolate({
+                opacity:   this.state.offsetY,
+                transform: [
+                  {
+                    translateX: this.state.pan ? this.state.pan.x : 0
+                  },
+                  {
+                    rotate: this.state.pan.x.interpolate({
                   // inputRange: [-DeviceWidth*2,-DeviceWidth*2, -DeviceWidth, -DeviceWidth, 0, DeviceWidth, DeviceWidth, DeviceWidth*2,DeviceWidth*2],
                   // outputRange: ['-8deg','-8deg','-4deg','0deg','0deg','0deg', '4deg','8deg','8deg'],
-                                   extrapolate: 'clamp',
-                                   inputRange: [-DeviceWidth,-100,0,100,DeviceWidth/2,DeviceWidth],
-                                  outputRange: ["-0.1rad","0rad","0rad","0rad","0.1rad","0.0rad"]
-                })
-              },
-              {
-                translateY: this.state.animatedIn ?  this.state.pan.y.interpolate({
-                  inputRange: [-300, 0, 300],
-                  outputRange: [-300,0,300],
-                  extrapolate: 'clamp',
+                      extrapolate: 'clamp',
+                      inputRange: [-DeviceWidth,-100,0,100,DeviceWidth/2,DeviceWidth],
+                      outputRange: ["-0.1rad","0rad","0rad","0rad","0.1rad","0.0rad"]
+                    })
+                  },
+                  {
+                    translateY: this.state.animatedIn ?  this.state.pan.y.interpolate({
+                      inputRange: [-300, 0, 300],
+                      outputRange: [-300,0,300],
+                      extrapolate: 'clamp',
 
-                }) : this.state.offsetY
-              },
-              {
-                scale:  this.state.animatedIn ?  (this.props.profileVisible ? 1 : this.state.pan.x.interpolate({
-                  inputRange: [-300, -250, -90, 0,  90, 250, 300],
-                  outputRange: [    0.98,  0.98,  1, 1, 1,  0.98, 0.98, ]
-                })) : this.state.offsetY.interpolate({
-                  inputRange: [0, 0.9, 1],
-                  outputRange: [.9, 1.0, .98]
-                })
-              }
-            ],
-          }]}
+                    }) : this.state.offsetY
+                  },
+                  {
+                    scale:  this.state.animatedIn ?  (this.props.profileVisible ? 1 : this.state.pan.x.interpolate({
+                      inputRange: [-300, -250, -90, 0,  90, 250, 300],
+                      outputRange: [    0.98,  0.98,  1, 1, 1,  0.98, 0.98, ]
+                    })) : this.state.offsetY.interpolate({
+                      inputRange: [0, 0.9, 1],
+                      outputRange: [.9, 1.0, .98]
+                    })
+                  }
+                ],
+              }]}
           key={`${potentials[0].id || potentials[0].user.id}-wrapper`}
           ref={(card) => { this.card = card }}
           { ...this._panResponder.panHandlers}

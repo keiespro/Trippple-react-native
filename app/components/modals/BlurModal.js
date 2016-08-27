@@ -1,4 +1,4 @@
-/* @flow */
+'use strict';
 
 
 import { StyleSheet, Image, View, Dimensions, ScrollView } from 'react-native';

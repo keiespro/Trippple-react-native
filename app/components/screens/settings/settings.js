@@ -33,13 +33,12 @@ import profileOptions from '../../../data/get_client_user_profile_options'
 import FBPhotoAlbums from '../../FBPhotoAlbums'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-const {RNHotlineController} = NativeModules;
+const {RNHotlineController,FBAppInviteDialog} = NativeModules;
 const RNHotlineView = ReactNative.requireNativeComponent('RNHotlineView')
 import ParallaxView from '../../controls/ParallaxScrollView'
 import dismissKeyboard from 'dismissKeyboard'
 import ActionMan from '../../../actions/'
 import { connect } from 'react-redux';
-
 import {
   NavigationStyles,
 } from '@exponent/ex-navigation';
@@ -53,7 +52,7 @@ class Settings extends React.Component{
     navigationBar: {
       visible:false,
       backgroundColor: colors.transparent,
-     }
+    }
   };
 
   getScrollResponder() {
@@ -71,18 +70,18 @@ class Settings extends React.Component{
 
   }
 
-    disableAccount(){
+  disableAccount(){
 
 
-      Analytics.event('Interaction',{
-        name: 'Disable Account',
-        type: 'tap',
-      })
+    Analytics.event('Interaction',{
+      name: 'Disable Account',
+      type: 'tap',
+    })
 
-      Alert.alert(
+    Alert.alert(
         'Disable Your Account?',
         'Are you sure you want to disable your account? You will no longer be visible to any trippple users. To re-enable your account, log back in.',
-        [
+      [
           {text: 'Yes', onPress: () => {
 
             Analytics.event('Support',{
@@ -97,47 +96,47 @@ class Settings extends React.Component{
 
             return false
           }},
-        ]
+      ]
       )
 
-    }
+  }
 
-      _openProfile(){
-        Analytics.event('Interaction',{type:'tap', name: 'Preview self profile' });
-           var thisYear = new Date().getFullYear()
-          const {bday_year} = this.props.user
-          const age = (thisYear - bday_year)
-          const selfAsPotential = {
-            user: { ...this.props.user, age },
-          }
-          if(this.props.user.relationship_status == 'couple'){
+  _openProfile(){
+    Analytics.event('Interaction',{type:'tap', name: 'Preview self profile' });
+    var thisYear = new Date().getFullYear()
+    const {bday_year} = this.props.user
+    const age = (thisYear - bday_year)
+    const selfAsPotential = {
+      user: { ...this.props.user, age },
+    }
+    if(this.props.user.relationship_status == 'couple'){
             // delete selfAsPotential.coupleImage;
             // delete selfAsPotential.partner;
-            potential = {
-              ...this.props.user.couple,
-              user: selfAsPotential.user,
-              partner: {
-                ...this.props.user.partner,
-                age: (thisYear - this.props.user.partner.bday_year)
-              },
-            };
-          }else{
-            potential = selfAsPotential
-          }
-
-          this.props.navigator.push(this.props.navigation.router.getRoute('UserProfile',{potential,user:this.props.user}));
-        }
-
-      _pressNewImage(){
-
-          this.props.navigator.push(this.props.navigation.router.getRoute('FBPhotoAlbums',{}));
-
-
-      }
-
-    _updateAttr(updatedAttribute){
-      this.setState(()=>{return updatedAttribute});
+      potential = {
+        ...this.props.user.couple,
+        user: selfAsPotential.user,
+        partner: {
+          ...this.props.user.partner,
+          age: (thisYear - this.props.user.partner.bday_year)
+        },
+      };
+    }else{
+      potential = selfAsPotential
     }
+
+    this.props.navigator.push(this.props.navigation.router.getRoute('UserProfile',{potential,user:this.props.user}));
+  }
+
+  _pressNewImage(){
+
+    this.props.navigator.push(this.props.navigation.router.getRoute('FBPhotoAlbums',{}));
+
+
+  }
+
+  _updateAttr(updatedAttribute){
+    this.setState(()=>{return updatedAttribute});
+  }
   render(){
     const wh = DeviceHeight/2;
     return (
@@ -209,7 +208,7 @@ class Settings extends React.Component{
 
 
 
-                  }} underlayColor={colors.dark}>
+                }} underlayColor={colors.dark}>
                     <View  style={styles.wrapfield}>
                         <View>
                           <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>PROFILE</Text>
@@ -239,7 +238,7 @@ class Settings extends React.Component{
 
 
 
-                        }} underlayColor={colors.dark}>
+                    }} underlayColor={colors.dark}>
                         <View  style={styles.wrapfield}>
                             <View>
                               <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>COUPLE</Text>
@@ -254,11 +253,11 @@ class Settings extends React.Component{
 
                 {this.props.user.relationship_status == 'single' ?
                     <TouchableHighlight onPress={(f)=>{
-                        this.props.dispatch(ActionMan.showInModal({
-                          component: Coupling,
-                          passProps: {},
-                        }))
-                      }} underlayColor={colors.dark}>
+                      this.props.dispatch(ActionMan.showInModal({
+                        component: Coupling,
+                        passProps: {},
+                      }))
+                    }} underlayColor={colors.dark}>
                         <View  style={styles.wrapfield}>
                             <View>
                                 <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>JOIN COUPLE</Text>
@@ -284,7 +283,7 @@ class Settings extends React.Component{
 
                   }));
 
-                    }} underlayColor={colors.dark} >
+                }} underlayColor={colors.dark} >
                     <View  style={styles.wrapfield}>
                         <View>
                             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>PREFERENCES</Text>
@@ -305,11 +304,8 @@ class Settings extends React.Component{
                     navigator:this.props.navigator,
                     dispatch: this.props.dispatch,
                     navigation: this.props.navigation
-
-                    }));
-
-
-                    }} underlayColor={colors.dark}>
+                  }));
+                }} underlayColor={colors.dark}>
                     <View  style={styles.wrapfield}>
                         <View>
                             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>SETTINGS</Text>
@@ -323,11 +319,28 @@ class Settings extends React.Component{
                     </View>
                 </TouchableHighlight>
 
+                <TouchableHighlight onPress={(f)=>{
+                  const applinkUrl = 'https://fb.me/656380827843911';
+                  FBAppInviteDialog.show({applinkUrl})
+                }} underlayColor={colors.dark}>
+                    <View  style={styles.wrapfield}>
+                        <View>
+                            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>INVITE FRIENDS</Text>
+                            <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
+                            Spread the word
+                            </Text>
+                        </View>
+                            <Image source={{uri: 'assets/nextArrow@3x.png'}} resizeMode={'contain'} style={styles.arrowStyle}  />
+
+
+                    </View>
+                </TouchableHighlight>
+
 
 
                 <TouchableHighlight onPress={(f)=>{
-                      RNHotlineController.showFaqs()
-                    }} underlayColor={colors.dark}>
+                  RNHotlineController.showFaqs()
+                }} underlayColor={colors.dark}>
                     <View  style={styles.wrapfield}>
                         <View>
                             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>FAQS</Text>
@@ -355,13 +368,13 @@ class Settings extends React.Component{
 
                 { __DEV__ && <TouchableHighlight onPress={(f)=>{
                   this.props.navigator.push(this.props.navigation.router.getRoute('SettingsDebug', {
-                        style:styles.container,
-                        settingOptions:this.state.settingOptions,
-                        user:this.props.user,
-                        dispatch: this.props.dispatch,
-                      }))
+                    style:styles.container,
+                    settingOptions:this.state.settingOptions,
+                    user:this.props.user,
+                    dispatch: this.props.dispatch,
+                  }))
 
-                    }} underlayColor={colors.dark} >
+                }} underlayColor={colors.dark} >
                     <View  style={styles.wrapfield}>
                         <View>
                             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>DEBUG</Text>
@@ -420,193 +433,193 @@ export default connect(mapStateToProps, mapDispatchToProps)(Settings);
 const styles = StyleSheet.create({
 
 
- container: {
-   flex: 1,
-   justifyContent: 'center',
-   alignItems: 'stretch',
-   position:'relative',
-   alignSelf: 'stretch',
-   backgroundColor:colors.outerSpace
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    position:'relative',
+    alignSelf: 'stretch',
+    backgroundColor:colors.outerSpace
   //  overflow:'hidden'
- },
- inner:{
-   flex: 1,
-   alignItems: 'stretch',
-   backgroundColor:colors.outerSpace,
-   flexDirection:'column',
-   justifyContent:'flex-start'
- },
+  },
+  inner:{
+    flex: 1,
+    alignItems: 'stretch',
+    backgroundColor:colors.outerSpace,
+    flexDirection:'column',
+    justifyContent:'flex-start'
+  },
 
- userimageContainer: {
-   padding: 0,
-   alignItems: 'center'
+  userimageContainer: {
+    padding: 0,
+    alignItems: 'center'
 
- },
- blur:{
-   flex:1,
-   alignSelf:'stretch',
-   alignItems:'center',
-   paddingTop: 0,
-   paddingBottom: 20,
+  },
+  blur:{
+    flex:1,
+    alignSelf:'stretch',
+    alignItems:'center',
+    paddingTop: 0,
+    paddingBottom: 20,
 
- },
- closebox:{
-   height:40,
-   width:40,
-   backgroundColor:'blue'
- },
- userimage: {
-   padding:0,
-   width: DeviceWidth/2 - 20,
-   height: DeviceWidth/2 - 20 ,
-   alignItems: 'center',
-   borderRadius:((DeviceWidth/2 - 20)/2),
-   overflow:'hidden'
- },
- changeImage: {
+  },
+  closebox:{
+    height:40,
+    width:40,
+    backgroundColor:'blue'
+  },
+  userimage: {
+    padding:0,
+    width: DeviceWidth/2 - 20,
+    height: DeviceWidth/2 - 20 ,
+    alignItems: 'center',
+    borderRadius:((DeviceWidth/2 - 20)/2),
+    overflow:'hidden'
+  },
+  changeImage: {
   //  position:'absolute',
-   color:colors.white,
-   fontSize:22,
+    color:colors.white,
+    fontSize:22,
   //  right:0,
-   fontFamily:'omnes',
-   alignItems:'flex-end'
- },
- formHeader:{
-   marginTop:40
- },
- formHeaderText:{
-   color: colors.rollingStone,
-   fontFamily: 'omnes'
- },
- formRow: {
-   alignItems: 'center',
-   flexDirection: 'row',
+    fontFamily:'omnes',
+    alignItems:'flex-end'
+  },
+  formHeader:{
+    marginTop:40
+  },
+  formHeaderText:{
+    color: colors.rollingStone,
+    fontFamily: 'omnes'
+  },
+  formRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
 
-   alignSelf: 'stretch',
-   paddingTop:0,
-   height:50,
-   flex:1,
-   borderBottomWidth: StyleSheet.hairlineWidth,
-   borderBottomColor: colors.rollingStone
+    alignSelf: 'stretch',
+    paddingTop:0,
+    height:50,
+    flex:1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: colors.rollingStone
 
- },
- tallFormRow: {
-   width: 250,
-   left:0,
-   height:220,
-   alignSelf:'stretch',
-   alignItems: 'center',
-   flexDirection: 'row',
-   justifyContent: 'center'
- },
- sliderFormRow:{
-   height:160,
-   paddingLeft: 30,
-   paddingRight:30
- },
- picker:{
-   height:200,
-   alignItems: 'stretch',
-   flexDirection: 'column',
-   alignSelf:'flex-end',
-   justifyContent:'center',
- },
- halfcell:{
-   width:DeviceWidth / 2,
-   alignItems: 'center',
-   alignSelf:'center',
-   justifyContent:'space-around'
+  },
+  tallFormRow: {
+    width: 250,
+    left:0,
+    height:220,
+    alignSelf:'stretch',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  sliderFormRow:{
+    height:160,
+    paddingLeft: 30,
+    paddingRight:30
+  },
+  picker:{
+    height:200,
+    alignItems: 'stretch',
+    flexDirection: 'column',
+    alignSelf:'flex-end',
+    justifyContent:'center',
+  },
+  halfcell:{
+    width:DeviceWidth / 2,
+    alignItems: 'center',
+    alignSelf:'center',
+    justifyContent:'space-around'
 
 
- },
- arrowStyle:{
-   tintColor:colors.shuttleGray,
-   opacity:0.4,
-   width:12,
-   height:12
- },
- wrapfield:{
-   borderBottomWidth: StyleSheet.hairlineWidth,
-   borderColor:colors.shuttleGray,
-   height:80,
+  },
+  arrowStyle:{
+    tintColor:colors.shuttleGray,
+    opacity:0.4,
+    width:12,
+    height:12
+  },
+  wrapfield:{
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor:colors.shuttleGray,
+    height:80,
   //  backgroundColor:colors.outerSpace,
-   alignItems:'center',
-   justifyContent:'space-between',
-   flexDirection:'row',
-   paddingRight:MagicNumbers.screenPadding/2,
-   marginLeft:MagicNumbers.screenPadding/1.5
- },
- privacy:{
-   height:100,
-   alignItems: 'center',
-   flexDirection: 'column',
-   paddingVertical: 30,
-   paddingHorizontal:20
- },
- formLabel: {
-   flex: 8,
-   fontSize: 18,
-   fontFamily:'omnes'
- },
- header:{
-   fontSize:24,
-   fontFamily:'omnes'
+    alignItems:'center',
+    justifyContent:'space-between',
+    flexDirection:'row',
+    paddingRight:MagicNumbers.screenPadding/2,
+    marginLeft:MagicNumbers.screenPadding/1.5
+  },
+  privacy:{
+    height:100,
+    alignItems: 'center',
+    flexDirection: 'column',
+    paddingVertical: 30,
+    paddingHorizontal:20
+  },
+  formLabel: {
+    flex: 8,
+    fontSize: 18,
+    fontFamily:'omnes'
+  },
+  header:{
+    fontSize:24,
+    fontFamily:'omnes'
 
- },
- textfield:{
-   color: colors.white,
-   fontSize:20,
-   alignItems: 'stretch',
-   flex:1,
-   textAlign: 'left',
-   fontFamily:'Montserrat',
- },
- buttonText: {
-   fontSize: 18,
-   color: '#111',
-   alignSelf: 'center',
-   fontFamily:'omnes'
+  },
+  textfield:{
+    color: colors.white,
+    fontSize:20,
+    alignItems: 'stretch',
+    flex:1,
+    textAlign: 'left',
+    fontFamily:'Montserrat',
+  },
+  buttonText: {
+    fontSize: 18,
+    color: '#111',
+    alignSelf: 'center',
+    fontFamily:'omnes'
 
- },
- button: {
-   height: 45,
-   flexDirection: 'row',
-   backgroundColor: '#FE6650',
-   borderColor: '#111',
-   borderWidth: 1,
-   borderRadius: 8,
-   marginBottom: 10,
-   marginTop: 10,
-   alignSelf: 'stretch',
-   justifyContent: 'center'
- },
- paddedSpace:{
-   paddingHorizontal:MagicNumbers.screenPadding/1.5
- },
+  },
+  button: {
+    height: 45,
+    flexDirection: 'row',
+    backgroundColor: '#FE6650',
+    borderColor: '#111',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 10,
+    marginTop: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
+  paddedSpace:{
+    paddingHorizontal:MagicNumbers.screenPadding/1.5
+  },
 
- modal:{
-   padding:0,
-   height:DeviceHeight - 100,
-   flex:1,
-   alignItems: 'stretch',
-   alignSelf: 'stretch',
+  modal:{
+    padding:0,
+    height:DeviceHeight - 100,
+    flex:1,
+    alignItems: 'stretch',
+    alignSelf: 'stretch',
   //  position:'absolute',
   //  top:0
 
- },
- modalwrap:{
-   padding:0,
-   paddingLeft:0,
-   paddingRight:0,
-   paddingTop:0,
-   margin:0,
-   paddingBottom:0,
-   backgroundColor:'red'
- },
-segmentTitles:{
-  color:colors.white,
-  fontFamily:'Montserrat'
-},
+  },
+  modalwrap:{
+    padding:0,
+    paddingLeft:0,
+    paddingRight:0,
+    paddingTop:0,
+    margin:0,
+    paddingBottom:0,
+    backgroundColor:'red'
+  },
+  segmentTitles:{
+    color:colors.white,
+    fontFamily:'Montserrat'
+  },
   tab: {
     flex: 1,
     alignItems: 'center',

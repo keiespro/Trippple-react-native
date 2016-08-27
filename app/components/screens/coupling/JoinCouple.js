@@ -1,4 +1,4 @@
-/* @flow */
+'use strict';
 
 
 import {
@@ -56,32 +56,32 @@ class JoinCouple extends Component{
 
           <View style={{flexDirection:'column',marginBottom:30 }} >
             <Text style={[styles.rowtext,styles.bigtext,{
-                fontSize: MagicNumbers.is5orless ? 18 : 20,
-                marginVertical:10,
-                marginHorizontal:10,
-                color:'#fff',
-                marginBottom:15,
-                flexDirection:'column',
-                backgroundColor:'transparent',
-              }]}>
+              fontSize: MagicNumbers.is5orless ? 18 : 20,
+              marginVertical:10,
+              marginHorizontal:10,
+              color:'#fff',
+              marginBottom:15,
+              flexDirection:'column',
+              backgroundColor:'transparent',
+            }]}>
               {`Connecting with your partner is easy. Let's get started.`}
             </Text>
           </View>
         </View>
 
             <TouchableHighlight onPress={(f)=>{
-                 this.props.goCouplePin()
-              }} underlayColor={colors.white20}>
+              this.props.goCouplePin()
+            }} underlayColor={colors.white20}>
                 <View style={{
-                   borderBottomWidth: StyleSheet.hairlineWidth,
-                   borderColor:colors.shuttleGray,
-                   height:80,
-                   alignItems:'center',
-                   justifyContent:'space-between',
-                   flexDirection:'row',
-                   paddingRight:MagicNumbers.screenPadding/1.5,
-                   marginLeft:MagicNumbers.screenPadding/1.5
-                 }}>
+                  borderBottomWidth: StyleSheet.hairlineWidth,
+                  borderColor:colors.shuttleGray,
+                  height:80,
+                  alignItems:'center',
+                  justifyContent:'space-between',
+                  flexDirection:'row',
+                  paddingRight:MagicNumbers.screenPadding/1.5,
+                  marginLeft:MagicNumbers.screenPadding/1.5
+                }}>
                     <View>
                         <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>INVITE YOUR PARTNER</Text>
                         <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
@@ -97,15 +97,15 @@ class JoinCouple extends Component{
             }} underlayColor={colors.white20}>
 
               <View style={{
-                   borderBottomWidth: StyleSheet.hairlineWidth,
-                   borderColor:colors.shuttleGray,
-                   height:80,
-                   alignItems:'center',
-                   justifyContent:'space-between',
-                   flexDirection:'row',
-                   paddingRight:MagicNumbers.screenPadding/1.5,
-                   marginLeft:MagicNumbers.screenPadding/1.5
-                 }}>
+                borderBottomWidth: StyleSheet.hairlineWidth,
+                borderColor:colors.shuttleGray,
+                height:80,
+                alignItems:'center',
+                justifyContent:'space-between',
+                flexDirection:'row',
+                paddingRight:MagicNumbers.screenPadding/1.5,
+                marginLeft:MagicNumbers.screenPadding/1.5
+              }}>
                     <View>
                         <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>ENTER COUPLE CODE</Text>
                         <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>

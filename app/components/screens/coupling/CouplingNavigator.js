@@ -34,12 +34,12 @@ import { BlurView, VibrancyView } from 'react-native-blur'
 function createReducer(initialState) {
   return (currentState = initialState, action) => {
     switch (action.type) {
-      case 'push':
-        return NavigationStateUtils.push(currentState, {key: action.key});
-      case 'pop':
-        return currentState.index > 0 ? NavigationStateUtils.pop(currentState) : currentState;
-      default:
-        return currentState;
+    case 'push':
+      return NavigationStateUtils.push(currentState, {key: action.key});
+    case 'pop':
+      return currentState.index > 0 ? NavigationStateUtils.pop(currentState) : currentState;
+    default:
+      return currentState;
     }
   }
 }
@@ -102,7 +102,7 @@ class CouplingNavigator extends Component {
 
     return (
       <View style={{height:DeviceHeight,width:DeviceWidth, }}>
-          {/* <BlurView blurType="dark" style={styles.blurstyle} /> */}
+          <BlurView blurType="dark" style={styles.blurstyle} />
 
           <RouteComponent
             couple={this.props.couple}
@@ -153,7 +153,7 @@ class CouplingNavigator extends Component {
 
 
 const btnstyles = StyleSheet.create({
- bottomTextIcon:{
+  bottomTextIcon:{
     fontSize: 14,
     flexDirection: 'column',
     alignSelf: 'flex-end',

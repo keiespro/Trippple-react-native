@@ -194,7 +194,7 @@ Pin.displayName = "PinScreen"
 
 
 const mapStateToProps = (state, ownProps) => {
-  // console.log('state',state,'ownProps',ownProps); // state
+  
   return { ...ownProps, authError: state.auth.error }
 }
 

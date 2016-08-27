@@ -19,12 +19,9 @@ import FBPhotoAlbums from './components/FBPhotoAlbums'
 import FBAlbumView from './components/FBAlbumView'
 import GenericScreen from './components/screens/Generic'
 import Coupling from './components/screens/coupling'
+import OnboardModal from './components/modals/OnboardModal'
 
-import {
-  createRouter,
-  NavigationProvider,
-  StackNavigation,
-} from '@exponent/ex-navigation'
+import { createRouter, NavigationProvider, StackNavigation, } from '@exponent/ex-navigation'
 
 
 const Router = createRouter(() => ({
@@ -44,7 +41,9 @@ const Router = createRouter(() => ({
   FBPhotoAlbums: () => FBPhotoAlbums,
   FBAlbumView: () => FBAlbumView,
   Generic: ()=> GenericScreen,
-  Coupling: () => Coupling
+  Coupling: () => Coupling,
+  OnboardModal: () => OnboardModal,
+
 
 }))
 

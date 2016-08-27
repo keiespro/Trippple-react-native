@@ -61,7 +61,7 @@ class AppTelemetry{
 
 
 const mapStateToProps = (state, ownProps) => {
-  // console.log('state',state,'ownProps',ownProps); // state
+  
   return { ...ownProps, appState: state }
 }
 

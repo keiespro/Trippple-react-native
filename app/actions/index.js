@@ -10,6 +10,8 @@ const ActionMan = {
   ...fbActions,
   ...appActions
 }
+import Communications from 'react-native-communications';
+
 
 const getBadgeNumber = Promise.promisify(PushNotification.getApplicationIconBadgeNumber)
 import PushNotification from 'react-native-push-notification'
@@ -20,39 +22,50 @@ ActionMan.showInModal = route => dispatch => dispatch({ type: 'SHOW_IN_MODAL', p
 
 ActionMan.killModal = (t) => dispatch => dispatch({ type: 'KILL_MODAL', payload: { t } });
 
-ActionMan.getPushToken = () => dispatch => dispatch({ type: 'GET_PUSH_TOKEN' });
+ActionMan.getPushToken = (p) => dispatch => dispatch({ type: 'GET_PUSH_TOKEN', payload: p });
 
 ActionMan.sendText = payload => dispatch => dispatch({ type: 'SEND_TEXT',
   payload: {
     promise: new Promise((resolve, reject) => {
       const { pin, messageText } = payload;
-      return RNMessageComposer.composeMessageWithArgs({ messageText }, result => {
-        console.log(result);
-        switch(result) {
-          case RNMessageComposer.Sent:
-            resolve(result)
-            break;
-          case RNMessageComposer.Failed:
-            Alert.alert('Whoops', 'Try that again')
-            reject(result)
+      Communications.text(null,messageText)
 
-            break;
-          case RNMessageComposer.NotSupported:
-            Alert.alert('Error', 'Unable to send messages')
-            reject(result)
-            break;
-          case RNMessageComposer.Cancelled:
-          default:
-            reject(result)
-            break;
-        }
-      })
     })
   }
 });
 
+//
+// ActionMan.sendText = payload => dispatch => dispatch({ type: 'SEND_TEXT',
+//   payload: {
+//     promise: new Promise((resolve, reject) => {
+//       const { pin, messageText } = payload;
+//       return RNMessageComposer.composeMessageWithArgs({ messageText }, result => {
+//         console.log(result);
+//         switch(result) {
+//         case RNMessageComposer.Sent:
+//           resolve(result)
+//           break;
+//         case RNMessageComposer.Failed:
+//           Alert.alert('Whoops', 'Try that again')
+//           reject(result)
+//
+//           break;
+//         case RNMessageComposer.NotSupported:
+//           Alert.alert('Error', 'Unable to send messages')
+//           reject(result)
+//           break;
+//         case RNMessageComposer.Cancelled:
+//         default:
+//           reject(result)
+//           break;
+//         }
+//       })
+//     })
+//   }
+// });
+//
 
-  ActionMan.screenshot = l => dispatch => dispatch({ type: 'CAPTURE_SCREENSHOT',
+ActionMan.screenshot = l => dispatch => dispatch({ type: 'CAPTURE_SCREENSHOT',
     payload: {
       promise: new Promise((resolve, reject) => {
         UIManager.takeSnapshot('window', {format: 'jpeg', quality: 0.8})
@@ -80,14 +93,14 @@ ActionMan.checkLocation = l => dispatch => dispatch({ type: 'CHECK_LOCATION',
   payload: {
     promise: new Promise((resolve, reject) => {
       OSPermissions.canUseLocation(OSLocation => {
-          const perm = parseInt(OSLocation) > 2  ? true : false;
-          if(perm){
-            resolve(ActionMan.getLocation())
-          }else{
-            reject(new Error('nopermission'))
-          }
+        const perm = parseInt(OSLocation) > 2  ? true : false;
+        if(perm){
+          resolve(ActionMan.getLocation())
+        }else{
+          reject(new Error('nopermission'))
+        }
       });
-    })
+    }).catch(err => console.log('ERRRR',err))
   }
 });
 
@@ -108,26 +121,37 @@ ActionMan.getLocation = l => dispatch => dispatch({ type: 'GET_LOCATION',
 
 
 const NOTIFICATION_TYPES = {
-  'NewMatch': 'getMatches',
-  'NewMessage': 'getMessages',
-  'MatchRemoved': 'getMatches',
-  'CoupleCreated': 'getUserInfo',
-  'Decouple': 'getUserInfo',
-  'Generic': '',
+  NewMatch: 'getMatches',
+  NewMessage: 'getMessages',
+  MatchRemoved: 'getMatches',
+  CoupleCreated: 'getUserInfo',
+  Decouple: 'getUserInfo',
+  Generic: 'getUserInfo',
 };
 //
-export const receiveNotification = payload => dispatch => dispatch({ type: 'RECEIVE_NOTIFICATION',
+ActionMan.receiveNotification = act => dispatch => dispatch({ type: 'RECEIVE_NOTIFICATION',
   payload: new Promise((resolve, reject) => {
-    const actionName = NOTIFICATION_TYPES[notification]
-    dispatch(ActionMan[actionName]().then(resolve).catch(reject))
+    console.log(act.type,'receive noti');
+    console.log(act.payload,'act.payload');
+    const actName = NOTIFICATION_TYPES[act.type]
+    console.log(actName);
+    const func = ActionMan[actName];
+    dispatch(func());
+    resolve(act.payload)
+    // .then(resolve).catch(reject)
   })
+}).then(({ value, action }) => {
+  console.log(value,action); // => 'foo'
+  dispatch({...action, payload: value});
+
+  return act.payload
 });
 
 
 
 ActionMan.updateBadgeNumber = createAction('UPDATE_BADGE_NUMBER', async (delta) => {
-    const currentBadge = await getBadgeNumber()
-    return PushNotification.setApplicationIconBadgeNumber(currentBadge + delta )
+  const currentBadge = await getBadgeNumber()
+  return PushNotification.setApplicationIconBadgeNumber(currentBadge + delta )
 })
 
 export default ActionMan

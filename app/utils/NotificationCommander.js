@@ -35,8 +35,8 @@ class NotificationCommander extends Component{
 
   }
   componentDidMount(){
-    const dispatch = this.props.dispatch;
-    const handleAction = this.handleAction;
+    const dispatch = this.props.dispatch.bind(this);
+    const handleAction = this.handleAction.bind(this);
 
     PushNotification.configure({
       onRegister(token) {
@@ -60,8 +60,9 @@ class NotificationCommander extends Component{
       requestPermissions: false,
     });
 
+    let creds = global.creds || {};
 
-    if(this.props.api_key && this.props.user_id){
+    if(creds.api_key && creds.user_id){
       this.connectSocket()
     }
     PushNotification.checkPermissions((perms) => {
@@ -69,6 +70,13 @@ class NotificationCommander extends Component{
         PushNotificationIOS.requestPermissions().then(x => console.log(x))
       }
     })
+  }
+
+  componentWillReceiveProps(nProps){
+
+    if(!this.state.socketConnected && nProps.auth.api_key){
+      this.connectSocket()
+    }
   }
 
   connectSocket(){
@@ -81,14 +89,17 @@ class NotificationCommander extends Component{
     this.socket.on('error', (err) => {
       __DEV__ && console.log('SOCKETIO ERR',err);
     });
+    this.socket.on('user.disconnect', (data) => {
+      this.props.dispatch({type:'WEBSOCKET_CONNECTED',payload: data})
+    });
 
     this.socket.on('user.connect', (data) => {
       __DEV__ && console.log('WEBSOCKET CONNECTED !')
-
+      this.props.dispatch({type:'WEBSOCKET_CONNECTED',payload: data})
       this.online_id = data.online_id;
 
-      const myApikey = this.props.api_key,
-      myID = this.props.user_id;
+      const myApikey = global.creds.api_key,
+        myID = global.creds.user_id;
 
       this.socket.emit('user.connect', {
         online_id: data.online_id,
@@ -100,7 +111,7 @@ class NotificationCommander extends Component{
     })
 
     this.socket.on('system', (payload) => {
-
+      console.log('WEBOSCKET system',payload);
       Analytics.event('Webocket notification',{action: payload.data.action, label: 'system'})
 
       let tempData;
@@ -132,66 +143,66 @@ class NotificationCommander extends Component{
 
   }
   handleAction(data){
-      console.log(data);
-      if(!data || !data.action){ return }
-      if(data.vibrate){
-
-      }
-      if(data.action === 'retrieve' && data.type == 'potentials') {
-
-        this.props.getPotentials()
-
-      }else if(data.action === 'retrieve' && data.match_id) {
-
-        this.props.receiveNewMatchNotification(data,true)
-        this.props.getMatches()
-        this.openChat()
-        this.props.updateBadgeNumber(-1)
-
-      }else if(data.action === 'chat' && data.match_id){
-
-        this.props.receiveNewMessageNotification(data,true)
-        this.props.getMessages(data.match_id)
-        this.openChat()
-        this.props.updateBadgeNumber(-1)
-      }else if(data.action === 'notify') {
-        VibrationIOS.vibrate()
-        Alert.alert(data.title, JSON.stringify(data.body));
-
-      }else if(data.action === 'match_removed'){
-
-        this.props.receiveMatchRemovedNotification(data)
-        // TODO: update to new
-
-      }else if(data.action == 'coupleready') {
-        // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
-        this.props.receiveCoupleCreatedNotification(data);
-
-      }else if(data.action == 'decouple') {
-
-        // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
-        this.props.receiveDecoupleNotification(data);
-
-      }else if(data.action == 'statuschange' || data.action == 'imageflagged') {
-
-        this.props.getUserInfo()
-
-      }else if(data.action == 'logout'){
-
-        this.props.logOut()
-
-      }else if(data.action == 'report'){
-
-        this.props.sendTelemetry()
-
-      }else if(data.action === 'display') {
-
-        this.props.receiveGenericNotification(data)
-        // TODO: update to new
-
-      }
+    console.log(data);
+    if(!data || !data.action){ return }
+    if(data.vibrate){
 
     }
+    if(data.action === 'retrieve' && data.type == 'potentials') {
+
+      this.props.getPotentials()
+
+    }else if(data.action === 'retrieve' && data.match_id) {
+
+      this.props.receiveNewMatchNotification(data,true)
+      this.props.getMatches()
+      this.openChat()
+      this.props.updateBadgeNumber(-1)
+
+    }else if(data.action === 'chat' && data.match_id){
+
+      this.props.receiveNewMessageNotification(data,true)
+      this.props.getMessages(data.match_id)
+      this.openChat()
+      this.props.updateBadgeNumber(-1)
+    }else if(data.action === 'notify') {
+      VibrationIOS.vibrate()
+      Alert.alert(data.title, JSON.stringify(data.body));
+
+    }else if(data.action === 'match_removed'){
+
+      this.props.receiveMatchRemovedNotification(data)
+        // TODO: update to new
+
+    }else if(data.action == 'coupleready') {
+        // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
+      this.props.receiveCoupleCreatedNotification(data);
+
+    }else if(data.action == 'decouple') {
+
+        // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
+      this.props.receiveDecoupleNotification(data);
+
+    }else if(data.action == 'statuschange' || data.action == 'imageflagged') {
+
+      this.props.getUserInfo()
+
+    }else if(data.action == 'logout'){
+
+      this.props.logOut()
+
+    }else if(data.action == 'report'){
+
+      this.props.sendTelemetry()
+
+    }else if(data.action === 'display') {
+      console.log(data)
+      this.props.receiveGenericNotification({...data, type:'display'})
+      // TODO: update to new
+
+    }
+
+  }
 
 
   disconnectSocket(){

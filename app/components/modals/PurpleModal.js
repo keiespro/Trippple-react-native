@@ -1,4 +1,4 @@
-/* @flow */
+'use strict';
 
 import { View, ScrollView, Dimensions } from 'react-native';
 import React, { Component } from 'react';

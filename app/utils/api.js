@@ -1,4 +1,4 @@
-/* @flow */
+'use strict';
 
 import AppInfo from 'react-native-app-info'
 import { Platform, NativeModules } from 'react-native'

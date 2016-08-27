@@ -40,6 +40,7 @@ class App extends React.Component{
   performInitActions(){
 
     const initActions = [
+      // '',
       'getNotificationCount',
       'getUserInfo',
       'getPotentials',
@@ -89,8 +90,9 @@ class App extends React.Component{
 
         <ModalDirector />
 
-        <Notifications dispatch={this.props.dispatch} />
-
+        {this.props.loggedIn &&
+          <Notifications dispatch={this.props.dispatch} />
+        }
       </View>
     )
   }
@@ -100,7 +102,7 @@ class App extends React.Component{
 // reactMixin(App.prototype, TimerMixin);
 
 const mapStateToProps = (state, ownProps) => {
-  // console.log('state',state,'ownProps',ownProps); // state
+
   return {
     ...ownProps,
     nag: state.nag,

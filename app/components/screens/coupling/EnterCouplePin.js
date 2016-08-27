@@ -22,6 +22,9 @@ import {MagicNumbers} from '../../../utils/DeviceConfig'
 import Coupling from './index'
 
 import { BlurView, VibrancyView } from 'react-native-blur'
+import ActionMan from '../../../actions';
+
+import { connect } from 'react-redux';
 
 class EnterCouplePin extends React.Component{
   constructor(props){
@@ -83,12 +86,12 @@ class EnterCouplePin extends React.Component{
         verifyError: false,
         submitting: false
       })
-      this.props.dispatch(ActionMan.verifyCouplePin(this.state.inputFieldValue));  
+      this.props.dispatch(ActionMan.verifyCouplePin(this.state.inputFieldValue));
 
     }else{
       this.setState({
-       verifyError: true,
-       submitting: false
+        verifyError: true,
+        submitting: false
       })
     }
   }
@@ -129,9 +132,9 @@ class EnterCouplePin extends React.Component{
   }
 
   componentWillUpdate(props, state) {
-     if(state.inputFieldValue.length > 0 && this.state.inputFieldValue.length == 0 || state.inputFieldValue.length == 0 && this.state.inputFieldValue.length > 0) {
-       LayoutAnimation.configureNext(animations.layout.spring);
-     }
+    if(state.inputFieldValue.length > 0 && this.state.inputFieldValue.length == 0 || state.inputFieldValue.length == 0 && this.state.inputFieldValue.length > 0) {
+      LayoutAnimation.configureNext(animations.layout.spring);
+    }
   }
 
   render(){

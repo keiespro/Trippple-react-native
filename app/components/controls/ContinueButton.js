@@ -41,16 +41,16 @@ class ContinueButton extends Component{
 
   handleContinue(){
     // if(this.state.submitting) { return false }
-    this.setState({submitting:true})
+    // this.setState({submitting:true})
     this.props.handlePress()
   }
   nothing(){}
   render(){
     return (
       <Animated.View style={[styles.continueButtonWrap,
-          {
-            bottom: 0,
-            backgroundColor: this.props.canContinue ? colors.mediumPurple : 'transparent',
+        {
+          bottom: 0,
+          backgroundColor: this.props.canContinue ? colors.mediumPurple : 'transparent',
           position:this.props.absoluteContinue ? 'absolute' : null,
           left:0,
           transform: [
@@ -64,7 +64,7 @@ class ContinueButton extends Component{
         }]}>
         <TouchableHighlight
            style={[styles.continueButton]}
-           onPress={ this.handleContinue.bind(this)}
+           onPress={this.props.handlePress}
            underlayColor={colors.darkPurple}>
            <View>
         {this.props.loading ?  <ActivityIndicator style={{alignSelf:'center',alignItems:'center',flex:1,height:60,width:60,justifyContent:'center'}}  animating={true}/> :

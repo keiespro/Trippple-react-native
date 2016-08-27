@@ -20,14 +20,14 @@ class NagManager extends React.Component{
   componentWillReceiveProps(nProps){
 
     // relationship_status modal
-    if(!this.props.loggedIn && nProps.loggedIn && !nProps.user.relationship_status && !this.props.user.relationship_status && !this.props.nag.askedRelationshipStatus  ){
+    if(!this.props.loggedIn && nProps.loggedIn && !nProps.user.relationship_status && !this.props.user.relationship_status ){
       nProps.dispatch(ActionMan.showInModal({
         component: OnboardModal,
         passProps:{
           title:'Onboard',
           dispatch: nProps.dispatch,
-          navigator:this.props.navigator,
-          navigation:this.props.navigation,
+          navigator:nProps.navigator,
+          navigation:nProps.navigation,
           user:nProps.user,
         }
       }))
@@ -60,7 +60,7 @@ class NagManager extends React.Component{
       console.log('hasPermission notifications',parseInt(hasPermission))
 
       if(parseInt(hasPermission) > 2){
-        
+
 
       }else{
 
@@ -81,7 +81,7 @@ class NagManager extends React.Component{
 
   }
 
- locationModal(){
+  locationModal(){
 
     this.props.dispatch(ActionMan.showInModal({
       component: LocationPermissions,
@@ -103,7 +103,8 @@ class NagManager extends React.Component{
         this.locationModal()
       }else if(parseInt(hasPermission) > 2){
         __DEV__ && console.log('have location permission, getting current location');
-          // GET COORDS
+
+        this.props.dispatch(ActionMan.getLocation())
       }
     })
 

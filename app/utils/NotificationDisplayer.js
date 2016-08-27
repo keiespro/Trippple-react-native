@@ -6,6 +6,7 @@ import { View, Alert, AsyncStorage, AppState, PushNotificationIOS, VibrationIOS 
 // import Promise from 'bluebird'
 import Notification from './NotificationTop'
 import TimerMixin from 'react-timer-mixin'
+import { connect } from 'react-redux';
 
 import reactMixin from 'react-mixin'
 
@@ -22,16 +23,15 @@ class NotificationDisplayer extends Component {
 
   render() {
     const {notifications} = this.props
+    console.log(notifications);
     if (!notifications) return <View/>
-    var AppState = this.props.AppState || {
-      currentRoute: {}
-    };
-    var check = AppState.currentRoute && AppState.currentRoute.title && AppState.currentRoute.title.toUpperCase() && this.props.notifications[0] || null;
-    var isCurrentMatch = check && (AppState.currentRoute.title == 'CHAT' && AppState.currentRoute.match_id && AppState.currentRoute.match_id == notifications[0].match_id);
-
+    // AppState.currentRoute && AppState.currentRoute.title && AppState.currentRoute.title.toUpperCase() &&
+    var check =  this.props.notifications[0] || null;
+    // var isCurrentMatch = check && (AppState.currentRoute.title == 'CHAT' && AppState.currentRoute.match_id && AppState.currentRoute.match_id == notifications[0].match_id);
+//!isCurrentMatch &&
     return (
       <View>
-        {notifications[0] && !isCurrentMatch && <Notification user={this.props.user} key={'noti' + notifications[0].match_id} payload={notifications[0]} />}
+        {notifications[0] && <Notification user={this.props.user} key={'noti'} payload={notifications[0]} />}
       </View>
 
     )
@@ -51,4 +51,15 @@ class NotificationDisplayer extends Component {
   }
 }
 reactMixin(NotificationDisplayer.prototype, TimerMixin)
-export default NotificationDisplayer
+
+
+const mapStateToProps = (state, ownProps) => {
+  // console.log('state',state,'ownProps',ownProps); // state
+  return { notifications: state.notifications }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationDisplayer);

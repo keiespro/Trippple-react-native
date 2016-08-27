@@ -1,4 +1,4 @@
-/* @flow */
+'use strict';
 
 import {
   StyleSheet,
@@ -478,7 +478,7 @@ class Matches extends Component {
 
 
 const mapStateToProps = (state, ownProps) => {
-  // console.log('state',state,'ownProps',ownProps); // state
+  
   return {
     ...ownProps,
     matches: state.matchesList.matches,
