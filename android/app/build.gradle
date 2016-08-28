@@ -126,6 +126,9 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-blur')
+    compile project(':react-native-push-notification')
+    compile project(':react-native-workers')
     compile project(':react-native-mixpanel')
     compile project(':react-native-mail')
     compile project(':react-native-google-analytics-bridge')

@@ -2,6 +2,9 @@ package com.trippple;
 import android.content.Intent;
 
 import com.facebook.react.ReactActivity;
+import com.cmcewen.blurview.BlurViewPackage;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
+import co.apptailor.Worker.BaseReactPackage;
 
 public class MainActivity extends ReactActivity {
 
