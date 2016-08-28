@@ -71,7 +71,7 @@ class PotentialsPlaceholder extends React.Component{
             style={{
               alignSelf: 'stretch',
 
-              height: MagicNumbers.is4s ? DeviceHeight-70 : DeviceHeight-55-MagicNumbers.screenPadding/2,
+              height: MagicNumbers.is5orless ? DeviceHeight-90 : DeviceHeight-55-MagicNumbers.screenPadding/2,
               marginHorizontal: MagicNumbers.is4s ? MagicNumbers.screenPadding : 15,
               marginVertical: MagicNumbers.is4s ? MagicNumbers.screenPadding : 15,
               width: MagicNumbers.is4s ? DeviceWidth - MagicNumbers.screenPadding*2 : DeviceWidth-30,

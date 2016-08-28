@@ -15,7 +15,7 @@
       "react-native"
     ],
     "rules": {
-        "strict": 0,
+        "strict": 1,
         "quotes": 0,
         "no-unused-vars": 0,
         "camelcase": 0,

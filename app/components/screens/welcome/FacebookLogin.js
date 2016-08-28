@@ -40,16 +40,10 @@ class Facebook extends Component{
       user: null,
     }
   }
-  componentDidMount(){
-  }
 
-
-
-  login(){
+  login(e){
     this.props.dispatch(ActionMan.loginWithFacebook())
-
   }
-
 
   triggerPhoneLogin(){
     this.props.navigator.push({
@@ -61,10 +55,9 @@ class Facebook extends Component{
         navigator:this.props.navigator
       }
     });
-
   }
-  whyFacebookModal(){
 
+  whyFacebookModal(){
     this.props.navigator.push({
       component: WhyFacebook,
       sceneConfig: Navigator.SceneConfigs.FloatFromBottom,

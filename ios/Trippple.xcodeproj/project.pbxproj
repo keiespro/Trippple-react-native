@@ -60,7 +60,6 @@
 		ACBB208E1C050E7C00A63B9C /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		ACBB208F1C050E7C00A63B9C /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ACBB20901C050E7C00A63B9C /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
-		ACBB20911C050E7C00A63B9C /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		ACBB20931C050E7C00A63B9C /* libRNAppInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20501C050CF100A63B9C /* libRNAppInfo.a */; };
 		ACBB20941C050E7C00A63B9C /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20551C050CF100A63B9C /* libRNFS.a */; };
 		ACBB20961C050E7C00A63B9C /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20591C050CF100A63B9C /* libRNMail.a */; };
@@ -68,6 +67,7 @@
 		ACBB20991C050E8400A63B9C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FDB1C0505D700A63B9C /* AssetsLibrary.framework */; };
 		ACBB209A1C050E8A00A63B9C /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FDD1C0505DF00A63B9C /* CoreFoundation.framework */; };
 		ACBB209F1C0510E200A63B9C /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20491C050CF100A63B9C /* libRCTCamera.a */; };
+		ACBEA7AF1D71565700F684A1 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		ACC7DE991C5A41F30087476F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ACC7DE7F1C5A41F30087476F /* AppDelegate.m */; };
 		ACC7DEAE1C5A41F30087476F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ACC7DE951C5A41F30087476F /* main.m */; };
 		ACC7DEB01C5A41F30087476F /* UIColor+TRColors.m in Sources */ = {isa = PBXBuildFile; fileRef = ACC7DE981C5A41F30087476F /* UIColor+TRColors.m */; };
@@ -469,6 +469,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACBEA7AF1D71565700F684A1 /* libRCTWebSocket.a in Frameworks */,
 				AC3C4BD81D48482000A1EC73 /* libRCTFBSDK.a in Frameworks */,
 				AC7F1DAB1D3608AA00D3B511 /* libRNMixpanel.a in Frameworks */,
 				ACB070321D08991900B8E4A9 /* libRCTLinking.a in Frameworks */,
@@ -506,7 +507,6 @@
 				ACBB208E1C050E7C00A63B9C /* libRCTSettings.a in Frameworks */,
 				ACBB208F1C050E7C00A63B9C /* libRCTText.a in Frameworks */,
 				ACBB20901C050E7C00A63B9C /* libRCTVibration.a in Frameworks */,
-				ACBB20911C050E7C00A63B9C /* libRCTWebSocket.a in Frameworks */,
 				ACBB20931C050E7C00A63B9C /* libRNAppInfo.a in Frameworks */,
 				ACBB20941C050E7C00A63B9C /* libRNFS.a in Frameworks */,
 				ACBB20961C050E7C00A63B9C /* libRNMail.a in Frameworks */,

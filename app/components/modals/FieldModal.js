@@ -225,7 +225,7 @@ class FieldModal extends React.Component{
 
     //console.info('init fieldmodal render:', {state:this.state, field:field, fieldValue:fieldValue, inputField:inputField});
 
-    fieldLabel = (fieldValue.label || fieldValue);
+    const fieldLabel = (fieldValue.label || fieldValue);
     fieldValue = (fieldValue.value || fieldValue);
 
     fieldValue = fieldValue ? fieldValue.toString().toUpperCase() : '';

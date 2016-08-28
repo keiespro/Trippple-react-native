@@ -125,7 +125,7 @@ class ProfileField extends React.Component{
       displayValueText = this.formattedPhone();
     }
 
-    displayFieldText = fieldLabel ? fieldLabel.toUpperCase() : '';
+    const displayFieldText = fieldLabel ? fieldLabel.toUpperCase() : '';
      return (
         <TouchableHighlight onPress={(f)=>{
             //trigger modal

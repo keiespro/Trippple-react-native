@@ -30,6 +30,9 @@
 #import <Crashlytics/Crashlytics.h>
 #import "Hotline.h"
 #import <Crashlytics/Answers.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <Bolts/Bolts.h>
+
 
  //#define TRIPPPLE_DEV
 //#define TRIPPPLE_PROD YES
@@ -128,12 +131,12 @@
   NSURL *sourceURL;
   NSLog(@"%s",getenv("RELEASE"));
 //xs  if(getenv("RELEASE")){
-    sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+//    sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 //  }else{
-//    [[RCTBundleURLProvider sharedSettings] setEnableDev:YES];
-//    [[RCTBundleURLProvider sharedSettings] setJsLocation:@"x.local"];
-//    sourceURL = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios"
-//                                                                 fallbackResource:@"main"];
+    [[RCTBundleURLProvider sharedSettings] setEnableDev:YES];
+    [[RCTBundleURLProvider sharedSettings] setJsLocation:@"x.local"];
+    sourceURL = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios"
+                                                                 fallbackResource:@"main"];
 ////  }
   return sourceURL;
 }
@@ -172,18 +175,34 @@
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
   if([url.scheme isEqualToString:@"trippple"]){
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [delegate.rootViewController dismissViewControllerAnimated:YES completion:nil];
 
-    return [RCTLinkingManager application:application openURL:url
+    BFURL *parsedUrl = [BFURL URLWithInboundURL:url sourceApplication:sourceApplication];
+    if ([parsedUrl appLinkData]) {
+      // this is an applink url, handle it here
+      NSURL *targetUrl = [parsedUrl targetURL];
+      AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+      [delegate.rootViewController dismissViewControllerAnimated:YES completion:nil];
+
+      return [RCTLinkingManager application:application openURL:targetUrl
                           sourceApplication:sourceApplication annotation:annotation];
-  } else {
 
-    return [[FBSDKApplicationDelegate sharedInstance] application:application
+    }else{
+
+      AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+      [delegate.rootViewController dismissViewControllerAnimated:YES completion:nil];
+
+      return [RCTLinkingManager application:application openURL:url
+                          sourceApplication:sourceApplication annotation:annotation];
+
+    }
+
+  }
+
+  return [[FBSDKApplicationDelegate sharedInstance] application:application
                                                         openURL:url
                                               sourceApplication:sourceApplication
                                                annotation:annotation];
-  }
+
 }
 
 
