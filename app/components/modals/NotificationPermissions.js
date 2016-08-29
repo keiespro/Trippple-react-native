@@ -9,13 +9,14 @@ import {
   Dimensions,
   PushNotificationIOS,
   TouchableOpacity,
+  Linking
 } from 'react-native';
 import React, { PropTypes } from 'react';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-import UrlHandler from 'react-native-url-handler'
+
 import colors from '../../utils/colors'
 import _ from 'underscore'
 
@@ -78,7 +79,7 @@ class NotificationPermissions extends React.Component{
     }
     handleTapYes(){
       if(this.state.failedState){
-        UrlHandler.openUrl(UrlHandler.settingsUrl)
+        Linking.openURL('settings-app://').catch(err => console.error('An error occurred', err));
 
       }else{
         PushNotificationIOS.checkPermissions((permissions) => {

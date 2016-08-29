@@ -3,10 +3,9 @@
 import React from "react";
 
 import {Component} from "react";
-import {StyleSheet, Text, Image, CameraRoll, View, AsyncStorage, TouchableHighlight, TouchableOpacity, Dimensions, NativeModules, PixelRatio, AppState} from "react-native";
+import {StyleSheet, Text, Image,Linking, CameraRoll, View, AsyncStorage, TouchableHighlight, TouchableOpacity, Dimensions, NativeModules, PixelRatio, AppState} from "react-native";
 
 const permissionsKey = 'cameraRoll'
-import UrlHandler from 'react-native-url-handler'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -75,7 +74,7 @@ class CameraRollPermissionsModal extends Component{
   }
   handleTapYes(){
     if(this.state.failedState){
-      UrlHandler.openUrl(UrlHandler.settingsUrl)
+      Linking.openURL('settings-app://').catch(err => console.error('An error occurred', err));
 
     }else{
       var fetchParams: Object = {

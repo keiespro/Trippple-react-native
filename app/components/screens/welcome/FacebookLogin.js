@@ -79,7 +79,7 @@ class Facebook extends Component{
 
             <FacebookButton
               shouldAuthenticate={true}
-              buttonText={this.props.tab == 'signup' && `SIGN UP WITH FACEBOOK`}
+              buttonText={this.props.tab == 'signup' ? `SIGN UP WITH FACEBOOK` : null}
               onPress={this.login.bind(this)}
             />
 

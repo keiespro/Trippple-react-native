@@ -7,13 +7,13 @@ import {
   TouchableHighlight,
   Dimensions,
   TouchableOpacity,
+  Linking
 } from 'react-native';
 import React, { PropTypes } from 'react';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 const {OSPermissions} = NativeModules
-import UrlHandler from 'react-native-url-handler'
 import colors from '../../utils/colors'
 import _ from 'underscore'
 import PurpleModal from './PurpleModal'
@@ -88,10 +88,7 @@ class LocationPermission extends React.Component{
     this.close()
   }
   openSettings(){
-
-   // set an actual app state listener for when user comes back after settings
-
-    UrlHandler.openUrl(UrlHandler.settingsUrl)
+    Linking.openURL('settings-app://').catch(err => console.error('An error occurred', err));
   }
 
   handleTapYes(){

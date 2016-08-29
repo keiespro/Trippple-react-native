@@ -15,7 +15,7 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
 var {OSPermissions} = NativeModules
-import UrlHandler from 'react-native-url-handler'
+
 import colors from '../../utils/colors'
 import _ from 'underscore'
 
@@ -105,7 +105,7 @@ export default class CheckPermissions extends React.Component{
 
    // set an actual app state listener for when user comes back after settings
 
-     UrlHandler.openUrl(UrlHandler.settingsUrl)
+   Linking.openURL('settings-app://').catch(err => console.error('An error occurred', err));
  }
 
  handleTapYes(){

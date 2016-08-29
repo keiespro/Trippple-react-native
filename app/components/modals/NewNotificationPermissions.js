@@ -1,6 +1,3 @@
-'use strict';
-
-
 import {
   Text,
   Image,
@@ -9,6 +6,7 @@ import {
   TouchableHighlight,
   Dimensions,
   ScrollView,
+  Linking,
   PushNotificationIOS,
   TouchableOpacity,
 } from 'react-native';
@@ -18,13 +16,13 @@ import React, { PropTypes } from 'react';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-import UrlHandler from 'react-native-url-handler'
+
 import colors from '../../utils/colors'
 import _ from 'underscore'
- import PurpleModal from './PurpleModal'
+import PurpleModal from './PurpleModal'
 import styles from './purpleModalStyles'
 import BoxyButton from '../controls/boxyButton'
- import {MagicNumbers} from '../../utils/DeviceConfig'
+import {MagicNumbers} from '../../utils/DeviceConfig'
 import { BlurView,VibrancyView} from 'react-native-blur'
 import { connect } from 'react-redux';
 
@@ -32,8 +30,8 @@ import { HAS_SEEN_NOTIFICATION_REQUEST, LAST_ASKED_NOTIFICATION_PERMISSION, NOTI
 
 
 const failedTitle = `ALERTS DISABLED`,
-      failedSubtitle = `Notification permissions have been disabled. You can enable them in Settings`,
-      buttonText = `YES, ALERT ME`;
+  failedSubtitle = `Notification permissions have been disabled. You can enable them in Settings`,
+  buttonText = `YES, ALERT ME`;
 
 class NewNotificationPermissions extends React.Component{
   static propTypes = {
@@ -47,126 +45,126 @@ class NewNotificationPermissions extends React.Component{
   };
 
   constructor(props){
-      super()
-      this.state = {
-        failedState: false,
-        permissions: null,
-        hasPermission: null
-      }
+    super()
+    this.state = {
+      failedState: false,
+      permissions: null,
+      hasPermission: null
     }
+  }
 
-    componentWillMount(){
-      this.checkPermission()
-    }
-    componentDidMount(){
-      Settings.set({
+  componentWillMount(){
+    this.checkPermission()
+  }
+  componentDidMount(){
+    Settings.set({
         // [HAS_SEEN_NOTIFICATION_REQUEST]: true,
-        [LAST_ASKED_NOTIFICATION_PERMISSION]: Date.now()
-      })
+      [LAST_ASKED_NOTIFICATION_PERMISSION]: Date.now()
+    })
       // AppState.addEventListener('change', this.handleAppStateChange.bind(this));
 
-    }
+  }
 
-    componentWillUnmount() {
+  componentWillUnmount() {
       // AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
-      PushNotificationIOS.removeEventListener('register', this.handleNotificationPermission.bind(this));
+    PushNotificationIOS.removeEventListener('register', this.handleNotificationPermission.bind(this));
 
-    }
-    checkPermission(){
-      PushNotificationIOS.checkPermissions((permissions) => {
-        const permResult = Object.keys(permissions).reduce((acc,el,i) =>{
-          acc = acc + permissions[el];
-          return acc
-        },0);
+  }
+  checkPermission(){
+    PushNotificationIOS.checkPermissions((permissions) => {
+      const permResult = Object.keys(permissions).reduce((acc,el,i) =>{
+        acc = acc + permissions[el];
+        return acc
+      },0);
 
         // this.setState({permissions, hasPermission: permResult > 0})
 
-      })
-    }
+    })
+  }
     // componentDidUpdate(prevProps,prevState){
     //   if(!prevState.hasPermission && this.state.hasPermission ){
     //     // this.props.failCallback(true)
     //   }
     // }
-    cancel(){
-      this.close()
+  cancel(){
+    this.close()
+  }
+  close(){
+    if(this.props.navigator){
+      this.props.navigator.pop()
     }
-    close(){
-      if(this.props.navigator){
-        this.props.navigator.pop()
-      }
-      if(this.props.hideModal){
-        this.props.hideModal()
-      }
-      if(this.props.close){
-        this.props.close()
-      }
+    if(this.props.hideModal){
+      this.props.hideModal()
     }
+    if(this.props.close){
+      this.props.close()
+    }
+  }
 
-    handleNotificationPermission(token){
+  handleNotificationPermission(token){
 
-      __DEV__ && console.log('APN -> ',token);
+    __DEV__ && console.log('APN -> ',token);
 
 
 
       // NotificationActions.receiveApnToken(token)
       // this.setState({ hasPermission: true})
 
-      Settings.set({
-        [HAS_SEEN_NOTIFICATION_REQUEST]: true,
-        [NOTIFICATION_SETTING]: true
-      })
+    Settings.set({
+      [HAS_SEEN_NOTIFICATION_REQUEST]: true,
+      [NOTIFICATION_SETTING]: true
+    })
 
-      this.props.successCallback && this.props.successCallback();
+    this.props.successCallback && this.props.successCallback();
     this.close(false)
 
-    }
-    handleTapYes(){
-      if(this.state.failedState){
-        UrlHandler.openUrl(UrlHandler.settingsUrl)
+  }
+  handleTapYes(){
+    if(this.state.failedState){
+      Linking.openURL('settings-app://').catch(err => console.error('An error occurred', err));
 
-      }else{
-        PushNotificationIOS.checkPermissions((permissions) => {
-          const permResult = Object.keys(permissions).reduce((acc,el,i) =>{
-            acc = acc + permissions[el];
-            return acc
-          },0);
+    }else{
+      PushNotificationIOS.checkPermissions((permissions) => {
+        const permResult = Object.keys(permissions).reduce((acc,el,i) =>{
+          acc = acc + permissions[el];
+          return acc
+        },0);
 
-          if(permResult == 0){
+        if(permResult == 0){
 
-            PushNotificationIOS.addEventListener('register', this.handleNotificationPermission.bind(this))
-            PushNotificationIOS.requestPermissions({alert:true,badge:true,sound:true})
+          PushNotificationIOS.addEventListener('register', this.handleNotificationPermission.bind(this))
+          PushNotificationIOS.requestPermissions({alert:true,badge:true,sound:true})
             // AppActions.disableNotificationModal()
 
-          }else{
+        }else{
             // AppActions.disableNotificationModal()
 
-            this.close(false)
-            this.props.successCallback && this.props.successCallback();
-          }
+          this.close(false)
+          this.props.successCallback && this.props.successCallback();
+        }
 
-        })
-
-      }
-    }
-    handleFail(){
-
-      this.setState({hasPermission: false})
-    }
-    handleSuccess(){
-      this.setState({hasPermission: true})
+      })
 
     }
+  }
+  handleFail(){
+
+    this.setState({hasPermission: false})
+  }
+  handleSuccess(){
+    this.setState({hasPermission: true})
+
+  }
 
 
-    render(){
-      const {relevantUser} = this.props;
-      const featuredUser = relevantUser && relevantUser.user ? relevantUser.user : relevantUser || {};
-      const featuredPartner = featuredUser.relationship_status === 'couple' ? relevantUser.partner : {};
-      const displayName = (`${featuredUser.firstname} ${featuredPartner.firstname || ''}`).trim();
-      const featuredImage = (relevantUser && relevantUser.image_url) || (featuredUser && featuredUser.image_url) || null;
+  render(){
+    const {relevantUser} = this.props;
+    const featuredUser = relevantUser && relevantUser.user ? relevantUser.user : relevantUser || {};
+    const featuredPartner = featuredUser.relationship_status === 'couple' ? relevantUser.partner : {};
+    const displayName = (`${featuredUser.firstname} ${featuredPartner.firstname || ''}`).trim();
+    const featuredImage = (relevantUser && relevantUser.image_url) || (featuredUser && featuredUser.image_url) || null;
 
-      return  (
+    return  (
         <BlurView blurType="dark" style={{width:DeviceWidth,height:DeviceHeight,justifyContent:'center',alignItems:'center',}}>
           <ScrollView
           scrollEnabled={true}
@@ -183,14 +181,14 @@ class NewNotificationPermissions extends React.Component{
               />
               <View   style={{width:32,height:32,borderRadius:16,overflow:'hidden',backgroundColor:colors.mandy,position:'absolute',top:6,right:6,justifyContent:'center',alignItems:'center'}}>
                 <Text style={[{
-                    fontSize:20,
-                    marginLeft:2,
-                    marginTop:-2,
-                    width:32,
-                    fontFamily:'Montserrat-Bold',
-                    textAlign:'center',
-                    color:'#fff',
-                  }]}>1</Text>
+                  fontSize:20,
+                  marginLeft:2,
+                  marginTop:-2,
+                  width:32,
+                  fontFamily:'Montserrat-Bold',
+                  textAlign:'center',
+                  color:'#fff',
+                }]}>1</Text>
 
               </View>
             </View>
@@ -207,12 +205,12 @@ class NewNotificationPermissions extends React.Component{
                   >Great! You’ve liked {displayName ? displayName : "them" }.</Text>
                     }
                     <Text style={[styles.rowtext,styles.bigtext,{
-                        fontSize:22,
-                        marginVertical:10,
-                        color:'#fff',
-                        marginBottom:15,
-                        flexDirection:'column'
-                      }]}>
+                      fontSize:22,
+                      marginVertical:10,
+                      color:'#fff',
+                      marginBottom:15,
+                      flexDirection:'column'
+                    }]}>
                       {featuredImage ? `Would you like to be notified \nwhen they like you back?` : ` Would you like to be notified of new matches and messages?`}
                     </Text>
                   </View>

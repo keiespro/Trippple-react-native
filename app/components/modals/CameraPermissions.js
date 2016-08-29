@@ -3,14 +3,13 @@
 import React from "react";
 
 import {Component, PropTypes} from "react";
-import {StyleSheet, Text, Image, CameraRoll, View, AsyncStorage, TouchableOpacity, TouchableHighlight, Dimensions, NativeModules, AppState, PixelRatio} from "react-native";
+import {StyleSheet, Text, Image, CameraRoll, Linking, View, AsyncStorage, TouchableOpacity, TouchableHighlight, Dimensions, NativeModules, AppState, PixelRatio} from "react-native";
 import Camera from 'react-native-camera';
 import CoupleCameraControl from '../controls/CoupleCameraControl'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 const {CameraManager,OSPermissions} = NativeModules
-import UrlHandler from 'react-native-url-handler'
 
 const CameraKey = 'camera'
 
@@ -60,7 +59,7 @@ class CameraPermissionsModal extends Component{
   }
   handleTapYes(){
     if(this.state.failedState){
-      UrlHandler.openUrl(UrlHandler.settingsUrl)
+      Linking.openURL('settings-app://').catch(err => console.error('An error occurred', err));
 
     }else{
       this.handleSuccess();

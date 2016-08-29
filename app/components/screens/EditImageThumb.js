@@ -24,7 +24,6 @@ import colors from '../../utils/colors';
 
 
 
-import {BlurView,VibrancyView} from 'react-native-blur'
 import ContinueButton from '../controls/ContinueButton'
 
 
