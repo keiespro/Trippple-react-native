@@ -75,20 +75,21 @@ class Facebook extends Component{
 
         <View style={[styles.container,{}]}>
 
-
           <View style={{alignSelf:'stretch'}}>
 
-            <FacebookButton shouldAuthenticate={true} onPress={this.login.bind(this)}/>
+            <FacebookButton
+              shouldAuthenticate={true}
+              buttonText={this.props.tab == 'signup' && `SIGN UP WITH FACEBOOK`}
+              onPress={this.login.bind(this)}
+            />
 
             <View style={styles.middleTextWrap}>
               <Text style={[styles.middleText,{fontSize:17,marginTop:20,textAlign:'center',width:MagicNumbers.screenWidth}]}>We will never post without your permission.</Text>
             </View>
+
           </View>
+
           <View style={[styles.middleTextWrap,styles.bottomwrap]}>
-            {/*<TouchableOpacity
-              onPress={this.skipFacebook.bind(this)}
-              ><Text style={styles.middleText}>{this.state.fbUser ? 'Continue' : 'No thanks'}</Text>
-            </TouchableOpacity>*/}
             {this.props.tab == 'login' ? <TouchableOpacity onPress={this.triggerPhoneLogin.bind(this)}>
               <Text style={{color:colors.rollingStone,fontSize:16,textDecorationLine:'underline'}}>Or use your phone number</Text>
             </TouchableOpacity> : <TouchableOpacity onPress={this.whyFacebookModal.bind(this)}>

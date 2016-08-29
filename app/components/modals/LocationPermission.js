@@ -1,5 +1,3 @@
-'use strict';
-
 import {
   Text,
   Image,
@@ -14,8 +12,7 @@ import React, { PropTypes } from 'react';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-
-var {OSPermissions} = NativeModules
+const {OSPermissions} = NativeModules
 import UrlHandler from 'react-native-url-handler'
 import colors from '../../utils/colors'
 import _ from 'underscore'
@@ -26,132 +23,117 @@ import {MagicNumbers} from '../../utils/DeviceConfig'
 import Analytics from '../../utils/Analytics'
 import { BlurView,VibrancyView} from 'react-native-blur'
 import { connect } from 'react-redux';
+import ActionMan from '../../actions'
+
 
 class LocationPermission extends React.Component{
 
- static propTypes = {
-   nextRoute:PropTypes.object,
-   title: PropTypes.string.isRequired,
-   subtitle: PropTypes.string,
-   buttonText: PropTypes.string,
-   headerImageSource: PropTypes.string,
-   renderMethod: PropTypes.oneOf(['push', 'replace','show']),
-   renderNextMethod: PropTypes.oneOf(['pop', 'push', 'replace','suppress']),
-   renderPrevMethod: PropTypes.oneOf(['pop', 'replace','suppress']),
-   successCallback: PropTypes.func
- };
+  static propTypes = {
+    nextRoute:PropTypes.object,
+    title: PropTypes.string.isRequired,
+    subtitle: PropTypes.string,
+    buttonText: PropTypes.string,
+    headerImageSource: PropTypes.string,
+    renderMethod: PropTypes.oneOf(['push', 'replace','show']),
+    renderNextMethod: PropTypes.oneOf(['pop', 'push', 'replace','suppress']),
+    renderPrevMethod: PropTypes.oneOf(['pop', 'replace','suppress']),
+    successCallback: PropTypes.func
+  };
 
- static defaultProps = {
-   buttonText: 'YES'
- };
+  static defaultProps = {
+    buttonText: 'YES'
+  };
 
- constructor(props) {
-   super();
-   this.state = {
-     hasPermission: OSPermissions.location && parseInt(OSPermissions.location) && parseInt(OSPermissions.location) > 2
+  constructor(props) {
+    super();
+    this.state = {
+      hasPermission: OSPermissions.location && parseInt(OSPermissions.location) && parseInt(OSPermissions.location) > 2
 
-   }
- }
+    }
+  }
 
- componentWillMount(){
-   // if(OSPermissions[this.props.permissionKey]  && parseInt(OSPermissions[this.props.permissionKey]) > 2){
-   //   this.props.failCallback ? this.props.failCallback(true) : this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
-
-   // }
-
- }
- componentDidUpdate(prevProps,prevState){
-   if(!prevState.hasPermission && this.state.hasPermission ){
+  // componentWillMount(){
+  //  // if(OSPermissions[this.props.permissionKey]  && parseInt(OSPermissions[this.props.permissionKey]) > 2){
+  //  //   this.props.failCallback ? this.props.failCallback(true) : this.props.navigator[this.props.renderNextMethod]( this.props.nextRoute )
+  //
+  //  // }
+  //
+  // }
+  componentDidUpdate(prevProps,prevState){
+    if(!prevState.hasPermission && this.state.hasPermission ){
      // this.props.failCallback && this.props.failCallback()
-   }
- }
+    }
+  }
 
- requestPermission(){
-       this.getLocation()
- }
- getLocation(){
-     navigator.geolocation.getCurrentPosition( (geo) => {
-       this.handleSuccess(geo)
+  requestPermission(){
+    this.getLocation()
+  }
+  getLocation(){
+    navigator.geolocation.getCurrentPosition( (geo) => {
+      this.handleSuccess(geo)
 
-     },
+    },
      (error) => {
        Analytics.log(error)
 
        this.setState({hasPermission: false})
-       // this.handleFail()
-       // this.props.navigator[this.props.renderPrevMethod]()
 
      },
      {enableHighAccuracy: false, maximumAge: 1} )
- }
+  }
 
- cancel(val){
-   this.setState({hasPermission: false})
+  cancel(val){
+    this.setState({hasPermission: false})
 
-  //  this.props.failCallback && this.props.failCallback(val)
-   this.close()
- }
- openSettings(){
+    this.close()
+  }
+  openSettings(){
 
    // set an actual app state listener for when user comes back after settings
 
-     UrlHandler.openUrl(UrlHandler.settingsUrl)
- }
+    UrlHandler.openUrl(UrlHandler.settingsUrl)
+  }
 
- handleTapYes(){
-  //  if(this.state.failedState == "12312"){
-  //    this.openSettings()
-  //  }else{
-  //    if(!this.state.hasPermission){
-       this.requestPermission()
-    //  }else{
-    //    this.props.successCallback()
-    //    this.close()
-     //
-    //  }
-  //  }
+  handleTapYes(){
+    this.requestPermission()
+  }
+  close(){
+    if(this.props.navigator){
+      this.props.navigator.pop()
+    }
+    if(this.props.hideModal){
+      this.props.hideModal()
+    }
+    if(this.props.close){
+      this.props.close()
+    }
+  }
 
+  handleFail(){
+    this.setState({hasPermission: false})
+    this.props.failCallback && this.props.failCallback(0)
+    this.close()
+  }
 
+  handleSuccess(geo){
+    const { latitude, longitude } = geo.coords
+    this.props.dispatch(ActionMan.updateUser({lat:latitude,lon:longitude}))
 
- }
- close(){
-   if(this.props.navigator){
-     this.props.navigator.pop()
-   }
-   if(this.props.hideModal){
-     this.props.hideModal()
-   }
-   if(this.props.close){
-     this.props.close()
-   }
- }
-
- handleFail(){
-   this.setState({hasPermission: false})
-   this.props.failCallback && this.props.failCallback(0)
-   this.close()
- }
-
- handleSuccess(geo){
-   const { latitude, longitude } = geo.coords
-  //  UserActions.updateUser({ latitude, longitude });
-
-
-   this.close()
+    this.close()
   //  this.props.navigator.pop()
- }
+  }
 
- handleContinue(){
-   this.props.nextRoute ? this.props.navigator.replace(this.props.nextRoute) : this.props.continue()
- }
+  handleContinue(){
+    this.props.nextRoute ? this.props.navigator.replace(this.props.nextRoute) : this.props.continue()
+  }
 
- render(){
-   return this.renderModal()
- }
+  render(){
+    return this.renderModal()
+  }
 
 
- renderButton(){
-   return (
+  renderButton(){
+    return (
      <View>
      <TouchableHighlight
        style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:10,marginTop:20,marginBottom:15}}
@@ -166,9 +148,9 @@ class LocationPermission extends React.Component{
      </TouchableHighlight>
      </View>
    )
- }
+  }
 
- renderModal(){
+  renderModal(){
     return (
 
       <BlurView
@@ -190,8 +172,8 @@ class LocationPermission extends React.Component{
          <View style={[styles.insidemodalwrapper,{justifyContent:'center'}]}>
 
            <Text style={[styles.rowtext,styles.bigtext,{
-               fontFamily:'Montserrat-Bold',fontSize:22,marginVertical:10,color: colors.white
-             }]}>
+             fontFamily:'Montserrat-Bold',fontSize:22,marginVertical:10,color: colors.white
+           }]}>
              {this.state.failedState ? this.props.failedTitle.toUpperCase() : this.props.title.toUpperCase()}
            </Text>
 
@@ -219,7 +201,7 @@ class LocationPermission extends React.Component{
        </BlurView>
 
    )
- }
+  }
 
 
 }

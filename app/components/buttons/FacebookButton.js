@@ -84,7 +84,7 @@ class FacebookButton extends React.Component{
     return(
 
       <BoxyButton
-        text={`LOG IN WITH FACEBOOK`}
+        text={this.props.buttonText || `LOG IN WITH FACEBOOK`}
         buttonText={this.props.buttonTextStyle}
         outerButtonStyle={styles.iconButtonOuter}
         leftBoxStyles={styles.buttonIcon}
