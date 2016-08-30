@@ -310,7 +310,7 @@ RCT_NOT_IMPLEMENTED(- (instancetype)init)
 
     // Reset transforms for header views
     header.transform = CGAffineTransformIdentity;
-    header.layer.zPosition = ZINDEX_DEFAULT;
+    header.layer.zPosition = ZINDEX_STICKY_HEADER;
 
   }];
 
