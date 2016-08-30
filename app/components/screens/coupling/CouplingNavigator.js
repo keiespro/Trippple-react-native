@@ -137,14 +137,12 @@ class CouplingNavigator extends Component {
 
   render() {
     return (
-      <BlurView blurType="dark" >
         <NavigationCardStack
           style={styles.navigator}
           navigationState={this.state.navState}
           onNavigateBack={this.handleBackAction.bind(this)}
           renderScene={this._renderScene.bind(this)}
         />
-        </BlurView>
 
     )
   }

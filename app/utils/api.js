@@ -9,10 +9,10 @@ import DeviceInfo from './DeviceInfo'
 import Analytics from './Analytics'
 
 const { FileTransfer } = NativeModules,
-      { SERVER_URL } = config;
+  { SERVER_URL } = config;
 
 const VERSION = "2.5",
-      iOSversion = DeviceInfo.version;
+  iOSversion = DeviceInfo.version;
 
 async function baseRequest(endpoint='', payload={}, resource='user'){
   const params = {
@@ -56,9 +56,11 @@ async function baseRequest(endpoint='', payload={}, resource='user'){
     })
 
   }catch(err){
-    __DEV__ && console.warn('CAUGHT ERR',err);
-
-    return {error: err, status: res.status}
+    __DEV__ && console.warn('CAUGHT ERR',err,res.status,res.url);
+    if(res.status == 401){
+      console.log('401');
+    }
+    throw ('401')
   }
 }
 
@@ -72,7 +74,7 @@ function authenticatedRequest(endpoint: '', payload: {}, resource, forceCredenti
   return baseRequest(endpoint, authPayload,resource)
 }
 
- function authenticatedFileUpload(endpoint, image, image_type, cropData,callback){
+function authenticatedFileUpload(endpoint, image, image_type, cropData,callback){
 
 
   const uploadUrl = `${SERVER_URL}/${endpoint}`

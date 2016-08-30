@@ -45,7 +45,7 @@ export const loginWithFacebook = () => async dispatch => {
     const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
     const fbUser = await AccessToken.getCurrentAccessToken()
     dispatch({ type: 'FACEBOOK_AUTH', payload: {...fb,...fbUser} })
-
+    console.log(fb,fbUser);
     dispatch({
       type: 'LOGIN_WITH_FACEBOOK',
       payload: api.fbLogin(fbUser)
@@ -55,11 +55,11 @@ export const loginWithFacebook = () => async dispatch => {
     try{
       const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
       const fbUser = await AccessToken.getCurrentAccessToken()
-      dispatch({ type: 'FACEBOOK_AUTH', payload: {...fb,...fbUser} })
-      dispatch({
-        type: 'LOGIN_WITH_FACEBOOK',
-        payload: api.fbLogin(fbUser)
-      })
+      dispatch({ type: 'FACEBOOK_AUTH_FAILED', payload: {...fb,...fbUser} })
+      // dispatch({
+      //   type: 'LOGIN_WITH_FACEBOOK',
+      //   payload: api.fbLogin(fbUser)
+      // })
     }catch(err){
       __DEV__ && console.log('fb login failed twice',err)
     }
@@ -82,7 +82,7 @@ export const getFacebookInfo = () => async dispatch => {
 /* facebookAuth | FACEBOOK_AUTH */
 export const facebookAuth = () => async dispatch => {
   try{
-    // const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
+    const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
     const fbUser = await AccessToken.getCurrentAccessToken()
 
     dispatch({ type: 'FACEBOOK_AUTH', payload: {...fb,...fbUser} })
@@ -93,6 +93,7 @@ export const facebookAuth = () => async dispatch => {
 
 /* getFacebookProfile | GET_FACEBOOK_PROFILE */
 export const getFacebookProfile = fbUser => dispatch => {
+  console.log(fbUser);
   const {accessToken} = fbUser;
 
   const infoRequest = new GraphRequest('me', {parameters, accessToken}, (err, fbProfile) => {

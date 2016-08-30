@@ -88,7 +88,7 @@ class LocationPermission extends React.Component{
     this.close()
   }
   openSettings(){
-    Linking.openURL('settings-app://').catch(err => console.error('An error occurred', err));
+    Linking.openURL('app-settings://').catch(err => console.error('An error occurred', err));
   }
 
   handleTapYes(){

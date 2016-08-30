@@ -70,6 +70,7 @@ class JoinCouple extends Component{
         </View>
 
             <TouchableHighlight onPress={(f)=>{
+              console.log(f);
               this.props.goCouplePin()
             }} underlayColor={colors.white20}>
                 <View style={{

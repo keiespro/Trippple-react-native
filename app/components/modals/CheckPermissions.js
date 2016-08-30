@@ -105,7 +105,7 @@ export default class CheckPermissions extends React.Component{
 
    // set an actual app state listener for when user comes back after settings
 
-   Linking.openURL('settings-app://').catch(err => console.error('An error occurred', err));
+   Linking.openURL('app-settings://').catch(err => console.error('An error occurred', err));
  }
 
  handleTapYes(){

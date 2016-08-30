@@ -1,11 +1,7 @@
-
-import {AsyncStorage} from 'react-native'
 import Keychain from 'react-native-keychain'
-import Promise from 'bluebird'
 import config from '../../config'
 const {KEYCHAIN_NAMESPACE} = config
-const ClearAsyncStorage = Promise.promisify(AsyncStorage.clear)
-import {LoginManager} from 'react-native-fbsdk'
+import LogOut from '../utils/logout'
 
 export const saveCredentials = c => dispatch => dispatch({ type: 'SAVE_CREDENTIALS',
   payload: new Promise((resolve, reject) => {
@@ -17,16 +13,15 @@ export const saveCredentials = c => dispatch => dispatch({ type: 'SAVE_CREDENTIA
 
 export const logOut = c => dispatch => dispatch({ type: 'LOG_OUT',
   payload: new Promise((resolve, reject) => {
-    LoginManager.logOut();
-    Promise.all([
-      Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE),
-      ClearAsyncStorage(),
-    ])
+    LogOut()
     .then(x => {
       global.creds = null;
       resolve(x)
     })
-    .catch(x => reject(x))
+    .catch(x => {
+      console.log(x)
+      reject(x)
+    })
 
   })
 });

@@ -74,7 +74,7 @@ class CameraRollPermissionsModal extends Component{
   }
   handleTapYes(){
     if(this.state.failedState){
-      Linking.openURL('settings-app://').catch(err => console.error('An error occurred', err));
+      Linking.openURL('app-settings://').catch(err => console.error('An error occurred', err));
 
     }else{
       var fetchParams: Object = {

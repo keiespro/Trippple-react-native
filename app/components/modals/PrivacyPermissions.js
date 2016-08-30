@@ -1,8 +1,4 @@
-'use strict';
-
-import React from "react";
-
-import {Component} from "react";
+import React, {Component} from "react";
 import {StyleSheet, Text, Image, NativeModules, CameraRoll, View, TouchableHighlight, Dimensions, PixelRatio, TouchableOpacity} from "react-native";
 
 const DeviceHeight = Dimensions.get('window').height
@@ -17,7 +13,7 @@ import _ from 'underscore'
 import PurpleModal from './PurpleModal'
 import styles from './purpleModalStyles'
 import BoxyButton from '../controls/boxyButton'
-
+import ActionMan from '../../actions'
 import {MagicNumbers} from '../../utils/DeviceConfig'
 
 class PrivacyPermissionsModal extends Component{
@@ -32,28 +28,28 @@ class PrivacyPermissionsModal extends Component{
 
   componentDidMount(){
 
-     ContactGetter.checkPermission((err, permission) => {
-       if(!err && permission === ContactGetter.PERMISSION_AUTHORIZED){
-         this.setState({ hasContactsPermissions: true })
-       }else if( permission === ContactGetter.PERMISSION_DENIED){
-         this.setState({ hasContactsPermissions: false,failedStateContacts:true })
-       }else{
-         this.setState({ hasContactsPermissions: false })
-       }
-     })
+    ContactGetter.checkPermission((err, permission) => {
+      if(!err && permission === ContactGetter.PERMISSION_AUTHORIZED){
+        this.setState({ hasContactsPermissions: true })
+      }else if( permission === ContactGetter.PERMISSION_DENIED){
+        this.setState({ hasContactsPermissions: false,failedStateContacts:true })
+      }else{
+        this.setState({ hasContactsPermissions: false })
+      }
+    })
   }
 
   componentDidUpdate(pProps,pState){
-    if(  this.state.hasContactsPermissions ){
+    if(  this.state.hasContactsPermissions && !pState.hasContactsPermissions ){
       this.props.dispatch(ActionMan.updateUser({privacy:'private'}))
-      this.props.success && this.props.success()
-      this.props.navigator && this.props.navigator.pop()
+      // this.props.success && this.props.success()
+      // this.props.navigator && this.props.navigator.pop()
     }
   }
 
   handleTapContacts(){
     if(this.state.hasContactsPermissions) {
-        this.getContacts();
+      this.getContacts();
     }else{
 
       ContactGetter.checkPermission((err, permission) => {
@@ -62,10 +58,10 @@ class PrivacyPermissionsModal extends Component{
         }
 
        // ContactGetter.PERMISSION_AUTHORIZED || ContactGetter.PERMISSION_UNDEFINED || ContactGetter.PERMISSION_DENIED
-       if(permission === ContactGetter.PERMISSION_UNDEFINED){
-         this.getContacts();
-       }
-       if(permission === ContactGetter.PERMISSION_AUTHORIZED){
+        if(permission === ContactGetter.PERMISSION_UNDEFINED){
+          this.getContacts();
+        }
+        if(permission === ContactGetter.PERMISSION_AUTHORIZED){
           this.getContacts()
         }
         if(permission === ContactGetter.PERMISSION_DENIED){
@@ -88,11 +84,11 @@ class PrivacyPermissionsModal extends Component{
         }
         if(permission === ContactGetter.PERMISSION_AUTHORIZED){
           this.setState({hasContactsPermissions:true})
-         }
-         if(permission === ContactGetter.PERMISSION_DENIED){
+        }
+        if(permission === ContactGetter.PERMISSION_DENIED){
 
-           this.setState({failedStateContacts:true,hasContactsPermissions:false})
-         }
+          this.setState({failedStateContacts:true,hasContactsPermissions:false})
+        }
 
         this.setState({hasContactsPermissions:true})
       //
@@ -122,13 +118,13 @@ class PrivacyPermissionsModal extends Component{
               />
             </View>
             <Text style={[styles.rowtext,styles.bigtext,{
-                fontFamily:'Montserrat-Bold',fontSize:20,marginVertical:0
+              fontFamily:'Montserrat-Bold',fontSize:20,marginVertical:0
             }]}
             >PROTECT YOUR PRIVACY</Text>
 
             <Text style={[styles.rowtext,styles.bigtext,{
-                fontSize:18,marginVertical:10,color: colors.shuttleGray,marginHorizontal:10
-              }]}>
+              fontSize:18,marginVertical:10,color: colors.shuttleGray,marginHorizontal:10
+            }]}>
               Hide from your Facebook Friends and Phone Contacts
             </Text>
 
@@ -156,11 +152,10 @@ class PrivacyPermissionsModal extends Component{
 
             <View
             style={{
-                       }} >
+            }} >
           { this.state.hasContactsPermissions ?
               <TouchableOpacity
-              style={{width:undefined,paddingHorizontal:10,marginVertical:10,flexDirection:'row',alignSelf:'stretch',flex:1,alignItems:'stretch'}}
-
+                style={{width:undefined,paddingHorizontal:10,marginVertical:10,flexDirection:'row',alignSelf:'stretch',flex:1,alignItems:'stretch'}}
                 onPress={()=> { this.props.success && this.props.success()}}>
               <View style={[styles.cancelButton,{backgroundColor:'transparent',alignItems:'stretch',alignSelf:'stretch',flexDirection:'row'}]} >
                 <Text style={[{color:colors.shuttleGray,textAlign:'center',
