@@ -32,8 +32,6 @@ class ProfileTable extends Component{
     return (
         <View
         style={{
-          backgroundColor:colors.outerSpace,
-          // flex:1,
           width:MagicNumbers.screenWidth,
           flexDirection:'column',
           alignItems:'stretch'

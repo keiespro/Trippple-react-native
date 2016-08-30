@@ -164,7 +164,7 @@ class UserProfile extends React.Component{
               }
 
             <View
-            key={`${potential.id || potential.user.id}-bottomview`}
+            key={`${potential.id || potential.user.id}-bottomviews`}
             style={{
               height: 600,
               backgroundColor:colors.outerSpace,

@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, ScrollView, TouchableOpacity, Animated, Dimensio
 import colors  from '../../utils/colors'
 import TimerMixin from 'react-timer-mixin'
 
-const { width, height } = {height:7000,width:640}//Dimensions.get('window')
+const { width, height } = Dimensions.get('window')
 
 /**
  * Default styles
@@ -321,12 +321,11 @@ const Swiper = React.createClass({
     return (
       <View
       style={[styles.container, {
-        width: state.width,
-        height: state.height
+        width: props.width,
+        height: props.height
       }]}>
         <ScrollView ref="scrollView"
           {...props}
-
           scrollEventThrottle={32}
           pagingEnabled={true}
           contentOffset={state.offset}
@@ -346,34 +345,7 @@ const Swiper = React.createClass({
                   />
             )
           }) : <View/>}
-          {/* <Animated.View
-              pointerEvents={'box-none'}
-              style={[styles['pagination_' + this.state.dir], this.props.paginationStyle,
-                {
-                  position:'absolute',top:  dir == 'y' ? -13.5 : 0,alignSelf:'flex-start',
-                transform:[
-                  {
-                    translateY: dir == 'y' ? this.state.scroll && this.state.scroll.interpolate({
-                      inputRange: inputRangeVertical,
-                      outputRange: outputRangeVertical
-                   }) : 0,
-                  },{
-                    translateX: dir == 'x' ? ( this.state.scroll && this.state.scroll.interpolate({
-                      inputRange,
-                    outputRange
-                    }) ) || 0 : 0,
-                  }
-
-                ],
-
-              }]}
-              >
-              <View style={[
-                (this.props.grayDots ?  styles.grayDot : styles.dot15),
-                (this.props.grayDots ? styles.activeDot16 : styles.activeDot15),
-                {}]} key={'dot-active'} />
-            </Animated.View>
-            */}
+      
           </View>
 
       </View>

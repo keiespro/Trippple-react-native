@@ -62,7 +62,6 @@ const ScrollableTabView = React.createClass({
       left:0,
       bottom:0,
       paddingBottom: 30,
-      // paddingHorizontal:MagicNumbers.screenPadding/2,
       flexDirection: 'row',
       overflow:'hidden',
       transform:[

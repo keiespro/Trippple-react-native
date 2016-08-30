@@ -171,7 +171,7 @@ class Potentials extends React.Component{
     return (
       <View
         style={{
-          backgroundColor: this.state.profileVisible ? colors.dark : colors.outerSpace,
+          backgroundColor: this.props.profileVisible ? colors.dark : colors.outerSpace,
           width:DeviceWidth,
           height:DeviceHeight,
           zIndex:9999,
@@ -185,7 +185,7 @@ class Potentials extends React.Component{
          <View style={[
            styles.cardStackContainer,
            {
-             top: this.props.ui.profileVisible ? 70 : 60,
+             top: this.props.profileVisible ? 70 : 60,
              position:'relative',
            }]}>
 
@@ -197,7 +197,7 @@ class Potentials extends React.Component{
               rel={user.relationship_status}
               potentials={ potentials}
               navigator={this.props.navigator}
-              profileVisible={this.state.profileVisible}
+              profileVisible={this.props.profileVisible}
               toggleProfile={this.toggleProfile.bind(this)}
             /> :
 
@@ -253,7 +253,8 @@ const mapStateToProps = (state, ownProps) => {
     user: state.user,
     potentials: state.potentials,
     unread: state.unread,
-    ui: state.ui
+    ui: state.ui,
+    profileVisible: state.ui.profileVisible
   }
 }
 

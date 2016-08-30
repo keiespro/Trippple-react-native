@@ -182,7 +182,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf:'stretch',
     padding:0,
-    // position:'absolute',
     alignItems:'center',
     justifyContent:'center'
 
