@@ -40,19 +40,21 @@ class App extends React.Component{
   performInitActions(){
 
     const initActions = [
-      // '',
+      // 'getPushToken',
       'getNotificationCount',
       'getUserInfo',
       'getPotentials',
       'getMatches',
       'getNewMatches',
-      'getPushToken',
       'checkLocation'
     ];
 
     initActions.forEach(ac => {
       this.props.dispatch(ActionMan[ac]())
     })
+    // 
+    // this.props.dispatch(ActionMan.getPushToken(this.props.push_token))
+
   }
 
 
@@ -109,7 +111,8 @@ const mapStateToProps = (state, ownProps) => {
     user: state.user,
     fbUser: state.fbUser,
     auth: state.auth,
-    loggedIn: state.auth.api_key && state.auth.user_id
+    loggedIn: state.auth.api_key && state.auth.user_id,
+    push_token: state.device.push_token
   }
 }
 

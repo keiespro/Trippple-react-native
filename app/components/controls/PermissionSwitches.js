@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React from "react";
 
-import CheckPermissions from '../modals/CheckPermissions';
+import LocationPermissions from '../modals/LocationPermission';
 import NotificationPermissions from '../modals/NewNotificationPermissions';
 import styles from '../screens/settings/settingsStyles';
 import colors from '../../utils/colors'
@@ -36,27 +36,28 @@ class PermissionSwitches extends React.Component{
     super()
 
     this.state = {
-      LocationSetting: false,
-      NotificationSetting: false
+      LocationSetting: parseInt(OSPermissions.location) > 2,
+      NotificationSetting: parseInt(OSPermissions.notifications) > 2
     }
   }
   componentDidMount(){
-      const LocationSetting = Settings.get(LOCATION_SETTING) || Settings.get(LEGACY_LOCATION_SETTING) || null;
-      const NotificationSetting = Settings.get(NOTIFICATION_SETTING) || Settings.get(LEGACY_NOTIFICATION_SETTING) || null;
+    const LocationSetting = Settings.get(LOCATION_SETTING) || Settings.get(LEGACY_LOCATION_SETTING) || null;
+    const NotificationSetting = Settings.get(NOTIFICATION_SETTING) || Settings.get(LEGACY_NOTIFICATION_SETTING) || null;
 
-      OSPermissions.canUseNotifications(OSNotifications => {
-        OSPermissions.canUseLocation(OSLocation => {
-          this.setState({
-            LocationSetting: OSLocation > 2 || JSON.parse(LocationSetting) ? true : false,
-            NotificationSetting: OSNotifications > 2 || JSON.parse(NotificationSetting) ? true : false,
-            OSNotifications,
-            OSLocation
-          })
+    OSPermissions.canUseNotifications(OSNotifications => {
+      OSPermissions.canUseLocation(OSLocation => {
+        this.setState({
+          LocationSetting: parseInt(OSLocation) > 2,
+          NotificationSetting: parseInt(OSNotifications) > 2,
+          OSNotifications: parseInt(OSNotifications),
+          OSLocation: parseInt(OSLocation)
         })
       })
+    })
 
   }
   toggleLocation(){
+    console.log(this.state);
     const {OSLocation} = this.state;
 
     Analytics.event('Interaction',{

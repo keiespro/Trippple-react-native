@@ -63,9 +63,21 @@ class NotificationCommander extends Component{
     if(creds.api_key && creds.user_id){
       this.connectSocket()
     }
+
+    PushNotificationIOS.addEventListener('register', (push_token) =>{
+      __DEV__ && console.log( 'TOKEN:', push_token );
+      if(push_token){
+        this.props.dispatch({type:'SAVE_PUSH_TOKEN',payload: push_token})
+      }else{
+        this.props.dispatch({type:'SAVE_PUSH_TOKEN_FAILED',payload: null})
+      }
+    })
+
+
     PushNotification.checkPermissions((perms) => {
+      this.props.dispatch({type:'CHECK_PUSH_PERMISSIONS',payload: perms})
       if(perms.alert){
-        PushNotificationIOS.requestPermissions().then(x => console.log(x))
+        PushNotificationIOS.requestPermissions().then(console.log).catch(console.error)
       }
     })
   }

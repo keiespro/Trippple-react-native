@@ -1,27 +1,44 @@
-import Keychain from 'react-native-keychain'
-import config from '../../config'
-const {KEYCHAIN_NAMESPACE} = config
-import LogOut from '../utils/logout'
+import Keychain from 'react-native-keychain';
+import config from '../../config';
+import LogOut from '../utils/logout';
+import { UIManager } from 'react-native';
+import Telemetry from '../utils/AppTelemetry';
 
-export const saveCredentials = c => dispatch => dispatch({ type: 'SAVE_CREDENTIALS',
+const { KEYCHAIN_NAMESPACE } = config;
+
+
+export const saveCredentials = ({ user_id, api_key }) => dispatch => dispatch({ type: 'SAVE_CREDENTIALS',
   payload: new Promise((resolve, reject) => {
-    Keychain.setInternetCredentials(KEYCHAIN_NAMESPACE, c.user_id+'' , c.api_key)
-      .then(x => resolve(x)).catch(x => reject(x))
-  })
+    Keychain.setInternetCredentials(KEYCHAIN_NAMESPACE, `${user_id}`, api_key)
+      .then(resolve).catch(reject);
+  }),
 });
 
-
-export const logOut = c => dispatch => dispatch({ type: 'LOG_OUT',
+export const logOut = () => dispatch => dispatch({ type: 'LOG_OUT',
   payload: new Promise((resolve, reject) => {
-    LogOut()
-    .then(x => {
+    LogOut().then(x => {
       global.creds = null;
-      resolve(x)
+      resolve(x);
     })
-    .catch(x => {
-      console.log(x)
-      reject(x)
-    })
+    .catch(reject);
+  }),
+});
 
-  })
+export const screenshot = () => dispatch => dispatch({ type: 'CAPTURE_SCREENSHOT',
+  payload: new Promise((resolve, reject) => {
+    UIManager.takeSnapshot('window', { format: 'jpeg', quality: 0.8 })
+      .then(resolve)
+      .catch(reject);
+  }),
+});
+
+export const sendTelemetry = () => dispatch => dispatch({ type: 'SEND_TELEMETRY',
+  payload: new Promise((resolve, reject) => async() => {
+    try {
+      const Telemetry = await AppTelemetry.getEncoded();
+      return resolve(await Api.sendTelemetry(Telemetry));
+    } catch (err) {
+      return reject(err);
+    }
+  }),
 });

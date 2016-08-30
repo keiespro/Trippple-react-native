@@ -2,13 +2,11 @@ import DeviceInfo from '../utils/DeviceInfo'
 const Device = DeviceInfo.get()
 
 export default function deviceReducer(state = initialState, action) {
-
+  console.log(action);
   switch (action.type) {
 
-  case 'UPDATE_USER_FULFILLED':
-    console.log(action.meta[0]['push_token']);
-
-    return {...state, push_token: action.meta[0]['push_token']}
+  case 'SAVE_PUSH_TOKEN':
+    return {...state, push_token: action.payload}
 
   case 'LOG_OUT':
   case 'LOG_OUT_FULFILLED':

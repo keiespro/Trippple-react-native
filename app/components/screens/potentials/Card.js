@@ -199,7 +199,7 @@ class Card extends React.Component{
         },
         all:{
           top: -50,
-          second: -57,
+          second: -50,
           third: -60
         }
       };
