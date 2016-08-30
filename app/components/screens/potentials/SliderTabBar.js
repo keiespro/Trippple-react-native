@@ -19,7 +19,7 @@ var SliderTabBar = React.createClass({
   renderTabOption(name, page) {
     var isTabActive = this.props.pageNumber === page;
     return (
-      <TouchableOpacity key={name+page} onPress={() => this.props.goToPage(page)}>
+      <TouchableOpacity key={name+page} style={{zIndex:700}} onPress={() => this.props.goToPage(page)}>
       <View style={[styles.tab,]}>
           <Text
             style={{

@@ -1,4 +1,3 @@
-'use strict';
 
 import React from "react";
 import {StyleSheet, View, ScrollView, Animated, Dimensions} from "react-native";
@@ -14,7 +13,6 @@ class ParallaxSwiper extends React.Component{
     static propTypes = {
         ...ScrollViewPropTypes,
         windowHeight: React.PropTypes.number,
-        backgroundSource: React.PropTypes.object,
         header: React.PropTypes.node,
         blur: React.PropTypes.string,
         contentInset: React.PropTypes.object,
@@ -54,17 +52,13 @@ class ParallaxSwiper extends React.Component{
         }
         return (
             <Animated.View
+
                 style={[styles.background, {
-                    height: windowHeight,
                     transform: [{
-                        translateY: scrollY.interpolate({
-                            inputRange: [ -windowHeight, 0, windowHeight ],
-                            outputRange: [ windowHeight / 2, 0, -windowHeight / 3 ]
-                        })
-                    },{
+
                         scale: scrollY.interpolate({
                             inputRange: [ -windowHeight, 0, windowHeight],
-                            outputRange: [2, 1, 1]
+                            outputRange: [1.05, 1,1]
                         })
                     }]
                 }]}>{ swiper }
@@ -80,7 +74,7 @@ class ParallaxSwiper extends React.Component{
             return null;
         }
         return (
-            {header}
+            <View/>
         );
     }
 
@@ -88,17 +82,20 @@ class ParallaxSwiper extends React.Component{
         let { style,windowHeight,swiper, ...props } = this.props;
         return (
           <View style={[styles.container, style]}>
-            {this.renderBackground()}
 
             <ScrollView
               ref={component => { this._scrollView = component; }}
               {...props}
-              contentContainerStyle={{marginTop:windowHeight}}
+              stickyHeaderIndices={[0]}
+              contentContainerStyle={{marginTop:windowHeight-100,backgroundColor:'transparent'}}
               style={[styles.scrollView,]}
               onScroll={Animated.event(
-                [{ nativeEvent: { contentOffset: { y: this.state.scrollY }}}]
-              )}
+                  [{ nativeEvent: { contentOffset: { y: this.state.scrollY }}}]
+                )}
+
               scrollEventThrottle={16}>
+              {this.props.swiper}
+
               {this.props.children}
             </ScrollView>
             {this.renderHeader()}
@@ -117,6 +114,7 @@ const styles = StyleSheet.create({
     background: {
         position: 'absolute',
         width: screen.width,
+        top:0,
     },
     blur: {
         position: 'absolute',
@@ -130,7 +128,6 @@ const styles = StyleSheet.create({
         shadowColor: '#222',
         shadowOpacity: 0.3,
         shadowRadius: 2,
-        backgroundColor: '#fff',
         flex: 1,
         flexDirection: 'column'
     }

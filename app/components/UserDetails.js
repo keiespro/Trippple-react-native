@@ -29,9 +29,10 @@ class UserDetails extends React.Component{
     return (
       <View>
       {rel == 'single' && potential.partner ?
-      <View style={{width:MagicNumbers.screenWidth,overflow:'hidden',marginHorizontal:MagicNumbers.screenPadding/2}}>
+      <View
+        pointerEvents={'box-only'} style={{zIndex:600,width:MagicNumbers.screenWidth,overflow:'hidden',marginHorizontal:MagicNumbers.screenPadding/2}}>
 
-        <ScrollableTabView tabs={['1','2']} renderTabBar={(props) => <SliderTabBar {...props}  /> }>
+        <ScrollableTabView tabs={['1','2']} renderTabBar={(props) => <SliderTabBar {...props} pointerEvents={'box-only'} /> }>
           <ProfileTable
             index={0}
             profile={potential.user}
