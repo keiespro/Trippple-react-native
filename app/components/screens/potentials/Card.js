@@ -167,7 +167,7 @@ class Card extends React.Component {
 
       const heightTable = MagicNumbers.is4s ? heights.smallest : (MagicNumbers.is5orless ? heights.middle : heights.all);
       const cardHeight = DeviceHeight + (isTopCard ? heightTable.top : heightTable.second);
-      const cardWidth = DeviceWidth;
+      const cardWidth =  DeviceWidth;
 
       return (
         <NewCard
@@ -178,6 +178,7 @@ class Card extends React.Component {
           seperator={seperator}
           city={city}
           potential={potential}
+          dispatch={this.props.dispatch}
           activeIndex={this.state.activeIndex}
           user={this.props.user}
           isTopCard={this.props.isTopCard}

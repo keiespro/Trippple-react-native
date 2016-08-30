@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
 
   wrapper: {
     backgroundColor: 'transparent',
+    alignItems:'center',justifyContent:'center',
   },
 
   slide: {
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
 
   pagination_x: {
     position: 'absolute',
-    bottom: 25,
+    bottom: 200,
     left: 0,
     right: 0,
     flexDirection: 'row',
@@ -245,7 +246,7 @@ const Swiper = React.createClass({
   renderPagination() {
 
     // By default, dots only show when `total` > 2
-    if(this.state.total <= 1) return null
+    if(this.state.total <= 1 || this.props.inCard && !this.props.profileVisible) return null
 
     return (
       <View>
@@ -321,6 +322,7 @@ const Swiper = React.createClass({
     return (
       <View
       style={[styles.container, {
+        alignItems:'center',justifyContent:'center',
         width: props.width,
         height: props.height
       }]}>
@@ -331,12 +333,13 @@ const Swiper = React.createClass({
           contentOffset={state.offset}
           contentContainerStyle={[styles.wrapper, props && props.style]}
           onScrollBeginDrag={this.onScrollBegin}
+          scrollEnabled={this.props.profileVisible}
           onMomentumScrollEnd={this.onScrollEnd}>
           {pages}
         </ScrollView>
 
         <View pointerEvents={'box-none'} style={[styles['pagination_' + this.state.dir], this.props.paginationStyle,{backgroundColor:colors.spacegray20}]}>
-          {props.showsPagination ? React.Children.map(this.props.children, (c,i) => {
+          {(props.showsPagination && !this.props.inCard) || (props.inCard && props.profileVisible) ? React.Children.map(this.props.children, (c,i) => {
             return (
                 <View
                 style={ [(this.props.grayDots ?  styles.grayDot : styles.dot15),
@@ -345,7 +348,7 @@ const Swiper = React.createClass({
                   />
             )
           }) : <View/>}
-      
+
           </View>
 
       </View>

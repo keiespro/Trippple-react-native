@@ -10,7 +10,14 @@ const LOCATION_OPTIONS = {
 export const getLocation = () => dispatch => dispatch({ type: 'GET_LOCATION',
   payload: {
     promise: new Promise((resolve, reject) => {
-      global.navigator.geolocation.getCurrentPosition(resolve, reject, LOCATION_OPTIONS);
+      global.navigator.geolocation.getCurrentPosition((geo => {
+        if(geo && geo.coords){
+          resolve(geo.coords)
+        }
+      }), (err => {
+        console.log(err,'LOCERRRRR');
+
+      }), LOCATION_OPTIONS);
     }),
   },
 });

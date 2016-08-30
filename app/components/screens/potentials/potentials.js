@@ -61,7 +61,7 @@ class Potentials extends React.Component{
         return  route.params.show ? <SettingsButton  /> : (
           <TouchableOpacity
             onPress={()=>route.params.dispatch({type:'CLOSE_PROFILE'})}
-            style={{padding:20,position:'absolute',top:12,zIndex:999}}
+            style={{padding:25,position:'absolute',top:12,zIndex:999}}
           >
           <Image
             resizeMode={Image.resizeMode.contain}

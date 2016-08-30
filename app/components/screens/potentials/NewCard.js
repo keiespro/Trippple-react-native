@@ -64,36 +64,39 @@ class NewCard extends React.Component {
       <View>
 
         <ParallaxSwiper
-          contentContainerStyle={[{height: profileVisible ? DeviceHeight : cardHeight,flexDirection:'column',alignItems:'flex-end',flex:1,width:cardWidth}]}
+          contentContainerStyle={[{height: profileVisible ? DeviceHeight : cardHeight,alignItems:'stretch',justifyContent:'center',flexDirection:'column',flex:1,width:cardWidth}]}
           scrollEnabled={profileVisible ? true : false}
           showsVerticalScrollIndicator={false}
-          style={[{flex:10,height:(DeviceHeight*2)}]}
+          style={[{flex:1,height:(DeviceHeight*2)}]}
           header={<View/>}
-          windowHeight={100}
+          dispatch={this.props.dispatch}
+          windowHeight={10}
           swiper={(
             <Swiper
               width={cardWidth}
               height={DeviceHeight}
-              style={{flex:0,zIndex:0,backgroundColor:'yellow',top:0}}>
+              dispatch={this.props.dispatch}
+              style={{flex:0,zIndex:0,backgroundColor:'yellow'}}>
              {slides}
            </Swiper>
           )}
         >
-
-          <BlurView  key={'blurkey'+potential.user.id} blurType="dark" style={{
+          <BlurView key={'blurkey'+potential.user.id} blurType="dark" style={{
             backgroundColor:colors.outerSpace20,
             position:'relative',
             zIndex:100,
-            height: profileVisible ? (DeviceHeight*2)-200 : 0,
-            opacity: profileVisible ? 1 : 0, overflow:'hidden',
+            height: profileVisible ? (DeviceHeight*1.5) : 0,
+            opacity: profileVisible ? 1 : 0,
+            overflow:'hidden',
             flex:0,
             bottom:0,
             alignSelf:'flex-end',
             width: DeviceWidth,
-            marginTop:-100,
+            top:-260,
           }}
           >
-            <View  style={{ paddingVertical: 20, width: DeviceWidth,flex: 1,}}>
+
+            <View style={{ paddingVertical: 20, width: DeviceWidth,flex: 1,}}>
               <View style={{marginHorizontal:MagicNumbers.screenPadding/2,marginBottom:20}}>
                 <CardLabel
                   potential={potential}
@@ -129,9 +132,11 @@ class NewCard extends React.Component {
             </TouchableOpacity>
           </BlurView>
 
-          {!profileVisible &&
-            <TouchableHighlight
-              style={{width:cardWidth,height:100,alignSelf:'flex-end',zIndex:10,flex:-1,position:'absolute',bottom:120}}
+             <TouchableHighlight
+              style={{width:cardWidth,
+                height: profileVisible ? 0 : 100,
+                opacity:profileVisible ? 0 : 1,
+                alignSelf:'flex-end',zIndex:10,flex:-1,position:'absolute',bottom:60}}
               underlayColor={colors.mediumPurple20}
               onPress={this.props.openProfileFromImage}
             >
@@ -151,7 +156,6 @@ class NewCard extends React.Component {
                 </BlurView>
               </View>
             </TouchableHighlight>
-          }
       </ParallaxSwiper>
     </View>
     )
