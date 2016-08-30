@@ -93,7 +93,7 @@ class NewCard extends React.Component {
             marginTop:-100,
           }}
           >
-            <View pointerEvents={'box-only'} style={{ paddingVertical: 20, width: DeviceWidth,flex: 1,}}>
+            <View  style={{ paddingVertical: 20, width: DeviceWidth,flex: 1,}}>
               <View style={{marginHorizontal:MagicNumbers.screenPadding/2,marginBottom:20}}>
                 <CardLabel
                   potential={potential}
