@@ -29,7 +29,7 @@ class WhyFacebook extends Component {
             <Text style={[styles.allText,styles.titleText,{textAlign:'center',marginTop:20}]}>WHY FACEBOOK?</Text>
             <View>
               <Text style={[styles.allText,styles.titleText,{}]}>USER PRIVACY</Text>
-              <Text style={[styles.allText,{}]}>By singing up with Facebook, we can block your profile from your Facebook friends.</Text>
+              <Text style={[styles.allText,{}]}>By signing up with Facebook, we can block your profile from your Facebook friends.</Text>
             </View>
             <View>
               <Text style={[styles.allText,styles.titleText,{}]}>NO FAKE USERS</Text>
