@@ -1,6 +1,8 @@
 import FBSDK from 'react-native-fbsdk'
 const {LoginManager, AccessToken, GraphRequestManager, GraphRequest} = FBSDK
 import api from '../utils/api'
+import * as firebase from 'firebase';
+import checkFireLoginState from '../fire'
 
 LoginManager.setLoginBehavior('system_account')
 const FACEBOOK_PERMISSIONS = [
@@ -44,12 +46,18 @@ export const loginWithFacebook = () => async dispatch => {
   try{
     const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
     const fbUser = await AccessToken.getCurrentAccessToken()
-    dispatch({ type: 'FACEBOOK_AUTH', payload: {...fb,...fbUser} })
-    console.log(fb,fbUser);
-    dispatch({
-      type: 'LOGIN_WITH_FACEBOOK',
-      payload: api.fbLogin(fbUser)
-    })
+    const fireUser = await checkFireLoginState(fbUser)
+
+    try{
+      dispatch({ type: 'FIREBASE_AUTH', payload: {...fireUser} })
+      dispatch({ type: 'FACEBOOK_AUTH', payload: {...fb,...fbUser } })
+      dispatch({
+        type: 'LOGIN_WITH_FACEBOOK',
+        payload: api.fbLogin(fbUser)
+      })
+    }catch(err){
+      console.log(err,'firebase fail');
+    }
   }catch(err){
     __DEV__ && console.log('fb login failed',err)
     try{

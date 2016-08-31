@@ -19,7 +19,6 @@ const DeviceWidth = Dimensions.get('window').width;
 
 import colors from '../utils/colors'
 import {BlurView} from 'react-native-blur';
-import Overlay from 'react-native-overlay'
 import ActionMan from '../actions'
 
 class Notification extends React.Component{
@@ -200,7 +199,7 @@ class Notification extends React.Component{
             }) : 80,
             transform: [{
               translateY: this.state.inPlace ? this.state.pan.y.interpolate({
-                inputRange: [-80,  0, DeviceHeight],
+                inputRange: [-80, 0, DeviceHeight],
                 outputRange: [-80, 0, 10]
               }) : this.state.yValue
             }],
@@ -257,32 +256,48 @@ class Notification extends React.Component{
 
 
         {notification.type == 'display' ?
-             <TouchableHighlight style={[styles.notificationOverlay]} onPress={this.tapNotification.bind(this)}>
-              <View style={styles.notificationInside}>
-              {notification.image_url &&  <View style={styles.notificationLeft}>
+          <TouchableHighlight style={[styles.notificationOverlay,styles.message]} onPress={this.tapNotification.bind(this)}>
+
+            <View style={styles.notificationInside}>
+
+              {notification.image_url && (
+                <View style={styles.notificationLeft}>
                   <Image
                     resizeMode={Image.resizeMode.contain}
                     style={styles.notiImage}
-                    defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
                     source={{uri: notification.image_url}}
                   />
-                </View>}
-                <View style={styles.notificationRight}>
-                  <Text style={[styles.notiTitle,styles.titleNewMessage]}>{
-                    notification.title
-                  }</Text>
-                  <Text style={styles.notiText} numberOfLines={2}>{ notification.body}</Text>
                 </View>
-                <View style={{position:'absolute',right:5,top:5}}>
-                  <TinyClose
-                    killNotification={this.killNotification.bind(this)}
-                    notification={notification}
-                    buttonUnderlay={colors.mediumPurple}
-                  />
-                </View>
+              )}
+
+              <View style={styles.notificationRight}>
+
+                <Text
+                  style={[styles.notiTitle,styles.titleNewMessage]}
+                >{
+                  notification.title
+                }</Text>
+
+                <Text
+                  style={styles.notiText}
+                  numberOfLines={2}
+                >{
+                  notification.body
+                }</Text>
+
               </View>
-            </TouchableHighlight>
-          : null }
+
+              <View style={{position:'absolute',right:5,top:5}}>
+                <TinyClose
+                  background={colors.mediumPurple}
+                  killNotification={this.killNotification.bind(this)}
+                  notification={notification}
+                  buttonUnderlay={colors.mediumPurple}
+                />
+              </View>
+            </View>
+          </TouchableHighlight>
+        : null }
 
       </Animated.View>
     )
@@ -294,7 +309,7 @@ export default Notification
 const TinyClose = props => {
   return (
     <TouchableHighlight
-      style={[{alignItems:'center',justifyContent:'center',height:20,top:0,width:20,backgroundColor:colors.rollingStone,borderRadius:10}]}
+      style={[{alignItems:'center',justifyContent:'center',height:20,top:0,width:20,backgroundColor:props.background,borderRadius:10}]}
       onPress={props.killNotification}
       underlayColor={props.buttonUnderlay || colors.mediumPurple20}
     >
@@ -306,6 +321,7 @@ const TinyClose = props => {
     </TouchableHighlight>
   )
 }
+
 const styles = StyleSheet.create({
   notificationWrapper:{
     width: DeviceWidth-14,
