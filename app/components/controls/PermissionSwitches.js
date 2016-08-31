@@ -37,7 +37,7 @@ class PermissionSwitches extends React.Component{
 
     this.state = {
       LocationSetting: parseInt(OSPermissions.location) > 2,
-      NotificationSetting: parseInt(OSPermissions.notifications) > 2
+      NotificationSetting: parseInt(OSPermissions.notifications) > 0
     }
   }
   componentDidMount(){
@@ -46,9 +46,11 @@ class PermissionSwitches extends React.Component{
 
     OSPermissions.canUseNotifications(OSNotifications => {
       OSPermissions.canUseLocation(OSLocation => {
+        console.log(OSNotifications)
+
         this.setState({
           LocationSetting: parseInt(OSLocation) > 2,
-          NotificationSetting: parseInt(OSNotifications) > 2,
+          NotificationSetting: parseInt(OSNotifications) > 0,
           OSNotifications: parseInt(OSNotifications),
           OSLocation: parseInt(OSLocation)
         })

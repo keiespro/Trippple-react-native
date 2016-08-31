@@ -6,12 +6,12 @@ import {
   Image,
   TouchableOpacity,
   Animated,
-  ScrollView,
   PixelRatio,
   Dimensions,
 } from 'react-native';
 import React from "react";
 
+import ParallaxSwiper from './controls/ParallaxSwiper';
 import ReportModal from './modals/ReportModal';
 import Swiper from './controls/swiper';
 import UserDetails from './UserDetails';
@@ -21,11 +21,28 @@ import colors from '../utils/colors';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../utils/DeviceConfig'
-
+import {BlurView} from 'react-native-blur'
 import {
   NavigationStyles,
 } from '@exponent/ex-navigation';
 
+
+
+const CardLabel = (props) => (
+  <View>
+    <Text
+      style={[styles.cardBottomText, {color:props.textColor}]}
+      key={`${props.potential.user.id}-names`}
+    >{ props.matchName }
+    </Text>
+    <Text
+      style={[styles.cardBottomOtherText, {color:props.textColor}]}
+      key={`${props.potential.user.id}-matchn`}
+    >{
+        props.city + props.seperator + (props.distance ? ` ${props.distance} ${props.distance == 1 ? 'mile' : 'miles'} away` : ``)
+    }</Text>
+  </View>
+);
 
 
 class UserProfile extends React.Component{
@@ -66,187 +83,159 @@ class UserProfile extends React.Component{
       distance = potential.user.distance || 0,
       city = potential.user.city_state || '';
   const rel = this.props.rel || this.props.user.relationship_status;
+const profileVisible = true;
+
+const isTopCard = true;
+const names = [potential.user && potential.user.firstname ? potential.user.firstname.trim() : null];
+
+if (potential.partner && potential.partner.firstname) {
+  names.push(potential.partner.firstname.trim());
+}
+const seperator = distance && city.length ? ' | ' : '';
+
+  const heights = {
+    smallest: {
+      top: -60,
+      second: -60,
+      third: -55,
+    },
+    middle: {
+      top: -65,
+      second: -55,
+      third: -50,
+    },
+    all: {
+      top: -50,
+      second: -50,
+      third: -60,
+    },
+  };
+
+  const heightTable = MagicNumbers.is4s ? heights.smallest : (MagicNumbers.is5orless ? heights.middle : heights.all);
+  const cardHeight = DeviceHeight + (isTopCard ? heightTable.top : heightTable.second);
+  const cardWidth =  DeviceWidth;
 
   if(potential.partner) {
     matchName += ' & ' + potential.partner.firstname.trim()
   }
 
-  return (
-        <View
-          ref={'cardinside'}
-          key={`${potential.id || potential.user.id}-inside`}
-          style={[ styles.card,{
-            height:DeviceHeight,
-            overflow:'hidden',
-            left:0,
-            flex:1,
-            width:DeviceWidth,
-            backgroundColor:colors.outerSpace,
-            transform:[ {scale: 1}, ]
-          },styles.shadowCard]}>
-
-          <ScrollView
-            style={[{
-              margin:0,
-              width:DeviceWidth,
-              height:DeviceHeight,
-              padding:0,
-              position:'relative',
-              flex:1,
-            }]}
-            canCancelContentTouches={true}
-            horizontal={false}
-            vertical={true}
-            alwaysBounceHorizontal={false}
-            showsVerticalScrollIndicator={false}
-            scrollEnabled={true}
-            key={`${potential.id || potential.user.id}-view`}
+      const hasPartner = potential.partner && potential.partner.image_url && potential.partner.image_url !== "";
+      const slideFrames = hasPartner ? [potential.user,potential.partner] : [potential.user]
+      const tmpCardHeight = profileVisible ? cardHeight : cardHeight;
+      const slides = slideFrames.map((p,i) => {
+        return (
+          <View
+            key={`${p.id}slide${i}`}
+            style={{backgroundColor:'transparent',flex:1,position:'relative',height:tmpCardHeight,width:cardWidth}}
           >
-
-          <View key={`${potential.id || potential.user.id}bgopacity`} style={{
-              position:'relative',
-            }} ref={"incard"}>
-
-            {potential.partner ? <Swiper
-            _key={`${potential.id || potential.user.id}-swiper`}
-            loop={true}
-            width={DeviceWidth}
-            height={DeviceHeight}
-            style={{width:DeviceWidth,overflow: 'hidden',}}
-            horizontal={false}
-            vertical={true}
-            autoplay={false}
-            showsPagination={true}
-            showsButtons={false}
-            paginationStyle={{position:'absolute',right:0,top: 5,height:100}}
-            dot={ <View style={styles.dot} /> }
-            activeDot={ <View style={styles.activeDot} /> }>
-
-              <Image
-                source={{uri: potential.user.image_url || 'assets/defaultuser.png'}}
-                key={`${potential.user.id}-cimg`}
-
-                 defaultSource={{uri: 'assets/defaultuser.png'}}
-                style={[styles.imagebg,{
-                  height: DeviceHeight,
-                  marginTop:-20,
-                  width:this.props.cardWidth,
-
-                  }]}
-                  />
-
-                {rel == 'single' && potential.partner &&
-              <Image
-                resizeMode={Image.resizeMode.cover}
-                source={{uri: potential.partner.image_url || 'assets/defaultuser.png'}}
-                key={`${potential.partner.id}-cimg`}
-                defaultSource={{uri: 'assets/defaultuser.png'}}
-                style={[styles.imagebg,{
-                  height:DeviceHeight,
-                  marginTop:-20,
-                  width:this.props.cardWidth,
-                }]}
-                />
-            }
-            </Swiper> :
             <Image
-                    source={{uri: potential.user.image_url || 'assets/defaultuser.png'}}
-                    key={`${potential.user.id}-cimgx`}
-                    style={[styles.imagebg, {
-                      flex:1,
-                      alignSelf:'stretch',
-                      height:DeviceHeight,
-                      width: DeviceWidth,
-                    }]}
-                    defaultSource={{uri: 'assets/defaultuser.png'}}
-                    resizeMode={Image.resizeMode.cover}
-                   />
-              }
+              onLayout={(e)=>console.log(e.nativeEvent.layout,'LAYOUT')}
+              source={{uri: p.image_url }}
+              resizeMode="cover"
+              style={{flex:1,height:tmpCardHeight,width:cardWidth}}
+            />
+        </View>
+        )
+      });
 
-            <View
-            key={`${potential.id || potential.user.id}-bottomviews`}
-            style={{
-              height: 600,
-              backgroundColor:colors.outerSpace,
-              flex:1,
-              alignSelf:'stretch',
-              width:DeviceWidth,
-              top:-100,
-              alignItems:'stretch',
-              left:0,
-              right:0,
+  return (
 
-            }} >
+      <View>
 
-            <View style={{ width: MagicNumbers.screenWidth , paddingVertical:20,marginLeft:MagicNumbers.screenPadding/2, }}>
-              <Text style={[styles.cardBottomText,{color:colors.white,marginLeft:0,width:MagicNumbers.screenWidth}]}>
-              {matchName}
-              </Text>
-              {/*<Text style={[styles.cardBottomOtherText,{color:colors.white,marginLeft:0,width:MagicNumbers.screenWidth}]}>
-              {
-                distance ? `${city} | ${distance} ${distance == 1 ? 'mile' : 'miles'} away` : null
-              }
-              </Text>*/}
-            </View>
+                <ParallaxSwiper
+                  contentContainerStyle={[{height: profileVisible ? DeviceHeight : cardHeight,alignItems:'stretch',justifyContent:'center',flexDirection:'column',flex:1,width:cardWidth}]}
+                  scrollEnabled={profileVisible ? true : false}
+                  showsVerticalScrollIndicator={false}
+                  style={[{flex:1,height:(DeviceHeight*2)}]}
+                  header={<View/>}
+                  dispatch={this.props.dispatch}
+                  windowHeight={10}
+                  swiper={(
+                    <Swiper
+                      width={cardWidth}
+                      height={DeviceHeight}
+                      dispatch={this.props.dispatch}
+                      style={{flex:0,zIndex:0,backgroundColor:'transparent'}}>
+                     {slides}
+                   </Swiper>
+                  )}
+                >
+                  <BlurView key={'blurkey'+potential.user.id} blurType="dark" style={{
+                    backgroundColor:colors.outerSpace20,
+                    position:'relative',
+                    zIndex:100,
+                    height: profileVisible ? (DeviceHeight*1.5) : 0,
+                    opacity: profileVisible ? 1 : 0,
+                    overflow:'hidden',
+                    flex:0,
+                    bottom:0,
+                    alignSelf:'flex-end',
+                    width: DeviceWidth,
+                    top:-260,
+                  }}
+                  >
 
-        {potential.partner  &&
-            <View style={{
-              height:60,
-              top:-30,
-              position:'absolute',
-              width:135,
-              right:0,
-              backgroundColor:'transparent',
-              flexDirection:'row'}}>
-                <Image
-                  source={{uri: potential.user.image_url}}
-                  key={potential.user.id + 'img'}
-                  style={[styles.circleimage, {marginRight:5,borderColor:colors.outerSpace}]}
-                />
-               <Image
-                  source={{uri: potential.partner.image_url}}
-                  key={potential.partner.id + 'img'}
-                  style={[styles.circleimage,{borderColor:colors.outerSpace}]}
-                />
-              </View>
-            }
+                    <View style={{ paddingVertical: 20, width: DeviceWidth,flex: 1,}}>
+                      <View style={{marginHorizontal:MagicNumbers.screenPadding/2,marginBottom:20}}>
+                        <CardLabel
+                          potential={potential}
+                          seperator={seperator}
+                          matchName={matchName}
+                          city={city}
+                          distance={distance}
+                          textColor={colors.white}
+                        />
+                      </View>
+                      {potential.bio || potential.user.bio &&
+                        <View style={{ margin: MagicNumbers.screenPadding / 2, width: DeviceWidth }}>
+                          <Text style={[styles.cardBottomOtherText, { color: colors.white, marginBottom: 15, marginLeft: 0 }]}>{
+                              !hasPartner ? `About Me` : `About Us`
+                          }</Text>
+                          <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
+                              potential.user.bio
+                          }</Text>
+                        </View>
+                      }
 
-            <View style={{width: MagicNumbers.screenWidth,
-              paddingHorizontal:MagicNumbers.screenPadding/2
-            }}>
+                      {potential.partner && potential.partner.bio &&
+                        <View style={{ margin: MagicNumbers.screenPadding / 2, width: DeviceWidth }}>
+                          <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
+                              potential.partner.bio
+                          }</Text>
+                        </View>
+                      }
 
+                      <UserDetails
+                        potential={potential}
+                        user={this.props.user}
+                        location={'card'}
+                      />
 
-            {potential.bio || potential.user.bio ?
-              <View style={{padding:0,margin:0,alignSelf:'flex-start'}}>
-                <Text style={[styles.cardBottomOtherText,{color:colors.white,marginBottom:15,marginLeft:0}]}>{
-                    potential.partner ? `About Us` : `About Me`
-                }</Text>
-                <Text style={{color:colors.white,fontSize:18,marginBottom:15}}>{
-                    potential.bio || potential.user.bio
-                }</Text>
-              </View> : null}
-              </View>
-              <View style={{ paddingVertical:20,alignItems:'stretch' }}>
-                <UserDetails potential={potential} user={this.props.user} location={'card'}  rel={this.props.rel}/>
-              </View>
-              { /* potential.user.id != this.props.user.id ?
-              <TouchableOpacity onPress={this.reportModal.bind(this)}>
-                <View style={{flex:1,marginTop:20}}>
-                  <Text style={{color:colors.mandy,textAlign:'center'}}>Report or Block this user</Text>
-                </View>
-              </TouchableOpacity> : null */ }
+                    {potential.user.id != user.id && potential.user.id != user.partner_id && <TouchableOpacity onPress={this.props.reportModal}>
+                        <View style={{ marginTop: 20, paddingBottom: 50 }}>
+                          <Text style={{ color: colors.mandy, textAlign: 'center' }}>Report or Block this user</Text>
+                        </View>
+                      </TouchableOpacity>}
 
+                      <TouchableOpacity
+                        style={{ height: 50, alignItems: 'center', width: 50, justifyContent: 'center',flex:0,alignSelf:'center' }}
+                        onPress={this.props.closeProfile}
+                      >
+                        <Image
+                          resizeMode={Image.resizeMode.contain}
+                          style={{ height: 12, width: 12, marginTop: 10 }}
+                          source={{ uri: 'assets/close@3x.png' }}
+                        />
+                      </TouchableOpacity>
+                    </View>
 
-          </View>
-
-          </View>
-        </ScrollView>
-        <XButton navigator={this.props.navigator}/>
-
+                  </BlurView>
+                  <XButton navigator={this.props.navigator}/>
+        </ParallaxSwiper>
       </View>
 
     )
-    }
+  }
 }
 export default UserProfile
 
@@ -525,7 +514,7 @@ animatedIcon:{
   },
 
   cardBottomText:{
-    marginLeft:20,
+    marginLeft:0,
     fontFamily:'Montserrat-Bold',
     color: colors.shuttleGray,
     fontSize:18,

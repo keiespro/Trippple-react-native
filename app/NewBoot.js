@@ -1,6 +1,6 @@
 import App from './components/app';
 import React, { Component } from 'react';
-import {Settings} from 'react-native'
+import {Settings,View} from 'react-native'
 import {Provider} from 'react-redux';
 import configureStore from './store';
 import {persistStore} from 'redux-persist'

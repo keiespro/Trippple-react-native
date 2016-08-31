@@ -17,7 +17,7 @@ const DenyIcon = props =>
           {
             scale: props.pan ? props.pan.x.interpolate({
               inputRange: [-DeviceWidth, 0, 1],
-              outputRange: [8, 0.1, 0.1],
+              outputRange: [5, 0.1, 0.1],
               extrapolate: 'clamp',
             }) : 0,
           },

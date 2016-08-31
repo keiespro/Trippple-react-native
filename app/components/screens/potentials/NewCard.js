@@ -10,6 +10,8 @@ import {
 import React from "react";
 
 import UserDetails from '../../UserDetails';
+import ApproveIcon from './ApproveIcon';
+import DenyIcon from './DenyIcon';
 
 import {BlurView} from 'react-native-blur'
 import Swiper from '../../controls/swiper';
@@ -38,6 +40,11 @@ const CardLabel = (props) => (
 
 
 class NewCard extends React.Component {
+  constructor(props){
+    super()
+
+    this.state ={}
+  }
   render(){
     const {profileVisible, cardWidth, cardHeight, city, seperator, potential, activeIndex, user, isTopCard, matchName, distance} = this.props;
 
@@ -48,7 +55,7 @@ class NewCard extends React.Component {
       return (
         <View
           key={`${p.id}slide${i}`}
-          style={{backgroundColor:'red',flex:1,position:'relative',height:tmpCardHeight,width:cardWidth}}
+          style={{backgroundColor:'transparent',flex:1,position:'relative',height:tmpCardHeight,width:cardWidth}}
         >
           <Image
             onLayout={(e)=>console.log(e.nativeEvent.layout,'LAYOUT')}
@@ -64,38 +71,48 @@ class NewCard extends React.Component {
       <View>
 
         <ParallaxSwiper
-          contentContainerStyle={[{height: profileVisible ? DeviceHeight : cardHeight,alignItems:'stretch',justifyContent:'center',flexDirection:'column',flex:1,width:cardWidth}]}
+          contentContainerStyle={[{minHeight: profileVisible ? DeviceHeight : cardHeight,alignItems:'stretch',justifyContent:'center',flexDirection:'column',flex:1,width:cardWidth}]}
           scrollEnabled={profileVisible ? true : false}
           showsVerticalScrollIndicator={false}
-          style={[{flex:1,height:(DeviceHeight*2)}]}
+          style={[{
+            flex:1,
+            height:(DeviceHeight*2),
+
+           }]}
           header={<View/>}
           dispatch={this.props.dispatch}
           windowHeight={10}
+          isTopCard={isTopCard}
+          pan={this.props.pan}
           swiper={(
             <Swiper
               width={cardWidth}
+              pan={this.props.pan}
+              isTopCard={isTopCard}
               height={DeviceHeight}
               dispatch={this.props.dispatch}
-              style={{flex:0,zIndex:0,backgroundColor:'yellow'}}>
+              style={{flex:0,zIndex:0,backgroundColor:'transparent', }}>
              {slides}
            </Swiper>
           )}
         >
-          <BlurView key={'blurkey'+potential.user.id} blurType="dark" style={{
-            backgroundColor:colors.outerSpace20,
-            position:'relative',
-            zIndex:100,
-            height: profileVisible ? (DeviceHeight*1.5) : 0,
-            opacity: profileVisible ? 1 : 0,
-            overflow:'hidden',
-            flex:0,
-            bottom:0,
-            alignSelf:'flex-end',
-            width: DeviceWidth,
-            top:-260,
-          }}
+          <BlurView
+            key={'blurkey'+potential.user.id}
+            blurType="dark"
+            style={{
+              backgroundColor:colors.outerSpace20,
+              position:'relative',
+              zIndex:100,
+              height: profileVisible ? (this.state.h || DeviceHeight*1.5) : 0,
+              opacity: profileVisible ? 1 : 0,
+              overflow:'hidden',
+              flex:10,
+              bottom:0,
+              alignSelf:'flex-end',
+              width: DeviceWidth,
+              top:-260,
+            }}
           >
-
             <View style={{ paddingVertical: 20, width: DeviceWidth,flex: 1,}}>
               <View style={{marginHorizontal:MagicNumbers.screenPadding/2,marginBottom:20}}>
                 <CardLabel
@@ -107,29 +124,49 @@ class NewCard extends React.Component {
                   textColor={colors.white}
                 />
               </View>
+              {potential.bio || potential.user.bio &&
+                <View style={{ margin: MagicNumbers.screenPadding / 2, width: DeviceWidth }}>
+                  <Text style={[styles.cardBottomOtherText, { color: colors.white, marginBottom: 15, marginLeft: 0 }]}>{
+                      !hasPartner ? `About Me` : `About Us`
+                  }</Text>
+                  <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
+                      potential.user.bio
+                  }</Text>
+                </View>
+              }
+
+              {potential.partner.bio &&
+                <View style={{ margin: MagicNumbers.screenPadding / 2, width: DeviceWidth }}>
+                  <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
+                      potential.partner.bio
+                  }</Text>
+                </View>
+              }
+
               <UserDetails
                 potential={potential}
                 user={this.props.user}
                 location={'card'}
               />
+
+              <TouchableOpacity onPress={this.props.reportModal}>
+                <View style={{ marginTop: 20, paddingBottom: 50 }}>
+                  <Text style={{ color: colors.mandy, textAlign: 'center' }}>Report or Block this user</Text>
+                </View>
+                </TouchableOpacity>
+
+              <TouchableOpacity
+                style={{ height: 50, alignItems: 'center', width: 50, justifyContent: 'center',flex:0,alignSelf:'center' }}
+                onPress={this.props.closeProfile}
+              >
+                <Image
+                  resizeMode={Image.resizeMode.contain}
+                  style={{ height: 12, width: 12, marginTop: 10 }}
+                  source={{ uri: 'assets/close@3x.png' }}
+                />
+              </TouchableOpacity>
             </View>
 
-            <TouchableOpacity onPress={this.props.reportModal}>
-              <View style={{ marginTop: 20, paddingBottom: 50 }}>
-                <Text style={{ color: colors.mandy, textAlign: 'center' }}>Report or Block this user</Text>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={{ flexDirection: 'column', height: 50, alignItems: 'center', width: 50, justifyContent: 'center' }}
-              onPress={this.props.closeProfile}
-            >
-              <Image
-                resizeMode={Image.resizeMode.contain}
-                style={{ height: 12, width: 12, marginTop: 10 }}
-                source={{ uri: 'assets/close@3x.png' }}
-              />
-            </TouchableOpacity>
           </BlurView>
 
              <TouchableHighlight
@@ -157,6 +194,11 @@ class NewCard extends React.Component {
               </View>
             </TouchableHighlight>
       </ParallaxSwiper>
+
+                {isTopCard ? <DenyIcon pan={this.props.pan}/> : null }
+
+                {isTopCard ? <ApproveIcon pan={this.props.pan}/> : null }
+
     </View>
     )
   }

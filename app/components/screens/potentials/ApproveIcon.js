@@ -17,7 +17,7 @@ const ApproveIcon = (props) =>
           {
             scale: props.pan ? props.pan.x.interpolate({
               inputRange: [0, 1, DeviceWidth],
-              outputRange: [0.1, 0.1, 8],
+              outputRange: [0.1, 0.1, 5],
               extrapolate: 'clamp',
             }) : 0,
           },

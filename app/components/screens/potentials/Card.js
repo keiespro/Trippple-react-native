@@ -178,6 +178,7 @@ class Card extends React.Component {
           seperator={seperator}
           city={city}
           potential={potential}
+          pan={pan}
           dispatch={this.props.dispatch}
           activeIndex={this.state.activeIndex}
           user={this.props.user}

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {StyleSheet, Text, View, Image, TouchableHighlight, LayoutAnimation} from "react-native";
+import {StyleSheet, ActivityIndicator, Text, View, Image, TouchableHighlight, LayoutAnimation} from "react-native";
 
 import colors from '../../utils/colors'
 import {MagicNumbers} from '../../utils/DeviceConfig'
@@ -8,9 +8,13 @@ class BoxyButton extends Component{
 
   constructor(props){
     super(props)
+    this.state = {
+      busy:false
+    }
   }
 
   _onPress(e){
+    this.setState({busy:true})
     this.props._onPress(e)
   }
 
@@ -25,7 +29,7 @@ class BoxyButton extends Component{
             {this.props.children}
           </View>
           <View style={styles.iconButtonRightBox}>
-            <Text style={[styles.textplain, styles.iconButtonText, this.props.buttonText]}>{this.props.text}</Text>
+              {this.state.busy ? <ActivityIndicator style={{top:0,height:30,width:30,}} color={colors.white20} animating={true} size={'small'}/> : <Text style={[styles.textplain, styles.iconButtonText, this.props.buttonText]}>{this.props.text}</Text>}
           </View>
         </View>
       </TouchableHighlight>

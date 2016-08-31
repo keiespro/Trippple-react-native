@@ -1,6 +1,6 @@
 'use strict';
 
-import BackButton from '../../buttons/BackButton';
+import XButton from '../../buttons/XButton';
 
 const PHONE_MASK_USA = '(999) 999-9999'
 
@@ -125,8 +125,8 @@ class Login extends Component{
               inputFieldFocused={this.state.inputFieldFocused}
               handleInputChange={this.handleInputChange.bind(this)}
             />
-            <View style={{width:100,left:10,position:'absolute',alignSelf:'flex-start',top:-10}}>
-              <BackButton navigator={this.props.navigator}/>
+            <View style={{width:100,left:0,position:'absolute',alignSelf:'flex-start',top:0}}>
+              <XButton navigator={this.props.navigator}/>
             </View>
 
     </View>

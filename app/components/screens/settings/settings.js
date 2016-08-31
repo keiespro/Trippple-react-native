@@ -79,8 +79,8 @@ class Settings extends React.Component{
     })
 
     Alert.alert(
-        'Disable Your Account?',
-        'Are you sure you want to disable your account? You will no longer be visible to any trippple users. To re-enable your account, log back in.',
+        'Delete Your Account?',
+        'Are you sure you want to delete your account? You will no longer be visible to any trippple users.',
       [
           {text: 'Yes', onPress: () => {
 
@@ -396,8 +396,8 @@ class Settings extends React.Component{
                   <TouchableOpacity
                     style={{alignItems:'center',marginVertical:10}}
                     onPress={this.disableAccount.bind(this)}>
-                    <Text style={{color:colors.shuttleGray,textAlign:'center'}}>
-                      Disable Your Account
+                    <Text style={{color:colors.mandy,textAlign:'center'}}>
+                      Delete My Account
                     </Text>
                   </TouchableOpacity>
 

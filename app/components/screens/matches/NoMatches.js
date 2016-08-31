@@ -16,9 +16,8 @@ class NoMatches extends Component{
   render(){
     return (
       <ScrollView
-        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:60}}
+        contentContainerStyle={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:60,height:DeviceHeight}}
        automaticallyAdjustContentInsets={true}
-
         style={{
           backgroundColor:colors.outerSpace,
           flex:1,
@@ -28,7 +27,7 @@ class NoMatches extends Component{
         >
         <FadeInContainer delayAmount={1000} duration={1000}>
           <View
-            style={{flex:1,flexDirection:'column',padding:MagicNumbers.screenPadding/2,justifyContent:'flex-start',alignItems:'center',alignSelf:'stretch',paddingBottom:0,paddingTop: 20}}
+            style={{flex:3,flexDirection:'column',padding:MagicNumbers.screenPadding/2,justifyContent:'flex-start',alignItems:'center',alignSelf:'stretch',paddingBottom:0,paddingTop: 20}}
             >
             <Image
               style={{width:DeviceWidth-MagicNumbers.screenPadding,

@@ -36,6 +36,7 @@ class Facebook extends Component{
 
   constructor(props){
     super()
+    console.log(props);
     this.state ={
       user: null,
     }
@@ -79,7 +80,7 @@ class Facebook extends Component{
 
             <FacebookButton
               shouldAuthenticate={true}
-              buttonText={this.props.tab == 'signup' ? `SIGN UP WITH FACEBOOK` : null}
+              buttonText={this.props.tab == 'register' ? `SIGN UP WITH FACEBOOK` : null}
               onPress={this.login.bind(this)}
             />
 

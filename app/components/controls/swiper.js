@@ -320,11 +320,15 @@ const Swiper = React.createClass({
 
 
     return (
-      <View
+      <Animated.View
       style={[styles.container, {
         alignItems:'center',justifyContent:'center',
         width: props.width,
-        height: props.height
+        height: props.height,
+        opacity: this.props.isTopCard ? this.props.pan.x.interpolate({
+           inputRange: [-300, -80, -10, 0, 10, 80, 300],
+           outputRange: [0, 1, 1, 1, 1, 1, 0]
+         }) : 1,
       }]}>
         <ScrollView ref="scrollView"
           {...props}
@@ -334,24 +338,21 @@ const Swiper = React.createClass({
           contentContainerStyle={[styles.wrapper, props && props.style]}
           onScrollBeginDrag={this.onScrollBegin}
           scrollEnabled={this.props.profileVisible}
-          onMomentumScrollEnd={this.onScrollEnd}>
+          onMomentumScrollEnd={this.onScrollEnd}
+        >
           {pages}
         </ScrollView>
 
         <View pointerEvents={'box-none'} style={[styles['pagination_' + this.state.dir], this.props.paginationStyle,{backgroundColor:colors.spacegray20}]}>
           {(props.showsPagination && !this.props.inCard) || (props.inCard && props.profileVisible) ? React.Children.map(this.props.children, (c,i) => {
-            return (
-                <View
+            return (<View
                 style={ [(this.props.grayDots ?  styles.grayDot : styles.dot15),
                   (index == i ? this.props.grayDots ? styles.activeDot16 : styles.activeDot15 : null)]}
                     key={'swiperdot'+i}
-                  />
-            )
+                  />)
           }) : <View/>}
-
           </View>
-
-      </View>
+      </Animated.View>
     )
   }
 })

@@ -3,5 +3,5 @@ target "Trippple" do
   pod 'Mixpanel'
   pod 'NewRelicAgent'
   pod 'Fabric'
-  pod 'Crashlytics' => '3.7.3'
+  pod 'Crashlytics' => '3.8.0'
 end

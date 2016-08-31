@@ -170,7 +170,7 @@ class NotificationCommander extends Component{
       this.props.updateBadgeNumber(-1)
 
     }else if(data.action === 'chat' && data.match_id){
-
+      console.log('chat');
       this.props.receiveNewMessageNotification(data,true)
       this.props.getMessages(data.match_id)
       this.openChat()

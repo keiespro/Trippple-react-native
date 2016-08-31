@@ -13,7 +13,6 @@ class ParallaxSwiper extends React.Component{
   static propTypes = {
     ...ScrollViewPropTypes,
     windowHeight: React.PropTypes.number,
-    header: React.PropTypes.node,
     blur: React.PropTypes.string,
     contentInset: React.PropTypes.object,
   };
@@ -52,33 +51,45 @@ class ParallaxSwiper extends React.Component{
     }
     windowHeight = screen.height;
     return (
-            <View style={{ borderTopLeftRadius:8,borderTopRightRadius:8,overflow:'hidden',}}><Animated.View
+            <View style={{ borderTopLeftRadius:8,borderTopRightRadius:8,overflow:'hidden',}}>
+              <Animated.View
+              style={[styles.background, {
 
-                style={[styles.background, {
+                    backgroundColor: this.props.isTopCard ? this.props.pan.x.interpolate({
+                      inputRange: [-300, -80, -10, 0, 10, 80, 300],
+                      outputRange: [
+                        'rgb(232,74,107)',
+                        'rgb(232,74,107)',
+                        'rgb(255,255,255)',
+                        'rgb(255,255,255)',
+                        'rgb(255,255,255)',
+                        'rgb(66,181,125)',
+                        'rgb(66,181,125)',
+                      ],
+                    }) : 'white',
                   transform: [{
-
                     scale: scrollY.interpolate({
                       inputRange: [ -windowHeight, 0, windowHeight,windowHeight+2],
                       outputRange: [1.5, 1.2, 1,1]
                     })
                   }]
                 }]}>
-                { React.cloneElement(swiper,{profileVisible:this.props.profileVisible,inCard:true, paginationStyle: {
-                  top:50,backgroundColor:'red',position:'absolute',right:50
-                }}) }</Animated.View>
-
-            </View>
+                  {React.cloneElement(swiper,{
+                    profileVisible:this.props.profileVisible,
+                    inCard:true,
+                    isTopCard:this.props.isTopCard,
+                    paginationStyle: {
+                      top:50,
+                      backgroundColor:'transparent',
+                      position:'absolute',
+                      right:50
+                    }
+                })}
+              </Animated.View></View>
         );
   }
 
-  renderHeader() {
-    let { windowHeight,header, swiper } = this.props;
-    let { scrollY } = this.state;
-    if (!windowHeight || !swiper) {
-      return null;
-    }
-    return false;
-  }
+
 
   render() {
     let { style,windowHeight,swiper, ...props } = this.props;
@@ -94,13 +105,10 @@ class ParallaxSwiper extends React.Component{
               onScroll={Animated.event(
                   [{ nativeEvent: { contentOffset: { y: this.state.scrollY }}}]
                 )}
-
               scrollEventThrottle={16}>
               {this.renderBackground()}
-
               {this.props.children}
             </ScrollView>
-
            </View>
         );
   }
@@ -118,8 +126,8 @@ const styles = StyleSheet.create({
     // position: 'absolute',
     // width: screen.width,\
     position:'relative',
-    backgroundColor:'red',
-    backfaceVisibility:'hidden',
+    // backgroundColor:'red',
+    // backfaceVisibility:'hidden',
     top:-0,
   },
   blur: {
