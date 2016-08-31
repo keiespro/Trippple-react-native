@@ -1,25 +1,18 @@
-import { StatusBar, View, Dimensions, Settings } from 'react-native';
+import { StatusBar, View, Dimensions } from 'react-native';
 import React from "react";
-
-import AppNavigation from './AppNavigation';
 import AppNav from '../AppNav';
 import ModalDirector from './modals/ModalDirector';
 import Welcome from './screens/welcome/welcome';
-
-import Analytics from '../utils/Analytics'
 import AppState from '../utils/AppState'
 import ConnectionInfo from '../utils/ConnectionInfo'
 import Notifications from '../utils/Notifications';
 import LoadingOverlay from './LoadingOverlay'
 import colors from '../utils/colors'
-
-import {persistStore} from 'redux-persist'
 import ActionMan from  '../actions/';
-
 import NagManager from '../NagManager'
 import DeepLinkHandler from '../utils/DeepLinkHandler'
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
+import '../fire'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -30,11 +23,8 @@ class App extends React.Component{
     super()
 
     this.state = {
-      loading: true,
-      overlaid: true,
-
+      loading: true
     }
-
   }
 
   performInitActions(){
@@ -52,15 +42,10 @@ class App extends React.Component{
     initActions.forEach(ac => {
       this.props.dispatch(ActionMan[ac]())
     })
-    // 
-    // this.props.dispatch(ActionMan.getPushToken(this.props.push_token))
 
   }
 
-
-
   componentDidMount(){
-
 
   }
 

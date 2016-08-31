@@ -35,7 +35,7 @@
     "esformatter-use-strict": "^3.0.0",
     "eventemitter3": "^1.2.0",
     "fbjs": "^0.8.4",
-    "firebase": "^2.4.0",
+    "firebase": "^3.3.0",
     "google-libphonenumber": "^1.0.14",
     "immutable": "^3.8.1",
     "keymirror": "^0.1.1",

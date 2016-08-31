@@ -124,23 +124,24 @@ class NewCard extends React.Component {
                   textColor={colors.white}
                 />
               </View>
+
               {potential.bio || potential.user.bio &&
-                <View style={{ margin: MagicNumbers.screenPadding / 2, width: DeviceWidth }}>
+                <Text style={{ margin: MagicNumbers.screenPadding / 2, width: MagicNumbers.screenWidth }}>
                   <Text style={[styles.cardBottomOtherText, { color: colors.white, marginBottom: 15, marginLeft: 0 }]}>{
                       !hasPartner ? `About Me` : `About Us`
                   }</Text>
                   <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
                       potential.user.bio
                   }</Text>
-                </View>
+              </Text>
               }
 
               {potential.partner.bio &&
-                <View style={{ margin: MagicNumbers.screenPadding / 2, width: DeviceWidth }}>
+                <Text style={{ margin: MagicNumbers.screenPadding / 2, width: MagicNumbers.screenWidth }}>
                   <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
                       potential.partner.bio
                   }</Text>
-                </View>
+              </Text>
               }
 
               <UserDetails
