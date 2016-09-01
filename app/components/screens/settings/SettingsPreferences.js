@@ -113,28 +113,28 @@ class  SettingsPreferences extends React.Component{
   }
    editBio(){
      this.props.navigator.push(this.props.navigation.router.getRoute('FieldModal', {
-      component: FieldModal,
-      inputField: ()=>{
-          return(
-            <MultiLineInput
-            />
-          )
-      },
-      field:{
-        label: `What are you looking for in a Match?`,
-        field_type:'textarea'
-      },
-      updateOutside:this.updateBio.bind(this),
-      title:'PREFERENCES',
-      fieldName:'bio',
-      cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
-      fieldValue: this.state.bio || this.props.user.bio || '',
-      dispatch:this.props.dispatch
-    }))
+        component: FieldModal,
+        inputField: ()=>{
+            return(
+              <MultiLineInput
+              />
+            )
+        },
+        field:{
+          label: `What are you looking for in a Match?`,
+          field_type:'textarea'
+        },
+        updateOutside:this.updateBio.bind(this),
+        title:'PREFERENCES',
+        fieldName:'bio',
+        cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
+        fieldValue: this.state.bio || this.props.user.bio || '',
+        dispatch:this.props.dispatch
+      }))
 
   }
   updateBio(v){
-    console.log('update outside',v);
+    // console.log('update outside',v);
     this.setState({bio:v})
   }
   onPressSelectable(field){
@@ -155,15 +155,13 @@ class  SettingsPreferences extends React.Component{
     const values = {looking_for_mf,looking_for_mm,looking_for_ff, looking_for_f, looking_for_m}
         return (
 
-
           <ScrollView
           showsVerticalScrollIndicator={false}
-           automaticallyAdjustContentInsets={true}
+          automaticallyAdjustContentInsets={true}
           style={{flex:1,
-            // marginTop: MagicNumbers.is5orless ? 30 : 54,
             paddingVertical:MagicNumbers.is5orless ? 0 : 20}}
             scrollEnabled={this.state.scroll == 'on' ? true : false}
-            >
+          >
             <View style={[styles.paddedSpace,{marginTop:60}]}>
               <View style={styles.formHeader}>
                 <Text style={styles.formHeaderText}>
