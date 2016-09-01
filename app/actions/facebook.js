@@ -4,7 +4,7 @@ import api from '../utils/api'
 import * as firebase from 'firebase';
 import checkFireLoginState from '../fire'
 
-LoginManager.setLoginBehavior('system_account')
+// LoginManager.setLoginBehavior('system_account')
 const FACEBOOK_PERMISSIONS = [
   'email',
   'public_profile',
@@ -42,35 +42,44 @@ const parameters = { fields: { string: FACEBOOK_PROFILE_FIELDS.join(',') } }
 /* loginWithFacebook | LOGIN_WITH_FACEBOOK */
 export const loginWithFacebook = () => async dispatch => {
 
-  LoginManager.setLoginBehavior('system_account')
+  // LoginManager.setLoginBehavior('system_account')
   try{
     const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
     const fbUser = await AccessToken.getCurrentAccessToken()
-    const fireUser = await checkFireLoginState(fbUser)
-
+    // console.log(fb,fbUser);
+    dispatch({ type: 'FACEBOOK_AUTH', payload: {...fb,...fbUser } })
+    const fireUser = await checkFireLoginState({...fb,...fbUser})
+    //
+    // console.log(fireUser)
     try{
       dispatch({ type: 'FIREBASE_AUTH', payload: {...fireUser} })
-      dispatch({ type: 'FACEBOOK_AUTH', payload: {...fb,...fbUser } })
       dispatch({
         type: 'LOGIN_WITH_FACEBOOK',
         payload: api.fbLogin(fbUser)
       })
     }catch(err){
-      console.log(err,'firebase fail');
+      __DEV__ && console.log(err,'firebase fail');
     }
   }catch(err){
     __DEV__ && console.log('fb login failed',err)
-    try{
-      const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
-      const fbUser = await AccessToken.getCurrentAccessToken()
-      dispatch({ type: 'FACEBOOK_AUTH_FAILED', payload: {...fb,...fbUser} })
-      // dispatch({
-      //   type: 'LOGIN_WITH_FACEBOOK',
-      //   payload: api.fbLogin(fbUser)
-      // })
-    }catch(err){
-      __DEV__ && console.log('fb login failed twice',err)
-    }
+    LoginManager.logOut()
+
+    // try{
+    //   const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
+    //   const fbUser = await AccessToken.getCurrentAccessToken()
+    //   // const fireUser = await checkFireLoginState({...fb,...fbUser})
+    //
+    //   // dispatch({ type: 'FIREBASE_AUTH', payload: {...fireUser} })
+    //   dispatch({ type: 'FACEBOOK_AUTH', payload: {...fb,...fbUser } })
+    //   // dispatch({
+    //   //   type: 'LOGIN_WITH_FACEBOOK',
+    //   //   payload: api.fbLogin(fbUser)
+    //   // })
+    // }catch(err){
+    //   __DEV__ && console.log('fb login failed twice',err)
+    //   dispatch({ type: 'FACEBOOK_AUTH_FAILED', payload: {} })
+    //
+    // }
   }
 }
 

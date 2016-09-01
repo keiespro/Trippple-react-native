@@ -20,6 +20,7 @@ const checkFireLoginState = (fbUser) => new Promise((reject,resolve) => {
           .then(a => {resolve(s)})
           .catch((error) => {
           // Handle Errors here.
+console.log(error);
             const errorCode = error.code;
             const errorMessage = error.message;
             const email = error.email;

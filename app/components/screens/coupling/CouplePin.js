@@ -45,19 +45,18 @@ class CouplePin extends React.Component{
         success: true,
       })
       this.props.exit();
-
+      this.props.onboardUser()
     }
-
   }
 
   handleSendMessage(){
     this.setState({ submitting:true });
     const pin = this.props.pin;
     const messageText = `Join me on Trippple! My couple code is ${pin}. If you already have the app, tap here: trippple://join.couple/${pin}`;
-
     // this.props.dispatch(ActionMan.killModal())
     this.props.dispatch(ActionMan.sendText({ pin, messageText }))
   }
+
   componentDidMount(){
     this.props.dispatch(ActionMan.getCouplePin());
 
@@ -66,28 +65,35 @@ class CouplePin extends React.Component{
       this.animateSuccess()
     }
   }
+
   animateSuccess(){
     Animated.sequence([
-        Animated.delay(700),
-
-        Animated.spring(
-          this.state.bounceValue,
-          {
-            toValue: 1.0,
-            tension: 0,
-            velocity: 3,  // Velocity makes it move
-            friction: 1,
-          }
-        )
+      Animated.delay(700),
+      Animated.spring(
+        this.state.bounceValue,
+        {
+          toValue: 1.0,
+          tension: 0,
+          velocity: 3,  // Velocity makes it move
+          friction: 1,
+        }
+      )
     ]).start(()=>{
       // this.setState({ success:false });
     })
   }
+
   componentDidUpdate(pProps,pState){
     if(!pState.success && this.state.success){
       this.animateSuccess()
     }
   }
+
+  popToTop(){
+    this.props.onboardUser()
+    this.props.exit()
+  }
+
   renderSuccess(){
     return (
       <View style={{height:DeviceHeight,flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
@@ -143,9 +149,6 @@ class CouplePin extends React.Component{
       </View>
     </View>
     )
-  }
-  popToTop(){
-    this.props.exit()
   }
 
   renderMain(){
