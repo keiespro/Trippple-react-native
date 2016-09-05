@@ -141,7 +141,7 @@ class Card extends React.Component {
     const city = potential.user.city_state || ``;
 
     const partnerDistance = potential.partner ? potential.partner.distance : null;
-    if (potential.partner) {
+    if (potential.partner && potential.partner.id) {
       matchName = `${matchName} & ${names[1]}`;
       distance = Math.min(distance, partnerDistance || 0);
     }

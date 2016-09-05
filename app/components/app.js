@@ -42,6 +42,7 @@ class App extends React.Component{
     initActions.forEach(ac => {
       this.props.dispatch(ActionMan[ac]())
     })
+    this.setState({initialized:true})
 
   }
 
@@ -51,13 +52,19 @@ class App extends React.Component{
 
   componentWillReceiveProps(nProps){
 
-    if(!this.props.loggedIn && nProps.loggedIn){
+    if(!this.state.initialized && !this.props.loggedIn && nProps.loggedIn){
       this.performInitActions()
     }
+
+    if(!this.props.nag.sawStarterPotentials && this.state.initialized && !this.state.got_starter_pack && this.props.user.relationship_status){
+      this.props.dispatch({type: 'GET_STARTER_POTENTIALS', payload: {relationshipStatus: this.props.user.relationship_status }})
+      this.setState({got_starter_pack:true})
+    }
+
   }
 
   render(){
-    const user = this.props.user || {}
+
     return (
       <View style={{flex:10,backgroundColor:colors.outerSpace, width:DeviceWidth,height:DeviceHeight}}>
 

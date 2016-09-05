@@ -1,35 +1,19 @@
-import {
-  Text,
-  View,
-  SwitchIOS,
-  Settings,
-  PushNotificationIOS,
-  NativeModules,
-  Dimensions,
-} from 'react-native';
-import React from "react";
-
-import LocationPermissions from '../modals/LocationPermission';
-import NotificationPermissions from '../modals/NewNotificationPermissions';
-import styles from '../screens/settings/settingsStyles';
-import colors from '../../utils/colors'
-import reactMixin from 'react-mixin'
-import {MagicNumbers} from '../../utils/DeviceConfig'
-import ActionMan from '../../actions/'
+import React  from 'react'
+import reactMixin  from 'react-mixin'
+import { Text, View, SwitchIOS, Settings, PushNotificationIOS, NativeModules, Dimensions } from 'react-native'
+import ActionMan  from '../../actions/'
+import Analytics  from '../../utils/Analytics'
+import { MagicNumbers } from '../../utils/DeviceConfig'
+import { HAS_SEEN_NOTIFICATION_REQUEST, LAST_ASKED_NOTIFICATION_PERMISSION, NOTIFICATION_SETTING, LEGACY_NOTIFICATION_SETTING, LOCATION_SETTING, LEGACY_LOCATION_SETTING } from '../../utils/SettingsConstants'
+import colors  from '../../utils/colors'
+import LocationPermissions  from '../modals/LocationPermission'
+import NotificationPermissions  from '../modals/NewNotificationPermissions'
+import styles  from '../screens/settings/settingsStyles'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-import Analytics from '../../utils/Analytics'
 const {OSPermissions} = NativeModules
 
 
-import {
-  HAS_SEEN_NOTIFICATION_REQUEST,
-  LAST_ASKED_NOTIFICATION_PERMISSION,
-  NOTIFICATION_SETTING,
-  LEGACY_NOTIFICATION_SETTING,
-  LOCATION_SETTING,
-  LEGACY_LOCATION_SETTING
-} from '../../utils/SettingsConstants'
 
 class PermissionSwitches extends React.Component{
   constructor(props){
@@ -41,16 +25,20 @@ class PermissionSwitches extends React.Component{
     }
   }
   componentDidMount(){
-    const LocationSetting = Settings.get(LOCATION_SETTING) || Settings.get(LEGACY_LOCATION_SETTING) || null;
-    const NotificationSetting = Settings.get(NOTIFICATION_SETTING) || Settings.get(LEGACY_NOTIFICATION_SETTING) || null;
+    // const LocationSetting = Settings.get(LOCATION_SETTING) || Settings.get(LEGACY_LOCATION_SETTING) || null;
+    // const NotificationSetting = Settings.get(NOTIFICATION_SETTING) || Settings.get(LEGACY_NOTIFICATION_SETTING) || null;
 
     OSPermissions.canUseNotifications(OSNotifications => {
       OSPermissions.canUseLocation(OSLocation => {
         console.log(OSNotifications)
+        const OSNotificationsResult = Object.keys(OSNotifications).reduce((acc,el,i) => {
+          acc = acc + OSNotifications[el];
+          return acc
+        },0);
 
         this.setState({
           LocationSetting: parseInt(OSLocation) > 2,
-          NotificationSetting: parseInt(OSNotifications) > 0,
+          NotificationSetting: OSNotificationsResult,
           OSNotifications: parseInt(OSNotifications),
           OSLocation: parseInt(OSLocation)
         })
@@ -71,7 +59,7 @@ class PermissionSwitches extends React.Component{
     if(!this.state.LocationSetting && !OSLocation){
 
       this.props.dispatch(ActionMan.showInModal({
-        component:CheckPermissions,
+        component:LocationPermissions,
         name:'LocationPermissionModal',
         passProps:{
           title:'PRIORITIZE LOCAL',
@@ -79,7 +67,7 @@ class PermissionSwitches extends React.Component{
           failedTitle: 'LOCATION DISABLED',
           hideModal: () => { this.props.dispatch(ActionMan.killModal())},
           cancel: () => { this.props.dispatch(ActionMan.killModal())},
-          failCallback: (val)=>{
+          failCallback: val => {
             this.setState({LocationSetting:false})
             this.props.dispatch(ActionMan.killModal())
           },
@@ -110,10 +98,10 @@ class PermissionSwitches extends React.Component{
   }
   toggleNotification(){
     const {NotificationSetting, OSNotifications} = this.state
-    if(this.state.NotificationSetting == false || !OSNotifications){
+    if(!this.state.NotificationSetting ){
 
       PushNotificationIOS.checkPermissions( (permissions) => {
-        const permResult = Object.keys(permissions).reduce((acc,el,i) =>{
+        const permResult = Object.keys(permissions).reduce((acc,el,i) => {
           acc = acc + permissions[el];
           return acc
         },0);
@@ -126,9 +114,9 @@ class PermissionSwitches extends React.Component{
               cancel: () => { this.props.dispatch(ActionMan.killModal())},
               failCallback: (val)=>{
                 this.props.dispatch(ActionMan.killModal())
-                this.setState({ NotificationSetting: val })
+                this.setState({ NotificationSetting: false })
               },
-              successCallback: (val)=>{
+              successCallback: val => {
                 this.props.dispatch(ActionMan.killModal())
                 this.setState({ NotificationSetting: true })
               }
@@ -173,7 +161,7 @@ class PermissionSwitches extends React.Component{
             <Text style={{color:  colors.white, fontSize:18}}>Get notifications</Text>
             <SwitchIOS
               onValueChange={this.toggleNotification.bind(this)}
-              value={this.state.NotificationSetting > 0 ? true : false}
+              value={this.state.NotificationSetting ? true : false}
               onTintColor={colors.dark}
               thumbTintColor={this.state.NotificationSetting ? colors.mediumPurple : colors.shuttleGray}
               tintColor={colors.dark}
