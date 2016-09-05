@@ -1,6 +1,7 @@
 export default {
   single: [
     {
+      "starter": true,
       "couple" : {
         "couple_id" : "4976",
         "id" : "4976"
@@ -9,7 +10,6 @@ export default {
         "age" : "33",
         "body_type" : "Athletic",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "F",
         "gender" : "m",
         "height" : "5ft 4in",
@@ -25,7 +25,6 @@ export default {
         "age" : "30",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "V",
         "gender" : "f",
         "height" : "--",
@@ -38,6 +37,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/15384/be4f51816-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "couple_id" : "5442",
         "id" : "5442"
@@ -46,7 +46,6 @@ export default {
         "age" : "29",
         "body_type" : "--",
         "city_state" : "Denver, Colorado",
-        "distance" : 5,
         "firstname" : "Andriy",
         "gender" : "m",
         "height" : "--",
@@ -62,7 +61,6 @@ export default {
         "age" : "29",
         "body_type" : "Athletic",
         "city_state" : "Denver, Colorado",
-        "distance" : 5,
         "firstname" : "Lena",
         "gender" : "f",
         "height" : "5ft 7in",
@@ -75,6 +73,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/16625/be4f51816-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "couple_id" : "5510",
         "id" : "5510"
@@ -83,7 +82,6 @@ export default {
         "age" : "42",
         "body_type" : "Athletic",
         "city_state" : "San Diego, California",
-        "distance" : 5,
         "firstname" : "Michael",
         "gender" : "m",
         "height" : "5ft 8in",
@@ -99,7 +97,6 @@ export default {
         "age" : "30",
         "body_type" : "--",
         "city_state" : "San Diego, California",
-        "distance" : 5,
         "firstname" : "Roxy",
         "gender" : "f",
         "height" : "--",
@@ -112,6 +109,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/16807/be4f51816-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "couple_id" : "5589",
         "id" : "5589"
@@ -120,7 +118,6 @@ export default {
         "age" : "30",
         "body_type" : "Athletic",
         "city_state" : "Peabody, Massachusetts",
-        "distance" : 5,
         "firstname" : "Alicia",
         "gender" : "f",
         "height" : "5ft 3in",
@@ -136,7 +133,6 @@ export default {
         "age" : "32",
         "body_type" : "--",
         "city_state" : "Peabody, Massachusetts",
-        "distance" : 5,
         "firstname" : "Ross",
         "gender" : "m",
         "height" : "--",
@@ -149,6 +145,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/16829/3d0f0531c-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "couple_id" : "5534",
         "id" : "5534"
@@ -157,7 +154,6 @@ export default {
         "age" : "23",
         "body_type" : "--",
         "city_state" : "Greenville, North Carolina",
-        "distance" : 5,
         "firstname" : "Chris",
         "gender" : "m",
         "height" : "--",
@@ -173,7 +169,6 @@ export default {
         "age" : "21",
         "body_type" : "--",
         "city_state" : "Greenville, North Carolina",
-        "distance" : 5,
         "firstname" : "Megan",
         "gender" : "f",
         "height" : "--",
@@ -186,6 +181,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/16876/be4f51816-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "couple_id" : "5557",
         "id" : "5557"
@@ -194,7 +190,6 @@ export default {
         "age" : "26",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Maria",
         "gender" : "f",
         "height" : "--",
@@ -210,7 +205,6 @@ export default {
         "age" : "27",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Red ",
         "gender" : "m",
         "height" : "--",
@@ -223,6 +217,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/16934/be4f51816-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "couple_id" : "5581",
         "id" : "5581"
@@ -231,7 +226,6 @@ export default {
         "age" : "20",
         "body_type" : "--",
         "city_state" : "Farmington Hills, Michigan",
-        "distance" : 5,
         "firstname" : "Maddie",
         "gender" : "f",
         "height" : "--",
@@ -247,7 +241,6 @@ export default {
         "age" : "21",
         "body_type" : "--",
         "city_state" : "Farmington Hills, Michigan",
-        "distance" : 5,
         "firstname" : "Adam",
         "gender" : "m",
         "height" : "6ft 2in",
@@ -260,6 +253,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/16998/3d0f0531c-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "couple_id" : "5597",
         "id" : "5597"
@@ -268,7 +262,6 @@ export default {
         "age" : "33",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Crystal",
         "gender" : "f",
         "height" : "--",
@@ -284,7 +277,6 @@ export default {
         "age" : "36",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Scott",
         "gender" : "m",
         "height" : "--",
@@ -297,6 +289,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/17037/be4f51816-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "couple_id" : "5613",
         "id" : "5613"
@@ -305,7 +298,6 @@ export default {
         "age" : "20",
         "body_type" : "Athletic",
         "city_state" : "Des Plaines, Cook County",
-        "distance" : 5,
         "firstname" : "Michelle ",
         "gender" : "f",
         "height" : "5ft 6in",
@@ -321,7 +313,6 @@ export default {
         "age" : "21",
         "body_type" : "Athletic",
         "city_state" : "Des Plaines, Cook County",
-        "distance" : 5,
         "firstname" : "Cody",
         "gender" : "m",
         "height" : "6ft 1in",
@@ -334,6 +325,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/17079/3d0f0531c-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "couple_id" : "5641",
         "id" : "5641"
@@ -342,7 +334,6 @@ export default {
         "age" : "27",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Michael",
         "gender" : "m",
         "height" : "--",
@@ -358,7 +349,6 @@ export default {
         "age" : "25",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Annah ",
         "gender" : "f",
         "height" : "--",
@@ -371,6 +361,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/17148/be4f51816-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "couple_id" : "5650",
         "id" : "5650"
@@ -379,7 +370,6 @@ export default {
         "age" : "45",
         "body_type" : "Athletic",
         "city_state" : "Hallandale Beach, Florida",
-        "distance" : 5,
         "firstname" : "Kim",
         "gender" : "f",
         "height" : "5ft 7in",
@@ -395,7 +385,6 @@ export default {
         "age" : "44",
         "body_type" : "Athletic",
         "city_state" : "Hallandale Beach, Florida",
-        "distance" : 5,
         "firstname" : "Angel",
         "gender" : "m",
         "height" : "6ft 2in",
@@ -408,6 +397,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/17177/be4f51816-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "couple_id" : "5666",
         "id" : "5666"
@@ -416,7 +406,6 @@ export default {
         "age" : "28",
         "body_type" : "Average",
         "city_state" : "New York, United States",
-        "distance" : 5,
         "firstname" : "Natasha ",
         "gender" : "f",
         "height" : "5ft 6in",
@@ -432,7 +421,6 @@ export default {
         "age" : "29",
         "body_type" : "Slender",
         "city_state" : "New York, United States",
-        "distance" : 5,
         "firstname" : "Joaquin",
         "gender" : "m",
         "height" : "5ft 9in",
@@ -445,6 +433,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/17218/be4f51816-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "couple_id" : "5706",
         "id" : "5706"
@@ -453,7 +442,6 @@ export default {
         "age" : "28",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "N",
         "gender" : "f",
         "height" : "5ft 5in",
@@ -469,7 +457,6 @@ export default {
         "age" : "31",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "B",
         "gender" : "m",
         "height" : "--",
@@ -482,6 +469,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/17322/aa8000acb-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "couple_id" : "5753",
         "id" : "5753"
@@ -490,7 +478,6 @@ export default {
         "age" : "40",
         "body_type" : "Athletic",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Joshua",
         "gender" : "m",
         "height" : "5ft 11in",
@@ -506,7 +493,6 @@ export default {
         "age" : "31",
         "body_type" : "Curvy",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Stephany",
         "gender" : "f",
         "height" : "5ft 2in",
@@ -519,6 +505,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/17439/be4f51816-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "couple_id" : "5769",
         "id" : "5769"
@@ -527,7 +514,6 @@ export default {
         "age" : "21",
         "body_type" : "Average",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Rachel",
         "gender" : "f",
         "height" : "5ft 1in",
@@ -543,7 +529,6 @@ export default {
         "age" : "25",
         "body_type" : "Athletic",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Paul",
         "gender" : "m",
         "height" : "5ft 10in",
@@ -556,6 +541,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/17481/3d0f0531c-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "couple_id" : "5941",
         "id" : "5941"
@@ -564,7 +550,6 @@ export default {
         "age" : "32",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Natalie",
         "gender" : "f",
         "height" : "--",
@@ -580,7 +565,6 @@ export default {
         "age" : "32",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Danny",
         "gender" : "m",
         "height" : "--",
@@ -593,6 +577,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/17777/be4f51816-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "couple_id" : "5887",
         "id" : "5887"
@@ -601,7 +586,6 @@ export default {
         "age" : "39",
         "body_type" : "Slender",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Nicole",
         "gender" : "f",
         "height" : "5ft 7in",
@@ -617,7 +601,6 @@ export default {
         "age" : "46",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Alan",
         "gender" : "m",
         "height" : "--",
@@ -630,6 +613,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/17780/be4f51816-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "couple_id" : "5894",
         "id" : "5894"
@@ -638,7 +622,6 @@ export default {
         "age" : "20",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Brittany",
         "gender" : "f",
         "height" : "--",
@@ -654,7 +637,6 @@ export default {
         "age" : "27",
         "body_type" : "Athletic",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Stephen",
         "gender" : "m",
         "height" : "--",
@@ -667,6 +649,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/17796/be4f51816-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "couple_id" : "5925",
         "id" : "5925"
@@ -675,7 +658,6 @@ export default {
         "age" : "26",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Rodney",
         "gender" : "m",
         "height" : "--",
@@ -691,7 +673,6 @@ export default {
         "age" : "23",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Jasmine",
         "gender" : "f",
         "height" : "--",
@@ -704,6 +685,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/17876/be4f51816-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "couple_id" : "5926",
         "id" : "5926"
@@ -712,7 +694,6 @@ export default {
         "age" : "37",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "T",
         "gender" : "f",
         "height" : "--",
@@ -728,7 +709,6 @@ export default {
         "age" : "39",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Ryan",
         "gender" : "m",
         "height" : "--",
@@ -745,6 +725,7 @@ export default {
 
   couple:[
     {
+      "starter": true,
       "couple" : {
         "distance" : "",
         "id" : ""
@@ -757,7 +738,6 @@ export default {
         "age" : "22",
         "body_type" : "--",
         "city_state" : "West Jordan, Utah",
-        "distance" : 5,
         "firstname" : "Vanessa",
         "gender" : "f",
         "height" : "--",
@@ -769,6 +749,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/2744/cb468082f-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "distance" : "",
         "id" : ""
@@ -781,7 +762,6 @@ export default {
         "age" : "21",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Megan",
         "gender" : "f",
         "height" : "--",
@@ -793,6 +773,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/5403/84f1a75e9-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "distance" : "",
         "id" : ""
@@ -805,7 +786,6 @@ export default {
         "age" : "20",
         "body_type" : "Average",
         "city_state" : "Philadelphia, Pennsylvania",
-        "distance" : 5,
         "firstname" : "Rosemarie ",
         "gender" : "f",
         "height" : "5ft 2in",
@@ -817,6 +797,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/6289/84f1a75e9-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "distance" : "",
         "id" : ""
@@ -829,7 +810,6 @@ export default {
         "age" : "26",
         "body_type" : "--",
         "city_state" : "Aventura, Florida",
-        "distance" : 5,
         "firstname" : "Mila",
         "gender" : "f",
         "height" : "--",
@@ -841,6 +821,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/6647/9de939a3f-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "distance" : "",
         "id" : ""
@@ -853,7 +834,6 @@ export default {
         "age" : "24",
         "body_type" : "Athletic",
         "city_state" : "Chapel Hill, Orange County",
-        "distance" : 5,
         "firstname" : "Kelly",
         "gender" : "f",
         "height" : "5ft 9in",
@@ -865,6 +845,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/7266/9de939a3f-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "distance" : "",
         "id" : ""
@@ -877,7 +858,6 @@ export default {
         "age" : "36",
         "body_type" : "--",
         "city_state" : "Vista, California",
-        "distance" : 5,
         "firstname" : "Anto",
         "gender" : "f",
         "height" : "--",
@@ -889,6 +869,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/7400/9de939a3f-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "distance" : "",
         "id" : ""
@@ -901,7 +882,6 @@ export default {
         "age" : "21",
         "body_type" : "--",
         "city_state" : "Honolulu, Hawaii",
-        "distance" : 5,
         "firstname" : "McKenna ",
         "gender" : "f",
         "height" : "--",
@@ -913,6 +893,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/7944/be4f51816-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "distance" : "",
         "id" : ""
@@ -925,7 +906,6 @@ export default {
         "age" : "24",
         "body_type" : "Curvy",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Paisley",
         "gender" : "f",
         "height" : "5ft 6in",
@@ -937,6 +917,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/7964/be4f51816-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "distance" : "",
         "id" : ""
@@ -949,7 +930,6 @@ export default {
         "age" : "22",
         "body_type" : "Curvy",
         "city_state" : "Miami, Florida",
-        "distance" : 5,
         "firstname" : "Yoli",
         "gender" : "f",
         "height" : "5ft 5in",
@@ -961,6 +941,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/8914/63d2ebc84-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "distance" : "",
         "id" : ""
@@ -973,7 +954,6 @@ export default {
         "age" : "20",
         "body_type" : "--",
         "city_state" : "Pompano Beach, Florida",
-        "distance" : 5,
         "firstname" : "Mariajulia",
         "gender" : "f",
         "height" : "--",
@@ -985,6 +965,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/9105/be4f51816-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "distance" : "",
         "id" : ""
@@ -997,7 +978,6 @@ export default {
         "age" : "20",
         "body_type" : "Curvy",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Vicky",
         "gender" : "f",
         "height" : "5ft 3in",
@@ -1009,6 +989,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/9692/be4f51816-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "distance" : "",
         "id" : ""
@@ -1021,7 +1002,6 @@ export default {
         "age" : "25",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Jalyn",
         "gender" : "f",
         "height" : "--",
@@ -1033,6 +1013,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/9819/be4f51816-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "distance" : "",
         "id" : ""
@@ -1045,7 +1026,6 @@ export default {
         "age" : "19",
         "body_type" : "Athletic",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Sam",
         "gender" : "f",
         "height" : "5ft 2in",
@@ -1057,6 +1037,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/10390/3d0f0531c-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "distance" : "",
         "id" : ""
@@ -1069,7 +1050,6 @@ export default {
         "age" : "23",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "I",
         "gender" : "f",
         "height" : "--",
@@ -1081,6 +1061,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/10565/be4f51816-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "distance" : "",
         "id" : ""
@@ -1093,7 +1074,6 @@ export default {
         "age" : "27",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Kiki",
         "gender" : "f",
         "height" : "--",
@@ -1105,6 +1085,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/15801/63d2ebc84-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "distance" : "",
         "id" : ""
@@ -1117,7 +1098,6 @@ export default {
         "age" : "22",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Georgia",
         "gender" : "f",
         "height" : "--",
@@ -1129,6 +1109,7 @@ export default {
         "thumb_url" : "https://trippple-user.s3.amazonaws.com/uploads/18735/be4f51816-original.jpg"
       }
     }, {
+      "starter": true,
       "couple" : {
         "distance" : "",
         "id" : ""
@@ -1141,7 +1122,6 @@ export default {
         "age" : "24",
         "body_type" : "--",
         "city_state" : "Miami, FL",
-        "distance" : 5,
         "firstname" : "Melanie ",
         "gender" : "f",
         "height" : "--",

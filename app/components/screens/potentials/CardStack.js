@@ -146,7 +146,11 @@ class CardStack extends React.Component {
         if (likeStatus) {
           const relstatus = this.props.rel === 'single' ? 'couple' : 'single';
           const otherParams = { relevantUser: this.props.potentials[0] };
-          this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, relstatus, this.props.rel, otherParams));
+          if(!this.props.potentials[0].starter){
+            this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, relstatus, this.props.rel, otherParams));
+          }else{
+            this.props.dispatch({type:'SEND_LIKE_FULFILLED', payload: {relevantUser: this.props.potentials[0], like_status: likeStatus }});
+          }
 
           Animated.timing(this.state.pan, {
             toValue,

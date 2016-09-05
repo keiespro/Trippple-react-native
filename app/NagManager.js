@@ -17,41 +17,60 @@ import TimerMixin from 'react-timer-mixin'
 
 class NagManager extends React.Component{
 
-  componentWillReceiveProps(nProps){
+  constructor(props){
+    super()
+    this.state = {}
+  }
 
+  componentWillReceiveProps(nProps){
+    if(this.props.loggedIn && nProps.loggedIn){
     // relationship_status modal
-    if(this.props.loggedIn && !nProps.user.relationship_status && !this.props.user.relationship_status ){
-      nProps.dispatch(ActionMan.showInModal({
-        component: OnboardModal,
-        passProps:{
-          title:'Onboard',
-          dispatch: nProps.dispatch,
-          navigator:nProps.navigator,
-          navigation:nProps.navigation,
-          user:nProps.user,
-        }
-      }))
-    }
+      if(!this.props.user.relationship_status && !nProps.user.relationship_status){
+        nProps.dispatch(ActionMan.showInModal({
+          component: OnboardModal,
+          passProps:{
+            title:'Onboard',
+            dispatch: nProps.dispatch,
+            navigator:nProps.navigator,
+            navigation:nProps.navigation,
+            user:nProps.user,
+          }
+        }))
+      }
+
+      if(!this.props.user.relationship_status && nProps.user.relationship_status){
+
+        this.props.dispatch({type:'SET_ASK_LOCATION', payload:{}})
+        this.props.dispatch({type:'SET_ASK_NOTIFICATION', payload:{}})
+
+      }
 
     // location permission modal
-    if(!this.props.nag.askedLocation && !nProps.nag.askedLocation && nProps.isNewUser){
-      this.setTimeout(()=>{
-        this.locationModal();
-        this.props.dispatch({type:'ASKED_LOCATION',payload:true})
-      },2000);
-    }
+      if(!this.props.nag.askedLocation && nProps.nag.askLocation && !this.state.askingLocation){
+        this.setState({askingLocation:true})
+        this.setTimeout(()=>{
+          this.locationModal();
+          this.props.dispatch({type:'ASKED_LOCATION', payload:{}})
+        },2000);
+      }
 
-    if(!nProps.nag.askedNotification && nProps.hasLiked && !this.props.hasLiked){
-      PushNotification.checkPermissions((perm) =>{
-        if(!perm.alert){
-          this.setTimeout(()=>{
-            this.notificationModal();
-            this.props.dispatch({type:'ASKED_NOTIFICATION',payload:true})
-          },2000);
+
+      if(!this.props.nag.askedNotification && nProps.nag.askNotification && !this.state.askingNotification){
+        if( nProps.likeCount > this.props.likeCount){
+          this.setState({askingNotification:true})
+          PushNotification.checkPermissions((perm) =>{
+            console.log(perm);
+            if(!perm.alert){
+              this.setTimeout(()=>{
+                this.notificationModal();
+                this.props.dispatch({type:'ASKED_NOTIFICATION', payload:{}})
+              },1000);
+            }
+          })
         }
-      })
-    }
+      }
 
+    }
 
   }
 
@@ -99,6 +118,7 @@ class NagManager extends React.Component{
     const hasSeenLocationRequest = Settings.get(LAST_ASKED_LOCATION_PERMISSION);
 
     OSPermissions.canUseLocation((hasPermission)=>{
+      console.log(hasPermission);
       if(parseInt(hasPermission) <= 2 || hasSeenLocationRequest){
         this.locationModal()
       }else if(parseInt(hasPermission) > 2){
@@ -129,7 +149,7 @@ const mapStateToProps = (state, ownProps) => {
     nag: state.nag,
     loggedIn: state.auth.api_key && state.auth.user_id,
     isNewUser: state.user.isNewUser,
-    hasLiked: state.likes.likeCount > 0
+    likeCount: state.likes.likeCount
   }
 }
 
