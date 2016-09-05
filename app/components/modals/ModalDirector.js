@@ -46,7 +46,7 @@ class ModalDirector extends Component{
 
     const { activeModal} = this.state;
     const ActiveModal = activeModal.component || null;
-    const ActiveModalProps =  activeModal.passProps;
+    const ActiveModalProps = activeModal.passProps;
     return (
       <View style={{backgroundColor:'transparent'}}>
 
