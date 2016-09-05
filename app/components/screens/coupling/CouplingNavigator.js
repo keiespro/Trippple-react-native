@@ -114,6 +114,7 @@ class CouplingNavigator extends Component {
             goCouplePin={this._handleAction.bind(this, { type: 'push', key: 'CouplePin' })}
             goEnterCouplePin={this._handleAction.bind(this, { type: 'push', key: 'EnterCouplePin' })}
             goCoupleReady={this._handleAction.bind(this, { type: 'push', key: 'CoupleReady' })}
+            onboardUser={this.props.onboardUser}
           />
 
         <View style={{width:100,height:20,left:10,top:0,flex:1,position:'absolute',alignSelf:'flex-start'}}>

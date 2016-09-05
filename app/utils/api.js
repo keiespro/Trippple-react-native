@@ -123,13 +123,11 @@ const api = {
     return publicRequest('verify_security_pin', payload);
   },
 
-  fbLogin(fbAuth,fbUser={}){
+  fbLogin(fbAuth){
     const payload = {
       fb_oauth_code: fbAuth.accessToken,
       fb_user_id: fbAuth.userID,
-      device: DeviceInfo.get(),
-      platform: Platform.OS || 'iOS',
-      fbUserData: fbUser
+      device: DeviceInfo.get()
     }
     return publicRequest('fb_login', payload);
   },

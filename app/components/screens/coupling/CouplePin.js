@@ -1,6 +1,3 @@
-'use strict';
-
-
 import {
   Image,
   Text,
@@ -14,18 +11,15 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-
 import ActionMan from '../../../actions';
 import colors from '../../../utils/colors';
 import styles from '../potentials/styles';
 import {MagicNumbers} from '../../../utils/DeviceConfig';
-
-const DeviceHeight = Dimensions.get('window').height
-const DeviceWidth = Dimensions.get('window').width
-
 import { connect } from 'react-redux';
 import {SHOW_COUPLING} from '../../../utils/SettingsConstants'
 
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
 
 class CouplePin extends React.Component{
   constructor(props){
@@ -40,12 +34,13 @@ class CouplePin extends React.Component{
   }
 
   componentWillReceiveProps(nProps){
+    console.log(nProps);
     if( nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified ){
       this.setState({
         success: true,
       })
-      this.props.exit();
-      this.props.onboardUser()
+      nProps.props.exit();
+      nProps.props.onboardUser()
     }
   }
 
@@ -116,7 +111,6 @@ class CouplePin extends React.Component{
         </Animated.View>
 
         <View style={{flex:1,height:DeviceHeight*0.75,paddingHorizontal:MagicNumbers.screenPadding/2,width:DeviceWidth,flexDirection:'column'}}>
-
 
          <Text
           style={[styles.rowtext,styles.bigtext,{

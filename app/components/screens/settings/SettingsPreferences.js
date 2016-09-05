@@ -138,10 +138,8 @@ class  SettingsPreferences extends React.Component{
     this.setState({bio:v})
   }
   onPressSelectable(field){
-    if(this.props.user.relationship_status == 'couple' && this.props.user.status == 'onboarded'){
+    if(this.props.user.relationship_status == 'couple'){
       this.toggleField(field)
-    }else if(this.props.user.relationship_status == 'couple' && this.props.user.status != 'onboarded'){
-      this.showPartnerMissingModal()
     }else if(this.props.user.relationship_status == 'single'){
       this.toggleField(field)
 
