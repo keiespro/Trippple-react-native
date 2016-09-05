@@ -1,24 +1,14 @@
-import {
-  Text,
-  View,
-  Image,
-  TouchableHighlight,
-  TouchableOpacity,
-  Dimensions,
-  ScrollView,
-} from 'react-native';
-import React from "react";
-
-import UserDetails from '../../UserDetails';
-import ApproveIcon from './ApproveIcon';
-import DenyIcon from './DenyIcon';
-
-import {BlurView} from 'react-native-blur'
-import Swiper from '../../controls/swiper';
-import colors from '../../../utils/colors';
-import styles from './styles'
-import {MagicNumbers} from '../../../utils/DeviceConfig'
-import ParallaxSwiper from  '../../controls/ParallaxSwiper'
+import React  from 'react'
+import { Text, View, Image, TouchableHighlight, TouchableOpacity, Dimensions, ScrollView } from 'react-native'
+import { BlurView } from 'react-native-blur'
+import { MagicNumbers } from '../../../utils/DeviceConfig'
+import colors  from '../../../utils/colors'
+import UserDetails  from '../../UserDetails'
+import ParallaxSwiper  from '../../controls/ParallaxSwiper'
+import Swiper  from '../../controls/swiper'
+import ApproveIcon  from './ApproveIcon'
+import DenyIcon  from './DenyIcon'
+import styles  from './styles'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
@@ -48,7 +38,7 @@ class NewCard extends React.Component {
   render(){
     const {profileVisible, cardWidth, cardHeight, city, seperator, potential, activeIndex, user, isTopCard, matchName, distance} = this.props;
 
-    const hasPartner = potential.partner && potential.partner.image_url && potential.partner.image_url !== "";
+    const hasPartner = potential.partner && potential.partner.firstname && potential.partner.image_url && potential.partner.image_url !== "";
     const slideFrames = hasPartner ? [potential.user,potential.partner] : [potential.user]
     const tmpCardHeight = profileVisible ? cardHeight : cardHeight;
     const slides = slideFrames.map((p,i) => {
@@ -89,6 +79,7 @@ class NewCard extends React.Component {
               width={cardWidth}
               pan={this.props.pan}
               isTopCard={isTopCard}
+              profileVisible={profileVisible}
               height={DeviceHeight}
               dispatch={this.props.dispatch}
               style={{flex:0,zIndex:0,backgroundColor:'transparent', }}>

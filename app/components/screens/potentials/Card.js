@@ -131,7 +131,7 @@ class Card extends React.Component {
     const potential = this.props.potential || { user: {} };
     const names = [potential.user && potential.user.firstname ? potential.user.firstname.trim() : null];
 
-    if (potential.partner && potential.partner.firstname) {
+    if (potential.partner && potential.partner.id && potential.partner.firstname) {
       names.push(potential.partner.firstname.trim());
     }
 
@@ -141,7 +141,7 @@ class Card extends React.Component {
     const city = potential.user.city_state || ``;
 
     const partnerDistance = potential.partner ? potential.partner.distance : null;
-    if (potential.partner && potential.partner.id) {
+    if (potential.partner && potential.partner.firstname) {
       matchName = `${matchName} & ${names[1]}`;
       distance = Math.min(distance, partnerDistance || 0);
     }

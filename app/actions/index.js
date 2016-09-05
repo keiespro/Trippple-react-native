@@ -51,16 +51,16 @@ ActionMan.sendText = payload => dispatch => dispatch({ type: 'SEND_TEXT',
       const { pin, messageText } = payload;
       return RNMessageComposer.composeMessageWithArgs({ messageText }, result => {
         switch(result) {
-        case RNMessageComposer.Sent:
-          resolve(result)
-          break;
-        case RNMessageComposer.Failed:
-        case RNMessageComposer.NotSupported:
-        case RNMessageComposer.Cancelled:
-        default:
-          Communications.text(null,messageText)
-          resolve(null)
-          break;
+            case RNMessageComposer.Sent:
+              resolve(result)
+              break;
+            case RNMessageComposer.Failed:
+            case RNMessageComposer.NotSupported:
+            case RNMessageComposer.Cancelled:
+            default:
+              Communications.text(null,messageText)
+              resolve(null)
+              break;
         }
       })
     })
@@ -81,10 +81,11 @@ const NOTIFICATION_TYPES = {
 
 ActionMan.receiveNotification = (notification) => dispatch => dispatch({ type: 'RECEIVE_NOTIFICATION',
   payload: new Promise((resolve, reject) => {
-    dispatch(ActionMan[NOTIFICATION_TYPES[notification.type]]());
+    console.log(notification,'_______________________________________________________');
+    dispatch(ActionMan[NOTIFICATION_TYPES[notification.type]](notification.payload));
     resolve(notification.payload)
   })
-}).then(() => notification.payload).catch(console.log);
+}).then(() => notification).catch(console.log);
 
 ActionMan.updateBadgeNumber = (delta) => dispatch => dispatch({ type: 'UPDATE_BADGE_NUMBER',
   payload: new Promise((resolve, reject) => {

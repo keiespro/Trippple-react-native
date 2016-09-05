@@ -53,8 +53,7 @@ const ApiActionCreators = endpointMap.reduce((obj,endpoint) => {
           return resolve(x);
         }).catch(x => {
           console.log(x);
-          if(x == '401'){
-            // dispatch({type:'LOG_OUT',payload:true})
+          if(x === 401){
             LogOut()
 
           }

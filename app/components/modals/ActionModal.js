@@ -56,16 +56,8 @@ class ActionModal extends Component{
       partner: them[1] || null
     }
 
-    this.props.navigator.push({
-      component: UserProfile,
-      passProps:{
-        potential: MatchUserAsPotential,
-        rel,
-        hideProfile: ()=> {
-          this.props.navigator.pop()
-        }
-      }
-    })
+    this.props.navigator.push(this.props.navigation.router.getRoute('UserProfile',{potential:MatchUserAsPotential,user:this.props.user}));
+
   }
 
   unMatchModal(match){
@@ -241,7 +233,7 @@ class ActualModal extends Component{
                 style={[styles.clearButton,styles.modalButton,{borderColor:colors.mediumPurple,backgroundColor:colors.mediumPurple20}]}
                 underlayColor={colors.mediumPurple}
                 onPress={()=>{
-                    this.props.toggleModal()
+                  // this.props.toggleModal()
                   this.props.showProfile(this.props.currentMatch)
                 }}>
                 <View >

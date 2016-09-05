@@ -1,5 +1,5 @@
-import _ from 'lodash'
-import starters from '../data/StarterDecks'
+import _  from 'lodash'
+import starters  from '../data/StarterDecks'
 
 export default function potentialsReducer(state = initialState, action) {
 
@@ -11,7 +11,7 @@ export default function potentialsReducer(state = initialState, action) {
         return [...newPotentials]
 
       case 'GET_STARTER_POTENTIALS':
-        let starter = starters[action.payload.relationshipStatus]
+        let starter = starters[action.payload.relationshipStatus || 'single']
         return [...(_.shuffle(starter))]
 
       case 'GET_POTENTIALS_FULFILLED':

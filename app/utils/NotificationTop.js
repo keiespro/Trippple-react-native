@@ -1,31 +1,22 @@
-import {
-  Image,
-  TouchableHighlight,
-  TouchableOpacity,
-  PanResponder,
-  Easing,
-  StatusBar,
-  View,
-  StyleSheet,
-  Text,
-  Animated,
-  Dimensions,
-  VibrationIOS,
-} from 'react-native';
-import React from "react";
+import * as exnav from '@exponent/ex-navigation'
+import React from 'react'
+import { Image, TouchableHighlight, TouchableOpacity, PanResponder, Easing, StatusBar, View, StyleSheet, Text, Animated, Dimensions, VibrationIOS } from 'react-native'
+import { BlurView } from 'react-native-blur'
+import ActionMan from '../actions'
+import colors from '../utils/colors'
+
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
-import colors from '../utils/colors'
-import {BlurView} from 'react-native-blur';
-import ActionMan from '../actions'
+const NOTI_HEIGHT = 70;
+
 
 class Notification extends React.Component{
 
   constructor(props){
+    console.log(exnav);
     super()
-
     this.state = {
       yValue: new Animated.Value(-220),
       pan: new Animated.ValueXY(),
@@ -54,7 +45,7 @@ class Notification extends React.Component{
   componentWillReceiveProps(nProps){
 
     if(nProps.notification.uuid != this.props.notification.uuid){
-      this.state.pan.setValue({x: 0, y: -80});
+      this.state.pan.setValue({x: 0, y: -NOTI_HEIGHT});
 
       Animated.timing(this.state.pan, {
         toValue: 0,
@@ -119,7 +110,7 @@ class Notification extends React.Component{
       onPanResponderRelease: (e, gestureState) => {
         const {dx,dy,vx,vy} = gestureState;
 
-        let toValue = vy > 0 && dy > 10 ? 0 : -200;
+        let toValue = vy > 0 && dy > vy/3 ? 0 : -200;
         Animated.timing(this.state.pan.y, {
           toValue,
           easing: Easing.out(Easing.exp),
@@ -139,13 +130,15 @@ class Notification extends React.Component{
       toValue: -220,
       duration: 100,
     }).start(()=>{
-      // AppActions.updateRoute({notification:true,route:'chat',match_id:this.props.notification.match_id,})
-      // this.setState({tapped:true})
-
+       // this.setState({tapped:true})
+      this.tapped()
     })
 
     // NotificationActions.updateBadgeNumber.defer(-1)
 
+  }
+  tapped(){
+    this.props.navigator.push(this.props.navigation.router.getRoute('Chat', {match_id: this.props.notification.match_id}))
   }
   killNotification(){
 
@@ -158,7 +151,7 @@ class Notification extends React.Component{
   }
 
   render(){
-    console.log(this.props.notification);
+    console.log(this.props);
 
     if(!this.props.notification) {
 
@@ -167,95 +160,124 @@ class Notification extends React.Component{
 
     const { notification, user } = this.props;
 
-    notification.data = notification['0'] ? notification['0'].data ? notification['0'].data : notification['0'] : notification.data
     let myPartnerId;
     let theirIds;
     let them;
     let threadName;
     let matchName;
-
-
-    if(notification.type == 'match'){
+    const noti = (notification.label || notification.type).toLowerCase()
+    console.log(noti,'noti');
+    const users = notification.users || {}
+    if(noti.indexOf('match') > -1){
       // if(!notification.users && (notification.data && !notification.data.users)){ return false}
 
-      myPartnerId = user.relationship_status === 'couple' ? user.partner_id : null;
-      theirIds = Object.keys(notification.users).filter( (u)=> u != user.id && u != user.partner_id);
-      them = theirIds.map((id)=> notification.users[id]);
+      myPartnerId = user.partner_id || null;
+      theirIds = Object.keys(users).filter( (u)=> u != user.id && u != user.partner_id);
+      them = theirIds.map((id)=> users[id]);
       threadName = them.map( (u,i) => u.firstname.trim() ).join(' & ');
       matchName = threadName + (theirIds.length > 1 ? ' like ' : ' likes ');
     }
     // if(!matchName || this.state.tapped){
     //   return false
     // }
+    let from_user_info
+    let image_url
+    if(noti.indexOf('message') > -1){
+      from_user_info = notification.from_user_info || {}
+      image_url = from_user_info.image_url
+    }
     return (
       <Animated.View
       { ...this._panResponder.panHandlers}
-        style={[styles.notificationWrapper,
-          {
-            height: this.state.inPlace ? this.state.pan.y.interpolate({
-              inputRange: [0, DeviceHeight/2, DeviceHeight],
-              outputRange: [80, DeviceHeight/4, DeviceHeight/4],
-              extrapolate: 'clamp'
-            }) : 80,
-            transform: [{
-              translateY: this.state.inPlace ? this.state.pan.y.interpolate({
-                inputRange: [-80, 0, DeviceHeight],
-                outputRange: [-80, 0, 10]
-              }) : this.state.yValue
-            }],
-            justifyContent:'flex-end'
+      style={[styles.notificationWrapper,
+      {
+        height: this.state.inPlace ? this.state.pan.y.interpolate({
+        inputRange: [0, DeviceHeight/2, DeviceHeight],
+        outputRange: [NOTI_HEIGHT, DeviceHeight/4, DeviceHeight/4],
+        extrapolate: 'clamp'
+        }) : NOTI_HEIGHT,
+      transform: [{
+        translateY: this.state.inPlace ? this.state.pan.y.interpolate({
+        inputRange: [-NOTI_HEIGHT, 0, DeviceHeight],
+        outputRange: [-NOTI_HEIGHT, 0, 10]
+        }) : this.state.yValue
+      }],
+      justifyContent:'flex-end'
 
-          },
-          styles[notification.type]
-        ]}>
-        <StatusBar animated={true} barStyle="light-content" hidden={true} />
+      },
+      styles[noti]
+      ]}>
+      <StatusBar animated={true} barStyle="light-content" hidden={true} />
 
-        {notification.type == 'message' ?
-          <View style={[styles.notificationOverlay,styles.notificationNewMessage]}>
-            <TouchableOpacity onPress={this.tapNotification.bind(this)}>
+      {noti.indexOf('message') > -1 ?
+      <View style={[styles.notificationOverlay,styles.notificationNewMessage]}>
+      <TouchableOpacity onPress={this.tapNotification.bind(this)}>
               <View style={styles.notificationInside}>
                 <View style={styles.notificationLeft}>
                   <Image
-                    resizeMode={Image.resizeMode.contain}
+                    resizeMode={Image.resizeMode.cover}
                     style={styles.notiImage}
                     defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
-                    source={{uri: notification.from_user_info.image_url}}
+                    source={{uri: image_url}}
                   />
                 </View>
                 <View style={styles.notificationRight}>
                   <Text style={[styles.notiTitle,styles.titleNewMessage]}>{
-                    notification.from_user_info.name.toUpperCase()
+                    (from_user_info.name || from_user_info.firstname || '').toUpperCase()
                   }</Text>
-                  <Text style={styles.notiText} numberOfLines={2}>{ notification.message_body}</Text>
+                  <View style={{flexWrap:'wrap'}}>
+                  <Text style={styles.notiText} ellipsizeMode={'tail'} numberOfLines={2}>{ notification.message_body}</Text>
+</View>
                 </View>
               </View>
+
             </TouchableOpacity>
+              <View style={{position:'absolute',right:3,top:3,zIndex:99}}>
+              <TinyClose
+                  size={14}
+                  xColor={colors.mediumPurple}
+                  background={colors.white20}
+                  killNotification={this.killNotification.bind(this)}
+                  notification={notification}
+                  buttonUnderlay={colors.mediumPurple}
+                />
+              </View>
           </View> : null
         }
 
-        {notification.type == 'match' ?
-          <View style={[styles.notificationOverlay,styles.notificationNewMatch]}>
+        {noti.indexOf('match') > -1 ?
+          <View style={[styles.notificationOverlay]}>
             <TouchableOpacity onPress={this.tapNotification.bind(this)}>
               <View style={styles.notificationInside}>
                 <View style={styles.notificationLeft}>
                   <Image
-                    resizeMode={Image.resizeMode.contain}
-                    style={styles.notiImage}
+                    resizeMode={Image.resizeMode.cover}
+                    style={[styles.notiImage,{tintColor:colors.sushi}]}
                     defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
-                    source={{uri: them[0].thumb_url}}
+                    source={{uri: image_url}}
                   />
                 </View>
                 <View style={styles.notificationRight}>
                   <Text style={[styles.notiTitle,styles.titleNewMatch]}>IT'S A MATCH!</Text>
-                  <Text style={styles.notiText}>{`${matchName} you back!`}</Text>
+                  <Text style={styles.notiText}>{`${matchName.length > 0 ? matchName : 'This user likes'} you back!`}</Text>
                 </View>
               </View>
             </TouchableOpacity>
+            <View style={{position:'absolute',right:3,top:3,zIndex:99}}>
+              <TinyClose
+                size={14}
+                xColor={colors.sushi}
+                background={colors.white20}
+                killNotification={this.killNotification.bind(this)}
+                notification={notification}
+                buttonUnderlay={colors.mediumPurple}
+              />
+            </View>
           </View> : null
         }
 
 
-        {notification.type == 'display' ?
+        {noti == 'display' ?
           <TouchableHighlight style={[styles.notificationOverlay,styles.message]} onPress={this.tapNotification.bind(this)}>
 
             <View style={styles.notificationInside}>
@@ -263,7 +285,7 @@ class Notification extends React.Component{
               {notification.image_url && (
                 <View style={styles.notificationLeft}>
                   <Image
-                    resizeMode={Image.resizeMode.contain}
+                    resizeMode={Image.resizeMode.cover}
                     style={styles.notiImage}
                     source={{uri: notification.image_url}}
                   />
@@ -290,6 +312,7 @@ class Notification extends React.Component{
               <View style={{position:'absolute',right:5,top:5}}>
                 <TinyClose
                   background={colors.mediumPurple}
+                  size={20}
                   killNotification={this.killNotification.bind(this)}
                   notification={notification}
                   buttonUnderlay={colors.mediumPurple}
@@ -309,13 +332,13 @@ export default Notification
 const TinyClose = props => {
   return (
     <TouchableHighlight
-      style={[{alignItems:'center',justifyContent:'center',height:20,top:0,width:20,backgroundColor:props.background,borderRadius:10}]}
+      style={[{alignItems:'center',justifyContent:'center',height:props.size,top:0,width:props.size,backgroundColor:props.background,color:colors.white,borderRadius:props.size/2}]}
       onPress={props.killNotification}
       underlayColor={props.buttonUnderlay || colors.mediumPurple20}
     >
       <Image
         resizeMode={Image.resizeMode.contain}
-        style={{width:10,height:10,zIndex:1000,tintColor:colors.shuttleGray}}
+        style={{width:props.size/2,height:props.size/2,zIndex:1000,tintColor:props.xColor || colors.white}}
         source={{uri: 'assets/close@3x.png'}}
       />
     </TouchableHighlight>
@@ -327,12 +350,12 @@ const styles = StyleSheet.create({
     width: DeviceWidth-14,
     flex: 1,
     position: 'absolute',
-    borderRadius:9,
+    borderRadius:8,
     top: 7,
     left: 7,
     right: 7,
-    backgroundColor:'transparent',
-    height:88,
+    backgroundColor:colors.shuttleGray,
+    height:NOTI_HEIGHT,
     shadowColor: '#222',
     shadowOffset: {
       width:0,
@@ -345,15 +368,23 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     flex:1,
     borderRadius:8,
-
+    position:'relative',
     overflow:'hidden',
     justifyContent:'space-between'
+  },
+  newmessage:{
+    backgroundColor:colors.mediumPurple,
+
   },
   message:{
     backgroundColor:colors.mediumPurple,
 
   },
   match:{
+    backgroundColor:colors.sushi,
+
+  },
+  newmatch:{
     backgroundColor:colors.sushi,
 
   },
@@ -369,19 +400,26 @@ const styles = StyleSheet.create({
     width:60
   },
   notificationRight:{
-    flex:1
+    // flex:1,
+    width:DeviceWidth-100,
+    justifyContent:'flex-start',
+    alignSelf:'flex-start',
+    alignItems:'flex-start',
+    paddingHorizontal:10,
+    paddingTop:7
   },
 
   notiText: {
     color:colors.white,
     fontFamily:'omnes',
-    fontSize:16
+    flexDirection:'column',
+
+    fontSize:14
   },
 
   notiTitle: {
-    fontFamily:'Montserrat',
-    fontSize:14
-
+    fontFamily:'Montserrat-Bold',
+    fontSize:12,
   },
   titleNewMessage:{
     color:colors.lavender,
@@ -392,10 +430,12 @@ const styles = StyleSheet.create({
   notificationInside:{
     flex:1,
     flexDirection:'row',
-    padding:15,
+    justifyContent:'flex-start',
     position:'relative'
   },
   notiImage:{
+    margin:10,
+
     width:50,
     height:50,
     overflow:'hidden',

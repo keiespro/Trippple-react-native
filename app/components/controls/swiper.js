@@ -1,7 +1,7 @@
-import React from "react";
-import {StyleSheet, Text, View, ScrollView, TouchableOpacity, Animated, Dimensions} from "react-native";
+import React  from 'react'
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Animated, Dimensions } from 'react-native'
+import TimerMixin  from 'react-timer-mixin'
 import colors  from '../../utils/colors'
-import TimerMixin from 'react-timer-mixin'
 
 const { width, height } = Dimensions.get('window')
 
@@ -337,17 +337,17 @@ const Swiper = React.createClass({
           contentOffset={state.offset}
           contentContainerStyle={[styles.wrapper, props && props.style]}
           onScrollBeginDrag={this.onScrollBegin}
-          scrollEnabled={this.props.profileVisible}
+          scrollEnabled={props.profileVisible}
           onMomentumScrollEnd={this.onScrollEnd}
         >
           {pages}
         </ScrollView>
 
-        <View pointerEvents={'box-none'} style={[styles['pagination_' + this.state.dir], this.props.paginationStyle,{backgroundColor:colors.spacegray20}]}>
-          {(props.showsPagination && !this.props.inCard) || (props.inCard && props.profileVisible) ? React.Children.map(this.props.children, (c,i) => {
+        <View pointerEvents={'box-none'} style={[styles['pagination_' + this.state.dir], props.paginationStyle,{backgroundColor:colors.spacegray20}]}>
+          {(props.showsPagination && !props.inCard) || (props.inCard && props.profileVisible) ? React.Children.map(props.children, (c,i) => {
             return (<View
-                style={ [(this.props.grayDots ?  styles.grayDot : styles.dot15),
-                  (index == i ? this.props.grayDots ? styles.activeDot16 : styles.activeDot15 : null)]}
+                style={ [(props.grayDots ?  styles.grayDot : styles.dot15),
+                  (index == i ? props.grayDots ? styles.activeDot16 : styles.activeDot15 : null)]}
                     key={'swiperdot'+i}
                   />)
           }) : <View/>}

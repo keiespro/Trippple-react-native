@@ -13,6 +13,7 @@ import {
   Animated,
   Picker,
   Image,
+  DatePicker,
   Navigator,
 } from 'react-native';
 import React from "react";
@@ -83,6 +84,15 @@ class ProfileField extends React.Component{
               style={styles.phoneInput}
             />
           )
+        case 'birthday':
+          // always add an empty option at the beginning of the array
+
+          return  (<DatePicker
+              style={{alignSelf:'center',width:330,backgroundColor:'transparent',marginHorizontal:0,alignItems:'stretch'}}
+              itemStyle={{fontSize: 24, color: colors.white, textAlign: 'center'}}
+              label={'d'}
+              />);
+
         case 'dropdown':
           // always add an empty option at the beginning of the array
 
@@ -131,13 +141,13 @@ class ProfileField extends React.Component{
             //trigger modal
             this.props.navigator.push(this.props.navigation.router.getRoute('FieldModal',{
               key:`edit${fieldLabel}`,
-                inputField: displayField(field),
-                field,
-                fieldName:this.props.fieldName,
-                title:'PROFILE',
-                cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
-                fieldValue: this.props.user[this.props.fieldName] || (field.values && field.values.length > 0 && field.values[0]) || '',
-                dispatch:this.props.dispatch
+              inputField: displayField(field),
+              field,
+              fieldName:this.props.fieldName,
+              title:'PROFILE',
+              cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
+              fieldValue: this.props.user[this.props.fieldName] || (field.values && field.values.length > 0 && field.values[0]) || '',
+              dispatch:this.props.dispatch
             }))
           }} underlayColor={colors.dark} style={styles.paddedSpace}>
           <View  style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray,alignItems:'center',justifyContent:'space-between',flexDirection:'row',alignSelf:'stretch'}}>
@@ -197,43 +207,27 @@ class SettingsBasic extends React.Component{
       }} padded={false} renderTabBar={(props)=><CustomTabBar {...props}/>}>
       <ScrollView
           showsVerticalScrollIndicator={false}
-          style={{  height:DeviceHeight-60 }}  tabLabel={'GENERAL'}>
-          <View style={[{  }]}>
+                        style={{height:DeviceHeight-110}}
+            tabLabel={'GENERAL'}>
+          <View style={[{  paddingBottom:30}]}>
 
               <View style={styles.formHeader}>
                 <Text style={styles.formHeaderText}>Personal Info</Text>
               </View>
 
             {['firstname'].map((field,i) => {
-              return <ProfileField  navigation={this.props.navigation}  key={field+'key'+(i*10)} user={this.props.user} dispatch={this.props.dispatch} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
+              return <ProfileField  navigation={this.props.navigation} key={field+'key'+(i*10)} user={this.props.user} dispatch={this.props.dispatch} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
             })}
 
             {['birthday'].map((field,i) => {
               return (
-                <View key={field+'key'+i} style={styles.wrapperBirthdayGender}>
-                  <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ field.toUpperCase()}</Text>
-                  <Text style={{
-                    color:colors.shuttleGray,
-                    fontSize:18,
-                    fontFamily:'Montserrat',
-                    textAlign:'right',
-                    paddingRight:30
-                  }}>{
-                    field == 'birthday' ?
-                    this.props.user[field] ? moment(this.props.user[field]).format('MM/DD/YYYY') : '' : this.props.user.gender == 'f' ? 'FEMALE' : 'MALE'
-                  }</Text>
-                  <Image
-                    style={{width:15,height:15,position:'absolute',right:0,top:23}}
-                    source={{uri:'assets/icon-lock.png'}}
-                    resizeMode={Image.resizeMode.contain}
-                  />
-                </View>
+                <ProfileField dispatch={this.props.dispatch} key={field+'keybd'+(i*1000)} user={this.props.user} navigator={this.props.navigator} navigation={this.props.navigation} fieldName={'birthday'} field_type={'date'} field={settingOptions[field]} label={'bday'} />
               )
             })}
            {['gender'].map((field,i) => {
             return (
 
-              <ProfileField dispatch={this.props.dispatch}  key={field+'key'+(i*1000)}  user={this.props.user} navigator={this.props.navigator} navigation={this.props.navigation} fieldName={field} field={settingOptions[field]} />
+              <ProfileField dispatch={this.props.dispatch} key={field+'key'+(i*1000)} user={this.props.user} navigator={this.props.navigator} navigation={this.props.navigation} fieldName={field} field={settingOptions[field]} />
             )
           })}
               <View style={styles.formHeader}>
@@ -249,7 +243,7 @@ class SettingsBasic extends React.Component{
             })}
 
             {['email'].map((field,i) => {
-              return <ProfileField   navigation={this.props.navigation}  dispatch={this.props.dispatch}  key={field+'key'+(i*1000)}  user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
+              return <ProfileField   navigation={this.props.navigation}  dispatch={this.props.dispatch} key={field+'key'+(i*1000)} user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
             })}
 
             </View>

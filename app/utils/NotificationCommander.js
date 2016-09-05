@@ -13,9 +13,10 @@ import TimerMixin from 'react-timer-mixin'
 import colors from './colors'
 import reactMixin from 'react-mixin'
 import Analytics from './Analytics'
-
 import PushNotification from 'react-native-push-notification'
+import {NavigationStyles, withNavigation} from '@exponent/ex-navigation';
 
+@withNavigation
 class NotificationCommander extends Component{
   constructor(props){
     super()
@@ -51,7 +52,7 @@ class NotificationCommander extends Component{
         Analytics.event('Handle push notification',{action:JSON.stringify(notification)})
 
         console.log( 'NOTIFICATION:', notification );
-        notification.data && handleAction(notification.data)
+        notification.data && handleAction(notification)
       },
       // senderID: "YOUR GCM SENDER ID", // ANDROID ONLY: (optional) GCM Sender ID.
       popInitialNotification: true,
@@ -124,37 +125,37 @@ class NotificationCommander extends Component{
       console.log('WEBOSCKET system',payload);
       Analytics.event('Webocket notification',{action: payload.data.action, label: 'system'})
 
-      let tempData;
-      if(typeof payload == 'object'){
-        tempData = payload.data
-      }else{
-        tempData = JSON.parse(payload.data)
-      }
-
-      let data = tempData;
+      // let tempData;
+      // if(typeof payload == 'object'){
+      //   tempData = payload.data
+      // }else{
+      //   tempData = JSON.parse(payload.data)
+      // }
+      //
+      // let data = tempData;
       this.setState({processing:true});
 
-      this.handleAction(data)
+      this.handleAction({...payload, label: 'NewMatch'})
 
     })
 
     this.socket.on('chat', (payload) => {
       __DEV__ && console.log('chat weboscket',payload);
-      Analytics.event('Webocket notification',{action: 'New Message', label: 'chat'})
-
+      Analytics.event('Webocket notification',{action: 'New Message', label: 'NewMessage'})
+      __DEV__ && console.log('NewMessage payload',payload);
       this.setState({processing:true});
-      this.handleAction(payload.data)
+      this.handleAction({...payload, label: 'NewMessage'})
 
     })
 
   }
   openChat(match_id){
-    this.props.navigator.push(this.props.navigator.navigationContext.router.getRoute('Chat', {match_id}))
-
+    this.props.navigator.push(this.props.navigator.navigation.router.getRoute('Chat', {match_id}))
   }
-  handleAction(data){
-    console.log(data);
-    if(!data || !data.action){ return }
+  handleAction(notification){
+    const {data,action,label} = notification
+    console.log(notification);
+    if(!notification) return false;
     if(data.vibrate){
 
     }
@@ -162,19 +163,19 @@ class NotificationCommander extends Component{
 
       this.props.getPotentials()
 
-    }else if(data.action === 'retrieve' && data.match_id) {
+    }else if(data.action === 'retrieve' && data.match_id && label == 'NewMatch') {
 
-      this.props.receiveNewMatchNotification(data,true)
-      this.props.getMatches()
-      this.openChat()
-      this.props.updateBadgeNumber(-1)
+      this.props.receiveNewMatchNotification({...data,label})
+      // this.props.getMatches()
+      // this.openChat()
+      // this.props.updateBadgeNumber(-1)
 
-    }else if(data.action === 'chat' && data.match_id){
-      console.log('chat');
-      this.props.receiveNewMessageNotification(data,true)
-      this.props.getMessages(data.match_id)
-      this.openChat()
-      this.props.updateBadgeNumber(-1)
+    }else if(data.action === 'retrieve' && data.match_id && label == 'NewMessage'){
+      console.log('NewMessage');
+      this.props.receiveNewMessageNotification({...data,label})
+      // this.props.getMessages(data.match_id)
+      // this.openChat()
+      // this.props.updateBadgeNumber(-1)
     }else if(data.action === 'notify') {
       VibrationIOS.vibrate()
       Alert.alert(data.title, JSON.stringify(data.body));

@@ -1,4 +1,5 @@
-import { Alert, NativeModules, PushNotificationIOS } from 'react-native';
+import { Alert, NativeModules, PushNotificationIOS } from 'react-native'
+import api  from '../utils/api'
 
 const { OSPermissions, RNMessageComposer, RNMail } = NativeModules;
 
@@ -11,12 +12,14 @@ export const getLocation = () => dispatch => dispatch({ type: 'GET_LOCATION',
   payload: {
     promise: new Promise((resolve, reject) => {
       global.navigator.geolocation.getCurrentPosition((geo => {
+
         if(geo && geo.coords){
-          resolve(geo.coords)
+          api.updateUser(geo.coords).then(()=>{resolve(geo.coords)})
+
         }
       }), (err => {
         console.log(err,'LOCERRRRR');
-
+          reject(err)
       }), LOCATION_OPTIONS);
     }),
   },
@@ -27,7 +30,7 @@ export const checkLocation = () => dispatch => dispatch({ type: 'CHECK_LOCATION'
     OSPermissions.canUseLocation(OSLocation => {
       const perm = parseInt(OSLocation) > 2;
       if (perm) {
-        dispatch(getLocation());
+        resolve(dispatch(getLocation()));
       } else if (parseInt(OSLocation) === 0) {
         dispatch({ type: 'UNASKED_LOCATION' });
       } else {

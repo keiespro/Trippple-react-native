@@ -1,27 +1,24 @@
-import React from 'react';
-
-import FacebookImageSource from './components/screens/FacebookImageSource';
-import UserProfile from './components/UserProfile';
-import colors from './utils/colors';
-
+import { createRouter, NavigationProvider, StackNavigation } from '@exponent/ex-navigation'
+import React from 'react'
+import FBAlbumView from './components/FBAlbumView'
+import FBPhotoAlbums from './components/FBPhotoAlbums'
+import UserProfile from './components/UserProfile'
+import FieldModal from './components/modals/FieldModal'
+import OnboardModal from './components/modals/OnboardModal'
+import FacebookImageSource from './components/screens/FacebookImageSource'
+import GenericScreen from './components/screens/Generic'
+import WebViewScreen from './components/screens/WebViewScreen'
+import Chat from './components/screens/chat/chat'
+import Coupling from './components/screens/coupling'
+import Matches from './components/screens/matches/matches'
 import Potentials from './components/screens/potentials/potentials'
-import Settings from './components/screens/settings/settings'
 import SettingsBasic from './components/screens/settings/SettingsBasic'
-import SettingsPreferences from './components/screens/settings/SettingsPreferences'
-import SettingsSettings from './components/screens/settings/SettingsSettings'
 import SettingsCouple from './components/screens/settings/SettingsCouple'
 import SettingsDebug from './components/screens/settings/SettingsDebug'
-import Chat from './components/screens/chat/chat'
-import Matches from './components/screens/matches/matches'
-import WebViewScreen from './components/screens/WebViewScreen'
-import FieldModal from './components/modals/FieldModal'
-import FBPhotoAlbums from './components/FBPhotoAlbums'
-import FBAlbumView from './components/FBAlbumView'
-import GenericScreen from './components/screens/Generic'
-import Coupling from './components/screens/coupling'
-import OnboardModal from './components/modals/OnboardModal'
-
-import { createRouter, NavigationProvider, StackNavigation, } from '@exponent/ex-navigation'
+import SettingsPreferences from './components/screens/settings/SettingsPreferences'
+import SettingsSettings from './components/screens/settings/SettingsSettings'
+import Settings from './components/screens/settings/settings'
+import colors from './utils/colors'
 
 
 const Router = createRouter(() => ({
@@ -52,24 +49,23 @@ export default class AppNav extends React.Component {
   render() {
     return (
       <NavigationProvider style={{zIndex:0}} router={Router}>
-        <StackNavigation
-            defaultRouteConfig={{
-              navigationBar: {
-                visible: true,
-                borderBottomWidth: 0,
-                translucent:true,
-                tintColor:'#fff',
-                backgroundColor:colors.outerSpaceAnimate,
-                titleStyle:{
-                  color:'#fff',
-                  fontFamily:'Montserrat',
-                  borderBottomWidth: 0,
-                }
-
-              },
-            }}
-            initialRoute={Router.getRoute('Potentials',{show:true})}
-          />
+      <StackNavigation
+        defaultRouteConfig={{
+          navigationBar: {
+            visible: true,
+            borderBottomWidth: 0,
+            translucent:true,
+            tintColor:'#fff',
+            backgroundColor:colors.outerSpaceAnimate,
+            titleStyle:{
+              color:'#fff',
+              fontFamily:'Montserrat',
+              borderBottomWidth: 0,
+            }
+          },
+        }}
+        initialRoute={Router.getRoute('Potentials',{show:true})}
+      />
       </NavigationProvider>
     )
   }
