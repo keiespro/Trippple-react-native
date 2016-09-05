@@ -19,13 +19,26 @@ class NagManager extends React.Component{
 
   constructor(props){
     super()
-    this.state = {}
+    this.state = {
+      sawStarterPotentials: Settings._settings['HAS_SEEN_STARTER_DECK']
+
+
+    }
   }
 
   componentWillReceiveProps(nProps){
+    if(!this.state.sawStarterPotentials && !this.props.loggedIn && nProps.loggedIn && !nProps.nag.sawStarterPotentials){
+      this.props.dispatch({type: 'GET_STARTER_POTENTIALS', payload: {relationshipStatus: this.props.user.relationship_status || 'single' }})
+      this.setState({got_starter_pack:true})
+      Settings.set('HAS_SEEN_STARTER_DECK',true)
+    }
+
+
     if(this.props.loggedIn && nProps.loggedIn){
+
     // relationship_status modal
       if(!this.props.user.relationship_status && !nProps.user.relationship_status){
+
         nProps.dispatch(ActionMan.showInModal({
           component: OnboardModal,
           passProps:{

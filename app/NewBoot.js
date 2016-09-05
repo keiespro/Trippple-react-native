@@ -1,9 +1,8 @@
-import App from './components/app';
+import App from './components/app'
 import React, { Component } from 'react';
 import {Settings,View} from 'react-native'
 import {Provider} from 'react-redux';
 import configureStore from './store';
-import {persistStore} from 'redux-persist'
 import ActionMan from  './actions/';
 import loadSavedCredentials from './utils/Credentials'
 import TouchID from 'react-native-touch-id'

@@ -55,11 +55,11 @@ class App extends React.Component{
     if(!this.state.initialized && !this.props.loggedIn && nProps.loggedIn){
       this.performInitActions()
     }
-
-    if(!this.props.nag.sawStarterPotentials && this.state.initialized && !this.state.got_starter_pack && this.props.user.relationship_status){
-      this.props.dispatch({type: 'GET_STARTER_POTENTIALS', payload: {relationshipStatus: this.props.user.relationship_status }})
-      this.setState({got_starter_pack:true})
-    }
+    //
+    // if(!this.props.nag.sawStarterPotentials && this.state.initialized && !this.state.got_starter_pack && this.props.user.relationship_status){
+    //   this.props.dispatch({type: 'GET_STARTER_POTENTIALS', payload: {relationshipStatus: this.props.user.relationship_status }})
+    //   this.setState({got_starter_pack:true})
+    // }
 
   }
 
@@ -78,15 +78,12 @@ class App extends React.Component{
 
         <DeepLinkHandler />
 
-        {this.props.loggedIn ?
-          <AppNav/> : <Welcome dispatch={this.props.dispatch} key={'welcomescene'} />
-        }
+        {this.props.loggedIn ? <AppNav/> : <Welcome dispatch={this.props.dispatch}/> }
 
         <ModalDirector />
 
-        {this.props.loggedIn &&
-          <Notifications dispatch={this.props.dispatch} />
-        }
+        <Notifications dispatch={this.props.dispatch} />
+
       </View>
     )
   }

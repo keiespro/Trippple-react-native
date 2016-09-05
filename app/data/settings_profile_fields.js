@@ -7,7 +7,7 @@ export default {
     },
     "birthday": {
         "label": "Birthday",
-        "field_type": "birthday"
+        "field_type": "date"
     },
     "gender": {
         "label": "Gender",

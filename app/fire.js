@@ -17,10 +17,10 @@ const checkFireLoginState = (fbUser) => new Promise((reject,resolve) => {
         const credential = firebase.auth.FacebookAuthProvider.credential(fbUser.accessToken);
         firebase.auth()
           .signInWithCredential(credential)
-          .then(a => {resolve(s)})
+          .then(a => {resolve(a)})
           .catch((error) => {
           // Handle Errors here.
-console.log(error);
+            console.log(error);
             const errorCode = error.code;
             const errorMessage = error.message;
             const email = error.email;
@@ -40,8 +40,8 @@ console.log(error);
 
 function isUserEqual(facebookAuthResponse, firebaseUser) {
   if (firebaseUser) {
-    var providerData = firebaseUser.providerData;
-    for (var i = 0; i < providerData.length; i++) {
+    let providerData = firebaseUser.providerData;
+    for (let i = 0; i < providerData.length; i++) {
       if (providerData[i].providerId === firebase.auth.FacebookAuthProvider.PROVIDER_ID &&
           providerData[i].uid === facebookAuthResponse.userID) {
         // We don't need to re-auth the Firebase connection.

@@ -294,7 +294,7 @@ class FieldModal extends React.Component{
                 fontSize: 20,
                 fontFamily:'Omnes-Regular',
                 textAlign:'center',
-                marginBottom:40,
+                marginBottom:MagicNumbers.is5orless ? 20 : 40,
               }}>{field.long_label ? field.long_label : field.label}</Text>
             <View style={{ borderBottomWidth: 1, borderBottomColor: borderColor,width:MagicNumbers.screenWidth }}>
               {React.cloneElement(inputField,{
@@ -311,7 +311,7 @@ class FieldModal extends React.Component{
           </View>
           {field.sub_label ? <Text  style={{
               color: colors.rollingStone,
-              fontSize: 18,textAlign:'center',
+              fontSize: MagicNumbers.is5orless ? 14 : 18,textAlign:'center',
               fontFamily:'Omnes-Regular',
               marginTop:15,
             }}>{field.sub_label}</Text> : null}
@@ -377,9 +377,9 @@ class FieldModal extends React.Component{
               <View style={{ borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone }}>
                 {React.cloneElement(inputField,{
                 handleChange:(value) => {
-                  this.onChange(value)
+                  this.onChangeDate(value)
                 },
-                ref: (phoneField) => { this.phoneField = phoneField }
+                ref: (dateField) => { this.dateField = dateField }
               }
             )}
             </View>

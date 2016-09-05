@@ -223,6 +223,7 @@ class OnboardModal extends Component {
                   marginLeft: 20,
                   paddingLeft: 20,
                   height: 80,
+                  zIndex:999,
                   justifyContent: 'center',
                   backgroundColor: colors.transparent,
                   borderBottomWidth: 1,
@@ -259,10 +260,11 @@ class OnboardModal extends Component {
               bottom: 0
             }}>
             <View style={{
-              height: 80,
+              height: this.state.selected_ours && has_theirs ? 80 : 0,
               position: 'absolute',
-              top: -80,
+              top: this.state.selected_ours && has_theirs ? -80 : 0,
               left: 0,
+
               right: 0,
               width: DeviceWidth,
               overflow: 'hidden'
