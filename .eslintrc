@@ -28,7 +28,7 @@
         "max-len": ["error", {code: 200}],
         "react-native/no-unused-styles": 2,
         "react-native/split-platform-components": 2,
-        "react-native/no-inline-styles": 2,
+        "react-native/no-inline-styles": 0,
         "react-native/no-color-literals": 2,
         "react/jsx-closing-bracket-location": 1,
         "react/jsx-indent-props": [0,2],

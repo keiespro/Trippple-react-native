@@ -3,5 +3,7 @@ target "Trippple" do
   pod 'Mixpanel'
   pod 'NewRelicAgent'
   pod 'Fabric'
-  pod 'Crashlytics' => '3.8.0'
+  pod 'Crashlytics'
+  # pod 'Firebase/Core'
+  # pod 'Firebase/Messaging'
 end
