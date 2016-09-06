@@ -43,13 +43,21 @@ const ApiActionCreators = endpointMap.reduce((obj,endpoint) => {
     } : params.map(p => p),
     payload: {
       promise: new Promise((resolve, reject) => {
-        console.log();
+
+        let shouldFetchUserInfo;
         if(endpoint.call == 'onboard'){
           dispatch({type:'KILL_MODAL',payload:true})
+          shouldFetchUserInfo = true
+        }else if(['uploadFacebookPic'].indexOf(endpoint.call) > -1){
+          shouldFetchUserInfo = true
         }
 
         api[endpoint.call](...params).then(x => {
           console.log(x);
+
+          if(shouldFetchUserInfo){
+            dispatch({type:'GET_USER_INFO',payload:api.getUserInfo()})
+          }
           return resolve(x);
         }).catch(x => {
           console.log(x);

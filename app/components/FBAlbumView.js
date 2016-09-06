@@ -12,6 +12,7 @@ import {
   ListView,
   ScrollView,
   ActivityIndicator,
+  LayoutAnimation,
   TouchableHighlight,
   NativeModules
 } from "react-native";
@@ -42,28 +43,39 @@ class AlbumView extends React.Component {
       }
     }
   };
+  constructor(props){
+    super()
+    this.state = {
+      submitting: false,
+      selected: null
+    }
+  }
   componentDidMount() {
   }
   selectPhoto(photo) {
-    const routes = [
-      this.props.navigation.router.getRoute('Settings'),
-      this.props.navigation.router.getRoute('Potentials', {show: true})
-    ];
-
+    //     LayoutAnimation.configureNext()
+    // ,{opacity: submitting ? (id == selected ? 1 : 0)  : 1 }
+    //TODO: show user some feedback
+    this.setState({submitting:true,selected:photo.id})
     this.props.dispatch(ActionMan.uploadFacebookPic(photo.img))
-    this.props.navigator.immediatelyResetStack(routes)
+
+    setTimeout(()=>{
+      const routes = [
+        this.props.navigation.router.getRoute('Settings'),
+        this.props.navigation.router.getRoute('Potentials', {show: true})
+      ];
+      this.props.navigator.immediatelyResetStack(routes)
+    },2000)
 
   }
   renderSinglePhotos(img, id) {
     // var img = photo.images[0].source//photo.images && photo.images.length > 4 && photo.images[4].source || photo.images && photo.images[0] && photo.images[0].source || photo.source;
 
-
+    const {selected,submitting} = this.state;
     return (
-      <View key={id + ''} style={styles.photo_list_item}>
+      <View key={id + ''} style={[styles.photo_list_item,]}>
         <TouchableHighlight onPress={this.selectPhoto.bind(this, {img, id})}>
-          <Image style={styles.pic} source={{
-            uri: img
-          }}/>
+          <Image style={[styles.pic]} source={{ uri: img }}/>
         </TouchableHighlight>
       </View>
     );

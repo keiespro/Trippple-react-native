@@ -201,10 +201,6 @@ class SettingsBasic extends React.Component{
 
       <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight,overflow:'hidden',flex:1,paddingTop:60}}>
 
-      <ScrollableTabView startPage={this.props.startPage} onChangeTab={(tab)=>{
-
-      Analytics.screen(`SettingsBasic`+ [' GENERAL',' DETAILS'][tab.i]);
-      }} padded={false} renderTabBar={(props)=><CustomTabBar {...props}/>}>
       <ScrollView
           showsVerticalScrollIndicator={false}
                         style={{height:DeviceHeight-110}}
@@ -248,16 +244,11 @@ class SettingsBasic extends React.Component{
 
             </View>
             </View>
-            </ScrollView>
 
-              <ScrollView
-                showsVerticalScrollIndicator={false}
-                style={{height:DeviceHeight-110}}
-                tabLabel={'DETAILS'}>
              <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>Details</Text>
            </View>
-          <View style={{alignSelf:'stretch',alignItems:'stretch',flex:1,width:DeviceWidth,paddingBottom:30}}>
+          <View style={{alignSelf:'stretch',alignItems:'stretch',flex:1,width:DeviceWidth,paddingBottom:0}}>
           {['height','body_type','ethnicity','eye_color','hair_color','smoke','drink'].map((field,i) => {
             return (
               <View key={field+'key'+(i*10000)} style={{alignSelf:'stretch',alignItems:'stretch',width:DeviceWidth}}>
@@ -275,7 +266,6 @@ class SettingsBasic extends React.Component{
           </View>
           </ScrollView>
 
-        </ScrollableTabView>
 
       </View>
 

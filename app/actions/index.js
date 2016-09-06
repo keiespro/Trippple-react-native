@@ -25,12 +25,14 @@ ActionMan.showInModal = route => dispatch => dispatch({ type: 'SHOW_IN_MODAL', p
 ActionMan.killModal = (t) => dispatch => dispatch({ type: 'KILL_MODAL', payload: { t } });
 
 ActionMan.pushChat = match_id => dispatch => dispatch({ type: 'PUSH_CHAT', payload: { match_id } });
+
 ActionMan.popChat = match_id => dispatch => dispatch({ type: 'POP_CHAT'});
+
 // ActionMan.getPushToken = (p) => dispatch => dispatch({ type: 'GET_PUSH_TOKEN',
 //   payload: {
 //     promise: new Promise((resolve, reject) => {
 //
-//       resolve(getPushPermissions().then(PushNotificationIOS.requestPermissions))
+//       return getPushPermissions().then(PushNotificationIOS.requestPermissions))
 //
 //     })
 //   }
