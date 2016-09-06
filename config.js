@@ -16,13 +16,13 @@ const configurations = {
 
   production: {
     SERVER_URL: 'https://api2.trippple.co',
-    WEBSOCKET_URL: 'ws://api.trippple.co',
+    WEBSOCKET_URL: 'ws://ws.trippple.co',
     KEYCHAIN_NAMESPACE: 'http://api2.trippple.co'
   },
 
   staging: {
     SERVER_URL: 'https://staging-api2.trippple.co',
-    WEBSOCKET_URL: 'https://staging-api.trippple.co',
+    WEBSOCKET_URL: 'ws://staging-ws.trippple.co',
     KEYCHAIN_NAMESPACE: 'staging1.trippple.co'
   },
 

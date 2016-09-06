@@ -15,7 +15,7 @@ RCT_EXPORT_MODULE();
     CLAuthorizationStatus locationPerm = [CLLocationManager authorizationStatus];
     AVAuthorizationStatus cameraPerm = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo ];
     ABAuthorizationStatus contactsPerm = ABAddressBookGetAuthorizationStatus();
-  
+
     BOOL remoteNotificationsEnabled = [UIApplication sharedApplication].isRegisteredForRemoteNotifications;
 
     NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -44,7 +44,7 @@ RCT_EXPORT_METHOD(canUseNotifications:(RCTResponseSenderBlock)callback)
 RCT_EXPORT_METHOD(canUseLocation:(RCTResponseSenderBlock)callback)
 {
     CLAuthorizationStatus locationPerm = [CLLocationManager authorizationStatus];
-    callback(@[@(locationPerm).stringValue]);
+    callback(@[@(locationPerm)]);
 }
 
 RCT_EXPORT_METHOD(canUseCameraRoll:(RCTResponseSenderBlock)callback)

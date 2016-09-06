@@ -1,3 +1,3 @@
 dSYM archive upload attempt #1 (of 3)
-curl --write-out %{http_code} --silent --output /dev/null -F dsym=@"/tmp/Trippple.app.dSYM-1472323115.zip" -F buildId="b11be447ceb9399d874fd792784dd424,282a69173b9633fb83f3b5bad3716667" -F appName="Trippple" -H "X-APP-LICENSE-KEY: AAe71824253eeeff92e1794a97883d2e0c5928816f" "https://mobile-symbol-upload.newrelic.com/symbol"
+curl --write-out %{http_code} --silent --output /dev/null -F dsym=@"/tmp/Trippple.app.dSYM-1473153468.zip" -F buildId="ff01a7b6848331049c18249b01f38528" -F appName="Trippple" -H "X-APP-LICENSE-KEY: AAe71824253eeeff92e1794a97883d2e0c5928816f" "https://mobile-symbol-upload.newrelic.com/symbol"
 New Relic: Successfully uploaded debug symbols
