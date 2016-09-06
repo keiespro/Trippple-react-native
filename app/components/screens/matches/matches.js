@@ -128,7 +128,7 @@ class MatchList extends Component {
 
   _pressRow(rowData,title) {
     this.setTimeout(() => {
-    //   // MatchActions.resetUnreadCount.defer(match_id);
+
     //   // MatchActions.getMessages.defer(match_id);
     //   // TODO : REPLACE WITH NEW
       this.props.dispatch(ActionMan.getMessages({'match_id':rowData.match_id}))
@@ -324,22 +324,16 @@ class MatchesInside extends Component {
 
   constructor(props) {
     super(props);
-    this.ds = SwipeableListView.getNewDataSource();
+    this.ds = SwipeableListView.getNewDataSource(rowHasChanged);
     this.state = {
       matches: props.matches,
       isVisible: false,
       dataSource: this.ds.cloneWithRowsAndSections(props.matches.map(d => {
         return {
-          match: d
+          match: {...d, unread: props.unread[d.match_id]}
         }
       }))
     }
-  }
-
-  chatActionSheet(match) {
-    console.log(match,'chatActionSheet');
-
-
   }
 
   showProfile(match) {
@@ -378,7 +372,7 @@ class MatchesInside extends Component {
     if (data.length > 1) {
       const newState = {
         matches: data,
-        dataSource: this.ds.cloneWithRowsAndSections(data.map(d => { return { match: d } })),
+        dataSource: this.ds.cloneWithRowsAndSections(data.map(d => { return {...d, unread: props.unread[d.match_id]} })),
       };
       this.setState(newState)
     }
@@ -392,11 +386,11 @@ class MatchesInside extends Component {
            user={this.props.user}
            dataSource={this.state.dataSource}
            matches={this.state.matches || this.props.matches}
+          unread={this.props.unread}
            newMatches={this.props.newMatches}
            updateDataSource={this._updateDataSource.bind(this)}
            id={"matcheslist"}
-           chatActionSheet={this.chatActionSheet.bind(this)}
-           navigator={this.props.navigator}
+            navigator={this.props.navigator}
            route={{ component: Matches, title: 'Matches', id: 'matcheslist', }}
            title={"matchlist"}
         />
@@ -478,12 +472,13 @@ class Matches extends Component {
 
 
 const mapStateToProps = (state, ownProps) => {
-  
+
   return {
     ...ownProps,
     matches: state.matchesList.matches,
     user: state.user,
-    newMatches: state.matchesList.newMatches
+    newMatches: state.matchesList.newMatches,
+    unread: state.unread
   }
 }
 

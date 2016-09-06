@@ -42,7 +42,7 @@ const parameters = { fields: { string: FACEBOOK_PROFILE_FIELDS.join(',') } }
 /* loginWithFacebook | LOGIN_WITH_FACEBOOK */
 export const loginWithFacebook = () => async dispatch => {
 
-  LoginManager.setLoginBehavior('system_account')
+  // LoginManager.setLoginBehavior('system_account')
   try{
     const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
     const fbUser = await AccessToken.getCurrentAccessToken()

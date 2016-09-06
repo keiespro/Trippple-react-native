@@ -1,4 +1,4 @@
-import { StatusBar, View, Dimensions } from 'react-native';
+import { StatusBar, View, Dimensions,Modal } from 'react-native';
 import React from "react";
 import AppNav from '../AppNav';
 import ModalDirector from './modals/ModalDirector';
@@ -8,7 +8,9 @@ import ConnectionInfo from '../utils/ConnectionInfo'
 import Notifications from '../utils/Notifications';
 import LoadingOverlay from './LoadingOverlay'
 import colors from '../utils/colors'
-import ActionMan from  '../actions/';
+import ActionMan from '../actions/';
+import ChatOverlay from '../ChatOverlay';
+
 import NagManager from '../NagManager'
 import DeepLinkHandler from '../utils/DeepLinkHandler'
 import { connect } from 'react-redux';
@@ -84,6 +86,7 @@ class App extends React.Component{
 
         <Notifications dispatch={this.props.dispatch} />
 
+        {this.props.ui.chat && <ChatOverlay dispatch={this.props.dispatch} navigationState={{routes:[{route:{}}],index:0}} scene={{index:1}} layout={{width:DeviceWidth,height:DeviceHeight}} matchInfo={this.props.ui.matchInfo} match_id={this.props.ui.chat.match_id} />}
       </View>
     )
   }
@@ -100,6 +103,7 @@ const mapStateToProps = (state, ownProps) => {
     user: state.user,
     fbUser: state.fbUser,
     auth: state.auth,
+    ui: {...state.ui, matchInfo: state.matches[state.ui.chat ? state.ui.chat.match_id : null]},
     loggedIn: state.auth.api_key && state.auth.user_id,
     push_token: state.device.push_token
   }

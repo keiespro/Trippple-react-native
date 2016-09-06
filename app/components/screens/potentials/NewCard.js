@@ -73,14 +73,15 @@ class NewCard extends React.Component {
           dispatch={this.props.dispatch}
           windowHeight={10}
           isTopCard={isTopCard}
+
           pan={this.props.pan}
           swiper={(
             <Swiper
-              width={cardWidth}
+              width={profileVisible ? DeviceWidth: cardWidth }
               pan={this.props.pan}
               isTopCard={isTopCard}
               profileVisible={profileVisible}
-              height={DeviceHeight}
+              height={DeviceHeight }
               dispatch={this.props.dispatch}
               style={{flex:0,zIndex:0,backgroundColor:'transparent', }}>
              {slides}

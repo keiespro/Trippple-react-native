@@ -25,7 +25,7 @@ class Notification extends React.Component{
     this._panResponder = {}
   }
   componentWillMount(){
-    __DEV__ && VibrationIOS.vibrate()
+    __DEBUG__ && VibrationIOS.vibrate()
   }
 
   componentDidMount() {
@@ -56,10 +56,21 @@ class Notification extends React.Component{
         this.setState({inPlace:true})
 
       })
+    }else if(!nProps.visible && this.props.visible){
+      this.hideNoti()
     }
 
   }
+  hideNoti(){
 
+      Animated.timing(this.state.pan, {
+        toValue: -220,
+        easing: Easing.in(Easing.exp),
+        duration: 300,
+      }).start((fin)=>{
+
+      })
+  }
   initializePanResponder(){
     delete this._panResponder
 
@@ -138,7 +149,7 @@ class Notification extends React.Component{
 
   }
   tapped(){
-    this.props.navigator.push(this.props.navigation.router.getRoute('Chat', {match_id: this.props.notification.match_id}))
+    this.props.dispatch(ActionMan.pushChat(this.props.notification.match_id))
   }
   killNotification(){
 
@@ -174,7 +185,7 @@ class Notification extends React.Component{
       myPartnerId = user.partner_id || null;
       theirIds = Object.keys(users).filter( (u)=> u != user.id && u != user.partner_id);
       them = theirIds.map((id)=> users[id]);
-      threadName = them.map( (u,i) => u.firstname.trim() ).join(' & ');
+      threadName = them.map( (u,i) => u.firstname ).join(' & ');
       matchName = threadName + (theirIds.length > 1 ? ' like ' : ' likes ');
     }
     // if(!matchName || this.state.tapped){
@@ -190,21 +201,21 @@ class Notification extends React.Component{
       <Animated.View
       { ...this._panResponder.panHandlers}
       style={[styles.notificationWrapper,
-      {
-        height: this.state.inPlace ? this.state.pan.y.interpolate({
-        inputRange: [0, DeviceHeight/2, DeviceHeight],
-        outputRange: [NOTI_HEIGHT, DeviceHeight/4, DeviceHeight/4],
-        extrapolate: 'clamp'
-        }) : NOTI_HEIGHT,
-      transform: [{
-        translateY: this.state.inPlace ? this.state.pan.y.interpolate({
-        inputRange: [-NOTI_HEIGHT, 0, DeviceHeight],
-        outputRange: [-NOTI_HEIGHT, 0, 10]
-        }) : this.state.yValue
-      }],
-      justifyContent:'flex-end'
+        {
+          height: this.state.inPlace ? this.state.pan.y.interpolate({
+            inputRange: [0, DeviceHeight/2, DeviceHeight],
+            outputRange: [NOTI_HEIGHT, DeviceHeight/4, DeviceHeight/4],
+            extrapolate: 'clamp'
+          }) : NOTI_HEIGHT,
+          transform: [{
+            translateY: this.state.inPlace ? this.state.pan.y.interpolate({
+              inputRange: [-NOTI_HEIGHT, 0, DeviceHeight],
+              outputRange: [-NOTI_HEIGHT, 0, 10]
+            }) : this.state.yValue
+          }],
+          justifyContent:'flex-end'
 
-      },
+        },
       styles[noti]
       ]}>
       <StatusBar animated={true} barStyle="light-content" hidden={true} />

@@ -24,7 +24,7 @@ export default class NoMessages extends React.Component{
 
   }
   hideKeyboard(k){
-    LayoutAnimation.easeInEaseOut()
+    // LayoutAnimation.easeInEaseOut()
     this.setState({isKeyboardOpened: false})
   }
   showKeyboard(k){
@@ -48,7 +48,7 @@ export default class NoMessages extends React.Component{
   render(){
     let isKeyboardOpened = this.props.isKeyboardOpened ||  this.state.isKeyboardOpened;
 
-    const matchInfo = this.props.currentMatch,
+    const matchInfo = this.props.currentMatch || this.props.matchInfo,
           theirIds = Object.keys(matchInfo.users).filter(u => u != this.props.user.id && u != this.props.user.partner_id),
           them = theirIds.map((id)=> matchInfo.users[id]),
           chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '')  },'')
