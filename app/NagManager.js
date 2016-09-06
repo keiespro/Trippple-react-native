@@ -30,7 +30,7 @@ class NagManager extends React.Component{
     if(!this.state.sawStarterPotentials && !this.props.loggedIn && nProps.loggedIn && !nProps.nag.sawStarterPotentials){
       this.props.dispatch({type: 'GET_STARTER_POTENTIALS', payload: {relationshipStatus: this.props.user.relationship_status || 'single' }})
       this.setState({got_starter_pack:true})
-      Settings.set('HAS_SEEN_STARTER_DECK',true)
+      // Settings.set('HAS_SEEN_STARTER_DECK','true')
     }
 
 

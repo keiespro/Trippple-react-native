@@ -126,7 +126,7 @@ class PhotoAlbums extends React.Component {
   }
   fetchAlbumPhotos(album) {
     var fbUser = this.props.fbUser;
-    console.log(album, fbUser);
+
     this.props.navigator.push(this.props.navigation.router.getRoute('FBAlbumView', {
       name: 'FB Photos View',
       key: 'fbalbumsz',

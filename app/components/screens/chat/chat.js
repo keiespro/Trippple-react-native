@@ -1,4 +1,3 @@
-'use strict';
 
 import { View, TextInput, Animated, Dimensions } from 'react-native';
 import React from 'react';
@@ -70,7 +69,7 @@ class Chat extends React.Component {
 
     return (
       <View>
-        <ChatInside 
+        <ChatInside
           {...this.props}
           key={ `chat-${this.props.user}-${this.props.match_id}` }
           toggleModal={  this.toggleModal }
@@ -87,7 +86,7 @@ const mapStateToProps = (state, ownProps) => {
     ...ownProps,
     user: state.user,
     messages: state.messages[ownProps.match_id],
-    currentMatch: ownProps.matchInfo
+    currentMatch: state.matches[ownProps.match_id]
   }
 }
 

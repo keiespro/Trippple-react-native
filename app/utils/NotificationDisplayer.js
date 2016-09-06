@@ -13,10 +13,22 @@ class NotificationDisplayer extends Component {
   constructor(props) {
     super()
     this.state = {
+      visible: true
     }
 
   }
-
+  componentWillReceiveProps(nProps){
+    if(nProps.notifications && nProps.notifications[0] && this.props.notifications && this.props.notifications[0] && nProps.notifications[0].uuid != this.props.notifications[0].uuid){
+      this.setNotificationGoAwayTimer()
+    }
+  }
+  setNotificationGoAwayTimer(){
+    this.setTimeout(()=> {
+      this.setState({
+        visible: false
+      })
+    },500)
+  }
   render() {
     const {notifications} = this.props;
     console.log(notifications,'---------------------------------------------------------------------------');
@@ -31,6 +43,7 @@ class NotificationDisplayer extends Component {
           <Notification
             user={this.props.user}
             key={'noti'}
+            visible={this.state.visible}
             notification={notifications[0]}
             dispatch={this.props.dispatch}
           />
@@ -53,7 +66,7 @@ class NotificationDisplayer extends Component {
 
   }
 }
-// reactMixin(NotificationDisplayer.prototype, TimerMixin)
+reactMixin(NotificationDisplayer.prototype, TimerMixin)
 
 
 const mapStateToProps = (state, ownProps) => {

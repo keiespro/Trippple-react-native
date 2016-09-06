@@ -48,7 +48,7 @@ class ChatInside extends Component{
 
   componentDidMount(){
     Keyboard.addListener('keyboardWillChangeFrame', this.onKeyboardChange.bind(this));
-
+    this.props.dispatch({type:'MARK_CHAT_READ', payload: {match_id: this.props.match_id}})
   }
   componentWillUnmount(){
     Keyboard.removeListener('keyboardWillChangeFrame', this.onKeyboardChange.bind(this));
@@ -60,12 +60,12 @@ class ChatInside extends Component{
       dataSource: this.ds.cloneWithRows(newProps.messages)
     })
   }
-onKeyboardChange(event){
-  const {duration, easing, endCoordinates,startCoordinates} = event;
-  this.setState({
-    isKeyboardOpened: startCoordinates.screenY == DeviceHeight
-  })
-}
+  onKeyboardChange(event){
+    const {duration, easing, endCoordinates,startCoordinates} = event;
+    this.setState({
+      isKeyboardOpened: startCoordinates.screenY == DeviceHeight
+    })
+  }
 
   _renderRow(rowData, sectionID: number, rowID: number) {
     return (
@@ -137,7 +137,7 @@ onKeyboardChange(event){
 
 
   render(){
-    const matchInfo = this.props.currentMatch;
+     const matchInfo = this.props.currentMatch || this.props.matchInfo;
     if(!matchInfo){
       console.log('no matchInfo');
       return <View/>
@@ -187,26 +187,6 @@ onKeyboardChange(event){
           isKeyboardOpened={this.state.isKeyboardOpened}
         />}
 
-{/*
-        <FakeNavBar
-          navigator={this.props.navigator}
-          route={this.props.route}
-          customNext={<ThreeDots/>}
-          onNext={this.chatActionSheet.bind(this)}
-          backgroundStyle={{backgroundColor:colors.shuttleGray}}
-          onPrev={(n,p)=>{
-            MatchActions.getMatches();
-            n.pop()
-          }}
-          blur={false}
-          title={chatTitle}
-          titleColor={colors.white}
-          customPrev={
-            <View style={{flexDirection: 'row',opacity:0.5,alignItems:'center',justifyContent:'center',bottom:3,}}>
-              <Text textAlign={'left'} style={[styles.bottomTextIcon,{color:colors.white,backgroundColor:'transparent'}]}>◀︎</Text>
-            </View>
-          }
-        /> */}
       </KeyboardAvoidingView></View>
     )
   }
