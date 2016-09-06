@@ -6,8 +6,8 @@ import { View, Alert, AsyncStorage, AppState, PushNotificationIOS, VibrationIOS 
 import { connect } from 'react-redux'
 import TimerMixin  from 'react-timer-mixin'
 import Notification  from './NotificationTop'
+import _ from 'lodash'
 
-// import Promise from'
 
 class NotificationDisplayer extends Component {
   constructor(props) {
@@ -19,6 +19,9 @@ class NotificationDisplayer extends Component {
   }
   componentWillReceiveProps(nProps){
     if(nProps.notifications && nProps.notifications[0] && this.props.notifications && this.props.notifications[0] && nProps.notifications[0].uuid != this.props.notifications[0].uuid){
+        this.setState({
+          visible: true
+        })
       this.setNotificationGoAwayTimer()
     }
   }
@@ -33,16 +36,15 @@ class NotificationDisplayer extends Component {
     const {notifications} = this.props;
     console.log(notifications,'---------------------------------------------------------------------------');
     if (!notifications) return <View/>
-    // AppState.currentRoute && AppState.currentRoute.title && AppState.currentRoute.title.toUpperCase() &&
-    var check =  this.props.notifications[0] || null;
-    // var isCurrentMatch = check && (AppState.currentRoute.title == 'CHAT' && AppState.currentRoute.match_id && AppState.currentRoute.match_id == notifications[0].match_id);
-//!isCurrentMatch &&
+     var check =  this.props.notifications[0] || null;
+
     return (
       <View>
         {notifications[0] &&
           <Notification
+            setNotificationGoAwayTimer={this.setNotificationGoAwayTimer.bind(this)}
             user={this.props.user}
-            key={'noti'}
+            key={`noti${notifications[0].uuid}`}
             visible={this.state.visible}
             notification={notifications[0]}
             dispatch={this.props.dispatch}
@@ -71,7 +73,9 @@ reactMixin(NotificationDisplayer.prototype, TimerMixin)
 
 const mapStateToProps = (state, ownProps) => {
   // console.log('state',state,'ownProps',ownProps); // state
-  return { notifications: state.notifications, user: state.user}
+
+  console.log(state.notifications);
+  return { ...ownProps, notifications: _.filter(state.notifications,(n) => { return n && !n.viewedAt}), user: state.user}
 }
 
 const mapDispatchToProps = (dispatch) => {

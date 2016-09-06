@@ -93,10 +93,12 @@ _render(){
  style={{
 zIndex:9999,backgroundColor:'white',width:DeviceWidth,height:DeviceHeight,position:'absolute',transform: [
       {
-        translateX: this.state.slide.interpolate({
-          inputRange: [0,1],
-          outputRange: [0,1]
-        })
+        // translateX: this.state.slide.interpolate({
+        //   inputRange: [0,1],
+        //   outputRange: [0,1]
+        // })
+          translate: [this.state.pan.x,this.state.pan.y]
+
       },
     ]
 }}>{this._render()}

@@ -140,9 +140,8 @@ class Settings extends React.Component{
   render(){
     const wh = DeviceHeight/2;
     return (
-      <View style={{backgroundColor:colors.outerSpace,paddingTop:0,flex:1}} pointerActions={'box-none'}>
-
-             <ParallaxView
+          <View style={{backgroundColor:colors.outerSpace,paddingTop:0,flex:1}} pointerActions={'box-none'}>
+              <ParallaxView
                 showsVerticalScrollIndicator={false}
                 key={this.props.user.id}
                 windowHeight={wh}
@@ -153,11 +152,14 @@ class Settings extends React.Component{
                 style={{backgroundColor:colors.outerSpace, zIndex:100,flex:1,paddingTop:0,height:DeviceHeight}}
                 header={(
                 <View
-                    style={[ styles.userimageContainer,styles.blur, {
+                    style={[ styles.userimageContainer, {
                       justifyContent:'center',
                       height:wh,
                       zIndex:100,
-                      flexDirection:'column'
+                      flexDirection:'column',
+                      alignSelf:'center',
+                      alignItems:'center',
+                      width: DeviceWidth/2
                     }]}
                 >
                 <TouchableOpacity

@@ -28,7 +28,7 @@ import {MagicNumbers} from '../../utils/DeviceConfig';
 var PickerItem = Picker.Item;
 import PurpleModal from './PurpleModal';
 
-const our_choices = ['Single F', 'Single M', 'MM', 'MF', 'FF'];
+const our_choices = ['Single Female', 'Single Male', 'Couple (Male/Male)', 'Couple (Female/Female)', 'Couple (Male/Female)'];
 const them_choices = {
   couple: [
     'F', 'M'
@@ -208,7 +208,7 @@ class OnboardModal extends Component {
                       fontSize: 20,
                       color: this.state.step == 1 ? colors.white : colors.rollingStone,
                       textAlign: 'left'
-                    }}>I'M A...</Text>
+                    }}>{this.state.selected_ours ? `I'M A...` : `WE'RE A...`}</Text>
                     {this.state.selected_ours && <Text style={{
                       fontFamily: 'Montserrat',
                       fontSize: 20,

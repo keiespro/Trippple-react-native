@@ -38,13 +38,16 @@ class Notification extends React.Component{
     }).start((fin)=>{
       this.initializePanResponder();
       this.setState({inPlace:true})
-
+      this.props.setNotificationGoAwayTimer()
     })
 
   }
   componentWillReceiveProps(nProps){
+    if(!nProps.notification.visible && this.props.notification.visible){
 
-    if(nProps.notification.uuid != this.props.notification.uuid){
+      this.killNotification()
+
+    }else if(nProps.notification != this.props.notification){
       this.state.pan.setValue({x: 0, y: -NOTI_HEIGHT});
 
       Animated.timing(this.state.pan, {
@@ -52,72 +55,34 @@ class Notification extends React.Component{
         easing: Easing.in(Easing.exp),
         duration: 300,
       }).start((fin)=>{
-        this.initializePanResponder();
-        this.setState({inPlace:true})
+        // this.initializePanResponder();
+        // this.setState({inPlace:true})
 
       })
-    }else if(!nProps.visible && this.props.visible){
-      this.hideNoti()
-    }
 
+    }
   }
   hideNoti(){
 
-      Animated.timing(this.state.pan, {
-        toValue: -220,
-        easing: Easing.in(Easing.exp),
-        duration: 300,
-      }).start((fin)=>{
+    Animated.timing(this.state.pan, {
+      toValue: -220,
+      easing: Easing.in(Easing.exp),
+      duration: 300,
+    }).start((fin)=>{
 
-      })
+    })
   }
   initializePanResponder(){
     delete this._panResponder
 
     this._panResponder = PanResponder.create({
-      //
-      // onMoveShouldSetPanResponderCapture: (e,gestureState) => {
-      //     // console.log('onMoveShouldSetPanResponderCapture',gestureState)
-      //   return true;
-      // },
       onMoveShouldSetPanResponder: (e,gestureState) => {
-          // console.log('onMoveShouldSetPanResponder',gestureState)
-        return true//isVertical(gestureState))
-          // return !this.props.profileVisible && notInCone(gestureState)
-      },
-      // onStartShouldSetPanResponder: (e,gestureState) => {
-      //     // console.log('onStartShouldSetPanResponder',gestureState)
-      //   return   true //isVertical(gestureState))
-      // },
-      // onStartShouldSetPanResponderCapture: (e,gestureState) => {
-      //     // console.log('onStartShouldSetPanResponderCapture',gestureState)
-      //   return  true;//!this.props.profileVisible && (isCouple ? true : isVertical(gestureState))
-      // },
-      onPanResponderReject: (e, gestureState) => {
-          // console.log('onPanResponderReject',gestureState)
+        return true
       },
       onPanResponderMove: Animated.event([null, {
         dy: this.state.pan.y,
         dx: this.state.pan.x
       }]),
-      onPanResponderTerminate: (e, gestureState) => {
-          // console.log('onPanResponderTerminate',gestureState)
-      },
-      onPanResponderTerminationRequest: (e, gestureState) => {
-          // console.log('onPanResponderTerminationRequest',gestureState)
-      },
-      onPanResponderReject: (e, gestureState) => {
-          // console.log('onPanResponderReject',gestureState)
-      },
-      onPanResponderGrant: (e, gestureState) => {
-          // console.log('onPanResponderGrant',gestureState)
-      },
-      onPanResponderStart: (e, gestureState) => {
-          // console.log('onPanResponderStart',gestureState)
-      },
-      onPanResponderEnd: (e, gestureState) => {
-          // console.log('onPanResponderEnd',gestureState)
-      },
       onPanResponderRelease: (e, gestureState) => {
         const {dx,dy,vx,vy} = gestureState;
 
@@ -129,7 +94,7 @@ class Notification extends React.Component{
         })
         .start(fin =>{
           if(toValue != 0){
-            this.props.dispatch({type:'DISMISS_NOTIFICATION',payload:{}})
+            this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
           }
         })
       }
@@ -141,7 +106,7 @@ class Notification extends React.Component{
       toValue: -220,
       duration: 100,
     }).start(()=>{
-       // this.setState({tapped:true})
+
       this.tapped()
     })
 
@@ -150,6 +115,8 @@ class Notification extends React.Component{
   }
   tapped(){
     this.props.dispatch(ActionMan.pushChat(this.props.notification.match_id))
+    this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
+
   }
   killNotification(){
 
@@ -157,12 +124,13 @@ class Notification extends React.Component{
       toValue: -220,
       duration: 100,
     }).start(()=>{
-      this.props.dispatch({type:'DISMISS_NOTIFICATION',payload:{}})
+      // this.props.dispatch({type:'DISMISS_NOTIFICATION',payload:{}})
+      this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
     })
   }
 
   render(){
-    console.log(this.props);
+
 
     if(!this.props.notification) {
 
@@ -238,7 +206,7 @@ class Notification extends React.Component{
                   }</Text>
                   <View style={{flexWrap:'wrap'}}>
                   <Text style={styles.notiText} ellipsizeMode={'tail'} numberOfLines={2}>{ notification.message_body}</Text>
-</View>
+                  </View>
                 </View>
               </View>
 
