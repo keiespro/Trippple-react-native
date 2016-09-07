@@ -12,7 +12,7 @@ import {MagicNumbers} from '../../../utils/DeviceConfig'
 import {
   NavigationStyles,
 } from '@exponent/ex-navigation';
-
+import ActionMan from '../../../actions'
 import {
   StyleSheet,
   Text,

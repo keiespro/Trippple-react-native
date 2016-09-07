@@ -5,8 +5,8 @@ import Card from './Card';
 import styles from './styles';
 import ActionMan from '../../../actions/';
 
-const THROW_THRESHOLD_DENY = -50;
-const THROW_THRESHOLD_APPROVE = 50;
+const THROW_THRESHOLD_DENY = -150;
+const THROW_THRESHOLD_APPROVE = 150;
 const SWIPE_THRESHOLD_APPROVE = 200;
 const SWIPE_THRESHOLD_DENY = -200;
 const THROW_SPEED_THRESHOLD = 0.07;
@@ -147,9 +147,10 @@ class CardStack extends React.Component {
           const relstatus = this.props.rel === 'single' ? 'couple' : 'single';
           const otherParams = { relevantUser: this.props.potentials[0] };
           if(!this.props.potentials[0].starter){
-            this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, relstatus, this.props.rel, otherParams));
+            // this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, relstatus, this.props.rel, otherParams));
           }else{
             this.props.dispatch({type:'SEND_LIKE_FULFILLED', payload: {relevantUser: this.props.potentials[0], like_status: likeStatus }});
+
           }
 
           Animated.timing(this.state.pan, {
@@ -157,7 +158,12 @@ class CardStack extends React.Component {
             velocity: { x: 0, y: 0 },
             duration: 700,
             easing: Easing.out(Easing.exp),
-          }).start();
+          }).start(()=>{
+            if(!this.props.potentials[0].starter){
+                this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, relstatus, this.props.rel, otherParams));
+            }
+
+          });
         } else {
           Animated.spring(this.state.pan, {
             toValue,

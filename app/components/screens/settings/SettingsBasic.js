@@ -205,7 +205,7 @@ class SettingsBasic extends React.Component{
           showsVerticalScrollIndicator={false}
                         style={{height:DeviceHeight-110}}
             tabLabel={'GENERAL'}>
-          <View style={[{  paddingBottom:30}]}>
+          <View style={[{  paddingBottom:40}]}>
 
               <View style={styles.formHeader}>
                 <Text style={styles.formHeaderText}>Personal Info</Text>
@@ -243,7 +243,7 @@ class SettingsBasic extends React.Component{
             })}
 
             </View>
-            </View>
+
 
              <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>Details</Text>
@@ -264,6 +264,8 @@ class SettingsBasic extends React.Component{
             )
           })}
           </View>
+
+  </View>
           </ScrollView>
 
 

@@ -15,7 +15,6 @@ const NOTI_HEIGHT = 70;
 class Notification extends React.Component{
 
   constructor(props){
-    console.log(exnav);
     super()
     this.state = {
       yValue: new Animated.Value(-220),
@@ -43,24 +42,14 @@ class Notification extends React.Component{
 
   }
   componentWillReceiveProps(nProps){
-    if(!nProps.notification.visible && this.props.notification.visible){
+    if(!nProps.notification.visible && this.props.notification.visible || nProps.notification != this.props.notification){
 
       this.killNotification()
 
-    }else if(nProps.notification != this.props.notification){
-      this.state.pan.setValue({x: 0, y: -NOTI_HEIGHT});
-
-      Animated.timing(this.state.pan, {
-        toValue: 0,
-        easing: Easing.in(Easing.exp),
-        duration: 300,
-      }).start((fin)=>{
-        // this.initializePanResponder();
-        // this.setState({inPlace:true})
-
-      })
-
     }
+
+
+
   }
   hideNoti(){
 
@@ -104,7 +93,7 @@ class Notification extends React.Component{
 
     Animated.timing(this.state.yValue, {
       toValue: -220,
-      duration: 100,
+      duration: 300,
     }).start(()=>{
 
       this.tapped()
@@ -122,7 +111,7 @@ class Notification extends React.Component{
 
     Animated.timing(this.state.yValue, {
       toValue: -220,
-      duration: 100,
+      duration: 300,
     }).start(()=>{
       // this.props.dispatch({type:'DISMISS_NOTIFICATION',payload:{}})
       this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
@@ -131,11 +120,7 @@ class Notification extends React.Component{
 
   render(){
 
-
-    if(!this.props.notification) {
-
-      return false
-    }
+    if(!this.props.notification) return false
 
     const { notification, user } = this.props;
 
@@ -148,7 +133,6 @@ class Notification extends React.Component{
     console.log(noti,'noti');
     const users = notification.users || {}
     if(noti.indexOf('match') > -1){
-      // if(!notification.users && (notification.data && !notification.data.users)){ return false}
 
       myPartnerId = user.partner_id || null;
       theirIds = Object.keys(users).filter( (u)=> u != user.id && u != user.partner_id);
@@ -156,9 +140,6 @@ class Notification extends React.Component{
       threadName = them.map( (u,i) => u.firstname ).join(' & ');
       matchName = threadName + (theirIds.length > 1 ? ' like ' : ' likes ');
     }
-    // if(!matchName || this.state.tapped){
-    //   return false
-    // }
     let from_user_info
     let image_url
     if(noti.indexOf('message') > -1){
@@ -167,30 +148,29 @@ class Notification extends React.Component{
     }
     return (
       <Animated.View
-      { ...this._panResponder.panHandlers}
-      style={[styles.notificationWrapper,
-        {
-          height: this.state.inPlace ? this.state.pan.y.interpolate({
-            inputRange: [0, DeviceHeight/2, DeviceHeight],
-            outputRange: [NOTI_HEIGHT, DeviceHeight/4, DeviceHeight/4],
-            extrapolate: 'clamp'
-          }) : NOTI_HEIGHT,
-          transform: [{
-            translateY: this.state.inPlace ? this.state.pan.y.interpolate({
-              inputRange: [-NOTI_HEIGHT, 0, DeviceHeight],
-              outputRange: [-NOTI_HEIGHT, 0, 10]
-            }) : this.state.yValue
-          }],
-          justifyContent:'flex-end'
-
-        },
-      styles[noti]
-      ]}>
+        { ...this._panResponder.panHandlers}
+        style={[styles.notificationWrapper,
+          {
+            height: this.state.inPlace ? this.state.pan.y.interpolate({
+              inputRange: [0, DeviceHeight/2, DeviceHeight],
+              outputRange: [NOTI_HEIGHT, DeviceHeight/4, DeviceHeight/4],
+              extrapolate: 'clamp'
+            }) : NOTI_HEIGHT,
+            transform: [{
+              translateY: this.state.inPlace ? this.state.pan.y.interpolate({
+                inputRange: [-NOTI_HEIGHT, 0, DeviceHeight],
+                outputRange: [-NOTI_HEIGHT, 0, 10]
+              }) : this.state.yValue
+            }],
+            justifyContent:'flex-end'
+          },
+        styles[noti]
+        ]}>
       <StatusBar animated={true} barStyle="light-content" hidden={true} />
 
       {noti.indexOf('message') > -1 ?
-      <View style={[styles.notificationOverlay,styles.notificationNewMessage]}>
-      <TouchableOpacity onPress={this.tapNotification.bind(this)}>
+        <View style={[styles.notificationOverlay,styles.notificationNewMessage]}>
+          <TouchableOpacity onPress={this.tapNotification.bind(this)}>
               <View style={styles.notificationInside}>
                 <View style={styles.notificationLeft}>
                   <Image

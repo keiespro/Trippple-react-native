@@ -54,10 +54,10 @@ class ChatInside extends Component{
     Keyboard.removeListener('keyboardWillChangeFrame', this.onKeyboardChange.bind(this));
   }
   componentWillReceiveProps(newProps){
-    console.log(newProps);
+    console.log('newProps.messages',newProps.messages);
     if(!this.ds || !newProps.messages) {return }
     this.setState({
-      dataSource: this.ds.cloneWithRows(newProps.messages)
+      dataSource: this.ds.cloneWithRows(_.sortBy(newProps.messages, (msg) => msg.created_timestamp ))
     })
   }
   onKeyboardChange(event){
@@ -84,9 +84,6 @@ class ChatInside extends Component{
     const timestamp = moment().utc().unix();
     this.props.dispatch(ActionMan.createMessage(this.state.textInputValue, this.props.match_id, timestamp))
     // TODO : REPLACE WITH NEW
-    // this.props.dispatch(ActionMan.sendMessage(this.state.textInputValue, this.props.match_id, timestamp))
-
-    // MatchActions.sendMessageToServer.defer(this.state.textInputValue, this.props.match_id)
     this.setState({ textInputValue: '' })
     this.refs.scroller && this.refs.scroller.scrollTo({x:0,y:0})
 

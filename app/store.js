@@ -28,13 +28,13 @@ function configureStore(initialState = ({})) {
       compose(
         autoRehydrate(),
         applyMiddleware(...middlewares, logger),
-        global.reduxNativeDevTools ? global.reduxNativeDevTools(/*options*/) :  devTools({
+        global.reduxNativeDevTools ? global.reduxNativeDevTools(/*options*/) : window && devTools({
           realtime: true
         }),
       )
     );
     global.reduxNativeDevTools && global.reduxNativeDevTools.updateStore(store);
-    !global.reduxNativeDevTools && devTools.updateStore(store);
+    !global.reduxNativeDevTools && window && devTools.updateStore(store);
 
     persistStore(store, {storage: AsyncStorage,blacklist:['appNav','ui']}).purge(['appNav'])
 

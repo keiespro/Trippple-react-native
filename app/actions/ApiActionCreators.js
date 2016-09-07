@@ -48,7 +48,7 @@ const ApiActionCreators = endpointMap.reduce((obj,endpoint) => {
         if(endpoint.call == 'onboard'){
           dispatch({type:'KILL_MODAL',payload:true})
           shouldFetchUserInfo = true
-        }else if(['uploadFacebookPic'].indexOf(endpoint.call) > -1){
+        }else if(['uploadFacebookPic','decouple','verifyCouplePin'].indexOf(endpoint.call) > -1){
           shouldFetchUserInfo = true
         }
 

@@ -34,7 +34,6 @@ class NotificationDisplayer extends Component {
   }
   render() {
     const {notifications} = this.props;
-    console.log(notifications,'---------------------------------------------------------------------------');
     if (!notifications) return <View/>
      var check =  this.props.notifications[0] || null;
 
@@ -73,8 +72,6 @@ reactMixin(NotificationDisplayer.prototype, TimerMixin)
 
 const mapStateToProps = (state, ownProps) => {
   // console.log('state',state,'ownProps',ownProps); // state
-
-  console.log(state.notifications);
   return { ...ownProps, notifications: _.filter(state.notifications,(n) => { return n && !n.viewedAt}), user: state.user}
 }
 

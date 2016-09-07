@@ -83,7 +83,9 @@ class NewCard extends React.Component {
               profileVisible={profileVisible}
               height={DeviceHeight }
               dispatch={this.props.dispatch}
-              style={{flex:0,zIndex:0,backgroundColor:'transparent', }}>
+              style={{flex:0,zIndex:0,backgroundColor:'transparent', }}
+
+            scrollEnabled={isTopCard && profileVisible}>
              {slides}
            </Swiper>
           )}

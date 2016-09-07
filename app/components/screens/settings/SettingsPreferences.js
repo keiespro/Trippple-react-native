@@ -78,7 +78,7 @@ class MultiLineInput extends React.Component{
     )
   }
 }
-class  SettingsPreferences extends React.Component{
+class SettingsPreferences extends React.Component{
 
     static route = {
       styles: NavigationStyles.FloatHorizontal,
@@ -187,31 +187,31 @@ class  SettingsPreferences extends React.Component{
         {this.props.user.relationship_status == 'single' && <Selectable
           field={'looking_for_mf'}
           onPress={this.onPressSelectable.bind(this)}
-          label={'MALE + FEMALE COUPLES'}
+          label={'Couples (MALE/FEMALE)'}
           values={values}
         />}
         {this.props.user.relationship_status == 'single' && <Selectable
           field={'looking_for_mm'}
           onPress={this.onPressSelectable.bind(this)}
-          label={'MALE + MALE COUPLES'}
+          label={'Couples (MALE/MALE)'}
           values={values}
         />}
         {this.props.user.relationship_status == 'single' && <Selectable
           field={'looking_for_ff'}
           onPress={this.onPressSelectable.bind(this)}
-          label={'FEMALE + FEMALE COUPLES'}
+          label={'Couples (FEMALE/FEMALE)'}
           values={values}
         />}
         {this.props.user.relationship_status == 'couple' && <Selectable
           field={'looking_for_f'}
           onPress={this.onPressSelectable.bind(this)}
-          label={'FEMALE SINGLES'}
+          label={'SINGLE FEMALES'}
           values={values}
         />}
       {this.props.user.relationship_status == 'couple' &&  <Selectable
           field={'looking_for_m'}
           onPress={this.onPressSelectable.bind(this)}
-          label={'MALE SINGLES'}
+          label={'SINGLE MALES'}
           values={values}
         />
       }
