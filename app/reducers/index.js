@@ -1,4 +1,4 @@
-import { NavigationReducer as exnavigation } from '@exponent/ex-navigation'
+import { NavigationReducer  } from '@exponent/ex-navigation'
 import { combineReducers } from 'redux'
 import LikeReducer  from './LikeReducer'
 import appNavReducer  from './appNavReducer'
@@ -34,7 +34,7 @@ const applicationReducers = {
   nag:            nagReducer,
   notifications:  notificationsReducer,
   likes:          LikeReducer,
-  exnavigation:   exnavigation
+  exnavigation:     NavigationReducer
 };
 
 export default function createReducer() {

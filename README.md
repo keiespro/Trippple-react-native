@@ -15,6 +15,7 @@ npm install
 Install Cocoapods
 
 ```
+ruby -v #should be > 2.3
 cd ios
 pod install
 ```
@@ -61,6 +62,11 @@ brew update && brew cask install react-native-debugger
 cd ios
 fastlane beta
 ```
+
+## FB SDK
+Download the facebook ios sdk and unzip it into ~/Documents/FacebookSDK/  !important;
+https://developers.facebook.com/docs/ios/getting-started/
+
 
 
 ## Atom/Nuclide

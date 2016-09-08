@@ -4,7 +4,7 @@ import api from '../utils/api'
 import * as firebase from 'firebase';
 import checkFireLoginState from '../fire'
 
-// LoginManager.setLoginBehavior('system_account')
+LoginManager.setLoginBehavior('system_account')
 const FACEBOOK_PERMISSIONS = [
   'email',
   'public_profile',
@@ -42,21 +42,18 @@ const parameters = { fields: { string: FACEBOOK_PROFILE_FIELDS.join(',') } }
 /* loginWithFacebook | LOGIN_WITH_FACEBOOK */
 export const loginWithFacebook = () => async dispatch => {
 
-  // LoginManager.setLoginBehavior('system_account')
-  try{
+  // LoginManager.setLoginBehavior('native')
     const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
-    const fbUser = await AccessToken.getCurrentAccessToken()
-    const fbData = {...fb, ...fbUser}
+    const fbAuth = await AccessToken.getCurrentAccessToken()
+    const fbData = {...fb, ...fbAuth}
+    console.log(fbData);
+    dispatch({ type: 'LOGIN_WITH_FACEBOOK', payload:  api.fbLogin( fbData) })
     dispatch({ type: 'FACEBOOK_AUTH', payload: fbData})
-    dispatch({ type: 'LOGIN_WITH_FACEBOOK', payload: api.fbLogin(fbData) })
+  try{
 
-    try{
-      const fireUser = await checkFireLoginState(fbData)
-      dispatch({ type: 'FIREBASE_AUTH', payload: fireUser })
-    }catch(err){
-      __DEV__ && console.log(err,'firebase fail');
-    }
-  }catch(err){
+      const fireUser = await checkFireLoginState(await fbData)
+      dispatch({ type: 'FIREBASE_AUTH', payload: await fireUser })
+     }catch(err){
     __DEV__ && console.log('fb login failed',err)
     LoginManager.logOut()
 

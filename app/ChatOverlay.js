@@ -2,7 +2,7 @@ import { StatusBar, View, Dimensions, Modal,Animated,  NavigationExperimental, }
 import React from "react";
 
 import ActionMan from './actions/';
-import AppNavigation from './components/AppNavigation'
+// import AppNavigation from './components/AppNavigation'
 import Chat from './components/screens/chat/chat';
 import XButton from './components/buttons/XButton'
 import { connect } from 'react-redux';

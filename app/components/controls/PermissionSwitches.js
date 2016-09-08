@@ -18,7 +18,7 @@ const {OSPermissions} = NativeModules
 class PermissionSwitches extends React.Component{
   constructor(props){
     super()
-
+    console.log(OSPermissions.OSLocation, OSPermissions.OSNotifications);
     this.state = {
       LocationSetting: parseInt(OSPermissions.location) > 2,
       NotificationSetting: parseInt(OSPermissions.notifications) > 0

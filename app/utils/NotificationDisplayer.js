@@ -18,19 +18,15 @@ class NotificationDisplayer extends Component {
 
   }
   componentWillReceiveProps(nProps){
-    if(nProps.notifications && nProps.notifications[0] && this.props.notifications && this.props.notifications[0] && nProps.notifications[0].uuid != this.props.notifications[0].uuid){
-        this.setState({
-          visible: true
-        })
-      this.setNotificationGoAwayTimer()
-    }
+    // if(nProps.notifications && nProps.notifications[0] && this.props.notifications && this.props.notifications[0] && nProps.notifications[0].uuid != this.props.notifications[0].uuid){
+      this.setState({ visible: true })
+      this.setNotificationGoAwayTimer(1000)
+    // }
   }
-  setNotificationGoAwayTimer(){
+  setNotificationGoAwayTimer(ms=500){
     this.setTimeout(()=> {
-      this.setState({
-        visible: false
-      })
-    },500)
+      this.setState({ visible: false })
+    },ms)
   }
   render() {
     const {notifications} = this.props;

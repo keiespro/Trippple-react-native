@@ -1,40 +1,37 @@
 import App from './components/app'
 import React, { Component } from 'react';
 import {Settings,View} from 'react-native'
-import {Provider} from 'react-redux';
+import {Provider as ReduxProvider} from 'react-redux';
 import configureStore from './store';
 import ActionMan from  './actions/';
 import loadSavedCredentials from './utils/Credentials'
 import TouchID from 'react-native-touch-id'
 import LockFailed from './components/LockFailed'
+import Router from './Router'
+import {NavigationContext,NavigationProvider} from '@exponent/ex-navigation'
 
 const store = configureStore();
 
 
 class NewBoot extends Component{
-  constructor(props){
-    super()
-    const settings = Settings._settings || {}
-    this.state = {
-      booted: false,
-      isLocked: settings['LockedWithTouchID']
-    }
-  }
+
+  state = {
+    booted: false,
+    locked: Settings._settings['LockedWithTouchID']
+  };
+  
   componentWillMount(){
-    if(this.state.isLocked){
+    if(this.state.locked){
       this.checkTouchId()
     }
   }
 
-  componentDidMount(){
-    initialize()
-  }
   checkTouchId(){
     TouchID.authenticate('Access Trippple')
       .then(success => {
         this.setState({
           lockFailed: false,
-          isLocked: false
+          locked: false
         })
       })
       .catch(error => {
@@ -44,19 +41,34 @@ class NewBoot extends Component{
         })
       });
   }
+  componentDidMount(){
+    initialize()
+  }    
 
   render() {
-    return (
-      this.state.lockFailed ? <LockFailed retry={this.checkTouchId.bind(this)}/> : (
-        this.state.isLocked ? <View/> : <Provider store={store}>
-          <App/>
-        </Provider>
-      )
-    );
+    if(this.state.lockFailed){ return <LockFailed retry={this.checkTouchId.bind(this)}/> }
+
+    return this.state.locked ? <View/> : <AppContainer />
   }
 }
 
 export default NewBoot
+
+
+class AppContainer extends React.Component {
+  render() {
+    const context = new NavigationContext({ store, router: Router })
+    
+    return (
+      <ReduxProvider store={store}>
+        <NavigationProvider router={Router} >
+          <App {...this.props} context={context}  />
+        </NavigationProvider>
+      </ReduxProvider>
+    );
+  }
+}
+
 
 function initialize(){
   const s = store.getState();
@@ -65,7 +77,7 @@ function initialize(){
     const a = s.auth
     const f = s.fbUser
 
-    if(!creds){
+    if(!global.creds){
       if(a.api_key){
 
 
@@ -74,8 +86,10 @@ function initialize(){
         return a
       }else if(f.userID){
         store.dispatch(ActionMan.loginWithFacebook())
-        return
+        reject()
       }else{
+        store.dispatch(ActionMan.loginWithFacebook())
+        
         return false
       }
     }else{

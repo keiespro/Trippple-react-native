@@ -11,7 +11,7 @@ import React, {Component} from "react";
 import moment from 'moment';
 
 import styles from './chatStyles'
-
+import _ from 'lodash'
 import dismissKeyboard from 'dismissKeyboard'
 import NoMessages from './NoMessages'
 import ActionModal from '../../modals/ActionModal';
@@ -57,7 +57,7 @@ class ChatInside extends Component{
     console.log('newProps.messages',newProps.messages);
     if(!this.ds || !newProps.messages) {return }
     this.setState({
-      dataSource: this.ds.cloneWithRows(_.sortBy(newProps.messages, (msg) => msg.created_timestamp ))
+      dataSource: this.ds.cloneWithRows(_.sortBy(newProps.messages, (msg) => msg.created_timestamp ).reverse())
     })
   }
   onKeyboardChange(event){
@@ -154,7 +154,7 @@ class ChatInside extends Component{
             renderRow={this._renderRow.bind(this)}
             onEndReached={this.onEndReached.bind(this)}
             messages={this.props.messages || []}
-            style={[styles.listview,{ backgroundColor:colors.outerSpace,marginBottom:0}]}
+            style={[styles.listview,{ backgroundColor:colors.outerSpace,marginBottom:0,marginTop:3}]}
             renderScrollComponent={props => (
               <InvertibleScrollView
                 inverted={true}

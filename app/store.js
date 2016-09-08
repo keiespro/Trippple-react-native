@@ -9,34 +9,35 @@ import {REHYDRATE} from 'redux-persist/constants'
 import promiseMiddleware from 'redux-promise-middleware';
 import createLogger from 'redux-logger';
 import {persistStore, autoRehydrate} from 'redux-persist'
-import throttleActions from 'redux-throttle-actions'
+import {
+  createNavigationEnabledStore,
+} from '@exponent/ex-navigation'
+
 
 const logger = createLogger({
   diff: true,
   level: 'log',
   collapsed: (s,action) => (!global.__DEBUG__ || action.type.indexOf('PENDING') > -1)
 });
-const throttle = throttleActions(['GET_POTENTIALS','UPDATE'], 5000)
-const middlewares = [thunk, promiseMiddleware(), createActionBuffer(REHYDRATE), throttle ]
+
+const middlewares = [thunk, promiseMiddleware(), createActionBuffer(REHYDRATE), ]
 
 function configureStore(initialState = ({})) {
   if (__DEV__) {
 
-    const store = createStore(
+
+    const store = createNavigationEnabledStore(createStore,'exnavigation')(
       createReducer(),
       initialState,
       compose(
         autoRehydrate(),
-        applyMiddleware(...middlewares, logger),
-        global.reduxNativeDevTools ? global.reduxNativeDevTools(/*options*/) : window && devTools({
-          realtime: true
-        }),
+        applyMiddleware(...middlewares, logger, ),
+        global.reduxNativeDevTools ? global.reduxNativeDevTools(/*options*/) : devTools()
       )
     );
     global.reduxNativeDevTools && global.reduxNativeDevTools.updateStore(store);
-    !global.reduxNativeDevTools && window && devTools.updateStore(store);
 
-    persistStore(store, {storage: AsyncStorage,blacklist:['appNav','ui']}).purge(['appNav'])
+    persistStore(store, {storage: AsyncStorage,blacklist:['ui']}).purge(['appNav'])
 
     if (module.hot) {
       module.hot.accept(() => {
@@ -49,7 +50,7 @@ function configureStore(initialState = ({})) {
 
   } else {
 
-    const store = createStore(
+    const store = createNavigationEnabledStore(createStore,'exnavigation')(
       createReducer(),
       initialState,
       compose(
@@ -57,7 +58,7 @@ function configureStore(initialState = ({})) {
         applyMiddleware(...middlewares),
       )
     );
-    persistStore(store, {storage: AsyncStorage,blacklist:['AppNav']})
+    persistStore(store, {storage: AsyncStorage,blacklist:['ui']})
     return store
 
   }

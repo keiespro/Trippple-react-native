@@ -58,6 +58,7 @@ class Notification extends React.Component{
       easing: Easing.in(Easing.exp),
       duration: 300,
     }).start((fin)=>{
+      this.killNotification()
 
     })
   }
@@ -113,7 +114,7 @@ class Notification extends React.Component{
       toValue: -220,
       duration: 300,
     }).start(()=>{
-      // this.props.dispatch({type:'DISMISS_NOTIFICATION',payload:{}})
+      this.props.dispatch({type:'DISMISS_NOTIFICATION',payload:{}})
       this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
     })
   }
@@ -123,26 +124,21 @@ class Notification extends React.Component{
     if(!this.props.notification) return false
 
     const { notification, user } = this.props;
-
-    let myPartnerId;
     let theirIds;
     let them;
     let threadName;
     let matchName;
     const noti = (notification.label || notification.type).toLowerCase()
-    console.log(noti,'noti');
     const users = notification.users || {}
+    let from_user_info
+    let image_url
     if(noti.indexOf('match') > -1){
-
       myPartnerId = user.partner_id || null;
       theirIds = Object.keys(users).filter( (u)=> u != user.id && u != user.partner_id);
       them = theirIds.map((id)=> users[id]);
-      threadName = them.map( (u,i) => u.firstname ).join(' & ');
+      threadName = them.map(u => u.firstname).join(' & ');
       matchName = threadName + (theirIds.length > 1 ? ' like ' : ' likes ');
-    }
-    let from_user_info
-    let image_url
-    if(noti.indexOf('message') > -1){
+    }else if(noti.indexOf('message') > -1){
       from_user_info = notification.from_user_info || {}
       image_url = from_user_info.image_url
     }
@@ -165,7 +161,8 @@ class Notification extends React.Component{
             justifyContent:'flex-end'
           },
         styles[noti]
-        ]}>
+        ]}
+      >
       <StatusBar animated={true} barStyle="light-content" hidden={true} />
 
       {noti.indexOf('message') > -1 ?

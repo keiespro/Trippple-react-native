@@ -19,21 +19,22 @@ var Dots = React.createClass({
   },
 
   render(){
-    var dotWidth = 7,
+    const dotWidth = 6,
         dots = [1,2,3],
-        dotColor = this.props.dotColor || colors.outerSpace;
+        dotColor = this.props.dotColor || colors.shuttleGray;
     return (
         <View style={{
-          width:dotWidth*4,
-          height:46,
+          width:dotWidth*8,
+
+          height:43,
           justifyContent:'center',
           alignItems:'center',
-}}>
+        }}>
           <View style={{
             flexDirection:'row',
             justifyContent:'center',
             alignItems:'center',
-            right:10,
+            right:5,
 
           }}>
 
@@ -42,7 +43,7 @@ var Dots = React.createClass({
               )
             }
         </View>
-        </View>
+      </View>
     )
   }
 })

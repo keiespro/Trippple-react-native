@@ -189,11 +189,11 @@ class MatchList extends Component {
 
   }
   _renderRow(rowData, sectionID, rowID) {
-    // console.log(rowData,sectionID, rowID);
+    console.log(rowData);
 
     const myId = this.props.user.id;
-    const myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
-    const theirIds = Object.keys(rowData.users).filter((u) => u != this.props.user.id && u != this.props.user.partner_id);
+    // const myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
+    const theirIds = Object.keys(rowData.users).filter(u => u != this.props.user.id && u != this.props.user.partner_id);
     const them = theirIds.map((id) => rowData.users[id]);
     const threadName = them.map((user, i) => user.firstname.trim()).join(' & ');
     const modalVisible = this.state.isVisible;
@@ -323,12 +323,13 @@ function rowHasChanged(r1, r2) {
 class MatchesInside extends Component {
 
   constructor(props) {
-    super(props);
+    super();
     this.ds = SwipeableListView.getNewDataSource(rowHasChanged);
     this.state = {
       matches: props.matches,
       isVisible: false,
       dataSource: this.ds.cloneWithRowsAndSections(props.matches.map(d => {
+  console.log(d);
         return {
           match: {...d, unread: props.unread[d.match_id]}
         }
@@ -372,7 +373,7 @@ class MatchesInside extends Component {
     if (data.length > 1) {
       const newState = {
         matches: data,
-        dataSource: this.ds.cloneWithRowsAndSections(data.map(d => { return {...d, unread: props.unread[d.match_id]} })),
+        dataSource: this.ds.cloneWithRowsAndSections(data.map(d => { return { match: {...d, unread: this.props.unread[d.match_id]}} })),
       };
       this.setState(newState)
     }

@@ -2,7 +2,6 @@ import DeviceInfo from '../utils/DeviceInfo'
 const Device = DeviceInfo.get()
 
 export default function deviceReducer(state = initialState, action) {
-  console.log(action);
   switch (action.type) {
 
   case 'SAVE_PUSH_TOKEN':

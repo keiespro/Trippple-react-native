@@ -11,16 +11,19 @@ firebase.initializeApp(firebaseConfig);
 
 const checkFireLoginState = (fbUser) => new Promise((reject,resolve) => {
   if (fbUser) {
-    const unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
-      unsubscribe();
+    return firebase.auth().onAuthStateChanged((firebaseUser) => {
+      console.log(fbUser,firebaseUser);
       if (!isUserEqual(fbUser, firebaseUser)) {
         const credential = firebase.auth.FacebookAuthProvider.credential(fbUser.accessToken);
         firebase.auth()
           .signInWithCredential(credential)
-          .then(a => {resolve(a)})
+          .then(a => {
+            console.log(a);
+            resolve(firebaseUser)
+          })
           .catch((error) => {
           // Handle Errors here.
-            console.log(error);
+            console.log('isUserEqual',error);
             const errorCode = error.code;
             const errorMessage = error.message;
             const email = error.email;
@@ -28,13 +31,13 @@ const checkFireLoginState = (fbUser) => new Promise((reject,resolve) => {
           });
       } else {
         // User is already signed-in Firebase with the correct user.
-        resolve()
+        resolve(firebaseUser)
       }
     });
   } else {
-    reject()
     // User is signed-out of Facebook.
     firebase.auth().signOut();
+    reject()
   }
 })
 

@@ -10,15 +10,15 @@ const fakeScene = props => {
 };
 
 const initialState = {
-	key: 'global',
-	index: 0,
-	routes: [
-		{
-			component: fakeScene,
-			index: 0,
-      key:'fakeScene'
-		},
-	],
+  key: 'global',
+  index: 0,
+  routes: [
+  {
+    component: fakeScene,
+    index: 0,
+    key:'fakeScene'
+  },
+  ],
 };
 
 module.exports = cardStackReducer(initialState);

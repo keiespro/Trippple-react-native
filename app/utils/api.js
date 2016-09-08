@@ -51,10 +51,7 @@ async function baseRequest(endpoint='', payload={}, resource='user'){
     return Promise.try(() => {
       __DEV__ && console.log(`API RESPONSE <<<<<<---- ${endpoint} | `,response)
       return {...response}
-    }).catch((err)=>{
-      throw new Error({error:err})
     })
-
   }catch(err){
     __DEV__ && console.warn('CAUGHT ERR',err,res.status,res.url);
     if(res.status == 401){

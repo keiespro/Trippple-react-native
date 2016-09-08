@@ -15,11 +15,12 @@ import NagManager from '../NagManager'
 import DeepLinkHandler from '../utils/DeepLinkHandler'
 import { connect } from 'react-redux';
 import '../fire'
+import { withNavigation} from '@exponent/ex-navigation';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-
+@withNavigation
 class App extends React.Component{
   constructor(props){
     super()
@@ -66,7 +67,7 @@ class App extends React.Component{
   }
 
   render(){
-
+  console.log(this.props)
     return (
       <View style={{flex:10,backgroundColor:colors.outerSpace, width:DeviceWidth,height:DeviceHeight}}>
 
@@ -79,8 +80,9 @@ class App extends React.Component{
         {this.props.nag && <NagManager/>}
 
         <DeepLinkHandler />
+        
 
-        {this.props.loggedIn ? <AppNav/> : <Welcome dispatch={this.props.dispatch}/> }
+        { this.props.loggedIn ? <AppNav context={this.props.context} /> : <Welcome dispatch={this.props.dispatch}/> }
 
         <ModalDirector />
 
@@ -105,7 +107,8 @@ const mapStateToProps = (state, ownProps) => {
     auth: state.auth,
     ui: {...state.ui, matchInfo: state.matches[state.ui.chat ? state.ui.chat.match_id : null]},
     loggedIn: state.auth.api_key && state.auth.user_id,
-    push_token: state.device.push_token
+    push_token: state.device.push_token,
+    exnavigation: state.navigation
   }
 }
 

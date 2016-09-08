@@ -226,7 +226,7 @@ class SettingsBasic extends React.Component{
               <ProfileField dispatch={this.props.dispatch} key={field+'key'+(i*1000)} user={this.props.user} navigator={this.props.navigator} navigation={this.props.navigation} fieldName={field} field={settingOptions[field]} />
             )
           })}
-              <View style={styles.formHeader}>
+              {/* <View style={styles.formHeader}>
                 <Text style={styles.formHeaderText}>Contact Info</Text>
               </View>
             <View style={{}}>
@@ -242,7 +242,7 @@ class SettingsBasic extends React.Component{
               return <ProfileField   navigation={this.props.navigation}  dispatch={this.props.dispatch} key={field+'key'+(i*1000)} user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
             })}
 
-            </View>
+            </View> */}
 
 
              <View style={styles.formHeader}>
