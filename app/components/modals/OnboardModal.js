@@ -31,9 +31,9 @@ import PurpleModal from './PurpleModal';
 const our_choices = ['Single Female', 'Single Male', 'Couple (Male/Male)', 'Couple (Female/Female)', 'Couple (Male/Female)'];
 const them_choices = {
   couple: [
-    'F', 'M'
+    'SINGLE FEMALE', 'SINGLE MALE'
   ],
-  single: ['MM', 'MF', 'FF']
+  single: ['COUPLE (MALE/MALE)', 'COUPLE (MALE/FEMALE)', 'COUPLE (FEMALE/FEMALE)']
 };
 const get_key_vals = (v) => v.toLowerCase();
 
@@ -132,7 +132,8 @@ class OnboardModal extends Component {
         <View style={[
           styles.col, {
             width: DeviceWidth,
-            height: DeviceHeight
+            height: DeviceHeight,
+						backgroundColor: colors.outerSpace70
           }
         ]}>
           <ScrollView>
@@ -145,10 +146,12 @@ class OnboardModal extends Component {
               {MagicNumbers.is5orless ? null :
                 <Image
                 style={{
-                  borderRadius:  this.state.step == 0 ? 75 : 50,
-                  width: this.state.step == 0 ? 150 : 100,
-                  height: this.state.step == 0 ? 150 : 100,
-                  marginVertical:10
+                  borderRadius: 75,
+                  width: 150,
+                  height: 150,
+                  marginVertical: 10,
+									marginTop: this.state.step == 0 ? 10 : -300,
+									marginBottom: this.state.step == 0 ? 0 : 200,
                 }}
                 key={'onboardpic'}
                 source={{
@@ -162,16 +165,18 @@ class OnboardModal extends Component {
 
               <Text style={{
                 color: colors.white,
+								marginTop: 10,
                 fontFamily: 'Montserrat-Bold',
                 justifyContent: 'space-between',
-                fontSize: 18
-              }}>Welcome {this.props.user.firstname}</Text>
+                fontSize: 19
+              }}>WELCOME {this.props.user.firstname}</Text>
 
               <Text style={{
                 color: colors.white,
                 fontFamily: 'Omnes',
                 justifyContent: 'space-between',
-                fontSize: 16
+                fontSize: 17,
+								marginBottom: 15,
               }}>Let's get started</Text>
 
               <View style={[{
@@ -182,17 +187,17 @@ class OnboardModal extends Component {
                 <TouchableOpacity
                   style={{
                     width: DeviceWidth - 20,
-                    marginLeft: 20,
-                    paddingLeft: 20,
-                    height: 80,
+                    marginLeft: 30,
+                    paddingLeft: 0,
+                    height: 70,
                     paddingRight: 20,
                     justifyContent: 'center',
                     backgroundColor: colors.transparent,
                     borderBottomWidth: 1,
-                    borderBottomColor: this.state.step == 1 ? colors.mediumPurple : colors.rollingStone
+                    borderBottomColor: this.state.step == 1 ? colors.brightPurple : colors.steelGrey
                   }}
                   onPress={() => {
-                    LayoutAnimation.spring();
+                    LayoutAnimation.easeInEaseOut();
                     this.setState({step: 1});
                   }}>
                   <View style={[
@@ -206,13 +211,14 @@ class OnboardModal extends Component {
                     <Text style={{
                       fontFamily: 'Montserrat',
                       fontSize: 20,
-                      color: this.state.step == 1 ? colors.white : colors.rollingStone,
-                      textAlign: 'left'
-                    }}>{this.state.selected_ours ? `I'M A...` : `WE'RE A...`}</Text>
+                      color: colors.white,
+                      textAlign: 'left',
+											marginLeft: 0
+										}}>{this.state.selected_ours && this.state.selected_ours.indexOf('couple') > -1 ?  `WE'RE A...` : `I'M A...` }</Text>
                     {this.state.selected_ours && <Text style={{
                       fontFamily: 'Montserrat',
                       fontSize: 20,
-                      color: this.state.step == 1 ? colors.white : colors.rollingStone
+                      color: colors.white
                     }}>{this.state.selected_ours.toUpperCase()}</Text>}
                   </View>
                 </TouchableOpacity>
@@ -220,18 +226,18 @@ class OnboardModal extends Component {
                 <TouchableOpacity
                 style={{
                   width: DeviceWidth,
-                  marginLeft: 20,
-                  paddingLeft: 20,
-                  height: 80,
+                  marginLeft: 30,
+                  paddingLeft: 0,
+                  height: 70,
                   zIndex:999,
                   justifyContent: 'center',
                   backgroundColor: colors.transparent,
                   borderBottomWidth: 1,
-                  borderBottomColor: this.state.step == 2 ? colors.mediumPurple : colors.rollingStone
+                  borderBottomColor: this.state.step == 2 ? colors.brightPurple : colors.steelGrey
                 }}
                 onPress={() => {
                   if (this.state.selected_ours) {
-                    LayoutAnimation.spring();
+                    LayoutAnimation.easeInEaseOut();
                     this.setState({step: 2});
                   }
                 }}>
@@ -242,9 +248,9 @@ class OnboardModal extends Component {
                       fontSize: 20,
                       marginVertical: 10,
                       textAlign: 'left',
-                      color: this.state.step == 2 ? colors.white : colors.rollingStone
+                      color: colors.white
                     }
-                  ]}>LOOKING FOR...</Text>
+                  ]}>SEEKING A...</Text>
                 </TouchableOpacity>
               </View>
 
@@ -253,18 +259,17 @@ class OnboardModal extends Component {
 
           {this.state.step > 0 &&
             <View style={{
-              backgroundColor: 'rgba(0,0,0,.5)',
+              backgroundColor: colors.outerSpace,
               width: DeviceWidth,
               height: 200,
               position: 'absolute',
               bottom: 0
             }}>
             <View style={{
-              height: this.state.selected_ours && has_theirs ? 80 : 0,
+              height: this.state.selected_ours && has_theirs ? 70 : 0,
               position: 'absolute',
-              top: this.state.selected_ours && has_theirs ? -80 : 0,
+              top: this.state.selected_ours && has_theirs ? -70 : 0,
               left: 0,
-
               right: 0,
               width: DeviceWidth,
               overflow: 'hidden'
@@ -286,9 +291,9 @@ class OnboardModal extends Component {
                   alignItems: 'stretch'
                 }}
                 itemStyle={{
-                  fontSize: 24,
+                  fontSize: 22,
                   color: colors.white,
-                  textAlign: 'center'
+                  textAlign: 'center',
                 }}
                 selectedValue={this.state.selected_ours || null}
               >
@@ -304,7 +309,7 @@ class OnboardModal extends Component {
                 <Selectable
                   selected={selected}
                   key={val + 'k'}
-                  underlayColor={colors.mediumPurple20}
+                  underlayColor={colors.dark}
                   value={this.state.selected_theirs[val.toLowerCase()]}
                   onPress={this.togglePref.bind(this, val)}
                   field={val}

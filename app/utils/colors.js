@@ -13,7 +13,8 @@ function invert( rgb ){
 }
 
 const colors = {
-  transparent: 'rgba(0,0,0,0)',
+  transparent: 				'rgba(0,0,0,0)',
+
   rollingStone:       'rgb(120,129,135)', // #788187
 
   mediumPurple:       'rgb(132, 89, 218)', //#8459DA
@@ -21,6 +22,8 @@ const colors = {
   mediumPurple20:     'rgba(132,89,218,0.20)',
 
   darkPurple:         'rgb(105,57,200)',
+
+	brightPurple:				'rgba(130,42,254,1)',
 
   white:              'rgb(255,255,255)',
 
@@ -36,13 +39,17 @@ const colors = {
 
   shuttleGray20:      'rgba(86,96,103,.20)',
 
+	steelGrey:        	'rgba(120,129,135,1.0)',
+
   steelGrey20:        'rgba(120,129,135,0.20)',
 
   outerSpace:         'rgb(44,57,65)', // #2C3941
 
   outerSpace50:       'rgba(44,57,65,0.5)',
 
-  outerSpaceAnimate:       'rgba(44,57,65,1.0)',
+	outerSpace70:       'rgba(44,57,65,0.7)',
+
+  outerSpaceAnimate:  'rgba(44,57,65,1.0)',
 
   outerSpace20:       'rgba(44,57,65,0.2)',
 

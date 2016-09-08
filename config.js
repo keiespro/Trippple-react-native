@@ -1,4 +1,4 @@
-const APP_ENV = 'dev';
+const APP_ENV = 'staging';
 
 global.__DEBUG__ = false;
 global.__DEV__ = false;
@@ -43,6 +43,7 @@ const configurations = {
     WEBSOCKET_URL: 'http://mbp-elrik-iii.local:9919',
     KEYCHAIN_NAMESPACE: 'dev.trippple.co'
   }
+
 
 }
 const config = configurations[APP_ENV];
