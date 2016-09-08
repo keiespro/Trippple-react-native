@@ -50,7 +50,7 @@ class ContinueButton extends Component{
       <Animated.View style={[styles.continueButtonWrap,
         {
           bottom: 0,
-          backgroundColor: this.props.canContinue ? colors.mediumPurple : 'transparent',
+          backgroundColor: this.props.canContinue ? colors.brightPurple : 'transparent',
           position:this.props.absoluteContinue ? 'absolute' : null,
           left:0,
           transform: [
@@ -87,8 +87,8 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     alignItems: 'stretch',
     justifyContent: 'center',
-    height: MagicNumbers.continueButtonHeight,
-    backgroundColor: colors.mediumPurple,
+    height: MagicNumbers.continueButtonHeight-4,
+    backgroundColor: colors.brightPurple,
     width:DeviceWidth
   },
   continueButton: {
@@ -99,8 +99,8 @@ const styles = StyleSheet.create({
   },
   continueButtonText: {
     padding: 4,
-    fontSize: MagicNumbers.size18+8,
-    fontFamily:'Montserrat',
+    fontSize: MagicNumbers.size18+4,
+    fontFamily:'Montserrat-Bold',
     color: colors.white,
     textAlign:'center'
   }
