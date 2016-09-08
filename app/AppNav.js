@@ -1,6 +1,4 @@
-
 import {StackNavigation, NavigationContext, NavigationProvider} from '@exponent/ex-navigation';
-
 import React from 'react'
 import {View} from 'react-native'
 import colors from './utils/colors'
@@ -10,7 +8,7 @@ export default class AppNav extends React.Component {
   render() {
 
     return (
-     <View>
+        <View>
           <StackNavigation
             id="exnavigation"
             defaultRouteConfig={{
@@ -29,7 +27,7 @@ export default class AppNav extends React.Component {
             }}
             initialRoute={Router.getRoute('Potentials',{show:true})}
           />
-      </View>
+        </View>
     )
   }
 }
