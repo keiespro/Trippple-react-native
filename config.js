@@ -1,4 +1,4 @@
-const APP_ENV = 'dev';
+const APP_ENV = 'staging';
 
 global.__DEBUG__ = false;
 global.__DEV__ = false;
@@ -22,7 +22,7 @@ const configurations = {
 
   staging: {
     SERVER_URL: 'https://staging-api2.trippple.co',
-    WEBSOCKET_URL: 'ws://staging-ws.trippple.co',
+    WEBSOCKET_URL: 'https://staging-ws.trippple.co',
     KEYCHAIN_NAMESPACE: 'staging1.trippple.co'
   },
 
@@ -43,6 +43,7 @@ const configurations = {
     WEBSOCKET_URL: 'http://mbp-elrik-iii.local:9919',
     KEYCHAIN_NAMESPACE: 'dev.trippple.co'
   }
+
 
 }
 const config = configurations[APP_ENV];
