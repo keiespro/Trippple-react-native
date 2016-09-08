@@ -39,5 +39,3 @@ export default createRouter(() => ({
   Coupling: () => Coupling,
   OnboardModal: () => OnboardModal,
 }))
-
-

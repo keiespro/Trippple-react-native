@@ -128,7 +128,7 @@ class Notification extends React.Component{
     let them;
     let threadName;
     let matchName;
-    const noti = (notification.label || notification.type).toLowerCase()
+    const noti = (notification.label || notification.type || '').toLowerCase()
     const users = notification.users || {}
     let from_user_info
     let image_url

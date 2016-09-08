@@ -40,8 +40,8 @@ class ContinueButton extends Component{
   }
 
   handleContinue(){
-    // if(this.state.submitting) { return false }
-    // this.setState({submitting:true})
+    if(this.state.submitting) { return false }
+    this.setState({submitting:true})
     this.props.handlePress()
   }
   nothing(){}

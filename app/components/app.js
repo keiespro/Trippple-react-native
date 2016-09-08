@@ -16,11 +16,11 @@ import DeepLinkHandler from '../utils/DeepLinkHandler'
 import { connect } from 'react-redux';
 import '../fire'
 import { withNavigation} from '@exponent/ex-navigation';
+import pure from 'recompose/pure'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-@withNavigation
 class App extends React.Component{
   constructor(props){
     super()
@@ -45,7 +45,6 @@ class App extends React.Component{
     initActions.forEach(ac => {
       this.props.dispatch(ActionMan[ac]())
     })
-    this.setState({initialized:true})
 
   }
 
@@ -56,6 +55,8 @@ class App extends React.Component{
   componentWillReceiveProps(nProps){
 
     if(!this.state.initialized && !this.props.loggedIn && nProps.loggedIn){
+      this.setState({initialized:true})
+
       this.performInitActions()
     }
     //
@@ -66,10 +67,10 @@ class App extends React.Component{
 
   }
 
+
   render(){
-  console.log(this.props)
     return (
-      <View style={{flex:10,backgroundColor:colors.outerSpace, width:DeviceWidth,height:DeviceHeight}}>
+      <View style={{}}>
 
         <StatusBar animated={true} barStyle="default" />
 
@@ -80,15 +81,14 @@ class App extends React.Component{
         {this.props.nag && <NagManager/>}
 
         <DeepLinkHandler />
-        
 
-        { this.props.loggedIn ? <AppNav context={this.props.context} /> : <Welcome dispatch={this.props.dispatch}/> }
+        { this.props.loggedIn ?  <AppNav/> : <Welcome dispatch={this.props.dispatch}/> }
 
         <ModalDirector />
 
         <Notifications dispatch={this.props.dispatch} />
 
-        {this.props.ui.chat && <ChatOverlay dispatch={this.props.dispatch} navigationState={{routes:[{route:{}}],index:0}} scene={{index:1}} layout={{width:DeviceWidth,height:DeviceHeight}} matchInfo={this.props.ui.matchInfo} match_id={this.props.ui.chat.match_id} />}
+        {/* {this.props.ui.chat && <ChatOverlay dispatch={this.props.dispatch} navigationState={{routes:[{route:{}}],index:0}} scene={{index:1}} layout={{width:DeviceWidth,height:DeviceHeight}} matchInfo={this.props.ui.matchInfo} match_id={this.props.ui.chat.match_id} />} */}
       </View>
     )
   }
@@ -108,7 +108,7 @@ const mapStateToProps = (state, ownProps) => {
     ui: {...state.ui, matchInfo: state.matches[state.ui.chat ? state.ui.chat.match_id : null]},
     loggedIn: state.auth.api_key && state.auth.user_id,
     push_token: state.device.push_token,
-    exnavigation: state.navigation
+    exnavigation: state.exnavigation
   }
 }
 
@@ -116,4 +116,4 @@ const mapDispatchToProps = (dispatch) => {
   return { dispatch };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(pure(App));

@@ -37,8 +37,8 @@ class NagManager extends React.Component{
     if(this.props.loggedIn && nProps.loggedIn){
 
     // relationship_status modal
-      if(!this.props.user.relationship_status && !nProps.user.relationship_status){
-
+      if(!this.state.askedOnboard && !this.props.user.relationship_status && !nProps.user.relationship_status){
+        this.setState({askedOnboard:true})
         nProps.dispatch(ActionMan.showInModal({
           component: OnboardModal,
           passProps:{
@@ -51,7 +51,8 @@ class NagManager extends React.Component{
         }))
       }
 
-      if(!this.props.user.relationship_status && nProps.user.relationship_status){
+      if(!this.state.didOnboard && !this.props.user.relationship_status && nProps.user.relationship_status){
+        this.setState({didOnboard:true})
 
         this.props.dispatch({type:'SET_ASK_LOCATION', payload:{}})
         this.props.dispatch({type:'SET_ASK_NOTIFICATION', payload:{}})

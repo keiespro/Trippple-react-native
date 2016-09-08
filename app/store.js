@@ -20,13 +20,14 @@ const logger = createLogger({
   collapsed: (s,action) => (!global.__DEBUG__ || action.type.indexOf('PENDING') > -1)
 });
 
-const middlewares = [thunk, promiseMiddleware(), createActionBuffer(REHYDRATE), ]
+const middlewares = [thunk, promiseMiddleware(), createActionBuffer('EX_NAVIGATION.INITIALIZE'), ]
+// const middlewares = [thunk, promiseMiddleware() ]
 
 function configureStore(initialState = ({})) {
   if (__DEV__) {
 
 
-    const store = createNavigationEnabledStore(createStore,'exnavigation')(
+    const store = createNavigationEnabledStore(createStore)(
       createReducer(),
       initialState,
       compose(
@@ -37,7 +38,7 @@ function configureStore(initialState = ({})) {
     );
     global.reduxNativeDevTools && global.reduxNativeDevTools.updateStore(store);
 
-    persistStore(store, {storage: AsyncStorage,blacklist:['ui']}).purge(['appNav'])
+    persistStore(store, {storage: AsyncStorage,blacklist:['navigation']}).purge(['navigation'])
 
     if (module.hot) {
       module.hot.accept(() => {

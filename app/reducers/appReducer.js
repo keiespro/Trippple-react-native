@@ -1,7 +1,13 @@
+import {REHYDRATE,REHYDRATE_ERROR} from 'redux-persist/constants'
 
 export default function appReducer(state = initialState, action) {
 
   switch (action.type) {
+      case REHYDRATE_ERROR:
+        return {...state, booted: true}
+      case REHYDRATE:
+          console.log('HYDRATED',action.payload);
+        return {...state, booted: true}
       case 'GET_COUPLE_PIN_FULFILLED':
         return {...state, couplePin: action.payload.response.pin}
       case 'CONNECTION_CHANGE':
