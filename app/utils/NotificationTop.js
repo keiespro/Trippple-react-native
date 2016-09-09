@@ -36,9 +36,9 @@ class Notification extends React.Component{
       duration: 300,
     }).start((fin)=>{
       this.initializePanResponder();
-      this.setState({inPlace:true})
-        this.props.setNotificationGoAwayTimer()
-        this.hideNoti()
+      this.setState({inPlace:true});
+      this.props.setNotificationGoAwayTimer();
+      this.hideNoti();
     })
 
   }
@@ -107,7 +107,6 @@ class Notification extends React.Component{
   }
   tapped(){
     this.props.pushChat(this.props.notification.match_id)
-    // this.props.dispatch(ActionMan.pushChat(this.props.notification.match_id))
     this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
 
   }

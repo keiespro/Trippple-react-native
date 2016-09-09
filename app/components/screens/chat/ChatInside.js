@@ -27,10 +27,16 @@ const DeviceWidth = Dimensions.get('window').width;
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 import MessageComposer from './MessageComposer'
 import { connect } from 'react-redux';
-
+import emojiCheck from '../../../utils/emoji-regex';
 import ActionMan from  '../../../actions/';
 
 import ChatBubble from './ChatBubble'
+
+
+const shouldMakeBigger = (msg) => {
+  if(msg.length > 9 || msg.length == 0)return false;
+  return emojiCheck().test(msg) 
+}
 
 class ChatInside extends Component{
   constructor(props){
@@ -70,6 +76,7 @@ class ChatInside extends Component{
   _renderRow(rowData, sectionID: number, rowID: number) {
     return (
       <ChatBubble
+        specialText={shouldMakeBigger(rowData.message_body) ? 40 : null}
         user={this.props.user}
         messageData={rowData}
         key={`${rowID}-msg`}
@@ -79,12 +86,10 @@ class ChatInside extends Component{
     )
   }
 
-  sendMessage(){
-    if(this.state.textInputValue == ''){ return false }
+  sendMessage(msg){
     const timestamp = moment().utc().unix();
-    this.props.dispatch(ActionMan.createMessage(this.state.textInputValue, this.props.match_id, timestamp))
+    this.props.dispatch(ActionMan.createMessage(msg, this.props.match_id, timestamp))
     // TODO : REPLACE WITH NEW
-    this.setState({ textInputValue: '' })
     this.refs.scroller && this.refs.scroller.scrollTo({x:0,y:0})
 
   }

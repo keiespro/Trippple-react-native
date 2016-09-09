@@ -219,17 +219,9 @@ const seperator = distance && city.length ? ' | ' : '';
                           <Text style={{ color: colors.mandy, textAlign: 'center' }}>Report or Block this user</Text>
                         </View>
                       </TouchableOpacity>}
-
-                      <TouchableOpacity
-                        style={{ height: 50, alignItems: 'center', width: 50, justifyContent: 'center',flex:0,alignSelf:'center' }}
-                        onPress={this.props.closeProfile}
-                      >
-                        <Image
-                          resizeMode={Image.resizeMode.contain}
-                          style={{ height: 12, width: 12, marginTop: 10 }}
-                          source={{ uri: 'assets/close@3x.png' }}
-                        />
-                      </TouchableOpacity>
+                      <View style={{ position:'relative', height: 50, alignItems: 'center', width: 50, justifyContent: 'center',flex:0,alignSelf:'center'}}>
+                        <XButton navigator={this.props.navigator}/>
+                      </View>
                     </View>
 
                   </BlurView>

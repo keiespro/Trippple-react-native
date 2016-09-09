@@ -7,11 +7,17 @@ import {StyleSheet, Text, PixelRatio, View, Image, TextInput, TouchableHighlight
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../../../utils/DeviceConfig'
-
+import emojiCheck from '../../../utils/emoji-regex';
 import colors from '../../../utils/colors'
 import { BlurView, VibrancyView } from 'react-native-blur'
 import Analytics from '../../../utils/Analytics';
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
+
+
+const shouldMakeBigger = (msg) => {
+  if(msg.length > 9)return false;
+  return emojiCheck().test(msg) 
+}
 
 
 
@@ -24,23 +30,25 @@ class MessageComposer extends React.Component{
   constructor(props){
     super()
     this.state = {
+      txt:'',
       inputFocused: false,
-      height:0,
+      height:40,
       bottomColor: new Animated.Value(0)
 
     }
   }
 
-  sendMessage(message){
-    if(this.state.textInputValue == ''){ return false }
+  sendMessage(){
+    // if(this.state.txt == ''){ return false }
 
+    this.props.sendMessage(this.state.txt)
     this._textInput.setNativeProps({text: ''});
-    this.setState({height:0})
+    this.setState({height:40,txt:''})
 
-    this.props.sendMessage(message)
   }
 
   render(){
+    const giant = shouldMakeBigger(this.state.txt);
     return (
 
       <View style={styles.messageComposer}>
@@ -54,9 +62,9 @@ class MessageComposer extends React.Component{
               inputRange: [0, 100],
               outputRange: [colors.shuttleGrayAnimate,colors.whiteAnimate],
             }) : colors.shuttleGray,
-            height: Math.max(40, this.state.height)+6
+            height:  giant ? this.state.height+12 : this.state.height,
+            paddingVertical: 2.5
           }]}
-          returnKeyType={'default'}
           keyboardAppearance={'dark'}
           autoCorrect={true}
           placeholder={'Type Message...'}
@@ -64,10 +72,11 @@ class MessageComposer extends React.Component{
           autoFocus={false}
           selectionColor={colors.mediumPurple}
           clearButtonMode={'never'}
+          returnKeyType={'send'}
           onFocus={(e)=>{
             Animated.timing(this.state.bottomColor, {
               toValue: 100,
-              duration: 300
+              duration: 200
             }).start((r => {
               this.setState({inputFocused:true})
             }))
@@ -75,7 +84,7 @@ class MessageComposer extends React.Component{
         onBlur={(e)=>{
               Animated.timing(this.state.bottomColor, {
                 toValue: 0,
-                duration: 300,
+                duration: 200,
               }).start((r => {
                 this.setState({inputFocused:false})
               }))
@@ -83,23 +92,27 @@ class MessageComposer extends React.Component{
             }}
             onChange={(event)=>{
               this.setState({
-                height: event.nativeEvent.contentSize.height,
+                txt: event.nativeEvent.text
               });
-              this.props.onTextInputChange(event.nativeEvent.text)
             }}
+            onContentSizeChange={(event)=>{
+              this.setState({
+                height: Math.max(40,event.nativeEvent.contentSize.height),
+              });
+            }}
+
             >
-            <Text style={{ fontSize:18, padding:1, height: Math.max(40, this.state.height+6), flex:1,color:colors.white, }} >{
-                this.props.textInputValue || ''
+            <Text style={{ fontSize: giant ? 38 : 18, padding:0,alignSelf:'center', height: giant ? 40 : this.state.height, flex:1,color:colors.white, }} >{
+                this.state.txt || ''
             }</Text>
         </AnimatedTextInput>
-
         <TouchableOpacity
           style={[styles.sendButton,{backgroundColor:colors.dark}]}
-          onPress={this.props.textInputValue.length ? this.sendMessage.bind(this) : null}
+          onPress={this.sendMessage.bind(this)}
           >
           <Text style={[styles.sendButtonText,{
             backgroundColor:'transparent',
-              color: this.props.textInputValue.length ? colors.white : colors.white20,
+              color: this.state.txt.length ? colors.white : colors.white20,
               fontFamily:'Montserrat',
               textAlign:'center'
             }]}>SEND</Text>
@@ -122,6 +135,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor:colors.dark,
     margin:0,
+
     bottom:0
   },
   sendButton:
@@ -131,7 +145,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     borderRadius: 5,
     // paddingVertical: 0,
-    marginBottom:10,
+    marginBottom:5,
     // backgroundColor: colors.dark,
     flexDirection: 'column',
     alignItems: 'flex-start',
@@ -154,7 +168,7 @@ const styles = StyleSheet.create({
     minHeight:80,
     bottom:0,
     paddingLeft:20,
-    paddingVertical:15,
+    paddingVertical:10,
     paddingRight:10,
     bottom:0,
     position:'relative',
@@ -166,7 +180,7 @@ const styles = StyleSheet.create({
     paddingHorizontal:0,
     paddingTop:0,
     paddingBottom:0,
-
+    alignSelf:'center',
     fontSize:18,
     color:colors.white,
     borderBottomColor:colors.white,

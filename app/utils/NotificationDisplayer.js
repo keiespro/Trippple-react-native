@@ -1,11 +1,11 @@
 
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation'
 import React, { Component } from 'react'
-import reactMixin  from 'react-mixin'
+import reactMixin from 'react-mixin'
 import { View, Alert, AsyncStorage, AppState, PushNotificationIOS, VibrationIOS } from 'react-native'
 import { connect } from 'react-redux'
-import TimerMixin  from 'react-timer-mixin'
-import Notification  from './NotificationTop'
+import TimerMixin from 'react-timer-mixin'
+import Notification from './NotificationTop'
 import _ from 'lodash'
 
 @withNavigation
@@ -30,8 +30,8 @@ class NotificationDisplayer extends Component {
   }  
   render() {
     const {notifications} = this.props;
-    if (!notifications) return <View/>
-     var check =  this.props.notifications[0] || null;
+    if (!notifications) return <View/>;
+    const check = this.props.notifications[0] || null;
 
     return (
       <View>

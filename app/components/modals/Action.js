@@ -148,7 +148,7 @@ class Action extends React.Component{
     this.props.dispatch(ActionMan.killModal())
 
 
-        this.props.navigator.push(this.props.navigation.router.getRoute('UserProfile',{potential:MatchUserAsPotential,user:this.props.user}));
+      this.props.navigator.push(this.props.navigation.router.getRoute('UserProfile',{ potential:MatchUserAsPotential,user:this.props.user}));
       }}>
       <View >
         <Text style={[styles.clearButtonText,styles.modalButtonText]}>

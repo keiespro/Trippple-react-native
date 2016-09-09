@@ -6,7 +6,6 @@ import Router from './Router'
 
 export default class AppNav extends React.Component {
   render() {
-
     return (
         <View>
           <StackNavigation
