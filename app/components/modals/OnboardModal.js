@@ -251,9 +251,10 @@ class OnboardModal extends Component {
                       textAlign: 'left',
                       marginLeft: 0
                     }}>{this.state.selected_ours && this.state.selected_ours.length > 1 ? `WE'RE A...` : `I'M A...` }</Text>
-                  {this.state.selected_ours && <Text style={{ fontFamily: 'Montserrat', fontSize: 20, color: colors.white }}>{this.state.selected_ours.length > 1 ? 'COUPLE' : 'SINGLE'}</Text>}
+                  {this.state.selected_ours && <Text style={{ fontFamily: 'Montserrat', fontSize: 20, color: colors.white }}>
+                    {this.state.selected_ours.length > 1 ? `COUPLE` : 'SINGLE '} ({this.state.selected_genders.toUpperCase()})</Text>}
                   </View>
-                    </TouchableOpacity>
+                </TouchableOpacity>
 
                 <TouchableOpacity
                 style={{

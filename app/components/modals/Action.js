@@ -32,7 +32,8 @@ import { BlurView,VibrancyView} from 'react-native-blur'
 class Action extends React.Component{
   
   render(){
-    const currentMatch = this.props.match || this.props.currentMatch || this.props.scene.route.params.matchInfo;
+    const {user} = this.props;
+    const currentMatch = this.props.match || this.props.currentMatch || this.props.matchInfo || this.props.route.params.matchInfo ; 
 
     const img_url_id = Object.keys(currentMatch.users).filter(uid => uid != this.props.user.id  && uid != this.props.user.partner_id);
     console.log(img_url_id);
@@ -136,19 +137,17 @@ class Action extends React.Component{
       style={[styles.clearButton,styles.modalButton,{borderColor:colors.mediumPurple,backgroundColor:colors.mediumPurple20}]}
       underlayColor={colors.mediumPurple}
       onPress={()=>{
-
-    var {user,match} = this.props,
-          rel = user.relationship_status
-
-
-    var theirIds = Object.keys(match.users).filter( u => { return u != user.id && u != user.partner_id})
-    var them = theirIds.map((id) =>match.users[id])
+    var theirIds = Object.keys(currentMatch.users).filter( u => { return u != user.id && u != user.partner_id})
+    var them = theirIds.map((id) =>currentMatch.users[id])
 
     const MatchUserAsPotential = {
       user: them[0],
-      partner: them[1] || null
+      partner: them[1] || {},
+      couple: {}
     }
-console.log(this.props);
+    this.props.dispatch(ActionMan.killModal())
+
+
         this.props.navigator.push(this.props.navigation.router.getRoute('UserProfile',{potential:MatchUserAsPotential,user:this.props.user}));
       }}>
       <View >

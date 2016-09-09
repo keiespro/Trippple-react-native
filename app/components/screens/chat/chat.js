@@ -36,8 +36,9 @@ class Chat extends React.Component {
       },
 
       renderRight(route, props) {
+        console.log(route,props)
         return (
-          <ThreeDotsActionButton {...props} dotColor={colors.white}/>
+          <ThreeDotsActionButton route={route} {...props} dotColor={colors.white}/>
         )
       }
     }
