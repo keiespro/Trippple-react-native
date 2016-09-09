@@ -165,7 +165,7 @@ class Settings extends React.Component{
                   onPress={this._pressNewImage.bind(this)}
                   style={{marginTop:0,}}
                 >
-                  <View> 
+                  <View>
                     <Image
                     style={[ styles.userimage, { backgroundColor:colors.dark}]}
                     key={this.props.user.id+'thumb'}
@@ -393,7 +393,7 @@ class Settings extends React.Component{
                   <TouchableOpacity
                     style={{alignItems:'center',marginVertical:10}}
                     onPress={this.disableAccount.bind(this)}>
-                    <Text style={{color:colors.mandy,textAlign:'center'}}>
+                    <Text style={{color:colors.mandy,textAlign:'center', textDecorationLine: "underline"}}>
                       Delete My Account
                     </Text>
                   </TouchableOpacity>
@@ -406,14 +406,14 @@ class Settings extends React.Component{
             <Text style={{color:colors.white,textAlign:'center',fontSize:15,fontFamily:'omnes'}}>
               Trippple {ReactNative.NativeModules.RNDeviceInfo.appVersion}
             </Text>
-            {__DEV__ && 
+            {__DEV__ &&
 
                <Text style={{color:colors.white,textAlign:'center',fontSize:15,fontFamily:'omnes'}}>
               build {ReactNative.NativeModules.RNDeviceInfo.buildNumber}
             </Text>
             }
           </View>
-                
+
             </View>
 
         <XButton navigator={this.props.navigator}/>

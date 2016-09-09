@@ -146,7 +146,7 @@ class ProfileField extends React.Component{
               resizeMode={Image.resizeMode.contain}/>
               </View> }
             </View>
-              </View> 
+              </View>
               </View>
         </TouchableHighlight>
     )
@@ -220,7 +220,7 @@ class SettingsBasic extends React.Component{
               <ProfileField locked={true}  dispatch={this.props.dispatch} key={field+'key'+(i*1000)} user={this.props.user} navigator={this.props.navigator} navigation={this.props.navigation} fieldName={field} field={settingOptions[field]} />
             )
           })}
-            
+
              <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>Details</Text>
            </View>
@@ -425,8 +425,6 @@ displayTextField:{
      flexDirection:'row',
      marginHorizontal:MagicNumbers.screenPadding/2,
      alignSelf: 'stretch',
-
-
    },
    paddedSpace:{
      paddingHorizontal:MagicNumbers.screenPadding/2
