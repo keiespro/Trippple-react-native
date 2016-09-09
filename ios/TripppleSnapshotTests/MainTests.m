@@ -14,7 +14,7 @@
 RCT_TEST(Intro)
 RCT_TEST_W_PROPS(Login,Auth,{@"initialTab": @"login"})
 RCT_TEST_W_PROPS(Register,Auth,{@"initialTab": @"register"})
-RCT_TEST(PinScreen)
+//RCT_TEST(PinScreen)
 
 
 //MODALS
@@ -23,13 +23,13 @@ RCT_TEST_W_PROPS(LocationPermission,LocationPermission,{@"title": @"PRIORITIZE L
 RCT_TEST(PrivacyPermissions)
 RCT_TEST(ReportModal)
 RCT_TEST(UnmatchModal)
-RCT_TEST(CameraPermissions)
-RCT_TEST(CameraRollPermissions)
+//RCT_TEST(CameraPermissions)
+//RCT_TEST(CameraRollPermissions)
 
 
 //MISC
 RCT_TEST(MaintenanceScreen)
 RCT_TEST(ImageFlagged)
-RCT_TEST_W_PROPS(CheckMark,CheckMark,{@"checkMarkCopy":@"checkmark"})
+//RCT_TEST_W_PROPS(CheckMark,CheckMark,{@"checkMarkCopy":@"checkmark"})
 
 @end

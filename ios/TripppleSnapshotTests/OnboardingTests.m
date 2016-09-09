@@ -13,12 +13,12 @@
 
 //ONBOARDING
 
-RCT_TEST(Gender)
-RCT_TEST(SelectImageSource)
-RCT_TEST(Bday)
-RCT_TEST(Facebook)
-RCT_TEST(Privacy)
-RCT_TEST(Name)
+//RCT_TEST(Gender)
+//RCT_TEST(SelectImageSource)
+//RCT_TEST(Bday)
+//RCT_TEST(Facebook)
+//RCT_TEST(Privacy)
+//RCT_TEST(Name)
 
 
 @end

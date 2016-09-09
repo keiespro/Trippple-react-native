@@ -85,7 +85,15 @@ class CouplePin extends React.Component{
   }
 
   popToTop(){
-    this.props.onboardUser()
+
+    //TODO: if we are not coming from the onboard modal, we should confirm
+    // with the user if they want really to join a couple. Then we need to 
+    // ask their partner's gender, for now it assumes partner is female.
+    this.props.onboardUser ? this.props.onboardUser() : this.props.dispatch(ActionMan.onboard({
+      relationship_status:'couple',
+      genders:`${this.props.user.gender}f`
+    }))
+
     this.props.exit()
   }
 
@@ -227,7 +235,7 @@ class CouplePin extends React.Component{
 
 
 const mapStateToProps = (state, ownProps) => {
-  return { ...ownProps, pin: state.app.couplePin }
+  return { ...ownProps, pin: state.app.couplePin, user: state.user }
 }
 
 const mapDispatchToProps = (dispatch) => {

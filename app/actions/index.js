@@ -5,18 +5,21 @@ import * as locationActions from './location'
 import apiActions from './ApiActionCreators'
 import api from '../utils/api'
 import {NativeModules,Alert,PushNotificationIOS} from 'react-native'
-const {RNMessageComposer,RNMail} = NativeModules;
 import Promise from 'bluebird'
+import Communications from 'react-native-communications';
+import PushNotification from 'react-native-push-notification'
+
+const {RNMessageComposer,RNMail} = NativeModules;
+const getBadgeNumber = Promise.promisify(PushNotification.getApplicationIconBadgeNumber)
+const getPushPermissions = Promise.promisify(PushNotificationIOS.checkPermissions)
+  
+  
 const ActionMan = {
   ...apiActions,
   ...fbActions,
   ...appActions,
   ...locationActions
 }
-import Communications from 'react-native-communications';
-import PushNotification from 'react-native-push-notification'
-const getBadgeNumber = Promise.promisify(PushNotification.getApplicationIconBadgeNumber)
-const getPushPermissions = Promise.promisify(PushNotificationIOS.checkPermissions)
 
 ActionMan.ActionModal = match => dispatch => dispatch({ type: 'SHOW_ACTION_MODAL', payload: { match } });
 
@@ -38,38 +41,38 @@ ActionMan.popChat = match_id => dispatch => dispatch({ type: 'POP_CHAT'});
 //   }
 // })
 
-// ActionMan.sendText = payload => dispatch => dispatch({ type: 'SEND_TEXT',
-//   payload: {
-//     promise: new Promise((resolve, reject) => {
-//       const { pin, messageText } = payload;
-//       Communications.text(null,messageText)
-//
-//     })
-//   }
-// });
-//
-// //
 ActionMan.sendText = payload => dispatch => dispatch({ type: 'SEND_TEXT',
   payload: {
     promise: new Promise((resolve, reject) => {
       const { pin, messageText } = payload;
-      return RNMessageComposer.composeMessageWithArgs({ messageText }, result => {
-        switch(result) {
-            case RNMessageComposer.Sent:
-              resolve(result)
-              break;
-            case RNMessageComposer.Failed:
-            case RNMessageComposer.NotSupported:
-            case RNMessageComposer.Cancelled:
-            default:
-              Communications.text(null,messageText)
-              resolve(null)
-              break;
-        }
-      })
+      Communications.text(null,messageText)
+
     })
   }
 });
+
+// //
+// ActionMan.sendText = payload => dispatch => dispatch({ type: 'SEND_TEXT',
+//   payload: {
+//     promise: new Promise((resolve, reject) => {
+//       const { pin, messageText } = payload;
+//       return RNMessageComposer.composeMessageWithArgs({ messageText }, result => {
+//         switch(result) {
+//             case RNMessageComposer.Sent:
+//               resolve(result)
+//               break;
+//             case RNMessageComposer.Failed:
+//             case RNMessageComposer.NotSupported:
+//             case RNMessageComposer.Cancelled:
+//             default:
+//               Communications.text(null,messageText)
+//               resolve(null)
+//               break;
+//         }
+//       })
+//     })
+//   }
+// });
 //
 
 

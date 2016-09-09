@@ -3,14 +3,13 @@ import React, {Component} from "react";
 import {View, Dimensions, NativeModules, Image, Animated, Text, TouchableOpacity} from "react-native";
 
 import colors from '../../utils/colors'
-import Analytics from '../utils/Analytics'
+import Analytics from '../../utils/Analytics'
 
-import AppActions from '../flux/actions/AppActions'
 
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 import {MagicNumbers} from '../../utils/DeviceConfig'
-import AppTelemetry from '../AppTelemetry'
+import AppTelemetry from '../../utils/AppTelemetry'
 const {RNMail} = NativeModules
 import RNFS from 'react-native-fs'
 
@@ -44,7 +43,6 @@ class MaintenanceScreen extends Component{
 
   }
   handleFeedback(){
-    AppActions.sendFeedback('MaintenanceScreen')
 
   }
 
