@@ -8,7 +8,7 @@ import TimerMixin  from 'react-timer-mixin'
 import Notification  from './NotificationTop'
 import _ from 'lodash'
 
-
+@withNavigation
 class NotificationDisplayer extends Component {
   constructor(props) {
     super()
@@ -18,16 +18,16 @@ class NotificationDisplayer extends Component {
 
   }
   componentWillReceiveProps(nProps){
-    // if(nProps.notifications && nProps.notifications[0] && this.props.notifications && this.props.notifications[0] && nProps.notifications[0].uuid != this.props.notifications[0].uuid){
-      this.setState({ visible: true })
-      this.setNotificationGoAwayTimer(1000)
+    // // if(nProps.notifications && nProps.notifications[0] && this.props.notifications && this.props.notifications[0] && nProps.notifications[0].uuid != this.props.notifications[0].uuid){
+    //   this.setState({ visible: true })
+    //   this.setNotificationGoAwayTimer(1000)
     // }
   }
   setNotificationGoAwayTimer(ms=500){
-    this.setTimeout(()=> {
-      this.setState({ visible: false })
-    },ms)
   }
+  pushChat(match_id){
+    this.props.navigator.push(this.props.navigation.router.getRoute('Chat', {match_id}))
+  }  
   render() {
     const {notifications} = this.props;
     if (!notifications) return <View/>
@@ -41,6 +41,7 @@ class NotificationDisplayer extends Component {
             user={this.props.user}
             key={`noti${notifications[0].uuid}`}
             visible={this.state.visible}
+            pushChat={this.pushChat.bind(this)}
             notification={notifications[0]}
             dispatch={this.props.dispatch}
           />
@@ -63,7 +64,7 @@ class NotificationDisplayer extends Component {
 
   }
 }
-reactMixin(NotificationDisplayer.prototype, TimerMixin)
+// reactMixin(NotificationDisplayer, TimerMixin)
 
 
 const mapStateToProps = (state, ownProps) => {

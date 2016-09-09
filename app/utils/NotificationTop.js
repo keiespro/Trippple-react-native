@@ -37,7 +37,8 @@ class Notification extends React.Component{
     }).start((fin)=>{
       this.initializePanResponder();
       this.setState({inPlace:true})
-      this.props.setNotificationGoAwayTimer()
+        this.props.setNotificationGoAwayTimer()
+        this.hideNoti()
     })
 
   }
@@ -51,9 +52,10 @@ class Notification extends React.Component{
 
 
   }
-  hideNoti(){
+  hideNoti(delay=1200){
 
     Animated.timing(this.state.pan, {
+      delay,
       toValue: -220,
       easing: Easing.in(Easing.exp),
       duration: 300,
@@ -92,8 +94,8 @@ class Notification extends React.Component{
   }
   tapNotification(e){
 
-    Animated.timing(this.state.yValue, {
-      toValue: -220,
+    Animated.timing(this.state.pan, {
+      toValue: {x:0,y:-220},
       duration: 300,
     }).start(()=>{
 
@@ -104,14 +106,15 @@ class Notification extends React.Component{
 
   }
   tapped(){
-    this.props.dispatch(ActionMan.pushChat(this.props.notification.match_id))
+    this.props.pushChat(this.props.notification.match_id)
+    // this.props.dispatch(ActionMan.pushChat(this.props.notification.match_id))
     this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
 
   }
   killNotification(){
 
-    Animated.timing(this.state.yValue, {
-      toValue: -220,
+    Animated.timing(this.state.pan, {
+      toValue: {x:0,y:-220},
       duration: 300,
     }).start(()=>{
       this.props.dispatch({type:'DISMISS_NOTIFICATION',payload:{}})

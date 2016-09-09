@@ -63,6 +63,9 @@ class UserProfile extends React.Component{
 
     this.state = { slideIndex: 0 }
   }
+  componentDidMount(){
+
+  }
   reportModal(){
 
      this.props.navigator.push({
