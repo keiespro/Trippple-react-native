@@ -16,7 +16,6 @@ import {
   NativeModules,
   Image,
   AsyncStorage,
-  Navigator
 } from  'react-native'
 
 import React from "react";
@@ -31,6 +30,7 @@ import styles from './settingsStyles';
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import ActionMan from '../../../actions'
 import Selectable from '../../controls/Selectable'
+import {connect} from 'react-redux'
 
 import {
   NavigationStyles,
@@ -127,7 +127,6 @@ class SettingsPreferences extends React.Component{
         fieldName:'bio',
         cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
         fieldValue: this.state.bio || this.props.user.bio || '',
-        dispatch:this.props.dispatch
       }))
 
   }
@@ -136,12 +135,8 @@ class SettingsPreferences extends React.Component{
     this.setState({bio:v})
   }
   onPressSelectable(field){
-    if(this.props.user.relationship_status == 'couple'){
-      this.toggleField(field)
-    }else if(this.props.user.relationship_status == 'single'){
       this.toggleField(field)
 
-    }
   }
 
   render(){
@@ -188,15 +183,19 @@ class SettingsPreferences extends React.Component{
           onPress={this.onPressSelectable.bind(this)}
           label={'Couples (MALE/FEMALE)'}
           values={values}
+        selected={this.state.looking_for_mf}
         />}
         {this.props.user.relationship_status == 'single' && <Selectable
           field={'looking_for_mm'}
           onPress={this.onPressSelectable.bind(this)}
           label={'Couples (MALE/MALE)'}
+        selected={this.state.looking_for_mm}
           values={values}
         />}
         {this.props.user.relationship_status == 'single' && <Selectable
           field={'looking_for_ff'}
+        selected={this.state.looking_for_ff}
+
           onPress={this.onPressSelectable.bind(this)}
           label={'Couples (FEMALE/FEMALE)'}
           values={values}
@@ -205,10 +204,12 @@ class SettingsPreferences extends React.Component{
           field={'looking_for_f'}
           onPress={this.onPressSelectable.bind(this)}
           label={'SINGLE FEMALES'}
+        selected={this.state.looking_for_f}
           values={values}
         />}
       {this.props.user.relationship_status == 'couple' &&  <Selectable
-          field={'looking_for_m'}
+        field={'looking_for_m'}
+        selected={this.state.looking_for_m}
           onPress={this.onPressSelectable.bind(this)}
           label={'SINGLE MALES'}
           values={values}
@@ -236,4 +237,13 @@ class SettingsPreferences extends React.Component{
 
 SettingsPreferences.displayName = "SettingsPreferences"
 
-export default SettingsPreferences
+const mapStateToProps = (state, ownProps) => {
+  return {...ownProps, user:state.user }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsPreferences);
+

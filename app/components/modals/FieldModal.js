@@ -4,6 +4,7 @@ import colors from '../../utils/colors';
 import {
   NavigationStyles,
 } from '@exponent/ex-navigation';
+import {connect} from 'react-redux'
 import {
   StyleSheet,
   Text,
@@ -379,19 +380,20 @@ class FieldModal extends React.Component{
         );
     case 'textarea':
         return (
-          <View style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between',}}>
+          <View style={{flex:1,flexDirection:'column',height:DeviceHeight-this.state.keyboardSpace}}>
             <ScrollView 
               style={{ flex:1}}
-              contentContainerStyle={{  alignSelf:'stretch',alignItems:'center',justifyContent:'center',flex:1}}
+              contentContainerStyle={{justifyContent:'space-around',flex:1,padding:20,}}
             >
               <Text  style={{
                   color: colors.rollingStone,
                   fontSize: MagicNumbers.is5orless ? 18 : 20,
                   textAlign:'center',
                   fontFamily:'Omnes-Regular',
-                  marginBottom:MagicNumbers.screenPadding/2,
+                  marginTop:MagicNumbers.screenPadding,
                 }}>{field.long_label ? field.long_label : field.label}</Text>
-              <View style={{marginBottom:20, borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone }}>
+              <View style={{minHeight:200}}>
+                <View style={{marginBottom:20, borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone }}>
 
                 {React.cloneElement(this.props.inputField(),{
                 defaultValue:fieldValue,
@@ -401,6 +403,8 @@ class FieldModal extends React.Component{
                   this.onChange(value)
                 }
               })}
+            </View>
+
 
             </View>
 
@@ -415,7 +419,7 @@ class FieldModal extends React.Component{
     return (
      
         <View style={{ position:'absolute',left:0,flex:1}}>
-        <KeyboardAvoidingView  style={{flex:1}} behavior={'padding'}>
+          <KeyboardAvoidingView  style={{flex:1}} behavior={'padding'}>
       <ScrollView
         scrollEnabled={false}
         keyboardShouldPersistTaps={true}
@@ -441,7 +445,15 @@ class FieldModal extends React.Component{
 
 reactMixin(FieldModal.prototype, TrackKeyboardMixin)
 
-export default FieldModal
+const mapStateToProps = (state, ownProps) => {
+  return {...ownProps }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FieldModal)
 
 
 const styles = StyleSheet.create({

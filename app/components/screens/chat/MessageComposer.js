@@ -39,10 +39,10 @@ class MessageComposer extends React.Component{
   }
 
   sendMessage(){
-    // if(this.state.txt == ''){ return false }
+    if(this.state.txt == ''){ return false }
 
     this.props.sendMessage(this.state.txt)
-    this._textInput.setNativeProps({text: ''});
+    this._textInput.setNativeProps({text: '',style:{height:40}});
     this.setState({height:40,txt:''})
 
   }
@@ -62,8 +62,9 @@ class MessageComposer extends React.Component{
               inputRange: [0, 100],
               outputRange: [colors.shuttleGrayAnimate,colors.whiteAnimate],
             }) : colors.shuttleGray,
-            height:  giant ? this.state.height+12 : this.state.height,
-            paddingVertical: 2.5
+            height:  giant ? this.state.height + 10: this.state.height,
+           paddingBottom:  giant ?  5 : 0, overflow:'visible',
+
           }]}
           keyboardAppearance={'dark'}
           autoCorrect={true}
@@ -91,19 +92,40 @@ class MessageComposer extends React.Component{
 
             }}
             onChange={(event)=>{
+              const eh = parseInt(event.nativeEvent.contentSize.height)
+
+              console.log('onchange',event.nativeEvent.contentSize.height)
+
               this.setState({
-                txt: event.nativeEvent.text
+                txt: event.nativeEvent.text,
+                  height: giant ? 52 : Math.max(40,eh)
               });
+              // // this._textInput.setNativeProps({text: event.nativeEvent.text ,style:{height:Math.max(40,parseInt(event.nativeEvent.contentSize.height))}});
+              //   setImmediate(()=>{
+              //      this.setState({
+              //        height: Math.max(40,eh),
+              //      });
+              // })
+
             }}
             onContentSizeChange={(event)=>{
-              this.setState({
-                height: Math.max(40,event.nativeEvent.contentSize.height),
-              });
-            }}
+              console.log('oncontentsizechange',event.nativeEvent)
+              const eh = Math.max(40,parseInt(event.nativeEvent.contentSize.height))
+               this.setState({
+                     height:eh,
+                   });
 
+              // this._textInput.setNativeProps({height:eh});
+                // setTimeout(()=>{
+                //    this.setState({
+                //      height:eh,
+                //    });
+              // },50)
+            }}
+  
             >
-            <Text style={{ fontSize: giant ? 38 : 18, padding:0,alignSelf:'center', height: giant ? 40 : this.state.height, flex:1,color:colors.white, }} >{
-                this.state.txt || ''
+            <Text style={{ overflow:'visible',fontSize: giant ? 36 : 18, marginBottom:giant ? 0 : 0,alignSelf:'center', height: giant ? this.state.height : this.state.height, flex:1,color:colors.white, }} >{
+                this.state.txt
             }</Text>
         </AnimatedTextInput>
         <TouchableOpacity

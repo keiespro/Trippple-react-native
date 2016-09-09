@@ -67,7 +67,7 @@ const ChatBubble = (props) => {
                     {color: isMessageOurs ? colors.shuttleGray : colors.lavender, fontFamily:'Montserrat'} ]}
               >{ props.messageData.from_user_info.name.toUpperCase() }</Text>
 
-            <Text style={[styles.messageText,{flex:1}, props.specialText && {fontSize: props.specialText }]} >{
+            <Text style={[styles.messageText,{flex:1}, props.specialText && {fontSize: props.specialText,lineHeight: 40,paddingBottom:2 }]} >{
                 props.text
               }</Text>
 

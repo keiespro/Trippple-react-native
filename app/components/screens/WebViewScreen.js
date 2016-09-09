@@ -3,9 +3,13 @@ const helpScript = "jQuery(document).ready(function($){$('a').each(function(i,el
 const privacyScript = "jQuery().ready(function($){$('button').hide();window.setTimeout(function(){$('a').each(function(i,el){var s = $('<span></span>',{html: $(el).html()});$(el).replaceWith(s)});},1000)})";
 
 import React, {Component} from "react";
-import {StyleSheet, View, WebView, Text} from "react-native";
+import {StyleSheet, View, WebView,Dimensions, Text} from "react-native";
 
 import colors from '../../utils/colors';
+
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
+
 
 class WebViewScreen extends Component{
 
@@ -54,12 +58,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'stretch',
-    position:'relative',
+    position:'absolute',
+    top:0,left:0,
+    height:DeviceHeight,
+    width:DeviceWidth,
     alignSelf: 'stretch',
+    paddingTop:60,
     backgroundColor:colors.outerSpace
   },
   webview:{
     flex: 1,
+    
     justifyContent: 'center',
     alignItems: 'stretch',
     position:'relative',

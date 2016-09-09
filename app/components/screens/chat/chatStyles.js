@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
    fontSize: 16,
    fontWeight: '200',
    // flexWrap: 'wrap',
+   overflow:'visible',
    color: colors.white
  },
  thumb: {

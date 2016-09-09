@@ -139,7 +139,7 @@ class ProfileField extends React.Component{
           <View  style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray,alignItems:'center',justifyContent:'space-between',flexDirection:'row',alignSelf:'stretch'}}>
             <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ displayFieldText }</Text>
             <View style={{flexDirection:'row'}}><Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat',textAlign:'right'}}>{ displayValueText }</Text>
-            {this.props.locked && <View style={{width:20,position:'relative',top:5,height:20,backgroundColo:'red',marginLeft:10,right:0}}>
+            {this.props.locked && <View style={{width:20,position:'relative',top:5,height:20,marginLeft:10,right:0}}>
             <Image
               style={{width:15,height:15,}}
               source={{uri:'assets/icon-lock.png'}}

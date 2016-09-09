@@ -269,15 +269,11 @@ class Settings extends React.Component{
 
 
                 <TouchableHighlight onPress={(f)=>{
-                  console.log(f)
                   this.props.navigator.push(this.props.navigation.router.getRoute('SettingsPreferences', {
                     style:styles.container,
                     settingOptions:this.state.settingOptions,
                     user:this.props.user,
-                    navigator:this.props.navigator,
-                    dispatch: this.props.dispatch,
-                    navigation: this.props.navigation
-
+                    
                   }));
 
                 }} underlayColor={colors.dark} >

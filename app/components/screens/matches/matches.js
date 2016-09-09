@@ -277,7 +277,7 @@ class MatchList extends Component {
              </SwipeableQuickActions>
            )
           }
-          bounceFirstRowOnMount={true}
+          bounceFirstRowOnMount={false}
           chatActionSheet={this.props.chatActionSheet}
           onEndReached={this.onEndReached.bind(this)}
           onEndReachedThreshold={200}

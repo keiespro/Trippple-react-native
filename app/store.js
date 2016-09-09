@@ -5,7 +5,7 @@ import thunk from 'redux-thunk';
 import {AsyncStorage} from 'react-native'
 import createActionBuffer from 'redux-action-buffer'
 // import {REHYDRATE} from 'redux-persist/constants'
-import throttleActions from "redux-throttle-actions";
+// import throttleActions from "redux-throttle-actions";
 import promiseMiddleware from 'redux-promise-middleware';
 import createLogger from 'redux-logger';
 import {persistStore, autoRehydrate} from 'redux-persist'
@@ -24,7 +24,7 @@ const middlewares = [
   thunk, 
   promiseMiddleware(), 
   createActionBuffer('EX_NAVIGATION.INITIALIZE'), 
-  throttleActions(['EX_NAVIGATION.PUSH'], 500)
+  // throttleActions(['EX_NAVIGATION.BATCH'], 500)
 ]
 // const middlewares = [thunk, promiseMiddleware() ]
 
@@ -43,7 +43,7 @@ function configureStore(initialState = ({})) {
     );
     global.reduxNativeDevTools && global.reduxNativeDevTools.updateStore(store);
 
-    persistStore(store, {storage: AsyncStorage,blacklist:['navigation']}).purge(['navigation'])
+    persistStore(store, {storage: AsyncStorage,blacklist:['navigation','ui']}).purge(['navigation'])
 
     if (module.hot) {
       module.hot.accept(() => {

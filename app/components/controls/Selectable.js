@@ -26,13 +26,13 @@ class Selectable extends React.Component{
               fontSize:MagicNumbers.size18,fontFamily:'Montserrat'
             }}
           >{this.props.label}</Text>
-      {selected ?    <Image
+      {selected ? <Image
             style={{height:30,width:30}}
             source={{ uri: 'assets/ovalSelected@3x.png'} }
           /> :
           <View
             style={{height:30,width:30,
-              borderWidth:2,
+              borderWidth:1.5,
               borderColor:colors.shuttleGray,
               borderStyle:'dashed',
               borderRadius:15
