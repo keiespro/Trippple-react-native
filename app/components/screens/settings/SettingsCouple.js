@@ -1,6 +1,3 @@
-'use strict';
-
-
 import React from "react";
 import moment from 'moment';
 
@@ -35,9 +32,6 @@ import {
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-
-
-
 
 
 var PickerItemIOS = PickerIOS.Item;
@@ -137,7 +131,7 @@ class SettingsCouple extends React.Component{
 
 
   static route = {
-    styles: NavigationStyles.FloatHorizontal,
+    // styles: NavigationStyles.FloatHorizontal,
     navigationBar: {
       backgroundColor: colors.shuttleGrayAnimate,
       title(params){
@@ -150,19 +144,19 @@ class SettingsCouple extends React.Component{
   }
   invitePartner(){
 
-        this.props.navigator.push({
-          component: Contacts,
-          passProps:{
-            _continue: ()=>{
-              // console.log(this.props.navigator)
-              let routes = this.props.navigator.getCurrentRoutes()
-              let thisRoute = routes[routes.length-3]
-              this.props.navigator.popToRoute(thisRoute);
-              this.props.dispatch(ActionMan.getUserInfo())
-            }
-          }
+//         this.props.navigator.push({
+//           component: Contacts,
+//           passProps:{
+//             _continue: ()=>{
+//               // console.log(this.props.navigator)
+//               let routes = this.props.navigator.getCurrentRoutes()
+//               let thisRoute = routes[routes.length-3]
+//               this.props.navigator.popToRoute(thisRoute);
+//               this.props.dispatch(ActionMan.getUserInfo())
+//             }
+//           }
 
-        })
+        // })
 
   }
 
@@ -191,11 +185,12 @@ class SettingsCouple extends React.Component{
 
     return (
 
+      <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight,overflow:'hidden',flex:1,paddingTop:60}}>
         <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{flex:1,paddingTop:50}} contentContainerStyle={{   paddingTop: 0}} >
+        style={{flex:1,paddingTop:50}} contentContainerStyle={{   backgroundColor:colors.outerSpace, paddingTop: 0}} >
 
-        { partner.phone && (partner.user_id || partner.id) &&
+        { ( partner.id) &&
           <View>
                   <View style={{height:120,width:120,alignItems:'center',alignSelf:'center'}}>
                     <Image
@@ -234,7 +229,7 @@ class SettingsCouple extends React.Component{
                 }
 
 
-                  { partner.phone && !partner.user_id && !partner.id &&
+                  { !partner.id &&
                     <View>
                     <View style={{height:120,width:120,alignItems:'center',alignSelf:'center',marginBottom:20}}>
                       <Image
@@ -288,34 +283,8 @@ class SettingsCouple extends React.Component{
 
                   }
 
-                  {partner.phone &&
-                    <View>
-                    <View style={{paddingHorizontal: 25,}}>
-
-                    <View style={styles.formHeader}>
-                      <Text style={styles.formHeaderText}>Contact Info</Text>
-                    </View>
-                    </View>
-                    {['phone'].map((field) => {
-                      return  (
-                        <View  key={'key'+field}  style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray, alignItems:'center',justifyContent:'space-between',flexDirection:'row',marginHorizontal:25}}>
-                            <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ field.toUpperCase()}</Text>
-                          <Text style={{color:colors.shuttleGray,
-                              fontSize:18,fontFamily:'Montserrat',textAlign:'right',paddingRight:30}}>{
-                              partner[field] && formatPhone(partner[field])
-                            }</Text>
-                            <Image
-                                style={{width:15,height:15,position:'absolute',right:0,top:23}}
-                                source={{uri:'assets/icon-lock.png'}}
-                                resizeMode={Image.resizeMode.contain}/>
-
-                          </View>
-                        )
-                      })}
-                      </View>
-                  }
-
-                  <TouchableHighlight
+                  {partner.id &&
+                    <TouchableHighlight
                     style={{
                       alignSelf:'stretch',
                       marginVertical:50,
@@ -339,7 +308,7 @@ class SettingsCouple extends React.Component{
                         }}>LEAVE COUPLE</Text>
                     </View>
                 </TouchableHighlight>
-
+}
                   {/*!partner.phone &&
                     <View>
                     <View style={{height:120,width:120,alignItems:'center',alignSelf:'center',marginBottom:20}}>
@@ -374,6 +343,7 @@ class SettingsCouple extends React.Component{
                     */}
 
       </ScrollView>
+        </View>
 
 
     )

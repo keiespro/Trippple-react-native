@@ -4,6 +4,9 @@ export default function userReducer(state = initialState, action) {
 
   switch (action.type) {
 
+    case 'DECOUPLE_FULFILLED':
+      return {...state, partner: null, couple: null}
+    
     case 'GET_USER_INFO_PENDING':
 
       return state;

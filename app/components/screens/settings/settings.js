@@ -1,5 +1,3 @@
-/*
-*/
 import React from "react";
 import ReactNative, {
   StyleSheet,
@@ -109,11 +107,12 @@ class Settings extends React.Component{
     const selfAsPotential = {
       user: { ...this.props.user, age },
     }
+    let potential;
     if(this.props.user.relationship_status == 'couple'){
             // delete selfAsPotential.coupleImage;
             // delete selfAsPotential.partner;
       potential = {
-        ...this.props.user.couple,
+        couple:this.props.user.couple,
         user: selfAsPotential.user,
         partner: {
           ...this.props.user.partner,
@@ -166,7 +165,8 @@ class Settings extends React.Component{
                   onPress={this._pressNewImage.bind(this)}
                   style={{marginTop:0,}}
                 >
-                  <Image
+                  <View> 
+                    <Image
                     style={[ styles.userimage, { backgroundColor:colors.dark}]}
                     key={this.props.user.id+'thumb'}
                     defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
@@ -180,6 +180,7 @@ class Settings extends React.Component{
                         resizeMode={Image.resizeMode.contain}
                         />
                       </View>
+                    </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={this._openProfile.bind(this)}  style={{alignSelf:'stretch',}} >
                       <View style={{alignSelf:'stretch',flexDirection:'column',alignItems:'stretch',justifyContent:'center'}}>
@@ -224,10 +225,9 @@ class Settings extends React.Component{
                     </View>
                 </TouchableHighlight>
 
-
                 {this.props.user.relationship_status == 'couple' ?
-                    <TouchableHighlight onPress={(f)=>{
 
+                    <TouchableHighlight onPress={(f)=>{
                       this.props.navigator.push(this.props.navigation.router.getRoute('SettingsCouple',{
                         style:styles.container,
                         settingOptions:this.state.settingOptions,
@@ -235,11 +235,7 @@ class Settings extends React.Component{
                         navigator:this.props.navigator,
                         dispatch: this.props.dispatch,
                         navigation: this.props.navigation
-
                       }));
-
-
-
                     }} underlayColor={colors.dark}>
                         <View  style={styles.wrapfield}>
                             <View>
@@ -250,8 +246,7 @@ class Settings extends React.Component{
                             </View>
                             <Image source={{uri: 'assets/nextArrow@3x.png'}} resizeMode={'contain'} style={styles.arrowStyle}  />
                         </View>
-                    </TouchableHighlight>
-                : null }
+                    </TouchableHighlight> : null }
 
                 {this.props.user.relationship_status == 'single' ?
                     <TouchableHighlight onPress={(f)=>{
@@ -274,7 +269,7 @@ class Settings extends React.Component{
 
 
                 <TouchableHighlight onPress={(f)=>{
-
+                  console.log(f)
                   this.props.navigator.push(this.props.navigation.router.getRoute('SettingsPreferences', {
                     style:styles.container,
                     settingOptions:this.state.settingOptions,
@@ -404,11 +399,28 @@ class Settings extends React.Component{
                   </TouchableOpacity>
 
                 </View>
+
+
+          <View style={[styles.paddedSpace,{marginTop:20,paddingVertical:20}]}>
+
+            <Text style={{color:colors.white,textAlign:'center',fontSize:15,fontFamily:'omnes'}}>
+              Trippple {ReactNative.NativeModules.RNDeviceInfo.appVersion}
+            </Text>
+            {__DEV__ && 
+
+               <Text style={{color:colors.white,textAlign:'center',fontSize:15,fontFamily:'omnes'}}>
+              build {ReactNative.NativeModules.RNDeviceInfo.buildNumber}
+            </Text>
+            }
+          </View>
+                
             </View>
+
+        <XButton navigator={this.props.navigator}/>
+
 
         </ParallaxView>
 
-        <XButton navigator={this.props.navigator}/>
 
 
 </View>

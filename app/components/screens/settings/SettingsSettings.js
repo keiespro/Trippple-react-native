@@ -1,14 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableHighlight,
-  ScrollView,
-  PixelRatio,
-  Dimensions,
-  Image,
-  Settings,
-} from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, ScrollView, PixelRatio, Dimensions, Image, Settings, } from 'react-native';
 import React from "react";
 
 import {
@@ -24,7 +14,6 @@ const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import TouchID from 'react-native-touch-id'
 
-const ACTUAL_VERSION = '2.5';
 
 
 class SettingsSettings extends React.Component{
@@ -87,16 +76,17 @@ class SettingsSettings extends React.Component{
         break;
     }
 
+    this.props.navigator.push(this.props.navigation.router.getRoute('WebViewScreen',{
+        source:{uri:url},
+        pageTitle
+    }))
+
+
     Analytics.event('Interaction',{
       name: `${pageTitle}`,
       type: 'tap',
     })
-
-    this.props.navigator.push(this.props.navigation.router.getRoute('WebViewScreen',{
-      key: pageTitle,
-        source:{uri:url},
-        pageTitle
-    }))
+    
   }
 
   handleFeedback() {
@@ -157,23 +147,24 @@ class SettingsSettings extends React.Component{
 
     TouchID.authenticate(this.state.isLocked ? 'Disable TouchID Lock' : 'Lock Trippple')
       .then((success) => {
+      const {isLocked} = this.state;
         var shouldLock = this.state.isLocked ? 1 : null
 
         this.setState({
-          isLocked: !shouldLock
+          isLocked: !isLocked && success //!shouldLock
         })
-        Settings.set({LockedWithTouchID:this.state.isLocked})
+        Settings.set({LockedWithTouchID: !isLocked && success})
 
-          Analytics.extra('Permission',{
-            name: (shouldLock ? `Enable` : `Disable`) + 'Touch ID lock',
-            action: 'tap',
-          })
+          // Analytics.extra('Permission',{
+          //   name: (shouldLock ? `Enable` : `Disable`) + 'Touch ID lock',
+          //   action: 'tap',
+          // })
 
         // Success code
       })
       .catch(error => {
         // Failure code
-
+          console.log(error)
                 // Alert.alert('Sorry')
 
       });
@@ -186,6 +177,7 @@ class SettingsSettings extends React.Component{
     var {privacy} = this.state
 
     return (
+      <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight,overflow:'hidden',flex:1,paddingTop:60}}>
 
         <ScrollView
           style={{height:DeviceHeight,marginTop: 0,}}
@@ -195,7 +187,7 @@ class SettingsSettings extends React.Component{
 
           showsVerticalScrollIndicator={false}
         >
-          <View style={[styles.paddedSpace,{marginTop:60}]}>
+          <View style={[styles.paddedSpace,{marginTop:0}]}>
             <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>Privacy</Text>
             </View>
@@ -320,17 +312,10 @@ class SettingsSettings extends React.Component{
             </View>
           </TouchableHighlight>
 
-          <View style={[styles.paddedSpace,{marginTop:20,paddingVertical:20}]}>
-
-            <Text style={{color:colors.white,textAlign:'center',fontSize:15,fontFamily:'omnes'}}>
-              Trippple {ACTUAL_VERSION}
-            </Text>
-
-          </View>
-
 
         </ScrollView>
 
+          </View>
 
 
     )

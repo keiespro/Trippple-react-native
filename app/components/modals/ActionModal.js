@@ -78,16 +78,16 @@ class ActionModal extends Component{
 
   reportModal(match){
 
-     this.props.navigator.push({
-      component: ReportModal,
-      passProps: {
-        action: 'report',
-        match,
-        goBack: ()=> {
-          this.props.navigator.pop()
-        }
-      }
-    })
+     // this.props.navigator.push({
+     //  component: ReportModal,
+     //  passProps: {
+     //    action: 'report',
+     //    match,
+     //    goBack: ()=> {
+     //      this.props.navigator.pop()
+     //    }
+     //  }
+    // })
     this.toggleModal()
 
   }
@@ -216,21 +216,8 @@ class ActualModal extends Component{
 
               </View>
 
-      {/*        <TouchableHighlight
-                style={[styles.clearButton,styles.modalButton]}
-                underlayColor={colors.mediumPurple}
-                onPress={()=>{
-                  MatchActions.toggleFavorite(this.props.currentMatch.match_id.toString())
-                }}>
-                <View >
-                  <Text style={[styles.clearButtonText,styles.modalButtonText]}>
-                    {this.props.currentMatch.isFavourited ? 'UNFAVORITE' : 'FAVORITE'}
-                  </Text>
-                </View>
-              </TouchableHighlight>
-*/}
               <TouchableHighlight
-                style={[styles.clearButton,styles.modalButton,{borderColor:colors.mediumPurple,backgroundColor:colors.mediumPurple20}]}
+                style={[styles.clearButton,styles.modalButton,{zIndex:999,borderColor:colors.mediumPurple,backgroundColor:colors.mediumPurple20}]}
                 underlayColor={colors.mediumPurple}
                 onPress={()=>{
                   // this.props.toggleModal()

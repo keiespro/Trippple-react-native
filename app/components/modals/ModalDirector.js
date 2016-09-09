@@ -6,12 +6,14 @@ import { BlurView, VibrancyView } from 'react-native-blur'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
+import { withNavigation} from '@exponent/ex-navigation';
+
 import url from 'url'
 import Action from './Action'
 import ActionMan from '../../actions'
 import { connect } from 'react-redux';
 
-
+@withNavigation
 class ModalDirector extends Component{
   constructor(props){
     super()

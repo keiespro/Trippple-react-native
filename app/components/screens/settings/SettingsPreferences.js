@@ -1,21 +1,3 @@
-'use strict';
-
-import React from "react";
-import dismissKeyboard from 'dismissKeyboard'
-
-import AgePrefs from '../../controls/AgePrefs';
-import FieldModal from '../../modals/FieldModal';
-import PartnerMissingModal from '../../modals/PartnerMissingModal';
-import PermissionSwitches from '../../controls/PermissionSwitches';
-import colors from '../../../utils/colors';
-import styles from './settingsStyles';
-import {MagicNumbers} from '../../../utils/DeviceConfig'
-import ActionMan from '../../../actions'
-import Selectable from '../../controls/Selectable'
-
-import {
-  NavigationStyles,
-} from '@exponent/ex-navigation';
 
 import {
   StyleSheet,
@@ -37,6 +19,22 @@ import {
   Navigator
 } from  'react-native'
 
+import React from "react";
+import dismissKeyboard from 'dismissKeyboard'
+
+import AgePrefs from '../../controls/AgePrefs';
+import FieldModal from '../../modals/FieldModal';
+import PartnerMissingModal from '../../modals/PartnerMissingModal';
+import PermissionSwitches from '../../controls/PermissionSwitches';
+import colors from '../../../utils/colors';
+import styles from './settingsStyles';
+import {MagicNumbers} from '../../../utils/DeviceConfig'
+import ActionMan from '../../../actions'
+import Selectable from '../../controls/Selectable'
+
+import {
+  NavigationStyles,
+} from '@exponent/ex-navigation';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
@@ -153,6 +151,7 @@ class SettingsPreferences extends React.Component{
     const values = {looking_for_mf,looking_for_mm,looking_for_ff, looking_for_f, looking_for_m}
         return (
 
+      <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight,overflow:'hidden',flex:1,paddingTop:60}}>
           <ScrollView
           showsVerticalScrollIndicator={false}
           automaticallyAdjustContentInsets={true}
@@ -160,7 +159,7 @@ class SettingsPreferences extends React.Component{
             paddingVertical:MagicNumbers.is5orless ? 0 : 20}}
             scrollEnabled={this.state.scroll == 'on' ? true : false}
           >
-            <View style={[styles.paddedSpace,{marginTop:60}]}>
+            <View style={[styles.paddedSpace,{marginTop:0}]}>
               <View style={styles.formHeader}>
                 <Text style={styles.formHeaderText}>
                  What are you looking for in a Match?
@@ -227,7 +226,9 @@ class SettingsPreferences extends React.Component{
         <PermissionSwitches {...this.props} />
         </View>
 
-        </ScrollView>
+      </ScrollView>
+        </View>
+
 
     )
   }

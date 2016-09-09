@@ -4,7 +4,7 @@ import devTools from 'remote-redux-devtools';
 import thunk from 'redux-thunk';
 import {AsyncStorage} from 'react-native'
 import createActionBuffer from 'redux-action-buffer'
-import {REHYDRATE} from 'redux-persist/constants'
+// import {REHYDRATE} from 'redux-persist/constants'
 
 import promiseMiddleware from 'redux-promise-middleware';
 import createLogger from 'redux-logger';
@@ -51,7 +51,7 @@ function configureStore(initialState = ({})) {
 
   } else {
 
-    const store = createNavigationEnabledStore(createStore,'exnavigation')(
+    const store = createNavigationEnabledStore(createStore)(
       createReducer(),
       initialState,
       compose(
@@ -59,7 +59,7 @@ function configureStore(initialState = ({})) {
         applyMiddleware(...middlewares),
       )
     );
-    persistStore(store, {storage: AsyncStorage,blacklist:['ui']})
+    persistStore(store, {storage: AsyncStorage,blacklist:['navigation']})
     return store
 
   }

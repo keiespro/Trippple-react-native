@@ -108,7 +108,6 @@ class Potentials extends React.Component{
   }
 
   componentWillReceiveProps(nProps){
-    console.log(nProps);
     const nui = nProps.ui;
     const ui = this.props.ui;
     if( !nui.profileVisible && ui.profileVisible){

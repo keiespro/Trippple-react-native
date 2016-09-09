@@ -4,17 +4,22 @@ import starters  from '../data/StarterDecks'
 export default function potentialsReducer(state = initialState, action) {
 
   switch (action.type) {
+    case 'DECOUPLE_FULFILLED':
+       return initialState;
 
-      case 'REMOVE_POTENTIAL':
-        let targetID = action.payload.id;
-        const newPotentials = [...state].reject(m => m.user.id == targetID || m.partner.id == targetID || m.couple.id == targetID)
-        return [...newPotentials]
+    case 'ONBOARD_FULFILLED':
+      return initialState;
 
-      case 'GET_STARTER_POTENTIALS':
-        let starter = starters[action.payload.relationshipStatus || 'single']
-        return [...(_.shuffle(starter))]
+    case 'REMOVE_POTENTIAL':
+      let targetID = action.payload.id;
+      const newPotentials = [...state].reject(m => m.user.id == targetID || m.partner.id == targetID || m.couple.id == targetID);
+      return [...newPotentials]
 
-      case 'GET_POTENTIALS_FULFILLED':
+    case 'GET_STARTER_POTENTIALS':
+        let starter = starters[action.payload.relationshipStatus || 'single'];
+        return [...(_.shuffle(starter))];
+
+    case 'GET_POTENTIALS_FULFILLED':
         const data = action.payload.response;
         let pots;
         if(!data || !data.matches || !data.matches.length){
@@ -28,13 +33,13 @@ export default function potentialsReducer(state = initialState, action) {
           pots = data.matches
         }
 
-        return [ ...pots]
+        return [ ...pots];
 
-      case 'SEND_LIKE_FULFILLED':
+    case 'SEND_LIKE_FULFILLED':
         // const potes = state.slice(1,state.length)
-        return [...(state.slice(1,state.length))]
+        return [...(state.slice(1,state.length))];
 
-      default:
+    default:
 
         return state;
   }

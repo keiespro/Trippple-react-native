@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Settings,View} from 'react-native'
-import ActionMan from  './actions/';
+import ActionMan from './actions/';
 import TouchID from 'react-native-touch-id'
 import LockFailed from './components/LockFailed'
 import AppContainer from './AppContainer'
@@ -15,17 +15,12 @@ class NewBoot extends Component{
   componentWillMount(){
     if(this.state.locked){
       this.checkTouchId()
-    }else{
-      // this.initialize()
     }
-
   }
 
   checkTouchId(){
     TouchID.authenticate('Access Trippple')
       .then(success => {
-        console.log(success);
-        this.initialize()
 
         this.setState({
           lockFailed: false,
@@ -33,7 +28,6 @@ class NewBoot extends Component{
         })
       })
       .catch(error => {
-        Analytics.err(err)
         this.setState({
           lockFailed: true
         })

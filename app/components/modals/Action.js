@@ -14,6 +14,9 @@ import React, { Component } from 'react';
 
 import UserProfile from '../UserProfile';
 
+import {withNavigation} from '@exponent/ex-navigation';
+
+
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
@@ -25,29 +28,31 @@ import UnmatchModal from './UnmatchModal'
 import ActionMan from '../../actions'
 import { BlurView,VibrancyView} from 'react-native-blur'
 
-export default class Action extends React.Component{
+@withNavigation
+class Action extends React.Component{
+  
   render(){
-    console.log(this.props);
-     const currentMatch = this.props.match || this.props.currentMatch || this.props.scene.route.params.matchInfo;
+    const currentMatch = this.props.match || this.props.currentMatch || this.props.scene.route.params.matchInfo;
 
     const img_url_id = Object.keys(currentMatch.users).filter(uid => uid != this.props.user.id  && uid != this.props.user.partner_id);
     console.log(img_url_id);
     if(typeof img_url_id == 'object'){
       img_url_id_id = img_url_id[0]
     }
-    const img_url = currentMatch.users[img_url_id_id || img_url_id ].image_url;
+    const img_url = currentMatch.users[(img_url_id_id || img_url_id) ].image_url;
 
-    var theirIds = Object.keys(currentMatch.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id)
-    var them = theirIds.map((id)=> currentMatch.users[id])
-    var  matchName
+    var theirIds = Object.keys(currentMatch.users).filter(u => u != this.props.user.id && u != this.props.user.partner_id)
+    var them = theirIds.map(id=> currentMatch.users[id] )
+    var  matchName;
     if(this.props.user.relationship_status == 'couple'){
       matchName = them[0].firstname
     }else{
       matchName = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },'') +'';
     }
-
+    
     return (
-      <BlurView blurType="dark"  style={[styles.actionmodal]}>
+      
+      <BlurView blurType="dark" style={styles.actionmodal}>
       <ScrollView >
 
 <View  style={[styles.actionmodal]}>
@@ -84,8 +89,10 @@ export default class Action extends React.Component{
       <TouchableHighlight
         style={[styles.clearButton,styles.inlineButtons,{marginRight:10}]}
         underlayColor={colors.shuttleGray20}
-        onPress={()=>{
-          this.props.dispatch(ActionMan.showInModal({component: UnmatchModal, passProps:{match:currentMatch,goBack:()=>{this.props.dispatch(ActionMan.killModal()) }}}))
+        onPress={()=>{ 
+          this.props.dispatch(ActionMan.killModal())
+
+          this.props.dispatch(ActionMan.showInModal({component: UnmatchModal, passProps:{match:currentMatch,goBack:()=>{this.props.dispatch(ActionMan.killModal()) } }}))
 
 
         }}>
@@ -129,8 +136,20 @@ export default class Action extends React.Component{
       style={[styles.clearButton,styles.modalButton,{borderColor:colors.mediumPurple,backgroundColor:colors.mediumPurple20}]}
       underlayColor={colors.mediumPurple}
       onPress={()=>{
-        this.props.dispatch(ActionMan.showInModal({component: ReportModal, passProps:{match:currentMatch,goBack:()=>{this.props.dispatch(ActionMan.killModal()) }}}))
 
+    var {user,match} = this.props,
+          rel = user.relationship_status
+
+
+    var theirIds = Object.keys(match.users).filter( u => { return u != user.id && u != user.partner_id})
+    var them = theirIds.map((id) =>match.users[id])
+
+    const MatchUserAsPotential = {
+      user: them[0],
+      partner: them[1] || null
+    }
+console.log(this.props);
+        this.props.navigator.push(this.props.navigation.router.getRoute('UserProfile',{potential:MatchUserAsPotential,user:this.props.user}));
       }}>
       <View >
         <Text style={[styles.clearButtonText,styles.modalButtonText]}>
@@ -156,6 +175,8 @@ export default class Action extends React.Component{
 }
 
 }
+
+export default Action
 
 
 const styles = StyleSheet.create({

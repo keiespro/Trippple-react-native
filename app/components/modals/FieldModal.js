@@ -1,16 +1,9 @@
-'use strict';
-
-
 import React from "react";
 import reactMixin from 'react-mixin';
-
 import colors from '../../utils/colors';
-
 import {
   NavigationStyles,
 } from '@exponent/ex-navigation';
-
-
 import {
   StyleSheet,
   Text,
@@ -27,17 +20,12 @@ import {
   PickerIOS,
   Image,
   AsyncStorage,
-  Navigator
-} from  'react-native'
-
+} from 'react-native'
 import TrackKeyboardMixin from '../mixins/keyboardMixin'
 import {MagicNumbers} from '../../utils/DeviceConfig'
 
-
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-
-
 import ActionMan from '../../actions/'
 
 function getMaxLength(fieldName){
@@ -59,7 +47,7 @@ class FieldModal extends React.Component{
       visible:false,
       backgroundColor: colors.shuttleGrayAnimate,
       title(params){
-        const fieldLabel = params.title || params.field && params.field.label || ''
+        const fieldLabel = params && params.title || (params.field && params.field.label) || '';
         return fieldLabel.toUpperCase()
       }
     }
@@ -127,7 +115,7 @@ class FieldModal extends React.Component{
 
   getValueFromKey(data, key) {
     var value = null;
-    Object.keys(data).forEach(function(i) {
+    Object.keys(data).forEach((i) =>{
        if (i == key) {
           value = data[i];
        }
@@ -138,7 +126,7 @@ class FieldModal extends React.Component{
 
   // onDateChange(date){
   //
-  //   var isLegal = moment(date).diff(moment(), 'years') < -18;
+   // var isLegal = moment(date).diff(moment(), 'years') < -18;
   //   if(!isLegal){
   //    this.setState({
   //       error:true,
@@ -182,7 +170,7 @@ class FieldModal extends React.Component{
 
   renderButtons(){
     return (
-      <View style={{bottom:-3,flexDirection:'row',height:70,alignSelf:'stretch',alignItems:'center',width:DeviceWidth}}>
+      <View style={{bottom:-3,zIndex:9999,flexDirection:'row',height:70,alignSelf:'stretch',alignItems:'center',width:DeviceWidth}}>
         <TouchableHighlight underlayColor={colors.dark} onPress={this.props.cancel}
           style={{ borderTopWidth: 1, borderColor: colors.rollingStone,flex:1,paddingVertical:20}}>
           <View>
@@ -388,13 +376,13 @@ class FieldModal extends React.Component{
             {this.renderButtons()}
 
           </View>
-        )
+        );
     case 'textarea':
         return (
-          <View style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between'}}>
-            <ScrollView style={{ flex:1}}
-            contentContainerStyle={{  alignSelf:'stretch',alignItems:'center',justifyContent:'center',flex:1}}
-
+          <View style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between',}}>
+            <ScrollView 
+              style={{ flex:1}}
+              contentContainerStyle={{  alignSelf:'stretch',alignItems:'center',justifyContent:'center',flex:1}}
             >
               <Text  style={{
                   color: colors.rollingStone,
@@ -425,7 +413,9 @@ class FieldModal extends React.Component{
       }
     }
     return (
-      <KeyboardAvoidingView  style={{flex:1}} behavior={'padding'}>
+     
+        <View style={{ position:'absolute',left:0,flex:1}}>
+        <KeyboardAvoidingView  style={{flex:1}} behavior={'padding'}>
       <ScrollView
         scrollEnabled={false}
         keyboardShouldPersistTaps={true}
@@ -443,7 +433,8 @@ class FieldModal extends React.Component{
         {inside()}
 
       </ScrollView>
-      </KeyboardAvoidingView>
+    </KeyboardAvoidingView>
+  </View>
     )
   }
 }

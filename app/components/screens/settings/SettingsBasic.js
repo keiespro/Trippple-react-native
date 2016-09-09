@@ -1,18 +1,4 @@
-'use strict';
-
-
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableHighlight,
-  TouchableOpacity,
-  Dimensions,
-  TextInput,
-  ScrollView,
-  Animated,
-  Picker,
-  Image,
+import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, Dimensions, TextInput, ScrollView, Animated, Picker, Image,
   DatePicker,
   Navigator,
 } from 'react-native';
@@ -138,9 +124,8 @@ class ProfileField extends React.Component{
     const displayFieldText = fieldLabel ? fieldLabel.toUpperCase() : '';
      return (
         <TouchableHighlight onPress={(f)=>{
-            //trigger modal
+            if(this.props.locked) return false;
             this.props.navigator.push(this.props.navigation.router.getRoute('FieldModal',{
-              key:`edit${fieldLabel}`,
               inputField: displayField(field),
               field,
               fieldName:this.props.fieldName,
@@ -150,10 +135,19 @@ class ProfileField extends React.Component{
               dispatch:this.props.dispatch
             }))
           }} underlayColor={colors.dark} style={styles.paddedSpace}>
+          <View>
           <View  style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray,alignItems:'center',justifyContent:'space-between',flexDirection:'row',alignSelf:'stretch'}}>
             <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ displayFieldText }</Text>
-            <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat',textAlign:'right'}}>{ displayValueText }</Text>
-          </View>
+            <View style={{flexDirection:'row'}}><Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat',textAlign:'right'}}>{ displayValueText }</Text>
+            {this.props.locked && <View style={{width:20,position:'relative',top:5,height:20,backgroundColo:'red',marginLeft:10,right:0}}>
+            <Image
+              style={{width:15,height:15,}}
+              source={{uri:'assets/icon-lock.png'}}
+              resizeMode={Image.resizeMode.contain}/>
+              </View> }
+            </View>
+              </View> 
+              </View>
         </TouchableHighlight>
     )
   }
@@ -212,39 +206,21 @@ class SettingsBasic extends React.Component{
               </View>
 
             {['firstname'].map((field,i) => {
-              return <ProfileField  navigation={this.props.navigation} key={field+'key'+(i*10)} user={this.props.user} dispatch={this.props.dispatch} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
+              return <ProfileField locked={true}  navigation={this.props.navigation} key={field+'key'+(i*10)} user={this.props.user} dispatch={this.props.dispatch} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
             })}
 
             {['birthday'].map((field,i) => {
               return (
-                <ProfileField dispatch={this.props.dispatch} key={field+'keybd'+(i*1000)} user={this.props.user} navigator={this.props.navigator} navigation={this.props.navigation} fieldName={'birthday'} field_type={'date'} field={settingOptions[field]} label={'bday'} />
+                <ProfileField locked={true} dispatch={this.props.dispatch} key={field+'keybd'+(i*1000)} user={this.props.user} navigator={this.props.navigator} navigation={this.props.navigation} fieldName={'birthday'} field_type={'date'} field={settingOptions[field]} label={'bday'} />
               )
             })}
            {['gender'].map((field,i) => {
             return (
 
-              <ProfileField dispatch={this.props.dispatch} key={field+'key'+(i*1000)} user={this.props.user} navigator={this.props.navigator} navigation={this.props.navigation} fieldName={field} field={settingOptions[field]} />
+              <ProfileField locked={true}  dispatch={this.props.dispatch} key={field+'key'+(i*1000)} user={this.props.user} navigator={this.props.navigator} navigation={this.props.navigation} fieldName={field} field={settingOptions[field]} />
             )
           })}
-              {/* <View style={styles.formHeader}>
-                <Text style={styles.formHeaderText}>Contact Info</Text>
-              </View>
-            <View style={{}}>
-            {['phone'].map((field,i) => {
-              return (
-
-                 <ProfileField navigation={this.props.navigation} dispatch={this.props.dispatch} key={field+'key'+(i*1000)} user={this.props.user} navigator={this.props.navigator} fieldName={field} field={{...settingOptions[field], label:'PHONE'}} />
-
-              )
-            })}
-
-            {['email'].map((field,i) => {
-              return <ProfileField   navigation={this.props.navigation}  dispatch={this.props.dispatch} key={field+'key'+(i*1000)} user={this.props.user} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
-            })}
-
-            </View> */}
-
-
+            
              <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>Details</Text>
            </View>

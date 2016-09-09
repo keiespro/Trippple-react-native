@@ -10,7 +10,7 @@ class Selectable extends React.Component{
     super()
   }
   render(){
-    const selected = this.props.selected || this.props.values[this.props.field];
+    const selected = this.props.selected;
 
     return (
       <TouchableHighlight
@@ -18,7 +18,9 @@ class Selectable extends React.Component{
         style={styles.paddedSpace}
         onPress={() => this.props.onPress(this.props.field) }
         >
-        <View style={[styles.insideSelectable,styles.formRow]}>
+        <View style={[styles.insideSelectable,styles.formRow,this.props.isLast && {
+          borderBottomWidth: 0,
+        }]}>
           <Text
             style={{color: selected ? colors.white : colors.rollingStone,
               fontSize:MagicNumbers.size18,fontFamily:'Montserrat'
