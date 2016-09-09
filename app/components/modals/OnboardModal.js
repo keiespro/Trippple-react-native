@@ -91,13 +91,12 @@ class OnboardModal extends Component {
   }
 
   onboardUser() {
-    // let gender = this.state.selected_ours.slice(this.state.selected_ours.length - 2, this.state.selected_ours.length).trim();
     const payload = {
       relationship_status: this.state.selected_relationship_status,
-      name: this.props.user.firstname,
-      email: this.props.user.email,
-      facebook_user_id: this.props.user.facebook_user_id,
-      gender: this.state.selected_genders,
+      // name: this.props.user.firstname,
+      // email: this.props.user.email,
+      // facebook_user_id: this.props.user.facebook_user_id,
+      genders: this.state.selected_genders,
       ...Object.keys(this.state.selected_theirs).reduce((acc,s) => {
         acc[`looking_for_${s}`] = this.state.selected_theirs[s];
         return acc;
