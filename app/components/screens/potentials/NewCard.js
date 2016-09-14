@@ -23,10 +23,13 @@ const CardLabel = (props) => (
       style={[styles.cardBottomOtherText, {color:props.textColor}]}
       key={`${props.potential.user.id}-matchn`}
     >{
-        props.city + props.seperator + (props.distance ? ` ${props.distance} ${props.distance == 1 ? 'mile' : 'miles'} away` : ``)
-    }</Text>
+      props.city  }</Text>
   </View>
-);
+  );
+
+
+//++ props.seperator    (props.distance ? ` ${props.distance} ${props.distance == 1 ? 'mile' : 'miles'} away` : ``)
+
 
 
 class NewCard extends React.Component {
@@ -82,9 +85,9 @@ class NewCard extends React.Component {
               profileVisible={profileVisible}
               height={DeviceHeight }
               dispatch={this.props.dispatch}
-              style={{flex:0,zIndex:0,backgroundColor:'transparent', }}
+              style={{flex:0,zIndex:0,backgroundColor:'transparent', left:DeviceWidth-cardWidth}}
 
-            scrollEnabled={isTopCard && profileVisible}>
+            scrollEnabled={ profileVisible}>
              {slides}
            </Swiper>
           )}

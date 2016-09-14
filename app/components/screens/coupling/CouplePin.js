@@ -34,7 +34,6 @@ class CouplePin extends React.Component{
   }
 
   componentWillReceiveProps(nProps){
-    console.log(nProps);
     if( nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified ){
       this.setState({
         success: true,

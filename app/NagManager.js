@@ -73,7 +73,6 @@ class NagManager extends React.Component{
         if( nProps.likeCount > this.props.likeCount){
           this.setState({askingNotification:true})
           PushNotification.checkPermissions((perm) =>{
-            console.log(perm);
             if(!perm.alert){
               this.setTimeout(()=>{
                 this.notificationModal();
@@ -90,7 +89,7 @@ class NagManager extends React.Component{
 
   checkNotificationsSetting(){
     OSPermissions.canUseNotifications((hasPermission)=>{
-      console.log('hasPermission notifications',parseInt(hasPermission))
+      // console.log('hasPermission notifications',parseInt(hasPermission))
 
       if(parseInt(hasPermission) > 2){
 
@@ -132,7 +131,6 @@ class NagManager extends React.Component{
     const hasSeenLocationRequest = Settings.get(LAST_ASKED_LOCATION_PERMISSION);
 
     OSPermissions.canUseLocation((hasPermission)=>{
-      console.log(hasPermission);
       if(parseInt(hasPermission) <= 2 || hasSeenLocationRequest){
         this.locationModal()
       }else if(parseInt(hasPermission) > 2){

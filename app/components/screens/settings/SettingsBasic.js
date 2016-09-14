@@ -120,7 +120,7 @@ class ProfileField extends React.Component{
       displayValueText = this.formattedPhone();
     }
 
-   if (field.field_type == 'birthday') {
+   if (field.field_type == 'date') {
      displayValueText = moment(getValue,'YYYY-MM-DD').format('MM/DD/YYYY');
     }
 

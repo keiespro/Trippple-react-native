@@ -197,7 +197,7 @@ class Settings extends React.Component{
                 </View>
             )}>
 
-            <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,marginBottom:100}}>
+            <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,marginBottom:10}}>
                 <TouchableHighlight onPress={(f)=>{
 
                   this.props.navigator.push(this.props.navigation.router.getRoute('SettingsBasic',{

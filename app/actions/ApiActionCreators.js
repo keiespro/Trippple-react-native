@@ -53,14 +53,12 @@ const ApiActionCreators = endpointMap.reduce((obj,endpoint) => {
         }
 
         api[endpoint.call](...params).then(x => {
-          console.log(x);
 
           if(shouldFetchUserInfo){
             dispatch({type:'GET_USER_INFO',payload:api.getUserInfo()})
           }
           return resolve(x);
         }).catch(x => {
-          console.log(x);
           if(x === 401){
             LogOut()
 
