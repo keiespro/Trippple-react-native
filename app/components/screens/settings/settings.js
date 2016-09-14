@@ -46,10 +46,9 @@ import {
 
 class Settings extends React.Component{
   static route = {
-    styles: NavigationStyles.Fade,
+    styles: NavigationStyles.FloatVertical,
     navigationBar: {
       visible:false,
-      backgroundColor: colors.transparent,
     }
   };
 

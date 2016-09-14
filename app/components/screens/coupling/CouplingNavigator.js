@@ -7,8 +7,9 @@ import FadeInContainer from '../../FadeInContainer';
 import JoinCouple from './JoinCouple';
 import { connect} from 'react-redux'
 import colors from '../../../utils/colors';
-
+import ActionMan from '../../../actions'
 import React,{Component} from 'react'
+import OnboardModal from '../../modals/OnboardModal'
 import {
   StyleSheet,
   Text,
@@ -77,9 +78,22 @@ class CouplingNavigator extends Component {
 
   handleBackAction() {
 
-    if(this.state.navState.index == 0){
+    if(this.state.navState.index == 0 && this.props.user.relationship_status){
       this.props.goBack();
       return
+    }
+    if(!this.props.user.relationship_status){
+        this.props.dispatch(ActionMan.showInModal({
+          component: OnboardModal,
+          passProps:{
+            title:'Onboard',
+            dispatch: this.props.dispatch,
+            navigator:this.props.navigator,
+            navigation:this.props.navigation,
+            user:this.props.user,
+          }
+        }))
+
     }
     return this._handleAction({ type: 'pop' });
   }
@@ -103,7 +117,7 @@ class CouplingNavigator extends Component {
 
     return (
       <View style={{height:DeviceHeight,width:DeviceWidth, }}>
-          <BlurView blurType="dark" style={styles.blurstyle} />
+          <VibrancyView blurType="dark" style={styles.blurstyle} />
 
           <RouteComponent
             couple={this.props.couple}
@@ -121,7 +135,7 @@ class CouplingNavigator extends Component {
 
         <View style={{width:100,height:20,left:10,top:0,flex:1,position:'absolute',alignSelf:'flex-start'}}>
           <TouchableOpacity onPress={this.handleBackAction.bind(this)}>
-            {this.state.navState.index ? <View style={btnstyles.goBackButton}>
+            {this.state.navState.index || !this.props.user.relationship_status ? <View style={btnstyles.goBackButton}>
               <Text textAlign={'left'} style={[btnstyles.bottomTextIcon]}>◀︎ </Text>
               <Text textAlign={'left'} style={[btnstyles.bottomText]}>Go back</Text>
             </View> : <View style={[btnstyles.goBackButton,{left:-20,top:15,}]}>
@@ -206,6 +220,7 @@ const styles = StyleSheet.create({
     position:'absolute',
     top:0,
     width:DeviceWidth,
+    backgroundColor:colors.outerSpace20,
     height:DeviceHeight,
     justifyContent:'center',
     alignItems:'center',

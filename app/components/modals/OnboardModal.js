@@ -155,7 +155,10 @@ class OnboardModal extends Component {
     }, false);
     
     return (
-      <VibrancyView blurType="dark">
+        <VibrancyView blurType="dark" style={{
+            backgroundColor: colors.outerSpace20
+        }}
+        >
         <View style={[
           styles.col, {
             width: DeviceWidth,
@@ -204,7 +207,7 @@ class OnboardModal extends Component {
                 fontFamily: 'Montserrat-Bold',
                 justifyContent: 'space-between',
                 fontSize: 19
-              }}>WELCOME {this.props.user.firstname}</Text>
+              }}>WELCOME {this.props.user.firstname ? this.props.user.firstname.toUpperCase() : '' }</Text>
 
               <Text style={{
                 color: colors.white,
@@ -225,7 +228,6 @@ class OnboardModal extends Component {
                     marginLeft: 30,
                     paddingLeft: 0,
                     height: 70,
-                    paddingRight: 20,
                     justifyContent: 'center',
                     backgroundColor: colors.transparent,
                     borderBottomWidth: 1,
@@ -241,7 +243,8 @@ class OnboardModal extends Component {
                     styles.bigtext, {
                       marginVertical: 10,
                       flexDirection: 'row',
-                      justifyContent: 'space-between'
+                      justifyContent: 'space-between',
+                      paddingRight:15,
                     }
                   ]}>
                     <Text style={{
@@ -251,14 +254,20 @@ class OnboardModal extends Component {
                       textAlign: 'left',
                       marginLeft: 0
                     }}>{this.state.selected_ours && this.state.selected_ours.length > 1 ? `WE'RE A...` : `I'M A...` }</Text>
-                  {this.state.selected_ours && <Text style={{ fontFamily: 'Montserrat', fontSize: 20, color: colors.white }}>
+                  {this.state.selected_ours && <Text style={{ fontFamily: 'Montserrat', fontSize: 20, marginRight: 40,color: colors.white }}>
                     {this.state.selected_ours.length > 1 ? `COUPLE` : 'SINGLE '} ({this.state.selected_genders.toUpperCase()})</Text>}
-                  </View>
+                 <View style={{width:20,position:'absolute',top:5,height:20,marginLeft:10,right:20}}>
+                   <Image
+                   style={{width:15,height:15,}}
+                 source={{uri:'assets/edit.png'}}
+                 resizeMode={Image.resizeMode.contain}/>
+                   </View>
+                </View>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                 style={{
-                  width: DeviceWidth,
+                  width: DeviceWidth - 20,
                   marginLeft: 30,
                   paddingLeft: 0,
                   height: 70,
@@ -274,17 +283,29 @@ class OnboardModal extends Component {
                     this.setState({step: 2});
                   }
                 }}
-                >
-                  <Text style={[
+              >
+                <View style={[
                     styles.rowtext,
                     styles.bigtext, {
+                      marginVertical: 10,
+                      flexDirection: 'row',
+                      justifyContent: 'space-between'
+                    }
+                  ]}>
+                  <Text style={[ {
                       fontFamily: 'Montserrat',
                       fontSize: 20,
-                      marginVertical: 10,
                       textAlign: 'left',
                       color: colors.white
                     }
                   ]}>SEEKING...</Text>
+                    <View style={{width:20,position:'absolute',top:5,height:20,marginLeft:10,right:20}}>
+                   <Image
+                   style={{width:15,height:15,opacity: this.state.selected_ours ? 1 : 0.6}}
+                 source={{uri:'assets/edit.png'}}
+                 resizeMode={Image.resizeMode.contain}/>
+                   </View>
+                   </View>
                 </TouchableOpacity>
               </View>
 

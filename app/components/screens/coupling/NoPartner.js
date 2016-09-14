@@ -56,9 +56,10 @@ class NoPartner extends React.Component{
       <ScrollView>
       <View style={{left:0}}>
         <View style={[{width:DeviceWidth, paddingTop:MagicNumbers.is5orless ? 30 : 50,paddingHorizontal:MagicNumbers.screenPadding/2 }]} >
-
-          <View style={{height:120,marginVertical:MagicNumbers.is5orless ? 10 : 30,flexDirection:'row',alignItems:'center',justifyContent:'center',transform:[{scale:MagicNumbers.is5orless ? .8 : 1 }]}}>
-                      <Image style={[{width:120,height:120,borderRadius:60,marginLeft:0}]}
+           <View style={{height:120,marginVertical:MagicNumbers.is5orless ? 10 : 30,flexDirection:'row',alignItems:'center',justifyContent:'center',transform:[{scale:MagicNumbers.is5orless ? .8 : 1 }]}}>
+            <View
+              style={{width:116,height:116,borderRadius:60,marginRight:-100,borderColor:colors.white,borderWidth:3,borderStyle:'dashed'}} ></View>
+            <Image style={[{width:120,height:120,borderRadius:60,marginLeft:-100}]}
             source={ {uri: this.props.user.image_url} }
             defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
             />
@@ -76,9 +77,7 @@ class NoPartner extends React.Component{
               marginBottom:15,
               backgroundColor:'transparent',
               flexDirection:'column'
-            }]}>
-            You can still proceed as a couple even if your partner isn't ready to join. We strongly encourage you to have your partner join, especially since Couples where both people have joined get 50% more matches on average. Your partner can still join you at a later time, just send them your couple code and we'll connect you.
-        </Text>
+            }]}>You can proceed as a couple even if your partner isn’t ready to join Trippple. However, we strongly encourage you to invite your partner since couples with confirmed partners get 64% more matches.</Text>
         </View>
 
     

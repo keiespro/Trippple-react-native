@@ -1,13 +1,16 @@
 import {StackNavigation, NavigationContext, NavigationProvider} from '@exponent/ex-navigation';
 import React from 'react'
-import {View} from 'react-native'
+import {View,Dimensions} from 'react-native'
 import colors from './utils/colors'
 import Router from './Router'
+
+const DeviceHeight = Dimensions.get('window').height;
+
 
 export default class AppNav extends React.Component {
   render() {
     return (
-        <View>
+        <View style={{height:DeviceHeight}}>
           <StackNavigation
             id="exnavigation"
             defaultRouteConfig={{

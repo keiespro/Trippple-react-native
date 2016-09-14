@@ -98,33 +98,30 @@ class JoinCouple extends Component{
                 </View>
             </TouchableHighlight>
 
-          
-        <TouchableHighlight 
-          onPress={(f)=>{
-            this.props.goCouplePin()
-          }} 
-          underlayColor={colors.white20}
-        >
-                <View style={{
-                  borderBottomWidth: StyleSheet.hairlineWidth,
-                  borderColor:colors.shuttleGray,
-                  height:80,
-                  alignItems:'center',
-                  justifyContent:'space-between',
-                  flexDirection:'row',
-                  paddingRight:MagicNumbers.screenPadding/1.5,
-                  marginLeft:MagicNumbers.screenPadding/1.5
-                }}>
+  <TouchableHighlight onPress={(f)=>{
+              this.props.goEnterCouplePin();
+            }} underlayColor={colors.white20}>
+
+              <View style={{
+                borderBottomWidth: StyleSheet.hairlineWidth,
+                borderColor:colors.shuttleGray,
+                height:80,
+                alignItems:'center',
+                justifyContent:'space-between',
+                flexDirection:'row',
+                paddingRight:MagicNumbers.screenPadding/1.5,
+                marginLeft:MagicNumbers.screenPadding/1.5
+              }}>
                     <View>
-                        <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>INVITE YOUR PARTNER</Text>
+                        <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>ENTER COUPLE CODE</Text>
                         <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
-                        Get a code and send it to them
+                        My partner gave me a code
                         </Text>
                     </View>
                     <Image resizeMode={'contain'} style={cstyles.arrowStyle}  source={{uri: 'assets/nextArrow@3x.png'}} />
                 </View>
             </TouchableHighlight>
-          <TouchableHighlight onPress={(f)=>{
+              <TouchableHighlight onPress={(f)=>{
               this.nopartner();
             }} underlayColor={colors.white20} style={{marginBottom:40}}>
 
@@ -162,6 +159,9 @@ const cstyles = StyleSheet.create({
     tintColor:colors.shuttleGray,
     opacity:0.4,
     width:12,
+    position:'absolute',
+    right:20,
+    top:35,
     height:12
   },
 });

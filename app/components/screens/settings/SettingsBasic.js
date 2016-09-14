@@ -139,12 +139,18 @@ class ProfileField extends React.Component{
           <View  style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray,alignItems:'center',justifyContent:'space-between',flexDirection:'row',alignSelf:'stretch'}}>
             <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ displayFieldText }</Text>
             <View style={{flexDirection:'row'}}><Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat',textAlign:'right'}}>{ displayValueText }</Text>
-            {this.props.locked && <View style={{width:20,position:'relative',top:5,height:20,marginLeft:10,right:0}}>
+            {this.props.locked ? <View style={{width:20,position:'relative',top:5,height:20,marginLeft:10,right:0}}>
             <Image
               style={{width:15,height:15,}}
-              source={{uri:'assets/icon-lock.png'}}
+              source={{uri:'assets/icon-lock@3x.png'}}
+              resizeMode={Image.resizeMode.contain}/>
+              </View> :  <View style={{width:20,position:'relative',top:5,height:20,marginLeft:10,right:0}}>
+            <Image
+              style={{width:15,height:15,}}
+              source={{uri:'assets/edit@3x.png'}}
               resizeMode={Image.resizeMode.contain}/>
               </View> }
+ 
             </View>
               </View>
               </View>
@@ -222,7 +228,7 @@ class SettingsBasic extends React.Component{
           })}
              <View style={[styles.formHeader,{marginTop:10,flexDirection:'row',justifyContent:'flex-start',alignItems:'center'}]}>
                <Image
-              style={{width:13,height:13,marginRight:10}}
+              style={{width:12,height:12,marginRight:5}}
               source={{uri:'assets/icon-lock.png'}}
               resizeMode={Image.resizeMode.contain}/>
                 <Text style={styles.formHeaderText}> Edit on Facebook</Text>
