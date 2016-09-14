@@ -88,7 +88,8 @@ const NOTIFICATION_TYPES = {
 
 ActionMan.receiveNotification = (notification) => dispatch => dispatch({ type: 'RECEIVE_NOTIFICATION',
   payload: new Promise((resolve, reject) => {
-    console.log(notification,'_______________________________________________________');
+    dispatch({type: `RECEIVE_${notification.type.toUpperCase()}`, payload: notification.payload });
+  
     dispatch(ActionMan[NOTIFICATION_TYPES[notification.type]](notification.payload));
     resolve(notification.payload)
   })

@@ -198,7 +198,7 @@ class MatchList extends Component {
     const threadName = them.map((user, i) => user.firstname.trim()).join(' & ');
     const modalVisible = this.state.isVisible;
     const thumb = them[0].thumb_url;
-    const matchImage = thumb
+    const matchImage = thumb || ''
     const unread = rowData.unread || 0;
     const message_body = rowData.recent_message.message_body.replace(/(\r\n|\n|\r)/gm, " ");
     return (

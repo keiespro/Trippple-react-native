@@ -1,6 +1,7 @@
 import CouplePin from './CouplePin';
 import CoupleReady from './CoupleReady';
 import CoupleSuccess from './CoupleSuccess';
+import NoPartner from './NoPartner';
 import EnterCouplePin from './EnterCouplePin';
 import FadeInContainer from '../../FadeInContainer';
 import JoinCouple from './JoinCouple';
@@ -51,7 +52,7 @@ const NavReducer = createReducer({
 })
 
 const couplingRoutes = {
-  JoinCouple, CouplePin, EnterCouplePin, CoupleSuccess
+  JoinCouple, CouplePin, EnterCouplePin, NoPartner, CoupleSuccess
 }
 
 class CouplingNavigator extends Component {
@@ -112,6 +113,7 @@ class CouplingNavigator extends Component {
             exit={this.props.goBack}
             startState={this.props.startState}
             goCouplePin={this._handleAction.bind(this, { type: 'push', key: 'CouplePin' })}
+            goNoPartner={this._handleAction.bind(this, { type: 'push', key: 'NoPartner' })}
             goEnterCouplePin={this._handleAction.bind(this, { type: 'push', key: 'EnterCouplePin' })}
             goCoupleReady={this._handleAction.bind(this, { type: 'push', key: 'CoupleReady' })}
             onboardUser={this.props.onboardUser}

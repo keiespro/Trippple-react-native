@@ -48,7 +48,7 @@ class NewCard extends React.Component {
           style={{backgroundColor:'transparent',flex:1,position:'relative',height:tmpCardHeight,width:cardWidth}}
         >
           <Image
-            source={{uri: p.image_url }}
+            source={{uri: p.image_url || '' }}
             resizeMode="cover"
             style={{flex:1,height:tmpCardHeight,width:cardWidth}}
           />

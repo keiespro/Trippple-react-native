@@ -3,8 +3,11 @@ export default function matchesReducer(state = initialState, action) {
 
 
   switch (action.type) {
+    case 'RECEIVE_COUPLEREADY':
+    case 'RECEIVE_DECOUPLE':
+        return initialState;
 
-      case 'REMOVE_MATCH':
+    case 'REMOVE_MATCH':
         return {...state, [action.payload.matchID]: null }
 
       case 'GET_MATCHES_FULFILLED':

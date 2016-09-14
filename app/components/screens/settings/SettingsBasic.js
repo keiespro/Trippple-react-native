@@ -220,7 +220,14 @@ class SettingsBasic extends React.Component{
               <ProfileField locked={true}  dispatch={this.props.dispatch} key={field+'key'+(i*1000)} user={this.props.user} navigator={this.props.navigator} navigation={this.props.navigation} fieldName={field} field={settingOptions[field]} />
             )
           })}
-
+             <View style={[styles.formHeader,{marginTop:10,flexDirection:'row',justifyContent:'flex-start',alignItems:'center'}]}>
+               <Image
+              style={{width:13,height:13,marginRight:10}}
+              source={{uri:'assets/icon-lock.png'}}
+              resizeMode={Image.resizeMode.contain}/>
+                <Text style={styles.formHeaderText}> Edit on Facebook</Text>
+           </View>
+  
              <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>Details</Text>
            </View>

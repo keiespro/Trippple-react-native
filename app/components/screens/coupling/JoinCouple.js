@@ -33,6 +33,9 @@ class JoinCouple extends Component{
       nProps.exit({success:true})
     }
   }
+  nopartner(){
+    this.props.goNoPartner()
+  }
   render(){
     const couple = this.props.couple;
 
@@ -69,10 +72,12 @@ class JoinCouple extends Component{
           </View>
         </View>
 
-            <TouchableHighlight onPress={(f)=>{
-              console.log(f);
-              this.props.goCouplePin()
-            }} underlayColor={colors.white20}>
+        <TouchableHighlight 
+          onPress={(f)=>{
+            this.props.goCouplePin()
+          }} 
+          underlayColor={colors.white20}
+        >
                 <View style={{
                   borderBottomWidth: StyleSheet.hairlineWidth,
                   borderColor:colors.shuttleGray,
@@ -89,13 +94,39 @@ class JoinCouple extends Component{
                         Get a code and send it to them
                         </Text>
                     </View>
-                    <Image source={{uri: 'assets/nextArrow@3x.png'}} />
+                    <Image resizeMode={'contain'} style={cstyles.arrowStyle}  source={{uri: 'assets/nextArrow@3x.png'}} />
                 </View>
             </TouchableHighlight>
 
-            <TouchableHighlight onPress={(f)=>{
-              this.props.goEnterCouplePin();
-            }} underlayColor={colors.white20}>
+          
+        <TouchableHighlight 
+          onPress={(f)=>{
+            this.props.goCouplePin()
+          }} 
+          underlayColor={colors.white20}
+        >
+                <View style={{
+                  borderBottomWidth: StyleSheet.hairlineWidth,
+                  borderColor:colors.shuttleGray,
+                  height:80,
+                  alignItems:'center',
+                  justifyContent:'space-between',
+                  flexDirection:'row',
+                  paddingRight:MagicNumbers.screenPadding/1.5,
+                  marginLeft:MagicNumbers.screenPadding/1.5
+                }}>
+                    <View>
+                        <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>INVITE YOUR PARTNER</Text>
+                        <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
+                        Get a code and send it to them
+                        </Text>
+                    </View>
+                    <Image resizeMode={'contain'} style={cstyles.arrowStyle}  source={{uri: 'assets/nextArrow@3x.png'}} />
+                </View>
+            </TouchableHighlight>
+          <TouchableHighlight onPress={(f)=>{
+              this.nopartner();
+            }} underlayColor={colors.white20} style={{marginBottom:40}}>
 
               <View style={{
                 borderBottomWidth: StyleSheet.hairlineWidth,
@@ -108,17 +139,29 @@ class JoinCouple extends Component{
                 marginLeft:MagicNumbers.screenPadding/1.5
               }}>
                     <View>
-                        <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>ENTER COUPLE CODE</Text>
+                        <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>PROCEED WITHOUT PARTNER</Text>
                         <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
-                        My partner gave me a code
+                        My partner will join later
                         </Text>
                     </View>
-                    <Image source={{uri: 'assets/nextArrow@3x.png'}} />
+                    <Image resizeMode={'contain'} style={cstyles.arrowStyle}  source={{uri: 'assets/nextArrow@3x.png'}} />
                 </View>
             </TouchableHighlight>
+
 
       </ScrollView>
     )
   }
 }
 export default JoinCouple
+
+
+
+const cstyles = StyleSheet.create({
+  arrowStyle:{
+    tintColor:colors.shuttleGray,
+    opacity:0.4,
+    width:12,
+    height:12
+  },
+});

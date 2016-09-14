@@ -10,7 +10,7 @@ const apiActions = [
   'updateUser',
   'getMatches',
   'getNewMatches',
-  'unMatch',
+  'unmatch',
   'reportUser',
   'getNotificationCount',
   'getMessages',
