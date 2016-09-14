@@ -155,10 +155,8 @@ class OnboardModal extends Component {
     }, false);
     
     return (
-        <VibrancyView blurType="dark" style={{
-            backgroundColor: colors.outerSpace20
-        }}
-        >
+        <View>
+          <VibrancyView blurType="dark" style={{ backgroundColor: colors.outerSpace20 }}/ >
         <View style={[
           styles.col, {
             width: DeviceWidth,
@@ -380,7 +378,7 @@ class OnboardModal extends Component {
 
           </View>}
         </View>
-      </VibrancyView>
+      </View>
 
     )
   }

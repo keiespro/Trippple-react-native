@@ -88,6 +88,7 @@ class Settings extends React.Component{
             })
 
             this.props.dispatch(ActionMan.disableAccount())
+            this.props.dispatch(ActionMan.logOut())
           }},
           {text: 'No', onPress: () => {
 

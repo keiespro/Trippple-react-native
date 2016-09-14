@@ -6,7 +6,7 @@ import React from "react";
 import moment from 'moment';
 import dismissKeyboard from 'dismissKeyboard'
 import { connect } from 'react-redux'
-
+import moment from 'moment'
 import Analytics from '../../../utils/Analytics';
 import FieldModal from '../../modals/FieldModal';
 import PhoneNumberInput from '../../controls/phoneNumberInput';
@@ -119,6 +119,10 @@ class ProfileField extends React.Component{
 
     if (field.field_type == 'phone_input') {
       displayValueText = this.formattedPhone();
+    }
+
+   if (field.field_type == 'birthday') {
+     displayValueText = moment(getValue,'YYYY-MM-DD').format('MM/DD/YYYY');
     }
 
     const displayFieldText = fieldLabel ? fieldLabel.toUpperCase() : '';
