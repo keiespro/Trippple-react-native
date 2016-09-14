@@ -110,9 +110,14 @@
       </CommandLineArguments>
       <EnvironmentVariables>
          <EnvironmentVariable
+            key = "RECORD_MODE"
+            value = "YES"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
             key = "TEST"
             value = "TEST"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "CI_USE_PACKAGER"

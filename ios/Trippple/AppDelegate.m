@@ -110,11 +110,11 @@
   NSURL *sourceURL;
   NSLog(@"%s",getenv("RELEASE"));
 //xs  if(getenv("RELEASE")){
-//    sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+    sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 //  }else{
-    [[RCTBundleURLProvider sharedSettings] setEnableDev:YES];
-    [[RCTBundleURLProvider sharedSettings] setJsLocation:@"x.local"];
-    sourceURL = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:@"main"];
+//    [[RCTBundleURLProvider sharedSettings] setEnableDev:YES];
+//    [[RCTBundleURLProvider sharedSettings] setJsLocation:@"localhost"];
+//    sourceURL = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:@"main"];
 //  }
   return sourceURL;
 }
