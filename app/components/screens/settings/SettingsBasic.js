@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, Dimension
   Navigator,
 } from 'react-native';
 import React from "react";
-import moment from 'moment';
 import dismissKeyboard from 'dismissKeyboard'
 import { connect } from 'react-redux'
 import moment from 'moment'

@@ -121,7 +121,7 @@ class JoinCouple extends Component{
                     <Image resizeMode={'contain'} style={cstyles.arrowStyle}  source={{uri: 'assets/nextArrow@3x.png'}} />
                 </View>
             </TouchableHighlight>
-              <TouchableHighlight onPress={(f)=>{
+            { this.props.user.relationship_status != 'couple' &&       <TouchableHighlight onPress={(f)=>{
               this.nopartner();
             }} underlayColor={colors.white20} style={{marginBottom:40}}>
 
@@ -144,7 +144,7 @@ class JoinCouple extends Component{
                     <Image resizeMode={'contain'} style={cstyles.arrowStyle}  source={{uri: 'assets/nextArrow@3x.png'}} />
                 </View>
             </TouchableHighlight>
-
+            }
 
       </ScrollView>
     )

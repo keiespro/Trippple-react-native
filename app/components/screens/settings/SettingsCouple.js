@@ -229,60 +229,6 @@ class SettingsCouple extends React.Component{
                 }
 
 
-                  { !partner.id &&
-                    <View>
-                    <View style={{height:120,width:120,alignItems:'center',alignSelf:'center',marginBottom:20}}>
-                      <Image
-                        style={[styles.userimage]}
-                        key={partner.thumb_url}
-                        source={{uri: 'assets/iconModalDenied@3x'}}
-                        resizeMode={Image.resizeMode.contain}/>
-
-                      </View>
-                      <View style={styles.middleTextWrap}>
-                        <Text style={styles.middleText}>We're still waiting for your partner to join! Remind them to join with a text message, or update their contact info if we've got the wrong number. </Text>
-                      </View>
-                      <BoxyButton
-                        text={"NOTIFY YOUR PARTNER"}
-                        leftBoxStyles={styles.iconButtonLeftBoxCouples}
-                        innerWrapStyles={styles.iconButtonCouples}
-                        outerButtonStyle={{
-                          alignSelf:'stretch',
-                          flexDirection:'row',
-                          marginHorizontal:MagicNumbers.screenPadding/2,
-                          marginBottom:20
-                        }}
-                        underlayColor={colors.mediumPurple20}
-                        _onPress={this.handleSendMessage.bind(this)}
-                      >
-                        <Image
-                          source={{uri: 'assets/chat@3x.png'}}
-                          resizeMode={Image.resizeMode.contain}
-                          style={{height:30,width:101,tintColor:colors.mediumPurple}}
-                        />
-                      </BoxyButton>
-                      <BoxyButton
-                        text={"UPDATE PARTNER"}
-                        leftBoxStyles={styles.iconButtonLeftBoxCouples}
-                        innerWrapStyles={styles.iconButtonCouples}
-                        outerButtonStyle={{
-                          alignSelf:'stretch',
-                          flexDirection:'row',
-                          marginHorizontal:MagicNumbers.screenPadding/2
-                        }}
-                        underlayColor={colors.mediumPurple20}
-                        _onPress={this.invitePartner.bind(this)}
-                      >
-                        <Image
-                          source={{uri: 'assets/ovalInvite@3x.png'}}
-                          resizeMode={Image.resizeMode.contain}
-                          style={{height:30,width:101}}
-                        />
-                      </BoxyButton>
-                    </View>
-
-                  }
-
                   {partner.id &&
                     <TouchableHighlight
                     style={{

@@ -5,7 +5,7 @@ import {
   View,
   Image,
   Dimensions,
-  TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
 import React from "react";
 
@@ -119,7 +119,7 @@ class PotentialsPlaceholder extends React.Component{
                   }}
                 >Get better matches... </Text>
 
-                <TouchableHighlight
+                <TouchableOpacity
                 onPress={this.openProfileEditor.bind(this)}
                 underlayColor={colors.mediumPurple}
                  style={{justifyContent:'center',alignItems:'center',borderRadius:5,borderWidth:1,paddingVertical:15,borderColor:colors.white,marginTop:15,marginBottom:20,
@@ -135,7 +135,7 @@ class PotentialsPlaceholder extends React.Component{
                       COMPLETE YOUR PROFILE
                     </Text>
                   </View>
-                </TouchableHighlight>
+                </TouchableOpacity>
               </View>
 
             }

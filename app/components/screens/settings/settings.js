@@ -248,7 +248,6 @@ class Settings extends React.Component{
                         </View>
                     </TouchableHighlight> : null }
 
-                {this.props.user.relationship_status == 'single' ?
                     <TouchableHighlight onPress={(f)=>{
                       this.props.dispatch(ActionMan.showInModal({
                         component: Coupling,
@@ -257,7 +256,10 @@ class Settings extends React.Component{
                     }} underlayColor={colors.dark}>
                         <View  style={styles.wrapfield}>
                             <View>
-                                <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>JOIN COUPLE</Text>
+                              <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>
+                                {this.props.user.relationship_status == 'single' ? 'JOIN COUPLE' : 'JOIN PARTNER'}
+                                </Text>
+
                                 <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
                                 Connect with your partner
                                 </Text>
@@ -265,7 +267,6 @@ class Settings extends React.Component{
                             <Image source={{uri: 'assets/nextArrow@3x.png'}} resizeMode={'contain'} style={styles.arrowStyle}  />
                         </View>
                     </TouchableHighlight>
-                : null }
 
 
                 <TouchableHighlight onPress={(f)=>{

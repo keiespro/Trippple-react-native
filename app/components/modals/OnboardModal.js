@@ -142,7 +142,8 @@ class OnboardModal extends Component {
         mf: false,
         m: false,
         f: false
-      }
+      },
+      step:2
     });
   }
 
@@ -156,7 +157,11 @@ class OnboardModal extends Component {
     
     return (
         <View>
-          <VibrancyView blurType="dark" style={{ backgroundColor: colors.outerSpace20 }}/ >
+          <VibrancyView blurType="dark" style={{
+            width: DeviceWidth,
+            height: DeviceHeight,
+            position:'absolute',top:0,left:0,right:0,
+            backgroundColor: colors.outerSpace20 }}/ >
         <View style={[
           styles.col, {
             width: DeviceWidth,
