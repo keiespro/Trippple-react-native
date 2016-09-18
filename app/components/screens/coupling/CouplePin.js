@@ -46,7 +46,7 @@ class CouplePin extends React.Component{
   handleSendMessage(){
     this.setState({ submitting:true });
     const pin = this.props.pin;
-    const messageText = `Join me on Trippple! My couple code is ${pin}. If you already have the app, tap here: trippple://join.couple/${pin}`;
+    const messageText = `Join me on Trippple! My couple code is ${pin}.`;
     // this.props.dispatch(ActionMan.killModal())
     this.props.dispatch(ActionMan.sendText({ pin, messageText }))
   }

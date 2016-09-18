@@ -87,7 +87,7 @@ class EnterCouplePin extends React.Component{
         submitting: false
       })
       this.props.dispatch(ActionMan.verifyCouplePin(this.state.inputFieldValue));
-
+        this.props.exit()
     }else{
       this.setState({
         verifyError: true,

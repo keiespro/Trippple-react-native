@@ -5,9 +5,11 @@ export default function potentialsReducer(state = initialState, action) {
 
   switch (action.type) {
     case 'DECOUPLE_FULFILLED':
-       return initialState;
-
     case 'ONBOARD_FULFILLED':
+    case 'VERIFY_COUPLE_PIN_FULFILLED':
+    case 'RECEIVE_COUPLE_READY':
+    case 'RECEIVE_DECOUPLE':
+      //TODO: check if request was actually successful?
       return initialState;
 
     case 'REMOVE_POTENTIAL':

@@ -78,22 +78,29 @@ ActionMan.sendText = payload => dispatch => dispatch({ type: 'SEND_TEXT',
 
 
 const NOTIFICATION_TYPES = {
-  NewMatch:       'getMatches',
-  NewMessage:     'getMessages',
-  MatchRemoved:   'getMatches',
-  CoupleCreated:  'getUserInfo',
-  Decouple:       'getUserInfo',
-  Generic:        'getUserInfo',
+  NEW_MATCH:       'getMatches',
+  NEW_MESSAGE:     'getMessages',
+  MATCH_REMOVED:   'getMatches',
+  COUPLE_READY:    'getUserInfo',
+  DECOUPLE:        'getUserInfo',
+  GENERIC:         'getUserInfo',
+  GET_POTENTIALS:  'getPotentials'
 };
 
 ActionMan.receiveNotification = (notification) => dispatch => dispatch({ type: 'RECEIVE_NOTIFICATION',
   payload: new Promise((resolve, reject) => {
-    dispatch({type: `RECEIVE_${notification.type.toUpperCase()}`, payload: notification.payload });
-  
-    dispatch(ActionMan[NOTIFICATION_TYPES[notification.type]](notification.payload));
+
+
+    const notificationType = notification.type || 'generic';
+    const subsequentEndpoint = NOTIFICATION_TYPES[notificationType];
+
+    dispatch({type: `RECEIVE_${notificationType}`, payload: notification.payload });
+    dispatch(ActionMan[subsequentEndpoint](notification.payload));
+
     resolve(notification.payload)
+    
   })
-}).then(() => notification).catch(console.log);
+}).then(() => notification).catch(console.warn);
 
 ActionMan.updateBadgeNumber = (delta) => dispatch => dispatch({ type: 'UPDATE_BADGE_NUMBER',
   payload: new Promise((resolve, reject) => {

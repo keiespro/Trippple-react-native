@@ -24,7 +24,7 @@ async function baseRequest(endpoint='', payload={}, resource='user'){
     },
     body: JSON.stringify(payload)
   }
-  if(__DEBUG__ && window && window.__SHOW_ALL__) console.log(`API REQUEST ---->>>>> ${endpoint} | `,params);
+  if(__DEBUG__) console.log(`API REQUEST ---->>>>> ${endpoint} | `,params);
 
   const url = `${SERVER_URL}/${resource}/${endpoint}`;
   // var timeStarted = new Date();
@@ -49,8 +49,13 @@ async function baseRequest(endpoint='', payload={}, resource='user'){
     let response = await res.json()
 
     return Promise.try(() => {
-      __DEV__ && console.log(`API RESPONSE <<<<<<---- ${endpoint} | `,response)
-      return {...response}
+      __DEV__ && console.log(`API RESPONSE <<<<<<---- ${endpoint} | `,response);
+      const r = {...response};
+      __DEV__ && console.log('r.status',r.status);
+      if(r.hasOwnProperty('status') && !r.status){
+        __DEV__ && console.warn('Request status false',r);
+      }
+      return r
     })
   }catch(err){
     __DEV__ && console.warn('CAUGHT ERR',err,res.status,res.url);
@@ -66,48 +71,10 @@ function publicRequest(endpoint, payload){
 }
 
 function authenticatedRequest(endpoint: '', payload: {}, resource, forceCredentials){
-  const credentials =  global.creds;
+  const credentials = global.creds;
   const authPayload = {...payload, ...credentials};
   return baseRequest(endpoint, authPayload,resource)
 }
-
-function authenticatedFileUpload(endpoint, image, image_type, cropData,callback){
-
-
-  const uploadUrl = `${SERVER_URL}/${endpoint}`
-  const uri =  image.hasOwnProperty('uri') ? image.uri : image
-
-  if(!image_type){
-    image_type = 'avatar'
-  }
-  // const imgUpload = await UploadFile({
-  //   uri: uri,
-  //   uploadUrl: uploadUrl,
-  //   fileName: 'file.jpg',
-  //   mimeType:'jpeg',
-  //   data: { ...credentials, image_type, ...cropData }
-  // })
-  //
-  // try{
-  //   return await imgUpload
-  // }catch(err){
-  //   return err
-  // }
-
-  FileTransfer.upload({
-    uri: uri,
-    uploadUrl: uploadUrl,
-    fileName: 'file.jpg',
-    mimeType:'jpeg',
-    data: { ...credentials, image_type, ...cropData }
-  },(err,imgUpload)=>{
-    __DEV__ && console.log(err,imgUpload)
-    callback(err,imgUpload)
-  });
-
-
-}
-
 
 const api = {
 
@@ -138,7 +105,7 @@ const api = {
   },
 
   getUserInfo(creds){
-    return authenticatedRequest('info',{},creds)
+    return authenticatedRequest('info',{},'user',creds)
   },
 
   getMatches(page){ //v2 endpoint
@@ -210,10 +177,6 @@ const api = {
 
   uploadFacebookPic(imgUrl){
     return authenticatedRequest('', {photo_url:imgUrl}, 'uploads')
-  },
-
-  uploadImage(image, image_type: 'profile', cropData, callback){
-    return authenticatedFileUpload('upload', image, image_type, cropData,callback)
   },
 
   joinCouple(partner_phone): Promise{
