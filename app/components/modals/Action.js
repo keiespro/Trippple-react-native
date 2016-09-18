@@ -93,7 +93,7 @@ class Action extends React.Component{
         onPress={()=>{ 
           this.props.dispatch(ActionMan.killModal())
 
-          this.props.dispatch(ActionMan.showInModal({component: UnmatchModal, passProps:{match:currentMatch,goBack:()=>{this.props.dispatch(ActionMan.killModal()) } }}))
+          this.props.dispatch(ActionMan.showInModal({component: 'UnmatchModal', passProps:{match:currentMatch,goBack:()=>{this.props.dispatch(ActionMan.killModal()) } }}))
 
 
         }}>
@@ -108,7 +108,7 @@ class Action extends React.Component{
         style={[styles.clearButton,styles.inlineButtons,{marginLeft:10}]}
         underlayColor={colors.shuttleGray20}
         onPress={()=>{
-            this.props.dispatch(ActionMan.showInModal({component: ReportModal, passProps:{match:currentMatch,goBack:()=>{this.props.dispatch(ActionMan.killModal()) }}}))
+            this.props.dispatch(ActionMan.showInModal({component: 'ReportModal', passProps:{match:currentMatch,goBack:()=>{this.props.dispatch(ActionMan.killModal()) }}}))
 
 
         }}>

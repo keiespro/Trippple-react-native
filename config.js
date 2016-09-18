@@ -6,11 +6,15 @@ global.__TEST__ = false
 
 // // // // // //
 global.__DEBUG__ = false;
-global.__DEV__ = true;
+global.__DEV__ = false;
 // // // // //
 __DEBUG__ = false;
-__DEV__ = true;
+__DEV__ = false;
 // // //
+
+const defaultConfig = {
+  INVITE_FRIENDS_APP_LINK: 'https://fb.me/656380827843911' 
+}
 
 const configurations = {
 
@@ -46,7 +50,10 @@ const configurations = {
 
 
 }
-const config = configurations[APP_ENV];
+const config = {
+  ...defaultConfig,
+  ...configurations[APP_ENV]
+};
 config.invertColors = false;
 
 export default config

@@ -40,7 +40,7 @@ class NagManager extends React.Component{
       if(this.props.user.status == 'registered' && !this.state.askedOnboard && !this.props.user.relationship_status && !nProps.user.relationship_status){
         this.setState({askedOnboard:true})
         nProps.dispatch(ActionMan.showInModal({
-          component: OnboardModal,
+          component: 'OnboardModal',
           passProps:{
             title:'Onboard',
             dispatch: nProps.dispatch,
@@ -103,7 +103,7 @@ class NagManager extends React.Component{
   notificationModal(){
 
     this.props.dispatch(ActionMan.showInModal({
-      component: NotificationPermissions,
+      component: 'NotificationPermissions',
       passProps:{
         title:'N',
         user:this.props.user,
@@ -116,7 +116,7 @@ class NagManager extends React.Component{
   locationModal(){
 
     this.props.dispatch(ActionMan.showInModal({
-      component: LocationPermissions,
+      component: 'LocationPermissions',
       passProps:{
         title:'Prioritze Local',
         user:this.props.user,

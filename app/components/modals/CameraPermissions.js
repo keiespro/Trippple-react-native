@@ -15,8 +15,6 @@ const CameraKey = 'camera'
 
 import colors from '../../utils/colors'
 import _ from 'underscore'
-import AppActions  from '../flux/actions/AppActions'
-import MatchActions from '../flux/actions/MatchActions'
 import PurpleModal from './PurpleModal'
 import styles from './purpleModalStyles'
 import CameraControl from '../controls/cameraControl'

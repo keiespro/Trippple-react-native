@@ -57,19 +57,20 @@ class NoPartner extends React.Component{
       <View style={{left:0}}>
         <View style={[{width:DeviceWidth, paddingTop:MagicNumbers.is5orless ? 30 : 50,paddingHorizontal:MagicNumbers.screenPadding/2 }]} >
            <View style={{height:120,marginVertical:MagicNumbers.is5orless ? 10 : 30,flexDirection:'row',alignItems:'center',justifyContent:'center',transform:[{scale:MagicNumbers.is5orless ? .8 : 1 }]}}>
-            <View
-              style={{width:116,height:116,borderRadius:60,marginRight:-100,borderColor:colors.white,borderWidth:3,borderStyle:'dashed'}} ></View>
-            <Image style={[{width:120,height:120,borderRadius:60,marginLeft:-100}]}
-            source={ {uri: this.props.user.image_url} }
-            defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
-            />
-          </View>
+             <Image style={[{width:120,height:120,borderRadius:60,marginRight:-100}]}
+               defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+             />
+             <Image style={[{width:120,height:120,borderRadius:60,marginLeft:-100}]}
+               source={ {uri: this.props.user.image_url} }
+               defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+             />
+           </View>
 
-          <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', backgroundColor:'transparent', fontFamily:'Montserrat-Bold',fontSize:22,color:'#fff',marginVertical:10 }]}>
-            COUPLE
-          </Text>
+           <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', backgroundColor:'transparent', fontFamily:'Montserrat-Bold',fontSize:22,color:'#fff',marginVertical:10 }]}>
+             COUPLE
+           </Text>
 
-          <View style={{flexDirection:'column' }} >
+           <View style={{flexDirection:'column' }} >
             <Text style={[styles.rowtext,styles.bigtext,{
               fontSize:MagicNumbers.is5orless ? 17 : 20,
               marginVertical:10,

@@ -14,8 +14,6 @@ import CameraRollView from '../controls/CameraRollView'
 
 import colors from '../../utils/colors'
 import _ from 'underscore'
-import MatchActions from '../flux/actions/MatchActions'
-import AppActions from '../flux/actions/AppActions'
 import PurpleModal from './PurpleModal'
 import styles from './purpleModalStyles'
 

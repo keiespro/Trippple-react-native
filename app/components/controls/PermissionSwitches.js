@@ -30,7 +30,6 @@ class PermissionSwitches extends React.Component{
 
     OSPermissions.canUseNotifications(OSNotifications => {
       OSPermissions.canUseLocation(OSLocation => {
-        console.log(OSNotifications)
         const OSNotificationsResult = Object.keys(OSNotifications).reduce((acc,el,i) => {
           acc = acc + OSNotifications[el];
           return acc
@@ -39,7 +38,7 @@ class PermissionSwitches extends React.Component{
         this.setState({
           LocationSetting: parseInt(OSLocation) > 2,
           NotificationSetting: OSNotificationsResult,
-          OSNotifications: parseInt(OSNotifications),
+          OSNotifications: parseInt(OSNotificationsResult),
           OSLocation: parseInt(OSLocation)
         })
       })
@@ -59,7 +58,7 @@ class PermissionSwitches extends React.Component{
     if(!this.state.LocationSetting && !OSLocation){
 
       this.props.dispatch(ActionMan.showInModal({
-        component:LocationPermissions,
+        component:'LocationPermissions',
         name:'LocationPermissionModal',
         passProps:{
           title:'PRIORITIZE LOCAL',
@@ -108,7 +107,7 @@ class PermissionSwitches extends React.Component{
 
         if(!permResult){
           this.props.dispatch(ActionMan.showInModal({
-            component:NotificationPermissions,
+            component:'NotificationPermissions',
             passProps:{
               hideModal: () => { this.props.dispatch(ActionMan.killModal())},
               cancel: () => { this.props.dispatch(ActionMan.killModal())},

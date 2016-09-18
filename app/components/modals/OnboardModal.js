@@ -2,7 +2,6 @@ import { Text, View, Dimensions, TouchableOpacity, Picker, Image, LayoutAnimatio
 import React, {Component} from 'react';
 import { NavigationStyles } from '@exponent/ex-navigation';
 import ContinueButton from '../controls/ContinueButton';
-import Coupling from '../screens/coupling';
 import colors from '../../utils/colors';
 import styles from './purpleModalStyles';
 import ActionMan from '../../actions'
@@ -112,7 +111,7 @@ class OnboardModal extends Component {
       this.onboardUser()
     } else {
       this.props.dispatch(ActionMan.showInModal({
-        component: Coupling,
+        component: 'Coupling',
         passProps: {
           onboardUser: this.onboardUser.bind(this)
         }
@@ -121,7 +120,7 @@ class OnboardModal extends Component {
   }
 
   togglePref(pref) {
-   const selected_theirs = { ...this.state.selected_theirs }
+    const selected_theirs = { ...this.state.selected_theirs }
 
     selected_theirs[pref] = !selected_theirs[pref];
     LayoutAnimation.easeInEaseOut()
@@ -143,7 +142,7 @@ class OnboardModal extends Component {
         m: false,
         f: false
       },
-      step:2
+      // step:2
     });
   }
 

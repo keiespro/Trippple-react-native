@@ -101,7 +101,7 @@ class Card extends React.Component {
 
   reportModal() {
     this.props.dispatch(ActionMan.showInModal({
-      component: ReportModal,
+      component: 'ReportModal',
       name: 'Report User Modal',
       passProps: {
         action: 'report',

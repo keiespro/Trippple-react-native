@@ -22,7 +22,7 @@ class ThreeDotsActionButton extends React.Component{
   render(){
     return (
       <TouchableOpacity onPress={()=> this.props.dispatch(ActionMan.showInModal({
-        component:Action,
+        component:'Action',
         passProps:{
           ...this.props,
         }

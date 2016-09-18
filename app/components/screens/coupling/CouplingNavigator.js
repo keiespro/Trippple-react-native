@@ -84,7 +84,7 @@ class CouplingNavigator extends Component {
     }
     if(!this.props.user.relationship_status){
         this.props.dispatch(ActionMan.showInModal({
-          component: OnboardModal,
+          component: 'OnboardModal',
           passProps:{
             title:'Onboard',
             dispatch: this.props.dispatch,

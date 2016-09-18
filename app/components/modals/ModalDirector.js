@@ -9,9 +9,43 @@ const DeviceWidth = Dimensions.get('window').width;
 import { withNavigation} from '@exponent/ex-navigation';
 
 import url from 'url'
-import Action from './Action'
 import ActionMan from '../../actions'
 import { connect } from 'react-redux';
+import Action from './Action'                                                                                                                                        
+import ActionModal from './ActionModal'
+import BlurModal from './BlurModal' 
+// import CameraPermissions from './CameraPermissions' 
+// import CameraRollPermissions from './CameraRollPermissions'
+import CheckPermissions from './CheckPermissions'
+import FieldModal from './FieldModal'
+import LocationPermission from './LocationPermission'
+import NewNotificationPermissions from './NewNotificationPermissions'
+import OnboardModal from './OnboardModal'
+import PartnerMissingModal from './PartnerMissingModal'
+import PrivacyPermissions from './PrivacyPermissions'
+import ReportModal from './ReportModal'
+import UnmatchModal from './UnmatchModal'
+
+import Coupling from '../screens/coupling';
+
+const Modals = {
+  Action, 
+  ActionModal, 
+  BlurModal, 
+  // CameraPermissions, 
+  // CameraRollPermissions, 
+  CheckPermissions, 
+  FieldModal, 
+  LocationPermission, 
+  NewNotificationPermissions,
+  NotificationPermissions: NewNotificationPermissions, 
+  OnboardModal, 
+  PrivacyPermissions, 
+  ReportModal, 
+  UnmatchModal,
+  Coupling
+};
+
 
 @withNavigation
 class ModalDirector extends Component{
@@ -47,7 +81,7 @@ class ModalDirector extends Component{
     if(!this.props.user.id || !this.state.activeModal){ return null }
 
     const { activeModal} = this.state;
-    const ActiveModal = activeModal.component || null;
+    const ActiveModal = Modals[activeModal.component] || null;
     const ActiveModalProps = activeModal.passProps;
     return (
       <View style={{backgroundColor:'transparent'}}>

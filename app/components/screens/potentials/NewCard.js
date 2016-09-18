@@ -25,7 +25,7 @@ const CardLabel = (props) => (
     >{
       props.city  }</Text>
   </View>
-  );
+);
 
 
 //+ (props.distance ? ` ${props.distance} ${props.distance == 1 ? 'mile' : 'miles'} away` : ``)
@@ -55,27 +55,31 @@ class NewCard extends React.Component {
             resizeMode="cover"
             style={{flex:1,height:tmpCardHeight,width:cardWidth}}
           />
-      </View>
+        </View>
       )
     });
 
     return (
       <View>
-
         <ParallaxSwiper
-          contentContainerStyle={[{minHeight: profileVisible ? DeviceHeight : cardHeight,alignItems:'stretch',justifyContent:'center',flexDirection:'column',flex:1,width:cardWidth}]}
+          contentContainerStyle={[{
+            minHeight: profileVisible ? DeviceHeight : cardHeight,
+            alignItems:'stretch',
+            justifyContent:'center',
+            flexDirection:'column',
+            flex:1,
+            width:cardWidth
+          }]}
           scrollEnabled={profileVisible ? true : false}
           showsVerticalScrollIndicator={false}
           style={[{
             flex:1,
             height:(DeviceHeight*2),
-
            }]}
           header={<View/>}
           dispatch={this.props.dispatch}
           windowHeight={10}
           isTopCard={isTopCard}
-
           pan={this.props.pan}
           swiper={(
             <Swiper
@@ -86,8 +90,8 @@ class NewCard extends React.Component {
               height={DeviceHeight }
               dispatch={this.props.dispatch}
               style={{flex:0,zIndex:0,backgroundColor:'transparent', }}
-
-            scrollEnabled={ profileVisible}>
+              scrollEnabled={ profileVisible}
+            >
              {slides}
            </Swiper>
           )}
@@ -129,7 +133,7 @@ class NewCard extends React.Component {
                   <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
                       potential.user.bio
                   }</Text>
-              </Text>
+                </Text>
               }
 
               {potential.partner.bio &&
@@ -137,7 +141,7 @@ class NewCard extends React.Component {
                   <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
                       potential.partner.bio
                   }</Text>
-              </Text>
+                </Text>
               }
 
               <UserDetails
@@ -150,7 +154,7 @@ class NewCard extends React.Component {
                 <View style={{ marginTop: 20, paddingBottom: 50 }}>
                   <Text style={{ color: colors.mandy, textAlign: 'center' }}>Report or Block this user</Text>
                 </View>
-                </TouchableOpacity>
+              </TouchableOpacity>
 
               <TouchableOpacity
                 style={{ height: 50, alignItems: 'center', width: 50, justifyContent: 'center',flex:0,alignSelf:'center' }}
@@ -166,36 +170,34 @@ class NewCard extends React.Component {
 
           </BlurView>
 
-             <TouchableHighlight
-              style={{width:cardWidth,
-                height: profileVisible ? 0 : 100,
-                opacity:profileVisible ? 0 : 1,
-                alignSelf:'flex-end',zIndex:10,flex:-1,position:'absolute',bottom:60}}
-              underlayColor={colors.mediumPurple20}
-              onPress={this.props.openProfileFromImage}
-            >
-              <View style={{width:cardWidth,height:100,flex:1}}>
-                <BlurView key={'blurkey'+potential.user.id}
-                  blurType="xlight"
-                  style={{backgroundColor:colors.white20,width:cardWidth,height:100,padding:20}}
-                >
-                  <CardLabel
-                    potential={potential}
-                    seperator={seperator}
-                    matchName={matchName}
-                    city={city}
-                    distance={distance}
-                    textColor={colors.shuttleGray}
-                  />
-                </BlurView>
-              </View>
-            </TouchableHighlight>
-      </ParallaxSwiper>
-
-                {isTopCard ? <DenyIcon pan={this.props.pan}/> : null }
-
-                {isTopCard ? <ApproveIcon pan={this.props.pan}/> : null }
-
+          <TouchableHighlight
+            style={{width:cardWidth,
+              height: profileVisible ? 0 : 100,
+              opacity:profileVisible ? 0 : 1,
+              alignSelf:'flex-end',zIndex:10,flex:-1,position:'absolute',bottom:60
+            }}
+            underlayColor={colors.mediumPurple20}
+            onPress={this.props.openProfileFromImage}
+          >
+            <View style={{width:cardWidth,height:100,flex:1}}>
+              <BlurView key={'blurkey'+potential.user.id}
+                blurType="xlight"
+                style={{backgroundColor:colors.white20,width:cardWidth,height:100,padding:20}}
+              >
+                <CardLabel
+                  potential={potential}
+                  seperator={seperator}
+                  matchName={matchName}
+                  city={city}
+                  distance={distance}
+                  textColor={colors.shuttleGray}
+                />
+              </BlurView>
+            </View>
+          </TouchableHighlight>
+        </ParallaxSwiper>
+        {isTopCard ? <DenyIcon pan={this.props.pan}/> : null }
+        {isTopCard ? <ApproveIcon pan={this.props.pan}/> : null }
     </View>
     )
   }

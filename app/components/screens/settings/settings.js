@@ -42,7 +42,8 @@ import {
 } from '@exponent/ex-navigation';
 
 
-
+import config from '../../../../config'
+const {INVITE_FRIENDS_APP_LINK} = config
 
 class Settings extends React.Component{
   static route = {
@@ -101,7 +102,7 @@ class Settings extends React.Component{
 
   _openProfile(){
     Analytics.event('Interaction',{type:'tap', name: 'Preview self profile' });
-    var thisYear = new Date().getFullYear()
+    const thisYear = new Date().getFullYear()
     const {bday_year} = this.props.user
     const age = (thisYear - bday_year)
     const selfAsPotential = {
@@ -248,7 +249,7 @@ class Settings extends React.Component{
 
                     { this.props.user.relationship_status == 'single' || this.props.user.partner && this.props.user.partner.id && this.props.user.partner.isFakePartner ?  <TouchableHighlight onPress={(f)=>{
                       this.props.dispatch(ActionMan.showInModal({
-                        component: Coupling,
+                        component: 'Coupling',
                         passProps: {},
                       }))
                     }} underlayColor={colors.dark}>
@@ -312,8 +313,7 @@ class Settings extends React.Component{
                 </TouchableHighlight>
 
                 <TouchableHighlight onPress={(f)=>{
-                  const applinkUrl = 'https://fb.me/656380827843911';
-                  FBAppInviteDialog.show({applinkUrl})
+                  FBAppInviteDialog.show({applinkUrl: INVITE_FRIENDS_APP_LINK})
                 }} underlayColor={colors.dark}>
                     <View  style={styles.wrapfield}>
                         <View>
