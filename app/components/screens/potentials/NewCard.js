@@ -28,7 +28,7 @@ const CardLabel = (props) => (
   );
 
 
-//++ props.seperator    (props.distance ? ` ${props.distance} ${props.distance == 1 ? 'mile' : 'miles'} away` : ``)
+//+ (props.distance ? ` ${props.distance} ${props.distance == 1 ? 'mile' : 'miles'} away` : ``)
 
 
 
@@ -85,7 +85,7 @@ class NewCard extends React.Component {
               profileVisible={profileVisible}
               height={DeviceHeight }
               dispatch={this.props.dispatch}
-              style={{flex:0,zIndex:0,backgroundColor:'transparent', left:DeviceWidth-cardWidth}}
+              style={{flex:0,zIndex:0,backgroundColor:'transparent', }}
 
             scrollEnabled={ profileVisible}>
              {slides}

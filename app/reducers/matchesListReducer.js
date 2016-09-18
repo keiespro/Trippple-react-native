@@ -1,4 +1,4 @@
-import _ from 'underscore'
+import _ from 'lodash'
 
 export default function matchesListReducer(state = initialState, action) {
 
@@ -21,7 +21,7 @@ export default function matchesListReducer(state = initialState, action) {
 
     case 'GET_MATCHES_FULFILLED':
           if ( !action.payload.response ) return state;
-          return {...state, matches:  orderMatches( dedupe([...state.matches, ...action.payload.response]))}
+          return {...state, newMatches: _.difference(state.newMatches, action.payload.response), matches:  orderMatches( dedupe([...state.matches, ...action.payload.response]))}
 
     default:
 

@@ -59,6 +59,10 @@ class App extends React.Component{
 
       this.performInitActions()
     }
+    if(this.props.appState != 'active' && nProps.appState == 'active'){
+      this.performInitActions()
+    }
+      
     //
     // if(!this.props.nag.sawStarterPotentials && this.state.initialized && !this.state.got_starter_pack && this.props.user.relationship_status){
     //   this.props.dispatch({type: 'GET_STARTER_POTENTIALS', payload: {relationshipStatus: this.props.user.relationship_status }})
@@ -108,7 +112,8 @@ const mapStateToProps = (state, ownProps) => {
     ui: {...state.ui, matchInfo: state.matches[state.ui.chat ? state.ui.chat.match_id : null]},
     loggedIn: state.auth.api_key && state.auth.user_id,
     push_token: state.device.push_token,
-    exnavigation: state.exnavigation
+    exnavigation: state.exnavigation,
+    appState: state.app.appState
   }
 }
 

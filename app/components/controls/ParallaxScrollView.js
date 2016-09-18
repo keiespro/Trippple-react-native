@@ -99,16 +99,16 @@ class ParallaxView extends React.Component{
     render() {
         let { style, ...props } = this.props;
         return (
-            <View style={[styles.container, style]}>
+            <View style={[styles.container, style]} pointerEvents={'box-none'}>
                 {this.renderBackground()}
                 <ScrollView
-                    ref={component => { this._scrollView = component; }}
                     {...props}
                     style={styles.scrollView}
+                    ref={component => { this._scrollView = component; }}
                     onScroll={Animated.event(
                       [{ nativeEvent: { contentOffset: { y: this.state.scrollY }}}]
                     )}
-                    scrollEventThrottle={64}>
+                    scrollEventThrottle={16}>
                     {this.renderHeader()}
                         {this.props.children}
 
@@ -120,10 +120,10 @@ class ParallaxView extends React.Component{
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
+        flex: 1,
     },
     scrollView: {
-        backgroundColor: 'transparent',
+        backgroundColor: 'transparent',flex:1,zIndex:999
     },
     background: {
         position: 'absolute',

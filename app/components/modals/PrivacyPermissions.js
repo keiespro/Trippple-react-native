@@ -44,6 +44,8 @@ class PrivacyPermissionsModal extends Component{
       this.props.dispatch(ActionMan.updateUser({privacy:'private'}))
       // this.props.success && this.props.success()
       // this.props.navigator && this.props.navigator.pop()
+      //
+      this.props.dispatch(ActionMan.killModal())
     }
   }
 

@@ -48,12 +48,16 @@ class MatchList extends Component {
     }
   }
   //
-  // componentDidMount() {
-  //   this.setTimeout(() => {
-  //
-  //
-  //   }, 500)
-  // }
+  componentDidMount() {
+    // this.setTimeout(() => {
+  
+  
+    // }, 500)
+    //
+    this.props.dispatch(ActionMan.getMatches())
+    this.props.dispatch(ActionMan.getNewMatches())
+
+  }
 
   // _allowScroll(scrollEnabled) {
   //   var listref = '_listView';

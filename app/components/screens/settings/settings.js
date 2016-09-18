@@ -148,7 +148,7 @@ class Settings extends React.Component{
                 automaticallyAdjustContentInsets={true}
                 scrollsToTop={true}
                 backgroundSource={{uri:this.props.user.image_url || 'assets/defaultuser.png'}}
-                style={{backgroundColor:colors.outerSpace, zIndex:100,flex:1,paddingTop:0,height:DeviceHeight}}
+                style={{backgroundColor:colors.outerSpace, flex:1,paddingTop:0,height:DeviceHeight}}
                 header={(
                 <View
                     style={[ styles.userimageContainer, {
@@ -248,7 +248,7 @@ class Settings extends React.Component{
                         </View>
                     </TouchableHighlight> : null }
 
-                    <TouchableHighlight onPress={(f)=>{
+                    { this.props.user.relationship_status == 'single' || this.props.user.partner && this.props.user.partner.id && this.props.user.partner.isFakePartner ?  <TouchableHighlight onPress={(f)=>{
                       this.props.dispatch(ActionMan.showInModal({
                         component: Coupling,
                         passProps: {},
@@ -266,7 +266,7 @@ class Settings extends React.Component{
                             </View>
                             <Image source={{uri: 'assets/nextArrow@3x.png'}} resizeMode={'contain'} style={styles.arrowStyle}  />
                         </View>
-                    </TouchableHighlight>
+                    </TouchableHighlight> : null}
 
 
                 <TouchableHighlight onPress={(f)=>{
