@@ -35,7 +35,7 @@ import ChatBubble from './ChatBubble'
 
 const shouldMakeBigger = (msg) => {
   if(msg.length > 9 || msg.length == 0)return false;
-  return emojiCheck().test(msg) 
+  return emojiCheck().test(msg)
 }
 
 class ChatInside extends Component{
@@ -60,7 +60,7 @@ class ChatInside extends Component{
     Keyboard.removeListener('keyboardWillChangeFrame', this.onKeyboardChange.bind(this));
   }
   componentWillReceiveProps(newProps){
-    __DEV__ && console.log('newProps.messages',newProps.messages);
+    __DEV__ && console.log('newProps.messages',newProps);
     if(!this.ds || !newProps.messages) {return }
     this.setState({
       dataSource: this.ds.cloneWithRows(_.sortBy(newProps.messages, (msg) => msg.created_timestamp ).reverse())
@@ -87,7 +87,7 @@ class ChatInside extends Component{
   }
 
   sendMessage(msg){
-    const timestamp = moment().utc().unix();
+    const timestamp = Date.now();//moment().utc().unix();
     this.props.dispatch(ActionMan.createMessage(msg, this.props.match_id, timestamp))
     // TODO : REPLACE WITH NEW
     this.refs.scroller && this.refs.scroller.scrollTo({x:0,y:0})
@@ -139,7 +139,7 @@ class ChatInside extends Component{
 
 
   render(){
-     const matchInfo = this.props.currentMatch || this.props.matchInfo;
+    const matchInfo = this.props.currentMatch || this.props.matchInfo;
     if(!matchInfo){
       console.log('no matchInfo');
       return <View/>

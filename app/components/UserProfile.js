@@ -143,7 +143,7 @@ class UserProfile extends React.Component{
 
       <View style={{}}>
 
-            <XButton navigator={this.props.navigator}/>
+
                 <ParallaxSwiper
                   contentContainerStyle={[{alignItems:'stretch',justifyContent:'center',flexDirection:'column',flex:1,width:cardWidth}]}
                   scrollEnabled={profileVisible ? true : false}
@@ -162,6 +162,7 @@ class UserProfile extends React.Component{
                    </Swiper>
                   )}
                 >
+      <XButton navigator={this.props.navigator}/>
                   <BlurView key={'blurkey'+potential.user.id} blurType="dark" style={{
                     backgroundColor:colors.outerSpace20,
                     position:'relative',

@@ -50,8 +50,8 @@ class MatchList extends Component {
   //
   componentDidMount() {
     // this.setTimeout(() => {
-  
-  
+
+
     // }, 500)
     //
     this.props.dispatch(ActionMan.getMatches())
@@ -120,7 +120,7 @@ class MatchList extends Component {
               match_id: rowData.match_id,
               match: rowData
             })
-            // MatchActions.unMatch(rowData.match_id);
+            this.props.dispatch(ActionMan.unMatch(rowData.match_id));
             // TODO : REPLACE WITH NEW
             // MatchActions.removeMatch.defer(rowData.match_id);
             this.handleCancelUnmatch();
@@ -133,8 +133,8 @@ class MatchList extends Component {
   _pressRow(rowData,title) {
     this.setTimeout(() => {
 
-      // this.props.dispatch(ActionMan.getMessages({'match_id':rowData.match_id}))
-    }, 500)
+      this.props.dispatch(ActionMan.getMessages({'match_id':rowData.match_id}))
+    }, 1000)
 
       const payload = {title, match_id: rowData.match_id, matchInfo: rowData }
       this.props.navigator.push(this.props.navigator.navigationContext.router.getRoute('Chat',payload));
@@ -186,7 +186,7 @@ class MatchList extends Component {
   // },3000);
   }
   chatActionSheet(row) {
-    this.props.dispatch(ActionMan.ActionModal({match:row}))
+    this.props.dispatch(ActionMan.showInModal({component:'Action',passProps:{match:row}}))
 
 
   }

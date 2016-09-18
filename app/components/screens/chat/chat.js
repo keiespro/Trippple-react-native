@@ -26,7 +26,7 @@ import {NavigationStyles, withNavigation} from '@exponent/ex-navigation';
 import ChatBubble from './ChatBubble'
 import ChatInside from './ChatInside'
 
-
+@withNavigation
 class Chat extends React.Component {
 
   static route = {
@@ -41,7 +41,7 @@ class Chat extends React.Component {
       },
       renderRight(route, props) {
         return (
-          <ThreeDotsActionButton route={route} {...props} dotColor={colors.white}/>
+          <ThreeDotsActionButton route={route} sendProps={{...props, ...route.params}} match={props.match} dotColor={colors.white}/>
         )
       }
     }
@@ -56,9 +56,16 @@ class Chat extends React.Component {
     console.log(props);
   }
   actionModal() {}
-  componentDidMount() {
+  componentWillMount() {
+    console.log(this.props)
     this.props.dispatch({type:'CHAT_IS_OPEN',payload:{match_id:this.props.match_id}})
-    // this.props.navigator.updateCurrentRouteParams({...this.props})
+  }
+  componentDidMount() {
+      console.log(this.props.navigator);
+    setTimeout(()=>{
+      this.props.navigator.updateCurrentRouteParams({title: this.props.match_id, match:this.props.match })
+
+    },2000) 
   }
   componentWillUnmount() {
     dismissKeyboard()
@@ -81,9 +88,12 @@ class Chat extends React.Component {
     return (
       <View>
         <ChatInside
-          {...this.props}
+          user={this.props.user}
+          match={this.props.match || this.props.currentMatch}
+          currentMatch={this.props.match || this.props.currentMatch}
+          messages={this.props.messages}
+          dispatch={this.props.dispatch}
           key={ `chat-${this.props.user.id}-${this.props.match_id}` }
-          toggleModal={  this.toggleModal }
           fromNotification={this.props.fromNotification}
          />
       </View>

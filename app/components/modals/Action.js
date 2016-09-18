@@ -33,7 +33,7 @@ class Action extends React.Component{
 
   render(){
     const {user} = this.props;
-    const currentMatch = this.props.match || this.props.currentMatch || this.props.matchInfo || this.props.route.params.matchInfo;
+    const currentMatch = this.props.match || this.props.currentMatch || this.props.matchInfo || this.props.route && this.props.route.params.matchInfo;
 
     const img_url_id = Object.keys(currentMatch.users).filter(uid => uid != this.props.user.id  && uid != this.props.user.partner_id);
 

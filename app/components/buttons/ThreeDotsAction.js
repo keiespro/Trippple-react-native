@@ -20,12 +20,15 @@ class ThreeDotsActionButton extends React.Component{
 
 
   render(){
+    const passProps = {
+      // ...this.props.sendProps,
+      ...this.props.route.params
+    }
+console.log(passProps);
     return (
       <TouchableOpacity onPress={()=> this.props.dispatch(ActionMan.showInModal({
         component:'Action',
-        passProps:{
-          ...this.props,
-        }
+        passProps
       }))
       }>
           <ThreeDots dotColor={this.props.dotColor || '#fff'}/>

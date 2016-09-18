@@ -16,7 +16,7 @@ const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
 const shouldMakeBigger = (msg) => {
   if(msg.length > 9)return false;
-  return emojiCheck().test(msg) 
+  return emojiCheck().test(msg)
 }
 
 
@@ -73,7 +73,8 @@ class MessageComposer extends React.Component{
           autoFocus={false}
           selectionColor={colors.mediumPurple}
           clearButtonMode={'never'}
-          returnKeyType={'send'}
+          returnKeyType={'default'}
+
           onFocus={(e)=>{
             Animated.timing(this.state.bottomColor, {
               toValue: 100,
@@ -122,7 +123,7 @@ class MessageComposer extends React.Component{
                 //    });
               // },50)
             }}
-  
+
             >
             <Text style={{ overflow:'visible',fontSize: giant ? 36 : 18, marginBottom:giant ? 0 : 0,alignSelf:'center', height: giant ? this.state.height : this.state.height, flex:1,color:colors.white, }} >{
                 this.state.txt

@@ -55,7 +55,7 @@ class Notification extends React.Component{
 
 
   }
-  setNotificationGoAwayTimer(delay=3000){
+  setNotificationGoAwayTimer(delay=5000){
     this._timer = this.setTimeout(()=>{
       this.hideNoti();
     },delay);
@@ -112,7 +112,7 @@ class Notification extends React.Component{
           duration: 150,
         })
         .start(fin =>{
-          if(toValue != 0){
+          if(toValue <= 0){
             this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
           }
         })
