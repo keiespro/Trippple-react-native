@@ -1,5 +1,3 @@
-'use strict';
-
 import {
   StyleSheet,
   Text,
@@ -32,6 +30,7 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 const SwipeableQuickActions = require('SwipeableQuickActions');
 
+@reactMixin.decorate(TimerMixin)
 class MatchList extends Component {
 
   static defaultProps = {};
@@ -59,32 +58,9 @@ class MatchList extends Component {
 
   }
 
-  // _allowScroll(scrollEnabled) {
-  //   var listref = '_listView';
-  //   this.setState({
-  //     scrollEnabled
-  //   })
-  // // this[listref] && this[listref].refs.listviewscroll.refs.ScrollView.setNativeProps({ scrollEnabled })
-  // }
-
   _updateDataSource(data) {
     this.props.updateDataSource(data)
   }
-  //
-  // _handleSwipeout(sectionID, rowID) {
-  //   this.setState(({
-  //     unmatchOpen: true
-  //   }))
-  //
-  // //TODO:
-  // // const rows = this.props.matches;
-  // // for (var i = 0; i < rows.length; i++) {
-  // //   if (i != rowID) { rows[i].active = false }
-  // //   else {rows[i].active = true}
-  // // }
-  // // this._updateDataSource(rows)
-  // }
-
 
   handleCancelUnmatch(rowData) {
     this.setTimeout(() => {
@@ -92,7 +68,6 @@ class MatchList extends Component {
         unmatchOpen: false
       }))
     }, 350);
-
   }
 
   unmatch(rowData) {
@@ -120,9 +95,7 @@ class MatchList extends Component {
               match_id: rowData.match_id,
               match: rowData
             })
-            this.props.dispatch(ActionMan.unMatch(rowData.match_id));
-            // TODO : REPLACE WITH NEW
-            // MatchActions.removeMatch.defer(rowData.match_id);
+            this.props.dispatch(ActionMan.unmatch(rowData.match_id));
             this.handleCancelUnmatch();
           }
         },
@@ -212,7 +185,7 @@ class MatchList extends Component {
           shadowRadius:1,
           shadowOpacity:10,
           shadowOffset: {
-              width:1,
+              width:StyleSheet.hairlineWidth,
               height: 0
           }
         }}>
@@ -250,7 +223,7 @@ class MatchList extends Component {
   }
 
   render() {
-    var isVisible = this.state.isVisible;
+    const isVisible = this.state.isVisible;
     return (!this.props.matches.length && !this.props.newMatches.length) ?  <NoMatches/> : (
       <View >
         <SwipeableListView
@@ -314,7 +287,6 @@ class MatchList extends Component {
   }
 }
 
-reactMixin.onClass(MatchList, TimerMixin)
 
 
 function rowHasChanged(r1, r2) {
@@ -322,6 +294,7 @@ function rowHasChanged(r1, r2) {
 }
 
 
+@reactMixin.decorate(TimerMixin)
 class MatchesInside extends Component {
 
   constructor(props) {
@@ -331,7 +304,6 @@ class MatchesInside extends Component {
       matches: props.matches,
       isVisible: false,
       dataSource: this.ds.cloneWithRowsAndSections(props.matches.map(d => {
-  console.log(d);
         return {
           match: {...d, unread: props.unread[d.match_id]}
         }
@@ -339,25 +311,25 @@ class MatchesInside extends Component {
     }
   }
 
-  showProfile(match) {
-    Analytics.event('Interaction', {
-      type: 'tap',
-      name: 'View user profile',
-      match_id: match.match_id,
-      match
-    })
-
-    this.props.navigator.push({
-      component: UserProfile,
-      passProps: {
-        match,
-        hideProfile: () => {
-          this.props.navigator.pop()
-        }
-      },
-      name: `User Profile`
-    })
-  }
+  // showProfile(match) {
+  //   Analytics.event('Interaction', {
+  //     type: 'tap',
+  //     name: 'View user profile',
+  //     match_id: match.match_id,
+  //     match
+  //   })
+  //
+  //   this.props.navigator.push({
+  //     component: UserProfile,
+  //     passProps: {
+  //       match,
+  //       hideProfile: () => {
+  //         this.props.navigator.pop()
+  //       }
+  //     },
+  //     name: `User Profile`
+  //   })
+  // }
 
   toggleModal() {
     this.setState({
@@ -394,7 +366,7 @@ class MatchesInside extends Component {
            updateDataSource={this._updateDataSource.bind(this)}
            id={"matcheslist"}
             navigator={this.props.navigator}
-           route={{ component: Matches, title: 'Matches', id: 'matcheslist', }}
+           route={{ component: 'Matches', title: 'Matches', id: 'matcheslist', }}
            title={"matchlist"}
         />
       </View>
@@ -402,9 +374,8 @@ class MatchesInside extends Component {
   }
 }
 
-reactMixin.onClass(MatchesInside, TimerMixin)
 
-
+@reactMixin.decorate(TimerMixin)
 class Matches extends Component {
   static route = {
     navigationBar: {
@@ -437,7 +408,6 @@ class Matches extends Component {
       // })
       // this.setTimeout(()=>{
       this.setState({
-
         currentMatch: match
       })
     // },10)
@@ -447,23 +417,23 @@ class Matches extends Component {
     }
   }
 
-  showProfile(match) {
-    this.props.navigator.push({
-      component: UserProfile,
-      passProps: {
-        match,
-        hideProfile: () => {
-          this.props.navigator.pop()
-        }
-      }
-    })
-  }
+  // showProfile(match) {
+  //   this.props.navigator.push({
+  //     component: UserProfile,
+  //     passProps: {
+  //       match,
+  //       hideProfile: () => {
+  //         this.props.navigator.pop()
+  //       }
+  //     }
+  //   })
+  // }
 
-  toggleModal() {
-    this.setState({
-      isVisible: !this.state.isVisible
-    })
-  }
+  // toggleModal() {
+  //   this.setState({
+  //     isVisible: !this.state.isVisible
+  //   })
+  // }
   // shouldComponentUpdate(nProps,nState){
   //   return true
   // }
@@ -495,10 +465,6 @@ const mapDispatchToProps = (dispatch) => {
 
 
 Matches.displayName = "Matches";
-
-
-reactMixin.onClass(Matches, TimerMixin)
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Matches);
 

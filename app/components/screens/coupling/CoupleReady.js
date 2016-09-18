@@ -18,7 +18,10 @@ import {MagicNumbers} from '../../../utils/DeviceConfig'
 
 import { BlurView, VibrancyView } from 'react-native-blur'
 
-export default class CoupleReady extends React.Component{
+import { connect } from 'react-redux';
+
+
+class CoupleReady extends React.Component{
   constructor(props){
     super()
     this.state = {
@@ -30,9 +33,9 @@ export default class CoupleReady extends React.Component{
     }
   }
   popToTop(){
-    if(this.props.navigator){
-      this.props.navigator.pop()
-    }
+    // if(this.props.navigator){
+    //   this.props.navigator.pop()
+    // }
     if(this.props.hideModal){
       this.props.hideModal()
     }
@@ -40,12 +43,11 @@ export default class CoupleReady extends React.Component{
       this.props.close()
     }
 
-    this.props.goBack && this.props.goBack()
-    this.props.exit && this.props.exit()
+    this.props.navigator.popToTop()
   }
 
   render(){
-    return (
+    return this.props.user && this.props.user.partner ? (
       <ScrollView contentContainerStyle={[{width:DeviceWidth,height:DeviceHeight,flexDirection:'column',justifyContent:'center',flex:1,top:0 }]} >
 
         <Text style={[styles.rowtext,styles.bigtext,{ backgroundColor:'transparent',textAlign:'center', fontFamily:'Montserrat-Bold',fontSize:40,color:'#fff',marginVertical:10 }]}>
@@ -94,6 +96,29 @@ export default class CoupleReady extends React.Component{
         </TouchableHighlight>
 
       </ScrollView>
-    )
+    ) : (
+      <ScrollView contentContainerStyle={[{width:DeviceWidth,height:DeviceHeight,flexDirection:'column',justifyContent:'center',flex:1,top:0 }]} >
+        <Text style={{fontFamily:'Montserrat-Bold', fontSize:18,textAlign:'center', color:'#fff',}}>
+          hi
+        </Text>
+      </ScrollView>)
+
+
   }
+}
+
+
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps,
+    user: state.user,
+    couple: state.app.coupling
   }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)( CoupleReady )

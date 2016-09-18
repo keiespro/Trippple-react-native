@@ -21,6 +21,8 @@ import JoinCouple from './components/screens/coupling/JoinCouple'
 import EnterCouplePin from './components/screens/coupling/EnterCouplePin'
 import CouplePin from './components/screens/coupling/CouplePin'
 import NoPartner from './components/screens/coupling/NoPartner'
+import CoupleReady from './components/screens/coupling/CoupleReady';
+import CoupleSuccess from './components/screens/coupling/CoupleSuccess';
 
 export default createRouter(() => ({
   SettingsDebug: () => __DEV__ ? SettingsDebug : false,
@@ -44,5 +46,7 @@ export default createRouter(() => ({
   JoinCouple: () => JoinCouple,
   EnterCouplePin: () => EnterCouplePin,
   CouplePin: () => CouplePin,
+  CoupleSuccess: () => CoupleSuccess,
+  CoupleReady: () => CoupleReady,
   NoPartner: () => NoPartner
 }))

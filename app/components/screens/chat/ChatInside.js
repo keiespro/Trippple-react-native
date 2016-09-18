@@ -89,8 +89,7 @@ class ChatInside extends Component{
   sendMessage(msg){
     const timestamp = Date.now();//moment().utc().unix();
     this.props.dispatch(ActionMan.createMessage(msg, this.props.match_id, timestamp))
-    // TODO : REPLACE WITH NEW
-    this.refs.scroller && this.refs.scroller.scrollTo({x:0,y:0})
+     this.refs.scroller && this.refs.scroller.scrollTo({x:0,y:0})
 
   }
 
@@ -100,11 +99,7 @@ class ChatInside extends Component{
     })
   }
 
-  chatActionSheet(){
-    const isOpen = this.props.isVisible;
-    this._textInput && this._textInput.blur && this._textInput.blur()
-    this.props.toggleModal()
-  }
+
   getThumbSize(){
 
     let size =  MagicNumbers.is4s ? SIZES.small : SIZES.big
@@ -127,12 +122,6 @@ class ChatInside extends Component{
       loadingMore: true
     })
 
-    // this.setTimeout(()=>{
-    //   this.setState({
-    //     loadingMore:false
-    //   })
-    // },3000);
-
     Analytics.event('Interaction',{type: 'scroll', name: 'Load more messages', page: nextPage})
 
   }
@@ -149,7 +138,7 @@ class ChatInside extends Component{
         chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '')  },'');
 
     return (
-      <View  style={{flex:1,width:DeviceWidth,height:DeviceHeight,position:'relative',top:0}}>
+      <View style={{flex:1,width:DeviceWidth,height:DeviceHeight,position:'relative',top:0}}>
       <KeyboardAvoidingView  style={{flex:1}} behavior={'padding'}>
 
         {this.props.messages && this.props.messages.length > 0  ?

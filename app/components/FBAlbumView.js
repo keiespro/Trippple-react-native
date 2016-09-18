@@ -86,7 +86,7 @@ class AlbumView extends React.Component {
     const ds = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2
     })
-
+    console.warn('# pics',this.props.photos.length)
     const albums = ds.cloneWithRows(this.props.photos.map(p => p.images[0].source))
     return (
       <View style={{

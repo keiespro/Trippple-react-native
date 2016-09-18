@@ -61,11 +61,12 @@ class UserProfile extends React.Component{
   constructor(props){
     super()
 
-    this.state = { slideIndex: 0 }
+    this.state = { slideIndex: 0,contentHeight: DeviceHeight }
   }
   componentDidMount(){
 
   }
+
   reportModal(){
 
      this.props.dispatch(ActionMan.showInModal({
@@ -76,6 +77,10 @@ class UserProfile extends React.Component{
       }
     }))
 
+
+  }
+  handleSize(contentHeight){
+    this.setState({contentHeight})
 
   }
   render(){
@@ -148,8 +153,9 @@ class UserProfile extends React.Component{
                   contentContainerStyle={[{alignItems:'stretch',justifyContent:'center',flexDirection:'column',flex:1,width:cardWidth}]}
                   scrollEnabled={profileVisible ? true : false}
                   showsVerticalScrollIndicator={false}
-                  style={[{flex:1,minHeight:(DeviceHeight*2),top:14,}]}
+                  style={[{flex:1,height:this.state.contentHeight+260,top:14,}]}
                   header={<View/>}
+                  handleSize={this.handleSize.bind(this)}
                   dispatch={this.props.dispatch}
                   windowHeight={10}
                   swiper={(
@@ -167,7 +173,7 @@ class UserProfile extends React.Component{
                     backgroundColor:colors.outerSpace20,
                     position:'relative',
                     zIndex:100,
-                    minHeight: profileVisible ? (DeviceHeight*1.5) : 0,
+                    height: profileVisible ? this.state.contentHeight : 0,
                     opacity: profileVisible ? 1 : 0,
                     overflow:'hidden',
                     flex:0,
@@ -244,13 +250,11 @@ var CustomTabBar = React.createClass({
   },
 
   renderTabOption(name, page) {
-    var isTabActive = this.props.pageNumber === page;
+    const isTabActive = this.props.pageNumber === page;
     return (
       <TouchableOpacity key={name+page+' '+isTabActive} onPress={() => this.props.goToPage(page)}>
         <View style={[styles.tab]}>
-          <Text style={{
-              fontFamily:'Montserrat',fontSize:16,
-              color: isTabActive ? colors.white : colors.shuttleGray}}>{name.toUpperCase()}</Text>
+          <Text style={{ fontFamily:'Montserrat',fontSize:16, color: isTabActive ? colors.white : colors.shuttleGray}}>{name.toUpperCase()}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -259,10 +263,10 @@ var CustomTabBar = React.createClass({
 
 
   render() {
-    var numberOfTabs = this.props.tabs.length;
-    var w = MagicNumbers.screenWidth / numberOfTabs;
+    const numberOfTabs = this.props.tabs.length;
+    const w = MagicNumbers.screenWidth / numberOfTabs;
 
-    var tabUnderlineStyle = {
+    const tabUnderlineStyle = {
       position: 'absolute',
       width: MagicNumbers.screenWidth / 2,
       height: 2,

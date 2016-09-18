@@ -117,15 +117,15 @@ class EnterCouplePin extends React.Component{
     if(this.state.success){
       return false;
     }
-    if(this.props.couple &&  nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified ){
+    if(this.props.couple && nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified ){
 
 
       this.setState({
         success: true,
         // submitting: false
       })
-      
-      this.props.goCoupleReady();
+      console.log(nProps.user);
+      this.props.navigator.push(this.props.navigator.navigationContext.router.getRoute('CoupleReady'),{user:nProps.user});
       // this.props.exit();
 
     }else if(this.props.couple && nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified == false ){
@@ -170,7 +170,7 @@ class EnterCouplePin extends React.Component{
                 color:'#fff',
                 marginBottom:MagicNumbers.is5orless ? 5 : 15,textAlign:'center',backgroundColor:'transparent',
                 flexDirection:'column'
-              }]}>What is your partner’s “couple code”?</Text>
+              }]}>What is your partner’s couple code?</Text>
           <View style={[ styles.pinInputWrap,{marginHorizontal:MagicNumbers.screenPadding/2,borderBottomColor:colors.mediumPurple}, (this.state.verifyError  ? styles.pinInputWrapError : null), ]} >
             <TextInput
               maxLength={10}

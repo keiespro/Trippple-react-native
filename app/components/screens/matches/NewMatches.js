@@ -32,7 +32,7 @@ class SectionHeader extends Component{
 class NewMatches extends Component{
   constructor(props){
     super()
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       dataSource: ds.cloneWithRows(props.newMatches),
     }
@@ -44,13 +44,13 @@ class NewMatches extends Component{
 
   }
   componentWillReceiveProps(nProps){
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.setState({
       dataSource: ds.cloneWithRows(nProps.newMatches),
     })
   }
   shouldComponentUpdate(nProps,nState){
-    return nProps.newMatches.length != this.props.newMatches.length
+    return nProps.newMatches && this.props.newMatches && nProps.newMatches.length != this.props.newMatches.length
 
   }
   renderRow(rowData,sectionID, rowID, highlightRow){
@@ -77,6 +77,7 @@ class NewMatches extends Component{
     )
   }
   render(){
+  console.log(this.props);
     return (
       <View style={styles.newMatchesContainer}>
 

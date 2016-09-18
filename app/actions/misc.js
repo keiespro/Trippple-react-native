@@ -35,7 +35,7 @@ export const sendText = payload => dispatch =>  dispatch({ type: 'SEND_TEXT',
                   'com.apple.UIKit.activity.PostToTwitter',
                   'com.apple.UIKit.activity.PostToFacebook',
                   'com.apple.UIKit.activity.AddToReadingList',
-                  'com.apple.UIKit.activity.Open',
+                  // 'com.apple.UIKit.activity.Open',
                   'com.google.GooglePlus.ShareExtension',
                   'com.tumblr.tumblr.Share-With-Tumblr',
                   'pinterest.ShareExtension',
@@ -44,12 +44,12 @@ export const sendText = payload => dispatch =>  dispatch({ type: 'SEND_TEXT',
                 ]
               },
               (error) => {
-                console.warn('DONE',error);
+                __DEV__ && console.warn('DONE',error);
                 reject(error)
               },
               (success, method) => {
-                console.warn('SUCCESS',success,method);
-                resolve(success)    
+                __DEV__ && console.warn('SUCCESS',success,method);
+                resolve({success,method})    
               });
         // }
       // })
@@ -68,5 +68,3 @@ export const sendText = payload => dispatch =>  dispatch({ type: 'SEND_TEXT',
 //     })
 //   }
 // })
-
-

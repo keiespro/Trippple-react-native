@@ -12,7 +12,10 @@ export default function appReducer(state = initialState, action) {
         return {...state, couplePin: action.payload.response.pin}
 
       case 'VERIFY_COUPLE_PIN_FULFILLED':
-        return {...state, coupling: action.payload.response}
+        return {...state, coupling: {...state.coupling, ...action.payload.response}}
+
+      case 'SEND_TEXT_FULFILLED':
+        return {...state, coupling: {...state.coupling, sentInvite: action.payload.success, inviteMethod: action.payload.method}}
 
       case 'CONNECTION_CHANGE':
         let newState = {};

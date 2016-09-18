@@ -89,7 +89,10 @@ class ParallaxSwiper extends React.Component{
         );
   }
 
-
+  onContentSizeChange(contentWidth, contentHeight){
+    if(contentHeight > 2000) return false;
+    this.props.handleSize && this.props.handleSize(contentHeight)
+  }
 
   render() {
     let { style,windowHeight,swiper, ...props } = this.props;
@@ -102,10 +105,11 @@ class ParallaxSwiper extends React.Component{
               stickyHeaderIndices={[0]}
               contentContainerStyle={{marginTop:windowHeight,backgroundColor:'transparent'}}
               style={[styles.scrollView,]}
+              onContentSizeChange={this.onContentSizeChange.bind(this)}
               onScroll={Animated.event(
                   [{ nativeEvent: { contentOffset: { y: this.state.scrollY }}}]
                 )}
-              scrollEventThrottle={16}>
+              scrollEventThrottle={32}>
               {this.renderBackground()}
               {this.props.children}
             </ScrollView>

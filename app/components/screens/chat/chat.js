@@ -21,12 +21,15 @@ import MessageComposer from './MessageComposer'
 import { connect } from 'react-redux';
 import styles from './chatStyles'
 import ActionMan from '../../../actions/';
+import TimerMixin from 'react-timer-mixin';
+import reactMixin from 'react-mixin'
 
 import {NavigationStyles, withNavigation} from '@exponent/ex-navigation';
 import ChatBubble from './ChatBubble'
 import ChatInside from './ChatInside'
 
 @withNavigation
+@reactMixin.decorate(TimerMixin)
 class Chat extends React.Component {
 
   static route = {
@@ -36,7 +39,7 @@ class Chat extends React.Component {
       backgroundColor: colors.shuttleGrayAnimate,
       title(params) {
         let p = params || {}
-        let title = p.title;
+        let title = p.title || '';
         return `${title}`
       },
       renderRight(route, props) {
@@ -53,25 +56,26 @@ class Chat extends React.Component {
       isVisible: props.isVisible ? JSON.parse(props.isVisible) : false
     }
 
-    console.log(props);
   }
   actionModal() {}
   componentWillMount() {
-    console.log(this.props)
     this.props.dispatch({type:'CHAT_IS_OPEN',payload:{match_id:this.props.match_id}})
   }
   componentDidMount() {
-      console.log(this.props.navigator);
-    setTimeout(()=>{
-      this.props.navigator.updateCurrentRouteParams({title: this.props.match_id, match:this.props.match })
+    if(this.props.fromNotification){
+    const matchInfo = this.props.match;
+    const theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
+        them = theirIds.map((id)=> matchInfo.users[id]),
+        chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '')  },'');
 
-    },2000) 
+      this.setTimeout(()=>{
+        this.props.navigator.updateCurrentRouteParams({title: chatTitle, match:this.props.match })
+      },1200)
+    }
   }
   componentWillUnmount() {
     dismissKeyboard()
     // MatchActions.resetUnreadCount(this.props.match_id);
-    // TODO : REPLACE WITH NEW
-
     this.props.dispatch(ActionMan.getMatches( ))
     this.props.dispatch({type:'CHAT_IS_CLOSED',payload:{match_id: this.props.match_id}})
   }

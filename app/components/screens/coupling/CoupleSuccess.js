@@ -17,10 +17,25 @@ const DeviceWidth = Dimensions.get('window').width
 import colors from '../../../utils/colors'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 
+import {NavigationStyles, withNavigation} from '@exponent/ex-navigation';
+
 import styles from '../../modals/purpleModalStyles'
 import { BlurView, VibrancyView } from 'react-native-blur'
 
 export default class CoupleSuccess extends React.Component{
+
+
+  static route = {
+    styles: NavigationStyles.Fade,
+    navigationBar: {
+      visible:false,
+      backgroundColor: colors.shuttleGrayAnimate,
+      title(params) {
+        return ``
+      }
+    }
+  };
+
   constructor(props){
     super()
     this.state = {

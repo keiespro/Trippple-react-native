@@ -27,7 +27,7 @@ const DeviceWidth = Dimensions.get('window').width
 
 @withNavigation
 class CouplePin extends React.Component{
- 
+
   static route = {
     styles: NavigationStyles.Fade,
     navigationBar: {
@@ -35,7 +35,7 @@ class CouplePin extends React.Component{
       backgroundColor: colors.shuttleGrayAnimate,
     }
   };
-  
+
   constructor(props){
     super()
     const startState = props.startState || {}
@@ -48,7 +48,8 @@ class CouplePin extends React.Component{
   }
 
   componentWillReceiveProps(nProps){
-    if( nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified ){
+    if(this.state.success) return false;
+    if( nProps.couple && ( (nProps.couple.hasOwnProperty('verified') && nProps.couple.verified) || (nProps.couple.hasOwnProperty('sentInvite') && nProps.couple.sentInvite) ) ){
       this.setState({
         success: true,
       })
@@ -56,33 +57,32 @@ class CouplePin extends React.Component{
     }
   }
   onboardUser(){
-    const lookingfor = Object.keys(lookingfor).reduce((acc,s) => {
+
+    const lookingfor = this.props.selected_theirs ? Object.keys(this.props.selected_theirs).reduce((acc,s) => {
         acc[`looking_for_${s}`] = this.props.selected_theirs[s];
         return acc;
-    },{}) || {
+    },{}) : {
       loooking_for_m: true,
       looking_for_f: true
     };
     const payload = {
       relationship_status: 'couple',
-      // name: this.props.user.firstname,
-      // email: this.props.user.email,
-      // facebook_user_id: this.props.user.facebook_user_id,
       genders: this.props.selected_genders || `${this.props.user.gender}f`,
       ...lookingfor
     };
 
 
     this.props.dispatch(ActionMan.onboard(payload))
-    this.props.navigator.pop()
-      
+    // this.props.navigator.pop()
+
   }
   handleSendMessage(){
     const pin = this.props.pin;
     const messageText = `Join me on Trippple! My couple code is ${pin}.`;
     this.props.dispatch(ActionMan.sendText({ pin, messageText }))
-  
+
     this.setState({ submitting:true });
+
   }
 
   componentDidMount(){
@@ -131,7 +131,7 @@ class CouplePin extends React.Component{
             height:200,
             alignItems:'center',
             justifyContent:'center',
-            flex:1,
+            flex:1,marginVertical:20,
             transform: [ {scale: this.state.bounceValue ? this.state.bounceValue : 1}, ],
           }}
         >
@@ -142,7 +142,7 @@ class CouplePin extends React.Component{
           />
         </Animated.View>
 
-        <View style={{flex:1,height:DeviceHeight*0.75,paddingHorizontal:MagicNumbers.screenPadding/2,width:DeviceWidth,flexDirection:'column'}}>
+        <View style={{flex:1,height:DeviceHeight*.65,paddingHorizontal:MagicNumbers.screenPadding/2,alignItems:'center',justifyContent:'center',width:DeviceWidth,flexDirection:'column'}}>
 
          <Text
           style={[styles.rowtext,styles.bigtext,{
@@ -150,15 +150,27 @@ class CouplePin extends React.Component{
             fontSize:24,
             color:'#ffffff',
             marginTop: 0,
+              textAlign:'center',
             fontFamily:'Montserrat-Bold',
-          }]}>INVITE SENT</Text>
+          }]}>COUPLE CREATED</Text>
 
           <Text style={[styles.rowtext,styles.bigtext,{
-            fontSize:20,
+            fontSize:18,
             backgroundColor:'transparent',
             marginVertical:10,
             color:'#fff',
             marginBottom:15,
+            textAlign:'center',
+            flexDirection:'column'
+          }]}>When your partner joins Trippple, they can use your couple code to conenct with you.</Text>
+
+          <Text style={[styles.rowtext,styles.bigtext,{
+            fontSize:18,
+            backgroundColor:'transparent',
+            marginVertical:10,
+            color:'#fff',
+            marginBottom:15,
+            textAlign:'center',
             flexDirection:'column'
           }]}>You can access your couple code at any time in your Trippple settings screen.</Text>
 
@@ -166,7 +178,7 @@ class CouplePin extends React.Component{
             underlayColor={colors.white20}
             style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:10,marginTop:30,marginBottom:15}}
             onPress={this.popToTop.bind(this)}>
-            <View style={{paddingVertical:20,}} >
+            <View style={{paddingVertical:20,paddingHorizontal:40}} >
               <Text style={{fontFamily:'Montserrat-Bold', backgroundColor:'transparent',fontSize:18,textAlign:'center', color:'#fff',}}>
               THANKS</Text>
             </View>
@@ -234,7 +246,7 @@ class CouplePin extends React.Component{
               </Text>
             </View>
           </TouchableHighlight>
-          
+
         </View>
         <TouchableOpacity onPress={()=>{ this.props.navigator.pop()}}>
           <Text style={{backgroundColor:'transparent', fontSize:16,textAlign:'center', marginVertical:MagicNumbers.is5orless ? 5 : 40,color:colors.rollingStone,}}>
@@ -254,11 +266,11 @@ class CouplePin extends React.Component{
             <View style={btnstyles.goBackButton}>
               <Text textAlign={'left'} style={[btnstyles.bottomTextIcon]}>◀︎ </Text>
               <Text textAlign={'left'} style={[btnstyles.bottomText]}>Go back</Text>
-            </View> 
+            </View>
           </TouchableOpacity>
-        </View> 
+        </View>
 
-        
+
       </ScrollView>
     )
   }
@@ -289,7 +301,7 @@ const btnstyles = StyleSheet.create({
   },
 });
 const mapStateToProps = (state, ownProps) => {
-  return { ...ownProps, pin: state.app.couplePin, user: state.user }
+  return { ...ownProps, pin: state.app.couplePin, user: state.user, couple: state.app.coupling }
 }
 
 const mapDispatchToProps = (dispatch) => {

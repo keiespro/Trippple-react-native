@@ -48,13 +48,15 @@ class NoPartner extends React.Component{
   couple(){
 
     //TODO: if we are not coming from the onboard modal, we should confirm
-    // with the user if they want really to join a couple. Then we need to 
+    // with the user if they want really to join a couple. Then we need to
     // ask their partner's gender, for now it assumes partner is female.
     this.props.onboardUser ? this.props.onboardUser() : this.props.dispatch(ActionMan.onboard({
       relationship_status:'couple',
       genders:`${this.props.user.gender}f`
     }))
-    this.props.navigator.popToTop();
+    this.props.navigator.push(this.props.navigator.navigationContext.router.getRoute('CoupleReady'),{user:{...this.props.user, partner:{
+    ...this.props.user, firstname: '',
+    }}});
   }
   nothanks(){
     this.props.navigator.popToTop();
@@ -94,7 +96,7 @@ class NoPartner extends React.Component{
             }]}>You can proceed as a couple even if your partner isn’t ready to join Trippple. However, we strongly encourage you to invite your partner since couples with confirmed partners get 64% more matches.</Text>
         </View>
 
-    
+
         <View style={{alignItems:'center',justifyContent:'center'}}>
 
           {this.state.submitting ?
@@ -120,13 +122,13 @@ class NoPartner extends React.Component{
 
     </View>
      <View style={{width:100,height:20,left:10,top:0,flex:1,position:'absolute',alignSelf:'flex-start',zIndex:9999}}>
-          <TouchableOpacity onPress={()=>this.props.navigator.pop()}>
-            <View style={btnstyles.goBackButton}>
-              <Text textAlign={'left'} style={[btnstyles.bottomTextIcon]}>◀︎ </Text>
-              <Text textAlign={'left'} style={[btnstyles.bottomText]}>Go back</Text>
-            </View> 
-          </TouchableOpacity>
-        </View> 
+        <TouchableOpacity onPress={()=>this.props.navigator.pop()}>
+          <View style={btnstyles.goBackButton}>
+            <Text textAlign={'left'} style={[btnstyles.bottomTextIcon]}>◀︎ </Text>
+            <Text textAlign={'left'} style={[btnstyles.bottomText]}>Go back</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
 
 
       </ScrollView>
@@ -170,4 +172,3 @@ const btnstyles = StyleSheet.create({
     justifyContent:'center'
   },
 });
-
