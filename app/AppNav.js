@@ -19,7 +19,7 @@ export default class AppNav extends React.Component {
                 borderBottomWidth: 0,
                 translucent:true,
                 tintColor:'#fff',
-                backgroundColor:colors.outerSpaceAnimate,
+                backgroundColor:'rgba(0,0,0,0)',
                 titleStyle:{
                   color:'#fff',
                   fontFamily:'Montserrat',

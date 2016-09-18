@@ -1,20 +1,17 @@
-import ActionMan from  '../actions/';
+import ActionMan from '../actions/';
 import { connect } from 'react-redux';
-
 import config from '../../config'
-const {WEBSOCKET_URL} = config;
 import React,{Component} from "react";
-
-import {View, Alert, AsyncStorage, AppState, PushNotificationIOS, VibrationIOS} from "react-native";
-
-const io = require('./socket.io')
-import Notification from './NotificationTop'
-import TimerMixin from 'react-timer-mixin'
+import {View, Alert, AsyncStorage, AppState, PushNotificationIOS,} from "react-native";
 import colors from './colors'
-import reactMixin from 'react-mixin'
 import Analytics from './Analytics'
 import PushNotification from 'react-native-push-notification'
 import {NavigationStyles, withNavigation} from '@exponent/ex-navigation';
+import uuid from 'uuid'
+
+const {WEBSOCKET_URL} = config;
+const io = require('./socket.io')
+
 
 @withNavigation
 class NotificationCommander extends Component{
@@ -51,7 +48,7 @@ class NotificationCommander extends Component{
         // }
         Analytics.event('Handle push notification',{action:JSON.stringify(notification)})
 
-        console.log( 'NOTIFICATION:', notification );
+        __DEV__ && console.log( 'NOTIFICATION:', notification );
         notification.data && handleAction(notification)
       },
       // senderID: "YOUR GCM SENDER ID", // ANDROID ONLY: (optional) GCM Sender ID.
@@ -68,9 +65,9 @@ class NotificationCommander extends Component{
     PushNotificationIOS.addEventListener('register', (push_token) =>{
       __DEV__ && console.log( 'TOKEN:', push_token );
       if(push_token){
-        this.props.dispatch({type:'SAVE_PUSH_TOKEN',payload: push_token})
+        this.props.dispatch({type:'SAVE_PUSH_TOKEN', payload: push_token})
       }else{
-        this.props.dispatch({type:'SAVE_PUSH_TOKEN_FAILED',payload: null})
+        this.props.dispatch({type:'SAVE_PUSH_TOKEN_FAILED', payload: null})
       }
     })
 
@@ -84,13 +81,14 @@ class NotificationCommander extends Component{
   }
 
   componentWillReceiveProps(nProps){
-
     if(!this.state.socketConnected && nProps.auth.api_key){
       this.connectSocket()
     }
   }
 
   connectSocket(){
+    if(this.state.socketConnected) return false;
+    this.setState({socketConnected:true})
     __DEV__ && console.log('WEBSOCKET CONNECT ->');
 
     this.socket.on('connect_error', (err) => {
@@ -109,8 +107,8 @@ class NotificationCommander extends Component{
       this.props.dispatch({type:'WEBSOCKET_CONNECTED',payload: data})
       this.online_id = data.online_id;
 
-      const myApikey = global.creds.api_key,
-        myID = global.creds.user_id;
+      const myApikey = global.creds.api_key;
+      const myID = global.creds.user_id;
 
       this.socket.emit('user.connect', {
         online_id: data.online_id,
@@ -118,34 +116,18 @@ class NotificationCommander extends Component{
       });
       __DEV__ && console.log('WEBSOCKET CONNECTED')
 
-      this.setState({socketConnected:true})
     })
 
     this.socket.on('system', (payload) => {
-      console.log('WEBOSCKET system',payload);
+      __DEV__ && console.log('WEBSOCKET system',payload);
       Analytics.event('Webocket notification',{action: payload.data.action, label: 'system'})
-
-      // let tempData;
-      // if(typeof payload == 'object'){
-      //   tempData = payload.data
-      // }else{
-      //   tempData = JSON.parse(payload.data)
-      // }
-      //
-      // let data = tempData;
-      this.setState({processing:true});
-
-      this.handleAction({...payload, label: 'NewMatch'})
-
+      this.handleAction({...payload, label: payload.data.action})
     })
 
     this.socket.on('chat', (payload) => {
-      __DEV__ && console.log('chat weboscket',payload);
+      __DEV__ && console.log('WEBSOCKET chat',payload);
       Analytics.event('Webocket notification',{action: 'New Message', label: 'NewMessage'})
-      __DEV__ && console.log('NewMessage payload',payload);
-      this.setState({processing:true});
       this.handleAction({...payload, label: 'NewMessage'})
-
     })
 
   }
@@ -153,66 +135,16 @@ class NotificationCommander extends Component{
     this.props.navigator.push(this.props.navigator.navigation.router.getRoute('Chat', {match_id}))
   }
   handleAction(notification){
-    const {data,action,label} = notification
-    console.log(notification);
-    if(!notification) return false;
-    if(data.vibrate){
-
+    const moreNotificationAttributes = {
+      uuid: uuid.v4(),
+      receivedAt: Date.now(),
+      viewedAt: null,
+      interactedWith: false,
     }
-    if(data.action === 'retrieve' && data.type == 'potentials') {
+    const newNotification = {...notification, ...moreNotificationAttributes }
 
-      this.props.getPotentials()
-
-    }else if(data.action === 'retrieve' && data.match_id && label == 'NewMatch') {
-
-      this.props.receiveNewMatchNotification({...data,label})
-      // this.props.getMatches()
-      // this.openChat()
-      // this.props.updateBadgeNumber(-1)
-
-    }else if(data.action === 'retrieve' && data.match_id && label == 'NewMessage'){
-      console.log('NewMessage');
-      this.props.receiveNewMessageNotification({...data,label})
-      // this.props.getMessages(data.match_id)
-      // this.openChat()
-      // this.props.updateBadgeNumber(-1)
-    }else if(data.action === 'notify') {
-      VibrationIOS.vibrate()
-      Alert.alert(data.title, JSON.stringify(data.body));
-
-    }else if(data.action === 'match_removed'){
-
-      this.props.receiveMatchRemovedNotification(data)
-        // TODO: update to new
-
-    }else if(data.action == 'coupleready') {
-        // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
-      this.props.receiveCoupleCreatedNotification(data);
-
-    }else if(data.action == 'decouple') {
-
-        // Alert.alert('Your partner has joined!','You can now enjoy the full Trippple experience!');
-      this.props.receiveDecoupleNotification(data);
-
-    }else if(data.action == 'statuschange' || data.action == 'imageflagged') {
-
-      this.props.getUserInfo()
-
-    }else if(data.action == 'logout'){
-
-      this.props.logOut()
-
-    }else if(data.action == 'report'){
-
-      this.props.sendTelemetry()
-
-    }else if(data.action === 'display') {
-      console.log(data)
-      this.props.receiveGenericNotification({...data, type:'display'})
-      // TODO: update to new
-
-    }
-
+    this.props.dispatch({type:'RECEIVE_NOTIFICATION',payload: newNotification});
+    this.props.handleNotification(newNotification);
   }
 
 
@@ -230,7 +162,9 @@ class NotificationCommander extends Component{
   }
 
   render(){
-    const devStyles =  {
+    if(!__DEV__) return false;
+    
+    const devStyles = {
       position:'absolute',
       top:0,
       left:0,
@@ -240,14 +174,7 @@ class NotificationCommander extends Component{
       backgroundColor: this.state.socketConnected ? colors.sushi : colors.mandy
     };
 
-    const noStyles = {
-      top:0,
-      left:0,
-      width:0,
-      height:0,
-    }
-
-    return <View style={ __DEV__ ? devStyles : noStyles} />
+    return <View style={devStyles} />
   }
 
 }
@@ -264,23 +191,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getPotentials:                                          (p) => dispatch(ActionMan.getPotentials()),
-    receiveNewMatchNotification:                            (p) => dispatch(ActionMan.receiveNotification({type:'NewMatch',payload: p})),
-    getMatches:                                             (p) => dispatch(ActionMan.getMatches()),
-    receiveNewMessageNotification:                          (p) => dispatch(ActionMan.receiveNotification({type:'NewMessage',payload: p})),
-    getMessages:                                            (p) => dispatch(ActionMan.getMessages()),
-    updateRoute:                                            (p) => dispatch(ActionMan.updateRoute(p)),
-    updateBadgeNumber:                                      (p) => dispatch(ActionMan.updateBadgeNumber(p)),
-    receiveMatchRemovedNotification:                        (p) => dispatch(ActionMan.receiveNotification({type:'MatchRemoved',payload: p})),
-    receiveCoupleCreatedNotification:                       (p) => dispatch(ActionMan.receiveNotification({type:'CoupleCreated',payload: p})),
-    receiveDecoupleNotification:                            (p) => dispatch(ActionMan.receiveNotification({type:'Decouple',payload: p})),
-    getUserInfo:                                            (p) => dispatch(ActionMan.getUserInfo()),
-    logOut:                                                 (p) => dispatch(ActionMan.logOut()),
-    sendTelemetry:                                          (p) => dispatch(ActionMan.sendTelemetry()),
-    receiveGenericNotification:                             (p) => dispatch(ActionMan.receiveNotification({type:'Generic',payload: p})),
+    handleNotification: (n) => dispatch(ActionMan.handleNotification(n)),
     dispatch
   };
 }
-reactMixin(NotificationCommander.prototype,TimerMixin)
-
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationCommander);

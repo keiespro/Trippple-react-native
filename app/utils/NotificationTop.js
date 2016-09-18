@@ -37,15 +37,15 @@ class Notification extends React.Component{
     }).start((fin)=>{
       this.initializePanResponder();
       this.setState({inPlace:true});
-      this.props.setNotificationGoAwayTimer();
+      // this.props.setNotificationGoAwayTimer();
       this.hideNoti();
     })
 
   }
   componentWillReceiveProps(nProps){
     if(!nProps.notification.visible && this.props.notification.visible || nProps.notification != this.props.notification){
-
-      this.killNotification()
+      console.log('kill notification?');
+      // this.killNotification()
 
     }
 
@@ -106,7 +106,11 @@ class Notification extends React.Component{
 
   }
   tapped(){
-    this.props.pushChat(this.props.notification.match_id)
+    const {notification} = this.props;
+    const noti = (notification.label || notification.type || '').toLowerCase();
+
+    if(noti.indexOf('match') > -1 || noti.indexOf('message') > -1) this.props.pushChat(notification.match_id);
+
     this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
 
   }
@@ -117,7 +121,7 @@ class Notification extends React.Component{
       duration: 300,
     }).start(()=>{
       this.props.dispatch({type:'DISMISS_NOTIFICATION',payload:{}})
-      this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
+      // this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
     })
   }
 

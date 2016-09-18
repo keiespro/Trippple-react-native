@@ -20,7 +20,7 @@ import {MagicNumbers} from '../../../utils/DeviceConfig'
 import styles from '../../modals/purpleModalStyles'
 import { BlurView, VibrancyView } from 'react-native-blur'
 
-export default class CoupleReady extends React.Component{
+export default class CoupleSuccess extends React.Component{
   constructor(props){
     super()
     this.state = {

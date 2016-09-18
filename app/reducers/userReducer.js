@@ -4,8 +4,7 @@ export default function userReducer(state = initialState, action) {
 
   switch (action.type) {
 
-    case 'DECOUPLE':
-    case 'DECOUPLE_FULFILLED':
+    case 'HANDLE_NOTIFICATION_DECOUPLE':
       return {...state, partner: null, couple: null, relationship_status:'single'}
     
     case 'GET_USER_INFO_PENDING':
@@ -25,6 +24,7 @@ export default function userReducer(state = initialState, action) {
       return {...user_info, isNewUser: false }
 
     case 'ONBOARD_FULFILLED':
+    case 'HANDLE_NOTIFICATION_COUPLE_READY':
       return {...user_info, }
 
     case 'LOGIN_WITH_FACEBOOK_FULFILLED':

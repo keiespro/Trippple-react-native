@@ -20,8 +20,8 @@ class NagManager extends React.Component{
   constructor(props){
     super()
     this.state = {
-      sawStarterPotentials: Settings._settings['HAS_SEEN_STARTER_DECK']
-
+      sawStarterPotentials: Settings._settings['HAS_SEEN_STARTER_DECK'],
+      didOnboard: props.user && props.user.status && props.user.status == 'onboarded'
 
     }
   }
@@ -37,7 +37,7 @@ class NagManager extends React.Component{
     if(this.props.loggedIn && nProps.loggedIn){
 
     // relationship_status modal
-      if(!this.state.askedOnboard && !this.props.user.relationship_status && !nProps.user.relationship_status){
+      if(this.props.user.status == 'registered' && !this.state.askedOnboard && !this.props.user.relationship_status && !nProps.user.relationship_status){
         this.setState({askedOnboard:true})
         nProps.dispatch(ActionMan.showInModal({
           component: OnboardModal,

@@ -7,9 +7,8 @@ export default function potentialsReducer(state = initialState, action) {
     case 'DECOUPLE_FULFILLED':
     case 'ONBOARD_FULFILLED':
     case 'VERIFY_COUPLE_PIN_FULFILLED':
-    case 'RECEIVE_COUPLE_READY':
-    case 'RECEIVE_DECOUPLE':
-      //TODO: check if request was actually successful?
+    case 'HANDLE_NOTIFICATION_COUPLE_READY':
+    case 'HANDLE_NOTIFICATION_DECOUPLE':
       return initialState;
 
     case 'REMOVE_POTENTIAL':
@@ -28,9 +27,7 @@ export default function potentialsReducer(state = initialState, action) {
           return state
         }
         if(!data.matches[0].user){
-          pots = data.matches.map(pot => {
-            return {user: pot}
-          })
+          pots = data.matches.map(pot => ({user: pot}));
         }else{
           pots = data.matches
         }
@@ -38,7 +35,6 @@ export default function potentialsReducer(state = initialState, action) {
         return [ ...pots];
 
     case 'SEND_LIKE_FULFILLED':
-        // const potes = state.slice(1,state.length)
         return [...(state.slice(1,state.length))];
 
     default:

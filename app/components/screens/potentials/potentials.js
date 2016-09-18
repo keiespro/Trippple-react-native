@@ -28,9 +28,9 @@ class SettingsButton extends React.Component{
     return (
       <TouchableOpacity style={{paddingTop:5,paddingRight:25,paddingBottom:5,}} onPress={() => this.props.navigator.push(this.props.navigation.router.getRoute('Settings')) }>
         <Image
-        tintColor={colors.white}
+          tintColor={colors.white}
           resizeMode={Image.resizeMode.contain}
-          style={{width:28,top:0,height:30,marginLeft:15,tintColor: __DEV__ ? colors.daisy : colors.white}}
+          style={{width:28,top:0,height:30,marginLeft:15,tintColor: __DEV__ ? colors.mandy : colors.white}}
           source={{uri:'assets/gear@3x.png'}}
         />
       </TouchableOpacity>
@@ -41,7 +41,7 @@ class SettingsButton extends React.Component{
 
 class Potentials extends React.Component{
   static route = {
-    styles: {zIndex:-10,  position:'relative'},
+    styles: {zIndex:-10, position:'relative'},
     navigationBar: {
       visible: true,
       translucent:false,

@@ -7,7 +7,7 @@ import colors from '../../../utils/colors';
 import formatPhone from '../../../utils/formatPhone';
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import {
-  NavigationStyles,
+  NavigationStyles, withNavigation
 } from '@exponent/ex-navigation';
 import ActionMan from '../../../actions'
 import {
@@ -27,111 +27,19 @@ import {
   NativeModules,
   AsyncStorage,
   Navigator
-} from  'react-native'
+} from 'react-native'
 
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
+const PickerItemIOS = PickerIOS.Item;
 
 
-var PickerItemIOS = PickerIOS.Item;
-
-class ProfileField extends React.Component{
-  constructor(props){
-    super(props)
-    this.state = {
-      selectedDropdown: '',
-    }
-  }
-
-  _editField(){}
-  formattedPhone(){
-    return formatPhone(this.props.user[this.props.fieldName])
-  }
-
-  displayField(field){
-    switch (field.field_type) {
-      case 'input':
-      case 'phone_input':
-        return (
-           <TextInput
-              autofocus={true}
-              style={{
-                  height: 60,
-                  alignSelf: 'stretch',
-                  padding: 8,
-                  fontSize: 30,
-                  fontFamily:'Montserrat',
-                  color: colors.white,
-                  textAlign:'center',
-                  width:DeviceWidth-40
-              }}
-              onChangeText={(text) => this.setState({text})}
-              placeholder={field.placeholder || field.label}
-              autoCapitalize={'words'}
-              placeholderTextColor={colors.white}
-              autoCorrect={false}
-              returnKeyType={'go'}
-              autoFocus={true}
-              ref={component => this._textInput = component}
-              clearButtonMode={'always'}
-          />
-        );
-
-      case 'dropdown':
-        // always add an empty option at the beginning of the array
-        field.values.unshift('');
-
-        return (
-          <PickerIOS
-            style={{alignSelf:'center',width:330,backgroundColor:colors.white,marginHorizontal:0,alignItems:'stretch'}}
-            selectedValue={this.state.selectedDropdown || null}
-            >
-            {field.values.map((val) => (
-              <PickerItemIOS
-                key={val}
-                value={val}
-                label={val}
-                />
-              )
-            )}
-          </PickerIOS>
-        );
-
-      default:
-        return (
-           null
-        );
-    }
-  }
-  render(){
-    var field = this.props.field || {};
-
-
-    if(!field.label){ return false}
-
-    return (
-        <View style={{borderBottomWidth:1,borderColor:colors.shuttleGray,marginHorizontal:25}}>
-          <View  style={{height:50,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
-            <Text style={{color:colors.rollingStone,fontSize:20,fontFamily:'Montserrat'}}>{field.label && field.label.toUpperCase()}</Text>
-          <Text style={{color:colors.shuttleGray,fontSize:20,fontFamily:'Montserrat',textAlign:'right',
-        paddingRight:20}}>{this.props.user[this.props.fieldName] ? this.props.user[this.props.fieldName].toString().toUpperCase() : ''}</Text>
-          <Image
-              style={{width:15,height:15,position:'absolute',right:0,top:15}}
-              source={{uri:'assets/icon-lock.png'}}
-              resizeMode={Image.resizeMode.contain}/>
-              </View>
-
-        </View>
-    )
-  }
-}
-
+@withNavigation
 class SettingsCouple extends React.Component{
 
 
   static route = {
-    // styles: NavigationStyles.FloatHorizontal,
     navigationBar: {
       backgroundColor: colors.shuttleGrayAnimate,
       title(params){
@@ -139,9 +47,11 @@ class SettingsCouple extends React.Component{
       }
     }
   };
+
   constructor(props){
     super(props)
   }
+  
   invitePartner(){
 
 //         this.props.navigator.push({

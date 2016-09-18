@@ -6,10 +6,14 @@ export default function appReducer(state = initialState, action) {
       case REHYDRATE_ERROR:
         return {...state, booted: true}
       case REHYDRATE:
-          console.log('HYDRATED',action.payload);
         return {...state, booted: true}
+
       case 'GET_COUPLE_PIN_FULFILLED':
         return {...state, couplePin: action.payload.response.pin}
+
+      case 'VERIFY_COUPLE_PIN_FULFILLED':
+        return {...state, coupling: action.payload.response}
+
       case 'CONNECTION_CHANGE':
         let newState = {};
         if(action.payload.hasOwnProperty('isConnected')){
@@ -17,8 +21,8 @@ export default function appReducer(state = initialState, action) {
         }else if(action.payload.hasOwnProperty('connectionType')){
           newState = action.payload
         }
-
         return {...state, ...newState}
+
       case 'APP_STATE_CHANGE':
 
         return {...state, appState: action.payload}

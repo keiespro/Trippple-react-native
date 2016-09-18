@@ -133,7 +133,7 @@ class CouplingNavigator extends Component {
             onboardUser={this.props.onboardUser}
           />
 
-        <View style={{width:100,height:20,left:10,top:0,flex:1,position:'absolute',alignSelf:'flex-start'}}>
+        {this.state.navState.index < 2 &&  <View style={{width:100,height:20,left:10,top:0,flex:1,position:'absolute',alignSelf:'flex-start'}}>
           <TouchableOpacity onPress={this.handleBackAction.bind(this)}>
             {this.state.navState.index || !this.props.user.relationship_status ? <View style={btnstyles.goBackButton}>
               <Text textAlign={'left'} style={[btnstyles.bottomTextIcon]}>◀︎ </Text>
@@ -142,7 +142,7 @@ class CouplingNavigator extends Component {
               <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:13,width:13}} source={{uri:'assets/close@3x.png'}} />
             </View>}
           </TouchableOpacity>
-        </View>
+        </View> }
       </View>
 
 

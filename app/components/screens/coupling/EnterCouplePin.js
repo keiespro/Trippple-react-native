@@ -87,7 +87,7 @@ class EnterCouplePin extends React.Component{
         submitting: false
       })
       this.props.dispatch(ActionMan.verifyCouplePin(this.state.inputFieldValue));
-        this.props.exit()
+        // this.props.exit()
     }else{
       this.setState({
         verifyError: true,
@@ -98,9 +98,11 @@ class EnterCouplePin extends React.Component{
 
 
   componentWillReceiveProps(nProps){
-
     if(nProps.pin){
       this.handleInputChange({pin:nProps.pin})
+    }
+    if(this.state.success){
+      return false;
     }
     if(this.props.couple &&  nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified ){
 
@@ -109,9 +111,9 @@ class EnterCouplePin extends React.Component{
         success: true,
         // submitting: false
       })
-
-      // this.props.goCoupleReady();
-      this.props.exit();
+      
+      this.props.goCoupleReady();
+      // this.props.exit();
 
     }else if(this.props.couple && nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified == false ){
 
@@ -168,7 +170,7 @@ class EnterCouplePin extends React.Component{
               keyboardAppearance={'dark'}
               keyboardType={'phone-pad'}
               autoCapitalize={'none'}
-              placeholder={'ENTER PIN'}
+              placeholder={'ENTER CODE'}
               placeholderTextColor={'#fff'}
               autoCorrect={false}
               textAlign={'center'}
@@ -205,7 +207,19 @@ class EnterCouplePin extends React.Component{
 }
 
 
-export default EnterCouplePin
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps,
+    user: state.user,
+    couple: state.app.coupling
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(EnterCouplePin)
 
 
 const styles = StyleSheet.create({
