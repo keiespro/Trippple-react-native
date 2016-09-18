@@ -205,8 +205,6 @@ class Settings extends React.Component{
                     style:styles.container,
                     settingOptions:profileOptions,
                     startPage:0,
-                    navigation: this.props.navigation,
-                    navigator: this.props.navigator
 
                   }));
 
@@ -233,7 +231,6 @@ class Settings extends React.Component{
                         style:styles.container,
                         settingOptions:this.state.settingOptions,
                         user:this.props.user,
-                        dispatch: this.props.dispatch,
                       }));
                     }} underlayColor={colors.dark}>
                         <View  style={styles.wrapfield}>
@@ -247,11 +244,9 @@ class Settings extends React.Component{
                         </View>
                     </TouchableHighlight> : null }
 
-                    { this.props.user.relationship_status == 'single' || this.props.user.partner && this.props.user.partner.id && this.props.user.partner.isFakePartner ?  <TouchableHighlight onPress={(f)=>{
-                      this.props.dispatch(ActionMan.showInModal({
-                        component: 'Coupling',
-                        passProps: {},
-                      }))
+                    { this.props.user.relationship_status == 'single' || this.props.user.relationship_status == 'couple' && this.props.user.partner && this.props.user.partner.id && this.props.user.partner.is_fake_partner ?  <TouchableHighlight onPress={(f)=>{
+
+                      this.props.navigator.push(this.props.navigation.router.getRoute('JoinCouple'));
                     }} underlayColor={colors.dark}>
                         <View  style={styles.wrapfield}>
                             <View>
@@ -273,7 +268,7 @@ class Settings extends React.Component{
                     style:styles.container,
                     settingOptions:this.state.settingOptions,
                     user:this.props.user,
-                    
+
                   }));
 
                 }} underlayColor={colors.dark} >
@@ -293,10 +288,6 @@ class Settings extends React.Component{
                   this.props.navigator.push(this.props.navigation.router.getRoute('SettingsSettings', {
                     style:styles.container,
                     settingOptions:this.state.settingOptions,
-                    user:this.props.user,
-                    navigator:this.props.navigator,
-                    dispatch: this.props.dispatch,
-                    navigation: this.props.navigation
                   }));
                 }} underlayColor={colors.dark}>
                     <View  style={styles.wrapfield}>
@@ -362,8 +353,6 @@ class Settings extends React.Component{
                   this.props.navigator.push(this.props.navigation.router.getRoute('SettingsDebug', {
                     style:styles.container,
                     settingOptions:this.state.settingOptions,
-                    user:this.props.user,
-                    dispatch: this.props.dispatch,
                   }))
 
                 }} underlayColor={colors.dark} >

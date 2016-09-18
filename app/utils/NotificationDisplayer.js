@@ -23,10 +23,15 @@ class NotificationDisplayer extends Component {
     //   this.setNotificationGoAwayTimer(1000)
     // }
   }
-  setNotificationGoAwayTimer(ms=500){
-  }
-  pushChat(match_id){
-    this.props.navigator.push(this.props.navigation.router.getRoute('Chat', {match_id}))
+  pushChat(chatProps){
+
+    const payload = chatProps;
+
+    console.log(payload);
+  
+    this.props.chatOpen ? 
+      this.props.navigator.replace( this.props.navigation.router.getRoute('Chat',payload)) : 
+        this.props.navigator.push(this.props.navigator.navigationContext.router.getRoute('Chat',payload));
   }  
   render() {
     const {notifications} = this.props;
@@ -37,13 +42,14 @@ class NotificationDisplayer extends Component {
       <View>
         {notifications[0] &&
           <Notification
-            setNotificationGoAwayTimer={this.setNotificationGoAwayTimer.bind(this)}
             user={this.props.user}
             key={`noti${notifications[0].uuid}`}
             visible={this.state.visible}
             pushChat={this.pushChat.bind(this)}
             notification={notifications[0]}
             dispatch={this.props.dispatch}
+            chatOpen={this.props.chatOpen}
+            
           />
         }
       </View>
@@ -68,8 +74,12 @@ class NotificationDisplayer extends Component {
 
 
 const mapStateToProps = (state, ownProps) => {
-  // console.log('state',state,'ownProps',ownProps); // state
-  return { ...ownProps, notifications: _.filter(state.notifications,(n) => { return n && !n.viewedAt}), user: state.user}
+  return { 
+    ...ownProps, 
+    notifications: _.filter(state.notifications,(n) => { return n && !n.viewedAt}), 
+    user: state.user,
+    chatOpen: state.ui.chat && state.ui.chat.match_id
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {

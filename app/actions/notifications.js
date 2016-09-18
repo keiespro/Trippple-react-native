@@ -65,19 +65,25 @@ export const handleNotification = notification => dispatch => dispatch({ type: '
           if(data.type == 'potentials') {
 
             nType = `GET_POTENTIALS`;
-            nRequests.push('getPotentials')
+            nRequests.push({
+              getPotentials: {}
+            });
 
           }else if(label == 'NewMatch') {
 
             nType = `NEW_MATCH`;
-            nRequests.push('getNewMatches')
-            nRequests.push('getMatches')
+            nRequests.push({
+              getNewMatches: {},
+              getMatches: {}
+            })
             nQueue = true;
 
           }else if(label == 'NewMessage'){
        
             nType = `NEW_MESSAGE`;
-            nRequests.push('getMessages')
+            nRequests.push({
+              getMessages: {match_id: nData.match_id}
+            })
             nQueue = true;
 
           }
@@ -165,7 +171,13 @@ export const handleNotification = notification => dispatch => dispatch({ type: '
     }
     
     nRequests.forEach(nRequest => {
-      dispatch(ApiActionCreators[nRequest](...notification.data))
+      if(typeof nRequest == 'string'){
+        dispatch(ApiActionCreators[nRequest](...notification.data))
+      }else if(typeof nRequest == 'object'){
+        Object.keys(nRequest).forEach(req => {
+          dispatch(ApiActionCreators[req](nRequest[req]))
+        })
+      }
     })
     
     dispatch({type: `HANDLE_NOTIFICATION_${nType}`, payload: n})

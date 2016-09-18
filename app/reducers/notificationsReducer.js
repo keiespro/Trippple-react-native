@@ -5,7 +5,6 @@ export default function notificationsReducer(state = initialState, action) {
 
       case 'DISMISS_ALL_NOTIFICATIONS':
         const c = state.map(n => {
-          __DEV__ && console.log(n);
           if(n && !n.viewedAt){
             n.viewedAt = Date.now()
           }

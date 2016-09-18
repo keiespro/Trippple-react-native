@@ -42,7 +42,16 @@ class AppContainer extends React.Component {
             defaultRouteConfig={{
               navigationBar: {
                 visible: false,
-              }
+                borderBottomWidth: 0,
+                translucent:true,
+                tintColor:'#fff',
+                backgroundColor:'rgba(0,0,0,0)',
+                titleStyle:{
+                  color:'#fff',
+                  fontFamily:'Montserrat',
+                  borderBottomWidth: 0,
+                }
+              },
             }}
             initialRoute={topRouter.getRoute('App',{show:true})}
           />

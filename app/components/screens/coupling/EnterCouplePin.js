@@ -5,11 +5,14 @@ import {
   TextInput,
   Text,
   LayoutAnimation,
+  TouchableOpacity,
+  Image,
   View,
   Dimensions,
 } from 'react-native';
 import React from 'react';
 
+import { NavigationStyles,withNavigation } from '@exponent/ex-navigation';
 import ContinueButton from '../../controls/ContinueButton';
 
 
@@ -27,6 +30,14 @@ import ActionMan from '../../../actions';
 import { connect } from 'react-redux';
 
 class EnterCouplePin extends React.Component{
+  static route = {
+    styles: NavigationStyles.FloatVertical,
+    navigationBar: {
+      backgroundColor: colors.shuttleGrayAnimate,
+      visible:false
+    }
+  };
+
   constructor(props){
     super()
     this.state = {
@@ -95,7 +106,9 @@ class EnterCouplePin extends React.Component{
       })
     }
   }
-
+  handleBackAction(){
+    this.props.navigator.pop()
+  }
 
   componentWillReceiveProps(nProps){
     if(nProps.pin){
@@ -200,6 +213,14 @@ class EnterCouplePin extends React.Component{
           absoluteContinue={true}
           handlePress={this.handleSubmit.bind(this)}
         />
+        <View style={{width:100,height:20,left:10,top:0,flex:1,position:'absolute',alignSelf:'flex-start'}}>
+          <TouchableOpacity onPress={this.handleBackAction.bind(this)}>
+            <View style={[btnstyles.goBackButton,{left:-20,top:15,}]}>
+              <Image resizeMode={Image.resizeMode.contain} style={{margin:0,alignItems:'flex-start',height:13,width:13}} source={{uri:'assets/close@3x.png'}} />
+            </View>
+          </TouchableOpacity>
+        </View>
+
 
       </View>
     )
@@ -220,6 +241,31 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(EnterCouplePin)
+
+const btnstyles = StyleSheet.create({
+  bottomTextIcon:{
+    fontSize: 14,
+    flexDirection: 'column',
+    alignSelf: 'flex-end',
+    color: colors.rollingStone,
+    marginTop:0
+  },
+
+  bottomText: {
+    marginTop: 0,
+    color: colors.rollingStone,
+    fontSize: 16,
+    fontFamily:'Omnes-Regular',
+  },
+  goBackButton:{
+    padding:20,
+    paddingLeft:0,
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
+    alignItems: 'flex-start',
+    justifyContent:'center'
+  },
+});
 
 
 const styles = StyleSheet.create({

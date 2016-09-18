@@ -68,62 +68,62 @@ class UserProfile extends React.Component{
   }
   reportModal(){
 
-     this.props.navigator.push({
-      component: ReportModal,
+     this.props.dispatch(ActionMan.showInModal({
+      component: 'ReportModal',
       passProps: {
         action: 'report',
-        them: [potential.user, potential.partner],
-        goBack: ()=> {
-          this.props.navigator.pop()
-        }
+        them: [this.props.potential.user, this.props.potential.partner],
       }
-    })
+    }))
+
+
   }
   render(){
 
-  var {  potential, user } = this.props,
-      matchName = potential.user.firstname.trim();
-      distance = potential.user.distance || 0,
-      city = potential.user.city_state || '';
-  const rel = this.props.rel || this.props.user.relationship_status;
-const profileVisible = true;
+    const {  potential, user } = this.props,
+        distance = potential.user.distance || 0,
+        city = potential.user.city_state || '';
 
-const isTopCard = true;
-const names = [potential.user && potential.user.firstname ? potential.user.firstname.trim() : null];
+    let matchName = potential.user.firstname.trim();
+    const rel = potential.user.relationship_status;
+    const profileVisible = true;
 
-if (potential.partner && potential.partner.firstname) {
-  names.push(potential.partner.firstname.trim());
-}
-const seperator = distance && city.length ? ' | ' : '';
+    const isTopCard = true;
+    const names = [potential.user && potential.user.firstname ? potential.user.firstname.trim() : ''];
 
-  const heights = {
-    smallest: {
-      top: -60,
-      second: -60,
-      third: -55,
-    },
-    middle: {
-      top: -65,
-      second: -55,
-      third: -50,
-    },
-    all: {
-      top: -50,
-      second: -50,
-      third: -60,
-    },
-  };
+    if (potential.partner && potential.partner.gender) {
+      names.push(potential.partner.firstname.trim());
+    }
+    const seperator = distance && city.length ? ' | ' : '';
 
-  const heightTable = MagicNumbers.is4s ? heights.smallest : (MagicNumbers.is5orless ? heights.middle : heights.all);
-  const cardHeight = DeviceHeight + (isTopCard ? heightTable.top : heightTable.second);
-  const cardWidth =  DeviceWidth;
+    const heights = {
+      smallest: {
+        top: -60,
+        second: -60,
+        third: -55,
+      },
+      middle: {
+        top: -65,
+        second: -55,
+        third: -50,
+      },
+      all: {
+        top: -50,
+        second: -50,
+        third: -60,
+      },
+    };
 
-  if(potential.partner) {
-    matchName += ' & ' + potential.partner.firstname.trim()
-  }
+    const heightTable = MagicNumbers.is4s ? heights.smallest : (MagicNumbers.is5orless ? heights.middle : heights.all);
+    const cardHeight = DeviceHeight + (isTopCard ? heightTable.top : heightTable.second);
+    const cardWidth =  DeviceWidth;
 
-      const hasPartner = potential.partner && potential.partner.image_url && potential.partner.image_url !== "";
-      const slideFrames = hasPartner ? [potential.user,potential.partner] : [potential.user]
+    if(potential.partner && potential.partner.gender) {
+      matchName += ' & ' + potential.partner.firstname.trim()
+    }
+
+      const hasPartner = potential.partner && potential.partner.gender;
+      const slideFrames = hasPartner && potential.partner.image_url && potential.partner.image_url != "" ? [potential.user,potential.partner] : [potential.user];
       const tmpCardHeight = profileVisible ? cardHeight : cardHeight;
       const slides = slideFrames.map((p,i) => {
         return (
@@ -139,16 +139,16 @@ const seperator = distance && city.length ? ' | ' : '';
         </View>
         )
       });
-
   return (
 
-      <View>
+      <View style={{}}>
 
+            <XButton navigator={this.props.navigator}/>
                 <ParallaxSwiper
-                  contentContainerStyle={[{height: profileVisible ? DeviceHeight : cardHeight,alignItems:'stretch',justifyContent:'center',flexDirection:'column',flex:1,width:cardWidth}]}
+                  contentContainerStyle={[{alignItems:'stretch',justifyContent:'center',flexDirection:'column',flex:1,width:cardWidth}]}
                   scrollEnabled={profileVisible ? true : false}
                   showsVerticalScrollIndicator={false}
-                  style={[{flex:1,height:(DeviceHeight*2)}]}
+                  style={[{flex:1,minHeight:(DeviceHeight*2),top:14,}]}
                   header={<View/>}
                   dispatch={this.props.dispatch}
                   windowHeight={10}
@@ -166,12 +166,13 @@ const seperator = distance && city.length ? ' | ' : '';
                     backgroundColor:colors.outerSpace20,
                     position:'relative',
                     zIndex:100,
-                    height: profileVisible ? (DeviceHeight*1.5) : 0,
+                    minHeight: profileVisible ? (DeviceHeight*1.5) : 0,
                     opacity: profileVisible ? 1 : 0,
                     overflow:'hidden',
                     flex:0,
                     bottom:0,
                     alignSelf:'flex-end',
+                    paddingBottom:260,
                     width: DeviceWidth,
                     top:-260,
                   }}
@@ -188,18 +189,18 @@ const seperator = distance && city.length ? ' | ' : '';
                           textColor={colors.white}
                         />
                       </View>
-                      {potential.bio || potential.user.bio &&
-                        <View style={{ margin: MagicNumbers.screenPadding / 2, width: DeviceWidth }}>
+                      { potential.user.bio &&
+                        <View style={{ margin: MagicNumbers.screenPadding / 2, width: DeviceWidth,flexDirection:'column',flex:1}}>
                           <Text style={[styles.cardBottomOtherText, { color: colors.white, marginBottom: 15, marginLeft: 0 }]}>{
                               !hasPartner ? `About Me` : `About Us`
                           }</Text>
-                          <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
+                        <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15,width: DeviceWidth-MagicNumbers.screenPadding }}>{
                               potential.user.bio
                           }</Text>
                         </View>
                       }
 
-                      {potential.partner && potential.partner.bio &&
+                      {hasPartner && potential.partner && potential.partner.bio &&
                         <View style={{ margin: MagicNumbers.screenPadding / 2, width: DeviceWidth }}>
                           <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
                               potential.partner.bio
@@ -224,7 +225,6 @@ const seperator = distance && city.length ? ' | ' : '';
                     </View>
 
                   </BlurView>
-                  <XButton navigator={this.props.navigator}/>
         </ParallaxSwiper>
       </View>
 

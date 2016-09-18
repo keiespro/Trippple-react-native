@@ -3,6 +3,7 @@ import {
   Text,
   Settings,
   ScrollView,
+  StyleSheet,
   Animated,
   ActivityIndicator,
   View,
@@ -18,10 +19,21 @@ import {MagicNumbers} from '../../../utils/DeviceConfig';
 import { connect } from 'react-redux';
 import {SHOW_COUPLING} from '../../../utils/SettingsConstants'
 
+import {NavigationStyles, withNavigation} from '@exponent/ex-navigation';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
+
+@withNavigation
 class NoPartner extends React.Component{
+
+  static route = {
+    styles: NavigationStyles.Fade,
+    navigationBar: {
+      backgroundColor: colors.shuttleGrayAnimate,
+      visible: false
+    }
+  };
   constructor(props){
     super()
     const startState = props.startState || {}
@@ -42,10 +54,11 @@ class NoPartner extends React.Component{
       relationship_status:'couple',
       genders:`${this.props.user.gender}f`
     }))
-    this.props.exit();
+    this.props.navigator.popToTop();
   }
   nothanks(){
-    this.props.exit();
+    this.props.navigator.popToTop();
+
   }
 
   render(){
@@ -106,6 +119,16 @@ class NoPartner extends React.Component{
       </View>
 
     </View>
+     <View style={{width:100,height:20,left:10,top:0,flex:1,position:'absolute',alignSelf:'flex-start',zIndex:9999}}>
+          <TouchableOpacity onPress={()=>this.props.navigator.pop()}>
+            <View style={btnstyles.goBackButton}>
+              <Text textAlign={'left'} style={[btnstyles.bottomTextIcon]}>◀︎ </Text>
+              <Text textAlign={'left'} style={[btnstyles.bottomText]}>Go back</Text>
+            </View> 
+          </TouchableOpacity>
+        </View> 
+
+
       </ScrollView>
     )
   }
@@ -121,3 +144,30 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoPartner);
+
+
+const btnstyles = StyleSheet.create({
+  bottomTextIcon:{
+    fontSize: 14,
+    flexDirection: 'column',
+    alignSelf: 'flex-end',
+    color: colors.rollingStone,
+    marginTop:0
+  },
+
+  bottomText: {
+    marginTop: 0,
+    color: colors.rollingStone,
+    fontSize: 16,
+    fontFamily:'Omnes-Regular',
+  },
+  goBackButton:{
+    padding:20,
+    paddingLeft:0,
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
+    alignItems: 'flex-start',
+    justifyContent:'center'
+  },
+});
+

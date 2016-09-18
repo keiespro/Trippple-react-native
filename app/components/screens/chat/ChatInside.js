@@ -60,7 +60,7 @@ class ChatInside extends Component{
     Keyboard.removeListener('keyboardWillChangeFrame', this.onKeyboardChange.bind(this));
   }
   componentWillReceiveProps(newProps){
-    console.log('newProps.messages',newProps.messages);
+    __DEV__ && console.log('newProps.messages',newProps.messages);
     if(!this.ds || !newProps.messages) {return }
     this.setState({
       dataSource: this.ds.cloneWithRows(_.sortBy(newProps.messages, (msg) => msg.created_timestamp ).reverse())

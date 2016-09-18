@@ -1,5 +1,3 @@
-'use strict';
-
 import React from "react";
 import {
   StyleSheet,
@@ -35,7 +33,7 @@ import {NavigationStyles, withNavigation} from '@exponent/ex-navigation';
 class AlbumView extends React.Component {
 
   static route = {
-    styles: NavigationStyles.FloatVertical,
+    styles: NavigationStyles.FloatHorizontal,
     navigationBar: {
       backgroundColor: colors.shuttleGrayAnimate,
       title(params) {

@@ -3,8 +3,11 @@ export default function matchesReducer(state = initialState, action) {
 
 
   switch (action.type) {
-    case 'RECEIVE_COUPLEREADY':
-    case 'RECEIVE_DECOUPLE':
+    case 'ONBOARD_FULFILLED':
+    case 'VERIFY_COUPLE_PIN_FULFILLED':
+    case 'HANDLE_NOTIFICATION_COUPLE_READY':
+    case 'HANDLE_NOTIFICATION_DECOUPLE':
+
         return initialState;
 
     case 'REMOVE_MATCH':

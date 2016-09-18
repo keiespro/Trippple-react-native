@@ -22,6 +22,7 @@ import { connect } from 'react-redux';
 import styles from './chatStyles'
 import ActionMan from '../../../actions/';
 
+import {NavigationStyles, withNavigation} from '@exponent/ex-navigation';
 import ChatBubble from './ChatBubble'
 import ChatInside from './ChatInside'
 
@@ -30,13 +31,15 @@ class Chat extends React.Component {
 
   static route = {
     navigationBar: {
+      visible: true,
+      translucent:true,
       backgroundColor: colors.shuttleGrayAnimate,
       title(params) {
-        return `${params.title}`
+        let p = params || {}
+        let title = p.title;
+        return `${title}`
       },
-
       renderRight(route, props) {
-        console.log(route,props)
         return (
           <ThreeDotsActionButton route={route} {...props} dotColor={colors.white}/>
         )
@@ -49,14 +52,21 @@ class Chat extends React.Component {
     this.state = {
       isVisible: props.isVisible ? JSON.parse(props.isVisible) : false
     }
+
+    console.log(props);
   }
   actionModal() {}
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.dispatch({type:'CHAT_IS_OPEN',payload:{match_id:this.props.match_id}})
+    // this.props.navigator.updateCurrentRouteParams({...this.props})
+  }
   componentWillUnmount() {
     dismissKeyboard()
     // MatchActions.resetUnreadCount(this.props.match_id);
     // TODO : REPLACE WITH NEW
 
+    this.props.dispatch(ActionMan.getMatches( ))
+    this.props.dispatch({type:'CHAT_IS_CLOSED',payload:{match_id: this.props.match_id}})
   }
 
   toggleModal() {
@@ -72,8 +82,9 @@ class Chat extends React.Component {
       <View>
         <ChatInside
           {...this.props}
-          key={ `chat-${this.props.user}-${this.props.match_id}` }
+          key={ `chat-${this.props.user.id}-${this.props.match_id}` }
           toggleModal={  this.toggleModal }
+          fromNotification={this.props.fromNotification}
          />
       </View>
     );
@@ -87,7 +98,8 @@ const mapStateToProps = (state, ownProps) => {
     ...ownProps,
     user: state.user,
     messages: state.messages[ownProps.match_id],
-    currentMatch: state.matches[ownProps.match_id]
+    match: state.matches[ownProps.match_id] || state.newMatches[ownProps.match_id],
+    currentMatch: state.matches[ownProps.match_id] || state.newMatches[ownProps.match_id]
   }
 }
 

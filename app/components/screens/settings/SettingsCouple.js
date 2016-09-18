@@ -28,6 +28,7 @@ import {
   AsyncStorage,
   Navigator
 } from 'react-native'
+import { connect } from 'react-redux';
 
 
 const DeviceHeight = Dimensions.get('window').height
@@ -51,7 +52,7 @@ class SettingsCouple extends React.Component{
   constructor(props){
     super(props)
   }
-  
+
   invitePartner(){
 
 //         this.props.navigator.push({
@@ -140,7 +141,7 @@ class SettingsCouple extends React.Component{
 
 
                   {partner.id &&
-                    <TouchableHighlight
+                    <TouchableOpacity
                     style={{
                       alignSelf:'stretch',
                       marginVertical:50,
@@ -163,7 +164,7 @@ class SettingsCouple extends React.Component{
                           fontFamily:'Montserrat'
                         }}>LEAVE COUPLE</Text>
                     </View>
-                </TouchableHighlight>
+                </TouchableOpacity>
 }
                   {/*!partner.phone &&
                     <View>
@@ -205,9 +206,18 @@ class SettingsCouple extends React.Component{
     )
   }
 }
+
 SettingsCouple.displayName = "SettingsCouple"
 
-export default SettingsCouple
+const mapStateToProps = (state, ownProps) => {
+  return {...ownProps }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsCouple);
 
 const styles = StyleSheet.create({
   iconButtonCouples:{

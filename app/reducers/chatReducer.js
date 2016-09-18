@@ -26,10 +26,10 @@ export default function chatReducer(state = initialState, action) {
         return state
 
       case 'CREATE_MESSAGE_FULFILLED':
-        let match_id = action.payload.response.match_id;
-        if ( !action.payload.response ) return state;
-        return {...state, [match_id]: [...state[match_id]] }
-
+          // console.warn(action.meta);
+        // let match_id = action.meta[1];
+        // return {...state, [match_id]: [...state[match_id]] }
+        return state
       case 'GET_MESSAGES_FULFILLED':
         if ( !action.payload.response ) return state;
         return {

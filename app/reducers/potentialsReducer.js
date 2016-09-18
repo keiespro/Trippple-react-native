@@ -4,7 +4,6 @@ import starters  from '../data/StarterDecks'
 export default function potentialsReducer(state = initialState, action) {
 
   switch (action.type) {
-    case 'DECOUPLE_FULFILLED':
     case 'ONBOARD_FULFILLED':
     case 'VERIFY_COUPLE_PIN_FULFILLED':
     case 'HANDLE_NOTIFICATION_COUPLE_READY':

@@ -1,6 +1,6 @@
 import { Text, View, Dimensions, TouchableOpacity, Picker, Image, LayoutAnimation, ScrollView } from 'react-native';
 import React, {Component} from 'react';
-import { NavigationStyles } from '@exponent/ex-navigation';
+import { NavigationStyles,withNavigation } from '@exponent/ex-navigation';
 import ContinueButton from '../controls/ContinueButton';
 import colors from '../../utils/colors';
 import styles from './purpleModalStyles';
@@ -62,7 +62,7 @@ const them_choices = {
 };
 const get_key_vals = (v) => v.toLowerCase();
 
-
+@withNavigation
 class OnboardModal extends Component {
   static route = {
     styles: NavigationStyles.FloatVertical,
@@ -110,12 +110,10 @@ class OnboardModal extends Component {
     if (this.state.selected_relationship_status == 'single') {
       this.onboardUser()
     } else {
-      this.props.dispatch(ActionMan.showInModal({
-        component: 'Coupling',
-        passProps: {
-          onboardUser: this.onboardUser.bind(this)
-        }
+      this.props.navigator.push(this.props.navigation.router.getRoute('JoinCouple', {
+        ...this.state
       }))
+
     }
   }
 
@@ -156,28 +154,31 @@ class OnboardModal extends Component {
     
     return (
         <View>
-          <VibrancyView blurType="dark" style={{
-            width: DeviceWidth,
-            height: DeviceHeight,
-            position:'absolute',top:0,left:0,right:0,
-            backgroundColor: colors.outerSpace20 }}/ >
-        <View style={[
-          styles.col, {
-            width: DeviceWidth,
-            height: DeviceHeight,
-            backgroundColor: colors.outerSpace20
-          }
-        ]}>
-          <ScrollView>
-            <View style={[
-              styles.col, {
+          <VibrancyView 
+            blurType="dark" 
+            style={{
+              width: DeviceWidth,
+              height: DeviceHeight,
+              position:'absolute',top:0,left:0,right:0,
+              backgroundColor: colors.outerSpace20 
+            }}
+          />
+          <View 
+            style={[ styles.col, {
+              width: DeviceWidth,
+              height: DeviceHeight,
+              backgroundColor: colors.outerSpace20
+            }]}
+          >
+            <ScrollView>
+              <View style={[ styles.col, {
                 paddingBottom: 160,
                 paddingTop: MagicNumbers.is5orless ? 40 : 140,
                 marginTop: this.state.step == 0 ? 100  : 0
-              }
-            ]}>
+              }]}
+            >
               {MagicNumbers.is5orless ? null :
-              
+
                 <View style={{
                   top: this.state.step == 0 ? -50 : -300,
                   position:'absolute',

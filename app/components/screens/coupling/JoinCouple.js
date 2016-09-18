@@ -6,6 +6,7 @@ import {
   ScrollView,
   Image,
   Text,
+  TouchableOpacity,
   View,
   TouchableHighlight,
   Dimensions,
@@ -13,6 +14,7 @@ import {
 import React, { Component } from 'react';
 
 
+import { NavigationStyles,withNavigation } from '@exponent/ex-navigation';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -21,27 +23,49 @@ import colors from '../../../utils/colors'
 import BlurModal from '../../modals/BlurModal'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 
+import { connect } from 'react-redux';
 import ActionMan from '../../../actions'
 
 import styles from '../../modals/purpleModalStyles'
 
+@withNavigation
 class JoinCouple extends Component{
+  static route = {
+    styles: NavigationStyles.FloatHorizontal,
+    navigationBar: {
+      backgroundColor: 'rgba(0,0,0,0)',
+      visible:false
+    }
+  };
 
   componentWillReceiveProps(nProps){
 
     if( nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified ){
-      nProps.exit({success:true})
+
     }
   }
+
   nopartner(){
-    this.props.goNoPartner()
+    this.props.navigator.push(this.props.navigation.router.getRoute('NoPartner', {...this.props}))
+
+    // this.props.goNoPartner()
+  }
+  goEnterCouplePin(){
+    this.props.navigator.push(this.props.navigation.router.getRoute('EnterCouplePin', {...this.props}))
+
+  }
+  goCouplePin(){
+
+    this.props.navigator.push(this.props.navigation.router.getRoute('CouplePin',{...this.props} ))
   }
   render(){
     const couple = this.props.couple;
+    const imgWidth = MagicNumbers.is5orless ? 120 : 160;
 
-    const imgWidth = MagicNumbers.is5orless ? 120 : 160
     return (
-      <ScrollView style={{width:DeviceWidth,height:DeviceHeight,flex:1}}>
+        <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{width:DeviceWidth,height:DeviceHeight,flex:1}}>
         <View style={[{width:DeviceWidth,paddingTop:MagicNumbers.is5orless ? 20 : 50, paddingHorizontal:MagicNumbers.screenPadding/2 }]} >
 
           <View style={{height:imgWidth-4,marginVertical:MagicNumbers.is5orless ? 10 : 30,transform:[{scale:MagicNumbers.is5orless ? .8 : 1 }],flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
@@ -54,8 +78,7 @@ class JoinCouple extends Component{
           </View>
 
           <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center',backgroundColor:'transparent', fontFamily:'Montserrat-Bold',fontSize:22,color:'#fff',marginVertical:10 }]}>
-            Welcome {this.props.user.firstname}.
-          </Text>
+          Couple</Text>
 
           <View style={{flexDirection:'column',marginBottom:30 }} >
             <Text style={[styles.rowtext,styles.bigtext,{
@@ -72,10 +95,10 @@ class JoinCouple extends Component{
           </View>
         </View>
 
-        <TouchableHighlight 
+        <TouchableHighlight
           onPress={(f)=>{
-            this.props.goCouplePin()
-          }} 
+            this.goCouplePin()
+          }}
           underlayColor={colors.white20}
         >
                 <View style={{
@@ -99,7 +122,7 @@ class JoinCouple extends Component{
             </TouchableHighlight>
 
   <TouchableHighlight onPress={(f)=>{
-              this.props.goEnterCouplePin();
+              this.goEnterCouplePin();
             }} underlayColor={colors.white20}>
 
               <View style={{
@@ -145,13 +168,59 @@ class JoinCouple extends Component{
                 </View>
             </TouchableHighlight>
             }
+        <View style={{width:100,height:20,left:10,top:0,flex:1,position:'absolute',alignSelf:'flex-start',zIndex:9999}}>
+          <TouchableOpacity onPress={()=>this.props.navigator.pop()}>
+            <View style={btnstyles.goBackButton}>
+              <Text textAlign={'left'} style={[btnstyles.bottomTextIcon]}>◀︎ </Text>
+              <Text textAlign={'left'} style={[btnstyles.bottomText]}>Go back</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
 
       </ScrollView>
     )
   }
 }
-export default JoinCouple
 
+const mapStateToProps = ({user,ui, app}, ownProps) => {
+  return {...ownProps, user, couple: app.coupling }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(JoinCouple);
+
+
+
+
+
+const btnstyles = StyleSheet.create({
+  bottomTextIcon:{
+    fontSize: 14,
+    flexDirection: 'column',
+    alignSelf: 'flex-end',
+    color: colors.rollingStone,
+    marginTop:0
+  },
+
+  bottomText: {
+    marginTop: 0,
+    color: colors.rollingStone,
+    fontSize: 16,
+    fontFamily:'Omnes-Regular',
+  },
+  goBackButton:{
+    padding:20,
+    paddingLeft:0,
+    flexDirection: 'row',
+    zIndex:9999,
+    backgroundColor: 'transparent',
+    alignItems: 'flex-start',
+    justifyContent:'center'
+  },
+});
 
 
 const cstyles = StyleSheet.create({

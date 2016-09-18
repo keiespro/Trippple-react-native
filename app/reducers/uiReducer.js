@@ -20,10 +20,12 @@ export default function uiReducer(state = initialState, action) {
         return {...state, actionModal: action.payload.match };
 
       case 'POP_CHAT':
+      case 'CHAT_IS_CLOSED':
 
         return {...state, chat: null}
 
       case 'PUSH_CHAT':
+      case 'CHAT_IS_OPEN':
 
         return {...state, chat:  {open: true, match_id: action.payload.match_id}}
       default:

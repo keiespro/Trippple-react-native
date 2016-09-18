@@ -30,6 +30,7 @@ import colors from '../../../utils/colors';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import {MagicNumbers} from '../../../utils/DeviceConfig'
+import { connect } from 'react-redux';
 
 
 import SettingsConstants, { HAS_SEEN_NOTIFICATION_REQUEST, LAST_ASKED_NOTIFICATION_PERMISSION, NOTIFICATION_SETTING } from '../../../utils/SettingsConstants'
@@ -408,7 +409,15 @@ class SettingsDebug extends React.Component{
 
 }
 
-export default SettingsDebug
+const mapStateToProps = ({user,ui}, ownProps) => {
+  return {...ownProps, user, ui }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsDebug);
 
 
 class EmptyPage extends React.Component{

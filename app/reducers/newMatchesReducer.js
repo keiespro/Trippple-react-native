@@ -4,8 +4,11 @@ import _ from 'lodash'
 export default function newMatchesReducer(state = initialState, action) {
 
   switch (action.type) {
-      case 'RECEIVE_COUPLEREADY':
-      case 'RECEIVE_DECOUPLE':
+    case 'ONBOARD_FULFILLED':
+    case 'VERIFY_COUPLE_PIN_FULFILLED':
+    case 'HANDLE_NOTIFICATION_COUPLE_READY':
+    case 'HANDLE_NOTIFICATION_DECOUPLE':
+
         return initialState;
 
 

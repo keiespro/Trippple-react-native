@@ -3,6 +3,7 @@ import {
   Text,
   Settings,
   ScrollView,
+  StyleSheet,
   Animated,
   ActivityIndicator,
   View,
@@ -18,10 +19,23 @@ import {MagicNumbers} from '../../../utils/DeviceConfig';
 import { connect } from 'react-redux';
 import {SHOW_COUPLING} from '../../../utils/SettingsConstants'
 
+import {NavigationStyles, withNavigation} from '@exponent/ex-navigation';
+
+
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
+@withNavigation
 class CouplePin extends React.Component{
+ 
+  static route = {
+    styles: NavigationStyles.Fade,
+    navigationBar: {
+      visible: false,
+      backgroundColor: colors.shuttleGrayAnimate,
+    }
+  };
+  
   constructor(props){
     super()
     const startState = props.startState || {}
@@ -38,16 +52,37 @@ class CouplePin extends React.Component{
       this.setState({
         success: true,
       })
-      nProps.props.exit();
-      nProps.props.onboardUser()
+      this.onboardUser()
     }
   }
+  onboardUser(){
+    const lookingfor = Object.keys(lookingfor).reduce((acc,s) => {
+        acc[`looking_for_${s}`] = this.props.selected_theirs[s];
+        return acc;
+    },{}) || {
+      loooking_for_m: true,
+      looking_for_f: true
+    };
+    const payload = {
+      relationship_status: 'couple',
+      // name: this.props.user.firstname,
+      // email: this.props.user.email,
+      // facebook_user_id: this.props.user.facebook_user_id,
+      genders: this.props.selected_genders || `${this.props.user.gender}f`,
+      ...lookingfor
+    };
 
+
+    this.props.dispatch(ActionMan.onboard(payload))
+    this.props.navigator.pop()
+      
+  }
   handleSendMessage(){
-    this.setState({ submitting:true });
     const pin = this.props.pin;
     const messageText = `Join me on Trippple! My couple code is ${pin}.`;
     this.props.dispatch(ActionMan.sendText({ pin, messageText }))
+  
+    this.setState({ submitting:true });
   }
 
   componentDidMount(){
@@ -83,7 +118,7 @@ class CouplePin extends React.Component{
   }
 
   popToTop(){
-    this.props.exit()
+    this.props.navigator.popToTop()
   }
 
   renderSuccess(){
@@ -189,8 +224,6 @@ class CouplePin extends React.Component{
 
         <View style={{alignItems:'center',justifyContent:'center'}}>
 
-          {this.state.submitting ?
-              <ActivityIndicator style={[ {width:80,height: 80}]} size="large" animating={true}/> :
             <TouchableHighlight
             underlayColor={colors.white20}
             style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:0,marginTop:20,marginBottom:15}}
@@ -201,28 +234,60 @@ class CouplePin extends React.Component{
               </Text>
             </View>
           </TouchableHighlight>
-          }
+          
         </View>
-        <TouchableOpacity onPress={()=>{this.props.exit()}}>
+        <TouchableOpacity onPress={()=>{ this.props.navigator.pop()}}>
           <Text style={{backgroundColor:'transparent', fontSize:16,textAlign:'center', marginVertical:MagicNumbers.is5orless ? 5 : 40,color:colors.rollingStone,}}>
             Nevermind.
           </Text>
         </TouchableOpacity>
       </View>
-
-    </View>
+       </View>
     )
   }
   render(){
     return (
       <ScrollView>
-      { this.state.success ? this.renderSuccess() : this.renderMain() }
+        { this.state.success ? this.renderSuccess() : this.renderMain() }
+     <View style={{width:100,height:20,left:10,top:0,flex:1,position:'absolute',alignSelf:'flex-start',zIndex:9999}}>
+          <TouchableOpacity onPress={()=>this.props.navigator.pop()}>
+            <View style={btnstyles.goBackButton}>
+              <Text textAlign={'left'} style={[btnstyles.bottomTextIcon]}>◀︎ </Text>
+              <Text textAlign={'left'} style={[btnstyles.bottomText]}>Go back</Text>
+            </View> 
+          </TouchableOpacity>
+        </View> 
+
+        
       </ScrollView>
     )
   }
 }
 
+const btnstyles = StyleSheet.create({
+  bottomTextIcon:{
+    fontSize: 14,
+    flexDirection: 'column',
+    alignSelf: 'flex-end',
+    color: colors.rollingStone,
+    marginTop:0
+  },
 
+  bottomText: {
+    marginTop: 0,
+    color: colors.rollingStone,
+    fontSize: 16,
+    fontFamily:'Omnes-Regular',
+  },
+  goBackButton:{
+    padding:20,
+    paddingLeft:0,
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
+    alignItems: 'flex-start',
+    justifyContent:'center'
+  },
+});
 const mapStateToProps = (state, ownProps) => {
   return { ...ownProps, pin: state.app.couplePin, user: state.user }
 }

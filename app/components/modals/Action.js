@@ -30,13 +30,13 @@ import { BlurView,VibrancyView} from 'react-native-blur'
 
 @withNavigation
 class Action extends React.Component{
-  
+
   render(){
     const {user} = this.props;
-    const currentMatch = this.props.match || this.props.currentMatch || this.props.matchInfo || this.props.route.params.matchInfo ; 
+    const currentMatch = this.props.match || this.props.currentMatch || this.props.matchInfo || this.props.route.params.matchInfo;
 
     const img_url_id = Object.keys(currentMatch.users).filter(uid => uid != this.props.user.id  && uid != this.props.user.partner_id);
-    console.log(img_url_id);
+
     if(typeof img_url_id == 'object'){
       img_url_id_id = img_url_id[0]
     }
@@ -50,9 +50,9 @@ class Action extends React.Component{
     }else{
       matchName = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (i == 0 ? ` & ` : '')  },'') +'';
     }
-    
+
     return (
-      
+
       <BlurView blurType="dark" style={styles.actionmodal}>
       <ScrollView >
 
@@ -90,7 +90,7 @@ class Action extends React.Component{
       <TouchableHighlight
         style={[styles.clearButton,styles.inlineButtons,{marginRight:10}]}
         underlayColor={colors.shuttleGray20}
-        onPress={()=>{ 
+        onPress={()=>{
           this.props.dispatch(ActionMan.killModal())
 
           this.props.dispatch(ActionMan.showInModal({component: 'UnmatchModal', passProps:{match:currentMatch,goBack:()=>{this.props.dispatch(ActionMan.killModal()) } }}))
@@ -121,34 +121,21 @@ class Action extends React.Component{
 
     </View>
 
-{/*        <TouchableHighlight
-      style={[styles.clearButton,styles.modalButton]}
-      underlayColor={colors.mediumPurple}
-      onPress={()=>{
-       }}>
-      <View >
-        <Text style={[styles.clearButtonText,styles.modalButtonText]}>
-          {match:currentMatch.isFavourited ? 'UNFAVORITE' : 'FAVORITE'}
-        </Text>
-      </View>
-    </TouchableHighlight>
-*/}
+
     <TouchableHighlight
       style={[styles.clearButton,styles.modalButton,{borderColor:colors.mediumPurple,backgroundColor:colors.mediumPurple20}]}
       underlayColor={colors.mediumPurple}
       onPress={()=>{
-    var theirIds = Object.keys(currentMatch.users).filter( u => { return u != user.id && u != user.partner_id})
-    var them = theirIds.map((id) =>currentMatch.users[id])
+        var theirIds = Object.keys(currentMatch.users).filter( u => { return u != user.id && u != user.partner_id})
+        var them = theirIds.map((id) =>currentMatch.users[id])
 
-    const MatchUserAsPotential = {
-      user: them[0],
-      partner: them[1] || {},
-      couple: {}
-    }
-    this.props.dispatch(ActionMan.killModal())
-
-
-      this.props.navigator.push(this.props.navigation.router.getRoute('UserProfile',{ potential:MatchUserAsPotential,user:this.props.user}));
+        const MatchUserAsPotential = {
+          user: them[0],
+          partner: them[1] || {},
+          couple: {}
+        }
+        this.props.dispatch(ActionMan.killModal())
+        this.props.navigator.push(this.props.navigation.router.getRoute('UserProfile',{ potential:MatchUserAsPotential,user:this.props.user}));
       }}>
       <View >
         <Text style={[styles.clearButtonText,styles.modalButtonText]}>

@@ -17,7 +17,10 @@ import SettingsDebug from './components/screens/settings/SettingsDebug'
 import SettingsPreferences from './components/screens/settings/SettingsPreferences'
 import SettingsSettings from './components/screens/settings/SettingsSettings'
 import Settings from './components/screens/settings/settings'
-
+import JoinCouple from './components/screens/coupling/JoinCouple'
+import EnterCouplePin from './components/screens/coupling/EnterCouplePin'
+import CouplePin from './components/screens/coupling/CouplePin'
+import NoPartner from './components/screens/coupling/NoPartner'
 
 export default createRouter(() => ({
   SettingsDebug: () => __DEV__ ? SettingsDebug : false,
@@ -38,4 +41,8 @@ export default createRouter(() => ({
   Generic: ()=> GenericScreen,
   Coupling: () => Coupling,
   OnboardModal: () => OnboardModal,
+  JoinCouple: () => JoinCouple,
+  EnterCouplePin: () => EnterCouplePin,
+  CouplePin: () => CouplePin,
+  NoPartner: () => NoPartner
 }))

@@ -4,6 +4,9 @@ import { Image, TouchableHighlight, TouchableOpacity, PanResponder, Easing, Stat
 import { BlurView } from 'react-native-blur'
 import ActionMan from '../actions'
 import colors from '../utils/colors'
+import reactMixin from 'react-mixin'
+import TimerMixin from 'react-timer-mixin'
+
 
 
 const DeviceHeight = Dimensions.get('window').height;
@@ -21,6 +24,7 @@ class Notification extends React.Component{
       pan: new Animated.ValueXY(),
 
     }
+    this._timer = null;
     this._panResponder = {}
   }
   componentWillMount(){
@@ -37,8 +41,7 @@ class Notification extends React.Component{
     }).start((fin)=>{
       this.initializePanResponder();
       this.setState({inPlace:true});
-      // this.props.setNotificationGoAwayTimer();
-      this.hideNoti();
+      this.setNotificationGoAwayTimer();
     })
 
   }
@@ -52,24 +55,48 @@ class Notification extends React.Component{
 
 
   }
-  hideNoti(delay=1200){
+  setNotificationGoAwayTimer(delay=3000){
+    this._timer = this.setTimeout(()=>{
+      this.hideNoti();
+    },delay);
+  }
+
+  hideNoti(){
 
     Animated.timing(this.state.pan, {
-      delay,
       toValue: -220,
       easing: Easing.in(Easing.exp),
       duration: 300,
     }).start((fin)=>{
       this.killNotification()
-
     })
   }
+
+  componentWillUnmount(){
+      this.killTimer()
+  }
+
+  freezeNotification(){
+      this.killTimer()
+  }
+
+  killTimer(){
+    if(this._timer){
+      this.clearTimeout(this.timer);
+      delete this._timer;
+    }
+  }
+
   initializePanResponder(){
     delete this._panResponder
+    const freezeNotification = this.freezeNotification.bind(this);
 
     this._panResponder = PanResponder.create({
       onMoveShouldSetPanResponder: (e,gestureState) => {
         return true
+      },
+      onPanResponderStart: (e,gestureState) => {
+        freezeNotification();
       },
       onPanResponderMove: Animated.event([null, {
         dy: this.state.pan.y,
@@ -108,9 +135,22 @@ class Notification extends React.Component{
   tapped(){
     const {notification} = this.props;
     const noti = (notification.label || notification.type || '').toLowerCase();
+    console.log(noti);
+    if((noti.indexOf('match') > -1 || noti.indexOf('message') > -1) ){
+      if(this.props.chatOpen){
+        if(this.props.chatOpen == notification.match_id){
+          __DEV__ && console.log('chat already open')
+        }else{
 
-    if(noti.indexOf('match') > -1 || noti.indexOf('message') > -1) this.props.pushChat(notification.match_id);
+          this.props.pushChat({...notification, ...notification.data, fromNotification:true});
+        }
 
+      }else{
+
+          this.props.pushChat({...notification, ...notification.data, fromNotification:true});
+      }
+
+    }
     this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
 
   }
@@ -289,12 +329,13 @@ class Notification extends React.Component{
   }
 }
 
+reactMixin(Notification.prototype,TimerMixin)
 export default Notification
 
 const TinyClose = props => {
   return (
     <TouchableHighlight
-      style={[{alignItems:'center',justifyContent:'center',height:props.size,top:0,width:props.size,backgroundColor:props.background,color:colors.white,borderRadius:props.size/2}]}
+      style={[{alignItems:'center',justifyContent:'center',height:props.size,top:0,width:props.size,backgroundColor:props.background,borderRadius:props.size/2}]}
       onPress={props.killNotification}
       underlayColor={props.buttonUnderlay || colors.mediumPurple20}
     >

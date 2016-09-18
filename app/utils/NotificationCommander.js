@@ -121,7 +121,7 @@ class NotificationCommander extends Component{
     this.socket.on('system', (payload) => {
       __DEV__ && console.log('WEBSOCKET system',payload);
       Analytics.event('Webocket notification',{action: payload.data.action, label: 'system'})
-      this.handleAction({...payload, label: payload.data.action})
+      this.handleAction({...payload, label: payload.data.alert ? payload.data.alert.replace(' ','') : payload.action})
     })
 
     this.socket.on('chat', (payload) => {
@@ -163,7 +163,7 @@ class NotificationCommander extends Component{
 
   render(){
     if(!__DEV__) return false;
-    
+
     const devStyles = {
       position:'absolute',
       top:0,

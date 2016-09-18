@@ -17,7 +17,7 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import {
-  NavigationStyles,
+  NavigationStyles, withNavigation
 } from '@exponent/ex-navigation';
 
 var PickerItem = Picker.Item;
@@ -153,7 +153,7 @@ class ProfileField extends React.Component{
               source={{uri:'assets/edit@3x.png'}}
               resizeMode={Image.resizeMode.contain}/>
               </View> }
- 
+
             </View>
               </View>
               </View>
@@ -162,6 +162,7 @@ class ProfileField extends React.Component{
   }
 }
 
+@withNavigation
 class SettingsBasic extends React.Component{
 
   static route = {
@@ -236,7 +237,7 @@ class SettingsBasic extends React.Component{
               resizeMode={Image.resizeMode.contain}/>
                 <Text style={styles.formHeaderText}> Edit on Facebook</Text>
            </View>
-  
+
              <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>Details</Text>
            </View>

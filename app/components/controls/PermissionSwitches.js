@@ -1,14 +1,21 @@
-import React  from 'react'
-import reactMixin  from 'react-mixin'
+import React from 'react'
+import reactMixin from 'react-mixin'
 import { Text, View, SwitchIOS, Settings, PushNotificationIOS, NativeModules, Dimensions } from 'react-native'
-import ActionMan  from '../../actions/'
-import Analytics  from '../../utils/Analytics'
+import ActionMan from '../../actions/'
+import Analytics from '../../utils/Analytics'
 import { MagicNumbers } from '../../utils/DeviceConfig'
-import { HAS_SEEN_NOTIFICATION_REQUEST, LAST_ASKED_NOTIFICATION_PERMISSION, NOTIFICATION_SETTING, LEGACY_NOTIFICATION_SETTING, LOCATION_SETTING, LEGACY_LOCATION_SETTING } from '../../utils/SettingsConstants'
-import colors  from '../../utils/colors'
-import LocationPermissions  from '../modals/LocationPermission'
-import NotificationPermissions  from '../modals/NewNotificationPermissions'
-import styles  from '../screens/settings/settingsStyles'
+import { 
+  HAS_SEEN_NOTIFICATION_REQUEST, 
+  LAST_ASKED_NOTIFICATION_PERMISSION, 
+  NOTIFICATION_SETTING, 
+  LEGACY_NOTIFICATION_SETTING, 
+  LOCATION_SETTING, 
+  LEGACY_LOCATION_SETTING 
+} from '../../utils/SettingsConstants'
+import colors from '../../utils/colors'
+import LocationPermissions from '../modals/LocationPermission'
+import NotificationPermissions from '../modals/NewNotificationPermissions'
+import styles from '../screens/settings/settingsStyles'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 const {OSPermissions} = NativeModules

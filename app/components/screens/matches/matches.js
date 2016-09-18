@@ -133,9 +133,7 @@ class MatchList extends Component {
   _pressRow(rowData,title) {
     this.setTimeout(() => {
 
-    //   // MatchActions.getMessages.defer(match_id);
-    //   // TODO : REPLACE WITH NEW
-      this.props.dispatch(ActionMan.getMessages({'match_id':rowData.match_id}))
+      // this.props.dispatch(ActionMan.getMessages({'match_id':rowData.match_id}))
     }, 500)
 
       const payload = {title, match_id: rowData.match_id, matchInfo: rowData }

@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TouchableHighlight, ScrollView, PixelRatio, Dim
 import React from "react";
 
 import {
-  NavigationStyles,
+  NavigationStyles,withNavigation
 } from '@exponent/ex-navigation';
 
 import ActionMan from '../../../actions';
@@ -13,9 +13,10 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import TouchID from 'react-native-touch-id'
+import { connect } from 'react-redux';
 
 
-
+@withNavigation
 class SettingsSettings extends React.Component{
 
     static route = {
@@ -86,7 +87,7 @@ class SettingsSettings extends React.Component{
       name: `${pageTitle}`,
       type: 'tap',
     })
-    
+
   }
 
   handleFeedback() {
@@ -103,10 +104,10 @@ class SettingsSettings extends React.Component{
 
     if(this.state.privacy != 'private'){
       this.props.dispatch(ActionMan.showInModal({
-            component:PrivacyPermissionsModal,
+            component:'PrivacyPermissions',
             name: 'PrivacyPermissionsModal',
             id:'privacymodal',
-            passProps:{
+        passProps:{
               initialScreen:'CoupleReady',
               success: (privacy) => {
                 this.togglePrivacy('private');
@@ -118,22 +119,7 @@ class SettingsSettings extends React.Component{
             }
           }))
 
-        //
-        // this.props.navigator.push({
-        //   component: PrivacyPermissionsModal,
-        //   title: '',
-        //   name: 'PrivacyPermissionsModal',
-        //   id:'privacymodal',
-        //   sceneConfig: NavigatorSceneConfigs.FloatFromBottom,
-        //   passProps: {
-        //     cancel: ()=> {this.props.navigator.pop()},
-        //     success: (privacy) => {
-        //       this.props.navigator.pop();
-        //       this.togglePrivacy('private');
-        //     },
-        //     user: this.props.user,
-        //   }
-        // })
+
     }
   }
 
@@ -147,7 +133,7 @@ class SettingsSettings extends React.Component{
 
     TouchID.authenticate(this.state.isLocked ? 'Disable TouchID Lock' : 'Lock Trippple')
       .then((success) => {
-      const {isLocked} = this.state;
+        const {isLocked} = this.state;
         var shouldLock = this.state.isLocked ? 1 : null
 
         this.setState({
@@ -324,7 +310,17 @@ class SettingsSettings extends React.Component{
 }
 SettingsSettings.displayName = "SettingsSettings"
 
-export default SettingsSettings
+
+const mapStateToProps = ({user,ui}, ownProps) => {
+  return {...ownProps, user, ui }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsSettings);
+
 
 
 

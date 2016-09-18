@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
    backgroundColor:colors.dark,
 
    // bottom: 50,
-   // top:60
+   top:0
  },
  messageList: {
 

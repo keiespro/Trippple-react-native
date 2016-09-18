@@ -28,7 +28,7 @@ class UserDetails extends React.Component{
 
     return (
       <View>
-      {rel == 'single' && potential.partner ?
+      { potential.partner && potential.partner.gender ?
       <View
        style={{zIndex:600,width:MagicNumbers.screenWidth,overflow:'hidden',marginHorizontal:MagicNumbers.screenPadding/2}}>
 
@@ -42,8 +42,8 @@ class UserDetails extends React.Component{
             index={1}
             profile={potential.partner}
             tabLabel={`${potential.partner.firstname}, ${potential.partner.age}`}
-            />
-            </ScrollableTabView></View> :
+          />
+        </ScrollableTabView></View> :
 
         <View style={{width:MagicNumbers.screenWidth}}>
           <View style={[styles.tabs,{ marginHorizontal:MagicNumbers.screenPadding/2,marginBottom:20}]}>
