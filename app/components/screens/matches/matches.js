@@ -1,15 +1,5 @@
-import {
-  StyleSheet,
-  Text,
-  Image,
-  View,
-  TouchableHighlight,
-  SwipeableListView,
-  Dimensions,
-  Alert,
-} from 'react-native';
+import { StyleSheet, Text, Image, View, TouchableHighlight, SwipeableListView, Dimensions, Alert, } from 'react-native';
 import React, { Component } from "react";
-
 import Action from '../../modals/Action';
 import Analytics from '../../../utils/Analytics';
 import NewMatches from './NewMatches';
@@ -17,15 +7,14 @@ import NoMatches from './NoMatches';
 import ThreeDots from '../../buttons/ThreeDots';
 import UserProfile from '../../UserProfile';
 import colors from '../../../utils/colors';
-
 import _ from 'underscore'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin';
-
 import { BlurView, VibrancyView } from 'react-native-blur'
 import { connect } from 'react-redux';
-import ActionMan from  '../../../actions/';
+import ActionMan from '../../../actions/';
 import {pure} from 'recompose'
+
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 const SwipeableQuickActions = require('SwipeableQuickActions');
@@ -95,7 +84,7 @@ class MatchList extends Component {
               match_id: rowData.match_id,
               match: rowData
             })
-            this.props.dispatch(ActionMan.unmatch(rowData.match_id));
+            this.props.dispatch(ActionMan.unMatch(rowData.match_id));
             this.handleCancelUnmatch();
           }
         },
@@ -105,12 +94,11 @@ class MatchList extends Component {
 
   _pressRow(rowData,title) {
     this.setTimeout(() => {
-
-      this.props.dispatch(ActionMan.getMessages(rowData.match_id))
+      this.props.getMessages(rowData.match_id)
     }, 1000)
 
-      const payload = {title, match_id: rowData.match_id, matchInfo: rowData }
-      this.props.navigator.push(this.props.navigator.navigationContext.router.getRoute('Chat',payload));
+    const payload = {title, match_id: rowData.match_id, matchInfo: rowData }
+    this.props.navigator.push(this.props.navigator.navigationContext.router.getRoute('Chat',payload));
 
   }
 
@@ -185,8 +173,8 @@ class MatchList extends Component {
           shadowRadius:1,
           shadowOpacity:10,
           shadowOffset: {
-              width:StyleSheet.hairlineWidth,
-              height: 0
+            width:StyleSheet.hairlineWidth,
+            height: 0
           }
         }}>
           {__DEBUG__ && <Text style={{ color: '#fff' }}>
@@ -199,7 +187,8 @@ class MatchList extends Component {
                  style={styles.thumb}
                  source={{ uri: matchImage }}
                  resizeMode={Image.resizeMode.cover}
-                 defaultSource={{ uri: 'assets/placeholderUser@3x.png' }} />
+                 defaultSource={{ uri: 'assets/placeholderUser@3x.png' }}
+              />
               {unread ?
                <View style={styles.newMessageCount}>
                  <Text style={{ fontFamily: 'Montserrat-Bold', color: colors.white, textAlign: 'center', fontSize: 14 }}>
@@ -224,33 +213,35 @@ class MatchList extends Component {
 
   render() {
     const isVisible = this.state.isVisible;
-    return (!this.props.matches.length && !this.props.newMatches.length) ?  <NoMatches/> : (
+    return (!this.props.matches.length && !this.props.newMatches.length) ? <NoMatches/> : (
       <View >
         <SwipeableListView
           dataSource={this.props.dataSource}
           maxSwipeDistance={150}
-          renderQuickActions={(rowData, sectionID, rowID) =>  (
+          renderQuickActions={(rowData, sectionID, rowID) => (
              <SwipeableQuickActions style={{backgroundColor:colors.dark,alignItems:'stretch',overflow:'hidden' }}>
-             <TouchableHighlight
-              onPress={this.unmatch.bind(this,rowData)}
-               underlayColor={colors.shuttleGray}>
-              <View style={{backgroundColor:colors.mandy,width:75,margin:0,right:-5, flex:1,justifyContent:'center',alignItems:'center',alignSelf:'stretch',flexDirection:'column',}}>
-                <Image
-                  resizeMode={Image.resizeMode.contain}
-                  style={{width:20,height:20,alignItems:'flex-start'}}
-                  source={{uri: 'assets/close@3x.png'}}
-                />
-              </View>
-            </TouchableHighlight>
-            <TouchableHighlight
-                onPress={this.chatActionSheet.bind(this,rowData)}
-                 underlayColor={colors.dark}>
-                <View style={{backgroundColor:colors.shuttleGray,width:75,margin:0, flex:1,justifyContent:'center',alignItems:'center',alignSelf:'stretch',flexDirection:'column'}}>
-                  <ThreeDots dotColor={colors.white}/>
-                </View>
-              </TouchableHighlight>
+               <TouchableHighlight
+                 onPress={this.unmatch.bind(this,rowData)}
+                 underlayColor={colors.shuttleGray}
+               >
+                 <View style={{backgroundColor:colors.mandy,width:75,margin:0,right:-5,flex:1,justifyContent:'center',alignItems:'center',alignSelf:'stretch',flexDirection:'column',}}>
+                   <Image
+                     resizeMode={Image.resizeMode.contain}
+                     style={{width:20,height:20,alignItems:'flex-start'}}
+                     source={{uri: 'assets/close@3x.png'}}
+                   />
+                 </View>
+               </TouchableHighlight>
+               <TouchableHighlight
+                 onPress={this.chatActionSheet.bind(this,rowData)}
+                 underlayColor={colors.dark}
+               >
+                 <View style={{backgroundColor:colors.shuttleGray,width:75,margin:0, flex:1,justifyContent:'center',alignItems:'center',alignSelf:'stretch',flexDirection:'column'}}>
+                   <ThreeDots dotColor={colors.white}/>
+                 </View>
+               </TouchableHighlight>
              </SwipeableQuickActions>
-           )
+            )
           }
           bounceFirstRowOnMount={false}
           chatActionSheet={this.props.chatActionSheet}
@@ -268,29 +259,29 @@ class MatchList extends Component {
           scrollsToTop={true}
           contentOffset={{ x: 0, y: this.state.isRefreshing ? -50 : 0 }}
           renderHeader={() => (!this.props.newMatches || !this.props.newMatches.length) ? false : (
-            <NewMatches
-              dispatch={this.props.dispatch}
-              user={this.props.user}
-              navigator={this.props.navigator}
-              newMatches={this.props.newMatches}
-              matchesCount={this.props.matches.length}
-            />
-          )}
-        />
-        {this.state.loadingMoreMatches && false ?
-         <View style={{ position: 'absolute', bottom: 0, width: DeviceWidth, height: 30 }}>
-           <ActivityIndicator style={{ alignSelf: 'center', alignItems: 'center', flex: 1, height: 60, width: 60, justifyContent: 'center' }} animating={true} />
-         </View> :
-         null}
-      </View>
-    )
+              <NewMatches
+                dispatch={this.props.dispatch}
+                user={this.props.user}
+                navigator={this.props.navigator}
+                newMatches={this.props.newMatches}
+                matchesCount={this.props.matches.length}
+              />
+            )}
+          />
+          {this.state.loadingMoreMatches && false ?
+            <View style={{ position: 'absolute', bottom: 0, width: DeviceWidth, height: 30 }}>
+              <ActivityIndicator style={{ alignSelf: 'center', alignItems: 'center', flex: 1, height: 60, width: 60, justifyContent: 'center' }} animating={true} />
+            </View> : null
+          }
+        </View>
+      )
   }
 }
 
 
 
 function rowHasChanged(r1, r2) {
-  return r1.match_id !== r2.match_id || r1.unread != r2.unread || r1.recentMessage.message_id != r2.recentMessage.message_id
+  return r1 !== r2 || r1.match_id !== r2.match_id || r1.unread != r2.unread || r1.recentMessage.message_id != r2.recentMessage.message_id
 }
 
 
@@ -311,26 +302,6 @@ class MatchesInside extends Component {
     }
   }
 
-  // showProfile(match) {
-  //   Analytics.event('Interaction', {
-  //     type: 'tap',
-  //     name: 'View user profile',
-  //     match_id: match.match_id,
-  //     match
-  //   })
-  //
-  //   this.props.navigator.push({
-  //     component: UserProfile,
-  //     passProps: {
-  //       match,
-  //       hideProfile: () => {
-  //         this.props.navigator.pop()
-  //       }
-  //     },
-  //     name: `User Profile`
-  //   })
-  // }
-
   toggleModal() {
     this.setState({
       isVisible: !this.state.isVisible,
@@ -338,19 +309,15 @@ class MatchesInside extends Component {
     })
   }
   componentWillReceiveProps(newProps) {
-    if (newProps.matches && newProps.matches[0]) {
       this._updateDataSource(newProps.matches, 'matches')
-    }
   }
 
   _updateDataSource(data, whichList) {
-    if (data.length > 1) {
       const newState = {
         matches: data,
         dataSource: this.ds.cloneWithRowsAndSections(data.map(d => { return { match: {...d, unread: this.props.unread[d.match_id]}} })),
       };
       this.setState(newState)
-    }
   }
 
   render() {
@@ -361,11 +328,12 @@ class MatchesInside extends Component {
            user={this.props.user}
            dataSource={this.state.dataSource}
            matches={this.state.matches || this.props.matches}
-          unread={this.props.unread}
+           unread={this.props.unread}
            newMatches={this.props.newMatches}
+           getMessages={this.props.getMessages}
            updateDataSource={this._updateDataSource.bind(this)}
            id={"matcheslist"}
-            navigator={this.props.navigator}
+           navigator={this.props.navigator}
            route={{ component: 'Matches', title: 'Matches', id: 'matcheslist', }}
            title={"matchlist"}
         />
@@ -469,37 +437,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(Matches);
 
 
 const styles = StyleSheet.create({
-  noop: {},
-  container: {
-    backgroundColor: colors.dark,
-    marginTop: 0,
-    flex: 1,
-    height: DeviceHeight - 60,
-  },
-  navText: {
-    color: colors.black,
-    fontFamily: 'omnes'
-  },
-  button: {
-    backgroundColor: colors.white,
-    padding: 15,
-    height: 70,
-  },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 14,
     backgroundColor: colors.outerSpace,
   },
-  topRow: {
-    // borderTopWidth: 1,
-    // borderTopColor: '#CCCCCC',
-  },
-  separator: {
-    height: 1,
-    borderColor: 'transparent',
-    backgroundColor: 'transparent',
-  },
+
   thumbswrap: {
     width: 64,
     marginRight: 20,

@@ -14,7 +14,7 @@ const DeviceWidth = Dimensions.get('window').width;
 
 const NOTI_HEIGHT = 70;
 
-
+@reactMixin.decorate(TimerMixin)
 class Notification extends React.Component{
 
   constructor(props){
@@ -32,7 +32,6 @@ class Notification extends React.Component{
   }
 
   componentDidMount() {
-    this.state.pan.setValue({x: 0, y: 0});
 
     Animated.timing(this.state.pan, {
       toValue: 0,
@@ -51,10 +50,8 @@ class Notification extends React.Component{
       // this.killNotification()
 
     }
-
-
-
   }
+
   setNotificationGoAwayTimer(delay=5000){
     this._timer = this.setTimeout(()=>{
       this.hideNoti();
@@ -73,11 +70,11 @@ class Notification extends React.Component{
   }
 
   componentWillUnmount(){
-      this.killTimer()
+    this.killTimer()
   }
 
   freezeNotification(){
-      this.killTimer()
+    this.killTimer()
   }
 
   killTimer(){
@@ -135,22 +132,21 @@ class Notification extends React.Component{
   tapped(){
     const {notification} = this.props;
     const noti = (notification.label || notification.type || '').toLowerCase();
-    console.log(noti);
-    if((noti.indexOf('match') > -1 || noti.indexOf('message') > -1) ){
-      if(this.props.chatOpen){
-        if(this.props.chatOpen == notification.match_id){
-          __DEV__ && console.log('chat already open')
-        }else{
+    // if((noti.indexOf('match') > -1 || noti.indexOf('message') > -1) ){
+    //   if(this.props.chatOpen){
+    //     // if(this.props.chatOpen == notification.match_id){
+    //     //   __DEV__ && console.log('chat already open')
+    //     // }else{
 
-          this.props.pushChat({...notification, ...notification.data, fromNotification:true});
-        }
+    //     //   this.props.pushChat({...notification, ...notification.data, fromNotification:true});
+    //     // }
 
-      }else{
+    //   }else{
 
-          this.props.pushChat({...notification, ...notification.data, fromNotification:true});
-      }
+        this.props.pushChat({...notification, ...notification.data, fromNotification:true});
+      // }
 
-    }
+    // }
     this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
 
   }
@@ -167,14 +163,24 @@ class Notification extends React.Component{
 
   render(){
 
-    if(!this.props.notification) return false
+    if(!this.props.notification) return false;
+    const {notification} = this.props;
+    const noti = (notification.label || notification.type || '').toLowerCase();
+    if((noti.indexOf('match') > -1 || noti.indexOf('message') > -1) ){
+      if(this.props.chatOpen){
+        if(this.props.chatOpen == notification.match_id){
+          __DEV__ && console.log('chat already open')
+          this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
+          return false
+        }
+      }
+    }
 
-    const { notification, user } = this.props;
+    const {  user } = this.props;
     let theirIds;
     let them;
     let threadName;
     let matchName;
-    const noti = (notification.label || notification.type || '').toLowerCase()
     const users = notification.users || {}
     let from_user_info
     let image_url
@@ -242,7 +248,7 @@ class Notification extends React.Component{
                   killNotification={this.killNotification.bind(this)}
                   notification={notification}
                   buttonUnderlay={colors.mediumPurple}
-                />
+              />
               </View>
           </View> : null
         }
@@ -329,7 +335,6 @@ class Notification extends React.Component{
   }
 }
 
-reactMixin(Notification.prototype,TimerMixin)
 export default Notification
 
 const TinyClose = props => {

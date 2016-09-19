@@ -28,7 +28,7 @@ class NotificationDisplayer extends Component {
     const payload = chatProps;
 
     this.props.chatOpen ?
-      this.props.navigator.replace( this.props.navigation.router.getRoute('Chat',payload)) : 
+      this.props.navigator.replace( this.props.navigation.router.getRoute('Chat',payload)) :
         this.props.navigator.push(this.props.navigation.router.getRoute('Chat',payload));
   }
   render() {
@@ -76,7 +76,7 @@ const mapStateToProps = (state, ownProps) => {
     ...ownProps,
     notifications: _.filter(state.notifications,(n) => { return n && !n.viewedAt}),
     user: state.user,
-    chatOpen: state.ui.chat && state.ui.chat.match_id
+    chatOpen: state.ui.chat && state.ui.chat.match_id ? state.ui.chat.match_id : false
   }
 }
 

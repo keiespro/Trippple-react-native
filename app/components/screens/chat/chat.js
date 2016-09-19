@@ -44,7 +44,7 @@ class Chat extends React.Component {
       },
       renderRight(route, props) {
         return (
-          <ThreeDotsActionButton route={route} sendProps={{...props, ...route.params}} match={props.match} dotColor={colors.white}/>
+          <ThreeDotsActionButton route={route} fromChat={true} sendProps={{...props, ...route.params}} match={props.match} dotColor={colors.white}/>
         )
       }
     }
@@ -63,10 +63,10 @@ class Chat extends React.Component {
   }
   componentDidMount() {
     if(this.props.fromNotification){
-    const matchInfo = this.props.match;
-    const theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
+      const matchInfo = this.props.match;
+      const theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
         them = theirIds.map((id)=> matchInfo.users[id]),
-        chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '')  },'');
+        chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '') },'');
 
       this.setTimeout(()=>{
         this.props.navigator.updateCurrentRouteParams({title: chatTitle, match:this.props.match })
@@ -98,8 +98,9 @@ class Chat extends React.Component {
           messages={this.props.messages}
           dispatch={this.props.dispatch}
           key={ `chat-${this.props.user.id}-${this.props.match_id}` }
+          pop={()=>{this.props.navigator.pop()}}
           fromNotification={this.props.fromNotification}
-         />
+        />
       </View>
     );
   }

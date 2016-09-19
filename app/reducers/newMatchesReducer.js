@@ -15,6 +15,14 @@ export default function newMatchesReducer(state = initialState, action) {
       case 'REMOVE_MATCH':
         return {...state, [action.payload.matchID]: null }
 
+      case 'UN_MATCH_PENDING':
+        const newState = state;
+        const matchId = action.meta[0];
+        newState[matchId] = null;
+        delete newState[matchId];
+        return {...newState }
+
+
       case 'GET_NEW_MATCHES_FULFILLED':
         if ( !action.payload.response ) return state;
         return action.payload.response.reduce( ( acc, el, i ) => {

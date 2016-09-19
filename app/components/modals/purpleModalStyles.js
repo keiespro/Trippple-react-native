@@ -155,7 +155,6 @@ const purpleModalStyles = StyleSheet.create({
     height:20
   },
   cancelButton:{
-    backgroundColor: colors.mandy,
     borderColor: colors.mandy
   },
   plainButton:{

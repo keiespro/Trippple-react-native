@@ -1,15 +1,6 @@
-import {
-  View,
-  TextInput,
-  ListView,
-  Keyboard,
-  Animated,
-  Dimensions,
-  KeyboardAvoidingView,
-} from 'react-native';
+import { View, TextInput, ListView, Keyboard, Animated, Dimensions, KeyboardAvoidingView, } from 'react-native';
 import React, {Component} from "react";
 import moment from 'moment';
-
 import styles from './chatStyles'
 import _ from 'lodash'
 import dismissKeyboard from 'dismissKeyboard'
@@ -53,13 +44,17 @@ class ChatInside extends Component{
 
   componentDidMount(){
     Keyboard.addListener('keyboardWillChangeFrame', this.onKeyboardChange.bind(this));
-    this.props.dispatch({type:'MARK_CHAT_READ', payload: {match_id: this.props.match_id}})
+    this.props.dispatch({type:'MARK_CHAT_READ', payload: {match_id: this.props.match.match_id}})
   }
   componentWillUnmount(){
     Keyboard.removeListener('keyboardWillChangeFrame', this.onKeyboardChange.bind(this));
   }
   componentWillReceiveProps(newProps){
     __DEV__ && console.log('newProps.messages',newProps);
+    
+    if(this.props.match && !newProps.match){
+     this.props.pop(); 
+    }
     if(!this.ds || !newProps.messages) {return }
     this.setState({
       dataSource: this.ds.cloneWithRows(_.sortBy(newProps.messages, (msg) => msg.created_timestamp ).reverse())
@@ -101,14 +96,14 @@ class ChatInside extends Component{
 
   getThumbSize(){
 
-    let size =  MagicNumbers.is4s ? SIZES.small : SIZES.big
-    return  {
-                width: this.state.isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
-                height: this.state.isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
-                borderRadius: this.state.isKeyboardOpened ? size.dimensions.open/2 : size.dimensions.closed/2,
-                marginVertical: this.state.isKeyboardOpened ? size.margin.open : size.margin.closed,
-                backgroundColor: colors.dark
-              }
+    let size = MagicNumbers.is4s ? SIZES.small : SIZES.big
+    return {
+      width: this.state.isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
+      height: this.state.isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
+      borderRadius: this.state.isKeyboardOpened ? size.dimensions.open/2 : size.dimensions.closed/2,
+      marginVertical: this.state.isKeyboardOpened ? size.margin.open : size.margin.closed,
+      backgroundColor: colors.dark
+    }
   }
   onEndReached(e){
     if(!this.props.messages){ return false}
@@ -133,14 +128,14 @@ class ChatInside extends Component{
       return <View/>
     }
     const theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
-        them = theirIds.map((id)=> matchInfo.users[id]),
-        chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '')  },'');
+      them = theirIds.map((id)=> matchInfo.users[id]),
+      chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '') },'');
 
     return (
       <View style={{flex:1,width:DeviceWidth,height:DeviceHeight,position:'relative',top:0}}>
-      <KeyboardAvoidingView  style={{flex:1}} behavior={'padding'}>
+      <KeyboardAvoidingView style={{flex:1}} behavior={'padding'}>
 
-        {this.props.messages && this.props.messages.length > 0  ?
+        {this.props.messages && this.props.messages.length > 0 ?
         (<View style={{flex:1,justifyContent:'space-between',alignItems:'center',flexDirection:'column'}}>
           <ListView
             dataSource={this.state.dataSource}
@@ -176,7 +171,7 @@ class ChatInside extends Component{
           onTextInputChange={this.onTextInputChange.bind(this)}
           sendMessage={this.sendMessage.bind(this)}
           isKeyboardOpened={this.state.isKeyboardOpened}
-        />}
+          />}
 
       </KeyboardAvoidingView></View>
     )

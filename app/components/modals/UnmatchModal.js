@@ -1,25 +1,15 @@
-'use strict';
-
-import {
-  Text,
-  Image,
-  View,
-  TouchableHighlight,
-  Dimensions,
-} from 'react-native';
+import { Text, Image, View, TouchableHighlight, Dimensions, TouchableOpacity } from 'react-native';
 import React, { Component } from 'react';
-
-const DeviceHeight = Dimensions.get('window').height
-const DeviceWidth = Dimensions.get('window').width
 import colors from '../../utils/colors'
 import _ from 'underscore'
-
+import ActionMan from '../../actions'
 import { BlurView,VibrancyView } from 'react-native-blur'
 import styles from './purpleModalStyles'
 import {MagicNumbers} from '../../utils/DeviceConfig'
-
-
 import PurpleModal from './PurpleModal'
+import {connect} from 'react-redux'
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
 
 class UnmatchModal extends Component{
 
@@ -28,12 +18,12 @@ class UnmatchModal extends Component{
     this.state = {}
   }
   unMatch(){
-    // MatchActions.unMatch(this.props.match)//todo: fix
+    this.props.dispatch(ActionMan.unMatch(this.props.match.match_id))
     this.props.goBack();
   }
 
   render(){
-    var rowData = this.props.match,
+    const rowData = this.props.match,
         theirIds = Object.keys(rowData.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
         them = theirIds.map((id)=> rowData.users[id]),
         matchName = them.map( (user,i) => user.firstname.trim().toUpperCase() ).join(' & '),
@@ -73,14 +63,13 @@ class UnmatchModal extends Component{
               </View>
 
             <View >
-              <TouchableHighlight
-                underlayColor={'transparent'}
+              <TouchableOpacity
                 style={styles.modalButtonWrap}
                 onPress={this.props.goBack}>
                 <View style={[styles.modalButton,styles.cancelButton]} >
                   <Text style={styles.modalButtonText}>CANCEL</Text>
                 </View>
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
 
           </View>
@@ -89,5 +78,19 @@ class UnmatchModal extends Component{
     )
   }
 }
+
+
 UnmatchModal.displayName = "UnmatchModal"
-export default UnmatchModal
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps,
+    user: state.user,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(UnmatchModal)

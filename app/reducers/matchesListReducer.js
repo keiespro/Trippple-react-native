@@ -12,9 +12,10 @@ export default function matchesListReducer(state = initialState, action) {
 
 
   case 'REMOVE_MATCH':
-    const matchId = action.payload.matchId || action.payload.match_id;
-    const newNewMatches = state.newMatches.reject(m => m.match_id == matchId)
-    const newRegularMatches = state.matches.reject(m => m.match_id == matchId)
+  case 'UN_MATCH_PENDING':
+    const matchId = action.meta[0];
+    const newNewMatches = _.filter(state.newMatches, (m) => m.match_id != matchId);
+    const newRegularMatches = _.filter(state.matches, (m) => m.match_id != matchId);
     return {matches: newRegularMatches, newMatches: newNewMatches }
 
   case 'GET_NEW_MATCHES_FULFILLED':
