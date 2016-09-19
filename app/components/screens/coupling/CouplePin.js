@@ -71,7 +71,7 @@ class CouplePin extends React.Component{
       ...lookingfor
     };
 
-
+    this.props.dispatch({type:'TOGGLE_SENT_INVITE',payload:{}})
     this.props.dispatch(ActionMan.onboard(payload))
     // this.props.navigator.pop()
 

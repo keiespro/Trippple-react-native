@@ -17,6 +17,9 @@ export default function appReducer(state = initialState, action) {
       case 'SEND_TEXT_FULFILLED':
         return {...state, coupling: {...state.coupling, sentInvite: action.payload.success, inviteMethod: action.payload.method}}
 
+      case 'TOGGLE_SENT_INVITE':
+        return {...state, coupling: {...state.coupling, sentInvite: null, inviteMethod: null}}
+
       case 'CONNECTION_CHANGE':
         let newState = {};
         if(action.payload.hasOwnProperty('isConnected')){

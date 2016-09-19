@@ -25,7 +25,7 @@ import reactMixin from 'react-mixin';
 import { BlurView, VibrancyView } from 'react-native-blur'
 import { connect } from 'react-redux';
 import ActionMan from  '../../../actions/';
-
+import {pure} from 'recompose'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 const SwipeableQuickActions = require('SwipeableQuickActions');
@@ -106,7 +106,7 @@ class MatchList extends Component {
   _pressRow(rowData,title) {
     this.setTimeout(() => {
 
-      this.props.dispatch(ActionMan.getMessages({'match_id':rowData.match_id}))
+      this.props.dispatch(ActionMan.getMessages(rowData.match_id))
     }, 1000)
 
       const payload = {title, match_id: rowData.match_id, matchInfo: rowData }
@@ -375,7 +375,6 @@ class MatchesInside extends Component {
 }
 
 
-@reactMixin.decorate(TimerMixin)
 class Matches extends Component {
   static route = {
     navigationBar: {

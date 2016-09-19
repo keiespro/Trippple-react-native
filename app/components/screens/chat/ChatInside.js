@@ -28,8 +28,7 @@ const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 import MessageComposer from './MessageComposer'
 import { connect } from 'react-redux';
 import emojiCheck from '../../../utils/emoji-regex';
-import ActionMan from  '../../../actions/';
-
+import ActionMan from '../../../actions/';
 import ChatBubble from './ChatBubble'
 
 
@@ -87,8 +86,7 @@ class ChatInside extends Component{
   }
 
   sendMessage(msg){
-    const timestamp = Date.now();//moment().utc().unix();
-    console.log(this.props.match_id);
+    const timestamp = moment().utc().unix();
     this.props.dispatch(ActionMan.createMessage(msg, this.props.match.match_id, timestamp))
     this.refs.scroller && this.refs.scroller.scrollTo({x:0,y:0})
 
@@ -155,8 +153,8 @@ class ChatInside extends Component{
                 inverted={true}
                 scrollsToTop={true}
                 contentContainerStyle={styles.invertedContentContainer}
-                scrollEventThrottle={64}
-indicatorStyle={'white'}
+                scrollEventThrottle={16}
+                indicatorStyle={'white'}
                 ref={c => {this.scroller = c}}
                 key={`${this.props.match_id}x`}
                 keyboardDismissMode={'interactive'}

@@ -21,11 +21,12 @@ import colors from '../utils/colors';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../utils/DeviceConfig'
-import {BlurView} from 'react-native-blur'
+import {BlurView,VibrancyView} from 'react-native-blur'
 import {
   NavigationStyles,
 } from '@exponent/ex-navigation';
 
+import dismissKeyboard from 'dismissKeyboard'
 
 
 const CardLabel = (props) => (
@@ -39,7 +40,7 @@ const CardLabel = (props) => (
       style={[styles.cardBottomOtherText, {color:props.textColor}]}
       key={`${props.potential.user.id}-matchn`}
     >{
-        props.city + props.seperator + (props.distance ? ` ${props.distance} ${props.distance == 1 ? 'mile' : 'miles'} away` : ``)
+        props.city.replace(', ','') + props.seperator + (props.distance ? ` ${props.distance} ${props.distance == 1 ? 'mile' : 'miles'} away` : ``)
     }</Text>
   </View>
 );
@@ -64,6 +65,7 @@ class UserProfile extends React.Component{
     this.state = { slideIndex: 0, }
   }
   componentDidMount(){
+    dismissKeyboard()
 
   }
 
@@ -84,7 +86,7 @@ class UserProfile extends React.Component{
 
     if(!this.state.contentHeight){
         const {layout} = e.nativeEvent
-        this.handleSize(layout.height)
+        this.handleSize(layout.height-260)
     }
   }
   handleSize(contentHeight){
@@ -154,17 +156,26 @@ class UserProfile extends React.Component{
       });
   return (
 
-      <View onLayout={this.onLayout.bind(this)} style={{}}>
+      <View onLayout={this.onLayout.bind(this)} style={{backgroundColor:'transparent',marginTop:10}}>
 
 
                 <ParallaxSwiper
                   contentContainerStyle={[{alignItems:'stretch',justifyContent:'center',flexDirection:'column',flex:1,width:cardWidth}]}
                   scrollEnabled={profileVisible ? true : false}
                   showsVerticalScrollIndicator={false}
-                  style={[{flex:1,height:this.state.contentHeight,top:14,borderTopLeftRadius:8,borderTopRightRadius:8,overflow:'hidden'}]}
+                  style={[{flex:1,
+                  shadowOffset: {
+                      width:0,
+                      height: 5
+                    },
+                shadowColor: colors.darkShadow,
+                    shadowOpacity: 0.5,
+                    shadowRadius: 5,
+                    height:this.state.contentHeight,marginTop:20,borderTopLeftRadius:8,borderTopRightRadius:8,overflow:'hidden'}]}
                   header={<View/>}
                   handleSize={this.handleSize.bind(this)}
                   dispatch={this.props.dispatch}
+contentOffset={{top:50}}
                   windowHeight={1}
                   swiper={(
                     <Swiper
@@ -177,17 +188,18 @@ class UserProfile extends React.Component{
                   )}
                 >
       <XButton navigator={this.props.navigator}/>
-                  <BlurView key={'blurkey'+potential.user.id} blurType="dark" style={{
+                  <VibrancyView key={'blurkey'+potential.user.id} blurType="dark" style={{
                     backgroundColor:colors.outerSpace20,
                     position:'relative',
                     zIndex:100,
                     height: profileVisible ? this.state.contentHeight : 0,
                     opacity: profileVisible ? 1 : 0,
                     overflow:'hidden',
-                    flex:0,
+                    flex:1,
                     bottom:0,
+marginTop:50,
                     alignSelf:'flex-end',
-                    paddingBottom:60,
+                    paddingBottom:100,
                     width: DeviceWidth,
                     top:-260,
                   }}
@@ -205,7 +217,7 @@ class UserProfile extends React.Component{
                         />
                       </View>
                       { potential.user.bio &&
-                        <View style={{ margin: MagicNumbers.screenPadding / 2, width: DeviceWidth,flexDirection:'column',flex:1}}>
+                        <View style={{ margin: MagicNumbers.screenPadding / 2, width: DeviceWidth,flexDirection:'column' }}>
                           <Text style={[styles.cardBottomOtherText, { color: colors.white, marginBottom: 15, marginLeft: 0 }]}>{
                               !hasPartner ? `About Me` : `About Us`
                           }</Text>
@@ -239,7 +251,7 @@ class UserProfile extends React.Component{
                       </View>
                     </View>
 
-                  </BlurView>
+                  </VibrancyView>
         </ParallaxSwiper>
       </View>
 

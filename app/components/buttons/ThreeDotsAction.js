@@ -11,6 +11,7 @@ import ThreeDots from './ThreeDots';
 import Action from '../modals/Action';
 import ActionMan from '../../actions'
 import { connect } from 'react-redux'
+import dismissKeyboard from 'dismissKeyboard'
 
 class ThreeDotsActionButton extends React.Component{
   constructor(props){
@@ -21,16 +22,17 @@ class ThreeDotsActionButton extends React.Component{
 
   render(){
     const passProps = {
-      // ...this.props.sendProps,
       ...this.props.route.params
     }
-console.log(passProps);
-    return (
-      <TouchableOpacity onPress={()=> this.props.dispatch(ActionMan.showInModal({
-        component:'Action',
-        passProps
-      }))
-      }>
+     return (
+      <TouchableOpacity onPress={()=> {
+          dismissKeyboard();
+          this.props.dispatch(ActionMan.showInModal({
+            component:'Action',
+            passProps
+          }))
+        }}
+      >
           <ThreeDots dotColor={this.props.dotColor || '#fff'}/>
         </TouchableOpacity>
     )

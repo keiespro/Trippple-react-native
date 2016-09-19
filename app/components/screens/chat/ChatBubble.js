@@ -25,7 +25,7 @@ const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 import MessageComposer from './MessageComposer'
 import { connect } from 'react-redux';
 import styles from './chatStyles'
-
+import {pure} from 'recompose'
 import ActionMan from  '../../../actions/';
 
 const ChatBubble = (props) => {
@@ -93,7 +93,7 @@ const ChatBubble = (props) => {
 
 };
 
-export default ChatBubble
+export default pure(ChatBubble)
 
 
 const SIZES = {
