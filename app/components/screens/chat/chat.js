@@ -75,7 +75,7 @@ class Chat extends React.Component {
   }
   componentWillUnmount() {
     dismissKeyboard()
-    // MatchActions.resetUnreadCount(this.props.match_id);
+    this.props.dispatch(ActionMan.getNewMatches( ))
     this.props.dispatch(ActionMan.getMatches( ))
     this.props.dispatch({type:'CHAT_IS_CLOSED',payload:{match_id: this.props.match_id}})
   }

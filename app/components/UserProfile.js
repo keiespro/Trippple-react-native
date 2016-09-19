@@ -61,7 +61,7 @@ class UserProfile extends React.Component{
   constructor(props){
     super()
 
-    this.state = { slideIndex: 0,contentHeight: DeviceHeight }
+    this.state = { slideIndex: 0, }
   }
   componentDidMount(){
 
@@ -78,6 +78,14 @@ class UserProfile extends React.Component{
     }))
 
 
+  }
+
+  onLayout(e){
+
+    if(!this.state.contentHeight){
+        const {layout} = e.nativeEvent
+        this.handleSize(layout.height)
+    }
   }
   handleSize(contentHeight){
     this.setState({contentHeight})
@@ -146,18 +154,18 @@ class UserProfile extends React.Component{
       });
   return (
 
-      <View style={{}}>
+      <View onLayout={this.onLayout.bind(this)} style={{}}>
 
 
                 <ParallaxSwiper
                   contentContainerStyle={[{alignItems:'stretch',justifyContent:'center',flexDirection:'column',flex:1,width:cardWidth}]}
                   scrollEnabled={profileVisible ? true : false}
                   showsVerticalScrollIndicator={false}
-                  style={[{flex:1,height:this.state.contentHeight+260,top:14,}]}
+                  style={[{flex:1,height:this.state.contentHeight,top:14,borderTopLeftRadius:8,borderTopRightRadius:8,overflow:'hidden'}]}
                   header={<View/>}
                   handleSize={this.handleSize.bind(this)}
                   dispatch={this.props.dispatch}
-                  windowHeight={10}
+                  windowHeight={1}
                   swiper={(
                     <Swiper
                       width={cardWidth}
@@ -179,13 +187,13 @@ class UserProfile extends React.Component{
                     flex:0,
                     bottom:0,
                     alignSelf:'flex-end',
-                    paddingBottom:260,
+                    paddingBottom:60,
                     width: DeviceWidth,
                     top:-260,
                   }}
                   >
 
-                    <View style={{ paddingVertical: 20, width: DeviceWidth,flex: 1,}}>
+                    <View style={{ paddingVertical: 20, height:this.state.contentHeight,width: DeviceWidth,flex: 1,}}>
                       <View style={{marginHorizontal:MagicNumbers.screenPadding/2,marginBottom:20}}>
                         <CardLabel
                           potential={potential}

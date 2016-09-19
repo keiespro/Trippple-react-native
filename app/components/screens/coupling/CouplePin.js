@@ -128,16 +128,16 @@ class CouplePin extends React.Component{
         <Animated.View
           style={{
             width:DeviceWidth,
-            height:200,
+            height:150,
             alignItems:'center',
             justifyContent:'center',
-            flex:1,marginVertical:20,
+            flex:1,marginTop:80,
             transform: [ {scale: this.state.bounceValue ? this.state.bounceValue : 1}, ],
           }}
         >
           <Image
             source={{uri: 'assets/checkMark@3x.png'}}
-            style={{width:200,height:200,tintColor:colors.mediumPurple }}
+            style={{width:150,height:150,tintColor:colors.mediumPurple }}
             resizeMode={Image.resizeMode.contain}
           />
         </Animated.View>
@@ -155,7 +155,7 @@ class CouplePin extends React.Component{
           }]}>COUPLE CREATED</Text>
 
           <Text style={[styles.rowtext,styles.bigtext,{
-            fontSize:18,
+            fontSize:17,
             backgroundColor:'transparent',
             marginVertical:10,
             color:'#fff',
@@ -165,7 +165,7 @@ class CouplePin extends React.Component{
           }]}>When your partner joins Trippple, they can use your couple code to conenct with you.</Text>
 
           <Text style={[styles.rowtext,styles.bigtext,{
-            fontSize:18,
+            fontSize:17,
             backgroundColor:'transparent',
             marginVertical:10,
             color:'#fff',

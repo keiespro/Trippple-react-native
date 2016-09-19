@@ -4,13 +4,13 @@ import { Text, View, SwitchIOS, Settings, PushNotificationIOS, NativeModules, Di
 import ActionMan from '../../actions/'
 import Analytics from '../../utils/Analytics'
 import { MagicNumbers } from '../../utils/DeviceConfig'
-import { 
-  HAS_SEEN_NOTIFICATION_REQUEST, 
-  LAST_ASKED_NOTIFICATION_PERMISSION, 
-  NOTIFICATION_SETTING, 
-  LEGACY_NOTIFICATION_SETTING, 
-  LOCATION_SETTING, 
-  LEGACY_LOCATION_SETTING 
+import {
+  HAS_SEEN_NOTIFICATION_REQUEST,
+  LAST_ASKED_NOTIFICATION_PERMISSION,
+  NOTIFICATION_SETTING,
+  LEGACY_NOTIFICATION_SETTING,
+  LOCATION_SETTING,
+  LEGACY_LOCATION_SETTING
 } from '../../utils/SettingsConstants'
 import colors from '../../utils/colors'
 import LocationPermissions from '../modals/LocationPermission'
@@ -65,7 +65,7 @@ class PermissionSwitches extends React.Component{
     if(!this.state.LocationSetting && !OSLocation){
 
       this.props.dispatch(ActionMan.showInModal({
-        component:'LocationPermissions',
+        component:'LocationPermission',
         name:'LocationPermissionModal',
         passProps:{
           title:'PRIORITIZE LOCAL',
@@ -74,11 +74,11 @@ class PermissionSwitches extends React.Component{
           hideModal: () => { this.props.dispatch(ActionMan.killModal())},
           cancel: () => { this.props.dispatch(ActionMan.killModal())},
           failCallback: val => {
-            this.setState({LocationSetting:false})
+            this.setState({LocationSetting:false,OSLocation:false})
             this.props.dispatch(ActionMan.killModal())
           },
           successCallback: (coords)=>{
-            this.setState({LocationSetting:true})
+            this.setState({LocationSetting:true,OSLocation:true})
             Settings.set({LocationSetting: true })
             this.props.dispatch(ActionMan.killModal())
             Analytics.extra('Permission', {
@@ -120,24 +120,24 @@ class PermissionSwitches extends React.Component{
               cancel: () => { this.props.dispatch(ActionMan.killModal())},
               failCallback: (val)=>{
                 this.props.dispatch(ActionMan.killModal())
-                this.setState({ NotificationSetting: false })
+                this.setState({ NotificationSetting: false,OSNotifications:false })
               },
               successCallback: val => {
                 this.props.dispatch(ActionMan.killModal())
-                this.setState({ NotificationSetting: true })
+                this.setState({ NotificationSetting: true,OSNotifications:true })
               }
             }
           }))
         }else{
           const newValue = !this.state.NotificationSetting;
-          this.setState({ NotificationSetting: newValue });
+          this.setState({ NotificationSetting: newValue,OSNotifications: newValue });
           Settings.set({ [NOTIFICATION_SETTING]: newValue})
           // this.props.dispatch(ActionMan.requestNotificationsPermission())
         }
       })
 
     }else{
-      this.setState({ NotificationSetting: false })
+      this.setState({ NotificationSetting: false,OSNotifications:false })
     }
   }
 

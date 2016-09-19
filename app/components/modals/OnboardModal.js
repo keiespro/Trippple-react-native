@@ -92,9 +92,6 @@ class OnboardModal extends Component {
   onboardUser() {
     const payload = {
       relationship_status: this.state.selected_relationship_status,
-      // name: this.props.user.firstname,
-      // email: this.props.user.email,
-      // facebook_user_id: this.props.user.facebook_user_id,
       genders: this.state.selected_genders,
       ...Object.keys(this.state.selected_theirs).reduce((acc,s) => {
         acc[`looking_for_${s}`] = this.state.selected_theirs[s];
@@ -110,9 +107,11 @@ class OnboardModal extends Component {
     if (this.state.selected_relationship_status == 'single') {
       this.onboardUser()
     } else {
+
       this.props.navigator.push(this.props.navigation.router.getRoute('JoinCouple', {
         ...this.state
       }))
+      this.props.dispatch(ActionMan.killModal())
 
     }
   }
@@ -127,7 +126,7 @@ class OnboardModal extends Component {
   }
 
   pickerValue(v, i){
-    
+
     if (!v){ return false;}
     this.setState({
       selected_ours: v,
@@ -151,19 +150,19 @@ class OnboardModal extends Component {
       }
       return acc
     }, false);
-    
+
     return (
         <View>
-          <VibrancyView 
-            blurType="dark" 
+          <VibrancyView
+            blurType="dark"
             style={{
               width: DeviceWidth,
               height: DeviceHeight,
               position:'absolute',top:0,left:0,right:0,
-              backgroundColor: colors.outerSpace20 
+              backgroundColor: colors.outerSpace20
             }}
           />
-          <View 
+          <View
             style={[ styles.col, {
               width: DeviceWidth,
               height: DeviceHeight,
@@ -214,7 +213,7 @@ class OnboardModal extends Component {
 
               <Text style={{
                 color: colors.white,
-                fontFamily: 'Omnes',
+                fontFamily: 'omnes',
                 justifyContent: 'space-between',
                 fontSize: 17,
                 marginBottom: 15,

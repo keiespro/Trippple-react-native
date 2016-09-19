@@ -60,7 +60,7 @@ class CoupleReady extends React.Component{
           color:'#fff',backgroundColor:'transparent',
           marginBottom:15,textAlign:'center',
           flexDirection:'column'
-        }]}>You're now connected to your partner</Text>
+        }]}>You're now a couple.</Text>
 
         {this.props.user.partner ?  <View style={{height:120,marginVertical:30,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
           <Image style={[{width:120,height:120,borderRadius:60,marginRight:-100}]}
@@ -99,7 +99,7 @@ class CoupleReady extends React.Component{
     ) : (
       <ScrollView contentContainerStyle={[{width:DeviceWidth,height:DeviceHeight,flexDirection:'column',justifyContent:'center',flex:1,top:0 }]} >
         <Text style={{fontFamily:'Montserrat-Bold', fontSize:18,textAlign:'center', color:'#fff',}}>
-          hi
+          Connecting couple...
         </Text>
       </ScrollView>)
 

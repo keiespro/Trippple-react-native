@@ -88,8 +88,9 @@ class ChatInside extends Component{
 
   sendMessage(msg){
     const timestamp = Date.now();//moment().utc().unix();
-    this.props.dispatch(ActionMan.createMessage(msg, this.props.match_id, timestamp))
-     this.refs.scroller && this.refs.scroller.scrollTo({x:0,y:0})
+    console.log(this.props.match_id);
+    this.props.dispatch(ActionMan.createMessage(msg, this.props.match.match_id, timestamp))
+    this.refs.scroller && this.refs.scroller.scrollTo({x:0,y:0})
 
   }
 
@@ -155,6 +156,7 @@ class ChatInside extends Component{
                 scrollsToTop={true}
                 contentContainerStyle={styles.invertedContentContainer}
                 scrollEventThrottle={64}
+indicatorStyle={'white'}
                 ref={c => {this.scroller = c}}
                 key={`${this.props.match_id}x`}
                 keyboardDismissMode={'interactive'}

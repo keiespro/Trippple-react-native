@@ -46,18 +46,26 @@ class JoinCouple extends Component{
   }
 
   nopartner(){
-    this.props.navigator.push(this.props.navigation.router.getRoute('NoPartner', {...this.props}))
+    this.props.navigator.push(this.props.navigation.router.getRoute('NoPartner', {}))
 
     // this.props.goNoPartner()
   }
   goEnterCouplePin(){
-    this.props.navigator.push(this.props.navigation.router.getRoute('EnterCouplePin', {...this.props}))
+    this.props.navigator.push(this.props.navigation.router.getRoute('EnterCouplePin', {}))
 
   }
   goCouplePin(){
 
-    this.props.navigator.push(this.props.navigation.router.getRoute('CouplePin',{...this.props} ))
+    this.props.navigator.push(this.props.navigation.router.getRoute('CouplePin',{} ))
   }
+goBack(){
+  if(this.props.user.status == 'onboarded' && this.props.user.relationship_status){
+    this.props.navigator.pop()
+  }else if(this.props.user.status != 'onboarded' && !this.props.user.relationship_status){
+    this.props.navigator.pop()
+    this.props.onboardModal({component:'OnboardModal',passProps:{}})
+  }
+}
   render(){
     const couple = this.props.couple;
     const imgWidth = MagicNumbers.is5orless ? 120 : 160;
@@ -68,7 +76,8 @@ class JoinCouple extends Component{
         style={{width:DeviceWidth,height:DeviceHeight,flex:1}}>
         <View style={[{width:DeviceWidth,paddingTop:MagicNumbers.is5orless ? 20 : 50, paddingHorizontal:MagicNumbers.screenPadding/2 }]} >
 
-          <View style={{height:imgWidth-4,marginVertical:MagicNumbers.is5orless ? 10 : 30,transform:[{scale:MagicNumbers.is5orless ? .8 : 1 }],flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+          <View style={{height:imgWidth-4,marginVertical:MagicNumbers.is5orless ? 10 : 30,
+              transform:[{scale:MagicNumbers.is5orless ? .8 : 1 }],flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
             <View
               style={{width:imgWidth,height:imgWidth,borderRadius:imgWidth/2,marginRight:imgWidth * -1 + 20,borderColor:colors.white,borderWidth:3,borderStyle:'dashed'}} />
             <Image style={[{width:imgWidth,height:imgWidth,borderRadius:imgWidth/2,marginLeft:imgWidth * -1 + 20}]}
@@ -169,7 +178,7 @@ class JoinCouple extends Component{
             </TouchableHighlight>
             }
         <View style={{width:100,height:20,left:10,top:0,flex:1,position:'absolute',alignSelf:'flex-start',zIndex:9999}}>
-          <TouchableOpacity onPress={()=>this.props.navigator.pop()}>
+          <TouchableOpacity onPress={()=>this.goBack()}>
             <View style={btnstyles.goBackButton}>
               <Text textAlign={'left'} style={[btnstyles.bottomTextIcon]}>◀︎ </Text>
               <Text textAlign={'left'} style={[btnstyles.bottomText]}>Go back</Text>
@@ -187,7 +196,7 @@ const mapStateToProps = ({user,ui, app}, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {  };
+  return { onboardModal: r => {dispatch(ActionMan.showInModal(r))} };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(JoinCouple);
