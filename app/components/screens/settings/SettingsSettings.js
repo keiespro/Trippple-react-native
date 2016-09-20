@@ -104,20 +104,19 @@ class SettingsSettings extends React.Component{
 
     if(this.state.privacy != 'private'){
       this.props.dispatch(ActionMan.showInModal({
-            component:'PrivacyPermissions',
-            name: 'PrivacyPermissionsModal',
-            id:'privacymodal',
+        component:'PrivacyPermissions',
+        name: 'PrivacyPermissionsModal',
+        id:'privacymodal',
         passProps:{
-              initialScreen:'CoupleReady',
-              success: (privacy) => {
-                this.togglePrivacy('private');
-                this.props.dispatch(ActionMan.killModal());
-              },
-              cancel: () => {this.props.dispatch(ActionMan.killModal())},
-              user: this.props.user,
+          initialScreen:'CoupleReady',
+          success: (privacy) => {
+            this.togglePrivacy('private');
+          },
+          cancel: () => {this.props.dispatch(ActionMan.killModal())},
+          user: this.props.user,
 
-            }
-          }))
+        }
+      }))
 
 
     }

@@ -387,8 +387,8 @@ class Settings extends React.Component{
 
           <View style={[styles.paddedSpace,{marginTop:20,paddingVertical:20}]}>
 
-            <Text style={{color:colors.white,textAlign:'center',fontSize:15,fontFamily:'omnes'}}>
-              Trippple {ReactNative.NativeModules.RNDeviceInfo.appVersion}
+            <Text style={{color:colors.shuttleGray,textAlign:'center',fontSize:15,fontFamily:'omnes'}}>
+              V{ReactNative.NativeModules.RNDeviceInfo.appVersion}
             </Text>
             {__DEV__ &&
 

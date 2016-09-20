@@ -132,7 +132,7 @@ class Notification extends React.Component{
   tapped(){
     const {notification} = this.props;
     const noti = (notification.label || notification.type || '').toLowerCase();
-    // if((noti.indexOf('match') > -1 || noti.indexOf('message') > -1) ){
+    if((noti.indexOf('match') > -1 || noti.indexOf('message') > -1) ){
     //   if(this.props.chatOpen){
     //     // if(this.props.chatOpen == notification.match_id){
     //     //   __DEV__ && console.log('chat already open')
@@ -146,7 +146,7 @@ class Notification extends React.Component{
         this.props.pushChat({...notification, ...notification.data, fromNotification:true});
       // }
 
-    // }
+    }
     this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
 
   }
@@ -363,7 +363,7 @@ const styles = StyleSheet.create({
     left: 7,
     right: 7,
     backgroundColor:colors.shuttleGray,
-    height:NOTI_HEIGHT,
+    height:220,
     shadowColor: '#222',
     shadowOffset: {
       width:0,
@@ -422,12 +422,12 @@ const styles = StyleSheet.create({
     fontFamily:'omnes',
     flexDirection:'column',
 
-    fontSize:14
+    fontSize:15
   },
 
   notiTitle: {
     fontFamily:'Montserrat-Bold',
-    fontSize:12,
+    fontSize:14,
   },
   titleNewMessage:{
     color:colors.lavender,
@@ -449,7 +449,7 @@ const styles = StyleSheet.create({
     overflow:'hidden',
     borderRadius: 25,
     borderWidth: 0,
-    backgroundColor:colors.dark
+    backgroundColor:colors.white20
   }
 
 })

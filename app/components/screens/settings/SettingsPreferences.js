@@ -50,7 +50,6 @@ class MultiLineInput extends React.Component{
     }
   }
   sizeChange(e){
-    LayoutAnimation.linear()
     this.setState({bioHeight: e.nativeEvent.contentSize.height})
   }
 
