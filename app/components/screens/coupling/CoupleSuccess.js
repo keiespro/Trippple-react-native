@@ -1,6 +1,3 @@
-'use strict';
-
-
 import {
   Image,
   ScrollView,
@@ -67,25 +64,27 @@ export default class CoupleSuccess extends React.Component{
         <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'Montserrat-Bold',fontSize:20,color:'#fff',marginVertical:10 }]}>
           SUCCESS
         </Text>
-        {this.props.user.partner ?  <View style={{height:120,marginVertical:30,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-          <Image style={[{width:120,height:120,borderRadius:60,marginRight:-100}]}
-          source={ {uri: this.props.user.partner.image_url} }
-          defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
-          />
-
-        <Image style={[{width:120,height:120,borderRadius:60,marginLeft:-100}]}
-        source={ {uri: this.props.user.image_url} }
-        defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
-        />
-        </View> : <View>
-
-        <Text style={[styles.rowtext,styles.bigtext,{
-          fontSize:18,
-          marginVertical:10,
-          color:'#fff',
-          marginBottom:15,textAlign:'center',
-          flexDirection:'column'
-        }]}>Your couple will be set up shortly.</Text></View>}
+        {this.props.user.partner && this.props.user.partner.gender ?
+          <View style={{height:120,marginVertical:30,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+            <Image style={[{width:120,height:120,borderRadius:60,marginRight:-100}]}
+              source={ {uri: this.props.user.partner.image_url} }
+              defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+            />
+            <Image style={[{width:120,height:120,borderRadius:60,marginLeft:-100}]}
+              source={ {uri: this.props.user.image_url} }
+              defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+            />
+          </View> : 
+          <View>
+            <Text style={[styles.rowtext,styles.bigtext,{
+              fontSize:18,
+              marginVertical:10,
+              color:'#fff',
+              marginBottom:15,textAlign:'center',
+              flexDirection:'column'
+            }]}>Your couple will be set up shortly.</Text>
+          </View>
+        }
 
         <TouchableHighlight
           underlayColor={colors.white20}

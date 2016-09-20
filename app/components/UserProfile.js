@@ -188,7 +188,7 @@ contentOffset={{top:50}}
                   )}
                 >
       <XButton navigator={this.props.navigator}/>
-                  <VibrancyView key={'blurkey'+potential.user.id} blurType="dark" style={{
+                  <BlurView key={'blurkey'+potential.user.id} blurType="dark" style={{
                     backgroundColor:colors.outerSpace20,
                     position:'relative',
                     zIndex:100,
@@ -251,7 +251,7 @@ marginTop:50,
                       </View>
                     </View>
 
-                  </VibrancyView>
+                  </BlurView>
         </ParallaxSwiper>
       </View>
 
@@ -260,14 +260,14 @@ marginTop:50,
 }
 export default UserProfile
 
-var CustomTabBar = React.createClass({
-  propTypes: {
+class CustomTabBar extends React.Component{
+  static propTypes: {
     goToPage: React.PropTypes.func,
     activeTab: React.PropTypes.object,
     tabs: React.PropTypes.array,
     pageNumber:React.PropTypes.number
 
-  },
+  };
 
   renderTabOption(name, page) {
     const isTabActive = this.props.pageNumber === page;
@@ -278,7 +278,7 @@ var CustomTabBar = React.createClass({
         </View>
       </TouchableOpacity>
     );
-  },
+  }
 
 
 
@@ -307,8 +307,8 @@ var CustomTabBar = React.createClass({
         <Animated.View style={tabUnderlineStyle} ref={'TAB_UNDERLINE_REF'} />
       </View>
     );
-  },
-});
+  }
+}
 
 
 const styles = StyleSheet.create({

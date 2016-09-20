@@ -1,5 +1,3 @@
-'use strict';
-
 import {
   StyleSheet,
   Image,
@@ -14,7 +12,7 @@ import React from "react";
 
 import FBSDK from 'react-native-fbsdk'
 const {LoginManager, AccessToken, GraphRequest, GraphRequestManager} = FBSDK
-
+import _ from 'lodash'
 import AlbumView from './FBAlbumView'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -79,31 +77,29 @@ class PhotoAlbums extends React.Component {
     }
   }
   handleAlbums(err, responseData) {
-
     if (err) {
       console.log('ERR', err);
       return
     }
 
-    const albums = responseData.data
-    console.log('handleAlbums', albums);
-
-    this.setState({
+    const albums = _.filter(responseData.data, (al) => {return al.count > 0});
+      
+      this.setState({
       albums: [
         ...this.state.albums,
         ...albums
       ],
+
       albumSource: this.aDS.cloneWithRows(albums),
-      view_loaded: 'list_albums'
+      view_loaded: 'list_albums',
+      paging: responseData.paging
     });
 
   }
   getAlbums() {
-    console.log('get albums', this.props);
     const fbUser = this.props.fbUser;
     console.log(fbUser);
-    if (!fbUser.accessToken)
-      return false;
+    if (!fbUser.accessToken) return false;
     const fb_id = fbUser.userID
 
     const infoRequest = new GraphRequest(`/${fb_id}/albums`, {
@@ -126,7 +122,7 @@ class PhotoAlbums extends React.Component {
   }
   fetchAlbumPhotos(album) {
     var fbUser = this.props.fbUser;
-
+    console.log(album)
     this.props.navigator.push(this.props.navigation.router.getRoute('FBAlbumView', {
       name: 'FB Photos View',
       key: 'fbalbumsz',

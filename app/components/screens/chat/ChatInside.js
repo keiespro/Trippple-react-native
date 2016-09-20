@@ -48,6 +48,7 @@ class ChatInside extends Component{
   }
   componentWillUnmount(){
     Keyboard.removeListener('keyboardWillChangeFrame', this.onKeyboardChange.bind(this));
+    this.props.dispatch({type:'MARK_CHAT_READ', payload: {match_id: this.props.match.match_id}})
   }
   componentWillReceiveProps(newProps){
     __DEV__ && console.log('newProps.messages',newProps);

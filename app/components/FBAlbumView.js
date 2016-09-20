@@ -43,12 +43,22 @@ class AlbumView extends React.Component {
   };
   constructor(props){
     super()
+    const ds = new ListView.DataSource({
+      rowHasChanged: (row1, row2) => row1 !== row2
+    });
+    this.ds = ds;
     this.state = {
       submitting: false,
-      selected: null
+      selected: null,
+      photoSource: this.ds.cloneWithRows(props.photos.map(p => p.images[0].source)),
+      photos: props.photos,
+      paging: props.album.photos.paging
     }
   }
   componentDidMount() {
+
+    console.log(this.props)
+
   }
   selectPhoto(photo) {
     //     LayoutAnimation.configureNext()
@@ -66,6 +76,20 @@ class AlbumView extends React.Component {
     },2000)
 
   }
+
+  getMore(){
+    if(!this.state.paging.next) return;
+    fetch(this.state.paging.next).then(res => res.json()).then( responseData => {
+
+      const photoSource = this.ds.cloneWithRows([...this.state.photos,...responseData.data].map(p => p.images[0].source));
+
+        this.setState({ 
+          paging:responseData.paging, 
+          photos: [...this.state.photos,...responseData.data],
+          photoSource
+        })
+      })
+  }    
   renderSinglePhotos(img, id) {
     // var img = photo.images[0].source//photo.images && photo.images.length > 4 && photo.images[4].source || photo.images && photo.images[0] && photo.images[0].source || photo.source;
 
@@ -83,11 +107,7 @@ class AlbumView extends React.Component {
 
     const album = this.props.album_details;
 
-    const ds = new ListView.DataSource({
-      rowHasChanged: (row1, row2) => row1 !== row2
-    })
     console.warn('# pics',this.props.photos.length)
-    const albums = ds.cloneWithRows(this.props.photos.map(p => p.images[0].source))
     return (
       <View style={{
         flex: 1,
@@ -106,10 +126,11 @@ class AlbumView extends React.Component {
             flexWrap: 'wrap',
             width: DeviceWidth
           }}
-          dataSource={albums}
+          dataSource={this.state.photoSource}
           horizontal={false}
           automaticallyAdjustContentInsets={true}
           vertical={true}
+          onEndReached={this.getMore.bind(this)}
           renderRow={this.renderSinglePhotos.bind(this)}
         />
       </View>

@@ -87,19 +87,6 @@ class NagManager extends React.Component{
 
   }
 
-  checkNotificationsSetting(){
-    OSPermissions.canUseNotifications((hasPermission)=>{
-      // console.log('hasPermission notifications',parseInt(hasPermission))
-
-      if(parseInt(hasPermission) > 2){
-
-
-      }else{
-
-      }
-    })
-  }
-
   notificationModal(){
 
     this.props.dispatch(ActionMan.showInModal({

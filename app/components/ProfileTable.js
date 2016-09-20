@@ -1,9 +1,5 @@
-'use strict';
-
-import React from "react";
-
-import {Component} from "react";
-import {StyleSheet, Text, Dimensions, View, LayoutAnimation, TouchableHighlight, Image, TouchableOpacity, Animated, ScrollView, PanResponder, Easing} from "react-native";
+import React,{Component} from 'react';
+import {StyleSheet, Text, Dimensions, View, LayoutAnimation, TouchableHighlight, Image, TouchableOpacity, Animated, ScrollView, PanResponder, Easing} from 'react-native';
 
 import colors from '../utils/colors';
 import profileOptions from '../data/get_client_user_profile_options'
@@ -23,12 +19,12 @@ class ProfileTable extends Component{
     }
   }
   render(){
-    var { profile } = this.props
-    var {body_type,height,age} = profile
+    const { profile } = this.props
+    let {body_type,height,age} = profile
     if(Number.isInteger(parseInt(body_type))){
       body_type = profileOptions.body_type.values[body_type] || ''
     }
-    height = profileOptions.height.values[height] || ''
+    height = profileOptions.height.values[height] || height;
     return (
         <View
         style={{

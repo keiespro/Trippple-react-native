@@ -62,6 +62,7 @@ class Chat extends React.Component {
     this.props.dispatch({type:'CHAT_IS_OPEN',payload:{match_id:this.props.match_id}})
   }
   componentDidMount() {
+    this.props.dispatch(ActionMan.getMessages({match_id:this.props.match.match_id}))
     if(this.props.fromNotification){
       const matchInfo = this.props.match;
       const theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),

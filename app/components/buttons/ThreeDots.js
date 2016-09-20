@@ -1,3 +1,4 @@
+import React from 'react'
 import { View, Dimensions } from "react-native";
 import colors from '../../utils/colors'
 

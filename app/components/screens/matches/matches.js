@@ -93,9 +93,7 @@ class MatchList extends Component {
   }
 
   _pressRow(rowData,title) {
-    this.setTimeout(() => {
-      this.props.getMessages(rowData.match_id)
-    }, 1000)
+    this.props.dispatch(ActionMan.getMessages({match_id:rowData.match_id}))
 
     const payload = {title, match_id: rowData.match_id, matchInfo: rowData }
     this.props.navigator.push(this.props.navigator.navigationContext.router.getRoute('Chat',payload));
@@ -244,7 +242,7 @@ class MatchList extends Component {
             )
           }
           bounceFirstRowOnMount={false}
-          chatActionSheet={this.props.chatActionSheet}
+          chatActionSheet={this.chatActionSheet.bind(this)}
           onEndReached={this.onEndReached.bind(this)}
           onEndReachedThreshold={200}
           ref={component => this._listView = component}
@@ -365,48 +363,8 @@ class Matches extends Component {
       isVisible: false
     }
   }
-
-  chatActionSheet(match) {
-
-
-    if (match) {
-      // this.setState({
-      //   isVisible:!this.state.isVisible
-      // })
-      // this.setTimeout(()=>{
-      this.setState({
-        currentMatch: match
-      })
-    // },10)
-    } else {
-
-
-    }
-  }
-
-  // showProfile(match) {
-  //   this.props.navigator.push({
-  //     component: UserProfile,
-  //     passProps: {
-  //       match,
-  //       hideProfile: () => {
-  //         this.props.navigator.pop()
-  //       }
-  //     }
-  //   })
-  // }
-
-  // toggleModal() {
-  //   this.setState({
-  //     isVisible: !this.state.isVisible
-  //   })
-  // }
-  // shouldComponentUpdate(nProps,nState){
-  //   return true
-  // }
-
   render() {
-    return <MatchesInside {...this.props} chatActionSheet={this.chatActionSheet.bind(this)} />
+    return <MatchesInside {...this.props}  />
   }
 }
 
