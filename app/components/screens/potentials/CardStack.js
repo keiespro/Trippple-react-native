@@ -6,17 +6,18 @@ import styles from './styles';
 import ActionMan from '../../../actions/';
 
 import colors from '../../../utils/colors';
-import ApproveIcon  from './ApproveIcon'
-import DenyIcon  from './DenyIcon'
+import ApproveIcon from './ApproveIcon'
+import DenyIcon from './DenyIcon'
 
-
-const THROW_THRESHOLD_DENY = -180;
-const THROW_THRESHOLD_APPROVE = 180;
-const SWIPE_THRESHOLD_APPROVE = 200;
-const SWIPE_THRESHOLD_DENY = -200;
-const THROW_SPEED_THRESHOLD = 0.07;
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
+
+const THROW_THRESHOLD_DENY = -1 * (DeviceWidth/3);
+const THROW_THRESHOLD_APPROVE = DeviceWidth/3;
+
+const SWIPE_THRESHOLD_DENY = -1 * (DeviceWidth*0.75);
+const SWIPE_THRESHOLD_APPROVE = DeviceWidth*0.75;
+const THROW_SPEED_THRESHOLD = 1;
 
 
 class CardStack extends React.Component {
@@ -122,11 +123,13 @@ class CardStack extends React.Component {
 
         const { dx, dy, vx, vy } = gestureState;
 
-        // __DEV__ && console.table([gestureState])
         const likeUserId = this.props.potentials[0].user.id;
 
         // animate back to center or off screen left or off screen right
         if (dx > SWIPE_THRESHOLD_APPROVE || (dx > (THROW_THRESHOLD_APPROVE - 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD)) {
+
+          __DEV__ && console.log(dx > SWIPE_THRESHOLD_APPROVE ? 'SWIPE' : (dx > (THROW_THRESHOLD_APPROVE - 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD) && "THROW");
+
           toValue = { x: DeviceWidth + 100, y: dy * 2 };
           velocity = { x: parseInt(vx), y: parseInt(vy) };
           likeStatus = 'approve';
@@ -161,11 +164,11 @@ class CardStack extends React.Component {
           Animated.timing(this.state.pan, {
             toValue,
             velocity: { x: 0, y: 0 },
-            duration: 700,
+            duration: 500,
             easing: Easing.out(Easing.exp),
           }).start(()=>{
             if(!this.props.potentials[0].starter){
-                this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, relstatus, this.props.rel, otherParams));
+              this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, relstatus, this.props.rel, otherParams));
             }
 
           });
@@ -203,13 +206,19 @@ class CardStack extends React.Component {
       this.initializePanResponder();
     }
     const pan = this.state.pan || 0;
+    if(potentials && potentials.length > 1 && potentials[1]){
+      const nextUp = potentials[1];
+      if(nextUp.image_url){
+        Image.prefetch(nextUp.image_url);
+      }
+    }
     return (
         <View
           style={{
             flex: 1,
             alignSelf: 'stretch',
             alignItems: 'center',
-              backgroundColor: this.props.profileVisible ? colors.darkShadow : colors.transparent
+            backgroundColor: this.props.profileVisible ? colors.darkShadow : colors.transparent
           }}
         >
           {this.props.profileVisible &&

@@ -88,9 +88,9 @@ class ParallaxSwiper extends React.Component{
                       outputRange: [
                         'rgb(232,74,107)',
                         'rgb(232,74,107)',
+                        'rgb(232,74,107)',
                         'rgb(255,255,255)',
-                        'rgb(255,255,255)',
-                        'rgb(255,255,255)',
+                        'rgb(66,181,125)',
                         'rgb(66,181,125)',
                         'rgb(66,181,125)',
                       ],

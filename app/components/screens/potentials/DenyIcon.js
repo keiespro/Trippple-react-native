@@ -17,20 +17,20 @@ const DenyIcon = props =>
         transform: [
           {
             scale: props.pan ? props.pan.x.interpolate({
-              inputRange: [-DeviceWidth, 0, 1],
-              outputRange: [5, 0.1, 0.1],
+              inputRange: [-DeviceWidth/2, 0, DeviceWidth],
+              outputRange: [2.5, 0.1, 2],
               extrapolate: 'clamp',
             }) : 0,
           },
           {
             translateY: props.pan ? props.pan.y.interpolate({
-              inputRange: [0, DeviceWidth / 3],
-              outputRange: [0, 10],
+              inputRange: [0, DeviceWidth],
+              outputRange: [-30, 120],
             }) : 0,
           }, {
             translateX: props.pan ? props.pan.x.interpolate({
-              inputRange: [-DeviceWidth, -DeviceWidth / 3, 50],
-              outputRange: [0, (20), 100],
+              inputRange: [-DeviceWidth, -DeviceWidth/3, -50],
+              outputRange: [-100, 20, 200],
             }) : 0,
           },
         ],

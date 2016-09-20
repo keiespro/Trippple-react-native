@@ -6,7 +6,7 @@ import NotificationPermissions from './components/modals/NewNotificationPermissi
 const {OSPermissions,RNHotlineController} = NativeModules
 import Analytics from './utils/Analytics'
 import SETTINGS_CONSTANTS from './utils/SettingsConstants'
-import ActionMan from  './actions/';
+import ActionMan from './actions/';
 import OnboardModal from './components/modals/OnboardModal'
 import { connect } from 'react-redux';
 import PushNotification from 'react-native-push-notification'
@@ -59,25 +59,6 @@ class NagManager extends React.Component{
       this.setState({got_starter_pack:true})
       // Settings.set('HAS_SEEN_STARTER_DECK','true')
     }
-
-    
-    if(!this.props.nag.askNotification && !this.props.nag.askedNotification){
-        this.props.dispatch({type:'SET_ASK_NOTIFICATION', payload:{}})
-    }
-    if(!this.state.np && this.props.nag.askNotification && !this.props.nag.askedNotification){
-      this.setState({askingNotification:true})
-      this.notificationModal()
-    }
-
-
-    if(!this.props.nag.askLocation && !this.props.nag.askedLocation  ) {
-      this.props.dispatch({type:'SET_ASK_LOCATION', payload:{}})
-    }
-    if(!this.state.lp && this.props.nag.askLocation && !this.props.nag.askedLocation  ) {
-      this.setState({askingLocation:true})
-      this.locationModal()
-    }
-
     if(this.props.loggedIn && nProps.loggedIn){
 
     // relationship_status modal
@@ -103,29 +84,55 @@ class NagManager extends React.Component{
 
       }
 
-    // location permission modal
-      if(!this.props.nag.askedLocation && nProps.nag.askLocation && !this.state.askingLocation){
-        this.setState({askingLocation:true})
-        this.setTimeout(()=>{
-          this.locationModal();
-          this.props.dispatch({type:'ASKED_LOCATION', payload:{}})
-        },2000);
-      }
-
-
-      if(!this.props.nag.askedNotification && nProps.nag.askNotification && !this.state.askingNotification){
-        if( nProps.likeCount > this.props.likeCount){
-          this.setState({askingNotification:true})
-          PushNotification.checkPermissions((perm) =>{
-            if(!perm.alert){
-              this.setTimeout(()=>{
-                this.notificationModal();
-                this.props.dispatch({type:'ASKED_NOTIFICATION', payload:{}})
-              },1000);
+      
+      
+     if(this.props.user.status == 'onbaorded' && this.props.user.relationship_status){ 
+          
+          if(!this.props.nag.askNotification && !this.props.nag.askedNotification){
+            this.props.dispatch({type:'SET_ASK_NOTIFICATION', payload:{}})
+          }
+          if(!this.state.np && this.props.nag.askNotification && !this.props.nag.askedNotification && !nProps.nag.askedNotification){
+            if( nProps.likeCount > this.props.likeCount){
+              this.setState({askingNotification:true})
+              this.notificationModal()
+              this.props.dispatch({type:'ASKED_NOTIFICATION', payload:{}})
             }
-          })
-        }
+          }
+
+
+          if(!this.props.nag.askLocation && !this.props.nag.askedLocation && !nProps.nag.askedLocation ) {
+            this.props.dispatch({type:'SET_ASK_LOCATION', payload:{}})
+          }
+          if(!this.state.lp && this.props.nag.askLocation && !this.props.nag.askedLocation && !nProps.nag.askedLocation && !this.state.askingLocation) {
+            this.setState({askingLocation:true})
+            this.locationModal()
+            this.props.dispatch({type:'ASKED_LOCATION', payload:{}})
+          }
+
       }
+      //     // location permission modal
+//       if(!this.props.nag.askedLocation && nProps.nag.askLocation && !this.state.askingLocation){
+//         this.setState({askingLocation:true})
+//         this.setTimeout(()=>{
+//           this.locationModal();
+//           this.props.dispatch({type:'ASKED_LOCATION', payload:{}})
+//         },2000);
+//       }
+
+
+//       if(!this.props.nag.askedNotification && nProps.nag.askNotification && !this.state.askingNotification){
+//         if( nProps.likeCount > this.props.likeCount){
+//           this.setState({askingNotification:true})
+//           PushNotification.checkPermissions((perm) =>{
+//             if(!perm.alert){
+//               this.setTimeout(()=>{
+//                 this.notificationModal();
+//                 this.props.dispatch({type:'ASKED_NOTIFICATION', payload:{}})
+//               },1000);
+//             }
+//           })
+//         }
+//       }
 
     }
 
@@ -137,6 +144,9 @@ class NagManager extends React.Component{
       component: 'NewNotificationPermissions',
       passProps:{
         title:'N',
+        successCallback:()=>{
+          this.setState({np:true})
+        },
         user:this.props.user,
         cancel: ()=>{ this.props.close() }
       }
@@ -152,6 +162,9 @@ class NagManager extends React.Component{
         title:'Prioritze Local',
         user:this.props.user,
         failedTitle:'Location',
+        successCallback:(geo)=>{
+          this.setState({lp:true})
+        },
         cancel: ()=>{ this.props.close() }
       }
     }))

@@ -25,6 +25,7 @@ const apiActions = [
   'getPotentials',
   'uploadFacebookPic',
   'onboard',
+  'verifyPin'
 ];
 
 const endpointMap = apiActions.map(call => {
@@ -49,11 +50,11 @@ const ApiActionCreators = endpointMap.reduce((obj,endpoint) => {
           dispatch({type:'KILL_MODAL',payload:true})
         }
 
-        if(['uploadfacebookpic','decouple','verifycouplepin','updateuser','onboard'].indexOf(endpoint.call.toLowerCase()) > -1){
+        if(['uploadfacebookpic','decouple','verifycouplepin','updateuser','onboard','verifypin'].indexOf(endpoint.call.toLowerCase()) > -1){
           shouldFetchUserInfo = true
         }
 
-        if(['decouple','verifycouplepin','onboard'].indexOf(endpoint.call.toLowerCase()) > -1){
+        if(['decouple','verifycouplepin','onboard','verifypin'].indexOf(endpoint.call.toLowerCase()) > -1){
           shouldFetchPotentials = true
         }
 

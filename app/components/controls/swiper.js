@@ -327,7 +327,7 @@ const Swiper = React.createClass({
         height: props.height,
         opacity: this.props.pan && this.props.isTopCard ? this.props.pan.x.interpolate({
            inputRange: [-300, -80, -10, 0, 10, 80, 300],
-           outputRange: [0, 1, 1, 1, 1, 1, 0]
+           outputRange: [0, .5, 1, 1, 1, .5, 0]
          }) : 1,
       }]}>
         <ScrollView ref="scrollView"
