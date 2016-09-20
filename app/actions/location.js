@@ -34,7 +34,8 @@ export const checkLocation = () => dispatch => dispatch({ type: 'CHECK_LOCATION'
       if (perm) {
         resolve(dispatch(getLocation()));
       } else if (parseInt(OSLocation) === 0) {
-        dispatch({ type: 'UNASKED_LOCATION' });
+          console.log('no permission, must ask')
+        // dispatch({ type: 'UNASKED_LOCATION' });
       } else {
         reject(new Error('nopermission'));
       }

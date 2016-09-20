@@ -1,4 +1,4 @@
-import { Settings, NativeModules, View } from 'react-native';
+import { Settings, NativeModules, View, PushNotificationIOS } from 'react-native';
 import React from 'react';
 
 import LocationPermissions from './components/modals/LocationPermission'
@@ -10,20 +10,47 @@ import ActionMan from  './actions/';
 import OnboardModal from './components/modals/OnboardModal'
 import { connect } from 'react-redux';
 import PushNotification from 'react-native-push-notification'
+import {pure} from 'recompose'
 
 import reactMixin from 'react-mixin'
 import TimerMixin from 'react-timer-mixin'
 
 
+function parseNotificationPermissions(nPermissions){
+  return Object.keys(nPermissions).reduce((acc,el,i) => {
+    acc = acc + nPermissions[el];
+    return acc
+  },0);
+}
+
+@pure
+@reactMixin.decorate(TimerMixin)
 class NagManager extends React.Component{
 
   constructor(props){
     super()
     this.state = {
       sawStarterPotentials: Settings._settings['HAS_SEEN_STARTER_DECK'],
-      didOnboard: props.user && props.user.status && props.user.status == 'onboarded'
-
+      didOnboard: props.user && props.user.status && props.user.status == 'onboarded',
+      np: true,
+      lp: true
     }
+  }
+  componentDidMount(){
+
+    PushNotificationIOS.checkPermissions( permissions => {
+      const permResult = parseNotificationPermissions(permissions);
+      this.setState({
+        np: permResult,
+      })
+
+
+      OSPermissions.canUseLocation(OSLocation => {
+        this.setState({
+          lp: parseInt(OSLocation) > 2,
+        })
+      })
+    })
   }
 
   componentWillReceiveProps(nProps){
@@ -33,6 +60,23 @@ class NagManager extends React.Component{
       // Settings.set('HAS_SEEN_STARTER_DECK','true')
     }
 
+    
+    if(!this.props.nag.askNotification && !this.props.nag.askedNotification){
+        this.props.dispatch({type:'SET_ASK_NOTIFICATION', payload:{}})
+    }
+    if(!this.state.np && this.props.nag.askNotification && !this.props.nag.askedNotification){
+      this.setState({askingNotification:true})
+      this.notificationModal()
+    }
+
+
+    if(!this.props.nag.askLocation && !this.props.nag.askedLocation  ) {
+      this.props.dispatch({type:'SET_ASK_LOCATION', payload:{}})
+    }
+    if(!this.state.lp && this.props.nag.askLocation && !this.props.nag.askedLocation  ) {
+      this.setState({askingLocation:true})
+      this.locationModal()
+    }
 
     if(this.props.loggedIn && nProps.loggedIn){
 
@@ -90,7 +134,7 @@ class NagManager extends React.Component{
   notificationModal(){
 
     this.props.dispatch(ActionMan.showInModal({
-      component: 'NotificationPermissions',
+      component: 'NewNotificationPermissions',
       passProps:{
         title:'N',
         user:this.props.user,
@@ -103,7 +147,7 @@ class NagManager extends React.Component{
   locationModal(){
 
     this.props.dispatch(ActionMan.showInModal({
-      component: 'LocationPermissions',
+      component: 'LocationPermission',
       passProps:{
         title:'Prioritze Local',
         user:this.props.user,
@@ -136,8 +180,6 @@ class NagManager extends React.Component{
 }
 
 
-
-reactMixin.onClass(NagManager, TimerMixin);
 
 const mapStateToProps = (state, ownProps) => {
   return {

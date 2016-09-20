@@ -1,6 +1,6 @@
 'use strict';
 
-import { Text, View, TouchableHighlight, Dimensions } from 'react-native';
+import { Text, View, TouchableHighlight,TouchableOpacity, Dimensions } from 'react-native';
 import React, { Component } from 'react';
 
 
@@ -79,14 +79,13 @@ import PurpleModal from './PurpleModal'
                               <Text style={styles.modalButtonText}>FAKE USER</Text>
                           </View>
                       </TouchableHighlight>
-                      <TouchableHighlight
-                      underlayColor={colors.mediumPurple}
+                      <TouchableOpacity
                       style={styles.modalButtonWrap}
                       onPress={()=>{this.props.goBack()}}>
                           <View style={[styles.modalButton,styles.cancelButton]} >
                               <Text style={styles.modalButtonText}>CANCEL</Text>
                           </View>
-                      </TouchableHighlight>
+                      </TouchableOpacity>
                   </View>
 
               </View>

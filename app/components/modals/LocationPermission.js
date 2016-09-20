@@ -115,7 +115,7 @@ class LocationPermission extends React.Component{
   handleSuccess(geo){
     const { latitude, longitude } = geo.coords
     this.props.dispatch(ActionMan.updateUser({lat:latitude,lon:longitude}))
-
+    this.props.successCallback && this.props.successCallback(geo.coords)
     this.close()
   //  this.props.navigator.pop()
   }

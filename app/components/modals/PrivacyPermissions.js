@@ -42,10 +42,10 @@ class PrivacyPermissionsModal extends Component{
   componentDidUpdate(pProps,pState){
     if(  this.state.hasContactsPermissions && !pState.hasContactsPermissions ){
       this.props.dispatch(ActionMan.updateUser({privacy:'private'}))
-      // this.props.success && this.props.success()
+      this.props.success && this.props.success()
       // this.props.navigator && this.props.navigator.pop()
       //
-      this.props.dispatch(ActionMan.killModal())
+      // this.props.dispatch(ActionMan.killModal())
     }
   }
 
@@ -138,7 +138,7 @@ class PrivacyPermissionsModal extends Component{
                 buttonText={buttonStyles.buttonText}
                 underlayColor={colors.darkGreenBlue}
               innerWrapStyles={[buttonStyles.innerWrapStyles,{overflow:'hidden',borderRadius:4}]}
-
+                stopLoading={hasContactsPermissions}
                 leftBoxStyles={ buttonStyles.grayIconbuttonLeftBox}
                 _onPress={this.handleTapContacts.bind(this)}>
 
@@ -158,7 +158,7 @@ class PrivacyPermissionsModal extends Component{
           { this.state.hasContactsPermissions ?
               <TouchableOpacity
                 style={{width:undefined,paddingHorizontal:10,marginVertical:10,flexDirection:'row',alignSelf:'stretch',flex:1,alignItems:'stretch'}}
-                onPress={()=> { this.props.success && this.props.success()}}>
+                onPress={()=> { this.props.success && this.props.success(); this.props.cancel && this.props.cancel();}}>
               <View style={[styles.cancelButton,{backgroundColor:'transparent',alignItems:'stretch',alignSelf:'stretch',flexDirection:'row'}]} >
                 <Text style={[{color:colors.shuttleGray,textAlign:'center',
                   padding:10,

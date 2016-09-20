@@ -44,19 +44,29 @@ const ApiActionCreators = endpointMap.reduce((obj,endpoint) => {
     payload: {
       promise: new Promise((resolve, reject) => {
 
-        let shouldFetchUserInfo;
+        let shouldFetchUserInfo, shouldFetchPotentials;
         if(endpoint.call == 'onboard'){
           dispatch({type:'KILL_MODAL',payload:true})
+        }
+
+        if(['uploadfacebookpic','decouple','verifycouplepin','updateuser','onboard'].indexOf(endpoint.call.toLowerCase()) > -1){
           shouldFetchUserInfo = true
-        }else if(['uploadfacebookpic','decouple','verifycouplepin','updateuser','onboard'].indexOf(endpoint.call.toLowerCase()) > -1){
-          shouldFetchUserInfo = true
+        }
+
+        if(['decouple','verifycouplepin','onboard'].indexOf(endpoint.call.toLowerCase()) > -1){
+          shouldFetchPotentials = true
         }
 
         api[endpoint.call](...params).then(x => {
 
           if(shouldFetchUserInfo){
-            dispatch({type:'GET_USER_INFO',payload:api.getUserInfo()})
+            dispatch({type:'GET_USER_INFO', payload: api.getUserInfo()})
           }
+          if(shouldFetchPotentials){
+            dispatch({type:'GET_POTENTIALS', payload: api.getPotentials()})
+          }
+          
+          
           return resolve(x);
         }).catch(x => {
           if(x === 401){
