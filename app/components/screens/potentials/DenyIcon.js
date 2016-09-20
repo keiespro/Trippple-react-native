@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, StatusBar, LayoutAnimation, Image, TouchableOpacity, TouchableHighlight, Animated, ScrollView, Dimensions } from "react-native";
 import styles from './styles';
+import {pure} from 'recompose'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -40,7 +41,7 @@ const DenyIcon = props =>
         source={{ uri: 'assets/iconDeny@3x.png' }}
         style={{
           backgroundColor: 'transparent',
-          width: 100,
+          width: 100,marginLeft:-50,
           height: 100,
           paddingLeft: 0,
         }}
@@ -48,4 +49,4 @@ const DenyIcon = props =>
     </Animated.View>;
 
 
-export default DenyIcon;
+export default pure(DenyIcon);

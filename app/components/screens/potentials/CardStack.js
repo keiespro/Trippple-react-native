@@ -1,12 +1,17 @@
 import React from "react";
-import { StyleSheet, Text, View, AppState, Easing, LayoutAnimation, TouchableHighlight, Image, Animated, PanResponder, Dimensions } from "react-native";
+import { StyleSheet, Text, StatusBar, View, AppState, Easing, LayoutAnimation, TouchableHighlight, Image, Animated, PanResponder, Dimensions } from "react-native";
 import Analytics from '../../../utils/Analytics';
 import Card from './Card';
 import styles from './styles';
 import ActionMan from '../../../actions/';
 
-const THROW_THRESHOLD_DENY = -150;
-const THROW_THRESHOLD_APPROVE = 150;
+import colors from '../../../utils/colors';
+import ApproveIcon  from './ApproveIcon'
+import DenyIcon  from './DenyIcon'
+
+
+const THROW_THRESHOLD_DENY = -180;
+const THROW_THRESHOLD_APPROVE = 180;
 const SWIPE_THRESHOLD_APPROVE = 200;
 const SWIPE_THRESHOLD_DENY = -200;
 const THROW_SPEED_THRESHOLD = 0.07;
@@ -201,18 +206,15 @@ class CardStack extends React.Component {
     return (
         <View
           style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: undefined,
-            height: undefined,
             flex: 1,
             alignSelf: 'stretch',
-            right: 0,
-            bottom: 0,
             alignItems: 'center',
+              backgroundColor: this.props.profileVisible ? colors.darkShadow : colors.transparent
           }}
         >
+          {this.props.profileVisible &&
+             <StatusBar animated={true} barStyle="light-content" />
+          }            
 
         { potentials && potentials.length >= 1 && potentials[1] &&
           <Animated.View
@@ -259,20 +261,19 @@ class CardStack extends React.Component {
               potential={potentials[1]}
             />
             </Animated.View>
-          }
+         }
 
         { potentials && potentials[0] &&
           <Animated.View
             style={[styles.shadowCard, {
               alignSelf: 'center',
-              top: this.props.profileVisible ? -50 : 0,
-              left: this.props.profileVisible ? 0 : 20,
-              right: this.props.profileVisible ? 0 : 20,
-              borderRadius: 8,
-              bottom: this.props.profileVisible ? 0 : 75,
-              position: 'absolute',
-              overflow: 'hidden',
-              opacity: this.state.offsetY,
+              borderRadius: 11,
+              top:this.props.profileVisible ? -50 : 0,
+              width: this.props.profileVisible ? DeviceWidth : DeviceWidth-40,
+              height: this.props.profileVisible ? DeviceHeight : DeviceHeight-75,
+          
+              overflow:this.props.profileVisible ? 'visible' : 'hidden',
+              marginHorizontal:20,
               transform: [
                 {
                   translateX: this.state.pan ? this.state.pan.x : 0,
@@ -296,10 +297,7 @@ class CardStack extends React.Component {
                   (~~this.props.profileVisible || this.state.pan.x.interpolate({
                     inputRange: [-300, -250, -90, 0, 90, 250, 300],
                     outputRange: [0.98, 0.98, 1, 1, 1, 0.98, 0.98],
-                  })) : this.state.offsetY.interpolate({
-                    inputRange: [0, 0.9, 1],
-                    outputRange: [0.9, 1.0, 0.98],
-                  }),
+                  })) : this.props.profileVisible ? 1.2 : 1
                 },
               ],
             }]}
@@ -321,11 +319,13 @@ class CardStack extends React.Component {
             showProfile={this._showProfile.bind(this)}
             potential={potentials[0]}
             dispatch={this.props.dispatch}
-
           />
-          </Animated.View>
+        </Animated.View>
       }
-      </View>
+      <DenyIcon pan={this.state.pan}/>
+      <ApproveIcon pan={this.state.pan}/>
+
+  </View>
     );
   }
 }

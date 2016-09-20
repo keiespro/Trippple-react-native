@@ -325,19 +325,20 @@ const Swiper = React.createClass({
         alignItems:'center',justifyContent:'center',
         width: props.width,
         height: props.height,
-        opacity: this.props.isTopCard ? this.props.pan.x.interpolate({
+        opacity: this.props.pan && this.props.isTopCard ? this.props.pan.x.interpolate({
            inputRange: [-300, -80, -10, 0, 10, 80, 300],
            outputRange: [0, 1, 1, 1, 1, 1, 0]
          }) : 1,
       }]}>
         <ScrollView ref="scrollView"
+          scrollEnabled={props.profileVisible}
           {...props}
-          scrollEventThrottle={32}
+          scrollEventThrottle={16}
           pagingEnabled={true}
           contentOffset={state.offset}
+          centerContent={true}
           contentContainerStyle={[styles.wrapper, props && props.style]}
           onScrollBeginDrag={this.onScrollBegin}
-          scrollEnabled={props.profileVisible}
           onMomentumScrollEnd={this.onScrollEnd}
         >
           {pages}

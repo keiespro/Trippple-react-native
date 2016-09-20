@@ -1,7 +1,7 @@
 
 import React from "react";
 import {StyleSheet, View, ScrollView, Animated, Dimensions,TouchableOpacity,Image} from "react-native";
-
+import colors from '../../utils/colors'
 import {VibrancyView} from 'react-native-blur';
 const screen = Dimensions.get('window');
 const ScrollViewPropTypes = ScrollView.propTypes;
@@ -27,7 +27,8 @@ class ParallaxSwiper extends React.Component{
   constructor(props){
     super();
     this.state = {
-      scrollY: new Animated.Value(0)
+      scrollY: new Animated.Value(0),
+
     };
   }
 
@@ -42,7 +43,27 @@ class ParallaxSwiper extends React.Component{
   setNativeProps(props) {
     this._scrollView.setNativeProps(props);
   }
+  componentDidMount(){
 
+    this.state.scrollY.addListener(this.maybeKillProfile.bind(this))
+  }
+
+  maybeKillProfile(e){
+
+    if(!this.state.wasKilled && e.value <= -200){
+      this.state.scrollY.removeListener(this.maybeKillProfile.bind(this))
+      this.setState({wasKilled: true})
+      this.killProfile()
+    }
+  }
+
+  killProfile(){
+      this._scrollView.scrollTo({x:0,y:0,animated:true})
+      
+      this.props.killProfile && this.props.killProfile()
+    //reset
+      this.setState({wasKilled: false})
+  }
   renderBackground() {
     let { windowHeight, swiper, blur } = this.props;
     let { scrollY } = this.state;
@@ -51,12 +72,19 @@ class ParallaxSwiper extends React.Component{
     }
     windowHeight = screen.height;
     return (
-            <View style={{ borderTopLeftRadius:8,borderTopRightRadius:8,overflow:'hidden',}}>
               <Animated.View
               style={[styles.background, {
-
-                    backgroundColor: this.props.isTopCard ? this.props.pan.x.interpolate({
-                      inputRange: [-300, -80, -10, 0, 10, 80, 300],
+                 shadowColor: colors.darkShadow,
+                 shadowOpacity: 0.6,
+                 shadowRadius: 8,
+                 shadowOffset: {
+                   width:0,
+                   height: -12
+                 },
+              borderRadius:12, 
+                 overflow:'visible',
+                 backgroundColor:  this.props.pan && this.props.isTopCard ? this.props.pan.x.interpolate({
+                      inputRange: [-300, -80, -50, 0, 50, 80, 300],
                       outputRange: [
                         'rgb(232,74,107)',
                         'rgb(232,74,107)',
@@ -67,14 +95,9 @@ class ParallaxSwiper extends React.Component{
                         'rgb(66,181,125)',
                       ],
                     }) : 'white',
-                  transform: [{
-                    scale: scrollY.interpolate({
-                      inputRange: [ -windowHeight, 0, windowHeight,windowHeight+2],
-                      outputRange: [1.5, 1.2, 1,1]
-                    })
-                  }]
-                }]}>
-                  {React.cloneElement(swiper,{
+              }]}>
+              <View style={{overflow:'hidden',borderRadius:11,}}>
+                {React.cloneElement(swiper,{
                     profileVisible:this.props.profileVisible,
                     inCard:true,
                     isTopCard:this.props.isTopCard,
@@ -84,8 +107,8 @@ class ParallaxSwiper extends React.Component{
                       position:'absolute',
                       right:50
                     }
-                })}
-              </Animated.View></View>
+                })}</View>
+              </Animated.View>
         );
   }
 
@@ -93,18 +116,18 @@ class ParallaxSwiper extends React.Component{
   render() {
     let { style,windowHeight,swiper, ...props } = this.props;
     return (
-          <View style={[styles.container, style]}>
+          <View style={[styles.container, style, {top:-30}]}>
             <ScrollView
               {...props}
               automaticallyAdjustContentInsets={false}
               ref={component => { this._scrollView = component; }}
               stickyHeaderIndices={[0]}
-              contentContainerStyle={{marginTop:windowHeight,backgroundColor:'transparent'}}
-              style={[styles.scrollView,]}
+              contentContainerStyle={{marginTop:windowHeight+20,backgroundColor:'transparent'}}
+              style={[styles.scrollView,{overflow:'hidden',borderRadius:12,}]}
               onScroll={Animated.event(
                   [{ nativeEvent: { contentOffset: { y: this.state.scrollY }}}]
                 )}
-              scrollEventThrottle={32}>
+              scrollEventThrottle={16}>
               {this.renderBackground()}
               {this.props.children}
             </ScrollView>
@@ -116,7 +139,6 @@ class ParallaxSwiper extends React.Component{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    top:-10
   },
   scrollView: {
     backfaceVisibility:'hidden'
