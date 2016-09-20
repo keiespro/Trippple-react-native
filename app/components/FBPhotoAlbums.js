@@ -126,7 +126,6 @@ class PhotoAlbums extends React.Component {
     this.props.navigator.push(this.props.navigation.router.getRoute('FBAlbumView', {
       name: 'FB Photos View',
       key: 'fbalbumsz',
-      dispatch: this.props.dispatch,
       photos: album.photos.data,
       album: album,
       view_loaded: 'list_album_photos',

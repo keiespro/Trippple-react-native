@@ -43,9 +43,7 @@ class AlbumView extends React.Component {
   };
   constructor(props){
     super()
-    const ds = new ListView.DataSource({
-      rowHasChanged: (row1, row2) => row1 !== row2
-    });
+    const ds = new ListView.DataSource({rowHasChanged:(r1, r2) => r1 !== r2});
     this.ds = ds;
     this.state = {
       submitting: false,
@@ -60,19 +58,19 @@ class AlbumView extends React.Component {
     console.log(this.props)
 
   }
-  selectPhoto(photo) {
+  selectPhoto(photo,id) {
     //     LayoutAnimation.configureNext()
     // ,{opacity: submitting ? (id == selected ? 1 : 0)  : 1 }
     //TODO: show user some feedback
-    this.setState({submitting:true,selected:photo.id})
-    this.props.dispatch(ActionMan.uploadFacebookPic(photo.img))
+    this.setState({submitting:true,selected:id})
+    this.props.dispatch(ActionMan.uploadFacebookPic(photo))
 
     setTimeout(()=>{
       const routes = [
+        this.props.navigation.router.getRoute('Potentials', {show: true}),
         this.props.navigation.router.getRoute('Settings'),
-        this.props.navigation.router.getRoute('Potentials', {show: true})
       ];
-      this.props.navigator.immediatelyResetStack(routes)
+      this.props.navigator.immediatelyResetStack(routes,1)
     },2000)
 
   }
@@ -90,16 +88,26 @@ class AlbumView extends React.Component {
         })
       })
   }    
-  renderSinglePhotos(img, id) {
+  renderSinglePhotos(rowData, sectionID, rowID, highlightRow) {
     // var img = photo.images[0].source//photo.images && photo.images.length > 4 && photo.images[4].source || photo.images && photo.images[0] && photo.images[0].source || photo.source;
-
+console.log(rowData,sectionID,rowID)
     const {selected,submitting} = this.state;
+    const img = rowData;
+    const id = rowID;
+
     return (
-      <View key={id + ''} style={[styles.photo_list_item,]}>
-        <TouchableHighlight onPress={this.selectPhoto.bind(this, {img, id})}>
-          <Image style={[styles.pic]} source={{ uri: img }}/>
-        </TouchableHighlight>
-      </View>
+      <TouchableHighlight
+        key={id + ''} 
+        style={[styles.photo_list_item,{
+          transform:[{scale: selected == id ? 2.0 : 1.0 }],
+          opacity: selected == id ? 0 : 1
+        }]} 
+        onPress={()=>{
+        highlightRow(sectionID, rowID)
+        this.selectPhoto(img, id)
+      }}>
+        <Image style={[styles.pic]} source={{ uri: rowData }}/>
+      </TouchableHighlight>
     );
   }
 
@@ -107,7 +115,6 @@ class AlbumView extends React.Component {
 
     const album = this.props.album_details;
 
-    console.warn('# pics',this.props.photos.length)
     return (
       <View style={{
         flex: 1,
@@ -130,6 +137,7 @@ class AlbumView extends React.Component {
           horizontal={false}
           automaticallyAdjustContentInsets={true}
           vertical={true}
+          initialListSize={24}
           onEndReached={this.getMore.bind(this)}
           renderRow={this.renderSinglePhotos.bind(this)}
         />
@@ -148,6 +156,8 @@ const styles = StyleSheet.create({
     margin: 6,
     borderRadius: 6,
     width: DeviceWidth / 3 - 15,
+    height: DeviceWidth / 3 - 15,
+    overflow:'hidden',
     alignItems: 'center'
   },
   list_album_container: {
