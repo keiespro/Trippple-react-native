@@ -265,19 +265,19 @@ class CameraRollView extends Component{
     return (
       <View style={{flex:1}}>
 
-    
-        <View style={{marginTop: 0,flex:1,width:DeviceWidth,backgroundColor:colors.outerSpace,height:DeviceHeight-54}}>
 
-          {Object.keys(this.state.loadedImages).length == 0 ?
-            <View style={{alignItems:'center',position:'absolute',justifyContent:'center',width:DeviceWidth,height:DeviceHeight-54,flex:10,flexDirection:'column'}}>
-              <ActivityIndicator style={{top:0,height:50,width:50,}} color={colors.white20} animating={true} size={'large'}/>
-              <Text
-                style={{
-                  textAlign:'center',fontSize:20,
-              color:colors.white20,
-              marginTop: 0,
-              fontFamily:'Omnes',
-            }}>LOADING ALBUMS</Text>
+          <View style={{marginTop: 0,flex:1,width:DeviceWidth,backgroundColor:colors.outerSpace,height:DeviceHeight-54}}>
+
+              {Object.keys(this.state.loadedImages).length == 0 ?
+                  <View style={{alignItems:'center',position:'absolute',alignItems:'center',justifyContent:'center',width:DeviceWidth,height:DeviceHeight-54,flex:10,flexDirection:'column'}}>
+                      <ActivityIndicator style={{top:0,height:50,width:50,}} color={colors.white20} animating={true} size={'large'}/>
+                      <Text
+                          style={{
+                              textAlign:'center',fontSize:20,
+                              color:colors.white20,
+                              marginTop: 0,
+                              fontFamily:'Omnes',
+                          }}>LOADING ALBUMS</Text>
 
 
             </View>: <View/>}

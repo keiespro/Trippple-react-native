@@ -35,7 +35,7 @@ const colors = {
 
   shuttleGray:        'rgb(86,96,103)',
 
-  shuttleGrayAnimate: 'rgba(86,96,103,1.0)',
+  shuttleGrayAnimate: 'rgba(86,96,103,0.1)',
 
   shuttleGray20:      'rgba(86,96,103,.20)',
 

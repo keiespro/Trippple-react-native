@@ -23,11 +23,12 @@ import styles from './chatStyles'
 import ActionMan from '../../../actions/';
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
-
+import {pure} from 'recompose'
 import {NavigationStyles, withNavigation} from '@exponent/ex-navigation';
 import ChatBubble from './ChatBubble'
 import ChatInside from './ChatInside'
 
+@pure
 @withNavigation
 @reactMixin.decorate(TimerMixin)
 class Chat extends React.Component {

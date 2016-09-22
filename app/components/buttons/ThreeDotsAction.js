@@ -33,8 +33,8 @@ class ThreeDotsActionButton extends React.Component{
           }))
         }}
       >
-          <ThreeDots dotColor={this.props.dotColor || '#fff'}/>
-        </TouchableOpacity>
+        <ThreeDots dotColor={this.props.dotColor || '#fff'}/>
+      </TouchableOpacity>
     )
   }
 }

@@ -4,18 +4,39 @@ import ActionMan from './actions/';
 import TouchID from 'react-native-touch-id'
 import LockFailed from './components/LockFailed'
 import AppContainer from './AppContainer'
+import loadSavedCredentials from './utils/Credentials'
 
 class NewBoot extends Component{
 
   state = {
     booted: false,
-    locked: Settings._settings['LockedWithTouchID']
+    locked: Settings._settings['LockedWithTouchID'],
+    initialized:false
   };
 
+  initialize(){
+
+    loadSavedCredentials().then(creds => {
+      if(creds){
+        store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: creds})
+      }else if(global.creds){
+        store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: global.creds})
+      }
+    })
+    .catch(err=>{
+      console.log('err',err);
+    })
+    .finally(()=>{
+      this.setState({initialized:true})
+    })
+
+  }
   componentWillMount(){
     if(this.state.locked){
       this.checkTouchId()
     }
+    this.initialize()
+
   }
 
   checkTouchId(){
@@ -37,7 +58,7 @@ class NewBoot extends Component{
   render() {
     if(this.state.lockFailed){ return <LockFailed retry={this.checkTouchId.bind(this)}/> }
 
-    return this.state.locked ? <View/> : <AppContainer />
+    return this.state.locked || !this.state.initialized ? <View/> : <AppContainer />
   }
 }
 

@@ -20,7 +20,7 @@ import {
   NavigationStyles, withNavigation
 } from '@exponent/ex-navigation';
 
-var PickerItem = Picker.Item;
+let PickerItem = Picker.Item;
 
 class ProfileField extends React.Component{
   constructor(props){
@@ -36,72 +36,72 @@ class ProfileField extends React.Component{
     return formatPhone(this.props.user.phone)
   }
   render(){
-    var field = this.props.field || {};
+    let field = this.props.field || {};
 
-    var get_values = typeof field.values == 'object' && Object.keys(field.values).map(key => key) || field.values;
-    var get_key_vals = typeof field.values == 'object' && field.values || {};
+    let get_values = typeof field.values == 'object' && Object.keys(field.values).map(key => key) || field.values;
+    let get_key_vals = typeof field.values == 'object' && field.values || {};
 
-    var displayField = (theField) => {
+    let displayField = (theField) => {
       switch (theField.field_type) {
-        case 'input':
-          return (
+      case 'input':
+        return (
              <TextInput
-                autofocus={true}
-                style={[styles.displayTextField,{fontSize: this.props.fieldName == 'email' ? 20 : 30 }]}
-                onChangeText={(text) => this.setState({text})}
-                placeholder={theField.placeholder ? theField.placeholder.toUpperCase() : fieldLabel.toUpperCase()}
-                autoCapitalize={'words'}
-                maxLength={10}
-                placeholderTextColor={colors.white}
-                autoCorrect={false}
-                returnKeyType={'done'}
-                autoFocus={true}
-                keyboardType={this.props.fieldName == 'email' ? 'email-address' : 'default'}
-                keyboardAppearance={'dark'}
-                ref={component => this._textInput = component}
-                clearButtonMode={'always'}
-            />
+                 autofocus={true}
+                 style={[styles.displayTextField,{fontSize: this.props.fieldName == 'email' ? 20 : 30 }]}
+                 onChangeText={(text) => this.setState({text})}
+                 placeholder={theField.placeholder ? theField.placeholder.toUpperCase() : fieldLabel.toUpperCase()}
+                 autoCapitalize={'words'}
+                 maxLength={10}
+                 placeholderTextColor={colors.white}
+                 autoCorrect={false}
+                 returnKeyType={'done'}
+                 autoFocus={true}
+                 keyboardType={this.props.fieldName == 'email' ? 'email-address' : 'default'}
+                 keyboardAppearance={'dark'}
+                 ref={component => this._textInput = component}
+                 clearButtonMode={'always'}
+             />
           );
-        case 'phone_input':
-          return (
+      case 'phone_input':
+        return (
             <PhoneNumberInput
-              key={'updatephone'}
-              style={styles.phoneInput}
+                key={'updatephone'}
+                style={styles.phoneInput}
             />
           )
-        case 'birthday':
+      case 'birthday':
           // always add an empty option at the beginning of the array
 
-          return  (<DatePicker
-              style={{alignSelf:'center',width:330,backgroundColor:'transparent',marginHorizontal:0,alignItems:'stretch'}}
-              itemStyle={{fontSize: 24, color: colors.white, textAlign: 'center'}}
-              label={'d'}
-              />);
+        return (<DatePicker
+            style={{alignSelf:'center',width:330,backgroundColor:'transparent',marginHorizontal:0,alignItems:'stretch'}}
+            itemStyle={{fontSize: 24, color: colors.white, textAlign: 'center'}}
+            label={'d'}
+                />);
 
-        case 'dropdown':
+      case 'dropdown':
           // always add an empty option at the beginning of the array
 
-          return (
+        return (
             <Picker
-              style={{alignSelf:'center',width:330,backgroundColor:'transparent',marginHorizontal:0,alignItems:'stretch'}}
-              itemStyle={{fontSize: 24, color: colors.white, textAlign: 'center'}}
-              selectedValue={this.state.selectedDropdown || field.values[this.state.selectedDropdown] || null}
-              >
+                style={{alignSelf:'center',width:330,backgroundColor:'transparent',marginHorizontal:0,alignItems:'stretch'}}
+                itemStyle={{fontSize: 24, color: colors.white, textAlign: 'center'}}
+                selectedValue={this.state.selectedDropdown || field.values[this.state.selectedDropdown] || null}
+            >
               {get_values.map((val) => {
 
                 return ( <PickerItem
-                  key={val}
-                  value={get_key_vals[val] || val}
-                  label={(field.labelPrefix || '') + (get_key_vals[val] || val) + (field.labelSuffix || '')}
-                  />
+                    key={val}
+                    value={get_key_vals[val] || val}
+                    label={(field.labelPrefix || '') + (get_key_vals[val] || val) + (field.labelSuffix || '')}
+                         />
                 )
               }
               )}
             </Picker>
           );
 
-        default:
-          return (
+      default:
+        return (
              null
           );
       }
@@ -112,52 +112,57 @@ class ProfileField extends React.Component{
       fieldLabel = field.label.substr(0,field.label.indexOf(' '))
     }
 
-    var getValue = (this.props.user[this.props.fieldName] || '');
+    let getValue = (this.props.user[this.props.fieldName] || '');
     getValue = (get_key_vals[getValue] || getValue);
-    var displayValueText = (field.labelPrefix || '') + getValue.toString().toUpperCase() + (field.labelSuffix || '');
+    let displayValueText = (field.labelPrefix || '') + getValue.toString().toUpperCase() + (field.labelSuffix || '');
 
     if (field.field_type == 'phone_input') {
       displayValueText = this.formattedPhone();
     }
 
-   if (field.field_type == 'date') {
-     displayValueText = moment(getValue,'YYYY-MM-DD').format('MM/DD/YYYY');
+    if (field.field_type == 'date') {
+      displayValueText = moment(getValue,'YYYY-MM-DD').format('MM/DD/YYYY');
     }
 
     const displayFieldText = fieldLabel ? fieldLabel.toUpperCase() : '';
-     return (
-        <TouchableHighlight onPress={(f)=>{
-            if(this.props.locked) return false;
-            this.props.navigator.push(this.props.navigation.router.getRoute('FieldModal',{
-              inputField: displayField(field),
-              field,
-              fieldName:this.props.fieldName,
-              title:'PROFILE',
-              cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
-              fieldValue: this.props.user[this.props.fieldName] || (field.values && field.values.length > 0 && field.values[0]) || '',
-              dispatch:this.props.dispatch
-            }))
-          }} underlayColor={colors.dark} style={styles.paddedSpace}>
-          <View>
-          <View  style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray,alignItems:'center',justifyContent:'space-between',flexDirection:'row',alignSelf:'stretch'}}>
+    return (
+      <TouchableHighlight onPress={(f)=>{
+        if(this.props.locked) return false;
+        this.props.navigator.push(this.props.navigation.router.getRoute('FieldModal',{
+          inputField: displayField(field),
+          field,
+          fieldName:this.props.fieldName,
+          title:'PROFILE',
+          cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
+          fieldValue: this.props.user[this.props.fieldName] || (field.values && field.values.length > 0 && field.values[0]) || '',
+          dispatch:this.props.dispatch
+        }))
+      }} underlayColor={colors.dark} style={styles.paddedSpace}
+      >
+        <View>
+          <View style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray,alignItems:'center',justifyContent:'space-between',flexDirection:'row',alignSelf:'stretch'}}>
             <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ displayFieldText }</Text>
-            <View style={{flexDirection:'row'}}><Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat',textAlign:'right'}}>{ displayValueText }</Text>
-            {this.props.locked ? <View style={{width:20,position:'relative',top:5,height:20,marginLeft:10,right:0}}>
-            <Image
-              style={{width:15,height:15,}}
-              source={{uri:'assets/icon-lock@3x.png'}}
-              resizeMode={Image.resizeMode.contain}/>
-              </View> :  <View style={{width:20,position:'relative',top:5,height:20,marginLeft:10,right:0}}>
-            <Image
-              style={{width:15,height:15,}}
-              source={{uri:'assets/edit@3x.png'}}
-              resizeMode={Image.resizeMode.contain}/>
+            <View style={{flexDirection:'row'}}>
+              <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat',textAlign:'right'}}>{ displayValueText
+              }</Text>
+              {this.props.locked ? <View style={{width:20,position:'relative',top:5,height:20,marginLeft:10,right:0}}>
+                <Image
+                    style={{width:15,height:15,}}
+                    source={{uri:'assets/icon-lock@3x.png'}}
+                    resizeMode={Image.resizeMode.contain}
+                />
+              </View> : <View style={{width:20,position:'relative',top:5,height:20,marginLeft:10,right:0}}>
+                <Image
+                    style={{width:15,height:15,}}
+                    source={{uri:'assets/edit@3x.png'}}
+                    resizeMode={Image.resizeMode.contain}
+                />
               </View> }
 
             </View>
-              </View>
-              </View>
-        </TouchableHighlight>
+          </View>
+        </View>
+      </TouchableHighlight>
     )
   }
 }
@@ -168,6 +173,8 @@ class SettingsBasic extends React.Component{
   static route = {
     styles: NavigationStyles.FloatHorizontal,
     navigationBar: {
+      visible:true,
+      translucent:true,
       backgroundColor: colors.shuttleGrayAnimate,
       title(params){
         return `PROFILE`
@@ -197,7 +204,7 @@ class SettingsBasic extends React.Component{
     let user = this.props.user;
     let settingOptions = this.props.settingOptions || {};
     const singleImage = this.props.user.localUserImage || {uri: this.props.user.image_url },
-          singleImageThumb = this.props.user.localUserImage || {uri: this.props.user.thumb_url };
+      singleImageThumb = this.props.user.localUserImage || {uri: this.props.user.thumb_url };
 
     return (
 
@@ -205,61 +212,72 @@ class SettingsBasic extends React.Component{
 
       <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight,overflow:'hidden',flex:1,paddingTop:60}}>
 
-      <ScrollView
-          showsVerticalScrollIndicator={false}
-                        style={{height:DeviceHeight-110}}
-            tabLabel={'GENERAL'}>
-          <View style={[{  paddingBottom:40}]}>
+        <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{height:DeviceHeight-110}}
+            tabLabel={'GENERAL'}
+        >
+          <View style={[{ paddingBottom:40}]}>
 
-              <View style={styles.formHeader}>
-                <Text style={styles.formHeaderText}>Personal Info</Text>
-              </View>
+            <View style={styles.formHeader}>
+              <Text style={styles.formHeaderText}>Personal Info</Text>
+            </View>
 
-            {['firstname'].map((field,i) => {
-              return <ProfileField locked={true}  navigation={this.props.navigation} key={field+'key'+(i*10)} user={this.props.user} dispatch={this.props.dispatch} navigator={this.props.navigator} fieldName={field} field={settingOptions[field]} />
-            })}
+            {['firstname'].map((field,i) => (
+                <ProfileField
+                    locked={true}
+                    navigation={this.props.navigation}
+                    key={field+'key'+(i*10)}
+                    user={this.props.user}
+                    dispatch={this.props.dispatch}
+                    navigator={this.props.navigator}
+                    fieldName={field}
+                    field={settingOptions[field]}
+                />
+            ))}
 
             {['birthday'].map((field,i) => {
               return (
                 <ProfileField locked={true} dispatch={this.props.dispatch} key={field+'keybd'+(i*1000)} user={this.props.user} navigator={this.props.navigator} navigation={this.props.navigation} fieldName={'birthday'} field_type={'date'} field={settingOptions[field]} label={'bday'} />
               )
             })}
-           {['gender'].map((field,i) => {
-            return (
+            {['gender'].map((field,i) => {
+              return (
 
-              <ProfileField locked={true}  dispatch={this.props.dispatch} key={field+'key'+(i*1000)} user={this.props.user} navigator={this.props.navigator} navigation={this.props.navigation} fieldName={field} field={settingOptions[field]} />
-            )
-          })}
-             <View style={[styles.formHeader,{marginTop:10,flexDirection:'row',justifyContent:'flex-start',alignItems:'center'}]}>
-               <Image
-              style={{width:12,height:12,marginRight:5}}
-              source={{uri:'assets/icon-lock.png'}}
-              resizeMode={Image.resizeMode.contain}/>
-                <Text style={styles.formHeaderText}> Edit on Facebook</Text>
-           </View>
+                <ProfileField locked={true} dispatch={this.props.dispatch} key={field+'key'+(i*1000)} user={this.props.user} navigator={this.props.navigator} navigation={this.props.navigation} fieldName={field} field={settingOptions[field]} />
+              )
+            })}
+            <View style={[styles.formHeader,{marginTop:10,flexDirection:'row',justifyContent:'flex-start',alignItems:'center'}]}>
+              <Image
+                  style={{width:12,height:12,marginRight:5}}
+                  source={{uri:'assets/icon-lock.png'}}
+                  resizeMode={Image.resizeMode.contain}
+              />
+              <Text style={styles.formHeaderText}> Edit on Facebook</Text>
+            </View>
 
-             <View style={styles.formHeader}>
+            <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>Details</Text>
-           </View>
-          <View style={{alignSelf:'stretch',alignItems:'stretch',flex:1,width:DeviceWidth,paddingBottom:0}}>
-          {['height','body_type','ethnicity','eye_color','hair_color','smoke','drink'].map((field,i) => {
-            return (
-              <View key={field+'key'+(i*10000)} style={{alignSelf:'stretch',alignItems:'stretch',width:DeviceWidth}}>
-                <ProfileField
-                  dispatch={this.props.dispatch}
-                  user={this.props.user}
-                  navigator={this.props.navigator}
-                  fieldName={field}
-                  navigation={this.props.navigation}
-                  field={settingOptions[field]}
-                />
-              </View>
-            )
-          })}
-          </View>
+            </View>
+            <View style={{alignSelf:'stretch',alignItems:'stretch',flex:1,width:DeviceWidth,paddingBottom:0}}>
+              {['height','body_type','ethnicity','eye_color','hair_color','smoke','drink'].map((field,i) => {
+                return (
+                  <View key={field+'key'+(i*10000)} style={{alignSelf:'stretch',alignItems:'stretch',width:DeviceWidth}}>
+                    <ProfileField
+                        dispatch={this.props.dispatch}
+                        user={this.props.user}
+                        navigator={this.props.navigator}
+                        fieldName={field}
+                        navigation={this.props.navigation}
+                        field={settingOptions[field]}
+                    />
+                  </View>
+                )
+              })}
+            </View>
 
-  </View>
-          </ScrollView>
+          </View>
+        </ScrollView>
 
 
       </View>
@@ -288,141 +306,141 @@ export default connect(mapStateToProps, mapDispatchToProps)(SettingsBasic);
 const styles = StyleSheet.create({
 
 
- container: {
-   justifyContent: 'center',
-   alignItems: 'stretch',
-   position:'relative',
-   alignSelf: 'stretch',
-   backgroundColor:colors.outerSpace,
-   height:DeviceHeight+100,
+  container: {
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    position:'relative',
+    alignSelf: 'stretch',
+    backgroundColor:colors.outerSpace,
+    height:DeviceHeight+100,
 
   //  overflow:'hidden'
- },
- inner:{
-   alignItems: 'stretch',
-   backgroundColor:colors.dark,
-   flexDirection:'column',
-   height:DeviceHeight,
-   justifyContent:'flex-start'
- },
+  },
+  inner:{
+    alignItems: 'stretch',
+    backgroundColor:colors.dark,
+    flexDirection:'column',
+    height:DeviceHeight,
+    justifyContent:'flex-start'
+  },
 
- blur:{
+  blur:{
 
-   alignSelf:'stretch',
-   alignItems:'center',
-   paddingTop: 0,
-   paddingBottom: 40,
+    alignSelf:'stretch',
+    alignItems:'center',
+    paddingTop: 0,
+    paddingBottom: 40,
 
- },
+  },
 
- phoneInput: {
-   height: 60,
-   padding: 8,
-   flex:1,
-   width:MagicNumbers.screenWidth,
-   alignSelf:'stretch',
-   fontSize: 26,
-   fontFamily:'Montserrat',
-   color: colors.white
- },
+  phoneInput: {
+    height: 60,
+    padding: 8,
+    flex:1,
+    width:MagicNumbers.screenWidth,
+    alignSelf:'stretch',
+    fontSize: 26,
+    fontFamily:'Montserrat',
+    color: colors.white
+  },
 
- formHeader:{
-   marginTop:40,
-   marginHorizontal:MagicNumbers.screenPadding/2
- },
- formHeaderText:{
-   color: colors.rollingStone,
-   fontFamily: 'omnes'
- },
- formRow: {
-   alignItems: 'center',
-   flexDirection: 'row',
+  formHeader:{
+    marginTop:40,
+    marginHorizontal:MagicNumbers.screenPadding/2
+  },
+  formHeaderText:{
+    color: colors.rollingStone,
+    fontFamily: 'omnes'
+  },
+  formRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
 
-   alignSelf: 'stretch',
-   paddingTop:0,
-   height:50,
-   flex:1,
-   borderBottomWidth: 1,
-   borderBottomColor: colors.rollingStone
+    alignSelf: 'stretch',
+    paddingTop:0,
+    height:50,
+    flex:1,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.rollingStone
 
- },
- tallFormRow: {
-   width: 250,
-   left:0,
-   height:220,
-   alignSelf:'stretch',
-   alignItems: 'center',
-   flexDirection: 'row',
-   justifyContent: 'center'
- },
- sliderFormRow:{
-   height:160,
-   paddingLeft: 30,
-   paddingRight:30
- },
- picker:{
-   height:200,
-   alignItems: 'stretch',
-   flexDirection: 'column',
-   alignSelf:'flex-end',
-   justifyContent:'center',
- },
- halfcell:{
-   width:DeviceWidth / 2,
-   alignItems: 'center',
-   alignSelf:'center',
-   justifyContent:'space-around'
+  },
+  tallFormRow: {
+    width: 250,
+    left:0,
+    height:220,
+    alignSelf:'stretch',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  sliderFormRow:{
+    height:160,
+    paddingLeft: 30,
+    paddingRight:30
+  },
+  picker:{
+    height:200,
+    alignItems: 'stretch',
+    flexDirection: 'column',
+    alignSelf:'flex-end',
+    justifyContent:'center',
+  },
+  halfcell:{
+    width:DeviceWidth / 2,
+    alignItems: 'center',
+    alignSelf:'center',
+    justifyContent:'space-around'
 
 
- },
+  },
 
- formLabel: {
-   flex: 8,
-   fontSize: 18,
-   fontFamily:'omnes'
- },
- header:{
-   fontSize:24,
-   fontFamily:'omnes'
+  formLabel: {
+    flex: 8,
+    fontSize: 18,
+    fontFamily:'omnes'
+  },
+  header:{
+    fontSize:24,
+    fontFamily:'omnes'
 
- },
- textfield:{
-   color: colors.white,
-   fontSize:20,
-   alignItems: 'stretch',
-   flex:1,
-   textAlign: 'left',
-   fontFamily:'Montserrat',
- },
- tab: {
-  flex: 1,
-  alignItems: 'center',
-  justifyContent: 'center',
-  paddingVertical: 10,
-  width:(DeviceWidth/2),
+  },
+  textfield:{
+    color: colors.white,
+    fontSize:20,
+    alignItems: 'stretch',
+    flex:1,
+    textAlign: 'left',
+    fontFamily:'Montserrat',
+  },
+  tab: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 10,
+    width:(DeviceWidth/2),
 
-},
+  },
 
-tabs: {
-  height: 50,
-  flexDirection: 'row',
-  marginTop: 0,
-  borderWidth: 1,
-  flex:1,
-  backgroundColor:colors.dark,
-  width:DeviceWidth,
-  overflow:'hidden',
-  borderTopWidth: 0,
-  borderLeftWidth: 0,
-  borderRightWidth: 0,
-  borderBottomColor: colors.dark,
-},
-userimage:{
-  backgroundColor:colors.dark,
-  width:120,height:120,borderRadius:60,alignSelf:'center',
+  tabs: {
+    height: 50,
+    flexDirection: 'row',
+    marginTop: 0,
+    borderWidth: 1,
+    flex:1,
+    backgroundColor:colors.dark,
+    width:DeviceWidth,
+    overflow:'hidden',
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderBottomColor: colors.dark,
+  },
+  userimage:{
+    backgroundColor:colors.dark,
+    width:120,height:120,borderRadius:60,alignSelf:'center',
 
-},
-displayTextField:{
+  },
+  displayTextField:{
     height: 60,
     alignSelf: 'stretch',
     padding: 8,
@@ -437,21 +455,21 @@ displayTextField:{
     height:60,
     borderBottomWidth:1,
     borderColor:colors.shuttleGray,
-     alignItems:'center',
-     justifyContent:'space-between',
-     flexDirection:'row',
-     marginHorizontal:MagicNumbers.screenPadding/2,
-     alignSelf: 'stretch',
-   },
-   paddedSpace:{
-     paddingHorizontal:MagicNumbers.screenPadding/2
-   }
+    alignItems:'center',
+    justifyContent:'space-between',
+    flexDirection:'row',
+    marginHorizontal:MagicNumbers.screenPadding/2,
+    alignSelf: 'stretch',
+  },
+  paddedSpace:{
+    paddingHorizontal:MagicNumbers.screenPadding/2
+  }
 });
 
-var TAB_UNDERLINE_REF = 'TAB_UNDERLINE';
+let TAB_UNDERLINE_REF = 'TAB_UNDERLINE';
 
 
-var CustomTabBar = React.createClass({
+let CustomTabBar = React.createClass({
   propTypes: {
     goToPage: React.PropTypes.func,
     activeTab: React.PropTypes.object,
@@ -460,7 +478,7 @@ var CustomTabBar = React.createClass({
   },
 
   renderTabOption(name, page) {
-    var isTabActive = this.props.pageNumber === page;
+    let isTabActive = this.props.pageNumber === page;
 
     return (
       <TouchableOpacity key={name+page} onPress={() => {this.props.goToPage(page)}}>
@@ -472,10 +490,10 @@ var CustomTabBar = React.createClass({
   },
 
   render() {
-    var numberOfTabs = this.props.tabs ? this.props.tabs.length : 0;
-    var w = DeviceWidth / numberOfTabs
+    let numberOfTabs = this.props.tabs ? this.props.tabs.length : 0;
+    let w = DeviceWidth / numberOfTabs
 
-    var tabUnderlineStyle = {
+    let tabUnderlineStyle = {
       position: 'absolute',
       width: DeviceWidth / numberOfTabs,
       height: 2,
@@ -485,10 +503,10 @@ var CustomTabBar = React.createClass({
       transform: [
         {
           translateX: this.props.activeTab ? this.props.activeTab.interpolate({
-              inputRange: this.props.tabs.map((c,i) => (w * i) ),
-              outputRange: [0,w]
-            }) : 0
-          }]
+            inputRange: this.props.tabs.map((c,i) => (w * i) ),
+            outputRange: [0,w]
+          }) : 0
+        }]
 
     };
 

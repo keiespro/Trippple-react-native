@@ -76,7 +76,6 @@ class AgePrefs extends React.Component{
             return (
 
               <View key={'dot_'+i} style={{
-                  // marginLeft: i == 0 ? 45 : 0,
                 width:dotWidth,
                 height:80,
                 left:6,
@@ -87,7 +86,6 @@ class AgePrefs extends React.Component{
               { dot.start_age >= MAX_AGE ? null : <View style={{
                 backgroundColor:'transparent',
                 borderTopWidth:1,height:45,width:dotWidth,
-                    // marginLeft:dotWidth / 2 * -1,
                 borderTopColor: highlighted && lineHighlighted ? colors.mediumPurple : colors.white
               }}/>
                }

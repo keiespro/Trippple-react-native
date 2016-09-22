@@ -17,99 +17,99 @@ import TimerMixin from 'react-timer-mixin'
 
 
 function parseNotificationPermissions(nPermissions){
-  return Object.keys(nPermissions).reduce((acc,el,i) => {
-    acc = acc + nPermissions[el];
-    return acc
-  },0);
+    return Object.keys(nPermissions).reduce((acc,el,i) => {
+        acc = acc + nPermissions[el];
+        return acc
+    },0);
 }
 
 @pure
 @reactMixin.decorate(TimerMixin)
 class NagManager extends React.Component{
 
-  constructor(props){
-    super()
-    this.state = {
-      sawStarterPotentials: Settings._settings['HAS_SEEN_STARTER_DECK'],
-      didOnboard: props.user && props.user.status && props.user.status == 'onboarded',
-      np: true,
-      lp: true
+    constructor(props){
+        super()
+        this.state = {
+            sawStarterPotentials: Settings._settings['HAS_SEEN_STARTER_DECK'],
+            didOnboard: props.user && props.user.status && props.user.status == 'onboarded',
+            np: true,
+            lp: true
+        }
     }
-  }
-  componentDidMount(){
+    componentDidMount(){
 
-    PushNotificationIOS.checkPermissions( permissions => {
-      const permResult = parseNotificationPermissions(permissions);
-      this.setState({
-        np: permResult,
-      })
+        PushNotificationIOS.checkPermissions( permissions => {
+            const permResult = parseNotificationPermissions(permissions);
+            this.setState({
+                np: permResult,
+            })
 
 
-      OSPermissions.canUseLocation(OSLocation => {
-        this.setState({
-          lp: parseInt(OSLocation) > 2,
+            OSPermissions.canUseLocation(OSLocation => {
+                this.setState({
+                    lp: parseInt(OSLocation) > 2,
+                })
+            })
         })
-      })
-    })
-  }
-
-  componentWillReceiveProps(nProps){
-    if(!this.state.sawStarterPotentials && !this.props.loggedIn && nProps.loggedIn && !nProps.nag.sawStarterPotentials){
-      this.props.dispatch({type: 'GET_STARTER_POTENTIALS', payload: {relationshipStatus: this.props.user.relationship_status || 'single' }})
-      this.setState({got_starter_pack:true})
-      // Settings.set('HAS_SEEN_STARTER_DECK','true')
     }
-    if(this.props.loggedIn && nProps.loggedIn){
+
+    componentWillReceiveProps(nProps){
+        if(!this.state.sawStarterPotentials && !this.props.loggedIn && nProps.loggedIn && !nProps.nag.sawStarterPotentials){
+            this.props.dispatch({type: 'GET_STARTER_POTENTIALS', payload: {relationshipStatus: this.props.user.relationship_status || 'single' }})
+            this.setState({got_starter_pack:true})
+            Settings.set({[HAS_SEEN_STARTER_DECK]:true})
+        }
+        if(this.props.loggedIn && nProps.loggedIn){
 
     // relationship_status modal
-      if(this.props.user.status == 'registered' && !this.state.askedOnboard && !this.props.user.relationship_status && !nProps.user.relationship_status){
-        this.setState({askedOnboard:true})
-        nProps.dispatch(ActionMan.showInModal({
-          component: 'OnboardModal',
-          passProps:{
-            title:'Onboard',
-            dispatch: nProps.dispatch,
-            navigator:nProps.navigator,
-            navigation:nProps.navigation,
-            user:nProps.user,
-          }
-        }))
-      }
-
-      if(!this.state.didOnboard && !this.props.user.relationship_status && nProps.user.relationship_status){
-        this.setState({didOnboard:true})
-
-        this.props.dispatch({type:'SET_ASK_LOCATION', payload:{}})
-        this.props.dispatch({type:'SET_ASK_NOTIFICATION', payload:{}})
-
-      }
-
-      
-      
-     if(this.props.user.status == 'onbaorded' && this.props.user.relationship_status){ 
-          
-          if(!this.props.nag.askNotification && !this.props.nag.askedNotification){
-            this.props.dispatch({type:'SET_ASK_NOTIFICATION', payload:{}})
-          }
-          if(!this.state.np && this.props.nag.askNotification && !this.props.nag.askedNotification && !nProps.nag.askedNotification){
-            if( nProps.likeCount > this.props.likeCount){
-              this.setState({askingNotification:true})
-              this.notificationModal()
-              this.props.dispatch({type:'ASKED_NOTIFICATION', payload:{}})
+            if(this.props.user.status == 'registered' && !this.state.askedOnboard && !this.props.user.relationship_status && !nProps.user.relationship_status){
+                this.setState({askedOnboard:true})
+                nProps.dispatch(ActionMan.showInModal({
+                    component: 'OnboardModal',
+                    passProps:{
+                        title:'Onboard',
+                        dispatch: nProps.dispatch,
+                        navigator:nProps.navigator,
+                        navigation:nProps.navigation,
+                        user:nProps.user,
+                    }
+                }))
             }
-          }
+
+            if(!this.state.didOnboard && !this.props.user.relationship_status && nProps.user.relationship_status){
+                this.setState({didOnboard:true})
+
+                this.props.dispatch({type:'SET_ASK_LOCATION', payload:{}})
+                this.props.dispatch({type:'SET_ASK_NOTIFICATION', payload:{}})
+
+            }
 
 
-          if(!this.props.nag.askLocation && !this.props.nag.askedLocation && !nProps.nag.askedLocation ) {
-            this.props.dispatch({type:'SET_ASK_LOCATION', payload:{}})
-          }
-          if(!this.state.lp && this.props.nag.askLocation && !this.props.nag.askedLocation && !nProps.nag.askedLocation && !this.state.askingLocation) {
-            this.setState({askingLocation:true})
-            this.locationModal()
-            this.props.dispatch({type:'ASKED_LOCATION', payload:{}})
-          }
 
-      }
+            if(this.props.user.status == 'onboarded' && this.props.user.relationship_status){
+
+                if(!this.props.nag.askNotification && !this.props.nag.askedNotification){
+                    this.props.dispatch({type:'SET_ASK_NOTIFICATION', payload:{}})
+                }
+                if(!this.state.np && this.props.nag.askNotification && !this.props.nag.askedNotification && !nProps.nag.askedNotification){
+                    if( nProps.likeCount > this.props.likeCount){
+                        this.setState({askingNotification:true})
+                        this.notificationModal()
+                        this.props.dispatch({type:'ASKED_NOTIFICATION', payload:{}})
+                    }
+                }
+
+
+                if(!this.props.nag.askLocation && !this.props.nag.askedLocation && !nProps.nag.askedLocation ) {
+                    this.props.dispatch({type:'SET_ASK_LOCATION', payload:{}})
+                }
+                if(!this.state.lp && this.props.nag.askLocation && !this.props.nag.askedLocation && !nProps.nag.askedLocation && !this.state.askingLocation) {
+                    this.setState({askingLocation:true})
+                    this.locationModal()
+                    this.props.dispatch({type:'ASKED_LOCATION', payload:{}})
+                }
+
+            }
       //     // location permission modal
 //       if(!this.props.nag.askedLocation && nProps.nag.askLocation && !this.state.askingLocation){
 //         this.setState({askingLocation:true})
@@ -134,81 +134,81 @@ class NagManager extends React.Component{
 //         }
 //       }
 
+        }
+
     }
 
-  }
+    notificationModal(){
 
-  notificationModal(){
+        this.props.dispatch(ActionMan.showInModal({
+            component: 'NewNotificationPermissions',
+            passProps:{
+                title:'N',
+                successCallback:()=>{
+                    this.setState({np:true})
+                },
+                user:this.props.user,
+                cancel: ()=>{ this.props.close() }
+            }
+        }))
 
-    this.props.dispatch(ActionMan.showInModal({
-      component: 'NewNotificationPermissions',
-      passProps:{
-        title:'N',
-        successCallback:()=>{
-          this.setState({np:true})
-        },
-        user:this.props.user,
-        cancel: ()=>{ this.props.close() }
-      }
-    }))
+    }
 
-  }
+    locationModal(){
 
-  locationModal(){
+        this.props.dispatch(ActionMan.showInModal({
+            component: 'LocationPermission',
+            passProps:{
+                title:'Prioritze Local',
+                user:this.props.user,
+                failedTitle:'Location',
+                successCallback:(geo)=>{
+                    this.setState({lp:true})
+                },
+                cancel: ()=>{ this.props.close() }
+            }
+        }))
 
-    this.props.dispatch(ActionMan.showInModal({
-      component: 'LocationPermission',
-      passProps:{
-        title:'Prioritze Local',
-        user:this.props.user,
-        failedTitle:'Location',
-        successCallback:(geo)=>{
-          this.setState({lp:true})
-        },
-        cancel: ()=>{ this.props.close() }
-      }
-    }))
+    }
 
-  }
+    checkLocationSetting(){
+        const hasSeenLocationRequest = Settings.get(LAST_ASKED_LOCATION_PERMISSION);
 
-  checkLocationSetting(){
-    const hasSeenLocationRequest = Settings.get(LAST_ASKED_LOCATION_PERMISSION);
+        OSPermissions.canUseLocation((hasPermission)=>{
+            if(parseInt(hasPermission) <= 2 || hasSeenLocationRequest){
+                this.locationModal()
+            }else if(parseInt(hasPermission) > 2){
+                __DEV__ && console.log('have location permission, getting current location');
 
-    OSPermissions.canUseLocation((hasPermission)=>{
-      if(parseInt(hasPermission) <= 2 || hasSeenLocationRequest){
-        this.locationModal()
-      }else if(parseInt(hasPermission) > 2){
-        __DEV__ && console.log('have location permission, getting current location');
+                this.props.dispatch(ActionMan.getLocation())
+            }
+        })
 
-        this.props.dispatch(ActionMan.getLocation())
-      }
-    })
+    }
 
-  }
-
-  render(){
-    return <View/>
-  }
+    render(){
+        return <View/>
+    }
 
 }
 
 
 
 const mapStateToProps = (state, ownProps) => {
-  return {
-    ...ownProps,
-    user: state.user,
-    fbUser: state.fbUser,
-    auth: state.auth,
-    nag: state.nag,
-    loggedIn: state.auth.api_key && state.auth.user_id,
-    isNewUser: state.user.isNewUser,
-    likeCount: state.likes.likeCount
-  }
+    return {
+        ...ownProps,
+        user: state.user,
+        fbUser: state.fbUser,
+        auth: state.auth,
+        nag: state.nag,
+        loggedIn: state.auth.api_key && state.auth.user_id,
+        isNewUser: state.user.isNewUser,
+        likeCount: state.likes.likeCount
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return { dispatch };
+    return { dispatch };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NagManager);

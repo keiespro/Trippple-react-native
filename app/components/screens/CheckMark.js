@@ -30,7 +30,7 @@ var inviteText = (partnerName)=>{
                   fontSize:22,
                   textAlign:'center',
                   color:colors.white,
-                }}>To complete the registration, <Text style={{color:colors.sushi}}> {partnerName} must download Trippple</Text> and select you as their partner.</Text>
+                }}>To complete the registration, <Text style={{color:colors.sushi}}>{partnerName} must download Trippple</Text> and select you as their partner.</Text>
               </View>
           )
 }

@@ -6,7 +6,7 @@ import TimeAgo from '../../controls/Timeago';
 import colors from '../../../utils/colors';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-
+import {pure} from 'recompose'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 
 export default class NoMessages extends React.Component{

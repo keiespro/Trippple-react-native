@@ -32,7 +32,7 @@ class UserDetails extends React.Component{
       <View
        style={{zIndex:600,width:MagicNumbers.screenWidth,overflow:'hidden',marginHorizontal:MagicNumbers.screenPadding/2}}>
 
-        <ScrollableTabView tabs={['1','2']} renderTabBar={(props) => <SliderTabBar {...props}  /> }>
+        <ScrollableTabView tabs={['1','2']} renderTabBar={(props) => <SliderTabBar {...props}  />}>
           <ProfileTable
             index={0}
             profile={potential.user}
@@ -43,24 +43,18 @@ class UserDetails extends React.Component{
             profile={potential.partner}
             tabLabel={`${potential.partner.firstname}, ${potential.partner.age}`}
           />
-        </ScrollableTabView></View> :
-
-        <View style={{width:MagicNumbers.screenWidth}}>
+        </ScrollableTabView></View> : <View style={{width:MagicNumbers.screenWidth}}>
           <View style={[styles.tabs,{ marginHorizontal:MagicNumbers.screenPadding/2,marginBottom:20}]}>
             <Text style={{fontFamily:'Montserrat',fontSize:16,textAlign:'center', color:  colors.white }} >
-            {
-              `${potential.user.firstname}, ${potential.user.age}`
-            }
+            {`${potential.user.firstname}, ${potential.user.age}`}
             </Text>
           </View>
           <View style={[styles.singleTab]}>
             <ProfileTable profile={potential.user} tabLabel={'single'}/>
           </View>
         </View>
-
       }
       </View>
-
     )
   }
 }

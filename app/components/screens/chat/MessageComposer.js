@@ -12,6 +12,7 @@ import colors from '../../../utils/colors'
 import { BlurView, VibrancyView } from 'react-native-blur'
 import Analytics from '../../../utils/Analytics';
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
+import {pure} from 'recompose'
 
 
 const shouldMakeBigger = (msg) => {
@@ -20,7 +21,7 @@ const shouldMakeBigger = (msg) => {
 }
 
 
-
+@pure
 class MessageComposer extends React.Component{
 
   static defaultProps = {
@@ -101,12 +102,7 @@ class MessageComposer extends React.Component{
                 txt: event.nativeEvent.text,
                   height: giant ? 52 : Math.max(40,eh)
               });
-              // // this._textInput.setNativeProps({text: event.nativeEvent.text ,style:{height:Math.max(40,parseInt(event.nativeEvent.contentSize.height))}});
-              //   setImmediate(()=>{
-              //      this.setState({
-              //        height: Math.max(40,eh),
-              //      });
-              // })
+
 
             }}
             onContentSizeChange={(event)=>{
@@ -116,12 +112,6 @@ class MessageComposer extends React.Component{
                      height:eh,
                    });
 
-              // this._textInput.setNativeProps({height:eh});
-                // setTimeout(()=>{
-                //    this.setState({
-                //      height:eh,
-                //    });
-              // },50)
             }}
 
             >

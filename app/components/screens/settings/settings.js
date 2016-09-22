@@ -50,6 +50,7 @@ class Settings extends React.Component{
     styles: NavigationStyles.FloatVertical,
     navigationBar: {
       visible:false,
+      backgroundColor: colors.transparent,
     }
   };
 
@@ -390,12 +391,9 @@ class Settings extends React.Component{
             <Text style={{color:colors.shuttleGray,textAlign:'center',fontSize:15,fontFamily:'omnes'}}>
               V{ReactNative.NativeModules.RNDeviceInfo.appVersion}
             </Text>
-            {__DEV__ &&
-
-               <Text style={{color:colors.white,textAlign:'center',fontSize:15,fontFamily:'omnes'}}>
+            {__DEV__ && <Text style={{color:colors.white,textAlign:'center',fontSize:15,fontFamily:'omnes'}}>
               build {ReactNative.NativeModules.RNDeviceInfo.buildNumber}
-            </Text>
-            }
+            </Text> }
           </View>
 
             </View>

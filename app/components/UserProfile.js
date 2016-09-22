@@ -7,29 +7,25 @@ import Swiper from './controls/swiper';
 import UserDetails from './UserDetails';
 import XButton from './buttons/XButton';
 import colors from '../utils/colors';
-
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {MagicNumbers} from '../utils/DeviceConfig'
 import {BlurView,VibrancyView} from 'react-native-blur'
-import {
-  NavigationStyles,withNavigation
-} from '@exponent/ex-navigation';
+import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
 import {pure} from 'recompose'
-
 import dismissKeyboard from 'dismissKeyboard'
 
 
 const CardLabel = (props) => (
   <View>
     <Text
-      style={[styles.cardBottomText, {color:props.textColor}]}
-      key={`${props.potential.user.id}-names`}
+        style={[styles.cardBottomText, {color:props.textColor}]}
+        key={`${props.potential.user.id}-names`}
     >{ props.matchName }
     </Text>
     <Text
-      style={[styles.cardBottomOtherText, {color:props.textColor}]}
-      key={`${props.potential.user.id}-matchn`}
+        style={[styles.cardBottomOtherText, {color:props.textColor}]}
+        key={`${props.potential.user.id}-matchn`}
     >{
         props.city.replace(', ','') + props.seperator + (props.distance ? ` ${props.distance} ${props.distance == 1 ? 'mile' : 'miles'} away` : ``)
     }</Text>
@@ -39,229 +35,233 @@ const CardLabel = (props) => (
 @withNavigation
 class UserProfile extends React.Component{
 
-  static route = {
-    styles: NavigationStyles.FloatVertical,
-    navigationBar: {
-      visible:false
-    }
-  };
-
-  static defaultProps = {
-    cardWidth: DeviceWidth
-  };
-
-  constructor(props){
-    super()
-
-    this.state = { slideIndex: 0, }
-  }
-  componentDidMount(){
-    dismissKeyboard()
-
-  }
-
-  reportModal(){
-
-    this.props.dispatch(ActionMan.showInModal({
-      component: 'ReportModal',
-      passProps: {
-        action: 'report',
-        them: [this.props.potential.user, this.props.potential.partner],
-      }
-    }))
-
-
-  }
-
-  // onLayout(e){
-
-  //   if(!this.state.contentHeight){
-  //     const {layout} = e.nativeEvent
-  //     this.handleSize(layout.height-260)
-        
-  //   }
-  // }
-  // handleSize(contentHeight){
-  //   this.setState({contentHeight})
-
-  // }
-  render(){
-
-    const {  potential, user } = this.props,
-        distance = potential.user.distance || 0,
-        city = potential.user.city_state || '';
-
-    let matchName = potential.user.firstname.trim();
-    const rel = potential.user.relationship_status;
-    const profileVisible = true;
-
-    const isTopCard = true;
-    const names = [potential.user && potential.user.firstname ? potential.user.firstname.trim() : ''];
-
-    if (potential.partner && potential.partner.gender) {
-      names.push(potential.partner.firstname.trim());
-    }
-    const seperator = distance && city.length ? ' | ' : '';
-
-    const heights = {
-      smallest: {
-        top: -60,
-        second: -60,
-        third: -55,
-      },
-      middle: {
-        top: -65,
-        second: -55,
-        third: -50,
-      },
-      all: {
-        top: -50,
-        second: -50,
-        third: -60,
-      },
+    static route = {
+        styles: NavigationStyles.FloatVertical,
+        navigationBar: {
+            visible:false
+        }
     };
 
-    const heightTable = MagicNumbers.is4s ? heights.smallest : (MagicNumbers.is5orless ? heights.middle : heights.all);
-    const cardHeight = DeviceHeight + (isTopCard ? heightTable.top : heightTable.second);
-    const cardWidth =  DeviceWidth;
+    static defaultProps = {
+        cardWidth: DeviceWidth
+    };
 
-    if(potential.partner && potential.partner.gender) {
-      matchName += ' & ' + potential.partner.firstname.trim()
+    constructor(props){
+        super()
+
+        this.state = { slideIndex: 0, }
+    }
+    componentDidMount(){
+        dismissKeyboard()
+
     }
 
-      const hasPartner = potential.partner && potential.partner.gender;
-      const slideFrames = hasPartner && potential.partner.image_url && potential.partner.image_url != "" ? [potential.user,potential.partner] : [potential.user];
-      const tmpCardHeight = profileVisible ? cardHeight : cardHeight;
-      const slides = slideFrames.map((p,i) => {
-        let {image_url} = p;
-        if(!image_url || image_url.length == 0) image_url = null;
-        return (
+    reportModal(){
+
+        this.props.dispatch(ActionMan.showInModal({
+            component: 'ReportModal',
+            passProps: {
+                action: 'report',
+                them: [this.props.potential.user, this.props.potential.partner],
+            }
+        }))
+
+
+    }
+
+    onLayout(e){
+        const {layout} = e.nativeEvent
+
+        if(!this.state.contentHeight){
+            this.handleSize(layout.height)
+
+        }
+    }
+    handleSize(contentHeight){
+        this.setState({contentHeight})
+    }
+    render(){
+
+        const { potential, user } = this.props,
+            distance = potential.user.distance || 0,
+            city = potential.user.city_state || '';
+
+        let matchName = potential.user.firstname.trim();
+        const rel = potential.user.relationship_status;
+        const profileVisible = true;
+
+        const isTopCard = true;
+        const names = [potential.user && potential.user.firstname ? potential.user.firstname.trim() : ''];
+
+        if (potential.partner && potential.partner.gender) {
+            names.push(potential.partner.firstname.trim());
+        }
+        const seperator = distance && city.length ? ' | ' : '';
+
+        const heights = {
+            smallest: {
+                top: -60,
+                second: -60,
+                third: -55,
+            },
+            middle: {
+                top: -65,
+                second: -55,
+                third: -50,
+            },
+            all: {
+                top: -50,
+                second: -50,
+                third: -60,
+            },
+        };
+
+        const heightTable = MagicNumbers.is4s ? heights.smallest : (MagicNumbers.is5orless ? heights.middle : heights.all);
+        const cardHeight = DeviceHeight + (isTopCard ? heightTable.top : heightTable.second);
+        const cardWidth = DeviceWidth;
+
+        if(potential.partner && potential.partner.gender) {
+            matchName += ' & ' + potential.partner.firstname.trim()
+        }
+
+        const hasPartner = potential.partner && potential.partner.gender;
+        const slideFrames = hasPartner && potential.partner.image_url && potential.partner.image_url != "" ? [potential.user,potential.partner] : [potential.user];
+        const tmpCardHeight = profileVisible ? cardHeight : cardHeight;
+        const slides = slideFrames.map((p,i) => {
+            let {image_url} = p;
+            if(!image_url || image_url.length == 0) image_url = null;
+            return (
           <Image
-            source={{uri: image_url  || 'assets/defaultuser.png'  }}
-            key={`${p.id}slide${i}`}
-            resizeMode="cover"
-            style={{flex:10,  
-              alignItems:'center',
-              justifyContent:'center',
-              flexDirection:'column',
-              backgroundColor:colors.darkPurple,
-              marginLeft:profileVisible ? 0 : -40
-            }}
+              source={{uri: image_url || 'assets/defaultuser.png' }}
+              key={`${p.id}slide${i}`}
+              resizeMode="cover"
+              style={{
+                  flex:10,
+                  alignItems:'center',
+                  justifyContent:'center',
+                  flexDirection:'column',
+                  backgroundColor:colors.darkPurple,
+                  marginLeft:profileVisible ? 0 : -40
+              }}
           />
         )
-      });
-      return (
-        <View style={[{
-          flex:1,
-         
-        }]}
+        });
+        return (
+        <View
+            style={[{
+                flex:1,
+                top:30
+
+            }]}
         >
         <ParallaxSwiper
-          contentContainerStyle={[{
-            minHeight: profileVisible ? DeviceHeight : cardHeight,
-            alignItems:'center',
-            justifyContent:'center',
-            flexDirection:'column',
-            flex:1,
-          }]}
-          scrollEnabled={profileVisible ? true : false}
-          showsVerticalScrollIndicator={false}
-          style={[{
-            flex:1,
-            height:(DeviceHeight*2),
-            width:cardWidth,
-  
-          }]}
-          header={<View/>}
-          dispatch={this.props.dispatch}
-          windowHeight={10}
-          isTopCard={isTopCard}
-          killProfile={()=>{this.props.navigator.pop()}}
-          swiper={(
+            contentContainerStyle={[{
+
+                alignItems:'center',
+                justifyContent:'center',
+                flexDirection:'column',
+                flex:1,
+                marginTop:30
+
+            }]}
+            scrollEnabled={profileVisible ? true : false}
+            showsVerticalScrollIndicator={false}
+            style={[{
+                flex:1,
+                height:0,
+                width:cardWidth,
+
+
+            }]}
+            onLayout={this.onLayout.bind(this)}
+
+            header={<View/>}
+            dispatch={this.props.dispatch}
+            windowHeight={30}
+            isTopCard={isTopCard}
+            killProfile={()=>{this.props.navigator.pop()}}
+            swiper={(
               <Swiper
-              width={cardWidth }
-              pan={this.props.pan}
-              isTopCard={isTopCard}
-              profileVisible={profileVisible}
-              height={DeviceHeight }
-              dispatch={this.props.dispatch}
-              style={{flex:0,zIndex:0,backgroundColor:'transparent', }}
-              scrollEnabled={profileVisible}
-            >
+                  width={cardWidth }
+                  pan={this.props.pan}
+                  isTopCard={isTopCard}
+                  profileVisible={profileVisible}
+                  dispatch={this.props.dispatch}
+                  style={{flex:0,zIndex:0,backgroundColor:'transparent', }}
+                  scrollEnabled={profileVisible}
+              >
              {slides}
            </Swiper>
           )}
         >
        <XButton navigator={this.props.navigator}/>
           <View
-            key={'blurkey'+potential.user.id}
-           
-            style={{
-              position:'relative',
-              zIndex:100,
-              height: profileVisible ? ( DeviceHeight*1.5) : 0,
-              opacity: profileVisible ? 1 : 0,
-              overflow:'hidden',
-              flex:10,
-              bottom:0,
-              alignSelf:'flex-end',
-              top:-260,
-              overflow:'visible',
- }}
+              key={'blurkey'+potential.user.id}
+
+              style={{
+                  position:'relative',
+                  zIndex:100,
+                  height: profileVisible ? this.state.contentHeight : 0,
+                  opacity: profileVisible ? 1 : 0,
+                  overflow:'hidden',
+                  flex:10,
+                  bottom:0,
+                  alignSelf:'flex-end',
+                  top:0,
+                  overflow:'visible',
+              }}
           >
-            <VibrancyView  blurType="dark" style={{position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight}}/>
-            <View style={{ paddingVertical: 20, width: DeviceWidth,flex: 1,backgroundColor:colors.outerSpace50,
-}}>
-              <View style={{marginHorizontal:MagicNumbers.screenPadding/2,marginBottom:20}}>
-                <CardLabel
+          <View style={{ paddingVertical: 20, width: DeviceWidth,flex: 10,height:0,overflow:'hidden' }}>
+            <View style={{marginHorizontal:MagicNumbers.screenPadding/2,marginBottom:20}}>
+              <CardLabel
                   potential={potential}
                   seperator={seperator}
                   matchName={matchName}
                   city={city}
                   distance={distance}
                   textColor={colors.white}
-                />
+              />
               </View>
 
               {potential.user.bio &&
-                <Text style={{ margin: MagicNumbers.screenPadding / 2, width: MagicNumbers.screenWidth }}>
+                <View style={{ margin: MagicNumbers.screenPadding / 2, width: MagicNumbers.screenWidth,flexDirection:'column'}}>
                   <Text style={[styles.cardBottomOtherText, { color: colors.white, marginBottom: 15, marginLeft: 0 }]}>{
-                      !hasPartner ? `About Me` : `About Us`
+                      !hasPartner ? `Looking For` : `Looking For`
                   }</Text>
                   <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
                       potential.user.bio
                   }</Text>
-                </Text>
+                </View>
               }
 
               {potential.partner && potential.partner.bio &&
-                <Text style={{ margin: MagicNumbers.screenPadding / 2, width: MagicNumbers.screenWidth }}>
+                <View style={{ margin: MagicNumbers.screenPadding / 2, width: MagicNumbers.screenWidth,flexDirection:'column'}}>
                   <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
                       potential.partner.bio
                   }</Text>
-                </Text>
+                </View>
               }
 
               <UserDetails
-                potential={potential}
-                user={this.props.user}
-                location={'card'}
+                  potential={potential}
+                  user={this.props.user}
+                  location={'card'}
               />
 
-              <TouchableOpacity onPress={this.props.reportModal}>
+              <TouchableOpacity onPress={this.reportModal.bind(this)}>
                 <View style={{ marginTop: 20, paddingBottom: 50 }}>
                   <Text style={{ color: colors.mandy, textAlign: 'center' }}>Report or Block this user</Text>
                 </View>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={{ height: 50, alignItems: 'center', width: 50, justifyContent: 'center',flex:0,alignSelf:'center' }}
-                onPress={this.props.closeProfile}
+                  style={{ height: 50, alignItems: 'center', width: 50, justifyContent: 'center',flex:0,alignSelf:'center' }}
+                  onPress={this.props.closeProfile}
               >
                 <Image
-                  resizeMode={Image.resizeMode.contain}
-                  style={{ height: 12, width: 12, marginTop: 10 }}
-                  source={{ uri: 'assets/close@3x.png' }}
+                    resizeMode={Image.resizeMode.contain}
+                    style={{ height: 12, width: 12, marginTop: 10 }}
+                    source={{ uri: 'assets/close@3x.png' }}
                 />
               </TouchableOpacity>
             </View>
@@ -269,30 +269,29 @@ class UserProfile extends React.Component{
           </View>
 
           <TouchableHighlight
-            style={{width:cardWidth,
+              style={{width:cardWidth,
               position:'relative',
               height: profileVisible ? 0 : 100,
               opacity:profileVisible ? 0 : 1,
               width:DeviceWidth,
               alignSelf:'flex-end',zIndex:1000,flex:-1,position:'absolute',bottom:60
             }}
-            underlayColor={colors.mediumPurple20}
-            onPress={this.props.openProfileFromImage}
+              underlayColor={colors.mediumPurple20}
+              onPress={this.props.openProfileFromImage}
           >
             <View style={{width:cardWidth,height:100,flex:1}}>
             <VibrancyView style={{flex:10,width:cardWidth,height:100,position:'absolute',left:0,zIndex:0}}
-                  blurType="xlight"
-                />
+                blurType="xlight"
+            />
 
-              <View key={'blurkey'+potential.user.id} style={{backgroundColor:colors.white20,width:cardWidth,height:100,position:'absolute',left:0,padding:20}}
-              >
+              <View key={'blurkey'+potential.user.id} style={{backgroundColor:colors.white20,width:cardWidth,height:100,position:'absolute',left:0,padding:20}}>
                 <CardLabel
-                  potential={potential}
-                  seperator={seperator}
-                  matchName={matchName}
-                  city={city}
-                  distance={distance}
-                  textColor={colors.shuttleGray}
+                    potential={potential}
+                    seperator={seperator}
+                    matchName={matchName}
+                    city={city}
+                    distance={distance}
+                    textColor={colors.shuttleGray}
                 />
               </View>
             </View>
@@ -300,12 +299,12 @@ class UserProfile extends React.Component{
         </ParallaxSwiper>
       </View>
     )
-  }
+    }
 }
 export default UserProfile
 
 class CustomTabBar extends React.Component{
-  static propTypes: {
+    static propTypes: {
     goToPage: React.PropTypes.func,
     activeTab: React.PropTypes.object,
     tabs: React.PropTypes.array,
@@ -313,317 +312,317 @@ class CustomTabBar extends React.Component{
 
   };
 
-  renderTabOption(name, page) {
-    const isTabActive = this.props.pageNumber === page;
-    return (
+    renderTabOption(name, page) {
+        const isTabActive = this.props.pageNumber === page;
+        return (
       <TouchableOpacity key={name+page+' '+isTabActive} onPress={() => this.props.goToPage(page)}>
         <View style={[styles.tab]}>
           <Text style={{ fontFamily:'Montserrat',fontSize:16, color: isTabActive ? colors.white : colors.shuttleGray}}>{name.toUpperCase()}</Text>
         </View>
       </TouchableOpacity>
     );
-  }
+    }
 
 
 
-  render() {
-    const numberOfTabs = this.props.tabs.length;
-    const w = MagicNumbers.screenWidth / numberOfTabs;
+    render() {
+        const numberOfTabs = this.props.tabs.length;
+        const w = MagicNumbers.screenWidth / numberOfTabs;
 
-    const tabUnderlineStyle = {
-      position: 'absolute',
-      width: MagicNumbers.screenWidth / 2,
-      height: 2,
-      backgroundColor: colors.mediumPurple,
-      bottom: 0,
-      left:0,
-      transform:[
+        const tabUnderlineStyle = {
+            position: 'absolute',
+            width: MagicNumbers.screenWidth / 2,
+            height: 2,
+            backgroundColor: colors.mediumPurple,
+            bottom: 0,
+            left:0,
+            transform:[
         {translateX: this.props.activeTab ? this.props.activeTab.interpolate({
-                inputRange: this.props.tabs.map((c,i) => (w * i) ),
-                outputRange: [0,w]
-              }) : 0
+            inputRange: this.props.tabs.map((c,i) => (w * i) ),
+            outputRange: [0,w]
+        }) : 0
             }]
-    };
+        };
 
-    return (
+        return (
       <View style={[styles.tabs,{marginHorizontal:MagicNumbers.screenPadding/2}]}>
         {this.props.tabs.map((tab, i) => this.renderTabOption(tab, i))}
         <Animated.View style={tabUnderlineStyle} ref={'TAB_UNDERLINE_REF'} />
       </View>
     );
-  }
+    }
 }
 
 
 const styles = StyleSheet.create({
 
-shadowCard:{
-  shadowColor:colors.darkShadow,
-  shadowRadius:5,
-  shadowOpacity:50,
-  shadowOffset: {
-    width:0,
-    height: 5
-  }
-},
-tab: {
-  flex: 1,
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: 0,
-  width:DeviceWidth,
+    shadowCard:{
+        shadowColor:colors.darkShadow,
+        shadowRadius:5,
+        shadowOpacity:50,
+        shadowOffset: {
+            width:0,
+            height: 5
+        }
+    },
+    tab: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 0,
+        width:DeviceWidth,
 
-},
-singleTab:{
-  flex: 1,
-  alignItems: 'center',
-  justifyContent: 'center',
-  marginHorizontal: MagicNumbers.screenPadding/2,
-  width:MagicNumbers.screenWidth,
+    },
+    singleTab:{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginHorizontal: MagicNumbers.screenPadding/2,
+        width:MagicNumbers.screenWidth,
 
-},
-tabs: {
-  height: 60,
-  flexDirection: 'row',
-  marginTop: 0,
-  borderWidth: 1,
-  width:DeviceWidth,
-  flex:1,
-  marginHorizontal:0,
-  borderTopWidth: 1,
-  borderLeftWidth: 0,
-  borderRightWidth: 0,
-  borderBottomWidth:1,
-  overflow:'hidden',
-  justifyContent:'center',
-  alignItems:'center',
-  borderColor: colors.shuttleGray,
-},
-animatedIcon:{
-  height:60,
-  width:60,
-  borderRadius:30,
-  alignItems:'center',
-  justifyContent:'center',
-  top:DeviceHeight/2 - 80,
-  left:DeviceWidth/2 - 50,
-  position:'absolute',
+    },
+    tabs: {
+        height: 60,
+        flexDirection: 'row',
+        marginTop: 0,
+        borderWidth: 1,
+        width:DeviceWidth,
+        flex:1,
+        marginHorizontal:0,
+        borderTopWidth: 1,
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
+        borderBottomWidth:1,
+        overflow:'hidden',
+        justifyContent:'center',
+        alignItems:'center',
+        borderColor: colors.shuttleGray,
+    },
+    animatedIcon:{
+        height:60,
+        width:60,
+        borderRadius:30,
+        alignItems:'center',
+        justifyContent:'center',
+        top:DeviceHeight/2 - 80,
+        left:DeviceWidth/2 - 50,
+        position:'absolute',
   // shadowColor:colors.darkShadow,
-  backgroundColor:'transparent',
+        backgroundColor:'transparent',
   // shadowRadius:5,
   // shadowOpacity:50,
-  overflow:'hidden',
+        overflow:'hidden',
   // shadowOffset: {
   //   width:0,
   //   height: 5
   // }
-},
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    overflow:'hidden',
-    top:50
-  },
-  absoluteText:{
-    position:'absolute',
-    color:'#ffffff',
-    backgroundColor:'transparent',
-    fontSize:20
-  },
-  absoluteTextTop:{
-    top:0
-  },
-  absoluteTextBottom:{
-    bottom:0
-  },
-  basicCard:{
-    borderRadius:6,
-    backgroundColor: 'transparent',
-      borderWidth: 1 / PixelRatio.get(),
-      borderColor:'rgba(0,0,0,.2)',
-      overflow:'hidden',
+    },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        overflow:'hidden',
+        top:50
+    },
+    absoluteText:{
+        position:'absolute',
+        color:'#ffffff',
+        backgroundColor:'transparent',
+        fontSize:20
+    },
+    absoluteTextTop:{
+        top:0
+    },
+    absoluteTextBottom:{
+        bottom:0
+    },
+    basicCard:{
+        borderRadius:6,
+        backgroundColor: 'transparent',
+        borderWidth: 1 / PixelRatio.get(),
+        borderColor:'rgba(0,0,0,.2)',
+        overflow:'hidden',
 
     },
     bottomButtons: {
-      height: 80,
-      alignItems: 'center',
-      flexDirection: 'row',
-      top:-40,
-      justifyContent:'space-around',
-      alignSelf:'stretch',
-      width: undefined
+        height: 80,
+        alignItems: 'center',
+        flexDirection: 'row',
+        top:-40,
+        justifyContent:'space-around',
+        alignSelf:'stretch',
+        width: undefined
     },
     topButton: {
-      height: 80,
-      flex:1,
-      flexDirection: 'row',
-      backgroundColor: 'transparent',
-      borderColor: colors.white,
-      borderWidth: 0,
-      borderRadius: 0,
-      marginBottom: 0,
-      marginTop: 0,
-      alignSelf: 'stretch',
-      alignItems:'center',
-      justifyContent: 'center'
+        height: 80,
+        flex:1,
+        flexDirection: 'row',
+        backgroundColor: 'transparent',
+        borderColor: colors.white,
+        borderWidth: 0,
+        borderRadius: 0,
+        marginBottom: 0,
+        marginTop: 0,
+        alignSelf: 'stretch',
+        alignItems:'center',
+        justifyContent: 'center'
     },
-  card: {
-    borderRadius:6,
-    backgroundColor: 'transparent',
-    alignSelf: 'stretch',
-    flex: 1,
-    borderWidth: 0,
-    borderColor:'rgba(0,0,0,.2)',
-    overflow:'hidden'
+    card: {
+        borderRadius:6,
+        backgroundColor: 'transparent',
+        alignSelf: 'stretch',
+        flex: 1,
+        borderWidth: 0,
+        borderColor:'rgba(0,0,0,.2)',
+        overflow:'hidden'
 
-  },
+    },
 
-  closeProfile:{
-    position:'absolute',
-    top:10,
-    left:5,
-    width: 50,
+    closeProfile:{
+        position:'absolute',
+        top:10,
+        left:5,
+        width: 50,
 
-    backgroundColor:'transparent',
+        backgroundColor:'transparent',
 
-    height: 50,
-    alignSelf:'center',
+        height: 50,
+        alignSelf:'center',
 
-    overflow:'hidden',
+        overflow:'hidden',
 
-    justifyContent:'center',
-    alignItems:'center',
-    padding:20,
-    borderRadius:25
-  },
-  dashedBorderImage:{
-    marginHorizontal:0,
-    marginTop:65,
-    marginBottom:20,
-    padding:0,
-    width:DeviceWidth,
-    height:DeviceHeight-100,
-    flex:1,
-    alignSelf:'stretch',
-    alignItems:'center',
-    justifyContent:'center'
-  },
-  imagebg:{
-    flex: 1,
-    alignSelf:'stretch',
-     padding:0,
-    alignItems:'stretch',
-    flexDirection:'column',
-    width:DeviceWidth,
-    height:DeviceHeight,
+        justifyContent:'center',
+        alignItems:'center',
+        padding:20,
+        borderRadius:25
+    },
+    dashedBorderImage:{
+        marginHorizontal:0,
+        marginTop:65,
+        marginBottom:20,
+        padding:0,
+        width:DeviceWidth,
+        height:DeviceHeight-100,
+        flex:1,
+        alignSelf:'stretch',
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    imagebg:{
+        flex: 1,
+        alignSelf:'stretch',
+        padding:0,
+        alignItems:'stretch',
+        flexDirection:'column',
+        width:DeviceWidth,
+        height:DeviceHeight,
 
-  },
+    },
 
-  dot: {
-    backgroundColor: 'transparent',
-    width: 15,
-    height: 15,
-    borderRadius: 7.5,
-    marginLeft: 6,
-    marginRight: 6,
-    marginTop: 6,
-    marginBottom: 6,
-    borderWidth: 2,
+    dot: {
+        backgroundColor: 'transparent',
+        width: 15,
+        height: 15,
+        borderRadius: 7.5,
+        marginLeft: 6,
+        marginRight: 6,
+        marginTop: 6,
+        marginBottom: 6,
+        borderWidth: 2,
 
-    borderColor: colors.white
-  },
-  activeDot: {
-    backgroundColor: colors.mediumPurple20,
-    width: 15,
-    height: 15,
-    borderRadius: 7.5,
-    marginLeft: 6,
-    marginRight: 6,
-    marginTop: 6,
-    marginBottom: 6,
-    borderWidth: 2,
-    borderColor: colors.mediumPurple
-  },
-  wrapper:{
+        borderColor: colors.white
+    },
+    activeDot: {
+        backgroundColor: colors.mediumPurple20,
+        width: 15,
+        height: 15,
+        borderRadius: 7.5,
+        marginLeft: 6,
+        marginRight: 6,
+        marginTop: 6,
+        marginBottom: 6,
+        borderWidth: 2,
+        borderColor: colors.mediumPurple
+    },
+    wrapper:{
 
-  },
-  scrollSection:{
-    alignSelf: 'stretch',
-    flex: 1,
-    justifyContent: 'center',
-    padding:0,
-    margin:0,
-    alignItems: 'center',
-    flexDirection: 'column'
-  },
-  circleimage:{
-    backgroundColor: colors.shuttleGray,
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    borderColor:colors.white,
-    borderWidth: 3
-  },
-  cardStackContainer:{
-    width:DeviceWidth,
-    height:DeviceHeight,
-    flex:1,
-    alignItems:'center',
-    justifyContent:'center',
-    alignSelf:'stretch',
-    backgroundColor:'transparent'
-  },
+    },
+    scrollSection:{
+        alignSelf: 'stretch',
+        flex: 1,
+        justifyContent: 'center',
+        padding:0,
+        margin:0,
+        alignItems: 'center',
+        flexDirection: 'column'
+    },
+    circleimage:{
+        backgroundColor: colors.shuttleGray,
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        borderColor:colors.white,
+        borderWidth: 3
+    },
+    cardStackContainer:{
+        width:DeviceWidth,
+        height:DeviceHeight,
+        flex:1,
+        alignItems:'center',
+        justifyContent:'center',
+        alignSelf:'stretch',
+        backgroundColor:'transparent'
+    },
 
-  cardBottomText:{
-    marginLeft:0,
-    fontFamily:'Montserrat-Bold',
-    color: colors.shuttleGray,
-    fontSize:18,
-    marginTop:0
-  },
-  cardBottomOtherText:{
-    marginLeft:20,
-    fontFamily:'omnes',
-    color: colors.rollingStone,
-    fontSize:16,
-    marginTop:0,
-    opacity:0.5
-  }
+    cardBottomText:{
+        marginLeft:0,
+        fontFamily:'Montserrat-Bold',
+        color: colors.shuttleGray,
+        fontSize:18,
+        marginTop:0
+    },
+    cardBottomOtherText:{
+        marginLeft:20,
+        fontFamily:'omnes',
+        color: colors.rollingStone,
+        fontSize:16,
+        marginTop:0,
+        opacity:0.5
+    }
 });
 
-var animations = {
-  layout: {
-    spring: {
-      duration: 250,
-      create: {
-        duration: 250,
-        property: LayoutAnimation.Properties.scaleXY,
-        type: LayoutAnimation.Types.easeInEaseOut,
-        springDamping: 0,
-      },
-      update: {
-        duration: 250,
-        type: LayoutAnimation.Types.easeInEaseOut,
-        springDamping: 0,
-        property: LayoutAnimation.Properties.scaleXY
-      }
-    },
-    easeInEaseOut: {
-      duration: 300,
-      create: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.scaleXY
+let animations = {
+    layout: {
+        spring: {
+            duration: 250,
+            create: {
+                duration: 250,
+                property: LayoutAnimation.Properties.scaleXY,
+                type: LayoutAnimation.Types.easeInEaseOut,
+                springDamping: 0,
+            },
+            update: {
+                duration: 250,
+                type: LayoutAnimation.Types.easeInEaseOut,
+                springDamping: 0,
+                property: LayoutAnimation.Properties.scaleXY
+            }
+        },
+        easeInEaseOut: {
+            duration: 300,
+            create: {
+                type: LayoutAnimation.Types.easeInEaseOut,
+                property: LayoutAnimation.Properties.scaleXY
 
-      },
-      update: {
+            },
+            update: {
 
-        duration: 2000,
+                duration: 2000,
         // property: LayoutAnimation.Properties.scaleXY,
-        type: LayoutAnimation.Types.easeInEaseOut,
+                type: LayoutAnimation.Types.easeInEaseOut,
 
-      }
+            }
+        }
     }
-  }
 }

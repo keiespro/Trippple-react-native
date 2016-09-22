@@ -2,7 +2,7 @@
 export default function matchesReducer(state = initialState, action) {
 
 
-  switch (action.type) {
+    switch (action.type) {
     case 'ONBOARD_FULFILLED':
     case 'VERIFY_COUPLE_PIN_FULFILLED':
     case 'HANDLE_NOTIFICATION_COUPLE_READY':
@@ -11,9 +11,9 @@ export default function matchesReducer(state = initialState, action) {
         return initialState;
 
     case 'REMOVE_MATCH':
-    
+
         return {...state, [action.payload.matchID]: null }
-    
+
     case 'UN_MATCH_PENDING':
         const newState = state;
         const matchId = action.meta[0];
@@ -27,16 +27,16 @@ export default function matchesReducer(state = initialState, action) {
         if ( !matches ) return state;
 
         const matchesHash = matches.reduce( ( acc, el, i ) => {
-          acc[ el.match_id ] = el;
-          acc.lastRead = Date.now()
-          return acc
+            acc[ el.match_id ] = el;
+            acc.lastRead = Date.now()
+            return acc
         }, {})
         return {...state, ...matchesHash}
 
-      default:
+    default:
 
         return state;
-  }
+    }
 }
 
 

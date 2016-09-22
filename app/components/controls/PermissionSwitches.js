@@ -21,145 +21,143 @@ const DeviceWidth = Dimensions.get('window').width
 const {OSPermissions} = NativeModules
 
 function parseNotificationPermissions(nPermissions){
-  return Object.keys(nPermissions).reduce((acc,el,i) => {
-    acc = acc + nPermissions[el];
-    return acc
-  },0);
+    return Object.keys(nPermissions).reduce((acc,el,i) => {
+        acc = acc + nPermissions[el];
+        return acc
+    },0);
 }
 
 class PermissionSwitches extends React.Component{
-  constructor(props){
-    super()
-    this.state = {
+    constructor(props){
+        super()
+        this.state = { }
     }
-  }
-  componentDidMount(){
+    componentDidMount(){
 
-    PushNotificationIOS.checkPermissions( permissions => {
-      const permResult = parseNotificationPermissions(permissions);
-      this.setState({
-        NotificationSetting: permResult,
-      })
+        PushNotificationIOS.checkPermissions( permissions => {
+            const permResult = parseNotificationPermissions(permissions);
+            this.setState({
+                NotificationSetting: permResult,
+            })
 
-
-      OSPermissions.canUseLocation(OSLocation => {
-        this.setState({
-          LocationSetting: parseInt(OSLocation) > 2,
+            OSPermissions.canUseLocation(OSLocation => {
+                this.setState({
+                    LocationSetting: parseInt(OSLocation) > 2,
+                })
+            })
         })
-      })
-    })
-  }
-  toggleLocation(){
-    const {LocationSetting} = this.state;
-
-    Analytics.event('Interaction',{
-      name: `Toggle location permission`,
-      type: 'tap',
-    })
-    
-    if(!LocationSetting ){
-
-      OSPermissions.canUseLocation(OSLocation => {
-        const perm = parseInt(OSLocation) > 2;
-        if(perm){
-            this.setState({LocationSetting:true})
-        }else{
-          this.props.dispatch(ActionMan.showInModal({
-            component:'LocationPermission',
-            name:'LocationPermissionModal',
-            passProps:{
-              title:'PRIORITIZE LOCAL',
-              subtitle:'Should we prioritize the matches closest to you?',
-              failedTitle: 'LOCATION DISABLED',
-              failCallback: val => {
-                this.setState({LocationSetting:false})
-                this.props.dispatch(ActionMan.killModal())
-              },
-              successCallback: (coords)=>{
-                this.setState({LocationSetting:true})
-                this.props.dispatch(ActionMan.killModal())
-              },
-              failedSubtitle: 'Geolocation is disabled. You can enable it in your phone’s Settings.',
-              headerImageSource:'iconDeck',
-            }
-          })
-
-        )}
-      })
-    }else{
-      const newValue = !this.state.LocationSetting;
-      this.setState({ LocationSetting: newValue })
     }
-  }
-  toggleNotification(){
-    const {NotificationSetting} = this.state
-    if(!NotificationSetting ){
+    toggleLocation(){
+        const {LocationSetting} = this.state;
 
-      PushNotificationIOS.checkPermissions( permissions => {
-        const permResult = parseNotificationPermissions(permissions);
+        Analytics.event('Interaction',{
+            name: `Toggle location permission`,
+            type: 'tap',
+        })
 
-        if(!permResult){
-          this.props.dispatch(ActionMan.showInModal({
-            component:'NotificationPermissions',
-            passProps:{
-              failCallback: (val)=>{
-                this.props.dispatch(ActionMan.killModal())
-                this.setState({ NotificationSetting: false})
-              },
-              successCallback: val => {
-                this.props.dispatch(ActionMan.killModal())
-                this.setState({ NotificationSetting: true})
-              }
-            }
-          }))
+        if(!LocationSetting ){
+
+            OSPermissions.canUseLocation(OSLocation => {
+                const perm = parseInt(OSLocation) > 2;
+
+                if(perm){
+                    this.setState({LocationSetting:true})
+                }else{
+                    this.props.dispatch(ActionMan.showInModal({
+                        component:'LocationPermission',
+                        name:'LocationPermissionModal',
+                        passProps:{
+                            title:'PRIORITIZE LOCAL',
+                            subtitle:'Should we prioritize the matches closest to you?',
+                            failedTitle: 'LOCATION DISABLED',
+                            failCallback: val => {
+                                this.setState({LocationSetting:false})
+                                this.props.dispatch(ActionMan.killModal())
+                            },
+                            successCallback: (coords)=>{
+                                this.setState({LocationSetting:true})
+                                this.props.dispatch(ActionMan.killModal())
+                            },
+                            failedSubtitle: 'Geolocation is disabled. You can enable it in your phone’s Settings.',
+                            headerImageSource:'iconDeck',
+                        }
+                    })
+                )}
+            })
         }else{
-          const newValue = !this.state.NotificationSetting;
-          this.setState({ NotificationSetting: newValue});
-          // this.props.dispatch(ActionMan.requestNotificationsPermission())
+            const newValue = !this.state.LocationSetting;
+            this.setState({ LocationSetting: newValue })
         }
-      })
-
-    }else{
-      this.setState({ NotificationSetting: false,OSNotifications:false })
     }
-  }
+    toggleNotification(){
+        const {NotificationSetting} = this.state
+        if(!NotificationSetting ){
 
-  render(){
-    return (
-      <View style={{paddingBottom:30}}>
-        <View style={[styles.paddedSpace,{marginBottom:15}]}>
-          <View style={styles.formHeader}>
-            <Text style={styles.formHeaderText}>{`Location`}</Text>
-          </View>
-          <View style={[styles.insideSelectable,styles.formRow,{borderBottomWidth:0}]}>
-            <Text style={{color: colors.white, fontSize:18}}>Prioritize Users Near Me</Text>
-            <SwitchIOS
-              onValueChange={this.toggleLocation.bind(this)}
-              value={this.state.LocationSetting > 0 ? true : false}
-              onTintColor={colors.dark}
-              thumbTintColor={this.state.LocationSetting ? colors.mediumPurple : colors.shuttleGray}
-              tintColor={colors.dark}
-            />
-          </View>
-        </View>
-        <View style={[styles.paddedSpace,{marginBottom:15}]}>
-          <View style={styles.formHeader}>
-            <Text style={styles.formHeaderText}>{`Notifications`}</Text>
-          </View>
-          <View style={[styles.insideSelectable,styles.formRow,{borderBottomWidth:0}]}>
-            <Text style={{color:  colors.white, fontSize:18}}>Get notifications</Text>
-            <SwitchIOS
-              onValueChange={this.toggleNotification.bind(this)}
-              value={this.state.NotificationSetting ? true : false}
-              onTintColor={colors.dark}
-              thumbTintColor={this.state.NotificationSetting ? colors.mediumPurple : colors.shuttleGray}
-              tintColor={colors.dark}
-            />
-          </View>
-        </View>
-      </View>
-    )
-  }
+            PushNotificationIOS.checkPermissions( permissions => {
+                const permResult = parseNotificationPermissions(permissions);
+
+                if(!permResult){
+                    this.props.dispatch(ActionMan.showInModal({
+                        component:'NotificationPermissions',
+                        passProps:{
+                            failCallback: (val)=>{
+                                this.props.dispatch(ActionMan.killModal())
+                                this.setState({ NotificationSetting: false})
+                            },
+                            successCallback: val => {
+                                this.props.dispatch(ActionMan.killModal())
+                                this.setState({ NotificationSetting: true})
+                            }
+                        }
+                    }))
+                }else{
+                    const newValue = !this.state.NotificationSetting;
+                    this.setState({ NotificationSetting: newValue});
+          // this.props.dispatch(ActionMan.requestNotificationsPermission())
+                }
+            })
+
+        }else{
+            this.setState({ NotificationSetting: false,OSNotifications:false })
+        }
+    }
+
+    render(){
+        return (
+            <View style={{paddingBottom:30}}>
+                <View style={[styles.paddedSpace,{marginBottom:15}]}>
+                    <View style={styles.formHeader}>
+                        <Text style={styles.formHeaderText}>{`Location`}</Text>
+                    </View>
+                    <View style={[styles.insideSelectable,styles.formRow,{borderBottomWidth:0}]}>
+                        <Text style={{color: colors.white, fontSize:18}}>Prioritize Users Near Me</Text>
+                        <SwitchIOS
+                            onValueChange={this.toggleLocation.bind(this)}
+                            value={this.state.LocationSetting > 0 ? true : false}
+                            onTintColor={colors.dark}
+                            thumbTintColor={this.state.LocationSetting ? colors.mediumPurple : colors.shuttleGray}
+                            tintColor={colors.dark}
+                        />
+                    </View>
+                </View>
+                <View style={[styles.paddedSpace,{marginBottom:15}]}>
+                    <View style={styles.formHeader}>
+                        <Text style={styles.formHeaderText}>{`Notifications`}</Text>
+                    </View>
+                    <View style={[styles.insideSelectable,styles.formRow,{borderBottomWidth:0}]}>
+                        <Text style={{color:  colors.white, fontSize:18}}>Get notifications</Text>
+                        <SwitchIOS
+                            onValueChange={this.toggleNotification.bind(this)}
+                            value={this.state.NotificationSetting ? true : false}
+                            onTintColor={colors.dark}
+                            thumbTintColor={this.state.NotificationSetting ? colors.mediumPurple : colors.shuttleGray}
+                            tintColor={colors.dark}
+                        />
+                    </View>
+                </View>
+            </View>
+        )
+    }
 }
 
 export default PermissionSwitches

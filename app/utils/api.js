@@ -62,7 +62,7 @@ async function baseRequest(endpoint='', payload={}, resource='user'){
     if(res.status == 401){
       console.log('401');
     }
-    throw ('401')
+    // throw ('401')
   }
 }
 

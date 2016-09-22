@@ -14,58 +14,59 @@ import {
 
 
 const logger = createLogger({
-  diff: true,
-  level: 'log',
-  collapsed: (s,action) => (!global.__DEBUG__ || action.type.indexOf('PENDING') > -1)
+    diff: true,
+    level: 'debug',
+    collapsed: (s,action) => (!global.__DEBUG__ || action.type.indexOf('PENDING') > -1)
 });
 
 const middlewares = [
-  thunk, 
-  promiseMiddleware(), 
-  createActionBuffer('EX_NAVIGATION.INITIALIZE'), 
-  throttleActions(['EX_NAVIGATION.BATCH'], 500)
+    thunk,
+    promiseMiddleware(),
+    throttleActions(["EX_NAVIGATION.PUSH",], 500),
+    throttleActions(["REQUEST_POTENTIALS_MANUALLY",], 54000),
+    createActionBuffer('EX_NAVIGATION.INITIALIZE'),
 ]
 
 function configureStore(initialState = ({})) {
-  if (__DEV__) {
+    if (__DEV__) {
 
 
-    const store = createNavigationEnabledStore(createStore)(
+        const store = createNavigationEnabledStore(createStore)(
+          createReducer(),
+          initialState,
+          compose(
+            applyMiddleware(...middlewares, logger, ),
+            autoRehydrate(),
+            global.reduxNativeDevTools ? global.reduxNativeDevTools(/*options*/) : devTools()
+          )
+        );
+        global.reduxNativeDevTools && global.reduxNativeDevTools.updateStore(store);
+
+        persistStore(store, {storage: AsyncStorage,blacklist:['navigation','ui','potentials','appNav']}).purge(['navigation'])
+
+        if (module.hot) {
+            module.hot.accept(() => {
+                const nextRootReducer = require('./reducers/').default;
+                store.replaceReducer(nextRootReducer());
+            });
+        }
+
+        return store
+
+    } else {
+
+        const store = createNavigationEnabledStore(createStore)(
       createReducer(),
       initialState,
       compose(
-        autoRehydrate(),
-        applyMiddleware(...middlewares, logger, ),
-        global.reduxNativeDevTools ? global.reduxNativeDevTools(/*options*/) : devTools()
-      )
-    );
-    global.reduxNativeDevTools && global.reduxNativeDevTools.updateStore(store);
-
-    persistStore(store, {storage: AsyncStorage,blacklist:['navigation','ui','potentials']}).purge(['navigation'])
-
-    if (module.hot) {
-      module.hot.accept(() => {
-        const nextRootReducer = require('./reducers/').default;
-        store.replaceReducer(nextRootReducer());
-      });
-    }
-
-    return store
-
-  } else {
-
-    const store = createNavigationEnabledStore(createStore)(
-      createReducer(),
-      initialState,
-      compose(
-        autoRehydrate(),
         applyMiddleware(...middlewares),
+        autoRehydrate(),
       )
     );
-    persistStore(store, {storage: AsyncStorage, blacklist:['navigation','ui','potentials']})
-    return store
+        persistStore(store, {storage: AsyncStorage, blacklist:['navigation','ui','potentials','appNav']})
+        return store
 
-  }
+    }
 }
 
 module.exports = configureStore;

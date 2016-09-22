@@ -9,8 +9,6 @@ import Notifications from '../utils/Notifications';
 import LoadingOverlay from './LoadingOverlay'
 import colors from '../utils/colors'
 import ActionMan from '../actions/';
-import ChatOverlay from '../ChatOverlay';
-
 import NagManager from '../NagManager'
 import DeepLinkHandler from '../utils/DeepLinkHandler'
 import { connect } from 'react-redux';
@@ -33,7 +31,6 @@ class App extends React.Component{
   performInitActions(){
 
     const initActions = [
-      // 'getPushToken',
       'getNotificationCount',
       'getUserInfo',
       'getPotentials',
@@ -54,20 +51,14 @@ class App extends React.Component{
 
   componentWillReceiveProps(nProps){
 
-    if(!this.state.initialized && !this.props.loggedIn && nProps.loggedIn){
+    if(!this.state.initialized && nProps.loggedIn){
       this.setState({initialized:true})
 
       this.performInitActions()
     }
-    if(this.props.appState != 'active' && nProps.appState == 'active'){
+    if(this.state.initialized && nProps.loggedIn && this.props.appState != 'active' && nProps.appState == 'active'){
       this.performInitActions()
     }
-      
-    //
-    // if(!this.props.nag.sawStarterPotentials && this.state.initialized && !this.state.got_starter_pack && this.props.user.relationship_status){
-    //   this.props.dispatch({type: 'GET_STARTER_POTENTIALS', payload: {relationshipStatus: this.props.user.relationship_status }})
-    //   this.setState({got_starter_pack:true})
-    // }
 
   }
 
@@ -76,30 +67,26 @@ class App extends React.Component{
     return (
       <View style={{}}>
 
-        <StatusBar animated={true} barStyle="default" />
+          <StatusBar animated={true} barStyle="default" />
 
-        <ConnectionInfo dispatch={this.props.dispatch}/>
+          <ConnectionInfo dispatch={this.props.dispatch}/>
 
-        <AppState dispatch={this.props.dispatch}/>
+          <AppState dispatch={this.props.dispatch}/>
 
-        {this.props.nag && <NagManager/>}
+          {this.props.nag && <NagManager/>}
 
-        <DeepLinkHandler />
+          <DeepLinkHandler />
 
-        { this.props.loggedIn ?  <AppNav/> : <Welcome dispatch={this.props.dispatch}/> }
+          { this.props.loggedIn ? <AppNav/> : <Welcome dispatch={this.props.dispatch}/> }
 
-        <ModalDirector />
+          <ModalDirector />
 
-        <Notifications dispatch={this.props.dispatch} />
+          <Notifications />
 
-        {/* {this.props.ui.chat && <ChatOverlay dispatch={this.props.dispatch} navigationState={{routes:[{route:{}}],index:0}} scene={{index:1}} layout={{width:DeviceWidth,height:DeviceHeight}} matchInfo={this.props.ui.matchInfo} match_id={this.props.ui.chat.match_id} />} */}
       </View>
     )
   }
 }
-
-
-// reactMixin(App.prototype, TimerMixin);
 
 const mapStateToProps = (state, ownProps) => {
 
@@ -121,4 +108,4 @@ const mapDispatchToProps = (dispatch) => {
   return { dispatch };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(pure(App));
+export default connect(mapStateToProps, mapDispatchToProps)((App));

@@ -2,6 +2,9 @@ import React, {Component,Children} from "react";
 import {StyleSheet, Text, View, Easing, Animated} from "react-native";
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
+
+
+@reactMixin.decorate(TimerMixin)
 class FadeInContainer extends Component{
   static defaultProps = {
     delayAmount: 0,
@@ -12,12 +15,12 @@ class FadeInContainer extends Component{
   constructor(props){
     super()
     this.state = {
-      shouldRenderChildren: true,// !props.delayRender,
+      shouldRenderChildren: true,
       fadeAmount: new Animated.Value(props.fadeOut ? 1.0 : 0.0)
     }
   }
   componentDidMount(){
-    // console.log(this.props)
+    console.log(this.props)
     this.fadeIn()
   }
   componentWillReceiveProps(nProps){
@@ -36,31 +39,27 @@ class FadeInContainer extends Component{
         toValue: this.props.fadeOut ? 0.0 : 1.0,
         duration: this.props.duration || 500,
         delay: this.props.delayAmount || 0,
-        // easing: Easing.in(Easing.ease)
+        easing: Easing.in(Easing.ease)
       }
     ).start( () => {
+    console.log(this.props.didShow)
       this.props.didShow && this.props.didShow()
     })
 
   }
   render(){
       return (
-
-
-      <Animated.View style={{flex:1,opacity:this.state.fadeAmount,...this.props.style,alignSelf:'stretch'}}>
+      <Animated.View style={[{flex:1,opacity:this.state.fadeAmount,alignSelf:'stretch'},this.props.style]}>
         {this.state.shouldRenderChildren ? React.Children.map(this.props.children, (child) =>{
-            return (
-            React.cloneElement(child, {...this.props})
-            )
-          })  : <View/>}
-        </Animated.View>
-      )
+            return React.cloneElement(child, {...this.props})
+        }) : <View/>}
+      </Animated.View>
+    )
   }
 
 
 
 }
 
-reactMixin.onClass(FadeInContainer, TimerMixin)
 
 export default FadeInContainer
