@@ -159,20 +159,18 @@ class NewCard extends React.Component {
             <TouchableHighlight
                 style={{width:cardWidth,
                     position:'relative',
-                    top:-200,
                     height: profileVisible ? 0 : 100,
                     opacity:profileVisible ? 0 : 1,
                     width:DeviceWidth,
                     alignSelf:'flex-end',zIndex:1000,flex:-1,position:'absolute',bottom:60
                 }}
                 underlayColor={colors.mediumPurple20}
-                onPress={this.props.openProfileFromImage}
+                onPress={this.props.openProfileFromImage.bind(this)}
             >
-                <View style={{width:cardWidth,height:100,flex:1}}>
-                    <VibrancyView style={{flex:10,width:cardWidth,height:100,position:'absolute',left:0,zIndex:0}} blurType="xlight" />
+                <View style={{width:cardWidth,height:100,flex:1,bottom:0,marginTop:-80}}>
                     <View
                         key={'blurkeyi'+potential.user.id}
-                        style={{backgroundColor:colors.white20,width:cardWidth,height:100,position:'absolute',left:0,padding:20}}
+                        style={{backgroundColor:colors.white,width:cardWidth,height:100,position:'absolute',left:0,padding:20}}
                     >
                         <CardLabel
                             potential={potential}
@@ -195,14 +193,13 @@ class NewCard extends React.Component {
                           flex:10,
                           alignSelf:'flex-end',
                           overflow:'visible',
-                          backgroundColor:'red'
                       }}
                   >
 
 
-                      <View style={{ paddingVertical: 20, width: DeviceWidth,flex: 10,}}>
+                      <View style={{ paddingVertical: 20, width: DeviceWidth,flex: 10,marginTop:0}}>
 
-      <BlurView blurType="dark" style={{position:'absolute',left:0,width:DeviceWidth,height:this.state.contentHeight,bottom:-200}}/>
+
                           <View style={{marginHorizontal:MagicNumbers.screenPadding/2,marginBottom:20}}>
                               <CardLabel
                                   potential={potential}

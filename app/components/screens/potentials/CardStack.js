@@ -221,6 +221,8 @@ class CardStack extends React.Component {
                 alignItems: 'center',
                 backgroundColor: this.props.profileVisible ? colors.darkShadow : colors.transparent
             }}
+            toggleProfile={this._toggleProfile.bind(this)}
+
         >
             {this.props.profileVisible &&
                 <StatusBar animated={true} barStyle="light-content" />

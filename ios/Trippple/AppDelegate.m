@@ -25,7 +25,6 @@
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "UIColor+TRColors.h"
-#import <ReactNativeAutoUpdater/ReactNativeAutoUpdater.h>
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #import "Hotline.h"
@@ -113,9 +112,9 @@
     sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 //  }else{
 //    [[RCTBundleURLProvider sharedSettings] setEnableDev:YES];
-//    [[RCTBundleURLProvider sharedSettings] setJsLocation:@"localhost"];
+//    [[RCTBundleURLProvider sharedSettings] setJsLocation:@"x.local"];
 //    sourceURL = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:@"main"];
-//  }
+ //  }
   return sourceURL;
 }
 

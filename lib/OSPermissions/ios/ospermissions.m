@@ -44,7 +44,7 @@ RCT_EXPORT_METHOD(canUseNotifications:(RCTResponseSenderBlock)callback)
 RCT_EXPORT_METHOD(canUseLocation:(RCTResponseSenderBlock)callback)
 {
     CLAuthorizationStatus locationPerm = [CLLocationManager authorizationStatus];
-    callback(@[@(locationPerm)]);
+    callback(@[@(locationPerm).stringValue]);
 }
 
 RCT_EXPORT_METHOD(canUseCameraRoll:(RCTResponseSenderBlock)callback)

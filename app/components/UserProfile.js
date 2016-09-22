@@ -154,6 +154,10 @@ class UserProfile extends React.Component{
 
             }]}
         >
+
+
+        <XButton navigator={this.props.navigator}/>
+
         <ParallaxSwiper
             contentContainerStyle={[{
 
@@ -194,7 +198,6 @@ class UserProfile extends React.Component{
            </Swiper>
           )}
         >
-       <XButton navigator={this.props.navigator}/>
           <View
               key={'blurkey'+potential.user.id}
 
@@ -211,7 +214,7 @@ class UserProfile extends React.Component{
                   overflow:'visible',
               }}
           >
-          <View style={{ paddingVertical: 20, width: DeviceWidth,flex: 10,height:0,overflow:'hidden' }}>
+          <View style={{ marginTop:-500,backgroundColor:'rgba(0,0,0,.4)',paddingVertical: 20, width: DeviceWidth,flex: 2,overflow:'hidden' }}>
             <View style={{marginHorizontal:MagicNumbers.screenPadding/2,marginBottom:20}}>
               <CardLabel
                   potential={potential}
@@ -274,17 +277,20 @@ class UserProfile extends React.Component{
               height: profileVisible ? 0 : 100,
               opacity:profileVisible ? 0 : 1,
               width:DeviceWidth,
-              alignSelf:'flex-end',zIndex:1000,flex:-1,position:'absolute',bottom:60
+              alignSelf:'flex-end',position:'absolute',bottom:60
             }}
               underlayColor={colors.mediumPurple20}
-              onPress={this.props.openProfileFromImage}
           >
-            <View style={{width:cardWidth,height:100,flex:1}}>
-            <VibrancyView style={{flex:10,width:cardWidth,height:100,position:'absolute',left:0,zIndex:0}}
+            <View onPress={this.props.openProfileFromImage}
+                style={{width:cardWidth,height:100,flex:1}}
+            >
+            <VibrancyView style={{flex:1,top:0,width:cardWidth,height:0,position:'absolute',left:0,zIndex:9990}}
                 blurType="xlight"
             />
 
-              <View key={'blurkey'+potential.user.id} style={{backgroundColor:colors.white20,width:cardWidth,height:100,position:'absolute',left:0,padding:20}}>
+              <View key={'blurkey'+potential.user.id} onPress={this.props.openProfileFromImage}
+                  style={{backgroundColor:colors.white20,width:cardWidth,height:100,position:'absolute',left:0,padding:20}}
+              >
                 <CardLabel
                     potential={potential}
                     seperator={seperator}

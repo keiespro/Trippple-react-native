@@ -1,0 +1,18 @@
+{
+  "ecmaVersion": 7,
+  "libs": [
+    "browser",
+    "underscore"
+  ],
+  "plugins": {
+    "es_modules": {},
+    "complete_strings": {
+      "maxLength": 15
+    },
+    "node": {
+      "dontLoad": "",
+      "load": "",
+      "modules": ""
+    }
+  }
+}
