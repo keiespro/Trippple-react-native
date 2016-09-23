@@ -23,55 +23,55 @@ const { LoginManager, AccessToken, GraphRequest, GraphRequestManager } = FBSDK
 
 import Login from './login';
 
-import ActionMan from  '../../../actions/';
+import ActionMan from '../../../actions/';
 
 
 class Facebook extends Component{
-  static propTypes = {
-    style: View.propTypes.style,
-    onPress: React.PropTypes.func,
-    onLogin: React.PropTypes.func,
-    onLogout: React.PropTypes.func,
-  };
+    static propTypes = {
+        style: View.propTypes.style,
+        onPress: React.PropTypes.func,
+        onLogin: React.PropTypes.func,
+        onLogout: React.PropTypes.func,
+    };
 
-  constructor(props){
-    super()
-    console.log(props);
-    this.state ={
-      user: null,
+    constructor(props){
+        super()
+    // console.log(props);
+        this.state ={
+            user: null,
+        }
     }
-  }
 
-  login(e){
-    this.props.dispatch(ActionMan.loginWithFacebook())
-  }
+    login(e){
+        this.props.dispatch(ActionMan.loginWithFacebook())
+    }
 
-  triggerPhoneLogin(){
-    this.props.navigator.push({
-      component:Login,
-      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
-      title: 'Log in ',
-      id:'login',
-      passProps: {
-        navigator:this.props.navigator
-      }
-    });
-  }
+    triggerPhoneLogin(){
+        this.props.navigator.push({
+            component:Login,
+            sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+            title: 'Log in ',
+            id:'login',
+            passProps: {
+                navigator:this.props.navigator
+            }
+        });
+    }
 
-  whyFacebookModal(){
-    this.props.navigator.push({
-      component: WhyFacebook,
-      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
-      title: 'Why Facebook?',
-      id:'whyfb',
-      passProps: {
-        navigator:this.props.navigator
-      }
-    });
-  }
+    whyFacebookModal(){
+        this.props.navigator.push({
+            component: WhyFacebook,
+            sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+            title: 'Why Facebook?',
+            id:'whyfb',
+            passProps: {
+                navigator:this.props.navigator
+            }
+        });
+    }
 
-  render() {
-    return (
+    render() {
+        return (
       <View style={{width:DeviceWidth,height:DeviceHeight,backgroundColor:colors.outerSpace}}>
 
         <View style={[styles.container,{}]}>
@@ -79,9 +79,9 @@ class Facebook extends Component{
           <View style={{alignSelf:'stretch'}}>
 
             <FacebookButton
-              shouldAuthenticate={true}
-              buttonText={this.props.tab == 'register' ? `SIGN UP WITH FACEBOOK` : null}
-              onPress={this.login.bind(this)}
+                shouldAuthenticate={true}
+                buttonText={this.props.tab == 'register' ? `SIGN UP WITH FACEBOOK` : null}
+                onPress={this.login.bind(this)}
             />
 
             <View style={styles.middleTextWrap}>
@@ -100,50 +100,50 @@ class Facebook extends Component{
         </View>
       </View>
     );
-  }
+    }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    alignSelf:'stretch',
-    padding:MagicNumbers.screenPadding/2,
-    paddingTop:0,
-    backgroundColor: colors.outerSpace
-  },
-  LogoBox: {
-    width: 40
-  },
-  iconButtonOuter:{
-    alignSelf:'stretch',
-    marginVertical:15
-  },
-  middleTextWrap: {
-    alignItems:'center',
-    justifyContent:'center',
-    height: 60
-  },
-  middleText: {
-    color:colors.rollingStone,
-    fontSize:20,
-    fontFamily:'omnes',
-    textAlign:'center',
-    marginVertical:20
-  },
-  iconButtonCouples:{
-    borderColor: colors.mediumPurple,
-    borderWidth: 1
-  },
-  iconButtonLeftBoxCouples: {
-    backgroundColor: colors.mediumPurple20,
-    borderRightColor: colors.mediumPurple,
-    borderRightWidth: 1
-  },
-  bottomwrap:{
-  }
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        alignSelf:'stretch',
+        padding:MagicNumbers.screenPadding/2,
+        paddingTop:0,
+        backgroundColor: colors.outerSpace
+    },
+    LogoBox: {
+        width: 40
+    },
+    iconButtonOuter:{
+        alignSelf:'stretch',
+        marginVertical:15
+    },
+    middleTextWrap: {
+        alignItems:'center',
+        justifyContent:'center',
+        height: 60
+    },
+    middleText: {
+        color:colors.rollingStone,
+        fontSize:20,
+        fontFamily:'omnes',
+        textAlign:'center',
+        marginVertical:20
+    },
+    iconButtonCouples:{
+        borderColor: colors.mediumPurple,
+        borderWidth: 1
+    },
+    iconButtonLeftBoxCouples: {
+        backgroundColor: colors.mediumPurple20,
+        borderRightColor: colors.mediumPurple,
+        borderRightWidth: 1
+    },
+    bottomwrap:{
+    }
 });
 Facebook.displayName = 'Facebook'
 

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, Image, View, TouchableHighlight, SwipeableListView, Dimensions, Alert, } from 'react-native';
+import { StyleSheet, Text, Image, View, InteractionManager,TouchableHighlight, SwipeableListView, Dimensions, Alert, } from 'react-native';
 import React, { Component } from "react";
 import Action from '../../modals/Action';
 import Analytics from '../../../utils/Analytics';
@@ -22,158 +22,158 @@ const SwipeableQuickActions = require('SwipeableQuickActions');
 @reactMixin.decorate(TimerMixin)
 class MatchList extends Component {
 
- static defaultProps = {};
+    static defaultProps = {};
 
- constructor(props) {
-  super(props);
+    constructor(props) {
+        super(props);
 
-  this.state = {
-   index: 0,
-   isVisible: false,
-   scrollEnabled: true,
-   isRefreshing: false,
-   lastPage: 0
-  }
- }
+        this.state = {
+            index: 0,
+            isVisible: false,
+            scrollEnabled: true,
+            isRefreshing: false,
+            lastPage: 0
+        }
+    }
   //
- componentDidMount() {
+    componentDidMount() {
     // this.setTimeout(() => {
 
 
     // }, 500)
     //
-  this.props.dispatch(ActionMan.getMatches())
-  this.props.dispatch(ActionMan.getNewMatches())
+        this.props.dispatch(ActionMan.getMatches())
+        this.props.dispatch(ActionMan.getNewMatches())
 
- }
+    }
 
- _updateDataSource(data) {
-  this.props.updateDataSource(data)
- }
+    _updateDataSource(data) {
+        this.props.updateDataSource(data)
+    }
 
- handleCancelUnmatch(rowData) {
-  this.setTimeout(() => {
-   this.setState(({
-    unmatchOpen: false
-   }))
-  }, 350);
- }
+    handleCancelUnmatch(rowData) {
+        this.setTimeout(() => {
+            this.setState(({
+                unmatchOpen: false
+            }))
+        }, 350);
+    }
 
- unmatch(rowData) {
-  if (this.state.unmatchOpen) {
-   return false
-  }
-  this.setState({
-   unmatchOpen: true
-  })
+    unmatch(rowData) {
+        if (this.state.unmatchOpen) {
+            return false
+        }
+        this.setState({
+            unmatchOpen: true
+        })
 
-  Alert.alert(
+        Alert.alert(
       'Remove this match?',
       'Do you want to remove this match?',
-   [
-    {
-     text: 'Cancel',
-     onPress: () => this.handleCancelUnmatch(rowData),
-     style: 'cancel'
-    },
-    {
-     text: 'OK',
-     onPress: () => {
-      Analytics.extra('Social', {
-       name: 'Unmatch',
-       match_id: rowData.match_id,
-       match: rowData
-      })
-      this.props.dispatch(ActionMan.unMatch(rowData.match_id));
-      this.handleCancelUnmatch();
-     }
-    },
-   ],
+            [
+                {
+                    text: 'Cancel',
+                    onPress: () => this.handleCancelUnmatch(rowData),
+                    style: 'cancel'
+                },
+                {
+                    text: 'OK',
+                    onPress: () => {
+                        Analytics.extra('Social', {
+                            name: 'Unmatch',
+                            match_id: rowData.match_id,
+                            match: rowData
+                        })
+                        this.props.dispatch(ActionMan.unMatch(rowData.match_id));
+                        this.handleCancelUnmatch();
+                    }
+                },
+            ],
     );
- }
+    }
 
- _pressRow(rowData,title) {
-  this.props.dispatch(ActionMan.getMessages({match_id:rowData.match_id}))
+    _pressRow(rowData,title) {
+        InteractionManager.runAfterInteractions(() => {
+            this.props.dispatch(ActionMan.getMessages({match_id:rowData.match_id}))
+        })
+        const payload = {title, match_id: rowData.match_id, matchInfo: rowData }
+        this.props.navigator.push(this.props.navigator.navigationContext.router.getRoute('Chat',payload));
 
-  const payload = {title, match_id: rowData.match_id, matchInfo: rowData }
-  this.props.navigator.push(this.props.navigator.navigationContext.router.getRoute('Chat',payload));
+    }
 
- }
+    onEndReached(e) {
+        const nextPage = parseInt(this.props.matches.length / 20) + 1;
+        if (this.state.fetching || nextPage == this.state.lastPage) {
+            return false
+        }
 
- onEndReached(e) {
-  const nextPage = parseInt(this.props.matches.length / 20) + 1;
-  if (this.state.fetching || nextPage == this.state.lastPage) {
-   return false
-  }
+        this.setState({
+            lastPage: nextPage,
+            isRefreshing: false,
+            loadingMoreMatches: true
+        })
+        this.setTimeout(() => {
+            this.setState({
+                loadingMoreMatches: false
+            })
+        }, 3000);
 
-  this.setState({
-   lastPage: nextPage,
-   isRefreshing: false,
-   loadingMoreMatches: true
-  })
-  this.setTimeout(() => {
-   this.setState({
-    loadingMoreMatches: false
-   })
-  }, 3000);
-
-  Analytics.event('Interaction', {
-   type: 'scroll',
-   name: 'Load more matches',
-   page: nextPage
-  })
+        Analytics.event('Interaction', {
+            type: 'scroll',
+            name: 'Load more matches',
+            page: nextPage
+        })
 
 
-  this.props.dispatch(ActionMan.getMatches(nextPage))
- }
+        this.props.dispatch(ActionMan.getMatches(nextPage))
+    }
 
- segmentedViewPress(index) {
-  this.setState({
-   index: index == 0 ? 0 : 1
-  })
- }
+    segmentedViewPress(index) {
+        this.setState({
+            index: index == 0 ? 0 : 1
+        })
+    }
 
- _onRefresh() {
-  this.setState({
-   isRefreshing: true
-  });
-  this.onEndReached();
+    _onRefresh() {
+        this.setState({
+            isRefreshing: true
+        });
+        this.onEndReached();
   // this.setTimeout(()=>{
   //   this.setState({
   //     isRefreshing:false
   //   })
   // },3000);
- }
- chatActionSheet(row) {
-  this.props.dispatch(ActionMan.showInModal({component:'Action',passProps:{match:row}}))
+    }
+    chatActionSheet(row) {
+        this.props.dispatch(ActionMan.showInModal({component:'Action',passProps:{match:row}}))
 
 
- }
- _renderRow(rowData, sectionID, rowID) {
-  console.log(rowData);
-
-  const myId = this.props.user.id;
+    }
+    _renderRow(rowData, sectionID, rowID) {
+ 
+        const myId = this.props.user.id;
     // const myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
-  const theirIds = Object.keys(rowData.users).filter(u => u != this.props.user.id && u != this.props.user.partner_id);
-  const them = theirIds.map((id) => rowData.users[id]);
-  const threadName = them.map((user, i) => user.firstname.trim()).join(' & ');
-  const modalVisible = this.state.isVisible;
-  const thumb = them[0].thumb_url;
-  const matchImage = thumb || ''
-  const unread = rowData.unread || 0;
-  const message_body = rowData.recent_message.message_body.replace(/(\r\n|\n|\r)/gm, " ");
-  return (
+        const theirIds = Object.keys(rowData.users).filter(u => u != this.props.user.id && u != this.props.user.partner_id);
+        const them = theirIds.map((id) => rowData.users[id]);
+        const threadName = them.map((user, i) => user.firstname.trim()).join(' & ');
+        const modalVisible = this.state.isVisible;
+        const thumb = them[0].thumb_url;
+        const matchImage = thumb || ''
+        const unread = rowData.unread || 0;
+        const message_body = rowData.recent_message.message_body.replace(/(\r\n|\n|\r)/gm, " ");
+        return (
 
       <TouchableHighlight style={{}} onPress={(e) => { this._pressRow(rowData,threadName.toUpperCase()) }} key={rowData.match_id + 'match'}>
           <View style={{
-           backgroundColor:colors.outerSpace,
-           shadowColor:colors.darkShadow,
-           shadowRadius:1,
-           shadowOpacity:10,
-           shadowOffset: {
-            width:StyleSheet.hairlineWidth,
-            height: 0
-           }
+              backgroundColor:colors.outerSpace,
+              shadowColor:colors.darkShadow,
+              shadowRadius:1,
+              shadowOpacity:10,
+              shadowOffset: {
+                  width:StyleSheet.hairlineWidth,
+                  height: 0
+              }
           }}>
               {__DEBUG__ && <Text style={{ color: '#fff' }}>
                   {new Date(rowData.recent_message.created_timestamp * 1000).toLocaleString() + ' | match_id: ' + rowData.match_id}
@@ -207,11 +207,11 @@ class MatchList extends Component {
           </View>
       </TouchableHighlight>
     );
- }
+    }
 
- render() {
-  const isVisible = this.state.isVisible;
-  return (!this.props.matches.length && !this.props.newMatches.length) ? <NoMatches/> : (
+    render() {
+        const isVisible = this.state.isVisible;
+        return (!this.props.matches.length && !this.props.newMatches.length) ? <NoMatches/> : (
       <View >
           <SwipeableListView
               dataSource={this.props.dataSource}
@@ -273,53 +273,53 @@ class MatchList extends Component {
           }
       </View>
       )
- }
+    }
 }
 
 
 
 function rowHasChanged(r1, r2) {
- return r1 !== r2 || r1.match_id !== r2.match_id || r1.unread != r2.unread || r1.recentMessage.message_id != r2.recentMessage.message_id
+    return r1 !== r2 || r1.match_id !== r2.match_id || r1.unread != r2.unread || r1.recentMessage.message_id != r2.recentMessage.message_id
 }
 
 
 @reactMixin.decorate(TimerMixin)
 class MatchesInside extends Component {
 
- constructor(props) {
-  super();
-  this.ds = SwipeableListView.getNewDataSource(rowHasChanged);
-  this.state = {
-   matches: props.matches,
-   isVisible: false,
-   dataSource: this.ds.cloneWithRowsAndSections(props.matches.map(d => {
-    return {
-     match: {...d, unread: props.unread[d.match_id]}
+    constructor(props) {
+        super();
+        this.ds = SwipeableListView.getNewDataSource(rowHasChanged);
+        this.state = {
+            matches: props.matches,
+            isVisible: false,
+            dataSource: this.ds.cloneWithRowsAndSections(props.matches.map(d => {
+                return {
+                    match: {...d, unread: props.unread[d.match_id]}
+                }
+            }))
+        }
     }
-   }))
-  }
- }
 
- toggleModal() {
-  this.setState({
-   isVisible: !this.state.isVisible,
+    toggleModal() {
+        this.setState({
+            isVisible: !this.state.isVisible,
 
-  })
- }
- componentWillReceiveProps(newProps) {
-  this._updateDataSource(newProps.matches, 'matches')
- }
+        })
+    }
+    componentWillReceiveProps(newProps) {
+        this._updateDataSource(newProps.matches, 'matches')
+    }
 
- _updateDataSource(data, whichList) {
-  const newState = {
-   matches: data,
-   dataSource: this.ds.cloneWithRowsAndSections(data.map(d => { return { match: {...d, unread: this.props.unread[d.match_id]}} })),
-  };
-  this.setState(newState)
- }
+    _updateDataSource(data, whichList) {
+        const newState = {
+            matches: data,
+            dataSource: this.ds.cloneWithRowsAndSections(data.map(d => { return { match: {...d, unread: this.props.unread[d.match_id]}} })),
+        };
+        this.setState(newState)
+    }
 
- render() {
-  return (
+    render() {
+        return (
       <View>
           <MatchList
               dispatch={this.props.dispatch}
@@ -337,54 +337,54 @@ class MatchesInside extends Component {
           />
       </View>
     )
- }
+    }
 }
 
 
 class Matches extends Component {
- static route = {
-  navigationBar: {
-   backgroundColor: colors.shuttleGrayAnimate,
-   title(params){
-    return `MESSAGES`
-   },
-   style: {height:0},
-   renderRight(route, props){
-    return false
-   }
-  }
- };
+    static route = {
+        navigationBar: {
+            backgroundColor: colors.shuttleGrayAnimate,
+            title(params){
+                return `MESSAGES`
+            },
+            style: {height:0},
+            renderRight(route, props){
+                return false
+            }
+        }
+    };
 
- constructor(props) {
-  super();
+    constructor(props) {
+        super();
 
-  this.state = {
-   currentMatch: null,
-   isVisible: false
-  }
- }
- render() {
-  return <MatchesInside {...this.props} />
- }
+        this.state = {
+            currentMatch: null,
+            isVisible: false
+        }
+    }
+    render() {
+        return <MatchesInside {...this.props} />
+    }
 }
 
 
 const mapStateToProps = (state, ownProps) => {
 
- return {
-  ...ownProps,
-  matches: state.matchesList.matches,
-  user: state.user,
-  newMatches: state.matchesList.newMatches,
-  unread: state.unread
- }
+    return {
+        ...ownProps,
+        matches: state.matchesList.matches,
+        user: state.user,
+        newMatches: state.matchesList.newMatches,
+        unread: state.unread
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {
- return {
-  dispatch,
-  getMessages: (mid) => dispatch => dispatch(ActionMan.getMessages(mid))
- };
+    return {
+        dispatch,
+        getMessages: (mid) => dispatch => dispatch(ActionMan.getMessages(mid))
+    };
 }
 
 
@@ -395,72 +395,72 @@ export default connect(mapStateToProps, mapDispatchToProps)(Matches);
 
 
 const styles = StyleSheet.create({
- row: {
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  padding: 14,
-  backgroundColor: colors.outerSpace,
- },
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 14,
+        backgroundColor: colors.outerSpace,
+    },
 
- thumbswrap: {
-  width: 64,
-  marginRight: 20,
-  height: 64,
-  flexDirection: 'row',
-  justifyContent: 'flex-start',
+    thumbswrap: {
+        width: 64,
+        marginRight: 20,
+        height: 64,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
 
- },
- thumb: {
-  borderRadius: 32,
-  width: 64,
-  height: 64,
-  backgroundColor: colors.dark
- },
- rightthumb: {
-  left: -16
- },
- text: {
-  color: colors.rollingStone,
-  fontFamily: 'omnes',
-  fontSize: 17
- },
- title: {
-  fontSize: 16,
-  fontFamily: 'Montserrat-Bold',
-  color: colors.white,
-  fontWeight: '500'
- },
- textwrap: {
-  height: 66,
-  flexDirection: 'column',
-  justifyContent: 'flex-start',
-  overflow: 'hidden',
-  flex: 3,
-  alignSelf: 'stretch'
- },
- swipeButtons: {
-  width: 50,
-  alignSelf: 'center',
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: 100,
-  marginLeft: 0
- },
- newMessageCount: {
-  backgroundColor: colors.mandy,
-  position: 'absolute',
-  bottom: -5,
-  right: -5,
-  borderRadius: 15,
-  overflow: 'hidden',
-  borderColor: colors.outerSpace,
-  borderWidth: 4,
-  width: 30,
-  height: 30,
-  padding: 0,
-  alignItems: 'center',
-  justifyContent: 'center',
-  flexDirection: 'row'
- }
+    },
+    thumb: {
+        borderRadius: 32,
+        width: 64,
+        height: 64,
+        backgroundColor: colors.dark
+    },
+    rightthumb: {
+        left: -16
+    },
+    text: {
+        color: colors.rollingStone,
+        fontFamily: 'omnes',
+        fontSize: 17
+    },
+    title: {
+        fontSize: 16,
+        fontFamily: 'Montserrat-Bold',
+        color: colors.white,
+        fontWeight: '500'
+    },
+    textwrap: {
+        height: 66,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        overflow: 'hidden',
+        flex: 3,
+        alignSelf: 'stretch'
+    },
+    swipeButtons: {
+        width: 50,
+        alignSelf: 'center',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 100,
+        marginLeft: 0
+    },
+    newMessageCount: {
+        backgroundColor: colors.mandy,
+        position: 'absolute',
+        bottom: -5,
+        right: -5,
+        borderRadius: 15,
+        overflow: 'hidden',
+        borderColor: colors.outerSpace,
+        borderWidth: 4,
+        width: 30,
+        height: 30,
+        padding: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row'
+    }
 });

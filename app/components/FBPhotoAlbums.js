@@ -78,7 +78,7 @@ class PhotoAlbums extends React.Component {
     }
     handleAlbums(err, responseData) {
         if (err) {
-            console.log('ERR', err);
+            // console.log('ERR', err);
             return
         }
 
@@ -98,7 +98,7 @@ class PhotoAlbums extends React.Component {
     }
     getAlbums() {
         const fbUser = this.props.fbUser;
-        console.log(fbUser);
+        // console.log(fbUser);
         if (!fbUser.accessToken) return false;
         const fb_id = fbUser.userID
 
@@ -122,7 +122,7 @@ class PhotoAlbums extends React.Component {
     }
     fetchAlbumPhotos(album) {
         let fbUser = this.props.fbUser;
-        console.log(album)
+        // console.log(album)
         this.props.navigator.push(this.props.navigation.router.getRoute('FBAlbumView', {
             name: 'FB Photos View',
             key: 'fbalbumsz',

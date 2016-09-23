@@ -88,7 +88,7 @@ class AlbumView extends React.Component {
     }
     renderSinglePhotos(rowData, sectionID, rowID, highlightRow) {
     // var img = photo.images[0].source//photo.images && photo.images.length > 4 && photo.images[4].source || photo.images && photo.images[0] && photo.images[0].source || photo.source;
-        console.log(rowData,sectionID,rowID)
+        // console.log(rowData,sectionID,rowID)
         const {selected,submitting} = this.state;
         const img = rowData;
         const id = rowID;

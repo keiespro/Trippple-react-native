@@ -17,122 +17,122 @@ const NOTI_HEIGHT = 70;
 @reactMixin.decorate(TimerMixin)
 class Notification extends React.Component{
 
-  constructor(props){
-    super()
-    this.state = {
-      yValue: new Animated.Value(-220),
-      pan: new Animated.ValueXY(),
+    constructor(props){
+        super()
+        this.state = {
+            yValue: new Animated.Value(-220),
+            pan: new Animated.ValueXY(),
+
+        }
+        this._timer = null;
+        this._panResponder = {}
+    }
+    componentWillMount(){
+        __DEBUG__ && VibrationIOS.vibrate()
+    }
+
+    componentDidMount() {
+
+        Animated.timing(this.state.pan, {
+            toValue: 0,
+            easing: Easing.in(Easing.exp),
+            duration: 300,
+        }).start((fin)=>{
+            this.initializePanResponder();
+            this.setState({inPlace:true});
+            this.setNotificationGoAwayTimer();
+        })
 
     }
-    this._timer = null;
-    this._panResponder = {}
-  }
-  componentWillMount(){
-    __DEBUG__ && VibrationIOS.vibrate()
-  }
-
-  componentDidMount() {
-
-    Animated.timing(this.state.pan, {
-      toValue: 0,
-      easing: Easing.in(Easing.exp),
-      duration: 300,
-    }).start((fin)=>{
-      this.initializePanResponder();
-      this.setState({inPlace:true});
-      this.setNotificationGoAwayTimer();
-    })
-
-  }
-  componentWillReceiveProps(nProps){
-    if(!nProps.notification.visible && this.props.notification.visible || nProps.notification != this.props.notification){
-      console.log('kill notification?');
+    componentWillReceiveProps(nProps){
+        if(!nProps.notification.visible && this.props.notification.visible || nProps.notification != this.props.notification){
+      // console.log('kill notification?');
       // this.killNotification()
 
+        }
     }
-  }
 
-  setNotificationGoAwayTimer(delay=5000){
-    this._timer = this.setTimeout(()=>{
-      this.hideNoti();
-    },delay);
-  }
-
-  hideNoti(){
-
-    Animated.timing(this.state.pan, {
-      toValue: -220,
-      easing: Easing.in(Easing.exp),
-      duration: 300,
-    }).start((fin)=>{
-      this.killNotification()
-    })
-  }
-
-  componentWillUnmount(){
-    this.killTimer()
-  }
-
-  freezeNotification(){
-    this.killTimer()
-  }
-
-  killTimer(){
-    if(this._timer){
-      this.clearTimeout(this.timer);
-      delete this._timer;
+    setNotificationGoAwayTimer(delay=5000){
+        this._timer = this.setTimeout(()=>{
+            this.hideNoti();
+        },delay);
     }
-  }
 
-  initializePanResponder(){
-    delete this._panResponder
-    const freezeNotification = this.freezeNotification.bind(this);
+    hideNoti(){
 
-    this._panResponder = PanResponder.create({
-      onMoveShouldSetPanResponder: (e,gestureState) => {
-        return true
-      },
-      onPanResponderStart: (e,gestureState) => {
-        freezeNotification();
-      },
-      onPanResponderMove: Animated.event([null, {
-        dy: this.state.pan.y,
-        dx: this.state.pan.x
-      }]),
-      onPanResponderRelease: (e, gestureState) => {
-        const {dx,dy,vx,vy} = gestureState;
-
-        let toValue = vy > 0 && dy > vy/3 ? 0 : -200;
-        Animated.timing(this.state.pan.y, {
-          toValue,
-          easing: Easing.out(Easing.exp),
-          duration: 150,
+        Animated.timing(this.state.pan, {
+            toValue: -220,
+            easing: Easing.in(Easing.exp),
+            duration: 300,
+        }).start((fin)=>{
+            this.killNotification()
         })
+    }
+
+    componentWillUnmount(){
+        this.killTimer()
+    }
+
+    freezeNotification(){
+        this.killTimer()
+    }
+
+    killTimer(){
+        if(this._timer){
+            this.clearTimeout(this.timer);
+            delete this._timer;
+        }
+    }
+
+    initializePanResponder(){
+        delete this._panResponder
+        const freezeNotification = this.freezeNotification.bind(this);
+
+        this._panResponder = PanResponder.create({
+            onMoveShouldSetPanResponder: (e,gestureState) => {
+                return true
+            },
+            onPanResponderStart: (e,gestureState) => {
+                freezeNotification();
+            },
+            onPanResponderMove: Animated.event([null, {
+                dy: this.state.pan.y,
+                dx: this.state.pan.x
+            }]),
+            onPanResponderRelease: (e, gestureState) => {
+                const {dx,dy,vx,vy} = gestureState;
+
+                let toValue = vy > 0 && dy > vy/3 ? 0 : -200;
+                Animated.timing(this.state.pan.y, {
+                    toValue,
+                    easing: Easing.out(Easing.exp),
+                    duration: 150,
+                })
         .start(fin =>{
-          if(toValue <= 0){
-            this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
-          }
+            if(toValue <= 0){
+                this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
+            }
         })
-      }
-    })
-  }
-  tapNotification(e){
+            }
+        })
+    }
+    tapNotification(e){
 
-    Animated.timing(this.state.pan, {
-      toValue: {x:0,y:-220},
-      duration: 300,
-    }).start(()=>{
+        Animated.timing(this.state.pan, {
+            toValue: {x:0,y:-220},
+            duration: 300,
+        }).start(()=>{
 
-      this.tapped()
-    })
+            this.tapped()
+        })
 
     // NotificationActions.updateBadgeNumber.defer(-1)
 
-  }
-  tapped(){
-    const {notification} = this.props;
-    const noti = (notification.label || notification.type || '').toLowerCase();
-    if((noti.indexOf('match') > -1 || noti.indexOf('message') > -1) ){
+    }
+    tapped(){
+        const {notification} = this.props;
+        const noti = (notification.label || notification.type || '').toLowerCase();
+        if((noti.indexOf('match') > -1 || noti.indexOf('message') > -1) ){
     //   if(this.props.chatOpen){
     //     // if(this.props.chatOpen == notification.match_id){
     //     //   __DEV__ && console.log('chat already open')
@@ -143,75 +143,75 @@ class Notification extends React.Component{
 
     //   }else{
 
-        this.props.pushChat({...notification, ...notification.data, fromNotification:true});
+            this.props.pushChat({...notification, ...notification.data, fromNotification:true});
       // }
 
-    }
-    this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
-
-  }
-  killNotification(){
-
-    Animated.timing(this.state.pan, {
-      toValue: {x:0,y:-220},
-      duration: 300,
-    }).start(()=>{
-      this.props.dispatch({type:'DISMISS_NOTIFICATION',payload:{}})
-      // this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
-    })
-  }
-
-  render(){
-
-    if(!this.props.notification) return false;
-    const {notification} = this.props;
-    const noti = (notification.label || notification.type || '').toLowerCase();
-    if((noti.indexOf('match') > -1 || noti.indexOf('message') > -1) ){
-      if(this.props.chatOpen){
-        if(this.props.chatOpen == notification.match_id){
-          __DEV__ && console.log('chat already open')
-          this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
-          return false
         }
-      }
+        this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
+
+    }
+    killNotification(){
+
+        Animated.timing(this.state.pan, {
+            toValue: {x:0,y:-220},
+            duration: 300,
+        }).start(()=>{
+            this.props.dispatch({type:'DISMISS_NOTIFICATION',payload:{}})
+      // this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
+        })
     }
 
-    const {  user } = this.props;
-    let theirIds;
-    let them;
-    let threadName;
-    let matchName;
-    const users = notification.users || {}
-    let from_user_info
-    let image_url
-    if(noti.indexOf('match') > -1){
-      myPartnerId = user.partner_id || null;
-      theirIds = Object.keys(users).filter( (u)=> u != user.id && u != user.partner_id);
-      them = theirIds.map((id)=> users[id]);
-      threadName = them.map(u => u.firstname).join(' & ');
-      matchName = threadName + (theirIds.length > 1 ? ' like ' : ' likes ');
-    }else if(noti.indexOf('message') > -1){
-      from_user_info = notification.from_user_info || {}
-      image_url = from_user_info.image_url
-    }
-    return (
+    render(){
+
+        if(!this.props.notification) return false;
+        const {notification} = this.props;
+        const noti = (notification.label || notification.type || '').toLowerCase();
+        if((noti.indexOf('match') > -1 || noti.indexOf('message') > -1) ){
+            if(this.props.chatOpen){
+                if(this.props.chatOpen == notification.match_id){
+                    __DEV__ && console.log('chat already open')
+                    this.props.dispatch({type:'DISMISS_ALL_NOTIFICATIONS',payload:{}})
+                    return false
+                }
+            }
+        }
+
+        const { user } = this.props;
+        let theirIds;
+        let them;
+        let threadName;
+        let matchName;
+        const users = notification.users || {}
+        let from_user_info
+        let image_url
+        if(noti.indexOf('match') > -1){
+            myPartnerId = user.partner_id || null;
+            theirIds = Object.keys(users).filter( (u)=> u != user.id && u != user.partner_id);
+            them = theirIds.map((id)=> users[id]);
+            threadName = them.map(u => u.firstname).join(' & ');
+            matchName = threadName + (theirIds.length > 1 ? ' like ' : ' likes ');
+        }else if(noti.indexOf('message') > -1){
+            from_user_info = notification.from_user_info || {}
+            image_url = from_user_info.image_url
+        }
+        return (
       <Animated.View
-        { ...this._panResponder.panHandlers}
-        style={[styles.notificationWrapper,
-          {
-            height: this.state.inPlace ? this.state.pan.y.interpolate({
-              inputRange: [0, DeviceHeight/2, DeviceHeight],
-              outputRange: [NOTI_HEIGHT, DeviceHeight/4, DeviceHeight/4],
-              extrapolate: 'clamp'
-            }) : NOTI_HEIGHT,
-            transform: [{
-              translateY: this.state.inPlace ? this.state.pan.y.interpolate({
-                inputRange: [-NOTI_HEIGHT, 0, DeviceHeight],
-                outputRange: [-NOTI_HEIGHT, 0, 10]
-              }) : this.state.yValue
-            }],
-            justifyContent:'flex-end'
-          },
+          { ...this._panResponder.panHandlers}
+          style={[styles.notificationWrapper,
+              {
+                  height: this.state.inPlace ? this.state.pan.y.interpolate({
+                      inputRange: [0, DeviceHeight/2, DeviceHeight],
+                      outputRange: [NOTI_HEIGHT, DeviceHeight/4, DeviceHeight/4],
+                      extrapolate: 'clamp'
+                  }) : NOTI_HEIGHT,
+                  transform: [{
+                      translateY: this.state.inPlace ? this.state.pan.y.interpolate({
+                          inputRange: [-NOTI_HEIGHT, 0, DeviceHeight],
+                          outputRange: [-NOTI_HEIGHT, 0, 10]
+                      }) : this.state.yValue
+                  }],
+                  justifyContent:'flex-end'
+              },
         styles[noti]
         ]}
       >
@@ -223,10 +223,10 @@ class Notification extends React.Component{
               <View style={styles.notificationInside}>
                 <View style={styles.notificationLeft}>
                   <Image
-                    resizeMode={Image.resizeMode.cover}
-                    style={styles.notiImage}
-                    defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
-                    source={{uri: image_url}}
+                      resizeMode={Image.resizeMode.cover}
+                      style={styles.notiImage}
+                      defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+                      source={{uri: image_url}}
                   />
                 </View>
                 <View style={styles.notificationRight}>
@@ -259,10 +259,10 @@ class Notification extends React.Component{
               <View style={styles.notificationInside}>
                 <View style={styles.notificationLeft}>
                   <Image
-                    resizeMode={Image.resizeMode.cover}
-                    style={[styles.notiImage,{tintColor:colors.sushi}]}
-                    defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
-                    source={{uri: image_url}}
+                      resizeMode={Image.resizeMode.cover}
+                      style={[styles.notiImage,{tintColor:colors.sushi}]}
+                      defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+                      source={{uri: image_url}}
                   />
                 </View>
                 <View style={styles.notificationRight}>
@@ -273,12 +273,12 @@ class Notification extends React.Component{
             </TouchableOpacity>
             <View style={{position:'absolute',right:3,top:3,zIndex:99}}>
               <TinyClose
-                size={14}
-                xColor={colors.sushi}
-                background={colors.white20}
-                killNotification={this.killNotification.bind(this)}
-                notification={notification}
-                buttonUnderlay={colors.mediumPurple}
+                  size={14}
+                  xColor={colors.sushi}
+                  background={colors.white20}
+                  killNotification={this.killNotification.bind(this)}
+                  notification={notification}
+                  buttonUnderlay={colors.mediumPurple}
               />
             </View>
           </View> : null
@@ -293,9 +293,9 @@ class Notification extends React.Component{
               {notification.image_url && (
                 <View style={styles.notificationLeft}>
                   <Image
-                    resizeMode={Image.resizeMode.cover}
-                    style={styles.notiImage}
-                    source={{uri: notification.image_url}}
+                      resizeMode={Image.resizeMode.cover}
+                      style={styles.notiImage}
+                      source={{uri: notification.image_url}}
                   />
                 </View>
               )}
@@ -303,14 +303,14 @@ class Notification extends React.Component{
               <View style={styles.notificationRight}>
 
                 <Text
-                  style={[styles.notiTitle,styles.titleNewMessage]}
+                    style={[styles.notiTitle,styles.titleNewMessage]}
                 >{
                   notification.title
                 }</Text>
 
                 <Text
-                  style={styles.notiText}
-                  numberOfLines={2}
+                    style={styles.notiText}
+                    numberOfLines={2}
                 >{
                   notification.body
                 }</Text>
@@ -319,11 +319,11 @@ class Notification extends React.Component{
 
               <View style={{position:'absolute',right:5,top:5}}>
                 <TinyClose
-                  background={colors.mediumPurple}
-                  size={20}
-                  killNotification={this.killNotification.bind(this)}
-                  notification={notification}
-                  buttonUnderlay={colors.mediumPurple}
+                    background={colors.mediumPurple}
+                    size={20}
+                    killNotification={this.killNotification.bind(this)}
+                    notification={notification}
+                    buttonUnderlay={colors.mediumPurple}
                 />
               </View>
             </View>
@@ -332,124 +332,124 @@ class Notification extends React.Component{
 
       </Animated.View>
     )
-  }
+    }
 }
 
 export default Notification
 
 const TinyClose = props => {
-  return (
+    return (
     <TouchableHighlight
-      style={[{alignItems:'center',justifyContent:'center',height:props.size,top:0,width:props.size,backgroundColor:props.background,borderRadius:props.size/2}]}
-      onPress={props.killNotification}
-      underlayColor={props.buttonUnderlay || colors.mediumPurple20}
+        style={[{alignItems:'center',justifyContent:'center',height:props.size,top:0,width:props.size,backgroundColor:props.background,borderRadius:props.size/2}]}
+        onPress={props.killNotification}
+        underlayColor={props.buttonUnderlay || colors.mediumPurple20}
     >
       <Image
-        resizeMode={Image.resizeMode.contain}
-        style={{width:props.size/2,height:props.size/2,zIndex:1000,tintColor:props.xColor || colors.white}}
-        source={{uri: 'assets/close@3x.png'}}
+          resizeMode={Image.resizeMode.contain}
+          style={{width:props.size/2,height:props.size/2,zIndex:1000,tintColor:props.xColor || colors.white}}
+          source={{uri: 'assets/close@3x.png'}}
       />
     </TouchableHighlight>
   )
 }
 
 const styles = StyleSheet.create({
-  notificationWrapper:{
-    width: DeviceWidth-14,
-    flex: 1,
-    position: 'absolute',
-    borderRadius:8,
-    top: 7,
-    left: 7,
-    right: 7,
-    backgroundColor:colors.shuttleGray,
-    height:220,
-    shadowColor: '#222',
-    shadowOffset: {
-      width:0,
-      height: 4
+    notificationWrapper:{
+        width: DeviceWidth-14,
+        flex: 1,
+        position: 'absolute',
+        borderRadius:8,
+        top: 7,
+        left: 7,
+        right: 7,
+        backgroundColor:colors.shuttleGray,
+        height:220,
+        shadowColor: '#222',
+        shadowOffset: {
+            width:0,
+            height: 4
+        },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
     },
-    shadowOpacity: 0.4,
-    shadowRadius: 2,
-  },
-  notificationOverlay: {
-    flexDirection:'row',
-    flex:1,
-    borderRadius:8,
-    position:'relative',
-    overflow:'hidden',
-    justifyContent:'space-between'
-  },
-  newmessage:{
-    backgroundColor:colors.mediumPurple,
+    notificationOverlay: {
+        flexDirection:'row',
+        flex:1,
+        borderRadius:8,
+        position:'relative',
+        overflow:'hidden',
+        justifyContent:'space-between'
+    },
+    newmessage:{
+        backgroundColor:colors.mediumPurple,
 
-  },
-  message:{
-    backgroundColor:colors.mediumPurple,
+    },
+    message:{
+        backgroundColor:colors.mediumPurple,
 
-  },
-  match:{
-    backgroundColor:colors.sushi,
+    },
+    match:{
+        backgroundColor:colors.sushi,
 
-  },
-  newmatch:{
-    backgroundColor:colors.sushi,
+    },
+    newmatch:{
+        backgroundColor:colors.sushi,
 
-  },
-  danger:{
-    backgroundColor:colors.mandy,
+    },
+    danger:{
+        backgroundColor:colors.mandy,
 
-  },
-  display:{
-    backgroundColor:colors.shuttleGray,
+    },
+    display:{
+        backgroundColor:colors.shuttleGray,
 
-  },
-  notificationLeft:{
-    width:60
-  },
-  notificationRight:{
+    },
+    notificationLeft:{
+        width:60
+    },
+    notificationRight:{
     // flex:1,
-    width:DeviceWidth-100,
-    justifyContent:'flex-start',
-    alignSelf:'flex-start',
-    alignItems:'flex-start',
-    paddingHorizontal:10,
-    paddingTop:7
-  },
+        width:DeviceWidth-100,
+        justifyContent:'flex-start',
+        alignSelf:'flex-start',
+        alignItems:'flex-start',
+        paddingHorizontal:10,
+        paddingTop:7
+    },
 
-  notiText: {
-    color:colors.white,
-    fontFamily:'omnes',
-    flexDirection:'column',
+    notiText: {
+        color:colors.white,
+        fontFamily:'omnes',
+        flexDirection:'column',
 
-    fontSize:15
-  },
+        fontSize:15
+    },
 
-  notiTitle: {
-    fontFamily:'Montserrat-Bold',
-    fontSize:14,
-  },
-  titleNewMessage:{
-    color:colors.lavender,
-  },
-  titleNewMatch:{
-    color:colors.sashimi,
-  },
-  notificationInside:{
-    flex:1,
-    flexDirection:'row',
-    justifyContent:'flex-start',
-    position:'relative'
-  },
-  notiImage:{
-    margin:10,
+    notiTitle: {
+        fontFamily:'Montserrat-Bold',
+        fontSize:14,
+    },
+    titleNewMessage:{
+        color:colors.lavender,
+    },
+    titleNewMatch:{
+        color:colors.sashimi,
+    },
+    notificationInside:{
+        flex:1,
+        flexDirection:'row',
+        justifyContent:'flex-start',
+        position:'relative'
+    },
+    notiImage:{
+        margin:10,
 
-    width:50,
-    height:50,
-    overflow:'hidden',
-    borderRadius: 25,
-    borderWidth: 0,
-    backgroundColor:colors.white20
-  }
+        width:50,
+        height:50,
+        overflow:'hidden',
+        borderRadius: 25,
+        borderWidth: 0,
+        backgroundColor:colors.white20
+    }
 
 })
