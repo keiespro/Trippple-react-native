@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, StatusBar, View, AppState, Easing, LayoutAnimation, TouchableHighlight, Image, Animated, PanResponder, Dimensions } from "react-native";
+import { StyleSheet, Text, StatusBar, View, AppState, Easing, LayoutAnimation, TouchableHighlight, Image, Animated, PanResponder, Dimensions,InteractionManager } from "react-native";
 import Analytics from '../../../utils/Analytics';
 import Card from './Card';
 import styles from './styles';
@@ -13,8 +13,8 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {pure} from 'recompose'
 
-const THROW_THRESHOLD_DENY = -1 * (DeviceWidth/3);
-const THROW_THRESHOLD_APPROVE = DeviceWidth/3;
+const THROW_THRESHOLD_DENY = -1 * (10);
+const THROW_THRESHOLD_APPROVE = 10;
 const THROW_SPEED_THRESHOLD = 1;
 
 const SWIPE_THRESHOLD_DENY = -1 * (DeviceWidth*0.67);
@@ -56,24 +56,24 @@ class CardStack extends React.Component {
     componentWillReceiveProps(nProps) {
         if (nProps && this.state.animatedIn && this.props.potentials && this.props.potentials[0].user.id !== nProps.potentials[0].user.id) {
             this.state.pan.setValue({ x: 0, y: 0 });
-        // this.initializePanResponder()
+            this.initializePanResponder()
         }
         if (nProps && !this.state.animatedIn && !nProps.potentials.length) {
             this.state.offsetY.setValue(0);
         // this.initializePanResponder()
         }
 
-        this.setState({ interactedWith: null });
+        // this.setState({ interactedWith: null });
     }
 
     componentDidUpdate(pProps, prevState) {
-        if (!this.state.animatedIn && this.state.animatedIn) {
-            this.initializePanResponder();
-        }
-        if (pProps.potentials && pProps.potentials.length && pProps.potentials[0].user.id !== this.props.potentials[0].user.id) {
-      // LayoutAnimation.configureNext(animations.layout.spring);
-
-        }
+        // if (!prevState.state.animatedIn && this.state.animatedIn) {
+        //     this.initializePanResponder();
+      //   // }
+      //   if (pProps.potentials && pProps.potentials.length && pProps.potentials[0].user.id !== this.props.potentials[0].user.id) {
+      // // LayoutAnimation.configureNext(animations.layout.spring);
+      //
+      //   }
     }
 
     initializePanResponder() {
@@ -113,11 +113,12 @@ class CardStack extends React.Component {
             onPanResponderStart: (e, gestureState) => {
         // console.log('onPanResponderStart',gestureState)
             },
-            onPanResponderRelease: (e, gestureState) => {
-        // console.log('onPanResponderEnd',gestureState)
-            },
 
             onPanResponderEnd: (e, gestureState) => {
+              // console.log('onPanResponderEnd',gestureState)
+            },
+
+            onPanResponderRelease: (e, gestureState) => {
                 let toValue = 0;
                 let velocity = 1;
                 let likeStatus;
@@ -131,16 +132,16 @@ class CardStack extends React.Component {
 
                     __DEV__ && console.log(dx > SWIPE_THRESHOLD_APPROVE ? 'SWIPE' : (dx > (THROW_THRESHOLD_APPROVE - 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD) && "THROW");
 
-                    toValue = { x: DeviceWidth + 100, y: dy * 2 };
-                    velocity = { x: parseInt(vx*2), y: parseInt(vy*1.5) };
+                    toValue = { x: DeviceWidth + 100, y: dy };
+                    velocity = { x: parseInt(vx), y: parseInt(vy) };
                     likeStatus = 'approve';
 
                     if (!this.state.likedPotentials.indexOf(likeUserId)) {
                         likeStatus = null;
                     }
                 } else if (dx < SWIPE_THRESHOLD_DENY || (dx < (THROW_THRESHOLD_DENY + 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD)) {
-                    toValue = { x: -DeviceWidth - 100, y: dy * 2 };
-                    velocity = { x: parseInt(vx), y: parseInt(vy) };
+                    toValue = { x: -DeviceWidth -100 , y: dy };
+                    velocity = { x:  vx, y: vy };
                     likeStatus = 'deny';
                 } else {
           // nothing!
@@ -149,7 +150,6 @@ class CardStack extends React.Component {
                 if (!likeUserId) {
 
                 } else if (likeStatus && likeStatus.length > 0) {
-                    this.setState({ interactedWith: likeUserId, likedPotentials: [...this.state.likedPotentials, likeUserId] });
                 }
 
                 if (likeStatus) {
@@ -164,15 +164,29 @@ class CardStack extends React.Component {
 
                     Animated.timing(this.state.pan, {
                         toValue,
-                        velocity: { x: 0, y: 0 },
-                        duration: 500,
-                        easing: Easing.out(Easing.exp),
+                        duration:120,
+                        easing:Easing.inOut(Easing.ease),
+                        deceleration: 1.1,
+                        velocity: velocity || { x: 1, y: 1 },
                     }).start(()=>{
                         if(!this.props.potentials[0].starter){
-                            this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, relstatus, this.props.rel, otherParams));
-                        }
+                            InteractionManager.runAfterInteractions(() => {
+                                // this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, relstatus, this.props.rel, otherParams));
 
+                                // this.setState({
+                                //     interactedWith: likeUserId,
+                                //     likedPotentials: [...this.state.likedPotentials, likeUserId]
+                                // });
+
+                            })
+                        }
                     });
+
+                    if(!this.props.potentials[0].starter){
+                        InteractionManager.runAfterInteractions(() => {
+                            this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, relstatus, this.props.rel, otherParams));
+                        });
+                    }
                 } else {
                     Animated.spring(this.state.pan, {
                         toValue,
@@ -290,13 +304,7 @@ class CardStack extends React.Component {
                             {
                                 translateX: this.state.pan ? this.state.pan.x : 0,
                             },
-                            {
-                                rotate: this.state.pan.x.interpolate({
-                                    extrapolate: 'clamp',
-                                    inputRange: [-DeviceWidth, -100, 0, 100, DeviceWidth / 2, DeviceWidth],
-                                    outputRange: ["-0.1rad", "0rad", "0rad", "0rad", "0.1rad", "0.0rad"],
-                                }),
-                            },
+
                             {
                                 translateY: this.state.animatedIn ? this.state.pan.y.interpolate({
                                     inputRange: [-300, 0, 300],

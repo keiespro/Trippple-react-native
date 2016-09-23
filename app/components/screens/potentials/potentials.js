@@ -21,6 +21,7 @@ import ActionMan from '../../../actions/'
 import { connect } from 'react-redux';
 import { withNavigation } from '@exponent/ex-navigation';
 import MatchesButton from './MatchesButtonIcon'
+import {pure} from 'recompose'
 
 @withNavigation
 class SettingsButton extends React.Component{
@@ -38,10 +39,9 @@ class SettingsButton extends React.Component{
     }
 }
 
-
 class Potentials extends React.Component{
     static route = {
-        styles: {zIndex:-10, position:'relative'},
+        styles: {zIndex:-10, position:'relative',elevation:-5},
         navigationBar: {
             visible: true,
             translucent:false,
@@ -59,17 +59,18 @@ class Potentials extends React.Component{
             },
             renderLeft(route, props){
                 return route.params.show ? <SettingsButton /> : (
-          <TouchableOpacity
-              onPress={()=>route.params.dispatch({type:'CLOSE_PROFILE'})}
-              style={{padding:25,position:'absolute',top:12,zIndex:999}}
-          >
-          <Image
-              resizeMode={Image.resizeMode.contain}
-              style={{width:15,height:15,marginTop:0,alignItems:'flex-start'}}
-              source={{uri: 'assets/close@3x.png'}}
-          />
-        </TouchableOpacity>
-        )
+                  <TouchableOpacity
+                      onPress={()=>route.params.dispatch({type:'CLOSE_PROFILE'})}
+                      style={{padding:15,left:-5,width:45,height:45,position:'absolute',top:0,
+                       alignItems:'center',justifuContent:'center',zIndex:999}}
+                  >
+                  <Image
+                      resizeMode={Image.resizeMode.contain}
+                      style={{width:15,height:15,alignSelf:'center'}}
+                      source={require('../../../../ios/Trippple/assets/close.png')}
+                  />
+                </TouchableOpacity>
+                      )
             },
             renderRight(route, props){
                 return route.params.show ? <MatchesButton /> : false
@@ -92,6 +93,9 @@ class Potentials extends React.Component{
 
 
     componentDidMount(){
+        this.props.navigator.updateCurrentRouteParams({
+            show: !this.props.ui.profileVisible, visible: false, dispatch: this.props.dispatch
+        })
 
 
         if(this.props.user.status){
@@ -138,6 +142,10 @@ class Potentials extends React.Component{
         }
         return matchName
     }
+    // shouldComponentUpdate(nP,nS){
+    //     if(!nP.potentials[0] || !this.props.potentials[0]) return true;
+    //     return nP.potentials[0].user.id != this.props.potentials[0].user.id
+    // }
     render(){
         const { potentials, user } = this.props
 

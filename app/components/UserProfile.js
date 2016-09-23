@@ -16,6 +16,9 @@ import {pure} from 'recompose'
 import dismissKeyboard from 'dismissKeyboard'
 
 
+const AnimatedBlurView = Animated.createAnimatedComponent(BlurView)
+
+
 const CardLabel = (props) => (
   <View>
     <Text
@@ -73,7 +76,7 @@ class UserProfile extends React.Component{
         const {layout} = e.nativeEvent
 
         if(!this.state.contentHeight){
-            this.handleSize(layout.height)
+            this.handleSize(layout.height+ 600)
 
         }
     }
@@ -127,182 +130,160 @@ class UserProfile extends React.Component{
         const hasPartner = potential.partner && potential.partner.gender;
         const slideFrames = hasPartner && potential.partner.image_url && potential.partner.image_url != "" ? [potential.user,potential.partner] : [potential.user];
         const tmpCardHeight = profileVisible ? cardHeight : cardHeight;
-        const slides = slideFrames.map((p,i) => {
-            let {image_url} = p;
-            if(!image_url || image_url.length == 0) image_url = null;
-            return (
-          <Image
-              source={{uri: image_url || 'assets/defaultuser.png' }}
-              key={`${p.id}slide${i}`}
-              resizeMode="cover"
-              style={{
-                  flex:10,
-                  alignItems:'center',
-                  justifyContent:'center',
-                  flexDirection:'column',
-                  backgroundColor:colors.darkPurple,
-                  marginLeft:profileVisible ? 0 : -40
-              }}
-          />
-        )
-        });
+        const aniblurstyle = [ {
+            backgroundColor:colors.outerSpace50,
+            width:DeviceWidth,
+            paddingbottom:120,
+            flex:10,
+            flexGrow:10,
+            height:profileVisible ? this.state.contentHeight : 0,
+            top:profileVisible ? -130 : DeviceHeight+300,
+            position:'relative',
+            alignSelf:'flex-end',
+            overflow:'hidden',
+
+
+        }]
         return (
         <View
             style={[{
                 flex:1,
-                top:30
-
-            }]}
-        >
-
-
-        <XButton navigator={this.props.navigator}/>
-
-        <ParallaxSwiper
-            contentContainerStyle={[{
-
-                alignItems:'center',
-                justifyContent:'center',
-                flexDirection:'column',
-                flex:1,
-                marginTop:30
-
-            }]}
-            scrollEnabled={profileVisible ? true : false}
-            showsVerticalScrollIndicator={false}
-            style={[{
-                flex:1,
-                height:0,
-                width:cardWidth,
-
+                top:0
 
             }]}
             onLayout={this.onLayout.bind(this)}
 
+        >
+
+
+
+        <ParallaxSwiper
+            contentContainerStyle={[{
+                minHeight: profileVisible ? DeviceHeight : cardHeight,
+                alignItems:'center',
+                justifyContent:'center',
+                flexDirection:'column',
+                flex:1,
+            }]}
+            slideFrames={slideFrames}
+            scrollEnabled={profileVisible ? true : false}
+            showsVerticalScrollIndicator={false}
+            style={[{
+                flex:1,
+                position:'relative',
+                top:0,
+                width:cardWidth,
+            }]}
             header={<View/>}
             dispatch={this.props.dispatch}
-            windowHeight={30}
+            windowHeight={0}
+            width={cardWidth}
             isTopCard={isTopCard}
-            killProfile={()=>{this.props.navigator.pop()}}
-            swiper={(
-              <Swiper
-                  width={cardWidth }
-                  pan={this.props.pan}
-                  isTopCard={isTopCard}
-                  profileVisible={profileVisible}
-                  dispatch={this.props.dispatch}
-                  style={{flex:0,zIndex:0,backgroundColor:'transparent', }}
-                  scrollEnabled={profileVisible}
-              >
-             {slides}
-           </Swiper>
-          )}
+            pan={this.props.pan}
+            profileVisible={profileVisible}
+            killProfile={this.props.closeProfile}
         >
-          <View
-              key={'blurkey'+potential.user.id}
+        <AnimatedBlurView
+            blurType="dark"
+            style={aniblurstyle}
+        >
 
-              style={{
-                  position:'relative',
-                  zIndex:100,
-                  height: profileVisible ? this.state.contentHeight : 0,
-                  opacity: profileVisible ? 1 : 0,
-                  overflow:'hidden',
-                  flex:10,
-                  bottom:0,
-                  alignSelf:'flex-end',
-                  top:0,
-                  overflow:'visible',
-              }}
-          >
-          <View style={{ marginTop:-500,backgroundColor:'rgba(0,0,0,.4)',paddingVertical: 20, width: DeviceWidth,flex: 2,overflow:'hidden' }}>
-            <View style={{marginHorizontal:MagicNumbers.screenPadding/2,marginBottom:20}}>
-              <CardLabel
-                  potential={potential}
-                  seperator={seperator}
-                  matchName={matchName}
-                  city={city}
-                  distance={distance}
-                  textColor={colors.white}
-              />
+        {profileVisible && <View style={{marginVertical:8,
+              width:40,height:8,borderRadius:15,alignSelf:'center',
+              backgroundColor:'rgba(255,255,255,.2)',
+              position:'absolute',top:0,left:DeviceWidth/2-20
+          }}/>}
+              <View
+                  key={'blurkey'+potential.user.id}
+                  style={{
+                      zIndex:100,
+                      height: profileVisible ? this.state.contentHeight : 0,
+                      opacity: profileVisible ? 1 : 0,
+                      flex:10,
+                  }}
+              >
+
+
+                  <View style={{ paddingVertical: 40, width: DeviceWidth,flex: 10,marginTop:0}}>
+
+
+                      <View style={{marginHorizontal:MagicNumbers.screenPadding/2,marginBottom:20}}>
+                          <CardLabel
+                              potential={potential}
+                              seperator={seperator}
+                              matchName={matchName}
+                              city={city}
+                              distance={distance}
+                              textColor={colors.white}
+                          />
+                      </View>
+
+                      {potential.user.bio &&
+                          <View style={{ margin: MagicNumbers.screenPadding / 2, width: MagicNumbers.screenWidth,flexDirection:'column' }}>
+                              <Text style={[styles.cardBottomOtherText, { color: colors.white, marginBottom: 15, marginLeft: 0 }]}>{
+                                  !hasPartner ? `Looking for` : `Looking for`
+                              }</Text>
+                              <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
+                                  potential.user.bio
+                              }</Text>
+                          </View>
+                      }
+
+                      {hasPartner && potential.partner.bio &&
+                          <View style={{ margin: MagicNumbers.screenPadding / 2, width: MagicNumbers.screenWidth }}>
+                              <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
+                                  potential.partner.bio
+                              }</Text>
+                          </View>
+                      }
+
+                      <UserDetails
+                          potential={potential}
+                          user={this.props.user}
+                          location={'card'}
+                      />
+
+                    {this.props.dispatch && <TouchableOpacity onPress={this.props.reportModal}>
+                          <View style={{ marginTop: 20, paddingBottom: 50 }}>
+                              <Text style={{ color: colors.mandy, textAlign: 'center' }}>Report or Block this user</Text>
+                          </View>
+                      </TouchableOpacity>}
+
+                      <TouchableOpacity
+                          style={{
+                              height: 50, alignItems: 'center', width: 50, justifyContent: 'center',flex:0,alignSelf:'center'
+                          }}
+                          onPress={()=>{
+                              this.props.closeProfile ? this.props.closeProfile() :
+                            this.props.navigator.pop()
+
+                          }}
+                      >
+                          <Image
+                              resizeMode={Image.resizeMode.contain}
+                              style={{ height: 12, width: 12, marginTop: 10 }}
+                              source={{ uri: 'assets/close@3x.png' }}
+                          />
+                      </TouchableOpacity>
+
+                  </View>
               </View>
-
-              {potential.user.bio &&
-                <View style={{ margin: MagicNumbers.screenPadding / 2, width: MagicNumbers.screenWidth,flexDirection:'column'}}>
-                  <Text style={[styles.cardBottomOtherText, { color: colors.white, marginBottom: 15, marginLeft: 0 }]}>{
-                      !hasPartner ? `Looking For` : `Looking For`
-                  }</Text>
-                  <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
-                      potential.user.bio
-                  }</Text>
-                </View>
-              }
-
-              {potential.partner && potential.partner.bio &&
-                <View style={{ margin: MagicNumbers.screenPadding / 2, width: MagicNumbers.screenWidth,flexDirection:'column'}}>
-                  <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
-                      potential.partner.bio
-                  }</Text>
-                </View>
-              }
-
-              <UserDetails
-                  potential={potential}
-                  user={this.props.user}
-                  location={'card'}
-              />
-
-              <TouchableOpacity onPress={this.reportModal.bind(this)}>
-                <View style={{ marginTop: 20, paddingBottom: 50 }}>
-                  <Text style={{ color: colors.mandy, textAlign: 'center' }}>Report or Block this user</Text>
-                </View>
-              </TouchableOpacity>
-
+              </AnimatedBlurView>
               <TouchableOpacity
-                  style={{ height: 50, alignItems: 'center', width: 50, justifyContent: 'center',flex:0,alignSelf:'center' }}
-                  onPress={this.props.closeProfile}
+                  onPress={()=>{
+                      this.props.closeProfile ? this.props.closeProfile() :
+                      this.props.navigator.pop()
+                  }}
+                  style={{padding:25,position:'absolute',top:12,zIndex:999}}
               >
-                <Image
-                    resizeMode={Image.resizeMode.contain}
-                    style={{ height: 12, width: 12, marginTop: 10 }}
-                    source={{ uri: 'assets/close@3x.png' }}
-                />
-              </TouchableOpacity>
-            </View>
+                      <Image
+                          resizeMode={Image.resizeMode.contain}
+                          style={{width:15,height:15,marginTop:0,alignItems:'flex-start'}}
+                          source={{uri: 'assets/close@3x.png'}}
+                      />
+                    </TouchableOpacity>
+          </ParallaxSwiper>
 
-          </View>
-
-          <TouchableHighlight
-              style={{width:cardWidth,
-              position:'relative',
-              height: profileVisible ? 0 : 100,
-              opacity:profileVisible ? 0 : 1,
-              width:DeviceWidth,
-              alignSelf:'flex-end',position:'absolute',bottom:60
-            }}
-              underlayColor={colors.mediumPurple20}
-          >
-            <View onPress={this.props.openProfileFromImage}
-                style={{width:cardWidth,height:100,flex:1}}
-            >
-            <VibrancyView style={{flex:1,top:0,width:cardWidth,height:0,position:'absolute',left:0,zIndex:9990}}
-                blurType="xlight"
-            />
-
-              <View key={'blurkey'+potential.user.id} onPress={this.props.openProfileFromImage}
-                  style={{backgroundColor:colors.white20,width:cardWidth,height:100,position:'absolute',left:0,padding:20}}
-              >
-                <CardLabel
-                    potential={potential}
-                    seperator={seperator}
-                    matchName={matchName}
-                    city={city}
-                    distance={distance}
-                    textColor={colors.shuttleGray}
-                />
-              </View>
-            </View>
-          </TouchableHighlight>
-        </ParallaxSwiper>
       </View>
     )
     }

@@ -5,9 +5,10 @@ import { MagicNumbers } from '../../../utils/DeviceConfig'
 import colors from '../../../utils/colors'
 import UserDetails from '../../UserDetails'
 import ParallaxSwiper from '../../controls/ParallaxSwiper'
-import Swiper from '../../controls/swiper'
 import styles from './styles'
+import XButton from '../../buttons/XButton'
 import {pure} from 'recompose'
+const AnimatedBlurView = Animated.createAnimatedComponent(BlurView)
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -26,15 +27,15 @@ const CardLabel = ({potential,city,textColor,matchName}) => (
 );
 
 
-@pure
 class NewCard extends React.Component {
+
     constructor(props){
         super()
-
         this.state = {
             isOpen: new Animated.Value(100),
         }
     }
+
     componentWillReceiveProps(nProps){
         if(this.props.profileVisible != nProps.profileVisible){
             Animated.spring(this.state.isOpen, {
@@ -52,14 +53,13 @@ class NewCard extends React.Component {
                 them: [this.props.potential.user, this.props.potential.partner],
             }
         }))
-
-
     }
+
     onLayout(e){
         const {layout} = e.nativeEvent
 
         if(!this.state.contentHeight){
-            this.handleSize(layout.height)
+            this.handleSize(layout.height + 1000)
 
         }
     }
@@ -67,6 +67,7 @@ class NewCard extends React.Component {
         this.setState({contentHeight})
     }
     render(){
+
         const {profileVisible, cardWidth, cardHeight, city, seperator, potential, activeIndex, user, isTopCard, matchName, distance} = this.props;
 
         const hasPartner = potential.partner && potential.partner.gender ? true : false;
@@ -75,115 +76,90 @@ class NewCard extends React.Component {
 
         const tmpCardHeight = profileVisible ? cardHeight : cardHeight;
 
-        const slides = slideFrames.map((p,i) => {
 
-            let {image_url} = p;
-            if(!image_url || image_url.length == 0) image_url = null;
+        const anistyle = [{
+            flex:1,
+            top:0,
+            overflow: this.props.profileVisible ? 'visible' : 'hidden',
+            transform: [{
+                scale: this.state.isOpen.interpolate({
+                    inputRange: [ 0,100],
+                    outputRange: [1,1],
+                    extrapolate: 'clamp',
 
-            return (
-          <Image
-              source={{uri: image_url || 'assets/defaultuser.png' }}
-              key={`${p.id}slide${i}`}
-              resizeMode="cover"
-              style={{flex:10,
-              alignItems:'center',
-              justifyContent:'center',
-              flexDirection:'column',
-              backgroundColor:colors.darkPurple,
-              marginLeft:profileVisible ? 0 : -40
-            }}
-          />
-        )
-        });
+                })
+            }],
+            width: this.state.isOpen.interpolate({
+                inputRange: [ 0,100],
+                outputRange: [DeviceWidth,DeviceWidth-40],
+                extrapolate: 'clamp',
+
+            }),
+            height: this.state.isOpen.interpolate({
+                inputRange: [ 0,100],
+                outputRange: [DeviceHeight,DeviceHeight-75],
+                extrapolate: 'clamp',
+
+            })
+        }];
+        const aniblurstyle = [ {
+            backgroundColor:colors.outerSpace50,
+            width:DeviceWidth,
+            paddingbottom:120,
+            flex:10,
+            flexGrow:10,
+            height:this.props.profileVisible ? this.state.contentHeight : 0,
+            top:this.props.profileVisible ? -130 : DeviceHeight+300,
+            position:'relative',
+            alignSelf:'flex-end',
+            overflow:'hidden',
+
+
+        }]
 
         return (
           <Animated.View
               key={'topkey'+potential.user.id}
-              style={[{
-                  flex:1,
-                  overflow: this.props.profileVisible ? 'visible' : 'hidden',
-                  transform: [{
-                      scale: this.state.isOpen.interpolate({
-                          inputRange: [ 0,100],
-                          outputRange: [1,1]
-                      })
-                  }],
-                  width: this.state.isOpen.interpolate({
-                      inputRange: [ 0,250],
-                      outputRange: [DeviceWidth,DeviceWidth-40]
-                  }),
-                  height: this.state.isOpen.interpolate({
-                      inputRange: [ 0,200],
-                      outputRange: [DeviceHeight,DeviceHeight-75]
-                  })
-              }]}
+              style={anistyle}
+              onLayout={this.onLayout.bind(this)}
+
           >
             <ParallaxSwiper
                 contentContainerStyle={[{
-                    minHeight: profileVisible ? DeviceHeight : cardHeight,
+                    minHeight: this.props.profileVisible ? DeviceHeight : cardHeight,
                     alignItems:'center',
                     justifyContent:'center',
                     flexDirection:'column',
                     flex:1,
                 }]}
-
+                slideFrames={slideFrames}
                 scrollEnabled={profileVisible ? true : false}
                 showsVerticalScrollIndicator={false}
                 style={[{
                     flex:1,
-                    height:this.state.contentHeight+160,
+                    position:'relative',
+                    top:0,
                     width:cardWidth,
                 }]}
                 header={<View/>}
                 dispatch={this.props.dispatch}
-                windowHeight={10}
+                windowHeight={0}
+                width={cardWidth}
                 isTopCard={isTopCard}
                 pan={this.props.pan}
+                profileVisible={profileVisible}
                 killProfile={this.props.closeProfile}
-                onLayout={this.onLayout.bind(this)}
-                swiper={(
-                      <Swiper
-                          width={cardWidth }
-                          pan={this.props.pan}
-                          isTopCard={isTopCard}
-                          profileVisible={profileVisible}
-                          height={DeviceHeight }
-                          dispatch={this.props.dispatch}
-                          style={{flex:10,zIndex:0,backgroundColor:'transparent', }}
-                          scrollEnabled={profileVisible}
-                      >
-                          {slides}
-                      </Swiper>
-                  )}
             >
-            <TouchableHighlight
-                style={{width:cardWidth,
-                    position:'relative',
-                    height: profileVisible ? 0 : 100,
-                    opacity:profileVisible ? 0 : 1,
-                    width:DeviceWidth,
-                    alignSelf:'flex-end',zIndex:1000,flex:-1,position:'absolute',bottom:60
-                }}
-                underlayColor={colors.mediumPurple20}
-                onPress={this.props.openProfileFromImage.bind(this)}
+            <AnimatedBlurView
+                blurType="dark"
+                style={aniblurstyle}
             >
-                <View style={{width:cardWidth,height:100,flex:1,bottom:0,marginTop:-80}}>
-                    <View
-                        key={'blurkeyi'+potential.user.id}
-                        style={{backgroundColor:colors.white,width:cardWidth,height:100,position:'absolute',left:0,padding:20}}
-                    >
-                        <CardLabel
-                            potential={potential}
-                            seperator={seperator}
-                            matchName={matchName}
-                            city={city}
-                            distance={distance}
-                            textColor={colors.shuttleGray}
-                        />
-                    </View>
-                </View>
-            </TouchableHighlight>
 
+            {profileVisible && <View style={{marginVertical:8,
+                  width:40,height:8,borderRadius:15,alignSelf:'center',
+                  backgroundColor:'rgba(255,255,255,.2)',
+                  position:'absolute',top:0,left:DeviceWidth/2-20
+              }}/>}
                   <View
                       key={'blurkey'+potential.user.id}
                       style={{
@@ -191,13 +167,11 @@ class NewCard extends React.Component {
                           height: profileVisible ? this.state.contentHeight : 0,
                           opacity: profileVisible ? 1 : 0,
                           flex:10,
-                          alignSelf:'flex-end',
-                          overflow:'visible',
                       }}
                   >
 
 
-                      <View style={{ paddingVertical: 20, width: DeviceWidth,flex: 10,marginTop:0}}>
+                      <View style={{ paddingVertical: 40, width: DeviceWidth,flex: 10,marginTop:0}}>
 
 
                           <View style={{marginHorizontal:MagicNumbers.screenPadding/2,marginBottom:20}}>
@@ -257,9 +231,42 @@ class NewCard extends React.Component {
 
                       </View>
                   </View>
-
+                  </AnimatedBlurView>
 
               </ParallaxSwiper>
+
+    <TouchableHighlight
+        style={{
+            width:cardWidth,
+            height: 100,
+            opacity:profileVisible ? 0 : 1,
+            width:DeviceWidth,
+            alignSelf:'flex-end',
+            zIndex:1000,
+            flex:-1,
+            position:'absolute',
+            bottom: profileVisible ? -230 : 0
+        }}
+        underlayColor={colors.mediumPurple20}
+        onPress={this.props.openProfileFromImage}
+    >
+                      <View
+                          key={'blurkeyi'+potential.user.id}
+                          style={{
+                              backgroundColor:colors.white,width:cardWidth,height:100,position:'absolute',left:0,padding:20
+                          }}
+                      >
+                          <CardLabel
+                              potential={potential}
+                              seperator={seperator}
+                              matchName={matchName}
+                              city={city}
+                              distance={distance}
+                              textColor={colors.shuttleGray}
+                          />
+                      </View>
+                  </TouchableHighlight>
+
           </Animated.View>
     )
     }
