@@ -46,12 +46,12 @@ class Card extends React.Component {
         this.getScrollResponder().scrollWithoutAnimationTo(destY, destX);
     }
 
-    componentDidUpdate(pProps, pState) {
-        if (pProps.profileVisible !== this.props.profileVisible) {
-      // const scrollbox = this.refs.scrollbox;
-      // scrollbox.setNativeProps({ contentOffset: { x: 0, y: 0 } });
-        }
-    }
+    // componentDidUpdate(pProps, pState) {
+    //     if (pProps.profileVisible !== this.props.profileVisible) {
+    //   // const scrollbox = this.refs.scrollbox;
+    //   // scrollbox.setNativeProps({ contentOffset: { x: 0, y: 0 } });
+    //     }
+    // }
 
     setNativeProps(np) {
         const incard = this.refs.incard;
@@ -61,7 +61,6 @@ class Card extends React.Component {
     // this.checkPotentialSuitability();
     }
     openProfileFromImage(e, scroll) {
-        this.setState({ activeIndex: this.state.activeIndex + 1 });
         if (this.props.profileVisible) {
       // this.props.toggleProfile(this.props.potential);
             this.props.dispatch({ type: 'CLOSE_PROFILE' });
@@ -70,50 +69,20 @@ class Card extends React.Component {
       // this.props.showProfile(this.props.potential);
             this.props.dispatch({ type: 'OPEN_PROFILE' });
         }
+        // this.setState({ activeIndex: this.state.activeIndex + 1 });
+
     // if (scroll) {
     //   this.scrollTo({ y: DeviceHeight * 0.2, x: 0 }, true);
     // }
+    }
+    closeProfile() {
+        this.props.dispatch({ type: 'CLOSE_PROFILE' });
     }
 
     componentWillReceiveProps(nProps) {
         if (nProps && nProps.pan && this.props.profileVisible !== nProps.profileVisible) {
             LayoutAnimation.configureNext(animations.layout.spring);
         }
-    // if (nProps.potential.user.id !== this.props.potential.user.id) {
-    //   this.checkPotentialSuitability();
-    // }
-    }
-  //
-  // toggleCardHoverOn() {
-  //   if (!this.props.animatedIn) { return; }
-  //
-  //   this.refs.cardinside.setNativeProps({
-  //     style: { shadowColor: colors.darkShadow, shadowRadius: 30, shadowOpacity: 1 },
-  //   });
-  // }
-  // toggleCardHoverOff() {
-  //   if (!this.props.animatedIn) { return; }
-  //
-  //   this.refs.cardinside.setNativeProps({
-  //     style: { shadowColor: colors.darkShadow, shadowRadius: 0, shadowOpacity: 0 },
-  //   });
-  // }
-
-    reportModal() {
-    // this.props.dispatch(ActionMan.showInModal({
-    //   component: 'ReportModal',
-    //   name: 'Report User Modal',
-    //   passProps: {
-    //     action: 'report',
-    //     potential: this.props.potential,
-    //     goBack: (them) => {
-    //       this.props.dispatch(ActionMan.killModal());
-    //       if (them) {
-    //         this.props.toggleProfile();
-    //       }
-    //     },
-    //   },
-    // }));
     }
 
     checkPotentialSuitability() {
@@ -122,9 +91,6 @@ class Card extends React.Component {
         }
     }
 
-    closeProfile() {
-        this.props.dispatch({ type: 'CLOSE_PROFILE' });
-    }
 
     render() {
         const potential = this.props.potential || { user: {} };
@@ -184,7 +150,6 @@ class Card extends React.Component {
             isTopCard={this.props.isTopCard}
             matchName={matchName}
             distance={parseInt(distance)}
-            reportModal={this.reportModal.bind(this)}
             closeProfile={this.closeProfile.bind(this)}
             openProfileFromImage={this.openProfileFromImage.bind(this, true)}
         />

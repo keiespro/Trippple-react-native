@@ -47,7 +47,7 @@ class ParallaxSwiper extends React.Component{
 
     maybeKillProfile(e){
 
-        if(!this.state.wasKilled && e.value <= -200){
+        if(!this.state.wasKilled && e.value <= -100){
             this.state.scrollY.removeListener(this.maybeKillProfile.bind(this))
             this.setState({wasKilled: true})
             this.killProfile()
@@ -103,7 +103,7 @@ class ParallaxSwiper extends React.Component{
                           width:0,
                           height: -10
                       },
-                      borderRadius:12,
+                      borderRadius:11,
                       overflow:'visible',
                       backgroundColor:  this.props.pan && this.props.isTopCard ? this.props.pan.x.interpolate({
                           inputRange: [-300, -180, -50, 0, 50, 180, 300],
@@ -119,7 +119,7 @@ class ParallaxSwiper extends React.Component{
                       }) : 'white', }]}
 
               >
-                  <View style={{overflow:'hidden',borderRadius:12,width:DeviceWidth}}>
+                  <View style={{overflow:'hidden',borderRadius:11,width:DeviceWidth}}>
                          <Swiper
                              width={this.props.cardWidth }
                              isTopCard={isTopCard}

@@ -62,7 +62,7 @@ class Potentials extends React.Component{
                   <TouchableOpacity
                       onPress={()=>route.params.dispatch({type:'CLOSE_PROFILE'})}
                       style={{padding:15,left:-5,width:45,height:45,position:'absolute',top:0,
-                       alignItems:'center',justifuContent:'center',zIndex:999}}
+                       alignItems:'center',justifyContent:'center',zIndex:999}}
                   >
                   <Image
                       resizeMode={Image.resizeMode.contain}
@@ -93,9 +93,6 @@ class Potentials extends React.Component{
 
 
     componentDidMount(){
-        this.props.navigator.updateCurrentRouteParams({
-            show: !this.props.ui.profileVisible, visible: false, dispatch: this.props.dispatch
-        })
 
 
         if(this.props.user.status){

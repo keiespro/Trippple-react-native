@@ -9,7 +9,7 @@ import styles from './styles'
 import XButton from '../../buttons/XButton'
 import {pure} from 'recompose'
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView)
-
+import ActionMan from '../../../actions'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
@@ -45,14 +45,22 @@ class NewCard extends React.Component {
     }
 
     reportModal(){
-
+        const hasPartner = potential.partner && potential.partner.gender ? true : false;
+        const them = [this.props.potential.user];
+        if(hasPartner) them.push(this.props.potential.partner)
         this.props.dispatch(ActionMan.showInModal({
             component: 'ReportModal',
             passProps: {
                 action: 'report',
-                them: [this.props.potential.user, this.props.potential.partner],
+                them
             }
         }))
+    }
+    closeProfile() {
+        this.props.dispatch({ type: 'CLOSE_PROFILE' });
+    }
+    openProfile() {
+        this.props.dispatch({ type: 'OPEN_PROFILE' });
     }
 
     onLayout(e){
@@ -124,6 +132,15 @@ class NewCard extends React.Component {
               onLayout={this.onLayout.bind(this)}
 
           >
+              {profileVisible &&
+                <View style={{width:DeviceWidth,position:'absolute',zIndex:0,top:10,height:15,alignItems:'center',justifyContent:'center'}}>
+                <Image
+                    resizeMode={Image.resizeMode.contain}
+                    style={{width:15,height:15,marginTop:0,alignItems:'flex-start',opacity:0.2}}
+                    source={{uri: 'assets/close@3x.png'}}
+                />
+                </View>
+              }
             <ParallaxSwiper
                 contentContainerStyle={[{
                     minHeight: this.props.profileVisible ? DeviceHeight : cardHeight,
@@ -148,7 +165,7 @@ class NewCard extends React.Component {
                 isTopCard={isTopCard}
                 pan={this.props.pan}
                 profileVisible={profileVisible}
-                killProfile={this.props.closeProfile}
+                killProfile={this.closeProfile.bind(this)}
             >
             <AnimatedBlurView
                 blurType="dark"
@@ -210,7 +227,7 @@ class NewCard extends React.Component {
                               location={'card'}
                           />
 
-                          <TouchableOpacity onPress={this.props.reportModal}>
+                          <TouchableOpacity onPress={this.reportModal.bind(this)}>
                               <View style={{ marginTop: 20, paddingBottom: 50 }}>
                                   <Text style={{ color: colors.mandy, textAlign: 'center' }}>Report or Block this user</Text>
                               </View>
@@ -248,7 +265,7 @@ class NewCard extends React.Component {
             bottom: profileVisible ? -230 : 0
         }}
         underlayColor={colors.mediumPurple20}
-        onPress={this.props.openProfileFromImage}
+        onPress={this.openProfile.bind(this)}
     >
                       <View
                           key={'blurkeyi'+potential.user.id}

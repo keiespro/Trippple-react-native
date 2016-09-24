@@ -1,43 +1,43 @@
 import _ from 'underscore'
 export default function userReducer(state = initialState, action) {
-  let {user_info, existed } = action && action.payload ? action.payload.response || action.payload : {};
+    let {user_info, existed } = (action && action.payload ? action.payload.response || action.payload : {});
 
-  switch (action.type) {
+    switch (action.type) {
 
     case 'HANDLE_NOTIFICATION_DECOUPLE':
-      return {...state, partner: null, couple: null, relationship_status:'single'}
-    
+        return {...state, partner: null, couple: null, relationship_status:'single'}
+
     case 'GET_USER_INFO_PENDING':
 
-      return state;
+        return state;
 
     case 'GET_USER_INFO_REJECTED':
 
-      return { ...state, err: action.payload };
+        return { ...state, err: action.payload };
 
     case 'UPDATE_USER_PENDING':
-      let updates = _.values(action.meta)
-       return { ...state, ...updates[0]};
+        let updates = _.values(action.meta)
+        return { ...state, ...updates[0]};
 
     case 'GET_USER_INFO_FULFILLED':
     case 'VERIFY_PIN_FULFILLED':
-      return {...user_info, isNewUser: false }
+        return {...user_info, isNewUser: false }
 
     case 'ONBOARD_FULFILLED':
     case 'HANDLE_NOTIFICATION_COUPLE_READY':
-      return {...user_info, }
+        return {...user_info, }
 
     case 'LOGIN_WITH_FACEBOOK_FULFILLED':
-      return {...state, ...user_info, isNewUser: !existed }
+        return {...state, ...user_info, isNewUser: !existed }
 
     case 'LOG_OUT_FULFILLED':
 
-      return initialState;
+        return initialState;
 
     default:
 
-      return state;
-  }
+        return state;
+    }
 }
 
 

@@ -31,7 +31,7 @@ class PhotoAlbums extends React.Component {
         styles: NavigationStyles.FloatHorizontal,
 
         navigationBar: {
-            backgroundColor: colors.transparent,
+            backgroundColor: colors.shuttleGrayAnimate,
             title(params) {
                 return `YOUR ALBUMS`
             }

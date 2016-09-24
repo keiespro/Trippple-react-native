@@ -42,9 +42,11 @@ class MatchList extends Component {
 
     // }, 500)
     //
-        this.props.dispatch(ActionMan.getMatches())
-        this.props.dispatch(ActionMan.getNewMatches())
+        InteractionManager.runAfterInteractions(() => {
 
+            this.props.dispatch(ActionMan.getMatches())
+            this.props.dispatch(ActionMan.getNewMatches())
+        })
     }
 
     _updateDataSource(data) {
@@ -151,7 +153,7 @@ class MatchList extends Component {
 
     }
     _renderRow(rowData, sectionID, rowID) {
- 
+
         const myId = this.props.user.id;
     // const myPartnerId = this.props.user.relationship_status === 'couple' ? this.props.user.partner_id : null;
         const theirIds = Object.keys(rowData.users).filter(u => u != this.props.user.id && u != this.props.user.partner_id);

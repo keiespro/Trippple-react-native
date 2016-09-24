@@ -17,8 +17,8 @@ const THROW_THRESHOLD_DENY = -1 * (10);
 const THROW_THRESHOLD_APPROVE = 10;
 const THROW_SPEED_THRESHOLD = 1;
 
-const SWIPE_THRESHOLD_DENY = -1 * (DeviceWidth*0.67);
-const SWIPE_THRESHOLD_APPROVE = DeviceWidth*0.67;
+const SWIPE_THRESHOLD_DENY = -180;
+const SWIPE_THRESHOLD_APPROVE = 140;
 
 @pure
 class CardStack extends React.Component {
@@ -223,8 +223,8 @@ class CardStack extends React.Component {
         const pan = this.state.pan || 0;
         if(potentials && potentials.length > 1 && potentials[1]){
             const nextUp = potentials[1];
-            if(nextUp.image_url){
-                Image.prefetch(nextUp.image_url);
+            if(nextUp.user.image_url){
+                Image.prefetch(nextUp.user.image_url);
             }
         }
         return (

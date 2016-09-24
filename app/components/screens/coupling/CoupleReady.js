@@ -19,35 +19,48 @@ import {MagicNumbers} from '../../../utils/DeviceConfig'
 import { BlurView, VibrancyView } from 'react-native-blur'
 
 import { connect } from 'react-redux';
+import {NavigationStyles} from '@exponent/ex-navigation'
 
 
 class CoupleReady extends React.Component{
-  constructor(props){
-    super()
-    this.state = {
-      pin: '',
-      submitting: false,
-      absoluteContinue: true,
-      verifyError: null,
-      inputFieldValue:''
+    static route = {
+        styles: NavigationStyles.Fade,
+        navigationBar: {
+            visible:false
+        }
+    };
+    constructor(props){
+        super()
+        this.state = {
+            pin: '',
+            submitting: false,
+            absoluteContinue: true,
+            verifyError: null,
+            inputFieldValue:''
+        }
+
     }
-  }
-  popToTop(){
+    componentDidMount(){
+        this.props.dispatch({type:'CLEAR_POTENTIALS'})
+    }
+    popToTop(){
     // if(this.props.navigator){
     //   this.props.navigator.pop()
     // }
-    if(this.props.hideModal){
-      this.props.hideModal()
-    }
-    if(this.props.close){
-      this.props.close()
+
+
+        if(this.props.hideModal){
+            this.props.hideModal()
+        }
+        if(this.props.close){
+            this.props.close()
+        }
+
+        this.props.navigator.popToTop()
     }
 
-    this.props.navigator.popToTop()
-  }
-
-  render(){
-    return this.props.user && this.props.user.partner ? (
+    render(){
+        return this.props.user && this.props.user.partner ? (
       <ScrollView contentContainerStyle={[{width:DeviceWidth,height:DeviceHeight,flexDirection:'column',justifyContent:'center',flex:1,top:0 }]} >
 
         <Text style={[styles.rowtext,styles.bigtext,{ backgroundColor:'transparent',textAlign:'center', fontFamily:'Montserrat-Bold',fontSize:40,color:'#fff',marginVertical:10 }]}>
@@ -55,22 +68,22 @@ class CoupleReady extends React.Component{
         </Text>
 
         <Text style={[styles.rowtext,styles.bigtext,{
-          fontSize:18,
-          marginVertical:10,
-          color:'#fff',backgroundColor:'transparent',
-          marginBottom:15,textAlign:'center',
-          flexDirection:'column'
+            fontSize:18,
+            marginVertical:10,
+            color:'#fff',backgroundColor:'transparent',
+            marginBottom:15,textAlign:'center',
+            flexDirection:'column'
         }]}>You're now a couple.</Text>
 
-        {this.props.user.partner ?  <View style={{height:120,marginVertical:30,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+        {this.props.user.partner ? <View style={{height:120,marginVertical:30,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
           <Image style={[{width:120,height:120,borderRadius:60,marginRight:-100}]}
-          source={ {uri: this.props.user.partner.image_url} }
-          defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+              source={ {uri: this.props.user.partner.image_url || 'assets/placeholderUser@3x.png'} }
+              defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
           />
 
         <Image style={[{width:120,height:120,borderRadius:60,marginLeft:-100}]}
-        source={ {uri: this.props.user.image_url} }
-        defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+            source={ {uri: this.props.user.image_url || 'assets/placeholderUser@3x.png'} }
+            defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
         />
     </View> : null}
 
@@ -85,9 +98,10 @@ class CoupleReady extends React.Component{
         }]}>Your couple will be set up shortly.</Text></View> : null}*/}
 
         <TouchableHighlight
-          underlayColor={colors.white20}
-          style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:MagicNumbers.screenPadding,marginTop:50,marginBottom:15}}
-          onPress={this.popToTop.bind(this)}>
+            underlayColor={colors.white20}
+            style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:MagicNumbers.screenPadding,marginTop:50,marginBottom:15}}
+            onPress={this.popToTop.bind(this)}
+        >
           <View style={{paddingVertical:20,paddingHorizontal:20}} >
             <Text style={{fontFamily:'Montserrat-Bold', fontSize:18,textAlign:'center', color:'#fff',}}>
               CONTINUE
@@ -104,21 +118,21 @@ class CoupleReady extends React.Component{
       </ScrollView>)
 
 
-  }
+    }
 }
 
 
 
 const mapStateToProps = (state, ownProps) => {
-  return {
-    ...ownProps,
-    user: state.user,
-    couple: state.app.coupling
-  }
+    return {
+        ...ownProps,
+        user: state.user,
+        couple: state.app.coupling
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return { dispatch };
+    return { dispatch };
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)( CoupleReady )
