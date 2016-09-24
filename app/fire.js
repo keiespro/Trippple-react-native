@@ -9,50 +9,54 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 
-const checkFireLoginState = (fbUser) => new Promise((reject,resolve) => {
+const checkFireLoginState = (fbUser,dispatch) => {
     if (fbUser) {
-        return firebase.auth().onAuthStateChanged((firebaseUser) => {
-      // console.log(fbUser,firebaseUser);
+        firebase.auth().onAuthStateChanged((firebaseUser) => {
+
             if (!isUserEqual(fbUser, firebaseUser)) {
                 const credential = firebase.auth.FacebookAuthProvider.credential(fbUser.accessToken);
+
                 firebase.auth()
-          .signInWithCredential(credential)
-          .then(a => {
-            // console.log(a);
-              resolve(firebaseUser)
-          })
-          .catch((error) => {
-          // Handle Errors here.
-            // console.log('isUserEqual',error);
-              const errorCode = error.code;
-              const errorMessage = error.message;
-              const email = error.email;
-              reject(error)
-          });
+                  .signInWithCredential(credential)
+                  .then(firebaser => {
+                      dispatch({ type: 'FIREBASE_AUTH', payload: firebaser })
+                  })
+                  .catch((error) => {
+                      __DEV__ && console.warn('catch fire',error);
+                      const errorCode = error.code;
+                      const errorMessage = error.message;
+                      const email = error.email;
+                      if(error) dispatch({ type: 'FIREBASE_AUTH_FAIL', payload: error });
+
+                  });
             } else {
-        // User is already signed-in Firebase with the correct user.
-                resolve(firebaseUser)
+              // User is already signed-in Firebase with the correct user.
+                dispatch({ type: 'FIREBASE_AUTH_CONFIRM', payload: firebaseUser })
             }
         });
     } else {
-    // User is signed-out of Facebook.
+        __DEV__ && console.warn('User is signed-out of Facebook.')
         firebase.auth().signOut();
-        reject()
+        dispatch({ type: 'FIREBASE_AUTH_FAIL', payload: 'User is signed-out of Facebook.' })
+
     }
-})
+}
 
 function isUserEqual(facebookAuthResponse, firebaseUser) {
+    let r= false;
     if (firebaseUser) {
         let providerData = firebaseUser.providerData;
         for (let i = 0; i < providerData.length; i++) {
             if (providerData[i].providerId === firebase.auth.FacebookAuthProvider.PROVIDER_ID &&
           providerData[i].uid === facebookAuthResponse.userID) {
         // We don't need to re-auth the Firebase connection.
-                return true;
+                r = true;
             }
         }
     }
-    return false;
+    console.log('isUserEqual',r);
+
+    return r;
 }
 
 

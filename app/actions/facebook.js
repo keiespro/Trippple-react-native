@@ -46,17 +46,17 @@ export const loginWithFacebook = () => async dispatch => {
     const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
     const fbAuth = await AccessToken.getCurrentAccessToken()
     const fbData = {...fb, ...fbAuth}
-    dispatch({ type: 'LOGIN_WITH_FACEBOOK', payload:  api.fbLogin( fbData) })
+    dispatch({ type: 'LOGIN_WITH_FACEBOOK', payload: api.fbLogin( fbData) })
     dispatch({ type: 'FACEBOOK_AUTH', payload: fbData})
-    try{
 
-        const fireUser = await checkFireLoginState(await fbData)
-        dispatch({ type: 'FIREBASE_AUTH', payload:  fireUser })
-    }catch(err){
-        __DEV__ && console.log('fb login failed',err)
-        LoginManager.logOut()
 
-    }
+    checkFireLoginState(fbData,dispatch)
+    // .then(fireUser => {
+    // })
+    // .catch(err => {
+    //     __DEV__ && console.warn('fb login failed',err)
+    //   // LoginManager.logOut()
+    // })
 }
 
 
@@ -80,7 +80,7 @@ export const facebookAuth = () => async dispatch => {
 
         dispatch({ type: 'FACEBOOK_AUTH', payload: {...fb,...fbUser} })
     }catch(err){
-        __DEV__ && console.log('fb login failed',err)
+        __DEV__ && console.log('facebookAuth FACEBOOK_AUTHfb login failed',err)
     }
 }
 
