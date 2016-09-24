@@ -134,11 +134,11 @@ class NewCard extends React.Component {
           >
               {profileVisible &&
                 <View style={{width:DeviceWidth,position:'absolute',zIndex:0,top:10,height:15,alignItems:'center',justifyContent:'center'}}>
-                <Image
-                    resizeMode={Image.resizeMode.contain}
-                    style={{width:15,height:15,marginTop:0,alignItems:'flex-start',opacity:0.2}}
-                    source={{uri: 'assets/close@3x.png'}}
-                />
+                  <Image
+                      resizeMode={Image.resizeMode.contain}
+                      style={{width:15,height:15,marginTop:0,alignItems:'flex-start',opacity:0.2}}
+                      source={{uri: 'assets/close@3x.png'}}
+                  />
                 </View>
               }
             <ParallaxSwiper
@@ -236,9 +236,10 @@ class NewCard extends React.Component {
                                   <Text style={{ color: colors.mandy, textAlign: 'center' }}>Report or Block this user</Text>
                               </View>
                           </TouchableOpacity>
+
                           <TouchableOpacity
                               style={{
-                                  height: 50, alignItems: 'center', width: 50, justifyContent: 'center',flex:0,alignSelf:'center'
+                                  height: 50,zIndex:9999, alignItems: 'center', width: 50, justifyContent: 'center',flex:0,alignSelf:'center',
                               }}
                               onPress={this.props.closeProfile}
                           >
@@ -248,8 +249,10 @@ class NewCard extends React.Component {
                                   source={{ uri: 'assets/close@3x.png' }}
                               />
                           </TouchableOpacity>
-                      </View>
                   </View>
+
+                  </View>
+
                   </AnimatedBlurView>
 
               </ParallaxSwiper>

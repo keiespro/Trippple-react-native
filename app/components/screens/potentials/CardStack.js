@@ -291,7 +291,7 @@ class CardStack extends React.Component {
 
             { potentials && potentials[0] &&
                 <Animated.View
-                    style={[styles.shadowCard, {
+                    style={[ {
                         alignSelf: 'center',
                         borderRadius: 11,
                         top:this.props.profileVisible ? -50 : 0,
@@ -304,7 +304,6 @@ class CardStack extends React.Component {
                             {
                                 translateX: this.state.pan ? this.state.pan.x : 0,
                             },
-
                             {
                                 translateY: this.state.animatedIn ? this.state.pan.y.interpolate({
                                     inputRange: [-300, 0, 300],

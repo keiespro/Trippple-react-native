@@ -67,7 +67,7 @@ class Potentials extends React.Component{
                   <Image
                       resizeMode={Image.resizeMode.contain}
                       style={{width:15,height:15,alignSelf:'center'}}
-                      source={require('../../../../ios/Trippple/assets/close.png')}
+                      source={{uri: 'assets/close@3x.png'}}
                   />
                 </TouchableOpacity>
                       )

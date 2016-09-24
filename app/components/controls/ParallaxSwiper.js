@@ -55,7 +55,7 @@ class ParallaxSwiper extends React.Component{
     }
 
     killProfile(){
-        this._scrollView.scrollTo({x:0,y:0,animated:true})
+        this._scrollView.scrollTo({x:0,y:0,animated:false})
 
         this.props.killProfile && this.props.killProfile()
         this.setState({wasKilled: false})
