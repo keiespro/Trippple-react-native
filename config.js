@@ -4,10 +4,6 @@ global.__DEBUG__ = false;
 global.__DEV__ = false;
 global.__TEST__ = false
 
-// // // // // //
-global.__DEBUG__ = false;
-global.__DEV__ = false;
-// // // // //
 __DEBUG__ = false;
 __DEV__ = false;
 // // //

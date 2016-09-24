@@ -27,7 +27,6 @@ platform :ios do
   desc "Submit a new Beta Build to Apple TestFlight"
   desc "This will also make sure the profile is up to date"
   lane :beta do
-    # match(type: "appstore") # more information: https://codesigning.guide
     cert
     sigh
     # increment_build_number
@@ -38,24 +37,31 @@ platform :ios do
 
   end
 
-  # ensure_git_status_clean
-  # ensure_git_branch(branch: 'master')
-  # push_to_git_remote
-
 
   desc "Deploy a new version to the App Store"
   lane :appstore do
+
+    # ensure_git_status_clean
+    # ensure_git_branch(branch: 'master')
+    # push_to_git_remote
+
     cert
     sigh
     # changelog = prompt(text: "Enter the change log: ", multi_line_end_keyword: "END")
-    version = increment_version_number(bump_type: "patch")
+    # increment_version_number(bump_type: "patch")
     gym(
       scheme: "Trippple",
-      clean: true)
+      clean: true
+    )
     deliver(
       submit_for_review: true,
       skip_screenshots: true
     )
+    slack(
+      message: "Fastlane: Submitted for Review",
+      slack_url: "https://hooks.slack.com/services/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"
+    )
+
   end
 
  lane :debug do
@@ -78,7 +84,6 @@ platform :ios do
 
 
   after_all do |lane|
-
   end
 
   error do |lane, exception|
