@@ -45,9 +45,10 @@ class NewCard extends React.Component {
     }
 
     reportModal(){
+        const {potential} = this.props;
         const hasPartner = potential.partner && potential.partner.gender ? true : false;
-        const them = [this.props.potential.user];
-        if(hasPartner) them.push(this.props.potential.partner)
+        const them = [potential.user];
+        if(hasPartner) them.push(potential.partner)
         this.props.dispatch(ActionMan.showInModal({
             component: 'ReportModal',
             passProps: {
@@ -130,7 +131,6 @@ class NewCard extends React.Component {
               key={'topkey'+potential.user.id}
               style={anistyle}
               onLayout={this.onLayout.bind(this)}
-
           >
               {profileVisible &&
                 <View style={{width:DeviceWidth,position:'absolute',zIndex:0,top:10,height:15,alignItems:'center',justifyContent:'center'}}>
@@ -213,12 +213,17 @@ class NewCard extends React.Component {
                               </View>
                           }
 
-                          {hasPartner && potential.partner.bio &&
-                              <View style={{ margin: MagicNumbers.screenPadding / 2, width: MagicNumbers.screenWidth }}>
-                                  <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
-                                      potential.partner.bio
-                                  }</Text>
-                              </View>
+                          {hasPartner && potential.partner.bio && potential.partner.bio.length ?
+                              <View
+                                  style={{
+                                      margin: MagicNumbers.screenPadding / 2,
+                                      width: MagicNumbers.screenWidth
+                                  }}
+                              >
+                                  <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>
+                                    {potential.partner.bio}
+                                  </Text>
+                              </View> : null
                           }
 
                           <UserDetails
@@ -226,13 +231,11 @@ class NewCard extends React.Component {
                               user={this.props.user}
                               location={'card'}
                           />
-
                           <TouchableOpacity onPress={this.reportModal.bind(this)}>
                               <View style={{ marginTop: 20, paddingBottom: 50 }}>
                                   <Text style={{ color: colors.mandy, textAlign: 'center' }}>Report or Block this user</Text>
                               </View>
                           </TouchableOpacity>
-
                           <TouchableOpacity
                               style={{
                                   height: 50, alignItems: 'center', width: 50, justifyContent: 'center',flex:0,alignSelf:'center'
@@ -245,7 +248,6 @@ class NewCard extends React.Component {
                                   source={{ uri: 'assets/close@3x.png' }}
                               />
                           </TouchableOpacity>
-
                       </View>
                   </View>
                   </AnimatedBlurView>

@@ -69,7 +69,7 @@ class ParallaxSwiper extends React.Component{
         const slides = slideFrames.map((p,i) => {
 
             let {image_url} = p;
-            if(!image_url || image_url.length == 0){ image_url = 'assets/placeholderUser@3x.png'}
+            if(!image_url || image_url.length == 0){ image_url = 'assets/defaultuser.png'}
             else{
                 image_url = image_url.replace('test/','').replace('images/','')
             }
@@ -117,7 +117,6 @@ class ParallaxSwiper extends React.Component{
                               'rgb(66,181,125)',
                           ],
                       }) : 'white', }]}
-
               >
                   <View style={{overflow:'hidden',borderRadius:11,width:DeviceWidth}}>
                          <Swiper
@@ -142,26 +141,26 @@ class ParallaxSwiper extends React.Component{
                         </Swiper>
                   </View>
 
-                                 {/* <Animated.View style={{
-                                     backgroundColor:colors.shuttleGray,
-                                     height:44,
-                                     top:0,
-                                     zIndex:70,
-                                     transform: [
-                                         {
-                                             translateY: this.state.scrollY.interpolate({
-                                                 inputRange: [0,DeviceHeight],
-                                                 outputRange: [-50,10]
-                                             })
-                                         }
-                                     ],
-                                     position:'absolute',
-                                     width:DeviceWidth
-                                 }}/> */}
             </Animated.View>
         );
     }
 
+                                    //  {/* <Animated.View style={{
+                                    //      backgroundColor:colors.shuttleGray,
+                                    //      height:44,
+                                    //      top:0,
+                                    //      zIndex:70,
+                                    //      transform: [
+                                    //          {
+                                    //              translateY: this.state.scrollY.interpolate({
+                                    //                  inputRange: [0,DeviceHeight],
+                                    //                  outputRange: [-50,10]
+                                    //              })
+                                    //          }
+                                    //      ],
+                                    //      position:'absolute',
+                                    //      width:DeviceWidth
+                                    //  }}/> */}
 
     render() {
         let { style,windowHeight,swiper, ...props } = this.props;
@@ -182,11 +181,8 @@ class ParallaxSwiper extends React.Component{
                   onScrollAnimationEnd={()=>{}}
               >
               {this.renderBackground()}
-
-               {this.props.children}
-
+              {this.props.children}
             </ScrollView>
-
          </View>
         );
     }
