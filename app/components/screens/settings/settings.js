@@ -227,7 +227,7 @@ class Settings extends React.Component{
                     </View>
                 </TouchableHighlight>
 
-                {this.props.user.relationship_status == 'couple' ?
+                {this.props.user.relationship_status == 'couple' || !this.props.user.relationship_status ?
 
                     <TouchableHighlight onPress={(f)=>{
                         this.props.navigator.push(this.props.navigation.router.getRoute('SettingsCouple',{
