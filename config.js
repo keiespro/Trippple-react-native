@@ -1,12 +1,12 @@
-const APP_ENV = 'production';
 
-global.__DEBUG__ = false;
-global.__DEV__ = false;
-global.__TEST__ = false
+global.APP_ENV = APP_ENV = process.env.NODE_ENV || 'production';
 
-__DEBUG__ = false;
-__DEV__ = false;
-// // //
+global.SERVER_ENV = SERVER_ENV = 'production' //process.env.TRIPPPLE_SERVER || APP_ENV;
+
+global.__DEBUG__ = __DEBUG__ = false;
+global.__DEV__ = __DEV__ = APP_ENV == 'development';
+global.__TEST__ = APP_ENV == 'test';
+
 
 const defaultConfig = {
     INVITE_FRIENDS_APP_LINK: 'https://fb.me/656380827843911'
@@ -26,9 +26,15 @@ const configurations = {
         KEYCHAIN_NAMESPACE: 'staging1.trippple.co'
     },
 
-    dev: {
+    development: {
         SERVER_URL: 'http://x.local:9920',
         WEBSOCKET_URL: 'http://x.local:9920',
+        KEYCHAIN_NAMESPACE: 'http://api2.trippple.co'
+    },
+
+    test: {
+        SERVER_URL: 'http://localhost:3336',
+        WEBSOCKET_URL: 'http://localhost:3337',
         KEYCHAIN_NAMESPACE: 'http://api2.trippple.co'
     },
 
@@ -48,7 +54,7 @@ const configurations = {
 }
 const config = {
     ...defaultConfig,
-    ...configurations[APP_ENV]
+    ...configurations[SERVER_ENV]
 };
 config.invertColors = false;
 
