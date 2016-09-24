@@ -30,7 +30,7 @@ class ParallaxSwiper extends React.Component{
         super();
         this.state = {
             scrollY: new Animated.Value(0),
-
+            imgLoaded: new Animated.Value(0),
         };
     }
     getScrollResponder() {
@@ -60,6 +60,14 @@ class ParallaxSwiper extends React.Component{
         this.props.killProfile && this.props.killProfile()
         this.setState({wasKilled: false})
     }
+    imgLoad(){
+        Animated.timing(this.state.imgLoaded,{
+            duration: 500,
+            toValue: 100,
+        }).start(()=>{
+
+        })
+    }
     renderBackground() {
         let { windowHeight, slideFrames, blur,profileVisible,isTopCard } = this.props;
         let { scrollY } = this.state;
@@ -75,19 +83,27 @@ class ParallaxSwiper extends React.Component{
             }
 
             return (
-        <Image
+
+        <Animated.Image
             source={{uri: image_url || 'assets/defaultuser.png' }}
-            key={`${p.id}slide${i}`}
             resizeMode="cover"
-            style={{flex:10,
-            alignItems:'center',
-            width:this.props.cardWidth,
-            justifyContent:'center',
-            flexDirection:'column',
-            backgroundColor:colors.darkPurple,
-            marginLeft:profileVisible ? 0 : -40
-          }}
+            key={`${p.id}slide${i}`}
+            onLoad={this.imgLoad.bind(this)}
+            style={{
+                flex:10,
+                alignItems:'center',
+                opacity: this.state.imgLoaded.interpolate({
+                    inputRange: [0,50, 100],
+                    outputRange: [0.0, 0.5, 1.0]
+                }),
+                width:this.props.cardWidth,
+                justifyContent:'center',
+                flexDirection:'column',
+                backgroundColor:colors.darkPurple,
+                marginLeft:profileVisible ? 0 : -40
+            }}
         />
+
       )
         });
         windowHeight = screen.height;

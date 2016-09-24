@@ -46,14 +46,12 @@ class NewCard extends React.Component {
 
     reportModal(){
         const {potential} = this.props;
-        const hasPartner = potential.partner && potential.partner.gender ? true : false;
-        const them = [potential.user];
-        if(hasPartner) them.push(potential.partner)
+
         this.props.dispatch(ActionMan.showInModal({
             component: 'ReportModal',
             passProps: {
                 action: 'report',
-                them
+                potential
             }
         }))
     }
@@ -202,7 +200,7 @@ class NewCard extends React.Component {
                               />
                           </View>
 
-                          {potential.user.bio &&
+                          {potential.user.bio && potential.user.bio.length ?
                               <View style={{ margin: MagicNumbers.screenPadding / 2, width: MagicNumbers.screenWidth,flexDirection:'column' }}>
                                   <Text style={[styles.cardBottomOtherText, { color: colors.white, marginBottom: 15, marginLeft: 0 }]}>{
                                       !hasPartner ? `Looking for` : `Looking for`
@@ -210,7 +208,7 @@ class NewCard extends React.Component {
                                   <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
                                       potential.user.bio
                                   }</Text>
-                              </View>
+                              </View> : null
                           }
 
                           {hasPartner && potential.partner.bio && potential.partner.bio.length ?
