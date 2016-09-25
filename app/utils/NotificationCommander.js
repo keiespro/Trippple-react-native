@@ -37,16 +37,11 @@ class NotificationCommander extends Component{
         PushNotification.configure({
             onRegister(token) {
                 __DEV__ && console.warn( 'TOKEN:', token );
-                dispatch(ActionMan.updateUser({push_token: token.token}))
+                dispatch(ActionMan.receivePushToken(token.token))
             },
             onNotification(notification) {
-        // {
-        //   foreground: false, // BOOLEAN: If the notification was received in foreground or not
-        //   userInteraction: false, // BOOLEAN: If the notification was opened by the user from the notification area or not
-        //   message: 'My Notification Message', // STRING: The notification message
-        //   data: {}, // OBJECT: The push data
-        // }
-                notification.data && handleAction(notification)
+
+                notification.data && handleAction(notification, notification.foreground,notification.userInteraction)
                 Analytics.event('Handle push notification',{action:JSON.stringify(notification)})
                 __DEV__ && console.log( 'NOTIFICATION:', notification );
             },
@@ -122,7 +117,7 @@ class NotificationCommander extends Component{
             uuid: uuid.v4(),
             receivedAt: Date.now(),
             viewedAt: null,
-            interactedWith: false,
+            interactedWith: false
         }
         const newNotification = {...notification, ...moreNotificationAttributes }
 

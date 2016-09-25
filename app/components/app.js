@@ -46,33 +46,6 @@ class App extends React.Component{
 
     }
 
-    componentDidMount(){
-        PushNotificationIOS.checkPermissions((permissions) => {
-            const permResult = Object.keys(permissions).reduce((acc,el,i) =>{
-                acc = acc + permissions[el];
-                return acc
-            },0);
-
-            if(permResult){
-                PushNotificationIOS.addEventListener('register', (push_token) =>{
-                    __DEV__ && console.warn( 'TOKEN:', push_token );
-                    if(push_token){
-                        this.props.dispatch({type:'SAVE_PUSH_TOKEN', payload: push_token})
-                    }else{
-                        this.props.dispatch({type:'SAVE_PUSH_TOKEN_FAILED', payload: null})
-                    }
-                })
-
-                PushNotificationIOS.addEventListener('registrationError', (err) =>{
-                    __DEV__ && console.warn( 'TOKEN registrationError:', err );
-                });
-                // PushNotificationIOS.requestPermissions({alert:true,badge:true,sound:true})
-
-            }else{
-            // this.props.dispatch({type:'NO', payload: push_token})
-            }
-        })
-    }
 
     componentWillReceiveProps(nProps){
 

@@ -1,29 +1,29 @@
 
 export default function LikeReducer(state = initialState, action) {
 
-  switch (action.type) {
+    switch (action.type) {
 
-      case 'SEND_LIKE_FULFILLED':
+    case 'SEND_LIKE_FULFILLED':
 
         let likeCount = state.likeCount || 0;
-        let actionSource = action.payload || action.meta
+        let actionSource = action.meta
         if(actionSource.like_status == 'approve'){
-          likeCount = likeCount+1;
+            likeCount = likeCount+1;
         }
         return {
-          ...state,
-          likeCount,
-          lastLiked:0,
-          relevantUser: actionSource.relevantUser || null
+            ...state,
+            likeCount,
+            lastLiked:0,
+            relevantUser: actionSource.relevantUser || null
         }
 
-      default:
+    default:
 
         return state;
-  }
+    }
 }
 
 
 const initialState = {
-  likeCount: 0
+    likeCount: 0
 };

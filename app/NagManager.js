@@ -155,7 +155,7 @@ class NagManager extends React.Component{
     }
 
     locationModal(){
-
+      this.setTimeout(()=>{
         this.props.dispatch(ActionMan.showInModal({
             component: 'LocationPermission',
             passProps:{
@@ -168,7 +168,7 @@ class NagManager extends React.Component{
                 cancel: ()=>{ this.props.close() }
             }
         }))
-
+      },1000);
     }
 
     checkLocationSetting(){

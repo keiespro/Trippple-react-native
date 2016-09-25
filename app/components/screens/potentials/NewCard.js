@@ -130,15 +130,7 @@ class NewCard extends React.Component {
               style={anistyle}
               onLayout={this.onLayout.bind(this)}
           >
-              {profileVisible &&
-                <View style={{width:DeviceWidth,position:'absolute',zIndex:0,top:10,height:15,alignItems:'center',justifyContent:'center'}}>
-                  <Image
-                      resizeMode={Image.resizeMode.contain}
-                      style={{width:15,height:15,marginTop:0,alignItems:'flex-start',opacity:0.2}}
-                      source={{uri: 'assets/close@3x.png'}}
-                  />
-                </View>
-              }
+            
             <ParallaxSwiper
                 contentContainerStyle={[{
                     minHeight: this.props.profileVisible ? DeviceHeight : cardHeight,

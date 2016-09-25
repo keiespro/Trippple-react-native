@@ -233,7 +233,7 @@ class CardStack extends React.Component {
                 flex: 1,
                 alignSelf: 'stretch',
                 alignItems: 'center',
-                backgroundColor: this.props.profileVisible ? colors.darkShadow : colors.transparent
+                backgroundColor:  colors.transparent
             }}
             toggleProfile={this._toggleProfile.bind(this)}
 
@@ -247,13 +247,14 @@ class CardStack extends React.Component {
                     style={[styles.shadowCard,
                         {
                             alignSelf: 'center',
-                            left: this.props.profileVisible ? 0 : 20,
-                            right: this.props.profileVisible ? 0 : 20,
-                            borderRadius: this.props.profileVisible ? 0 : 8,
+                            left: 20,
+                            right: 20,
+                            borderRadius:  8,
                             bottom: this.props.profileVisible ? 0 : 75,
                             position: 'absolute',
                             overflow: 'hidden',
                             top: 0,
+                          
                         },
                         {
                             transform: [
