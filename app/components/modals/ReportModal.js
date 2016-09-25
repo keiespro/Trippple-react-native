@@ -99,7 +99,11 @@ class ReportModal extends Component{
                       </TouchableHighlight>
                       <TouchableOpacity
                           style={styles.modalButtonWrap}
-                          onPress={()=>{this.props.goBack()}}
+                          onPress={()=>{
+                              this.props.goBack && this.props.goBack(them && them.id ? them : them[0]);
+                              this.props.close && this.props.close()
+
+                          }}
                       >
                           <View style={[styles.modalButton,styles.cancelButton]} >
                               <Text style={styles.modalButtonText}>CANCEL</Text>

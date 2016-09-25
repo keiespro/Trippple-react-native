@@ -31,7 +31,7 @@ const checkFireLoginState = (fbUser,dispatch) => {
                   });
             } else {
               // User is already signed-in Firebase with the correct user.
-                dispatch({ type: 'FIREBASE_AUTH_CONFIRM', payload: firebaseUser })
+                dispatch({ type: 'FIREBASE_AUTH_CONFIRM', payload: firebaseUser.toJSON() })
             }
         });
     } else {
