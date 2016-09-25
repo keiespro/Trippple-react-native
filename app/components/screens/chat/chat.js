@@ -28,7 +28,6 @@ import {NavigationStyles, withNavigation} from '@exponent/ex-navigation';
 import ChatBubble from './ChatBubble'
 import ChatInside from './ChatInside'
 
-@pure
 @withNavigation
 @reactMixin.decorate(TimerMixin)
 class Chat extends React.Component {
@@ -66,9 +65,9 @@ class Chat extends React.Component {
         this.props.dispatch(ActionMan.getMessages({match_id:this.props.match.match_id}))
         if(this.props.fromNotification){
             const matchInfo = this.props.match;
-            const theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
-                them = theirIds.map((id)=> matchInfo.users[id]),
-                chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '') },'');
+            const theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id);
+            const them = theirIds.map((id)=> matchInfo.users[id]);
+            const chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '') },'');
 
             this.setTimeout(()=>{
                 this.props.navigator.updateCurrentRouteParams({title: chatTitle, match:this.props.match })

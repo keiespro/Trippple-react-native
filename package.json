@@ -5,6 +5,8 @@
   "scripts": {
     "start": "TRIPPPLE_SERVER=staging NODE_ENV=development react-native start --reset-cache",
     "bundle": "NODE_ENV=production react-native bundle  --entry-file index.ios.js --verbose --reset-cache  --platform ios —-dev false --assets-dest assets  --bundle-output main.jsbundle",
+    "bundle-staging": "TRIPPPLE_SERVER=staging NODE_ENV=production react-native bundle  --entry-file index.ios.js --verbose --reset-cache  --platform ios —-dev false --assets-dest assets  --bundle-output main.jsbundle",
+    "bundle-prod": "TRIPPPLE_SERVER=production NODE_ENV=production react-native bundle  --entry-file index.ios.js --verbose --reset-cache  --platform ios —-dev false --assets-dest assets  --bundle-output main.jsbundle",
     "sim": "NODE_ENV=development xcodebuild -project ios/Trippple.xcodeproj -scheme Trippple -derivedDataPath build",
     "unit-tests": "node_modules/mocha/bin/mocha --compilers js:./test/unit/compile.js ./test/unit/initTest.js",
     "unit-tests-watch": "node_modules/mocha/bin/mocha --compilers js:./test/unit/compile.js ./test/unit/initTest.js --watch",
@@ -12,7 +14,10 @@
     "test": "mocha ./test",
     "appium": "appium -p 4723",
     "dev": "./dev.sh",
-    "postinstall": "rndebugger-open"
+    "postinstall": "rndebugger-open",
+    "testflight-staging": "npm run bundle-staging && cd ios && fastlane beta && cd -",
+    "submit": "npm run bundle-prod && cd ios && fastlane appstore && cd -"
+
   },
   "dependencies": {
     "@exponent/ex-navigation": "git+https://github.com/trippple/ex-navigation.git",
