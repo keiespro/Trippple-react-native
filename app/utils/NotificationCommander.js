@@ -117,7 +117,6 @@ class NotificationCommander extends Component{
             uuid: uuid.v4(),
             receivedAt: Date.now(),
             viewedAt: null,
-            interactedWith: false
         }
         const newNotification = {...notification, ...moreNotificationAttributes }
 

@@ -157,8 +157,8 @@ export const handleNotification = notification => dispatch => dispatch({ type: '
     }
 
 
-    console.log(nType);
-    
+    __DEV__ && console.log(nType);
+
     if(!nType){
       reject(notification)
       return false;
