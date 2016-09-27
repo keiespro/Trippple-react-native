@@ -4,7 +4,7 @@
 
 import React from "react";
 import ReactNative, {View, AppRegistry, NativeModules} from "react-native";
-import Boot from './app/Boot'
+import NewBoot from './app/NewBoot'
 
 console.log('index.ANDROID.js');
 
@@ -17,6 +17,6 @@ if(__DEV__){
   console.ignoredYellowBox = [`{"line":`, 'jsSchedulingOverhead','SocketRocket','ScrollView','WARNING','Value did not change','Value is a function','%cfont-weight','Warning','Task oprhaned'];
 }
 
-const Trippple = (props => <Boot {...props}/>)
+const Trippple = (props => <NewBoot {...props}/>)
 
 AppRegistry.registerComponent('Trippple', () => Trippple)

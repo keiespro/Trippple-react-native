@@ -15,10 +15,7 @@ import {
   KeyboardAvoidingView,
   TextInput,
   ScrollView,
-  SwitchIOS,
   Animated,
-  DatePickerIOS,
-  PickerIOS,
   Image,
   AsyncStorage,
 } from 'react-native'
@@ -381,7 +378,7 @@ class FieldModal extends React.Component{
     case 'textarea':
         return (
           <View style={{flex:1,flexDirection:'column',height:DeviceHeight-this.state.keyboardSpace}}>
-            <ScrollView 
+            <ScrollView
               style={{ flex:1}}
               contentContainerStyle={{justifyContent:'space-around',flex:1,padding:20,}}
             >
@@ -417,7 +414,7 @@ class FieldModal extends React.Component{
       }
     }
     return (
-     
+
         <View style={{ position:'absolute',left:0,flex:1}}>
           <KeyboardAvoidingView  style={{flex:1}} behavior={'padding'}>
       <ScrollView

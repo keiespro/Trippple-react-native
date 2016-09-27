@@ -17,7 +17,6 @@
     "postinstall": "rndebugger-open",
     "testflight-staging": "npm run bundle-staging && cd ios && fastlane beta && cd -",
     "submit": "npm run bundle-prod && cd ios && fastlane appstore && cd -"
-
   },
   "dependencies": {
     "@exponent/ex-navigation": "git+https://github.com/trippple/ex-navigation.git",
@@ -53,7 +52,7 @@
     "path": "^0.12.7",
     "phone-parser": "0.0.2",
     "re-base": "^2.1.0",
-    "react": "^15.3.1-rc.2",
+    "react": "15.3.2",
     "react-addons-test-utils": "^15.3.1",
     "react-dom": "^15.3.1",
     "react-mixin": "^3.0.5",
@@ -71,7 +70,7 @@
     "react-native-message-composer": "git+https://github.com/trippple/react-native-message-composer.git",
     "react-native-mixpanel": "^0.0.10",
     "react-native-navigation-redux-helpers": "^0.4.1",
-    "react-native-push-notification": "^2.0.2",
+    "react-native-push-notification": "^2.1.1",
     "react-native-swiper": "latest",
     "react-native-touch-id": "^2.0.3",
     "react-native-workers": "^0.3.1",

@@ -12,6 +12,7 @@ import {
   PushNotificationIOS,
   Image,
   ScrollView,
+  Platform,
   AsyncStorage,
   ListView,
   Alert,
@@ -31,7 +32,7 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import { connect } from 'react-redux';
-
+const iOS = Platform.OS == 'iOS';
 
 import SettingsConstants, { HAS_SEEN_NOTIFICATION_REQUEST, LAST_ASKED_NOTIFICATION_PERMISSION, NOTIFICATION_SETTING } from '../../../utils/SettingsConstants'
 
@@ -86,7 +87,7 @@ class SettingsDebug extends React.Component{
   </TouchableHighlight>
 
               {/*  send like */}
-                <TouchableHighlight
+            {AlertIOS &&    <TouchableHighlight
                   onPress={(f)=>{
                     AlertIOS.prompt(
                       'Like User',
@@ -106,7 +107,7 @@ class SettingsDebug extends React.Component{
                     <Image source={{uri: 'assets/nextArrow@3x.png'}} style={{height:10,width:10,tintColor:colors.white}} />
 
                   </View>
-                </TouchableHighlight>
+                </TouchableHighlight>}
 
           {/*  Receive fake Notification */}
             <TouchableHighlight
@@ -127,7 +128,7 @@ class SettingsDebug extends React.Component{
 
 
               });
-                PushNotificationIOS.presentLocalNotification({
+              iOS && PushNotificationIOS.presentLocalNotification({
                   alertSound:'default',
                   alertTitle:'hi'
                 })

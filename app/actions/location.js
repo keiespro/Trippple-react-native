@@ -1,4 +1,4 @@
-import { Alert, NativeModules, PushNotificationIOS } from 'react-native'
+import { Alert, NativeModules } from 'react-native'
 import api  from '../utils/api'
 
 const { OSPermissions, RNMessageComposer, RNMail } = NativeModules;

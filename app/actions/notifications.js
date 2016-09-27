@@ -1,11 +1,11 @@
 
 import Promise from 'bluebird'
-import {NativeModules,Alert,VibrationIOS,PushNotificationIOS} from 'react-native'
+import {NativeModules,Alert,VibrationIOS,PushNotificationIOS,Platform} from 'react-native'
 import PushNotification from 'react-native-push-notification'
 import api from '../utils/api'
 const getBadgeNumber = Promise.promisify(PushNotification.getApplicationIconBadgeNumber)
-const getPushPermissions = Promise.promisify(PushNotificationIOS.checkPermissions)
 import ApiActionCreators from './ApiActionCreators'
+const iOS = Platform.OS == 'iOS';
 
 const NOTIFICATION_TYPES = {
   NEW_MATCH:       'getMatches',
@@ -28,7 +28,7 @@ const NOTIFICATION_TYPES = {
 //     dispatch(ActionMan[subsequentEndpoint](notification.payload));
 
 //     resolve(notification.payload)
-    
+
 //   })
 // }).then(() => notification).catch(console.warn);
 
@@ -45,14 +45,14 @@ export const updateBadgeNumber = (delta) => dispatch => dispatch({ type: 'UPDATE
 
 export const handleNotification = notification => dispatch => dispatch({ type: 'HANDLE_NOTIFICATION',
   payload: new Promise((resolve, reject) => {
-   
+
     __DEV__ && console.log(notification);
-    
+
     const {data, action, label} = notification
-      
+
     if(!notification) return false;
-    
-    if(data.vibrate) VibrationIOS.vibrate();
+
+    if(data.vibrate && iOS) VibrationIOS.vibrate();
 
     let nType;
     let nRequests = [];
@@ -61,7 +61,7 @@ export const handleNotification = notification => dispatch => dispatch({ type: '
 
     switch(data.action){
         case 'retrieve':
-     
+
           if(data.type == 'potentials') {
 
             nType = `GET_POTENTIALS`;
@@ -79,7 +79,7 @@ export const handleNotification = notification => dispatch => dispatch({ type: '
             nQueue = true;
 
           }else if(label == 'NewMessage'){
-       
+
             nType = `NEW_MESSAGE`;
             nRequests.push({
               getMessages: {match_id: nData.match_id}
@@ -91,8 +91,8 @@ export const handleNotification = notification => dispatch => dispatch({ type: '
           break;
 
         case 'notify':
-      
-          Alert.alert(data.title, JSON.stringify(data.body)); 
+
+          Alert.alert(data.title, JSON.stringify(data.body));
           break;
 
         case 'match_removed':
@@ -105,7 +105,7 @@ export const handleNotification = notification => dispatch => dispatch({ type: '
 
           nType = `COUPLE_READY`;
           nRequests.push('getUserInfo')
-          nRequests.push('getPotentials')        
+          nRequests.push('getPotentials')
           nQueue = true;
           nData.body = `Congratulations! You're in a couple!`
           nData.title = `JOINED COUPLE`
@@ -144,13 +144,13 @@ export const handleNotification = notification => dispatch => dispatch({ type: '
 
         case 'report':
         case 'send_telemetry':
-        
+
           nType = 'SEND_TELEMETRY';
           // nPayload = api.sendTelemetry()
           break;
 
         case 'display':
-      
+
           nType = 'DISPLAY';
           nQueue = true;
           break;
@@ -169,7 +169,7 @@ export const handleNotification = notification => dispatch => dispatch({ type: '
     if(nQueue){
       dispatch({type: `ENQUEUE_NOTIFICATION`, payload: n})
     }
-    
+
     nRequests.forEach(nRequest => {
       if(typeof nRequest == 'string'){
         dispatch(ApiActionCreators[nRequest](...notification.data))
@@ -179,11 +179,10 @@ export const handleNotification = notification => dispatch => dispatch({ type: '
         })
       }
     })
-    
+
     dispatch({type: `HANDLE_NOTIFICATION_${nType}`, payload: n})
 
     resolve(n)
   })
 
 })
-

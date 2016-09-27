@@ -9,9 +9,7 @@ import {
   LayoutAnimation,
   ScrollView,
   Dimensions,
-  SwitchIOS,
   Animated,
-  PickerIOS,
   PixelRatio,
   NativeModules,
   Image,
@@ -38,7 +36,6 @@ import {
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-var PickerItemIOS = PickerIOS.Item
 var {OSPermissions} = NativeModules
 
 
@@ -245,4 +242,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsPreferences);
-

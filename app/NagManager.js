@@ -1,4 +1,4 @@
-import { Settings, NativeModules, View, PushNotificationIOS } from 'react-native';
+import { Settings, NativeModules, View, PushNotificationIOS,Platform } from 'react-native';
 import React from 'react';
 
 import LocationPermissions from './components/modals/LocationPermission'
@@ -11,6 +11,7 @@ import OnboardModal from './components/modals/OnboardModal'
 import { connect } from 'react-redux';
 import PushNotification from 'react-native-push-notification'
 import {pure} from 'recompose'
+const iOS = Platform.OS == 'iOS';
 
 import reactMixin from 'react-mixin'
 import TimerMixin from 'react-timer-mixin'
@@ -37,7 +38,7 @@ class NagManager extends React.Component{
         }
     }
     componentDidMount(){
-
+      if(iOS){
         PushNotificationIOS.checkPermissions( permissions => {
             const permResult = parseNotificationPermissions(permissions);
             this.setState({
@@ -51,6 +52,7 @@ class NagManager extends React.Component{
                 })
             })
         })
+      }
     }
 
     componentWillReceiveProps(nProps){

@@ -1,6 +1,6 @@
 import React from 'react'
 import reactMixin from 'react-mixin'
-import { Text, View, SwitchIOS, Settings, PushNotificationIOS, NativeModules, Dimensions } from 'react-native'
+import { Text, View, SwitchIOS, Settings, PushNotificationIOS, Platform, NativeModules, Dimensions } from 'react-native'
 import ActionMan from '../../actions/'
 import Analytics from '../../utils/Analytics'
 import { MagicNumbers } from '../../utils/DeviceConfig'
@@ -19,6 +19,7 @@ import styles from '../screens/settings/settingsStyles'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 const {OSPermissions} = NativeModules
+const iOS = Platform.OS == 'iOS';
 
 function parseNotificationPermissions(nPermissions){
     return Object.keys(nPermissions).reduce((acc,el,i) => {
@@ -91,7 +92,7 @@ class PermissionSwitches extends React.Component{
     }
     toggleNotification(){
         const {NotificationSetting} = this.state
-        if(!NotificationSetting ){
+        if(!NotificationSetting && iOS){
 
             PushNotificationIOS.checkPermissions( permissions => {
                 const permResult = parseNotificationPermissions(permissions);

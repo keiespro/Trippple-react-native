@@ -1,4 +1,4 @@
-import { StatusBar, View, Dimensions,Modal,PushNotificationIOS } from 'react-native';
+import { StatusBar, View, Dimensions,Modal } from 'react-native';
 import React from "react";
 import AppNav from '../AppNav';
 import ModalDirector from './modals/ModalDirector';

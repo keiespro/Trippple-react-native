@@ -6,13 +6,11 @@ import ReactNative, {
   TouchableHighlight,
   TouchableOpacity,
   Alert,
-  PickerIOS,
   Image,
   NativeModules,
+  Platform,
   Dimensions,
 } from 'react-native';
-
-const PickerItemIOS = PickerIOS.Item;
 
 import Analytics from '../../../utils/Analytics';
 import Coupling from '../coupling';
@@ -41,6 +39,7 @@ import {
   NavigationStyles,
 } from '@exponent/ex-navigation';
 
+const iOS = Platform.OS == 'iOS';
 
 import config from '../../../../config'
 const {INVITE_FRIENDS_APP_LINK} = config
@@ -330,7 +329,7 @@ class Settings extends React.Component{
 
 
                 <TouchableHighlight onPress={(f)=>{
-                    RNHotlineController.showFaqs()
+                    return iOS ? RNHotlineController.showFaqs() : null
                 }} underlayColor={colors.dark}
                 >
                     <View style={styles.wrapfield}>
@@ -346,7 +345,7 @@ class Settings extends React.Component{
                     </View>
                 </TouchableHighlight>
 
-                <TouchableHighlight onPress={(f)=>{ RNHotlineController.showConvos() }} underlayColor={colors.dark}>
+                <TouchableHighlight onPress={(f)=>{   return iOS ? RNHotlineController.showConvos() : null}} underlayColor={colors.dark}>
                     <View style={styles.wrapfield}>
                         <View>
                             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>HELP & FEEDBACK</Text>

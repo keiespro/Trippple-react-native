@@ -19,9 +19,7 @@ import {
   Dimensions,
   TextInput,
   ScrollView,
-  SwitchIOS,
   Animated,
-  PickerIOS,
   Alert,
   Image,
   NativeModules,
@@ -33,7 +31,6 @@ import { connect } from 'react-redux';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-const PickerItemIOS = PickerIOS.Item;
 
 
 @withNavigation

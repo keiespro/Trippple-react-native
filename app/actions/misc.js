@@ -1,7 +1,8 @@
-import {NativeModules,ActionSheetIOS,PushNotificationIOS} from 'react-native'
+import {NativeModules,ActionSheetIOS,PushNotificationIOS,Platform} from 'react-native'
 const {RNMessageComposer} = NativeModules;
 import Promise from 'bluebird'
 import api from '../utils/api'
+const iOS = Platform.OS == 'iOS';
 
 export const ActionModal = match => dispatch => dispatch({ type: 'SHOW_ACTION_MODAL', payload: { match } });
 
@@ -28,7 +29,7 @@ export const sendText = payload => dispatch => dispatch({ type: 'SEND_TEXT',
       //       case RNMessageComposer.Cancelled:
       //       default:
 
-          return ActionSheetIOS.showShareActionSheetWithOptions({
+          return iOS ? ActionSheetIOS.showShareActionSheetWithOptions({
               url: `trippple://joincouple/${pin}`,
               message: messageText,
               subject: '',
@@ -51,7 +52,7 @@ export const sendText = payload => dispatch => dispatch({ type: 'SEND_TEXT',
               (success, method) => {
                   __DEV__ && console.warn('SUCCESS',success,method);
                   resolve({success,method})
-              });
+              }) : resolve();
         // }
       // })
       })
@@ -71,12 +72,12 @@ export const receivePushToken = push_token => dispatch => dispatch({ type: 'RECE
 export const getPushToken = (p) => dispatch => dispatch({ type: 'GET_PUSH_TOKEN',
   payload: {
       promise: new Promise((resolve, reject) => {
-          return PushNotificationIOS.checkPermissions((permissions) => {
+          return iOS ? PushNotificationIOS.checkPermissions((permissions) => {
               const permResult = Object.keys(permissions).reduce((acc,el,i) =>{
                   acc = acc + permissions[el];
                   return acc
               },0);
- 
+
               if(permResult){
                   PushNotificationIOS.addEventListener('register', (push_token) =>{
                       __DEV__ && console.log( 'TOKEN:', push_token );
@@ -97,7 +98,7 @@ export const getPushToken = (p) => dispatch => dispatch({ type: 'GET_PUSH_TOKEN'
               }else{
                   reject('no permission')
               }
-          })
+          }) : resolve()
       })
   }
 })
