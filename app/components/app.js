@@ -1,4 +1,4 @@
-import { StatusBar, View, Dimensions,Modal } from 'react-native';
+import { StatusBar, View, Dimensions,Modal,Platform } from 'react-native';
 import React from "react";
 import AppNav from '../AppNav';
 import ModalDirector from './modals/ModalDirector';
@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import '../fire'
 import { withNavigation} from '@exponent/ex-navigation';
 import pure from 'recompose/pure'
+const iOS = Platform.OS == 'iOS';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -51,7 +52,7 @@ class App extends React.Component{
 
         if(!this.state.initialized && nProps.loggedIn){
             this.setState({initialized:true})
-
+            this.props.dispatch(ActionMan.setHotlineUser(this.props.user))
             this.performInitActions()
         }
         if(this.state.initialized && nProps.loggedIn && this.props.appState != 'active' && nProps.appState == 'active'){
@@ -63,26 +64,26 @@ class App extends React.Component{
 
     render(){
         return (
-      <View style={{}}>
+          <View style={{width:DeviceWidth,height:DeviceHeight}}>
 
-          <StatusBar animated={true} barStyle="default" />
+            <StatusBar animated={true} barStyle="default" />
 
-          <ConnectionInfo dispatch={this.props.dispatch}/>
+            <ConnectionInfo dispatch={this.props.dispatch}/>
 
-          <AppState dispatch={this.props.dispatch}/>
+            <AppState dispatch={this.props.dispatch}/>
 
-          {this.props.nag && <NagManager/>}
+            {this.props.nag && <NagManager/>}
 
-          <DeepLinkHandler />
+            {iOS && <DeepLinkHandler />}
 
-          { this.props.loggedIn ? <AppNav/> : <Welcome dispatch={this.props.dispatch}/> }
+            { this.props.loggedIn ? <AppNav/> : <Welcome dispatch={this.props.dispatch}/> }
 
-          <ModalDirector />
+            <ModalDirector />
 
-          <Notifications />
+            <Notifications />
 
-      </View>
-    )
+        </View>
+      )
     }
 }
 

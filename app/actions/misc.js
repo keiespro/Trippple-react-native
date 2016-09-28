@@ -1,5 +1,5 @@
 import {NativeModules,ActionSheetIOS,PushNotificationIOS,Platform} from 'react-native'
-const {RNMessageComposer} = NativeModules;
+const {RNMessageComposer,RNHotlineController} = NativeModules;
 import Promise from 'bluebird'
 import api from '../utils/api'
 const iOS = Platform.OS == 'iOS';
@@ -13,6 +13,17 @@ export const killModal = ( ) => dispatch => dispatch({ type: 'KILL_MODAL', paylo
 export const pushChat = match_id => dispatch => dispatch({ type: 'PUSH_CHAT', payload: { match_id } });
 
 export const popChat = match_id => dispatch => dispatch({ type: 'POP_CHAT'});
+
+
+export const setHotlineUser = user => dispatch => dispatch({ type: 'SET_HOTLINE_USER',
+  payload: {
+      promise: new Promise((resolve, reject) => {
+        const {id, firstname, phone, relationship_status, gender, image_url, thumb_url, partner_id} = user;
+        RNHotlineController.setUser(id+'', firstname, phone, relationship_status, gender, image_url, thumb_url, partner_id);
+        resolve();
+      })
+  }
+})
 
 export const sendText = payload => dispatch => dispatch({ type: 'SEND_TEXT',
   payload: {
