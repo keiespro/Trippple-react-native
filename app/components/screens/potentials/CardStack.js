@@ -254,7 +254,7 @@ class CardStack extends React.Component {
                             position: 'absolute',
                             overflow: 'hidden',
                             top: 0,
-                          
+
                         },
                         {
                             transform: [
@@ -285,6 +285,7 @@ class CardStack extends React.Component {
                         pan={this.state.pan}
                         animatedIn={this.state.animatedIn}
                         profileVisible={false}
+                        dispatch={this.props.dispatch}
                         potential={potentials[1]}
                     />
                 </Animated.View>
