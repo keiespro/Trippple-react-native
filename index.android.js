@@ -1,9 +1,5 @@
-/*
-* @flow
-*/
-
 import React from "react";
-import ReactNative, {View, AppRegistry, NativeModules} from "react-native";
+import ReactNative, { AppRegistry } from "react-native";
 import NewBoot from './app/NewBoot'
 
 console.log('index.ANDROID.js');

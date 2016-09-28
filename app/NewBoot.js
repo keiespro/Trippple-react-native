@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
-import {Settings,View} from 'react-native'
+import {Settings,View,Platform} from 'react-native'
 import ActionMan from './actions/';
 import TouchID from 'react-native-touch-id'
 import LockFailed from './components/LockFailed'
 import AppContainer from './AppContainer'
 import loadSavedCredentials from './utils/Credentials'
+const iOS = Platform.OS == 'iOS';
 
 class NewBoot extends Component{
 
   state = {
     booted: false,
-    locked: Settings._settings['LockedWithTouchID'],
+    locked: iOS ? Settings._settings['LockedWithTouchID'] : false,
     initialized:false
   };
 

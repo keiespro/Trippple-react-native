@@ -2,12 +2,13 @@ import ActionMan from '../actions/';
 import { connect } from 'react-redux';
 import config from '../../config'
 import React,{Component} from "react";
-import {View, Alert, AsyncStorage, AppState, PushNotificationIOS,} from "react-native";
+import {View, Alert, AsyncStorage, AppState, PushNotificationIOS,Platform} from "react-native";
 import colors from './colors'
 import Analytics from './Analytics'
 import PushNotification from 'react-native-push-notification'
 import {NavigationStyles, withNavigation} from '@exponent/ex-navigation';
 import uuid from 'uuid'
+const iOS = Platform.OS == 'iOS';
 
 const {WEBSOCKET_URL} = config;
 const io = require('./socket.io')
@@ -46,7 +47,7 @@ class NotificationCommander extends Component{
                 __DEV__ && console.log( 'NOTIFICATION:', notification );
             },
       // senderID: "YOUR GCM SENDER ID", // ANDROID ONLY: (optional) GCM Sender ID.
-            popInitialNotification: true,
+            popInitialNotification: iOS,
             requestPermissions: false,
         });
 

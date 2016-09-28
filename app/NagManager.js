@@ -31,7 +31,7 @@ class NagManager extends React.Component{
     constructor(props){
         super()
         this.state = {
-            sawStarterPotentials: Settings._settings['HAS_SEEN_STARTER_DECK'],
+            sawStarterPotentials: iOS ? Settings._settings['HAS_SEEN_STARTER_DECK'] : null,
             didOnboard: props.user && props.user.status && props.user.status == 'onboarded',
             np: true,
             lp: true
