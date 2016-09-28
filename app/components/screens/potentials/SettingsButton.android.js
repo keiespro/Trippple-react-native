@@ -10,26 +10,36 @@ import React from "react";
 import colors from '../../../utils/colors';
 import Settings from '../settings/settings'
 
-import { withNavigation } from '@exponent/ex-navigation';
+import { connect } from 'react-redux';
 
 
-@withNavigation
 class SettingsButton extends React.Component{
     render(){
 
         return (
-             <View
-               style={{paddingTop:5,paddingRight:25,paddingBottom:5,}}
-             >
+            <TouchableOpacity
+              style={{paddingTop:5,paddingRight:25,paddingBottom:5,}}
+              onPress={this.props.openDrawer}
+            >
                <Image
                  tintColor={colors.white}
                  resizeMode={Image.resizeMode.contain}
                  style={{width:28,top:0,height:30,marginLeft:15,tintColor: __DEV__ ? colors.mandy : colors.white}}
                  source={require('./gear.png')}
              />
-           </View>
-           
+           </TouchableOpacity>
+
         )
     }
 }
-export default SettingsButton
+
+
+
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    openDrawer: () => dispatch({type: 'OPEN_DRAWER'})
+  };
+}
+
+export default connect(null,mapDispatchToProps)(SettingsButton)

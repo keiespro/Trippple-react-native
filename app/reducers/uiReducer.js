@@ -28,6 +28,25 @@ export default function uiReducer(state = initialState, action) {
     case 'CHAT_IS_OPEN':
 
         return {...state, chat:  {open: true, match_id: action.payload.match_id}}
+
+    case 'OPEN_DRAWER':
+
+        return {...state, drawerOpen: true}
+        
+    case 'SET_DRAWER_OPEN':
+        return {...state, drawerOpen: true}
+
+    case 'SET_DRAWER_CLOSED':
+        return {...state, drawerOpen: false}
+
+    case 'EX_NAVIGATION.SET_CURRENT_NAVIGATOR':
+        return {...state, currentIndex: action.index };
+
+    // case 'EX_NAVIGATION.BATCH':
+    case 'EX_NAVIGATION.PUSH':
+        return {...state, currentIndex: state.currentIndex+1 };
+    case 'EX_NAVIGATION.POP':
+        return {...state, currentIndex: state.currentIndex-1 };
     default:
 
         return state;
@@ -38,5 +57,7 @@ export default function uiReducer(state = initialState, action) {
 const initialState = {
     chat: null,
     activeModal: null,
-    profileVisible: false
+    profileVisible: false,
+    drawerOpen: false,
+    currentIndex: 0
 };
