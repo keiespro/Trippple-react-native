@@ -21,6 +21,8 @@ const colors = {
 
     mediumPurple20:     'rgba(132,89,218,0.20)',
 
+    mediumPurple70:     'rgba(132,89,218,0.70)',
+
     darkPurple:         'rgb(105,57,200)',
 
     brightPurple:				'rgba(130,42,254,1)',
