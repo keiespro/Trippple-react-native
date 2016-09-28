@@ -97,7 +97,7 @@ class NagManager extends React.Component{
                     if( nProps.likeCount > this.props.likeCount){
                         this.setState({askingNotification:true})
                         this.notificationModal()
-                        this.props.dispatch({type:'ASKED_NOTIFICATION', payload:{}})
+                        this.props.dispatch({type:'ASKED_NOTIFICATIONS', payload:{}})
                     }
                 }
 

@@ -6,7 +6,7 @@ export default function LikeReducer(state = initialState, action) {
     case 'SEND_LIKE_FULFILLED':
 
         let likeCount = state.likeCount || 0;
-        let actionSource = action.meta
+        let actionSource = action.meta || {};
         if(actionSource.like_status == 'approve'){
             likeCount = likeCount+1;
         }
