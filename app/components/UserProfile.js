@@ -14,6 +14,7 @@ import {BlurView,VibrancyView} from 'react-native-blur'
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
 import {pure} from 'recompose'
 import dismissKeyboard from 'dismissKeyboard'
+import VerifiedCoupleBadge from './Badge/VerifiedCoupleBadge'
 
 
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView)
@@ -128,6 +129,7 @@ class UserProfile extends React.Component{
         }
 
         const hasPartner = potential.partner && potential.partner.gender;
+        const notFakePartner = hasPartner && potential.partner.is_fake_user;
         const slideFrames = hasPartner && potential.partner.image_url && potential.partner.image_url != "" ? [potential.user,potential.partner] : [potential.user];
         const tmpCardHeight = profileVisible ? cardHeight : cardHeight;
         const aniblurstyle = [ {
@@ -216,6 +218,8 @@ class UserProfile extends React.Component{
                               distance={distance}
                               textColor={colors.white}
                           />
+                          {hasPartner && notFakePartner && <VerifiedCoupleBadge/>}
+
                       </View>
 
                       {potential.user.bio &&

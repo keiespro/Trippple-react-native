@@ -10,6 +10,7 @@ import XButton from '../../buttons/XButton'
 import {pure} from 'recompose'
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView)
 import ActionMan from '../../../actions'
+import VerifiedCoupleBadge from '../../Badge/VerifiedCoupleBadge'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
@@ -78,7 +79,7 @@ class NewCard extends React.Component {
         const {profileVisible, cardWidth, cardHeight, city, seperator, potential, activeIndex, user, isTopCard, matchName, distance} = this.props;
 
         const hasPartner = potential.partner && potential.partner.gender ? true : false;
-
+        const notFakePartner = hasPartner && !potential.partner.is_fake_user
         const slideFrames = hasPartner ? [potential.user,potential.partner] : [potential.user];
 
         const tmpCardHeight = profileVisible ? cardHeight : cardHeight;
@@ -112,7 +113,7 @@ class NewCard extends React.Component {
         const aniblurstyle = [ {
             backgroundColor:colors.outerSpace50,
             width:DeviceWidth,
-            paddingbottom:120,
+            paddingBottom:120,
             flex:10,
             flexGrow:10,
             height:this.props.profileVisible ? this.state.contentHeight : 0,
@@ -130,7 +131,7 @@ class NewCard extends React.Component {
               style={anistyle}
               onLayout={this.onLayout.bind(this)}
           >
-            
+
             <ParallaxSwiper
                 contentContainerStyle={[{
                     minHeight: this.props.profileVisible ? DeviceHeight : cardHeight,
@@ -190,6 +191,8 @@ class NewCard extends React.Component {
                                   distance={distance}
                                   textColor={colors.white}
                               />
+                              {hasPartner && notFakePartner && <VerifiedCoupleBadge placementStyle={{position:'relative',alignSelf:'flex-start',left:0,top:0,marginTop:20}}/>}
+
                           </View>
 
                           {potential.user.bio && potential.user.bio.length ?
@@ -252,7 +255,6 @@ class NewCard extends React.Component {
             width:cardWidth,
             height: 100,
             opacity:profileVisible ? 0 : 1,
-            width:DeviceWidth,
             alignSelf:'flex-end',
             zIndex:1000,
             flex:-1,
@@ -276,6 +278,7 @@ class NewCard extends React.Component {
                               distance={distance}
                               textColor={colors.shuttleGray}
                           />
+                          {hasPartner && notFakePartner && <VerifiedCoupleBadge/>}
                       </View>
                   </TouchableHighlight>
 
