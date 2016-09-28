@@ -30,13 +30,12 @@ import FBPhotoAlbums from '../../FBPhotoAlbums'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 const {RNHotlineController,FBAppInviteDialog} = NativeModules;
-const RNHotlineView = ReactNative.requireNativeComponent('RNHotlineView')
 import ParallaxView from '../../controls/ParallaxScrollView'
 import dismissKeyboard from 'dismissKeyboard'
 import ActionMan from '../../../actions/'
 import { connect } from 'react-redux';
 import {
-  NavigationStyles,
+  NavigationStyles,withNavigation
 } from '@exponent/ex-navigation';
 
 const iOS = Platform.OS == 'iOS';
@@ -44,6 +43,7 @@ const iOS = Platform.OS == 'iOS';
 import config from '../../../../config'
 const {INVITE_FRIENDS_APP_LINK} = config
 
+@withNavigation
 class Settings extends React.Component{
     static route = {
         styles: NavigationStyles.FloatVertical,
@@ -141,7 +141,7 @@ class Settings extends React.Component{
     render(){
         const wh = DeviceHeight/2;
         return (
-          <View style={{backgroundColor:colors.outerSpace,paddingTop:0,flex:1}} pointerActions={'box-none'}>
+          <View style={{backgroundColor:colors.outerSpace,paddingTop:0,flex:10}} pointerActions={'box-none'}>
               <ParallaxView
                   showsVerticalScrollIndicator={false}
                   key={this.props.user.id}
