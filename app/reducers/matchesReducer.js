@@ -27,9 +27,11 @@ export default function matchesReducer(state = initialState, action) {
         if ( !matches ) return state;
 
         const matchesHash = matches.reduce( ( acc, el, i ) => {
+          if(Object.keys(el.users).length >= 3){
             acc[ el.match_id ] = el;
             acc.lastRead = Date.now()
-            return acc
+          }
+          return acc
         }, {})
         return {...state, ...matchesHash}
 

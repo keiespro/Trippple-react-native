@@ -58,8 +58,8 @@ class NewMatches extends Component{
             theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),
             them = theirIds.map((id)=> matchInfo.users[id]);
         const threadName = them.map((user, i) => user.firstname.trim()).join(' & ');
-
-        let img = them[0].image_url;
+          const match_user = them[0] || {}
+        let img = match_user.image_url;
         return (
       <View key={'newmatch'+rowID+rowData.match_id} style={styles.listItem}>
         <TouchableOpacity

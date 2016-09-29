@@ -20,7 +20,8 @@ export default function matchesListReducer(state = initialState, action) {
 
   case 'GET_NEW_MATCHES_FULFILLED':
     if( !action.payload.response ) return state;
-    return {...state, newMatches: action.payload.response}
+
+    return {...state, newMatches: _.filter(action.payload.response, (m) => m.users.length >= 3) }
 
 
   case 'GET_MATCHES_FULFILLED':
@@ -28,12 +29,16 @@ export default function matchesListReducer(state = initialState, action) {
     if( !action.payload.response ) return state;
 
     const mtchs = state.matches.length > 1 ? dedupe([...state.matches, ...action.payload.response]) : action.payload.response;
+    const newMatches = _.difference(state.newMatches, action.payload.response);
+
+
+
     return {
-      newMatches: _.difference(state.newMatches, action.payload.response),
-      matches: mtchs.length > 1 ? orderMatches(mtchs) : mtchs
+      newMatches: _.filter(newMatches, (m) => m.users.length >= 3),
+      matches: _.filter((mtchs.length > 1 ? orderMatches(mtchs) : mtchs),(m) => Object.keys(m.users).length >= 3)
     };
 
-  // 
+  //
   // case 'GET_MESSAGES_FULFILLED':
   //   console.warn('messages',action.payload.response);
   //   if( !action.payload.response ) return state;

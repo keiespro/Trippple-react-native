@@ -6,7 +6,7 @@ export default function authReducer(state = initialState, action) {
     case REHYDRATE:
         let {auth} = action.payload;
         if(auth && auth.api_key && auth.user_id){
-            const {api_key, user_id} = auth
+            let {api_key, user_id} = auth
             global.creds = { api_key, user_id }
         }
         return { ...state, ...auth }
@@ -25,13 +25,23 @@ export default function authReducer(state = initialState, action) {
         const c = {
             api_key: password,
             user_id: username
+        };
+
+        if(c.api_key && c.user_id){
+            global.creds = { api_key:c.api_key, user_id:c.user_id }
+            return {
+                ...state,
+                ...global.creds,
+            };
+        }else{
+            return { ...state }
         }
 
     case 'SAVE_CREDENTIALS':
     case 'VERIFY_PIN_FULFILLED':
     case 'LOGIN_WITH_FACEBOOK_FULFILLED':
 
-        let {api_key,user_id} = c || action.payload.response || action.payload;
+        let {api_key,user_id} = action.payload.response || action.payload;
 
         if(api_key && user_id){
             global.creds = { api_key, user_id }

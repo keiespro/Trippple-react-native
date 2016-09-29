@@ -51,8 +51,8 @@ export default class NoMessages extends React.Component{
     const matchInfo = this.props.currentMatch || this.props.matchInfo,
           theirIds = Object.keys(matchInfo.users).filter(u => u != this.props.user.id && u != this.props.user.partner_id),
           them = theirIds.map((id)=> matchInfo.users[id]),
-          chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '')  },'')
-
+        chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '')  },'');
+      const match_user = them[0] || {};
     return (
       <ScrollView
         {...this.props}
@@ -86,7 +86,7 @@ export default class NoMessages extends React.Component{
               </View>
 
               <Image
-                source={{uri:them[0].image_url}}
+                source={{uri:match_user.image_url}}
                 style={this.getThumbSize()}
                 defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
               />

@@ -31,7 +31,7 @@ export default function potentialsReducer(state = initialState, action) {
         }else{
             pots = data.matches
         }
-        if(pots[0] && pots[0].partner.gender && pots[1] && !pots[1].partner.gender){
+        if(pots[0] && (pots[0].user.id == global.creds.user_id || pots[0].partner.id == global.creds.user_id)){
           return [...(pots.slice(1,pots.length))];
         }
 

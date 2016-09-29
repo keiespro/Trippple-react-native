@@ -26,7 +26,10 @@ export default function newMatchesReducer(state = initialState, action) {
       case 'GET_NEW_MATCHES_FULFILLED':
         if ( !action.payload.response ) return state;
         return action.payload.response.reduce( ( acc, el, i ) => {
-          acc[ el.match_id ] = el;
+          console.log(el.users);
+          if(Object.keys(el.users).length >= 3){
+              acc[ el.match_id ] = el;
+          }
           return acc
         }, {})
 
@@ -39,7 +42,9 @@ export default function newMatchesReducer(state = initialState, action) {
         const deltaMatches = _.reject(state,(m) => { return m.match_id in match_ids});
 
         return deltaMatches.reduce((acc,el,i) =>{
-          acc[el.match_id] = el;
+          if(Object.keys(el.users).length >= 3){
+            acc[el.match_id] = el;
+          }
           return acc
         },{})
 

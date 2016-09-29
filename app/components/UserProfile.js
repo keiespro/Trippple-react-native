@@ -15,7 +15,8 @@ import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
 import {pure} from 'recompose'
 import dismissKeyboard from 'dismissKeyboard'
 import VerifiedCoupleBadge from './Badge/VerifiedCoupleBadge'
-
+import ActionMan from '../actions'
+import {connect} from 'react-redux'
 
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView)
 
@@ -85,12 +86,15 @@ class UserProfile extends React.Component{
         this.setState({contentHeight})
     }
     render(){
-
+      // if(!this.props.user || !this.props.potential || !this.props.potential.user || !this.props.potential.user.firstname){
+      //   this.props.dispatch(ActionMan.getUserInfo());
+      //   return <View/>
+      // }
         const { potential, user } = this.props,
             distance = potential.user.distance || 0,
             city = potential.user.city_state || '';
-
-        let matchName = potential.user.firstname.trim();
+            const name = potential.user.firstname || '';
+        let matchName = name.trim();
         const rel = potential.user.relationship_status;
         const profileVisible = true;
 
@@ -292,9 +296,7 @@ class UserProfile extends React.Component{
     )
     }
 }
-export default UserProfile
-
-class CustomTabBar extends React.Component{
+ class CustomTabBar extends React.Component{
     static propTypes: {
     goToPage: React.PropTypes.func,
     activeTab: React.PropTypes.object,
@@ -343,6 +345,19 @@ class CustomTabBar extends React.Component{
     );
     }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps,
+    user: state.user,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(UserProfile)
 
 
 const styles = StyleSheet.create({
