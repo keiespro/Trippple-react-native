@@ -24,12 +24,15 @@ export default function potentialsReducer(state = initialState, action) {
         const data = action.payload.response;
         let pots;
         if(!data || !data.matches || !data.matches.length){
-            return state
+            pots = state
         }
         if(!data.matches[0].user){
             pots = data.matches.map(pot => ({user: pot}));
         }else{
             pots = data.matches
+        }
+        if(pots[0] && pots[0].partner.gender && pots[1] && !pots[1].partner.gender){
+          return [...(pots.slice(1,pots.length))];
         }
 
         return [ ...pots];
