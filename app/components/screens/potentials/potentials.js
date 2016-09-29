@@ -23,7 +23,7 @@ import { connect } from 'react-redux';
 import { withNavigation } from '@exponent/ex-navigation';
 import MatchesButton from './MatchesButtonIcon'
 import {pure} from 'recompose'
-const iOS = Platform.OS == 'iOS';
+const iOS = Platform.OS == 'ios';
 import SettingsButton from './SettingsButton'
 
 

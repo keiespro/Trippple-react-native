@@ -32,7 +32,7 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import { connect } from 'react-redux';
-const iOS = Platform.OS == 'iOS';
+const iOS = Platform.OS == 'ios';
 
 import SettingsConstants, { HAS_SEEN_NOTIFICATION_REQUEST, LAST_ASKED_NOTIFICATION_PERMISSION, NOTIFICATION_SETTING } from '../../../utils/SettingsConstants'
 

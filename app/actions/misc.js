@@ -2,7 +2,7 @@ import {NativeModules,ActionSheetIOS,PushNotificationIOS,Platform} from 'react-n
 const {RNMessageComposer,RNHotlineController} = NativeModules;
 import Promise from 'bluebird'
 import api from '../utils/api'
-const iOS = Platform.OS == 'iOS';
+const iOS = Platform.OS == 'ios';
 
 export const ActionModal = match => dispatch => dispatch({ type: 'SHOW_ACTION_MODAL', payload: { match } });
 
@@ -98,7 +98,6 @@ export const getPushToken = (p) => dispatch => dispatch({ type: 'GET_PUSH_TOKEN'
 
                       }else{
                           dispatch({type:'SAVE_PUSH_TOKEN_FAILED', payload: null})
-                          // reject()
                       }
                   })
 
@@ -107,7 +106,8 @@ export const getPushToken = (p) => dispatch => dispatch({ type: 'GET_PUSH_TOKEN'
                   });
                   PushNotificationIOS.requestPermissions({alert:true,badge:true,sound:true})
               }else{
-                  reject('no permission')
+                dispatch({type:'NO_PUSH_PERMISSION', payload: null})
+
               }
           }) : resolve()
       })

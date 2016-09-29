@@ -38,7 +38,7 @@ import {
   NavigationStyles,withNavigation
 } from '@exponent/ex-navigation';
 
-const iOS = Platform.OS == 'iOS';
+const iOS = Platform.OS == 'ios';
 
 import config from '../../../../config'
 const {INVITE_FRIENDS_APP_LINK} = config
@@ -329,7 +329,7 @@ class Settings extends React.Component{
 
 
                 <TouchableHighlight onPress={(f)=>{
-                    return iOS ? RNHotlineController.showFaqs() : null
+                  if(iOS){RNHotlineController.showFaqs()}
                 }} underlayColor={colors.dark}
                 >
                     <View style={styles.wrapfield}>
@@ -345,7 +345,7 @@ class Settings extends React.Component{
                     </View>
                 </TouchableHighlight>
 
-                <TouchableHighlight onPress={(f)=>{   return iOS ? RNHotlineController.showConvos() : null}} underlayColor={colors.dark}>
+                <TouchableHighlight onPress={(f)=>{ if(iOS){RNHotlineController.showConvos()}}} underlayColor={colors.dark}>
                     <View style={styles.wrapfield}>
                         <View>
                             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>HELP & FEEDBACK</Text>

@@ -5,7 +5,7 @@ import PushNotification from 'react-native-push-notification'
 import api from '../utils/api'
 const getBadgeNumber = Promise.promisify(PushNotification.getApplicationIconBadgeNumber)
 import ApiActionCreators from './ApiActionCreators'
-const iOS = Platform.OS == 'iOS';
+const iOS = Platform.OS == 'ios';
 
 const NOTIFICATION_TYPES = {
   NEW_MATCH:       'getMatches',

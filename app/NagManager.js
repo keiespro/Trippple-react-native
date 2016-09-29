@@ -11,7 +11,7 @@ import OnboardModal from './components/modals/OnboardModal'
 import { connect } from 'react-redux';
 import PushNotification from 'react-native-push-notification'
 import {pure} from 'recompose'
-const iOS = Platform.OS == 'iOS';
+const iOS = Platform.OS == 'ios';
 
 import reactMixin from 'react-mixin'
 import TimerMixin from 'react-timer-mixin'
@@ -97,7 +97,7 @@ class NagManager extends React.Component{
                     if( nProps.likeCount > this.props.likeCount){
                         this.setState({askingNotification:true})
                         this.notificationModal()
-                        this.props.dispatch({type:'ASKED_NOTIFICATIONS', payload:{}})
+                        this.props.dispatch({type:'ASKED_NOTIFICATION', payload:{}})
                     }
                 }
 

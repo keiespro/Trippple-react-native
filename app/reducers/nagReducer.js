@@ -6,7 +6,7 @@ export default function nagReducer(state = initialState, action) {
     return {...state, askedPartner: true };
   case 'ASKED_LOCATION':
     return {...state, askedLocation: true, askLocation: false };
-  case 'ASKED_NOTIFICATIONS':
+  case 'ASKED_NOTIFICATION':
     return {...state, askedNotification: true, askNotification: false };
   case 'ASKED_RELATIONSHIP_STATUS':
     return {...state, askedRelationshipStatus: true };

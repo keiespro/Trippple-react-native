@@ -19,7 +19,7 @@ import styles from '../screens/settings/settingsStyles'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 const {OSPermissions} = NativeModules
-const iOS = Platform.OS == 'iOS';
+const iOS = Platform.OS == 'ios';
 
 function parseNotificationPermissions(nPermissions){
     return Object.keys(nPermissions).reduce((acc,el,i) => {

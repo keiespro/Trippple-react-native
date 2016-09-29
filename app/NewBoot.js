@@ -5,7 +5,7 @@ import TouchID from 'react-native-touch-id'
 import LockFailed from './components/LockFailed'
 import AppContainer from './AppContainer'
 import loadSavedCredentials from './utils/Credentials'
-const iOS = Platform.OS == 'iOS';
+const iOS = Platform.OS == 'ios';
 
 class NewBoot extends Component{
 

@@ -8,7 +8,7 @@ import Analytics from './Analytics'
 import PushNotification from 'react-native-push-notification'
 import {NavigationStyles, withNavigation} from '@exponent/ex-navigation';
 import uuid from 'uuid'
-const iOS = Platform.OS == 'iOS';
+const iOS = Platform.OS == 'ios';
 
 const {WEBSOCKET_URL} = config;
 const io = require('./socket.io')

@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import '../fire'
 import { withNavigation} from '@exponent/ex-navigation';
 import pure from 'recompose/pure'
-const iOS = Platform.OS == 'iOS';
+const iOS = Platform.OS == 'ios';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
