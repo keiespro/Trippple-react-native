@@ -6,6 +6,8 @@ import LockFailed from './components/LockFailed'
 import AppContainer from './AppContainer'
 import loadSavedCredentials from './utils/Credentials'
 const iOS = Platform.OS == 'ios';
+import configureStore from './store';
+const store = configureStore();
 
 class NewBoot extends Component{
 

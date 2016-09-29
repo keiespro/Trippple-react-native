@@ -23,7 +23,7 @@ class SettingsButton extends React.Component{
                 tintColor={colors.white}
                 resizeMode={Image.resizeMode.contain}
                 style={{width:28,top:0,height:30,marginLeft:15,tintColor: __DEV__ ? colors.mandy : colors.white}}
-                source={require('./gear.png')}
+                source={{uri:'assets/gear@3x.png'}}
             />
           </TouchableOpacity>
         )
