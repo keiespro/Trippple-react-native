@@ -28,6 +28,7 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux';
 
+import ProfileField from '../../controls/ProfileField'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -95,7 +96,8 @@ class SettingsCouple extends React.Component{
         let u = this.props.user;
         let settingOptions = this.props.settingOptions || {};
 
-        let {partner} = this.props.user;
+        let {partner,user} =  this.props;
+        console.log(partner);
         if(!partner) partner = {};
         return (
 
@@ -122,25 +124,55 @@ class SettingsCouple extends React.Component{
                         <Text style={styles.formHeaderText}>Your Partner</Text>
                       </View>
                       </View>
-                    {['firstname','birthday','gender'].map((field) => {
-                        return (
-                        <View key={'key'+field} style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray, alignItems:'center',justifyContent:'space-between',flexDirection:'row',marginHorizontal:25}}>
-                            <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ field.toUpperCase()}</Text>
-                          <Text style={{color:colors.shuttleGray,
-                              fontSize:18,fontFamily:'Montserrat',textAlign:'right',paddingRight:30}}>{
-                              field == 'birthday' ?
-                              partner[field] ? moment(partner[field]).format('MM/DD/YYYY') : ''
-                              : partner[field] ? partner[field].toString().toUpperCase() : ''
-                            }</Text>
-                            <Image
-                                style={{width:15,height:15,position:'absolute',right:0,top:23}}
-                                source={{uri:'assets/icon-lock.png'}}
-                                resizeMode={Image.resizeMode.contain}
-                            />
 
-                          </View>
+                      {['firstname'].map((field,i) => (
+                          <ProfileField
+                              navigation={this.props.navigation}
+                              key={field+'key'+(i*10)}
+                              user={partner}
+                              dispatch={this.props.dispatch}
+                              navigator={this.props.navigator}
+                              fieldName={field}
+                              forPartner={true}
+                              field_type={'input'}
+
+                              field={settingOptions[field]}
+                          />
+                      ))}
+
+                      {['birthday'].map((field,i) => {
+                        return (
+                          <ProfileField
+                            dispatch={this.props.dispatch}
+                            key={field+'keybd'+(i*1000)}
+                             user={partner.birthday ? partner : this.props.user}
+                            forPartner={true}
+                            navigator={this.props.navigator}
+                            navigation={this.props.navigation}
+                            fieldName={'birthday'}
+                            fieldValue={new Date(this.props.user.birthday || MIN_DATE)}
+                            field_type={'date'}
+                            field={settingOptions[field]}
+                            label={'birthday'}
+                          />
                         )
-                    })}
+                      })}
+                      {['gender'].map((field,i) => {
+                        return (
+
+                          <ProfileField
+                            dispatch={this.props.dispatch}
+                            forPartner={true}
+                            key={field+'key'+(i*1000)}
+                            user={partner}
+                            navigator={this.props.navigator}
+                            navigation={this.props.navigation}
+                            fieldName={field}
+                            field={settingOptions[field]}
+                          />
+                        )
+                      })}
+
 
                   </View>
                 }
@@ -214,7 +246,7 @@ class SettingsCouple extends React.Component{
 SettingsCouple.displayName = "SettingsCouple"
 
 const mapStateToProps = (state, ownProps) => {
-    return {...ownProps }
+    return {...ownProps, user: state.user, partner: state.user.partner }
 }
 
 const mapDispatchToProps = (dispatch) => {

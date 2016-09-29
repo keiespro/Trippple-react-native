@@ -21,7 +21,7 @@ import {
 } from 'react-native'
 import TrackKeyboardMixin from '../mixins/keyboardMixin'
 import {MagicNumbers} from '../../utils/DeviceConfig'
-
+import moment from 'moment'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import ActionMan from '../../actions/'
@@ -51,11 +51,15 @@ class FieldModal extends React.Component{
     }
   };
 
+  onDateChange = (date) => {
+    this.setState({birthday: date,canContinue:true});
+  };
   constructor(props){
     super(props);
     this.state = {
       timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
       keyboardSpace: 0,
+      birthday: props.fieldValue,
       value:props.fieldValue,
       phoneValue:props.fieldValue,
       canContinue:props.field.field_type == 'dropdown' ? !!props.fieldValue : false
@@ -76,6 +80,8 @@ class FieldModal extends React.Component{
     }
   }
   onChange(val){
+    console.log(val);
+
      if(!val) return
     var isValid = true;
 
@@ -95,7 +101,6 @@ class FieldModal extends React.Component{
         value: val
       })
     }
-    this.props.updateOutside && this.props.updateOutside(val)
   }
   onChangePhone({phone}){
     if(phone.length == 10){
@@ -145,8 +150,16 @@ class FieldModal extends React.Component{
   // }
   submit(){
     if(!this.state.canContinue){return false}
+    if(this.props.field.field_type == 'date'){
+      var payload = {};
+      const v = moment(this.state.birthday).format('MM/DD/YYYY');
 
-    if(this.props.field.field_type == 'phone_input'){
+      payload[`${this.props.forPartner ? 'partner_' : ''}${this.props.fieldName}`] = v;
+      this.props.updateOutside && this.props.updateOutside(v)
+      this.props.dispatch(ActionMan.updateUser(payload))
+      this.props.cancel()
+
+    }else if(this.props.field.field_type == 'phone_input'){
       // this.props.navigator.push({
       //   component: PinScreen,
       //   title: '',
@@ -159,11 +172,24 @@ class FieldModal extends React.Component{
       //   }
       // })
     }else{
-      var payload = {}
-      payload[`${this.props.fieldName}`] = this.state.value;
+      var payload = {};
+
+      payload[`${this.props.forPartner ? 'partner_' : ''}${this.props.fieldName}`] = this.state.value;
+      this.props.updateOutside && this.props.updateOutside(this.state.value)
       this.props.dispatch(ActionMan.updateUser(payload))
       this.props.cancel()
     }
+  }
+  onChangeDate(d){
+    console.log(d);
+
+    this.setState({
+      canContinue:true,
+      birthday: d
+    })
+
+
+
   }
 
   renderButtons(){
@@ -271,37 +297,60 @@ class FieldModal extends React.Component{
 
     case 'input':
       return (
-        <View style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between',flexDirection:'column'}}>
-          <View style={{
-                            marginHorizontal:MagicNumbers.screenPadding,
-                            alignSelf:'stretch',flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',paddingVertical:20}}>
-            <Text style={{
-                color: colors.rollingStone,
-                fontSize: 20,
-                fontFamily:'Omnes-Regular',
-                textAlign:'center',
-                marginBottom:MagicNumbers.is5orless ? 20 : 40,
-              }}>{field.long_label ? field.long_label : field.label}</Text>
-            <View style={{ borderBottomWidth: 1, borderBottomColor: borderColor,width:MagicNumbers.screenWidth }}>
-              {React.cloneElement(inputField,{
-              maxLength: getMaxLength(this.props.fieldName),
-              selectionColor:colors.mediumPurple,
-              defaultValue: this.props.fieldName == 'firstname' ? fieldValue ? fieldValue.slice(0,10) : '' : fieldValue,
-              onChangeText:(value) => {
-                this.onChange(value.trim())
-              },
-              autoCapitalize:'characters',
-              ref: (textField) => { this.textField = textField }
-            }
-          )}
-          </View>
-          {field.sub_label ? <Text  style={{
-              color: colors.rollingStone,
-              fontSize: MagicNumbers.is5orless ? 14 : 18,textAlign:'center',
-              fontFamily:'Omnes-Regular',
-              marginTop:15,
-            }}>{field.sub_label}</Text> : null}
-          </View>
+        <View style={{ alignSelf:'stretch',flex:2,   height:DeviceHeight,}}>
+          <KeyboardAvoidingView
+            style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between',flexDirection:'column'}}
+            behavior={'padding'}
+          >
+            <View
+              style={{
+                alignSelf:'stretch',
+                width:MagicNumbers.screenWidth - MagicNumbers.screenPadding,
+                marginHorizontal:MagicNumbers.screenPadding,flex:1,
+                alignItems:'center',justifyContent:'center',flexDirection:'column'
+              }}
+            >
+              <View
+                style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between',flexDirection:'column'}}
+              >
+                <View style={{
+                    alignSelf:'stretch',
+                    flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',
+                    paddingVertical:20
+                  }}
+                >
+                  <Text style={{
+                      color: colors.rollingStone,
+                      fontSize: 20,
+                      fontFamily:'Omnes-Regular',
+                      textAlign:'center',
+                      marginBottom:MagicNumbers.is5orless ? 20 : 40,
+                    }}>{field.long_label ? field.long_label : field.label}</Text>
+
+                  <View
+                    style={{ borderBottomWidth: 1, borderBottomColor: borderColor,width:MagicNumbers.screenWidth }}
+                  >
+                    {
+                      React.cloneElement(inputField,{
+                        maxLength: getMaxLength(this.props.fieldName),
+                        selectionColor:colors.mediumPurple,
+                        defaultValue: this.props.fieldName == 'firstname' ? fieldValue ? fieldValue.slice(0,10) : '' : fieldValue,
+                        onChangeText:(value) => {
+                          this.onChange(value.trim())
+                        },
+                        autoCapitalize:'characters',
+                        ref: (textField) => { this.textField = textField }
+                      }
+                    )}
+                  </View>
+                  {field.sub_label ? <Text  style={{
+                      color: colors.rollingStone,
+                      fontSize: MagicNumbers.is5orless ? 14 : 18,textAlign:'center',
+                      fontFamily:'Omnes-Regular',
+                      marginTop:15,
+                    }}
+                  >{field.sub_label}</Text> : null}
+                </View>
 
             {/*
               this.state.error &&
@@ -311,9 +360,13 @@ class FieldModal extends React.Component{
             */}
 
 
-          {this.renderButtons()}
 
+              </View>
+            </View>
+            {this.renderButtons()}
+          </KeyboardAvoidingView>
         </View>
+
       )
 
     case 'phone_input':
@@ -348,32 +401,46 @@ class FieldModal extends React.Component{
 
       case 'date':
         return (
-          <View style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between'}}>
+          <View style={{ alignSelf:'stretch',}}>
             <View style={{ alignSelf:'stretch',
-                              width:MagicNumbers.screenWidth - MagicNumbers.screenPadding,
-                              marginHorizontal:MagicNumbers.screenPadding,
-                              flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',padding:20}}>
-              <Text style={{
+              width:MagicNumbers.screenWidth - MagicNumbers.screenPadding,
+              marginHorizontal:MagicNumbers.screenPadding,
+           height:DeviceHeight-260,alignItems:'center',justifyContent:'center',flexDirection:'column'}}>
+        <View style={{ alignSelf:'stretch', flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',padding:20}}>
+                <Text style={{
                   color: colors.rollingStone,
                   fontSize: 20,textAlign:'center',
                   fontFamily:'Omnes-Regular',
                   marginBottom:40,alignSelf:'stretch'
 
                 }}>{field.long_label ? field.long_label : field.label}</Text>
-              <View style={{ borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone }}>
-                {React.cloneElement(inputField,{
-                handleChange:(value) => {
-                  this.onChangeDate(value)
-                },
-                ref: (dateField) => { this.dateField = dateField }
-              }
+
+                <View style={{  borderBottomWidth: 1,borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,alignSelf:'stretch',height:50 }}>
+                <Text style={{
+                  color: colors.white,
+                  fontSize: 20,textAlign:'center',
+                  fontFamily:'Omnes-Regular',
+                  marginBottom:40,alignSelf:'stretch'
+
+                }}>{moment(this.state.birthday).format('MM/DD/YYYY')}</Text>
+                </View>
+                </View>
+
+                </View>
+                {this.renderButtons()}
+
+              <View style={{  height:260,backgroundColor:colors.white }}>
+                {React.cloneElement(this.props.inputField,{
+                  onDateChange: this.onDateChange,
+                  date:new Date(this.state.birthday),
+                  ref: (dateField) => { this.dateField = dateField }
+                }
             )}
             </View>
 
-            </View>
-            {this.renderButtons()}
 
           </View>
+
         );
     case 'textarea':
         return (

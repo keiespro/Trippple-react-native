@@ -64,6 +64,8 @@ goBack(){
   }else if(this.props.user.status != 'onboarded' && !this.props.user.relationship_status){
     this.props.navigator.pop()
     this.props.onboardModal({component:'OnboardModal',passProps:{}})
+  }else{
+    this.props.navigator.pop()
   }
 }
   render(){
@@ -196,7 +198,7 @@ const mapStateToProps = ({user,ui, app}, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return { onboardModal: r => {dispatch(ActionMan.showInModal(r))} };
+  return { onboardModal: r => {dispatch(ActionMan.showInModal(r))}, dispatch };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(JoinCouple);
