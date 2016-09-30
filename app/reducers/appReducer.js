@@ -36,6 +36,7 @@ export default function appReducer(state = initialState, action) {
     // explicitly know if response came back empty
     case 'GET_POTENTIALS_FULFILLED':
         const matches = action.payload.response;
+        console.log(matches);
         if ( !matches ) return state;
         if ( !matches.length ){
             return {...state, potentialsReturnedEmpty: true}
@@ -61,5 +62,6 @@ const initialState = {
     visibility: null,
     version: null,
     network: null,
+    potentialsReturnedEmpty: false
 
 };

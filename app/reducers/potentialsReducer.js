@@ -26,7 +26,7 @@ export default function potentialsReducer(state = initialState, action) {
         if(!data || !data.matches || !data.matches.length){
             pots = state
         }
-        if(!data.matches[0].user){
+        if(!data.matches[0] || !data.matches[0].user){
             pots = data.matches.map(pot => ({user: pot}));
         }else{
             pots = data.matches

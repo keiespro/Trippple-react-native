@@ -37,7 +37,12 @@ export default function authReducer(state = initialState, action) {
             return { ...state }
         }
 
-    case 'SAVE_CREDENTIALS':
+    case 'SAVE_CREDENTIALS_PENDING':
+    case 'SAVE_CREDENTIALS_FULFILLED':
+    case 'SAVED_CREDENTIALS_FULFILLED':
+        return { ...state, savedCredentials: true }
+
+    // case 'SAVED_CREDENTIALS_FULFILLED ':
     case 'VERIFY_PIN_FULFILLED':
     case 'LOGIN_WITH_FACEBOOK_FULFILLED':
 
@@ -70,5 +75,6 @@ export default function authReducer(state = initialState, action) {
 
 const initialState = {
     api_key: null,
-    user_id: null
+    user_id: null,
+    savedCredentials: false
 };

@@ -81,7 +81,7 @@ class NewCard extends React.Component {
         const hasPartner = potential.partner && potential.partner.gender ? true : false;
         const notFakePartner = hasPartner && !potential.partner.is_fake_user
         const slideFrames = hasPartner ? [potential.user,potential.partner] : [potential.user];
-
+        const verifiedCouple = hasPartner && potential.couple.verified;
         const tmpCardHeight = profileVisible ? cardHeight : cardHeight;
 
 
@@ -191,7 +191,7 @@ class NewCard extends React.Component {
                                   distance={distance}
                                   textColor={colors.white}
                               />
-                              {hasPartner && notFakePartner && <VerifiedCoupleBadge placementStyle={{position:'relative',alignSelf:'flex-start',left:0,top:0,marginTop:20}}/>}
+                              {verifiedCouple && <VerifiedCoupleBadge placementStyle={{position:'relative',alignSelf:'flex-start',left:0,top:0,marginTop:20}}/>}
 
                           </View>
 
@@ -278,7 +278,7 @@ class NewCard extends React.Component {
                               distance={distance}
                               textColor={colors.shuttleGray}
                           />
-                          {hasPartner && notFakePartner && <VerifiedCoupleBadge/>}
+                          {verifiedCouple && <VerifiedCoupleBadge/>}
                       </View>
                   </TouchableHighlight>
 

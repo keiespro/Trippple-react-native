@@ -68,7 +68,10 @@ function publicRequest(endpoint, payload){
 }
 
 function authenticatedRequest(endpoint: '', payload: {}, resource, forceCredentials){
-    const credentials = global.creds;
+    const credentials = forceCredentials || global.creds;
+    if(!credentials || !credentials.api_key || !credentials.user_id){
+      console.warn('Attempting to make authenticated request with no credentials')
+    }
     const authPayload = {...payload, ...credentials};
     return baseRequest(endpoint, authPayload,resource)
 }

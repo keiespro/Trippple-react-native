@@ -1,36 +1,25 @@
-import React, {Component} from "react";
-import {StyleSheet, ActivityIndicator, Text, View, Image, TouchableHighlight, LayoutAnimation} from "react-native";
+import React from "react";
+import {StyleSheet, Text, View, Image} from "react-native";
 
 import colors from '../../utils/colors'
 import {MagicNumbers} from '../../utils/DeviceConfig'
 
-class VerifiedCoupleBadge extends Component{
+const VerifiedCoupleBadge = ({leftBoxStyles, placementStyle}) => (
+  <View style={[styles.iconButton,placementStyle]}>
+    <View style={[styles.iconButtonLeftBox,leftBoxStyles]}>
+      <Image
+        style={{width:12,height:10,tintColor:colors.mediumPurple}}
+        resizeMode={'contain'}
+        source={{uri:'assets/checkmarkWhiteSmall.png'}}
+      />
+    </View>
+    <View style={styles.iconButtonRightBox}>
+     <Text style={styles.iconButtonText}>VERIFIED COUPLE</Text>
+    </View>
+  </View>
+)
 
-  constructor(props){
-    super(props)
-    this.state = {
-      busy:false
-    }
-  }
 
-  _onPress(e){
-    this.setState({busy:true})
-    this.props._onPress(e)
-  }
-
-  render() {
-    return (
-        <View style={[styles.iconButton,this.props.placementStyle]}>
-          <View style={[styles.iconButtonLeftBox,this.props.leftBoxStyles]}>
-            <Image style={{width:12,height:10,tintColor:colors.mediumPurple}} resizeMode={'contain'} source={require('./checkmarkWhiteSmall.png')} />
-          </View>
-          <View style={styles.iconButtonRightBox}>
-           <Text style={[ styles.iconButtonText]}>VERIFIED COUPLE</Text>
-          </View>
-        </View>
-    )
-  }
-}
 
 export default VerifiedCoupleBadge
 

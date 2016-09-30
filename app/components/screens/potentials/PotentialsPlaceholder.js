@@ -15,33 +15,52 @@ const DeviceWidth = Dimensions.get('window').width;
 const {INVITE_FRIENDS_APP_LINK} = config;
 const getPotentialsButtonEnabled = true;
 import {connect} from 'react-redux'
+import TimerMixin from 'react-timer-mixin';
+import reactMixin from 'react-mixin'
 
-@pure
+
+@reactMixin.decorate(TimerMixin)
 class PotentialsPlaceholder extends React.Component{
     constructor(props){
         super()
-        this.state = {loading:false}
+        this.state = {loading:true}
     }
     onDidShow(){
         this.props.onDidShow && this.props.onDidShow(true)
     }
+    componentDidMount(){
+      this.startTimer()
+
+    }
     openProfileEditor(){
-        this.setState({loading:true})
 
         this.props.navigator.push(this.props.navigation.router.getRoute('SettingsBasic',{
             style:styles.container,
             settingOptions:profileOptions,
-        }))
-        this.getMorePotentials()
-    }
+        }));
+        this.setState({loading:true})
 
+    }
+    openPrefs(){
+
+        this.props.navigator.push(this.props.navigation.router.getRoute('SettingsPreferences',{
+        }));
+        this.setTimeout(()=>{
+          this.setState({loading:true})
+        },5000)
+    }
+    startTimer(){
+      this.setTimeout(()=>{
+        this.setState({loading:false})
+      },15000)
+    }
     getMorePotentials(){
   //this.state.loading
 
         this.setState({loading:true})
         const {latitude,longitude} = this.props.user
         const coords = {latitude,longitude};
-        this.props.dispatch(ActionMan.getPotentials(this.props.geo))
+        this.props.dispatch(ActionMan.getPotentials())
 
         // this.props.dispatch({type:'REQUEST_POTENTIALS_MANUALLY',payload:{coords}})
 
@@ -49,6 +68,8 @@ class PotentialsPlaceholder extends React.Component{
     componentDidUpdate(pState){
         if(this.state.loading && !pState.loading){
             LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
+            this.startTimer()
+
         }
     }
 
@@ -114,7 +135,7 @@ class PotentialsPlaceholder extends React.Component{
                         style={{
                             alignSelf: 'center',
                             opacity:  1,
-                            height:this.state.loading ? 200 : 160,
+                            height:160,
                             width: MagicNumbers.is4s ? DeviceWidth - MagicNumbers.screenPadding*2 : DeviceWidth-30,
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -149,17 +170,26 @@ class PotentialsPlaceholder extends React.Component{
                 /> : null
               }
 
-              {!userProfileIncomplete && getPotentialsButtonEnabled && (!this.state.loading) ?
+              {!userProfileIncomplete && getPotentialsButtonEnabled && !potentialsReturnedEmpty && (!this.state.loading) ?
                 <Button
                     loading={this.state.loading}
-                    btnText={potentialsReturnedEmpty ? `TRY NOW` : 'GET MORE MATCHES'}
-                    labelText={potentialsReturnedEmpty ? `NONE FOUND, TRY AGAIN SOON` : `GO AHEAD, TREAT YOURSELF`}
-                    labelPosition={potentialsReturnedEmpty ? 'top' : 'bottom'}
+                    btnText={  'GET MORE MATCHES'}
+                    labelText={ `GO AHEAD, TREAT YOURSELF`}
+                    labelPosition={'bottom'}
                     onTap={this.getMorePotentials.bind(this)}
                 /> : null
               }
 
-              {!userProfileIncomplete && !getPotentialsButtonEnabled && !this.state.loading ?
+              {!userProfileIncomplete && potentialsReturnedEmpty && (!this.state.loading) ?
+                <Button
+                    loading={this.state.loading}
+                    btnText={ `ADJUST PREFERENCES`}
+                    labelText={ `NO MORE USERS MATCH YOUR PREFERENCES`}
+                    labelPosition={'top'}
+                    onTap={this.openPrefs.bind(this)}
+                /> : null
+              }
+              {!userProfileIncomplete && !potentialsReturnedEmpty && !getPotentialsButtonEnabled && !this.state.loading ?
                 <Button
                     btnText={'INVITE FRIENDS'}
                     onTap={this.inviteFriends.bind(this)}
@@ -256,4 +286,4 @@ const mapDispatchToProps = (dispatch) => {
     return { dispatch };
 }
 
-export default connect(null,mapDispatchToProps)(PotentialsPlaceholder)
+export default connect(mapStateToProps,mapDispatchToProps)(PotentialsPlaceholder)

@@ -136,6 +136,7 @@ class UserProfile extends React.Component{
         const notFakePartner = hasPartner && potential.partner.is_fake_user;
         const slideFrames = hasPartner && potential.partner.image_url && potential.partner.image_url != "" ? [potential.user,potential.partner] : [potential.user];
         const tmpCardHeight = profileVisible ? cardHeight : cardHeight;
+        const verifiedCouple = hasPartner && potential.couple.verified;
         const aniblurstyle = [ {
             backgroundColor:colors.outerSpace50,
             width:DeviceWidth,
@@ -160,6 +161,7 @@ class UserProfile extends React.Component{
             onLayout={this.onLayout.bind(this)}
 
         >
+        <StatusBar animated={true} hidden={true} />
 
 
 
@@ -222,7 +224,7 @@ class UserProfile extends React.Component{
                               distance={distance}
                               textColor={colors.white}
                           />
-                          {hasPartner && notFakePartner && <VerifiedCoupleBadge/>}
+                          {verifiedCouple && <VerifiedCoupleBadge/>}
 
                       </View>
 

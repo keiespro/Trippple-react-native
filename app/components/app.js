@@ -58,6 +58,9 @@ class App extends React.Component{
         if(this.state.initialized && nProps.loggedIn && this.props.appState != 'active' && nProps.appState == 'active'){
             this.performInitActions()
         }
+        if(this.state.initialized && this.props.loggedIn && nProps.loggedIn && !nProps.savedCredentials){
+          this.props.dispatch(ActionMan.saveCredentials())
+        }
 
     }
 
@@ -99,6 +102,7 @@ const mapStateToProps = (state, ownProps) => {
         loggedIn: state.auth.api_key && state.auth.user_id,
         push_token: state.device.push_token,
         exnavigation: state.exnavigation,
+        savedCredentials: state.auth.savedCredentials,
         appState: state.app.appState
     }
 }

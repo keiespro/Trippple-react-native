@@ -4,6 +4,7 @@ import ReactNative, {
   Text,
   View,
   TouchableHighlight,
+  StatusBar,
   TouchableOpacity,
   Alert,
   Image,
@@ -46,7 +47,7 @@ const {INVITE_FRIENDS_APP_LINK} = config
 @withNavigation
 class Settings extends React.Component{
     static route = {
-        styles: NavigationStyles.FloatVertical,
+        styles: NavigationStyles.SlideVertical,
         navigationBar: {
             visible:false,
             backgroundColor: colors.transparent,
@@ -142,7 +143,7 @@ class Settings extends React.Component{
         const wh = DeviceHeight/2;
         return (
           <View style={{backgroundColor:colors.outerSpace,paddingTop:0,flex:10}} pointerActions={'box-none'}>
-              <ParallaxView
+            <ParallaxView
                   showsVerticalScrollIndicator={false}
                   key={this.props.user.id}
                   windowHeight={wh}
