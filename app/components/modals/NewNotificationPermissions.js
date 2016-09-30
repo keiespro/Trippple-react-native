@@ -7,7 +7,7 @@ import {
   Dimensions,
   ScrollView,
   Linking,
-  PushNotificationIOS,
+  PushNotificationIOS,AppState,
   TouchableOpacity,
 } from 'react-native';
 import React, { PropTypes } from 'react';
@@ -49,14 +49,22 @@ class NewNotificationPermissions extends React.Component{
         this.state = {
             failedState: false,
             permissions: null,
-            hasPermission: null
+            hasPermission: false
         }
     }
 
+
+    _handleAppStateChange(st){
+      if(st == "active"){
+        this.checkPermission()
+      }
+    }
     componentWillMount(){
         this.checkPermission()
     }
     componentDidMount(){
+      AppState.addEventListener('change', this._handleAppStateChange.bind(this));
+
         Settings.set({
         // [HAS_SEEN_NOTIFICATION_REQUEST]: true,
             [LAST_ASKED_NOTIFICATION_PERMISSION]: Date.now()
@@ -68,6 +76,7 @@ class NewNotificationPermissions extends React.Component{
     componentWillUnmount() {
       // AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
         PushNotificationIOS.removeEventListener('register', this.handleNotificationPermission.bind(this));
+        AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
 
     }
     checkPermission(){
@@ -77,8 +86,14 @@ class NewNotificationPermissions extends React.Component{
                 return acc
             },0);
 
-        // this.setState({permissions, hasPermission: permResult > 0})
+            if(!permResult){
+              this.setState({permissions, hasPermission: permResult > 0,failedState: this.state.didtry})
 
+            }else{
+
+                this.close(false)
+                this.props.successCallback && this.props.successCallback();
+            }
         })
     }
     // componentDidUpdate(prevProps,prevState){
@@ -129,15 +144,17 @@ class NewNotificationPermissions extends React.Component{
                     acc = acc + permissions[el];
                     return acc
                 },0);
-                PushNotificationIOS.addEventListener('register', this.handleNotificationPermission.bind(this))
-                PushNotificationIOS.requestPermissions({alert:true,badge:true,sound:true})
 
                 if(permResult == 0){
+                  if(!this.state.didtry){
+                    PushNotificationIOS.addEventListener('register', this.handleNotificationPermission.bind(this))
+                    PushNotificationIOS.requestPermissions({alert:true,badge:true,sound:true})
+                    this.setState({didtry:true,permissions, hasPermission:false})
+                  }else{
+                    this.setState({permissions, hasPermission: false,failedState: true})
 
-            // AppActions.disableNotificationModal()
-
+                  }
                 }else{
-            // AppActions.disableNotificationModal()
 
                     this.close(false)
                     this.props.successCallback && this.props.successCallback();
@@ -179,7 +196,7 @@ class NewNotificationPermissions extends React.Component{
                 }
                   defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
               />
-              <View style={{width:32,height:32,borderRadius:16,overflow:'hidden',backgroundColor:colors.mandy,position:'absolute',top:6,right:6,justifyContent:'center',alignItems:'center'}}>
+            {  this.state.failedState ? null :  <View style={{width:32,height:32,borderRadius:16,overflow:'hidden',backgroundColor:colors.mandy,position:'absolute',top:6,right:6,justifyContent:'center',alignItems:'center'}}>
                 <Text style={[{
                     fontSize:20,
                     marginLeft:2,
@@ -190,7 +207,7 @@ class NewNotificationPermissions extends React.Component{
                     color:'#fff',
                 }]}>1</Text>
 
-              </View>
+              </View>}
             </View>
             <View style={[{width:DeviceWidth, paddingHorizontal:MagicNumbers.screenPadding/2 }]} >
 

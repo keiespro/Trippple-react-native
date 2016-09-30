@@ -18,11 +18,12 @@ export const getLocation = () => dispatch => dispatch({ type: 'GET_LOCATION',
 
         }
       }), (err => {
-        __DEV__ && console.log(err,'LOCERRRRR');
+        __DEV__ && console.log(err,'LOCATION ERR');
           reject(err)
       }), LOCATION_OPTIONS);
     }).catch(err => {
-      __DEV__ && console.log(err,'LOCERRRRR');
+      __DEV__ && console.warn(err,'LOCATION ERR');
+
     })
   },
 });

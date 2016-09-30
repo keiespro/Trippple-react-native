@@ -4,6 +4,7 @@ import {
   NativeModules,
   ScrollView,
   View,
+  AppState,
   TouchableHighlight,
   Dimensions,
   TouchableOpacity,
@@ -59,6 +60,20 @@ class LocationPermission extends React.Component{
   //  // }
   //
   // }
+
+
+  componentDidMount(){
+    AppState.addEventListener('change', this._handleAppStateChange.bind(this));
+
+  }
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
+  }
+  _handleAppStateChange(st){
+    if(st == "active"){
+      this.getLocation()
+    }
+  }
   componentDidUpdate(prevProps,prevState){
     if(!prevState.hasPermission && this.state.hasPermission ){
      // this.props.failCallback && this.props.failCallback()
@@ -75,8 +90,8 @@ class LocationPermission extends React.Component{
     },
      (error) => {
        Analytics.log(error)
-
-       this.setState({hasPermission: false})
+       __DEV__ && console.warn('err',error);
+       this.setState({hasPermission: false,failedState: error.code == 1})
 
      },
      {enableHighAccuracy: false, maximumAge: 1} )
@@ -92,7 +107,13 @@ class LocationPermission extends React.Component{
   }
 
   handleTapYes(){
+    // if(this.state.hasTapped){
+    //   this.close()
+    //   return
+    // }
     this.requestPermission()
+    this.setState({hasTapped: true})
+
   }
   close(){
     if(this.props.navigator){
@@ -134,11 +155,11 @@ class LocationPermission extends React.Component{
      <View>
      <TouchableHighlight
        style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:10,marginTop:20,marginBottom:15}}
-       onPress={this.handleTapYes.bind(this)}>
+       onPress={this.state.failedState ? this.openSettings.bind(this) : this.handleTapYes.bind(this)}>
        <View style={{paddingVertical:20}} >
          <Text style={[styles.modalButtonText,{fontFamily:'Montserrat-Bold'}]}>
            {
-             `YES PLEASE`
+            this.state.failedState ? `GO TO SETTINGS` : `YES PLEASE`
            }
          </Text>
        </View>
@@ -161,7 +182,7 @@ class LocationPermission extends React.Component{
          <View style={{width:200,height:200,marginVertical:10,position:'relative',alignItems:'center',justifyContent:'center'}}>
           <Image
             style={[{width:100,height:100,borderRadius:50,top:0,left:0,margin:50,position:'absolute'}]}
-            source={ {uri: this.props.user.image_url }}
+            source={ {uri: (this.state.failedState ? 'assets/iconModalDenied@3x.png' : this.props.user.image_url) }}
           />
           <Image
            style={{width:200,height:200,marginVertical:0,top:0,left:0,padding:50,padding:0,position:'absolute'}}
@@ -180,11 +201,11 @@ class LocationPermission extends React.Component{
            <Text style={[styles.rowtext,styles.bigtext,{
              fontSize:18,color: colors.white,marginHorizontal:MagicNumbers.screenPadding,
              marginBottom: MagicNumbers.is5orless ? 10 : 20
-           }]}>We’ve found some matches we think you might like.</Text>
-             <Text style={[styles.rowtext,styles.bigtext,{
+           }]}>{this.state.failedState ? `Go to the Settings app and enable Location for Trippple` : `We’ve found some matches we think you might like.`}</Text>
+          {this.state.failedState ? null :   <Text style={[styles.rowtext,styles.bigtext,{
                fontSize:18,color: colors.white,marginHorizontal:MagicNumbers.screenPadding/2,
                marginBottom: MagicNumbers.is5orless ? 10 : 20
-             }]}>Should we prioritize the matches nearest to you?</Text>
+             }]}>Should we prioritize the matches nearest to you?</Text>}
 
            {this.renderButton()}
          </View>

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {StyleSheet, Text, Image, NativeModules, CameraRoll, View, TouchableHighlight, Dimensions, PixelRatio, TouchableOpacity} from "react-native";
+import {StyleSheet,AppState, Text, Image,Linking, NativeModules, CameraRoll, View, TouchableHighlight, Dimensions, PixelRatio, TouchableOpacity} from "react-native";
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -27,18 +27,35 @@ class PrivacyPermissionsModal extends Component{
   }
 
   componentDidMount(){
+    this.checkPermission()
+    AppState.addEventListener('change', this._handleAppStateChange.bind(this));
 
-    ContactGetter.checkPermission((err, permission) => {
-      if(!err && permission === ContactGetter.PERMISSION_AUTHORIZED){
-        this.setState({ hasContactsPermissions: true })
-      }else if( permission === ContactGetter.PERMISSION_DENIED){
-        this.setState({ hasContactsPermissions: false,failedStateContacts:true })
-      }else{
-        this.setState({ hasContactsPermissions: false })
-      }
-    })
   }
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
+  }
+  _handleAppStateChange(st){
+    if(st == "active"){
+      this.checkPermission()
+    }
+  }
+  checkPermission(){
 
+        ContactGetter.checkPermission((err, permission) => {
+          if(err){
+           __DEV__ &&  console.warn(err,'err');
+          }
+          __DEV__ && console.warn(permission)
+
+          if( permission === ContactGetter.PERMISSION_AUTHORIZED){
+            this.setState({ hasContactsPermissions: true,failedStateContacts:false })
+          }else if( permission === ContactGetter.PERMISSION_DENIED){
+            this.setState({ hasContactsPermissions: false, failedStateContacts:true })
+          }else{
+            this.setState({ hasContactsPermissions: false,failedStateContacts:false })
+          }
+        })
+  }
   componentDidUpdate(pProps,pState){
     if(  this.state.hasContactsPermissions && !pState.hasContactsPermissions ){
       this.props.dispatch(ActionMan.updateUser({privacy:'private'}))
@@ -54,21 +71,26 @@ class PrivacyPermissionsModal extends Component{
       this.getContacts();
     }else{
 
-      ContactGetter.checkPermission((err, permission) => {
+      ContactGetter.requestPermission((err, permission) => {
         if(err){
          //TODO:  handle err;
+         __DEV__ && console.warn(err)
+          this.setState({hasContactsPermissions:false,failedStateContacts:true})
+
         }
 
        // ContactGetter.PERMISSION_AUTHORIZED || ContactGetter.PERMISSION_UNDEFINED || ContactGetter.PERMISSION_DENIED
         if(permission === ContactGetter.PERMISSION_UNDEFINED){
-          this.getContacts();
+
         }
         if(permission === ContactGetter.PERMISSION_AUTHORIZED){
           this.getContacts()
+          this.setState({hasContactsPermissions:true,failedStateContacts:false})
+
         }
         if(permission === ContactGetter.PERMISSION_DENIED){
 
-          this.setState({failedStateContacts:true})
+          this.setState({failedStateContacts:true,hasContactsPermissions:false})
         }
 
       })
@@ -78,7 +100,7 @@ class PrivacyPermissionsModal extends Component{
   getContacts(){
     ContactGetter.requestPermission((err, permission) => {
     // ContactGetter.getContacts((err, contacts) => {
-      // console.log(err, permission)
+       __DEV__ && console.log(err, permission)
       if (!err ) {
       //   UserActions.handleContacts.defer(contacts)
         if(permission === ContactGetter.PERMISSION_UNDEFINED){
@@ -89,10 +111,12 @@ class PrivacyPermissionsModal extends Component{
         }
         if(permission === ContactGetter.PERMISSION_DENIED){
 
-          this.setState({failedStateContacts:true,hasContactsPermissions:false})
+          this.setState({
+            failedStateContacts:true,
+            hasContactsPermissions:false
+          })
         }
 
-        this.setState({hasContactsPermissions:true})
       //
       }else{
       //
@@ -101,7 +125,47 @@ class PrivacyPermissionsModal extends Component{
       }
     })
   }
+  openSettings(){
 
+    Linking.openURL('app-settings://').catch(err => console.error('An error occurred', err));
+
+  }
+  renderFailed(){
+    const {hasContactsPermissions} = this.state
+
+    return (
+      <View>
+        <View style={{alignItems:'center'}}>
+          <Image
+            resizeMode={Image.resizeMode.contain}
+            style={[{width:150,
+              height:MagicNumbers.is4s ? 100 : 150,
+              marginBottom:MagicNumbers.is4s ? 15 : 30,
+              marginTop:MagicNumbers.is4s ? 10 : 20}]}
+            source={{uri: 'assets/iconModalDenied@3x.png'}}
+          />
+        </View>
+        <Text style={[styles.rowtext,styles.bigtext,{
+          fontFamily:'Montserrat-Bold',fontSize:20,marginVertical:0
+        }]}
+        >CAN'T ACCESS CONTACTS</Text>
+
+        <Text style={[styles.rowtext,styles.bigtext,{
+          fontSize:18,marginVertical:10,color: colors.shuttleGray,marginHorizontal:10
+        }]}>
+          Go to the Settings app and enable Contacts for Trippple.
+        </Text>
+
+        <View style={{marginTop:20}}>
+
+          <View style={{overflow:'hidden',borderRadius:4,marginTop:20}}>
+              <Button btnText="GO TO SETTINGS" onTap={this.openSettings.bind(this)}/>
+
+          </View>
+        </View>
+      </View>
+    )
+  }
   render(){
 
     const {hasContactsPermissions} = this.state
@@ -109,6 +173,8 @@ class PrivacyPermissionsModal extends Component{
     return (
         <PurpleModal>
           <View style={[styles.col,{justifyContent:'space-between',padding:0}]}>
+
+          {this.state.failedStateContacts ? this.renderFailed() : <View>
             <View style={{alignItems:'center'}}>
               <Image
                 resizeMode={Image.resizeMode.contain}
@@ -145,17 +211,18 @@ class PrivacyPermissionsModal extends Component{
               {hasContactsPermissions ?
                 <Image source={{uri: 'assets/checkmarkWhiteSmall@3x.png'}}
                   resizeMode={Image.resizeMode.cover}
-                      style={{height:21,width:30}} /> :
-                      <View style={{backgroundColor:colors.darkGreenBlue,height:20,width:20,borderRadius:10,alignSelf:'center'}} /> }
+                      style={{height:21,width:30}} /> : <View style={{backgroundColor:colors.darkGreenBlue,height:20,width:20,borderRadius:10,alignSelf:'center'}} /> }
           </BoxyButton>
         </View>
         </View>
 
+        </View>
 
+}
             <View
             style={{
             }} >
-          { this.state.hasContactsPermissions ?
+          { this.state.hasContactsPermissions ? (
               <TouchableOpacity
                 style={{width:undefined,paddingHorizontal:10,marginVertical:10,flexDirection:'row',alignSelf:'stretch',flex:1,alignItems:'stretch'}}
                 onPress={()=> { this.props.success && this.props.success(); this.props.cancel && this.props.cancel();}}>
@@ -165,7 +232,7 @@ class PrivacyPermissionsModal extends Component{
                   paddingVertical:MagicNumbers.is4s ? 0 : 20,
                   alignSelf:'stretch'},styles.nothankstext]}>Continue</Text>
                 </View>
-              </TouchableOpacity>  :
+              </TouchableOpacity>)  : (
             <TouchableOpacity
               style={{paddingHorizontal:10,marginVertical:10,alignSelf:'stretch',flex:1,alignItems:'stretch'}}
               onPress={this.props.cancel}>
@@ -174,11 +241,12 @@ class PrivacyPermissionsModal extends Component{
                   padding:MagicNumbers.is4s ? 0 : 10,
                   alignSelf:'stretch'},styles.nothankstext]}>no thanks</Text>
               </View>
-            </TouchableOpacity>}
+            </TouchableOpacity>)}
 
              </View>
+             </View>
 
-        </View>
+
       </PurpleModal>
     )
   }
@@ -186,6 +254,47 @@ class PrivacyPermissionsModal extends Component{
 
 PrivacyPermissionsModal.displayName = "PrivacyPermissions"
 export default PrivacyPermissionsModal
+
+
+
+const Button = ({btnText,onTap,loading}) => (
+    <View
+        style={{
+            alignSelf:'stretch',
+            marginTop:30,
+            marginHorizontal:20,
+            flex:1
+        }}
+    >
+    <TouchableOpacity
+        onPress={onTap}
+        style={{
+            justifyContent:'center',
+            alignItems:'center',
+            borderRadius:5,
+            borderWidth:1,
+            paddingVertical:15,
+            borderColor:colors.white,
+            marginTop:15,
+            marginBottom:20,
+            marginHorizontal:MagicNumbers.screenPadding
+        }}
+    >
+      <View>
+        <Text
+            style={{
+                color: colors.white,
+                textAlign: 'center',
+                fontFamily:'Montserrat-Bold'
+            }}
+        >
+          {btnText}
+        </Text>
+      </View>
+    </TouchableOpacity>
+
+  </View>
+);
 
 const buttonStyles = StyleSheet.create({
 
