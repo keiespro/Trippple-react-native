@@ -19,11 +19,10 @@ import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.rnfs.RNFSPackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
+import com.trippple.RNHotline.RNHotline;
 
 import java.util.Arrays;
 import java.util.List;
-
-//import co.apptailor.Worker.BaseReactPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -59,7 +58,8 @@ public class MainApplication extends Application implements ReactApplication {
                 new RNDeviceInfo(),
                 new ReactNativeContacts(),
                 new RCTCameraPackage(),
-                new BlurViewPackage()
+                new BlurViewPackage(),
+                new RNHotline()
         );
       }
     };

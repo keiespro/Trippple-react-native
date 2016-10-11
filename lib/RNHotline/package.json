@@ -1,8 +1,5 @@
 {
   "name": "RNHotline",
   "version": "0.0.1",
-  "keywords": "react-native",
-  "peer-dependencies":{
-    "react-native": "^0.24.0"
-  }
+  "keywords": "react-native"
 }

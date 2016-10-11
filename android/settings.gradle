@@ -1,8 +1,6 @@
 rootProject.name = 'Trippple'
 
 include ':app'
-//include ':react-native-workers'
-//project(':react-native-workers').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-workers/android')
 include ':react-native-push-notification'
 project(':react-native-push-notification').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-push-notification/android')
 include ':react-native-mixpanel'
@@ -23,3 +21,7 @@ include ':react-native-camera'
 project(':react-native-camera').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-camera/android')
 include ':react-native-blur'
 project(':react-native-blur').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-blur/android')
+include ':react-native-hotline'
+project(':react-native-hotline').projectDir = new File(rootProject.projectDir, '../lib/RNHotline/android')
+//include ':react-native-workers'
+//project(':react-native-workers').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-workers/android')

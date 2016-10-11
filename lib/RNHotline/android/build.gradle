@@ -1,0 +1,26 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.1"
+    defaultConfig {
+        versionCode 1
+        versionName "1.0"
+        minSdkVersion 16
+        targetSdkVersion 24
+    }
+
+
+}
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+dependencies {
+    compile 'com.github.freshdesk:hotline-android:1.0.+'
+    compile 'com.android.support:appcompat-v7:24.+'
+    compile 'com.facebook.react:react-native:0.34.0'
+}

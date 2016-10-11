@@ -19,7 +19,7 @@ export const setHotlineUser = user => dispatch => dispatch({ type: 'SET_HOTLINE_
   payload: {
       promise: new Promise((resolve, reject) => {
         const {id, firstname, phone, relationship_status, gender, image_url, thumb_url, partner_id} = user;
-        RNHotlineController.setUser(`${id}`, firstname, phone, relationship_status, gender, image_url, thumb_url, `${partner_id}`);
+        RNHotline.setUser(`${id}`, firstname, phone, relationship_status, gender, image_url, thumb_url, `${partner_id}`);
         resolve();
       })
   }

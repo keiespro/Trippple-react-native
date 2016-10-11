@@ -30,17 +30,15 @@ import profileOptions from '../../../data/get_client_user_profile_options'
 import FBPhotoAlbums from '../../FBPhotoAlbums'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-const {RNHotlineController,FBAppInviteDialog} = NativeModules;
+const {FBAppInviteDialog} = NativeModules;
 import ParallaxView from '../../controls/ParallaxScrollView'
 import dismissKeyboard from 'dismissKeyboard'
 import ActionMan from '../../../actions/'
 import { connect } from 'react-redux';
-import {
-  NavigationStyles,withNavigation
-} from '@exponent/ex-navigation';
+import { NavigationStyles,withNavigation } from '@exponent/ex-navigation';
 
 const iOS = Platform.OS == 'ios';
-
+import RNHotline from '../../../../lib/RNHotline/'
 import config from '../../../../config'
 const {INVITE_FRIENDS_APP_LINK} = config
 
@@ -330,7 +328,7 @@ class Settings extends React.Component{
 
 
                 <TouchableHighlight onPress={(f)=>{
-                  if(iOS){RNHotlineController.showFaqs()}
+                  RNHotline.showFaqs()
                 }} underlayColor={colors.dark}
                 >
                     <View style={styles.wrapfield}>
@@ -346,7 +344,7 @@ class Settings extends React.Component{
                     </View>
                 </TouchableHighlight>
 
-                <TouchableHighlight onPress={(f)=>{ if(iOS){RNHotlineController.showConvos()}}} underlayColor={colors.dark}>
+                <TouchableHighlight onPress={(f)=>{ RNHotline.showConvos() }} underlayColor={colors.dark}>
                     <View style={styles.wrapfield}>
                         <View>
                             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>HELP & FEEDBACK</Text>
