@@ -26,15 +26,19 @@ import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
 
-  private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
-
   private final ReactNativeHost mReactNativeHost;
+    private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
 
+    protected static CallbackManager getCallbackManager() {
+        return mCallbackManager;
+    }
 
-  protected static CallbackManager getCallbackManager() {
-    return mCallbackManager;
-  }
-
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+    }
   {
     mReactNativeHost = new ReactNativeHost(this) {
       @Override
@@ -46,9 +50,10 @@ public class MainApplication extends Application implements ReactApplication {
 
       @Override
       protected List<ReactPackage> getPackages() {
-        return Arrays.<ReactPackage>asList(
+
+
+          return Arrays.<ReactPackage>asList(
                 new MainReactPackage(),
-//            new BaseReactPackage(),
                 new ReactNativePushNotificationPackage(),
                 new RNMixpanel(),
                 new RNMail(),
@@ -71,12 +76,6 @@ public class MainApplication extends Application implements ReactApplication {
   }
 
 
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    FacebookSdk.sdkInitialize(getApplicationContext());
-    // If you want to use AppEventsLogger to log events.
-    AppEventsLogger.activateApp(this);
-  }
+
 }
 

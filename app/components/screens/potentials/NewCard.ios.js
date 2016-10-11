@@ -4,7 +4,8 @@ import { BlurView,VibrancyView } from 'react-native-blur'
 import { MagicNumbers } from '../../../utils/DeviceConfig'
 import colors from '../../../utils/colors'
 import UserDetails from '../../UserDetails'
-import ParallaxSwiper from '../../controls/ParallaxSwiper'
+// import ParallaxSwiper from '../../controls/ParallaxSwiper'
+import Swiper from 'react-native-swiper'
 import styles from './styles'
 import XButton from '../../buttons/XButton'
 import {pure} from 'recompose'
@@ -132,7 +133,7 @@ class NewCard extends React.Component {
               onLayout={this.onLayout.bind(this)}
           >
 
-            <ParallaxSwiper
+          <Swiper
                 contentContainerStyle={[{
                     minHeight: this.props.profileVisible ? DeviceHeight : cardHeight,
                     alignItems:'center',
@@ -248,7 +249,7 @@ class NewCard extends React.Component {
 
                   </AnimatedBlurView>
 
-              </ParallaxSwiper>
+              </Swiper>
 
     <TouchableHighlight
         style={{

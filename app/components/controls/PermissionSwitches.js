@@ -12,13 +12,13 @@ import {
   LOCATION_SETTING,
   LEGACY_LOCATION_SETTING
 } from '../../utils/SettingsConstants'
+import OSPermissions from '../../../lib/OSPermissions/ospermissions'
 import colors from '../../utils/colors'
 import LocationPermissions from '../modals/LocationPermission'
 import NotificationPermissions from '../modals/NewNotificationPermissions'
 import styles from '../screens/settings/settingsStyles'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-const {OSPermissions} = NativeModules
 const iOS = Platform.OS == 'ios';
 
 function parseNotificationPermissions(nPermissions){
@@ -35,7 +35,7 @@ class PermissionSwitches extends React.Component{
     }
     componentDidMount(){
 
-        PushNotificationIOS.checkPermissions( permissions => {
+        iOS && PushNotificationIOS.checkPermissions( permissions => {
             const permResult = parseNotificationPermissions(permissions);
             this.setState({
                 NotificationSetting: permResult,
@@ -94,7 +94,7 @@ class PermissionSwitches extends React.Component{
         const {NotificationSetting} = this.state
         if(!NotificationSetting && iOS){
 
-            PushNotificationIOS.checkPermissions( permissions => {
+            iOS && PushNotificationIOS.checkPermissions( permissions => {
                 const permResult = parseNotificationPermissions(permissions);
 
                 if(!permResult){

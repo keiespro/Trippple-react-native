@@ -6,6 +6,7 @@ import Router from './Router'
 import Settings from './components/screens/settings/settings'
 import { connect } from 'react-redux'
 const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
 class AppNav extends React.Component {
 
@@ -18,7 +19,7 @@ class AppNav extends React.Component {
         return (
         <View style={{height:DeviceHeight}}>
         <DrawerLayoutAndroid
-           drawerWidth={300}
+           drawerWidth={DeviceWidth*.91}
            ref="settingsdrawer"
            onDrawerOpen={this.props.setDrawerOpen}
            onDrawerClose={this.props.setDrawerClosed}
@@ -42,6 +43,10 @@ class AppNav extends React.Component {
                       borderBottomWidth: 0,
                       translucent:true,
                       tintColor:'#fff',
+                      borderWidth:0,
+                      overflow:'hidden',
+                    shadowColor:'transparent',
+                    shadowOpacity: 0,
                       backgroundColor:'rgba(0,0,0,0)',
                       titleStyle:{
                           color:'#fff',

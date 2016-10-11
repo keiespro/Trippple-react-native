@@ -20,7 +20,6 @@ import com.freshdesk.hotline.exception.HotlineInvalidUserPropertyException;
 import java.util.HashMap;
 import java.util.Map;
 
-//import com.facebook.react.bridge.Bundle;
 
 public class RNHotlineModule extends ReactContextBaseJavaModule implements ActivityEventListener {
 
@@ -51,7 +50,7 @@ public class RNHotlineModule extends ReactContextBaseJavaModule implements Activ
 
 
     @ReactMethod
-    public void setUser(final String userId, final String firstname, final String phone, final String email, final ReadableMap readableMap, final Promise promise) throws HotlineInvalidUserPropertyException {
+    public void setUser(final String userId, final String firstname, final String phone, final String email, final ReadableMap readableMap) throws HotlineInvalidUserPropertyException {
         HotlineUser hlUser=Hotline.getInstance(getReactApplicationContext()).getUser();
         hlUser.setName(firstname);
         hlUser.setEmail(email);
@@ -88,7 +87,7 @@ public class RNHotlineModule extends ReactContextBaseJavaModule implements Activ
 
 
     @ReactMethod
-    public void showFAQs() {
+    public void showFaqs() {
         FaqOptions faqOptions = new FaqOptions()
                 .showFaqCategoriesAsGrid(true)
                 .showContactUsOnAppBar(true)
@@ -100,7 +99,7 @@ public class RNHotlineModule extends ReactContextBaseJavaModule implements Activ
     }
 
     @ReactMethod
-    public void showConversations() {
+    public void showConvos() {
 
         Hotline.showConversations(getReactApplicationContext());
     }
@@ -127,26 +126,4 @@ public class RNHotlineModule extends ReactContextBaseJavaModule implements Activ
 
         promise.resolve("ok");
     }
-
-    // You can get the result here
-//   @Override
-//   public void onActivityResult(final int requestCode, final int resultCode, final Intent intent) {
-////     if (requestCode == OPEN_HOTLINE_REQUEST) {
-////       if (mHotlinePromise != null) {
-////         if (resultCode == Activity.RESULT_CANCELED) {
-////           mHotlinePromise.reject(E_HOTLINE_CANCELLED, "Image picker was cancelled");
-////         } else if (resultCode == Activity.RESULT_OK) {
-////           Uri uri = intent.getData();
-////
-////           if (uri == null) {
-////             mHotlinePromise.reject(E_NO_OPEN_DATA_FOUND, "No image data found");
-////           } else {
-////             mHotlinePromise.resolve(uri.toString());
-////           }
-////         }
-//
-//         mHotlinePromise = null;
-//       }
-//     }
-//   }
 }

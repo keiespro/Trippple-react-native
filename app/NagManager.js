@@ -3,7 +3,6 @@ import React from 'react';
 
 import LocationPermissions from './components/modals/LocationPermission'
 import NotificationPermissions from './components/modals/NewNotificationPermissions'
-const {OSPermissions,RNHotlineController} = NativeModules
 import Analytics from './utils/Analytics'
 import SETTINGS_CONSTANTS from './utils/SettingsConstants'
 import ActionMan from './actions/';
@@ -12,7 +11,8 @@ import { connect } from 'react-redux';
 import PushNotification from 'react-native-push-notification'
 import {pure} from 'recompose'
 const iOS = Platform.OS == 'ios';
-
+import OSPermissions from '../lib/OSPermissions/ospermissions'
+import RNHotline from '../lib/RNHotline/'
 import reactMixin from 'react-mixin'
 import TimerMixin from 'react-timer-mixin'
 
