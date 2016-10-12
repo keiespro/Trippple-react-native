@@ -1,48 +1,30 @@
 {
     "parser": "babel-eslint",
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "settings": {
-        "ecmascript": 7,
-        "jsx": true
+    "env": {
+        "browser": true
     },
     "plugins": [
-      "react",
-      "react-native"
+        "react",
+        "react-native"
+    ],
+    "extends": [
+        # "eslint:recommended",
+        "airbnb",
+        "plugin:react/recommended"
     ],
     "rules": {
-        "strict": 1,
-        "quotes": 0,
-        "no-unused-vars": 0,
-        "no-multi-spaces": 1,
-        "constructor-super": 1,
-        "no-duplicate-imports": 1,
-        "no-irregular-whitespace": 1,
-        "no-mixed-spaces-and-tabs": 1,
-        "no-var": 1,
-        "prefer-arrow-callback": ["error", { "allowNamedFunctions": true }],
-        "camelcase": 0,
-        "no-underscore-dangle": 0,
-        "indent": 1,
-        "react/jsx-closing-bracket-location": 1,
-        "react/jsx-indent-props": 1,
-        "react/jsx-indent": 1,
-        "radix": ["error", "as-needed"],
-        "max-len": ["error", {code: 200}],
-        "react-native/no-unused-styles": 2,
-        "react-native/split-platform-components": 2,
-        "react-native/no-inline-styles": 0,
-        "react-native/no-color-literals": 0,
-        "react/jsx-key": 1,
-        "react/jsx-max-props-per-line": 0,
-        "react/jsx-no-duplicate-props": 1,
-        "react/jsx-sort-prop-types": 0,
-        "react/jsx-sort-props": 0,
-        "react/jsx-uses-react": 1,
-        "react/no-is-mounted": 1,
-        "react/prefer-es6-class": 1,
-        "react/self-closing-comp": 1
-
+      "comma-dangle": 0,
+      "semi": 0,
+      "react/prop-types": 0,
+      "one-var": 0,
+      "no-use-before-define": 0,
+      "import/extensions": [1, "never"],
+      "react/jsx-filename-extension": 0,
+      "react/jsx-no-bind": 0,
+      "eqeqeq": 0,
+      "max-len": 0,
+      "no-unused-expressions": 0,
+      "object-curly-spacing": 0,
+      "no-underscore-dangle": 0
     }
 }
