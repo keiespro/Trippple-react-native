@@ -22,5 +22,5 @@ allprojects {
 dependencies {
     compile 'com.github.freshdesk:hotline-android:1.0.+'
     compile 'com.android.support:appcompat-v7:24.+'
-    compile 'com.facebook.react:react-native:0.34.0'
+    compile 'com.facebook.react:react-native:0.35.0'
 }

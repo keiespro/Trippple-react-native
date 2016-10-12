@@ -45,7 +45,9 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="9f3360a634ff36e817a34ba898a19118cc1391ff" />
 
 
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />

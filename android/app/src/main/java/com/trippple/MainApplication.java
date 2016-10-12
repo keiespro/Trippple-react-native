@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.chirag.RNMail.RNMail;
 import com.cmcewen.blurview.BlurViewPackage;
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -24,6 +26,8 @@ import com.trippple.RNHotline.RNHotline;
 import java.util.Arrays;
 import java.util.List;
 
+import io.fabric.sdk.android.Fabric;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost;
@@ -38,6 +42,8 @@ public class MainApplication extends Application implements ReactApplication {
         super.onCreate();
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
+        Fabric.with(this, new Answers(), new Crashlytics());
+
     }
   {
     mReactNativeHost = new ReactNativeHost(this) {
