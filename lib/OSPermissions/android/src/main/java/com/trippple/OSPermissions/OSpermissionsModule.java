@@ -1,12 +1,8 @@
 package com.trippple.OSPermissions;
 
-import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-
-import java.util.Map;
 
 public class OSPermissionsModule extends ReactContextBaseJavaModule {
 
@@ -21,7 +17,7 @@ public class OSPermissionsModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void canUseLocation() {
-    return false
+  public Boolean canUseLocation() {
+    return false;
   }
 }
