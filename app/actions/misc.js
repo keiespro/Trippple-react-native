@@ -1,5 +1,6 @@
 import {NativeModules,ActionSheetIOS,PushNotificationIOS,Platform} from 'react-native'
-const {RNMessageComposer,RNHotlineController} = NativeModules;
+const {RNMessageComposer} = NativeModules;
+import RNHotline from '../../lib/RNHotline/'
 import Promise from 'bluebird'
 import api from '../utils/api'
 const iOS = Platform.OS == 'ios';
@@ -18,8 +19,8 @@ export const popChat = match_id => dispatch => dispatch({ type: 'POP_CHAT'});
 export const setHotlineUser = user => dispatch => dispatch({ type: 'SET_HOTLINE_USER',
   payload: {
       promise: new Promise((resolve, reject) => {
-        const {id, firstname, phone, relationship_status, gender, image_url, thumb_url, partner_id} = user;
-        RNHotline.setUser(`${id}`, firstname, phone, relationship_status, gender, image_url, thumb_url, `${partner_id}`);
+        const {id, firstname, phone, relationship_status, email, gender, image_url, thumb_url, partner_id} = user;
+      iOS  && RNHotline && RNHotline.setUser ?  RNHotline.setUser(`${id}`, firstname, phone, email, {relationship_status, gender, image_url, thumb_url, partner_id:`${partner_id}`}) : null;
         resolve();
       })
   }
