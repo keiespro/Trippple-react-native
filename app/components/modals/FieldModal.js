@@ -13,9 +13,11 @@ import {
   TouchableOpacity,
   Dimensions,
   KeyboardAvoidingView,
-  TextInput,
   ScrollView,
   Animated,
+  TextInput,
+  Picker,
+  DatePicker,
   Image,
   AsyncStorage,
 } from 'react-native'
@@ -25,6 +27,8 @@ import moment from 'moment'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import ActionMan from '../../actions/'
+
+const PickerItem = Picker.Item;
 
 function getMaxLength(fieldName){
   let len = 20
@@ -225,7 +229,87 @@ class FieldModal extends React.Component{
   }
 
   render(){
-    var {field,fieldValue,inputField} = this.props
+    var {field,fieldValue} = this.props
+    let get_values = typeof this.props.field.values == 'object' && Object.keys(this.props.field.values).map(key => key) || this.props.field.values;
+    let get_key_vals = typeof this.props.field.values == 'object' && this.props.field.values || {};
+
+    let displayField = (theField) => {
+      switch (theField.field_type) {
+      case 'input':
+        return (
+             <TextInput
+                 style={[styles.displayTextField,{fontSize: this.props.fieldName == 'email' ? 20 : 30 }]}
+                 onChangeText={(text) => this.setState({text})}
+                 placeholder={theField.placeholder ? theField.placeholder.toUpperCase() : fieldLabel.toUpperCase()}
+                 autoCapitalize={'words'}
+                 maxLength={10}
+                 placeholderTextColor={colors.white}
+                 autoCorrect={false}
+                 returnKeyType={'done'}
+                 autoFocus={true}
+                 keyboardType={this.props.fieldName == 'email' ? 'email-address' : 'default'}
+                 keyboardAppearance={'dark'}
+                 ref={component => this._textInput = component}
+                 clearButtonMode={'always'}
+             />
+          );
+      case 'phone_input':
+        return (
+            <PhoneNumberInput
+                key={'updatephone'}
+                style={styles.phoneInput}
+            />
+          )
+      case 'birthday':
+      case 'date':
+          // always add an empty option at the beginning of the array
+
+        return (
+            <DatePickerIOS
+                key={'bdayf'}
+                label={'bday'}
+                autoFocus={true}
+                forPartner={this.props.forPartner}
+                mode={'date'}
+
+                style={[{position:'relative',bottom:0,width:DeviceWidth }]}
+                maximumDate={new Date(MAX_DATE)}
+                minimumDate={new Date(MIN_DATE)}
+            />
+
+              );
+
+      case 'dropdown':
+          // always add an empty option at the beginning of the array
+
+        return (
+            <Picker
+                style={{alignSelf:'center',width:330,backgroundColor:'transparent',marginHorizontal:0,alignItems:'stretch'}}
+                itemStyle={{fontSize: 24, color: colors.white, textAlign: 'center'}}
+                selectedValue={this.state.selectedDropdown || theField.values[this.state.selectedDropdown] || null}
+            >
+              {get_values.map((val) => {
+
+                return ( <PickerItem
+                    key={val}
+                    value={get_key_vals[val] || val}
+                    label={(theField.labelPrefix || '') + (get_key_vals[val] || val) + (theField.labelSuffix || '')}
+                         />
+                )
+              }
+              )}
+            </Picker>
+          );
+
+      default:
+        return (
+             null
+          );
+      }
+    }
+    const inputField = displayField(this.props.field)
+
+
     var purpleBorder
     if(field.field_type == 'phone_input'){
       purpleBorder =  this.state.canContinue || (this.state.phoneValue && this.state.phoneValue.length == 0)

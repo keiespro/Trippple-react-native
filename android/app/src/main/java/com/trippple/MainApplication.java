@@ -30,56 +30,58 @@ import io.fabric.sdk.android.Fabric;
 
 public class MainApplication extends Application implements ReactApplication {
 
-  private final ReactNativeHost mReactNativeHost;
     private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
 
     protected static CallbackManager getCallbackManager() {
         return mCallbackManager;
     }
 
+
+    private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+        @Override
+        protected boolean getUseDeveloperSupport() {
+            return BuildConfig.DEBUG;
+        }
+
+
+        @Override
+        protected List<ReactPackage> getPackages() {
+
+
+            return Arrays.<ReactPackage>asList(
+                    new MainReactPackage(),
+                    new ReactNativePushNotificationPackage(),
+                    new RNMixpanel(),
+                    new RNMail(),
+                    new GoogleAnalyticsBridgePackage(),
+                    new RNFSPackage(),
+                    new FBSDKPackage(mCallbackManager),
+                    new RNDeviceInfo(),
+                    new ReactNativeContacts(),
+                    new RCTCameraPackage(),
+                    new BlurViewPackage(),
+                    new RNHotline()
+            );
+        }
+    };
+
+    @Override
+    public ReactNativeHost getReactNativeHost() {
+        return mReactNativeHost;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        mCallbackManager = CallbackManager.Factory.create();
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         Fabric.with(this, new Answers(), new Crashlytics());
-
     }
-  {
-    mReactNativeHost = new ReactNativeHost(this) {
-      @Override
-      protected boolean getUseDeveloperSupport() {
-        return BuildConfig.DEBUG;
-      }
 
 
 
-      @Override
-      protected List<ReactPackage> getPackages() {
 
-
-          return Arrays.<ReactPackage>asList(
-                new MainReactPackage(),
-                new ReactNativePushNotificationPackage(),
-                new RNMixpanel(),
-                new RNMail(),
-                new GoogleAnalyticsBridgePackage(),
-                new RNFSPackage(),
-                new FBSDKPackage(mCallbackManager),
-                new RNDeviceInfo(),
-                new ReactNativeContacts(),
-                new RCTCameraPackage(),
-                new BlurViewPackage(),
-                new RNHotline()
-        );
-      }
-    };
-  }
-
-  @Override
-  public ReactNativeHost getReactNativeHost() {
-      return mReactNativeHost;
-  }
 
 
 

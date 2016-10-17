@@ -31,7 +31,6 @@ class CardStack extends React.Component {
             pan: new Animated.ValueXY(),
             animatedIn: false,
             offsetY: new Animated.Value(0),
-
             likedPotentials: [],
         };
     }
@@ -66,7 +65,7 @@ class CardStack extends React.Component {
         // this.setState({ interactedWith: null });
     }
 
-    componentDidUpdate(pProps, prevState) {
+    // componentDidUpdate(pProps, prevState) {
         // if (!prevState.state.animatedIn && this.state.animatedIn) {
         //     this.initializePanResponder();
       //   // }
@@ -74,7 +73,7 @@ class CardStack extends React.Component {
       // // LayoutAnimation.configureNext(animations.layout.spring);
       //
       //   }
-    }
+    // }
 
     initializePanResponder() {
         delete this._panResponder;
@@ -96,6 +95,7 @@ class CardStack extends React.Component {
             onPanResponderMove: Animated.event([null, {
                 dx: this.state.pan.x,
                 dy: this.state.pan.y,
+                useNativeDriver: true
             }]),
 
             onPanResponderReject: (e, gestureState) => {
@@ -119,7 +119,7 @@ class CardStack extends React.Component {
             },
 
             onPanResponderRelease: (e, gestureState) => {
-                let toValue = 0;
+                let toValue = {x:0,y:0};
                 let velocity = 1;
                 let likeStatus;
 
@@ -168,6 +168,7 @@ class CardStack extends React.Component {
                         easing:Easing.inOut(Easing.ease),
                         deceleration: 1.1,
                         velocity: velocity || { x: 1, y: 1 },
+                        useNativeDriver: true
                     }).start(()=>{
                         if(!this.props.potentials[0].starter){
                             InteractionManager.runAfterInteractions(() => {
@@ -188,11 +189,14 @@ class CardStack extends React.Component {
                         });
                     }
                 } else {
-                    Animated.spring(this.state.pan, {
-                        toValue,
-                        velocity: { x: parseInt(vx), y: parseInt(vy) },
-                        tension: 20,
-                        friction: 7,
+                    Animated.timing(this.state.pan, {
+                      toValue,
+                      duration:200,
+                      easing:Easing.inOut(Easing.ease),
+                      useNativeDriver: true
+                      // velocity: { x: (vx)*2, y: (vy)*2 },
+                      // tension: 20,
+                      // friction: 5,
                     }).start();
                 }
             },
@@ -230,10 +234,11 @@ class CardStack extends React.Component {
         return (
         <View
             style={{
-                flex: 1,
+                flex: 10,
                 alignSelf: 'stretch',
                 alignItems: 'center',
-                backgroundColor:  colors.transparent
+                top:0,bottom:0,
+                paddingTop:30,
             }}
             toggleProfile={this._toggleProfile.bind(this)}
 
@@ -296,11 +301,11 @@ class CardStack extends React.Component {
                     style={[ {
                         alignSelf: 'center',
                         borderRadius: 11,
-                        top:this.props.profileVisible ? -50 : 0,
+                        top:this.props.profileVisible ? -30 : 0,
                         width: this.props.profileVisible ? DeviceWidth : DeviceWidth-40,
                         height: this.props.profileVisible ? DeviceHeight : DeviceHeight-75,
 
-                        overflow:this.props.profileVisible ? 'visible' : 'hidden',
+                        overflow:this.props.profileVisible ? 'hidden' : 'hidden',
                         marginHorizontal:20,
                         transform: [
                             {
@@ -347,7 +352,7 @@ class CardStack extends React.Component {
       <ApproveIcon pan={this.state.pan}/>
 
   </View>
-    );
+  );
     }
 }
 

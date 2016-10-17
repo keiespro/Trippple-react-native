@@ -1,7 +1,3 @@
-/*
-* @noflow
-*/
-
 import React, {Component} from "react";
 
 import {StyleSheet, Text, View, Image, ScrollView, Navigator, Dimensions, TouchableHighlight, NativeModules} from "react-native";
@@ -78,17 +74,18 @@ const IntroScreen = React.createClass({
   render(){
     return(
       <View style={[styles.container]}>
+      {__DEV__ &&
+        <TouchableHighlight
+          style={{position:'absolute',top:0,left:0}}
+          onPress={ () => {this.props.navigator.push({component:SettingsDebug}) }}
+           underlayColor={colors.outerSpace}>
+           <Text style={styles.buttonText}>DEV</Text>
+        </TouchableHighlight>
+      }
         <Carousel/>
-        {__DEV__ &&
-          <TouchableHighlight
-            style={{position:'absolute',top:0,left:0}}
-            onPress={ () => {this.props.navigator.push({component:SettingsDebug}) }}
-             underlayColor={colors.outerSpace}>
-             <Text style={styles.buttonText}>DEV</Text>
-          </TouchableHighlight>
-        }
+
         <View style={styles.bottomButtons}>
-          <TouchableHighlight
+            <TouchableHighlight
           ref="loginbtn"
             style={[styles.bottomButton,(this.state.isAnimating ? styles.activeButton : styles.loginButton )]}
             onPress={ () => this.handleNext(LOGIN)}

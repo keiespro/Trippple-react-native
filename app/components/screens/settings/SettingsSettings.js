@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableHighlight, ScrollView, PixelRatio, Dimensions, Image, Settings, } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Platform, ScrollView, PixelRatio, Dimensions, Image, Settings, } from 'react-native';
 import React from "react";
 
 import {
@@ -15,12 +15,13 @@ import {MagicNumbers} from '../../../utils/DeviceConfig'
 import TouchID from 'react-native-touch-id'
 import { connect } from 'react-redux';
 
+const iOS = Platform.OS == 'ios';
 
 @withNavigation
 class SettingsSettings extends React.Component{
 
     static route = {
-        styles: NavigationStyles.FloatHorizontal,
+        styles: iOS ? NavigationStyles.FloatHorizontal : NavigationStyles.Fade,
         navigationBar: {
             backgroundColor: colors.shuttleGrayAnimate,
             title(params){
@@ -33,7 +34,7 @@ class SettingsSettings extends React.Component{
         const settings = Settings._settings || {}
         this.state = {
             privacy: props.user.privacy || 'public',
-            isLocked: settings['LockedWithTouchID'] || null
+            isLocked: iOS && settings['LockedWithTouchID'] || null
         }
     }
     togglePrivacy(value){
@@ -43,7 +44,7 @@ class SettingsSettings extends React.Component{
     }
     componentDidMount() {
 
-        TouchID.isSupported()
+      iOS && TouchID.isSupported()
       .then(supported => {
         // Success code
           this.setState({

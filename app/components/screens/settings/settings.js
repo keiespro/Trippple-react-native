@@ -60,6 +60,7 @@ class Settings extends React.Component{
     }
     constructor(props){
         super(props);
+        console.log(RNHotline);
         this.state = {
             index: 0,
             settingOptions: profileOptions,
@@ -168,7 +169,7 @@ class Settings extends React.Component{
                 >
                   <View>
                     <Image
-                        style={[ styles.userimage, { backgroundColor:colors.dark}]}
+                        style={[ styles.userimage, { }]}
                         key={this.props.user.id+'thumb'}
                         defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
                         resizeMode={Image.resizeMode.cover}
@@ -344,7 +345,7 @@ class Settings extends React.Component{
                     </View>
                 </TouchableHighlight>
 
-                <TouchableHighlight onPress={(f)=>{ RNHotline.showConvos() }} underlayColor={colors.dark}>
+                <TouchableHighlight onPress={(f)=>{ console.log(RNHotline);RNHotline.showConvos() }} underlayColor={colors.dark}>
                     <View style={styles.wrapfield}>
                         <View>
                             <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>HELP & FEEDBACK</Text>

@@ -47,9 +47,10 @@ const ChatBubble = (props) => {
           <View style={{alignSelf: isMessageOurs ? 'flex-end' : 'flex-start',justifyContent:'center',alignItems:'center',maxWidth:MagicNumbers.screenWidth,backgroundColor:'transparent',flexDirection:'row'}}>
             {!isMessageOurs ?
               <View style={{backgroundColor:'transparent'}}>
-              <Image style={[styles.thumb,{backgroundColor:colors.dark}]}
+              <Image style={[styles.thumb]}
                   source={{uri: thumb}}
                   resizeMode={Image.resizeMode.cover}
+
                   defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
                 />
               </View> : null

@@ -29,6 +29,9 @@ import {
 import { connect } from 'react-redux';
 
 import ProfileField from '../../controls/ProfileField'
+const currentyear = new Date().getFullYear();
+const MIN_DATE = new Date().setFullYear(currentyear - 18)
+const MAX_DATE = new Date().setFullYear(currentyear - 60)
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width

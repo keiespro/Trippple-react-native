@@ -4,7 +4,7 @@ import {StyleSheet,AppState, Text, Image,Linking, NativeModules, CameraRoll, Vie
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-const {OSPermissions} = NativeModules
+import OSPermissions from '../../../lib/OSPermissions/ospermissions'
 import ContactGetter from 'react-native-contacts'
 
 import colors from '../../utils/colors'

@@ -39,12 +39,14 @@ function configureStore(initialState = ({})) {
         ),
 
       );
-    if (global.reduxNativeDevTools) {
-      global.reduxNativeDevTools.updateStore(store);
-    }
+
     persistStore(store, {
       storage: AsyncStorage, blacklist: ['navigation', 'ui', 'potentials', 'appNav']
     }).purge(['navigation'])
+
+    if (global.reduxNativeDevTools) {
+      global.reduxNativeDevTools.updateStore(store);
+    }
 
     if (module.hot) {
       module.hot.accept(() => {

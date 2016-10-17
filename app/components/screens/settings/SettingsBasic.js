@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, Dimensions, TextInput, ScrollView, Animated, Picker, Image, DatePicker, Navigator, } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Platform, TouchableOpacity, Dimensions, TextInput, ScrollView, Animated, Picker, Image, DatePicker, Navigator, } from 'react-native';
 import React from "react";
 import dismissKeyboard from 'dismissKeyboard'
 import { connect } from 'react-redux'
@@ -17,13 +17,14 @@ import {
   NavigationStyles, withNavigation
 } from '@exponent/ex-navigation';
 import ProfileField from '../../controls/ProfileField'
+const iOS = Platform.OS == 'ios';
 
 
 @withNavigation
 class SettingsBasic extends React.Component{
 
   static route = {
-    styles: NavigationStyles.FloatHorizontal,
+    styles: iOS ? NavigationStyles.FloatHorizontal : NavigationStyles.Fade,
     navigationBar: {
       visible:true,
       translucent:true,

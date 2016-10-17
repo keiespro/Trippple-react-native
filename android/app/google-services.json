@@ -1,0 +1,101 @@
+{
+  "project_info": {
+    "project_number": "820434364878",
+    "firebase_url": "https://trippple-93bbc.firebaseio.com",
+    "project_id": "trippple-93bbc",
+    "storage_bucket": "trippple-93bbc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820434364878:android:839f5cd266b5f573",
+        "android_client_info": {
+          "package_name": "co.trippple"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820434364878-0gktigi88hb1ohi42hud0mlsjh08ms04.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.trippple",
+            "certificate_hash": "87C43C68643D31CDB37536F65239CB895E5A6E0B"
+          }
+        },
+        {
+          "client_id": "820434364878-nk4asdaapqu9o9cpardf2ku0nb83htg4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_Zdi8nN94p9qkRYhF7jFwPdd6hx1bb5Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820434364878:android:1a79f2b518e181b2",
+        "android_client_info": {
+          "package_name": "com.trippple"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820434364878-g0n8ht2065phtsuk7a4hka5mlffh6ai2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.trippple",
+            "certificate_hash": "2FBD31C52190BCA5A24806A2F3967B689C13A425"
+          }
+        },
+        {
+          "client_id": "820434364878-nk4asdaapqu9o9cpardf2ku0nb83htg4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_Zdi8nN94p9qkRYhF7jFwPdd6hx1bb5Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820434364878-m8ue8mla4jeu4opkhs7tsovfipfv9rg8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.trippple"
+              }
+            },
+            {
+              "client_id": "820434364878-nk4asdaapqu9o9cpardf2ku0nb83htg4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

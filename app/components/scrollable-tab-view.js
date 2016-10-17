@@ -1,4 +1,3 @@
-'use strict';
 
 import { Dimensions, View, Animated } from 'react-native';
 import React from "react";

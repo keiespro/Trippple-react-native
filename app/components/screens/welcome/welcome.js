@@ -1,31 +1,21 @@
-/*
-* @noflow
-*/
-
 import {
   StyleSheet,
   View,
   Image,
   StatusBar,
   Navigator,
-  Dimensions,
+  Dimensions, Text
 } from 'react-native';
 import React from 'react';
-
 import FadeInContainer from '../../FadeInContainer';
 import colors from '../../../utils/colors';
-import intro from './intro';
-
+import Intro from './intro';
 import TimerMixin from 'react-timer-mixin'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import CustomSceneConfigs from '../../../utils/sceneConfigs'
 import Swiper from 'react-native-swiper'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-
-
-const LOGIN = 'login';
-const REGISTER = 'register'
 
 
 const Welcome = React.createClass({
@@ -36,35 +26,37 @@ const Welcome = React.createClass({
       // })
   },
 
-  renderScene(route: Navigator.route, navigator: Navigator) : React.Component {
-    return (<route.component {...route.passProps} dispatch={this.props.dispatch} key={route.id} navigator={navigator} />);
+  renderScene(route, navigator) {
+    return (
+      <route.component
+        {...route.passProps}
+        dispatch={this.props.dispatch}
+        key={route.id}
+        navigator={navigator}
+      />
+    );
   },
 
   render() {
-
     return (
-      <View>
-        <StatusBar animated={true} barStyle="light-content" hidden={true} />
-
+      <View style={{width: DeviceWidth, height: DeviceHeight}}>
+        <StatusBar animated barStyle="light-content" hidden />
         <FadeInContainer
           delayAmount={global.__TEST__ ? 0 : 800}
-          duration={global.__TEST__ ? 0 : 500}>
+          duration={global.__TEST__ ? 0 : 500}
+        >
 
-          <Image resizeMode={Image.resizeMode.cover} style={styles.imagebg}>
-            <Navigator
-              initialRoute={{
-                component: intro,
-                title: 'intro',
-                id:'intro',
-              }}
-              ref={'nav'}
-              key={'innerNav'}
-              configureScene={ (route) => {
-                return route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.VerticalSlide
-              }}
-              renderScene={this.renderScene}
-            />
-          </Image>
+          <Navigator
+            initialRoute={{
+              component: Intro,
+              title: 'intro',
+              id: 'intro',
+            }}
+            key={'innerNav'}
+            configureScene={route => (route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.VerticalSlide)}
+            renderScene={this.renderScene}
+          />
+
         </FadeInContainer>
       </View>
     );
@@ -73,7 +65,7 @@ const Welcome = React.createClass({
 
 });
 
-Welcome.displayName = "Welcome"
+Welcome.displayName = 'Welcome'
 
 const styles = StyleSheet.create({
   dot: {
@@ -98,56 +90,56 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems:'center',
-    justifyContent:'center',
-    alignSelf:'stretch',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'stretch',
     width: DeviceWidth,
-    margin:0,
-    padding:0,
+    margin: 0,
+    padding: 0,
     height: DeviceHeight,
     backgroundColor: 'transparent',
   },
-  textplain:{
+  textplain: {
     color: colors.white,
-    alignSelf:'center',
-    fontSize:22,
-    fontFamily:'omnes',
-    textAlign:'center'
+    alignSelf: 'center',
+    fontSize: 22,
+    fontFamily: 'omnes',
+    textAlign: 'center'
   },
   buttonText: {
     fontSize: 22,
     color: colors.white,
     alignSelf: 'center',
-    fontFamily:'Montserrat'
+    fontFamily: 'Montserrat'
   },
-  carousel:{
-    flex:1,
-    marginTop:50,
-  },
-  slide:{
-    width: DeviceWidth,
-    flexDirection:'column',
-    height:DeviceHeight-150,
-    alignItems:'center',
-    justifyContent:'center',
-    flexWrap:'nowrap',
-    padding:MagicNumbers.screenPadding/2
-  },
-
-
-  bottomarea:{
-    height:140,
-    width: undefined,
-    alignSelf:'stretch',
-    bottom:100
-  },
-  textwrap:{
-    alignItems:'center',
-    justifyContent:'center',
-  },
-  imagebg:{
+  carousel: {
     flex: 1,
-    alignSelf:'stretch',
+    marginTop: 50,
+  },
+  slide: {
+    width: DeviceWidth,
+    flexDirection: 'column',
+    height: DeviceHeight - 150,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexWrap: 'nowrap',
+    padding: MagicNumbers.screenPadding / 2
+  },
+
+
+  bottomarea: {
+    height: 140,
+    width: undefined,
+    alignSelf: 'stretch',
+    bottom: 100
+  },
+  textwrap: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  imagebg: {
+    flex: 1,
+    alignSelf: 'stretch',
     width: DeviceWidth,
     height: DeviceHeight,
     backgroundColor: colors.outerSpace
@@ -166,7 +158,7 @@ const styles = StyleSheet.create({
   },
   bottomButton: {
     height: 80,
-    flex:1,
+    flex: 1,
     flexDirection: 'row',
     backgroundColor: 'transparent',
     borderColor: '#fff',
@@ -177,30 +169,30 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center'
   },
-  loginButton:{
+  loginButton: {
     backgroundColor: colors.shuttleGray,
   },
-  activeButton:{
+  activeButton: {
     backgroundColor: colors.outerSpace,
   },
-  registerButton:{
+  registerButton: {
     backgroundColor: colors.mediumPurple,
   },
-  wrap:{
-    marginTop:20,
+  wrap: {
+    marginTop: 20,
     alignItems: 'center',
-    flex:1,
-    justifyContent:'center',
+    flex: 1,
+    justifyContent: 'center',
     alignSelf: 'stretch',
-    height:undefined,
+    height: undefined,
     paddingBottom: 100
   },
   bottomButtons: {
     height: 80,
     alignItems: 'center',
     flexDirection: 'row',
-    justifyContent:'space-around',
-    alignSelf:'stretch',
+    justifyContent: 'space-around',
+    alignSelf: 'stretch',
     width: undefined
   },
   // dot: {
@@ -229,4 +221,4 @@ const styles = StyleSheet.create({
 });
 
 
-module.exports = Welcome;
+export default Welcome

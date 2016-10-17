@@ -7,7 +7,6 @@ import Router from './Router'
 import colors from './utils/colors'
 import {NavigationContext, createRouter, withNavigation,NavigationProvider,StackNavigation} from '@exponent/ex-navigation'
 
-const store = configureStore();
 const topRouter = createRouter(() => ({
   App: () => App
 }))
@@ -16,10 +15,10 @@ const topRouter = createRouter(() => ({
 class AppContainer extends React.Component {
 
   render() {
-    const context = new NavigationContext({ store: store, router: Router })
+    const context = new NavigationContext({ store: this.props.store, router: Router })
 
     return (
-      <ReduxProvider store={store}>
+      <ReduxProvider store={this.props.store}>
         <NavigationProvider context={context} router={topRouter}>
           <StackNavigation
             id="navigation"

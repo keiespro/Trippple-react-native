@@ -35,15 +35,17 @@ class Potentials extends React.Component{
             translucent:false,
             backgroundColor:colors.transparent,
             renderTitle(route, props){
-                return route.params.show ? (
-          <View style={{paddingTop:5}}>
-            <Image
-                resizeMode={Image.resizeMode.contain}
-                style={{width:80,height:30,tintColor: __DEV__ ? colors.daisy : colors.white,alignSelf:'center'}}
-                source={{uri:'assets/tripppleLogoText@3x.png'}}
-            />
-          </View>
-        ) : false
+              return route.params.show ? (
+              <View style={{paddingTop:5}}>
+                <Image
+                    resizeMode={Image.resizeMode.contain}
+                    style={{width:80,height:30,
+                      tintColor: __DEV__ ? colors.daisy : colors.white,alignSelf:'center'
+                    }}
+                    source={iOS ? {uri: 'assets/tripppleLogoText@3x.png' } :  require('./tripppleLogoText.png')}
+                />
+              </View>
+            ) : false
             },
             renderLeft(route, props){
                 return route.params.show ? <SettingsButton /> : (
@@ -70,13 +72,12 @@ class Potentials extends React.Component{
         super()
         this.state = {
             didShow: false,
-            profileVisible: props.ui.profileVisible,
             showPotentials: true,
         }
     }
 
     toggleProfile(){
-        this.setState({profileVisible: !this.state.profileVisible})
+      console.warn('nothing');
     }
 
 
@@ -97,13 +98,12 @@ class Potentials extends React.Component{
     }
 
     componentWillReceiveProps(nProps){
-        const nui = nProps.ui;
-        const ui = this.props.ui;
+        const nui = nProps;
+        const ui = this.props;
         if( !nui.profileVisible && ui.profileVisible){
-            this.setState({profileVisible: false})
 
             this.props.navigator.updateCurrentRouteParams({
-                visible: false,show:true,dispatch: this.props.dispatch,backgroundColor:'black'
+                visible: false,show:true,dispatch: this.props.dispatch
             })
         }else{
             if( nui.profileVisible && !ui.profileVisible){
@@ -137,11 +137,10 @@ class Potentials extends React.Component{
         return (
       <View
           style={{
-              backgroundColor: this.props.profileVisible ? colors.dark : colors.outerSpace,
               width:DeviceWidth,
               height:DeviceHeight,
-              zIndex:9999,
-              top:-64,
+              // zIndex:9999,
+              top:iOS ? -64 : -80,
 
               position:'relative',
           }}
@@ -151,7 +150,7 @@ class Potentials extends React.Component{
          <View style={[
              styles.cardStackContainer,
              {
-                 top: this.props.profileVisible ? 70 : 60,
+                 top: iOS ? this.props.profileVisible ? 70 : 60 : 20,
                  position:'relative',
              }]}>
 

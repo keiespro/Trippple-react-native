@@ -40,86 +40,25 @@ class ProfileField extends React.Component{
     if(!this.props.user.phone) return '';
     return formatPhone(this.props.user.phone)
   }
+  goFieldModal(f){
+    if(this.props.locked) return false;
+    const {field} = this.props;
+    this.props.navigator.push(this.props.navigation.router.getRoute('FieldModal',{
+      inputField: field,
+      field,
+      cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
+      fieldName:this.props.fieldName,
+      title:'PROFILE',
+      forPartner: this.props.forPartner,
+      fieldValue: this.props.fieldValue || this.props.user[this.props.fieldName] || (field.values && field.values.length > 0 && field.values[0]) || '',
+    }))
+  }
   render(){
     let field = this.props.field || {};
 
     let get_values = typeof field.values == 'object' && Object.keys(field.values).map(key => key) || field.values;
     let get_key_vals = typeof field.values == 'object' && field.values || {};
 
-    let displayField = (theField) => {
-      switch (theField.field_type) {
-      case 'input':
-        return (
-             <TextInput
-                 style={[styles.displayTextField,{fontSize: this.props.fieldName == 'email' ? 20 : 30 }]}
-                 onChangeText={(text) => this.setState({text})}
-                 placeholder={theField.placeholder ? theField.placeholder.toUpperCase() : fieldLabel.toUpperCase()}
-                 autoCapitalize={'words'}
-                 maxLength={10}
-                 placeholderTextColor={colors.white}
-                 autoCorrect={false}
-                 returnKeyType={'done'}
-                 autoFocus={true}
-                 keyboardType={this.props.fieldName == 'email' ? 'email-address' : 'default'}
-                 keyboardAppearance={'dark'}
-                 ref={component => this._textInput = component}
-                 clearButtonMode={'always'}
-             />
-          );
-      case 'phone_input':
-        return (
-            <PhoneNumberInput
-                key={'updatephone'}
-                style={styles.phoneInput}
-            />
-          )
-      case 'birthday':
-      case 'date':
-          // always add an empty option at the beginning of the array
-
-        return (
-            <DatePickerIOS
-                key={'bdayf'}
-                label={'bday'}
-                autoFocus={true}
-                forPartner={this.props.forPartner}
-                mode={'date'}
-
-                style={[{position:'relative',bottom:0,width:DeviceWidth }]}
-                maximumDate={new Date(MAX_DATE)}
-                minimumDate={new Date(MIN_DATE)}
-            />
-
-              );
-
-      case 'dropdown':
-          // always add an empty option at the beginning of the array
-
-        return (
-            <Picker
-                style={{alignSelf:'center',width:330,backgroundColor:'transparent',marginHorizontal:0,alignItems:'stretch'}}
-                itemStyle={{fontSize: 24, color: colors.white, textAlign: 'center'}}
-                selectedValue={this.state.selectedDropdown || field.values[this.state.selectedDropdown] || null}
-            >
-              {get_values.map((val) => {
-
-                return ( <PickerItem
-                    key={val}
-                    value={get_key_vals[val] || val}
-                    label={(field.labelPrefix || '') + (get_key_vals[val] || val) + (field.labelSuffix || '')}
-                         />
-                )
-              }
-              )}
-            </Picker>
-          );
-
-      default:
-        return (
-             null
-          );
-      }
-    }
     if(!field.label){ return false}
     let fieldLabel = field.label || ''
     if(MagicNumbers.isSmallDevice && field.label.indexOf(' ') > 0){
@@ -140,19 +79,7 @@ class ProfileField extends React.Component{
 
     const displayFieldText = fieldLabel ? fieldLabel.toUpperCase() : '';
     return (
-      <TouchableHighlight onPress={(f)=>{
-        if(this.props.locked) return false;
-        this.props.navigator.push(this.props.navigation.router.getRoute('FieldModal',{
-          inputField: displayField(field),
-          field,
-          fieldName:this.props.fieldName,
-          title:'PROFILE',
-          forPartner: this.props.forPartner,
-          cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
-          fieldValue: this.props.fieldValue || this.props.user[this.props.fieldName] || (field.values && field.values.length > 0 && field.values[0]) || '',
-          dispatch:this.props.dispatch
-        }))
-      }} underlayColor={colors.dark} style={styles.paddedSpace}
+      <TouchableHighlight onPress={this.goFieldModal.bind(this)} underlayColor={colors.dark} style={styles.paddedSpace}
       >
         <View>
           <View style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray,alignItems:'center',justifyContent:'space-between',flexDirection:'row',alignSelf:'stretch'}}>

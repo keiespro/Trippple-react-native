@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
  formRow: {
    alignItems: 'center',
    flexDirection: 'row',
-
    alignSelf: 'stretch',
    paddingTop:0,
    flex:1,

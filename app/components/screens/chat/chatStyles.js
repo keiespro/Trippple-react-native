@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
    height:MagicNumbers.is4s ? 40 :  48,
    position:'relative',
    marginHorizontal:MagicNumbers.is4s ?  0 : 5,
-   marginRight: 5
+   marginRight: 5,
+   overflow:'hidden'
  },
  listview:{
    backgroundColor:colors.outerSpace,

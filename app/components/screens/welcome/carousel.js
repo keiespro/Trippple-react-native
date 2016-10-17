@@ -10,94 +10,84 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
-import React, {Component} from "react";
+import React, {Component} from 'react';
 
-import TimerMixin from 'react-timer-mixin'
 
 import colors from '../../../utils/colors'
-import Swiper from '../../controls/swiper'
-const DeviceHeight = Dimensions.get('window').height
-const DeviceWidth = Dimensions.get('window').width
-
-import CustomSceneConfigs from '../../../utils/sceneConfigs'
-import Auth from './auth'
-import Analytics from '../../../utils/Analytics'
-
-
-const LOGIN   = 'login';
-const REGISTER = 'register'
 
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
+
 // import dismissKeysboard from 'dismissKeyboard'
 
-
-
-var slides = [
+const theslides = [
   {
-    title:' ',
-    img: {uri: 'assets/logo@3x.png'},
-    content:' '
+    title: ' ',
+    img: require('./assets/logo.png'),
+    content: ' '
   },
   {
     title: 'BROWSE',
-    img: {uri:'assets/tour-browse@3x.png'},
+    img: require('./assets/tour-browse.png'),
     content: 'Find like-minded Couples and Singles.'
   },
   {
     title: 'MATCH',
-    img: {uri: 'assets/tour-match@3x.png'},
+    img: require('./assets/tour-match.png'),
     content: 'If they like you too, we\'ll connect you.'
   },
   {
     title: 'CONNECT',
-    img: {uri: 'assets/tour-connect@3x.png'},
+    img: require('./assets/tour-connect.png'),
     content: 'Chat with real Couples or Singles who share your interests.'
   },
   {
     title: 'PRIVATE & DISCREET',
-    img: {uri: 'assets/tour-privacy@3x.png'},
+    img: require('./assets/tour-privacy.png'),
     content: 'Protect your identity. Easily block friends and family.'
   },
 
 ];
 
-
-
-class Carousel extends Component{
-  constructor(props){
+class Carousel extends Component {
+  constructor() {
     super()
     this.state = {
-      slides,
-      offset:0,
-      index:0
+      slides: theslides,
+      offset: 0,
+      index: 0
     }
   }
-  render(){
+  render() {
     const {slides} = this.state
     const l = slides.length
-    const welcomeSlides = [...slides,...slides].map( (slide,i) => {
+    const welcomeSlides = [...slides, ...slides].map((slide, i) => {
       return (
-        <View key={i+'slide'+i%l} style={[styles.slide,]} >
-        <Image style={ {
-            marginBottom:25,
-            height: MagicNumbers.is4s ? 150 : DeviceHeight/3 + MagicNumbers.screenPadding,
+        <View key={`${i}slide${i % l}`} style={[styles.slide,]} >
+          <Image style={{
+            marginBottom: 25,
+            height: MagicNumbers.is4s ? 150 : DeviceHeight / 3 + MagicNumbers.screenPadding,
             paddingTop: 20,
-            marginTop: i%l == 0 ? MagicNumbers.screenPadding*1.8 : MagicNumbers.screenPadding,
-            width: i%l == 0 ? MagicNumbers.screenWidth : MagicNumbers.screenPadding*5
-          } } source={slide.img} defaultSource={slide.img} resizeMode={Image.resizeMode.contain}/>
-          <View style={[styles.textwrap,{marginBottom:5}]}><Text style={[styles.textplain,
-          {
-            fontFamily:'Montserrat',
-            fontWeight:'700',
-            marginTop:15,
-            fontSize: MagicNumbers.is4s ? 18 : 22,
-          }
-          ]}>{slide.title}</Text></View>
+            marginTop: i % l == 0 ? MagicNumbers.screenPadding * 1.8 : MagicNumbers.screenPadding,
+            width: i % l == 0 ? MagicNumbers.screenWidth : MagicNumbers.screenPadding * 5
+          }} source={slide.img} defaultSource={slide.img} resizeMode={Image.resizeMode.contain}
+          />
+          <View style={[styles.textwrap, {marginBottom: 5}]}><Text style={[styles.textplain,
+            {
+              fontFamily: 'Montserrat',
+              fontWeight: '700',
+              marginTop: 15,
+              fontSize: MagicNumbers.is4s ? 18 : 22,
+            }
+          ]}
+          >{slide.title}</Text></View>
 
-        {slide.content &&  <View style={styles.textwrap}><Text style={[styles.textplain,{
+          {slide.content && <View style={styles.textwrap}><Text style={[styles.textplain, {
             fontSize: MagicNumbers.is5orless ? 18 : 22,
-          }]}>{slide.content}</Text></View>}
+          }]}
+          >{slide.content}</Text></View>}
         </View>
       )
     })
@@ -106,57 +96,58 @@ class Carousel extends Component{
               // activeDot={<View style={[styles.dot,styles.activeDot]} />}
 
     return (
-        <View collapsable={true}>
+      <View collapsable>
         <ScrollView
-          onScroll={(e)=>{
+          onScroll={(e) => {
             let off = e.nativeEvent.contentOffset.x;
-            if(off%DeviceWidth > 0){ return false }
-            if(off < this.state.offset){
-              if(off < 0){
-                off = e.nativeEvent.contentOffset.x + DeviceWidth*5
+            if (off % DeviceWidth > 0) { return false }
+            if (off < this.state.offset) {
+              if (off < 0) {
+                off = e.nativeEvent.contentOffset.x + DeviceWidth * 5
               }
-            }else{
-              if(off >= DeviceWidth*this.state.slides.length){
-                off = e.nativeEvent.contentOffset.x - DeviceWidth*5
+            } else {
+              if (off >= DeviceWidth * this.state.slides.length) {
+                off = e.nativeEvent.contentOffset.x - DeviceWidth * 5
               }
             }
             this.setState({
               offset: off,
-              index: parseInt(off/DeviceWidth)
+              index: parseInt(off / DeviceWidth)
             })
           }}
-          style={[styles.carousel,{}]}
-          horizontal={true}
-          pagingEnabled={ true}
-          scrollEventThrottle={DeviceWidth*5}
-          showsHorizontalScrollIndicator={ false}
-          showsVerticalScrollIndicator={ false}
+          style={[styles.carousel, {}]}
+          horizontal
+          pagingEnabled
+          scrollEventThrottle={DeviceWidth * 5}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           scrollsToTop={false}
-          contentOffset={{x:this.state.offset,y:0}}
-          removeClippedSubviews={true}
-          grayDots={true}
+          contentOffset={{x: this.state.offset, y: 0}}
+          removeClippedSubviews
+          grayDots
           contentContainerStyle={{
-            alignItems:'center',
-            justifyContent:'center',
-            alignSelf:'stretch',
+            alignItems: 'center',
+            justifyContent: 'center',
+            alignSelf: 'stretch',
           }}
           style={{
-            height:DeviceHeight-80
+            height: DeviceHeight - 80
           }}
-         >
-        {welcomeSlides}
-      </ScrollView>
+        >
+          {welcomeSlides}
+        </ScrollView>
 
-      <View pointerEvents='none' style={{
+        <View pointerEvents="none" style={{
           position: 'absolute',
-          bottom: MagicNumbers.screenPadding/2,
+          bottom: MagicNumbers.screenPadding / 2,
           left: 0,
           right: 0,
           flexDirection: 'row',
           justifyContent: 'center',
-          alignItems: 'center'}}>
-        {this.state.slides.map((s,i) => <View key={i+'dots'} style={[styles.dot,this.state.index == i ? styles.activeDot : null]} />)}
-      </View>
+          alignItems: 'center'}}
+        >
+          {this.state.slides.map((s, i) => <View key={`${i}dots`} style={[styles.dot, this.state.index == i ? styles.activeDot : null]} />)}
+        </View>
       </View>
 
     )
@@ -192,39 +183,39 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.mediumPurple
   },
-  textplain:{
+  textplain: {
     color: colors.white,
-    alignSelf:'center',
-    fontSize:22,
-    fontFamily:'omnes',
-    textAlign:'center'
+    alignSelf: 'center',
+    fontSize: 22,
+    fontFamily: 'omnes',
+    textAlign: 'center'
   },
   buttonText: {
     fontSize: 22,
     color: colors.white,
     alignSelf: 'center',
-    fontFamily:'Montserrat'
+    fontFamily: 'Montserrat'
   },
-  carousel:{
-    marginTop:50,
+  carousel: {
+    marginTop: 50,
     width: DeviceWidth,
-    height:DeviceHeight-150,
+    height: DeviceHeight - 150,
 
   },
-  slide:{
+  slide: {
     width: DeviceWidth,
-    flexDirection:'column',
-    height:DeviceHeight-150,
-    justifyContent:'flex-start',
-    alignItems:'center',
-    padding:MagicNumbers.screenPadding/2
+    flexDirection: 'column',
+    height: DeviceHeight - 150,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    padding: MagicNumbers.screenPadding / 2
   },
 
 
-  textwrap:{
-    alignItems:'center',
-    height:50,
-    justifyContent:'center',
+  textwrap: {
+    alignItems: 'center',
+    height: 50,
+    justifyContent: 'center',
   },
 
   // dot: {

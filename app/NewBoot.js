@@ -1,50 +1,48 @@
 import React, { Component } from 'react';
-import {Settings,View,Platform} from 'react-native'
-import ActionMan from './actions/';
+import {Settings, View, Platform} from 'react-native'
 import TouchID from 'react-native-touch-id'
 import LockFailed from './components/LockFailed'
 import AppContainer from './AppContainer'
 import loadSavedCredentials from './utils/Credentials'
-const iOS = Platform.OS == 'ios';
 import configureStore from './store';
+
 const store = configureStore();
+const iOS = Platform.OS == 'ios';
 
 class NewBoot extends Component{
 
   state = {
     booted: false,
-    locked: iOS ? Settings._settings['LockedWithTouchID'] : false,
-    initialized:false
+    locked: iOS ? Settings._settings.LockedWithTouchID : false,
+    initialized: false
   };
 
-  initialize(){
-
-    loadSavedCredentials().then(creds => {
-      if(creds){
-        store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: creds})
-      }else if(global.creds){
-        store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: global.creds})
-      }
-    })
-    .catch(err=>{
-      console.log('err',err);
-    })
-    .finally(()=>{
-      this.setState({initialized:true})
-    })
-
-  }
   componentWillMount(){
-    if(this.state.locked){
+    if (this.state.locked){
       this.checkTouchId()
     }
     this.initialize()
-
   }
 
+  initialize(){
+    loadSavedCredentials().then(creds => {
+      if (creds){
+        store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: creds})
+      } else if (global.creds){
+        store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: global.creds})
+      }
+    })
+    .catch(err => {
+      __DEV__ && console.log('err', err);
+    })
+    .finally(() => {
+      this.setState({initialized: true})
+    })
+  }
   checkTouchId(){
     TouchID.authenticate('Access Trippple')
       .then(success => {
+        __DEV__ && console.log(success, 'success');
 
         this.setState({
           lockFailed: false,
@@ -52,6 +50,7 @@ class NewBoot extends Component{
         })
       })
       .catch(error => {
+        __DEV__ && console.log('error', error);
         this.setState({
           lockFailed: true
         })
@@ -59,9 +58,9 @@ class NewBoot extends Component{
   }
 
   render() {
-    if(this.state.lockFailed){ return <LockFailed retry={this.checkTouchId.bind(this)}/> }
+    if (this.state.lockFailed){ return <LockFailed retry={this.checkTouchId.bind(this)}/> }
 
-    return this.state.locked || !this.state.initialized ? <View/> : <AppContainer />
+    return this.state.locked || !this.state.initialized ? <View/> : <AppContainer store={store} />
   }
 }
 

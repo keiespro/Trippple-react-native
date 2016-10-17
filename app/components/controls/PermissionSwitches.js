@@ -1,6 +1,6 @@
 import React from 'react'
 import reactMixin from 'react-mixin'
-import { Text, View, SwitchIOS, Settings, PushNotificationIOS, Platform, NativeModules, Dimensions } from 'react-native'
+import { Text, View, Switch, Settings, PushNotificationIOS, Platform, NativeModules, Dimensions } from 'react-native'
 import ActionMan from '../../actions/'
 import Analytics from '../../utils/Analytics'
 import { MagicNumbers } from '../../utils/DeviceConfig'
@@ -132,7 +132,7 @@ class PermissionSwitches extends React.Component{
                     </View>
                     <View style={[styles.insideSelectable,styles.formRow,{borderBottomWidth:0}]}>
                         <Text style={{color: colors.white, fontSize:18}}>Prioritize Users Near Me</Text>
-                        <SwitchIOS
+                        <Switch
                             onValueChange={this.toggleLocation.bind(this)}
                             value={this.state.LocationSetting > 0 ? true : false}
                             onTintColor={colors.dark}
@@ -147,7 +147,7 @@ class PermissionSwitches extends React.Component{
                     </View>
                     <View style={[styles.insideSelectable,styles.formRow,{borderBottomWidth:0}]}>
                         <Text style={{color:  colors.white, fontSize:18}}>Get notifications</Text>
-                        <SwitchIOS
+                        <Switch
                             onValueChange={this.toggleNotification.bind(this)}
                             value={this.state.NotificationSetting ? true : false}
                             onTintColor={colors.dark}

@@ -1,6 +1,6 @@
 
 import React from "react";
-import {StyleSheet, View, ScrollView, Animated, Dimensions,TouchableOpacity,Image} from "react-native";
+import {StyleSheet, View, ScrollView,Platform, Animated, Dimensions,TouchableOpacity,Image} from "react-native";
 import colors from '../../utils/colors'
 import {BlurView,VibrancyView} from 'react-native-blur';
 const screen = Dimensions.get('window');
@@ -9,6 +9,7 @@ const DeviceWidth = screen.width
 const DeviceHeight = screen.height
 import XButton from '../buttons/XButton'
 import Swiper from './swiper'
+const iOS = Platform.OS == 'ios';
 
 class ParallaxSwiper extends React.Component{
 
@@ -81,30 +82,34 @@ class ParallaxSwiper extends React.Component{
             else{
                 image_url = image_url.replace('test/','').replace('images/','')
             }
-
             return (
 
-        <Animated.Image
-            source={{uri: image_url || 'assets/defaultuser.png' }}
-            resizeMode="cover"
-            key={`${p.id}slide${i}`}
-            onLoad={this.imgLoad.bind(this)}
-            style={{
-                flex:10,
-                alignItems:'center',
-                opacity: this.state.imgLoaded.interpolate({
-                    inputRange: [0,50, 100],
-                    outputRange: [0.0, 0.5, 1.0]
-                }),
-                width:this.props.cardWidth,
-                justifyContent:'center',
-                flexDirection:'column',
-                backgroundColor:colors.darkPurple,
-                marginLeft:profileVisible ? 0 : -40
-            }}
-        />
+                <Animated.Image
+                    source={{uri: image_url || 'assets/defaultuser.png' }}
+                    resizeMode="cover"
+                    key={`${p.id}slide${i}`}
+                    onLoad={this.imgLoad.bind(this)}
+                    resizeMethod={'scale'}
+                    style={{
+                        flex:10,
+                        overlayColor:colors.outerSpace,
+                        alignItems:'center',
+                        opacity: this.state.imgLoaded.interpolate({
+                            inputRange: [0,50, 100],
+                            outputRange: [0.0, 0.5, 1.0]
+                        }),
+                        width:this.props.cardWidth,
+                        justifyContent:'center',
+                        flexDirection:'column',
+                        zIndex:-10,
+                        borderRadius:11,
 
-      )
+                        backgroundColor:colors.darkPurple,
+                        marginLeft:profileVisible ? 0 : -40
+                    }}
+                />
+
+              )
         });
         windowHeight = screen.height;
 
@@ -120,21 +125,24 @@ class ParallaxSwiper extends React.Component{
                           height: -10
                       },
                       borderRadius:11,
-                      overflow:'visible',
-                      backgroundColor:  this.props.pan && this.props.isTopCard ? this.props.pan.x.interpolate({
-                          inputRange: [-300, -180, -50, 0, 50, 180, 300],
-                          outputRange: [
-                              'rgb(232,74,107)',
-                              'rgb(232,74,107)',
-                              'rgb(232,74,107)',
-                              'rgb(255,255,255)',
-                              'rgb(66,181,125)',
-                              'rgb(66,181,125)',
-                              'rgb(66,181,125)',
-                          ],
-                      }) : 'white', }]}
+                      position: iOS || !this.props.profileVisible ? 'relative' : 'absolute',
+                      top:iOS ? 0 :20,
+
+                      // backgroundColor:  this.props.pan && this.props.isTopCard ? this.props.pan.x.interpolate({
+                      //     inputRange: [-300, -180, -50, 0, 50, 180, 300],
+                      //     outputRange: [
+                      //         'rgb(232,74,107)',
+                      //         'rgb(232,74,107)',
+                      //         'rgb(232,74,107)',
+                      //         'rgb(255,255,255)',
+                      //         'rgb(66,181,125)',
+                      //         'rgb(66,181,125)',
+                      //         'rgb(66,181,125)',
+                      //     ],
+                      // }) : 'white',
+                    }]}
               >
-                  <View style={{overflow:'hidden',borderRadius:11,width:DeviceWidth}}>
+                  <View style={{borderRadius:11,width:DeviceWidth}}>
                          <Swiper
                              width={this.props.cardWidth }
                              isTopCard={isTopCard}
@@ -181,23 +189,28 @@ class ParallaxSwiper extends React.Component{
     render() {
         let { style,windowHeight,swiper, ...props } = this.props;
         return (
-          <View style={[styles.container, style, {top:-20}]}>
+          <View style={[styles.container, style, {borderRadius:11, top:0}]}>
+          <View style={{position:'absolute',top:40,bottom:0,left:0,width:DeviceWidth,height:DeviceHeight}}>
+          {this.renderBackground()}
+          </View>
               <ScrollView
                   {...props}
                   automaticallyAdjustContentInsets={false}
                   ref={component => { this._scrollView = component; }}
                   stickyHeaderIndices={[0]}
-                  contentContainerStyle={{marginTop:windowHeight,backgroundColor:'transparent'}}
-                  style={[styles.scrollView,{overflow:'hidden',borderRadius:11,top:20,
-                  marginBottom:-500}]}
+                  contentContainerStyle={{borderRadius:11,marginTop:windowHeight,backgroundColor:'transparent'}}
+                  style={[styles.scrollView,{borderRadius:11,top:20,
+                  marginBottom:iOS ? -500 : 0}]}
                   onScroll={Animated.event(
                       [{ nativeEvent: { contentOffset: { y: this.state.scrollY }}}]
                   )}
                   scrollEventThrottle={16}
                   onScrollAnimationEnd={()=>{}}
               >
-              {this.renderBackground()}
-              {this.props.children}
+
+              <View style={{top:500,zIndex:99999}}>
+                {this.props.children}
+                </View>
             </ScrollView>
          </View>
         );
