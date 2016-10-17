@@ -40,8 +40,25 @@ class ProfileField extends React.Component{
     if(!this.props.user.phone) return '';
     return formatPhone(this.props.user.phone)
   }
+  goFieldModal(f){
+    if(this.props.locked) return false;
+    const {field} = this.props;
+    this.props.navigator.push(this.props.navigation.router.getRoute('FieldModal',{
+      inputField: field,
+      field,
+      cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
+      fieldName:this.props.fieldName,
+      title:'PROFILE',
+      forPartner: this.props.forPartner,
+      fieldValue: this.props.fieldValue || this.props.user[this.props.fieldName] || (field.values && field.values.length > 0 && field.values[0]) || '',
+    }))
+  }
   render(){
-  
+    let field = this.props.field || {};
+
+    let get_values = typeof field.values == 'object' && Object.keys(field.values).map(key => key) || field.values;
+    let get_key_vals = typeof field.values == 'object' && field.values || {};
+
     if(!field.label){ return false}
     let fieldLabel = field.label || ''
     if(MagicNumbers.isSmallDevice && field.label.indexOf(' ') > 0){
@@ -62,19 +79,7 @@ class ProfileField extends React.Component{
 
     const displayFieldText = fieldLabel ? fieldLabel.toUpperCase() : '';
     return (
-      <TouchableHighlight onPress={(f)=>{
-        if(this.props.locked) return false;
-        this.props.navigator.push(this.props.navigation.router.getRoute('FieldModal',{
-          inputField: displayField(field),
-          field,
-          fieldName:this.props.fieldName,
-          title:'PROFILE',
-          forPartner: this.props.forPartner,
-          cancel: ()=>{dismissKeyboard(); this.props.navigator.pop()},
-          fieldValue: this.props.fieldValue || this.props.user[this.props.fieldName] || (field.values && field.values.length > 0 && field.values[0]) || '',
-          dispatch:this.props.dispatch
-        }))
-      }} underlayColor={colors.dark} style={styles.paddedSpace}
+      <TouchableHighlight onPress={this.goFieldModal.bind(this)} underlayColor={colors.dark} style={styles.paddedSpace}
       >
         <View>
           <View style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray,alignItems:'center',justifyContent:'space-between',flexDirection:'row',alignSelf:'stretch'}}>

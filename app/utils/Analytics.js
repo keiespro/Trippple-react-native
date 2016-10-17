@@ -50,8 +50,8 @@ class Analytics{
   setFullIdentityOnce(user){
     __DEV__ && console.log('setFullIdentityOnce',user);
     const mxProps = {
-      "$phone": user.phone,
-      "$area_code": user.phone && user.phone.slice(0,3),
+      "$phone": user.phone || '',
+      "$area_code": user.phone ? user.phone.slice(0,3) : '',
       "$name": user.firstname,
       "$gender": user.gender,
       "$email": user.email,
