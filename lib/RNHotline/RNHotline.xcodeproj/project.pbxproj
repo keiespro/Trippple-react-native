@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AC8958EB1CFD44FF009AB211 /* RNHotlineController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC8958EA1CFD44FF009AB211 /* RNHotlineController.m */; };
+		ACFFF9AD1DB1AECC0074F749 /* UIColor+TRColors.m in Sources */ = {isa = PBXBuildFile; fileRef = ACFFF9AC1DB1AECC0074F749 /* UIColor+TRColors.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,9 +25,11 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNHotline.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNHotline.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		AC8958DD1CFD1B13009AB211 /* Hotline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hotline.h; sourceTree = "<group>"; };
-		AC8958EA1CFD44FF009AB211 /* RNHotlineController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNHotlineController.m; sourceTree = "<group>"; };
-		AC8958EC1CFD4685009AB211 /* RNHotlineController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNHotlineController.h; sourceTree = "<group>"; };
+		AC8958DD1CFD1B13009AB211 /* Hotline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Hotline.h; path = ios/Hotline.h; sourceTree = "<group>"; };
+		AC8958EA1CFD44FF009AB211 /* RNHotlineController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RNHotlineController.m; path = ios/RNHotlineController.m; sourceTree = "<group>"; };
+		AC8958EC1CFD4685009AB211 /* RNHotlineController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RNHotlineController.h; path = ios/RNHotlineController.h; sourceTree = "<group>"; };
+		ACFFF9AB1DB1AECC0074F749 /* UIColor+TRColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+TRColors.h"; path = "../../ios/Trippple/UIColor+TRColors.h"; sourceTree = "<group>"; };
+		ACFFF9AC1DB1AECC0074F749 /* UIColor+TRColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+TRColors.m"; path = "../../ios/Trippple/UIColor+TRColors.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +54,8 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				ACFFF9AB1DB1AECC0074F749 /* UIColor+TRColors.h */,
+				ACFFF9AC1DB1AECC0074F749 /* UIColor+TRColors.m */,
 				AC8958EA1CFD44FF009AB211 /* RNHotlineController.m */,
 				AC8958EC1CFD4685009AB211 /* RNHotlineController.h */,
 				AC8958DD1CFD1B13009AB211 /* Hotline.h */,
@@ -115,6 +120,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC8958EB1CFD44FF009AB211 /* RNHotlineController.m in Sources */,
+				ACFFF9AD1DB1AECC0074F749 /* UIColor+TRColors.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,15 +216,16 @@
 					"$(SRCROOT)/node_modules/react-native/React/**/**",
 					"../node_modules/react-native/React/**/**",
 					"$(SRCROOT)/ios/Trippple/**",
+					"$(SRCROOT)/../node_modules/react-native/React/**",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../react-native/React/**",
 					"$(SRCROOT)/../../React/**",
-					"$(SRCROOT)/../../node_modules/react-native/React/**/**",
-					"$(SRCROOT)/node_modules/react-native/React/**/**",
-					"../node_modules/react-native/React/**/**",
-					"$(SRCROOT)/ios/Trippple/**",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../../../react-native/React/**",
+					"$(SRCROOT)/../../node_modules/react-native/React/**",
+					"$(SRCROOT)/../react-native/React/**",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -226,11 +233,12 @@
 					"$(SRCROOT)/../../React/**",
 					"$(SRCROOT)/../../node_modules/react-native/React/**",
 					"$(SRCROOT)/node_modules/react-native/React/**/**",
+					"$(SRCROOT)/../node_modules/react-native/React/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = RNHotline;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../react-native/React/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native/React/**";
 			};
 			name = Debug;
 		};
@@ -246,15 +254,16 @@
 					"$(SRCROOT)/node_modules/react-native/React/**/**",
 					"../node_modules/react-native/React/**/**",
 					"$(SRCROOT)/ios/Trippple/**",
+					"$(SRCROOT)/../node_modules/react-native/React/**",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../react-native/React/**",
 					"$(SRCROOT)/../../React/**",
-					"$(SRCROOT)/../../node_modules/react-native/React/**/**",
-					"$(SRCROOT)/node_modules/react-native/React/**/**",
-					"../node_modules/react-native/React/**/**",
-					"$(SRCROOT)/ios/Trippple/**",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../../../react-native/React/**",
+					"$(SRCROOT)/../../node_modules/react-native/React/**",
+					"$(SRCROOT)/../react-native/React/**",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -262,11 +271,12 @@
 					"$(SRCROOT)/../../React/**",
 					"$(SRCROOT)/../../node_modules/react-native/React/**",
 					"$(SRCROOT)/node_modules/react-native/React/**/**",
+					"$(SRCROOT)/../node_modules/react-native/React/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = RNHotline;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../react-native/React/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native/React/**";
 			};
 			name = Release;
 		};

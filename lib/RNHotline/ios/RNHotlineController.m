@@ -10,14 +10,8 @@
 #import "RNHotlineController.h"
 #import "Hotline.h"
 
-#import "../../ios/trippple/AppDelegate.h"
-#import "../../ios/trippple/UIColor+TRColors.h"
+#import  "UIColor+TRColors.h"
 
-// NOTE: This application is modifying the autolayout engine from a background thread, which can lead to engine corruption and weird crashes.  This will cause an exception in a future release
-// seemingly fixed by dispatching on the main thread
-
-// NOTE: 2016-05-31 00:51:53.858 Trippple[40545:5144097] Warning: Use Hotline controllers inside navigation controller
-// ???????
 
 @implementation RNHotlineController
 
@@ -47,7 +41,7 @@ RCT_EXPORT_METHOD(setUser:(NSString *)user_id name:(NSString *)name phone:(NSStr
 }
 
 RCT_EXPORT_METHOD(showConvos) {
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
     UIViewController *v = [[Hotline sharedInstance] getConversationsControllerForEmbed];
     [[UINavigationBar appearance] setBackgroundColor:[UIColor tr_shuttleGrayColor]];
 //    [[UITableViewCell appearance] setBackgroundColor:[UIColor tr_outerSpaceColor]];
@@ -61,14 +55,14 @@ RCT_EXPORT_METHOD(showConvos) {
     n.navigationBar.tintColor = [UIColor tr_whiteColor];
     n.navigationBar.barTintColor = [UIColor tr_shuttleGrayColor];
     v.navigationItem.titleView.tintColor = [UIColor tr_whiteColor];
-    [delegate.rootViewController presentViewController:n animated:YES completion:nil];
+    [rootViewController presentViewController:n animated:YES completion:nil];
 
 }
 
 
 RCT_EXPORT_METHOD(showFaqs) {
 
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
     [[UINavigationBar appearance] setBackgroundColor:[UIColor tr_outerSpaceColor]];
 
     UIViewController *v = [[Hotline sharedInstance] getFAQsControllerForEmbed];
@@ -80,15 +74,15 @@ RCT_EXPORT_METHOD(showFaqs) {
     n.navigationBar.backgroundColor = [UIColor tr_shuttleGrayColor];
     n.navigationBar.tintColor = [UIColor tr_whiteColor];
 
-    [delegate.rootViewController presentViewController:n animated:YES completion:nil];
+    [rootViewController presentViewController:n animated:YES completion:nil];
 
 }
 
 
 
 RCT_EXPORT_METHOD(hideView) {
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [delegate.rootViewController dismissViewControllerAnimated:YES completion:nil];
+    UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
+    [rootViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 

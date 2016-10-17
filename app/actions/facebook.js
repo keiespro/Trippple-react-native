@@ -43,7 +43,9 @@ const parameters = { fields: { string: FACEBOOK_PROFILE_FIELDS.join(',') } }
 export const loginWithFacebook = () => async dispatch => {
 
   // LoginManager.setLoginBehavior('native')
-    const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
+    const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS);
+    dispatch({ type: 'FACEBOOK_RESPONSE', payload: fb})
+
     const fbAuth = await AccessToken.getCurrentAccessToken()
     const fbData = {...fb, ...fbAuth}
     dispatch({ type: 'LOGIN_WITH_FACEBOOK', payload: api.fbLogin( fbData) })

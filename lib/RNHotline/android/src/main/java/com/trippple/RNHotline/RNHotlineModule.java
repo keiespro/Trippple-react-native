@@ -13,7 +13,6 @@ import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.ReadableType;
 import com.freshdesk.hotline.FaqOptions;
 import com.freshdesk.hotline.Hotline;
-import com.freshdesk.hotline.HotlineConfig;
 import com.freshdesk.hotline.HotlineUser;
 import com.freshdesk.hotline.exception.HotlineInvalidUserPropertyException;
 
@@ -30,14 +29,6 @@ public class RNHotlineModule extends ReactContextBaseJavaModule implements Activ
         super(reactContext);
 
         this.reactContext = reactContext;
-
-        HotlineConfig hConfig = new HotlineConfig("f54bba2a-84fa-43c8-afa9-098f3c1aefae","fba1b915-fa8b-4c24-bdda-8bac99fcf92a");
-
-        hConfig.setVoiceMessagingEnabled(true);
-        hConfig.setCameraCaptureEnabled(true);
-        hConfig.setPictureMessagingEnabled(true);
-
-        Hotline.getInstance(getReactApplicationContext()).init(hConfig);
 
         // Add the listener for `onActivityResult`
         reactContext.addActivityEventListener(this);
