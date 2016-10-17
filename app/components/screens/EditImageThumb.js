@@ -440,7 +440,7 @@ const styles = StyleSheet.create({
     borderRadius:CropBoxSize/2,
   },
   cropButtonLabel:{
-    fontFamily:'Montserrat-Bold',
+    fontFamily:'montserrat',fontWeight:'800',
     fontSize:22,
     marginTop:40,
     paddingBottom:0,

@@ -191,7 +191,7 @@ class MatchList extends Component {
                       />
                       {unread ?
                           <View style={styles.newMessageCount}>
-                              <Text style={{ fontFamily: 'Montserrat-Bold', color: colors.white, textAlign: 'center', fontSize: 14 }}>
+                              <Text style={{ fontFamily: 'montserrat',fontWeight:'800', color: colors.white, textAlign: 'center', fontSize: 14 }}>
                                   {unread}
                               </Text>
                           </View>
@@ -428,7 +428,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 16,
-        fontFamily: 'Montserrat-Bold',
+        fontFamily: 'montserrat',fontWeight:'800',
         color: colors.white,
         fontWeight: '500'
     },

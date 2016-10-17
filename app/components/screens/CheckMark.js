@@ -147,7 +147,7 @@ flexDirection:'column',flex:1,
               fontSize:24,
               color:'#ffffff',
               marginTop: 0,
-              fontFamily:'Montserrat-Bold',
+              fontFamily:'montserrat',fontWeight:'800',
             }}>{this.props.checkMarkCopy && this.props.checkMarkCopy.title || ''}</Text></Animated.View>}
 
         {this.props.checkMarkCopy.partnerName && <Animated.View
@@ -157,7 +157,7 @@ flexDirection:'column',flex:1,
               fontSize:24,
               color:'#ffffff',
               marginTop: 40,
-              fontFamily:'Montserrat-Bold',
+              fontFamily:'montserrat',fontWeight:'800',
             }}>{this.props.checkMarkCopy ? this.props.checkMarkCopy.title : ''}</Text></Animated.View>}
 
         <Animated.View

@@ -350,7 +350,7 @@ class FieldModal extends React.Component{
                     color: colors.rollingStone,
                     fontSize: 20,textAlign:'center',
                     textAlign:'center',
-                    fontFamily:'Omnes-Regular',alignSelf:'stretch',
+                    fontFamily:'omnes',alignSelf:'stretch',
                     marginBottom:MagicNumbers.screenPadding,
 
                 }}>{field.long_label ? field.long_label : field.label}</Text>
@@ -406,7 +406,7 @@ class FieldModal extends React.Component{
                   <Text style={{
                       color: colors.rollingStone,
                       fontSize: 20,
-                      fontFamily:'Omnes-Regular',
+                      fontFamily:'omnes',
                       textAlign:'center',
                       marginBottom:MagicNumbers.is5orless ? 20 : 40,
                     }}>{field.long_label ? field.long_label : field.label}</Text>
@@ -430,7 +430,7 @@ class FieldModal extends React.Component{
                   {field.sub_label ? <Text  style={{
                       color: colors.rollingStone,
                       fontSize: MagicNumbers.is5orless ? 14 : 18,textAlign:'center',
-                      fontFamily:'Omnes-Regular',
+                      fontFamily:'omnes',
                       marginTop:15,
                     }}
                   >{field.sub_label}</Text> : null}
@@ -460,7 +460,7 @@ class FieldModal extends React.Component{
             {/* <Text style={{
                 color: colors.rollingStone,
                 fontSize: 20,textAlign:'center',
-                fontFamily:'Omnes-Regular',
+                fontFamily:'omnes',
                 marginBottom:40,alignSelf:'stretch',
                 marginHorizontal:10
 
@@ -494,7 +494,7 @@ class FieldModal extends React.Component{
                 <Text style={{
                   color: colors.rollingStone,
                   fontSize: 20,textAlign:'center',
-                  fontFamily:'Omnes-Regular',
+                  fontFamily:'omnes',
                   marginBottom:40,alignSelf:'stretch'
 
                 }}>{field.long_label ? field.long_label : field.label}</Text>
@@ -503,7 +503,7 @@ class FieldModal extends React.Component{
                 <Text style={{
                   color: colors.white,
                   fontSize: 20,textAlign:'center',
-                  fontFamily:'Omnes-Regular',
+                  fontFamily:'omnes',
                   marginBottom:40,alignSelf:'stretch'
 
                 }}>{moment(this.state.birthday).format('MM/DD/YYYY')}</Text>
@@ -537,7 +537,7 @@ class FieldModal extends React.Component{
                   color: colors.rollingStone,
                   fontSize: MagicNumbers.is5orless ? 18 : 20,
                   textAlign:'center',
-                  fontFamily:'Omnes-Regular',
+                  fontFamily:'omnes',
                   marginTop:MagicNumbers.screenPadding,
                 }}>{field.long_label ? field.long_label : field.label}</Text>
               <View style={{minHeight:200}}>
@@ -710,7 +710,7 @@ const styles = StyleSheet.create({
      marginTop: 0,
      color: colors.rollingStone,
      fontSize: 16,
-     fontFamily:'Omnes-Regular',
+     fontFamily:'omnes',
    },
    bottomErrorTextWrap:{
 
@@ -719,7 +719,7 @@ const styles = StyleSheet.create({
      marginTop: 0,
      color: colors.mandy,
      fontSize: 16,
-     fontFamily:'Omnes-Regular',
+     fontFamily:'omnes',
 
    },
    pinInputWrap: {

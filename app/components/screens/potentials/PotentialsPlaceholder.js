@@ -154,7 +154,7 @@ class PotentialsPlaceholder extends React.Component{
                             color: colors.white,
                             fontSize: MagicNumbers.size18+2,
                             textAlign: 'center',
-                            fontFamily:'Montserrat-Bold',
+                            fontFamily:'montserrat',fontWeight:'800',
                         }}
                     >{`LOOKING FOR MATCHES`}</Text>
                   <Spinner />

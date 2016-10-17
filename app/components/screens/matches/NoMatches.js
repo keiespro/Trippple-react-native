@@ -54,7 +54,7 @@ class NoMatches extends Component{
             <Text style={{
                 color:colors.white,
                 fontSize: MagicNumbers.is5orless ? 18 : 22,
-                fontFamily:'Montserrat-Bold',textAlign:'center',marginBottom:20}}>{
+                fontFamily:'montserrat',fontWeight:'800',textAlign:'center',marginBottom:20}}>{
               `WAITING FOR MATCHES`
             }</Text>
             <Text style={{color:colors.shuttleGray,fontSize:MagicNumbers.is5orless ? 18 : 20,fontFamily:'omnes',textAlign:'center'}}>{

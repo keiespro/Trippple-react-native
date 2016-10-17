@@ -180,7 +180,7 @@ const btnstyles = StyleSheet.create({
     marginTop: 0,
     color: colors.rollingStone,
     fontSize: 16,
-    fontFamily:'Omnes-Regular',
+    fontFamily:'omnes',
   },
   goBackButton:{
     padding:20,

@@ -186,7 +186,7 @@ class Settings extends React.Component{
                     </TouchableOpacity>
                     <TouchableOpacity onPress={this._openProfile.bind(this)} style={{alignSelf:'stretch',}} >
                       <View style={{alignSelf:'stretch',flexDirection:'column',alignItems:'stretch',justifyContent:'center'}}>
-                        <Text style={{textAlign:'center',alignSelf:'stretch',color:colors.white,fontSize:18,marginTop:20,fontFamily:'montserrat'}}>{
+                        <Text style={{textAlign:'center',alignSelf:'stretch',color:colors.white,fontSize:18,marginTop:20,fontFamily:'montserrat',fontWeight:'800'}}>{
                           this.props.user.firstname && this.props.user.firstname.toUpperCase()
                         }</Text>
                     </View>
@@ -215,7 +215,7 @@ class Settings extends React.Component{
                 >
                     <View style={styles.wrapfield}>
                         <View>
-                          <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat'}}>PROFILE</Text>
+                          <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat',fontWeight:'800'}}>PROFILE</Text>
                           {/*  <Text style={{color:colors.sushi}}>✔︎</Text> */}
                             <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
                             Edit your information
@@ -238,7 +238,7 @@ class Settings extends React.Component{
                     >
                         <View style={styles.wrapfield}>
                             <View>
-                              <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat'}}>COUPLE</Text>
+                              <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat',fontWeight:'800'}}>COUPLE</Text>
                                 <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
                                 You and your partner, {this.props.user.partner ? this.props.user.partner.firstname : ''}
                                 </Text>
@@ -254,7 +254,7 @@ class Settings extends React.Component{
                                                                                                                                                                                                                                >
                         <View style={styles.wrapfield}>
                             <View>
-                              <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat'}}>
+                              <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat',fontWeight:'800'}}>
                                 {this.props.user.relationship_status == 'single' ? 'JOIN COUPLE' : 'JOIN PARTNER'}
                                 </Text>
 
@@ -279,7 +279,7 @@ class Settings extends React.Component{
                 >
                     <View style={styles.wrapfield}>
                         <View>
-                            <Text style={{color:colors.white,fontSize:18,fontWeight:'800',fontFamily:'montserrat'}}>PREFERENCES</Text>
+                            <Text style={{color:colors.white,fontSize:18,fontWeight:'800',fontFamily:'montserrat',fontWeight:'800'}}>PREFERENCES</Text>
                             <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
                             What you're looking for
                             </Text>
@@ -298,7 +298,7 @@ class Settings extends React.Component{
                 >
                     <View style={styles.wrapfield}>
                         <View>
-                            <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat'}}>SETTINGS</Text>
+                            <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat',fontWeight:'800'}}>SETTINGS</Text>
                             <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
                             Privacy and more
                             </Text>
@@ -315,7 +315,7 @@ class Settings extends React.Component{
                 >
                     <View style={styles.wrapfield}>
                         <View>
-                            <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat'}}>INVITE FRIENDS</Text>
+                            <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat',fontWeight:'800'}}>INVITE FRIENDS</Text>
                             <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
                             Spread the word
                             </Text>
@@ -334,7 +334,7 @@ class Settings extends React.Component{
                 >
                     <View style={styles.wrapfield}>
                         <View>
-                            <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat'}}>FAQS</Text>
+                            <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat',fontWeight:'800'}}>FAQS</Text>
                             <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
                             Answers to frequently asked questions
                             </Text>
@@ -348,7 +348,7 @@ class Settings extends React.Component{
                 <TouchableHighlight onPress={(f)=>{ console.log(RNHotline);RNHotline.showConvos() }} underlayColor={colors.dark}>
                     <View style={styles.wrapfield}>
                         <View>
-                            <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat'}}>HELP & FEEDBACK</Text>
+                            <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat',fontWeight:'800'}}>HELP & FEEDBACK</Text>
                             <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
                             Chat with us
                             </Text>
@@ -367,7 +367,7 @@ class Settings extends React.Component{
                              >
                     <View style={styles.wrapfield}>
                         <View>
-                            <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat'}}>DEBUG</Text>
+                            <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat',fontWeight:'800'}}>DEBUG</Text>
                             <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
                             stuff
                             </Text>
@@ -577,7 +577,7 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
         flex:1,
         textAlign: 'left',
-        fontFamily:'Montserrat',
+        fontFamily:'montserrat',fontWeight:'800',
     },
     buttonText: {
         fontSize: 18,
@@ -622,7 +622,7 @@ const styles = StyleSheet.create({
     },
     segmentTitles:{
         color:colors.white,
-        fontFamily:'Montserrat'
+        fontFamily:'montserrat',fontWeight:'800'
     },
     tab: {
         flex: 1,

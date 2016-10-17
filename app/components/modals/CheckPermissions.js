@@ -183,7 +183,7 @@ export default class CheckPermissions extends React.Component{
        <View style={[styles.insidemodalwrapper,{justifyContent:'space-between'}]}>
 
            <Text style={[styles.rowtext,styles.bigtext,{
-               fontFamily:'Montserrat-Bold',fontSize:22,marginVertical:10,color: colors.shuttleGray
+               fontFamily:'montserrat',fontWeight:'800',fontSize:22,marginVertical:10,color: colors.shuttleGray
              }]}>
              {this.state.failedState ? this.props.failedTitle.toUpperCase() : this.props.title.toUpperCase()}
            </Text>

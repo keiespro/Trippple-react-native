@@ -239,7 +239,7 @@
 //     marginTop: 0,
 //     color: colors.mandy,
 //     fontSize: 16,
-//     fontFamily:'Omnes-Regular',
+//     fontFamily:'omnes',
 
 //   },
 //   phoneInputWrapError:{

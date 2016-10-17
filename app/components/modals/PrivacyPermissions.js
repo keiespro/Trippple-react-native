@@ -146,7 +146,7 @@ class PrivacyPermissionsModal extends Component{
           />
         </View>
         <Text style={[styles.rowtext,styles.bigtext,{
-          fontFamily:'Montserrat-Bold',fontSize:20,marginVertical:0
+          fontFamily:'montserrat',fontWeight:'800',fontSize:20,marginVertical:0
         }]}
         >CAN'T ACCESS CONTACTS</Text>
 
@@ -186,7 +186,7 @@ class PrivacyPermissionsModal extends Component{
               />
             </View>
             <Text style={[styles.rowtext,styles.bigtext,{
-              fontFamily:'Montserrat-Bold',fontSize:20,marginVertical:0
+              fontFamily:'montserrat',fontWeight:'800',fontSize:20,marginVertical:0
             }]}
             >PROTECT YOUR PRIVACY</Text>
 

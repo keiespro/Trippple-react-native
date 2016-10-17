@@ -72,11 +72,11 @@ export default class NoMessages extends React.Component{
 
             <View style={{width:DeviceWidth,alignSelf: 'center',alignItems:'center',flexDirection:'column', justifyContent:'center' }}>
 
-              <Text style={{color:colors.white,fontSize:20,fontFamily:'Montserrat-Bold',textAlign:'center',}} >{
+              <Text style={{color:colors.white,fontSize:20,fontFamily:'montserrat',fontWeight:'800',textAlign:'center',}} >{
                     `YOU MATCHED WITH`
               }</Text>
 
-    					<Text style={{color:colors.white,fontSize:20,fontFamily:'Montserrat-Bold',textAlign:'center',
+    					<Text style={{color:colors.white,fontSize:20,fontFamily:'montserrat',fontWeight:'800',textAlign:'center',
                 }} >{
                     `${chatTitle}`
               }</Text>

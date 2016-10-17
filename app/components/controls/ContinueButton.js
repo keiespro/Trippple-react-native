@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   continueButtonText: {
     padding: 4,
     fontSize: MagicNumbers.size18+4,
-    fontFamily:'Montserrat-Bold',
+    fontFamily:'montserrat',fontWeight:'800',
     color: colors.white,
     textAlign:'center'
   }

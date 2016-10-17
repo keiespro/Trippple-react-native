@@ -31,7 +31,7 @@ const purpleModalStyles = StyleSheet.create({
   },
   modalButtonText:{
     color:colors.white,
-    fontFamily:'Montserrat-Bold',
+    fontFamily:'montserrat',fontWeight:'800',
     fontSize:18,
     textAlign:'center'
   },

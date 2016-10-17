@@ -88,7 +88,7 @@ goBack(){
             />
           </View>
 
-          <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center',backgroundColor:'transparent', fontFamily:'Montserrat-Bold',fontSize:22,color:'#fff',marginVertical:10 }]}>
+          <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center',backgroundColor:'transparent', fontFamily:'montserrat',fontWeight:'800',fontSize:22,color:'#fff',marginVertical:10 }]}>
           Couple</Text>
 
           <View style={{flexDirection:'column',marginBottom:30 }} >
@@ -220,7 +220,7 @@ const btnstyles = StyleSheet.create({
     marginTop: 0,
     color: colors.rollingStone,
     fontSize: 16,
-    fontFamily:'Omnes-Regular',
+    fontFamily:'omnes',
   },
   goBackButton:{
     padding:20,

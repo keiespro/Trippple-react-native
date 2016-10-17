@@ -99,7 +99,7 @@ class WarningScreen extends Component{
         color:'#ffffff',
         marginVertical: 10,
         textAlign:'center',
-        fontFamily:'Montserrat-Bold',
+        fontFamily:'montserrat',fontWeight:'800',
       }}>YOUR PIC HAS  BEEN FLAGGED</Text>
     <Text textAlign="center" style={{
                   fontSize:18,

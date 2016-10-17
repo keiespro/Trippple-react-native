@@ -110,7 +110,7 @@ class CameraRollPermissionsModal extends Component{
         />
         <View style={styles.insidemodalwrapper}>
           <Text style={[styles.rowtext,styles.bigtext,{
-                  fontFamily:'Montserrat-Bold',fontSize:22,marginVertical:10
+                  fontFamily:'montserrat',fontWeight:'800',fontSize:22,marginVertical:10
           }]}>YOUR PHOTO ALBUM</Text>
 
             <Text style={[styles.rowtext,styles.bigtext,{

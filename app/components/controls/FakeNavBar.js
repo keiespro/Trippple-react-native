@@ -296,7 +296,7 @@
 //   navBarTitleText: {
 //     color: colors.white,
 //     fontSize: MagicNumbers ? MagicNumbers.size18 : 18,
-//     fontFamily:'Montserrat-Bold',
+//     fontFamily:'montserrat',fontWeight:'800',
 //     position: 'absolute',
 //     left: 0,
 //     right: 0,

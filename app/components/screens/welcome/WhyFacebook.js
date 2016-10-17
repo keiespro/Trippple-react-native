@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   },
   titleText:{
     fontSize:16,
-    fontFamily: 'Montserrat-Bold',
+    fontFamily: 'montserrat',fontWeight:'800',
 
   },
   iconButtonCouples: {

@@ -426,7 +426,7 @@ const styles = StyleSheet.create({
     },
 
     notiTitle: {
-        fontFamily:'Montserrat-Bold',
+        fontFamily:'montserrat',fontWeight:'800',
         fontSize:14,
     },
     titleNewMessage:{

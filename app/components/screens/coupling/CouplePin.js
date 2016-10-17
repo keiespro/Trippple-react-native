@@ -151,7 +151,7 @@ class CouplePin extends React.Component{
             color:'#ffffff',
             marginTop: 0,
               textAlign:'center',
-            fontFamily:'Montserrat-Bold',
+            fontFamily:'montserrat',fontWeight:'800',
           }]}>COUPLE CREATED</Text>
 
           <Text style={[styles.rowtext,styles.bigtext,{
@@ -179,7 +179,7 @@ class CouplePin extends React.Component{
             style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:10,marginTop:30,marginBottom:15}}
             onPress={this.popToTop.bind(this)}>
             <View style={{paddingVertical:20,paddingHorizontal:40}} >
-              <Text style={{fontFamily:'Montserrat-Bold', backgroundColor:'transparent',fontSize:18,textAlign:'center', color:'#fff',}}>
+              <Text style={{fontFamily:'montserrat',fontWeight:'800', backgroundColor:'transparent',fontSize:18,textAlign:'center', color:'#fff',}}>
               THANKS</Text>
             </View>
           </TouchableHighlight>
@@ -206,7 +206,7 @@ class CouplePin extends React.Component{
             />
           </View>
 
-          <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', backgroundColor:'transparent', fontFamily:'Montserrat-Bold',fontSize:22,color:'#fff',marginVertical:10 }]}>
+          <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', backgroundColor:'transparent', fontFamily:'montserrat',fontWeight:'800',fontSize:22,color:'#fff',marginVertical:10 }]}>
             YOUR COUPLE CODE
           </Text>
 
@@ -229,7 +229,7 @@ class CouplePin extends React.Component{
           color:'#fff',
           backgroundColor:'transparent',
           textAlign:'center',
-          fontFamily:'Montserrat-Bold',
+          fontFamily:'montserrat',fontWeight:'800',
         }]}>
         {this.props.pin}
         </Text>
@@ -241,7 +241,7 @@ class CouplePin extends React.Component{
             style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:0,marginTop:20,marginBottom:15}}
             onPress={this.handleSendMessage.bind(this)}>
             <View style={{paddingVertical:20,paddingHorizontal:MagicNumbers.is5orless ? 10 : 20}} >
-              <Text style={{fontFamily:'Montserrat-Bold', backgroundColor:'transparent', fontSize:MagicNumbers.is5orless ? 16 : 18,textAlign:'center', color:'#fff',}}>
+              <Text style={{fontFamily:'montserrat',fontWeight:'800', backgroundColor:'transparent', fontSize:MagicNumbers.is5orless ? 16 : 18,textAlign:'center', color:'#fff',}}>
                 TEXT CODE TO MY PARTNER
               </Text>
             </View>
@@ -289,7 +289,7 @@ const btnstyles = StyleSheet.create({
     marginTop: 0,
     color: colors.rollingStone,
     fontSize: 16,
-    fontFamily:'Omnes-Regular',
+    fontFamily:'omnes',
   },
   goBackButton:{
     padding:20,

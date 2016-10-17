@@ -209,7 +209,7 @@
 //   _renderTitleComponent(props) {
 //     const title = props.scene.route.name
 //     return (
-//       <NavigationHeader.Title textStyle={{color:'#fff',fontFamily:'Montserrat-Bold',fontSize:20}}>
+//       <NavigationHeader.Title textStyle={{color:'#fff',fontFamily:'montserrat',fontWeight:'800',fontSize:20}}>
 //         {`${title || ''}`}
 //       </NavigationHeader.Title>
 //     );

@@ -154,7 +154,7 @@
 //             />
 //             <View style={styles.insidemodalwrapper}>
 //               <Text style={[styles.rowtext,styles.bigtext,{
-//                   fontFamily:'Montserrat-Bold',fontSize:22,marginVertical:10
+//                   fontFamily:'montserrat',fontWeight:'800',fontSize:22,marginVertical:10
 //                }]}>  {
 //                 this.state.failedState ? failedTitle : `GET NOTIFIED`
 //                 }

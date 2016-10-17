@@ -71,7 +71,7 @@
 //               <View style={styles.insidemodalwrapper}>
 //
 //                 <Text style={[styles.rowtext,styles.bigtext,{
-//                     fontFamily:'Montserrat-Bold',fontSize:22,marginVertical:10,color: colors.shuttleGray
+//                     fontFamily:'montserrat',fontWeight:'800',fontSize:22,marginVertical:10,color: colors.shuttleGray
 //                   }]}>
 //                   {`WAITING FOR PARTNER`}
 //                 </Text>

@@ -61,7 +61,7 @@ export default class CoupleSuccess extends React.Component{
         return (
       <ScrollView contentContainerStyle={[{width:DeviceWidth,height:DeviceHeight,flexDirection:'column',justifyContent:'center',flex:1,top:0 }]} >
 
-        <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'Montserrat-Bold',fontSize:20,color:'#fff',marginVertical:10 }]}>
+        <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'montserrat',fontWeight:'800',fontSize:20,color:'#fff',marginVertical:10 }]}>
           SUCCESS
         </Text>
         {this.props.user.partner && this.props.user.partner.gender ?
@@ -92,7 +92,7 @@ export default class CoupleSuccess extends React.Component{
             onPress={this.popToTop.bind(this)}
         >
           <View style={{paddingVertical:20,paddingHorizontal:20}} >
-            <Text style={{fontFamily:'Montserrat-Bold', fontSize:18,textAlign:'center', color:'#fff',}}>
+            <Text style={{fontFamily:'montserrat',fontWeight:'800', fontSize:18,textAlign:'center', color:'#fff',}}>
               CONTINUE
             </Text>
           </View>

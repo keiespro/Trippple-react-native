@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
       marginTop: 0,
       color: colors.rollingStone,
       fontSize: 18,
-      fontFamily:'Omnes-Regular',
+      fontFamily:'omnes',
     },
     bottomErrorTextWrap:{
 
@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
       marginTop: 0,
       color: colors.mandy,
       fontSize: 16,
-      fontFamily:'Omnes-Regular',
+      fontFamily:'omnes',
 
     },
     phoneInputWrapSelected:{

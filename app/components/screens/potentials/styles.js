@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
 
   cardBottomText:{
     marginLeft:0,
-    fontFamily:'Montserrat-Bold',
+    fontFamily:'montserrat',fontWeight:'800',
     color: colors.rollingStone,
     fontSize:18,
     marginTop:0

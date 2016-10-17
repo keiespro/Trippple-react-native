@@ -206,7 +206,7 @@ class OnboardModal extends Component {
               <Text style={{
                 color: colors.white,
                 marginTop: 10,
-                fontFamily: 'Montserrat-Bold',
+                fontFamily: 'montserrat',fontWeight:'800',
                 justifyContent: 'space-between',
                 fontSize: 19
               }}>WELCOME {this.props.user.firstname ? this.props.user.firstname.toUpperCase() : '' }</Text>

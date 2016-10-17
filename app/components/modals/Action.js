@@ -72,7 +72,7 @@ class Action extends React.Component{
       defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
       resizeMode={Image.resizeMode.cover}
     />
-    <Text style={{color:colors.white,fontFamily:'Montserrat-Bold',fontSize:18}}>
+    <Text style={{color:colors.white,fontFamily:'montserrat',fontWeight:'800',fontSize:18}}>
       {matchName}
     </Text>
 

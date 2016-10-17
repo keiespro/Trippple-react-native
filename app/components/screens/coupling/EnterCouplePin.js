@@ -161,7 +161,7 @@ class EnterCouplePin extends React.Component{
             <ScrollView style={{width:DeviceWidth,top:0,flex:1}} contentContainerStyle={[{height:DeviceHeight-MagicNumbers.keyboardHeight,width:DeviceWidth,flex:1,top:0,left:0}]} >
 
           <View style={[{top:0,marginBottom:MagicNumbers.is5orless ? 0 : 50, flexDirection:'column',alignItems:'center',justifyContent:'center', height:DeviceHeight-MagicNumbers.keyboardHeight,marginHorizontal:MagicNumbers.screenPadding/2,flex:1 }]}>
-              <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'Montserrat-Bold',fontSize:MagicNumbers.is5orless ? 17 : 20,color:'#fff',marginVertical:MagicNumbers.is5orless ? 5 : 10,backgroundColor:'transparent' }]}>
+              <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'montserrat',fontWeight:'800',fontSize:MagicNumbers.is5orless ? 17 : 20,color:'#fff',marginVertical:MagicNumbers.is5orless ? 5 : 10,backgroundColor:'transparent' }]}>
                 CONNECT WITH YOUR PARTNER
               </Text>
               <Text style={[styles.rowtext,styles.bigtext,{
@@ -255,7 +255,7 @@ const btnstyles = StyleSheet.create({
         marginTop: 0,
         color: colors.rollingStone,
         fontSize: 16,
-        fontFamily:'Omnes-Regular',
+        fontFamily:'omnes',
     },
     goBackButton:{
         padding:20,
@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
         marginTop: 0,
         color: colors.rollingStone,
         fontSize: 16,
-        fontFamily:'Omnes-Regular',
+        fontFamily:'omnes',
     },
     bottomErrorTextWrap:{
 
@@ -379,7 +379,7 @@ const styles = StyleSheet.create({
         marginTop: 0,
         color: colors.mandy,
         fontSize: 16,
-        fontFamily:'Omnes-Regular',
+        fontFamily:'omnes',
 
     }
 });

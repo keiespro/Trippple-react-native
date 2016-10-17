@@ -193,7 +193,7 @@ class LocationPermission extends React.Component{
          <View style={[styles.insidemodalwrapper,{justifyContent:'center'}]}>
 
            <Text style={[styles.rowtext,styles.bigtext,{
-             fontFamily:'Montserrat-Bold',fontSize:22,marginVertical:10,color: colors.white
+             fontFamily:'montserrat',fontWeight:'800',fontSize:22,marginVertical:10,color: colors.white
            }]}>
              {this.state.failedState ? this.props.failedTitle.toUpperCase() : this.props.title.toUpperCase()}
            </Text>

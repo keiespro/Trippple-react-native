@@ -81,7 +81,7 @@ class NoPartner extends React.Component{
              />
            </View>
 
-           <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', backgroundColor:'transparent', fontFamily:'Montserrat-Bold',fontSize:22,color:'#fff',marginVertical:10 }]}>
+           <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', backgroundColor:'transparent', fontFamily:'montserrat',fontWeight:'800',fontSize:22,color:'#fff',marginVertical:10 }]}>
              COUPLE
            </Text>
 
@@ -106,7 +106,7 @@ class NoPartner extends React.Component{
             style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:0,marginTop:20,marginBottom:15}}
             onPress={this.couple.bind(this)}>
             <View style={{paddingVertical:20,paddingHorizontal:MagicNumbers.is5orless ? 10 : 20}} >
-              <Text style={{fontFamily:'Montserrat-Bold', backgroundColor:'transparent', fontSize:MagicNumbers.is5orless ? 16 : 18,textAlign:'center', color:'#fff',}}>
+              <Text style={{fontFamily:'montserrat',fontWeight:'800', backgroundColor:'transparent', fontSize:MagicNumbers.is5orless ? 16 : 18,textAlign:'center', color:'#fff',}}>
                 PROCEED AS A COUPLE
               </Text>
             </View>
@@ -161,7 +161,7 @@ const btnstyles = StyleSheet.create({
     marginTop: 0,
     color: colors.rollingStone,
     fontSize: 16,
-    fontFamily:'Omnes-Regular',
+    fontFamily:'omnes',
   },
   goBackButton:{
     padding:20,

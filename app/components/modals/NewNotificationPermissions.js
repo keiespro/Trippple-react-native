@@ -202,7 +202,7 @@ class NewNotificationPermissions extends React.Component{
                     marginLeft:2,
                     marginTop:-2,
                     width:32,
-                    fontFamily:'Montserrat-Bold',
+                    fontFamily:'montserrat',fontWeight:'800',
                     textAlign:'center',
                     color:'#fff',
                 }]}>1</Text>
@@ -211,7 +211,7 @@ class NewNotificationPermissions extends React.Component{
             </View>
             <View style={[{width:DeviceWidth, paddingHorizontal:MagicNumbers.screenPadding/2 }]} >
 
-              <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'Montserrat-Bold',fontSize:22,color:'#fff',marginVertical:10 }]}>{
+              <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'montserrat',fontWeight:'800',fontSize:22,color:'#fff',marginVertical:10 }]}>{
                     this.state.failedState ? failedTitle : `GET NOTIFIED`
                   }
               </Text>
@@ -252,7 +252,7 @@ class NewNotificationPermissions extends React.Component{
                   <View style={{marginBottom:20}}>
                     <TouchableOpacity onPress={this.cancel.bind(this)}>
                       <View>
-                        <Text style={[styles.nothankstext,{color:colors.warmGreyTwo,fontFamily:'Omnes-Regular'}]}>
+                        <Text style={[styles.nothankstext,{color:colors.warmGreyTwo,fontFamily:'omnes'}]}>
                           No thanks, ask me later
                         </Text>
                       </View>
