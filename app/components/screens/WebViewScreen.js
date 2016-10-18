@@ -17,6 +17,8 @@ class WebViewScreen extends Component{
   static route = {
     navigationBar: {
       backgroundColor: colors.shuttleGrayAnimate,
+      visible:true,
+      translucent:true,
       title(params){
         return params.pageTitle
       }
@@ -68,7 +70,7 @@ const styles = StyleSheet.create({
   },
   webview:{
     flex: 1,
-    
+
     justifyContent: 'center',
     alignItems: 'stretch',
     position:'relative',

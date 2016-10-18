@@ -175,12 +175,12 @@ class Settings extends React.Component{
                         key={this.props.user.id+'thumb'}
                         defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
                         resizeMode={Image.resizeMode.cover}
-                        source={{uri:this.props.user.thumb_url || 'assets/placeholderUser@3x.png'}}
+                        source={this.props.user.thumb_url ? {uri:this.props.user.thumb_url} : require('./assets/placeholderUser@3x.png')}
                     />
                     <View style={styles.circle}>
                       <Image
                           style={{width:18,height:18}}
-                          source={{uri: 'assets/cog@3x.png'}}
+                          source={require('./assets/cog@3x.png')}
                           resizeMode={Image.resizeMode.contain}
                       />
                       </View>

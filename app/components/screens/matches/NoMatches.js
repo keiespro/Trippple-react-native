@@ -33,21 +33,21 @@ class NoMatches extends Component{
               style={{width:DeviceWidth-MagicNumbers.screenPadding,
                 height:MagicNumbers.is5orless ? 70 : 80,
                 marginBottom:20 }}
-              source={{uri: 'assets/listing@3x.png'}}
+              source={require('./assets/listing.png')}
               resizeMode={Image.resizeMode.contain}
             />
             <Image
               style={{width:DeviceWidth-MagicNumbers.screenPadding,
                 height:MagicNumbers.is5orless ? 70 : 80,
                 marginBottom:20 }}
-              source={{uri: 'assets/listing@3x.png'}}
+              source={require('./assets/listing.png')}
               resizeMode={Image.resizeMode.contain}
               />
            <Image
               style={{width:DeviceWidth-MagicNumbers.screenPadding,
                 height:MagicNumbers.is5orless ? 70 : 80,
                 marginBottom:50 }}
-              source={{uri: 'assets/listing@3x.png'}}
+              source={require('./assets/listing.png')}
               resizeMode={Image.resizeMode.contain}
             />
 

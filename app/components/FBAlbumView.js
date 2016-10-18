@@ -36,6 +36,8 @@ class AlbumView extends React.Component {
         styles: NavigationStyles.FloatHorizontal,
         navigationBar: {
             backgroundColor: colors.shuttleGrayAnimate,
+            visible:true,
+            translucent:true,
             title(params) {
                 return `${params.albumTitle}`
             }

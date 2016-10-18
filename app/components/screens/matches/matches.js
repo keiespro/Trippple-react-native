@@ -187,7 +187,7 @@ class MatchList extends Component {
                           style={styles.thumb}
                           source={{ uri: matchImage }}
                           resizeMode={Image.resizeMode.cover}
-                          defaultSource={{ uri: 'assets/placeholderUser@3x.png' }}
+                          defaultSource={require('./assets/placeholderUser.png' )}
                       />
                       {unread ?
                           <View style={styles.newMessageCount}>
@@ -228,7 +228,7 @@ class MatchList extends Component {
                               <Image
                                   resizeMode={Image.resizeMode.contain}
                                   style={{width:20,height:20,alignItems:'flex-start'}}
-                                  source={{uri: 'assets/close@3x.png'}}
+                                  source={require('./assets/close.png')}
                               />
                           </View>
                       </TouchableHighlight>

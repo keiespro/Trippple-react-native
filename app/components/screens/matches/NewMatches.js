@@ -68,7 +68,7 @@ class NewMatches extends Component{
         >
           <Image
               source={{uri:img}}
-              defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+              defaultSource={require('./assets/placeholderUser.png')}
               style={styles.listItemImage}
           />
           {__DEBUG__ && <Text>{rowData.match_id}</Text>}

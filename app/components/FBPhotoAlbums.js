@@ -32,6 +32,8 @@ class PhotoAlbums extends React.Component {
 
         navigationBar: {
             backgroundColor: colors.shuttleGrayAnimate,
+            visible:true,
+            translucent:true,
             title(params) {
                 return `YOUR ALBUMS`
             }

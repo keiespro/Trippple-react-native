@@ -88,7 +88,7 @@ export default class NoMessages extends React.Component{
               <Image
                 source={{uri:match_user.image_url}}
                 style={this.getThumbSize()}
-                defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+                defaultSource={require('./assets/placeholderUser@3x.png')}
               />
     					<Text style={{color:colors.shuttleGray,fontSize:20,textAlign:'center',fontFamily:'omnes', backgroundColor: 'transparent'}} >Say something. {
                   (them.length == 2 ? 'They\'re' : them[0].gender == 'm' ? 'He\'s' : 'She\'s')

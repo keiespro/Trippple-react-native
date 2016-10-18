@@ -51,14 +51,14 @@ const ChatBubble = (props) => {
                   source={{uri: thumb}}
                   resizeMode={Image.resizeMode.cover}
 
-                  defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+                  defaultSource={require('./assets/placeholderUser.png')}
                 />
               </View> : null
             }
             { !isMessageOurs ?
               <Image
                 resizeMode={Image.resizeMode.contain}
-                source={{uri: 'assets/TrianglePurple@3x.png'}}
+                source={require('./assets/TrianglePurple.png')}
                 style={{left:1,width:10,height:22,opacity:1}}
               /> : null
             }
@@ -77,7 +77,7 @@ const ChatBubble = (props) => {
             {isMessageOurs ?
               <Image
                 resizeMode={Image.resizeMode.contain}
-                source={{uri: 'assets/TriangleDark@3x.png'}}
+                source={require('./assets/TriangleDark.png')}
                 style={{right:0,width:10,height:22,tintColor:colors.darks,opacity:1}}
               /> : null
             }

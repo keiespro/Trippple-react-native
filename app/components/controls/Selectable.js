@@ -28,7 +28,7 @@ class Selectable extends React.Component{
           >{this.props.label}</Text>
       {selected ? <Image
             style={{height:30,width:30}}
-            source={{ uri: 'assets/ovalSelected@3x.png'} }
+            source={require('./assets/ovalSelected.png') }
           /> :
           <View
             style={{height:30,width:30,
