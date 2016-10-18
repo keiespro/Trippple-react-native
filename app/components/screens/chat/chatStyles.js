@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
 
  },
  messageTitle: {
-   fontFamily: 'Montserrat',
+   fontFamily: 'montserrat',
    color: colors.shuttleGray,
    fontSize: 12,
    marginBottom: 5

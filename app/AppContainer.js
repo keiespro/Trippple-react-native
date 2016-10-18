@@ -31,7 +31,7 @@ class AppContainer extends React.Component {
                 backgroundColor:'rgba(0,0,0,0)',
                 titleStyle:{
                   color:colors.white,
-                  fontFamily:'Montserrat',
+                  fontFamily:'montserrat',
                   borderBottomWidth: 0,
                 }
               },

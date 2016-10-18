@@ -3,17 +3,18 @@ import React from "react";
 import dismissKeyboard from 'dismissKeyboard'
 import { connect } from 'react-redux'
 import moment from 'moment'
-import Analytics from '../../utils/Analytics';
-import FieldModal from '../modals/FieldModal';
-import PhoneNumberInput from './phoneNumberInput';
-import ScrollableTabView from '../scrollable-tab-view';
-import SelfImage from '../SelfImage';
-import colors from '../../utils/colors';
-import Birthday from '../controls/birthday'
-import formatPhone from '../../utils/formatPhone';
+import Analytics from '../../../utils/Analytics';
+import FieldModal from '../../modals/FieldModal';
+import PhoneNumberInput from '../phoneNumberInput';
+import ScrollableTabView from '../../scrollable-tab-view';
+import SelfImage from '../../SelfImage';
+import colors from '../../../utils/colors';
+import Birthday from '../../controls/birthday'
+import formatPhone from '../../../utils/formatPhone';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-import {MagicNumbers} from '../../utils/DeviceConfig'
+import {MagicNumbers} from '../../../utils/DeviceConfig'
+import ActionMan from '../../../actions/'
 
 const currentyear = new Date().getFullYear();
 const MIN_DATE = new Date().setFullYear(currentyear - 18)
@@ -27,6 +28,27 @@ import {
 let PickerItem = Picker.Item;
 
 
+    const FieldComponent = ({onChange,selected,getValues,getKeyVals,theField,val})=> (<Picker
+          style={{alignSelf:'flex-end',width:100,flex:-1,backgroundColor:colors.transparent,marginHorizontal:0,alignItems:'flex-end',textAlign:'right'}}
+          onValueChange={onChange}
+          itemStyle={{fontSize: 24, color: colors.white,fontFamily:'montserrat'}}
+          selectedValue={selected || theField.values[selected] || null}
+      >
+        {getValues.map((val) => {
+
+          return ( <PickerItem
+              key={val}
+              color={colors.white}
+              prompt={theField.label}
+              style={{fontSize: 24,width:100, color: colors.white,fontFamily:'montserrat'}}
+              value={getKeyVals[val] || val}
+              label={`${(theField.labelPrefix || '') + (getKeyVals[val] || val) + (theField.labelSuffix || '')}`.toUpperCase()}
+             />
+          )
+        }
+        )}
+      </Picker>)
+
 class ProfileField extends React.Component{
   constructor(props){
     super(props)
@@ -35,7 +57,10 @@ class ProfileField extends React.Component{
       selectedDropdown: props.user[props.fieldName] || '',
     }
   }
-
+  handleChange(e){
+    console.log('handle change',e);
+    this.props.dispatch(ActionMan.updateUser({[this.props.fieldName]: e}))
+  }
   formattedPhone(){
     if(!this.props.user.phone) return '';
     return formatPhone(this.props.user.phone)
@@ -55,7 +80,7 @@ class ProfileField extends React.Component{
   }
   render(){
     let field = this.props.field || {};
-
+console.log(field,'xxxxxxxxxxxxxxxxxx');
     let get_values = typeof field.values == 'object' && Object.keys(field.values).map(key => key) || field.values;
     let get_key_vals = typeof field.values == 'object' && field.values || {};
 
@@ -78,25 +103,53 @@ class ProfileField extends React.Component{
     }
 
     const displayFieldText = fieldLabel ? fieldLabel.toUpperCase() : '';
-    return (
-      <TouchableHighlight onPress={this.goFieldModal.bind(this)} underlayColor={colors.dark} style={styles.paddedSpace}
+
+    return field.field_type == 'dropdown' ? (
+        <View style={styles.paddedSpace}>
+          <View style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray,alignItems:'center',justifyContent:'flex-end',flexDirection:'row',alignSelf:'stretch'}}>
+            <Text  style={{position:'absolute',left:0,top:25,color:colors.rollingStone,fontSize:18,fontFamily:'montserrat'}}>{ displayFieldText }</Text>
+            <FieldComponent
+          getKeyVals={get_key_vals}
+          getValues={get_values}
+          selected={getValue}
+          onChange={this.handleChange.bind(this)}
+          theField={field}
+          val={getValue} />
+        {this.props.locked ? <View style={{width:20,position:'relative',top:5,height:20,marginLeft:10,right:0}}>
+          <Image
+              style={{width:15,height:15,}}
+              source={require('./assets/icon-lock.png')}
+              resizeMode={Image.resizeMode.contain}
+          />
+        </View> : <View style={{width:20,position:'relative',top:5,height:20,marginLeft:10,right:0}}>
+          <Image
+              style={{width:15,height:15,}}
+              source={require('./assets/edit.png')}
+              resizeMode={Image.resizeMode.contain}
+          />
+        </View> }
+        </View>
+
+        </View>
+      ) :  (<TouchableHighlight onPress={this.goFieldModal.bind(this)} underlayColor={colors.dark} style={styles.paddedSpace}
       >
         <View>
           <View style={{height:60,borderBottomWidth:1,borderColor:colors.shuttleGray,alignItems:'center',justifyContent:'space-between',flexDirection:'row',alignSelf:'stretch'}}>
-            <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'Montserrat'}}>{ displayFieldText }</Text>
+            <Text style={{color:colors.rollingStone,fontSize:18,fontFamily:'montserrat'}}>{ displayFieldText }</Text>
             <View style={{flexDirection:'row'}}>
-              <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat',textAlign:'right'}}>{ displayValueText
-              }</Text>
+           <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat',textAlign:'right'}}>{ displayValueText
+            }</Text>
+
               {this.props.locked ? <View style={{width:20,position:'relative',top:5,height:20,marginLeft:10,right:0}}>
                 <Image
                     style={{width:15,height:15,}}
-                    source={{uri:'assets/icon-lock@3x.png'}}
+                    source={require('./assets/icon-lock.png')}
                     resizeMode={Image.resizeMode.contain}
                 />
               </View> : <View style={{width:20,position:'relative',top:5,height:20,marginLeft:10,right:0}}>
                 <Image
                     style={{width:15,height:15,}}
-                    source={{uri:'assets/edit@3x.png'}}
+                    source={require('./assets/edit.png')}
                     resizeMode={Image.resizeMode.contain}
                 />
               </View> }
@@ -151,7 +204,7 @@ const styles = StyleSheet.create({
     width:MagicNumbers.screenWidth,
     alignSelf:'stretch',
     fontSize: 26,
-    fontFamily:'Montserrat',
+    fontFamily:'montserrat',
     color: colors.white
   },
 
@@ -221,7 +274,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     flex:1,
     textAlign: 'left',
-    fontFamily:'Montserrat',
+    fontFamily:'montserrat',
   },
   tab: {
     flex: 1,
@@ -256,7 +309,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     padding: 8,
     fontSize: 30,
-    fontFamily:'Montserrat',
+    fontFamily:'montserrat',
     color: colors.white,
     flex:1,
     width:MagicNumbers.screenWidth,

@@ -24,7 +24,7 @@ class MatchesButton extends React.Component{
           resizeMode={Image.resizeMode.contain}
           tintColor={colors.white}
           style={{width:28,top:0,height:30,marginRight:15,tintColor: __DEV__ ? colors.daisy : colors.white}}
-          source={{uri:'assets/chat@3x.png'}}
+          source={require('./assets/chat.png')}
         />
         {this.props.unread.total && parseInt(this.props.unread.total) > 0 || this.props.unread.realTotal &&   parseInt(this.props.unread.realTotal) > 0 ?
           <View style={{borderWidth:2,borderColor:colors.outerSpace,width:10,height:10,borderRadius:10,backgroundColor:colors.mediumPurple, position:'absolute',top:5,right:13}} /> : null}

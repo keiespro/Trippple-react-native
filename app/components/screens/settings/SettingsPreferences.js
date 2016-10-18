@@ -80,6 +80,8 @@ class SettingsPreferences extends React.Component{
       styles: iOS ? NavigationStyles.FloatHorizontal : NavigationStyles.Fade,
       navigationBar: {
         backgroundColor: colors.shuttleGrayAnimate,
+        visible:true,
+        translucent:true,
         title(params){
           return `PREFERENCES`
         }

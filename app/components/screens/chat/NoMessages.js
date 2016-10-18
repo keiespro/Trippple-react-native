@@ -194,7 +194,7 @@ const SIZES = {
 
      },
      messageTitle: {
-       fontFamily: 'Montserrat',
+       fontFamily: 'montserrat',
        color: colors.shuttleGray,
        fontSize: 12,
        marginBottom: 5

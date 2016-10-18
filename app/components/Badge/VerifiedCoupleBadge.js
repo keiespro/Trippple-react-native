@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
   iconButtonText:{
     color: colors.mediumPurple,
-    fontFamily: 'Montserrat',
+    fontFamily: 'montserrat',
     fontSize: 12,
     top:-1,
     textAlign: 'center'

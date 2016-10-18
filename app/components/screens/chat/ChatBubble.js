@@ -65,7 +65,7 @@ const ChatBubble = (props) => {
             <View style={[styles.bubble,(isMessageOurs ? styles.ourMessage : styles.theirMessage),{flexWrap:'wrap',flexDirection:'column' },]}>
 
               <Text style={[styles.messageText, styles.messageTitle,
-                    {color: isMessageOurs ? colors.shuttleGray : colors.lavender, fontFamily:'Montserrat'} ]}
+                    {color: isMessageOurs ? colors.shuttleGray : colors.lavender, fontFamily:'montserrat'} ]}
               >{ props.messageData.from_user_info.name.toUpperCase() }</Text>
 
             <Text style={[styles.messageText,{flex:1}, props.specialText && {fontSize: props.specialText,lineHeight: 40,paddingBottom:2 }]} >{
@@ -86,7 +86,7 @@ const ChatBubble = (props) => {
         </View>
 
         <View style={[{paddingHorizontal:20,marginBottom:10},{marginLeft: isMessageOurs ? 2 : 62,alignSelf: isMessageOurs ? 'flex-end' : 'flex-start' }]}>
-          <TimeAgo showSent={true} style={{color:colors.shuttleGray,fontSize:10,fontFamily:'Montserrat'}} time={props.messageData.created_timestamp * 1000} />
+          <TimeAgo showSent={true} style={{color:colors.shuttleGray,fontSize:10,fontFamily:'montserrat'}} time={props.messageData.created_timestamp * 1000} />
         </View>
 
       </View>

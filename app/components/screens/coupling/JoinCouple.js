@@ -123,7 +123,7 @@ goBack(){
                   marginLeft:MagicNumbers.screenPadding/1.5
                 }}>
                     <View>
-                        <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>INVITE YOUR PARTNER</Text>
+                        <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat',fontWeight:'800'}}>INVITE YOUR PARTNER</Text>
                         <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
                         Get a code and send it to them
                         </Text>
@@ -147,7 +147,7 @@ goBack(){
                 marginLeft:MagicNumbers.screenPadding/1.5
               }}>
                     <View>
-                        <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>ENTER COUPLE CODE</Text>
+                        <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat',fontWeight:'800'}}>ENTER COUPLE CODE</Text>
                         <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
                         My partner gave me a code
                         </Text>
@@ -170,7 +170,7 @@ goBack(){
                 marginLeft:MagicNumbers.screenPadding/1.5
               }}>
                     <View>
-                        <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat-Bold'}}>PROCEED WITHOUT PARTNER</Text>
+                        <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat',fontWeight:'800'}}>PROCEED WITHOUT PARTNER</Text>
                         <Text style={{color:colors.rollingStone,fontSize:16,fontFamily:'omnes'}}>
                         My partner will join later
                         </Text>

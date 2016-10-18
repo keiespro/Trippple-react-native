@@ -101,7 +101,7 @@ class Settings extends React.Component{
     }
 
     _openProfile(){
-        Analytics.event('Interaction',{type:'tap', name: 'Preview self profile' });
+        // Analytics.event('Interaction',{type:'tap', name: 'Preview self profile' });
         const thisYear = new Date().getFullYear()
         const {bday_year} = this.props.user
         const age = (thisYear - bday_year)
@@ -125,7 +125,9 @@ class Settings extends React.Component{
         }
 
         this.props.navigator.push(this.props.navigation.router.getRoute('UserProfile',{
-            potential,user:this.props.user}));
+            potential,
+            user:this.props.user
+          }));
     }
 
     _pressNewImage(){

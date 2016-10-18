@@ -126,7 +126,7 @@ class PhoneNumberInput extends React.Component{
               style={[{
                 textAlign:'center',
                 fontSize: 26,color:'#fff',height:60,width:MagicNumbers.screenWidth,
-                fontFamily:'Montserrat'
+                fontFamily:'montserrat'
               }]}
               maxLength={14}
               keyboardType={'numeric'}
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     height: 60,
     padding: 8,
     fontSize: 26,
-    fontFamily:'Montserrat',
+    fontFamily:'montserrat',
     color: colors.white
   },
   middleTextWrap: {
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
   middleText: {
     color: colors.rollingStone,
     fontSize: 21,
-    fontFamily:'Montserrat',
+    fontFamily:'montserrat',
   },
   buttonText: {
     fontSize: 18,

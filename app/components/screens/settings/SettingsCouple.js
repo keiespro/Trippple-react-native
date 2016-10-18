@@ -201,7 +201,7 @@ class SettingsCouple extends React.Component{
                           color:colors.mandy,
                           fontSize:18,
                           textAlign:'center',
-                          fontFamily:'Montserrat'
+                          fontFamily:'montserrat'
                       }}>LEAVE COUPLE</Text>
                     </View>
                 </TouchableOpacity>
@@ -365,7 +365,7 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
         flex:1,
         textAlign: 'left',
-        fontFamily:'Montserrat',
+        fontFamily:'montserrat',
     },
     userimage:{
         backgroundColor:colors.dark,

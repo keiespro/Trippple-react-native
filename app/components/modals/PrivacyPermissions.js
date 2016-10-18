@@ -285,7 +285,7 @@ const Button = ({btnText,onTap,loading}) => (
             style={{
                 color: colors.white,
                 textAlign: 'center',
-                fontFamily:'Montserrat-Bold'
+                fontFamily:'montserrat',fontWeight:'800'
             }}
         >
           {btnText}
@@ -324,7 +324,7 @@ const buttonStyles = StyleSheet.create({
 
   iconButtonText:{
     color: colors.white,
-    fontFamily: 'Montserrat',
+    fontFamily: 'montserrat',
     fontSize: 16,
     textAlign: 'center'
   },
@@ -332,7 +332,7 @@ const buttonStyles = StyleSheet.create({
   buttonText:{
     color:colors.white,
     fontSize:18,
-    fontFamily:'Montserrat-Bold'
+    fontFamily:'montserrat',fontWeight:'800'
   },
 
 })

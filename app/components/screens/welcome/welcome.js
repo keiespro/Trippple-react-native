@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: colors.white,
     alignSelf: 'center',
-    fontFamily: 'Montserrat'
+    fontFamily: 'montserrat'
   },
   carousel: {
     flex: 1,

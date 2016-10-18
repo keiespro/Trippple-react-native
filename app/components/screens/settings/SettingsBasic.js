@@ -63,7 +63,7 @@ class SettingsBasic extends React.Component{
 
 
 
-      <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight,overflow:'hidden',flex:1,paddingTop:60}}>
+      <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight,overflow:'hidden',flex:1}}>
 
         <ScrollView
             showsVerticalScrollIndicator={false}
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     width:MagicNumbers.screenWidth,
     alignSelf:'stretch',
     fontSize: 26,
-    fontFamily:'Montserrat',
+    fontFamily:'montserrat',
     color: colors.white
   },
 
@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     flex:1,
     textAlign: 'left',
-    fontFamily:'Montserrat',
+    fontFamily:'montserrat',
   },
   tab: {
     flex: 1,
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     padding: 8,
     fontSize: 30,
-    fontFamily:'Montserrat',
+    fontFamily:'montserrat',
     color: colors.white,
     flex:1,
     width:MagicNumbers.screenWidth,
@@ -336,7 +336,7 @@ let CustomTabBar = React.createClass({
     return (
       <TouchableOpacity key={name+page} onPress={() => {this.props.goToPage(page)}}>
         <View style={[styles.tab]}>
-          <Text style={{fontFamily:'Montserrat',textAlign:'center',fontSize:15,padding:0,color: isTabActive ? colors.white : colors.shuttleGray}}>{name}</Text>
+          <Text style={{fontFamily:'montserrat',textAlign:'center',fontSize:15,padding:0,color: isTabActive ? colors.white : colors.shuttleGray}}>{name}</Text>
         </View>
       </TouchableOpacity>
     );

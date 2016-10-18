@@ -23,7 +23,7 @@ var SliderTabBar = React.createClass({
       <View style={[styles.tab,]}>
           <Text
             style={{
-              fontFamily:'Montserrat',
+              fontFamily:'montserrat',
               fontSize:16,
               color: isTabActive ? colors.white : colors.shuttleGray}}
             >{

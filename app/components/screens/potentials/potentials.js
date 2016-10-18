@@ -42,7 +42,7 @@ class Potentials extends React.Component{
                     style={{width:80,height:30,
                       tintColor: __DEV__ ? colors.daisy : colors.white,alignSelf:'center'
                     }}
-                    source={iOS ? {uri: 'assets/tripppleLogoText@3x.png' } :  require('./tripppleLogoText.png')}
+                    source={ require('./assets/tripppleLogoText.png')}
                 />
               </View>
             ) : false
@@ -57,7 +57,7 @@ class Potentials extends React.Component{
                   <Image
                       resizeMode={Image.resizeMode.contain}
                       style={{width:15,height:15,alignSelf:'center'}}
-                      source={{uri: 'assets/close@3x.png'}}
+                      source={require('./assets/close.png')}
                   />
                 </TouchableOpacity>
                       )

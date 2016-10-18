@@ -250,13 +250,13 @@ class OnboardModal extends Component {
                     }
                   ]}>
                     <Text style={{
-                      fontFamily: 'Montserrat',
+                      fontFamily: 'montserrat',
                       fontSize: 20,
                       color: colors.white,
                       textAlign: 'left',
                       marginLeft: 0
                     }}>{this.state.selected_ours && this.state.selected_ours.length > 1 ? `WE'RE A...` : `I'M A...` }</Text>
-                  {this.state.selected_ours && <Text style={{ fontFamily: 'Montserrat', fontSize: 20, marginRight: 40,color: colors.white }}>
+                  {this.state.selected_ours && <Text style={{ fontFamily: 'montserrat', fontSize: 20, marginRight: 40,color: colors.white }}>
                     {this.state.selected_ours.length > 1 ? `COUPLE` : 'SINGLE '} ({this.state.selected_genders.toUpperCase()})</Text>}
                  <View style={{width:20,position:'absolute',top:5,height:20,marginLeft:10,right:20}}>
                    <Image
@@ -295,7 +295,7 @@ class OnboardModal extends Component {
                     }
                   ]}>
                   <Text style={[ {
-                      fontFamily: 'Montserrat',
+                      fontFamily: 'montserrat',
                       fontSize: 20,
                       textAlign: 'left',
                       color: colors.white

@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     height: 60,
     padding: 8,
     fontSize: 30,
-    fontFamily:'Montserrat',
+    fontFamily:'montserrat',
     color: colors.white
   },
   middleTextWrap: {
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   middleText: {
     color: colors.rollingStone,
     fontSize: 21,
-    fontFamily:'Montserrat',
+    fontFamily:'montserrat',
   },
   buttonText: {
     fontSize: 18,
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   continueButtonText: {
     padding: 4,
     fontSize: 30,
-    fontFamily:'Montserrat',
+    fontFamily:'montserrat',
     color: colors.white,
     textAlign:'center'
   }

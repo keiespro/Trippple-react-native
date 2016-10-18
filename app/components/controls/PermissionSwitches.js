@@ -71,14 +71,6 @@ class PermissionSwitches extends React.Component{
                             title:'PRIORITIZE LOCAL',
                             subtitle:'Should we prioritize the matches closest to you?',
                             failedTitle: 'LOCATION DISABLED',
-                            failCallback: val => {
-                                this.setState({LocationSetting:false})
-                                this.props.dispatch(ActionMan.killModal())
-                            },
-                            successCallback: (coords)=>{
-                                this.setState({LocationSetting:true})
-                                this.props.dispatch(ActionMan.killModal())
-                            },
                             failedSubtitle: 'Geolocation is disabled. You can enable it in your phone’s Settings.',
                             headerImageSource:'iconDeck',
                         }

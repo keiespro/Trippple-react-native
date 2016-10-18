@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 4,
     fontSize: 21,
-    fontFamily:'Montserrat',
+    fontFamily:'montserrat',
     color: colors.white
   },
   middleTextWrap: {
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   middleText: {
     color: colors.rollingStone,
     fontSize: 21,
-    fontFamily:'Montserrat',
+    fontFamily:'montserrat',
 
   },
 

@@ -37,7 +37,7 @@ const purpleModalStyles = StyleSheet.create({
   },
   nothankstext:{
     color:colors.shuttleGray,
-    fontFamily:'Montserrat',
+    fontFamily:'montserrat',
     marginVertical: 10,
     fontSize:18,
 
@@ -134,7 +134,7 @@ const purpleModalStyles = StyleSheet.create({
     alignItems: 'stretch',
 
     paddingHorizontal:10,
-    fontFamily:'Montserrat',
+    fontFamily:'montserrat',
     height:60,
     backgroundColor: 'transparent',
 
@@ -168,7 +168,7 @@ const purpleModalStyles = StyleSheet.create({
   plainButtonText:{
     color: colors.rollingStone,
     fontSize: 16,
-    fontFamily:'Montserrat',
+    fontFamily:'montserrat',
     textAlign:'center',
   },
   blurcontainer:{

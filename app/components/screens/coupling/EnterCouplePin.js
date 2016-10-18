@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
         height: 60,
         padding: 8,
         fontSize: 30,
-        fontFamily:'Montserrat',
+        fontFamily:'montserrat',
         color: colors.white
     },
     middleTextWrap: {

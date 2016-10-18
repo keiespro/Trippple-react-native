@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: colors.white,
     alignSelf: 'center',
-    fontFamily:'Montserrat'
+    fontFamily:'montserrat'
 
   },
   button: {

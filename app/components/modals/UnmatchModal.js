@@ -43,7 +43,7 @@ class UnmatchModal extends Component{
                 </View>
 
               <Text style={[styles.rowtext,styles.bigtext,{
-                  fontFamily:'Montserrat',fontSize:20,marginVertical:10
+                  fontFamily:'montserrat',fontSize:20,marginVertical:10
                 }]}>UNMATCH {matchName}</Text>
 
               <Text style={[styles.rowtext,styles.bigtext,{

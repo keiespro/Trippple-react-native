@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
   plainButtonText:{
     color: colors.rollingStone,
     fontSize: 16,
-    fontFamily:'Montserrat',
+    fontFamily:'montserrat',
     textAlign:'center',
   },
   textTop:{

@@ -8,9 +8,9 @@ import React from 'react'
 import reactMixin from 'react-mixin'
 import { StyleSheet, Text, View, TouchableHighlight, Animated, TouchableOpacity, PanResponder, Easing, Dimensions } from 'react-native'
 import TimerMixin from 'react-timer-mixin'
-import ActionMan from '../../actions'
-import { MagicNumbers } from '../../utils/DeviceConfig'
-import colors from '../../utils/colors'
+import ActionMan from '../../../actions'
+import { MagicNumbers } from '../../../utils/DeviceConfig'
+import colors from '../../../utils/colors'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 const InsideWidth = MagicNumbers.isSmallDevice ? DeviceWidth - MagicNumbers.screenPadding : DeviceWidth - 62
@@ -58,7 +58,7 @@ class AgePrefs extends React.Component{
     const dotWidth = SliderWidth / this.state.numberGroups
 
     return (
-          <View style={{ flexDirection:'column',alignSelf:'center',alignItems:'center',justifyContent:'center',height:100,width:MagicNumbers.screenWidth,backgroundColor:'transparent'}}>
+          <View style={{ flexDirection:'column',alignSelf:'center',alignItems:'center',justifyContent:'center',height:150,width:MagicNumbers.screenWidth,backgroundColor:'transparent'}}>
 
         <View style={{paddingHorizontal:0,flexDirection:'row',width:MagicNumbers.screenWidth,justifyContent:'space-between'}}>
                 <Text style={[{alignSelf:'flex-start',color: colors.rollingStone,textAlign:'left', fontFamily: 'omnes'}]}>{`Age Range`}</Text>
@@ -78,7 +78,7 @@ class AgePrefs extends React.Component{
               <View key={'dot_'+i} style={{
                 width:dotWidth,
                 height:80,
-                left:6,
+                left:16,
                 alignSelf:'center',
                 position:'relative'
               }}>
@@ -181,6 +181,7 @@ class ActiveDot extends React.Component{
     Animated.spring(this.state.ageVal,{
       toValue:nval,
       tension:40,
+      useNativeDriver: true,
       friction:10
     }).start()
     // }
@@ -217,7 +218,7 @@ class ActiveDot extends React.Component{
         this.state.ageVal.setOffset(this._animatedValueX);
         this.state.ageVal.setValue(0);
       },
-      onPanResponderMove: Animated.event([ null, {dx: this.state.ageVal} ]),
+      onPanResponderMove: Animated.event([ null, {dx: this.state.ageVal,useNativeDriver:true } ]),
       onPanResponderRelease: (e, gestureState) => {
         if(this._animatedValueX > SliderWidth){
           this._animatedValueX = SliderWidth
@@ -319,7 +320,7 @@ class ActiveDot extends React.Component{
           backgroundColor:'transparent',alignItems:'center',justifyContent:'center',
           height:42,width:36,position:'absolute',bottom:10,
           left:MagicNumbers.isSmallDevice ? -10 : -12,
-        }} source={{uri: 'assets/sliderHandle@3x.png'}}>
+        }} source={require('./assets/sliderHandle.png')}>
         <Text style={{backgroundColor:'transparent',textAlign:'center',color:colors.white,fontSize:12}}>{
             this.props.ageVal == 50 ? '50+' : this.props.ageVal
           }</Text>

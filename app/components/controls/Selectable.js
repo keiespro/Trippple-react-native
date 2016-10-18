@@ -23,7 +23,7 @@ class Selectable extends React.Component{
         }]}>
           <Text
             style={{color: selected ? colors.white : colors.rollingStone,
-              fontSize:MagicNumbers.size18,fontFamily:'Montserrat'
+              fontSize:MagicNumbers.size18,fontFamily:'montserrat'
             }}
           >{this.props.label}</Text>
       {selected ? <Image

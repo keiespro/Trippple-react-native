@@ -125,7 +125,7 @@ class MessageComposer extends React.Component{
           <Text style={[styles.sendButtonText,{
               backgroundColor:'transparent',
               color: this.state.txt.length ? colors.white : colors.white20,
-              fontFamily:'Montserrat',
+              fontFamily:'montserrat',
               textAlign:'center'
           }]}>SEND</Text>
         </TouchableOpacity>

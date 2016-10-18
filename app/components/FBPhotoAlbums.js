@@ -171,7 +171,7 @@ class PhotoAlbums extends React.Component {
               <Text style={{
                   color: colors.white,
                   fontSize: 16,
-                  fontFamily: 'Montserrat-Bold'
+                  fontFamily: 'montserrat',fontWeight:'800'
               }}>{album && album.name ? album.name.toUpperCase() : ''}</Text>
               <Text style={{
                   color: colors.shuttleGray,

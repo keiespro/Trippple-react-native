@@ -239,7 +239,7 @@ class NewNotificationPermissions extends React.Component{
                         onPress={this.handleTapYes.bind(this)}
                     >
                       <View style={{paddingVertical:20,paddingHorizontal:10,alignSelf:'stretch'}} >
-                        <Text style={[styles.modalButtonText,{fontFamily:'Montserrat-Bold'}]}>
+                        <Text style={[styles.modalButtonText,{fontFamily:'montserrat',fontWeight:'800'}]}>
                           {
                             this.state.failedState ? 'GO TO SETTINGS' : `YES, ALERT ME!`
 

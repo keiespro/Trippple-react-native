@@ -29,7 +29,7 @@ export default class AppNav extends React.Component {
                       backgroundColor:'rgba(0,0,0,0)',
                       titleStyle:{
                           color:'#fff',
-                          fontFamily:'Montserrat',
+                          fontFamily:'montserrat',
                           borderBottomWidth: 0,
                       }
                   },

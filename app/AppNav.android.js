@@ -48,7 +48,7 @@ class AppNav extends React.Component {
                 overflow: 'hidden',
                 titleStyle: {
                   color: '#fff',
-                  fontFamily: 'Montserrat',
+                  fontFamily: 'montserrat',
                   borderBottomWidth: 0,
                 }
               },

@@ -220,14 +220,14 @@ const styles = StyleSheet.create({
   },
   modalButtonText:{
     color:colors.white,
-    fontFamily:'Montserrat',
+    fontFamily:'montserrat',
     fontSize:18,
 
     textAlign:'center'
   },
   clearButtonText:{
     color:colors.rollingStone,
-    fontFamily:'Montserrat',
+    fontFamily:'montserrat',
     fontSize:18,
 
     textAlign:'center'

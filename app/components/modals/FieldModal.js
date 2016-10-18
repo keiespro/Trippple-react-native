@@ -202,7 +202,7 @@ class FieldModal extends React.Component{
         <TouchableHighlight underlayColor={colors.dark} onPress={this.props.cancel}
           style={{ borderTopWidth: 1, borderColor: colors.rollingStone,flex:1,paddingVertical:20}}>
           <View>
-            <Text style={{color:colors.white,fontSize:20,fontFamily:'Montserrat',textAlign:'center'}}>
+            <Text style={{color:colors.white,fontSize:20,fontFamily:'montserrat',textAlign:'center'}}>
               CANCEL
             </Text>
           </View>
@@ -219,7 +219,7 @@ class FieldModal extends React.Component{
           }}>
           <View>
             <Text style={{color: this.state.canContinue ? colors.white : colors.rollingStone,
-              fontSize:20,fontFamily:'Montserrat',textAlign:'center'}}>
+              fontSize:20,fontFamily:'montserrat',textAlign:'center'}}>
               UPDATE
             </Text>
           </View>
@@ -362,7 +362,7 @@ class FieldModal extends React.Component{
                   borderBottomWidth: 1,
                   borderBottomColor: colors.rollingStone,
                   textAlign:'center',
-                  fontFamily:'Montserrat',
+                  fontFamily:'montserrat',
                   color: colors.white}}>{displayStateFieldValue}</Text>
               </View>
             </View>
@@ -703,7 +703,7 @@ const styles = StyleSheet.create({
    alignItems: 'stretch',
    flex:1,
    textAlign: 'left',
-   fontFamily:'Montserrat',
+   fontFamily:'montserrat',
  },
 
    bottomText: {
@@ -738,7 +738,7 @@ const styles = StyleSheet.create({
      height: 60,
      padding: 8,
      fontSize: 30,
-     fontFamily:'Montserrat',
+     fontFamily:'montserrat',
      color: colors.white
    },
    middleTextWrap: {

@@ -24,6 +24,8 @@ class SettingsSettings extends React.Component{
         styles: iOS ? NavigationStyles.FloatHorizontal : NavigationStyles.Fade,
         navigationBar: {
             backgroundColor: colors.shuttleGrayAnimate,
+            visible:true,
+            translucent:true,
             title(params){
                 return `SETTINGS`
             }
@@ -190,7 +192,7 @@ class SettingsSettings extends React.Component{
               <View
                   style={{flexWrap:'wrap',alignSelf:'stretch',flex:1,alignItems:'flex-start',justifyContent:'center',width:DeviceWidth-120,flexDirection:'column',paddingRight:20}}
               >
-                <Text style={{color: privacy == 'public' ? colors.white : colors.rollingStone, fontSize:20,fontFamily:'Montserrat-Bold'}}>PUBLIC</Text>
+                <Text style={{color: privacy == 'public' ? colors.white : colors.rollingStone, fontSize:20,fontFamily:'montserrat',fontWeight:'800'}}>PUBLIC</Text>
                 <Text style={{
                     color: privacy == 'public' ? colors.white : colors.rollingStone,fontSize:18,
                     fontFamily:'omnes',marginTop:5}}>
@@ -217,7 +219,7 @@ class SettingsSettings extends React.Component{
               <View
                   style={{flexWrap:'wrap',alignSelf:'stretch',flex:1,alignItems:'flex-start',justifyContent:'center',width:DeviceWidth-120,flexDirection:'column',paddingRight:20}}
               >
-                <Text style={{color: privacy == 'private' ? colors.white : colors.rollingStone, fontSize:20,fontFamily:'Montserrat-Bold'}}>PRIVATE</Text>
+                <Text style={{color: privacy == 'private' ? colors.white : colors.rollingStone, fontSize:20,fontFamily:'montserrat',fontWeight:'800'}}>PRIVATE</Text>
                 <Text style={{color: privacy == 'private' ? colors.white : colors.rollingStone,fontSize:18,fontFamily:'omnes',marginTop:5}}>
                   Your profile is hidden from your facebook friends and phone contacts.
                 </Text>
@@ -246,7 +248,7 @@ class SettingsSettings extends React.Component{
                 underlayColor={colors.dark}
             >
               <View style={{borderBottomWidth:1 / PixelRatio.get(), borderColor:colors.shuttleGray,height:50,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
-                <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>
+                <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat'}}>
                   Lock with TouchID
                 </Text>
                 <Image
@@ -277,7 +279,7 @@ class SettingsSettings extends React.Component{
               underlayColor={colors.dark}
           >
             <View style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
-              <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>
+              <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat'}}>
                 PRIVACY POLICY
               </Text>
               <Image
@@ -295,7 +297,7 @@ class SettingsSettings extends React.Component{
               underlayColor={colors.dark}
           >
             <View style={{borderBottomWidth:1 / PixelRatio.get(),borderColor:colors.shuttleGray,height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
-              <Text style={{color:colors.white,fontSize:18,fontFamily:'Montserrat'}}>
+              <Text style={{color:colors.white,fontSize:18,fontFamily:'montserrat'}}>
                 TERMS OF USE
               </Text>
               <Image
@@ -337,7 +339,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: colors.white,
         alignSelf: 'center',
-        fontFamily:'Montserrat'
+        fontFamily:'montserrat'
 
     },
     button: {
@@ -444,7 +446,7 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
         flex:1,
         textAlign: 'left',
-        fontFamily:'Montserrat',
+        fontFamily:'montserrat',
     },
     paddedSpace:{
         paddingHorizontal:MagicNumbers.screenPadding/2

@@ -1,4 +1,4 @@
-import { Dimensions, View, Modal } from 'react-native';
+import { Dimensions, View, Modal,Platform } from 'react-native';
 import React, {Component} from "react";
 
 import { BlurView, VibrancyView } from 'react-native-blur'
@@ -11,10 +11,10 @@ import { withNavigation} from '@exponent/ex-navigation';
 import url from 'url'
 import ActionMan from '../../actions'
 import { connect } from 'react-redux';
-import Action from './Action'                                                                                                                                        
+import Action from './Action'
 import ActionModal from './ActionModal'
-import BlurModal from './BlurModal' 
-// import CameraPermissions from './CameraPermissions' 
+import BlurModal from './BlurModal'
+// import CameraPermissions from './CameraPermissions'
 // import CameraRollPermissions from './CameraRollPermissions'
 import CheckPermissions from './CheckPermissions'
 import FieldModal from './FieldModal'
@@ -25,23 +25,24 @@ import PartnerMissingModal from './PartnerMissingModal'
 import PrivacyPermissions from './PrivacyPermissions'
 import ReportModal from './ReportModal'
 import UnmatchModal from './UnmatchModal'
-
+import colors from '../../utils/colors'
 import Coupling from '../screens/coupling';
+const iOS = Platform.OS == 'ios';
 
 const Modals = {
-  Action, 
-  ActionModal, 
-  BlurModal, 
-  // CameraPermissions, 
-  // CameraRollPermissions, 
-  CheckPermissions, 
-  FieldModal, 
-  LocationPermission, 
+  Action,
+  ActionModal,
+  BlurModal,
+  // CameraPermissions,
+  // CameraRollPermissions,
+  CheckPermissions,
+  FieldModal,
+  LocationPermission,
   NewNotificationPermissions,
-  NotificationPermissions: NewNotificationPermissions, 
-  OnboardModal, 
-  PrivacyPermissions, 
-  ReportModal, 
+  NotificationPermissions: NewNotificationPermissions,
+  OnboardModal,
+  PrivacyPermissions,
+  ReportModal,
   UnmatchModal,
   Coupling
 };
@@ -84,28 +85,26 @@ class ModalDirector extends Component{
     const ActiveModal = Modals[activeModal.component] || null;
     const ActiveModalProps = activeModal.passProps;
     return (
-      <View style={{backgroundColor:'transparent'}}>
 
-        {ActiveModal ? <OverlayModalInner
-            user={this.props.user}
-            setModalVisible={this.setModalVisible.bind(this)}
-            modalVisible={this.state.modalVisible}
-            navigator={this.props.navigator}
-            navigation={this.props.navigation}
-            dispatch={this.props.dispatch}
-          >
+        ActiveModal ? (    <Modal
+              animationType={'slide'}
+              transparent={true}
+              visible={this.state.modalVisible ? true : false}
+              onRequestClose={this.setModalVisible.bind(this,false)}
+            >
+            {!iOS && <View style={{height:DeviceHeight,width:DeviceWidth,backgroundColor:colors.outerSpaceAnimate,position:'absolute'}}/>}
             <ActiveModal
-              user={this.props.user}
-              close={this.setModalVisible.bind(this,false)}
               {...ActiveModalProps}
               navigation={this.props.navigation}
               navigator={this.props.navigator}
               dispatch={this.props.dispatch}
+              close={()=>this.props.dispatch(ActionMan.killModal())}
+              user={this.props.user}
             />
 
-          </OverlayModalInner> : <View/>
-        }
-      </View>
+          </Modal>) : <View/>
+
+
 
     )
   }
@@ -141,10 +140,8 @@ class OverlayModalInner extends Component{
       <Modal
         animationType={'slide'}
         transparent={true}
-        visible={this.props.modalVisible}
-        onRequestClose={this.setModalVisible.bind(this,false)}
-        navigator={this.props.navigator}
-        dispatch={this.props.dispatch}
+        visible={this.props.modalVisible ? true : false}
+        onRequestClose={this.props.setModalVisible}
       >
         {/*<Image source={{uri:this.props.imageUrl || ''}} resizeMode="cover" style={{height:DeviceHeight,width:DeviceWidth}}>*/}
           {/* <VibrancyView blurType="dark" style={{height:DeviceHeight,width:DeviceWidth,position:'absolute'}} /> */}

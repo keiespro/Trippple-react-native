@@ -48,7 +48,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>0</string>
+	<string>3</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -141,8 +141,8 @@
 		<string>omnes-light-webfont.ttf</string>
 		<string>omnes-medium-webfont.ttf</string>
 		<string>omnes-regular-webfont.ttf</string>
-		<string>Montserrat-Regular.otf</string>
-		<string>Montserrat-Bold.ttf</string>
+		<string>montserrat.otf</string>
+		<string>montserrat_bold.ttf</string>
 		<string>poetsenone-regular-webfont.ttf</string>
 	</array>
 	<key>UIRequiresFullScreen</key>

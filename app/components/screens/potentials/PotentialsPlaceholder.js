@@ -112,7 +112,7 @@ class PotentialsPlaceholder extends React.Component{
                 ]}
             >
                 <Image
-                    source={{uri: 'assets/placeholderDashed@3x.png'}}
+                    source={require('./assets/placeholderDashed.png')}
                     style={{
                         alignSelf: 'stretch',
                         height: MagicNumbers.is5orless ? DeviceHeight-90 : DeviceHeight-55-MagicNumbers.screenPadding/2,
@@ -131,7 +131,7 @@ class PotentialsPlaceholder extends React.Component{
                     resizeMode={MagicNumbers.is4s ? Image.resizeMode.stretch : Image.resizeMode.contain}
                 >
                     <Image
-                        source={{uri: 'assets/tripppleLogo@3x.png'}}
+                        source={require('./assets/tripppleLogo.png')}
                         style={{
                             alignSelf: 'center',
                             opacity:  1,
@@ -226,6 +226,7 @@ const Button = ({labelText,labelPosition='top',btnText,onTap,loading}) => (
       {labelText && labelPosition == 'top' &&
         <Text
             style={{
+                fontFamily:'omnes',
                 color: colors.rollingStone,
                 fontSize: MagicNumbers.size18-2,
                 textAlign: 'center'
@@ -251,7 +252,7 @@ const Button = ({labelText,labelPosition='top',btnText,onTap,loading}) => (
             style={{
                 color: colors.white,
                 textAlign: 'center',
-                fontFamily:'Montserrat-Bold'
+                fontFamily:'montserrat',fontWeight:'800'
             }}
         >
           {btnText}

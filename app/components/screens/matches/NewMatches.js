@@ -147,6 +147,6 @@ const styles = StyleSheet.create({
         fontSize:14,
         color:colors.offwhite,
         fontWeight:'500',
-        fontFamily:'Montserrat'
+        fontFamily:'montserrat'
     }
 })

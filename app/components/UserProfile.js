@@ -57,7 +57,7 @@ class UserProfile extends React.Component {
     this.state = { slideIndex: 0, }
   }
   componentDidMount() {
-    dismissKeyboard()
+    // dismissKeyboard()
   }
 
   onLayout(e) {
@@ -306,7 +306,7 @@ class CustomTabBar extends React.Component {
     return (
       <TouchableOpacity key={`${name + page} ${isTabActive}`} onPress={() => this.props.goToPage(page)}>
         <View style={[styles.tab]}>
-          <Text style={{ fontFamily: 'Montserrat', fontSize: 16, color: isTabActive ? colors.white : colors.shuttleGray }}>{name.toUpperCase()}</Text>
+          <Text style={{ fontFamily: 'montserrat', fontSize: 16, color: isTabActive ? colors.white : colors.shuttleGray }}>{name.toUpperCase()}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -339,16 +339,16 @@ class CustomTabBar extends React.Component {
     );
   }
 }
-
-const mapStateToProps = (state, ownProps) => ({
-  ...ownProps,
-  user: state.user,
-})
-
-const mapDispatchToProps = dispatch => dispatch;
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfile)
-
+//
+// const mapStateToProps = (state, ownProps) => ({
+//   ...ownProps,
+//   user: state.user,
+// })
+//
+// const mapDispatchToProps = dispatch => dispatch;
+//
+// export default connect(mapStateToProps, mapDispatchToProps)(UserProfile)
+export default UserProfile
 const styles = StyleSheet.create({
 
   shadowCard: {

@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 },
 modalButtonText:{
   color:colors.white,
-  fontFamily:'Montserrat',
+  fontFamily:'montserrat',
   fontSize:20,
 
 textAlign:'center'
@@ -116,7 +116,7 @@ insidemodalwrapper:{
     alignItems: 'stretch',
     flex:1,
     paddingHorizontal:10,
-    fontFamily:'Montserrat',
+    fontFamily:'montserrat',
     height:60,
     backgroundColor: 'transparent',
 
@@ -163,7 +163,7 @@ insidemodalwrapper:{
   plainButtonText:{
     color: colors.rollingStone,
     fontSize: 16,
-    fontFamily:'Montserrat',
+    fontFamily:'montserrat',
     textAlign:'center',
   },
 })

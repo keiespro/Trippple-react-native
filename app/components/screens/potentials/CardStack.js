@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, StatusBar, View, AppState, Easing, LayoutAnimation, TouchableHighlight, Image, Animated, PanResponder, Dimensions,InteractionManager } from "react-native";
+import { StyleSheet, Text, StatusBar, View, AppState, Easing, LayoutAnimation, TouchableHighlight, Image, Animated, PanResponder, Dimensions,InteractionManager,Platform } from "react-native";
 import Analytics from '../../../utils/Analytics';
 import Card from './Card';
 import styles from './styles';
@@ -12,6 +12,7 @@ import DenyIcon from './DenyIcon'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {pure} from 'recompose'
+const iOS = Platform.OS == 'ios';
 
 const THROW_THRESHOLD_DENY = -1 * (10);
 const THROW_THRESHOLD_APPROVE = 10;
@@ -95,7 +96,7 @@ class CardStack extends React.Component {
             onPanResponderMove: Animated.event([null, {
                 dx: this.state.pan.x,
                 dy: this.state.pan.y,
-                useNativeDriver: true
+                useNativeDriver: !iOS
             }]),
 
             onPanResponderReject: (e, gestureState) => {
@@ -168,7 +169,7 @@ class CardStack extends React.Component {
                         easing:Easing.inOut(Easing.ease),
                         deceleration: 1.1,
                         velocity: velocity || { x: 1, y: 1 },
-                        useNativeDriver: true
+                        useNativeDriver: !iOS
                     }).start(()=>{
                         if(!this.props.potentials[0].starter){
                             InteractionManager.runAfterInteractions(() => {
@@ -193,7 +194,7 @@ class CardStack extends React.Component {
                       toValue,
                       duration:200,
                       easing:Easing.inOut(Easing.ease),
-                      useNativeDriver: true
+                      useNativeDriver: !iOS
                       // velocity: { x: (vx)*2, y: (vy)*2 },
                       // tension: 20,
                       // friction: 5,

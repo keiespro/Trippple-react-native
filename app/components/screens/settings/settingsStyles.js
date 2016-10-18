@@ -73,7 +73,9 @@ bioText:{
   overflow:'hidden',
   alignSelf:'stretch',
   flexWrap:'wrap',
-  textAlign:'left'
+  textAlign:'left',
+  fontFamily: 'omnes'
+
 },
  sliderFormRow:{
    height:160,
@@ -112,7 +114,7 @@ bioText:{
    alignItems: 'stretch',
    flex:1,
    textAlign: 'left',
-   fontFamily:'Montserrat',
+   fontFamily:'montserrat',
  },
  paddedSpace:{
    paddingHorizontal:MagicNumbers.screenPadding/2

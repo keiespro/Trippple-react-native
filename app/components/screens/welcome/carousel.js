@@ -76,7 +76,7 @@ class Carousel extends Component {
           />
           <View style={[styles.textwrap, {marginBottom: 5}]}><Text style={[styles.textplain,
             {
-              fontFamily: 'Montserrat',
+              fontFamily: 'montserrat',
               fontWeight: '700',
               marginTop: 15,
               fontSize: MagicNumbers.is4s ? 18 : 22,
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: colors.white,
     alignSelf: 'center',
-    fontFamily: 'Montserrat'
+    fontFamily: 'montserrat'
   },
   carousel: {
     marginTop: 50,

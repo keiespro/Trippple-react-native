@@ -5,16 +5,17 @@ import {
   ScrollView,
   View,
   AppState,
+  Platform,
   TouchableHighlight,
   Dimensions,
   TouchableOpacity,
+  PermissionsAndroid,
   Linking
 } from 'react-native';
 import React, { PropTypes } from 'react';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-const {OSPermissions} = NativeModules
 import colors from '../../utils/colors'
 import _ from 'underscore'
 import PurpleModal from './PurpleModal'
@@ -25,7 +26,10 @@ import Analytics from '../../utils/Analytics'
 import { BlurView,VibrancyView} from 'react-native-blur'
 import { connect } from 'react-redux';
 import ActionMan from '../../actions'
+const iOS = Platform.OS == 'ios';
+import OSPermissions from '../../../lib/OSPermissions/ospermissions'
 
+const BV = iOS ? BlurView : View;
 
 class LocationPermission extends React.Component{
 
@@ -48,7 +52,7 @@ class LocationPermission extends React.Component{
   constructor(props) {
     super();
     this.state = {
-      hasPermission: OSPermissions.location && parseInt(OSPermissions.location) && parseInt(OSPermissions.location) > 2
+      hasPermission: iOS ? OSPermissions.location && parseInt(OSPermissions.location) && parseInt(OSPermissions.location) > 2 : 0
 
     }
   }
@@ -64,29 +68,43 @@ class LocationPermission extends React.Component{
 
   componentDidMount(){
     AppState.addEventListener('change', this._handleAppStateChange.bind(this));
-
+    if(!iOS){
+      PermissionsAndroid.checkPermission(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
+          .then(result => {
+            this.setState({hasPermission: result})
+            if(result){
+              this.getLocation()
+            }
+          })
+          .catch(console.warn)
+    }
   }
   componentWillUnmount() {
     AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
   }
   _handleAppStateChange(st){
-    if(st == "active"){
+    if(st == "active" && iOS){
       this.getLocation()
     }
   }
-  componentDidUpdate(prevProps,prevState){
-    if(!prevState.hasPermission && this.state.hasPermission ){
-     // this.props.failCallback && this.props.failCallback()
-    }
-  }
+
 
   requestPermission(){
-    this.getLocation()
+    if(iOS){
+      this.getLocation()
+    }else{
+      PermissionsAndroid.requestPermission(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
+        .then(result => {
+          this.setState({hasPermission: result})
+          if(result){this.getLocation()}
+        })
+        .catch(console.warn)
+
+    }
   }
   getLocation(){
     navigator.geolocation.getCurrentPosition( (geo) => {
       this.handleSuccess(geo)
-
     },
      (error) => {
        Analytics.log(error)
@@ -94,7 +112,7 @@ class LocationPermission extends React.Component{
        this.setState({hasPermission: false,failedState: error.code == 1})
 
      },
-     {enableHighAccuracy: false, maximumAge: 1} )
+     {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000} )
   }
 
   cancel(val){
@@ -103,7 +121,9 @@ class LocationPermission extends React.Component{
     this.close()
   }
   openSettings(){
-    Linking.openURL('app-settings://').catch(err => console.error('An error occurred', err));
+    if(iOS){
+      Linking.openURL('app-settings://').catch(err => console.error('An error occurred', err));
+    }
   }
 
   handleTapYes(){
@@ -116,15 +136,14 @@ class LocationPermission extends React.Component{
 
   }
   close(){
-    if(this.props.navigator){
-      this.props.navigator.pop()
-    }
-    if(this.props.hideModal){
-      this.props.hideModal()
-    }
     if(this.props.close){
       this.props.close()
+    }else if(this.props.navigator){
+      this.props.navigator.pop()
+    }else if(this.props.hideModal){
+      this.props.hideModal()
     }
+
   }
 
   handleFail(){
@@ -157,7 +176,7 @@ class LocationPermission extends React.Component{
        style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:10,marginTop:20,marginBottom:15}}
        onPress={this.state.failedState ? this.openSettings.bind(this) : this.handleTapYes.bind(this)}>
        <View style={{paddingVertical:20}} >
-         <Text style={[styles.modalButtonText,{fontFamily:'Montserrat-Bold'}]}>
+         <Text style={[styles.modalButtonText,{fontFamily:'montserrat',fontWeight:'800'}]}>
            {
             this.state.failedState ? `GO TO SETTINGS` : `YES PLEASE`
            }
@@ -171,7 +190,7 @@ class LocationPermission extends React.Component{
   renderModal(){
     return (
 
-      <BlurView
+      <BV
          blurType="dark"
          style={[{position:'absolute',top:0,width:DeviceWidth,height:DeviceHeight,justifyContent:'center',alignItems:'center',flexDirection:'column'}]}
        >
@@ -219,7 +238,7 @@ class LocationPermission extends React.Component{
            </TouchableOpacity>
          </View>
        </ScrollView>
-       </BlurView>
+       </BV>
 
    )
   }

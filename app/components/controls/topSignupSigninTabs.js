@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: colors.white,
     alignSelf: 'center',
-    fontFamily:'Montserrat'
+    fontFamily:'montserrat'
   },
   inactiveButtonText:{
     color:colors.outerSpace,
