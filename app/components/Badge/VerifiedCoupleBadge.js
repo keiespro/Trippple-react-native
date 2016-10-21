@@ -1,24 +1,22 @@
-import React from "react";
-import {StyleSheet, Text, View, Image} from "react-native";
+import React from 'react';
+import {StyleSheet, Text, View, Image} from 'react-native';
 
 import colors from '../../utils/colors'
-import {MagicNumbers} from '../../utils/DeviceConfig'
 
 const VerifiedCoupleBadge = ({leftBoxStyles, placementStyle}) => (
-  <View style={[styles.iconButton,placementStyle]}>
-    <View style={[styles.iconButtonLeftBox,leftBoxStyles]}>
+  <View style={[styles.iconButton, placementStyle]}>
+    <View style={[styles.iconButtonLeftBox, leftBoxStyles]}>
       <Image
-        style={{width:12,height:10,tintColor:colors.mediumPurple}}
+        style={{width: 12, height: 10, tintColor: colors.mediumPurple}}
         resizeMode={'contain'}
-        source={{uri:'assets/checkmarkWhiteSmall.png'}}
+        source={require('./checkmarkWhiteSmall.png')}
       />
     </View>
     <View style={styles.iconButtonRightBox}>
-     <Text style={styles.iconButtonText}>VERIFIED COUPLE</Text>
+      <Text style={styles.iconButtonText}>VERIFIED COUPLE</Text>
     </View>
   </View>
 )
-
 
 
 export default VerifiedCoupleBadge
@@ -26,21 +24,21 @@ export default VerifiedCoupleBadge
 
 const styles = StyleSheet.create({
 
-  iconButton:{
-    alignItems:'center',
+  iconButton: {
+    alignItems: 'center',
     flexDirection: 'row',
-    position:'absolute',
-    right:50,
-    bottom:10,
-    justifyContent:'center',
-    height:22,
-    width:150,
-    borderRadius:2,
-    overflow:'hidden',
-    backgroundColor:colors.mediumPurple20,
-    alignSelf:'flex-end',
-    borderWidth:2,
-    borderColor:colors.mediumPurple,
+    position: 'absolute',
+    right: 50,
+    bottom: 10,
+    justifyContent: 'center',
+    height: 22,
+    width: 150,
+    borderRadius: 2,
+    overflow: 'hidden',
+    backgroundColor: colors.mediumPurple20,
+    alignSelf: 'flex-end',
+    borderWidth: 2,
+    borderColor: colors.mediumPurple,
 
     // width: 120
     // marginVertical:10
@@ -50,12 +48,12 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     alignItems: 'center',
     justifyContent: 'center',
-    flex:0,
-    borderRightWidth:2,
-    borderColor:colors.mediumPurple,
+    flex: 0,
+    borderRightWidth: 2,
+    borderColor: colors.mediumPurple,
     flexDirection: 'column',
-    padding:5,
-    backgroundColor:colors.mediumPurple20,
+    padding: 5,
+    backgroundColor: colors.mediumPurple20,
   },
   iconButtonLeftBoxCouples: {
     backgroundColor: colors.mediumPurple20,
@@ -70,23 +68,23 @@ const styles = StyleSheet.create({
   },
   iconButtonRightBox: {
     alignItems: 'center',
-    alignSelf:'stretch',
-    flex:1,
+    alignSelf: 'stretch',
+    flex: 1,
     justifyContent: 'center',
     flexDirection: 'row',
-    padding:0,
-    borderBottomRightRadius:2,
-    borderTopRightRadius:2,
-    overflow:'hidden',
-    borderWidth:0,
-    borderColor:colors.mediumPurple,
+    padding: 0,
+    borderBottomRightRadius: 2,
+    borderTopRightRadius: 2,
+    overflow: 'hidden',
+    borderWidth: 0,
+    borderColor: colors.mediumPurple,
 
   },
-  iconButtonText:{
+  iconButtonText: {
     color: colors.mediumPurple,
     fontFamily: 'montserrat',
     fontSize: 12,
-    top:-1,
+    top: -1,
     textAlign: 'center'
   },
 });

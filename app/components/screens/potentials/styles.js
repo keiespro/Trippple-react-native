@@ -18,35 +18,35 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.white
   },
-  activeDot:{
-      borderColor: colors.mediumPurple,
+  activeDot: {
+    borderColor: colors.mediumPurple,
     backgroundColor: colors.mediumPurple,
 
   },
-  shadowCard:{
-    shadowColor:colors.darkShadow,
-    shadowRadius:4,
-    shadowOpacity:50,
+  shadowCard: {
+    shadowColor: colors.darkShadow,
+    shadowRadius: 4,
+    shadowOpacity: 50,
     shadowOffset: {
-      width:0,
+      width: 0,
       height: 5
     },
-    backgroundColor:colors.dark
+    backgroundColor: colors.dark
   },
   tab: {
     alignItems: 'center',
     justifyContent: 'center',
     padding: 0,
-    width:MagicNumbers.screenWidth/ 2,
-    alignSelf:'stretch',
-    height:60
+    width: MagicNumbers.screenWidth / 2,
+    alignSelf: 'stretch',
+    height: 60
   },
-  singleTab:{
+  singleTab: {
 
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: MagicNumbers.screenPadding/2,
-    width:MagicNumbers.screenWidth,
+    marginHorizontal: MagicNumbers.screenPadding / 2,
+    width: MagicNumbers.screenWidth,
 
   },
   tabs: {
@@ -54,28 +54,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 0,
     borderWidth: 1,
-    width:MagicNumbers.screenWidth,
+    width: MagicNumbers.screenWidth,
     // flex:1,
-    marginHorizontal:0,
+    marginHorizontal: 0,
     borderTopWidth: 1,
     borderLeftWidth: 0,
     borderRightWidth: 0,
-    borderBottomWidth:1,
-    overflow:'hidden',
-    justifyContent:'center',
-    alignItems:'center',
+    borderBottomWidth: 1,
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderColor: colors.shuttleGray,
   },
-  animatedIcon:{
-    height:100,
-    width:100,
-    borderRadius:50,
-    alignItems:'center',
-    justifyContent:'center',
-    top:DeviceHeight/2 - 80,
-    left:DeviceWidth/2 - 50,
-    zIndex:9999,
-     position:'absolute',
+  animatedIcon: {
+    height: 100,
+    width: 100,
+    borderRadius: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    top: (DeviceHeight / 2) - 80,
+    left: (DeviceWidth / 2) - 50,
+    zIndex: 9999,
+    position: 'absolute',
     // shadowColor:colors.darkShadow,
     // backgroundColor:'black',
     // shadowRadius:5,
@@ -91,40 +91,40 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     // backgroundColor: '#fff',
-    backgroundColor:colors.dark,
+    backgroundColor: colors.dark,
     // overflow:'hidden',
-    top:0
+    top: 0
   },
-  absoluteText:{
-    position:'absolute',
-    color:'#ffffff',
-    backgroundColor:'transparent',
-    fontSize:20
-  },
-  absoluteTextTop:{
-    top:0
-  },
-  absoluteTextBottom:{
-    bottom:0
-  },
-  basicCard:{
-    borderRadius:8,
+  absoluteText: {
+    position: 'absolute',
+    color: '#ffffff',
     backgroundColor: 'transparent',
-    overflow:'hidden',
+    fontSize: 20
+  },
+  absoluteTextTop: {
+    top: 0
+  },
+  absoluteTextBottom: {
+    bottom: 0
+  },
+  basicCard: {
+    borderRadius: 8,
+    backgroundColor: 'transparent',
+    overflow: 'hidden',
 
   },
   bottomButtons: {
     height: 80,
     alignItems: 'center',
     flexDirection: 'row',
-    top:-40,
-    justifyContent:'space-around',
-    alignSelf:'stretch',
+    top: -40,
+    justifyContent: 'space-around',
+    alignSelf: 'stretch',
     width: undefined
   },
   topButton: {
     height: 80,
-    flex:1,
+    flex: 1,
     flexDirection: 'row',
     backgroundColor: 'transparent',
     borderColor: colors.white,
@@ -133,57 +133,57 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     marginTop: 0,
     alignSelf: 'stretch',
-    alignItems:'center',
+    alignItems: 'center',
     justifyContent: 'center'
   },
   card: {
-    borderRadius:8,
+    borderRadius: 8,
     backgroundColor: 'transparent',
     alignSelf: 'center',
     flex: 1,
     borderWidth: 0,
-    position:'absolute',
-    marginHorizontal:40,
-    borderColor:'rgba(0,0,0,.2)',
-    overflow:'hidden'
+    position: 'absolute',
+    marginHorizontal: 40,
+    borderColor: 'rgba(0,0,0,.2)',
+    overflow: 'hidden'
 
   },
 
-  closeProfile:{
-    position:'absolute',
-    top:10,
-    left:5,
+  closeProfile: {
+    position: 'absolute',
+    top: 10,
+    left: 5,
     width: 50,
 
-    backgroundColor:'transparent',
+    backgroundColor: 'transparent',
 
     height: 50,
-    alignSelf:'center',
+    alignSelf: 'center',
 
-    overflow:'hidden',
+    overflow: 'hidden',
 
-    justifyContent:'center',
-    alignItems:'center',
-    padding:20,
-    borderRadius:25
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    borderRadius: 25
   },
-  dashedBorderImage:{
-    paddingHorizontal:0,
-    paddingBottom:20,
-    margin:0,
-    padding:0,
-    flex:1,
-    height:DeviceHeight-55,
-    alignSelf:'stretch',
-    alignItems:'stretch',
-    justifyContent:'center'
-  },
-  imagebg:{
+  dashedBorderImage: {
+    paddingHorizontal: 0,
+    paddingBottom: 20,
+    margin: 0,
+    padding: 0,
     flex: 1,
-    alignSelf:'stretch',
-    padding:0,
-    alignItems:'center',
-    justifyContent:'center'
+    height: DeviceHeight - 55,
+    alignSelf: 'stretch',
+    alignItems: 'stretch',
+    justifyContent: 'center'
+  },
+  imagebg: {
+    flex: 1,
+    alignSelf: 'stretch',
+    padding: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
 
   },
 
@@ -212,72 +212,72 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.mediumPurple
   },
-  wrapper:{
+  wrapper: {
 
   },
-  scrollSection:{
+  scrollSection: {
     alignSelf: 'stretch',
     flex: 1,
     justifyContent: 'center',
-    padding:0,
-    margin:0,
+    padding: 0,
+    margin: 0,
     alignItems: 'center',
     flexDirection: 'column'
   },
-  circleimage:{
+  circleimage: {
     backgroundColor: colors.shuttleGray,
     width: 60,
     height: 60,
     borderRadius: 30,
-    borderColor:colors.white,
+    borderColor: colors.white,
     borderWidth: 0
   },
-  circleimagewrap:{
+  circleimagewrap: {
     padding: DeviceHeight > 568 ? 3 : 2,
-    backgroundColor:colors.white,
-    alignItems:'center',
-    justifyContent:'center',
-    height:DeviceHeight > 568 ? 64 : 46,
-    width:DeviceHeight > 568 ? 64 : 46,
+    backgroundColor: colors.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: DeviceHeight > 568 ? 64 : 46,
+    width: DeviceHeight > 568 ? 64 : 46,
     borderRadius: DeviceHeight > 568 ? 32 : 23
   },
-  circleimageSmaller:{
+  circleimageSmaller: {
     backgroundColor: colors.shuttleGray,
     width: 40,
     height: 40,
     borderRadius: 20,
-    borderColor:colors.white,
+    borderColor: colors.white,
     borderWidth: 0
   },
 
-  cardStackContainer:{
-    width:DeviceWidth,
-    height:DeviceHeight-60,
-    flex:1,
-    top:0,
-    position:'absolute',
-    left:0,
-    zIndex:9999,
+  cardStackContainer: {
+    width: DeviceWidth,
+    height: DeviceHeight - 60,
+    flex: 1,
+    top: 0,
+    position: 'absolute',
+    left: 0,
+    zIndex: 9999,
 
-    flexDirection:'column',
-    alignItems:'center',
-    justifyContent:'center',
-    backgroundColor:'transparent'
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent'
   },
 
-  cardBottomText:{
-    marginLeft:0,
-    fontFamily:'montserrat',fontWeight:'800',
-    color: colors.rollingStone,
-    fontSize:18,
-    marginTop:0
-  },
-  cardBottomOtherText:{
+  cardBottomText: {
     marginLeft: 0,
-    fontFamily:'omnes',
+    fontFamily: 'montserrat', fontWeight: '800',
     color: colors.rollingStone,
-    fontSize:16,
-    marginTop:0,
+    fontSize: 18,
+    marginTop: 0
+  },
+  cardBottomOtherText: {
+    marginLeft: 0,
+    fontFamily: 'omnes',
+    color: colors.rollingStone,
+    fontSize: 16,
+    marginTop: 0,
   }
 });
 export default styles
