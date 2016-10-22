@@ -119,8 +119,8 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.fivehundredpx/blurringview/1.0.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.exoplayer/exoplayer/r1.5.8/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/8.4.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.6.1/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/9.6.1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.8.00/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/9.8.00/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics-impl/9.6.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics/9.6.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.firebase/firebase-common/9.6.1/jars" />
@@ -167,6 +167,7 @@
     <orderEntry type="library" exported="" name="support-media-compat-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-ads-8.4.0" level="project" />
     <orderEntry type="library" exported="" name="imagepipeline-0.11.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-tasks-9.8.00" level="project" />
     <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="exoplayer-r1.5.8" level="project" />
     <orderEntry type="library" exported="" name="fabric-1.3.14" level="project" />
@@ -183,13 +184,12 @@
     <orderEntry type="library" exported="" name="facebook-android-sdk-4.16.1" level="project" />
     <orderEntry type="library" exported="" name="answers-1.3.10" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-23.4.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-tasks-9.6.1" level="project" />
-    <orderEntry type="library" exported="" name="play-services-basement-9.6.1" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="blurringview-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="animated-base-0.11.0" level="project" />
     <orderEntry type="library" exported="" name="webpsupport-0.11.0" level="project" />
     <orderEntry type="library" exported="" name="bolts-applinks-1.4.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-basement-9.8.00" level="project" />
     <orderEntry type="library" exported="" name="firebase-analytics-9.6.1" level="project" />
     <orderEntry type="library" exported="" name="customtabs-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="animated-gif-0.11.0" level="project" />
@@ -240,15 +240,15 @@
     <orderEntry type="library" exported="" name="gson-2.3.1" level="project" />
     <orderEntry type="library" exported="" name="hotline-android-1.0.15" level="project" />
     <orderEntry type="library" exported="" name="core-3.2.1" level="project" />
-    <orderEntry type="library" exported="" name="play-services-base-9.6.1" level="project" />
     <orderEntry type="library" exported="" name="ShortcutBadger-1.1.8" level="project" />
+    <orderEntry type="library" exported="" name="play-services-gcm-9.8.00" level="project" />
     <orderEntry type="library" exported="" name="support-v4-24.0.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-iid-9.8.00" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.1.1" level="project" />
-    <orderEntry type="library" exported="" name="play-services-iid-9.6.1" level="project" />
+    <orderEntry type="library" exported="" name="play-services-base-9.8.00" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-24.0.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="junit-4.12" level="project" />
-    <orderEntry type="library" exported="" name="play-services-gcm-9.6.1" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="animated-vector-drawable-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-23.4.0" level="project" />
@@ -269,8 +269,8 @@
     <orderEntry type="library" exported="" scope="TEST" name="multidex-instrumentation-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="multidex-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="mixpanel-android-4.6.4" level="project" />
-    <orderEntry type="library" exported="" name="play-services-analytics-9.6.1" level="project" />
-    <orderEntry type="library" exported="" name="play-services-analytics-impl-9.6.1" level="project" />
+    <orderEntry type="library" exported="" name="play-services-analytics-9.8.00" level="project" />
+    <orderEntry type="library" exported="" name="play-services-analytics-impl-9.8.00" level="project" />
     <orderEntry type="library" exported="" name="react-native-0.12.0" level="project" />
   </component>
 </module>
