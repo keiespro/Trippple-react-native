@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, Image, TouchableHighlight, Animated, TouchableOpacity, Dimensions } from 'react-native'
+import { Text, View, BackAndroid, Image, TouchableHighlight, Animated, TouchableOpacity, Dimensions } from 'react-native'
 import ActionMan from '../../../actions'
 import styles from './styles'
 // import XButton from '../../buttons/XButton'
@@ -13,7 +13,7 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
 const CardLabel = ({potential, city, textColor, matchName}) => (
-  <View>
+  <View pointerEvents={'none'}>
     <Text
       style={[styles.cardBottomText, {color: textColor}]}
       key={`${potential.user.id}-names`}
@@ -41,6 +41,14 @@ class NewCard extends React.Component {
         toValue: nProps.profileVisible ? 0 : 100
       }).start()
     }
+
+    if (!this.props.profileVisible && nProps.profileVisible) {
+      BackAndroid.addEventListener('hardwareBackPress', e => this.handleBackFromOpenProfile(e))
+    }
+  }
+
+  componentWillUnmount(){
+    this.dontHandleBackFromOpenProfile()
   }
 
   onLayout(e) {
@@ -49,6 +57,19 @@ class NewCard extends React.Component {
     if (!this.state.contentHeight) {
       this.handleSize(layout.height + 1000)
     }
+  }
+
+  handleBackFromOpenProfile(e,x){
+    console.log(e,x);
+    // e.preventDefault();
+    e && e.stopPropagation();
+    this.props.dispatch({ type: 'CLOSE_PROFILE' });
+    this.dontHandleBackFromOpenProfile()
+
+  }
+
+  dontHandleBackFromOpenProfile(){
+    BackAndroid.removeEventListener('hardwareBackPress', this.handleBackFromOpenProfile.bind(this))
   }
 
   reportModal() {
@@ -85,38 +106,31 @@ class NewCard extends React.Component {
     const anistyle = [{
       flex: 1,
       top: 0,
+      height: profileVisible ? DeviceHeight : DeviceHeight-60,
       overflow: this.props.profileVisible ? 'visible' : 'hidden',
-      transform: [{
-        scale: this.state.isOpen.interpolate({
-          inputRange: [0, 100],
-          outputRange: [1, 1],
-          extrapolate: 'clamp',
-
-        })
-      }],
-      width: this.state.isOpen.interpolate({
-        inputRange: [0, 100],
-        outputRange: [DeviceWidth, DeviceWidth - 40],
-        extrapolate: 'clamp',
-
-      }),
-      height: this.state.isOpen.interpolate({
-        inputRange: [0, 100],
-        outputRange: [DeviceHeight, DeviceHeight - 75],
-        extrapolate: 'clamp',
-
-      })
+      // width: this.state.isOpen.interpolate({
+      //   inputRange: [0, 100],
+      //   outputRange: [DeviceWidth, DeviceWidth - 40],
+      //   extrapolate: 'clamp',
+      //
+      // }),
+      // height: this.state.isOpen.interpolate({
+      //   inputRange: [0, 100],
+      //   outputRange: [DeviceHeight, DeviceHeight - 75],
+      //   extrapolate: 'clamp',
+      //
+      // })
     }];
 
     const aniblurstyle = [{
       backgroundColor: colors.outerSpace50,
-      width: DeviceWidth,
+      // width: DeviceWidth,
       paddingBottom: 120,
       flex: 10,
       flexGrow: 10,
       marginTop: 160,
 
-      height: this.props.profileVisible ? this.state.contentHeight : 0,
+      // height: this.props.profileVisible ? this.state.contentHeight : 0,
       position: 'relative',
       alignSelf: 'flex-end',
       overflow: 'hidden',
@@ -126,13 +140,12 @@ class NewCard extends React.Component {
       <Animated.View
         key={`topkey${potential.user.id}`}
         style={anistyle}
-        renderToHardwareTextureAndroid
         onLayout={this.onLayout.bind(this)}
       >
 
         <ParallaxSwiper
           contentContainerStyle={[{
-            minHeight: this.props.profileVisible ? DeviceHeight : cardHeight,
+            // minHeight: this.props.profileVisible ? DeviceHeight : cardHeight,
             alignItems: 'center',
             justifyContent: 'center',
             flexDirection: 'column',
@@ -144,8 +157,9 @@ class NewCard extends React.Component {
           style={[{
             flex: 1,
             position: 'relative',
-            top: 0,
-            width: cardWidth,
+            top: profileVisible ? -40 : 0,
+            zIndex:1
+            // width: cardWidth,
           }]}
           header={<View />}
           dispatch={this.props.dispatch}
@@ -159,7 +173,6 @@ class NewCard extends React.Component {
           <View
             blurType="dark"
             style={aniblurstyle}
-            renderToHardwareTextureAndroid
           >
             {profileVisible ?
               <View
@@ -179,8 +192,7 @@ class NewCard extends React.Component {
             <View
               key={`blurkey${potential.user.id}`}
               style={{
-                zIndex: 100,
-                height: profileVisible ? this.state.contentHeight : 0,
+                // height: profileVisible ? this.state.contentHeight : 0,
                 opacity: profileVisible ? 1 : 0,
                 flex: 10
               }}
@@ -248,7 +260,13 @@ class NewCard extends React.Component {
                       width: MagicNumbers.screenWidth
                     }}
                   >
-                    <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>
+                    <Text
+                      style={{
+                        color: colors.white,
+                        fontSize: 18,
+                        marginBottom: 15
+                      }}
+                    >
                       {potential.partner.bio}
                     </Text>
                   </View> : null
@@ -291,7 +309,7 @@ class NewCard extends React.Component {
                   <Image
                     resizeMode={Image.resizeMode.contain}
                     style={{ height: 12, width: 12, marginTop: 10 }}
-                    source={{ uri: 'assets/close@3x.png' }}
+                    source={require('./assets/close.png')}
                   />
                 </TouchableOpacity>
               </View>
@@ -308,25 +326,21 @@ class NewCard extends React.Component {
             height: 100,
             opacity: profileVisible ? 0 : 1,
             alignSelf: 'flex-end',
-            zIndex: 10000,
-            flex: -1,
+            zIndex: 1000,
+            // flex: -1,
+            backgroundColor: colors.white,
+            borderBottomLeftRadius: 11,
+            borderBottomRightRadius: 11,
             position: 'absolute',
-            bottom: profileVisible ? -230 : 0
+            padding: 20,
+
+            bottom: profileVisible ? -230 : 0,
           }}
+          pointerEvents={'box-only'}
           underlayColor={colors.mediumPurple20}
           onPress={this.openProfile.bind(this)}
         >
-          <View
-            key={`blurkeyi${potential.user.id}`}
-            style={{
-              backgroundColor: colors.white,
-              width: cardWidth,
-              height: 100,
-              position: 'absolute',
-              left: 0,
-              padding: 20
-            }}
-          >
+          <View >
             <CardLabel
               potential={potential}
               seperator={seperator}
@@ -338,7 +352,7 @@ class NewCard extends React.Component {
             {verifiedCouple && <VerifiedCoupleBadge />}
           </View>
         </TouchableHighlight>
-
+      
       </Animated.View>
     )
   }

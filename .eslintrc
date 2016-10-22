@@ -12,12 +12,13 @@
         "react-native"
     ],
     "extends": [
-        # "eslint:recommended",
         "airbnb",
         "plugin:react/recommended"
     ],
     "rules": {
+      "no-bitwise": 0,
       "comma-dangle": 0,
+      "no-else-return": 0,
       "radix": [1, "as-needed"],
       "global-require": 0,
       "semi": 0,
@@ -29,6 +30,7 @@
       "react/jsx-no-bind": 0,
       "eqeqeq": 0,
       "max-len": 0,
+      "no-console": ["warn", { allow: ["log","warn", "error"] }],
       "no-unused-expressions": 0,
       "object-curly-spacing": 0,
       "no-underscore-dangle": 0,

@@ -1,6 +1,4 @@
 import { createStore, compose, applyMiddleware } from 'redux';
-import createReducer from './reducers/';
-import {composeWithDevTools} from 'remote-redux-devtools';
 import thunk from 'redux-thunk';
 import {AsyncStorage} from 'react-native'
 import createActionBuffer from 'redux-action-buffer'
@@ -10,6 +8,8 @@ import createLogger from 'redux-logger';
 import {persistStore, autoRehydrate} from 'redux-persist'
 import { createNavigationEnabledStore } from '@exponent/ex-navigation'
 import ActionMan from './actions/'
+import createReducer from './reducers/';
+
 
 const logger = createLogger({
   diff: true,
@@ -18,10 +18,12 @@ const logger = createLogger({
 });
 
 const middlewares = [
+  createActionBuffer('EX_NAVIGATION.INITIALIZE'),
   thunk,
   promiseMiddleware(),
-  throttleActions(['EX_NAVIGATION.PUSH'], 500),
-  createActionBuffer('EX_NAVIGATION.INITIALIZE'),
+  throttleActions(['EX_NAVIGATION.PUSH'], 500, {trailing: false }),
+  throttleActions(['OPEN_PROFILE'], 800, {trailing: false }),
+  throttleActions(['GET_POTENTIALS'], 1000, {trailing: false }),
 ]
 
 function configureStore(initialState = ({})) {
@@ -33,7 +35,7 @@ function configureStore(initialState = ({})) {
           applyMiddleware(...middlewares, logger),
           autoRehydrate(),
           global.reduxNativeDevTools ? global.reduxNativeDevTools({
-            getMonitor: (monitor) => { isMonitorAction = monitor.isMonitorAction; },
+            getMonitor: (monitor) => { global.isMonitorAction = monitor.isMonitorAction; },
             actionCreators: ActionMan
           }) : f => f,
         ),
@@ -58,14 +60,17 @@ function configureStore(initialState = ({})) {
     return store
   } else {
     const store = createNavigationEnabledStore(createStore)(
-        createReducer(),
-        initialState,
-        compose(
-          applyMiddleware(...middlewares),
-          autoRehydrate(),
-        )
-      );
-    persistStore(store, {storage: AsyncStorage, blacklist: ['navigation', 'ui', 'potentials', 'appNav']})
+      createReducer(),
+      initialState,
+      compose(
+        applyMiddleware(...middlewares),
+        autoRehydrate(),
+      )
+    );
+    persistStore(store, {
+      storage: AsyncStorage,
+      blacklist: ['navigation', 'ui', 'potentials', 'appNav']
+    })
     return store
   }
 }

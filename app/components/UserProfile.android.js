@@ -1,8 +1,6 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, PixelRatio, Dimensions, StatusBar } from 'react-native';
 import React from 'react';
-import { BlurView } from 'react-native-blur'
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
-import dismissKeyboard from 'dismissKeyboard'
 
 import { connect } from 'react-redux'
 
@@ -19,7 +17,6 @@ import ActionMan from '../actions'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-const AnimatedBlurView = Animated.createAnimatedComponent(BlurView)
 
 const CardLabel = props => (
   <View>
@@ -41,7 +38,7 @@ const CardLabel = props => (
 class UserProfile extends React.Component {
 
   static route = {
-    styles: NavigationStyles.FloatVertical,
+    styles: NavigationStyles.Fade,
     navigationBar: {
       visible: false
     }
@@ -68,11 +65,14 @@ class UserProfile extends React.Component {
     }
   }
   reportModal() {
+    const them = [this.props.potential.user];
+    if (this.props.potential.partner && this.props.potential.partner.gender){
+      them.push(this.props.potential.partner)
+    }
     this.props.dispatch(ActionMan.showInModal({
       component: 'ReportModal',
       passProps: {
-        action: 'report',
-        them: [this.props.potential.user, this.props.potential.partner],
+        potential: this.props.potential,
       }
     }))
   }
@@ -133,7 +133,7 @@ class UserProfile extends React.Component {
     const aniblurstyle = [{
       backgroundColor: colors.outerSpace50,
       width: DeviceWidth,
-      paddingbottom: 120,
+      paddingBottom: 120,
       flex: 10,
       flexGrow: 10,
       height: profileVisible ? this.state.contentHeight : 0,
@@ -177,6 +177,7 @@ class UserProfile extends React.Component {
           isTopCard={isTopCard}
           profileVisible={profileVisible}
         >
+
           <View
             blurType="dark"
             style={aniblurstyle}
@@ -262,26 +263,41 @@ class UserProfile extends React.Component {
                   style={{
                     height: 50, zIndex: 9999, alignItems: 'center', width: 50, justifyContent: 'center', flex: 0, alignSelf: 'center',
                   }}
-                  onPress={this.props.closeProfile}
+                  onPress={() => this.props.closeProfile ? this.props.closeProfile() : this.props.navigator.pop()}
                 >
                   <Image
                     resizeMode={Image.resizeMode.contain}
                     style={{ height: 12, width: 12, marginTop: 10 }}
-                    source={{ uri: 'assets/close@3x.png' }}
+                    source={require('./screens/potentials/assets/close.png')}
                   />
                 </TouchableOpacity>
+
+
               </View>
 
             </View>
 
           </View>
+          </ParallaxSwiper>
 
-        </ParallaxSwiper>
+          <TouchableOpacity
+              style={{
+                  height: 50,zIndex:9999, alignItems: 'center', width: 50, justifyContent: 'center',flex:0,top:-10,left:-10,position:'absolute'
+              }}
+              onPress={() => this.props.closeProfile ? this.props.closeProfile() : this.props.navigator.pop()}
+          >
+              <Image
+                  resizeMode={Image.resizeMode.contain}
+                  style={{ height: 12, width: 12, marginTop: 10 }}
+                  source={require('./screens/potentials/assets/close.png')}
+              />
+          </TouchableOpacity>
 
       </View>
     )
   }
 }
+
 class CustomTabBar extends React.Component {
   static propTypes: {
       goToPage: React.PropTypes.func,
@@ -330,15 +346,16 @@ class CustomTabBar extends React.Component {
   }
 }
 //
-// const mapStateToProps = (state, ownProps) => ({
-//   ...ownProps,
-//   user: state.user,
-// })
-//
-// const mapDispatchToProps = dispatch => dispatch;
-//
-// export default connect(mapStateToProps, mapDispatchToProps)(UserProfile)
-export default UserProfile
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
+  user: state.user,
+})
+
+const mapDispatchToProps = dispatch => ({dispatch});
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile)
+// export default UserProfile
+
 const styles = StyleSheet.create({
 
   shadowCard: {

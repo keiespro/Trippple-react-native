@@ -43,10 +43,9 @@ class Analytics{
       //  if(!Settings.get(HAS_IDENTITY)){
       // }
     // }
-    __DEV__ && console.log(`Analytics -> Indentified user #${user.id}`);
-    console.warn('SET USER');
+    // __DEV__ && console.log(`Analytics -> Indentified user #${user.id}`);
     if (!__TEST__){
-      Firelytics.setUserId(user.id+'');
+      Firelytics.setUserId(`${user.id}`);
 
       GoogleAnalytics.setUser(`${user.id}`);
       RNMixpanel.identify(`${user.id}`);
@@ -59,7 +58,7 @@ class Analytics{
 
       Object.keys(user).forEach(k => {
         if (typeof user[k] != 'object'){
-          Firelytics.setUserProperty(k, user[k]+'');
+          Firelytics.setUserProperty(k, `${user[k]}`);
         }
       });
     }
@@ -85,7 +84,7 @@ class Analytics{
     this.setUserProperties(mxProps);
 
 
-    Settings.set({[HAS_IDENTITY]: true});
+    // Settings.set({[HAS_IDENTITY]: true});
     this.userid = user.id;
   }
 
@@ -159,7 +158,6 @@ class Analytics{
   }
 
   err(error){
-    // const warningSigns = `\n ❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌\n  \n ❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌\n`;
     if (!error || (error && error.error && !Object.keys(error.error).length) || (error && !Object.keys(error).length)){
       return;
     }

@@ -138,6 +138,7 @@ class Potentials extends React.Component{
   }
 
   toggleProfile(){
+
     __DEV__ && console.warn('nothing');
   }
 
@@ -152,6 +153,7 @@ class Potentials extends React.Component{
           top: iOS ? -64 : 0,
           position: 'relative',
         }}
+
       >
         {!iOS && <Toolbar />}
 
@@ -159,10 +161,11 @@ class Potentials extends React.Component{
           style={[
             styles.cardStackContainer,
             {
-              top: iOS ? this.props.profileVisible ? 70 : 60 : 0,
+              top: iOS ? (this.props.profileVisible ? 70 : 60) :  0,
               position: 'relative',
             }
           ]}
+          pointerEvents={'box-none'}
         >
 
           { potentials.length && this.state.showPotentials ?

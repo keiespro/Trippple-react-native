@@ -55,11 +55,14 @@ const styles = StyleSheet.create({
 
     wrapper: {
         backgroundColor: 'transparent',
-        alignItems:'center',justifyContent:'center',
+        alignItems:'center',justifyContent:'center',            borderRadius: 11,
+
     },
 
     slide: {
         backgroundColor: 'transparent',
+        borderRadius: 11,
+
     },
 
     pagination_x: {

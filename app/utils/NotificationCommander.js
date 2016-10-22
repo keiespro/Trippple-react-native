@@ -40,12 +40,10 @@ class NotificationCommander extends Component{
     const handleAction = this.handleAction.bind(this);
 
     FCM.getFCMToken().then(token => {
-      __DEV__ && console.warn('TOKEN:', token);
+      __DEBUG__ && console.warn('TOKEN:', token);
       dispatch(ActionMan.receivePushToken(token.token))
         // store fcm token in your server
     });
-
-
 
     FCM.on('notification', (notification) => {
       console.log(notification);
@@ -55,7 +53,7 @@ class NotificationCommander extends Component{
     });
 
     FCM.on('refreshToken', (token) => {
-      __DEV__ && console.warn('TOKEN:', token);
+      __DEBUG__ && console.warn('TOKEN:', token);
       dispatch(ActionMan.receivePushToken(token.token))
     });
 

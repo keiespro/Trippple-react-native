@@ -1,5 +1,8 @@
 import { StatusBar, View, Dimensions,Modal,Platform } from 'react-native';
-import React from "react";
+import React from 'react';
+import { connect } from 'react-redux';
+import { withNavigation} from '@exponent/ex-navigation';
+import pure from 'recompose/pure'
 import AppNav from '../AppNav';
 import ModalDirector from './modals/ModalDirector';
 import Welcome from './screens/welcome/welcome';
@@ -8,13 +11,11 @@ import ConnectionInfo from '../utils/ConnectionInfo'
 import Notifications from '../utils/Notifications';
 import LoadingOverlay from './LoadingOverlay'
 import colors from '../utils/colors'
+import Analytics from '../utils/Analytics'
 import ActionMan from '../actions/';
 import NagManager from '../NagManager'
 import DeepLinkHandler from '../utils/DeepLinkHandler'
-import { connect } from 'react-redux';
 import '../fire'
-import { withNavigation} from '@exponent/ex-navigation';
-import pure from 'recompose/pure'
 const iOS = Platform.OS == 'ios';
 
 const DeviceHeight = Dimensions.get('window').height
@@ -25,8 +26,12 @@ class App extends React.Component{
         super()
 
         this.state = {
-            loading: true
+          loading: true
         }
+    }
+
+    componentDidMount(){
+
     }
 
     performInitActions(){
@@ -50,16 +55,20 @@ class App extends React.Component{
 
     componentWillReceiveProps(nProps){
 
-        if(!this.state.initialized && nProps.loggedIn){
+        if(!this.state.initialized && nProps.user && nProps.loggedIn){
             this.setState({initialized:true})
-            this.props.dispatch(ActionMan.setHotlineUser(this.props.user))
+            nProps.dispatch(ActionMan.setHotlineUser(nProps.user))
             this.performInitActions()
+            console.warn('xxxxx',nProps.user);
+            Analytics.identifyUser(nProps.user)
+
         }
         if(this.state.initialized && nProps.loggedIn && this.props.appState != 'active' && nProps.appState == 'active'){
             this.performInitActions()
         }
         if(this.state.initialized && this.props.loggedIn && nProps.loggedIn && !nProps.savedCredentials){
           this.props.dispatch(ActionMan.saveCredentials())
+
         }
 
     }

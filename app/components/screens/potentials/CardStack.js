@@ -1,5 +1,7 @@
 import React from 'react';
 import { StatusBar, View, Easing, Image, Animated, PanResponder, Dimensions, InteractionManager, Platform } from 'react-native';
+import { NavigationActions } from '@exponent/ex-navigation'
+
 import {pure} from 'recompose'
 import Analytics from '../../../utils/Analytics';
 import Card from './Card';
@@ -7,6 +9,7 @@ import styles from './styles';
 import ActionMan from '../../../actions/';
 import ApproveIcon from './ApproveIcon'
 import DenyIcon from './DenyIcon'
+import Router from '../../../Router'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -19,7 +22,7 @@ const THROW_SPEED_THRESHOLD = 1;
 const SWIPE_THRESHOLD_DENY = -180;
 const SWIPE_THRESHOLD_APPROVE = 140;
 
-@pure
+// @pure
 class CardStack extends React.Component {
 
   static displayName = 'CardStack';
@@ -67,14 +70,38 @@ class CardStack extends React.Component {
     delete this._panResponder;
 
     const isCouple = this.props.user.relationship_status === 'couple';
+    const openProfile = (p) => {
+      this.killPanResponder()
+      this.props.navigator.push(Router.getRoute('UserProfile', {
+        potential: p,
+        user: this.props.user
+      }))
+    };
 
     this._panResponder = PanResponder.create({
 
       onMoveShouldSetPanResponderCapture: () => false,
 
-      onMoveShouldSetPanResponder: () => !this.props.profileVisible && (isCouple || true),
+      onMoveShouldSetPanResponder: (e) => {
+        console.log(e.nativeEvent);
 
-      onStartShouldSetPanResponder: () => !this.props.profileVisible && isCouple,
+        // if(e.nativeEvent.locationY > DeviceHeight - 160){
+        //   openProfile(this.props.potentials[0]);
+        //   return false;
+        // }
+
+        return !this.props.profileVisible && (isCouple || true)
+      },
+
+      onStartShouldSetPanResponder: (e) => {
+        console.log(e.nativeEvent);
+        if(e.nativeEvent.locationY > DeviceHeight - 160 && !this.props.profileVisible){
+          openProfile(this.props.potentials[0]);
+          return false;
+        }
+
+        return !this.props.profileVisible && isCouple
+      },
 
       onStartShouldSetPanResponderCapture: () => false,
 
@@ -190,7 +217,8 @@ class CardStack extends React.Component {
 
   _showProfile(potential) {
     Analytics.event('Interaction', { type: 'tap', name: 'Open card profile', potential });
-    this.props.toggleProfile(potential);
+    // this.props.toggleProfile(potential);
+    this.props.dispatch({type: 'OPEN_PROFILE', payload: {}});
   }
 
   _hideProfile() {
@@ -201,6 +229,15 @@ class CardStack extends React.Component {
   _toggleProfile() {
     this.props.toggleProfile();
     this.state.pan.setValue({ x: 0, y: 0 });
+  }
+  killPanResponder(){
+
+    console.log(this._panResponder,PanResponder);
+    // this._panResponder = {
+    //   panHandlers: {
+    //     noop: ''
+    //   }
+    // }
   }
 
   render() {
@@ -217,6 +254,7 @@ class CardStack extends React.Component {
     }
     return (
       <View
+        pointerEvents={'box-none'}
         style={{
           flex: 10,
           alignSelf: 'stretch',
@@ -231,18 +269,21 @@ class CardStack extends React.Component {
         {this.props.profileVisible &&
           <StatusBar animated barStyle="light-content" />
         }
-
+        <View
+          style={{
+            height: this.props.profileVisible ? 0 : 40,
+            width:DeviceWidth,
+          }}
+          pointerEvents={this.props.profileVisible ? 'box-none' : 'none'}
+        />
         { potentials && potentials.length >= 1 && potentials[1] &&
           <Animated.View
             style={[styles.shadowCard, {
               alignSelf: 'center',
-              left: 20,
-              right: 20,
               borderRadius: 8,
-              bottom: this.props.profileVisible ? 0 : 75,
+              // bottom: this.props.profileVisible ? 0 : 75,
               position: 'absolute',
               overflow: 'hidden',
-              top: 0,
               opacity: this.state.animatedIn ? this.state.pan.x.interpolate({
                 inputRange: [-500, -200, -50, 0, 50, 200, 500],
                 outputRange: [0.99, 0.55, 0.05, 0.1, 0.05, 0.55, 0.99],
@@ -252,7 +293,7 @@ class CardStack extends React.Component {
                 {
                   scale: this.state.animatedIn ? (~~this.props.profileVisible || this.state.pan.x.interpolate({
                     inputRange: [-400, -250, -100, 0, 100, 250, 400],
-                    outputRange: [1.00, 0.97, 0.9, 0.9, 0.9, 0.97, 1.00],
+                    outputRange: [0.915, 0.87, 0.85, 0.85, 0.85, 0.87, 0.915],
                     extrapolate: 'clamp',
                   })) : this.state.offsetY,
                 },
@@ -276,15 +317,13 @@ class CardStack extends React.Component {
             }
 
         { potentials && potentials[0] &&
-        <Animated.View
+        <Animated.View  pointerEvents={!this.props.profileVisible ? 'box-only' : 'auto'}
           style={[{
             alignSelf: 'center',
             borderRadius: 11,
-            top: this.props.profileVisible ? -30 : 0,
-            width: this.props.profileVisible ? DeviceWidth : DeviceWidth - 40,
-            height: this.props.profileVisible ? DeviceHeight : DeviceHeight - 75,
+            backgroundColor:'red',
             overflow: this.props.profileVisible ? 'hidden' : 'hidden',
-            marginHorizontal: 20,
+            marginHorizontal: 0,
             transform: [
               {
                 translateX: this.state.pan ? this.state.pan.x : 0,
@@ -297,10 +336,7 @@ class CardStack extends React.Component {
                 }) : this.state.offsetY,
               },
               {
-                scale: this.state.animatedIn ? (~~this.props.profileVisible || this.state.pan.x.interpolate({
-                  inputRange: [-300, -250, -90, 0, 90, 250, 300],
-                  outputRange: [0.98, 0.98, 1, 1, 1, 0.98, 0.98],
-                })) : this.props.profileVisible ? 1.2 : 1
+                scale: 0.92
               },
             ],
           }]}
