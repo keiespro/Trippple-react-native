@@ -1,6 +1,6 @@
 import * as exnav from '@exponent/ex-navigation'
 import React from 'react'
-import { Image, TouchableHighlight, TouchableOpacity, PanResponder, Easing, StatusBar, View, StyleSheet, Text, Animated, Dimensions, VibrationIOS } from 'react-native'
+import { Image, TouchableHighlight, TouchableOpacity, PanResponder, Easing, StatusBar, View, StyleSheet, Text, Animated, Dimensions, VibrationIOS,Platform } from 'react-native'
 import { BlurView } from 'react-native-blur'
 import ActionMan from '../actions'
 import colors from '../utils/colors'
@@ -11,6 +11,7 @@ import TimerMixin from 'react-timer-mixin'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
+const iOS = Platform.OS == 'ios';
 
 const NOTI_HEIGHT = 70;
 
@@ -28,7 +29,7 @@ class Notification extends React.Component{
         this._panResponder = {}
     }
     componentWillMount(){
-        __DEBUG__ && VibrationIOS.vibrate()
+        __DEBUG__ && iOS && VibrationIOS.vibrate()
     }
 
     componentDidMount() {

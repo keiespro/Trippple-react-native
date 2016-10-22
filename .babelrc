@@ -3,5 +3,10 @@
  "plugins": [
     "babel-remove-process-env-assignment",
     "transform-inline-environment-variables"
-  ]
+  ],
+  "env": {
+    "production": {
+      "plugins": ["transform-remove-console"]
+    }
+  }
 }

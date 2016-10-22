@@ -8,14 +8,14 @@
  */
 
 #import <UIKit/UIKit.h>
+@import UserNotifications;
 
 @class RCTBridge;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,UNUserNotificationCenterDelegate>
 
 @property (nonatomic, strong) UIWindow *window;
 @property (nonatomic, readonly) RCTBridge *bridge;
 @property (nonatomic, strong) UIViewController *rootViewController;
 
 @end
-

@@ -12,6 +12,8 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+@import Firebase;
+
 #import "AppDelegate.h"
 
 #import "RCTBridge.h"
@@ -31,7 +33,7 @@
 #import <Crashlytics/Answers.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <Bolts/Bolts.h>
-//@import Firebase;
+#import "RNFIRMessaging.h"
 
 @interface AppDelegate() <RCTBridgeDelegate>
 @end
@@ -87,8 +89,10 @@
   [self.window makeKeyAndVisible];
 
 
-//  [FIRApp configure];
-
+  [FIRApp configure];
+  #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+    [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
+  #endif
 
     // NEEDED?
 
@@ -96,7 +100,7 @@
     [[Hotline sharedInstance]handleRemoteNotification:launchOptions
                                           andAppstate:application.applicationState];
   }
-  
+
 
   return [[FBSDKApplicationDelegate sharedInstance] application:application
                                   didFinishLaunchingWithOptions:launchOptions];
@@ -107,14 +111,14 @@
 {
 
   NSURL *sourceURL;
-  NSLog(@"%s",getenv("RELEASE"));
-//xs  if(getenv("RELEASE")){
-    sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+//  NSLog(@"%s",getenv("RELEASE"));
+//  if(getenv("RELEASE")){
+//    sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 //  }else{
-//    [[RCTBundleURLProvider sharedSettings] setEnableDev:YES];
-//    [[RCTBundleURLProvider sharedSettings] setJsLocation:@"x.local"];
-//    sourceURL = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:@"main"];
- //  }
+    [[RCTBundleURLProvider sharedSettings] setEnableDev:YES];
+    [[RCTBundleURLProvider sharedSettings] setJsLocation:@"x.local"];
+    sourceURL = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:@"main"];
+//   }
   return sourceURL;
 }
 
@@ -131,21 +135,40 @@
   // Required for the register event.
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)notification
+#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler
 {
-  if ([[Hotline sharedInstance]isHotlineNotification:notification]) {
-    [[Hotline sharedInstance]handleRemoteNotification:notification andAppstate:application.applicationState];
+  [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:notification.request.content.userInfo];
+    if([[notification.request.content.userInfo valueForKey:@"show_in_foreground"] isEqual:@YES]){
+    completionHandler(UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound);
+  }else{
+    completionHandler(UNNotificationPresentationOptionNone);
   }
-  [RCTPushNotificationManager didReceiveRemoteNotification:notification];
-  // Required for the notification event.
+
 }
 
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler
 {
-  [RCTPushNotificationManager didReceiveLocalNotification:notification];
-  // Required for the localNotification event.
+    NSDictionary* userInfo = [[NSMutableDictionary alloc] initWithDictionary: response.notification.request.content.userInfo];
+  [userInfo setValue:@YES forKey:@"opened_from_tray"];
+  [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:userInfo];
 }
+#else
+-(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+  [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:notification.userInfo];
+}
+#endif
 
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
+
+  if ([[Hotline sharedInstance]isHotlineNotification:userInfo]) {
+    [[Hotline sharedInstance]handleRemoteNotification:userInfo andAppstate:application.applicationState];
+  }
+  // [RCTPushNotificationManager didReceiveRemoteNotification:notification];
+  [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:userInfo];
+  completionHandler(UIBackgroundFetchResultNoData);
+}
 
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
@@ -214,4 +237,3 @@
 }
 
 @end
-

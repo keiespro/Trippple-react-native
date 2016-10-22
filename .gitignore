@@ -23,6 +23,7 @@ DerivedData
 project.xcworkspace
 *dSYM*
 # Cocoapods
+ios/Pods
 ios/Pods/NewRelicAgent/NewRelicAgent/NewRelicAgent.framework
 
 # Android/IJ

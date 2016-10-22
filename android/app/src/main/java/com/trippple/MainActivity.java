@@ -3,6 +3,9 @@ package com.trippple;
 import android.content.Intent;
 
 import com.facebook.react.ReactActivity;
+import com.facebook.react.ReactPackage;
+
+import java.util.List;
 
 
 public class MainActivity extends ReactActivity {
@@ -24,5 +27,11 @@ public class MainActivity extends ReactActivity {
     }
 
 
+
+    @Override
+    public void onNewIntent (Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+    }
 };
 

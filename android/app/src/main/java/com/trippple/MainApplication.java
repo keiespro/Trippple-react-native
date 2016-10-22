@@ -7,6 +7,7 @@ import com.cmcewen.blurview.BlurViewPackage;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
+import com.evollu.react.fcm.FIRMessagingPackage;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -22,6 +23,8 @@ import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.rnfs.RNFSPackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 import com.trippple.RNHotline.RNHotline;
+
+import org.jall.reactnative.firebase.FirebasePackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -50,6 +53,8 @@ public class MainApplication extends Application implements ReactApplication {
 
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+            new FirebasePackage(),
+            new FIRMessagingPackage(),
                     new ReactNativePushNotificationPackage(),
                     new RNMixpanel(),
                     new RNMail(),

@@ -1,6 +1,6 @@
 
 import Promise from 'bluebird'
-import {NativeModules,Alert,VibrationIOS,PushNotificationIOS,Platform} from 'react-native'
+import {NativeModules, Alert, VibrationIOS, PushNotificationIOS, Platform} from 'react-native'
 import PushNotification from 'react-native-push-notification'
 import api from '../utils/api'
 const getBadgeNumber = Promise.promisify(PushNotification.getApplicationIconBadgeNumber)
@@ -8,13 +8,13 @@ import ApiActionCreators from './ApiActionCreators'
 const iOS = Platform.OS == 'ios';
 
 const NOTIFICATION_TYPES = {
-  NEW_MATCH:       'getMatches',
-  NEW_MESSAGE:     'getMessages',
-  MATCH_REMOVED:   'getMatches',
-  COUPLE_READY:    'getUserInfo',
-  DECOUPLE:        'getUserInfo',
-  GENERIC:         'getUserInfo',
-  GET_POTENTIALS:  'getPotentials'
+  NEW_MATCH: 'getMatches',
+  NEW_MESSAGE: 'getMessages',
+  MATCH_REMOVED: 'getMatches',
+  COUPLE_READY: 'getUserInfo',
+  DECOUPLE: 'getUserInfo',
+  GENERIC: 'getUserInfo',
+  GET_POTENTIALS: 'getPotentials'
 };
 
 // export const receiveNotification = (notification) => dispatch => dispatch({ type: 'RECEIVE_NOTIFICATION',
@@ -45,135 +45,128 @@ export const updateBadgeNumber = (delta) => dispatch => dispatch({ type: 'UPDATE
 
 export const handleNotification = notification => dispatch => dispatch({ type: 'HANDLE_NOTIFICATION',
   payload: new Promise((resolve, reject) => {
-
     __DEV__ && console.log(notification);
 
     const {data, action, label} = notification
 
-    if(!notification) return false;
+    if (!notification) return;
 
-    if(data.vibrate && iOS) VibrationIOS.vibrate();
+    if (data.vibrate && iOS) VibrationIOS.vibrate();
 
     let nType;
-    let nRequests = [];
+    const nRequests = [];
     let nQueue;
-    let nData = data;
+    const nData = data;
 
-    switch(data.action){
-        case 'retrieve':
+    switch (data.action){
+      case 'retrieve':
 
-          if(data.type == 'potentials') {
-
-            nType = `GET_POTENTIALS`;
+        if(data.type == 'potentials') {
+            nType = 'GET_POTENTIALS';
             nRequests.push({
               getPotentials: {}
             });
-
-          }else if(label == 'NewMatch') {
-
-            nType = `NEW_MATCH`;
+          } else if (label == 'NewMatch') {
+            nType = 'NEW_MATCH';
             nRequests.push({
               getNewMatches: {},
               getMatches: {}
             })
             nQueue = true;
-
-          }else if(label == 'NewMessage'){
-
-            nType = `NEW_MESSAGE`;
+          } else if (label == 'NewMessage'){
+            nType = 'NEW_MESSAGE';
             nRequests.push({
               getMessages: {match_id: nData.match_id}
             })
             nQueue = true;
-
           }
 
-          break;
+        break;
 
-        case 'notify':
+      case 'notify':
 
-          Alert.alert(data.title, JSON.stringify(data.body));
-          break;
+        Alert.alert(data.title, JSON.stringify(data.body));
+        break;
 
-        case 'match_removed':
+      case 'match_removed':
 
-          nType = `MATCH_REMOVED`;
-          nRequests.push('getMatches')
-          break;
+        nType = 'MATCH_REMOVED';
+        nRequests.push('getMatches')
+        break;
 
-        case 'coupleready':
+      case 'coupleready':
 
-          nType = `COUPLE_READY`;
-          nRequests.push('getUserInfo')
-          nRequests.push('getPotentials')
-          nQueue = true;
-          nData.body = `Congratulations! You're in a couple!`
-          nData.title = `JOINED COUPLE`
-          nData.label = 'display';
-          dispatch({ type: 'KILL_MODAL', payload: {}});
-          break;
+        nType = 'COUPLE_READY';
+        nRequests.push('getUserInfo')
+        nRequests.push('getPotentials')
+        nQueue = true;
+        nData.body = 'Congratulations! You\'re in a couple!'
+        nData.title = 'JOINED COUPLE'
+        nData.label = 'display';
+        dispatch({ type: 'KILL_MODAL', payload: {}});
+        break;
 
-        case 'decouple':
+      case 'decouple':
 
-          nType = `DECOUPLE`;
-          nRequests.push('getUserInfo')
-          nRequests.push('getPotentials')
-          nQueue = true;
-          nData.body = `Congratulations! You're single again!`
-          nData.title = `LEFT COUPLE`
-          nData.label = 'display';
-          break;
+        nType = 'DECOUPLE';
+        nRequests.push('getUserInfo')
+        nRequests.push('getPotentials')
+        nQueue = true;
+        nData.body = 'Congratulations! You\'re single again!'
+        nData.title = 'LEFT COUPLE'
+        nData.label = 'display';
+        break;
 
-        case 'statuschange':
+      case 'statuschange':
 
-          nType = 'STATUS_CHANGE';
-          nRequests.push('getUserInfo')
-          break;
+        nType = 'STATUS_CHANGE';
+        nRequests.push('getUserInfo')
+        break;
 
-        case 'imageflagged':
+      case 'imageflagged':
 
-          nType = 'IMAGE_FLAGGED';
-          nRequests.push('getUserInfo')
-          break;
+        nType = 'IMAGE_FLAGGED';
+        nRequests.push('getUserInfo')
+        break;
 
-        case 'logout':
+      case 'logout':
 
-          nType = 'LOG_OUT';
-          nRequests.push('getUserInfo')
-          break;
+        nType = 'LOG_OUT';
+        nRequests.push('getUserInfo')
+        break;
 
-        case 'report':
-        case 'send_telemetry':
+      case 'report':
+      case 'send_telemetry':
 
-          nType = 'SEND_TELEMETRY';
+        nType = 'SEND_TELEMETRY';
           // nPayload = api.sendTelemetry()
-          break;
+        break;
 
-        case 'display':
+      case 'display':
 
-          nType = 'DISPLAY';
-          nQueue = true;
-          break;
+        nType = 'DISPLAY';
+        nQueue = true;
+        break;
     }
 
 
     __DEV__ && console.log(nType);
 
-    if(!nType){
+    if (!nType){
       reject(notification)
       return false;
     }
 
     const n = {...notification, ...nData, data: nData};
 
-    if(nQueue){
-      dispatch({type: `ENQUEUE_NOTIFICATION`, payload: n})
+    if (nQueue){
+      dispatch({type: 'ENQUEUE_NOTIFICATION', payload: n})
     }
 
     nRequests.forEach(nRequest => {
-      if(typeof nRequest == 'string'){
+      if (typeof nRequest == 'string'){
         dispatch(ApiActionCreators[nRequest](...notification.data))
-      }else if(typeof nRequest == 'object'){
+      } else if (typeof nRequest == 'object'){
         Object.keys(nRequest).forEach(req => {
           dispatch(ApiActionCreators[req](nRequest[req]))
         })
