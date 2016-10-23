@@ -2,8 +2,39 @@
     <color name="custom_theme_color">#2C3941</color>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="T" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@color/custom_theme_color</item>
         <item name="android:colorBackground">@color/custom_theme_color</item>
+      <item name="android:spinnerItemStyle">@style/SpinnerItem</item>
+      <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem</item>
+        <item name="colorAccent">@color/accent_material_dark_1</item>
+
     </style>
+
+    <style name="SpinnerItem" parent="Theme.AppCompat.NoActionBar">
+      <item name="android:fontFamily">montserrat</item>
+        <item name="android:selectableItemBackground">@color/accent_material_dark_1</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:itemPadding">2dp</item>
+
+        <item name="android:textSize">18sp</item>
+        <item name="android:gravity">right</item>
+        <item name="android:colorActivatedHighlight">@color/accent_material_dark_1</item>
+        <item name="colorAccent">@color/accent_material_dark_1</item>
+    </style>
+
+    <style name="SpinnerDropDownItem" parent="Theme.AppCompat.NoActionBar">>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:fontFamily">montserrat_bold</item>
+        <item name="android:titleTextColor">#ffffff</item>
+        <item name="android:itemPadding">10dp</item>
+        <item name="android:selectableItemBackground">@color/accent_material_dark_1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:colorActivatedHighlight">@color/accent_material_dark_1</item>
+        <item name="android:background">@drawable/mydivider</item>
+        <item name="colorAccent">@color/accent_material_dark_1</item>
+    </style>
+
+
 </resources>

@@ -288,12 +288,12 @@ class CardStack extends React.Component {
                 inputRange: [-500, -200, -50, 0, 50, 200, 500],
                 outputRange: [0.99, 0.55, 0.05, 0.1, 0.05, 0.55, 0.99],
                 extrapolate: 'clamp',
-              }) : 0,
+              }) : this.state.offsetY,
               transform: [
                 {
                   scale: this.state.animatedIn ? (~~this.props.profileVisible || this.state.pan.x.interpolate({
                     inputRange: [-400, -250, -100, 0, 100, 250, 400],
-                    outputRange: [0.915, 0.87, 0.85, 0.85, 0.85, 0.87, 0.915],
+                    outputRange: [0.915, 0.87, 0.85, 0.80, 0.85, 0.87, 0.915],
                     extrapolate: 'clamp',
                   })) : this.state.offsetY,
                 },

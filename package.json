@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@exponent/ex-navigation": "git+https://github.com/trippple/ex-navigation.git",
+    "@exponent/react-native-fade-in-image": "^1.0.0",
     "assert": "^1.4.1",
     "babel-cli": "^6.14.0",
     "babel-core": "^6.14.0",

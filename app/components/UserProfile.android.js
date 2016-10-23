@@ -53,6 +53,7 @@ class UserProfile extends React.Component {
 
     this.state = { slideIndex: 0, }
   }
+
   componentDidMount() {
     // dismissKeyboard()
   }
@@ -64,6 +65,7 @@ class UserProfile extends React.Component {
       this.handleSize(layout.height + 600)
     }
   }
+  
   reportModal() {
     const them = [this.props.potential.user];
     if (this.props.potential.partner && this.props.potential.partner.gender){

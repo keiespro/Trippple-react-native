@@ -1,99 +1,100 @@
-import {StyleSheet,Dimensions,PixelRatio} from 'react-native'
+import {StyleSheet, Dimensions, PixelRatio} from 'react-native'
 
-const DeviceHeight = Dimensions.get('window').height
-const DeviceWidth = Dimensions.get('window').width
 import colors from '../../utils/colors'
 import {MagicNumbers} from '../../utils/DeviceConfig'
 
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
 
 const purpleModalStyles = StyleSheet.create({
-  modalButtonWrap:{
-    borderRadius:4,
-    justifyContent:'center',
+  modalButtonWrap: {
+    borderRadius: 4,
+    justifyContent: 'center',
 
     marginVertical: 5,
-    alignSelf:'stretch',
+    alignSelf: 'stretch',
   },
 
-  modalButton:{
-    alignSelf:'stretch',
-    height:60,
+  modalButton: {
+    alignSelf: 'stretch',
+    height: 60,
     // backgroundColor:colors.sushi,
-    alignItems:'center',
+    alignItems: 'center',
     margin: 0,
-    borderRadius:5,
+    borderRadius: 5,
     borderWidth: 1,
-    borderColor:colors.sushi,
+    borderColor: colors.sushi,
 
 
-    justifyContent:'center',
+    justifyContent: 'center',
 
   },
-  modalButtonText:{
-    color:colors.white,
-    fontFamily:'montserrat',fontWeight:'800',
-    fontSize:18,
-    textAlign:'center'
+  modalButtonText: {
+    color: colors.white,
+    fontFamily: 'montserrat',
+    fontWeight: '800',
+    fontSize: 18,
+    textAlign: 'center'
   },
-  nothankstext:{
-    color:colors.shuttleGray,
-    fontFamily:'montserrat',
+  nothankstext: {
+    color: colors.shuttleGray,
+    fontFamily: 'montserrat',
     marginVertical: 10,
-    fontSize:18,
+    fontSize: 18,
 
-    textAlign:'center'
+    textAlign: 'center'
 
   },
   container: {
 
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    alignSelf:'stretch',
+    alignSelf: 'stretch',
     flexDirection: 'column',
     backgroundColor: 'transparent',
 
   },
-  modalcontainer:{
-    borderRadius:4,
+  modalcontainer: {
+    borderRadius: 4,
     backgroundColor: 'transparent',
     width: MagicNumbers.screenWidth,
 
     // marginVertical:MagicNumbers.isSmallDevice ? 0 : 20
   },
-  fullWidth:{
-    width: MagicNumbers.screenWidth-MagicNumbers.screenPadding/2,
+  fullWidth: {
+    width: (MagicNumbers.screenWidth - MagicNumbers.screenPadding) / 2,
     // padding:MagicNumbers.screenPadding/2
 
   },
   row: {
     flexDirection: 'row',
     padding: 0,
-    alignSelf:'stretch',
-    height:70,
+    alignSelf: 'stretch',
+    height: 70,
     flex: 1,
     backgroundColor: 'transparent',
-    alignItems:'center',
-    justifyContent:'flex-start'
+    alignItems: 'center',
+    justifyContent: 'flex-start'
   },
   col: {
     flexDirection: 'column',
     padding: 0,
-    alignItems:'center',
-    justifyContent:'center',
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: 'transparent',
 
   },
-  text:{
+  text: {
     color: colors.white,
-    fontFamily:'omnes'
+    fontFamily: 'omnes'
   },
-  rowtext:{
+  rowtext: {
     color: colors.white,
-    fontSize:18,
-    fontFamily:'omnes'
+    fontSize: 18,
+    fontFamily: 'omnes'
   },
   bigtext: {
-    textAlign:'center',
+    textAlign: 'center',
     color: colors.white,
 
   },
@@ -101,95 +102,99 @@ const purpleModalStyles = StyleSheet.create({
     height: 1,
     backgroundColor: colors.outerSpace,
   },
-  rowtextwrapper:{
-    flexDirection:'column',
-    justifyContent:'space-around'
+  rowtextwrapper: {
+    flexDirection: 'column',
+    justifyContent: 'space-around'
   },
-  insidemodalwrapper:{
-    flexDirection:'column',
-    justifyContent:'space-between',
-    alignItems:'stretch',
-
-    marginTop:MagicNumbers.isSmallDevice ? 0 : 20,
-    alignSelf:'stretch',
+  insidemodalwrapper: {
+    // flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'stretch',
+    flex: 10,
+    // flexGrow: 10,
+    width:DeviceWidth,
+height: DeviceHeight,
+    marginTop: MagicNumbers.isSmallDevice ? 0 : 20,
+    alignSelf: 'stretch',
   },
-  rowSelected:{
+  rowSelected: {
     backgroundColor: colors.mediumPurple20,
     borderColor: colors.mediumPurple,
     borderWidth: 1
   },
-  searchwrap:{
+  searchwrap: {
     flexDirection: 'row',
     justifyContent: 'center',
-    height:60,
-    alignSelf:'stretch',
-    alignItems:'center',
+    height: 60,
+    alignSelf: 'stretch',
+    alignItems: 'center',
     borderBottomWidth: 2,
-    marginHorizontal:10,
+    marginHorizontal: 10,
     borderBottomColor: colors.mediumPurple
   },
-  searchfield:{
-    color:colors.white,
-    fontSize:22,
+  searchfield: {
+    color: colors.white,
+    fontSize: 22,
     alignItems: 'stretch',
 
-    paddingHorizontal:10,
-    fontFamily:'montserrat',
-    height:60,
+    paddingHorizontal: 10,
+    fontFamily: 'montserrat',
+    height: 60,
     backgroundColor: 'transparent',
 
   },
 
 
-  contactthumb:{
+  contactthumb: {
     borderRadius: 25,
-    width:50,
-    height:50,
-    marginHorizontal:10
+    width: 50,
+    height: 50,
+    marginHorizontal: 10
   },
-  searchicon:{
-    top:20,
-    left:10,
-    position:'absolute',
-    width:20,
-    height:20
+  searchicon: {
+    top: 20,
+    left: 10,
+    position: 'absolute',
+    width: 20,
+    height: 20
   },
-  cancelButton:{
+  cancelButton: {
     borderColor: colors.mandy
   },
-  plainButton:{
+  plainButton: {
     borderColor: colors.rollingStone,
     borderWidth: 1,
-    height:70,
-    alignSelf:'stretch',
-    alignItems:'center',
-    justifyContent:'center',
+    height: 70,
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  plainButtonText:{
+  plainButtonText: {
     color: colors.rollingStone,
     fontSize: 16,
-    fontFamily:'montserrat',
-    textAlign:'center',
+    fontFamily: 'montserrat',
+    textAlign: 'center',
   },
-  blurcontainer:{
-    position:'absolute',
-    top:0,
-    width:DeviceWidth,
-    height:DeviceHeight,backgroundColor: 'transparent'
-},
-grayIconbuttonLeftBox:{
+  blurcontainer: {
+    position: 'absolute',
+    top: 0,
+    width: DeviceWidth,
+    height: DeviceHeight,
+    backgroundColor: 'transparent'
+  },
+  grayIconbuttonLeftBox: {
  // backgroundColor:colors.darkGreenBlue,
-},
-fullContainer:{
-  overflow:'hidden',
-  width:MagicNumbers.screenWidth,
-  marginHorizontal:MagicNumbers.screenPadding/2,
-  padding:MagicNumbers.screenPadding/2,
-          backgroundColor:'transparent',
-          height:DeviceHeight-MagicNumbers.screenPadding*2,
-          marginTop:MagicNumbers.screenPadding
-}
+  },
+  fullContainer: {
+    overflow: 'hidden',
+    width: MagicNumbers.screenWidth,
+    marginHorizontal: MagicNumbers.screenPadding / 2,
+    padding: MagicNumbers.screenPadding / 2,
+    backgroundColor: 'transparent',
+    height: (DeviceHeight - MagicNumbers.screenPadding) * 2,
+    marginTop: MagicNumbers.screenPadding
+  }
 })
 
 
-export default  purpleModalStyles
+export default purpleModalStyles
