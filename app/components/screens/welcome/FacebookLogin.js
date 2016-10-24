@@ -65,7 +65,6 @@ class Facebook extends Component{
             title: 'Why Facebook?',
             id:'whyfb',
             passProps: {
-                navigator:this.props.navigator
             }
         });
     }

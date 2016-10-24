@@ -1,9 +1,9 @@
-import colors from '../../../utils/colors';
-
 import { StyleSheet, Dimensions, } from 'react-native'
+import colors from '../../../utils/colors';
+import {MagicNumbers} from '../../../utils/DeviceConfig'
+
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-import {MagicNumbers} from '../../../utils/DeviceConfig'
 
 const styles = StyleSheet.create({
   dot: {
@@ -257,17 +257,17 @@ const styles = StyleSheet.create({
     top: 0,
     position: 'absolute',
     left: 0,
-    zIndex: 9999,
+    zIndex: 9,
 
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'transparent'
   },
 
   cardBottomText: {
     marginLeft: 0,
-    fontFamily: 'montserrat', fontWeight: '800',
+    fontFamily: 'montserrat',
+    fontWeight: '800',
     color: colors.rollingStone,
     fontSize: 18,
     marginTop: 0

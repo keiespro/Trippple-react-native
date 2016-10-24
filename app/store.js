@@ -9,7 +9,7 @@ import {persistStore, autoRehydrate} from 'redux-persist'
 import { createNavigationEnabledStore } from '@exponent/ex-navigation'
 import ActionMan from './actions/'
 import createReducer from './reducers/';
-
+import createPrefetcher from './rn-redux-image-prefetch'
 
 const logger = createLogger({
   diff: true,
@@ -21,9 +21,25 @@ const middlewares = [
   createActionBuffer('EX_NAVIGATION.INITIALIZE'),
   thunk,
   promiseMiddleware(),
+  throttleActions(['UPDATE_USER'], 5000, {trailing: false }),
   throttleActions(['EX_NAVIGATION.PUSH'], 500, {trailing: false }),
   throttleActions(['OPEN_PROFILE'], 800, {trailing: false }),
   throttleActions(['GET_POTENTIALS'], 1000, {trailing: false }),
+  createPrefetcher({
+    watchKeys: [
+      {
+        'GET_POTENTIALS_FULFILLED': {
+          key: 'matches',
+          location: {
+            user: {
+            image_url: true
+          }
+        }
+      }
+    }
+
+    ]
+  })
 ]
 
 function configureStore(initialState = ({})) {

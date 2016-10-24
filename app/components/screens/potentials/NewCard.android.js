@@ -59,13 +59,12 @@ class NewCard extends React.Component {
     }
   }
 
-  handleBackFromOpenProfile(e,x){
-    console.log(e,x);
+  handleBackFromOpenProfile(e, x){
+    console.log(e, x);
     // e.preventDefault();
     e && e.stopPropagation();
     this.props.dispatch({ type: 'CLOSE_PROFILE' });
     this.dontHandleBackFromOpenProfile()
-
   }
 
   dontHandleBackFromOpenProfile(){
@@ -96,7 +95,7 @@ class NewCard extends React.Component {
     this.setState({contentHeight})
   }
   render() {
-    const {profileVisible, cardWidth, cardHeight, city, seperator, potential, isTopCard, matchName, distance} = this.props;
+    const {profileVisible, cardWidth, city, seperator, potential, isTopCard, matchName, distance} = this.props;
 
     const hasPartner = potential.partner && potential.partner.gender ? true : false;
     const slideFrames = hasPartner ? [potential.user, potential.partner] : [potential.user];
@@ -106,7 +105,7 @@ class NewCard extends React.Component {
     const anistyle = [{
       flex: 1,
       top: 0,
-      height: profileVisible ? DeviceHeight : DeviceHeight-60,
+      height: profileVisible ? DeviceHeight : DeviceHeight - 60,
       overflow: this.props.profileVisible ? 'visible' : 'hidden',
       // width: this.state.isOpen.interpolate({
       //   inputRange: [0, 100],
@@ -158,7 +157,7 @@ class NewCard extends React.Component {
             flex: 1,
             position: 'relative',
             top: profileVisible ? -40 : 0,
-            zIndex:1
+            zIndex: 1
             // width: cardWidth,
           }]}
           header={<View />}
@@ -210,7 +209,9 @@ class NewCard extends React.Component {
                 <View
                   style={{
                     marginHorizontal: MagicNumbers.screenPadding / 2,
-                    marginBottom: 20
+                    marginBottom: 20,
+
+
                   }}
                 >
                   <CardLabel
@@ -221,7 +222,7 @@ class NewCard extends React.Component {
                     distance={distance}
                     textColor={colors.white}
                   />
-                  {verifiedCouple && <VerifiedCoupleBadge placementStyle={{position: 'relative', alignSelf: 'flex-start', left: 0, top: 0, marginTop: 20}} />}
+                  {verifiedCouple && <VerifiedCoupleBadge placementStyle={{position: 'absolute', alignSelf: 'flex-start', right: 0, top: 0, marginTop: 20}} />}
 
                 </View>
 
@@ -239,7 +240,8 @@ class NewCard extends React.Component {
                         {
                           color: colors.white,
                           marginBottom: 15,
-                          marginLeft: 0
+                          marginLeft: 0,
+                          fontFamily: 'omnes',
                         }
                       ]}
                     >{ !hasPartner ? 'Looking for' : 'Looking for' }</Text>
@@ -247,7 +249,8 @@ class NewCard extends React.Component {
                       style={{
                         color: colors.white,
                         fontSize: 18,
-                        marginBottom: 15
+                        marginBottom: 15,
+                        fontFamily: 'omnes',
                       }}
                     >{ potential.user.bio }</Text>
                   </View> : null
@@ -264,7 +267,8 @@ class NewCard extends React.Component {
                       style={{
                         color: colors.white,
                         fontSize: 18,
-                        marginBottom: 15
+                        marginBottom: 15,
+                        fontFamily: 'omnes',
                       }}
                     >
                       {potential.partner.bio}
@@ -288,6 +292,7 @@ class NewCard extends React.Component {
                     <Text
                       style={{
                         color: colors.mandy,
+                        fontFamily: 'omnes',
                         textAlign: 'center'
                       }}
                     >Report or Block this user</Text>
@@ -349,10 +354,10 @@ class NewCard extends React.Component {
               distance={distance}
               textColor={colors.shuttleGray}
             />
-            {verifiedCouple && <VerifiedCoupleBadge />}
+            {verifiedCouple && <VerifiedCoupleBadge placementStyle={{position: 'absolute', alignSelf: 'flex-start', right: -5, top: 43}}/>}
           </View>
         </TouchableHighlight>
-      
+
       </Animated.View>
     )
   }

@@ -1,26 +1,22 @@
-import React, {Component} from "react";
-
-import {StyleSheet, Text, View, Image, ScrollView, Navigator, Dimensions, TouchableHighlight, NativeModules} from "react-native";
-
+import React, {Component} from 'react';
+import {StyleSheet, BackAndroid, Text, View, Image, ScrollView, Platform, Navigator, Dimensions, TouchableHighlight, NativeModules} from 'react-native';
 import TimerMixin from 'react-timer-mixin'
-
 import colors from '../../../utils/colors'
-const DeviceHeight = Dimensions.get('window').height
-const DeviceWidth = Dimensions.get('window').width
 import Carousel from './carousel'
-
 import Auth from './auth'
 import Analytics from '../../../utils/Analytics'
-
 import SettingsDebug from '../settings/SettingsDebug'
-const LOGIN   = 'login';
-const REGISTER = 'register'
-
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 
+const LOGIN = 'login';
+const REGISTER = 'register'
+const iOS = Platform.OS == 'ios';
+const DeviceHeight = Dimensions.get('window').height
+const DeviceWidth = Dimensions.get('window').width
 
 const IntroScreen = React.createClass({
-  displayName:'Intro',
+  displayName: 'Intro',
+  mixins: [TimerMixin],
 
   getInitialState(){
     return {
@@ -28,35 +24,53 @@ const IntroScreen = React.createClass({
     }
   },
 
-  mixins: [TimerMixin],
+  componentDidMount() {
+      // setTimeout(() => {
+    Analytics.screen('Welcome Screen')
+      // }, 1000);
+    if (!iOS){
+      this._backandroid = BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid)
+    }
+  },
+
+  componentWillUnmount(){
+    if (this._backandroid){
+      this._backandroid.remove()
+      // BackAndroid.EventListener('hardwareBackPress', this.handleBackAndroid)
+    }
+  },
+
+  handleBackAndroid(){
+    this.props.navigator.pop();
+    return true;
+  },
 
   activateAnimatingState(){
-    this.setState({isAnimating:true})
+    this.setState({isAnimating: true})
 
-    this.setTimeout(
-     () => { this.setState({isAnimating:false}) },
-     500
-   );
+    this.setTimeout(() => {
+      this.setState({isAnimating: false})
+    }, 500);
   },
 
   handleNext(selectedTab){
-
-      switch(selectedTab) {
+    switch (selectedTab) {
 
       case LOGIN:
-          Analytics.event("Interaction",{type: 'tap', target: "Login"});
-          break;
+        Analytics.event('Interaction', {type: 'tap', target: 'Login'});
+        break;
 
       case REGISTER:
-          Analytics.event("Interaction",{type: 'tap', target: "Register"});
-          break;
-      }
+        Analytics.event('Interaction', {type: 'tap', target: 'Register'});
+        break;
+    }
 
     this.activateAnimatingState();
+
     this.props.navigator.push({
       component: Auth,
       title: 'Log in or Sign up',
-      id:'auth',
+      id: 'auth',
       passProps: {
         initialTab: selectedTab,
         navigator: this.props.navigator
@@ -64,40 +78,36 @@ const IntroScreen = React.createClass({
     })
   },
 
-  componentDidMount() {
-      setTimeout(()=> {
-          Analytics.screen('Welcome Screen')
-      }, 1000);
-
-  },
-
   render(){
-    return(
+    return (
       <View style={[styles.container]}>
-      {__DEV__ &&
+        {__DEV__ &&
         <TouchableHighlight
-          style={{position:'absolute',top:0,left:0}}
-          onPress={ () => {this.props.navigator.push({component:SettingsDebug}) }}
-           underlayColor={colors.outerSpace}>
-           <Text style={styles.buttonText}>DEV</Text>
+          style={{position: 'absolute', top: 0, left: 0}}
+          onPress={() => { this.props.navigator.push({component: SettingsDebug}) }}
+          underlayColor={colors.outerSpace}
+        >
+          <Text style={styles.buttonText}>DEV</Text>
         </TouchableHighlight>
       }
         <Carousel/>
 
         <View style={styles.bottomButtons}>
-            <TouchableHighlight
-          ref="loginbtn"
-            style={[styles.bottomButton,(this.state.isAnimating ? styles.activeButton : styles.loginButton )]}
-            onPress={ () => this.handleNext(LOGIN)}
-             underlayColor={colors.outerSpace}>
-             <Text style={styles.buttonText}>LOG IN</Text>
+          <TouchableHighlight
+            ref="loginbtn"
+            style={[styles.bottomButton, (this.state.isAnimating ? styles.activeButton : styles.loginButton)]}
+            onPress={() => this.handleNext(LOGIN)}
+            underlayColor={colors.outerSpace}
+          >
+            <Text style={styles.buttonText}>LOG IN</Text>
           </TouchableHighlight>
           <TouchableHighlight
-          ref="registerbtn"
-             style={[styles.bottomButton,(this.state.isAnimating ? styles.activeButton : styles.registerButton )]}
-             onPress={ () => this.handleNext(REGISTER)}
-             underlayColor={colors.outerSpace}>
-             <Text style={styles.buttonText}>SIGN UP</Text>
+            ref="registerbtn"
+            style={[styles.bottomButton, (this.state.isAnimating ? styles.activeButton : styles.registerButton)]}
+            onPress={() => this.handleNext(REGISTER)}
+            underlayColor={colors.outerSpace}
+          >
+            <Text style={styles.buttonText}>SIGN UP</Text>
           </TouchableHighlight>
         </View>
       </View>
@@ -135,58 +145,58 @@ const styles = StyleSheet.create({
   },
   container: {
     width: DeviceWidth,
-    margin:0,
-    padding:0,
+    margin: 0,
+    padding: 0,
     height: DeviceHeight,
     backgroundColor: colors.outerSpace,
-    alignItems:'stretch',
-    justifyContent:'space-between',
-    alignSelf:'stretch',
+    alignItems: 'stretch',
+    justifyContent: 'space-between',
+    alignSelf: 'stretch',
 
   },
-  textplain:{
+  textplain: {
     color: colors.white,
-    alignSelf:'center',
-    fontSize:22,
-    fontFamily:'omnes',
-    textAlign:'center'
+    alignSelf: 'center',
+    fontSize: 22,
+    fontFamily: 'omnes',
+    textAlign: 'center'
   },
   buttonText: {
     fontSize: 22,
     color: colors.white,
     alignSelf: 'center',
-    fontFamily:'montserrat'
+    fontFamily: 'montserrat'
   },
-  carousel:{
-    marginTop:50,
+  carousel: {
+    marginTop: 50,
     width: DeviceWidth,
-    height:DeviceHeight-150,
+    height: DeviceHeight - 150,
 
   },
-  slide:{
+  slide: {
     width: DeviceWidth,
-    flexDirection:'column',
-    height:DeviceHeight-150,
-    justifyContent:'flex-start',
-    alignItems:'center',
-    padding:MagicNumbers.screenPadding/2
+    flexDirection: 'column',
+    height: DeviceHeight - 150,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    padding: MagicNumbers.screenPadding / 2
   },
 
 
-  bottomarea:{
-    height:140,
+  bottomarea: {
+    height: 140,
     width: undefined,
-    alignSelf:'stretch',
-    bottom:100
+    alignSelf: 'stretch',
+    bottom: 100
   },
-  textwrap:{
-    alignItems:'center',
-    height:50,
-    justifyContent:'center',
+  textwrap: {
+    alignItems: 'center',
+    height: 50,
+    justifyContent: 'center',
   },
-  imagebg:{
+  imagebg: {
     flex: 1,
-    alignSelf:'stretch',
+    alignSelf: 'stretch',
     width: DeviceWidth,
     height: DeviceHeight,
     backgroundColor: colors.outerSpace
@@ -205,7 +215,7 @@ const styles = StyleSheet.create({
   },
   bottomButton: {
     height: 80,
-    flex:1,
+    flex: 1,
     flexDirection: 'row',
     backgroundColor: 'transparent',
     borderColor: '#fff',
@@ -216,19 +226,19 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center'
   },
-  loginButton:{
+  loginButton: {
     backgroundColor: colors.shuttleGray,
   },
-  activeButton:{
+  activeButton: {
     backgroundColor: colors.outerSpace,
   },
-  registerButton:{
+  registerButton: {
     backgroundColor: colors.mediumPurple,
   },
-  wrap:{
-    marginTop:0,
+  wrap: {
+    marginTop: 0,
     alignItems: 'center',
-    justifyContent:'center',
+    justifyContent: 'center',
     alignSelf: 'stretch',
     paddingBottom: 0
   },
@@ -236,8 +246,8 @@ const styles = StyleSheet.create({
     height: 80,
     alignItems: 'center',
     flexDirection: 'row',
-    justifyContent:'space-around',
-    alignSelf:'stretch',
+    justifyContent: 'space-around',
+    alignSelf: 'stretch',
     width: undefined
   },
   // dot: {

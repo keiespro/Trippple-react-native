@@ -1,55 +1,46 @@
 import { Text, View, Image, Dimensions, ActivityIndicator, LayoutAnimation, TouchableOpacity, NativeModules } from 'react-native';
 import React from 'react';
+import {pure} from 'recompose'
+import {connect} from 'react-redux'
+import TimerMixin from 'react-timer-mixin';
+import reactMixin from 'react-mixin'
 import FadeInContainer from '../../FadeInContainer';
-import SettingsBasic from '../settings/SettingsBasic';
 import colors from '../../../utils/colors';
 import styles from './styles';
 import config from '../../../../config'
 import profileOptions from '../../../data/get_client_user_profile_options'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import ActionMan from '../../../actions'
-import {pure} from 'recompose'
+
 const {FBAppInviteDialog} = NativeModules
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 const {INVITE_FRIENDS_APP_LINK} = config;
 const getPotentialsButtonEnabled = true;
-import {connect} from 'react-redux'
-import TimerMixin from 'react-timer-mixin';
-import reactMixin from 'react-mixin'
 
 
 @reactMixin.decorate(TimerMixin)
 class PotentialsPlaceholder extends React.Component{
-  constructor(props){
+  constructor(){
     super()
     this.state = {loading: true}
   }
-  onDidShow(){
-    this.props.onDidShow && this.props.onDidShow(true)
-  }
+
   componentDidMount(){
     this.startTimer()
   }
-  openProfileEditor(){
-    this.props.navigator.push(this.props.navigation.router.getRoute('SettingsBasic', {
-      style: styles.container,
-      settingOptions: profileOptions,
-    }));
-    this.setState({loading: true})
+
+  componentDidUpdate(pState){
+    if (this.state.loading && !pState.loading){
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
+      this.startTimer()
+    }
   }
-  openPrefs(){
-    this.props.navigator.push(this.props.navigation.router.getRoute('SettingsPreferences', {
-    }));
-    this.setTimeout(() => {
-      this.setState({loading: true})
-    }, 5000)
+
+  onDidShow(){
+    this.props.onDidShow && this.props.onDidShow(true)
   }
-  startTimer(){
-    this.setTimeout(() => {
-      this.setState({loading: false})
-    }, 15000)
-  }
+
   getMorePotentials(){
   // this.state.loading
 
@@ -60,11 +51,27 @@ class PotentialsPlaceholder extends React.Component{
 
         // this.props.dispatch({type:'REQUEST_POTENTIALS_MANUALLY',payload:{coords}})
   }
-  componentDidUpdate(pState){
-    if (this.state.loading && !pState.loading){
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
-      this.startTimer()
-    }
+
+  openProfileEditor(){
+    this.props.navigator.push(this.props.navigation.router.getRoute('SettingsBasic', {
+      style: styles.container,
+      settingOptions: profileOptions,
+    }));
+    this.setState({loading: true})
+  }
+
+  openPrefs(){
+    this.props.navigator.push(this.props.navigation.router.getRoute('SettingsPreferences', {
+    }));
+    this.setTimeout(() => {
+      this.setState({loading: true})
+    }, 5000)
+  }
+
+  startTimer(){
+    this.setTimeout(() => {
+      this.setState({loading: false})
+    }, 15000)
   }
 
   inviteFriends(){
@@ -93,15 +100,14 @@ class PotentialsPlaceholder extends React.Component{
           style={[
             styles.dashedBorderImage,
             {
-              height: DeviceHeight - 60,
+              height: DeviceHeight - 160,
               width: DeviceWidth,
-              backgroundColor: colors.outerSpace,
               position: 'relative',
               alignItems: 'center',
               justifyContent: 'center',
+              backgroundColor: colors.outerSpace,
               flex: 1,
               flexDirection: 'column',
-
             }
           ]}
         >
@@ -109,20 +115,21 @@ class PotentialsPlaceholder extends React.Component{
             source={require('./assets/placeholderDashed.png')}
             style={{
               alignSelf: 'stretch',
-              height: MagicNumbers.is5orless ? DeviceHeight - 90 : DeviceHeight - 55 - MagicNumbers.screenPadding / 2,
-              marginHorizontal: MagicNumbers.is4s ? MagicNumbers.screenPadding : 15,
+              height: DeviceHeight - 110,
+              // marginHorizontal: MagicNumbers.is4s ? MagicNumbers.screenPadding : 15,
               marginVertical: MagicNumbers.is4s ? MagicNumbers.screenPadding : 15,
-              width: MagicNumbers.is4s ? DeviceWidth - MagicNumbers.screenPadding * 2 : DeviceWidth - 30,
+              // width: MagicNumbers.is4s ? DeviceWidth - MagicNumbers.screenPadding * 2 : DeviceWidth - 30,
               alignItems: 'center',
+              width: DeviceWidth - 40,
               justifyContent: 'center',
               position: 'absolute',
-              top: 60,
+              top: 50,
               flex: 1,
               bottom: 0,
-              left: 0,
+              left: 20,
               flexDirection: 'column',
             }}
-            resizeMode={MagicNumbers.is4s ? Image.resizeMode.stretch : Image.resizeMode.contain}
+            resizeMode={Image.resizeMode.stretch}
           >
             <Image
               source={require('./assets/tripppleLogo.png')}
@@ -147,7 +154,8 @@ class PotentialsPlaceholder extends React.Component{
                   color: colors.white,
                   fontSize: MagicNumbers.size18 + 2,
                   textAlign: 'center',
-                  fontFamily: 'montserrat', fontWeight: '800',
+                  fontFamily: 'montserrat',
+                  fontWeight: '800',
                 }}
               >{'LOOKING FOR MATCHES'}</Text>
               <Spinner />
@@ -163,7 +171,7 @@ class PotentialsPlaceholder extends React.Component{
               /> : null
               }
 
-            {!userProfileIncomplete && getPotentialsButtonEnabled && !potentialsReturnedEmpty && (!this.state.loading) ?
+            {!userProfileIncomplete && getPotentialsButtonEnabled && !potentialsReturnedEmpty && !this.state.loading ?
               <Button
                 loading={this.state.loading}
                 btnText={'GET MORE MATCHES'}
@@ -171,7 +179,7 @@ class PotentialsPlaceholder extends React.Component{
                 labelPosition={'bottom'}
                 onTap={this.getMorePotentials.bind(this)}
               /> : null
-              }
+            }
 
             {!userProfileIncomplete && potentialsReturnedEmpty && (!this.state.loading) ?
               <Button
@@ -181,13 +189,14 @@ class PotentialsPlaceholder extends React.Component{
                 labelPosition={'top'}
                 onTap={this.openPrefs.bind(this)}
               /> : null
-              }
+            }
+
             {!userProfileIncomplete && !potentialsReturnedEmpty && !getPotentialsButtonEnabled && !this.state.loading ?
               <Button
                 btnText={'INVITE FRIENDS'}
                 onTap={this.inviteFriends.bind(this)}
               /> : null
-              }
+            }
           </Image>
         </View>
       </FadeInContainer>
@@ -196,7 +205,7 @@ class PotentialsPlaceholder extends React.Component{
 }
 
 
-const Spinner = ({labelText, btnText, onTap, loading}) => (
+const Spinner = () => (
 
   <ActivityIndicator
     style={{top: 0, height: 50, width: 50, marginVertical: 50}}
@@ -206,7 +215,7 @@ const Spinner = ({labelText, btnText, onTap, loading}) => (
   />
 );
 
-const Button = ({labelText, labelPosition = 'top', btnText, onTap, loading}) => (
+const Button = ({labelText, labelPosition = 'top', btnText, onTap}) => (
   <View
     style={{
       alignSelf: 'stretch',
@@ -244,7 +253,8 @@ const Button = ({labelText, labelPosition = 'top', btnText, onTap, loading}) => 
           style={{
             color: colors.white,
             textAlign: 'center',
-            fontFamily: 'montserrat', fontWeight: '800'
+            fontFamily: 'montserrat',
+            fontWeight: '800'
           }}
         >
           {btnText}

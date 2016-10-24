@@ -1,6 +1,6 @@
 
-import React from "react";
-import {StyleSheet, Text, View, LayoutAnimation, TouchableHighlight, Image, TouchableOpacity, Animated, ActivityIndicator, ScrollView, PixelRatio, Dimensions, PanResponder, Easing} from "react-native";
+import React from 'react';
+import {StyleSheet, Text, View, LayoutAnimation, TouchableHighlight, Image, TouchableOpacity, Animated, ActivityIndicator, ScrollView, PixelRatio, Dimensions, PanResponder, Easing} from 'react-native';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
@@ -17,43 +17,56 @@ import {MagicNumbers} from '../utils/DeviceConfig'
 
 class UserDetails extends React.Component{
 
-  constructor(props){
+  constructor(){
     super()
-
   }
 
   render(){
     const {potential} = this.props;
-    const rel = this.props.rel || this.props.user.relationship_status;
 
     return (
       <View>
-      { potential.partner && potential.partner.gender ?
-      <View
-       style={{zIndex:600,width:MagicNumbers.screenWidth,overflow:'hidden',marginHorizontal:MagicNumbers.screenPadding/2}}>
-
-        <ScrollableTabView tabs={['1','2']} renderTabBar={(props) => <SliderTabBar {...props}  />}>
-          <ProfileTable
-            index={0}
-            profile={potential.user}
-            tabLabel={`${potential.user.firstname}, ${potential.user.age}`}
-          />
-          <ProfileTable
-            index={1}
-            profile={potential.partner}
-            tabLabel={`${potential.partner.firstname}, ${potential.partner.age}`}
-          />
-        </ScrollableTabView></View> : <View style={{width:MagicNumbers.screenWidth}}>
-          <View style={[styles.tabs,{ marginHorizontal:MagicNumbers.screenPadding/2,marginBottom:20}]}>
-            <Text style={{fontFamily:'montserrat',fontSize:16,textAlign:'center', color:  colors.white }} >
-            {`${potential.user.firstname}, ${potential.user.age}`}
-            </Text>
+        { potential.partner && potential.partner.gender ? (
+          <View
+            style={{zIndex: 600, width: MagicNumbers.screenWidth, overflow: 'hidden', marginHorizontal: MagicNumbers.screenPadding / 2}}
+          >
+            <ScrollableTabView
+              tabs={['1', '2']}
+              renderTabBar={(props) => <SliderTabBar {...props} />}
+            >
+              <ProfileTable
+                index={0}
+                profile={potential.user}
+                tabLabel={`${potential.user.firstname}, ${potential.user.age}`}
+              />
+              <ProfileTable
+                index={1}
+                profile={potential.partner}
+                tabLabel={`${potential.partner.firstname}, ${potential.partner.age}`}
+              />
+            </ScrollableTabView>
           </View>
-          <View style={[styles.singleTab]}>
-            <ProfileTable profile={potential.user} tabLabel={'single'}/>
-          </View>
-        </View>
-      }
+          ) : (
+            <View
+              style={{width: MagicNumbers.screenWidth}}
+            >
+              <View
+                style={[styles.tabs, { marginHorizontal: MagicNumbers.screenPadding / 2, marginBottom: 20}]}
+              >
+                <Text
+                  style={{fontFamily: 'montserrat', fontSize: 16, textAlign: 'center', color: colors.white }}
+                >
+                  {`${potential.user.firstname}, ${potential.user.age}`}
+                </Text>
+              </View>
+              <View
+                style={[styles.singleTab]}
+              >
+                <ProfileTable profile={potential.user} tabLabel={'single'}/>
+              </View>
+            </View>
+          )
+        }
       </View>
     )
   }

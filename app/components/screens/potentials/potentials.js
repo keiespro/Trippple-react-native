@@ -63,7 +63,9 @@ const Toolbar = () => (
       height: 60,
       position: 'absolute',
       width: DeviceWidth,
-      alignItems: 'center'
+      alignItems: 'center',
+      zIndex: 10,
+      top: 0,
     }}
   >
     <SettingsButton />
@@ -138,7 +140,6 @@ class Potentials extends React.Component{
   }
 
   toggleProfile(){
-
     __DEV__ && console.warn('nothing');
   }
 
@@ -161,7 +162,7 @@ class Potentials extends React.Component{
           style={[
             styles.cardStackContainer,
             {
-              top: iOS ? (this.props.profileVisible ? 70 : 60) :  0,
+              top: iOS ? (this.props.profileVisible ? 70 : 60) : 0,
               position: 'relative',
             }
           ]}
