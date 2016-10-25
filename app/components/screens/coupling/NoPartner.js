@@ -23,16 +23,41 @@ import {NavigationStyles, withNavigation} from '@exponent/ex-navigation';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
+import {SlideHorizontalIOS, FloatHorizontal} from '../../../ExNavigationStylesCustom'
+
 
 @withNavigation
 class NoPartner extends React.Component{
 
   static route = {
-    styles: NavigationStyles.Fade,
+    styles: FloatHorizontal,
     navigationBar: {
+      visible:true,
+      translucent:true,
       backgroundColor: colors.shuttleGrayAnimate,
-      visible: false
-    }
+      borderBottomWidth: 0,
+      tintColor: '#fff',
+      borderWidth: 0,
+      style:{
+        top:24,
+        paddingTop:24
+      },
+      top:24,
+      paddingTop:24,
+      titleStyle: {
+        color: '#fff',
+        fontFamily: 'montserrat',
+        borderBottomWidth: 0,
+      },
+      title(params){
+          return `JOIN COUPLE`
+      }
+    },
+    sceneStyle:{
+
+      backgroundColor: colors.outerSpace,
+    },
+
   };
   constructor(props){
     super()

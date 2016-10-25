@@ -26,10 +26,10 @@ const CardLabel = props => (
     >{ props.matchName }
     </Text>
     <Text
-      style={[styles.cardBottomOtherText, { color: props.textColor }]}
+      style={[styles.cardBottomOtherText, { alignSelf:'flex-start',color: props.textColor }]}
       key={`${props.potential.user.id}-matchn`}
-    >{
-        props.city.replace(', ', '') + props.seperator + (props.distance ? ` ${props.distance} ${props.distance == 1 ? 'mile' : 'miles'} away` : '')
+    >{props.city
+        // props.city.replace(', ', '') + props.seperator + (props.distance ? ` ${props.distance} ${props.distance == 1 ? 'mile' : 'miles'} away` : '')
     }</Text>
   </View>
 );
@@ -65,7 +65,7 @@ class UserProfile extends React.Component {
       this.handleSize(layout.height + 600)
     }
   }
-  
+
   reportModal() {
     const them = [this.props.potential.user];
     if (this.props.potential.partner && this.props.potential.partner.gender){
@@ -153,7 +153,7 @@ class UserProfile extends React.Component {
         }]}
         onLayout={this.onLayout.bind(this)}
       >
-        <StatusBar animated hidden />
+        {/* <StatusBar animated hidden /> */}
 
         <ParallaxSwiper
           contentContainerStyle={[{
@@ -170,6 +170,8 @@ class UserProfile extends React.Component {
             flex: 1,
             position: 'relative',
             top: 0,
+
+            backgroundColor:'#000',
             width: cardWidth,
           }]}
           header={<View />}
@@ -182,9 +184,7 @@ class UserProfile extends React.Component {
 
           <View
             blurType="dark"
-            style={aniblurstyle}
-            renderToHardwareTextureAndroid
-          >
+           >
 
             {profileVisible ?
               <View
@@ -587,11 +587,11 @@ const styles = StyleSheet.create({
     marginTop: 0
   },
   cardBottomOtherText: {
-    marginLeft: 20,
+    marginLeft: 0,
     fontFamily: 'omnes',
     color: colors.rollingStone,
     fontSize: 16,
-    marginTop: 0,
-    opacity: 0.5
+    marginTop: 10,
+    opacity: 0.9
   }
 });

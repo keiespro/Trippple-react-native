@@ -1,11 +1,11 @@
-import { Image, NativeModules } from 'react-native'
+import { Image, NativeModules, Platform } from 'react-native'
 import _ from 'lodash'
 
 const {ImageLoader} = NativeModules
 const PREFETCH_STARTED = 'PREFETCH_STARTED';
 const PREFETCH_COMPLETE = 'PREFETCH_COMPLETE';
 
-export default function createPrefetcher(config = {}, onComplete) {
+export default function createPrefetcher(config = {}) {
   // defaults
 
 
@@ -28,7 +28,7 @@ export default function createPrefetcher(config = {}, onComplete) {
 
     targetKeys.forEach(targetKeyMap => {
       const targetAction = Object.keys(targetKeyMap)[0];
-      if (action.type != targetAction) return;
+      if(action.type != targetAction) return;
 
       const imgKey = targetKeyMap[targetAction];
 
@@ -41,16 +41,16 @@ export default function createPrefetcher(config = {}, onComplete) {
 
 
     function resolveChildProperty(parent, childKey){
-      if (typeof childKey === 'object'){
+      if(typeof childKey === 'object'){
         const subkey = Object.keys(childKey)[0]; // only allowing 1 subkey for now
-        if (subkey){
+        if(subkey){
           const subsubkey = Object.keys(childKey[subkey])[0]; // only allowing 1 subkey for now
 
           return parent[subkey][subsubkey];
-        } else {
+        }else{
           return parent[subkey];
         }
-      } else {
+      }else{
         return parent[childKey];
       }
     }
@@ -58,11 +58,11 @@ export default function createPrefetcher(config = {}, onComplete) {
     function processStateKey(pointer, stateValue, incoming){
       let images = [];
 
-      if (!incoming || !incoming.length){
+      if(!incoming || !incoming.length){
         return;
       }
     // If it's an array, assume we're dealing with a collection of things that will each have one or more images
-      if (Array.isArray(incoming)){
+      if(Array.isArray(incoming)){
       // if the user provided a mapping to the image url inside a collection item
       // if (typeof watchKeys === 'object'){
         images = incoming.map(item => resolveChildProperty(item, pointer.location))
@@ -77,10 +77,10 @@ export default function createPrefetcher(config = {}, onComplete) {
       //     return imgs
       //   }, []);
       // }
-      } else if (typeof incoming === 'object'){
+      }else if(typeof incoming === 'object'){
         // dont decened uet
         images = Object.keys(incoming[pointer]).reduce((imgs, item) => {
-          if (item.substr(0, 4) == 'http'){
+          if(item.substr(0, 4) == 'http'){
             imgs.push(item[watchKeys[pointer]])
           }
 
@@ -88,34 +88,53 @@ export default function createPrefetcher(config = {}, onComplete) {
         }, []);
       }
 
-      console.warn(images.length);
-      ImageLoader.queryCache(images)
-      .then(cache => {
-        console.log(cache);
-        const uncached = _.difference(images, Object.keys(cache))
-        console.log(uncached,'going to prefetch')
-        return uncached
-      })
-      .then(imgs => {
-        console.log(imgs);
+      if(debug) console.warn(images.length);
+
+      let cacheCheck;
+      if(Platform.os == 'android'){
+        cacheCheck = ImageLoader.queryCache(images)
+        .then(cache => {
+          if(debug) console.log(cache);
+          const uncached = _.difference(images, Object.keys(cache))
+          if(debug) console.log(uncached, 'going to prefetch')
+          return uncached
+        })
+      }else{
+        cacheCheck = new Promise((resolve, reject) => {
+          setImmediate(() => {
+            const a = true;
+            console.log('Image loader check cache not supported on iOS');
+            if(a){
+              resolve()
+            }else{
+              reject()
+            }
+          })
+        })
+      }
+
+      cacheCheck.then(imgs => {
+        if(debug) console.log(imgs);
+
         imgs.forEach(imageUrl => {
+          if(debug) console.log(imageUrl);
+
           dispatch(prefetchStartedAction({imageUrl}));
-          console.log(imageUrl);
+
           Image.prefetch(imageUrl)
             .then(success => {
+              if(debug) console.log(`success: ${success}`);
               dispatch(prefetchCompleteAction({imageUrl}));
-              console.log(`success: ${success}`);
             })
             .catch(error => {
+              if(debug) console.warn('err', error)
               dispatch(prefetchCompleteAction({imageUrl}, error));
-              console.warn('err', error)
             })
         })
       })
       .catch(error => {
-        dispatch(prefetchCompleteAction({imageUrl}, error));
-        console.warn('err', error)
-
+        if(debug) console.warn('err', error)
+        dispatch(prefetchCompleteAction({error}));
       })
     }
   }

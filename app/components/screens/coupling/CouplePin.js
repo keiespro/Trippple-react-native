@@ -20,6 +20,7 @@ import { connect } from 'react-redux';
 import {SHOW_COUPLING} from '../../../utils/SettingsConstants'
 
 import {NavigationStyles, withNavigation} from '@exponent/ex-navigation';
+import {SlideHorizontalIOS, FloatHorizontal} from '../../../ExNavigationStylesCustom'
 
 
 const DeviceHeight = Dimensions.get('window').height
@@ -29,11 +30,34 @@ const DeviceWidth = Dimensions.get('window').width
 class CouplePin extends React.Component{
 
   static route = {
-    styles: NavigationStyles.Fade,
+    styles: FloatHorizontal,
     navigationBar: {
-      visible: false,
+      visible:true,
+      translucent:true,
       backgroundColor: colors.shuttleGrayAnimate,
-    }
+      borderBottomWidth: 0,
+      tintColor: '#fff',
+      borderWidth: 0,
+      style:{
+        top:24,
+        paddingTop:24
+      },
+      top:24,
+      paddingTop:24,
+      titleStyle: {
+        color: '#fff',
+        fontFamily: 'montserrat',
+        borderBottomWidth: 0,
+      },
+      title(params){
+          return `JOIN COUPLE`
+      }
+    },
+    sceneStyle:{
+
+      backgroundColor: colors.outerSpace,
+    },
+
   };
 
   constructor(props){

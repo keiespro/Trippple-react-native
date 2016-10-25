@@ -266,15 +266,15 @@ class CardStack extends React.Component {
         }}
         toggleProfile={this._toggleProfile.bind(this)}
       >
-        {this.props.profileVisible &&
+        {/* {this.props.profileVisible &&
           <StatusBar animated barStyle="light-content" />
-        }
+        } */}
         <View
           style={{
             height: this.props.profileVisible ? 0 : 40,
             width:DeviceWidth,
           }}
-          pointerEvents={this.props.profileVisible ? 'box-none' : 'none'}
+
         />
         { potentials && potentials.length >= 1 && potentials[1] &&
           <Animated.View

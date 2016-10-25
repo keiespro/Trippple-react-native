@@ -61,7 +61,7 @@ class AgePrefs extends React.Component{
       <View>
       <View
         style={{
-          flexDirection: 'column', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', height: 150, width: MagicNumbers.screenWidth, backgroundColor: 'transparent'
+          flexDirection: 'column', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', height: 50, width: MagicNumbers.screenWidth, backgroundColor: 'transparent'
         }}
       >
 
@@ -78,14 +78,14 @@ class AgePrefs extends React.Component{
 
           <Text
             style={{
-              alignSelf: 'flex-end', color: colors.white, textAlign: 'right',  fontFamily: 'omnes', marginRight: 0, marginBottom: 20
+              alignSelf: 'flex-end', color: colors.white, textAlign: 'right', fontFamily: 'omnes', marginRight: 0, marginBottom: 10
             }}
           >{`${this.state.match_age_min} - ${this.state.match_age_max == 50 ? '50+' : this.state.match_age_max}`}</Text>
         </View>
 </View>
 <View
   style={{
-    flexDirection: 'column', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', height: 150, width: DeviceWidth, backgroundColor: 'transparent'
+    flexDirection: 'column', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', height: 110, width: DeviceWidth, backgroundColor: 'transparent'
   }}
 >
 
@@ -93,16 +93,15 @@ class AgePrefs extends React.Component{
           style={{
             left: MagicNumbers.isSmallDevice ? 2 : 0,
             paddingHorizontal: 0,
-            flexDirection: 'row',
-            height: 90,
-            alignItems: 'flex-start',
+            height: 100,
+            alignItems: 'center',
             justifyContent: 'center',
             alignSelf: 'center'
           }}
         >
         <MultiSlider
         values={[this.state.match_age_min,this.state.match_age_max]}
-        sliderLength={MagicNumbers.screenWidth}
+        sliderLength={MagicNumbers.screenWidth-20}
         min={MIN_AGE}
         max={MAX_AGE}
         onValuesChange={(v) => {

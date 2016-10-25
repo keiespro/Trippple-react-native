@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
 
   cardStackContainer: {
     width: DeviceWidth,
-    height: DeviceHeight - 60,
+    height: DeviceHeight,
     flex: 1,
     top: 0,
     position: 'absolute',

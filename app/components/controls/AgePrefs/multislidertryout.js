@@ -9,6 +9,7 @@ import {
   Image,
   Platform,
 } from 'react-native';
+import colors from '../../../utils/colors'
 
 function valueToPosition(value, valuesArray, sliderLength) {
   var arrLength;
@@ -277,16 +278,16 @@ function createArray(start, end, step) {
 
       return (
         <View style={[styles.container, this.props.containerStyle]}>
-          <View style={[styles.fullTrack, { width: sliderLength }]}>
-            <View style={[styles.track, this.props.trackStyle, trackOneStyle, { width: trackOneLength } ]} />
-            <View style={[styles.track, this.props.trackStyle, trackTwoStyle, { width: trackTwoLength } ]} />
+          <View style={[styles.fullTrack, { width: sliderLength, }]}>
+            <View style={[styles.track, this.props.trackStyle, trackOneStyle, { width: trackOneLength }]} />
+            <View style={[styles.track, this.props.trackStyle, trackTwoStyle, { width: trackTwoLength }]} />
             {twoMarkers && (
-              <View style={[styles.track, this.props.trackStyle, trackThreeStyle, { width: trackThreeLength } ]} />
+              <View style={[styles.track, this.props.trackStyle, trackThreeStyle, { width: trackThreeLength }]} />
             )}
             <View style={[styles.markerContainer, markerContainerOne]}>
               <View
                 style={[styles.touch, touchStyle]}
-                ref={component => this._markerOne = component}
+                ref={component => { this._markerOne = component }}
                 {...this._panResponderOne.panHandlers}
               >
                 <Marker
@@ -321,7 +322,7 @@ function createArray(start, end, step) {
 
 const DefaultMarker = ({ pressed, pressedMarkerStyle, markerStyle, currentValue }) => (
       <TouchableHighlight>
-      <View style={{height:120,top:-10,flexDirection:'column'}}>
+      <View style={{height:100,top:18,flexDirection:'column'}}>
         <View
           style={[styles.markerStyle, markerStyle, pressed && styles.pressedMarkerStyle, pressed && pressedMarkerStyle]}
         />
@@ -331,7 +332,7 @@ const DefaultMarker = ({ pressed, pressedMarkerStyle, markerStyle, currentValue 
           backgroundColor:'transparent',alignItems:'center',justifyContent:'center',
           height:42,width:30,marginBottom:20
         }}>
-        <Text style={{backgroundColor:'transparent',textAlign:'center',color:'#fff',fontSize:12}}>{
+        <Text style={{backgroundColor:'transparent', fontFamily: 'omnes',textAlign:'center',color:'#fff',fontSize:12}}>{
             currentValue == 50 ? '50+' : currentValue
           }</Text>
 
@@ -361,8 +362,9 @@ const styles = StyleSheet.create({
     //   android: {
         height: 15,
         width: 15,
+        marginLeft:7,
         borderRadius: 15,
-        backgroundColor: '#fff',
+        backgroundColor: colors.mediumPurple
     //   }
     // }),
   },
@@ -374,13 +376,13 @@ const styles = StyleSheet.create({
         height: 15,
         width: 15,
         borderRadius: 15,
-        opacity:0.8
+        opacity:0.9
     //   },
     // }),
   },
   container: {
     position: 'relative',
-    height: 130,
+    // height: 110,
   },
   fullTrack: {
     flexDirection: 'row',
@@ -393,8 +395,10 @@ const styles = StyleSheet.create({
     //     backgroundColor: '#A7A7A7',
     //   },
     //   android: {
-        height: 2,
+        height: 4,
         backgroundColor: '#fff',
+        borderRadius: 15,
+
     //   }
     // }),
   },
@@ -404,14 +408,13 @@ const styles = StyleSheet.create({
     //     backgroundColor: '#095FFF',
     //   },
     //   android: {
-        backgroundColor: '#0D8675',
+        backgroundColor: colors.mediumPurple
     //   },
     // }),
   },
   markerContainer: {
     position: 'absolute',
     width: 48,
-    height: 148,
     backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',

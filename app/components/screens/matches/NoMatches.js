@@ -25,49 +25,56 @@ const NoMatches = () => (
     }}
   >
     <FadeInContainer
-      delayAmount={1000}
+      delayAmount={100}
       duration={1000}
     >
       <View
         style={{
           flex: 3,
           flexDirection: 'column',
-          padding: MagicNumbers.screenPadding / 2,
           justifyContent: 'flex-start',
           alignItems: 'center',
           alignSelf: 'stretch',
           paddingBottom: 0,
-          paddingTop: 20
+          paddingTop: 10
         }}
       >
         <Image
           style={{
-            width: DeviceWidth - MagicNumbers.screenPadding,
-            height: MagicNumbers.is5orless ? 70 : 80,
-            marginBottom: 20
+            width: DeviceWidth - MagicNumbers.screenPadding-20,
+            height: MagicNumbers.is5orless ? 50 : 60,
+            marginBottom: 20,
+            alignSelf:'flex-start'
           }}
           source={require('./assets/listing.png')}
           resizeMode={Image.resizeMode.contain}
         />
         <Image
           style={{
-            width: DeviceWidth - MagicNumbers.screenPadding,
-            height: MagicNumbers.is5orless ? 70 : 80,
-            marginBottom: 20
-          }}
-          source={require('./assets/listing.png')}
-          resizeMode={Image.resizeMode.contain}
-        />
-        <Image
-          style={{
-            width: DeviceWidth - MagicNumbers.screenPadding,
-            height: MagicNumbers.is5orless ? 70 : 80,
-            marginBottom: 50
-          }}
-          source={require('./assets/listing.png')}
-          resizeMode={Image.resizeMode.contain}
-        />
+            width: DeviceWidth - MagicNumbers.screenPadding-20,
+            height: MagicNumbers.is5orless ? 50 : 60,
+            marginBottom: 20,
+            alignSelf:'flex-start'
 
+          }}
+          source={require('./assets/listing.png')}
+          resizeMode={Image.resizeMode.contain}
+        />
+        <Image
+          style={{
+            width: DeviceWidth - MagicNumbers.screenPadding-20,
+            height: MagicNumbers.is5orless ? 50 : 60,
+            marginBottom: 50,
+            alignSelf:'flex-start'
+
+          }}
+          source={require('./assets/listing.png')}
+          resizeMode={Image.resizeMode.contain}
+        />
+<View style={{
+  padding: MagicNumbers.screenPadding / 2,
+}}
+>
         <Text
           style={{
             color: colors.white,
@@ -86,6 +93,7 @@ const NoMatches = () => (
             textAlign: 'center'
           }}
         >{ 'Your conversations with your matches will appear in this screen.' }</Text>
+      </View>
       </View>
     </FadeInContainer>
   </ScrollView>

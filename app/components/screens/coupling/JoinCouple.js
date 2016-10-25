@@ -27,15 +27,33 @@ import { connect } from 'react-redux';
 import ActionMan from '../../../actions'
 
 import styles from '../../modals/purpleModalStyles'
+import {SlideHorizontalIOS, FloatHorizontal} from '../../../ExNavigationStylesCustom'
 
 @withNavigation
 class JoinCouple extends Component{
   static route = {
-    styles: NavigationStyles.FloatHorizontal,
     navigationBar: {
-      backgroundColor: 'rgba(0,0,0,0)',
-      visible:false
-    }
+      visible:true,
+      translucent:true,
+      backgroundColor: colors.shuttleGrayAnimate,
+      borderBottomWidth: 0,
+      tintColor: '#fff',
+      borderWidth: 0,
+      style:{
+        top:24,
+        paddingTop:24
+      },
+      top:24,
+      paddingTop:24,
+      titleStyle: {
+        color: '#fff',
+        fontFamily: 'montserrat',
+        borderBottomWidth: 0,
+      },
+      title(params){
+          return `JOIN COUPLE`
+      }
+    },
   };
 
   componentWillReceiveProps(nProps){
@@ -70,15 +88,17 @@ goBack(){
 }
   render(){
     const couple = this.props.couple;
-    const imgWidth = MagicNumbers.is5orless ? 120 : 160;
+    const imgWidth = MagicNumbers.is5orless ? 120 : 130;
 
     return (
         <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{width:DeviceWidth,height:DeviceHeight,flex:1}}>
-        <View style={[{width:DeviceWidth,paddingTop:MagicNumbers.is5orless ? 20 : 50, paddingHorizontal:MagicNumbers.screenPadding/2 }]} >
+        style={{width:DeviceWidth,height:DeviceHeight,flex:1,
+          backgroundColor: colors.outerSpace,
+        }}>
+        <View style={[{width:DeviceWidth,paddingTop:MagicNumbers.is5orless ? 20 : 20, paddingHorizontal:MagicNumbers.screenPadding/2 }]} >
 
-          <View style={{height:imgWidth-4,marginVertical:MagicNumbers.is5orless ? 10 : 30,
+          <View style={{height:imgWidth,marginVertical:MagicNumbers.is5orless ? 10 : 30,
               transform:[{scale:MagicNumbers.is5orless ? .8 : 1 }],flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
             <View
               style={{width:imgWidth,height:imgWidth,borderRadius:imgWidth/2,marginRight:imgWidth * -1 + 20,borderColor:colors.white,borderWidth:3,borderStyle:'dashed'}} />
@@ -88,8 +108,8 @@ goBack(){
             />
           </View>
 
-          <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center',backgroundColor:'transparent', fontFamily:'montserrat',fontWeight:'800',fontSize:22,color:'#fff',marginVertical:10 }]}>
-          Couple</Text>
+          {/* <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center',backgroundColor:'transparent', fontFamily:'montserrat',fontWeight:'800',fontSize:22,color:'#fff',marginVertical:10 }]}>
+          Couple</Text> */}
 
           <View style={{flexDirection:'column',marginBottom:30 }} >
             <Text style={[styles.rowtext,styles.bigtext,{

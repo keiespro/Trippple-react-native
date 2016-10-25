@@ -38,38 +38,40 @@ class NewCard extends React.Component {
   componentWillReceiveProps(nProps) {
     if (this.props.profileVisible != nProps.profileVisible) {
       Animated.spring(this.state.isOpen, {
-        toValue: nProps.profileVisible ? 0 : 100
+        toValue: nProps.profileVisible ? 0 : 100,
+        useNativeDriver: true
       }).start()
     }
 
-    if (!this.props.profileVisible && nProps.profileVisible) {
-      BackAndroid.addEventListener('hardwareBackPress', e => this.handleBackFromOpenProfile(e))
-    }
+    // if (!this.props.profileVisible && nProps.profileVisible) {
+    //   BackAndroid.addEventListener('hardwareBackPress', e => this.handleBackFromOpenProfile(e))
+    // }
   }
 
   componentWillUnmount(){
-    this.dontHandleBackFromOpenProfile()
+    // this.dontHandleBackFromOpenProfile()
   }
 
   onLayout(e) {
     const {layout} = e.nativeEvent
 
     if (!this.state.contentHeight) {
-      this.handleSize(layout.height + 1000)
+      console.log('layout.height,layout.width',layout.height,layout.width);
+      this.handleSize(layout.height,layout.width)
     }
   }
 
-  handleBackFromOpenProfile(e, x){
-    console.log(e, x);
-    // e.preventDefault();
-    e && e.stopPropagation();
-    this.props.dispatch({ type: 'CLOSE_PROFILE' });
-    this.dontHandleBackFromOpenProfile()
-  }
-
-  dontHandleBackFromOpenProfile(){
-    BackAndroid.removeEventListener('hardwareBackPress', this.handleBackFromOpenProfile.bind(this))
-  }
+  // handleBackFromOpenProfile(e, x){
+  //   console.log(e, x);
+  //   // e.preventDefault();
+  //   e && e.stopPropagation();
+  //   this.props.dispatch({ type: 'CLOSE_PROFILE' });
+  //   this.dontHandleBackFromOpenProfile()
+  // }
+  //
+  // dontHandleBackFromOpenProfile(){
+  //   BackAndroid.removeEventListener('hardwareBackPress', this.handleBackFromOpenProfile.bind(this))
+  // }
 
   reportModal() {
     const {potential} = this.props;
@@ -91,8 +93,8 @@ class NewCard extends React.Component {
     this.props.dispatch({ type: 'OPEN_PROFILE' });
   }
 
-  handleSize(contentHeight) {
-    this.setState({contentHeight})
+  handleSize(contentHeight,contentWidth) {
+    this.setState({contentHeight,contentWidth})
   }
   render() {
     const {profileVisible, cardWidth, city, seperator, potential, isTopCard, matchName, distance} = this.props;
@@ -139,7 +141,8 @@ class NewCard extends React.Component {
       <Animated.View
         key={`topkey${potential.user.id}`}
         style={anistyle}
-        onLayout={this.onLayout.bind(this)}
+        pointerEvents={'box-none'}
+
       >
 
         <ParallaxSwiper
@@ -152,6 +155,7 @@ class NewCard extends React.Component {
           }]}
           slideFrames={slideFrames}
           scrollEnabled={profileVisible}
+
           showsVerticalScrollIndicator={false}
           style={[{
             flex: 1,
@@ -170,158 +174,9 @@ class NewCard extends React.Component {
           killProfile={this.closeProfile.bind(this)}
         >
           <View
-            blurType="dark"
             style={aniblurstyle}
-          >
-            {profileVisible ?
-              <View
-                style={{
-                  marginVertical: 8,
-                  width: 40,
-                  height: 8,
-                  borderRadius: 15,
-                  alignSelf: 'center',
-                  backgroundColor: 'rgba(255,255,255,.2)',
-                  position: 'absolute',
-                  top: 0,
-                  left: (DeviceWidth / 2) - 20
-                }}
-              /> : null
-            }
-            <View
-              key={`blurkey${potential.user.id}`}
-              style={{
-                // height: profileVisible ? this.state.contentHeight : 0,
-                opacity: profileVisible ? 1 : 0,
-                flex: 10
-              }}
-            >
+          />
 
-              <View
-                style={{
-                  paddingVertical: 40,
-                  width: DeviceWidth,
-                  flex: 10,
-                  marginTop: 0
-                }}
-              >
-
-                <View
-                  style={{
-                    marginHorizontal: MagicNumbers.screenPadding / 2,
-                    marginBottom: 20,
-
-
-                  }}
-                >
-                  <CardLabel
-                    potential={potential}
-                    seperator={seperator}
-                    matchName={matchName}
-                    city={city}
-                    distance={distance}
-                    textColor={colors.white}
-                  />
-                  {verifiedCouple && <VerifiedCoupleBadge placementStyle={{position: 'absolute', alignSelf: 'flex-start', right: 0, top: 0, marginTop: 20}} />}
-
-                </View>
-
-                {potential.user.bio && potential.user.bio.length ?
-                  <View
-                    style={{
-                      margin: MagicNumbers.screenPadding / 2,
-                      width: MagicNumbers.screenWidth,
-                      flexDirection: 'column'
-                    }}
-                  >
-                    <Text
-                      style={[
-                        styles.cardBottomOtherText,
-                        {
-                          color: colors.white,
-                          marginBottom: 15,
-                          marginLeft: 0,
-                          fontFamily: 'omnes',
-                        }
-                      ]}
-                    >{ !hasPartner ? 'Looking for' : 'Looking for' }</Text>
-                    <Text
-                      style={{
-                        color: colors.white,
-                        fontSize: 18,
-                        marginBottom: 15,
-                        fontFamily: 'omnes',
-                      }}
-                    >{ potential.user.bio }</Text>
-                  </View> : null
-                }
-
-                {hasPartner && potential.partner.bio && potential.partner.bio.length ?
-                  <View
-                    style={{
-                      margin: MagicNumbers.screenPadding / 2,
-                      width: MagicNumbers.screenWidth
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: colors.white,
-                        fontSize: 18,
-                        marginBottom: 15,
-                        fontFamily: 'omnes',
-                      }}
-                    >
-                      {potential.partner.bio}
-                    </Text>
-                  </View> : null
-                }
-
-                <UserDetails
-                  potential={potential}
-                  user={this.props.user}
-                  location={'card'}
-                />
-
-                <TouchableOpacity onPress={this.reportModal.bind(this)}>
-                  <View
-                    style={{
-                      marginTop: 20,
-                      paddingBottom: 50
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: colors.mandy,
-                        fontFamily: 'omnes',
-                        textAlign: 'center'
-                      }}
-                    >Report or Block this user</Text>
-                  </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={{
-                    height: 50,
-                    zIndex: 9999,
-                    alignItems: 'center',
-                    width: 50,
-                    justifyContent: 'center',
-                    flex: 0,
-                    alignSelf: 'center',
-                  }}
-                  onPress={this.props.closeProfile}
-                >
-                  <Image
-                    resizeMode={Image.resizeMode.contain}
-                    style={{ height: 12, width: 12, marginTop: 10 }}
-                    source={require('./assets/close.png')}
-                  />
-                </TouchableOpacity>
-              </View>
-
-            </View>
-
-          </View>
 
         </ParallaxSwiper>
 

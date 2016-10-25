@@ -13,6 +13,8 @@ import formatPhone from '../../../utils/formatPhone';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import {MagicNumbers} from '../../../utils/DeviceConfig'
+import {SlideHorizontalIOS, FloatHorizontal} from '../../../ExNavigationStylesCustom'
+
 import {
   NavigationStyles, withNavigation
 } from '@exponent/ex-navigation';
@@ -24,10 +26,23 @@ const iOS = Platform.OS == 'ios';
 class SettingsBasic extends React.Component{
 
   static route = {
-    styles: iOS ? NavigationStyles.FloatHorizontal : NavigationStyles.Fade,
+    styles: iOS ? SlideHorizontalIOS : FloatHorizontal,
+    sceneStyle:{
+
+    },
     navigationBar: {
       visible:true,
       translucent:true,
+      titleStyle: {
+        color: '#fff',
+        fontFamily: 'montserrat',
+        borderBottomWidth: 0,
+      },
+      style:{
+        marginTop:24,
+        paddingTop:24,
+        top:24
+      },
       backgroundColor: colors.shuttleGrayAnimate,
       title(params){
         return `PROFILE`

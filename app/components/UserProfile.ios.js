@@ -3,6 +3,7 @@ import React from 'react';
 import { BlurView } from 'react-native-blur'
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
 import dismissKeyboard from 'dismissKeyboard'
+import {SlideVerticalIOS} from '../ExNavigationStylesCustom'
 
 import { connect } from 'react-redux'
 
@@ -41,7 +42,7 @@ const CardLabel = props => (
 class UserProfile extends React.Component {
 
   static route = {
-    styles: NavigationStyles.FloatVertical,
+    styles: SlideVerticalIOS,
     navigationBar: {
       visible: false
     }
@@ -63,7 +64,7 @@ class UserProfile extends React.Component {
   onLayout(e) {
     const { layout } = e.nativeEvent
 
-    if (!this.state.contentHeight) {
+    if(!this.state.contentHeight) {
       this.handleSize(layout.height + 600)
     }
   }
@@ -96,7 +97,7 @@ class UserProfile extends React.Component {
     const isTopCard = true;
     const names = [potential.user && potential.user.firstname ? potential.user.firstname.trim() : ''];
 
-    if (potential.partner && potential.partner.gender) {
+    if(potential.partner && potential.partner.gender) {
       names.push(potential.partner.firstname.trim());
     }
     const seperator = distance && city.length ? ' | ' : '';
@@ -123,7 +124,7 @@ class UserProfile extends React.Component {
     const cardHeight = DeviceHeight + (isTopCard ? heightTable.top : heightTable.second);
     const cardWidth = DeviceWidth;
 
-    if (potential.partner && potential.partner.gender) {
+    if(potential.partner && potential.partner.gender) {
       matchName += ` & ${potential.partner.firstname.trim()}`
     }
 
@@ -572,7 +573,7 @@ const styles = StyleSheet.create({
 
   cardBottomText: {
     marginLeft: 0,
-    fontFamily: 'montserrat',fontWeight:'800',
+    fontFamily: 'montserrat', fontWeight: '800',
     color: colors.shuttleGray,
     fontSize: 18,
     marginTop: 0

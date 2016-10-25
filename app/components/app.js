@@ -70,8 +70,6 @@ class App extends React.Component{
     return (
       <View style={{width: DeviceWidth, height: DeviceHeight}}>
 
-        <StatusBar animated barStyle="default" />
-
         <ConnectionInfo dispatch={this.props.dispatch}/>
 
         <AppState dispatch={this.props.dispatch}/>

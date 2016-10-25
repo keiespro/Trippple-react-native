@@ -1,27 +1,43 @@
-import { View, SwipeableListView } from 'react-native';
+import { View, SwipeableListView, StatusBar,Platform } from 'react-native';
 import React, { Component } from 'react';
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin';
 import { connect } from 'react-redux';
+import {NavigationStyles} from '@exponent/ex-navigation'
+
+import {SlideHorizontalIOS, FloatHorizontal} from '../../../ExNavigationStylesCustom'
+
 import ActionMan from '../../../actions/';
 import colors from '../../../utils/colors';
 import MatchesList from './MatchesList'
-
 
 function rowHasChanged(r1, r2) {
   return r1 !== r2 || r1.match_id !== r2.match_id || r1.unread != r2.unread || r1.recentMessage.message_id != r2.recentMessage.message_id
 }
 
-
 @reactMixin.decorate(TimerMixin)
 class Matches extends Component {
   static route = {
+    styles: Platform.select({ios: SlideHorizontalIOS, android: FloatHorizontal}),
+    sceneStyle:{
+    },
+    statusBar:{
+      translucent:false,
+      hidden:true,
+      animated:true
+    },
     navigationBar: {
+      style:{
+        marginTop:68
+      },
+      marginTop:68,
+
+      visible: true,
+      translucent: true,
       backgroundColor: colors.shuttleGrayAnimate,
       title(){
         return 'MESSAGES'
       },
-      style: {height: 0},
       renderRight(route, props){
         return false
       }
@@ -66,7 +82,12 @@ class Matches extends Component {
 
   render() {
     return (
-      <View>
+      <View style={{}}>
+      <StatusBar
+          animated
+          backgroundColor={colors.shuttleGray}
+          hidden={false}
+        />
         <MatchesList
           dispatch={this.props.dispatch}
           user={this.props.user}

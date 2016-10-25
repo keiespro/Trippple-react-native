@@ -1,4 +1,4 @@
-import { View, ActivityIndicator, Dimensions, Platform, NativeModules, TouchableOpacity, Image } from 'react-native';
+import { View, ActivityIndicator,StatusBar, Dimensions, Platform, NativeModules, TouchableOpacity, Image } from 'react-native';
 import React from 'react';
 import { connect } from 'react-redux';
 import MatchesButton from './MatchesButtonIcon'
@@ -60,12 +60,11 @@ const Toolbar = () => (
     style={{
       flexDirection: 'row',
       justifyContent: 'space-between',
-      height: 60,
-      position: 'absolute',
+      height: iOS ? 60 : 60,
+      position: 'relative' ,//iOS ? 'relative' : 'absolute',
       width: DeviceWidth,
       alignItems: 'center',
       zIndex: 10,
-      top: 0,
     }}
   >
     <SettingsButton />
@@ -76,20 +75,18 @@ const Toolbar = () => (
 
 class Potentials extends React.Component{
   static route = {
-    styles: {zIndex: -10, position: 'relative', elevation: -5},
+    statusBar:{
+      translucent:true
+    },
+    sceneStyle:{
+    },
     navigationBar: {
-      visible: iOS,
-      translucent: false,
-      backgroundColor: colors.transparent,
-      renderTitle(route, props){
-        return route.params.show ? <ToolbarLogo/> : false
-      },
-      renderLeft(route, props){
-        return route.params.show ? <SettingsButton /> : <CloseProfile route={route}/>
-      },
-      renderRight(route, props){
-        return route.params.show ? <MatchesButton /> : false
-      }
+      visible: false, // iOS,
+      style:{height:0},
+      // translucent: true,
+      // backgroundColor: colors.transparent,
+      height:0,
+      width:0
     }
   };
 
@@ -102,7 +99,7 @@ class Potentials extends React.Component{
   }
 
   componentDidMount(){
-    if (this.props.user.status){
+    if(this.props.user.status){
 
     }
 
@@ -118,21 +115,21 @@ class Potentials extends React.Component{
   componentWillReceiveProps(nProps){
     const nui = nProps;
     const ui = this.props;
-    if (!nui.profileVisible && ui.profileVisible){
+    if(!nui.profileVisible && ui.profileVisible){
       this.props.navigator.updateCurrentRouteParams({
         visible: false, show: true, dispatch: this.props.dispatch
       })
-    } else if (nui.profileVisible && !ui.profileVisible){
+    }else if(nui.profileVisible && !ui.profileVisible){
       this.props.navigator.updateCurrentRouteParams({show: false, visible: false, dispatch: this.props.dispatch })
     }
   }
 
   getPotentialInfo(){
-    if (!this.props.potentials || !this.props.potentials.length){ return false }
+    if(!this.props.potentials || !this.props.potentials.length){ return false }
     const potential = this.props.potentials[0];
     let matchName = potential.user.firstname.trim();
     // let distance = potential.user.distance;
-    if (potential.partner && potential.partner.gender) {
+    if(potential.partner && potential.partner.gender) {
       matchName += ` & ${potential.partner.firstname.trim()}`;
       // distance = Math.min(distance, potential.partner.distance);
     }
@@ -149,21 +146,24 @@ class Potentials extends React.Component{
     return (
       <View
         style={{
-          width: DeviceWidth,
-          height: DeviceHeight,
-          top: iOS ? -64 : 0,
-          position: 'relative',
+          // width: DeviceWidth,
+          // height: DeviceHeight,
+          top: 0,// iOS ? -64 : 0,
+          backgroundColor: colors.outerSpace,
+          flex:1
         }}
 
       >
-        {!iOS && <Toolbar />}
+        {/* {!iOS && <Toolbar />} */}
 
+<Toolbar />
         <View
           style={[
             styles.cardStackContainer,
             {
-              top: iOS ? (this.props.profileVisible ? 70 : 60) : 0,
-              position: 'relative',
+              top: 0,//iOS ? (this.props.profileVisible ? 70 : 60) : 0,
+              position: 'absolute',
+              flex:1
             }
           ]}
           pointerEvents={'box-none'}

@@ -14,40 +14,18 @@ import formatPhone from '../../../utils/formatPhone';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import {MagicNumbers} from '../../../utils/DeviceConfig'
-import ActionMan from '../../../actions/'
 
 const currentyear = new Date().getFullYear();
 const MIN_DATE = new Date().setFullYear(currentyear - 18)
 const MAX_DATE = new Date().setFullYear(currentyear - 60)
 
 
-import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
+import {
+  NavigationStyles, withNavigation
+} from '@exponent/ex-navigation';
 
 const PickerItem = Picker.Item;
 
-
-const FieldComponent = ({onChange, selected, getValues, getKeyVals, theField, val}) => (<Picker
-  style={{alignSelf: 'flex-end', width: MagicNumbers.screenWidth-10,marginRight:7, backgroundColor: colors.transparent, marginHorizontal: 0, alignItems: 'flex-end',}}
-  onValueChange={onChange}
-  mode={'dialog'}
-  prompt={`${theField.label || ''}`.toUpperCase()}
-  itemStyle={{fontSize: 24, color: colors.white,fontWeight:'800', fontFamily: 'montserrat'}}
-  selectedValue={selected || theField.values[selected] || null}
->
-  {getValues.map((val) => {
-    return (<PickerItem
-      key={val}
-      color={colors.white}
-      prompt={theField.label}
-      style={{fontSize: 24, width: MagicNumbers.screenWidth, color: colors.white, fontFamily: 'montserrat'}}
-      value={getKeyVals[val] || val}
-      textAlign={'right'}
-      label={`${(theField.labelPrefix || '') + (getKeyVals[val] || val) + (theField.labelSuffix || '')}`.toUpperCase()}
-    />
-          )
-  }
-        )}
-</Picker>)
 
 class ProfileField extends React.Component{
   constructor(props){
@@ -57,16 +35,13 @@ class ProfileField extends React.Component{
       selectedDropdown: props.user[props.fieldName] || '',
     }
   }
-  handleChange(e){
-    console.log('handle change', e);
-    this.props.dispatch(ActionMan.updateUser({[this.props.fieldName]: e}))
-  }
+
   formattedPhone(){
-    if (!this.props.user.phone) return '';
+    if(!this.props.user.phone) return '';
     return formatPhone(this.props.user.phone)
   }
   goFieldModal(f){
-    if (this.props.locked) return false;
+    if(this.props.locked) return false;
     const {field} = this.props;
     this.props.navigator.push(this.props.navigation.router.getRoute('FieldModal', {
       inputField: field,
@@ -80,13 +55,13 @@ class ProfileField extends React.Component{
   }
   render(){
     const field = this.props.field || {};
-    console.log(field, 'xxxxxxxxxxxxxxxxxx');
+
     const get_values = typeof field.values == 'object' && Object.keys(field.values).map(key => key) || field.values;
     const get_key_vals = typeof field.values == 'object' && field.values || {};
 
-    if (!field.label){ return false }
+    if(!field.label){ return false }
     let fieldLabel = field.label || ''
-    if (MagicNumbers.isSmallDevice && field.label.indexOf(' ') > 0){
+    if(MagicNumbers.isSmallDevice && field.label.indexOf(' ') > 0){
       fieldLabel = field.label.substr(0, field.label.indexOf(' '))
     }
 
@@ -94,52 +69,23 @@ class ProfileField extends React.Component{
     getValue = (get_key_vals[getValue] || getValue);
     let displayValueText = (field.labelPrefix || '') + getValue.toString().toUpperCase() + (field.labelSuffix || '');
 
-    if (field.field_type == 'phone_input') {
+    if(field.field_type == 'phone_input') {
       displayValueText = this.formattedPhone();
     }
 
-    if (field.field_type == 'date') {
+    if(field.field_type == 'date') {
       displayValueText = moment(getValue, 'YYYY-MM-DD').format('MM/DD/YYYY');
     }
 
     const displayFieldText = fieldLabel ? fieldLabel.toUpperCase() : '';
-
-    return field.field_type == 'dropdown' ? (
-      <View style={styles.paddedSpace}>
-        <View style={{height: 60, borderBottomWidth: 1, borderColor: colors.shuttleGray, alignItems: 'center', justifyContent: 'flex-end', flexDirection: 'row', alignSelf: 'stretch'}}>
-          <Text style={{position: 'absolute', left: 0, top: 25,  color: colors.rollingStone, fontSize: 18, fontFamily: 'montserrat',}}>{ displayFieldText }</Text>
-          <FieldComponent
-            getKeyVals={get_key_vals}
-            getValues={get_values}
-            selected={getValue}
-            onChange={this.handleChange.bind(this)}
-            theField={field}
-            val={getValue}
-          />
-          {this.props.locked ? <View style={{width: 20, position: 'absolute', top: 25, height: 20, marginLeft: 10, right: 0}}>
-            <Image
-              style={{width: 15, height: 15, }}
-              source={require('./assets/icon-lock.png')}
-              resizeMode={Image.resizeMode.contain}
-            />
-          </View> : <View style={{width: 20, position: 'absolute', top: 25, height: 20, marginLeft: 10, right: 0}}>
-            <Image
-              style={{width: 15, height: 15, }}
-              source={require('./assets/edit.png')}
-              resizeMode={Image.resizeMode.contain}
-            />
-          </View> }
-        </View>
-
-      </View>
-      ) : (<TouchableHighlight onPress={this.goFieldModal.bind(this)} underlayColor={colors.dark} style={styles.paddedSpace}>
+    return (
+      <TouchableHighlight onPress={this.goFieldModal.bind(this)} underlayColor={colors.dark} style={styles.paddedSpace}>
         <View>
           <View style={{height: 60, borderBottomWidth: 1, borderColor: colors.shuttleGray, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', alignSelf: 'stretch'}}>
             <Text style={{color: colors.rollingStone, fontSize: 18, fontFamily: 'montserrat'}}>{ displayFieldText }</Text>
             <View style={{flexDirection: 'row'}}>
               <Text style={{color: colors.white, fontSize: 18, fontFamily: 'montserrat', textAlign: 'right'}}>{ displayValueText
-            }</Text>
-
+              }</Text>
               {this.props.locked ? <View style={{width: 20, position: 'relative', top: 5, height: 20, marginLeft: 10, right: 0}}>
                 <Image
                   style={{width: 15, height: 15, }}

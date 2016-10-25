@@ -99,7 +99,7 @@ class ParallaxView extends React.Component{
     render() {
         let { style, ...props } = this.props;
         return (
-            <View style={[styles.container, style]} pointerEvents={'box-none'}>
+            <View style={[styles.container, style]}>
                 {this.renderBackground()}
                 <ScrollView
                     {...props}

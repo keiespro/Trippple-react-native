@@ -36,6 +36,7 @@ import {
 } from '@exponent/ex-navigation';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
+import {SlideHorizontalIOS, FloatHorizontal} from '../../../ExNavigationStylesCustom'
 
 import OSPermissions from '../../../../lib/OSPermissions/ospermissions'
 const iOS = Platform.OS == 'ios';
@@ -77,7 +78,7 @@ class MultiLineInput extends React.Component{
 class SettingsPreferences extends React.Component{
 
     static route = {
-      styles: iOS ? NavigationStyles.FloatHorizontal : NavigationStyles.Fade,
+      styles: iOS ? SlideHorizontalIOS : FloatHorizontal,
       navigationBar: {
         backgroundColor: colors.shuttleGrayAnimate,
         visible:true,

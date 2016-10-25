@@ -4,7 +4,7 @@
 
 import React, {Component} from "react";
 
-import {Text, Easing, Animated, TextInput, View, TouchableHighlight, StyleSheet, ActivityIndicator, Dimensions} from "react-native";
+import {Text, Easing, Animated, TextInput, Platform, View, TouchableHighlight, StyleSheet, ActivityIndicator, Dimensions} from "react-native";
 
 import {MagicNumbers} from '../../utils/DeviceConfig'
 
@@ -34,6 +34,8 @@ class ContinueButton extends Component{
       Animated.timing(this.state.yVal,{
         toValue: nProps.canContinue ? 1 : 0,
         duration:  200,
+        useNativeDriver: Platform.select({ios: false, android: true})
+
         // easing: Easing.in(Easing.easeInEase)
       }).start()
     }

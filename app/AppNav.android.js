@@ -1,11 +1,12 @@
 import {StackNavigation} from '@exponent/ex-navigation';
 import React from 'react'
-import {View, Dimensions, DrawerLayoutAndroid} from 'react-native'
+import {View, Dimensions, StatusBar, DrawerLayoutAndroid} from 'react-native'
 import { connect } from 'react-redux'
 
 import colors from './utils/colors'
 import Router from './Router'
 import Settings from './components/screens/settings/settings'
+import {SlideHorizontalIOS, FloatHorizontal, FloatVertical} from './ExNavigationStylesCustom'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -13,18 +14,27 @@ const DeviceWidth = Dimensions.get('window').width;
 class AppNav extends React.Component {
 
   componentWillReceiveProps(nProps) {
-    if (nProps.drawerOpen && !this.props.drawerOpen) {
+    if(nProps.drawerOpen && !this.props.drawerOpen) {
       this.settingsdrawer.openDrawer()
     }
   }
+  setDrawerClosed(){
+    // StatusBar.setTranslucent(false);
+    this.props.setDrawerClosed()
+  }
+  setDrawerOpen(){
+    // StatusBar.setTranslucent(true);
+    this.props.setDrawerOpen()
+  }
   render() {
     return (
-      <View style={{height: DeviceHeight}}>
+      <View style={{flex: 1, backgroundColor: colors.outerSpace, }}>
+
         <DrawerLayoutAndroid
           drawerWidth={DeviceWidth * 0.91}
           ref={(d) => { this.settingsdrawer = d }}
-          onDrawerOpen={this.props.setDrawerOpen}
-          onDrawerClose={this.props.setDrawerClosed}
+          onDrawerOpen={this.setDrawerOpen.bind(this)}
+          onDrawerClose={this.setDrawerClosed.bind(this)}
           drawerLockMode={this.props.canDrawerOpen ? 'unlocked' : 'locked-closed'}
           drawerBackgroundColor={colors.outerSpace}
           drawerPosition={DrawerLayoutAndroid.positions.Left}
@@ -36,16 +46,27 @@ class AppNav extends React.Component {
                   // overflow: 'visible',
                   // shadowColor: '#000',
                   // shadowOpacity: 0.5,
+                  backgroundColor: colors.outerSpace,
                   // shadowRadius: 6
             }}
 
             defaultRouteConfig={{
+              styles: FloatVertical,
+              sceneStyle:{
+                backgroundColor: colors.outerSpace,
+
+              },
+              statusBar:{
+                translucent:true
+              },
               navigationBar: {
                 visible: true,
+
                 borderBottomWidth: 0,
                 tintColor: '#fff',
                 borderWidth: 0,
-                overflow: 'hidden',
+            
+                backgroundColor: colors.shuttleGray,
                 titleStyle: {
                   color: '#fff',
                   fontFamily: 'montserrat',

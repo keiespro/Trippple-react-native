@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, AppState, Text, Image, Linking, NativeModules, CameraRoll, View, TouchableHighlight, Dimensions, PixelRatio, TouchableOpacity} from 'react-native';
+import {StyleSheet, AppState, Text, Image, Linking, NativeModules, Platform, View, TouchableHighlight, Dimensions, PixelRatio, PermissionsAndroid, TouchableOpacity} from 'react-native';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -15,6 +15,9 @@ import styles from './purpleModalStyles'
 import BoxyButton from '../controls/boxyButton'
 import ActionMan from '../../actions'
 import {MagicNumbers} from '../../utils/DeviceConfig'
+
+
+const iOS = Platform.OS == 'ios';
 
 class PrivacyPermissionsModal extends Component{
 
@@ -63,11 +66,31 @@ class PrivacyPermissionsModal extends Component{
       // this.props.dispatch(ActionMan.killModal())
     }
   }
+  async requestContactsPermissionAndroid() {
+    try {
+      const granted = await PermissionsAndroid.requestPermission(
+        PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+        {
+          'title': 'Cool Photo App Camera Permission',
+          'message': 'Cool Photo App needs access to your camera ' +
+                     'so you can take awesome pictures.'
+        }
+      )
+
+
+      return granted
+
+    } catch (err) {
+      console.warn(err)
+    }
+  }
 
   handleTapContacts(){
+
+
     if (this.state.hasContactsPermissions) {
       this.getContacts();
-    } else {
+    } else if(iOS){
       ContactGetter.requestPermission((err, permission) => {
         if (err){
          // TODO:  handle err;
@@ -87,14 +110,29 @@ class PrivacyPermissionsModal extends Component{
           this.setState({failedStateContacts: true, hasContactsPermissions: false})
         }
       })
+    }else if(!iOS){
+      this.requestContactsPermissionAndroid()
+      .then(permission => {
+        console.warn(permission);
+        if (permission === ContactGetter.PERMISSION_AUTHORIZED){
+          this.getContacts()
+          this.setState({hasContactsPermissions: true, failedStateContacts: false})
+        }
+        if (permission === ContactGetter.PERMISSION_DENIED){
+          this.setState({failedStateContacts: true, hasContactsPermissions: false})
+        }
+      })
     }
   }
 
   getContacts(){
-    ContactGetter.requestPermission((err, permission) => {
-    // ContactGetter.getContacts((err, contacts) => {
-      __DEV__ && console.log(err, permission)
+    // ContactGetter.requestPermission((errs, permission) => {
+    //   __DEV__ && console.log(errs, permission)
+      ContactGetter.getContacts((err, contacts) => {
+        __DEV__ && console.log(err, contacts)
+
       if (!err) {
+
       //   UserActions.handleContacts.defer(contacts)
         if (permission === ContactGetter.PERMISSION_UNDEFINED){
 
@@ -110,11 +148,14 @@ class PrivacyPermissionsModal extends Component{
         }
 
       //
+
+
       } else {
       //
         this.setState({hasContactsPermissions: false})
       //
       }
+// })
     })
   }
   openSettings(){

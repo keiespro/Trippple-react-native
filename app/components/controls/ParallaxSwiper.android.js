@@ -83,25 +83,28 @@ class ParallaxSwiper extends React.Component{
       return (
 
         <Animated.Image
-          source={image_url ? {uri: image_url} : require('../screens/potentials/assets/defaultuser.png')}
+          source={{uri: image_url }}
+          defaultSource={require('../screens/potentials/assets/defaultuser.png')}
           resizeMode="cover"
           key={`${p.id}slide${i}`}
           onLoad={this.imgLoad.bind(this)}
-          resizeMethod={'scale'}
           style={{
             flex: 1,
-            overlayColor: colors.outerSpace,
             alignItems: 'center',
             opacity: this.state.imgLoaded.interpolate({
               inputRange: [0, 50, 100],
               outputRange: [0.0, 0.5, 1.0]
             }),
             // width: this.props.cardWidth,
+            overlayColor: profileVisible ? '#000' : colors.outerSpace,
             justifyContent: 'center',
             flexDirection: 'column',
             zIndex: -10,
             borderRadius: 11,
             backgroundColor: colors.darkPurple,
+            // width:this.props.width,
+            // height:this.props.height,
+
             // marginLeft: profileVisible ? 0 : -40
           }}
         />
@@ -111,6 +114,7 @@ class ParallaxSwiper extends React.Component{
         // console.log(this.props.pan,this.props.isTopCard);
     return (
       <Animated.View
+
         style={[styles.background, {
           shadowColor: colors.darkShadow,
           shadowOpacity: 0.4,
@@ -119,6 +123,7 @@ class ParallaxSwiper extends React.Component{
             width: 0,
             height: -10
           },
+          flex: 1,
           borderRadius: 11,
           position: iOS || !this.props.profileVisible ? 'relative' : 'absolute',
           top: iOS ? 0 : 0,
@@ -137,10 +142,13 @@ class ParallaxSwiper extends React.Component{
         }]}
       >
         <View
+          onLayout={this.props.doOnLayout}
           style={{
+            flex: 1,
             borderRadius: 11,
             // width: DeviceWidth - 50,
             left: 0,
+
             // top: 10
           }}
         >
@@ -152,6 +160,8 @@ class ParallaxSwiper extends React.Component{
             scrollEnabled
             profileVisible={this.props.profileVisible}
             inCard
+            width={this.props.width}
+            height={this.props.height}
             paginationStyle={{
               bottom: 140,
               backgroundColor: 'transparent',
@@ -168,14 +178,15 @@ class ParallaxSwiper extends React.Component{
   }
 
   render() {
-    const { style, windowHeight, ...props } = this.props;
+    const { style, windowHeight, profileVisible, ...props } = this.props;
 
     return (
       <View
         style={[
           styles.container, style, {
             borderRadius: 11,
-            top: 0
+            top: 0,
+
           }
         ]}
       >
@@ -187,8 +198,8 @@ class ParallaxSwiper extends React.Component{
             left: 0,
             width: DeviceWidth,
             height: DeviceHeight,
-            backgroundColor: colors.outerSpace70
-
+            backgroundColor: profileVisible ? colors.outerSpace70 : 'transparent',
+            borderRadius: 11,
           }}
         >
           {this.renderBackground()}
@@ -200,12 +211,11 @@ class ParallaxSwiper extends React.Component{
           ref={component => { this._scrollView = component }}
           stickyHeaderIndices={[0]}
           contentContainerStyle={{
-            borderRadius: 11,
             marginTop: windowHeight,
+
           }}
           style={[
             styles.scrollView, {
-              borderRadius: 11,
               top: 0,
               marginBottom: iOS ? -500 : 0,
 
@@ -219,8 +229,10 @@ class ParallaxSwiper extends React.Component{
             style={{
               top: 500,
               zIndex: 99999,
+              borderBottomLeftRadius: 11,
+              borderBottomRightRadius: 11,
               backgroundColor: colors.outerSpace70,
-              paddingTop:130
+              paddingTop:0
             }}
           >
             {this.props.children}
