@@ -19,17 +19,17 @@ export default function matchesListReducer(state = initialState, action) {
     return {matches: newRegularMatches, newMatches: newNewMatches }
 
   case 'GET_NEW_MATCHES_FULFILLED':
-    if( !action.payload.response ) return state;
+    if( !action.payload ) return state;
 
-    return {...state, newMatches: _.filter(action.payload.response, (m) => m.users.length >= 3) }
+    return {...state, newMatches: _.filter(action.payload, (m) => m.users.length >= 3) }
 
 
   case 'GET_MATCHES_FULFILLED':
 
-    if( !action.payload.response ) return state;
+    if( !action.payload ) return state;
 
-    const mtchs = state.matches.length > 1 ? dedupe([...state.matches, ...action.payload.response]) : action.payload.response;
-    const newMatches = _.difference(state.newMatches, action.payload.response);
+    const mtchs = state.matches.length > 1 ? dedupe([...state.matches, ...action.payload]) : action.payload;
+    const newMatches = _.difference(state.newMatches, action.payload);
 
 
 
@@ -40,13 +40,13 @@ export default function matchesListReducer(state = initialState, action) {
 
   //
   // case 'GET_MESSAGES_FULFILLED':
-  //   console.warn('messages',action.payload.response);
-  //   if( !action.payload.response ) return state;
+  //   console.warn('messages',action.payload);
+  //   if( !action.payload ) return state;
   //
-  //   const ma = state.matches[action.payload.response.match_id];
+  //   const ma = state.matches[action.payload.match_id];
   //   ma.recent_message = action.payload
   //   return {
-  //     newMatches: _.difference(state.newMatches, action.payload.response),
+  //     newMatches: _.difference(state.newMatches, action.payload),
   //     matches: mtchs.length > 1 ? orderMatches(mtchs) : mtchs
   //   };
   //

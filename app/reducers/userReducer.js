@@ -1,6 +1,6 @@
 import _ from 'underscore'
 export default function userReducer(state = initialState, action) {
-    let {user_info, existed } = (action && action.payload ? action.payload.response || action.payload : {});
+    let {user_info, existed } = (action && action.payload ? action.payload || action.payload : {});
 
     switch (action.type) {
 

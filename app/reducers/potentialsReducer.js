@@ -21,7 +21,7 @@ export default function potentialsReducer(state = initialState, action) {
         return [...(_.shuffle(starter))];
 
     case 'GET_POTENTIALS_FULFILLED':
-        const data = action.payload.response;
+        const data = action.payload;
         let pots;
         if(!data || !data.matches || !data.matches.length){
             pots = state

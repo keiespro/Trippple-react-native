@@ -16,6 +16,8 @@ import potentialsReducer  from './potentialsReducer'
 import uiReducer  from './uiReducer'
 import unreadReducer  from './unreadReducer'
 import userReducer  from './userReducer'
+import permissionsReducer  from './permissionsReducer'
+import settingsReducer  from './settingsReducer'
 
 const applicationReducers = {
   user:           userReducer,
@@ -34,6 +36,8 @@ const applicationReducers = {
   nag:            nagReducer,
   notifications:  notificationsReducer,
   likes:          LikeReducer,
+  permissions:    permissionsReducer,
+  settings:       settingsReducer,
   navigation
 };
 

@@ -1,15 +1,14 @@
 import AppInfo from 'react-native-app-info'
-import { Platform, NativeModules } from 'react-native'
+import { Platform } from 'react-native'
 import Promise from 'bluebird'
 import config from '../../config'
 import DeviceInfo from './DeviceInfo'
 import Analytics from './Analytics'
 
-const { FileTransfer } = NativeModules;
 const { SERVER_URL } = config;
 
-const VERSION = '2.5',
-  iOSversion = DeviceInfo.version;
+const VERSION = '';// AppInfo.getInfoVersion();
+const iOSversion = DeviceInfo.version;
 
 async function baseRequest(endpoint = '', payload = {}, resource = 'user'){
   const params = {
@@ -21,44 +20,35 @@ async function baseRequest(endpoint = '', payload = {}, resource = 'user'){
     },
     body: JSON.stringify(payload)
   }
-  if (__DEBUG__) console.log(`API REQUEST ---->>>>> ${endpoint} | `, params);
 
   const url = `${SERVER_URL}/${resource}/${endpoint}`;
-  // var timeStarted = new Date();
+
+  if(__DEV__) console.log(`API REQUEST ---->>>>> ${url}`, params);
+
   const res = await fetch(url, params)
-  try {
-    // var secondsAgo = ((new Date).getTime() - timeStarted.getTime()) / 1000;
-    // Analytics.timeEnd(`Endpoint Perf`, {name:`${endpoint} ${secondsAgo}`})
-    __DEV__ && console.log(res);
-    if (res.status == 504 || res.status == 502){
+
+  try{
+    if(res.status == 504 || res.status == 502){
       __DEV__ && console.log('show maintenance screen')
       Analytics.err(res)
       throw new Error('Server down')
-    } else if (!res.json && res.status == 401){
+    }else if(!res.json && res.status == 401){
       Analytics.err(res)
       throw new Error('Unauthorized')
     }
-    if (!res.json){
-      __DEV__ && console.warn('no res.json')
-    }
-    __DEBUG__ && console.log(res);
+
     const response = await res.json()
 
+    if(__DEV__) console.log(`API RESPONSE ${response.status} <<<<<<---- ${endpoint}`, response);
+
     return Promise.try(() => {
-      __DEV__ && console.log(`API RESPONSE <<<<<<---- ${endpoint} | `, response);
-      const r = {...response};
-      __DEV__ && console.log('r.status', r.status);
-      if (r.hasOwnProperty('status') && !r.status){
-        __DEV__ && console.warn('Request status false', r);
-      }
+      const r = {...response.response};
+
       return r
     })
-  } catch (err){
-    __DEV__ && console.warn('CAUGHT ERR', err, res.status, res.url);
-    if (res.status == 401){
-      console.log('401');
-    }
-    // throw ('401')
+  }catch(err){
+    __DEV__ && console.warn(`Error ${res.status} hitting endpoint ${endpoint}`, err);
+    // throw ('40 1')
   }
 }
 
@@ -68,7 +58,7 @@ function publicRequest(endpoint, payload){
 
 function authenticatedRequest(endpoint: '', payload: {}, resource, forceCredentials){
   const credentials = forceCredentials || global.creds;
-  if (!credentials || !credentials.api_key || !credentials.user_id){
+  if(!credentials || !credentials.api_key || !credentials.user_id){
     console.warn('Attempting to make authenticated request with no credentials')
     return false
   }
@@ -142,14 +132,14 @@ const api = {
 
   getNotificationCount(shouldReset){
     const payload = {};
-    if (shouldReset){
+    if(shouldReset){
       payload.clearall = 1;
     }
     return authenticatedRequest('notification_totals', payload)
   },
 
   getMessages(payload){
-    if (!payload.match_id){ return false }
+    if(!payload.match_id){ return false }
     return authenticatedRequest('messages', {...payload, message_type: 'retrieve'})
   },
 
@@ -203,8 +193,8 @@ const api = {
     return authenticatedRequest('process_phone_contacts', {data})
   },
 
-  updatePushToken(push_token): Promise{
-    return authenticatedRequest('update', { push_token })
+  updatePushToken({push_token}): Promise{
+    return authenticatedRequest('update', { fcm_token: push_token })
   },
 
   disableAccount(): Promise{
@@ -225,14 +215,14 @@ const api = {
 
     const res = await fetch(`${SERVER_URL}/telemetry`, params)
 
-    try {
-      if (!res.json && res.status == 401){
+    try{
+      if(!res.json && res.status == 401){
         throw new Error('NO JSON')
       }
       const response = await res.json()
       __DEV__ && console.log(response)
       return response
-    } catch (err){
+    }catch(err){
       __DEV__ && console.error(err)
 
       return {error: err, status: res.status}

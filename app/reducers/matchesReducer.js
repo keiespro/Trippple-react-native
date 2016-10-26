@@ -23,7 +23,8 @@ export default function matchesReducer(state = initialState, action) {
 
 
     case 'GET_MATCHES_FULFILLED':
-        const matches = action.payload.response;
+        const matches = action.payload;
+        console.log(matches,'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
         if ( !matches ) return state;
 
         const matchesHash = matches.reduce( ( acc, el, i ) => {

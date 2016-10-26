@@ -17,10 +17,10 @@ export default function authReducer(state = initialState, action) {
     case 'VERIFY_PIN_REJECTED':
     case 'REQUEST_PIN_REJECTED':
     case 'LOGIN_WITH_FACEBOOK_REJECTED':
-        return { ...state, error: action.payload.response }
+        return { ...state, error: action.payload }
 
     case 'INITIALIZE_CREDENTIALS':
-        let {username,password} = action.payload.response || action.payload;
+        let {username,password} = action.payload || action.payload;
 
         const c = {
             api_key: password,
@@ -46,7 +46,7 @@ export default function authReducer(state = initialState, action) {
     case 'VERIFY_PIN_FULFILLED':
     case 'LOGIN_WITH_FACEBOOK_FULFILLED':
 
-        let {api_key,user_id} = action.payload.response || action.payload;
+        let {api_key,user_id} = action.payload || action.payload;
 
         if(api_key && user_id){
             global.creds = { api_key, user_id }

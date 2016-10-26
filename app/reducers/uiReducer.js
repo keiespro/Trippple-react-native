@@ -32,7 +32,7 @@ export default function uiReducer(state = initialState, action) {
     case 'OPEN_DRAWER':
 
         return {...state, drawerOpen: true}
-        
+
     case 'SET_DRAWER_OPEN':
         return {...state, drawerOpen: true}
 
@@ -47,6 +47,9 @@ export default function uiReducer(state = initialState, action) {
         return {...state, currentIndex: state.currentIndex+1 };
     case 'EX_NAVIGATION.POP':
         return {...state, currentIndex: state.currentIndex-1 };
+
+
+
     default:
 
         return state;
@@ -59,5 +62,9 @@ const initialState = {
     activeModal: null,
     profileVisible: false,
     drawerOpen: false,
-    currentIndex: 0
+    currentIndex: 0,
+    permissionSwitches: {
+      location: false,
+      notifications: false
+    }
 };

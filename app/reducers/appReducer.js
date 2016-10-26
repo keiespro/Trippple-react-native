@@ -9,10 +9,10 @@ export default function appReducer(state = initialState, action) {
         return {...state, booted: true}
 
     case 'GET_COUPLE_PIN_FULFILLED':
-        return {...state, couplePin: action.payload.response.pin}
+        return {...state, couplePin: action.payload.pin}
 
     case 'VERIFY_COUPLE_PIN_FULFILLED':
-        return {...state, coupling: {...state.coupling, ...action.payload.response}}
+        return {...state, coupling: {...state.coupling, ...action.payload}}
 
     case 'SEND_TEXT_FULFILLED':
         return {...state, coupling: {...state.coupling, sentInvite: action.payload.success, inviteMethod: action.payload.method}}
@@ -35,7 +35,7 @@ export default function appReducer(state = initialState, action) {
 
     // explicitly know if response came back empty
     case 'GET_POTENTIALS_FULFILLED':
-        const matches = action.payload.response;
+        const matches = action.payload;
         console.log(matches);
         if ( !matches ) return state;
         if ( !matches.length ){

@@ -21,7 +21,7 @@ export default function chatReducer(state = initialState, action) {
         return {...state, [match_idd]: [ ...state[match_idd], msgpayload ] }
 
       case 'CREATE_MESSAGE_REJECTED':
-      // let match_id = action.payload.response.match_id
+      // let match_id = action.payload.match_id
       // return {...state, [match_id]: [...state[match_id], ] }
         return state
 
@@ -31,16 +31,16 @@ export default function chatReducer(state = initialState, action) {
         // return {...state, [match_id]: [...state[match_id]] }
         return state
       case 'GET_MESSAGES_FULFILLED':
-        if ( !action.payload.response ) return state;
+        if ( !action.payload ) return state;
         return {
           ...state,
-          [action.payload.response.match_id]: action.payload.response.message_thread
+          [action.payload.match_id]: action.payload.message_thread
         }
       case 'GET_NEW_MATCHES_FULFILLED':
       case 'GET_MATCHES_FULFILLED':
-        if ( !action.payload.response ) return state;
+        if ( !action.payload ) return state;
 
-        const ids = action.payload.response.reduce((acc,el,i)=>{
+        const ids = action.payload.reduce((acc,el,i)=>{
           acc[el.match_id] = [];
           return acc
         },{})
