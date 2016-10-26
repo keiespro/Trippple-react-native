@@ -29,34 +29,70 @@ RCT_EXPORT_MODULE();
     return dictionary;
 }
 
-RCT_EXPORT_METHOD(canUseCamera:(RCTResponseSenderBlock)callback)
-{
+RCT_REMAP_METHOD(canUseCamera, resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject){
+
     AVAuthorizationStatus cameraPerm = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo ];
-    callback(@[@(cameraPerm).stringValue]);
+
+    if(cameraPerm){
+        resolve(@[@(cameraPerm).stringValue]);
+    }else{
+        NSError *error = [NSError description];
+        reject(@"permission_error", @"????", error);
+    }
+
 }
 
-RCT_EXPORT_METHOD(canUseNotifications:(RCTResponseSenderBlock)callback)
+RCT_REMAP_METHOD(canUseNotifications,
+                  notifications_resolver:(RCTPromiseResolveBlock)resolve
+                  notifications_rejecter:(RCTPromiseRejectBlock)reject)
 {
   BOOL remoteNotificationsEnabled = [UIApplication sharedApplication].isRegisteredForRemoteNotifications;
-  callback(@[@(remoteNotificationsEnabled).stringValue]);
+    if(remoteNotificationsEnabled){
+        resolve(@[@(remoteNotificationsEnabled).stringValue]);
+    }else{
+
+        NSError *error = [NSError description];
+//                                             code:-42
+//                                         userInfo:@{NSUnderlyingErrorKey: error}];
+        reject(@"throw", @"Not enabled", error);
+    }
+
 }
 
-RCT_EXPORT_METHOD(canUseLocation:(RCTResponseSenderBlock)callback)
-{
+RCT_REMAP_METHOD(canUseLocation, location_resolver:(RCTPromiseResolveBlock)resolve location_rejecter:(RCTPromiseRejectBlock)reject){
     CLAuthorizationStatus locationPerm = [CLLocationManager authorizationStatus];
-    callback(@[@(locationPerm).stringValue]);
+    if(locationPerm){
+        resolve(@[@(locationPerm).stringValue]);
+    }else{
+        NSError *error = [NSError description];
+        reject(@"no_events", @"There were no events", error);
+    }
 }
 
-RCT_EXPORT_METHOD(canUseCameraRoll:(RCTResponseSenderBlock)callback)
-{
+RCT_REMAP_METHOD(canUseCameraRoll,
+                 camera_resolver:(RCTPromiseResolveBlock)resolve
+                 camera_rejecter:(RCTPromiseRejectBlock)reject){
     ALAuthorizationStatus camerarollPerm = [ALAssetsLibrary authorizationStatus];
-    callback(@[@(camerarollPerm).stringValue]);
+
+    if(camerarollPerm){
+        resolve(@[@(camerarollPerm).stringValue]);
+    }else{
+        NSError *error = [NSError description];
+        reject(@"err", @"err", error);
+    }
 }
 
-RCT_EXPORT_METHOD(canUseContacts:(RCTResponseSenderBlock)callback)
-{
+RCT_REMAP_METHOD(canUseContacts,
+                  contacts_resolver:(RCTPromiseResolveBlock)resolve
+                  contacts_rejecter:(RCTPromiseRejectBlock)reject){
     ABAuthorizationStatus contactsPerm = ABAddressBookGetAuthorizationStatus();
-    callback(@[@(contactsPerm).stringValue]);
+
+    if(contactsPerm){
+        resolve(@[@(contactsPerm).stringValue]);
+    }else{
+        NSError *error = [NSError description];
+        reject(@"err", @"err", error);
+    }
 }
 
 @end
