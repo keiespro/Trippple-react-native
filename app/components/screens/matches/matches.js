@@ -23,7 +23,6 @@ class Matches extends Component {
     },
     statusBar:{
       translucent:false,
-      hidden:true,
       animated:true
     },
     navigationBar: {
@@ -83,11 +82,11 @@ class Matches extends Component {
   render() {
     return (
       <View style={{}}>
-      <StatusBar
+      {/* <StatusBar
           animated
           backgroundColor={colors.shuttleGray}
           hidden={false}
-        />
+        /> */}
         <MatchesList
           dispatch={this.props.dispatch}
           user={this.props.user}

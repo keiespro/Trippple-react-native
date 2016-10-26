@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Navigator } from 'react-native'
 import NotificationCommander  from '../utils/NotificationCommander'
-import NotificationDisplayer  from '../utils/NotificationDisplayer'
+import NotificationDisplayer  from '../components/notifications/NotificationDisplayer'
 
 
 class Notifications extends Component{

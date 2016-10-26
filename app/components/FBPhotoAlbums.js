@@ -34,8 +34,15 @@ class PhotoAlbums extends React.Component {
             backgroundColor: colors.shuttleGrayAnimate,
             visible:true,
             translucent:true,
+            titleStyle: {
+              color: '#fff',
+              fontFamily: 'montserrat',
+              borderBottomWidth: 0,
+              fontWeight:'800'
+            },
+            tintColor: '#fff',
             title(params) {
-                return `YOUR ALBUMS`
+                return `YOUR FACEBOOK ALBUMS`
             }
         }
     };

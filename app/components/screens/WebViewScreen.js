@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, WebView, Dimensions} from 'react-native';
+import {StyleSheet, View,Platform,WebView, Dimensions} from 'react-native';
 import colors from '../../utils/colors';
+import {SlideHorizontalIOS, FloatHorizontal} from '../../ExNavigationStylesCustom'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
+const iOS = Platform.OS == 'ios';
 
 const helpScript = `
   jQuery(document).ready(function($){
@@ -30,10 +32,21 @@ const privacyScript = `
 class WebViewScreen extends Component{
 
   static route = {
+    styles: iOS ? SlideHorizontalIOS : FloatHorizontal,
+    sceneStyle:{
+
+    },
     navigationBar: {
+      visible:true,
+      translucent:true,
+      titleStyle: {
+        color: '#fff',
+        fontFamily: 'montserrat',
+        borderBottomWidth: 0,
+        fontWeight:'800'
+      },
+      tintColor: '#fff',
       backgroundColor: colors.shuttleGrayAnimate,
-      visible: true,
-      translucent: true,
       title(params){
         return params.pageTitle
       }
@@ -79,13 +92,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'stretch',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    height: DeviceHeight,
-    width: DeviceWidth,
+    paddingTop: iOS ? 60 : 40,
     alignSelf: 'stretch',
-    paddingTop: 60,
     backgroundColor: colors.outerSpace
   },
   webview: {

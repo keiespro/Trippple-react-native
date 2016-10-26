@@ -54,23 +54,23 @@ class AppNav extends React.Component {
               styles: FloatVertical,
               sceneStyle:{
                 backgroundColor: colors.outerSpace,
-
               },
               statusBar:{
-                translucent:true
+                translucent: true,
+                backgroundColor:colors.mediumPurple70
               },
               navigationBar: {
                 visible: true,
-
                 borderBottomWidth: 0,
                 tintColor: '#fff',
                 borderWidth: 0,
-            
-                backgroundColor: colors.shuttleGray,
+                translucent: true,
+                backgroundColor: colors.shuttleGrayAnimate,
                 titleStyle: {
                   color: '#fff',
                   fontFamily: 'montserrat',
                   borderBottomWidth: 0,
+                  fontWeight:'800'
                 }
               },
             }}
