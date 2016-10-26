@@ -6280,6 +6280,10 @@ react-native-invertible-scroll-view@^1.0.0:
     react-clone-referenced-element "^1.0.1"
     react-native-scrollable-mixin "^1.0.1"
 
+react-native-keychain:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-0.3.2.tgz#6c0cd9d609a0844a6dc281bb121ef7bc443b4f2b"
+
 react-native-mail@latest:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/react-native-mail/-/react-native-mail-2.0.0.tgz#41a8ba1520485d1a769d1e42145e9d3830e0f190"

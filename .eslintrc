@@ -16,7 +16,21 @@
         "airbnb",
         "plugin:react/recommended"
     ],
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "extensions": [".js", ".ios.js", ".android.js"]
+        }
+      }
+    },
     "rules": {
+      keyword-spacing: ["error", { "overrides": {
+        "if": { "before": false, "after": false },
+        "for": { "before": false, "after": false },
+        "try": { "before": false, "after": false },
+        "catch": { "before": false, "after": false },
+        "else": { "before": false, "after": false },
+        "while": { "before": false, "after": false } } }],
       "no-bitwise": 0,
       "comma-dangle": 0,
       "no-else-return": 0,

@@ -11,7 +11,6 @@ import React from 'react';
 
 import dismissKeyboard from 'dismissKeyboard'
 import NoMessages from './NoMessages'
-import ActionModal from '../../modals/ActionModal';
 import Analytics from '../../../utils/Analytics';
 import { BlurView, VibrancyView } from 'react-native-blur'
 import FadeInContainer from '../../FadeInContainer';

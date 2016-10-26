@@ -1,15 +1,15 @@
 #Instructions
 
-Make sure you have react-native-cli
+Make sure you have react-native-cli and yarn
 
  ```
- npm install -g react-native-cli
+ npm install -g react-native-cli yarn
  ```
 
 Install npm packages
 
 ```
-npm install
+yarn
 ```
 
 Install Cocoapods
@@ -19,6 +19,17 @@ ruby -v #should be > 2.3
 cd ios
 pod install
 ```
+
+## FB SDK
+
+ios
+
+Download the facebook ios sdk and unzip it into ~/Documents/FacebookSDK/  !important;
+https://developers.facebook.com/docs/ios/getting-started/
+
+
+android
+
 
 ##Running
 
@@ -32,6 +43,7 @@ sudo react-native run-ios
 ```
 #Run normally
 react-native run-ios
+react-native run-android
 ```
 
 
@@ -63,9 +75,6 @@ cd ios
 fastlane beta
 ```
 
-## FB SDK
-Download the facebook ios sdk and unzip it into ~/Documents/FacebookSDK/  !important;
-https://developers.facebook.com/docs/ios/getting-started/
 
 
 

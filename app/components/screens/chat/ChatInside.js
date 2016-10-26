@@ -5,7 +5,6 @@ import styles from './chatStyles'
 import _ from 'lodash'
 import dismissKeyboard from 'dismissKeyboard'
 import NoMessages from './NoMessages'
-import ActionModal from '../../modals/ActionModal';
 import Analytics from '../../../utils/Analytics';
 import { BlurView, VibrancyView } from 'react-native-blur'
 import FadeInContainer from '../../FadeInContainer';
