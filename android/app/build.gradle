@@ -129,6 +129,7 @@ android {
 
 
 dependencies {
+    compile project(':react-native-keychain')
     compile project(':react-native-firebase3')
 //    compile project(':react-native-fcm')
 

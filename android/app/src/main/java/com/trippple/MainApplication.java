@@ -12,6 +12,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
+import com.oblador.keychain.KeychainPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -53,6 +54,7 @@ public class MainApplication extends Application implements ReactApplication {
 
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+            new KeychainPackage(),
             new FirebasePackage(),
             new FIRMessagingPackage(),
                     new ReactNativePushNotificationPackage(),
