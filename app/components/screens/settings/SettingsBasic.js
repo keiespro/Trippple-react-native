@@ -37,12 +37,9 @@ class SettingsBasic extends React.Component{
         color: '#fff',
         fontFamily: 'montserrat',
         borderBottomWidth: 0,
+        fontWeight:'800'
       },
-      style:{
-        marginTop:24,
-        paddingTop:24,
-        top:24
-      },
+      tintColor: '#fff',
       backgroundColor: colors.shuttleGrayAnimate,
       title(params){
         return `PROFILE`

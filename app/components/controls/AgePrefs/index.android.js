@@ -85,7 +85,7 @@ class AgePrefs extends React.Component{
 </View>
 <View
   style={{
-    flexDirection: 'column', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', height: 110, width: DeviceWidth, backgroundColor: 'transparent'
+    flexDirection: 'column', alignSelf: 'center', alignItems: 'center', justifyContent: 'flex-start', height: 70, width: DeviceWidth, backgroundColor: 'transparent'
   }}
 >
 
@@ -93,7 +93,7 @@ class AgePrefs extends React.Component{
           style={{
             left: MagicNumbers.isSmallDevice ? 2 : 0,
             paddingHorizontal: 0,
-            height: 100,
+            height: 40,
             alignItems: 'center',
             justifyContent: 'center',
             alignSelf: 'center'

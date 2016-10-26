@@ -31,6 +31,8 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 const {FBAppInviteDialog} = NativeModules;
 const {INVITE_FRIENDS_APP_LINK} = config
+const {RNHotlineController} = NativeModules
+
 
 @withNavigation
 class Settings extends React.Component{
@@ -347,7 +349,7 @@ class Settings extends React.Component{
 
             <TouchableHighlight
               onPress={() => {
-                RNHotline.showFaqs()
+                iOS ? RNHotlineController.showFaqs() : RNHotline.showFaqs()
               }}
               underlayColor={colors.dark}
             >
@@ -367,7 +369,10 @@ class Settings extends React.Component{
             </TouchableHighlight>
 
             <TouchableHighlight
-              onPress={() => { console.log(RNHotline); RNHotline.showConvos() }}
+              onPress={() => {
+                iOS ? RNHotlineController.showConvos() : RNHotline.showConvos()
+
+              }}
               underlayColor={colors.dark}
             >
               <View style={styles.wrapfield}>

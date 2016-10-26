@@ -80,7 +80,6 @@ class ProfileField extends React.Component{
   }
   render(){
     const field = this.props.field || {};
-    console.log(field, 'xxxxxxxxxxxxxxxxxx');
     const get_values = typeof field.values == 'object' && Object.keys(field.values).map(key => key) || field.values;
     const get_key_vals = typeof field.values == 'object' && field.values || {};
 
@@ -106,8 +105,8 @@ class ProfileField extends React.Component{
 
     return field.field_type == 'dropdown' ? (
       <View style={styles.paddedSpace}>
-        <View style={{height: 60, borderBottomWidth: 1, borderColor: colors.shuttleGray, alignItems: 'center', justifyContent: 'flex-end', flexDirection: 'row', alignSelf: 'stretch'}}>
-          <Text style={{position: 'absolute', left: 0, top: 25,  color: colors.rollingStone, fontSize: 18, fontFamily: 'montserrat',}}>{ displayFieldText }</Text>
+        <View style={{height: 60, borderBottomWidth: 1, borderColor: colors.shuttleGray, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', alignSelf: 'stretch'}}>
+          <Text style={{position: 'absolute', left: 0, top: 23,  color: colors.rollingStone, fontSize: 18, fontFamily: 'montserrat',}}>{ displayFieldText }</Text>
           <FieldComponent
             getKeyVals={get_key_vals}
             getValues={get_values}
@@ -116,13 +115,13 @@ class ProfileField extends React.Component{
             theField={field}
             val={getValue}
           />
-          {this.props.locked ? <View style={{width: 20, position: 'absolute', top: 25, height: 20, marginLeft: 10, right: 0}}>
+          {this.props.locked ? <View style={{width: 20, position: 'absolute', top: 23, height: 20, marginLeft: 10, right: 0}}>
             <Image
               style={{width: 15, height: 15, }}
               source={require('./assets/icon-lock.png')}
               resizeMode={Image.resizeMode.contain}
             />
-          </View> : <View style={{width: 20, position: 'absolute', top: 25, height: 20, marginLeft: 10, right: 0}}>
+          </View> : <View style={{width: 20, position: 'absolute', top: 23, height: 20, marginLeft: 10, right: 0}}>
             <Image
               style={{width: 15, height: 15, }}
               source={require('./assets/edit.png')}

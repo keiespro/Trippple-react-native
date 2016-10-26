@@ -8,6 +8,7 @@ import ActionMan from '../../../actions';
 import Analytics from '../../../utils/Analytics';
 import colors from '../../../utils/colors';
 import {MagicNumbers} from '../../../utils/DeviceConfig'
+import {SlideHorizontalIOS, FloatHorizontal} from '../../../ExNavigationStylesCustom'
 
 const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height;
@@ -17,16 +18,26 @@ const DeviceWidth = Dimensions.get('window').width;
 class SettingsSettings extends React.Component{
 
   static route = {
-    styles: iOS ? NavigationStyles.FloatHorizontal : NavigationStyles.Fade,
+    styles: iOS ? SlideHorizontalIOS : FloatHorizontal,
+    sceneStyle:{
+
+    },
     navigationBar: {
+      visible:true,
+      translucent:true,
+      titleStyle: {
+        color: '#fff',
+        fontFamily: 'montserrat',
+        borderBottomWidth: 0,
+        fontWeight:'800'
+      },
+      tintColor: '#fff',
       backgroundColor: colors.shuttleGrayAnimate,
-      visible: true,
-      translucent: true,
-      title(){
-        return 'SETTINGS'
+      title(params){
+        return `SETTINGS`
       }
     }
-  }
+  };
 
   constructor(props){
     super()
