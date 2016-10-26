@@ -21,6 +21,7 @@ class BoxyButton extends Component{
   render() {
     return (
       <TouchableHighlight
+        elevation={this.props.elevation}
         onPress={this._onPress.bind(this)}
         style={[this.props.outerButtonStyle,]}
         underlayColor={this.props.underlayColor || colors.dark}>
@@ -29,7 +30,10 @@ class BoxyButton extends Component{
             {this.props.children}
           </View>
           <View style={styles.iconButtonRightBox}>
-              {this.state.busy && !this.props.stopLoading ? <ActivityIndicator style={{top:0,height:30,width:30,}} color={colors.white20} animating={true} size={'small'}/> : <Text style={[styles.textplain, styles.iconButtonText, this.props.buttonText]}>{this.props.text}</Text>}
+
+              <Text style={[styles.textplain, styles.iconButtonText, this.props.buttonText]}>{this.props.text}</Text>
+
+                {this.state.busy && !this.props.stopLoading && <ActivityIndicator style={{top:0,height:30,width:30,}} color={colors.white20} animating={true} size={'small'}/> }
           </View>
         </View>
       </TouchableHighlight>
@@ -97,6 +101,7 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontFamily: 'montserrat',
     fontSize: 14,
+    fontWeight:'800',
     textAlign: 'center'
   },
 });

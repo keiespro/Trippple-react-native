@@ -69,15 +69,15 @@ class Carousel extends Component {
           <Image style={{
             marginBottom: 25,
             height: MagicNumbers.is4s ? 150 : DeviceHeight / 3 + MagicNumbers.screenPadding,
-            paddingTop: 20,
-            marginTop: i % l == 0 ? MagicNumbers.screenPadding * 1.8 : MagicNumbers.screenPadding,
-            width: i % l == 0 ? MagicNumbers.screenWidth : MagicNumbers.screenPadding * 5
+            paddingTop: 0,
+            marginTop:  i % l == 0  ? 20 : 0, //i % l == 0 ? MagicNumbers.screenPadding * 1.8 : MagicNumbers.screenPadding,
+            width: i % l == 0 ? MagicNumbers.screenWidth+50 : MagicNumbers.screenPadding * 4
           }} source={slide.img} defaultSource={slide.img} resizeMode={Image.resizeMode.contain}
           />
           <View style={[styles.textwrap, {marginBottom: 5}]}><Text style={[styles.textplain,
             {
               fontFamily: 'montserrat',
-              fontWeight: '700',
+              fontWeight: '800',
               marginTop: 15,
               fontSize: MagicNumbers.is4s ? 18 : 22,
             }
@@ -85,7 +85,7 @@ class Carousel extends Component {
           >{slide.title}</Text></View>
 
           {slide.content && <View style={styles.textwrap}><Text style={[styles.textplain, {
-            fontSize: MagicNumbers.is5orless ? 18 : 22,
+            fontSize: MagicNumbers.is5orless ? 18 : 20,
           }]}
           >{slide.content}</Text></View>}
         </View>
@@ -131,7 +131,7 @@ class Carousel extends Component {
             alignSelf: 'stretch',
           }}
           style={{
-            height: DeviceHeight - 80
+            height: DeviceHeight - 120
           }}
         >
           {welcomeSlides}
@@ -197,15 +197,15 @@ const styles = StyleSheet.create({
     fontFamily: 'montserrat'
   },
   carousel: {
-    marginTop: 50,
+    marginTop: 20,
     width: DeviceWidth,
-    height: DeviceHeight - 150,
+    // height: DeviceHeight - 190,
 
   },
   slide: {
     width: DeviceWidth,
     flexDirection: 'column',
-    height: DeviceHeight - 150,
+    // height: DeviceHeight - 190,
     justifyContent: 'flex-start',
     alignItems: 'center',
     padding: MagicNumbers.screenPadding / 2

@@ -84,16 +84,18 @@ class FacebookButton extends React.Component {
       <BoxyButton
         text={this.props.buttonText || 'LOG IN WITH FACEBOOK'}
         buttonText={this.props.buttonTextStyle}
-        outerButtonStyle={styles.iconButtonOuter}
-        leftBoxStyles={styles.buttonIcon}
-        innerWrapStyles={styles.button}
+        outerButtonStyle={[styles.iconButtonOuter,this.props.outerButtonStyle]}
+        leftBoxStyles={[styles.buttonIcon,this.props.leftBoxStyles]}
+        innerWrapStyles={[styles.button,this.props.buttonStyles]}
         underlayColor={colors.cornFlower}
+        elevation={10}
         _onPress={this.onPress.bind(this)}
       >
 
         <Image source={require('./fBLogo.png')}
           resizeMode={Image.resizeMode.contain}
-          style={{height: 30, width: 20, }}
+          style={{height: 30, width: 20,}}
+          tintColor={this.props.iconTintColor}
         />
       </BoxyButton>
 
