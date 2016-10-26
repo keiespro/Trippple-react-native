@@ -3,14 +3,12 @@ import React, {Component} from 'react';
 import { withNavigation} from '@exponent/ex-navigation';
 import { connect } from 'react-redux';
 import Action from './Action'
-import ActionModal from './ActionModal'
 import BlurModal from './BlurModal'
 // import CameraPermissions from './CameraPermissions'
 // import CameraRollPermissions from './CameraRollPermissions'
-import CheckPermissions from './CheckPermissions'
+import NotificationsPermissions from './NotificationsPermissions'
 import FieldModal from './FieldModal'
-import LocationPermission from './LocationPermission'
-import NewNotificationPermissions from './NewNotificationPermissions'
+import LocationPermissions from './LocationPermissions'
 import OnboardModal from './OnboardModal'
 // import PartnerMissingModal from './PartnerMissingModal'
 import PrivacyPermissions from './PrivacyPermissions'
@@ -26,16 +24,14 @@ const DeviceWidth = Dimensions.get('window').width;
 
 const Modals = {
   Action,
-  ActionModal,
+  // ActionModal,
   BlurModal,
   // CameraPermissions,
   // CameraRollPermissions,
-  CheckPermissions,
   FieldModal,
-  LocationPermission,
-  NewNotificationPermissions,
-  NotificationPermissions: NewNotificationPermissions,
+  LocationPermissions,
   OnboardModal,
+  NotificationsPermissions,
   PrivacyPermissions,
   ReportModal,
   UnmatchModal,

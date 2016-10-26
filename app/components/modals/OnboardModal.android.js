@@ -8,8 +8,7 @@ import ActionMan from '../../actions'
 import Selectable from '../controls/Selectable'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-import {BlurView, VibrancyView} from 'react-native-blur';
-import {MagicNumbers} from '../../utils/DeviceConfig';
+ import {MagicNumbers} from '../../utils/DeviceConfig';
 const PickerItem = Picker.Item;
 
 const us_choices = [
@@ -318,20 +317,24 @@ class OnboardModal extends Component {
             <View style={{
               backgroundColor: colors.outerSpace,
               width: DeviceWidth,
-              height: 200,
+              height: 50,
+              backgroundColor:'red',
               position: 'absolute',
-              bottom: 0,
+              bottom: 100,
+
               justifyContent:'center',
               alignItems:'center'
             }}>
             <View style={{
-              height: this.state.selected_ours && has_theirs ? 70 : 0,
+              // height: this.state.selected_ours && has_theirs ? 70 : 0,
               position: 'absolute',
-              top: this.state.selected_ours && has_theirs ? -70 : 0,
+              // top: this.state.selected_ours && has_theirs ? -70 : 0,
+              bottom:200,
+              zIndex:99,
               left: 0,
               right: 0,
               width: DeviceWidth,
-              overflow: 'hidden'
+              overflow: 'hidden',
             }}>
               <ContinueButton
               customText={'CONTINUE'}
@@ -342,6 +345,8 @@ class OnboardModal extends Component {
             {this.state.step == 1 &&
               <Picker
                 onValueChange={this.pickerValue.bind(this)}
+                mode={'dialog'}
+                prompt={`fff`}
                 style={{
                   alignSelf: 'center',
                   width: DeviceWidth,
@@ -356,7 +361,7 @@ class OnboardModal extends Component {
                 }}
                 selectedValue={this.state.selected_ours || null}
               >
-              <PickerItem key={'xn'} value={null} label={('')}/>
+              {/* <PickerItem key={'xn'} value={null} label={('')}/> */}
               {us_choices.map(item => {
                 return (<PickerItem key={item.label.trim()} value={item.value} label={item.label}/>);
               })}
@@ -364,7 +369,7 @@ class OnboardModal extends Component {
 
             {this.state.step == 2 && this.state.selected_ours && them_choices[this.state.selected_relationship_status].map((item,i) => {
               return (
-                  <View style={{width:DeviceWidth}}>
+                  <View style={{width:DeviceWidth,backgroundColor:'red'}}>
                   <Selectable
                     selected={this.state.selected_theirs[item.value]}
                     key={item.label.trim() + 'k'}

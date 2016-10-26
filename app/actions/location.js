@@ -1,11 +1,10 @@
-import { Alert, NativeModules,Platform } from 'react-native'
-import api  from '../utils/api'
-
-const {  RNMessageComposer, RNMail } = NativeModules;
+import { Alert, Platform } from 'react-native'
+import api from '../utils/api'
 import OSPermissions from '../../lib/OSPermissions/ospermissions'
+
 const iOS = Platform.OS == 'ios';
 
-const LOCATION_OPTIONS = {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000}
+const LOCATION_OPTIONS = {enableHighAccuracy: false, timeout: 100000, maximumAge: 100000}
 
 
 export const getLocation = () => dispatch => dispatch({ type: 'GET_LOCATION',
@@ -13,31 +12,28 @@ export const getLocation = () => dispatch => dispatch({ type: 'GET_LOCATION',
     promise: new Promise((resolve, reject) => {
       global.navigator.geolocation.getCurrentPosition((geo => {
         if(geo && geo.coords){
-          api.updateUser(geo.coords).then(()=>{resolve(geo.coords)})
+          api.updateUser(geo.coords).then(() => { resolve(geo.coords) })
         }
       }), (err => {
-        __DEV__ && console.log(err,'LOCATION ERR');
-          reject(err)
+        __DEV__ && console.warn(err, 'LOCATION ERR');
+        reject(err)
       }), LOCATION_OPTIONS);
-    }).catch(err => {
-      __DEV__ && console.warn(err,'LOCATION ERR');
-
     })
   },
 });
 
 export const checkLocation = () => dispatch => dispatch({ type: 'CHECK_LOCATION',
   payload: new Promise((resolve, reject) => {
-    OSPermissions.canUseLocation(OSLocation => {
+    OSPermissions.canUseLocation()
+    .then(OSLocation => {
       const perm = iOS ? parseInt(OSLocation) > 2 : OSLocation;
-      if (perm) {
+      if(perm) {
         dispatch(getLocation());
         resolve()
-      } else if (iOS && parseInt(OSLocation) === 0) {
-          console.log('no permission, must ask')
-        // dispatch({ type: 'UNASKED_LOCATION' });
+      }else if(iOS && parseInt(OSLocation) === 0) {
+        console.log('no permission, must ask')
         reject()
-      } else {
+      }else{
         reject(new Error('nopermission'));
       }
     });

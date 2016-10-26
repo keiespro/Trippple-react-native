@@ -1,77 +1,59 @@
-'use strict';
-
-
-import { StyleSheet, Image, View, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, Image, Platform, View, Dimensions, ScrollView } from 'react-native';
 import React from 'react';
+import { BlurView, VibrancyView } from 'react-native-blur'
+import colors from '../../utils/colors'
 
-
+const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-import colors from '../../utils/colors'
-import { BlurView, VibrancyView } from 'react-native-blur'
+const BlurModal = ({children}) => (
 
-class BlurModal extends React.Component{
+  <View
+    style={{flex: 1}}
+  >
+    {iOS && <VibrancyView blurType="light" style={localstyles.blurstyle} />}
 
-  constructor(props){
-    super()
-    this.state = { }
-  }
 
-  cancel(){
-    this.props.navigator.pop()
-  }
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={localstyles.modalscroll}
+      contentContainerStyle={localstyles.modalscrollcontainer}
+    >
+      {children}
+    </ScrollView>
 
-  render(){
 
-    return  (
-      <Image source={{uri:this.props.user.image_url}} resizeMode="cover">
-        <VibrancyView blurType="light" style={localstyles.blurstyle} />
-
-        {this.props.noscroll ?
-          <View style={{
-          width:DeviceWidth,
-          height:DeviceHeight,
-        }}>
-        {this.props.children}
-        </View> :
-          <ScrollView style={localstyles.modalscroll} contentContainerStyle={localstyles.modalscrollcontainer}>
-            {this.props.children}
-          </ScrollView>
-        }
-
-        </Image>
-
-    )
-  }
-
-}
-
+  </View>
+)
 
 
 export default BlurModal
 
 const localstyles = StyleSheet.create({
-  blurstyle:{
-    position:'absolute',
-    top:0,
-    width:DeviceWidth,
-    height:DeviceHeight,
-    justifyContent:'center',
-    alignItems:'center',
-    flexDirection:'column'
+  blurstyle: {
+    position: 'absolute',
+    top: 0,
+    width: DeviceWidth,
+    height: DeviceHeight,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column'
   },
-  modalscroll:{
-    padding:0,
-    width:DeviceWidth,
+  modalscroll: {
+    // padding: 0,
+    // width: DeviceWidth,
     // height:DeviceHeight,
 
-    flex:1,
-    position:'absolute'
+    flex: 1,
+    // position: 'absolute'
   },
-  modalscrollcontainer:{
+  modalscrollcontainer: {
     // justifyContent:'center',
-    flex:1
+    flex: 1,
+    width: DeviceWidth,
+    height:DeviceHeight-23,
+
     // alignItems:'center',
     // height:DeviceHeight,width:DeviceWidth
   }

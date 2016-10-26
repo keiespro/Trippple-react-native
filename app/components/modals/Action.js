@@ -146,7 +146,7 @@ class Action extends React.Component{
 </View>
 
         </View>
-  <TouchableOpacity onPress={()=>{ this.props.close()}}>
+  <TouchableOpacity onPress={()=>{ this.props.dispatch(ActionMan.killModal())}}>
         <View style={{flex:1,paddingVertical:10,paddingTop:30}}>
           <Text style={{textAlign:'center',fontSize:16,color:colors.shuttleGray}}>CANCEL</Text>
         </View>

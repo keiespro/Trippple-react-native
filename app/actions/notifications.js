@@ -6,8 +6,7 @@ import api from '../utils/api'
 const getBadgeNumber = Promise.promisify(PushNotification.getApplicationIconBadgeNumber)
 import ApiActionCreators from './ApiActionCreators'
 const iOS = Platform.OS == 'ios';
-
-const NOTIFICATION_TYPES = {
+ const NOTIFICATION_TYPES = {
   NEW_MATCH: 'getMatches',
   NEW_MESSAGE: 'getMessages',
   MATCH_REMOVED: 'getMatches',
@@ -47,45 +46,51 @@ export const handleNotification = notification => dispatch => dispatch({ type: '
   payload: new Promise((resolve, reject) => {
     __DEV__ && console.log(notification);
 
-    const {data, action, label} = notification
+    const data = notification
+    const payload = typeof data == 'string' ? JSON.parse(data) : data;
 
-    if (!notification) return;
+    if(!notification || !payload) return;
 
-    if (data.vibrate && iOS) VibrationIOS.vibrate();
+    if(payload.vibrate && iOS) VibrationIOS.vibrate();
 
     let nType;
     const nRequests = [];
     let nQueue;
-    const nData = data;
+    const nData = payload;
 
-    switch (data.action){
+    switch (payload.action){
+      case 'dispatch':
+
+        nType = 'FORCE_DISPATCH'
+        break;
+
       case 'retrieve':
 
         if(data.type == 'potentials') {
-            nType = 'GET_POTENTIALS';
-            nRequests.push({
-              getPotentials: {}
-            });
-          } else if (label == 'NewMatch') {
-            nType = 'NEW_MATCH';
-            nRequests.push({
-              getNewMatches: {},
-              getMatches: {}
-            })
-            nQueue = true;
-          } else if (label == 'NewMessage'){
-            nType = 'NEW_MESSAGE';
-            nRequests.push({
-              getMessages: {match_id: nData.match_id}
-            })
-            nQueue = true;
-          }
+          nType = 'GET_POTENTIALS';
+          nRequests.push({
+            getPotentials: {}
+          });
+        }else if(payload.type == 'new_match') {
+          nType = 'NEW_MATCH';
+          nRequests.push({
+            getNewMatches: {},
+            getMatches: {}
+          })
+          nQueue = true;
+        }else if(payload.type == 'new_message'){
+          nType = 'NEW_MESSAGE';
+          nRequests.push({
+            getMessages: {match_id: nData.match_id}
+          })
+          nQueue = true;
+        }
 
         break;
 
       case 'notify':
 
-        Alert.alert(data.title, JSON.stringify(data.body));
+        Alert.alert(payload.title, JSON.stringify(payload.body));
         break;
 
       case 'match_removed':
@@ -147,26 +152,30 @@ export const handleNotification = notification => dispatch => dispatch({ type: '
         nType = 'DISPLAY';
         nQueue = true;
         break;
+
+      default:
+        nType = data.action;
+        break;
     }
 
 
     __DEV__ && console.log(nType);
 
-    if (!nType){
+    if(!nType){
       reject(notification)
-      return false;
+      return;
     }
 
     const n = {...notification, ...nData, data: nData};
 
-    if (nQueue){
+    if(nQueue){
       dispatch({type: 'ENQUEUE_NOTIFICATION', payload: n})
     }
 
     nRequests.forEach(nRequest => {
-      if (typeof nRequest == 'string'){
+      if(typeof nRequest == 'string'){
         dispatch(ApiActionCreators[nRequest](...notification.data))
-      } else if (typeof nRequest == 'object'){
+      }else if(typeof nRequest == 'object'){
         Object.keys(nRequest).forEach(req => {
           dispatch(ApiActionCreators[req](nRequest[req]))
         })
