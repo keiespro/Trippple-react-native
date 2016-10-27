@@ -106,7 +106,7 @@ class PhoneNumberInput extends React.Component{
   render(){
 
     return (
-      <View style={{height: DeviceHeight,paddingBottom:KEYBOARD_HEIGHT,position:'relative'}}>
+      <View style={{height: DeviceHeight,position:'relative'}}>
         <View style={{
           alignSelf:'flex-start',
           flexDirection:'column',
@@ -114,7 +114,7 @@ class PhoneNumberInput extends React.Component{
           alignItems:'center',
           justifyContent:'center',
           height:DeviceHeight-80-KEYBOARD_HEIGHT,
-        marginBottom:KEYBOARD_HEIGHT}}
+        }}
         >
           <View style={[styles.phoneInputWrap,
             (this.props.inputFieldFocused ? styles.phoneInputWrapSelected : null),

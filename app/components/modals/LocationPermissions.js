@@ -5,8 +5,7 @@ import PermissionModal from './PermissionModal/PermissionModal'
 const LocationPermissionsModal = ({user: {image_url}}) => (
   <PermissionModal
     title={'LOCATION'}
-    subtitle={' '}
-    isPersistant
+    subtitle={'We’ve found some matches we think you might like. Should we prioritize the matches nearest to you?'}
     permissionKey={'location'}
     buttonText={'USE MY LOCATION'}
     permissionLabel={'Location'}

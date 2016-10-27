@@ -33,13 +33,13 @@ class ReportModal extends Component{
     // this.props.goBack && this.props.goBack(them && them.id ? them : them[0]);
     // this.props.close && this.props.close()
     // if(!this.props.close && !this.props.goBack){
-      if (this.props.potential && this.props.navigator){
-        this.props.navigator.pop()
-      }
+      // if (this.props.potential && this.props.navigator){
+      //   this.props.navigator.pop()
+      // }
       this.props.dispatch(ActionMan.killModal())
       this.props.dispatch(ActionMan.reportUser(likeUserId, reason))
       this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, (this.props.rel || rel),relstatus, {}));
-      // this.props.dispatch({ type: 'CLOSE_PROFILE' });
+      this.props.dispatch({ type: 'CLOSE_PROFILE' });
     // }
   }
 
@@ -56,7 +56,6 @@ class ReportModal extends Component{
         them.push(potential.partner)
       }
     }
-    console.log(them,'TTTHHGEEEMMM');
 
     const matchName = them.length > 1 ? them.map(user => user.firstname.trim().toUpperCase()).join(' & ') : them[0].firstname.trim().toUpperCase()
 
@@ -127,6 +126,8 @@ class ReportModal extends Component{
               <TouchableOpacity
                 style={styles.modalButtonWrap}
                 onPress={() => {
+                  this.props.dispatch(ActionMan.killModal())
+
                   this.props.goBack && this.props.goBack(them && them.id ? them : them[0]);
                   this.props.close && this.props.close()
                 }}

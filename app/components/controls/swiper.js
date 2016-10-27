@@ -55,7 +55,8 @@ const styles = StyleSheet.create({
 
   wrapper: {
     backgroundColor: 'transparent',
-    alignItems: 'center', justifyContent: 'center', borderRadius: 11,
+    alignItems: 'center',
+    justifyContent: 'center', borderRadius: 11,
 
   },
 
@@ -114,7 +115,7 @@ const Swiper = React.createClass({
       showsButtons: false,
       loop: true,
       autoplay: false,
-      autoplayTimeout: 2.5,
+      autoplayTimeout: 3000,
       autoplayDirection: true,
       index: 0,
     }
@@ -133,9 +134,9 @@ const Swiper = React.createClass({
       autoplayEnd: false,
     }
 
-    initState.total = props.children ? (props.children.length || 1) : 0
+    initState.total = props.children ? (React.Children.count(props.children)) : 0
 
-    initState.index = initState.total > 1 ? props.index || 0 : 0
+    initState.index = initState.total > 1 ? props.index || 1 : 0
 
     // Default: horizontal
     initState.dir = props.horizontal == false ? 'y' : 'x'
@@ -158,6 +159,8 @@ const Swiper = React.createClass({
   componentDidMount() {
     // this.state.scroll.addListener((e)=>{
     // })
+    this.autoplay()
+
   },
 
     /**
@@ -167,7 +170,7 @@ const Swiper = React.createClass({
   onScrollBegin(e) {
     // update scroll state
 
-    this.setImmediate(() => {
+    this.props.onScrollBeginDrag && this.setImmediate(() => {
       this.props.onScrollBeginDrag && this.props.onScrollBeginDrag(e, this.state, this)
     })
   },
@@ -181,14 +184,12 @@ const Swiper = React.createClass({
 
     this.updateIndex(e.nativeEvent.contentOffset, this.state.dir)
 
+    // if `onMomentumScrollEnd` registered will be called here
     // Note: `this.setState` is async, so I call the `onMomentumScrollEnd`
     // in setTimeout to ensure synchronous update `index`
-    // this.setImmediate(() => {
-      // this.autoplay()
-
-      // if `onMomentumScrollEnd` registered will be called here
-    this.props.onMomentumScrollEnd && this.props.onMomentumScrollEnd(e, this.state, this)
-    // })
+    this.props.onMomentumScrollEnd && this.setImmediate(() => {
+      this.props.onMomentumScrollEnd && this.props.onMomentumScrollEnd(e, this.state, this)
+    })
   },
 
   /**
@@ -197,32 +198,21 @@ const Swiper = React.createClass({
    * @param  {string} dir    'x' || 'y'
    */
   updateIndex(offset, dir) {
-    const state = this.state
-    let index = state.index
-    const diff = offset[dir] - state.offset[dir]
-    const step = dir == 'x' ? state.width : state.height
-    // Do nothing if offset no change.
-    if (!diff) return
-
-    // Note: if touch very very quickly and continuous,
-    // the variation of `index` more than 1.
-    index = index + diff / step
-
-    if (this.props.loop) {
-      if (index <= -1) {
-        index = state.total - 1
-        offset[dir] = step * state.total
-      }
-      else if (index >= state.total) {
-        index = 0
-        offset[dir] = step
-      }
-    }
+    const index = this.state.index+1
 
     this.setState({
       index,
-      offset,
     })
+  },
+
+  autoplay(){
+    if(this.props.autoplay){
+      this.scrollTo((this.state.index+1) );
+      this.setState({index:this.state.index+1})
+      this.setTimeout(() => {
+        this.autoplay()
+      }, this.props.autoplayTimeout)
+    }
   },
 
   /**
@@ -230,14 +220,12 @@ const Swiper = React.createClass({
    * @param  {number} index offset index
    */
   scrollTo(index) {
-    if (this.state.isScrolling) return
-    const state = this.state
-    const diff = (this.props.loop ? 1 : 0) + index + this.state.index
-    let x = 0
-    let y = 0
-    if (state.dir == 'x') x = diff * state.width
-    if (state.dir == 'y') y = diff * state.height
-    this.refs.scrollView && this.refs.scrollView.scrollTo(y, x)
+    // if (this.state.isScrolling) return
+    const {width,height,dir,total} = this.state
+    const x = (dir == 'x') ? ((index%total) * width) : 0;
+    const y = (dir == 'y') ? ((index%total) * height) : 0;
+    this.refs.scrollView && this.refs.scrollView.scrollTo({y, x, animated: true})
+
   },
 
   /**
@@ -246,7 +234,7 @@ const Swiper = React.createClass({
    */
   renderPagination() {
     // By default, dots only show when `total` > 2
-    if (this.state.total <= 1 || this.props.inCard && !this.props.profileVisible) return null
+    if (React.Children.count(this.props.children) <= 1 || this.props.inCard && !this.props.profileVisible) return null
 
     return (
       <View>
@@ -267,11 +255,11 @@ const Swiper = React.createClass({
   },
 
   //
-  // componentWillReceiveProps(nProps){
-  //   // if(nProps.activeIndex != this.props.activeIndex){
-  //   //   this.scrollTo(nProps.activeIndex+this.state.index);
-  //   // }
-  // },
+  componentWillReceiveProps(nProps){
+    if(nProps.index != this.state.index){
+      this.scrollTo(nProps.index);
+    }
+  },
 
   /**
    * Default render
@@ -287,26 +275,14 @@ const Swiper = React.createClass({
     const dir = state.dir
     const key = 0
 
-    let pages = []
+
     const pageStyle = [{width: state.width, height: state.height}, styles.slide]
 
-    // For make infinite at least total > 1
-    if (total > 1) {
-      // Re-design a loop model for avoid img flickering
-      pages = Object.keys(children)
-      if (loop) {
-        pages.unshift(total - 1)
-        pages.push(0)
-      }
 
-      pages = pages.map((page, i) => {
-        return <View style={pageStyle} key={`${i}slidepot`}>{children[page]}</View>
-      }
-      )
-    }
-    else {
-      pages = <View style={pageStyle} key={'xslidepot'}>{children}</View>
-    }
+    const pages = total > 1 ?
+      Object.keys(children).map((p, i) => <View style={pageStyle} key={`${i}sp`}>{children[p]}</View>) :
+        (<View style={pageStyle} key={'xslidepot'}>{children}</View>);
+
 
     // For the WELCOME slider
     let inputRange = [0, 0, width, width * 2, width * 3, width * 4, width * 5, width * 6],
@@ -317,48 +293,51 @@ const Swiper = React.createClass({
 
 
     return (
-      <Animated.View
+      <View
+        pointerEvents={'box-none'}
         style={[styles.container, {
-          alignItems: 'center', justifyContent: 'center',
+          alignItems: 'center',
+          justifyContent: 'center',
           width: props.width,
           height: props.height,
+          zIndex:9999,
           borderRadius: 11,
-          opacity: this.props.pan && this.props.isTopCard ? this.props.pan.x.interpolate({
-            inputRange: [-300, -80, -10, 0, 10, 80, 300],
-            outputRange: [0, 0.5, 1, 1, 1, 0.5, 0]
-          }) : 1,
+          // opacity: this.props.pan && this.props.isTopCard ? this.props.pan.x.interpolate({
+          //   inputRange: [-300, -80, -10, 0, 10, 80, 300],
+          //   outputRange: [0, 0.5, 1, 1, 1, 0.5, 0]
+          // }) : 1,
         }]}
       >
-        <ScrollView ref="scrollView"
-          {...props}
-          scrollEnabled={props.profileVisible}
+        <ScrollView
+          ref={`scrollView`}
           scrollEventThrottle={16}
           pagingEnabled
-          contentOffset={state.offset}
-          centerContent
+          horizontal
           contentContainerStyle={[styles.wrapper, props && props.style, {
             borderRadius: 11,
-
           }]}
           style={{
             borderRadius: 11,
           }}
-          onScrollBeginDrag={this.onScrollBegin}
-          onMomentumScrollEnd={this.onScrollEnd}
+          scrollEventThrottle={this.props.autoplayTimeout}
+          onScroll={this.onScrollBegin}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          onScrollAnimationEnd={this.onScrollEnd}
         >
           {pages}
         </ScrollView>
 
-        <View pointerEvents={'box-none'} style={[styles[`pagination_${this.state.dir}`], props.paginationStyle, {backgroundColor: colors.spacegray20}]}>
+        <View pointerEvents={'box-none'} style={[styles[`pagination_${this.state.dir}`], props.paginationStyle, {backgroundColor: 'transparent',position:'absolute'}]}>
           {(props.showsPagination && !props.inCard) || (props.inCard && props.profileVisible) ? React.Children.map(props.children, (c, i) => {
             return (<View
               style={[(props.grayDots ? styles.grayDot : styles.dot15),
-                  (index == i ? props.grayDots ? styles.activeDot16 : styles.activeDot15 : null)]}
+                  (index%total == i ? props.grayDots ? styles.activeDot16 : styles.activeDot15 : null)]}
               key={`swiperdot${i}`}
             />)
           }) : <View/>}
         </View>
-      </Animated.View>
+      </View>
     )
   }
 })

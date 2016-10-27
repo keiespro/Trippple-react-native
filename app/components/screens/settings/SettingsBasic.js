@@ -42,7 +42,7 @@ class SettingsBasic extends React.Component{
       tintColor: '#fff',
       backgroundColor: colors.shuttleGrayAnimate,
       title(params){
-        return `PROFILE`
+        return `EDIT PROFILE`
       }
     }
   };
@@ -75,7 +75,7 @@ class SettingsBasic extends React.Component{
 
 
 
-      <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,height:DeviceHeight,overflow:'hidden',flex:1}}>
+      <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:50,height:DeviceHeight,overflow:'hidden',flex:1}}>
 
         <ScrollView
             showsVerticalScrollIndicator={false}

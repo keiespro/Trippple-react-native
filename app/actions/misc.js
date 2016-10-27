@@ -21,7 +21,7 @@ export const setHotlineUser = user => dispatch => dispatch({ type: 'SET_HOTLINE_
   payload: {
     promise: new Promise((resolve, reject) => {
       const {id, firstname, phone, relationship_status, email, gender, image_url, thumb_url, partner_id} = user;
-      RNHotline.setUser(`${id}`, firstname, phone, email, {relationship_status, gender, image_url, thumb_url, partner_id: `${partner_id}`});
+      // RNHotline.setUser(`${id}`, firstname, phone, email, {relationship_status, gender, image_url, thumb_url, partner_id: `${partner_id}`});
       resolve();
     })
   }
@@ -74,6 +74,7 @@ export const sendText = payload => dispatch => dispatch({ type: 'SEND_TEXT',
 export const receivePushToken = push_token => dispatch => dispatch({ type: 'RECEIVE_PUSH_TOKEN',
   payload: {
     promise: new Promise((resolve, reject) => {
+
       dispatch({type: 'UPDATE_USER_PUSH_TOKEN', payload: api.updatePushToken({push_token})})
       resolve()
     })

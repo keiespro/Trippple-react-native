@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, ScrollView, Platform, Animated, Dimensions} from 'react-native';
+import {StyleSheet, Image, View, ScrollView, Platform, Animated, Dimensions} from 'react-native';
 import colors from '../../utils/colors'
 import Swiper from './swiper'
 
@@ -8,6 +8,7 @@ const screen = Dimensions.get('window');
 const ScrollViewPropTypes = ScrollView.propTypes;
 const DeviceWidth = screen.width
 const DeviceHeight = screen.height
+const TOP_DISTANCE = DeviceHeight - 260;
 
 class ParallaxSwiper extends React.Component{
 
@@ -19,7 +20,7 @@ class ParallaxSwiper extends React.Component{
   };
 
   static getDefaultProps = {
-    windowHeight: 300,
+    windowHeight: 0,
     contentInset: {
       top: -20 * screen.scale
     }
@@ -31,6 +32,8 @@ class ParallaxSwiper extends React.Component{
       scrollY: new Animated.Value(0),
       imgLoaded: new Animated.Value(0),
     };
+    this._scrollView = {};
+
   }
 
   componentDidMount(){
@@ -82,40 +85,26 @@ class ParallaxSwiper extends React.Component{
       }
       return (
 
-        <Animated.Image
+        <Image
           source={{uri: image_url }}
           defaultSource={require('../screens/potentials/assets/defaultuser.png')}
-          resizeMode="cover"
           key={`${p.id}slide${i}`}
           onLoad={this.imgLoad.bind(this)}
           style={{
-            flex: 1,
-            alignItems: 'center',
-            opacity: this.state.imgLoaded.interpolate({
-              inputRange: [0, 50, 100],
-              outputRange: [0.0, 0.5, 1.0]
-            }),
-            // width: this.props.cardWidth,
-            overlayColor: profileVisible ? '#000' : colors.outerSpace,
-            justifyContent: 'center',
-            flexDirection: 'column',
-            zIndex: -10,
+            height:profileVisible ? this.props.height : this.props.height-60,
+            width:DeviceWidth,
+            overlayColor: 'transparent',
             borderRadius: 11,
-            backgroundColor: colors.darkPurple,
-            // width:this.props.width,
-            // height:this.props.height,
-
-            // marginLeft: profileVisible ? 0 : -40
           }}
         />
       )
     });
 
-        // console.log(this.props.pan,this.props.isTopCard);
-    return (
+     return (
       <Animated.View
-
-        style={[styles.background, {
+      pointerEvents={'box-none'}
+         style={[styles.background, {
+         elevation:0,
           shadowColor: colors.darkShadow,
           shadowOpacity: 0.4,
           shadowRadius: 30,
@@ -124,35 +113,33 @@ class ParallaxSwiper extends React.Component{
             height: -10
           },
           flex: 1,
+          position:'absolute',
+          top:0,
           borderRadius: 11,
-          position: iOS || !this.props.profileVisible ? 'relative' : 'absolute',
-          top: iOS ? 0 : 0,
-          // backgroundColor:  this.props.pan && this.props.isTopCard ? this.props.pan.x.interpolate({
-          //     inputRange: [-300, -180, -50, 0, 50, 180, 300],
-          //     outputRange: [
-          //         'rgb(232,74,107)',
-          //         'rgb(232,74,107)',
-          //         'rgb(232,74,107)',
-          //         'rgb(255,255,255)',
-          //         'rgb(66,181,125)',
-          //         'rgb(66,181,125)',
-          //         'rgb(66,181,125)',
-          //     ],
-          // }) : 'white',
+          backgroundColor:  iOS && this.props.pan && this.props.isTopCard ? this.props.pan.x.interpolate({
+              inputRange: [-300, -180, -50, 0, 50, 180, 300],
+              outputRange: [
+                  'rgb(232,74,107)',
+                  'rgb(232,74,107)',
+                  'rgb(232,74,107)',
+                  'rgb(255,255,255)',
+                  'rgb(66,181,125)',
+                  'rgb(66,181,125)',
+                  'rgb(66,181,125)',
+              ],
+          }) : 'transparent',
         }]}
       >
         <View
           onLayout={this.props.doOnLayout}
+          pointerEvents={'box-none'}
           style={{
             flex: 1,
             borderRadius: 11,
-            // width: DeviceWidth - 50,
             left: 0,
-
-            // top: 10
           }}
         >
-          <Swiper
+          {slides && slides.length > 1 ? <Swiper
             isTopCard={isTopCard}
             horizontal
             pan={this.props.pan}
@@ -160,21 +147,33 @@ class ParallaxSwiper extends React.Component{
             scrollEnabled
             profileVisible={this.props.profileVisible}
             inCard
-            width={this.props.width}
+            autoplay
+            width={DeviceWidth}
             height={this.props.height}
             paginationStyle={{
-              bottom: 140,
+              top: 0,
               backgroundColor: 'transparent',
               position: 'absolute',
               right: 0
             }}
           >
             {slides}
-          </Swiper>
+          </Swiper> : slides}
         </View>
 
       </Animated.View>
     );
+  }
+  handleScroll(e) {
+  //  console.log(e.nativeEvent);
+    console.log( e.nativeEvent.contentOffset.y);
+  //  if(300 - e.nativeEvent.contentOffset.y > 0  ){
+    //  this._scrollView.setNativeProps({scrollEnabled:false})
+   //
+  //  }else{
+  //    this._scrollView.setNativeProps({scrollEnabled:false})
+   //
+  //  }
   }
 
   render() {
@@ -182,62 +181,110 @@ class ParallaxSwiper extends React.Component{
 
     return (
       <View
+        pointerEvents={'box-none'}
         style={[
           styles.container, style, {
             borderRadius: 11,
             top: 0,
-
           }
         ]}
       >
-        <View
-          style={{
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            left: 0,
-            width: DeviceWidth,
-            height: DeviceHeight,
-            backgroundColor: profileVisible ? colors.outerSpace70 : 'transparent',
-            borderRadius: 11,
-          }}
-        >
-          {this.renderBackground()}
-        </View>
 
-        <ScrollView
-          {...props}
+      {this.renderBackground()}
+{/*
+
+  onMoveShouldSetResponder={(e) => {console.log('onMoveShouldSetResponder',e.nativeEvent.pageY); return e.nativeEvent.pageY > 300}}
+  onStartShouldSetResponderCapture={(e) => {console.log('onStartShouldSetResponderCapture',e); return false}}
+  onStartShouldSetResponder={(e) => {console.log('onStartShouldSetResponder',e); return false}}
+  onResponderReject={(e) => {console.log('onResponderReject',e)}}
+  onResponderMove={e=>{console.log('onResponderMove',e.nativeEvent.target)}}
+  onResponderTerminationRequest={e=>{console.log('onResponderTerminationRequest',e.nativeEvent)}}
+
+  */}
+      {profileVisible &&   <ScrollView
           automaticallyAdjustContentInsets={false}
           ref={component => { this._scrollView = component }}
-          stickyHeaderIndices={[0]}
+          scrollEnabled={profileVisible}
+          keyboardShouldPersistTaps
+          showsVerticalScrollIndicator={false}
+          onScroll={this.handleScroll.bind(this)}
+          onMoveShouldSetResponderCapture={(e) => {
+            this._scrollView.setNativeProps({scrollEnabled:false})
+
+            console.log('onMoveShouldSetResponderCapture',e.nativeEvent.pageY);
+             return false
+          }}
+          onResponderGrant={e=>{
+            console.log('START',this._scrollView,e.nativeEvent.target)
+            // this._scrollView.setNativeProps({contentContainerStyle:{height:null}})
+            this._scrollView._innerViewRef.setNativeProps({style:{
+              // height:this.state.contentHeight+1000,
+              backgroundColor:colors.outerSpace50
+            }})
+          }}
+          onResponderRelease={e => {
+            console.log('START',this._scrollView,e.nativeEvent.target)
+            this._scrollView._innerViewRef.setNativeProps({style:{backgroundColor:colors.dark70}})
+          }}
+          onResponderTerminate={e => {
+            console.log('START',this._scrollView,e.nativeEvent.target)
+            this._scrollView._innerViewRef.setNativeProps({style:{backgroundColor:colors.dark70}})
+          }}
+          onResponderReject={e => {
+            console.log('START',this._scrollView,e.nativeEvent.target)
+            this._scrollView._innerViewRef.setNativeProps({style:{backgroundColor:colors.dark70}})
+          }}
+
+          onMoveShouldSetResponder={(e) => {
+            console.log(e.nativeEvent.locationY, e.nativeEvent.pageY);
+            if(e.nativeEvent.pageY > e.nativeEvent.locationY) this._scrollView.setNativeProps({scrollEnabled:true})
+             //
+            //  if(e.nativeEvent.pageY > 300 ){
+            //    return false
+             //
+            //  }else{
+            //    return false
+             //
+            //  fa,s
+            return false
+           }}
           contentContainerStyle={{
-            marginTop: windowHeight,
+            elevation:10,
+            height:DeviceHeight+200,
+            zIndex:1,
+            flex:1,
+            top:TOP_DISTANCE
 
           }}
           style={[
             styles.scrollView, {
-              top: 0,
+              flex:10,
               marginBottom: iOS ? -500 : 0,
-
+              height:this.state.DeviceHeight+TOP_DISTANCE,
+              flexGrow: 10,
+              flexDirection:'row',
+              alignSelf:'stretch'
             }
           ]}
-          onScroll={Animated.event([{nativeEvent: { contentOffset: { y: this.state.scrollY }}}])}
-          scrollEventThrottle={16}
-          onScrollAnimationEnd={() => {}}
+          vertical
+          scrollEventThrottle={256}
         >
+
           <View
             style={{
-              top: 500,
-              zIndex: 99999,
+              top: 0,
+              zIndex: 0,
               borderBottomLeftRadius: 11,
               borderBottomRightRadius: 11,
               backgroundColor: colors.outerSpace70,
               paddingTop:0
             }}
+
           >
             {this.props.children}
           </View>
-        </ScrollView>
+        </ScrollView>}
+
       </View>
     );
   }

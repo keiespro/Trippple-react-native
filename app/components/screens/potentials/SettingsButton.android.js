@@ -18,6 +18,7 @@ class SettingsButton extends React.Component{
 
         return (
             <TouchableOpacity
+            hitSlop={{top: 10, bottom: 10, left: 0, right: 0}}
               style={{paddingTop:5,paddingRight:25,paddingBottom:5,}}
               onPress={this.props.openDrawer}
             >

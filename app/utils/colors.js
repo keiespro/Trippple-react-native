@@ -85,6 +85,8 @@ const colors = {
 
   dark70: 'rgba(36,49,56,.7)',
 
+  dark90: 'rgba(36,49,56,.9)',
+
   lavender: 'rgb(179, 152, 232)',
 
   sapphire50: 'rgba(71,36,143,0.50)',

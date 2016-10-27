@@ -28,7 +28,7 @@ class Analytics{
       GoogleAnalytics.allowIDFA(false);
     }
     if (__DEBUG__ || __TEST__) {
-      Firelytics.setEnabled(false);
+      // Firelytics.setEnabled(false);
     }
   }
 

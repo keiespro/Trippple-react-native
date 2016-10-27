@@ -99,12 +99,14 @@ const api = {
   },
 
   getMatches(page){ // v2 endpoint
-    return authenticatedRequest('getMatches', {page})
+    return Promise.try(() => {
+      authenticatedRequest('getMatches', {page})
+    })
   },
 
 
   getNewMatches(page){ // v2 endpoint
-    return authenticatedRequest('getNewMatches', {page})
+    return Promise.try(() => authenticatedRequest('getNewMatches', {page}))
   },
 
   getFavorites(page){ // v2 endpoint

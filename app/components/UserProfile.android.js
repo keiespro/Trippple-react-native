@@ -135,11 +135,10 @@ class UserProfile extends React.Component {
     const aniblurstyle = [{
       backgroundColor: colors.outerSpace50,
       width: DeviceWidth,
-      paddingBottom: 120,
       flex: 10,
       flexGrow: 10,
       height: profileVisible ? this.state.contentHeight : 0,
-      top: profileVisible ? -130 : DeviceHeight + 300,
+      top:   -130  ,
       position: 'relative',
       alignSelf: 'flex-end',
       overflow: 'hidden',
@@ -157,8 +156,9 @@ class UserProfile extends React.Component {
 
         <ParallaxSwiper
           contentContainerStyle={[{
-            minHeight: this.props.profileVisible ? DeviceHeight : cardHeight,
+            minHeight:   DeviceHeight,
             alignItems: 'center',
+            backgroundColor:'#000',
             justifyContent: 'center',
             flexDirection: 'column',
             flex: 1
@@ -171,7 +171,6 @@ class UserProfile extends React.Component {
             position: 'relative',
             top: 0,
 
-            backgroundColor:'#000',
             width: cardWidth,
           }]}
           header={<View />}

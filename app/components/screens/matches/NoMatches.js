@@ -12,7 +12,7 @@ const NoMatches = () => (
     contentContainerStyle={{
       backgroundColor: colors.outerSpace,
       width: DeviceWidth,
-      paddingTop: 0,
+      paddingTop: 60,
       height: DeviceHeight
     }}
     automaticallyAdjustContentInsets

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar, View, Easing, Image, Animated, PanResponder, Dimensions, InteractionManager, Platform } from 'react-native';
+import { StatusBar, View, Easing,LayoutAnimation, Image, Animated, PanResponder, Dimensions, InteractionManager, Platform } from 'react-native';
 import { NavigationActions } from '@exponent/ex-navigation'
 
 import {pure} from 'recompose'
@@ -48,8 +48,8 @@ class CardStack extends React.Component {
       delay: 150,
       easing: Easing.in(Easing.ease),
     }).start(() => {
-      this.initializePanResponder();
       this.setState({ animatedIn: true });
+      this.initializePanResponder();
     });
   }
 
@@ -68,7 +68,6 @@ class CardStack extends React.Component {
 
   initializePanResponder() {
     delete this._panResponder;
-
     const isCouple = this.props.user.relationship_status === 'couple';
     const openProfile = (p) => {
       this.killPanResponder()
@@ -80,23 +79,35 @@ class CardStack extends React.Component {
 
     this._panResponder = PanResponder.create({
 
-      onMoveShouldSetPanResponderCapture: () => false,
+      onMoveShouldSetPanResponderCapture: (e,gestureState) => {
+        if(this.props.profileVisible) return false;
+        if(e.nativeEvent.locationY > DeviceHeight - 160 && !this.props.profileVisible){
+          this._toggleProfile()
+          // openProfile(this.props.potentials[0]);
+          return false;
+        }
 
-      onMoveShouldSetPanResponder: (e) => {
-        console.log(e.nativeEvent);
-
-        // if(e.nativeEvent.locationY > DeviceHeight - 160){
-        //   openProfile(this.props.potentials[0]);
-        //   return false;
-        // }
-
-        return !this.props.profileVisible && (isCouple || true)
+        return !this.props.profileVisible && (isCouple )
       },
 
-      onStartShouldSetPanResponder: (e) => {
-        console.log(e.nativeEvent);
+      onMoveShouldSetPanResponder: (e,gestureState) => {
+        if(this.props.profileVisible) return false;
+
         if(e.nativeEvent.locationY > DeviceHeight - 160 && !this.props.profileVisible){
-          openProfile(this.props.potentials[0]);
+          this._toggleProfile()
+          // openProfile(this.props.potentials[0]);
+          return false;
+        }
+
+
+        return !this.props.profileVisible && (isCouple )
+      },
+
+      onStartShouldSetPanResponder: (e,gestureState) => {
+        if(this.props.profileVisible) return false;
+        if(e.nativeEvent.locationY > DeviceHeight - 160 && !this.props.profileVisible){
+          // openProfile(this.props.potentials[0]);
+          this._toggleProfile()
           return false;
         }
 
@@ -110,7 +121,7 @@ class CardStack extends React.Component {
         dy: this.state.pan.y,
         useNativeDriver: !iOS
       }]),
-
+      onShouldBlockNativeResponder: (e, gestureState) => true,
       // onPanResponderReject: (e, gestureState) => {
       //   console.log('onPanResponderReject',gestureState)
       // },
@@ -227,12 +238,15 @@ class CardStack extends React.Component {
   }
 
   _toggleProfile() {
+    console.log('toggleprofile');
+    this.killPanResponder()
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
     this.props.toggleProfile();
-    this.state.pan.setValue({ x: 0, y: 0 });
+    // this.state.pan.setValue({ x: 0, y: 0 });
   }
   killPanResponder(){
 
-    console.log(this._panResponder,PanResponder);
+    console.log('killPanResponder',this._panResponder,PanResponder);
     // this._panResponder = {
     //   panHandlers: {
     //     noop: ''
@@ -264,7 +278,6 @@ class CardStack extends React.Component {
           bottom: 0,
           paddingTop: 0,
         }}
-        toggleProfile={this._toggleProfile.bind(this)}
       >
         {/* {this.props.profileVisible &&
           <StatusBar animated barStyle="light-content" />
@@ -284,6 +297,7 @@ class CardStack extends React.Component {
               // bottom: this.props.profileVisible ? 0 : 75,
               position: 'absolute',
               overflow: 'hidden',
+              backgroundColor:'red',
               opacity: this.state.animatedIn ? this.state.pan.x.interpolate({
                 inputRange: [-500, -200, -50, 0, 50, 200, 500],
                 outputRange: [0.99, 0.55, 0.05, 0.1, 0.05, 0.55, 0.99],
@@ -321,8 +335,7 @@ class CardStack extends React.Component {
           style={[{
             alignSelf: 'center',
             borderRadius: 11,
-            backgroundColor:'red',
-            overflow: this.props.profileVisible ? 'hidden' : 'hidden',
+            // backgroundColor:'red',
             marginHorizontal: 0,
             transform: [
               {
@@ -336,7 +349,7 @@ class CardStack extends React.Component {
                 }) : this.state.offsetY,
               },
               {
-                scale: 0.92
+                scale: this.props.profileVisible ? 1 : 0.92
               },
             ],
           }]}

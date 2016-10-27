@@ -100,10 +100,12 @@ class PermissionsModal extends Component{
         <View style={{alignItems: 'center'}}>
           <Image
             resizeMode={Image.resizeMode.contain}
-            style={[{width: 150,
+            style={[{
+              width: 150,
               height: MagicNumbers.is4s ? 100 : 150,
               marginBottom: MagicNumbers.is4s ? 15 : 30,
-              marginTop: MagicNumbers.is4s ? 10 : 20}]}
+              marginTop: MagicNumbers.is4s ? 10 : 20
+            }]}
             source={require('../assets/iconModalDenied.png')}
           />
         </View>
@@ -160,7 +162,7 @@ class PermissionsModal extends Component{
       <Button
         btnText={buttonText}
         onTap={this.handleTap.bind(this)}
-        loading={this.state.loading}
+        loading={this.props.loading}
       />
     );
   }
@@ -279,22 +281,22 @@ const Button = ({btnText, onTap, loading}) => (
     style={{
       alignSelf: 'stretch',
       marginTop: 30,
-      marginHorizontal: 20,
-      flex: 1
+      flex: 10,
+      marginBottom: 20,
+
     }}
   >
     <TouchableOpacity
       onPress={onTap}
       style={{
+        flex: 10,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 5,
         borderWidth: 1,
+        alignSelf: 'stretch',
         paddingVertical: 15,
         borderColor: colors.white,
-        marginTop: 15,
-        marginBottom: 20,
-        marginHorizontal: MagicNumbers.screenPadding
       }}
     >
       <View>

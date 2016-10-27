@@ -27,6 +27,7 @@ class ProfileTable extends Component{
     height = profileOptions.height.values[height] || height;
     return (
       <View
+      pointerEvents={'none'}
         style={{
           width: MagicNumbers.screenWidth,
           flexDirection: 'column',

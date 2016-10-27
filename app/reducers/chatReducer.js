@@ -38,9 +38,9 @@ export default function chatReducer(state = initialState, action) {
         }
       case 'GET_NEW_MATCHES_FULFILLED':
       case 'GET_MATCHES_FULFILLED':
-        if ( !action.payload ) return state;
-
-        const ids = action.payload.reduce((acc,el,i)=>{
+        if ( !action.payload || !Array.isArray(action.payload) ) return state;
+        const msgs = action.payload
+        const ids = msgs.reduce((acc,el,i)=>{
           acc[el.match_id] = [];
           return acc
         },{})

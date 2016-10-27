@@ -1,4 +1,4 @@
-import { View, ActivityIndicator,StatusBar, Dimensions, Platform, NativeModules, TouchableOpacity, Image } from 'react-native';
+import { View, ActivityIndicator,StatusBar, Dimensions,BackAndroid, Platform, NativeModules, TouchableOpacity, Image } from 'react-native';
 import React from 'react';
 import { connect } from 'react-redux';
 import MatchesButton from './MatchesButtonIcon'
@@ -64,7 +64,7 @@ const Toolbar = () => (
       position: 'relative' ,//iOS ? 'relative' : 'absolute',
       width: DeviceWidth,
       alignItems: 'center',
-      zIndex: 10,
+      zIndex: 1,
     }}
   >
     <SettingsButton />
@@ -113,16 +113,21 @@ class Potentials extends React.Component{
   }
 
   componentWillReceiveProps(nProps){
-    const nui = nProps;
-    const ui = this.props;
-    if(!nui.profileVisible && ui.profileVisible){
-      this.props.navigator.updateCurrentRouteParams({
-        visible: false, show: true, dispatch: this.props.dispatch
-      })
-    }else if(nui.profileVisible && !ui.profileVisible){
-      this.props.navigator.updateCurrentRouteParams({show: false, visible: false, dispatch: this.props.dispatch })
+    const nui = nProps.ui;
+    const ui = this.props.ui;
+    if(nui.profileVisible && !ui.profileVisible){
+      BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
+
+    }else if(!nui.profileVisible && ui.profileVisible){
+      BackAndroid.removeEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
     }
   }
+
+  handleBackAndroid(){
+    this.props.dispatch({ type: 'CLOSE_PROFILE' });
+    return true
+  }
+
 
   getPotentialInfo(){
     if(!this.props.potentials || !this.props.potentials.length){ return false }
@@ -137,7 +142,9 @@ class Potentials extends React.Component{
   }
 
   toggleProfile(){
-    __DEV__ && console.warn('nothing');
+    this.props.dispatch({ type: 'OPEN_PROFILE' });
+
+    // __DEV__ && console.warn('nothing');
   }
 
   render(){
@@ -154,7 +161,6 @@ class Potentials extends React.Component{
         }}
 
       >
-        {/* {!iOS && <Toolbar />} */}
 
 <Toolbar />
         <View

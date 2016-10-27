@@ -6,7 +6,7 @@ import api from '../utils/api'
 const getBadgeNumber = Promise.promisify(PushNotification.getApplicationIconBadgeNumber)
 import ApiActionCreators from './ApiActionCreators'
 const iOS = Platform.OS == 'ios';
- const NOTIFICATION_TYPES = {
+const NOTIFICATION_TYPES = {
   NEW_MATCH: 'getMatches',
   NEW_MESSAGE: 'getMessages',
   MATCH_REMOVED: 'getMatches',
@@ -119,6 +119,15 @@ export const handleNotification = notification => dispatch => dispatch({ type: '
         nQueue = true;
         nData.body = 'Congratulations! You\'re single again!'
         nData.title = 'LEFT COUPLE'
+        nData.label = 'display';
+        break;
+
+
+      case 'display':
+
+        nType = 'DISPLAY';
+        nData.body = payload.body
+        nData.title = payload.title
         nData.label = 'display';
         break;
 
