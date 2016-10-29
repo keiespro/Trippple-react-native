@@ -2,6 +2,8 @@ import { StatusBar, View, Dimensions, Modal, Platform } from 'react-native';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withNavigation} from '@exponent/ex-navigation';
+import SplashScreen from 'react-native-splash-screen'
+
 import pure from 'recompose/pure'
 import AppNav from '../AppNav';
 import ModalDirector from './modals/ModalDirector';
@@ -31,38 +33,46 @@ class App extends React.Component{
   }
 
   componentDidMount(){
+    this.performInitActions()
 
   }
 
   componentWillReceiveProps(nProps){
-    if (!this.state.initialized && nProps.user && nProps.loggedIn){
-      this.setState({initialized: true})
-      nProps.dispatch(ActionMan.setHotlineUser(nProps.user))
-      this.performInitActions()
-      Analytics.identifyUser(nProps.user)
-    }
-    if (this.state.initialized && nProps.loggedIn && this.props.appState != 'active' && nProps.appState == 'active'){
-      this.performInitActions()
-    }
-    if (this.state.initialized && this.props.loggedIn && nProps.loggedIn && !nProps.savedCredentials){
-      this.props.dispatch(ActionMan.saveCredentials())
+    if(nProps.user && nProps.loggedIn){
+      if(!this.props.loggedIn && !this.state.initialized){
+        this.setState({initialized: true})
+        // nProps.dispatch(ActionMan.setHotlineUser(nProps.user))
+        // this.performInitActions()
+        // Analytics.identifyUser(nProps.user)
+      }
+      if (this.state.initialized && this.props.appState != 'active' && nProps.appState == 'active'){
+        // this.performInitActions()
+      }
+      if (this.state.initialized && this.props.loggedIn && !nProps.savedCredentials){
+        this.props.dispatch(ActionMan.saveCredentials())
+      }
     }
   }
 
   performInitActions(){
+    SplashScreen.hide();
+
+    setTimeout(()=>{
     const initActions = [
-      'getNotificationCount',
-      'getUserInfo',
+      // 'getNotificationCount',
+      // 'getUserInfo',
       'getPotentials',
-      'getMatches',
-      'getNewMatches',
-      'checkLocation',
-      'getPushToken'
+      // 'getMatches',
+      // 'getNewMatches',
+      // 'checkLocation',
+      // 'getPushToken'
     ];
 
     initActions.forEach(ac => {
       this.props.dispatch(ActionMan[ac]())
     })
+
+  },5000)
   }
 
 

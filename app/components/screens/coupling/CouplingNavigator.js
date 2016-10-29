@@ -20,18 +20,17 @@ import {
   Dimensions,
   ScrollView
 } from 'react-native'
+import {SlideHorizontalIOS, FloatHorizontal} from '../../../ExNavigationStylesCustom'
+import { BlurView, VibrancyView } from 'react-native-blur'
 
 const {
   CardStack: NavigationCardStack,
   StateUtils: NavigationStateUtils
-} = NavigationExperimental
+} = NavigationExperimental;
+
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-import { BlurView, VibrancyView } from 'react-native-blur'
-
-
-
 
 function createReducer(initialState) {
   return (currentState = initialState, action) => {

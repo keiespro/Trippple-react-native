@@ -1,6 +1,6 @@
 import React, {Component} from "react";
-import {StyleSheet, ActivityIndicator, Text, View, Image, TouchableHighlight, LayoutAnimation} from "react-native";
-
+import {StyleSheet, ActivityIndicator, Text, View, Image, LayoutAnimation} from "react-native";
+import {Button} from '../PlatformSpecific'
 import colors from '../../utils/colors'
 import {MagicNumbers} from '../../utils/DeviceConfig'
 
@@ -20,7 +20,7 @@ class BoxyButton extends Component{
 
   render() {
     return (
-      <TouchableHighlight
+      <Button
         elevation={this.props.elevation}
         onPress={this._onPress.bind(this)}
         style={[this.props.outerButtonStyle,]}
@@ -36,7 +36,7 @@ class BoxyButton extends Component{
                 {this.state.busy && !this.props.stopLoading && <ActivityIndicator style={{top:0,height:30,width:30,}} color={colors.white20} animating={true} size={'small'}/> }
           </View>
         </View>
-      </TouchableHighlight>
+      </Button>
     )
   }
 }

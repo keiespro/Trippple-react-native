@@ -1,7 +1,7 @@
 import {
   Image,
   Text,
-  Settings,
+  Share,
   ScrollView,
   StyleSheet,
   Animated,
@@ -53,8 +53,7 @@ class CouplePin extends React.Component{
           return `JOIN COUPLE`
       }
     },
-    sceneStyle:{
-
+    sceneStyle: {
       backgroundColor: colors.outerSpace,
     },
 
@@ -82,13 +81,14 @@ class CouplePin extends React.Component{
   }
   onboardUser(){
 
-    const lookingfor = this.props.selected_theirs ? Object.keys(this.props.selected_theirs).reduce((acc,s) => {
+    const lookingfor = this.props.selected_theirs ? Object.keys(this.props.selected_theirs).reduce((acc, s) => {
         acc[`looking_for_${s}`] = this.props.selected_theirs[s];
         return acc;
-    },{}) : {
+    }, {}) : {
       loooking_for_m: true,
       looking_for_f: true
     };
+
     const payload = {
       relationship_status: 'couple',
       genders: this.props.selected_genders || `${this.props.user.gender}f`,
@@ -103,7 +103,7 @@ class CouplePin extends React.Component{
   handleSendMessage(){
     const pin = this.props.pin;
     const messageText = `Join me on Trippple! My couple code is ${pin}.`;
-    this.props.dispatch(ActionMan.sendText({ pin, messageText }))
+    this.props.dispatch(ActionMan.share({ pin, messageText }))
 
     this.setState({ submitting:true });
 
@@ -112,7 +112,7 @@ class CouplePin extends React.Component{
   componentDidMount(){
     this.props.dispatch(ActionMan.getCouplePin());
 
-    Settings.set({[SHOW_COUPLING]:false})
+    // Settings.set({[SHOW_COUPLING]:false})
     if(this.state.success){
       this.animateSuccess()
     }

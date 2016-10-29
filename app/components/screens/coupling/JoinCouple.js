@@ -43,8 +43,8 @@ class JoinCouple extends Component{
         top:24,
         paddingTop:24
       },
-      top:24,
-      paddingTop:24,
+      top:50,
+      paddingTop:50,
       titleStyle: {
         color: '#fff',
         fontFamily: 'montserrat',
@@ -93,8 +93,11 @@ goBack(){
     return (
         <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{width:DeviceWidth,height:DeviceHeight,flex:1,
-          backgroundColor: colors.outerSpace,
+        contentContainerStyle={{
+          top:50,paddingBottom:150
+        }}
+        style={{flexGrow:1,
+          backgroundColor: colors.outerSpace
         }}>
         <View style={[{width:DeviceWidth,paddingTop:MagicNumbers.is5orless ? 20 : 20, paddingHorizontal:MagicNumbers.screenPadding/2 }]} >
 
@@ -104,7 +107,7 @@ goBack(){
               style={{width:imgWidth,height:imgWidth,borderRadius:imgWidth/2,marginRight:imgWidth * -1 + 20,borderColor:colors.white,borderWidth:3,borderStyle:'dashed'}} />
             <Image style={[{width:imgWidth,height:imgWidth,borderRadius:imgWidth/2,marginLeft:imgWidth * -1 + 20}]}
               source={ {uri: this.props.user.image_url} }
-              defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+              defaultSource={require('../../../assets/placeholderUser@3x.png')}
             />
           </View>
 

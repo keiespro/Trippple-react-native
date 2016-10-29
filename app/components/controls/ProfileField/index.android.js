@@ -118,13 +118,13 @@ class ProfileField extends React.Component{
           {this.props.locked ? <View style={{width: 20, position: 'absolute', top: 23, height: 20, marginLeft: 10, right: 0}}>
             <Image
               style={{width: 15, height: 15, }}
-              source={require('./assets/icon-lock.png')}
+              source={require('./assets/icon-lock@3x.png')}
               resizeMode={Image.resizeMode.contain}
             />
           </View> : <View style={{width: 20, position: 'absolute', top: 23, height: 20, marginLeft: 10, right: 0}}>
             <Image
               style={{width: 15, height: 15, }}
-              source={require('./assets/edit.png')}
+              source={require('./assets/edit@3x.png')}
               resizeMode={Image.resizeMode.contain}
             />
           </View> }
@@ -142,13 +142,13 @@ class ProfileField extends React.Component{
               {this.props.locked ? <View style={{width: 20, position: 'relative', top: 5, height: 20, marginLeft: 10, right: 0}}>
                 <Image
                   style={{width: 15, height: 15, }}
-                  source={require('./assets/icon-lock.png')}
+                  source={require('./assets/icon-lock@3x.png')}
                   resizeMode={Image.resizeMode.contain}
                 />
               </View> : <View style={{width: 20, position: 'relative', top: 5, height: 20, marginLeft: 10, right: 0}}>
                 <Image
                   style={{width: 15, height: 15, }}
-                  source={require('./assets/edit.png')}
+                  source={require('./assets/edit@3x.png')}
                   resizeMode={Image.resizeMode.contain}
                 />
               </View> }

@@ -9,16 +9,28 @@ export default {checkLocationPermission, requestLocationPermission}
 export const checkLocationPermission = () => dispatch => dispatch({ type: 'CHECK_LOCATION_PERMISSION',
   payload: new Promise((resolve, reject) => {
     Platform.select(check)()
-      .then(resolve)
-      .catch(reject)
+      .then(permission => {
+        dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})
+        resolve(permission)
+      })
+      .catch(err => {
+        dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_OFF'})
+        reject(err)
+      })
   }),
 });
 
 export const requestLocationPermission = () => dispatch => dispatch({ type: 'REQUEST_LOCATION_PERMISSION',
   payload: new Promise((resolve, reject) => {
     Platform.select(request)()
-      .then(resolve)
-      .catch(reject)
+      .then(permission => {
+        dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})
+        resolve(permission)
+      })
+      .catch(err => {
+        dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_OFF'})
+        reject(err)
+      })
   }),
 });
 
@@ -58,7 +70,6 @@ const check = {
   async ios(){
     try{
       const permission = await OSPermissions.canUseLocation()
-      console.log(parseInt(permission));
       if(parseInt(permission) > 2) {
         return 'true'
       }else if(parseInt(permission) === 0) {

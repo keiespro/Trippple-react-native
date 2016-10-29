@@ -215,7 +215,7 @@ class Notification extends React.Component{
                   <Image
                     resizeMode={Image.resizeMode.cover}
                     style={styles.notiImage}
-                    defaultSource={require('../../assets/placeholderUser.png')}
+                    defaultSource={require('../../assets/placeholderUser@3x.png')}
                     source={{uri: image_url}}
                   />
                 </View>
@@ -251,7 +251,7 @@ class Notification extends React.Component{
                   <Image
                     resizeMode={Image.resizeMode.cover}
                     style={[styles.notiImage, {tintColor: colors.sushi}]}
-                    defaultSource={require('../../assets/placeholderUser.png')}
+                    defaultSource={require('../../assets/placeholderUser@3x.png')}
                     source={{uri: image_url}}
                   />
                 </View>
@@ -337,7 +337,7 @@ const TinyClose = props => {
       <Image
         resizeMode={Image.resizeMode.contain}
         style={{width: props.size / 2, height: props.size / 2, zIndex: 1000, tintColor: props.xColor || colors.white}}
-        source={require('../../assets/close.png')}
+        source={require('../../assets/close@3x.png')}
       />
     </TouchableHighlight>
   )

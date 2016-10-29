@@ -9,7 +9,7 @@ const VerifiedCoupleBadge = ({leftBoxStyles, placementStyle}) => (
       <Image
         style={{width: 12, height: 10, tintColor: colors.mediumPurple}}
         resizeMode={'contain'}
-        source={require('./checkmarkWhiteSmall.png')}
+        source={require('./checkmarkWhiteSmall@3x.png')}
       />
     </View>
     <View style={styles.iconButtonRightBox}>

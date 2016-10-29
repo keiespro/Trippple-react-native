@@ -92,7 +92,7 @@ class WarningScreen extends Component{
           paddingBottom:80,
       }}>
 
-      <Image style={{height:260,width:200, marginBottom:20}} resizeMode={'contain'} source={{uri:'https://blistering-torch-607.firebaseapp.com/shield@2x.png'}}/>
+      <Image style={{height:260,width:200, marginBottom:20}} resizeMode={'contain'} source={require('./modals/assets/shield@2x@3x.png')}/>
     <View style={{flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
        <Text   style={{
         fontSize:22,

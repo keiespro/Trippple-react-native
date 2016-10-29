@@ -269,7 +269,7 @@ class UserProfile extends React.Component {
                   <Image
                     resizeMode={Image.resizeMode.contain}
                     style={{ height: 12, width: 12, marginTop: 10 }}
-                    source={require('./screens/potentials/assets/close.png')}
+                    source={require('./screens/potentials/assets/close@3x.png')}
                   />
                 </TouchableOpacity>
 
@@ -290,7 +290,7 @@ class UserProfile extends React.Component {
               <Image
                   resizeMode={Image.resizeMode.contain}
                   style={{ height: 12, width: 12, marginTop: 10 }}
-                  source={require('./screens/potentials/assets/close.png')}
+                  source={require('./screens/potentials/assets/close@3x.png')}
               />
           </TouchableOpacity>
 

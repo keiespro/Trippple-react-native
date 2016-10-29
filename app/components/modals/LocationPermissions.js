@@ -2,8 +2,9 @@ import React from 'react';
 import {View, Image} from 'react-native';
 import PermissionModal from './PermissionModal/PermissionModal'
 
-const LocationPermissionsModal = ({user: {image_url}}) => (
+const LocationPermissionsModal = (props) => (
   <PermissionModal
+    {...props}
     title={'LOCATION'}
     subtitle={'We’ve found some matches we think you might like. Should we prioritize the matches nearest to you?'}
     permissionKey={'location'}
@@ -30,7 +31,7 @@ const LocationPermissionsModal = ({user: {image_url}}) => (
             margin: 50,
             position: 'absolute'
           }]}
-          source={image_url ? {uri: image_url} : require('./assets/iconModalDenied.png')}
+          source={props.user.image_url ? {uri: props.user.image_url} : require('./assets/iconModalDenied@3x.png')}
         />
         <Image
           style={{
@@ -43,7 +44,7 @@ const LocationPermissionsModal = ({user: {image_url}}) => (
             position: 'absolute'
           }}
           resizeMode="cover"
-          source={require('./assets/localIcon.png')}
+          source={require('./assets/localIcon@3x.png')}
         />
       </View>
     )

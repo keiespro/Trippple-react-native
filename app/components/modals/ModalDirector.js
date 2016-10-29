@@ -45,18 +45,20 @@ class ModalDirector extends Component{
     super()
     this.state = {
       modalVisible: false,
-      activeModal: props.ui.activeModal
+      activeModal: props.activeModal
     }
   }
 
   componentWillReceiveProps(nProps){
     console.log(nProps);
     this.setState({
-      activeModal: nProps.ui.activeModal || {component: Action, passProps: nProps.ui.actionModal},
+      activeModal: nProps.activeModal || {component: Action, passProps: nProps.actionModal},
       modalVisible: true
     })
   }
-
+  shouldComponentUpdate(nProps,nState){
+    return this.state.activeModal != nState.activeModal
+  }
   setModalVisible(v){
     if (v){
       this.setState({modalVisible: v})
@@ -109,7 +111,7 @@ ModalDirector.displayName = 'ModalDirector'
 
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
-  ui: state.ui,
+  activeModal: state.ui.activeModal,
   user: state.user
 })
 

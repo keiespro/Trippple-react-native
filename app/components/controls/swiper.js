@@ -159,7 +159,7 @@ const Swiper = React.createClass({
   componentDidMount() {
     // this.state.scroll.addListener((e)=>{
     // })
-    this.autoplay()
+    if(this.props.autoplay) this.autoplay()
 
   },
 
@@ -237,7 +237,7 @@ const Swiper = React.createClass({
     if (React.Children.count(this.props.children) <= 1 || this.props.inCard && !this.props.profileVisible) return null
 
     return (
-      <View>
+      <View style={[{position:'absolute',top:0,right:0},this.props.paginationBoxStyle]}>
         {React.Children.map(this.props.children, (c, i) => {
           return (
             <View
@@ -300,6 +300,7 @@ const Swiper = React.createClass({
           justifyContent: 'center',
           width: props.width,
           height: props.height,
+          position:'relative',
           zIndex:9999,
           borderRadius: 11,
           // opacity: this.props.pan && this.props.isTopCard ? this.props.pan.x.interpolate({
@@ -310,9 +311,13 @@ const Swiper = React.createClass({
       >
         <ScrollView
           ref={`scrollView`}
-          scrollEventThrottle={16}
           pagingEnabled
+          scrollEnabled={this.props.scrollEnabled}
           horizontal
+          onStartShouldSetResponderCapture={(e,x) => {console.log('onStartShouldSetResponderCapture',e,x); return true}}
+          onMoveShouldSetResponderCapture={(e,x) => {console.log('onStartShouldSetResponderCapture',e,x); return true}}
+          onStartShouldSetResponder={(e,x) => {console.log('onStartShouldSetResponderCapture',e,x); return true}}
+          onMoveShouldSetResponder={(e,x) => {console.log('onStartShouldSetResponderCapture',e,x); return true}}
           contentContainerStyle={[styles.wrapper, props && props.style, {
             borderRadius: 11,
           }]}
@@ -328,7 +333,7 @@ const Swiper = React.createClass({
           {pages}
         </ScrollView>
 
-        <View pointerEvents={'box-none'} style={[styles[`pagination_${this.state.dir}`], props.paginationStyle, {backgroundColor: 'transparent',position:'absolute'}]}>
+        <View pointerEvents={'box-none'} style={[styles[`pagination_${this.state.dir}`], props.paginationStyle, {backgroundColor: 'transparent',position:'absolute',top:-350,right:-300}]}>
           {(props.showsPagination && !props.inCard) || (props.inCard && props.profileVisible) ? React.Children.map(props.children, (c, i) => {
             return (<View
               style={[(props.grayDots ? styles.grayDot : styles.dot15),

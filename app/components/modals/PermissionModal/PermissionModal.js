@@ -10,6 +10,7 @@ import styles from '../purpleModalStyles'
 import BoxyButton from '../../controls/boxyButton'
 import ActionMan from '../../../actions'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
+import {Button} from '../../PlatformSpecific'
 
 
 const iOS = Platform.OS == 'ios';
@@ -34,7 +35,7 @@ class PermissionsModal extends Component{
   static defaultProps = {
     buttonText: 'YES',
     isPersistant: false,
-    imageSource: require('../assets/iconModalDenied.png'),
+    imageSource: require('../assets/iconModalDenied@3x.png'),
 
   };
 
@@ -106,7 +107,7 @@ class PermissionsModal extends Component{
               marginBottom: MagicNumbers.is4s ? 15 : 30,
               marginTop: MagicNumbers.is4s ? 10 : 20
             }]}
-            source={require('../assets/iconModalDenied.png')}
+            source={require('../assets/iconModalDenied@3x.png')}
           />
         </View>
         <Text style={[styles.rowtext, styles.bigtext, {
@@ -149,7 +150,7 @@ class PermissionsModal extends Component{
       >
         {hasPermission ?
           <Image
-            source={require('../assets/checkmarkWhiteSmall.png')}
+            source={require('../assets/checkmarkWhiteSmall@3x.png')}
             resizeMode={Image.resizeMode.cover}
             style={{height: 21, width: 30}}
           /> :
@@ -159,7 +160,7 @@ class PermissionsModal extends Component{
         }
       </BoxyButton>
     ) : (
-      <Button
+      <ModalButton
         btnText={buttonText}
         onTap={this.handleTap.bind(this)}
         loading={this.props.loading}
@@ -276,7 +277,7 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(PermissionsModal);
 
 
-const Button = ({btnText, onTap, loading}) => (
+const ModalButton = ({btnText, onTap, loading}) => (
   <View
     style={{
       alignSelf: 'stretch',
@@ -286,7 +287,7 @@ const Button = ({btnText, onTap, loading}) => (
 
     }}
   >
-    <TouchableOpacity
+    <Button
       onPress={onTap}
       style={{
         flex: 10,
@@ -311,7 +312,7 @@ const Button = ({btnText, onTap, loading}) => (
           {btnText}
         </Text>
       </View>
-    </TouchableOpacity>
+    </Button>
 
   </View>
 );

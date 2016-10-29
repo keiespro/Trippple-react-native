@@ -11,7 +11,7 @@ const PrivacyPermissionsModal = () => (
     permissionKey={'contacts'}
     buttonText={'HIDE FROM CONTACTS'}
     permissionLabel={'Contacts'}
-    imageSource={require('./assets/iconModalPrivacy.png')}
+    imageSource={require('./assets/iconModalPrivacy@3x.png')}
   />
 )
 

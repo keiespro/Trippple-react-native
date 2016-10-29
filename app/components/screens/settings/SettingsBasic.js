@@ -115,7 +115,7 @@ class SettingsBasic extends React.Component{
             <View style={[styles.formHeader,{marginTop:10,flexDirection:'row',justifyContent:'flex-start',alignItems:'center'}]}>
               <Image
                   style={{width:12,height:12,marginRight:5}}
-                  source={{uri:'assets/icon-lock.png'}}
+                  source={{uri:'assets/icon-lock@3x.png'}}
                   resizeMode={Image.resizeMode.contain}
               />
               <Text style={styles.formHeaderText}> Edit on Facebook</Text>

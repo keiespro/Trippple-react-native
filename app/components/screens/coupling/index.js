@@ -35,7 +35,7 @@ export default class Coupling extends Component{
 
   static route = {
     navigationBar: {
-      backgroundColor: colors.transparent,
+      backgroundColor: colors.shuttleGrayAnimate,
       title(params){
         return ''
       }

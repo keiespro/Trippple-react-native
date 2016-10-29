@@ -4,25 +4,27 @@ export default function settingsReducer(state = initialState, action) {
 
     case 'TOGGLE_PERMISSION_SWITCH_LOCATION':
 
-      return {
-        ...state,
-        permissionSwitches: {
-          ...state.permissionSwitches,
-          location: !state.permissionSwitches.location
-        }
-      };
+      return { ...state, location: !state.location };
 
+    case 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON':
+
+      return { ...state, location: true };
+
+    case 'TOGGLE_PERMISSION_SWITCH_LOCATION_OFF':
+
+      return { ...state, location: false };
 
     case 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS':
 
-      return {
-        ...state,
-        permissionSwitches: {
-          ...state.permissionSwitches,
-          notifications: !state.permissionSwitches.notifications
-        }
-      };
+      return { ...state, notifications: !state.notifications };
 
+    case 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_ON':
+
+      return { ...state, notifications: true };
+
+    case 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_OFF':
+
+      return { ...state, notifications: false };
 
     default:
 
@@ -32,9 +34,6 @@ export default function settingsReducer(state = initialState, action) {
 
 
 const initialState = {
-
-  permissionSwitches: {
-    location: false,
-    notifications: false
-  }
+  location: false,
+  notifications: false
 };

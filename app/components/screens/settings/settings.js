@@ -25,6 +25,7 @@ import ActionMan from '../../../actions/'
 import RNHotline from '../../../../lib/RNHotline/'
 import config from '../../../../config'
 import {SlideVerticalNoGesturesIOS} from '../../../ExNavigationStylesCustom'
+import SettingsRow from './SettingsRow'
 
 const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height
@@ -139,7 +140,7 @@ class Settings extends React.Component{
     const wh = DeviceHeight / 2;
     return (
 
-      <View style={{backgroundColor: colors.outerSpace, paddingTop: 0,  flex: 10}} pointerActions={'box-none'}>
+      <View style={{backgroundColor: colors.outerSpace, paddingTop: 0, flex: 10}} pointerActions={'box-none'}>
 
         <ParallaxView
           showsVerticalScrollIndicator={false}
@@ -148,7 +149,7 @@ class Settings extends React.Component{
           navigator={this.props.navigator}
           automaticallyAdjustContentInsets
           scrollsToTop
-          backgroundSource={{uri: this.props.user.image_url || 'assets/defaultuser.png'}}
+          backgroundSource={{uri: this.props.user.image_url || 'assets/defaultuser@3x.png'}}
           style={{backgroundColor: colors.outerSpace, flex: 1, height: DeviceHeight}}
           header={(
             <View
@@ -170,14 +171,14 @@ class Settings extends React.Component{
                   <Image
                     style={[styles.userimage, { }]}
                     key={`${this.props.user.id}thumb`}
-                    defaultSource={{uri: 'assets/placeholderUser.png'}}
+                    defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
                     resizeMode={Image.resizeMode.cover}
-                    source={this.props.user.thumb_url ? {uri: this.props.user.thumb_url} : require('./assets/placeholderUser.png')}
+                    source={this.props.user.thumb_url ? {uri: this.props.user.thumb_url} : require('./assets/placeholderUser@3x.png')}
                   />
                   <View style={styles.circle}>
                     <Image
                       style={{width: 18, height: 18}}
-                      source={require('./assets/cog.png')}
+                      source={require('./assets/cog@3x.png')}
                       resizeMode={Image.resizeMode.contain}
                     />
                   </View>
@@ -220,207 +221,105 @@ class Settings extends React.Component{
               marginBottom: 10
             }}
           >
-            <TouchableHighlight
-              onPress={() => {
+
+            <SettingsRow
+              title={'PROFILE'}
+              subtitle={'Edit your information'}
+              pushScreen={() => {
                 this.props.navigator.push(this.props.navigation.router.getRoute('SettingsBasic', {
                   style: styles.container,
                   settingOptions: profileOptions,
                   startPage: 0,
-
                 }));
               }}
-              underlayColor={colors.dark}
-            >
-              <View style={styles.wrapfield}>
-                <View>
-                  <Text style={{color: colors.white, fontSize: 18, fontFamily: 'montserrat', fontWeight: '800'}}>PROFILE</Text>
-                  {/*  <Text style={{color:colors.sushi}}>✔︎</Text> */}
-                  <Text
-                    style={{color: colors.rollingStone, fontSize: 16, fontFamily: 'omnes'}}
-                  >Edit your information</Text>
-                </View>
-                <Image source={require('./assets/nextArrow.png')} resizeMode={'contain'} style={styles.arrowStyle} />
-
-              </View>
-            </TouchableHighlight>
+            />
 
             {this.props.user.relationship_status == 'couple' || !this.props.user.relationship_status ?
 
-              <TouchableHighlight onPress={(f) => {
-                this.props.navigator.push(this.props.navigation.router.getRoute('SettingsCouple', {
+              <SettingsRow
+                title={'COUPLE'}
+                subtitle={`You and your partner, ${this.props.user.partner ? this.props.user.partner.firstname : ''}`}
+                pushScreen={(f) => {
+                  this.props.navigator.push(this.props.navigation.router.getRoute('SettingsCouple', {
+                    style: styles.container,
+                    settingOptions: this.state.settingOptions,
+                    user: this.props.user,
+                  }));
+                }}
+              />
+             : null }
+
+            { this.props.user.relationship_status == 'single' || (this.props.user.relationship_status == 'couple' && this.props.user.partner && this.props.user.partner.id && this.props.user.partner.is_fake_partner) ?
+
+              <SettingsRow
+                title={this.props.user.relationship_status == 'single' ? 'JOIN COUPLE' : 'JOIN PARTNER'}
+                subtitle={'Connect with your partner'}
+                pushScreen={(f) => {
+                  this.props.navigator.push(this.props.navigation.router.getRoute('JoinCouple'));
+                }}
+              /> : null
+            }
+
+            <SettingsRow
+              title={'PREFERENCES'}
+              subtitle={'What you\'re looking for'}
+              pushScreen={(f) => {
+                this.props.navigator.push(this.props.navigation.router.getRoute('SettingsPreferences', {
                   style: styles.container,
                   settingOptions: this.state.settingOptions,
                   user: this.props.user,
                 }));
-              }} underlayColor={colors.dark}
-              >
-                <View style={styles.wrapfield}>
-                  <View>
-                    <Text style={{color: colors.white, fontSize: 18, fontFamily: 'montserrat', fontWeight: '800'}}>COUPLE</Text>
-                    <Text style={{color: colors.rollingStone, fontSize: 16, fontFamily: 'omnes'}}>
-                                You and your partner,                                {this.props.user.partner ? this.props.user.partner.firstname : ''}
-                    </Text>
-                  </View>
-                  <Image source={require('./assets/nextArrow.png')} resizeMode={'contain'} style={styles.arrowStyle} />
-                </View>
-              </TouchableHighlight> : null }
+              }}
+            />
 
-            { this.props.user.relationship_status == 'single' || (this.props.user.relationship_status == 'couple' && this.props.user.partner && this.props.user.partner.id && this.props.user.partner.is_fake_partner) ?
-              <TouchableHighlight
-                onPress={() => {
-                  this.props.navigator.push(this.props.navigation.router.getRoute('JoinCouple'));
-                }}
-                underlayColor={colors.dark}
-              >
-                <View style={styles.wrapfield}>
-                  <View>
-                    <Text style={{color: colors.white, fontSize: 18, fontFamily: 'montserrat', fontWeight: '800'}}>
-                      {this.props.user.relationship_status == 'single' ? 'JOIN COUPLE' : 'JOIN PARTNER'}
-                    </Text>
+            <SettingsRow
+              title={'SETTINGS'}
+              subtitle={'Privacy and more'}
+              pushScreen={(f) => {
+                this.props.navigator.push(this.props.navigation.router.getRoute('SettingsSettings', {
+                  style: styles.container,
+                  settingOptions: this.state.settingOptions,
+                }));
+              }}
+            />
 
-                    <Text style={{color: colors.rollingStone, fontSize: 16, fontFamily: 'omnes'}}>
-                                  Connect with your partner
-                    </Text>
-                  </View>
-                  <Image source={require('./assets/nextArrow.png')} resizeMode={'contain'} style={styles.arrowStyle} />
-                </View>
-              </TouchableHighlight> : null
-            }
+            <SettingsRow
+              title={'INVITE FRIENDS'}
+              subtitle={'Spread the word'}
+              pushScreen={(f) => {
+                FBAppInviteDialog.show({applinkUrl: INVITE_FRIENDS_APP_LINK})
+              }}
+            />
 
-
-            <TouchableHighlight onPress={(f) => {
-              this.props.navigator.push(this.props.navigation.router.getRoute('SettingsPreferences', {
-                style: styles.container,
-                settingOptions: this.state.settingOptions,
-                user: this.props.user,
-
-              }));
-            }} underlayColor={colors.dark}
-            >
-              <View style={styles.wrapfield}>
-                <View>
-                  <Text style={{color: colors.white, fontSize: 18, fontWeight: '800', fontFamily: 'montserrat', fontWeight: '800'}}>PREFERENCES</Text>
-                  <Text style={{color: colors.rollingStone, fontSize: 16, fontFamily: 'omnes'}}>
-                            What you're looking for
-                  </Text>
-                </View>
-                <Image source={require('./assets/nextArrow.png')} resizeMode={'contain'} style={styles.arrowStyle} />
-
-
-              </View>
-            </TouchableHighlight>
-            <TouchableHighlight onPress={(f) => {
-              this.props.navigator.push(this.props.navigation.router.getRoute('SettingsSettings', {
-                style: styles.container,
-                settingOptions: this.state.settingOptions,
-              }));
-            }} underlayColor={colors.dark}
-            >
-              <View style={styles.wrapfield}>
-                <View>
-                  <Text style={{color: colors.white, fontSize: 18, fontFamily: 'montserrat', fontWeight: '800'}}>SETTINGS</Text>
-                  <Text style={{color: colors.rollingStone, fontSize: 16, fontFamily: 'omnes'}}>
-                            Privacy and more
-                  </Text>
-                </View>
-                <Image source={require('./assets/nextArrow.png')} resizeMode={'contain'} style={styles.arrowStyle} />
-
-
-              </View>
-            </TouchableHighlight>
-
-            <TouchableHighlight onPress={(f) => {
-              FBAppInviteDialog.show({applinkUrl: INVITE_FRIENDS_APP_LINK})
-            }} underlayColor={colors.dark}
-            >
-              <View style={styles.wrapfield}>
-                <View>
-                  <Text style={{color: colors.white, fontSize: 18, fontFamily: 'montserrat', fontWeight: '800'}}>INVITE FRIENDS</Text>
-                  <Text style={{color: colors.rollingStone, fontSize: 16, fontFamily: 'omnes'}}>
-                            Spread the word
-                  </Text>
-                </View>
-                <Image source={require('./assets/nextArrow.png')} resizeMode={'contain'} style={styles.arrowStyle} />
-
-
-              </View>
-            </TouchableHighlight>
-
-
-            <TouchableHighlight
-              onPress={() => {
+            <SettingsRow
+              title={'FAQS'}
+              subtitle={'Answers to frequently asked questions'}
+              pushScreen={(f) => {
                 iOS ? RNHotlineController.showFaqs() : RNHotline.showFaqs()
               }}
-              underlayColor={colors.dark}
-            >
-              <View style={styles.wrapfield}>
-                <View>
-                  <Text
-                    style={{color: colors.white, fontSize: 18, fontFamily: 'montserrat', fontWeight: '800'}}
-                  >FAQS</Text>
-                  <Text
-                    style={{color: colors.rollingStone, fontSize: 16, fontFamily: 'omnes'}}
-                  >Answers to frequently asked questions</Text>
-                </View>
-                <Image source={require('./assets/nextArrow.png')} resizeMode={'contain'} style={styles.arrowStyle} />
+            />
 
-
-              </View>
-            </TouchableHighlight>
-
-            <TouchableHighlight
-              onPress={() => {
+            <SettingsRow
+              title={'HELP & FEEDBACK'}
+              subtitle={'Chat with us'}
+              pushScreen={(f) => {
                 iOS ? RNHotlineController.showConvos() : RNHotline.showConvos()
-
               }}
-              underlayColor={colors.dark}
-            >
-              <View style={styles.wrapfield}>
-                <View>
-                  <Text style={{color: colors.white, fontSize: 18, fontFamily: 'montserrat', fontWeight: '800'}}>HELP & FEEDBACK</Text>
-                  <Text style={{color: colors.rollingStone, fontSize: 16, fontFamily: 'omnes'}}>
-                            Chat with us
-                  </Text>
-                </View>
-                <Image source={require('./assets/nextArrow.png')} resizeMode={'contain'} style={styles.arrowStyle} />
-              </View>
-            </TouchableHighlight>
+            />
 
             { __DEV__ &&
-              <TouchableHighlight
-                onPress={() => {
+
+              <SettingsRow
+                title={'DEBUG'}
+                subtitle={'not working'}
+                pushScreen={(f) => {
                   this.props.navigator.push(this.props.navigation.router.getRoute('SettingsDebug', {
                     style: styles.container,
                     settingOptions: this.state.settingOptions,
                   }))
                 }}
-                underlayColor={colors.dark}
-              >
-                <View
-                  style={styles.wrapfield}
-                >
-                  <View>
-                    <Text
-                      style={{
-                        color: colors.white, fontSize: 18, fontFamily: 'montserrat', fontWeight: '800'
-                      }}
-                    >DEBUG</Text>
-                    <Text
-                      style={{
-                        color: colors.rollingStone, fontSize: 16, fontFamily: 'omnes'
-                      }}
-                    >stuff</Text>
-                  </View>
+              />
 
-                  <Image
-                    source={require('./assets/nextArrow.png')}
-                    resizeMode={'contain'}
-                    style={styles.arrowStyle}
-                  />
-
-
-                </View>
-              </TouchableHighlight>
             }
 
             <View style={styles.paddedSpace}>

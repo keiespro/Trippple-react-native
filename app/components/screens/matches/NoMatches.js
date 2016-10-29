@@ -18,7 +18,7 @@ const NoMatches = () => (
     automaticallyAdjustContentInsets
     style={{
       backgroundColor: colors.outerSpace,
-      flex: 1,
+      flexGrow: 1,
       alignSelf: 'stretch',
       // height: DeviceHeight,
       width: DeviceWidth
@@ -46,7 +46,7 @@ const NoMatches = () => (
             marginBottom: 20,
             alignSelf:'flex-start'
           }}
-          source={require('./assets/listing.png')}
+          source={require('./assets/listing@3x.png')}
           resizeMode={Image.resizeMode.contain}
         />
         <Image
@@ -57,7 +57,7 @@ const NoMatches = () => (
             alignSelf:'flex-start'
 
           }}
-          source={require('./assets/listing.png')}
+          source={require('./assets/listing@3x.png')}
           resizeMode={Image.resizeMode.contain}
         />
         <Image
@@ -68,7 +68,7 @@ const NoMatches = () => (
             alignSelf:'flex-start'
 
           }}
-          source={require('./assets/listing.png')}
+          source={require('./assets/listing@3x.png')}
           resizeMode={Image.resizeMode.contain}
         />
 <View style={{

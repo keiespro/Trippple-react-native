@@ -1,4 +1,4 @@
-import { View, ActivityIndicator,StatusBar, Dimensions,BackAndroid, Platform, NativeModules, TouchableOpacity, Image } from 'react-native';
+import { View, ActivityIndicator, StatusBar, Dimensions, BackAndroid, Platform, NativeModules, TouchableOpacity, Image } from 'react-native';
 import React from 'react';
 import { connect } from 'react-redux';
 import MatchesButton from './MatchesButtonIcon'
@@ -23,7 +23,7 @@ const ToolbarLogo = () => (
         tintColor: __DEV__ ? colors.daisy : colors.white,
         alignSelf: 'center'
       }}
-      source={require('./assets/tripppleLogoText.png')}
+      source={require('./assets/tripppleLogoText@3x.png')}
     />
   </View>
 )
@@ -50,7 +50,7 @@ const CloseProfile = ({route}) => (
         height: 15,
         alignSelf: 'center'
       }}
-      source={require('./assets/close.png')}
+      source={require('./assets/close@3x.png')}
     />
   </TouchableOpacity>
 )
@@ -61,10 +61,13 @@ const Toolbar = () => (
       flexDirection: 'row',
       justifyContent: 'space-between',
       height: iOS ? 60 : 60,
-      position: 'relative' ,//iOS ? 'relative' : 'absolute',
+      position: 'absolute',
+      top: 0,
+      margin:0,
       width: DeviceWidth,
       alignItems: 'center',
-      zIndex: 1,
+      zIndex: 10,
+
     }}
   >
     <SettingsButton />
@@ -75,18 +78,18 @@ const Toolbar = () => (
 
 class Potentials extends React.Component{
   static route = {
-    statusBar:{
-      translucent:true
+    statusBar: {
+      translucent: true
     },
-    sceneStyle:{
+    sceneStyle: {
     },
     navigationBar: {
       visible: false, // iOS,
-      style:{height:0},
+      style: {height: 0},
       // translucent: true,
       // backgroundColor: colors.transparent,
-      height:0,
-      width:0
+      height: 0,
+      width: 0
     }
   };
 
@@ -97,35 +100,33 @@ class Potentials extends React.Component{
       showPotentials: true,
     }
   }
-
   componentDidMount(){
-    if(this.props.user.status){
 
-    }
-
-    iOS && NativeModules.PushNotificationManager.checkPermissions((result) => {
-      const pushPermission = Object.keys(result).reduce((acc, el) => {
-        acc += result[el];
-        return acc
-      }, 0)
-      this.setState({hasPushPermission: (pushPermission > 0) })
-    })
   }
-
+  componentWillUnmount(){
+    BackAndroid.removeEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
+  }
   componentWillReceiveProps(nProps){
     const nui = nProps.ui;
     const ui = this.props.ui;
     if(nui.profileVisible && !ui.profileVisible){
       BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
-
     }else if(!nui.profileVisible && ui.profileVisible){
       BackAndroid.removeEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
     }
   }
 
   handleBackAndroid(){
-    this.props.dispatch({ type: 'CLOSE_PROFILE' });
-    return true
+    if(this.props.profileVisible){
+      this.props.dispatch({ type: 'CLOSE_PROFILE' });
+      return true
+
+    }else{
+      // this.props.navigator.pop()
+
+      return false
+
+    }
   }
 
 
@@ -142,7 +143,7 @@ class Potentials extends React.Component{
   }
 
   toggleProfile(){
-    this.props.dispatch({ type: 'OPEN_PROFILE' });
+    this.props.profileVisible ? this.props.dispatch({ type: 'CLOSE_PROFILE' }) : this.props.dispatch({ type: 'OPEN_PROFILE' });
 
     // __DEV__ && console.warn('nothing');
   }
@@ -155,21 +156,20 @@ class Potentials extends React.Component{
         style={{
           // width: DeviceWidth,
           // height: DeviceHeight,
-          top: 0,// iOS ? -64 : 0,
+          top: 0, // iOS ? -64 : 0,
           backgroundColor: colors.outerSpace,
-          flex:1
+          flexGrow: 1,
         }}
 
       >
 
-<Toolbar />
         <View
           style={[
             styles.cardStackContainer,
             {
-              top: 0,//iOS ? (this.props.profileVisible ? 70 : 60) : 0,
+              top: 0, // iOS ? (this.props.profileVisible ? 70 : 60) : 0,
               position: 'absolute',
-              flex:1
+              flexGrow: 1,
             }
           ]}
           pointerEvents={'box-none'}
@@ -194,12 +194,13 @@ class Potentials extends React.Component{
                 justifyContent: 'center',
                 height: DeviceHeight,
                 width: DeviceWidth,
+                zIndex: 2,
                 position: 'absolute',
                 top: 0,
                 left: 0
               }]}
             >
-              <ActivityIndicator
+              {/* <ActivityIndicator
                 size={'large'}
                 style={[{
                   alignItems: 'center',
@@ -208,7 +209,7 @@ class Potentials extends React.Component{
                   top: -40
                 }]}
                 animating
-              />
+              /> */}
             </View> : null
           }
 
@@ -221,6 +222,7 @@ class Potentials extends React.Component{
               onDidShow={() => { this.setState({didShow: true}); }}
             /> : null
           }
+          {!this.props.profileVisible && <Toolbar />}
 
         </View>
       </View>

@@ -151,7 +151,7 @@ class SettingsSettings extends React.Component{
     const {privacy} = this.state
 
     return (
-      <View style={{backgroundColor: colors.outerSpace, width: DeviceWidth, height: DeviceHeight, overflow: 'hidden', flex: 1, paddingTop: 60}}>
+      <View style={{backgroundColor: colors.outerSpace, width: DeviceWidth, height: DeviceHeight, overflow: 'hidden', flex: 1, paddingTop: 50}}>
 
         <ScrollView
           style={{height: DeviceHeight, marginTop: 0, }}
@@ -225,7 +225,7 @@ class SettingsSettings extends React.Component{
                     width: 40,
                     height: 40
                   }}
-                  source={privacy == 'public' ? require('./assets/ovalSelected.png') : require('./assets/ovalDashed.png')}
+                  source={privacy == 'public' ? require('./assets/ovalSelected.png') : require('./assets/ovalDashed@3x.png')}
                 />
               </View>
             </View>
@@ -287,7 +287,7 @@ class SettingsSettings extends React.Component{
                     width: 40,
                     height: 40
                   }}
-                  source={privacy == 'private' ? require('./assets/ovalSelected.png') : require('./assets/ovalDashed.png')}
+                  source={privacy == 'private' ? require('./assets/ovalSelected.png') : require('./assets/ovalDashed@3x.png')}
                 />
               </View>
             </View>
@@ -329,8 +329,8 @@ class SettingsSettings extends React.Component{
                       width: 30,
                       height: 30
                     }}
-                    source={this.state.isLocked ? require('./assets/ovalSelected.png') :
-                  require('./assets/ovalDashed.png')}
+                    source={this.state.isLocked ? require('./assets/ovalSelected@3x.png') :
+                  require('./assets/ovalDashed@3x.png')}
                   />
                 </View>
               </TouchableHighlight>
@@ -357,7 +357,7 @@ class SettingsSettings extends React.Component{
               </Text>
               <Image
                 style={{width: 10, height: 17.5}}
-                source={require('./assets/nextArrow.png')}
+                source={require('./assets/nextArrow@3x.png')}
               />
             </View>
           </TouchableHighlight>
@@ -373,7 +373,7 @@ class SettingsSettings extends React.Component{
               </Text>
               <Image
                 style={{width: 10, height: 17.5}}
-                source={require('./assets/nextArrow.png')}
+                source={require('./assets/nextArrow@3x.png')}
               />
             </View>
           </TouchableHighlight>

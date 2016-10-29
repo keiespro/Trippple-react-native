@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar, View, Easing,LayoutAnimation, Image, Animated, PanResponder, Dimensions, InteractionManager, Platform } from 'react-native';
+import { StatusBar, View, Easing, LayoutAnimation, Image, Animated, PanResponder, Dimensions, InteractionManager, Platform } from 'react-native';
 import { NavigationActions } from '@exponent/ex-navigation'
 
 import {pure} from 'recompose'
@@ -22,7 +22,18 @@ const THROW_SPEED_THRESHOLD = 1;
 const SWIPE_THRESHOLD_DENY = -180;
 const SWIPE_THRESHOLD_APPROVE = 140;
 
-// @pure
+function logPan(label, gestureState, nativeEvent){
+  if(__DEBUG__){
+    console.group('onMoveShouldSetPanResponder')
+    console.info('nativeEvent')
+    console.table([nativeEvent], ['locationX', 'locationY', 'pageX', 'pageY', 'target', 'timestamp'])
+    console.info('gestureState');
+    console.table([gestureState])
+    console.groupEnd('onMoveShouldSetPanResponder')
+  }
+}
+
+
 class CardStack extends React.Component {
 
   static displayName = 'CardStack';
@@ -31,97 +42,84 @@ class CardStack extends React.Component {
     super();
     this.state = {
       pan: new Animated.ValueXY(),
-      animatedIn: false,
-      offsetY: new Animated.Value(0),
+      animatedIn: true,
+      one: new Animated.Value(1),
       likedPotentials: [],
+      cardopen: new Animated.Value(0.92),
+      heightBox: new Animated.Value(DeviceHeight-60),
+
     };
   }
 
-  componentWillMount() {
-    this._panResponder = {};
-  }
 
   componentDidMount() {
-    Animated.timing(this.state.offsetY, {
-      toValue: 1,
-      duration: 300,
-      delay: 150,
-      easing: Easing.in(Easing.ease),
-    }).start(() => {
-      this.setState({ animatedIn: true });
-      this.initializePanResponder();
-    });
+    this.state.cardopen.setValue(0.92);
+    this.initializePanResponder();
   }
 
   componentWillReceiveProps(nProps) {
-    if (nProps && this.state.animatedIn && this.props.potentials && this.props.potentials[0].user.id !== nProps.potentials[0].user.id) {
-      this.state.pan.setValue({ x: 0, y: 0 });
-      this.initializePanResponder()
-    }
-    if (nProps && !this.state.animatedIn && !nProps.potentials.length) {
-      this.state.offsetY.setValue(0);
-        // this.initializePanResponder()
-    }
+    const nui = nProps;
+    const ui = this.props;
+    if(nui.profileVisible != ui.profileVisible){
+      setImmediate(() => {
+        console.log('spring');
+        Animated.spring(this.state.cardopen, {
+          toValue: nui.profileVisible ? 1.00 : 0.92,
+          tension: 10,
+          friction: 5,
+          velocity: 3,
+          useNativeDriver: true,
+        }).start(() => {
+          console.log('end');
 
-        // this.setState({ interactedWith: null });
+        });
+        // Animated.timing(this.state.heightBox, {
+        //   toValue: nui.profileVisible ? DeviceHeight : DeviceHeight-60,
+        //   tension: 10,
+        //   friction: 5,
+        //   velocity: 3,
+        //   useNativeDriver: false,
+        // }).start(() => {
+        //
+        //
+        // })
+      })
+    }
   }
 
+
   initializePanResponder() {
-    delete this._panResponder;
-    const isCouple = this.props.user.relationship_status === 'couple';
-    const openProfile = (p) => {
-      this.killPanResponder()
-      this.props.navigator.push(Router.getRoute('UserProfile', {
-        potential: p,
-        user: this.props.user
-      }))
-    };
 
     this._panResponder = PanResponder.create({
 
-      onMoveShouldSetPanResponderCapture: (e,gestureState) => {
-        if(this.props.profileVisible) return false;
-        if(e.nativeEvent.locationY > DeviceHeight - 160 && !this.props.profileVisible){
-          this._toggleProfile()
-          // openProfile(this.props.potentials[0]);
-          return false;
-        }
-
-        return !this.props.profileVisible && (isCouple )
+      onMoveShouldSetPanResponderCapture: (e, gestureState) => {
+        logPan('onMoveShouldSetPanResponderCapture', gestureState, e)
+        const {pageY} = e.nativeEvent
+        return false // (!this.props.profileVisible &&  pageY < DeviceHeight - 200 )
       },
 
-      onMoveShouldSetPanResponder: (e,gestureState) => {
-        if(this.props.profileVisible) return false;
-
-        if(e.nativeEvent.locationY > DeviceHeight - 160 && !this.props.profileVisible){
-          this._toggleProfile()
-          // openProfile(this.props.potentials[0]);
-          return false;
-        }
-
-
-        return !this.props.profileVisible && (isCouple )
+      onMoveShouldSetPanResponder: (e, gestureState) => {
+        logPan('onMoveShouldSetPanResponder', gestureState, e)
+        const {pageY} = e.nativeEvent
+        return (!this.props.profileVisible && pageY < DeviceHeight - 200)
       },
-
-      onStartShouldSetPanResponder: (e,gestureState) => {
-        if(this.props.profileVisible) return false;
-        if(e.nativeEvent.locationY > DeviceHeight - 160 && !this.props.profileVisible){
-          // openProfile(this.props.potentials[0]);
-          this._toggleProfile()
-          return false;
-        }
-
-        return !this.props.profileVisible && isCouple
+      //
+      onStartShouldSetPanResponder: (e, gestureState) => {
+        logPan('onStartShouldSetPanResponder', gestureState, e)
+        const {pageY} = e.nativeEvent
+        return (!this.props.profileVisible && pageY < DeviceHeight - 200)
       },
-
+      //
       onStartShouldSetPanResponderCapture: () => false,
-
+      //
       onPanResponderMove: Animated.event([null, {
         dx: this.state.pan.x,
         dy: this.state.pan.y,
-        useNativeDriver: !iOS
+        useNativeDriver: !iOS,
       }]),
-      onShouldBlockNativeResponder: (e, gestureState) => true,
+
+      onShouldBlockNativeResponder: (e, gestureState) => false,
+      //
       // onPanResponderReject: (e, gestureState) => {
       //   console.log('onPanResponderReject',gestureState)
       // },
@@ -130,6 +128,7 @@ class CardStack extends React.Component {
       // },
       // onPanResponderTerminationRequest: (e, gestureState) => {
       //   console.log('onPanResponderTerminationRequest',gestureState)
+      //   return true
       // },
       // onPanResponderGrant: (e, gestureState) => {
       //   console.log('onPanResponderGrant',gestureState)
@@ -151,76 +150,82 @@ class CardStack extends React.Component {
 
         const likeUserId = this.props.potentials[0].user.id;
 
-        // animate back to center or off screen left or off screen right
-        if (dx > SWIPE_THRESHOLD_APPROVE || (dx > (THROW_THRESHOLD_APPROVE - 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD)) {
+              // animate back to center or off screen left or off screen right
+        if(dx > SWIPE_THRESHOLD_APPROVE || (dx > (THROW_THRESHOLD_APPROVE - 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD)) {
           __DEV__ && console.log(dx > SWIPE_THRESHOLD_APPROVE ? 'SWIPE' : (dx > (THROW_THRESHOLD_APPROVE - 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD) && 'THROW');
 
           toValue = { x: DeviceWidth + 100, y: dy };
           velocity = { x: parseInt(vx), y: parseInt(vy) };
           likeStatus = 'approve';
 
-          if (!this.state.likedPotentials.indexOf(likeUserId)) {
+          if(!this.state.likedPotentials.indexOf(likeUserId)) {
             likeStatus = null;
           }
-        } else if (dx < SWIPE_THRESHOLD_DENY || (dx < (THROW_THRESHOLD_DENY + 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD)) {
+        }else if(dx < SWIPE_THRESHOLD_DENY || (dx < (THROW_THRESHOLD_DENY + 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD)) {
           toValue = { x: -DeviceWidth - 100, y: dy };
           velocity = { x: vx, y: vy };
           likeStatus = 'deny';
-        } else {
-          // nothing!
+        }else{
+                // nothing!
         }
 
-        // if (!likeUserId) {
-        //
-        // } else if (likeStatus && likeStatus.length > 0) {
-        //
-        // }
+              // if (!likeUserId) {
+              //
+              // } else if (likeStatus && likeStatus.length > 0) {
+              //
+              // }
 
-        if (likeStatus) {
+        if(likeStatus) {
           const relstatus = this.props.rel === 'single' ? 'couple' : 'single';
           const otherParams = { relevantUser: this.props.potentials[0] };
-          if (!this.props.potentials[0].starter){
-            // this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, relstatus, this.props.rel, otherParams));
-          } else {
+          if(!this.props.potentials[0].starter){
+                  // this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, relstatus, this.props.rel, otherParams));
+          }else{
             this.props.dispatch({type: 'SEND_LIKE_FULFILLED', payload: {relevantUser: this.props.potentials[0], like_status: likeStatus }});
           }
 
-          Animated.timing(this.state.pan, {
-            toValue,
-            duration: 120,
-            easing: Easing.inOut(Easing.ease),
-            deceleration: 1.1,
-            velocity: velocity || { x: 1, y: 1 },
-            useNativeDriver: !iOS
-          }).start(() => {
-            if (!this.props.potentials[0].starter){
-              // InteractionManager.runAfterInteractions(() => {
-                // this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, relstatus, this.props.rel, otherParams));
+          InteractionManager.runAfterInteractions(() => {
+            Animated.timing(this.state.pan, {
+              toValue,
+              duration: 120,
+              easing: Easing.inOut(Easing.ease),
+              deceleration: 1.1,
+              // velocity: velocity || { x: 1, y: 1 },
+              useNativeDriver: !iOS
+            }).start(() => {
+              this.state.pan.setValue({ x: 0, y: 0 });
 
-                // this.setState({
-                //     interactedWith: likeUserId,
-                //     likedPotentials: [...this.state.likedPotentials, likeUserId]
-                // });
+              if(!this.props.potentials[0].starter){
+                    // InteractionManager.runAfterInteractions(() => {
+                      // this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, relstatus, this.props.rel, otherParams));
 
-              // })
-            }
-          });
+                      // this.setState({
+                      //     interactedWith: likeUserId,
+                      //     likedPotentials: [...this.state.likedPotentials, likeUserId]
+                      // });
 
-          if (!this.props.potentials[0].starter){
+                    // })
+              }
+            });
+          })
+
+          if(!this.props.potentials[0].starter){
             InteractionManager.runAfterInteractions(() => {
               this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, relstatus, this.props.rel, otherParams));
             });
           }
-        } else {
-          Animated.timing(this.state.pan, {
-            toValue,
-            duration: 200,
-            easing: Easing.inOut(Easing.ease),
-            useNativeDriver: !iOS
-            // velocity: { x: (vx)*2, y: (vy)*2 },
-            // tension: 20,
-            // friction: 5,
-          }).start();
+        }else{
+          setImmediate(() => {
+            Animated.spring(this.state.pan, {
+              toValue,
+                    // duration: 300,
+                    // easing: Easing.inOut(Easing.ease),
+              useNativeDriver: !iOS,
+              velocity: { x: (vx) * 2, y: (vy) * 2 },
+              tension: 20,
+              friction: 5,
+            }).start();
+          })
         }
       },
     });
@@ -228,54 +233,46 @@ class CardStack extends React.Component {
 
   _showProfile(potential) {
     Analytics.event('Interaction', { type: 'tap', name: 'Open card profile', potential });
-    // this.props.toggleProfile(potential);
+    this.state.pan.setValue({ x: 0, y: 0 });
     this.props.dispatch({type: 'OPEN_PROFILE', payload: {}});
   }
 
   _hideProfile() {
     this.props.toggleProfile();
-    this.state.pan.setValue({ x: 0, y: 0 });
+    // this.state.pan.setValue({ x: 0, y: 0 });
   }
 
   _toggleProfile() {
-    console.log('toggleprofile');
-    this.killPanResponder()
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
-    this.props.toggleProfile();
+    this.props.profileVisible ? this.props.dispatch({ type: 'CLOSE_PROFILE' }) : this.props.dispatch({ type: 'OPEN_PROFILE' });
     // this.state.pan.setValue({ x: 0, y: 0 });
   }
-  killPanResponder(){
 
-    console.log('killPanResponder',this._panResponder,PanResponder);
-    // this._panResponder = {
-    //   panHandlers: {
-    //     noop: ''
-    //   }
-    // }
-  }
 
   render() {
     const { potentials, user } = this.props;
 
-    if (this.state.animatedIn && !this._panResponder.panHandlers) {
-      this.initializePanResponder();
-    }
-    if (potentials && potentials.length > 1 && potentials[1]){
-      const nextUp = potentials[1];
-      if (nextUp.user.image_url){
-        Image.prefetch(nextUp.user.image_url);
-      }
-    }
+    // if (potentials && potentials.length > 1 && potentials[1]){
+    //   const nextUp = potentials[1];
+    //   if (nextUp.user.image_url){
+    //     Image.prefetch(nextUp.user.image_url);
+    //   }
+    // }
+
+    // console.log(this.state.pan,this._panResponder);
+    const _panResponder = this._panResponder || {};
+
     return (
       <View
-        pointerEvents={'box-none'}
+
         style={{
-          flex: 10,
+          flexGrow: 1,
+          // overflow: 'scroll',
           alignSelf: 'stretch',
           alignItems: 'center',
           top: 0,
-          overflow: 'visible',
           bottom: 0,
+          zIndex: 2,
+          position: 'absolute',
           paddingTop: 0,
         }}
       >
@@ -284,35 +281,34 @@ class CardStack extends React.Component {
         } */}
         <View
           style={{
-            height: this.props.profileVisible ? 0 : 40,
-            width:DeviceWidth,
+            // height: this.props.profileVisible ? 0 : 40,
+            width: DeviceWidth,
           }}
+          pointerEvents={'box-none'}
 
         />
+
+
         { potentials && potentials.length >= 1 && potentials[1] &&
           <Animated.View
             style={[styles.shadowCard, {
               alignSelf: 'center',
-              borderRadius: 8,
-              // bottom: this.props.profileVisible ? 0 : 75,
+              borderRadius: 11,
               position: 'absolute',
               overflow: 'hidden',
-              backgroundColor:'red',
-              opacity: this.state.animatedIn ? this.state.pan.x.interpolate({
-                inputRange: [-500, -200, -50, 0, 50, 200, 500],
-                outputRange: [0.99, 0.55, 0.05, 0.1, 0.05, 0.55, 0.99],
-                extrapolate: 'clamp',
-              }) : this.state.offsetY,
+              opacity: 0.5, // this.state.pan.x,
               transform: [
                 {
-                  scale: this.state.animatedIn ? (~~this.props.profileVisible || this.state.pan.x.interpolate({
-                    inputRange: [-400, -250, -100, 0, 100, 250, 400],
-                    outputRange: [0.915, 0.87, 0.85, 0.80, 0.85, 0.87, 0.915],
-                    extrapolate: 'clamp',
-                  })) : this.state.offsetY,
+                  scale: 0.8,
+                  // .interpolate({
+                  //   inputRange: [-400, -250, -100, 0, 100, 250, 400],
+                  //   outputRange: [0.915, 0.87, 0.85, 0.80, 0.85, 0.87, 0.915],
+                  //   extrapolate: 'clamp',
+                  // })
                 },
               ],
             }]}
+            pointerEvents={'box-none'}
             key={`${potentials[1].id || potentials[1].user.id}-wrapper`}
             ref={(card) => { this.card = card; }}
           >
@@ -331,31 +327,32 @@ class CardStack extends React.Component {
             }
 
         { potentials && potentials[0] &&
-        <Animated.View  pointerEvents={!this.props.profileVisible ? 'box-only' : 'auto'}
+        <Animated.View
+
           style={[{
             alignSelf: 'center',
             borderRadius: 11,
-            // backgroundColor:'red',
-            marginHorizontal: 0,
+            width: DeviceWidth,
+            backfaceVisibility: 'hidden',
+            height:this.props.profileVisible ? DeviceHeight : DeviceHeight -60,
+            top:this.props.profileVisible ? 0  : 40,
+            position: 'absolute',
+            flexGrow: 1,
             transform: [
               {
-                translateX: this.state.pan ? this.state.pan.x : 0,
+                translateX: this.state.pan.x,
               },
               {
-                translateY: this.state.animatedIn ? this.state.pan.y.interpolate({
-                  inputRange: [-300, 0, 300],
-                  outputRange: [-300, 0, 300],
-                  extrapolate: 'clamp',
-                }) : this.state.offsetY,
+                translateY: this.state.pan.y
               },
               {
-                scale: this.props.profileVisible ? 1 : 0.92
+                scale: this.state.cardopen
               },
             ],
           }]}
           key={`${potentials[0].id || potentials[0].user.id}-wrapper`}
           ref={(card) => { this.card = card; }}
-          {...this._panResponder.panHandlers}
+          {...(_panResponder.panHandlers)}
         >
           <Card
             user={user}
@@ -364,7 +361,6 @@ class CardStack extends React.Component {
             rel={user.relationship_status}
             isTopCard
             pan={this.state.pan}
-            animatedIn={this.state.animatedIn}
             profileVisible={this.props.profileVisible}
             hideProfile={this._hideProfile.bind(this)}
             toggleProfile={this._toggleProfile.bind(this)}
@@ -374,8 +370,8 @@ class CardStack extends React.Component {
           />
         </Animated.View>
       }
-        <DenyIcon pan={this.state.pan}/>
-        <ApproveIcon pan={this.state.pan}/>
+        {/* <DenyIcon pan={this.state.pan}/>
+        <ApproveIcon pan={this.state.pan}/> */}
 
       </View>
     );

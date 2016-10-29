@@ -78,17 +78,17 @@ class Card extends React.Component {
     this.props.dispatch({ type: 'CLOSE_PROFILE' });
   }
 
-  componentWillReceiveProps(nProps) {
-    if (nProps && nProps.pan && this.props.profileVisible !== nProps.profileVisible) {
-      LayoutAnimation.configureNext(animations.layout.spring);
-    }
-  }
+  // componentWillReceiveProps(nProps) {
+  //   if (nProps && nProps.pan && this.props.profileVisible !== nProps.profileVisible) {
+  //     LayoutAnimation.configureNext(animations.layout.spring);
+  //   }
+  // }
 
-  checkPotentialSuitability() {
-    if (this.props.user && this.props.user.relationship_status === 'single' && this.props.potential && this.props.potential.partner && this.props.potential.partner.id === '') {
-      Analytics.warning('CHECK POTENTIALS RESPONSE!', `Your relationship_status is ${this.props.user.relationship_status}, but potential card is not a couple.`);
-    }
-  }
+  // checkPotentialSuitability() {
+  //   if (this.props.user && this.props.user.relationship_status === 'single' && this.props.potential && this.props.potential.partner && this.props.potential.partner.id === '') {
+  //     Analytics.warning('CHECK POTENTIALS RESPONSE!', `Your relationship_status is ${this.props.user.relationship_status}, but potential card is not a couple.`);
+  //   }
+  // }
 
 
   render() {
@@ -111,26 +111,26 @@ class Card extends React.Component {
     }
     const seperator = distance && city.length ? ' | ' : '';
 
-    const heights = {
-      smallest: {
-        top: -60,
-        second: -60,
-        third: -55,
-      },
-      middle: {
-        top: -65,
-        second: -55,
-        third: -50,
-      },
-      all: {
-        top: -50,
-        second: -50,
-        third: -60,
-      },
-    };
+    // const heights = {
+    //   smallest: {
+    //     top: -60,
+    //     second: -60,
+    //     third: -55,
+    //   },
+    //   middle: {
+    //     top: -65,
+    //     second: -55,
+    //     third: -50,
+    //   },
+    //   all: {
+    //     top: -50,
+    //     second: -50,
+    //     third: -60,
+    //   },
+    // };
 
-    const heightTable = MagicNumbers.is4s ? heights.smallest : (MagicNumbers.is5orless ? heights.middle : heights.all);
-    const cardHeight = DeviceHeight + (isTopCard ? heightTable.top : heightTable.second);
+    // const heightTable = MagicNumbers.is4s ? heights.smallest : (MagicNumbers.is5orless ? heights.middle : heights.all);
+    const cardHeight = DeviceHeight-60;
     const cardWidth = DeviceWidth;
 
     return (

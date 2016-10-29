@@ -6,53 +6,51 @@ import checkFireLoginState from '../fire'
 
 // LoginManager.setLoginBehavior('system_account')
 const FACEBOOK_PERMISSIONS = [
-    'email',
-    'public_profile',
-    'user_birthday',
-    'user_friends',
-    'user_likes',
-    'user_location',
-    'user_photos'
+  'email',
+  'public_profile',
+  'user_birthday',
+  'user_friends',
+  'user_likes',
+  'user_location',
+  'user_photos'
 ];
 
 const FACEBOOK_PROFILE_FIELDS = [
-    'email',
-    'albums',
-    'birthday',
-    'name',
-    'location',
-    'friends',
-    'photos',
-    'likes',
-    'about',
-    'cover',
-    'devices',
-    'gender',
-    'interested_in',
-    'relationship_status',
-    'significant_other',
-    'timezone',
-    'picture'
+  'email',
+  'albums',
+  'birthday',
+  'name',
+  'location',
+  'friends',
+  'photos',
+  'likes',
+  'about',
+  'cover',
+  'devices',
+  'gender',
+  'interested_in',
+  'relationship_status',
+  'significant_other',
+  'timezone',
+  'picture'
 ];
 
 const parameters = { fields: { string: FACEBOOK_PROFILE_FIELDS.join(',') } }
 
 
-
 /* loginWithFacebook | LOGIN_WITH_FACEBOOK */
 export const loginWithFacebook = () => async dispatch => {
-
   // LoginManager.setLoginBehavior('native')
-    const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS);
-    dispatch({ type: 'FACEBOOK_RESPONSE', payload: fb})
+  const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS);
+  dispatch({ type: 'FACEBOOK_RESPONSE', payload: fb})
 
-    const fbAuth = await AccessToken.getCurrentAccessToken()
-    const fbData = {...fb, ...fbAuth}
-    dispatch({ type: 'LOGIN_WITH_FACEBOOK', payload: api.fbLogin( fbData) })
-    dispatch({ type: 'FACEBOOK_AUTH', payload: fbData})
+  const fbAuth = await AccessToken.getCurrentAccessToken()
+  const fbData = {...fb, ...fbAuth}
+  dispatch({ type: 'LOGIN_WITH_FACEBOOK', payload: api.fbLogin(fbData) })
+  dispatch({ type: 'FACEBOOK_AUTH', payload: fbData})
 
 
-    checkFireLoginState(fbData,dispatch)
+  dispatch({ type: 'FIREBASE_AUTH', payload: checkFireLoginState(fbData, dispatch) })
     // .then(fireUser => {
     // })
     // .catch(err => {
@@ -62,54 +60,65 @@ export const loginWithFacebook = () => async dispatch => {
 }
 
 
+export const sessionAuth = () => async dispatch => {
+  try{
+    const fbUser = await AccessToken.getCurrentAccessToken()
+
+    dispatch({ type: 'FACEBOOK_AUTH', payload: fbUser })
+    dispatch({ type: 'FIREBASE_AUTH', payload: checkFireLoginState(fbUser, dispatch) })
+  }catch(err){
+    __DEV__ && console.log('3rdparty login failed', err)
+  }
+}
+
 
 /* getFacebookInfo | GET_FACEBOOK_INFO */
 export const getFacebookInfo = () => async dispatch => {
-    try{
-        const fbUser = await AccessToken.getCurrentAccessToken()
-        dispatch({ type: 'GET_FACEBOOK_INFO', payload: fbUser })
-        dispatch(getFacebookProfile(fbUser))
-    }catch(err){
-        __DEV__ && console.log('No fb access token found',err)
-    }
+  try{
+    const fbUser = await AccessToken.getCurrentAccessToken()
+    dispatch({ type: 'GET_FACEBOOK_INFO', payload: fbUser })
+    dispatch(getFacebookProfile(fbUser))
+  }catch(err){
+    __DEV__ && console.log('No fb access token found', err)
+  }
 }
 
 /* facebookAuth | FACEBOOK_AUTH */
 export const facebookAuth = () => async dispatch => {
-    try{
-        const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
-        const fbUser = await AccessToken.getCurrentAccessToken()
+  try{
+    const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
+    const fbUser = await AccessToken.getCurrentAccessToken()
 
-        dispatch({ type: 'FACEBOOK_AUTH', payload: {...fb,...fbUser} })
-    }catch(err){
-        __DEV__ && console.log('facebookAuth FACEBOOK_AUTHfb login failed',err)
-    }
+    dispatch({ type: 'FACEBOOK_AUTH', payload: {...fb, ...fbUser} })
+  }catch(err){
+    __DEV__ && console.log('facebookAuth FACEBOOK_AUTHfb login failed', err)
+  }
 }
 
 /* getFacebookProfile | GET_FACEBOOK_PROFILE */
 export const getFacebookProfile = fbUser => dispatch => {
-    const {accessToken} = fbUser;
+  const {accessToken} = fbUser;
 
-    const infoRequest = new GraphRequest('me', {parameters, accessToken}, (err, fbProfile) => {
-        if(err){
-            __DEV__ && console.log('error getting fb profile',err);
-            return
-        }
-        dispatch({ type: 'GET_FACEBOOK_PROFILE', payload: fbProfile })
-    });
+  const infoRequest = new GraphRequest('me', {parameters, accessToken}, (err, fbProfile) => {
+    if(err){
+      __DEV__ && console.log('error getting fb profile', err);
+      return
+    }
+    dispatch({ type: 'GET_FACEBOOK_PROFILE', payload: fbProfile })
+  });
 
-    const REQ = new GraphRequestManager().addRequest(infoRequest)
-    REQ.start();
+  const REQ = new GraphRequestManager().addRequest(infoRequest)
+  REQ.start();
 }
 
 
 export const addFacebookPermissions = () => async dispatch => {
-    try{
-        const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
-        const fbUser = await AccessToken.getCurrentAccessToken()
+  try{
+    const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS)
+    const fbUser = await AccessToken.getCurrentAccessToken()
 
-        dispatch({ type: 'ADD_FACEBOOK_PERMISSIONS', payload: {...fb,...fbUser} })
-    }catch(err){
-        __DEV__ && console.log('fb login failed',err)
-    }
+    dispatch({ type: 'ADD_FACEBOOK_PERMISSIONS', payload: {...fb, ...fbUser} })
+  }catch(err){
+    __DEV__ && console.log('fb login failed', err)
+  }
 }

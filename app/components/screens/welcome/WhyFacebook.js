@@ -36,7 +36,7 @@ class WhyFacebook extends Component {
               <Text style={[styles.allText,{}]}>Facebook does a pretty good job at purging fake users. Signing up with Facebook lowers the chances of fake users joining Trippple.</Text>
             </View>
             <TouchableOpacity style={{backgroundColor:colors.shuttleGray,padding:10,alignSelf:'center',borderRadius:50}} onPress={(x)=>{ this.props.navigator.pop()}}>
-              <Image source={{uri: 'assets/close.png'}} style={{width:15,height:15}}/>
+              <Image source={{uri: 'assets/close@3x.png'}} style={{width:15,height:15}}/>
             </TouchableOpacity>
           </View>
         </ScrollView>

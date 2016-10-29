@@ -77,7 +77,7 @@ class ParallaxSwiper extends React.Component{
         const slides = slideFrames.map((p,i) => {
 
             let {image_url} = p;
-            if(!image_url || image_url.length == 0){ image_url = 'assets/defaultuser.png'}
+            if(!image_url || image_url.length == 0){ image_url = 'assets/defaultuser@3x.png'}
             else{
                 image_url = image_url.replace('test/','').replace('images/','')
             }
@@ -85,7 +85,7 @@ class ParallaxSwiper extends React.Component{
             return (
 
         <Animated.Image
-            source={{uri: image_url || 'assets/defaultuser.png' }}
+            source={{uri: image_url || 'assets/defaultuser@3x.png' }}
             resizeMode="cover"
             key={`${p.id}slide${i}`}
             onLoad={this.imgLoad.bind(this)}
@@ -111,7 +111,6 @@ class ParallaxSwiper extends React.Component{
         // console.log(this.props.pan,this.props.isTopCard);
         return (
               <Animated.View
-              renderToHardwareTextureAndroid
                   style={[styles.background, {
                       shadowColor: colors.darkShadow,
                       shadowOpacity: 0.4,
@@ -182,7 +181,7 @@ class ParallaxSwiper extends React.Component{
     render() {
         let { style,windowHeight,swiper, ...props } = this.props;
         return (
-          <View renderToHardwareTextureAndroid style={[styles.container, style, {top:-20}]}>
+          <View  style={[styles.container, style, {top:-20}]}>
               <ScrollView
                   {...props}
                   automaticallyAdjustContentInsets={false}

@@ -1,4 +1,4 @@
-import {NativeModules, ActionSheetIOS, PushNotificationIOS, Platform} from 'react-native'
+import {NativeModules, Share, PushNotificationIOS, Platform} from 'react-native'
 const {RNMessageComposer} = NativeModules;
 import RNHotline from '../../lib/RNHotline/'
 import Promise from 'bluebird'
@@ -26,6 +26,23 @@ export const setHotlineUser = user => dispatch => dispatch({ type: 'SET_HOTLINE_
     })
   }
 })
+
+export const share = payload => dispatch => dispatch({ type: 'SHARE_COUPLE_PIN',
+  payload: {
+    promise: new Promise((resolve, reject) => {
+      const { pin, messageText } = payload;
+
+          Share.share({
+            title:'Join my couple!',
+            message:'ok'
+          }, {
+            dialogTitle:'Send your couple pin'
+          })
+          .then(resolve)
+          .catch(reject)
+    })
+  }
+});
 
 export const sendText = payload => dispatch => dispatch({ type: 'SEND_TEXT',
   payload: {

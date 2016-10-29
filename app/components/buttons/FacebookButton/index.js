@@ -92,7 +92,7 @@ class FacebookButton extends React.Component {
         _onPress={this.onPress.bind(this)}
       >
 
-        <Image source={require('./fBLogo.png')}
+        <Image source={require('./fBLogo@3x.png')}
           resizeMode={Image.resizeMode.contain}
           style={{height: 30, width: 20,}}
           tintColor={this.props.iconTintColor}

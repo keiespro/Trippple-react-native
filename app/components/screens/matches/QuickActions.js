@@ -42,7 +42,7 @@
 //         <Image
 //           resizeMode={Image.resizeMode.contain}
 //           style={{width: 20, height: 20, alignItems: 'flex-start'}}
-//           source={require('./assets/close.png')}
+//           source={require('./assets/close@3x.png')}
 //         />
 //       </View>
 //     </TouchableHighlight>

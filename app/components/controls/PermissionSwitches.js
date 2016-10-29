@@ -25,30 +25,16 @@ class PermissionSwitches extends React.Component{
     super()
     this.state = { }
   }
-  componentDidMount(){
-    // iOS && PushNotificationIOS.checkPermissions(permissions => {
-    //   const permResult = parseNotificationPermissions(permissions);
-    //   this.setState({
-    //     NotificationSetting: permResult,
-    //   })
-    //
-    //   OSPermissions.canUseLocation(OSLocation => {
-    //     this.setState({
-    //       LocationSetting: parseInt(OSLocation) > 2,
-    //     })
-    //   })
-    // })
-  }
+
   toggleLocation(){
-    const {permissions} = this.props
-    const {location} = permissions
+    const {permissions, settings} = this.props
 
     Analytics.event('Interaction', {
       name: 'Toggle location permission',
       type: 'tap',
     })
 
-    if(!location){
+    if(!permissions.location){
       this.props.dispatch(ActionMan.showInModal({
         component: 'LocationPermissions',
         name: 'LocationPermissionModal',
@@ -58,35 +44,35 @@ class PermissionSwitches extends React.Component{
           failedTitle: 'LOCATION DISABLED',
           failedSubtitle: 'Geolocation is disabled. You can enable it in your phone’s Settings.',
           headerImageSource: 'iconDeck',
+          btnText: 'YES'
         }
       }))
+    }else if(settings.location){
+      this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_OFF'})
     }else{
-      this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION'})
-
-
+      this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})
     }
   }
   toggleNotification(){
-    const {permissions} = this.props
-    const {notifications} = permissions
+    const {permissions, settings} = this.props
 
-    if(iOS && notifications != 'true'){
+    if(iOS && !permissions.notifications){
       this.props.dispatch(ActionMan.showInModal({
         component: 'NotificationsPermissions',
-        passProps: {
-
-        }
+        passProps: { }
       }))
+    }else if(settings.notifications){
+      this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_OFF'})
     }else{
-      this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS'})
+      this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_ON'})
     }
   }
 
   render(){
-    const {permissions, switches} = this.props;
-     const locationValue = permissions.location && switches.location ? true : false;
-    const notificationsValue = permissions.notifications == 'true' && switches.notifications ? true : false;
+    const {permissions, settings} = this.props;
 
+    const locationValue = permissions.location && settings.location;
+    const notificationsValue = iOS ? (permissions.notifications && settings.notifications) : settings.notifications;
 
     return (
       <View style={{paddingBottom: 30}}>
@@ -129,7 +115,7 @@ class PermissionSwitches extends React.Component{
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
   permissions: state.permissions,
-  switches: state.settings.permissionSwitches
+  settings: state.settings
 })
 
 

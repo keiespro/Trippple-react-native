@@ -326,7 +326,7 @@ const DefaultMarker = ({ pressed, pressedMarkerStyle, markerStyle, currentValue 
         <View
           style={[styles.markerStyle, markerStyle, pressed && styles.pressedMarkerStyle, pressed && pressedMarkerStyle]}
         />
-        <Image source={require('./assets/sliderHandle.png')}
+        <Image source={require('./assets/sliderHandle@3x.png')}
         resizeMode={'contain'}
         style={{
           backgroundColor:'transparent',alignItems:'center',justifyContent:'center',

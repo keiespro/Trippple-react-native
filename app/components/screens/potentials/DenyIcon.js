@@ -38,7 +38,7 @@ const DenyIcon = props => (
     }]}
   >
     <Image
-      source={require('./assets/iconDeny.png')}
+      source={require('./assets/iconDeny@3x.png')}
       style={{
         backgroundColor: 'transparent',
         width: 100,

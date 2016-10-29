@@ -21,25 +21,25 @@ const middlewares = [
   createActionBuffer('EX_NAVIGATION.INITIALIZE'),
   thunk,
   promiseMiddleware(),
-  throttleActions(['UPDATE_USER'], 5000, {trailing: false }),
-  throttleActions(['EX_NAVIGATION.PUSH'], 500, {trailing: false }),
-  throttleActions(['OPEN_PROFILE'], 800, {trailing: false }),
-  throttleActions(['GET_POTENTIALS'], 1000, {trailing: false }),
-  createPrefetcher({
-    watchKeys: [
-      {
-        'GET_POTENTIALS_FULFILLED': {
-          key: 'matches',
-          location: {
-            user: {
-            image_url: true
-          }
-        }
-      }
-    }
+  throttleActions(['UPDATE_USER'], 5000, {leading: true, trailing: false }),
+  throttleActions(['EX_NAVIGATION.PUSH'], 700, {leading: true, trailing: false }),
+  throttleActions(['OPEN_PROFILE'], 800, {leading: true, trailing: false }),
+  throttleActions(['GET_POTENTIALS'], 1000, {leading: true, trailing: false }),
+  // createPrefetcher({
+  //   watchKeys: [
+  //     {
+  //       'GET_POTENTIALS_FULFILLED': {
+  //         key: 'matches',
+  //         location: {
+  //           user: {
+  //           image_url: true
+  //         }
+  //       }
+  //     }
+  //   }
 
-    ]
-  })
+    // ]
+  // })
 ]
 
 function configureStore(initialState = ({})) {

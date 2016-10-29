@@ -1,3 +1,4 @@
+import {Platform} from 'react-native'
 
 export default function permissionsReducer(state = initialState, action) {
   switch (action.type) {
@@ -19,7 +20,7 @@ export default function permissionsReducer(state = initialState, action) {
 
 const initialState = {
   location: null,
-  notifications: null,
+  notifications: Platform.select({android: true}),
   contacts: null,
 
 };

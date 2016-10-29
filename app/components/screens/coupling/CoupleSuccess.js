@@ -18,12 +18,13 @@ import {NavigationStyles, withNavigation} from '@exponent/ex-navigation';
 
 import styles from '../../modals/purpleModalStyles'
 import { BlurView, VibrancyView } from 'react-native-blur'
+import {SlideHorizontalIOS, FloatHorizontal} from '../../../ExNavigationStylesCustom'
 
 export default class CoupleSuccess extends React.Component{
 
 
     static route = {
-        styles: NavigationStyles.Fade,
+        styles: FloatHorizontal,
         navigationBar: {
             visible:false,
             backgroundColor: colors.shuttleGrayAnimate,

@@ -1,4 +1,4 @@
-import { PermissionsAndroid, Platform } from 'react-native'
+import { Platform } from 'react-native'
 import FCM from 'react-native-fcm';
 import Promise from 'bluebird'
 import OSPermissions from '../../../lib/OSPermissions/ospermissions'
@@ -9,16 +9,28 @@ export default {checkNotificationsPermission, requestNotificationsPermission}
 export const checkNotificationsPermission = () => dispatch => dispatch({ type: 'CHECK_NOTIFICATIONS_PERMISSION',
   payload: new Promise((resolve, reject) => {
     Platform.select(check)()
-      .then(resolve)
-      .catch(reject)
+    .then(permission => {
+      // dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_ON'})
+      resolve(permission)
+    })
+    .catch(err => {
+      // dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_OFF'})
+      reject(err)
+    })
   }),
 });
 
 export const requestNotificationsPermission = () => dispatch => dispatch({ type: 'REQUEST_NOTIFICATIONS_PERMISSION',
   payload: new Promise((resolve, reject) => {
     Platform.select(request)()
-      .then(resolve)
-      .catch(reject)
+    .then(permission => {
+         // dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_ON'})
+      resolve(permission)
+    })
+    .catch(err => {
+      // dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_OFF'})
+      reject(err)
+    })
   }),
 });
 
@@ -38,7 +50,7 @@ const request = {
     return permission;
   },
   android() {
-    return new Promise((resolve,reject) => {
+    return new Promise((resolve, reject) => {
       resolve('true')
     })
   }
@@ -71,7 +83,7 @@ const check = {
     return p
   },
   android() {
-    return new Promise((resolve,reject) => {
+    return new Promise((resolve) => {
       resolve('true')
     })
   }

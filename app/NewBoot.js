@@ -5,6 +5,8 @@ import LockFailed from './components/LockFailed'
 import AppContainer from './AppContainer'
 import loadSavedCredentials from './utils/Credentials'
 import configureStore from './store';
+import {sessionAuth} from './actions/facebook'
+
 
 const store = configureStore();
 const iOS = Platform.OS == 'ios';
@@ -25,6 +27,8 @@ class NewBoot extends Component{
   }
 
   initialize(){
+    store.dispatch(sessionAuth())
+
     loadSavedCredentials().then(creds => {
       if (creds){
         store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: creds})

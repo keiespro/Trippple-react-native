@@ -63,8 +63,4 @@ const initialState = {
     profileVisible: false,
     drawerOpen: false,
     currentIndex: 0,
-    permissionSwitches: {
-      location: false,
-      notifications: false
-    }
 };

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import {Provider as ReduxProvider} from 'react-redux';
 import {NavigationContext, createRouter, withNavigation, NavigationProvider, StackNavigation} from '@exponent/ex-navigation'
+
 import App from './components/app'
 import Router from './Router'
 import colors from './utils/colors'
+
 
 const topRouter = createRouter(() => ({
   App: () => App
@@ -11,7 +13,6 @@ const topRouter = createRouter(() => ({
 
 @withNavigation
 class AppContainer extends Component {
-
   render() {
     const context = new NavigationContext({ store: this.props.store, router: Router })
 
@@ -28,11 +29,11 @@ class AppContainer extends Component {
                 // translucent: false,
                 // tintColor: colors.white,
                 // backgroundColor: 'rgba(0,0,0,0)',
-                // titleStyle: {
-                //   color: colors.white,
-                //   fontFamily: 'montserrat',
-                //   borderBottomWidth: 0,
-                // }
+                titleStyle: {
+                  color: colors.white,
+                  fontFamily: 'montserrat',
+                  borderBottomWidth: 0,
+                }
               },
             }}
             initialRoute={topRouter.getRoute('App', {show: true})}

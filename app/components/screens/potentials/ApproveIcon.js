@@ -38,7 +38,7 @@ const ApproveIcon = props => (
     }]}
   >
     <Image
-      source={require('./assets/iconApprove.png')}
+      source={require('./assets/iconApprove@3x.png')}
       style={{
         width: 100,
         height: 100,

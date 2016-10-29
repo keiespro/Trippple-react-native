@@ -43,6 +43,7 @@ class PotentialsPlaceholder extends React.Component{
 
   getMorePotentials(){
   // this.state.loading
+  console.log('tttttaaaappp');
 
     this.setState({loading: true})
     const {latitude, longitude} = this.props.user
@@ -112,7 +113,7 @@ class PotentialsPlaceholder extends React.Component{
           ]}
         >
           <Image
-            source={require('./assets/placeholderDashed.png')}
+            source={require('./assets/placeholderDashed@3x.png')}
             style={{
               alignSelf: 'stretch',
               height: DeviceHeight - 110,
@@ -132,7 +133,7 @@ class PotentialsPlaceholder extends React.Component{
             resizeMode={Image.resizeMode.stretch}
           >
             <Image
-              source={require('./assets/tripppleLogo.png')}
+              source={require('./assets/tripppleLogo@3x.png')}
               style={{
                 alignSelf: 'center',
                 opacity: 1,

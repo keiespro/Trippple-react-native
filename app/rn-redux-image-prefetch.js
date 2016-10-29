@@ -32,7 +32,7 @@ export default function createPrefetcher(config = {}) {
 
       const imgKey = targetKeyMap[targetAction];
 
-      const incoming = action.payload.response[imgKey.key]
+      const incoming = action.payload[imgKey.key]
 
       processStateKey(imgKey, state[imgKey], incoming)
     });
@@ -107,7 +107,7 @@ export default function createPrefetcher(config = {}) {
             if(a){
               resolve()
             }else{
-              reject()
+              reject(new Error())
             }
           })
         })
@@ -115,24 +115,31 @@ export default function createPrefetcher(config = {}) {
 
       cacheCheck.then(imgs => {
         if(debug) console.log(imgs);
-
+        if(!imgs) return false
         imgs.forEach(imageUrl => {
           if(debug) console.log(imageUrl);
+          const x = imageUrl.split('/test/')[0].split('uploads') + u.split('test')[1];
+          const matchImage = x.split('/images')[0] + x.split('/images')[1]
 
-          dispatch(prefetchStartedAction({imageUrl}));
+          dispatch(prefetchStartedAction({imageUrl: matchImage}));
 
-          Image.prefetch(imageUrl)
+          Image.prefetch(matchImage)
             .then(success => {
+              // if(!success)  return
               if(debug) console.log(`success: ${success}`);
-              dispatch(prefetchCompleteAction({imageUrl}));
+              dispatch(prefetchCompleteAction({imageUrl: matchImage}));
             })
             .catch(error => {
-              if(debug) console.warn('err', error)
-              dispatch(prefetchCompleteAction({imageUrl}, error));
+              throw new Error(error);
+
+              // if(debug) console.warn('err', error)
+              // dispatch(prefetchCompleteAction({imageUrl}, error));
             })
         })
       })
       .catch(error => {
+        throw new Error(error);
+
         if(debug) console.warn('err', error)
         dispatch(prefetchCompleteAction({error}));
       })

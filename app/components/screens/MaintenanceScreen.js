@@ -74,7 +74,7 @@ class MaintenanceScreen extends Component{
             justifyContent:'center',
             flex:1,
           }}
-          defaultSource={{uri:'assets/system-maintenance.png'}}
+          defaultSource={{uri:'assets/system-maintenance@3x.png'}}
         >
           <View style={{
             width:DeviceWidth,

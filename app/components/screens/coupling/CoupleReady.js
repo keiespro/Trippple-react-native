@@ -20,14 +20,31 @@ import { BlurView, VibrancyView } from 'react-native-blur'
 
 import { connect } from 'react-redux';
 import {NavigationStyles} from '@exponent/ex-navigation'
+import {SlideHorizontalIOS, FloatHorizontal} from '../../../ExNavigationStylesCustom'
 
 
 class CoupleReady extends React.Component{
     static route = {
-        styles: NavigationStyles.Fade,
-        navigationBar: {
-            visible:false
-        }
+      styles: FloatHorizontal,
+      navigationBar: {
+        visible:false,
+        translucent:true,
+        backgroundColor: colors.shuttleGrayAnimate,
+        borderBottomWidth: 0,
+        tintColor: '#fff',
+        borderWidth: 0,
+        style:{
+          top:24,
+          paddingTop:24
+        },
+        top:24,
+        paddingTop:24,
+        titleStyle: {
+          color: '#fff',
+          fontFamily: 'montserrat',
+          borderBottomWidth: 0,
+        },
+      }
     };
     constructor(props){
         super()
