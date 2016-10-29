@@ -79,15 +79,16 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
+              "client_id": "820434364878-nk4asdaapqu9o9cpardf2ku0nb83htg4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
               "client_id": "820434364878-m8ue8mla4jeu4opkhs7tsovfipfv9rg8.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "co.trippple"
+                "bundle_id": "co.trippple",
+                "app_store_id": "947669316"
               }
-            },
-            {
-              "client_id": "820434364878-nk4asdaapqu9o9cpardf2ku0nb83htg4.apps.googleusercontent.com",
-              "client_type": 3
             }
           ]
         },

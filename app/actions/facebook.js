@@ -1,7 +1,6 @@
 import FBSDK from 'react-native-fbsdk'
 const {LoginManager, AccessToken, GraphRequestManager, GraphRequest} = FBSDK
 import api from '../utils/api'
-import * as firebase from 'firebase';
 import checkFireLoginState from '../fire'
 
 // LoginManager.setLoginBehavior('system_account')

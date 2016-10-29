@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, TouchableHighlight, Image, TouchableNativeFeedback, Platform, StyleSheet } from 'react-native';
 import colors from '../../../utils/colors';
 import {MagicNumbers} from '../../../utils/DeviceConfig'
+const iOS = Platform.OS == 'ios';
 
 
 const SettingsRow = ({title, subtitle, pushScreen}) => (
@@ -64,7 +65,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     paddingRight: MagicNumbers.screenPadding / 2,
-    marginLeft: MagicNumbers.screenPadding / 1.5
+    paddingLeft: iOS ?  null : MagicNumbers.screenPadding / 1.5,
+    marginLeft: iOS ?  MagicNumbers.screenPadding / 1.5 : null
   },
 
 })

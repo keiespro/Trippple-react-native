@@ -10,7 +10,19 @@ if(typeof window !== 'undefined' && (__DEV__ ) && process.env.NODE_ENV !== 'prod
   window.React = React;
 }
 if(__DEV__){
-  console.ignoredYellowBox = [`{"line":`, 'jsSchedulingOverhead','SocketRocket','ScrollView','WARNING','Value did not change','Value is a function','%cfont-weight','Warning','Task oprhaned'];
+  console.ignoredYellowBox = [
+    `Possible Unhandled Promise Rejection`,
+    `{"line":`,
+    'jsSchedulingOverhead',
+    'SocketRocket',
+    'ScrollView',
+    'WARNING',
+    'Value did not change',
+    'Value is a function',
+    '%cfont-weight',
+    'Warning',
+    'Task oprhaned'
+  ];
 }
 
 const Trippple = (props => <NewBoot {...props}/>)
