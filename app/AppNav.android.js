@@ -25,14 +25,14 @@ class AppNav extends React.Component {
   }
   setDrawerOpen(){
     // StatusBar.setTranslucent(true);
+    console.log(BackAndroid);
     BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
-
     this.props.setDrawerOpen()
   }
   handleBackAndroid(){
-    this.settingsdrawer.closeDrawer()
     BackAndroid.removeEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
-    return true
+    this.settingsdrawer.closeDrawer()
+    return this.props.canDrawerOpen
   }
 
   render() {
@@ -96,7 +96,7 @@ class AppNav extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
   drawerOpen: state.ui.drawerOpen,
-  canDrawerOpen: state.ui.currentIndex == 0
+  canDrawerOpen: state.ui.currentIndex == 0 && !state.ui.profileVisible
 })
 
 
