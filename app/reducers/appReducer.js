@@ -7,6 +7,9 @@ export default function appReducer(state = initialState, action) {
     case REHYDRATE:
       return {...state, booted: true}
 
+    case 'APP_INITIALIZE':
+      return {...state, appInitialized: true}
+
     case 'GET_COUPLE_PIN_FULFILLED':
       return {...state, couplePin: action.payload.pin}
 
@@ -61,6 +64,6 @@ const initialState = {
   visibility: null,
   version: null,
   network: null,
-  potentialsReturnedEmpty: false
-
+  potentialsReturnedEmpty: false,
+  appInitialized: false
 };

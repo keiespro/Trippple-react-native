@@ -33,7 +33,7 @@ class NotificationCommander extends Component{
     const dispatch = this.props.dispatch.bind(this);
     const handleAction = this.handleAction.bind(this);
 
-
+    console.log(FCM,'FCM');
     FCM.on('notification', (notification) => {
       console.log(notification);
       handleAction(notification, notification.foreground, notification.opened_from_tray)

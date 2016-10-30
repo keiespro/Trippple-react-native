@@ -4,24 +4,28 @@
 import firebase from 'rn-firebase-bridge';
 
 const firebaseConfig = {
-  APIKey: 'AIzaSyBwQ0d87ygSNxEpcxJSDxpH2e9sb0tpNE8',
+  APIKey: 'AIzaSyBZKzo_aVFz4ldw0bQ-8dJMe88xF0q0N9U',
   authDomain: 'trippple-93bbc.firebaseio.com',
   databaseURL: 'https://trippple-93bbc.firebaseio.com',
-  googleAppID: '1:820434364878:android:1a79f2b518e181b2'
+  googleAppID: '1:820434364878:android:839f5cd266b5f573'
 };
 
 // // Get default app
-const app = firebase.initializeApp(firebaseConfig, 'com.trippple', (x) => console.log(x))
 
-const database = app.database();
-const auth = app.auth();
-
+// const app = firebase.initializeDefaultApp()
 const fireLogin = (fbUser, dispatch) => {
+
+  const app = firebase.initializeApp(firebaseConfig, 'co.trippple', (x) => {
+
+    console.log(x)
+    const database = app.database();
+    const auth = app.auth();
+
   auth.onAuthStateChanged((firebaseUser) => {
     console.log(firebaseUser, auth);
     if(fbUser && !isUserEqual(fbUser, firebaseUser)) {
-      const credential = firebase.auth.FacebookAuthProvider.credential(fbUser.accessToken);
-      auth.signInWithCredential(credential)
+      const credential = app.auth.FacebookAuthProvider.credential(fbUser.accessToken);
+      app.auth.signInWithCredential(credential)
       .then(firebaser => {
         dispatch({ type: 'FIREBASE_AUTH', payload: firebaser })
       })
@@ -35,7 +39,10 @@ const fireLogin = (fbUser, dispatch) => {
     }else{
       dispatch({ type: 'FIREBASE_AUTH_CONFIRM', payload: firebaseUser })
     }
-  }, auth);
+  }, app.auth);
+
+
+})
 }
 
 const checkFireLoginState = async (fbUser, dispatch) => {

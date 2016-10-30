@@ -106,7 +106,7 @@ export const getPushToken = () => dispatch => dispatch({ type: 'GET_PUSH_TOKEN',
         dispatch(receivePushToken(push_token))
         dispatch({type: 'SAVE_PUSH_TOKEN', payload: push_token})
       })
-         .catch(x => console.log(x))
+     .catch(x => console.log(x))
     })
   }
 })

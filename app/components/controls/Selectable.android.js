@@ -6,13 +6,13 @@ import {MagicNumbers} from '../../utils/DeviceConfig'
 import colors from '../../utils/colors';
 
 
-const Selectable = ({selected}) => (
+const Selectable = ({selected, onPress, isLast, label, values}) => (
   <TouchableNativeFeedback
     useForeground
     background={TouchableNativeFeedback.SelectableBackground(colors.mediumPurple || colors.dark)}
-    onPress={() => this.props.onPress(this.props.field)}
+    onPress={onPress}
   >
-    <View style={[styles.insideSelectable, styles.formRow, this.props.isLast && {
+    <View style={[styles.insideSelectable, styles.formRow, isLast && {
       borderBottomWidth: 0,
     }]}
     >
@@ -20,7 +20,7 @@ const Selectable = ({selected}) => (
         style={{color: selected ? colors.white : colors.rollingStone,
               fontSize: MagicNumbers.size18, fontFamily: 'montserrat'
             }}
-      >{this.props.label}</Text>
+      >{label}</Text>
       {selected ? <Image
         style={{height: 30, width: 30}}
         source={require('./assets/ovalSelected@3x.png')}
@@ -39,6 +39,5 @@ const Selectable = ({selected}) => (
   </TouchableNativeFeedback>
 )
 
-Selectable.displayName = 'Selectable'
 
 export default Selectable

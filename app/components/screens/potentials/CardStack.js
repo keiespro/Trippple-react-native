@@ -24,12 +24,12 @@ const SWIPE_THRESHOLD_APPROVE = 140;
 
 function logPan(label, gestureState, nativeEvent){
   if(__DEBUG__){
-    console.group('onMoveShouldSetPanResponder')
-    console.info('nativeEvent')
-    console.table([nativeEvent], ['locationX', 'locationY', 'pageX', 'pageY', 'target', 'timestamp'])
-    console.info('gestureState');
-    console.table([gestureState])
-    console.groupEnd('onMoveShouldSetPanResponder')
+    // console.group('onMoveShouldSetPanResponder')
+    // console.info('nativeEvent')
+    // console.table([nativeEvent], ['locationX', 'locationY', 'pageX', 'pageY', 'target', 'timestamp'])
+    // console.info('gestureState');
+    // console.table([gestureState])
+    // console.groupEnd('onMoveShouldSetPanResponder')
   }
 }
 
@@ -334,8 +334,8 @@ class CardStack extends React.Component {
             borderRadius: 11,
             width: DeviceWidth,
             backfaceVisibility: 'hidden',
-            height:this.props.profileVisible ? DeviceHeight : DeviceHeight -60,
-            top:this.props.profileVisible ? 0  : 40,
+            height:this.props.profileVisible ? DeviceHeight : DeviceHeight - 20,
+            top:this.props.profileVisible ? 0  : 0,
             position: 'absolute',
             flexGrow: 1,
             transform: [

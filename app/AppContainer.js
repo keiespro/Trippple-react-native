@@ -25,10 +25,6 @@ class AppContainer extends Component {
 
               navigationBar: {
                 visible: false,
-                // borderBottomWidth: 0,
-                // translucent: false,
-                // tintColor: colors.white,
-                // backgroundColor: 'rgba(0,0,0,0)',
                 titleStyle: {
                   color: colors.white,
                   fontFamily: 'montserrat',

@@ -274,7 +274,7 @@ style={{
       borderBottomRightRadius: 11,
       position: 'absolute',
 
-      top: DeviceHeight-160,
+      top: DeviceHeight-120,
     }}>
         <TouchableNativeFeedback
           useForeground

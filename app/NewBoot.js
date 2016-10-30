@@ -6,6 +6,14 @@ import AppContainer from './AppContainer'
 import loadSavedCredentials from './utils/Credentials'
 import configureStore from './store';
 import {sessionAuth} from './actions/facebook'
+import firebase from 'rn-firebase-bridge';
+
+const firebaseConfig = {
+  APIKey: 'AIzaSyBZKzo_aVFz4ldw0bQ-8dJMe88xF0q0N9U',
+  authDomain: 'trippple-93bbc.firebaseio.com',
+  databaseURL: 'https://trippple-93bbc.firebaseio.com',
+  googleAppID: '1:820434364878:android:839f5cd266b5f573'
+};
 
 
 const store = configureStore();
@@ -27,7 +35,9 @@ class NewBoot extends Component{
   }
 
   initialize(){
-    store.dispatch(sessionAuth())
+    firebase.initializeApp(firebaseConfig, 'co.trippple', (x) => {
+      store.dispatch(sessionAuth())
+    });
 
     loadSavedCredentials().then(creds => {
       if (creds){
