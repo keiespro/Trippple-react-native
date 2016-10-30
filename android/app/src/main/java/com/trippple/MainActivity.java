@@ -1,4 +1,4 @@
-package com.trippple;
+package co.trippple;
 
 import android.content.Intent;
 import android.os.Bundle;

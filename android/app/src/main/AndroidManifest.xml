@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.trippple"
+    package="co.trippple"
     android:versionCode="2"
     android:versionName="2.6">
 
@@ -21,7 +21,7 @@
 
     <application
 
-      android:name="com.trippple.MainApplication"
+      android:name="co.trippple.MainApplication"
       android:allowBackup="true"
       android:label="@string/app_name"
           android:icon="@mipmap/ic_launcher"
@@ -39,7 +39,7 @@
             </intent-filter>
         </receiver>
       <activity
-        android:name="com.trippple.MainActivity"
+        android:name="co.trippple.MainActivity"
           android:screenOrientation="portrait"
           android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|screenSize">

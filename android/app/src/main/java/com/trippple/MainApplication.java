@@ -1,7 +1,7 @@
-package com.trippple;
+package co.trippple;
 
 import android.support.multidex.MultiDexApplication;
-
+import android.support.multidex.MultiDex;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.chirag.RNMail.RNMail;
 import com.cmcewen.blurview.BlurViewPackage;
@@ -25,8 +25,8 @@ import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.oblador.keychain.KeychainPackage;
 import com.rnfs.RNFSPackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
-import com.trippple.RNHotline.RNHotline;
-
+import co.trippple.RNHotline.RNHotline;
+import android.content.Context;
 import org.jall.reactnative.firebase.FirebasePackage;
 
 import java.util.Arrays;
@@ -92,10 +92,14 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     }
 
 
+  @Override
+  protected void attachBaseContext(Context base) {
+      super.attachBaseContext(base);
+      MultiDex.install(this);
+  }
 
 
 
 
 
 }
-
