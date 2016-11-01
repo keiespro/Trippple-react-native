@@ -333,7 +333,7 @@ const Swiper = React.createClass({
           {pages}
         </ScrollView>
 
-        <View pointerEvents={'box-none'} style={[styles[`pagination_${this.state.dir}`], props.paginationStyle, {backgroundColor: 'transparent',position:'absolute',top:-350,right:-300}]}>
+        <View pointerEvents={'box-none'} style={[styles[`pagination_${this.state.dir}`], props.paginationStyle, {backgroundColor: 'transparent',position:'absolute',top:-300,right:-300}]}>
           {(props.showsPagination && !props.inCard) || (props.inCard && props.profileVisible) ? React.Children.map(props.children, (c, i) => {
             return (<View
               style={[(props.grayDots ? styles.grayDot : styles.dot15),

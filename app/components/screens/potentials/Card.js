@@ -3,8 +3,6 @@ import React from 'react';
 import { MagicNumbers } from '../../../utils/DeviceConfig';
 import ActionMan from '../../../actions/';
 import Analytics from '../../../utils/Analytics';
-import CardDefault from './CardDefault';
-import CardOpen from './CardOpen';
 import ReportModal from '../../modals/ReportModal';
 import animations from './LayoutAnimations';
 import colors from '../../../utils/colors';

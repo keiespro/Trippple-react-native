@@ -24,12 +24,12 @@ const SWIPE_THRESHOLD_APPROVE = 140;
 
 function logPan(label, gestureState, nativeEvent){
   if(__DEBUG__){
-    // console.group('onMoveShouldSetPanResponder')
-    // console.info('nativeEvent')
-    // console.table([nativeEvent], ['locationX', 'locationY', 'pageX', 'pageY', 'target', 'timestamp'])
-    // console.info('gestureState');
-    // console.table([gestureState])
-    // console.groupEnd('onMoveShouldSetPanResponder')
+    console.group('onMoveShouldSetPanResponder')
+    console.info('nativeEvent')
+    console.table([nativeEvent], ['locationX', 'locationY', 'pageX', 'pageY', 'target', 'timestamp'])
+    console.info('gestureState');
+    console.table([gestureState])
+    console.groupEnd('onMoveShouldSetPanResponder')
   }
 }
 
@@ -58,13 +58,13 @@ class CardStack extends React.Component {
   }
 
   componentWillReceiveProps(nProps) {
-    const nui = nProps;
-    const ui = this.props;
-    if(nui.profileVisible != ui.profileVisible){
+    const n = nProps;
+    const p = this.props;
+    if(n.profileVisible != p.profileVisible){
       setImmediate(() => {
         console.log('spring');
         Animated.spring(this.state.cardopen, {
-          toValue: nui.profileVisible ? 1.00 : 0.92,
+          toValue: n.profileVisible ? 1.00 : 0.92,
           tension: 10,
           friction: 5,
           velocity: 3,
@@ -74,7 +74,7 @@ class CardStack extends React.Component {
 
         });
         // Animated.timing(this.state.heightBox, {
-        //   toValue: nui.profileVisible ? DeviceHeight : DeviceHeight-60,
+        //   toValue: n.profileVisible ? DeviceHeight : DeviceHeight-60,
         //   tension: 10,
         //   friction: 5,
         //   velocity: 3,
@@ -84,6 +84,16 @@ class CardStack extends React.Component {
         //
         // })
       })
+    }
+    if(p.potentials[0] && n.potentials[0]){
+      const pid = p.potentials[0].user.id
+      const nid = n.potentials[0].user.id
+      if(nid != pid){
+        this.state.pan.setValue({ x: 0, y: 0 });
+        // this.state.cardopen.setValue(0.92);
+
+        this.initializePanResponder();
+      }
     }
   }
 
@@ -95,7 +105,7 @@ class CardStack extends React.Component {
       onMoveShouldSetPanResponderCapture: (e, gestureState) => {
         logPan('onMoveShouldSetPanResponderCapture', gestureState, e)
         const {pageY} = e.nativeEvent
-        return false // (!this.props.profileVisible &&  pageY < DeviceHeight - 200 )
+        return (!this.props.profileVisible && pageY < DeviceHeight - 200 )
       },
 
       onMoveShouldSetPanResponder: (e, gestureState) => {
@@ -193,7 +203,6 @@ class CardStack extends React.Component {
               // velocity: velocity || { x: 1, y: 1 },
               useNativeDriver: !iOS
             }).start(() => {
-              this.state.pan.setValue({ x: 0, y: 0 });
 
               if(!this.props.potentials[0].starter){
                     // InteractionManager.runAfterInteractions(() => {
@@ -263,7 +272,7 @@ class CardStack extends React.Component {
 
     return (
       <View
-
+        pointerEvents={'box-none'}
         style={{
           flexGrow: 1,
           // overflow: 'scroll',
@@ -309,7 +318,7 @@ class CardStack extends React.Component {
               ],
             }]}
             pointerEvents={'box-none'}
-            key={`${potentials[1].id || potentials[1].user.id}-wrapper`}
+            key={`${potentials[1].user.id}-wrapper`}
             ref={(card) => { this.card = card; }}
           >
             <Card
@@ -328,6 +337,7 @@ class CardStack extends React.Component {
 
         { potentials && potentials[0] &&
         <Animated.View
+        pointerEvents={'auto'}
 
           style={[{
             alignSelf: 'center',
@@ -335,7 +345,7 @@ class CardStack extends React.Component {
             width: DeviceWidth,
             backfaceVisibility: 'hidden',
             height:this.props.profileVisible ? DeviceHeight : DeviceHeight - 20,
-            top:this.props.profileVisible ? 0  : 0,
+            top:this.props.profileVisible ? -30 : 0,
             position: 'absolute',
             flexGrow: 1,
             transform: [
@@ -350,7 +360,7 @@ class CardStack extends React.Component {
               },
             ],
           }]}
-          key={`${potentials[0].id || potentials[0].user.id}-wrapper`}
+          key={`${potentials[0].user.id}-wrapper`}
           ref={(card) => { this.card = card; }}
           {...(_panResponder.panHandlers)}
         >
