@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {Settings, View, Platform} from 'react-native'
 import TouchID from 'react-native-touch-id'
+import firebase from 'rn-firebase-bridge';
 import LockFailed from './components/LockFailed'
 import AppContainer from './AppContainer'
 import loadSavedCredentials from './utils/Credentials'
 import configureStore from './store';
 import {sessionAuth} from './actions/facebook'
-import firebase from 'rn-firebase-bridge';
 
 const firebaseConfig = {
   APIKey: 'AIzaSyBZKzo_aVFz4ldw0bQ-8dJMe88xF0q0N9U',
@@ -28,21 +28,19 @@ class NewBoot extends Component{
   };
 
   componentWillMount(){
-    if (this.state.locked){
+    if(this.state.locked){
       this.checkTouchId()
     }
     this.initialize()
   }
 
   initialize(){
-    firebase.initializeApp(firebaseConfig, 'co.trippple', (x) => {
-      store.dispatch(sessionAuth())
-    });
+    firebase.initializeApp(firebaseConfig, 'co.trippple', () => store.dispatch(sessionAuth()));
 
     loadSavedCredentials().then(creds => {
-      if (creds){
+      if(creds){
         store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: creds})
-      } else if (global.creds){
+      }else if(global.creds){
         store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: global.creds})
       }
     })
@@ -72,7 +70,7 @@ class NewBoot extends Component{
   }
 
   render() {
-    if (this.state.lockFailed){ return <LockFailed retry={this.checkTouchId.bind(this)}/> }
+    if(this.state.lockFailed){ return <LockFailed retry={this.checkTouchId.bind(this)}/> }
 
     return this.state.locked || !this.state.initialized ? <View/> : <AppContainer store={store} />
   }

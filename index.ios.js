@@ -13,6 +13,7 @@ if(__DEV__){
         `{"line":`,
         `jsSchedulingOverhead`,
         'SocketRocket',
+        `Possible Unhandled Promise Rejection`,
         'ScrollView',
         'WARNING',
         'Value did not change',

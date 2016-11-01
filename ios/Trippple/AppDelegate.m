@@ -33,7 +33,9 @@
 #import <Crashlytics/Answers.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <Bolts/Bolts.h>
-#import "RNFIRMessaging.h"
+#import "../node_modules/react-native-fcm/ios/RNFIRMessaging.h"
+#import "../node_modules/rn-firebase-bridge/ios/FirebaseBridge.h"
+#import "../node_modules/react-native-splash-screen/ios/SplashScreen.h"
 
 @interface AppDelegate() <RCTBridgeDelegate>
 @end
@@ -42,6 +44,8 @@
 
 - (BOOL)application:(__unused UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [SplashScreen show];
+
   _bridge = [[RCTBridge alloc] initWithDelegate:self
                                   launchOptions:launchOptions];
 

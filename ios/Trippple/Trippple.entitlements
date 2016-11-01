@@ -8,5 +8,9 @@
 	<array>
 		<string>applinks:trippple.co</string>
 	</array>
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)co.trippple</string>
+	</array>
 </dict>
 </plist>

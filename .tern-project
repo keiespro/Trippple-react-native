@@ -2,7 +2,7 @@
   "ecmaVersion": 7,
   "libs": [
     "browser",
-    "underscore"
+    "lodash"
   ],
   "plugins": {
     "es_modules": {},
