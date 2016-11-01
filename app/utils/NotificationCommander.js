@@ -1,22 +1,12 @@
-
-// import PushNotification from 'react-native-push-notification'
 import FCM from 'react-native-fcm';
-
 import { connect } from 'react-redux';
 import React, {Component} from 'react';
-import {View, Platform} from 'react-native';
-import {NavigationStyles, withNavigation} from '@exponent/ex-navigation';
+import {View} from 'react-native';
+import {withNavigation} from '@exponent/ex-navigation';
 import uuid from 'uuid'
 import colors from './colors'
 import Analytics from './Analytics'
-import config from '../../config'
 import ActionMan from '../actions/';
-
-
-const iOS = Platform.OS == 'ios';
-
-const {WEBSOCKET_URL} = config;
-// const io = require('./socket.io')
 
 
 @withNavigation
@@ -33,9 +23,7 @@ class NotificationCommander extends Component{
     const dispatch = this.props.dispatch.bind(this);
     const handleAction = this.handleAction.bind(this);
 
-    console.log(FCM,'FCM');
     FCM.on('notification', (notification) => {
-      console.log(notification);
       handleAction(notification, notification.foreground, notification.opened_from_tray)
       Analytics.event('Handle push notification', {action: JSON.stringify(notification)})
       __DEV__ && console.log('NOTIFICATION:', notification);
@@ -43,14 +31,16 @@ class NotificationCommander extends Component{
 
     FCM.on('refreshToken', (token) => {
       __DEBUG__ && console.warn('TOKEN:', token);
-      if(token != this.props.pushToken) dispatch(ActionMan.receivePushToken(token))
+      if(token != this.props.pushToken){
+        dispatch(ActionMan.receivePushToken({push_token: token, loggedIn: this.props.user.id ? true : false}))
+      }
     });
 
     FCM.getFCMToken().then(token => {
       __DEBUG__ && console.warn('TOKEN:', token);
-      if(token != this.props.pushToken) dispatch(ActionMan.receivePushToken(token))
-
-        // store fcm token in your server
+      if(token != this.props.pushToken){
+        dispatch(ActionMan.receivePushToken({push_token: token, loggedIn: this.props.user.id ? true : false}))
+      }
     });
 
   }
@@ -76,7 +66,7 @@ class NotificationCommander extends Component{
     this.props.handleNotification(newNotification);
   }
   render(){
-    if (!__DEV__) return false;
+    if(!__DEV__) return false;
 
     const devStyles = {
       position: 'absolute',
@@ -90,24 +80,19 @@ class NotificationCommander extends Component{
 
     return <View style={devStyles} />
   }
-
 }
 
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
+  user: state.user,
+  auth: state.auth,
+  notifications: state.notifications,
+  pushToken: state.device.push_token
+})
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...ownProps,
-    user: state.user,
-    auth: state.auth,
-    notifications: state.notifications,
-    pushToken: state.device.push_token
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  handleNotification: (n) => dispatch(ActionMan.handleNotification(n)),
+  dispatch
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleNotification: (n) => dispatch(ActionMan.handleNotification(n)),
-    dispatch
-  };
-}
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationCommander);

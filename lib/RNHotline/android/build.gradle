@@ -1,13 +1,14 @@
+//noinspection GradleCompatible
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
     defaultConfig {
         versionCode 1
         versionName "1.0"
         minSdkVersion 16
-        targetSdkVersion 24
+        targetSdkVersion 23
     }
 
 
@@ -21,6 +22,6 @@ allprojects {
 
 dependencies {
     compile 'com.github.freshdesk:hotline-android:1.0.+'
-    compile 'com.android.support:appcompat-v7:24.+'
-    compile 'com.facebook.react:react-native:0.35.0'
+    compile 'com.android.support:appcompat-v7:23.0.0'
+    compile 'com.facebook.react:react-native:0.36.0'
 }

@@ -144,6 +144,8 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant-run-support" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/multi-dex" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/pre-dexed" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/reload-dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/restart-dex" />
@@ -260,12 +262,20 @@
     <orderEntry type="library" exported="" name="okhttp-ws-3.4.1" level="project" />
     <orderEntry type="library" exported="" name="okhttp-3.4.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.3" level="project" />
-    <orderEntry type="library" exported="" name="imagepipeline-okhttp3-0.11.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="junit-4.12" level="project" />
+    <orderEntry type="library" exported="" name="imagepipeline-okhttp3-0.11.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-gcm-9.8.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-23.2.1" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-23.2.1" level="project" />
-    <orderEntry type="library" exported="" name="firebase-config-9.8.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-base-9.4.0" level="project" />
+    <orderEntry type="library" exported="" name="firebase-analytics-impl-9.4.0" level="project" />
+    <orderEntry type="library" exported="" name="firebase-core-9.4.0" level="project" />
+    <orderEntry type="library" exported="" name="firebase-common-9.4.0" level="project" />
+    <orderEntry type="library" exported="" name="firebase-iid-9.4.0" level="project" />
+    <orderEntry type="library" exported="" name="firebase-config-9.4.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-basement-9.4.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-tasks-9.4.0" level="project" />
+    <orderEntry type="library" exported="" name="firebase-analytics-9.4.0" level="project" />
     <orderEntry type="library" exported="" name="mixpanel-android-4.6.4" level="project" />
     <orderEntry type="library" exported="" name="conceal-1.1.2" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-23.4.0" level="project" />

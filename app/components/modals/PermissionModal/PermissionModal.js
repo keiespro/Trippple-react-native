@@ -10,7 +10,7 @@ import styles from '../purpleModalStyles'
 import BoxyButton from '../../controls/boxyButton'
 import ActionMan from '../../../actions'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
-import {Button} from '../../PlatformSpecific'
+import {Button} from '../../Btn'
 
 
 const iOS = Platform.OS == 'ios';

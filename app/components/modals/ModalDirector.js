@@ -10,7 +10,7 @@ import NotificationsPermissions from './NotificationsPermissions'
 import FieldModal from './FieldModal'
 import LocationPermissions from './LocationPermissions'
 import OnboardModal from './OnboardModal'
-// import PartnerMissingModal from './PartnerMissingModal'
+import WhyFacebook from '../screens/welcome/WhyFacebook'
 import PrivacyPermissions from './PrivacyPermissions'
 import ReportModal from './ReportModal'
 import UnmatchModal from './UnmatchModal'
@@ -26,6 +26,7 @@ const Modals = {
   Action,
   // ActionModal,
   BlurModal,
+  WhyFacebook,
   // CameraPermissions,
   // CameraRollPermissions,
   FieldModal,
@@ -50,7 +51,6 @@ class ModalDirector extends Component{
   }
 
   componentWillReceiveProps(nProps){
-    console.log(nProps);
     this.setState({
       activeModal: nProps.activeModal || {component: Action, passProps: nProps.actionModal},
       modalVisible: true
@@ -70,7 +70,7 @@ class ModalDirector extends Component{
     }
   }
   render(){
-    if (!this.props.user.id || !this.state.activeModal){ return null }
+    if (!this.state.activeModal){ return null }
 
     const { activeModal} = this.state;
     const ActiveModal = Modals[activeModal.component] || null;
@@ -97,6 +97,7 @@ class ModalDirector extends Component{
             user={this.props.user}
             navigator={this.props.navigator}
             dispatch={this.props.dispatch}
+            kill={()=>this.props.dispatch(ActionMan.killModal())}
           />
 
         </Modal>) : <View/>

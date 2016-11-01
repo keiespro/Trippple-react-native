@@ -41,14 +41,11 @@ async function baseRequest(endpoint = '', payload = {}, resource = 'user'){
 
     if(__DEV__) console.log(`API RESPONSE ${response.status} <<<<<<---- ${endpoint}`, response);
 
-    return Promise.try(() => {
-      const r = {...response.response};
+    return Promise.try(() => ({...response.response}))
 
-      return r
-    })
   }catch(err){
     __DEV__ && console.warn(`Error ${res.status} hitting endpoint ${endpoint}`, err);
-    // throw ('40 1')
+    throw new Error(err)
   }
 }
 
@@ -58,9 +55,8 @@ function publicRequest(endpoint, payload){
 
 function authenticatedRequest(endpoint: '', payload: {}, resource, forceCredentials){
   const credentials = forceCredentials || global.creds;
-  if(!credentials || !credentials.api_key || !credentials.user_id){
+  if(__DEV__ && (!credentials || !credentials.api_key || !credentials.user_id)){
     console.warn('Attempting to make authenticated request with no credentials')
-    return false
   }
   const authPayload = {...payload, ...credentials};
   return baseRequest(endpoint, authPayload, resource)

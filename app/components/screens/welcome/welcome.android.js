@@ -1,20 +1,12 @@
 import React, {Component} from 'react';
-import {StyleSheet, BackAndroid, Text, View, Image, ScrollView, Platform, Navigator, Dimensions, TouchableOpacity, NativeModules} from 'react-native';
-import TimerMixin from 'react-timer-mixin'
+import {StyleSheet, BackAndroid, Text, View, Platform, Dimensions, TouchableOpacity} from 'react-native';
 import colors from '../../../utils/colors'
 import Carousel from './carousel'
 import Analytics from '../../../utils/Analytics'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
-
-import FacebookButton from '../../buttons/FacebookButton';
+import FacebookButton from '../../buttons/FacebookButton/welcomeScreen';
 import ActionMan from '../../../actions/'
 
-import WhyFacebook from './WhyFacebook'
-import FBSDK from 'react-native-fbsdk'
-
-
-const LOGIN = 'login';
-const REGISTER = 'register'
 const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -49,49 +41,11 @@ class Welcome extends Component{
   }
 
   whyFacebookModal(){
-    this.props.navigator.push({
-      component: WhyFacebook,
-      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
-      title: 'Why Facebook?',
-      id: 'whyfb',
-      passProps: {
-      }
-    });
+    this.props.dispatch(ActionMan.showInModal({component: 'WhyFacebook', passProps: {} }))
   }
 
-  activateAnimatingState(){
-    this.setState({isAnimating: true})
 
-    this.setTimeout(() => {
-      this.setState({isAnimating: false})
-    }, 500);
-  }
-
-  handleNext(selectedTab){
-    switch (selectedTab) {
-
-      case LOGIN:
-        Analytics.event('Interaction', {type: 'tap', target: 'Login'});
-        break;
-
-      case REGISTER:
-        Analytics.event('Interaction', {type: 'tap', target: 'Register'});
-        break;
-    }
-
-    this.activateAnimatingState();
-
-    this.props.navigator.push({
-      component: Auth,
-      title: 'Log in or Sign up',
-      id: 'auth',
-      passProps: {
-        initialTab: selectedTab,
-        navigator: this.props.navigator
-      }
-    })
-  }
-  login(e){
+  login(){
     this.props.dispatch(ActionMan.loginWithFacebook())
   }
 
@@ -102,11 +56,16 @@ class Welcome extends Component{
           <Carousel/>
 
           <TouchableOpacity
-            style={{position: 'absolute', bottom: -10, right: 5}}
+            style={{position: 'absolute', bottom: 0, right: 5}}
             onPress={this.whyFacebookModal.bind(this)}
           >
             <Text
-              style={{color: colors.rollingStone, fontFamily: 'omnes', fontSize: 12, textDecorationLine: 'underline' }}
+              style={{
+                color: colors.rollingStone,
+                fontFamily: 'omnes',
+                fontSize: 12,
+                textDecorationLine: 'underline'
+              }}
             >Why Facebook?</Text>
           </TouchableOpacity>
 

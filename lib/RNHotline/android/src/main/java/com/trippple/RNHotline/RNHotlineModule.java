@@ -1,4 +1,4 @@
-package com.trippple.RNHotline;
+package co.trippple.RNHotline;
 
 import android.app.Activity;
 import android.content.Intent;

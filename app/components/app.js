@@ -3,6 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withNavigation} from '@exponent/ex-navigation';
 import SplashScreen from 'react-native-splash-screen'
+import TimerMixin from 'react-timer-mixin';
+import reactMixin from 'react-mixin'
 
 import pure from 'recompose/pure'
 import AppNav from '../AppNav';
@@ -23,6 +25,7 @@ const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
+@reactMixin.decorate(TimerMixin)
 class App extends React.Component{
   constructor(){
     super()
@@ -33,8 +36,9 @@ class App extends React.Component{
   }
 
   componentDidMount(){
-    this.performInitActions()
-
+    this.setTimeout(() => {
+      SplashScreen.hide();
+    }, 1000)
   }
 
   componentWillReceiveProps(nProps){
@@ -42,37 +46,38 @@ class App extends React.Component{
       if(!this.props.loggedIn && !this.state.initialized){
         this.setState({initialized: true})
         // nProps.dispatch(ActionMan.setHotlineUser(nProps.user))
-        // this.performInitActions()
-        // Analytics.identifyUser(nProps.user)
+        this.performInitActions()
+        Analytics.identifyUser(nProps.user)
       }
-      if (this.state.initialized && this.props.appState != 'active' && nProps.appState == 'active'){
+      if(this.state.initialized && this.props.appState != 'active' && nProps.appState == 'active'){
         // this.performInitActions()
       }
-      if (this.state.initialized && this.props.loggedIn && !nProps.savedCredentials){
+      if(this.state.initialized && this.props.loggedIn && !nProps.savedCredentials){
         this.props.dispatch(ActionMan.saveCredentials())
       }
     }
   }
-
+  componentDidUpdate(pProps,pState){
+    if(this.state.initialized && !pState.initialized){
+      SplashScreen.hide();
+    }
+  }
   performInitActions(){
-    SplashScreen.hide();
 
-    setTimeout(()=>{
-    const initActions = [
-      // 'getNotificationCount',
-      // 'getUserInfo',
-      'getPotentials',
-      // 'getMatches',
-      // 'getNewMatches',
-      // 'checkLocation',
-      // 'getPushToken'
-    ];
+      const initActions = [
+        // 'getUserInfo',
+        'getPotentials',
+        // 'getMatches',
+        // 'getNewMatches',
+        // 'checkLocation',
+        // 'getPushToken',
+        // 'getNotificationCount',
+      ];
 
-    initActions.forEach(ac => {
-      this.props.dispatch(ActionMan[ac]())
-    })
+      initActions.forEach(ac => {
+        this.props.dispatch(ActionMan[ac]())
+      })
 
-  },5000)
   }
 
 

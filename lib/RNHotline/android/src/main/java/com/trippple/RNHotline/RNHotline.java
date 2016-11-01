@@ -1,4 +1,4 @@
-package com.trippple.RNHotline;
+package co.trippple.RNHotline;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;

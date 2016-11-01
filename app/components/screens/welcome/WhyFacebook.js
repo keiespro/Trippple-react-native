@@ -1,5 +1,5 @@
-import { StyleSheet, Text, Dimensions, View, TouchableOpacity,ScrollView,Image } from 'react-native';
-import React, { Component } from "react";
+import { StyleSheet, Text, Dimensions, View, TouchableOpacity, ScrollView, Image } from 'react-native';
+import React, { Component } from 'react';
 import {BlurView} from 'react-native-blur'
 
 import colors from '../../../utils/colors'
@@ -18,29 +18,26 @@ class WhyFacebook extends Component {
 
   constructor(props) {
     super()
-
   }
 
   render() {
     return (
-      <BlurView blurType="dark">
-        <ScrollView style={ { width: DeviceWidth, height: DeviceHeight, backgroundColor: colors.transparent,padding:MagicNumbers.screenPadding} }>
-          <View style={{flexDirection:'column',justifyContent:'space-around',height: DeviceHeight-50,flex:1}}>
-            <Text style={[styles.allText,styles.titleText,{textAlign:'center',marginTop:20}]}>WHY FACEBOOK?</Text>
-            <View>
-              <Text style={[styles.allText,styles.titleText,{}]}>USER PRIVACY</Text>
-              <Text style={[styles.allText,{}]}>By signing up with Facebook, we can block your profile from your Facebook friends.</Text>
-            </View>
-            <View>
-              <Text style={[styles.allText,styles.titleText,{}]}>NO FAKE USERS</Text>
-              <Text style={[styles.allText,{}]}>Facebook does a pretty good job at purging fake users. Signing up with Facebook lowers the chances of fake users joining Trippple.</Text>
-            </View>
-            <TouchableOpacity style={{backgroundColor:colors.shuttleGray,padding:10,alignSelf:'center',borderRadius:50}} onPress={(x)=>{ this.props.navigator.pop()}}>
-              <Image source={{uri: 'assets/close@3x.png'}} style={{width:15,height:15}}/>
-            </TouchableOpacity>
+      <ScrollView style={{ width: DeviceWidth, height: DeviceHeight, backgroundColor: colors.transparent, padding: MagicNumbers.screenPadding}}>
+        <View style={{flexDirection: 'column', justifyContent: 'space-around', height: DeviceHeight - 50, flex: 1}}>
+          <Text style={[styles.allText, styles.titleText, {textAlign: 'center', marginTop: 20}]}>WHY FACEBOOK?</Text>
+          <View>
+            <Text style={[styles.allText, styles.titleText, {}]}>USER PRIVACY</Text>
+            <Text style={[styles.allText, {}]}>By signing up with Facebook, we can block your profile from your Facebook friends.</Text>
           </View>
-        </ScrollView>
-      </BlurView>
+          <View>
+            <Text style={[styles.allText, styles.titleText, {}]}>NO FAKE USERS</Text>
+            <Text style={[styles.allText, {}]}>Facebook does a pretty good job at purging fake users. Signing up with Facebook lowers the chances of fake users joining Trippple.</Text>
+          </View>
+          <TouchableOpacity style={{backgroundColor: colors.shuttleGray, padding: 10, alignSelf: 'center', borderRadius: 50}} onPress={() => { this.props.kill() }}>
+            <Image source={require('./assets/close@3x.png')} style={{width: 15, height: 15}}/>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -74,9 +71,9 @@ const styles = StyleSheet.create({
     fontFamily: 'omnes',
     textAlign: 'left',
   },
-  titleText:{
-    fontSize:16,
-    fontFamily: 'montserrat',fontWeight:'800',
+  titleText: {
+    fontSize: 16,
+    fontFamily: 'montserrat', fontWeight: '800',
 
   },
   iconButtonCouples: {

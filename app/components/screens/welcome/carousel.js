@@ -60,62 +60,68 @@ class Carousel extends Component {
       index: 0
     }
   }
+  handleScroll(e){
+    let off = e.nativeEvent.contentOffset.x;
+    if(off % DeviceWidth > 0) return;
+    if(off < this.state.offset) {
+      if(off < 0) {
+        off = e.nativeEvent.contentOffset.x + (DeviceWidth * 5)
+      }
+    }else if(off >= DeviceWidth * this.state.slides.length){
+      off = e.nativeEvent.contentOffset.x - (DeviceWidth * 5)
+    }
+    this.setState({
+      offset: off,
+      index: parseInt(off / DeviceWidth)
+    })
+  }
   render() {
     const {slides} = this.state
     const l = slides.length
-    const welcomeSlides = [...slides, ...slides].map((slide, i) => {
-      return (
-        <View key={`${i}slide${i % l}`} style={[styles.slide,]} >
-          <Image style={{
+    const welcomeSlides = [...slides, ...slides].map((slide, i) => (
+      <View
+        key={`${i}slide${i % l}`}
+        style={[styles.slide]}
+      >
+        <Image
+          style={{
             marginBottom: 25,
-            height: MagicNumbers.is4s ? 150 : DeviceHeight / 3 + MagicNumbers.screenPadding,
+            height: MagicNumbers.is4s ? 150 : (DeviceHeight / 3) + MagicNumbers.screenPadding,
             paddingTop: 0,
-            marginTop:  i % l == 0  ? 20 : 0, //i % l == 0 ? MagicNumbers.screenPadding * 1.8 : MagicNumbers.screenPadding,
-            width: i % l == 0 ? MagicNumbers.screenWidth+50 : MagicNumbers.screenPadding * 4
-          }} source={slide.img} defaultSource={slide.img} resizeMode={Image.resizeMode.contain}
-          />
-          <View style={[styles.textwrap, {marginBottom: 5}]}><Text style={[styles.textplain,
-            {
+            marginTop: i % l == 0 ? 50 : 0, // i % l == 0 ? MagicNumbers.screenPadding * 1.8 : MagicNumbers.screenPadding,
+            width: i % l == 0 ? MagicNumbers.screenWidth + 50 : MagicNumbers.screenPadding * 4
+          }}
+          source={slide.img}
+          defaultSource={slide.img}
+          resizeMode={Image.resizeMode.contain}
+        />
+        <View style={[styles.textwrap, {marginBottom: 5}]} >
+          <Text
+            style={[styles.textplain, {
               fontFamily: 'montserrat',
               fontWeight: '800',
               marginTop: 15,
               fontSize: MagicNumbers.is4s ? 18 : 22,
-            }
-          ]}
-          >{slide.title}</Text></View>
-
-          {slide.content && <View style={styles.textwrap}><Text style={[styles.textplain, {
-            fontSize: MagicNumbers.is5orless ? 18 : 20,
-          }]}
-          >{slide.content}</Text></View>}
+            }]}
+          >{slide.title}</Text>
         </View>
-      )
-    })
-
-    //         dot={<View style={styles.dot} />}
-              // activeDot={<View style={[styles.dot,styles.activeDot]} />}
+        {slide.content && (
+          <View style={styles.textwrap}>
+            <Text
+              style={[styles.textplain, {
+                fontSize: MagicNumbers.is5orless ? 18 : 20,
+              }]}
+            >{slide.content}</Text>
+          </View>
+        )}
+      </View>
+    ));
 
     return (
       <View collapsable>
         <ScrollView
-          onScroll={(e) => {
-            let off = e.nativeEvent.contentOffset.x;
-            if (off % DeviceWidth > 0) { return false }
-            if (off < this.state.offset) {
-              if (off < 0) {
-                off = e.nativeEvent.contentOffset.x + DeviceWidth * 5
-              }
-            } else {
-              if (off >= DeviceWidth * this.state.slides.length) {
-                off = e.nativeEvent.contentOffset.x - DeviceWidth * 5
-              }
-            }
-            this.setState({
-              offset: off,
-              index: parseInt(off / DeviceWidth)
-            })
-          }}
-          style={[styles.carousel, {}]}
+          onScroll={this.handleScroll.bind(this)}
+          style={[styles.carousel, { height: DeviceHeight - 140}]}
           horizontal
           pagingEnabled
           scrollEventThrottle={DeviceWidth * 5}
@@ -130,21 +136,21 @@ class Carousel extends Component {
             justifyContent: 'center',
             alignSelf: 'stretch',
           }}
-          style={{
-            height: DeviceHeight - 120
-          }}
         >
           {welcomeSlides}
         </ScrollView>
 
-        <View pointerEvents="none" style={{
-          position: 'absolute',
-          bottom: MagicNumbers.screenPadding / 2,
-          left: 0,
-          right: 0,
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center'}}
+        <View
+          pointerEvents="none"
+          style={{
+            position: 'absolute',
+            bottom: MagicNumbers.screenPadding / 2,
+            left: 0,
+            right: 0,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
         >
           {this.state.slides.map((s, i) => <View key={`${i}dots`} style={[styles.dot, this.state.index == i ? styles.activeDot : null]} />)}
         </View>

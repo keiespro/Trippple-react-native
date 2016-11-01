@@ -1,4 +1,4 @@
-package com.trippple.OSPermissions;
+package co.trippple.OSPermissions;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;

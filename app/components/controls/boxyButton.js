@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {StyleSheet, ActivityIndicator, Text, View, Image, LayoutAnimation} from "react-native";
-import {Button} from '../PlatformSpecific'
+import {Button} from '../Btn'
 import colors from '../../utils/colors'
 import {MagicNumbers} from '../../utils/DeviceConfig'
 
