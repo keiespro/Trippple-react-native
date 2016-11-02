@@ -45,7 +45,7 @@ class App extends React.Component{
     if(nProps.user && nProps.loggedIn){
       if(!this.props.loggedIn && !this.state.initialized){
         this.setState({initialized: true})
-        // nProps.dispatch(ActionMan.setHotlineUser(nProps.user))
+        nProps.dispatch(ActionMan.setHotlineUser(nProps.user))
         this.performInitActions()
         Analytics.identifyUser(nProps.user)
       }

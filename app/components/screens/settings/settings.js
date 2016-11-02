@@ -22,7 +22,7 @@ import {MagicNumbers} from '../../../utils/DeviceConfig'
 import profileOptions from '../../../data/get_client_user_profile_options'
 import ParallaxView from '../../controls/ParallaxScrollView'
 import ActionMan from '../../../actions/'
-import RNHotline from '../../../../lib/RNHotline/'
+import RNHotline from 'react-native-hotline'
 import config from '../../../../config'
 import {SlideVerticalNoGesturesIOS} from '../../../ExNavigationStylesCustom'
 import SettingsRow from './SettingsRow'
@@ -32,7 +32,6 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 const {FBAppInviteDialog} = NativeModules;
 const {INVITE_FRIENDS_APP_LINK} = config
-const {RNHotlineController} = NativeModules
 
 
 @withNavigation
@@ -294,17 +293,13 @@ class Settings extends React.Component{
             <SettingsRow
               title={'FAQS'}
               subtitle={'Answers to frequently asked questions'}
-              pushScreen={(f) => {
-                iOS ? RNHotlineController.showFaqs() : RNHotline.showFaqs()
-              }}
+              pushScreen={(f) => {this.props.dispatch(ActionMan.showFaqs()) }}
             />
 
             <SettingsRow
               title={'HELP & FEEDBACK'}
               subtitle={'Chat with us'}
-              pushScreen={(f) => {
-                iOS ? RNHotlineController.showConvos() : RNHotline.showConvos()
-              }}
+              pushScreen={(f) => { this.props.dispatch(ActionMan.showConvos()) }}
             />
 
             { __DEV__ &&

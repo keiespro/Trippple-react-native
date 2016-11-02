@@ -10,7 +10,7 @@ import PushNotification from 'react-native-push-notification'
 import {pure} from 'recompose'
 const iOS = Platform.OS == 'ios';
 import OSPermissions from '../lib/OSPermissions/ospermissions'
-import RNHotline from '../lib/RNHotline/'
+import RNHotline from 'react-native-hotline'
 import reactMixin from 'react-mixin'
 import TimerMixin from 'react-timer-mixin'
 

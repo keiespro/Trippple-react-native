@@ -1,7 +1,7 @@
 import {Share} from 'react-native'
 import Promise from 'bluebird'
 import FCM from 'react-native-fcm'
-import RNHotline from '../../lib/RNHotline/'
+import RNHotline from 'react-native-hotline'
 import api from '../utils/api'
 
 export const ActionModal = match => dispatch => dispatch({ type: 'SHOW_ACTION_MODAL', payload: { match } });
@@ -17,12 +17,46 @@ export const popChat = match_id => dispatch => dispatch({ type: 'POP_CHAT'});
 export const setHotlineUser = user => dispatch => dispatch({ type: 'SET_HOTLINE_USER',
   payload: {
     promise: new Promise((resolve, reject) => {
-      const {id, firstname, phone, relationship_status, email, gender, image_url, thumb_url, partner_id} = user;
-      RNHotline.setUser(`${id}`, firstname, phone, email, {relationship_status, gender, image_url, thumb_url, partner_id: `${partner_id}`});
-      resolve();
+
+      RNHotline.init('f54bba2a-84fa-43c8-afa9-098f3c1aefae', 'fba1b915-fa8b-4c24-bdda-8bac99fcf92a', { })
+        .then(result => {
+          const {id, firstname, phone, relationship_status, email, gender, image_url, thumb_url, partner_id} = user;
+          console.log(image_url);
+          const meta = {
+            relationship_status,
+            gender,
+          }
+          if(partner_id){
+            meta.partner_id = `${partner_id}`
+          }
+
+          return RNHotline.setUser(`${id}`, firstname, phone, email, meta)
+            .then(s => {
+              console.log(s);
+              resolve(s);
+            })
+          .catch(reject);
+        });
     })
   }
 })
+export const showFaqs = () => dispatch => dispatch({ type: 'SET_HOTLINE_USER',
+  payload: {
+    promise: new Promise((resolve, reject) => {
+      RNHotline.showFaqs.then(resolve).catch(reject)
+    })
+  }
+})
+
+
+export const showConvos = () => dispatch => dispatch({ type: 'SET_HOTLINE_USER',
+  payload: {
+    promise: new Promise((resolve, reject) => {
+      RNHotline.showConvos.then(resolve).catch(reject)
+    })
+  }
+})
+
 
 export const share = payload => dispatch => dispatch({ type: 'SHARE_COUPLE_PIN',
   payload: {
