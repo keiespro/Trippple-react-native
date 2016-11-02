@@ -187,7 +187,7 @@ class Potentials extends React.Component{
             /> : null
           }
 
-          {!this.state.didShow && potentials.length < 1 ?
+          {/* {!this.state.didShow && potentials.length < 1 ?
             <View
               style={[{
                 alignItems: 'center',
@@ -200,7 +200,7 @@ class Potentials extends React.Component{
                 left: 0
               }]}
             >
-              {/* <ActivityIndicator
+              <ActivityIndicator
                 size={'large'}
                 style={[{
                   alignItems: 'center',
@@ -209,9 +209,9 @@ class Potentials extends React.Component{
                   top: -40
                 }]}
                 animating
-              /> */}
+              />
             </View> : null
-          }
+          } */}
 
           { (!potentials) || (potentials && potentials.length < 1) ?
             <PotentialsPlaceholder

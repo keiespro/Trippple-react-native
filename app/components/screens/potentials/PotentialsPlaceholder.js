@@ -11,6 +11,7 @@ import config from '../../../../config'
 import profileOptions from '../../../data/get_client_user_profile_options'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import ActionMan from '../../../actions'
+import Btn from '../../Btn'
 
 const {FBAppInviteDialog} = NativeModules
 const DeviceHeight = Dimensions.get('window').height;
@@ -31,7 +32,7 @@ class PotentialsPlaceholder extends React.Component{
   }
 
   componentDidUpdate(pState){
-    if (this.state.loading && !pState.loading){
+    if(this.state.loading && !pState.loading){
       LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
       this.startTimer()
     }
@@ -42,15 +43,8 @@ class PotentialsPlaceholder extends React.Component{
   }
 
   getMorePotentials(){
-  // this.state.loading
-  console.log('tttttaaaappp');
-
     this.setState({loading: true})
-    const {latitude, longitude} = this.props.user
-    const coords = {latitude, longitude};
     this.props.dispatch(ActionMan.getPotentials())
-
-        // this.props.dispatch({type:'REQUEST_POTENTIALS_MANUALLY',payload:{coords}})
   }
 
   openProfileEditor(){
@@ -62,8 +56,7 @@ class PotentialsPlaceholder extends React.Component{
   }
 
   openPrefs(){
-    this.props.navigator.push(this.props.navigation.router.getRoute('SettingsPreferences', {
-    }));
+    this.props.navigator.push(this.props.navigation.router.getRoute('SettingsPreferences'));
     this.setTimeout(() => {
       this.setState({loading: true})
     }, 5000)
@@ -85,9 +78,9 @@ class PotentialsPlaceholder extends React.Component{
     const attrs = ['drink', 'smoke', 'height', 'body', 'ethnicity', 'eye_color', 'hair_color'];
     const potentialsReturnedEmpty = this.props.potentialsReturnedEmpty;
     const userProfileIncomplete = attrs.reduce((acc, el) => {
-      if (!user[el]){
+      if(!user[el]){
         return true
-      } else {
+      }else{
         return false
       }
     }, false);
@@ -148,7 +141,7 @@ class PotentialsPlaceholder extends React.Component{
 
 
             {this.state.loading &&
-            <View style={{flex: 0, flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+            <View style={{flex: 0, zIndex:999, flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
 
               <Text
                 style={{
@@ -218,6 +211,7 @@ const Spinner = () => (
 
 const Button = ({labelText, labelPosition = 'top', btnText, onTap}) => (
   <View
+    pointerEvents="box-none"
     style={{
       alignSelf: 'stretch',
       marginTop: 30,
@@ -235,21 +229,29 @@ const Button = ({labelText, labelPosition = 'top', btnText, onTap}) => (
       }}
     >{labelText}</Text>}
 
-    <TouchableOpacity
-      onPress={onTap}
+    <View
+      pointerEvents="box-none"
       style={{
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 5,
-        borderWidth: 1,
-        paddingVertical: 15,
-        borderColor: colors.white,
         marginTop: 15,
         marginBottom: 20,
         marginHorizontal: MagicNumbers.screenPadding
       }}
     >
-      <View>
+      <Btn
+        onPress={onTap}
+        color={colors.dark}
+        style={{
+          flexGrow: 1,
+          alignSelf: 'stretch',
+          borderRadius: 5,
+          borderWidth: 1,
+          paddingVertical: 15,
+          borderColor: colors.white,
+
+        }}
+      >
         <Text
           style={{
             color: colors.white,
@@ -260,8 +262,8 @@ const Button = ({labelText, labelPosition = 'top', btnText, onTap}) => (
         >
           {btnText}
         </Text>
-      </View>
-    </TouchableOpacity>
+      </Btn>
+    </View>
 
     {labelText && labelPosition == 'bottom' &&
       <Text

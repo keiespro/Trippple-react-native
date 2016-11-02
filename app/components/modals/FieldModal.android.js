@@ -51,6 +51,7 @@ class MultiLineInput extends React.Component{
   }
 
   sizeChange(e){
+    console.log(e.nativeEvent.contentSize.height);
     this.setState({bioHeight: e.nativeEvent.contentSize.height})
   }
 
@@ -62,22 +63,24 @@ class MultiLineInput extends React.Component{
         style={[{
           alignSelf: 'stretch',
           padding: 0,
+          flexGrow:0,
           fontSize: MagicNumbers.size18 + 2,
           fontFamily: 'omnes',
           color: colors.white,
           width: DeviceWidth - MagicNumbers.screenPadding
-        }, {paddingVertical: 5, }]}
+        }, {}]}
         placeholder={''}
         autoGrow
         autoCapitalize={'sentences'}
         placeholderTextColor={colors.white}
         maxLength={300}
         autoCorrect
+        numberOfLines={7}
         returnKeyType={'done'}
         multiline
-        numberOfLines={8}
         keyboardAppearance={'dark'}
-        ref={t => this._textArea = t}
+        ref={t => (this._textArea = t)}
+        textAlignVertical={'top'}
         clearButtonMode={'always'}
         onContentSizeChange={this.sizeChange.bind(this)}
       />
@@ -241,7 +244,7 @@ class FieldModal extends React.Component{
     return (
       <View
         style={{
-          bottom: 0,
+          bottom: 20,
           zIndex: 9999,
           flexDirection: 'row',
           height: 60,
@@ -404,15 +407,30 @@ class FieldModal extends React.Component{
         case 'dropdown':
           return (
             <View style={{ alignSelf: 'stretch'}}>
-              <View style={{ alignSelf: 'stretch',
-              width: MagicNumbers.screenWidth - MagicNumbers.screenPadding,
-              marginHorizontal: MagicNumbers.screenPadding,
-           height: DeviceHeight - 260, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}
+              <View
+                style={{
+                  alignSelf: 'stretch',
+                  width: MagicNumbers.screenWidth - MagicNumbers.screenPadding,
+                  marginHorizontal: MagicNumbers.screenPadding,
+                  height: DeviceHeight - 260,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexDirection: 'column'
+                }}
               >
-                <View style={{ borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone, alignItems: 'center', justifyContent: 'center', alignSelf: 'stretch' }}>
+                <View
+                  style={{
+                    borderBottomWidth: 1,
+                    borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    alignSelf: 'stretch'
+                  }}
+                  >
                   <Text style={{
                     color: colors.rollingStone,
-                    fontSize: 20, textAlign: 'center',
+                    fontSize: 20,
+                    textAlign: 'center',
                     textAlign: 'center',
                     fontFamily: 'omnes', alignSelf: 'stretch',
                     marginBottom: MagicNumbers.screenPadding,
@@ -433,7 +451,18 @@ class FieldModal extends React.Component{
                 </View>
               </View>
               {this.renderButtons()}
-              <View style={{backgroundColor: colors.dark, flexDirection: 'column', alignItems: 'center', height: 240, width: DeviceWidth, justifyContent: 'center', padding: 0, paddingBottom: 20}}>
+              <View
+                style={{
+                  backgroundColor: colors.dark,
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  height: 240,
+                  width: DeviceWidth,
+                  justifyContent: 'center',
+                  padding: 0,
+                  paddingBottom: 20
+                }}
+              >
                 {React.cloneElement(inputField, {
                   onValueChange: this.onChange.bind(this),
                   selectedValue: (selectedFieldValue || null),
@@ -456,52 +485,69 @@ class FieldModal extends React.Component{
                   style={{
                     alignSelf: 'stretch',
                     width: MagicNumbers.screenWidth - MagicNumbers.screenPadding,
-                    marginHorizontal: MagicNumbers.screenPadding, flex: 1,
-                    alignItems: 'center', justifyContent: 'center', flexDirection: 'column'
+                    marginHorizontal: MagicNumbers.screenPadding,
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'column'
                   }}
                 >
                   <View
-                    style={{ alignSelf: 'stretch', flex: 1, justifyContent: 'space-between', flexDirection: 'column'}}
-                  >
-                    <View style={{
+                    style={{
                       alignSelf: 'stretch',
-                      flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'column',
-                      paddingVertical: 20
+                      flex: 1,
+                      justifyContent: 'space-between',
+                      flexDirection: 'column'
                     }}
-                    >
-                      <Text style={{
-                        color: colors.rollingStone,
-                        fontSize: 20,
-                        fontFamily: 'omnes',
-                        textAlign: 'center',
-                        marginBottom: MagicNumbers.is5orless ? 20 : 40,
+                  >
+                    <View
+                      style={{
+                        alignSelf: 'stretch',
+                        flex: 1,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexDirection: 'column',
+                        paddingVertical: 20
                       }}
+                    >
+                      <Text
+                        style={{
+                          color: colors.rollingStone,
+                          fontSize: 20,
+                          fontFamily: 'omnes',
+                          textAlign: 'center',
+                          marginBottom: MagicNumbers.is5orless ? 20 : 40,
+                        }}
                       >{field.long_label ? field.long_label : field.label}</Text>
 
                       <View
                         style={{ borderBottomWidth: 1, borderBottomColor: borderColor, width: MagicNumbers.screenWidth }}
                       >
-                        {
-                      React.cloneElement(inputField, {
-                        maxLength: getMaxLength(this.props.fieldName),
-                        selectionColor: colors.mediumPurple,
-                        defaultValue: this.props.fieldName == 'firstname' ? fieldValue ? fieldValue.slice(0, 10) : '' : fieldValue,
-                        onChangeText: (value) => {
-                          this.onChange(value.trim())
-                        },
-                        autoCapitalize: 'characters',
-                        ref: (textField) => { this.textField = textField }
-                      }
-                    )}
+                        {React.cloneElement(inputField, {
+                          maxLength: getMaxLength(this.props.fieldName),
+                          selectionColor: colors.mediumPurple,
+                          defaultValue: this.props.fieldName == 'firstname' ? (fieldValue ? fieldValue.slice(0, 10) : '') : fieldValue,
+                          onChangeText: (value) => {
+                            this.onChange(value.trim())
+                          },
+                          autoCapitalize: 'characters',
+                          ref: (textField) => { this.textField = textField }
+                        }
+                      )}
                       </View>
-                      {field.sub_label ? <Text style={{
-                        color: colors.rollingStone,
-                        fontSize: MagicNumbers.is5orless ? 14 : 18, textAlign: 'center',
-                        fontFamily: 'omnes',
-                        marginTop: 15,
-                      }}
-                      >{field.sub_label}</Text> : null}
-                    </View>
+                      {field.sub_label ?
+                        <Text
+                          style={{
+                            color: colors.rollingStone,
+                            fontSize: MagicNumbers.is5orless ? 14 : 18,
+                            textAlign: 'center',
+                            fontFamily: 'omnes',
+                            marginTop: 15,
+                          }}
+                        >{field.sub_label}</Text> :
+                        null
+                      }
+                      </View>
 
                     {/*
               this.state.error &&
@@ -597,28 +643,27 @@ class FieldModal extends React.Component{
         );
         case 'textarea':
           return (
-            <View style={{
-              flex: 1,
-              flexGrow: 1,
-
-              justifyContent: 'space-between',
-              alignSelf: 'center',
-              alignItems: 'center',
-
-
-            }}
+            <View
+              style={{
+                flex: 1,
+                flexGrow: 1,
+                justifyContent: 'space-between',
+                alignSelf: 'center',
+                alignItems: 'center',
+              }}
             >
 
               <Text
-              style={{
-                color: colors.rollingStone,
-                fontSize: MagicNumbers.is5orless ? 18 : 20,
-                textAlign: 'center',
-                fontFamily: 'omnes',
-                marginTop: MagicNumbers.screenPadding,
-              }}
+                style={{
+                  color: colors.rollingStone,
+                  fontSize: MagicNumbers.is5orless ? 18 : 20,
+                  textAlign: 'center',
+                  fontFamily: 'omnes',
+                  marginTop: MagicNumbers.screenPadding,
+                }}
               >{field.long_label ? field.long_label : field.label}</Text>
-              <View style={{}}>
+
+              <View style={{marginTop:-20}}>
 
                 {React.cloneElement(inputField, {
                   defaultValue: fieldValue,
