@@ -55,7 +55,7 @@ class SettingsPreferences extends React.Component{
         borderBottomWidth: 0,
         fontWeight: '800'
       },
-      title(params){
+      title(){
         return 'PREFERENCES'
       }
     }
@@ -65,7 +65,6 @@ class SettingsPreferences extends React.Component{
     this.state = {
       bio: null,
       scroll: 'on',
-      nearMeToggled: OSPermissions.location && parseInt(OSPermissions.location) > 2,
       looking_for_mf: props.user.looking_for_mf || false,
       looking_for_mm: props.user.looking_for_mm || false,
       looking_for_ff: props.user.looking_for_ff || false,
@@ -73,18 +72,26 @@ class SettingsPreferences extends React.Component{
       looking_for_f: props.user.looking_for_f || false,
     }
   }
+
+  onPressSelectable(field){
+    this.toggleField(field)
+  }
+
   toggleField(field){
     const newState = {}
     newState[field] = !this.state[field]
-    this.props.dispatch(ActionMan.updateUser(newState))
     this.setState(newState)
+    console.log(newState);
+    this.props.dispatch(ActionMan.updateUser(newState))
   }
+
   toggleScroll(direction){
     this.setState({scroll: direction})
   }
+
   editBio(){
     this.props.dispatch(ActionMan.showInModal({
-        component: 'FieldModal',
+      component: 'FieldModal',
       passProps: {
         inputField: 'textarea',
         field: {
@@ -96,25 +103,19 @@ class SettingsPreferences extends React.Component{
         fieldName: 'bio',
         fieldValue: this.state.bio || this.props.user.bio || '',
       }
-
     }))
   }
   updateBio(v){
     // console.log('update outside',v);
     this.setState({bio: v})
   }
-  onPressSelectable(field){
-    this.toggleField(field)
-  }
 
   render(){
-    const u = this.props.user;
-
     const {looking_for_mf, looking_for_mm, looking_for_ff, looking_for_f, looking_for_m} = this.state
     const values = {looking_for_mf, looking_for_mm, looking_for_ff, looking_for_f, looking_for_m}
     return (
 
-      <View style={{backgroundColor: colors.outerSpace, flex: 1}}>
+      <View style={{backgroundColor: colors.outerSpace, flex: 1, paddingTop: 50}}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           automaticallyAdjustContentInsets
@@ -143,18 +144,18 @@ class SettingsPreferences extends React.Component{
             <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>{'Show Me'}</Text>
             </View>
-          </View>
+
 
           {this.props.user.relationship_status == 'single' && <Selectable
             field={'looking_for_mf'}
-            onPress={this.onPressSelectable.bind(this)}
+            onPress={this.onPressSelectable.bind(this, 'looking_for_mf')}
             label={'Couples (MALE/FEMALE)'}
             values={values}
             selected={this.state.looking_for_mf}
           />}
           {this.props.user.relationship_status == 'single' && <Selectable
             field={'looking_for_mm'}
-            onPress={this.onPressSelectable.bind(this)}
+            onPress={this.onPressSelectable.bind(this, 'looking_for_mm')}
             label={'Couples (MALE/MALE)'}
             selected={this.state.looking_for_mm}
             values={values}
@@ -162,14 +163,13 @@ class SettingsPreferences extends React.Component{
           {this.props.user.relationship_status == 'single' && <Selectable
             field={'looking_for_ff'}
             selected={this.state.looking_for_ff}
-
-            onPress={this.onPressSelectable.bind(this)}
+            onPress={this.onPressSelectable.bind(this, 'looking_for_ff')}
             label={'Couples (FEMALE/FEMALE)'}
             values={values}
           />}
           {this.props.user.relationship_status == 'couple' && <Selectable
             field={'looking_for_f'}
-            onPress={this.onPressSelectable.bind(this)}
+            onPress={this.onPressSelectable.bind(this, 'looking_for_f')}
             label={'SINGLE FEMALES'}
             selected={this.state.looking_for_f}
             values={values}
@@ -177,12 +177,11 @@ class SettingsPreferences extends React.Component{
           {this.props.user.relationship_status == 'couple' && <Selectable
             field={'looking_for_m'}
             selected={this.state.looking_for_m}
-            onPress={this.onPressSelectable.bind(this)}
+            onPress={this.onPressSelectable.bind(this, 'looking_for_m')}
             label={'SINGLE MALES'}
             values={values}
-          />
-              }
-
+          />}
+      </View>
           <View style={{paddingTop: 50}}>
 
             <AgePrefs

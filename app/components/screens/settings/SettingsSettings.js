@@ -106,7 +106,7 @@ class SettingsSettings extends React.Component{
       type: 'tap',
     })
 
-    if (this.state.privacy != 'private'){
+    if(this.state.privacy != 'private'){
       this.props.dispatch(ActionMan.showInModal({
         component: 'PrivacyPermissions',
         name: 'PrivacyPermissionsModal',
@@ -114,8 +114,6 @@ class SettingsSettings extends React.Component{
         passProps: {
           initialScreen: 'CoupleReady',
           success: () => { this.togglePrivacy('private') },
-          cancel: () => { this.props.dispatch(ActionMan.killModal()) },
-          user: this.props.user,
         }
       }))
     }

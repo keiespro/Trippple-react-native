@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {StyleSheet, ActivityIndicator, Text, View, Image, LayoutAnimation} from "react-native";
+import {StyleSheet, TouchableHighlight, ActivityIndicator, Text, View, Image, LayoutAnimation} from "react-native";
 import {Button} from '../Btn'
 import colors from '../../utils/colors'
 import {MagicNumbers} from '../../utils/DeviceConfig'
@@ -20,23 +20,30 @@ class BoxyButton extends Component{
 
   render() {
     return (
-      <Button
+      <TouchableHighlight
         elevation={this.props.elevation}
         onPress={this._onPress.bind(this)}
         style={[this.props.outerButtonStyle,]}
-        underlayColor={this.props.underlayColor || colors.dark}>
+        color={this.props.underlayColor || colors.dark}
+      >
         <View style={[styles.iconButton, this.props.innerWrapStyles]}>
           <View style={[styles.iconButtonLeftBox,this.props.leftBoxStyles]}>
             {this.props.children}
           </View>
           <View style={styles.iconButtonRightBox}>
 
-              <Text style={[styles.textplain, styles.iconButtonText, this.props.buttonText]}>{this.props.text}</Text>
-
-                {this.state.busy && !this.props.stopLoading && <ActivityIndicator style={{top:0,height:30,width:30,}} color={colors.white20} animating={true} size={'small'}/> }
+            <Text style={[styles.textplain, styles.iconButtonText, this.props.buttonText]}>{this.props.text}</Text>
+            {this.state.busy && !this.props.stopLoading && (
+              <ActivityIndicator
+                style={{top:0,height:30,width:30,marginLeft:10}}
+                color={colors.white20}
+                animating
+                size={'small'}
+              />
+            )}
           </View>
         </View>
-      </Button>
+      </TouchableHighlight>
     )
   }
 }

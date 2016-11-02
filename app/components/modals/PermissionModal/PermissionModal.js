@@ -10,7 +10,7 @@ import styles from '../purpleModalStyles'
 import BoxyButton from '../../controls/boxyButton'
 import ActionMan from '../../../actions'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
-import {Button} from '../../Btn'
+import Button from '../../Btn'
 
 
 const iOS = Platform.OS == 'ios';
@@ -46,7 +46,7 @@ class PermissionsModal extends Component{
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(){
     if(this.props.permission == 'denied'){
       AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
     }
@@ -85,17 +85,27 @@ class PermissionsModal extends Component{
     }else if(!this.props.hasPermission){
       this.requestPermission()
     }else{
-      this.finish()
+      this.success()
     }
   }
-
+  success(){
+    this.props.onSuccess && this.props.onSuccess()
+    this.finish()
+  }
   finish(){
     this.props.closeModal()
   }
+  cancel(){
+    if(this.props.permissionKey == 'location'){
+      this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_OFF'})
+    }
+    if(this.props.permissionKey == 'contacts'){
+      this.props.dispatch({type: 'CHECK_CONTACTS_PERMISSION_FULFILLED', payload: false})
+    }
 
+    this.finish()
+  }
   renderFailed(){
-    const {hasPermission} = this.props
-
     return (
       <View>
         <View style={{alignItems: 'center'}}>
@@ -136,7 +146,7 @@ class PermissionsModal extends Component{
   renderButton(){
     const buttonText = this.props.buttonText;
     const {hasPermission} = this.props
-
+    console.log(hasPermission,'hasPermission????');
 
     return this.props.isPersistant ? (
       <BoxyButton
@@ -208,15 +218,14 @@ class PermissionsModal extends Component{
               >{this.props.subtitle}</Text>
 
               <View style={{marginTop: 20}}>
-                <View style={{overflow: 'hidden', marginTop: 20}}>
                   {this.renderButton()}
-                </View>
               </View>
 
             </View>
 
           }
           <View style={{ }} >
+
             { this.props.hasPermission ? (
               <TouchableOpacity
                 style={{
@@ -240,16 +249,27 @@ class PermissionsModal extends Component{
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
-                style={{paddingHorizontal: 10, marginVertical: 10, alignSelf: 'stretch', flex: 1, alignItems: 'stretch'}}
-                onPress={this.finish.bind(this)}
+                style={{
+                  paddingHorizontal: 10,
+                  marginVertical: 10,
+                  alignSelf: 'stretch',
+                  flex: 1,
+                  alignItems: 'stretch'
+                }}
+                onPress={this.cancel.bind(this)}
               >
                 <View style={[styles.cancelButton, {backgroundColor: 'transparent', flex: 1, alignItems: 'stretch', alignSelf: 'stretch'}]} >
-                  <Text style={[{color: colors.shuttleGray, textAlign: 'center',
-                  padding: MagicNumbers.is4s ? 0 : 10,
-                  alignSelf: 'stretch'}, styles.nothankstext]}
+                  <Text
+                    style={[{
+                      color: colors.shuttleGray,
+                      textAlign: 'center',
+                      padding: MagicNumbers.is4s ? 0 : 10,
+                      alignSelf: 'stretch'
+                    }, styles.nothankstext]}
                   >no thanks</Text>
                 </View>
-              </TouchableOpacity>)}
+              </TouchableOpacity>
+            )}
 
           </View>
         </View>
@@ -278,19 +298,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(PermissionsModal);
 
 
 const ModalButton = ({btnText, onTap, loading}) => (
-  <View
-    style={{
-      alignSelf: 'stretch',
-      marginTop: 30,
-      flex: 10,
-      marginBottom: 20,
-
-    }}
-  >
+  <View>
     <Button
       onPress={onTap}
       style={{
-        flex: 10,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 5,
@@ -299,6 +310,7 @@ const ModalButton = ({btnText, onTap, loading}) => (
         paddingVertical: 15,
         borderColor: colors.white,
       }}
+      color={colors.dark}
     >
       <View>
         <Text
@@ -308,9 +320,7 @@ const ModalButton = ({btnText, onTap, loading}) => (
             fontFamily: 'montserrat',
             fontWeight: '800'
           }}
-        >
-          {btnText}
-        </Text>
+        >{btnText}</Text>
       </View>
     </Button>
 

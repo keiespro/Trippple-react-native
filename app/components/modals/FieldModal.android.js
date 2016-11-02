@@ -42,7 +42,6 @@ function getMaxLength(fieldName){
 }
 
 
-
 class MultiLineInput extends React.Component{
   constructor(props){
     super()
@@ -50,6 +49,7 @@ class MultiLineInput extends React.Component{
       bioHeight: 165,
     }
   }
+
   sizeChange(e){
     this.setState({bioHeight: e.nativeEvent.contentSize.height})
   }
@@ -60,12 +60,12 @@ class MultiLineInput extends React.Component{
         {...this.props}
         autofocus
         style={[{
-            alignSelf: 'stretch',
-            padding: 0,
-            fontSize: MagicNumbers.size18 + 2,
-            fontFamily:'omnes',
-            color: colors.white,
-            width:DeviceWidth - MagicNumbers.screenPadding
+          alignSelf: 'stretch',
+          padding: 0,
+          fontSize: MagicNumbers.size18 + 2,
+          fontFamily: 'omnes',
+          color: colors.white,
+          width: DeviceWidth - MagicNumbers.screenPadding
         }, {paddingVertical: 5, }]}
         placeholder={''}
         autoGrow
@@ -77,7 +77,7 @@ class MultiLineInput extends React.Component{
         multiline
         numberOfLines={8}
         keyboardAppearance={'dark'}
-        ref={'_textArea'}
+        ref={t => this._textArea = t}
         clearButtonMode={'always'}
         onContentSizeChange={this.sizeChange.bind(this)}
       />
@@ -93,7 +93,7 @@ class FieldModal extends React.Component{
       visible: false,
       backgroundColor: colors.shuttleGrayAnimate,
       title(params){
-        const fieldLabel = params && params.title || (params.field && params.field.label) || '';
+        const fieldLabel = (params && params.title) || (params.field && params.field.label) || '';
         return fieldLabel.toUpperCase()
       }
     }
@@ -102,6 +102,7 @@ class FieldModal extends React.Component{
   onDateChange = (date) => {
     this.setState({birthday: date, canContinue: true});
   };
+
   constructor(props){
     super(props);
     this.state = {
@@ -119,10 +120,10 @@ class FieldModal extends React.Component{
     }
   }
   componentDidMount(){
-    if(this.props.field.field_type == 'textarea' && this.refs._textArea){
-      this.refs._textArea.focus()
-      this.refs._textArea.setNativeProps({value: this.props.fieldValue ? `${this.props.fieldValue}\n` : ''})
-      // this.refs._textArea.setSelectionRange((this.props.fieldValue ? this.props.fieldValue.length : this.state.value.length),(this.props.fieldValue ? this.props.fieldValue.length : this.state.value.length))
+    if(this.props.field.field_type == 'textarea' && this._textArea){
+      this._textArea.focus()
+      this._textArea.setNativeProps({value: this.props.fieldValue ? `${this.props.fieldValue}\n` : ''})
+      // this._textArea.setSelectionRange((this.props.fieldValue ? this.props.fieldValue.length : this.state.value.length),(this.props.fieldValue ? this.props.fieldValue.length : this.state.value.length))
     }
   }
   onChange(val){
@@ -238,8 +239,20 @@ class FieldModal extends React.Component{
   }
   renderButtons(){
     return (
-      <View style={{bottom: -3, zIndex: 9999, flexDirection: 'row', height: 70, alignSelf: 'stretch', alignItems: 'center', width: DeviceWidth}}>
-        <TouchableHighlight underlayColor={colors.dark} onPress={this.cancel.bind(this)}
+      <View
+        style={{
+          bottom: 0,
+          zIndex: 9999,
+          flexDirection: 'row',
+          height: 60,
+          alignSelf: 'stretch',
+          alignItems: 'center',
+          width: DeviceWidth
+        }}
+      >
+        <TouchableHighlight
+          underlayColor={colors.dark}
+          onPress={this.cancel.bind(this)}
           style={{ borderTopWidth: 1, borderColor: colors.rollingStone, flex: 1, paddingVertical: 20}}
         >
           <View>
@@ -248,7 +261,9 @@ class FieldModal extends React.Component{
             </Text>
           </View>
         </TouchableHighlight>
-        <TouchableHighlight underlayColor={colors.mediumPurple} onPress={this.submit.bind(this)}
+        <TouchableHighlight
+          underlayColor={colors.mediumPurple}
+          onPress={this.submit.bind(this)}
           style={{
             borderTopWidth: 1,
             flex: 1,
@@ -260,11 +275,14 @@ class FieldModal extends React.Component{
           }}
         >
           <View>
-            <Text style={{color: this.state.canContinue ? colors.white : colors.rollingStone,
-              fontSize: 20, fontFamily: 'montserrat', textAlign: 'center'}}
-            >
-              UPDATE
-            </Text>
+            <Text
+              style={{
+                color: this.state.canContinue ? colors.white : colors.rollingStone,
+                fontSize: 20,
+                fontFamily: 'montserrat',
+                textAlign: 'center'
+              }}
+            >UPDATE</Text>
           </View>
         </TouchableHighlight>
       </View>
@@ -273,8 +291,8 @@ class FieldModal extends React.Component{
 
   render(){
     let {field, fieldValue} = this.props
-    const get_values = typeof this.props.field.values == 'object' && Object.keys(this.props.field.values).map(key => key) || this.props.field.values;
-    const get_key_vals = typeof this.props.field.values == 'object' && this.props.field.values || {};
+    const get_values = (typeof this.props.field.values == 'object' && Object.keys(this.props.field.values).map(key => key)) || this.props.field.values;
+    const get_key_vals = (typeof this.props.field.values == 'object' && this.props.field.values) || {};
 
     const displayField = (theField) => {
       switch (theField.field_type) {
@@ -565,7 +583,7 @@ class FieldModal extends React.Component{
               {this.renderButtons()}
 
               <View style={{ height: 260, backgroundColor: colors.white }}>
-              {React.cloneElement(inputField, {
+                {React.cloneElement(inputField, {
                   onDateChange: this.onDateChange,
                   date: new Date(this.state.birthday),
                   ref: (dateField) => { this.dateField = dateField }
@@ -580,37 +598,39 @@ class FieldModal extends React.Component{
         case 'textarea':
           return (
             <View style={{
-              flex: 10,
-              flexGrow:10,
+              flex: 1,
+              flexGrow: 1,
 
-              justifyContent:'space-between',
-              alignSelf:'center',
-              alignItems:'center',
-
-
-          }}>
-
-                <Text style={{
-                  color: colors.rollingStone,
-                  fontSize: MagicNumbers.is5orless ? 18 : 20,
-                  textAlign: 'center',
-                  fontFamily: 'omnes',
-                  marginTop: MagicNumbers.screenPadding,
-                }}
-                >{field.long_label ? field.long_label : field.label}</Text>
-                <View style={{}}>
-
-                  {React.cloneElement(inputField, {
-                      defaultValue: fieldValue,
-                      selectionColor: colors.mediumPurple,
-                      autoFocus: true,
-                      onChangeText: (value) => {
-                        this.onChange(value)
-                      }
-                    })}
+              justifyContent: 'space-between',
+              alignSelf: 'center',
+              alignItems: 'center',
 
 
-                </View>
+            }}
+            >
+
+              <Text
+              style={{
+                color: colors.rollingStone,
+                fontSize: MagicNumbers.is5orless ? 18 : 20,
+                textAlign: 'center',
+                fontFamily: 'omnes',
+                marginTop: MagicNumbers.screenPadding,
+              }}
+              >{field.long_label ? field.long_label : field.label}</Text>
+              <View style={{}}>
+
+                {React.cloneElement(inputField, {
+                  defaultValue: fieldValue,
+                  selectionColor: colors.mediumPurple,
+                  autoFocus: true,
+                  onChangeText: (value) => {
+                    this.onChange(value)
+                  }
+                })}
+
+
+              </View>
 
               {this.renderButtons()}
 
@@ -621,14 +641,31 @@ class FieldModal extends React.Component{
     }
     return (
 
-      <View style={{  flex: 1}}>
-        <KeyboardAvoidingView style={{flex: 10,flexGrow:10,
-        backgroundColor:colors.outerSpace,width: DeviceWidth}} behavior={'height'}>
+      <View style={{ flexGrow: 1}}>
+        <KeyboardAvoidingView
+          style={{
+            flex: 1,
+            flexGrow: 1,
+            height: DeviceHeight-20,
+            backgroundColor: colors.outerSpace,
+            width: DeviceWidth
+          }}
+          behavior={'padding'}
+        >
           <ScrollView
+            contentContainerStyle={{
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flex: 1,
+              flexGrow: 1,
+
+            }}
+            style={{
+              flex: 1,
+              flexGrow: 1,
+            }}
             keyboardShouldPersistTaps
             keyboardDismissMode={'interactive'}
-            contentContainerStyle={{flex:10,flexGrow:10,alignItems:'center',justifyContent:'space-between'}}
-            style={{flex: 10,flexGrow:10}}
           >
 
             {inside()}
@@ -642,13 +679,9 @@ class FieldModal extends React.Component{
 
 reactMixin(FieldModal.prototype, TrackKeyboardMixin)
 
-const mapStateToProps = (state, ownProps) => {
-  return {...ownProps }
-}
+const mapStateToProps = (state, ownProps) => ({...ownProps })
 
-const mapDispatchToProps = (dispatch) => {
-  return { dispatch };
-}
+const mapDispatchToProps = (dispatch) => ({ dispatch });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FieldModal)
 

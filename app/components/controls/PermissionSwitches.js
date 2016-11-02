@@ -47,9 +47,9 @@ class PermissionSwitches extends React.Component{
           btnText: 'YES'
         }
       }))
-    }else if(settings.location){
+    }else if(permissions.location && settings.location){
       this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_OFF'})
-    }else{
+    }else if(permissions.location){
       this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})
     }
   }

@@ -4,30 +4,18 @@ import {
   Image,
   Text,
   View,
-  PixelRatio,
   Dimensions,
-  Navigator,
   ListView,
-  ScrollView,
-  ActivityIndicator,
-  LayoutAnimation,
   TouchableHighlight,
-  NativeModules
 } from 'react-native';
-
 import FBSDK from 'react-native-fbsdk'
-const {LoginManager, AccessToken, GraphRequest, GraphRequestManager} = FBSDK
+import {NavigationStyles, withNavigation} from '@exponent/ex-navigation';
+import {connect} from 'react-redux';
+import ActionMan from '../actions/';
+import colors from '../utils/colors'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-
-const FB_PHOTO_WIDTH = 200;
-
-import colors from '../utils/colors'
-import {connect} from 'react-redux';
-import ActionMan from '../actions/';
-
-import {NavigationStyles, withNavigation} from '@exponent/ex-navigation';
 
 @withNavigation
 class AlbumView extends React.Component {
@@ -39,12 +27,12 @@ class AlbumView extends React.Component {
       visible: true,
       translucent: true,
       titleStyle: {
-        color: '#fff',
+        color: colors.white,
         fontFamily: 'montserrat',
         borderBottomWidth: 0,
         fontWeight: '800'
       },
-      tintColor: '#fff',
+      tintColor: colors.white,
       title(params) {
         return `${params.albumTitle}`
       }
@@ -65,6 +53,7 @@ class AlbumView extends React.Component {
   componentDidMount() {
 
   }
+
   selectPhoto(photo, id) {
     //     LayoutAnimation.configureNext()
     // ,{opacity: submitting ? (id == selected ? 1 : 0)  : 1 }
@@ -72,10 +61,7 @@ class AlbumView extends React.Component {
     this.setState({submitting: true, selected: id})
     this.props.dispatch(ActionMan.uploadFacebookPic(photo))
 
-    setTimeout(() => {
-
-      this.props.navigator.popToTop()
-    }, 2000)
+    this.props.navigator.popToTop()
   }
 
   getMore(){
@@ -90,6 +76,7 @@ class AlbumView extends React.Component {
       })
     })
   }
+
   renderSinglePhotos(rowData, sectionID, rowID, highlightRow) {
     // var img = photo.images[0].source//photo.images && photo.images.length > 4 && photo.images[4].source || photo.images && photo.images[0] && photo.images[0].source || photo.source;
         // console.log(rowData,sectionID,rowID)
@@ -115,8 +102,6 @@ class AlbumView extends React.Component {
   }
 
   render() {
-    const album = this.props.album_details;
-
     return (
       <View style={{
         flex: 1,
