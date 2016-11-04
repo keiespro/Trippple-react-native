@@ -78,7 +78,7 @@ class NoPartner extends React.Component{
         genders: `${this.props.user.gender}f`
       }));
 
-    this.props.navigator.push(Router.router.getRoute('CoupleReady'), {
+    this.props.navigator.push(Router.getRoute('CoupleReady'), {
       user: {
         ...this.props.user,
         partner: {
@@ -116,12 +116,12 @@ class NoPartner extends React.Component{
             >
               <Image
                 style={[{width: 120, height: 120, borderRadius: 60, marginRight: -100}]}
-                defaultSource={require('../matches/assets/placeholderUser@3x.png')}
+                defaultSource={require('../../../assets/placeholderUser@3x.png')}
               />
               <Image
                 style={[{width: 120, height: 120, borderRadius: 60, marginLeft: -100}]}
                 source={{uri: this.props.user.image_url}}
-                defaultSource={require('../matches/assets/placeholderUser@3x.png')}
+                defaultSource={require('../../../assets/placeholderUser@3x.png')}
               />
             </View>
 
@@ -143,6 +143,7 @@ class NoPartner extends React.Component{
                 marginVertical: 10,
                 color: '#fff',
                 marginBottom: 15,
+                fontFamily: 'omnes',
                 backgroundColor: 'transparent',
                 flexDirection: 'column'
               }]}
@@ -193,6 +194,7 @@ class NoPartner extends React.Component{
                   backgroundColor: 'transparent',
                   fontSize: 16,
                   textAlign: 'center',
+                  fontFamily: 'omnes',
                   marginVertical: MagicNumbers.is5orless ? 5 : 40,
                   color: colors.rollingStone,
                 }}

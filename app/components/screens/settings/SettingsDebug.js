@@ -19,29 +19,29 @@ import {
   AlertIOS,
 } from 'react-native';
 import React from "react";
-import FBUSERS from '../../../../fb_test_users'
-import ActionMan from '../../../actions';
-import AppTelemetry from '../../../utils/AppTelemetry';
-import Coupling from '../coupling';
-
+// import FBUSERS from '../../../../fb_test_users'
+// import ActionMan from '../../../actions';
+// import AppTelemetry from '../../../utils/AppTelemetry';
+// import Coupling from '../coupling';
+// //
 import colors from '../../../utils/colors';
-
-const DeviceHeight = Dimensions.get('window').height
-const DeviceWidth = Dimensions.get('window').width
-import {MagicNumbers} from '../../../utils/DeviceConfig'
-import { connect } from 'react-redux';
-const iOS = Platform.OS == 'ios';
-
-import SettingsConstants, { HAS_SEEN_NOTIFICATION_REQUEST, LAST_ASKED_NOTIFICATION_PERMISSION, NOTIFICATION_SETTING } from '../../../utils/SettingsConstants'
+//
+// const DeviceHeight = Dimensions.get('window').height
+// const DeviceWidth = Dimensions.get('window').width
+// import {MagicNumbers} from '../../../utils/DeviceConfig'
+// import { connect } from 'react-redux';
+// const iOS = Platform.OS == 'ios';
+//
+// import SettingsConstants, { HAS_SEEN_NOTIFICATION_REQUEST, LAST_ASKED_NOTIFICATION_PERMISSION, NOTIFICATION_SETTING } from '../../../utils/SettingsConstants'
 
 import {
   withNavigation,
 } from '@exponent/ex-navigation';
-
-const TripppleSettingsKeys = [
-  ...SettingsConstants,
-  'LocationSetting',
-];
+//
+// const TripppleSettingsKeys = [
+//   ...SettingsConstants,
+//   'LocationSetting',
+// ];
 
 @withNavigation
 class SettingsDebug extends React.Component{
@@ -62,6 +62,8 @@ class SettingsDebug extends React.Component{
       return (
         <View  style={{ }} />
       );
+  }
+}
 //
 //       <ScrollView style={{flex:1,paddingTop:60,overflow:'visible'}}    >
 //
@@ -403,153 +405,153 @@ class SettingsDebug extends React.Component{
 // </View>
       // )
 
-  }
-
-
-
-}
-
-const mapStateToProps = ({user,ui}, ownProps) => {
-  return {...ownProps, user, ui }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return { dispatch };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsDebug);
-
-
-class EmptyPage extends React.Component{
-  constructor(props){
-    super()
-  }
-  render(){
-    const {data,screenshot,fbUsers} = this.props
-    // console.log(data)
-    return fbUsers ? (
-
-      <ScrollView><Text style={{padding:10,marginBottom:10}}>Tap to copy. Password is the same as email. Paste into white box if you want to check email.</Text>
-        <TextInput defaultValue={' '} style={{width:DeviceWidth,height:60,backgroundColor:colors.white,padding:10}}/>
-        {FBUSERS.map(fbu => {
-          return (
-            <TouchableOpacity onPress={()=>{Clipboard.setString(fbu.email);}} style={{padding:10,borderBottomWidth:0.3,borderColor:colors.white}}>
-              <Text style={{color:colors.white}}>{fbu.email}</Text>
-            </TouchableOpacity>
-          )})}
-        </ScrollView>
-    ) : (
-      <View style={{flex: 1,overflow:'hidden'}}>
-
-      <ScrollView horizontal={true}
-              scrollEnabled={true}
- vertical={true}
-contentContainerStyle={{height:9000,position:'relative',paddingTop:60}}
-      removeClippedSubviews={false}
-      directionalLockEnabled={true}
- ><View style={{position:'relative'}}>{screenshot ?
-            <Image resizeMode={'cover'} source={{uri: screenshot}} style={{width:DeviceWidth*.75,height:DeviceHeight*.75}}/>
-           : <Text style={{color:colors.white,marginBottom:20, overflow:'visible' }}>{
-              JSON.stringify(data.data, null, 2)
-          }</Text>}
-      </View></ScrollView>
-
-
-      </View>
-
-    )
-  }
-}
-
-
-
-class TelemetryPage extends React.Component{
-
-  constructor(props){
-    super()
-
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    const {renderProps} = props
-    // console.log(props,'<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
-    const data = props.data || Object.keys(renderProps).map((prop,i)=>{ return {name: prop, data: renderProps[prop] }})
-    this.state = {
-      dataSource: ds.cloneWithRows(data),
-    };
-  }
-  renderRow(rowData){
-
-    return  (
-      <View style={[styles.wrapfield,{}]}><TouchableOpacity onPress={()=>{
-          if(rowData.name == 'state'){
-            this.props.navigator.push({
-              component: TelemetryPage,
-              passProps:{
-                renderProps: rowData.data,
-              },
-              name: `debug - ${rowData.name}`
-            })
-
-          }else if(rowData.user_id){
-            console.log('saved creds');
-
-            Alert.alert('logged in as '+rowData.user_id,'Now shake and reload')
-          }else{
-            this.props.navigator.push({
-              component: EmptyPage,
-              passProps:{
-                data: rowData,
-              },
-              name: `debug - ${rowData.name}`
-            })
-          }
-
-        }} style={{alignSelf:'stretch',width:DeviceWidth}}>
-        <View style={styles.wrapfield}>
-          <Text style={{color:colors.white,}}>{rowData.name || rowData.user_id}</Text>
-          <Image source={{uri: 'assets/nextArrow@3x.png'}} style={{height:10,width:10,tintColor:colors.white}} />
-
-        </View>
-      </TouchableOpacity></View>
-
-    )
-  }
-  render(){
-    const {renderProps} = this.props;
-
-
-    return (
-      <View style={{flex: 1,overflow:'hidden'}}>
-
-        <ListView
-          contentContainerStyle={{flex: 1,paddingTop:60,position:'relative'}}
-          scrollEnabled={true}
-          vertical={true}
- style={{flex: 1}}
-  removeClippedSubviews={false}
-
-
-
-          dataSource={this.state.dataSource}
-          renderRow={this.renderRow.bind(this)}
-        />
-
-      </View>
-    )
-  }
-}
-
-
-const styles = StyleSheet.create({
-  row:{},
-  wrapfield:{
-   borderBottomWidth:1,
-   borderColor:colors.shuttleGray,
-   height:35,
-  //  backgroundColor:colors.outerSpace,
-   alignItems:'center',
-   justifyContent:'space-between',
-   flexDirection:'row',
-   paddingRight:MagicNumbers.screenPadding/1.5,
-   marginLeft:MagicNumbers.screenPadding/1.5,
- },
-})
+//   }
+//
+//
+//
+// }
+//
+// const mapStateToProps = ({user,ui}, ownProps) => {
+//   return {...ownProps, user, ui }
+// }
+//
+// const mapDispatchToProps = (dispatch) => {
+//   return { dispatch };
+// }
+//
+// export default connect(mapStateToProps, mapDispatchToProps)(SettingsDebug);
+//
+//
+// class EmptyPage extends React.Component{
+//   constructor(props){
+//     super()
+//   }
+//   render(){
+//     const {data,screenshot,fbUsers} = this.props
+//     // console.log(data)
+//     return fbUsers ? (
+//
+//       <ScrollView><Text style={{padding:10,marginBottom:10}}>Tap to copy. Password is the same as email. Paste into white box if you want to check email.</Text>
+//         <TextInput defaultValue={' '} style={{width:DeviceWidth,height:60,backgroundColor:colors.white,padding:10}}/>
+//         {FBUSERS.map(fbu => {
+//           return (
+//             <TouchableOpacity onPress={()=>{Clipboard.setString(fbu.email);}} style={{padding:10,borderBottomWidth:0.3,borderColor:colors.white}}>
+//               <Text style={{color:colors.white}}>{fbu.email}</Text>
+//             </TouchableOpacity>
+//           )})}
+//         </ScrollView>
+//     ) : (
+//       <View style={{flex: 1,overflow:'hidden'}}>
+//
+//       <ScrollView horizontal={true}
+//               scrollEnabled={true}
+//  vertical={true}
+// contentContainerStyle={{height:9000,position:'relative',paddingTop:60}}
+//       removeClippedSubviews={false}
+//       directionalLockEnabled={true}
+//  ><View style={{position:'relative'}}>{screenshot ?
+//             <Image resizeMode={'cover'} source={{uri: screenshot}} style={{width:DeviceWidth*.75,height:DeviceHeight*.75}}/>
+//            : <Text style={{color:colors.white,marginBottom:20, overflow:'visible' }}>{
+//               JSON.stringify(data.data, null, 2)
+//           }</Text>}
+//       </View></ScrollView>
+//
+//
+//       </View>
+//
+//     )
+//   }
+// }
+//
+//
+//
+// class TelemetryPage extends React.Component{
+//
+//   constructor(props){
+//     super()
+//
+//     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+//     const {renderProps} = props
+//     // console.log(props,'<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
+//     const data = props.data || Object.keys(renderProps).map((prop,i)=>{ return {name: prop, data: renderProps[prop] }})
+//     this.state = {
+//       dataSource: ds.cloneWithRows(data),
+//     };
+//   }
+//   renderRow(rowData){
+//
+//     return  (
+//       <View style={[styles.wrapfield,{}]}><TouchableOpacity onPress={()=>{
+//           if(rowData.name == 'state'){
+//             this.props.navigator.push({
+//               component: TelemetryPage,
+//               passProps:{
+//                 renderProps: rowData.data,
+//               },
+//               name: `debug - ${rowData.name}`
+//             })
+//
+//           }else if(rowData.user_id){
+//             console.log('saved creds');
+//
+//             Alert.alert('logged in as '+rowData.user_id,'Now shake and reload')
+//           }else{
+//             this.props.navigator.push({
+//               component: EmptyPage,
+//               passProps:{
+//                 data: rowData,
+//               },
+//               name: `debug - ${rowData.name}`
+//             })
+//           }
+//
+//         }} style={{alignSelf:'stretch',width:DeviceWidth}}>
+//         <View style={styles.wrapfield}>
+//           <Text style={{color:colors.white,}}>{rowData.name || rowData.user_id}</Text>
+//           <Image source={{uri: 'assets/nextArrow@3x.png'}} style={{height:10,width:10,tintColor:colors.white}} />
+//
+//         </View>
+//       </TouchableOpacity></View>
+//
+//     )
+//   }
+//   render(){
+//     const {renderProps} = this.props;
+//
+//
+//     return (
+//       <View style={{flex: 1,overflow:'hidden'}}>
+//
+//         <ListView
+//           contentContainerStyle={{flex: 1,paddingTop:60,position:'relative'}}
+//           scrollEnabled={true}
+//           vertical={true}
+//  style={{flex: 1}}
+//   removeClippedSubviews={false}
+//
+//
+//
+//           dataSource={this.state.dataSource}
+//           renderRow={this.renderRow.bind(this)}
+//         />
+//
+//       </View>
+//     )
+//   }
+// }
+//
+//
+// const styles = StyleSheet.create({
+//   row:{},
+//   wrapfield:{
+//    borderBottomWidth:1,
+//    borderColor:colors.shuttleGray,
+//    height:35,
+//   //  backgroundColor:colors.outerSpace,
+//    alignItems:'center',
+//    justifyContent:'space-between',
+//    flexDirection:'row',
+//    paddingRight:MagicNumbers.screenPadding/1.5,
+//    marginLeft:MagicNumbers.screenPadding/1.5,
+//  },
+// })

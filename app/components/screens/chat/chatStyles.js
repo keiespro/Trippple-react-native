@@ -102,11 +102,18 @@ const styles = StyleSheet.create({
    marginRight: 5,
    overflow:'hidden'
  },
+ thumbwrap:{
+   borderRadius:MagicNumbers.is4s ? 20 : 24,
+     width: MagicNumbers.is4s ? 40 : 48,
+     height:MagicNumbers.is4s ? 40 :  48,
+ },
  listview:{
    backgroundColor:colors.outerSpace,
    // alignSelf:'stretch',
    // bottom:80,
-   flex:1,
+   flexGrow:1,
+   alignSelf:'stretch',
+   bottom:0,
    width:DeviceWidth,
  },
  invertedContentContainer:{

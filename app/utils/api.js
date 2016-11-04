@@ -7,8 +7,10 @@ import Analytics from './Analytics'
 
 const { SERVER_URL } = config;
 
+const Device = DeviceInfo.get()
+
 const VERSION = '';// AppInfo.getInfoVersion();
-const iOSversion = DeviceInfo.version;
+const iOSversion = Device.version;
 
 async function baseRequest(endpoint = '', payload = {}, resource = 'user'){
   const params = {
@@ -17,6 +19,7 @@ async function baseRequest(endpoint = '', payload = {}, resource = 'user'){
       Accept: 'application/json',
       'Content-Type': 'application/json',
       'X-T3P-Api-Version': `2/${VERSION}/${iOSversion}`,
+      'Accept-Language': Device.locale
     },
     body: JSON.stringify(payload)
   }
@@ -95,14 +98,12 @@ const api = {
   },
 
   getMatches(page){ // v2 endpoint
-    return Promise.try(() => {
-      authenticatedRequest('getMatches', {page})
-    })
-  },
+    return authenticatedRequest('getMatches', {page})
+ },
 
 
   getNewMatches(page){ // v2 endpoint
-    return Promise.try(() => authenticatedRequest('getNewMatches', {page}))
+    return authenticatedRequest('getNewMatches', {page})
   },
 
   getFavorites(page){ // v2 endpoint

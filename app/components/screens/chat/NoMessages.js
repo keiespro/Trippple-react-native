@@ -14,39 +14,41 @@ export default class NoMessages extends React.Component{
     super()
     this.state = {}
   }
-  componentDidMount(){
-    Keyboard.addListener('keyboardWillHide', this.hideKeyboard.bind(this))
-    Keyboard.addListener('keyboardWillShow', this.showKeyboard.bind(this))
+  componentWillMount(){
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.hideKeyboard.bind(this));
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.showKeyboard.bind(this));
   }
   componentWillUnmount(){
-    Keyboard.removeListener('keyboardWillHide', this.hideKeyboard.bind(this))
-    Keyboard.removeListener('keyboardWillShow', this.showKeyboard.bind(this))
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
 
   }
   hideKeyboard(k){
+    console.log('hidekey');
+
     // LayoutAnimation.easeInEaseOut()
     this.setState({isKeyboardOpened: false})
   }
   showKeyboard(k){
+    console.log('showkeyboard');
     this.setState({isKeyboardOpened: true})
 
   }
   getThumbSize(){
 
     let size =  MagicNumbers.is4s ? SIZES.small : SIZES.big;
-    let isKeyboardOpened = this.props.isKeyboardOpened ||  this.state.isKeyboardOpened;
-
+    let isKeyboardOpened =  this.state.isKeyboardOpened;
+    console.log(size.dimensions.open);
     return  {
                 width: isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
                 height: isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
                 borderRadius: isKeyboardOpened ? size.dimensions.open/2 : size.dimensions.closed/2,
                 marginVertical: isKeyboardOpened ? size.margin.open : size.margin.closed,
-                backgroundColor: colors.dark
               }
   }
 
   render(){
-    let isKeyboardOpened = this.props.isKeyboardOpened ||  this.state.isKeyboardOpened;
+    let isKeyboardOpened =  this.state.isKeyboardOpened;
 
     const matchInfo = this.props.currentMatch || this.props.matchInfo,
           theirIds = Object.keys(matchInfo.users).filter(u => u != this.props.user.id && u != this.props.user.partner_id),
@@ -85,11 +87,12 @@ export default class NoMessages extends React.Component{
                 <TimeAgo style={{color:colors.shuttleGray, fontSize:16,fontFamily:'omnes',}} time={matchInfo.created_timestamp*1000} />
               </View>
 
-              <Image
-                source={{uri:match_user.image_url}}
-                style={this.getThumbSize()}
-                defaultSource={require('./assets/placeholderUser@3x.png')}
-              />
+              <View style={[this.getThumbSize(),{backgroundColor:'red'}]}>
+                <Image
+                  style={this.getThumbSize()}
+                  defaultSource={require('./assets/placeholderUser@3x.png')}
+                />
+              </View>
     					<Text style={{color:colors.shuttleGray,fontSize:20,textAlign:'center',fontFamily:'omnes', backgroundColor: 'transparent'}} >Say something. {
                   (them.length == 2 ? 'They\'re' : them[0].gender == 'm' ? 'He\'s' : 'She\'s')
                 } already into you.</Text>

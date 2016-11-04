@@ -1,4 +1,4 @@
-import { View, SwipeableListView, StatusBar,Platform } from 'react-native';
+import { View, SwipeableListView, ListView,StatusBar,Platform } from 'react-native';
 import React, { Component } from 'react';
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin';
@@ -10,6 +10,7 @@ import {SlideHorizontalIOS, FloatHorizontal} from '../../../ExNavigationStylesCu
 import ActionMan from '../../../actions/';
 import colors from '../../../utils/colors';
 import MatchesList from './MatchesList'
+const iOS = Platform.OS == 'ios';
 
 function rowHasChanged(r1, r2) {
   return r1 !== r2 || r1.match_id !== r2.match_id || r1.unread != r2.unread || r1.recentMessage.message_id != r2.recentMessage.message_id
@@ -45,14 +46,15 @@ class Matches extends Component {
 
   constructor(props) {
     super();
-    this.ds = SwipeableListView.getNewDataSource(rowHasChanged);
+    this.ds = iOS ? SwipeableListView.getNewDataSource(rowHasChanged) : new ListView.DataSource({rowHasChanged});
+    const m = props.matches.map(d => ({
+      match: {...d, unread: props.unread[d.match_id]}
+    }));
     this.state = {
       matches: props.matches,
       currentMatch: null,
       isVisible: false,
-      dataSource: this.ds.cloneWithRowsAndSections(props.matches.map(d => ({
-        match: {...d, unread: props.unread[d.match_id]}
-      })))
+      dataSource: iOS ? this.ds.cloneWithRowsAndSections(m) : this.ds.cloneWithRows(m)
     }
   }
 
@@ -67,14 +69,15 @@ class Matches extends Component {
   }
 
   _updateDataSource(data) {
+    const m = data.map(d => ({
+      match: {
+        ...d,
+        unread: this.props.unread[d.match_id]
+      }
+    }));
     const newState = {
       matches: data,
-      dataSource: this.ds.cloneWithRowsAndSections(data.map(d => ({
-        match: {
-          ...d,
-          unread: this.props.unread[d.match_id]
-        }
-      }))),
+      dataSource: iOS ? this.ds.cloneWithRowsAndSections(m) : this.ds.cloneWithRows(m)
     };
     this.setState(newState)
   }

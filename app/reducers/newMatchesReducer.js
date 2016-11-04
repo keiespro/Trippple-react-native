@@ -2,6 +2,7 @@ import _ from 'lodash'
 
 
 export default function newMatchesReducer(state = initialState, action) {
+  let matches
 
   switch (action.type) {
     case 'ONBOARD_FULFILLED':
@@ -24,10 +25,12 @@ export default function newMatchesReducer(state = initialState, action) {
 
 
       case 'GET_NEW_MATCHES_FULFILLED':
-        const nmatches = action.payload;
-        if ( !nmatches || !Array.isArray(nmatches) ) return state;
-        return nmatches.reduce( ( acc, el, i ) => {
-          console.log(el.users);
+        matches = action.payload;
+        console.log('maaaaaaa',matches);
+
+        // if ( !matches || !Array.isArray(matches) ) return state;
+        return Object.values(matches).reduce( ( acc, el, i ) => {
+            console.log(el);
           if(Object.keys(el.users).length >= 3){
               acc[ el.match_id ] = el;
           }
@@ -36,12 +39,12 @@ export default function newMatchesReducer(state = initialState, action) {
 
 
       case 'GET_MATCHES_FULFILLED':
+        matches = action.payload;
 
-        const matches = action.payload;
-        if ( !matches || !Array.isArray(matches)  ) return state;
+        // if ( !matches || !Array.isArray(matches)  ) return state;
         const match_ids = _.map(matches,'match_id');
         const deltaMatches = _.reject(state,(m) => { return m.match_id in match_ids});
-
+console.log(matches,'deltaMatches');
         return deltaMatches.reduce((acc,el,i) =>{
           if(Object.keys(el.users).length >= 3){
             acc[el.match_id] = el;

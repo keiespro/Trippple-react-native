@@ -299,7 +299,9 @@ class Settings extends React.Component{
             <SettingsRow
               title={'HELP & FEEDBACK'}
               subtitle={'Chat with us'}
-              pushScreen={(f) => { this.props.dispatch(ActionMan.showConvos()) }}
+              pushScreen={(f) => {
+                this.props.dispatch(ActionMan.showConvos())
+              }}
             />
 
             { __DEV__ &&

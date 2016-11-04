@@ -23,33 +23,47 @@ class NotificationCommander extends Component{
     const dispatch = this.props.dispatch.bind(this);
     const handleAction = this.handleAction.bind(this);
 
-    FCM.on('notification', (notification) => {
-      handleAction(notification, notification.foreground, notification.opened_from_tray)
+    this.notificationUnsubscribe = FCM.on('notification', (notification, ...x) => {
+      __DEV__ && console.log('NOTIFICATION:', notification, x);
+      handleAction(notification, x)
       Analytics.event('Handle push notification', {action: JSON.stringify(notification)})
-      __DEV__ && console.log('NOTIFICATION:', notification);
     });
 
-    FCM.on('refreshToken', (token) => {
-      __DEBUG__ && console.warn('TOKEN:', token);
+    this.refreshUnsubscribe = FCM.on('refreshToken', token => {
+      __DEBUG__ && console.log('TOKEN:', token);
       if(token != this.props.pushToken){
         dispatch(ActionMan.receivePushToken({push_token: token, loggedIn: this.props.user.id ? true : false}))
       }
     });
 
-    FCM.getFCMToken().then(token => {
-      __DEBUG__ && console.warn('TOKEN:', token);
-      if(token != this.props.pushToken){
-        dispatch(ActionMan.receivePushToken({push_token: token, loggedIn: this.props.user.id ? true : false}))
-      }
-    });
+    FCM.getFCMToken()
+      .then(token => {
+        __DEBUG__ && console.log('TOKEN:', token);
+        if(token != this.props.pushToken){
+          dispatch(ActionMan.receivePushToken({push_token: token, loggedIn: this.props.user.id ? true : false}))
+        }
+      });
 
+    FCM.getInitialNotification()
+      .then(notification => {
+        // this.handleAction(notification)
+      })
+      .catch(err => {
+        __DEV__ && console.warn('initialnotificationerrror',err);
+      })
+  }
+
+  componentWillUnmount(){
+    this.notificationUnsubscribe()
+    this.refreshUnsubscribe()
   }
 
   openChat(match_id){
     this.props.navigator.push(this.props.navigator.navigation.router.getRoute('Chat', {match_id}))
   }
 
-  handleAction(notification){
+  handleAction(notification,foreground, opened_from_tray){
+    console.log(notification,foreground, opened_from_tray);
     const moreNotificationAttributes = {
       uuid: uuid.v4(),
       receivedAt: Date.now(),

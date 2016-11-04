@@ -157,9 +157,7 @@ const Swiper = React.createClass({
   // },
 
   componentDidMount() {
-    // this.state.scroll.addListener((e)=>{
-    // })
-    if(this.props.autoplay) this.autoplay()
+    if(this.props.autoplay){this.autoplay()}
 
   },
 
@@ -256,6 +254,8 @@ const Swiper = React.createClass({
 
   //
   componentWillReceiveProps(nProps){
+    if(!this.props.autoplay && nProps.autoplay && React.Children.count(this.props.children) > 1 ){this.autoplay()}
+
     if(nProps.index != this.state.index){
       this.scrollTo(nProps.index);
     }

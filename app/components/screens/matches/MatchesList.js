@@ -8,7 +8,9 @@ import NewMatches from './NewMatches';
 import NoMatches from './NoMatches';
 import ThreeDots from '../../buttons/ThreeDots';
 import colors from '../../../utils/colors';
+import Btn from '../../Btn';
 
+const DeviceWidth = Dimensions.get('window').width;
 const DeviceHeight = Dimensions.get('window').height;
 const SwipeableQuickActions = require('../../../../node_modules/react-native/Libraries/Experimental/SwipeableRow/SwipeableQuickActions');
 
@@ -148,23 +150,20 @@ class MatchesList extends Component {
     const unread = rowData.unread || 0;
     const messageBody = rowData.recent_message.message_body.replace(/(\r\n|\n|\r)/gm, ' ');
     return (
+      <View style={[styles.row]}>
 
-      <TouchableHighlight
-        style={{}}
+      <Btn
+        style={[styles.row,{
+          backgroundColor: colors.outerSpace,
+          flexGrow: 1,
+
+          alignSelf:'stretch',
+          borderBottomWidth: StyleSheet.hairlineWidth,
+            borderBottomColor: colors.dark,
+                      padding:10,width:DeviceWidth,height:90,flexGrow: 1,}]  }
         onPress={() => { this._pressRow(rowData, threadName.toUpperCase()) }} key={`${rowData.match_id}match`}
       >
-        <View
-          style={{
-            backgroundColor: colors.outerSpace,
-            shadowColor: colors.darkShadow,
-            shadowRadius: 1,
-            shadowOpacity: 10,
-            shadowOffset: {
-              width: StyleSheet.hairlineWidth,
-              height: 0
-            }
-          }}
-        >
+
           {global.__DEBUG__ && <Text style={{ color: '#fff' }}>
             {`${new Date(rowData.recent_message.created_timestamp * 1000).toLocaleString()} | match_id: ${rowData.match_id}`}
           </Text>}
@@ -190,19 +189,20 @@ class MatchesList extends Component {
               <Text style={[styles.text, styles.title]}>
                 {threadName.toUpperCase()}
               </Text>
-              <Text style={styles.text}>
+              <Text style={styles.text} numberOfLines={2}>
                 {messageBody || 'New Match'}
               </Text>
             </View>
-          </View>
-        </View>
-      </TouchableHighlight>
+         </View>
+      </Btn>
+      </View>
+
     );
   }
 
   render() {
     return (!this.props.matches.length && !this.props.newMatches.length) ? <NoMatches/> : (
-      <View >
+      <View style={{flexGrow:1,}}>
         <SwipeableListView
           dataSource={this.props.dataSource}
           maxSwipeDistance={150}
@@ -211,7 +211,9 @@ class MatchesList extends Component {
               style={{
                 backgroundColor: colors.dark,
                 alignItems: 'stretch',
-                overflow: 'hidden'
+                overflow: 'hidden',
+                flexGrow: 1,
+
               }}
             >
               <TouchableHighlight
@@ -224,7 +226,7 @@ class MatchesList extends Component {
                     width: 75,
                     margin: 0,
                     right: -5,
-                    flex: 1,
+                    flexGrow: 1,
                     justifyContent: 'center',
                     alignItems: 'center',
                     alignSelf: 'stretch',
@@ -265,13 +267,17 @@ class MatchesList extends Component {
           chatActionSheet={this.chatActionSheet.bind(this)}
           onEndReached={this.onEndReached.bind(this)}
           onEndReachedThreshold={200}
+          contentContainerStyle={{
+            flexGrow: 1,
+
+          }}
           ref={component => { this._listView = component }}
           renderRow={this._renderRow.bind(this)}
           style={{
             height: DeviceHeight,
-            marginTop: 64,
-            overflow: 'hidden',
-            backgroundColor: colors.outerSpace
+            paddingTop: 60,
+            flexGrow: 1,
+
           }}
           scrollEnabled={this.state.scrollEnabled}
           directionalLockEnabled
@@ -285,7 +291,6 @@ class MatchesList extends Component {
           vertical
           initialListSize={5}
           scrollsToTop
-          contentOffset={{ x: 0, y: this.state.isRefreshing ? -50 : 0 }}
           renderHeader={() => ((!this.props.newMatches || !this.props.newMatches.length) ? false :
             (<NewMatches
               dispatch={this.props.dispatch}
@@ -313,7 +318,9 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 14,
+    padding: 0,
+    flexGrow: 1,
+
     backgroundColor: colors.outerSpace,
   },
 
@@ -321,7 +328,9 @@ const styles = StyleSheet.create({
     width: 64,
     marginRight: 20,
     height: 64,
+    borderRadius: 32,
     flexDirection: 'row',
+    backgroundColor: colors.dark,
     justifyContent: 'flex-start',
 
   },
@@ -329,7 +338,6 @@ const styles = StyleSheet.create({
     borderRadius: 32,
     width: 64,
     height: 64,
-    backgroundColor: colors.dark
   },
   rightthumb: {
     left: -16
@@ -346,7 +354,8 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   textwrap: {
-    height: 66,
+    height: 60,
+    backgroundColor:colors.outerSpace,
     flexDirection: 'column',
     justifyContent: 'flex-start',
     overflow: 'hidden',

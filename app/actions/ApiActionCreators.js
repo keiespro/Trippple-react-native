@@ -1,6 +1,6 @@
 import api from '../utils/api'
 import { createAction, handleAction, handleActions } from 'redux-actions';
-import _ from 'underscore'
+import _ from 'lodash'
 import LogOut from '../utils/logout'
 
 const apiActions = [
@@ -37,7 +37,7 @@ const ApiActionCreators = endpointMap.reduce((obj, endpoint) => {
   obj[endpoint.call] = (...params) => (dispatch => dispatch({
 
     type: endpoint.action,
-    meta: endpoint.call == 'sendLike' ? {...(_.object(['like_user_id', 'like_status', 'like_user_type', 'from_user_type',], params)),
+    meta: endpoint.call == 'sendLike' ? {...(_.zipObject(['like_user_id', 'like_status', 'like_user_type', 'from_user_type',], params)),
       relevantUser: (params[params.length - 1].relevantUser)
     } : params.map(p => p),
     payload: {

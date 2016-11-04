@@ -6,3 +6,11 @@ keystore(
     'PUBLIC',
   ],
 )
+keystore(
+  name = 'release',
+  store = 'release.keystore',
+  properties = 'release.keystore.properties',
+  visibility = [
+    'PUBLIC',
+  ],
+)

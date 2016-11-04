@@ -1,12 +1,12 @@
-import { View } from 'react-native';
+import { View, Keyboard } from 'react-native';
 import React from 'react';
-import dismissKeyboard from 'dismissKeyboard'
+
 import reactMixin from 'react-mixin'
 import {pure} from 'recompose'
 import TimerMixin from 'react-timer-mixin';
 import { connect } from 'react-redux';
-import {withNavigation} from '@exponent/ex-navigation';
-import {SlideHorizontalIOS} from '../../../ExNavigationStylesCustom'
+import {withNavigation,NavigationStyles} from '@exponent/ex-navigation';
+import {SlideHorizontalIOS,FloatHorizontal} from '../../../ExNavigationStylesCustom'
 import ActionMan from '../../../actions/';
 import ChatInside from './ChatInside'
 import ThreeDotsActionButton from '../../buttons/ThreeDotsAction';
@@ -23,23 +23,28 @@ import colors from '../../../utils/colors';
 class Chat extends React.Component {
 
   static route = {
-    styles: SlideHorizontalIOS,
+    styles: FloatHorizontal,
     navigationBar: {
       visible: true,
-      translucent: true,
-      backgroundColor: colors.shuttleGrayAnimate,
+      translucent: false,
+      backgroundColor: colors.shuttleGray,
       title(params) {
-        const p = params || {}
-        const title = p.title || '';
-        return `${title}`
+        return `${params.title ? params.title : ''}`
       },
       renderRight(route, props) {
         return (
           <ThreeDotsActionButton
-            route={route}
-            fromChat
-            sendProps={{...props, ...route.params}}
-            match={props.match}
+            open={()=>{
+              props.dispatch(ActionMan.showInModal({
+                component:'Action',
+                passProps:{
+                  match: props.match,
+                  fromChat: true
+                }
+              }))
+            }}
+             fromChat
+             match={props.match}
             dotColor={colors.white}
           />
         )
@@ -70,7 +75,7 @@ class Chat extends React.Component {
     }
   }
   componentWillUnmount() {
-    dismissKeyboard()
+    Keyboard.dismiss()
     this.props.dispatch(ActionMan.getNewMatches())
     this.props.dispatch(ActionMan.getMatches())
     this.props.dispatch({type: 'CHAT_IS_CLOSED', payload: {match_id: this.props.match_id}})
@@ -85,7 +90,6 @@ class Chat extends React.Component {
 
   render() {
     return (
-      <View>
         <ChatInside
           user={this.props.user}
           match={this.props.match || this.props.currentMatch}
@@ -96,7 +100,6 @@ class Chat extends React.Component {
           pop={() => { this.props.navigator.pop() }}
           fromNotification={this.props.fromNotification}
         />
-      </View>
     );
   }
 

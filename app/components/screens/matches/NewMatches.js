@@ -45,7 +45,7 @@ class NewMatches extends Component{
     const threadName = them.map((user) => user.firstname.trim()).join(' & ');
     const matchUser = them[0] || {}
     const img = matchUser.image_url;
-
+    console.log(rowData.users,img);
     return (
       <View
         key={`newmatch${rowID}${rowData.match_id}`}
@@ -117,7 +117,9 @@ const styles = StyleSheet.create({
   },
   listItem: {
     height: 80,
+    borderRadius: 40,
     width: 80,
+    backgroundColor:'red',
     margin: 7
   },
   listItemImage: {

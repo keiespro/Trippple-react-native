@@ -8,13 +8,6 @@ import loadSavedCredentials from './utils/Credentials'
 import configureStore from './store';
 import {sessionAuth} from './actions/facebook'
 
-const firebaseConfig = {
-  APIKey: 'AIzaSyBZKzo_aVFz4ldw0bQ-8dJMe88xF0q0N9U',
-  authDomain: 'trippple-93bbc.firebaseio.com',
-  databaseURL: 'https://trippple-93bbc.firebaseio.com',
-  googleAppID: '1:820434364878:android:839f5cd266b5f573'
-};
-
 
 const store = configureStore();
 const iOS = Platform.OS == 'ios';
@@ -31,11 +24,10 @@ class NewBoot extends Component{
     if(this.state.locked){
       this.checkTouchId()
     }
-    this.initialize()
+    if(!this.state.initialized) this.initialize()
   }
 
   initialize(){
-    firebase.initializeApp(firebaseConfig, 'co.trippple', () => store.dispatch(sessionAuth()));
 
     loadSavedCredentials().then(creds => {
       if(creds){
@@ -49,6 +41,7 @@ class NewBoot extends Component{
     })
     .finally(() => {
       this.setState({initialized: true})
+      store.dispatch(sessionAuth())
     })
   }
   checkTouchId(){

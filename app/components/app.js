@@ -5,6 +5,7 @@ import { withNavigation} from '@exponent/ex-navigation';
 import SplashScreen from 'react-native-splash-screen'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
+import RC from '../RemoteConfig'
 
 import pure from 'recompose/pure'
 import AppNav from '../AppNav';
@@ -42,26 +43,36 @@ class App extends React.Component{
   }
 
   componentWillReceiveProps(nProps){
-    if(nProps.user && nProps.loggedIn){
-      if(!this.props.loggedIn && !this.state.initialized){
-        this.setState({initialized: true})
-        nProps.dispatch(ActionMan.setHotlineUser(nProps.user))
-        this.performInitActions()
-        Analytics.identifyUser(nProps.user)
+    if(nProps.user && nProps.user.id && nProps.loggedIn){
+      if(!this.props.booted && nProps.booted){
+        __DEV__ && console.info('init');
+        this.initialize(nProps)
       }
       if(this.state.initialized && this.props.appState != 'active' && nProps.appState == 'active'){
-        // this.performInitActions()
+        SplashScreen.hide();
       }
       if(this.state.initialized && this.props.loggedIn && !nProps.savedCredentials){
         this.props.dispatch(ActionMan.saveCredentials())
       }
     }
   }
+
   componentDidUpdate(pProps,pState){
     if(this.state.initialized && !pState.initialized){
       SplashScreen.hide();
+      this.props.dispatch(ActionMan.setHotlineUser(this.props.user))
+      this.performInitActions()
+      Analytics.identifyUser(this.props.user)
+
     }
   }
+
+  initialize(nProps){
+    if(!this.state.initialized){
+      this.setState({initialized: true})
+    }
+  }
+
   performInitActions(){
 
       const initActions = [
@@ -69,14 +80,25 @@ class App extends React.Component{
         'getPotentials',
         // 'getMatches',
         // 'getNewMatches',
-        // 'checkLocation',
+        'getLocation',
         // 'getPushToken',
         // 'getNotificationCount',
       ];
 
-      initActions.forEach(ac => {
-        this.props.dispatch(ActionMan[ac]())
-      })
+      RC.getValue('init_actions')
+        .then(actions => {
+          __DEV__ && console.log('init_actions', actions);
+          actions.split(',').forEach(ac => {
+            this.props.dispatch(ActionMan[ac]())
+          })
+        })
+        .catch(err => {
+          __DEV__ && console.log('init_actions error', err);
+
+          initActions.forEach(ac => {
+            this.props.dispatch(ActionMan[ac]())
+          })
+        })
 
   }
 
@@ -116,7 +138,8 @@ const mapStateToProps = (state, ownProps) => {
     push_token: state.device.push_token,
     exnavigation: state.exnavigation,
     savedCredentials: state.auth.savedCredentials,
-    appState: state.app.appState
+    appState: state.app.appState,
+    booted: state.app.booted
   }
 }
 

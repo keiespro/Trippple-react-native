@@ -17,42 +17,44 @@ export const popChat = match_id => dispatch => dispatch({ type: 'POP_CHAT'});
 export const setHotlineUser = user => dispatch => dispatch({ type: 'SET_HOTLINE_USER',
   payload: {
     promise: new Promise((resolve, reject) => {
-
-      RNHotline.init('f54bba2a-84fa-43c8-afa9-098f3c1aefae', 'fba1b915-fa8b-4c24-bdda-8bac99fcf92a', { })
+      RNHotline.init('f54bba2a-84fa-43c8-afa9-098f3c1aefae', 'fba1b915-fa8b-4c24-bdda-8bac99fcf92a', false)
         .then(result => {
+
           const {id, firstname, phone, relationship_status, email, gender, image_url, thumb_url, partner_id} = user;
-          console.log(image_url);
+
           const meta = {
             relationship_status,
             gender,
           }
+
           if(partner_id){
             meta.partner_id = `${partner_id}`
           }
 
-          return RNHotline.setUser(`${id}`, firstname, phone, email, meta)
-            .then(s => {
-              console.log(s);
-              resolve(s);
-            })
-          .catch(reject);
+          RNHotline.setUser(`${id}`, firstname, phone, email, meta)
+          resolve(true)
+
         });
     })
   }
 })
-export const showFaqs = () => dispatch => dispatch({ type: 'SET_HOTLINE_USER',
+
+export const showFaqs = () => dispatch => dispatch({ type: 'SHOW_FAQS',
   payload: {
     promise: new Promise((resolve, reject) => {
-      RNHotline.showFaqs.then(resolve).catch(reject)
-    })
-  }
-})
+      RNHotline.showFaqs()
+      resolve(true)
+     })
+   }
+ })
 
 
-export const showConvos = () => dispatch => dispatch({ type: 'SET_HOTLINE_USER',
+export const showConvos = () => dispatch => dispatch({ type: 'SHOW_CONVOS',
   payload: {
     promise: new Promise((resolve, reject) => {
-      RNHotline.showConvos.then(resolve).catch(reject)
+      RNHotline.showConvos({})
+      resolve(true)
+      // .then(resolve).catch(reject)
     })
   }
 })

@@ -1,6 +1,7 @@
 import _ from 'lodash'
 
 export default function matchesListReducer(state = initialState, action) {
+  let matches
 
   switch (action.type) {
   case 'ONBOARD_FULFILLED':
@@ -20,22 +21,27 @@ export default function matchesListReducer(state = initialState, action) {
 
   case 'GET_NEW_MATCHES_FULFILLED':
     if( !action.payload ) return state;
+    matches = Object.values(action.payload);
 
-    return {...state, newMatches: _.filter(action.payload, (m) => m.users.length >= 3) }
+    return {
+      ...state,
+      newMatches: _.filter(matches, m => Object.keys(m.users).length >= 3)
+    }
 
 
   case 'GET_MATCHES_FULFILLED':
+    matches = action.payload;
 
-    if( !action.payload ) return state;
+    if( !matches ) return state;
 
-    const mtchs = state.matches.length > 1 ? dedupe([...state.matches, ...action.payload]) : action.payload;
-    const newMatches = _.difference(state.newMatches, action.payload);
+    const mtchs = state.matches.length > 1 ? dedupe([...state.matches, ...matches]) : matches;
+    const newMatches = _.difference(state.newMatches, matches);
 
 
 
     return {
-      newMatches: _.filter(newMatches, (m) => m.users.length >= 3),
-      matches: _.filter((mtchs.length > 1 ? orderMatches(mtchs) : mtchs),(m) => Object.keys(m.users).length >= 3)
+      newMatches: _.filter(newMatches, (m) => Object.keys(m.users).length >= 3),
+      matches: _.filter((mtchs.length > 1 ? orderMatches(mtchs) : mtchs),m => Object.keys(m.users).length >= 3)
     };
 
   //

@@ -5,29 +5,29 @@ import colors from '../../utils/colors'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
-const dotWidth = 6;
+const dotWidth = 3;
 const dots = [1,2,3];
 
 const Dots = ({dotColor}) => (
   <View style={{
-    width:20,
+    width:30,
     height:50,
     justifyContent:'center',
     alignItems:'center',
   }}>
     <View style={{
-      flexDirection:'vertical',
+      flexDirection:'column',
       justifyContent:'center',
       alignItems:'center',
     }}>
       { dots.map((dot,i) =>
         <View
           style={{
-            margin:2,
-            width:dotWidth,
-            height:dotWidth,
-            borderRadius:dotWidth/2,
-            backgroundColor:dotColor || colors.shuttleGray
+            margin: 2,
+            width: dotWidth,
+            height: dotWidth,
+            borderRadius: dotWidth/2,
+            backgroundColor: dotColor || colors.shuttleGray
           }}
           key={'threedotsnumber'+i}
         />

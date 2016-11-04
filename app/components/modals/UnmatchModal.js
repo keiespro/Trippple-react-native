@@ -6,7 +6,8 @@ import ActionMan from '../../actions'
 import { BlurView,VibrancyView } from 'react-native-blur'
 import styles from './purpleModalStyles'
 import {MagicNumbers} from '../../utils/DeviceConfig'
-import PurpleModal from './PurpleModal'
+import BlurModal from './BlurModal'
+import Btn from '../Btn'
 import {connect} from 'react-redux'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -32,9 +33,11 @@ class UnmatchModal extends Component{
         matchImage = them.couple && them.couple.thumb_url || them[0].thumb_url || them[1].thumb_url;
 
     return (
-      <PurpleModal>
-        <View style={[styles.col,styles.fullWidth]}>
-             <View style={styles.insidemodalwrapper}>
+      <BlurModal>
+
+              <View
+                style={[{bottom:0,position:'absolute',top:0,right:0,left:0,bottom:0,justifyContent:'center',alignItems:'center'}]}
+              >
              <View style={{alignItems:'center'}}>
              <Image
             style={[styles.contactthumb,{width:150,height:150,borderRadius:75,marginBottom:20}]}
@@ -51,30 +54,27 @@ class UnmatchModal extends Component{
                 }]}>
                 Are you sure?
               </Text>
-              <View style={[{marginTop:20}]}>
-                <TouchableHighlight
-                  underlayColor={colors.sushi}
-                  style={styles.modalButtonWrap}
+              <View style={[{margin:20,width:DeviceWidth-40}]}>
+                <Btn
+                  color={colors.sushi}
+                  style={[styles.modalButton,styles.modalButtonWrap]}
                   onPress={this.unMatch.bind(this)}>
                   <View style={[styles.modalButton]} >
                     <Text style={styles.modalButtonText}>UNMATCH</Text>
                   </View>
-                </TouchableHighlight>
+                </Btn>
+
+               <Btn
+                style={[styles.modalButton,styles.cancelButton,styles.modalButtonWrap]}
+                onPress={this.props.goBack}
+                color={colors.red}
+                >
+                  <Text style={styles.modalButtonText}>CANCEL</Text>
+              </Btn>
               </View>
 
-            <View >
-              <TouchableOpacity
-                style={styles.modalButtonWrap}
-                onPress={this.props.goBack}>
-                <View style={[styles.modalButton,styles.cancelButton]} >
-                  <Text style={styles.modalButtonText}>CANCEL</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-
           </View>
-        </View>
-      </PurpleModal>
+      </BlurModal>
     )
   }
 }

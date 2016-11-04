@@ -147,7 +147,7 @@ class UserProfile extends React.Component {
     return (
       <View
         style={[{
-          flex: 1,
+          flexGrow: 1,
           top: 0
         }]}
         onLayout={this.onLayout.bind(this)}
@@ -167,7 +167,7 @@ class UserProfile extends React.Component {
           scrollEnabled={profileVisible}
           showsVerticalScrollIndicator={false}
           style={[{
-            flex: 1,
+            flexGrow: 1,
             position: 'relative',
             top: 0,
 

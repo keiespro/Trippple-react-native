@@ -14,12 +14,14 @@ import colors from '../../../utils/colors';
 import styles from './styles';
 import { connect } from 'react-redux';
 import { withNavigation } from '@exponent/ex-navigation';
+import Btn from '../../Btn';
 
 @withNavigation
 class MatchesButton extends React.Component{
   render(){
     return (
-      <TouchableOpacity style={{paddingTop:5,paddingLeft:25,paddingBottom:5,position:'relative'}} onPress={() => this.props.navigator.push(this.props.navigation.router.getRoute('Matches'))}>
+      <View style={{borderRadius:15,}}>
+      <Btn style={{paddingTop:0,paddingLeft:25,paddingBottom:0,top:0,position:'relative'}} onPress={() => this.props.navigator.push(this.props.navigation.router.getRoute('Matches'))}>
         <Image
           resizeMode={Image.resizeMode.contain}
           tintColor={colors.white}
@@ -28,7 +30,8 @@ class MatchesButton extends React.Component{
         />
         {this.props.unread.total && parseInt(this.props.unread.total) > 0 || this.props.unread.realTotal &&   parseInt(this.props.unread.realTotal) > 0 ?
           <View style={{borderWidth:2,borderColor:colors.outerSpace,width:10,height:10,borderRadius:10,backgroundColor:colors.mediumPurple, position:'absolute',top:5,right:13}} /> : null}
-      </TouchableOpacity>
+      </Btn>
+      </View>
     )
   }
 }

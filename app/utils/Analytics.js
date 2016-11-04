@@ -44,7 +44,7 @@ class Analytics{
       // }
     // }
     // __DEV__ && console.log(`Analytics -> Indentified user #${user.id}`);
-    if (!__TEST__){
+    if (!__DEV__ && !__TEST__){
       Firelytics.setUserId(`${user.id}`);
 
       GoogleAnalytics.setUser(`${user.id}`);

@@ -233,7 +233,6 @@ class Notification extends React.Component{
             <View style={{position: 'absolute', right: 3, top: 3, zIndex: 99}}>
               <TinyClose
                 size={14}
-                xColor={colors.mediumPurple}
                 background={colors.white20}
                 killNotification={this.killNotification.bind(this)}
                 notification={notification}
@@ -264,7 +263,6 @@ class Notification extends React.Component{
             <View style={{position: 'absolute', right: 3, top: 3, zIndex: 99}}>
               <TinyClose
                 size={14}
-                xColor={colors.sushi}
                 background={colors.white20}
                 killNotification={this.killNotification.bind(this)}
                 notification={notification}
@@ -411,12 +409,13 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontFamily: 'omnes',
     flexDirection: 'column',
-
     fontSize: 15
   },
 
   notiTitle: {
-    fontFamily: 'montserrat', fontWeight: '800',
+    fontFamily: 'montserrat',
+    color: colors.white,
+    fontWeight: '800',
     fontSize: 14,
   },
   titleNewMessage: {

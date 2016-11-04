@@ -102,12 +102,12 @@ class ParallaxSwiper extends React.Component{
 
         <Image
           source={{uri: image_url }}
-          defaultSource={require('../screens/potentials/assets/defaultuser@3x.png')}
+          defaultSource={require('../screens/potentials/assets/defaultuser.png')}
           loadingIndicatorSrc={null}
           key={`${p.id}slide${i}`}
           onLoad={this.imgLoad.bind(this)}
           style={{
-            height:  this.props.height,
+            height: this.props.height,
             width: DeviceWidth,
             overlayColor: 'transparent',
             borderRadius: 11,
@@ -186,18 +186,6 @@ class ParallaxSwiper extends React.Component{
       </Animated.View>
     );
   }
-  handleScroll(e) {
-   console.log(e.nativeEvent);
-    // console.log('handleScroll', e.nativeEvent.contentOffset.y);
-    // console.log(this._scrollView)
-    //
-    // if(e.nativeEvent.contentOffset.y < 300){
-    //   this._scrollView.setNativeProps({scrollEnabled: true})
-    // }else{
-    // //  this._scrollView.setNativeProps({scrollEnabled:false})
-    //
-    // }
-  }
 
   render() {
     const { style, windowHeight, profileVisible, ...props } = this.props;
@@ -227,22 +215,13 @@ class ParallaxSwiper extends React.Component{
         {profileVisible &&
         <ScrollView
           pointerEvents={'box-none'}
-          onScroll={this.handleScroll.bind(this)}
 
           automaticallyAdjustContentInsets={false}
           ref={component => { this._scrollView = component }}
           scrollEnabled={profileVisible}
           keyboardShouldPersistTaps
           showsVerticalScrollIndicator={false}
-          onContentSizeChange={(contentWidth, contentHeight)=> {
-            console.log('onContentSizeChange',contentWidth, contentHeight);
 
-            this.setState({
-              contentHeight,
-              contentWidth
-
-            })
-          }}
           contentContainerStyle={{
             flexGrow: 1,
             height: DeviceHeight + TOP_DISTANCE,

@@ -24,6 +24,7 @@ import colors from '../../utils/colors'
 import _ from 'underscore'
 import FadeInContainer from '../FadeInContainer'
 import ReportModal from './ReportModal'
+import BlurModal from './BlurModal'
 import UnmatchModal from './UnmatchModal'
 import ActionMan from '../../actions'
 import { BlurView,VibrancyView} from 'react-native-blur'
@@ -53,8 +54,7 @@ class Action extends React.Component{
 
     return (
 
-      <BlurView blurType="dark" style={styles.actionmodal}>
-      <ScrollView >
+      <BlurModal>
 
 <View  style={[styles.actionmodal]}>
   <TouchableOpacity activeOpacity={0.5} onPress={this.props.toggleModal}
@@ -154,8 +154,8 @@ class Action extends React.Component{
 
 </View></View>
 
-</ScrollView>
-</BlurView>
+</BlurModal>
+
 
 )
 }
@@ -175,7 +175,8 @@ const styles = StyleSheet.create({
     position:'absolute',
     bottom:0,
     top:0,
-    overflow:'hidden'
+    overflow:'hidden',
+    flexGrow:1,
 
   },
   insideactionmodal:{

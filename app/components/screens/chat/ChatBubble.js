@@ -45,8 +45,8 @@ const ChatBubble = (props) => {
           <View style={{flexDirection:'column', alignItems:isMessageOurs ? 'flex-end' : 'flex-start', alignSelf: 'stretch', flex:1, justifyContent:'center',backgroundColor: props.messageData.ephemeral && __DEV__ ? colors.sushi : 'transparent'}}>
           <View style={{alignSelf: isMessageOurs ? 'flex-end' : 'flex-start',justifyContent:'center',alignItems:'center',maxWidth:MagicNumbers.screenWidth,backgroundColor:'transparent',flexDirection:'row'}}>
             {!isMessageOurs ?
-              <View style={{backgroundColor:'transparent'}}>
-              <Image style={[styles.thumb]}
+              <View style={[{backgroundColor:colors.dark},styles.thumb]}>
+              <Image style={[styles.thumbwrap]}
                   source={{uri: thumb}}
                   resizeMode={Image.resizeMode.cover}
                   defaultSource={require('./assets/placeholderUser@3x.png')}
@@ -66,7 +66,7 @@ const ChatBubble = (props) => {
                     {color: isMessageOurs ? colors.shuttleGray : colors.lavender, fontFamily:'montserrat'} ]}
               >{ props.messageData.from_user_info.name.toUpperCase() }</Text>
 
-            <Text style={[styles.messageText,{flex:1}, props.specialText && {fontSize: props.specialText,lineHeight: 40,paddingBottom:2 }]} >{
+            <Text style={[styles.messageText,{fontFamily:'omnes',flex:1}, props.specialText && {fontSize: props.specialText,lineHeight: 40,paddingBottom:2 }]} >{
                 props.text
               }</Text>
 

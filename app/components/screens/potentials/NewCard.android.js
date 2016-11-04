@@ -8,11 +8,13 @@ import colors from '../../../utils/colors'
 import UserDetails from '../../UserDetails'
 import ParallaxSwiper from '../../controls/ParallaxSwiper'
 import VerifiedCoupleBadge from '../../Badge/VerifiedCoupleBadge'
+import {pure,onlyUpdateForKeys} from 'recompose'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
-const CardLabel = ({potential, city, textColor, matchName}) => (
+
+const CardLabel = pure(({potential, city, textColor, matchName}) => (
   <View pointerEvents={'none'}>
     <Text
       style={[styles.cardBottomText, {color: textColor}]}
@@ -23,9 +25,10 @@ const CardLabel = ({potential, city, textColor, matchName}) => (
       key={`${potential.user.id}-matchn`}
     >{city}</Text>
   </View>
-);
+));
 
-
+@pure
+@onlyUpdateForKeys(['key','pan','potentials','profileVisible'])
 class NewCard extends React.Component {
 
   constructor() {
@@ -132,7 +135,7 @@ class NewCard extends React.Component {
                         <Text style={[styles.cardBottomOtherText, { color: colors.white, marginBottom: 15, marginLeft: 0 }]}>{
                                                   !hasPartner ? 'Looking for' : 'Looking for'
                                               }</Text>
-                        <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
+                        <Text style={{ color: colors.white, fontFamily: 'omnes',fontSize: 18, marginBottom: 15 }}>{
                                                   potential.user.bio
                                               }</Text>
                       </View> : null
@@ -145,7 +148,7 @@ class NewCard extends React.Component {
                           width: MagicNumbers.screenWidth
                         }}
                       >
-                        <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>
+                        <Text style={{    fontFamily: 'omnes', color: colors.white, fontSize: 18, marginBottom: 15 }}>
                           {potential.partner.bio}
                         </Text>
                       </View> : null
@@ -158,7 +161,7 @@ class NewCard extends React.Component {
                     />
                     <TouchableOpacity onPress={this.reportModal.bind(this)}>
                       <View style={{ marginTop: 20, paddingBottom: 50 }}>
-                        <Text style={{ color: colors.mandy, textAlign: 'center' }}>Report or Block this user</Text>
+                        <Text style={{     fontFamily: 'omnes',color: colors.mandy, textAlign: 'center' }}>Report or Block this user</Text>
                       </View>
                     </TouchableOpacity>
 

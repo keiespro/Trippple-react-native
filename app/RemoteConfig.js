@@ -2,7 +2,7 @@
 import { RemoteConfig } from 'react-native-firebase3';
 
 RemoteConfig.setDefaults({
-
+  'init_actions': 'getLocation,getPotentials'
 });
 
 class RC {

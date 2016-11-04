@@ -41,14 +41,14 @@ class ChatInside extends Component{
     }
   }
 
-  componentDidMount(){
-    Keyboard.addListener('keyboardWillChangeFrame', this.onKeyboardChange.bind(this));
-    this.props.dispatch({type:'MARK_CHAT_READ', payload: {match_id: this.props.match.match_id}})
-  }
-  componentWillUnmount(){
-    Keyboard.removeListener('keyboardWillChangeFrame', this.onKeyboardChange.bind(this));
-    this.props.dispatch({type:'MARK_CHAT_READ', payload: {match_id: this.props.match.match_id}})
-  }
+  // componentDidMount(){
+  //   Keyboard.addListener && Keyboard.addListener('keyboardWillChangeFrame', this.onKeyboardChange.bind(this));
+  //   this.props.dispatch({type:'MARK_CHAT_READ', payload: {match_id: this.props.match.match_id}})
+  // }
+  // componentWillUnmount(){
+  //   Keyboard.removeListener && Keyboard.removeListener('keyboardWillChangeFrame', this.onKeyboardChange.bind(this));
+  //   this.props.dispatch({type:'MARK_CHAT_READ', payload: {match_id: this.props.match.match_id}})
+  // }
   componentWillReceiveProps(newProps){
     __DEV__ && console.log('newProps.messages',newProps);
 
@@ -62,9 +62,9 @@ class ChatInside extends Component{
   }
   onKeyboardChange(event){
     const {duration, easing, endCoordinates,startCoordinates} = event;
-    this.setState({
-      isKeyboardOpened: startCoordinates.screenY == DeviceHeight
-    })
+    // this.setState({
+    //   isKeyboardOpened: startCoordinates.screenY == DeviceHeight
+    // })
   }
 
   _renderRow(rowData, sectionID: number, rowID: number) {
@@ -131,31 +131,31 @@ class ChatInside extends Component{
       them = theirIds.map((id)=> matchInfo.users[id]),
       chatTitle = them.reduce((acc,u,i)=>{return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ` & ` : '') },'');
 
-    return (
-      <View style={{flex:1,width:DeviceWidth,height:DeviceHeight,position:'relative',top:0}}>
-          <KeyboardAvoidingView style={{flex:1}} behavior={'padding'}>
+    return  this.props.messages && this.props.messages.length > 0 ? (
 
-              {this.props.messages && this.props.messages.length > 0 ?
-                  (<View style={{flex:1,justifyContent:'space-between',alignItems:'center',flexDirection:'column'}}>
+      <View style={{paddingTop:0,width:DeviceWidth,height:DeviceHeight-70,alignSelf:'stretch',position:'absolute',top:0}}>
+          <KeyboardAvoidingView
+            style={{flexGrow:1,flex:1,alignSelf:'stretch',flexDirection:'column',top:0,bottom:0,position:'relative',}}
+            contentContainerStyle={{alignSelf:'stretch'}}
+            keyboardVerticalOffset={-180}
+            behavior={'padding'}>
+
                       <ListView
                           dataSource={this.state.dataSource}
                           renderRow={this._renderRow.bind(this)}
                           onEndReached={this.onEndReached.bind(this)}
                           messages={this.props.messages || []}
-                          style={[styles.listview,{ backgroundColor:colors.outerSpace,marginBottom:0,marginTop:3}]}
                           renderScrollComponent={props => (
                               <InvertibleScrollView
-                                  inverted={true}
+                              {...props}
+                              inverted={true}
                                   scrollsToTop={true}
-                                  contentContainerStyle={styles.invertedContentContainer}
                                   scrollEventThrottle={16}
                                   indicatorStyle={'white'}
                                   ref={c => {this.scroller = c}}
                                   key={`${this.props.match_id}x`}
                                   keyboardDismissMode={'interactive'}
-                                  contentInset={{top:0,right:0,left:0,bottom:60}}
                                   automaticallyAdjustContentInsets={true}
-                                  {...props}
                               />
                           )}
                       />
@@ -164,16 +164,27 @@ class ChatInside extends Component{
                           onTextInputChange={this.onTextInputChange.bind(this)}
                           sendMessage={this.sendMessage.bind(this)}
                       />
-                  </View>)
-                  : <NoMessages
-                      {...this.props}
-                      textInputValue={this.state.textInputValue}
-                      onTextInputChange={this.onTextInputChange.bind(this)}
-                      sendMessage={this.sendMessage.bind(this)}
-                      isKeyboardOpened={this.state.isKeyboardOpened}
-                    />}
+                      </KeyboardAvoidingView></View>
+                    ) : (
+                    <View style={{flexGrow:1,paddingTop:0,width:DeviceWidth,alignSelf:'stretch',position:'absolute',top:0}}>
+                    <KeyboardAvoidingView
+                      style={{flexGrow:1,flex:1,alignSelf:'stretch',flexDirection:'column',top:0,bottom:0,backgroundColor:'red',position:'relative',}}
+                      keyboardVerticalOffset={-180}
 
-          </KeyboardAvoidingView></View>
+                          behavior={'padding'}>
+
+                          <NoMessages
+                              {...this.props}
+                              textInputValue={this.state.textInputValue}
+                              onTextInputChange={this.onTextInputChange.bind(this)}
+                              sendMessage={this.sendMessage.bind(this)}
+                              isKeyboardOpened={this.state.isKeyboardOpened}
+                            />
+
+                            </KeyboardAvoidingView></View>
+
+
+
     )
   }
 }

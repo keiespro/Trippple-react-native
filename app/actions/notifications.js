@@ -44,10 +44,10 @@ export const updateBadgeNumber = (delta) => dispatch => dispatch({ type: 'UPDATE
 
 export const handleNotification = notification => dispatch => dispatch({ type: 'HANDLE_NOTIFICATION',
   payload: new Promise((resolve, reject) => {
-    __DEV__ && console.log(notification);
+    // __DEV__ && console.warn('notification',notification);
 
     const data = notification
-    const payload = typeof data == 'string' ? JSON.parse(data) : data;
+    const payload = (typeof data == 'string' ? JSON.parse(data) : data);
 
     if(!notification || !payload) return;
 
@@ -171,7 +171,7 @@ export const handleNotification = notification => dispatch => dispatch({ type: '
     __DEV__ && console.log(nType);
 
     if(!nType){
-      reject(notification)
+      reject(new Error('No notification type set'))
       return;
     }
 
@@ -194,6 +194,9 @@ export const handleNotification = notification => dispatch => dispatch({ type: '
     dispatch({type: `HANDLE_NOTIFICATION_${nType}`, payload: n})
 
     resolve(n)
+  })
+  .catch(err => {
+    console.warn(err);
   })
 
 })

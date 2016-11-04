@@ -2,8 +2,10 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  TouchableNativeFeedback,
   Animated,
   Dimensions,
+  Platform,
 } from 'react-native';
 import React from 'react';
 
@@ -11,38 +13,26 @@ import ThreeDots from './ThreeDots';
 import Action from '../modals/Action';
 import ActionMan from '../../actions'
 import { connect } from 'react-redux'
-import dismissKeyboard from 'dismissKeyboard'
-
-class ThreeDotsActionButton extends React.Component{
-  constructor(props){
-    super()
-    this.state = {}
-  }
+import Btn from '../Btn'
+import colors from '../../utils/colors'
 
 
-  render(){
-    const passProps = {
-      ...this.props.route.params
-    }
-     return (
-      <TouchableOpacity onPress={()=> {
-          dismissKeyboard();
-          this.props.dispatch(ActionMan.showInModal({
-            component:'Action',
-            passProps
-          }))
-        }}
-      >
-        <ThreeDots dotColor={this.props.dotColor || '#fff'}/>
-      </TouchableOpacity>
-    )
-  }
-}
+const ThreeDotsActionButton = ({open, dotColor=colors.white, style}) => (
+  <Btn
+    color={colors.white}
+    style={style}
+    onPress={open}
+  >
+    <ThreeDots
+      dotColor={dotColor}
+    />
+  </Btn>
+)
 
+// const mapDispatchToProps = (dispatch) => ({
+//   actionModal: () => {
+//
+//   }
+// })
 
-
-const dp = (dispatch) => {
-  return { dispatch };
-}
-
-export default connect(null, dp)(ThreeDotsActionButton);
+export default  ThreeDotsActionButton

@@ -14,7 +14,7 @@ const DeviceWidth = Dimensions.get('window').width;
 
 
 const ToolbarLogo = () => (
-  <View style={{paddingTop: 5}}>
+  <View style={{paddingTop: 0}}>
     <Image
       resizeMode={Image.resizeMode.contain}
       style={{
@@ -63,10 +63,13 @@ const Toolbar = () => (
       height: iOS ? 60 : 60,
       position: 'absolute',
       top: 0,
+      flexGrow:1,
       margin:0,
+      alignSelf:'stretch',
       width: DeviceWidth,
       alignItems: 'center',
       zIndex: 10,
+      backgroundColor:'red'
 
     }}
   >
@@ -179,8 +182,8 @@ class Potentials extends React.Component{
             <CardStack
               user={user}
               dispatch={this.props.dispatch}
-              rel={user.relationship_status}
               potentials={potentials}
+              drawerOpen={this.props.drawerOpen}
               navigator={this.props.navigator}
               profileVisible={this.props.profileVisible}
               toggleProfile={this.toggleProfile.bind(this)}
@@ -238,7 +241,8 @@ const mapStateToProps = (state, ownProps) => ({
   potentials: state.potentials,
   unread: state.unread,
   ui: state.ui,
-  profileVisible: state.ui.profileVisible
+  profileVisible: state.ui.profileVisible,
+  drawerOpen: state.ui.drawerOpen
 })
 
 const mapDispatchToProps = (dispatch) => ({ dispatch })

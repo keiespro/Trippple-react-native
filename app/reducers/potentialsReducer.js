@@ -2,10 +2,6 @@ import _ from 'lodash'
 import starters from '../data/StarterDecks'
 
 export default function potentialsReducer(state = initialState, action) {
-  let tid;
-  let data;
-  let pots;
-  let userid;
 
   switch (action.type) {
     case 'ONBOARD_FULFILLED':
@@ -16,14 +12,17 @@ export default function potentialsReducer(state = initialState, action) {
       return initialState;
 
     case 'REMOVE_POTENTIAL':
-      tid = action.payload.id;
-      return [...([...state].reject(m => m.user.id == tid || m.partner.id == tid || m.couple.id == tid))]
+      const targetID = action.payload.id;
+      const newPotentials = [...state].reject(m => m.user.id == targetID || m.partner.id == targetID || m.couple.id == targetID);
+      return [...newPotentials]
 
     case 'GET_STARTER_POTENTIALS':
-      return [...(_.shuffle(starters[action.payload.relationshipStatus || 'single']))];
+      const starter = starters[action.payload.relationshipStatus || 'single'];
+      return [...(_.shuffle(starter))];
 
     case 'GET_POTENTIALS_FULFILLED':
-      data = action.payload;
+      const data = action.payload;
+      let pots;
       if(!data || !data.matches || !data.matches.length){
         pots = state
       }else if(!data.matches[0] || !data.matches[0].user){
@@ -31,16 +30,17 @@ export default function potentialsReducer(state = initialState, action) {
       }else{
         pots = data.matches
       }
-      userid = global.creds.user_id;
-      if(pots[0] && (pots[0].user.id == userid || pots[0].partner.id == userid)){
+      if(pots[0] && (pots[0].user.id == global.creds.user_id || pots[0].partner.id == global.creds.user_id)){
         return [...(pots.slice(1, pots.length))];
       }
+
       return [...pots];
 
     case 'SEND_LIKE_FULFILLED':
       return [...(state.slice(1, state.length))];
 
     default:
+
       return state;
   }
 }

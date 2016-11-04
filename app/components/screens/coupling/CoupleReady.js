@@ -78,7 +78,9 @@ class CoupleReady extends React.Component{
 
     render(){
         return this.props.user && this.props.user.partner ? (
-      <ScrollView contentContainerStyle={[{width:DeviceWidth,height:DeviceHeight,flexDirection:'column',justifyContent:'center',flex:1,top:0 }]} >
+      <ScrollView contentContainerStyle={[{width:DeviceWidth,
+        backgroundColor: colors.outerSpace,
+          height:DeviceHeight,flexDirection:'column',justifyContent:'center',flex:1,top:0 }]} >
 
         <Text style={[styles.rowtext,styles.bigtext,{ backgroundColor:'transparent',textAlign:'center', fontFamily:'montserrat',fontWeight:'800',fontSize:40,color:'#fff',marginVertical:10 }]}>
           SUCCESS!
@@ -94,13 +96,13 @@ class CoupleReady extends React.Component{
 
         {this.props.user.partner ? <View style={{height:120,marginVertical:30,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
           <Image style={[{width:120,height:120,borderRadius:60,marginRight:-100}]}
-              source={ {uri: this.props.user.partner.image_url || 'assets/placeholderUser@3x.png'} }
-              defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+              source={ {uri: this.props.user.partner.image_url || require('../../../assets/placeholderUser@3x.png')} }
+              defaultSource={require('../../../assets/placeholderUser@3x.png')}
           />
 
         <Image style={[{width:120,height:120,borderRadius:60,marginLeft:-100}]}
             source={ {uri: this.props.user.image_url || 'assets/placeholderUser@3x.png'} }
-            defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+            defaultSource={require('../../../assets/placeholderUser@3x.png')}
         />
     </View> : null}
 
@@ -128,7 +130,9 @@ class CoupleReady extends React.Component{
 
       </ScrollView>
     ) : (
-      <ScrollView contentContainerStyle={[{width:DeviceWidth,height:DeviceHeight,flexDirection:'column',justifyContent:'center',flex:1,top:0 }]} >
+      <ScrollView contentContainerStyle={[{
+        backgroundColor: colors.outerSpace,
+        width:DeviceWidth,height:DeviceHeight,flexDirection:'column',justifyContent:'center',flex:1,top:0 }]} >
         <Text style={{fontFamily:'montserrat',fontWeight:'800', fontSize:18,textAlign:'center', color:'#fff',}}>
           Connecting couple...
         </Text>

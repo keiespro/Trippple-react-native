@@ -59,8 +59,11 @@ function configureStore(initialState = ({})) {
       );
 
     persistStore(store, {
-      storage: AsyncStorage, blacklist: ['navigation', 'ui', 'potentials', 'appNav']
-    }).purge(['navigation'])
+      storage: AsyncStorage, blacklist: ['navigation', 'appNav', 'ui', 'potentials']
+    })
+    // .purge(['navigation','appNav'])
+  //   storage: AsyncStorage, blacklist: ['ui', 'potentials']
+  // }).purge([])
 
     if (global.reduxNativeDevTools) {
       global.reduxNativeDevTools.updateStore(store);

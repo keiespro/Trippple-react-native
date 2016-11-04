@@ -24,9 +24,10 @@ export default function matchesReducer(state = initialState, action) {
 
     case 'GET_MATCHES_FULFILLED':
         const matches = action.payload;
-        if ( !matches || !Array.isArray(matches) ) return state;
+        console.info(matches)
+        // if ( !matches || !Array.isArray(matches) ) return state;
 
-        const matchesHash = matches.reduce( ( acc, el, i ) => {
+        const matchesHash = Object.values(matches).reduce( ( acc, el, i ) => {
           if(Object.keys(el.users).length >= 3){
             acc[ el.match_id ] = el;
             acc.lastRead = Date.now()
