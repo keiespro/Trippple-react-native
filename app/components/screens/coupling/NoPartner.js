@@ -114,9 +114,8 @@ class NoPartner extends React.Component{
                 transform: [{scale: MagicNumbers.is5orless ? 0.8 : 1 }]
               }}
             >
-              <Image
-                style={[{width: 120, height: 120, borderRadius: 60, marginRight: -100}]}
-                defaultSource={require('../../../assets/placeholderUser@3x.png')}
+              <View
+                style={[{backgroundColor:colors.white20,width: 120, height: 120, borderRadius: 60, marginRight: -100}]}
               />
               <Image
                 style={[{width: 120, height: 120, borderRadius: 60, marginLeft: -100}]}
@@ -144,6 +143,7 @@ class NoPartner extends React.Component{
                 color: '#fff',
                 marginBottom: 15,
                 fontFamily: 'omnes',
+                textAlign:'center',
                 backgroundColor: 'transparent',
                 flexDirection: 'column'
               }]}

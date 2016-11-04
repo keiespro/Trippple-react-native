@@ -166,12 +166,6 @@ class ChatInside extends Component{
                       />
                       </KeyboardAvoidingView></View>
                     ) : (
-                    <View style={{flexGrow:1,paddingTop:0,width:DeviceWidth,alignSelf:'stretch',position:'absolute',top:0}}>
-                    <KeyboardAvoidingView
-                      style={{flexGrow:1,flex:1,alignSelf:'stretch',flexDirection:'column',top:0,bottom:0,backgroundColor:'red',position:'relative',}}
-                      keyboardVerticalOffset={-180}
-
-                          behavior={'padding'}>
 
                           <NoMessages
                               {...this.props}
@@ -180,10 +174,6 @@ class ChatInside extends Component{
                               sendMessage={this.sendMessage.bind(this)}
                               isKeyboardOpened={this.state.isKeyboardOpened}
                             />
-
-                            </KeyboardAvoidingView></View>
-
-
 
     )
   }

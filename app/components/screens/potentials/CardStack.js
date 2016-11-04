@@ -68,9 +68,9 @@ class CardStack extends React.Component {
     // console.log('SCENERIO 0');
         Animated.spring(this.state.cardopen, {
           toValue: n.profileVisible ? 1.00 : 0.92,
-          tension: 7,
-          friction: 5,
-          velocity: 10,
+          tension: 15,
+          friction: 7,
+          velocity: 2,
           useNativeDriver: true,
         }).start(() => {
           // console.log('end');
@@ -214,7 +214,7 @@ class CardStack extends React.Component {
 
           Animated.timing(this.state.pan, {
             toValue,
-            duration: 300,
+            duration: 100,
             // easing: Easing.inOut(Easing.ease),
             // deceleration: 1.1,
             useNativeDriver: !iOS

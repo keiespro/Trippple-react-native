@@ -87,7 +87,7 @@ class NewMatches extends Component{
         />
 
         <SectionHeader
-          content={`MESSAGES${(global.__DEBUG__ ? ` (${this.props.matchesCount})` : '')}`}
+          content={`YOUR CHATS${(global.__DEBUG__ ? ` (${this.props.matchesCount})` : '')}`}
         />
 
       </View>
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 40,
     width: 80,
-    backgroundColor:'red',
+    backgroundColor:colors.dark,
     margin: 7
   },
   listItemImage: {
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   sectionHeader: {
     height: 25,
     paddingHorizontal: 10,
-    paddingVertical: 15,
+    paddingVertical: 3,
     backgroundColor: colors.dark,
     width: DeviceWidth,
     overflow: 'hidden',
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   sectionHeaderText: {
     fontSize: 14,
     color: colors.offwhite,
-    fontWeight: '500',
+    fontWeight: '800',
     fontFamily: 'montserrat'
   }
 })

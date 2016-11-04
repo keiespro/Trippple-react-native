@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, Dimensions, TextInput, ScrollView, Animated, Picker, Image, DatePicker, Navigator, DatePickerIOS } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, Dimensions, TextInput, ScrollView, Animated, Picker, Image, DatePicker, Navigator, DatePickerAndroid } from 'react-native';
 import React from 'react';
 import dismissKeyboard from 'dismissKeyboard'
 import { connect } from 'react-redux'
@@ -78,6 +78,26 @@ class ProfileField extends React.Component{
       fieldValue: this.props.fieldValue || this.props.user[this.props.fieldName] || (field.values && field.values.length > 0 && field.values[0]) || '',
     }))
   }
+
+  async openDate(){
+
+    try {
+      const {action, year, month, day} = await DatePickerAndroid.open({
+        // Use `new Date()` for current date.
+        // May 25 2020. Month 0 is January.
+        date: MIN_DATE
+      });
+      if (action !== DatePickerAndroid.dismissedAction) {
+        // Selected year, month (0-11), day
+        const date = new Date(year, month, day);
+        this.props.dispatch(ActionMan.updateUser({[this.props.fieldName]: moment(date).format('YYYY-MM-DD')}))
+
+      }
+    } catch ({code, message}) {
+      console.warn('Cannot open date picker', message);
+    }
+
+  }
   render(){
     const field = this.props.field || {};
     const get_values = typeof field.values == 'object' && Object.keys(field.values).map(key => key) || field.values;
@@ -131,7 +151,7 @@ class ProfileField extends React.Component{
         </View>
 
       </View>
-      ) : (<TouchableHighlight onPress={this.goFieldModal.bind(this)} underlayColor={colors.dark} style={styles.paddedSpace}>
+    ) : (<TouchableHighlight onPress={field.field_type == 'date' ? this.openDate.bind(this) : this.goFieldModal.bind(this)} underlayColor={colors.dark} style={styles.paddedSpace}>
         <View>
           <View style={{height: 60, borderBottomWidth: 1, borderColor: colors.shuttleGray, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', alignSelf: 'stretch'}}>
             <Text style={{color: colors.rollingStone, fontSize: 18, fontFamily: 'montserrat'}}>{ displayFieldText }</Text>
