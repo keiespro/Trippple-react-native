@@ -34,7 +34,7 @@ export default class NoMessages extends React.Component{
     this.setState({isKeyboardOpened: true})
 
   }
-  getThumbSize(){
+  getThumbSize(top=false){
 
     const size = MagicNumbers.is4s ? SIZES.small : SIZES.big;
     const isKeyboardOpened = this.state.isKeyboardOpened;
@@ -44,6 +44,7 @@ export default class NoMessages extends React.Component{
       height: isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
       borderRadius: isKeyboardOpened ? size.dimensions.open / 2 : size.dimensions.closed / 2,
       marginVertical: isKeyboardOpened ? size.margin.open : size.margin.closed,
+      top: top ? ( isKeyboardOpened ? 20 : 0 ) : 0
     }
   }
 
@@ -58,25 +59,24 @@ export default class NoMessages extends React.Component{
     return (
       <ScrollView
         {...this.props}
-        contentContainerStyle={{backgroundColor: colors.outerSpace, width: DeviceWidth, }}
-        contentInset={{top: 0, right: 0, left: 0, bottom: 50}}
+        contentContainerStyle={{backgroundColor: colors.outerSpace, height:DeviceHeight-70,width: DeviceWidth, }}
         automaticallyAdjustContentInsets
         scrollEnabled={false}
         key={`scrollnomsgs${this.props.user.id}`}
         removeClippedSubviews
-        style={{ alignSelf: 'stretch', width: DeviceWidth, flexGrow: 1}}
+        style={{ alignSelf: 'stretch', width: DeviceWidth, flexGrow: 1, height:DeviceHeight-70,}}
       >
-        <KeyboardAvoidingView
-          contentContainerStyle={{alignSelf: 'stretch',width: DeviceWidth, flexGrow: 10, height: DeviceHeight - 70}}
-          style={{flexGrow: 10, alignSelf: 'stretch', width: DeviceWidth, backgroundColor: colors.outerSpace, marginTop: 0}}
-          behavior={'height'}
-        >
+      <KeyboardAvoidingView
+        style={{flexGrow:10,flex:10,alignSelf:'stretch',flexDirection:'column',top:0,bottom:0,position:'relative',}}
+        contentContainerStyle={{alignSelf:'stretch',flexGrow:10}}
+        keyboardVerticalOffset={-180}
+
+        behavior={'padding'}>
+        <FadeInContainer delayAmount={1000} duration={1000}>
+        <View style={{flexDirection: 'column', justifyContent: 'center', top: 0, alignItems: 'center', alignSelf: 'stretch',  paddingBottom: 0,flexGrow:10,flex:10}}>
 
 
-          <View style={{flexDirection: 'column', justifyContent: 'center', top: 10, alignItems: 'center', alignSelf: 'stretch', flexGrow: 1, paddingBottom: 0 }}>
-            <FadeInContainer delayAmount={500} duration={1000}>
-
-              <View style={{width: DeviceWidth, alignSelf: 'center', alignItems: 'center', flexDirection: 'column', justifyContent: 'center' }}>
+              <View style={{width: DeviceWidth, alignSelf:'stretch', alignItems: 'center', flexDirection: 'column', justifyContent: 'center' }}>
 
                 <Text style={{color: colors.white, fontSize: 20, fontFamily: 'montserrat', fontWeight: '800', textAlign: 'center', }} >{
                     'YOU MATCHED WITH'
@@ -90,7 +90,7 @@ export default class NoMessages extends React.Component{
                   <TimeAgo style={{color: colors.shuttleGray, fontSize: 16, fontFamily: 'omnes', }} time={matchInfo.created_timestamp * 1000} />
                 </View>
 
-                <View style={[this.getThumbSize(), {backgroundColor: colors.dark}]}>
+                <View style={[this.getThumbSize('top'), {backgroundColor: colors.dark}]}>
                   <Image
                     style={this.getThumbSize()}
                     defaultSource={require('./assets/placeholderUser@3x.png')}
@@ -100,16 +100,15 @@ export default class NoMessages extends React.Component{
                   (them.length == 2 ? 'They\'re' : them[0].gender == 'm' ? 'He\'s' : 'She\'s')
                 } already into you.</Text>
               </View>
-            </FadeInContainer>
-          </View>
-          <View style={{bottom: -5}}>
+              </View>
+              </FadeInContainer>
             <MessageComposer
               textInputValue={this.props.textInputValue}
               onTextInputChange={this.props.onTextInputChange}
               sendMessage={this.props.sendMessage}
             />
 
-          </View>
+
         </KeyboardAvoidingView>
       </ScrollView>
     )

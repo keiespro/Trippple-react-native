@@ -136,8 +136,9 @@ class ChatInside extends Component{
       <View style={{paddingTop:0,width:DeviceWidth,height:DeviceHeight-70,alignSelf:'stretch',position:'absolute',top:0}}>
           <KeyboardAvoidingView
             style={{flexGrow:1,flex:1,alignSelf:'stretch',flexDirection:'column',top:0,bottom:0,position:'relative',}}
-            contentContainerStyle={{alignSelf:'stretch'}}
+            contentContainerStyle={{alignSelf:'stretch',height:DeviceHeight-70,flexGrow:10}}
             keyboardVerticalOffset={-180}
+
             behavior={'padding'}>
 
                       <ListView

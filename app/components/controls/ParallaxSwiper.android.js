@@ -113,7 +113,7 @@ class ParallaxSwiper extends React.Component{
             overlayColor: 'transparent',
             borderRadius: 11,
             alignSelf:'flex-end',
-            bottom: this.props.profileVisible ? 0 : -40,
+            bottom: this.props.profileVisible ? 0 : 0,
             // top:100
           }}
         />
@@ -135,6 +135,7 @@ class ParallaxSwiper extends React.Component{
             width: 0,
             height: -10
           },
+          marginTop:profileVisible ? 0 : 40,
           flex: 1,
           position: 'absolute',
           top: 0,
@@ -150,7 +151,7 @@ class ParallaxSwiper extends React.Component{
               'rgb(66,181,125)',
               'rgb(66,181,125)',
             ],
-          }) : 'transparent',
+          }) : colors.mediumPurple20,
         }]}
       >
         <View
@@ -160,6 +161,7 @@ class ParallaxSwiper extends React.Component{
             flex: 1,
             borderRadius: 11,
             left: 0,
+
           }}
         >
           {slides && slides.length > 1 ? <Swiper
@@ -175,8 +177,6 @@ class ParallaxSwiper extends React.Component{
             height={this.props.height}
             paginationStyle={{
               top: 0,
-              backgroundColor: 'transparent',
-              position: 'absolute',
               right: 0
             }}
           >
@@ -227,6 +227,8 @@ class ParallaxSwiper extends React.Component{
             flexGrow: 1,
             height: DeviceHeight + TOP_DISTANCE,
             backgroundColor: colors.dark70,
+            height: DeviceHeight+1000,
+
             top: TOP_DISTANCE,
           }}
           style={[

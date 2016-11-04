@@ -71,7 +71,7 @@ class CouplePin extends React.Component{
   }
 
   componentWillReceiveProps(nProps){
-    if(this.state.success) return false;
+    if(!this.state.success) return false;
     if( nProps.couple && ( (nProps.couple.hasOwnProperty('verified') && nProps.couple.verified) || (nProps.couple.hasOwnProperty('sentInvite') && nProps.couple.sentInvite) ) ){
       this.setState({
         success: true,

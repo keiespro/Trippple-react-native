@@ -53,11 +53,9 @@ class PermissionsModal extends Component{
   }
 
   componentWillReceiveProps(nProps){
-    if(this.props.hasPermission != 'true' && nProps.hasPermission == 'true'){
-      // successfully got permission
-      if(!this.props.isPersistant){
+    if(nProps.hasPermission == 'true' && !this.props.isPersistant){
         this.closeModal()
-      }
+      
     }
   }
 

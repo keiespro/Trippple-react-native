@@ -205,7 +205,7 @@ class MatchesList extends Component {
 
   render() {
     return (!this.props.matches.length && !this.props.newMatches.length) ? <NoMatches/> : (
-      <View style={{flexGrow:1,}}>
+      <View style={{flexGrow:1,top:-5}}>
         <ListView
           dataSource={this.props.dataSource}
 

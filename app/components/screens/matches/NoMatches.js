@@ -25,7 +25,7 @@ const NoMatches = () => (
     }}
   >
     <FadeInContainer
-      delayAmount={100}
+      delayAmount={1500}
       duration={1000}
     >
       <View

@@ -64,7 +64,7 @@ class CardStack extends React.Component {
   componentWillReceiveProps(nProps) {
      const n = nProps;
     const p = this.props;
-    if(n.profileVisible != p.profileVisible){
+    if(n.profileVisible !== p.profileVisible){
     // console.log('SCENERIO 0');
         Animated.spring(this.state.cardopen, {
           toValue: n.profileVisible ? 1.00 : 0.92,
@@ -101,10 +101,9 @@ class CardStack extends React.Component {
         // console.log(nid,pid);
         // console.warn('SCENARIO 1.5');
         this.state.pan.setValue({ x: 0, y: 0 });
-        this.setImmediate(()=>{
+        this.setTimeout(()=>{
           this.state.cardopen.setValue(0.92);
-
-        })
+        },10)
 
       }else{
         this.state.pan.setValue({ x: 0, y: 0 });
@@ -293,7 +292,7 @@ class CardStack extends React.Component {
 
         <View style={{ width: DeviceWidth, }} pointerEvents={'box-none'} />
 
-        { potentials && potentials.length >= 1 && potentials[1] &&
+        { iOS && potentials && potentials.length >= 1 && potentials[1] &&
           <Animated.View
             style={[styles.shadowCard, {
               alignSelf: 'center',
