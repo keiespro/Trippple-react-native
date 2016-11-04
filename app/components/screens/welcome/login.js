@@ -45,7 +45,7 @@ class Login extends Component{
   }
 
   onError(err){
-    console.log(err);
+    // console.log(err);
     if(!err || !err.phoneError){
         return;
     }

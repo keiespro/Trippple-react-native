@@ -24,7 +24,6 @@ export default function matchesReducer(state = initialState, action) {
 
     case 'GET_MATCHES_FULFILLED':
         const matches = action.payload;
-        console.info(matches)
         // if ( !matches || !Array.isArray(matches) ) return state;
 
         const matchesHash = Object.values(matches).reduce( ( acc, el, i ) => {

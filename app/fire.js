@@ -17,12 +17,12 @@ const fireLogin = (fbUser, dispatch) => {
 
   const app = firebase.initializeApp(firebaseConfig, 'co.trippple', (x) => {
 
-    console.log(x)
+    // console.log(x)
     const database = app.database();
     const auth = app.auth();
 
   auth.onAuthStateChanged((firebaseUser) => {
-    console.log(firebaseUser, auth);
+    // console.log(firebaseUser, auth);
     if(fbUser && !isUserEqual(fbUser, firebaseUser)) {
       const credential = app.auth.FacebookAuthProvider.credential(fbUser.accessToken);
       app.auth.signInWithCredential(credential)
@@ -30,7 +30,7 @@ const fireLogin = (fbUser, dispatch) => {
         dispatch({ type: 'FIREBASE_AUTH', payload: firebaser })
       })
       .catch((error) => {
-        __DEV__ && console.warn('catch fire', error);
+        // __DEV__ && console.warn('catch fire', error);
         const errorCode = error.code;
         const errorMessage = error.message;
         const email = error.email;
@@ -46,12 +46,12 @@ const fireLogin = (fbUser, dispatch) => {
 }
 
 const checkFireLoginState = async (fbUser, dispatch) => {
-  console.log(fbUser, 'fbUserfbUserfbUserfbUserfbUserfbUser');
+  // console.log(fbUser, 'fbUserfbUserfbUserfbUserfbUserfbUser');
   if(fbUser) {
     const firebaseUser = await fireLogin(fbUser, dispatch)
     dispatch({ type: 'FIREBASE_AUTH_SUCCESS', payload: firebaseUser })
   }else{
-    __DEV__ && console.warn('User is signed-out of Facebook.')
+    // __DEV__ && console.warn('User is signed-out of Facebook.')
     auth.signOut();
     dispatch({ type: 'FIREBASE_AUTH_FAIL', payload: 'User is signed-out of Facebook.' })
   }
@@ -60,7 +60,7 @@ const checkFireLoginState = async (fbUser, dispatch) => {
 function isUserEqual(facebookAuthResponse, firebaseUser) {
   let r = false;
   if(firebaseUser) {
-    console.log(firebaseUser);
+    // console.log(firebaseUser);
     // const providerData = firebaseUser.providerData;
     // for(let i = 0; i < providerData.length; i++) {
     //   if(providerData[i].providerId === firebase.auth.FacebookAuthProvider.PROVIDER_ID &&
@@ -71,7 +71,7 @@ function isUserEqual(facebookAuthResponse, firebaseUser) {
     // }
     r = true //STUBBED
   }
-  console.log('isUserEqual', r);
+  // console.log('isUserEqual', r);
 
   return r;
 }

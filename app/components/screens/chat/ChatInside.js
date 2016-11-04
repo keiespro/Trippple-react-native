@@ -124,7 +124,7 @@ class ChatInside extends Component{
   render(){
     const matchInfo = this.props.currentMatch || this.props.matchInfo;
     if(!matchInfo){
-      console.log('no matchInfo');
+      // console.log('no matchInfo');
       return <View/>
     }
     const theirIds = Object.keys(matchInfo.users).filter( (u)=> u != this.props.user.id && u != this.props.user.partner_id),

@@ -63,7 +63,7 @@ class NotificationCommander extends Component{
   }
 
   handleAction(notification,foreground, opened_from_tray){
-    console.log(notification,foreground, opened_from_tray);
+    // console.log(notification,foreground, opened_from_tray);
     const moreNotificationAttributes = {
       uuid: uuid.v4(),
       receivedAt: Date.now(),

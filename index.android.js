@@ -2,7 +2,6 @@ import React from "react";
 import ReactNative, { AppRegistry } from "react-native";
 import NewBoot from './app/NewBoot'
 
-console.log('index.ANDROID.js');
 
 if(typeof window !== 'undefined' && (__DEV__ ) && process.env.NODE_ENV !== 'production'){
   global = window;
@@ -10,6 +9,8 @@ if(typeof window !== 'undefined' && (__DEV__ ) && process.env.NODE_ENV !== 'prod
   window.React = React;
 }
 if(__DEV__){
+  console.log('index.ANDROID.js');
+
   console.ignoredYellowBox = [
     `Possible Unhandled Promise Rejection`,
     `{"line":`,

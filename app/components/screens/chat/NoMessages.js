@@ -24,13 +24,13 @@ export default class NoMessages extends React.Component{
 
   }
   hideKeyboard(k){
-    console.log('hidekey');
+    // console.log('hidekey');
 
     // LayoutAnimation.easeInEaseOut()
     this.setState({isKeyboardOpened: false})
   }
   showKeyboard(k){
-    console.log('showkeyboard');
+    // console.log('showkeyboard');
     this.setState({isKeyboardOpened: true})
 
   }
@@ -38,7 +38,7 @@ export default class NoMessages extends React.Component{
 
     let size =  MagicNumbers.is4s ? SIZES.small : SIZES.big;
     let isKeyboardOpened =  this.state.isKeyboardOpened;
-    console.log(size.dimensions.open);
+    // console.log(size.dimensions.open);
     return  {
                 width: isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
                 height: isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,

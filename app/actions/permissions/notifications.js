@@ -43,7 +43,7 @@ const request = {
         perm = 'true'
       }
     }catch(err){
-      __DEV__ && console.warn(err)
+      // __DEV__ && console.warn(err)
       perm = 'denied';
       // throw new Error(err)
     }
@@ -61,7 +61,7 @@ const check = {
     let p;
     try{
       const permission = await OSPermissions.canUseNotifications()
-      console.log(parseInt(permission));
+      // console.log(parseInt(permission));
       const permResult = Object.keys(permission).reduce((acc, el, i) => {
         acc += permission[el];
         return acc
@@ -71,13 +71,13 @@ const check = {
       //   p = 'true'
       // }else
       if(parseInt(permResult) == 1) {
-        console.log('no permission, must ask')
+        // console.log('no permission, must ask')
         p = 'true'
       }else{
         p = 'denied'
       }
     }catch(err){
-      __DEV__ && console.warn(err);
+      // __DEV__ && console.warn(err);
       throw new Error(err)
     }
     return p

@@ -354,7 +354,7 @@ class OnboardModal extends Component {
           {this.state.step == 1 &&
 
               us_choices.map((item, i) => {
-                console.log(item);
+                // console.log(item);
                 return (
                   <View style={{width: DeviceWidth }}>
                     <Selectable

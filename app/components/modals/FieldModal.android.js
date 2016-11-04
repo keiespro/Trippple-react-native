@@ -51,7 +51,7 @@ class MultiLineInput extends React.Component{
   }
 
   sizeChange(e){
-    console.log(e.nativeEvent.contentSize.height);
+    // console.log(e.nativeEvent.contentSize.height);
     this.setState({bioHeight: e.nativeEvent.contentSize.height})
   }
 
@@ -130,7 +130,7 @@ class FieldModal extends React.Component{
     }
   }
   onChange(val){
-    console.log(val);
+    // console.log(val);
 
     if(!val) return
     let isValid = true;
@@ -230,7 +230,7 @@ class FieldModal extends React.Component{
     }
   }
   onChangeDate(d){
-    console.log(d);
+    // console.log(d);
 
     this.setState({
       canContinue: true,

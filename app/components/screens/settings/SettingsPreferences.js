@@ -81,7 +81,7 @@ class SettingsPreferences extends React.Component{
     const newState = {}
     newState[field] = !this.state[field]
     this.setState(newState)
-    console.log(newState);
+    // console.log(newState);
     this.props.dispatch(ActionMan.updateUser(newState))
   }
 

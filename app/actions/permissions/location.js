@@ -43,7 +43,7 @@ const request = {
         perm = 'true'
       }
     }catch(err){
-      __DEV__ && console.warn(err)
+      // __DEV__ && console.warn(err)
       perm = 'denied';
       // throw new Error(err)
     }
@@ -60,7 +60,7 @@ const request = {
       )
       return granted
     }catch(err) {
-      console.warn(err)
+      // console.warn(err)
       throw new Error(err)
     }
   }
@@ -73,13 +73,13 @@ const check = {
       if(parseInt(permission) > 2) {
         return 'true'
       }else if(parseInt(permission) === 0) {
-        console.log('no permission, must ask')
+        // console.log('no permission, must ask')
         return 'unknown'
       }else{
         return 'denied'
       }
     }catch(err){
-      __DEV__ && console.warn(err);
+      // __DEV__ && console.warn(err);
       throw new Error(err)
     }
   },
@@ -94,7 +94,7 @@ const check = {
       )
       return granted
     }catch(err) {
-      console.warn(err)
+      // console.warn(err)
       throw new Error(err)
     }
   }

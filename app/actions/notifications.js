@@ -196,7 +196,7 @@ export const handleNotification = notification => dispatch => dispatch({ type: '
     resolve(n)
   })
   .catch(err => {
-    console.warn(err);
+    __DEV__ && console.warn(err);
   })
 
 })

@@ -38,7 +38,7 @@ const request = {
         perm = 'denied'
       }
     }catch(err){
-      __DEV__ && console.warn(err)
+      // __DEV__ && console.warn(err)
       throw new Error(err)
     }
     return perm
@@ -53,7 +53,7 @@ const request = {
       const granted = await PermissionsAndroid.requestPermission(...params)
       return granted
     }catch(err) {
-      console.warn(err)
+      // console.warn(err)
       throw new Error(err)
     }
   }
@@ -76,7 +76,7 @@ const check = {
         perm = 'denied'
       }
     }catch(err){
-      __DEV__ && console.warn(err)
+      // __DEV__ && console.warn(err)
       throw new Error(err)
     }
     return perm
@@ -91,7 +91,7 @@ const check = {
       const granted = await PermissionsAndroid.checkPermission(...params)
       return granted
     }catch(err) {
-      console.warn(err)
+      // console.warn(err)
       throw new Error(err)
     }
   }

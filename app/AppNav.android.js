@@ -25,8 +25,7 @@ class AppNav extends React.Component {
   }
   setDrawerOpen(){
     // StatusBar.setTranslucent(true);
-    console.log(BackAndroid);
-    BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
+     BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
     this.props.setDrawerOpen()
   }
   handleBackAndroid(){

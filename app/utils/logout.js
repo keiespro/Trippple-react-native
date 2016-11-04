@@ -11,7 +11,7 @@ const ClearAsyncStorage = Promise.promisify(AsyncStorage.clear)
 
 
 function Logout(){
-    console.log('log out');
+    // console.log('log out');
     return Promise.all([
         iOS ? Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE) : null,
         ClearAsyncStorage().then(()=>{

@@ -16,7 +16,7 @@ class Generic extends Component{
   };
 
   render(){
-    console.log(this.props);
+    // console.log(this.props);
     return (
       <View style={styles.container}>
         {<this.props.component {...this.props} {...this.props.passProps}>{this.props.passProps.inside}</this.props.component>}

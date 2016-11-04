@@ -50,7 +50,7 @@ class FacebookImageSource extends Component{
 
   }
   componentWillReceiveProps(nProps){
-    console.log(nProps);
+    // console.log(nProps);
     if(!this.props.fbUser && nProps.fbUser){
       this.onPressFacebook(nProps.fbUser)
     }
@@ -59,7 +59,7 @@ class FacebookImageSource extends Component{
     this.onPressFacebook(this.props.fbUser)
   }
   onPressFacebook(fbUser){
-    console.log(fbUser);
+    // console.log(fbUser);
 
 
     if(fbUser.accessToken){
@@ -70,7 +70,7 @@ class FacebookImageSource extends Component{
         fbUser
       })
     }else{
-      console.log('no fb auth');
+      // console.log('no fb auth');
       this.props.dispatch(ActionMan.facebookAuth())
       this.props.navigator.replace(this.props.navigator.navigationContext.router.getRoute('FBPhotoAlbums'), {
         ...this.props,
