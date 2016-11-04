@@ -96,13 +96,13 @@ class CoupleReady extends React.Component{
 
         {this.props.user.partner ? <View style={{height:120,marginVertical:30,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
           <Image style={[{width:120,height:120,borderRadius:60,marginRight:-100}]}
-              source={ {uri: this.props.user.partner.image_url || require('../../../assets/placeholderUser@3x.png')} }
-              defaultSource={require('../../../assets/placeholderUser@3x.png')}
+              source={ {uri: this.props.user.partner.image_url || require('../chat/assets/placeholderUserWhite@3x.png')} }
+              defaultSource={require('../../../assets/placeholderUserWhite@3x.png')}
           />
 
         <Image style={[{width:120,height:120,borderRadius:60,marginLeft:-100}]}
-            source={ {uri: this.props.user.image_url || 'assets/placeholderUser@3x.png'} }
-            defaultSource={require('../../../assets/placeholderUser@3x.png')}
+            source={ {uri: this.props.user.image_url || '../chat/assets/placeholderUserWhite@3x.png'} }
+            defaultSource={require('../chat/assets/placeholderUserWhite@3x.png')}
         />
     </View> : null}
 

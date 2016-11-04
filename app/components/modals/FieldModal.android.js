@@ -238,7 +238,7 @@ class FieldModal extends React.Component{
     })
   }
   cancel(){
-    this.props.dispatch(ActionMan.killModal())
+    this.props.navigator ? this.props.navigator.pop() : this.props.dispatch(ActionMan.killModal())
   }
   renderButtons(){
     return (
@@ -296,6 +296,7 @@ class FieldModal extends React.Component{
     let {field, fieldValue} = this.props
     const get_values = (typeof this.props.field.values == 'object' && Object.keys(this.props.field.values).map(key => key)) || this.props.field.values;
     const get_key_vals = (typeof this.props.field.values == 'object' && this.props.field.values) || {};
+    const fieldLabel = (fieldValue.label || fieldValue);
 
     const displayField = (theField) => {
       switch (theField.field_type) {
@@ -387,11 +388,9 @@ class FieldModal extends React.Component{
 
     // console.info('init fieldmodal render:', {state:this.state, field:field, fieldValue:fieldValue, inputField:inputField});
 
-    const fieldLabel = (fieldValue.label || fieldValue);
     fieldValue = (fieldValue.value || fieldValue);
 
     fieldValue = fieldValue ? fieldValue.toString() : '';
-
     let selectedFieldLabel = (this.state.value || fieldLabel || '');
     const selectedFieldValue = (this.state.value || fieldValue || this.props.fieldValue);
 
@@ -420,7 +419,7 @@ class FieldModal extends React.Component{
               >
                 <View
                   style={{
-                    borderBottomWidth: 1,
+                    borderBottomWidth: 0,
                     borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -442,7 +441,7 @@ class FieldModal extends React.Component{
                     fontSize: 30,
                     width: MagicNumbers.screenWidth - MagicNumbers.screenPadding,
                     marginHorizontal: MagicNumbers.screenPadding / 2,
-                    borderBottomWidth: 1,
+                    borderBottomWidth: 0,
                     borderBottomColor: colors.rollingStone,
                     textAlign: 'center',
                     fontFamily: 'montserrat',
@@ -521,7 +520,7 @@ class FieldModal extends React.Component{
                       >{field.long_label ? field.long_label : field.label}</Text>
 
                       <View
-                        style={{ borderBottomWidth: 1, borderBottomColor: borderColor, width: MagicNumbers.screenWidth }}
+                        style={{ borderBottomWidth: 0, borderBottomColor: borderColor, width: MagicNumbers.screenWidth }}
                       >
                         {React.cloneElement(inputField, {
                           maxLength: getMaxLength(this.props.fieldName),

@@ -124,17 +124,17 @@ class SettingsCouple extends React.Component{
 
           { (partner.id) &&
           <View>
-            <View style={{height: 120, width: 120, alignItems: 'center', alignSelf: 'center'}}>
+            <View style={{height: 120,top:20,backgroundColor: colors.dark, width: 120, borderRadius:60,alignItems: 'center', alignSelf: 'center'}}>
               <Image
                 style={styles.userimage}
                 key={partner.thumb_url}
-                source={{uri: partner.thumb_url || ''}}
-                defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
+                source={partner.thumb_url ? {uri: partner.thumb_url } : require('../chat/assets/placeholderUserWhite@3x.png')}
+                defaultSource={require('../chat/assets/placeholderUserWhite@3x.png')}
                 resizeMode={Image.resizeMode.cover}
               />
 
             </View>
-            <View style={{paddingHorizontal: 25, }}>
+            <View style={{paddingHorizontal: 15, }}>
               <View style={styles.formHeader}>
                 <Text style={styles.formHeaderText}>Your Partner</Text>
               </View>
@@ -381,7 +381,6 @@ const styles = StyleSheet.create({
     fontFamily: 'montserrat',
   },
   userimage: {
-    backgroundColor: colors.dark,
     width: 120, height: 120, borderRadius: 60, alignSelf: 'center',
   },
   middleTextWrap: {
