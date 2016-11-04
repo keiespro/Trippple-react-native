@@ -9,13 +9,17 @@ import ActionMan from '../../../actions/';
 import ApproveIcon from './ApproveIcon'
 import DenyIcon from './DenyIcon'
 import Router from '../../../Router'
+import TimerMixin from 'react-timer-mixin';
+
+import reactMixin from 'react-mixin'
+
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 const iOS = Platform.OS == 'ios';
 
-const THROW_THRESHOLD_DENY = -1 * (10);
-const THROW_THRESHOLD_APPROVE = 10;
+const THROW_THRESHOLD_DENY = -1 * (20);
+const THROW_THRESHOLD_APPROVE = 20;
 const THROW_SPEED_THRESHOLD = 1;
 
 const SWIPE_THRESHOLD_DENY = -180;
@@ -33,8 +37,7 @@ function logPan(label, gestureState, nativeEvent){
 }
 
 
-
-@onlyUpdateForKeys(['potentials','profileVisible'])
+@reactMixin.decorate(TimerMixin)
 class CardStack extends React.Component {
 
   static displayName = 'CardStack';
@@ -59,18 +62,19 @@ class CardStack extends React.Component {
   }
 
   componentWillReceiveProps(nProps) {
-    const n = nProps;
+     const n = nProps;
     const p = this.props;
     if(n.profileVisible != p.profileVisible){
-    // console.log('spring');
+    // console.log('SCENERIO 0');
         Animated.spring(this.state.cardopen, {
           toValue: n.profileVisible ? 1.00 : 0.92,
           tension: 7,
           friction: 5,
-          velocity: 3,
+          velocity: 10,
           useNativeDriver: true,
         }).start(() => {
           // console.log('end');
+          // this.state.cardopen.setValue(n.profileVisible ? 1.00 : 0.92);
 
         });
         // Animated.timing(this.state.heightBox, {
@@ -84,21 +88,42 @@ class CardStack extends React.Component {
         //
         // })
     }
-    if(p.potentials[0] && n.potentials[0]){
-      const pid = p.potentials[0].user.id
-      const nid = n.potentials[0].user.id
-      if(nid != pid){
-        this.state.pan.setValue({ x: 0, y: 0 });
-        this.state.cardopen.setValue(0.92);
 
-        this.initializePanResponder();
+  }
+
+  componentDidUpdate(pProps,pState){
+    if(this.props.potentials[0] && pProps.potentials[0]){
+
+      // console.warn('SCENARIO 1');
+      const pid = this.props.potentials[0].user.id
+      const nid = pProps.potentials[0].user.id
+      if(nid != pid){
+        // console.log(nid,pid);
+        // console.warn('SCENARIO 1.5');
+        this.state.pan.setValue({ x: 0, y: 0 });
+        this.setImmediate(()=>{
+          this.state.cardopen.setValue(0.92);
+
+        })
+
+      }else{
+        this.state.pan.setValue({ x: 0, y: 0 });
+
       }
-    }
-    if(p.drawerOpen != n.drawerOpen){
-      this.state.pan.setValue({ x: 0, y: 0 });
+    }else if((this.props.drawerOpen != pProps.drawerOpen)){
+
+      // console.warn('SCENARIO 2');
+
       this.state.cardopen.setValue(0.92);
 
     }
+
+    // if(!p.isTopCard && n.isTopCard){
+    //
+    //   console.warn('SCENARIO 3');
+    //   this.state.cardopen.setValue(0.92);
+    //
+    // }
   }
 
 
@@ -182,28 +207,37 @@ class CardStack extends React.Component {
         }
 
         if(likeStatus){
+
           const relstatus = this.props.rel === 'single' ? 'couple' : 'single';
           const otherParams = { relevantUser: this.props.potentials[0] };
 
 
-          InteractionManager.runAfterInteractions(() => {
-            Animated.timing(this.state.pan, {
-              toValue,
-              duration: 120,
-              easing: Easing.inOut(Easing.ease),
-              deceleration: 1.1,
-              useNativeDriver: !iOS
-            }).start(() => { });
-          })
+          Animated.timing(this.state.pan, {
+            toValue,
+            duration: 300,
+            // easing: Easing.inOut(Easing.ease),
+            // deceleration: 1.1,
+            useNativeDriver: !iOS
+          }).start(() => {
 
-          if(!this.props.potentials[0].starter){
-            this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, relstatus, this.props.rel, otherParams));
-          }else{
-            this.props.dispatch({type: 'SEND_LIKE_FULFILLED', payload: {
-              relevantUser: this.props.potentials[0],
-              like_status: likeStatus
-            }});
-          }
+              InteractionManager.runAfterInteractions(() => {
+                this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, relstatus, this.props.rel, otherParams));
+              })
+          });
+
+          // if(!this.props.potentials[0].starter){
+          //   InteractionManager.runAfterInteractions(() => {
+          //     this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, relstatus, this.props.rel, otherParams));
+          //   })
+          //
+          // }else{
+          //       // setImmediate(() => {
+          //       //   this.props.dispatch({type: 'SEND_LIKE_FULFILLED', payload: {
+          //       //     relevantUser: this.props.potentials[0],
+          //       //     like_status: likeStatus
+          //       //   }});
+          //       // })
+          // }
 
         }else{
           setImmediate(() => {
@@ -236,7 +270,11 @@ class CardStack extends React.Component {
 
   render() {
     const { potentials, user } = this.props;
-    const _panResponder = this._panResponder || {};
+    if(!this._panResponder){
+      this.initializePanResponder();
+    }
+    const {_panResponder} = this
+
 
     return (
       <View

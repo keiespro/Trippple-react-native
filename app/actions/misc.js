@@ -81,7 +81,7 @@ export const share = payload => dispatch => dispatch({ type: 'SHARE_COUPLE_PIN',
 export const receivePushToken = ({push_token, loggedIn}) => dispatch => dispatch({ type: 'RECEIVE_PUSH_TOKEN',
   payload: {
     promise: new Promise((resolve, reject) => {
-      if(loggedIn) dispatch({type: 'UPDATE_USER_PUSH_TOKEN', payload: api.updatePushToken({push_token})});
+      dispatch({type: 'UPDATE_USER_PUSH_TOKEN', payload: api.updatePushToken({push_token})});
       resolve(push_token)
     })
   }
@@ -92,7 +92,7 @@ export const getPushToken = () => dispatch => dispatch({ type: 'GET_PUSH_TOKEN',
   payload: {
     promise: new Promise((resolve, reject) => {
       FCM.getFCMToken().then(push_token => {
-        dispatch(receivePushToken(push_token))
+        dispatch(receivePushToken({push_token}))
         dispatch({type: 'SAVE_PUSH_TOKEN', payload: push_token})
       })
      .catch(x => console.log(x))

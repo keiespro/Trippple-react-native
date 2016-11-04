@@ -6,7 +6,7 @@ import SplashScreen from 'react-native-splash-screen'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
 import RC from '../RemoteConfig'
-
+import _ from 'lodash'
 import pure from 'recompose/pure'
 import AppNav from '../AppNav';
 import ModalDirector from './modals/ModalDirector';
@@ -80,15 +80,21 @@ class App extends React.Component{
         'getPotentials',
         // 'getMatches',
         // 'getNewMatches',
-        'getLocation',
-        // 'getPushToken',
         // 'getNotificationCount',
       ];
+      const {permissions} = this.props;
 
+      if(permissions.location){
+        initActions.push('getLocation')
+      }
+      if(permissions.notifications){
+        initActions.push('getPushToken')
+      }
       RC.getValue('init_actions')
         .then(actions => {
+
           __DEV__ && console.log('init_actions', actions);
-          actions.split(',').forEach(ac => {
+        _.reject(actions.split(','), a => a == 'getLocation').forEach(ac => {
             this.props.dispatch(ActionMan[ac]())
           })
         })
@@ -139,7 +145,8 @@ const mapStateToProps = (state, ownProps) => {
     exnavigation: state.exnavigation,
     savedCredentials: state.auth.savedCredentials,
     appState: state.app.appState,
-    booted: state.app.booted
+    booted: state.app.booted,
+    permissions: state.permissions
   }
 }
 

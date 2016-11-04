@@ -366,7 +366,6 @@ class Settings extends React.Component{
 
           </View>
 
-          <XButton navigator={this.props.navigator}/>
 
         </ParallaxView>
       </View>

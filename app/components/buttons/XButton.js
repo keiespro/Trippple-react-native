@@ -26,14 +26,14 @@ export default class XButton extends Component{
 
             <TouchableOpacity
                 onPress={this.onPress.bind(this)}
-                style={{padding:20,width:55,height:55,position:'absolute',
+                style={[{padding:20,width:55,height:55,position:'absolute',
                  top:this.props.top || (!this.props.topZero && 12 ) || 0,
-                zIndex:99999}}
+                zIndex:99999},this.props.style]}
             >
                 <Image
                     resizeMode={Image.resizeMode.contain}
                     style={{width:15,height:15,marginTop:0,alignItems:'flex-start'}}
-                    source={{uri: 'assets/close@3x.png'}}
+                    source={require('../screens/potentials/assets/close@3x.png')}
                 />
             </TouchableOpacity>
 

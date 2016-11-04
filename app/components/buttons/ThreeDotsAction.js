@@ -17,22 +17,31 @@ import Btn from '../Btn'
 import colors from '../../utils/colors'
 
 
-const ThreeDotsActionButton = ({open, dotColor=colors.white, style}) => (
+const ThreeDotsActionButton = ({dispatch, dotColor = colors.white, style, match}) => (
   <Btn
     color={colors.white}
     style={style}
-    onPress={open}
+    onPress={() => {
+      dispatch(ActionMan.showInModal({
+        component: 'Action',
+        passProps: {
+          match,
+          fromChat: true,
+          style: {width: 50}
+        }
+      }))
+    }}
   >
     <ThreeDots
       dotColor={dotColor}
     />
   </Btn>
 )
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
+  match: state.matches[state.ui.chat.match_id] || state.newMatches[state.ui.chat.match_id]
+})
 
-// const mapDispatchToProps = (dispatch) => ({
-//   actionModal: () => {
-//
-//   }
-// })
+const mapDispatchToProps = (dispatch) => ({dispatch})
 
-export default  ThreeDotsActionButton
+export default connect(mapStateToProps, mapDispatchToProps)(ThreeDotsActionButton)

@@ -20,8 +20,8 @@ import Btn from '../../Btn';
 class MatchesButton extends React.Component{
   render(){
     return (
-      <View style={{borderRadius:15,}}>
-      <Btn style={{paddingTop:0,paddingLeft:25,paddingBottom:0,top:0,position:'relative'}} onPress={() => this.props.navigator.push(this.props.navigation.router.getRoute('Matches'))}>
+      <View style={{borderRadius:15,overflow:'hidden'}}>
+      <Btn round style={{paddingTop:10,paddingLeft:25,paddingBottom:10,top:0,position:'relative'}} onPress={() => this.props.navigator.push(this.props.navigation.router.getRoute('Matches'))}>
         <Image
           resizeMode={Image.resizeMode.contain}
           tintColor={colors.white}

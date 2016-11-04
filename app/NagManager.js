@@ -44,7 +44,7 @@ class NagManager extends React.Component{
         })
 
 
-       const p = OSPermissions.canUseLocation()
+        const p = OSPermissions.canUseLocation()
             .then(OSLocation => {
               this.setState({
                 lp: parseInt(OSLocation) > 2,
@@ -56,9 +56,9 @@ class NagManager extends React.Component{
 
   componentWillReceiveProps(nProps){
     if(!this.state.sawStarterPotentials && !this.props.loggedIn && nProps.loggedIn && !nProps.nag.sawStarterPotentials){
-      this.props.dispatch({type: 'GET_STARTER_POTENTIALS', payload: {relationshipStatus: this.props.user.relationship_status || 'single' }})
+      // this.props.dispatch({type: 'GET_STARTER_POTENTIALS', payload: {relationshipStatus: this.props.user.relationship_status || 'single' }})
       this.setState({got_starter_pack: true})
-      Settings.set({HAS_SEEN_STARTER_DECK: true})
+      // Settings.set({HAS_SEEN_STARTER_DECK: true})
     }
     if(this.props.loggedIn && nProps.loggedIn){
     // relationship_status modal
@@ -164,18 +164,13 @@ class NagManager extends React.Component{
   }
 
   checkLocationSetting(){
-    const hasSeenLocationRequest = Settings.get(LAST_ASKED_LOCATION_PERMISSION);
+    if(!this.props.permissions.location){
+      this.locationModal()
+    }else if(this.props.permissions.location){
+      __DEV__ && console.log('have location permission, getting current location');
 
-    OSPermissions.canUseLocation()
-        .then(hasPermission => {
-          if(parseInt(hasPermission) <= 2 || hasSeenLocationRequest){
-            this.locationModal()
-          }else if(parseInt(hasPermission) > 2){
-            __DEV__ && console.log('have location permission, getting current location');
-
-            this.props.dispatch(ActionMan.getLocation())
-          }
-        })
+      this.props.dispatch(ActionMan.getLocation())
+    }
   }
 
   render(){
@@ -185,21 +180,16 @@ class NagManager extends React.Component{
 }
 
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...ownProps,
-    user: state.user,
-    fbUser: state.fbUser,
-    auth: state.auth,
-    nag: state.nag,
-    loggedIn: state.auth.api_key && state.auth.user_id,
-    isNewUser: state.user.isNewUser,
-    likeCount: state.likes.likeCount
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
+  user: state.user,
+  nag: state.nag,
+  loggedIn: state.auth.api_key && state.auth.user_id,
+  isNewUser: state.user.isNewUser,
+  likeCount: state.likes.likeCount,
+  permissions: state.permissions
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return { dispatch };
-}
+const mapDispatchToProps = (dispatch) => ({ dispatch });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NagManager);

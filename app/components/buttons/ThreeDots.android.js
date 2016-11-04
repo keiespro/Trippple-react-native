@@ -10,7 +10,7 @@ const dots = [1,2,3];
 
 const Dots = ({dotColor}) => (
   <View style={{
-    width:30,
+    width:50,
     height:50,
     justifyContent:'center',
     alignItems:'center',

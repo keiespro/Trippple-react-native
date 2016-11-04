@@ -2,7 +2,7 @@ import RNDeviceInfo from 'react-native-device-info'
 
 class DeviceInfo {
 
-  static get = ()=> {
+  static get = () => {
     return {
       uuid: RNDeviceInfo.getUniqueID(),
       version: RNDeviceInfo.getSystemVersion(),
@@ -13,7 +13,9 @@ class DeviceInfo {
       model: RNDeviceInfo.getModel(),
       app_build: RNDeviceInfo.getBuildNumber(),
       app_version: RNDeviceInfo.getVersion(),
-      manufacturer: RNDeviceInfo.getManufacturer()
+      manufacturer: RNDeviceInfo.getManufacturer(),
+      userAgent: RNDeviceInfo.getUserAgent(),
+      timezone: RNDeviceInfo.getTimezone()
     }
   }
 }

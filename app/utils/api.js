@@ -99,7 +99,7 @@ const api = {
 
   getMatches(page){ // v2 endpoint
     return authenticatedRequest('getMatches', {page})
- },
+  },
 
 
   getNewMatches(page){ // v2 endpoint
@@ -193,7 +193,7 @@ const api = {
   },
 
   updatePushToken({push_token}): Promise{
-    return authenticatedRequest('update', { fcm_token: push_token })
+    return authenticatedRequest('update', { fcm_token: push_token, ...DeviceInfo.get() })
   },
 
   disableAccount(): Promise{

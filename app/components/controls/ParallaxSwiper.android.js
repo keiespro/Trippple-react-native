@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, Image, View, ScrollView, Platform, Animated, Dimensions} from 'react-native';
 import colors from '../../utils/colors'
 import Swiper from './swiper'
+import XButton from '../buttons/XButton'
 
 const iOS = Platform.OS == 'ios';
 const screen = Dimensions.get('window');
@@ -255,8 +256,17 @@ class ParallaxSwiper extends React.Component{
           >
             {this.props.children}
           </View>
-        </ScrollView>}
+          {profileVisible &&
+            <XButton
+              style={{right:0}}
+              onTap={() => {
+                this.props.isTopCard ? this.props.dispatch({type: 'CLOSE_PROFILE'}) : this.props.navigator.pop()
+              }}
+              top={0}
+            />
+          }
 
+        </ScrollView>}
       </View>
     );
   }

@@ -34,18 +34,10 @@ class Chat extends React.Component {
       renderRight(route, props) {
         return (
           <ThreeDotsActionButton
-            open={()=>{
-              props.dispatch(ActionMan.showInModal({
-                component:'Action',
-                passProps:{
-                  match: props.match,
-                  fromChat: true
-                }
-              }))
-            }}
-             fromChat
-             match={props.match}
+            fromChat
+            match={props.match}
             dotColor={colors.white}
+            style={{height:70,alignItems:'center'}}
           />
         )
       }

@@ -69,7 +69,6 @@ const Toolbar = () => (
       width: DeviceWidth,
       alignItems: 'center',
       zIndex: 10,
-      backgroundColor:'red'
 
     }}
   >
@@ -181,6 +180,7 @@ class Potentials extends React.Component{
           { potentials.length && this.state.showPotentials ?
             <CardStack
               user={user}
+              rel={this.props.user.relationship_status}
               dispatch={this.props.dispatch}
               potentials={potentials}
               drawerOpen={this.props.drawerOpen}
