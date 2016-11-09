@@ -165,43 +165,41 @@ class OnboardModal extends Component {
             backgroundColor: colors.outerSpace20
           }]}
         >
-          <ScrollView>
             <View style={[styles.col, {
-              paddingBottom: 160,
-              paddingTop: MagicNumbers.is5orless ? 40 : 140,
-              marginTop: this.state.step == 0 ? 70 : 0
-            }]}
+              paddingTop: MagicNumbers.is5orless ? 40 : 40,
+              marginTop:  0,
+              justifyContent: 'flex-start',
+
+              flexGrow: 10,
+             }]}
             >
-              {MagicNumbers.is5orless ? null :
+              {MagicNumbers.is5orless || this.state.step > 0 ? null :
 
                 <View style={{
-                  top: this.state.step == 0 ? -50 : -300,
-                  position: 'absolute',
-                  width: DeviceWidth,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  height: 220
-                }}
+                  width: DeviceWidth,
+                  height: 100,
+                  marginBottom:20
+                 }}
                 >
                   <Image
                     style={{
-                      borderRadius: 75,
-                      width: 150,
-                      height: 150,
-
+                      borderRadius: 50,
+                      width: 100,
+                      height: 100,
                     }}
-
                     key={'onboardpic'}
                     source={{
                       uri: this.props.user.image_url
                     }}
                     defaultSource={require('./assets/placeholderUser@3x.png')}
-                    resizeMode={Image.resizeMode.contain}
+                    resizeMode={Image.resizeMode.cover}
                   /></View>}
 
               <Text style={{
                 color: colors.white,
-                marginTop: 10,
+                marginTop: 0,
                 fontFamily: 'montserrat',
                 fontWeight: '800',
                 justifyContent: 'space-between',
@@ -219,7 +217,7 @@ class OnboardModal extends Component {
               >Let's get started</Text>
 
               <View style={[{
-                marginTop: 20,
+                marginTop: 0,
                 alignItems: 'flex-start',
                 justifyContent: 'space-between'
               }]}
@@ -317,46 +315,45 @@ class OnboardModal extends Component {
                 </TouchableOpacity>
               </View>
 
-            </View>
-          </ScrollView>
-          {this.state.step > 0 &&
-            <View style={{
-              backgroundColor: colors.outerSpace,
-              width: DeviceWidth,
-              height: 50,
-              position: 'absolute',
-              bottom: 100,
+            {this.state.step == 2 &&
 
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
-            >
-              <View style={{
-              // height: this.state.selected_ours && has_theirs ? 70 : 0,
-                position: 'absolute',
-              // top: this.state.selected_ours && has_theirs ? -70 : 0,
-                bottom: 200,
-                zIndex: 99,
-                left: 0,
-                right: 0,
-                width: DeviceWidth,
-                overflow: 'hidden',
-              }}
-              >
-                <ContinueButton
-                  customText={'CONTINUE'}
-                  handlePress={this.handleContinue.bind(this)}
-                  canContinue={this.state.selected_ours && has_theirs}
-                />
-              </View>
-            </View>}
+                      <View style={{
+                      // height: this.state.selected_ours && has_theirs ? 70 : 0,
+                        position: 'absolute',
+                      // top: this.state.selected_ours && has_theirs ? -70 : 0,
+                        bottom: 20,
+                        zIndex: 99999,
+                        left: 0,
+                        right: 0,
+                        height: 80,
+                        width: DeviceWidth,
+
+                       }}
+                      >
+                        <ContinueButton
+                          absoluteContinue
+                          customText={'CONTINUE'}
+                          handlePress={this.handleContinue.bind(this)}
+                          canContinue={this.state.selected_ours && has_theirs}
+                        />
+                      </View>
+                }
+                </View>
+
+          <View style={{
+            width: DeviceWidth,
+            top:-22,
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+          >
 
           {this.state.step == 1 &&
 
               us_choices.map((item, i) => {
                 // console.log(item);
                 return (
-                  <View style={{width: DeviceWidth }}>
+                  <View style={{width: DeviceWidth,backgroundColor:colors.dark }}>
                     <Selectable
                       selected={this.state.selected_ours == item.value}
                       key={`${item.label.trim()}k`}
@@ -364,6 +361,7 @@ class OnboardModal extends Component {
                       value={item.value}
                       onPress={this.pickerValue.bind(this, item.value)}
                       field={item}
+                      moreStyle={{paddingHorizontal:20}}
                       isLast={i == us_choices.length - 1}
                       label={item.label}
                       values={us_choices}
@@ -374,7 +372,7 @@ class OnboardModal extends Component {
 
           {this.state.step == 2 && this.state.selected_ours && them_choices[this.state.selected_relationship_status].map((item, i) => {
             return (
-              <View style={{width: DeviceWidth}}>
+              <View style={{width: DeviceWidth,backgroundColor:colors.dark }}>
                 <Selectable
                   selected={this.state.selected_theirs[item.value]}
                   key={`${item.label.trim()}k`}
@@ -382,6 +380,7 @@ class OnboardModal extends Component {
                   value={this.state.selected_theirs[item.value]}
                   onPress={this.togglePref.bind(this, item.value)}
                   field={item}
+                  moreStyle={{paddingHorizontal:20}}
                   isLast={i == them_choices[this.state.selected_relationship_status].length - 1}
                   label={item.label}
                   values={them_choices[this.state.selected_relationship_status]}
@@ -389,6 +388,8 @@ class OnboardModal extends Component {
               </View>
               )
           })}
+          </View>
+
 
         </View>
       </View>

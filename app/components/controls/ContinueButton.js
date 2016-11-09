@@ -2,9 +2,9 @@
  * @flow
  */
 
-import React, {Component} from "react";
+import React, {Component} from 'react';
 
-import {Text, Easing, Animated, TextInput, Platform, View, TouchableHighlight, StyleSheet, ActivityIndicator, Dimensions} from "react-native";
+import {Text, Easing, Animated, TextInput, Platform, View, TouchableHighlight, StyleSheet, ActivityIndicator, Dimensions} from 'react-native';
 
 import {MagicNumbers} from '../../utils/DeviceConfig'
 
@@ -12,7 +12,6 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
 import colors from '../../utils/colors'
-
 
 
 class ContinueButton extends Component{
@@ -31,9 +30,9 @@ class ContinueButton extends Component{
   }
   componentWillReceiveProps(nProps){
     if(nProps.canContinue != this.props.canContinue){
-      Animated.timing(this.state.yVal,{
+      Animated.timing(this.state.yVal, {
         toValue: nProps.canContinue ? 1 : 0,
-        duration:  200,
+        duration: 200,
         useNativeDriver: Platform.select({ios: false, android: true})
 
         // easing: Easing.in(Easing.easeInEase)
@@ -43,7 +42,7 @@ class ContinueButton extends Component{
 
   handleContinue(){
     if(this.state.submitting) { return false }
-    this.setState({submitting:true})
+    this.setState({submitting: true})
     this.props.handlePress()
   }
   nothing(){}
@@ -53,45 +52,49 @@ class ContinueButton extends Component{
         {
           bottom: 0,
           backgroundColor: this.props.canContinue ? colors.brightPurple : 'transparent',
-          position:this.props.absoluteContinue ? 'absolute' : null,
-          left:0,
+          position: this.props.absoluteContinue ? 'absolute' : null,
+          left: 0,
           transform: [
             {
               translateY: this.state.yVal.interpolate({
                 inputRange: [0, 1],
-                outputRange: [80,0]
+                outputRange: [80, 0]
               })
             }
           ]
-        }]}>
+        }]}
+      >
         <TouchableHighlight
-           style={[styles.continueButton]}
-           onPress={this.props.handlePress}
-           underlayColor={colors.darkPurple}>
-           <View>
-        {this.props.loading ?  <ActivityIndicator style={{alignSelf:'center',alignItems:'center',flex:1,height:60,width:60,justifyContent:'center'}}  animating={true}/> :
-        <Text style={[styles.continueButtonText,{
-          color: this.props.canContinue ? colors.white : 'transparent'
-        } ]}>{this.props.customText || 'CONTINUE'}</Text>}
+          style={[styles.continueButton]}
+          onPress={this.props.handlePress}
+          underlayColor={colors.darkPurple}
+        >
+          <View>
+            {this.props.loading ? <ActivityIndicator style={{alignSelf: 'center', alignItems: 'center', flex: 1, height: 60, width: 60, justifyContent: 'center'}} animating/> :
+              <Text style={[styles.continueButtonText, {
+                color: this.props.canContinue ? colors.white : 'transparent'
+              }]}
+              >{this.props.customText || 'CONTINUE'}</Text>}
 
-        {/*this.state.submitting ? <ActivityIndicator style={{alignSelf:'center',alignItems:'center',flex:1,height:60,width:60,justifyContent:'center'}} animating={true} size={'large'}/> : <Text style={styles.continueButtonText}>CONTINUE</Text>*/}
+            {/* this.state.submitting ? <ActivityIndicator style={{alignSelf:'center',alignItems:'center',flex:1,height:60,width:60,justifyContent:'center'}} animating={true} size={'large'}/> : <Text style={styles.continueButtonText}>CONTINUE</Text>*/}
           </View>
-         </TouchableHighlight>
+        </TouchableHighlight>
       </Animated.View>
     )
   }
 }
 
 
-
 const styles = StyleSheet.create({
-  continueButtonWrap:{
+  continueButtonWrap: {
     alignSelf: 'stretch',
     alignItems: 'stretch',
     justifyContent: 'center',
-    height: MagicNumbers.continueButtonHeight-4,
+    height: MagicNumbers.continueButtonHeight - 4,
     backgroundColor: colors.brightPurple,
-    width:DeviceWidth
+    width: DeviceWidth,
+    flexGrow:1,
+    position:'relative'
   },
   continueButton: {
     height: MagicNumbers.continueButtonHeight,
@@ -101,10 +104,10 @@ const styles = StyleSheet.create({
   },
   continueButtonText: {
     padding: 4,
-    fontSize: MagicNumbers.size18+4,
-    fontFamily:'montserrat',fontWeight:'800',
+    fontSize: MagicNumbers.size18 + 4,
+    fontFamily: 'montserrat', fontWeight: '800',
     color: colors.white,
-    textAlign:'center'
+    textAlign: 'center'
   }
 });
 

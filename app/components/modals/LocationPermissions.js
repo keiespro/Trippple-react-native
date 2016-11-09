@@ -9,7 +9,7 @@ const LocationPermissionsModal = (props) => (
     subtitle={'We’ve found some matches we think you might like. Should we prioritize the matches nearest to you?'}
     permissionKey={'location'}
     buttonText={'USE MY LOCATION'}
-    onSuccess={() => {props.dispatch ** props.dispatch({type:'KILL_MODAL'})}}
+    onSuccess={() => {props.dispatch && props.dispatch({type: 'KILL_MODAL'})}}
     permissionLabel={'Location'}
     renderImage={() => (
       <View

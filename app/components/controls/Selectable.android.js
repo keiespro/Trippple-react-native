@@ -6,7 +6,7 @@ import {MagicNumbers} from '../../utils/DeviceConfig'
 import colors from '../../utils/colors';
 
 
-const Selectable = ({selected, onPress, isLast, label, field}) => (
+const Selectable = ({selected, onPress, isLast, label, field, moreStyle = {} }) => (
   <TouchableNativeFeedback
     useForeground
     background={TouchableNativeFeedback.SelectableBackground(colors.mediumPurple || colors.dark)}
@@ -16,7 +16,8 @@ const Selectable = ({selected, onPress, isLast, label, field}) => (
       style={[
         styles.insideSelectable,
         styles.formRow,
-        isLast && { borderBottomWidth: 0 }
+        isLast && { borderBottomWidth: 0 },
+        moreStyle
       ]}
     >
       <Text

@@ -26,7 +26,7 @@ const CardLabel = props => (
     >{ props.matchName }
     </Text>
     <Text
-      style={[styles.cardBottomOtherText, { alignSelf:'flex-start',color: props.textColor }]}
+      style={[styles.cardBottomOtherText, { alignSelf: 'flex-start', color: props.textColor }]}
       key={`${props.potential.user.id}-matchn`}
     >{props.city
         // props.city.replace(', ', '') + props.seperator + (props.distance ? ` ${props.distance} ${props.distance == 1 ? 'mile' : 'miles'} away` : '')
@@ -61,14 +61,14 @@ class UserProfile extends React.Component {
   onLayout(e) {
     const { layout } = e.nativeEvent
 
-    if (!this.state.contentHeight) {
+    if(!this.state.contentHeight) {
       this.handleSize(layout.height + 600)
     }
   }
 
   reportModal() {
     const them = [this.props.potential.user];
-    if (this.props.potential.partner && this.props.potential.partner.gender){
+    if(this.props.potential.partner && this.props.potential.partner.gender){
       them.push(this.props.potential.partner)
     }
     this.props.dispatch(ActionMan.showInModal({
@@ -98,7 +98,7 @@ class UserProfile extends React.Component {
     const isTopCard = true;
     const names = [potential.user && potential.user.firstname ? potential.user.firstname.trim() : ''];
 
-    if (potential.partner && potential.partner.gender) {
+    if(potential.partner && potential.partner.gender) {
       names.push(potential.partner.firstname.trim());
     }
     const seperator = distance && city.length ? ' | ' : '';
@@ -125,30 +125,19 @@ class UserProfile extends React.Component {
     const cardHeight = DeviceHeight + (isTopCard ? heightTable.top : heightTable.second);
     const cardWidth = DeviceWidth;
 
-    if (potential.partner && potential.partner.gender) {
+    if(potential.partner && potential.partner.gender) {
       matchName += ` & ${potential.partner.firstname.trim()}`
     }
 
     const hasPartner = potential.partner && potential.partner.gender;
     const slideFrames = hasPartner && potential.partner.image_url && potential.partner.image_url != '' ? [potential.user, potential.partner] : [potential.user];
     const verifiedCouple = hasPartner && potential.couple.verified;
-    const aniblurstyle = [{
-      backgroundColor: colors.outerSpace50,
-      width: DeviceWidth,
-      flex: 10,
-      flexGrow: 10,
-      height: profileVisible ? this.state.contentHeight : 0,
-      top:   -130  ,
-      position: 'relative',
-      alignSelf: 'flex-end',
-      overflow: 'hidden',
-
-    }]
     return (
       <View
         style={[{
           flexGrow: 1,
-          top: 0
+          top: 0,
+          backgroundColor:'#000'
         }]}
         onLayout={this.onLayout.bind(this)}
       >
@@ -156,13 +145,15 @@ class UserProfile extends React.Component {
 
         <ParallaxSwiper
           contentContainerStyle={[{
-            minHeight:   DeviceHeight,
+            minHeight: DeviceHeight,
             alignItems: 'center',
-            backgroundColor:'#000',
+            backgroundColor: '#000',
             justifyContent: 'center',
             flexDirection: 'column',
-            flex: 1
+            flexGrow: 1,
+            borderRadius: 11,
           }]}
+          height={DeviceHeight}
           slideFrames={slideFrames}
           scrollEnabled={profileVisible}
           showsVerticalScrollIndicator={false}
@@ -170,6 +161,7 @@ class UserProfile extends React.Component {
             flexGrow: 1,
             position: 'relative',
             top: 0,
+            borderRadius: 11,
 
             width: cardWidth,
           }]}
@@ -183,7 +175,7 @@ class UserProfile extends React.Component {
 
           <View
             blurType="dark"
-           >
+          >
 
             {profileVisible ?
               <View
@@ -279,20 +271,20 @@ class UserProfile extends React.Component {
             </View>
 
           </View>
-          </ParallaxSwiper>
+        </ParallaxSwiper>
 
-          <TouchableOpacity
-              style={{
-                  height: 50,zIndex:9999, alignItems: 'center', width: 50, justifyContent: 'center',flex:0,top:-10,left:-10,position:'absolute'
-              }}
-              onPress={() => this.props.closeProfile ? this.props.closeProfile() : this.props.navigator.pop()}
-          >
-              <Image
-                  resizeMode={Image.resizeMode.contain}
-                  style={{ height: 12, width: 12, marginTop: 10 }}
-                  source={require('./screens/potentials/assets/close@3x.png')}
-              />
-          </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            height: 50, zIndex: 9999, alignItems: 'center', width: 50, justifyContent: 'center', flex: 0, top: -10, left: -10, position: 'absolute'
+          }}
+          onPress={() => this.props.closeProfile ? this.props.closeProfile() : this.props.navigator.pop()}
+        >
+          <Image
+            resizeMode={Image.resizeMode.contain}
+            style={{ height: 12, width: 12, marginTop: 10 }}
+            source={require('./screens/potentials/assets/close@3x.png')}
+          />
+        </TouchableOpacity>
 
       </View>
     )
