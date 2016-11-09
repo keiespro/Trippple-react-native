@@ -56,13 +56,13 @@ class ModalDirector extends Component{
       modalVisible: true
     })
   }
-  shouldComponentUpdate(nProps,nState){
+  shouldComponentUpdate(nProps, nState){
     return this.state.activeModal != nState.activeModal
   }
   setModalVisible(v){
-    if (v){
+    if(v){
       this.setState({modalVisible: v})
-    } else {
+    }else{
       this.setState({
         modalVisible: false,
       })
@@ -70,7 +70,7 @@ class ModalDirector extends Component{
     }
   }
   render(){
-    if (!this.state.activeModal){ return null }
+    if(!this.state.activeModal){ return null }
 
     const { activeModal} = this.state;
     const ActiveModal = Modals[activeModal.component] || null;
@@ -84,25 +84,23 @@ class ModalDirector extends Component{
           visible={this.state.modalVisible ? true : false}
           onRequestClose={this.setModalVisible.bind(this, false)}
         >
-        {!iOS && <View
-          style={{
-            height: DeviceHeight,
-            width: DeviceWidth,
-            backgroundColor: colors.outerSpace,
-            position: 'absolute'
-          }}
-        />}
+          {!iOS && <View
+            style={{
+              height: DeviceHeight,
+              width: DeviceWidth,
+              backgroundColor: colors.outerSpace,
+              position: 'absolute'
+            }}
+          />}
           <ActiveModal
             {...ActiveModalProps}
             user={this.props.user}
             navigator={this.props.navigator}
             dispatch={this.props.dispatch}
-            kill={()=>this.props.dispatch(ActionMan.killModal())}
+            kill={() => this.props.dispatch(ActionMan.killModal())}
           />
-
-        </Modal>) : <View/>
-
-
+        </Modal>
+        ) : <View/>
     )
   }
 }

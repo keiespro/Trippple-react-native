@@ -55,7 +55,7 @@ class PermissionsModal extends Component{
   componentWillReceiveProps(nProps){
     if(nProps.hasPermission == 'true' && !this.props.isPersistant){
         this.closeModal()
-      
+
     }
   }
 
@@ -118,14 +118,16 @@ class PermissionsModal extends Component{
             source={require('../assets/iconModalDenied@3x.png')}
           />
         </View>
-        <Text style={[styles.rowtext, styles.bigtext, {
-          fontFamily: 'montserrat', fontWeight: '800', fontSize: 20, marginVertical: 0
-        }]}
+        <Text
+          style={[styles.rowtext, styles.bigtext, {
+            fontFamily: 'montserrat', fontWeight: '800', fontSize: 20, marginVertical: 0
+          }]}
         >CAN'T ACCESS {this.props.permissionLabel.toUpperCase()}</Text>
 
-        <Text style={[styles.rowtext, styles.bigtext, {
-          fontSize: 18, marginVertical: 10, color: colors.shuttleGray, marginHorizontal: 10
-        }]}
+        <Text
+          style={[styles.rowtext, styles.bigtext, {
+            fontSize: 18, marginVertical: 10, color: colors.shuttleGray, marginHorizontal: 10
+          }]}
         >
           Go to the Settings app and enable {this.props.permissionLabel} for Trippple.
         </Text>
@@ -144,7 +146,6 @@ class PermissionsModal extends Component{
   renderButton(){
     const buttonText = this.props.buttonText;
     const {hasPermission} = this.props
-    console.log(hasPermission,'hasPermission????');
 
     return this.props.isPersistant ? (
       <BoxyButton
