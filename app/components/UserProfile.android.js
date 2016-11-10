@@ -154,6 +154,9 @@ class UserProfile extends React.Component {
             borderRadius: 11,
           }]}
           height={DeviceHeight}
+          potentialkey={this.props.potential.user.id}
+          autoplay={verifiedCouple ? true : false}
+
           slideFrames={slideFrames}
           scrollEnabled={profileVisible}
           showsVerticalScrollIndicator={false}

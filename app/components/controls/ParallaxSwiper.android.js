@@ -168,11 +168,12 @@ class ParallaxSwiper extends React.Component{
             isTopCard={isTopCard}
             horizontal
             pan={this.props.pan}
+            key={this.props.potentialkey}
             dispatch={this.props.dispatch}
             scrollEnabled={this.props.profileVisible}
             profileVisible={this.props.profileVisible}
             inCard
-            autoplay={this.props.profileVisible}
+            autoplay={this.props.autoplay}
             width={DeviceWidth}
             height={this.props.height}
             paginationStyle={{

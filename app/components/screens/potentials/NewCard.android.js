@@ -230,7 +230,7 @@ class NewCard extends React.Component {
 
         <ParallaxSwiper
           contentContainerStyle={[{
-            height:  profileVisible ? DeviceHeight : DeviceHeight - 60,
+            height: profileVisible ? DeviceHeight : DeviceHeight - 60,
             alignItems: 'center',
             justifyContent: 'center',
             flexDirection: 'column',
@@ -238,6 +238,7 @@ class NewCard extends React.Component {
             borderRadius: 11,
 
           }]}
+          autoplay={verifiedCouple ? true : false}
           slideFrames={slideFrames}
           height={profileVisible ? DeviceHeight : DeviceHeight - 60}
           showsVerticalScrollIndicator={false}
@@ -246,6 +247,7 @@ class NewCard extends React.Component {
             borderRadius: 11,
 
           }]}
+          potentialkey={this.props.potential.user.id}
           header={<View  pointerEvents={'none'}  style={{zIndex:-100}}/>}
           dispatch={this.props.dispatch}
           windowHeight={0}

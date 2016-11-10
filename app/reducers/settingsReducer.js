@@ -1,3 +1,7 @@
+import {Platform, NativeModules} from 'react-native'
+
+const systemVersion = NativeModules.RNDeviceInfo.systemVersion;
+const iOS = Platform.OS == 'ios';
 
 export default function settingsReducer(state = initialState, action) {
   switch (action.type) {
@@ -34,6 +38,6 @@ export default function settingsReducer(state = initialState, action) {
 
 
 const initialState = {
-  location: false,
-  notifications: false
+  location: !iOS && parseInt(systemVersion) < 6,
+  notifications: !iOS
 };

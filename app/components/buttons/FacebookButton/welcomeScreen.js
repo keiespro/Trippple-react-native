@@ -1,4 +1,4 @@
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, ActivityIndicator } from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import {MagicNumbers} from '../../../utils/DeviceConfig'
@@ -27,11 +27,12 @@ class FacebookButton extends React.Component {
 
   render() {
     return (
-      <Btn
+       <Btn
         color={colors.white}
         elevation={10}
         inStyle={[styles.iconButtonOuter]}
         onPress={this.onPress.bind(this)}
+        disabled={this.props.busy}
       >
         <Icon name="sc-facebook" size={40} color="#fff" style={styles.icon}/>
         <Text style={styles.btntext}>LOG IN WITH FACEBOOK</Text>

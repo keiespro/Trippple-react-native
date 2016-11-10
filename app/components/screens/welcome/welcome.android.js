@@ -6,11 +6,15 @@ import Analytics from '../../../utils/Analytics'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import FacebookButton from '../../buttons/FacebookButton/welcomeScreen';
 import ActionMan from '../../../actions/'
+import TimerMixin from 'react-timer-mixin'
+import reactMixin from 'react-mixin'
 
 const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
+
+@reactMixin.decorate(TimerMixin)
 class Welcome extends Component{
   static displayName: 'Intro';
 
@@ -46,6 +50,11 @@ class Welcome extends Component{
 
 
   login(){
+    this.setState({busy: true})
+    this.setTimeout(()=>{
+      this.setState({busy: false})
+    },2000)
+
     this.props.dispatch(ActionMan.loginWithFacebook())
   }
 
@@ -81,7 +90,7 @@ class Welcome extends Component{
             outerButtonStyle={{height: 100, marginVertical: 0}}
             leftBoxStyles={{height: 80}}
             iconTintColor={'#fff'}
-
+            busy={this.state.busy}
           />
         </View>
       </View>
