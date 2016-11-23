@@ -63,7 +63,7 @@ class MultiLineInput extends React.Component{
         style={[{
           alignSelf: 'stretch',
           padding: 0,
-          flexGrow:0,
+          flexGrow: 0,
           fontSize: MagicNumbers.size18 + 2,
           fontFamily: 'omnes',
           color: colors.white,
@@ -199,9 +199,9 @@ class FieldModal extends React.Component{
   //   }
   // }
   submit(){
-    if(!this.state.canContinue){ return false }
+    if(!this.state.canContinue){ return }
     if(this.props.field.field_type == 'date'){
-      var payload = {};
+      const payload = {};
       const v = moment(this.state.birthday).format('MM/DD/YYYY');
 
       payload[`${this.props.forPartner ? 'partner_' : ''}${this.props.fieldName}`] = v;
@@ -221,7 +221,7 @@ class FieldModal extends React.Component{
       //   }
       // })
     }else{
-      var payload = {};
+      const payload = {};
 
       payload[`${this.props.forPartner ? 'partner_' : ''}${this.props.fieldName}`] = this.state.value;
       this.props.updateOutside && this.props.updateOutside(this.state.value)
@@ -238,7 +238,7 @@ class FieldModal extends React.Component{
     })
   }
   cancel(){
-   this.props.dispatch(ActionMan.killModal())
+    this.props.dispatch(ActionMan.killModal())
   }
   renderButtons(){
     return (
@@ -256,10 +256,22 @@ class FieldModal extends React.Component{
         <TouchableHighlight
           underlayColor={colors.dark}
           onPress={this.cancel.bind(this)}
-          style={{ borderTopWidth: 1, borderColor: colors.rollingStone, flex: 1, paddingVertical: 20}}
+          style={{
+            borderTopWidth: 1,
+            borderColor: colors.rollingStone,
+            flex: 1,
+            paddingVertical: 20
+          }}
         >
           <View>
-            <Text style={{color: colors.white, fontSize: 20, fontFamily: 'montserrat', textAlign: 'center'}}>
+            <Text
+              style={{
+                color: colors.white,
+                fontSize: 20,
+                fontFamily: 'montserrat',
+                textAlign: 'center'
+              }}
+            >
               CANCEL
             </Text>
           </View>
@@ -425,7 +437,7 @@ class FieldModal extends React.Component{
                     justifyContent: 'center',
                     alignSelf: 'stretch'
                   }}
-                  >
+                >
                   <Text style={{
                     color: colors.rollingStone,
                     fontSize: 20,
@@ -546,7 +558,7 @@ class FieldModal extends React.Component{
                         >{field.sub_label}</Text> :
                         null
                       }
-                      </View>
+                    </View>
 
                     {/*
               this.state.error &&
@@ -600,24 +612,39 @@ class FieldModal extends React.Component{
               <View style={{ alignSelf: 'stretch',
               width: MagicNumbers.screenWidth - MagicNumbers.screenPadding,
               marginHorizontal: MagicNumbers.screenPadding,
-           height: DeviceHeight - 260, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}
+           height: DeviceHeight - 260,
+           alignItems: 'center',
+           justifyContent: 'center',
+           flexDirection: 'column'}}
               >
-                <View style={{ alignSelf: 'stretch', flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'column', padding: 20}}>
+                <View style={{ alignSelf: 'stretch',
+                  flex: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexDirection: 'column',
+                  padding: 20}}>
                   <Text style={{
                     color: colors.rollingStone,
-                    fontSize: 20, textAlign: 'center',
+                    fontSize: 20,
+                    textAlign: 'center',
                     fontFamily: 'omnes',
-                    marginBottom: 40, alignSelf: 'stretch'
+                    marginBottom: 40,
+                    alignSelf: 'stretch'
 
                   }}
                   >{field.long_label ? field.long_label : field.label}</Text>
 
-                  <View style={{ borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone, alignSelf: 'stretch', height: 50 }}>
+                  <View style={{ borderBottomWidth: 1,
+                    borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,
+                    alignSelf: 'stretch',
+                    height: 50 }}>
                     <Text style={{
                       color: colors.white,
-                      fontSize: 20, textAlign: 'center',
+                      fontSize: 20,
+                      textAlign: 'center',
                       fontFamily: 'omnes',
-                      marginBottom: 40, alignSelf: 'stretch'
+                      marginBottom: 40,
+                      alignSelf: 'stretch'
 
                     }}
                     >{moment(this.state.birthday).format('MM/DD/YYYY')}</Text>
@@ -627,8 +654,10 @@ class FieldModal extends React.Component{
               </View>
               {this.renderButtons()}
 
-              <View style={{ height: 260, backgroundColor: colors.white }}>
-                {React.cloneElement(inputField, {
+              <View style={{ height: 260,
+                backgroundColor: colors.white }}>
+                {React.cloneElement(inputField,
+                  {
                   onDateChange: this.onDateChange,
                   date: new Date(this.state.birthday),
                   ref: (dateField) => { this.dateField = dateField }
@@ -662,9 +691,10 @@ class FieldModal extends React.Component{
                 }}
               >{field.long_label ? field.long_label : field.label}</Text>
 
-              <View style={{marginTop:-20}}>
+              <View style={{marginTop: -20}}>
 
-                {React.cloneElement(inputField, {
+                {React.cloneElement(inputField,
+                  {
                   defaultValue: fieldValue,
                   selectionColor: colors.mediumPurple,
                   autoFocus: true,
@@ -690,7 +720,7 @@ class FieldModal extends React.Component{
           style={{
             flex: 1,
             flexGrow: 1,
-            height: DeviceHeight-20,
+            height: DeviceHeight - 20,
             backgroundColor: colors.outerSpace,
             width: DeviceWidth
           }}
@@ -721,13 +751,16 @@ class FieldModal extends React.Component{
   }
 }
 
-reactMixin(FieldModal.prototype, TrackKeyboardMixin)
+reactMixin(FieldModal.prototype,
+  TrackKeyboardMixin)
 
-const mapStateToProps = (state, ownProps) => ({...ownProps })
+const mapStateToProps = (state,
+  ownProps) => ({...ownProps })
 
 const mapDispatchToProps = (dispatch) => ({ dispatch });
 
-export default connect(mapStateToProps, mapDispatchToProps)(FieldModal)
+export default connect(mapStateToProps,
+  mapDispatchToProps)(FieldModal)
 
 
 const styles = StyleSheet.create({
