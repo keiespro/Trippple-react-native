@@ -29,14 +29,16 @@ class PermissionsModal extends Component{
     // imageSource: PropTypes.string,
     renderImage: PropTypes.func,
     isPersistant: PropTypes.bool,
-    successCallback: PropTypes.func
+    onSuccess: PropTypes.func
   };
 
   static defaultProps = {
     buttonText: 'YES',
     isPersistant: false,
     imageSource: require('../assets/iconModalDenied@3x.png'),
-
+    onSuccess(){
+      this.props.closeModal && this.props.closeModal()
+    }
   };
 
   componentDidMount(){
@@ -53,8 +55,8 @@ class PermissionsModal extends Component{
   }
 
   componentWillReceiveProps(nProps){
-    if(nProps.hasPermission == 'true' && !this.props.isPersistant){
-        this.closeModal()
+    if(nProps.hasPermission && !this.props.isPersistant){
+        this.success()
 
     }
   }

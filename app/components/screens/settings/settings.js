@@ -59,7 +59,8 @@ class Settings extends React.Component{
       settingOptions: profileOptions,
     }
   }
-
+  componentDidMount(){
+  }
   getScrollResponder() {
     return this._scrollView.getScrollResponder();
   }
@@ -380,7 +381,10 @@ const mapStateToProps = ({user, ui}, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return { dispatch };
+  return {
+    dispatch,
+
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);

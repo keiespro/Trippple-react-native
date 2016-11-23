@@ -238,7 +238,7 @@ class FieldModal extends React.Component{
     })
   }
   cancel(){
-    this.props.navigator ? this.props.navigator.pop() : this.props.dispatch(ActionMan.killModal())
+   this.props.dispatch(ActionMan.killModal())
   }
   renderButtons(){
     return (
