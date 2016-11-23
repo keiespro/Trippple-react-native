@@ -42,7 +42,7 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    buildToolsVersion '25.0.0'
 
     dexOptions {
       jumboMode true
@@ -53,7 +53,7 @@ android {
       applicationId "co.trippple"
       minSdkVersion 16
       targetSdkVersion 23
-      versionCode 3
+      versionCode 303009
       versionName "3.0"
       ndk {
           abiFilters "armeabi-v7a", "x86"
