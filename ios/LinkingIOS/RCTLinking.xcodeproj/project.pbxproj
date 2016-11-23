@@ -22,6 +22,13 @@
 		6FE093396D6F4172BAB4958A /* libTouchID.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 05B83C3A1D184BA3BDEF4DA6 /* libTouchID.a */; };
 		CDED3A1147994DA4B8E0EFAF /* libWorkers.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AF454CE225D94B3DB9B19F74 /* libWorkers.a */; };
 		E1700EA6890546ACAF75A235 /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0674FA8AC4F54BF08B499E26 /* libRNBlur.a */; };
+		E247585160BC46FE991B8CD0 /* libRNFIRMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFFA032D77674919AE9F9884 /* libRNFIRMessaging.a */; };
+		41511E5E8E8F490E8682154D /* libRNFIRAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BBD80209ECD4475C88E4F968 /* libRNFIRAnalytics.a */; };
+		64C1FE7647D947BBB2F68F4A /* libFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F16552C58B2F4A1D8E45D843 /* libFirebase.a */; };
+		0745A23171C64F029947090C /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19854170D29247E2A3730948 /* libRNKeychain.a */; };
+		40B19F57AE854FC89FAF85CA /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DFC4ED7DD3248B5AC487D0E /* libSplashScreen.a */; };
+		0F2476CD71F440B6A7A41149 /* libRNHotline.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF1052F9026742AD885A1F8E /* libRNHotline.a */; };
+		5C69D3548D544CA09506C7EE /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E42A0D15FB194DFCA05F0DF7 /* libRNVectorIcons.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -70,6 +77,20 @@
 		AF454CE225D94B3DB9B19F74 /* libWorkers.a */ = {isa = PBXFileReference; name = "libWorkers.a"; path = "libWorkers.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		37F6AA2DAEB84B0CB8B65742 /* RNBlur.xcodeproj */ = {isa = PBXFileReference; name = "RNBlur.xcodeproj"; path = "../../node_modules/react-native-blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		0674FA8AC4F54BF08B499E26 /* libRNBlur.a */ = {isa = PBXFileReference; name = "libRNBlur.a"; path = "libRNBlur.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		111CF7D03FD047D69ABB45D4 /* RNFIRMessaging.xcodeproj */ = {isa = PBXFileReference; name = "RNFIRMessaging.xcodeproj"; path = "../../node_modules/react-native-fcm/ios/RNFIRMessaging.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		CFFA032D77674919AE9F9884 /* libRNFIRMessaging.a */ = {isa = PBXFileReference; name = "libRNFIRMessaging.a"; path = "libRNFIRMessaging.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		936F19057F31400380C8886F /* RNFIRAnalytics.xcodeproj */ = {isa = PBXFileReference; name = "RNFIRAnalytics.xcodeproj"; path = "../../node_modules/react-native-firebase-analytics/ios/RNFIRAnalytics.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		BBD80209ECD4475C88E4F968 /* libRNFIRAnalytics.a */ = {isa = PBXFileReference; name = "libRNFIRAnalytics.a"; path = "libRNFIRAnalytics.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		D708B05554114BB0996DCA7E /* Firebase.xcodeproj */ = {isa = PBXFileReference; name = "Firebase.xcodeproj"; path = "../../node_modules/react-native-firebase3/ios/Firebase.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		F16552C58B2F4A1D8E45D843 /* libFirebase.a */ = {isa = PBXFileReference; name = "libFirebase.a"; path = "libFirebase.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		5C87F6FC7AB44B0EB520BB27 /* RNKeychain.xcodeproj */ = {isa = PBXFileReference; name = "RNKeychain.xcodeproj"; path = "../../node_modules/react-native-keychain/RNKeychain.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		19854170D29247E2A3730948 /* libRNKeychain.a */ = {isa = PBXFileReference; name = "libRNKeychain.a"; path = "libRNKeychain.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		607B98D90C2D4E65A3D892D3 /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; name = "SplashScreen.xcodeproj"; path = "../../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		9DFC4ED7DD3248B5AC487D0E /* libSplashScreen.a */ = {isa = PBXFileReference; name = "libSplashScreen.a"; path = "libSplashScreen.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		15F91AFAE2AA4883A0115FCB /* RNHotline.xcodeproj */ = {isa = PBXFileReference; name = "RNHotline.xcodeproj"; path = "../../node_modules/react-native-hotline/RNHotline.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		DF1052F9026742AD885A1F8E /* libRNHotline.a */ = {isa = PBXFileReference; name = "libRNHotline.a"; path = "libRNHotline.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		67D9CA2E29874EE8A8BD1F15 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; name = "RNVectorIcons.xcodeproj"; path = "../../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		E42A0D15FB194DFCA05F0DF7 /* libRNVectorIcons.a */ = {isa = PBXFileReference; name = "libRNVectorIcons.a"; path = "libRNVectorIcons.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +113,13 @@
 				6FE093396D6F4172BAB4958A /* libTouchID.a in Frameworks */,
 				CDED3A1147994DA4B8E0EFAF /* libWorkers.a in Frameworks */,
 				E1700EA6890546ACAF75A235 /* libRNBlur.a in Frameworks */,
+				E247585160BC46FE991B8CD0 /* libRNFIRMessaging.a in Frameworks */,
+				41511E5E8E8F490E8682154D /* libRNFIRAnalytics.a in Frameworks */,
+				64C1FE7647D947BBB2F68F4A /* libFirebase.a in Frameworks */,
+				0745A23171C64F029947090C /* libRNKeychain.a in Frameworks */,
+				40B19F57AE854FC89FAF85CA /* libSplashScreen.a in Frameworks */,
+				0F2476CD71F440B6A7A41149 /* libRNHotline.a in Frameworks */,
+				5C69D3548D544CA09506C7EE /* libRNVectorIcons.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,6 +162,13 @@
 				999CD1D670BC46BB83B03FE2 /* TouchID.xcodeproj */,
 				2A7619D701ED49548B5AAE38 /* Workers.xcodeproj */,
 				37F6AA2DAEB84B0CB8B65742 /* RNBlur.xcodeproj */,
+				111CF7D03FD047D69ABB45D4 /* RNFIRMessaging.xcodeproj */,
+				936F19057F31400380C8886F /* RNFIRAnalytics.xcodeproj */,
+				D708B05554114BB0996DCA7E /* Firebase.xcodeproj */,
+				5C87F6FC7AB44B0EB520BB27 /* RNKeychain.xcodeproj */,
+				607B98D90C2D4E65A3D892D3 /* SplashScreen.xcodeproj */,
+				15F91AFAE2AA4883A0115FCB /* RNHotline.xcodeproj */,
+				67D9CA2E29874EE8A8BD1F15 /* RNVectorIcons.xcodeproj */,
 			);
 			name = Libraries;
 			path = "";
@@ -300,9 +335,23 @@
 					"$(SRCROOT)/../../node_modules/react-native-touch-id",
 					"$(SRCROOT)/../../node_modules/react-native-workers/ios/Workers",
 					"$(SRCROOT)/../../node_modules/react-native-blur/ios",
+					"$(SRCROOT)/../../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)/../../node_modules/react-native-firebase-analytics/ios",
+					"$(SRCROOT)/../../node_modules/react-native-firebase3/ios/Firebase",
+					"$(SRCROOT)/../../node_modules/react-native-keychain/RNKeychainManager",
+					"$(SRCROOT)/../../node_modules/react-native-splash-screen/ios",
+					"$(SRCROOT)/../../node_modules/react-native-hotline/ios",
+					"$(SRCROOT)/../../node_modules/react-native-vector-icons/RNVectorIconsManager",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
 					"\"$(SRCROOT)/RCTLinking\"",
 					"\"$(SRCROOT)/RCTLinking\"",
 					"\"$(SRCROOT)/RCTLinking\"",
@@ -347,9 +396,23 @@
 					"$(SRCROOT)/../../node_modules/react-native-touch-id",
 					"$(SRCROOT)/../../node_modules/react-native-workers/ios/Workers",
 					"$(SRCROOT)/../../node_modules/react-native-blur/ios",
+					"$(SRCROOT)/../../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)/../../node_modules/react-native-firebase-analytics/ios",
+					"$(SRCROOT)/../../node_modules/react-native-firebase3/ios/Firebase",
+					"$(SRCROOT)/../../node_modules/react-native-keychain/RNKeychainManager",
+					"$(SRCROOT)/../../node_modules/react-native-splash-screen/ios",
+					"$(SRCROOT)/../../node_modules/react-native-hotline/ios",
+					"$(SRCROOT)/../../node_modules/react-native-vector-icons/RNVectorIconsManager",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
+					"\"$(SRCROOT)/RCTLinking\"",
 					"\"$(SRCROOT)/RCTLinking\"",
 					"\"$(SRCROOT)/RCTLinking\"",
 					"\"$(SRCROOT)/RCTLinking\"",

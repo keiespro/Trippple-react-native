@@ -143,13 +143,13 @@
 		<string>omnes-regular-webfont.ttf</string>
 		<string>montserrat.otf</string>
 		<string>montserrat_bold.ttf</string>
-                <string>poetsenone-regular-webfont.ttf</string>
+		<string>poetsenone-regular-webfont.ttf</string>
 		<string>Entypo.ttf</string>
 		<string>EvilIcons.ttf</string>
 		<string>Foundation.ttf</string>
 		<string>Ionicons.ttf</string>
 		<string>MaterialIcons.ttf</string>
-		<string>Zocial.ttf</string>                
+		<string>Zocial.ttf</string>
 	</array>
 	<key>UIRequiresFullScreen</key>
 	<false/>
@@ -162,5 +162,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 </dict>
 </plist>

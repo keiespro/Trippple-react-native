@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:../../../../Downloads/ftl.gpx">
+   </FileRef>
+   <FileRef
       location = "group:Trippple.xcodeproj">
    </FileRef>
    <FileRef

@@ -44,7 +44,7 @@
 
 - (BOOL)application:(__unused UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [SplashScreen show];
+//  [SplashScreen show];
 
   _bridge = [[RCTBridge alloc] initWithDelegate:self
                                   launchOptions:launchOptions];
@@ -90,7 +90,6 @@
   self.window.rootViewController = rootViewController;
   self.rootViewController = rootViewController;
 
-  [self.window makeKeyAndVisible];
 
 
   [FIRApp configure];
@@ -104,6 +103,7 @@
     [[Hotline sharedInstance]handleRemoteNotification:launchOptions
                                           andAppstate:application.applicationState];
   }
+  [self.window makeKeyAndVisible];
 
 
   return [[FBSDKApplicationDelegate sharedInstance] application:application

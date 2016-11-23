@@ -1,6 +1,6 @@
 target "Trippple" do
   pod 'HotlineSDK' => '1.0.13'
-  pod 'Mixpanel'
+  pod 'Mixpanel' => '3.0.0'
   pod 'NewRelicAgent'
   pod 'Fabric'
   pod 'Crashlytics'
