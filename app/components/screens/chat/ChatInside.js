@@ -38,17 +38,20 @@ class ChatInside extends Component{
       textInputValue: '',
       fetching: false,
       lastPage: 0,
+      kbHeight: 0
     }
   }
 
-  // componentDidMount(){
-  //   Keyboard.addListener && Keyboard.addListener('keyboardWillChangeFrame', this.onKeyboardChange.bind(this));
-  //   this.props.dispatch({type:'MARK_CHAT_READ', payload: {match_id: this.props.match.match_id}})
-  // }
-  // componentWillUnmount(){
-  //   Keyboard.removeListener && Keyboard.removeListener('keyboardWillChangeFrame', this.onKeyboardChange.bind(this));
-  //   this.props.dispatch({type:'MARK_CHAT_READ', payload: {match_id: this.props.match.match_id}})
-  // }
+  componentDidMount(){
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this));
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this));
+    this.props.dispatch({type: 'MARK_CHAT_READ', payload: {match_id: this.props.match.match_id}})
+  }
+  componentWillUnmount(){
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+    this.props.dispatch({type: 'MARK_CHAT_READ', payload: {match_id: this.props.match.match_id}})
+  }
   componentWillReceiveProps(newProps){
     __DEV__ && console.log('newProps.messages', newProps);
 
@@ -60,11 +63,20 @@ class ChatInside extends Component{
       dataSource: this.ds.cloneWithRows(_.sortBy(newProps.messages, (msg) => msg.created_timestamp).reverse())
     })
   }
-  onKeyboardChange(event){
+  _keyboardDidShow(event){
+    console.log(event);
     const {duration, easing, endCoordinates, startCoordinates} = event;
-    // this.setState({
-    //   isKeyboardOpened: startCoordinates.screenY == DeviceHeight
-    // })
+    this.setState({
+      isKeyboardOpened: true,
+      kbHeight: event.endCoordinates.height
+    })
+  }
+  _keyboardDidHide(event){
+    console.log(event);
+    this.setState({
+      isKeyboardOpened: false,
+      kbHeight: 0
+    })
   }
 
   _renderRow(rowData, sectionID: number, rowID: number) {
@@ -133,39 +145,37 @@ class ChatInside extends Component{
 
     return this.props.messages && this.props.messages.length > 0 ? (
 
-      <View style={{paddingTop: 0, width: DeviceWidth, height: DeviceHeight - 70, alignSelf: 'stretch', position: 'absolute', top: 0}}>
-        <KeyboardAvoidingView
-          style={{flexGrow: 1, flex: 1, alignSelf: 'stretch', flexDirection: 'column', top: 0, bottom: 0, position: 'relative', }}
-          contentContainerStyle={{alignSelf: 'stretch', height: DeviceHeight - 70, flexGrow: 10}}
 
-          behavior={'padding'}
+      <View
         >
-
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={this._renderRow.bind(this)}
-            onEndReached={this.onEndReached.bind(this)}
-            messages={this.props.messages || []}
-            renderScrollComponent={props => (
-              <InvertibleScrollView
-                {...props}
-                inverted
-                scrollsToTop
-                scrollEventThrottle={16}
-                indicatorStyle={'white'}
-                ref={c => { this.scroller = c }}
-                key={`${this.props.match_id}x`}
-                keyboardDismissMode={'interactive'}
-                automaticallyAdjustContentInsets
-              />
-                          )}
-          />
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this._renderRow.bind(this)}
+          onEndReached={this.onEndReached.bind(this)}
+          messages={this.props.messages || []}
+          renderScrollComponent={props => (
+            <InvertibleScrollView
+              {...props}
+              inverted
+              scrollsToTop
+              scrollEventThrottle={16}
+              indicatorStyle={'white'}
+              ref={c => { this.scroller = c }}
+              key={`${this.props.match_id}x`}
+              keyboardDismissMode={'interactive'}
+              contentContainerStyle={{}}
+              style={{flexGrow:-1,marginTop:this.state.isKeyboardOpened ? 180 : 20, height:DeviceHeight-60,bottom: this.state.isKeyboardOpened ? 30 : 20}}
+            />
+          )}
+        />
+        <View style={{top:this.state.isKeyboardOpened ? -30 : -20}}
+          >
           <MessageComposer
-            textInputValue={this.state.textInputValue}
-            onTextInputChange={this.onTextInputChange.bind(this)}
-            sendMessage={this.sendMessage.bind(this)}
-          />
-        </KeyboardAvoidingView></View>
+          textInputValue={this.state.textInputValue}
+          onTextInputChange={this.onTextInputChange.bind(this)}
+          sendMessage={this.sendMessage.bind(this)}
+        /></View>
+      </View>
                     ) : (
 
                       <NoMessages
