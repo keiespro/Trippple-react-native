@@ -22,80 +22,81 @@ import {SlideHorizontalIOS, FloatHorizontal} from '../../../ExNavigationStylesCu
 
 export default class CoupleSuccess extends React.Component{
 
-
-    static route = {
-        styles: FloatHorizontal,
-        navigationBar: {
-            visible:false,
-            backgroundColor: colors.shuttleGrayAnimate,
-            title(params) {
-                return ``
-            }
-        }
-    };
-
-    constructor(props){
-        super()
-        this.state = {
-            pin: '',
-            submitting: false,
-            absoluteContinue: true,
-            verifyError: null,
-            inputFieldValue:''
-        }
+  static route = {
+    styles: FloatHorizontal,
+    navigationBar: {
+      visible: false,
+      backgroundColor: colors.shuttleGrayAnimate,
+      title(params) {
+        return ''
+      }
     }
-    popToTop(){
-        this.props.goBack && this.props.goBack()
+  };
 
-        if(this.props.navigator){
-            this.props.navigator.pop()
-        }
-        if(this.props.hideModal){
-            this.props.hideModal()
-        }
-        if(this.props.close){
-            this.props.close()
-        }
+  constructor(props){
+    super()
+    this.state = {
+      pin: '',
+      submitting: false,
+      absoluteContinue: true,
+      verifyError: null,
+      inputFieldValue: ''
     }
+  }
 
-    render(){
-        return (
-      <ScrollView contentContainerStyle={[{ backgroundColor: colors.outerSpace,width:DeviceWidth,height:DeviceHeight,flexDirection:'column',justifyContent:'center',flex:1,top:0 }]} >
+  popToTop(){
+    this.props.goBack && this.props.goBack()
 
-        <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center', fontFamily:'montserrat',fontWeight:'800',fontSize:20,color:'#fff',marginVertical:10 }]}>
+    if(this.props.navigator){
+      this.props.navigator.pop()
+    }
+    if(this.props.hideModal){
+      this.props.hideModal()
+    }
+    if(this.props.close){
+      this.props.close()
+    }
+  }
+
+  render(){
+    return (
+      <ScrollView contentContainerStyle={[{ backgroundColor: colors.outerSpace, width: DeviceWidth, height: DeviceHeight, flexDirection: 'column', justifyContent: 'center', flex: 1, top: 0 }]} >
+
+        <Text style={[styles.rowtext, styles.bigtext, { textAlign: 'center', fontFamily: 'montserrat', fontWeight: '800', fontSize: 20, color: '#fff', marginVertical: 10 }]}>
           SUCCESS
         </Text>
         {this.props.user.partner && this.props.user.partner.gender ?
-          <View style={{height:120,marginVertical:30,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-            <Image style={[{width:120,height:120,borderRadius:60,marginRight:-100}]}
-                source={ {uri: this.props.user.partner.image_url || require('../../../assets/placeholderUser@3x.png') } }
-                defaultSource={require('../../../assets/placeholderUser@3x.png')}
+          <View style={{height: 120, marginVertical: 30, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+            <Image style={[{width: 120, height: 120, borderRadius: 60, marginRight: -100}]}
+              source={this.props.user.partner.image_url ? {uri: this.props.user.partner.image_url } : require('../../../assets/placeholderUser@3x.png')}
+              defaultSource={require('../../../assets/placeholderUser@3x.png')}
             />
-            <Image style={[{width:120,height:120,borderRadius:60,marginLeft:-100}]}
-                source={ {uri: this.props.user.image_url || 'assets/placeholderUser@3x.png'} }
-                defaultSource={require('../../../assets/placeholderUser@3x.png')}
+            <Image style={[{width: 120, height: 120, borderRadius: 60, marginLeft: -100}]}
+              source={this.props.user.image_url ? {uri: this.props.user.image_url } : require('../../../assets/placeholderUser@3x.png')}
+              defaultSource={require('../../../assets/placeholderUser@3x.png')}
             />
           </View> :
-          <View>
-            <Text style={[styles.rowtext,styles.bigtext,{
-                fontSize:18,
-                marginVertical:10,
-                color:'#fff',
+            <View>
+              <Text style={[styles.rowtext, styles.bigtext, {
+                fontSize: 18,
+                marginVertical: 10,
+                color: '#fff',
                 fontFamily: 'omnes',
 
-                marginBottom:15,textAlign:'center',
-                flexDirection:'column'
-            }]}>Your couple will be set up shortly.</Text>
-          </View>
+                marginBottom: 15, textAlign: 'center',
+                flexDirection: 'column'
+              }]}
+              >Your couple will be set up shortly.</Text>
+            </View>
         }
 
         <TouchableHighlight
-            underlayColor={colors.white20}
-            style={{backgroundColor:'transparent',borderColor:colors.white,borderWidth:1,borderRadius:5,marginHorizontal:MagicNumbers.screenPadding,marginTop:50,marginBottom:15}}
-            onPress={this.popToTop.bind(this)}
+          underlayColor={colors.white20}
+          style={{backgroundColor: 'transparent', borderColor: colors.white, borderWidth: 1, borderRadius: 5, marginHorizontal: MagicNumbers.screenPadding, marginTop: 50, marginBottom: 15}}
+          onPress={this.popToTop.bind(this)}
         >
-          <View style={{paddingVertical:20,paddingHorizontal:20}} >
-            <Text style={{fontFamily:'montserrat',fontWeight:'800', fontSize:18,textAlign:'center', color:'#fff',}}>
+          <View style={{paddingVertical: 20, paddingHorizontal: 20}} >
+            <Text style={{fontFamily: 'montserrat', fontWeight: '800', fontSize: 18, textAlign: 'center', color: '#fff', }}>
               CONTINUE
             </Text>
           </View>
@@ -103,5 +104,5 @@ export default class CoupleSuccess extends React.Component{
 
       </ScrollView>
     )
-    }
+  }
   }

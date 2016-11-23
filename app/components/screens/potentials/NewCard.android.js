@@ -126,7 +126,7 @@ class NewCard extends React.Component {
                         distance={distance}
                         textColor={colors.white}
                       />
-                      {verifiedCouple && <VerifiedCoupleBadge placementStyle={{position: 'relative', alignSelf: 'flex-start', left: 0, top: 0, marginTop: 20}} />}
+                      {!verifiedCouple && <VerifiedCoupleBadge placementStyle={{position: 'relative', alignSelf: 'flex-start', left: 0, top: 0, marginTop: 20}} />}
 
                     </View>
 
@@ -238,7 +238,7 @@ class NewCard extends React.Component {
             borderRadius: 11,
 
           }]}
-          autoplay={verifiedCouple ? true : false}
+          autoplay={!verifiedCouple}
           slideFrames={slideFrames}
           height={profileVisible ? DeviceHeight : DeviceHeight - 60}
           showsVerticalScrollIndicator={false}
@@ -305,7 +305,7 @@ style={{
               distance={distance}
               textColor={colors.shuttleGray}
             />
-            {verifiedCouple && <VerifiedCoupleBadge placementStyle={{position: 'absolute', alignSelf: 'flex-start', right: -5, top: 43}}/>}
+            {!verifiedCouple && <VerifiedCoupleBadge placementStyle={{position: 'absolute', alignSelf: 'flex-start', right: 15, top: 63}}/>}
           </View>
         </TouchableNativeFeedback>
         </View>

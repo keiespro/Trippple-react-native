@@ -26,10 +26,11 @@ import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
 const PickerItem = Picker.Item;
 
 
-const FieldComponent = ({onChange, selected, getValues, getKeyVals, theField, val}) => (<Picker
+const FieldComponent = ({onChange, selected, getValues, getKeyVals, theField, val, disabled}) => (<Picker
   style={{alignSelf: 'flex-end', width: MagicNumbers.screenWidth-10,marginRight:7, backgroundColor: colors.transparent, marginHorizontal: 0, alignItems: 'flex-end',}}
   onValueChange={onChange}
   mode={'dialog'}
+  disabled
   prompt={`${theField.label || ''}`.toUpperCase()}
   itemStyle={{fontSize: 24, color: colors.white,fontWeight:'800', fontFamily: 'montserrat'}}
   selectedValue={selected || theField.values[selected] || null}
@@ -125,7 +126,7 @@ class ProfileField extends React.Component{
 
     return field.field_type == 'dropdown' ? (
       <View style={styles.paddedSpace}>
-        <View style={{height: 60, borderBottomWidth: 1, borderColor: colors.shuttleGray, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', alignSelf: 'stretch'}}>
+        <View style={{height: 60, borderBottomWidth: 1, borderColor: colors.shuttleGray, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', alignSelf: 'stretch'}} pointerEvents={this.props.locked ? 'none' : 'auto'}>
           <Text style={{position: 'absolute', left: 0, top: 23,  color: colors.rollingStone, fontSize: 18, fontFamily: 'montserrat',}}>{ displayFieldText }</Text>
           <FieldComponent
             getKeyVals={get_key_vals}
@@ -134,6 +135,7 @@ class ProfileField extends React.Component{
             onChange={this.handleChange.bind(this)}
             theField={field}
             val={getValue}
+            disabled={this.props.locked}
           />
           {this.props.locked ? <View style={{width: 20, position: 'absolute', top: 23, height: 20, marginLeft: 10, right: 0}}>
             <Image
@@ -151,7 +153,7 @@ class ProfileField extends React.Component{
         </View>
 
       </View>
-    ) : (<TouchableHighlight onPress={field.field_type == 'date' ? this.openDate.bind(this) : this.goFieldModal.bind(this)} underlayColor={colors.dark} style={styles.paddedSpace}>
+    ) : (<TouchableHighlight onPress={this.props.locked ? null : field.field_type == 'date' ? this.openDate.bind(this) : this.goFieldModal.bind(this)} underlayColor={colors.dark} style={styles.paddedSpace}>
         <View>
           <View style={{height: 60, borderBottomWidth: 1, borderColor: colors.shuttleGray, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', alignSelf: 'stretch'}}>
             <Text style={{color: colors.rollingStone, fontSize: 18, fontFamily: 'montserrat'}}>{ displayFieldText }</Text>
