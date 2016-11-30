@@ -129,6 +129,8 @@ export const handleNotification = notification => dispatch => dispatch({ type: '
         nData.body = payload.body
         nData.title = payload.title
         nData.label = 'display';
+        nQueue = true;
+
         break;
 
       case 'statuschange':
@@ -154,12 +156,6 @@ export const handleNotification = notification => dispatch => dispatch({ type: '
 
         nType = 'SEND_TELEMETRY';
           // nPayload = api.sendTelemetry()
-        break;
-
-      case 'display':
-
-        nType = 'DISPLAY';
-        nQueue = true;
         break;
 
       default:

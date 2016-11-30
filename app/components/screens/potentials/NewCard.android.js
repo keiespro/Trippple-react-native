@@ -87,7 +87,7 @@ class NewCard extends React.Component {
 
     const hasPartner = potential.partner && potential.partner.gender ? true : false;
     const slideFrames = isTopCard && hasPartner ? [potential.user, potential.partner] : [potential.user];
-    const verifiedCouple = hasPartner && !potential.couple.verified;
+    const verifiedCouple = hasPartner && potential.couple.verified;
 
     return (
       <View style={{flexGrow: 1, alignItems: 'flex-start'}} >
@@ -191,7 +191,7 @@ class NewCard extends React.Component {
 
     const hasPartner = potential.partner && potential.partner.gender ? true : false;
     const slideFrames = isTopCard && hasPartner ? [potential.user, potential.partner] : [potential.user];
-    const verifiedCouple = hasPartner && !potential.couple.verified;
+    const verifiedCouple = hasPartner && potential.couple.verified;
 
 
     const anistyle = [{

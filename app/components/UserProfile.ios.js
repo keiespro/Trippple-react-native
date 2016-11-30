@@ -84,7 +84,7 @@ class UserProfile extends React.Component {
   render() {
       // if(!this.props.user || !this.props.potential || !this.props.potential.user ||
       // !this.props.potential.user.firstname){
-      //   this.props.dispatch(ActionMan.getUserInfo());
+        this.props.dispatch(ActionMan.getUserInfo());
       //   return <View/>
       // }
     const { potential } = this.props,
@@ -178,7 +178,7 @@ class UserProfile extends React.Component {
           isTopCard={isTopCard}
           pan={this.props.pan}
           profileVisible={profileVisible}
-          killProfile={() => { this.props.navigator.pop() }}
+          killProfile={() => { this.props.closeProfile ? this.props.closeProfile() : this.props.dispatch({type:'KILL_MODAL'}) }}
         >
           <AnimatedBlurView
             blurType="dark"
@@ -221,7 +221,7 @@ class UserProfile extends React.Component {
                     distance={distance}
                     textColor={colors.white}
                   />
-                  {verifiedCouple && <VerifiedCoupleBadge />}
+                  {!verifiedCouple && <VerifiedCoupleBadge />}
 
                 </View>
 
@@ -261,8 +261,7 @@ class UserProfile extends React.Component {
                     height: 50, alignItems: 'center', width: 50, justifyContent: 'center', flex: 0, alignSelf: 'center'
                   }}
                   onPress={() => {
-                    this.props.closeProfile ? this.props.closeProfile() :
-                            this.props.navigator.pop()
+                    this.props.closeProfile ? this.props.closeProfile() : this.props.dispatch({type:'KILL_MODAL'})
                   }}
                 >
                   <Image
@@ -277,7 +276,7 @@ class UserProfile extends React.Component {
           </AnimatedBlurView>
           <TouchableOpacity
             onPress={() => {
-              this.props.closeProfile ? this.props.closeProfile() : this.props.navigator.pop()
+              this.props.closeProfile ? this.props.closeProfile() : this.props.dispatch({type:'KILL_MODAL'})
             }}
             style={{ padding: 25, position: 'absolute', top: 12, zIndex: 999 }}
           >
