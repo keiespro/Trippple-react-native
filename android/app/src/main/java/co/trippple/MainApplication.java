@@ -9,12 +9,12 @@ import android.support.multidex.MultiDex;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.facebook.react.ReactApplication;
+import com.kevinejohn.RNMixpanel.RNMixpanel;
 import co.trippple.RNHotline.RNHotline;
 import com.davecoates.rnfirebasebridge.FirebaseBridgePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
-import com.kevinejohn.RNMixpanel.RNMixpanel;
 import com.chirag.RNMail.RNMail;
 import com.oblador.keychain.KeychainPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
@@ -57,12 +57,12 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNMixpanel(),
             new RNHotline(),
             new FirebaseBridgePackage(),
             new VectorIconsPackage(),
             new SplashScreenReactPackage(),
             new ReactNativePushNotificationPackage(),
-            new RNMixpanel(),
             new RNMail(),
             new KeychainPackage(),
             new GoogleAnalyticsBridgePackage(),

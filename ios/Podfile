@@ -1,6 +1,6 @@
 target "Trippple" do
   pod 'HotlineSDK' => '1.0.13'
-  pod 'Mixpanel' => '3.0.0'
+  pod 'Mixpanel', :git => 'https://github.com/mixpanel/mixpanel-iphone.git'
   pod 'NewRelicAgent'
   pod 'Fabric'
   pod 'Crashlytics'
@@ -9,4 +9,5 @@ target "Trippple" do
   pod 'Firebase/RemoteConfig'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
+  pod 'UXCam'
 end

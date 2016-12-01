@@ -6,13 +6,13 @@ import {MagicNumbers} from '../../utils/DeviceConfig'
 import colors from '../../utils/colors';
 
 
-const Selectable = ({selected}) => (
+const Selectable = ({selected,underlayColor,onPress,isLast,label}) => (
   <TouchableHighlight
-    underlayColor={this.props.underlayColor || colors.dark}
+    underlayColor={underlayColor || colors.dark}
     style={styles.paddedSpace}
-    onPress={() => this.props.onPress(this.props.field)}
+    onPress={() => onPress(this.props.field)}
   >
-    <View style={[styles.insideSelectable, styles.formRow, this.props.isLast && {
+    <View style={[styles.insideSelectable, styles.formRow, isLast && {
       borderBottomWidth: 0,
     }]}
     >
@@ -20,7 +20,7 @@ const Selectable = ({selected}) => (
         style={{color: selected ? colors.white : colors.rollingStone,
               fontSize: MagicNumbers.size18, fontFamily: 'montserrat'
             }}
-      >{this.props.label}</Text>
+      >{label}</Text>
       {selected ? <Image
         style={{height: 30, width: 30}}
         source={require('./assets/ovalSelected@3x.png')}

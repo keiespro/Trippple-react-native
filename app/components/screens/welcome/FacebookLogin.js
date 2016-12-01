@@ -60,14 +60,29 @@ class FacebookLogin extends Component{
 
         <View style={[styles.container, {}]}>
 
-          <View style={{alignSelf: 'stretch'}}>
+          <View
+            style={{
+              height: 100,
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              // backgroundColor:'red',
+              paddingHorizontal:20,
+              alignSelf: 'stretch',
+            }}>
+
 
             <FacebookButton
               shouldAuthenticate
-              buttonText={this.props.tab == 'register' ? 'SIGN UP WITH FACEBOOK' : null}
+              buttonText={this.props.tab == 'register' ? 'SIGN UP WITH FACEBOOK' : 'LOG IN WITH FACEBOOK'}
               onPress={this.login.bind(this)}
+              buttonStyles={{backgroundColor: colors.cornFlower, borderWidth: 0, height: 80}}
+              outerButtonStyle={{height: 100, marginVertical: 0}}
+              leftBoxStyles={{height: 80}}
+              iconTintColor={'#fff'}
+              busy={this.state.busy}
             />
-
+          </View>
             <View style={styles.middleTextWrap}>
               <Text style={[styles.middleText, {fontSize: 17, marginTop: 20, textAlign: 'center', width: MagicNumbers.screenWidth}]}>We will never post without your permission.</Text>
             </View>
@@ -82,7 +97,6 @@ class FacebookLogin extends Component{
             </TouchableOpacity>}
           </View>
         </View>
-      </View>
     );
   }
 }

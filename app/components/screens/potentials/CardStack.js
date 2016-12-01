@@ -71,7 +71,7 @@ class CardStack extends React.Component {
           tension: 15,
           friction: 7,
           velocity: 2,
-          useNativeDriver: true,
+          useNativeDriver: !iOS,
         }).start(() => {
           // console.log('end');
           // this.state.cardopen.setValue(n.profileVisible ? 1.00 : 0.92);

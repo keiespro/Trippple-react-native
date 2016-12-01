@@ -2,12 +2,13 @@
 * @flow
 */
 import firebase from 'rn-firebase-bridge';
+import {Platform} from 'react-native'
 
 const firebaseConfig = {
   APIKey: 'AIzaSyBZKzo_aVFz4ldw0bQ-8dJMe88xF0q0N9U',
   authDomain: 'trippple-93bbc.firebaseio.com',
   databaseURL: 'https://trippple-93bbc.firebaseio.com',
-  googleAppID: '1:820434364878:android:839f5cd266b5f573'
+  googleAppID: `1:820434364878:${Platform.OS}:839f5cd266b5f573`
 };
 
 // // Get default app
@@ -15,14 +16,14 @@ const firebaseConfig = {
 // const app = firebase.initializeDefaultApp()
 const fireLogin = (fbUser, dispatch) => {
 
-  const app = firebase.initializeApp(firebaseConfig, 'co.trippple', (x) => {
+  const app = firebase.initializeApp(firebaseConfig, 'Trippple', x => {
 
-    // console.log(x)
-    const database = app.database();
+     const database = app.database();
     const auth = app.auth();
+      // __DEV__ && console.log( auth);
 
   auth.onAuthStateChanged((firebaseUser) => {
-    // console.log(firebaseUser, auth);
+    // __DEV__ && console.log(firebaseUser, auth);
     if(fbUser && !isUserEqual(fbUser, firebaseUser)) {
       const credential = app.auth.FacebookAuthProvider.credential(fbUser.accessToken);
       app.auth.signInWithCredential(credential)
@@ -42,7 +43,7 @@ const fireLogin = (fbUser, dispatch) => {
   }, app.auth);
 
 
-})
+  })
 }
 
 const checkFireLoginState = async (fbUser, dispatch) => {
@@ -52,7 +53,7 @@ const checkFireLoginState = async (fbUser, dispatch) => {
     dispatch({ type: 'FIREBASE_AUTH_SUCCESS', payload: firebaseUser })
   }else{
     // __DEV__ && console.warn('User is signed-out of Facebook.')
-    auth.signOut();
+    // auth.signOut();
     dispatch({ type: 'FIREBASE_AUTH_FAIL', payload: 'User is signed-out of Facebook.' })
   }
 }

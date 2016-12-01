@@ -30,6 +30,9 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #import "Hotline.h"
+#import "Mixpanel/Mixpanel.h"
+#import <UXCam/UXCam.h>
+
 #import <Crashlytics/Answers.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <Bolts/Bolts.h>
@@ -96,6 +99,8 @@
   #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
     [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
   #endif
+  // Add this call as the first line of your application:didFinishLaunchingWithOptions: method
+  [UXCam startWithKey:@"4cb7699bd5181ca"];
 
     // NEEDED?
 
@@ -225,10 +230,13 @@
 
 
 
+
 - (void)loadSourceForBridge:(RCTBridge *)bridge
-                  withBlock:(RCTSourceLoadBlock)loadCallback
+                 onProgress:(RCTSourceLoadProgressBlock)onProgress
+                 onComplete:(RCTSourceLoadBlock)loadCallback
 {
   [RCTJavaScriptLoader loadBundleAtURL:[self sourceURLForBridge:bridge]
+                            onProgress:onProgress
                             onComplete:loadCallback];
 }
 

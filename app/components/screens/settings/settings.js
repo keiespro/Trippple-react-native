@@ -141,7 +141,16 @@ class Settings extends React.Component{
     return (
 
       <View style={{backgroundColor: colors.outerSpace, paddingTop: 0, flex: 10}} pointerActions={'box-none'}>
-
+      {iOS &&  <TouchableOpacity
+          style={{ height: 50, alignItems: 'center', width: 50, justifyContent: 'center',flex:0,position:'absolute',left:10,zIndex:9999}}
+          onPress={() => {this.props.navigator.pop() }}
+        >
+          <Image
+            resizeMode={Image.resizeMode.contain}
+            style={{ height: 15, width: 15, marginTop: 10 }}
+            source={{ uri: 'assets/close@3x.png' }}
+          />
+        </TouchableOpacity>}
         <ParallaxView
           showsVerticalScrollIndicator={false}
           key={this.props.user.id}
