@@ -27,7 +27,7 @@ class FacebookButton extends React.Component {
 
   render() {
     return (
-       <Btn
+      <Btn
         color={colors.white}
         elevation={10}
         inStyle={[styles.iconButtonOuter]}
@@ -58,8 +58,10 @@ const styles = StyleSheet.create({
   iconButtonOuter: {
     backgroundColor: colors.cornFlower,
     alignSelf: 'stretch',
-    flex: 1,
+    flexGrow: 1,
     height: 80,
+    margin: 0,
+    paddingHorizontal: 50,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',

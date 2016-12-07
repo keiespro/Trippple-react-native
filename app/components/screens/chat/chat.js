@@ -23,7 +23,7 @@ import colors from '../../../utils/colors';
 class Chat extends React.Component {
 
   static route = {
-    styles: FloatHorizontal,
+    styles: SlideHorizontalIOS,
     navigationBar: {
       visible: true,
       translucent: false,

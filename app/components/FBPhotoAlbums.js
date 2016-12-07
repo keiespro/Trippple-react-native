@@ -23,7 +23,7 @@ const DeviceWidth = Dimensions.get('window').width;
 class PhotoAlbums extends React.Component {
 
   static route = {
-    styles: NavigationStyles.FloatHorizontal,
+    styles: NavigationStyles.SlideHorizontal,
     navigationBar: {
       backgroundColor: colors.shuttleGrayAnimate,
       visible: true,

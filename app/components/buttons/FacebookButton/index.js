@@ -1,3 +1,4 @@
+
 import { StyleSheet, Image, Dimensions } from 'react-native';
 import React, { PropTypes } from 'react';
 
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
   },
   iconButtonOuter: {
     alignSelf: 'stretch',
-    flex: 1,
+    flexGrow: 1,
     alignItems: 'stretch',
     flexDirection: 'row',
     height: MagicNumbers.is5orless ? 50 : 60,

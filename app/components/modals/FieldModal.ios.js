@@ -44,7 +44,7 @@ function getMaxLength(fieldName){
 class FieldModal extends React.Component{
 
   static route = {
-    styles: NavigationStyles.FloatVertical,
+    styles: NavigationStyles.SlideVertical,
     navigationBar: {
       visible:false,
       backgroundColor: colors.shuttleGrayAnimate,

@@ -67,7 +67,7 @@ class FacebookLogin extends Component{
               flexDirection: 'row',
               justifyContent: 'space-around',
               // backgroundColor:'red',
-              paddingHorizontal:20,
+              paddingHorizontal:0,
               alignSelf: 'stretch',
             }}>
 
@@ -76,9 +76,9 @@ class FacebookLogin extends Component{
               shouldAuthenticate
               buttonText={this.props.tab == 'register' ? 'SIGN UP WITH FACEBOOK' : 'LOG IN WITH FACEBOOK'}
               onPress={this.login.bind(this)}
-              buttonStyles={{backgroundColor: colors.cornFlower, borderWidth: 0, height: 80}}
+              buttonStyles={{backgroundColor: colors.sushi,flexGrow: 1, borderWidth: 0, height: 80}}
               outerButtonStyle={{height: 100, marginVertical: 0}}
-              leftBoxStyles={{height: 80}}
+              leftBoxStyles={{height: 80, flexGrow: 1}}
               iconTintColor={'#fff'}
               busy={this.state.busy}
             />

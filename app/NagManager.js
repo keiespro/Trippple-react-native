@@ -44,13 +44,13 @@ class NagManager extends React.Component{
         })
 
 
-        OSPermissions.canUseLocation()
-            .then(OSLocation => {
-              this.setState({
-                lp: parseInt(OSLocation) > 2,
-              })
-            })
-            .catch(console.log)
+        // OSPermissions.canUseLocation()
+        //     .then(OSLocation => {
+        //       this.setState({
+        //         lp: parseInt(OSLocation) > 2,
+        //       })
+        //     })
+        //     .catch(console.log)
       })
     }
   }

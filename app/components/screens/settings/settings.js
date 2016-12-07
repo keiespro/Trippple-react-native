@@ -142,13 +142,13 @@ class Settings extends React.Component{
 
       <View style={{backgroundColor: colors.outerSpace, paddingTop: 0, flex: 10}} pointerActions={'box-none'}>
       {iOS &&  <TouchableOpacity
-          style={{ height: 50, alignItems: 'center', width: 50, justifyContent: 'center',flex:0,position:'absolute',left:10,zIndex:9999}}
+          style={{ height: 50, alignItems: 'center', width: 50, justifyContent: 'center', flex:0, position:'absolute', left:0, zIndex:9999}}
           onPress={() => {this.props.navigator.pop() }}
         >
           <Image
             resizeMode={Image.resizeMode.contain}
             style={{ height: 15, width: 15, marginTop: 10 }}
-            source={{ uri: 'assets/close@3x.png' }}
+            source={require('./assets/close@3x.png')}
           />
         </TouchableOpacity>}
         <ParallaxView
@@ -158,7 +158,7 @@ class Settings extends React.Component{
           navigator={this.props.navigator}
           automaticallyAdjustContentInsets
           scrollsToTop
-          backgroundSource={{uri: this.props.user.image_url || 'assets/defaultuser@3x.png'}}
+          backgroundSource={this.props.user.image_url ? {uri: this.props.user.image_url} : require('./assets/defaultuser@3x.png')}
           style={{backgroundColor: colors.outerSpace, flex: 1, height: DeviceHeight}}
           header={(
             <View
