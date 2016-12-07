@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
     // }
   },
   container: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     // backgroundColor: '#fff',
@@ -169,7 +168,7 @@ const styles = StyleSheet.create({
   },
   dashedBorderImage: {
     paddingHorizontal: 0,
-    paddingBottom: 20,
+    paddingBottom: 0,
     margin: 0,
     padding: 0,
     flex: 1,

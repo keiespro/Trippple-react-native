@@ -109,7 +109,7 @@ class PotentialsPlaceholder extends React.Component{
             source={require('./assets/placeholderDashed@3x.png')}
             style={{
               alignSelf: 'stretch',
-              height: DeviceHeight - 110,
+              height: DeviceHeight - 90,
               // marginHorizontal: MagicNumbers.is4s ? MagicNumbers.screenPadding : 15,
               marginVertical: MagicNumbers.is4s ? MagicNumbers.screenPadding : 15,
               // width: MagicNumbers.is4s ? DeviceWidth - MagicNumbers.screenPadding * 2 : DeviceWidth - 30,

@@ -115,14 +115,12 @@ class CardStack extends React.Component {
 
       this.state.cardopen.setValue(0.92);
 
-    }
+    }else{
 
-    // if(!p.isTopCard && n.isTopCard){
-    //
-    //   console.warn('SCENARIO 3');
-    //   this.state.cardopen.setValue(0.92);
-    //
-    // }
+      console.warn('SCENARIO 3');
+      this.state.cardopen.setValue(0.92);
+
+    }
   }
 
 
@@ -338,8 +336,8 @@ class CardStack extends React.Component {
               borderRadius: 11,
               width: DeviceWidth,
               backfaceVisibility: 'hidden',
-              height:this.props.profileVisible ? DeviceHeight : DeviceHeight - 20,
-              top:this.props.profileVisible ? -30 : 0,
+              height: this.props.profileVisible ? DeviceHeight : DeviceHeight,
+              top: this.props.profileVisible ? -30 : -20,
               position: 'absolute',
               flexGrow: 1,
               transform: [
