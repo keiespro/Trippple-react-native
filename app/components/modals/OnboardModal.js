@@ -1,4 +1,4 @@
-import { Text, View, Dimensions, TouchableOpacity, Picker, Image, LayoutAnimation, ScrollView } from 'react-native';
+import { Text, View, Dimensions, TouchableOpacity, Platform, Picker, Image, LayoutAnimation, ScrollView } from 'react-native';
 import React, {Component} from 'react';
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
 import ContinueButton from '../controls/ContinueButton';
@@ -11,6 +11,9 @@ const DeviceWidth = Dimensions.get('window').width;
 import {BlurView, VibrancyView} from 'react-native-blur';
 import {MagicNumbers} from '../../utils/DeviceConfig';
 const PickerItem = Picker.Item;
+const TOP_DISTANCE = DeviceHeight - 160;
+
+const iOS = Platform.OS == 'ios';
 
 const us_choices = [
   {
@@ -65,7 +68,7 @@ const get_key_vals = (v) => v.toLowerCase();
 @withNavigation
 class OnboardModal extends Component {
   static route = {
-    styles: NavigationStyles.FloatVertical,
+    styles: NavigationStyles.SlideVertical,
     navigationBar: {
       backgroundColor: colors.shuttleGrayAnimate,
       visible: false
@@ -149,27 +152,25 @@ class OnboardModal extends Component {
     }, false);
 
     return (
-      <View>
-        <View
-          blurType="dark"
-          style={{
-            width: DeviceWidth,
-            height: DeviceHeight,
-            position: 'absolute', top: 0, left: 0, right: 0,
-            backgroundColor: colors.outerSpace20
-          }}
-        />
+      <View
+        style={{
+          width: DeviceWidth,
+          height: DeviceHeight,
+          position:'absolute',
+          top:0
+        }}
+      >
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
-            flexGrow: 1,
-            height: DeviceHeight + 300,
-            top: TOP_DISTANCE,
+            height: DeviceHeight + 10,
+            backgroundColor: colors.outerSpace
           }}
           style={[
             styles.scrollView, {
-              marginBottom: iOS ? -500 : 0,
+              // marginBottom: iOS ? -500 : 0,
               height: DeviceHeight,
+              flexGrow:0,
 
             }
           ]}
@@ -179,34 +180,38 @@ class OnboardModal extends Component {
             style={[styles.col, {
               width: DeviceWidth,
               height: DeviceHeight,
-              backgroundColor: colors.outerSpace20
+              backgroundColor: colors.outerSpace20,
+              flexGrow:0,
+              top:0,
             }]}
           >
 
-            <View style={[styles.col, {
-              paddingBottom: 160,
-              paddingTop: MagicNumbers.is5orless ? 40 : 140,
-              marginTop: this.state.step == 0 ? 100 : 0
-            }]}
+            <View
+              style={[styles.col, {
+                paddingBottom: 160,
+                paddingTop: MagicNumbers.is5orless ? 40 : 140,
+                marginTop: this.state.step == 0 ? 100 : 0,
+                flexGrow: 0
+              }]}
             >
               {MagicNumbers.is5orless ? null :
 
-                <View style={{
-                  top: this.state.step == 0 ? -50 : -300,
-                  position: 'absolute',
-                  width: DeviceWidth,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: 200
-                }}
+                <View
+                  style={{
+                    top: this.state.step == 0 ? -50 : -300,
+                    position: 'absolute',
+                    width: DeviceWidth,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexGrow: 1,
+                    height: 200
+                  }}
                 >
                   <Image
                     style={{
                       borderRadius: 75,
                       width: 150,
                       height: 150,
-
-
                     }}
                     key={'onboardpic'}
                     source={{
@@ -214,37 +219,38 @@ class OnboardModal extends Component {
                       width: 150,
                       height: 150,
                     }}
-                    defaultSource={{
-                      uri: 'assets/placeholderUser@3x.png',
-                      width: 150,
-                      height: 150,
-                    }}
+                    defaultSource={require('./assets/placeholderUser@3x.png')}
                     resizeMode={Image.resizeMode.cover}
                   /></View>}
 
-              <Text style={{
-                color: colors.white,
-                marginTop: 10,
-                fontFamily: 'montserrat', fontWeight: '800',
-                justifyContent: 'space-between',
-                fontSize: 19
-              }}
+              <Text
+                style={{
+                  color: colors.white,
+                  marginTop: 10,
+                  fontFamily: 'montserrat',
+                  fontWeight: '800',
+                  justifyContent: 'space-between',
+                  fontSize: 19
+                }}
               >WELCOME {this.props.user.firstname ? this.props.user.firstname.toUpperCase() : '' }</Text>
 
-              <Text style={{
-                color: colors.white,
-                fontFamily: 'omnes',
-                justifyContent: 'space-between',
-                fontSize: 17,
-                marginBottom: 15,
-              }}
+              <Text
+                style={{
+                  color: colors.white,
+                  fontFamily: 'omnes',
+                  justifyContent: 'space-between',
+                  fontSize: 17,
+                  marginBottom: 15,
+                }}
               >Let's get started</Text>
 
-              <View style={[{
-                marginTop: 20,
-                alignItems: 'flex-start',
-                justifyContent: 'space-between'
-              }]}
+              <View
+                style={[{
+                  marginTop: 20,
+                  alignItems: 'flex-start',
+                  flexGrow:0,
+                  justifyContent: 'space-between'
+                }]}
               >
                 <TouchableOpacity
                   style={{
@@ -252,6 +258,7 @@ class OnboardModal extends Component {
                     marginLeft: 30,
                     paddingLeft: 0,
                     height: 70,
+                    flexGrow:0,
                     justifyContent: 'center',
                     backgroundColor: colors.transparent,
                     borderBottomWidth: 1,
@@ -267,6 +274,7 @@ class OnboardModal extends Component {
                     styles.bigtext, {
                       marginVertical: 10,
                       flexDirection: 'row',
+                      flexGrow:0,
                       justifyContent: 'space-between',
                       paddingRight: 15,
                     }
@@ -282,10 +290,10 @@ class OnboardModal extends Component {
                     >{this.state.selected_ours && this.state.selected_ours.length > 1 ? 'WE\'RE A...' : 'I\'M A...' }</Text>
                     {this.state.selected_ours && <Text style={{ fontFamily: 'montserrat', fontSize: 20, marginRight: 40, color: colors.white }}>
                         {this.state.selected_ours.length > 1 ? 'COUPLE' : 'SINGLE '} ({this.state.selected_genders.toUpperCase()})</Text>}
-                    <View style={{width: 20, position: 'absolute', top: 5, height: 20, marginLeft: 10, right: 20}}>
+                    <View style={{width: 20, position: 'absolute', flexGrow:1, top: 5, height: 20, marginLeft: 10, right: 20}}>
                       <Image
                         style={{width: 15, height: 15, }}
-                        source={{uri: 'assets/edit@3x.png'}}
+                        source={require('./assets/edit@3x.png')}
                         resizeMode={Image.resizeMode.contain}
                       />
                     </View>
@@ -299,6 +307,7 @@ class OnboardModal extends Component {
                     paddingLeft: 0,
                     height: 70,
                     zIndex: 999,
+                    flexGrow:0,
                     justifyContent: 'center',
                     backgroundColor: colors.transparent,
                     borderBottomWidth: 1,
@@ -306,16 +315,16 @@ class OnboardModal extends Component {
                   }}
                   onPress={() => {
                     if(this.state.selected_ours) {
-                      LayoutAnimation.easeInEaseOut();
+                      // LayoutAnimation.easeInEaseOut();
                       this.setState({step: 2});
                     }
                   }}
                 >
-                  <View style={[
-                    styles.rowtext,
-                    styles.bigtext, {
+                  <View
+                    style={[ styles.rowtext, styles.bigtext, {
                       marginVertical: 10,
                       flexDirection: 'row',
+                      flexGrow:0,
                       justifyContent: 'space-between'
                     }
                   ]}
@@ -328,10 +337,10 @@ class OnboardModal extends Component {
                     }
                   ]}
                     >SEEKING...</Text>
-                    <View style={{width: 20, position: 'absolute', top: 5, height: 20, marginLeft: 10, right: 20}}>
+                    <View style={{width: 20, position: 'absolute', flexGrow:1,top: 5, height: 20, marginLeft: 10, right: 20}}>
                       <Image
                         style={{width: 15, height: 15, opacity: this.state.selected_ours ? 1 : 0.6}}
-                        source={{uri: 'assets/edit@3x.png'}}
+                        source={require('./assets/edit@3x.png')}
                         resizeMode={Image.resizeMode.contain}
                       />
                     </View>
@@ -342,21 +351,24 @@ class OnboardModal extends Component {
             </View>
 
             {this.state.step > 0 &&
-              <View style={{
-                backgroundColor: colors.outerSpace,
-                width: DeviceWidth,
-                height: 200,
-                position: 'absolute',
-                bottom: 0,
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}
+              <View
+                style={{
+                  backgroundColor: colors.outerSpace,
+                  width: DeviceWidth,
+                  height: 200,
+                  position: 'absolute',
+                  bottom: 0,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexGrow:1,
+
+                }}
               >
                 <View style={{
                   height: this.state.selected_ours && has_theirs ? 70 : 0,
-                  position: 'absolute',
                   top: this.state.selected_ours && has_theirs ? -70 : 0,
                   left: 0,
+                  flexGrow:1,
                   right: 0,
                   width: DeviceWidth,
                   overflow: 'hidden'
@@ -393,7 +405,6 @@ class OnboardModal extends Component {
 
                 {this.state.step == 2 && this.state.selected_ours && them_choices[this.state.selected_relationship_status].map((item, i) => {
                   return (
-                    <View style={{width: DeviceWidth}}>
                       <Selectable
                         selected={this.state.selected_theirs[item.value]}
                         key={`${item.label.trim()}k`}
@@ -405,15 +416,15 @@ class OnboardModal extends Component {
                         label={item.label}
                         values={them_choices[this.state.selected_relationship_status]}
                       />
-                    </View>
+
               )
                 })}
 
               </View>}
           </View>
         </ScrollView>
-
       </View>
+
 
     )
   }

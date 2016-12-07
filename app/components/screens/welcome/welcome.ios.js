@@ -39,7 +39,7 @@ const Welcome = React.createClass({
 
   render() {
     return (
-      <View style={{width: DeviceWidth, height: DeviceHeight}}>
+      <View style={{backgroundColor: colors.outerSpace, width: DeviceWidth, height: DeviceHeight}}>
         <StatusBar animated barStyle="light-content" hidden />
         <FadeInContainer
           delayAmount={global.__TEST__ ? 0 : 800}

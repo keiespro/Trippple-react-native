@@ -44,13 +44,13 @@ class NagManager extends React.Component{
         })
 
 
-        // OSPermissions.canUseLocation()
-        //     .then(OSLocation => {
-        //       this.setState({
-        //         lp: parseInt(OSLocation) > 2,
-        //       })
-        //     })
-        //     .catch(console.log)
+        OSPermissions.canUseLocation()
+            .then(OSLocation => {
+              this.setState({
+                lp: parseInt(OSLocation) > 2,
+              })
+            })
+            .catch(console.log)
       })
     }
   }
@@ -62,16 +62,12 @@ class NagManager extends React.Component{
       // Settings.set({HAS_SEEN_STARTER_DECK: true})
     }
     if(this.props.loggedIn && nProps.loggedIn){
-    // relationship_status modal
-      if(this.props.user.status == 'registered' && !this.state.askedOnboard && !this.props.user.relationship_status && !nProps.user.relationship_status){
+      if(nProps.user.status == 'registered' && !this.state.askedOnboard && !this.props.user.relationship_status && !nProps.user.relationship_status){
         this.setState({askedOnboard: true})
         nProps.dispatch(ActionMan.showInModal({
           component: 'OnboardModal',
           passProps: {
             title: 'Onboard',
-            dispatch: nProps.dispatch,
-            navigator: nProps.navigator,
-            navigation: nProps.navigation,
             user: nProps.user,
           }
         }))

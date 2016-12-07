@@ -157,13 +157,15 @@ class PotentialsPlaceholder extends React.Component{
             </View> }
 
             {userProfileIncomplete && !this.state.loading ?
-              <Button
-                btnText={'COMPLETE YOUR PROFILE'}
-                labelText={'WANT MORE MATCHES?'}
-                loading={this.state.loading}
-                onTap={this.openProfileEditor.bind(this)}
-              /> : null
-              }
+              <View style={{flexGrow: 0,height:140,alignItems:'center',flexDirection:'column'}}>
+                <Button
+                  btnText={'COMPLETE YOUR PROFILE'}
+                  labelText={'WANT MORE MATCHES?'}
+                  loading={this.state.loading}
+                  onTap={this.openProfileEditor.bind(this)}
+                />
+              </View> : null
+            }
 
             {!userProfileIncomplete && getPotentialsButtonEnabled && !potentialsReturnedEmpty && !this.state.loading ?
               <Button
@@ -215,8 +217,10 @@ const Button = ({labelText, labelPosition = 'top', btnText, onTap}) => (
     style={{
       alignSelf: 'stretch',
       marginTop: 30,
-      marginHorizontal: 20,
-      flex: 0
+      marginHorizontal: 0,
+      paddingHorizontal: 20,
+      height:60,
+      flex:1
     }}
   >
     {labelText && labelPosition == 'top' &&
