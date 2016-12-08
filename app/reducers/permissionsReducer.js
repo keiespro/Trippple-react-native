@@ -8,7 +8,7 @@ export default function permissionsReducer(state = initialState, action) {
     case 'CHECK_NOTIFICATIONS_PERMISSION_FULFILLED':
       return {...state, notifications: action.payload }
     case 'CHECK_CONTACTS_PERMISSION_FULFILLED':
-      return {...state, contacts: action.payload }
+      return {...state, contacts: action.payload || true }
 
 
     default:

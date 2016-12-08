@@ -147,7 +147,7 @@ class Settings extends React.Component{
         >
           <Image
             resizeMode={Image.resizeMode.contain}
-            style={{ height: 15, width: 15, marginTop: 10 }}
+            style={{ height: 15, width: 15, marginTop: 20 }}
             source={require('./assets/close@3x.png')}
           />
         </TouchableOpacity>}

@@ -174,7 +174,7 @@ class SettingsSettings extends React.Component{
               style={[{
                 borderBottomWidth: 1 / PixelRatio.get(),
                 borderColor: colors.rollingStone,
-                flex: 1,
+                flexGrow: 1,
                 height: 130,
                 alignItems: 'center',
                 justifyContent: 'space-between',
@@ -185,7 +185,7 @@ class SettingsSettings extends React.Component{
                 style={{
                   flexWrap: 'wrap',
                   alignSelf: 'stretch',
-                  flex: 1,
+                  flexGrow: 1,
                   alignItems: 'flex-start',
                   justifyContent: 'center',
                   width: DeviceWidth - 120,
@@ -238,7 +238,7 @@ class SettingsSettings extends React.Component{
               style={[{
                 borderBottomWidth: 1 / PixelRatio.get(),
                 borderColor: colors.rollingStone,
-                flex: 1,
+                flexGrow: 1,
                 height: 130,
                 alignItems: 'center',
                 justifyContent: 'space-between',
@@ -249,7 +249,7 @@ class SettingsSettings extends React.Component{
                 style={{
                   flexWrap: 'wrap',
                   alignSelf: 'stretch',
-                  flex: 1,
+                  flexGrow: 1,
                   alignItems: 'flex-start',
                   justifyContent: 'center',
                   width: DeviceWidth - 120,

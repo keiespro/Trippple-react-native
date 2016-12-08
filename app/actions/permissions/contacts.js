@@ -2,7 +2,9 @@ import { PermissionsAndroid, Platform } from 'react-native'
 import Contacts from 'react-native-contacts'
 import Promise from 'bluebird'
 
-const ContactGetter = Promise.promisifyAll(Contacts)
+const ContactGetter = Promise.promisify(Contacts.getAll)
+const checkPermission = Promise.promisify(Contacts.checkPermission)
+const requestPermission = Promise.promisify(Contacts.requestPermission)
 
 export default {checkContactsPermission, requestContactsPermission}
 
@@ -24,7 +26,7 @@ export const requestContactsPermission = () => dispatch => dispatch({ type: 'CHE
 
 const request = {
   async ios(){
-    const permission = await ContactGetter.requestPermission()
+    const permission = await requestPermission()
     let perm;
     try{
    // ContactGetter.PERMISSION_AUTHORIZED || ContactGetter.PERMISSION_UNDEFINED || ContactGetter.PERMISSION_DENIED
@@ -62,7 +64,7 @@ const request = {
 
 const check = {
   async ios(){
-    const permission = await ContactGetter.checkPermission()
+    const permission = await checkPermission()
     let perm;
     try{
    // ContactGetter.PERMISSION_AUTHORIZED || ContactGetter.PERMISSION_UNDEFINED || ContactGetter.PERMISSION_DENIED

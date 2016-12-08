@@ -28,9 +28,9 @@ class Matches extends Component {
     },
     navigationBar: {
       style:{
-        marginTop:68
+        // marginTop:68
       },
-      marginTop:68,
+      // marginTop:68,
 
       visible: true,
       translucent: true,
@@ -84,7 +84,7 @@ class Matches extends Component {
 
   render() {
     return (
-      <View style={{backgroundColor: colors.outerSpace,marginTop:10}}>
+      <View style={{backgroundColor: colors.outerSpace,marginTop:5}}>
       {/* <StatusBar
           animated
           backgroundColor={colors.shuttleGray}

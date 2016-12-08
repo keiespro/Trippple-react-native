@@ -56,7 +56,7 @@ class PermissionsModal extends Component{
 
   componentWillReceiveProps(nProps){
     if(nProps.hasPermission && !this.props.isPersistant){
-        this.success()
+      this.success()
 
     }
   }
@@ -93,7 +93,8 @@ class PermissionsModal extends Component{
     this.finish()
   }
   finish(){
-    this.props.closeModal()
+    this.props.closeModal && this.props.closeModal()
+    this.props.dispatch({ type: 'KILL_MODAL', payload: {}})
   }
   cancel(){
     if(this.props.permissionKey == 'location'){
@@ -158,6 +159,7 @@ class PermissionsModal extends Component{
         stopLoading={hasPermission}
         leftBoxStyles={buttonStyles.grayIconbuttonLeftBox}
         _onPress={this.handleTap.bind(this)}
+        outerButtonStyle={{flexGrow:0,backgroundColor:'transparent',width:DeviceWidth-60,height:90}}
       >
         {hasPermission ?
           <Image
@@ -241,10 +243,15 @@ class PermissionsModal extends Component{
                 onPress={this.finish.bind(this)}
               >
                 <View style={[styles.cancelButton, {backgroundColor: 'transparent', alignItems: 'stretch', alignSelf: 'stretch', flexDirection: 'row'}]} >
-                  <Text style={[{color: colors.shuttleGray, textAlign: 'center',
-                  padding: 10,
-                  paddingVertical: MagicNumbers.is4s ? 0 : 20,
-                  alignSelf: 'stretch'}, styles.nothankstext]}
+                  <Text
+                    style={[{
+                      color: colors.shuttleGray,
+                      textAlign: 'center',
+                      padding: 10,
+                      paddingVertical: MagicNumbers.is4s ? 0 : 20,
+                      alignSelf: 'stretch'
+                    }, styles.nothankstext
+                    ]}
                   >Continue</Text>
                 </View>
               </TouchableOpacity>
@@ -307,6 +314,7 @@ const ModalButton = ({btnText, onTap, loading}) => (
         alignItems: 'center',
         borderRadius: 5,
         borderWidth: 1,
+        flexGrow: 1,
         alignSelf: 'stretch',
         paddingVertical: 15,
         borderColor: colors.white,

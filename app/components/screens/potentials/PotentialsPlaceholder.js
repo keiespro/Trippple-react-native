@@ -168,14 +168,15 @@ class PotentialsPlaceholder extends React.Component{
             }
 
             {!userProfileIncomplete && getPotentialsButtonEnabled && !potentialsReturnedEmpty && !this.state.loading ?
-              <View style={{flexGrow: 0,height:110,alignItems:'center',flexDirection:'column'}}>
+              <View style={{flexGrow: 0,height:115,alignItems:'center',flexDirection:'column'}}>
                 <Button
-                loading={this.state.loading}
-                btnText={'GET MORE MATCHES'}
-                labelText={'GO AHEAD, TREAT YOURSELF'}
-                labelPosition={'bottom'}
-                onTap={this.getMorePotentials.bind(this)}
-              /></View> : null
+                  loading={this.state.loading}
+                  btnText={'GET MORE MATCHES'}
+                  labelText={'GO AHEAD, TREAT YOURSELF'}
+                  labelPosition={'bottom'}
+                  onTap={this.getMorePotentials.bind(this)}
+                />
+              </View> : null
             }
 
             {!userProfileIncomplete && potentialsReturnedEmpty && (!this.state.loading) ?
@@ -221,7 +222,7 @@ const Button = ({labelText, labelPosition = 'top', btnText, onTap}) => (
       marginHorizontal: 0,
       paddingHorizontal: 20,
       height:60,
-      flex:1
+      flexGrow:1
     }}
   >
     {labelText && labelPosition == 'top' &&
@@ -253,6 +254,7 @@ const Button = ({labelText, labelPosition = 'top', btnText, onTap}) => (
           borderRadius: 5,
           borderWidth: 1,
           paddingVertical: 15,
+          paddingHorizontal:20,
           borderColor: colors.white,
 
         }}

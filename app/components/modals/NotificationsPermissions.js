@@ -12,7 +12,7 @@ class NotificationsPermissionsModal extends React.Component{
     return (
       <PermissionModal
         title={'NOTIFICATIONS'}
-        subtitle={' '}
+        subtitle={''}
         isPersistant
         permissionKey={'notifications'}
         buttonText={'GET NOTIFICATIONS'}
