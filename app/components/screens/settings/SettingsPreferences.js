@@ -144,44 +144,45 @@ class SettingsPreferences extends React.Component{
             <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>{'Show Me'}</Text>
             </View>
+          </View>
 
-
-          {this.props.user.relationship_status == 'single' && <Selectable
-            field={'looking_for_mf'}
-            onPress={this.onPressSelectable.bind(this, 'looking_for_mf')}
-            label={'Couples (MALE/FEMALE)'}
-            values={values}
-            selected={this.state.looking_for_mf}
-          />}
-          {this.props.user.relationship_status == 'single' && <Selectable
-            field={'looking_for_mm'}
-            onPress={this.onPressSelectable.bind(this, 'looking_for_mm')}
-            label={'Couples (MALE/MALE)'}
-            selected={this.state.looking_for_mm}
-            values={values}
-          />}
-          {this.props.user.relationship_status == 'single' && <Selectable
-            field={'looking_for_ff'}
-            selected={this.state.looking_for_ff}
-            onPress={this.onPressSelectable.bind(this, 'looking_for_ff')}
-            label={'Couples (FEMALE/FEMALE)'}
-            values={values}
-          />}
-          {this.props.user.relationship_status == 'couple' && <Selectable
-            field={'looking_for_f'}
-            onPress={this.onPressSelectable.bind(this, 'looking_for_f')}
-            label={'SINGLE FEMALES'}
-            selected={this.state.looking_for_f}
-            values={values}
-          />}
-          {this.props.user.relationship_status == 'couple' && <Selectable
-            field={'looking_for_m'}
-            selected={this.state.looking_for_m}
-            onPress={this.onPressSelectable.bind(this, 'looking_for_m')}
-            label={'SINGLE MALES'}
-            values={values}
-          />}
-      </View>
+          <View>
+            {this.props.user.relationship_status == 'single' && <Selectable
+              field={'looking_for_mf'}
+              onPress={this.onPressSelectable.bind(this, 'looking_for_mf')}
+              label={'Couples (MALE/FEMALE)'}
+              values={values}
+              selected={this.state.looking_for_mf}
+            />}
+            {this.props.user.relationship_status == 'single' && <Selectable
+              field={'looking_for_mm'}
+              onPress={this.onPressSelectable.bind(this, 'looking_for_mm')}
+              label={'Couples (MALE/MALE)'}
+              selected={this.state.looking_for_mm}
+              values={values}
+            />}
+            {this.props.user.relationship_status == 'single' && <Selectable
+              field={'looking_for_ff'}
+              selected={this.state.looking_for_ff}
+              onPress={this.onPressSelectable.bind(this, 'looking_for_ff')}
+              label={'Couples (FEMALE/FEMALE)'}
+              values={values}
+            />}
+            {this.props.user.relationship_status == 'couple' && <Selectable
+              field={'looking_for_f'}
+              onPress={this.onPressSelectable.bind(this, 'looking_for_f')}
+              label={'SINGLE FEMALES'}
+              selected={this.state.looking_for_f}
+              values={values}
+            />}
+            {this.props.user.relationship_status == 'couple' && <Selectable
+              field={'looking_for_m'}
+              selected={this.state.looking_for_m}
+              onPress={this.onPressSelectable.bind(this, 'looking_for_m')}
+              label={'SINGLE MALES'}
+              values={values}
+            />}
+          </View>
           <View style={{paddingTop: 50}}>
 
             <AgePrefs

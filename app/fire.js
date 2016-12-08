@@ -4,19 +4,19 @@
 import firebase from 'rn-firebase-bridge';
 import {Platform} from 'react-native'
 
-const firebaseConfig = {
-  APIKey: 'AIzaSyBZKzo_aVFz4ldw0bQ-8dJMe88xF0q0N9U',
-  authDomain: 'trippple-93bbc.firebaseio.com',
-  databaseURL: 'https://trippple-93bbc.firebaseio.com',
-  googleAppID: `1:820434364878:${Platform.OS}:839f5cd266b5f573`
-};
+// const firebaseConfig = {
+//   APIKey: 'AIzaSyBZKzo_aVFz4ldw0bQ-8dJMe88xF0q0N9U',
+//   authDomain: 'trippple-93bbc.firebaseio.com',
+//   databaseURL: 'https://trippple-93bbc.firebaseio.com',
+//   googleAppID: `1:820434364878:${Platform.OS}:839f5cd266b5f573`
+// };
 
 // // Get default app
 
 // const app = firebase.initializeDefaultApp()
 const fireLogin = (fbUser, dispatch) => {
 
-  const app = firebase.initializeApp(firebaseConfig, 'Trippple', x => {
+  const app = firebase.initializeDefaultApp(x => {//(firebaseConfig, 'Trippple', x => {
 
      const database = app.database();
     const auth = app.auth();

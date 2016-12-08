@@ -1,9 +1,6 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, PixelRatio, Dimensions, StatusBar } from 'react-native';
 import React from 'react';
-import { BlurView } from 'react-native-blur'
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
-import dismissKeyboard from 'dismissKeyboard'
-import {SlideVerticalIOS} from '../ExNavigationStylesCustom'
 
 import { connect } from 'react-redux'
 
@@ -20,7 +17,6 @@ import ActionMan from '../actions'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-const AnimatedBlurView = Animated.createAnimatedComponent(BlurView)
 
 const CardLabel = props => (
   <View>
@@ -30,10 +26,10 @@ const CardLabel = props => (
     >{ props.matchName }
     </Text>
     <Text
-      style={[styles.cardBottomOtherText, { color: props.textColor }]}
+      style={[styles.cardBottomOtherText, { alignSelf: 'flex-start', color: props.textColor }]}
       key={`${props.potential.user.id}-matchn`}
-    >{
-        props.city.replace(', ', '') + props.seperator + (props.distance ? ` ${props.distance} ${props.distance == 1 ? 'mile' : 'miles'} away` : '')
+    >{props.city
+        // props.city.replace(', ', '') + props.seperator + (props.distance ? ` ${props.distance} ${props.distance == 1 ? 'mile' : 'miles'} away` : '')
     }</Text>
   </View>
 );
@@ -42,7 +38,7 @@ const CardLabel = props => (
 class UserProfile extends React.Component {
 
   static route = {
-    styles: SlideVerticalIOS,
+    styles: NavigationStyles.Fade,
     navigationBar: {
       visible: false
     }
@@ -57,6 +53,7 @@ class UserProfile extends React.Component {
 
     this.state = { slideIndex: 0, }
   }
+
   componentDidMount() {
     // dismissKeyboard()
   }
@@ -68,12 +65,16 @@ class UserProfile extends React.Component {
       this.handleSize(layout.height + 600)
     }
   }
+
   reportModal() {
+    const them = [this.props.potential.user];
+    if(this.props.potential.partner && this.props.potential.partner.gender){
+      them.push(this.props.potential.partner)
+    }
     this.props.dispatch(ActionMan.showInModal({
       component: 'ReportModal',
       passProps: {
-        action: 'report',
-        them: [this.props.potential.user, this.props.potential.partner],
+        potential: this.props.potential,
       }
     }))
   }
@@ -84,7 +85,7 @@ class UserProfile extends React.Component {
   render() {
       // if(!this.props.user || !this.props.potential || !this.props.potential.user ||
       // !this.props.potential.user.firstname){
-        this.props.dispatch(ActionMan.getUserInfo());
+      //   this.props.dispatch(ActionMan.getUserInfo());
       //   return <View/>
       // }
     const { potential } = this.props,
@@ -131,44 +132,40 @@ class UserProfile extends React.Component {
     const hasPartner = potential.partner && potential.partner.gender;
     const slideFrames = hasPartner && potential.partner.image_url && potential.partner.image_url != '' ? [potential.user, potential.partner] : [potential.user];
     const verifiedCouple = hasPartner && potential.couple.verified;
-    const aniblurstyle = [{
-      backgroundColor: colors.outerSpace50,
-      width: DeviceWidth,
-      paddingbottom: 120,
-      flex: 10,
-      flexGrow: 10,
-      height: profileVisible ? this.state.contentHeight : 0,
-      top: profileVisible ? -130 : DeviceHeight + 300,
-      position: 'relative',
-      alignSelf: 'flex-end',
-      overflow: 'hidden',
-
-    }]
     return (
       <View
         style={[{
-          flex: 1,
-          top: 0
+          flexGrow: 1,
+          top: 0,
+          backgroundColor:'#000'
         }]}
         onLayout={this.onLayout.bind(this)}
       >
-        <StatusBar animated hidden />
+        {/* <StatusBar animated hidden /> */}
 
         <ParallaxSwiper
           contentContainerStyle={[{
-            minHeight: profileVisible ? DeviceHeight : cardHeight,
+            minHeight: DeviceHeight,
             alignItems: 'center',
+            backgroundColor: '#000',
             justifyContent: 'center',
             flexDirection: 'column',
-            flex: 1,
+            flexGrow: 1,
+            borderRadius: 11,
           }]}
+          height={DeviceHeight}
+          potentialkey={this.props.potential.user.id}
+          autoplay={verifiedCouple ? true : false}
+
           slideFrames={slideFrames}
           scrollEnabled={profileVisible}
           showsVerticalScrollIndicator={false}
           style={[{
-            flex: 1,
+            flexGrow: 1,
             position: 'relative',
             top: 0,
+            borderRadius: 11,
+
             width: cardWidth,
           }]}
           header={<View />}
@@ -176,13 +173,11 @@ class UserProfile extends React.Component {
           windowHeight={0}
           width={cardWidth}
           isTopCard={isTopCard}
-          pan={this.props.pan}
           profileVisible={profileVisible}
-          killProfile={() => { this.props.closeProfile ? this.props.closeProfile() : this.props.dispatch({type:'KILL_MODAL'}) }}
         >
-          <AnimatedBlurView
+
+          <View
             blurType="dark"
-            style={aniblurstyle}
           >
 
             {profileVisible ?
@@ -199,20 +194,20 @@ class UserProfile extends React.Component {
                   left: (DeviceWidth / 2) - 20
                 }}
               /> : null
-            }
+                    }
             <View
               key={`blurkey${potential.user.id}`}
               style={{
                 zIndex: 100,
                 height: profileVisible ? this.state.contentHeight : 0,
                 opacity: profileVisible ? 1 : 0,
-                flex: 10,
+                flexGrow: 1,
               }}
             >
 
-              <View style={{ paddingVertical: 40, width: DeviceWidth, flex: 10, marginTop: 0 }}>
+              <View style={{ paddingVertical: 40, width: DeviceWidth, flex: 10, marginTop: 0}}>
 
-                <View style={{ marginHorizontal: MagicNumbers.screenPadding / 2, marginBottom: 20 }}>
+                <View style={{marginHorizontal: MagicNumbers.screenPadding / 2, marginBottom: 20}}>
                   <CardLabel
                     potential={potential}
                     seperator={seperator}
@@ -221,77 +216,84 @@ class UserProfile extends React.Component {
                     distance={distance}
                     textColor={colors.white}
                   />
-                  {!verifiedCouple && <VerifiedCoupleBadge />}
+                  {verifiedCouple && <VerifiedCoupleBadge placementStyle={{position: 'relative', alignSelf: 'flex-start', left: 0, top: 0, marginTop: 20}} />}
 
                 </View>
 
-                {potential.user.bio &&
-                <View style={{ margin: MagicNumbers.screenPadding / 2, width: MagicNumbers.screenWidth, flexDirection: 'column' }}>
-                  <Text style={[styles.cardBottomOtherText, { color: colors.white, marginBottom: 15, marginLeft: 0 }]}>{
-                                  !hasPartner ? 'Looking for' : 'Looking for'
-                              }</Text>
-                  <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
-                                  potential.user.bio
-                              }</Text>
-                </View>
-                      }
+                {potential.user.bio && potential.user.bio.length ?
+                  <View style={{ margin: MagicNumbers.screenPadding / 2, width: MagicNumbers.screenWidth, flexDirection: 'column' }}>
+                    <Text style={[styles.cardBottomOtherText, { color: colors.white, marginBottom: 15, marginLeft: 0 }]}>{
+                                              !hasPartner ? 'Looking for' : 'Looking for'
+                                          }</Text>
+                    <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
+                                              potential.user.bio
+                                          }</Text>
+                  </View> : null
+                                  }
 
-                {hasPartner && potential.partner.bio &&
-                <View style={{ margin: MagicNumbers.screenPadding / 2, width: MagicNumbers.screenWidth }}>
-                  <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
-                                  potential.partner.bio
-                              }</Text>
-                </View>
-                      }
+                {hasPartner && potential.partner.bio && potential.partner.bio.length ?
+                  <View
+                    style={{
+                      margin: MagicNumbers.screenPadding / 2,
+                      width: MagicNumbers.screenWidth
+                    }}
+                  >
+                    <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>
+                      {potential.partner.bio}
+                    </Text>
+                  </View> : null
+                        }
 
                 <UserDetails
                   potential={potential}
                   user={this.props.user}
                   location={'card'}
                 />
-
-                {this.props.dispatch && <TouchableOpacity onPress={this.props.reportModal}>
+                <TouchableOpacity onPress={this.reportModal.bind(this)}>
                   <View style={{ marginTop: 20, paddingBottom: 50 }}>
                     <Text style={{ color: colors.mandy, textAlign: 'center' }}>Report or Block this user</Text>
                   </View>
-                </TouchableOpacity>}
+                </TouchableOpacity>
 
                 <TouchableOpacity
                   style={{
-                    height: 50, alignItems: 'center', width: 50, justifyContent: 'center', flex: 0, alignSelf: 'center'
+                    height: 50, zIndex: 9999, alignItems: 'center', width: 50, justifyContent: 'center', flex: 0, alignSelf: 'center',
                   }}
-                  onPress={() => {
-                    this.props.closeProfile ? this.props.closeProfile() : this.props.dispatch({type:'KILL_MODAL'})
-                  }}
+                  onPress={() => this.props.closeProfile ? this.props.closeProfile() : this.props.navigator.pop()}
                 >
                   <Image
                     resizeMode={Image.resizeMode.contain}
                     style={{ height: 12, width: 12, marginTop: 10 }}
-                    source={{ uri: 'assets/close@3x.png' }}
+                    source={require('./screens/potentials/assets/close@3x.png')}
                   />
                 </TouchableOpacity>
 
+
               </View>
+
             </View>
-          </AnimatedBlurView>
-          <TouchableOpacity
-            onPress={() => {
-              this.props.closeProfile ? this.props.closeProfile() : this.props.dispatch({type:'KILL_MODAL'})
-            }}
-            style={{ padding: 25, position: 'absolute', top: 12, zIndex: 999 }}
-          >
-            <Image
-              resizeMode={Image.resizeMode.contain}
-              style={{ width: 15, height: 15, marginTop: 0, alignItems: 'flex-start' }}
-              source={{ uri: 'assets/close@3x.png' }}
-            />
-          </TouchableOpacity>
+
+          </View>
         </ParallaxSwiper>
+
+        <TouchableOpacity
+          style={{
+            height: 50, zIndex: 9999, alignItems: 'center', width: 50, justifyContent: 'center', flex: 0, top: -10, left: -10, position: 'absolute'
+          }}
+          onPress={() => this.props.closeProfile ? this.props.closeProfile() : this.props.navigator.pop()}
+        >
+          <Image
+            resizeMode={Image.resizeMode.contain}
+            style={{ height: 12, width: 12, marginTop: 10 }}
+            source={require('./screens/potentials/assets/close@3x.png')}
+          />
+        </TouchableOpacity>
 
       </View>
     )
   }
 }
+
 class CustomTabBar extends React.Component {
   static propTypes: {
       goToPage: React.PropTypes.func,
@@ -340,15 +342,16 @@ class CustomTabBar extends React.Component {
   }
 }
 //
-// const mapStateToProps = (state, ownProps) => ({
-//   ...ownProps,
-//   user: state.user,
-// })
-//
-// const mapDispatchToProps = dispatch => dispatch;
-//
-// export default connect(mapStateToProps, mapDispatchToProps)(UserProfile)
-export default UserProfile
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
+  user: state.user,
+})
+
+const mapDispatchToProps = dispatch => ({dispatch});
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile)
+// export default UserProfile
+
 const styles = StyleSheet.create({
 
   shadowCard: {
@@ -578,11 +581,11 @@ const styles = StyleSheet.create({
     marginTop: 0
   },
   cardBottomOtherText: {
-    marginLeft: 20,
+    marginLeft: 0,
     fontFamily: 'omnes',
     color: colors.rollingStone,
     fontSize: 16,
-    marginTop: 0,
-    opacity: 0.5
+    marginTop: 10,
+    opacity: 0.9
   }
 });

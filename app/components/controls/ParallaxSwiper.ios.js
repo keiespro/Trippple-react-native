@@ -102,7 +102,7 @@ class ParallaxSwiper extends React.Component{
       return (
 
         <Image
-          source={{uri: image_url }}
+          source={image_url ? {uri: image_url } : require('../screens/potentials/assets/defaultuser.png')}
           defaultSource={require('../screens/potentials/assets/defaultuser.png')}
           loadingIndicatorSrc={null}
           key={`${p.id}slide${i}`}
@@ -113,8 +113,8 @@ class ParallaxSwiper extends React.Component{
             overlayColor: 'transparent',
             borderRadius: 11,
             alignSelf:'flex-end',
-            bottom: this.props.profileVisible ? 0 : 0,
-            // top:100
+            bottom: 0,
+            top:0
           }}
         />
       )
@@ -126,21 +126,21 @@ class ParallaxSwiper extends React.Component{
 
         style={[styles.background, {
           // elevation: 0,
-          shadowColor: colors.darkShadow,
-          shadowOpacity: 0.4,
-          shadowRadius: 30,
+          // shadowColor: colors.darkShadow,
+          // shadowOpacity: 0.4,
+          // shadowRadius: 30,
           alignItems:'flex-end',
           flexDirection:'column',
-          shadowOffset: {
-            width: 0,
-            height: -10
-          },
-          marginTop:profileVisible ? 0 : 40,
+          // shadowOffset: {
+          //   width: 0,
+          //   height: -10
+          // },
+          marginTop: profileVisible ? 0 : 40,
           flex: 1,
           position: 'absolute',
           top: 0,
           borderRadius: 11,
-          backgroundColor: iOS && this.props.pan && this.props.isTopCard ? this.props.pan.x.interpolate({
+          backgroundColor: iOS && this.props.isTopCard && typeof this.props.pan != 'undefined' ? this.props.pan.x.interpolate({
             inputRange: [-300, -180, -50, 0, 50, 180, 300],
             outputRange: [
               'rgb(232,74,107)',
@@ -229,14 +229,12 @@ class ParallaxSwiper extends React.Component{
             // height: DeviceHeight + TOP_DISTANCE,
             backgroundColor: colors.dark70,
             height: DeviceHeight + 1000,
-
             top: TOP_DISTANCE,
           }}
           style={[
             styles.scrollView, {
               marginBottom: iOS ? -500 : 0,
               height: DeviceHeight,
-
             }
           ]}
           vertical

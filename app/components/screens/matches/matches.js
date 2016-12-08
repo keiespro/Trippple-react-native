@@ -84,7 +84,7 @@ class Matches extends Component {
 
   render() {
     return (
-      <View style={{}}>
+      <View style={{backgroundColor: colors.outerSpace,marginTop:10}}>
       {/* <StatusBar
           animated
           backgroundColor={colors.shuttleGray}

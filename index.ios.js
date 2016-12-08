@@ -20,7 +20,8 @@ if(__DEV__){
         'Value is a function',
         '%cfont-weight',
         'Warning',
-        'Task oprhaned'
+        'Task oprhaned',
+        'Animated: `use'
     ];
 
 }
@@ -28,3 +29,5 @@ if(__DEV__){
 const Trippple = (props) => (<NewBoot {...props}/>)
 
 AppRegistry.registerComponent('Trippple', () => Trippple)
+
+export default Trippple

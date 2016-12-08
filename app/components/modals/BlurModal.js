@@ -12,7 +12,7 @@ const BlurModal = ({children}) => (
   <View
     style={{flex: 1}}
   >
-    {iOS && <VibrancyView blurType="light" style={localstyles.blurstyle} />}
+    {iOS && <VibrancyView blurType="dark" style={localstyles.blurstyle} />}
 
 
     <ScrollView

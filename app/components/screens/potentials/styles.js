@@ -24,14 +24,14 @@ const styles = StyleSheet.create({
 
   },
   shadowCard: {
-    shadowColor: colors.darkShadow,
-    shadowRadius: 4,
-    shadowOpacity: 50,
-    shadowOffset: {
-      width: 0,
-      height: 5
-    },
-    backgroundColor: colors.dark
+    // shadowColor: colors.darkShadow,
+    // shadowRadius: 4,
+    // shadowOpacity: 50,
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 5
+    // },
+    // backgroundColor: colors.dark
   },
   tab: {
     alignItems: 'center',

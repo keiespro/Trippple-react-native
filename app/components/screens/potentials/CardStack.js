@@ -115,11 +115,6 @@ class CardStack extends React.Component {
 
       this.state.cardopen.setValue(0.92);
 
-    }else{
-
-      console.warn('SCENARIO 3');
-      this.state.cardopen.setValue(0.92);
-
     }
   }
 
@@ -292,7 +287,7 @@ class CardStack extends React.Component {
 
         { iOS && potentials && potentials.length >= 1 && potentials[1] &&
           <Animated.View
-            style={[styles.shadowCard, {
+            style={[{
               alignSelf: 'center',
               borderRadius: 11,
               position: 'absolute',
@@ -372,8 +367,8 @@ class CardStack extends React.Component {
             />
           </Animated.View>
         }
-        {/* <DenyIcon pan={this.state.pan}/>
-        <ApproveIcon pan={this.state.pan}/> */}
+        <DenyIcon pan={this.state.pan}/>
+        <ApproveIcon pan={this.state.pan}/>
 
       </View>
     );

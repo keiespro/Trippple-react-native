@@ -65,7 +65,7 @@ class AgePrefs extends React.Component{
 
                 <Text style={{alignSelf:'flex-end', fontFamily: 'omnes',color:colors.white,textAlign:'right',marginRight:0,marginBottom:20}}>{`${this.state.match_age_min} - ${this.state.match_age_max == 50 ? '50+' : this.state.match_age_max}`}</Text>
           </View>
-        <View style={{left: MagicNumbers.isSmallDevice ? 2 : 0,
+        <View style={{left: MagicNumbers.isSmallDevice ? 32 : 30,
             paddingHorizontal:0,flexDirection:'row',height:90,alignItems:'flex-start',justifyContent:'center',alignSelf:'center'}}>
 
           {dots.map((dot,i) => {

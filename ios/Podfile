@@ -10,4 +10,7 @@ target "Trippple" do
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'UXCam'
+  pod 'FBSDKCoreKit'
+  pod 'FBSDKLoginKit'
+  pod 'FBSDKShareKit'
 end

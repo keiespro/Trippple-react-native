@@ -168,13 +168,14 @@ class PotentialsPlaceholder extends React.Component{
             }
 
             {!userProfileIncomplete && getPotentialsButtonEnabled && !potentialsReturnedEmpty && !this.state.loading ?
-              <Button
+              <View style={{flexGrow: 0,height:110,alignItems:'center',flexDirection:'column'}}>
+                <Button
                 loading={this.state.loading}
                 btnText={'GET MORE MATCHES'}
                 labelText={'GO AHEAD, TREAT YOURSELF'}
                 labelPosition={'bottom'}
                 onTap={this.getMorePotentials.bind(this)}
-              /> : null
+              /></View> : null
             }
 
             {!userProfileIncomplete && potentialsReturnedEmpty && (!this.state.loading) ?

@@ -85,7 +85,7 @@ class NagManager extends React.Component{
         if(!this.props.nag.askNotification && !this.props.nag.askedNotification){
           this.props.dispatch({type: 'SET_ASK_NOTIFICATION', payload: {}})
         }
-        if(!this.state.np && this.props.nag.askNotification && !this.props.nag.askedNotification && !nProps.nag.askedNotification){
+        if(!this.state.np && this.props.nag.askNotification && !nProps.nag.askedNotification){
           if(nProps.likeCount > this.props.likeCount){
             this.setState({askingNotification: true})
             this.notificationModal()
@@ -131,14 +131,10 @@ class NagManager extends React.Component{
 
   notificationModal(){
     this.props.dispatch(ActionMan.showInModal({
-      component: 'NewNotificationPermissions',
+      component: 'NotificationPermissions',
       passProps: {
         title: 'N',
-        successCallback: () => {
-          this.setState({np: true})
-        },
-        user: this.props.user,
-        cancel: () => { this.props.close() }
+
       }
     }))
   }
