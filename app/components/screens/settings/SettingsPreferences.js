@@ -102,6 +102,7 @@ class SettingsPreferences extends React.Component{
         title: 'PREFERENCES',
         fieldName: 'bio',
         fieldValue: this.state.bio || this.props.user.bio || '',
+        // cancel: () => {this.props.navigator.pop()}
       }
     }))
   }

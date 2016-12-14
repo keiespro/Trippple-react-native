@@ -20,7 +20,7 @@ export default function permissionsReducer(state = initialState, action) {
 
 const initialState = {
   location: null,
-  notifications: Platform.select({android: true}),
+  notifications: Platform.select({android: true,ios:false}),
   contacts: null,
 
 };

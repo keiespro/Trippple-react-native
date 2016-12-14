@@ -180,13 +180,14 @@ class PotentialsPlaceholder extends React.Component{
             }
 
             {!userProfileIncomplete && potentialsReturnedEmpty && (!this.state.loading) ?
-              <Button
+              <View style={{flexGrow: 0,height:115,alignItems:'center',flexDirection:'column'}}>
+                <Button
                 loading={this.state.loading}
                 btnText={'ADJUST PREFERENCES'}
                 labelText={'NO MORE USERS MATCH YOUR PREFERENCES'}
                 labelPosition={'top'}
                 onTap={this.openPrefs.bind(this)}
-              /> : null
+              /></View> : null
             }
 
             {!userProfileIncomplete && !potentialsReturnedEmpty && !getPotentialsButtonEnabled && !this.state.loading ?

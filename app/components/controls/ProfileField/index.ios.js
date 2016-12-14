@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, Dimensions, TextInput, ScrollView, Animated, Picker, Image, DatePicker, Navigator, DatePickerIOS } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, Dimensions, TextInput, ScrollView, Animated, Picker, Image, DatePicker, Navigator } from 'react-native';
 import React from 'react';
-import dismissKeyboard from 'dismissKeyboard'
+
 import { connect } from 'react-redux'
 import moment from 'moment'
 import Analytics from '../../../utils/Analytics';
@@ -46,7 +46,7 @@ class ProfileField extends React.Component{
     this.props.navigator.push(this.props.navigation.router.getRoute('FieldModal', {
       inputField: field,
       field,
-      cancel: () => { dismissKeyboard(); this.props.navigator.pop() },
+      cancel: () => {  this.props.navigator.pop() },
       fieldName: this.props.fieldName,
       title: 'PROFILE',
       forPartner: this.props.forPartner,

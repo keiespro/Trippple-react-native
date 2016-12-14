@@ -116,10 +116,19 @@ class SettingsCouple extends React.Component{
     if(!partner) partner = {};
     return (
 
-      <View style={{backgroundColor: colors.outerSpace, width: DeviceWidth, height: DeviceHeight, overflow: 'hidden', flex: 1, paddingTop: 60}}>
+      <View
+        style={{
+          backgroundColor: colors.outerSpace,
+          width: DeviceWidth,
+          height: DeviceHeight,
+          overflow: 'hidden',
+          flex: 1,
+          paddingTop: 60
+        }}
+      >
         <ScrollView
           showsVerticalScrollIndicator={false}
-          style={{height:DeviceHeight-110}}
+          style={{height: DeviceHeight-110}}
         >
 
           { (partner.id) &&
@@ -128,8 +137,8 @@ class SettingsCouple extends React.Component{
               <Image
                 style={styles.userimage}
                 key={partner.thumb_url}
-                source={partner.thumb_url ? {uri: partner.thumb_url } : require('../chat/assets/placeholderUserWhite@3x.png')}
-                defaultSource={require('../chat/assets/placeholderUserWhite@3x.png')}
+                source={partner.thumb_url ? {uri: partner.thumb_url } : require('../chat/assets/placeholderUserWhite.png')}
+                defaultSource={require('../chat/assets/placeholderUserWhite.png')}
                 resizeMode={Image.resizeMode.cover}
               />
 
@@ -167,6 +176,7 @@ class SettingsCouple extends React.Component{
                   fieldName={'birthday'}
                   fieldValue={new Date(this.props.user.birthday || MIN_DATE)}
                   field_type={'date'}
+                  dispatch={this.props.dispatch}
                   field={settingOptions[field]}
                   label={'birthday'}
                 />

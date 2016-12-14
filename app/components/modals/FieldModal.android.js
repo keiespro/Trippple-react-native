@@ -344,20 +344,7 @@ class FieldModal extends React.Component{
         case 'date':
           // always add an empty option at the beginning of the array
 
-          return (
-            <DatePickerIOS
-              key={'bdayf'}
-              label={'bday'}
-              autoFocus
-              forPartner={this.props.forPartner}
-              mode={'date'}
-
-              style={[{position: 'relative', bottom: 0, width: DeviceWidth }]}
-              maximumDate={new Date(MAX_DATE)}
-              minimumDate={new Date(MIN_DATE)}
-            />
-
-              );
+          return null;
 
         case 'dropdown':
           // always add an empty option at the beginning of the array

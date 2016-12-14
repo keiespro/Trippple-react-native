@@ -257,14 +257,14 @@ class ParallaxSwiper extends React.Component{
           >
             {this.props.children}
           </View>
-          {profileVisible &&
+          {profileVisible && !this.props.isUserProfile ?
             <XButton
               style={{right:0}}
               onTap={() => {
                 this.props.isTopCard ? this.props.dispatch({type: 'CLOSE_PROFILE'}) : this.props.navigator.pop()
               }}
               top={0}
-            />
+            /> : null
           }
 
         </ScrollView>}

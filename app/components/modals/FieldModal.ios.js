@@ -17,7 +17,7 @@ import {
   Animated,
   TextInput,
   Picker,
-  DatePicker,
+  DatePickerIOS,
   Image,
   AsyncStorage,
 } from 'react-native'
@@ -29,6 +29,9 @@ const DeviceWidth = Dimensions.get('window').width
 import ActionMan from '../../actions/'
 
 const PickerItem = Picker.Item;
+const currentyear = new Date().getFullYear();
+const MIN_DATE = new Date().setFullYear(currentyear - 18)
+const MAX_DATE = new Date().setFullYear(currentyear - 60)
 
 function getMaxLength(fieldName){
   let len = 20
@@ -55,9 +58,6 @@ class FieldModal extends React.Component{
     }
   };
 
-  onDateChange = (date) => {
-    this.setState({birthday: date,canContinue:true});
-  };
   constructor(props){
     super(props);
     this.state = {
@@ -157,11 +157,11 @@ class FieldModal extends React.Component{
     if(this.props.field.field_type == 'date'){
       var payload = {};
       const v = moment(this.state.birthday).format('MM/DD/YYYY');
-
+      console.log(v);
       payload[`${this.props.forPartner ? 'partner_' : ''}${this.props.fieldName}`] = v;
       this.props.updateOutside && this.props.updateOutside(v)
       this.props.dispatch(ActionMan.updateUser(payload))
-      this.props.cancel()
+      this.props.cancel && this.props.cancel() || this.props.kill()
 
     }else if(this.props.field.field_type == 'phone_input'){
       // this.props.navigator.push({
@@ -181,12 +181,10 @@ class FieldModal extends React.Component{
       payload[`${this.props.forPartner ? 'partner_' : ''}${this.props.fieldName}`] = this.state.value;
       this.props.updateOutside && this.props.updateOutside(this.state.value)
       this.props.dispatch(ActionMan.updateUser(payload))
-      this.props.cancel()
+      this.props.cancel && this.props.cancel() || this.props.kill()
     }
   }
   onChangeDate(d){
-    console.log(d);
-
     this.setState({
       canContinue:true,
       birthday: d
@@ -229,16 +227,36 @@ class FieldModal extends React.Component{
   }
 
   render(){
-    var {field,fieldValue} = this.props
+    let {fieldValue} = this.props;
+    const {field} = this.props
     let get_values = typeof this.props.field.values == 'object' && Object.keys(this.props.field.values).map(key => key) || this.props.field.values;
     let get_key_vals = typeof this.props.field.values == 'object' && this.props.field.values || {};
 
+
+    const fieldLabel = (fieldValue.label || fieldValue);
+    fieldValue = (fieldValue.value || fieldValue);
+
+    fieldValue = fieldValue ? fieldValue.toString().toUpperCase() : '';
+
+    var selectedFieldLabel = (this.state.value || fieldLabel || '');
+    var selectedFieldValue = (this.state.value || fieldValue || this.props.fieldValue);
+
+    if (typeof field.values == 'object' && selectedFieldValue) {
+      selectedFieldLabel = this.getValueFromKey(field.values, selectedFieldValue).value || selectedFieldLabel;
+    }
+
+    var displayStateFieldValue = selectedFieldLabel.toString().toUpperCase();
+    displayStateFieldValue = (field.labelPrefix || '') + displayStateFieldValue + (field.labelSuffix || '');
+
+
     let displayField = (theField) => {
       switch (theField.field_type) {
+        case 'textarea':
+          return (<MultiLineInput />)
       case 'input':
         return (
              <TextInput
-                 style={[styles.displayTextField,{fontSize: this.props.fieldName == 'email' ? 20 : 30 }]}
+                 style={[styles.textfield,{height:80, textAlign: 'center',fontSize: this.props.fieldName == 'email' ? 20 : 30 }]}
                  onChangeText={(text) => this.setState({text})}
                  placeholder={theField.placeholder ? theField.placeholder.toUpperCase() : fieldLabel.toUpperCase()}
                  autoCapitalize={'words'}
@@ -271,7 +289,6 @@ class FieldModal extends React.Component{
                 autoFocus={true}
                 forPartner={this.props.forPartner}
                 mode={'date'}
-
                 style={[{position:'relative',bottom:0,width:DeviceWidth }]}
                 maximumDate={new Date(MAX_DATE)}
                 minimumDate={new Date(MIN_DATE)}
@@ -321,21 +338,6 @@ class FieldModal extends React.Component{
 
     //console.info('init fieldmodal render:', {state:this.state, field:field, fieldValue:fieldValue, inputField:inputField});
 
-    const fieldLabel = (fieldValue.label || fieldValue);
-    fieldValue = (fieldValue.value || fieldValue);
-
-    fieldValue = fieldValue ? fieldValue.toString().toUpperCase() : '';
-
-    var selectedFieldLabel = (this.state.value || fieldLabel || '');
-    var selectedFieldValue = (this.state.value || fieldValue || this.props.fieldValue);
-
-    if (typeof field.values == 'object' && selectedFieldValue) {
-      selectedFieldLabel = this.getValueFromKey(field.values, selectedFieldValue).value || selectedFieldLabel;
-    }
-
-    var displayStateFieldValue = selectedFieldLabel.toString().toUpperCase();
-    displayStateFieldValue = (field.labelPrefix || '') + displayStateFieldValue + (field.labelSuffix || '');
-
     var inside = () =>{
       switch(field.field_type ){
         case 'dropdown':
@@ -381,9 +383,9 @@ class FieldModal extends React.Component{
 
     case 'input':
       return (
-        <View style={{ alignSelf:'stretch',flex:2,   height:DeviceHeight,}}>
+        <View style={{ alignSelf:'stretch',flexGrow:2,   height:DeviceHeight,}}>
           <KeyboardAvoidingView
-            style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between',flexDirection:'column'}}
+            style={{ alignSelf:'stretch',flexGrow:1,justifyContent:'space-between',flexDirection:'column'}}
             behavior={'padding'}
           >
             <View
@@ -483,6 +485,7 @@ class FieldModal extends React.Component{
         </View>
       )
 
+      case 'birthday':
       case 'date':
         return (
           <View style={{ alignSelf:'stretch',}}>
@@ -514,9 +517,11 @@ class FieldModal extends React.Component{
                 {this.renderButtons()}
 
               <View style={{  height:260,backgroundColor:colors.white }}>
-                {React.cloneElement(this.props.inputField,{
-                  onDateChange: this.onDateChange,
-                  date:new Date(this.state.birthday),
+                {React.cloneElement(inputField,{
+                  onDateChange: (date) => {
+                    this.setState({birthday: date,canContinue:true});
+                  },
+                  date: new Date(this.state.birthday),
                   ref: (dateField) => { this.dateField = dateField }
                 }
             )}
@@ -543,15 +548,15 @@ class FieldModal extends React.Component{
               <View style={{minHeight:200}}>
                 <View style={{marginBottom:20, borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone }}>
 
-                {React.cloneElement(this.props.inputField(),{
-                defaultValue:fieldValue,
-                selectionColor:colors.mediumPurple,
-                autoFocus:true,
-                onChangeText:(value) => {
-                  this.onChange(value)
-                }
-              })}
-            </View>
+                {React.cloneElement(inputField,{
+                  defaultValue:fieldValue,
+                  selectionColor:colors.mediumPurple,
+                  autoFocus:true,
+                  onChangeText:(value) => {
+                    this.onChange(value)
+                  }
+                })}
+              </View>
 
 
             </View>
@@ -604,6 +609,47 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(FieldModal)
 
 
+
+class MultiLineInput extends React.Component{
+  constructor(props){
+    super()
+    this.state = {
+      bioHeight: 65,
+    }
+  }
+  sizeChange(e){
+    this.setState({bioHeight: e.nativeEvent.contentSize.height})
+  }
+
+  render(){
+    return (
+      <TextInput
+        {...this.props}
+        autofocus
+        style={[{
+            alignSelf: 'stretch',
+            padding: 0,
+            fontSize: MagicNumbers.size18-2,
+            fontFamily:'omnes',
+            color: colors.white,
+            width:DeviceWidth - MagicNumbers.screenPadding
+        }, {paddingVertical: 5,marginTop: 15, height: this.state.bioHeight}]}
+        placeholder={''}
+        autoGrow
+        autoCapitalize={'sentences'}
+        placeholderTextColor={colors.white}
+        maxLength={300}
+        autoCorrect
+        returnKeyType={'done'}
+        multiline
+        keyboardAppearance={'dark'}
+        ref={'_textArea'}
+        clearButtonMode={'always'}
+        onContentSizeChange={this.sizeChange.bind(this)}
+      />
+    )
+  }
+}
 const styles = StyleSheet.create({
 
 
@@ -701,7 +747,7 @@ const styles = StyleSheet.create({
    color: colors.white,
    fontSize:20,
    alignItems: 'stretch',
-   flex:1,
+   flexGrow:1,
    textAlign: 'left',
    fontFamily:'montserrat',
  },

@@ -28,19 +28,19 @@ class BoxyButton extends Component{
       >
         <View style={[styles.iconButton, this.props.innerWrapStyles]}>
           <View style={[styles.iconButtonLeftBox,this.props.leftBoxStyles]}>
-            {this.props.children}
-          </View>
-          <View style={styles.iconButtonRightBox}>
-
-            <Text style={[styles.textplain, styles.iconButtonText, this.props.buttonText]}>{this.props.text}</Text>
-            {this.state.busy && !this.props.stopLoading && (
+            {this.state.busy && !this.props.stopLoading ? (
               <ActivityIndicator
                 style={{top:0,height:30,width:30,marginLeft:10}}
                 color={colors.white20}
                 animating
                 size={'small'}
               />
-            )}
+            ) : this.props.children}
+          </View>
+          <View style={styles.iconButtonRightBox}>
+
+            <Text style={[styles.textplain, styles.iconButtonText, this.props.buttonText]}>{this.props.text}</Text>
+
           </View>
         </View>
       </TouchableHighlight>

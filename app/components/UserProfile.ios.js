@@ -171,7 +171,9 @@ class UserProfile extends React.Component {
           header={<View />}
           dispatch={this.props.dispatch}
           windowHeight={0}
+          isUserProfile={true}
           width={cardWidth}
+          killProfile={this.props.closeProfile}
           isTopCard={isTopCard}
           profileVisible={profileVisible}
         >
