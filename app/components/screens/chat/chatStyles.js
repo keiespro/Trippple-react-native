@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
    marginBottom:5,
    flexDirection: 'column',
    maxWidth:DeviceWidth-100,
+   flexWrap:'wrap',
  },
  row:{
    flexDirection: 'row',

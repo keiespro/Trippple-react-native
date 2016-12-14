@@ -16,7 +16,7 @@ import colors from '../../../utils/colors';
 //
 // const DeviceHeight = Dimensions.get('window').height;
 // const DeviceWidth = Dimensions.get('window').width;
-// const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
+
 
 @withNavigation
 @reactMixin.decorate(TimerMixin)
@@ -55,6 +55,7 @@ class Chat extends React.Component {
   }
   componentDidMount() {
     this.props.dispatch(ActionMan.getMessages({match_id: this.props.match.match_id}))
+
     if(this.props.fromNotification){
       const matchInfo = this.props.match;
       const theirIds = Object.keys(matchInfo.users).filter((u) => u != this.props.user.id && u != this.props.user.partner_id);
@@ -74,8 +75,9 @@ class Chat extends React.Component {
   }
 
   toggleModal() {
-    dismissKeyboard();
-    this.setState({
+    Keyboard.dismiss()
+
+     this.setState({
       isVisible: !this.state.isVisible,
     })
   }

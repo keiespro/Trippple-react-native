@@ -35,7 +35,7 @@ class FacebookButton extends React.Component {
         disabled={this.props.busy}
       >
         <Icon name="sc-facebook" size={40} color="#fff" style={styles.icon}/>
-        <Text style={styles.btntext}>LOG IN WITH FACEBOOK</Text>
+        <Text style={styles.btntext}>{this.props.buttonText || 'LOG IN WITH FACEBOOK'}</Text>
       </Btn>
 
     )
@@ -45,23 +45,23 @@ export default FacebookButton
 
 const styles = StyleSheet.create({
   icon: {
-    marginRight: 15
+    marginRight: 5
   },
   LogoBox: {
   },
   btntext: {
     color: colors.white,
     fontFamily: 'montserrat',
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: '800'
   },
   iconButtonOuter: {
     backgroundColor: colors.cornFlower,
     alignSelf: 'stretch',
-    flexGrow: 1,
-    height: 80,
+    flexGrow: 0,
+    height: 70,
     margin: 0,
-    paddingHorizontal: 50,
+    paddingHorizontal: 30,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -69,17 +69,17 @@ const styles = StyleSheet.create({
   middleTextWrap: {
     alignItems: 'center',
     justifyContent: 'center',
-    height: 60
+    height: 50
   },
 
   button: {
     borderColor: colors.cornFlower,
     borderWidth: 1,
-    height: MagicNumbers.is5orless ? 50 : 60,
+    height: MagicNumbers.is5orless ? 50 : 50,
 
   },
   buttonIcon: {
-    width: 60,
+    width: 40,
     borderRightColor: colors.cornFlower,
     borderRightWidth: 1,
     backgroundColor: colors.cornFlower20,

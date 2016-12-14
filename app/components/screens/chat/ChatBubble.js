@@ -28,7 +28,8 @@ import {pure} from 'recompose'
 import ActionMan from  '../../../actions/';
 
 const ChatBubble = (props) => {
-    const isMessageOurs = (props.messageData.from_user_info.id === props.user.id || props.messageData.from_user_info.id === props.user.partner_id);
+    const isMessageOurs = (props.messageData.from_user_info.id == props.user.id || props.messageData.from_user_info.id == props.user.partner_id);
+    console.log(isMessageOurs);
     var thumb = ''
     if(!isMessageOurs){
       const {from_user_info} = props.messageData;
@@ -42,8 +43,27 @@ const ChatBubble = (props) => {
     return (
       <View style={[styles.col]} shouldRasterizeIOS={true}>
         <View style={[styles.row]}>
-          <View style={{flexDirection:'column', alignItems:isMessageOurs ? 'flex-end' : 'flex-start', alignSelf: 'stretch', flex:1, justifyContent:'center',backgroundColor: props.messageData.ephemeral && __DEV__ ? colors.sushi : 'transparent'}}>
-          <View style={{alignSelf: isMessageOurs ? 'flex-end' : 'flex-start',justifyContent:'center',alignItems:'center',maxWidth:MagicNumbers.screenWidth,backgroundColor:'transparent',flexDirection:'row'}}>
+          <View
+            style={{
+              flexDirection:'column',
+              alignItems:isMessageOurs ? 'flex-end' : 'flex-start',
+              alignSelf: 'stretch',
+              flexGrow:1,
+              justifyContent:'center',
+              backgroundColor: props.messageData.ephemeral && __DEV__ ? colors.sushi : 'transparent'
+            }}
+          >
+            <View
+              style={{
+                alignSelf: isMessageOurs ? 'flex-end' : 'flex-start',
+                justifyContent:'center',
+                alignItems:'center',
+                maxWidth:MagicNumbers.screenWidth,
+                backgroundColor:'transparent',
+                flexDirection:'row'
+              }}
+            >
+
             {!isMessageOurs ?
               <View style={[{backgroundColor:colors.dark},styles.thumb]}>
               <Image style={[styles.thumbwrap]}
@@ -53,6 +73,7 @@ const ChatBubble = (props) => {
                 />
               </View> : null
             }
+
             { !isMessageOurs ?
               <Image
                 resizeMode={Image.resizeMode.contain}
@@ -60,15 +81,26 @@ const ChatBubble = (props) => {
                 style={{left:1,width:10,height:22,opacity:1}}
               /> : null
             }
-            <View style={[styles.bubble,(isMessageOurs ? styles.ourMessage : styles.theirMessage),{flexWrap:'wrap',flexDirection:'column' },]}>
 
-              <Text style={[styles.messageText, styles.messageTitle,
-                    {color: isMessageOurs ? colors.shuttleGray : colors.lavender, fontFamily:'montserrat'} ]}
+            <View style={[styles.bubble,(isMessageOurs ? styles.ourMessage : styles.theirMessage)]}>
+
+              <Text
+                style={[styles.messageText, styles.messageTitle, {
+                  color: isMessageOurs ? colors.shuttleGray : colors.lavender,
+                  fontFamily:'montserrat'
+                }]}
               >{ props.messageData.from_user_info.name.toUpperCase() }</Text>
 
-            <Text style={[styles.messageText,{fontFamily:'omnes',flex:1}, props.specialText && {fontSize: props.specialText,lineHeight: 40,paddingBottom:2 }]} >{
-                props.text
-              }</Text>
+              <Text
+                style={[styles.messageText,{
+                  fontFamily:'omnes',
+                  flexGrow:1
+                }, props.specialText && {
+                  fontSize: props.specialText,
+                  lineHeight: 60,
+                  paddingBottom:2
+                }]}
+              >{ props.text }</Text>
 
             </View>
 
@@ -83,8 +115,23 @@ const ChatBubble = (props) => {
           </View>
         </View>
 
-        <View style={[{paddingHorizontal:20,marginBottom:10},{marginLeft: isMessageOurs ? 2 : 62,alignSelf: isMessageOurs ? 'flex-end' : 'flex-start' }]}>
-          <TimeAgo showSent={true} style={{color:colors.shuttleGray,fontSize:10,fontFamily:'montserrat'}} time={props.messageData.created_timestamp * 1000} />
+        <View
+          style={[{
+            paddingHorizontal:20,
+            marginBottom:10,
+            marginLeft: isMessageOurs ? 2 : 62,
+            alignSelf: isMessageOurs ? 'flex-end' : 'flex-start'
+          }]}
+        >
+          <TimeAgo
+            showSent={true}
+            style={{
+              color:colors.shuttleGray,
+              fontSize:10,
+              fontFamily:'montserrat'
+            }}
+            time={props.messageData.created_timestamp * 1000}
+          />
         </View>
 
       </View>

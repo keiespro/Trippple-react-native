@@ -11,17 +11,17 @@ RCT_EXPORT_MODULE();
 
 - (NSDictionary *)constantsToExport {
 
-    ALAuthorizationStatus camerarollPerm = [ALAssetsLibrary authorizationStatus];
+//    ALAuthorizationStatus camerarollPerm = [ALAssetsLibrary authorizationStatus];
     CLAuthorizationStatus locationPerm = [CLLocationManager authorizationStatus];
-    AVAuthorizationStatus cameraPerm = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo ];
+//    AVAuthorizationStatus cameraPerm = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo ];
     ABAuthorizationStatus contactsPerm = ABAddressBookGetAuthorizationStatus();
 
     BOOL remoteNotificationsEnabled = [UIApplication sharedApplication].isRegisteredForRemoteNotifications;
 
     NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
             [ NSString stringWithString: @(locationPerm).stringValue ], @"location",
-            [ NSString stringWithString: @(camerarollPerm).stringValue ], @"cameraRoll",
-            [ NSString stringWithString: @(cameraPerm).stringValue], @"camera",
+//            [ NSString stringWithString: @(camerarollPerm).stringValue ], @"cameraRoll",
+//            [ NSString stringWithString: @(cameraPerm).stringValue], @"camera",
             [ NSString stringWithString: @(contactsPerm).stringValue], @"contacts",
             [ NSString stringWithString: remoteNotificationsEnabled ? @"true" : @"false"], @"notifications",
                                                                                 nil];

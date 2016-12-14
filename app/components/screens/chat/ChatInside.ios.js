@@ -1,4 +1,4 @@
-import { View, TextInput, ListView, Keyboard, Animated, Dimensions, KeyboardAvoidingView, } from 'react-native';
+import { View, TextInput, ListView, Keyboard, Animated, LayoutAnimation, Dimensions, KeyboardAvoidingView, } from 'react-native';
 import React, {Component} from 'react';
 import moment from 'moment';
 import styles from './chatStyles'
@@ -43,8 +43,8 @@ class ChatInside extends Component{
   }
 
   componentDidMount(){
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this));
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this));
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this._keyboardDidShow.bind(this));
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this._keyboardDidHide.bind(this));
     this.props.dispatch({type: 'MARK_CHAT_READ', payload: {match_id: this.props.match.match_id}})
   }
   componentWillUnmount(){
@@ -63,13 +63,20 @@ class ChatInside extends Component{
       dataSource: this.ds.cloneWithRows(_.sortBy(newProps.messages, (msg) => msg.created_timestamp).reverse())
     })
   }
+  componentWillUpdate(props, state) {
+    if (state.isKeyboardOpened !== this.state.isKeyboardOpened) {
+      LayoutAnimation.easeInEaseOut();
+    }
+  }
+
   _keyboardDidShow(event){
     console.log(event);
     const {duration, easing, endCoordinates, startCoordinates} = event;
     this.setState({
       isKeyboardOpened: true,
-      kbHeight: event.endCoordinates.height
+      kbHeight: endCoordinates.height
     })
+    console.log(DeviceHeight - endCoordinates.height - 60);
   }
   _keyboardDidHide(event){
     console.log(event);
@@ -139,25 +146,24 @@ class ChatInside extends Component{
       // console.log('no matchInfo');
       return <View/>
     }
-    const theirIds = Object.keys(matchInfo.users).filter((u) => u != this.props.user.id && u != this.props.user.partner_id),
-      them = theirIds.map((id) => matchInfo.users[id]),
-      chatTitle = them.reduce((acc, u, i) => { return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ' & ' : '') }, '');
+    const theirIds = Object.keys(matchInfo.users).filter((u) => u != this.props.user.id && u != this.props.user.partner_id);
+    const them = theirIds.map((id) => matchInfo.users[id]);
+    const chatTitle = them.reduce((acc, u, i) => { return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ' & ' : '') }, '');
 
     return this.props.messages && this.props.messages.length > 0 ? (
 
 
-      <KeyboardAvoidingView
+      <View
         style={{
           flexGrow: 10,
           alignSelf: 'stretch',
           flexDirection: 'column',
           backgroundColor:colors.outerSpace,
-          top: 0,
-          bottom: 0,
+          height: DeviceHeight - 60,
+          paddingBottom: this.state.kbHeight,
           position: 'relative',
         }}
 
-        behavior={'padding'}
       >
 
         <ListView
@@ -177,17 +183,14 @@ class ChatInside extends Component{
               keyboardDismissMode={'interactive'}
               contentContainerStyle={{}}
               style={{
-                flexGrow: 1,
-                marginTop: this.state.isKeyboardOpened ? 0 : 0,
-                height: DeviceHeight,
+                paddingBottom: this.state.kbHeight,
                 backgroundColor: colors.outerSpace,
-                bottom: this.state.isKeyboardOpened ? 60 : 0
               }}
             />
           )}
         />
         <View
-          style={{top: this.state.isKeyboardOpened ? -60 : 0}}
+          style={{}}
         >
           <MessageComposer
             textInputValue={this.state.textInputValue}
@@ -195,7 +198,7 @@ class ChatInside extends Component{
             sendMessage={this.sendMessage.bind(this)}
           />
         </View>
-      </KeyboardAvoidingView>
+      </View>
                     ) : (
 
                       <NoMessages

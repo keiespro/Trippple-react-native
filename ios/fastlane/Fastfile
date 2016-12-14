@@ -32,7 +32,7 @@ platform :ios do
 
   desc "Submit a new Beta Build to Apple TestFlight"
   lane :beta do
-    # increment_build_number # doesnt work
+    increment_build_number
     gym(
       scheme: "Trippple",
       suppress_xcode_output: true
@@ -42,7 +42,7 @@ platform :ios do
     )
   end
 
-  desc "Tags version"
+  desc "Tag a version"
   lane :tag do
 
         # ensure_git_status_clean

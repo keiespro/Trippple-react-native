@@ -36,27 +36,25 @@
 		AC1599551DEE7B65002667A7 /* libMixpanel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC1599541DEE7B65002667A7 /* libMixpanel.a */; };
 		AC21F3C91CF6A20A0058CDAD /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC21F3C81CF6A2050058CDAD /* libRNDeviceInfo.a */; };
 		AC3C4BD81D48482000A1EC73 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3C4BBE1D48481B00A1EC73 /* libRCTFBSDK.a */; };
-		AC3C4BE01D48493A00A1EC73 /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3C4BD91D48493A00A1EC73 /* AccountKit.framework */; };
-		AC3C4BE21D48493A00A1EC73 /* FBNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3C4BDB1D48493A00A1EC73 /* FBNotifications.framework */; };
-		AC3C4BE31D48493A00A1EC73 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3C4BDC1D48493A00A1EC73 /* FBSDKCoreKit.framework */; };
-		AC3C4BE41D48493A00A1EC73 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3C4BDD1D48493A00A1EC73 /* FBSDKLoginKit.framework */; };
-		AC3C4BE51D48493A00A1EC73 /* FBSDKMessengerShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3C4BDE1D48493A00A1EC73 /* FBSDKMessengerShareKit.framework */; };
-		AC3C4BE81D4849D300A1EC73 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3C4BE71D4849D300A1EC73 /* Bolts.framework */; };
-		AC3C4BEC1D484BC000A1EC73 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3C4BDF1D48493A00A1EC73 /* FBSDKShareKit.framework */; };
+		AC504C3A1DFA0CDE002B16E7 /* libFBSDKCoreKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC504C371DFA0CDE002B16E7 /* libFBSDKCoreKit.a */; };
+		AC504C3B1DFA0CDE002B16E7 /* libFBSDKLoginKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC504C381DFA0CDE002B16E7 /* libFBSDKLoginKit.a */; };
+		AC504C3C1DFA0CDE002B16E7 /* libFBSDKShareKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC504C391DFA0CDE002B16E7 /* libFBSDKShareKit.a */; };
 		AC55AD6D1CFE73B600326ED9 /* T3Theme.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC55AD6C1CFE73B600326ED9 /* T3Theme.plist */; };
 		AC5ECD691DCCC1E000810C69 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC13262E1DC26F72003AD731 /* libSplashScreen.a */; };
 		AC5ECD911DCCC29B00810C69 /* libRNFIRMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC677EF41DBB09B200408226 /* libRNFIRMessaging.a */; };
 		AC5ECE081DCCD97600810C69 /* libRNMixpanel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC5ECE071DCCD96200810C69 /* libRNMixpanel.a */; };
-		AC758A7B1CF6AC2400A6A9C0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC758A7A1CF6AC2400A6A9C0 /* GoogleService-Info.plist */; };
+		AC758A7B1CF6AC2400A6A9C0 /* GoogleService-Info-old.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC758A7A1CF6AC2400A6A9C0 /* GoogleService-Info-old.plist */; };
 		AC758B2A1CF853E600A6A9C0 /* libRCTContacts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC758B291CF853D800A6A9C0 /* libRCTContacts.a */; };
 		AC78ABE31DEF545A0055D789 /* libRNUXCam.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC1599E91DEF500D002667A7 /* libRNUXCam.a */; };
 		AC94E1BF1D74F94F00861F01 /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC94E1B41D74F94B00861F01 /* libRNBlur.a */; };
-		AC9A87DF1D10F79B00DF3156 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = AC758A9C1CF6B89E00A6A9C0 /* main.jsbundle */; };
 		AC9D8D3B1D3F351F009D4C78 /* libRCTTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA80C761CE862CF0081A99F /* libRCTTest.a */; };
+		ACAA722A1DFA22840097D2FD /* libBolts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACAA72291DFA22840097D2FD /* libBolts.a */; };
+		ACAA722B1DFA236B0097D2FD /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FDB1C0505D700A63B9C /* AssetsLibrary.framework */; };
+		ACAA722C1DFA23860097D2FD /* assets in Resources */ = {isa = PBXBuildFile; fileRef = ACC7E0441C5A579A0087476F /* assets */; };
+		ACAA722D1DFA23860097D2FD /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = AC758A9C1CF6B89E00A6A9C0 /* main.jsbundle */; };
 		ACB0702F1D0898D300B8E4A9 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC758A811CF6B07B00A6A9C0 /* libRCTPushNotification.a */; };
 		ACB070321D08991900B8E4A9 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		ACB30CD01D1EBADA00171A18 /* poetsenone-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACB30CCF1D1EBAD900171A18 /* poetsenone-regular-webfont.ttf */; };
-		ACB7BA9C1D4143270019FB77 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = ACC7E0441C5A579A0087476F /* assets */; };
 		ACB7BA9D1D4143270019FB77 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACC7DE801C5A41F30087476F /* Images.xcassets */; };
 		ACBB20831C050E7C00A63B9C /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		ACBB20861C050E7C00A63B9C /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB204C1C050CF100A63B9C /* libRCTCameraRoll.a */; };
@@ -70,7 +68,6 @@
 		ACBB20941C050E7C00A63B9C /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20551C050CF100A63B9C /* libRNFS.a */; };
 		ACBB20961C050E7C00A63B9C /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20591C050CF100A63B9C /* libRNMail.a */; };
 		ACBB20971C050E7C00A63B9C /* libRNMessageComposer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB205E1C050CF100A63B9C /* libRNMessageComposer.a */; };
-		ACBB20991C050E8400A63B9C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FDB1C0505D700A63B9C /* AssetsLibrary.framework */; };
 		ACBB209A1C050E8A00A63B9C /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB1FDD1C0505DF00A63B9C /* CoreFoundation.framework */; };
 		ACBB209F1C0510E200A63B9C /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBB20491C050CF100A63B9C /* libRCTCamera.a */; };
 		ACBEA7AF1D71565700F684A1 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
@@ -91,6 +88,7 @@
 		ACCB6A8B1DC90AA200E735C1 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACCB6A821DC90AA200E735C1 /* Ionicons.ttf */; };
 		ACCB6A8C1DC90AA200E735C1 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACCB6A831DC90AA200E735C1 /* MaterialIcons.ttf */; };
 		ACCB6A8F1DC90AA200E735C1 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACCB6A861DC90AA200E735C1 /* Zocial.ttf */; };
+		ACD0259C1DF9B84500667044 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ACD0259B1DF9B84500667044 /* GoogleService-Info.plist */; };
 		ACDCC39B1DBFADD700A3540E /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACDCC39A1DBFADCF00A3540E /* libRNKeychain.a */; };
 		ACDF39131CE80BB100DE839B /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		ACFFF9AF1DB1B1D60074F749 /* libRCTOSPermissions copy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC94E1C51D750CFB00861F01 /* libRCTOSPermissions copy.a */; };
@@ -458,20 +456,15 @@
 		AC1599541DEE7B65002667A7 /* libMixpanel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMixpanel.a; path = "Build/Products/Debug-iphonesimulator/Mixpanel/libMixpanel.a"; sourceTree = "<group>"; };
 		AC21F3C31CF6A2050058CDAD /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 		AC3C4BB31D48481A00A1EC73 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
-		AC3C4BD91D48493A00A1EC73 /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AccountKit.framework; path = ../../../../Documents/FacebookSDK/AccountKit.framework; sourceTree = "<group>"; };
-		AC3C4BDA1D48493A00A1EC73 /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBAudienceNetwork.framework; path = ../../../../Documents/FacebookSDK/FBAudienceNetwork.framework; sourceTree = "<group>"; };
-		AC3C4BDB1D48493A00A1EC73 /* FBNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBNotifications.framework; path = ../../../../Documents/FacebookSDK/FBNotifications.framework; sourceTree = "<group>"; };
-		AC3C4BDC1D48493A00A1EC73 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
-		AC3C4BDD1D48493A00A1EC73 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
-		AC3C4BDE1D48493A00A1EC73 /* FBSDKMessengerShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKMessengerShareKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKMessengerShareKit.framework; sourceTree = "<group>"; };
-		AC3C4BDF1D48493A00A1EC73 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
-		AC3C4BE71D4849D300A1EC73 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ../../../../Documents/FacebookSDK/Bolts.framework; sourceTree = "<group>"; };
 		AC3C4BED1D484BC000A1EC73 /* AccountKitStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AccountKitStrings.bundle; path = ../../../../Documents/FacebookSDK/AccountKitStrings.bundle; sourceTree = "<group>"; };
 		AC3C4BEE1D484BC000A1EC73 /* FacebookSDKStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FacebookSDKStrings.bundle; path = ../../../../Documents/FacebookSDK/FacebookSDKStrings.bundle; sourceTree = "<group>"; };
 		AC4B58B91D35D62C00489B1E /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		AC4B58C11D35D6C900489B1E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AC4B58C31D35D6D200489B1E /* libFDHotlineSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFDHotlineSDK.a; path = Pods/HotlineSDK/HotlineSDK/libFDHotlineSDK.a; sourceTree = "<group>"; };
 		AC4B59551D35D8EF00489B1E /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
+		AC504C371DFA0CDE002B16E7 /* libFBSDKCoreKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFBSDKCoreKit.a; path = "Pods/../build/Debug-iphoneos/FBSDKCoreKit/libFBSDKCoreKit.a"; sourceTree = "<group>"; };
+		AC504C381DFA0CDE002B16E7 /* libFBSDKLoginKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFBSDKLoginKit.a; path = "Pods/../build/Release-iphoneos/FBSDKLoginKit/libFBSDKLoginKit.a"; sourceTree = "<group>"; };
+		AC504C391DFA0CDE002B16E7 /* libFBSDKShareKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFBSDKShareKit.a; path = "Pods/../build/Debug-iphoneos/FBSDKShareKit/libFBSDKShareKit.a"; sourceTree = "<group>"; };
 		AC553FEB1CEA9F1B00B25587 /* Trippple.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Trippple.entitlements; path = Trippple/Trippple.entitlements; sourceTree = "<group>"; };
 		AC55AD6C1CFE73B600326ED9 /* T3Theme.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = T3Theme.plist; sourceTree = "<group>"; };
 		AC5B38661D35D1A900E13729 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -480,7 +473,7 @@
 		AC5ECE761DCCDD1600810C69 /* libMixpanel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMixpanel.a; path = "Pods/../build/Debug-iphoneos/Mixpanel/libMixpanel.a"; sourceTree = "<group>"; };
 		AC677ED91DBB09B200408226 /* RNFIRMessaging.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFIRMessaging.xcodeproj; path = "../node_modules/react-native-fcm/ios/RNFIRMessaging.xcodeproj"; sourceTree = "<group>"; };
 		AC677F661DBB1CA700408226 /* Firebase.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Firebase.xcodeproj; path = "../node_modules/react-native-firebase3/ios/Firebase.xcodeproj"; sourceTree = "<group>"; };
-		AC758A7A1CF6AC2400A6A9C0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		AC758A7A1CF6AC2400A6A9C0 /* GoogleService-Info-old.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-old.plist"; sourceTree = "<group>"; };
 		AC758A7C1CF6B07B00A6A9C0 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		AC758A9C1CF6B89E00A6A9C0 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ../main.jsbundle; sourceTree = "<group>"; };
 		AC758B241CF853D800A6A9C0 /* RCTContacts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTContacts.xcodeproj; path = "../node_modules/react-native-contacts/ios/RCTContacts.xcodeproj"; sourceTree = "<group>"; };
@@ -496,6 +489,7 @@
 		AC9D8D351D3F34FF009D4C78 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACA521741CA2981E007B9F71 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Build/Products/Debug-iphonesimulator/libPods.a"; sourceTree = "<group>"; };
 		ACA80C711CE862CF0081A99F /* RCTTest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTTest.xcodeproj; path = "../node_modules/react-native/Libraries/RCTTest/RCTTest.xcodeproj"; sourceTree = "<group>"; };
+		ACAA72291DFA22840097D2FD /* libBolts.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBolts.a; path = "Build/Products/Release-iphoneos/Bolts/libBolts.a"; sourceTree = "<group>"; };
 		ACB070371D08998A00B8E4A9 /* RCTPushNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTPushNotificationManager.h; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotificationManager.h"; sourceTree = "<group>"; };
 		ACB070381D08998A00B8E4A9 /* RCTLinkingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTLinkingManager.h; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinkingManager.h"; sourceTree = "<group>"; };
 		ACB1387F1CE83BFB00351B23 /* FBSnapshotTestCase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSnapshotTestCase.framework; path = "Build/Products/Debug-iphonesimulator/FBSnapshotTestCase/FBSnapshotTestCase.framework"; sourceTree = "<group>"; };
@@ -534,6 +528,7 @@
 		ACCB6A821DC90AA200E735C1 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
 		ACCB6A831DC90AA200E735C1 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		ACCB6A861DC90AA200E735C1 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
+		ACD0259B1DF9B84500667044 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ACDCC3951DBFADCF00A3540E /* RNKeychain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNKeychain.xcodeproj; path = "../node_modules/react-native-keychain/RNKeychain.xcodeproj"; sourceTree = "<group>"; };
 		ACEB23C41CA32702007C426B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FC0B0860A2C01DA7CDE0FEB0 /* Pods-Trippple.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trippple.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trippple/Pods-Trippple.debug.xcconfig"; sourceTree = "<group>"; };
@@ -544,6 +539,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACBB20971C050E7C00A63B9C /* libRNMessageComposer.a in Frameworks */,
+				ACAA722B1DFA236B0097D2FD /* AssetsLibrary.framework in Frameworks */,
+				ACAA722A1DFA22840097D2FD /* libBolts.a in Frameworks */,
+				AC504C3A1DFA0CDE002B16E7 /* libFBSDKCoreKit.a in Frameworks */,
+				AC504C3B1DFA0CDE002B16E7 /* libFBSDKLoginKit.a in Frameworks */,
+				AC504C3C1DFA0CDE002B16E7 /* libFBSDKShareKit.a in Frameworks */,
 				AC78ABE31DEF545A0055D789 /* libRNUXCam.a in Frameworks */,
 				3D17582E4B1F7F14F4C1505F /* libPods-Trippple.a in Frameworks */,
 				AC5ECD691DCCC1E000810C69 /* libSplashScreen.a in Frameworks */,
@@ -568,16 +569,8 @@
 				AC0549F71C671C970072E9E7 /* libz.tbd in Frameworks */,
 				AC0549F51C671C8B0072E9E7 /* SystemConfiguration.framework in Frameworks */,
 				AC0549F31C671C730072E9E7 /* CoreData.framework in Frameworks */,
-				AC3C4BE81D4849D300A1EC73 /* Bolts.framework in Frameworks */,
-				AC3C4BEC1D484BC000A1EC73 /* FBSDKShareKit.framework in Frameworks */,
 				ACBB209F1C0510E200A63B9C /* libRCTCamera.a in Frameworks */,
 				ACBB209A1C050E8A00A63B9C /* CoreFoundation.framework in Frameworks */,
-				AC3C4BE01D48493A00A1EC73 /* AccountKit.framework in Frameworks */,
-				AC3C4BE21D48493A00A1EC73 /* FBNotifications.framework in Frameworks */,
-				AC3C4BE31D48493A00A1EC73 /* FBSDKCoreKit.framework in Frameworks */,
-				AC3C4BE41D48493A00A1EC73 /* FBSDKLoginKit.framework in Frameworks */,
-				AC3C4BE51D48493A00A1EC73 /* FBSDKMessengerShareKit.framework in Frameworks */,
-				ACBB20991C050E8400A63B9C /* AssetsLibrary.framework in Frameworks */,
 				ACBB20831C050E7C00A63B9C /* libRCTActionSheet.a in Frameworks */,
 				ACBB20861C050E7C00A63B9C /* libRCTCameraRoll.a in Frameworks */,
 				ACBB20881C050E7C00A63B9C /* libRCTGeolocation.a in Frameworks */,
@@ -589,7 +582,6 @@
 				ACBB20931C050E7C00A63B9C /* libRNAppInfo.a in Frameworks */,
 				ACBB20941C050E7C00A63B9C /* libRNFS.a in Frameworks */,
 				ACBB20961C050E7C00A63B9C /* libRNMail.a in Frameworks */,
-				ACBB20971C050E7C00A63B9C /* libRNMessageComposer.a in Frameworks */,
 				AC0549F11C671AEF0072E9E7 /* libRCTGoogleAnalyticsBridge.a in Frameworks */,
 				59988553681646CDAE8697C7 /* libRCTActionSheet.a in Frameworks */,
 				23F4971C5CED44D2A9526DC4 /* libRNHotline.a in Frameworks */,
@@ -781,20 +773,16 @@
 		A999B3CF69585EF60C549767 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ACAA72291DFA22840097D2FD /* libBolts.a */,
+				AC504C371DFA0CDE002B16E7 /* libFBSDKCoreKit.a */,
+				AC504C381DFA0CDE002B16E7 /* libFBSDKLoginKit.a */,
+				AC504C391DFA0CDE002B16E7 /* libFBSDKShareKit.a */,
 				AC1599541DEE7B65002667A7 /* libMixpanel.a */,
 				AC5ECE761DCCDD1600810C69 /* libMixpanel.a */,
 				ACC518EF1DC22329000A422B /* libGoogleToolboxForMac.a */,
 				ACC518F01DC22329000A422B /* libGTMSessionFetcher.a */,
 				AC3C4BED1D484BC000A1EC73 /* AccountKitStrings.bundle */,
 				AC3C4BEE1D484BC000A1EC73 /* FacebookSDKStrings.bundle */,
-				AC3C4BE71D4849D300A1EC73 /* Bolts.framework */,
-				AC3C4BD91D48493A00A1EC73 /* AccountKit.framework */,
-				AC3C4BDA1D48493A00A1EC73 /* FBAudienceNetwork.framework */,
-				AC3C4BDB1D48493A00A1EC73 /* FBNotifications.framework */,
-				AC3C4BDC1D48493A00A1EC73 /* FBSDKCoreKit.framework */,
-				AC3C4BDD1D48493A00A1EC73 /* FBSDKLoginKit.framework */,
-				AC3C4BDE1D48493A00A1EC73 /* FBSDKMessengerShareKit.framework */,
-				AC3C4BDF1D48493A00A1EC73 /* FBSDKShareKit.framework */,
 				AC029D7E1D362D6A008A3F35 /* libMixpanel-iOS8.0.a */,
 				AC7F1CEF1D35FD1400D3B511 /* libPods-TripppleUITests.a */,
 				AC7F1C0C1D35E63A00D3B511 /* Mixpanel.framework */,
@@ -1026,6 +1014,7 @@
 		ACC7DE7D1C5A41EA0087476F /* Trippple */ = {
 			isa = PBXGroup;
 			children = (
+				ACD0259B1DF9B84500667044 /* GoogleService-Info.plist */,
 				AC55AD6C1CFE73B600326ED9 /* T3Theme.plist */,
 				AC553FEB1CEA9F1B00B25587 /* Trippple.entitlements */,
 				ACC7E0441C5A579A0087476F /* assets */,
@@ -1035,7 +1024,7 @@
 				ACC7DE7F1C5A41F30087476F /* AppDelegate.m */,
 				ACC7DE801C5A41F30087476F /* Images.xcassets */,
 				AC758A9C1CF6B89E00A6A9C0 /* main.jsbundle */,
-				AC758A7A1CF6AC2400A6A9C0 /* GoogleService-Info.plist */,
+				AC758A7A1CF6AC2400A6A9C0 /* GoogleService-Info-old.plist */,
 				ACC7DE811C5A41F30087476F /* Info.plist */,
 				ACC7DE951C5A41F30087476F /* main.m */,
 				ACC7DE971C5A41F30087476F /* UIColor+TRColors.h */,
@@ -1132,7 +1121,7 @@
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 3D5DY3UN4M;
 						DevelopmentTeamName = "Trippple LLC";
-						LastSwiftMigration = 800;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -1148,6 +1137,7 @@
 					};
 					AC9D8D301D3F34FF009D4C78 = {
 						CreatedOnToolsVersion = 7.3.1;
+						ProvisioningStyle = Automatic;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 				};
@@ -1610,7 +1600,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACB7BA9C1D4143270019FB77 /* assets in Resources */,
+				ACAA722C1DFA23860097D2FD /* assets in Resources */,
+				ACAA722D1DFA23860097D2FD /* main.jsbundle in Resources */,
 				ACCB6A8A1DC90AA200E735C1 /* Foundation.ttf in Resources */,
 				ACB7BA9D1D4143270019FB77 /* Images.xcassets in Resources */,
 				ACC7DEBD1C5A43D90087476F /* montserrat_bold.ttf in Resources */,
@@ -1621,13 +1612,13 @@
 				ACC7DEBF1C5A43D90087476F /* omnes-bold-webfont.ttf in Resources */,
 				ACB30CD01D1EBADA00171A18 /* poetsenone-regular-webfont.ttf in Resources */,
 				ACCB6A871DC90AA200E735C1 /* Entypo.ttf in Resources */,
+				ACD0259C1DF9B84500667044 /* GoogleService-Info.plist in Resources */,
 				AC55AD6D1CFE73B600326ED9 /* T3Theme.plist in Resources */,
 				ACC7DEC01C5A43D90087476F /* omnes-light-webfont.ttf in Resources */,
 				ACCB6A8F1DC90AA200E735C1 /* Zocial.ttf in Resources */,
 				ACCB6A8C1DC90AA200E735C1 /* MaterialIcons.ttf in Resources */,
-				AC758A7B1CF6AC2400A6A9C0 /* GoogleService-Info.plist in Resources */,
+				AC758A7B1CF6AC2400A6A9C0 /* GoogleService-Info-old.plist in Resources */,
 				ACC7DEBE1C5A43D90087476F /* montserrat.otf in Resources */,
-				AC9A87DF1D10F79B00DF3156 /* main.jsbundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1671,7 +1662,7 @@
 		};
 		AC467EBA1C523398009F2FBD /* Bundle RN images and code */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -1679,9 +1670,9 @@
 			name = "Bundle RN images and code";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#../node_modules/react-native/packager/react-native-xcode.sh";
+			shellScript = "../node_modules/react-native/packager/react-native-xcode.sh";
 			showEnvVarsInLog = 0;
 		};
 		AC9F1CF91CFFE20B002C62CA /* ShellScript */ = {
@@ -1776,7 +1767,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FC0B0860A2C01DA7CDE0FEB0 /* Pods-Trippple.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1827,6 +1818,10 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos/Mixpanel",
 					"\"$(SRCROOT)/Trippple\"",
 					"\"$(SRCROOT)/Trippple\"",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/FBSDKCoreKit",
+					"$(PROJECT_DIR)/build/Release-iphoneos/FBSDKLoginKit",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/FBSDKShareKit",
+					"$(PROJECT_DIR)/Build/Products/Release-iphoneos/Bolts",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -1840,7 +1835,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "Trippple-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1850,7 +1845,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 047E0A35175544B655D0D3BF /* Pods-Trippple.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1900,6 +1895,10 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos/Mixpanel",
 					"\"$(SRCROOT)/Trippple\"",
 					"\"$(SRCROOT)/Trippple\"",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/FBSDKCoreKit",
+					"$(PROJECT_DIR)/build/Release-iphoneos/FBSDKLoginKit",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/FBSDKShareKit",
+					"$(PROJECT_DIR)/Build/Products/Release-iphoneos/Bolts",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -1912,7 +1911,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "Trippple-Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -2047,8 +2046,9 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -2064,7 +2064,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = trippple.TripppleSnapshotTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b06ef6cb-bb1c-458d-b61d-64e24d7b443f";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Trippple.app/Trippple";
 			};
@@ -2077,9 +2078,10 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = TripppleSnapshotTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2090,7 +2092,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = trippple.TripppleSnapshotTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b06ef6cb-bb1c-458d-b61d-64e24d7b443f";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Trippple.app/Trippple";
 			};
