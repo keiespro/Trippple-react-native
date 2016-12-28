@@ -6,6 +6,7 @@ import api from '../utils/api'
 const getBadgeNumber = Promise.promisify(PushNotification.getApplicationIconBadgeNumber)
 import ApiActionCreators from './ApiActionCreators'
 const iOS = Platform.OS == 'ios';
+
 const NOTIFICATION_TYPES = {
   NEW_MATCH: 'getMatches',
   NEW_MESSAGE: 'getMessages',

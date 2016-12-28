@@ -36,13 +36,24 @@ class App extends React.Component{
     }
   }
 
+  componentWillMount(){
+
+    if(this.props.loggedIn) this.props.dispatch(ActionMan.getUserInfo());
+
+  }
+
   componentDidMount(){
+
     this.setTimeout(() => {
       SplashScreen.hide();
-      this.props.dispatch(ActionMan.setHotlineUser(this.props.user))
-      this.performInitActions()
-      Analytics.identifyUser(this.props.user)
 
+      this.performInitActions()
+      if(this.props.user){
+        this.props.dispatch(ActionMan.setHotlineUser(this.props.user))
+        Analytics.identifyUser(this.props.user)
+      }else{
+
+      }
 
     }, 1000)
   }
@@ -50,7 +61,7 @@ class App extends React.Component{
   componentWillReceiveProps(nProps){
     if(nProps.user && nProps.user.id && nProps.loggedIn){
       if(!this.props.booted && nProps.booted){
-        __DEV__ && console.info('init');
+
         this.initialize(nProps)
       }
       if(this.state.initialized && this.props.appState != 'active' && nProps.appState == 'active'){
@@ -127,7 +138,7 @@ class App extends React.Component{
         {iOS && <DeepLinkHandler />}
 
         { this.props.onboarded ? <AppNav/> :
-            this.props.loggedIn ? <Onboard user={this.props.user} permissions={this.props.permissions}/> :
+            this.props.user && this.props.loggedIn ? <Onboard user={this.props.user} permissions={this.props.permissions}/> :
               <Welcome dispatch={this.props.dispatch}/>
         }
 
@@ -142,7 +153,7 @@ class App extends React.Component{
 
 const mapStateToProps = (state, ownProps) => {
   const loggedIn = state.auth.api_key && state.auth.user_id;
-  const onboarded = state.user.relationship_status && state.permissions.notifications && state.permissions.location;
+  const onboarded = state.user.relationship_status && state.permissions.notifications && state.permissions.notifications != 'undetermined' && state.permissions.location && state.permissions.location != 'undetermined';
 
   return {
     ...ownProps,

@@ -5,6 +5,7 @@ import PermissionModal from './PermissionModal/PermissionModal'
 
 const PrivacyPermissionsModal = ({success}) => (
   <PermissionModal
+    isModal={this.props.isModal}
     title={'PRIVACY'}
     subtitle={'Hide from your Facebook Friends and Phone Contacts'}
     isPersistant

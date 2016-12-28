@@ -47,9 +47,8 @@ export const loginWithFacebook = () => async dispatch => {
   const fbData = {...fb, ...fbAuth}
   dispatch({ type: 'LOGIN_WITH_FACEBOOK', payload: api.fbLogin(fbData) })
   dispatch({ type: 'FACEBOOK_AUTH', payload: fbData})
-
-
   dispatch({ type: 'FIREBASE_AUTH', payload: checkFireLoginState(fbData, dispatch) })
+  
     // .then(fireUser => {
     // })
     // .catch(err => {

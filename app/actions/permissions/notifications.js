@@ -1,8 +1,8 @@
-import { Platform,PushNotificationIOS } from 'react-native'
+import { Platform, PushNotificationIOS } from 'react-native'
 import FCM from 'react-native-fcm';
 import Promise from 'bluebird'
-import OSPermissions from '../../../lib/OSPermissions/ospermissions'
-const checkPushPermission = Promise.promisify(PushNotificationIOS.checkPermissions)
+import Permissions from 'react-native-permissions'
+
 
 export default {checkNotificationsPermission, requestNotificationsPermission}
 
@@ -23,35 +23,30 @@ export const checkNotificationsPermission = () => dispatch => dispatch({ type: '
 export const requestNotificationsPermission = () => dispatch => dispatch({ type: 'REQUEST_NOTIFICATIONS_PERMISSION',
   payload: new Promise((resolve, reject) => {
     Platform.select(request)()
-    .then(permission => {
-      console.log(permission);
-         dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_ON'})
-      return resolve(permission)
-    })
-    .catch(err => {
-      console.log(permission);
-
-      dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_OFF'})
-      return reject(err)
-    })
+      .then(permission => {
+        console.log(permission);
+        dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_ON'})
+        return resolve(permission)
+      })
+      .catch(err => {
+        console.log(err);
+        dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_OFF'})
+        return reject(err)
+      })
   }),
 });
 
 const request = {
-  async ios(){
-    let perm;
-    try{
-      const permission = await FCM.requestPermissions()
-      if(permission){
-        perm = 'true'
-      }
-    }catch(err){
-      // __DEV__ && console.warn(err)
-      perm = 'denied';
-      // throw new Error(err)
-    }
-    return permission;
+
+  ios(){
+    FCM.requestPermissions();
+    return Permissions.requestPermission('notification').then(permission => {
+      console.log(permission);
+      return permission
+
+    })
   },
+
   android() {
     return new Promise((resolve, reject) => {
       resolve('true')
@@ -60,32 +55,15 @@ const request = {
 }
 
 const check = {
-  async ios(){
-    let p;
-    console.log(OSPermissions);
-    try{
-      const permission = await checkPushPermission().then(r => {console.log(r);return r}).catch(r => {console.log(r);return r})
-      console.log((permission));
-      const permResult = ['alert','badge','sound'].reduce((acc, el, i) => {
-        acc += permission[el];
-        return acc
-      }, 0);
+  ios(){
 
-      if(parseInt(permResult) > 2) {
-        p = 'true'
-      }else
-      if(parseInt(permResult) == 1) {
-        console.log('no permission, must ask')
-        p = 'true'
-      }else{
-        p = 'denied'
-      }
-      return p
+    return Permissions.getPermissionStatus('notification').then(permission => {
+      console.log(permission);
+      return permission
 
-    }catch(err){
-      __DEV__ && console.warn(err);
-      throw new Error(err)
-    }
+    })
+
+
   },
   android() {
     return new Promise((resolve) => {

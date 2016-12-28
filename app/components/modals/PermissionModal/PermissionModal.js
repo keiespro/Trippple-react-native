@@ -87,8 +87,8 @@ class PermissionsModal extends Component{
     this.finish()
   }
   finish(){
-    this.props.closeModal && this.props.closeModal()
-    this.props.dispatch({ type: 'KILL_MODAL', payload: {}})
+    this.props.isModal && this.props.closeModal()
+
   }
   cancel(){
     if(this.props.permissionKey == 'location'){
@@ -153,7 +153,7 @@ class PermissionsModal extends Component{
         stopLoading={hasPermission}
         leftBoxStyles={buttonStyles.grayIconbuttonLeftBox}
         _onPress={this.handleTap.bind(this)}
-        outerButtonStyle={{flexGrow:1,backgroundColor:'transparent',width:DeviceWidth-60,height:90}}
+        outerButtonStyle={{flexGrow:1,backgroundColor:'transparent',width:DeviceWidth-60,maxHeight:80}}
       >
         {hasPermission ?
           <Image
@@ -162,7 +162,9 @@ class PermissionsModal extends Component{
             style={{height: 21, width: 30}}
           /> :
             <View
-              style={{backgroundColor: colors.darkGreenBlue40, height: 20, width: 20, borderRadius: 10, alignSelf: 'center'}}
+              style={{
+                backgroundColor: colors.darkGreenBlue40, height: 20, width: 20, borderRadius: 10, alignSelf: 'center'
+              }}
             />
         }
       </BoxyButton>
@@ -209,13 +211,13 @@ class PermissionsModal extends Component{
                 style={[styles.rowtext, styles.bigtext, {
                   fontSize: 18,
                   marginVertical: 10,
-                  color: colors.shuttleGray,
+                  color: colors.white,
                   marginHorizontal: 10
                 }]}
               >{this.props.subtitle}</Text>
 
               <View style={{marginTop: 20}}>
-                  {this.renderButton()}
+                {this.renderButton()}
               </View>
 
             </View>
@@ -236,10 +238,18 @@ class PermissionsModal extends Component{
                 }}
                 onPress={this.finish.bind(this)}
               >
-                <View style={[styles.cancelButton, {backgroundColor: 'transparent',flexGrow:1, alignItems: 'stretch', alignSelf: 'stretch', flexDirection: 'row'}]} >
+                <View
+                  style={[styles.cancelButton, {
+                    backgroundColor: 'transparent',
+                    flexGrow:1,
+                    alignItems: 'stretch',
+                    alignSelf: 'stretch',
+                    flexDirection: 'row'
+                  }]}
+                >
                   <Text
                     style={[{
-                      color: colors.shuttleGray,
+                      color: colors.white,
                       textAlign: 'center',
                       padding: 10,
                       paddingVertical: MagicNumbers.is4s ? 0 : 20,
@@ -263,7 +273,7 @@ class PermissionsModal extends Component{
                 <View style={[styles.cancelButton, {backgroundColor: 'transparent', flexGrow: 1, alignItems: 'stretch', alignSelf: 'stretch'}]} >
                   <Text
                     style={[{
-                      color: colors.shuttleGray,
+                      color: colors.white,
                       textAlign: 'center',
                       padding: MagicNumbers.is4s ? 0 : 10,
                       alignSelf: 'stretch'
@@ -287,7 +297,7 @@ PermissionsModal.displayName = 'PermissionsModal'
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
   permissions: state.permissions,
-  hasPermission: state.permissions[ownProps.permissionKey]
+  hasPermission: state.permissions[ownProps.permissionKey] && state.permissions[ownProps.permissionKey] != 'undetermined'
 })
 
 

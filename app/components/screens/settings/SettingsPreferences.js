@@ -37,7 +37,6 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import {SlideHorizontalIOS, FloatHorizontal} from '../../../ExNavigationStylesCustom'
 
-import OSPermissions from '../../../../lib/OSPermissions/ospermissions'
 const iOS = Platform.OS == 'ios';
 
 class SettingsPreferences extends React.Component{
@@ -102,7 +101,7 @@ class SettingsPreferences extends React.Component{
         title: 'PREFERENCES',
         fieldName: 'bio',
         fieldValue: this.state.bio || this.props.user.bio || '',
-        // cancel: () => {this.props.navigator.pop()}
+        cancel: () => {this.props.dispatch({type:'KILL_MODAL'})}
       }
     }))
   }
@@ -154,17 +153,20 @@ class SettingsPreferences extends React.Component{
               label={'Couples (MALE/FEMALE)'}
               values={values}
               selected={this.state.looking_for_mf}
+              moreStyle={defaultStyles.selectable}
             />}
             {this.props.user.relationship_status == 'single' && <Selectable
               field={'looking_for_mm'}
               onPress={this.onPressSelectable.bind(this, 'looking_for_mm')}
               label={'Couples (MALE/MALE)'}
               selected={this.state.looking_for_mm}
+              moreStyle={defaultStyles.selectable}
               values={values}
             />}
             {this.props.user.relationship_status == 'single' && <Selectable
               field={'looking_for_ff'}
               selected={this.state.looking_for_ff}
+              moreStyle={defaultStyles.selectable}
               onPress={this.onPressSelectable.bind(this, 'looking_for_ff')}
               label={'Couples (FEMALE/FEMALE)'}
               values={values}
@@ -174,11 +176,13 @@ class SettingsPreferences extends React.Component{
               onPress={this.onPressSelectable.bind(this, 'looking_for_f')}
               label={'SINGLE FEMALES'}
               selected={this.state.looking_for_f}
+              moreStyle={defaultStyles.selectable}
               values={values}
             />}
             {this.props.user.relationship_status == 'couple' && <Selectable
               field={'looking_for_m'}
               selected={this.state.looking_for_m}
+              moreStyle={defaultStyles.selectable}
               onPress={this.onPressSelectable.bind(this, 'looking_for_m')}
               label={'SINGLE MALES'}
               values={values}
@@ -214,3 +218,20 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsPreferences);
+
+
+const defaultStyles = StyleSheet.create({
+  selectable: {
+    width: DeviceWidth-20,
+    height: 60,
+    flexGrow:0,
+    overflow:'hidden',
+    flexDirection:'row',
+    alignItems:'center',
+    alignSelf:'center',
+    borderWidth: StyleSheet.hairlineWidth,
+    justifyContent:'space-between',
+    backgroundColor:'transparent',
+    paddingHorizontal: 10
+  }
+})

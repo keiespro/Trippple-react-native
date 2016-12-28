@@ -15,7 +15,6 @@ import colors from '../../utils/colors';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
-const {OSPermissions} = NativeModules
 import FBPhotoAlbums from '../FBPhotoAlbums'
 import {MagicNumbers} from '../../utils/DeviceConfig'
 import { connect } from 'react-redux'

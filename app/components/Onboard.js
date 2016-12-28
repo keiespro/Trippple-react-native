@@ -13,6 +13,7 @@ import NoPartner from './screens/coupling/NoPartner'
 import CoupleReady from './screens/coupling/CoupleReady';
 import CoupleSuccess from './screens/coupling/CoupleSuccess';
 import {connect} from 'react-redux'
+import FadeInContainer from './FadeInContainer';
 
 
 export const OnboardRouter = createRouter(() => ({
@@ -42,21 +43,24 @@ const Onboard = (props) => {
 
   return (
     <View>
-      <StackNavigation
-        id="onboardnavigation"
-        defaultRouteConfig={{
-          navigationBar: {
-            visible: false,
-            title: 'ok',
-            titleStyle: {
-              color: colors.white,
-              fontFamily: 'montserrat',
-              borderBottomWidth: 0,
-            }
-          },
-        }}
-        initialRoute={OnboardRouter.getRoute(initialRoute, {show: true})}
-      />
+      <FadeInContainer duration={800} delay={2600}>
+
+        <StackNavigation
+          id="onboardnavigation"
+          defaultRouteConfig={{
+            navigationBar: {
+              visible: false,
+              title: 'ok',
+              titleStyle: {
+                color: colors.white,
+                fontFamily: 'montserrat',
+                borderBottomWidth: 0,
+              }
+            },
+          }}
+          initialRoute={OnboardRouter.getRoute(initialRoute, {show: true})}
+        />
+      </FadeInContainer>
     </View>
   );
 }

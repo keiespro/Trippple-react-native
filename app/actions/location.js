@@ -2,7 +2,6 @@ import { Alert, Platform } from 'react-native'
 import api from '../utils/api'
 import checkLocationPermission from './permissions/location'
 
-import OSPermissions from '../../lib/OSPermissions/ospermissions'
 
 const iOS = Platform.OS == 'ios';
 

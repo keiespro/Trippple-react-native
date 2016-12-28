@@ -8,7 +8,7 @@ export default {checkLocationPermission, requestLocationPermission}
 
 export const checkLocationPermission = () => dispatch => dispatch({ type: 'CHECK_LOCATION_PERMISSION',
   payload: new Promise((resolve, reject) => {
-    console.log('checkLocationPermission',Platform.select(check));
+    console.log('checkLocationPermission', Platform.select(check));
     Platform.select(check)()
       .then(permission => {
         // dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})
@@ -30,25 +30,15 @@ export const requestLocationPermission = () => dispatch => dispatch({ type: 'REQ
       })
       .catch(err => {
         dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_OFF'})
-        reject(err)
+        resolve(err)
       })
   }),
 });
 
 const request = {
   async ios(){
-    let perm;
-    try{
-      const geo = await askLocation()
-      if(geo && geo.coords){
-        perm = 'true'
-      }
-    }catch(err){
-      // __DEV__ && console.warn(err)
-      perm = 'denied';
-      // throw new Error(err)
-    }
-    return perm;
+    const geo = await askLocation()
+    return geo.coords;
   },
   async android() {
     try{
@@ -73,10 +63,11 @@ const check = {
     try{
       const permission = await Permissions.getPermissionStatus('location')
       console.log(permission);
+      return permission
 
     }catch(err){
       // __DEV__ && console.warn(err);
-      throw new Error(err)
+      return err
     }
   },
   async android() {
