@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		0CED86D71A7E420E9BD5239D /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D862AAAEA1C4EC48684FF18 /* Octicons.ttf */; };
 		20A23F24D7E14481AA223BF4 /* libReactNativePermissions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7124F88BCF3F48369E422ECF /* libReactNativePermissions.a */; };
@@ -503,7 +502,6 @@
 		AC504C371DFA0CDE002B16E7 /* libFBSDKCoreKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFBSDKCoreKit.a; path = "Pods/../build/Debug-iphoneos/FBSDKCoreKit/libFBSDKCoreKit.a"; sourceTree = "<group>"; };
 		AC504C381DFA0CDE002B16E7 /* libFBSDKLoginKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFBSDKLoginKit.a; path = "Pods/../build/Release-iphoneos/FBSDKLoginKit/libFBSDKLoginKit.a"; sourceTree = "<group>"; };
 		AC504C391DFA0CDE002B16E7 /* libFBSDKShareKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFBSDKShareKit.a; path = "Pods/../build/Debug-iphoneos/FBSDKShareKit/libFBSDKShareKit.a"; sourceTree = "<group>"; };
-		AC553FEB1CEA9F1B00B25587 /* Trippple.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Trippple.entitlements; path = Trippple/Trippple.entitlements; sourceTree = "<group>"; };
 		AC55AD6C1CFE73B600326ED9 /* T3Theme.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = T3Theme.plist; sourceTree = "<group>"; };
 		AC5B38661D35D1A900E13729 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		AC5B38861D35D2C900E13729 /* FBSnapshotTestCase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSnapshotTestCase.framework; path = "Pods/../build/Debug-iphoneos/FBSnapshotTestCase/FBSnapshotTestCase.framework"; sourceTree = "<group>"; };
@@ -569,6 +567,8 @@
 		ACD0259B1DF9B84500667044 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ACDCC3951DBFADCF00A3540E /* RNKeychain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNKeychain.xcodeproj; path = "../node_modules/react-native-keychain/RNKeychain.xcodeproj"; sourceTree = "<group>"; };
 		ACEB23C41CA32702007C426B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		ACFDE3971E13CEC700459E52 /* Trippple.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Trippple.entitlements; path = Trippple/Trippple.entitlements; sourceTree = "<group>"; };
+		ACFDE3981E13D0D200459E52 /* Trippple-updated.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "Trippple-updated.entitlements"; path = "Trippple/Trippple-updated.entitlements"; sourceTree = "<group>"; };
 		D188754C5E604C688A23A189 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		F776E04495314BB591AEA78A /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		FC0B0860A2C01DA7CDE0FEB0 /* Pods-Trippple.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trippple.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trippple/Pods-Trippple.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1075,9 +1075,10 @@
 		ACC7DE7D1C5A41EA0087476F /* Trippple */ = {
 			isa = PBXGroup;
 			children = (
+				ACFDE3971E13CEC700459E52 /* Trippple.entitlements */,
+				ACFDE3981E13D0D200459E52 /* Trippple-updated.entitlements */,
 				ACD0259B1DF9B84500667044 /* GoogleService-Info.plist */,
 				AC55AD6C1CFE73B600326ED9 /* T3Theme.plist */,
-				AC553FEB1CEA9F1B00B25587 /* Trippple.entitlements */,
 				ACC7E0441C5A579A0087476F /* assets */,
 				ACC7DEB61C5A43D90087476F /* fonts */,
 				ACC7DE7E1C5A41F30087476F /* AppDelegate.h */,
@@ -1201,6 +1202,15 @@
 						LastSwiftMigration = 820;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.GameCenter = {
+								enabled = 0;
+							};
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
 							com.apple.Keychain = {
 								enabled = 1;
 							};
@@ -1214,7 +1224,7 @@
 					};
 					AC9D8D301D3F34FF009D4C78 = {
 						CreatedOnToolsVersion = 7.3.1;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 				};
@@ -1883,7 +1893,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Trippple/Trippple.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Trippple LLC (3D5DY3UN4M)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 14;
 				DEAD_CODE_STRIPPING = NO;
@@ -1942,13 +1952,14 @@
 					"$(inherited)",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = Trippple;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "Trippple-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_SUPPRESS_WARNINGS = YES;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
@@ -1966,8 +1977,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Trippple/Trippple.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Trippple LLC (3D5DY3UN4M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = 3D5DY3UN4M;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -2024,12 +2035,13 @@
 					"$(inherited)",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = Trippple;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "Trippple-Bridging-Header.h";
+				SWIFT_SUPPRESS_WARNINGS = YES;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
@@ -2167,7 +2179,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -2199,7 +2210,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
