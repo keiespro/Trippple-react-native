@@ -121,7 +121,7 @@
 
   NSURL *sourceURL;
 //  NSLog(@"%s",getenv("RELEASE"));
-//  if(getenv("RELEASE")){
+//  if(getenv("RELEASE"))s
 //    sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 //  }else{
     [[RCTBundleURLProvider sharedSettings] setEnableDev:YES];

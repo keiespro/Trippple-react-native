@@ -39,6 +39,11 @@ class App extends React.Component{
   componentDidMount(){
     this.setTimeout(() => {
       SplashScreen.hide();
+      this.props.dispatch(ActionMan.setHotlineUser(this.props.user))
+      this.performInitActions()
+      Analytics.identifyUser(this.props.user)
+
+
     }, 1000)
   }
 
@@ -94,7 +99,7 @@ class App extends React.Component{
         .then(actions => {
 
           __DEV__ && console.log('init_actions', actions);
-        _.reject(actions.split(','), a => a == 'getLocation').forEach(ac => {
+          _.reject(actions.split(','), a => a == 'getLocation').forEach(ac => {
             this.props.dispatch(ActionMan[ac]())
           })
         })

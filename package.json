@@ -39,6 +39,7 @@
     "react-native-message-composer": "git+https://github.com/trippple/react-native-message-composer.git",
     "react-native-mixpanel": "^0.0.10",
     "react-native-navigation-redux-helpers": "^0.4.1",
+    "react-native-permissions": "^0.2.5",
     "react-native-push-notification": "^2.1.1",
     "react-native-splash-screen": "^1.0.9",
     "react-native-swiper": "latest",
