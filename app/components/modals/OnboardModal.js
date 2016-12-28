@@ -1,4 +1,4 @@
-import { Text, View, Dimensions, TouchableOpacity, Platform, Picker, Image, LayoutAnimation, ScrollView } from 'react-native';
+import { Text, View, Dimensions, TouchableOpacity, StyleSheet, Platform, Picker, Image, LayoutAnimation, ScrollView } from 'react-native';
 import React, {Component} from 'react';
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
 import ContinueButton from '../controls/ContinueButton';
@@ -10,7 +10,7 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {BlurView, VibrancyView} from 'react-native-blur';
 import {connect} from 'react-redux'
-import OnboardRouter from '../Onboard'
+import {OnboardRouter} from '../Onboard'
 import {MagicNumbers} from '../../utils/DeviceConfig';
 const PickerItem = Picker.Item;
 const TOP_DISTANCE = DeviceHeight - 160;
@@ -263,7 +263,7 @@ class OnboardModal extends Component {
                     flexGrow:0,
                     justifyContent: 'center',
                     backgroundColor: colors.transparent,
-                    borderBottomWidth: 1,
+                    borderBottomWidth: StyleSheet.hairlineWidth,
                     borderBottomColor: this.state.step == 1 ? colors.brightPurple : colors.steelGrey
                   }}
                   onPress={() => {
@@ -312,8 +312,8 @@ class OnboardModal extends Component {
                     flexGrow:0,
                     justifyContent: 'center',
                     backgroundColor: colors.transparent,
-                    borderBottomWidth: 1,
-                    borderBottomColor: this.state.step == 2 ? colors.brightPurple : colors.steelGrey
+                    borderBottomWidth: StyleSheet.hairlineWidth,
+                    borderBottomColor: this.state.step == 2 ? colors.darkPurple : colors.steelGrey
                   }}
                   onPress={() => {
                     if(this.state.selected_ours) {
@@ -366,29 +366,14 @@ class OnboardModal extends Component {
 
                 }}
               >
-                <View style={{
-                  height: this.state.selected_ours && has_theirs ? 70 : 0,
-                  top: this.state.selected_ours && has_theirs ? -70 : 0,
-                  left: 0,
-                  flexGrow:1,
-                  right: 0,
-                  width: DeviceWidth,
-                  overflow: 'hidden'
-                }}
-                >
-                  <ContinueButton
-                    customText={'CONTINUE'}
-                    handlePress={this.handleContinue.bind(this)}
-                    canContinue={this.state.selected_ours && has_theirs}
-                  />
-                </View>
+
                 {this.state.step == 1 &&
                 <Picker
                   onValueChange={this.pickerValue.bind(this)}
                   style={{
                     alignSelf: 'center',
                     width: DeviceWidth,
-                    backgroundColor: colors.transparent,
+                    backgroundColor: colors.dark,
                     marginHorizontal: 0,
                     alignItems: 'stretch'
                   }}
@@ -405,29 +390,57 @@ class OnboardModal extends Component {
                   })}
                 </Picker>}
 
-                {this.state.step == 2 && this.state.selected_ours && them_choices[this.state.selected_relationship_status].map((item, i) => {
-                  return (
-                      <Selectable
-                        moreStyle={{
-                          width:DeviceWidth, height: 60, flex:0,  overflow:'hidden', flexDirection:'row',alignItems:'center',justifyContent:'space-between',
-                        }}
-                        selected={this.state.selected_theirs[item.value]}
-                        key={`${item.label.trim()}k`}
-                        underlayColor={colors.dark}
-                        value={this.state.selected_theirs[item.value]}
-                        onPress={this.togglePref.bind(this, item.value)}
-                        field={item}
-                        isLast={i == them_choices[this.state.selected_relationship_status].length - 1}
-                        label={item.label}
-                        values={them_choices[this.state.selected_relationship_status]}
-                      />
-
-              )
-                })}
-
-              </View>}
+              </View>
+            }
           </View>
         </ScrollView>
+        <View style={{
+          height: this.state.selected_ours && has_theirs ? 70 : 0,
+          bottom: this.state.selected_ours && has_theirs ? 180 : 0,
+          left: 0,
+          flexGrow:1,
+          right: 0,
+          width: DeviceWidth,
+          overflow: 'hidden'
+        }}
+        >
+          <ContinueButton
+            customText={'CONTINUE'}
+            handlePress={this.handleContinue.bind(this)}
+            canContinue={this.state.selected_ours && has_theirs}
+          />
+        </View>
+        <View style={{position:'absolute',bottom:0}}>
+{this.state.step == 2 && this.state.selected_ours && them_choices[this.state.selected_relationship_status].map((item, i) => {
+                return (
+                    <Selectable
+                      moreStyle={{
+                        width: DeviceWidth,
+                        height: them_choices[this.state.selected_relationship_status].length == 3 ? 60 : 90,
+                        flexGrow:0,
+                        overflow:'hidden',
+                        flexDirection:'row',
+                        alignItems:'center',
+                        borderTopWidth: StyleSheet.hairlineWidth,
+                        borderTopColor: colors.white20,
+                        justifyContent:'space-between',
+                        backgroundColor:colors.dark
+                      }}
+                      selected={this.state.selected_theirs[item.value]}
+                      key={`${item.label.trim()}k`}
+                      underlayColor={colors.dark}
+                      value={this.state.selected_theirs[item.value]}
+                      onPress={this.togglePref.bind(this, item.value)}
+                      field={item}
+                      isLast={i == them_choices[this.state.selected_relationship_status].length - 1}
+                      label={item.label}
+                      values={them_choices[this.state.selected_relationship_status]}
+                    />
+
+            )
+              })}
+
+            </View>
       </View>
 
 

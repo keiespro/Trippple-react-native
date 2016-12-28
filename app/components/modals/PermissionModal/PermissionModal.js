@@ -102,8 +102,8 @@ class PermissionsModal extends Component{
   }
   renderFailed(){
     return (
-      <View>
-        <View style={{alignItems: 'center'}}>
+      <View style={{flexGrow:1}}>
+        <View style={{alignItems: 'center',flexGrow:1}}>
           <Image
             resizeMode={Image.resizeMode.contain}
             style={[{
@@ -153,7 +153,7 @@ class PermissionsModal extends Component{
         stopLoading={hasPermission}
         leftBoxStyles={buttonStyles.grayIconbuttonLeftBox}
         _onPress={this.handleTap.bind(this)}
-        outerButtonStyle={{flexGrow:0,backgroundColor:'transparent',width:DeviceWidth-60,height:90}}
+        outerButtonStyle={{flexGrow:1,backgroundColor:'transparent',width:DeviceWidth-60,height:90}}
       >
         {hasPermission ?
           <Image

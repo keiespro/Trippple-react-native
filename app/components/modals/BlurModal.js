@@ -10,7 +10,7 @@ const DeviceWidth = Dimensions.get('window').width
 const BlurModal = ({children}) => (
 
   <View
-    style={{flex: 1}}
+    style={{flexGrow: 1}}
   >
     {iOS && <VibrancyView blurType="dark" style={localstyles.blurstyle} />}
 
@@ -32,6 +32,7 @@ export default BlurModal
 
 const localstyles = StyleSheet.create({
   blurstyle: {
+    flexGrow: 1,
     position: 'absolute',
     top: 0,
     width: DeviceWidth,
@@ -45,12 +46,12 @@ const localstyles = StyleSheet.create({
     // width: DeviceWidth,
     // height:DeviceHeight,
 
-    flex: 1,
-    // position: 'absolute'
+    flexGrow: 1,
+    position: 'absolute'
   },
   modalscrollcontainer: {
     // justifyContent:'center',
-    flex: 1,
+    flexGrow: 1,
     width: DeviceWidth,
     height:DeviceHeight-23,
 

@@ -70,11 +70,17 @@ class ContinueButton extends Component{
           underlayColor={colors.darkPurple}
         >
           <View>
-            {this.props.loading ? <ActivityIndicator style={{alignSelf: 'center', alignItems: 'center', flex: 1, height: 60, width: 60, justifyContent: 'center'}} animating/> :
+            {this.props.loading ? (
+              <ActivityIndicator
+                style={{alignSelf: 'center', alignItems: 'center', flexGrow: 1, height: 60, width: 60, justifyContent: 'center'}}
+                animating
+              />
+            ) : (
               <Text style={[styles.continueButtonText, {
                 color: this.props.canContinue ? colors.white : 'transparent'
               }]}
-              >{this.props.customText || 'CONTINUE'}</Text>}
+              >{this.props.customText || 'CONTINUE'}</Text>
+            )}
 
             {/* this.state.submitting ? <ActivityIndicator style={{alignSelf:'center',alignItems:'center',flex:1,height:60,width:60,justifyContent:'center'}} animating={true} size={'large'}/> : <Text style={styles.continueButtonText}>CONTINUE</Text>*/}
           </View>
@@ -91,16 +97,21 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'center',
     height: MagicNumbers.continueButtonHeight - 4,
-    backgroundColor: colors.brightPurple,
     width: DeviceWidth,
-    flexGrow:1,
-    position:'relative'
+    flexGrow:10,
+    maxHeight:90,
+    position:'relative',
+    overflow:'hidden'
   },
   continueButton: {
-    height: MagicNumbers.continueButtonHeight,
+    height: MagicNumbers.continueButtonHeight - 4,
     alignSelf: 'stretch',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    width: DeviceWidth,
+    backgroundColor: colors.brightPurple,
+    overflow:'hidden'
+
   },
   continueButtonText: {
     padding: 4,

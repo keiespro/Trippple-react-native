@@ -115,7 +115,7 @@ class CouplingNavigator extends Component {
     const RouteComponent = initialRoute == 'CoupleReady' ? CoupleReady : couplingRoutes[initialRoute];
 
     return (
-      <View style={{height:DeviceHeight,width:DeviceWidth, }}>
+      <View style={{height:DeviceHeight,width:DeviceWidth,flexGrow:1 }}>
           <VibrancyView blurType="dark" style={styles.blurstyle} />
 
           <RouteComponent

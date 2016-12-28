@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Image} from 'react-native';
 import PermissionModal from './PermissionModal/PermissionModal'
+import {connect} from 'react-redux'
 
 const LocationPermissionsModal = (props) => (
   <PermissionModal
@@ -55,4 +56,16 @@ const LocationPermissionsModal = (props) => (
   />
 )
 
-export default LocationPermissionsModal
+const mapStateToProps = (state, ownProps) => {
+
+  return {
+    ...ownProps,
+    user: state.user,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)((LocationPermissionsModal));

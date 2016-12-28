@@ -59,7 +59,7 @@ function configureStore(initialState = ({})) {
       );
 
     persistStore(store, {
-      storage: AsyncStorage, blacklist: [ 'ui']
+      storage: AsyncStorage, blacklist: ['navigation', 'ui']
     })
     // .purge(['navigation','appNav'])
   //   storage: AsyncStorage, blacklist: ['ui', 'potentials']

@@ -18,7 +18,7 @@ const Selectable = ({selected, onPress, isLast, label, field, underlayColor, mor
     <View
       style={[
       moreStyle, {
-        paddingHorizontal:10
+        paddingHorizontal:15
       }
      ]}
     >

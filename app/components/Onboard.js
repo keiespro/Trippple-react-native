@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { Text, View, } from 'react-native';
-
 import { createRouter, NavigationProvider, StackNavigation} from '@exponent/ex-navigation'
 import colors from '../utils/colors'
 import OnboardModal from './modals/OnboardModal'
 import LocationPermissions from './modals/LocationPermissions'
 import NotificationsPermissions from './modals/NotificationsPermissions'
-import Coupling from './components/screens/coupling'
+import Coupling from './screens/coupling'
+import JoinCouple from './screens/coupling/JoinCouple'
+import EnterCouplePin from './screens/coupling/EnterCouplePin'
+import CouplePin from './screens/coupling/CouplePin'
+import NoPartner from './screens/coupling/NoPartner'
+import CoupleReady from './screens/coupling/CoupleReady';
+import CoupleSuccess from './screens/coupling/CoupleSuccess';
+import {connect} from 'react-redux'
 
-import JoinCouple from './components/screens/coupling/JoinCouple'
-import EnterCouplePin from './components/screens/coupling/EnterCouplePin'
-import CouplePin from './components/screens/coupling/CouplePin'
-import NoPartner from './components/screens/coupling/NoPartner'
-import CoupleReady from './components/screens/coupling/CoupleReady';
-import CoupleSuccess from './components/screens/coupling/CoupleSuccess';
 
 export const OnboardRouter = createRouter(() => ({
   OnboardModal: () => OnboardModal,
@@ -28,7 +28,17 @@ export const OnboardRouter = createRouter(() => ({
   NoPartner: () => NoPartner
 }));
 
-const Onboard = () => {
+const Onboard = (props) => {
+  let initialRoute;
+  if(!props.user.relationship_status){
+    initialRoute = 'OnboardModal'
+  }else if(!props.permissions.location){
+    initialRoute = 'LocationPermissions'
+  }else if(!props.permissions.notifications){
+    initialRoute = 'NotificationsPermissions'
+  }else{
+    initialRoute = 'OnboardModal'
+  }
 
   return (
     <View>
@@ -45,25 +55,21 @@ const Onboard = () => {
             }
           },
         }}
-        initialRoute={OnboardRouter.getRoute('OnboardModal', {show: true})}
+        initialRoute={OnboardRouter.getRoute(initialRoute, {show: true})}
       />
     </View>
   );
 }
 export default Onboard
-//
-//
+
+
 //
 // const mapStateToProps = (state, ownProps) => {
 //
 //   return {
 //     ...ownProps,
 //     user: state.user,
-//     fbUser: state.fbUser,
-//     auth: state.auth,
-//     loggedIn,
-//     exnavigation: state.exnavigation,
-//     savedCredentials: state.auth.savedCredentials,
+//     permissions: state.permissions,
 //   }
 // }
 //

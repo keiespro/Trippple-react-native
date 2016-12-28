@@ -127,7 +127,7 @@ class App extends React.Component{
         {iOS && <DeepLinkHandler />}
 
         { this.props.onboarded ? <AppNav/> :
-            this.props.loggedIn ? <Onboard /> :
+            this.props.loggedIn ? <Onboard user={this.props.user} permissions={this.props.permissions}/> :
               <Welcome dispatch={this.props.dispatch}/>
         }
 

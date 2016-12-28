@@ -15,7 +15,7 @@ const __TEST__ = global.__TEST__ || false;
 
 const Firelytics = RNFB.Analytics;
 
-if (!__DEV__){
+if(!__DEV__){
   global.console.log = () => {}
   global.console.warn = () => {}
 }
@@ -23,12 +23,12 @@ if (!__DEV__){
 class Analytics{
 
   constructor(){
-    if (!__TEST__){
+    if(!__DEV__ && !__TEST__){
       GoogleAnalytics.setTrackerId('UA-49096214-2');
       GoogleAnalytics.allowIDFA(false);
     }
-    if (__DEBUG__ || __TEST__) {
-      // Firelytics.setEnabled(false);
+    if(__DEBUG__ || __TEST__) {
+      Firelytics.setEnabled(false);
     }
   }
 
@@ -37,30 +37,22 @@ class Analytics{
   }
 
   identifyUser(user){
-    console.log(user);
-    if (!user || !user.id) return;
+
+    if(!user || !user.id) return;
     // if(!this.userid){
       //  if(!Settings.get(HAS_IDENTITY)){
       // }
     // }
     // __DEV__ && console.log(`Analytics -> Indentified user #${user.id}`);
-    if (!__DEV__ && !__TEST__){
+    if(!__DEV__ && !__TEST__){
       Firelytics.setUserId(`${user.id}`);
-
       GoogleAnalytics.setUser(`${user.id}`);
       RNMixpanel.identify(`${user.id}`);
-      RNMixpanel.registerSuperProperties({
-        Gender: user.gender,
-        'User Type': user.relationship_status
-      });
+      // RNMixpanel.registerSuperProperties({
+      //   Gender: user.gender,
+      //   'User Type': user.relationship_status
+      // });
       this.setFullIdentityOnce(user)
-
-
-      Object.keys(user).forEach(k => {
-        if (typeof user[k] != 'object'){
-          Firelytics.setUserProperty(k, `${user[k]}`);
-        }
-      });
     }
   }
 
@@ -91,7 +83,7 @@ class Analytics{
   setUserProperties(propsToTag){
     // MIXPANEL: assign user extra properties which can help identify them
 
-    if (!propsToTag || typeof propsToTag != 'object' || !Object.keys(propsToTag).length){ return }
+    if(!propsToTag || typeof propsToTag != 'object' || !Object.keys(propsToTag).length){ return }
 
     // Object.keys(propsToTag).map(k => RNMixpanel.set(k,propsToTag[k]));
     // RNMixpanel.set(propsToTag)
@@ -100,26 +92,18 @@ class Analytics{
   increment(prop, amount) {
     // MIXPANEL: track numeric values which are associated with a user
 
-    if (!prop || !amount){ return false }
+    if(!prop || !amount){ return false }
 
     RNMixpanel.increment(prop, amount);
   }
 
   event(eventName, eventData = {}){
-    if (__TEST__ || !GoogleAnalytics) return false;
+    if(__TEST__ || !GoogleAnalytics) return false;
 
     const action = eventData.action || eventData.type || undefined;
     const label = eventData.label || eventData.name || undefined;
     const value = eventData.value || eventData.val || undefined;
-    if (!label){
-      console.log('LABEL NULL');
-    }
-    if (!action){
-      console.log('action NULL');
-    }
-    if (!value){
-      console.log('VALUE NULL');
-    }
+
     __DEV__ && console.log(`Event: ${eventName}`, 'EventData:', ...eventData)
 
     Firelytics.logEvent(eventName, eventData);
@@ -130,26 +114,25 @@ class Analytics{
   }
 
   screen(screen){
-    if (__TEST__ || !GoogleAnalytics || !screen) return false;
+    if(__TEST__ || !GoogleAnalytics || !screen) return false;
 
-    // __DEV__ && console.log(`Screen: ${screen}`)
     GoogleAnalytics.trackScreenView(screen);
     Mixpanel.track(`Screen ${screen}`);
   }
 
   extra(eventName, eventData = {}){
-    if (__TEST__ || !GoogleAnalytics) return false;
+    if(__TEST__ || !GoogleAnalytics) return false;
 
     const action = eventData.action || eventData.type || undefined;
     const label = eventData.label || eventData.name || undefined;
     const value = eventData.value || eventData.val || undefined;
-    if (!label){
+    if(__DEV__ && !label){
       console.log('LABEL NULL');
     }
-    if (!action){
+    if(__DEV__ && !action){
       console.log('action NULL');
     }
-    if (!value){
+    if(__DEV__ && !value){
       console.log('VALUE NULL');
     }
     __DEV__ && console.log(`Event: ${eventName}`, 'EventData:', ...eventData)
@@ -158,7 +141,7 @@ class Analytics{
   }
 
   err(error){
-    if (!error || (error && error.error && !Object.keys(error.error).length) || (error && !Object.keys(error).length)){
+    if(!error || (error && error.error && !Object.keys(error.error).length) || (error && !Object.keys(error).length)){
       return;
     }
     __DEV__ && console.log('ERROR:', error)
@@ -172,16 +155,6 @@ class Analytics{
 
   log(){
     __DEV__ && console.log('LOG:', {...arguments})
-  }
-
-  all(){
-    // console.log('<Log>')
-
-//     window && window.__SHOW_ALL && __DEV__ && __DEBUG__ && [...arguments].map((arg,i)=>{
-//       console.log('<Log> ', arg)
-//     })
-    // console.log('</Log>')
-
   }
 
   timeEvent(event, data){
