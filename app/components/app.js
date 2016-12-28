@@ -17,7 +17,7 @@ import Notifications from '../utils/Notifications';
 import colors from '../utils/colors'
 import Analytics from '../utils/Analytics'
 import ActionMan from '../actions/';
-import NagManager from '../NagManager'
+import Onboard from './Onboard'
 import DeepLinkHandler from '../utils/DeepLinkHandler'
 import '../fire'
 
@@ -62,7 +62,7 @@ class App extends React.Component{
     }
   }
 
-  componentDidUpdate(pProps,pState){
+  componentDidUpdate(pProps, pState){
     if(this.state.initialized && !pState.initialized){
       SplashScreen.hide();
       this.props.dispatch(ActionMan.setHotlineUser(this.props.user))
@@ -80,22 +80,22 @@ class App extends React.Component{
 
   performInitActions(){
 
-      const initActions = [
-        // 'getUserInfo',
-        'getPotentials',
-        // 'getMatches',
-        // 'getNewMatches',
+    const initActions = [
+      'getUserInfo',
+      'getPotentials',
+      'getMatches',
+      'getNewMatches',
         // 'getNotificationCount',
-      ];
-      const {permissions} = this.props;
+    ];
+    const {permissions} = this.props;
 
-      if(permissions.location){
-        initActions.push('getLocation')
-      }
-      if(permissions.notifications){
-        initActions.push('getPushToken')
-      }
-      RC.getValue('init_actions')
+    if(permissions.location){
+      initActions.push('getLocation')
+    }
+    if(permissions.notifications){
+      initActions.push('getPushToken')
+    }
+    RC.getValue('init_actions')
         .then(actions => {
 
           __DEV__ && console.log('init_actions', actions);
@@ -122,11 +122,14 @@ class App extends React.Component{
 
         <AppState dispatch={this.props.dispatch}/>
 
-        {this.props.nag && <NagManager/>}
+        {/* {this.props.nag && <NagManager/>} */}
 
         {iOS && <DeepLinkHandler />}
 
-        { this.props.loggedIn ? <AppNav/> : <Welcome dispatch={this.props.dispatch}/> }
+        { this.props.onboarded ? <AppNav/> :
+            this.props.loggedIn ? <Onboard /> :
+              <Welcome dispatch={this.props.dispatch}/>
+        }
 
         <ModalDirector />
 
@@ -138,14 +141,17 @@ class App extends React.Component{
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const loggedIn = state.auth.api_key && state.auth.user_id;
+  const onboarded = state.user.relationship_status && state.permissions.notifications && state.permissions.location;
+
   return {
     ...ownProps,
-    nag: state.nag,
+    onboarded: loggedIn && onboarded,
     user: state.user,
     fbUser: state.fbUser,
     auth: state.auth,
     ui: {...state.ui, matchInfo: state.matches[state.ui.chat ? state.ui.chat.match_id : null]},
-    loggedIn: state.auth.api_key && state.auth.user_id,
+    loggedIn,
     push_token: state.device.push_token,
     exnavigation: state.exnavigation,
     savedCredentials: state.auth.savedCredentials,

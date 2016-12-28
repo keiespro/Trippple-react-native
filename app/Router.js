@@ -3,7 +3,7 @@ import FBAlbumView from './components/FBAlbumView'
 import FBPhotoAlbums from './components/FBPhotoAlbums'
 import UserProfile from './components/UserProfile'
 import FieldModal from './components/modals/FieldModal'
-import OnboardModal from './components/modals/OnboardModal'
+import Onboard from './components/Onboard'
 import FacebookImageSource from './components/screens/FacebookImageSource'
 import GenericScreen from './components/screens/Generic'
 import WebViewScreen from './components/screens/WebViewScreen'
@@ -42,7 +42,7 @@ export default createRouter(() => ({
   FBAlbumView: () => FBAlbumView,
   Generic: ()=> GenericScreen,
   Coupling: () => Coupling,
-  OnboardModal: () => OnboardModal,
+  // Onboard: () => Onboard,
   JoinCouple: () => JoinCouple,
   EnterCouplePin: () => EnterCouplePin,
   CouplePin: () => CouplePin,

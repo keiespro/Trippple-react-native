@@ -14,7 +14,7 @@ import createPrefetcher from './rn-redux-image-prefetch'
 const logger = createLogger({
   diff: true,
   level: 'debug',
-  collapsed: (s, action) => (!global.__DEBUG__ || action.type.indexOf('PENDING') > -1)
+  collapsed: true
 });
 
 const middlewares = [
@@ -59,7 +59,7 @@ function configureStore(initialState = ({})) {
       );
 
     persistStore(store, {
-      storage: AsyncStorage, blacklist: ['navigation', 'appNav', 'ui', 'potentials']
+      storage: AsyncStorage, blacklist: [ 'ui']
     })
     // .purge(['navigation','appNav'])
   //   storage: AsyncStorage, blacklist: ['ui', 'potentials']

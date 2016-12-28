@@ -9,13 +9,18 @@ import colors from '../../utils/colors';
 const Selectable = ({selected, onPress, isLast, label, field, underlayColor, moreStyle = {flexGrow:-1} }) => (
   <TouchableHighlight
     underlayColor={underlayColor || colors.dark}
-    style={[styles.paddedSpace,{ flexGrow:1,}]}
     onPress={() => onPress(field)}
+    style={[
+      isLast && { borderBottomWidth: 0 },
+      moreStyle,
+    ]}
   >
     <View
-      style={[styles.insideSelectable, styles.formRow, isLast && {
-        borderBottomWidth: 0,
-      }, moreStyle]}
+      style={[
+      moreStyle, {
+        paddingHorizontal:10
+      }
+     ]}
     >
       <Text
         style={{
@@ -24,10 +29,16 @@ const Selectable = ({selected, onPress, isLast, label, field, underlayColor, mor
           fontFamily: 'montserrat'
         }}
       >{label}</Text>
-      {selected ? <Image
-        style={{height: 30, width: 30}}
-        source={require('./assets/ovalSelected@3x.png')}
-      /> :
+
+      {selected ? (
+        <Image
+          style={{
+            height: 30,
+            width: 30
+          }}
+          source={require('./assets/ovalSelected@3x.png')}
+        />
+      ) : (
         <View
           style={{
             height: 30,
@@ -38,8 +49,7 @@ const Selectable = ({selected, onPress, isLast, label, field, underlayColor, mor
             borderRadius: 15
           }}
         />
-          }
-
+      )}
     </View>
   </TouchableHighlight>
 )

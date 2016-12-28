@@ -58,7 +58,7 @@ export default class Coupling extends Component{
   render(){
     return (
       <View>
-        <NavigationProvider context={context} router={couplingRouter}>
+        <NavigationProvider router={couplingRouter}>
           <StackNavigation
             id="coupling"
             defaultRouteConfig={{

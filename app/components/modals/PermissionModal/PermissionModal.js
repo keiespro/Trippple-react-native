@@ -2,16 +2,13 @@ import {StyleSheet, AppState, Text, Image, Linking, Platform, View, Dimensions, 
 
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux'
-
 import colors from '../../../utils/colors'
-
 import BlurModal from '../BlurModal'
 import styles from '../purpleModalStyles'
 import BoxyButton from '../../controls/boxyButton'
 import ActionMan from '../../../actions'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import Button from '../../Btn'
-
 
 const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height
@@ -36,10 +33,7 @@ class PermissionsModal extends Component{
     buttonText: 'YES',
     isPersistant: false,
     imageSource: require('../assets/iconModalDenied@3x.png'),
-    onSuccess(){
-      this.props.closeModal && this.props.closeModal()
-    }
-  };
+   };
 
   componentDidMount(){
     this.checkPermission()
@@ -237,12 +231,12 @@ class PermissionsModal extends Component{
                   marginVertical: 10,
                   flexDirection: 'row',
                   alignSelf: 'stretch',
-                  flex: 1,
+                  flexGrow: 1,
                   alignItems: 'stretch'
                 }}
                 onPress={this.finish.bind(this)}
               >
-                <View style={[styles.cancelButton, {backgroundColor: 'transparent', alignItems: 'stretch', alignSelf: 'stretch', flexDirection: 'row'}]} >
+                <View style={[styles.cancelButton, {backgroundColor: 'transparent',flexGrow:1, alignItems: 'stretch', alignSelf: 'stretch', flexDirection: 'row'}]} >
                   <Text
                     style={[{
                       color: colors.shuttleGray,
@@ -261,12 +255,12 @@ class PermissionsModal extends Component{
                   paddingHorizontal: 10,
                   marginVertical: 10,
                   alignSelf: 'stretch',
-                  flex: 1,
+                  flexGrow: 1,
                   alignItems: 'stretch'
                 }}
                 onPress={this.cancel.bind(this)}
               >
-                <View style={[styles.cancelButton, {backgroundColor: 'transparent', flex: 1, alignItems: 'stretch', alignSelf: 'stretch'}]} >
+                <View style={[styles.cancelButton, {backgroundColor: 'transparent', flexGrow: 1, alignItems: 'stretch', alignSelf: 'stretch'}]} >
                   <Text
                     style={[{
                       color: colors.shuttleGray,

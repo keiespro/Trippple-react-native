@@ -1,6 +1,6 @@
 import { PermissionsAndroid, Platform } from 'react-native'
 import Promise from 'bluebird'
-import OSPermissions from '../../../lib/OSPermissions/ospermissions'
+import Permissions from 'react-native-permissions'
 
 const askLocation = Promise.promisify(global.navigator.geolocation.getCurrentPosition)
 
@@ -8,13 +8,14 @@ export default {checkLocationPermission, requestLocationPermission}
 
 export const checkLocationPermission = () => dispatch => dispatch({ type: 'CHECK_LOCATION_PERMISSION',
   payload: new Promise((resolve, reject) => {
+    console.log('checkLocationPermission',Platform.select(check));
     Platform.select(check)()
       .then(permission => {
-        dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})
+        // dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})
         resolve(permission)
       })
       .catch(err => {
-        dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_OFF'})
+        // dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_OFF'})
         reject(err)
       })
   }),
@@ -68,16 +69,11 @@ const request = {
 
 const check = {
   async ios(){
+
     try{
-      const permission = await OSPermissions.canUseLocation()
-      if(parseInt(permission) > 2) {
-        return 'true'
-      }else if(parseInt(permission) === 0) {
-        // console.log('no permission, must ask')
-        return 'unknown'
-      }else{
-        return 'denied'
-      }
+      const permission = await Permissions.getPermissionStatus('location')
+      console.log(permission);
+
     }catch(err){
       // __DEV__ && console.warn(err);
       throw new Error(err)

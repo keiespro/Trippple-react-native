@@ -9,6 +9,8 @@ import Selectable from '../controls/Selectable'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {BlurView, VibrancyView} from 'react-native-blur';
+import {connect} from 'react-redux'
+import OnboardRouter from '../Onboard'
 import {MagicNumbers} from '../../utils/DeviceConfig';
 const PickerItem = Picker.Item;
 const TOP_DISTANCE = DeviceHeight - 160;
@@ -109,11 +111,12 @@ class OnboardModal extends Component {
   handleContinue() {
     if(this.state.selected_relationship_status == 'single') {
       this.onboardUser()
+      this.props.navigator.push(OnboardRouter.getRoute('LocationPermissions', {}))
     }else{
-      this.props.navigator.push(this.props.navigation.router.getRoute('JoinCouple', {
+      this.props.navigator.push(OnboardRouter.getRoute('JoinCouple', {
         ...this.state
       }))
-      this.props.dispatch(ActionMan.killModal())
+
     }
   }
 
@@ -156,14 +159,16 @@ class OnboardModal extends Component {
         style={{
           width: DeviceWidth,
           height: DeviceHeight,
+          backgroundColor: colors.outerSpace,
           position:'absolute',
-          top:0
+          top:0,
+
         }}
       >
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
-            height: DeviceHeight + 10,
+            height: DeviceHeight ,
             backgroundColor: colors.outerSpace
           }}
           style={[
@@ -178,10 +183,7 @@ class OnboardModal extends Component {
         >
           <View
             style={[styles.col, {
-              width: DeviceWidth,
-              height: DeviceHeight,
-              backgroundColor: colors.outerSpace20,
-              flexGrow:0,
+              flexGrow:1,
               top:0,
             }]}
           >
@@ -198,7 +200,7 @@ class OnboardModal extends Component {
 
                 <View
                   style={{
-                    top: this.state.step == 0 ? -50 : -300,
+                    top: this.state.step == 0 ? -50 : -90,
                     position: 'absolute',
                     width: DeviceWidth,
                     justifyContent: 'center',
@@ -406,6 +408,9 @@ class OnboardModal extends Component {
                 {this.state.step == 2 && this.state.selected_ours && them_choices[this.state.selected_relationship_status].map((item, i) => {
                   return (
                       <Selectable
+                        moreStyle={{
+                          width:DeviceWidth, height: 60, flex:0,  overflow:'hidden', flexDirection:'row',alignItems:'center',justifyContent:'space-between',
+                        }}
                         selected={this.state.selected_theirs[item.value]}
                         key={`${item.label.trim()}k`}
                         underlayColor={colors.dark}
@@ -431,4 +436,17 @@ class OnboardModal extends Component {
 }
 
 OnboardModal.displayName = 'OnboardModal';
-export default OnboardModal;
+
+const mapStateToProps = (state, ownProps) => {
+
+  return {
+    ...ownProps,
+    user: state.user,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)((OnboardModal));
