@@ -7,7 +7,7 @@ class NotificationsPermissionsModal extends React.Component{
   static route = {
     styles: NavigationStyles.SlideVertical,
     navigationBar: {
-      visible:false,
+      visible: false,
 
     }
   };
@@ -27,7 +27,7 @@ class NotificationsPermissionsModal extends React.Component{
         permissionKey={'notifications'}
         buttonText={'GET NOTIFICATIONS'}
         permissionLabel={'Notifications'}
-        imageSource={featuredImage || require('./assets/iconModalDenied@3x.png')}
+        imageSource={featuredImage || require('./assets/icon.png')}
 
       />
     )
