@@ -60,10 +60,8 @@ export default class CoupleSuccess extends React.Component{
 
   render(){
     return (
-      <View style={{height: DeviceHeight,flexGrow:1,
-        backgroundColor:'red',top:0,position:'absolute',
-        width: DeviceWidth,flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-      <ScrollView contentContainerStyle={[{ backgroundColor: colors.outerSpace, width: DeviceWidth, height: DeviceHeight, flexDirection: 'column', justifyContent: 'center', flex: 1, top: 0 }]} >
+      <View style={{flexGrow: 1,  backgroundColor: colors.outerSpace}}>
+      <ScrollView contentContainerStyle={[{ backgroundColor: colors.outerSpace, width: DeviceWidth, height: DeviceHeight, flexDirection: 'column', justifyContent: 'center', flexGrow: 1, top: 0 }]} >
 
         <Text style={[styles.rowtext, styles.bigtext, { textAlign: 'center', fontFamily: 'montserrat', fontWeight: '800', fontSize: 20, color: '#fff', marginVertical: 10 }]}>
           SUCCESS

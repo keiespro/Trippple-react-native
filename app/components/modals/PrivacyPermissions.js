@@ -3,9 +3,9 @@ import { Platform, } from 'react-native';
 
 import PermissionModal from './PermissionModal/PermissionModal'
 
-const PrivacyPermissionsModal = ({success}) => (
+const PrivacyPermissionsModal = ({success,isModal=null}) => (
   <PermissionModal
-    isModal={this.props.isModal}
+    isModal={isModal}
     title={'PRIVACY'}
     subtitle={'Hide from your Facebook Friends and Phone Contacts'}
     isPersistant

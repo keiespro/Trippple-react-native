@@ -66,7 +66,7 @@ class FacebookLogin extends Component{
               alignItems: 'center',
               flexDirection: 'row',
               justifyContent: 'space-around',
-              // backgroundColor:'red',
+              // 
               paddingHorizontal:0,
               alignSelf: 'stretch',
             }}>

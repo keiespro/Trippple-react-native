@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		0CED86D71A7E420E9BD5239D /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D862AAAEA1C4EC48684FF18 /* Octicons.ttf */; };
 		20A23F24D7E14481AA223BF4 /* libReactNativePermissions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7124F88BCF3F48369E422ECF /* libReactNativePermissions.a */; };
@@ -100,7 +101,6 @@
 		ACD0259C1DF9B84500667044 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ACD0259B1DF9B84500667044 /* GoogleService-Info.plist */; };
 		ACDCC39B1DBFADD700A3540E /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACDCC39A1DBFADCF00A3540E /* libRNKeychain.a */; };
 		ACDF39131CE80BB100DE839B /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		ACFFF9AF1DB1B1D60074F749 /* libRCTOSPermissions copy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC94E1C51D750CFB00861F01 /* libRCTOSPermissions copy.a */; };
 		B08E5FB4D0304C5BB7E8C898 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 971849C0FFD843EA833E7631 /* MaterialIcons.ttf */; };
 		EC5F6678416941118F51F367 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 80D4BC3737CD42A5B528A986 /* EvilIcons.ttf */; };
 		ED2EBF1DBBD94F0083F71EA2 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 632C6E68D0DA42D7BD7B8D1D /* libRNVectorIcons.a */; };
@@ -288,13 +288,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = A68BD7BC1BC31318005F02DF;
 			remoteInfo = RNBlur;
-		};
-		AC94E1C41D750CFB00861F01 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AC94E1C01D750CFB00861F01 /* RCTOSPermissions.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = ACBB1ED41C0502B600A63B9C;
-			remoteInfo = "RCTOSPermissions copy";
 		};
 		AC9D8D361D3F34FF009D4C78 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -520,7 +513,6 @@
 		AC7F1C0C1D35E63A00D3B511 /* Mixpanel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mixpanel.framework; path = "Build/Products/Debug-iphonesimulator/Mixpanel-framework/Mixpanel.framework"; sourceTree = "<group>"; };
 		AC7F1CEF1D35FD1400D3B511 /* libPods-TripppleUITests.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-TripppleUITests.a"; path = "Build/Products/Debug-iphonesimulator/libPods-TripppleUITests.a"; sourceTree = "<group>"; };
 		AC94E19C1D74F94A00861F01 /* RNBlur.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNBlur.xcodeproj; path = "../node_modules/react-native-blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; };
-		AC94E1C01D750CFB00861F01 /* RCTOSPermissions.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTOSPermissions.xcodeproj; path = ../lib/OSPermissions/RCTOSPermissions.xcodeproj; sourceTree = "<group>"; };
 		AC9D8D311D3F34FF009D4C78 /* TripppleSnapshotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripppleSnapshotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC9D8D351D3F34FF009D4C78 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACA521741CA2981E007B9F71 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Build/Products/Debug-iphonesimulator/libPods.a"; sourceTree = "<group>"; };
@@ -595,7 +587,6 @@
 				ACC518F21DC22329000A422B /* libGTMSessionFetcher.a in Frameworks */,
 				ACDCC39B1DBFADD700A3540E /* libRNKeychain.a in Frameworks */,
 				AC5ECD911DCCC29B00810C69 /* libRNFIRMessaging.a in Frameworks */,
-				ACFFF9AF1DB1B1D60074F749 /* libRCTOSPermissions copy.a in Frameworks */,
 				AC94E1BF1D74F94F00861F01 /* libRNBlur.a in Frameworks */,
 				ACBEA7AF1D71565700F684A1 /* libRCTWebSocket.a in Frameworks */,
 				AC3C4BD81D48482000A1EC73 /* libRCTFBSDK.a in Frameworks */,
@@ -739,7 +730,6 @@
 				ACDCC3951DBFADCF00A3540E /* RNKeychain.xcodeproj */,
 				AC677F661DBB1CA700408226 /* Firebase.xcodeproj */,
 				AC677ED91DBB09B200408226 /* RNFIRMessaging.xcodeproj */,
-				AC94E1C01D750CFB00861F01 /* RCTOSPermissions.xcodeproj */,
 				AC94E19C1D74F94A00861F01 /* RNBlur.xcodeproj */,
 				AC3C4BB31D48481A00A1EC73 /* RCTFBSDK.xcodeproj */,
 				AC758B241CF853D800A6A9C0 /* RCTContacts.xcodeproj */,
@@ -987,14 +977,6 @@
 			isa = PBXGroup;
 			children = (
 				AC94E1B41D74F94B00861F01 /* libRNBlur.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		AC94E1C11D750CFB00861F01 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AC94E1C51D750CFB00861F01 /* libRCTOSPermissions copy.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1286,10 +1268,6 @@
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
 				},
 				{
-					ProductGroup = AC94E1C11D750CFB00861F01 /* Products */;
-					ProjectRef = AC94E1C01D750CFB00861F01 /* RCTOSPermissions.xcodeproj */;
-				},
-				{
 					ProductGroup = AC758A7D1CF6B07B00A6A9C0 /* Products */;
 					ProjectRef = AC758A7C1CF6B07B00A6A9C0 /* RCTPushNotification.xcodeproj */;
 				},
@@ -1567,13 +1545,6 @@
 			fileType = archive.ar;
 			path = libRNBlur.a;
 			remoteRef = AC94E1B31D74F94B00861F01 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AC94E1C51D750CFB00861F01 /* libRCTOSPermissions copy.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libRCTOSPermissions copy.a";
-			remoteRef = AC94E1C41D750CFB00861F01 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		ACA80C761CE862CF0081A99F /* libRCTTest.a */ = {

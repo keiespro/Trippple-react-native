@@ -100,7 +100,7 @@ class App extends React.Component{
     ];
     const {permissions} = this.props;
 
-    if(permissions.location){
+    if(permissions.location && permissions.location != 'undetermined'){
       initActions.push('getLocation')
     }
     if(permissions.notifications){

@@ -151,10 +151,7 @@ class CouplePin extends React.Component{
 
   renderSuccess(){
     return (
-      <View style={{height: DeviceHeight,flexGrow:1,
-        backgroundColor:'red',top:0,position:'absolute',
-        width: DeviceWidth,flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-
+      <View style={{flexGrow: 1,  backgroundColor: colors.outerSpace}}>
         <Animated.View
           style={{
             width: DeviceWidth,
@@ -298,6 +295,10 @@ class CouplePin extends React.Component{
   }
   render(){
     return (
+      <View style={{height: DeviceHeight,flexGrow:1,
+    top:0,position:'absolute',
+    width: DeviceWidth,flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+
       <ScrollView>
         { this.state.success ? this.renderSuccess() : this.renderMain() }
         <View style={{width: 100, height: 20, left: 10, top: 0, flex: 1, position: 'absolute', alignSelf: 'flex-start', zIndex: 9999}}>
@@ -311,6 +312,8 @@ class CouplePin extends React.Component{
 
 
       </ScrollView>
+    </View>
+
     )
   }
 }

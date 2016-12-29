@@ -59,7 +59,7 @@ class Coupling extends Component{
   render(){
     return (
       <View style={{height: DeviceHeight,flexGrow:1,
-        backgroundColor:'red',top:0,position:'absolute',
+        top:0,position:'absolute',
         width: DeviceWidth,flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
 
           <StackNavigation

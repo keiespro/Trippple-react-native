@@ -18,6 +18,9 @@ import colors from '../../../utils/colors';
 import styles from '../potentials/styles';
 import Router from '../../../Router'
 
+const DeviceHeight = Dimensions.get('window').height
+
+
 import {MagicNumbers} from '../../../utils/DeviceConfig';
 import {SlideHorizontalIOS, FloatHorizontal} from '../../../ExNavigationStylesCustom'
 
@@ -95,6 +98,18 @@ class NoPartner extends React.Component{
 
   render(){
     return (
+      <View
+        style={{
+          height: DeviceHeight,flexGrow:1,
+          top:0,
+          position:'absolute',
+          backgroundColor:colors.outerSpace,
+          width: DeviceWidth,
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+
       <ScrollView>
         <View style={{left: 0}}>
           <View
@@ -229,6 +244,7 @@ class NoPartner extends React.Component{
           </TouchableOpacity>
         </View>
       </ScrollView>
+    </View>
     )
   }
  }

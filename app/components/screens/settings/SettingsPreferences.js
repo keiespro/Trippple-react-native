@@ -222,14 +222,14 @@ export default connect(mapStateToProps, mapDispatchToProps)(SettingsPreferences)
 
 const defaultStyles = StyleSheet.create({
   selectable: {
-    width: DeviceWidth-20,
+    width: DeviceWidth-25,
     height: 60,
     flexGrow:0,
     overflow:'hidden',
     flexDirection:'row',
     alignItems:'center',
     alignSelf:'center',
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: 0,
     justifyContent:'space-between',
     backgroundColor:'transparent',
     paddingHorizontal: 10

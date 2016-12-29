@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    // backgroundColor:'red',
+    // 
     alignSelf: 'stretch',
     width: undefined
   },

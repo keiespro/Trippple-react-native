@@ -45,22 +45,22 @@ const ChatBubble = (props) => {
         <View style={[styles.row]}>
           <View
             style={{
-              flexDirection:'column',
-              alignItems:isMessageOurs ? 'flex-end' : 'flex-start',
+              flexDirection: 'column',
+              alignItems: isMessageOurs ? 'flex-end' : 'flex-start',
               alignSelf: 'stretch',
-              flexGrow:1,
-              justifyContent:'center',
+              flexGrow: 0,
+              justifyContent: 'center',
               backgroundColor: props.messageData.ephemeral && __DEV__ ? colors.sushi : 'transparent'
             }}
           >
             <View
               style={{
                 alignSelf: isMessageOurs ? 'flex-end' : 'flex-start',
-                justifyContent:'center',
-                alignItems:'center',
-                maxWidth:MagicNumbers.screenWidth,
-                backgroundColor:'transparent',
-                flexDirection:'row'
+                justifyContent: 'center',
+                alignItems: 'center',
+                maxWidth: MagicNumbers.screenWidth,
+                backgroundColor: 'transparent',
+                flexDirection: 'row'
               }}
             >
 

@@ -78,9 +78,7 @@ class CoupleReady extends React.Component{
 
   render(){
     return this.props.user && this.props.user.partner ? (
-      <View style={{height: DeviceHeight,flexGrow:1,
-        backgroundColor:'red',top:0,position:'absolute',
-        width: DeviceWidth,flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+      <View style={{flexGrow: 1,  backgroundColor: colors.outerSpace}}>
       <ScrollView
         contentContainerStyle={[{
           width: DeviceWidth,
