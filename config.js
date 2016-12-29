@@ -7,7 +7,7 @@
 // global.SERVER_ENV = SERVER_ENV || 'staging';
 //
 const SERVER_ENV = 'production'
-global.__DEV__ = true;
+global.__DEV__ = false;
 global.__DEBUG__ = false;
 global.__TEST__ = false;
 // __DEV__ = true;

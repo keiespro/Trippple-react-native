@@ -1,4 +1,10 @@
 source "https://rubygems.org"
 
-gem "fastlane", '1.111.0'
-gem 'cocoapods'
+gem "fastlane"
+gem "gym"
+gem "match"
+gem "cert"
+gem "pilot"
+gem "deliver"
+gem "sigh"
+gem "cocoapods"
