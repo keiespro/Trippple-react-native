@@ -9,6 +9,7 @@ import android.support.multidex.MultiDex;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.facebook.react.ReactApplication;
+import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
 import com.kevinejohn.RNMixpanel.RNMixpanel;
 import co.trippple.RNHotline.RNHotline;
 import com.davecoates.rnfirebasebridge.FirebaseBridgePackage;
@@ -57,6 +58,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativePermissionsPackage(),
             new RNMixpanel(),
             new RNHotline(),
             new FirebaseBridgePackage(),

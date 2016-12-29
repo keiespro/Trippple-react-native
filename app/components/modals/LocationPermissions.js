@@ -28,6 +28,7 @@ class LocationPermissionsModal extends React.Component{
         onSuccess={() => {
           this.props.navigator.push(OnboardRouter.getRoute('NotificationsPermissions', {}))
         }}
+        onNoThanks={{type: 'KILL_MODAL', payload: true}}
         permissionLabel={'Location'}
         closeModal={() => {
           this.props.navigator.push(OnboardRouter.getRoute('NotificationsPermissions', {}))

@@ -29,17 +29,24 @@ const styles = StyleSheet.create({
    flexDirection: 'column',
    alignSelf: 'stretch',
   },
-
- bubble: {
+  bubbleWrap: {
+    flexDirection: 'column',
+    alignSelf: 'stretch',
+    flexGrow:10,
+    backgroundColor:'yellow'
+  },
+  bubble: {
    borderRadius:10,
    padding: 10,
    paddingHorizontal: 20,
    paddingVertical:15,
    marginTop:10,
-   marginBottom:5,
+   marginBottom:10,
    flexDirection: 'column',
    maxWidth:DeviceWidth-100,
    flexWrap:'wrap',
+   flexGrow:1,
+   minHeight:20
  },
  row:{
    flexDirection: 'row',
@@ -48,26 +55,27 @@ const styles = StyleSheet.create({
    marginHorizontal: 10,
 
  },
- col:{
+ col: {
    flexDirection: 'column',
-
+   flexGrow:1,
    alignSelf:'stretch',
    alignItems:'stretch',
    justifyContent:'space-around',
 
  },
- theirMessage:{
+ theirMessage: {
    backgroundColor: colors.mediumPurple,
    marginRight: MagicNumbers.is4s ? 0 : 10,
-   alignSelf:'flex-start',
+   alignSelf: 'flex-start',
+   flexGrow:1
 
  },
- ourMessage:
- {
+ ourMessage: {
    // marginLeft: MagicNumbers.is4s ? 0 : 10,
    backgroundColor: colors.dark,
+   right:0,
+   justifyContent:'center',
    alignSelf:'flex-end',
-
  },
  messageTitle: {
    fontFamily: 'montserrat',
@@ -80,7 +88,7 @@ const styles = StyleSheet.create({
    flexDirection:'column',
    alignItems:'flex-end',
    alignSelf:'stretch',
-   flex:1,
+   flexGrow:1,
    backgroundColor: colors.dark,
 
    position:'relative',

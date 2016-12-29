@@ -193,7 +193,7 @@ const api = {
   },
 
   updatePushToken({push_token}): Promise{
-    return authenticatedRequest('update', { fcm_token: push_token, device: DeviceInfo.get() })
+    return authenticatedRequest('update', { fcm_token: push_token, ...DeviceInfo.get() })
   },
 
   disableAccount(): Promise{

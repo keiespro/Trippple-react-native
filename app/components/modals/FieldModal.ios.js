@@ -161,7 +161,7 @@ class FieldModal extends React.Component{
       payload[`${this.props.forPartner ? 'partner_' : ''}${this.props.fieldName}`] = v;
       this.props.updateOutside && this.props.updateOutside(v)
       this.props.dispatch(ActionMan.updateUser(payload))
-      this.props.cancel && this.props.cancel() || this.props.kill()
+      this.props.cancel && this.props.cancel() || this.props.kill && this.props.kill()
 
     }else if(this.props.field.field_type == 'phone_input'){
       // this.props.navigator.push({

@@ -42,24 +42,23 @@ const ChatBubble = (props) => {
 
     return (
       <View style={[styles.col]} shouldRasterizeIOS={true}>
-        <View style={[styles.row]}>
+        <View style={[styles.row,{alignItems: isMessageOurs ? 'flex-end' : 'flex-start',}]}>
           <View
             style={{
               flexDirection: 'column',
+              flexGrow:1,
               alignItems: isMessageOurs ? 'flex-end' : 'flex-start',
-              alignSelf: 'stretch',
-              flexGrow: 0,
-              justifyContent: 'center',
-              backgroundColor: props.messageData.ephemeral && __DEV__ ? colors.sushi : 'transparent'
+              alignSelf:  isMessageOurs ? 'flex-end' : 'flex-start',
+              justifyContent: 'space-between',
             }}
           >
             <View
               style={{
+                flexGrow:10,
                 alignSelf: isMessageOurs ? 'flex-end' : 'flex-start',
-                justifyContent: 'center',
+                justifyContent:isMessageOurs ? 'flex-end' : 'flex-start',
                 alignItems: 'center',
                 maxWidth: MagicNumbers.screenWidth,
-                backgroundColor: 'transparent',
                 flexDirection: 'row'
               }}
             >
@@ -82,14 +81,16 @@ const ChatBubble = (props) => {
               /> : null
             }
 
-            <View style={[styles.bubble,(isMessageOurs ? styles.ourMessage : styles.theirMessage)]}>
+            {isMessageOurs ? <View style={{flexGrow:10}}/> : null}
 
-              <Text
+            <View style={[styles.bubble,{ },(isMessageOurs ? styles.ourMessage : styles.theirMessage)]}>
+
+              {!isMessageOurs && <Text
                 style={[styles.messageText, styles.messageTitle, {
                   color: isMessageOurs ? colors.shuttleGray : colors.lavender,
-                  fontFamily:'montserrat'
+                  fontFamily:'montserrat',
                 }]}
-              >{ props.messageData.from_user_info.name.toUpperCase() }</Text>
+              >{ props.messageData.from_user_info.name.toUpperCase() }</Text>}
 
               <Text
                 style={[styles.messageText,{
@@ -103,6 +104,7 @@ const ChatBubble = (props) => {
               >{ props.text }</Text>
 
             </View>
+            {!isMessageOurs ? <View style={{flexGrow:10}}/> : null}
 
             {isMessageOurs ?
               <Image

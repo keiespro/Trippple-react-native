@@ -560,7 +560,6 @@
 		ACDCC3951DBFADCF00A3540E /* RNKeychain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNKeychain.xcodeproj; path = "../node_modules/react-native-keychain/RNKeychain.xcodeproj"; sourceTree = "<group>"; };
 		ACEB23C41CA32702007C426B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		ACFDE3971E13CEC700459E52 /* Trippple.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Trippple.entitlements; path = Trippple/Trippple.entitlements; sourceTree = "<group>"; };
-		ACFDE3981E13D0D200459E52 /* Trippple-updated.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "Trippple-updated.entitlements"; path = "Trippple/Trippple-updated.entitlements"; sourceTree = "<group>"; };
 		D188754C5E604C688A23A189 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		F776E04495314BB591AEA78A /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		FC0B0860A2C01DA7CDE0FEB0 /* Pods-Trippple.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trippple.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trippple/Pods-Trippple.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1058,7 +1057,6 @@
 			isa = PBXGroup;
 			children = (
 				ACFDE3971E13CEC700459E52 /* Trippple.entitlements */,
-				ACFDE3981E13D0D200459E52 /* Trippple-updated.entitlements */,
 				ACD0259B1DF9B84500667044 /* GoogleService-Info.plist */,
 				AC55AD6C1CFE73B600326ED9 /* T3Theme.plist */,
 				ACC7E0441C5A579A0087476F /* assets */,

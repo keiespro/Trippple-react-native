@@ -23,22 +23,22 @@ export const getLocation = () => dispatch => dispatch({ type: 'GET_LOCATION',
   },
 });
 
- //
-// export const checkLocation = () => dispatch => dispatch({ type: 'CHECK_LOCATION',
-//   payload: new Promise((resolve, reject) => {
-//
-//     OSPermissions.canUseLocation()
-//     .then(OSLocation => {
-//       const perm = iOS ? parseInt(OSLocation) > 2 : OSLocation;
-//       if(perm) {
-//         dispatch(getLocation());
-//         resolve()
-//       }else if(iOS && parseInt(OSLocation) === 0) {
-//         console.log('no permission, must ask')
-//         reject()
-//       }else{
-//         reject(new Error('nopermission'));
-//       }
-//     });
-//   }),
-// });
+
+export const checkLocation = () => dispatch => dispatch({ type: 'CHECK_LOCATION',
+  payload: new Promise((resolve, reject) => {
+
+    OSPermissions.canUseLocation()
+    .then(OSLocation => {
+      const perm = iOS ? parseInt(OSLocation) > 2 : OSLocation;
+      if(perm) {
+        dispatch(getLocation());
+        resolve()
+      }else if(iOS && parseInt(OSLocation) === 0) {
+        console.log('no permission, must ask')
+        reject()
+      }else{
+        reject(new Error('nopermission'));
+      }
+    });
+  }),
+});

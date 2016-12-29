@@ -86,11 +86,14 @@ class PermissionsModal extends Component{
     this.props.onSuccess && this.props.onSuccess()
     this.finish()
   }
-  finish(){
-    this.props.isModal && this.props.closeModal()
 
+  finish(){
+    this.props.isModal && this.props.closeModal && this.props.closeModal()
   }
+
   cancel(){
+    this.props.dispatch(this.props.onNoThanks)
+
     if(this.props.permissionKey == 'location'){
       this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_OFF'})
     }

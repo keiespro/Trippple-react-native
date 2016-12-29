@@ -21,14 +21,14 @@ class NotificationsPermissionsModal extends React.Component{
     return (
       <PermissionModal
         isModal={this.props.isModal}
-        title={'NOTIFICATIONS'}
-        subtitle={''}
+        title={'GET NOTIFIED'}
+        subtitle={'app/components/modals/assets/icon'}
         isPersistant
         permissionKey={'notifications'}
-        buttonText={'GET NOTIFICATIONS'}
+        buttonText={'YES, ALERT ME'}
         permissionLabel={'Notifications'}
         imageSource={featuredImage || require('./assets/icon.png')}
-
+        onNoThanks={{type: 'KILL_MODAL', payload: true}}
       />
     )
   }

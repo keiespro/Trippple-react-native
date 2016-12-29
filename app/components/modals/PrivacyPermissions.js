@@ -11,6 +11,7 @@ const PrivacyPermissionsModal = ({success,isModal=null}) => (
     isPersistant
     permissionKey={'contacts'}
     onSuccess={() => {success && success()}}
+    onNoThanks={{type: 'KILL_MODAL', payload: true}}
     buttonText={'HIDE FROM CONTACTS'}
     permissionLabel={'Contacts'}
     imageSource={require('./assets/iconModalPrivacy@3x.png')}
