@@ -2,7 +2,7 @@
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation'
 import React, { Component } from 'react'
 import reactMixin from 'react-mixin'
-import { View, Alert, AsyncStorage, AppState, PushNotificationIOS, VibrationIOS } from 'react-native'
+import { View, Alert, AsyncStorage, AppState, PushNotificationIOS, VibrationIOS, Statusbar } from 'react-native'
 import { connect } from 'react-redux'
 import TimerMixin from 'react-timer-mixin'
 import Notification from './NotificationTop'
@@ -38,6 +38,7 @@ class NotificationDisplayer extends Component {
 
     return (
       <View>
+
         {notifications[0] &&
           <Notification
             user={this.props.user}

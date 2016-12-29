@@ -141,7 +141,7 @@ class UserProfile extends React.Component {
         }]}
         onLayout={this.onLayout.bind(this)}
       >
-        {/* <StatusBar animated hidden /> */}
+        <StatusBar animated={true} barStyle="light-content" hidden={true} />
 
         <ParallaxSwiper
           contentContainerStyle={[{

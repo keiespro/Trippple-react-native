@@ -181,7 +181,7 @@ class FieldModal extends React.Component{
       payload[`${this.props.forPartner ? 'partner_' : ''}${this.props.fieldName}`] = this.state.value;
       this.props.updateOutside && this.props.updateOutside(this.state.value)
       this.props.dispatch(ActionMan.updateUser(payload))
-      this.props.cancel && this.props.cancel() || this.props.kill()
+      this.props.cancel && this.props.cancel() || this.props.kill && this.props.kill()
     }
   }
 
