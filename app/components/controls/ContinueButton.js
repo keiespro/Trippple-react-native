@@ -19,6 +19,7 @@ class ContinueButton extends Component{
   static defaultProps = {
     canContinue: false
   };
+
   constructor(props){
     super();
 
@@ -26,8 +27,8 @@ class ContinueButton extends Component{
       submitting: false,
       yVal: new Animated.Value(0)
     }
-
   }
+  
   componentWillReceiveProps(nProps){
     if(nProps.canContinue != this.props.canContinue){
       Animated.timing(this.state.yVal, {
@@ -54,6 +55,7 @@ class ContinueButton extends Component{
           backgroundColor: this.props.canContinue ? colors.brightPurple : 'transparent',
           position: this.props.absoluteContinue ? 'absolute' : null,
           left: 0,
+          opacity: this.state.yVal,
           transform: [
             {
               translateY: this.state.yVal.interpolate({

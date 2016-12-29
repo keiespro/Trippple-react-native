@@ -14,6 +14,7 @@ import CoupleSuccess from './CoupleSuccess';
 import NoPartner from './NoPartner';
 
 import EnterCouplePin from './EnterCouplePin';
+import {connect} from 'react-redux'
 
 import JoinCouple from './JoinCouple';
 
@@ -27,11 +28,11 @@ const couplingRouter = createRouter(() => ({
   CoupleSuccess: () => CoupleSuccess,
   NoPartner: () => NoPartner,
   EnterCouplePin: () => EnterCouplePin,
-  JoinCouple: () => JoinCouple
+  // JoinCouple: () => JoinCouple
 }))
 
 @withNavigation
-export default class Coupling extends Component{
+class Coupling extends Component{
 
   static route = {
     navigationBar: {
@@ -57,8 +58,10 @@ export default class Coupling extends Component{
 
   render(){
     return (
-      <View>
-        <NavigationProvider router={couplingRouter}>
+      <View style={{height: DeviceHeight,flexGrow:1,
+        backgroundColor:'red',top:0,position:'absolute',
+        width: DeviceWidth,flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+
           <StackNavigation
             id="coupling"
             defaultRouteConfig={{
@@ -78,11 +81,25 @@ export default class Coupling extends Component{
               // }
               },
             }}
-            initialRoute={couplingRouter.getRoute('JoinCouple', {show: true})}
+            initialRoute={couplingRouter.getRoute('CouplePin', {show: true})}
           />
-        </NavigationProvider>
       </View>
     )
   }
 
 }
+
+
+const mapStateToProps = (state, ownProps) => {
+
+  return {
+    ...ownProps,
+    user: state.user,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)((Coupling));

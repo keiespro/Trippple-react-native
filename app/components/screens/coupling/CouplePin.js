@@ -50,7 +50,7 @@ class CouplePin extends React.Component{
         borderBottomWidth: 0,
       },
       title(params){
-        return 'JOIN COUPLE'
+        return 'COUPLE'
       }
     },
     sceneStyle: {
@@ -151,7 +151,9 @@ class CouplePin extends React.Component{
 
   renderSuccess(){
     return (
-      <View style={{height: DeviceHeight, flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+      <View style={{height: DeviceHeight,flexGrow:1,
+        backgroundColor:'red',top:0,position:'absolute',
+        width: DeviceWidth,flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
 
         <Animated.View
           style={{

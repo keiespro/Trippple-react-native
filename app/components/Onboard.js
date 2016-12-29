@@ -33,14 +33,32 @@ const Onboard = (props) => {
   let initialRoute;
   if(!props.user.relationship_status){
     initialRoute = 'OnboardModal'
-  }else if(!props.permissions.location){
-    initialRoute = 'LocationPermissions'
-  }else if(!props.permissions.notifications){
-    initialRoute = 'NotificationsPermissions'
-  }else{
-    initialRoute = 'OnboardModal'
-  }
+  }else if(props.user.relationship_status){
 
+    if(props.user.relationship_status == 'single'){
+      if(!props.permissions.location){
+        initialRoute = 'LocationPermissions'
+      }else if(!props.permissions.notifications){
+        initialRoute = 'NotificationsPermissions'
+      }else{
+        initialRoute = 'OnboardModal'
+      }
+    }else if(props.user.relationship_status == 'couple'){
+      if(props.user.partner_id){
+        if(!props.permissions.location){
+          initialRoute = 'LocationPermissions'
+        }else if(!props.permissions.notifications){
+          initialRoute = 'NotificationsPermissions'
+        }else{
+          initialRoute = 'OnboardModal'
+        }
+      }else{
+        initialRoute = 'JoinCouple'
+      }
+    }
+
+
+  }
   return (
     <View>
       <FadeInContainer duration={800} delay={2600}>

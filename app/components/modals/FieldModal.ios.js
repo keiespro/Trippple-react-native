@@ -184,13 +184,12 @@ class FieldModal extends React.Component{
       this.props.cancel && this.props.cancel() || this.props.kill()
     }
   }
+
   onChangeDate(d){
     this.setState({
-      canContinue:true,
+      canContinue: strue,
       birthday: d
     })
-
-
 
   }
 

@@ -168,8 +168,8 @@ class EnterCouplePin extends React.Component{
     const couple = this.props.couple;
 
     return (
-      <View style={{flex:1, backgroundColor: colors.outerSpace}}>
-        <KeyboardAvoidingView behavior={'padding'} style={{height:DeviceHeight}}>
+      <View style={{flexGrow: 1,  backgroundColor: colors.outerSpace}}>
+        <KeyboardAvoidingView behavior={'padding'} style={{height:DeviceHeight, backgroundColor: colors.outerSpace}}>
           <View style={{flex: 1, }}
           contentContainerStyle={[{  flex: 1,  alignItems:'stretch'}]} >
 

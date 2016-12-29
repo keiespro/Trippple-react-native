@@ -18,7 +18,7 @@ const DeviceWidth = Dimensions.get('window').width;
 class SettingsSettings extends React.Component{
 
   static route = {
-    styles: iOS ? SlideHorizontalIOS : FloatHorizontal,
+    styles: NavigationStyles.SlideHorizontal,// iOS ? SlideHorizontalIOS : FloatHorizontal,
     sceneStyle:{
 
     },

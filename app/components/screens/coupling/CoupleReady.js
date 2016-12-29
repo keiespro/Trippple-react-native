@@ -78,6 +78,9 @@ class CoupleReady extends React.Component{
 
   render(){
     return this.props.user && this.props.user.partner ? (
+      <View style={{height: DeviceHeight,flexGrow:1,
+        backgroundColor:'red',top:0,position:'absolute',
+        width: DeviceWidth,flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
       <ScrollView
         contentContainerStyle={[{
           width: DeviceWidth,
@@ -192,7 +195,21 @@ class CoupleReady extends React.Component{
         </TouchableHighlight>
 
       </ScrollView>
+    </View>
     ) : (
+    <View
+      style={{
+        height: DeviceHeight,
+        flexGrow: 1,
+        backgroundColor: 'red',
+        top: 0,
+        position: 'absolute',
+        width: DeviceWidth,
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
+    >
       <ScrollView
         contentContainerStyle={[{
           backgroundColor: colors.outerSpace,
@@ -216,6 +233,7 @@ class CoupleReady extends React.Component{
           Connecting couple...
         </Text>
       </ScrollView>
+    </View>
     )
   }
 }
