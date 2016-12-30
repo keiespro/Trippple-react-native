@@ -26,7 +26,7 @@ class NotificationCommander extends Component{
     this.notificationUnsubscribe = FCM.on('notification', (notification, ...x) => {
       __DEV__ && console.log('NOTIFICATION:', notification, x);
       handleAction(notification, x)
-      Analytics.event('Handle push notification', {action: JSON.stringify(notification)})
+      Analytics.event('handle_push_notification', {action: JSON.stringify(notification)})
     });
 
     this.refreshUnsubscribe = FCM.on('refreshToken', token => {

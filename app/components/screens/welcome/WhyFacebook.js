@@ -22,7 +22,7 @@ class WhyFacebook extends Component {
 
   render() {
     return (
-      <ScrollView style={{ width: DeviceWidth, height: DeviceHeight, backgroundColor: colors.transparent, padding: MagicNumbers.screenPadding}}>
+      <ScrollView style={{ width: DeviceWidth, height: DeviceHeight, backgroundColor: colors.outerSpace, padding: MagicNumbers.screenPadding}}>
         <View style={{flexDirection: 'column', justifyContent: 'space-around', height: DeviceHeight - 50, flex: 1}}>
           <Text style={[styles.allText, styles.titleText, {textAlign: 'center', marginTop: 20}]}>WHY FACEBOOK?</Text>
           <View>

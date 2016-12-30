@@ -60,25 +60,30 @@ class CoupleReady extends React.Component{
   componentDidMount(){
     this.props.dispatch({type: 'CLEAR_POTENTIALS'})
   }
+
   popToTop(){
     // if(this.props.navigator){
     //   this.props.navigator.pop()
     // }
 
-
+    if(this.props.closeModal){
+      this.props.closeModal()
+    }
     if(this.props.hideModal){
       this.props.hideModal()
     }
     if(this.props.close){
       this.props.close()
     }
-
-    this.props.navigator.popToTop()
+    if(this.props.kill){
+      this.props.kill()
+    }
+    this.props.navigator && this.props.navigator.popToTop()
   }
 
   render(){
     return this.props.user && this.props.user.partner ? (
-      <View style={{flexGrow: 1,  backgroundColor: colors.outerSpace}}>
+      <View style={{flexGrow: 1, backgroundColor: colors.outerSpace}}>
       <ScrollView
         contentContainerStyle={[{
           width: DeviceWidth,
@@ -194,12 +199,12 @@ class CoupleReady extends React.Component{
 
       </ScrollView>
     </View>
-    ) : (
+  ) : (
     <View
       style={{
         height: DeviceHeight,
         flexGrow: 1,
-        backgroundColor: 'red',
+        backgroundColor: colors.outerSpace,
         top: 0,
         position: 'absolute',
         width: DeviceWidth,
@@ -210,7 +215,6 @@ class CoupleReady extends React.Component{
     >
       <ScrollView
         contentContainerStyle={[{
-          backgroundColor: colors.outerSpace,
           width: DeviceWidth,
           height: DeviceHeight,
           flexDirection: 'column',
@@ -240,6 +244,7 @@ class CoupleReady extends React.Component{
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
   user: state.user,
+  partner: state.user.partner,
   couple: state.app.coupling
 })
 const mapDispatchToProps = (dispatch) => ({ dispatch });

@@ -205,7 +205,7 @@ class Notification extends React.Component{
         styles[noti]
         ]}
       >
-        {/* <StatusBar animated={true} barStyle="light-content" hidden={true} /> */}
+        <StatusBar animated barStyle="light-content" hidden />
 
         {noti.indexOf('message') > -1 ?
           <View style={[styles.notificationOverlay, styles.notificationNewMessage]}>
