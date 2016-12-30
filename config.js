@@ -9,8 +9,13 @@
 const SERVER_ENV = 'production'
 global.__DEV__ = false;
 global.__DEBUG__ = false;
+__DEBUG__ = false;
+global.__DEV__ = false;
+__DEV__ = false
 global.__TEST__ = false;
-// __DEV__ = true;
+
+
+
 const defaultConfig = {
   INVITE_FRIENDS_APP_LINK: 'https://fb.me/656380827843911'
 }
