@@ -67,7 +67,7 @@ class PermissionsModal extends Component{
 
   checkPermission(){
     this.props.dispatch(ActionMan[`check${this.props.permissionLabel}Permission`](),{});
-    this.setState({opened:true})
+    this.setState({opened: true})
 
   }
 
@@ -192,7 +192,7 @@ class PermissionsModal extends Component{
 
   render(){
     return (
-      <BlurModal backgroundColor={this.props.isModal ? 'transparent' : colors.mediumPurple20}>
+      <BlurModal backgroundColor={this.props.isModal ? 'transparent' : colors.outerSpace}>
         <View style={[styles.col, {}]}>
 
           {this.props.hasPermission == 'denied' ? this.renderFailed() :
@@ -216,17 +216,17 @@ class PermissionsModal extends Component{
                 style={[styles.rowtext, styles.bigtext, {
                   fontFamily: 'montserrat',
                   fontWeight: '800',
-                  fontSize: 20,
+                  fontSize: 22,
                   marginVertical: 0
                 }]}
               >{this.props.title}</Text>
 
               <Text
                 style={[styles.rowtext, styles.bigtext, {
-                  fontSize: 18,
+                  fontSize: 22,
                   marginVertical: 10,
                   color: colors.white,
-                  marginHorizontal: 10
+                  marginHorizontal: 30
                 }]}
               >{this.props.subtitle}</Text>
 
@@ -339,11 +339,12 @@ const ModalButton = ({btnText, onTap, loading}) => (
       }}
       color={colors.mediumPurple}
     >
-      <View style={{paddingHorizontal:30,}}>
+      <View style={{paddingHorizontal:50,}}>
         <Text
           style={{
             color: colors.white,
             textAlign: 'center',
+            fontSize: 18,
             fontFamily: 'montserrat',
             fontWeight: '800'
           }}

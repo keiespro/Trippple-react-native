@@ -23,7 +23,7 @@ class LocationPermissionsModal extends React.Component{
       <PermissionModal
         {...this.props}
         title={'LOCATION'}
-        subtitle={'We’ve found some matches we think you might like. Should we prioritize the matches nearest to you?'}
+        subtitle={'Should we prioritize the matches nearest to you?'}
         permissionKey={'location'}
         buttonText={'USE MY LOCATION'}
         nextOnboardScreen={() => {

@@ -34,7 +34,7 @@ export default class NoMessages extends React.Component{
     this.setState({isKeyboardOpened: true})
 
   }
-  getThumbSize(top=false){
+  getThumbSize(top = false){
 
     const size = MagicNumbers.is4s ? SIZES.small : SIZES.big;
     const isKeyboardOpened = this.state.isKeyboardOpened;
@@ -44,7 +44,7 @@ export default class NoMessages extends React.Component{
       height: isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
       borderRadius: isKeyboardOpened ? size.dimensions.open / 2 : size.dimensions.closed / 2,
       marginVertical: isKeyboardOpened ? size.margin.open : size.margin.closed,
-      top: top ? ( isKeyboardOpened ? 20 : 0 ) : 0
+      top: top ? ( isKeyboardOpened ? 0 : 0 ) : 0
     }
   }
 
@@ -88,7 +88,7 @@ export default class NoMessages extends React.Component{
               </View>
               </View>
               </FadeInContainer>
-      
+
     )
   }
 }

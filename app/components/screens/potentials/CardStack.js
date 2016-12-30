@@ -285,7 +285,7 @@ class CardStack extends React.Component {
 
         <View style={{ width: DeviceWidth, }} pointerEvents={'box-none'} />
 
-        { iOS && potentials && potentials.length >= 1 && potentials[1] &&
+        {/* { iOS && potentials && potentials.length >= 1 && potentials[1] &&
           <Animated.View
             style={[{
               alignSelf: 'center',
@@ -312,7 +312,6 @@ class CardStack extends React.Component {
               user={user}
               key={`${potentials[1].id || potentials[1].user.id}-activecard`}
               rel={user.relationship_status}
-              isTopCard={false}
               pan={this.state.pan}
               animatedIn={this.state.animatedIn}
               profileVisible={false}
@@ -320,7 +319,7 @@ class CardStack extends React.Component {
               potential={potentials[1]}
             />
           </Animated.View>
-        }
+        } */}
 
         { potentials && potentials[0] &&
           <Animated.View

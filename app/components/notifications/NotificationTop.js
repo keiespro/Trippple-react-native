@@ -174,10 +174,12 @@ class Notification extends React.Component{
     const users = notification.users || {}
     let from_user_info
     let image_url
+
     if(noti.indexOf('match') > -1){
       myPartnerId = user.partner_id || null;
       theirIds = Object.keys(users).filter((u) => u != user.id && u != user.partner_id);
       them = theirIds.map((id) => users[id]);
+
       threadName = them.map(u => u.firstname).join(' & ');
       matchName = threadName + (theirIds.length > 1 ? ' like ' : ' likes ');
     }else if(noti.indexOf('message') > -1){
@@ -243,7 +245,7 @@ class Notification extends React.Component{
         }
 
         {noti.indexOf('match') > -1 ?
-          <View style={[styles.notificationOverlay]}>
+          <View style={[styles.notificationOverlay, styles.match]}>
             <TouchableOpacity onPress={this.tapNotification.bind(this)}>
               <View style={styles.notificationInside}>
                 <View style={styles.notificationLeft}>

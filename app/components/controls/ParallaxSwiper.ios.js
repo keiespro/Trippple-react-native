@@ -123,6 +123,7 @@ class ParallaxSwiper extends React.Component{
     return (
       <Animated.View
         pointerEvents={'none'}
+        key={this.props.potentialkey}
 
         style={[styles.background, {
           // elevation: 0,
@@ -140,8 +141,8 @@ class ParallaxSwiper extends React.Component{
           position: 'absolute',
           top: 0,
           borderRadius: 11,
-          backgroundColor: iOS && this.props.isTopCard && typeof this.props.pan != 'undefined' ? this.props.pan.x.interpolate({
-            inputRange: [-300, -180, -150, 0, 150, 180, 300],
+          backgroundColor: iOS && typeof this.props.pan != 'undefined' ? this.props.pan.x.interpolate({
+            inputRange: [-300, -280, -250, 0, 250, 280, 300],
             outputRange: [
               'rgb(232,74,107)',
               'rgb(232,74,107)',
@@ -155,7 +156,6 @@ class ParallaxSwiper extends React.Component{
         }]}
       >
         <View
-          onLayout={this.props.doOnLayout}
           pointerEvents={'box-none'}
           style={{
             flex: 1,
@@ -168,7 +168,6 @@ class ParallaxSwiper extends React.Component{
             isTopCard={isTopCard}
             horizontal
             pan={this.props.pan.x}
-            key={this.props.potentialkey}
             dispatch={this.props.dispatch}
             scrollEnabled={this.props.profileVisible}
             profileVisible={this.props.profileVisible}
