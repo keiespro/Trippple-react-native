@@ -120,14 +120,11 @@
 {
 
   NSURL *sourceURL;
-//  NSLog(@"%s",getenv("RELEASE"));
-//  if(getenv("RELEASE"))s
-   sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-//  }else{
-    // [[RCTBundleURLProvider sharedSettings] setEnableDev:YES];
-    // [[RCTBundleURLProvider sharedSettings] setJsLocation:@"x.local"];
-    // sourceURL = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:@"main"];
-//   }
+#ifdef DEBUG
+  sourceURL = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
+#else
+  sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+#endif
   return sourceURL;
 }
 
