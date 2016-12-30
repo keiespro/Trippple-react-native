@@ -57,21 +57,7 @@ export default class NoMessages extends React.Component{
       chatTitle = them.reduce((acc, u, i) => { return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ' & ' : '') }, '');
     const match_user = them[0] || {};
     return (
-      <ScrollView
-        {...this.props}
-        contentContainerStyle={{backgroundColor: colors.outerSpace, height:DeviceHeight-70,width: DeviceWidth, }}
-        automaticallyAdjustContentInsets
-        scrollEnabled={false}
-        key={`scrollnomsgs${this.props.user.id}`}
-        removeClippedSubviews
-        style={{ alignSelf: 'stretch', width: DeviceWidth, flexGrow: 1, height:DeviceHeight-70,}}
-      >
-      <KeyboardAvoidingView
-        style={{flexGrow:10,flex:10,alignSelf:'stretch',flexDirection:'column',top:0,bottom:0,position:'relative',}}
-        contentContainerStyle={{alignSelf:'stretch',flexGrow:10}}
-        keyboardVerticalOffset={-180}
 
-        behavior={'padding'}>
         <FadeInContainer delayAmount={1000} duration={1000}>
         <View style={{flexDirection: 'column', justifyContent: 'center', top: 0, alignItems: 'center', alignSelf: 'stretch',  paddingBottom: 0,flexGrow:10,flex:10}}>
 
@@ -102,15 +88,7 @@ export default class NoMessages extends React.Component{
               </View>
               </View>
               </FadeInContainer>
-            <MessageComposer
-              textInputValue={this.props.textInputValue}
-              onTextInputChange={this.props.onTextInputChange}
-              sendMessage={this.props.sendMessage}
-            />
-
-
-        </KeyboardAvoidingView>
-      </ScrollView>
+      
     )
   }
 }

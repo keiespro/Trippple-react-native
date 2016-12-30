@@ -150,7 +150,7 @@ class ChatInside extends Component{
     const them = theirIds.map((id) => matchInfo.users[id]);
     const chatTitle = them.reduce((acc, u, i) => { return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ' & ' : '') }, '');
 
-    return this.props.messages && this.props.messages.length > 0 ? (
+    return  (
 
 
       <View
@@ -165,7 +165,7 @@ class ChatInside extends Component{
         }}
 
       >
-
+      {this.props.messages && this.props.messages.length > 0 ? (
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this._renderRow.bind(this)}
@@ -189,6 +189,16 @@ class ChatInside extends Component{
             />
           )}
         />
+      ) : (
+
+        <NoMessages
+          {...this.props}
+          textInputValue={this.state.textInputValue}
+          onTextInputChange={this.onTextInputChange.bind(this)}
+          sendMessage={this.sendMessage.bind(this)}
+          isKeyboardOpened={this.state.isKeyboardOpened}
+        />
+      )}
         <View
           style={{}}
         >
@@ -199,15 +209,7 @@ class ChatInside extends Component{
           />
         </View>
       </View>
-                    ) : (
 
-                      <NoMessages
-                        {...this.props}
-                        textInputValue={this.state.textInputValue}
-                        onTextInputChange={this.onTextInputChange.bind(this)}
-                        sendMessage={this.sendMessage.bind(this)}
-                        isKeyboardOpened={this.state.isKeyboardOpened}
-                      />
 
     )
   }

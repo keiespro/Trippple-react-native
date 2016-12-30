@@ -37,7 +37,6 @@ const purpleModalStyles = StyleSheet.create({
     textAlign: 'center'
   },
   nothankstext: {
-    color: colors.shuttleGray,
     fontFamily: 'montserrat',
     marginVertical: 10,
     fontSize: 18,

@@ -7,7 +7,7 @@ const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
-const BlurModal = ({children}) => (
+const BlurModal = ({children, backgroundColor = 'transparent'}) => (
 
   <View
     style={{flexGrow: 1}}
@@ -16,8 +16,11 @@ const BlurModal = ({children}) => (
 
 
     <ScrollView
+
       showsVerticalScrollIndicator={false}
-      style={localstyles.modalscroll}
+      style={[localstyles.modalscroll,{
+        backgroundColor
+      }]}
       contentContainerStyle={localstyles.modalscrollcontainer}
     >
       {children}
@@ -43,8 +46,8 @@ const localstyles = StyleSheet.create({
   },
   modalscroll: {
     // padding: 0,
-    // width: DeviceWidth,
-    // height:DeviceHeight,
+    width: DeviceWidth,
+    height:DeviceHeight,
 
     flexGrow: 1,
     position: 'absolute'
@@ -52,9 +55,12 @@ const localstyles = StyleSheet.create({
   modalscrollcontainer: {
     // justifyContent:'center',
     flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
     width: DeviceWidth,
-    height:DeviceHeight-23,
-
+    height: DeviceHeight,
+    // position:'absolute'
     // alignItems:'center',
     // height:DeviceHeight,width:DeviceWidth
   }

@@ -1,7 +1,10 @@
 import React from 'react';
+import {connect} from 'react-redux'
+import {NavigationStyles, withNavigation} from '@exponent/ex-navigation'
 import PermissionModal from './PermissionModal/PermissionModal'
-import {NavigationStyles} from '@exponent/ex-navigation'
+import {OnboardRouter} from '../Onboard'
 
+@withNavigation
 class NotificationsPermissionsModal extends React.Component{
 
   static route = {
@@ -11,7 +14,9 @@ class NotificationsPermissionsModal extends React.Component{
 
     }
   };
-
+  nextOnboardScreen(){
+    this.props.navigator.push(OnboardRouter.getRoute('Finish', {}))
+  }
   render(){
     const {relevantUser} = this.props;
     const featuredUser = relevantUser && relevantUser.user ? relevantUser.user : relevantUser || {};
@@ -22,16 +27,29 @@ class NotificationsPermissionsModal extends React.Component{
       <PermissionModal
         isModal={this.props.isModal}
         title={'GET NOTIFIED'}
-        subtitle={'app/components/modals/assets/icon'}
-        isPersistant
+        subtitle={'Would you like to be notified of new matches and messages?'}
         permissionKey={'notifications'}
         buttonText={'YES, ALERT ME'}
         permissionLabel={'Notifications'}
+        onSuccess={()=>{this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_ON'})}}
         imageSource={featuredImage || require('./assets/icon.png')}
-        onNoThanks={{type: 'KILL_MODAL', payload: true}}
+        nextOnboardScreen={this.nextOnboardScreen.bind(this)}
       />
     )
   }
 }
 
-export default NotificationsPermissionsModal
+
+const mapStateToProps = (state, ownProps) => {
+
+  return {
+    ...ownProps,
+    user: state.user,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)((NotificationsPermissionsModal));

@@ -43,7 +43,7 @@ const middlewares = [
 ]
 
 function configureStore(initialState = ({})) {
-  if (global.__DEV__) {
+  if(global.__DEV__) {
     const store = createNavigationEnabledStore(createStore)(
         createReducer(),
         initialState,
@@ -88,7 +88,7 @@ function configureStore(initialState = ({})) {
     );
     persistStore(store, {
       storage: AsyncStorage,
-      blacklist: ['navigation', 'ui', 'potentials', 'appNav']
+      blacklist: ['navigation', 'ui']
     })
     return store
   }

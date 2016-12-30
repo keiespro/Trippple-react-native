@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Image} from 'react-native';
-import PermissionModal from './PermissionModal/PermissionModal'
 import {connect} from 'react-redux'
-import {withNavigation,NavigationStyles} from '@exponent/ex-navigation'
+import {withNavigation, NavigationStyles} from '@exponent/ex-navigation'
+import PermissionModal from './PermissionModal/PermissionModal'
 import {OnboardRouter} from '../Onboard'
 
 @withNavigation
@@ -16,6 +16,7 @@ class LocationPermissionsModal extends React.Component{
     }
   };
 
+
   render(){
     return (
 
@@ -25,15 +26,15 @@ class LocationPermissionsModal extends React.Component{
         subtitle={'We’ve found some matches we think you might like. Should we prioritize the matches nearest to you?'}
         permissionKey={'location'}
         buttonText={'USE MY LOCATION'}
-        onSuccess={() => {
-          this.props.navigator.push(OnboardRouter.getRoute('NotificationsPermissions', {}))
+        nextOnboardScreen={() => {
+          if(!this.props.permissions.notifications){
+            this.props.navigator.push(OnboardRouter.getRoute('NotificationsPermissions', {}))
+          }else{
+            this.props.navigator.push(OnboardRouter.getRoute('finish', {}))
+          }
         }}
-        onNoThanks={{type: 'KILL_MODAL', payload: true}}
         permissionLabel={'Location'}
-        closeModal={() => {
-          this.props.navigator.push(OnboardRouter.getRoute('NotificationsPermissions', {}))
-
-        }}
+        onSuccess={()=>{this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})}}
         renderImage={() => (
           <View
             style={{
@@ -85,6 +86,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
     user: state.user,
+    permissions: state.permissions
   }
 }
 

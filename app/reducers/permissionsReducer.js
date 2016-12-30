@@ -17,6 +17,10 @@ export default function permissionsReducer(state = initialState, action) {
       return {...state, contacts: action.payload || true }
 
 
+    case 'SET_PERMISSION_SOFT_DENY':
+      return {...state, [action.payload.permission]: 'soft-denied' }
+
+
     default:
 
       return state;

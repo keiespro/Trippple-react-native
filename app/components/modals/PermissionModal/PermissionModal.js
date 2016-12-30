@@ -49,7 +49,7 @@ class PermissionsModal extends Component{
   }
 
   componentWillReceiveProps(nProps){
-    if(nProps.hasPermission && !this.props.isPersistant){
+    if(nProps.hasPermission && !this.props.hasPermission && this.state.opened && !this.props.isPersistant){
       this.success()
 
     }
@@ -67,6 +67,8 @@ class PermissionsModal extends Component{
 
   checkPermission(){
     this.props.dispatch(ActionMan[`check${this.props.permissionLabel}Permission`](),{});
+    this.setState({opened:true})
+
   }
 
   openSettings(){
@@ -88,11 +90,17 @@ class PermissionsModal extends Component{
   }
 
   finish(){
-    this.props.isModal && this.props.closeModal && this.props.closeModal()
+    if(this.props.isModal){
+      this.props.closeModal ? this.props.closeModal() : this.props.dispatch({type: 'KILL_MODAL', payload: true})
+    }else{
+      this.props.nextOnboardScreen && this.props.nextOnboardScreen()
+    }
   }
 
   cancel(){
-    this.props.dispatch(this.props.onNoThanks)
+    this.props.dispatch({type: 'SET_PERMISSION_SOFT_DENY', payload: {
+      permission: this.props.permissionKey
+    }})
 
     if(this.props.permissionKey == 'location'){
       this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_OFF'})
@@ -100,12 +108,14 @@ class PermissionsModal extends Component{
     if(this.props.permissionKey == 'contacts'){
       this.props.dispatch({type: 'CHECK_CONTACTS_PERMISSION_FULFILLED', payload: false})
     }
-
+    if(this.props.permissionKey == 'notifications'){
+      this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_OFF'})
+    }
     this.finish()
   }
   renderFailed(){
     return (
-      <View style={{flexGrow:1}}>
+      <View style={{flexGrow:1,alignItems: 'center',}}>
         <View style={{alignItems: 'center',flexGrow:1}}>
           <Image
             resizeMode={Image.resizeMode.contain}
@@ -151,7 +161,7 @@ class PermissionsModal extends Component{
       <BoxyButton
         text={buttonText}
         buttonText={buttonStyles.buttonText}
-        underlayColor={colors.darkGreenBlue}
+        underlayColor={colors.white}
         innerWrapStyles={[buttonStyles.innerWrapStyles, {overflow: 'hidden'}]}
         stopLoading={hasPermission}
         leftBoxStyles={buttonStyles.grayIconbuttonLeftBox}
@@ -166,7 +176,7 @@ class PermissionsModal extends Component{
           /> :
             <View
               style={{
-                backgroundColor: colors.darkGreenBlue40, height: 20, width: 20, borderRadius: 10, alignSelf: 'center'
+                backgroundColor: colors.white40, height: 20, width: 20, borderRadius: 10, alignSelf: 'center'
               }}
             />
         }
@@ -182,11 +192,12 @@ class PermissionsModal extends Component{
 
   render(){
     return (
-      <BlurModal>
-        <View style={[styles.col, {height: DeviceHeight, width: DeviceWidth, padding: 20, justifyContent: 'space-between' }]}>
+      <BlurModal backgroundColor={this.props.isModal ? 'transparent' : colors.mediumPurple20}>
+        <View style={[styles.col, {}]}>
 
           {this.props.hasPermission == 'denied' ? this.renderFailed() :
-            <View>
+            <View style={{flexDirection:'column', width: DeviceWidth,
+                justifyContent:'space-between',height:500,alignItems: 'center'}}>
               <View style={{alignItems: 'center'}}>
                 {this.props.renderImage ? this.props.renderImage() :
                   <Image
@@ -226,28 +237,28 @@ class PermissionsModal extends Component{
             </View>
 
           }
-          <View style={{ }} >
+          <View style={{
+            width:400,
+          }}>
 
             { this.props.hasPermission ? (
               <TouchableOpacity
                 style={{
-                  width: undefined,
                   paddingHorizontal: 10,
                   marginVertical: 10,
-                  flexDirection: 'row',
                   alignSelf: 'stretch',
                   flexGrow: 1,
-                  alignItems: 'stretch'
+                  alignItems: 'center',
+
                 }}
-                onPress={this.finish.bind(this)}
+                onPress={this.success.bind(this)}
               >
                 <View
                   style={[styles.cancelButton, {
                     backgroundColor: 'transparent',
-                    flexGrow:1,
-                    alignItems: 'stretch',
-                    alignSelf: 'stretch',
-                    flexDirection: 'row'
+                    alignSelf: 'center',
+                    flexDirection: 'row',
+
                   }]}
                 >
                   <Text
@@ -256,7 +267,7 @@ class PermissionsModal extends Component{
                       textAlign: 'center',
                       padding: 10,
                       paddingVertical: MagicNumbers.is4s ? 0 : 20,
-                      alignSelf: 'stretch'
+                      alignSelf: 'center'
                     }, styles.nothankstext
                     ]}
                   >Continue</Text>
@@ -289,7 +300,6 @@ class PermissionsModal extends Component{
           </View>
         </View>
 
-
       </BlurModal>
     )
   }
@@ -313,7 +323,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(PermissionsModal);
 
 
 const ModalButton = ({btnText, onTap, loading}) => (
-  <View>
     <Button
       onPress={onTap}
       style={{
@@ -324,11 +333,12 @@ const ModalButton = ({btnText, onTap, loading}) => (
         flexGrow: 1,
         alignSelf: 'stretch',
         paddingVertical: 15,
+        height:85,maxHeight:55,
         borderColor: colors.white,
       }}
       color={colors.dark}
     >
-      <View>
+      <View style={{paddingHorizontal:30,}}>
         <Text
           style={{
             color: colors.white,
@@ -340,7 +350,6 @@ const ModalButton = ({btnText, onTap, loading}) => (
       </View>
     </Button>
 
-  </View>
 );
 
 const buttonStyles = StyleSheet.create({

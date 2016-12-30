@@ -157,7 +157,7 @@ class PotentialsPlaceholder extends React.Component{
             </View> }
 
             {userProfileIncomplete && !this.state.loading ?
-              <View style={{flexGrow: 0,height:140,alignItems:'center',flexDirection:'column'}}>
+              <View style={{flexGrow: 0,maxHeight:115,height:115,alignItems:'center',flexDirection:'column'}}>
                 <Button
                   btnText={'COMPLETE YOUR PROFILE'}
                   labelText={'WANT MORE MATCHES?'}
@@ -168,7 +168,7 @@ class PotentialsPlaceholder extends React.Component{
             }
 
             {!userProfileIncomplete && getPotentialsButtonEnabled && !potentialsReturnedEmpty && !this.state.loading ?
-              <View style={{flexGrow: 0,height:115,alignItems:'center',flexDirection:'column'}}>
+              <View style={{flexGrow: 0,height:115,maxHeight:115,alignItems:'center',flexDirection:'column'}}>
                 <Button
                   loading={this.state.loading}
                   btnText={'GET MORE MATCHES'}
@@ -180,7 +180,7 @@ class PotentialsPlaceholder extends React.Component{
             }
 
             {!userProfileIncomplete && potentialsReturnedEmpty && (!this.state.loading) ?
-              <View style={{flexGrow: 0,height:115,alignItems:'center',flexDirection:'column'}}>
+              <View style={{flexGrow: 0,height:115,maxHeight:115,alignItems:'center',flexDirection:'column'}}>
                 <Button
                 loading={this.state.loading}
                 btnText={'ADJUST PREFERENCES'}
@@ -191,10 +191,11 @@ class PotentialsPlaceholder extends React.Component{
             }
 
             {!userProfileIncomplete && !potentialsReturnedEmpty && !getPotentialsButtonEnabled && !this.state.loading ?
-              <Button
+              <View style={{flexGrow: 0,height:115,maxHeight:115,alignItems:'center',flexDirection:'column'}}>
+                <Button
                 btnText={'INVITE FRIENDS'}
                 onTap={this.inviteFriends.bind(this)}
-              /> : null
+              /></View> : null
             }
           </Image>
         </View>

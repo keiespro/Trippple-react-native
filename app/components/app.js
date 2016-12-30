@@ -1,4 +1,4 @@
-import { StatusBar, View, Dimensions, Modal, Platform } from 'react-native';
+import { StatusBar, View, Dimensions, Text, Platform, ActivityIndicator } from 'react-native';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withNavigation} from '@exponent/ex-navigation';
@@ -138,9 +138,11 @@ class App extends React.Component{
 
         {iOS && <DeepLinkHandler />}
 
-        { this.props.onboarded ? <AppNav/> :
-            this.props.user && this.props.loggedIn ? <Onboard user={this.props.user} permissions={this.props.permissions}/> :
-              <Welcome dispatch={this.props.dispatch}/>
+        { !this.props.loadedUser ?
+            <Loading /> :
+            this.props.onboarded ? <AppNav/> :
+              this.props.user && this.props.loggedIn ? <Onboard user={this.props.user} permissions={this.props.permissions}/> :
+                <Welcome dispatch={this.props.dispatch}/>
         }
 
         <ModalDirector />
@@ -152,6 +154,16 @@ class App extends React.Component{
   }
 }
 
+const Loading = () => (
+<View
+  style={{justifyContent:'center',alignItems:'center',flexGrow:1,position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight,backgroundColor:colors.outerSpace}}>
+  <ActivityIndicator
+            size="large"
+            color={colors.white}
+            animating={true}
+            style={{}} />
+  </View>
+)
 const mapStateToProps = (state, ownProps) => {
   const loggedIn = state.auth.api_key && state.auth.user_id;
   const onboarded = state.user.relationship_status && state.permissions.notifications && state.permissions.notifications != 'undetermined' && state.permissions.location && state.permissions.location != 'undetermined';
@@ -164,6 +176,7 @@ const mapStateToProps = (state, ownProps) => {
     auth: state.auth,
     ui: {...state.ui, matchInfo: state.matches[state.ui.chat ? state.ui.chat.match_id : null]},
     loggedIn,
+    loadedUser: state.ui.loadedUser,
     push_token: state.device.push_token,
     exnavigation: state.exnavigation,
     savedCredentials: state.auth.savedCredentials,

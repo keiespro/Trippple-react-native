@@ -104,7 +104,6 @@ function customForHorizontal(props: NavigationSceneRendererProps): Object {
   });
 
   return {
-    opacity,
     transform: [
       { translateX },
       { translateY },
@@ -639,7 +638,6 @@ const Fade: ExNavigationStyles = {
 };
 
 const NoAnimation: ExNavigationStyles = {
-  ...Fade,
   configureTransition: configureNoopTransition,
 };
 

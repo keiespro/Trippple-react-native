@@ -141,12 +141,12 @@ class ParallaxSwiper extends React.Component{
           top: 0,
           borderRadius: 11,
           backgroundColor: iOS && this.props.isTopCard && typeof this.props.pan != 'undefined' ? this.props.pan.x.interpolate({
-            inputRange: [-300, -180, -50, 0, 50, 180, 300],
+            inputRange: [-300, -180, -150, 0, 150, 180, 300],
             outputRange: [
               'rgb(232,74,107)',
               'rgb(232,74,107)',
               'rgb(232,74,107)',
-              'rgb(255,255,255)',
+              'rgb(0,0,0)',
               'rgb(66,181,125)',
               'rgb(66,181,125)',
               'rgb(66,181,125)',
@@ -167,7 +167,7 @@ class ParallaxSwiper extends React.Component{
           {slides && slides.length > 1 ? <Swiper
             isTopCard={isTopCard}
             horizontal
-            pan={this.props.pan}
+            pan={this.props.pan.x}
             key={this.props.potentialkey}
             dispatch={this.props.dispatch}
             scrollEnabled={this.props.profileVisible}

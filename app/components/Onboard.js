@@ -15,6 +15,9 @@ import CoupleSuccess from './screens/coupling/CoupleSuccess';
 import {connect} from 'react-redux'
 import FadeInContainer from './FadeInContainer';
 
+const Finish = () => (
+  <View><Text>Finish</Text></View>
+)
 
 export const OnboardRouter = createRouter(() => ({
   OnboardModal: () => OnboardModal,
@@ -26,28 +29,32 @@ export const OnboardRouter = createRouter(() => ({
   CouplePin: () => CouplePin,
   CoupleSuccess: () => CoupleSuccess,
   CoupleReady: () => CoupleReady,
-  NoPartner: () => NoPartner
+  NoPartner: () => NoPartner,
+  finish: () => Finish
+
 }));
 
 const Onboard = (props) => {
   let initialRoute;
+  const notificationPermission = props.permissions.notifications && props.permissions.notifications != 'undetermined';
+  const locationPermission = props.permissions.location && props.permissions.location != 'undetermined';
   if(!props.user.relationship_status){
     initialRoute = 'OnboardModal'
   }else if(props.user.relationship_status){
 
     if(props.user.relationship_status == 'single'){
-      if(!props.permissions.location){
+      if(!locationPermission){
         initialRoute = 'LocationPermissions'
-      }else if(!props.permissions.notifications){
+      }else if(!notificationPermission){
         initialRoute = 'NotificationsPermissions'
       }else{
-        initialRoute = 'OnboardModal'
+        initialRoute = 'Finish'
       }
     }else if(props.user.relationship_status == 'couple'){
       if(props.user.partner_id){
-        if(!props.permissions.location){
+        if(!locationPermission){
           initialRoute = 'LocationPermissions'
-        }else if(!props.permissions.notifications){
+        }else if(!notificationPermission){
           initialRoute = 'NotificationsPermissions'
         }else{
           initialRoute = 'OnboardModal'

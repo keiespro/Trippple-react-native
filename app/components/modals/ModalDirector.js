@@ -94,6 +94,7 @@ class ModalDirector extends Component{
           />}
           <ActiveModal
             {...ActiveModalProps}
+            isModal={true}
             user={this.props.user}
             navigator={this.props.navigator}
             dispatch={this.props.dispatch}

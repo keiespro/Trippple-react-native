@@ -293,7 +293,7 @@ const Swiper = React.createClass({
 
 
     return (
-      <View
+      <Animated.View
         pointerEvents={'box-none'}
         style={[styles.container, {
           alignItems: 'center',
@@ -303,10 +303,10 @@ const Swiper = React.createClass({
           position:'relative',
           zIndex:9999,
           borderRadius: 11,
-          // opacity: this.props.pan && this.props.isTopCard ? this.props.pan.x.interpolate({
-          //   inputRange: [-300, -80, -10, 0, 10, 80, 300],
-          //   outputRange: [0, 0.5, 1, 1, 1, 0.5, 0]
-          // }) : 1,
+          opacity: this.props.pan && this.props.isTopCard ? this.props.pan.interpolate({
+            inputRange: [ -80, -10, 0, 10, 80],
+            outputRange: [0.5, 1, 1, 1, 0.5]
+          }) : 1,
         }]}
       >
         <ScrollView
@@ -342,7 +342,7 @@ const Swiper = React.createClass({
             />)
           }) : <View/>}
         </View>}
-      </View>
+      </Animated.View>
     )
   }
 })
