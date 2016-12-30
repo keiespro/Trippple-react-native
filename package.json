@@ -5,12 +5,9 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "fastlane": "cd ios/fastlane && fastlane beta && cd -",
-    "bump": "cd ios/fastlane && fastlane bump && cd -",
-    "pod": "cd ios && pod install && cd -",
-    "bundle:ios": "react-native bundle --entry-file index.ios.js --verbose --reset-cache --platform ios —-dev false --bundle-output main.jsbundle",
-    "bundle:android": "react-native bundle --entry-file index.android.js --verbose --reset-cache --platform android —-dev false --bundle-output main.jsbundle"
-
+    "fastlane": "cd ios/fastlane && bundle exec fastlane beta && cd -",
+    "bump": "cd ios/fastlane && bundle exec fastlane bump && cd -",
+    "pod": "cd ios && bundle exec pod install && cd -"
   },
   "dependencies": {
     "@exponent/ex-navigation": "^2.6.0",
@@ -27,7 +24,7 @@
     "react-addons-test-utils": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-mixin": "^3.0.5",
-    "react-native": "^0.39.1",
+    "react-native": "^0.39.2",
     "react-native-app-info": "^0.0.6",
     "react-native-blur": "^1.2.0",
     "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git",
