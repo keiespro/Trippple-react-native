@@ -4,7 +4,13 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "fastlane": "cd ios/fastlane && fastlane beta && cd -",
+    "bump": "cd ios/fastlane && fastlane bump && cd -",
+    "pod": "cd ios && pod install && cd -",
+    "bundle:ios": "react-native bundle --entry-file index.ios.js --verbose --reset-cache --platform ios —-dev false --bundle-output main.jsbundle",
+    "bundle:android": "react-native bundle --entry-file index.android.js --verbose --reset-cache --platform android —-dev false --bundle-output main.jsbundle"
+
   },
   "dependencies": {
     "@exponent/ex-navigation": "^2.6.0",
