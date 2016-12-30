@@ -171,9 +171,12 @@ class Notification extends React.Component{
     let them;
     let threadName;
     let matchName;
-    const users = notification.users || {}
+    const users = JSON.parse(notification.users) || {}
     let from_user_info
     let image_url
+    console.log(users);
+
+
 
     if(noti.indexOf('match') > -1){
       myPartnerId = user.partner_id || null;
@@ -182,10 +185,17 @@ class Notification extends React.Component{
 
       threadName = them.map(u => u.firstname).join(' & ');
       matchName = threadName + (theirIds.length > 1 ? ' like ' : ' likes ');
+
+      image_url = users[notification.closer_id].image_url;
+
     }else if(noti.indexOf('message') > -1){
-      from_user_info = notification.from_user_info || {}
-      image_url = from_user_info.image_url
+      from_user_info = JSON.parse(notification.from_user_info) || {};
+      image_url = from_user_info.image_url;
+
     }
+    __DEV__ && console.log(image_url);
+
+
     return (
       <Animated.View
         {...this._panResponder.panHandlers}
@@ -210,14 +220,14 @@ class Notification extends React.Component{
         <StatusBar animated barStyle="light-content" hidden />
 
         {noti.indexOf('message') > -1 ?
-          <View style={[styles.notificationOverlay, styles.notificationNewMessage]}>
+          <View style={[styles.notificationOverlay, styles.newmessage]}>
             <TouchableOpacity onPress={this.tapNotification.bind(this)}>
               <View style={styles.notificationInside}>
                 <View style={styles.notificationLeft}>
                   <Image
                     resizeMode={Image.resizeMode.cover}
                     style={styles.notiImage}
-                    defaultSource={require('../../assets/placeholderUser@3x.png')}
+                    defaultSource={require('../../assets/placeholderUserWhite@3x.png')}
                     source={{uri: image_url}}
                   />
                 </View>
@@ -251,8 +261,8 @@ class Notification extends React.Component{
                 <View style={styles.notificationLeft}>
                   <Image
                     resizeMode={Image.resizeMode.cover}
-                    style={[styles.notiImage, {tintColor: colors.sushi}]}
-                    defaultSource={require('../../assets/placeholderUser@3x.png')}
+                    style={[styles.notiImage]}
+                    defaultSource={require('../../assets/placeholderUserWhite@3x.png')}
                     source={{uri: image_url}}
                   />
                 </View>
@@ -280,12 +290,12 @@ class Notification extends React.Component{
 
             <View style={styles.notificationInside}>
 
-              {notification.image_url && (
+              {image_url && (
               <View style={styles.notificationLeft}>
                 <Image
                   resizeMode={Image.resizeMode.cover}
                   style={styles.notiImage}
-                  source={{uri: notification.image_url}}
+                  source={{uri: image_url}}
                 />
               </View>
               )}
@@ -421,7 +431,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   titleNewMessage: {
-    color: colors.lavender,
+    color: colors.white,
   },
   titleNewMatch: {
     color: colors.sashimi,

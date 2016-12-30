@@ -333,9 +333,10 @@ const ModalButton = ({btnText, onTap, loading}) => (
         flexGrow: 1,
         alignSelf: 'stretch',
         paddingVertical: 15,
-        height:85,maxHeight:55,
+        height: 85,
+        maxHeight: 55,
         borderColor: colors.white,
-        overflow:'hidden'
+        overflow: 'hidden'
       }}
       color={colors.mediumPurple}
     >
