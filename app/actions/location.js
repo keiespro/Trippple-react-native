@@ -11,14 +11,15 @@ const LOCATION_OPTIONS = {enableHighAccuracy: false, timeout: 100000, maximumAge
 export const getLocation = () => dispatch => dispatch({ type: 'GET_LOCATION',
   payload: {
     promise: new Promise((resolve, reject) => {
-      global.navigator.geolocation.getCurrentPosition((geo => {
+      global.navigator.geolocation.getCurrentPosition(geo => {
         if(geo && geo.coords){
-          api.updateUser(geo.coords).then(() => { resolve(geo.coords) })
+          dispatch({ type: 'GOT_LOCATION', payload: geo.coords})
+          return api.updateUser(geo.coords).then(() => { resolve(geo.coords) })
         }
-      }), (err => {
+      }, err => {
         __DEV__ && console.warn(err, 'LOCATION ERR');
         reject(err)
-      }), LOCATION_OPTIONS);
+      }, LOCATION_OPTIONS);
     })
   },
 });

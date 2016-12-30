@@ -1,71 +1,98 @@
-import {
-  StyleSheet,
-  View,
-  Image,
-  StatusBar,
-  Navigator,
-  Dimensions, Text
-} from 'react-native';
-import React from 'react';
-import FadeInContainer from '../../FadeInContainer';
-import colors from '../../../utils/colors';
-import Intro from './intro';
-import TimerMixin from 'react-timer-mixin'
+import React, {Component} from 'react';
+import {StyleSheet, BackAndroid, Text, View, Platform, Dimensions, TouchableOpacity} from 'react-native';
+import colors from '../../../utils/colors'
+import Carousel from './carousel'
+import Analytics from '../../../utils/Analytics'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
-import CustomSceneConfigs from '../../../utils/sceneConfigs'
-import Swiper from 'react-native-swiper'
+import FacebookButton from '../../buttons/FacebookButton/welcomeScreen';
+import ActionMan from '../../../actions/'
+import TimerMixin from 'react-timer-mixin'
+import reactMixin from 'react-mixin'
+
+const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
 
-const Welcome = React.createClass({
+@reactMixin.decorate(TimerMixin)
+class Welcome extends Component{
+  static displayName: 'Intro';
+
+  constructor() {
+    super()
+    this.state = {isAnimating: false}
+  }
 
   componentDidMount() {
-      // this.refs.nav.navigationContext.addListener('willfocus', (e)=>{
-      //   // dismissKeyboard();
-      // })
-  },
+      // setTimeout(() => {
+    Analytics.screen('Welcome Screen')
+      // }, 1000);
 
-  renderScene(route, navigator) {
+
+  }
+
+
+
+
+
+  whyFacebookModal(){
+    this.props.dispatch(ActionMan.showInModal({component: 'WhyFacebook', passProps: {} }))
+  }
+
+
+  login(){
+    this.setState({busy: true})
+    this.setTimeout(()=>{
+      this.setState({busy: false})
+    },2000)
+
+    this.props.dispatch(ActionMan.loginWithFacebook())
+  }
+
+  render(){
     return (
-      <route.component
-        {...route.passProps}
-        dispatch={this.props.dispatch}
-        key={route.id}
-        navigator={navigator}
-      />
-    );
-  },
+      <View style={[styles.container]}>
+        <View>
+          <Carousel/>
+        </View>
 
-  render() {
-    return (
-      <View style={{backgroundColor: colors.outerSpace, width: DeviceWidth, height: DeviceHeight}}>
-        <StatusBar animated barStyle="light-content" hidden />
-        <FadeInContainer
-          delayAmount={global.__TEST__ ? 0 : 800}
-          duration={global.__TEST__ ? 0 : 500}
-        >
+        <View style={styles.bottomButtons}>
 
-          <Navigator
-            initialRoute={{
-              component: Intro,
-              title: 'intro',
-              id: 'intro',
-            }}
-            key={'innerNav'}
-            configureScene={route => (route.sceneConfig ? route.sceneConfig : CustomSceneConfigs.VerticalSlide)}
-            renderScene={this.renderScene}
+          <FacebookButton
+            shouldAuthenticate
+            buttonText={'LOG IN WITH FACEBOOK'}
+            onPress={this.login.bind(this)}
+            buttonStyles={{backgroundColor: colors.cornFlower, borderWidth: 0, height: 80}}
+            outerButtonStyle={{height: 100, marginVertical: 0}}
+            leftBoxStyles={{height: 80}}
+            iconTintColor={'#fff'}
+            busy={this.state.busy}
           />
-
-        </FadeInContainer>
+        <TouchableOpacity
+          style={{marginVertical: 20, height:30,width:100,zIndex:9999}}
+          onPress={this.whyFacebookModal.bind(this)}
+        >
+          <View>
+            <Text
+              style={{
+                color: colors.rollingStone,
+                fontFamily: 'omnes',
+                fontSize: 12,
+                textDecorationLine: 'underline',
+                textAlign:'center'
+              }}
+            >Why Facebook?</Text>
+          </View>
+        </TouchableOpacity>
       </View>
-    );
-  },
+
+      </View>
+    )
+  }
+}
 
 
-});
-
-Welcome.displayName = 'Welcome'
+export default Welcome
 
 const styles = StyleSheet.create({
   dot: {
@@ -74,6 +101,8 @@ const styles = StyleSheet.create({
     height: 12,
     borderRadius: 6,
     marginLeft: 4,
+    borderWidth: 2,
+
     marginRight: 4,
     marginTop: 2,
     marginBottom: 2,
@@ -85,19 +114,21 @@ const styles = StyleSheet.create({
     marginRight: 4,
     marginTop: 2,
     marginBottom: 2,
-    borderWidth: 1,
+    width: 12,
+    height: 12,
+    borderWidth: 2,
     borderColor: colors.mediumPurple
   },
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf: 'stretch',
     width: DeviceWidth,
     margin: 0,
     padding: 0,
     height: DeviceHeight,
-    backgroundColor: 'transparent',
+    backgroundColor: colors.outerSpace,
+    alignItems: 'stretch',
+    justifyContent: 'space-between',
+    alignSelf: 'stretch',
+
   },
   textplain: {
     color: colors.white,
@@ -113,37 +144,23 @@ const styles = StyleSheet.create({
     fontFamily: 'montserrat'
   },
   carousel: {
-    flex: 1,
-    marginTop: 50,
+    marginTop: 0,
+    width: DeviceWidth,
+    height: DeviceHeight - 200,
+
   },
   slide: {
     width: DeviceWidth,
     flexDirection: 'column',
     height: DeviceHeight - 150,
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    justifyContent: 'center',
-    flexWrap: 'nowrap',
     padding: MagicNumbers.screenPadding / 2
   },
 
 
-  bottomarea: {
-    height: 140,
-    width: undefined,
-    alignSelf: 'stretch',
-    bottom: 100
-  },
-  textwrap: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  imagebg: {
-    flex: 1,
-    alignSelf: 'stretch',
-    width: DeviceWidth,
-    height: DeviceHeight,
-    backgroundColor: colors.outerSpace
-  },
+
+
   button: {
     height: 45,
     flexDirection: 'row',
@@ -179,21 +196,20 @@ const styles = StyleSheet.create({
     backgroundColor: colors.mediumPurple,
   },
   wrap: {
-    marginTop: 20,
+    marginTop: 0,
     alignItems: 'center',
-    flex: 1,
     justifyContent: 'center',
     alignSelf: 'stretch',
-    height: undefined,
-    paddingBottom: 100
+    paddingBottom: 0
   },
   bottomButtons: {
-    height: 80,
+    height: 140,
     alignItems: 'center',
-    flexDirection: 'row',
     justifyContent: 'space-around',
+    //
     alignSelf: 'stretch',
-    width: undefined
+    width: undefined,
+    marginBottom: 20
   },
   // dot: {
   //   backgroundColor: colors.shuttleGray,
@@ -219,6 +235,3 @@ const styles = StyleSheet.create({
   //   borderColor: colors.mediumPurple
   // }
 });
-
-
-export default Welcome

@@ -335,8 +335,9 @@ const ModalButton = ({btnText, onTap, loading}) => (
         paddingVertical: 15,
         height:85,maxHeight:55,
         borderColor: colors.white,
+        overflow:'hidden'
       }}
-      color={colors.dark}
+      color={colors.mediumPurple}
     >
       <View style={{paddingHorizontal:30,}}>
         <Text
