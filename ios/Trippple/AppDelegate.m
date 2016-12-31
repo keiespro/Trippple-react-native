@@ -56,9 +56,9 @@
 
 
   // BEGIN NEWRELIC
-  [NRLogger setLogLevels:NRLogLevelError];
-  [NewRelicAgent disableFeatures:NRFeatureFlag_CrashReporting];
-  [NewRelicAgent startWithApplicationToken:@"AAe71824253eeeff92e1794a97883d2e0c5928816f"];
+//  [NRLogger setLogLevels:NRLogLevelError];
+//  [NewRelicAgent disableFeatures:NRFeatureFlag_CrashReporting];
+//  [NewRelicAgent startWithApplicationToken:@"AAe71824253eeeff92e1794a97883d2e0c5928816f"];
 //   END NEWRELIC
 
   // BEGIN HOTLINE
@@ -130,6 +130,7 @@
 
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {
+
   [RCTPushNotificationManager didRegisterUserNotificationSettings:notificationSettings];
   // Required to register for notifications
 }
@@ -167,12 +168,12 @@
 
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
+  [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:userInfo];
 
   if ([[Hotline sharedInstance]isHotlineNotification:userInfo]) {
     [[Hotline sharedInstance]handleRemoteNotification:userInfo andAppstate:application.applicationState];
   }
   // [RCTPushNotificationManager didReceiveRemoteNotification:notification];
-  [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:userInfo];
   completionHandler(UIBackgroundFetchResultNoData);
 }
 
