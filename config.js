@@ -1,18 +1,8 @@
-//
-// const APP_ENV = 'development';
-// const SERVER_ENV = 'staging';
-// global.__DEV__ = (APP_ENV == 'development');
 
-// global.APP_ENV = APP_ENV || 'staging';
-// global.SERVER_ENV = SERVER_ENV || 'staging';
-//
 const SERVER_ENV = 'production'
-global.__DEV__   = false;
+global.__DEV__   = true;
 global.__DEBUG__ = false;
-global.__DEV__   = false;
 global.__TEST__  = false;
-
-
 
 const defaultConfig = {
   INVITE_FRIENDS_APP_LINK: 'https://fb.me/656380827843911'

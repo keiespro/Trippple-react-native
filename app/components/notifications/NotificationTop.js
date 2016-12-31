@@ -171,11 +171,12 @@ class Notification extends React.Component{
     let them;
     let threadName;
     let matchName;
-    const users = JSON.parse(notification.users) || {}
+    var u = notification.users || '{}';
+    const users = JSON.parse(u);
     let from_user_info
     let image_url
     console.log(users);
-
+    let fromuser = notification.from_user_info || "{}";
 
 
     if(noti.indexOf('match') > -1){
@@ -189,7 +190,7 @@ class Notification extends React.Component{
       image_url = users[notification.closer_id].image_url;
 
     }else if(noti.indexOf('message') > -1){
-      from_user_info = JSON.parse(notification.from_user_info) || {};
+      from_user_info = JSON.parse(fromuser) || {};
       image_url = from_user_info.image_url;
 
     }
