@@ -31,6 +31,7 @@ class Chat extends React.Component {
       title(params) {
         return `${params.title ? params.title : ''}`
       },
+      tintColor: colors.white,
       renderRight(route, props) {
         return (
           <ThreeDotsActionButton

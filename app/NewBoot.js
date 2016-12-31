@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {Settings, View, Platform} from 'react-native'
 import TouchID from 'react-native-touch-id'
-import firebase from 'rn-firebase-bridge';
 import LockFailed from './components/LockFailed'
 import AppContainer from './AppContainer'
 import loadSavedCredentials from './utils/Credentials'

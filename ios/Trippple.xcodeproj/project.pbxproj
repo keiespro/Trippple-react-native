@@ -43,19 +43,6 @@
 		AC758A7B1CF6AC2400A6A9C0 /* GoogleService-Info-old.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC758A7A1CF6AC2400A6A9C0 /* GoogleService-Info-old.plist */; };
 		AC758B2A1CF853E600A6A9C0 /* libRCTContacts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC758B291CF853D800A6A9C0 /* libRCTContacts.a */; };
 		AC78ABE31DEF545A0055D789 /* libRNUXCam.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC1599E91DEF500D002667A7 /* libRNUXCam.a */; };
-		AC8A914E1E00ED49005DD4A5 /* FirebaseBridge.h in Sources */ = {isa = PBXBuildFile; fileRef = AC1326311DC27024003AD731 /* FirebaseBridge.h */; };
-		AC8A914F1E00ED49005DD4A5 /* FirebaseBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = AC1326321DC27024003AD731 /* FirebaseBridge.m */; };
-		AC8A91501E00ED49005DD4A5 /* FirebaseBridgeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1326331DC27024003AD731 /* FirebaseBridgeApp.swift */; };
-		AC8A91511E00ED49005DD4A5 /* FirebaseBridgeAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1326341DC27024003AD731 /* FirebaseBridgeAuth.swift */; };
-		AC8A91521E00ED49005DD4A5 /* FirebaseBridgeCredentialCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1326351DC27024003AD731 /* FirebaseBridgeCredentialCache.swift */; };
-		AC8A91531E00ED49005DD4A5 /* FirebaseBridgeDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1326361DC27024003AD731 /* FirebaseBridgeDatabase.swift */; };
-		AC8A91541E00ED49005DD4A5 /* FirebaseBridgeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1326371DC27024003AD731 /* FirebaseBridgeError.swift */; };
-		AC8A91551E00ED49005DD4A5 /* FirebaseBridgeFacebookAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1326381DC27024003AD731 /* FirebaseBridgeFacebookAuthProvider.swift */; };
-		AC8A91561E00ED49005DD4A5 /* FirebaseBridgeGithubAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1326391DC27024003AD731 /* FirebaseBridgeGithubAuthProvider.swift */; };
-		AC8A91571E00ED49005DD4A5 /* FirebaseBridgeGoogleAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC13263A1DC27024003AD731 /* FirebaseBridgeGoogleAuthProvider.swift */; };
-		AC8A91581E00ED49005DD4A5 /* FirebaseBridgeTwitterAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC13263B1DC27024003AD731 /* FirebaseBridgeTwitterAuthProvider.swift */; };
-		AC8A91591E00ED49005DD4A5 /* FirebaseBridgeUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC13263C1DC27024003AD731 /* FirebaseBridgeUser.swift */; };
-		AC8A915A1E00ED49005DD4A5 /* Trippple-Bridging-Header.h in Sources */ = {isa = PBXBuildFile; fileRef = AC1326301DC27024003AD731 /* Trippple-Bridging-Header.h */; };
 		AC94E1BF1D74F94F00861F01 /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC94E1B41D74F94B00861F01 /* libRNBlur.a */; };
 		AC9D8D3B1D3F351F009D4C78 /* libRCTTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACA80C761CE862CF0081A99F /* libRCTTest.a */; };
 		ACAA722A1DFA22840097D2FD /* libBolts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACAA72291DFA22840097D2FD /* libBolts.a */; };
@@ -387,13 +374,6 @@
 			remoteGlobalIDString = 2D2A28611D9B046600D4039D;
 			remoteInfo = "RCTSettings-tvOS";
 		};
-		ACC5190F1DC2232A000A422B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ACA80C711CE862CF0081A99F /* RCTTest.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 2D2A286E1D9B047700D4039D;
-			remoteInfo = "RCTTest-tvOS";
-		};
 		ACC519131DC2232A000A422B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */;
@@ -441,7 +421,6 @@
 		3D862AAAEA1C4EC48684FF18 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		42D0E788259C4B63977D7D36 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		491650AE694F484F913BBD4A /* RNUXCam.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNUXCam.xcodeproj; path = "../node_modules/react-native-uxcam/ios/RNUXCam.xcodeproj"; sourceTree = "<group>"; };
-		5E67A2BA650EB945DB82E17F /* Pods-TripppleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripppleUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TripppleUITests/Pods-TripppleUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		5FEF3F88EF0146259729347D /* RNHotline.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNHotline.xcodeproj; path = "../node_modules/react-native-hotline/RNHotline.xcodeproj"; sourceTree = "<group>"; };
 		632C6E68D0DA42D7BD7B8D1D /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		640D4327ECF84E7DA82E51BF /* libRNHotline.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNHotline.a; sourceTree = "<group>"; };
@@ -454,7 +433,6 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8617B61907EC481BA72583BF /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		971849C0FFD843EA833E7631 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
-		9FBAE64454964DA540C67B7D /* Pods-TripppleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripppleUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TripppleUITests/Pods-TripppleUITests.release.xcconfig"; sourceTree = "<group>"; };
 		AC029D7E1D362D6A008A3F35 /* libMixpanel-iOS8.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libMixpanel-iOS8.0.a"; path = "Build/Products/Debug-iphoneos/Mixpanel-iOS8.0/libMixpanel-iOS8.0.a"; sourceTree = "<group>"; };
 		AC04A5771D410CA100E00362 /* OnboardingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnboardingTests.m; sourceTree = "<group>"; };
 		AC04A5791D410D9100E00362 /* TripppleSnapshotTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TripppleSnapshotTest.h; sourceTree = "<group>"; };
@@ -470,19 +448,6 @@
 		AC0549FA1C673EFC0072E9E7 /* TouchID.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TouchID.xcodeproj; path = "../node_modules/react-native-touch-id/TouchID.xcodeproj"; sourceTree = "<group>"; };
 		AC11AC821CE7CE7B001B6FB3 /* Trippple-PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Trippple-PrefixHeader.pch"; sourceTree = "<group>"; };
 		AC1326291DC26F71003AD731 /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
-		AC1326301DC27024003AD731 /* Trippple-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Trippple-Bridging-Header.h"; sourceTree = "<group>"; };
-		AC1326311DC27024003AD731 /* FirebaseBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FirebaseBridge.h; path = "../node_modules/rn-firebase-bridge/ios/FirebaseBridge.h"; sourceTree = "<group>"; };
-		AC1326321DC27024003AD731 /* FirebaseBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FirebaseBridge.m; path = "../node_modules/rn-firebase-bridge/ios/FirebaseBridge.m"; sourceTree = "<group>"; };
-		AC1326331DC27024003AD731 /* FirebaseBridgeApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FirebaseBridgeApp.swift; path = "../node_modules/rn-firebase-bridge/ios/FirebaseBridgeApp.swift"; sourceTree = "<group>"; };
-		AC1326341DC27024003AD731 /* FirebaseBridgeAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FirebaseBridgeAuth.swift; path = "../node_modules/rn-firebase-bridge/ios/FirebaseBridgeAuth.swift"; sourceTree = "<group>"; };
-		AC1326351DC27024003AD731 /* FirebaseBridgeCredentialCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FirebaseBridgeCredentialCache.swift; path = "../node_modules/rn-firebase-bridge/ios/FirebaseBridgeCredentialCache.swift"; sourceTree = "<group>"; };
-		AC1326361DC27024003AD731 /* FirebaseBridgeDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FirebaseBridgeDatabase.swift; path = "../node_modules/rn-firebase-bridge/ios/FirebaseBridgeDatabase.swift"; sourceTree = "<group>"; };
-		AC1326371DC27024003AD731 /* FirebaseBridgeError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FirebaseBridgeError.swift; path = "../node_modules/rn-firebase-bridge/ios/FirebaseBridgeError.swift"; sourceTree = "<group>"; };
-		AC1326381DC27024003AD731 /* FirebaseBridgeFacebookAuthProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FirebaseBridgeFacebookAuthProvider.swift; path = "../node_modules/rn-firebase-bridge/ios/FirebaseBridgeFacebookAuthProvider.swift"; sourceTree = "<group>"; };
-		AC1326391DC27024003AD731 /* FirebaseBridgeGithubAuthProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FirebaseBridgeGithubAuthProvider.swift; path = "../node_modules/rn-firebase-bridge/ios/FirebaseBridgeGithubAuthProvider.swift"; sourceTree = "<group>"; };
-		AC13263A1DC27024003AD731 /* FirebaseBridgeGoogleAuthProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FirebaseBridgeGoogleAuthProvider.swift; path = "../node_modules/rn-firebase-bridge/ios/FirebaseBridgeGoogleAuthProvider.swift"; sourceTree = "<group>"; };
-		AC13263B1DC27024003AD731 /* FirebaseBridgeTwitterAuthProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FirebaseBridgeTwitterAuthProvider.swift; path = "../node_modules/rn-firebase-bridge/ios/FirebaseBridgeTwitterAuthProvider.swift"; sourceTree = "<group>"; };
-		AC13263C1DC27024003AD731 /* FirebaseBridgeUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FirebaseBridgeUser.swift; path = "../node_modules/rn-firebase-bridge/ios/FirebaseBridgeUser.swift"; sourceTree = "<group>"; };
 		AC1599541DEE7B65002667A7 /* libMixpanel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMixpanel.a; path = "Build/Products/Debug-iphonesimulator/Mixpanel/libMixpanel.a"; sourceTree = "<group>"; };
 		AC21F3C31CF6A2050058CDAD /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 		AC3C4BB31D48481A00A1EC73 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
@@ -705,8 +670,6 @@
 			children = (
 				FC0B0860A2C01DA7CDE0FEB0 /* Pods-Trippple.debug.xcconfig */,
 				047E0A35175544B655D0D3BF /* Pods-Trippple.release.xcconfig */,
-				5E67A2BA650EB945DB82E17F /* Pods-TripppleUITests.debug.xcconfig */,
-				9FBAE64454964DA540C67B7D /* Pods-TripppleUITests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -724,7 +687,6 @@
 			isa = PBXGroup;
 			children = (
 				AC5ECE021DCCD96200810C69 /* RNMixpanel.xcodeproj */,
-				AC13262F1DC26FE0003AD731 /* rn-firebase-bridge */,
 				AC1326291DC26F71003AD731 /* SplashScreen.xcodeproj */,
 				ACDCC3951DBFADCF00A3540E /* RNKeychain.xcodeproj */,
 				AC677F661DBB1CA700408226 /* Firebase.xcodeproj */,
@@ -863,26 +825,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AC13262F1DC26FE0003AD731 /* rn-firebase-bridge */ = {
-			isa = PBXGroup;
-			children = (
-				AC1326311DC27024003AD731 /* FirebaseBridge.h */,
-				AC1326321DC27024003AD731 /* FirebaseBridge.m */,
-				AC1326331DC27024003AD731 /* FirebaseBridgeApp.swift */,
-				AC1326341DC27024003AD731 /* FirebaseBridgeAuth.swift */,
-				AC1326351DC27024003AD731 /* FirebaseBridgeCredentialCache.swift */,
-				AC1326361DC27024003AD731 /* FirebaseBridgeDatabase.swift */,
-				AC1326371DC27024003AD731 /* FirebaseBridgeError.swift */,
-				AC1326381DC27024003AD731 /* FirebaseBridgeFacebookAuthProvider.swift */,
-				AC1326391DC27024003AD731 /* FirebaseBridgeGithubAuthProvider.swift */,
-				AC13263A1DC27024003AD731 /* FirebaseBridgeGoogleAuthProvider.swift */,
-				AC13263B1DC27024003AD731 /* FirebaseBridgeTwitterAuthProvider.swift */,
-				AC13263C1DC27024003AD731 /* FirebaseBridgeUser.swift */,
-				AC1326301DC27024003AD731 /* Trippple-Bridging-Header.h */,
-			);
-			name = "rn-firebase-bridge";
-			sourceTree = "<group>";
-		};
 		AC1599BC1DEF500D002667A7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -998,7 +940,6 @@
 			isa = PBXGroup;
 			children = (
 				ACA80C761CE862CF0081A99F /* libRCTTest.a */,
-				ACC519101DC2232A000A422B /* libRCTTest-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1636,13 +1577,6 @@
 			remoteRef = ACC5190B1DC2232A000A422B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		ACC519101DC2232A000A422B /* libRCTTest-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libRCTTest-tvOS.a";
-			remoteRef = ACC5190F1DC2232A000A422B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		ACC519141DC2232A000A422B /* libRCTText-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1749,7 +1683,7 @@
 		};
 		AC467EBA1C523398009F2FBD /* Bundle RN images and code */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -1757,7 +1691,7 @@
 			name = "Bundle RN images and code";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/packager/react-native-xcode.sh";
 			showEnvVarsInLog = 0;
@@ -1810,19 +1744,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC8A914E1E00ED49005DD4A5 /* FirebaseBridge.h in Sources */,
-				AC8A914F1E00ED49005DD4A5 /* FirebaseBridge.m in Sources */,
-				AC8A91501E00ED49005DD4A5 /* FirebaseBridgeApp.swift in Sources */,
-				AC8A91511E00ED49005DD4A5 /* FirebaseBridgeAuth.swift in Sources */,
-				AC8A91521E00ED49005DD4A5 /* FirebaseBridgeCredentialCache.swift in Sources */,
-				AC8A91531E00ED49005DD4A5 /* FirebaseBridgeDatabase.swift in Sources */,
-				AC8A91541E00ED49005DD4A5 /* FirebaseBridgeError.swift in Sources */,
-				AC8A91551E00ED49005DD4A5 /* FirebaseBridgeFacebookAuthProvider.swift in Sources */,
-				AC8A91561E00ED49005DD4A5 /* FirebaseBridgeGithubAuthProvider.swift in Sources */,
-				AC8A91571E00ED49005DD4A5 /* FirebaseBridgeGoogleAuthProvider.swift in Sources */,
-				AC8A91581E00ED49005DD4A5 /* FirebaseBridgeTwitterAuthProvider.swift in Sources */,
-				AC8A91591E00ED49005DD4A5 /* FirebaseBridgeUser.swift in Sources */,
-				AC8A915A1E00ED49005DD4A5 /* Trippple-Bridging-Header.h in Sources */,
 				ACC7DE991C5A41F30087476F /* AppDelegate.m in Sources */,
 				ACC7DEAE1C5A41F30087476F /* main.m in Sources */,
 				ACC7DEB01C5A41F30087476F /* UIColor+TRColors.m in Sources */,
@@ -1868,7 +1789,7 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 3D5DY3UN4M;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_ON_DEMAND_RESOURCES = NO;
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.framework *.gch *.xcode* *.xcassets (*) .DS_Store CVS .svn .git .hg *.pbproj *.pbxproj android";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1946,12 +1867,12 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Trippple/Trippple.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Alex Lopez (2Y9TC26AVW)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Trippple LLC (3D5DY3UN4M)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = 3D5DY3UN4M;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_ON_DEMAND_RESOURCES = NO;
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.framework *.gch *.xcode* *.xcassets (*) .DS_Store CVS .svn .git .hg *.pbproj *.pbxproj android";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2147,7 +2068,6 @@
 		AC9D8D391D3F34FF009D4C78 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -2178,7 +2098,6 @@
 		AC9D8D3A1D3F34FF009D4C78 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";

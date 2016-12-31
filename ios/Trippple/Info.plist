@@ -68,7 +68,7 @@
 	<key>FacebookDisplayName</key>
 	<string>Trippple</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
-	<false/>
+	<true/>
 	<key>GAITrackingId</key>
 	<string>UA-49096214-2</string>
 	<key>ITSAppUsesNonExemptEncryption</key>

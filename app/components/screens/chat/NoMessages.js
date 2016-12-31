@@ -78,7 +78,7 @@ export default class NoMessages extends React.Component{
 
                 <View style={[this.getThumbSize('top'), {backgroundColor: colors.dark}]}>
                   <Image
-                    style={this.getThumbSize()}
+                    style={[this.getThumbSize(),{top: this.state.isKeyboardOpened ? -20 : -40,position:'absolute'}]}
                     defaultSource={require('./assets/placeholderUser@3x.png')}
                   />
                 </View>
