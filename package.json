@@ -36,7 +36,6 @@
     "react-native-fcm": "^2.5.5",
     "react-native-firebase3": "^0.1.5",
     "react-native-fs": "latest",
-    "react-native-google-analytics-bridge": "^3.1.0",
     "react-native-hotline": "git+https://github.com/trippple/react-native-hotline.git",
     "react-native-invertible-scroll-view": "^1.0.0",
     "react-native-keychain": "^0.3.2",
