@@ -1828,6 +1828,7 @@
 					"$(SRCROOT)/../node_modules/react-native-hotline/ios",
 					"$(SRCROOT)/../node_modules/react-native-permissions/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native/Libraries/LinkingIOS",
 				);
 				INFOPLIST_FILE = Trippple/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
@@ -1911,6 +1912,7 @@
 					"$(SRCROOT)/../node_modules/react-native-hotline/ios",
 					"$(SRCROOT)/../node_modules/react-native-permissions/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native/Libraries/LinkingIOS",
 				);
 				INFOPLIST_FILE = Trippple/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
