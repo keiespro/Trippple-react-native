@@ -2,7 +2,7 @@ import RNMixpanel from 'react-native-mixpanel'
 // import AppInfo from 'react-native-app-info'
 import {Settings} from 'react-native'
 // import _ from 'lodash'
-import GoogleAnalytics from 'react-native-google-analytics-bridge'
+//import GoogleAnalytics from 'react-native-google-analytics-bridge'
 import RNFB from 'react-native-firebase3'
 import SETTINGS_CONSTANTS from './SettingsConstants'
 import Mixpanel from './mixpanel'
@@ -24,8 +24,8 @@ class Analytics{
 
   constructor(){
     if(!__DEV__ && !__TEST__){
-      GoogleAnalytics.setTrackerId('UA-49096214-2');
-      GoogleAnalytics.allowIDFA(false);
+      //GoogleAnalytics.setTrackerId('UA-49096214-2');
+      //GoogleAnalytics.allowIDFA(false);
     }
     if(__DEBUG__ || __TEST__) {
       Firelytics.setEnabled(false);
@@ -46,7 +46,7 @@ class Analytics{
     // __DEV__ && console.log(`Analytics -> Indentified user #${user.id}`);
     if(!__DEV__ && !__TEST__){
       Firelytics.setUserId(`${user.id}`);
-      GoogleAnalytics.setUser(`${user.id}`);
+      //GoogleAnalytics.setUser(`${user.id}`);
       RNMixpanel.identify(`${user.id}`);
       // RNMixpanel.registerSuperProperties({
       //   Gender: user.gender,
@@ -98,7 +98,7 @@ class Analytics{
   }
 
   event(eventName, eventData = {}){
-    if(__TEST__ || !GoogleAnalytics) return false;
+    if(__TEST__) return false;
 
     const action = eventData.action || eventData.type || undefined;
     const label = eventData.label || eventData.name || undefined;
@@ -108,15 +108,15 @@ class Analytics{
 
     Firelytics.logEvent(eventName, eventData);
 
-    GoogleAnalytics.trackEvent(eventName, action, {label, value});
+    //GoogleAnalytics.trackEvent(eventName, action, {label, value});
 
     Mixpanel.track(eventName, eventData)
   }
 
   screen(screen){
-    if(__TEST__ || !GoogleAnalytics || !screen) return false;
+    if(__TEST__ || !screen) return false;
 
-    GoogleAnalytics.trackScreenView(screen);
+    //GoogleAnalytics.trackScreenView(screen);
     Mixpanel.track(`Screen ${screen}`);
   }
 
@@ -137,7 +137,7 @@ class Analytics{
     }
     __DEV__ && console.log(`Event: ${eventName}`, 'EventData:', ...eventData)
 
-    GoogleAnalytics.trackEvent(eventName, action, {label, value});
+    //GoogleAnalytics.trackEvent(eventName, action, {label, value});
   }
 
   err(error){
