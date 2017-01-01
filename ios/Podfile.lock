@@ -74,9 +74,9 @@ PODS:
   - GoogleToolboxForMac/NSString+URLArguments (2.1.0)
   - GTMSessionFetcher/Core (1.1.7)
   - HotlineSDK (1.0.13)
-  - Mixpanel (3.0.7):
-    - Mixpanel/Mixpanel (= 3.0.7)
-  - Mixpanel/Mixpanel (3.0.7)
+  - Mixpanel (3.0.8):
+    - Mixpanel/Mixpanel (= 3.0.8)
+  - Mixpanel/Mixpanel (3.0.8)
   - NewRelicAgent (5.8.3)
   - UXCam (2.5.8)
 
@@ -102,7 +102,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Mixpanel:
-    :commit: 2d546fd14b1938c2568b8dbcc42ace935268ab94
+    :commit: c0e73a3be8547809c74c2fd2854c6bec444e3cd6
     :git: https://github.com/mixpanel/mixpanel-iphone.git
 
 SPEC CHECKSUMS:
@@ -125,7 +125,7 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
   GTMSessionFetcher: a1f8ed39e4fe21c68957daed472c7afbcdf29166
   HotlineSDK: 519b9ee1c5e87499a0798e6663f7d13907b0bd03
-  Mixpanel: 73941a60218aaf82aa0faec9c663e67404fdcb03
+  Mixpanel: 550a23d5dd95f8e9cda21e697661ffddbc8da46b
   NewRelicAgent: faddcb43507aa2470200b63bf191fb3e34302d80
   UXCam: 76cb857694b8f1776998028de985d737b6852bce
 
