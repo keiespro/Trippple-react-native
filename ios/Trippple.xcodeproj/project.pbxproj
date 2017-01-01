@@ -23,7 +23,6 @@
 		AC04A57D1D4111D800E00362 /* MainTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AC04A57C1D4111D800E00362 /* MainTests.m */; };
 		AC04A57F1D41125800E00362 /* SingleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AC04A57E1D41125800E00362 /* SingleTests.m */; };
 		AC04A5811D41130000E00362 /* TripppleSnapshotTest.m in Sources */ = {isa = PBXBuildFile; fileRef = AC04A5801D41130000E00362 /* TripppleSnapshotTest.m */; };
-		AC0549F11C671AEF0072E9E7 /* libRCTGoogleAnalyticsBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0549F01C671AE10072E9E7 /* libRCTGoogleAnalyticsBridge.a */; };
 		AC0549F31C671C730072E9E7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0549F21C671C730072E9E7 /* CoreData.framework */; };
 		AC0549F51C671C8B0072E9E7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0549F41C671C8B0072E9E7 /* SystemConfiguration.framework */; };
 		AC0549F71C671C970072E9E7 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0549F61C671C970072E9E7 /* libz.tbd */; };
@@ -584,7 +583,6 @@
 				ACBB20931C050E7C00A63B9C /* libRNAppInfo.a in Frameworks */,
 				ACBB20941C050E7C00A63B9C /* libRNFS.a in Frameworks */,
 				ACBB20961C050E7C00A63B9C /* libRNMail.a in Frameworks */,
-				AC0549F11C671AEF0072E9E7 /* libRCTGoogleAnalyticsBridge.a in Frameworks */,
 				59988553681646CDAE8697C7 /* libRCTActionSheet.a in Frameworks */,
 				23F4971C5CED44D2A9526DC4 /* libRNHotline.a in Frameworks */,
 				20A23F24D7E14481AA223BF4 /* libReactNativePermissions.a in Frameworks */,
