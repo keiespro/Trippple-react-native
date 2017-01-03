@@ -1,9 +1,4 @@
-import { Alert, Platform } from 'react-native'
 import api from '../utils/api'
-import checkLocationPermission from './permissions/location'
-
-
-const iOS = Platform.OS == 'ios';
 
 const LOCATION_OPTIONS = {enableHighAccuracy: false, timeout: 100000, maximumAge: 100000}
 
@@ -16,6 +11,7 @@ export const getLocation = () => dispatch => dispatch({ type: 'GET_LOCATION',
           dispatch({ type: 'GOT_LOCATION', payload: geo.coords})
           return api.updateUser(geo.coords).then(() => { resolve(geo.coords) })
         }
+        return false
       }, err => {
         __DEV__ && console.warn(err, 'LOCATION ERR');
         reject(err)
@@ -28,14 +24,12 @@ export const getLocation = () => dispatch => dispatch({ type: 'GET_LOCATION',
 export const checkLocation = () => dispatch => dispatch({ type: 'CHECK_LOCATION',
   payload: new Promise((resolve, reject) => {
 
-    OSPermissions.canUseLocation()
-    .then(OSLocation => {
-      const perm = iOS ? parseInt(OSLocation) > 2 : OSLocation;
-      if(perm) {
+    Permissions.getPermissionStatus('location')
+    .then(permission => {
+      if(permission == 'authorized') {
         dispatch(getLocation());
         resolve()
-      }else if(iOS && parseInt(OSLocation) === 0) {
-        console.log('no permission, must ask')
+      }else if(permission == 'undetermined') {
         reject()
       }else{
         reject(new Error('nopermission'));
