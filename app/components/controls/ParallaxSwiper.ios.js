@@ -90,16 +90,17 @@ class ParallaxSwiper extends React.Component{
         image_url = image_url.replace('test/', '').replace('images/', '')
       }
       return (
-        <FadeIn placeholderStyle={{backgroundColor: colors.darkPurple}}>
+        <FadeIn
+          key={`${p.id}slide${i}`}
+          placeholderStyle={{backgroundColor: colors.darkPurple}}
+        >
           <Image
             source={image_url ? {uri: image_url } : require('../screens/potentials/assets/defaultuser.png')}
             defaultSource={require('../screens/potentials/assets/defaultuser.png')}
             loadingIndicatorSrc={null}
-            key={`${p.id}slide${i}`}
             style={{
               height: this.props.height,
               width: DeviceWidth,
-              overlayColor: 'transparent',
               borderRadius: 11,
               alignSelf: 'flex-end',
               bottom: 0,
