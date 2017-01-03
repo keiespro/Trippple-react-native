@@ -100,10 +100,10 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-geocoder')
     compile project(':react-native-permissions')
     compile project(':react-native-mixpanel')
     compile project(':react-native-hotline')
-    compile project(':rn-firebase-bridge')
     compile project(':react-native-vector-icons')
     compile project(':react-native-splash-screen')
     compile project(':react-native-push-notification')

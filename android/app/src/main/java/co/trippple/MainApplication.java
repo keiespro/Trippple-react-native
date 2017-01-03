@@ -9,10 +9,10 @@ import android.support.multidex.MultiDex;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.facebook.react.ReactApplication;
+import com.devfd.RNGeocoder.RNGeocoderPackage;
 import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
 import com.kevinejohn.RNMixpanel.RNMixpanel;
 import co.trippple.RNHotline.RNHotline;
-import com.davecoates.rnfirebasebridge.FirebaseBridgePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
@@ -58,10 +58,10 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNGeocoderPackage(),
             new ReactNativePermissionsPackage(),
             new RNMixpanel(),
             new RNHotline(),
-            new FirebaseBridgePackage(),
             new VectorIconsPackage(),
             new SplashScreenReactPackage(),
             new ReactNativePushNotificationPackage(),
