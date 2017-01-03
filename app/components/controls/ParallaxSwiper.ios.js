@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Image, View, ScrollView, Platform, Animated, Dimensions} from 'react-native';
+import FadeIn from '@exponent/react-native-fade-in-image';
 import colors from '../../utils/colors'
 import Swiper from './swiper'
 import XButton from '../buttons/XButton'
@@ -33,7 +34,6 @@ class ParallaxSwiper extends React.Component{
     super();
     this.state = {
       scrollY: new Animated.Value(0),
-      imgLoaded: new Animated.Value(0),
     };
     this._scrollView = {};
   }
@@ -76,16 +76,6 @@ class ParallaxSwiper extends React.Component{
     this.props.killProfile && this.props.killProfile()
     this.setState({wasKilled: false})
   }
-  imgLoad(){
-    setImmediate(() => {
-      Animated.timing(this.state.imgLoaded, {
-        duration: 300,
-        toValue: 100,
-      }).start(() => {
-
-      })
-    })
-  }
 
   renderBackground() {
     const { slideFrames, profileVisible, isTopCard } = this.props;
@@ -100,23 +90,23 @@ class ParallaxSwiper extends React.Component{
         image_url = image_url.replace('test/', '').replace('images/', '')
       }
       return (
-
-        <Image
-          source={image_url ? {uri: image_url } : require('../screens/potentials/assets/defaultuser.png')}
-          defaultSource={require('../screens/potentials/assets/defaultuser.png')}
-          loadingIndicatorSrc={null}
-          key={`${p.id}slide${i}`}
-          onLoad={this.imgLoad.bind(this)}
-          style={{
-            height: this.props.height,
-            width: DeviceWidth,
-            overlayColor: 'transparent',
-            borderRadius: 11,
-            alignSelf:'flex-end',
-            bottom: 0,
-            top:0
-          }}
-        />
+        <FadeIn placeholderStyle={{backgroundColor: colors.darkPurple}}>
+          <Image
+            source={image_url ? {uri: image_url } : require('../screens/potentials/assets/defaultuser.png')}
+            defaultSource={require('../screens/potentials/assets/defaultuser.png')}
+            loadingIndicatorSrc={null}
+            key={`${p.id}slide${i}`}
+            style={{
+              height: this.props.height,
+              width: DeviceWidth,
+              overlayColor: 'transparent',
+              borderRadius: 11,
+              alignSelf: 'flex-end',
+              bottom: 0,
+              top: 0
+            }}
+          />
+        </FadeIn>
       )
     });
 
