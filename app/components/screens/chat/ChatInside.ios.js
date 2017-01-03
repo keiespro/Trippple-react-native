@@ -1,26 +1,19 @@
-import { View, TextInput, ListView, Keyboard, Animated, LayoutAnimation, Dimensions, KeyboardAvoidingView, } from 'react-native';
-import React, {Component} from 'react';
-import moment from 'moment';
-import styles from './chatStyles'
+import React, {Component} from 'react'
+import { View, ListView, Dimensions, } from 'react-native'
+import moment from 'moment'
 import _ from 'lodash'
-import dismissKeyboard from 'dismissKeyboard'
+import InvertibleScrollView from 'react-native-invertible-scroll-view'
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import NoMessages from './NoMessages'
 import Analytics from '../../../utils/Analytics';
-import { BlurView, VibrancyView } from 'react-native-blur'
-import FadeInContainer from '../../FadeInContainer';
-import TimeAgo from '../../controls/Timeago';
 import colors from '../../../utils/colors';
-import {MagicNumbers} from '../../../utils/DeviceConfig'
-import InvertibleScrollView from 'react-native-invertible-scroll-view'
-const DeviceHeight = Dimensions.get('window').height;
-const DeviceWidth = Dimensions.get('window').width;
-const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 import MessageComposer from './MessageComposer'
-import { connect } from 'react-redux';
 import emojiCheck from '../../../utils/emoji-regex';
 import ActionMan from '../../../actions/';
 import ChatBubble from './ChatBubble'
 
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
 const shouldMakeBigger = (msg) => {
   if(msg.length > 9 || msg.length == 0) return false;
@@ -43,18 +36,10 @@ class ChatInside extends Component{
   }
 
   componentDidMount(){
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this._keyboardDidShow.bind(this));
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this._keyboardDidHide.bind(this));
     this.props.dispatch({type: 'MARK_CHAT_READ', payload: {match_id: this.props.match.match_id}})
   }
-  componentWillUnmount(){
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
-    this.props.dispatch({type: 'MARK_CHAT_READ', payload: {match_id: this.props.match.match_id}})
-  }
-  componentWillReceiveProps(newProps){
-    __DEV__ && console.log('newProps.messages', newProps);
 
+  componentWillReceiveProps(newProps){
     if(this.props.match && !newProps.match){
       this.props.pop();
     }
@@ -63,27 +48,34 @@ class ChatInside extends Component{
       dataSource: this.ds.cloneWithRows(_.sortBy(newProps.messages, (msg) => msg.created_timestamp).reverse())
     })
   }
-  componentWillUpdate(props, state) {
-    if (state.isKeyboardOpened !== this.state.isKeyboardOpened) {
-      LayoutAnimation.easeInEaseOut();
-    }
+
+  componentWillUnmount(){
+    this.props.dispatch({type: 'MARK_CHAT_READ', payload: {match_id: this.props.match.match_id}})
   }
 
-  _keyboardDidShow(event){
-    console.log(event);
-    const {duration, easing, endCoordinates, startCoordinates} = event;
+  onEndReached(){
+    if(!this.props.messages){ return }
+    const nextPage = parseInt(this.props.messages.length / 20) + 1;
+    if(this.state.fetching || nextPage == this.state.lastPage){ return }
+
     this.setState({
-      isKeyboardOpened: true,
-      kbHeight: endCoordinates.height
+      lastPage: nextPage,
+      isRefreshing: false,
+      loadingMore: true
     })
-    console.log(DeviceHeight - endCoordinates.height - 60);
+
+    Analytics.event('Interaction', {type: 'scroll', name: 'Load more messages', page: nextPage})
+
   }
-  _keyboardDidHide(event){
-    console.log(event);
-    this.setState({
-      isKeyboardOpened: false,
-      kbHeight: 0
-    })
+
+  onTextInputChange(textInputValue){
+    this.setState({ textInputValue })
+  }
+
+  sendMessage(msg){
+    const timestamp = moment().utc().unix();
+    this.props.dispatch(ActionMan.createMessage(msg, this.props.match.match_id, timestamp))
+    this.scroller.scrollTo({x: 0, y: 0})
   }
 
   _renderRow(rowData, sectionID: number, rowID: number) {
@@ -99,98 +91,45 @@ class ChatInside extends Component{
     )
   }
 
-  sendMessage(msg){
-    const timestamp = moment().utc().unix();
-    this.props.dispatch(ActionMan.createMessage(msg, this.props.match.match_id, timestamp))
-    this.refs.scroller && this.refs.scroller.scrollTo({x: 0, y: 0})
-
-  }
-
-  onTextInputChange(text){
-    this.setState({
-      textInputValue: text
-    })
-  }
-
-
-  getThumbSize(){
-
-    const size = MagicNumbers.is4s ? SIZES.small : SIZES.big
-    return {
-      width: this.state.isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
-      height: this.state.isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
-      borderRadius: this.state.isKeyboardOpened ? size.dimensions.open / 2 : size.dimensions.closed / 2,
-      marginVertical: this.state.isKeyboardOpened ? size.margin.open : size.margin.closed,
-      backgroundColor: colors.dark
-    }
-  }
-  onEndReached(e){
-    if(!this.props.messages){ return false }
-    const nextPage = parseInt(this.props.messages.length / 20) + 1;
-    if(this.state.fetching || nextPage == this.state.lastPage){ return false }
-
-    this.setState({
-      lastPage: nextPage,
-      isRefreshing: false,
-      loadingMore: true
-    })
-
-    Analytics.event('Interaction', {type: 'scroll', name: 'Load more messages', page: nextPage})
-
-  }
-
-
   render(){
     const matchInfo = this.props.currentMatch || this.props.matchInfo;
     if(!matchInfo){
-      // console.log('no matchInfo');
       return <View/>
     }
-    const theirIds = Object.keys(matchInfo.users).filter((u) => u != this.props.user.id && u != this.props.user.partner_id);
-    const them = theirIds.map((id) => matchInfo.users[id]);
-    const chatTitle = them.reduce((acc, u, i) => { return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ' & ' : '') }, '');
 
-    return  (
-
-
+    return (
       <View
         style={{
           flexGrow: 10,
           alignSelf: 'stretch',
           flexDirection: 'column',
-          backgroundColor:colors.outerSpace,
+          backgroundColor: colors.outerSpace,
           height: DeviceHeight - 60,
-          paddingBottom: this.state.kbHeight,
           position: 'relative',
         }}
-
       >
-      {this.props.messages && this.props.messages.length > 0 ? (
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={this._renderRow.bind(this)}
-          onEndReached={this.onEndReached.bind(this)}
-          messages={this.props.messages || []}
-          renderScrollComponent={props => (
-            <InvertibleScrollView
-              {...props}
-              inverted
-              scrollsToTop
-              scrollEventThrottle={16}
-              indicatorStyle={'white'}
-              ref={c => { this.scroller = c }}
-              key={`${this.props.match_id}x`}
-              keyboardDismissMode={'interactive'}
-              contentContainerStyle={{}}
-              style={{
-                paddingBottom: this.state.kbHeight,
-                backgroundColor: colors.outerSpace,
-              }}
-            />
+        {this.props.messages && this.props.messages.length > 0 ? (
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={this._renderRow.bind(this)}
+            onEndReached={this.onEndReached.bind(this)}
+            messages={this.props.messages || []}
+            renderScrollComponent={props => (
+              <InvertibleScrollView
+                {...props}
+                inverted
+                scrollsToTop
+                scrollEventThrottle={16}
+                indicatorStyle={'white'}
+                ref={c => { this.scroller = c }}
+                key={`${this.props.match_id}x`}
+                keyboardDismissMode={'interactive'}
+                contentContainerStyle={{}}
+                style={{ backgroundColor: colors.outerSpace, }}
+              />
           )}
-        />
+          />
       ) : (
-
         <NoMessages
           {...this.props}
           textInputValue={this.state.textInputValue}
@@ -208,9 +147,9 @@ class ChatInside extends Component{
             sendMessage={this.sendMessage.bind(this)}
           />
         </View>
+        <KeyboardSpacer/>
+
       </View>
-
-
     )
   }
 }

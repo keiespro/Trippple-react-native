@@ -28,17 +28,16 @@ import {pure} from 'recompose'
 import ActionMan from  '../../../actions/';
 
 const ChatBubble = (props) => {
-    const isMessageOurs = (props.messageData.from_user_info.id == props.user.id || props.messageData.from_user_info.id == props.user.partner_id);
-    console.log(isMessageOurs);
-    var thumb = ''
-    if(!isMessageOurs){
-      const {from_user_info} = props.messageData;
-      const {thumb_url,image_url} = from_user_info;
-       thumb = (image_url)+'';
-    }else{
-       thumb = '';
+  const isMessageOurs = (props.messageData.from_user_info.id == props.user.id || props.messageData.from_user_info.id == props.user.partner_id);
+  var thumb = ''
+  if(!isMessageOurs){
+    const {from_user_info} = props.messageData;
+    const {thumb_url,image_url} = from_user_info;
+     thumb = (image_url)+'';
+  }else{
+     thumb = '';
 
-    }
+  }
 
     return (
       <View style={[styles.col]} shouldRasterizeIOS={true}>

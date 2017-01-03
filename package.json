@@ -7,7 +7,8 @@
     "test": "jest",
     "fastlane": "cd ios/fastlane && bundle exec fastlane beta && cd -",
     "bump": "cd ios/fastlane && bundle exec fastlane bump && cd -",
-    "pod": "cd ios && bundle exec pod install && cd -"
+    "pod": "cd ios && bundle exec pod install && cd -",
+    "bundle": "./node_modules/react-native/packager/react-native-xcode.sh"
   },
   "dependencies": {
     "@exponent/ex-navigation": "^2.6.0",
@@ -36,8 +37,11 @@
     "react-native-fcm": "^2.5.5",
     "react-native-firebase3": "^0.1.5",
     "react-native-fs": "latest",
+    "react-native-geocoder": "^0.4.5",
+    "react-native-google-analytics-bridge": "^4.0.2",
     "react-native-hotline": "git+https://github.com/trippple/react-native-hotline.git",
     "react-native-invertible-scroll-view": "^1.0.0",
+    "react-native-keyboard-spacer": "^0.3.1",
     "react-native-keychain": "^0.3.2",
     "react-native-mail": "latest",
     "react-native-message-composer": "git+https://github.com/trippple/react-native-message-composer.git",
@@ -63,7 +67,6 @@
     "redux-throttle-actions": "^1.1.0",
     "redux-thunk": "^2.1.0",
     "remote-redux-devtools": "^0.5.7",
-    "rn-firebase-bridge": "^0.1.1",
     "rn-redux-mixpanel": "^1.1.5",
     "simple-plist": "^0.2.1",
     "underscore": "^1.8.3",
