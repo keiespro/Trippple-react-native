@@ -99,7 +99,7 @@ class App extends React.Component{
     ];
     const {permissions} = this.props;
 
-    if(permissions.location && permissions.location != 'undetermined'){
+    if(permissions.location && permissions.location == 'authorized'){
       initActions.push('getLocation')
     }
     if(permissions.notifications){
@@ -109,10 +109,11 @@ class App extends React.Component{
         .then(actions => {
           __DEV__ && console.log('init_actions', actions);
           // _.reject(actions.split(','), a => a == 'getLocation').forEach(ac => {
-
+      
           actions.split(',').forEach(ac => {
             this.props.dispatch(ActionMan[ac]())
           })
+
         })
         .catch(err => {
           __DEV__ && console.log('init_actions error', err);

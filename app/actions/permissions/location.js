@@ -8,7 +8,7 @@ export default {checkLocationPermission, requestLocationPermission}
 
 export const checkLocationPermission = () => dispatch => dispatch({ type: 'CHECK_LOCATION_PERMISSION',
   payload: new Promise((resolve, reject) => {
-    console.log('checkLocationPermission', Platform.select(check));
+
     Platform.select(check)()
       .then(permission => {
         // dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})
@@ -62,7 +62,6 @@ const check = {
 
     try{
       const permission = await Permissions.getPermissionStatus('location')
-      console.log(permission);
       return permission
 
     }catch(err){

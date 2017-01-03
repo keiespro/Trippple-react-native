@@ -56,12 +56,15 @@ function publicRequest(endpoint, payload){
   return baseRequest(endpoint, payload)
 }
 
+async function apiError(){
+  return await true
+}
 function authenticatedRequest(endpoint: '', payload: {}, resource, forceCredentials){
   const credentials = forceCredentials || global.creds;
   if(__DEV__ && (!credentials || !credentials.api_key || !credentials.user_id)){
     console.info('Attempting to make authenticated request with no credentials')
-    throw new Error('Attempting to make authenticated request with no credentials')
-
+    // throw new Error('Attempting to make authenticated request with no credentials')
+    return apiError()
 
   }
   const authPayload = {...payload, ...credentials};
