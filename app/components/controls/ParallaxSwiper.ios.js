@@ -154,7 +154,7 @@ class ParallaxSwiper extends React.Component{
 
           }}
         >
-          {slides && slides.length > 1 ? <Swiper
+          {slides && slides.length >= 1 ? <Swiper
             isTopCard={isTopCard}
             horizontal
             pan={this.props.pan.x}
