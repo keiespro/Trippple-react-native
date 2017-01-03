@@ -37,7 +37,6 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <Bolts/Bolts.h>
 #import "../node_modules/react-native-fcm/ios/RNFIRMessaging.h"
-#import "../node_modules/rn-firebase-bridge/ios/FirebaseBridge.h"
 #import "../node_modules/react-native-splash-screen/ios/SplashScreen.h"
 
 @interface AppDelegate() <RCTBridgeDelegate>

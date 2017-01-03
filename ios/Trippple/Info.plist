@@ -48,7 +48,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>30</string>
+	<string>44</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -167,7 +167,9 @@
 		<string>Zocial.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
-	<array/>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UIRequiresFullScreen</key>
 	<false/>
 	<key>UIStatusBarHidden</key>
