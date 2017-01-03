@@ -107,11 +107,10 @@ class App extends React.Component{
     }
     RC.getValue('init_actions')
         .then(actions => {
-
           __DEV__ && console.log('init_actions', actions);
           // _.reject(actions.split(','), a => a == 'getLocation').forEach(ac => {
 
-          actions.forEach(ac => {
+          actions.split(',').forEach(ac => {
             this.props.dispatch(ActionMan[ac]())
           })
         })
