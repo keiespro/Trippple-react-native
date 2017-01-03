@@ -3,9 +3,9 @@
 */
 import firebase from 'firebase';
 import {Platform} from 'react-native'
-console.log(firebase);
+
 const firebaseConfig = {
-  APIKey: 'AIzaSyBZKzo_aVFz4ldw0bQ-8dJMe88xF0q0N9U',
+  apiKey: 'AIzaSyBwQ0d87ygSNxEpcxJSDxpH2e9sb0tpNE8',
   authDomain: 'trippple-93bbc.firebaseio.com',
   databaseURL: 'https://trippple-93bbc.firebaseio.com',
   googleAppID: `1:820434364878:${Platform.OS}:839f5cd266b5f573`
@@ -19,19 +19,26 @@ const fireLogin = (fbUser, dispatch) => {
 
   const auth = app.auth();
 
-  auth.onAuthStateChanged((firebaseUser) => {
-    // __DEV__ && console.log(firebaseUser, auth);
-    if(fbUser && !isUserEqual(fbUser, firebaseUser)) {
-      const credential = app.auth.FacebookAuthProvider.credential(fbUser.accessToken);
-      app.auth.signInWithCredential(credential)
-      .then(firebaser => {
-        dispatch({ type: 'FIREBASE_AUTH', payload: firebaser })
-      })
-      .catch((error) => {
-        if(error) dispatch({ type: 'FIREBASE_AUTH_FAIL', payload: error });
-      });
-    }else{
-      dispatch({ type: 'FIREBASE_AUTH_CONFIRM', payload: firebaseUser })
+  auth.onAuthStateChanged(firebaseUser => {
+    if(firebaseUser) {
+      __DEV__ && console.log(firebaseUser, fbUser);
+      if(fbUser && !isUserEqual(fbUser, firebaseUser)) {
+
+        const credential = auth.FacebookAuthProvider.credential(fbUser.accessToken);
+        __DEV__ && console.log(credential);
+
+        auth.signInWithCredential(credential)
+          .then(firebaser => {
+            console.log('firebaser',firebaser);
+            dispatch({ type: 'FIREBASE_AUTH', payload: firebaser })
+          })
+          .catch((error) => {
+            console.log('error',error);
+            if(error) dispatch({ type: 'FIREBASE_AUTH_FAIL', payload: error });
+          });
+      }else{
+        dispatch({ type: 'FIREBASE_AUTH_CONFIRM', payload: firebaseUser })
+      }
     }
   }, app.auth);
 
