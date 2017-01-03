@@ -216,26 +216,21 @@ class ParallaxSwiper extends React.Component{
         {profileVisible &&
         <ScrollView
           pointerEvents={'box-none'}
-
           automaticallyAdjustContentInsets={false}
           ref={component => { this._scrollView = component }}
           scrollEnabled={profileVisible}
           keyboardShouldPersistTaps
           showsVerticalScrollIndicator={false}
-
           contentContainerStyle={{
             flexGrow: 1,
-            // height: DeviceHeight + TOP_DISTANCE,
             backgroundColor: colors.dark70,
             height: DeviceHeight + 1000,
             top: TOP_DISTANCE,
           }}
-          style={[
-            styles.scrollView, {
-              marginBottom: iOS ? -500 : 0,
-              height: DeviceHeight,
-            }
-          ]}
+          style={[styles.scrollView, {
+            marginBottom: iOS ? -500 : 0,
+            height: DeviceHeight,
+          }]}
           vertical
           scrollEventThrottle={64}
         >

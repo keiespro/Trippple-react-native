@@ -126,20 +126,32 @@ class NewCard extends React.Component {
                 distance={distance}
                 textColor={colors.white}
               />
-              {verifiedCouple && <VerifiedCoupleBadge placementStyle={{position: 'relative', alignSelf: 'flex-start', left: 0, top: 0, marginTop: 20}} />}
+              {verifiedCouple &&
+                <VerifiedCoupleBadge
+                  placementStyle={{position: 'relative', alignSelf: 'flex-start', left: 0, top: 0, marginTop: 20}}
+                />
+              }
 
             </View>
 
             {potential.user.bio && potential.user.bio.length ?
               <View style={{ margin: MagicNumbers.screenPadding / 2, width: MagicNumbers.screenWidth, flexDirection: 'column' }}>
-                <Text style={[styles.cardBottomOtherText, { color: colors.white, marginBottom: 15, marginLeft: 0 }]}>{
-                                                  !hasPartner ? 'Looking for' : 'Looking for'
-                                              }</Text>
-                <Text style={{ color: colors.white, fontFamily: 'omnes', fontSize: 18, marginBottom: 15 }}>{
-                                                  potential.user.bio
-                                              }</Text>
-              </View> : null
-                                      }
+                <Text
+                  style={[styles.cardBottomOtherText, {
+                    color: colors.white,
+                    marginBottom: 15,
+                    marginLeft: 0
+                  }]}
+                  >{ !hasPartner ? 'Looking for' : 'Looking for' }</Text>
+                <Text
+                  style={{
+                    color: colors.white,
+                    fontFamily: 'omnes',
+                    fontSize: 18,
+                    marginBottom: 15
+                  }}
+                >{ potential.user.bio }</Text>
+              </View> : null }
 
             {hasPartner && potential.partner.bio && potential.partner.bio.length ?
               <View
@@ -189,36 +201,25 @@ class NewCard extends React.Component {
   }
   render() {
     const {profileVisible, cardWidth, city, seperator, potential, isTopCard, matchName, distance} = this.props;
-
     const hasPartner = potential.partner && potential.partner.gender ? true : false;
     const slideFrames = isTopCard && hasPartner ? [potential.user, potential.partner] : [potential.user];
     const verifiedCouple = hasPartner && potential.couple.verified;
 
-
     const anistyle = [{
       flexGrow: 1,
       top: 30,
-
       width: DeviceWidth,
       borderRadius: 11,
-
-      // height:DeviceHeight-60
     }];
 
     const aniblurstyle = [{
       backgroundColor: colors.sushi,
-      // width: DeviceWidth,
       flexGrow: 1,
-      // flexGrow: 10,
-      // marginTop: 160,
       borderRadius: 11,
-
       height: profileVisible ? DeviceHeight : DeviceHeight - 70,
-
       position: 'absolute',
       alignSelf: 'center',
-
-    }]
+    }];
 
     return (
       <View
@@ -228,7 +229,7 @@ class NewCard extends React.Component {
       >
         {this.props.profileVisible &&
           <StatusBar
-            hidden={true}
+            hidden
             animated
             backgroundColor={'#000'}
             barStyle="default"
@@ -245,7 +246,6 @@ class NewCard extends React.Component {
             flexDirection: 'column',
             flexGrow: 1,
             borderRadius: 11,
-
           }]}
           autoplay={verifiedCouple}
           slideFrames={slideFrames}
@@ -254,7 +254,6 @@ class NewCard extends React.Component {
           style={[{
             flexGrow: 1,
             borderRadius: 11,
-
           }]}
           potentialkey={this.props.potential.user.id}
           header={<View pointerEvents={'none'} style={{zIndex: -100}}/>}

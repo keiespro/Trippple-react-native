@@ -9,14 +9,14 @@ export default {checkNotificationsPermission, requestNotificationsPermission}
 export const checkNotificationsPermission = () => dispatch => dispatch({ type: 'CHECK_NOTIFICATIONS_PERMISSION',
   payload: new Promise((resolve, reject) => {
     Platform.select(check)()
-    .then(permission => {
-      // dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_ON'})
-      resolve(permission)
-    })
-    .catch(err => {
-      // dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_OFF'})
-      reject(err)
-    })
+      .then(permission => {
+        // dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_ON'})
+        resolve(permission)
+      })
+      .catch(err => {
+        // dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_OFF'})
+        reject(err)
+      })
   }),
 });
 
@@ -41,7 +41,6 @@ const request = {
   ios(){
     FCM.requestPermissions();
     return Permissions.requestPermission('notification').then(permission => {
-      console.log(permission);
       return permission
 
     })
@@ -58,7 +57,6 @@ const check = {
   ios(){
 
     return Permissions.getPermissionStatus('notification').then(permission => {
-      console.log(permission);
       return permission
 
     })
