@@ -88,7 +88,9 @@
 		ACCB6A8F1DC90AA200E735C1 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACCB6A861DC90AA200E735C1 /* Zocial.ttf */; };
 		ACD0259C1DF9B84500667044 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ACD0259B1DF9B84500667044 /* GoogleService-Info.plist */; };
 		ACDCC39B1DBFADD700A3540E /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACDCC39A1DBFADCF00A3540E /* libRNKeychain.a */; };
+		ACDECED11E1C21D100FC3B37 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = ACDECED01E1C21D100FC3B37 /* Settings.bundle */; };
 		ACDF39131CE80BB100DE839B /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		AFB62869008D4FDAAAEAF3EF /* libRNUserDefaultsIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F366C930D08C41A8BF9F9A72 /* libRNUserDefaultsIOS.a */; };
 		B08E5FB4D0304C5BB7E8C898 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 971849C0FFD843EA833E7631 /* MaterialIcons.ttf */; };
 		EC5F6678416941118F51F367 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 80D4BC3737CD42A5B528A986 /* EvilIcons.ttf */; };
 		ED2EBF1DBBD94F0083F71EA2 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 632C6E68D0DA42D7BD7B8D1D /* libRNVectorIcons.a */; };
@@ -417,6 +419,20 @@
 			remoteGlobalIDString = 5D82366F1B0CE05B005A9EF3;
 			remoteInfo = RNKeychain;
 		};
+		ACDECF2B1E1C271800FC3B37 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1E511A6700BD4AB6A28DADD8 /* RNUserDefaultsIOS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 559FCEEF1B06A72F003129B0;
+			remoteInfo = RNUserDefaultsIOS;
+		};
+		ACDECF2D1E1C271800FC3B37 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1E511A6700BD4AB6A28DADD8 /* RNUserDefaultsIOS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 559FCEFA1B06A72F003129B0;
+			remoteInfo = RNUserDefaultsIOSTests;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -429,6 +445,7 @@
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Trippple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Trippple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		1E511A6700BD4AB6A28DADD8 /* RNUserDefaultsIOS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNUserDefaultsIOS.xcodeproj; path = "../node_modules/react-native-userdefaults-ios/RNUserDefaultsIOS.xcodeproj"; sourceTree = "<group>"; };
 		334730DEE5684240B26082B3 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		3973E760AE4F40BE870872C9 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		3D62B1BBA6E77BCA8E6D76D0 /* libPods-Trippple.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Trippple.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -543,10 +560,12 @@
 		ACCB6A861DC90AA200E735C1 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
 		ACD0259B1DF9B84500667044 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ACDCC3951DBFADCF00A3540E /* RNKeychain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNKeychain.xcodeproj; path = "../node_modules/react-native-keychain/RNKeychain.xcodeproj"; sourceTree = "<group>"; };
+		ACDECED01E1C21D100FC3B37 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		ACEB23C41CA32702007C426B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		ACFDE3971E13CEC700459E52 /* Trippple.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Trippple.entitlements; path = Trippple/Trippple.entitlements; sourceTree = "<group>"; };
 		D188754C5E604C688A23A189 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		E10C3EB2A6D742CD8C6A072F /* RNGeocoder.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGeocoder.xcodeproj; path = "../node_modules/react-native-geocoder/ios/RNGeocoder.xcodeproj"; sourceTree = "<group>"; };
+		F366C930D08C41A8BF9F9A72 /* libRNUserDefaultsIOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNUserDefaultsIOS.a; sourceTree = "<group>"; };
 		F776E04495314BB591AEA78A /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		FC0B0860A2C01DA7CDE0FEB0 /* Pods-Trippple.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trippple.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trippple/Pods-Trippple.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -604,6 +623,7 @@
 				20A23F24D7E14481AA223BF4 /* libReactNativePermissions.a in Frameworks */,
 				ED2EBF1DBBD94F0083F71EA2 /* libRNVectorIcons.a in Frameworks */,
 				5B7746B453324765B5FC8D42 /* libRNGeocoder.a in Frameworks */,
+				AFB62869008D4FDAAAEAF3EF /* libRNUserDefaultsIOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -739,6 +759,7 @@
 				7695E6F81CAE425088013A12 /* ReactNativePermissions.xcodeproj */,
 				8617B61907EC481BA72583BF /* RNVectorIcons.xcodeproj */,
 				E10C3EB2A6D742CD8C6A072F /* RNGeocoder.xcodeproj */,
+				1E511A6700BD4AB6A28DADD8 /* RNUserDefaultsIOS.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -755,6 +776,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				ACDECED01E1C21D100FC3B37 /* Settings.bundle */,
 				ACB070371D08998A00B8E4A9 /* RCTPushNotificationManager.h */,
 				ACC7DE7D1C5A41EA0087476F /* Trippple */,
 				ACC332171CE90DB700DCC3CC /* FBSDKCoreKit.framework */,
@@ -1081,6 +1103,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		ACDECEFE1E1C271800FC3B37 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ACDECF2C1E1C271800FC3B37 /* libRNUserDefaultsIOS.a */,
+				ACDECF2E1E1C271800FC3B37 /* RNUserDefaultsIOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		AD4A1DE9052349FB9734E582 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -1317,6 +1348,10 @@
 				{
 					ProductGroup = AC5ECE031DCCD96200810C69 /* Products */;
 					ProjectRef = AC5ECE021DCCD96200810C69 /* RNMixpanel.xcodeproj */;
+				},
+				{
+					ProductGroup = ACDECEFE1E1C271800FC3B37 /* Products */;
+					ProjectRef = 1E511A6700BD4AB6A28DADD8 /* RNUserDefaultsIOS.xcodeproj */;
 				},
 				{
 					ProductGroup = AC1599BC1DEF500D002667A7 /* Products */;
@@ -1659,6 +1694,20 @@
 			remoteRef = ACDCC3991DBFADCF00A3540E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		ACDECF2C1E1C271800FC3B37 /* libRNUserDefaultsIOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNUserDefaultsIOS.a;
+			remoteRef = ACDECF2B1E1C271800FC3B37 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ACDECF2E1E1C271800FC3B37 /* RNUserDefaultsIOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RNUserDefaultsIOSTests.xctest;
+			remoteRef = ACDECF2D1E1C271800FC3B37 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1677,6 +1726,7 @@
 				ACC7DEC11C5A43D90087476F /* omnes-medium-webfont.ttf in Resources */,
 				ACC7DEBF1C5A43D90087476F /* omnes-bold-webfont.ttf in Resources */,
 				ACB30CD01D1EBADA00171A18 /* poetsenone-regular-webfont.ttf in Resources */,
+				ACDECED11E1C21D100FC3B37 /* Settings.bundle in Resources */,
 				ACCB6A871DC90AA200E735C1 /* Entypo.ttf in Resources */,
 				ACD0259C1DF9B84500667044 /* GoogleService-Info.plist in Resources */,
 				AC55AD6D1CFE73B600326ED9 /* T3Theme.plist in Resources */,
@@ -1747,7 +1797,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/packager/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n#../node_modules/react-native/packager/react-native-xcode.sh";
 			showEnvVarsInLog = 0;
 		};
 		AC9F1CF91CFFE20B002C62CA /* ShellScript */ = {
@@ -1872,6 +1922,7 @@
 					"$(SRCROOT)/../node_modules/react-native/Libraries/LinkingIOS",
 					"$(SRCROOT)/../node_modules/react-native-reverse-geo/RNReverseGeo/**",
 					"$(SRCROOT)/../node_modules/react-native-geocoder/ios/RNGeocoder",
+					"$(SRCROOT)/../node_modules/react-native-userdefaults-ios/RNUserDefaultsIOS",
 				);
 				INFOPLIST_FILE = Trippple/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
@@ -1898,6 +1949,7 @@
 					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator/FBSDKCoreKit",
 					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator/FBSDKLoginKit",
 					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator/FBSDKShareKit",
+					"\"$(SRCROOT)/Trippple\"",
 					"\"$(SRCROOT)/Trippple\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
@@ -1964,6 +2016,7 @@
 					"$(SRCROOT)/../node_modules/react-native/Libraries/LinkingIOS",
 					"$(SRCROOT)/../node_modules/react-native-reverse-geo/RNReverseGeo/**",
 					"$(SRCROOT)/../node_modules/react-native-geocoder/ios/RNGeocoder",
+					"$(SRCROOT)/../node_modules/react-native-userdefaults-ios/RNUserDefaultsIOS",
 				);
 				INFOPLIST_FILE = Trippple/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
@@ -1990,6 +2043,7 @@
 					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator/FBSDKCoreKit",
 					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator/FBSDKLoginKit",
 					"$(PROJECT_DIR)/Build/Products/Debug-iphonesimulator/FBSDKShareKit",
+					"\"$(SRCROOT)/Trippple\"",
 					"\"$(SRCROOT)/Trippple\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
@@ -2063,6 +2117,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-reverse-geo/RNReverseGeo/**",
 					"$(SRCROOT)/../node_modules/react-native-geocoder/ios/RNGeocoder",
+					"$(SRCROOT)/../node_modules/react-native-userdefaults-ios/RNUserDefaultsIOS",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -2124,6 +2179,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-reverse-geo/RNReverseGeo/**",
 					"$(SRCROOT)/../node_modules/react-native-geocoder/ios/RNGeocoder",
+					"$(SRCROOT)/../node_modules/react-native-userdefaults-ios/RNUserDefaultsIOS",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
