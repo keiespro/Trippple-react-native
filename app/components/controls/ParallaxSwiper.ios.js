@@ -39,22 +39,6 @@ class ParallaxSwiper extends React.Component{
     this._scrollView = {};
   }
 
-  componentDidMount(){
-    // this.state.scrollY.addListener(this.maybeKillProfile.bind(this))
-      //
-      // setTimeout(()=>{
-      //     console.log(this._scrollView)
-      //     const snode = this._scrollView
-      //
-      //     console.log('SNODE',snode);
-      //     // this.setState({
-      //     //   snode
-      //     // })
-      //
-      //   },3000)
-
-  }
-
   getScrollResponder() {
     return this._scrollView.getScrollResponder();
   }
@@ -80,38 +64,7 @@ class ParallaxSwiper extends React.Component{
 
   renderBackground() {
     const { slideFrames, profileVisible, isTopCard } = this.props;
-    // const { scrollY } = this.state;
-    // if (!windowHeight || !swiper) {
-    //   return null;
-    // }
-    const slides = slideFrames.map((p, i) => {
-      let {image_url} = p;
-      if(!image_url || image_url.length == 0){ image_url = null }
-      else{
-        image_url = image_url.replace('test/', '').replace('images/', '')
-      }
-      return (
-        <FadeIn
-          key={`${p.id}slide${i}`}
-          placeholderStyle={{}}
-        >
-          <Image
-            source={image_url ? {uri: image_url } : require('../screens/potentials/assets/defaultuser.png')}
-            defaultSource={require('../screens/potentials/assets/defaultuser.png')}
-            loadingIndicatorSrc={null}
-            style={{
-              height: this.props.height,
-              width: DeviceWidth,
-              borderRadius: 11,
-              alignSelf: 'flex-end',
-              bottom: 0,
-              top: 0
-            }}
-          />
-        </FadeIn>
-      )
-    });
-    return (
+     return (
       <Animated.View
         pointerEvents={'none'}
         key={this.props.potentialkey}
@@ -163,7 +116,7 @@ class ParallaxSwiper extends React.Component{
           {<FadeSwiper
             slides={slideFrames.map(s => ({...s, image: s.image_url ? {uri: s.image_url } : require('../screens/potentials/assets/defaultuser.png'), imageWidth: this.props.width, imageHeight: this.props.height, }))}
             fadeDuration={200}
-            stillDuration={2000}
+            stillDuration={1000}
             height={this.props.height}
            />}
          </Animated.View>
@@ -206,35 +159,21 @@ class ParallaxSwiper extends React.Component{
           keyboardShouldPersistTaps
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
-            flexGrow: 1,
+            flexGrow: 100,
             backgroundColor: colors.dark70,
-            height: DeviceHeight + 1000,
             top: TOP_DISTANCE,
           }}
           style={[styles.scrollView, {
             marginBottom: iOS ? -500 : 0,
-            height: DeviceHeight,
+
           }]}
           vertical
           scrollEventThrottle={64}
+
         >
 
-          <View
-            style={{
-              top: 0,
-              zIndex: 0,
-              flexGrow: 1,
+        {this.props.children}
 
-              borderBottomLeftRadius: 11,
-              borderBottomRightRadius: 11,
-              backgroundColor: colors.outerSpace70,
-              paddingTop: 0
-            }}
-            pointerEvents={'box-none'}
-
-          >
-            {this.props.children}
-          </View>
           {profileVisible && !this.props.isUserProfile ?
             <XButton
               style={{right:0}}

@@ -10,7 +10,7 @@ var {
 
 var TimerMixin = require('react-timer-mixin');
 var tweenState = require('react-tween-state');
-
+import FadeIn from '@exponent/react-native-fade-in-image'
 let MINIMUM_DELAY = 100;
 
 var FadingSlides = React.createClass({
@@ -53,20 +53,21 @@ var FadingSlides = React.createClass({
     var slide = this.props.slides[this.state.currentIndex];
     return (
         <View>
-        <View style={[styles.slide, {
-        height: this.props.height, opacity: this.getTweeningValue('opacity')
-      }]}>
-        <Animated.Image
-          style={{ width: slide.imageWidth, height: slide.imageHeight }}
-          source={slide.image}
-        />
-      </View>
-        <Image
-          style={{position:'absolute', zIndex:-10,width: slide.imageWidth, height: slide.imageHeight }}
-          source={this.props.slides[0].image}
-        />
+          <View style={[styles.slide, {
+            height: this.props.height, opacity: this.getTweeningValue('opacity')
+          }]}>
+          <Image
+            style={{ width: slide.imageWidth, height: slide.imageHeight }}
+            source={slide.image}
+          />
+          
+        </View>
+          <Image
+            style={{position:'absolute', zIndex:-10,width: slide.imageWidth, height: slide.imageHeight }}
+            source={this.props.slides[0].image}
+          />
 
-      </View>
+    </View>
     );
   },
 });

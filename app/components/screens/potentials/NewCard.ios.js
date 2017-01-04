@@ -35,7 +35,7 @@ class NewCard extends React.Component {
   constructor() {
     super()
     this.state = {
-
+      innerHeight: 300
     }
   }
 
@@ -217,8 +217,8 @@ class NewCard extends React.Component {
       backgroundColor: colors.sushi,
       flexGrow: 1,
       borderRadius: 11,
-      height: profileVisible ? DeviceHeight : DeviceHeight - 70,
-      position: 'absolute',
+      height: (profileVisible ? DeviceHeight + this.state.innerHeight - 150 : DeviceHeight - 70),
+      position: 'relative',
       alignSelf: 'center',
     }];
 
@@ -269,9 +269,16 @@ class NewCard extends React.Component {
           <View
             style={aniblurstyle}
           />
+          <View
+            onLayout={e => {
+              console.log(e.nativeEvent.layout.height);
+              this.setState({innerHeight: e.nativeEvent.layout.height})
+            }}
+            style={{position:'absolute',top:0}}
+          >
 
           { profileVisible && this.renderInsideProfile()}
-
+          </View>
         </ParallaxSwiper>
 
         <View
@@ -292,9 +299,6 @@ class NewCard extends React.Component {
           }}
         >
           <TouchableOpacity
-
-
-
             onPress={this.openProfile.bind(this)}
             pointerEvents={'box-only'}
           >

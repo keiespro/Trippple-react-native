@@ -109,7 +109,7 @@ class PotentialsPlaceholder extends React.Component{
             source={require('./assets/placeholderDashed@3x.png')}
             style={{
               alignSelf: 'stretch',
-              height: DeviceHeight - 90,
+              height: DeviceHeight - 120,
               // marginHorizontal: MagicNumbers.is4s ? MagicNumbers.screenPadding : 15,
               marginVertical: MagicNumbers.is4s ? MagicNumbers.screenPadding : 15,
               // width: MagicNumbers.is4s ? DeviceWidth - MagicNumbers.screenPadding * 2 : DeviceWidth - 30,
@@ -117,7 +117,7 @@ class PotentialsPlaceholder extends React.Component{
               width: DeviceWidth - 40,
               justifyContent: 'center',
               position: 'absolute',
-              top: 50,
+              top: 70,
               flex: 1,
               bottom: 0,
               left: 20,
@@ -157,7 +157,16 @@ class PotentialsPlaceholder extends React.Component{
             </View> }
 
             {userProfileIncomplete && !this.state.loading ?
-              <View style={{flexGrow: 0,maxHeight:115,height:115,alignItems:'center',flexDirection:'column'}}>
+              <View
+                style={{
+                  flexGrow: 0,
+                  height:115,
+                  alignSelf:'stretch',
+                  alignItems:'center',
+                  flexDirection:'column',
+                  marginHorizontal:0
+                }}
+              >
                 <Button
                   btnText={'COMPLETE YOUR PROFILE'}
                   labelText={'WANT MORE MATCHES?'}
@@ -234,8 +243,7 @@ const Button = ({labelText, labelPosition = 'top', btnText, onTap}) => (
       alignSelf: 'stretch',
       marginTop: 30,
       marginHorizontal: 0,
-      paddingHorizontal: 20,
-      height:60,
+      paddingHorizontal: 0,
       flexGrow:1
     }}
   >
@@ -245,7 +253,8 @@ const Button = ({labelText, labelPosition = 'top', btnText, onTap}) => (
         fontFamily: 'omnes',
         color: colors.rollingStone,
         fontSize: MagicNumbers.size18 - 2,
-        textAlign: 'center'
+        textAlign: 'center',
+        backgroundColor:'transparent'
       }}
     >{labelText}</Text>}
 
