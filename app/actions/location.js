@@ -10,19 +10,25 @@ export const getLocation = () => dispatch => dispatch({ type: 'GET_LOCATION',
 
       Permissions.getPermissionStatus('location')
         .then(permission => {
-          if(permission == 'authorized') {
+          if(permission == 'authorized'){
             global.navigator.geolocation.getCurrentPosition(geo => {
               if(geo && geo.coords){
                 dispatch({ type: 'GOT_LOCATION', payload: geo.coords})
-                return api.updateUser(geo.coords).then(() => { resolve(geo.coords) })
+                return api.updateUser(geo.coords)
+                        .then(() => { resolve(geo.coords) })
+                        .catch(err => {
+                          console.log(err,'GOT_LOCATION but couldnt update');
+
+                        })
               }
               return false
             }, err => {
-              __DEV__ && console.warn(err, 'LOCATION ERR');
-              reject(err)
+              __DEV__ && console.log(err, 'LOCATION ERR');
+
             }, LOCATION_OPTIONS);
           }
-        }).catch(err => {
+        })
+        .catch(err => {
           reject(err)
         })
     })
