@@ -15,8 +15,6 @@
 			<string>ResetDataOnLaunch</string>
 			<key>DefaultValue</key>
 			<false/>
-			<key>TrueValue</key>
-			<string>OK</string>
 		</dict>
 	</array>
 </dict>
