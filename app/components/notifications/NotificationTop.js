@@ -154,8 +154,10 @@ class Notification extends React.Component{
 
   render(){
     if(!this.props.notification) return false;
+
     const {notification} = this.props;
     const noti = (notification.label || notification.type || '').toLowerCase();
+
     if((noti.indexOf('match') > -1 || noti.indexOf('message') > -1)){
       if(this.props.chatOpen){
         if(this.props.chatOpen == notification.match_id){
@@ -175,13 +177,11 @@ class Notification extends React.Component{
     const users = JSON.parse(u);
     let from_user_info
     let image_url
-    console.log(users);
     let fromuser = notification.from_user_info || "{}";
-
 
     if(noti.indexOf('match') > -1){
       myPartnerId = user.partner_id || null;
-      theirIds = Object.keys(users).filter((u) => u != user.id && u != user.partner_id);
+      theirIds = Object.keys(users).filter(u => u != user.id && u != user.partner_id);
       them = theirIds.map((id) => users[id]);
 
       threadName = them.map(u => u.firstname).join(' & ');
@@ -194,7 +194,6 @@ class Notification extends React.Component{
       image_url = from_user_info.image_url;
 
     }
-    __DEV__ && console.log(image_url);
 
 
     return (
@@ -237,7 +236,7 @@ class Notification extends React.Component{
                     (from_user_info.name || from_user_info.firstname || '').toUpperCase()
                   }</Text>
                   <View style={{flexWrap: 'wrap'}}>
-                    <Text style={styles.notiText} ellipsizeMode={'tail'} numberOfLines={2}>{ notification.message_body}</Text>
+                      <Text style={styles.notiText} ellipsizeMode={'tail'} numberOfLines={2}>{ notification.message_body}</Text>
                   </View>
                 </View>
               </View>

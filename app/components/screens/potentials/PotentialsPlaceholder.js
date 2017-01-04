@@ -94,7 +94,7 @@ class PotentialsPlaceholder extends React.Component{
           style={[
             styles.dashedBorderImage,
             {
-              height: DeviceHeight - 160,
+              height: DeviceHeight - 180,
               width: DeviceWidth,
               position: 'relative',
               alignItems: 'center',
@@ -190,7 +190,7 @@ class PotentialsPlaceholder extends React.Component{
               /></View> : null
             } */}
 
-            {!userProfileIncomplete && getPotentialsButtonEnabled && !potentialsReturnedEmpty && !this.state.loading ?
+            {!userProfileIncomplete && getPotentialsButtonEnabled && potentialsReturnedEmpty && !this.state.loading ?
               <View style={{flexGrow: 0,height:115,maxHeight:115,alignItems:'center',flexDirection:'column'}}>
                 <Button
                   loading={this.state.loading}

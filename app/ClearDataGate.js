@@ -19,9 +19,14 @@ class ClearDataGate extends Component{
 
         if(ResetDataOnLaunch){
 
-          return LogOut().then(() => UserDefaults.setBoolForKey(false,'ResetDataOnLaunch'))
+          return LogOut().then((x) => {
+            console.log(x);
+            return UserDefaults.setBoolForKey(false,'ResetDataOnLaunch')
+          })
           .then(result => {
             __DEV__ && console.log(result);
+            this.setState({noReset: true})
+
           })
         }else{
           this.setState({noReset: true})

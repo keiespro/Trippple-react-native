@@ -48,11 +48,11 @@ const ApiActionCreators = endpointMap.reduce((obj, endpoint) => {
           dispatch({type: 'KILL_MODAL', payload: true})
         }
 
-        if(['uploadfacebookpic', 'decouple', 'verifycouplepin', 'updateuser', 'onboard'].indexOf(endpoint.call.toLowerCase()) > -1){
+        if(['uploadfacebookpic', 'decouple', 'verifycouplepin', 'updateuser','fblogin', 'onboard'].indexOf(endpoint.call.toLowerCase()) > -1){
           shouldFetchUserInfo = true
         }
 
-        if(['decouple', 'verifycouplepin', 'onboard','updateuser'].indexOf(endpoint.call.toLowerCase()) > -1){
+        if(['decouple', 'verifycouplepin', 'onboard','updateuser','fblogin'].indexOf(endpoint.call.toLowerCase()) > -1){
           shouldFetchPotentials = true
         }
 
