@@ -29,10 +29,10 @@ class NewBoot extends Component{
   initialize(){
 
     loadSavedCredentials().then(creds => {
-      if(creds){
-        store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: creds})
-      }else if(global.creds){
+      if(global.creds){
         store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: global.creds})
+      }else if(creds){
+        store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: creds})
       }
     })
     .catch(err => {
