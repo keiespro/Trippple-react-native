@@ -113,12 +113,17 @@ class ParallaxSwiper extends React.Component{
 
           }}
         >
-          {<FadeSwiper
+          {slideFrames.length > 1 ? <FadeSwiper
             slides={slideFrames.map(s => ({...s, image: s.image_url ? {uri: s.image_url } : require('../screens/potentials/assets/defaultuser.png'), imageWidth: this.props.width, imageHeight: this.props.height, }))}
-            fadeDuration={200}
-            stillDuration={1000}
+            fadeDuration={350}
+            stillDuration={1500}
             height={this.props.height}
-           />}
+          /> :
+          <Image
+            style={{height: this.props.height, width: this.props.width}}
+            source={slideFrames[0].image_url ? {uri: slideFrames[0].image_url } : require('../screens/potentials/assets/defaultuser.png')}
+          />
+        }
          </Animated.View>
 
       </Animated.View>
