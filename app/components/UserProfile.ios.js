@@ -27,7 +27,7 @@ const CardLabel = props => (
     <CityState
       cityState={props.city}
       potential={props.potential}
-      coords={{lat: props.potential.user.lat, lng: props.potential.user.lng}}
+      coords={{lat: props.potential.user.latitude, lng: props.potential.user.longitude}}
     />
   </View>
 );

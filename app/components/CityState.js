@@ -21,7 +21,9 @@ export default class CityState extends Component{
   }
 
   componentDidMount(){
-    this.geocode()
+    if(this.props.coords){
+      this.geocode()
+    }  
   }
 
   async geocode(){
@@ -39,7 +41,7 @@ export default class CityState extends Component{
         <Text
           style={[styles.cardBottomOtherText, { alignSelf: 'flex-start', color:  this.props.profileVisible ? '#fff' : colors.rollingStone }]}
           key={`${this.props.potential.user.id}-matchn`}
-        >{this.props.cityState || this.state.cityState}</Text>
+        >{this.state.cityState || this.props.cityState}</Text>
       </View>
     )
   }

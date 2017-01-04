@@ -130,15 +130,15 @@ class ParallaxSwiper extends React.Component{
           marginTop: profileVisible ? 0 : 40,
           flexGrow: 1,
           position: 'absolute',
-          top: profileVisible ? -60 : 0,
+          top: 0,
           borderRadius: 11,
           backgroundColor: iOS && typeof this.props.pan != 'undefined' ? this.props.pan.x.interpolate({
-            inputRange: [-300, -280, -250, 0, 250, 280, 300],
+            inputRange: [-300, -180, -150, 0, 150, 180, 300],
             outputRange: [
               'rgba(232,74,107,1.0)',
               'rgba(232,74,107,1.0)',
               'rgba(232,74,107,1.0)',
-              'rgba(0,0,0,0.0)',
+              'rgba(255,255,255,0.5)',
               'rgba(66,181,125,1.0)',
               'rgba(66,181,125,1.0)',
               'rgba(66,181,125,1.0)',
@@ -146,23 +146,27 @@ class ParallaxSwiper extends React.Component{
           }) : colors.mediumPurple20,
         }]}
       >
-        <View
+        <Animated.View
           pointerEvents={'box-none'}
           style={{
             flexGrow: 1,
             borderRadius: 11,
             left: 0,
-            backgroundColor: colors.mediumPurple,
-            overflow:'hidden'
+            overflow:'hidden',
+            opacity: typeof this.props.pan != 'undefined' && this.props.pan.x ? this.props.pan.x.interpolate({
+              inputRange: [-300, -10, 0, 10, 300],
+              outputRange: [0.3, 1, 1, 1, 0.3]
+            }) : 1,
+
           }}
         >
           {<FadeSwiper
-            slides={slideFrames.map(s => ({...s, image: {uri: s.image_url}, imageWidth: this.props.width, imageHeight: this.props.height, }))}
+            slides={slideFrames.map(s => ({...s, image: s.image_url ? {uri: s.image_url } : require('../screens/potentials/assets/defaultuser.png'), imageWidth: this.props.width, imageHeight: this.props.height, }))}
             fadeDuration={200}
             stillDuration={2000}
             height={this.props.height}
            />}
-         </View>
+         </Animated.View>
 
       </Animated.View>
     );

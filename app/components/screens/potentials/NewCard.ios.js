@@ -23,7 +23,7 @@ const CardLabel = pure(({potential, city, textColor, matchName}) => (
     <CityState
       cityState={city.length > 0 ? city : null}
       potential={potential}
-      coords={{lat: potential.user.lat, lng: potential.user.lng}}
+      coords={{lat: potential.user.latitude, lng: potential.user.longitude}}
     />
   </View>
 ));
