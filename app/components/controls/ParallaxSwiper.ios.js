@@ -3,6 +3,7 @@ import {StyleSheet, Image, View, ScrollView, Platform, Animated, Dimensions} fro
 import FadeIn from '@exponent/react-native-fade-in-image';
 import colors from '../../utils/colors'
 import Swiper from './swiper'
+import FadeSwiper from '../fadeSlider'
 import XButton from '../buttons/XButton'
 
 const iOS = Platform.OS == 'ios';
@@ -110,7 +111,6 @@ class ParallaxSwiper extends React.Component{
         </FadeIn>
       )
     });
-
     return (
       <Animated.View
         pointerEvents={'none'}
@@ -152,28 +152,17 @@ class ParallaxSwiper extends React.Component{
             flexGrow: 1,
             borderRadius: 11,
             left: 0,
-
+            backgroundColor: colors.mediumPurple,
+            overflow:'hidden'
           }}
         >
-          {slides && slides.length >= 1 ? <Swiper
-            isTopCard={isTopCard}
-            horizontal
-            pan={this.props.pan ? this.props.pan.x : null}
-            dispatch={this.props.dispatch}
-            scrollEnabled={this.props.profileVisible}
-            profileVisible={this.props.profileVisible}
-            inCard
-            autoplay={this.props.autoplay}
-            width={DeviceWidth}
-            height={this.props.height+(profileVisible ? 60 : 0)}
-            paginationStyle={{
-              top: 0,
-              right: 0
-            }}
-          >
-            {slides}
-          </Swiper> : slides}
-        </View>
+          {<FadeSwiper
+            slides={slideFrames.map(s => ({...s, image: {uri: s.image_url}, imageWidth: this.props.width, imageHeight: this.props.height, }))}
+            fadeDuration={200}
+            stillDuration={2000}
+            height={this.props.height}
+           />}
+         </View>
 
       </Animated.View>
     );
