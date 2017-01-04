@@ -65,6 +65,7 @@ class CoupleReady extends React.Component{
     // if(this.props.navigator){
     //   this.props.navigator.pop()
     // }
+    this.props.navigator && this.props.navigator.popToTop()
 
     if(this.props.closeModal){
       this.props.closeModal()
@@ -78,7 +79,6 @@ class CoupleReady extends React.Component{
     if(this.props.kill){
       this.props.kill()
     }
-    this.props.navigator && this.props.navigator.popToTop()
   }
 
   render(){

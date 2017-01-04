@@ -89,7 +89,8 @@ class NoPartner extends React.Component{
             ...this.props.user.partner,
             firstname: ''
           }
-        }
+        },
+        closeModal: () => {this.props.navigator.popToTop()}
       }
     }));
 
