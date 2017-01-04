@@ -52,7 +52,7 @@ const ApiActionCreators = endpointMap.reduce((obj, endpoint) => {
           shouldFetchUserInfo = true
         }
 
-        if(['decouple', 'verifycouplepin', 'onboard'].indexOf(endpoint.call.toLowerCase()) > -1){
+        if(['decouple', 'verifycouplepin', 'onboard','updateuser'].indexOf(endpoint.call.toLowerCase()) > -1){
           shouldFetchPotentials = true
         }
 
