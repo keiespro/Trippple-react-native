@@ -92,7 +92,7 @@ class ParallaxSwiper extends React.Component{
       return (
         <FadeIn
           key={`${p.id}slide${i}`}
-          placeholderStyle={{backgroundColor: colors.darkPurple}}
+          placeholderStyle={{}}
         >
           <Image
             source={image_url ? {uri: image_url } : require('../screens/potentials/assets/defaultuser.png')}
@@ -128,20 +128,20 @@ class ParallaxSwiper extends React.Component{
           //   height: -10
           // },
           marginTop: profileVisible ? 0 : 40,
-          flex: 1,
+          flexGrow: 1,
           position: 'absolute',
-          top: 0,
+          top: profileVisible ? -60 : 0,
           borderRadius: 11,
           backgroundColor: iOS && typeof this.props.pan != 'undefined' ? this.props.pan.x.interpolate({
             inputRange: [-300, -280, -250, 0, 250, 280, 300],
             outputRange: [
-              'rgb(232,74,107)',
-              'rgb(232,74,107)',
-              'rgb(232,74,107)',
-              'rgb(0,0,0)',
-              'rgb(66,181,125)',
-              'rgb(66,181,125)',
-              'rgb(66,181,125)',
+              'rgba(232,74,107,1.0)',
+              'rgba(232,74,107,1.0)',
+              'rgba(232,74,107,1.0)',
+              'rgba(0,0,0,0.0)',
+              'rgba(66,181,125,1.0)',
+              'rgba(66,181,125,1.0)',
+              'rgba(66,181,125,1.0)',
             ],
           }) : colors.mediumPurple20,
         }]}
@@ -149,7 +149,7 @@ class ParallaxSwiper extends React.Component{
         <View
           pointerEvents={'box-none'}
           style={{
-            flex: 1,
+            flexGrow: 1,
             borderRadius: 11,
             left: 0,
 
@@ -158,14 +158,14 @@ class ParallaxSwiper extends React.Component{
           {slides && slides.length >= 1 ? <Swiper
             isTopCard={isTopCard}
             horizontal
-            pan={this.props.pan.x}
+            pan={this.props.pan ? this.props.pan.x : null}
             dispatch={this.props.dispatch}
             scrollEnabled={this.props.profileVisible}
             profileVisible={this.props.profileVisible}
             inCard
             autoplay={this.props.autoplay}
             width={DeviceWidth}
-            height={this.props.height}
+            height={this.props.height+(profileVisible ? 60 : 0)}
             paginationStyle={{
               top: 0,
               right: 0

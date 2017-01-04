@@ -20,12 +20,12 @@ import Btn from '../../Btn';
 class MatchesButton extends React.Component{
   render(){
     return (
-      <View style={{borderRadius:25,overflow:'hidden'}}>
-      <Btn color={colors.outerSpace} round style={{paddingTop:10,paddingLeft:25,paddingBottom:10,top:0,position:'relative'}} onPress={() => this.props.navigator.push(this.props.navigation.router.getRoute('Matches'))}>
+      <View style={{overflow:'hidden'}}>
+      <Btn color={colors.outerSpace} round style={{paddingTop:10,paddingLeft:25,paddingBottom:3,top:3,position:'relative'}} onPress={() => this.props.navigator.push(this.props.navigation.router.getRoute('Matches'))}>
         <Image
           resizeMode={Image.resizeMode.contain}
           tintColor={colors.white}
-          style={{width:28,top:0,height:30,marginRight:15,tintColor: __DEV__ ? colors.daisy : colors.white}}
+          style={{width:32,top:0,height:40,marginRight:15,tintColor: colors.white}}
           source={require('./assets/chat@3x.png')}
         />
         {this.props.unread.total && parseInt(this.props.unread.total) > 0 || this.props.unread.realTotal &&   parseInt(this.props.unread.realTotal) > 0 ?

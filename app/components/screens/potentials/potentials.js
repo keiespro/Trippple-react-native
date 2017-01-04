@@ -19,7 +19,7 @@ const ToolbarLogo = () => (
       resizeMode={Image.resizeMode.contain}
       style={{
         width: 80,
-        height: 30,
+        height: 40,
         tintColor: __DEV__ ? colors.daisy : colors.white,
         alignSelf: 'center'
       }}
@@ -60,16 +60,15 @@ const Toolbar = () => (
     style={{
       flexDirection: 'row',
       justifyContent: 'space-between',
-      height: iOS ? 74 : 60,
+      height: iOS ? 64 : 60,
       position: 'absolute',
       top: 0,
       flexGrow: 1,
       margin: 0,
       alignSelf: 'stretch',
       width: DeviceWidth,
-      alignItems: 'center',
+      alignItems: 'flex-end',
       zIndex: 10,
-
     }}
   >
     <SettingsButton />

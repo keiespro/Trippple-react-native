@@ -179,7 +179,7 @@ class PotentialsPlaceholder extends React.Component{
               </View> : null
             }
 
-            {!userProfileIncomplete && potentialsReturnedEmpty && (!this.state.loading) ?
+            {/* {!userProfileIncomplete && potentialsReturnedEmpty && (!this.state.loading) ?
               <View style={{flexGrow: 0,height:115,maxHeight:115,alignItems:'center',flexDirection:'column'}}>
                 <Button
                 loading={this.state.loading}
@@ -188,6 +188,18 @@ class PotentialsPlaceholder extends React.Component{
                 labelPosition={'top'}
                 onTap={this.openPrefs.bind(this)}
               /></View> : null
+            } */}
+
+            {!userProfileIncomplete && getPotentialsButtonEnabled && !potentialsReturnedEmpty && !this.state.loading ?
+              <View style={{flexGrow: 0,height:115,maxHeight:115,alignItems:'center',flexDirection:'column'}}>
+                <Button
+                  loading={this.state.loading}
+                  btnText={'CHECK AGAIN'}
+                  labelText={`WE'LL KEEP LOOKING`}
+                  labelPosition={'top'}
+                  onTap={this.getMorePotentials.bind(this)}
+                />
+              </View> : null
             }
 
             {!userProfileIncomplete && !potentialsReturnedEmpty && !getPotentialsButtonEnabled && !this.state.loading ?

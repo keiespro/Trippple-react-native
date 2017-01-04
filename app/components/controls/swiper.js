@@ -303,9 +303,10 @@ const Swiper = React.createClass({
           position:'relative',
           zIndex:9999,
           borderRadius: 11,
+          top:0,
           opacity: this.props.pan ? this.props.pan.interpolate({
-            inputRange: [ -300, -10, 0, 10, 300],
-            outputRange: [0.5, 1, 1, 1, 0.5]
+            inputRange: [-300, -10, 0, 10, 300],
+            outputRange: [0.3, 1, 1, 1, 0.3]
           }) : 1,
         }]}
       >
@@ -320,9 +321,13 @@ const Swiper = React.createClass({
           onMoveShouldSetResponder={(e,x) => {console.log('onStartShouldSetResponderCapture',e,x); return true}}
           contentContainerStyle={[styles.wrapper, props && props.style, {
             borderRadius: 11,
+            top:0,
+
           }]}
           style={{
             borderRadius: 11,
+            top:0,
+
           }}
           scrollEventThrottle={this.props.autoplayTimeout}
           onScroll={this.onScrollBegin}
