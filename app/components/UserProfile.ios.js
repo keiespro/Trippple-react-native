@@ -3,10 +3,8 @@ import React from 'react';
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
 
 import { connect } from 'react-redux'
-
+import CityState from './CityState'
 import ParallaxSwiper from './controls/ParallaxSwiper';
-// import ReportModal from './modals/ReportModal';
-// import Swiper from './controls/swiper';
 import UserDetails from './UserDetails';
 // import XButton from './buttons/XButton';
 import colors from '../utils/colors';
@@ -25,12 +23,12 @@ const CardLabel = props => (
       key={`${props.potential.user.id}-names`}
     >{ props.matchName }
     </Text>
-    <Text
-      style={[styles.cardBottomOtherText, { alignSelf: 'flex-start', color: props.textColor }]}
-      key={`${props.potential.user.id}-matchn`}
-    >{props.city
-        // props.city.replace(', ', '') + props.seperator + (props.distance ? ` ${props.distance} ${props.distance == 1 ? 'mile' : 'miles'} away` : '')
-    }</Text>
+
+    <CityState
+      cityState={props.city}
+      potential={props.potential}
+      coords={{lat: props.potential.user.lat, lng: props.potential.user.lng}}
+    />
   </View>
 );
 
@@ -141,7 +139,11 @@ class UserProfile extends React.Component {
         }]}
         onLayout={this.onLayout.bind(this)}
       >
-        <StatusBar animated={true} barStyle="light-content" hidden={true} />
+        <StatusBar
+          animated={true}
+          barStyle="light-content"
+          hidden={true}
+        />
 
         <ParallaxSwiper
           contentContainerStyle={[{
@@ -343,7 +345,7 @@ class CustomTabBar extends React.Component {
     );
   }
 }
-//
+
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
   user: state.user,

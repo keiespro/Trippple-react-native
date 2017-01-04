@@ -9,10 +9,10 @@ import UserDetails from '../../UserDetails'
 import ParallaxSwiper from '../../controls/ParallaxSwiper'
 import VerifiedCoupleBadge from '../../Badge/VerifiedCoupleBadge'
 import {pure, onlyUpdateForKeys} from 'recompose'
+import CityState from '../../CityState'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-
 
 const CardLabel = pure(({potential, city, textColor, matchName}) => (
   <View pointerEvents={'none'}>
@@ -20,10 +20,11 @@ const CardLabel = pure(({potential, city, textColor, matchName}) => (
       style={[styles.cardBottomText, {color: textColor}]}
       key={`${potential.user.id}-names`}
     >{ matchName }</Text>
-    <Text
-      style={[styles.cardBottomOtherText, {color: textColor}]}
-      key={`${potential.user.id}-matchn`}
-    >{city}</Text>
+    <CityState
+      cityState={city.length > 0 ? city : null}
+      potential={potential}
+      coords={{lat: potential.user.lat, lng: potential.user.lng}}
+    />
   </View>
 ));
 
