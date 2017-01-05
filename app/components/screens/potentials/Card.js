@@ -1,15 +1,9 @@
 import { Dimensions } from 'react-native';
 import React from 'react';
-// import { MagicNumbers } from '../../../utils/DeviceConfig';
-// import ActionMan from '../../../actions/';
-// import Analytics from '../../../utils/Analytics';
-// import ReportModal from '../../modals/ReportModal';
-// import animations from './LayoutAnimations';
-// import colors from '../../../utils/colors';
 import NewCard from './NewCard';
 
 const DeviceHeight = Dimensions.get('window').height;
-const DeviceWidth = Dimensions.get('window').width;
+const DeviceWidth  = Dimensions.get('window').width;
 
 class Card extends React.Component {
 
@@ -63,11 +57,11 @@ class Card extends React.Component {
       names.push(potential.partner.firstname.trim());
     }
 
-    const { pan } = this.props;
-    let matchName = names[0];
-    let distance = potential.user.distance;
-    const city = potential.user.city_state || '';
-    const partnerDistance = potential.partner ? potential.partner.distance : null;
+    const { pan }   = this.props;
+    let   matchName = names[0];
+    let   distance  = potential.user.distance   || 0;
+    const city      = potential.user.city_state || '';
+    const partnerDistance = potential.partner ? potential.partner.distance : 0;
     if(potential.partner && potential.partner.firstname) {
       matchName = `${matchName} & ${names[1]}`;
       distance = Math.min(distance, partnerDistance || 0);

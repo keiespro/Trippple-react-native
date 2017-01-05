@@ -65,28 +65,13 @@ class CardStack extends React.Component {
      const n = nProps;
     const p = this.props;
     if(n.profileVisible !== p.profileVisible){
-    // console.log('SCENERIO 0');
         Animated.spring(this.state.cardopen, {
           toValue: n.profileVisible ? 1.00 : 0.92,
           tension: 15,
           friction: 7,
           velocity: 2,
           useNativeDriver: !iOS,
-        }).start(() => {
-          // console.log('end');
-          // this.state.cardopen.setValue(n.profileVisible ? 1.00 : 0.92);
-
-        });
-        // Animated.timing(this.state.heightBox, {
-        //   toValue: n.profileVisible ? DeviceHeight : DeviceHeight-60,
-        //   tension: 10,
-        //   friction: 5,
-        //   velocity: 3,
-        //   useNativeDriver: false,
-        // }).start(() => {
-        //
-        //
-        // })
+        }).start(() => {});
     }
 
   }
@@ -94,12 +79,9 @@ class CardStack extends React.Component {
   componentDidUpdate(pProps,pState){
     if(this.props.potentials[0] && pProps.potentials[0]){
 
-      // console.warn('SCENARIO 1');
       const pid = this.props.potentials[0].user.id
       const nid = pProps.potentials[0].user.id
       if(nid != pid){
-        // console.log(nid,pid);
-        // console.warn('SCENARIO 1.5');
         this.state.pan.setValue({ x: 0, y: 0 });
         this.setTimeout(()=>{
           this.state.cardopen.setValue(0.92);
@@ -110,11 +92,7 @@ class CardStack extends React.Component {
 
       }
     }else if((this.props.drawerOpen != pProps.drawerOpen)){
-
-      // console.warn('SCENARIO 2');
-
       this.state.cardopen.setValue(0.92);
-
     }
   }
 
@@ -150,27 +128,6 @@ class CardStack extends React.Component {
       }]),
 
       onShouldBlockNativeResponder: (e, gestureState) => false,
-      //
-      // onPanResponderReject: (e, gestureState) => {
-      //   console.log('onPanResponderReject',gestureState)
-      // },
-      // onPanResponderTerminate: (e, gestureState) => {
-      //   console.log('onPanResponderTerminate',gestureState)
-      // },
-      // onPanResponderTerminationRequest: (e, gestureState) => {
-      //   console.log('onPanResponderTerminationRequest',gestureState)
-      //   return true
-      // },
-      // onPanResponderGrant: (e, gestureState) => {
-      //   console.log('onPanResponderGrant',gestureState)
-      // },
-      // onPanResponderStart: (e, gestureState) => {
-      //   console.log('onPanResponderStart',gestureState)
-      // },
-      //
-      // onPanResponderEnd: (e, gestureState) => {
-      //   console.log('onPanResponderEnd',gestureState)
-      // },
 
       onPanResponderRelease: (e, gestureState) => {
         let toValue = {x: 0, y: 0};
@@ -182,7 +139,9 @@ class CardStack extends React.Component {
         const likeUserId = this.props.potentials[0].user.id;
 
               // animate back to center or off screen left or off screen right
-        if(dx > SWIPE_THRESHOLD_APPROVE || (dx > (THROW_THRESHOLD_APPROVE - 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD)) {
+        if (dx > SWIPE_THRESHOLD_APPROVE || 
+	   (dx > (THROW_THRESHOLD_APPROVE - 0) && 
+	   Math.abs(vx) > THROW_SPEED_THRESHOLD)) {
           __DEV__ && console.log(dx > SWIPE_THRESHOLD_APPROVE ? 'SWIPE' : (dx > (THROW_THRESHOLD_APPROVE - 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD) && 'THROW');
 
           toValue = { x: DeviceWidth + 100, y: dy };
@@ -217,20 +176,6 @@ class CardStack extends React.Component {
               })
           });
 
-          // if(!this.props.potentials[0].starter){
-          //   InteractionManager.runAfterInteractions(() => {
-          //     this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, relstatus, this.props.rel, otherParams));
-          //   })
-          //
-          // }else{
-          //       // setImmediate(() => {
-          //       //   this.props.dispatch({type: 'SEND_LIKE_FULFILLED', payload: {
-          //       //     relevantUser: this.props.potentials[0],
-          //       //     like_status: likeStatus
-          //       //   }});
-          //       // })
-          // }
-
         }else{
           setImmediate(() => {
             Animated.spring(this.state.pan, {
@@ -256,7 +201,9 @@ class CardStack extends React.Component {
   }
 
   _toggleProfile() {
-    this.props.profileVisible ? this.props.dispatch({ type: 'CLOSE_PROFILE' }) : this.props.dispatch({ type: 'OPEN_PROFILE' });
+    this.props.profileVisible 
+      ? this.props.dispatch({ type: 'CLOSE_PROFILE' }) 
+      : this.props.dispatch({ type: 'OPEN_PROFILE' });
   }
 
 
@@ -284,43 +231,6 @@ class CardStack extends React.Component {
       >
 
         <View style={{ width: DeviceWidth, }} pointerEvents={'box-none'} />
-
-        {/* { iOS && potentials && potentials.length >= 1 && potentials[1] &&
-          <Animated.View
-            style={[{
-              alignSelf: 'center',
-              borderRadius: 11,
-              position: 'absolute',
-              overflow: 'hidden',
-              opacity: 0.5, // this.state.pan.x,
-              transform: [
-                {
-                  scale: 0.8,
-                  // .interpolate({
-                  //   inputRange: [-400, -250, -100, 0, 100, 250, 400],
-                  //   outputRange: [0.915, 0.87, 0.85, 0.80, 0.85, 0.87, 0.915],
-                  //   extrapolate: 'clamp',
-                  // })
-                },
-              ],
-            }]}
-            pointerEvents={'box-none'}
-            key={`${potentials[1].user.id}-wrapper`}
-            ref={(card) => { this.card = card; }}
-          >
-            <Card
-              user={user}
-              key={`${potentials[1].id || potentials[1].user.id}-activecard`}
-              rel={user.relationship_status}
-              pan={this.state.pan}
-              animatedIn={this.state.animatedIn}
-              profileVisible={false}
-              dispatch={this.props.dispatch}
-              potential={potentials[1]}
-            />
-          </Animated.View>
-        } */}
-
         { potentials && potentials[0] &&
           <Animated.View
             pointerEvents={'auto'}

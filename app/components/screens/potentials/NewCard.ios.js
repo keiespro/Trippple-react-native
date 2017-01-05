@@ -2,7 +2,6 @@ import React from 'react'
 import { Text, View, StatusBar, Image, Animated, TouchableOpacity, Dimensions } from 'react-native'
 import ActionMan from '../../../actions'
 import styles from './styles'
-// import XButton from '../../buttons/XButton'
 import { MagicNumbers } from '../../../utils/DeviceConfig'
 import colors from '../../../utils/colors'
 import UserDetails from '../../UserDetails'
@@ -47,18 +46,6 @@ class NewCard extends React.Component {
       this.handleSize(layout.height, layout.width)
     }
   }
-
-  // handleBackFromOpenProfile(e, x){
-  //   console.log(e, x);
-  //   // e.preventDefault();
-  //   e && e.stopPropagation();
-  //   this.props.dispatch({ type: 'CLOSE_PROFILE' });
-  //   this.dontHandleBackFromOpenProfile()
-  // }
-  //
-  // dontHandleBackFromOpenProfile(){
-  //   BackAndroid.removeEventListener('hardwareBackPress', this.handleBackFromOpenProfile.bind(this))
-  // }
 
   reportModal() {
     const {potential} = this.props;
