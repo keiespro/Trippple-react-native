@@ -1,43 +1,43 @@
 package co.trippple;
 
-import android.app.Application;
-import android.util.Log;
 import android.content.Context;
-import android.support.multidex.MultiDexApplication;
 import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
+import com.trippple.RNUXCam.RNUXCamPackage;
+
+import com.cboy.rn.splashscreen.SplashScreenReactPackage;
+import com.chirag.RNMail.RNMail;
+import com.cmcewen.blurview.BlurViewPackage;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
-import com.facebook.react.ReactApplication;
 import com.devfd.RNGeocoder.RNGeocoderPackage;
-import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
-import com.kevinejohn.RNMixpanel.RNMixpanel;
-import co.trippple.RNHotline.RNHotline;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.cboy.rn.splashscreen.SplashScreenReactPackage;
-import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
-import com.chirag.RNMail.RNMail;
-import com.oblador.keychain.KeychainPackage;
-import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
-import com.rnfs.RNFSPackage;
-import org.jall.reactnative.firebase.FirebasePackage;
 import com.evollu.react.fcm.FIRMessagingPackage;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.rt2zz.reactnativecontacts.ReactNativeContacts;
-import com.lwansbrough.RCTCamera.RCTCameraPackage;
-import com.cmcewen.blurview.BlurViewPackage;
-import com.facebook.react.ReactInstanceManager;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
-import com.facebook.appevents.AppEventsLogger;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookSdk;
-import io.fabric.sdk.android.Fabric;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
+import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
+import com.kevinejohn.RNMixpanel.RNMixpanel;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.lwansbrough.RCTCamera.RCTCameraPackage;
+import com.oblador.keychain.KeychainPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.rnfs.RNFSPackage;
+import com.rt2zz.reactnativecontacts.ReactNativeContacts;
+import com.trippple.RNHotline.RNHotline;
+
+import org.jall.reactnative.firebase.FirebasePackage;
 
 import java.util.Arrays;
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 public class MainApplication extends MultiDexApplication implements ReactApplication {
 
@@ -58,13 +58,13 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNHotline(),
             new RNGeocoderPackage(),
             new ReactNativePermissionsPackage(),
             new RNMixpanel(),
-            new RNHotline(),
+            new RNUXCamPackage(),
             new VectorIconsPackage(),
             new SplashScreenReactPackage(),
-            new ReactNativePushNotificationPackage(),
             new RNMail(),
             new KeychainPackage(),
             new GoogleAnalyticsBridgePackage(),
