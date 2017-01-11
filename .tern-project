@@ -1,8 +1,7 @@
 {
   "ecmaVersion": 7,
   "libs": [
-    "browser",
-    "lodash"
+    "browser"
   ],
   "plugins": {
     "es_modules": {},

@@ -39,7 +39,7 @@
     "react-native-fs": "latest",
     "react-native-geocoder": "^0.4.5",
     "react-native-google-analytics-bridge": "^4.0.2",
-    "react-native-hotline": "git+https://github.com/trippple/react-native-hotline.git",
+    "react-native-hotline": "github:trippple/react-native-hotline",
     "react-native-invertible-scroll-view": "^1.0.0",
     "react-native-keyboard-spacer": "^0.3.1",
     "react-native-keychain": "^0.3.2",
