@@ -1,23 +1,21 @@
 import Keychain from 'react-native-keychain';
+import { Platform } from 'react-native';
+import userDefaults from '../utils/userDefaults';
+
 import config from '../../config';
-import LogOut from '../utils/logout';
-import { UIManager, NativeModules, AsyncStorage } from 'react-native';
+import doLogOut from '../utils/logout';
 import Telemetry from '../utils/AppTelemetry';
 
 const { KEYCHAIN_NAMESPACE } = config;
+const iOS = Platform.OS == 'ios';
 
 export const checkResetDataOnLaunch = () => dispatch => dispatch({ type: 'CHECK_USER_DEFAULTS',
   payload: new Promise((resolve, reject) => {
-    NativeModules.RNUserDefaultsIOS.boolForKey('ResetDataOnLaunch', (err, result) => {
-      console.log(result)
-      if(result){
-        AsyncStorage.clear().then(() => {
-          NativeModules.RNUserDefaultsIOS.setBoolForKey('ResetDataOnLaunch', 'NO', (err, result) => {
-            __DEV__ && console.log(err, result);
-          })
-        }).catch(reject)
-      }
-    })
+    if(iOS){
+
+    }else{
+      return (async () => {})()
+    }
   })
 })
 
@@ -31,7 +29,7 @@ export const saveCredentials = (credentials) => dispatch => dispatch({ type: 'SA
 
 export const logOut = () => dispatch => dispatch({ type: 'LOG_OUT',
   payload: new Promise((resolve, reject) => {
-    LogOut().then(x => {
+    doLogOut().then(x => {
       global.creds = null;
       resolve(x);
     })

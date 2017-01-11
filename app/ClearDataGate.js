@@ -13,29 +13,33 @@ class ClearDataGate extends Component{
   };
 
   componentWillMount(){
-    UserDefaults.boolForKey('ResetDataOnLaunch')
-      .then(ResetDataOnLaunch => {
-        __DEV__ && console.log('ResetDataOnLaunch', ResetDataOnLaunch)
+    if(iOS){
+      UserDefaults.boolForKey('ResetDataOnLaunch')
+        .then(ResetDataOnLaunch => {
+          __DEV__ && console.log('ResetDataOnLaunch', ResetDataOnLaunch)
 
-        if(ResetDataOnLaunch){
+          if(ResetDataOnLaunch){
 
-          return LogOut().then((x) => {
-            console.log(x);
-            return UserDefaults.setBoolForKey(false,'ResetDataOnLaunch')
-          })
-          .then(result => {
-            __DEV__ && console.log(result);
+            return LogOut().then((x) => {
+              return UserDefaults.setBoolForKey(false,'ResetDataOnLaunch')
+            })
+            .then(result => {
+              __DEV__ && console.log(result);
+              this.setState({noReset: true})
+
+            })
+          }else{
             this.setState({noReset: true})
-
-          })
-        }else{
+          }
+        })
+        .catch(err => {
           this.setState({noReset: true})
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        this.setState({noReset: true})
-      })
+        })
+    }else{
+      this.setState({noReset: true})
+
+    }
+
   }
 
   render() {
