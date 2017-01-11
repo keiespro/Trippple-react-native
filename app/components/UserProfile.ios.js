@@ -1,15 +1,12 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, PixelRatio, Dimensions, StatusBar } from 'react-native';
 import React from 'react';
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
-
+import { MagicNumbers } from '../utils/DeviceConfig'
 import { connect } from 'react-redux'
 import CityState from './CityState'
 import ParallaxSwiper from './controls/ParallaxSwiper';
 import UserDetails from './UserDetails';
-// import XButton from './buttons/XButton';
 import colors from '../utils/colors';
-import { MagicNumbers } from '../utils/DeviceConfig'
-// import { pure } from 'recompose'
 import VerifiedCoupleBadge from './Badge/VerifiedCoupleBadge'
 import ActionMan from '../actions'
 
@@ -81,11 +78,6 @@ class UserProfile extends React.Component {
     this.setState({ contentHeight })
   }
   render() {
-      // if(!this.props.user || !this.props.potential || !this.props.potential.user ||
-      // !this.props.potential.user.firstname){
-      //   this.props.dispatch(ActionMan.getUserInfo());
-      //   return <View/>
-      // }
     const { potential } = this.props,
       distance = potential.user.distance || 0,
       city = potential.user.city_state || '';
@@ -354,7 +346,6 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({dispatch});
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfile)
-// export default UserProfile
 
 const styles = StyleSheet.create({
 
@@ -409,15 +400,8 @@ const styles = StyleSheet.create({
     top: (DeviceHeight / 2) - 80,
     left: (DeviceWidth / 2) - 50,
     position: 'absolute',
-  // shadowColor:colors.darkShadow,
     backgroundColor: 'transparent',
-  // shadowRadius:5,
-  // shadowOpacity:50,
-    overflow: 'hidden',
-  // shadowOffset: {
-  //   width:0,
-  //   height: 5
-  // }
+    overflow: 'hidden'
   },
   container: {
     flex: 1,
