@@ -33,7 +33,7 @@ class MessageComposer extends React.Component{
         this.state = {
             txt:'',
             inputFocused: false,
-            height:40,
+            height:50,
             bottomColor: new Animated.Value(0)
 
         }
@@ -43,8 +43,8 @@ class MessageComposer extends React.Component{
         if(this.state.txt == ''){ return false }
 
         this.props.sendMessage(this.state.txt)
-        this._textInput.setNativeProps({text: '',style:{height:40}});
-        this.setState({height:40,txt:''})
+        this._textInput.setNativeProps({text: '',style:{height:50}});
+        this.setState({height:50,txt:''})
 
     }
 

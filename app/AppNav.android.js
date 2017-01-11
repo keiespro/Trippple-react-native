@@ -6,13 +6,14 @@ import { connect } from 'react-redux'
 import colors from './utils/colors'
 import Router from './Router'
 import Settings from './components/screens/settings/settings'
-import {SlideHorizontalIOS, FloatHorizontal, FloatVertical} from './ExNavigationStylesCustom'
+import {FloatHorizontal, FloatVertical} from './ExNavigationStylesCustom'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
 class AppNav extends React.Component {
-
+  componentDidMount(){
+  }
   componentWillReceiveProps(nProps) {
     if(nProps.drawerOpen && !this.props.drawerOpen) {
       this.settingsdrawer.openDrawer()
@@ -25,7 +26,7 @@ class AppNav extends React.Component {
   }
   setDrawerOpen(){
     // StatusBar.setTranslucent(true);
-     BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
+    BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
     this.props.setDrawerOpen()
   }
   handleBackAndroid(){
@@ -36,7 +37,7 @@ class AppNav extends React.Component {
 
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: colors.outerSpace, }}>
+      <View style={{width: DeviceWidth, height: DeviceHeight, backgroundColor: colors.outerSpace}}>
 
         <DrawerLayoutAndroid
           drawerWidth={DeviceWidth * 0.91}
@@ -60,12 +61,12 @@ class AppNav extends React.Component {
 
             defaultRouteConfig={{
               styles: FloatVertical,
-              sceneStyle:{
+              sceneStyle: {
                 backgroundColor: colors.outerSpace,
               },
-              statusBar:{
+              statusBar: {
                 translucent: true,
-                backgroundColor:colors.mediumPurple70
+                backgroundColor: colors.mediumPurple70
               },
               navigationBar: {
                 visible: true,
@@ -73,12 +74,13 @@ class AppNav extends React.Component {
                 tintColor: '#fff',
                 borderWidth: 0,
                 translucent: true,
+                height:50,
                 backgroundColor: colors.shuttleGrayAnimate,
                 titleStyle: {
                   color: '#fff',
                   fontFamily: 'montserrat',
                   borderBottomWidth: 0,
-                  fontWeight:'800'
+                  fontWeight: '800'
                 }
               },
             }}

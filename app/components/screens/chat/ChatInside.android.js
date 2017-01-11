@@ -20,6 +20,7 @@ import { connect } from 'react-redux';
 import emojiCheck from '../../../utils/emoji-regex';
 import ActionMan from '../../../actions/';
 import ChatBubble from './ChatBubble'
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 
 const shouldMakeBigger = (msg) => {
@@ -143,50 +144,59 @@ class ChatInside extends Component{
       them = theirIds.map((id) => matchInfo.users[id]),
       chatTitle = them.reduce((acc, u, i) => { return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ' & ' : '') }, '');
 
-    return this.props.messages && this.props.messages.length > 0 ? (
-
-
-      <View
+      return (
+        <View
+          style={{
+            flexGrow: 1,
+            alignSelf: 'stretch',
+            flexDirection: 'column',
+            backgroundColor: colors.outerSpace,
+            height: DeviceHeight - 90,
+          }}
         >
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={this._renderRow.bind(this)}
-          onEndReached={this.onEndReached.bind(this)}
-          messages={this.props.messages || []}
-          renderScrollComponent={props => (
-            <InvertibleScrollView
-              {...props}
-              inverted
-              scrollsToTop
-              scrollEventThrottle={16}
-              indicatorStyle={'white'}
-              ref={c => { this.scroller = c }}
-              key={`${this.props.match_id}x`}
-              keyboardDismissMode={'interactive'}
-              contentContainerStyle={{}}
-              style={{flexGrow:-1,marginTop:this.state.isKeyboardOpened ? 180 : 20, height:DeviceHeight-60,bottom: this.state.isKeyboardOpened ? 30 : 20}}
+          {this.props.messages && this.props.messages.length > 0 ? (
+            <ListView
+              dataSource={this.state.dataSource}
+              renderRow={this._renderRow.bind(this)}
+              onEndReached={this.onEndReached.bind(this)}
+              messages={this.props.messages || []}
+              renderScrollComponent={props => (
+                <InvertibleScrollView
+                  {...props}
+                  inverted
+                  scrollsToTop
+                  scrollEventThrottle={16}
+                  indicatorStyle={'white'}
+                  ref={c => { this.scroller = c }}
+                  key={`${this.props.match_id}x`}
+                  keyboardDismissMode={'interactive'}
+                  contentContainerStyle={{}}
+                  style={{ backgroundColor: colors.outerSpace, }}
+                />
+            )}
             />
-          )}
-        />
-        <View style={{top:this.state.isKeyboardOpened ? -30 : -20}}
+        ) : (
+          <NoMessages
+            {...this.props}
+            textInputValue={this.state.textInputValue}
+            onTextInputChange={this.onTextInputChange.bind(this)}
+            sendMessage={this.sendMessage.bind(this)}
+            isKeyboardOpened={this.state.isKeyboardOpened}
+          />
+        )}
+          <View
+            style={{}}
           >
-          <MessageComposer
-          textInputValue={this.state.textInputValue}
-          onTextInputChange={this.onTextInputChange.bind(this)}
-          sendMessage={this.sendMessage.bind(this)}
-        /></View>
-      </View>
-                    ) : (
+            <MessageComposer
+              textInputValue={this.state.textInputValue}
+              onTextInputChange={this.onTextInputChange.bind(this)}
+              sendMessage={this.sendMessage.bind(this)}
+            />
+          </View>
+          <KeyboardSpacer/>
 
-                      <NoMessages
-                        {...this.props}
-                        textInputValue={this.state.textInputValue}
-                        onTextInputChange={this.onTextInputChange.bind(this)}
-                        sendMessage={this.sendMessage.bind(this)}
-                        isKeyboardOpened={this.state.isKeyboardOpened}
-                      />
-
-    )
+        </View>
+      )
   }
 }
 

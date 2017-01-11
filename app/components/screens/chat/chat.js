@@ -1,4 +1,4 @@
-import { View, Keyboard } from 'react-native';
+import { View, Keyboard, Dimensions, Platform} from 'react-native';
 import React from 'react';
 
 import reactMixin from 'react-mixin'
@@ -14,8 +14,8 @@ import colors from '../../../utils/colors';
 
 
 //
-// const DeviceHeight = Dimensions.get('window').height;
-// const DeviceWidth = Dimensions.get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
 
 @withNavigation
@@ -23,13 +23,16 @@ import colors from '../../../utils/colors';
 class Chat extends React.Component {
 
   static route = {
-    styles: SlideHorizontalIOS,
+    styles: Platform.select({ios: SlideHorizontalIOS, android: FloatHorizontal}),
     navigationBar: {
       visible: true,
-      translucent: false,
-      backgroundColor: colors.shuttleGray,
+      translucent: true,
+      backgroundColor: colors.shuttleGrayAnimate,
       title(params) {
         return `${params.title ? params.title : ''}`
+      },
+      sceneStyle:{
+
       },
       tintColor: colors.white,
       renderRight(route, props) {
@@ -38,7 +41,7 @@ class Chat extends React.Component {
             fromChat
             match={props.match}
             dotColor={colors.white}
-            style={{height:70,alignItems:'center'}}
+            style={{height:60,alignItems:'center'}}
           />
         )
       }
