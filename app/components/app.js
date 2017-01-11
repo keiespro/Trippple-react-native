@@ -1,4 +1,4 @@
-import { StatusBar, View, Dimensions, Text, Platform, ActivityIndicator } from 'react-native';
+import { StatusBar, View, Dimensions, NativeModules, Text, Platform, ActivityIndicator } from 'react-native';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withNavigation} from '@exponent/ex-navigation';
@@ -22,7 +22,7 @@ import DeepLinkHandler from '../utils/DeepLinkHandler'
 import '../fire'
 
 const iOS = Platform.OS == 'ios';
-
+const {RNUXCam} = NativeModules
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
@@ -37,7 +37,7 @@ class App extends React.Component{
   }
 
   componentWillMount(){
-
+    RNUXCam.init('4cb7699bd5181ca','v3')
     if(this.props.loggedIn) this.props.dispatch(ActionMan.getUserInfo());
 
   }
@@ -109,7 +109,7 @@ class App extends React.Component{
         .then(actions => {
           __DEV__ && console.log('init_actions', actions);
           // _.reject(actions.split(','), a => a == 'getLocation').forEach(ac => {
-      
+
           actions.split(',').forEach(ac => {
             this.props.dispatch(ActionMan[ac]())
           })
@@ -128,16 +128,14 @@ class App extends React.Component{
 
   render(){
     return (
-      <View style={{width: DeviceWidth, height: DeviceHeight}}>
+      <View style={{width: DeviceWidth, height: DeviceHeight, backgroundColor: colors.outerSpace}}>
 
         <ConnectionInfo dispatch={this.props.dispatch}/>
 
         <AppState dispatch={this.props.dispatch}/>
 
-        {/* {this.props.nag && <NagManager/>} */}
-
         {iOS && <DeepLinkHandler />}
-
+<AppNav/>
         { !this.props.loadedUser ?
             <Loading /> :
             this.props.onboarded ? <AppNav/> :
