@@ -6,6 +6,7 @@ import {
   PixelRatio,
   Dimensions,
   ListView,
+  Platform,
   TouchableHighlight
 } from 'react-native';
 import React from 'react';
@@ -16,6 +17,8 @@ import {connect} from 'react-redux';
 import colors from '../utils/colors'
 import ActionMan from '../actions/';
 
+const iOS = Platform.OS == 'ios';
+
 const {GraphRequest, GraphRequestManager} = FBSDK
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -23,7 +26,7 @@ const DeviceWidth = Dimensions.get('window').width;
 class PhotoAlbums extends React.Component {
 
   static route = {
-    styles: NavigationStyles.SlideHorizontal,
+    styles: iOS ? NavigationStyles.SlideHorizontal : NavigationStyles.FloatVertical,
     navigationBar: {
       backgroundColor: colors.shuttleGrayAnimate,
       visible: true,
@@ -58,7 +61,7 @@ class PhotoAlbums extends React.Component {
   }
 
   componentWillMount() {
-    if(!this.props.user.facebook_user_id) {
+    if(!this.props.fbUser) {
       this.props.dispatch(ActionMan.facebookAuth())
     }else if(!this.props.fbUser.accessToken) {
       this.props.dispatch(ActionMan.facebookAuth())
@@ -68,40 +71,62 @@ class PhotoAlbums extends React.Component {
   }
 
   componentDidMount() {
-    this.getAlbums();
+    setTimeout(() => {
+      console.log('called it');
+      this.oldFBRequest()
+
+    },6000);
   }
 
   componentWillReceiveProps(nProps) {
-    if((!this.props.fbUser.accessToken && nProps.fbUser.accessToken) || (this.props.fbUser.permissions.indexOf('user_photos') < 0 && nProps.fbUser.permissions.indexOf('user_photos') < 0)) {
-      this.getAlbums();
+    console.log(nProps,this.props.fbUser.permissions.indexOf('user_photos'), nProps.fbUser.permissions.indexOf('user_photos'));
+    if((!this.props.fbUser.accessToken && nProps.fbUser.accessToken) || (this.props.fbUser.permissions.indexOf('user_photos') < 0 && nProps.fbUser.permissions.indexOf('user_photos') >= 0)) {
+      this.oldFBRequest();
     }
+
   }
 
   getAlbums() {
     const fbUser = this.props.fbUser;
-        // console.log(fbUser);
+    const _handleAlbums = this._handleAlbums.bind(this)
     if(!fbUser.accessToken) return;
-    const fb_id = fbUser.userID
+    const {userID,accessToken} = fbUser
+    console.log(userID);
 
-    const infoRequest = new GraphRequest(`/${fb_id}/albums`, {
+    const infoRequest = new GraphRequest(`/${userID}/albums`, {
       parameters: {
         fields: {
           string: 'id,photos{images},name,link,picture{url},count'
         }
       },
-      accessToken: fbUser.accessToken
-
-    }, this.handleAlbums.bind(this),);
+      accessToken
+    }, _handleAlbums);
     const FBG = new GraphRequestManager();
-    const REQ = FBG.addRequest(infoRequest)
-    REQ.start();
+    FBG.addRequest(infoRequest).start();
+  }
+
+  async oldFBRequest(){
+    const {fbUser} = this.props;
+    console.log(fbUser);
+    const fbUrl = `https://graph.facebook.com/v2.3/${fbUser.userID}/albums?access_token=${fbUser.accessToken}&fields=id,photos{images},name,link,picture{url},count`;
+
+  // console.log('FB api > ProfilePhoto',fbUrl);
+
+  return await fetch(fbUrl).then(res => res.json()).then(this._handleAlbums.bind(this)).catch(err => console.log(err))
+    // .then((res) => res.json())
+    // .then(responseData => {
+    //   console.log(responseData);
+    //   this._handleAlbums(responseData);
+    // })
+    // .catch(err => console.error(err))
   }
 
 
-  handleAlbums(err, responseData){
-    if(err) return
-
+  _handleAlbums(responseData){
+    console.log('_handleAlbums');
+    console.log(responseData);
     const albums = _.filter(responseData.data, (al) => al.count > 0);
+    console.log(albums);
 
     this.setState({
       albums: [
@@ -156,7 +181,7 @@ class PhotoAlbums extends React.Component {
               justifyContent: 'flex-start',
               flexDirection: 'row',
               paddingRight: 25,
-              marginLeft: 25
+              marginLeft: iOS ? 25 : 0
             }
           ]}
           >
@@ -207,7 +232,7 @@ class PhotoAlbums extends React.Component {
             style={{
               flex: 1,
               marginTop: 0,
-              paddingTop: 65
+              paddingTop: 55
             }}
             dataSource={this.state.albumSource}
             renderRow={this.renderAlbumCover.bind(this)}
