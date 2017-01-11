@@ -60,7 +60,7 @@ const Toolbar = () => (
     style={{
       flexDirection: 'row',
       justifyContent: 'space-between',
-      height: iOS ? 64 : 60,
+      height: iOS ? 64 : 50,
       position: 'absolute',
       top: 0,
       flexGrow: 1,

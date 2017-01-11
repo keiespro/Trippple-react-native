@@ -331,7 +331,7 @@ class CardStack extends React.Component {
               width: DeviceWidth,
               backfaceVisibility: 'hidden',
               height: this.props.profileVisible ? DeviceHeight : DeviceHeight,
-              top: this.props.profileVisible ? -30 : -20,
+              top: iOS ? this.props.profileVisible ? -30 : -20 : 0,
               position: 'absolute',
               flexGrow: 1,
               transform: [

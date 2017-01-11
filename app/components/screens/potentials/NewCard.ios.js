@@ -271,7 +271,6 @@ class NewCard extends React.Component {
           />
           <View
             onLayout={e => {
-              console.log(e.nativeEvent.layout.height);
               this.setState({innerHeight: e.nativeEvent.layout.height})
             }}
             style={{position:'absolute',top:0}}
