@@ -83,7 +83,7 @@ class NewCard extends React.Component {
     this.setState({contentHeight, contentWidth})
   }
   renderInsideProfile(){
-    
+
     const {profileVisible, cardWidth, city, seperator, potential, isTopCard, matchName, distance} = this.props;
 
     const hasPartner = potential.partner && potential.partner.gender ? true : false;
@@ -238,6 +238,7 @@ class NewCard extends React.Component {
             borderRadius: 11,
 
           }]}
+      
           autoplay={verifiedCouple}
           slideFrames={slideFrames}
           height={profileVisible ? DeviceHeight : DeviceHeight - 60}

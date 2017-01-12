@@ -37,7 +37,9 @@ class App extends React.Component{
   }
 
   componentWillMount(){
-    RNUXCam.init('4cb7699bd5181ca','v3')
+    RNUXCam.init('4cb7699bd5181ca').then(result => {
+      // result == 'ok'
+    })
     if(this.props.loggedIn) this.props.dispatch(ActionMan.getUserInfo());
 
   }

@@ -21,7 +21,7 @@ const middlewares = [
   createActionBuffer('EX_NAVIGATION.INITIALIZE'),
   thunk,
   promiseMiddleware(),
-  throttleActions(['UPDATE_USER'], 5000, {leading: true, trailing: false }),
+  throttleActions(['UPDATE_USER'], 2000, {leading: true, trailing: false }),
   throttleActions(['EX_NAVIGATION.PUSH'], 700, {leading: true, trailing: false }),
   throttleActions(['OPEN_PROFILE'], 800, {leading: true, trailing: false }),
   throttleActions(['GET_POTENTIALS'], 1000, {leading: true, trailing: false }),

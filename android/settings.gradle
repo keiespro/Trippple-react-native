@@ -1,12 +1,9 @@
 rootProject.name = 'Trippple'
-include ':react-native-uxcam'
-project(':react-native-uxcam').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-uxcam/android')
+include ':app'
 include ':react-native-geocoder'
 project(':react-native-geocoder').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-geocoder/android')
 include ':react-native-permissions'
 project(':react-native-permissions').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-permissions/android')
-
-include ':app'
 include ':react-native-mixpanel'
 project(':react-native-mixpanel').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-mixpanel/android')
 include ':react-native-hotline'
@@ -37,3 +34,5 @@ include ':react-native-camera'
 project(':react-native-camera').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-camera/android')
 include ':react-native-blur'
 project(':react-native-blur').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-blur/android')
+include ':react-native-uxcam'
+project(':react-native-uxcam').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-uxcam/android')

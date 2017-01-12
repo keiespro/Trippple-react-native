@@ -117,7 +117,7 @@ class PotentialsPlaceholder extends React.Component{
               width: DeviceWidth - 40,
               justifyContent: 'center',
               position: 'absolute',
-              top: 70,
+              top: 60,
               flex: 1,
               bottom: 0,
               left: 20,

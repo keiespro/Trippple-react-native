@@ -5,17 +5,16 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "fastlane": "cd ios/fastlane && bundle exec fastlane beta && cd -",
-    "bump": "cd ios/fastlane && bundle exec fastlane bump && cd -",
     "pod": "cd ios && bundle exec pod install && cd -",
     "bundle": "./node_modules/react-native/packager/react-native-xcode.sh"
   },
   "dependencies": {
-    "@exponent/ex-navigation": "^2.6.0",
+    "@exponent/ex-navigation": "^2.7.1",
     "@exponent/react-native-fade-in-image": "^1.0.0",
     "babel-preset-react-native": "^1.9.1",
     "base-64": "^0.1.0",
     "bluebird": "^3.4.3",
+    "eslint-plugin-import": "^2.2.0",
     "firebase": "^3.6.4",
     "google-libphonenumber": "2.0.3",
     "lodash": "^4.17.2",
@@ -53,7 +52,7 @@
     "react-native-swiper": "latest",
     "react-native-touch-id": "^2.0.3",
     "react-native-userdefaults-ios": "^0.1.3",
-    "react-native-uxcam": "^0.1.3",
+    "react-native-uxcam": "git+https://github.com/alehlopeh/react-native-uxcam.git",
     "react-native-vector-icons": "^3.0.0",
     "react-redux": "^4.4.6",
     "react-timer-mixin": "^0.13.3",
