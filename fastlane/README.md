@@ -5,12 +5,21 @@ fastlane documentation
 sudo gem install fastlane
 ```
 # Available Actions
+## Android
+### android submit
+```
+fastlane android submit
+```
+Build android release and upload to google play for production
+### android beta
+```
+fastlane android beta
+```
+Build android release and upload to google play as a beta
+
+----
+
 ## iOS
-### ios test
-```
-fastlane ios test
-```
-Runs all the tests
 ### ios certs
 ```
 fastlane ios certs
