@@ -39,7 +39,7 @@ const ThreeDotsActionButton = ({dispatch, dotColor = colors.white, style, match}
 )
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
-  match: state.matches[state.ui.chat && state.ui.chat.match_id] || state.newMatches[state.ui.chat && state.ui.chat.match_id]
+  match: ownProps.match || state.matches[state.ui.chat && state.ui.chat.match_id] || state.newMatches[state.ui.chat && state.ui.chat.match_id]
 })
 
 const mapDispatchToProps = (dispatch) => ({dispatch})

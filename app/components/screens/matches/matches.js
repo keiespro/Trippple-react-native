@@ -1,11 +1,13 @@
-import { View, SwipeableListView, ListView,StatusBar,Platform } from 'react-native';
+import { View, SwipeableListView, ListView,Dimensions,StatusBar,Platform,Image,Text, TouchableOpacity } from 'react-native';
 import React, { Component } from 'react';
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin';
 import { connect } from 'react-redux';
-import {NavigationStyles} from '@exponent/ex-navigation'
+import {NavigationStyles,withNavigation} from '@exponent/ex-navigation'
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
-import {SlideHorizontalIOS, FloatHorizontal} from '../../../ExNavigationStylesCustom'
+import {SlideHorizontalIOS} from '../../../ExNavigationStylesCustom'
 
 import ActionMan from '../../../actions/';
 import colors from '../../../utils/colors';
@@ -16,10 +18,11 @@ function rowHasChanged(r1, r2) {
   return r1 !== r2 || r1.match_id !== r2.match_id || r1.unread != r2.unread || r1.recentMessage.message_id != r2.recentMessage.message_id
 }
 
+@withNavigation
 @reactMixin.decorate(TimerMixin)
 class Matches extends Component {
   static route = {
-    styles: Platform.select({ios: SlideHorizontalIOS, android: FloatHorizontal}),
+    styles: Platform.select({ios: SlideHorizontalIOS, android: NavigationStyles.FloatHorizontal}),
     sceneStyle:{
     },
     statusBar:{
@@ -27,13 +30,10 @@ class Matches extends Component {
       animated:true
     },
     navigationBar: {
-      style:{
-        // marginTop:68
-      },
-      // marginTop:68,
 
-      visible: true,
-      translucent: true,
+
+      visible: false,
+      translucent: false,
       backgroundColor: colors.shuttleGrayAnimate,
       title(){
         return 'MESSAGES'
@@ -84,12 +84,35 @@ class Matches extends Component {
 
   render() {
     return (
-      <View style={{backgroundColor: colors.outerSpace,marginTop:5}}>
-      {/* <StatusBar
-          animated
-          backgroundColor={colors.shuttleGray}
-          hidden={false}
-        /> */}
+      <View>
+
+        <View
+          style={{
+            elevation: 5,
+            width: DeviceWidth,
+            height: 55,
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+            backgroundColor: colors.shuttleGrayAnimate,
+          }}
+        >
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+
+            <TouchableOpacity onPress={() => (this.props.navigator.pop())}>
+              <Image source={require('../chat/assets/left.png')} style={{marginHorizontal: 15}}/>
+            </TouchableOpacity>
+
+            <Text style={{
+              color: '#fff',
+              fontFamily: 'montserrat',
+              borderBottomWidth: 0,
+              fontWeight: '800',
+              fontSize: 20
+            }}
+            >MESSAGES</Text>
+          </View>
+
+        </View>
         <MatchesList
           dispatch={this.props.dispatch}
           user={this.props.user}

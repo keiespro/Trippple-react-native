@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
 
    backgroundColor: colors.white,
    paddingTop: 0,
-   paddingBottom:50
+  //  paddingBottom:50
  },
  chatContainer: {
 

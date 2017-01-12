@@ -33,8 +33,9 @@ import { BlurView, VibrancyView} from 'react-native-blur'
 class Action extends React.Component{
 
   render(){
+    console.log(this.props);
     const {user} = this.props;
-    const currentMatch = this.props.match || this.props.currentMatch || this.props.matchInfo || this.props.route && this.props.route.params.matchInfo;
+    const currentMatch = this.props.match || this.props.currentMatch || this.props.matchInfo || this.props.route && this.props.route.params.matchInfo || {};
 
     const img_url_id = Object.keys(currentMatch.users).filter(uid => uid != this.props.user.id && uid != this.props.user.partner_id);
 
@@ -57,14 +58,14 @@ class Action extends React.Component{
       <BlurModal>
 
         <View style={[styles.actionmodal]}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             activeOpacity={0.5}
             onPress={() => { this.props.dispatch(ActionMan.killModal()) }}
             style={[{
               position: 'absolute', top: 30,zIndex:9999, left: 10, backgroundColor: 'transparent'}]}
           >
             <Text>x</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <View style={[styles.insideactionmodal]}>
             <View style={{flexDirection: 'column', justifyContent: 'space-around', flex: 1}}>
 
@@ -150,12 +151,12 @@ class Action extends React.Component{
                 </TouchableHighlight>
               </View>
 
-            </View>
             <TouchableOpacity onPress={() => { this.props.dispatch(ActionMan.killModal()) }}>
               <View style={{flexGrow: 1, width: DeviceWidth-20,height:30,alignItems:'center',justifyContent:'center',backgroundColor:'transparent'}}>
                 <Text style={{textAlign: 'center', fontSize: 16, color: colors.white,fontFamily:'omnes'}}>CANCEL</Text>
               </View>
             </TouchableOpacity>
+          </View>
 
           </View>
         </View>

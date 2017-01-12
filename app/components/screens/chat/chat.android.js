@@ -6,7 +6,6 @@ import {pure} from 'recompose'
 import TimerMixin from 'react-timer-mixin';
 import { connect } from 'react-redux';
 import {withNavigation,NavigationStyles} from '@exponent/ex-navigation';
-import {SlideHorizontalIOS,FloatHorizontal} from '../../../ExNavigationStylesCustom'
 import ActionMan from '../../../actions/';
 import ChatInside from './ChatInside'
 import ThreeDotsActionButton from '../../buttons/ThreeDotsAction';
@@ -23,35 +22,13 @@ const DeviceWidth = Dimensions.get('window').width;
 class Chat extends React.Component {
 
   static route = {
-    styles: Platform.select({ios: SlideHorizontalIOS, android: NavigationStyles.SlideHorizontal}),
-    navigationBar: {
-      visible: true,
-      translucent:true,
-      backgroundColor: colors.transparent,
-      height:55,
-      overrideStyle:{
-        width:DeviceWidth,height:55,backgroundColor:'red'
-      },
-      style: {
-        width:DeviceWidth,height:55,backgroundColor:'red'
-
-      },
-      title(params) {
-        return params.title ? params.title : ''
-      },
-      tintColor: colors.white,
-      renderRight(route, props) {
-        return (
-          <ThreeDotsActionButton
-            fromChat
-            match={props.match}
-            dotColor={colors.white}
-            style={{height:40,backgroundColor:colors.sushi,top:-30,alignItems:'center',alignSelf:'flex-start'}}
-          />
-        )
-
-      }
-    }
+    styles: NavigationStyles.SlideHorizontal,
+    navigationBar:{
+      visible:false
+    },
+    statusBar:{
+      translucent: true,
+    },
   }
 
   constructor(props) {
@@ -59,9 +36,6 @@ class Chat extends React.Component {
     this.state = {
       isVisible: props.isVisible ? JSON.parse(props.isVisible) : false
     }
-  }
-  componentWillMount() {
-    this.props.dispatch({type: 'CHAT_IS_OPEN', payload: {match_id: this.props.match_id}})
   }
   componentDidMount() {
     this.props.dispatch(ActionMan.getMessages({match_id: this.props.match.match_id}))
@@ -86,14 +60,13 @@ class Chat extends React.Component {
   toggleModal() {
     Keyboard.dismiss()
 
-     this.setState({
-      isVisible: !this.state.isVisible,
-    })
+    //  this.setState({
+    //   isVisible: !this.state.isVisible,
+    // })
   }
 
   render() {
     return (
-      <View style={{flexGrow:1,backgroundColor: colors.outerSpace,top:0}}>
         <ChatInside
           user={this.props.user}
           match={this.props.match || this.props.currentMatch}
@@ -104,7 +77,6 @@ class Chat extends React.Component {
           pop={() => { this.props.navigator.pop() }}
           fromNotification={this.props.fromNotification}
         />
-      </View>
     );
   }
 

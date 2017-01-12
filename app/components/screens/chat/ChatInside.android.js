@@ -1,14 +1,12 @@
-import { View, TextInput, ListView, Keyboard, Animated, Dimensions, KeyboardAvoidingView, } from 'react-native';
+import { View, TextInput, Image, ListView, Keyboard, Text, Animated, Dimensions, TouchableOpacity, } from 'react-native';
 import React, {Component} from 'react';
 import moment from 'moment';
 import styles from './chatStyles'
 import _ from 'lodash'
-import dismissKeyboard from 'dismissKeyboard'
+
 import NoMessages from './NoMessages'
 import Analytics from '../../../utils/Analytics';
 import { BlurView, VibrancyView } from 'react-native-blur'
-import FadeInContainer from '../../FadeInContainer';
-import TimeAgo from '../../controls/Timeago';
 import colors from '../../../utils/colors';
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import InvertibleScrollView from 'react-native-invertible-scroll-view'
@@ -21,6 +19,7 @@ import emojiCheck from '../../../utils/emoji-regex';
 import ActionMan from '../../../actions/';
 import ChatBubble from './ChatBubble'
 import KeyboardSpacer from 'react-native-keyboard-spacer';
+import ThreeDotsActionButton from '../../buttons/ThreeDotsAction';
 
 
 const shouldMakeBigger = (msg) => {
@@ -39,45 +38,7 @@ class ChatInside extends Component{
       textInputValue: '',
       fetching: false,
       lastPage: 0,
-      kbHeight: 0
     }
-  }
-
-  componentDidMount(){
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this));
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this));
-    this.props.dispatch({type: 'MARK_CHAT_READ', payload: {match_id: this.props.match.match_id}})
-  }
-  componentWillUnmount(){
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
-    this.props.dispatch({type: 'MARK_CHAT_READ', payload: {match_id: this.props.match.match_id}})
-  }
-  componentWillReceiveProps(newProps){
-    __DEV__ && console.log('newProps.messages', newProps);
-
-    if(this.props.match && !newProps.match){
-      this.props.pop();
-    }
-    if(!this.ds || !newProps.messages) { return }
-    this.setState({
-      dataSource: this.ds.cloneWithRows(_.sortBy(newProps.messages, (msg) => msg.created_timestamp).reverse())
-    })
-  }
-  _keyboardDidShow(event){
-    console.log(event);
-    const {duration, easing, endCoordinates, startCoordinates} = event;
-    this.setState({
-      isKeyboardOpened: true,
-      kbHeight: event.endCoordinates.height
-    })
-  }
-  _keyboardDidHide(event){
-    console.log(event);
-    this.setState({
-      isKeyboardOpened: false,
-      kbHeight: 0
-    })
   }
 
   _renderRow(rowData, sectionID: number, rowID: number) {
@@ -96,7 +57,7 @@ class ChatInside extends Component{
   sendMessage(msg){
     const timestamp = moment().utc().unix();
     this.props.dispatch(ActionMan.createMessage(msg, this.props.match.match_id, timestamp))
-    this.refs.scroller && this.refs.scroller.scrollTo({x: 0, y: 0})
+    this.scroller && this.scroller.scrollTo({x: 0, y: 0})
 
   }
 
@@ -118,6 +79,7 @@ class ChatInside extends Component{
       backgroundColor: colors.dark
     }
   }
+  //
   onEndReached(e){
     if(!this.props.messages){ return false }
     const nextPage = parseInt(this.props.messages.length / 20) + 1;
@@ -137,66 +99,104 @@ class ChatInside extends Component{
   render(){
     const matchInfo = this.props.currentMatch || this.props.matchInfo;
     if(!matchInfo){
-      // console.log('no matchInfo');
       return <View/>
     }
     const theirIds = Object.keys(matchInfo.users).filter((u) => u != this.props.user.id && u != this.props.user.partner_id),
       them = theirIds.map((id) => matchInfo.users[id]),
-      chatTitle = them.reduce((acc, u, i) => { return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ' & ' : '') }, '');
+      chatTitle = them.reduce((acc, u, i) => (acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ' & ' : '')), '');
 
-      return (
+
+console.log(matchInfo,'matchInfo');
+    return (
+      <View
+        style={{
+          flexGrow: 1,
+          height: DeviceHeight - 20,
+          width: DeviceWidth,
+          backgroundColor: colors.outerSpace,
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          position: 'absolute',
+        }}
+      >
         <View
           style={{
-            flexGrow: 1,
-            alignSelf: 'stretch',
-            flexDirection: 'column',
-            backgroundColor: colors.outerSpace,
-            height: DeviceHeight - 90,
+            elevation: 5,
+            width: DeviceWidth,
+            height: 55,
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+            backgroundColor: colors.shuttleGrayAnimate,
           }}
         >
-          {this.props.messages && this.props.messages.length > 0 ? (
-            <ListView
-              dataSource={this.state.dataSource}
-              renderRow={this._renderRow.bind(this)}
-              onEndReached={this.onEndReached.bind(this)}
-              messages={this.props.messages || []}
-              renderScrollComponent={props => (
-                <InvertibleScrollView
-                  {...props}
-                  inverted
-                  scrollsToTop
-                  scrollEventThrottle={16}
-                  indicatorStyle={'white'}
-                  ref={c => { this.scroller = c }}
-                  key={`${this.props.match_id}x`}
-                  keyboardDismissMode={'interactive'}
-                  contentContainerStyle={{}}
-                  style={{ backgroundColor: colors.outerSpace, }}
-                />
-            )}
-            />
-        ) : (
-          <NoMessages
-            {...this.props}
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+
+            <TouchableOpacity onPress={() => (this.props.pop())}>
+              <Image source={require('./assets/left.png')} style={{marginHorizontal: 15}}/>
+            </TouchableOpacity>
+
+            <Text style={{
+              color: '#fff',
+              fontFamily: 'montserrat',
+              borderBottomWidth: 0,
+              fontWeight: '800',
+              fontSize: 20
+            }}
+            >{chatTitle}</Text>
+          </View>
+
+          <ThreeDotsActionButton
+            fromChat
+            match={matchInfo}
+            dotColor={colors.white}
+            style={{height: 50,alignSelf:'center',marginTop:0, alignItems: 'center'}}
+          />
+
+        </View>
+
+        {this.props.messages && this.props.messages.length > 0 ? (
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={this._renderRow.bind(this)}
+            onEndReached={this.onEndReached.bind(this)}
+            messages={this.props.messages || []}
+            renderScrollComponent={props => (
+              <InvertibleScrollView
+                {...props}
+                inverted
+                scrollsToTop
+                scrollEventThrottle={16}
+                indicatorStyle={'white'}
+                ref={c => { this.scroller = c }}
+                key={`${this.props.match_id}x`}
+                keyboardDismissMode={'interactive'}
+                contentContainerStyle={{paddingBottom: 20}}
+                style={{ backgroundColor: colors.outerSpace, }}
+              />
+          )}
+          />
+      ) : (
+        <NoMessages
+          {...this.props}
+          textInputValue={this.state.textInputValue}
+          onTextInputChange={this.onTextInputChange.bind(this)}
+          sendMessage={this.sendMessage.bind(this)}
+          isKeyboardOpened={this.state.isKeyboardOpened}
+        />
+      )}
+
+          <MessageComposer
             textInputValue={this.state.textInputValue}
             onTextInputChange={this.onTextInputChange.bind(this)}
             sendMessage={this.sendMessage.bind(this)}
-            isKeyboardOpened={this.state.isKeyboardOpened}
           />
-        )}
-          <View
-            style={{}}
-          >
-            <MessageComposer
-              textInputValue={this.state.textInputValue}
-              onTextInputChange={this.onTextInputChange.bind(this)}
-              sendMessage={this.sendMessage.bind(this)}
-            />
-          </View>
-          <KeyboardSpacer/>
 
-        </View>
-      )
+        <KeyboardSpacer/>
+
+      </View>
+    )
   }
 }
 

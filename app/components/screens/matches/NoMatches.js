@@ -12,7 +12,6 @@ const NoMatches = () => (
     contentContainerStyle={{
       backgroundColor: colors.outerSpace,
       width: DeviceWidth,
-      paddingTop: 60,
       height: DeviceHeight
     }}
     automaticallyAdjustContentInsets
@@ -20,7 +19,8 @@ const NoMatches = () => (
       backgroundColor: colors.outerSpace,
       flexGrow: 1,
       alignSelf: 'stretch',
-      // height: DeviceHeight,
+      height: DeviceHeight,
+      paddingTop:60,
       width: DeviceWidth
     }}
   >
@@ -30,13 +30,13 @@ const NoMatches = () => (
     >
       <View
         style={{
-          flex: 3,
+          flexGrow: 1,
           flexDirection: 'column',
           justifyContent: 'flex-start',
           alignItems: 'center',
           alignSelf: 'stretch',
           paddingBottom: 0,
-          paddingTop: 10
+          paddingTop: 0
         }}
       >
         <Image

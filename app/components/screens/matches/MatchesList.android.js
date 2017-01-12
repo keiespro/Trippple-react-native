@@ -9,6 +9,7 @@ import NoMatches from './NoMatches';
 import ThreeDots from '../../buttons/ThreeDots';
 import colors from '../../../utils/colors';
 import Btn from '../../Btn';
+import Router from '../../../Router'
 
 const DeviceWidth = Dimensions.get('window').width;
 const DeviceHeight = Dimensions.get('window').height;
@@ -40,7 +41,7 @@ class MatchesList extends Component {
 
   onEndReached() {
     const nextPage = parseInt(this.props.matches.length / 20) + 1;
-    if (this.state.fetching || nextPage == this.state.lastPage) { return }
+    if(this.state.fetching || nextPage == this.state.lastPage) { return }
 
     this.setState({
       lastPage: nextPage,
@@ -75,7 +76,7 @@ class MatchesList extends Component {
   }
 
   unmatch(rowData) {
-    if (this.state.unmatchOpen) {
+    if(this.state.unmatchOpen) {
       return
     }
     this.setState({
@@ -112,11 +113,11 @@ class MatchesList extends Component {
       this.props.dispatch(ActionMan.getMessages({match_id: rowData.match_id}))
     });
     const payload = {
-      title,
+      title:'x',
       match_id: rowData.match_id,
       matchInfo: rowData
     };
-    this.props.navigator.push(this.props.navigator.navigationContext.router.getRoute('Chat', payload));
+    this.props.navigator.push(Router.getRoute('Chat', payload));
   }
 
   segmentedViewPress(index) {
@@ -155,21 +156,19 @@ class MatchesList extends Component {
     return (
       <View style={[styles.row]}>
 
-      <Btn
-        style={[styles.row,{
-          backgroundColor: colors.outerSpace,
-          flexGrow: 1,
+        <Btn
+          style={[styles.row, {
+            backgroundColor: colors.outerSpace,
+            flexGrow: 1,
 
-          alignSelf:'stretch',
-          borderBottomWidth: StyleSheet.hairlineWidth,
+            alignSelf: 'stretch',
+            borderBottomWidth: StyleSheet.hairlineWidth,
             borderBottomColor: colors.dark,
-                      padding:10,width:DeviceWidth,height:90,flexGrow: 1,}]  }
-        onPress={() => { this._pressRow(rowData, threadName.toUpperCase()) }} key={`${rowData.match_id}match`}
-      >
+            padding: 10, width: DeviceWidth, height: 90, flexGrow: 1, }]}
+          onPress={() => { this._pressRow(rowData, threadName.toUpperCase()) }} key={`${rowData.match_id}match`}
+        >
 
-          {global.__DEBUG__ && <Text style={{ color: '#fff' }}>
-            {`${new Date(rowData.recent_message.created_timestamp * 1000).toLocaleString()} | match_id: ${rowData.match_id}`}
-          </Text>}
+
 
           <View style={styles.row}>
             <View style={styles.thumbswrap}>
@@ -196,42 +195,32 @@ class MatchesList extends Component {
                 {messageBody || 'New Match'}
               </Text>
             </View>
-         </View>
-      </Btn>
+          </View>
+        </Btn>
       </View>
 
     );
   }
 
   render() {
-    return (!this.props.matches.length && !this.props.newMatches.length) ? <NoMatches/> : (
-      <View style={{flexGrow:1,top:-5}}>
-        <ListView
+    return (this.props.matches && this.props.newMatches && !this.props.matches.length && !this.props.newMatches.length) ? <NoMatches/> : (
+         <ListView
           dataSource={this.props.dataSource}
-
-        chatActionSheet={this.chatActionSheet.bind(this)}
+          chatActionSheet={this.chatActionSheet.bind(this)}
           onEndReached={this.onEndReached.bind(this)}
           onEndReachedThreshold={200}
           contentContainerStyle={{
             flexGrow: 1,
-
           }}
           ref={component => { this._listView = component }}
           renderRow={this._renderRow.bind(this)}
           style={{
-            paddingTop: 60,
+            paddingTop: 0,
             flexGrow: 1,
 
           }}
           scrollEnabled={this.state.scrollEnabled}
           directionalLockEnabled
-          removeClippedSubviews
-          contentInset={{
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0
-          }}
           vertical
           initialListSize={5}
           scrollsToTop
@@ -245,13 +234,7 @@ class MatchesList extends Component {
             />)
           )}
         />
-        {/* {this.state.loadingMoreMatches && false ?
-          <View style={{ position: 'absolute', bottom: 0, width: DeviceWidth, height: 30 }}>
-            <ActivityIndicator style={{ alignSelf: 'center', alignItems: 'center', flex: 1, height: 60, width: 60, justifyContent: 'center' }} animating />
-          </View> : null
-          } */}
-      </View>
-    )
+     )
   }
 }
 
@@ -263,9 +246,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 0,
-    alignItems:'center',
-          flexGrow: 1,
-     backgroundColor: colors.outerSpace,
+    alignItems: 'center',
+    flexGrow: 1,
+    backgroundColor: colors.outerSpace,
   },
 
   thumbswrap: {
@@ -299,7 +282,7 @@ const styles = StyleSheet.create({
   },
   textwrap: {
     height: 60,
-    backgroundColor:colors.outerSpace,
+    backgroundColor: colors.outerSpace,
     flexDirection: 'column',
     justifyContent: 'flex-start',
     overflow: 'hidden',
