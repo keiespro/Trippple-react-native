@@ -37,9 +37,6 @@ class App extends React.Component{
   }
 
   componentWillMount(){
-    RNUXCam.init('4cb7699bd5181ca').then(result => {
-      // result == 'ok'
-    })
     if(this.props.loggedIn) this.props.dispatch(ActionMan.getUserInfo());
 
   }
@@ -137,7 +134,6 @@ class App extends React.Component{
         <AppState dispatch={this.props.dispatch}/>
 
         {iOS && <DeepLinkHandler />}
-<AppNav/>
         { !this.props.loadedUser ?
             <Loading /> :
             this.props.onboarded ? <AppNav/> :

@@ -88,7 +88,7 @@ class Carousel extends Component {
             marginBottom: 25,
             height: MagicNumbers.is4s ? 150 : (DeviceHeight / 3) + MagicNumbers.screenPadding,
             paddingTop: 0,
-            marginTop: i % l == 0 ? 50 : 0, // i % l == 0 ? MagicNumbers.screenPadding * 1.8 : MagicNumbers.screenPadding,
+            marginTop: i % l == 0 ? 100 : 0, // i % l == 0 ? MagicNumbers.screenPadding * 1.8 : MagicNumbers.screenPadding,
             width: i % l == 0 ? MagicNumbers.screenWidth + 50 : MagicNumbers.screenPadding * 4
           }}
           source={slide.img}
@@ -144,7 +144,7 @@ class Carousel extends Component {
           pointerEvents="none"
           style={{
             position: 'absolute',
-            bottom: MagicNumbers.screenPadding / 2,
+            bottom: MagicNumbers.screenPadding / 2 - 10,
             left: 0,
             right: 0,
             flexDirection: 'row',
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     fontFamily: 'montserrat'
   },
   carousel: {
-    marginTop: 20,
+    marginTop: 0,
     width: DeviceWidth,
     // height: DeviceHeight - 190,
 

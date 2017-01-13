@@ -61,38 +61,40 @@ class Welcome extends Component{
   render(){
     return (
       <View style={[styles.container]}>
-        <View>
+        <View style={{}}>
           <Carousel/>
 
-          <TouchableOpacity
-            style={{position: 'absolute', bottom: 0, right: 5}}
-            onPress={this.whyFacebookModal.bind(this)}
-          >
-            <Text
-              style={{
-                color: colors.rollingStone,
-                fontFamily: 'omnes',
-                fontSize: 12,
-                textDecorationLine: 'underline'
-              }}
-            >Why Facebook?</Text>
-          </TouchableOpacity>
 
         </View>
 
-        <View style={styles.bottomButtons}>
+        <View style={{ marginHorizontal:20}}>
 
           <FacebookButton
             shouldAuthenticate
             buttonText={'LOG IN WITH FACEBOOK'}
             onPress={this.login.bind(this)}
             buttonStyles={{backgroundColor: colors.cornFlower, borderWidth: 0, height: 80}}
-            outerButtonStyle={{height: 100, marginVertical: 0}}
+            outerButtonStyle={{height: 80, marginVertical: 10}}
             leftBoxStyles={{height: 80}}
             iconTintColor={'#fff'}
             busy={this.state.busy}
           />
         </View>
+        <TouchableOpacity
+          onPress={this.whyFacebookModal.bind(this)}
+        >
+          <View style={{ height:50,alignSelf:'center'}}>
+          <Text
+            style={{
+              color: colors.rollingStone,
+              fontFamily: 'omnes',
+              fontSize: 12,
+              textDecorationLine: 'underline'
+            }}
+          >Why Facebook?</Text>
+        </View>
+        </TouchableOpacity>
+
       </View>
     )
   }
@@ -102,30 +104,8 @@ class Welcome extends Component{
 export default Welcome
 
 const styles = StyleSheet.create({
-  dot: {
-    backgroundColor: colors.shuttleGray,
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    marginLeft: 4,
-    borderWidth: 2,
 
-    marginRight: 4,
-    marginTop: 2,
-    marginBottom: 2,
-    borderColor: colors.shuttleGray
-  },
-  activeDot: {
-    backgroundColor: colors.mediumPurple,
-    marginLeft: 4,
-    marginRight: 4,
-    marginTop: 2,
-    marginBottom: 2,
-    width: 12,
-    height: 12,
-    borderWidth: 2,
-    borderColor: colors.mediumPurple
-  },
+
   container: {
     width: DeviceWidth,
     margin: 0,
@@ -226,13 +206,14 @@ const styles = StyleSheet.create({
     paddingBottom: 0
   },
   bottomButtons: {
-    height: 100,
+    height: 80,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    // 
+    //
     alignSelf: 'stretch',
-    width: undefined
+    width: undefined,
+    bottom:40
   },
   // dot: {
   //   backgroundColor: colors.shuttleGray,
