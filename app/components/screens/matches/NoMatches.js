@@ -12,14 +12,15 @@ const NoMatches = () => (
     contentContainerStyle={{
       backgroundColor: colors.outerSpace,
       width: DeviceWidth,
-      height: DeviceHeight
+      height: DeviceHeight-60
     }}
+    showsVerticalScrollIndicator={false}
     automaticallyAdjustContentInsets
     style={{
       backgroundColor: colors.outerSpace,
       flexGrow: 1,
       alignSelf: 'stretch',
-      height: DeviceHeight,
+      height: DeviceHeight-60,
       paddingTop:60,
       width: DeviceWidth
     }}

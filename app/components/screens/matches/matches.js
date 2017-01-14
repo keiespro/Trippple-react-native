@@ -27,12 +27,13 @@ class Matches extends Component {
     },
     statusBar:{
       translucent:false,
-      animated:true
+      animated:true,
+      visible:false
     },
     navigationBar: {
 
 
-      visible: false,
+      visible: true,
       translucent: false,
       backgroundColor: colors.shuttleGrayAnimate,
       title(){
@@ -86,33 +87,7 @@ class Matches extends Component {
     return (
       <View>
 
-        <View
-          style={{
-            elevation: 5,
-            width: DeviceWidth,
-            height: 55,
-            justifyContent: 'space-between',
-            flexDirection: 'row',
-            backgroundColor: colors.shuttleGrayAnimate,
-          }}
-        >
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
 
-            <TouchableOpacity onPress={() => (this.props.navigator.pop())}>
-              <Image source={require('../chat/assets/left.png')} style={{marginHorizontal: 15}}/>
-            </TouchableOpacity>
-
-            <Text style={{
-              color: '#fff',
-              fontFamily: 'montserrat',
-              borderBottomWidth: 0,
-              fontWeight: '800',
-              fontSize: 20
-            }}
-            >MESSAGES</Text>
-          </View>
-
-        </View>
         <MatchesList
           dispatch={this.props.dispatch}
           user={this.props.user}

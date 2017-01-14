@@ -113,7 +113,7 @@ class MatchesList extends Component {
       this.props.dispatch(ActionMan.getMessages({match_id: rowData.match_id}))
     });
     const payload = {
-      title:'x',
+      title,
       match_id: rowData.match_id,
       matchInfo: rowData
     };
