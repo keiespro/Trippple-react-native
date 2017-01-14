@@ -115,8 +115,8 @@ class PermissionsModal extends Component{
   }
   renderFailed(){
     return (
-      <View style={{flexGrow:1,alignItems: 'center',}}>
-        <View style={{alignItems: 'center',flexGrow:1}}>
+      <View style={{flexGrow:1,alignItems: 'center'}}>
+        <View style={{alignItems: 'center',flexGrow:1,backgroundColor:'red'}}>
           <Image
             resizeMode={Image.resizeMode.contain}
             style={[{

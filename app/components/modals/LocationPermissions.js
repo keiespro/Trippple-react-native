@@ -12,7 +12,6 @@ class LocationPermissionsModal extends React.Component{
     styles: NavigationStyles.SlideVertical,
     navigationBar: {
       visible:false,
-
     }
   };
 

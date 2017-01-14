@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, } from 'react-native';
+import { Text, View, Dimensions} from 'react-native';
 import { createRouter, NavigationProvider, StackNavigation} from '@exponent/ex-navigation'
 import colors from '../utils/colors'
 import OnboardModal from './modals/OnboardModal'
@@ -14,6 +14,8 @@ import CoupleReady from './screens/coupling/CoupleReady';
 import CoupleSuccess from './screens/coupling/CoupleSuccess';
 import {connect} from 'react-redux'
 import FadeInContainer from './FadeInContainer';
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
 const Finish = () => (
   <View><Text>Finish</Text></View>
@@ -66,9 +68,9 @@ const Onboard = (props) => {
 
 
   }
+  console.log('ONBOARD',initialRoute);
   return (
-    <View>
-      <FadeInContainer duration={800} delay={2600}>
+    <View style={{width:DeviceWidth,height:DeviceHeight,}}>
 
         <StackNavigation
           id="onboardnavigation"
@@ -85,7 +87,6 @@ const Onboard = (props) => {
           }}
           initialRoute={OnboardRouter.getRoute(initialRoute, {show: true})}
         />
-      </FadeInContainer>
     </View>
   );
 }

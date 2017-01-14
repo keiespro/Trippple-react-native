@@ -68,8 +68,6 @@ class AppNav extends React.Component {
                 translucent: true,
                 backgroundColor: colors.mediumPurple70
               },
-              height:55,
-
               navigationBar: {
                 visible: true,
                 borderBottomWidth: 0,
