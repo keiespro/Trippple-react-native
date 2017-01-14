@@ -15,29 +15,29 @@ export default class NoMessages extends React.Component{
     this.state = {}
   }
   componentWillMount(){
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.showKeyboard.bind(this));
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.hideKeyboard.bind(this));
+    // this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.showKeyboard.bind(this));
+    // this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.hideKeyboard.bind(this));
   }
   componentWillUnmount(){
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
+    // this.keyboardDidShowListener.remove();
+    // this.keyboardDidHideListener.remove();
 
   }
   hideKeyboard(k){
     // console.log('hidekey');
 
     // LayoutAnimation.easeInEaseOut()
-    this.setState({isKeyboardOpened: false})
+    // this.setState({isKeyboardOpened: false})
   }
   showKeyboard(k){
     // console.log('showkeyboard');
-    this.setState({isKeyboardOpened: true})
+    // this.setState({isKeyboardOpened: true})
 
   }
   getThumbSize(top = false){
 
     const size = MagicNumbers.is4s ? SIZES.small : SIZES.big;
-    const isKeyboardOpened = this.state.isKeyboardOpened;
+    const isKeyboardOpened = this.props.isKeyboardOpened;
     // console.log(size.dimensions.open);
     return {
       width: isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
@@ -49,7 +49,7 @@ export default class NoMessages extends React.Component{
   }
 
   render(){
-    const isKeyboardOpened = this.state.isKeyboardOpened;
+    const isKeyboardOpened = this.props.isKeyboardOpened;
 
     const matchInfo = this.props.currentMatch || this.props.matchInfo,
       theirIds = Object.keys(matchInfo.users).filter(u => u != this.props.user.id && u != this.props.user.partner_id),
@@ -78,7 +78,7 @@ export default class NoMessages extends React.Component{
 
                 <View style={[this.getThumbSize('top'), {backgroundColor: colors.dark}]}>
                   <Image
-                    style={[this.getThumbSize(),{top: this.state.isKeyboardOpened ? -20 : -40,position:'absolute'}]}
+                    style={[this.getThumbSize(),{top: this.props.isKeyboardOpened ? -20 : -40,position:'absolute'}]}
                     defaultSource={require('./assets/placeholderUser@3x.png')}
                   />
                 </View>

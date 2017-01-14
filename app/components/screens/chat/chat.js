@@ -26,7 +26,7 @@ class Chat extends React.Component {
     styles: Platform.select({ios: SlideHorizontalIOS, android: NavigationStyles.SlideHorizontal}),
     navigationBar: {
       visible: true,
-      translucent:true,
+      translucent:false,
       backgroundColor: colors.transparent,
       height:55,
       overrideStyle:{

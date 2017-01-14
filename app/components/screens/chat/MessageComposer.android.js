@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
     paddingRight: 0,
     bottom: 0,
-    position: 'relative',
+    // position: 'absolute',
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: colors.darkShadow,
         // backgroundColor:'red'

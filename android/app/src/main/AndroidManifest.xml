@@ -19,14 +19,13 @@
         android:targetSdkVersion="22" />
 
     <application
-
       android:name="co.trippple.MainApplication"
       android:allowBackup="true"
       android:label="@string/app_name"
-          android:icon="@mipmap/ic_launcher"
-        android:launchMode="singleTop"
-        android:screenOrientation="portrait"
-        android:theme="@style/T">
+      android:icon="@mipmap/ic_launcher"
+      android:launchMode="singleTop"
+      android:screenOrientation="portrait"
+      android:theme="@style/T">
         <activity android:name="com.mixpanel.android.surveys.SurveyActivity" />
         <receiver android:name="com.evollu.react.fcm.FIRLocalMessagingPublisher"/>
         <receiver android:enabled="true" android:exported="true"  android:name="com.evollu.react.fcm.FIRSystemBootEventReceiver">
@@ -39,8 +38,9 @@
         </receiver>
       <activity
         android:name="co.trippple.MainActivity"
-          android:screenOrientation="portrait"
-          android:label="@string/app_name"
+        android:screenOrientation="portrait"
+        android:label="@string/app_name"
+        android:windowSoftInputMode="adjustResize"
         android:configChanges="keyboard|keyboardHidden|screenSize">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
