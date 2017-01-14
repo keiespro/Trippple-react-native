@@ -238,7 +238,7 @@ class NewCard extends React.Component {
             borderRadius: 11,
 
           }]}
-      
+
           autoplay={verifiedCouple}
           slideFrames={slideFrames}
           height={profileVisible ? DeviceHeight : DeviceHeight - 60}
@@ -267,14 +267,20 @@ class NewCard extends React.Component {
         </ParallaxSwiper>
 
         <View
-          pointerEvents={'box-none'}
-
+          onStartShouldSetResponder={() => true}
+          onStartShouldSetResponderCapture={() => true}
+                  onResponderGrant={e => {
+                    console.log(e);
+                    if(!this.props.profileVisible){
+                      this.openProfile()
+                    }
+                  }}
           style={{
             width: cardWidth,
             height: 100,
             opacity: profileVisible ? 0 : 1,
             alignSelf: 'flex-end',
-            zIndex: 10,
+            zIndex: 10999,
             backgroundColor: colors.white,
             borderBottomLeftRadius: 11,
             borderBottomRightRadius: 11,
@@ -284,10 +290,10 @@ class NewCard extends React.Component {
           }}
         >
           <TouchableNativeFeedback
+
             useForeground
             background={TouchableNativeFeedback.Ripple(colors.shuttleGray)}
             onPress={this.openProfile.bind(this)}
-            pointerEvents={'box-only'}
           >
             <View
 

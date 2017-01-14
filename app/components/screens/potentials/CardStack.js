@@ -102,21 +102,22 @@ class CardStack extends React.Component {
     this._panResponder = PanResponder.create({
 
       onMoveShouldSetPanResponderCapture: (e, gestureState) => {
-        // logPan('onMoveShouldSetPanResponderCapture', gestureState, e)
-        const {pageY} = e.nativeEvent
-        return (!this.props.profileVisible && pageY < DeviceHeight - 200 )
+        return !this.props.profileVisible
+        //  const {pageY} = e.nativeEvent
+        // return (!this.props.profileVisible && pageY < DeviceHeight - 200 )
       },
 
       onMoveShouldSetPanResponder: (e, gestureState) => {
-        // logPan('onMoveShouldSetPanResponder', gestureState, e)
-        const {pageY} = e.nativeEvent
-        return (!this.props.profileVisible && pageY < DeviceHeight - 200)
+        console.log(gestureState.dx);
+        return !this.props.profileVisible // && gestureState.dx > 0
+        //  const {pageY} = e.nativeEvent
+        // return (!this.props.profileVisible && pageY < DeviceHeight - 200)
       },
       //
       onStartShouldSetPanResponder: (e, gestureState) => {
-        // logPan('onStartShouldSetPanResponder', gestureState, e)
-        const {pageY} = e.nativeEvent
-        return (!this.props.profileVisible && pageY < DeviceHeight - 200)
+
+        //  const {pageY} = e.nativeEvent
+        return (!this.props.profileVisible )
       },
       //
       onStartShouldSetPanResponderCapture: () => false,
@@ -139,18 +140,16 @@ class CardStack extends React.Component {
         const likeUserId = this.props.potentials[0].user.id;
 
               // animate back to center or off screen left or off screen right
-        if (dx > SWIPE_THRESHOLD_APPROVE || 
-	   (dx > (THROW_THRESHOLD_APPROVE - 0) && 
-	   Math.abs(vx) > THROW_SPEED_THRESHOLD)) {
+        if (dx > SWIPE_THRESHOLD_APPROVE || (dx > (THROW_THRESHOLD_APPROVE - 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD)) {
           __DEV__ && console.log(dx > SWIPE_THRESHOLD_APPROVE ? 'SWIPE' : (dx > (THROW_THRESHOLD_APPROVE - 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD) && 'THROW');
 
           toValue = { x: DeviceWidth + 100, y: dy };
           velocity = { x: parseInt(vx), y: parseInt(vy) };
           likeStatus = 'approve';
 
-          if(!this.state.likedPotentials.indexOf(likeUserId)) {
-            likeStatus = null;
-          }
+          // if(!this.state.likedPotentials.indexOf(likeUserId)) {
+          //   likeStatus = null;
+          // }
         }else if(dx < SWIPE_THRESHOLD_DENY || (dx < (THROW_THRESHOLD_DENY + 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD)) {
           toValue = { x: -DeviceWidth - 100, y: dy };
           velocity = { x: vx, y: vy };
@@ -201,8 +200,8 @@ class CardStack extends React.Component {
   }
 
   _toggleProfile() {
-    this.props.profileVisible 
-      ? this.props.dispatch({ type: 'CLOSE_PROFILE' }) 
+    this.props.profileVisible
+      ? this.props.dispatch({ type: 'CLOSE_PROFILE' })
       : this.props.dispatch({ type: 'OPEN_PROFILE' });
   }
 
@@ -217,7 +216,13 @@ class CardStack extends React.Component {
 
     return (
       <View
-        pointerEvents={'box-none'}
+        onStartShouldSetResponder={() => !this.props.profileVisible}
+        onResponderGrant={e => {
+          console.log(e);
+          if(!this.props.profileVisible){
+            this._toggleProfile()
+          }
+        }}
         style={{
           flexGrow: 1,
           alignSelf: 'stretch',
