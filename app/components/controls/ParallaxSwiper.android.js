@@ -3,6 +3,7 @@ import {StyleSheet, Image, View, ScrollView, Platform, Animated, Dimensions} fro
 import colors from '../../utils/colors'
 import Swiper from './swiper'
 import XButton from '../buttons/XButton'
+import FadeSwiper from '../fadeSlider'
 
 const iOS = Platform.OS == 'ios';
 const screen = Dimensions.get('window');
@@ -164,25 +165,17 @@ class ParallaxSwiper extends React.Component{
 
           }}
         >
-          {slides && slides.length > 1 ? <Swiper
-            isTopCard={isTopCard}
-            horizontal
-            pan={this.props.pan}
-            key={this.props.potentialkey}
-            dispatch={this.props.dispatch}
-            scrollEnabled={this.props.profileVisible}
-            profileVisible={this.props.profileVisible}
-            inCard
-            autoplay={this.props.autoplay}
-            width={DeviceWidth}
+          {slideFrames.length > 1 ? <FadeSwiper
+            slides={slideFrames.map(s => ({...s, image: s.image_url ? {uri: s.image_url } : require('../screens/potentials/assets/defaultuser.png'), imageWidth: this.props.width, imageHeight: this.props.height, }))}
+            fadeDuration={350}
+            stillDuration={1500}
             height={this.props.height}
-            paginationStyle={{
-              top: 0,
-              right: 0
-            }}
-          >
-            {slides}
-          </Swiper> : slides}
+          /> :
+          <Image
+            style={{height: this.props.height, width: this.props.width,borderRadius: 11,}}
+            source={slideFrames[0].image_url ? {uri: slideFrames[0].image_url } : require('../screens/potentials/assets/defaultuser.png')}
+          />
+        }
         </View>
 
       </Animated.View>

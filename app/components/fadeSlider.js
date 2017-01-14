@@ -52,18 +52,18 @@ var FadingSlides = React.createClass({
   render: function () {
     var slide = this.props.slides[this.state.currentIndex];
     return (
-        <View>
+        <View style={{borderRadius: 11,}}>
           <View style={[styles.slide, {
             height: this.props.height, opacity: this.getTweeningValue('opacity')
           }]}>
           <Image
-            style={{ width: slide.imageWidth, height: slide.imageHeight }}
+            style={{ width: slide.imageWidth, height: slide.imageHeight,borderRadius: 11, }}
             source={slide.image}
           />
-          
+
         </View>
           <Image
-            style={{position:'absolute', zIndex:-10,width: slide.imageWidth, height: slide.imageHeight }}
+            style={{position:'absolute',borderRadius: 11,zIndex:-10,width: slide.imageWidth, height: slide.imageHeight }}
             source={this.props.slides[0].image}
           />
 
@@ -78,6 +78,7 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 11,
     flexDirection: 'column'
   }
 });
