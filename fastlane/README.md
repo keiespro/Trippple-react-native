@@ -16,6 +16,11 @@ Build android release and upload to google play for production
 fastlane android beta
 ```
 Build android release and upload to google play as a beta
+### android alpha_upload
+```
+fastlane android alpha_upload
+```
+Build android release and upload to google play as a beta
 
 ----
 

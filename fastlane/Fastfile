@@ -1,11 +1,3 @@
-# Customise this file, documentation can be found here:
-# https://github.com/fastlane/fastlane/tree/master/fastlane/docs
-# All available actions: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Actions.md
-# can also be listed using the `fastlane actions` command
-
-# If you want to automatically update fastlane if a new version is available:
-# update_fastlane
-
 fastlane_version "2.7.0"
 
 platform :android do
@@ -34,6 +26,11 @@ platform :android do
     supply(track: 'alpha')
   end
 
+
+  desc "Build android release and upload to google play as a beta"
+  lane :alpha_upload do
+    supply(track: 'alpha')
+  end
 end
 
 platform :ios do
