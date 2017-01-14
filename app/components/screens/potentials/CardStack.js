@@ -109,7 +109,7 @@ class CardStack extends React.Component {
 
       onMoveShouldSetPanResponder: (e, gestureState) => {
         console.log(gestureState.dx);
-        return !this.props.profileVisible // && gestureState.dx > 0
+        return !this.props.profileVisible  && gestureState.dx > 0
         //  const {pageY} = e.nativeEvent
         // return (!this.props.profileVisible && pageY < DeviceHeight - 200)
       },
@@ -117,10 +117,13 @@ class CardStack extends React.Component {
       onStartShouldSetPanResponder: (e, gestureState) => {
 
         //  const {pageY} = e.nativeEvent
-        return (!this.props.profileVisible )
+        return (!this.props.profileVisible   )
       },
       //
-      onStartShouldSetPanResponderCapture: () => false,
+      onStartShouldSetPanResponderCapture: (e, gestureState) => {
+        console.log(gestureState.dx);
+        return !this.props.profileVisible && gestureState.dx != 0
+      },
       //
       onPanResponderMove: Animated.event([null, {
         dx: this.state.pan.x,
@@ -165,14 +168,13 @@ class CardStack extends React.Component {
           Animated.timing(this.state.pan, {
             toValue,
             duration: 100,
-            // easing: Easing.inOut(Easing.ease),
-            // deceleration: 1.1,
+            easing: Easing.inOut(Easing.ease),
+            deceleration: 1.1,
             useNativeDriver: !iOS
           }).start(() => {
 
-              InteractionManager.runAfterInteractions(() => {
                 this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, relstatus, this.props.rel, otherParams));
-              })
+
           });
 
         }else{
@@ -216,10 +218,13 @@ class CardStack extends React.Component {
 
     return (
       <View
-        onStartShouldSetResponder={() => !this.props.profileVisible}
+        onStartShouldSetResponder={(e) => {
+          console.log(e.nativeEvent);
+          return !this.props.profileVisible && e.nativeEvent.pageX > 90 && e.nativeEvent.pageX < (DeviceWidth - 90)
+        }}
         onResponderGrant={e => {
-          console.log(e);
-          if(!this.props.profileVisible){
+          console.log(e.nativeEvent);
+          if(!this.props.profileVisible && e.nativeEvent.pageX > 90 && e.nativeEvent.pageX < (DeviceWidth - 90)  ){
             this._toggleProfile()
           }
         }}

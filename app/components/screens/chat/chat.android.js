@@ -29,7 +29,21 @@ class Chat extends React.Component {
     navigationBar:{
       visible:true,
       translucent: false,
+      title(params) {
+          return params.title ? params.title : ''
+        },
+        tintColor: colors.white,
+        renderRight(route, props) {
+          return (
+            <ThreeDotsActionButton
+              fromChat
+              match={props.match}
+              dotColor={colors.white}
+              style={{height:40,backgroundColor:colors.sushi,top:-30,alignItems:'center',alignSelf:'flex-start'}}
+            />
+          )
 
+        }
     },
     statusBar:{
       translucent: false,

@@ -65,14 +65,13 @@ class MessageComposer extends React.Component{
           }]}
           keyboardAppearance={'dark'}
           autoCorrect
-          placeholder={'Type Message...'}
           placeholderTextColor={colors.shuttleGray}
           placeholderFontFamily={'omnes'}
           autoFocus={false}
           selectionColor={colors.mediumPurple}
           clearButtonMode={'never'}
           returnKeyType={'default'}
-
+          underlineColorAndroid={colors.mediumPurple}
           onFocus={(e) => {
             Animated.timing(this.state.bottomColor, {
               toValue: 100,
@@ -201,7 +200,7 @@ const styles = StyleSheet.create({
   },
   messageComposerInput: {
     flexGrow: 1,
-    paddingHorizontal: 0,
+    paddingHorizontal: 5,
     paddingTop: 0,
     paddingBottom: 10,
     alignSelf: 'center',

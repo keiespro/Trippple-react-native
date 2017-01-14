@@ -41,7 +41,15 @@ class ChatInside extends Component{
       kbs:0
     }
   }
-
+  componentWillReceiveProps(newProps){
+    if(this.props.match && !newProps.match){
+      this.props.pop();
+    }
+    if(!this.ds || !newProps.messages) { return }
+    this.setState({
+      dataSource: this.ds.cloneWithRows(_.sortBy(newProps.messages, (msg) => msg.created_timestamp).reverse())
+    })
+  }
   _renderRow(rowData, sectionID: number, rowID: number) {
     return (
       <ChatBubble
@@ -114,14 +122,14 @@ class ChatInside extends Component{
 //         }}
 //         collapsable={false}
 //       >
-return (
-<View
-  style={{
-    flexGrow: 1,
-    paddingBottom:20,
-    width:DeviceWidth,
- }}
->
+    return (
+        <View
+          style={{
+            flexGrow: 1,
+            paddingBottom:20,
+            width:DeviceWidth,
+         }}
+        >
         {this.props.messages && this.props.messages.length > 0 ? (
           <ListView
             dataSource={this.state.dataSource}
