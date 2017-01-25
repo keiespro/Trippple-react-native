@@ -37,9 +37,9 @@ class Chat extends React.Component {
           return (
             <ThreeDotsActionButton
               fromChat
-              match={props.match}
+              match={route.params.matchInfo || props.match || props.currentMatch || props.matchInfo}
               dotColor={colors.white}
-              style={{height:40,backgroundColor:colors.sushi,top:-30,alignItems:'center',alignSelf:'flex-start'}}
+              style={{paddingTop:3,alignItems:'center',alignSelf:'center'}}
             />
           )
 
