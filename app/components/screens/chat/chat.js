@@ -12,6 +12,7 @@ import ChatInside from './ChatInside'
 import ThreeDotsActionButton from '../../buttons/ThreeDotsAction';
 import colors from '../../../utils/colors';
 
+const iOS = Platform.OS == 'ios';
 
 //
 const DeviceHeight = Dimensions.get('window').height;
@@ -26,7 +27,7 @@ class Chat extends React.Component {
     styles: Platform.select({ios: SlideHorizontalIOS, android: NavigationStyles.SlideHorizontal}),
     navigationBar: {
       visible: true,
-      translucent:false,
+      translucent:iOS,
       backgroundColor: colors.transparent,
       height:55,
       overrideStyle:{
@@ -46,7 +47,7 @@ class Chat extends React.Component {
             fromChat
             match={props.match}
             dotColor={colors.white}
-            style={{height:40,backgroundColor:colors.sushi,top:-30,alignItems:'center',alignSelf:'flex-start'}}
+            style={{alignItems:'center',alignSelf:'center'}}
           />
         )
 
