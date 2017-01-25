@@ -7,6 +7,8 @@ import CardStack from './CardStack';
 import PotentialsPlaceholder from './PotentialsPlaceholder';
 import colors from '../../../utils/colors';
 import styles from './styles';
+import _ from 'lodash'
+
 
 const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height;
@@ -68,7 +70,7 @@ const Toolbar = () => (
       alignSelf: 'stretch',
       width: DeviceWidth,
       alignItems: 'flex-end',
-      zIndex: 10,
+      zIndex: 900,
     }}
   >
     <SettingsButton />
@@ -105,29 +107,36 @@ class Potentials extends React.Component{
 
   }
   componentWillUnmount(){
-    BackAndroid.removeEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
+    if(this.ba){
+      this.ba.remove()
+    }
   }
   componentWillReceiveProps(nProps){
     const nui = nProps.ui;
     const ui = this.props.ui;
     if(nui.profileVisible && !ui.profileVisible){
-      BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
-    }else if(!nui.profileVisible && ui.profileVisible){
-      BackAndroid.removeEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
+      this.ba = BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
+    }else if(!nui.profileVisible && this.ba){
+      this.ba.remove()
+    // BackAndroid.removeEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
     }
+    console.log(this.ba);
   }
 
   handleBackAndroid(){
+
     if(this.props.profileVisible){
       this.props.dispatch({ type: 'CLOSE_PROFILE' });
-      return true
 
+return true
     }else{
       // this.props.navigator.pop()
 
-      return false
+      // return false
 
     }
+    return true
+
   }
 
 
@@ -145,8 +154,6 @@ class Potentials extends React.Component{
 
   toggleProfile(){
     this.props.profileVisible ? this.props.dispatch({ type: 'CLOSE_PROFILE' }) : this.props.dispatch({ type: 'OPEN_PROFILE' });
-
-    // __DEV__ && console.warn('nothing');
   }
 
   render(){
@@ -155,9 +162,7 @@ class Potentials extends React.Component{
     return (
       <View
         style={{
-          // width: DeviceWidth,
-          // height: DeviceHeight,
-          top: 0, // iOS ? -64 : 0,
+          top: 0,
           backgroundColor: colors.outerSpace,
           flexGrow: 1,
         }}
@@ -168,7 +173,7 @@ class Potentials extends React.Component{
           style={[
             styles.cardStackContainer,
             {
-              top: 0, // iOS ? (this.props.profileVisible ? 70 : 60) : 0,
+              top: 0,
               position: 'absolute',
               flexGrow: 1,
             }
@@ -189,31 +194,6 @@ class Potentials extends React.Component{
             /> : null
           }
 
-          {/* {!this.state.didShow && potentials.length < 1 ?
-            <View
-              style={[{
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: DeviceHeight,
-                width: DeviceWidth,
-                zIndex: 2,
-                position: 'absolute',
-                top: 0,
-                left: 0
-              }]}
-            >
-              <ActivityIndicator
-                size={'large'}
-                style={[{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 80,
-                  top: -40
-                }]}
-                animating
-              />
-            </View> : null
-          } */}
 
           { (!potentials) || (potentials && potentials.length < 1) ?
             <PotentialsPlaceholder
@@ -224,7 +204,8 @@ class Potentials extends React.Component{
               onDidShow={() => { this.setState({didShow: true}); }}
             /> : null
           }
-          {!this.props.profileVisible && <Toolbar />}
+          {/* {!this.props.profileVisible && <Toolbar />} */}
+          <Toolbar />
 
         </View>
       </View>
@@ -237,11 +218,11 @@ Potentials.displayName = 'Potentials'
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
   user: state.user,
-  potentials: state.potentials,
+  potentials: _.reject(state.potentials, p => state.swipeQueue[p.user.id] != null),
   unread: state.unread,
   ui: state.ui,
   profileVisible: state.ui.profileVisible,
-  drawerOpen: state.ui.drawerOpen
+  drawerOpen: state.ui.drawerOpen,
 })
 
 const mapDispatchToProps = (dispatch) => ({ dispatch })

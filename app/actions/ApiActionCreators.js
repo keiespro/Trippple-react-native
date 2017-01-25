@@ -37,13 +37,14 @@ const ApiActionCreators = endpointMap.reduce((obj, endpoint) => {
   obj[endpoint.call] = (...params) => (dispatch => dispatch({
 
     type: endpoint.action,
-    meta: endpoint.call == 'sendLike' ? {...(_.zipObject(['like_user_id', 'like_status', 'like_user_type', 'from_user_type',], params)),
-      relevantUser: (params[params.length - 1].relevantUser)
-    } : params.map(p => p),
+    meta: endpoint.call == 'sendLike' ? {
+      ...params
+    }[0] : params.map(p => p),
     payload: {
       promise: new Promise((resolve, reject) => {
         let shouldFetchUserInfo,
-          shouldFetchPotentials;
+          shouldFetchPotentials,
+          p;
         if(endpoint.call == 'onboard'){
           dispatch({type: 'KILL_MODAL', payload: true})
         }
@@ -55,8 +56,13 @@ const ApiActionCreators = endpointMap.reduce((obj, endpoint) => {
         if(['decouple', 'verifycouplepin', 'onboard','updateuser','fblogin'].indexOf(endpoint.call.toLowerCase()) > -1){
           shouldFetchPotentials = true
         }
-
-        api[endpoint.call](...params).then(x => {
+        if(endpoint.call == 'sendLike'){
+          p = Object.values(params[0])
+          console.log(p);
+        }else{
+          p = params
+        }
+        api[endpoint.call](...p).then(x => {
           if(shouldFetchUserInfo){
             dispatch({type: 'GET_USER_INFO', payload: api.getUserInfo()})
           }

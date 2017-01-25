@@ -54,6 +54,18 @@ export default function appReducer(state = initialState, action) {
       }
       return state;
 
+    case 'SEND_LIKE_PENDING':
+      return {
+        ...state,
+        sendingLike:true
+      }
+
+    case 'SEND_LIKE_FULFILLED':
+      return {
+        ...state,
+        sendingLike:false
+      }
+
     default:
 
       return state;

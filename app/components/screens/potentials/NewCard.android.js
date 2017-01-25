@@ -9,6 +9,9 @@ import UserDetails from '../../UserDetails'
 import ParallaxSwiper from '../../controls/ParallaxSwiper'
 import VerifiedCoupleBadge from '../../Badge/VerifiedCoupleBadge'
 import {pure, onlyUpdateForKeys} from 'recompose'
+import ApproveIcon from './ApproveIcon'
+import DenyIcon from './DenyIcon'
+
 import CityState from '../../CityState'
 import CardLabel from '../../CardLabel'
 const DeviceHeight = Dimensions.get('window').height;
@@ -17,7 +20,7 @@ const DeviceWidth = Dimensions.get('window').width;
 
 
 @pure
-@onlyUpdateForKeys(['key', 'pan', 'potentials', 'profileVisible'])
+@onlyUpdateForKeys(['key', 'pan', 'potentials', 'profileVisible', 'isTopCard'])
 class NewCard extends React.Component {
 
   constructor() {
@@ -27,7 +30,11 @@ class NewCard extends React.Component {
     }
   }
 
-
+  componentWillReceiveProps(nProps){
+    if(!this.props.profileVisible && nProps.profileVisible){
+      BackAndroid.addEventListener('hardwareBackPress', this.handleBackFromOpenProfile.bind(this))
+    }
+  }
   onLayout(e) {
     const {layout} = e.nativeEvent
 
@@ -36,17 +43,17 @@ class NewCard extends React.Component {
     }
   }
 
-  // handleBackFromOpenProfile(e, x){
-  //   console.log(e, x);
-  //   // e.preventDefault();
-  //   e && e.stopPropagation();
-  //   this.props.dispatch({ type: 'CLOSE_PROFILE' });
-  //   this.dontHandleBackFromOpenProfile()
-  // }
-  //
-  // dontHandleBackFromOpenProfile(){
-  //   BackAndroid.removeEventListener('hardwareBackPress', this.handleBackFromOpenProfile.bind(this))
-  // }
+  handleBackFromOpenProfile(e, x){
+    // console.log(e, x);
+    // e && e.preventDefault();
+    // e && e.stopPropagation();
+    this.props.dispatch({ type: 'CLOSE_PROFILE' });
+    // this.dontHandleBackFromOpenProfile()
+  }
+
+  dontHandleBackFromOpenProfile(){
+    BackAndroid.removeEventListener('hardwareBackPress', this.handleBackFromOpenProfile.bind(this))
+  }
 
   reportModal() {
     const {potential} = this.props;
@@ -225,6 +232,7 @@ class NewCard extends React.Component {
             flexDirection: 'column',
             flexGrow: 1,
             borderRadius: 11,
+            width:DeviceWidth
 
           }]}
 
@@ -258,12 +266,12 @@ class NewCard extends React.Component {
         <View
           onStartShouldSetResponder={() => true}
           onStartShouldSetResponderCapture={() => true}
-                  onResponderGrant={e => {
-                    console.log(e);
-                    if(!this.props.profileVisible){
-                      this.openProfile()
-                    }
-                  }}
+          onResponderGrant={e => {
+            console.log(e);
+            if(!profileVisible){
+              this.openProfile()
+            }
+          }}
           style={{
             width: cardWidth,
             height: 100,
@@ -275,7 +283,7 @@ class NewCard extends React.Component {
             borderBottomRightRadius: 11,
             position: 'absolute',
 
-            top: profileVisible ? -200 : DeviceHeight - 120,
+            top: profileVisible ? -200 : DeviceHeight - 160,
           }}
         >
           <TouchableNativeFeedback
@@ -306,6 +314,9 @@ class NewCard extends React.Component {
             </View>
           </TouchableNativeFeedback>
         </View>
+{isTopCard ? <DenyIcon pan={this.props.pan}/> : null}
+{isTopCard ? <ApproveIcon pan={this.props.pan}/> : null}
+
 
       </View>
     )

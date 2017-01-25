@@ -13,30 +13,32 @@ const ApproveIcon = props => (
     key={'approveicon'}
     style={[styles.animatedIcon, {
       opacity: props.pan ? props.pan.x.interpolate({
-        inputRange: [0, 100, DeviceWidth / 2, DeviceWidth],
-        outputRange: [0, 1, 1, 0],
+        inputRange: [0, 50, 100, DeviceWidth / 2, DeviceWidth],
+        outputRange: [0, 0, 1, 1, 1],
       }) : 0,
       backgroundColor: iOS ? 'transparent' : colors.white,
       transform: [
         {
           scale: props.pan ? props.pan.x.interpolate({
-            inputRange: [-DeviceWidth, 0, DeviceWidth / 2],
-            outputRange: [2, 0.1, 2.5],
+            inputRange: [0, 50, DeviceWidth / 2 + 50],
+            outputRange: [0, 0, 1.2],
             extrapolate: 'clamp',
           }) : 0,
         },
-        {
-          translateY: props.pan ? props.pan.y.interpolate({
-            inputRange: [0, (DeviceHeight)],
-            outputRange: [-30, 120],
-          }) : 0,
-        }, {
-          translateX: props.pan ? props.pan.x.interpolate({
-            inputRange: [50, DeviceWidth / 3, DeviceWidth],
-            outputRange: [-100, 50, 220],
-          }) : 0,
-        },
+        // {
+        //   translateY: props.pan ? props.pan.y.interpolate({
+        //     inputRange: [0, DeviceHeight],
+        //     outputRange: [0, DeviceHeight],
+        //   }) : 0,
+        // }, {
+        //   translateX: props.pan ? props.pan.x.interpolate({
+        //     inputRange: [-500, -DeviceWidth / 3, DeviceWidth],
+        //     outputRange: [-300, -200, 300],
+        //   }) : 0,
+        // },
       ],
+      top: 20,
+      left: 20,
     }]}
   >
     <Image

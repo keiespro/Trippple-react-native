@@ -96,10 +96,8 @@ class ParallaxSwiper extends React.Component{
     // }
     const slides = slideFrames.map((p, i) => {
       let {image_url} = p;
-      if(!image_url || image_url.length == 0){ image_url = null }
-      else{
-        image_url = image_url.replace('test/', '').replace('images/', '')
-      }
+
+
       return (
 
         <Image
@@ -136,10 +134,10 @@ class ParallaxSwiper extends React.Component{
             width: 0,
             height: -10
           },
-          marginTop:profileVisible ? 0 : 40,
+          marginTop:profileVisible ? 0 : 0,
           flex: 1,
           position: 'absolute',
-          top: 0,
+          top: profileVisible ? 0 : 0,
           borderRadius: 11,
           backgroundColor: iOS && this.props.pan && this.props.isTopCard ? this.props.pan.x.interpolate({
             inputRange: [-300, -180, -50, 0, 50, 180, 300],
@@ -192,6 +190,7 @@ class ParallaxSwiper extends React.Component{
           styles.container, style, {
             borderRadius: 11,
             top: 0,
+
           }
         ]}
       >

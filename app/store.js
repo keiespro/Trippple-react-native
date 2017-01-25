@@ -18,28 +18,28 @@ const logger = createLogger({
 });
 
 const middlewares = [
-  createActionBuffer('EX_NAVIGATION.INITIALIZE'),
   thunk,
   promiseMiddleware(),
+  // createActionBuffer('EX_NAVIGATION.INITIALIZE'),
   throttleActions(['UPDATE_USER'], 2000, {leading: true, trailing: false }),
   throttleActions(['EX_NAVIGATION.PUSH'], 700, {leading: true, trailing: false }),
-  throttleActions(['OPEN_PROFILE'], 800, {leading: true, trailing: false }),
+  throttleActions(['OPEN_PROFILE'], 100, {leading: true, trailing: false }),
   throttleActions(['GET_POTENTIALS'], 1000, {leading: true, trailing: false }),
-  // createPrefetcher({
-  //   watchKeys: [
-  //     {
-  //       'GET_POTENTIALS_FULFILLED': {
-  //         key: 'matches',
-  //         location: {
-  //           user: {
-  //           image_url: true
-  //         }
-  //       }
-  //     }
-  //   }
+  createPrefetcher({
+    watchKeys: [
+      {
+        'GET_POTENTIALS_FULFILLED': {
+          key: 'matches',
+          location: {
+            user: {
+            image_url: true
+          }
+        }
+      }
+    }
 
-    // ]
-  // })
+    ]
+  })
 ]
 
 function configureStore(initialState = ({})) {
@@ -48,8 +48,8 @@ function configureStore(initialState = ({})) {
         createReducer(),
         initialState,
         compose(
-          applyMiddleware(...middlewares, logger),
           autoRehydrate(),
+          applyMiddleware(...middlewares),///, logger
           global.reduxNativeDevTools ? global.reduxNativeDevTools({
             getMonitor: (monitor) => { global.isMonitorAction = monitor.isMonitorAction; },
             actionCreators: ActionMan
@@ -58,10 +58,10 @@ function configureStore(initialState = ({})) {
 
       );
 
-    persistStore(store, {
+    const persistor = persistStore(store, {
       storage: AsyncStorage, blacklist: ['navigation', 'ui', 'potentials']
     })
-    // .purge(['navigation','appNav'])
+    .purge(['navigation','appNav','potentials'])
   //   storage: AsyncStorage, blacklist: ['ui', 'potentials']
   // }).purge([])
 

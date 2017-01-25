@@ -18,6 +18,8 @@ import unreadReducer  from './unreadReducer'
 import userReducer  from './userReducer'
 import permissionsReducer  from './permissionsReducer'
 import settingsReducer  from './settingsReducer'
+import swipeQueueReducer  from './swipeQueueReducer'
+import swipeHistoryReducer  from './swipeHistoryReducer'
 
 const applicationReducers = {
   user:           userReducer,
@@ -38,7 +40,9 @@ const applicationReducers = {
   likes:          LikeReducer,
   permissions:    permissionsReducer,
   settings:       settingsReducer,
-  navigation
+  navigation,
+  swipeQueue: swipeQueueReducer,
+  swipeHistory: swipeHistoryReducer
 };
 
 export default function createReducer() {

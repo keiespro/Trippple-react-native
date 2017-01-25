@@ -20,6 +20,7 @@ import ActionMan from '../actions/';
 import Onboard from './Onboard'
 import DeepLinkHandler from '../utils/DeepLinkHandler'
 import '../fire'
+import LikeSender from '../LikeSender'
 
 const iOS = Platform.OS == 'ios';
 const {RNUXCam} = NativeModules
@@ -130,6 +131,7 @@ class App extends React.Component{
       <View style={{width: DeviceWidth, height: DeviceHeight, backgroundColor: colors.outerSpace}}>
 
         <ConnectionInfo dispatch={this.props.dispatch}/>
+        {this.props.loadedUser && this.props.user && this.props.loggedIn && <LikeSender />}
 
         <AppState dispatch={this.props.dispatch}/>
 
@@ -140,6 +142,7 @@ class App extends React.Component{
               this.props.user && this.props.loggedIn ? <Onboard user={this.props.user} permissions={this.props.permissions}/> :
                 <Welcome dispatch={this.props.dispatch}/>
         }
+
 
         <ModalDirector />
 
