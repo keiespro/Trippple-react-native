@@ -41,6 +41,14 @@ class ChatInside extends Component{
       kbs:0
     }
   }
+
+    componentDidMount(){
+      this.props.dispatch({type: 'MARK_CHAT_READ', payload: {match_id: this.props.match.match_id}})
+    }
+    componentWillUnmount(){
+      this.props.dispatch({type: 'MARK_CHAT_READ', payload: {match_id: this.props.match.match_id}})
+    }
+
   componentWillReceiveProps(newProps){
     if(this.props.match && !newProps.match){
       this.props.pop();
@@ -128,6 +136,7 @@ class ChatInside extends Component{
             flexGrow: 1,
             paddingBottom:20,
             width:DeviceWidth,
+            backgroundColor: colors.transparent
          }}
         >
         {this.props.messages && this.props.messages.length > 0 ? (
