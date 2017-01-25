@@ -38,7 +38,8 @@ const ChatBubble = (props) => {
      thumb = '';
 
   }
-
+  const timestamp = Math.min(props.messageData.created_timestamp * 1000, Date.now());
+  
     return (
       <View style={[styles.col]} shouldRasterizeIOS={true}>
         <View style={[styles.row,{alignItems: isMessageOurs ? 'flex-end' : 'flex-start',}]}>
@@ -131,7 +132,7 @@ const ChatBubble = (props) => {
               fontSize:10,
               fontFamily:'montserrat'
             }}
-            time={props.messageData.created_timestamp * 1000}
+            time={timestamp}
           />
         </View>
 
