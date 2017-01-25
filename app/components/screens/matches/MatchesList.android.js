@@ -203,7 +203,7 @@ class MatchesList extends Component {
   }
 
   render() {
-    return (this.props.matches && this.props.newMatches && !this.props.matches.length && !this.props.newMatches.length) ? <NoMatches/> : (
+    return (!this.props.matches && !this.props.newMatches ) ? <NoMatches/> : (
          <ListView
           dataSource={this.props.dataSource}
           chatActionSheet={this.chatActionSheet.bind(this)}
@@ -301,14 +301,14 @@ const styles = StyleSheet.create({
   newMessageCount: {
     backgroundColor: colors.mandy,
     position: 'absolute',
-    bottom: -5,
-    right: -5,
-    borderRadius: 15,
+    bottom:0,
+    right:0,
+    borderRadius: 12,
     overflow: 'hidden',
     borderColor: colors.outerSpace,
     borderWidth: 4,
-    width: 30,
-    height: 30,
+    width: 24,
+    height: 24,
     padding: 0,
     alignItems: 'center',
     justifyContent: 'center',
