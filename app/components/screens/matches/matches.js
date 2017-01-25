@@ -22,7 +22,7 @@ function rowHasChanged(r1, r2) {
 @reactMixin.decorate(TimerMixin)
 class Matches extends Component {
   static route = {
-    styles: Platform.select({ios: SlideHorizontalIOS, android: NavigationStyles.FloatHorizontal}),
+    styles: Platform.select({ios: SlideHorizontalIOS, android: NavigationStyles.FloatVertical}),
     sceneStyle:{
     },
     statusBar:{

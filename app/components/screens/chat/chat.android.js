@@ -22,7 +22,7 @@ const DeviceWidth = Dimensions.get('window').width;
 class Chat extends React.Component {
 
   static route = {
-    styles: NavigationStyles.FloatHorizontal,
+    styles: NavigationStyles.FloatVertical,
     sceneStyle:{
       backgroundColor: colors.outerSpace
     },
