@@ -217,7 +217,7 @@ class Notification extends React.Component{
         styles[noti]
         ]}
       >
-        <StatusBar animated barStyle="light-content" hidden />
+      {iOS &&  <StatusBar animated barStyle="light-content" hidden />}
 
         {noti.indexOf('message') > -1 ?
           <View style={[styles.notificationOverlay, styles.newmessage]}>
@@ -405,7 +405,8 @@ const styles = StyleSheet.create({
 
   },
   notificationLeft: {
-    width: 60
+    width: 60,
+
   },
   notificationRight: {
     // flex:1,
@@ -450,7 +451,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderRadius: 25,
     borderWidth: 0,
-    backgroundColor: colors.white20
+    backgroundColor: colors.transparent
   }
 
 })
