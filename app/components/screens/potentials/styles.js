@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
     left: (DeviceWidth / 2) - 50,
     zIndex: 9999,
     position: 'absolute',
+    overflow:'hidden'
     // shadowColor:colors.darkShadow,
     // backgroundColor:'black',
     // shadowRadius:5,
