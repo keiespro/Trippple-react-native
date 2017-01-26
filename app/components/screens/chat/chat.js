@@ -27,9 +27,8 @@ class Chat extends React.Component {
     styles: Platform.select({ios: SlideHorizontalIOS, android: NavigationStyles.SlideHorizontal}),
     navigationBar: {
       visible: true,
-      translucent: iOS,
+      translucent: false,
       backgroundColor: colors.shuttleGrayAnimate,
-      height:55,
       title(params) {
         return params.title ? params.title : ''
       },
@@ -40,7 +39,7 @@ class Chat extends React.Component {
             fromChat
             match={props.match}
             dotColor={colors.white}
-            style={{alignItems:'center',backgroundColor:'red',paddingTop:0,alignSelf:'center'}}
+            style={{alignItems:'center',paddingTop:3,alignSelf:'center'}}
           />
         )
 

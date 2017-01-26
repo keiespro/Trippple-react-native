@@ -22,10 +22,14 @@ if(__DEV__){
     'Warning',
     'Task oprhaned',
     'Animated: `use',
-    'Image source'
+    'Image source',
+    `View #`,
+    `console.error`
   ];
   console.ignoredRedBox = [
-    'Image source'
+    'Image source',
+    `console.error`
+
   ];
 }
 

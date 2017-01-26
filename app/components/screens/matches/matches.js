@@ -32,7 +32,7 @@ class Matches extends Component {
     },
     navigationBar: {
       visible: true,
-      translucent: iOS,
+      translucent: false,
       backgroundColor: colors.shuttleGrayAnimate,
       title(){
         return 'MESSAGES'

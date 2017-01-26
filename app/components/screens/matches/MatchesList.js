@@ -275,7 +275,7 @@ class MatchesList extends Component {
           renderRow={this._renderRow.bind(this)}
           style={{
             height: DeviceHeight,
-            paddingTop: 60,
+            // paddingTop: 60,
             flexGrow: 1,
 
           }}
