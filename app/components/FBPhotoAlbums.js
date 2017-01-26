@@ -51,7 +51,7 @@ class PhotoAlbums extends React.Component {
   constructor(props) {
     super()
     this.aDS = new ListView.DataSource({
-      rowHasChanged: (row1, row2) => row1 !== row2
+      rowHasChanged: (row1, row2) => row1 != row2
     });
     this.state = {
       albumSource: null,
@@ -61,21 +61,22 @@ class PhotoAlbums extends React.Component {
   }
 
   componentWillMount() {
-    if(!this.props.fbUser) {
-      this.props.dispatch(ActionMan.facebookAuth())
-    }else if(!this.props.fbUser.accessToken) {
-      this.props.dispatch(ActionMan.facebookAuth())
-    }else if(this.props.fbUser.permissions.indexOf('user_photos') < 0) {
-      this.props.dispatch(ActionMan.addFacebookPermissions())
-    }
+    // if(!this.props.fbUser) {
+    //   this.props.dispatch(ActionMan.facebookAuth())
+    // }else if(!this.props.fbUser.accessToken) {
+    //   this.props.dispatch(ActionMan.facebookAuth())
+    // }else if(this.props.fbUser.permissions.indexOf('user_photos') < 0) {
+    //   this.props.dispatch(ActionMan.addFacebookPermissions())
+    // }
   }
 
   componentDidMount() {
-    setTimeout(() => {
+    console.log('fcebook albums');
+    // setTimeout(() => {
       console.log('called it');
       this.oldFBRequest()
 
-    },6000);
+    // },0);
   }
 
   componentWillReceiveProps(nProps) {
@@ -91,41 +92,54 @@ class PhotoAlbums extends React.Component {
     const _handleAlbums = this._handleAlbums.bind(this)
     if(!fbUser.accessToken) return;
     const {userID,accessToken} = fbUser
-    console.log(userID);
+    console.log(userID,accessToken);
 
-    const infoRequest = new GraphRequest(`/${userID}/albums`, {
+    const infoRequest = new GraphRequest(`${userID}/albums`, {
       parameters: {
         fields: {
           string: 'id,photos{images},name,link,picture{url},count'
         }
       },
       accessToken
-    }, _handleAlbums);
+    }, this._handleAlbums.bind(this));
     const FBG = new GraphRequestManager();
     FBG.addRequest(infoRequest).start();
   }
 
   async oldFBRequest(){
-    const {fbUser} = this.props;
-    console.log(fbUser);
-    const fbUrl = `https://graph.facebook.com/v2.3/${fbUser.userID}/albums?access_token=${fbUser.accessToken}&fields=id,photos{images},name,link,picture{url},count`;
-
-  // console.log('FB api > ProfilePhoto',fbUrl);
-
-  return await fetch(fbUrl).then(res => res.json()).then(this._handleAlbums.bind(this)).catch(err => console.log(err))
-    // .then((res) => res.json())
+    this.props.dispatch(ActionMan.fetchFacebookAlbums(this.props.fbUser))
+    // this.getAlbums()
+    // // return
+    //
+    // const {fbUser} = this.props;
+    // console.log(fbUser);
+    // const fbUrl = `https://graph.facebook.com/v2.8/${fbUser.userID}/albums?access_token=${fbUser.accessToken}&fields=id,photos{images},name,link,picture{url},count`;
+    //
+    // console.log('FB api > ProfilePhoto',fbUrl);
+    //
+    // return  fetch(fbUrl).then(res => {
+    //   console.log(res);
+    //     return res.json()
+    // })
     // .then(responseData => {
     //   console.log(responseData);
-    //   this._handleAlbums(responseData);
+    //   return this._handleAlbums(responseData);
     // })
-    // .catch(err => console.error(err))
   }
 
-
+  componentWillReceiveProps(nProps){
+    if(nProps.albums){
+      this.setState({
+        albums: nProps.albums,
+        albumSource: this.aDS.cloneWithRows(nProps.albums),
+        view_loaded: 'list_albums',
+        // paging: responseData.paging
+      });
+    }
+  }
   _handleAlbums(responseData){
-    console.log('_handleAlbums');
-    console.log(responseData);
-    const albums = _.filter(responseData.data, (al) => al.count > 0);
+    console.log('_handleAlbums',responseData);
+    const albums = _.filter(responseData.data || [], (al) => al.count > 0);
     console.log(albums);
 
     this.setState({
@@ -296,7 +310,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
   fbUser: state.fbUser,
-  user: state.user
+  user: state.user,
+  albums: Object.values(state.facebookAlbums)
 })
 
 const mapDispatchToProps = (dispatch) => ({dispatch});

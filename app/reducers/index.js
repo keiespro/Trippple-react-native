@@ -7,6 +7,7 @@ import authReducer  from './authReducer'
 import chatReducer  from './chatReducer'
 import deviceReducer  from './deviceReducer'
 import facebookReducer  from './facebookReducer'
+import facebookAlbums  from './facebookAlbums'
 import matchesListReducer  from './matchesListReducer'
 import matchesReducer  from './matchesReducer'
 import nagReducer  from './nagReducer'
@@ -42,7 +43,8 @@ const applicationReducers = {
   settings:       settingsReducer,
   navigation,
   swipeQueue: swipeQueueReducer,
-  swipeHistory: swipeHistoryReducer
+  swipeHistory: swipeHistoryReducer,
+  facebookAlbums
 };
 
 export default function createReducer() {

@@ -48,7 +48,7 @@ export const loginWithFacebook = () => async dispatch => {
   dispatch({ type: 'LOGIN_WITH_FACEBOOK', payload: api.fbLogin(fbData) })
   dispatch({ type: 'FACEBOOK_AUTH', payload: fbData})
   dispatch({ type: 'FIREBASE_AUTH', payload: checkFireLoginState(fbData, dispatch) })
-  
+
     // .then(fireUser => {
     // })
     // .catch(err => {
@@ -108,6 +108,39 @@ export const getFacebookProfile = fbUser => dispatch => {
   const REQ = new GraphRequestManager().addRequest(infoRequest)
   REQ.start();
 }
+
+
+/* fetchFacebookAlbums | FETCH_FACEBOOK_ALBUMS */
+export const fetchFacebookAlbums = fbUser => dispatch => dispatch({ type: 'FETCH_FACEBOOK_ALBUMS',
+    payload: {
+      promise: new Promise((resolve, reject) => {
+
+        const {accessToken} = fbUser;
+        const fbUrl = `https://graph.facebook.com/v2.8/${fbUser.userID}/albums?access_token=${fbUser.accessToken}&fields=id,photos{images},name,link,picture{url},count`;
+
+        return fetch(fbUrl).then(res => {
+          __DEV__ && console.log(res);
+          return res.json()
+        })
+        .then(responseData => {
+          __DEV__ && console.log(responseData);
+          resolve(responseData)
+        })
+      })
+    }
+  })
+
+  // const infoRequest = new GraphRequest('me', {parameters, accessToken}, (err, fbProfile) => {
+  //   if(err){
+  //     __DEV__ && console.log('error getting fb profile', err);
+  //     return
+  //   }
+  //   dispatch({ type: 'GET_FACEBOOK_ALBUMS', payload: fbProfile })
+  // });
+  //
+  // const REQ = new GraphRequestManager().addRequest(infoRequest)
+  // REQ.start();
+// }
 
 
 export const addFacebookPermissions = () => async dispatch => {

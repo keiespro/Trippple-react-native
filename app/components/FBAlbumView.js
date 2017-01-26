@@ -34,7 +34,7 @@ class AlbumView extends React.Component {
       },
       tintColor: colors.white,
       title(params) {
-        return `${params.albumTitle}`
+        return `${params.albumTitle ? params.albumTitle.toUpperCase() : ''}`
       }
     }
   };
@@ -103,22 +103,24 @@ class AlbumView extends React.Component {
 
   render() {
     return (
-      <View style={{
-        flex: 1,
-        backgroundColor: colors.outerSpace,
-        height: DeviceHeight,
-        width: DeviceWidth
-      }}
-      >
+
         <ListView
           style={{
-            paddingTop: 65
+            flexGrow: 1,
+            top:50,
+            backgroundColor: colors.outerSpace,
+
           }}
           contentContainerStyle={{
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
             flexWrap: 'wrap',
+            flexGrow: 1,
+            paddingBottom:60,
+            paddingTop:20,
+            // height:DeviceHeight + 1000,
+
             width: DeviceWidth
           }}
           dataSource={this.state.photoSource}
@@ -130,7 +132,7 @@ class AlbumView extends React.Component {
           onEndReached={this.getMore.bind(this)}
           renderRow={this.renderSinglePhotos.bind(this)}
         />
-      </View>
+
       );
   }
 
