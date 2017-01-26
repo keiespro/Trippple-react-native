@@ -27,16 +27,9 @@ class Chat extends React.Component {
     styles: Platform.select({ios: SlideHorizontalIOS, android: NavigationStyles.SlideHorizontal}),
     navigationBar: {
       visible: true,
-      translucent:iOS,
-      backgroundColor: colors.transparent,
+      translucent: iOS,
+      backgroundColor: colors.shuttleGrayAnimate,
       height:55,
-      overrideStyle:{
-        width:DeviceWidth,height:55,backgroundColor:'red'
-      },
-      style: {
-        width:DeviceWidth,height:55,backgroundColor:'red'
-
-      },
       title(params) {
         return params.title ? params.title : ''
       },
@@ -47,7 +40,7 @@ class Chat extends React.Component {
             fromChat
             match={props.match}
             dotColor={colors.white}
-            style={{alignItems:'center',alignSelf:'center'}}
+            style={{alignItems:'center',backgroundColor:'red',paddingTop:0,alignSelf:'center'}}
           />
         )
 
@@ -94,7 +87,7 @@ class Chat extends React.Component {
 
   render() {
     return (
-      <View style={{flexGrow:1,backgroundColor: colors.outerSpace,top:0}}>
+      <View style={{flexGrow:1,backgroundColor: colors.outerSpace,height:DeviceHeight-60,top:0}}>
         <ChatInside
           user={this.props.user}
           match={this.props.match || this.props.currentMatch}

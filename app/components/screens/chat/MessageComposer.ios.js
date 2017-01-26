@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
         alignSelf:'flex-end',
         width:DeviceWidth,
         margin:0,
-        minHeight:80,
+        minHeight:60,
         bottom:0,
         paddingLeft:20,
         paddingVertical:10,

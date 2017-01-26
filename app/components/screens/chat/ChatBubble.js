@@ -24,22 +24,22 @@ const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 import MessageComposer from './MessageComposer'
 import { connect } from 'react-redux';
 import styles from './chatStyles'
-import {pure} from 'recompose'
+import {pure,onlyUpdateForKeys} from 'recompose'
 import ActionMan from  '../../../actions/';
 
 const ChatBubble = (props) => {
-  const isMessageOurs = (props.messageData.from_user_info.id == props.user.id || props.messageData.from_user_info.id == props.user.partner_id);
+  const isMessageOurs = (props.from_user_info.id == props.user.id || props.from_user_info.id == props.user.partner_id);
   var thumb = ''
   if(!isMessageOurs){
-    const {from_user_info} = props.messageData;
+    const {from_user_info} = props;
     const {thumb_url,image_url} = from_user_info;
      thumb = (image_url)+'';
   }else{
      thumb = '';
 
   }
-  const timestamp = Math.min(props.messageData.created_timestamp * 1000, Date.now());
-  
+  const timestamp = Math.min(props.created_timestamp * 1000, Date.now());
+
     return (
       <View style={[styles.col]} shouldRasterizeIOS={true}>
         <View style={[styles.row,{alignItems: isMessageOurs ? 'flex-end' : 'flex-start',}]}>
@@ -68,7 +68,7 @@ const ChatBubble = (props) => {
               <Image style={[styles.thumbwrap]}
                   source={{uri: thumb}}
                   resizeMode={Image.resizeMode.cover}
-                  defaultSource={require('./assets/placeholderUser@3x.png')}
+                  defaultSource={require('./assets/placeholderUser.png')}
                 />
               </View> : null
             }
@@ -90,7 +90,7 @@ const ChatBubble = (props) => {
                   color: isMessageOurs ? colors.shuttleGray : colors.lavender,
                   fontFamily:'montserrat',
                 }]}
-              >{ props.messageData.from_user_info.name.toUpperCase() }</Text>}
+              >{ props.from_user_info.name.toUpperCase() }</Text>}
 
               <Text
                 style={[styles.messageText,{
@@ -141,7 +141,7 @@ const ChatBubble = (props) => {
 
 };
 
-export default pure(ChatBubble)
+export default pure(onlyUpdateForKeys(['created_timestamp'])(ChatBubble))
 
 
 const SIZES = {

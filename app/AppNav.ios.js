@@ -22,10 +22,10 @@ export default class AppNav extends React.Component {
           id="exnavigation"
           sceneStyle={{
             overflow: 'visible',
-            shadowColor: '#000',
-            shadowOpacity: 0.5,
+            // shadowColor: '#000',
+            // shadowOpacity: 0.5,
             backgroundColor: colors.outerSpace,
-            shadowRadius: 6
+            // shadowRadius: 6
           }}
 
           defaultRouteConfig={{

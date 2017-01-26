@@ -13,9 +13,13 @@ class ClearDataGate extends Component{
   };
 
   componentWillMount(){
+
+
+    console.log(UserDefaults);
     if(iOS){
-      UserDefaults.boolForKey('ResetDataOnLaunch')
-        .then(ResetDataOnLaunch => {
+      const ResetDataOnLaunch = UserDefaults.boolForKey('ResetDataOnLaunch')
+      console.log(ResetDataOnLaunch);
+        // .then(ResetDataOnLaunch => {
           __DEV__ && console.log('ResetDataOnLaunch', ResetDataOnLaunch)
 
           if(ResetDataOnLaunch){
@@ -31,10 +35,10 @@ class ClearDataGate extends Component{
           }else{
             this.setState({noReset: true})
           }
-        })
-        .catch(err => {
-          this.setState({noReset: true})
-        })
+        // })
+        // .catch(err => {
+        //   this.setState({noReset: true})
+        // })
     }else{
       this.setState({noReset: true})
 

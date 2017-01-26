@@ -202,7 +202,7 @@ class MatchesList extends Component {
 
   render() {
     return (!this.props.matches.length && !this.props.newMatches.length) ? <NoMatches/> : (
-      <View style={{flexGrow:1,}}>
+      <View style={{flexGrow:1, backgroundColor: colors.outerSpace,}}>
         <SwipeableListView
           dataSource={this.props.dataSource}
           maxSwipeDistance={150}

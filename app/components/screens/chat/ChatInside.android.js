@@ -63,7 +63,7 @@ class ChatInside extends Component{
       <ChatBubble
         specialText={shouldMakeBigger(rowData.message_body) ? 40 : null}
         user={this.props.user}
-        messageData={rowData}
+        {...rowData}
         key={`${rowID}-msg`}
         text={rowData.message_body}
         pic={rowData.from_user_info.thumb_url}
@@ -112,7 +112,7 @@ class ChatInside extends Component{
       them = theirIds.map((id) => matchInfo.users[id]),
       chatTitle = them.reduce((acc, u, i) => (acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ' & ' : '')), '');
 
-      console.log(this.state.kbs);
+
 
 //     return (
 //       <View

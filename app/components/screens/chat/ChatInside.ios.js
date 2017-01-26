@@ -83,7 +83,7 @@ class ChatInside extends Component{
       <ChatBubble
         specialText={shouldMakeBigger(rowData.message_body) ? 40 : null}
         user={this.props.user}
-        messageData={rowData}
+        {...rowData}
         key={`${rowID}-msg`}
         text={rowData.message_body}
         pic={rowData.from_user_info.thumb_url}
