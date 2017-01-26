@@ -5,11 +5,14 @@ import createActionBuffer from 'redux-action-buffer'
 import throttleActions from 'redux-throttle-actions';
 import promiseMiddleware from 'redux-promise-middleware';
 import createLogger from 'redux-logger';
-import {persistStore, autoRehydrate} from 'redux-persist'
+import {persistStore, autoRehydrate, } from 'redux-persist'
+import {REHYDRATE} from 'redux-persist/constants'
+
 import { createNavigationEnabledStore } from '@exponent/ex-navigation'
 import ActionMan from './actions/'
 import createReducer from './reducers/';
 import createPrefetcher from './rn-redux-image-prefetch'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 const logger = createLogger({
   diff: true,
@@ -20,54 +23,69 @@ const logger = createLogger({
 const middlewares = [
   thunk,
   promiseMiddleware(),
+  // createActionBuffer(REHYDRATE),
   // createActionBuffer('EX_NAVIGATION.INITIALIZE'),
   throttleActions(['UPDATE_USER'], 2000, {leading: true, trailing: false }),
   throttleActions(['EX_NAVIGATION.PUSH'], 700, {leading: true, trailing: false }),
   throttleActions(['OPEN_PROFILE'], 100, {leading: true, trailing: false }),
   throttleActions(['GET_POTENTIALS'], 1000, {leading: true, trailing: false }),
-  createPrefetcher({
-    watchKeys: [
-      {
-        'GET_POTENTIALS_FULFILLED': {
-          key: 'matches',
-          location: {
-            user: {
-            image_url: true
-          }
-        }
-      }
-    }
-
-    ]
-  })
+  // createPrefetcher({
+  //   watchKeys: [
+  //     {
+  //       'GET_POTENTIALS_FULFILLED': {
+  //         key: 'matches',
+  //         location: {
+  //           user: {
+  //           image_url: true
+  //         }
+  //       }
+  //     }
+  //   }
+  //
+  //   ]
+  // })
 ]
 
 function configureStore(initialState = ({})) {
   if(global.__DEV__) {
+    // const bak = global.XMLHttpRequest;
+      // const xhr = global.originalXMLHttpRequest ?
+      //   global.originalXMLHttpRequest :
+      //   global.XMLHttpRequest;
+      //
+      // global.XMLHttpRequest = xhr;
+      //
+
+      const comp = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+        actionCreators: ActionMan,
+        maxAge: 200,
+      }) : compose
+
     const store = createNavigationEnabledStore(createStore)(
         createReducer(),
-        initialState,
-        compose(
-          autoRehydrate(),
-          applyMiddleware(...middlewares),///, logger
-          global.reduxNativeDevTools ? global.reduxNativeDevTools({
-            getMonitor: (monitor) => { global.isMonitorAction = monitor.isMonitorAction; },
-            actionCreators: ActionMan
-          }) : f => f,
-        ),
+        comp(
+          autoRehydrate({log: true}),
+          applyMiddleware(...middlewares, logger),
+        ),///,
 
       );
 
-    const persistor = persistStore(store, {
-      storage: AsyncStorage, blacklist: ['navigation', 'ui', 'potentials']
-    })
-    .purge(['navigation','appNav','potentials'])
+
   //   storage: AsyncStorage, blacklist: ['ui', 'potentials']
   // }).purge([])
-
-    if (global.reduxNativeDevTools) {
-      global.reduxNativeDevTools.updateStore(store);
-    }
+    //
+    const persistor = persistStore(store, {
+      storage: AsyncStorage,
+      blacklist: ['navigation', 'appNav', 'ui', 'potentials']
+    })
+    // AsyncStorage.getAllKeys().then(k => {
+    //   console.log(k);
+    //   AsyncStorage.multiGet(k).then(r => {
+    //     console.log(r)
+    //     persistor.rehydrate(r)
+    //
+    //   })
+    // })
 
     if (module.hot) {
       module.hot.accept(() => {
@@ -75,6 +93,9 @@ function configureStore(initialState = ({})) {
         store.replaceReducer(nextRootReducer());
       });
     }
+
+    persistor.purge(['navigation','appNav','potentials'])
+
 
     return store
   } else {

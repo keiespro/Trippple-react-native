@@ -11,8 +11,8 @@ export default function createPrefetcher(config = {}) {
 
   // config
   const {
+    debug = true,
     watchKeys,
-    debug
   } = config;
 
   return ({ dispatch, getState }) => (next) => (action) => {
@@ -41,23 +41,24 @@ export default function createPrefetcher(config = {}) {
 
 
     function resolveChildProperty(parent, childKey){
-      if(typeof childKey === 'object'){
-        const subkey = Object.keys(childKey)[0]; // only allowing 1 subkey for now
-        if(subkey){
-          const subsubkey = Object.keys(childKey[subkey])[0]; // only allowing 1 subkey for now
-
-          return parent[subkey][subsubkey];
-        }else{
-          return parent[subkey];
-        }
-      }else{
-        return parent[childKey];
-      }
+      if(debug) console.log(parent,childKey);
+      // if(typeof childKey === 'object'){
+      //   const subkey = Object.keys(childKey)[0]; // only allowing 1 subkey for now
+      //   if(subkey){
+      //     const subsubkey = Object.keys(childKey[subkey])[0]; // only allowing 1 subkey for now
+      //
+      //     return parent[subkey][subsubkey];
+      //   }else{
+      //     return parent[subkey];
+      //   }
+      // }else{
+        return parent['user']['imageUrl'];
+      // }
     }
 
     function processStateKey(pointer, stateValue, incoming){
       let images = [];
-
+      if(debug) console.log(incoming);
       if(!incoming || !incoming.length){
         return;
       }
@@ -65,7 +66,13 @@ export default function createPrefetcher(config = {}) {
       if(Array.isArray(incoming)){
       // if the user provided a mapping to the image url inside a collection item
       // if (typeof watchKeys === 'object'){
-        images = incoming.map(item => resolveChildProperty(item, pointer.location))
+        images = incoming.reduce( (sum,item) => {
+          if(item['user']['image_url']){
+            sum.push(item['user']['image_url'])
+          }
+          return sum
+
+        },[])
       // } else {
       //   // for now just inspect the whole thing
       //
@@ -77,9 +84,10 @@ export default function createPrefetcher(config = {}) {
       //     return imgs
       //   }, []);
       // }
-      }else if(typeof incoming === 'object'){
+      }else if(typeof incoming === 'object' && incoming.user){
         // dont decened uet
         images = Object.keys(incoming[pointer]).reduce((imgs, item) => {
+            if(debug) console.log(item);
           if(item.substr(0, 4) == 'http'){
             imgs.push(item[watchKeys[pointer]])
           }
@@ -87,23 +95,23 @@ export default function createPrefetcher(config = {}) {
           return imgs
         }, []);
       }
+        if(debug) console.log(images);
 
-      if(debug) console.warn(images.length);
 
       let cacheCheck;
-      if(Platform.os == 'android'){
+      if(Platform.OS == 'android'){
         cacheCheck = ImageLoader.queryCache(images)
         .then(cache => {
-          if(debug) console.log(cache);
+          if(debug) console.log('cache',cache);
           const uncached = _.difference(images, Object.keys(cache))
-          if(debug) console.log(uncached, 'going to prefetch')
+          if(debug) console.log('uncached', uncached, 'going to prefetch')
           return uncached
         })
       }else{
         cacheCheck = new Promise((resolve, reject) => {
           setImmediate(() => {
             const a = true;
-            console.log('Image loader check cache not supported on iOS');
+            if(debug) console.log('Image loader check cache not supported on iOS');
             if(a){
               resolve()
             }else{
@@ -114,27 +122,27 @@ export default function createPrefetcher(config = {}) {
       }
 
       cacheCheck.then(imgs => {
-        if(debug) console.log(imgs);
+        if(debug) console.log('cachecheck',imgs);
         if(!imgs) return false
         imgs.forEach(imageUrl => {
-          if(debug) console.log(imageUrl);
-          const x = imageUrl.split('/test/')[0].split('uploads') + u.split('test')[1];
-          const matchImage = x.split('/images')[0] + x.split('/images')[1]
 
-          dispatch(prefetchStartedAction({imageUrl: matchImage}));
+          // const x = imageUrl.split('/test/')[0].split('uploads') + imageUrl.split('test')[1];
+          // const matchImage = x.split('/images')[0] + x.split('/images')[1]
 
-          Image.prefetch(matchImage)
-            .then(success => {
-              // if(!success)  return
-              if(debug) console.log(`success: ${success}`);
-              dispatch(prefetchCompleteAction({imageUrl: matchImage}));
-            })
-            .catch(error => {
-              throw new Error(error);
-
-              // if(debug) console.warn('err', error)
-              // dispatch(prefetchCompleteAction({imageUrl}, error));
-            })
+          // dispatch(prefetchStartedAction({imageUrl: matchImage}));
+          if(debug) console.log('prefetch image:', imageUrl);
+          Image.prefetch(imageUrl)
+            // .then(success => {
+            //   // if(!success)  return
+            //   if(debug) console.log(`success: ${success}`);
+            //   dispatch(prefetchCompleteAction({imageUrl: matchImage}));
+            // })
+            // .catch(error => {
+            //   throw new Error(error);
+            //
+            //   // if(debug) console.warn('err', error)
+            //   // dispatch(prefetchCompleteAction({imageUrl}, error));
+            // })
         })
       })
       .catch(error => {

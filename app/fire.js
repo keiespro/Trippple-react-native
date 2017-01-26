@@ -46,8 +46,9 @@ const fireLogin = (fbUser, dispatch) => {
 
 const checkFireLoginState = async (fbUser, dispatch) => {
   // console.log(fbUser, 'fbUserfbUserfbUserfbUserfbUserfbUser');
-  if(fbUser) {
+  if(fbUser && !global.FIREBASE_AUTH_SUCCESS) {
     const firebaseUser = await fireLogin(fbUser, dispatch)
+    global.FIREBASE_AUTH_SUCCESS = true
     dispatch({ type: 'FIREBASE_AUTH_SUCCESS', payload: firebaseUser })
   }else{
     // __DEV__ && console.warn('User is signed-out of Facebook.')
