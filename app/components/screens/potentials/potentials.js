@@ -118,9 +118,7 @@ class Potentials extends React.Component{
       this.ba = BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
     }else if(!nui.profileVisible && this.ba){
       this.ba.remove()
-    // BackAndroid.removeEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
     }
-    console.log(this.ba);
   }
 
   handleBackAndroid(){

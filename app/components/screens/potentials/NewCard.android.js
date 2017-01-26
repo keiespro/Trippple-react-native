@@ -267,7 +267,6 @@ class NewCard extends React.Component {
           onStartShouldSetResponder={() => true}
           onStartShouldSetResponderCapture={() => true}
           onResponderGrant={e => {
-            console.log(e);
             if(!profileVisible){
               this.openProfile()
             }

@@ -5,7 +5,6 @@ export default function swipeQueueReducer(state = initialState, action) {
   let newState
   switch (action.type) {
     case 'SEND_LIKE_FULFILLED':
-      console.log(s[action.meta.likeUserId]);
       if(s[action.meta.likeUserId]){
         delete(s[action.meta.likeUserId])
       }

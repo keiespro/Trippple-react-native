@@ -14,25 +14,10 @@ import { MagicNumbers } from '../utils/DeviceConfig'
 // import { pure } from 'recompose'
 import VerifiedCoupleBadge from './Badge/VerifiedCoupleBadge'
 import ActionMan from '../actions'
-
+import CardLabel from './CardLabel'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
-const CardLabel = props => (
-  <View>
-    <Text
-      style={[styles.cardBottomText, { color: props.textColor }]}
-      key={`${props.potential.user.id}-names`}
-    >{ props.matchName }
-    </Text>
-    <Text
-      style={[styles.cardBottomOtherText, { alignSelf: 'flex-start', color: props.textColor }]}
-      key={`${props.potential.user.id}-matchn`}
-    >{props.city
-        // props.city.replace(', ', '') + props.seperator + (props.distance ? ` ${props.distance} ${props.distance == 1 ? 'mile' : 'miles'} away` : '')
-    }</Text>
-  </View>
-);
 
 @withNavigation
 class UserProfile extends React.Component {

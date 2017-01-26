@@ -221,11 +221,13 @@ class CardStack extends React.Component {
             this._toggleProfile()
           }
         }}
+        pointerEvents={'box-none'}
+
         style={{
           flexGrow: 1,
           alignSelf: 'stretch',
           alignItems: 'center',
-          top: this.props.profileVisible ? 0 : 40,
+          top: this.props.profileVisible ? 0 : 0,
           bottom: 0,
           zIndex: 999999,
           position: 'absolute',
@@ -236,7 +238,7 @@ class CardStack extends React.Component {
         <View style={{ width: DeviceWidth, }} pointerEvents={'box-none'} />
         { potentials && potentials[1] && !this.props.profileVisible &&
           <Animated.View
-            pointerEvents={'auto'}
+            pointerEvents={'none'}
             style={[{
               alignSelf: 'center',
               borderRadius: 11,
@@ -244,7 +246,7 @@ class CardStack extends React.Component {
               backfaceVisibility: 'hidden',
               height: this.props.profileVisible ? DeviceHeight : DeviceHeight-40,
               top: iOS ? this.props.profileVisible ? -30 : -20 :  this.props.profileVisible ? 0 : 0,
-              marginTop: this.props.profileVisible ? 0 : 0,
+              marginTop: this.props.profileVisible ? 0 : 40,
               position: 'absolute',
               flexGrow: 1,
               opacity: this.state.pan.x.interpolate({
@@ -279,7 +281,7 @@ class CardStack extends React.Component {
 
         { potentials && potentials[0] &&
           <Animated.View
-            pointerEvents={'auto'}
+            pointerEvents={'box-only'}
 
             style={[{
               alignSelf: 'center',
@@ -287,7 +289,7 @@ class CardStack extends React.Component {
               width: DeviceWidth,
               backfaceVisibility: 'hidden',
               height: this.props.profileVisible ? DeviceHeight : DeviceHeight-40,
-              top: iOS ? this.props.profileVisible ? -30 : -20 :  this.props.profileVisible ? 0 : 0,
+              top: iOS ? this.props.profileVisible ? -30 : -20 :  this.props.profileVisible ? 0 : 40,
               marginTop: this.props.profileVisible ? 0 : 0,
               position: 'absolute',
               flexGrow: 1,

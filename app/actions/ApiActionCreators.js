@@ -58,7 +58,7 @@ const ApiActionCreators = endpointMap.reduce((obj, endpoint) => {
         }
         if(endpoint.call == 'sendLike'){
           p = Object.values(params[0])
-          console.log(p);
+          // console.log(p);
         }else{
           p = params
         }
