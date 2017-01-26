@@ -85,7 +85,7 @@ class ParallaxSwiper extends React.Component{
           position: 'absolute',
           top: 0,
           borderRadius: 11,
-          backgroundColor: iOS && typeof this.props.pan != 'undefined' ? this.props.pan.x.interpolate({
+          backgroundColor: iOS && isTopCard && typeof this.props.pan != 'undefined' ? this.props.pan.x.interpolate({
             inputRange: [-300, -180, -150, 0, 150, 180, 300],
             outputRange: [
               'rgba(232,74,107,1.0)',
@@ -96,7 +96,7 @@ class ParallaxSwiper extends React.Component{
               'rgba(66,181,125,1.0)',
               'rgba(66,181,125,1.0)',
             ],
-          }) : colors.mediumPurple20,
+          }) : colors.mediumPurple,
         }]}
       >
         <Animated.View
@@ -106,7 +106,7 @@ class ParallaxSwiper extends React.Component{
             borderRadius: 11,
             left: 0,
             overflow:'hidden',
-            opacity: typeof this.props.pan != 'undefined' && this.props.pan.x ? this.props.pan.x.interpolate({
+            opacity: isTopCard && typeof this.props.pan != 'undefined' && this.props.pan.x ? this.props.pan.x.interpolate({
               inputRange: [-300, -10, 0, 10, 300],
               outputRange: [0.3, 1, 1, 1, 0.3]
             }) : 1,
@@ -214,10 +214,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   content: {
-    shadowColor: '#222',
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
+    // shadowColor: '#222',
+    // shadowOpacity: 0.3,
+    // shadowRadius: 2,
     flex: 1,
+    backgroundColor:colors.outerSpace,
     flexDirection: 'column'
   }
 });

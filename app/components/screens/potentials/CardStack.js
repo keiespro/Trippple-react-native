@@ -246,7 +246,7 @@ class CardStack extends React.Component {
               backfaceVisibility: 'hidden',
               height: this.props.profileVisible ? DeviceHeight : DeviceHeight-40,
               top: iOS ? this.props.profileVisible ? -30 : -20 :  this.props.profileVisible ? 0 : 0,
-              marginTop: this.props.profileVisible ? 0 : 40,
+              marginTop: this.props.profileVisible ? 0 : 0,
               position: 'absolute',
               flexGrow: 1,
               opacity: this.state.pan.x.interpolate({
@@ -289,7 +289,7 @@ class CardStack extends React.Component {
               width: DeviceWidth,
               backfaceVisibility: 'hidden',
               height: this.props.profileVisible ? DeviceHeight : DeviceHeight-40,
-              top: iOS ? this.props.profileVisible ? -30 : -20 :  this.props.profileVisible ? 0 : 40,
+              top: iOS ? this.props.profileVisible ? -30 : -20 :  this.props.profileVisible ? 0 : 0,
               marginTop: this.props.profileVisible ? 0 : 0,
               position: 'absolute',
               flexGrow: 1,

@@ -7,10 +7,7 @@ import colors from '../utils/colors'
 export default class CityState extends Component{
 
   static defaultProps = {
-    coords: {
-      lng: -80.191788,
-      lat: 25.761681
-    }
+
   };
 
   constructor(){
@@ -21,15 +18,18 @@ export default class CityState extends Component{
   }
 
   componentDidMount(){
+
     if(this.props.coords){
       this.geocode()
-    }  
+    }
   }
 
   async geocode(){
     try{
       const g = await Geocoder.geocodePosition(this.props.coords);
-      this.setState({cityState: `${g[0].locality}, ${g[0].adminArea}`})
+      if(g && g[0]){
+        this.setState({cityState: `${g[0].locality}, ${g[0].adminArea}`})
+      }
     }catch(err){
       __DEV__ && console.log(err);
     }

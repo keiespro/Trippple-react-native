@@ -139,18 +139,7 @@ class ParallaxSwiper extends React.Component{
           position: 'absolute',
           top: profileVisible ? 0 : 0,
           borderRadius: 11,
-          backgroundColor: iOS && this.props.pan && this.props.isTopCard ? this.props.pan.x.interpolate({
-            inputRange: [-300, -180, -50, 0, 50, 180, 300],
-            outputRange: [
-              'rgb(232,74,107)',
-              'rgb(232,74,107)',
-              'rgb(232,74,107)',
-              'rgb(255,255,255)',
-              'rgb(66,181,125)',
-              'rgb(66,181,125)',
-              'rgb(66,181,125)',
-            ],
-          }) : colors.mediumPurple20,
+          backgroundColor: colors.mediumPurple20,
         }]}
       >
         <View
