@@ -29,21 +29,21 @@ const middlewares = [
   throttleActions(['EX_NAVIGATION.PUSH'], 700, {leading: true, trailing: false }),
   throttleActions(['OPEN_PROFILE'], 100, {leading: true, trailing: false }),
   throttleActions(['GET_POTENTIALS'], 1000, {leading: true, trailing: false }),
-  // createPrefetcher({
-  //   watchKeys: [
-  //     {
-  //       'GET_POTENTIALS_FULFILLED': {
-  //         key: 'matches',
-  //         location: {
-  //           user: {
-  //           image_url: true
-  //         }
-  //       }
-  //     }
-  //   }
-  //
-  //   ]
-  // })
+  createPrefetcher({
+    watchKeys: [
+      {
+        'GET_POTENTIALS_FULFILLED': {
+          key: 'matches',
+          location: {
+            user: {
+            image_url: true
+          }
+        }
+      }
+    }
+
+    ]
+  })
 ]
 
 function configureStore(initialState = ({})) {

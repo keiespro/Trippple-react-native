@@ -1,10 +1,16 @@
-import { Image, NativeModules, Platform } from 'react-native'
+
+
+
+import Promise from 'bluebird'
+
+import { Image, NativeModules, ImageStore, Platform } from 'react-native'
 import _ from 'lodash'
 
-const {ImageLoader} = NativeModules
+const {ImageLoader, } = NativeModules
 const PREFETCH_STARTED = 'PREFETCH_STARTED';
 const PREFETCH_COMPLETE = 'PREFETCH_COMPLETE';
 
+const hasImageCachedIOS = Promise.promisify(ImageStore.hasImageForTag)
 export default function createPrefetcher(config = {}) {
   // defaults
 
@@ -40,21 +46,6 @@ export default function createPrefetcher(config = {}) {
     return next(action);
 
 
-    function resolveChildProperty(parent, childKey){
-      if(debug) console.log(parent,childKey);
-      // if(typeof childKey === 'object'){
-      //   const subkey = Object.keys(childKey)[0]; // only allowing 1 subkey for now
-      //   if(subkey){
-      //     const subsubkey = Object.keys(childKey[subkey])[0]; // only allowing 1 subkey for now
-      //
-      //     return parent[subkey][subsubkey];
-      //   }else{
-      //     return parent[subkey];
-      //   }
-      // }else{
-        return parent['user']['imageUrl'];
-      // }
-    }
 
     function processStateKey(pointer, stateValue, incoming){
       let images = [];
@@ -73,17 +64,7 @@ export default function createPrefetcher(config = {}) {
           return sum
 
         },[])
-      // } else {
-      //   // for now just inspect the whole thing
-      //
-      //   images = incoming.reduce((imgs, item) => {
-      //     if (item.substr(0, 4) == 'http'){
-      //       imgs.push(item[watchKeys[pointer]])
-      //     }
-      //
-      //     return imgs
-      //   }, []);
-      // }
+
       }else if(typeof incoming === 'object' && incoming.user){
         // dont decened uet
         images = Object.keys(incoming[pointer]).reduce((imgs, item) => {
@@ -107,50 +88,32 @@ export default function createPrefetcher(config = {}) {
           if(debug) console.log('uncached', uncached, 'going to prefetch')
           return uncached
         })
-      }else{
-        cacheCheck = new Promise((resolve, reject) => {
-          setImmediate(() => {
-            const a = true;
-            if(debug) console.log('Image loader check cache not supported on iOS');
-            if(a){
-              resolve()
-            }else{
-              reject(new Error())
-            }
+
+        cacheCheck.then(imgs => {
+          if(debug) console.log('cachecheck',imgs);
+          if(!imgs) return false
+          imgs.forEach(imageUrl => {
+            if(debug) console.log('prefetch image:', imageUrl);
+            Image.prefetch(imageUrl)
           })
         })
-      }
+        .catch(error => {
+          throw new Error(error);
 
-      cacheCheck.then(imgs => {
-        if(debug) console.log('cachecheck',imgs);
-        if(!imgs) return false
-        imgs.forEach(imageUrl => {
-
-          // const x = imageUrl.split('/test/')[0].split('uploads') + imageUrl.split('test')[1];
-          // const matchImage = x.split('/images')[0] + x.split('/images')[1]
-
-          // dispatch(prefetchStartedAction({imageUrl: matchImage}));
-          if(debug) console.log('prefetch image:', imageUrl);
-          Image.prefetch(imageUrl)
-            // .then(success => {
-            //   // if(!success)  return
-            //   if(debug) console.log(`success: ${success}`);
-            //   dispatch(prefetchCompleteAction({imageUrl: matchImage}));
-            // })
-            // .catch(error => {
-            //   throw new Error(error);
-            //
-            //   // if(debug) console.warn('err', error)
-            //   // dispatch(prefetchCompleteAction({imageUrl}, error));
-            // })
+          if(debug) console.warn('err', error)
+          dispatch(prefetchCompleteAction({error}));
         })
-      })
-      .catch(error => {
-        throw new Error(error);
+      }else{
+        const imagePrefetch = [];
 
-        if(debug) console.warn('err', error)
-        dispatch(prefetchCompleteAction({error}));
-      })
+        for (let uri of images) {
+          imagePrefetch.push(Image.prefetch(uri));
+        }
+        Promise.all(imagePrefetch).then(results => {
+          console.log("prefetched",results);
+        });
+
+      }
     }
   }
 }
