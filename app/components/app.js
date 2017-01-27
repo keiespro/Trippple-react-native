@@ -138,8 +138,9 @@ class App extends React.Component{
         {iOS && <DeepLinkHandler />}
         { !this.props.loadedUser ?
             <Loading /> :
+            this.props.loggedIn ?
             this.props.onboarded ? <AppNav/> :
-              this.props.user && this.props.loggedIn ? <Onboard user={this.props.user} permissions={this.props.permissions}/> :
+               <Onboard user={this.props.user} permissions={this.props.permissions}/> :
                 <Welcome dispatch={this.props.dispatch}/>
         }
 
@@ -169,7 +170,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     ...ownProps,
-    onboarded: loggedIn && onboarded,
+    onboarded: onboarded,
     user: state.user,
     fbUser: state.fbUser,
     auth: state.auth,

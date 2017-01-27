@@ -50,7 +50,7 @@ const Onboard = (props) => {
       }else if(!notificationPermission){
         initialRoute = 'NotificationsPermissions'
       }else{
-        initialRoute = 'Finish'
+        initialRoute = 'finish'
       }
     }else if(props.user.relationship_status == 'couple'){
       if(props.user.partner_id){
