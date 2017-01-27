@@ -102,9 +102,9 @@ class App extends React.Component{
     if(permissions.location && permissions.location == 'authorized'){
       initActions.push('getLocation')
     }
-    if(permissions.notifications){
-      initActions.push('getPushToken')
-    }
+    // if(permissions.notifications){
+    //   initActions.push('getPushToken')
+    // }
     RC.getValue('init_actions')
         .then(actions => {
           __DEV__ && console.log('init_actions', actions);
@@ -144,7 +144,7 @@ class App extends React.Component{
                 <Welcome dispatch={this.props.dispatch}/>
         }
 
-
+        {this.props.loggingIn && <Loading /> }
         <ModalDirector />
 
         <Notifications />
@@ -182,7 +182,8 @@ const mapStateToProps = (state, ownProps) => {
     savedCredentials: state.auth.savedCredentials,
     appState: state.app.appState,
     booted: state.app.booted,
-    permissions: state.permissions
+    permissions: state.permissions,
+    loggingIn: state.ui.loggingIn
   }
 }
 

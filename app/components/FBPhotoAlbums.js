@@ -129,18 +129,19 @@ class PhotoAlbums extends React.Component {
 
   componentWillReceiveProps(nProps){
     if(nProps.albums){
-      this.setState({
-        albums: nProps.albums,
-        albumSource: this.aDS.cloneWithRows(nProps.albums),
-        view_loaded: 'list_albums',
-        // paging: responseData.paging
-      });
+      // this.setState({
+      //   albums: nProps.albums,
+      //   albumSource: this.aDS.cloneWithRows(nProps.albums),
+      //   view_loaded: 'list_albums',
+      //   // paging: responseData.paging
+      // });
+      this._handleAlbums(nProps.albums)
     }
   }
   _handleAlbums(responseData){
-    console.log('_handleAlbums',responseData);
-    const albums = _.filter(responseData.data || [], (al) => al.count > 0);
-    console.log(albums);
+    __DEV__ && console.log('_handleAlbums',responseData);
+    const albums = _.filter(responseData, al => al.count > 0);
+    __DEV__ && console.log(albums);
 
     this.setState({
       albums: [
@@ -246,7 +247,7 @@ class PhotoAlbums extends React.Component {
             style={{
               flex: 1,
               marginTop: 0,
-              paddingTop: 65
+              paddingTop: 60
             }}
             dataSource={this.state.albumSource}
             renderRow={this.renderAlbumCover.bind(this)}

@@ -34,7 +34,7 @@ function getMaxLength(fieldName){
   let len = 20
   switch (fieldName){
     case 'firstname':
-      len = 10; break;
+      len = 15; break;
     case 'email':
       len = 30; break;
   }
@@ -46,7 +46,7 @@ class MultiLineInput extends React.Component{
   constructor(props){
     super()
     this.state = {
-      bioHeight: 165,
+      bioHeight: 170,
     }
   }
 
@@ -75,7 +75,7 @@ class MultiLineInput extends React.Component{
         placeholderTextColor={colors.white}
         maxLength={300}
         autoCorrect
-        numberOfLines={7}
+        numberOfLines={8}
         returnKeyType={'done'}
         multiline
         keyboardAppearance={'dark'}
@@ -238,13 +238,13 @@ class FieldModal extends React.Component{
     })
   }
   cancel(){
-    this.props.dispatch(ActionMan.killModal())
+    this.props.cancel ? this.props.cancel() : this.props.dispatch(ActionMan.killModal())
   }
   renderButtons(){
     return (
       <View
         style={{
-          bottom: 20,
+          bottom: 0,
           zIndex: 9999,
           flexDirection: 'row',
           height: 60,
@@ -475,10 +475,10 @@ class FieldModal extends React.Component{
         case 'input':
           return (
             <View style={{ alignSelf: 'stretch', flex: 2, height: DeviceHeight, }}>
-              <KeyboardAvoidingView
+              {/* <KeyboardAvoidingView
                 style={{ alignSelf: 'stretch', flex: 1, justifyContent: 'space-between', flexDirection: 'column'}}
-                behavior={'padding'}
-              >
+                behavior={'height'}
+              > */}
                 <View
                   style={{
                     alignSelf: 'stretch',
@@ -524,7 +524,7 @@ class FieldModal extends React.Component{
                         {React.cloneElement(inputField, {
                           maxLength: getMaxLength(this.props.fieldName),
                           selectionColor: colors.mediumPurple,
-                          defaultValue: this.props.fieldName == 'firstname' ? (fieldValue ? fieldValue.slice(0, 10) : '') : fieldValue,
+                          defaultValue: this.props.fieldName == 'firstname' ? (fieldValue ? fieldValue.slice(0, 12) : '') : fieldValue,
                           onChangeText: (value) => {
                             this.onChange(value.trim())
                           },
@@ -558,7 +558,7 @@ class FieldModal extends React.Component{
                   </View>
                 </View>
                 {this.renderButtons()}
-              </KeyboardAvoidingView>
+              {/* </KeyboardAvoidingView> */}
             </View>
 
       )
@@ -703,16 +703,6 @@ class FieldModal extends React.Component{
     return (
 
       <View style={{ flexGrow: 1}}>
-        <KeyboardAvoidingView
-          style={{
-            flex: 1,
-            flexGrow: 1,
-            height: DeviceHeight - 20,
-            backgroundColor: colors.outerSpace,
-            width: DeviceWidth
-          }}
-          behavior={'padding'}
-        >
           <ScrollView
             contentContainerStyle={{
               alignItems: 'center',
@@ -732,7 +722,6 @@ class FieldModal extends React.Component{
             {inside()}
 
           </ScrollView>
-        </KeyboardAvoidingView>
       </View>
     )
   }

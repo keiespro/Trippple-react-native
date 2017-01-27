@@ -27,7 +27,7 @@ const middlewares = [
   createActionBuffer('EX_NAVIGATION.INITIALIZE'),
   // throttleActions(['UPDATE_USER'], 2000, {leading: true, trailing: false }),
   // throttleActions(['EX_NAVIGATION.PUSH'], 700, {leading: true, trailing: false }),
-  throttleActions(['OPEN_PROFILE'], 100, {leading: true, trailing: false }),
+  throttleActions(['OPEN_PROFILE','CLOSE_PROFILE'], 300, {leading: true, trailing: false }),
   throttleActions(['GET_POTENTIALS'], 1000, {leading: true, trailing: false }),
   createPrefetcher({
     watchKeys: [
@@ -65,7 +65,7 @@ function configureStore(initialState = ({})) {
         createReducer(),
         comp(
           autoRehydrate({log: true}),
-          applyMiddleware(...middlewares, logger),
+          applyMiddleware(...middlewares),//logger
         ),///,
 
       );

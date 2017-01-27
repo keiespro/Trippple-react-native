@@ -52,6 +52,24 @@ export default function uiReducer(state = initialState, action) {
     case 'GET_USER_INFO_FULFILLED':
       return {...state, loadedUser: true };
 
+    case 'LOGIN_WITH_FACEBOOK_PENDING':
+    case 'LOADING_PENDING':
+
+      return {
+        ...state,
+        loggingIn: true
+      }
+
+
+    case 'ONBOARD_FULFILLED':
+    case 'LOADING_FULFILLED':
+    case 'LOGIN_WITH_FACEBOOK_FULFILLED':
+
+      return {
+        ...state,
+        loggingIn: false
+      }
+
 
     default:
 
@@ -66,4 +84,5 @@ const initialState = {
   profileVisible: false,
   drawerOpen: false,
   currentIndex: 0,
+  loggingIn: false
 };

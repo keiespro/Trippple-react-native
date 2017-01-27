@@ -17,7 +17,7 @@ export default function createPrefetcher(config = {}) {
 
   // config
   const {
-    debug = true,
+    debug = false,
     watchKeys,
   } = config;
 
@@ -110,7 +110,7 @@ export default function createPrefetcher(config = {}) {
           imagePrefetch.push(Image.prefetch(uri));
         }
         Promise.all(imagePrefetch).then(results => {
-          console.log("prefetched",results);
+      if(debug) console.log("prefetched",results);
         });
 
       }

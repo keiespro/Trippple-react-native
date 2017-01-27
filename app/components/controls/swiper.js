@@ -304,7 +304,7 @@ const Swiper = React.createClass({
           zIndex:9999,
           borderRadius: 11,
           top:0,
-          opacity: this.props.pan ? this.props.pan.interpolate({
+          opacity: this.props.pan && this.props.pan.interpolate ? this.props.pan.interpolate({
             inputRange: [-300, -10, 0, 10, 300],
             outputRange: [0.3, 1, 1, 1, 0.3]
           }) : 1,

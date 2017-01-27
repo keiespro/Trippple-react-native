@@ -23,12 +23,23 @@ import CouplePin from './components/screens/coupling/CouplePin'
 import NoPartner from './components/screens/coupling/NoPartner'
 import CoupleReady from './components/screens/coupling/CoupleReady';
 import CoupleSuccess from './components/screens/coupling/CoupleSuccess';
+import OnboardModal from './components/modals/OnboardModal'
 
+import LocationPermissions from './components/modals/LocationPermissions'
+import NotificationPermissions from './components/modals/NotificationsPermissions'
+
+
+const Finish = () => (
+  <View><Text>Finish</Text></View>
+)
 export default createRouter(() => ({
   SettingsDebug: () => __DEV__ ? SettingsDebug : false,
   Potentials: () => Potentials,
   Settings: () => Settings,
   SettingsCouple: () => SettingsCouple,
+  LocationPermissions: () => LocationPermissions,
+  NotificationPermissions: () => NotificationPermissions,
+
   SettingsBasic: () => SettingsBasic,
   SettingsPreferences: () => SettingsPreferences,
   SettingsSettings: () => SettingsSettings,
@@ -48,5 +59,7 @@ export default createRouter(() => ({
   CouplePin: () => CouplePin,
   CoupleSuccess: () => CoupleSuccess,
   CoupleReady: () => CoupleReady,
-  NoPartner: () => NoPartner
+  NoPartner: () => NoPartner,
+  OnboardModal: () => OnboardModal,
+  finish: () => Finish
 }))

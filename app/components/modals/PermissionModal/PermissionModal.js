@@ -9,6 +9,7 @@ import BoxyButton from '../../controls/boxyButton'
 import ActionMan from '../../../actions'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import Button from '../../Btn'
+import FadeInContainer from '../../FadeInContainer';
 
 const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height
@@ -115,6 +116,9 @@ class PermissionsModal extends Component{
   }
   renderFailed(){
     return (
+      <FadeInContainer   duration={800} delay={1200}>
+
+
       <View style={{flexGrow:1,alignItems: 'center'}}>
         <View style={{alignItems: 'center',flexGrow:1,backgroundColor:'red'}}>
           <Image
@@ -150,6 +154,7 @@ class PermissionsModal extends Component{
           </View>
         </View>
       </View>
+    </FadeInContainer>
     )
   }
 

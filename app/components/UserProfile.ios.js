@@ -122,6 +122,8 @@ class UserProfile extends React.Component {
     const hasPartner = potential.partner && potential.partner.gender;
     const slideFrames = hasPartner && potential.partner.image_url && potential.partner.image_url != '' ? [potential.user, potential.partner] : [potential.user];
     const verifiedCouple = hasPartner && potential.couple.verified;
+
+
     return (
       <View
         style={[{
@@ -167,7 +169,7 @@ class UserProfile extends React.Component {
           windowHeight={0}
           isUserProfile={true}
           width={cardWidth}
-          killProfile={this.props.closeProfile}
+          killProfile={() => this.props.closeProfile ? this.props.closeProfile() : this.props.navigator.pop()}
           isTopCard={isTopCard}
           profileVisible={profileVisible}
         >
@@ -245,11 +247,11 @@ class UserProfile extends React.Component {
                   user={this.props.user}
                   location={'card'}
                 />
-                <TouchableOpacity onPress={this.reportModal.bind(this)}>
+                {this.props.user.id != this.props.potential.user.id ? <TouchableOpacity onPress={this.reportModal.bind(this)}>
                   <View style={{ marginTop: 20, paddingBottom: 50 }}>
                     <Text style={{ color: colors.mandy, textAlign: 'center' }}>Report or Block this user</Text>
                   </View>
-                </TouchableOpacity>
+                </TouchableOpacity> : null}
 
                 <TouchableOpacity
                   style={{
@@ -280,7 +282,7 @@ class UserProfile extends React.Component {
         >
           <Image
             resizeMode={Image.resizeMode.contain}
-            style={{ height: 12, width: 12, marginTop: 10 }}
+            style={{ height: 12, width: 12, marginTop: 10, opacity: 0.2 }}
             source={require('./screens/potentials/assets/close@3x.png')}
           />
         </TouchableOpacity>

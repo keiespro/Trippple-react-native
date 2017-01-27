@@ -61,7 +61,7 @@ class AlbumView extends React.Component {
     this.setState({submitting: true, selected: id})
     this.props.dispatch(ActionMan.uploadFacebookPic(photo))
 
-    this.props.navigator.popToTop()
+    this.props.navigator.pop(2)
   }
 
   getMore(){
@@ -91,6 +91,7 @@ class AlbumView extends React.Component {
           transform: [{scale: selected == id ? 2.0 : 1.0 }],
           opacity: selected == id ? 0 : 1
         }]}
+        delayPressIn={200}
         onPress={() => {
           highlightRow(sectionID, rowID)
           this.selectPhoto(img, id)

@@ -19,10 +19,10 @@ import {MagicNumbers} from '../../../utils/DeviceConfig'
 import { BlurView, VibrancyView } from 'react-native-blur'
 
 import { connect } from 'react-redux';
-import {NavigationStyles} from '@exponent/ex-navigation'
+import {NavigationStyles,withNavigation} from '@exponent/ex-navigation'
 import {SlideHorizontalIOS, FloatHorizontal} from '../../../ExNavigationStylesCustom'
 
-
+@withNavigation
 class CoupleReady extends React.Component{
   static route = {
     styles: FloatHorizontal,
@@ -65,13 +65,15 @@ class CoupleReady extends React.Component{
     // if(this.props.navigator){
     //   this.props.navigator.pop()
     // }
-    this.props.navigator && this.props.navigator.popToTop()
+    console.log(this.props);
 
-    if(this.props.closeModal){
-      this.props.closeModal()
-    }
-    if(this.props.hideModal){
-      this.props.hideModal()
+    if(this.props.isModal){
+      if(this.props.closeModal){
+        this.props.closeModal()
+      }
+      if(this.props.hideModal){
+        this.props.hideModal()
+      }
     }
     if(this.props.close){
       this.props.close()
@@ -79,6 +81,11 @@ class CoupleReady extends React.Component{
     if(this.props.kill){
       this.props.kill()
     }
+
+    const nav = this.props.navigation.getNavigatorByUID(this.props.navigation.getCurrentNavigatorUID())
+    nav.pop(2)
+    this.props.goBack && this.props.goBack()
+
   }
 
   render(){

@@ -38,6 +38,7 @@ export const OnboardRouter = createRouter(() => ({
 
 const Onboard = (props) => {
   let initialRoute;
+  console.log(props.permissions);
   const notificationPermission = props.permissions.notifications && props.permissions.notifications != 'undetermined';
   const locationPermission = props.permissions.location && props.permissions.location != 'undetermined';
   if(!props.user.relationship_status){
@@ -68,7 +69,6 @@ const Onboard = (props) => {
 
 
   }
-  console.log('ONBOARD',initialRoute);
   return (
     <View style={{width:DeviceWidth,height:DeviceHeight,}}>
 
@@ -85,7 +85,7 @@ const Onboard = (props) => {
               }
             },
           }}
-          initialRoute={OnboardRouter.getRoute(initialRoute, {show: true})}
+          initialRoute={initialRoute}
         />
     </View>
   );

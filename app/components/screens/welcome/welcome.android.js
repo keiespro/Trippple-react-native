@@ -51,6 +51,7 @@ class Welcome extends Component{
 
   login(){
     this.setState({busy: true})
+    this.props.dispatch({type:'LOADING_PENDING'})
     this.setTimeout(()=>{
       this.setState({busy: false})
     },2000)

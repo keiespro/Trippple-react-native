@@ -1,8 +1,11 @@
-import {Share} from 'react-native'
+import {Share,NativeModules,Platform} from 'react-native'
 import Promise from 'bluebird'
 import FCM from 'react-native-fcm'
 import RNHotline from 'react-native-hotline'
 import api from '../utils/api'
+const iOS = Platform.OS == 'ios';
+console.log(RNHotline);
+
 
 export const ActionModal = match => dispatch => dispatch({ type: 'SHOW_ACTION_MODAL', payload: { match } });
 
@@ -45,8 +48,14 @@ export const setHotlineUser = user => dispatch => dispatch({ type: 'SET_HOTLINE_
 export const showFaqs = () => dispatch => dispatch({ type: 'SHOW_FAQS',
   payload: {
     promise: new Promise((resolve, reject) => {
-      RNHotline.showFaqs()
-      resolve(true)
+      if(iOS){
+        RNHotline.showFaqs()
+        resolve(true)
+      }else{
+        RNHotline.showFaqs('DisplayFAQsAsGrid')
+        resolve(true)
+
+      }
      })
    }
  })
@@ -55,8 +64,14 @@ export const showFaqs = () => dispatch => dispatch({ type: 'SHOW_FAQS',
 export const showConvos = () => dispatch => dispatch({ type: 'SHOW_CONVOS',
   payload: {
     promise: new Promise((resolve, reject) => {
-      RNHotline.showConvos({})
-      resolve(true)
+      if(iOS){
+        RNHotline.showConvos()
+        resolve(true)
+      }else{
+        RNHotline.showConvos()
+        resolve(true)
+
+      }
       // .then(resolve).catch(reject)
     })
   }

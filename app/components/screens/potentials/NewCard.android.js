@@ -87,7 +87,10 @@ class NewCard extends React.Component {
     const verifiedCouple = hasPartner && potential.couple.verified;
 
     return (
-      <View style={{flexGrow: 1, alignItems: 'flex-start'}} >
+      <View style={{
+        flexGrow: 1,
+        alignItems: 'flex-start',
+      }} >
 
         <View
           style={{
@@ -190,32 +193,47 @@ class NewCard extends React.Component {
     const slideFrames = isTopCard && hasPartner ? [potential.user, potential.partner] : [potential.user];
     const verifiedCouple = hasPartner && potential.couple.verified;
 
-
+    //
+    // const anistyle = [{
+    //   flexGrow: 1,
+    //   width: DeviceWidth,
+    //   borderRadius: 11,
+    //   top:0,
+    //   position: 'relative',
+    //   bottom:0,
+    //
+    //   height:profileVisible ? DeviceHeight + 60 : DeviceHeight-60
+    // }];
+    //
+    // const aniblurstyle = [{
+    //   backgroundColor: colors.sushi,
+    //   width: DeviceWidth,
+    //   flexGrow: 1,
+    //   // flexGrow: 10,
+    //   // marginTop: 160,
+    //   borderRadius: 11,
+    //
+    //   height: profileVisible ? DeviceHeight  + 60 : DeviceHeight-60,
+    //
+    //   position:'absolute',
+    //   alignSelf: 'center',
+    //
+    // }]
     const anistyle = [{
       flexGrow: 1,
-      top: 0,
-
       width: DeviceWidth,
+      backgroundColor: colors.white,
       borderRadius: 11,
-
-      // height:DeviceHeight-60
+      top:0,
+      overflow:'visible',
     }];
 
     const aniblurstyle = [{
-      backgroundColor: colors.sushi,
-      // width: DeviceWidth,
       flexGrow: 1,
-      // flexGrow: 10,
-      // marginTop: 160,
+      overflow:'visible',
+
       borderRadius: 11,
-
-      height: profileVisible ? DeviceHeight : DeviceHeight,
-
-      position: 'absolute',
-      alignSelf: 'center',
-
-    }]
-
+    }];
     return (
       <View
         key={`topkey${potential.user.id}`}
@@ -226,23 +244,25 @@ class NewCard extends React.Component {
 
         <ParallaxSwiper
           contentContainerStyle={[{
-            height: profileVisible ? DeviceHeight : DeviceHeight - 60,
-            alignItems: 'center',
+            height: profileVisible ? DeviceHeight+160 : DeviceHeight - 60,
+            alignItems: 'stretch',
             justifyContent: 'center',
             flexDirection: 'column',
             flexGrow: 1,
             borderRadius: 11,
-            width:DeviceWidth
-
+            width:DeviceWidth,
+            overflow:'visible',
           }]}
 
           autoplay={verifiedCouple}
           slideFrames={slideFrames}
-          height={profileVisible ? DeviceHeight : DeviceHeight - 60}
+          height={profileVisible ? DeviceHeight+160 : DeviceHeight - 60}
           showsVerticalScrollIndicator={false}
           style={[{
             flexGrow: 1,
             borderRadius: 11,
+            height: profileVisible ? DeviceHeight+60 : DeviceHeight - 60,
+            marginBottom:-100
 
           }]}
           potentialkey={this.props.potential.user.id}
@@ -255,25 +275,19 @@ class NewCard extends React.Component {
           profileVisible={profileVisible}
           killProfile={this.closeProfile.bind(this)}
         >
-          <View
+          {/* <View
             style={aniblurstyle}
-          />
+          /> */}
 
           { profileVisible && this.renderInsideProfile()}
 
         </ParallaxSwiper>
 
         <View
-          onStartShouldSetResponder={() => true}
-          onStartShouldSetResponderCapture={() => true}
-          onResponderGrant={e => {
-            if(!profileVisible){
-              this.openProfile()
-            }
-          }}
+
           style={{
             width: cardWidth,
-            height: 100,
+            height: profileVisible ? 0 : 100,
             opacity: profileVisible ? 0 : 1,
             alignSelf: 'flex-end',
             zIndex: 10999,
@@ -281,8 +295,8 @@ class NewCard extends React.Component {
             borderBottomLeftRadius: 11,
             borderBottomRightRadius: 11,
             position: 'absolute',
-
-            top: profileVisible ? -200 : DeviceHeight - 160,
+overflow:'visible',
+            top: profileVisible ? 60 : DeviceHeight - 160,
           }}
         >
           <TouchableNativeFeedback

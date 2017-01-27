@@ -1,4 +1,4 @@
-import { Text, View, Image, Dimensions, ActivityIndicator, LayoutAnimation, TouchableOpacity, NativeModules } from 'react-native';
+import { Text, View, Image, Dimensions, ActivityIndicator, LayoutAnimation, TouchableOpacity, NativeModules, Platform } from 'react-native';
 import React from 'react';
 import {pure} from 'recompose'
 import {connect} from 'react-redux'
@@ -12,6 +12,7 @@ import profileOptions from '../../../data/get_client_user_profile_options'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import ActionMan from '../../../actions'
 import Btn from '../../Btn'
+const iOS = Platform.OS == 'ios';
 
 const {FBAppInviteDialog} = NativeModules
 const DeviceHeight = Dimensions.get('window').height;
@@ -98,6 +99,7 @@ class PotentialsPlaceholder extends React.Component{
               width: DeviceWidth,
               position: 'relative',
               alignItems: 'center',
+              paddingTop: iOS ? 20 : 10,
               justifyContent: 'center',
               backgroundColor: colors.outerSpace,
               flex: 1,

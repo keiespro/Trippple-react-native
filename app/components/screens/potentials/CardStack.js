@@ -3,7 +3,7 @@ import { StatusBar, View, Easing, LayoutAnimation, Image, Animated, PanResponder
 import { NavigationActions } from '@exponent/ex-navigation'
 import {pure,onlyUpdateForKeys} from 'recompose'
 import Analytics from '../../../utils/Analytics';
-import Card from './Card';
+import Card from './NewCard';
 import styles from './styles';
 import ActionMan from '../../../actions/';
 import ApproveIcon from './ApproveIcon'
@@ -24,6 +24,11 @@ const THROW_SPEED_THRESHOLD = 1;
 
 const SWIPE_THRESHOLD_DENY = -180;
 const SWIPE_THRESHOLD_APPROVE = 140;
+
+const TAP_UP_TIME_THRESHOLD = 200
+
+
+
 
 @reactMixin.decorate(TimerMixin)
 class CardStack extends React.Component {
@@ -86,10 +91,12 @@ class CardStack extends React.Component {
 
 
   initializePanResponder() {
+    let timeoutId;
 
     this._panResponder = PanResponder.create({
 
       onMoveShouldSetPanResponderCapture: (e, gestureState) => {
+        // console.log('CLEAR',gestureState.dx);
         return !this.props.profileVisible
         //  const {pageY} = e.nativeEvent
         // return (!this.props.profileVisible && pageY < DeviceHeight - 200 )
@@ -97,7 +104,11 @@ class CardStack extends React.Component {
 
       onMoveShouldSetPanResponder: (e, gestureState) => {
         // console.log(gestureState.dx);
-        return !this.props.profileVisible  && gestureState.dx > 0
+        // console.log('CLEAR',gestureState.dx);
+
+        this.clearTimeout(timeoutId);
+
+        return !this.props.profileVisible // && gestureState.dx > 0
         //  const {pageY} = e.nativeEvent
         // return (!this.props.profileVisible && pageY < DeviceHeight - 200)
       },
@@ -105,12 +116,21 @@ class CardStack extends React.Component {
       onStartShouldSetPanResponder: (e, gestureState) => {
 
         //  const {pageY} = e.nativeEvent
-        return (!this.props.profileVisible   )
+        return (!this.props.profileVisible)
       },
       //
       onStartShouldSetPanResponderCapture: (e, gestureState) => {
         // console.log(gestureState.dx);
-        return !this.props.profileVisible && gestureState.dx != 0
+        const likeUserId = this.props.potentials[0].user.id;
+         timeoutId = this.setTimeout(() => {
+          __DEV__ && console.log('onResponderSingleTapConfirmed...');
+          // console.log('FIRE',gestureState.dx);
+          console.log(Math.abs(gestureState.dx) , Math.abs(gestureState.dy), this.props.potentials[0].user.id, likeUserId);
+          if(Math.abs(gestureState.dx) < 3 && Math.abs(gestureState.dy) < 3 && this.props.potentials[0].user.id == likeUserId) this._toggleProfile();
+
+        }, TAP_UP_TIME_THRESHOLD);
+
+        return !this.props.profileVisible //&& gestureState.dx != 0
       },
       //
       onPanResponderMove: Animated.event([null, {
@@ -120,7 +140,10 @@ class CardStack extends React.Component {
       }]),
 
       onShouldBlockNativeResponder: (e, gestureState) => false,
+      onPanResponderStart: (e, gestureState) => {
+        console.log('onPanResponderStart');
 
+      },
       onPanResponderRelease: (e, gestureState) => {
         let toValue = {x: 0, y: 0};
         let velocity = 1;
@@ -130,6 +153,10 @@ class CardStack extends React.Component {
 
         const likeUserId = this.props.potentials[0].user.id;
 
+        if(Math.abs(dx) >= 1 || Math.abs(dy) >= 1){
+          this.clearTimeout(timeoutId);
+
+        }
               // animate back to center or off screen left or off screen right
         if (dx > SWIPE_THRESHOLD_APPROVE || (dx > (THROW_THRESHOLD_APPROVE - 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD)) {
           __DEV__ && console.log(dx > SWIPE_THRESHOLD_APPROVE ? 'SWIPE' : (dx > (THROW_THRESHOLD_APPROVE - 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD) && 'THROW');
@@ -171,6 +198,7 @@ class CardStack extends React.Component {
           });
 
         }else{
+
           setImmediate(() => {
             Animated.spring(this.state.pan, {
               toValue,
@@ -178,7 +206,9 @@ class CardStack extends React.Component {
               tension: 20,
               friction: 5,
               useNativeDriver: !iOS,
-            }).start();
+            }).start(() => {
+
+            });
           })
         }
       },
@@ -206,53 +236,103 @@ class CardStack extends React.Component {
     if(!this._panResponder){
       this.initializePanResponder();
     }
-    const {_panResponder} = this
+    const { pan }   = this.props;
 
+    const {_panResponder} = this
+    const potential = potentials[0] || { user: {} };
+    const names = [potential.user && potential.user.firstname ? potential.user.firstname.trim() : null];
+
+    if (potential.partner && potential.partner.id && potential.partner.firstname) {
+      names.push(potential.partner.firstname.trim());
+    }
+
+    let matchName = names[0];
+    let distance  = potential.user.distance   || 0;
+    const city = potential.user.city_state || '';
+    const partnerDistance = potential.partner ? potential.partner.distance : 0;
+    if(potential.partner && potential.partner.firstname) {
+      matchName = `${matchName} & ${names[1]}`;
+      distance = Math.min(distance, partnerDistance || 0);
+    }
+
+    const nextPotential = potentials[1] || null;
+    const nextnames = [nextPotential.user && nextPotential.user.firstname ? nextPotential.user.firstname.trim() : null];
+
+    if (nextPotential.partner && nextPotential.partner.id && nextPotential.partner.firstname) {
+      nextnames.push(nextPotential.partner.firstname.trim());
+    }
+
+    let nextmatchName = nextnames[0];
+    let nextdistance  = nextPotential.user.distance   || 0;
+    const nextcity = nextPotential.user.city_state || '';
+    const nextpartnerDistance = nextPotential.partner ? nextPotential.partner.distance : 0;
+    if(nextPotential.partner && nextPotential.partner.firstname) {
+      nextmatchName = `${nextmatchName} & ${nextnames[1]}`;
+      nextdistance = Math.min(nextdistance, nextpartnerDistance || 0);
+    }
+
+    const cardHeight = DeviceHeight-60;
+    const cardWidth = DeviceWidth;
 
     return (
       <View
-        onStartShouldSetResponder={(e) => {
-          // console.log(e.nativeEvent);
-          return !this.props.profileVisible && e.nativeEvent.pageX > 90 && e.nativeEvent.pageX < (DeviceWidth - 90)
-        }}
-        onResponderGrant={e => {
-          // console.log(e.nativeEvent);
-          if(!this.props.profileVisible && e.nativeEvent.pageX > 90 && e.nativeEvent.pageX < (DeviceWidth - 90)  ){
-            this._toggleProfile()
-          }
-        }}
+        // onStartShouldSetResponderCapture={(e) => {
+        //   // console.log(e.nativeEvent);
+        //
+        //   return !this.props.profileVisible //&& e.nativeEvent.pageX > 90 && e.nativeEvent.pageX < (DeviceWidth - 90)
+        // }}
+        // onStartShouldSetResponder={(e) => {
+        //   console.log(e.nativeEvent);
+        //
+        //   return !this.props.profileVisible //&& e.nativeEvent.pageX > 90 && e.nativeEvent.pageX < (DeviceWidth - 90)
+        // }}
+        // onResponderGrant={e => {
+        //   console.log('onResponderGrant',(e.nativeEvent));
+        //   if( Math.abs(e.nativeEvent.pageX) > 1 ){
+        //     this._toggleProfile()
+        //   }
+        // }}
+
         pointerEvents={'box-none'}
+
 
         style={{
           flexGrow: 1,
           alignSelf: 'stretch',
           alignItems: 'center',
-          top: this.props.profileVisible ? 0 : 0,
+          top: iOS ? 0 : this.props.profileVisible ? 0 : 0,
           bottom: 0,
           zIndex: 999999,
-          position: 'absolute',
-          paddingTop: 0,
+          overflow:'visible',
+
         }}
       >
+{/*
+        <View style={{
+          width: DeviceWidth,
+          overflow:'visible',
+          marginTop:60,
+          height: this.props.profileVisible ? DeviceHeight+160 : DeviceHeight -0,
+        }} />
 
-        <View style={{ width: DeviceWidth, }} pointerEvents={'box-none'} />
+         */}
         { potentials && potentials[1] && !this.props.profileVisible &&
           <Animated.View
-            pointerEvents={'none'}
             style={[{
               alignSelf: 'center',
               borderRadius: 11,
               width: DeviceWidth,
+              overflow:'visible',
               backfaceVisibility: 'hidden',
-              height: this.props.profileVisible ? DeviceHeight : DeviceHeight-40,
-              top: iOS ? this.props.profileVisible ? -30 : -20 :  this.props.profileVisible ? 0 : 0,
-              marginTop: this.props.profileVisible ? 0 : 0,
+              height: this.props.profileVisible ? DeviceHeight+60 : DeviceHeight-60,
+              top: 0,// iOS ? this.props.profileVisible ? 0 : 0 :  this.props.profileVisible ? 0 : 0,
               position: 'absolute',
               flexGrow: 1,
               opacity: this.state.pan.x.interpolate({
                 inputRange: [-DeviceWidth,-DeviceWidth+40,-DeviceWidth/2,0,DeviceWidth/2,DeviceWidth-40,DeviceWidth],
                 outputRange: [1,0.8,.1,0.0,.1,0.8,1],
               }),
+              top:  iOS ? 60 : this.props.profileVisible ? 0 : 40,// iOS ? this.props.profileVisible ? 0 : 0 :  this.props.profileVisible ? 0 : 0,
               transform: [
                 {
                   scale: this.state.cardopen
@@ -260,20 +340,28 @@ class CardStack extends React.Component {
               ],
 
             }]}
-            key={`${potentials[1].user.id}-wrapper`}
+            key={`${nextPotential.user.id}-wrapper`}
           >
             <Card
               user={user}
               navigator={this.props.navigator}
-              key={`${potentials[1].id || potentials[1].user.id}-activecard`}
+              key={`${nextPotential.id || nextPotential.user.id}-activecard`}
               rel={user.relationship_status}
               isTopCard={false}
               pan={this.state.pan}
+              city={nextcity}
+
               profileVisible={this.props.profileVisible}
               hideProfile={this._hideProfile.bind(this)}
               toggleProfile={this._toggleProfile.bind(this)}
               showProfile={this._showProfile.bind(this)}
-              potential={potentials[1]}
+              potential={nextPotential}
+              reportModal={()=>{}}
+              matchName={nextmatchName}
+              cardWidth={this.props.profileVisible ? DeviceWidth : cardWidth}
+              cardHeight={cardHeight}
+
+
               dispatch={this.props.dispatch}
             />
           </Animated.View>
@@ -281,18 +369,21 @@ class CardStack extends React.Component {
 
         { potentials && potentials[0] &&
           <Animated.View
-            pointerEvents={'box-only'}
 
             style={[{
               alignSelf: 'center',
               borderRadius: 11,
               width: DeviceWidth,
               backfaceVisibility: 'hidden',
-              height: this.props.profileVisible ? DeviceHeight : DeviceHeight-40,
-              top: iOS ? this.props.profileVisible ? -30 : -20 :  this.props.profileVisible ? 0 : 0,
-              marginTop: this.props.profileVisible ? 0 : 0,
+              height: this.props.profileVisible ? DeviceHeight+60 : DeviceHeight-60,
+              top:  iOS ? 60 : this.props.profileVisible ? 0 : 40,// iOS ? this.props.profileVisible ? 0 : 0 :  this.props.profileVisible ? 0 : 0,
+              // marginTop: this.props.profileVisible ? 0 : 0,
               position: 'absolute',
               flexGrow: 1,
+              overflow:'visible',
+              // marginBottom: this.props.profileVisible ? -60 : 60,
+              // top:60,
+
               transform: !this.props.profileVisible ? [
                 {
                   translateX: this.state.pan.x,
@@ -316,11 +407,19 @@ class CardStack extends React.Component {
               rel={user.relationship_status}
               isTopCard
               pan={this.state.pan}
+              city={city}
+
+              cardWidth={this.props.profileVisible ? DeviceWidth : cardWidth}
+              cardHeight={cardHeight+160}
+              matchName={matchName}
+
               profileVisible={this.props.profileVisible}
+              closeProfile={this._hideProfile.bind(this)}
               hideProfile={this._hideProfile.bind(this)}
               toggleProfile={this._toggleProfile.bind(this)}
               showProfile={this._showProfile.bind(this)}
               potential={potentials[0]}
+              reportModal={()=>{}}
               dispatch={this.props.dispatch}
             />
           </Animated.View>

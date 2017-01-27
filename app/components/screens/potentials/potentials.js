@@ -104,7 +104,7 @@ class Potentials extends React.Component{
     }
   }
   componentDidMount(){
-
+    this.props.dispatch({type:'LOADING_FULFILLED'})
   }
   componentWillUnmount(){
     if(this.ba){

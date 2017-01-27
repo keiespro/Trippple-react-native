@@ -111,7 +111,7 @@ class OnboardModal extends Component {
   handleContinue() {
     if(this.state.selected_relationship_status == 'single') {
       this.onboardUser()
-      this.props.navigator.push(OnboardRouter.getRoute('LocationPermissions', {}))
+      this.props.navigator.push('LocationPermissions')
     }else{
       this.props.navigator.push(OnboardRouter.getRoute('JoinCouple', {
         ...this.state

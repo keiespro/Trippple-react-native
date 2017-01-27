@@ -3,11 +3,9 @@ import ReactNative, {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight,
   TouchableOpacity,
   Alert,
   Image,
-  StatusBar,
   NativeModules,
   Platform,
   Dimensions,
@@ -125,7 +123,8 @@ class Settings extends React.Component{
 
     this.props.navigator.push(this.props.navigation.router.getRoute('UserProfile', {
       potential,
-      user: this.props.user
+      user: this.props.user,
+      profileVisible: true
     }));
   }
 
@@ -141,11 +140,11 @@ class Settings extends React.Component{
     return (
 
       <View style={{backgroundColor: colors.outerSpace, paddingTop: 0, flex: 10}} pointerActions={'box-none'}>
-      {iOS &&  <TouchableOpacity
-          style={{ height: 50, alignItems: 'center', width: 50, justifyContent: 'center', flex:0, position:'absolute', left:0, zIndex:9999}}
-          onPress={() => {this.props.navigator.pop() }}
-        >
-          <Image
+        {iOS && <TouchableOpacity
+        style={{ height: 50, alignItems: 'center', width: 50, justifyContent: 'center', flex: 0, position: 'absolute', left: 0, zIndex: 9999}}
+        onPress={() => { this.props.navigator.pop() }}
+      >
+        <Image
             resizeMode={Image.resizeMode.contain}
             style={{ height: 15, width: 15, marginTop: 20 }}
             source={require('./assets/close@3x.png')}
@@ -158,7 +157,7 @@ class Settings extends React.Component{
           navigator={this.props.navigator}
           automaticallyAdjustContentInsets
           scrollsToTop
-          backgroundSource={this.props.user.image_url ? {uri: this.props.user.image_url} : require('./assets/defaultuser@3x.png')}
+          backgroundSource={this.props.user.image_url ? {uri: this.props.user.image_url} : require('./assets/defaultuser.png')}
           style={{backgroundColor: colors.outerSpace, flex: 1, height: DeviceHeight}}
           header={(
             <View
@@ -292,18 +291,18 @@ class Settings extends React.Component{
               }}
             />
 
-            <SettingsRow
+            {/* <SettingsRow
               title={'INVITE FRIENDS'}
               subtitle={'Spread the word'}
               pushScreen={(f) => {
                 FBAppInviteDialog.show({applinkUrl: INVITE_FRIENDS_APP_LINK})
               }}
-            />
+            /> */}
 
             <SettingsRow
               title={'FAQS'}
               subtitle={'Answers to frequently asked questions'}
-              pushScreen={(f) => {this.props.dispatch(ActionMan.showFaqs()) }}
+              pushScreen={(f) => { this.props.dispatch(ActionMan.showFaqs()) }}
             />
 
             <SettingsRow

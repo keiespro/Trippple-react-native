@@ -47,9 +47,9 @@ export default class CoupleSuccess extends React.Component{
   popToTop(){
     this.props.goBack && this.props.goBack()
 
-    // if(this.props.navigator){
-    //   this.props.navigator.popToTop()
-    // }
+    if(this.props.navigator){
+      this.props.navigator.popToTop()
+    }
     if(this.props.hideModal){
       this.props.hideModal()
     }

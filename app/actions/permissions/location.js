@@ -12,9 +12,14 @@ export const checkLocationPermission = () => dispatch => dispatch({ type: 'CHECK
     Platform.select(check)()
       .then(permission => {
         // dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})
+        if(!permission || permission == 'undetermined'){
+          dispatch({type:'LOADING_FULFILLED'})
+        }
         resolve(permission)
       })
       .catch(err => {
+        dispatch({type:'LOADING_FULFILLED'})
+
         // dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_OFF'})
         reject(err)
       })
@@ -25,10 +30,15 @@ export const requestLocationPermission = () => dispatch => dispatch({ type: 'REQ
   payload: new Promise((resolve, reject) => {
     Platform.select(request)()
       .then(permission => {
+        if(!permission || permission == 'undetermined'){
+          dispatch({type:'LOADING_FULFILLED'})
+        }
         dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})
         resolve(permission)
       })
       .catch(err => {
+        dispatch({type:'LOADING_FULFILLED'})
+
         dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_OFF'})
         resolve(err)
       })

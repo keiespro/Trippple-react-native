@@ -1,23 +1,33 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, PixelRatio, Dimensions, StatusBar } from 'react-native';
 import React from 'react';
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
-
-import { connect } from 'react-redux'
-
-import ParallaxSwiper from './controls/ParallaxSwiper';
-// import ReportModal from './modals/ReportModal';
-// import Swiper from './controls/swiper';
-import UserDetails from './UserDetails';
-// import XButton from './buttons/XButton';
-import colors from '../utils/colors';
 import { MagicNumbers } from '../utils/DeviceConfig'
-// import { pure } from 'recompose'
+import { connect } from 'react-redux'
+import CityState from './CityState'
+import ParallaxSwiper from './controls/ParallaxSwiper';
+import UserDetails from './UserDetails';
+import colors from '../utils/colors';
 import VerifiedCoupleBadge from './Badge/VerifiedCoupleBadge'
 import ActionMan from '../actions'
-import CardLabel from './CardLabel'
+
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
+const CardLabel = props => (
+  <View>
+    <Text
+      style={[styles.cardBottomText, { color: props.textColor }]}
+      key={`${props.potential.user.id}-names`}
+    >{ props.matchName }
+    </Text>
+
+    <CityState
+      cityState={props.city}
+      potential={props.potential}
+      coords={{lat: props.potential.user.latitude, lng: props.potential.user.longitude}}
+    />
+  </View>
+);
 
 @withNavigation
 class UserProfile extends React.Component {
@@ -68,11 +78,6 @@ class UserProfile extends React.Component {
     this.setState({ contentHeight })
   }
   render() {
-      // if(!this.props.user || !this.props.potential || !this.props.potential.user ||
-      // !this.props.potential.user.firstname){
-      //   this.props.dispatch(ActionMan.getUserInfo());
-      //   return <View/>
-      // }
     const { potential } = this.props,
       distance = potential.user.distance || 0,
       city = potential.user.city_state || '';
@@ -117,6 +122,8 @@ class UserProfile extends React.Component {
     const hasPartner = potential.partner && potential.partner.gender;
     const slideFrames = hasPartner && potential.partner.image_url && potential.partner.image_url != '' ? [potential.user, potential.partner] : [potential.user];
     const verifiedCouple = hasPartner && potential.couple.verified;
+
+
     return (
       <View
         style={[{
@@ -126,7 +133,6 @@ class UserProfile extends React.Component {
         }]}
         onLayout={this.onLayout.bind(this)}
       >
-        {/* <StatusBar animated hidden /> */}
 
         <ParallaxSwiper
           contentContainerStyle={[{
@@ -156,7 +162,9 @@ class UserProfile extends React.Component {
           header={<View />}
           dispatch={this.props.dispatch}
           windowHeight={0}
+          isUserProfile={true}
           width={cardWidth}
+          killProfile={() => this.props.closeProfile ? this.props.closeProfile() : this.props.navigator.pop()}
           isTopCard={isTopCard}
           profileVisible={profileVisible}
         >
@@ -186,7 +194,7 @@ class UserProfile extends React.Component {
                 zIndex: 100,
                 height: profileVisible ? this.state.contentHeight : 0,
                 opacity: profileVisible ? 1 : 0,
-                flex: 10
+                flexGrow: 1,
               }}
             >
 
@@ -234,11 +242,11 @@ class UserProfile extends React.Component {
                   user={this.props.user}
                   location={'card'}
                 />
-                <TouchableOpacity onPress={this.reportModal.bind(this)}>
+                {this.props.user.id != this.props.potential.user.id ? <TouchableOpacity onPress={this.reportModal.bind(this)}>
                   <View style={{ marginTop: 20, paddingBottom: 50 }}>
                     <Text style={{ color: colors.mandy, textAlign: 'center' }}>Report or Block this user</Text>
                   </View>
-                </TouchableOpacity>
+                </TouchableOpacity> : null}
 
                 <TouchableOpacity
                   style={{
@@ -269,7 +277,7 @@ class UserProfile extends React.Component {
         >
           <Image
             resizeMode={Image.resizeMode.contain}
-            style={{ height: 12, width: 12, marginTop: 10 }}
+            style={{ height: 12, width: 12, marginTop: 10, opacity: 0.2 }}
             source={require('./screens/potentials/assets/close@3x.png')}
           />
         </TouchableOpacity>
@@ -326,7 +334,7 @@ class CustomTabBar extends React.Component {
     );
   }
 }
-//
+
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
   user: state.user,
@@ -335,7 +343,6 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({dispatch});
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfile)
-// export default UserProfile
 
 const styles = StyleSheet.create({
 
@@ -390,15 +397,8 @@ const styles = StyleSheet.create({
     top: (DeviceHeight / 2) - 80,
     left: (DeviceWidth / 2) - 50,
     position: 'absolute',
-  // shadowColor:colors.darkShadow,
     backgroundColor: 'transparent',
-  // shadowRadius:5,
-  // shadowOpacity:50,
-    overflow: 'hidden',
-  // shadowOffset: {
-  //   width:0,
-  //   height: 5
-  // }
+    overflow: 'hidden'
   },
   container: {
     flex: 1,
