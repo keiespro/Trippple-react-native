@@ -1,3 +1,4 @@
+
 import {
   StyleSheet,
   Text,
@@ -98,7 +99,7 @@ const ChatBubble = (props) => {
                   flexGrow:1
                 }, props.specialText && {
                   fontSize: props.specialText,
-                  lineHeight: 60,
+                  // lineHeight: 60,
                   paddingBottom:2
                 }]}
               >{ props.text }</Text>
