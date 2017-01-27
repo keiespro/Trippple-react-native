@@ -45,7 +45,7 @@ export default class AppNav extends React.Component {
               }
             },
           }}
-          initialRoute={Router.getRoute('Potentials', {show: true})}
+          initialRoute={'Potentials'}
         />
       </View>
     )

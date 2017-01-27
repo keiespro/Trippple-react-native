@@ -246,7 +246,7 @@ class PhotoAlbums extends React.Component {
             style={{
               flex: 1,
               marginTop: 0,
-              paddingTop: 55
+              paddingTop: 65
             }}
             dataSource={this.state.albumSource}
             renderRow={this.renderAlbumCover.bind(this)}

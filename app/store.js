@@ -24,9 +24,9 @@ const middlewares = [
   thunk,
   promiseMiddleware(),
   // createActionBuffer(REHYDRATE),
-  // createActionBuffer('EX_NAVIGATION.INITIALIZE'),
-  throttleActions(['UPDATE_USER'], 2000, {leading: true, trailing: false }),
-  throttleActions(['EX_NAVIGATION.PUSH'], 700, {leading: true, trailing: false }),
+  createActionBuffer('EX_NAVIGATION.INITIALIZE'),
+  // throttleActions(['UPDATE_USER'], 2000, {leading: true, trailing: false }),
+  // throttleActions(['EX_NAVIGATION.PUSH'], 700, {leading: true, trailing: false }),
   throttleActions(['OPEN_PROFILE'], 100, {leading: true, trailing: false }),
   throttleActions(['GET_POTENTIALS'], 1000, {leading: true, trailing: false }),
   createPrefetcher({
@@ -48,12 +48,12 @@ const middlewares = [
 
 function configureStore(initialState = ({})) {
   if(global.__DEV__) {
-    // const bak = global.XMLHttpRequest;
-      // const xhr = global.originalXMLHttpRequest ?
-      //   global.originalXMLHttpRequest :
-      //   global.XMLHttpRequest;
-      //
-      // global.XMLHttpRequest = xhr;
+    const bak = global.XMLHttpRequest;
+      const xhr = global.originalXMLHttpRequest ?
+        global.originalXMLHttpRequest :
+        global.XMLHttpRequest;
+
+      global.XMLHttpRequest = xhr;
       //
 
       const comp = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
@@ -78,6 +78,8 @@ function configureStore(initialState = ({})) {
       storage: AsyncStorage,
       blacklist: ['navigation', 'appNav', 'ui', 'potentials']
     })
+    persistor.purge(['navigation','appNav','potentials'])
+
     // AsyncStorage.getAllKeys().then(k => {
     //   console.log(k);
     //   AsyncStorage.multiGet(k).then(r => {
@@ -94,7 +96,6 @@ function configureStore(initialState = ({})) {
       });
     }
 
-    persistor.purge(['navigation','appNav','potentials'])
 
 
     return store
@@ -103,8 +104,8 @@ function configureStore(initialState = ({})) {
       createReducer(),
       initialState,
       compose(
-        applyMiddleware(...middlewares),
         autoRehydrate(),
+        applyMiddleware(...middlewares),
       )
     );
     persistStore(store, {

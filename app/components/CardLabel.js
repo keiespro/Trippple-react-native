@@ -6,7 +6,7 @@ import styles from './screens/potentials/styles'
 import CityState from './CityState'
 
 
-const CardLabel = pure(({potential, city, textColor, matchName}) => (
+const CardLabel = pure(({potential, city = [], textColor, matchName}) => (
   <View pointerEvents={'none'}>
     <Text
       style={[styles.cardBottomText, {color: textColor}]}
