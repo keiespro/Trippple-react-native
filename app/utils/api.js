@@ -9,10 +9,25 @@ const { SERVER_URL } = config;
 
 const Device = DeviceInfo.get()
 
-const VERSION = '';// AppInfo.getInfoVersion();
+const VERSION =  Device.app_version;
 const iOSversion = Device.version;
+class authError extends Error{
+  constructor(init){
+    super(init);
+    this.status = '401';
+  }
+}
+class serverError extends Error{
+  constructor(init){
+    super(init);
+    this.status = init || '500';
+  }
+}
 
 async function baseRequest(endpoint = '', payload = {}, resource = 'user'){
+
+
+
   const params = {
     method: 'post',
     headers: {
@@ -29,27 +44,25 @@ async function baseRequest(endpoint = '', payload = {}, resource = 'user'){
   if(__DEV__) console.log(`API REQUEST ---->>>>> ${url}`, params);
 
   const res = await fetch(url, params)
+  console.log(res,'<------------------------');
+  if(res.status == 504 || res.status == 502 || res.status == 500){
+    __DEV__ && console.log('show maintenance screen',res)
 
-  try{
-    if(res.status == 504 || res.status == 502){
-      __DEV__ && console.log('show maintenance screen')
-      Analytics.err(res)
-      throw new Error('Server down')
-    }else if(!res.json && res.status == 401){
-      Analytics.err(res)
-      throw new Error('Unauthorized')
-    }
+    Analytics.err(res)
+    return res.status
 
-    const response = await res.json()
-
-    if(__DEV__) console.log(`API RESPONSE ${response.status} <<<<<<---- ${endpoint}`, response);
-
-    return Promise.try(() => ({...response.response}))
-
-  }catch(err){
-    __DEV__ && console.warn(`Error ${res.status} hitting endpoint ${endpoint}`, err);
-    throw new Error(err)
+  }else if(res.status == 401){
+    Analytics.err(res)
+    return res.status
   }
+
+  const response = await res.json()
+
+  if(__DEV__) console.log(`API RESPONSE ${response.status} <<<<<<---- ${endpoint}`, response);
+
+  return Promise.try(() => ({...response.response}))
+
+
 }
 
 function publicRequest(endpoint, payload){
@@ -57,18 +70,34 @@ function publicRequest(endpoint, payload){
 }
 
 async function apiError(){
-  return await true
+  //  throw new Error(401)
+  throw new authError('unauthorized')
 }
 function authenticatedRequest(endpoint: '', payload: {}, resource, forceCredentials){
   const credentials = forceCredentials || global.creds;
-  if(__DEV__ && (!credentials || !credentials.api_key || !credentials.user_id)){
-    console.info('Attempting to make authenticated request with no credentials')
-    // throw new Error('Attempting to make authenticated request with no credentials')
-    return apiError()
+  // if(__DEV__ && (!credentials || !credentials.api_key || !credentials.user_id)){
+  //   console.info('Attempting to make authenticated request with no credentials')
+  //   // throw new Error('Attempting to make authenticated request with no credentials')
+  //   return apiError()
+  //
+  // }
 
-  }
+  // if(!payload.api_key){
+  //
+  //   return apiError()
+  // }
   const authPayload = {...payload, ...credentials};
-  return baseRequest(endpoint, authPayload, resource)
+  return baseRequest(endpoint, authPayload, resource).then(result => {
+    console.log(result,'RESULT');
+    if(result == '401'){
+      throw new authError('401')
+
+    }else if(result >= 500 && res < 600){
+      throw new serverError('500')
+
+    }
+    return result
+  })
 }
 
 const api = {

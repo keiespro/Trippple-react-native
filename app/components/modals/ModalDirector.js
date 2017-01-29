@@ -18,6 +18,7 @@ import colors from '../../utils/colors'
 import Coupling from '../screens/coupling';
 import ActionMan from '../../actions'
 import CoupleReady from '../screens/coupling/CoupleReady'
+import MaintenanceScreen from '../screens/MaintenanceScreen'
 
 const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height;
@@ -32,6 +33,7 @@ const Modals = {
   // CameraRollPermissions,
   FieldModal,
   LocationPermissions,
+  MaintenanceScreen,
   OnboardModal,
   NotificationsPermissions,
   PrivacyPermissions,

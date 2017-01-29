@@ -13,7 +13,7 @@ export default function facebookReducer(state = initialState, action) {
 
     case 'LOGIN_WITH_FACEBOOK':
     case 'LOGIN_WITH_FACEBOOK_FULFILLED':
-      if(action.payload){
+      if(action.payload && action.payload.accessToken){
         let payl = {...action.payload}
         delete payl.response
         delete payl.status

@@ -1,7 +1,8 @@
 import api from '../utils/api'
 import { createAction, handleAction, handleActions } from 'redux-actions';
 import _ from 'lodash'
-import LogOut from '../utils/logout'
+import {logOut} from './appActions'
+import {showInModal} from './misc'
 
 const apiActions = [
   'requestPin',
@@ -71,12 +72,21 @@ const ApiActionCreators = endpointMap.reduce((obj, endpoint) => {
           }
 
 
+
           return resolve(x);
-        }).catch(x => {
-          if(x === 401){
-            LogOut()
+        }).catch(err => {
+          console.log('CAUGHT ERR',err.status);
+          if(err.status == '401'){
+
+            dispatch(logOut())
+            return
+          }else if(err.status == '500' || err.status == '502' || err.status == '504'){
+
+            dispatch(showInModal({component:'MaintenanceScreen',passProps:{}}))
+            return
           }
-          reject(x)
+
+
         })
       })
     }

@@ -46,7 +46,7 @@ export default function authReducer(state = initialState, action) {
     case 'VERIFY_PIN_FULFILLED':
     case 'LOGIN_WITH_FACEBOOK_FULFILLED':
 
-        let {api_key,user_id} = action.payload || action.payload;
+        let {api_key,user_id} = action.payload;
 
         if(api_key && user_id){
             global.creds = { api_key, user_id }

@@ -1,6 +1,5 @@
 
 export default function LikeReducer(state = initialState, action) {
-console.log(action);
     switch (action.type) {
 
     case 'SWIPE_CARD_FULFILLED':

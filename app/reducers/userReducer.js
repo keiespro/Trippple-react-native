@@ -7,13 +7,13 @@ export default function userReducer(state = initialState, action) {
     case 'HANDLE_NOTIFICATION_DECOUPLE':
         return {...state, partner: null, couple: null, relationship_status:'single'}
 
-    case 'GET_USER_INFO_PENDING':
+    // case 'GET_USER_INFO_PENDING':
+    //
+    //     return state;
 
-        return state;
-
-    case 'GET_USER_INFO_REJECTED':
-
-        return { ...state, err: action.payload };
+    // case 'GET_USER_INFO_REJECTED':
+    //
+    //     return { ...state, err: action.payload };
 
     case 'UPDATE_USER_PENDING':
         let updates = _.values(action.meta)
@@ -21,14 +21,15 @@ export default function userReducer(state = initialState, action) {
 
     case 'GET_USER_INFO_FULFILLED':
     case 'VERIFY_PIN_FULFILLED':
-        return {...user_info, isNewUser: false }
+        return user_info && user_info.id ? {...state, ...user_info, isNewUser: false } : state
 
     case 'ONBOARD_FULFILLED':
     case 'HANDLE_NOTIFICATION_COUPLE_READY':
         return {...user_info, }
 
     case 'LOGIN_WITH_FACEBOOK_FULFILLED':
-        return {...state, ...user_info, isNewUser: !existed }
+
+        return user_info && user_info.id ? {...state, ...user_info, isNewUser: !existed } : state
 
     case 'LOG_OUT_FULFILLED':
 
