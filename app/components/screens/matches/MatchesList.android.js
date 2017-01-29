@@ -203,7 +203,7 @@ class MatchesList extends Component {
   }
 
   render() {
-    return (!this.props.matches && !this.props.newMatches ) ? <NoMatches/> : (
+    return (this.props.matches && this.props.matches.length == 0 && this.props.newMatches && this.props.newMatches.length == 0) ? <NoMatches/> : (
          <ListView
           dataSource={this.props.dataSource}
           chatActionSheet={this.chatActionSheet.bind(this)}
