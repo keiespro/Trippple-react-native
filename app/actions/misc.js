@@ -4,10 +4,11 @@ import FCM from 'react-native-fcm'
 import RNHotline from 'react-native-hotline'
 import api from '../utils/api'
 const iOS = Platform.OS == 'ios';
-console.log(RNHotline);
+
 
 
 export const ActionModal = match => dispatch => dispatch({ type: 'SHOW_ACTION_MODAL', payload: { match } });
+
 
 export const showInModal = route => dispatch => dispatch({ type: 'SHOW_IN_MODAL', payload: { route } });
 

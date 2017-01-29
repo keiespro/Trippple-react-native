@@ -7,19 +7,18 @@ import Router from './Router'
 import colors from './utils/colors'
 
 
-const topRouter = createRouter(() => ({
-  App: () => App
-}))
+
 
 @withNavigation
 class AppContainer extends Component {
   render() {
     const context = new NavigationContext({ store: this.props.store, router: Router })
-
+    const state = this.props.store.getState()
+    console.log(state.navigation);
     return (
       <ReduxProvider store={this.props.store}>
         <NavigationProvider context={context} router={Router}>
-          <App/>
+            <App context={context}/>
         </NavigationProvider>
       </ReduxProvider>
     );

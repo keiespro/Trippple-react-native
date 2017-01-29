@@ -67,6 +67,47 @@ export const loginWithFacebook = () => async (dispatch,getState) => {
 }
 
 
+export const pushRoute = (route,params) => (dispatch,getState) => dispatch({ type: 'PUSH_ROUTE',
+  payload: new Promise((resolve, reject) => {
+    const state = getState()
+    const navs = Object.keys(state.navigation.navigators)
+    const navigatorUID = navs[0];
+    dispatch(NavigationActions.push(navigatorUID, Router.getRoute(route, params)));
+
+    resolve(params)
+  }),
+});
+export const SwipeCard = params => (dispatch,getState) => dispatch({ type: 'SWIPE_CARD',
+  payload: new Promise((resolve, reject) => {
+    const state = getState()
+    const navs = Object.keys(state.navigation.navigators)
+    const navigatorUID = navs[0];
+    // debugger
+    if(state.likes.likeCount > 0 && state.permissions.notifications == 'undetermined'){
+      dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute('NotificationPermissions')]));
+    }
+    resolve(params)
+  }),
+});
+
+export const loginWithSavedFbCreds = (fbData) => (dispatch,getState) => dispatch({ type: 'LOGIN_WITH_SAVED_FB_CREDS',
+payload: new Promise((resolve, reject) => {
+  console.log('loginWithSavedFbCreds',fbData);
+    api.fbLogin(fbData).then( result => {
+      dispatch({ type: 'FIREBASE_AUTH', payload: checkFireLoginState(fbData, dispatch) })
+      const state = getState()
+      const navs = Object.keys(state.navigation.navigators)
+      const navigatorUID = navs[0];
+      const onboarded = result.user_id && result.fb_authorized && result.user_info.status == 'onboarded';
+      console.log('DOIT',navigatorUID);
+      // debugger
+      dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute( onboarded ?  'Potentials' : 'OnboardModal')]));
+      return result
+    })
+
+  })
+})
+
 export const onboardUserNowWhat = payload => (dispatch,getState) => dispatch({ type: 'ONBOARD_USER_NOW_WHAT',
   payload: new Promise((resolve, reject) => {
 

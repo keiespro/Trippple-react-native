@@ -25,22 +25,28 @@ class NewBoot extends Component{
     }
     if(!this.state.initialized) this.initialize()
   }
+  component(){
 
+  }
   initialize(){
 
-    loadSavedCredentials().then(creds => {
+    loadSavedCredentials().then(res => {
       if(global.creds){
         store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: global.creds})
-      }else if(creds){
-        store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: creds})
+      }else if(res.creds){
+        store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: res.creds})
+      }else{
+        throw new Error('no creds')
       }
     })
     .catch(err => {
       __DEV__ && console.log('err', err);
+      console.log(store.getState());
     })
-    .finally(() => {
+    .finally((x) => {
+      console.log('finally',x);
       this.setState({initialized: true})
-      store.dispatch(sessionAuth())
+      // store.dispatch(sessionAuth())
     })
   }
   checkTouchId(){

@@ -38,27 +38,40 @@ class App extends React.Component{
   }
 
   componentWillMount(){
-    if(this.props.loggedIn) this.props.dispatch(ActionMan.getUserInfo());
+    if( this.props.loggedIn ){
+      this.props.dispatch(ActionMan.getUserInfo());
+    }else if(!this.props.loggedIn && this.props.fbUser && this.props.fbUser.accessToken){
+      this.props.dispatch(ActionMan.loginWithSavedFbCreds(this.props.fbUser))
+
+    }
 
   }
 
   componentDidMount(){
-
-    this.setTimeout(() => {
       SplashScreen.hide();
 
-      this.performInitActions()
-      if(this.props.user){
-        this.props.dispatch(ActionMan.setHotlineUser(this.props.user))
-        Analytics.identifyUser(this.props.user)
-      }else{
+    if(!this.props.loggedIn && this.props.fbUser && this.props.fbUser.accessToken){
+      this.props.dispatch(ActionMan.loginWithSavedFbCreds(this.props.fbUser))
 
-      }
+    }
+      //
+      this.setTimeout(() => {
+        SplashScreen.hide();
 
-    }, 1000)
+        this.performInitActions()
+        if(this.props.loggedIn){
+        }else{
+
+        }
+
+      }, 1000)
   }
 
   componentWillReceiveProps(nProps){
+    if((!this.props.fbUser || !this.props.fbUser.accessToken) && !nProps.loggedIn && nProps.fbUser &&  nProps.fbUser.accessToken){
+      nProps.dispatch(ActionMan.loginWithSavedFbCreds(nProps.fbUser))
+
+    }
     if(nProps.user && nProps.user.id && nProps.loggedIn){
       if(!this.props.booted && nProps.booted){
 
@@ -66,9 +79,13 @@ class App extends React.Component{
       }
       if(this.state.initialized && this.props.appState != 'active' && nProps.appState == 'active'){
         SplashScreen.hide();
+        this.props.dispatch(ActionMan.setHotlineUser(this.props.user))
+        Analytics.identifyUser(this.props.user)
+
       }
       if(this.state.initialized && this.props.loggedIn && !nProps.savedCredentials){
-        this.props.dispatch(ActionMan.saveCredentials())
+        // this.props.dispatch(ActionMan.saveCredentials())
+
       }
     }
   }
@@ -136,8 +153,9 @@ class App extends React.Component{
         <AppState dispatch={this.props.dispatch}/>
 
         {iOS && <DeepLinkHandler />}
-          <AppNav initialRoute={this.props.loggedIn ? this.props.onboarded ? 'Potentials' : 'Onboard' : 'Welcome'}/>
-        {!this.props.loadedUser || this.props.loggingIn && <Loading /> }
+
+        <AppNav initialRoute={this.props.loggedIn ? this.props.onboarded ? 'Potentials' : 'Onboard' : 'Welcome'}/>
+        
         <ModalDirector />
 
         <Notifications />
@@ -159,7 +177,7 @@ const Loading = () => (
 )
 const mapStateToProps = (state, ownProps) => {
   const loggedIn = state.auth.api_key && state.auth.user_id;
-  const onboarded = state.user.relationship_status && state.permissions.notifications && state.permissions.notifications != 'undetermined' && state.permissions.location && state.permissions.location != 'undetermined';
+  const onboarded = loggedIn && state.user.status == 'onboarded'
 
   return {
     ...ownProps,
@@ -168,7 +186,7 @@ const mapStateToProps = (state, ownProps) => {
     fbUser: state.fbUser,
     auth: state.auth,
     ui: {...state.ui, matchInfo: state.matches[state.ui.chat ? state.ui.chat.match_id : null]},
-    loggedIn,
+    loggedIn ,
     loadedUser: state.ui.loadedUser,
     push_token: state.device.push_token,
     exnavigation: state.exnavigation,

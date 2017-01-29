@@ -1,4 +1,4 @@
-import {StackNavigation} from '@exponent/ex-navigation';
+import {StackNavigation,withNavigation} from '@exponent/ex-navigation';
 import React from 'react'
 import {View, Dimensions, BackAndroid, StatusBar, DrawerLayoutAndroid} from 'react-native'
 import { connect } from 'react-redux'
@@ -11,12 +11,19 @@ import {FloatHorizontal, FloatVertical} from './ExNavigationStylesCustom'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
+@withNavigation
 class AppNav extends React.Component {
+
+
   componentDidMount(){
+    console.log(this.props);
   }
   componentWillReceiveProps(nProps) {
     if(nProps.drawerOpen && !this.props.drawerOpen) {
       this.settingsdrawer.openDrawer()
+    }
+    if(!nProps.canDrawerOpen && this.props.canDrawerOpen){
+      this.setDrawerClosed()
     }
   }
   setDrawerClosed(){
@@ -36,20 +43,25 @@ class AppNav extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <View style={{width: DeviceWidth, height: DeviceHeight, backgroundColor: colors.outerSpace}}>
 
         <DrawerLayoutAndroid
-          drawerWidth={DeviceWidth * 0.91}
+          drawerWidth={DeviceWidth * 0.85}
           ref={(d) => { this.settingsdrawer = d }}
           onDrawerOpen={this.setDrawerOpen.bind(this)}
           onDrawerClose={this.setDrawerClosed.bind(this)}
           drawerLockMode={this.props.canDrawerOpen ? 'unlocked' : 'locked-closed'}
           drawerBackgroundColor={colors.outerSpace}
           drawerPosition={DrawerLayoutAndroid.positions.Left}
-          renderNavigationView={() => <Settings />}
+          renderNavigationView={(x) => {
+            console.log('DrawerLayoutAndroid',x);
+            return <Settings />
+          }}
         >
           <StackNavigation
+
             id="exnavigation"
             sceneStyle={{
                   // overflow: 'visible',
@@ -58,14 +70,14 @@ class AppNav extends React.Component {
                   backgroundColor: colors.outerSpace,
                   // shadowRadius: 6
             }}
-
+            router={Router}
             defaultRouteConfig={{
               styles: FloatVertical,
               sceneStyle: {
                 backgroundColor: colors.outerSpace,
               },
               statusBar: {
-                translucent: true,
+                translucent: false,
                 backgroundColor: colors.mediumPurple70
               },
               navigationBar: {
@@ -98,7 +110,7 @@ class AppNav extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
   drawerOpen: state.ui.drawerOpen,
-  canDrawerOpen: state.ui.currentIndex == 0 && !state.ui.profileVisible
+  canDrawerOpen: state.auth.api_key && state.ui.currentIndex == 0 && !state.ui.profileVisible
 })
 
 

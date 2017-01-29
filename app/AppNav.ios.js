@@ -35,7 +35,7 @@ export default class AppNav extends React.Component {
             navigationBar: {
               visible: true,
               borderBottomWidth: 0,
-              translucent: true,
+              translucent: false,
               tintColor: '#fff',
               backgroundColor: 'rgba(0,0,0,0)',
               titleStyle: {
@@ -45,7 +45,7 @@ export default class AppNav extends React.Component {
               }
             },
           }}
-          initialRoute={this.props.initialRoute}
+          initialRoute={Router.getRoute(this.props.initialRoute)}
         />
       </View>
     )
