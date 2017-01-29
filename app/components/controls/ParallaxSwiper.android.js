@@ -138,7 +138,7 @@ class ParallaxSwiper extends React.Component{
           flex: 1,
           position: 'absolute',
           top: profileVisible ? 0 : 0,
-          borderRadius: 11,
+          borderRadius: 9,
           backgroundColor: colors.mediumPurple20,
         }]}
       >
@@ -243,7 +243,7 @@ class ParallaxSwiper extends React.Component{
           {profileVisible &&
             <XButton
               style={{right:0}}
-              onTap={() => {this.props.killProfile ? this.props.killProfile() : 
+              onTap={() => {this.props.killProfile ? this.props.killProfile() :
                 this.props.isTopCard ? this.props.dispatch({type: 'CLOSE_PROFILE'}) : this.props.navigator.pop()
               }}
               top={0}

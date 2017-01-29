@@ -660,7 +660,6 @@ class FieldModal extends React.Component{
           return (
             <View
               style={{
-                flex: 1,
                 flexGrow: 1,
                 justifyContent: 'space-between',
                 alignSelf: 'center',
@@ -678,7 +677,7 @@ class FieldModal extends React.Component{
                 }}
               >{field.long_label ? field.long_label : field.label}</Text>
 
-              <View style={{marginTop: -20}}>
+              <View style={{margin:0}}>
 
                 {React.cloneElement(inputField,
                   {
@@ -693,8 +692,9 @@ class FieldModal extends React.Component{
 
               </View>
 
-              {this.renderButtons()}
-
+              <View style={{bottom:-20}}>
+                {this.renderButtons()}
+              </View>
             </View>
         )
 

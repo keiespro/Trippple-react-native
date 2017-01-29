@@ -32,7 +32,7 @@ class NotificationsPermissionsModal extends React.Component{
         buttonText={'YES, ALERT ME'}
         permissionLabel={'Notifications'}
         onSuccess={()=>{this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_ON'})}}
-        imageSource={featuredImage || require('./assets/icon.png')}
+        imageSource={featuredImage ? {uri:featuredImage} : require('./assets/icon.png')}
         nextOnboardScreen={this.nextOnboardScreen.bind(this)}
       />
     )
@@ -45,6 +45,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
     user: state.user,
+    relevantUser: state.likes.relevantUser
   }
 }
 

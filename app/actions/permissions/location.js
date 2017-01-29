@@ -11,9 +11,10 @@ export const checkLocationPermission = () => dispatch => dispatch({ type: 'CHECK
 
     Platform.select(check)()
       .then(permission => {
-        // dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})
         if(!permission || permission == 'undetermined'){
           dispatch({type:'LOADING_FULFILLED'})
+        }else{
+          dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})
         }
         resolve(permission)
       })

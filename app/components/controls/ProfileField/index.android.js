@@ -35,14 +35,14 @@ const FieldComponent = ({onChange, selected, getValues, getKeyVals, theField, va
   itemStyle={{fontSize: 24, color: colors.white,fontWeight:'800', fontFamily: 'montserrat'}}
   selectedValue={ selected || theField.values[selected]}
 >
-  {getKeyVals.map((val) => {
+  {getValues.map((val) => {
     console.log(val,selected,theField.values);
     return (<PickerItem
       key={val+'itempick'}
       color={colors.white}
       prompt={theField.label}
       style={{fontSize: 24, width: MagicNumbers.screenWidth, color: colors.white, fontFamily: 'montserrat'}}
-      value={ val.toLowerCase()}
+      value={ getKeyVals[val].toLowerCase()}
       textAlign={'right'}
       label={`${(theField.labelPrefix || '') + (getKeyVals[val] || val) + (theField.labelSuffix || '')}`.toUpperCase()}
     />

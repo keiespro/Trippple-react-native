@@ -49,6 +49,9 @@ export const loginWithFacebook = () => async (dispatch,getState) => {
   const fbAuth = await AccessToken.getCurrentAccessToken()
   const fbData = {...fb, ...fbAuth}
     dispatch({ type: 'LOGIN_WITH_FACEBOOK', payload: api.fbLogin(fbData).then(result => {
+      if(result.error){
+        reject(new Error(result.error))
+      }
       dispatch({ type: 'FACEBOOK_AUTH', payload: fbData})
       dispatch({ type: 'FIREBASE_AUTH', payload: checkFireLoginState(fbData, dispatch) })
         const state = getState()

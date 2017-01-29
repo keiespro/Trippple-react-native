@@ -104,7 +104,7 @@ class ParallaxSwiper extends React.Component{
           pointerEvents={'box-none'}
           style={{
             flexGrow: 1,
-            borderRadius: 11,
+            borderRadius: 9,
             left: 0,
             overflow:'hidden',
             opacity: isTopCard && typeof this.props.pan != 'undefined' && this.props.pan.x ? this.props.pan.x.interpolate({
@@ -139,7 +139,7 @@ class ParallaxSwiper extends React.Component{
         pointerEvents={'box-none'}
         style={[
           styles.container, style, {
-            borderRadius: 11,
+            borderRadius: 15,
             top: 0,
           }
         ]}
@@ -180,7 +180,7 @@ class ParallaxSwiper extends React.Component{
           {this.props.renderBlurView && this.props.renderBlurView()}
         {this.props.children}
 
-          {profileVisible && !this.props.isUserProfile ?
+          {profileVisible  ?
             <XButton
               style={{right:0}}
               onTap={() => {

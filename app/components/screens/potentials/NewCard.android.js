@@ -223,7 +223,7 @@ class NewCard extends React.Component {
       flexGrow: 1,
       width: DeviceWidth,
       backgroundColor: colors.white,
-      borderRadius: 11,
+      borderRadius: 13,
       top:0,
       overflow:'visible',
     }];
@@ -249,9 +249,8 @@ class NewCard extends React.Component {
             justifyContent: 'center',
             flexDirection: 'column',
             flexGrow: 1,
-            borderRadius: 11,
+            borderRadius: 9,
             width:DeviceWidth,
-            overflow:'visible',
           }]}
 
           autoplay={verifiedCouple}
@@ -260,7 +259,7 @@ class NewCard extends React.Component {
           showsVerticalScrollIndicator={false}
           style={[{
             flexGrow: 1,
-            borderRadius: 11,
+            borderRadius: 9,
             height: profileVisible ? DeviceHeight+60 : DeviceHeight - 60,
             marginBottom:-100
 
@@ -282,7 +281,18 @@ class NewCard extends React.Component {
           { profileVisible && this.renderInsideProfile()}
 
         </ParallaxSwiper>
-
+        <TouchableOpacity
+          style={{
+            height: 50, zIndex: 9999, alignItems: 'center', width: 50, justifyContent: 'center', flex: 0, top: -10, left: -10, position: 'absolute'
+          }}
+          onPress={() => this.props.closeProfile ? this.props.closeProfile() : this.props.navigator.pop()}
+        >
+          <Image
+            resizeMode={Image.resizeMode.contain}
+            style={{ height: 12, width: 12, marginTop: 10, opacity: 0.2 }}
+            source={require('./assets/close@3x.png')}
+          />
+        </TouchableOpacity>
         <View
 
           style={{
@@ -308,8 +318,8 @@ overflow:'visible',
             <View
 
               style={{
-                borderBottomLeftRadius: 11,
-                borderBottomRightRadius: 11,
+                borderBottomLeftRadius: 9,
+                borderBottomRightRadius: 9,
                 padding: 20,
                 height: 100,
 

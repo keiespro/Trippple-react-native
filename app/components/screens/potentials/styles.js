@@ -122,6 +122,10 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     width: undefined
   },
+  rowtext:{
+    fontFamily: 'omnes',
+
+  },
   topButton: {
     height: 80,
     flex: 1,

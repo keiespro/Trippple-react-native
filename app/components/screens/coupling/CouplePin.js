@@ -222,7 +222,7 @@ class CouplePin extends React.Component{
       <View style={{left: 0}}>
         <View style={[{width: DeviceWidth, paddingTop: MagicNumbers.is5orless ? 30 : 50, paddingHorizontal: MagicNumbers.screenPadding / 2 }]} >
 
-          <View style={{height: 120, marginVertical: MagicNumbers.is5orless ? 10 : 30, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', transform: [{scale: MagicNumbers.is5orless ? 0.8 : 1 }]}}>
+          {/* <View style={{height: 120, marginVertical: MagicNumbers.is5orless ? 10 : 30, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', transform: [{scale: MagicNumbers.is5orless ? 0.8 : 1 }]}}>
             <View
               style={{width: 116, height: 116, borderRadius: 60, marginRight: -100, borderColor: colors.white, borderWidth: 3, borderStyle: 'dashed'}}
             />
@@ -230,7 +230,7 @@ class CouplePin extends React.Component{
               source={{uri: this.props.user.image_url}}
               defaultSource={require('../chat/assets/placeholderUser@3x.png')}
             />
-          </View>
+          </View> */}
 
           <Text style={[styles.rowtext, styles.bigtext, { textAlign: 'center', backgroundColor: 'transparent', fontFamily: 'montserrat', fontWeight: '800', fontSize: 22, color: '#fff', marginVertical: 10 }]}>
             YOUR COUPLE CODE

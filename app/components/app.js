@@ -139,6 +139,8 @@ class App extends React.Component{
             this.props.dispatch(ActionMan[ac]())
           })
         })
+        this.props.dispatch(ActionMan['checkLocationPermission']())
+        this.props.dispatch(ActionMan['checkNotificationsPermission']())
 
   }
 
@@ -155,7 +157,7 @@ class App extends React.Component{
         {iOS && <DeepLinkHandler />}
 
         <AppNav initialRoute={this.props.loggedIn ? this.props.onboarded ? 'Potentials' : 'Onboard' : 'Welcome'}/>
-        
+
         <ModalDirector />
 
         <Notifications />

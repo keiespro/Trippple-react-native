@@ -263,7 +263,18 @@ class NewCard extends React.Component {
           { profileVisible && this.renderInsideProfile()}
           </View>
         </ParallaxSwiper>
-
+        <TouchableOpacity
+          style={{
+            height: 50, zIndex: 9999, alignItems: 'center', width: 50, justifyContent: 'center', flex: 0, top: -10, left: -10, position: 'absolute'
+          }}
+          onPress={() => this.props.closeProfile ? this.props.closeProfile() : this.props.navigator.pop()}
+        >
+          <Image
+            resizeMode={Image.resizeMode.contain}
+            style={{ height: 12, width: 12, marginTop: 10, opacity: 0.2 }}
+            source={require('./assets/close@3x.png')}
+          />
+        </TouchableOpacity>
         <View
           pointerEvents={'box-none'}
 
@@ -288,8 +299,8 @@ class NewCard extends React.Component {
             <View
 
               style={{
-                borderBottomLeftRadius: 11,
-                borderBottomRightRadius: 11,
+                borderBottomLeftRadius: 9,
+                borderBottomRightRadius: 9,
                 padding: 20,
                 height: 100,
 

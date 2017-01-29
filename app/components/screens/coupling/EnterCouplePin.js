@@ -176,6 +176,7 @@ class EnterCouplePin extends React.Component{
                 fontSize: MagicNumbers.is5orless ? 16 : 18,
                 marginVertical: MagicNumbers.is5orless ? 0 : 10,
                 color: '#fff',
+                fontFamily: 'omnes',
                 marginBottom: MagicNumbers.is5orless ? 5 : 15, textAlign: 'center', backgroundColor: 'transparent',
                 flexDirection: 'column'
               }]}
