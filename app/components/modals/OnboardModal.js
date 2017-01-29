@@ -240,7 +240,6 @@ class OnboardModal extends Component {
                 <UserImageCircle
                   id={this.props.user.id}
                   thumbUrl={this.props.user.thumb_url}
-                  onPress={this._pressNewImage.bind(this)}
                   overrideStyles={{
                     width:  120,
                     height: 120,

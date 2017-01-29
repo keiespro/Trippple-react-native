@@ -281,7 +281,7 @@ class NewCard extends React.Component {
           { profileVisible && this.renderInsideProfile()}
 
         </ParallaxSwiper>
-        <TouchableOpacity
+        {profileVisible && <TouchableOpacity
           style={{
             height: 50, zIndex: 9999, alignItems: 'center', width: 50, justifyContent: 'center', flex: 0, top: -10, left: -10, position: 'absolute'
           }}
@@ -292,7 +292,7 @@ class NewCard extends React.Component {
             style={{ height: 12, width: 12, marginTop: 10, opacity: 0.2 }}
             source={require('./assets/close@3x.png')}
           />
-        </TouchableOpacity>
+        </TouchableOpacity>}
         <View
 
           style={{

@@ -38,7 +38,7 @@ class ReportModal extends Component{
       // }
       this.props.dispatch(ActionMan.killModal())
       this.props.dispatch(ActionMan.reportUser(likeUserId, reason))
-      this.props.dispatch(ActionMan.sendLike(likeUserId, likeStatus, (this.props.rel || rel),relstatus, {}));
+      this.props.dispatch(ActionMan.SwipeCard({likeUserId, likeStatus, rel: (this.props.rel || rel), relstatus}));
       this.props.dispatch({ type: 'CLOSE_PROFILE' });
     // }
   }
