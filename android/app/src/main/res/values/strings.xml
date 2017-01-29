@@ -2,5 +2,6 @@
     <string name="app_name">Trippple</string>
     <string name="facebook_app_id">367243980090932</string>
     <string name="fb_login_protocol_scheme">fb367243980090932</string>
+    <string name="ACCOUNT_KIT_CLIENT_TOKEN">fe5f49c811ec2481282078081a67d783</string>
 
 </resources>
