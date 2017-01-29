@@ -136,15 +136,8 @@ class App extends React.Component{
         <AppState dispatch={this.props.dispatch}/>
 
         {iOS && <DeepLinkHandler />}
-        { !this.props.loadedUser ?
-            <Loading /> :
-            this.props.loggedIn ?
-            this.props.onboarded ? <AppNav/> :
-               <Onboard user={this.props.user} permissions={this.props.permissions}/> :
-                <Welcome dispatch={this.props.dispatch}/>
-        }
-
-        {this.props.loggingIn && <Loading /> }
+          <AppNav initialRoute={this.props.loggedIn ? this.props.onboarded ? 'Potentials' : 'Onboard' : 'Welcome'}/>
+        {!this.props.loadedUser || this.props.loggingIn && <Loading /> }
         <ModalDirector />
 
         <Notifications />

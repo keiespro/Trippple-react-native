@@ -8,6 +8,8 @@ import FacebookButton from '../../buttons/FacebookButton/welcomeScreen';
 import ActionMan from '../../../actions/'
 import TimerMixin from 'react-timer-mixin'
 import reactMixin from 'react-mixin'
+import {connect} from 'react-redux'
+import {NavigationStyles,withNavigation} from '@exponent/ex-navigation'
 
 const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height
@@ -16,6 +18,26 @@ const DeviceWidth = Dimensions.get('window').width
 
 @reactMixin.decorate(TimerMixin)
 class Welcome extends Component{
+  static route = {
+      styles: NavigationStyles.Fade,
+      navigationBar: {
+        visible: false,
+        translucent: true,
+        backgroundColor: colors.transparent,
+        renderRight(route, props){
+          return false
+        },
+        renderLeft(route, props){
+          return false
+        }
+      },
+
+      statusBar: {
+        translucent: false,
+        backgroundColor: colors.dark70,
+
+      },
+    };
   static displayName: 'Intro';
 
   constructor() {
@@ -102,7 +124,13 @@ class Welcome extends Component{
 }
 
 
-export default Welcome
+
+const mapStateToProps = p => ({...p})
+const mapDispatchToProps = (dispatch) => ({dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(Welcome);
+
+
 
 const styles = StyleSheet.create({
 

@@ -24,6 +24,8 @@ import RNHotline from 'react-native-hotline'
 import config from '../../../../config'
 import {SlideVerticalNoGesturesIOS} from '../../../ExNavigationStylesCustom'
 import SettingsRow from './SettingsRow'
+import UserImageCircle from '../../UserImageCircle'
+
 
 const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height
@@ -171,27 +173,11 @@ class Settings extends React.Component{
                 width: DeviceWidth / 2
               }]}
             >
-              <TouchableOpacity
+              <UserImageCircle
+                id={this.props.user.id}
+                thumbUrl={this.props.user.thumb_url}
                 onPress={this._pressNewImage.bind(this)}
-                style={{marginTop: 0, }}
-              >
-                <View>
-                  <Image
-                    style={[styles.userimage, { }]}
-                    key={`${this.props.user.id}thumb`}
-                    defaultSource={{uri: 'assets/placeholderUser@3x.png'}}
-                    resizeMode={Image.resizeMode.cover}
-                    source={this.props.user.thumb_url ? {uri: this.props.user.thumb_url} : require('./assets/placeholderUser@3x.png')}
-                  />
-                  <View style={styles.circle}>
-                    <Image
-                      style={{width: 18, height: 18}}
-                      source={require('./assets/cog@3x.png')}
-                      resizeMode={Image.resizeMode.contain}
-                    />
-                  </View>
-                </View>
-              </TouchableOpacity>
+              />
 
               <TouchableOpacity onPress={this._openProfile.bind(this)} style={{alignSelf: 'stretch', }} >
                 <View style={{alignSelf: 'stretch', flexDirection: 'column', alignItems: 'stretch', justifyContent: 'center'}}>
@@ -436,14 +422,7 @@ const styles = StyleSheet.create({
     width: 40,
     backgroundColor: 'blue'
   },
-  userimage: {
-    padding: 0,
-    width: DeviceWidth / 2 - 20,
-    height: DeviceWidth / 2 - 20,
-    alignItems: 'center',
-    borderRadius: ((DeviceWidth / 2 - 20) / 2),
-    overflow: 'hidden'
-  },
+
   changeImage: {
   //  position:'absolute',
     color: colors.white,
@@ -609,16 +588,5 @@ const styles = StyleSheet.create({
     borderRightWidth: 0,
     borderBottomColor: colors.dark,
   },
-  circle: {
-    width: 35,
-    height: 35,
-    borderRadius: 17.5,
-    backgroundColor: colors.mediumPurple,
-    position: 'absolute',
-    top: 8,
-    left: 8,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
 
 });

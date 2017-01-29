@@ -61,17 +61,17 @@ class JoinCouple extends Component{
   }
 
   nopartner(){
-    this.props.navigator.push(this.props.navigation.router.getRoute('NoPartner', {}))
+    this.props.navigator.push('NoPartner')
 
     // this.props.goNoPartner()
   }
   goEnterCouplePin(){
-    this.props.navigator.push(this.props.navigation.router.getRoute('EnterCouplePin', {}))
+    this.props.navigator.push('EnterCouplePin')
 
   }
   goCouplePin(){
 
-    this.props.navigator.push(this.props.navigation.router.getRoute('CouplePin', {}))
+    this.props.navigator.push('CouplePin')
   }
   goBack(){
     if(this.props.user.status == 'onboarded' && this.props.user.relationship_status){

@@ -12,6 +12,10 @@ import CouplePin from './screens/coupling/CouplePin'
 import NoPartner from './screens/coupling/NoPartner'
 import CoupleReady from './screens/coupling/CoupleReady';
 import CoupleSuccess from './screens/coupling/CoupleSuccess';
+import FBAlbumView from './FBAlbumView'
+import FBPhotoAlbums from './FBPhotoAlbums'
+import FacebookImageSource from './screens/FacebookImageSource'
+
 import {connect} from 'react-redux'
 import FadeInContainer from './FadeInContainer';
 const DeviceHeight = Dimensions.get('window').height;
@@ -32,7 +36,10 @@ export const OnboardRouter = createRouter(() => ({
   CoupleSuccess: () => CoupleSuccess,
   CoupleReady: () => CoupleReady,
   NoPartner: () => NoPartner,
-  finish: () => Finish
+  finish: () => Finish,
+  FacebookImageSource: () => FacebookImageSource,
+  FBPhotoAlbums: () => FBPhotoAlbums,
+  FBAlbumView: () => FBAlbumView,
 
 }));
 

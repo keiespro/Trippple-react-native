@@ -10,8 +10,10 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 import {BlurView, VibrancyView} from 'react-native-blur';
 import {connect} from 'react-redux'
-import {OnboardRouter} from '../Onboard'
+import Router from '../../Router'
 import {MagicNumbers} from '../../utils/DeviceConfig';
+import UserImageCircle from '../UserImageCircle'
+
 const PickerItem = Picker.Item;
 const TOP_DISTANCE = DeviceHeight - 160;
 
@@ -104,16 +106,15 @@ class OnboardModal extends Component {
       }, {})
     };
 
+    this.props.dispatch(ActionMan.onboardUserNowWhat(payload))
 
-    this.props.dispatch(ActionMan.onboard(payload))
   }
 
   handleContinue() {
     if(this.state.selected_relationship_status == 'single') {
       this.onboardUser()
-      this.props.navigator.push('LocationPermissions')
     }else{
-      this.props.navigator.push(OnboardRouter.getRoute('JoinCouple', {
+      this.props.navigator.push(Router.getRoute('JoinCouple', {
         ...this.state
       }))
 
@@ -128,6 +129,11 @@ class OnboardModal extends Component {
 
     this.setState({selected_theirs})
   }
+
+  _pressNewImage(){
+    this.props.navigator.push(this.props.navigation.router.getRoute('FBPhotoAlbums', {}));
+  }
+
 
   pickerValue(v, i){
     if(!v){ return false; }
@@ -196,9 +202,8 @@ class OnboardModal extends Component {
                 flexGrow: 0
               }]}
             >
-              {MagicNumbers.is5orless ? null :
-
-                <View
+              {/* {MagicNumbers.is5orless ? null :
+                 <View
                   style={{
                     top: this.state.step == 0 ? -50 : -90,
                     position: 'absolute',
@@ -223,7 +228,27 @@ class OnboardModal extends Component {
                     }}
                     defaultSource={require('./assets/placeholderUser@3x.png')}
                     resizeMode={Image.resizeMode.cover}
-                  /></View>}
+                  /></View>
+                } */}
+              <View
+                style={{
+                  top: this.state.step == 0 ? -50 : -90,
+                  alignItems:'center',
+                  justifyContent:'center'
+                }}
+              >
+                <UserImageCircle
+                  id={this.props.user.id}
+                  thumbUrl={this.props.user.thumb_url}
+                  onPress={this._pressNewImage.bind(this)}
+                  overrideStyles={{
+                    width:  120,
+                    height: 120,
+                    borderRadius: 60,
+                    marginBottom:30,
+                    position:'relative'
+                  }}
+                />
 
               <Text
                 style={{
@@ -248,7 +273,7 @@ class OnboardModal extends Component {
 
               <View
                 style={[{
-                  marginTop: 20,
+                  marginTop: 0,
                   alignItems: 'flex-start',
                   flexGrow:0,
                   justifyContent: 'space-between'
@@ -349,6 +374,7 @@ class OnboardModal extends Component {
                   </View>
                 </TouchableOpacity>
               </View>
+            </View>
 
             </View>
 

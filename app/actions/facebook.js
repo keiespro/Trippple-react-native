@@ -2,6 +2,9 @@ import FBSDK from 'react-native-fbsdk'
 const {LoginManager, AccessToken, GraphRequestManager, GraphRequest} = FBSDK
 import api from '../utils/api'
 import checkFireLoginState from '../fire'
+import {NavigationActions} from '@exponent/ex-navigation'
+import Router from '../Router'
+import {checkLocationPermission} from './permissions/location'
 
 // LoginManager.setLoginBehavior('system_account')
 const FACEBOOK_PERMISSIONS = [
@@ -38,24 +41,70 @@ const parameters = { fields: { string: FACEBOOK_PROFILE_FIELDS.join(',') } }
 
 
 /* loginWithFacebook | LOGIN_WITH_FACEBOOK */
-export const loginWithFacebook = () => async dispatch => {
+export const loginWithFacebook = () => async (dispatch,getState) => {
   // LoginManager.setLoginBehavior('native')
   const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS);
   dispatch({ type: 'FACEBOOK_RESPONSE', payload: fb})
 
   const fbAuth = await AccessToken.getCurrentAccessToken()
   const fbData = {...fb, ...fbAuth}
-  dispatch({ type: 'LOGIN_WITH_FACEBOOK', payload: api.fbLogin(fbData) })
-  dispatch({ type: 'FACEBOOK_AUTH', payload: fbData})
-  dispatch({ type: 'FIREBASE_AUTH', payload: checkFireLoginState(fbData, dispatch) })
+    dispatch({ type: 'LOGIN_WITH_FACEBOOK', payload: api.fbLogin(fbData).then(result => {
+      dispatch({ type: 'FACEBOOK_AUTH', payload: fbData})
+      dispatch({ type: 'FIREBASE_AUTH', payload: checkFireLoginState(fbData, dispatch) })
+        const state = getState()
+        const navs = Object.keys(state.navigation.navigators)
+        const navigatorUID = navs[0];
+        const onboarded = result.user_id && result.fb_authorized && result.user_info.status == 'onboarded';
 
-    // .then(fireUser => {
-    // })
-    // .catch(err => {
-    //     __DEV__ && console.warn('fb login failed',err)
-    //   // LoginManager.logOut()
-    // })
+        dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute( onboarded ?  'Potentials' : 'OnboardModal')]));
+        return result
+    })
+  })
+  .catch(err => {
+      __DEV__ && console.warn('fb login failed',err)
+    // LoginManager.logOut()
+  })
 }
+
+
+export const onboardUserNowWhat = payload => (dispatch,getState) => dispatch({ type: 'ONBOARD_USER_NOW_WHAT',
+  payload: new Promise((resolve, reject) => {
+
+    dispatch(api.onboard(payload).then(result => {
+      const state = getState()
+
+      if(state.permissions.location || state.permissions.location != 'undetermined'){
+        const navs = Object.keys(state.navigation.navigators)
+        const navigatorUID = navs[0];
+
+        dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute('Potentials' )]));
+        return resolve(state.permissions.location || permission)
+      }
+
+      return checkLocationPermission(result).then( permission => {
+        const navs = Object.keys(state.navigation.navigators)
+        const navigatorUID = navs[0];
+
+        dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute('Potentials' )]));
+        return permission
+      })
+
+    })
+    .catch(permission => {
+      console.log(permission);
+      const state = getState()
+      const navs = Object.keys(state.navigation.navigators)
+      const navigatorUID = navs[0];
+
+      dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute( 'LocationPermissions')]));
+      return permission
+    }))
+
+
+  })
+})
+
+
 
 
 export const sessionAuth = () => async dispatch => {

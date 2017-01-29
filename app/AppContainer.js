@@ -18,22 +18,8 @@ class AppContainer extends Component {
 
     return (
       <ReduxProvider store={this.props.store}>
-        <NavigationProvider context={context} router={topRouter}>
-          <StackNavigation
-            id="navigation"
-            defaultRouteConfig={{
-
-              navigationBar: {
-                visible: false,
-                titleStyle: {
-                  color: colors.white,
-                  fontFamily: 'montserrat',
-                  borderBottomWidth: 0,
-                }
-              },
-            }}
-            initialRoute={topRouter.getRoute('App', {show: true})}
-          />
+        <NavigationProvider context={context} router={Router}>
+          <App/>
         </NavigationProvider>
       </ReduxProvider>
     );

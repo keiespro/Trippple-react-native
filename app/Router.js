@@ -24,6 +24,7 @@ import NoPartner from './components/screens/coupling/NoPartner'
 import CoupleReady from './components/screens/coupling/CoupleReady';
 import CoupleSuccess from './components/screens/coupling/CoupleSuccess';
 import OnboardModal from './components/modals/OnboardModal'
+import Welcome from './components/screens/welcome/welcome';
 
 import LocationPermissions from './components/modals/LocationPermissions'
 import NotificationPermissions from './components/modals/NotificationsPermissions'
@@ -53,13 +54,15 @@ export default createRouter(() => ({
   FBAlbumView: () => FBAlbumView,
   Generic: ()=> GenericScreen,
   Coupling: () => Coupling,
-  // Onboard: () => Onboard,
   JoinCouple: () => JoinCouple,
   EnterCouplePin: () => EnterCouplePin,
   CouplePin: () => CouplePin,
   CoupleSuccess: () => CoupleSuccess,
   CoupleReady: () => CoupleReady,
   NoPartner: () => NoPartner,
+  Onboard: () => OnboardModal,
   OnboardModal: () => OnboardModal,
+  Welcome: () => Welcome,
+
   finish: () => Finish
 }))

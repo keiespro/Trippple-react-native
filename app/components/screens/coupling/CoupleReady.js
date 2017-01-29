@@ -12,7 +12,7 @@ import styles from '../../modals/purpleModalStyles';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-
+import ActionMan from '../../../actions'
 import colors from '../../../utils/colors'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 
@@ -66,7 +66,9 @@ class CoupleReady extends React.Component{
     //   this.props.navigator.pop()
     // }
     console.log(this.props);
-
+    // if(this.props.user.status == 'onboarded'){
+    //   this.props.dispatch(ActionMan.)
+    // }
     if(this.props.isModal){
       if(this.props.closeModal){
         this.props.closeModal()
@@ -82,9 +84,11 @@ class CoupleReady extends React.Component{
       this.props.kill()
     }
 
-    const nav = this.props.navigation.getNavigatorByUID(this.props.navigation.getCurrentNavigatorUID())
-    nav.pop(2)
-    this.props.goBack && this.props.goBack()
+    let nav
+
+
+    this.props.dispatch(ActionMan.onboardUserNowWhat())
+    // this.props.goBack && this.props.goBack()
 
   }
 

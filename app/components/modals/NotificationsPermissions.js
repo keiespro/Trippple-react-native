@@ -15,7 +15,7 @@ class NotificationsPermissionsModal extends React.Component{
     }
   };
   nextOnboardScreen(){
-    this.props.navigator.push(OnboardRouter.getRoute('Finish', {}))
+    this.props.navigator.push(OnboardRouter.getRoute('finish', {}))
   }
   render(){
     const {relevantUser} = this.props;

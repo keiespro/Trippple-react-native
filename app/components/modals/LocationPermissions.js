@@ -3,7 +3,7 @@ import {View, Image} from 'react-native';
 import {connect} from 'react-redux'
 import {withNavigation, NavigationStyles} from '@exponent/ex-navigation'
 import PermissionModal from './PermissionModal/PermissionModal'
-import {OnboardRouter} from '../Onboard'
+import Router from '../../Router'
 
 @withNavigation
 class LocationPermissionsModal extends React.Component{
@@ -26,11 +26,11 @@ class LocationPermissionsModal extends React.Component{
         permissionKey={'location'}
         buttonText={'USE MY LOCATION'}
         nextOnboardScreen={() => {
-          if(!this.props.permissions.notifications){
-            this.props.navigator.push(OnboardRouter.getRoute('NotificationsPermissions', {}))
-          }else{
-            this.props.navigator.push(OnboardRouter.getRoute('finish', {}))
-          }
+          // if(!this.props.permissions.notifications){
+          //   this.props.navigator.push(Router.getRoute('NotificationsPermissions', {}))
+          // }else{
+            this.props.navigator.push(Router.getRoute('Potentials', {}))
+          // }
         }}
         permissionLabel={'Location'}
         onSuccess={()=>{this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})}}

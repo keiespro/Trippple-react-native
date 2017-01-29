@@ -1,6 +1,8 @@
 import Keychain from 'react-native-keychain';
 import { Platform } from 'react-native';
 import userDefaults from '../utils/userDefaults';
+import {NavigationActions} from '@exponent/ex-navigation'
+import Router from '../Router'
 
 import config from '../../config';
 import doLogOut from '../utils/logout';
@@ -19,6 +21,7 @@ export const checkResetDataOnLaunch = () => dispatch => dispatch({ type: 'CHECK_
   })
 })
 
+
 export const saveCredentials = (credentials) => dispatch => dispatch({ type: 'SAVE_CREDENTIALS',
   payload: new Promise((resolve, reject) => {
     let { user_id, api_key } = credentials || global.creds;
@@ -27,11 +30,15 @@ export const saveCredentials = (credentials) => dispatch => dispatch({ type: 'SA
   }),
 });
 
-export const logOut = () => dispatch => dispatch({ type: 'LOG_OUT',
+export const logOut = () => (dispatch,getState) => dispatch({ type: 'LOG_OUT',
   payload: new Promise((resolve, reject) => {
     doLogOut().then(x => {
       global.creds = null;
-      resolve(x);
+      const state = getState()
+      const navs = Object.keys(state.navigation.navigators)
+      const navigatorUID = navs[0];
+      dispatch(NavigationActions.replace(navigatorUID, Router.getRoute('Welcome')));
+      resolve(x)
     })
     .catch(reject);
   }),
