@@ -5,6 +5,7 @@ import colors from '../../utils/colors'
 import Swiper from './swiper'
 import FadeSwiper from '../fadeSlider'
 import XButton from '../buttons/XButton'
+import {BlurView} from 'react-native-blur'
 
 const iOS = Platform.OS == 'ios';
 const screen = Dimensions.get('window');
@@ -176,7 +177,7 @@ class ParallaxSwiper extends React.Component{
           scrollEventThrottle={64}
 
         >
-
+          {this.props.renderBlurView && this.props.renderBlurView()}
         {this.props.children}
 
           {profileVisible && !this.props.isUserProfile ?

@@ -1,13 +1,13 @@
 
 export default function LikeReducer(state = initialState, action) {
-
+console.log(action);
     switch (action.type) {
 
-    case 'SEND_LIKE_FULFILLED':
+    case 'SWIPE_CARD_FULFILLED':
 
-        let likeCount = state.likeCount || 0;
-        let actionSource = action.meta || {};
-        if(actionSource.like_status == 'approve'){
+        let likeCount = Math.max(state.likeCount,0);
+        let actionSource = action.payload || {};
+        if(actionSource.likeStatus == 'approve'){
             likeCount = likeCount+1;
         }
         return {

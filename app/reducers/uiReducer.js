@@ -2,6 +2,10 @@
 export default function uiReducer(state = initialState, action) {
 
   switch (action.type) {
+    case 'persist.REHYDRATE':
+    return {...state, booted: true };
+
+
     case 'OPEN_PROFILE':
       return {...state, profileVisible: true };
     case 'CLOSE_PROFILE':

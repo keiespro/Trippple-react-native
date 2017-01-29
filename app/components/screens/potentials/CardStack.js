@@ -96,37 +96,34 @@ class CardStack extends React.Component {
     this._panResponder = PanResponder.create({
 
       onMoveShouldSetPanResponderCapture: (e, gestureState) => {
-        // console.log('CLEAR',gestureState.dx);
+
         return !this.props.profileVisible
-        //  const {pageY} = e.nativeEvent
-        // return (!this.props.profileVisible && pageY < DeviceHeight - 200 )
+
       },
 
       onMoveShouldSetPanResponder: (e, gestureState) => {
-        // console.log(gestureState.dx);
-        // console.log('CLEAR',gestureState.dx);
+
 
         this.clearTimeout(timeoutId);
 
         return !this.props.profileVisible // && gestureState.dx > 0
-        //  const {pageY} = e.nativeEvent
-        // return (!this.props.profileVisible && pageY < DeviceHeight - 200)
+
       },
       //
       onStartShouldSetPanResponder: (e, gestureState) => {
 
-        //  const {pageY} = e.nativeEvent
+
         return (!this.props.profileVisible)
       },
       //
       onStartShouldSetPanResponderCapture: (e, gestureState) => {
-        // console.log(gestureState.dx);
+
         const likeUserId = this.props.potentials[0].user.id;
          timeoutId = this.setTimeout(() => {
           __DEV__ && console.log('onResponderSingleTapConfirmed...');
           // console.log('FIRE',gestureState.dx);
-          console.log(Math.abs(gestureState.dx) , Math.abs(gestureState.dy), this.props.potentials[0].user.id, likeUserId);
-          if(Math.abs(gestureState.dx) < 3 && Math.abs(gestureState.dy) < 3 && this.props.potentials[0].user.id == likeUserId) this._toggleProfile();
+
+          if(!this.props.profileVisible && Math.abs(gestureState.dx) < 3 && Math.abs(gestureState.dy) < 3 && this.props.potentials[0].user.id == likeUserId) this._toggleProfile();
 
         }, TAP_UP_TIME_THRESHOLD);
 
@@ -141,7 +138,7 @@ class CardStack extends React.Component {
 
       onShouldBlockNativeResponder: (e, gestureState) => false,
       onPanResponderStart: (e, gestureState) => {
-        console.log('onPanResponderStart');
+
 
       },
       onPanResponderRelease: (e, gestureState) => {
@@ -188,12 +185,9 @@ class CardStack extends React.Component {
             useNativeDriver: !iOS
           }).start(() => {
 
-            this.props.dispatch({
-              type:'SWIPE_CARD',
-              payload: {
+            this.props.dispatch(ActionMan.SwipeCard({
                 likeUserId, likeStatus, relstatus, rel: this.props.rel, ...otherParams
-              }
-            });
+            }));
 
           });
 
@@ -254,22 +248,29 @@ class CardStack extends React.Component {
       matchName = `${matchName} & ${names[1]}`;
       distance = Math.min(distance, partnerDistance || 0);
     }
+    let nextnames
+    let nextcity
+    let nextpartnerDistance
+    let nextmatchName
+  let nextdistance
 
     const nextPotential = potentials[1] || null;
-    const nextnames = [nextPotential.user && nextPotential.user.firstname ? nextPotential.user.firstname.trim() : null];
+    if(nextPotential && nextPotential.user){
+      nextnames = [nextPotential.user && nextPotential.user.firstname ? nextPotential.user.firstname.trim() : null];
+      if (nextPotential.partner && nextPotential.partner.id && nextPotential.partner.firstname) {
+        nextnames.push(nextPotential.partner.firstname.trim());
+      }
 
-    if (nextPotential.partner && nextPotential.partner.id && nextPotential.partner.firstname) {
-      nextnames.push(nextPotential.partner.firstname.trim());
+       nextmatchName = nextnames[0];
+       nextdistance  = nextPotential.user.distance   || 0;
+       nextcity = nextPotential.user.city_state || '';
+       nextpartnerDistance = nextPotential.partner ? nextPotential.partner.distance : 0;
+      if(nextPotential.partner && nextPotential.partner.firstname) {
+        nextmatchName = `${nextmatchName} & ${nextnames[1]}`;
+        nextdistance = Math.min(nextdistance, nextpartnerDistance || 0);
+      }
     }
 
-    let nextmatchName = nextnames[0];
-    let nextdistance  = nextPotential.user.distance   || 0;
-    const nextcity = nextPotential.user.city_state || '';
-    const nextpartnerDistance = nextPotential.partner ? nextPotential.partner.distance : 0;
-    if(nextPotential.partner && nextPotential.partner.firstname) {
-      nextmatchName = `${nextmatchName} & ${nextnames[1]}`;
-      nextdistance = Math.min(nextdistance, nextpartnerDistance || 0);
-    }
 
     const cardHeight = DeviceHeight-60;
     const cardWidth = DeviceWidth;
@@ -304,7 +305,7 @@ class CardStack extends React.Component {
           bottom: 0,
           zIndex: 999999,
           overflow:'visible',
-
+          backgroundColor: this.props.profileVisible ? '#000' : 'transparent'
         }}
       >
 {/*
@@ -316,7 +317,7 @@ class CardStack extends React.Component {
         }} />
 
          */}
-        { potentials && potentials[1] && !this.props.profileVisible &&
+        { nextPotential && !this.props.profileVisible &&
           <Animated.View
             style={[{
               alignSelf: 'center',
@@ -367,7 +368,7 @@ class CardStack extends React.Component {
           </Animated.View>
         }
 
-        { potentials && potentials[0] &&
+        { potential &&
           <Animated.View
 
             style={[{

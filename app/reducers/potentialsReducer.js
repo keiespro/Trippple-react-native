@@ -37,7 +37,7 @@ export default function potentialsReducer(state = initialState, action) {
       return [...pots];
 
     // case 'SEND_LIKE_FULFILLED':
-    case 'SWIPE_CARD':
+    case 'SWIPE_CARD_FULFILLED':
       return [...(state.slice(1, state.length))];
 
     default:

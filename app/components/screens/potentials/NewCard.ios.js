@@ -13,6 +13,7 @@ import CardLabel from '../../CardLabel'
 import ApproveIcon from './ApproveIcon'
 import DenyIcon from './DenyIcon'
 
+import {BlurView} from 'react-native-blur'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -71,6 +72,8 @@ class NewCard extends React.Component {
     const slideFrames = isTopCard && hasPartner ? [potential.user, potential.partner] : [potential.user];
     const verifiedCouple = hasPartner && potential.couple.verified;
 
+
+
     return (
       <View style={{flexGrow: 1, alignItems: 'flex-start'}} >
 
@@ -81,7 +84,7 @@ class NewCard extends React.Component {
             height: 8,
             borderRadius: 15,
             alignSelf: 'center',
-            backgroundColor: 'rgba(255,255,255,.2)',
+            backgroundColor: 'rgba(255,255,255,.5)',
             position: 'absolute',
             left: (DeviceWidth / 2) - 20
           }}
@@ -189,17 +192,10 @@ class NewCard extends React.Component {
     const anistyle = [{
       flexGrow: 1,
       width: DeviceWidth,
-      backgroundColor: colors.sushi,
-      borderRadius: 11,
+      borderTopLeftRadius: 11,
+      borderTopRightRadius: 11,
     }];
 
-    const aniblurstyle = [{
-      flexGrow: 1,
-      bottom:0,
-      position:'absolute',
-
-      borderRadius: 11,
-    }];
 
     return (
       <View
@@ -227,6 +223,15 @@ class NewCard extends React.Component {
             flexGrow: 1,
             borderRadius: 11,
           }]}
+          renderBlurView={() => <BlurView
+            blurType="dark"
+            style={{
+              flexGrow: 1,
+              bottom:0,
+              position:'absolute',
+              top:0,left:0,right:0,
+            }}
+          />}
           autoplay={verifiedCouple}
           slideFrames={slideFrames}
           height={profileVisible ? DeviceHeight : DeviceHeight-70 }
@@ -247,14 +252,12 @@ class NewCard extends React.Component {
           profileVisible={profileVisible}
           killProfile={this.closeProfile.bind(this)}
         >
-          <View
-            style={aniblurstyle}
-          />
+
           <View
             onLayout={e => {
               this.setState({innerHeight: e.nativeEvent.layout.height})
             }}
-            style={{position:'absolute',top:0}}
+            style={{position:'absolute',top:0,flexGrow:1}}
           >
 
           { profileVisible && this.renderInsideProfile()}

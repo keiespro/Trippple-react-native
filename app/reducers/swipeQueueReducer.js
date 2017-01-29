@@ -10,7 +10,7 @@ export default function swipeQueueReducer(state = initialState, action) {
       }
       return s
 
-    case 'SWIPE_CARD':
+    case 'SWIPE_CARD_FULFILLED':
       return {
         ...state,
         [action.payload.likeUserId]: {
