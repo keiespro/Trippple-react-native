@@ -244,7 +244,7 @@ class FieldModal extends React.Component{
     return (
       <View
         style={{
-          bottom: 0,
+          bottom: 20,
           zIndex: 9999,
           flexDirection: 'row',
           height: 60,
@@ -348,12 +348,12 @@ class FieldModal extends React.Component{
 
         case 'dropdown':
           // always add an empty option at the beginning of the array
-
           return (
             <Picker
+
               style={{alignSelf: 'center', width: 330, backgroundColor: 'transparent', marginHorizontal: 0, alignItems: 'stretch'}}
               itemStyle={{fontSize: 24, color: colors.white, textAlign: 'center'}}
-              selectedValue={this.state.selectedDropdown || theField.values[this.state.selectedDropdown] || null}
+              selectedValue={this.props.fieldValue || theField.values[this.state.selectedDropdown] || null}
             >
               {get_values.map((val) => {
                 return (<PickerItem
@@ -475,10 +475,10 @@ class FieldModal extends React.Component{
         case 'input':
           return (
             <View style={{ alignSelf: 'stretch', flex: 2, height: DeviceHeight, }}>
-              {/* <KeyboardAvoidingView
+              <KeyboardAvoidingView
                 style={{ alignSelf: 'stretch', flex: 1, justifyContent: 'space-between', flexDirection: 'column'}}
                 behavior={'height'}
-              > */}
+              >
                 <View
                   style={{
                     alignSelf: 'stretch',
@@ -558,7 +558,7 @@ class FieldModal extends React.Component{
                   </View>
                 </View>
                 {this.renderButtons()}
-              {/* </KeyboardAvoidingView> */}
+              </KeyboardAvoidingView>
             </View>
 
       )

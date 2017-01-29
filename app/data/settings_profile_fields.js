@@ -12,7 +12,7 @@ export default {
     "gender": {
         "label": "Gender",
         "field_type": "dropdown",
-        "values": ["M","F"]
+        "values": ["m","f"]
     },
     "email": {
         "label": "Email",

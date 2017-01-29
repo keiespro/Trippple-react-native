@@ -30,18 +30,19 @@ const FieldComponent = ({onChange, selected, getValues, getKeyVals, theField, va
   style={{alignSelf: 'flex-end', width: MagicNumbers.screenWidth-10,marginRight:7, backgroundColor: colors.transparent, marginHorizontal: 0, alignItems: 'flex-end',}}
   onValueChange={onChange}
   mode={'dialog'}
-  disabled
+  disabled={disabled || false}
   prompt={`${theField.label || ''}`.toUpperCase()}
   itemStyle={{fontSize: 24, color: colors.white,fontWeight:'800', fontFamily: 'montserrat'}}
-  selectedValue={selected || theField.values[selected] || null}
+  selectedValue={ selected || theField.values[selected]}
 >
-  {getValues.map((val) => {
+  {getKeyVals.map((val) => {
+    console.log(val,selected,theField.values);
     return (<PickerItem
-      key={val}
+      key={val+'itempick'}
       color={colors.white}
       prompt={theField.label}
       style={{fontSize: 24, width: MagicNumbers.screenWidth, color: colors.white, fontFamily: 'montserrat'}}
-      value={getKeyVals[val] || val}
+      value={ val.toLowerCase()}
       textAlign={'right'}
       label={`${(theField.labelPrefix || '') + (getKeyVals[val] || val) + (theField.labelSuffix || '')}`.toUpperCase()}
     />
@@ -60,7 +61,8 @@ class ProfileField extends React.Component{
   }
   handleChange(e){
     console.log('handle change', e);
-    this.props.dispatch(ActionMan.updateUser({[this.props.fieldName]: e}))
+    const val =  this.props.fieldName == 'gender' ? e.toLowerCase() : e;
+    this.props.dispatch(ActionMan.updateUser({[this.props.fieldName]: val}))
   }
   formattedPhone(){
     if (!this.props.user.phone) return '';
@@ -123,6 +125,7 @@ class ProfileField extends React.Component{
     }
 
     const displayFieldText = fieldLabel ? fieldLabel.toUpperCase() : '';
+    console.log(this.props,'-------------------------');
 
     return field.field_type == 'dropdown' ? (
       <View style={styles.paddedSpace}>
@@ -131,10 +134,10 @@ class ProfileField extends React.Component{
           <FieldComponent
             getKeyVals={get_key_vals}
             getValues={get_values}
-            selected={getValue}
+            selected={this.props.fieldName == 'gender' ? this.props.fieldValue : getValue}
             onChange={this.handleChange.bind(this)}
             theField={field}
-            val={getValue}
+            val={this.props.fieldName == 'gender' ? this.props.fieldValue : getValue}
             disabled={this.props.locked}
           />
           {this.props.locked ? <View style={{width: 20, position: 'absolute', top: 23, height: 20, marginLeft: 10, right: 0}}>
